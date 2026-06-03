@@ -1,3 +1,4 @@
+import BEDC.Derived.PolishspaceUp.CompletionDensityHandoff
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -92,3 +93,34 @@ theorem PolishSpaceObservationLedgerExhaustion [AskSetup] [PackageSetup]
   exact ⟨cert, consumerUnary⟩
 
 end BEDC.Derived.PolishspaceUp
+
+namespace BEDC.Derived.PolishSpaceUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem PolishSpaceCarrier_observation_ledger_exhaustion [AskSetup] [PackageSetup]
+    {metric completion dense stream readback ledger transport replay provenance nameCert
+      observation : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    PolishSpaceCarrier metric completion dense stream readback ledger transport replay
+        provenance nameCert bundle pkg ->
+      Cont stream readback observation ->
+        PkgSig bundle provenance pkg ->
+          UnaryHistory observation ∧ Cont stream readback observation ∧
+            PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: PolishSpaceCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier streamReadbackRoute provenancePkg
+  obtain ⟨_metricUnary, _completionUnary, _denseUnary, streamUnary, readbackUnary,
+    _ledgerUnary, _transportUnary, _replayUnary, _provenanceUnary, _nameCertUnary,
+    _metricCompletionLedger, _ledgerStreamReadback, _transportReplayProvenance,
+    _carrierPkg, _nameCertPkg⟩ := carrier
+  have observationUnary : UnaryHistory observation :=
+    unary_cont_closed streamUnary readbackUnary streamReadbackRoute
+  exact ⟨observationUnary, streamReadbackRoute, provenancePkg⟩
+
+end BEDC.Derived.PolishSpaceUp

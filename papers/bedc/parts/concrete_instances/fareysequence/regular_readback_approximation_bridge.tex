@@ -1,0 +1,16 @@
+\begin{theorem}[Farey sequence regular-readback approximation bridge]
+\label{thm:farey-sequence-regular-readback-approximation-bridge}
+For every accepted $\FareySequenceUp$ carrier
+$$
+F=(B,A,M,L,T,S,D,Q,W,R,G,E,H,C,P,N),
+$$
+the $\RegSeqRatUp$ readback row $R$ and the $\RealRationalApproximationUp$ handoff row $G$ are forced through the same ordered boundary row $B$, adjacency ledger $A$, denominator-bound row $L$, dyadic-tolerance row $T$, and stream-window row $W$. The bridge exports a regular rational readback and a real-approximation handoff only along this common finite boundary, not through a host sequence, selected approximant, quotient-real equality, countable choice, or ambient completion.
+\end{theorem}
+\leanchecked{BEDC.Derived.FareySequenceUp.FareySequenceRegularReadbackApproximationBridge}
+\begin{proof}
+Start from the carrier of \autoref{def:farey-sequence-carrier}. The regular readback $R$ and approximation handoff $G$ are not independent rows; they are read after the same boundary, adjacency, denominator, tolerance, and stream-window rows $B,A,L,T,W$ are displayed.
+
+Apply the approximation-window factorization of \autoref{thm:farey-sequence-approximation-window-factorization}. It routes each $\RealRationalApproximationUp$ read through the ordered boundary, determinant-one adjacency ledger, denominator and tolerance rows, stream window, regular readback, and approximation handoff before the terminal real seal is available.
+
+Use the RealRationalApproximation handoff theorem \autoref{thm:farey-sequence-real-approximation-handoff}. The handoff keeps $R$ and $G$ downstream of the same finite Farey packet, so the bridge cannot introduce a host sequence, selected approximant, quotient-real equality, countable-choice selector, or ambient completion coordinate.
+\end{proof}

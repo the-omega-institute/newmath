@@ -34,8 +34,8 @@ theorem PolishSpaceStreamReadbackStability [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
   intro surface streamReadStream streamReadbackTransported transportedReadPkg
   obtain ⟨_metricUnary, _completeUnary, _separableUnary, streamUnary, readbackUnary,
-    ledgerUnary, transportUnary, _metricComplete, _metricSeparable, ledgerTransportReplay,
-    provenancePkg, _localNamePkg⟩ := surface
+    ledgerUnary, transportUnary, _localNameUnary, _metricComplete, _metricSeparable,
+    ledgerTransportReplay, provenancePkg, _localNamePkg⟩ := surface
   have streamReadUnary : UnaryHistory streamRead :=
     unary_transport streamUnary (hsame_symm streamReadStream)
   have transportedReadUnary : UnaryHistory transportedRead :=

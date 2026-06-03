@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\HyperfunctionUp$}
+\label{ch:concrete-instances-hyperfunction-namecert}
+\origin{human}
+
+Following Sato, the $\HyperfunctionUp$ packet records a generalized-function boundary value as finite BEDC data rather than as an ambient quotient of holomorphic functions. It sits over the sheaf route of \autoref{ch:concrete-instances-sheaf-namecert}, the cohomology ledger of \autoref{ch:concrete-instances-cohomology-namecert}, the complex-analysis carrier of \autoref{ch:concrete-instances-complex-namecert}, the topology source of \autoref{ch:concrete-instances-topology-namecert}, and the distribution-facing consumer surface of \autoref{ch:concrete-instances-distribution-namecert}. The packet names the displayed boundary-value route only; it does not export host analytic continuation, quotient sheaf cohomology, selected representatives, distribution equality, or ambient completeness.
+
+\begin{definition}[Hyperfunction carrier]
+\label{def:hyperfunction-carrier}
+A $\HyperfunctionUp$ carrier is a finite $\BHist$ packet
+$$
+H=(T,O,B,S,Q,A,R,D,E,K,L,M,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row for the underlying real-domain carrier, including finite open-set membership requests and neighbourhood probes.
+\item $O$ is the open-domain row, displaying the finite real open windows on which boundary values are requested.
+\item $B$ is the boundary-value row. It records the upper and lower complex-side neighbourhoods, their boundary approach data, and the finite comparison window used by the read.
+\item $S$ is the $\SheafUp$ row, carrying restriction, locality, and gluing data for the displayed open windows.
+\item $Q$ is the $\CohomologyUp$ row, recording the finite coboundary and cocycle ledger consumed by the hyperfunction read.
+\item $A$ is the $\ComplexUp$ analytic row, containing the complex-domain readback and holomorphic-window evidence available to the packet.
+\item $R$ is the real readback row, tying the boundary window to the real-domain request without selecting a host real function.
+\item $D$ is the $\DistributionUp$ handoff row, available only as a downstream consumer of the boundary-value, sheaf, cohomology, complex, and real readback rows.
+\item $E$ is the exactness row, recording that the displayed boundary-value read is unchanged by packet-local coboundary replacement.
+\item $K$ records componentwise $\hsame$ transport for the topology, open-domain, boundary-value, sheaf, cohomology, complex, real readback, distribution handoff, and exactness rows.
+\item $L$ records displayed $\Cont$ replay from a real-domain request through open windows, complex boundary values, sheaf restrictions, cohomology ledgers, exactness, downstream readback, and local naming.
+\item $M$ is the $\Pkg$ provenance over $\HyperfunctionUp$, $\SheafUp$, $\CohomologyUp$, $\ComplexUp$, $\TopologyUp$, $\DistributionUp$, $\BHist$, $\hsame$, $\Cont$, and local naming rows.
+\item $C$ is the complex/real compatibility row, requiring the complex-side boundary window and the real-domain readback to be consumed as one finite route.
+\item $P$ is the replay provenance row for sibling consumers that use the distribution-facing handoff.
+\item $N$ is the local $\NameCert_{\HyperfunctionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host analytic continuation, quotient sheaf cohomology, selected boundary representatives, distribution equality, global dual-space topology, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Hyperfunction NameCert obligations]
+\label{thm:hyperfunction-namecert-obligations}
+For every accepted $\HyperfunctionUp$ carrier $H=(T,O,B,S,Q,A,R,D,E,K,L,M,C,P,N)$, the local $\NameCert_{\HyperfunctionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the topology source, open-domain row, boundary-value row, sheaf row, cohomology ledger, complex analytic row, real readback row, distribution handoff, exactness row, transport, replay, package provenance, compatibility, consumer provenance, and local naming;
+\item boundary readability, requiring every real-domain request to pass through $T,O,B$ before any sheaf or cohomology row is inspected;
+\item sheaf-cohomology exactness, requiring $S,Q,E$ to witness restriction, locality, gluing, cocycle, coboundary, and packet-local replacement data before a hyperfunction read is exported;
+\item complex/real compatibility, requiring $A,R,C$ to bind the complex boundary window to the displayed real-domain readback;
+\item downstream refusal, requiring $D,M,P,N$ to expose only the distribution-facing handoff named by the packet and to refuse host analytic continuation, quotient sheaf cohomology, selected representatives, distribution equality, global dual-space topology, and ambient completeness.
+\end{enumerate}
+No local NameCert obligation is stored outside those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.HyperfunctionUp.HyperfunctionCarrier\_namecert\_obligations}
+\begin{proof}
+Project the carrier of \autoref{def:hyperfunction-carrier}. The projection exposes the topology source, open-domain row, boundary-value row, sheaf row, cohomology ledger, complex analytic row, real readback row, distribution handoff, exactness row, and structural rows $K,L,M,C,P,N$.
+
+Boundary readability is forced by the row order. A real-domain request starts at $T$, chooses only the displayed open-domain windows $O$, and then reads the boundary-value comparison row $B$ before it can inspect sheaf or cohomology data.
+
+The sheaf and cohomology obligations are packet-local. Rows $S,Q,E$ record restriction, locality, gluing, cocycle, coboundary, and exactness data for the same displayed open windows, so the read has no route to quotient sheaf cohomology or selected representatives.
+
+Finally $A,R,C$ bind the complex-side window to the real readback, while $D,M,P,N$ name the downstream distribution handoff. Since the tuple contains no host analytic-continuation, distribution-equality, global dual-space, or ambient-completeness coordinate, the local certificate cannot export such data.
+\end{proof}
+\leanchecked{BEDC.Derived.HyperfunctionUp.HyperfunctionNamecertObligations}
+
+\begin{theorem}[Hyperfunction sheaf-cohomology handoff]
+\label{thm:hyperfunction-sheaf-cohomology-handoff}
+Every $\DistributionUp$ or real-analysis consumer of an accepted $\HyperfunctionUp$ packet receives the finite route
+$$
+\TopologyUp,\ O,\ B,\ \SheafUp,\ \CohomologyUp,\ \ComplexUp,\ R,\ D,\ E,\ K,\ L,\ M,\ C,\ P,\ N .
+$$
+The consumer may read a boundary-value hyperfunction only after the open-domain, sheaf, cohomology, complex, real readback, exactness, transport, replay, provenance, compatibility, and local naming rows have been displayed. It receives no host analytic continuation, quotient cohomology class, selected boundary representative, distribution equality, global dual-space topology, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.HyperfunctionUp.HyperfunctionCarrier\_sheaf\_cohomology\_handoff}
+\begin{proof}
+Start with the open-domain and boundary-value rows. The topology source $T$ and the displayed windows $O$ determine the real request surface before the boundary row $B$ can be consumed.
+
+Next read the sheaf and cohomology rows. The sheaf row $S$ supplies restriction, locality, and gluing only on the displayed windows, while the cohomology row $Q$ and exactness row $E$ record the packet-local cocycle and coboundary ledger.
+
+Then attach the complex/real readback. The complex analytic row $A$, real readback row $R$, and compatibility row $C$ make the boundary-value route a single finite interface rather than a host analytic object.
+
+The distribution handoff $D$ is downstream of those rows, and $K,L,M,P,N$ transport, replay, package, and name exactly that route. Since no further coordinate is present, a consumer cannot obtain quotient cohomology, selected representatives, distribution equality, global dual-space topology, or ambient completeness from the packet.
+\end{proof}
+
+\closureat{HyperfunctionUp}{seedStr}
+\begin{closurestatus}{\HyperfunctionUp}
+  \constructivestory{A $\HyperfunctionUp$ packet is generated from a topology source row, displayed open-domain row, boundary-value row, Sheaf row, Cohomology row, Complex analytic row, real readback row, Distribution handoff, exactness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, compatibility, consumer provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperfunction-carrier}, \autoref{thm:hyperfunction-namecert-obligations}, and \autoref{thm:hyperfunction-sheaf-cohomology-handoff} seed the finite Sato boundary-value route through Sheaf, Cohomology, Complex, Topology, and Distribution rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host analytic continuation, quotient sheaf cohomology, selected boundary representatives, distribution equality, global dual-space topology, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, boundary readability, sheaf-cohomology exactness, complex/real compatibility, distribution handoff, transport, replay, provenance, and local naming for the displayed Hyperfunction packet.}
+\end{closurestatus}

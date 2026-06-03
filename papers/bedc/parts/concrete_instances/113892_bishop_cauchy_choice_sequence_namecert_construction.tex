@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\BishopCauchyChoiceSequenceUp$}
+\label{ch:concrete-instances-bishop-cauchy-choice-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis and Brouwer--Troelstra choice-sequence grounding, the $\BishopCauchyChoiceSequenceUp$ packet records choice-sequence Cauchy data as finite BEDC rows before it enters the Real and Completion route. It sits after the choice-sequence source of \autoref{ch:concrete-instances-choice-sequence-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the spread-indexed real-name boundary of \autoref{ch:concrete-instances-cauchy-real-spread-namecert}. The packet also points toward the regular spread sibling \autoref{ch:concrete-instances-regular-cauchy-spread-namecert}. It names a non-quotient Cauchy route; it does not choose an infinite branch, select a Cauchy representative, assert countable choice, identify quotient streams, or add ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop Cauchy choice-sequence carrier]
+\label{def:bishop-cauchy-choice-sequence-carrier}
+A $\BishopCauchyChoiceSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(Q,W,D,R,E,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\ChoiceSequenceUp$ source row, exposing only the inspected finite prefixes of the choice sequence.
+\item $W$ is the $\StreamNameUp$ window row through which the inspected prefixes are scheduled.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger attached to the displayed prefix windows.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same finite prefix and tolerance data.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $Q,W,D,R$ have been displayed.
+\item $S$ is the spread-comparison row, recording the compatible $\CauchyRealSpreadUp$ or $\RegularCauchySpreadUp$ read when a spread-indexed consumer asks for the same Cauchy data.
+\item $H$ records componentwise $\hsame$ transport for the choice-sequence source, window, tolerance, regular readback, real seal, spread-comparison, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay for prefix inspection, tolerance discharge, regular readback, spread comparison, and terminal sealing.
+\item $P$ is the $\Pkg$ provenance over $\BishopCauchyChoiceSequenceUp$, $\ChoiceSequenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyRealSpreadUp$, $\RegularCauchySpreadUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCauchyChoiceSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $Q,W,D,R,E,S,H,C,P,N$. It has no coordinate for a host infinite branch, selected Cauchy representative, quotient stream equality, countable choice, trichotomy, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\leanstmt{BEDC.Derived.BishopCauchyChoiceSequenceUp}
+
+\begin{theorem}[Bishop Cauchy choice-sequence NameCert obligations]
+\label{thm:bishop-cauchy-choice-sequence-namecert-obligations}
+For every accepted $\BishopCauchyChoiceSequenceUp$ carrier
+$$
+K=(Q,W,D,R,E,S,H,C,P,N),
+$$
+the local $\NameCert_{\BishopCauchyChoiceSequenceUp}$ surface consists exactly of choice-sequence prefix exposure through $Q$, finite stream-window scheduling through $W$, dyadic tolerance exposure through $D$, regular rational readback through $R$, terminal real sealing through $E$, spread-compatible comparison through $S$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$. No obligation row exports a host infinite branch, selected Cauchy representative, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-cauchy-choice-sequence-carrier}. The choice-sequence source $Q$ is visible only through the finite window schedule $W$, and every tolerance read is mediated by the dyadic ledger $D$.
+
+The regular and real-facing rows stay downstream of that finite source. Row $R$ records the $\RegSeqRatUp$ readback attached to the same prefixes and tolerances, while $E$ is the terminal $\RealUp$ seal reached only after those rows have been displayed.
+
+The spread row $S$ is a comparison route, not a second source of representatives. It records compatibility with the Cauchy-real and regular-Cauchy spread siblings while keeping branch selection, quotient stream equality, countable choice, and ambient completeness outside the carrier.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly the same packet. Since the carrier has no excluded coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bishop Cauchy choice-sequence RegSeqRat and Real handoff]
+\label{thm:bishop-cauchy-choice-sequence-regseqrat-real-handoff}
+Every $\RegSeqRatUp$, $\RealUp$, or Completion consumer of an accepted $\BishopCauchyChoiceSequenceUp$ carrier must read the finite route
+$$
+\ChoiceSequenceUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+When a spread-indexed consumer is present, the same read also factors through the displayed $\CauchyRealSpreadUp$ or $\RegularCauchySpreadUp$ comparison row $S$. The handoff exports prefix inspection, finite windows, dyadic tolerance, regular readback, real sealing, spread comparison, transport, replay, provenance, and local naming only; it exports no selected infinite branch, selected Cauchy representative, quotient stream equality, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:bishop-cauchy-choice-sequence-namecert-obligations}. It identifies the only available source rows as the choice-sequence prefix row, the finite window row, and the dyadic tolerance row.
+
+The regular readback is therefore forced through those rows. A $\RegSeqRatUp$ consumer may read $R$ only after the displayed prefix window and tolerance ledger have been consumed, so the route cannot replace the prefix data by a selected infinite branch or a quotient stream representative.
+
+The real seal remains terminal. Row $E$ is consumed only after $Q,W,D,R$, and any spread-indexed comparison uses $S$ as a displayed compatibility row beside the Cauchy-real or regular-Cauchy spread siblings.
+
+The structural rows preserve the same route under transport and replay. Since $H,C,P,N$ add no selector, quotient, countable-choice schedule, trichotomy decision, host equality, or completeness principle, every downstream read is confined to the stated handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BishopCauchyChoiceSequenceUp$ read exposes ChoiceSequence prefix rows, StreamName windows, DyadicRatCore tolerance, RegSeqRat readback, RealUp seal, CauchyRealSpread or RegularCauchySpread comparison, componentwise hsame, Cont replay, Pkg provenance, and local NameCert rows before any Real or Completion consumer receives the packet.}
+
+\independenceWitness{choice-sequence, streamname, dyadicratcore, regseqrat, real, cauchy-real-spread, regular-cauchy-spread: none is bijective with $\BishopCauchyChoiceSequenceUp$ because this packet alone binds a Brouwer-style choice-sequence prefix source to the finite Cauchy tolerance, regular readback, terminal Real seal, and spread-compatible comparison route without a selected branch or quotient stream.}
+
+\closureat{BishopCauchyChoiceSequenceUp}{seedStr}
+
+\begin{closurestatus}{\BishopCauchyChoiceSequenceUp}
+  \constructivestory{A $\BishopCauchyChoiceSequenceUp$ packet is generated from ChoiceSequence prefix rows, StreamName windows, DyadicRatCore tolerance rows, RegSeqRat readback, RealUp seal rows, CauchyRealSpread or RegularCauchySpread comparison rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-cauchy-choice-sequence-carrier}, \autoref{thm:bishop-cauchy-choice-sequence-namecert-obligations}, and \autoref{thm:bishop-cauchy-choice-sequence-regseqrat-real-handoff} seed the finite choice-sequence Cauchy route over $\ChoiceSequenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyRealSpreadUp$, and $\RegularCauchySpreadUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.BishopCauchyChoiceSequenceUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite branches, selected Cauchy representatives, quotient stream equality, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-window scheduling, dyadic tolerance exactness, regular readback, RealUp seal nonescape, spread comparison, transport, replay, provenance, and local naming for BEDC.Derived.BishopCauchyChoiceSequenceUp.}
+\end{closurestatus}

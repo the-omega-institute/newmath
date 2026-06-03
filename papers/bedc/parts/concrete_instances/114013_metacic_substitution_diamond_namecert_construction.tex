@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubstitutionDiamondUp$}
+\label{ch:concrete-instances-metacic-substitution-diamond-namecert}
+\origin{ai}
+
+The $\MetaCICSubstitutionDiamondUp$ packet realizes the residual-substitution and confluence frontier of \autoref{sec:metacic-open-problems-confluence} as finite NameCert data. It sits beside the critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the decidability boundary of \autoref{ch:concrete-instances-metacicdecidableboundary-namecert}, the normalization-confluence bridge of \autoref{ch:concrete-instances-metacic-normalization-confluence-bridge-namecert}, and the closed-term substitution boundary of \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}. The packet names a typed window, substitution route, residual frontier, bounded local-diamond checker, obstruction retention, transport, replay, provenance, and local naming surface before any confluence read is admitted.
+
+\falsifiablePrediction{Every accepted $\MetaCICSubstitutionDiamondUp$ packet exposes typed-window, substitution-route, residual-frontier, bounded local-diamond checker, obstruction-retention, transport, replay, provenance, and local NameCert rows before any confluence read.}
+
+\independenceWitness{metaciccriticalpath, metacicconfluenceauditpacket, metacicdecidableboundary, metacicnormalizationconfluencebridge, closedtermsubstitutioncompiler: no listed sibling is bijective to $\MetaCICSubstitutionDiamondUp$ because the substitution-diamond packet jointly carries typed-window data, substitution routing, residual-frontier rows, a bounded local-diamond checker, obstruction retention, transport, replay, provenance, and local naming as one finite confluence boundary.}
+
+\begin{definition}[MetaCIC substitution diamond carrier]
+\label{def:metacic-substitution-diamond-carrier}
+A $\MetaCICSubstitutionDiamondUp$ carrier is a finite $\BHist$ packet
+$$
+D=(T,S,R,B,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the typed-window row, recording the source term, typing context, two substitution-sensitive reduct branches, binder depth, and candidate common endpoint under inspection.
+\item $S$ is the substitution-route row, exposing the closed substitution or compiler-facing substitution boundary used by each branch before residual comparison begins.
+\item $R$ is the residual-frontier row, listing the beta positions, residual descendants, variable-escape checks, and branch-local substitution dependencies that remain visible.
+\item $B$ is the bounded local-diamond checker row, recording the finite checks that either produce a local common endpoint or stop at a named obstruction.
+\item $O$ is the obstruction-retention row, naming unrestricted substitution compatibility, premise-free closed parallel diamond, arbitrary closed Church--Rosser, subject-reduction discharge, evaluator equality, and kernel consistency as nonexported endpoints.
+\item $H$ records componentwise $\hsame$ transport for typed windows, substitution routes, residual frontiers, bounded checker rows, obstruction rows, replay routes, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a confluence query through $T,S,R,B,O,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICSubstitutionDiamondUp$, $\MetaCICCriticalPathUp$, $\MetaCICConfluenceAuditPacketUp$, $\MetaCICDecidableBoundaryUp$, $\MetacicNormalizationConfluenceBridgeUp$, $\ClosedTermSubstitutionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICSubstitutionDiamondUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,S,R,B,O,H,C,P,N$. It has no coordinate for global confluence, unrestricted substitution composition, subject reduction, evaluator soundness, quotient syntax equality, or kernel consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC substitution diamond confluence obligation]
+\label{thm:metacic-substitution-diamond-confluence-obligation}
+For every accepted $\MetaCICSubstitutionDiamondUp$ carrier $D=(T,S,R,B,O,H,C,P,N)$, a confluence consumer may read a local diamond only through the route
+$$
+T,S,R \longmapsto B \longmapsto O,H,C,P,N .
+$$
+The checker row $B$ may expose a bounded common endpoint for the displayed typed window, but the obstruction row $O$ remains part of the packet and prevents the read from becoming unrestricted substitution compatibility or global closed-term confluence.
+\end{theorem}
+\begin{proof}
+Read the typed-window and substitution rows first. The source term, branch data, binder depth, and substitution route are visible in $T$ and $S$ before any residual comparison is made.
+
+Next inspect the residual-frontier row $R$. It names the beta positions, residual descendants, and branch-local dependencies, so the bounded checker receives a finite frontier rather than an unbounded substitution algebra.
+
+Finally apply the checker and obstruction rows. If $B$ exposes a local common endpoint, $O$ still records the endpoints not supplied by the packet. Transport, replay, provenance, and naming preserve this same finite route, so a consumer cannot cite the accepted packet as a premise-free confluence theorem.
+\end{proof}
+
+Lean follow-up must provide $\Nontrivial\ \MetaCICSubstitutionDiamondUp$ and $\FieldFaithful\ \MetaCICSubstitutionDiamondUp$ TasteGate instances in \texttt{BEDC.Derived.MetaCICSubstitutionDiamondUp}. Those instances must preserve $T,S,R,B,O,H,C,P,N$ as distinct displayed rows before any checked marker may cite the packet.
+
+\closureat{MetaCICSubstitutionDiamondUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubstitutionDiamondUp}
+  \constructivestory{A $\MetaCICSubstitutionDiamondUp$ packet is generated from typed-window rows, substitution-route rows, residual-frontier rows, bounded local-diamond checker rows, obstruction-retention rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-substitution-diamond-carrier}, \autoref{thm:metacic-substitution-diamond-confluence-obligation}, the falsifiable prediction, and the independence witness seed the finite substitution-sensitive local-diamond boundary for MetaCIC confluence consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close unrestricted substitution compatibility, premise-free closed parallel diamond, arbitrary closed Church--Rosser, subject-reduction discharge, evaluator equality, kernel consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, typed-window exposure, substitution-route exactness, residual-frontier coverage, bounded-checker determinacy, obstruction retention, transport stability, replay stability, provenance exhaustion, local naming, and Nontrivial and FieldFaithful TasteGate instances for BEDC.Derived.MetaCICSubstitutionDiamondUp.}
+\end{closurestatus}

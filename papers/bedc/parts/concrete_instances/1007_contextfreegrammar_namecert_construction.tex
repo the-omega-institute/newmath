@@ -277,6 +277,18 @@ complete recognizer, none of those structures is exported to
 $\RegularLanguageUp$ or $\TuringMachineUp$ readers.
 \end{proof}
 
+\begin{theorem}[ContextFreeGrammar regular-language inclusion certificate]
+\label{thm:contextfreegrammar-regularlanguage-inclusion-certificate}
+Every accepted $\RegularLanguageUp$ finite-automaton packet yields a $\ContextFreeGrammarUp$ packet whose production ledger simulates the deterministic transition ledger and whose terminal yield is the accepted $\ListUp$ word. The construction reads only the finite alphabet row, state row, transition table, initial row, accepting endpoint row, input-word spine, deterministic run ledger, componentwise transport rows, continuation rows, and package provenance of \autoref{ch:concrete-instances-regularlanguage-namecert}; it does not pass through a host language-set semantics or an ambient subset relation.
+\end{theorem}
+\begin{proof}
+Start from the grammar carrier of \autoref{def:contextfreegrammar-bhist-carrier}. For each visible automaton transition row in the deterministic run ledger of \autoref{thm:regularlanguage-deterministic-run-ledger}, create the corresponding finite production row carrying the current state, consumed terminal, and next state as displayed nonterminal and terminal coordinates.
+
+Use \autoref{thm:contextfreegrammar-production-stability} along the run ledger. Componentwise transport of the automaton rows therefore transports the simulated production rows without replacing them by an external language predicate.
+
+Finally apply \autoref{thm:contextfreegrammar-yield-readback}. The derivation consumes exactly the stored $\ListUp$ word spine, so the terminal yield row is the accepted word row named by the regular-language packet. Repacking the production ledger, derivation ledger, yield row, transports, continuation, provenance, and local name gives the required $\ContextFreeGrammarUp$ packet.
+\end{proof}
+
 \begin{theorem}[ContextFreeGrammar consumer boundary determinacy]
 \label{thm:contextfreegrammar-consumer-boundary-determinacy}
 Let $G$ and $H$ be accepted finite $\ContextFreeGrammarUp$ packets. Suppose

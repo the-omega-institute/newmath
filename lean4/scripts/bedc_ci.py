@@ -27,6 +27,7 @@ PAPER_ROOT = REPO_ROOT / "papers" / "bedc"
 PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
 TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
+DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -252,6 +253,20 @@ class LeanSourceScan:
 
 
 @dataclass(frozen=True)
+class KernelAssertionCheck:
+    target: str
+    module: str
+    module_reachable: bool
+    olean_exists: bool
+    check_ok: bool
+    axioms_parsed: bool
+    axioms: tuple[str, ...]
+    forbidden_axioms: tuple[str, ...]
+    returncode: int
+    message: str = ""
+
+
+@dataclass(frozen=True)
 class TheoremStatusEnvironment:
     kind: str
     title: str | None
@@ -331,6 +346,7 @@ class ExprFingerprint:
     const_fp: str = ""
     eta_value_fp: str = ""
     reduced_fingerprint: str = ""
+    canonical_reduced_payload: str = ""
 
 
 def read_text(path: Path) -> str:
@@ -360,6 +376,39 @@ def module_name(path: Path) -> str:
 
 def module_olean_path(module: str) -> Path:
     return LEAN_ROOT / ".lake" / "build" / "lib" / "lean" / Path(*module.split(".")).with_suffix(".olean")
+
+
+def _lean_imports_from_path(path: Path) -> list[str]:
+    stripped = strip_comments_and_strings(read_text(path))
+    imports: list[str] = []
+    for match in re.finditer(r"(?m)^\s*import\s+([A-Za-z0-9_'.]+)\s*$", stripped):
+        imports.append(match.group(1))
+    return imports
+
+
+def _bedc_root_reachable_modules() -> set[str]:
+    root = LEAN_ROOT / "BEDC.lean"
+    if not root.exists():
+        return set()
+    module_to_path = {
+        module_name(path): path
+        for path in lean_files()
+    }
+    module_to_path["BEDC"] = root
+    reachable: set[str] = set()
+    queue = ["BEDC"]
+    while queue:
+        module = queue.pop(0)
+        if module in reachable:
+            continue
+        reachable.add(module)
+        path = module_to_path.get(module)
+        if path is None:
+            continue
+        for imported in _lean_imports_from_path(path):
+            if imported.startswith("BEDC") and imported not in reachable:
+                queue.append(imported)
+    return reachable
 
 
 def strip_comments_and_strings(text: str) -> str:
@@ -507,6 +556,10 @@ def _region_key(region: object) -> str:
 
 def _normalize_lean_target(text: object) -> str:
     return str(text or "").replace(r"\_", "_").strip()
+
+
+def _normalize_claim_kind(text: object) -> str:
+    return str(text or "").strip().lstrip("\\")
 
 
 def _declaration_header_result_type(header: str) -> str | None:
@@ -2420,9 +2473,23 @@ VALID_FORMAL_GRADES = {
     "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
     "axiomCleanV", "bridgeCheckedV",
 }
+VALID_CLOSURE_CLAIM_KINDS = {
+    "discovery",
+    "conjecturedDiscovery",
+    "refutedDiscovery",
+    "positiveDiscovery",
+    "mechanical_reconstruction",
+    "confirmed_composite",
+}
 GRADE_REQUIRES_LEAN_TARGET = {
     "scaffoldCheckedV", "theoremCheckedV", "auditCleanV",
     "axiomCleanV", "bridgeCheckedV",
+}
+ASSERTED_DISCOVERY_CLAIM_KINDS = {"positiveDiscovery"}
+DISCOVERY_STATUS_CLAIM_KINDS = {
+    "conjecturedDiscovery",
+    "refutedDiscovery",
+    "positiveDiscovery",
 }
 STRONG_CLOSURESTATUS_CLAIMS = {"discovery", "positiveDiscovery"}
 DISCOVERY_DECLARATION_CLAIM_KINDS = {"discovery", "positiveDiscovery"}
@@ -2684,6 +2751,13 @@ def diagnose_closurestatus_block(block: dict, lean_symbols: set[str]) -> list[st
         issues.append(
             f"{where}: \\origin='{origin}' is not in {{human, ai}}"
         )
+    claim_kind = _block_discovery_claim_kind(block)
+    if claim_kind and claim_kind not in VALID_CLOSURE_CLAIM_KINDS:
+        issues.append(
+            f"{where}: \\closureclaimkind='{claim_kind}' is not in "
+            "{discovery, conjecturedDiscovery, refutedDiscovery, "
+            "positiveDiscovery, mechanical_reconstruction, confirmed_composite}"
+        )
     return issues
 
 
@@ -2703,7 +2777,7 @@ def diagnose_closurestatus_open_fields(block: dict) -> tuple[list[dict[str, obje
     warnings: list[dict[str, object]] = []
     errors: list[dict[str, object]] = []
     open_fields = block.get("open_fields") or {}
-    claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+    claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
     if not claim_kind:
         return warnings, errors
 
@@ -2792,12 +2866,12 @@ def _block_discovery_claim_kind(block: dict) -> str:
     open_fields = block.get("open_fields") or {}
     if not isinstance(open_fields, dict):
         open_fields = {}
-    claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+    claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
     if claim_kind:
         return claim_kind
     body = str(block.get("raw_body", ""))
     match = re.search(r"\\closureclaimkind\{([^}]*)\}", body)
-    return match.group(1).strip() if match else ""
+    return _normalize_claim_kind(match.group(1)) if match else ""
 
 
 def _field_text(open_fields: dict, *names: str) -> str:
@@ -2996,56 +3070,2073 @@ def _positive_discovery_evidence_kind(
     return None
 
 
-def positive_discovery_target_warnings(
-    blocks: list[dict],
-    declarations: list[DeclarationRecord],
-    declaration_headers: dict[str, str] | None = None,
-) -> list[dict[str, object]]:
-    symbol_kinds = _symbol_kind_map(declarations)
-    declaration_headers = (
-        collect_declaration_headers() if declaration_headers is None else declaration_headers
+DISCOVERY_ASSERT_GATE_RULES = (
+    ("G0", "resolved, import-reachable, kernel-checkable Lean assertion target"),
+    ("G1", "target has no forbidden transitive axiom dependency"),
+    ("G2", "resolved structural check shows no prior classifier reconstruction"),
+    ("G3", "positive nontrivial classifier evidence is present"),
+    ("G4", "checked disagreement support links to resolved before/after endpoints"),
+    ("G5", "not smoke or duplicate evidence"),
+    ("G6", "scope is nonempty and sealed"),
+    ("W", "kernel-grounded negative witness registry has no match"),
+)
+
+DISCOVERY_ASSERT_GATE_SEMANTICS = (
+    "cheap-negative refutation gate; passing ≠ certified genuine; "
+    "conjectured ≠ asserted"
+)
+
+
+def _repo_display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
+
+
+def _assert_gate_item(
+    block: dict,
+    target: str,
+    gate: str,
+    status: str,
+    reason: str,
+    *,
+    details: dict[str, object] | None = None,
+) -> dict[str, object]:
+    item: dict[str, object] = {
+        "file": block["file"],
+        "line": block["line"],
+        "region": f"{block['region']}Up",
+        "target": target,
+        "gate": gate,
+        "status": status,
+        "reason": reason,
+    }
+    if details:
+        item["details"] = details
+    return item
+
+
+DISCOVERY_GATE_WITNESS_KINDS = {
+    "reconstruction",
+}
+
+DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS = {
+    "target",
+    "prior",
+    "canonical_payload",
+}
+DISCOVERY_GATE_WITNESS_OPTIONAL_PATTERN_KEYS = {
+    "reduced_fp",
+    "candidate_reduced_fp",
+}
+DISCOVERY_GATE_WITNESS_MAX_ENTRIES = 2000
+DISCOVERY_GATE_WITNESS_MAX_BYTES = 2_000_000
+
+
+def _discovery_gate_registry_diag(
+    path: Path,
+    line: int,
+    kind: str,
+    message: str,
+    *,
+    witness_id: str = "",
+) -> dict[str, object]:
+    item: dict[str, object] = {
+        "file": _repo_display_path(path) if path.is_absolute() else str(path),
+        "line": line,
+        "kind": kind,
+        "message": message,
+    }
+    if witness_id:
+        item["id"] = witness_id
+    return item
+
+
+def _exact_witness_pattern(pattern: object) -> tuple[dict[str, str] | None, str]:
+    if not isinstance(pattern, dict):
+        return None, "pattern must be an object"
+    keys = {str(key) for key in pattern}
+    allowed = DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS | DISCOVERY_GATE_WITNESS_OPTIONAL_PATTERN_KEYS
+    if not DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS.issubset(keys) or not keys.issubset(allowed):
+        missing = sorted(DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS - keys)
+        extra = sorted(keys - allowed)
+        parts: list[str] = []
+        if missing:
+            parts.append("missing " + ",".join(missing))
+        if extra:
+            parts.append("unsupported " + ",".join(extra))
+        return None, "pattern must include exact {target, prior, canonical_payload}: " + "; ".join(parts)
+    out = {
+        key: str(pattern.get(key) or "").strip()
+        for key in DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS | DISCOVERY_GATE_WITNESS_OPTIONAL_PATTERN_KEYS
+        if key in pattern or key in DISCOVERY_GATE_WITNESS_EXACT_PATTERN_KEYS
+    }
+    if not out["target"] or not out["prior"] or not out["canonical_payload"]:
+        return None, "target, prior, and canonical_payload must be nonempty strings"
+    if not _normalize_lean_target(out["target"]) or not _normalize_lean_target(out["prior"]):
+        return None, "target and prior must be Lean declaration names"
+    if "*" in out["canonical_payload"] or out["canonical_payload"].lower() in {"any", "all", "wildcard"}:
+        return None, "canonical_payload must be concrete, not a wildcard"
+    return out, ""
+
+
+def discovery_gate_witness_kernel_grounding(
+    witness: dict[str, object],
+) -> tuple[bool, dict[str, object]]:
+    pattern, error = _exact_witness_pattern(witness.get("pattern"))
+    if pattern is None:
+        return False, {
+            "reason": "invalid_exact_pattern",
+            "message": error,
+        }
+    target = pattern["target"]
+    prior = pattern["prior"]
+    expected_payload = pattern["canonical_payload"]
+    expected_fp = pattern.get("reduced_fp") or pattern.get("candidate_reduced_fp") or ""
+    fps = _run_structural_dna_expr_fingerprints([target, prior])
+    target_fp = _discovery_endpoint_reduced_fp(target, fps)
+    prior_fp = _discovery_endpoint_reduced_fp(prior, fps)
+    target_payload = _discovery_endpoint_canonical_payload(target, fps)
+    prior_payload = _discovery_endpoint_canonical_payload(prior, fps)
+    fp_ok = not expected_fp or (target_fp == expected_fp and prior_fp == expected_fp)
+    ok = bool(target_payload and prior_payload and target_payload == expected_payload and prior_payload == expected_payload and fp_ok)
+    return ok, {
+        "target": target,
+        "prior": prior,
+        "evidence": "canonical_payload_equal",
+        "expected_canonical_payload": expected_payload,
+        "target_canonical_payload": target_payload,
+        "prior_canonical_payload": prior_payload,
+        "expected_reduced_fp": expected_fp,
+        "target_reduced_fp": target_fp,
+        "prior_reduced_fp": prior_fp,
+        "message": (
+            "target and prior structural-DNA canonical reduced payloads match"
+            if ok
+            else "target/prior structural-DNA canonical reduced payloads do not match witness"
+        ),
+    }
+
+
+def load_discovery_gate_witnesses(
+    path: Path = DISCOVERY_GATE_WITNESS_REGISTRY_PATH,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Load sound negative discovery witnesses from the data registry."""
+    if not path.exists():
+        return [], []
+    try:
+        size = path.stat().st_size
+    except OSError:
+        size = 0
+    if size > DISCOVERY_GATE_WITNESS_MAX_BYTES:
+        return [], [_discovery_gate_registry_diag(
+            path,
+            1,
+            "oversized_discovery_gate_witness_registry",
+            (
+                "discovery gate witness registry exceeds size cap "
+                f"{DISCOVERY_GATE_WITNESS_MAX_BYTES} bytes"
+            ),
+        )]
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return [], [_discovery_gate_registry_diag(
+            path,
+            exc.lineno,
+            "invalid_discovery_gate_witness_registry_json",
+            f"invalid discovery gate witness registry JSON: {exc.msg}",
+        )]
+    if isinstance(raw, dict):
+        schema = str(raw.get("schema") or "").strip()
+        entries = raw.get("witnesses")
+        if schema != "bedc.discovery_gate_witness_registry":
+            return [], [_discovery_gate_registry_diag(
+                path,
+                1,
+                "invalid_discovery_gate_witness_registry_schema",
+                "discovery gate witness registry schema must be bedc.discovery_gate_witness_registry",
+            )]
+        if not isinstance(entries, list):
+            return [], [_discovery_gate_registry_diag(
+                path,
+                1,
+                "invalid_discovery_gate_witness_registry_root",
+                "discovery gate witness registry witnesses field must be a list",
+            )]
+        raw = entries
+    if not isinstance(raw, list):
+        return [], [_discovery_gate_registry_diag(
+            path,
+            1,
+            "invalid_discovery_gate_witness_registry_root",
+            "discovery gate witness registry root must be a list",
+        )]
+    if len(raw) > DISCOVERY_GATE_WITNESS_MAX_ENTRIES:
+        return [], [_discovery_gate_registry_diag(
+            path,
+            1,
+            "oversized_discovery_gate_witness_registry",
+            (
+                "discovery gate witness registry exceeds entry cap "
+                f"{DISCOVERY_GATE_WITNESS_MAX_ENTRIES}"
+            ),
+        )]
+
+    witnesses: list[dict[str, object]] = []
+    diagnostics: list[dict[str, object]] = []
+    seen_exact: dict[tuple[str, str], str] = {}
+    seen_target_prior: dict[tuple[str, str], str] = {}
+    for index, item in enumerate(raw):
+        if not isinstance(item, dict):
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "invalid_discovery_gate_witness",
+                "discovery gate witness entry must be an object",
+            ))
+            continue
+        witness_id = str(item.get("id") or "").strip()
+        kind = str(item.get("kind") or "").strip()
+        if not witness_id:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "missing_discovery_gate_witness_id",
+                "discovery gate witness lacks id",
+            ))
+            continue
+        if kind not in DISCOVERY_GATE_WITNESS_KINDS:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "invalid_discovery_gate_witness_kind",
+                f"discovery gate witness {witness_id} has unsupported kind {kind}",
+                witness_id=witness_id,
+            ))
+            continue
+        pattern, pattern_error = _exact_witness_pattern(item.get("pattern"))
+        if pattern is None:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "invalid_discovery_gate_witness_pattern",
+                f"discovery gate witness {witness_id} has invalid exact pattern: {pattern_error}",
+                witness_id=witness_id,
+            ))
+            continue
+        exact_key = (pattern["target"], pattern["canonical_payload"])
+        if exact_key in seen_exact:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "duplicate_discovery_gate_witness",
+                (
+                    f"discovery gate witness {witness_id} duplicates "
+                    f"{seen_exact[exact_key]} by target+canonical_payload"
+                ),
+                witness_id=witness_id,
+            ))
+            continue
+        target_prior_key = (pattern["target"], pattern["prior"])
+        prior_seen_fp = seen_target_prior.get(target_prior_key)
+        if prior_seen_fp is not None and prior_seen_fp != pattern["canonical_payload"]:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "conflicting_discovery_gate_witness",
+                (
+                    f"discovery gate witness {witness_id} conflicts with an earlier "
+                    "target+prior witness carrying a different canonical_payload"
+                ),
+                witness_id=witness_id,
+            ))
+            continue
+        grounded, grounding = discovery_gate_witness_kernel_grounding(item)
+        if not grounded:
+            diagnostics.append(_discovery_gate_registry_diag(
+                path,
+                index + 1,
+                "ungrounded_discovery_gate_witness",
+                (
+                    f"discovery gate witness {witness_id} failed independent "
+                    f"structural-DNA grounding: {grounding.get('message')}"
+                ),
+                witness_id=witness_id,
+            ))
+            diagnostics[-1]["grounding"] = grounding
+            continue
+        normalized = dict(item)
+        normalized["kind"] = "reconstruction"
+        normalized["pattern"] = pattern
+        normalized["kernel_grounded"] = True
+        normalized["kernel_grounding"] = grounding
+        normalized["soundness"] = "canonical_payload_equal"
+        witnesses.append(normalized)
+        seen_exact[exact_key] = witness_id
+        seen_target_prior[target_prior_key] = pattern["canonical_payload"]
+    return witnesses, diagnostics
+
+
+def _string_set(values: Iterable[object]) -> set[str]:
+    return {str(value).strip() for value in values if str(value).strip()}
+
+
+def _discovery_gate_witness_features(
+    block: dict,
+    target: str,
+    candidate_targets: list[str],
+    sieve_profile: dict[str, object] | None,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+) -> dict[str, set[str]]:
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    profile_data = (sieve_profile or {}).get("sieve_profile") or {}
+    if not isinstance(profile_data, dict):
+        profile_data = {}
+    provenance = (integrity_site or {}).get("provenance", []) or []
+    if not isinstance(provenance, list):
+        provenance = []
+    feature_sets: dict[str, set[str]] = {
+        "target": _string_set([target]),
+        "candidate": _string_set([target]),
+        "candidate_target": _string_set([target, *candidate_targets]),
+        "region": _string_set([f"{block.get('region', '')}Up"]),
+        "file": _string_set([block.get("file", "")]),
+        "kind": set(),
+        "relation": set(),
+        "reduced_fp": set(),
+        "candidate_reduced_fp": set(),
+        "canonical_payload": set(),
+        "candidate_canonical_payload": set(),
+        "prior": set(),
+        "prior_classifier": set(),
+        "reason_tag": _string_set(profile_data.get("reason_tags", []) or []),
+        "reason_tags": _string_set(profile_data.get("reason_tags", []) or []),
+    }
+    feature_sets["candidate"].update(
+        _string_set((integrity_site or {}).get("declared_new_classifiers", []) or [])
     )
-    warnings: list[dict[str, object]] = []
+    feature_sets["prior"].update(
+        _string_set((integrity_site or {}).get("before_classifiers", []) or [])
+    )
+    feature_sets["prior_classifier"].update(feature_sets["prior"])
+    for item in provenance:
+        if not isinstance(item, dict):
+            continue
+        relation = str(item.get("relation") or "").strip()
+        if relation:
+            feature_sets["relation"].add(relation)
+            if relation == "reconstruction":
+                feature_sets["kind"].add("reconstruction")
+        feature_sets["candidate"].update(_string_set([
+            item.get("candidate"),
+            item.get("after_classifier"),
+        ]))
+        feature_sets["prior"].update(_string_set([
+            item.get("prior"),
+            item.get("before_classifier"),
+        ]))
+        feature_sets["prior_classifier"].update(_string_set([
+            item.get("prior"),
+            item.get("before_classifier"),
+        ]))
+        feature_sets["reduced_fp"].update(_string_set([
+            item.get("reduced_fp"),
+            item.get("candidate_reduced_fp"),
+        ]))
+        feature_sets["candidate_reduced_fp"].update(_string_set([
+            item.get("candidate_reduced_fp"),
+        ]))
+        feature_sets["canonical_payload"].update(_string_set([
+            item.get("canonical_payload"),
+            item.get("candidate_canonical_payload"),
+            item.get("prior_canonical_payload"),
+        ]))
+        feature_sets["candidate_canonical_payload"].update(_string_set([
+            item.get("candidate_canonical_payload"),
+        ]))
+    for violation in integrity_violations:
+        if not isinstance(violation, dict):
+            continue
+        kind = str(violation.get("kind") or "").strip()
+        if kind == "structural_reconstruction_discovery_claim":
+            feature_sets["kind"].add("reconstruction")
+            feature_sets["relation"].add("reconstruction")
+        feature_sets["candidate"].update(_string_set([
+            violation.get("candidate"),
+            violation.get("after_classifier"),
+        ]))
+        feature_sets["prior"].update(_string_set([
+            violation.get("prior"),
+            violation.get("prior_classifier"),
+            violation.get("before_classifier"),
+        ]))
+        feature_sets["prior_classifier"].update(_string_set([
+            violation.get("prior"),
+            violation.get("prior_classifier"),
+            violation.get("before_classifier"),
+        ]))
+        feature_sets["canonical_payload"].update(_string_set([
+            violation.get("canonical_payload"),
+            violation.get("candidate_canonical_payload"),
+            violation.get("prior_canonical_payload"),
+        ]))
+    for field in ("closuregate", "closureledger"):
+        normalized = _normalize_lean_target(open_fields.get(field))
+        if normalized:
+            feature_sets["candidate_target"].add(normalized)
+    return feature_sets
+
+
+def _pattern_values(value: object) -> set[str]:
+    if isinstance(value, list):
+        return _string_set(value)
+    return _string_set([value])
+
+
+def _discovery_gate_witness_matches_pattern(
+    pattern: dict[str, object],
+    features: dict[str, set[str]],
+) -> bool:
+    exact, _error = _exact_witness_pattern(pattern)
+    if exact is None:
+        return False
+    return (
+        exact["target"] in features.get("candidate", set())
+        and exact["prior"] in features.get("prior", set())
+        and exact["canonical_payload"] in features.get("canonical_payload", set())
+    )
+
+
+def _discovery_gate_witness_exact_triples(
+    target: str,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+) -> set[tuple[str, str, str]]:
+    triples: set[tuple[str, str, str]] = set()
+    provenance = (integrity_site or {}).get("provenance", []) or []
+    if not isinstance(provenance, list):
+        provenance = []
+    for item in provenance:
+        if not isinstance(item, dict):
+            continue
+        candidates = _string_set([target, item.get("candidate"), item.get("after_classifier")])
+        priors = _string_set([item.get("prior"), item.get("before_classifier")])
+        canonical_payloads = _string_set([
+            item.get("canonical_payload"),
+            item.get("candidate_canonical_payload"),
+            item.get("prior_canonical_payload"),
+        ])
+        for candidate in candidates:
+            for prior in priors:
+                for canonical_payload in canonical_payloads:
+                    triples.add((candidate, prior, canonical_payload))
+    for violation in integrity_violations:
+        if not isinstance(violation, dict):
+            continue
+        candidates = _string_set([target, violation.get("candidate"), violation.get("after_classifier")])
+        priors = _string_set([
+            violation.get("prior"),
+            violation.get("prior_classifier"),
+            violation.get("before_classifier"),
+        ])
+        canonical_payloads = _string_set([
+            violation.get("canonical_payload"),
+            violation.get("candidate_canonical_payload"),
+            violation.get("prior_canonical_payload"),
+        ])
+        for candidate in candidates:
+            for prior in priors:
+                for canonical_payload in canonical_payloads:
+                    triples.add((candidate, prior, canonical_payload))
+    return triples
+
+
+def discovery_gate_witness_hits(
+    block: dict,
+    target: str,
+    candidate_targets: list[str],
+    sieve_profile: dict[str, object] | None,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+    witnesses: list[dict[str, object]],
+) -> list[dict[str, object]]:
+    features = _discovery_gate_witness_features(
+        block,
+        target,
+        candidate_targets,
+        sieve_profile,
+        integrity_site,
+        integrity_violations,
+    )
+    exact_triples = _discovery_gate_witness_exact_triples(
+        target,
+        integrity_site,
+        integrity_violations,
+    )
+    hits: list[dict[str, object]] = []
+    for witness in witnesses:
+        pattern = witness.get("pattern")
+        if not isinstance(pattern, dict):
+            continue
+        exact, _error = _exact_witness_pattern(pattern)
+        if exact is None:
+            continue
+        if (
+            exact["target"],
+            exact["prior"],
+            exact["canonical_payload"],
+        ) not in exact_triples:
+            continue
+        if not _discovery_gate_witness_matches_pattern(pattern, features):
+            continue
+        hits.append({
+            "id": str(witness.get("id") or ""),
+            "kind": str(witness.get("kind") or ""),
+            "refutes_because": str(witness.get("refutes_because") or ""),
+            "provenance": witness.get("provenance"),
+            "regression_candidate": witness.get("regression_candidate"),
+            "pattern": pattern,
+        })
+    return hits
+
+
+def _positive_discovery_assertion_target(
+    block: dict,
+    declaration_headers: dict[str, str],
+) -> tuple[str, list[str]]:
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    candidates = [
+        _normalize_lean_target(open_fields.get("closuregate")),
+        _normalize_lean_target(block.get("lean_target")),
+        _normalize_lean_target(open_fields.get("closureledger")),
+    ]
+    body = str(block.get("raw_body") or "")
+    candidates.extend(
+        _normalize_lean_target(target)
+        for macro, target in _latex_macro_args(
+            body,
+            {"leanchecked", "leantarget"},
+        )
+        if macro in {"leanchecked", "leantarget"}
+    )
+    candidates = [target for target in dict.fromkeys(candidates) if target]
+    resolved = next((target for target in candidates if target in declaration_headers), "")
+    return resolved, candidates
+
+
+def _reachable_assertion_text(
+    target: str,
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> tuple[str, list[str]]:
+    reachable = sorted(_reachable_declarations(
+        [target],
+        declaration_headers,
+        declaration_bodies,
+        max_depth=8,
+    ))
+    if target in declaration_headers and target not in reachable:
+        reachable.insert(0, target)
+    text = "\n".join(
+        _decl_text(name, declaration_headers, declaration_bodies)
+        for name in reachable
+    )
+    return text, reachable
+
+
+def _module_for_declaration(target: str, lean_scan: LeanSourceScan) -> str:
+    for decl in lean_scan.declarations:
+        if decl.qualified_name == target:
+            return decl.module
+    return ""
+
+
+def _kernel_assertion_probe(
+    target: str,
+    module: str,
+    reachable_modules: set[str],
+    *,
+    forbidden_axioms: Iterable[str] | None = None,
+) -> KernelAssertionCheck:
+    forbidden_set = set(STRICT_FORBIDDEN_AXIOMS if forbidden_axioms is None else forbidden_axioms)
+    module_reachable = bool(module and module in reachable_modules)
+    olean_exists = bool(module and module_olean_path(module).exists())
+    if not target:
+        return KernelAssertionCheck(
+            target=target,
+            module=module,
+            module_reachable=module_reachable,
+            olean_exists=olean_exists,
+            check_ok=False,
+            axioms_parsed=False,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=1,
+            message="empty target",
+        )
+    if not module:
+        return KernelAssertionCheck(
+            target=target,
+            module=module,
+            module_reachable=False,
+            olean_exists=False,
+            check_ok=False,
+            axioms_parsed=False,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=1,
+            message="target has no scanned Lean module",
+        )
+    if not module_reachable:
+        return KernelAssertionCheck(
+            target=target,
+            module=module,
+            module_reachable=False,
+            olean_exists=olean_exists,
+            check_ok=False,
+            axioms_parsed=False,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=1,
+            message="target module is not reachable from import BEDC",
+        )
+    if not olean_exists:
+        return KernelAssertionCheck(
+            target=target,
+            module=module,
+            module_reachable=True,
+            olean_exists=False,
+            check_ok=False,
+            axioms_parsed=False,
+            axioms=(),
+            forbidden_axioms=(),
+            returncode=1,
+            message="target module has no compiled .olean",
+        )
+
+    lean_source = f"import {module}\n\n#check @{target}\n#print axioms {target}\n"
+    result = subprocess.run(
+        ["lake", "env", "lean", "--stdin"],
+        cwd=LEAN_ROOT,
+        input=lean_source,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    output = (result.stdout or "") + "\n" + (result.stderr or "")
+    unknown = re.search(r"unknown (?:constant|identifier)", output, re.IGNORECASE) is not None
+    check_ok = result.returncode == 0 and not unknown
+    axioms: tuple[str, ...] = ()
+    parsed = False
+    for match in PRINT_AXIOMS_RE.finditer(output):
+        if match.group(1) != target:
+            continue
+        parsed = True
+        raw_axioms = match.group(2)
+        axioms = tuple(a.strip() for a in (raw_axioms or "").split(",") if a.strip())
+        break
+    forbidden_hits = tuple(sorted(forbidden_set.intersection(axioms)))
+    message = ""
+    if not check_ok:
+        message = _text_snippet(output, target)
+    elif not parsed:
+        message = "no parsed #print axioms result"
+    return KernelAssertionCheck(
+        target=target,
+        module=module,
+        module_reachable=module_reachable,
+        olean_exists=olean_exists,
+        check_ok=check_ok,
+        axioms_parsed=parsed,
+        axioms=axioms,
+        forbidden_axioms=forbidden_hits,
+        returncode=result.returncode,
+        message=message,
+    )
+
+
+def _kernel_assertion_checks(
+    targets: Iterable[str],
+    lean_scan: LeanSourceScan,
+) -> dict[str, KernelAssertionCheck]:
+    normalized = sorted({
+        _normalize_lean_target(target)
+        for target in targets
+        if _normalize_lean_target(target)
+    })
+    if not normalized:
+        return {}
+    reachable_modules = _bedc_root_reachable_modules()
+    return {
+        target: _kernel_assertion_probe(
+            target,
+            _module_for_declaration(target, lean_scan),
+            reachable_modules,
+        )
+        for target in normalized
+    }
+
+
+def _kernel_check_details(check: KernelAssertionCheck | None) -> dict[str, object]:
+    if check is None:
+        return {}
+    return {
+        "module": check.module,
+        "module_reachable": check.module_reachable,
+        "olean_exists": check.olean_exists,
+        "check_ok": check.check_ok,
+        "axioms_parsed": check.axioms_parsed,
+        "axioms": list(check.axioms),
+        "forbidden_axioms": list(check.forbidden_axioms),
+        "returncode": check.returncode,
+        "message": check.message,
+    }
+
+
+def _sieve_profiles_by_locus(
+    sieve_payload: dict[str, object],
+) -> tuple[dict[tuple[str, int, str], dict[str, object]], dict[str, dict[str, object]]]:
+    by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    by_target: dict[str, dict[str, object]] = {}
+    for profile in sieve_payload.get("targets", []):
+        if not isinstance(profile, dict):
+            continue
+        target = str(profile.get("target") or "")
+        if target:
+            by_target.setdefault(target, profile)
+        key = (
+            str(profile.get("file") or ""),
+            int(profile.get("line") or 0),
+            str(profile.get("region") or ""),
+        )
+        if key[0] and key[1]:
+            by_locus.setdefault(key, profile)
+    return by_locus, by_target
+
+
+def _integrity_sites_by_locus(
+    discovery_integrity: dict[str, object],
+) -> dict[tuple[str, int, str], dict[str, object]]:
+    out: dict[tuple[str, int, str], dict[str, object]] = {}
+    for site in discovery_integrity.get("sites", []):
+        if not isinstance(site, dict):
+            continue
+        key = (
+            str(site.get("file") or ""),
+            int(site.get("line") or 0),
+            str(site.get("region") or ""),
+        )
+        if key[0] and key[1]:
+            out.setdefault(key, site)
+    return out
+
+
+def _integrity_violations_by_locus(
+    discovery_integrity: dict[str, object],
+) -> dict[tuple[str, int, str], list[dict[str, object]]]:
+    out: dict[tuple[str, int, str], list[dict[str, object]]] = {}
+    for violation in discovery_integrity.get("violations", []):
+        if not isinstance(violation, dict):
+            continue
+        key = (
+            str(violation.get("file") or ""),
+            int(violation.get("line") or 0),
+            str(violation.get("region") or ""),
+        )
+        if key[0] and key[1]:
+            out.setdefault(key, []).append(violation)
+    return out
+
+
+def _integrity_endpoint_pair(integrity_site: dict[str, object] | None) -> tuple[list[str], list[str]]:
+    if not integrity_site:
+        return [], []
+    before = [
+        str(target)
+        for target in integrity_site.get("before_classifiers", []) or []
+        if str(target)
+    ]
+    after = [
+        str(target)
+        for target in integrity_site.get("declared_new_classifiers", []) or []
+        if str(target)
+    ]
+    return before, after
+
+
+def _checked_disagreement_supports(
+    target: str,
+    support_targets: list[str],
+    kernel_checks: dict[str, KernelAssertionCheck],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+) -> list[dict[str, object]]:
+    checked: list[dict[str, object]] = []
+    for support_target in support_targets:
+        check = kernel_checks.get(support_target)
+        if check is None or not check.check_ok or not check.axioms_parsed or check.forbidden_axioms:
+            continue
+        if not _declares_disagreement_support(declaration_headers.get(support_target, "")):
+            continue
+        if not _support_disagreement_assignment_reaches_target(
+            support_target,
+            target,
+            declaration_headers,
+            declaration_bodies,
+        ):
+            continue
+        seeds, anchors, reachable = _support_disagreement_read_model(
+            support_target,
+            target,
+            declaration_headers,
+            declaration_bodies,
+        )
+        checked.append({
+            "support": support_target,
+            "module": check.module,
+            "axioms": list(check.axioms),
+            "seeds": sorted(seeds),
+            "anchors": sorted(anchors),
+            "reachable": sorted(reachable),
+        })
+    return checked
+
+
+def _discovery_assert_gate_site(
+    block: dict,
+    target: str,
+    candidate_targets: list[str],
+    sieve_profile: dict[str, object] | None,
+    integrity_site: dict[str, object] | None,
+    integrity_violations: list[dict[str, object]],
+    symbol_kinds: dict[str, str],
+    declaration_headers: dict[str, str],
+    declaration_bodies: dict[str, str],
+    kernel_checks: dict[str, KernelAssertionCheck],
+    gate_witnesses: list[dict[str, object]],
+) -> dict[str, object]:
+    gates: list[dict[str, object]] = []
+    target_text = ""
+    reachable_targets: list[str] = []
+    evidence_kind = ""
+    if target:
+        evidence_kind = _positive_discovery_evidence_kind(
+            target,
+            symbol_kinds,
+            declaration_headers,
+        ) or ""
+        target_text, reachable_targets = _reachable_assertion_text(
+            target,
+            declaration_headers,
+            declaration_bodies,
+        )
+    kernel_check = kernel_checks.get(target)
+
+    if not target:
+        gates.append(_assert_gate_item(
+            block,
+            "",
+            "G0",
+            "FAIL",
+            "positiveDiscovery has no resolved Lean target",
+            details={"candidate_targets": candidate_targets},
+        ))
+    elif not evidence_kind:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G0",
+            "FAIL",
+            "resolved target is not a DiscoveryTasteGate or PositiveDiscovery declaration",
+            details={"candidate_targets": candidate_targets},
+        ))
+    elif kernel_check is None or not kernel_check.check_ok:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G0",
+            "FAIL",
+            "resolved target is not import-reachable and kernel-checkable",
+            details={
+                "candidate_targets": candidate_targets,
+                "kernel": _kernel_check_details(kernel_check),
+            },
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G0",
+            "PASS",
+            "resolved import-reachable assertion target checked by Lean kernel",
+            details={
+                "evidence_kind": evidence_kind,
+                "kernel": _kernel_check_details(kernel_check),
+            },
+        ))
+
+    if target:
+        has_axiom = _body_mentions_axiom(target_text)
+        has_sorry = _body_mentions_sorry(target_text)
+        if has_axiom or has_sorry:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "FAIL",
+                "reachable Lean declaration text contains axiom/sorry",
+                details={
+                    "has_axiom": has_axiom,
+                    "has_sorry": has_sorry,
+                    "reachable_targets": reachable_targets[:40],
+                },
+            ))
+        elif kernel_check is None or not kernel_check.check_ok:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "FAIL",
+                "kernel axiom check unavailable for assertion target",
+                details={"kernel": _kernel_check_details(kernel_check)},
+            ))
+        elif not kernel_check.axioms_parsed:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "FAIL",
+                "#print axioms result was not parsed for assertion target",
+                details={"kernel": _kernel_check_details(kernel_check)},
+            ))
+        elif kernel_check.forbidden_axioms:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "FAIL",
+                "target has forbidden transitive axiom dependency",
+                details={"kernel": _kernel_check_details(kernel_check)},
+            ))
+        else:
+            gates.append(_assert_gate_item(
+                block,
+                target,
+                "G1",
+                "PASS",
+                "kernel #print axioms has no forbidden dependency",
+                details={
+                    "reachable_target_count": len(reachable_targets),
+                    "kernel": _kernel_check_details(kernel_check),
+                },
+            ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            "",
+            "G1",
+            "DEFERRED",
+            "no resolved target for dependency scan",
+        ))
+
+    structural_violations = [
+        violation for violation in integrity_violations
+        if violation.get("kind") == "structural_reconstruction_discovery_claim"
+    ]
+    if structural_violations:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G2",
+            "FAIL",
+            "classifier canonical reduced payload reconstructs a prior classifier",
+            details={"violations": structural_violations[:5]},
+        ))
+    elif integrity_site and str(integrity_site.get("resolution_status")) == "resolved":
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G2",
+            "PASS",
+            "resolved structural check found no prior canonical payload hit",
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G2",
+            "FAIL",
+            "structural reconstruction check unavailable or unresolved",
+            details={"integrity_site": bool(integrity_site)},
+        ))
+
+    reason_tags = list(((sieve_profile or {}).get("sieve_profile") or {}).get("reason_tags", []))
+    support_targets = list(((sieve_profile or {}).get("sieve_profile") or {}).get("support_targets", []))
+    semantic_anchors = list(((sieve_profile or {}).get("sieve_profile") or {}).get("semantic_anchors", []))
+    support_anchors = list(((sieve_profile or {}).get("sieve_profile") or {}).get("support_anchors", []))
+    public_semantic_endpoint = bool(((sieve_profile or {}).get("sieve_profile") or {}).get("public_semantic_endpoint"))
+    before_endpoints, after_endpoints = _integrity_endpoint_pair(integrity_site)
+    endpoint_pair_resolved = bool(before_endpoints and after_endpoints)
+    checked_supports = _checked_disagreement_supports(
+        target,
+        support_targets,
+        kernel_checks,
+        declaration_headers,
+        declaration_bodies,
+    ) if target else []
+    structural_nonreconstruction_evidence = (
+        endpoint_pair_resolved
+        and bool(integrity_site)
+        and str(integrity_site.get("resolution_status")) == "resolved"
+        and not structural_violations
+    )
+
+    if "trivial_classifier" in reason_tags:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G3",
+            "FAIL",
+            "sieve reports trivial classifier evidence",
+            details={"reason_tags": reason_tags},
+        ))
+    elif checked_supports or structural_nonreconstruction_evidence:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G3",
+            "PASS",
+            "positive nontrivial endpoint evidence is present",
+            details={
+                "before_classifiers": before_endpoints,
+                "after_classifiers": after_endpoints,
+                "checked_disagreement_supports": checked_supports,
+                "no_negative_sieve_hit": "trivial_classifier" not in reason_tags,
+            },
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G3",
+            "FAIL",
+            "positive nontrivial classifier evidence is absent",
+            details={
+                "reason_tags": reason_tags,
+                "before_classifiers": before_endpoints,
+                "after_classifiers": after_endpoints,
+                "support_targets": support_targets,
+            },
+        ))
+
+    has_heuristic_disagreement_support = bool(
+        support_targets or semantic_anchors or support_anchors or public_semantic_endpoint
+    )
+    if (
+        "constructor_only_disagreement" in reason_tags
+        or "no_semantic_refs" in reason_tags
+        or not endpoint_pair_resolved
+        or not checked_supports
+    ):
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G4",
+            "FAIL",
+            "before/after disagreement lacks checked support tied to resolved endpoints",
+            details={
+                "reason_tags": reason_tags,
+                "support_targets": support_targets,
+                "semantic_anchors": semantic_anchors,
+                "support_anchors": support_anchors,
+                "public_semantic_endpoint": public_semantic_endpoint,
+                "heuristic_semantic_support_present": has_heuristic_disagreement_support,
+                "before_classifiers": before_endpoints,
+                "after_classifiers": after_endpoints,
+                "checked_disagreement_supports": checked_supports,
+            },
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G4",
+            "PASS",
+            "checked DisagreementSupport reaches the asserted classifier disagreement",
+            details={
+                "before_classifiers": before_endpoints,
+                "after_classifiers": after_endpoints,
+                "checked_disagreement_supports": checked_supports,
+                "heuristic_semantic_support_present": has_heuristic_disagreement_support,
+            },
+        ))
+
+    smoke_duplicate_tags = sorted(
+        set(reason_tags).intersection({
+            "smoke_template_reuse",
+            "target_substring_evidence",
+            "duplicate_of_existing",
+        })
+    )
+    if smoke_duplicate_tags:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G5",
+            "FAIL",
+            "sieve reports smoke or duplicate-like evidence",
+            details={"reason_tags": smoke_duplicate_tags},
+        ))
+    elif sieve_profile:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G5",
+            "PASS",
+            "no negative sieve hit for smoke or duplicate-like evidence",
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G5",
+            "DEFERRED",
+            "discovery sieve profile unavailable",
+        ))
+
+    open_fields = block.get("open_fields") or {}
+    if not isinstance(open_fields, dict):
+        open_fields = {}
+    scope_text = str(block.get("scopeclosed") or "").strip()
+    if not block.get("has_scope") or not scope_text:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G6",
+            "FAIL",
+            "positiveDiscovery has empty scopeclosed text",
+        ))
+    elif not _has_structured_scope_seal(open_fields):
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G6",
+            "FAIL",
+            "positiveDiscovery lacks structured scope seal",
+            details={"scopeclosed": scope_text[:240]},
+        ))
+    else:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "G6",
+            "PASS",
+            "scopeclosed text and structured scope seal are present",
+        ))
+
+    witness_hits = discovery_gate_witness_hits(
+        block,
+        target,
+        candidate_targets,
+        sieve_profile,
+        integrity_site,
+        integrity_violations,
+        gate_witnesses,
+    )
+    if witness_hits:
+        gates.append(_assert_gate_item(
+            block,
+            target,
+            "W",
+            "FAIL",
+            "kernel-grounded negative witness registry refutes this positiveDiscovery assertion",
+            details={"witnesses": witness_hits},
+        ))
+
+    failed = [gate for gate in gates if gate["status"] == "FAIL"]
+    deferred = [gate for gate in gates if gate["status"] == "DEFERRED"]
+    status = "FAIL" if failed else "PASS"
+    return {
+        "file": block["file"],
+        "line": block["line"],
+        "region": f"{block['region']}Up",
+        "claim_kind": "positiveDiscovery",
+        "target": target,
+        "candidate_targets": candidate_targets,
+        "status": status,
+        "gates": gates,
+        "failed_gates": [str(gate["gate"]) for gate in failed],
+        "deferred_gates": [str(gate["gate"]) for gate in deferred],
+    }
+
+
+def discovery_assert_gate_payload(
+    blocks: list[dict],
+    lean_scan: LeanSourceScan,
+    discovery_integrity: dict[str, object],
+    sieve_payload: dict[str, object] | None = None,
+) -> dict[str, object]:
+    declaration_headers = lean_scan.declaration_headers
+    declaration_bodies = lean_scan.declaration_bodies
+    symbol_kinds = _symbol_kind_map(lean_scan.declarations)
+    positive_blocks: list[tuple[dict, str, list[str], tuple[str, int, str]]] = []
+    asserted_sites: list[dict[str, object]] = []
+    informational_sites: list[dict[str, object]] = []
+    failures: list[dict[str, object]] = []
+    status_counts: Counter[str] = Counter()
+    gate_witnesses, witness_diagnostics = load_discovery_gate_witnesses()
+
     for block in blocks:
         if block.get("error"):
             continue
-        open_fields = block.get("open_fields") or {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
-        if claim_kind != "positiveDiscovery":
+        claim_kind = _block_discovery_claim_kind(block)
+        if claim_kind in {"conjecturedDiscovery", "refutedDiscovery"}:
+            informational_sites.append({
+                "file": block["file"],
+                "line": block["line"],
+                "region": f"{block['region']}Up",
+                "claim_kind": claim_kind,
+                "target": _normalize_lean_target(block.get("lean_target")),
+                "reason": "not asserted; recorded for audit visibility only",
+                "gate_status": "informational",
+            })
             continue
-        targets: list[str] = []
-        gate = str(open_fields.get("closuregate", "")).replace(r"\_", "_").strip()
-        lean_target = str(block.get("lean_target") or "").replace(r"\_", "_").strip()
-        for raw in (gate, lean_target):
-            if raw and raw not in targets:
-                targets.append(raw)
-        matches = [
-            {
-                "target": target,
-                "evidence_kind": evidence_kind,
-            }
-            for target in targets
-            if (
-                evidence_kind := _positive_discovery_evidence_kind(
-                    target,
-                    symbol_kinds,
-                    declaration_headers,
+        if claim_kind not in ASSERTED_DISCOVERY_CLAIM_KINDS:
+            continue
+        target, candidate_targets = _positive_discovery_assertion_target(
+            block,
+            declaration_headers,
+        )
+        locus = (block["file"], int(block["line"]), f"{block['region']}Up")
+        positive_blocks.append((block, target, candidate_targets, locus))
+
+    profiles_by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    profiles_by_target: dict[str, dict[str, object]] = {}
+    integrity_by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    integrity_violations: dict[tuple[str, int, str], list[dict[str, object]]] = {}
+    kernel_checks: dict[str, KernelAssertionCheck] = {}
+    if positive_blocks:
+        sieve = sieve_payload or discovery_sieve_payload(
+            blocks,
+            lean_scan.discovery_delta_ledgers,
+            declaration_headers,
+            declaration_bodies,
+        )
+        profiles_by_locus, profiles_by_target = _sieve_profiles_by_locus(sieve)
+        integrity_by_locus = _integrity_sites_by_locus(discovery_integrity)
+        integrity_violations = _integrity_violations_by_locus(discovery_integrity)
+        kernel_targets: set[str] = {
+            target for _block, target, _candidates, _locus in positive_blocks if target
+        }
+        for _block, target, _candidates, locus in positive_blocks:
+            profile = profiles_by_locus.get(locus) or (profiles_by_target.get(target) if target else None)
+            profile_data = (profile or {}).get("sieve_profile") or {}
+            if isinstance(profile_data, dict):
+                kernel_targets.update(
+                    str(support)
+                    for support in profile_data.get("support_targets", []) or []
+                    if str(support)
                 )
+        kernel_checks = _kernel_assertion_checks(kernel_targets, lean_scan)
+
+    for block, target, candidate_targets, locus in positive_blocks:
+        sieve_profile = profiles_by_locus.get(locus) or (profiles_by_target.get(target) if target else None)
+        site = _discovery_assert_gate_site(
+            block,
+            target,
+            candidate_targets,
+            sieve_profile,
+            integrity_by_locus.get(locus),
+            integrity_violations.get(locus, []),
+            symbol_kinds,
+            declaration_headers,
+            declaration_bodies,
+            kernel_checks,
+            gate_witnesses,
+        )
+        asserted_sites.append(site)
+        status_counts[str(site["status"])] += 1
+        if site["status"] == "FAIL":
+            for gate in site["gates"]:
+                if gate.get("status") != "FAIL":
+                    continue
+                failure = dict(gate)
+                failure["message"] = (
+                    f"{gate['file']}:{gate['line']} {gate['region']} "
+                    f"positiveDiscovery assertion failed {gate['gate']}: {gate['reason']}"
+                )
+                failures.append(failure)
+
+    return {
+        "schema": "bedc.discovery_assert_gate",
+        "semantics": DISCOVERY_ASSERT_GATE_SEMANTICS,
+        "gate": "blocking_for_positiveDiscovery_assertions",
+        "rules": [
+            {"gate": gate, "description": description}
+            for gate, description in DISCOVERY_ASSERT_GATE_RULES
+        ],
+        "asserted_count": len(asserted_sites),
+        "conjectured_count": sum(
+            1 for item in informational_sites
+            if item["claim_kind"] == "conjecturedDiscovery"
+        ),
+        "refuted_count": sum(
+            1 for item in informational_sites
+            if item["claim_kind"] == "refutedDiscovery"
+        ),
+        "informational_count": len(informational_sites),
+        "status_counts": dict(sorted(status_counts.items())),
+        "failure_count": len(failures),
+        "failures": failures,
+        "asserted_sites": asserted_sites,
+        "informational_sites": informational_sites,
+        "witness_registry_path": str(DISCOVERY_GATE_WITNESS_REGISTRY_PATH.relative_to(REPO_ROOT)),
+        "witness_count": len(gate_witnesses),
+        "witness_registry_diagnostics": witness_diagnostics,
+        "witness_registry_diagnostic_count": len(witness_diagnostics),
+    }
+
+
+DISCOVERY_RADAR_SEMANTICS: dict[str, object] = {
+    "valid_use": "discovery_candidate_surface_and_rank_only",
+    "ranking": (
+        "heuristic surface-and-rank; passing or high rank is not a certified "
+        "discovery"
+    ),
+    "sound_boundary": "only refuted is sound negative evidence",
+    "novelty_distance": (
+        "novelty-distance ranking deferred; current novelty signal = binary "
+        "reconstruction-or-not from Phase A"
+    ),
+    "disagreement_tiers": {
+        "kernel_checked_DisagreementSupport": "sound",
+        "text_reach_or_semantic_anchor": "heuristic",
+    },
+    "side_effects": "informational only; does not emit or edit closureclaimkind",
+    "corpus_boundary": (
+        "classifier endpoints detected from Lean declaration headers; full corpus "
+        "fingerprinting and pairwise refinement run only for audit --json and "
+        "discovery-radar"
+    ),
+}
+
+DISCOVERY_RADAR_CORPUS_SCAN_CAP = 2000
+DISCOVERY_RADAR_REFINEMENT_PAIR_CAP = 2500
+DISCOVERY_RADAR_CONJECTURED_CAP = 100
+DISCOVERY_RADAR_REFINEMENT_DEPTH_SCORE_CAP = 5
+
+DISCOVERY_RADAR_RISK_TAG_WEIGHTS = {
+    "smoke_template_reuse": 2.0,
+    "trivial_classifier": 2.0,
+    "target_substring_evidence": 1.5,
+    "duplicate_of_existing": 1.5,
+    "constructor_only_disagreement": 1.0,
+}
+
+DISCOVERY_RADAR_WEIGHTS = {
+    "refinement_depth": 2.0,
+    "nontriviality": 1.0,
+    "risk_penalty": 1.0,
+    "kernel_checked_disagreement_boost": 2.0,
+}
+
+DISCOVERY_RADAR_STATE_PRIORITY = {
+    "refuted": 0,
+    "assertion_eligible": 1,
+    "conjectured": 2,
+}
+
+
+def _radar_locus_key(item: dict[str, object]) -> tuple[str, int, str]:
+    return (
+        str(item.get("file") or item.get("file_paper") or ""),
+        int(item.get("line") or 0),
+        str(item.get("region") or ""),
+    )
+
+
+def _radar_profile_indexes(
+    sieve_payload: dict[str, object],
+) -> tuple[dict[str, dict[str, object]], dict[tuple[str, int, str], dict[str, object]]]:
+    by_target: dict[str, dict[str, object]] = {}
+    by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    for profile in sieve_payload.get("targets", []):
+        if not isinstance(profile, dict):
+            continue
+        target = str(profile.get("target") or "")
+        if target:
+            by_target.setdefault(target, profile)
+        locus = _radar_locus_key(profile)
+        if locus[0] and locus[1]:
+            by_locus.setdefault(locus, profile)
+    return by_target, by_locus
+
+
+def _radar_assert_gate_indexes(
+    assert_gate_payload: dict[str, object],
+) -> tuple[dict[str, dict[str, object]], dict[tuple[str, int, str], dict[str, object]]]:
+    by_target: dict[str, dict[str, object]] = {}
+    by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
+    for site in assert_gate_payload.get("asserted_sites", []):
+        if not isinstance(site, dict):
+            continue
+        target = str(site.get("target") or "")
+        if target:
+            by_target.setdefault(target, site)
+        locus = _radar_locus_key(site)
+        if locus[0] and locus[1]:
+            by_locus.setdefault(locus, site)
+    return by_target, by_locus
+
+
+def _radar_extra_conjunct_count(entry: dict[str, object]) -> int | None:
+    if "extra_conjunct_count" not in entry:
+        return None
+    try:
+        return int(entry.get("extra_conjunct_count") or 0)
+    except (TypeError, ValueError):
+        return None
+
+
+def _radar_provenance_summary(
+    provenance: Iterable[dict[str, object]],
+) -> dict[str, object]:
+    reconstruction_priors: set[str] = set()
+    zero_refinement_priors: set[str] = set()
+    nontrivial_refinements: list[dict[str, object]] = []
+    max_depth = 0
+    for entry in provenance:
+        relation = str(entry.get("relation") or "")
+        prior = str(entry.get("prior") or "")
+        extra_count = _radar_extra_conjunct_count(entry)
+        if (
+            relation == "reconstruction"
+            and prior
+            and str(entry.get("evidence") or "") == "canonical_payload_equal"
+        ):
+            reconstruction_priors.add(prior)
+        if relation == "conjunctive_refinement":
+            if extra_count == 0 and prior:
+                zero_refinement_priors.add(prior)
+            elif extra_count is not None and extra_count > 0:
+                max_depth = max(max_depth, extra_count)
+                nontrivial_refinements.append(dict(entry))
+    return {
+        "reconstruction_priors": sorted(reconstruction_priors),
+        "zero_refinement_priors": sorted(zero_refinement_priors),
+        "refinement_depth": max_depth,
+        "nontrivial_refinements": nontrivial_refinements,
+    }
+
+
+def _radar_sieve_risk(profile: dict[str, object] | None) -> tuple[list[str], float]:
+    if not profile:
+        return [], 0.0
+    profile_data = profile.get("sieve_profile") or {}
+    reason_tags = list(profile_data.get("reason_tags", [])) if isinstance(profile_data, dict) else []
+    witness_tags = [
+        str(witness.get("reason_tag"))
+        for witness in profile.get("negative_witnesses", []) or []
+        if isinstance(witness, dict) and str(witness.get("reason_tag") or "")
+    ]
+    tags = sorted(set(str(tag) for tag in reason_tags + witness_tags if str(tag)))
+    penalty = sum(_radar_risk_tag_weight(tag) for tag in tags)
+    return tags, penalty
+
+
+def _radar_normalized_tag(text: object) -> str:
+    return re.sub(r"[^a-z0-9]+", "_", str(text or "").lower()).strip("_")
+
+
+def _radar_risk_tag_weight(tag: object) -> float:
+    normalized = _radar_normalized_tag(tag)
+    if not normalized:
+        return 0.0
+    weight = 0.0
+    for canonical, canonical_weight in DISCOVERY_RADAR_RISK_TAG_WEIGHTS.items():
+        normalized_canonical = _radar_normalized_tag(canonical)
+        if (
+            normalized == normalized_canonical
+            or normalized_canonical in normalized
+            or normalized in normalized_canonical
+        ):
+            weight = max(weight, canonical_weight)
+    if any(term in normalized for term in ("smoke", "template")):
+        weight = max(weight, DISCOVERY_RADAR_RISK_TAG_WEIGHTS["smoke_template_reuse"])
+    if "trivial" in normalized:
+        weight = max(weight, DISCOVERY_RADAR_RISK_TAG_WEIGHTS["trivial_classifier"])
+    return weight
+
+
+def _radar_checked_disagreement_supports(
+    assert_site: dict[str, object] | None,
+) -> list[dict[str, object]]:
+    if not assert_site:
+        return []
+    checked: list[dict[str, object]] = []
+    for gate in assert_site.get("gates", []) or []:
+        if not isinstance(gate, dict):
+            continue
+        if gate.get("gate") != "G4" or gate.get("status") != "PASS":
+            continue
+        details = gate.get("details") or {}
+        if not isinstance(details, dict):
+            continue
+        for support in details.get("checked_disagreement_supports", []) or []:
+            if isinstance(support, dict):
+                checked.append(dict(support))
+    return checked
+
+
+def _radar_has_heuristic_disagreement(profile: dict[str, object] | None) -> bool:
+    profile_data = (profile or {}).get("sieve_profile") or {}
+    if not isinstance(profile_data, dict):
+        return False
+    return any(
+        bool(profile_data.get(field))
+        for field in (
+            "support_targets",
+            "semantic_anchors",
+            "support_anchors",
+            "support_reachable",
+            "public_semantic_endpoint",
+        )
+    )
+
+
+def _radar_candidate_score(
+    refinement_depth: int,
+    nontriviality: float,
+    risk_penalty: float,
+    kernel_boost: float,
+) -> tuple[float, dict[str, object]]:
+    weights = DISCOVERY_RADAR_WEIGHTS
+    bounded_depth = min(max(refinement_depth, 0), DISCOVERY_RADAR_REFINEMENT_DEPTH_SCORE_CAP)
+    score = (
+        weights["refinement_depth"] * bounded_depth
+        + weights["nontriviality"] * nontriviality
+        + weights["kernel_checked_disagreement_boost"] * kernel_boost
+        - weights["risk_penalty"] * risk_penalty
+    )
+    return round(score, 4), {
+        "weights": dict(weights),
+        "refinement_depth": refinement_depth,
+        "bounded_refinement_depth": bounded_depth,
+        "refinement_depth_score_cap": DISCOVERY_RADAR_REFINEMENT_DEPTH_SCORE_CAP,
+        "nontriviality": nontriviality,
+        "kernel_checked_disagreement_boost": kernel_boost,
+        "risk_penalty": risk_penalty,
+    }
+
+
+def _radar_add_or_merge(
+    rows: dict[tuple[str, str, int, str], dict[str, object]],
+    row: dict[str, object],
+) -> None:
+    key = (
+        str(row.get("target") or ""),
+        str(row.get("file") or ""),
+        int(row.get("line") or 0),
+        str(row.get("region") or ""),
+    )
+    existing = rows.get(key)
+    if existing is None:
+        rows[key] = row
+        return
+    for field in ("sources", "before_classifiers", "candidate_classifiers", "evidence"):
+        current = existing.get(field)
+        incoming = row.get(field)
+        if isinstance(current, list) and isinstance(incoming, list):
+            merged: list[object] = []
+            for item in current + incoming:
+                if item not in merged:
+                    merged.append(item)
+            existing[field] = merged
+    for field in ("ledger", "chapter_key", "claim_kind"):
+        if not existing.get(field) and row.get(field):
+            existing[field] = row[field]
+
+
+def _radar_corpus_mined_rows(
+    lean_scan: LeanSourceScan,
+    *,
+    run_pairwise: bool,
+    corpus_scan_cap: int = DISCOVERY_RADAR_CORPUS_SCAN_CAP,
+    pair_cap: int = DISCOVERY_RADAR_REFINEMENT_PAIR_CAP,
+) -> tuple[list[dict[str, object]], dict[str, object]]:
+    classifier_names_all = _classifier_endpoint_names(lean_scan.declaration_headers)
+    corpus_names = classifier_names_all[:corpus_scan_cap]
+    corpus_truncated = len(classifier_names_all) > len(corpus_names)
+    expr_fingerprints = _run_structural_dna_expr_fingerprints(corpus_names) if corpus_names else {}
+    fingerprint_names = sorted(
+        name for name in corpus_names if _discovery_endpoint_canonical_payload(name, expr_fingerprints)
+    )
+    fp_buckets: dict[str, list[str]] = {}
+    for name in fingerprint_names:
+        payload = _discovery_endpoint_canonical_payload(name, expr_fingerprints)
+        if payload:
+            fp_buckets.setdefault(payload, []).append(name)
+
+    rows: list[dict[str, object]] = []
+    seen_targets: set[str] = set()
+    for canonical_payload, names in sorted(fp_buckets.items(), key=lambda item: (item[0], item[1])):
+        if len(names) < 2:
+            continue
+        prior = sorted(names)[0]
+        for target in sorted(names)[1:]:
+            seen_targets.add(target)
+            target_fp = _discovery_endpoint_reduced_fp(target, expr_fingerprints)
+            prior_fp = _discovery_endpoint_reduced_fp(prior, expr_fingerprints)
+            rows.append({
+                "target": target,
+                "file": "",
+                "line": 0,
+                "region": "",
+                "chapter_key": "",
+                "claim_kind": "",
+                "ledger": "",
+                "sources": ["classifier_corpus.canonical_payload"],
+                "before_classifiers": [prior],
+                "candidate_classifiers": [target],
+                "provenance": [{
+                    "candidate": target,
+                    "prior": prior,
+                    "relation": "reconstruction",
+                    "prior_scope": "classifier_corpus_canonical_payload_bucket",
+                    "candidate_reduced_fp": target_fp,
+                    "reduced_fp": prior_fp,
+                    "candidate_canonical_payload": canonical_payload,
+                    "prior_canonical_payload": canonical_payload,
+                    "canonical_payload": canonical_payload,
+                    "evidence": "canonical_payload_equal",
+                    "kernel_grounded": True,
+                    "soundness": "canonical_payload_equal",
+                }],
+                "phase_a_resolution_status": "resolved",
+                "phase_a_locus": ("", 0, ""),
+                "corpus_mined": True,
+            })
+
+    relation_entries: list[dict[str, object]] = []
+    relation_unavailable: dict[str, object] | None = None
+    pair_count = 0
+    pair_truncated = False
+    if run_pairwise and len(fingerprint_names) >= 2:
+        pair_count = len(fingerprint_names) * (len(fingerprint_names) - 1)
+        pair_truncated = pair_count > pair_cap
+        endpoint_cap = max(2, int(pair_cap ** 0.5))
+        relation_names = fingerprint_names[:endpoint_cap]
+        relation_entries, relation_unavailable = _run_structural_dna_relations(
+            relation_names,
+            relation_names,
+        )
+        for relation in relation_entries:
+            candidate = str(relation.get("candidate") or "")
+            prior = str(relation.get("prior") or "")
+            extra_count = _radar_extra_conjunct_count(relation)
+            if not candidate or not prior or candidate in seen_targets:
+                continue
+            if extra_count is None or extra_count <= 0:
+                continue
+            seen_targets.add(candidate)
+            rows.append({
+                "target": candidate,
+                "file": "",
+                "line": 0,
+                "region": "",
+                "chapter_key": "",
+                "claim_kind": "",
+                "ledger": "",
+                "sources": ["classifier_corpus.conjunctive_refinement"],
+                "before_classifiers": [prior],
+                "candidate_classifiers": [candidate],
+                "provenance": [dict(relation)],
+                "phase_a_resolution_status": "resolved",
+                "phase_a_locus": ("", 0, ""),
+                "corpus_mined": True,
+            })
+
+    meta: dict[str, object] = {
+        "classifier_endpoint_count": len(classifier_names_all),
+        "fingerprint_count": len(expr_fingerprints),
+        "source_surface_count": 0,
+        "corpus_mined_count": len(rows),
+        "corpus_scan_cap": corpus_scan_cap,
+        "corpus_truncated": corpus_truncated,
+        "pairwise_refinement_enabled": run_pairwise,
+        "pairwise_refinement_pair_count": pair_count,
+        "pairwise_refinement_pair_cap": pair_cap,
+        "pairwise_refinement_truncated": pair_truncated,
+    }
+    if relation_unavailable is not None:
+        meta["pairwise_refinement_unavailable"] = relation_unavailable
+    return rows, meta
+
+
+def _radar_conjectured_fingerprint(candidate: dict[str, object]) -> str:
+    phase_a = candidate.get("phase_a") if isinstance(candidate.get("phase_a"), dict) else {}
+    priors = phase_a.get("reconstruction_priors", []) if isinstance(phase_a, dict) else []
+    phase_b = candidate.get("phase_b") if isinstance(candidate.get("phase_b"), dict) else {}
+    refinements = phase_b.get("nontrivial_refinements", []) if isinstance(phase_b, dict) else []
+    evidence = candidate.get("evidence", [])
+    return hashlib.sha256(json.dumps({
+        "target": candidate.get("target", ""),
+        "candidate_classifiers": candidate.get("candidate_classifiers", []),
+        "risk_tags": candidate.get("risk_tags", []),
+        "disagreement_signal_tier": candidate.get("disagreement_signal_tier", ""),
+        "reconstruction_priors": priors,
+        "nontrivial_refinements": refinements,
+        "evidence": evidence,
+    }, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def _radar_cap_conjectured_candidates(
+    candidates: list[dict[str, object]],
+    *,
+    cap: int = DISCOVERY_RADAR_CONJECTURED_CAP,
+) -> tuple[list[dict[str, object]], int]:
+    non_conjectured = [
+        item for item in candidates if str(item.get("state")) != "conjectured"
+    ]
+    conjectured = [
+        item for item in candidates if str(item.get("state")) == "conjectured"
+    ]
+    unique_by_fp: dict[str, dict[str, object]] = {}
+    dropped = 0
+    for item in sorted(
+        conjectured,
+        key=lambda row: (-float(row.get("score") or 0.0), str(row.get("target") or "")),
+    ):
+        fp = _radar_conjectured_fingerprint(item)
+        if fp in unique_by_fp:
+            dropped += 1
+            continue
+        copied = dict(item)
+        copied["candidate_fingerprint"] = fp
+        unique_by_fp[fp] = copied
+    kept_conjectured = list(unique_by_fp.values())[:cap]
+    dropped += max(0, len(unique_by_fp) - cap)
+    return non_conjectured + kept_conjectured, dropped
+
+
+def discovery_production_radar_payload(
+    blocks: list[dict],
+    lean_scan: LeanSourceScan,
+    *,
+    discovery_integrity: dict[str, object] | None = None,
+    sieve_payload: dict[str, object] | None = None,
+    discovery_assert_gate: dict[str, object] | None = None,
+    full_corpus_scan: bool = False,
+) -> dict[str, object]:
+    sieve = sieve_payload or discovery_sieve_payload(
+        blocks,
+        lean_scan.discovery_delta_ledgers,
+        lean_scan.declaration_headers,
+        lean_scan.declaration_bodies,
+    )
+    integrity = discovery_integrity or discovery_integrity_payload(blocks, lean_scan)
+    assert_gate = discovery_assert_gate or discovery_assert_gate_payload(
+        blocks,
+        lean_scan,
+        integrity,
+        sieve_payload=sieve,
+    )
+    profile_by_target, profile_by_locus = _radar_profile_indexes(sieve)
+    assert_by_target, assert_by_locus = _radar_assert_gate_indexes(assert_gate)
+    rows: dict[tuple[str, str, int, str], dict[str, object]] = {}
+
+    for site in integrity.get("sites", []) or []:
+        if not isinstance(site, dict):
+            continue
+        locus = _radar_locus_key(site)
+        candidates = [
+            str(target)
+            for target in site.get("declared_new_classifiers", []) or []
+            if str(target)
+        ]
+        if not candidates:
+            ledger = str(site.get("ledger") or "")
+            if ledger:
+                candidates = [ledger]
+        for target in candidates:
+            provenance = [
+                dict(item)
+                for item in site.get("provenance", []) or []
+                if isinstance(item, dict)
+                and (
+                    not str(item.get("candidate") or "")
+                    or str(item.get("candidate") or "") == target
+                )
+            ]
+            _radar_add_or_merge(rows, {
+                "target": target,
+                "file": site.get("file") or "",
+                "line": int(site.get("line") or 0),
+                "region": str(site.get("region") or ""),
+                "chapter_key": site.get("chapter_key") or "",
+                "claim_kind": site.get("claim_kind") or "",
+                "ledger": site.get("ledger") or "",
+                "sources": list(site.get("sources", [])) + ["discovery_integrity"],
+                "before_classifiers": list(site.get("before_classifiers", [])),
+                "candidate_classifiers": list(site.get("declared_new_classifiers", [])),
+                "provenance": provenance,
+                "phase_a_resolution_status": site.get("resolution_status") or "",
+                "phase_a_locus": locus,
+            })
+
+    source_surface_count = len(rows)
+
+    for profile in sieve.get("targets", []) or []:
+        if not isinstance(profile, dict):
+            continue
+        target = str(profile.get("target") or "")
+        if not target:
+            continue
+        _radar_add_or_merge(rows, {
+            "target": target,
+            "file": profile.get("file") or "",
+            "line": int(profile.get("line") or 0),
+            "region": str(profile.get("region") or ""),
+            "chapter_key": _region_to_chapter_key(profile.get("region")),
+            "claim_kind": "",
+            "ledger": "",
+            "sources": list(profile.get("sources", [])) + ["discovery_sieve"],
+            "before_classifiers": [],
+            "candidate_classifiers": [target],
+            "provenance": [],
+            "phase_a_resolution_status": "",
+            "phase_a_locus": _radar_locus_key(profile),
+        })
+
+    for site in assert_gate.get("asserted_sites", []) or []:
+        if not isinstance(site, dict):
+            continue
+        target = str(site.get("target") or "")
+        if not target:
+            continue
+        _radar_add_or_merge(rows, {
+            "target": target,
+            "file": site.get("file") or "",
+            "line": int(site.get("line") or 0),
+            "region": str(site.get("region") or ""),
+            "chapter_key": _region_to_chapter_key(site.get("region")),
+            "claim_kind": site.get("claim_kind") or "positiveDiscovery",
+            "ledger": "",
+            "sources": ["discovery_assert_gate"],
+            "before_classifiers": [],
+            "candidate_classifiers": [target],
+            "provenance": [],
+            "phase_a_resolution_status": "",
+            "phase_a_locus": _radar_locus_key(site),
+        })
+
+    source_surface_count = max(source_surface_count, len(rows))
+    if full_corpus_scan:
+        corpus_rows, corpus_meta = _radar_corpus_mined_rows(
+            lean_scan,
+            run_pairwise=True,
+        )
+        for row in corpus_rows:
+            _radar_add_or_merge(rows, row)
+    else:
+        classifier_names = _classifier_endpoint_names(lean_scan.declaration_headers)
+        corpus_meta = {
+            "classifier_endpoint_count": len(classifier_names),
+            "fingerprint_count": int(integrity.get("fingerprint_count", 0) or 0),
+            "source_surface_count": source_surface_count,
+            "corpus_mined_count": 0,
+            "corpus_scan_cap": DISCOVERY_RADAR_CORPUS_SCAN_CAP,
+            "corpus_truncated": len(classifier_names) > DISCOVERY_RADAR_CORPUS_SCAN_CAP,
+            "pairwise_refinement_enabled": False,
+            "pairwise_refinement_pair_count": 0,
+            "pairwise_refinement_pair_cap": DISCOVERY_RADAR_REFINEMENT_PAIR_CAP,
+            "pairwise_refinement_truncated": False,
+        }
+    corpus_meta["source_surface_count"] = source_surface_count
+
+    violation_by_locus = _integrity_violations_by_locus(integrity)
+    candidates: list[dict[str, object]] = []
+
+    for row in rows.values():
+        target = str(row.get("target") or "")
+        locus = (
+            str(row.get("file") or ""),
+            int(row.get("line") or 0),
+            str(row.get("region") or ""),
+        )
+        profile = profile_by_target.get(target) or profile_by_locus.get(locus)
+        assert_site = assert_by_target.get(target) or assert_by_locus.get(locus)
+        provenance = [
+            item for item in row.get("provenance", []) or []
+            if isinstance(item, dict)
+        ]
+        provenance_summary = _radar_provenance_summary(provenance)
+        reconstruction_priors = list(provenance_summary["reconstruction_priors"])
+        zero_refinement_priors = list(provenance_summary["zero_refinement_priors"])
+        structural_violations = [
+            violation for violation in violation_by_locus.get(locus, [])
+            if violation.get("kind") == "structural_reconstruction_discovery_claim"
+            and (
+                not str(violation.get("candidate") or "")
+                or str(violation.get("candidate") or "") == target
             )
         ]
-        if matches:
-            continue
-        expected = " or ".join(("DiscoveryTasteGate", "PositiveDiscovery"))
-        target_text = ", ".join(targets) if targets else "(none)"
-        warnings.append(
-            _closurestatus_open_message(
-                block,
-                "\\closureclaimkind{positiveDiscovery} should cite a resolved "
-                f"{expected} declaration through \\closuregate or \\leantarget; "
-                f"observed {target_text}",
-            )
+        for violation in structural_violations:
+            prior = str(violation.get("prior_classifier") or "")
+            if prior and prior not in reconstruction_priors:
+                reconstruction_priors.append(prior)
+        refinement_depth = int(provenance_summary["refinement_depth"])
+        risk_tags, risk_penalty = _radar_sieve_risk(profile)
+        checked_supports = _radar_checked_disagreement_supports(assert_site)
+        kernel_boost = 1.0 if checked_supports else 0.0
+        heuristic_disagreement = _radar_has_heuristic_disagreement(profile)
+        phase_a_resolved = str(row.get("phase_a_resolution_status") or "") == "resolved"
+        phase_a_nonreconstruction = (
+            phase_a_resolved and not reconstruction_priors and not zero_refinement_priors
         )
-    return warnings
+        nontriviality = 1.0 if (
+            refinement_depth > 0 or checked_supports or phase_a_nonreconstruction
+        ) else 0.0
+        score, score_components = _radar_candidate_score(
+            refinement_depth,
+            nontriviality,
+            risk_penalty,
+            kernel_boost,
+        )
+
+        evidence: list[str] = []
+        if reconstruction_priors:
+            evidence.append("phase_a_structural_reconstruction")
+            if row.get("corpus_mined"):
+                evidence.append("classifier_corpus_canonical_payload_equal")
+        if zero_refinement_priors:
+            evidence.append("phase_b_zero_conjunct_refinement")
+        if refinement_depth > 0:
+            evidence.append("phase_b_nontrivial_conjunctive_refinement")
+        if checked_supports:
+            evidence.append("kernel_checked_DisagreementSupport")
+        if phase_a_nonreconstruction:
+            evidence.append("phase_a_binary_nonreconstruction")
+        if heuristic_disagreement:
+            evidence.append("text_reach_or_semantic_anchor")
+
+        if reconstruction_priors or zero_refinement_priors:
+            state = "refuted"
+            state_semantics = "sound negative: candidate is not a discovery"
+        elif (
+            assert_site is not None
+            and assert_site.get("status") == "PASS"
+            and (refinement_depth > 0 or checked_supports)
+        ):
+            state = "assertion_eligible"
+            state_semantics = (
+                "semi-sound surface only; eligible for human-facing review, "
+                "not an automatic positiveDiscovery assertion"
+            )
+        else:
+            state = "conjectured"
+            state_semantics = "heuristic candidate pool; no discovery assertion"
+
+        candidate = {
+            "state": state,
+            "state_semantics": state_semantics,
+            "refutation": {
+                "kernel_grounded": bool(reconstruction_priors),
+                "soundness": (
+                    "canonical_payload_equal"
+                    if reconstruction_priors else "not_kernel_grounded_refutation"
+                ),
+            } if state == "refuted" else {},
+            "target": target,
+            "file": row.get("file") or "",
+            "line": row.get("line") or 0,
+            "region": row.get("region") or "",
+            "chapter_key": row.get("chapter_key") or "",
+            "claim_kind": row.get("claim_kind") or "",
+            "sources": sorted(set(str(source) for source in row.get("sources", []) if str(source))),
+            "before_classifiers": row.get("before_classifiers", []),
+            "candidate_classifiers": row.get("candidate_classifiers", []),
+            "ledger": row.get("ledger") or "",
+            "score": score,
+            "score_semantics": "heuristic ranking only; not probability and not certification",
+            "score_components": score_components,
+            "refinement_depth": refinement_depth,
+            "risk_tags": risk_tags,
+            "risk_penalty": risk_penalty,
+            "disagreement_signal_tier": (
+                "kernel_checked_DisagreementSupport"
+                if checked_supports else (
+                    "text_reach_or_semantic_anchor" if heuristic_disagreement else "none"
+                )
+            ),
+            "checked_disagreement_supports": checked_supports,
+            "phase_a": {
+                "resolution_status": row.get("phase_a_resolution_status") or "",
+                "binary_novelty_signal": (
+                    "nonreconstruction"
+                    if phase_a_nonreconstruction else (
+                        "reconstruction" if reconstruction_priors else "not_evaluated"
+                    )
+                ),
+                "reconstruction_priors": sorted(reconstruction_priors),
+            },
+            "provenance": provenance,
+            "phase_b": {
+                "zero_refinement_priors": sorted(zero_refinement_priors),
+                "nontrivial_refinements": provenance_summary["nontrivial_refinements"],
+            },
+            "evidence": sorted(set(evidence)),
+            "valid_use": DISCOVERY_RADAR_SEMANTICS["valid_use"],
+        }
+        candidates.append(candidate)
+
+    candidates, dropped_count = _radar_cap_conjectured_candidates(candidates)
+    candidates.sort(
+        key=lambda item: (
+            DISCOVERY_RADAR_STATE_PRIORITY.get(str(item.get("state")), 99),
+            -float(item.get("score") or 0.0),
+            str(item.get("target") or ""),
+        )
+    )
+    for rank, item in enumerate(candidates, start=1):
+        item["rank"] = rank
+    state_counts = Counter(str(item.get("state") or "") for item in candidates)
+
+    return {
+        "informational": True,
+        "schema": "bedc.discovery_production_radar",
+        "semantics": DISCOVERY_RADAR_SEMANTICS,
+        "weights": DISCOVERY_RADAR_WEIGHTS,
+        "classifier_endpoint_count": int(corpus_meta["classifier_endpoint_count"]),
+        "fingerprint_count": int(corpus_meta["fingerprint_count"]),
+        "source_surface_count": int(corpus_meta["source_surface_count"]),
+        "corpus_mined_count": int(corpus_meta["corpus_mined_count"]),
+        "corpus_scan_cap": int(corpus_meta["corpus_scan_cap"]),
+        "corpus_truncated": bool(corpus_meta["corpus_truncated"]),
+        "pairwise_refinement_enabled": bool(corpus_meta["pairwise_refinement_enabled"]),
+        "pairwise_refinement_pair_count": int(corpus_meta["pairwise_refinement_pair_count"]),
+        "pairwise_refinement_pair_cap": int(corpus_meta["pairwise_refinement_pair_cap"]),
+        "pairwise_refinement_truncated": bool(corpus_meta["pairwise_refinement_truncated"]),
+        "pairwise_refinement_unavailable": corpus_meta.get("pairwise_refinement_unavailable"),
+        "conjectured_cap": DISCOVERY_RADAR_CONJECTURED_CAP,
+        "dropped_count": dropped_count,
+        "candidate_count": len(candidates),
+        "state_counts": {
+            state: int(state_counts.get(state, 0))
+            for state in ("refuted", "assertion_eligible", "conjectured")
+        },
+        "refuted_count": int(state_counts.get("refuted", 0)),
+        "assertion_eligible_count": int(state_counts.get("assertion_eligible", 0)),
+        "conjectured_count": int(state_counts.get("conjectured", 0)),
+        "candidates": candidates,
+    }
 
 
 CONSTRUCTOR_SEPARATION_TERMS = (
@@ -3960,7 +6051,7 @@ def _classifier_shift_target_names(
         if block.get("error"):
             continue
         open_fields = block.get("open_fields") or {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         gate = _normalize_lean_target(open_fields.get("closuregate"))
         lean_target = _normalize_lean_target(block.get("lean_target"))
         for target in (gate, lean_target):
@@ -4116,6 +6207,7 @@ def _run_structural_dna_expr_fingerprints(
         const_fp = str(payload.get("const_fp") or "")
         eta_value_fp = str(payload.get("eta_value_fp") or "")
         reduced_fingerprint = str(payload.get("reduced_fingerprint") or "")
+        canonical_reduced_payload = str(payload.get("canonical_reduced_payload") or "")
         if fingerprint:
             out[str(decl)] = ExprFingerprint(
                 fingerprint=fingerprint,
@@ -4124,6 +6216,7 @@ def _run_structural_dna_expr_fingerprints(
                 const_fp=const_fp,
                 eta_value_fp=eta_value_fp,
                 reduced_fingerprint=reduced_fingerprint,
+                canonical_reduced_payload=canonical_reduced_payload,
             )
     return out
 
@@ -5740,7 +7833,7 @@ def _discovery_sieve_sites(
         if block.get("error"):
             continue
         open_fields = block.get("open_fields") or {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         gate = _normalize_lean_target(open_fields.get("closuregate"))
         lean_target = _normalize_lean_target(block.get("lean_target"))
         ledger_target = _normalize_lean_target(open_fields.get("closureledger"))
@@ -5792,7 +7885,7 @@ def discovery_sieve_payload(
         block = blocks_for_target[0] if blocks_for_target else None
         open_fields = block.get("open_fields") if block else {}
         open_fields = open_fields if isinstance(open_fields, dict) else {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         region = f"{block['region']}Up" if block else (
             f"{ledger_by_name[target].chapter_region}Up" if target in ledger_by_name
             else target.rsplit(".", 1)[-1]
@@ -6258,7 +8351,27 @@ def _discovery_endpoint_reduced_fp(
     fp = expr_fingerprints.get(name)
     if fp is None:
         return ""
-    return fp.reduced_fingerprint or fp.value_fp or fp.fingerprint
+    return fp.reduced_fingerprint
+
+
+def _discovery_endpoint_canonical_payload(
+    name: str,
+    expr_fingerprints: dict[str, ExprFingerprint],
+) -> str:
+    fp = expr_fingerprints.get(name)
+    if fp is None:
+        return ""
+    return fp.canonical_reduced_payload
+
+
+def _canonical_payloads_equal(
+    left: str,
+    right: str,
+    expr_fingerprints: dict[str, ExprFingerprint],
+) -> bool:
+    left_payload = _discovery_endpoint_canonical_payload(left, expr_fingerprints)
+    right_payload = _discovery_endpoint_canonical_payload(right, expr_fingerprints)
+    return bool(left_payload and right_payload and left_payload == right_payload)
 
 
 DISCOVERY_INTEGRITY_SEMANTICS = (
@@ -6524,7 +8637,7 @@ def _declared_discovery_integrity_sites(
         open_fields = block.get("open_fields") or {}
         if not isinstance(open_fields, dict):
             open_fields = {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         claim_declared = claim_kind in DISCOVERY_DECLARATION_CLAIM_KINDS
         ledger_target = ""
         ledger: DiscoveryDeltaLedgerRecord | None = None
@@ -6595,6 +8708,7 @@ def _declared_discovery_integrity_sites(
 def _discovery_provenance_entries(
     candidate: str,
     candidate_fp: str,
+    candidate_payload: str,
     prior_index: dict[str, list[str]],
     expr_fingerprints: dict[str, ExprFingerprint],
     explicit_prior_targets: Iterable[str],
@@ -6608,25 +8722,36 @@ def _discovery_provenance_entries(
         if name != candidate
     })
     reconstruction_priors = {
-        name
-        for name in prior_index.get(candidate_fp, [])
-        if name != candidate
+        name for name in prior_index.get(candidate_payload, []) if name != candidate
     }
     entries: list[dict[str, object]] = []
     for prior in prior_names:
         prior_fp = _discovery_endpoint_reduced_fp(prior, expr_fingerprints)
-        if not prior_fp:
+        prior_payload = _discovery_endpoint_canonical_payload(prior, expr_fingerprints)
+        if not prior_payload:
             continue
+        relation = "reconstruction" if prior in reconstruction_priors else "distinct"
         entries.append({
             "candidate": candidate,
             "prior": prior,
-            "relation": "reconstruction" if prior in reconstruction_priors else "distinct",
+            "relation": relation,
             "prior_scope": (
                 "explicit_before_classifier"
                 if prior in explicit_priors else "current_classifier_index"
             ),
             "candidate_reduced_fp": candidate_fp,
             "reduced_fp": prior_fp,
+            "candidate_canonical_payload": candidate_payload,
+            "prior_canonical_payload": prior_payload,
+            "canonical_payload": candidate_payload if relation == "reconstruction" else "",
+            "evidence": (
+                "canonical_payload_equal"
+                if relation == "reconstruction" else "canonical_payload_distinct"
+            ),
+            "soundness": (
+                "canonical_payload_equal"
+                if relation == "reconstruction" else "not_reconstruction"
+            ),
         })
     existing_keys = {
         (str(item.get("candidate", "")), str(item.get("prior", "")), str(item.get("relation", "")))
@@ -6642,6 +8767,7 @@ def _discovery_provenance_entries(
         if key in existing_keys:
             continue
         prior_fp = _discovery_endpoint_reduced_fp(prior, expr_fingerprints)
+        prior_payload = _discovery_endpoint_canonical_payload(prior, expr_fingerprints)
         enriched = dict(relation)
         enriched.setdefault(
             "prior_scope",
@@ -6650,6 +8776,18 @@ def _discovery_provenance_entries(
         enriched.setdefault("candidate_reduced_fp", candidate_fp)
         if prior_fp:
             enriched.setdefault("reduced_fp", prior_fp)
+        if candidate_payload:
+            enriched.setdefault("candidate_canonical_payload", candidate_payload)
+        if prior_payload:
+            enriched.setdefault("prior_canonical_payload", prior_payload)
+        if candidate_payload and prior_payload and candidate_payload == prior_payload:
+            enriched["relation"] = "reconstruction"
+            enriched["canonical_payload"] = candidate_payload
+            enriched["evidence"] = "canonical_payload_equal"
+            enriched["soundness"] = "canonical_payload_equal"
+        elif str(enriched.get("relation") or "") == "reconstruction":
+            enriched["evidence"] = "fingerprint_only_untrusted"
+            enriched["soundness"] = "fingerprint_only_untrusted"
         entries.append(enriched)
         existing_keys.add(key)
     return entries
@@ -6822,13 +8960,14 @@ def discovery_integrity_payload(
         site_checked = False
         for candidate in candidate_targets:
             candidate_fp = _discovery_endpoint_reduced_fp(candidate, expr_fingerprints)
-            if not candidate_fp:
+            candidate_payload = _discovery_endpoint_canonical_payload(candidate, expr_fingerprints)
+            if not candidate_payload:
                 note = {
                     "file": site["file"],
                     "line": site["line"],
                     "region": site["region"],
                     "target": candidate,
-                    "reason": "structural_dna_reduced_fingerprint_unavailable",
+                    "reason": "structural_dna_canonical_payload_unavailable",
                     "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
                 }
                 unavailable.append(note)
@@ -6839,6 +8978,7 @@ def discovery_integrity_payload(
             provenance = _discovery_provenance_entries(
                 candidate,
                 candidate_fp,
+                candidate_payload,
                 prior_index,
                 expr_fingerprints,
                 before_targets,
@@ -6850,7 +8990,9 @@ def discovery_integrity_payload(
             )
             site_record["provenance"].extend(provenance)
             prior_matches = [
-                item for item in provenance if item.get("relation") == "reconstruction"
+                item for item in provenance
+                if item.get("relation") == "reconstruction"
+                and item.get("evidence") == "canonical_payload_equal"
             ]
             if not prior_matches:
                 continue
@@ -6873,6 +9015,8 @@ def discovery_integrity_payload(
                 "prior_classifier": first_prior,
                 "prior_classifiers": prior_names,
                 "reduced_fingerprint": candidate_fp,
+                "canonical_payload": candidate_payload,
+                "candidate_canonical_payload": candidate_payload,
                 "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
             })
         if site_checked:
@@ -7011,9 +9155,9 @@ def _prior_classifier_fingerprint_index(
 ) -> dict[str, list[str]]:
     out: dict[str, list[str]] = {}
     for name in before_valid:
-        value_fp = _discovery_endpoint_reduced_fp(name, expr_fingerprints)
-        if value_fp:
-            out.setdefault(value_fp, []).append(name)
+        payload = _discovery_endpoint_canonical_payload(name, expr_fingerprints)
+        if payload:
+            out.setdefault(payload, []).append(name)
     for names in out.values():
         names.sort()
     return out
@@ -7105,15 +9249,15 @@ def _candidate_endpoint_pairs(
                 expr_fingerprints,
             ):
                 continue
-            before_value_fp = _discovery_endpoint_reduced_fp(before, expr_fingerprints)
-            after_value_fp = _discovery_endpoint_reduced_fp(after, expr_fingerprints)
-            if after_value_fp and before_value_fp and after_value_fp == before_value_fp:
+            before_payload = _discovery_endpoint_canonical_payload(before, expr_fingerprints)
+            after_payload = _discovery_endpoint_canonical_payload(after, expr_fingerprints)
+            if after_payload and before_payload and after_payload == before_payload:
                 continue
             prior_matches = [
-                name for name in prior_classifier_fps.get(after_value_fp, [])
+                name for name in prior_classifier_fps.get(after_payload, [])
                 if name != after
             ]
-            if after_value_fp and prior_matches:
+            if after_payload and prior_matches:
                 continue
             pairs.append((before, after, "resolved_from_closure_or_lean_declaration"))
     return pairs[:8]
@@ -7648,7 +9792,7 @@ def discovery_candidate_payload(
             continue
         open_fields = block.get("open_fields") or {}
         open_fields = open_fields if isinstance(open_fields, dict) else {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         if claim_kind in {"confirmed_composite", "mechanical_reconstruction"}:
             discarded += 1
             continue
@@ -7843,13 +9987,15 @@ def discovery_candidate_payload(
         structural_grade = str(target_dna.get("grade", "unknown"))
         structural_fingerprint = str(target_dna.get("structural_fingerprint", ""))
         after_reduced_fp = _discovery_endpoint_reduced_fp(after, discovery_expr_fps)
+        after_canonical_payload = _discovery_endpoint_canonical_payload(after, discovery_expr_fps)
         provenance = _discovery_provenance_entries(
             after,
             after_reduced_fp,
+            after_canonical_payload,
             prior_classifier_fingerprint_index,
             discovery_expr_fps,
             [before],
-        ) if after_reduced_fp else []
+        ) if after_canonical_payload else []
         stable_key = "|".join([
             _region_to_chapter_key(block.get("region")),
             "classifier_shift_candidate",
@@ -7889,6 +10035,7 @@ def discovery_candidate_payload(
             "before_classifier": before,
             "after_classifier": after,
             "after_classifier_reduced_fingerprint": after_reduced_fp,
+            "after_classifier_canonical_payload": after_canonical_payload,
             "provenance": provenance,
             "semantics": DISCOVERY_INTEGRITY_SEMANTICS,
             "endpoint_source": endpoint_source,
@@ -7918,7 +10065,8 @@ def discovery_candidate_payload(
             "lineage_risk": "lineage_unknown",
             "allowed_outcomes": [
                 "positiveDiscovery",
-                "discovery",
+                "conjecturedDiscovery",
+                "refutedDiscovery",
                 "mechanical_reconstruction",
                 "reject_candidate",
             ],
@@ -7948,7 +10096,7 @@ def discovery_candidate_payload(
     falseish = int(grade_counts.get("confirmed_composite", 0)) + int(grade_counts.get("probable_composite", 0))
     mechanical_optout = sum(
         1 for block in blocks
-        if str((block.get("open_fields") or {}).get("closureclaimkind", "")).strip()
+        if _normalize_claim_kind((block.get("open_fields") or {}).get("closureclaimkind", ""))
         in {"mechanical_reconstruction", "confirmed_composite"}
     )
     inspected = declared_candidate + mechanical_optout
@@ -8037,7 +10185,7 @@ def mechanical_optout_audit_payload(
         open_fields = block.get("open_fields") or {}
         if not isinstance(open_fields, dict):
             continue
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         if claim_kind not in {"mechanical_reconstruction", "confirmed_composite"}:
             continue
         text = "\n".join(str(open_fields.get(field, "")) for field in CLOSURESTATUS_OPEN_FIELDS)
@@ -8213,7 +10361,7 @@ def discovery_audit_payload(blocks: list[dict]) -> dict[str, object]:
 
     for block in candidates:
         open_fields = block.get("open_fields") or {}
-        claim_kind = str(open_fields.get("closureclaimkind", "")).strip()
+        claim_kind = _normalize_claim_kind(open_fields.get("closureclaimkind", ""))
         namecert = str(open_fields.get("closurenamecert", "")).strip()
         ledger = str(open_fields.get("closureledger", "")).strip()
         classifier_increment = str(open_fields.get("closureclassifierincrement", "")).strip()
@@ -8314,7 +10462,72 @@ def discovery_audit_payload(blocks: list[dict]) -> dict[str, object]:
     }
 
 
-def audit_payload() -> dict[str, object]:
+def discovery_nonasserted_hygiene_payload(blocks: list[dict]) -> dict[str, object]:
+    failures: list[dict[str, object]] = []
+    sites: list[dict[str, object]] = []
+    absent_re = re.compile(
+        r"\b(?:target|leantarget|lean target)\s*(?:absent|none|unencoded|unformalized)\b",
+        re.IGNORECASE,
+    )
+    for block in blocks:
+        if block.get("error"):
+            continue
+        claim_kind = _block_discovery_claim_kind(block)
+        if claim_kind not in {"conjecturedDiscovery", "refutedDiscovery"}:
+            continue
+        open_fields = block.get("open_fields") or {}
+        if not isinstance(open_fields, dict):
+            open_fields = {}
+        target = _normalize_lean_target(block.get("lean_target"))
+        raw_body = str(block.get("raw_body") or "")
+        target_rationale_state = "resolved" if target else (
+            "explicit_absent" if absent_re.search(raw_body) else "missing"
+        )
+        namecert = str(open_fields.get("closurenamecert", "")).strip()
+        ledger = str(open_fields.get("closureledger", "")).strip()
+        structured_rationale = str(open_fields.get("closurelineage", "")).strip()
+        if claim_kind == "refutedDiscovery":
+            structured_rationale = structured_rationale or str(open_fields.get("closureparents", "")).strip()
+        has_row_or_rationale = bool(namecert or ledger or structured_rationale)
+        gate_status = "PASS" if target_rationale_state != "missing" and has_row_or_rationale else "FAIL"
+        site = {
+            "file": block["file"],
+            "line": block["line"],
+            "region": f"{block['region']}Up",
+            "claim_kind": claim_kind,
+            "target": target,
+            "target_rationale_state": target_rationale_state,
+            "has_namecert_or_ledger_row": bool(namecert or ledger),
+            "has_structured_rationale": bool(structured_rationale),
+            "gate_status": gate_status,
+        }
+        sites.append(site)
+        if gate_status == "FAIL":
+            reasons: list[str] = []
+            if target_rationale_state == "missing":
+                reasons.append("target rationale is neither resolved nor explicitly absent")
+            if not has_row_or_rationale:
+                reasons.append("no NameCert/ledger row or structured refutation rationale")
+            failures.append({
+                **site,
+                "reason": "; ".join(reasons),
+                "message": (
+                    f"{block['file']}:{block['line']} {block['region']}Up "
+                    f"{claim_kind} lacks minimum evidence hygiene: {'; '.join(reasons)}"
+                ),
+            })
+    return {
+        "schema": "bedc.discovery_nonasserted_hygiene",
+        "gate": "blocking_hygiene_for_conjectured_and_refuted_discovery",
+        "semantics": "non-asserted discovery status hygiene; does not certify discovery truth",
+        "site_count": len(sites),
+        "failure_count": len(failures),
+        "failures": failures,
+        "sites": sites,
+    }
+
+
+def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
     changed_files = _get_commit_changed_files()
     lean_scan = scan_lean_sources()
     declarations = lean_scan.declarations
@@ -8370,7 +10583,30 @@ def audit_payload() -> dict[str, object]:
         lean_scan.declaration_headers,
         lean_scan.declaration_bodies,
     )
+    discovery_sieve = discovery_sieve_payload(
+        closurestatus_blocks,
+        discovery_delta_ledgers,
+        lean_scan.declaration_headers,
+        lean_scan.declaration_bodies,
+    )
     discovery_integrity = discovery_integrity_payload(closurestatus_blocks, lean_scan)
+    discovery_assert_gate = discovery_assert_gate_payload(
+        closurestatus_blocks,
+        lean_scan,
+        discovery_integrity,
+        sieve_payload=discovery_sieve,
+    )
+    discovery_production_radar = discovery_production_radar_payload(
+        closurestatus_blocks,
+        lean_scan,
+        discovery_integrity=discovery_integrity,
+        sieve_payload=discovery_sieve,
+        discovery_assert_gate=discovery_assert_gate,
+        full_corpus_scan=full_radar_scan,
+    )
+    discovery_nonasserted_hygiene = discovery_nonasserted_hygiene_payload(
+        closurestatus_blocks,
+    )
     closurestatus_diagnostics: list[str] = []
     closurestatus_open_warnings: list[dict[str, object]] = []
     closurestatus_open_errors: list[dict[str, object]] = []
@@ -8381,13 +10617,6 @@ def audit_payload() -> dict[str, object]:
         open_warnings, open_errors = diagnose_closurestatus_open_fields(block)
         closurestatus_open_warnings.extend(open_warnings)
         closurestatus_open_errors.extend(open_errors)
-    positive_discovery_warnings = positive_discovery_target_warnings(
-        closurestatus_blocks,
-        declarations,
-        lean_scan.declaration_headers,
-    )
-    closurestatus_open_warnings.extend(positive_discovery_warnings)
-
     orphan_concrete_subdirs = detect_orphan_concrete_subdirs()
 
     payload: dict[str, object] = {
@@ -8406,10 +10635,22 @@ def audit_payload() -> dict[str, object]:
         "mechanical_optout_audit": mechanical_optout_audit,
         "mechanical_optout_violation_count": mechanical_optout_audit["mechanical_optout_violation_count"],
         "classifier_shift_quality": classifier_shift_quality,
+        "discovery_sieve": discovery_sieve,
         "discovery_integrity": discovery_integrity,
         "discovery_integrity_violation_count": discovery_integrity["violation_count"],
-        "positive_discovery_target_warnings": positive_discovery_warnings,
-        "positive_discovery_target_warning_count": len(positive_discovery_warnings),
+        "discovery_assert_gate": discovery_assert_gate,
+        "discovery_assert_gate_failure_count": discovery_assert_gate["failure_count"],
+        "discovery_assert_gate_failures": discovery_assert_gate["failures"],
+        "discovery_gate_witness_registry_diagnostic_count": discovery_assert_gate[
+            "witness_registry_diagnostic_count"
+        ],
+        "discovery_gate_witness_registry_diagnostics": discovery_assert_gate[
+            "witness_registry_diagnostics"
+        ],
+        "discovery_production_radar": discovery_production_radar,
+        "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
+        "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
+        "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
         "theorem_dna_coverage_count": theorem_dna_coverage["covered_count"],
         "theorem_dna_stale_count": theorem_dna_stale["stale_count"],
         "leanstmt_debt": leanstmt_debt,
@@ -8450,6 +10691,18 @@ def audit_payload() -> dict[str, object]:
     _attach_discovery_integrity_violation_split(
         payload,
         list(discovery_integrity["violations"]),
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "discovery_assert_gate_failures",
+        list(discovery_assert_gate["failures"]),
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "discovery_gate_witness_registry_diagnostics",
+        list(discovery_assert_gate["witness_registry_diagnostics"]),
         changed_files,
     )
     _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
@@ -8530,7 +10783,7 @@ def report_shape_saturation(threshold: int = 3) -> int:
 def cmd_audit(args: argparse.Namespace) -> int:
     if getattr(args, "shape_saturation", False):
         return report_shape_saturation()
-    payload = audit_payload()
+    payload = audit_payload(full_radar_scan=bool(args.json))
     if args.json:
         print(json.dumps(payload, indent=2, ensure_ascii=False))
     else:
@@ -8713,6 +10966,64 @@ def cmd_audit(args: argparse.Namespace) -> int:
                     f"  informational {item['file']}:{item['line']}"
                     f" {item['region']}: {item['reason']}{target}"
                 )
+        assert_gate = payload["discovery_assert_gate"]
+        print(
+            "[bedc-ci] discovery assertion gate:"
+            f" asserted={assert_gate['asserted_count']}"
+            f" pass={assert_gate['status_counts'].get('PASS', 0)}"
+            f" failures={assert_gate['failure_count']} (BLOCKING)"
+            f" conjectured={assert_gate['conjectured_count']}"
+            f" refuted={assert_gate['refuted_count']}"
+        )
+        print(f"  semantics: {assert_gate['semantics']}")
+        if assert_gate.get("witness_registry_diagnostics"):
+            print(
+                "[bedc-ci] discovery gate witness registry diagnostics: "
+                f"{payload.get('discovery_gate_witness_registry_diagnostics_new_count', 0)} new (BLOCKING), "
+                f"{payload.get('discovery_gate_witness_registry_diagnostics_legacy_count', 0)} legacy (warning)"
+            )
+            for item in assert_gate.get("witness_registry_diagnostics", [])[:40]:
+                print(f"  {item['message']}")
+        for site in assert_gate["asserted_sites"][:20]:
+            failed = ",".join(site.get("failed_gates", [])) or "none"
+            deferred = ",".join(site.get("deferred_gates", [])) or "none"
+            print(
+                f"  asserted {site['file']}:{site['line']} {site['region']}"
+                f" target={site.get('target') or '(unresolved)'}"
+                f" status={site['status']} failed={failed} deferred={deferred}"
+            )
+        for item in assert_gate["failures"][:40]:
+            print(f"  {item['message']}")
+        if assert_gate["informational_sites"]:
+            for item in assert_gate["informational_sites"][:20]:
+                print(
+                    f"  informational {item['claim_kind']} "
+                    f"{item['file']}:{item['line']} {item['region']}: "
+                    f"{item['reason']}"
+                )
+        radar = payload["discovery_production_radar"]
+        print(
+            "[bedc-ci] discovery radar:"
+            f" scanned={radar['classifier_endpoint_count']}"
+            f" candidates={radar['candidate_count']}"
+            f" refuted={radar['refuted_count']}"
+            f" assertion_eligible={radar['assertion_eligible_count']}"
+            f" conjectured={radar['conjectured_count']}"
+            f" dropped={radar.get('dropped_count', 0)}"
+            f" mined={radar.get('corpus_mined_count', 0)}"
+            f" cap={radar.get('corpus_scan_cap', 0)}"
+            f" truncated={radar.get('corpus_truncated', False)}"
+            " (informational, surface-and-rank only)"
+        )
+        hygiene = payload["discovery_nonasserted_hygiene"]
+        if hygiene["site_count"] or hygiene["failure_count"]:
+            print(
+                "[bedc-ci] discovery non-asserted hygiene:"
+                f" sites={hygiene['site_count']}"
+                f" failures={hygiene['failure_count']} (BLOCKING)"
+            )
+            for item in hygiene["failures"][:40]:
+                print(f"  {item['message']}")
         if payload["closurestatus_open_errors"]:
             print(
                 "[bedc-ci] closurestatus open-field errors: "
@@ -8781,6 +11092,9 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["closurestatus_diagnostics_new_count"]
         + payload["closurestatus_open_errors_new_count"]
         + payload["discovery_integrity_violations_new_count"]
+        + payload["discovery_assert_gate_failure_count"]
+        + int(payload.get("discovery_gate_witness_registry_diagnostics_new_count", 0))
+        + payload["discovery_nonasserted_hygiene_failure_count"]
         + payload["orphan_concrete_subdirs_new_count"]
         + len(payload["leanstmt_debt"]["violations"])
     )
@@ -9836,6 +12150,64 @@ def cmd_structural_dna(args: argparse.Namespace) -> int:
                 print(f"  ... and {len(payload['targets']) - 120} more")
 
 
+def cmd_discovery_radar(args: argparse.Namespace) -> int:
+    blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
+    lean_scan = scan_lean_sources()
+    discovery_sieve = discovery_sieve_payload(
+        blocks,
+        lean_scan.discovery_delta_ledgers,
+        lean_scan.declaration_headers,
+        lean_scan.declaration_bodies,
+    )
+    discovery_integrity = discovery_integrity_payload(blocks, lean_scan)
+    discovery_assert_gate = discovery_assert_gate_payload(
+        blocks,
+        lean_scan,
+        discovery_integrity,
+        sieve_payload=discovery_sieve,
+    )
+    payload = discovery_production_radar_payload(
+        blocks,
+        lean_scan,
+        discovery_integrity=discovery_integrity,
+        sieve_payload=discovery_sieve,
+        discovery_assert_gate=discovery_assert_gate,
+        full_corpus_scan=True,
+    )
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            "[bedc-ci] discovery-radar (informational):"
+            f" scanned={payload['classifier_endpoint_count']}"
+            f" fingerprints={payload['fingerprint_count']}"
+            f" candidates={payload['candidate_count']}"
+            f" refuted={payload['refuted_count']}"
+            f" assertion_eligible={payload['assertion_eligible_count']}"
+            f" conjectured={payload['conjectured_count']}"
+            f" dropped={payload['dropped_count']}"
+            f" mined={payload['corpus_mined_count']}"
+            f" cap={payload['corpus_scan_cap']}"
+            f" truncated={payload['corpus_truncated']}"
+        )
+        if payload.get("pairwise_refinement_truncated"):
+            print(
+                "  pairwise refinement truncated:"
+                f" pairs={payload['pairwise_refinement_pair_count']}"
+                f" cap={payload['pairwise_refinement_pair_cap']}"
+            )
+        if args.verbose:
+            for item in payload["candidates"][:120]:
+                print(
+                    f"  {item['state']} score={item['score']}"
+                    f" target={item['target']}"
+                    f" evidence={','.join(item.get('evidence', [])) or 'none'}"
+                )
+            if len(payload["candidates"]) > 120:
+                print(f"  ... and {len(payload['candidates']) - 120} more")
+    return 0
+
+
 def cmd_discovery_candidates(args: argparse.Namespace) -> int:
     blocks = collect_closurestatus_blocks(PAPER_PARTS_ROOT)
     lean_scan = scan_lean_sources()
@@ -10268,6 +12640,14 @@ def parser() -> argparse.ArgumentParser:
     structural_dna_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
     structural_dna_p.add_argument("--verbose", "-v", action="store_true", help="Show per-target detail")
     structural_dna_p.set_defaults(func=cmd_structural_dna)
+
+    discovery_radar_p = sub.add_parser(
+        "discovery-radar",
+        help="Informational production radar over the classifier corpus (always exit 0)",
+    )
+    discovery_radar_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    discovery_radar_p.add_argument("--verbose", "-v", action="store_true", help="Show candidate detail")
+    discovery_radar_p.set_defaults(func=cmd_discovery_radar)
 
     discovery_candidates_p = sub.add_parser(
         "discovery-candidates",

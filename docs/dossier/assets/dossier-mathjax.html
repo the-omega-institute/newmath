@@ -1,0 +1,59 @@
+<script>
+(function () {
+  var fallbackMacros = {
+    BHist: "\\mathsf{BHist}",
+    Classifier: "\\mathsf{Classifier}",
+    Cont: "\\mathsf{Cont}",
+    Hist: "\\mathsf{Hist}",
+    Inscription: "\\mathsf{Inscription}",
+    Meaning: "\\mathsf{Meaning}",
+    NameCert: "\\mathsf{NameCert}",
+    Reality: "\\mathsf{Reality}",
+    RealityConstraint: "\\mathsf{RealityConstraint}",
+    hsame: "\\mathsf{hsame}"
+  };
+
+  function fetchGeneratedMacros() {
+    try {
+      var request = new XMLHttpRequest();
+      request.open("GET", "data/mathjax_macros.json", false);
+      request.send(null);
+      if (request.status === 200 || request.status === 0) {
+        return JSON.parse(request.responseText);
+      }
+    } catch (error) {
+      return {};
+    }
+    return {};
+  }
+
+  function mergeMacros() {
+    window.MathJax = window.MathJax || {};
+    window.MathJax.tex = window.MathJax.tex || {};
+    window.MathJax.tex.macros = Object.assign(
+      {},
+      fallbackMacros,
+      fetchGeneratedMacros(),
+      window.MathJax.tex.macros || {}
+    );
+  }
+
+  mergeMacros();
+
+  var startup = window.MathJax.startup || {};
+  var previousReady = startup.ready;
+  window.MathJax.startup = Object.assign({}, startup, {
+    ready: function () {
+      mergeMacros();
+      if (typeof previousReady === "function") {
+        previousReady.call(this);
+      } else if (window.MathJax.startup && window.MathJax.startup.defaultReady) {
+        window.MathJax.startup.defaultReady();
+      }
+      if (window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise();
+      }
+    }
+  });
+})();
+</script>

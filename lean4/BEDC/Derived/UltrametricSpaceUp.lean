@@ -383,42 +383,57 @@ theorem UltrametricSpaceRootStrongTriangleWindow [AskSetup] [PackageSetup]
   }
   exact ⟨cert, comparisonReadUnary, triangleReadUnary⟩
 
-theorem UltrametricSpaceCarrier_root_nested_ball_ledger [AskSetup] [PackageSetup]
+theorem UltrametricSpaceRootExampleHandoff [AskSetup] [PackageSetup]
     (U : UltrametricSpaceUp)
-    {M V T B E H K P N comparisonRead triangleRead ballRead : BHist}
+    {M V T B E H K P N comparisonRead triangleRead ballRead exampleRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     ultrametricSpaceFields U = [M, V, T, B, E, H, K, P, N] ->
-      UnaryHistory M -> UnaryHistory V -> UnaryHistory T -> UnaryHistory B ->
-        Cont M V comparisonRead ->
-          Cont comparisonRead T triangleRead ->
-            Cont triangleRead B ballRead ->
-              PkgSig bundle P pkg ->
-                SemanticNameCert
-                    (fun row : BHist => hsame row ballRead ∧ UnaryHistory row)
-                    (fun row : BHist =>
-                      hsame row M ∨ hsame row V ∨ hsame row T ∨ hsame row B ∨
-                        hsame row ballRead)
-                    (fun row : BHist => PkgSig bundle P pkg ∧ hsame row ballRead)
-                    hsame ∧ UnaryHistory comparisonRead ∧ UnaryHistory triangleRead ∧
-                  UnaryHistory ballRead := by
+      UnaryHistory M ->
+        UnaryHistory V ->
+          UnaryHistory T ->
+            UnaryHistory B ->
+              UnaryHistory E ->
+                Cont M V comparisonRead ->
+                  Cont comparisonRead T triangleRead ->
+                    Cont triangleRead B ballRead ->
+                      Cont ballRead E exampleRead ->
+                        PkgSig bundle P pkg ->
+                          SemanticNameCert
+                              (fun row : BHist => hsame row exampleRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row E ∨ hsame row M ∨ hsame row V ∨ hsame row T ∨
+                                  hsame row B ∨ Cont M V comparisonRead ∨
+                                    Cont comparisonRead T triangleRead ∨
+                                      Cont triangleRead B ballRead ∨
+                                        Cont ballRead E exampleRead)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ PkgSig bundle P pkg ∧ hsame row exampleRead)
+                              hsame ∧
+                            UnaryHistory comparisonRead ∧ UnaryHistory triangleRead ∧
+                              UnaryHistory ballRead ∧ UnaryHistory exampleRead := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
-  intro _fields metricUnary comparisonUnary triangleUnary ballUnary comparisonRoute
-    triangleRoute ballRoute provenancePkg
+  intro _fields metricUnary comparisonUnary triangleUnary ballUnary exampleUnary
+    comparisonRoute triangleRoute ballRoute exampleRoute provenancePkg
   have comparisonReadUnary : UnaryHistory comparisonRead :=
     unary_cont_closed metricUnary comparisonUnary comparisonRoute
   have triangleReadUnary : UnaryHistory triangleRead :=
     unary_cont_closed comparisonReadUnary triangleUnary triangleRoute
   have ballReadUnary : UnaryHistory ballRead :=
     unary_cont_closed triangleReadUnary ballUnary ballRoute
+  have exampleReadUnary : UnaryHistory exampleRead :=
+    unary_cont_closed ballReadUnary exampleUnary exampleRoute
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row ballRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row exampleRead ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row M ∨ hsame row V ∨ hsame row T ∨ hsame row B ∨ hsame row ballRead)
-          (fun row : BHist => PkgSig bundle P pkg ∧ hsame row ballRead)
+            hsame row E ∨ hsame row M ∨ hsame row V ∨ hsame row T ∨ hsame row B ∨
+              Cont M V comparisonRead ∨ Cont comparisonRead T triangleRead ∨
+                Cont triangleRead B ballRead ∨ Cont ballRead E exampleRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle P pkg ∧ hsame row exampleRead)
           hsame := {
     core := {
-      carrier_inhabited := Exists.intro ballRead ⟨hsame_refl ballRead, ballReadUnary⟩
+      carrier_inhabited := Exists.intro exampleRead ⟨hsame_refl exampleRead, exampleReadUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -435,12 +450,13 @@ theorem UltrametricSpaceCarrier_root_nested_ball_ledger [AskSetup] [PackageSetup
             unary_transport source.right sameRows⟩
     }
     pattern_sound := by
-      intro _row source
-      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+      intro _row _source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr exampleRoute)))))))
     ledger_sound := by
       intro _row source
-      exact ⟨provenancePkg, source.left⟩
+      exact ⟨source.right, provenancePkg, source.left⟩
   }
-  exact ⟨cert, comparisonReadUnary, triangleReadUnary, ballReadUnary⟩
+  exact ⟨cert, comparisonReadUnary, triangleReadUnary, ballReadUnary, exampleReadUnary⟩
 
 end BEDC.Derived.UltrametricSpaceUp

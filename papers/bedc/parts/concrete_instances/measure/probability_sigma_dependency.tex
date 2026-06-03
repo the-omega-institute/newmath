@@ -9,3 +9,14 @@ Apply the probability substrate obligations of \autoref{thm:measure-probability-
 
 Thus every downstream probability, integration, random-variable, or distribution read sees the same finite event-and-value route. The Measure packet exports a shared dependency boundary, not separate host-side measure and probability objects.
 \end{proof}
+
+\begin{theorem}[Measure ProbSpace total-mass handoff]\label{thm:measure-probspace-total-mass-handoff}
+Every accepted $\ProbSpaceUp$ total-event normalization row consumed through $\MeasureUp$ must expose the $\MeasureUp$ event algebra, sigma-additive rows, finite disjoint-union readback, and $\RealUp$-valued mass rows before a probability consumer may read total mass $1$. The handoff supplies a probability boundary over displayed measure data, not a detached probability primitive or host-side total-measure assertion.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:measure-probability-sigma-dependency}. It already routes probability consumers through the same event family and value route used by integration, random-variable, and distribution surfaces.
+
+The root event and sigma-additive obligations, \autoref{thm:measure-root-event-boundary-carrier} and \autoref{thm:measure-root-threshold-sigma-additive-obligation}, keep measurable events, empty-event data, finite disjoint-union readback, and countable-additivity rows visible as $\MeasureUp$ data.
+
+Apply the probability substrate obligations \autoref{thm:measure-probability-substrate-obligations}. The total-event normalization row and the unit endpoint are therefore read only after the event algebra and $\RealUp$ mass route have been displayed, so the probability consumer receives total mass $1$ through the measure packet's finite dependency lattice.
+\end{proof}
