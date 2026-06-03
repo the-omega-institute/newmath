@@ -125,7 +125,7 @@ theorem PolishSpaceL10RootUnblockPackage [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro surface completionRoute denseRoute rootRoute rootPkg
   obtain ⟨metricUnary, completeUnary, separableUnary, streamUnary, _readbackUnary,
-    _ledgerUnary, _transportUnary, _metricCompleteRoute, _metricSeparableRoute,
+    _ledgerUnary, _transportUnary, _localNameUnary, _metricCompleteRoute, _metricSeparableRoute,
     _replayRoute, provenancePkg, localNamePkg⟩ := surface
   have completionUnary : UnaryHistory completionRead :=
     unary_cont_closed completeUnary streamUnary completionRoute

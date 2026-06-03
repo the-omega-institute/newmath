@@ -35,7 +35,7 @@ theorem PolishSpaceCompleteMetricSourceLock [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro surface metricComplete metricSeparable completionDense
   obtain ⟨metricUnary, completeUnary, separableUnary, _streamUnary, _readbackUnary,
-    _ledgerUnary, _transportUnary, _metricCompleteRoot, _metricSeparableRoot,
+    _ledgerUnary, _transportUnary, _localNameUnary, _metricCompleteRoot, _metricSeparableRoot,
     _ledgerTransportReplay, provenancePkg, localNamePkg⟩ := surface
   have completionUnary : UnaryHistory completionRead :=
     unary_cont_closed metricUnary completeUnary metricComplete

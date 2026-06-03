@@ -9,3 +9,31 @@ Next read the regular-rational and stream-name route. The dependency line throug
 
 Classifier equivalence of the two finite-product packets therefore transports through the same source, window, budget, readback, and projection rows. Each coordinate remains a RegSeqRat-compatible regular Cauchy readback, and any failure of stability must already be visible in one of the displayed rows rather than in a hidden host product or selected component representative.
 \end{proof}
+
+\begin{theorem}[Regular Cauchy finite product window restriction]
+\label{thm:regular-cauchy-finite-product-window-restriction}
+Restricting a coordinate read from an accepted $\RegularCauchyFiniteProductUp$ packet to any displayed synchronized $\StreamNameUp$ subwindow preserves the $\RegSeqRatUp$-compatible coordinate readback and the same $\DyadicRatCoreUp$ product-budget ledger, provided the finite index row still names the coordinate slot. The restriction exposes no host product coordinate, selected component representative, quotient stream equality, trichotomy, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Read the product projection route through \autoref{ch:concrete-instances-regular-cauchy-product-projection-namecert}. The coordinate slot remains available exactly when the finite index row still names it.
+
+Next restrict the synchronized window row. The $\RegSeqRatUp$ and $\StreamNameUp$ routes fix the displayed subwindow used by the coordinate read, so the restricted read uses the same component source and the same regular-rational readback route.
+
+Apply coordinate stability from \autoref{thm:regular-cauchy-finite-product-coordinate-stability}. Since the product-budget ledger and projection route are unchanged, the coordinate remains a RegSeqRat-compatible readback through the same DyadicRatCore product-budget data.
+
+The restricted subwindow is therefore a local view of the displayed finite-product packet. It cannot introduce a host finite product, selected representative, quotient stream equality, trichotomy, or ambient completeness datum.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy finite product coordinate pairing]
+\label{thm:regular-cauchy-finite-product-coordinate-pairing}
+Let two coordinate reads be displayed from the same accepted $\RegularCauchyFiniteProductUp$ packet. If the two reads share the synchronized $\StreamNameUp$ window family, the same $\DyadicRatCoreUp$ product-budget ledger, and the finite index rows naming their coordinate slots, then they form a jointly $\RegSeqRatUp$-compatible pair. The pair is read only through the product-projection dependency route of \autoref{ch:concrete-instances-regular-cauchy-product-projection-namecert}; it exports no host product coordinates, selected component representatives, quotient stream equality, trichotomy, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Start with the two displayed coordinate reads from the same finite-product packet. Apply coordinate stability, \autoref{thm:regular-cauchy-finite-product-coordinate-stability}, to each read along the common product source, synchronized windows, product-budget ledger, regular-rational readback, and projection route.
+
+Next apply the window restriction theorem, \autoref{thm:regular-cauchy-finite-product-window-restriction}. Because both reads share the same $\StreamNameUp$ window family and $\DyadicRatCoreUp$ product-budget ledger, restricting to any displayed common subwindow preserves the regular-rational readback for each coordinate.
+
+Finally use the product-projection dependency route in \autoref{ch:concrete-instances-regular-cauchy-product-projection-namecert}. The finite index rows keep the two coordinate slots named inside the same packet, so the two preserved readbacks assemble as a jointly $\RegSeqRatUp$-compatible pair.
+
+The assembled pair contains only the displayed product packet, synchronized windows, dyadic budget, finite index rows, projection route, and regular-rational handoffs. No host product coordinate, selected representative, quotient stream equality, trichotomy, or ambient completeness row is introduced.
+\end{proof}

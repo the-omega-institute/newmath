@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FinePartitionGaugeUp$}
+\label{ch:concrete-instances-fine-partition-gauge-namecert}
+\origin{human}
+
+Following Cousin and Bishop--Bridges gauge integration, the $\FinePartitionGaugeUp$ packet records a finite tagged partition whose cells are already certified fine for a displayed positive gauge. It sits between the existence route of \autoref{ch:concrete-instances-cousin-lemma-namecert}, the cover-facing surface of \autoref{ch:concrete-instances-cousin-cover-namecert}, the integral packet of \autoref{ch:concrete-instances-gauge-integral-namecert}, the tagged-sum route of \autoref{ch:concrete-instances-riemann-sum-gauge-namecert}, and the lower--upper comparison surface of \autoref{ch:concrete-instances-darboux-sum-namecert}. The packet names only finite interval data, positive gauge bounds, tagged cells, fineness proofs, mesh readback, Cousin handoff, regular rational readback, terminal real sealing, transport, replay, provenance, and a local certificate.
+
+\begin{definition}[FinePartitionGauge carrier]
+\label{def:fine-partition-gauge-carrier}
+A $\FinePartitionGaugeUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,G,T,L,M,U,R,E,H,C,P,N)
+$$
+whose rows expose:
+\begin{enumerate}
+\item $I$, the interval source row read from the displayed compact interval or located interval source;
+\item $G$, the positive gauge row assigning a strictly positive local radius to each admitted tag;
+\item $T$, the finite tagged-cell ledger listing cells, tags, endpoint order, and cell coverage;
+\item $L$, the fine-cell proof row stating that every tagged cell of $T$ lies inside the gauge radius supplied by $G$ at its tag;
+\item $M$, the mesh row recording the largest displayed cell width and the finite comparison budget used by later sums;
+\item $U$, the Cousin handoff row through \autoref{ch:concrete-instances-cousin-lemma-namecert} and \autoref{ch:concrete-instances-cousin-cover-namecert};
+\item $R$, the $\RegSeqRatUp$ readback row for rational mesh and tagged-sum approximants;
+\item $E$, the terminal $\RealUp$ seal row available only after the regular rational readback;
+\item $H$, the componentwise $\hsame$ transport row for interval, gauge, cell, mesh, handoff, readback, and seal data;
+\item $C$, the displayed $\Cont$ replay row preserving the same finite tagged partition route;
+\item $P$, the $\Pkg$ provenance over $\FinePartitionGaugeUp$, $\CousinLemmaUp$, $\CousinCoverUp$, $\GaugeIntegralUp$, $\RiemannSumGaugeUp$, $\DarbouxSumUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$, the local $\NameCert_{\FinePartitionGaugeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,G,T,L,M,U,R,E,H,C,P,N$. It has no coordinate for a choice-selected partition, an unbounded open cover, host compactness, quotient equality of real functions, or an ambient integration theorem.
+\end{definition}
+
+\begin{theorem}[FinePartitionGauge NameCert obligations]
+\label{thm:fine-partition-gauge-namecert-obligations}
+For every accepted $\FinePartitionGaugeUp$ carrier $F=(I,G,T,L,M,U,R,E,H,C,P,N)$, the local $\NameCert_{\FinePartitionGaugeUp}$ surface is exhausted by interval-source admission, positive-gauge admission, finite tagged-cell coverage, fine-cell proof, mesh readback, Cousin handoff, $\RegSeqRatUp$ readback, terminal $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every $\GaugeIntegralUp$, $\RiemannSumGaugeUp$, or $\DarbouxSumUp$ consumer must read these rows before using the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fine-partition-gauge-carrier}. The rows $I,G,T,L,M,U,R,E,H,C,P,N$ are the entire displayed packet, so any local certificate obligation must be one of the listed interval, gauge, tagged-cell, fineness, mesh, handoff, readback, seal, transport, replay, provenance, or naming rows.
+
+The fineness obligation is read before any sum or integral row. The tagged-cell ledger $T$ supplies only finite cells and tags, while $L$ checks each cell against the positive radius supplied by $G$.
+
+The Cousin handoff and readback rows keep downstream consumers on the same finite route. The row $U$ is the only route to the Cousin existence surface, $R$ is the only regular rational readback, and $E$ is visible only after $R$. Since the carrier has no selected-partition, host-compactness, or ambient integration coordinate, the NameCert surface is exactly the displayed packet.
+\end{proof}
+
+\begin{theorem}[FinePartitionGauge Cousin route]
+\label{thm:fine-partition-gauge-cousin-route}
+Every $\FinePartitionGaugeUp$ carrier routes through the Cousin existence surface before any $\GaugeIntegralUp$, $\RiemannSumGaugeUp$, or $\DarbouxSumUp$ read. In the notation of \autoref{def:fine-partition-gauge-carrier}, a downstream integration consumer may inspect
+$$
+I,\quad G,\quad T,\quad L,\quad M,\quad U
+$$
+and only then read the regular rational route $R$, the terminal seal $E$, and the structural rows $H,C,P,N$. Thus the packet separates finite fine-partition data from the Cousin existence theorem and exposes no independent choice-selected partition.
+\end{theorem}
+\begin{proof}
+Start with the interval, gauge, tagged-cell, and fine-cell rows. They display the finite partition candidate and verify fineness against the positive gauge without reading an integral or sum row.
+
+Next route the packet through the Cousin handoff row $U$. This row points to the Cousin lemma and Cousin cover sibling surfaces, so existence and cover refinement are consumed before any GaugeIntegral, Riemann-sum, or Darboux-sum consumer can read the partition as integration data.
+
+Finally apply the NameCert obligation theorem above. It places $R,E,H,C,P,N$ downstream of the finite Cousin route, and the carrier has no coordinate for a host choice selector or ambient compactness theorem. The downstream read therefore receives a displayed fine partition surface rather than an unbounded existence principle.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\FinePartitionGaugeUp$ packet must expose interval source, positive gauge, tagged-cell, fine-cell, mesh, Cousin handoff, RegSeqRat readback, Real seal, transport, replay, provenance, and local NameCert rows before an integration consumer reads it.}
+
+\independenceWitness{cousinlemma, cousincover, gaugeintegral, riemannsumgauge, darbouxsum: $\FinePartitionGaugeUp$ is not bijective to any listed sibling because it jointly carries finite tagged cells, pointwise gauge fineness, mesh readback, Cousin handoff, regular rational readback, and terminal real sealing.}
+
+\closureat{FinePartitionGaugeUp}{seedStr}
+
+\begin{closurestatus}{\FinePartitionGaugeUp}
+  \constructivestory{A $\FinePartitionGaugeUp$ packet is generated from an interval source, positive gauge, finite tagged cells, fine-cell proof, mesh row, Cousin handoff, regular rational readback, terminal Real seal, componentwise transport, displayed replay, provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fine-partition-gauge-carrier}, \autoref{thm:fine-partition-gauge-namecert-obligations}, and \autoref{thm:fine-partition-gauge-cousin-route} seed the finite fine-partition surface between Cousin existence and gauge-integration consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close choice-selected partitions, host compactness, ambient integration theorems, quotient equality of real functions, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive-gauge admission, tagged-cell coverage, fine-cell proof, mesh readback, Cousin handoff, RegSeqRat readback, Real sealing, transport, replay, provenance, and local naming.}
+\end{closurestatus}

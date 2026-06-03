@@ -25,6 +25,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier contains no subject-reduction theorem for open evaluation, no semantic substitution theorem for arbitrary host syntax, no truth predicate for CIC, and no unrecorded binder budget.
 \end{definition}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_carrier\_admission}
 
 \begin{theorem}[ClosedTermSubstitutionCompiler boundary]
 \label{thm:closed-term-substitution-compiler-boundary}
@@ -122,6 +123,21 @@ The self-compile route of \autoref{thm:closed-term-substitution-compiler-self-co
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_shift\_substitute\_compatibility}
 
+\begin{theorem}[ClosedTermSubstitutionCompiler closed-composition handoff]
+\label{thm:closed-term-substitution-compiler-closed-composition-handoff}
+Every compiler-facing read that consumes the checked closed composition slice $\mathsf{substitute\_compose\_closed\_both}$ must first display the local $\ClosedTermSubstitutionCompilerUp$ boundary ledger: the $\mathsf{ClosedAt}$ rows for both closed inputs, the $\mathsf{substitute\_closed}$ witness row, the $\mathsf{shift\_closed}$ witness row, and the local $\NameCert_{\ClosedTermSubstitutionCompilerUp}$ packet. The handoff is a closed-fragment route through $K=(T,D,V,F,H,C,P,N)$ and not an unrestricted substitute-substitute commutation theorem, subject-reduction theorem, or evaluator-soundness claim.
+\end{theorem}
+\begin{proof}
+Project the compiler carrier $K=(T,D,V,F,H,C,P,N)$. The boundary row $D$ is the only source of $\mathsf{ClosedAt}$ data, and the witness row $F$ is the only source of $\mathsf{substitute\_closed}$ and $\mathsf{shift\_closed}$ data.
+
+Apply \autoref{thm:closed-term-substitution-compiler-boundary-ledger-exactness}. A compiler-facing substitution or shift equality must read the displayed closedness classifier, the corresponding syntactic operation row, and the corresponding fixed-boundary witness before any equality is exported.
+
+Next apply \autoref{thm:closed-term-substitution-compiler-shift-substitute-compatibility}. The substitution and shift witnesses share the same closed-boundary classifier, so a closed composition read may compose those witnesses only after both closed inputs have been admitted through $D$.
+
+Finally route the read through \autoref{thm:closed-term-substitution-compiler-namecert-obligations}. The local NameCert packet stores the closed-fragment boundary and excludes evaluator soundness, subject reduction, open-term substitution semantics, and unrestricted substitution calculus. Therefore the checked composition slice is handed off as a closed compiler boundary only.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_closed\_composition\_handoff}
+
 \begin{theorem}[ClosedTermSubstitutionCompiler public non-escape]
 \label{thm:closed-term-substitution-compiler-public-nonescape}
 No public consumer of an accepted $\ClosedTermSubstitutionCompilerUp$ packet can read evaluator soundness, subject reduction, host CIC truth, or open-term semantics from the packet. Public reads are limited to the displayed $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, witness, route, provenance, and $\NameCert$ rows.
@@ -188,11 +204,11 @@ Non-escape is supplied by \autoref{thm:closed-term-substitution-compiler-binder-
 
 \begin{closurestatus}{\ClosedTermSubstitutionCompilerUp}
   \constructivestory{A $\ClosedTermSubstitutionCompilerUp$ packet is generated from MetaCIC term constructors, the $\mathsf{ClosedAt}$ classifier, the $\mathsf{shift}$ and $\mathsf{substitute}$ operation rows, the $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$ witness rows, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The obligation scope records the finite carrier, closed-boundary substitution and shift routes, classifier transport surface, NameCert obligations, self-compilation boundary handoff, boundary-ledger exactness, shift compatibility, binder-budget non-escape, and the checked TasteGate alignment marker \leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.taste\_gate}.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The public scope records the finite carrier, closed-boundary substitution and shift routes, classifier transport surface, NameCert obligations, self-compilation boundary handoff, boundary-ledger exactness, shift compatibility, public and binder-budget non-escape, and the obligation-closure package over the same compiler-facing packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close evaluator soundness, subject reduction, open-term substitution semantics, host CIC truth, total self-compilation, or a checked Lean certificate for the whole packet.}
-  \upgradepath{Public closure requires an exported public certificate theorem for the same compiler-facing packet, while checked Lean formalization remains separate.}
+  \upgradepath{A higher theory grade requires a checked bridge for the same compiler-facing packet, while checked Lean formalization remains separate.}
 \end{closurestatus}

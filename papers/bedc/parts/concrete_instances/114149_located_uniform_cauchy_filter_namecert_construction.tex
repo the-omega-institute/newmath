@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\LocatedUniformCauchyFilterUp$}
+\label{ch:concrete-instances-located-uniform-cauchy-filter-namecert}
+\origin{human}
+
+Following Bourbaki on uniform spaces, Kelley on filters, and Bishop and Bridges on constructive completion, the $\LocatedUniformCauchyFilterUp$ packet records the finite BEDC route in which uniform Cauchy evidence and located filter evidence are read by the same completion-neighbour surface. It joins the uniform Cauchy filter rows of \autoref{ch:concrete-instances-uniform-cauchy-filter-namecert} with the located filter rows of \autoref{ch:concrete-instances-located-cauchy-filter-namecert}, while keeping the stream, dyadic, regular-rational, and real-seal faces of \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} explicit. The carrier is not a quotient of filters and does not select a limit; it only names the rows a completion-neighbour consumer may inspect.
+
+\begin{definition}[Located uniform Cauchy filter carrier]
+\label{def:located-uniform-cauchy-filter-carrier}
+A $\LocatedUniformCauchyFilterUp$ carrier is a finite $\BHist$ packet
+$$
+X=(U,F,L,S,R,D,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformCauchyFilterUp$ row, carrying the displayed uniform-space, filter-base, entourage-Cauchy, stream-window, regular-rational, and completion-handoff surface of \autoref{ch:concrete-instances-uniform-cauchy-filter-namecert}.
+\item $F$ is the $\LocatedCauchyFilterUp$ row, carrying the displayed located-tail, basis-refinement, sequence-handoff, and real-seal surface of \autoref{ch:concrete-instances-located-cauchy-filter-namecert}.
+\item $L$ is the completion-neighbour location row, recording that the uniform entourage request and the located-tail request name the same finite neighbourhood read before any seal-facing consumer proceeds.
+\item $S$ is the $\StreamNameUp$ finite-window row supplied to the joined filter readback, using only the observation surface of \autoref{ch:concrete-instances-streamname-namecert}.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to those windows and to the same located-uniform request, as in \autoref{ch:concrete-instances-regseqrat-namecert}.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying the dyadic entourage scale, located-ball slack, comparison cells, and radius conversions used by the joined request; it is read through \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+\item $T$ is the located-uniform tail row, requiring the uniform Cauchy row $U$ and located filter row $F$ to meet the same displayed dyadic tolerance before $R$ or $E$ can be exported.
+\item $E$ is the terminal $\RealUp$ seal-facing row, exposed only after $U,F,L,S,R,D,T$ have been displayed through the real-name boundary of \autoref{ch:concrete-instances-real-namecert}.
+\item $H$ records componentwise $\hsame$ transport for the uniform filter, located filter, neighbourhood location, stream, regular-rational, dyadic, tail, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-neighbour request through $U,F,L,S,R,D,T,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedUniformCauchyFilterUp$, $\UniformCauchyFilterUp$, $\LocatedCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedUniformCauchyFilterUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through the displayed rows $U,F,L,S,R,D,T,E,H,C,P,N$. It has no coordinate for quotient filter equality, selected limits, countable choice, ambient $\RealUp$ completeness, host real equality, open-cover compactness, ultrafilters, or a second dyadic source.
+\end{definition}
+
+\begin{theorem}[Located uniform Cauchy filter NameCert obligations]
+\label{thm:located-uniform-cauchy-filter-obligations}
+For every accepted $\LocatedUniformCauchyFilterUp$ carrier
+$$
+X=(U,F,L,S,R,D,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedUniformCauchyFilterUp}$ surface consists exactly of carrier admission, uniform Cauchy filter exposure, located Cauchy filter exposure, completion-neighbour location, finite StreamName window readback, RegSeqRat regular-rational readback, DyadicRatCore tolerance accounting, located-uniform tail compatibility, terminal RealUp seal ordering, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the finite carrier of \autoref{def:located-uniform-cauchy-filter-carrier}.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:located-uniform-cauchy-filter-carrier}. The analytic rows visible to the certificate are exactly $U,F,L,S,R,D,T,E$.
+
+The uniform row $U$ is read through \autoref{ch:concrete-instances-uniform-cauchy-filter-namecert}, and the located row $F$ is read through \autoref{ch:concrete-instances-located-cauchy-filter-namecert}. The neighbourhood location row $L$ identifies the same finite completion-neighbour request for both rows before downstream readback begins.
+
+The sequence-facing part of the route is finite. The window row $S$ uses \autoref{ch:concrete-instances-streamname-namecert}, the tolerance row $D$ uses \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the regular rational row $R$ uses \autoref{ch:concrete-instances-regseqrat-namecert}. The tail row $T$ binds these rows to the displayed located-uniform request.
+
+Finally the seal-facing row $E$ is read through \autoref{ch:concrete-instances-real-namecert} only after $U,F,L,S,R,D,T$ have been displayed. The support rows $H,C,P,N$ transport, replay, source, and name that same route, so no quotient filter, selected limit, countable-choice selector, host equality, ambient completeness, open-cover compactness, ultrafilter, or second dyadic source can be exported.
+\end{proof}
+
+\closureat{LocatedUniformCauchyFilterUp}{seedStr}
+
+\begin{closurestatus}{\LocatedUniformCauchyFilterUp}
+  \constructivestory{A $\LocatedUniformCauchyFilterUp$ packet is generated from a UniformCauchyFilter row, a LocatedCauchyFilter row, a completion-neighbour location row, finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a located-uniform tail row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-uniform-cauchy-filter-carrier} and \autoref{thm:located-uniform-cauchy-filter-obligations} seed the joined located-uniform filter route over UniformCauchyFilterUp, LocatedCauchyFilterUp, StreamNameUp, RegSeqRatUp, DyadicRatCoreUp, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filters, selected limits, countable choice, host real equality, ambient Real completeness, open-cover compactness, ultrafilters, Lean verification, or bridge checking.}
+  \upgradepath{Formal closure requires carrier admission, completion-neighbour location, located-uniform tail compatibility, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.LocatedUniformCauchyFilterUp.}
+\end{closurestatus}

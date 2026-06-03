@@ -43,6 +43,40 @@ The rows $R$ and $E$ are downstream handoffs. They receive the same displayed wi
 No carrier coordinate supplies completeness, quotient equality, selected limits, host equality, trichotomy, choice, or an unbounded tail search. Hence every exported oscillation read is exhausted by the displayed finite route.
 \end{proof}
 
+\begin{theorem}[Dyadic Cauchy oscillation modulus NameCert obligations]
+\label{thm:dyadic-cauchy-oscillation-modulus-namecert-obligations}
+For every accepted $\DyadicCauchyOscillationModulusUp$ carrier
+$$
+M=(O,D,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicCauchyOscillationModulusUp}$ surface consists exactly of carrier admission; dyadic tolerance exactness through $D$; tail-window scheduling through $W$; oscillation ledger routing through $O$; $\RegSeqRatUp$ handoff through $R$; $\RealUp$ seal handoff through $E$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-cauchy-oscillation-modulus-carrier}. Carrier admission exposes precisely the rows $O,D,W,R,E,H,C,P,N$ and no other rows.
+
+The dyadic and tail-facing obligations are $D,W,O$. The dyadic tolerance row fixes the requested radius and threshold, the StreamName row schedules only finite tail windows beyond that threshold, and the oscillation ledger records the displayed tail comparison for those windows.
+
+The readback and seal obligations are $R,E$. The regular rational handoff reads the same scheduled windows, and the Real seal is downstream of the dyadic tolerance, window schedule, and oscillation ledger rather than a completeness principle.
+
+Finally $H,C,P,N$ transport, replay, source, and name the finite route. Completeness, quotient stream equality, selected limits, host equality, trichotomy, countable choice, ambient real arithmetic, and unbounded tail search are absent from the carrier, so none can appear as a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Dyadic Cauchy oscillation modulus Real-seal route]
+\label{thm:dyadic-cauchy-oscillation-modulus-real-seal-route}
+Every $\RealUp$-facing read exported by an accepted $\DyadicCauchyOscillationModulusUp$ packet passes through the ordered finite route
+$$
+D\longmapsto W\longmapsto O\longmapsto R\longmapsto E.
+$$
+The route cannot export $\RealUp$ completeness, quotient stream equality, selected limits, host equality, trichotomy, choice, or an unbounded tail search.
+\end{theorem}
+\begin{proof}
+Begin with a Real-facing consumer. By \autoref{def:dyadic-cauchy-oscillation-modulus-carrier}, the terminal row $E$ is visible only after $O,D,W,R$ have fixed the finite oscillation-modulus route.
+
+Apply \autoref{thm:dyadic-cauchy-oscillation-modulus-route}. It orders the consumer through $D,W,O,R,E$ and keeps the structural rows as transport, replay, provenance, and naming data for the same route.
+
+Use \autoref{thm:dyadic-cauchy-oscillation-modulus-namecert-obligations} for the obligation boundary. Since no excluded object is a carrier row or a NameCert obligation, a Real-facing read cannot insert completeness, quotient equality, selected limits, host equality, trichotomy, choice, or unbounded tail search between the finite windows and the terminal seal.
+\end{proof}
+
 \falsifiablePrediction{Every $\RegSeqRatUp$ or $\RealUp$ consumer of a $\DyadicCauchyOscillationModulusUp$ packet must first display the dyadic tolerance and modulus row, the visible $\StreamNameUp$ tail windows, and the $\CauchyOscillationCriterionUp$ ledger before any readback or seal row is consumed.}
 
 \independenceWitness{cauchyoscillationcriterion, cauchymodulus, dyadicratcore, streamname, regseqrat, real: $\DyadicCauchyOscillationModulusUp$ is not bijective to any listed sibling because it jointly carries an oscillation ledger, dyadic tolerance and modulus data, visible tail-window scheduling, regular rational readback, a real seal boundary, componentwise transport, continuation replay, provenance, and local naming.}
@@ -52,7 +86,7 @@ No carrier coordinate supplies completeness, quotient equality, selected limits,
 \begin{closurestatus}{\DyadicCauchyOscillationModulusUp}
   \constructivestory{A $\DyadicCauchyOscillationModulusUp$ packet is generated from an oscillation ledger, a DyadicRatCore tolerance and modulus row, visible StreamName tail windows, RegSeqRat readback, a RealUp seal row, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:dyadic-cauchy-oscillation-modulus-carrier} and \autoref{thm:dyadic-cauchy-oscillation-modulus-route} seed the finite Bishop--Bridges dyadic modulus packet for Cauchy oscillation reads.}
+  \scopeclosed{\autoref{def:dyadic-cauchy-oscillation-modulus-carrier}, \autoref{thm:dyadic-cauchy-oscillation-modulus-route}, \autoref{thm:dyadic-cauchy-oscillation-modulus-namecert-obligations}, and \autoref{thm:dyadic-cauchy-oscillation-modulus-real-seal-route} seed the finite Bishop--Bridges dyadic modulus packet for Cauchy oscillation reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Real completeness, quotient stream equality, selected limits, host equality, trichotomy, countable choice, ambient real arithmetic, or Lean verification.}
