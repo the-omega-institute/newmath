@@ -15,6 +15,7 @@ Here $w$ is the displayed width row, $r$ is the local-rule row, $i$ is the initi
 \begin{theorem}[Cellular window trace NameCert obligations]\label{thm:cellular-window-trace-namecert-obligations}
 For every accepted $\CellularWindowTraceUp$ carrier $(w,r,i,o,B,H,C,P,N)$, the local $\NameCert_{\CellularWindowTraceUp}$ surface consists exactly of width, local-rule, initial-row, finite orbit-window, $\BHist$ encoding, transport, replay, provenance, and local naming rows. A consumer may read the cellular window only by first consuming these rows; it receives no global orbit, no infinite cellular history, no substrate replacement of $\BHist$, and no bijection between cellular traces and all BEDC histories.
 \end{theorem}
+\leanchecked{BEDC.Derived.CellularWindowTraceUp.CellularWindowTraceTasteGate\_single\_carrier\_alignment}
 \begin{proof}
 Project the displayed carrier rows. The width and local-rule rows determine which finite cell row can be updated, and the initial row gives the only starting configuration available to the packet.
 
@@ -46,8 +47,9 @@ On the Lean side, the formal carrier should supply `Nontrivial CellularWindowTra
   \constructivestory{A $\CellularWindowTraceUp$ packet is generated from a width row, local-rule row, initial-row encoding, finite orbit-window ledger, BHist encoding, componentwise transport, continuation replay, package provenance, and local naming.}
   \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:cellular-window-trace-carrier}, \autoref{thm:cellular-window-trace-namecert-obligations}, and \autoref{thm:cellular-window-trace-finite-read-factorization} declare the finite orbit-window certificate surface.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CellularWindowTraceUp.CellularWindowTraceTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim Lean verification, a global cellular orbit, an infinite cellular history, a substrate replacement for BHist, or a bijection between cellular traces and all BEDC histories.}
+  \notclaimed{This chapter does not claim a global cellular orbit, an infinite cellular history, a substrate replacement for BHist, a bijection between cellular traces and all BEDC histories, or bridge checking.}
   \upgradepath{Checked closure requires Lean carrier admission, finite orbit-window factorization, BHist encoding transport, and TasteGate instance rows for the same finite packet.}
 \end{closurestatus}

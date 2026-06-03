@@ -256,4 +256,59 @@ theorem BaireMetricObligationPrefixCompleteness [AskSetup] [PackageSetup]
     ⟨prefixUnary, radiusUnary, ultrametricUnary, completeUnary, prefixRoute,
       ultrametricRoute, completeRoute, provenancePkg⟩
 
+theorem BaireMetricObligationCompleteMetricConsumer [AskSetup] [PackageSetup]
+    {S B W D R U H C P N prefixRead radiusRead ultrametricRead completeRead
+      consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricPrefixDistanceCarrier S B W D R U H C P N radiusRead ultrametricRead
+        bundle pkg →
+      Cont S B prefixRead →
+        Cont ultrametricRead R completeRead →
+          Cont completeRead U consumerRead →
+            PkgSig bundle consumerRead pkg →
+              UnaryHistory prefixRead ∧ UnaryHistory radiusRead ∧
+                UnaryHistory ultrametricRead ∧ UnaryHistory completeRead ∧
+                  UnaryHistory consumerRead ∧ Cont S B prefixRead ∧
+                    Cont radiusRead D ultrametricRead ∧
+                      Cont ultrametricRead R completeRead ∧
+                        Cont completeRead U consumerRead ∧ PkgSig bundle P pkg ∧
+                          PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BaireMetricPrefixDistanceCarrier BHist ProbeBundle Pkg Cont
+  intro carrier prefixRoute completeRoute consumerRoute consumerPkg
+  obtain ⟨unaryS, unaryB, _unaryW, unaryD, unaryR, unaryU, _unaryH, _unaryC,
+    _unaryP, _unaryN, radiusRoute, ultrametricRoute, provenancePkg, _localNamePkg⟩ :=
+    carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed unaryS unaryB prefixRoute
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed unaryS unaryB radiusRoute
+  have ultrametricUnary : UnaryHistory ultrametricRead :=
+    unary_cont_closed radiusUnary unaryD ultrametricRoute
+  have completeUnary : UnaryHistory completeRead :=
+    unary_cont_closed ultrametricUnary unaryR completeRoute
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed completeUnary unaryU consumerRoute
+  exact
+    ⟨prefixUnary, radiusUnary, ultrametricUnary, completeUnary, consumerUnary,
+      prefixRoute, ultrametricRoute, completeRoute, consumerRoute, provenancePkg,
+      consumerPkg⟩
+
+theorem BaireMetricZeroRadiusBranch [AskSetup] [PackageSetup]
+    {S B W D R U H C P N radiusRead ultrametricRead zeroRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricPrefixDistanceCarrier S B W D R U H C P N radiusRead ultrametricRead
+        bundle pkg ->
+      Cont D BHist.Empty zeroRead ->
+        PkgSig bundle zeroRead pkg ->
+          UnaryHistory D ∧ UnaryHistory zeroRead ∧ Cont D BHist.Empty zeroRead ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle zeroRead pkg := by
+  -- BEDC touchpoint anchor: BaireMetricPrefixDistanceCarrier BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier zeroRoute zeroPkg
+  obtain ⟨_unaryS, _unaryB, _unaryW, unaryD, _unaryR, _unaryU, _unaryH, _unaryC,
+    _unaryP, _unaryN, _radiusRoute, _ultrametricRoute, provenancePkg,
+      _localNamePkg⟩ := carrier
+  have zeroUnary : UnaryHistory zeroRead :=
+    unary_cont_closed unaryD unary_empty zeroRoute
+  exact ⟨unaryD, zeroUnary, zeroRoute, provenancePkg, zeroPkg⟩
+
 end BEDC.Derived.BaireMetricUp

@@ -93,6 +93,22 @@ therefore still reads through $T,F,R,S,J,E,L,D,H,P,N$ and cannot promote the
 budget extension into the refused endpoint claims.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-budget fuel envelope]
+\label{thm:metacic-diamond-residual-budget-fuel-envelope}
+An accepted $\MetaCICDiamondResidualBudgetUp$ packet may enlarge finite residual-budget accounting only through a fuel envelope that keeps the typed window $T$, redex frontier $F$, substitution boundary $S$, candidate joins $J$, residual envelope $E$, premise ledger $L$, local diamond row $D$, and structural rows $H,C,P,N$ visible. The enlarged envelope still exports only the finite route
+$$
+T,F,R,S \longmapsto J \longmapsto E,L,D \longmapsto H,C,P,N ,
+$$
+and it does not assert $\mathsf{BetaParallelSubstitutionCompatibility}$, full parallel diamond, or arbitrary closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. A fuel-envelope enlargement changes only the accounting boundary of the residual-budget row $R$, while the typed window, redex frontier, substitution boundary, candidate joins, residual envelope, premise ledger, local diamond row, and structural rows remain displayed.
+
+Use fuel monotonicity. The larger budget supplies more finite accounting for the same route, but it does not introduce a new endpoint theorem or hide the substitution boundary behind the candidate join.
+
+Apply the endpoint-boundary theorem. The confluence-facing consumer therefore remains confined to $T,F,R,S,J,E,L,D,H,C,P,N$, so the refused substitution-compatibility, parallel-diamond, and Church--Rosser conclusions are still outside the packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual-budget frontier accounting]
 \label{thm:metacic-diamond-residual-budget-obligation-frontier-accounting}
 For every accepted $\MetaCICDiamondResidualBudgetUp$ carrier
