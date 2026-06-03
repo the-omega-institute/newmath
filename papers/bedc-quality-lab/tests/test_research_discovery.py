@@ -55,8 +55,7 @@ def test_hg_dl_2_terminal_verdict_report_is_negative_discovery(terminal_verdict)
 
     assert verdict.discovery_level == "DN"
     assert verdict.reasons == (f"verdict={terminal_verdict}",)
-    assert verdict.net_information is not None
-    assert verdict.net_information < 0.0
+    assert verdict.net_information == pytest.approx(-0.020658466560950786)
     assert verdict.scorecard_ready is True
     assert verdict.audit_status == "unverifiable"
 
@@ -84,8 +83,7 @@ def test_hg_dl_3_accepts_existing_claim_gate_audit_improvement_key():
 
     assert verdict.discovery_level == "DN"
     assert verdict.reasons == ("verdict=demoted",)
-    assert verdict.net_information is not None
-    assert verdict.net_information < 0.0
+    assert verdict.net_information == pytest.approx(-0.23994104742363015)
 
     no_shift = dict(_canonical_payload("certificate-guided-discovery.json"))
     no_shift["verdict"] = ""

@@ -177,10 +177,6 @@ def _gap_metrics(seed: int) -> dict[str, Any]:
     }
 
 
-def _arm_gap_metrics(gap_metrics: dict[str, Any], *, use_gap_head: bool) -> dict[str, Any]:
-    return gap_metrics["gap_head" if use_gap_head else "vanilla"]
-
-
 def _execution_boundary(*, use_torch: bool, classifier_name: str) -> dict[str, Any]:
     torch_arm = bool(use_torch and classifier_name.startswith("tiny-mlp"))
     deterministic_fallback = not torch_arm
@@ -348,14 +344,6 @@ def _has_before_after_control(records: list[dict[str, Any]]) -> bool:
     by_role = _records_by_role(records)
     seeds = {int(record["seed"]) for record in records}
     return all(len(by_role.get(role, [])) == len(seeds) for role in ("before", "after", "control"))
-
-
-def _has_five_arms(records: list[dict[str, Any]]) -> bool:
-    by_arm: dict[str, list[dict[str, Any]]] = {}
-    for record in records:
-        by_arm.setdefault(str(record.get("arm")), []).append(record)
-    seeds = {int(record["seed"]) for record in records}
-    return bool(seeds) and all(len(by_arm.get(spec.arm, [])) == len(seeds) for spec in ARM_SPECS)
 
 
 def _arm_protocol() -> dict[str, Any]:
