@@ -293,4 +293,22 @@ theorem BaireMetricObligationCompleteMetricConsumer [AskSetup] [PackageSetup]
       prefixRoute, ultrametricRoute, completeRoute, consumerRoute, provenancePkg,
       consumerPkg⟩
 
+theorem BaireMetricZeroRadiusBranch [AskSetup] [PackageSetup]
+    {S B W D R U H C P N radiusRead ultrametricRead zeroRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricPrefixDistanceCarrier S B W D R U H C P N radiusRead ultrametricRead
+        bundle pkg ->
+      Cont D BHist.Empty zeroRead ->
+        PkgSig bundle zeroRead pkg ->
+          UnaryHistory D ∧ UnaryHistory zeroRead ∧ Cont D BHist.Empty zeroRead ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle zeroRead pkg := by
+  -- BEDC touchpoint anchor: BaireMetricPrefixDistanceCarrier BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier zeroRoute zeroPkg
+  obtain ⟨_unaryS, _unaryB, _unaryW, unaryD, _unaryR, _unaryU, _unaryH, _unaryC,
+    _unaryP, _unaryN, _radiusRoute, _ultrametricRoute, provenancePkg,
+      _localNamePkg⟩ := carrier
+  have zeroUnary : UnaryHistory zeroRead :=
+    unary_cont_closed unaryD unary_empty zeroRoute
+  exact ⟨unaryD, zeroUnary, zeroRoute, provenancePkg, zeroPkg⟩
+
 end BEDC.Derived.BaireMetricUp
