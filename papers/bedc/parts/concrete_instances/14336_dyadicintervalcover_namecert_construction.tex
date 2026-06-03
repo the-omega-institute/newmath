@@ -203,6 +203,7 @@ The rows $H,C,P,N$ transport, replay, source, and name that same finite route. S
 \label{thm:dyadic-interval-cover-root-window-coverage}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ $\BHist$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface}. Every root coverage request that begins from a $\StreamNameUp$ window row must read $W$ first, then the $\RegSeqRatUp$ readback $Q$, then the dyadic mesh and radius rows $M,R$ with membership row $V$, and only then the visible $\RealUp$ seal $A$ and structural rows $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRootWindowCoverage}
 \begin{proof}
 Start with the window and readback rows. The root surface contains $W$ as the only finite $\StreamNameUp$ window coordinate and $Q$ as the only $\RegSeqRatUp$ readback attached to it.
 
@@ -215,6 +216,7 @@ Finally use \autoref{thm:dyadicintervalcover-route-cover-stability}. Componentwi
 \label{thm:dyadic-interval-cover-root-compact-handoff}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ $\BHist$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface}. Any root consumer that hands $I$ to $\BishopIntervalCompactUp$ must expose the finite cover rows $L,U,M,R,V$, the real-window rows $W,Q,A$, and the structural rows $H,C,P,N$ as one packet before the compact consumer may read the cover. The handoff is finite packet data, not open-cover compactness, selected subcover extraction, quotient equality, choice, or ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRootCompactHandoff}
 \begin{proof}
 Use \autoref{thm:dyadicintervalcover-bishop-interval-compact-handoff}. It already identifies the $\BishopIntervalCompactUp$ consumer route as the displayed finite mesh-radius and real-window handoff.
 

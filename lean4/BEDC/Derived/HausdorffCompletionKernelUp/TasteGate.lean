@@ -27,8 +27,7 @@ def hausdorffCompletionKernelDecodeBHist : RawEvent → BHist
 
 private theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      hausdorffCompletionKernelDecodeBHist
-          (hausdorffCompletionKernelEncodeBHist h) = h := by
+      hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -40,71 +39,53 @@ def hausdorffCompletionKernelFields : HausdorffCompletionKernelUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | HausdorffCompletionKernelUp.mk Q Z F R E H C P N => [Q, Z, F, R, E, H, C, P, N]
 
-def hausdorffCompletionKernelToEventFlow : HausdorffCompletionKernelUp → EventFlow
+def hausdorffCompletionKernelToEventFlow : HausdorffCompletionKernelUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (hausdorffCompletionKernelFields x).map hausdorffCompletionKernelEncodeBHist
+  fun x => (hausdorffCompletionKernelFields x).map hausdorffCompletionKernelEncodeBHist
 
-def hausdorffCompletionKernelEventAt : Nat → EventFlow → RawEvent
+private def hausdorffCompletionKernelEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => hausdorffCompletionKernelEventAt index rest
+  | Nat.succ index, _event :: rest => hausdorffCompletionKernelEventAtDefault index rest
 
-def hausdorffCompletionKernelFromEventFlow :
-    EventFlow → Option HausdorffCompletionKernelUp
+def hausdorffCompletionKernelFromEventFlow (ef : EventFlow) :
+    Option HausdorffCompletionKernelUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      some
-        (HausdorffCompletionKernelUp.mk
-          (hausdorffCompletionKernelDecodeBHist
-            (hausdorffCompletionKernelEventAt 0 flow))
-          (hausdorffCompletionKernelDecodeBHist
-            (hausdorffCompletionKernelEventAt 1 flow))
-          (hausdorffCompletionKernelDecodeBHist
-            (hausdorffCompletionKernelEventAt 2 flow))
-          (hausdorffCompletionKernelDecodeBHist
-            (hausdorffCompletionKernelEventAt 3 flow))
-          (hausdorffCompletionKernelDecodeBHist
-            (hausdorffCompletionKernelEventAt 4 flow))
-          (hausdorffCompletionKernelDecodeBHist
-            (hausdorffCompletionKernelEventAt 5 flow))
-          (hausdorffCompletionKernelDecodeBHist
-            (hausdorffCompletionKernelEventAt 6 flow))
-          (hausdorffCompletionKernelDecodeBHist
-            (hausdorffCompletionKernelEventAt 7 flow))
-          (hausdorffCompletionKernelDecodeBHist
-            (hausdorffCompletionKernelEventAt 8 flow)))
+  some
+    (HausdorffCompletionKernelUp.mk
+      (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEventAtDefault 0 ef))
+      (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEventAtDefault 1 ef))
+      (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEventAtDefault 2 ef))
+      (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEventAtDefault 3 ef))
+      (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEventAtDefault 4 ef))
+      (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEventAtDefault 5 ef))
+      (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEventAtDefault 6 ef))
+      (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEventAtDefault 7 ef))
+      (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEventAtDefault 8 ef)))
 
 private theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment_round_trip :
     ∀ x : HausdorffCompletionKernelUp,
       hausdorffCompletionKernelFromEventFlow
-          (hausdorffCompletionKernelToEventFlow x) = some x := by
+          (hausdorffCompletionKernelToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
-  cases x with
+  intro token
+  cases token with
   | mk Q Z F R E H C P N =>
       change
         some
           (HausdorffCompletionKernelUp.mk
-            (hausdorffCompletionKernelDecodeBHist
-              (hausdorffCompletionKernelEncodeBHist Q))
-            (hausdorffCompletionKernelDecodeBHist
-              (hausdorffCompletionKernelEncodeBHist Z))
-            (hausdorffCompletionKernelDecodeBHist
-              (hausdorffCompletionKernelEncodeBHist F))
-            (hausdorffCompletionKernelDecodeBHist
-              (hausdorffCompletionKernelEncodeBHist R))
-            (hausdorffCompletionKernelDecodeBHist
-              (hausdorffCompletionKernelEncodeBHist E))
-            (hausdorffCompletionKernelDecodeBHist
-              (hausdorffCompletionKernelEncodeBHist H))
-            (hausdorffCompletionKernelDecodeBHist
-              (hausdorffCompletionKernelEncodeBHist C))
-            (hausdorffCompletionKernelDecodeBHist
-              (hausdorffCompletionKernelEncodeBHist P))
-            (hausdorffCompletionKernelDecodeBHist
-              (hausdorffCompletionKernelEncodeBHist N))) =
+            (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist Q))
+            (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist Z))
+            (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist F))
+            (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist R))
+            (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist E))
+            (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist H))
+            (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist C))
+            (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist P))
+            (hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist N))) =
           some (HausdorffCompletionKernelUp.mk Q Z F R E H C P N)
       rw [HausdorffCompletionKernelTasteGate_single_carrier_alignment_decode Q,
         HausdorffCompletionKernelTasteGate_single_carrier_alignment_decode Z,
@@ -116,10 +97,9 @@ private theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment_roun
         HausdorffCompletionKernelTasteGate_single_carrier_alignment_decode P,
         HausdorffCompletionKernelTasteGate_single_carrier_alignment_decode N]
 
-private theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment_injective
+private theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : HausdorffCompletionKernelUp} :
-    hausdorffCompletionKernelToEventFlow x = hausdorffCompletionKernelToEventFlow y →
-      x = y := by
+    hausdorffCompletionKernelToEventFlow x = hausdorffCompletionKernelToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -133,8 +113,8 @@ private theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment_inje
         (HausdorffCompletionKernelTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment_fields :
-    ∀ x y : HausdorffCompletionKernelUp,
-      hausdorffCompletionKernelFields x = hausdorffCompletionKernelFields y → x = y := by
+    ∀ x y : HausdorffCompletionKernelUp, hausdorffCompletionKernelFields x =
+      hausdorffCompletionKernelFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
@@ -144,8 +124,7 @@ private theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment_fiel
           cases hfields
           rfl
 
-instance hausdorffCompletionKernelBHistCarrier :
-    BHistCarrier HausdorffCompletionKernelUp where
+instance hausdorffCompletionKernelBHistCarrier : BHistCarrier HausdorffCompletionKernelUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := hausdorffCompletionKernelToEventFlow
   fromEventFlow := hausdorffCompletionKernelFromEventFlow
@@ -155,22 +134,19 @@ instance hausdorffCompletionKernelChapterTasteGate :
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
-    change
-      hausdorffCompletionKernelFromEventFlow
-          (hausdorffCompletionKernelToEventFlow x) = some x
+    change hausdorffCompletionKernelFromEventFlow
+        (hausdorffCompletionKernelToEventFlow x) = some x
     exact HausdorffCompletionKernelTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (HausdorffCompletionKernelTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (HausdorffCompletionKernelTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
-instance hausdorffCompletionKernelFieldFaithful :
-    FieldFaithful HausdorffCompletionKernelUp where
+instance hausdorffCompletionKernelFieldFaithful : FieldFaithful HausdorffCompletionKernelUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := hausdorffCompletionKernelFields
   field_faithful := HausdorffCompletionKernelTasteGate_single_carrier_alignment_fields
 
-instance hausdorffCompletionKernelNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial HausdorffCompletionKernelUp where
+instance hausdorffCompletionKernelNontrivial : Nontrivial HausdorffCompletionKernelUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨HausdorffCompletionKernelUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
@@ -188,11 +164,11 @@ def taste_gate : ChapterTasteGate HausdorffCompletionKernelUp :=
 theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate HausdorffCompletionKernelUp) ∧
       Nonempty (FieldFaithful HausdorffCompletionKernelUp) ∧
-        Nonempty (BEDC.Meta.TasteGate.Nontrivial HausdorffCompletionKernelUp) ∧
+        Nonempty (Nontrivial HausdorffCompletionKernelUp) ∧
           (∀ h : BHist,
             hausdorffCompletionKernelDecodeBHist
               (hausdorffCompletionKernelEncodeBHist h) = h) ∧
-            hausdorffCompletionKernelEncodeBHist BHist.Empty = ([] : RawEvent) := by
+            hausdorffCompletionKernelEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
     ⟨⟨hausdorffCompletionKernelChapterTasteGate⟩,
@@ -200,5 +176,31 @@ theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment :
       ⟨hausdorffCompletionKernelNontrivial⟩,
       HausdorffCompletionKernelTasteGate_single_carrier_alignment_decode,
       rfl⟩
+
+namespace TasteGate
+
+def hausdorffCompletionKernelTasteGate : ChapterTasteGate HausdorffCompletionKernelUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  hausdorffCompletionKernelChapterTasteGate
+
+theorem HausdorffCompletionKernelTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      hausdorffCompletionKernelDecodeBHist (hausdorffCompletionKernelEncodeBHist h) = h) ∧
+      (∀ x : HausdorffCompletionKernelUp,
+        hausdorffCompletionKernelFromEventFlow
+          (hausdorffCompletionKernelToEventFlow x) = some x) ∧
+        (∀ x y : HausdorffCompletionKernelUp,
+          hausdorffCompletionKernelToEventFlow x =
+            hausdorffCompletionKernelToEventFlow y → x = y) ∧
+          hausdorffCompletionKernelEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨HausdorffCompletionKernelTasteGate_single_carrier_alignment_decode,
+      HausdorffCompletionKernelTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq =>
+        HausdorffCompletionKernelTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
+
+end TasteGate
 
 end BEDC.Derived.HausdorffCompletionKernelUp
