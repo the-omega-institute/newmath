@@ -14,7 +14,6 @@ from __future__ import annotations
 import argparse
 import bisect
 import fcntl
-import hashlib
 import json
 import os
 import re
@@ -35,7 +34,6 @@ DERIVED_DIR = ROOT / "lean4/BEDC/Derived"
 _THEOREM_ENVS_CACHE_PATH = Path("/tmp/.bedc_cp_theorem_envs_cache.json")
 _LEAN_DECLS_CACHE_PATH = Path("/tmp/.bedc_cp_lean_decls_cache.json")
 _CACHE_ENABLED = True
-GRADE_SEMANTICS = "static_sieve_only_not_truth"
 
 # Per-call rolling cooldown: when 8+ paper reviewers run critical_path in the
 # same minute they all see identical scores and converge on the same top-1,
@@ -261,19 +259,13 @@ RETIREMENT_FORMAL_THRESHOLD = "theoremCheckedV"
 
 _LEAN_BASE_WEIGHTS = {
     "top": 0.50,
-    "sieve_clearance_top": 0.15,
-    "discovery_candidate_top": 0.06,
     "formal_axis_top": 0.25,
     "unformalized_top": 0.15,
-    "carrier_isomorphism_capstone": 0.10,
 }
 _PAPER_BASE_WEIGHTS = {
     "top": 0.40,
-    "sieve_clearance_top": 0.25,
-    "discovery_candidate_top": 0.05,
     "top_root_unblocks": 0.30,
     "closure_mark": 0.15,
-    "carrier_isomorphism_capstone": 0.10,
 }
 _PAPER_PRIORITY_BASE = {
     "human_derivation_gap": 0.8235,
@@ -303,32 +295,6 @@ def _normalize_weights(weights: dict[str, float]) -> dict[str, float]:
     return {k: round(max(0.0, v) / total, 4) for k, v in weights.items()}
 
 
-def _apply_post_normalization_caps(
-    weights: dict[str, float],
-    caps: dict[str, float],
-) -> dict[str, float]:
-    capped = dict(weights)
-    surplus = 0.0
-    for key, cap in caps.items():
-        current = capped.get(key, 0.0)
-        if current > cap:
-            capped[key] = cap
-            surplus += current - cap
-    if surplus <= 0:
-        return {key: round(value, 4) for key, value in capped.items()}
-
-    recipients = [
-        key for key, value in capped.items()
-        if value > 0 and key not in caps
-    ]
-    recipient_total = sum(capped[key] for key in recipients)
-    if recipient_total <= 0:
-        return {key: round(value, 4) for key, value in capped.items()}
-    for key in recipients:
-        capped[key] += surplus * (capped[key] / recipient_total)
-    return {key: round(value, 4) for key, value in capped.items()}
-
-
 def _cap_against_base(value: float, base_value: float) -> float:
     return min(base_value * 1.5, max(base_value * 0.5, value))
 
@@ -337,13 +303,10 @@ def _compute_consumption_60min() -> dict[str, int]:
     """Parse recent codex-auto-dev commits and infer target source counts."""
     sources = {
         "top": 0,
-        "sieve_clearance_top": 0,
-        "discovery_candidate_top": 0,
         "formal_axis_top": 0,
         "unformalized_top": 0,
         "top_root_unblocks": 0,
         "closure_mark": 0,
-        "carrier_isomorphism_capstone": 0,
     }
     subjects: list[str] = []
     for branch in ("codex-auto-dev", "origin/codex-auto-dev", "HEAD"):
@@ -368,13 +331,7 @@ def _compute_consumption_60min() -> dict[str, int]:
             break
     for subject in subjects:
         s = subject.lower()
-        if re.search(r"discovery[-_ ]?candidate|delta ledger|classifier shift|confirmed composite|mechanical reconstruction", s):
-            sources["discovery_candidate_top"] += 1
-        elif re.search(r"sieve|discovery[-_ ]?sieve|clearance", s):
-            sources["sieve_clearance_top"] += 1
-        elif re.search(r"carrier[-_ ]?isomorphism|capstone", s):
-            sources["carrier_isomorphism_capstone"] += 1
-        elif re.search(r"closure[_ -]?mark|closureat|drift|bridge sync|formalstatus|closurestatus", s):
+        if re.search(r"closure[_ -]?mark|closureat|drift|bridge sync|formalstatus|closurestatus", s):
             sources["closure_mark"] += 1
         elif re.search(r"root[-_ ]?unblock|root_unblocks", s):
             sources["top_root_unblocks"] += 1
@@ -412,10 +369,7 @@ def _adjust_dispatch_weights(
                 factor = 1.2
             adjusted[key] = _cap_against_base(weight * factor, base[key])
 
-    normalized_active = _apply_post_normalization_caps(
-        _normalize_weights(adjusted),
-        {"discovery_candidate_top": 0.10},
-    )
+    normalized_active = _normalize_weights(adjusted)
     return {key: normalized_active.get(key, 0.0) for key in base}
 
 
@@ -428,22 +382,11 @@ def _dispatch_advice(side: str, weights: dict[str, float], supply: dict[str, int
     if not available:
         return "No currently supplied source; use critical_path fallback gates."
     top = sorted(available, key=lambda item: item[1], reverse=True)
-    top = [
-        item for item in top
-        if not (item[0] == "discovery_candidate_top" and len(top) > 1)
-    ][:2]
+    top = top[:2]
     if side == "lean":
         parts = [f"Pick {1 if weight < 0.34 else 2} of 3 from {key}" for key, weight in top]
-        if weights.get("discovery_candidate_top", 0) > 0 and supply.get("discovery_candidate_top", 0):
-            parts.append("Use at most 1 discovery candidate as bounded evidence attempt")
-        if weights.get("carrier_isomorphism_capstone", 0) >= 0.10 and supply.get("carrier_isomorphism_capstone", 0):
-            parts.append("Consider 1 capstone draft if other sources are blocked")
     else:
         parts = [f"Pick {'2' if weight >= 0.34 else '1'} of 5 from {key}" for key, weight in top]
-        if weights.get("discovery_candidate_top", 0) > 0 and supply.get("discovery_candidate_top", 0):
-            parts.append("Use at most 1 discovery candidate; positive claim requires resolved Lean evidence")
-        if weights.get("carrier_isomorphism_capstone", 0) >= 0.10 and supply.get("carrier_isomorphism_capstone", 0):
-            parts.append("Reserve at most 1 capstone NameCert seed when compatible with hard gates")
     return ". ".join(parts) + "."
 
 
@@ -453,8 +396,6 @@ def _compute_dispatch_weights(
     consumption: dict[str, int],
     base_weights_lean: dict[str, float],
     base_weights_paper: dict[str, float],
-    capstone_candidate: dict | None = None,
-    capstone_coverage: dict | None = None,
     paper_priority_config: dict[str, object] | None = None,
 ) -> dict[str, dict]:
     """Compute supply- and consumption-adjusted per-side weights."""
@@ -483,139 +424,16 @@ def _compute_dispatch_weights(
             "weights": lean_weights,
             "supply": supply_lean,
             "consumption_60min": {key: consumption.get(key, 0) for key in base_weights_lean},
-            "capstone_candidate": capstone_candidate,
-            "capstone_coverage": capstone_coverage,
             "advice": _dispatch_advice("lean", lean_weights, supply_lean),
         },
         "paper": {
             "weights": paper_weights,
             "supply": supply_paper,
             "consumption_60min": {key: consumption.get(key, 0) for key in paper_base_effective},
-            "capstone_candidate": capstone_candidate,
-            "capstone_coverage": capstone_coverage,
             "priority_config": priority_config,
             "advice": _dispatch_advice("paper", paper_weights, supply_paper),
         },
     }
-
-
-def _demoted_target_names(sieve_demote: list[dict]) -> set[str]:
-    out: set[str] = set()
-    for item in sieve_demote:
-        if not isinstance(item, dict):
-            continue
-        target = str(item.get("target") or "")
-        if target:
-            out.add(target)
-            out.add(target.rsplit(".", 1)[-1])
-        region = str(item.get("region") or "")
-        if region:
-            out.add(region)
-            if region.endswith("Up"):
-                out.add(region[:-2])
-    return out
-
-
-def _demoted_chapter_names(sieve_demote: list[dict]) -> set[str]:
-    out: set[str] = set()
-    for item in sieve_demote:
-        if not isinstance(item, dict):
-            continue
-        region = str(item.get("region") or "")
-        if region:
-            out.add(normalize_name(region))
-        target = str(item.get("target") or "")
-        if target:
-            local = target.rsplit(".", 1)[-1]
-            for suffix in ("DeltaLedger", "DiscoveryDeltaLedger", "Up"):
-                if local.endswith(suffix):
-                    local = local[: -len(suffix)]
-                    break
-            out.add(normalize_name(local))
-    return {name for name in out if name}
-
-
-def _demote_candidate_chapter(item: dict) -> str:
-    region = str(item.get("region") or "")
-    if region:
-        return normalize_name(region[:-2] if region.endswith("Up") else region)
-    target = str(item.get("target") or "")
-    if not target:
-        return ""
-    local = target.rsplit(".", 1)[-1]
-    for suffix in ("DeltaLedger", "DiscoveryDeltaLedger", "Up"):
-        if local.endswith(suffix):
-            local = local[: -len(suffix)]
-            break
-    return normalize_name(local)
-
-
-def _filter_sieve_demote_dogpile(sieve_demote: list[dict]) -> list[dict]:
-    if not sieve_demote:
-        return []
-    paper_inflight = _inflight_paper_attack_chapters()
-    lean_inflight = _inflight_lean_attack_chapters()
-    recent_paper = _recent_paper_attack_chapter_counts(window_minutes=15)
-    worker_shard, total_shards = _current_worker_slice()
-    out: list[dict] = []
-    for item in sieve_demote:
-        if not isinstance(item, dict):
-            continue
-        chapter = _demote_candidate_chapter(item)
-        if chapter:
-            if chapter in paper_inflight or chapter in lean_inflight:
-                continue
-            if recent_paper.get(chapter, 0) >= 1:
-                continue
-        target = item.get("target") or chapter
-        if _target_shard(target, total_shards) != worker_shard:
-            continue
-        row = dict(item)
-        row["worker_shard"] = worker_shard
-        row["worker_shards"] = total_shards
-        if chapter:
-            row["chapter_key"] = chapter
-        out.append(row)
-    return out
-
-
-def _apply_sieve_demotions(ranked: list[dict], sieve_demote: list[dict]) -> list[dict]:
-    demoted = _demoted_chapter_names(sieve_demote)
-    if not demoted:
-        return ranked
-    for row in ranked:
-        if normalize_name(row.get("name", "")) not in demoted:
-            continue
-        original = float(row.get("score", 0) or 0)
-        row["sieve_demoted"] = True
-        row["sieve_demotion"] = "static_sieve_low_priority"
-        row["score_before_sieve_demotion"] = original
-        row["score"] = round(original * 0.25, 4)
-    ranked.sort(key=lambda r: (
-        -r["score"],
-        r["chapter_grade_lag"],
-        -r["sibling_effective_unmarked"],
-        -r["tiebreak"],
-        r["name"], r["sibling_id"],
-    ))
-    return ranked
-
-
-def _current_worker_slice(total_shards: int = 4) -> tuple[int, int]:
-    parsed = parse_new_worktree_name(Path.cwd().name)
-    identity = (
-        os.environ.get("BEDC_WORKER_ID")
-        or os.environ.get("CODEX_WORKER_ID")
-        or ("-".join(parsed) if parsed else None)
-        or Path.cwd().name
-    )
-    digest = hashlib.sha256(str(identity).encode("utf-8")).hexdigest()
-    return int(digest[:8], 16) % total_shards, total_shards
-
-
-def _target_shard(target: object, total_shards: int) -> int:
-    digest = hashlib.sha256(str(target or "").encode("utf-8")).hexdigest()
-    return int(digest[:8], 16) % total_shards
 
 
 def _count_closure_mark_candidates() -> int:
@@ -681,544 +499,6 @@ def _git_head_short() -> str:
 
 
 _objective_grades_cache: dict[str, str] | None = None
-_carrier_isomorphism_cache: dict | None = None
-_discovery_sieve_cache: dict | None = None
-_discovery_candidate_cache: dict | None = None
-_bedc_ci_scan_cache: tuple[object, object] | None = None
-
-
-# Time-staleness disk cache for slow-moving discovery dispatch signals.
-# carrier_isomorphism / discovery_sieve / discovery_candidate each run ~34s of
-# structural_dna analysis, but only change meaningfully on the discovery
-# pipeline's ~6h cadence. critical_path is a fresh subprocess on every autotune
-# tick / round dispatch, so recomputing them every call is pure waste. Reuse a
-# published value if younger than the staleness window; otherwise compute once
-# and publish for the next few hours of calls.
-import os as _os
-import time as _time
-
-_DISCOVERY_PAYLOAD_CACHE_PATH = Path("/tmp/.bedc_cp_discovery_payload_cache.json")
-_DISCOVERY_PAYLOAD_STALENESS_S = float(_os.environ.get("BEDC_CP_DISCOVERY_STALENESS", "10800"))  # 3h
-
-
-def _disk_cached_payload(key: str, compute):
-    """Reuse a published payload if younger than the staleness window, else
-    compute fresh and publish. Only successful payloads are persisted — a
-    transient failure (available=False) is never frozen for hours."""
-    if _os.environ.get("BEDC_CP_DISCOVERY_CACHE", "1") == "0":
-        return compute()
-    now = _time.time()
-    try:
-        if _DISCOVERY_PAYLOAD_CACHE_PATH.exists():
-            store = json.loads(_DISCOVERY_PAYLOAD_CACHE_PATH.read_text())
-            entry = store.get(key) if isinstance(store, dict) else None
-            if isinstance(entry, dict) and (now - float(entry.get("ts", 0))) < _DISCOVERY_PAYLOAD_STALENESS_S:
-                return entry.get("value")
-    except Exception:
-        pass
-    value = compute()
-    if isinstance(value, dict) and value.get("available") is not False:
-        try:
-            store = {}
-            if _DISCOVERY_PAYLOAD_CACHE_PATH.exists():
-                existing = json.loads(_DISCOVERY_PAYLOAD_CACHE_PATH.read_text())
-                if isinstance(existing, dict):
-                    store = existing
-            store[key] = {"ts": now, "value": value}
-            tmp = _DISCOVERY_PAYLOAD_CACHE_PATH.with_suffix(".tmp")
-            tmp.write_text(json.dumps(store))
-            tmp.replace(_DISCOVERY_PAYLOAD_CACHE_PATH)
-        except Exception:
-            pass
-    return value
-
-
-def _load_bedc_ci_scan() -> tuple[object, object]:
-    global _bedc_ci_scan_cache
-    if _bedc_ci_scan_cache is not None:
-        return _bedc_ci_scan_cache
-    sys_path_addition = str((ROOT / "lean4" / "scripts").resolve())
-    import sys as _sys
-    if sys_path_addition not in _sys.path:
-        _sys.path.insert(0, sys_path_addition)
-    import bedc_ci  # type: ignore
-
-    blocks = bedc_ci.collect_closurestatus_blocks(bedc_ci.PAPER_PARTS_ROOT)
-    lean_scan = bedc_ci.scan_lean_sources()
-    _bedc_ci_scan_cache = (blocks, lean_scan)
-    return _bedc_ci_scan_cache
-
-_ARITY_NAME = {
-    1: "Mono",
-    2: "Di",
-    3: "Tri",
-    4: "Tetra",
-    5: "Penta",
-    6: "Hexa",
-    7: "Hepta",
-    8: "Octa",
-    9: "Nona",
-    10: "Deca",
-    11: "Hendeca",
-    12: "Dodeca",
-}
-
-_GENERIC_NAME_TOKENS = {
-    "Up",
-    "Name",
-    "Cert",
-    "NameCert",
-    "Taste",
-    "Gate",
-    "TasteGate",
-    "Carrier",
-    "Chapter",
-    "BHist",
-}
-
-
-def _shape_summary(shape: object) -> str:
-    """Compact phase-2 toEventFlow shape for critical_path JSON."""
-    if not isinstance(shape, list) or not shape:
-        return "unparsed"
-    kinds = [
-        str(item.get("kind"))
-        for item in shape
-        if isinstance(item, dict) and item.get("kind") is not None
-    ]
-    if len(kinds) == len(shape) and len(set(kinds)) == 1:
-        return f"{kinds[0]}×{len(kinds)}"
-    if (
-        len(kinds) == len(shape)
-        and len(kinds) % 2 == 0
-        and all(kinds[i] == "tag" and kinds[i + 1] == "encode" for i in range(0, len(kinds), 2))
-    ):
-        return f"tag-encode×{len(kinds) // 2}"
-    preview = "-".join(kinds[:8])
-    if len(kinds) > 8:
-        preview += f"+{len(kinds) - 8}"
-    return preview or "unparsed"
-
-
-def _camel_tokens(name: str) -> list[str]:
-    core = name[:-2] if name.endswith("Up") else name
-    return re.findall(r"[A-Z]+(?=[A-Z][a-z]|$)|[A-Z]?[a-z0-9]+", core)
-
-
-def _clean_common_theme(names: list[str]) -> str | None:
-    token_rows = [[t for t in _camel_tokens(name) if t not in _GENERIC_NAME_TOKENS] for name in names]
-    token_rows = [row for row in token_rows if row]
-    if len(token_rows) < 2:
-        return None
-    first = token_rows[0]
-    best: list[str] = []
-    for start in range(len(first)):
-        for end in range(start + 1, len(first) + 1):
-            candidate = first[start:end]
-            if len(candidate) < len(best):
-                continue
-            found_everywhere = all(
-                any(row[i:i + len(candidate)] == candidate for i in range(len(row) - len(candidate) + 1))
-                for row in token_rows[1:]
-            )
-            if found_everywhere and len(candidate) > len(best):
-                best = candidate
-    if len(best) >= 2 or (best and len(best[0]) >= 6):
-        return "".join(best)
-    return None
-
-
-def _shape_name_part(shape_summary: str) -> str:
-    if re.fullmatch(r"tag-encode×\d+", shape_summary):
-        return "Tuple"
-    if re.fullmatch(r"encode×\d+", shape_summary):
-        return "Sequence"
-    if re.fullmatch(r"tag×\d+", shape_summary):
-        return "TaggedFlow"
-    return "EventFlow"
-
-
-def _snake_case_name(name: str) -> str:
-    core = name[:-2] if name.endswith("Up") else name
-    parts = _camel_tokens(core)
-    return "_".join(part.lower() for part in parts)
-
-
-def _suggest_capstone_name(arity: int | None, shape_summary: str, names: list[str]) -> str:
-    theme = _clean_common_theme(names)
-    if theme:
-        suggested = f"{theme}CarrierNameCertUp"
-    else:
-        arity_name = _ARITY_NAME.get(arity or 0, f"Arity{arity}" if arity else "Multi")
-        suggested = f"BHist{arity_name}{_shape_name_part(shape_summary)}NameCertUp"
-    return suggested if suggested.endswith("Up") else f"{suggested}Up"
-
-
-def _capstone_candidate_dict(bucket: dict) -> dict:
-    arity = bucket.get("arity")
-    if not isinstance(arity, int):
-        arity = None
-    shape_summary = str(bucket.get("shape_summary") or "unparsed")
-    members = bucket.get("members_sample", [])
-    if not isinstance(members, list):
-        members = []
-    names = [str(name) for name in members if name]
-    member_count = int(bucket.get("member_count") or len(names))
-    suggested_lean_name = _suggest_capstone_name(arity, shape_summary, names)
-    suggested_paper_slug = _snake_case_name(suggested_lean_name)
-    return {
-        "bucket_arity": arity,
-        "bucket_shape": shape_summary,
-        "bucket_member_count": member_count,
-        "bucket_members_sample": names[:8],
-        "suggested_lean_name": suggested_lean_name,
-        "suggested_paper_slug": suggested_paper_slug,
-        "suggested_paper_filename_prefix_hint": f"NNNN_{suggested_paper_slug}",
-        "rationale": f"{member_count} chapters share a {shape_summary} BHist carrier event-flow pattern at arity {arity}.",
-    }
-
-
-def _capstone_candidate_sort_key(bucket: dict) -> tuple[int, int, str]:
-    return (
-        -int(bucket.get("member_count") or 0),
-        int(bucket.get("arity") or 10**9),
-        str(bucket.get("shape_summary") or ""),
-    )
-
-
-def _capstone_candidate_from_buckets(buckets: list[dict]) -> dict | None:
-    valid = [
-        bucket
-        for bucket in buckets
-        if isinstance(bucket, dict) and int(bucket.get("member_count") or 0) >= 2
-    ]
-    for bucket in sorted(valid, key=_capstone_candidate_sort_key):
-        candidate = _capstone_candidate_dict(bucket)
-        candidate_file = DERIVED_DIR / f"{candidate['suggested_lean_name']}.lean"
-        if candidate_file.exists():
-            continue
-        return candidate
-    return None
-
-
-def _capstone_coverage_from_buckets(buckets: list[dict]) -> dict:
-    covered_names = []
-    total_phase2_buckets = 0
-    for bucket in sorted(
-        (bucket for bucket in buckets if isinstance(bucket, dict)),
-        key=_capstone_candidate_sort_key,
-    ):
-        if int(bucket.get("member_count") or 0) < 2:
-            continue
-        total_phase2_buckets += 1
-        candidate = _capstone_candidate_dict(bucket)
-        suggested_lean_name = candidate["suggested_lean_name"]
-        if (DERIVED_DIR / f"{suggested_lean_name}.lean").exists():
-            covered_names.append(suggested_lean_name)
-    covered = len(covered_names)
-    return {
-        "total_phase2_buckets": total_phase2_buckets,
-        "covered": covered,
-        "uncovered": total_phase2_buckets - covered,
-        "covered_names": covered_names,
-    }
-
-
-def _get_carrier_isomorphism_summary() -> dict:
-    """Return a small carrier-isomorphism summary, not the full audit JSON."""
-    global _carrier_isomorphism_cache
-    if _carrier_isomorphism_cache is not None:
-        return _carrier_isomorphism_cache
-
-    def _compute() -> dict:
-        try:
-            result = subprocess.run(
-                ["python3", str(ROOT / "lean4" / "scripts" / "bedc_ci.py"),
-                 "carrier-isomorphism", "--json"],
-                cwd=str(ROOT),
-                capture_output=True,
-                text=True,
-                check=False,
-                timeout=30,
-            )
-        except subprocess.TimeoutExpired:
-            return {
-                "available": False,
-                "reason": "carrier-isomorphism timed out after 30s",
-            }
-        except Exception as exc:
-            return {
-                "available": False,
-                "reason": f"carrier-isomorphism failed to start: {exc}",
-            }
-
-        if result.returncode != 0:
-            stderr = (result.stderr or result.stdout or "").strip()
-            return {
-                "available": False,
-                "reason": stderr[:500] or f"carrier-isomorphism exited {result.returncode}",
-            }
-
-        try:
-            payload = json.loads(result.stdout)
-        except Exception as exc:
-            return {
-                "available": False,
-                "reason": f"carrier-isomorphism JSON parse failed: {exc}",
-            }
-
-        buckets = payload.get("phase2_buckets", [])
-        if not isinstance(buckets, list):
-            buckets = []
-        ranked = sorted(
-            enumerate(buckets, start=1),
-            key=lambda item: len(item[1].get("members", [])) if isinstance(item[1], dict) else 0,
-            reverse=True,
-        )
-        phase2_buckets = []
-        for bucket_id, bucket in ranked:
-            if not isinstance(bucket, dict):
-                continue
-            fingerprint = bucket.get("fingerprint", {})
-            if not isinstance(fingerprint, dict):
-                fingerprint = {}
-            members = bucket.get("members", [])
-            if not isinstance(members, list):
-                members = []
-            names = [
-                str(member.get("name"))
-                for member in members
-                if isinstance(member, dict) and member.get("name")
-            ]
-            phase2_buckets.append({
-                "bucket_id": bucket_id,
-                "arity": fingerprint.get("arity"),
-                "shape_summary": _shape_summary(fingerprint.get("shape")),
-                "member_count": len(members),
-                "members_sample": names[:8],
-            })
-        top_buckets = []
-        for bucket in phase2_buckets[:10]:
-            members_preview = list(bucket["members_sample"][:5])
-            if bucket["member_count"] > 5:
-                members_preview.append("...")
-            top_buckets.append({
-                "bucket_id": bucket["bucket_id"],
-                "arity": bucket["arity"],
-                "shape_summary": bucket["shape_summary"],
-                "member_count": bucket["member_count"],
-                "members_preview": members_preview,
-            })
-
-        return {
-            "available": True,
-            "carriers_scanned": payload.get("carriers_scanned"),
-            "phase2_buckets": phase2_buckets,
-            "phase2_top_buckets": top_buckets,
-        }
-
-    _carrier_isomorphism_cache = _disk_cached_payload("carrier_isomorphism", _compute)
-    return _carrier_isomorphism_cache
-
-
-def _get_discovery_sieve_payload() -> dict:
-    global _discovery_sieve_cache
-    if _discovery_sieve_cache is not None:
-        return _discovery_sieve_cache
-
-    def _compute() -> dict:
-        try:
-            import bedc_ci  # type: ignore
-
-            blocks, lean_scan = _load_bedc_ci_scan()
-            return bedc_ci.discovery_sieve_payload(
-                blocks,
-                lean_scan.discovery_delta_ledgers,
-                lean_scan.declaration_headers,
-                lean_scan.declaration_bodies,
-            )
-        except Exception as exc:
-            return {
-                "informational": True,
-                "available": False,
-                "reason": str(exc)[:500],
-                "targets": [],
-                "grade_counts": {},
-            }
-
-    _discovery_sieve_cache = _disk_cached_payload("discovery_sieve", _compute)
-    return _discovery_sieve_cache
-
-
-def _get_discovery_candidate_payload() -> dict:
-    global _discovery_candidate_cache
-    if _discovery_candidate_cache is not None:
-        return _discovery_candidate_cache
-
-    def _compute() -> dict:
-        try:
-            import bedc_ci  # type: ignore
-
-            blocks, lean_scan = _load_bedc_ci_scan()
-            return bedc_ci.discovery_candidate_payload(
-                blocks,
-                lean_scan,
-                sieve_payload=_get_discovery_sieve_payload(),
-            )
-        except Exception as exc:
-            return {
-                "informational": True,
-                "available": False,
-                "reason": str(exc)[:500],
-                "candidates": [],
-                "diagnostic_notes": [],
-                "metrics": {},
-            }
-
-    _discovery_candidate_cache = _disk_cached_payload("discovery_candidate", _compute)
-    return _discovery_candidate_cache
-
-
-def compute_discovery_candidate_targets(payload: dict, max_n: int = 3) -> list[dict]:
-    candidates = payload.get("candidates", [])
-    if not isinstance(candidates, list):
-        return []
-    worker_shard, total_shards = _current_worker_slice()
-    out: list[dict] = []
-    for item in candidates:
-        if not isinstance(item, dict):
-            continue
-        key = item.get("stable_key") or item.get("target")
-        if _target_shard(key, total_shards) != worker_shard:
-            continue
-        row = dict(item)
-        row["worker_shard"] = worker_shard
-        row["worker_shards"] = total_shards
-        row["dispatch_source"] = "discovery_candidate_top"
-        row["suggested_landing"] = "existing_chapter_ledger_row"
-        out.append(row)
-    out.sort(key=lambda row: (row.get("selection_rank", 9999), str(row.get("stable_key", ""))))
-    return out[:max_n]
-
-
-def compute_sieve_clearance_targets(payload: dict, max_n: int = 25) -> list[dict]:
-    targets = payload.get("targets", [])
-    if not isinstance(targets, list):
-        return []
-    demote_targets = compute_sieve_demote_targets(payload, max_n=max(len(targets), 1))
-    demoted_names = _demoted_target_names(demote_targets)
-    worker_shard, total_shards = _current_worker_slice()
-    out: list[dict] = []
-    for item in targets:
-        if not isinstance(item, dict):
-            continue
-        target = item.get("target")
-        if (
-            target in demoted_names
-            or str(target).rsplit(".", 1)[-1] in demoted_names
-            or item.get("region") in demoted_names
-        ):
-            continue
-        if _target_shard(target, total_shards) != worker_shard:
-            continue
-        grade = item.get("grade")
-        if grade in ("confirmed_composite", "certified_prime"):
-            continue
-        missing = item.get("missing_support", [])
-        requirements = item.get("clearance_requirements", [])
-        witnesses = item.get("negative_witnesses", [])
-        if not isinstance(missing, list):
-            missing = []
-        if not isinstance(requirements, list):
-            requirements = []
-        if not isinstance(witnesses, list):
-            witnesses = []
-        gap_count = len(set(map(str, missing))) + len(set(map(str, requirements)))
-        if gap_count == 0 or gap_count > 2:
-            continue
-        tags = []
-        for witness in witnesses:
-            if isinstance(witness, dict):
-                tags.append(str(witness.get("reason_tag", "")))
-        if not tags:
-            continue
-        out.append({
-            "region": item.get("region"),
-            "target": target,
-            "grade": grade,
-            "grade_semantics": item.get("grade_semantics", GRADE_SEMANTICS),
-            "gap_count": gap_count,
-            "reason_tags": [tag for tag in tags if tag],
-            "missing_support": missing,
-            "clearance_requirements": requirements,
-            "file": item.get("file"),
-            "line": item.get("line"),
-            "worker_shard": worker_shard,
-            "worker_shards": total_shards,
-            "priority": round(
-                (1.0 / (1.0 + gap_count))
-                + (0.25 if "constructor_only_disagreement" in tags else 0.0)
-                + (0.25 if "no_semantic_refs" in tags else 0.0)
-                + (0.1 if grade == "probable_prime" else 0.0),
-                4,
-            ),
-        })
-    out.sort(key=lambda row: (-row["priority"], row["gap_count"], str(row["target"])))
-    return out[:max_n]
-
-
-def compute_sieve_demote_targets(payload: dict, max_n: int = 50) -> list[dict]:
-    targets = payload.get("targets", [])
-    if not isinstance(targets, list):
-        return []
-    out: list[dict] = []
-    mechanical_tags = {
-        "target_missing",
-        "target_axiom",
-        "target_sorry",
-        "target_substring_evidence",
-        "missing_discovery_rows",
-        "smoke_template_reuse",
-        "trivial_classifier",
-    }
-    clearance_tags = {
-        "constructor_only_disagreement",
-        "no_semantic_refs",
-        "inflated_benefit",
-        "scope_overclaim",
-    }
-    for item in targets:
-        if not isinstance(item, dict):
-            continue
-        witnesses = item.get("negative_witnesses", [])
-        if not isinstance(witnesses, list):
-            witnesses = []
-        tags = [
-            str(witness.get("reason_tag", ""))
-            for witness in witnesses
-            if isinstance(witness, dict)
-        ]
-        tag_set = set(tag for tag in tags if tag)
-        if not tag_set:
-            continue
-        if tag_set.intersection(clearance_tags) and item.get("grade") != "confirmed_composite":
-            continue
-        if item.get("grade") != "confirmed_composite" and not tag_set.issubset(mechanical_tags):
-            continue
-        out.append({
-            "region": item.get("region"),
-            "target": item.get("target"),
-            "grade": item.get("grade"),
-            "grade_semantics": item.get("grade_semantics", GRADE_SEMANTICS),
-            "reason_tags": [tag for tag in tags if tag],
-            "file": item.get("file"),
-            "line": item.get("line"),
-            "demotion": "static_sieve_low_priority",
-            "score_multiplier": 0.25,
-            "dispatch_effect": "matching critical-path candidates are scored before cooldown",
-        })
-    out.sort(key=lambda row: (str(row["grade"]), str(row["target"])))
-    return out[:max_n]
 
 
 def load_objective_formal_grades() -> dict[str, str]:
@@ -2350,161 +1630,6 @@ def compute_transition_candidates(horizons: dict[str, dict],
     return candidates[:max_results]
 
 
-def compute_capstone_overlap_map() -> dict:
-    """Build a discovery board of vision-to-vision shared coverage.
-
-    For each pair (and triple) of vision chapters in
-    `papers/bedc/parts/visions/`, compute the intersection of the
-    Lean targets they cite via \\leanchecked, \\leanvariant,
-    \\leandef, \\leanstmt, \\leansorryd, \\leantarget markers — and
-    the kernel-object namespace prefixes those targets fall under.
-
-    A pair (or triple) whose intersection is non-empty is an open
-    vision slot unless a fourth vision already \\autorefs
-    both/all sources and overlaps the shared targets — in which case
-    the slot is marked unified_by that fourth capstone.
-
-    This is a SOFT signal for paper P-rounds, not a HARD GATE.
-    Discovery of non-trivial unifying structure is not mechanizable.
-    """
-    from itertools import combinations
-
-    capstone_dir = ROOT / "papers/bedc/parts/visions"
-    marker_re = re.compile(
-        r"\\(?:leanchecked|leanvariant|leandef|leanstmt|leansorryd|leantarget)\{([^}]+)\}"
-    )
-    autoref_re = re.compile(
-        r"\\autoref\{(?:ch|sec|thm|def|cor|rem|lem):visions-([a-zA-Z0-9_-]+)"
-    )
-    kernel_object_patterns = [
-        (re.compile(r"(?:\\mathsf\{BHist\}|\\Hist\b|\bBHist\b|\\hsame\b|\bhsame\b)"),
-         "BEDC.FKernel.Hist"),
-        (re.compile(r"(?:\\mathsf\{BMark\}|\\Mark\b|\bBMark\b|\\msame\b|\bmsame\b)"),
-         "BEDC.FKernel.Mark"),
-        (re.compile(r"(?:\\Cont\b|\bCont\b)"), "BEDC.FKernel.Cont"),
-        (re.compile(r"(?:\\Ext\b|\bExt\b)"), "BEDC.FKernel.Ext"),
-        (re.compile(r"(?:\\NameCert\b|\bNameCert\b)"), "BEDC.FKernel.NameCert"),
-    ]
-
-    paths = [
-        path for path in capstone_dir.glob("*.tex")
-        if path.name not in {"index.tex", "_index_files.tex"}
-    ]
-    stems = sorted(path.stem for path in paths)
-    stem_set = set(stems)
-    records = {}
-
-    for path in paths:
-        text = path.read_text(encoding="utf-8", errors="replace")
-        targets = {
-            match.group(1).replace("\\_", "_")
-            for match in marker_re.finditer(text)
-        }
-        prefixes = set()
-        for target in targets:
-            parts = target.split(".")
-            if len(parts) >= 3 and target.startswith("BEDC."):
-                prefixes.add(".".join(parts[:3]))
-        for pattern, prefix in kernel_object_patterns:
-            if pattern.search(text):
-                prefixes.add(prefix)
-        autorefs = {
-            match.group(1).replace("-", "_")
-            for match in autoref_re.finditer(text)
-        }
-        records[path.stem] = {
-            "targets": targets,
-            "prefixes": prefixes,
-            "autorefs": autorefs & stem_set,
-        }
-
-    pairs_list = []
-    for a, b in combinations(stems, 2):
-        shared_targets = records[a]["targets"] & records[b]["targets"]
-        shared_kernel_objects = records[a]["prefixes"] & records[b]["prefixes"]
-        if not shared_kernel_objects:
-            continue
-        unified_by = None
-        for c in stems:
-            if c in {a, b}:
-                continue
-            if a not in records[c]["autorefs"] or b not in records[c]["autorefs"]:
-                continue
-            if shared_targets:
-                coverage = len(records[c]["targets"] & shared_targets)
-                if coverage < 0.5 * len(shared_targets):
-                    continue
-            unified_by = c
-            break
-        pairs_list.append({
-            "a": a,
-            "b": b,
-            "shared_kernel_objects": sorted(shared_kernel_objects),
-            "shared_lean_targets": sorted(shared_targets),
-            "unified_by": unified_by,
-            "a_autorefs_b": b in records[a]["autorefs"],
-            "b_autorefs_a": a in records[b]["autorefs"],
-        })
-
-    triples_list = []
-    for a, b, c in combinations(stems, 3):
-        kernel_isect = (
-            records[a]["prefixes"] & records[b]["prefixes"] & records[c]["prefixes"]
-        )
-        if not kernel_isect:
-            continue
-        target_isect = (
-            records[a]["targets"] & records[b]["targets"] & records[c]["targets"]
-        )
-        unified_by = None
-        for d in stems:
-            if d in {a, b, c}:
-                continue
-            if (
-                a in records[d]["autorefs"]
-                and b in records[d]["autorefs"]
-                and c in records[d]["autorefs"]
-            ):
-                unified_by = d
-                break
-        triples_list.append({
-            "a": a,
-            "b": b,
-            "c": c,
-            "shared_kernel_objects": sorted(kernel_isect),
-            "shared_lean_targets": sorted(target_isect),
-            "unified_by": unified_by,
-        })
-
-    pairs_list.sort(
-        key=lambda item: (
-            item["unified_by"] is not None,
-            -len(item["shared_kernel_objects"]),
-            -len(item["shared_lean_targets"]),
-            item["a"],
-            item["b"],
-        )
-    )
-    triples_list.sort(
-        key=lambda item: (
-            item["unified_by"] is not None,
-            -len(item["shared_kernel_objects"]),
-            -len(item["shared_lean_targets"]),
-            item["a"],
-            item["b"],
-            item["c"],
-        )
-    )
-
-    return {
-        "pairs": pairs_list,
-        "triples": triples_list,
-        "capstone_count": len(stems),
-        "open_pairs_total": sum(1 for item in pairs_list if item["unified_by"] is None),
-        "open_triples_total": sum(1 for item in triples_list if item["unified_by"] is None),
-    }
-
-
 # === Theorem-level discovery (D-1, additive — does not affect existing surfaces) ===
 #
 # Scans main.tex reverse-traversal closure for every \begin{theorem|lemma|...}
@@ -3083,11 +2208,6 @@ def main(argv: list[str] | None = None) -> int:
                 relaxed_at = t
                 break
 
-    discovery_sieve = _get_discovery_sieve_payload()
-    discovery_candidates_payload = _get_discovery_candidate_payload()
-    sieve_demote_raw = compute_sieve_demote_targets(discovery_sieve)
-    ranked = _apply_sieve_demotions(ranked, sieve_demote_raw)
-    sieve_demote = _filter_sieve_demote_dogpile(sieve_demote_raw)
     rolled = _claim_top_with_cooldown(ranked)
 
     closed_count: dict[str, int] = {}
@@ -3315,11 +2435,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     formal_axis_top = formal_axis_top_full[:10]
 
-    sieve_clearance_top = compute_sieve_clearance_targets(discovery_sieve)
-    discovery_candidate_top = compute_discovery_candidate_targets(
-        discovery_candidates_payload,
-    )
-
     _conc = read_dispatch_concurrency()
     _top_n = len(rolled)
 
@@ -3341,11 +2456,6 @@ def main(argv: list[str] | None = None) -> int:
         "bridge_sync_pending_total": len(bridge_sync_pending_full),
         "bridge_sync_pending": bridge_sync_pending,
         "formal_axis_top_total": len(formal_axis_top_full),
-        "sieve_clearance_top_total": len(sieve_clearance_top),
-        "discovery_candidate_top_total": discovery_candidates_payload.get("candidate_count_total", 0),
-        "discovery_candidate_diagnostic_total": discovery_candidates_payload.get("diagnostic_count", 0),
-        "sieve_demote_total": len(sieve_demote_raw),
-        "sieve_demote_available_total": len(sieve_demote),
         "granularity": "sibling",
         "top": rolled[:25],
         "dispatch_window": {
@@ -3359,14 +2469,6 @@ def main(argv: list[str] | None = None) -> int:
         "drift_chapters": drift_chapters,
         "bridge_candidates": bridge_candidates,
         "formal_axis_top": formal_axis_top,
-        "discovery_sieve_grade_counts": discovery_sieve.get("grade_counts", {}),
-        "discovery_candidate_metrics": discovery_candidates_payload.get("metrics", {}),
-        "discovery_candidate_notes": discovery_candidates_payload.get("diagnostic_notes", [])[:50],
-        "discovery_candidate_top": discovery_candidate_top,
-        "sieve_clearance_top": sieve_clearance_top,
-        "sieve_demote": sieve_demote,
-        "capstone_overlap_map": compute_capstone_overlap_map(),
-        "carrier_isomorphism": _get_carrier_isomorphism_summary(),
     }
     # Theorem-level surfaces (D-1 inventory + D-2 unformalized_top / drift_top).
     # Compute discover_all_theorems() once and reuse — the scan is the heaviest
@@ -3377,37 +2479,16 @@ def main(argv: list[str] | None = None) -> int:
     payload["drift_top"] = compute_drift_top(theorem_rows, max_n=50)
     # Compute dispatch weights inline for prompt consumption.
     try:
-        carrier = payload.get("carrier_isomorphism", {})
-        if isinstance(carrier, dict) and carrier.get("available"):
-            candidate_buckets = carrier.get("phase2_buckets", [])
-            if isinstance(candidate_buckets, list):
-                capstone_coverage = _capstone_coverage_from_buckets(candidate_buckets)
-                carrier_iso_phase2_bucket_count = capstone_coverage["uncovered"]
-                capstone_candidate = _capstone_candidate_from_buckets(candidate_buckets)
-            else:
-                carrier_iso_phase2_bucket_count = 0
-                capstone_candidate = None
-                capstone_coverage = None
-        else:
-            carrier_iso_phase2_bucket_count = 0
-            capstone_candidate = None
-            capstone_coverage = None
         supply_lean = {
             "top": len(rolled),
-            "sieve_clearance_top": len(sieve_clearance_top),
-            "discovery_candidate_top": len(discovery_candidate_top),
             "formal_axis_top": len(formal_axis_top_full),
             "unformalized_top": len(payload.get("unformalized_top", [])),
-            "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
         }
         lean_base_weights = dict(_LEAN_BASE_WEIGHTS)
         supply_paper = {
             "top": len(rolled),
-            "sieve_clearance_top": len(sieve_clearance_top),
-            "discovery_candidate_top": len(discovery_candidate_top),
             "top_root_unblocks": len(root_unblocks),
             "closure_mark": _count_closure_mark_candidates(),
-            "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
             "human_derivation_gap": len(paper_priority["human_derivation_gap"]),
             "metacic_priority": len(paper_priority["metacic_priority"]),
         }
@@ -3415,7 +2496,6 @@ def main(argv: list[str] | None = None) -> int:
         payload["dispatch_weights"] = _compute_dispatch_weights(
             supply_lean, supply_paper, consumption,
             lean_base_weights, _PAPER_BASE_WEIGHTS,
-            capstone_candidate, capstone_coverage,
             paper_priority_config,
         )
     except Exception as exc:
