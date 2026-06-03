@@ -4400,6 +4400,18 @@ def discovery_assert_gate_payload(
         "informational_sites": informational_sites,
         "witness_registry_path": str(DISCOVERY_GATE_WITNESS_REGISTRY_PATH.relative_to(REPO_ROOT)),
         "witness_count": len(gate_witnesses),
+        "reconstruction_witnesses": [
+            {
+                "target": str((witness.get("pattern") or {}).get("target") or ""),
+                "prior": str((witness.get("pattern") or {}).get("prior") or ""),
+                "canonical_payload": str(
+                    (witness.get("pattern") or {}).get("canonical_payload") or ""
+                ),
+                "source": "discovery_gate_witness_registry",
+            }
+            for witness in gate_witnesses
+            if isinstance(witness.get("pattern"), dict)
+        ],
         "witness_registry_diagnostics": witness_diagnostics,
         "witness_registry_diagnostic_count": len(witness_diagnostics),
     }
@@ -4825,6 +4837,132 @@ def _radar_cap_conjectured_candidates(
     kept_conjectured = list(unique_by_fp.values())[:cap]
     dropped += max(0, len(unique_by_fp) - cap)
     return non_conjectured + kept_conjectured, dropped
+
+
+def _faithfulness_domain(name: str) -> str:
+    parts = [part for part in str(name or "").split(".") if part]
+    for part in parts:
+        if part.endswith("Up") and len(part) > 2:
+            return part
+    if len(parts) >= 2:
+        return parts[-2]
+    return ""
+
+
+def _canonical_payload_digest(canonical_payload: str) -> str:
+    return hashlib.sha256(canonical_payload.encode("utf-8")).hexdigest()
+
+
+def _faithfulness_collision_row(
+    target: str,
+    prior: str,
+    canonical_payload: str,
+    source: str,
+) -> dict[str, object]:
+    target_domain = _faithfulness_domain(target)
+    prior_domain = _faithfulness_domain(prior)
+    classification = (
+        "same_module_sibling"
+        if target_domain and target_domain == prior_domain
+        else "cross_domain_collision"
+    )
+    return {
+        "target": target,
+        "prior": prior,
+        "target_domain": target_domain,
+        "prior_domain": prior_domain,
+        "classification": classification,
+        "canonical_payload_digest": _canonical_payload_digest(canonical_payload),
+        "canonical_payload_summary": _text_snippet(canonical_payload, limit=160),
+        "source": source,
+    }
+
+
+def carrier_faithfulness_payload(
+    discovery_production_radar: dict[str, object],
+    *,
+    reconstruction_witnesses: Iterable[dict[str, object]] = (),
+) -> dict[str, object]:
+    seen: set[tuple[str, str, str]] = set()
+    cross_domain: list[dict[str, object]] = []
+    same_module: list[dict[str, object]] = []
+
+    for candidate in discovery_production_radar.get("candidates", []) or []:
+        if not isinstance(candidate, dict):
+            continue
+        target = str(candidate.get("target") or "")
+        if not target:
+            continue
+        for entry in candidate.get("provenance", []) or []:
+            if not isinstance(entry, dict):
+                continue
+            if str(entry.get("relation") or "") != "reconstruction":
+                continue
+            if str(entry.get("evidence") or "") != "canonical_payload_equal":
+                continue
+            prior = str(entry.get("prior") or "")
+            canonical_payload = str(entry.get("canonical_payload") or "")
+            if not prior or not canonical_payload:
+                continue
+            source = ",".join(
+                str(source)
+                for source in candidate.get("sources", []) or []
+                if str(source)
+            ) or "discovery_production_radar"
+            key = (target, prior, canonical_payload)
+            if key in seen:
+                continue
+            seen.add(key)
+            row = _faithfulness_collision_row(target, prior, canonical_payload, source)
+            if row["classification"] == "same_module_sibling":
+                same_module.append(row)
+            else:
+                cross_domain.append(row)
+
+    for witness in reconstruction_witnesses:
+        if not isinstance(witness, dict):
+            continue
+        target = str(witness.get("target") or "")
+        prior = str(witness.get("prior") or "")
+        canonical_payload = str(witness.get("canonical_payload") or "")
+        if not target or not prior or not canonical_payload:
+            continue
+        key = (target, prior, canonical_payload)
+        if key in seen:
+            continue
+        seen.add(key)
+        row = _faithfulness_collision_row(
+            target,
+            prior,
+            canonical_payload,
+            str(witness.get("source") or "discovery_gate_witness_registry"),
+        )
+        if row["classification"] == "same_module_sibling":
+            same_module.append(row)
+        else:
+            cross_domain.append(row)
+
+    cross_domain.sort(key=lambda item: (str(item["target_domain"]), str(item["target"]), str(item["prior"])))
+    same_module.sort(key=lambda item: (str(item["target_domain"]), str(item["target"]), str(item["prior"])))
+    return {
+        "informational": True,
+        "schema": "bedc.carrier_faithfulness",
+        "semantics": (
+            "canonical-payload collision measures carrier under-encoding risk; "
+            "cross-domain collisions indicate generic skeleton reuse plus naming, "
+            "not distinguishing mathematical structure"
+        ),
+        "source": "discovery_production_radar.candidates.provenance + discovery_gate_witness_registry",
+        "cross_domain_under_encoding_count": len(cross_domain),
+        "same_module_sibling_count": len(same_module),
+        "collision_count": len(cross_domain) + len(same_module),
+        "cross_domain_under_encoding": cross_domain,
+        "same_module_siblings": same_module,
+        "boundary": (
+            "same-module siblings may be intentional variants; cross-domain collisions "
+            "are strong but informational under-encoding signals, not a gate"
+        ),
+    }
 
 
 def discovery_production_radar_payload(
@@ -10605,6 +10743,10 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         discovery_assert_gate=discovery_assert_gate,
         full_corpus_scan=full_radar_scan,
     )
+    carrier_faithfulness = carrier_faithfulness_payload(
+        discovery_production_radar,
+        reconstruction_witnesses=discovery_assert_gate.get("reconstruction_witnesses", []),
+    )
     discovery_nonasserted_hygiene = discovery_nonasserted_hygiene_payload(
         closurestatus_blocks,
     )
@@ -10649,6 +10791,7 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
             "witness_registry_diagnostics"
         ],
         "discovery_production_radar": discovery_production_radar,
+        "carrier_faithfulness": carrier_faithfulness,
         "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
         "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
         "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
@@ -11015,6 +11158,14 @@ def cmd_audit(args: argparse.Namespace) -> int:
             f" cap={radar.get('corpus_scan_cap', 0)}"
             f" truncated={radar.get('corpus_truncated', False)}"
             " (informational, surface-and-rank only)"
+        )
+        faithfulness = payload["carrier_faithfulness"]
+        print(
+            "[bedc-ci] carrier faithfulness:"
+            f" cross-domain under-encoding={faithfulness['cross_domain_under_encoding_count']}"
+            f" same-module siblings={faithfulness['same_module_sibling_count']}"
+            " (informational; canonical-payload collision = carrier encodes generic skeleton + name, "
+            "not distinguishing structure)"
         )
         hygiene = payload["discovery_nonasserted_hygiene"]
         if hygiene["site_count"] or hygiene["failure_count"]:
