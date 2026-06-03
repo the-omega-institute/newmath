@@ -41,12 +41,28 @@ BEDC_BODY_MARKERS = [
 
 SELECTED_WORKED_CASE_PHRASE = "selected positive worked case"
 SELECTED_WORKED_CASE_REPORT = "gap-head-on-h"
+D4_DISCOVERY_LEVEL = "D4"
 NON_POSITIVE_REPORTS = [
     "certificate-guided-training",
     "certificate-guided-discovery",
     "nongaussian-distribution-sweep",
 ]
-UNIQUE_POSITIVE_WORDING_RE = re.compile(r"\b(?:only|unique)\s+positive\b", re.IGNORECASE)
+EXCLUSIVE_SELECTED_WORKED_CASE_RE = re.compile(
+    r"(?:"
+    r"\b(?:only|unique|sole|single)\s+(?:positive|d4|discovery)(?:\s+(?:row|report|case|artifact|finding|signal))?\b"
+    r"|"
+    r"\b(?:only|unique|sole|single)\s+(?:positive|d4)\s+discovery\b"
+    r"|"
+    r"\bgap-head-on-h\s+(?:alone|is\s+(?:the\s+)?(?:only|unique|sole|single)\s+(?:positive|d4|discovery))\b"
+    r"|"
+    r"\bgap-head-on-h\s+alone\s+is\s+d4\b"
+    r"|"
+    r"\bthe\s+only\s+d4\b"
+    r"|"
+    r"唯一\s*(?:d4|正|正向|阳性|positive|discovery|发现)"
+    r")",
+    re.IGNORECASE,
+)
 POSITIVE_FRAMING_RE = re.compile(
     r"\bpositive\s+(?:result|discovery|prototype|finding|claim|outcome|artifact|report|signal)\b",
     re.IGNORECASE,
@@ -140,20 +156,6 @@ def check_required_nonclaims(docs: dict[Path, str]) -> CheckResult:
     return CheckResult("HG-V1-Report-2", "PASS", "claims document points to canonical nonclaims")
 
 
-def extract_list_items_under_heading(text: str, heading: str) -> set[str]:
-    items: set[str] = set()
-    in_section = False
-    heading_line = f"## {heading}"
-    for line in text.splitlines():
-        stripped = line.strip()
-        if stripped.startswith("## "):
-            in_section = stripped == heading_line
-            continue
-        if in_section and line.startswith("- "):
-            items.add(line[2:].strip())
-    return items
-
-
 def check_pointer_only_bedc(docs: dict[Path, str]) -> CheckResult:
     hits: list[str] = []
     for path, text in docs.items():
@@ -238,11 +240,7 @@ def non_positive_positive_framing_hits(docs: dict[Path, str]) -> list[str]:
 
 
 def check_selected_positive_worked_case(docs: dict[Path, str]) -> CheckResult:
-    hidden_unique_hits: list[str] = []
-    for path, text in docs.items():
-        for line_no, line in enumerate(text.splitlines(), start=1):
-            if UNIQUE_POSITIVE_WORDING_RE.search(line):
-                hidden_unique_hits.append(f"{path.relative_to(ROOT)}:{line_no}:{line.strip()}")
+    hidden_unique_hits = exclusive_positive_worked_case_hits(docs)
     if hidden_unique_hits:
         return CheckResult(
             "HG-V1-Report-5",
@@ -275,14 +273,40 @@ def check_selected_positive_worked_case(docs: dict[Path, str]) -> CheckResult:
     ]
     if not selected_rows:
         return CheckResult("HG-V1-Report-5", "FAIL", "gap-head-on-h row missing from discovery map")
-    if selected_rows[0].get("discovery_level") != "D4":
+    if selected_rows[0].get("discovery_level") != D4_DISCOVERY_LEVEL:
         return CheckResult("HG-V1-Report-5", "FAIL", "gap-head-on-h is not D4 in discovery map")
     return CheckResult("HG-V1-Report-5", "PASS", "gap-head-on-h is the selected positive worked case")
 
 
+def exclusive_positive_worked_case_hits(docs: dict[Path, str]) -> list[str]:
+    if d4_discovery_report_count() < 2:
+        return []
+    hits: list[str] = []
+    for path, text in docs.items():
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            if EXCLUSIVE_SELECTED_WORKED_CASE_RE.search(line):
+                hits.append(f"{path.relative_to(ROOT)}:{line_no}:{line.strip()}")
+    return hits
+
+
+def d4_discovery_report_count() -> int:
+    if not DISCOVERY_MAP_PATH.exists():
+        return 0
+    payload = json.loads(DISCOVERY_MAP_PATH.read_text(encoding="utf-8"))
+    rows = payload.get("rows")
+    if not isinstance(rows, list):
+        return 0
+    return sum(
+        1
+        for row in rows
+        if isinstance(row, dict) and row.get("discovery_level") == D4_DISCOVERY_LEVEL
+    )
+
+
 REPORT_REF_RE = re.compile(r"^reports/canonical/([^`\s]+)$")
 FILTER_RE = re.compile(r"^\?\(@\.([A-Za-z0-9_\-]+)==\"([^\"]+)\"\)$")
-JSONPATH_SELECTOR_RE = r"(?:\*|\d+|\?\(@\.[A-Za-z0-9_\-]+==\"[^\"]+\"\))"
+ROW_FILTER_RE = re.compile(r"^([A-Za-z0-9_\-]+)=([A-Za-z0-9_\-]+)$")
+JSONPATH_SELECTOR_RE = r"(?:\*|\d+|[A-Za-z0-9_\-]+=[A-Za-z0-9_\-]+|\?\(@\.[A-Za-z0-9_\-]+==\"[^\"]+\"\))"
 JSON_POINTER_RE = re.compile(
     rf"^\$(?:\.[A-Za-z0-9_\-]+(?:\[{JSONPATH_SELECTOR_RE}\])*)+$"
 )
@@ -378,6 +402,15 @@ def jsonpath_exists(data: object, pointer: str) -> bool:
                 filter_match = FILTER_RE.match(selector)
                 if filter_match:
                     field, expected = filter_match.groups()
+                    for node in nodes:
+                        if isinstance(node, list):
+                            next_nodes.extend(
+                                item
+                                for item in node
+                                if isinstance(item, dict) and item.get(field) == expected
+                            )
+                elif row_match := ROW_FILTER_RE.match(selector):
+                    field, expected = row_match.groups()
                     for node in nodes:
                         if isinstance(node, list):
                             next_nodes.extend(

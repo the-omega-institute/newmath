@@ -3,6 +3,12 @@ import re
 from pathlib import Path
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from scripts.check_v1_report_docs import (
+    D4_DISCOVERY_LEVEL,
+    JSON_POINTER_RE,
+    exclusive_positive_worked_case_hits,
+    jsonpath_exists,
+)
 from scripts import run_canonical_reports as canonical
 from tests.test_alpha_milestone_gate import HIDDEN_SCORECARD_TERMS
 
@@ -37,89 +43,14 @@ SELECTED_WORKED_CASE_SENTENCE = (
     "`reports/canonical/discovery_map.json:$.rows[*]`, so this section does not "
     "claim uniqueness among positive rows."
 )
-JSONPATH_RE = re.compile(
-    r"^\$(?:\.[A-Za-z0-9_\-]+(?:\[(?:\*|\d+|[A-Za-z0-9_\-]+=[A-Za-z0-9_\-]+|\?\(@\.[A-Za-z0-9_\-]+==\"[^\"]+\"\))\])*)+$"
-)
 CANONICAL_JSON_RE = re.compile(r"^reports/canonical/[^`\s]+\.json$")
 CANONICAL_JSON_WITH_POINTER_RE = re.compile(r"^(reports/canonical/[^`\s]+\.json):(\$.*)$")
 CANONICAL_JSON_PAIR_RE = re.compile(r"^reports/canonical/([^`\s]+)\.\{json,md\}$")
 CANONICAL_JSON_GLOB_RE = re.compile(r"^reports/canonical/\*\.\{json,md\}$")
-FILTER_RE = re.compile(r"^\?\(@\.([A-Za-z0-9_\-]+)==\"([^\"]+)\"\)$")
-ROW_FILTER_RE = re.compile(r"^([A-Za-z0-9_\-]+)=([A-Za-z0-9_\-]+)$")
-UNIQUE_POSITIVE_RE = re.compile(r"\b(?:only|unique)\s+positive\b", re.IGNORECASE)
 
 
 def _code_spans(text: str) -> list[str]:
     return re.findall(r"`([^`]+)`", text)
-
-
-def _split_jsonpath(path: str) -> list[str]:
-    segments: list[str] = []
-    current: list[str] = []
-    bracket_depth = 0
-    for char in path:
-        if char == "." and bracket_depth == 0:
-            segments.append("".join(current))
-            current = []
-            continue
-        if char == "[":
-            bracket_depth += 1
-        elif char == "]" and bracket_depth > 0:
-            bracket_depth -= 1
-        current.append(char)
-    segments.append("".join(current))
-    return segments
-
-
-def _jsonpath_exists(data: object, pointer: str) -> bool:
-    nodes = [data]
-    for segment in _split_jsonpath(pointer[2:]):
-        if not segment:
-            return False
-        key_match = re.match(r"^([A-Za-z0-9_\-]+)", segment)
-        if key_match:
-            key = key_match.group(1)
-            nodes = [node[key] for node in nodes if isinstance(node, dict) and key in node]
-            selector_part = segment[len(key) :]
-        else:
-            selector_part = segment
-        if not nodes:
-            return False
-        for selector in re.findall(r"\[([^\]]+)\]", selector_part):
-            next_nodes: list[object] = []
-            if selector == "*":
-                for node in nodes:
-                    if isinstance(node, list):
-                        next_nodes.extend(node)
-            elif selector.isdigit():
-                index = int(selector)
-                for node in nodes:
-                    if isinstance(node, list) and index < len(node):
-                        next_nodes.append(node[index])
-            elif filter_match := FILTER_RE.match(selector):
-                field, expected = filter_match.groups()
-                for node in nodes:
-                    if isinstance(node, list):
-                        next_nodes.extend(
-                            item
-                            for item in node
-                            if isinstance(item, dict) and item.get(field) == expected
-                        )
-            elif row_match := ROW_FILTER_RE.match(selector):
-                field, expected = row_match.groups()
-                for node in nodes:
-                    if isinstance(node, list):
-                        next_nodes.extend(
-                            item
-                            for item in node
-                            if isinstance(item, dict) and item.get(field) == expected
-                        )
-            else:
-                return False
-            nodes = next_nodes
-            if not nodes:
-                return False
-    return bool(nodes)
 
 
 def _canonical_json_path(span: str) -> Path | None:
@@ -146,7 +77,7 @@ def _extract_canonical_pointer_refs(text: str) -> list[tuple[str, str]]:
                 current_json = None
                 continue
             pointer = span.rstrip(".,;:")
-            if current_json is not None and JSONPATH_RE.match(pointer):
+            if current_json is not None and JSON_POINTER_RE.match(pointer):
                 refs.append((current_json, pointer))
     return list(dict.fromkeys(refs))
 
@@ -178,7 +109,7 @@ def test_v1_report_pointers_resolve():
                 failures.append(f"{path.relative_to(ROOT)}: missing {json_span}")
                 continue
             payload = json.loads(json_path.read_text(encoding="utf-8"))
-            if not _jsonpath_exists(payload, pointer):
+            if not jsonpath_exists(payload, pointer):
                 failures.append(f"{path.relative_to(ROOT)}: missing {json_span}:{pointer}")
     assert failures == []
 
@@ -204,9 +135,30 @@ def test_v1_report_has_no_gate_or_unique_positive_contract():
 
     discovery_rows = json.loads((CANONICAL / "discovery_map.json").read_text(encoding="utf-8"))["rows"]
     rows_by_report = {row["report"]: row for row in discovery_rows}
-    assert rows_by_report["gap-head-on-h"]["discovery_level"] == "D4"
-    assert rows_by_report["gap-head-discovery"]["discovery_level"] == "D4"
+    assert rows_by_report["gap-head-on-h"]["discovery_level"] == D4_DISCOVERY_LEVEL
+    assert rows_by_report["gap-head-discovery"]["discovery_level"] == D4_DISCOVERY_LEVEL
 
     for path in V1_DOC_SURFACES:
         text = path.read_text(encoding="utf-8")
-        assert UNIQUE_POSITIVE_RE.search(text) is None, path.relative_to(ROOT)
+        hits = exclusive_positive_worked_case_hits({path: text})
+        assert hits == [], path.relative_to(ROOT)
+
+
+def test_v1_report_pointer_resolver_matches_hardgate_shorthand():
+    payload = json.loads((CANONICAL / "discovery_map.json").read_text(encoding="utf-8"))
+    assert jsonpath_exists(payload, "$.rows[report=gap-head-on-h].report")
+    assert jsonpath_exists(payload, "$.rows[report=gap-head-discovery].discovery_level")
+
+
+def test_v1_report_rejects_equivalent_unique_positive_wording():
+    cases = [
+        "gap-head-on-h is the only D4 row",
+        "gap-head-on-h is the sole positive row",
+        "gap-head-on-h alone is D4",
+        "gap-head-on-h is the single discovery report",
+        "gap-head-on-h is 唯一 D4",
+        "gap-head-on-h 是唯一正",
+    ]
+    for phrase in cases:
+        hits = exclusive_positive_worked_case_hits({V1_REPORT: phrase})
+        assert hits != [], phrase
