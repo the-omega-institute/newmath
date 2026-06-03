@@ -16,7 +16,7 @@ BEDC references are opaque pointers only, such as chapter path, label, or Lean t
 
 ## Positive Wording Boundary
 
-`gap-head-on-h` is the only positive discovery prototype in this report frame, and only through `reports/canonical/gap-head-on-h.{json,md}` plus `reports/canonical/gap-head-on-h.json` pointers such as `$.main_claim_status`, `$.matched_random_control`, and `$.applicability_boundary`.
+`gap-head-on-h` is the only positive discovery prototype in this report frame, and only through `reports/canonical/gap-head-on-h.{json,md}` plus `reports/canonical/gap-head-on-h.json` pointers such as `$.main_claim_status`, `$.control_verdict`, `$.treatment_comparison`, and `$.applicability_boundary`.
 
 Mixed/negative or observed-debt reports are under a forbidden positive wording boundary. This includes `gap-head-discovery`, `certificate-guided-training`, `certificate-guided-discovery`, and `nongaussian-distribution-sweep`.
 

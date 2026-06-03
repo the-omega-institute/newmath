@@ -42,7 +42,7 @@ Pointers: `reports/canonical/index.json` `$.reports[*].name`; `$.reports[*].bund
 
 Purpose: mark `gap-head-on-h` as the only positive discovery prototype in this report frame.
 
-Pointers: `reports/canonical/gap-head-on-h.{json,md}`; `reports/canonical/index.json` `$.reports[?(@.name=="gap-head-on-h")]`; `reports/canonical/gap-head-on-h.json` `$.main_claim_status`; `$.matched_random_control`; `$.applicability_boundary`.
+Pointers: `reports/canonical/gap-head-on-h.{json,md}`; `reports/canonical/index.json` `$.reports[?(@.name=="gap-head-on-h")]`; `reports/canonical/gap-head-on-h.json` `$.main_claim_status`; `$.control_verdict`; `$.treatment_comparison`; `$.applicability_boundary`.
 
 ## 8. Negative: certificate-guided
 
@@ -66,7 +66,7 @@ Pointers: `bedc_quality_lab/hardening.py`; `tests/test_hardening.py`; `reports/c
 
 Purpose: collect explicit non-claims and applicability limits for the report frame.
 
-Pointers: `docs/claims_and_nonclaims.md`; `reports/canonical/index.json` `$.claims_nonclaims.nonclaims`; `$.honest_boundary.not_claimed`; `reports/canonical/*.{json,md}` `$.main_claim_status`.
+Pointers: `docs/claims_and_nonclaims.md`; `reports/canonical/index.json` `$.claims_nonclaims.nonclaims`; `$.honest_boundary.not_claimed`; `$.reports[*].status`; `$.reports[*].validation.status`.
 
 ## 12. Remote target
 

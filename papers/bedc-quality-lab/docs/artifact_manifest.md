@@ -12,7 +12,7 @@ This manifest is a human navigation layer, not a second status cache. `reports/c
 
 - Path: `reports/canonical/quality-scorecard.json`
 - Role: machine-readable scorecard artifact.
-- Pointers: `$.metrics`; `$.artifact_id`.
+- Pointers: `$.rows`; `$.artifact_id`.
 
 - Path: `reports/canonical/quality-scorecard.md`
 - Role: human-readable scorecard artifact.
@@ -22,19 +22,19 @@ This manifest is a human navigation layer, not a second status cache. `reports/c
 
 - Path: `reports/canonical/mixing-family-sweep.{json,md}`
 - Role: canonical core report; status and role live in `reports/canonical/index.json`.
-- Pointers: `$.coverage_item`; `$.main_claim_status`.
+- Pointers: `$.coverage_item`; `$.negative_result_summary`.
 
 - Path: `reports/canonical/anisotropic-ou-sweep.{json,md}`
 - Role: canonical core report; status and role live in `reports/canonical/index.json`.
-- Pointers: `$.config.arm`; `$.transition_debt_by_grid`; `$.main_claim_status`.
+- Pointers: `$.config`; `$.transition_debt_by_grid`; `$.negative_result_summary`.
 
 - Path: `reports/canonical/gap-head-on-h.{json,md}`
 - Role: `gap-head-on-h` canonical core report and only positive discovery prototype in this report frame.
-- Pointers: `$.main_claim_status`; `$.matched_random_control`; `$.applicability_boundary`.
+- Pointers: `$.main_claim_status`; `$.control_verdict`; `$.treatment_comparison`; `$.applicability_boundary`.
 
 - Path: `reports/canonical/gap-head-discovery.{json,md}`
 - Role: canonical core projection report under the non-positive boundary for this report frame.
-- Pointers: `$.final_main_claim_status`; `$.matched_random_control`; `$.source_json_artifact`.
+- Pointers: `$.final_main_claim_status`; `$.matched_random_control`; `$.source_artifacts.source_json_artifact`.
 
 - Path: `reports/canonical/certificate-guided-training.{json,md}`
 - Role: canonical core mixed/negative report.

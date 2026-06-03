@@ -74,7 +74,7 @@ def read_docs() -> dict[Path, str]:
 
 def load_index() -> tuple[dict | None, str]:
     if not INDEX_PATH.exists():
-        return None, "missing canonical index; index-dependent checks skipped"
+        return None, "missing canonical index"
     data = json.loads(INDEX_PATH.read_text(encoding="utf-8"))
     if not isinstance(data, dict):
         raise ValueError("canonical index root must be a JSON object")
@@ -95,8 +95,8 @@ def check_core_reports_pass(index: dict | None) -> CheckResult:
     if index is None:
         return CheckResult(
             "HG-V1-Report-1",
-            "SKIP",
-            "reports/canonical/index.json is missing; no pass claim made",
+            "FAIL",
+            "reports/canonical/index.json is missing",
         )
     reports = iter_reports(index)
     failing = [
@@ -115,10 +115,25 @@ def check_core_reports_pass(index: dict | None) -> CheckResult:
 
 def check_required_nonclaims(docs: dict[Path, str]) -> CheckResult:
     text = docs[ROOT / "docs" / "claims_and_nonclaims.md"]
-    missing = [item for item in REQUIRED_NONCLAIMS if item not in text]
+    items = extract_list_items_under_heading(text, "Not Claimed")
+    missing = [item for item in REQUIRED_NONCLAIMS if item not in items]
     if missing:
         return CheckResult("HG-V1-Report-2", "FAIL", "missing exact nonclaim(s): " + ", ".join(missing))
     return CheckResult("HG-V1-Report-2", "PASS", "all exact nonclaims present")
+
+
+def extract_list_items_under_heading(text: str, heading: str) -> set[str]:
+    items: set[str] = set()
+    in_section = False
+    heading_line = f"## {heading}"
+    for line in text.splitlines():
+        stripped = line.strip()
+        if stripped.startswith("## "):
+            in_section = stripped == heading_line
+            continue
+        if in_section and line.startswith("- "):
+            items.add(line[2:].strip())
+    return items
 
 
 def check_pointer_only_bedc(docs: dict[Path, str]) -> CheckResult:
@@ -174,7 +189,7 @@ def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
     for hit in hits:
         lowered = hit.lower()
         for name in NON_POSITIVE_REPORTS:
-            if name in lowered and UNIQUE_POSITIVE_REPORT not in lowered:
+            if name in lowered:
                 non_positive_bad.append(hit)
     if bad_hits or non_positive_bad:
         details = bad_hits + non_positive_bad
@@ -193,6 +208,134 @@ def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
     return CheckResult("HG-V1-Report-5", "PASS", "gap-head-on-h is the unique positive prototype")
 
 
+REPORT_REF_RE = re.compile(r"^reports/canonical/([^`\s]+)$")
+JSON_POINTER_RE = re.compile(r"^\$\.[A-Za-z0-9_.*\[\]@=?\"'-]+$")
+FILTER_RE = re.compile(r"^\?\(@\.([A-Za-z0-9_\-]+)==\"([^\"]+)\"\)$")
+
+
+def check_json_pointers(docs: dict[Path, str]) -> CheckResult:
+    failures: list[str] = []
+    for path, text in docs.items():
+        current_json: Path | None = None
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            code_spans = re.findall(r"`([^`]+)`", line)
+            line_has_pointer = any(JSON_POINTER_RE.match(span.rstrip(".,;:")) for span in code_spans)
+            path_line = line.lstrip().startswith("- Path:")
+            for code_span in code_spans:
+                report_path = json_report_path_from_span(code_span)
+                if report_path is not None:
+                    if line_has_pointer or path_line:
+                        current_json = report_path
+                    continue
+                pointer = code_span.rstrip(".,;:")
+                if not JSON_POINTER_RE.match(pointer):
+                    continue
+                if current_json is None:
+                    failures.append(
+                        f"{path.relative_to(ROOT)}:{line_no}:{pointer} has no preceding canonical JSON artifact"
+                    )
+                    continue
+                if not current_json.exists():
+                    failures.append(
+                        f"{path.relative_to(ROOT)}:{line_no}:{current_json.relative_to(ROOT)} does not exist"
+                    )
+                    continue
+                try:
+                    data = json.loads(current_json.read_text(encoding="utf-8"))
+                except Exception as exc:
+                    failures.append(
+                        f"{path.relative_to(ROOT)}:{line_no}:{current_json.relative_to(ROOT)} is unreadable: {exc}"
+                    )
+                    continue
+                if not jsonpath_exists(data, pointer):
+                    failures.append(
+                        f"{path.relative_to(ROOT)}:{line_no}:{current_json.relative_to(ROOT)} {pointer} is missing"
+                    )
+    if failures:
+        return CheckResult(
+            "HG-V1-Report-pointers",
+            "FAIL",
+            "invalid JSON pointer(s): " + " | ".join(failures),
+        )
+    return CheckResult("HG-V1-Report-pointers", "PASS", "all canonical JSON pointers resolve")
+
+
+def json_report_path_from_span(span: str) -> Path | None:
+    match = REPORT_REF_RE.match(span)
+    if not match:
+        return None
+    suffix = match.group(1)
+    if suffix == "*.{json,md}":
+        return None
+    if suffix.endswith(".json"):
+        return ROOT / "reports" / "canonical" / suffix
+    if suffix.endswith(".{json,md}"):
+        return ROOT / "reports" / "canonical" / (suffix.removesuffix(".{json,md}") + ".json")
+    return None
+
+
+def jsonpath_exists(data: object, pointer: str) -> bool:
+    nodes = [data]
+    for segment in split_jsonpath(pointer[2:]):
+        if not segment:
+            return False
+        key_match = re.match(r"^([A-Za-z0-9_\-]+)", segment)
+        if key_match:
+            key = key_match.group(1)
+            nodes = [node[key] for node in nodes if isinstance(node, dict) and key in node]
+            selector_part = segment[len(key):]
+        else:
+            selector_part = segment
+        if not nodes:
+            return False
+        for selector in re.findall(r"\[([^\]]+)\]", selector_part):
+            next_nodes: list[object] = []
+            if selector == "*":
+                for node in nodes:
+                    if isinstance(node, list):
+                        next_nodes.extend(node)
+            elif selector.isdigit():
+                index = int(selector)
+                for node in nodes:
+                    if isinstance(node, list) and index < len(node):
+                        next_nodes.append(node[index])
+            else:
+                filter_match = FILTER_RE.match(selector)
+                if filter_match:
+                    field, expected = filter_match.groups()
+                    for node in nodes:
+                        if isinstance(node, list):
+                            next_nodes.extend(
+                                item
+                                for item in node
+                                if isinstance(item, dict) and item.get(field) == expected
+                            )
+                else:
+                    return False
+            nodes = next_nodes
+            if not nodes:
+                return False
+    return bool(nodes)
+
+
+def split_jsonpath(path: str) -> list[str]:
+    segments: list[str] = []
+    current: list[str] = []
+    bracket_depth = 0
+    for char in path:
+        if char == "." and bracket_depth == 0:
+            segments.append("".join(current))
+            current = []
+            continue
+        if char == "[":
+            bracket_depth += 1
+        elif char == "]" and bracket_depth > 0:
+            bracket_depth -= 1
+        current.append(char)
+    segments.append("".join(current))
+    return segments
+
+
 def main() -> int:
     try:
         docs = read_docs()
@@ -203,6 +346,7 @@ def main() -> int:
             check_pointer_only_bedc(docs),
             check_certificate_guided_boundary(docs),
             check_unique_positive_prototype(docs),
+            check_json_pointers(docs),
         ]
     except Exception as exc:
         print(f"HG-V1-Report-DOCS: FAIL: {exc}")
