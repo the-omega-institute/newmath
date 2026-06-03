@@ -89,6 +89,18 @@ def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
     assert all(row["discovery_level"] in discovery_map.DISCOVERY_LEVELS for row in payload["rows"])
 
 
+def test_threshold_frontier_without_projection_remains_d0_source_insufficient(tmp_path):
+    _write_all_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-threshold-frontier"]
+
+    assert row["discovery_level"] == "D0"
+    assert row["projection_status"] == "source-insufficient"
+    assert row["audit_status"] == "valid"
+    assert row["audit_reason"] == ""
+
+
 @pytest.mark.parametrize("report", ["gap-head-on-h", "gap-head-discovery"])
 def test_d4_rows_have_resolvable_control_pointer(tmp_path, report):
     spec = canonical._specs_by_name()[report]
@@ -182,3 +194,25 @@ def test_strict_manifest_audit_marks_missing_control_invalid(tmp_path):
             discovery_map.main(["--strict-manifest-audit"])
         finally:
             discovery_map.ROOT = old_root
+
+
+def test_manifest_audit_reports_unregistered_json_and_strict_fails(tmp_path):
+    _write_all_payloads(tmp_path)
+    unregistered = tmp_path / "reports" / "canonical" / "unregistered-extra.json"
+    unregistered.write_text(json.dumps({"schema_id": "fixture"}) + "\n", encoding="utf-8")
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+
+    assert payload["manifest_audit"]["unregistered_json_artifacts"] == [
+        "reports/canonical/unregistered-extra.json",
+    ]
+
+    old_root = discovery_map.ROOT
+    try:
+        discovery_map.ROOT = tmp_path
+        with pytest.raises(SystemExit) as excinfo:
+            discovery_map.main(["--strict-manifest-audit"])
+    finally:
+        discovery_map.ROOT = old_root
+
+    assert excinfo.value.code == 1

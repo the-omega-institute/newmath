@@ -340,13 +340,14 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     ]
     for row in payload["rows"]:
         pointer = row.get("control_pointer") or row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")
+        pointer_display = pointer if pointer is not None else row["projection_status"]
         lines.append(
             "| "
             f"`{row['report']}` | "
             f"`{row['discovery_level']}` | "
             f"`{row['projection_status']}` | "
             f"`{row['audit_status']}` | "
-            f"`{pointer}` |"
+            f"`{pointer_display}` |"
         )
     lines.append("")
     return "\n".join(lines)
