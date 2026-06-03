@@ -32,6 +32,7 @@ from bedc_ci import (  # type: ignore[import-not-found]
     collect_closurestatus_blocks,
     diagnose_closurestatus_block,
     diagnose_closurestatus_open_fields,
+    carrier_faithfulness_payload,
     discovery_integrity_payload,
     discovery_assert_gate_payload,
     discovery_gate_witness_kernel_grounding,
@@ -7598,6 +7599,56 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(candidate["provenance"][0]["reduced_fp"], "same")
         self.assertIn("classifier_corpus_canonical_payload_equal", candidate["evidence"])
 
+    def test_carrier_faithfulness_classifies_cross_domain_and_same_module(self) -> None:
+        payload = carrier_faithfulness_payload({
+            "candidates": [
+                {
+                    "target": "BEDC.Derived.ContinuousUp.ContinuousModulusWitness",
+                    "provenance": [{
+                        "prior": "BEDC.Derived.CompactUp.CompactNetWitness",
+                        "relation": "reconstruction",
+                        "canonical_payload": "payload-cross",
+                        "evidence": "canonical_payload_equal",
+                    }],
+                },
+                {
+                    "target": "BEDC.Derived.CompactUp.CompactWitnessCarrier",
+                    "provenance": [{
+                        "prior": "BEDC.Derived.CompactUp.CompactNetWitness",
+                        "relation": "reconstruction",
+                        "canonical_payload": "payload-same",
+                        "evidence": "canonical_payload_equal",
+                    }],
+                },
+            ],
+        }, reconstruction_witnesses=[
+            {
+                "target": "BEDC.Derived.ManifoldUp.ManifoldAtlasClassifier",
+                "prior": "BEDC.Derived.HopfAlgUp.HopfAlgAntipodeClassifier",
+                "canonical_payload": "payload-registry",
+                "source": "discovery_gate_witness_registry",
+            },
+        ])
+        self.assertTrue(payload["informational"])
+        self.assertEqual(payload["cross_domain_under_encoding_count"], 2)
+        self.assertEqual(payload["same_module_sibling_count"], 1)
+        cross_by_target = {
+            item["target"]: item
+            for item in payload["cross_domain_under_encoding"]
+        }
+        cross = cross_by_target["BEDC.Derived.ContinuousUp.ContinuousModulusWitness"]
+        self.assertEqual(cross["target_domain"], "ContinuousUp")
+        self.assertEqual(cross["prior_domain"], "CompactUp")
+        self.assertEqual(cross["classification"], "cross_domain_collision")
+        registry = cross_by_target["BEDC.Derived.ManifoldUp.ManifoldAtlasClassifier"]
+        self.assertEqual(registry["target_domain"], "ManifoldUp")
+        self.assertEqual(registry["prior_domain"], "HopfAlgUp")
+        self.assertEqual(registry["source"], "discovery_gate_witness_registry")
+        sibling = payload["same_module_siblings"][0]
+        self.assertEqual(sibling["target_domain"], "CompactUp")
+        self.assertEqual(sibling["prior_domain"], "CompactUp")
+        self.assertEqual(sibling["classification"], "same_module_sibling")
+
     def test_discovery_radar_denominators_distinguish_empty_candidate_scan(self) -> None:
         payload = audit_payload(full_radar_scan=True)
         radar = payload["discovery_production_radar"]
@@ -7747,6 +7798,10 @@ class DiscoveryAuditTests(unittest.TestCase):
                 "conjectured_count": 0,
                 "candidates": [{"state": "refuted"}],
             },
+            "carrier_faithfulness": {
+                "cross_domain_under_encoding_count": 1,
+                "same_module_sibling_count": 0,
+            },
         }
         args = type("Args", (), {"json": True, "shape_saturation": False})()
         with patch("bedc_ci.audit_payload", return_value=payload), redirect_stdout(StringIO()):
@@ -7868,13 +7923,19 @@ class DiscoveryAuditTests(unittest.TestCase):
                 "corpus_truncated": False,
                 "candidates": [{"state": "refuted"}],
             },
+            "carrier_faithfulness": {
+                "cross_domain_under_encoding_count": 1,
+                "same_module_sibling_count": 2,
+            },
         }
         args = type("Args", (), {"json": False, "shape_saturation": False})()
         with patch("bedc_ci.audit_payload", return_value=payload) as audit, redirect_stdout(StringIO()) as out:
             rc = cmd_audit(args)
         self.assertEqual(rc, 0)
         self.assertFalse(audit.call_args.kwargs["full_radar_scan"])
-        self.assertIn("scanned=1743", out.getvalue())
+        output = out.getvalue()
+        self.assertIn("scanned=1743", output)
+        self.assertIn("carrier faithfulness: cross-domain under-encoding=1", output)
 
     def test_current_repository_discovery_radar_is_present(self) -> None:
         payload = audit_payload()
