@@ -492,6 +492,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "literature_ledger",
         "quality_scorecard",
         "negative_witnesses",
+        "claim_verdicts",
     }.issubset(payload)
     assert set(payload["paper_outline"]["core_reports"]) == HG_P_CORE
     assert payload["negative_witnesses"] == {
@@ -500,10 +501,15 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
         "expected_kind_count": 8,
     }
+    assert payload["claim_verdicts"]["status"] == "pointer-only"
+    assert payload["claim_verdicts"]["artifact_id"] == "bedc-quality-lab:claim-verdicts"
+    assert payload["claim_verdicts"]["jsonl_artifact"] == "reports/canonical/claim_verdicts.jsonl"
+    assert isinstance(payload["claim_verdicts"]["row_count"], int)
     assert "HG-P core reports" in markdown
     assert "Auxiliary reports" in markdown
     assert "Quality scorecard" in markdown
     assert "Negative witnesses" in markdown
+    assert "Claim verdicts" in markdown
     assert "Paper outline" in markdown
     assert "Claims and non-claims" in markdown
     assert "Literature ledger pointer" in markdown
@@ -696,6 +702,31 @@ def test_discovery_map_is_registered_by_canonical_runner(tmp_path, monkeypatch):
     assert payload["discovery_map"]["json_artifact"] == "reports/canonical/discovery_map.json"
     assert payload["discovery_map"]["markdown_artifact"] == "reports/canonical/discovery_map.md"
     assert "Discovery map" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
+
+
+def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+
+    def fake_run_producer(spec):
+        json_path = canonical._artifact_path(spec.json_artifact)
+        md_path = canonical._artifact_path(spec.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    json_artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+
+    assert payload["claim_verdicts"]["status"] == "pointer-only"
+    assert payload["claim_verdicts"]["artifact_id"] == "bedc-quality-lab:claim-verdicts"
+    assert payload["claim_verdicts"]["jsonl_artifact"] == "reports/canonical/claim_verdicts.jsonl"
+    assert payload["claim_verdicts"]["jsonl_artifact"] not in json_artifacts
+    assert (canonical.CANONICAL_DIR / "claim_verdicts.jsonl").exists()
+    assert "claim_verdicts.jsonl" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
 
 
 def test_quality_scorecard_projects_only_explicit_cells(tmp_path):

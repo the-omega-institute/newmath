@@ -33,6 +33,8 @@ DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
 NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
+CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
+CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -953,6 +955,18 @@ def _negative_witnesses_index_section() -> dict[str, Any]:
     }
 
 
+def _claim_verdicts_index_section(generated_at: str | None = None) -> dict[str, Any]:
+    from scripts.run_claim_verdict_demo import compile_claim_verdicts
+
+    rows = compile_claim_verdicts(ROOT, generated_at=generated_at)
+    return {
+        "status": "pointer-only",
+        "artifact_id": CLAIM_VERDICTS_ARTIFACT_ID,
+        "jsonl_artifact": CLAIM_VERDICTS_JSONL_ARTIFACT,
+        "row_count": len(rows),
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -1019,6 +1033,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "quality_scorecard": _quality_scorecard_index_section(),
         "discovery_map": _discovery_map_index_section(generated_at=timestamp),
         "negative_witnesses": _negative_witnesses_index_section(),
+        "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -1086,6 +1101,12 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Status: `{payload['negative_witnesses']['status']}`",
             f"- JSON: `{payload['negative_witnesses']['json_artifact']}`",
             f"- Expected kinds: `{payload['negative_witnesses']['expected_kind_count']}`",
+            "",
+            "## Claim verdicts",
+            "",
+            f"- Status: `{payload['claim_verdicts']['status']}`",
+            f"- JSONL: `{payload['claim_verdicts']['jsonl_artifact']}`",
+            f"- Rows: `{payload['claim_verdicts']['row_count']}`",
             "",
             "## Paper outline",
             "",
@@ -1155,13 +1176,15 @@ def run_reports(
     CANONICAL_DIR.mkdir(parents=True, exist_ok=True)
     results = [_run_spec(spec) for spec in _select_specs(only)]
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
-    payload = _index(results, generated_at=timestamp)
     scorecard = _build_quality_scorecard(results, generated_at=timestamp)
     from scripts.run_discovery_map import write_discovery_map
+    from scripts.run_claim_verdict_demo import write_claim_verdicts
 
-    write_discovery_map(generated_at=timestamp, root=ROOT, canonical_reports=CANONICAL_REPORTS)
     _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
+    write_discovery_map(generated_at=timestamp, root=ROOT, canonical_reports=CANONICAL_REPORTS)
+    write_claim_verdicts(root=ROOT, generated_at=timestamp)
+    payload = _index(results, generated_at=timestamp)
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     if json_summary is not None:
