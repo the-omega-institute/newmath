@@ -435,4 +435,34 @@ theorem EquicontinuitySharedRadiusFamilyNonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, familyUnary, coverUnary⟩
 
+theorem EquicontinuityCarrier_family_modulus_consumer_exhaustion [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead familyRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityCarrier K F eps rho M T R P N radiusRead handoffRead bundle pkg ->
+      UnaryHistory M ->
+        Cont radiusRead rho familyRead ->
+          Cont familyRead M handoffRead ->
+            Cont handoffRead R consumerRead ->
+              PkgSig bundle consumerRead pkg ->
+                UnaryHistory radiusRead ∧ UnaryHistory familyRead ∧
+                  UnaryHistory handoffRead ∧ UnaryHistory consumerRead ∧
+                    Cont K F radiusRead ∧ Cont radiusRead rho familyRead ∧
+                      Cont familyRead M handoffRead ∧ Cont handoffRead R consumerRead ∧
+                        PkgSig bundle P pkg ∧ PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: EquicontinuityCarrier BHist ProbeBundle PkgSig Cont UnaryHistory
+  intro carrier mUnary radiusFamily familyHandoff handoffConsumer consumerPkg
+  obtain ⟨kUnary, fUnary, rhoUnary, rUnary, radiusRoute, _radiusHandoff, pkgP, _pkgN⟩ :=
+    carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed kUnary fUnary radiusRoute
+  have familyUnary : UnaryHistory familyRead :=
+    unary_cont_closed radiusUnary rhoUnary radiusFamily
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed familyUnary mUnary familyHandoff
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed handoffUnary rUnary handoffConsumer
+  exact
+    ⟨radiusUnary, familyUnary, handoffUnary, consumerUnary, radiusRoute, radiusFamily,
+      familyHandoff, handoffConsumer, pkgP, consumerPkg⟩
+
 end BEDC.Derived.EquicontinuityUp
