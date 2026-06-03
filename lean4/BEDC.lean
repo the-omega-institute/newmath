@@ -657,6 +657,7 @@ import BEDC.Derived.BaireMetricUp.CauchyPrefixThread
 import BEDC.Derived.BaireMetricUp.CompleteMetricNonescape
 import BEDC.Derived.BaireMetricUp.FirstDisagreementDyadicRadiusExactness
 import BEDC.Derived.BaireMetricUp.ObligationCompleteMetricConsumer
+import BEDC.Derived.BaireMetricUp.ObligationPrefixCompleteness
 import BEDC.Derived.BaireMetricUp.ParentMetricSpaceHandoff
 import BEDC.Derived.BaireMetricUp.PrefixCylinderCoverage
 import BEDC.Derived.BaireMetricUp.PrefixLimitWindowUniqueness
@@ -1931,6 +1932,7 @@ import BEDC.Derived.CauchyUniformContinuityPrincipleUp.TasteGate
 import BEDC.Derived.CauchyUniformNetUp.TasteGate
 import BEDC.Derived.CauchyUp
 import BEDC.Derived.CauchyUp.CompletionLeftExactnessAdmission
+import BEDC.Derived.CauchyUp.CoreNameCert
 import BEDC.Derived.CauchyUp.ModulusSpaceDiagonal
 import BEDC.Derived.CauchyUp.ModulusSpaceFilterHandoff
 import BEDC.Derived.CauchyUp.ModulusSpaceTail
@@ -8403,6 +8405,7 @@ import BEDC.Derived.UpgradeRegistryUp.NoncompletionSurface
 import BEDC.Derived.UpgradeRegistryUp.StatusPreservation
 import BEDC.Derived.UpgradeRegistryUp.TasteGate
 import BEDC.Derived.UpperRealEnvelopeUp.TasteGate
+import BEDC.Derived.UpperRealUp
 import BEDC.Derived.UpperRealUp.ObligationSurface
 import BEDC.Derived.UpperRealUp.TasteGate
 import BEDC.Derived.UpperSemicontinuousUp.FiniteWindowStability
@@ -8438,7 +8441,6 @@ import BEDC.Derived.WeakLawLargeNumbersUp.TasteGate
 import BEDC.Derived.WeakStarCompactnessUp.TasteGate
 import BEDC.Derived.WeakTopologyUp.FunctionalWindowStability
 import BEDC.Derived.WeakTopologyUp.NamecertObligations
-import BEDC.Derived.WeakTopologyUp.TasteGate
 import BEDC.Derived.WeaklyCauchySequenceUp.TasteGate
 import BEDC.Derived.WeierstrassApproximationUp
 import BEDC.Derived.WeierstrassApproximationUp.PolynomialHandoff
