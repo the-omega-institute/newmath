@@ -13,3 +13,19 @@ Now take the common finite tail window given by the shifted window and its halve
 
 Finally read the downstream $\RealUp$ seal through the same four-object route. Since the carrier rows have been exhausted by $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and local naming, no quotient stream equality, selected limit, host real equality, metric-completeness datum, completion point, countable-choice schedule, or ambient completeness coordinate remains available.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift halving fusion is choice-free]
+\label{thm:regseqrat-tail-shift-halving-fusion-choice-free}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let a finite displayed family of tail-shift rows and tail-halving rows be indexed over the same $\StreamNameUp$ schedule and $\DyadicRatCoreUp$ tolerance ledger. Iterating \autoref{thm:regseqrat-tail-halving-shift-fusion} over the family yields one finite common window with the same $\RegSeqRatUp$ readback and the same downstream $\RealUp$ seal.
+
+The finite-family route preserves the four-object path through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. It does not select a limiting tail, invoke quotient stream equality, use host real equality, ask for countable choice, expose a completion point, or assume ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct over the displayed finite family. In the empty case, the original accepted packet supplies the common window, readback, and Real seal through its StreamName schedule, DyadicRatCore tolerance ledger, RegSeqRat rows, transport, replay, provenance, and local naming data.
+
+For the successor step, apply \autoref{thm:regseqrat-tail-halving-shift-fusion} to the current common window and the next displayed pair of tail-shift and tail-halving rows. The theorem fuses that pair into a finite tail window whose StreamName schedule, DyadicRatCore tolerance ledger, RegSeqRat readback, and Real seal are the same public read.
+
+Repack the successor window as the induction invariant. The same four-object route is preserved because each step reads only $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Thus the finite family has one common window without selecting a limiting tail. Since every step is finite and row-local, no quotient stream equality, host real equality, countable-choice schedule, completion point, or ambient Real completeness coordinate is introduced.
+\end{proof}
