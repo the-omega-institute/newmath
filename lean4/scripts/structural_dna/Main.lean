@@ -101,6 +101,7 @@ structure DeclFingerprint where
   constFp : String
   etaValueFp : String
   reducedFingerprint : String
+  canonicalReducedPayload : String
 deriving Repr
 
 structure LambdaBinder where
@@ -202,10 +203,65 @@ def isTheoremConstant (info : ConstantInfo) : Bool :=
   | .thmInfo _ => true
   | _ => false
 
+partial def forallArity : Expr → Nat
+  | .forallE _ _ body _ => forallArity body + 1
+  | .mdata _ e => forallArity e
+  | _ => 0
+
+def canonicalInductivePayload (env : Environment) (info : ConstantInfo) : String :=
+  match info with
+  | .inductInfo ind =>
+      let params := ind.levelParams
+      let ctorPayloads :=
+        ind.ctors.map fun ctorName =>
+          match env.find? ctorName with
+          | some ctorInfo =>
+              joinPayload "ctor" [
+                quoteToken ctorName.toString,
+                toString (forallArity ctorInfo.type),
+                exprPayload params ctorInfo.type
+              ]
+          | none =>
+              joinPayload "ctor-missing" [quoteToken ctorName.toString]
+      let recursorName := ind.name ++ `rec
+      let recursorPayload :=
+        match env.find? recursorName with
+        | some recInfo =>
+            joinPayload "recursor" [
+              quoteToken recursorName.toString,
+              toString (forallArity recInfo.type),
+              exprPayload params recInfo.type
+            ]
+        | none =>
+            joinPayload "recursor-missing" [quoteToken recursorName.toString]
+      joinPayload "inductive" [
+        quoteToken ind.name.toString,
+        toString ind.numParams,
+        toString ind.numIndices,
+        exprPayload params ind.type,
+        joinPayload "constructors" ctorPayloads,
+        recursorPayload
+      ]
+  | _ => ""
+
 def valueIsProof (env : Environment) (value : Expr) : IO Bool := do
   match ← runMetaWithEnv env (Meta.isProof value) with
   | .ok isProof => return isProof
   | .error _ => return false
+
+def canonicalReducedPayload (env : Environment) (info : ConstantInfo) : IO String := do
+  if isTheoremConstant info then
+    return ""
+  else
+    match info.value? (allowOpaque := true) with
+    | some value =>
+        if ← valueIsProof env value then
+          return ""
+        else
+          match ← canonicalValue env info with
+          | none => return ""
+          | some reduced => return exprPayload info.levelParams reduced
+    | none => return canonicalInductivePayload env info
 
 partial def stripLeadingLambdas (params : List Name) (e : Expr) : List LambdaBinder × Expr :=
   match e with
@@ -476,6 +532,14 @@ def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerpri
           else
             reducedValueFingerprint env params value
       | none => pure ""
+  let canonicalReducedPayload ← canonicalReducedPayload env info
+  let reducedFingerprint :=
+    if reducedFingerprint != "" then
+      reducedFingerprint
+    else if canonicalReducedPayload != "" then
+      stableHash canonicalReducedPayload
+    else
+      ""
   let fingerprint :=
     stableHash (joinPayload "decl" [typeFp, valueFp])
   return {
@@ -484,7 +548,8 @@ def declFingerprint (env : Environment) (info : ConstantInfo) : IO DeclFingerpri
     valueFp := valueFp,
     constFp := constFp,
     etaValueFp := etaValueFp,
-    reducedFingerprint := reducedFingerprint
+    reducedFingerprint := reducedFingerprint,
+    canonicalReducedPayload := canonicalReducedPayload
   }
 
 def jsonForDeclFingerprint (fp : DeclFingerprint) : Json :=
@@ -494,7 +559,8 @@ def jsonForDeclFingerprint (fp : DeclFingerprint) : Json :=
     ("value_fp", Json.str fp.valueFp),
     ("const_fp", Json.str fp.constFp),
     ("eta_value_fp", Json.str fp.etaValueFp),
-    ("reduced_fingerprint", Json.str fp.reducedFingerprint)
+    ("reduced_fingerprint", Json.str fp.reducedFingerprint),
+    ("canonical_reduced_payload", Json.str fp.canonicalReducedPayload)
   ]
 
 def parseJsonStringArray (j : Json) (field : String) : Except String (Array String) := do

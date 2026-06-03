@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -135,5 +145,23 @@ theorem DyadicUpTasteGate_single_carrier_alignment :
       DyadicUpTasteGate_round_trip,
       (fun _ _ heq => DyadicUpTasteGate_toEventFlow_injective heq),
       rfl⟩
+
+def DyadicCarrier [AskSetup] [PackageSetup]
+    (Q S R E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory Q ∧ UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory E ∧
+    UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+      Cont Q S R ∧ Cont R E C ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem DyadicNameCertObligations [AskSetup] [PackageSetup]
+    {Q S R E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicCarrier Q S R E H C P N bundle pkg →
+      UnaryHistory Q ∧ UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory E ∧
+        Cont Q S R ∧ Cont R E C ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨qUnary, sUnary, rUnary, eUnary, _hUnary, _cUnary, _pUnary, _nUnary,
+    qsrRoute, recRoute, provenancePkg, namePkg⟩ := carrier
+  exact ⟨qUnary, sUnary, rUnary, eUnary, qsrRoute, recRoute, provenancePkg, namePkg⟩
 
 end BEDC.Derived.DyadicUp

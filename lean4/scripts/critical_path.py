@@ -3349,6 +3349,7 @@ def main(argv: list[str] | None = None) -> int:
             "unformalized_top": len(payload.get("unformalized_top", [])),
             "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
         }
+        lean_base_weights = dict(_LEAN_BASE_WEIGHTS)
         supply_paper = {
             "top": len(rolled),
             "sieve_clearance_top": len(sieve_clearance_top),
@@ -3362,7 +3363,7 @@ def main(argv: list[str] | None = None) -> int:
         consumption = _compute_consumption_60min()
         payload["dispatch_weights"] = _compute_dispatch_weights(
             supply_lean, supply_paper, consumption,
-            _LEAN_BASE_WEIGHTS, _PAPER_BASE_WEIGHTS,
+            lean_base_weights, _PAPER_BASE_WEIGHTS,
             capstone_candidate, capstone_coverage,
             paper_priority_config,
         )

@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\DiniModulusContinuityUp$}
+\label{ch:concrete-instances-dini-modulus-continuity-namecert}
+\origin{human}
+
+Following Dini and Bishop--Bridges constructive analysis, the $\DiniModulusContinuityUp$ packet records a finite route from displayed Dini-style local modulus requests to Real-facing continuity reads. It sits between the ordinary modulus-control surface of \autoref{ch:concrete-instances-moduluscontinuity-namecert}, the derivative-side Dini packet of \autoref{ch:concrete-instances-dini-derivative-namecert}, the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance budget of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the finite continuity-modulus handoff only; it does not assert ambient Real completeness, selected limits, quotient streams, or a host-level continuity principle.
+
+\begin{definition}[Dini modulus continuity carrier]\label{def:dini-modulus-continuity-carrier}
+A $\DiniModulusContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+M=(W,R,D,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the source $\StreamNameUp$ window ledger. It stores the finite source windows on which the continuity request is allowed to read names.
+\item $R$ is the Dini modulus request row. It records the displayed neighbourhood request, the local oscillation bound, and the monotone precision schedule used by the packet.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance budget. It displays the input tolerance, the output tolerance, the local split cells, and the finite descent route binding them to $R$.
+\item $T$ is the $\RegSeqRatUp$ readback row. It records the rational observations returned from the accepted StreamName windows under the dyadic tolerance budget.
+\item $E$ is the terminal $\RealUp$ seal. It is reachable only after the StreamName windows, Dini request row, dyadic budget, and rational readback row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $W,R,D,T,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from an outer continuity-modulus request through $W,R,D,T,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\DiniModulusContinuityUp$, $\ModulusContinuityUp$, $\DiniDerivativeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DiniModulusContinuityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $W,R,D,T,E,H,C,P,N$. The carrier has no coordinate for quotient stream equality, host limits, ambient Real completeness, selected representatives, countable choice, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Dini modulus continuity NameCert obligations]\label{thm:dini-modulus-continuity-namecert-obligations}
+For every accepted $\DiniModulusContinuityUp$ carrier
+$$
+M=(W,R,D,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\DiniModulusContinuityUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the StreamName window ledger, Dini modulus request, dyadic tolerance budget, RegSeqRat readback row, Real seal, transport row, replay row, provenance row, and local naming row;
+\item source-window exactness, requiring every observation used by the modulus request to appear in $W$;
+\item Dini-request exactness, requiring the neighbourhood request, oscillation bound, and monotone precision schedule to be the displayed cells of $R$;
+\item dyadic budget compatibility, requiring $D$ to bind the input and output tolerances to the finite local split cells consumed by $R$ and $T$;
+\item rational readback exactness, requiring every exported rational observation to come from $T$ after $W,R,D$ have been displayed;
+\item Real-seal non-escape, requiring $E$ to remain downstream of $W,R,D,T$ and the structural rows;
+\item componentwise structural preservation, requiring $H$ and $C$ to transport and replay the displayed packet without changing the modulus route;
+\item provenance exhaustion, requiring $P$ and $N$ to source and name exactly the displayed packet and no quotient stream, host limit, ambient Real completeness, selected representative, countable-choice row, Lean verification, or bridge checker.
+\end{enumerate}
+No local NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dini-modulus-continuity-carrier}. The projection exposes one source-window ledger, one Dini modulus request row, one dyadic tolerance budget, one regular rational readback row, one terminal Real seal, and the structural rows.
+
+The window and request obligations are read from $W$ and $R$. A continuity read can inspect only the displayed StreamName windows, and the neighbourhood request, oscillation bound, and monotone precision schedule must be the cells named in $R$.
+
+The tolerance and readback obligations are then read from $D$ and $T$. The dyadic budget displays the local split cells used by the Dini request, while $T$ lists the regular rational observations returned from those windows.
+
+Finally, $E,H,C,P,N$ only seal, transport, replay, source, and name the displayed route. Since the carrier has no further analytic coordinate, the local NameCert exports exactly the listed finite obligations and no ambient completion principle.
+\end{proof}
+
+\begin{theorem}[Dini modulus continuity Real handoff]\label{thm:dini-modulus-continuity-real-handoff}
+Every $\RealUp$-facing read out of an accepted $\DiniModulusContinuityUp$ carrier factors through the finite route
+$$
+\StreamNameUp \longmapsto \DiniModulusContinuityUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+as displayed by $W,R,D,T,E,H,C,P,N$. Thus a Real and Completion consumer can use the packet only as a displayed modulus-control handoff, not as a claim of quotient-stream equality, selected limits, host continuity, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Take a Real-facing read admitted by the packet. Projection of $M$ gives no coordinate from an outer request directly to the terminal seal $E$.
+
+The read first opens the StreamName windows and the Dini modulus request. The row $W$ displays the finite windows, and $R$ displays the local neighbourhood request and oscillation bound that governs those windows.
+
+The dyadic tolerance budget and regular rational readback determine the numeric data. The row $D$ records the local split cells, while $T$ records the rational observations consumed under those tolerances.
+
+Only after those rows are visible can $E$ be consumed. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same route, so no quotient stream, selected limit, host continuity service, or ambient Real completeness claim can be inserted.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DiniModulusContinuityUp$ consumer that reaches a terminal $\RealUp$ seal without first displaying the $\StreamNameUp$ windows, Dini modulus request, $\DyadicRatCoreUp$ tolerance budget, and $\RegSeqRatUp$ readback row refutes the carrier surface.}
+
+\independenceWitness{moduluscontinuity, dini-derivative, streamname, regseqrat, dyadicratcore, real: no listed sibling supplies the whole packet $M=(W,R,D,T,E,H,C,P,N)$, because each sibling contributes only ordinary modulus control, derivative-side Dini data, window data, rational readback, tolerance budgeting, or terminal seal data while this chapter binds them into one finite continuity-modulus NameCert route.}
+
+\closureat{DiniModulusContinuityUp}{seedStr}
+
+\begin{closurestatus}{\DiniModulusContinuityUp}
+  \constructivestory{A $\DiniModulusContinuityUp$ packet is generated from StreamName source windows, a Dini modulus request, a DyadicRatCore tolerance budget, a RegSeqRat readback row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dini-modulus-continuity-carrier}, \autoref{thm:dini-modulus-continuity-namecert-obligations}, and \autoref{thm:dini-modulus-continuity-real-handoff} seed the finite Dini modulus continuity route over StreamName, DyadicRatCore, RegSeqRat, and Real-facing consumers.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host limits, ambient Real completeness, selected representatives, countable choice, Lean verification, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, Dini-request exactness, dyadic-budget compatibility, RegSeqRat readback exactness, Real-seal non-escape, classifier transport, and ledger non-escape proofs for BEDC.Derived.DiniModulusContinuityUp.}
+\end{closurestatus}

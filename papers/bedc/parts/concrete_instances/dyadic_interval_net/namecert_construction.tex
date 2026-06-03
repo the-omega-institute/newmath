@@ -58,6 +58,19 @@ Cell coverage is therefore a finite row check. Each requested interval read is m
 The structural rows do not add a second cover object. They preserve the displayed packet componentwise, so no open cover, selected subcover, choice principle, or ambient compactness row can enter the obligation surface.
 \end{proof}
 
+\begin{theorem}[Dyadic interval net RegSeqRat route]\label{thm:dyadic-interval-net-regseqrat-route}
+Every accepted $\DyadicIntervalNetUp$ packet consumed by a $\RegSeqRatUp$ or Real-facing route first exposes the dyadic interval endpoints, finite net cells, $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance rows, $\RegSeqRatUp$ readback, and terminal $\RealUp$ seal. Concretely, the route reads the endpoint arithmetic and cell rows $D,J,E$, then the window row $S$ of \autoref{ch:concrete-instances-streamname-namecert}, then the tolerance and readback rows supplied by \autoref{ch:concrete-instances-dyadicratcore-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, and only then the Real seal $Q$. No quotient stream, selected limit, selected subcover, countable-choice schedule, or ambient completeness coordinate is available to the consumer.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:dyadic-interval-net-carrier}. The rows $D,J,E$ are the finite interval-net rows: dyadic endpoints, listed cells, and endpoint incidence.
+
+Use the NameCert obligation surface of \autoref{thm:dyadic-interval-net-obligation-surface}. It permits a downstream consumer to inspect only the displayed carrier rows, so any RegSeqRat-facing request must first pass through the listed cells and the dyadic endpoint arithmetic already present in $D,J,E$.
+
+The readback rows are then forced in order. The StreamName row $S$ supplies finite observation windows, the DyadicRatCore tolerance information supplies the dyadic radius and comparison rows, and the RegSeqRat row $R$ supplies the regular rational readback before $Q$ can be opened.
+
+Finally replay $H,C,P,N$. Transport, continuation replay, provenance, and local naming preserve the same route, leaving no coordinate from which a quotient stream, selected limit, selected subcover, choice schedule, or ambient completeness principle could be read.
+\end{proof}
+
 \begin{theorem}[Dyadic interval net StreamName and RegSeqRat handoff]\label{thm:dyadic-interval-net-streamname-regseqrat-handoff}
 Every downstream consumer of an accepted $\DyadicIntervalNetUp$ carrier that inspects interval endpoints or cell tolerances must factor the read through
 $$

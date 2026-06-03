@@ -1,5 +1,7 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.StreamMapUp
@@ -7,6 +9,8 @@ namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -215,6 +219,55 @@ theorem StreamMapTasteGate_single_carrier_alignment :
   · intro x y heq
     exact streamMapToEventFlow_injective heq
   · rfl
+
+theorem StreamMapFiniteWindow_functoriality (S T F W Q D R H C P N : BHist) :
+    streamMapFields (StreamMapUp.mk S T F W Q D R H C P N) =
+        [S, T, F, W, Q, D, R, H, C, P, N] ∧
+      ∃ sourceRoute targetRoute outputRoute : BHist,
+        Cont S F sourceRoute ∧ Cont sourceRoute T targetRoute ∧
+          Cont targetRoute W outputRoute ∧ hsame sourceRoute (append S F) ∧
+            hsame targetRoute (append sourceRoute T) ∧
+              hsame outputRoute (append targetRoute W) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  constructor
+  · rfl
+  · exact
+      ⟨append S F, append (append S F) T, append (append (append S F) T) W,
+        rfl, rfl, rfl, rfl, rfl, rfl⟩
+
+theorem StreamMapPointwiseStability
+    (S T F W Q D R H C P N sourceCell transportedCell targetCell outputCell : BHist) :
+    streamMapFields (StreamMapUp.mk S T F W Q D R H C P N) =
+        [S, T, F, W, Q, D, R, H, C, P, N] ->
+      Cont S H sourceCell ->
+        Cont sourceCell F transportedCell ->
+          Cont transportedCell T targetCell ->
+            Cont targetCell W outputCell ->
+              UnaryHistory S ->
+                UnaryHistory H ->
+                  UnaryHistory F ->
+                    UnaryHistory T ->
+                      UnaryHistory W ->
+                        UnaryHistory sourceCell ∧ UnaryHistory transportedCell ∧
+                          UnaryHistory targetCell ∧ UnaryHistory outputCell ∧
+                            hsame sourceCell (append S H) ∧
+                              hsame transportedCell (append sourceCell F) ∧
+                                hsame targetCell (append transportedCell T) ∧
+                                  hsame outputCell (append targetCell W) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro _fields sourceRoute transportedRoute targetRoute outputRoute sUnary hUnary fUnary tUnary
+    wUnary
+  have sourceUnary : UnaryHistory sourceCell :=
+    unary_cont_closed sUnary hUnary sourceRoute
+  have transportedUnary : UnaryHistory transportedCell :=
+    unary_cont_closed sourceUnary fUnary transportedRoute
+  have targetUnary : UnaryHistory targetCell :=
+    unary_cont_closed transportedUnary tUnary targetRoute
+  have outputUnary : UnaryHistory outputCell :=
+    unary_cont_closed targetUnary wUnary outputRoute
+  exact
+    ⟨sourceUnary, transportedUnary, targetUnary, outputUnary, sourceRoute, transportedRoute,
+      targetRoute, outputRoute⟩
 
 end TasteGate
 end BEDC.Derived.StreamMapUp

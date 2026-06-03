@@ -65,6 +65,7 @@ Thus directedness is not a global existence assertion. It is exactly the
 finite refinement row already stored in the carrier, together with its
 displayed $\Cont$ and $\hsame$ witnesses.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyFilterUp.CauchyFilterCarrier\_directed\_refinement\_endpoint\_surface}
 
 \begin{theorem}[CauchyFilter Cauchy modulus obligation]
 \label{thm:cauchyfilter-cauchy-modulus-obligation}
@@ -267,6 +268,43 @@ and $\Pkg$ provenance rows. Therefore the RegSeqRat readback layer and the
 Real sealing layer are the cited sibling concrete-instance dependencies, and
 the whole L10 handoff is closed before any host filter, selected limit,
 quotient real, or ambient completeness principle can be read.
+\end{proof}
+
+\begin{theorem}[CauchyFilter Real-RegSeq completion scope]
+\label{thm:cauchyfilter-real-regseq-completion-scope}
+Every $\RealUp$ or $\RegSeqRatUp$ completion-facing consumer of an accepted
+$\CauchyFilterUp$ packet factors through the displayed finite
+$\mathsf{FilterBase}$ row, directed refinement obligation, Cauchy modulus
+row, $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, $\RealBallUp$ bounds,
+$\Pkg$ provenance, componentwise $\hsame$ transport, displayed $\Cont$
+replay, and local $\NameCert$ rows of that packet. The scope contains no
+quotient filters, selected limits, countable choice, host equality, or
+ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the finite-filterbase carrier of
+\autoref{def:cauchyfilter-finite-filterbase-carrier}. It places the base
+packets, refinement witnesses, precision rows, ledger evidence, and
+provenance in the displayed coordinates $B,R,M,L,P$.
+
+Apply the directed refinement and Cauchy-modulus obligations of
+\autoref{thm:cauchyfilter-directed-refinement-obligation} and
+\autoref{thm:cauchyfilter-cauchy-modulus-obligation}. These obligations read
+the finite filter-base row, a refinement row for each comparison, and the
+modulus row with its dyadic-radius ledger.
+
+Next use the Real and RegSeqRat handoff non-escape theorem
+\autoref{thm:cauchyfilter-real-regseq-handoff-nonescape}. It identifies the
+downstream completion-facing reads as the displayed tail packets,
+$\StreamNameUp$ schedules, $\RegSeqRatUp$ regular rows, $\RealBallUp$ bounds,
+ledger rows, and $\Pkg$ provenance already carried by $B,R,M,L,P$.
+
+Finally use the L10 dependency handoff lattice of
+\autoref{thm:cauchyfilter-l10-dependency-handoff-lattice}. The lattice routes
+the same rows through StreamName, DyadicRatCore, RegSeqRat, and Real consumers
+before any completion-facing seal is read. Since no ingredient adds quotient
+filters, selected limits, countable choice, host equality, or ambient
+completeness, the displayed rows exhaust the completion scope.
 \end{proof}
 
 \begin{theorem}[CauchyFilter uniform-space completion handoff]
