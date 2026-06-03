@@ -1328,6 +1328,7 @@ import BEDC.Derived.CauchyCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.CauchyCompletionUniversalReflectorUp
 import BEDC.Derived.CauchyCompletionUniversalReflectorUp.ExtensionFactorization
 import BEDC.Derived.CauchyCompletionUniversalReflectorUp.NameCertObligations
+import BEDC.Derived.CauchyCompletionUniversalReflectorUp.TasteGate
 import BEDC.Derived.CauchyCompressionUp.TasteGate
 import BEDC.Derived.CauchyCondensationIntegralBoundUp.TasteGate
 import BEDC.Derived.CauchyCondensationRealSeriesUp.TasteGate
@@ -4921,7 +4922,6 @@ import BEDC.Derived.LargeModelInscriptionPointUp
 import BEDC.Derived.LargeModelInscriptionPointUp.TasteGate
 import BEDC.Derived.LargeModelOutputVerifierUp.NameCertObligations
 import BEDC.Derived.LargeModelOutputVerifierUp.TasteGate
-import BEDC.Derived.LatentCompletionUp.TasteGate
 import BEDC.Derived.LatticeUp
 import BEDC.Derived.LatticeUp.BoundUniqueness
 import BEDC.Derived.LatticeUp.Commutativity
@@ -5244,7 +5244,6 @@ import BEDC.Derived.MeasureUp.RootDownstreamUnblockPackage
 import BEDC.Derived.MeasureUp.RootPublicObligationBasis
 import BEDC.Derived.MeasureUp.RootPublicSurface
 import BEDC.Derived.MeasureUp.RootRealStreamRegularity
-import BEDC.Derived.MedianClosureUp.TasteGate
 import BEDC.Derived.MedianLeakageSpectrumUp.TasteGate
 import BEDC.Derived.MeirKeelerContractionUp.TasteGate
 import BEDC.Derived.MertensCauchyProductTheoremUp.TasteGate
@@ -7409,6 +7408,7 @@ import BEDC.Derived.ResearchProgrammeAuditLoopUp.TasteGate
 import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.ResearchProgrammeRouteUp.TasteGate
 import BEDC.Derived.ResidueUp
+import BEDC.Derived.ResidueUp.TasteGate
 import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
 import BEDC.Derived.ReviewAcceptanceGateUp.HumanApprovalBoundary
 import BEDC.Derived.ReviewAcceptanceGateUp.NameCertObligations
@@ -7701,7 +7701,6 @@ import BEDC.Derived.SimplicialComplexUp
 import BEDC.Derived.SimplicialSetUp
 import BEDC.Derived.SimplicialSetUp.TasteGate
 import BEDC.Derived.SingletonSource
-import BEDC.Derived.SixBoundaryTileCoverageUp.TasteGate
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SmithNormalFormUp.TasteGate
 import BEDC.Derived.SmugglingPatternClassifierUp.TasteGate
