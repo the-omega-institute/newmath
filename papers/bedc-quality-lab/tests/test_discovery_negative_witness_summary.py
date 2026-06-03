@@ -132,16 +132,19 @@ def test_summary_does_not_call_verdict_engine(monkeypatch):
     def fail_if_called(*_args, **_kwargs):
         raise AssertionError("summary producer must not call the verdict engine directly")
 
-    monkeypatch.setattr(summary, "compile_claim_verdicts", lambda root, generated_at=None: [])
     monkeypatch.setattr("bedc_quality_lab.verdict.synthesize_certification_verdict", fail_if_called)
+    monkeypatch.setattr(claim_verdicts, "synthesize_certification_verdict", fail_if_called)
 
     payload = summary.build_discovery_negative_witness_summary(
         root=summary.ROOT,
         generated_at="2030-01-01T00:00:00+00:00",
     )
 
-    assert payload["audit_status"] == "fail"
+    assert payload["audit_status"] == "pass"
     assert payload["dn_discovery_map_row_count"] >= 1
+    witness_rows = [row for row in payload["rows"] if row["negative_id"].startswith("witness:")]
+    assert witness_rows
+    assert all(row["claim_verdict_pointer"] for row in witness_rows)
 
 
 def test_summary_stays_outside_canonical_reports_and_preserves_schema_exports():

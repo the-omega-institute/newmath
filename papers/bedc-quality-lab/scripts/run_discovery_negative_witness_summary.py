@@ -15,9 +15,6 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.run_claim_verdict_demo import compile_claim_verdicts
-
-
 SCHEMA_ID = "bedc-quality-lab:discovery-negative-witness-summary"
 ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witness-summary"
 JSON_ARTIFACT = "reports/canonical/discovery_negative_witness_summary.json"
@@ -106,10 +103,14 @@ def _load_witness_rows(root: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def _claim_verdict_rows(root: Path, generated_at: str | None) -> list[dict[str, Any]]:
-    rows = compile_claim_verdicts(root, generated_at=generated_at)
-    if not all(isinstance(row, dict) for row in rows):
-        raise ValueError("compiled claim verdict rows must be JSON objects")
+def _claim_verdict_rows(root: Path) -> list[dict[str, Any]]:
+    path = _artifact_path(root, CLAIM_VERDICTS_ARTIFACT)
+    rows: list[dict[str, Any]] = []
+    for line_index, line in enumerate(path.read_text(encoding="utf-8").splitlines()):
+        row = json.loads(line)
+        if not isinstance(row, dict):
+            raise ValueError(f"compiled claim verdict row must be a JSON object at line {line_index}")
+        rows.append(row)
     return rows
 
 
@@ -269,8 +270,8 @@ def build_discovery_negative_witness_summary(
         witnesses = []
         audit_reasons.append(f"missing or invalid source artifact: {NEGATIVE_WITNESSES_ARTIFACT}: {exc}")
     try:
-        claim_rows = _claim_verdict_rows(base, generated_at=timestamp)
-    except (FileNotFoundError, json.JSONDecodeError, ValueError) as exc:
+        claim_rows = _claim_verdict_rows(base)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
         claim_rows = []
         audit_reasons.append(f"missing or invalid source artifact: {CLAIM_VERDICTS_ARTIFACT}: {exc}")
     rows = _dn_rows(base, discovery_rows, audit_reasons)
