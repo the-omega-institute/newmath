@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import importlib.util
-import os
 import sys
+import types
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -28,19 +28,33 @@ def load_module(path: Path, name: str):
 
 
 class CriticalPathTasteRepairTests(unittest.TestCase):
-    def test_taste_repair_critical_path_disabled_does_not_read_audit(self) -> None:
-        cp = load_module(CRITICAL_PATH, "critical_path_taste_disabled")
-        with mock.patch.dict(os.environ, {"BEDC_TASTE_REPAIR_ENABLED": "0"}, clear=False), \
-            mock.patch.object(cp.subprocess, "run") as run_mock:
+    def test_taste_repair_payload_is_read_unconditionally(self) -> None:
+        cp = load_module(CRITICAL_PATH, "critical_path_taste_payload")
+        fake_bedc_ci = types.SimpleNamespace(
+            audit_payload=lambda full_radar_scan=False: {
+                "taste_meta_gate": {
+                    "violation_count": 1,
+                    "obligation_count": 2,
+                    "violations": [
+                        {
+                            "target": "BEDC.Derived.CompactUp.CompactCarrier",
+                            "prior": "BEDC.Derived.BoolUp.BoolCarrier",
+                        }
+                    ],
+                }
+            }
+        )
+
+        with mock.patch.dict(sys.modules, {"bedc_ci": fake_bedc_ci}):
             payload = cp._get_taste_repair_payload()
-            targets = cp.compute_taste_repair_targets(payload)
 
-        self.assertFalse(payload["enabled"])
-        self.assertEqual(targets, [])
-        run_mock.assert_not_called()
+        self.assertTrue(payload["enabled"])
+        self.assertTrue(payload["available"])
+        self.assertEqual(payload["violation_count"], 1)
+        self.assertEqual(len(payload["violations"]), 1)
 
-    def test_taste_repair_critical_path_enabled_maps_violations_to_low_priority_targets(self) -> None:
-        cp = load_module(CRITICAL_PATH, "critical_path_taste_enabled")
+    def test_taste_repair_critical_path_maps_violations_to_low_priority_targets(self) -> None:
+        cp = load_module(CRITICAL_PATH, "critical_path_taste_targets")
         payload = {
             "available": True,
             "enabled": True,
@@ -56,8 +70,7 @@ class CriticalPathTasteRepairTests(unittest.TestCase):
                 }
             ],
         }
-        with mock.patch.dict(os.environ, {"BEDC_TASTE_REPAIR_ENABLED": "1"}, clear=False), \
-            mock.patch.object(cp, "_current_worker_slice", return_value=(0, 1)), \
+        with mock.patch.object(cp, "_current_worker_slice", return_value=(0, 1)), \
             mock.patch.object(cp, "_claim_top_with_cooldown", side_effect=lambda rows: rows):
             targets = cp.compute_taste_repair_targets(payload)
 
@@ -70,10 +83,38 @@ class CriticalPathTasteRepairTests(unittest.TestCase):
         self.assertEqual(target["priority"], "low")
         self.assertEqual(target["target_file"], "lean4/BEDC/Derived/CompactUp.lean")
 
-    def test_taste_repair_formalize_disabled_rejects_lane(self) -> None:
-        cf = load_module(FORMALIZE_PATH, "codex_formalize_taste_disabled")
-        with mock.patch.dict(os.environ, {"BEDC_TASTE_REPAIR_ENABLED": "0"}, clear=False):
-            self.assertFalse(cf.taste_repair_enabled())
+    def test_taste_repair_weight_is_present_and_below_regular_lean_sources(self) -> None:
+        cp = load_module(CRITICAL_PATH, "critical_path_taste_weight")
+        supply_lean = {
+            "top": 5,
+            "sieve_clearance_top": 5,
+            "discovery_candidate_top": 5,
+            "formal_axis_top": 5,
+            "unformalized_top": 5,
+            "carrier_isomorphism_capstone": 5,
+            "taste_repair_top": 5,
+        }
+        supply_paper = {
+            "top": 5,
+        }
+        lean_base = dict(cp._LEAN_BASE_WEIGHTS)
+        lean_base["taste_repair_top"] = cp.TASTE_REPAIR_WEIGHT
+
+        weights = cp._compute_dispatch_weights(
+            supply_lean,
+            supply_paper,
+            {},
+            lean_base,
+            {"top": 1.0},
+        )["lean"]["weights"]
+
+        self.assertIn("taste_repair_top", weights)
+        self.assertGreater(weights["taste_repair_top"], 0)
+        for source in cp._LEAN_BASE_WEIGHTS:
+            self.assertLess(weights["taste_repair_top"], weights[source])
+
+    def test_taste_repair_formalize_lane_identity_is_always_available(self) -> None:
+        cf = load_module(FORMALIZE_PATH, "codex_formalize_taste_identity")
         self.assertTrue(cf._is_taste_repair_targets([
             {"kind": "taste_repair", "carrier": "BEDC.Derived.CompactUp.CompactCarrier"}
         ]))

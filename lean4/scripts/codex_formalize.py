@@ -96,7 +96,6 @@ HARD_MAX_PARALLEL = 50
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
 FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
 MAX_LEAN_FILE_LINES = 800
-TASTE_REPAIR_ENV = "BEDC_TASTE_REPAIR_ENABLED"
 TASTE_REPAIR_MAX_INFLIGHT = 1
 TASTE_REPAIR_SLOT_TTL_SECONDS = 7200
 
@@ -337,11 +336,6 @@ TASTE_REPAIR_SLOTS_FILE = _resolve_git_common_file(
     "bedc-codex-formalize-taste-repair-slots.json",
     LOG_DIR / "taste_repair_slots.json",
 )
-
-
-def taste_repair_enabled() -> bool:
-    value = os.environ.get(TASTE_REPAIR_ENV, "0").strip().lower()
-    return value not in {"", "0", "false", "no", "off"}
 
 
 def _target_id(t: dict) -> str:
@@ -2952,10 +2946,6 @@ def run_round_in_worktree(
         taste_repair_round = _is_taste_repair_targets(phase_b.targets)
 
         if taste_repair_round:
-            if not taste_repair_enabled():
-                logger.error(f"[{tag}] Taste repair target selected while {TASTE_REPAIR_ENV}=0")
-                _save_round_log(round_num, phase_b, PhaseCResult(), [], False, lease)
-                return False, round_num, []
             taste_repair_slot_owner = lease.holder
             if not acquire_taste_repair_slot(taste_repair_slot_owner):
                 logger.warning(f"[{tag}] Taste repair lane is at capacity; aborting low-priority round")

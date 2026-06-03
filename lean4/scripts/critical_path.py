@@ -258,7 +258,6 @@ FORMAL_GRADE_ORDER = [
 ]
 RETIREMENT_CLOSURE_THRESHOLD = "scopedClosure"
 RETIREMENT_FORMAL_THRESHOLD = "theoremCheckedV"
-TASTE_REPAIR_ENV = "BEDC_TASTE_REPAIR_ENABLED"
 TASTE_REPAIR_WEIGHT = 0.02
 
 _LEAN_BASE_WEIGHTS = {
@@ -303,11 +302,6 @@ def _normalize_weights(weights: dict[str, float]) -> dict[str, float]:
         count = len(weights) or 1
         return {k: round(1.0 / count, 4) for k in weights}
     return {k: round(max(0.0, v) / total, 4) for k, v in weights.items()}
-
-
-def taste_repair_enabled() -> bool:
-    value = os.environ.get(TASTE_REPAIR_ENV, "0").strip().lower()
-    return value not in {"", "0", "false", "no", "off"}
 
 
 def _apply_post_normalization_caps(
@@ -995,17 +989,9 @@ def _extract_taste_gate(payload: dict) -> dict:
 
 
 def _get_taste_repair_payload() -> dict:
-    """Read TasteGate violations only when the repair lane is explicitly enabled."""
+    """Read TasteGate violations for the always-on low-priority repair lane."""
     global _taste_repair_cache
     if _taste_repair_cache is not None:
-        return _taste_repair_cache
-    if not taste_repair_enabled():
-        _taste_repair_cache = {
-            "available": False,
-            "enabled": False,
-            "violations": [],
-            "violation_count": 0,
-        }
         return _taste_repair_cache
 
     try:
@@ -1036,8 +1022,6 @@ def _get_taste_repair_payload() -> dict:
 
 
 def compute_taste_repair_targets(payload: dict, max_n: int = 10) -> list[dict]:
-    if not taste_repair_enabled():
-        return []
     violations = payload.get("violations", [])
     if not isinstance(violations, list):
         return []
@@ -3428,12 +3412,11 @@ def main(argv: list[str] | None = None) -> int:
         "capstone_overlap_map": compute_capstone_overlap_map(),
         "carrier_isomorphism": _get_carrier_isomorphism_summary(),
     }
-    if taste_repair_enabled():
-        payload["taste_repair_enabled"] = True
-        payload["taste_repair_top_total"] = taste_repair_payload.get("violation_count", 0)
-        payload["taste_repair_top"] = taste_repair_top
-        if not taste_repair_payload.get("available", False):
-            payload["taste_repair_reason"] = taste_repair_payload.get("reason", "unavailable")
+    payload["taste_repair_enabled"] = True
+    payload["taste_repair_top_total"] = taste_repair_payload.get("violation_count", 0)
+    payload["taste_repair_top"] = taste_repair_top
+    if not taste_repair_payload.get("available", False):
+        payload["taste_repair_reason"] = taste_repair_payload.get("reason", "unavailable")
     # Theorem-level surfaces (D-1 inventory + D-2 unformalized_top / drift_top).
     # Compute discover_all_theorems() once and reuse — the scan is the heaviest
     # call in the whole script (touches ~1100 .tex files paper-wide).
@@ -3467,9 +3450,8 @@ def main(argv: list[str] | None = None) -> int:
             "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
         }
         lean_base_weights = dict(_LEAN_BASE_WEIGHTS)
-        if taste_repair_enabled():
-            supply_lean["taste_repair_top"] = len(taste_repair_top)
-            lean_base_weights["taste_repair_top"] = TASTE_REPAIR_WEIGHT
+        supply_lean["taste_repair_top"] = len(taste_repair_top)
+        lean_base_weights["taste_repair_top"] = TASTE_REPAIR_WEIGHT
         supply_paper = {
             "top": len(rolled),
             "sieve_clearance_top": len(sieve_clearance_top),
