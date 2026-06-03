@@ -3900,7 +3900,7 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     paths = store.paths
     paths.paper_main.parent.mkdir(parents=True, exist_ok=True)
     paths.paper_part.parent.mkdir(parents=True, exist_ok=True)
-    paths.paper_part.write_text("\n".join(part_lines), encoding="utf-8")
+    paths.paper_part.write_text(_sanitize_textmode_underscores("\n".join(part_lines)), encoding="utf-8")
     namecert_slugs = _write_namecert_proposals(
         paths,
         conjectures,
