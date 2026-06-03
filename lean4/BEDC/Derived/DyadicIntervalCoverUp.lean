@@ -345,4 +345,30 @@ theorem DyadicIntervalCoverRootUnblockPackage [AskSetup] [PackageSetup]
   exact
     ⟨cert, endpointUnary, windowUnary, coverUnary, sealUnary, compactUnary, namedUnary⟩
 
+theorem DyadicIntervalCoverMembershipTransport [AskSetup] [PackageSetup]
+    {L U M R V W Q A H C P N membershipRead transportedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (UnaryHistory L ∧ UnaryHistory U ∧ UnaryHistory M ∧ UnaryHistory R ∧
+        UnaryHistory V ∧ UnaryHistory W ∧ UnaryHistory Q ∧ UnaryHistory A ∧
+          UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+            PkgSig bundle P pkg) →
+      Cont V H membershipRead →
+        Cont membershipRead C transportedRead →
+          PkgSig bundle transportedRead pkg →
+            UnaryHistory V ∧ UnaryHistory H ∧ UnaryHistory C ∧
+              UnaryHistory membershipRead ∧ UnaryHistory transportedRead ∧
+                Cont V H membershipRead ∧ Cont membershipRead C transportedRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle transportedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrierRows membershipRoute transportedRoute transportedPkg
+  obtain ⟨_unaryL, _unaryU, _unaryM, _unaryR, unaryV, _unaryW, _unaryQ,
+    _unaryA, unaryH, unaryC, _unaryP, _unaryN, provenancePkg⟩ := carrierRows
+  have membershipUnary : UnaryHistory membershipRead :=
+    unary_cont_closed unaryV unaryH membershipRoute
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed membershipUnary unaryC transportedRoute
+  exact
+    ⟨unaryV, unaryH, unaryC, membershipUnary, transportedUnary, membershipRoute,
+      transportedRoute, provenancePkg, transportedPkg⟩
+
 end BEDC.Derived.DyadicIntervalCoverUp
