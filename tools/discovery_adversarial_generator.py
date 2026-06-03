@@ -15,12 +15,14 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from structural_dna_build import ensure_structural_dna_build
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BEDC_CI_PATH = REPO_ROOT / "lean4" / "scripts" / "bedc_ci.py"
 LOG_DIR = REPO_ROOT / "tools" / "logs"
 DEFAULT_OUTPUT = LOG_DIR / "proven_pseudos.jsonl"
 DEFAULT_LOG = LOG_DIR / "discovery_adversarial_generator.log"
-PID_LOCK_PATH = Path("/tmp/.bedc_discovery_adversarial_generator.pid")
+PID_LOCK_PATH = Path("/tmp/.bedc_adversarial_generator.pid")
 DEFAULT_INTERVAL = 21600
 DEFAULT_MAX_NEW_PER_BUCKET = 1
 DEFAULT_MAX_RECORDS_PER_CYCLE = 50
@@ -377,6 +379,9 @@ def write_record(path: Path, record: dict[str, Any]) -> None:
 
 
 def run_once(args: argparse.Namespace) -> dict[str, Any]:
+    build_failure = ensure_structural_dna_build(append_log=append_log, label="adversarial-generator")
+    if build_failure is not None:
+        raise RuntimeError(build_failure)
     ci = bedc_ci_module()
     output = Path(args.output)
     covered_buckets, witness_count, witness_cap = covered_bucket_keys(output)
