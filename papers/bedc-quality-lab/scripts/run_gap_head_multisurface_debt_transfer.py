@@ -23,7 +23,6 @@ from bedc_quality_lab.latent_distribution import LatentDistributionSpec
 from bedc_quality_lab.mixing import DEFAULT_MIXING, mix_latents
 from bedc_quality_lab.toy_world import make_toy_batch
 from bedc_quality_lab.transition import TransitionKernelSpec
-from scripts import run_gap_head_observed_debt_transfer as observed_transfer
 from scripts import run_gap_head_robustness_sweep as robustness
 from scripts import run_gap_ledger_head_on_h as producer
 from scripts import run_observed_debt_sweep as observed_debt
@@ -531,14 +530,40 @@ def _hardgate_evidence(surfaces: list[dict[str, Any]]) -> dict[str, Any]:
         },
         "HG-A2-3": {
             "status": "pass",
-            "criterion": "each deferred, boundary_only, or not_runnable registry row appears in boundary_ledger",
+            "criterion": "each non-countable registry row and each failed countable runnable surface appears in boundary_ledger",
             "ledger_pointer": "$.boundary_ledger",
         },
     }
 
 
-def _boundary_ledger(registry: tuple[MultiSurfaceSpec, ...]) -> list[dict[str, Any]]:
+def _failed_runnable_surface_ids(surfaces: list[dict[str, Any]]) -> set[str]:
+    return {
+        str(surface["surface_id"])
+        for surface in surfaces
+        if surface["countable_hg_a2_2"] and surface["verdict"]["status"] != "pass"
+    }
+
+
+def _expected_boundary_kinds(
+    registry: tuple[MultiSurfaceSpec, ...],
+    surfaces: list[dict[str, Any]],
+) -> dict[str, str]:
+    expected = {
+        spec.surface_id: spec.role
+        for spec in registry
+        if not spec.countable_hg_a2_2
+    }
+    for surface_id in _failed_runnable_surface_ids(surfaces):
+        expected[surface_id] = "runnable_failed"
+    return expected
+
+
+def _boundary_ledger(
+    registry: tuple[MultiSurfaceSpec, ...],
+    surfaces: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
     rows = []
+    spec_by_id = {spec.surface_id: spec for spec in registry}
     for spec in registry:
         if spec.countable_hg_a2_2:
             continue
@@ -548,6 +573,20 @@ def _boundary_ledger(registry: tuple[MultiSurfaceSpec, ...]) -> list[dict[str, A
                 "kind": spec.role,
                 "reason": spec.boundary_reason or "outside countable HG-A2-2 pool",
                 "evidence_pointer": spec.evidence_pointer,
+            }
+        )
+    for surface in surfaces:
+        if not surface["countable_hg_a2_2"] or surface["verdict"]["status"] == "pass":
+            continue
+        spec = spec_by_id.get(str(surface["surface_id"]))
+        rows.append(
+            {
+                "surface_id": surface["surface_id"],
+                "kind": "runnable_failed",
+                "reason": surface["verdict"].get("reason", "countable runnable surface failed"),
+                "failed_gates": list(surface["verdict"].get("failed_gates", [])),
+                "evidence_pointer": "$.surfaces[*].hardgates",
+                "source_evidence_pointer": spec.evidence_pointer if spec is not None else None,
             }
         )
     return rows
@@ -627,14 +666,15 @@ def build_payload(*, generated_at: str | None = None) -> dict[str, Any]:
         },
         "surfaces": surfaces,
         "hardgate_evidence": hardgates,
-        "boundary_ledger": _boundary_ledger(registry),
+        "boundary_ledger": _boundary_ledger(registry, surfaces),
         "not_claimed": list(NOT_CLAIMED),
     }
     payload["forbidden_claim_term_audit"] = _forbidden_claim_term_audit(payload)
+    expected_boundary_kinds = _expected_boundary_kinds(registry, surfaces)
+    ledger_kinds = {row["surface_id"]: row["kind"] for row in payload["boundary_ledger"]}
     payload["hardgate_evidence"]["HG-A2-3"]["status"] = (
         "pass"
-        if sorted(row["surface_id"] for row in payload["boundary_ledger"])
-        == sorted(spec.surface_id for spec in registry if not spec.countable_hg_a2_2)
+        if ledger_kinds == expected_boundary_kinds
         else "fail"
     )
     return payload

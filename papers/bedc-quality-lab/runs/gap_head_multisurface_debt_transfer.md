@@ -35,6 +35,7 @@
 | `student-t-latent` | `deferred` | `bedc_quality_lab.latent_distribution.LatentDistributionSpec.student_t` |
 | `realnvp-spiral-mixing` | `boundary_only` | `bedc_quality_lab.mixing.mix_latents` |
 | `undertrain-boundary` | `not_runnable` | `scripts/run_gap_head_observed_debt_transfer.py::_boundary_ledger` |
+| `laplace-latent` | `runnable_failed` | `$.surfaces[*].hardgates` |
 
 ## Not Claimed
 

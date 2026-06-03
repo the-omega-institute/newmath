@@ -19,6 +19,16 @@
       "kind": "not_runnable",
       "reason": "no legal training-budget knob exists in the reused gap-head-on-h producer; this points to the existing C2 observed-debt exclusion",
       "surface_id": "undertrain-boundary"
+    },
+    {
+      "evidence_pointer": "$.surfaces[*].hardgates",
+      "failed_gates": [
+        "HG-A2-1"
+      ],
+      "kind": "runnable_failed",
+      "reason": "HG-A2-1 failed",
+      "source_evidence_pointer": "bedc_quality_lab.latent_distribution.LatentDistributionSpec.laplace",
+      "surface_id": "laplace-latent"
     }
   ],
   "config": {
@@ -47,7 +57,7 @@
     "pass_surface_count": 3,
     "registry_surface_count": 7
   },
-  "generated_at": "2026-06-03T21:29:55.093571+00:00",
+  "generated_at": "2026-06-03T21:52:44.872264+00:00",
   "hardgate_evidence": {
     "HG-A2-1": {
       "criterion": "each countable runnable surface has learned AUROC CI-low above matched-random CI-high with forbidden-feature audit pass",
@@ -83,7 +93,7 @@
       "status": "pass"
     },
     "HG-A2-3": {
-      "criterion": "each deferred, boundary_only, or not_runnable registry row appears in boundary_ledger",
+      "criterion": "each non-countable registry row and each failed countable runnable surface appears in boundary_ledger",
       "ledger_pointer": "$.boundary_ledger",
       "status": "pass"
     }
