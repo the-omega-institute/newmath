@@ -3,6 +3,7 @@ import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
@@ -14,6 +15,7 @@ open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -328,5 +330,103 @@ theorem BaireMetricStreamScheduleNonescape [AskSetup] [PackageSetup]
   have replayUnary : UnaryHistory replayRead :=
     unary_cont_closed unaryC unaryS replayRoute
   exact ⟨unaryS, unaryC, replayUnary, replayRoute, provenancePkg, replayPkg⟩
+
+theorem BaireMetricCarrier_ultrametric_prefix_route [AskSetup] [PackageSetup]
+    {B W D R U S H C P N prefixRead scheduleRead radiusRead metricRead
+      ultrametricRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricPrefixDistanceCarrier S B W D R U H C P N radiusRead ultrametricRead
+        bundle pkg →
+      Cont S B prefixRead →
+        Cont prefixRead W scheduleRead →
+          Cont scheduleRead D radiusRead →
+            Cont radiusRead R metricRead →
+              Cont metricRead U ultrametricRead →
+                PkgSig bundle ultrametricRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row ultrametricRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row B ∨ hsame row S ∨ hsame row W ∨ hsame row D ∨
+                          hsame row R ∨ hsame row U ∨ hsame row prefixRead ∨
+                            hsame row scheduleRead ∨ hsame row radiusRead ∨
+                              hsame row metricRead ∨ hsame row ultrametricRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont S B prefixRead ∧
+                          Cont prefixRead W scheduleRead ∧
+                            Cont scheduleRead D radiusRead ∧
+                              Cont radiusRead R metricRead ∧
+                                Cont metricRead U ultrametricRead ∧
+                                  PkgSig bundle ultrametricRead pkg)
+                      hsame ∧
+                    UnaryHistory prefixRead ∧ UnaryHistory scheduleRead ∧
+                      UnaryHistory radiusRead ∧ UnaryHistory metricRead ∧
+                        UnaryHistory ultrametricRead := by
+  -- BEDC touchpoint anchor: BaireMetricPrefixDistanceCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier prefixRoute scheduleRoute radiusRoute metricRoute ultrametricRoute
+    ultrametricPkg
+  obtain ⟨unaryS, unaryB, unaryW, unaryD, unaryR, unaryU, _unaryH, _unaryC,
+    _unaryP, _unaryN, _carrierRadiusRoute, _carrierUltrametricRoute, _provenancePkg,
+      _localNamePkg⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed unaryS unaryB prefixRoute
+  have scheduleUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed prefixUnary unaryW scheduleRoute
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed scheduleUnary unaryD radiusRoute
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed radiusUnary unaryR metricRoute
+  have ultrametricUnary : UnaryHistory ultrametricRead :=
+    unary_cont_closed metricUnary unaryU ultrametricRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row ultrametricRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row S ∨ hsame row W ∨ hsame row D ∨ hsame row R ∨
+              hsame row U ∨ hsame row prefixRead ∨ hsame row scheduleRead ∨
+                hsame row radiusRead ∨ hsame row metricRead ∨ hsame row ultrametricRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S B prefixRead ∧ Cont prefixRead W scheduleRead ∧
+              Cont scheduleRead D radiusRead ∧ Cont radiusRead R metricRead ∧
+                Cont metricRead U ultrametricRead ∧ PkgSig bundle ultrametricRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro ultrametricRead ⟨hsame_refl ultrametricRead, ultrametricUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, prefixRoute, scheduleRoute, radiusRoute, metricRoute,
+          ultrametricRoute, ultrametricPkg⟩
+  }
+  exact
+    ⟨cert, prefixUnary, scheduleUnary, radiusUnary, metricUnary, ultrametricUnary⟩
 
 end BEDC.Derived.BaireMetricUp

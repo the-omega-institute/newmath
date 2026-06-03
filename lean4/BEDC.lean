@@ -880,6 +880,7 @@ import BEDC.Derived.BoundedCompleteRealIntervalUp.TasteGate
 import BEDC.Derived.BoundedFunctionFamilyUp
 import BEDC.Derived.BoundedFunctionFamilyUp.NameCertObligations
 import BEDC.Derived.BoundedFunctionFamilyUp.TasteGate
+import BEDC.Derived.BoundedIntervalProjectionUp.TasteGate
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp.BudgetCofinalReadback
@@ -1447,6 +1448,7 @@ import BEDC.Derived.CauchyFilterUp
 import BEDC.Derived.CauchyFilterUp.TasteGate
 import BEDC.Derived.CauchyHadamardUp.TasteGate
 import BEDC.Derived.CauchyIntegralTestUp.TasteGate
+import BEDC.Derived.CauchyInterlacingUp.TasteGate
 import BEDC.Derived.CauchyInterleavingComparisonUp.TasteGate
 import BEDC.Derived.CauchyInterleavingCriterionUp.TasteGate
 import BEDC.Derived.CauchyInterleavingProductUp.TasteGate
@@ -3786,6 +3788,7 @@ import BEDC.Derived.FareySequenceUp.FiniteDensityRootPackage
 import BEDC.Derived.FareySequenceUp.FiniteMediantCoverage
 import BEDC.Derived.FareySequenceUp.LevelSuccessor
 import BEDC.Derived.FareySequenceUp.LevelSuccessorInduction
+import BEDC.Derived.FareySequenceUp.LocalNamingReplayScope
 import BEDC.Derived.FareySequenceUp.MediantDensityWindow
 import BEDC.Derived.FareySequenceUp.MediantRefinementStability
 import BEDC.Derived.FareySequenceUp.MediantWindowCoverage
@@ -4879,6 +4882,7 @@ import BEDC.Derived.LQRUp.EmptyHorizon
 import BEDC.Derived.LQRUp.EmptyHorizonBackwardLedger
 import BEDC.Derived.LQRUp.EmptyHorizonReadback
 import BEDC.Derived.LQRUp.PublicNameCertExport
+import BEDC.Derived.LagrangeInversionUp.TasteGate
 import BEDC.Derived.LagrangianMechanicsUp
 import BEDC.Derived.LaguerrePolyaUp.TasteGate
 import BEDC.Derived.LambdaCalcUp
@@ -4971,6 +4975,7 @@ import BEDC.Derived.LipschitzMapUp.CommonBoundCompletionRoute
 import BEDC.Derived.LipschitzMapUp.CompleteMetricRegularSealBoundary
 import BEDC.Derived.LipschitzMapUp.ScopedModulusRoute
 import BEDC.Derived.LipschitzMapUp.SeparatedCompletionNonescape
+import BEDC.Derived.LipschitzModulusUp.TasteGate
 import BEDC.Derived.ListUp
 import BEDC.Derived.ListUp.AppendContext
 import BEDC.Derived.ListUp.BoolReadback
@@ -5286,6 +5291,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontierCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontierDischargeCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontierExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontierExhaustionScope
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNFrontierExtension
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNL10CompletionLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNL10Readback

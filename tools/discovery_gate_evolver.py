@@ -542,14 +542,36 @@ def ensure_allowed_changes(root: Path) -> None:
         raise RuntimeError("evolver touched non-whitelisted files: " + ", ".join(illegal))
 
 
+def _best_effort_worktree_cleanup(worktree: Path) -> None:
+    cleanup_cmds = [
+        (["git", "worktree", "prune"], "git worktree prune"),
+        (["git", "worktree", "remove", "--force", str(worktree)], "git worktree remove --force"),
+    ]
+    for cmd, label in cleanup_cmds:
+        try:
+            proc = run_cmd(cmd, cwd=REPO_ROOT, timeout=GIT_TIMEOUT)
+            if proc.returncode != 0:
+                append_log(f"[escalate] {label} during evolver worktree prep failed: {short_output(proc)}")
+        except Exception as exc:
+            append_log(f"[escalate] {label} during evolver worktree prep raised: {type(exc).__name__}: {exc}")
+    try:
+        shutil.rmtree(worktree, ignore_errors=True)
+    except Exception as exc:
+        append_log(f"[escalate] rm -rf during evolver worktree prep raised: {type(exc).__name__}: {exc}")
+
+
 def prepare_worktree(worktree: Path, base_ref: str) -> None:
-    if worktree.exists():
-        shutil.rmtree(worktree)
+    _best_effort_worktree_cleanup(worktree)
     require_ok(run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=GIT_TIMEOUT), "git fetch")
-    require_ok(
-        run_cmd(["git", "worktree", "add", "--detach", str(worktree), base_ref], cwd=REPO_ROOT, timeout=GIT_TIMEOUT),
-        "git worktree add",
-    )
+    add = run_cmd(["git", "worktree", "add", "--detach", str(worktree), base_ref], cwd=REPO_ROOT, timeout=GIT_TIMEOUT)
+    if add.returncode != 0:
+        append_log(f"[escalate] git worktree add failed before forced retry: {short_output(add)}")
+        add = run_cmd(
+            ["git", "worktree", "add", "-f", "--detach", str(worktree), base_ref],
+            cwd=REPO_ROOT,
+            timeout=GIT_TIMEOUT,
+        )
+    require_ok(add, "git worktree add")
     _clone_lake_cache(worktree)
 
 
