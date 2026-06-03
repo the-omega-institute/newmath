@@ -8438,6 +8438,7 @@ import BEDC.Derived.WeakLawLargeNumbersUp.TasteGate
 import BEDC.Derived.WeakStarCompactnessUp.TasteGate
 import BEDC.Derived.WeakTopologyUp.FunctionalWindowStability
 import BEDC.Derived.WeakTopologyUp.NamecertObligations
+import BEDC.Derived.WeakTopologyUp.TasteGate
 import BEDC.Derived.WeaklyCauchySequenceUp.TasteGate
 import BEDC.Derived.WeierstrassApproximationUp
 import BEDC.Derived.WeierstrassApproximationUp.PolynomialHandoff
