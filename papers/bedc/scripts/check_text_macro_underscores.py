@@ -7,6 +7,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TEXT_MACROS = ("falsifiablePrediction", "independenceWitness")
+LEAN_MARKER_MACROS = (
+    "leanchecked",
+    "leanvariant",
+    "leansorryd",
+    "leanstmt",
+    "leandef",
+    "leantarget",
+)
 
 
 def matching_brace(text: str, open_index: int) -> int | None:
@@ -53,7 +61,7 @@ def main() -> int:
     errors: list[str] = []
     for path in sorted((ROOT / "parts").rglob("*.tex")):
         text = path.read_text(encoding="utf-8", errors="ignore")
-        for macro in TEXT_MACROS:
+        for macro in (*TEXT_MACROS, *LEAN_MARKER_MACROS):
             needle = "\\" + macro + "{"
             start = 0
             while True:
@@ -69,18 +77,24 @@ def main() -> int:
                 if has_bare_underscore(body):
                     line = text.count("\n", 0, pos) + 1
                     rel = path.relative_to(ROOT)
-                    errors.append(f"{rel}:{line}: bare underscore inside \\{macro}{{...}}")
+                    if macro in LEAN_MARKER_MACROS:
+                        errors.append(
+                            f"{rel}:{line}: bare underscore inside \\{macro}{{...}} "
+                            "(write Lean target underscores as \\_)"
+                        )
+                    else:
+                        errors.append(f"{rel}:{line}: bare underscore inside \\{macro}{{...}}")
                 start = close_index + 1
 
     if errors:
-        print("text macro underscore check failed:", file=sys.stderr)
+        print("text/marker macro underscore check failed:", file=sys.stderr)
         for error in errors[:200]:
             print(f"- {error}", file=sys.stderr)
         if len(errors) > 200:
             print(f"- ... {len(errors) - 200} more", file=sys.stderr)
         return 1
 
-    print("text macro underscore check passed")
+    print("text/marker macro underscore check passed")
     return 0
 
 
