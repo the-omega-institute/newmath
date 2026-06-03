@@ -52,6 +52,18 @@ NON_POSITIVE_REPORTS = [
     "certificate-guided-discovery",
     "nongaussian-distribution-sweep",
 ]
+POSITIVE_FRAMING_RE = re.compile(
+    r"\bpositive\s+(?:result|discovery|prototype|finding|claim|outcome|artifact|report|signal)\b",
+    re.IGNORECASE,
+)
+NEGATION_RE = re.compile(r"\b(?:not|never|no\s+longer|is\s+not|are\s+not|was\s+not|were\s+not)\b", re.IGNORECASE)
+
+# Threat model: these hardgates are pointer-only thin-doc drift gates. They catch
+# accidental report status flips, stale pointers, missing nonclaims, obvious
+# positive framing of named artifacts, and simple negation tricks. They are not
+# adversarial natural-language verifiers and do not defend arbitrary crafted
+# prose; airtight adversarial coverage belongs to design-consensus work, not this
+# thin-doc gate.
 
 
 @dataclass
@@ -157,21 +169,21 @@ def check_certificate_guided_boundary(docs: dict[Path, str]) -> CheckResult:
     if not training_lines:
         return CheckResult("HG-V1-Report-4", "FAIL", "certificate-guided-training is not documented")
     status_lines = certificate_guided_training_status_lines(docs)
-    mixed_lines = [hit for hit in status_lines if "mixed/negative" in hit.lower()]
-    if not mixed_lines:
-        return CheckResult("HG-V1-Report-4", "FAIL", "certificate-guided-training lacks mixed/negative label")
     positive_lines = [
         hit
-        for hit in status_lines
-        if "positive" in hit.lower() or POSITIVE_PROTOTYPE_PHRASE in hit.lower()
+        for hit in training_lines + status_lines
+        if has_positive_framing(hit)
     ]
     if positive_lines:
         return CheckResult(
             "HG-V1-Report-4",
             "FAIL",
-            "certificate-guided-training is framed with positive prototype wording: "
+            "certificate-guided-training is framed with positive wording: "
             + " | ".join(positive_lines),
         )
+    mixed_lines = [hit for hit in status_lines if "mixed/negative" in hit.lower()]
+    if not mixed_lines:
+        return CheckResult("HG-V1-Report-4", "FAIL", "certificate-guided-training lacks mixed/negative label")
     return CheckResult("HG-V1-Report-4", "PASS", "certificate-guided-training is mixed/negative")
 
 
@@ -205,10 +217,27 @@ def lines_with_phrase(docs: dict[Path, str], phrase: str) -> list[str]:
     return hits
 
 
+def has_positive_framing(hit: str) -> bool:
+    return bool(POSITIVE_FRAMING_RE.search(hit))
+
+
+def has_simple_negation(hit: str) -> bool:
+    return bool(NEGATION_RE.search(hit))
+
+
 def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
     hits = lines_with_phrase(docs, POSITIVE_PROTOTYPE_PHRASE)
     bad_hits = [hit for hit in hits if UNIQUE_POSITIVE_REPORT not in hit]
-    good_hits = [hit for hit in hits if UNIQUE_POSITIVE_REPORT in hit]
+    negated_unique_hits = [
+        hit
+        for hit in hits
+        if UNIQUE_POSITIVE_REPORT in hit and has_simple_negation(hit)
+    ]
+    good_hits = [
+        hit
+        for hit in hits
+        if UNIQUE_POSITIVE_REPORT in hit and not has_simple_negation(hit)
+    ]
     non_positive_bad: list[str] = []
     for hit in hits:
         lowered = hit.lower()
@@ -221,6 +250,13 @@ def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
             "HG-V1-Report-5",
             "FAIL",
             "positive prototype wording outside gap-head-on-h: " + " | ".join(details),
+        )
+    if negated_unique_hits:
+        return CheckResult(
+            "HG-V1-Report-5",
+            "FAIL",
+            "negated positive prototype wording for gap-head-on-h: "
+            + " | ".join(negated_unique_hits),
         )
     if not good_hits:
         return CheckResult(

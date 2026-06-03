@@ -6,6 +6,8 @@ The v1.0 report posture is lab-local: it reports EvidenceEnvelope artifacts, Cos
 
 BEDC references are opaque pointers only, such as chapter path, label, or Lean target name stored in `bedc_refs`. This document does not copy BEDC chapter body or define BEDC semantics.
 
+这些 docs-hardgate 是 pointer-only thin docs 的 drift gate：防意外漂移，包括 report status flip、stale pointer、漏 not-claimed、误标 named artifact 为 positive、简单 negation trick。它会拒绝 named claim 的明显 positive 断言与简单 negation，但不保证防御任意精心构造的 prose；完整对抗性 airtight 属 design-consensus 范畴，不是本 thin-doc gate 目标。
+
 ## Not Claimed
 
 - not full LeJEPA
