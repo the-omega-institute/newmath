@@ -111,25 +111,58 @@ def test_certificate_guided_training_closes_objective_and_report_loop(tmp_path):
     report = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
     assert loaded["result"]["status"] == payload["result"]["status"] == "negative"
     assert {record["cost_protocol_name"] for record in payload["records"]} == {"shared-protocol"}
-    assert {record["role"] for record in payload["records"]} == {"before", "after", "control"}
-    assert len(payload["records"]) == 3 * len(runner.SEEDS)
+    assert {record["arm"] for record in payload["records"]} == {
+        "baseline",
+        "debt_only",
+        "benefit_only",
+        "debt_plus_benefit",
+        "matched_random_debt",
+    }
+    assert {record["role"] for record in payload["records"]} == {"before", "debt_only", "benefit_only", "after", "control"}
+    assert len(payload["records"]) == 5 * len(runner.SEEDS)
     for seed in runner.SEEDS:
-        assert [record["role"] for record in payload["records"] if record["seed"] == seed] == ["before", "after", "control"]
+        assert [record["arm"] for record in payload["records"] if record["seed"] == seed] == [
+            "baseline",
+            "debt_only",
+            "benefit_only",
+            "debt_plus_benefit",
+            "matched_random_debt",
+        ]
     assert all(record["ledger_rows"] for record in payload["records"])
     assert len({record["split_fingerprint"] for record in payload["records"]}) == 1
     assert payload["deltas"]["after_minus_before"]["debt_delta"] < 0.0
     assert payload["deltas"]["after_minus_before"]["benefit_delta"] < 0.0
+    assert payload["deltas"]["debt_plus_benefit_minus_baseline"] == payload["deltas"]["after_minus_before"]
+    assert payload["deltas"]["matched_random_debt_minus_baseline"] == payload["deltas"]["control_minus_before"]
     assert payload["records"][1]["gap_metric_arm"] == "gap_head"
     assert payload["records"][0]["execution"]["deterministic_fallback"] is True
-    assert payload["records"][2]["execution"]["torch_arm"] is True
+    assert payload["records"][4]["execution"]["torch_arm"] is True
     assert payload["paired_seed_protocol"]["seeds"] == list(runner.SEEDS)
+    assert payload["paired_seed_protocol"]["main_pair"] == ["before", "after"]
+    assert payload["paired_seed_protocol"]["control_pair"] == ["before", "control"]
+    assert payload["arm_protocol"]["main_pair"] == ["baseline", "debt_plus_benefit"]
+    assert payload["arm_protocol"]["control_pair"] == ["baseline", "matched_random_debt"]
+    assert payload["arm_protocol"]["compat_roles"] == {
+        "before": "baseline",
+        "after": "debt_plus_benefit",
+        "control": "matched_random_debt",
+    }
     after_ci = payload["paired_delta_ci"]["after_minus_before"]["quality_q_delta"]
     assert after_ci["status"] == "ok"
     assert after_ci["n"] == len(runner.SEEDS)
+    main_summary = payload["arm_summaries"]["debt_plus_benefit"]
+    assert main_summary["delta_vs_baseline"] == payload["deltas"]["after_minus_before"]
+    assert main_summary["paired_ci_vs_baseline"]["quality_q_delta"] == after_ci
+    assert payload["arm_summaries"]["matched_random_debt"]["delta_vs_baseline"] == payload["deltas"]["control_minus_before"]
     assert payload["claim_gate"]["paired_ci_status"] == "ok"
     assert payload["claim_gate"]["audit_improvement_tradeoff"] is True
     assert payload["claim_gate"]["positive_quality_improvement"] is False
     assert "audit-improvement-tradeoff" in payload["claim_gate"]["blockers"]
+    assert payload["hardgate"]["status"] == "non-positive"
+    assert payload["hardgate"]["failed_gate"] == "audit-improvement-tradeoff"
+    assert payload["failed_gate"] == "audit-improvement-tradeoff"
+    assert payload["verdict"] == "demoted"
+    assert payload["discovery_level"] == "DN"
     assert any("benefit decline" in item for item in payload["not_claimed"])
     assert "shared-protocol" in report
     assert "## Paired-Seed CI" in report

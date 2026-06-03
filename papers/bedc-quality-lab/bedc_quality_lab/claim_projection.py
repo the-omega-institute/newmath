@@ -49,8 +49,16 @@ def require_certificate_guided_projection_source(payload: Mapping[str, Any]) -> 
     if "positive_quality_improvement" not in payload["claim_gate"]:
         raise ValueError("certificate-guided claim_gate must contain positive_quality_improvement")
     _require_paired_quality_ci(payload)
-    roles = {record.get("role") for record in payload.get("records", [])}
+    roles = _resolved_compat_roles(payload)
     if {BEFORE_ROLE, AFTER_ROLE, CONTROL_ROLE} - roles:
+        raise ValueError("certificate-guided payload must contain before, after, and control records")
+    record_roles = _record_roles(payload)
+    try:
+        main_pair = _resolved_pair(payload, "main_pair", (BEFORE_ROLE, AFTER_ROLE))
+        control_pair = _resolved_pair(payload, "control_pair", (BEFORE_ROLE, CONTROL_ROLE))
+    except ValueError as exc:
+        raise ValueError("certificate-guided payload must contain before, after, and control records") from exc
+    if set(main_pair) - record_roles or set(control_pair) - record_roles:
         raise ValueError("certificate-guided payload must contain before, after, and control records")
     if payload.get("result", {}).get("ledger_rows_written") is not True:
         raise ValueError("certificate-guided payload must record ledger rows")
@@ -59,6 +67,90 @@ def require_certificate_guided_projection_source(payload: Mapping[str, Any]) -> 
     for record in payload["records"]:
         if not record.get("ledger_rows"):
             raise ValueError(f"record lacks ledger rows: {record.get('role')}")
+
+
+def _record_roles(payload: Mapping[str, Any]) -> set[str]:
+    return {str(record.get("role")) for record in payload.get("records", []) if record.get("role") is not None}
+
+
+def _record_arm_roles(payload: Mapping[str, Any]) -> dict[str, str]:
+    roles: dict[str, str] = {}
+    for record in payload.get("records", []):
+        arm = record.get("arm")
+        role = record.get("role")
+        if isinstance(arm, str) and isinstance(role, str):
+            roles[arm] = role
+    return roles
+
+
+def _arm_protocol_roles(payload: Mapping[str, Any]) -> dict[str, str]:
+    protocol = payload.get("arm_protocol")
+    if not isinstance(protocol, Mapping):
+        return {}
+    roles: dict[str, str] = {}
+    compat = protocol.get("compat_roles")
+    if isinstance(compat, Mapping):
+        for left, right in compat.items():
+            if isinstance(left, str) and isinstance(right, str):
+                if left in {BEFORE_ROLE, AFTER_ROLE, CONTROL_ROLE}:
+                    roles[right] = left
+                if right in {BEFORE_ROLE, AFTER_ROLE, CONTROL_ROLE}:
+                    roles[left] = right
+    arms = protocol.get("arms")
+    if isinstance(arms, list):
+        for arm in arms:
+            if isinstance(arm, Mapping) and isinstance(arm.get("arm"), str) and isinstance(arm.get("compat_role"), str):
+                roles[str(arm["arm"])] = str(arm["compat_role"])
+    return roles
+
+
+def _resolve_role(payload: Mapping[str, Any], token: Any) -> str:
+    if not isinstance(token, str):
+        raise ValueError("certificate-guided pair entries must be strings")
+    record_roles = _record_roles(payload)
+    if token in record_roles:
+        return token
+    arm_roles = {**_record_arm_roles(payload), **_arm_protocol_roles(payload)}
+    if token in arm_roles:
+        return arm_roles[token]
+    raise ValueError(f"certificate-guided pair role is not resolvable: {token}")
+
+
+def _pair_from_mapping(payload: Mapping[str, Any], source: Mapping[str, Any] | None, key: str) -> tuple[str, str] | None:
+    if source is None:
+        return None
+    pair = source.get(key)
+    if not isinstance(pair, (list, tuple)) or len(pair) != 2:
+        return None
+    return (_resolve_role(payload, pair[0]), _resolve_role(payload, pair[1]))
+
+
+def _resolved_pair(payload: Mapping[str, Any], key: str, fallback: tuple[str, str]) -> tuple[str, str]:
+    paired = payload.get("paired_seed_protocol")
+    if isinstance(paired, Mapping):
+        pair = _pair_from_mapping(payload, paired, key)
+        if pair is not None:
+            return pair
+    protocol = payload.get("arm_protocol")
+    if isinstance(protocol, Mapping):
+        pair = _pair_from_mapping(payload, protocol, key)
+        if pair is not None:
+            return pair
+    record_roles = _record_roles(payload)
+    if set(fallback).issubset(record_roles):
+        return fallback
+    raise ValueError(f"certificate-guided {key} is not resolvable")
+
+
+def _resolved_compat_roles(payload: Mapping[str, Any]) -> set[str]:
+    roles = set(_record_roles(payload))
+    roles.update(_arm_protocol_roles(payload).values())
+    try:
+        roles.update(_resolved_pair(payload, "main_pair", (BEFORE_ROLE, AFTER_ROLE)))
+        roles.update(_resolved_pair(payload, "control_pair", (BEFORE_ROLE, CONTROL_ROLE)))
+    except ValueError:
+        pass
+    return roles
 
 
 def _main_claim_status(row: Mapping[str, Any], training_gate: Mapping[str, Any]) -> str:
@@ -224,13 +316,17 @@ def _evidence_basis(payload: Mapping[str, Any], main: Mapping[str, Any], baselin
             "ci95_high": ci["ci95_high"],
         },
         "training_claim_gate_keys": sorted(payload.get("claim_gate", {}).keys()),
+        "failed_gate": payload.get("failed_gate"),
+        "hardgate_status": payload.get("hardgate", {}).get("status") if isinstance(payload.get("hardgate"), Mapping) else None,
     }
 
 
 def project_certificate_guided_claim(payload: Mapping[str, Any]) -> ClaimProjection:
     require_certificate_guided_projection_source(payload)
-    main = _verdict_row(payload, BEFORE_ROLE, AFTER_ROLE)
-    baseline = _verdict_row(payload, BEFORE_ROLE, CONTROL_ROLE)
+    main_before, main_after = _resolved_pair(payload, "main_pair", (BEFORE_ROLE, AFTER_ROLE))
+    control_before, control_after = _resolved_pair(payload, "control_pair", (BEFORE_ROLE, CONTROL_ROLE))
+    main = _verdict_row(payload, main_before, main_after)
+    baseline = _verdict_row(payload, control_before, control_after)
     training_gate = payload["claim_gate"]
     main_claim_status = _main_claim_status(main, training_gate)
     claim_gate = {

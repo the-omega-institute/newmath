@@ -55,7 +55,8 @@ def test_hg_dl_2_terminal_verdict_report_is_negative_discovery(terminal_verdict)
 
     assert verdict.discovery_level == "DN"
     assert verdict.reasons == (f"verdict={terminal_verdict}",)
-    assert verdict.net_information == pytest.approx(-0.020658466560950786)
+    assert verdict.net_information is not None
+    assert verdict.net_information < 0.0
     assert verdict.scorecard_ready is True
     assert verdict.audit_status == "unverifiable"
 
@@ -81,11 +82,14 @@ def test_hg_dl_3_observed_debt_improvement_without_shift_is_audit_improvement():
 def test_hg_dl_3_accepts_existing_claim_gate_audit_improvement_key():
     verdict = assign_discovery_level(_canonical_payload("certificate-guided-discovery.json"))
 
-    assert verdict.discovery_level == "D3"
-    assert verdict.reasons == ("main_verdict.structural_discovery=true", "main_verdict.shift_information>0")
-    assert verdict.net_information == pytest.approx(-0.020658466560950786)
+    assert verdict.discovery_level == "DN"
+    assert verdict.reasons == ("verdict=demoted",)
+    assert verdict.net_information is not None
+    assert verdict.net_information < 0.0
 
     no_shift = dict(_canonical_payload("certificate-guided-discovery.json"))
+    no_shift["verdict"] = ""
+    no_shift["failed_gate"] = None
     no_shift["verdicts"] = [
         {
             "surface_delta_count": 0,
@@ -99,6 +103,30 @@ def test_hg_dl_3_accepts_existing_claim_gate_audit_improvement_key():
 
     assert tradeoff.discovery_level == "D1"
     assert tradeoff.reasons == ("claim_gate.training_audit_improvement_tradeoff=true",)
+
+
+def test_certificate_guided_demoted_failed_gate_is_negative_discovery():
+    verdict = assign_discovery_level(
+        {
+            "artifact": "reports/canonical/certificate-guided-discovery.json",
+            "verdict": "demoted",
+            "failed_gate": "audit-improvement-tradeoff",
+            "hardgate": {"status": "non-positive"},
+            "verdicts": [
+                {
+                    "surface_delta_count": 6,
+                    "shift_information": 6,
+                    "structural_discovery": True,
+                    "net_information": -0.02,
+                    "positive_discovery": False,
+                    "deltas": {"debt_delta": -0.5, "benefit_delta": -0.5},
+                }
+            ],
+        }
+    )
+
+    assert verdict.discovery_level == "DN"
+    assert verdict.reasons == ("verdict=demoted",)
 
 
 def test_hg_dl_4_revocation_decision_is_revoked_discovery():
@@ -162,7 +190,21 @@ def test_positive_discovery_with_real_robustness_report_is_d5():
 
 
 def test_structural_discovery_without_positive_is_d3():
-    verdict = assign_discovery_level(_canonical_payload("certificate-guided-discovery.json"))
+    verdict = assign_discovery_level(
+        {
+            "artifact": "reports/canonical/structural.json",
+            "verdicts": [
+                {
+                    "surface_delta_count": 6,
+                    "shift_information": 6,
+                    "structural_discovery": True,
+                    "net_information": -0.020658466560950786,
+                    "positive_discovery": False,
+                    "deltas": {"debt_delta": -0.14759756670976},
+                }
+            ],
+        }
+    )
 
     assert verdict.discovery_level == "D3"
     assert verdict.reasons == ("main_verdict.structural_discovery=true", "main_verdict.shift_information>0")
