@@ -37,6 +37,21 @@ The Real seal is downstream from the readback row. A consumer of $L$ therefore m
 The structural rows preserve the handoff. Componentwise transport $H$, UniformCompletionUp provenance $P$, and local naming $N$ carry the same route forward, so the seal handoff does not introduce selected limits, host equality of completion points, quotient filters, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyFilterCompletion Cauchy-equivalence classifier route]
+\label{thm:cauchyfiltercompletion-cauchy-equivalence-classifier-route}
+Every $\CauchyFilterCompletionUp$ read that compares Cauchy-filter presentations by an equivalence classifier must first consume \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert} through the displayed $\StreamNameUp$ windows, $\RegSeqRatUp$ readback rows, $\DyadicRatCoreUp$ tolerance ledger, terminal $\RealUp$ seal, and the separated-completion rows of \autoref{ch:concrete-instances-separatedcompletion-namecert}. The comparison is classifier evidence for the completion-facing read of $C,W,T,R,L,H,K,P,N$; it is not quotient equality of filters, a selected representative, host equality of completed points, or an ambient completion principle.
+\end{theorem}
+\begin{proof}
+Project the root filter route of \autoref{thm:cauchy-filter-completion-root-filterbase-source-coverage-obligation}. The source row $C$ and finite window rows $W,T,R,L$ are already fixed before any completion-facing consumer can inspect a completed point.
+
+When the consumer also asks whether two Cauchy-filter presentations determine the same completion read, route that comparison through \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. That packet exposes only StreamName windows, RegSeqRat readbacks, dyadic tolerance rows, the Real seal, transport, replay, provenance, and local naming as classifier data.
+
+The separated-completion handoff is then read as a consumer of the same classifier evidence. It may preserve and replay the displayed comparison, but it supplies no quotient class, no chosen representative, and no host equality coordinate.
+
+Finally combine the classifier route with the Real-seal handoff above. The accepted CauchyFilterCompletion packet keeps the comparison inside $C,W,T,R,L,H,K,P,N$, so the completion read remains a finite classifier-mediated route rather than a quotient or selection principle.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyfiltercompletionUp.CauchyFilterCompletionCauchyEquivalenceClassifierRoute}
+
 \begin{theorem}[CauchyFilterCompletion root filter scope closure]
 \label{thm:cauchyfiltercompletion-root-filter-scope-closure}
 Let $F=(C,W,T,R,L,H,K,P,N)$ be an accepted $\CauchyFilterCompletionUp$ carrier. Before any completion-facing consumer can read a completed point, the root-filter completion read must expose the $\FilterBaseUp$ and $\CauchyFilterUp$ rows behind $C$, the $\UniformCompletionUp$ or $\SeparatedCompletionUp$ handoff surface, the $\StreamNameUp$ finite-window schedule $W$, the $\RegSeqRatUp$ regular readback $R$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RealUp$ seal $L$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, $\Pkg$ provenance $P$, and the local $\NameCert_{\CauchyFilterCompletionUp}$ row $N$.

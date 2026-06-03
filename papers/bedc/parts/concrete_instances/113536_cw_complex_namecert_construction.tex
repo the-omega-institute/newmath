@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CWComplexUp$}
+\label{ch:concrete-instances-cw-complex-namecert}
+\origin{human}
+
+Following Whitehead and Hatcher, the $\CWComplexUp$ packet records the finite cell-attachment surface used by algebraic-topology and homology consumers before any quotient-space, weak-topology, or homotopy-extension theorem is imported. It sits after the open-neighbourhood interface of \autoref{ch:concrete-instances-topology-namecert}, the finite face inventory of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the boundary and cycle consumer of \autoref{ch:concrete-instances-homology-namecert}, and the finite subcover discipline of \autoref{ch:concrete-instances-compact-namecert}. The chapter names cellular strata, attaching maps, boundary incidence, and homology handoff as displayed $\BHist$ data rather than as an ambient topological construction.
+
+\begin{definition}[CW-complex carrier]\label{def:cw-complex-carrier}
+A $\CWComplexUp$ carrier is a finite $\BHist$ packet
+$$
+X=(T,K,E,A,B,C,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, naming the open-neighbourhood interface on which cells are inspected.
+\item $K$ is the $\SimplicialComplexUp$ comparison row for finite face-style reads and cellular approximation consumers.
+\item $E$ is the finite cell inventory, with each displayed cell carrying a dimension, a name, and an incidence window.
+\item $A$ is the attaching ledger, recording the finite boundary route by which an $n$-cell reads the lower-dimensional skeleton.
+\item $B$ is the cellular boundary ledger, listing incidence coefficients only through displayed attaching data.
+\item $C$ is the $\CompactUp$ inspection row for finite subcomplex and compact-closure reads.
+\item $H$ records componentwise $\hsame$ transport for topology, simplicial comparison, cell inventory, attaching, boundary, compact inspection, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from $T,K,E,A,B,C,H$ to cellular and homology-facing consumers.
+\item $P$ is the $\Pkg$ provenance over $\CWComplexUp$, $\TopologyUp$, $\SimplicialComplexUp$, $\HomologyUp$, $\CompactUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CWComplexUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host quotient topology, arbitrary weak topology, selected characteristic maps, infinite cellular chains, global homotopy extension, or completed homology computation.
+\end{definition}
+
+\begin{theorem}[CW-complex NameCert obligations]\label{thm:cw-complex-namecert-obligations}
+For an accepted $\CWComplexUp$ carrier $X=(T,K,E,A,B,C,H,R,P,N)$, the local $\NameCert_{\CWComplexUp}$ surface consists exactly of the finite carrier admission, cell-inventory coverage, attaching-ledger replay, cellular-boundary exposure, compact finite-subcomplex inspection, componentwise transport, displayed replay, provenance, and local naming obligations recorded by $T,K,E,A,B,C,H,R,P,N$. A consumer cannot replace these rows by quotient-space semantics, weak-topology closure, selected characteristic maps, arbitrary infinite cellular chains, host homotopy extension, or an ambient homology computation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cw-complex-carrier}. The topology and comparison rows are $T,K$, the cellular data are $E,A,B$, the compact inspection row is $C$, and the structural rows are $H,R,P,N$.
+
+Cell-inventory coverage is read from $E$. Each cell has a displayed dimension and incidence window before an attaching route is considered, so the packet never starts from an unbounded class of cells.
+
+The attaching and boundary obligations are then read from $A$ and $B$. The boundary ledger can inspect only the lower-skeleton data named by the attaching ledger, while compact finite-subcomplex reads pass through $C$.
+
+Finally $H$ and $R$ transport and replay the same rows, and $P,N$ source and name them. Since no coordinate stores quotient topology, weak topology, selected characteristic maps, infinite cellular chains, homotopy extension, or completed homology, those endpoints are outside the certificate.
+\end{proof}
+
+\begin{theorem}[CW-complex cellular-boundary handoff]\label{thm:cw-complex-cellular-boundary-handoff}
+Every $\HomologyUp$ consumer of an accepted $\CWComplexUp$ packet reaches cellular boundary data only through the finite route
+$$
+\TopologyUp,\;\SimplicialComplexUp,\;E,A,B,C \longmapsto \HomologyUp .
+$$
+The handoff exposes the topological source, simplicial comparison surface, finite cell inventory, attaching ledger, cellular boundary ledger, compact finite-subcomplex inspection, componentwise transport, replay, provenance, and local naming rows. It does not export quotient-space equality, a weak-topology oracle, selected characteristic maps, unrestricted cellular chains, host homotopy extension, or computed homology groups.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:cw-complex-namecert-obligations}. They force the consumer to read the topology row $T$, the simplicial comparison row $K$, and the finite cell inventory $E$ before boundary data is available.
+
+Next use the attaching ledger $A$. A cellular boundary read through $B$ is valid only after the lower-skeleton route named by $A$ is displayed, and compact finite-subcomplex inspection remains the separate row $C$.
+
+The structural rows $H,R,P,N$ repack this route for homology-facing consumers. Therefore the $\HomologyUp$ handoff is exactly the displayed finite cellular boundary route and cannot import quotient spaces, weak topology, selected characteristic maps, unrestricted chain complexes, host homotopy extension, or completed homology.
+\end{proof}
+
+\falsifiablePrediction{A $\HomologyUp$ consumer using $\CWComplexUp$ must display the topology source, simplicial comparison row, finite cell inventory, attaching ledger, cellular boundary ledger, compact finite-subcomplex inspection, componentwise hsame transport, Cont replay, Pkg provenance, and local naming rows.}
+
+\independenceWitness{topology, simplicialcomplex, homology, and compact are non-bijective siblings: none alone carries the complete cellular inventory, attaching ledger, boundary handoff, compact inspection, transport, replay, provenance, and local NameCert surface exposed by $\CWComplexUp$.}
+
+\closureat{CWComplexUp}{seedStr}
+
+\begin{closurestatus}{\CWComplexUp}
+  \constructivestory{A $\CWComplexUp$ packet is generated from a Topology row, SimplicialComplex comparison row, finite cell inventory, attaching ledger, cellular boundary ledger, Compact finite-subcomplex inspection, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cw-complex-carrier}, \autoref{thm:cw-complex-namecert-obligations}, \autoref{thm:cw-complex-cellular-boundary-handoff}, the falsifiable prediction, and the independence witness seed the finite CW-complex carrier and its cellular boundary handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient-space semantics, weak topology, selected characteristic maps, infinite cellular chain complexes, homotopy extension, or completed homology computations.}
+  \upgradepath{Obligation closure requires checked carrier admission, cell-inventory coverage, attaching-ledger replay, cellular-boundary exposure, compact finite-subcomplex inspection, transport preservation, provenance exhaustion, and local naming for BEDC.Derived.CWComplexUp.}
+\end{closurestatus}

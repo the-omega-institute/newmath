@@ -193,4 +193,35 @@ theorem DyadicTailRadiusLedgerCarrier_tail_radius_witness_extraction [AskSetup] 
       witnessUnary, precisionTailWindow, streamWindowsDyadicReadback,
       dyadicReadbackRegSeqWitness, provenancePkg, witnessPkg⟩
 
+theorem DyadicTailRadiusLedgerCarrier_route_replay [AskSetup] [PackageSetup]
+    {precision tailWindow streamWindows dyadicReadback regSeqHandoff realSeal transport routes
+      provenance localName completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicTailRadiusLedgerCarrier precision tailWindow streamWindows dyadicReadback
+        regSeqHandoff realSeal transport routes provenance localName bundle pkg →
+      Cont realSeal localName completionRead →
+        PkgSig bundle completionRead pkg →
+          UnaryHistory precision ∧ UnaryHistory tailWindow ∧ UnaryHistory streamWindows ∧
+            UnaryHistory dyadicReadback ∧ UnaryHistory regSeqHandoff ∧
+              UnaryHistory realSeal ∧ UnaryHistory completionRead ∧
+                Cont precision tailWindow streamWindows ∧
+                  Cont streamWindows dyadicReadback routes ∧
+                    Cont routes regSeqHandoff realSeal ∧
+                      Cont realSeal localName completionRead ∧
+                        PkgSig bundle provenance pkg ∧
+                          PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier completionRoute completionPkg
+  obtain ⟨precisionUnary, tailWindowUnary, streamWindowsUnary, dyadicReadbackUnary,
+    regSeqHandoffUnary, realSealUnary, _routesUnary, _provenanceUnary, localNameUnary,
+    precisionTailWindow, streamWindowsDyadicReadback, routesRegSeqHandoff,
+    _realSealLocalName, provenancePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed realSealUnary localNameUnary completionRoute
+  exact
+    ⟨precisionUnary, tailWindowUnary, streamWindowsUnary, dyadicReadbackUnary,
+      regSeqHandoffUnary, realSealUnary, completionUnary, precisionTailWindow,
+      streamWindowsDyadicReadback, routesRegSeqHandoff, completionRoute, provenancePkg,
+      completionPkg⟩
+
 end BEDC.Derived.DyadicTailRadiusLedgerUp

@@ -79,39 +79,54 @@ private def realUniformTailComparisonEventAtDefault : Nat -> EventFlow -> RawEve
   | Nat.succ _, [] => []
   | Nat.succ index, _ :: rest => realUniformTailComparisonEventAtDefault index rest
 
+private def realUniformTailComparisonLengthEq : Nat -> EventFlow -> Bool
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ n, _ :: rest => realUniformTailComparisonLengthEq n rest
+
 def realUniformTailComparisonFromEventFlow : EventFlow -> Option RealUniformTailComparisonUp
   -- BEDC touchpoint anchor: BHist BMark
   | flow =>
-      some
-        (RealUniformTailComparisonUp.mk
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 1 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 3 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 5 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 7 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 9 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 11 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 13 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 15 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 17 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 19 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 21 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 23 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 25 flow))
-          (realUniformTailComparisonDecodeBHist
-            (realUniformTailComparisonEventAtDefault 27 flow)))
+      match realUniformTailComparisonLengthEq 28 flow with
+      | true =>
+          some
+            (RealUniformTailComparisonUp.mk
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 1 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 3 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 5 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 7 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 9 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 11 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 13 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 15 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 17 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 19 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 21 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 23 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 25 flow))
+              (realUniformTailComparisonDecodeBHist
+                (realUniformTailComparisonEventAtDefault 27 flow)))
+      | false => none
+
+theorem RealUniformTailComparisonTasteGate_single_carrier_alignment_short_flow_rejected :
+    realUniformTailComparisonFromEventFlow ([] : EventFlow) = none := by
+  -- BEDC touchpoint anchor: BHist BMark
+  rfl
 
 private theorem realUniformTailComparison_round_trip :
     forall x : RealUniformTailComparisonUp,

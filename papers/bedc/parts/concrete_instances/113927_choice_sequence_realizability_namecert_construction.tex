@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\ChoiceSequenceRealizabilityUp$}
+\label{ch:concrete-instances-choice-sequence-realizability-namecert}
+\origin{human}
+
+Following Bishop and Kleene--Vesley on choice sequences and realizability, the $\ChoiceSequenceRealizabilityUp$ packet records finite-prefix evidence for a choice-sequence computation as BEDC NameCert data. It sits beside the finite stream-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only inspected prefixes, local realizers, compatibility rows, replay, provenance, and local naming; it is not a countable-choice selector, quotient stream, selected real, or $\RealUp$ completeness principle.
+
+\begin{definition}[Choice-sequence realizability carrier]
+\label{def:choice-sequence-realizability-carrier}
+A $\ChoiceSequenceRealizabilityUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S,R,F,D,H,T,P,N)
+$$
+whose rows display a $\StreamNameUp$ finite prefix schedule $S$, a realizability row $R$ for the inspected prefix, a finite prefix-extension ledger $F$, a $\DyadicRatCoreUp$ tolerance-read row $D$ when the prefix is consumed by a regular-rational route, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and a local $\NameCert_{\ChoiceSequenceRealizabilityUp}$ row $N$.
+
+The carrier may be read by a $\RegSeqRatUp$ or $\RealUp$ consumer only through the displayed finite prefix schedule and tolerance rows. It exports no infinite sequence selector, quotient equality of choice sequences, host real endpoint, unrestricted bar induction, metric-completeness datum, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Choice-sequence realizability prefix stability]
+\label{thm:choice-sequence-realizability-prefix-stability}
+Let $C=(S,R,F,D,H,T,P,N)$ be an accepted $\ChoiceSequenceRealizabilityUp$ carrier. If a longer inspected prefix refines $S$ through the same finite extension ledger $F$ and preserves the displayed realizability row, dyadic tolerance-read row, componentwise $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ support, then every RegSeqRat or Real-facing read of the refined prefix factors through the original finite prefix route before it consumes downstream rows.
+
+The stable read exports no choice function, quotient stream equality, selected real value, host completeness fact, or terminal $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the finite prefix schedule $S$ and the extension ledger $F$. The accepted carrier displays the only rows that may be inspected: prefix data, realizability evidence, tolerance readback, transport, replay, provenance, and local naming.
+
+Refine the prefix by reading the longer schedule through $F$. The hypotheses preserve $R,D,H,T,P,N$, so the refined route keeps the same BEDC-visible realizability and tolerance surface.
+
+Finally hand the refined packet to the RegSeqRat or Real-facing consumer. Since the consumer can read only the displayed prefix and tolerance rows, it cannot introduce a selector for the whole choice sequence, a quotient stream equality, a selected real endpoint, or a completeness coordinate. The refined read therefore factors through the original finite prefix route.
+\end{proof}
+
+\begin{theorem}[Choice-sequence realizability NameCert obligations]
+\label{thm:choice-sequence-realizability-namecert-obligations}
+For every accepted $\ChoiceSequenceRealizabilityUp$ carrier, the local $\NameCert_{\ChoiceSequenceRealizabilityUp}$ surface consists exactly of the finite prefix schedule, prefix realizability row, extension ledger, dyadic tolerance-read row when present, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row. The certificate is consumed through the L10 route from $\StreamNameUp$ to $\RegSeqRatUp$ and $\RealUp$, but it does not assert countable choice, quotient sequence equality, selected representatives, host real equality, metric completeness, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:choice-sequence-realizability-carrier}. Its rows are finite prefix data $S$, realizability evidence $R$, extension ledger $F$, tolerance-read data $D$, and the support rows $H,T,P,N$.
+
+Use \autoref{thm:choice-sequence-realizability-prefix-stability} to compare any accepted longer prefix with the displayed finite route. The stability theorem keeps the RegSeqRat and Real-facing reads inside the same prefix and tolerance support.
+
+The excluded objects are not coordinates of the carrier and are not produced by the stability argument. Hence the local NameCert obligations are exactly the listed finite rows and no stronger choice-sequence or Real-completeness surface is exported.
+\end{proof}
+
+\closureat{ChoiceSequenceRealizabilityUp}{seedStr}
+
+\begin{closurestatus}{\ChoiceSequenceRealizabilityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choice-sequence-realizability-carrier}, \autoref{thm:choice-sequence-realizability-prefix-stability}, and \autoref{thm:choice-sequence-realizability-namecert-obligations} seed finite-prefix choice-sequence realizability as displayed StreamName, RegSeqRat, DyadicRatCore, support, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, quotient sequence equality, selected representatives, host real equality, metric completeness, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix realizability exposure, prefix-refinement stability, L10 consumer handoff, provenance non-escape, and TasteGate field faithfulness for BEDC.Derived.ChoiceSequenceRealizabilityUp.}
+  \constructivestory{A $\ChoiceSequenceRealizabilityUp$ packet is generated from finite StreamName prefix rows, prefix realizability evidence, finite extension ledgers, optional DyadicRatCore tolerance reads, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

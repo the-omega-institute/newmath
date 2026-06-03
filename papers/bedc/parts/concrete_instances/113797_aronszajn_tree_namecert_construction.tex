@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\AronszajnTreeUp$}
+\label{ch:concrete-instances-aronszajn-tree-namecert}
+\origin{human}
+
+Following Aronszajn, the $\AronszajnTreeUp$ packet records the classical height-$\omega_1$ tree obstruction as finite BEDC order data. It sits over the $\TreeUp$ source of \autoref{ch:concrete-instances-tree-namecert}, the $\POSetUp$ comparison surface of \autoref{ch:concrete-instances-poset-namecert}, the unary $\OrderUp$ read of \autoref{ch:concrete-instances-order-namecert}, the membership discipline of \autoref{ch:concrete-instances-set-namecert}, the countable-selection boundary of \autoref{ch:concrete-instances-countable-choice-boundary-namecert}, and the ordinal-analysis ledger of \autoref{ch:concrete-instances-ordinal-analysis-namecert}. The packet names countable displayed levels, a no-uncountable-branch boundary, and finite branch-height readback; it does not assert Suslinness, Kurepa splitting, a club selector, or a host set-theoretic construction of $\omega_1$.
+
+\begin{definition}[Aronszajn tree carrier]\label{def:aronszajn-tree-carrier}
+An $\AronszajnTreeUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,O,L,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TreeUp$ source row, read through the same graph and incidence surface as \autoref{ch:concrete-instances-tree-namecert}.
+\item $O$ is the $\POSetUp$ tree-order row, including parent-extension comparisons, initial-segment comparability, and the inherited $\OrderUp$ comparison route.
+\item $L$ is the countable-level ledger. For each displayed height request it records a finite membership window in the level and a countability witness boundary, without selecting a global enumeration of all levels.
+\item $B$ is the branch-height boundary row. It records that every displayed branch read is routed through a finite height window and cannot be consumed as an $\omega_1$-long branch.
+\item $H$ records componentwise $\hsame$ transport for the tree source, order row, level ledger, branch-height boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from tree incidence reads through order comparison, level membership, countability, and branch-height boundary rows.
+\item $P$ is the $\Pkg$ provenance over $\AronszajnTreeUp$, $\TreeUp$, $\POSetUp$, $\OrderUp$, $\SetUp$, $\CountableChoiceBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AronszajnTreeUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these rows form one finite Aronszajn-tree packet. It has no coordinate for a Suslin antichain theorem, Kurepa-many branches, a club subset of $\omega_1$, a global choice selector, or a host-level ordinal construction.
+\end{definition}
+
+\begin{theorem}[Aronszajn tree NameCert obligations]\label{thm:aronszajn-tree-namecert-obligations}
+For every accepted $\AronszajnTreeUp$ carrier $A=(T,O,L,B,H,C,P,N)$, the local $\NameCert_{\AronszajnTreeUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed tree source, tree-order row, countable-level ledger, branch-height boundary, transport, replay, provenance, and local naming rows;
+\item order-source discipline, requiring every branch and level read to use the same $\TreeUp$ source $T$ and the same $\POSetUp$ comparison row $O$;
+\item countable-level visibility, requiring each displayed level request to pass through the finite ledger $L$ and the countable-choice boundary before any consumer reads level data;
+\item branch-height nonescape, requiring every displayed branch request to pass through $B$ before it can be consumed by order, set, or ordinal-analysis consumers;
+\item set-theoretic boundary discipline, excluding Suslinness, Kurepa splitting, club selectors, host well-order construction, and unrecorded choice from the packet.
+\end{enumerate}
+No Aronszajn-tree obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:aronszajn-tree-carrier}. The projection exposes exactly the tree source $T$, tree-order row $O$, countable-level ledger $L$, branch-height boundary $B$, and structural rows $H,C,P,N$.
+
+The order-source and countable-level obligations are tied to the same displayed route. A level read first sees the tree incidence data in $T$, then the order comparison in $O$, and only then the countable-level ledger $L$ with its finite membership window.
+
+The branch-height obligation is separate from the level ledger. The row $B$ is reached only after the tree and order rows have been read, and it records a boundary on displayed branch consumption rather than a host proof about all branches.
+
+The remaining exclusions follow from the carrier shape. None of the rows stores a Suslin antichain theorem, Kurepa splitting family, club selector, host well-order construction, or unrecorded choice row, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Aronszajn tree branch-height nonescape]\label{thm:aronszajn-tree-branch-height-nonescape}
+Every order, set, or ordinal-analysis consumer of an accepted $\AronszajnTreeUp$ carrier $A=(T,O,L,B,H,C,P,N)$ reads branch information through the finite route
+$$
+\TreeUp \longmapsto \POSetUp \longmapsto L \longmapsto B \longmapsto H,C,P,N .
+$$
+Thus a branch-height read exposes the tree source, partial-order comparison, countable-level ledger, branch-height boundary, transport, replay, provenance, and local naming before any consumer-facing conclusion is exported. It cannot be replaced by an $\omega_1$-long branch, a global level enumeration, a club selector, a Suslin antichain claim, or a Kurepa branch family.
+\end{theorem}
+\begin{proof}
+Begin with the tree source. The carrier admits a branch read only after $T$ displays the incidence and tree rows inherited from $\TreeUp$.
+
+Read the order row next. The row $O$ supplies parent-extension and initial-segment comparison through $\POSetUp$ and $\OrderUp$, so branch comparability is a displayed finite order route rather than host membership in an ambient tree.
+
+Now inspect the countable-level ledger. The row $L$ records the finite level window and countability boundary needed before a branch-height request reaches $B$.
+
+Finally the boundary row $B$ and the structural rows $H,C,P,N$ package the same route for downstream consumers. Since the carrier has no coordinate for an $\omega_1$-long branch, global enumeration, club selector, Suslin antichain theorem, or Kurepa family, no such object can be read from the packet.
+\end{proof}
+
+\begin{theorem}[Aronszajn tree sibling route]\label{thm:aronszajn-tree-sibling-route}
+The $\AronszajnTreeUp$ packet is read by sibling consumers only through the displayed route
+$$
+\TreeUp,\quad \POSetUp,\quad \OrderUp,\quad \SetUp,\quad \CountableChoiceBoundaryUp,\quad \mathsf{OrdinalAnalysis}.
+$$
+The first four rows supply tree incidence, order comparison, unary comparison, and membership visibility; the countable-choice boundary restricts level reads; the ordinal-analysis ledger records height requests. The packet does not collapse these sibling reads into a host set-theoretic object.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:aronszajn-tree-namecert-obligations}. It fixes the carrier, order-source, countable-level, and branch-height rows as the complete local obligation surface.
+
+Use \autoref{thm:aronszajn-tree-branch-height-nonescape}. It places every branch-height consumer behind the same tree, order, level, and boundary rows.
+
+The provenance row $P$ then names the sibling sources and the replay row $C$ preserves their order. Therefore any consumer must read the displayed sibling route rather than an external tree, set, choice, or ordinal object.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\AronszajnTreeUp$ branch-height read factors through the displayed $\TreeUp$, $\POSetUp$, countable-level, branch-boundary, transport, replay, provenance, and local $\NameCert$ rows before any order, set, or ordinal-analysis consumer reads it.}
+
+\independenceWitness{tree, poset, order, set, countable-choice-boundary, ordinal-analysis: $\AronszajnTreeUp$ is not bijective to any listed sibling because it jointly binds a tree source, tree-order comparison, countable-level ledger, branch-height boundary, componentwise transport, replay, provenance, and local NameCert rows.}
+
+\closureat{AronszajnTreeUp}{seedStr}
+
+\begin{closurestatus}{\AronszajnTreeUp}
+  \constructivestory{An $\AronszajnTreeUp$ packet is generated from a displayed TreeUp source, POSetUp tree-order row, countable-level ledger, branch-height boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:aronszajn-tree-carrier}, \autoref{thm:aronszajn-tree-namecert-obligations}, \autoref{thm:aronszajn-tree-branch-height-nonescape}, and \autoref{thm:aronszajn-tree-sibling-route} seed the finite tree-obstruction NameCert route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, Suslinness, Kurepa splitting, a club selector, host construction of omega-one, global level enumeration, or uncountable-choice principles.}
+  \upgradepath{Obligation closure requires checked carrier admission, order-source discipline, countable-level visibility, branch-height nonescape, sibling route readback, and ledger exhaustion for BEDC.Derived.AronszajnTreeUp.}
+\end{closurestatus}

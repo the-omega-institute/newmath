@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\BishopContractionEndpointSealUp$}
+\label{ch:concrete-instances-bishop-contraction-endpoint-seal-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges constructive analysis, the $\BishopContractionEndpointSealUp$ packet records the endpoint seal that a displayed interval contraction must expose before downstream fixed-point consumers may read a Real endpoint. It sits after the interval-contraction route of \autoref{ch:concrete-instances-bishop-interval-contraction-namecert}, the general contraction-mapping surface of \autoref{ch:concrete-instances-contractionmapping-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the stability consumer of \autoref{ch:concrete-instances-banach-fixed-point-stability-namecert}. The packet names the endpoint handoff as finite BEDC data; it does not assert a host Banach fixed-point theorem, select a completed limit, use quotient real equality, invoke countable choice, or claim ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop contraction endpoint-seal carrier]
+\label{def:bishop-contraction-endpoint-seal-carrier}
+A $\BishopContractionEndpointSealUp$ carrier is a finite $\BHist$ packet
+$$
+E=(I,F,Q,R,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source $\BishopIntervalContractionUp$ row exposing the located interval, contraction witness, dyadic shrinkage ledger, finite windows, regular-rational readback, and Real seal already certified by the interval-contraction packet.
+\item $F$ is the $\ContractionMappingUp$ row recording that the same displayed map is read as a contraction before an endpoint consumer may inspect it.
+\item $Q$ is the endpoint-request row, naming the requested fixed-point endpoint handoff and the shrinkage budget that routes it to the readback row.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the interval-contraction windows and endpoint request.
+\item $X$ is the terminal $\RealUp$ endpoint seal consumed by fixed-point consumers.
+\item $H$ records componentwise $\hsame$ transport for $I,F,Q,R,X,P,N$.
+\item $C$ records displayed $\Cont$ replay from the endpoint request through $I,F,Q,R,X,H$.
+\item $P$ is the $\Pkg$ provenance over $\BishopContractionEndpointSealUp$, $\BishopIntervalContractionUp$, $\ContractionMappingUp$, $\RegSeqRatUp$, $\RealUp$, $\BanachFixedPointStabilityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopContractionEndpointSealUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a selected fixed point, quotient real equality, a host convergence theorem, countable choice, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Bishop contraction endpoint-seal NameCert obligations]
+\label{thm:bishop-contraction-endpoint-seal-namecert-obligations}
+For every accepted $\BishopContractionEndpointSealUp$ carrier $E=(I,F,Q,R,X,H,C,P,N)$, the local $\NameCert_{\BishopContractionEndpointSealUp}$ surface consists exactly of carrier admission for the displayed interval-contraction row, contraction-mapping row, endpoint request, regular rational readback, Real endpoint seal, transport, replay, provenance, and local naming rows; contraction-route compatibility between $I$ and $F$; endpoint-budget exactness through $Q$ and $R$; Real-seal ordering through $X$; and downstream stability handoff for $\BanachFixedPointStabilityUp$ consumers. No NameCert obligation is stored outside $I,F,Q,R,X,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-contraction-endpoint-seal-carrier}. The tuple lists the interval-contraction source, contraction-mapping row, endpoint request, regular readback, Real seal, transport, replay, provenance, and local name as the only available coordinates.
+
+Contraction-route compatibility reads $I$ and $F$ together. The $\BishopIntervalContractionUp$ row supplies the located interval, dyadic shrinkage ledger, finite windows, and readback route, while the $\ContractionMappingUp$ row records the displayed map as the contraction consumed by the endpoint request.
+
+Endpoint-budget exactness is then read through $Q$ and $R$. The request row names the endpoint budget, and the $\RegSeqRatUp$ row receives only the scheduled readback exported by the interval-contraction packet.
+
+Finally the Real handoff row $X$ and the structural rows $H,C,P,N$ preserve the same route for $\BanachFixedPointStabilityUp$ consumers. Since the carrier contains no selected fixed point, quotient real equality, host convergence theorem, countable-choice row, or ambient Real-completeness coordinate, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop contraction endpoint-seal Real handoff]
+\label{thm:bishop-contraction-endpoint-seal-real-handoff}
+Every fixed-point stability consumer that reads the terminal $\RealUp$ endpoint seal $X$ from an accepted $\BishopContractionEndpointSealUp$ carrier $E=(I,F,Q,R,X,H,C,P,N)$ must first read
+$$
+\BishopIntervalContractionUp \longmapsto \ContractionMappingUp \longmapsto Q \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+through the displayed rows $I,F,Q,R,X$, and then read the structural rows $H,C,P,N$ for $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. The handoff may be consumed by $\BanachFixedPointStabilityUp$, but it exports no selected fixed point, quotient completion, host Banach theorem, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the endpoint request. The carrier exposes the source interval-contraction route only through $I$ and the displayed contraction row only through $F$, so a consumer cannot begin from an external fixed-point theorem or an unrecorded self-map.
+
+Read the endpoint budget through $Q$. By the NameCert obligations of \autoref{thm:bishop-contraction-endpoint-seal-namecert-obligations}, this budget is the only route from the contraction data to the $\RegSeqRatUp$ readback $R$.
+
+The terminal Real endpoint seal is then $X$. It is downstream of $I,F,Q,R$, so a fixed-point stability consumer receives a displayed regular-rational-to-Real handoff rather than a chosen limit or quotient real equality.
+
+Finally replay the route through $H,C,P,N$. Componentwise transport, displayed continuation, provenance, and local naming preserve the same endpoint-seal packet before $\BanachFixedPointStabilityUp$ consumes it, and no excluded host fixed-point or completeness data is present in the carrier.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BishopContractionEndpointSealUp$ consumer that reaches the $\RealUp$ endpoint seal or a $\BanachFixedPointStabilityUp$ handoff without reading $I,F,Q,R,X,H,C,P,N$ refutes the carrier surface.}
+
+\independenceWitness{bishop-interval-contraction, contraction-mapping, regseqrat, real, banach-fixed-point-stability: no listed sibling supplies the joint endpoint-seal packet containing an interval-contraction source, displayed contraction map, endpoint request budget, regular rational readback, terminal Real endpoint seal, transport, replay, provenance, and local NameCert row.}
+
+\closureat{BishopContractionEndpointSealUp}{seedStr}
+
+\begin{closurestatus}{\BishopContractionEndpointSealUp}
+  \constructivestory{A $\BishopContractionEndpointSealUp$ packet is generated from a BishopIntervalContraction row, a ContractionMapping row, an endpoint request budget, RegSeqRat readback, a Real endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-contraction-endpoint-seal-carrier}, \autoref{thm:bishop-contraction-endpoint-seal-namecert-obligations}, and \autoref{thm:bishop-contraction-endpoint-seal-real-handoff} seed the finite endpoint-seal route from interval contraction and contraction-mapping data to RegSeqRat, Real, and BanachFixedPointStability consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a selected fixed point, quotient real equality, host Banach fixed-point theorem, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction-route compatibility, endpoint-budget exactness, Real handoff ordering, transport, replay, provenance, and local naming for BEDC.Derived.BishopContractionEndpointSealUp.}
+\end{closurestatus}

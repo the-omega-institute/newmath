@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\CauchySelectionPrincipleUp$}
+\label{ch:concrete-instances-cauchy-selection-principle-namecert}
+\origin{human}
+
+Following Bishop-style constructive analysis, the $\CauchySelectionPrincipleUp$ packet records the finite selection-window route used by Real-completion consumers before any selected subsequence, quotient real, or countable-choice schedule is available. It sits after the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the equality-facing comparison surface of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. The packet names the bounded choice-free handoff needed by Cauchy subsequence arguments, not a global choice principle and not ambient completeness of $\RealUp$.
+
+\begin{definition}[Cauchy selection principle carrier]
+\label{def:cauchy-selection-principle-carrier}
+A $\CauchySelectionPrincipleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(D,W,R,E,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the requested precision, the finite dyadic comparison window, and the descent budget used by the selection read.
+\item $W$ is the $\StreamNameUp$ finite-window row, exposing only the bounded stream observations inspected by the selection request.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row attached to $D$ and $W$.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the dyadic ledger, stream windows, and regular readback have been displayed.
+\item $Q$ is the $\CauchyEquivalenceSetoidUp$ comparison row used to compare two accepted selection reads through the same displayed tail window.
+\item $H$ records componentwise $\hsame$ transport for dyadic tolerances, stream windows, regular readback, Real seal, Cauchy-equivalence comparison, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-facing precision request through $D,W,R,E,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchySelectionPrincipleUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyEquivalenceSetoidUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySelectionPrincipleUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through $D,W,R,E,Q,H,C,P,N$. It has no coordinate for a selected infinite subsequence, quotient stream equality, host real equality, countable choice, trichotomy, metric completeness, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.CauchySelectionPrincipleUp.CauchySelectionPrincipleTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Cauchy selection subsequence window]
+\label{thm:cauchy-selection-principle-subsequence-window}
+Every subsequence-facing read of an accepted $\CauchySelectionPrincipleUp$ carrier $S=(D,W,R,E,Q,H,C,P,N)$ is confined to the displayed finite window $D,W,R$. The read may inspect a dyadic precision request, a bounded StreamName observation family, and the attached RegSeqRat readback, but it receives no selected infinite subsequence and no countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only value-facing rows before the Real seal are the dyadic ledger $D$, the stream-window row $W$, and the regular rational readback $R$.
+
+The continuation row $C$ fixes the order of inspection. A precision request first reads the dyadic budget, then the bounded stream observations, and then the regular rational readback attached to those observations.
+
+The structural rows $H,P,N$ preserve the same displayed route, and $Q$ is only a comparison row for accepted reads. Since no row stores a selected infinite subsequence or a choice schedule, every subsequence-facing read remains inside the finite window.
+\end{proof}
+
+\begin{theorem}[Cauchy selection regularity handoff]
+\label{thm:cauchy-selection-principle-regularity-handoff}
+For every accepted $\CauchySelectionPrincipleUp$ carrier $S=(D,W,R,E,Q,H,C,P,N)$, the selection window reaches a completion-facing name only through the $\RegSeqRatUp$ row $R$ after the dyadic tolerance ledger $D$ and the StreamName window $W$ have been exposed. The handoff is therefore a regular rational readback, not a quotient stream and not a selected representative.
+\end{theorem}
+\begin{proof}
+Begin with the displayed rows $D$ and $W$. They bind the finite precision request and the bounded observations from which the selection read is made.
+
+The row $R$ consumes exactly those displayed rows as a $\RegSeqRatUp$ readback. Thus the completion-facing handoff is already regular-rational before the Real seal or comparison row can be used.
+
+Rows $E,Q,H,C,P,N$ do not add another value source. They seal, compare, transport, replay, source, and name the same handoff, so the route cannot introduce quotient streams, selected representatives, or countable choice.
+\end{proof}
+
+\begin{theorem}[Cauchy selection Real-seal nonescape]
+\label{thm:cauchy-selection-principle-real-seal-nonescape}
+Every Real-facing consumer of an accepted $\CauchySelectionPrincipleUp$ packet reaches the terminal $\RealUp$ seal only through the ordered route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The packet exports no $\RealUp$ completeness theorem, quotient equality of stream names, host real equality, trichotomy, selected limit, selected subsequence, metric completeness, open-cover compactness, or countable-choice row.
+\end{theorem}
+\begin{proof}
+Project $S=(D,W,R,E,Q,H,C,P,N)$. The Real seal $E$ is present only as the fourth value-facing row after the dyadic tolerance ledger, finite stream windows, and regular rational readback.
+
+Use \autoref{thm:cauchy-selection-principle-regularity-handoff}. It shows that any completion-facing name read has already passed through $D,W,R$, so the terminal Real seal cannot be detached from the finite selection window.
+
+The comparison and structural rows preserve the same path. Because the carrier has no coordinate for completeness, quotient equality, host equality, trichotomy, selected limits, selected subsequences, metric completeness, open-cover compactness, or countable choice, the Real-facing consumer receives only the displayed finite NameCert route.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchySelectionPrincipleUp$ Real-completion read factors through one DyadicRatCore tolerance ledger, one StreamName finite-window row, one RegSeqRat readback row, one terminal $\RealUp$ seal, one CauchyEquivalenceSetoid comparison row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchy-equivalence-setoid: $\CauchySelectionPrincipleUp$ is not bijective to any listed sibling because it jointly carries the finite selection window, regularity handoff, Real seal, comparison, transport, replay, provenance, and local NameCert rows as one packet.}
+
+\closureat{CauchySelectionPrincipleUp}{seedStr}
+
+\begin{closurestatus}{\CauchySelectionPrincipleUp}
+  \constructivestory{A $\CauchySelectionPrincipleUp$ packet is generated from a DyadicRatCore tolerance ledger, StreamName finite windows, RegSeqRat readback, a terminal RealUp seal, CauchyEquivalenceSetoid comparison, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-selection-principle-carrier}, \autoref{thm:cauchy-selection-principle-subsequence-window}, \autoref{thm:cauchy-selection-principle-regularity-handoff}, and \autoref{thm:cauchy-selection-principle-real-seal-nonescape} seed the finite selection-window route from dyadic precision through StreamName, RegSeqRat, and the terminal Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected subsequences, selected limits, quotient stream equality, host real equality, trichotomy, countable choice, metric completeness, open-cover compactness, full $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, selection-window exactness, regularity handoff, Real-seal nonescape, Cauchy-equivalence comparison, transport, replay, provenance, and local naming for BEDC.Derived.CauchySelectionPrincipleUp.}
+\end{closurestatus}

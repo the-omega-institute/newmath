@@ -148,6 +148,102 @@ def groundCompilerDeltaLedger : DiscoveryDeltaLedger EventFlow where
   not_claimed_rows := 0
   classifier_shift := none
 
+def axisCarryRouteSeparationDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 1
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def certificateAuditGateDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 5
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def digestLoopRefusalDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def logicContradictionMetaLoopDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def subjectReductionDischargeLedgerDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def continuationBisimulationDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 1
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def hostPrimitiveLeakageDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def metaCICDecidableBoundaryDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 5
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def stableNegationBoundaryDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def hardProblemClosureDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def interHistLocalityLedgerDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 4
+  refusal_rows := 1
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
+def openPhysicalFitDeltaLedger : DiscoveryDeltaLedger EventFlow where
+  admission := groundCompilerChapterTasteGate
+  introduced_rows := 3
+  refusal_rows := 2
+  bridge_rows := 0
+  not_claimed_rows := 1
+  classifier_shift := none
+
 theorem groundCompilerDeltaLedger_inhabited :
     Nonempty (DiscoveryDeltaLedger EventFlow) := by
   exact ⟨groundCompilerDeltaLedger⟩
@@ -166,29 +262,26 @@ def smokeShiftDeltaLedger : DiscoveryDeltaLedger EventFlow where
   refusal_rows := 1
   bridge_rows := 0
   not_claimed_rows := 0
-  classifier_shift := some smokeDiscoveryShift
+  classifier_shift := none
 
 theorem smokeShiftDeltaLedger_margin :
     ledgerPositiveMargin smokeShiftDeltaLedger := by
-  exact Nat.succ_lt_succ (Nat.zero_lt_succ 1)
+  exact Nat.zero_lt_succ 2
 
 theorem smokeShiftDeltaLedger_cost :
     ∃ cost : DiscoveryCost,
       PositiveCostProtocol cost.benefit cost.cost cost.debt cost.scopeSeal := by
-  obtain ⟨cost, _benefit, _cost, _debt, _seal, positive⟩ :=
-    shiftedLedger_discoveryCost
-      smokeShiftDeltaLedger
-      rfl
-      smokeShiftDeltaLedger_margin
-  exact ⟨cost, positive⟩
+  exact
+    ⟨ledgerDiscoveryCost smokeShiftDeltaLedger smokeShiftDeltaLedger_margin,
+      ledgerDiscoveryCost_positive smokeShiftDeltaLedger smokeShiftDeltaLedger_margin⟩
 
-theorem smokeShiftDeltaLedger_classifierShift :
+theorem smokeStructuralDiscovery_classifierShift :
     ClassifierNonEquivalent
       smokeDiscoveryShift.discovery.scope
       smokeDiscoveryShift.BeforeSource
       smokeDiscoveryShift.AfterSource
       smokeDiscoveryShift.BeforeClassifier
       smokeDiscoveryShift.AfterClassifier := by
-  exact shiftedLedger_classifierNonEquivalent smokeShiftDeltaLedger rfl
+  exact smokeDiscoveryShift.discovery.classifier_shift
 
 end BEDC.Meta.DiscoveryDeltaLedger

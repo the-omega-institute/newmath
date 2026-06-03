@@ -16,6 +16,15 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def LocatedLimitCarrier [AskSetup] [PackageSetup]
+    (sequence modulus schedule readback sealRow transport replay provenance name : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig UnaryHistory
+  UnaryHistory sequence ∧ UnaryHistory modulus ∧ UnaryHistory schedule ∧
+    UnaryHistory readback ∧ UnaryHistory sealRow ∧ UnaryHistory transport ∧
+      UnaryHistory replay ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
+        PkgSig bundle provenance pkg
+
 theorem LocatedLimit_real_seal_route [AskSetup] [PackageSetup]
     {S M T Q E H C P N scheduleRead readbackRead sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -97,5 +106,81 @@ theorem LocatedLimit_real_seal_route [AskSetup] [PackageSetup]
       exact ⟨source.right, scheduleCont, readbackCont, sealCont, pkgP⟩
   }
   exact ⟨cert, scheduleUnary, readbackUnary, sealUnary⟩
+
+theorem LocatedLimitRealSealNonescape [AskSetup] [PackageSetup]
+    {sequence modulus schedule readback sealRow transport replay provenance name scheduleRead
+      regularRead sealedRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedLimitCarrier sequence modulus schedule readback sealRow transport replay provenance
+        name bundle pkg →
+      Cont sequence modulus scheduleRead →
+        Cont scheduleRead readback regularRead →
+          Cont regularRead sealRow sealedRead →
+            Cont sealedRead name namedRead →
+              PkgSig bundle namedRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row sequence ∨ hsame row modulus ∨ hsame row schedule ∨
+                        hsame row readback ∨ hsame row sealRow ∨ hsame row sealedRead ∨
+                          hsame row namedRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ PkgSig bundle provenance pkg ∧
+                        PkgSig bundle namedRead pkg)
+                    hsame ∧
+                  UnaryHistory sealedRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle PkgSig Cont hsame SemanticNameCert UnaryHistory
+  intro carrier scheduleRoute regularRoute sealedRoute namedRoute namedPkg
+  obtain ⟨sequenceUnary, modulusUnary, _scheduleUnary, readbackUnary, sealRowUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, nameUnary, provenancePkg⟩ := carrier
+  have scheduleUnary : UnaryHistory scheduleRead :=
+    unary_cont_closed sequenceUnary modulusUnary scheduleRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed scheduleUnary readbackUnary regularRoute
+  have sealedUnary : UnaryHistory sealedRead :=
+    unary_cont_closed regularUnary sealRowUnary sealedRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed sealedUnary nameUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sequence ∨ hsame row modulus ∨ hsame row schedule ∨
+              hsame row readback ∨ hsame row sealRow ∨ hsame row sealedRead ∨
+                hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle provenance pkg ∧ PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, namedPkg⟩
+  }
+  exact ⟨cert, sealedUnary, namedUnary⟩
 
 end BEDC.Derived.LocatedLimitUp

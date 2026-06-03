@@ -192,4 +192,12 @@ class FieldFaithful (X : Type) [BHistCarrier X] where
 class Nontrivial (X : Type) where
   witness_pair : Σ' (x : X) (y : X), x ≠ y
 
+/-- Canonical field count for inhabited BHist carriers. Chapter carriers use a
+    fixed constructor-shaped `fields` projection, so the default inhabitant
+    exposes the declared arity without adding a second count field. -/
+def FieldFaithful.field_count (X : Type) [BHistCarrier X] [FieldFaithful X] [Inhabited X] :
+    Nat :=
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  (FieldFaithful.fields (default : X)).length
+
 end BEDC.Meta.TasteGate
