@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-03T06:59:30.116815+00:00`
+- Generated at: `2026-06-03T09:30:30.813286+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -36,6 +36,12 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Rows: `10`
+
+## Negative witnesses
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/discovery_negative_witnesses.json`
+- Expected kinds: `8`
 
 ## Paper outline
 

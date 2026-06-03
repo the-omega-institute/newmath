@@ -1,0 +1,189 @@
+{
+  "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
+  "expected_kind_count": 8,
+  "forbidden_claim_terms_count": 4,
+  "forbidden_claim_terms_source": "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS",
+  "generated_at": "2026-06-03T09:31:24.148018+00:00",
+  "producer": "tools/quality_discovery_adversarial_generator.py",
+  "status": "pointer-only",
+  "witnesses": [
+    {
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "mixed",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "mixed",
+        "rejected": true,
+        "rejection_reason": "no-classifier-shift",
+        "scorecard_ready": true
+      },
+      "kind": "classifier_surface_delta_zero",
+      "soundness": "A pseudo discovery with zero surface delta has no classifier shift and must be rejected.",
+      "terminal_reason": "no-classifier-shift",
+      "terminal_verdict": "rejected"
+    },
+    {
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "positive",
+        "malformed_detail": null,
+        "net_positive_signal": true,
+        "new_status": "positive",
+        "rejected": true,
+        "rejection_reason": "control-unresolved",
+        "scorecard_ready": true
+      },
+      "kind": "matched_control_positive",
+      "soundness": "A positive matched control makes the main improvement unresolved and must be rejected.",
+      "terminal_reason": "control-unresolved",
+      "terminal_verdict": "rejected"
+    },
+    {
+      "discovery_level": "DR",
+      "discovery_reasons": [
+        "revocation_decision.downgraded=true"
+      ],
+      "gate_basis": {
+        "audit_status": "divergent",
+        "downgraded": true,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "observed-negative",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "audit-improvement-tradeoff",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "hidden_debt_positive",
+      "soundness": "A positive certificate over an observed-negative projection hides debt and must be demoted.",
+      "terminal_reason": "audit-improvement-tradeoff",
+      "terminal_verdict": "demoted"
+    },
+    {
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "unverifiable",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": null,
+        "malformed_detail": "projection-unavailable:certificate-guided payload must share a cost protocol",
+        "net_positive_signal": false,
+        "new_status": "observed-negative",
+        "rejected": true,
+        "rejection_reason": "malformed-evidence",
+        "scorecard_ready": true
+      },
+      "kind": "cost_protocol_missing",
+      "soundness": "A missing shared cost protocol makes the projection malformed and must be rejected.",
+      "terminal_reason": "malformed-evidence",
+      "terminal_verdict": "rejected"
+    },
+    {
+      "discovery_level": "D1",
+      "discovery_reasons": [
+        "claim_gate.training_audit_improvement_tradeoff=true"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "observed-negative",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "observed-negative",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": false
+      },
+      "kind": "scorecard_not_ready",
+      "soundness": "A not-ready quality scorecard cannot certify a positive discovery and stays ledger-only.",
+      "terminal_reason": "scorecard-not-ready",
+      "terminal_verdict": "ledger-only"
+    },
+    {
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [
+          "full-lejepa"
+        ],
+        "main_claim_status": "positive",
+        "malformed_detail": null,
+        "net_positive_signal": true,
+        "new_status": "positive",
+        "rejected": true,
+        "rejection_reason": "overclaim",
+        "scorecard_ready": true
+      },
+      "kind": "forbidden_inference_column",
+      "soundness": "A positive claim containing a forbidden claim term must be rejected by the overclaim gate.",
+      "terminal_reason": "overclaim",
+      "terminal_verdict": "rejected"
+    },
+    {
+      "discovery_level": "DR",
+      "discovery_reasons": [
+        "revocation_decision.downgraded=true"
+      ],
+      "gate_basis": {
+        "audit_status": "divergent",
+        "downgraded": true,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "observed-negative",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "audit-improvement-tradeoff",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "benefit_debt_tradeoff",
+      "soundness": "A claimed positive with audit-improvement tradeoff must be downgraded instead of accepted.",
+      "terminal_reason": "audit-improvement-tradeoff",
+      "terminal_verdict": "demoted"
+    },
+    {
+      "discovery_level": "DR",
+      "discovery_reasons": [
+        "revocation_decision.downgraded=true"
+      ],
+      "gate_basis": {
+        "audit_status": "divergent",
+        "downgraded": true,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "observed-negative",
+        "malformed_detail": null,
+        "net_positive_signal": false,
+        "new_status": "audit-improvement-tradeoff",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "fresh_claim_downgrade",
+      "soundness": "Fresh weakened claim evidence must revoke the old positive certificate.",
+      "terminal_reason": "audit-improvement-tradeoff",
+      "terminal_verdict": "demoted"
+    }
+  ]
+}
