@@ -13,3 +13,15 @@ Apply the NameCert obligation theorem of \autoref{thm:streamname-extensionality-
 
 Finally use the seal route of \autoref{thm:streamname-extensionality-seal-route}. The $\Cont$, $\Pkg$, and local $\NameCert$ rows replay, source, and name only the displayed finite route. Therefore two accepted packets with the same request, point certificate, and componentwise window agreement expose the same public observation route, while host function equality and selected infinite stream equality remain outside the packet.
 \end{proof}
+
+\begin{theorem}[StreamName extensionality RegSeqRat forward link]
+\label{thm:streamname-extensionality-regseqrat-forward-link}
+Every accepted finite-window determinacy read accepted by a $\StreamNameExtensionalityUp$ packet passes through the sibling $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert} and then through the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} before any public comparison data is exposed. The route is finite-window data first, regular rational readback second, and Real-facing seal last; it does not expose host stream equality, quotient stream representatives, or a selected infinite comparison stream.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:streamname-extensionality-window-determinacy}. The only comparison data available after aligning the request, point certificate, and componentwise window rows is the finite observation route carried by the accepted packets.
+
+Use \autoref{thm:streamname-extensionality-namecert-obligations} to read the downstream rows of that route. The RegSeqRat readback is part of the same finite window ledger, so the public comparison cannot bypass it or replace it by a host rational sequence.
+
+Finally apply \autoref{thm:streamname-extensionality-seal-route}. The Real-facing comparison rows are exposed only after the seal route has replayed the finite window and regular rational readback, which gives the stated forward link to the sibling RegSeqRat and Real chapters.
+\end{proof}
