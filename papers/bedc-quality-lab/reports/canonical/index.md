@@ -43,6 +43,12 @@
 - JSON: `reports/canonical/discovery_negative_witnesses.json`
 - Expected kinds: `8`
 
+## Claim verdicts
+
+- Status: `pointer-only`
+- JSONL: `reports/canonical/claim_verdicts.jsonl`
+- Rows: `17`
+
 ## Paper outline
 
 - Status: `pointer-only`
