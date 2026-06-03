@@ -30,6 +30,9 @@ QUALITY_SCORECARD_ARTIFACT_ID = "bedc-quality-lab:quality-scorecard"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
+NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
+NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
+NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -941,6 +944,15 @@ def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, A
     }
 
 
+def _negative_witnesses_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": NEGATIVE_WITNESSES_ARTIFACT_ID,
+        "json_artifact": NEGATIVE_WITNESSES_JSON_ARTIFACT,
+        "expected_kind_count": NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT,
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -1006,6 +1018,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "reports": reports,
         "quality_scorecard": _quality_scorecard_index_section(),
         "discovery_map": _discovery_map_index_section(generated_at=timestamp),
+        "negative_witnesses": _negative_witnesses_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -1067,6 +1080,12 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- JSON: `{payload['discovery_map']['json_artifact']}`",
             f"- Markdown: `{payload['discovery_map']['markdown_artifact']}`",
             f"- Rows: `{payload['discovery_map']['row_count']}`",
+            "",
+            "## Negative witnesses",
+            "",
+            f"- Status: `{payload['negative_witnesses']['status']}`",
+            f"- JSON: `{payload['negative_witnesses']['json_artifact']}`",
+            f"- Expected kinds: `{payload['negative_witnesses']['expected_kind_count']}`",
             "",
             "## Paper outline",
             "",

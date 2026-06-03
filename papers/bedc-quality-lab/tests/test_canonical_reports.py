@@ -485,11 +485,25 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     payload = canonical._index(reports)
     markdown = canonical._render_index_markdown(payload)
 
-    assert {"paper_outline", "claims_nonclaims", "honest_boundary", "literature_ledger", "quality_scorecard"}.issubset(payload)
+    assert {
+        "paper_outline",
+        "claims_nonclaims",
+        "honest_boundary",
+        "literature_ledger",
+        "quality_scorecard",
+        "negative_witnesses",
+    }.issubset(payload)
     assert set(payload["paper_outline"]["core_reports"]) == HG_P_CORE
+    assert payload["negative_witnesses"] == {
+        "status": "pointer-only",
+        "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
+        "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
+        "expected_kind_count": 8,
+    }
     assert "HG-P core reports" in markdown
     assert "Auxiliary reports" in markdown
     assert "Quality scorecard" in markdown
+    assert "Negative witnesses" in markdown
     assert "Paper outline" in markdown
     assert "Claims and non-claims" in markdown
     assert "Literature ledger pointer" in markdown
