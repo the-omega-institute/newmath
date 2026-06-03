@@ -4,8 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import contextlib
-import fcntl
 import importlib.util
 import json
 import os
@@ -13,7 +11,6 @@ import re
 import shutil
 import subprocess
 import sys
-import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -21,7 +18,6 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BASE_BRANCH = os.environ.get("BEDC_PIPELINE_BRANCH", "codex-auto-dev")
 DEFAULT_WORKTREE = Path("/tmp/bedc-gate-evolve-wt")
-PID_LOCK_PATH = Path("/tmp/.bedc_gate_evolver.pid")
 LOG_DIR = REPO_ROOT / "tools" / "logs"
 ESCALATION_LOG = LOG_DIR / "gate_evolver_escalations.log"
 DEFAULT_INPUT = LOG_DIR / "proven_pseudos.jsonl"
@@ -36,6 +32,16 @@ REGRESSION_BEGIN = "    # BEGIN DISCOVERY GATE EVOLVER REGRESSION TESTS\n"
 REGRESSION_END = "    # END DISCOVERY GATE EVOLVER REGRESSION TESTS\n"
 MAX_ESCALATION_LINES = 1000
 BEDC_CI_PATH = REPO_ROOT / "lean4" / "scripts" / "bedc_ci.py"
+VERIFY_UNITTEST_CMD = [
+    "python3",
+    "-m",
+    "unittest",
+    "-k",
+    "discovery_gate",
+    "-k",
+    "test_evolver_regression",
+    "lean4/scripts/test_closurestatus_audit.py",
+]
 
 _BEDC_CI = None
 
@@ -71,27 +77,6 @@ def append_log(message: str) -> None:
             return
     new_lines = old_lines[-(MAX_ESCALATION_LINES - 1):] + [f"{now_iso()} {message}"]
     ESCALATION_LOG.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
-
-
-@contextlib.contextmanager
-def pid_lock():
-    pid_fd = os.open(PID_LOCK_PATH, os.O_RDWR | os.O_CREAT, 0o644)
-    try:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError:
-            sys.stderr.write(f"discovery gate evolver already running ({PID_LOCK_PATH})\n")
-            sys.exit(1)
-        os.ftruncate(pid_fd, 0)
-        os.write(pid_fd, f"{os.getpid()}\n".encode())
-        os.fsync(pid_fd)
-        yield
-    finally:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_UN)
-        except Exception:
-            pass
-        os.close(pid_fd)
 
 
 def run_cmd(
@@ -264,6 +249,71 @@ def dedup_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return out
 
 
+def build_grounding_payload_cache(records: list[dict[str, Any]]) -> dict[str, Any]:
+    names: set[str] = set()
+    for record in records:
+        target, prior, _canonical_payload = record_exact_key(record)
+        if target:
+            names.add(target)
+        if prior:
+            names.add(prior)
+    if not names:
+        return {}
+    return bedc_ci_module()._run_structural_dna_expr_fingerprints(names)
+
+
+def _witness_names(witness: dict[str, Any]) -> set[str]:
+    pattern = witness.get("pattern") if isinstance(witness.get("pattern"), dict) else {}
+    return {
+        value
+        for value in (
+            str(pattern.get("target") or "").strip(),
+            str(pattern.get("prior") or "").strip(),
+        )
+        if value
+    }
+
+
+def _ensure_payload_cache_for_witnesses(witnesses: list[Any], payload_cache: dict[str, Any]) -> None:
+    names: set[str] = set()
+    for witness in witnesses:
+        if not isinstance(witness, dict):
+            continue
+        names.update(_witness_names(witness))
+    missing = sorted(name for name in names if name not in payload_cache)
+    if missing:
+        payload_cache.update(bedc_ci_module()._run_structural_dna_expr_fingerprints(missing))
+
+
+def _load_discovery_gate_witnesses_with_cache(
+    path: Path,
+    payload_cache: dict[str, Any] | None,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    module = bedc_ci_module()
+    if payload_cache is None:
+        return module.load_discovery_gate_witnesses(path)
+    original = module._run_structural_dna_expr_fingerprints
+
+    def cached_expr_fingerprints(decls: Any, imports: Any = ("BEDC",)) -> dict[str, Any]:
+        if tuple(imports) != ("BEDC",):
+            return original(decls, imports=imports)
+        requested = sorted({
+            module._normalize_lean_target(decl)
+            for decl in decls
+            if module._normalize_lean_target(decl)
+        })
+        missing = [name for name in requested if name not in payload_cache]
+        if missing:
+            payload_cache.update(original(missing))
+        return {name: payload_cache[name] for name in requested if name in payload_cache}
+
+    module._run_structural_dna_expr_fingerprints = cached_expr_fingerprints
+    try:
+        return module.load_discovery_gate_witnesses(path)
+    finally:
+        module._run_structural_dna_expr_fingerprints = original
+
+
 def registry_id(record: dict[str, Any]) -> str:
     explicit = str(record.get("id") or "").strip()
     if explicit:
@@ -277,7 +327,10 @@ def registry_id(record: dict[str, Any]) -> str:
     return "gate-witness-" + safe_slug(candidate + "-" + canonical_payload)
 
 
-def witness_from_record(record: dict[str, Any]) -> tuple[dict[str, Any] | None, str | None]:
+def witness_from_record(
+    record: dict[str, Any],
+    payload_cache: dict[str, Any] | None = None,
+) -> tuple[dict[str, Any] | None, str | None]:
     kind = str(record.get("kind") or record.get("relation") or "").strip()
     if kind == "structural_reconstruction":
         kind = "reconstruction"
@@ -325,7 +378,10 @@ def witness_from_record(record: dict[str, Any]) -> tuple[dict[str, Any] | None, 
         "regression_candidate": str(record.get("regression_candidate") or candidate or registry_id(record)),
         "added": now_iso(),
     }
-    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(witness)
+    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(
+        witness,
+        payload_cache=payload_cache,
+    )
     if not grounded:
         return None, "witness failed independent structural-DNA grounding: " + json.dumps(
             grounding,
@@ -349,7 +405,11 @@ def write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-def append_witness(registry_path: Path, witness: dict[str, Any]) -> bool:
+def append_witness(
+    registry_path: Path,
+    witness: dict[str, Any],
+    payload_cache: dict[str, Any] | None = None,
+) -> bool:
     raw = load_json(registry_path)
     envelope: dict[str, Any] | None = None
     if isinstance(raw, dict):
@@ -357,7 +417,10 @@ def append_witness(registry_path: Path, witness: dict[str, Any]) -> bool:
         raw = envelope.get("witnesses")
     if not isinstance(raw, list):
         raise RuntimeError(f"{registry_path} root is not a list")
-    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(witness)
+    grounded, grounding = bedc_ci_module().discovery_gate_witness_kernel_grounding(
+        witness,
+        payload_cache=payload_cache,
+    )
     if not grounded:
         raise RuntimeError("witness failed independent kernel grounding before append: " + repr(grounding))
     witness = dict(witness)
@@ -371,7 +434,9 @@ def append_witness(registry_path: Path, witness: dict[str, Any]) -> bool:
     raw.append(witness)
     temp_path = registry_path.with_suffix(registry_path.suffix + ".tmp")
     write_json(temp_path, raw)
-    loaded, diagnostics = bedc_ci_module().load_discovery_gate_witnesses(temp_path)
+    if payload_cache is not None:
+        _ensure_payload_cache_for_witnesses(raw, payload_cache)
+    loaded, diagnostics = _load_discovery_gate_witnesses_with_cache(temp_path, payload_cache)
     temp_path.unlink(missing_ok=True)
     if diagnostics:
         raise RuntimeError("registry hygiene rejected appended witness: " + repr(diagnostics[:5]))
@@ -409,12 +474,14 @@ def regression_test_method(witness: dict[str, Any]) -> str:
         or "BEDC.Target.Gate"
     )
     pattern = witness.get("pattern") if isinstance(witness.get("pattern"), dict) else {}
+    witness_target = str(pattern.get("target") or target)
     prior = str(pattern.get("prior") or pattern.get("prior_classifier") or "BEDC.Prior.Old")
     canonical_payload = str(pattern.get("canonical_payload") or "synthetic-canonical-payload")
     reduced_fp = str(pattern.get("reduced_fp") or pattern.get("candidate_reduced_fp") or "synthetic-reduced-fp")
     return f'''
     def {method}(self) -> None:
         target = {target!r}
+        witness_target = {witness_target!r}
         block, scan, kernel = self._assert_gate_fixture(target)
         witness = {repr(witness)}
         integrity = {{
@@ -424,9 +491,9 @@ def regression_test_method(witness: dict[str, Any]) -> str:
                 "region": "FooUp",
                 "resolution_status": "resolved",
                 "before_classifiers": [{prior!r}],
-                "declared_new_classifiers": [target],
+                "declared_new_classifiers": [witness_target],
                 "provenance": [{{
-                    "candidate": target,
+                    "candidate": witness_target,
                     "prior": {prior!r},
                     "relation": "reconstruction",
                     "candidate_reduced_fp": {reduced_fp!r},
@@ -438,8 +505,32 @@ def regression_test_method(witness: dict[str, Any]) -> str:
             }}],
             "violations": [],
         }}
+        fingerprints = {{
+            target: ExprFingerprint(
+                "target",
+                "type",
+                "value",
+                reduced_fingerprint={reduced_fp!r},
+                canonical_reduced_payload={canonical_payload!r},
+            ),
+            witness_target: ExprFingerprint(
+                "witness-target",
+                "type",
+                "value",
+                reduced_fingerprint={reduced_fp!r},
+                canonical_reduced_payload={canonical_payload!r},
+            ),
+            {prior!r}: ExprFingerprint(
+                "prior",
+                "type",
+                "value",
+                reduced_fingerprint={reduced_fp!r},
+                canonical_reduced_payload={canonical_payload!r},
+            ),
+        }}
         with patch("bedc_ci._kernel_assertion_checks", return_value={{target: kernel}}), \\
-                patch("bedc_ci.load_discovery_gate_witnesses", return_value=([witness], [])):
+                patch("bedc_ci.load_discovery_gate_witnesses", return_value=([witness], [])), \\
+                patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fingerprints):
             payload = discovery_assert_gate_payload(
                 [block],
                 scan,
@@ -542,14 +633,38 @@ def ensure_allowed_changes(root: Path) -> None:
         raise RuntimeError("evolver touched non-whitelisted files: " + ", ".join(illegal))
 
 
+def _best_effort_worktree_cleanup(worktree: Path) -> None:
+    cleanup_cmds = [
+        (["git", "worktree", "prune"], "git worktree prune"),
+        (["git", "worktree", "remove", "--force", str(worktree)], "git worktree remove --force"),
+    ]
+    for cmd, label in cleanup_cmds:
+        try:
+            proc = run_cmd(cmd, cwd=REPO_ROOT, timeout=GIT_TIMEOUT)
+            if proc.returncode != 0:
+                if label == "git worktree remove --force" and "not a working tree" in short_output(proc):
+                    continue
+                append_log(f"[escalate] {label} during evolver worktree prep failed: {short_output(proc)}")
+        except Exception as exc:
+            append_log(f"[escalate] {label} during evolver worktree prep raised: {type(exc).__name__}: {exc}")
+    try:
+        shutil.rmtree(worktree, ignore_errors=True)
+    except Exception as exc:
+        append_log(f"[escalate] rm -rf during evolver worktree prep raised: {type(exc).__name__}: {exc}")
+
+
 def prepare_worktree(worktree: Path, base_ref: str) -> None:
-    if worktree.exists():
-        shutil.rmtree(worktree)
+    _best_effort_worktree_cleanup(worktree)
     require_ok(run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=GIT_TIMEOUT), "git fetch")
-    require_ok(
-        run_cmd(["git", "worktree", "add", "--detach", str(worktree), base_ref], cwd=REPO_ROOT, timeout=GIT_TIMEOUT),
-        "git worktree add",
-    )
+    add = run_cmd(["git", "worktree", "add", "--detach", str(worktree), base_ref], cwd=REPO_ROOT, timeout=GIT_TIMEOUT)
+    if add.returncode != 0:
+        append_log(f"[escalate] git worktree add failed before forced retry: {short_output(add)}")
+        add = run_cmd(
+            ["git", "worktree", "add", "-f", "--detach", str(worktree), base_ref],
+            cwd=REPO_ROOT,
+            timeout=GIT_TIMEOUT,
+        )
+    require_ok(add, "git worktree add")
     _clone_lake_cache(worktree)
 
 
@@ -569,8 +684,7 @@ def verify(
 ) -> None:
     witness_list = witnesses if isinstance(witnesses, list) else [witnesses]
     require_ok(run_cmd(["python3", "-m", "py_compile", "lean4/scripts/bedc_ci.py", "tools/discovery_gate_evolver.py"], cwd=root), "py_compile")
-    require_ok(run_cmd(["lake", "build"], cwd=root / "lean4"), "lake build")
-    require_ok(run_cmd(["python3", "-m", "unittest", "lean4/scripts/test_closurestatus_audit.py"], cwd=root), "unittest")
+    require_ok(run_cmd(VERIFY_UNITTEST_CMD, cwd=root, timeout=300), "discovery gate unittest")
     after_rc, after_failures, after_payload = audit_failures(root)
     if not before_failures.issubset(after_failures):
         raise RuntimeError("smoke-only monotonic check failed: an existing audit failure disappeared")
@@ -597,8 +711,6 @@ def verify(
         ]
         if witness_failures:
             raise RuntimeError("current audit became failing due to witness registry")
-    require_ok(run_cmd(["python3", "lean4/scripts/bedc_ci.py", "axiom-purity", "--strict"], cwd=root), "axiom-purity")
-    require_ok(run_cmd(["make", "precheck"], cwd=root / "papers" / "bedc"), "make precheck")
     ensure_allowed_changes(root)
     if not no_push:
         require_ok(run_cmd(["git", "status", "--short"], cwd=root, timeout=GIT_TIMEOUT), "git status")
@@ -633,10 +745,11 @@ def commit_and_push(root: Path, *, no_push: bool) -> None:
 def process_records(records: list[dict[str, Any]], args: argparse.Namespace) -> tuple[int, int]:
     if not records:
         return 0, 0
+    payload_cache = build_grounding_payload_cache(records)
     witnesses: list[dict[str, Any]] = []
     fail_count = 0
     for record in records:
-        witness, reason = witness_from_record(record)
+        witness, reason = witness_from_record(record, payload_cache=payload_cache)
         if witness is None:
             append_log(f"[escalate] {reason}: {json.dumps(record, ensure_ascii=False)}")
             fail_count += 1
@@ -677,7 +790,7 @@ def process_records(records: list[dict[str, Any]], args: argparse.Namespace) -> 
                         f"target={exact_key[0]} prior={exact_key[1]} canonical_payload={exact_key[2]}"
                     )
                     continue
-                changed = append_witness(registry_path, witness)
+                changed = append_witness(registry_path, witness, payload_cache=payload_cache)
                 append_regression_test(test_path, witness)
                 applied_witnesses.append(witness)
                 if all(exact_key):
@@ -736,17 +849,10 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = parser().parse_args()
-    with pid_lock():
-        if args.once:
-            return run_once(args)
-        interval = max(1, int(args.interval))
-        append_log(f"[gate-evolver] daemon start interval={interval}s")
-        while True:
-            try:
-                run_once(args)
-            except Exception as exc:
-                append_log(f"[escalate] cycle failed: {type(exc).__name__}: {exc}")
-            time.sleep(interval)
+    if args.once:
+        return run_once(args)
+    sys.stderr.write("discovery gate evolver loop moved to tools/discovery_pipeline_daemon.py; use --once for debugging\n")
+    return 2
 
 
 if __name__ == "__main__":

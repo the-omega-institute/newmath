@@ -1,0 +1,17 @@
+\begin{theorem}[Cauchy located-uniform filter forward route]
+\label{thm:cauchy-located-uniform-filter-forward-route}
+Every $\CauchyUp$ route whose explicit modulus row is consumed by a located or uniform Cauchy filter completion must pass through the displayed carrier route
+$$
+S,D,M,Q,R,E,H,C,P,N
+$$
+of \autoref{def:cauchy-carrier}, then through \autoref{ch:concrete-instances-located-cauchy-filter-namecert} or \autoref{ch:concrete-instances-uniform-cauchy-filter-namecert}, before any $\RealUp$ seal-facing completion row is exported. The forward route has no quotient stream equality, selected limit, countable choice, metric-completeness datum, ambient $\RealUp$ completeness, or host equality.
+\end{theorem}
+\begin{proof}
+Start with the explicit modulus readback of the Cauchy carrier. By \autoref{thm:cauchy-modulus-readback-route}, a precision request reads the finite StreamName row $S$, the DyadicRatCore row $D$, the explicit modulus row $M$, and the compatibility row $Q$ before it can inspect the regular rational row $R$.
+
+Apply \autoref{thm:cauchy-core-regseqrat-real-seal}. The seal-facing row $E$ is downstream of $R$, so a Real-facing completion consumer cannot bypass the regular rational readback.
+
+Now use \autoref{thm:cauchy-uniform-modulus-real-seal}. Any uniform-modulus consumer of $M$ that reaches a $\RealUp$ seal preserves the same ordering $S,D,M,Q$ before $R$ and $R$ before $E$.
+
+The remaining completion-neighbour branch is supplied only by the sibling chapters \autoref{ch:concrete-instances-located-cauchy-filter-namecert} and \autoref{ch:concrete-instances-uniform-cauchy-filter-namecert}. These chapters consume the already displayed Cauchy route as located or uniform filter evidence; neither adds quotient stream equality, selected limits, choice, metric-completeness data, ambient completeness, or host equality to the core Cauchy carrier.
+\end{proof}

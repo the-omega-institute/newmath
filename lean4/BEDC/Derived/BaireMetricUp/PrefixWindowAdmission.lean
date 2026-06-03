@@ -192,4 +192,177 @@ theorem BaireMetricCarrier_root_observation [AskSetup] [PackageSetup]
     ⟨sUnary, bUnary, wUnary, dUnary, carrierSBW, carrierWDR, carrierRUC, carrierPkg,
       carrierNamePkg⟩
 
+theorem BaireMetricCompleteUltrametricConsumerReadiness [AskSetup] [PackageSetup]
+    {B W D R U S H C P N prefixRead radiusRead metricRead strongRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricCarrier B W D R U S H C P N bundle pkg →
+      Cont S B prefixRead →
+        Cont prefixRead W radiusRead →
+          Cont radiusRead D metricRead →
+            Cont metricRead R strongRead →
+              Cont strongRead U consumerRead →
+                PkgSig bundle consumerRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row S ∨ hsame row B ∨ hsame row W ∨ hsame row D ∨
+                          hsame row R ∨ hsame row U ∨ hsame row H ∨ hsame row C ∨
+                            hsame row P ∨ hsame row N ∨ hsame row consumerRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont S B prefixRead ∧
+                          Cont prefixRead W radiusRead ∧ Cont radiusRead D metricRead ∧
+                            Cont metricRead R strongRead ∧ Cont strongRead U consumerRead ∧
+                              PkgSig bundle consumerRead pkg)
+                      hsame ∧ UnaryHistory prefixRead ∧ UnaryHistory radiusRead ∧
+                    UnaryHistory metricRead ∧ UnaryHistory strongRead ∧
+                      UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BaireMetricCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier prefixRoute radiusRoute metricRoute strongRoute consumerRoute consumerPkg
+  obtain ⟨bUnary, wUnary, dUnary, rUnary, uUnary, sUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _carrierSBW, _carrierWDR, _carrierRUC, _carrierCNP, _carrierPkg,
+    _carrierNamePkg⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed sUnary bUnary prefixRoute
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed prefixUnary wUnary radiusRoute
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed radiusUnary dUnary metricRoute
+  have strongUnary : UnaryHistory strongRead :=
+    unary_cont_closed metricUnary rUnary strongRoute
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed strongUnary uUnary consumerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row B ∨ hsame row W ∨ hsame row D ∨ hsame row R ∨
+              hsame row U ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S B prefixRead ∧ Cont prefixRead W radiusRead ∧
+              Cont radiusRead D metricRead ∧ Cont metricRead R strongRead ∧
+                Cont strongRead U consumerRead ∧ PkgSig bundle consumerRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro consumerRead ⟨hsame_refl consumerRead, consumerUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, prefixRoute, radiusRoute, metricRoute, strongRoute, consumerRoute,
+          consumerPkg⟩
+  }
+  exact ⟨cert, prefixUnary, radiusUnary, metricUnary, strongUnary, consumerUnary⟩
+
+theorem BaireMetricStreamNameUltrametricObligation [AskSetup] [PackageSetup]
+    {B W D R U S H C P N prefixRead radiusRead metricRead strongRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricCarrier B W D R U S H C P N bundle pkg →
+      Cont S B prefixRead →
+        Cont prefixRead W radiusRead →
+          Cont radiusRead D metricRead →
+            Cont metricRead U strongRead →
+              PkgSig bundle strongRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row strongRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row S ∨ hsame row B ∨ hsame row W ∨ hsame row D ∨
+                        hsame row R ∨ hsame row U ∨ hsame row H ∨ hsame row C ∨
+                          hsame row P ∨ hsame row N ∨ hsame row strongRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont S B prefixRead ∧
+                        Cont prefixRead W radiusRead ∧ Cont radiusRead D metricRead ∧
+                          Cont metricRead U strongRead ∧ PkgSig bundle strongRead pkg)
+                    hsame ∧ UnaryHistory prefixRead ∧ UnaryHistory radiusRead ∧
+                  UnaryHistory metricRead ∧ UnaryHistory strongRead := by
+  -- BEDC touchpoint anchor: BaireMetricCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier prefixRoute radiusRoute metricRoute strongRoute strongPkg
+  obtain ⟨bUnary, wUnary, dUnary, _rUnary, uUnary, sUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _carrierSBW, _carrierWDR, _carrierRUC, _carrierCNP, _carrierPkg,
+    _carrierNamePkg⟩ := carrier
+  have prefixUnary : UnaryHistory prefixRead :=
+    unary_cont_closed sUnary bUnary prefixRoute
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed prefixUnary wUnary radiusRoute
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed radiusUnary dUnary metricRoute
+  have strongUnary : UnaryHistory strongRead :=
+    unary_cont_closed metricUnary uUnary strongRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row strongRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row B ∨ hsame row W ∨ hsame row D ∨ hsame row R ∨
+              hsame row U ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row strongRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S B prefixRead ∧ Cont prefixRead W radiusRead ∧
+              Cont radiusRead D metricRead ∧ Cont metricRead U strongRead ∧
+                PkgSig bundle strongRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro strongRead ⟨hsame_refl strongRead, strongUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, prefixRoute, radiusRoute, metricRoute, strongRoute, strongPkg⟩
+  }
+  exact ⟨cert, prefixUnary, radiusUnary, metricUnary, strongUnary⟩
+
 end BEDC.Derived.BaireMetricUp

@@ -68,6 +68,20 @@ The structural rows $H$ and $C$ transport and replay this route componentwise. T
 \end{proof}
 \leanchecked{BEDC.Derived.DirectedSetUp.DirectedSet\_cauchynet\_index\_handoff\_certificate}
 
+\begin{theorem}[DirectedSet filter-net handoff]
+\label{thm:directed-set-filter-net-handoff}
+Let $D=(I,\preceq,W,U,H,C,P,N)$ be an accepted $\DirectedSetUp$ carrier. Any $\FilterConvergenceUp$ or $\MooreSmithNetUp$ packet that reads a directed index from $D$ must expose the finite index row $I$, displayed preorder comparisons $\preceq$, finite request windows $W$, and upper-window witnesses $U$ before the filter-base handoff, net tail ledger, or convergence consumer can be read. The resulting route exports finite directed-window data only; it does not supply a host directed set, cofinal choice, quotient index, or total-order completion.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:directed-set-carrier}. The index addresses, preorder comparisons, request windows, and upper-window witnesses are exactly the rows $I,\preceq,W,U$.
+
+Apply the CauchyNet index handoff of \autoref{thm:directed-set-cauchynet-index-handoff}. It already forces net-style consumers to read the directed-window ledger through the displayed index, comparison, window, and witness rows before transport, replay, provenance, and naming.
+
+Use finite upper-window stability, \autoref{thm:directed-set-finite-upper-window-stability}, for retained filter and Moore--Smith windows. Retention keeps the upper witnesses inside the displayed subledger, so the filter-base or net-tail read cannot replace them by a cofinal selector.
+
+Since the carrier contains no row for a host directed set, quotient index, total-order completion, or choice-indexed cofinal family, those objects cannot discharge the filter-net handoff. Every downstream read remains bounded by $I,\preceq,W,U,H,C,P,N$.
+\end{proof}
+
 \begin{theorem}[DirectedSet finite upper-window stability]
 \label{thm:directed-set-finite-upper-window-stability}
 Let $D=(I,\preceq,W,U,H,C,P,N)$ be an accepted $\DirectedSetUp$ carrier, and let $\Omega$ be a retained finite subledger of $I$ whose displayed windows in $W_{\Omega}$ keep their named upper witnesses in $\Omega$. Then

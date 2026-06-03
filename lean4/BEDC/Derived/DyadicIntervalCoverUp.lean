@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DyadicIntervalCoverUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -201,5 +213,162 @@ theorem DyadicIntervalCoverWindowMembershipTransport (x : DyadicIntervalCoverUp)
           DyadicIntervalCoverRealWindowHandoffObligation_round_trip
             (DyadicIntervalCoverUp.mk L U M R V W Q A H C P N),
           rfl⟩
+
+theorem DyadicIntervalCoverRealSealBoundary [AskSetup] [PackageSetup]
+    {L U M R V W Q A H C P N sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (UnaryHistory L ∧ UnaryHistory U ∧ UnaryHistory M ∧ UnaryHistory R ∧
+        UnaryHistory V ∧ UnaryHistory W ∧ UnaryHistory Q ∧ UnaryHistory A ∧
+          UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+            PkgSig bundle P pkg) ->
+      Cont Q A sealRead ->
+        PkgSig bundle sealRead pkg ->
+          UnaryHistory Q ∧ UnaryHistory A ∧ UnaryHistory sealRead ∧
+            Cont Q A sealRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrierRows sealRoute sealPkg
+  obtain ⟨_unaryL, _unaryU, _unaryM, _unaryR, _unaryV, _unaryW, unaryQ, unaryA,
+    _unaryH, _unaryC, _unaryP, _unaryN, provenancePkg⟩ := carrierRows
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed unaryQ unaryA sealRoute
+  exact ⟨unaryQ, unaryA, sealUnary, sealRoute, provenancePkg, sealPkg⟩
+
+theorem DyadicIntervalCoverRootUnblockPackage [AskSetup] [PackageSetup]
+    {L U M R V W Q A H C P N endpointRead windowRead coverRead sealRead compactRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (UnaryHistory L ∧ UnaryHistory U ∧ UnaryHistory M ∧ UnaryHistory R ∧
+        UnaryHistory V ∧ UnaryHistory W ∧ UnaryHistory Q ∧ UnaryHistory A ∧
+          UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg) →
+      Cont L U endpointRead →
+        Cont W Q windowRead →
+          Cont M R coverRead →
+            Cont coverRead A sealRead →
+              Cont endpointRead sealRead compactRead →
+                Cont compactRead N namedRead →
+                  PkgSig bundle namedRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row L ∨ hsame row U ∨ hsame row M ∨ hsame row R ∨
+                            hsame row V ∨ hsame row W ∨ hsame row Q ∨ hsame row A ∨
+                              hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                                hsame row endpointRead ∨ hsame row windowRead ∨
+                                  hsame row coverRead ∨ hsame row sealRead ∨
+                                    hsame row compactRead ∨ hsame row namedRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont L U endpointRead ∧
+                            Cont W Q windowRead ∧ Cont M R coverRead ∧
+                              Cont coverRead A sealRead ∧
+                                Cont endpointRead sealRead compactRead ∧
+                                  Cont compactRead N namedRead ∧ PkgSig bundle P pkg ∧
+                                    PkgSig bundle namedRead pkg)
+                        hsame ∧ UnaryHistory endpointRead ∧ UnaryHistory windowRead ∧
+                      UnaryHistory coverRead ∧ UnaryHistory sealRead ∧
+                        UnaryHistory compactRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro surface endpointRoute windowRoute coverRoute sealRoute compactRoute namedRoute
+    namedPkg
+  obtain ⟨unaryL, unaryU, unaryM, unaryR, _unaryV, unaryW, unaryQ, unaryA, _unaryH,
+    _unaryC, _unaryP, unaryN, provenancePkg, _localNamePkg⟩ := surface
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed unaryL unaryU endpointRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed unaryW unaryQ windowRoute
+  have coverUnary : UnaryHistory coverRead :=
+    unary_cont_closed unaryM unaryR coverRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed coverUnary unaryA sealRoute
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed endpointUnary sealUnary compactRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed compactUnary unaryN namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row L ∨ hsame row U ∨ hsame row M ∨ hsame row R ∨ hsame row V ∨
+              hsame row W ∨ hsame row Q ∨ hsame row A ∨ hsame row H ∨ hsame row C ∨
+                hsame row P ∨ hsame row N ∨ hsame row endpointRead ∨
+                  hsame row windowRead ∨ hsame row coverRead ∨ hsame row sealRead ∨
+                    hsame row compactRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont L U endpointRead ∧ Cont W Q windowRead ∧
+              Cont M R coverRead ∧ Cont coverRead A sealRead ∧
+                Cont endpointRead sealRead compactRead ∧ Cont compactRead N namedRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr
+                                      (Or.inr
+                                        (Or.inr source.left))))))))))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, endpointRoute, windowRoute, coverRoute, sealRoute, compactRoute,
+          namedRoute, provenancePkg, namedPkg⟩
+  }
+  exact
+    ⟨cert, endpointUnary, windowUnary, coverUnary, sealUnary, compactUnary, namedUnary⟩
+
+theorem DyadicIntervalCoverMembershipTransport [AskSetup] [PackageSetup]
+    {L U M R V W Q A H C P N membershipRead transportedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (UnaryHistory L ∧ UnaryHistory U ∧ UnaryHistory M ∧ UnaryHistory R ∧
+        UnaryHistory V ∧ UnaryHistory W ∧ UnaryHistory Q ∧ UnaryHistory A ∧
+          UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+            PkgSig bundle P pkg) →
+      Cont V H membershipRead →
+        Cont membershipRead C transportedRead →
+          PkgSig bundle transportedRead pkg →
+            UnaryHistory V ∧ UnaryHistory H ∧ UnaryHistory C ∧
+              UnaryHistory membershipRead ∧ UnaryHistory transportedRead ∧
+                Cont V H membershipRead ∧ Cont membershipRead C transportedRead ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle transportedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrierRows membershipRoute transportedRoute transportedPkg
+  obtain ⟨_unaryL, _unaryU, _unaryM, _unaryR, unaryV, _unaryW, _unaryQ,
+    _unaryA, unaryH, unaryC, _unaryP, _unaryN, provenancePkg⟩ := carrierRows
+  have membershipUnary : UnaryHistory membershipRead :=
+    unary_cont_closed unaryV unaryH membershipRoute
+  have transportedUnary : UnaryHistory transportedRead :=
+    unary_cont_closed membershipUnary unaryC transportedRoute
+  exact
+    ⟨unaryV, unaryH, unaryC, membershipUnary, transportedUnary, membershipRoute,
+      transportedRoute, provenancePkg, transportedPkg⟩
 
 end BEDC.Derived.DyadicIntervalCoverUp

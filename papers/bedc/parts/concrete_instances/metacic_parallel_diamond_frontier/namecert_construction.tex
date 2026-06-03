@@ -134,6 +134,24 @@ Apply the residual-substitution scope theorem \autoref{thm:metacic-parallel-diam
 Finally use premise retention, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The retained premise and obstruction rows prevent the handoff from being retyped as a premise-free diamond or any of the refused confluence, equality, or kernel endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond frontier typed-window handoff]
+\label{thm:metacic-parallel-diamond-frontier-typed-window-handoff}
+Any typed-window consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must read the full route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+before feeding candidate-normalization or confluence-audit consumers. In this route $P$ remains the residual-substitution premise, $O$ remains the obstruction row, and the handoff cannot be consumed as a premise-free parallel diamond, full Church--Rosser theorem, subject reduction, evaluator equality, quotient equality of terms, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The displayed packet contains the premise, critical-pair, candidate-join, residual-frontier, checker, fragment, bounded-check, obstruction, transport, replay, provenance, and local naming rows.
+
+Apply the obligations theorem and the typed boundary theorem, \autoref{thm:metacic-parallel-diamond-frontier-obligations} and \autoref{thm:metacic-parallel-diamond-typed-boundary}. Together they force a typed-window consumer to expose $P,K,J,R,S,C,B,O$ before any conditional handoff is read.
+
+Use premise retention and discharge obstruction, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention} and \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. The residual-substitution premise row $P$ is still a premise, and the obstruction row $O$ still blocks discharge unless a separate compatibility certificate is supplied.
+
+Finally route the exported handoff through the structural rows $H,T,G,N$. Candidate-normalization and confluence-audit consumers therefore receive exactly the retained typed-window spine, not a completed parallel-diamond, Church--Rosser, subject-reduction, evaluator-equality, quotient-equality, or kernel-consistency endpoint.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond frontier discharge obstruction]
 \label{thm:metacic-parallel-diamond-frontier-discharge-obstruction}
 Any accepted $\MetaCICParallelDiamondFrontierUp$ packet consumed as a local-diamond handoff still exposes the residual-substitution premise row $P$ and obstruction row $O$. Unless a separate $\MetaCICResidualSubstitutionCompatibilityUp$ certificate is supplied through \autoref{ch:concrete-instances-metacic-residual-substitution-compatibility-namecert}, no consumer may read that handoff as a premise-free parallel diamond, full closed confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
@@ -215,6 +233,24 @@ Use the route and premise-retention theorems, \autoref{thm:metacic-parallel-diam
 Next apply discharge obstruction and the sibling route, \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction} and \autoref{thm:metacic-parallel-diamond-frontier-sibling-route}. The candidate-normalization and audit-packet consumers receive only the retained premise, critical-pair, residual-frontier, obstruction, and structural rows named by the frontier.
 
 Finally use premise preservation \autoref{thm:metacic-parallel-diamond-frontier-premise-preservation}. Since its full spine includes $P,K,J,R,S,C,B,O,H,T,G,N$, any exported budget that forgets $P$ or $O$ has left the displayed packet and cannot be consumed as a BEDC parallel-diamond frontier.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond residual confluence]
+\label{thm:metacic-parallel-diamond-frontier-residual-confluence}
+Every confluence consumer of an accepted $\MetaCICParallelDiamondFrontierUp$ packet must factor its exported result through the full residual spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The exported result is conditional residual confluence with the residual-substitution premise retained; it is not a premise-free parallel diamond, subject reduction theorem, evaluator equality, quotient term equality, closed Church--Rosser theorem, or kernel-consistency certificate.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:metacic-parallel-diamond-frontier-obligations}. It makes $P,K,J,R,S,C,B,O,H,T,G,N$ the visible rows of any accepted frontier packet, with $P$ retained as a residual-substitution premise.
+
+Use the route theorem and premise retention, \autoref{thm:metacic-parallel-diamond-frontier-route} and \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. Together they force confluence consumers to expose the premise, peak, join, residual, checker, fragment, bounded-check, obstruction, transport, replay, provenance, and local name rows before the handoff is consumed.
+
+Apply discharge obstruction and the confluence handoff theorem, \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction} and \autoref{thm:metacic-parallel-diamond-confluence-handoff}. These results keep the obstruction row visible and identify the exported route as the retained conditional handoff consumed by confluence-facing siblings.
+
+Finally use the residual budget theorem \autoref{thm:metacic-parallel-diamond-frontier-budget}. Since the budget cannot omit $P$ or $O$, any exported confluence result remains conditional residual confluence over the displayed spine rather than one of the refused premise-free, typing, equality, quotient, Church--Rosser, or kernel endpoints.
 \end{proof}
 
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
