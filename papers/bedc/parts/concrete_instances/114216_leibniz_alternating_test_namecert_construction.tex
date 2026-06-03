@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\LeibnizAlternatingTestUp$}
+\label{ch:concrete-instances-leibniz-alternating-test-namecert}
+\origin{human}
+
+Following Leibniz and Bishop--Bridges constructive series theory, the $\LeibnizAlternatingTestUp$ packet records the finite test-level route by which alternating partial sums, a monotone null tail, dyadic tolerance ledgers, regular rational readback, and a terminal real seal are accepted before a Real or Completion consumer may treat the series as convergent. It consumes the remainder certificate of \autoref{ch:concrete-instances-leibniz-alternating-remainder-namecert}, the regular rational carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal $\RealUp$ surface of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Leibniz alternating test carrier]
+\label{def:leibniz-alternating-test-carrier}
+A $\LeibnizAlternatingTestUp$ carrier is a finite $\BHist$ packet
+$$
+T=(R,A,M,S,D,Q,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the accepted $\LeibnizAlternatingRemainderUp$ row, exposing the next-omitted-term remainder certificate already routed through alternating signs, monotone magnitudes, and dyadic budgets.
+\item $A$ is the alternating partial-sum schedule, recording the inspected parity rows, finite partial sums, adjacent direction checks, and cutoff schedule used by the test.
+\item $M$ is the monotone null-tail row, recording nonnegative magnitude reads, observed monotonicity comparisons, and the null-tail request that makes the next omitted magnitude smaller than any requested dyadic tolerance.
+\item $S$ is the $\StreamNameUp$ finite-window family for summands, signs, magnitudes, partial sums, cutoffs, next omitted terms, dyadic comparisons, and endpoint-facing reads.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger pairing every precision request with a cutoff, a next omitted magnitude, and a comparison row.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from $A,M,S,D$ and the accepted remainder row $R$.
+\item $W$ is the test-level Cauchy handoff row: it records that the partial-sum schedule is Cauchy by reading only the displayed remainder certificate, monotone null tail, dyadic tolerance ledger, and regular rational readback.
+\item $E$ is the $\RealUp$ seal row reached only after $R,A,M,S,D,Q,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the remainder row, partial-sum schedule, monotone null tail, stream windows, dyadic ledger, regular readback, Cauchy handoff, real seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+R,A,M,S,D \longmapsto Q \longmapsto W \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LeibnizAlternatingTestUp$, $\LeibnizAlternatingRemainderUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LeibnizAlternatingTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,A,M,S,D,Q,W,E,H,C,P,N$. It has no coordinate for a selected infinite sum, quotient stream equality, host real equality, countable choice, unrestricted trichotomy, ambient $\RealUp$ completeness, or a Cauchy proof detached from the displayed remainder route.
+\end{definition}
+
+\begin{theorem}[Leibniz alternating test NameCert obligations]
+\label{thm:leibniz-alternating-test-namecert-obligations}
+For every accepted $\LeibnizAlternatingTestUp$ carrier
+$$
+T=(R,A,M,S,D,Q,W,E,H,C,P,N),
+$$
+the local $\NameCert_{\LeibnizAlternatingTestUp}$ surface consists exactly of carrier admission for \autoref{def:leibniz-alternating-test-carrier}, the accepted alternating-remainder row $R$, the alternating partial-sum schedule $A$, the monotone null-tail row $M$, finite $\StreamNameUp$ windows $S$, the $\DyadicRatCoreUp$ tolerance ledger $D$, $\RegSeqRatUp$ readback $Q$, the Cauchy handoff row $W$, the $\RealUp$ seal $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $T=(R,A,M,S,D,Q,W,E,H,C,P,N)$. The tuple exposes exactly the remainder, schedule, monotone tail, finite-window, dyadic, regular-readback, Cauchy-handoff, real-seal, and structural rows.
+
+The test begins with $R,A,M$. The remainder row supplies the next-omitted-term certificate, the schedule row supplies alternating partial sums and parity, and the monotone null-tail row supplies the decreasing magnitude and tail request used by every tolerance read.
+
+The finite observation surface is $S,D,Q$. The stream windows show the inspected data, the dyadic ledger pairs each requested tolerance with a cutoff and comparison, and the regular rational readback reuses exactly those windows.
+
+Finally $W,E,H,C,P,N$ expose the Cauchy handoff, seal it as a Real-facing row, transport it componentwise, replay the displayed route, record provenance, and name the packet. Since the carrier contains no other coordinate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Leibniz alternating test Cauchy handoff]
+\label{thm:leibniz-alternating-test-cauchy-handoff}
+Every Real or Completion consumer of an accepted $\LeibnizAlternatingTestUp$ packet must read the finite route
+$$
+R,A,M,S,D \longmapsto Q \longmapsto W \longmapsto E
+$$
+before treating the alternating series as convergent. Thus the Cauchy handoff $W$ is available only after the existing alternating-remainder row, monotone null-tail schedule, partial-sum schedule, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback, $\StreamNameUp$ windows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row have all been displayed.
+\end{theorem}
+\begin{proof}
+Start with the accepted remainder row $R$. By \autoref{ch:concrete-instances-leibniz-alternating-remainder-namecert}, it already binds every endpoint-facing remainder request to the next omitted magnitude, alternating sign ledger, monotone null tail, dyadic budget, finite windows, and regular readback.
+
+Attach the test-level schedule rows $A,M,S,D$. These rows name the inspected partial sums, the monotone null-tail request, the finite windows, and the dyadic tolerance ledger used to compare later partial sums through the common cutoff.
+
+Read $Q$ as the regular rational surface for those displayed rows. The Cauchy handoff $W$ can then be formed from the same finite observations, because the difference between sufficiently late partial sums is bounded by the displayed remainder budget.
+
+The terminal seal $E$ is reached only after $W$, and the structural rows $H,C,P,N$ preserve that route. Hence any consumer that bypasses the remainder row, tail schedule, dyadic ledger, regular readback, stream windows, transport, replay, provenance, or local name leaves the accepted $\LeibnizAlternatingTestUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{Every $\LeibnizAlternatingTestUp$ Real or Completion read factors through an accepted $\LeibnizAlternatingRemainderUp$ row, alternating partial-sum schedule, monotone null-tail row, StreamNameUp windows, DyadicRatCoreUp tolerance ledger, RegSeqRatUp readback, Cauchy handoff, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\closureat{LeibnizAlternatingTestUp}{seedStr}
+
+\begin{closurestatus}{\LeibnizAlternatingTestUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:leibniz-alternating-test-carrier}, \autoref{thm:leibniz-alternating-test-namecert-obligations}, and \autoref{thm:leibniz-alternating-test-cauchy-handoff} seed the finite Leibniz alternating-test certificate from remainder rows and monotone null tails through dyadic tolerance ledgers, regular rational readback, Cauchy handoff, and RealUp sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected infinite sums, quotient stream equality, host real equality, countable choice, unrestricted trichotomy, ambient $\RealUp$ completeness, detached Cauchy proofs, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, remainder-row consumption, partial-sum schedule stability, monotone null-tail exactness, dyadic tolerance stability, RegSeqRat readback, StreamName finite-window compatibility, Cauchy handoff, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.LeibnizAlternatingTestUp.}
+  \constructivestory{A $\LeibnizAlternatingTestUp$ packet is generated from an accepted LeibnizAlternatingRemainderUp row, alternating partial-sum schedule, monotone null-tail row, StreamNameUp windows, DyadicRatCoreUp tolerance ledger, RegSeqRatUp readback, Cauchy handoff row, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
