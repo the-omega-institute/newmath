@@ -371,4 +371,75 @@ theorem DyadicIntervalCoverMembershipTransport [AskSetup] [PackageSetup]
     ⟨unaryV, unaryH, unaryC, membershipUnary, transportedUnary, membershipRoute,
       transportedRoute, provenancePkg, transportedPkg⟩
 
+theorem DyadicIntervalCoverRegularSequenceWindow_exhaustion [AskSetup] [PackageSetup]
+    {M R Q V A windowRead readbackRead coverRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory M -> UnaryHistory R -> UnaryHistory Q -> UnaryHistory V ->
+      UnaryHistory A -> Cont M R windowRead -> Cont windowRead Q readbackRead ->
+        Cont readbackRead V coverRead -> Cont coverRead A sealRead ->
+          PkgSig bundle sealRead pkg ->
+            SemanticNameCert
+              (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row M ∨ hsame row R ∨ hsame row Q ∨ hsame row V ∨
+                  hsame row A ∨ hsame row windowRead ∨ hsame row readbackRead ∨
+                    hsame row coverRead ∨ hsame row sealRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont M R windowRead ∧
+                  Cont windowRead Q readbackRead ∧ Cont readbackRead V coverRead ∧
+                    Cont coverRead A sealRead ∧ PkgSig bundle sealRead pkg)
+              hsame ∧ UnaryHistory windowRead ∧ UnaryHistory readbackRead ∧
+                UnaryHistory coverRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro mUnary rUnary qUnary vUnary aUnary windowRoute readbackRoute coverRoute
+    sealRoute sealPkg
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed mUnary rUnary windowRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed windowUnary qUnary readbackRoute
+  have coverUnary : UnaryHistory coverRead :=
+    unary_cont_closed readbackUnary vUnary coverRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed coverUnary aUnary sealRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row M ∨ hsame row R ∨ hsame row Q ∨ hsame row V ∨
+            hsame row A ∨ hsame row windowRead ∨ hsame row readbackRead ∨
+              hsame row coverRead ∨ hsame row sealRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont M R windowRead ∧ Cont windowRead Q readbackRead ∧
+            Cont readbackRead V coverRead ∧ Cont coverRead A sealRead ∧
+              PkgSig bundle sealRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead ⟨hsame_refl sealRead, sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, windowRoute, readbackRoute, coverRoute, sealRoute, sealPkg⟩
+  }
+  exact ⟨cert, windowUnary, readbackUnary, coverUnary, sealUnary⟩
+
 end BEDC.Derived.DyadicIntervalCoverUp
