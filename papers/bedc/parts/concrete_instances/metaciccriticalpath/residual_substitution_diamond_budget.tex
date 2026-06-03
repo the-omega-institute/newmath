@@ -82,3 +82,21 @@ Use the residual decidability cut of \autoref{thm:metacic-critical-path-residual
 
 Finally apply the candidate-mediated SN frontier of \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. The L10 source faces remain visible through $S,N,O,U,D,H,C,P,L$, so omitting any source row or moving the checker to a detached route exits the accepted $\MetaCICCriticalPathUp$ packet.
 \end{proof}
+
+\begin{theorem}[MetaCIC residual diamond candidate-mediated handoff]
+\label{thm:metacic-critical-path-residual-diamond-candidate-mediated-handoff}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any consumer that uses a residual diamond checker to feed bounded conversion must expose, on one route through $S,N,O,U,D,H,C,P,L$, the candidate-mediated strong-normalization frontier, the residual-substitution frontier, the residual-budget socket route, the SN confluence-decidability budget, and the L10 source rows before reading $U$. A detached residual proof, a missing candidate row, a missing socket budget, or an absent L10 source row leaves the accepted packet.
+\end{theorem}
+\begin{proof}
+Start from residual diamond source totality, \autoref{thm:metacic-critical-path-residual-diamond-source-totality}. It already forces the closed-substitution boundary, residual-budget socket route, candidate-mediated strong-normalization frontier, and L10 source rows onto the same packet route before a bounded-conversion consumer may inspect $U$.
+
+Next use the residual-substitution frontier of \autoref{thm:metacic-critical-path-residual-substitution-frontier}. This supplies the closed-substitution and candidate-mediated rows needed by the residual checker and prevents a residual proof from being read on a detached route.
+
+Attach the diamond budget and residual decidability cut, \autoref{thm:metacic-critical-path-diamond-budget} and \autoref{thm:metacic-critical-path-residual-decidability-cut}. Together they place the SN confluence-decidability budget and residual-budget socket beside the bounded conversion readback.
+
+Finally apply the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. The candidate rows and L10 source faces remain visible through $S,N,O,U,D,H,C,P,L$, so a missing candidate row, missing socket budget, or absent source row is outside the accepted $\MetaCICCriticalPathUp$ packet.
+\end{proof}
