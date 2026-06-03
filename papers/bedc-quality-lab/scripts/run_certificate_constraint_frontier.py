@@ -333,6 +333,23 @@ def _frontier(
     return cells
 
 
+def _gate_frontier_positivity(
+    frontier: list[dict[str, Any]],
+    positive_pointer_allowed: bool,
+    hardgate: dict[str, Any],
+) -> list[dict[str, Any]]:
+    hg_ccf_1 = hardgate.get("gates", {}).get("HG-CCF-1", {})
+    cell_positive_allowed = bool(
+        positive_pointer_allowed and hg_ccf_1.get("status") == "pass"
+    )
+    for cell in frontier:
+        if cell["status"] == "infeasible":
+            continue
+        cell["positive"] = cell_positive_allowed
+        cell["discovery_level"] = "D1" if cell_positive_allowed else "DN"
+    return frontier
+
+
 def _dominance(summaries: list[dict[str, Any]], baseline_arm: str) -> list[dict[str, Any]]:
     baseline = next(summary for summary in summaries if summary["arm"] == baseline_arm)
     rows = []
@@ -504,9 +521,10 @@ def build_payload(source: dict[str, Any], *, generated_at: str | None = None) ->
     threshold_grid = _threshold_grid(summaries, baseline)
     constraint_rows = _constraint_rows(summaries, threshold_grid)
     positive_allowed, positive_gate = _positive_pointer_allowed(source)
-    frontier = _frontier(threshold_grid, constraint_rows, positive_allowed)
+    frontier = _frontier(threshold_grid, constraint_rows, positive_pointer_allowed=False)
     dominance = _dominance(summaries, baseline)
     hardgate = _hardgate(source, frontier, constraint_rows, positive_gate)
+    frontier = _gate_frontier_positivity(frontier, positive_allowed, hardgate)
     generated = generated_at or datetime.now(timezone.utc).isoformat()
     payload = {
         "schema_id": LOCAL_SCHEMA_ID,

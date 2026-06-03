@@ -191,6 +191,20 @@ def test_hg_ccf_1_debt_down_benefit_down_is_non_positive_dn_or_d1_bound():
     assert "audit-improvement-tradeoff" in payload["hardgate"]["blockers"]
 
 
+def test_hg_ccf_1_tradeoff_demotes_every_feasible_frontier_cell():
+    payload = runner.build_payload(
+        _source(tradeoff=True, positive_gate=True, ci_low=0.1, net_information=1.0),
+        generated_at="2030-01-01T00:00:00+00:00",
+    )
+
+    feasible = [cell for cell in payload["frontier"] if cell["status"] != "infeasible"]
+
+    assert feasible
+    for cell in feasible:
+        assert cell["positive"] is False
+        assert cell["discovery_level"] == "DN"
+
+
 def test_hg_ccf_2_feasible_cell_is_only_local_candidate_without_existing_positive_gates():
     payload = runner.build_payload(
         _source(tradeoff=False, positive_gate=False, ci_low=0.1, net_information=1.0),
@@ -207,6 +221,23 @@ def test_hg_ccf_2_feasible_cell_is_only_local_candidate_without_existing_positiv
     assert gate["positive_pointer_allowed"] is False
     assert payload["hardgate"]["basis"]["positive_pointer_gate"]["training_positive_gate"] is False
     assert "positive-pointer-gate-not-satisfied" in payload["hardgate"]["blockers"]
+
+
+def test_hg_ccf_2_non_tradeoff_positive_gate_can_mark_feasible_frontier_cell():
+    payload = runner.build_payload(
+        _source(tradeoff=False, positive_gate=True, ci_low=0.1, net_information=1.0),
+        generated_at="2030-01-01T00:00:00+00:00",
+    )
+
+    feasible = [cell for cell in payload["frontier"] if cell["status"] != "infeasible"]
+    gate = payload["hardgate"]["gates"]["HG-CCF-2"]
+
+    assert feasible
+    assert gate["status"] == "pass"
+    assert gate["positive_pointer_allowed"] is True
+    assert payload["hardgate"]["gates"]["HG-CCF-1"]["status"] == "pass"
+    assert any(cell["positive"] is True for cell in feasible)
+    assert all(cell["discovery_level"] == "D1" for cell in feasible)
 
 
 def test_hg_ccf_3_no_feasible_cell_is_rejected_dn():
