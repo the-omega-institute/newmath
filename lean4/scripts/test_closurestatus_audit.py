@@ -1404,7 +1404,7 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(fail_count, 1)
         commit_and_push.assert_not_called()
 
-    def test_discovery_gate_evolver_batches_multiple_witnesses_into_one_heavy_verify(self) -> None:
+    def test_discovery_gate_evolver_batches_multiple_witnesses_into_one_light_verify(self) -> None:
         import argparse
         import subprocess
         import discovery_gate_evolver  # type: ignore[import-not-found]
@@ -1452,8 +1452,11 @@ class DiscoveryAuditTests(unittest.TestCase):
 
         self.assertEqual(ok_count, 2)
         self.assertEqual(fail_count, 0)
-        self.assertEqual(commands.count(("lake", "build")), 1)
-        self.assertEqual(commands.count(("python3", "-m", "unittest", "lean4/scripts/test_closurestatus_audit.py")), 1)
+        self.assertNotIn(("lake", "build"), commands)
+        self.assertEqual(commands.count(tuple(discovery_gate_evolver.VERIFY_UNITTEST_CMD)), 1)
+        self.assertIn("-k", discovery_gate_evolver.VERIFY_UNITTEST_CMD)
+        self.assertIn("discovery_gate", discovery_gate_evolver.VERIFY_UNITTEST_CMD)
+        self.assertIn("test_evolver_regression", discovery_gate_evolver.VERIFY_UNITTEST_CMD)
         commit_and_push.assert_called_once()
 
     def test_discovery_gate_evolver_batches_grounding_payloads_once(self) -> None:
