@@ -1305,8 +1305,7 @@ class DiscoveryAuditTests(unittest.TestCase):
     def test_discovery_adversarial_generator_once_load_error_is_nonzero(self) -> None:
         import discovery_adversarial_generator  # type: ignore[import-not-found]
 
-        with patch.object(discovery_adversarial_generator, "pid_lock", return_value=nullcontext()), \
-                patch.object(
+        with patch.object(
                     discovery_adversarial_generator,
                     "bedc_ci_module",
                     side_effect=RuntimeError("bedc_ci unavailable"),
@@ -8190,8 +8189,8 @@ class DiscoveryRefutationPublisherTests(unittest.TestCase):
         with self.assertRaises(discovery_gate_evolver.FailClosed):
             discovery_gate_evolver.ensure_registry_capacity(1900, 2000, 1)
 
-    def test_discovery_gate_evolver_daemon_processes_before_sleep(self) -> None:
-        import discovery_gate_evolver  # type: ignore[import-not-found]
+    def test_discovery_pipeline_daemon_processes_before_sleep(self) -> None:
+        import discovery_pipeline_daemon  # type: ignore[import-not-found]
 
         events: list[str] = []
 
@@ -8199,15 +8198,24 @@ class DiscoveryRefutationPublisherTests(unittest.TestCase):
             events.append("sleep")
             raise KeyboardInterrupt
 
-        with patch.object(sys, "argv", ["discovery_gate_evolver.py", "--interval", "999"]), \
-                patch.object(discovery_gate_evolver, "pid_lock", return_value=nullcontext()), \
-                patch.object(discovery_gate_evolver, "append_log", side_effect=events.append), \
-                patch.object(discovery_gate_evolver, "run_once", side_effect=lambda _args: events.append("run") or 0), \
-                patch.object(discovery_gate_evolver.time, "sleep", side_effect=fake_sleep):
+        def fake_run_stage(name: str, _func: object) -> dict[str, object]:
+            events.append(name)
+            return {"stage": name, "ok": True}
+
+        with patch.object(sys, "argv", ["discovery_pipeline_daemon.py", "--interval", "999"]), \
+                patch.object(discovery_pipeline_daemon, "pid_lock", return_value=nullcontext()), \
+                patch.object(discovery_pipeline_daemon, "append_log", side_effect=events.append), \
+                patch.object(discovery_pipeline_daemon, "ensure_structural_dna_build", return_value=None), \
+                patch.object(discovery_pipeline_daemon, "jsonl_count", return_value=0), \
+                patch.object(discovery_pipeline_daemon, "run_stage", side_effect=fake_run_stage), \
+                patch.object(discovery_pipeline_daemon.time, "sleep", side_effect=fake_sleep), \
+                redirect_stdout(StringIO()):
             with self.assertRaises(KeyboardInterrupt):
-                discovery_gate_evolver.main()
-        self.assertIn("[gate-evolver] daemon start interval=999s", events)
-        self.assertLess(events.index("run"), events.index("sleep"))
+                discovery_pipeline_daemon.main()
+        self.assertIn("[discovery-pipeline] daemon start interval=999s no_push=False", events)
+        stage_events = [event for event in events if event in {"radar", "publisher", "generator", "evolver"}]
+        self.assertEqual(stage_events, ["radar", "publisher", "generator", "evolver"])
+        self.assertLess(events.index("evolver"), events.index("sleep"))
 
 
 if __name__ == "__main__":
