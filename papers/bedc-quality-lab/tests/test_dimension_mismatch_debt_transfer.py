@@ -34,6 +34,7 @@ def _matrix():
         ],
         dtype=np.float64,
     )
+    features = np.column_stack([features, np.full(features.shape[0], 0.01, dtype=np.float64)])
     labels = np.column_stack(
         [
             np.array([0, 0, 1, 1, 1, 0], dtype=np.float64),
@@ -91,7 +92,15 @@ def _patch_matrix(monkeypatch):
 
 
 def test_assert_feature_matrix_contract_accepts_exact_h_only_allowlist():
-    transfer.assert_feature_matrix_contract(transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS)
+    features = np.zeros((2, len(transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS)), dtype=np.float64)
+    transfer.assert_feature_matrix_contract(features, transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS)
+
+
+def test_assert_feature_matrix_contract_rejects_width_mismatch():
+    features = np.zeros((2, len(transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS) - 1), dtype=np.float64)
+
+    with pytest.raises(ValueError, match="feature matrix width"):
+        transfer.assert_feature_matrix_contract(features, transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS)
 
 
 @pytest.mark.parametrize(
@@ -115,9 +124,23 @@ def test_assert_feature_matrix_contract_accepts_exact_h_only_allowlist():
 def test_assert_feature_matrix_contract_rejects_forbidden_columns(column):
     columns = list(transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS)
     columns.append(column)
+    features = np.zeros((2, len(columns)), dtype=np.float64)
 
     with pytest.raises(ValueError):
-        transfer.assert_feature_matrix_contract(columns)
+        transfer.assert_feature_matrix_contract(features, columns)
+
+
+def test_surface_matrix_actual_input_matches_h_only_allowlist():
+    matrix = transfer._surface_matrix()
+    features = np.asarray(matrix["features"], dtype=np.float64)
+    columns = tuple(matrix["feature_columns"])
+
+    assert features.shape[1] == len(transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS)
+    assert columns == transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS
+    transfer.assert_feature_matrix_contract(features, columns)
+    audit = transfer._feature_contract_audit(features, columns)
+    assert audit["status"] == "pass"
+    assert audit["actual_model_input_width"] == len(transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS)
 
 
 def test_build_payload_records_hardgates_and_scoped_d4_pass(monkeypatch):
@@ -133,6 +156,9 @@ def test_build_payload_records_hardgates_and_scoped_d4_pass(monkeypatch):
     assert {gate["status"] for gate in payload["hardgate_evidence"].values()} == {"pass"}
     assert payload["hardgate_evidence"]["HG-B2"]["matched_random_auroc"]["mean"] == 0.5
     assert payload["hardgate_evidence"]["HG-B3"]["reason"]
+    assert payload["hardgate_evidence"]["HG-B4"]["audit"]["actual_model_input_width"] == len(
+        transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS
+    )
     assert all(row["reason"] and row["status_code"] for row in payload["surfaces"][0]["result_rows"])
 
 
@@ -194,6 +220,7 @@ def test_markdown_is_pointer_only_and_artifact_is_not_canonical(monkeypatch):
 
     assert "$.dimension_mismatch_debt_transfer.status" in markdown
     assert "Metric rows" in markdown
+    assert "no non-trivial debt-transfer mechanism independent of encoder-dimension information" in markdown
     assert "raw_h" not in markdown
     assert "feature matrix" not in markdown.lower()
     assert "dimension-mismatch-debt-transfer.json" not in {

@@ -25,3 +25,12 @@
 | status code | `scoped-d4-boundary` | `$.dimension_mismatch_debt_transfer.status_code` |
 | discovery level | `D4` | `$.dimension_mismatch_debt_transfer.discovery_level` |
 | scope | `encoder_dim grid against producer reference latent dimension` | `$.dimension_mismatch_debt_transfer.scope` |
+
+## Not claimed
+
+- no global quality conclusion
+- no full LeJEPA conclusion
+- no claim outside the listed encoder_dim-grid debt-transfer surface
+- no non-trivial debt-transfer mechanism independent of encoder-dimension information recoverable from h summaries
+- no inference-time use of config metadata, quality-debt summary, ledger/gap status, truth labels, prediction error, or raw h/z
+- fail status blocks any D4/D5 promotion through this boundary ledger

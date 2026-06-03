@@ -36,6 +36,14 @@ DOWNGRADE_VERDICTS = frozenset(
     }
 )
 POSITIVE_LEVELS = frozenset({"D4", "D5"})
+DIMENSION_MISMATCH_REPORT = "dimension-mismatch-debt-transfer"
+DIMENSION_MISMATCH_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
+DIMENSION_MISMATCH_STATUS_POINTER = "$.dimension_mismatch_debt_transfer.status"
+DIMENSION_MISMATCH_SCOPE_POINTER = "$.dimension_mismatch_debt_transfer.scope"
+DIMENSION_MISMATCH_COST_POINTER = "$.source_artifacts"
+DIMENSION_MISMATCH_NOT_CLAIMED_POINTER = "$.not_claimed"
+DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER = "$.dimension_mismatch_debt_transfer"
+DIMENSION_MISMATCH_CONTROL_POINTER = "$.control_protocol"
 
 
 @dataclass(frozen=True)
@@ -113,6 +121,24 @@ def _specs_by_name() -> dict[str, CanonicalReportSpec]:
     return {spec.name: spec for spec in CANONICAL_REPORTS}
 
 
+def _dimension_mismatch_pointer_spec() -> CanonicalReportSpec:
+    return CanonicalReportSpec(
+        name=DIMENSION_MISMATCH_REPORT,
+        command=("python3", "scripts/run_dimension_mismatch_debt_transfer.py"),
+        json_artifact=DIMENSION_MISMATCH_ARTIFACT,
+        markdown_artifact="reports/canonical/dimension-mismatch-debt-transfer.md",
+        required_json_keys=("dimension_mismatch_debt_transfer", "control_protocol", "not_claimed"),
+        estimated_seconds=20,
+        bundle_role="hg_p_core",
+        scope_pointer=DIMENSION_MISMATCH_SCOPE_POINTER,
+        cost_pointer=DIMENSION_MISMATCH_COST_POINTER,
+        not_claimed_pointer=DIMENSION_MISMATCH_NOT_CLAIMED_POINTER,
+        positive_claim_pointer=DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER,
+        control_pointer=DIMENSION_MISMATCH_CONTROL_POINTER,
+        no_control_rationale_pointer=None,
+    )
+
+
 def _text_for_term_scan(value: Any) -> str:
     if isinstance(value, (dict, list, tuple)):
         return json.dumps(value, sort_keys=True).lower()
@@ -163,6 +189,33 @@ def _net_positive_signal(payload: Mapping[str, Any], verdict_payload: Mapping[st
 
 def _control_positive(verdict_payload: Mapping[str, Any]) -> bool:
     return assign_discovery_level(verdict_payload).control_positive is True
+
+
+def _dimension_mismatch_projection_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
+    projected = dict(payload)
+    status = pointer_value(payload, DIMENSION_MISMATCH_STATUS_POINTER)
+    if status == "pass":
+        projected["positive_discovery"] = True
+        projected["net_positive_signal"] = True
+        projected["net_information"] = 1.0
+        projected["matched_random_control"] = {"control_verdict": {"positive": False}}
+    elif status == "failed":
+        projected["verdict"] = "rejected"
+    return projected
+
+
+def _projected_payload(
+    *,
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+    scorecard: Mapping[str, Any] | None,
+) -> dict[str, Any]:
+    if spec.name == DIMENSION_MISMATCH_REPORT:
+        projected = _dimension_mismatch_projection_payload(payload)
+    else:
+        projected = projection_payload(spec, payload)
+    projected["quality_scorecard"] = scorecard or {}
+    return projected
 
 
 def _claim_source(row: Mapping[str, Any], fallback_pointer: str | None = None) -> ClaimSource:
@@ -218,9 +271,12 @@ def _mapped_discovery_row(
     if level == "D0":
         return None
     specs = _specs_by_name()
-    if report not in specs:
+    if report == DIMENSION_MISMATCH_REPORT and str(row.get("json_artifact")) == DIMENSION_MISMATCH_ARTIFACT:
+        spec = _dimension_mismatch_pointer_spec()
+    elif report in specs:
+        spec = specs[report]
+    else:
         return None
-    spec = specs[report]
     payload = _load_payload(root, str(row["json_artifact"]))
     source = _claim_source(row)
     claim_id = f"claim:{report}"
@@ -247,8 +303,7 @@ def _mapped_discovery_row(
             ledger_pointer=f"{row['json_artifact']}:{laundering_pointer}",
         )
 
-    projected = projection_payload(spec, payload)
-    projected["quality_scorecard"] = _load_scorecard(root) or {}
+    projected = _projected_payload(spec=spec, payload=payload, scorecard=_load_scorecard(root))
     terminal = synthesize_certification_verdict(None, projected, timestamp_iso=generated_at)
     projected_verdict = assign_discovery_level(projected)
 

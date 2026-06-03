@@ -66,7 +66,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `17`
+- Rows: `18`
 
 ## Formal hardening
 

@@ -76,6 +76,7 @@ NOT_CLAIMED = (
     "no global quality conclusion",
     "no full LeJEPA conclusion",
     "no claim outside the listed encoder_dim-grid debt-transfer surface",
+    "no non-trivial debt-transfer mechanism independent of encoder-dimension information recoverable from h summaries",
     "no inference-time use of config metadata, quality-debt summary, ledger/gap status, truth labels, prediction error, or raw h/z",
     "fail status blocks any D4/D5 promotion through this boundary ledger",
 )
@@ -158,11 +159,21 @@ def _forbidden_feature_hits(columns: Sequence[str]) -> list[str]:
 
 
 def assert_feature_matrix_contract(
+    features: np.ndarray,
     feature_columns: Sequence[str],
     declared_allowlist: Sequence[str] = H_ONLY_REPRESENTATION_SUMMARY_COLUMNS,
 ) -> None:
+    feature_array = np.asarray(features, dtype=np.float64)
+    if feature_array.ndim != 2:
+        raise ValueError("features must be a two-dimensional matrix")
     actual = tuple(str(column) for column in feature_columns)
     declared = tuple(str(column) for column in declared_allowlist)
+    if feature_array.shape[1] != len(declared):
+        raise ValueError(
+            "feature matrix width must exactly match declared h-only representation-summary allowlist"
+        )
+    if feature_array.shape[1] != len(actual):
+        raise ValueError("feature matrix width must exactly match actual model input columns")
     if actual != declared:
         raise ValueError(
             "feature columns must exactly match declared h-only representation-summary allowlist"
@@ -172,22 +183,27 @@ def assert_feature_matrix_contract(
         raise ValueError(f"forbidden feature columns present: {', '.join(hits)}")
 
 
-def _feature_contract_audit(feature_columns: Sequence[str]) -> dict[str, Any]:
+def _feature_contract_audit(features: np.ndarray, feature_columns: Sequence[str]) -> dict[str, Any]:
+    feature_array = np.asarray(features, dtype=np.float64)
     try:
-        assert_feature_matrix_contract(feature_columns)
+        assert_feature_matrix_contract(feature_array, feature_columns)
         return {
             "status": "pass",
             "declared_h_only_allowlist": list(H_ONLY_REPRESENTATION_SUMMARY_COLUMNS),
             "actual_model_input_columns": [str(column) for column in feature_columns],
+            "actual_model_input_width": int(feature_array.shape[1]),
+            "declared_h_only_width": len(H_ONLY_REPRESENTATION_SUMMARY_COLUMNS),
             "forbidden_feature_columns": list(FORBIDDEN_FEATURE_COLUMNS),
             "forbidden_present": [],
-            "reason": "actual model input columns exactly match the declared h-only allowlist",
+            "reason": "actual model input width and columns exactly match the declared h-only allowlist",
         }
     except ValueError as exc:
         return {
             "status": "fail",
             "declared_h_only_allowlist": list(H_ONLY_REPRESENTATION_SUMMARY_COLUMNS),
             "actual_model_input_columns": [str(column) for column in feature_columns],
+            "actual_model_input_width": int(feature_array.shape[1]) if feature_array.ndim == 2 else None,
+            "declared_h_only_width": len(H_ONLY_REPRESENTATION_SUMMARY_COLUMNS),
             "forbidden_feature_columns": list(FORBIDDEN_FEATURE_COLUMNS),
             "forbidden_present": _forbidden_feature_hits(feature_columns),
             "reason": str(exc),
@@ -269,9 +285,10 @@ def _surface_matrix() -> dict[str, Any]:
                     "source_pointer": "scripts/run_observed_debt_sweep.py::_observed_envelope",
                 }
             )
-    assert_feature_matrix_contract(feature_columns)
+    features = np.asarray(rows, dtype=np.float64)
+    assert_feature_matrix_contract(features, feature_columns)
     return {
-        "features": np.asarray(rows, dtype=np.float64),
+        "features": features,
         "labels": np.asarray(labels, dtype=np.float64),
         "prediction_error": np.asarray([row[0] for row in labels], dtype=np.float64),
         "feature_columns": feature_columns,
@@ -372,7 +389,7 @@ def _arm_metrics(records: Sequence[Mapping[str, Any]], arm: str) -> dict[str, An
 
 
 def _hardgates(*, matrix: Mapping[str, Any], records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
-    audit = _feature_contract_audit(matrix["feature_columns"])
+    audit = _feature_contract_audit(matrix["features"], matrix["feature_columns"])
     learned = _arm_metrics(records, "learned_h_summary_head")["failure_detection_auroc"]
     matched = _arm_metrics(records, observed_transfer.producer.MATCHED_RANDOM_ARM)["failure_detection_auroc"]
     delta = _delta_stats(records, "failure_detection_auroc_delta_learned_minus_matched_random")
@@ -424,7 +441,7 @@ def _hardgates(*, matrix: Mapping[str, Any], records: Sequence[Mapping[str, Any]
         },
         "HG-B4": {
             "status": audit["status"],
-            "criterion": "actual model input columns equal the declared h-only representation-summary allowlist",
+            "criterion": "actual model input width and columns equal the declared h-only representation-summary allowlist",
             "audit": audit,
             "reason": audit["reason"],
         },
@@ -648,8 +665,13 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             f"| discovery level | `{transfer['discovery_level']}` | `$.dimension_mismatch_debt_transfer.discovery_level` |",
             f"| scope | `{transfer['scope']}` | `$.dimension_mismatch_debt_transfer.scope` |",
             "",
+            "## Not claimed",
+            "",
         ]
     )
+    for item in payload["not_claimed"]:
+        lines.append(f"- {item}")
+    lines.append("")
     return "\n".join(lines)
 
 
