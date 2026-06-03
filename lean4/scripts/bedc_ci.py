@@ -3183,6 +3183,7 @@ def _exact_witness_pattern(pattern: object) -> tuple[dict[str, str] | None, str]
 
 def discovery_gate_witness_kernel_grounding(
     witness: dict[str, object],
+    payload_cache: dict[str, ExprFingerprint] | None = None,
 ) -> tuple[bool, dict[str, object]]:
     pattern, error = _exact_witness_pattern(witness.get("pattern"))
     if pattern is None:
@@ -3194,7 +3195,7 @@ def discovery_gate_witness_kernel_grounding(
     prior = pattern["prior"]
     expected_payload = pattern["canonical_payload"]
     expected_fp = pattern.get("reduced_fp") or pattern.get("candidate_reduced_fp") or ""
-    fps = _run_structural_dna_expr_fingerprints([target, prior])
+    fps = payload_cache if payload_cache is not None else _run_structural_dna_expr_fingerprints([target, prior])
     target_fp = _discovery_endpoint_reduced_fp(target, fps)
     prior_fp = _discovery_endpoint_reduced_fp(prior, fps)
     target_payload = _discovery_endpoint_canonical_payload(target, fps)
