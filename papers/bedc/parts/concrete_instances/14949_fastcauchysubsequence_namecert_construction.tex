@@ -188,6 +188,18 @@ Use the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-ob
 Finally apply the regular route theorem, \autoref{thm:fast-cauchy-subsequence-regular-route}. The rows $F,R,W,E$ read the same inspected windows in order, and $H,C,P,N$ preserve the route without adding an independent selector, selected limit, or choice functional.
 \end{proof}
 
+\begin{theorem}[FastCauchySubsequence tail-modulus lock]
+\label{thm:fast-cauchy-subsequence-tail-modulus-lock}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, every downstream tail or window consumed by $F,R,W,E$ is already covered by the displayed $\CauchyModulusUp$ row $M$ and the cofinal selector row $Q$. Thus the finite tail witness used by the fast-rate ledger, regular-subsequence handoff, regular rational readback, and terminal seal is locked to the inspected modulus-selector pair; no independent tail selector, host subsequence functional, or countable-choice functional can enter the route.
+\end{theorem}
+\begin{proof}
+Begin with modulus-selector coherence, \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence}. It binds the selected windows read by $Q$ to the inspected modulus row $M$ before the downstream rows $F$ and $R$ are consumed.
+
+Next apply selector-window coverage, \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. That coverage carries each selected finite window from $M,Q$ through the same fast-rate and regular-subsequence route used by $F,R,W,E$.
+
+Finally use window nonescape, \autoref{thm:fast-cauchy-subsequence-window-nonescape}. Since every selected window must pass through $S,M,Q$ before the downstream rows are available, the route has no coordinate for an independent tail selector or countable-choice functional.
+\end{proof}
+
 \begin{theorem}[FastCauchySubsequence cofinal RegSeqRat coverage]
 \label{thm:fast-cauchy-subsequence-cofinal-regseqrat-coverage}
 For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, each cofinal selected window that reaches $\RegSeqRatUp$ reaches it only through the fast-rate row $F$, regular-subsequence handoff $R$, and regular rational readback row $W$. The route keeps the source and modulus rows $S,M,Q$ visible and uses $H,C,P,N$ only as structural support.
