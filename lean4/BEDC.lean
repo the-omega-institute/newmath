@@ -5469,6 +5469,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualCandidateSNHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudgetBridge
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualPublicHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionNormalizationFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.RootDischargeExactness
 import BEDC.Derived.MetaCICCriticalPathUp.RootRouteTotality
