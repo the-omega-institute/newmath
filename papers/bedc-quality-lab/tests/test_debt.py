@@ -607,6 +607,35 @@ def test_action_transition_false_opens_row_and_formats_ledger_gap():
     )
 
 
+def test_action_transition_missing_or_invalid_values_fail_open_and_format_ledger_gap():
+    classifier_spec = {"output_dim": 2, "training": "certified"}
+    stability_spec = {"multi_seed": True}
+    missing_source = closed_source_spec() | {"latent_dim": 2}
+    missing_source.pop("action_transition_identified")
+    cases = (
+        missing_source,
+        closed_source_spec() | {"latent_dim": 2, "action_transition_identified": None},
+        closed_source_spec() | {"latent_dim": 2, "action_transition_identified": "true"},
+    )
+
+    for source_spec in cases:
+        assessment = assess_debt(closed_metrics(), source_spec, classifier_spec, stability_spec)
+        gaps = derive_ledger_gaps(closed_metrics(), source_spec, classifier_spec, stability_spec, assessment)
+
+        assert_residue(
+            assessment,
+            "action-transition-identification",
+            kind="source",
+            severity="high",
+            status="open",
+            score=0.16,
+        )
+        assert (
+            "kind=source; residue=action-transition-identification; severity=high; status=open"
+            in format_ledger_gaps(gaps)
+        )
+
+
 def test_global_claim_multi_seed_thresholds_pin_closed_partial_open_statuses():
     scoped_assessment = assess_case({"global_claim": False}, stability_spec={"multi_seed": True})
     missing_assessment = assess_case({}, stability_spec={"multi_seed": False})

@@ -143,7 +143,7 @@ def _transition_isotropy_score(source_spec: Mapping[str, Any], protocol: CostPro
 
 def _action_transition_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
     upper = protocol.weight(LedgerRowKey("source", "action-transition-identification"))
-    return upper if source_spec.get("action_transition_identified") is False else 0.0
+    return 0.0 if source_spec.get("action_transition_identified") is True else upper
 
 
 def _optimization_score(classifier_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
