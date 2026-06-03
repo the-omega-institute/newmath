@@ -2432,6 +2432,7 @@ import BEDC.Derived.CompactModulusCoverUp.TasteGate
 import BEDC.Derived.CompactNetModulusBudgetUp.NameCertObligations
 import BEDC.Derived.CompactNetModulusBudgetUp.TasteGate
 import BEDC.Derived.CompactNetModulusSelectorUp.ConsumerFactorization
+import BEDC.Derived.CompactNetModulusSelectorUp.FiniteNetExposure
 import BEDC.Derived.CompactNetModulusSelectorUp.FoldSoundness
 import BEDC.Derived.CompactNetModulusSelectorUp.IndependenceBoundary
 import BEDC.Derived.CompactNetModulusSelectorUp.KernelCarrier
@@ -5184,6 +5185,7 @@ import BEDC.Derived.LowerRealUp.LocatedCutLedger
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
+import BEDC.Derived.LowerSemicontinuousUp.RootRealSealBoundary
 import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
 import BEDC.Derived.LowerUpperRealCutUp

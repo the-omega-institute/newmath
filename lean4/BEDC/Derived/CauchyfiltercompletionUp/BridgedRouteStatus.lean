@@ -152,4 +152,198 @@ theorem CauchyFilterCompletionPacket_bridged_route [AskSetup] [PackageSetup]
   }
   exact ⟨cert, bridgeUnary⟩
 
+theorem CauchyFilterCompletionPacket_bridged_route_maturity [AskSetup] [PackageSetup]
+    {filter windows tolerance readback sealRow transport replay provenance name bridgeRead
+      functorRoute maturityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+        provenance name bundle pkg →
+      Cont readback sealRow bridgeRead →
+        Cont readback sealRow functorRoute →
+          Cont bridgeRead functorRoute maturityRead →
+            PkgSig bundle bridgeRead pkg →
+              PkgSig bundle functorRoute pkg →
+                SemanticNameCert
+                    (fun row : BHist =>
+                      CauchyFilterCompletionPacket filter windows tolerance readback sealRow
+                          transport replay provenance name bundle pkg ∧
+                        (hsame row filter ∨ hsame row windows ∨ hsame row tolerance ∨
+                          hsame row readback ∨ hsame row sealRow ∨ hsame row bridgeRead ∨
+                            hsame row functorRoute ∨ hsame row maturityRead))
+                    (fun _row : BHist =>
+                      Cont filter windows tolerance ∧ Cont tolerance readback sealRow ∧
+                        Cont readback sealRow bridgeRead ∧
+                          Cont readback sealRow functorRoute ∧
+                            Cont bridgeRead functorRoute maturityRead ∧
+                              Cont transport replay provenance ∧
+                                PkgSig bundle provenance pkg ∧
+                                  PkgSig bundle bridgeRead pkg ∧
+                                    PkgSig bundle functorRoute pkg)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ PkgSig bundle bridgeRead pkg ∧
+                        PkgSig bundle functorRoute pkg)
+                    hsame ∧
+                  UnaryHistory bridgeRead ∧ UnaryHistory functorRoute ∧
+                    UnaryHistory maturityRead := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle PkgSig SemanticNameCert hsame
+  intro packet readbackSealBridge readbackSealFunctor bridgeFunctorMaturity bridgePkg functorPkg
+  have packetWhole := packet
+  obtain ⟨filterUnary, windowsUnary, toleranceUnary, readbackUnary, sealUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _nameUnary, filterWindows,
+    toleranceReadback, transportReplay, provenancePkg, _namePkg⟩ := packet
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed readbackUnary sealUnary readbackSealBridge
+  have functorUnary : UnaryHistory functorRoute :=
+    unary_cont_closed readbackUnary sealUnary readbackSealFunctor
+  have maturityUnary : UnaryHistory maturityRead :=
+    unary_cont_closed bridgeUnary functorUnary bridgeFunctorMaturity
+  have sourceFilter :
+      (fun row : BHist =>
+        CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport replay
+            provenance name bundle pkg ∧
+          (hsame row filter ∨ hsame row windows ∨ hsame row tolerance ∨
+            hsame row readback ∨ hsame row sealRow ∨ hsame row bridgeRead ∨
+              hsame row functorRoute ∨ hsame row maturityRead)) filter := by
+    exact ⟨packetWhole, Or.inl (hsame_refl filter)⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            CauchyFilterCompletionPacket filter windows tolerance readback sealRow transport
+                replay provenance name bundle pkg ∧
+              (hsame row filter ∨ hsame row windows ∨ hsame row tolerance ∨
+                hsame row readback ∨ hsame row sealRow ∨ hsame row bridgeRead ∨
+                  hsame row functorRoute ∨ hsame row maturityRead))
+          (fun _row : BHist =>
+            Cont filter windows tolerance ∧ Cont tolerance readback sealRow ∧
+              Cont readback sealRow bridgeRead ∧ Cont readback sealRow functorRoute ∧
+                Cont bridgeRead functorRoute maturityRead ∧ Cont transport replay provenance ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle bridgeRead pkg ∧
+                    PkgSig bundle functorRoute pkg)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle bridgeRead pkg ∧ PkgSig bundle functorRoute pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro filter sourceFilter
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row other sameRows source
+        cases source with
+        | intro sourcePacket sourceRows =>
+            constructor
+            · exact sourcePacket
+            · cases sourceRows with
+              | inl sameFilter =>
+                  exact Or.inl (hsame_trans (hsame_symm sameRows) sameFilter)
+              | inr rest =>
+                  cases rest with
+                  | inl sameWindows =>
+                      exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameWindows))
+                  | inr rest =>
+                      cases rest with
+                      | inl sameTolerance =>
+                          exact
+                            Or.inr <| Or.inr <|
+                              Or.inl (hsame_trans (hsame_symm sameRows) sameTolerance)
+                      | inr rest =>
+                          cases rest with
+                          | inl sameReadback =>
+                              exact
+                                Or.inr <| Or.inr <| Or.inr <|
+                                  Or.inl
+                                    (hsame_trans (hsame_symm sameRows) sameReadback)
+                          | inr rest =>
+                              cases rest with
+                              | inl sameSeal =>
+                                  exact
+                                    Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+                                      Or.inl (hsame_trans (hsame_symm sameRows) sameSeal)
+                              | inr rest =>
+                                  cases rest with
+                                  | inl sameBridge =>
+                                      exact
+                                        Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+                                          Or.inl
+                                            (hsame_trans (hsame_symm sameRows) sameBridge)
+                                  | inr rest =>
+                                      cases rest with
+                                      | inl sameFunctor =>
+                                          exact
+                                            Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+                                              Or.inr <| Or.inr <|
+                                                Or.inl
+                                                  (hsame_trans (hsame_symm sameRows)
+                                                    sameFunctor)
+                                      | inr sameMaturity =>
+                                          exact
+                                            Or.inr <| Or.inr <| Or.inr <| Or.inr <|
+                                              Or.inr <| Or.inr <| Or.inr
+                                                (hsame_trans (hsame_symm sameRows)
+                                                  sameMaturity)
+    }
+    pattern_sound := by
+      intro _row _source
+      exact
+        ⟨filterWindows, toleranceReadback, readbackSealBridge, readbackSealFunctor,
+          bridgeFunctorMaturity, transportReplay, provenancePkg, bridgePkg, functorPkg⟩
+    ledger_sound := by
+      intro row source
+      cases source with
+      | intro _sourcePacket sourceRows =>
+          cases sourceRows with
+          | inl sameFilter =>
+              exact
+                ⟨unary_transport filterUnary (hsame_symm sameFilter), bridgePkg, functorPkg⟩
+          | inr rest =>
+              cases rest with
+              | inl sameWindows =>
+                  exact
+                    ⟨unary_transport windowsUnary (hsame_symm sameWindows), bridgePkg,
+                      functorPkg⟩
+              | inr rest =>
+                  cases rest with
+                  | inl sameTolerance =>
+                      exact
+                        ⟨unary_transport toleranceUnary (hsame_symm sameTolerance), bridgePkg,
+                          functorPkg⟩
+                  | inr rest =>
+                      cases rest with
+                      | inl sameReadback =>
+                          exact
+                            ⟨unary_transport readbackUnary (hsame_symm sameReadback),
+                              bridgePkg, functorPkg⟩
+                      | inr rest =>
+                          cases rest with
+                          | inl sameSeal =>
+                              exact
+                                ⟨unary_transport sealUnary (hsame_symm sameSeal), bridgePkg,
+                                  functorPkg⟩
+                          | inr rest =>
+                              cases rest with
+                              | inl sameBridge =>
+                                  exact
+                                    ⟨unary_transport bridgeUnary (hsame_symm sameBridge),
+                                      bridgePkg, functorPkg⟩
+                              | inr rest =>
+                                  cases rest with
+                                  | inl sameFunctor =>
+                                      exact
+                                        ⟨unary_transport functorUnary
+                                            (hsame_symm sameFunctor),
+                                          bridgePkg, functorPkg⟩
+                                  | inr sameMaturity =>
+                                      exact
+                                        ⟨unary_transport maturityUnary
+                                            (hsame_symm sameMaturity),
+                                          bridgePkg, functorPkg⟩
+  }
+  exact ⟨cert, bridgeUnary, functorUnary, maturityUnary⟩
+
 end BEDC.Derived.CauchyfiltercompletionUp
