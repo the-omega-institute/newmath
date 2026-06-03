@@ -209,8 +209,11 @@ def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
 
 
 REPORT_REF_RE = re.compile(r"^reports/canonical/([^`\s]+)$")
-JSON_POINTER_RE = re.compile(r"^\$\.[A-Za-z0-9_.*\[\]@=?\"'-]+$")
 FILTER_RE = re.compile(r"^\?\(@\.([A-Za-z0-9_\-]+)==\"([^\"]+)\"\)$")
+JSONPATH_SELECTOR_RE = r"(?:\*|\d+|\?\(@\.[A-Za-z0-9_\-]+==\"[^\"]+\"\))"
+JSON_POINTER_RE = re.compile(
+    rf"^\$(?:\.[A-Za-z0-9_\-]+(?:\[{JSONPATH_SELECTOR_RE}\])*)+$"
+)
 
 
 def check_json_pointers(docs: dict[Path, str]) -> CheckResult:
