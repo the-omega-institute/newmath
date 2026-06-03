@@ -245,9 +245,9 @@ theorem MontelTheoremTasteGate_single_carrier_alignment :
       (∀ x : MontelTheoremUp,
         montelTheoremFromEventFlow (montelTheoremToEventFlow x) = some x) ∧
         (∀ x y : MontelTheoremUp,
-          montelTheoremToEventFlow x = montelTheoremToEventFlow y -> x = y) ∧
+          montelTheoremToEventFlow x = montelTheoremToEventFlow y → x = y) ∧
           montelTheoremEncodeBHist BHist.Empty = ([] : List BMark) ∧
-            (∀ x y : MontelTheoremUp, montelTheoremFields x = montelTheoremFields y ->
+            (∀ x y : MontelTheoremUp, montelTheoremFields x = montelTheoremFields y →
               x = y) ∧
               (∃ x y : MontelTheoremUp, x ≠ y) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
