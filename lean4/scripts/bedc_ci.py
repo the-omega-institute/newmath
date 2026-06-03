@@ -28,6 +28,7 @@ PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
 TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
 DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
+TASTE_OBLIGATION_REGISTRY_PATH = SCRIPT_DIR / "taste_obligations.json"
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -3132,6 +3133,185 @@ DISCOVERY_GATE_WITNESS_OPTIONAL_PATTERN_KEYS = {
 }
 DISCOVERY_GATE_WITNESS_MAX_ENTRIES = 2000
 DISCOVERY_GATE_WITNESS_MAX_BYTES = 2_000_000
+TASTE_OBLIGATION_MAX_ENTRIES = 200
+TASTE_OBLIGATION_MAX_BYTES = 200_000
+TASTE_OBLIGATION_KINDS = {"carrier_structure"}
+TASTE_OBLIGATION_CRITERIA = {"carrier_faithfulness.cross_domain_canonical_payload_distinct"}
+
+
+def _taste_registry_diag(
+    path: Path,
+    line: int,
+    kind: str,
+    message: str,
+    *,
+    obligation_id: str = "",
+) -> dict[str, object]:
+    item: dict[str, object] = {
+        "file": _repo_display_path(path) if path.is_absolute() else str(path),
+        "line": line,
+        "kind": kind,
+        "message": message,
+    }
+    if obligation_id:
+        item["id"] = obligation_id
+    return item
+
+
+def load_taste_obligations(
+    path: Path = TASTE_OBLIGATION_REGISTRY_PATH,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Load data-driven meta taste obligations.
+
+    These obligations extend the audit surface around ChapterTasteGate. They
+    are informational for existing carriers and generation-facing for new
+    carrier production.
+    """
+    if not path.exists():
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "missing_taste_obligation_registry",
+            "taste obligation registry is absent",
+        )]
+    try:
+        size = path.stat().st_size
+    except OSError:
+        size = 0
+    if size > TASTE_OBLIGATION_MAX_BYTES:
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "oversized_taste_obligation_registry",
+            f"taste obligation registry exceeds size cap {TASTE_OBLIGATION_MAX_BYTES} bytes",
+        )]
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return [], [_taste_registry_diag(
+            path,
+            exc.lineno,
+            "invalid_taste_obligation_registry_json",
+            f"invalid taste obligation registry JSON: {exc.msg}",
+        )]
+    if not isinstance(raw, dict):
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "invalid_taste_obligation_registry_root",
+            "taste obligation registry root must be an object",
+        )]
+    if str(raw.get("schema") or "").strip() != "bedc.taste_obligation_registry":
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "invalid_taste_obligation_registry_schema",
+            "taste obligation registry schema must be bedc.taste_obligation_registry",
+        )]
+    entries = raw.get("obligations")
+    if not isinstance(entries, list):
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "invalid_taste_obligation_registry_root",
+            "taste obligation registry obligations field must be a list",
+        )]
+    if len(entries) > TASTE_OBLIGATION_MAX_ENTRIES:
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "oversized_taste_obligation_registry",
+            f"taste obligation registry exceeds entry cap {TASTE_OBLIGATION_MAX_ENTRIES}",
+        )]
+
+    obligations: list[dict[str, object]] = []
+    diagnostics: list[dict[str, object]] = []
+    seen: set[str] = set()
+    for index, item in enumerate(entries):
+        if not isinstance(item, dict):
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "invalid_taste_obligation",
+                "taste obligation entry must be an object",
+            ))
+            continue
+        obligation_id = str(item.get("id") or "").strip()
+        kind = str(item.get("kind") or "").strip()
+        criterion = str(item.get("criterion") or "").strip()
+        rejects_because = str(item.get("rejects_because") or "").strip()
+        added_ts = str(item.get("added_ts") or "").strip()
+        if not obligation_id:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "missing_taste_obligation_id",
+                "taste obligation lacks id",
+            ))
+            continue
+        if obligation_id in seen:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "duplicate_taste_obligation",
+                f"taste obligation {obligation_id} duplicates an earlier id",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if kind not in TASTE_OBLIGATION_KINDS:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "invalid_taste_obligation_kind",
+                f"taste obligation {obligation_id} has unsupported kind {kind}",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if criterion not in TASTE_OBLIGATION_CRITERIA:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "invalid_taste_obligation_criterion",
+                f"taste obligation {obligation_id} has unsupported criterion {criterion}",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if not rejects_because:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "missing_taste_obligation_rejection",
+                f"taste obligation {obligation_id} lacks rejects_because",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if not isinstance(item.get("provenance"), dict):
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "invalid_taste_obligation_provenance",
+                f"taste obligation {obligation_id} must carry object provenance",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if not added_ts:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "missing_taste_obligation_added_ts",
+                f"taste obligation {obligation_id} lacks added_ts",
+                obligation_id=obligation_id,
+            ))
+            continue
+        normalized = dict(item)
+        normalized["id"] = obligation_id
+        normalized["kind"] = kind
+        normalized["criterion"] = criterion
+        normalized["rejects_because"] = rejects_because
+        normalized["added_ts"] = added_ts
+        obligations.append(normalized)
+        seen.add(obligation_id)
+    return obligations, diagnostics
 
 
 def _discovery_gate_registry_diag(
@@ -4962,6 +5142,84 @@ def carrier_faithfulness_payload(
             "same-module siblings may be intentional variants; cross-domain collisions "
             "are strong but informational under-encoding signals, not a gate"
         ),
+    }
+
+
+def taste_meta_gate_payload(
+    carrier_faithfulness: dict[str, object],
+    *,
+    obligations: list[dict[str, object]] | None = None,
+    diagnostics: list[dict[str, object]] | None = None,
+) -> dict[str, object]:
+    if obligations is None or diagnostics is None:
+        obligations, diagnostics = load_taste_obligations()
+    violations: list[dict[str, object]] = []
+    seen: set[tuple[str, str, str, str]] = set()
+    cross_domain = carrier_faithfulness.get("cross_domain_under_encoding", []) or []
+    if not isinstance(cross_domain, list):
+        cross_domain = []
+    for obligation in obligations:
+        if str(obligation.get("criterion") or "") != (
+            "carrier_faithfulness.cross_domain_canonical_payload_distinct"
+        ):
+            continue
+        for row in cross_domain:
+            if not isinstance(row, dict):
+                continue
+            target = str(row.get("target") or "")
+            prior = str(row.get("prior") or "")
+            digest = str(row.get("canonical_payload_digest") or "")
+            if not target or not prior:
+                continue
+            key = (str(obligation.get("id") or ""), target, prior, digest)
+            if key in seen:
+                continue
+            seen.add(key)
+            violations.append({
+                "obligation_id": str(obligation.get("id") or ""),
+                "kind": str(obligation.get("kind") or ""),
+                "criterion": str(obligation.get("criterion") or ""),
+                "target": target,
+                "prior": prior,
+                "target_domain": row.get("target_domain", ""),
+                "prior_domain": row.get("prior_domain", ""),
+                "canonical_payload_digest": digest,
+                "canonical_payload_summary": row.get("canonical_payload_summary", ""),
+                "source": row.get("source", ""),
+                "gate_status": "FAIL",
+                "informational": True,
+                "rejects_because": str(obligation.get("rejects_because") or ""),
+                "provenance": obligation.get("provenance"),
+                "independent_evidence": "carrier_faithfulness.cross_domain_under_encoding",
+                "message": (
+                    f"{target} shares canonical carrier payload with cross-domain prior "
+                    f"{prior}; carrier fails taste criterion {obligation.get('id')}"
+                ),
+            })
+    violations.sort(key=lambda item: (
+        str(item["obligation_id"]),
+        str(item["target_domain"]),
+        str(item["target"]),
+        str(item["prior"]),
+    ))
+    return {
+        "schema": "bedc.taste_meta_gate",
+        "informational": True,
+        "semantics": (
+            "meta-level, data-driven TasteGate obligations supplement Lean "
+            "ChapterTasteGate; existing carrier violations are reported without "
+            "changing audit exit code, while generation workflows may treat them "
+            "as forward taste gates"
+        ),
+        "registry": _repo_display_path(TASTE_OBLIGATION_REGISTRY_PATH),
+        "obligation_count": len(obligations),
+        "violation_count": len(violations),
+        "violations": violations,
+        "obligations": obligations,
+        "registry_diagnostic_count": len(diagnostics),
+        "registry_diagnostics": diagnostics,
+        "generation_gate": "new carriers should reject any violation of a registered criterion",
+        "monotonicity": "new obligations add criteria; existing obligations are not relaxed",
     }
 
 
@@ -10747,6 +11005,7 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         discovery_production_radar,
         reconstruction_witnesses=discovery_assert_gate.get("reconstruction_witnesses", []),
     )
+    taste_meta_gate = taste_meta_gate_payload(carrier_faithfulness)
     discovery_nonasserted_hygiene = discovery_nonasserted_hygiene_payload(
         closurestatus_blocks,
     )
@@ -10792,6 +11051,10 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         ],
         "discovery_production_radar": discovery_production_radar,
         "carrier_faithfulness": carrier_faithfulness,
+        "taste_meta_gate": taste_meta_gate,
+        "taste_meta_gate_violation_count": taste_meta_gate["violation_count"],
+        "taste_obligation_registry_diagnostic_count": taste_meta_gate["registry_diagnostic_count"],
+        "taste_obligation_registry_diagnostics": taste_meta_gate["registry_diagnostics"],
         "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
         "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
         "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
@@ -10847,6 +11110,12 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         payload,
         "discovery_gate_witness_registry_diagnostics",
         list(discovery_assert_gate["witness_registry_diagnostics"]),
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "taste_obligation_registry_diagnostics",
+        list(taste_meta_gate["registry_diagnostics"]),
         changed_files,
     )
     _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
@@ -11167,6 +11436,20 @@ def cmd_audit(args: argparse.Namespace) -> int:
             " (informational; canonical-payload collision = carrier encodes generic skeleton + name, "
             "not distinguishing structure)"
         )
+        taste_gate = payload["taste_meta_gate"]
+        print(
+            "[bedc-ci] taste gate:"
+            f" meta-obligations={taste_gate['obligation_count']}"
+            f" violations={taste_gate['violation_count']}"
+            " (informational; carrier fails taste criterion)"
+        )
+        if taste_gate.get("registry_diagnostics"):
+            print(
+                "[bedc-ci] taste obligation registry diagnostics:"
+                f" {taste_gate['registry_diagnostic_count']} warning(s)"
+            )
+            for item in taste_gate.get("registry_diagnostics", [])[:40]:
+                print(f"  {item['message']}")
         hygiene = payload["discovery_nonasserted_hygiene"]
         if hygiene["site_count"] or hygiene["failure_count"]:
             print(
@@ -12393,6 +12676,31 @@ def cmd_discovery_candidates(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_taste_gate(args: argparse.Namespace) -> int:
+    audit = audit_payload(full_radar_scan=bool(args.full_scan or args.json))
+    payload = audit["taste_meta_gate"]
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            "[bedc-ci] taste-gate (informational):"
+            f" meta-obligations={payload['obligation_count']}"
+            f" violations={payload['violation_count']}"
+            f" registry_diagnostics={payload['registry_diagnostic_count']}"
+        )
+        if args.verbose:
+            for item in payload["violations"][:120]:
+                print(
+                    f"  {item['obligation_id']} {item['target']}"
+                    f" ~ {item['prior']} [{item['target_domain']} vs {item['prior_domain']}]"
+                )
+            if len(payload["violations"]) > 120:
+                print(f"  ... and {len(payload['violations']) - 120} more")
+            for item in payload["registry_diagnostics"][:40]:
+                print(f"  registry {item['kind']}: {item['message']}")
+    return 0
+
+
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
     """Check that every BEDC theorem's transitive axiom dependency set is
     contained within the allowed Lean stdlib subset.
@@ -12809,6 +13117,19 @@ def parser() -> argparse.ArgumentParser:
     discovery_candidates_p.add_argument("--verbose", "-v", action="store_true", help="Show candidate and diagnostic detail")
     discovery_candidates_p.add_argument("--max-a", type=int, default=3, help="Maximum dispatchable A-tier candidates to emit")
     discovery_candidates_p.set_defaults(func=cmd_discovery_candidates)
+
+    taste_gate_p = sub.add_parser(
+        "taste-gate",
+        help="Informational meta TasteGate obligation report (always exit 0)",
+    )
+    taste_gate_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    taste_gate_p.add_argument("--verbose", "-v", action="store_true", help="Show violation detail")
+    taste_gate_p.add_argument(
+        "--full-scan",
+        action="store_true",
+        help="Enable full discovery-radar scan before evaluating taste obligations",
+    )
+    taste_gate_p.set_defaults(func=cmd_taste_gate)
 
     carrier_iso_p = sub.add_parser(
         "carrier-isomorphism",
