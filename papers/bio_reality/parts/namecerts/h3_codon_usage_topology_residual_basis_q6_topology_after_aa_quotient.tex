@@ -1,72 +1,32 @@
-\subsection{Q6 Codon Residuals After the Amino-Acid Quotient}\label{sec:h3-codon-usage-topology-residual-basis-q6-topology-after-aa-quotient}
+\subsection{NameCert: h3.codon\_usage\_topology.residual\_basis.q6\_topology\_after\_aa\_quotient}
+\label{sec:namecert-h3_codon_usage_topology_residual_basis_q6_topology_after_aa_quotient}
 \origin{ai}
+\noindent\textit{Proposed by bio-namer; review status: draft.}
 
-\paragraph{Object.}
-This record isolates a codon-level residual question that remains after amino-acid sequence has already been fixed.  The carrier is the finite per-organism table of coding-sequence codon counts, projected away from amino-acid composition and then read in the residual basis $B^{*}_{Q6}$.  The intended coordinates are
-$$
-\begin{aligned}
-B^{*}_{Q6}=\{&K_{\mathrm{AAA}},\ \mathrm{Arg}_{\mathrm{AGR}},\ \mathrm{Ile}_{\mathrm{AUA}},\ \mathrm{Leu}_{\mathrm{CUN}/\mathrm{UUR}},\ \mathrm{Leu}_{\mathrm{UUA}/\mathrm{UUG}},\\
-&\mathrm{Ser}_{\mathrm{UCR}/\mathrm{AGY}},\ \mathrm{Ser}_{\mathrm{UCA}/\mathrm{UCG}},\ \mathrm{Thr}_{\mathrm{ACR}/\mathrm{ACY}},\ f_{3}\text{-stress antisymmetric pair}\}.
-\end{aligned}
-$$
-The biological reading is not that these coordinates are already mechanisms.  They are a bounded residual coordinate system for asking whether synonymous codon topology, after quotienting by the amino acid $y$, still predicts a translation-layer readout such as tAI, ribosome occupancy, or protein abundance under matched context $Z$.
+\paragraph{NameCert chapter slug.}
+Proposed slug: `h3\_codon\_usage\_topology\_residual\_basis\_q6\_topology\_after\_aa\_quotient`. First BioReality codon\_usage\_topology-layer NameCert, anchored to the AA-quotient theorem prediction on the B*\_Q6 residual basis across human, yeast, and E. coli.
 
-\paragraph{Finite coordinate facts.}
-The row verifies that the motif set $R$ coincides exactly with the thirteen codons
-$$
-\begin{aligned}
-R=\{&\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\\
-&\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}.
-\end{aligned}
-$$
-There are no missing codons and no extra codons in this finite comparison.  The associated $M$ complex has face vector
-$$
-\begin{aligned}
-f(M)=(20,38,26,8,1),
-\end{aligned}
-$$
-while the quotient geometry used for the reduced coordinate comparison has ten vertices and face vector
-$$
-\begin{aligned}
-f(\pi_M)=(10,14,6,1).
-\end{aligned}
-$$
-The verified quotient rows are
-$$
-\begin{aligned}
-&(0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\\
-&(0,1,0,0,0),\ (0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,0,1,1),\\
-&(1,0,1,0,1),\ (1,0,1,1,1).
-\end{aligned}
-$$
-The row does not supply a product-decomposition certificate for $M$; the usable finite datum here is the checked quotient list, its size $10$, and the two face vectors above.
+\paragraph{Carrier.}
+Carrier name: `BStarQ6ResidualBasisOrganismCodonContactLedger`. Per-organism codon-count tables projected onto the B*\_Q6 residual basis after amino-acid-class anchoring, kept as finite contact rows. The biological object is bounded organism-level codon usage topology, not a ribosome or protein output.
 
-\paragraph{Organism contact.}
-The residual basis was computed against one codon-count table for each of three organisms: human, budding yeast, and \textit{Escherichia coli} K-12.  The genetic-code table was loaded, and the contact is explicitly finite: it is not a population estimate and it is not a claim about all organisms.  Within this finite contact, the nine residual coordinates were computed and seven of them were nonzero above the stated variance threshold $0.01$.  Thus
-$$
-\begin{aligned}
-\#B^{*}_{Q6}=9,\qquad \#\{q:\operatorname{Var}(q)>0.01\}=7,\qquad \frac{7}{9}=0.7777777777777778.
-\end{aligned}
-$$
-This establishes nontrivial residual codon variation after the amino-acid quotient in the recorded finite sample.  It does not, by itself, establish that the residual coordinates improve any translation readout.
+\paragraph{Distinctions.}
+- K\_AAA log-ratio per organism. - Arg\_AGR vs CGN log-ratio per organism. - Ile\_AUA vs (AUU+AUC) log-ratio per organism. - Leu CUN-vs-UUR log-ratio per organism. - Leu UUA-vs-UUG log-ratio per organism. - Ser UCR-vs-AGY log-ratio per organism. - Ser UCA-vs-UCG log-ratio per organism. - Thr ACR-vs-ACY log-ratio per organism. - f\_3-stress pair-antisymmetric residual per organism. - Amino-acid-class anchor: per-AA log-fraction of the AA codons. - Per-element residual variance after AA-class anchor subtraction.
 
-\paragraph{Survival statistic.}
-The intended survival test compares a baseline model $J_0(Z)$ with a model $J_Q(Z,q)$ that adds one residual coordinate $q\in B^{*}_{Q6}$ while keeping the amino-acid sequence and context inside $Z$.  The signed statistic is
-$$
-\begin{aligned}
-S_Q(r\mid Z)=J_0(Z)-J_Q(Z,q),
-\end{aligned}
-$$
-where the readout $r$ is restricted to a translation-layer observable such as tAI, ribosome occupancy, or protein abundance.  A positive value would mean that the residual coordinate lowers the loss or improves the specified readout model under the stated controls.  The present row does not contain an organism-matched table of codon usage, tRNA copy number, and tAI or stAI weights with computed $S_Q(r\mid Z,\Delta_M)$ values.  Therefore the positive-survival claim is not yet a result of this finite row.
+\paragraph{Readback.}
+The carrier reads back to Kazusa codon-usage tables and GtRNAdb tRNA-Leu copy spectra (3 organisms) plus NCBI genetic-code tables, the claim record `h3.codon\_usage\_topology.residual\_basis.q6\_topology\_after\_aa\_quotient`, the linked conjecture `residual\_basis.q6\_topology\_after\_aa\_quotient.translation\_realization`, and the passed experiment run on `residual\_basis\_q6\_topology\_validation`.
 
-\paragraph{M-only gap.}
-The row also separates the $M$-density baseline from the residual basis.  An $M$-only model can be a local codon-topology summary, but the recorded residuals include contrasts that cannot be tested by $M$-density alone, such as $\mathrm{CUN}/\mathrm{UUR}$ for leucine and $\mathrm{AAA}/\mathrm{AAG}$ for lysine.  The counterexample search is therefore well posed: if $M$ alone were the sufficient variable for the chosen readout, then every residual coordinate should satisfy
-$$
-\begin{aligned}
-S_Q(r\mid Z,\Delta_M)\leq 0
-\end{aligned}
-$$
-for every tested organism and readout after amino-acid composition control.  Breaking this inequality for at least one coordinate and one readout would support residual topological participation beyond the $M$ baseline.  The finite row currently supplies the coordinate geometry and the organism-level codon-count contact, not the paired controlled readout statistic.
+\paragraph{Derivation from coordinate, closure, spectrum, and relation.}
+The internal content is a finite per-organism per-basis-element ledger: a coordinate slot for the 9 B*\_Q6 log-ratios per organism, a relation slot for the across-organism residual variance after AA-class projection, and a spectrum slot recording the fraction of basis elements whose residual variance exceeds the 0.01 threshold. No raw codon count or organism genome is a kernel fact; those remain external bridge values.
 
-\paragraph{Local boundary.}
-The verified facts stop at finite codon-count residual geometry for three organisms.  They do not assert ribosome-mediated translation realization from codon counts alone, do not infer folding or structural order, do not certify physical admissibility, do not imply biological function, do not identify a biochemical mechanism, and do not state a universal biological law.  A stronger conclusion requires a separate matched contact that supplies the relevant readout and permits the controlled statistic above to be computed.  Until that contact is present, the appropriate conclusion is narrower: $B^{*}_{Q6}$ is a nontrivial post-amino-acid residual coordinate system in the recorded finite data, and it defines a concrete test for whether synonymous codon topology survives beyond the amino-acid quotient and beyond the $M$-density baseline.
+\paragraph{Curated reality contacts and observed facts.}
+- Kazusa codon-usage pointers: `tools/bio\_reality/data/kazusa\_codon\_usage\_homo\_sapiens.json`, `tools/bio\_reality/data/kazusa\_codon\_usage\_saccharomyces\_cerevisiae.json`, `tools/bio\_reality/data/kazusa\_codon\_usage\_escherichia\_coli\_k12.json`. - GtRNAdb tRNA-Leu copy pointers: `tools/bio\_reality/data/gtrnadb\_trna\_leu\_copy\_homo\_sapiens.json`, `tools/bio\_reality/data/gtrnadb\_trna\_leu\_copy\_saccharomyces\_cerevisiae.json`, `tools/bio\_reality/data/gtrnadb\_trna\_leu\_copy\_escherichia\_coli\_k12.json`. - NCBI genetic-code table pointer: `tools/bio\_reality/data/ncbi\_genetic\_codes.json`. - Claim pointer: `tools/bio\_reality/registries/claims.json` record `h3.codon\_usage\_topology.residual\_basis.q6\_topology\_after\_aa\_quotient`. - Conjecture pointer: `tools/bio\_reality/inbox/conjectures.jsonl` record `residual\_basis.q6\_topology\_after\_aa\_quotient.translation\_realization`. - Experiment registry pointer: `tools/bio\_reality/registries/experiments.json` record `residual\_basis\_q6\_topology\_validation`.
+
+\paragraph{Layer discipline and out-of-scope assertions.}
+- This chapter does not claim ribosome-mediated translation realization from codon-count residuals alone. - This chapter does not claim protein folding, structural order, physical admissibility, biological function, biochemical mechanism, or universal biological law. - This chapter does not promote nonzero per-organism residual variance to a translation-efficiency, ribosome-occupancy, or protein-output claim. - This chapter does not interpret B*\_Q6 residual signs as universal directionality. - This chapter does not bypass the amino-acid-class projection control.
+
+\paragraph{BEDC carrier, distinctions, internal structure, and readback.}
+- Carrier: finite per-organism B*\_Q6 residual ledger. - Distinctions: 9 B*\_Q6 elements + per-organism + AA-class anchor + projected residual. - Readback: across-organism residual variance after AA-class projection, reported per element. - Falsifiable boundary: refuted if more than 40\% of B*\_Q6 elements collapse to AA-fiber constant (residual variance $\leq$ 0.01). On the loaded three organisms, 7 of 9 elements survive (nonzero\_fraction = 0.778); two elements (Thr\_ACR\_vs\_ACY at 0.0016, f3\_stress at 0.0022) collapse, recorded as part of the finite observation rather than a universal directionality.
+
+\paragraph{Polynomial finite-row witness.}
+The witness is the 9-row table of (basis\_element, per-organism residual triple, residual\_variance, nonzero\_after\_projection). Nonzero fraction is 7/9 = 0.778 across human, yeast, and E. coli. AA-quotient theorem prediction is supported on this finite contact; result is reported as a finite codon-usage topology contact at n=3 organisms, not as a population-level estimate.
+

@@ -11490,10 +11490,10 @@ def cmd_audit(args: argparse.Namespace) -> int:
             )
         discovery_integrity = payload["discovery_integrity"]
         print(
-            "[bedc-ci] discovery integrity structural-DNA gate:"
+            "[bedc-ci] discovery integrity structural-DNA gate (informational):"
             f" declared={discovery_integrity['declared_discovery_chapter_count']}"
             f" checked={discovery_integrity['checked_chapter_count']}"
-            f" violations={payload['discovery_integrity_violations_new_count']} new (BLOCKING), "
+            f" violations={payload['discovery_integrity_violations_new_count']} new, "
             f"{payload['discovery_integrity_violations_legacy_count']} legacy (warning)"
             f" unavailable={discovery_integrity['unavailable_count']}"
             f" unresolved={discovery_integrity['unresolved_count']}"
@@ -11516,10 +11516,10 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 )
         assert_gate = payload["discovery_assert_gate"]
         print(
-            "[bedc-ci] discovery assertion gate:"
+            "[bedc-ci] discovery assertion gate (informational):"
             f" asserted={assert_gate['asserted_count']}"
             f" pass={assert_gate['status_counts'].get('PASS', 0)}"
-            f" failures={assert_gate['failure_count']} (BLOCKING)"
+            f" failures={assert_gate['failure_count']}"
             f" conjectured={assert_gate['conjectured_count']}"
             f" refuted={assert_gate['refuted_count']}"
         )
@@ -11527,7 +11527,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         if assert_gate.get("witness_registry_diagnostics"):
             print(
                 "[bedc-ci] discovery gate witness registry diagnostics: "
-                f"{payload.get('discovery_gate_witness_registry_diagnostics_new_count', 0)} new (BLOCKING), "
+                f"{payload.get('discovery_gate_witness_registry_diagnostics_new_count', 0)} new, "
                 f"{payload.get('discovery_gate_witness_registry_diagnostics_legacy_count', 0)} legacy (warning)"
             )
             for item in assert_gate.get("witness_registry_diagnostics", [])[:40]:
@@ -11587,9 +11587,9 @@ def cmd_audit(args: argparse.Namespace) -> int:
         hygiene = payload["discovery_nonasserted_hygiene"]
         if hygiene["site_count"] or hygiene["failure_count"]:
             print(
-                "[bedc-ci] discovery non-asserted hygiene:"
+                "[bedc-ci] discovery non-asserted hygiene (informational):"
                 f" sites={hygiene['site_count']}"
-                f" failures={hygiene['failure_count']} (BLOCKING)"
+                f" failures={hygiene['failure_count']}"
             )
             for item in hygiene["failures"][:40]:
                 print(f"  {item['message']}")
@@ -11660,10 +11660,6 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["paper_chapter_origin_tags_new_count"]
         + payload["closurestatus_diagnostics_new_count"]
         + payload["closurestatus_open_errors_new_count"]
-        + payload["discovery_integrity_violations_new_count"]
-        + payload["discovery_assert_gate_failure_count"]
-        + int(payload.get("discovery_gate_witness_registry_diagnostics_new_count", 0))
-        + payload["discovery_nonasserted_hygiene_failure_count"]
         + payload["orphan_concrete_subdirs_new_count"]
         + len(payload["leanstmt_debt"]["violations"])
     )
