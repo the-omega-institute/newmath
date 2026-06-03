@@ -659,6 +659,7 @@ import BEDC.Derived.BaireMetricUp.FirstDisagreementDyadicRadiusExactness
 import BEDC.Derived.BaireMetricUp.ObligationCompleteMetricConsumer
 import BEDC.Derived.BaireMetricUp.ParentMetricSpaceHandoff
 import BEDC.Derived.BaireMetricUp.PrefixCylinderCoverage
+import BEDC.Derived.BaireMetricUp.PrefixLimitWindowUniqueness
 import BEDC.Derived.BaireMetricUp.PrefixRadiusMonotonicity
 import BEDC.Derived.BaireMetricUp.PrefixRadiusTransport
 import BEDC.Derived.BaireMetricUp.PrefixWindowAdmission
@@ -4637,6 +4638,7 @@ import BEDC.Derived.HyperbolicMetricUp.TasteGate
 import BEDC.Derived.HyperbolicPattersonSullivanShadowUp.TasteGate
 import BEDC.Derived.HyperconvexMetricUp.TasteGate
 import BEDC.Derived.HyperfunctionUp
+import BEDC.Derived.HyperfunctionUp.TasteGate
 import BEDC.Derived.HypergeometricUp
 import BEDC.Derived.HyperspaceUp.CarrierObligations
 import BEDC.Derived.HyperspaceUp.CauchyNetCompactHandoff
@@ -5098,6 +5100,7 @@ import BEDC.Derived.LocatedLowerBoundUp
 import BEDC.Derived.LocatedMetricCompletionUp.TasteGate
 import BEDC.Derived.LocatedMetricSpaceUp.TasteGate
 import BEDC.Derived.LocatedMetricUp
+import BEDC.Derived.LocatedMetricUp.ScopedObligationRows
 import BEDC.Derived.LocatedMetricUp.TasteGate
 import BEDC.Derived.LocatedModulusCompletionUp
 import BEDC.Derived.LocatedMonotoneConvergenceUp
