@@ -14,6 +14,24 @@ Next attach the residual-budget discharge frontier. By \autoref{thm:metacic-crit
 Finally use the discharge-socket readiness theorem. It places the closed-substitution boundary beside the confluence-audit dependency exposure before the socket can be read, so entering the normalization frontier requires all three displayed families: closed substitution, residual budget, and candidate-mediated strong normalization.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual-substitution diamond budget]
+\label{thm:metacic-critical-path-residual-substitution-diamond-budget}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any diamond, confluence, or bounded decidability consumer exposed by $K$ must read the same residual-substitution frontier, candidate-mediated strong-normalization frontier, SN confluence-decidability budget, residual-budget socket route, and L10 source rows on the packet route $S,N,O,U,D,H,C,P,L$. Consequently no confluence-facing consumer may detach a diamond proof from the residual budget rows, bypass the closed-substitution boundary, or read $U$ through an L10 source route absent from the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with the residual-substitution frontier of \autoref{thm:metacic-critical-path-residual-substitution-frontier}. It places the closed-substitution boundary, residual-budget rows, and candidate-mediated strong-normalization rows on one route before any confluence-facing handoff may consume $U$.
+
+Next apply the diamond budget of \autoref{thm:metacic-critical-path-diamond-budget}. A diamond checker that feeds decidability already consumes the residual budget exposed by that frontier, so it has no independent budget source.
+
+Now attach the residual decidability cut of \autoref{thm:metacic-critical-path-residual-decidability-cut}. It forces the bounded decidability readback to expose the residual-substitution frontier, the candidate SN confluence checker, the SN confluence-decidability budget, and the residual-budget socket route on the same packet.
+
+Finally use the candidate-mediated SN frontier of \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. The candidate rows and L10 source faces remain visible through $S,N,O,U,D,H,C,P,L$, so any detached diamond proof, closed-substitution bypass, or missing L10 source row leaves the accepted $\MetaCICCriticalPathUp$ packet.
+\end{proof}
+
 \begin{theorem}[MetaCIC diamond residual budget]
 \label{thm:metacic-critical-path-diamond-budget}
 For an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, every confluence or diamond checker that feeds a decidability readback must consume exactly the residual budget displayed by the residual-substitution frontier of \autoref{thm:metacic-critical-path-residual-substitution-frontier}. In particular, the checker route factors through the candidate SN confluence checker of \autoref{thm:metacic-critical-path-candidate-sn-confluence-checker-factorization}, the SN confluence-decidability budget of \autoref{thm:metacic-critical-path-sn-confluence-budget}, and the residual-budget socket route of \autoref{thm:metacic-critical-path-residual-budget-socket-route} before any bounded decidability consumer may inspect $U$.

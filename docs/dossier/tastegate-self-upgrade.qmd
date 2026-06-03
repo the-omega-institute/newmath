@@ -1,0 +1,54 @@
+---
+title: "TasteGate Self-Upgrade"
+subtitle: "A counterexample-driven meta gate for carrier taste obligations."
+author: "The Omega Institute"
+date: 2026-06-03
+description: "TasteGate self-upgrade turns carrier counterexamples into monotone, machine-checkable meta obligations without changing the Lean ChapterTasteGate core."
+---
+
+```{=html}
+<div class="lang-switch"><a href="tastegate-self-upgrade.zh-CN.qmd">中文</a></div>
+```
+
+# TasteGate Self-Upgrade
+
+## Static Gate And Meta Gate
+
+`ChapterTasteGate` remains the local Lean gate. It checks round-trip behavior, layer separation, conservativity, and absence of hidden input for a chapter carrier. Those obligations are load-bearing and stay in Lean.
+
+The self-upgrade mechanism adds a second surface around it: a meta-level obligation registry at `lean4/scripts/taste_obligations.json`. The registry does not replace `ChapterTasteGate`. It records machine-checkable taste criteria discovered from counterexamples that the local gate can currently miss.
+
+The audit payload key is `taste_meta_gate`. It reports the registered obligation count, the violation count, registry diagnostics, and the concrete carrier pairs that fail a registered criterion. Existing carriers are reported informationally so the current build is not broken by already-known under-encoding.
+
+## First Obligation
+
+The first registered obligation is `structural_distinctness`:
+
+| Field | Content |
+|---|---|
+| `kind` | `carrier_structure` |
+| `criterion` | `carrier_faithfulness.cross_domain_canonical_payload_distinct` |
+| Rejection | a carrier may not share its canonical payload with a different-domain carrier |
+| Evidence source | `carrier_faithfulness.cross_domain_under_encoding` |
+
+The criterion is independent of the registry entry. The registry declares the obligation; `bedc_ci.py` recomputes its hits from the carrier-faithfulness payload. A self-report that a carrier has good taste is not accepted as evidence.
+
+## Counterexample
+
+`BEDC.Derived.ContinuousUp.ContinuousModulusWitness` and `BEDC.Derived.CompactUp.CompactNetWitness` are domain-distinct carriers with identical canonical-payload shape. The names point to different mathematical roles, but the payload does not encode the distinction.
+
+That is a taste counterexample. It can pass the local four obligations while still failing the structural question: does the carrier actually carry the mathematics its name claims? `structural_distinctness` records that failure class as a reusable meta obligation.
+
+## Monotone Upgrade
+
+The helper `lean4/scripts/taste_gate_evolver.py` implements the upgrade step. It looks for an independently verified counterexample class, adds the corresponding obligation if it is absent, and then reloads the registry to confirm that the number of obligations did not decrease.
+
+The direction is one-way. A new obligation may add a rejection criterion; it may not weaken an existing criterion. This mirrors the witness-registry discipline used by the discovery assertion gate: once a counterexample class is registered, later audits must continue to expose it.
+
+## Honest Boundary
+
+This is a meta gate, not a new field on `ChapterTasteGate`. Lean still proves the local chapter obligations. The audit layer reads across carriers and across domains, which is exactly where under-encoding by canonical-payload collision becomes visible.
+
+The mechanism is not a hard block for the current corpus. It is informational for existing carriers and generation-facing for new carrier production. A generator should reject a new carrier that violates a registered taste criterion, but the audit command keeps exit code behavior stable for already-existing findings.
+
+The target is not cosmetic differentiation. Adding a tag or wrapper only to change the payload is gaming the metric. A carrier passes the spirit of `structural_distinctness` by encoding the distinguishing structure, not by hiding a collision.

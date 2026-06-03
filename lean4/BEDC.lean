@@ -5987,6 +5987,7 @@ import BEDC.Derived.NormedSpaceUp.RealMetricTransport
 import BEDC.Derived.NormedSpaceUp.RealNormMetricFactorization
 import BEDC.Derived.NormedSpaceUp.RealNormMetricRoute
 import BEDC.Derived.NormedSpaceUp.TasteGate
+import BEDC.Derived.NormedSpaceUp.TransportCompletionService
 import BEDC.Derived.NuclearUp
 import BEDC.Derived.NullSequenceUp
 import BEDC.Derived.NullSequenceUp.TasteGate
