@@ -74,6 +74,28 @@ Apply \autoref{thm:cauchy-namecert-obligations} to identify $Q$ as the compatibi
 The carrier has no quotient stream, selected limit, host real equality, countable choice, trichotomy, or ambient completeness coordinate. Hence the stated window and compatibility rows exhaust the public access path to $\RegSeqRatUp$.
 \end{proof}
 
+\begin{theorem}[Cauchy finite-tail criterion]
+\label{thm:cauchy-core-finite-tail-criterion}
+Let
+$$
+X=(S,D,R,M,Q,E,H,C,P,N)
+$$
+be an accepted $\CauchyUp$ carrier. Suppose every displayed finite $\StreamNameUp$ window admitted by $S$ and every dyadic tolerance cell admitted by $D$ satisfy the tail bound named by the modulus row $M$, and suppose the compatibility row $Q$ identifies those windows with the $\RegSeqRatUp$ readback row $R$. Then every $\RegSeqRatUp$ readback of $X$ is routed through the same finite tail ledger
+$$
+S,D,M \longmapsto Q \longmapsto R
+$$
+before the $\RealUp$ seal $E$ is exposed. The criterion exports no selected limit, quotient stream equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:cauchy-carrier}. The only rows available for a tail read are the finite StreamName window row $S$, the DyadicRatCore tolerance row $D$, the modulus row $M$, the compatibility row $Q$, the RegSeqRat readback row $R$, and the terminal seal row $E$.
+
+Induct over the displayed window list retained by $S$. The empty window has no readback outside the recorded tolerance ledger. In the successor step, the new inspected position is checked against the dyadic cell in $D$ and the threshold supplied by $M$, so the same finite tail bound remains attached to the extended window.
+
+Apply \autoref{thm:cauchy-core-streamname-regseqrat-window}. It forces any access to $R$ through the displayed $S,D,M,Q$ route. Apply \autoref{thm:cauchy-modulus-readback-route} to identify $Q$ as the point where the window, tolerance, modulus, and readback rows are jointly inspected.
+
+Finally use \autoref{thm:cauchy-core-regseqrat-real-seal}. The $\RealUp$ seal $E$ is downstream of the regular rational readback, so no Real-facing consumer can bypass the finite tail ledger. Since the carrier has no selected-limit, quotient-stream, countable-choice, trichotomy, or ambient-completeness coordinate, the displayed finite induction exhausts the criterion.
+\end{proof}
+
 \begin{theorem}[Cauchy RegSeqRat Real seal]
 \label{thm:cauchy-core-regseqrat-real-seal}
 Every $\RealUp$-facing read of an accepted $\CauchyUp$ packet factors through the $\RegSeqRatUp$ readback row before the terminal real seal. In the notation of \autoref{def:cauchy-carrier}, the seal-facing route is
