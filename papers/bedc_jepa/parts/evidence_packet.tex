@@ -2,7 +2,7 @@
 \label{sec:evidence-packet}
 
 The local evidence is stored outside this paper as a lab artifact.  The paper
-records only the current contact and its boundary.
+records only the current evidence boundary.
 
 \paragraph{Artifact pointers.}
 The current protocol writes machine-readable artifacts under the quality-lab
@@ -25,9 +25,9 @@ $$
 \text{Public AC Giant adapter} & \texttt{bedc\_jepa\_public\_ac\_giant\_adapter.json},\\
 \text{Public CUDA adapter comparison} & \texttt{bedc\_jepa\_public\_cuda\_adapter\_comparison.json},\\
 \text{V-JEPA2-AC native boundary} & \texttt{bedc\_jepa\_vjepa2\_ac\_native\_boundary.json},\\
-\text{Readiness gate} & \texttt{bedc\_jepa\_readiness.json},\\
-\text{External run kit} & \texttt{bedc\_jepa\_external\_run\_kit.json},\\
-\text{Review bundle} & \texttt{bedc\_jepa\_review\_bundle.json}.
+\text{Evidence audit} & \texttt{bedc\_jepa\_readiness.json},\\
+\text{Reproduction commands} & \texttt{bedc\_jepa\_external\_run\_kit.json},\\
+\text{Review artifact set} & \texttt{bedc\_jepa\_review\_bundle.json}.
 \end{array}
 $$
 The JSON artifacts are lab-local evidence boundaries.  They are not Python
@@ -72,9 +72,9 @@ readback is also evaluated in a six-slot cluttered-object sweep with four
 distractors.  The remaining gaps are broader.  The planning rollouts are still
 local and synthetic rather than robot-control scale.
 
-\paragraph{Public JEPA-family adapter contact.}
-The public JEPA-family checkpoint-contact boundary now includes a CUDA run of
-the public V-JEPA2-AC Giant checkpoint.  The adapter loads
+\paragraph{Public JEPA-family checkpoint evaluation.}
+The public JEPA-family checkpoint boundary includes a CUDA evaluation of the
+public V-JEPA2-AC Giant checkpoint.  The adapter loads
 \texttt{vjepa2\_ac\_vit\_giant} from the public V-JEPA2 hub with
 \texttt{pretrained=False}, because the observed hub source points its default
 \texttt{VJEPA\_BASE\_URL} at \texttt{localhost}.  The run then loads the
@@ -98,23 +98,23 @@ $-0.269531$ for distinction accuracy, $-0.436381$ for gap AUROC,
 $0.250000$ for unlogged error, $0.055990$ for certified coverage, and
 $0.283098$ for debt.
 
-This closes the local V-JEPA2-AC Giant checkpoint-contact gap for the declared
-adapter scope.  It does not close public benchmark superiority, large-scale
+This supplies V-JEPA2-AC Giant checkpoint evidence for the declared adapter
+scope.  It does not establish public benchmark superiority, large-scale
 real-world world-modeling, or formal neural-network proof claims.
 
 \paragraph{Debt items.}
 The current debt items are scale debt and public-baseline debt.  Scale debt
 means the learned-transition and object-intervention benchmarks are small.
 Public-baseline debt means the executed public JEPA-family comparison is an
-adapter-scope checkpoint contact, not a native V-JEPA2-AC task comparison.
-The public MiniGrid packets have executable DoorKey contracts.  The transition
-packet samples Gymnasium image observations and discrete actions.  The
-benchmark packet computes a public DoorKey readback/gap metric contract with
+adapter-scope checkpoint evaluation, not a native V-JEPA2-AC task comparison.
+The public MiniGrid studies have executable DoorKey contracts.  The transition
+study samples Gymnasium image observations and discrete actions.  The
+benchmark study computes a public DoorKey readback/gap metric contract with
 distinction accuracy, gap AUROC, unlogged error, certified coverage, and
 scope-relative debt.  The public MiniGrid external result records an executed
-32-sample DoorKey packet with distinction accuracy $1.000000$, gap AUROC
+32-sample DoorKey study with distinction accuracy $1.000000$, gap AUROC
 $1.000000$, unlogged error $0.000000$, certified coverage $0.375000$, and
-debt $0.062500$.  The native public MiniGrid packet runs
+debt $0.062500$.  The native public MiniGrid study runs
 \texttt{MiniGrid-DoorKey-8x8-v0} with the same public image/action stream for
 S0/S1/S2/S3.  It records train count $128$, test count $128$, S0 unlogged
 error $0.164063$, S3 unlogged error $0.039063$, S0 debt $0.165625$, S3 debt
@@ -129,27 +129,25 @@ mean S0-minus-S3 debt change $-0.041377$ and debt win rate $0.400000$, so the
 public MiniGrid debt direction is not closed.  The same sweep records mean
 high-gap planning reduction $0.393750$ and mean success reduction $0.337500$,
 which treats gap-aware planning as a risk-success tradeoff rather than a free
-planning improvement.  The review bundle artifact is marked
-\texttt{review\_ready}; that status closes the clean artifact boundary for
-the declared packet, not the external baseline boundary.
+planning improvement.  The review artifact set is complete for the declared
+evidence boundary, but it does not close the external baseline boundary.
 
-\paragraph{External-contact readiness.}
-The readiness gate records closed checkpoint contact, a closed native public
-benchmark boundary, and a closed artifact review bundle for the declared
-packet.  Its decision is \texttt{external\_bundle\_ready} with no blocking
-gates.  The local torch objective seed sweep, local visual planning benchmark,
-cluttered object-counterfactual benchmark, public MiniGrid execution, public
-native MiniGrid S0/S1/S2/S3 benchmark and seed sweep, and public V-JEPA2-AC
-Giant CUDA checkpoint-contact adapter pass their declared evidence contacts.
-The current packet is therefore an external-contact review bundle with public
-checkpoint and native public benchmark contact, not a public benchmark
-superiority claim.
-The external run kit records the MiniGrid export command, the public native
-MiniGrid benchmark command, the AC Giant CUDA checkpoint-contact command pair,
-and the readiness command needed to evaluate the blocking gates without
-inventing evidence inside this workspace.  The older baseline external result
-remains an import boundary for external public benchmark metrics.  The CUDA
-adapter packet is the executed checkpoint-contact artifact for the selected
-V-JEPA 2-AC candidate.  The native V-JEPA2-AC boundary artifact is
-\texttt{not\_executed}: no native or near-native V-JEPA2-AC rollout or latent
-prediction protocol has been run on the MiniGrid stream.
+\paragraph{External review status.}
+The evidence audit records three completed boundaries for the declared study:
+public checkpoint evaluation, native public MiniGrid readback, and a
+reproducible review artifact set.  The local torch objective seed sweep, local
+visual planning benchmark, cluttered object-counterfactual benchmark, public
+MiniGrid execution, public native MiniGrid S0/S1/S2/S3 benchmark and seed
+sweep, and public V-JEPA2-AC Giant CUDA checkpoint adapter evaluation satisfy
+their declared evidence criteria.  The current artifact set is therefore suitable
+for external review as a bounded evidence artifact with public checkpoint and
+native public benchmark evidence, not as a public benchmark superiority claim.
+The reproduction-command artifact records the MiniGrid export command, the
+public native MiniGrid benchmark command, the AC Giant CUDA checkpoint
+evaluation command pair, and the evidence-audit command needed to reproduce
+the artifact-level checks.  The older baseline external result remains an
+import boundary for external public benchmark metrics.  The CUDA adapter
+record is the executed checkpoint artifact for the selected V-JEPA 2-AC
+candidate.  The native V-JEPA2-AC boundary record states that no native or
+near-native V-JEPA2-AC rollout or latent prediction protocol has been run on
+the MiniGrid stream.

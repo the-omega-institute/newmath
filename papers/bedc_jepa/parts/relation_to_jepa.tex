@@ -1,7 +1,7 @@
 \section{Relation to JEPA World-Model Work}
 \label{sec:relation-to-jepa}
 
-The JEPA family supplies the contact surface for this paper.  LeCun's
+The JEPA family supplies the comparison surface for this paper.  LeCun's
 autonomous-intelligence program places learned world models at the center of
 prediction, planning, and action \cite{lecun-ami}.  I-JEPA shows that
 representation-space prediction can support semantic image representations
@@ -11,7 +11,7 @@ latent predictor and Gaussian regularization \cite{leworldmodel}.  Causal-JEPA
 adds object-level latent masking so that interaction-dependent prediction
 enters the learning objective \cite{causal-jepa}.
 
-The most direct theory contact is the LeJEPA identifiability result
+The most direct theoretical comparison is the LeJEPA identifiability result
 \cite{lejepa-world-model}.  That result asks when alignment plus Gaussian
 regularization recovers latent world variables, and it connects such recovery
 to latent-space planning.  BEDC-JEPA asks a different question.  Once a world
@@ -36,7 +36,7 @@ The paper therefore does not claim that BEDC explains an already trained
 LeJEPA representation.  It proposes a training target in which the distinction
 and the gap are outputs of the world model itself.
 
-\paragraph{Public baseline registry and checkpoint contact.}
+\paragraph{Public baseline registry and checkpoint evaluation.}
 The quality lab records a public JEPA-family baseline registry rather than
 treating the baseline choice as prose.  The selected first comparison target
 is V-JEPA 2-AC, because its public code is action-conditioned and therefore
@@ -46,22 +46,22 @@ directly targets stable end-to-end JEPA world modeling from pixels.  The
 registry fixes the expected observation/action input, latent prediction or
 rollout output, and BEDC comparison fields.
 
-The current workspace also contains an executed checkpoint-contact adapter for
-the selected V-JEPA2-AC Giant target.  It loads the public
+The present evidence includes a checkpoint adapter evaluation for the selected
+V-JEPA2-AC Giant target.  It loads the public
 \texttt{vjepa2-ac-vitg.pt} checkpoint, runs the encoder and action-conditioned
 predictor on a two-frame rendering of the boundary-gated world, and trains only
-linear readouts for the declared distinction and gap labels.  This contact is
-not a native public benchmark reproduction.  It asks whether the public
+linear readouts for the declared distinction and gap labels.  This evaluation
+is not a native public benchmark reproduction.  It asks whether the public
 action-conditioned checkpoint, under the same declared tiny-world adapter
 scope, already carries the distinction and gap readback needed by the BEDC
 evidence boundary.  In that scope, BEDC-JEPA records unlogged error
 $0.000000$ and debt $0.007459$, while the V-JEPA2-AC Giant adapter records
 unlogged error $0.250000$ and debt $0.290557$.
 
-The public native MiniGrid packet closes a second boundary: it runs the
-S0/S1/S2/S3 ablation on \texttt{MiniGrid-DoorKey-8x8-v0} with the same public
-image/action stream and records a JEPA-style S0 control row beside BEDC
-readback metrics.  In that public setting, S0 records unlogged error
+The public native MiniGrid study supplies a second evidence boundary: it runs
+the S0/S1/S2/S3 ablation on \texttt{MiniGrid-DoorKey-8x8-v0} with the same
+public image/action stream and records a JEPA-style S0 control row beside
+BEDC readback metrics.  In that public setting, S0 records unlogged error
 $0.164063$ and debt $0.165625$, while S3 records unlogged error $0.039063$
 and debt $0.163102$.  The audited two-step planning sweep also exposes a
 risk-success tradeoff: the best recorded risk point lowers high-gap state
@@ -70,23 +70,23 @@ MiniGrid sweep records mean S0-minus-S3 unlogged-error reduction $0.067188$
 and mean S3-minus-S0 gap AUROC gain $0.185662$, with unlogged-error win rate
 $0.600000$ and gap AUROC win rate $1.000000$.  It also records mean
 S0-minus-S3 debt change $-0.041377$ and debt win rate $0.400000$, so the
-public MiniGrid contact supports the UER and gap-AUROC directions but not a
+public MiniGrid study supports the UER and gap-AUROC directions but not a
 closed debt-improvement claim.  The mean planning high-gap reduction is
 $0.393750$, with mean success reduction $0.337500$.
 
-The separate public-baseline comparison packet remains an import boundary for
+The separate public-baseline comparison record remains an import boundary for
 external benchmark metrics with candidate id, commit, checkpoint, benchmark
-name, latent-prediction score, and rollout or planning score.  A fail-closed
-V-JEPA2-AC native boundary artifact records that no native or near-native
-V-JEPA2-AC rollout or latent-prediction protocol has been executed on the
-MiniGrid stream.  The AC Giant adapter closes checkpoint contact, and the
-MiniGrid packet closes native public benchmark contact for the BEDC evidence
-boundary; neither claim is a public benchmark superiority claim.
+name, latent-prediction score, and rollout or planning score.  The V-JEPA2-AC
+native boundary record states that no native or near-native V-JEPA2-AC rollout
+or latent-prediction protocol has been executed on the MiniGrid stream.  Thus
+the AC Giant adapter supplies checkpoint-level evidence, and the MiniGrid
+study supplies native public benchmark evidence for BEDC readback; neither
+result is a public benchmark superiority claim.
 
-\paragraph{Contact with Issue 330 and the quality lab.}
+\paragraph{Quality-lab evidence boundary.}
 The local quality-lab material supplies an executable evidence envelope, not a
 second semantic source for BEDC.  Its role is to keep the Python side honest:
 source, pattern, classifier, stability setting, metrics, ledger gaps, debt
-items, and artifact pointers are recorded in a reproducible packet.  BEDC
+items, and artifact pointers are recorded in a reproducible evidence record.  BEDC
 semantics remain in the paper and Lean tracks; the lab only reports the
-contact values produced by the protocol.
+observed values produced by the protocol.
