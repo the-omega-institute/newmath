@@ -3110,6 +3110,17 @@ def _bio_w_cache_paths(repo_root: Path, log_dir: str | Path, task_id: str) -> tu
     return base / f"{task_id}.input.sha256", base / f"{task_id}.cached_chapter.tex"
 
 
+_VOLATILE_TS_RE = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:[+-]\d{2}:\d{2}|Z)?")
+
+
+def _canonical_prompt_for_hash(prompt: str) -> str:
+    # Cache key 必须只反映科学内容, 不反映每-cycle 刷新的心跳时间戳 (last_verified_at 等).
+    # 否则 prompt hash 每 cycle 变 → cache 永远 miss → codex 把语义相同的章节反复
+    # 重新措辞 (churn): 烧 token + 产无意义 commit + PDF 噪声. 只剥 ISO 时间戳;
+    # run-id / 科学数值保留, 实验真重跑时仍正常触发重生成.
+    return _VOLATILE_TS_RE.sub("<ts>", prompt)
+
+
 def _bio_w_cached_render(
     repo_root: Path,
     log_dir: str | Path,
@@ -3127,7 +3138,7 @@ def _bio_w_cached_render(
         stored_hash = hash_path.read_text(encoding="utf-8").strip()
     except OSError:
         return None
-    current_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
+    current_hash = hashlib.sha256(_canonical_prompt_for_hash(prompt).encode("utf-8")).hexdigest()
     if stored_hash != current_hash:
         return None
     try:
@@ -3162,7 +3173,7 @@ def _bio_w_persist_cache(
     hash_path, chapter_path = _bio_w_cache_paths(repo_root, log_dir, task_id)
     try:
         hash_path.parent.mkdir(parents=True, exist_ok=True)
-        hash_path.write_text(hashlib.sha256(prompt.encode("utf-8")).hexdigest(), encoding="utf-8")
+        hash_path.write_text(hashlib.sha256(_canonical_prompt_for_hash(prompt).encode("utf-8")).hexdigest(), encoding="utf-8")
         chapter_path.write_text(chapter_text, encoding="utf-8")
     except OSError:
         return
