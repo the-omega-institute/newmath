@@ -311,4 +311,22 @@ theorem BaireMetricZeroRadiusBranch [AskSetup] [PackageSetup]
     unary_cont_closed unaryD unary_empty zeroRoute
   exact ⟨unaryD, zeroUnary, zeroRoute, provenancePkg, zeroPkg⟩
 
+theorem BaireMetricStreamScheduleNonescape [AskSetup] [PackageSetup]
+    {S B W D R U H C P N radiusRead ultrametricRead replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricPrefixDistanceCarrier S B W D R U H C P N radiusRead ultrametricRead
+        bundle pkg ->
+      Cont C S replayRead ->
+        PkgSig bundle replayRead pkg ->
+          UnaryHistory S ∧ UnaryHistory C ∧ UnaryHistory replayRead ∧
+            Cont C S replayRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BaireMetricPrefixDistanceCarrier BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier replayRoute replayPkg
+  obtain ⟨unaryS, _unaryB, _unaryW, _unaryD, _unaryR, _unaryU, _unaryH, unaryC,
+    _unaryP, _unaryN, _radiusRoute, _ultrametricRoute, provenancePkg,
+      _localNamePkg⟩ := carrier
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed unaryC unaryS replayRoute
+  exact ⟨unaryS, unaryC, replayUnary, replayRoute, provenancePkg, replayPkg⟩
+
 end BEDC.Derived.BaireMetricUp
