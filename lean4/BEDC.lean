@@ -658,6 +658,7 @@ import BEDC.Derived.BaireMetricUp.CompleteMetricNonescape
 import BEDC.Derived.BaireMetricUp.FirstDisagreementDyadicRadiusExactness
 import BEDC.Derived.BaireMetricUp.ObligationCompleteMetricConsumer
 import BEDC.Derived.BaireMetricUp.ObligationPrefixCompleteness
+import BEDC.Derived.BaireMetricUp.ObligationPublicPrefixPackage
 import BEDC.Derived.BaireMetricUp.ParentMetricSpaceHandoff
 import BEDC.Derived.BaireMetricUp.PrefixCylinderCoverage
 import BEDC.Derived.BaireMetricUp.PrefixLimitWindowUniqueness
