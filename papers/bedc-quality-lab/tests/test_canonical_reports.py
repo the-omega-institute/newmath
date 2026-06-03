@@ -50,18 +50,25 @@ def _payload_for_spec(spec):
             "transition_debt_by_grid": {"cell": {"status": "fixture"}},
             "config": {"arm": "baseline-only"},
             "control_protocol": {"status": "fixture"},
+            "treatment_verdict": {"positive": spec.name == "gap-head-on-h"},
+            "control_verdict": {"positive": False},
             "boundary_checks": {
                 "forbidden_inference_columns": ["z"],
                 "representation_boundary": "learned_h",
             },
             "score_terms": {"status": "fixture"},
-            "matched_random_control": {"status": "fixture"},
+            "matched_random_control": {
+                "status": "fixture",
+                "control_verdict": {"positive": False},
+                "control_projection": {"positive_discovery": True},
+            },
             "objective": {"required_rows": ["fixture"]},
             "cost_protocol": {"name": "fixture"},
             "not_claimed": ["fixture nonclaim"],
             "claim_gate": {
                 "status": "fixture",
                 "audit_improvement_tradeoff": spec.name == "certificate-guided-training",
+                "training_audit_improvement_tradeoff": spec.name == "certificate-guided-discovery",
             },
             "paired_seed_protocol": {"status": "fixture"},
             "main_claim_status": "fixture status",
@@ -114,13 +121,13 @@ def _payload_for_spec(spec):
                 }
             },
             "positive_discovery_pointer": "$.factor_attribution.learned_head.auroc_delta",
-            "matched_random_baseline": {"status": "fixture"},
+            "matched_random_baseline": {"status": "fixture", "positive_discovery": False},
             "negative_result_ledger": [{"status": "fixture"}],
             "ledger_summary": {
-                "status": "fixture",
+                "status": "negative" if spec.name == "spectral-ablation-hinge" else "fixture",
                 "basis": {"hardening_coverage": {"recorded": 5, "required": 5}},
             },
-            "negative_control_summary": {"status": "fixture"},
+            "negative_control_summary": {"status": "fixture", "treatment_better_than_all_controls": False},
             "surface_delta_count": 2,
             "positive_discovery": spec.name == "gap-head-discovery",
             "classifier_state": {
@@ -129,6 +136,9 @@ def _payload_for_spec(spec):
             },
             "debt_terms": {"classifier_ledger_rows": 0.25},
             "audit_decision": {"audit_status": "pass", "overclaim_rate": 0.4},
+            "result": {"status": "negative" if spec.name == "certificate-guided-training" else "fixture"},
+            "deltas": {"after_minus_before": {"debt_delta": -0.25}},
+            "verdicts": [{"deltas": {"debt_delta": -0.25}}],
         }
     )
     if spec.name == "mixing-family-sweep":
@@ -144,6 +154,7 @@ def _payload_for_spec(spec):
             }
         }
     if spec.name == "anisotropic-ou-sweep":
+        payload["transition_debt_by_grid"] = {"cell": {"status": "open-or-partial"}}
         payload["negative_result_summary"] = {
             "cells": {
                 "a": {"negative_result": True},
@@ -152,6 +163,7 @@ def _payload_for_spec(spec):
         }
     if spec.name == "nongaussian-distribution-sweep":
         payload["negative_result_ledger"] = [{"status": "negative"}, {"status": "negative"}]
+        payload["coverage_item"] = {"debt_item": {"status": "open"}}
     return payload
 
 
@@ -632,6 +644,28 @@ def test_quality_scorecard_is_generated_by_canonical_runner(tmp_path, monkeypatc
     assert payload["quality_scorecard"]["markdown_artifact"] == "reports/canonical/quality-scorecard.md"
     assert "Quality scorecard" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
     assert "run_quality_scorecard.py" not in json.dumps(payload)
+
+
+def test_discovery_map_is_registered_by_canonical_runner(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+
+    def fake_run_producer(spec):
+        json_path = canonical._artifact_path(spec.json_artifact)
+        md_path = canonical._artifact_path(spec.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+
+    assert payload["discovery_map"]["artifact_id"] == "bedc-quality-lab:discovery-map"
+    assert payload["discovery_map"]["json_artifact"] == "reports/canonical/discovery_map.json"
+    assert payload["discovery_map"]["markdown_artifact"] == "reports/canonical/discovery_map.md"
+    assert "Discovery map" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
 
 
 def test_quality_scorecard_projects_only_explicit_cells(tmp_path):

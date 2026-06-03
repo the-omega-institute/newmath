@@ -1,0 +1,179 @@
+{
+  "artifact_id": "bedc-quality-lab:discovery-map",
+  "generated_at": "2026-06-03T08:13:34.319598+00:00",
+  "json_artifact": "reports/canonical/discovery_map.json",
+  "level_counts": {
+    "D0": 1,
+    "D1": 3,
+    "D2": 0,
+    "D3": 0,
+    "D4": 2,
+    "D5": 0,
+    "DN": 4,
+    "DR": 0
+  },
+  "manifest_audit": {
+    "unregistered_json_artifacts": [
+      "reports/canonical/gap-head-robustness-sweep.json",
+      "reports/canonical/observed-debt-sweep.json"
+    ]
+  },
+  "markdown_artifact": "reports/canonical/discovery_map.md",
+  "row_count": 10,
+  "rows": [
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "main_verdict.deltas.debt_delta<0"
+      ],
+      "debt_row_pointer": "$.coverage_item.debt_item",
+      "discovery_level": "D1",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/mixing-family-sweep.json",
+      "markdown_artifact": "reports/canonical/mixing-family-sweep.md",
+      "projection_status": "projected",
+      "report": "mixing-family-sweep",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "main_verdict.deltas.debt_delta<0"
+      ],
+      "debt_row_pointer": "$.transition_debt_by_grid",
+      "discovery_level": "D1",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
+      "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
+      "projection_status": "projected",
+      "report": "anisotropic-ou-sweep",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "positive_discovery=true",
+        "robustness evidence absent"
+      ],
+      "control_pointer": "$.control_protocol",
+      "discovery_level": "D4",
+      "evidence_pointer": "$.treatment_verdict.positive",
+      "json_artifact": "reports/canonical/gap-head-on-h.json",
+      "markdown_artifact": "reports/canonical/gap-head-on-h.md",
+      "projection_status": "projected",
+      "report": "gap-head-on-h",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "positive_discovery=true",
+        "robustness evidence absent"
+      ],
+      "control_pointer": "$.matched_random_control",
+      "discovery_level": "D4",
+      "evidence_pointer": "$.positive_discovery",
+      "json_artifact": "reports/canonical/gap-head-discovery.json",
+      "markdown_artifact": "reports/canonical/gap-head-discovery.md",
+      "projection_status": "projected",
+      "report": "gap-head-discovery",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "verdict=rejected"
+      ],
+      "discovery_level": "DN",
+      "evidence_pointer": null,
+      "failed_gate": "$.hardgate.status",
+      "json_artifact": "reports/canonical/gap-head-ablation.json",
+      "markdown_artifact": "reports/canonical/gap-head-ablation.md",
+      "projection_status": "projected",
+      "report": "gap-head-ablation",
+      "terminal_verdict": "rejected"
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "no classifier shift or debt improvement"
+      ],
+      "discovery_level": "D0",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
+      "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
+      "projection_status": "source-insufficient",
+      "report": "gap-head-threshold-frontier",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "main_verdict.deltas.debt_delta<0"
+      ],
+      "debt_row_pointer": "$.negative_result_ledger",
+      "discovery_level": "D1",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+      "markdown_artifact": "reports/canonical/nongaussian-distribution-sweep.md",
+      "projection_status": "projected",
+      "report": "nongaussian-distribution-sweep",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "verdict=rejected"
+      ],
+      "debt_row_pointer": "$.deltas.after_minus_before.debt_delta",
+      "discovery_level": "DN",
+      "evidence_pointer": null,
+      "failed_gate": "$.result.status",
+      "json_artifact": "reports/canonical/certificate-guided-training.json",
+      "markdown_artifact": "reports/canonical/certificate-guided-training.md",
+      "projection_status": "projected",
+      "report": "certificate-guided-training",
+      "terminal_verdict": "rejected"
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "verdict=rejected"
+      ],
+      "debt_row_pointer": "$.verdicts.0.deltas.debt_delta",
+      "discovery_level": "DN",
+      "evidence_pointer": null,
+      "failed_gate": "$.positive_discovery",
+      "json_artifact": "reports/canonical/certificate-guided-discovery.json",
+      "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",
+      "projection_status": "projected",
+      "report": "certificate-guided-discovery",
+      "terminal_verdict": "rejected"
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "verdict=rejected"
+      ],
+      "discovery_level": "DN",
+      "evidence_pointer": null,
+      "failed_gate": "$.negative_control_summary.treatment_better_than_all_controls",
+      "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
+      "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",
+      "projection_status": "projected",
+      "report": "spectral-ablation-hinge",
+      "terminal_verdict": "rejected"
+    }
+  ],
+  "schema_id": "bedc-quality-lab:canonical-discovery-map"
+}
