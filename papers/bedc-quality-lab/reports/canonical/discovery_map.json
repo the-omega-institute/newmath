@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-map",
-  "generated_at": "2026-06-03T08:31:03.281575+00:00",
+  "generated_at": "2026-06-03T13:00:37.417129+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
     "D0": 1,
@@ -52,6 +52,7 @@
       "terminal_verdict": ""
     },
     {
+      "adversarial_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses",
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
@@ -59,12 +60,51 @@
         "robustness evidence absent"
       ],
       "control_pointer": "$.control_protocol",
+      "d5_readiness": {
+        "ablation": {
+          "artifact": "reports/canonical/gap-head-robustness-sweep.json",
+          "name": "ablation",
+          "pointer": "$.A2_feature_ablation.status",
+          "reason": "A2 feature ablation is complete under the canonical robustness final_status.",
+          "status": "pass"
+        },
+        "adversarial": {
+          "artifact": "reports/canonical/discovery_negative_witnesses.json",
+          "name": "adversarial",
+          "pointer": "$.witnesses",
+          "reason": "The eight adversarial witness kinds do not break the discovery gate.",
+          "status": "pass"
+        },
+        "observed_debt_transfer": {
+          "artifact": "reports/canonical/observed-debt-sweep.json",
+          "name": "observed_debt_transfer",
+          "pointer": "$.gap_head_on_h_observed_debt_transfer.status",
+          "reason": "Observed-debt sweep covers observed-debt surfaces but has no gap-head-on-h observed-debt transfer metric.",
+          "status": "missing"
+        },
+        "seed_expansion": {
+          "artifact": "reports/canonical/gap-head-robustness-sweep.json",
+          "name": "seed_expansion",
+          "pointer": "$.A3_seed_expansion.final_verdict",
+          "reason": "A3 seed expansion has robust_positive final verdict under final_status=pass.",
+          "status": "pass"
+        },
+        "threshold": {
+          "artifact": "reports/canonical/gap-head-robustness-sweep.json",
+          "name": "threshold",
+          "pointer": "$.A1_threshold_sweep.treatment_verdict.positive",
+          "reason": "A1 threshold sweep passes under the canonical robustness final_status.",
+          "status": "pass"
+        }
+      },
       "discovery_level": "D4",
       "evidence_pointer": "$.treatment_verdict.positive",
       "json_artifact": "reports/canonical/gap-head-on-h.json",
       "markdown_artifact": "reports/canonical/gap-head-on-h.md",
+      "observed_debt_transfer_pointer": "reports/canonical/observed-debt-sweep.json:$.gap_head_on_h_observed_debt_transfer.status",
       "projection_status": "projected",
       "report": "gap-head-on-h",
+      "robustness_pointer": "reports/canonical/gap-head-robustness-sweep.json:$.A1_threshold_sweep.treatment_verdict.positive",
       "terminal_verdict": ""
     },
     {
