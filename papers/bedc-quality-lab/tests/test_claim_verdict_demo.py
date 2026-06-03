@@ -321,7 +321,9 @@ def test_noncanonical_dimension_mismatch_discovery_row_emits_claim_verdict(tmp_p
         "reports/canonical/dimension-mismatch-debt-transfer.json:"
         "$.dimension_mismatch_debt_transfer.status"
     )
-    assert verdict["ledger_pointer"] is None
+    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
+    discovery_map = json.loads((tmp_path / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
+    assert discovery_map["rows"][0]["discovery_level"] == "D4"
 
 
 def test_noncanonical_dimension_mismatch_fails_closed_when_scorecard_not_ready(tmp_path, monkeypatch):

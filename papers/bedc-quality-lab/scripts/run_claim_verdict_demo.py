@@ -233,6 +233,19 @@ def _claim_source(row: Mapping[str, Any], fallback_pointer: str | None = None) -
     )
 
 
+def _discovery_map_row_pointer(root: Path, row: Mapping[str, Any]) -> str:
+    rows = _load_discovery_rows(root, generated_at=None)
+    for index, candidate in enumerate(rows):
+        if (
+            candidate.get("report") == row.get("report")
+            and candidate.get("json_artifact") == row.get("json_artifact")
+        ):
+            if candidate.get("discovery_level") is None:
+                raise ValueError(f"discovery map row lacks discovery_level cell: {row['report']}")
+            return f"reports/canonical/discovery_map.json:$.rows[{index}].discovery_level"
+    raise ValueError(f"discovery map ledger row missing for claim: {row['report']}")
+
+
 def _row(
     *,
     claim_id: str,
@@ -243,8 +256,8 @@ def _row(
 ) -> dict[str, Any]:
     if not reason:
         raise ValueError(f"claim verdict reason must be non-empty: {claim_id}")
-    if claim_verdict in DOWNGRADE_VERDICTS and not ledger_pointer:
-        raise ValueError(f"downgrade/reject/revoke verdict needs a ledger pointer: {claim_id}")
+    if not ledger_pointer:
+        raise ValueError(f"claim verdict needs a ledger pointer: {claim_id}")
     source_text = source.as_text() if isinstance(source, ClaimSource) else source
     item = {
         "claim_id": claim_id,
@@ -346,7 +359,7 @@ def _mapped_discovery_row(
                 claim_verdict="accepted_positive_discovery",
                 reason="positive-discovery-gates-pass",
                 source=source,
-                ledger_pointer=None,
+                ledger_pointer=_discovery_map_row_pointer(root, row),
             )
         return _row(
             claim_id=claim_id,
@@ -362,7 +375,7 @@ def _mapped_discovery_row(
             claim_verdict="audit_improvement_only",
             reason="discovery-level-D1",
             source=source,
-            ledger_pointer=None,
+            ledger_pointer=_discovery_map_row_pointer(root, row),
         )
     if level == "D2":
         return _row(
@@ -370,7 +383,7 @@ def _mapped_discovery_row(
             claim_verdict="discovery_candidate",
             reason="discovery-level-D2",
             source=source,
-            ledger_pointer=None,
+            ledger_pointer=_discovery_map_row_pointer(root, row),
         )
     if level == "D3":
         return _row(
@@ -378,7 +391,7 @@ def _mapped_discovery_row(
             claim_verdict="certified_discovery_not_positive",
             reason="discovery-level-D3",
             source=source,
-            ledger_pointer=None,
+            ledger_pointer=_discovery_map_row_pointer(root, row),
         )
     if level == "DN":
         pointer = row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")
