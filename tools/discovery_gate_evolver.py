@@ -499,12 +499,14 @@ def regression_test_method(witness: dict[str, Any]) -> str:
         or "BEDC.Target.Gate"
     )
     pattern = witness.get("pattern") if isinstance(witness.get("pattern"), dict) else {}
+    witness_target = str(pattern.get("target") or target)
     prior = str(pattern.get("prior") or pattern.get("prior_classifier") or "BEDC.Prior.Old")
     canonical_payload = str(pattern.get("canonical_payload") or "synthetic-canonical-payload")
     reduced_fp = str(pattern.get("reduced_fp") or pattern.get("candidate_reduced_fp") or "synthetic-reduced-fp")
     return f'''
     def {method}(self) -> None:
         target = {target!r}
+        witness_target = {witness_target!r}
         block, scan, kernel = self._assert_gate_fixture(target)
         witness = {repr(witness)}
         integrity = {{
@@ -514,9 +516,9 @@ def regression_test_method(witness: dict[str, Any]) -> str:
                 "region": "FooUp",
                 "resolution_status": "resolved",
                 "before_classifiers": [{prior!r}],
-                "declared_new_classifiers": [target],
+                "declared_new_classifiers": [witness_target],
                 "provenance": [{{
-                    "candidate": target,
+                    "candidate": witness_target,
                     "prior": {prior!r},
                     "relation": "reconstruction",
                     "candidate_reduced_fp": {reduced_fp!r},
@@ -528,8 +530,32 @@ def regression_test_method(witness: dict[str, Any]) -> str:
             }}],
             "violations": [],
         }}
+        fingerprints = {{
+            target: ExprFingerprint(
+                "target",
+                "type",
+                "value",
+                reduced_fingerprint={reduced_fp!r},
+                canonical_reduced_payload={canonical_payload!r},
+            ),
+            witness_target: ExprFingerprint(
+                "witness-target",
+                "type",
+                "value",
+                reduced_fingerprint={reduced_fp!r},
+                canonical_reduced_payload={canonical_payload!r},
+            ),
+            {prior!r}: ExprFingerprint(
+                "prior",
+                "type",
+                "value",
+                reduced_fingerprint={reduced_fp!r},
+                canonical_reduced_payload={canonical_payload!r},
+            ),
+        }}
         with patch("bedc_ci._kernel_assertion_checks", return_value={{target: kernel}}), \\
-                patch("bedc_ci.load_discovery_gate_witnesses", return_value=([witness], [])):
+                patch("bedc_ci.load_discovery_gate_witnesses", return_value=([witness], [])), \\
+                patch("bedc_ci._run_structural_dna_expr_fingerprints", return_value=fingerprints):
             payload = discovery_assert_gate_payload(
                 [block],
                 scan,

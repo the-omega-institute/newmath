@@ -117,4 +117,60 @@ theorem UpperRealCarrier_public_certificate [AskSetup] [PackageSetup]
   }
   exact ⟨cert, publicUnary⟩
 
+theorem UpperRealCarrier_scoped_kernel_dependency_route [AskSetup] [PackageSetup]
+    {U0 L W R E H C P N apartRead windowRead handoffRead sealRead transportRead
+      replayRead namedRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory U0 ->
+      UnaryHistory L ->
+        UnaryHistory W ->
+          UnaryHistory R ->
+            UnaryHistory E ->
+              UnaryHistory H ->
+                UnaryHistory C ->
+                  UnaryHistory P ->
+                    UnaryHistory N ->
+                      Cont L U0 apartRead ->
+                        Cont apartRead W windowRead ->
+                          Cont windowRead R handoffRead ->
+                            Cont handoffRead E sealRead ->
+                              Cont sealRead H transportRead ->
+                                Cont transportRead C replayRead ->
+                                  Cont P N namedRead ->
+                                    Cont replayRead namedRead publicRead ->
+                                      PkgSig bundle P pkg ->
+                                        PkgSig bundle N pkg ->
+                                          PkgSig bundle publicRead pkg ->
+                                            UnaryHistory apartRead ∧
+                                              UnaryHistory windowRead ∧
+                                                UnaryHistory handoffRead ∧
+                                                  UnaryHistory sealRead ∧
+                                                    UnaryHistory transportRead ∧
+                                                      UnaryHistory replayRead ∧
+                                                        UnaryHistory namedRead ∧
+                                                          UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro u0Unary lUnary wUnary rUnary eUnary hUnary cUnary pUnary nUnary apartRoute
+    windowRoute handoffRoute sealRoute transportRoute replayRoute namedRoute
+    publicRoute _pkgP _pkgN _pkgPublic
+  have apartUnary : UnaryHistory apartRead :=
+    unary_cont_closed lUnary u0Unary apartRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed apartUnary wUnary windowRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed windowUnary rUnary handoffRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed handoffUnary eUnary sealRoute
+  have transportUnary : UnaryHistory transportRead :=
+    unary_cont_closed sealUnary hUnary transportRoute
+  have replayUnary : UnaryHistory replayRead :=
+    unary_cont_closed transportUnary cUnary replayRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed pUnary nUnary namedRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed replayUnary namedUnary publicRoute
+  exact
+    ⟨apartUnary, windowUnary, handoffUnary, sealUnary, transportUnary, replayUnary,
+      namedUnary, publicUnary⟩
+
 end BEDC.Derived.UpperRealUp
