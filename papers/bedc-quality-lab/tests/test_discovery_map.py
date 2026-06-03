@@ -111,16 +111,18 @@ def _negative_witnesses_context_payload(*, expected_kind_count=8):
     }
 
 
-def _observed_debt_context_payload(*, transfer_metric=False):
+def _observed_debt_transfer_context_payload(*, transfer_metric=False):
     payload = {
+        "artifact_id": "bedc-quality-lab:gap-head-observed-debt-transfer",
         "hardgate_evidence": {
-            "C-HG1": {"status": "pass"},
-            "C-HG2": {"status": "pass"},
-            "C-HG3": {"status": "pass"},
-            "C-HG4": {"status": "pass"},
+            "HG-A1": {"status": "pass"},
+            "HG-A2": {"status": "pass"},
+            "HG-A3": {"status": "pass"},
+            "HG-A4": {"status": "pass"},
+            "HG-A5": {"status": "pass" if transfer_metric else "fail"},
         },
-        "config": {"C1_encoder_output_dims": [1, 2, 3], "baseline_encoder_dim": 2},
-        "cells": [{"row": "source/dimension-match"}],
+        "surfaces": [{"verdict": {"status": "pass" if transfer_metric else "failed"}}],
+        "not_claimed": ["fixture"],
     }
     if transfer_metric:
         payload["gap_head_on_h_observed_debt_transfer"] = {"status": "pass"}
@@ -137,7 +139,7 @@ def _write_gap_head_d5_context(root: Path, *, transfer_metric=False, witness_cou
     _write_json_artifact(
         root,
         discovery_map.OBSERVED_DEBT_ARTIFACT,
-        _observed_debt_context_payload(transfer_metric=transfer_metric),
+        _observed_debt_transfer_context_payload(transfer_metric=transfer_metric),
     )
 
 
@@ -223,7 +225,7 @@ def test_gap_head_on_h_current_readiness_stays_d4_with_observed_debt_transfer_mi
     )
     assert row["adversarial_pointer"] == "reports/canonical/discovery_negative_witnesses.json:$.witnesses"
     assert row["observed_debt_transfer_pointer"] == (
-        "reports/canonical/observed-debt-sweep.json:$.gap_head_on_h_observed_debt_transfer.status"
+        "reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status"
     )
     assert row["d5_readiness"]["threshold"]["status"] == "pass"
     assert row["d5_readiness"]["ablation"]["status"] == "pass"
@@ -535,3 +537,22 @@ def test_manifest_audit_registers_formal_hardening_pointer_artifact(tmp_path):
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
     assert "reports/canonical/formal_hardening.json" not in payload["manifest_audit"]["unregistered_json_artifacts"]
+
+
+def test_manifest_audit_registers_observed_debt_transfer_pointer_artifact(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_json_artifact(
+        tmp_path,
+        discovery_map.OBSERVED_DEBT_ARTIFACT,
+        {
+            "artifact_id": "bedc-quality-lab:gap-head-observed-debt-transfer",
+            "gap_head_on_h_observed_debt_transfer": {"status": "failed"},
+            "surfaces": [{"verdict": {"status": "failed"}}],
+            "hardgate_evidence": {"HG-A5": {"status": "fail"}},
+            "not_claimed": ["fixture"],
+        },
+    )
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+
+    assert discovery_map.OBSERVED_DEBT_ARTIFACT not in payload["manifest_audit"]["unregistered_json_artifacts"]

@@ -72,7 +72,7 @@ class GapHeadD5ReadinessLedger:
 
 GAP_HEAD_ROBUSTNESS_ARTIFACT = "reports/canonical/gap-head-robustness-sweep.json"
 NEGATIVE_WITNESSES_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
-OBSERVED_DEBT_ARTIFACT = "reports/canonical/observed-debt-sweep.json"
+OBSERVED_DEBT_ARTIFACT = "reports/canonical/gap-head-observed-debt-transfer.json"
 GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
     GAP_HEAD_ROBUSTNESS_ARTIFACT,
     NEGATIVE_WITNESSES_ARTIFACT,
@@ -528,6 +528,7 @@ def _manifest_audit(
         "reports/canonical/formal_hardening.json",
         DISCOVERY_MAP_JSON_ARTIFACT,
         NEGATIVE_WITNESSES_ARTIFACT,
+        OBSERVED_DEBT_ARTIFACT,
     }
     directory_json = {
         f"reports/canonical/{path.name}"
