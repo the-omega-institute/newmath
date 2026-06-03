@@ -1,0 +1,48 @@
+# BEDC Quality Lab v1 Alpha
+
+This document is a pointer hub for the v1 alpha freeze. Machine-readable status stays in canonical artifacts and local Python sources.
+
+## Discovery Levels
+
+Discovery levels are read from `reports/canonical/discovery_map.json` at `$.rows[*].discovery_level`.
+
+| level | pointer meaning |
+| --- | --- |
+| `D4` | positive discovery prototype pointer |
+| `DN` | negative discovery pointer |
+| `D1` | audit-improvement pointer |
+
+The frozen cells are:
+
+| report | frozen level pointer | evidence pointer |
+| --- | --- | --- |
+| `gap-head-on-h` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h].evidence_pointer` |
+| `certificate-guided-discovery` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery].failed_gate` |
+| `nongaussian-distribution-sweep` | `reports/canonical/discovery_map.json:$.rows[report=nongaussian-distribution-sweep].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=nongaussian-distribution-sweep].debt_row_pointer` |
+| `anisotropic-ou-sweep` | `reports/canonical/discovery_map.json:$.rows[report=anisotropic-ou-sweep].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=anisotropic-ou-sweep].debt_row_pointer` |
+
+## Artifact Pointers
+
+| surface | pointer |
+| --- | --- |
+| canonical index | `reports/canonical/index.json`; `reports/canonical/index.md` |
+| discovery map | `reports/canonical/discovery_map.json`; `reports/canonical/discovery_map.md` |
+| claim verdicts | `reports/canonical/claim_verdicts.jsonl` |
+| negative witnesses | `reports/canonical/discovery_negative_witnesses.json` |
+| scorecard | `reports/canonical/quality-scorecard.json`; `reports/canonical/quality-scorecard.md` |
+| claims boundary | `docs/claims_and_nonclaims.md` |
+| artifact manifest | `docs/artifact_manifest.md` |
+
+## Evidence Pointers
+
+| evidence class | pointer |
+| --- | --- |
+| `D4` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]` |
+| `DN` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery]` |
+| `D1` | `reports/canonical/discovery_map.json:$.rows[report=nongaussian-distribution-sweep]`; `reports/canonical/discovery_map.json:$.rows[report=anisotropic-ou-sweep]` |
+
+## Nonclaim Boundary
+
+Positive wording is bounded by `docs/claims_and_nonclaims.md` and forbidden exact terms are sourced from `bedc_quality_lab/claim_terms.py`.
+
+The report layer points to local evidence artifacts only. It does not claim BEDC closure, broad model quality, production classifier behavior, or external model behavior.

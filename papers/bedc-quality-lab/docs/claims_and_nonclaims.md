@@ -2,29 +2,29 @@
 
 ## Report Claim Posture
 
-The v1.0 report posture is lab-local: it reports EvidenceEnvelope artifacts, CostProtocol projections, `quality_q`, theorem-bound projection pointers, and canonical artifact pointers. The report may claim that a local artifact records a declared status at a JSON pointer; it must not turn that pointer into a broader BEDC or model-quality claim.
+The v1 alpha report posture is lab-local and pointer-only. It reports EvidenceEnvelope artifacts, CostProtocol projections, `quality_q`, theorem-bound projection pointers, discovery-map rows, claim-verdict rows, negative-witness rows, and canonical artifact pointers.
 
 BEDC references are opaque pointers only, such as chapter path, label, or Lean target name stored in `bedc_refs`. This document does not copy BEDC chapter body or define BEDC semantics.
 
-这些 docs-hardgate 是 pointer-only thin docs 的 drift gate：防意外漂移，包括 report status flip、stale pointer、漏 not-claimed、误标 named artifact 为 positive、简单 negation trick。它会拒绝 named claim 的明显 positive 断言与简单 negation，但不保证防御任意精心构造的 prose；完整对抗性 airtight 属 design-consensus 范畴，不是本 thin-doc gate 目标。
+The forbidden exact-term source is `bedc_quality_lab/claim_terms.py:FORBIDDEN_POSITIVE_CLAIM_TERMS`.
 
 ## Not Claimed
 
-- not full LeJEPA
-- not full Tensor NameCert
-- not global quality
-- not LLM behavior
-- not solved model quality
+- No BEDC closure claim.
+- No broad model-quality claim.
+- No production classifier behavior claim.
+- No external model behavior claim.
+- No certification claim beyond local artifact pointers.
 
 ## Positive Wording Boundary
 
-`gap-head-on-h` is the only positive discovery prototype in this report frame, and only through `reports/canonical/gap-head-on-h.{json,md}` plus `reports/canonical/gap-head-on-h.json` pointers such as `$.main_claim_status`, `$.control_verdict`, `$.treatment_comparison`, and `$.applicability_boundary`.
+`gap-head-on-h` is the only positive discovery prototype in this freeze frame, and only through `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]` plus `reports/canonical/gap-head-on-h.json` pointers such as `$.main_claim_status`, `$.control_verdict`, `$.treatment_comparison`, and `$.applicability_boundary`.
 
-Mixed/negative or observed-debt reports are under a forbidden positive wording boundary. This includes `gap-head-discovery`, `certificate-guided-training`, `certificate-guided-discovery`, and `nongaussian-distribution-sweep`.
+Mixed, negative, or audit-improvement reports are under the nonclaim boundary. This includes `gap-head-discovery`, `certificate-guided-training`, `certificate-guided-discovery`, `nongaussian-distribution-sweep`, and `anisotropic-ou-sweep`.
 
-`certificate-guided-training` is mixed/negative and is governed by `reports/canonical/certificate-guided-training.json` `$.result.status` and `$.claim_gate`. `certificate-guided-discovery` is negative and is governed by `reports/canonical/certificate-guided-discovery.json` `$.main_claim_status` and `$.claim_gate`.
+`certificate-guided-discovery` is negative and is governed by `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery]`, `reports/canonical/certificate-guided-discovery.json:$.main_claim_status`, and `reports/canonical/certificate-guided-discovery.json:$.claim_gate`.
 
-`nongaussian-distribution-sweep` is observed-debt only and is governed by `reports/canonical/nongaussian-distribution-sweep.json` `$.main_claim_status`, `$.claim_gate`, and `$.negative_result_ledger`.
+`nongaussian-distribution-sweep` and `anisotropic-ou-sweep` are audit-improvement pointers and are governed by `reports/canonical/discovery_map.json:$.rows[report=nongaussian-distribution-sweep]`, `reports/canonical/discovery_map.json:$.rows[report=anisotropic-ou-sweep]`, and their canonical report debt pointers.
 
 ## BEDC Pointer Discipline
 
