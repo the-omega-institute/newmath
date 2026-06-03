@@ -1,0 +1,24 @@
+{
+  "artifact_id": "bedc-quality-lab:discovery-gate-demotions",
+  "demotions": [
+    {
+      "basis_pointer": "reports/canonical/discovery_gate_escape_registry.json:$.escaped_rows[0]",
+      "demote_status": "proposed",
+      "gate": "discovery-gate",
+      "regression_pointer": "tests/test_discovery_gate_escape_hardening.py::test_active_pseudo_escape_rows_are_captured[mechanism_ablation_fail_but_d5m_claim]",
+      "source_policy": "witness-registry-and-tests-only"
+    },
+    {
+      "basis_pointer": "reports/canonical/discovery_gate_escape_registry.json:$.escaped_rows[1]",
+      "demote_status": "proposed",
+      "gate": "discovery-gate",
+      "regression_pointer": "tests/test_discovery_gate_escape_hardening.py::test_active_pseudo_escape_rows_are_captured[scale_only_overclaim]",
+      "source_policy": "witness-registry-and-tests-only"
+    }
+  ],
+  "escape_semantics": "proposed demotions do not mutate source gates or synthesize positive discovery",
+  "generated_at": "2026-06-03T21:32:41.014676+00:00",
+  "producer": "tools/quality_discovery_escape_hardening.py",
+  "source_registry": "reports/canonical/discovery_gate_escape_registry.json",
+  "status": "pointer-only"
+}
