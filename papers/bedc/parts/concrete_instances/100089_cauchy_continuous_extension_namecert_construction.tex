@@ -74,6 +74,39 @@ The only extension-specific coordinates are $U,L,H,C,N$ and $U',L',H',C',N'$. Th
 Because neither carrier contains host function equality, quotient completion, selected limits, countable-choice schedules, or ambient completeness witnesses, no external comparison principle is available. The uniqueness judgement is exactly the local ledger comparison over the displayed Cauchy-continuous extension route.
 \end{proof}
 
+\begin{definition}[Cauchy extension uniform-modulus sink]
+\label{def:cauchy-extension-uniform-modulus-sink}
+The uniform-modulus sink for a $\CauchyContinuousExtensionUp$ packet is the finite route
+$$
+S,W,D,F,U \longmapsto L,H,C,P,N
+$$
+in which the $\StreamNameUp$ windows $W$, $\RegSeqRatUp$ regular source row $S$, $\DyadicRatCoreUp$ tolerance ledger $D$, Cauchy-continuous map row $F$, and $\UniformContinuousExtensionUp$ modulus row recorded inside $U$ are read before the completion-universal extension row can be consumed. The sink exports only the displayed completion-universal extension boundary and its uniqueness, transport, replay, provenance, and local naming rows; it exports no host function equality, quotient completion, selected limit, countable-choice schedule, or ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Cauchy extension regular-tail transport]
+\label{thm:cauchy-extension-regular-tail-transport}
+Let $E=(S,W,D,F,U,L,H,C,P,N)$ be an accepted $\CauchyContinuousExtensionUp$ carrier. Componentwise $\hsame$ transport preserves the uniform-modulus sink of \autoref{def:cauchy-extension-uniform-modulus-sink} only through the displayed rows $S,W,D,F,U,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The sink begins with the regular source row $S$, finite windows $W$, dyadic tolerance ledger $D$, Cauchy-continuous map row $F$, and the extension/modulus handoff stored in $U$.
+
+Componentwise $\hsame$ transport is recorded by $H$ for exactly those rows and for the uniqueness ledger $L$. The replay row $C$ then preserves the same order before provenance and local naming are read.
+
+No other row is present in the carrier. Thus transport cannot use host function equality, quotient completion, selected limits, countable choice, or ambient completeness; it preserves the regular-tail sink precisely through $S,W,D,F,U,L,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Cauchy extension completion consumer]
+\label{thm:cauchy-extension-completion-consumer}
+Every $\RealUp$ or $\CompletionUniversalPropertyUp$ consumer of an accepted $\CauchyContinuousExtensionUp$ packet reads the uniform-modulus sink of \autoref{def:cauchy-extension-uniform-modulus-sink} before it can inspect the exported extension row.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $E=(S,W,D,F,U,L,H,C,P,N)$. A real-facing or completion-universal consumer can reach the exported extension only through $U$, because the carrier contains no second extension coordinate.
+
+The row $U$ is available only after the source windows, regular source, dyadic tolerance ledger, Cauchy-continuous map row, and uniform-modulus handoff have been read. This is exactly the sink route named in \autoref{def:cauchy-extension-uniform-modulus-sink}.
+
+The remaining rows $L,H,C,P,N$ compare, transport, replay, source, and name the same route. Hence a $\RealUp$ or $\CompletionUniversalPropertyUp$ consumer must read the uniform-modulus sink before inspecting the exported extension.
+\end{proof}
+
 \begin{closurestatus}{\CauchyContinuousExtensionUp}
   \constructivestory{A $\CauchyContinuousExtensionUp$ packet is generated from a regular-Cauchy source row, finite StreamName windows, a DyadicRatCore tolerance ledger, a Cauchy-continuous map row, a CompletionUniversalProperty extension row, a uniqueness hsame ledger, displayed transport and replay rows, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
