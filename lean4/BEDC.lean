@@ -2402,6 +2402,7 @@ import BEDC.Derived.CommutativeCStarUp.TasteGate
 import BEDC.Derived.CompactBaireUp.TasteGate
 import BEDC.Derived.CompactCauchyCoverUp.TasteGate
 import BEDC.Derived.CompactCauchyEquicontinuityUp
+import BEDC.Derived.CompactCompletionExtensionModulusUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.FiniteNetRadiusExhaustion
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.UniformModulusHandoff
@@ -5097,6 +5098,7 @@ import BEDC.Derived.LocatedIntervalCompactnessUp.TasteGate
 import BEDC.Derived.LocatedIntervalCoverUp.TasteGate
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
+import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
 import BEDC.Derived.LocatedIntervalUp.ClassifierStability
 import BEDC.Derived.LocatedIntervalUp.PublicConsumerRoute
 import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
@@ -8407,6 +8409,7 @@ import BEDC.Derived.UniformSequentialContinuityUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UniformlyCauchySequenceUp.TasteGate
+import BEDC.Derived.UniformlyContinuousCompletionExtensionUp.TasteGate
 import BEDC.Derived.UniformlyConvexSpaceUp.TasteGate
 import BEDC.Derived.UniformlyLocatedFiniteCoverUp.TasteGate
 import BEDC.Derived.UniqueChoicePrincipleUp.DeterministicReadback
