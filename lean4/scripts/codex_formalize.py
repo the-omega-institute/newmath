@@ -96,6 +96,9 @@ HARD_MAX_PARALLEL = 50
 FORBIDDEN_TARGET_PATH_PARTS = {"Examples"}
 FORBIDDEN_TARGET_NAME_FRAGMENTS = {"example", "examples", "scaffold", "stub", "placeholder", "demo"}
 MAX_LEAN_FILE_LINES = 800
+TASTE_REPAIR_ENV = "BEDC_TASTE_REPAIR_ENABLED"
+TASTE_REPAIR_MAX_INFLIGHT = 1
+TASTE_REPAIR_SLOT_TTL_SECONDS = 7200
 
 
 def _resolve_git_common_file(filename: str, fallback: Path) -> Path:
@@ -330,10 +333,21 @@ TARGET_CLAIMS_FILE = _resolve_git_common_file(
     LOG_DIR / "target_claims.json",
 )
 TARGET_CLAIM_TTL_SECONDS = 1800
+TASTE_REPAIR_SLOTS_FILE = _resolve_git_common_file(
+    "bedc-codex-formalize-taste-repair-slots.json",
+    LOG_DIR / "taste_repair_slots.json",
+)
+
+
+def taste_repair_enabled() -> bool:
+    value = os.environ.get(TASTE_REPAIR_ENV, "0").strip().lower()
+    return value not in {"", "0", "false", "no", "off"}
 
 
 def _target_id(t: dict) -> str:
     """Stable cross-round identifier for a target."""
+    if t.get("kind") == "taste_repair":
+        return ("taste_repair:" + str(t.get("carrier") or t.get("lean_name") or "")).strip()
     return (t.get("lean_name") or t.get("paper_label") or "").strip()
 
 
@@ -420,6 +434,62 @@ def release_targets(round_num: int, owner: str | None = None) -> None:
             holder = state.get(tid)
             if isinstance(holder, dict) and holder.get("owner") == owner:
                 del state[tid]
+        _write_json_to_fd(fd, state)
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
+
+
+def _is_taste_repair_targets(targets: list[dict]) -> bool:
+    return len(targets) == 1 and targets[0].get("kind") == "taste_repair"
+
+
+def acquire_taste_repair_slot(owner: str) -> bool:
+    """Global additive lane cap: at most one taste-repair worker in Phase C.
+
+    This is a second safety gate beyond critical_path's low dispatch weight.
+    If a repair attempt cosmetically games current structural distinctness,
+    TasteGate's evolver treats it as a fresh counterexample and tightens the
+    criterion in the same self-upgrading loop; the merge/audit pipeline then
+    rechecks the stronger gate on later rounds.
+    """
+    fd = _open_locked_json_file(TASTE_REPAIR_SLOTS_FILE)
+    try:
+        now = time.time()
+        state = _expire_target_claims(_read_json_from_fd(fd), now)
+        active = {
+            key: value
+            for key, value in state.items()
+            if isinstance(value, dict) and value.get("owner") != owner
+        }
+        if len(active) >= TASTE_REPAIR_MAX_INFLIGHT:
+            _write_json_to_fd(fd, active)
+            return False
+        active[owner] = {
+            "owner": owner,
+            "claimed_at": datetime.utcnow().isoformat() + "Z",
+            "expires_at": now + TASTE_REPAIR_SLOT_TTL_SECONDS,
+            "pid": os.getpid(),
+        }
+        _write_json_to_fd(fd, active)
+        return True
+    finally:
+        try:
+            fcntl.flock(fd, fcntl.LOCK_UN)
+        finally:
+            os.close(fd)
+
+
+def release_taste_repair_slot(owner: str | None) -> None:
+    if not owner:
+        return
+    fd = _open_locked_json_file(TASTE_REPAIR_SLOTS_FILE)
+    try:
+        state = _read_json_from_fd(fd)
+        if owner in state:
+            del state[owner]
         _write_json_to_fd(fd, state)
     finally:
         try:
@@ -1872,6 +1942,28 @@ def build_phase_c_prompt(
     )
 
 
+def build_taste_repair_prompt(
+    round_num: int,
+    target: dict,
+    lease: WorkerLease | None = None,
+) -> str:
+    worker_id = lease.holder if lease else f"legacy-formalize-{round_num}"
+    commit_prefix = lease.commit_prefix if lease else f"legacy-formalize-{round_num}:"
+    return (
+        _load_prompt("taste_repair")
+        .replace("<ROUND_NUM>", str(round_num))
+        .replace("<WORKER_ID>", worker_id)
+        .replace("<WORKER_HOLDER>", worker_id)
+        .replace("<COMMIT_PREFIX>", commit_prefix)
+        .replace("<CARRIER>", str(target.get("carrier") or target.get("lean_name") or "unknown"))
+        .replace("<PRIOR>", str(target.get("prior") or "unknown"))
+        .replace("<TARGET_FILE>", str(target.get("target_file") or "unknown"))
+        .replace("<OBLIGATION_ID>", str(target.get("obligation_id") or "unknown"))
+        .replace("<TARGET_DOMAIN>", str(target.get("target_domain") or "unknown"))
+        .replace("<PRIOR_DOMAIN>", str(target.get("prior_domain") or "unknown"))
+    )
+
+
 def parse_phase_c_output(raw: str) -> PhaseCResult:
     result = PhaseCResult(raw_output=raw)
     # Extract short commit hashes (7-12 hex chars) that look like git output,
@@ -2807,6 +2899,7 @@ def run_round_in_worktree(
     wt: Optional[WorktreeInfo] = None
     new_commits: list[str] = []
     success: bool = False
+    taste_repair_slot_owner: str | None = None
     try:
         # ── Create worktree ───────────────────────────────────────
         if not dry_run:
@@ -2856,9 +2949,24 @@ def run_round_in_worktree(
             _save_round_log(round_num, phase_b, PhaseCResult(), [], False, lease)
             return False, round_num, []
         phase_b.targets = kept
+        taste_repair_round = _is_taste_repair_targets(phase_b.targets)
+
+        if taste_repair_round:
+            if not taste_repair_enabled():
+                logger.error(f"[{tag}] Taste repair target selected while {TASTE_REPAIR_ENV}=0")
+                _save_round_log(round_num, phase_b, PhaseCResult(), [], False, lease)
+                return False, round_num, []
+            taste_repair_slot_owner = lease.holder
+            if not acquire_taste_repair_slot(taste_repair_slot_owner):
+                logger.warning(f"[{tag}] Taste repair lane is at capacity; aborting low-priority round")
+                _save_round_log(round_num, phase_b, PhaseCResult(), [], False, lease)
+                return False, round_num, []
 
         # ── Gate ──────────────────────────────────────────────────
-        gate_ok, gate_msg = gate_check(phase_b.targets)
+        if taste_repair_round:
+            gate_ok, gate_msg = True, "Taste repair lane gate passed"
+        else:
+            gate_ok, gate_msg = gate_check(phase_b.targets)
         if not gate_ok:
             logger.warning(f"[{tag}] Gate: {gate_msg} (proceeding anyway)")
         else:
@@ -2870,14 +2978,19 @@ def run_round_in_worktree(
             wt.formalization_base_sha = run_cmd(
                 ["git", "rev-parse", "HEAD"], cwd=wt.path, check=False
             ).stdout.strip()
-        phase_c_prompt = build_phase_c_prompt(round_num, phase_b.targets, lease)
+        if taste_repair_round:
+            phase_c_prompt = build_taste_repair_prompt(round_num, phase_b.targets[0], lease)
+            phase_c_log_suffix = "taste_repair"
+        else:
+            phase_c_prompt = build_phase_c_prompt(round_num, phase_b.targets, lease)
+            phase_c_log_suffix = "phase_c"
         phase_c_raw = codex_exec(
             phase_c_prompt,
             work_dir=wt_cwd,
             timeout_seconds=read_timeout("phase_c_timeout", phase_c_timeout),
             model=model,
             dry_run=dry_run,
-            log_tag=f"{lease.log_tag}_phase_c",
+            log_tag=f"{lease.log_tag}_{phase_c_log_suffix}",
         )
         phase_c = parse_phase_c_output(phase_c_raw)
 
@@ -2954,6 +3067,7 @@ def run_round_in_worktree(
         # Always release the round's claim on its target IDs so other rounds
         # can pick them up if this one fails.
         release_targets(round_num, lease.holder if "lease" in locals() else None)
+        release_taste_repair_slot(taste_repair_slot_owner)
         # Cleanup worktree on success or non-merge-conflict failure
         if wt and not dry_run:
             try:
