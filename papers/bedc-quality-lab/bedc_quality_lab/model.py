@@ -38,14 +38,16 @@ def choose_device() -> str:
     return "cpu"
 
 
-def build_tiny_encoder() -> Any:
+def build_tiny_encoder(output_dim: int = 2) -> Any:
     torch = require_torch()
+    if not isinstance(output_dim, int) or output_dim < 1:
+        raise ValueError("output_dim must be a positive integer")
     return torch.nn.Sequential(
         torch.nn.Linear(2, 128),
         torch.nn.GELU(),
         torch.nn.Linear(128, 128),
         torch.nn.GELU(),
-        torch.nn.Linear(128, 2),
+        torch.nn.Linear(128, output_dim),
     )
 
 
