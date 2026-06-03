@@ -30,3 +30,17 @@ The RegSeqRat and Real handoff inputs consume exactly those finite section rows 
 
 Since the route never introduces quotient streams, selected limits, countable choice, host real equality, or ambient completeness, the public cofinality interface is the same finite-section interface already witnessed locally.
 \end{proof}
+
+\begin{theorem}[StreamName finite observation diagonal coherence]
+\label{thm:streamname-finite-observation-diagonal-coherence}
+Let two finite observation section refinements read the same certified $\StreamNameUp$ source before a $\RegSeqRatUp$ or $\RealUp$ handoff. Then they admit a common finite refinement over that source whose pointwise classifier row, finite $\BHist$ window, $\hsame$ transport row, $\Cont$ replay row, $\Pkg$ provenance row, and local $\NameCert$ row still factor through the same public RegSeqRat and Real handoff surface. The common refinement synchronizes the two observations without adding quotient stream equality, selected limits, countable choice, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Apply finite observation section cofinality, \autoref{thm:streamname-finite-observation-section-cofinality}, to each refinement. Both observations are finite section windows over the same certified StreamName source, so their downstream reads are represented by finite windows in the same index ledger.
+
+Use public cofinality, \autoref{thm:streamname-finite-observation-section-public-cofinality}, for the handoff surface. The RegSeqRat and Real consumers see only the finite section package, so a section large enough to contain both windows is again a public handoff refinement over the same source.
+
+Finally apply pointwise classifier stability, \autoref{thm:streamname-pointwise-classifier-stability}. It keeps the classifier row, $\BHist$ window, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row attached to the common source after the finite window is enlarged.
+
+Thus the two observations have a diagonal finite refinement that preserves exactly the rows visible to the RegSeqRat and Real handoff route. Since no step introduces a quotient stream, a selected limit, countable choice, host real equality, or ambient completeness, the synchronized refinement remains a finite-means StreamName observation.
+\end{proof}
