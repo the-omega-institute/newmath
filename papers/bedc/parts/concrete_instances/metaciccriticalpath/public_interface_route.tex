@@ -12,6 +12,20 @@ Then project the confluence and decidability budgets. Theorems~\ref{thm:metacicc
 Finally project the residual discharge surface through \autoref{thm:metacic-critical-path-residual-budget-discharge-frontier} and \autoref{thm:metacic-critical-path-residual-budget-socket-route}. The finite union of these projections is the public interface route, and finite $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ projection adds no full normalization, full subject reduction, host consistency, or bridge closure claim.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path residual public handoff]
+\label{thm:metacic-critical-path-residual-public-handoff}
+Every public $\MetaCICCriticalPathUp$ consumer that reads residual-discharge data must pass the read through the residual budget socket and the candidate-mediated frontier rows of \autoref{thm:metacic-critical-path-public-interface} before it claims any confluence or decidability budget consumption. The handoff may expose the residual-budget, substitution-boundary, closed-premise, local-diamond, candidate-mediated strong-normalization, confluence-frontier, and decidability-budget rows as displayed public data. It does not discharge full normalization, full subject reduction, host consistency, full confluence, or beta-conversion decidability.
+\end{theorem}
+\begin{proof}
+Start with the public interface theorem. It already separates the residual discharge rows from the candidate-mediated frontier rows and from the confluence and decidability budget rows.
+
+Now route the residual read through the socket. Theorems~\ref{thm:metacic-critical-path-residual-budget-discharge-frontier} and~\ref{thm:metacic-critical-path-residual-budget-socket-route} require residual-budget rows, substitution-boundary rows, closed-premise ledger rows, and local-diamond rows before any discharge socket may be treated as available.
+
+Next attach the candidate-mediated frontier. The public interface proof cites the candidate-mediated strong-normalization frontier and its handoff and obstruction rows, so a public consumer must keep those rows visible while reading the residual socket.
+
+Finally consume the confluence and decidability budget only after the residual and candidate rows have both been displayed. The confluence-decidability budget, SN confluence budget, and handoff-exhaustion rows remain budget rows; they do not supply full normalization, full subject reduction, host consistency, full confluence, or beta-conversion decidability.
+\end{proof}
+
 \begin{theorem}[MetaCIC public interface frontier readiness]
 \label{thm:metacic-critical-path-public-interface-frontier-readiness}
 A public $\MetaCICCriticalPathUp$ consumer may read CandidateMediatedSN, CandidateSNConfluenceBoundary, finite-observation confluence, decidability budgets, and residual discharge sockets only as readiness rows over the same displayed finite route of \autoref{thm:metacic-critical-path-public-interface}. Before claiming closed subject reduction, full confluence, beta-conversion decidability, or host consistency, the consumer must cite a separate subject-reduction row and the matching discharge row for that global claim.
