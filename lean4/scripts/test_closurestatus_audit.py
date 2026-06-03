@@ -32,7 +32,7 @@ from bedc_ci import (  # type: ignore[import-not-found]
     collect_closurestatus_blocks,
     diagnose_closurestatus_block,
     diagnose_closurestatus_open_fields,
-    carrier_faithfulness_payload,
+    reconstruction_collision_report_payload,
     load_taste_obligations,
     taste_meta_gate_payload,
     discovery_integrity_payload,
@@ -45,7 +45,6 @@ from bedc_ci import (  # type: ignore[import-not-found]
     cmd_discovery_radar,
     parser as bedc_parser,
 )
-import taste_gate_evolver  # type: ignore[import-not-found]
 from discovery_refutation_publisher import (  # type: ignore[import-not-found]
     ledger_content_signature,
     merge_records,
@@ -7602,8 +7601,8 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(candidate["provenance"][0]["reduced_fp"], "same")
         self.assertIn("classifier_corpus_canonical_payload_equal", candidate["evidence"])
 
-    def test_carrier_faithfulness_classifies_cross_domain_and_same_module(self) -> None:
-        payload = carrier_faithfulness_payload({
+    def test_reconstruction_collision_report_classifies_cross_domain_and_same_module(self) -> None:
+        payload = reconstruction_collision_report_payload({
             "candidates": [
                 {
                     "target": "BEDC.Derived.ContinuousUp.ContinuousModulusWitness",
@@ -7633,11 +7632,11 @@ class DiscoveryAuditTests(unittest.TestCase):
             },
         ])
         self.assertTrue(payload["informational"])
-        self.assertEqual(payload["cross_domain_under_encoding_count"], 2)
+        self.assertEqual(payload["cross_domain_reconstruction_collision_count"], 2)
         self.assertEqual(payload["same_module_sibling_count"], 1)
         cross_by_target = {
             item["target"]: item
-            for item in payload["cross_domain_under_encoding"]
+            for item in payload["cross_domain_reconstruction_collisions"]
         }
         cross = cross_by_target["BEDC.Derived.ContinuousUp.ContinuousModulusWitness"]
         self.assertEqual(cross["target_domain"], "ContinuousUp")
@@ -7652,8 +7651,8 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertEqual(sibling["prior_domain"], "CompactUp")
         self.assertEqual(sibling["classification"], "same_module_sibling")
 
-    def test_taste_meta_gate_flags_structural_distinctness_counterexample(self) -> None:
-        faithfulness = carrier_faithfulness_payload({
+    def test_taste_meta_gate_has_no_active_obligations_for_collisions(self) -> None:
+        report = reconstruction_collision_report_payload({
             "candidates": [
                 {
                     "target": "BEDC.Derived.ContinuousUp.ContinuousModulusWitness",
@@ -7675,33 +7674,22 @@ class DiscoveryAuditTests(unittest.TestCase):
                 },
             ],
         })
-        obligations = [{
-            "id": "structural_distinctness",
-            "kind": "carrier_structure",
-            "criterion": "carrier_faithfulness.cross_domain_canonical_payload_distinct",
-            "rejects_because": "cross-domain canonical payload equality under-encodes the carrier",
-            "provenance": {"source": "unit"},
-            "added_ts": "2026-06-03T00:00:00Z",
-        }]
-        payload = taste_meta_gate_payload(faithfulness, obligations=obligations, diagnostics=[])
+        payload = taste_meta_gate_payload(report, obligations=[], diagnostics=[])
         self.assertTrue(payload["informational"])
-        self.assertEqual(payload["obligation_count"], 1)
-        self.assertEqual(payload["violation_count"], 1)
-        violation = payload["violations"][0]
-        self.assertEqual(violation["obligation_id"], "structural_distinctness")
-        self.assertEqual(violation["target_domain"], "ContinuousUp")
-        self.assertEqual(violation["prior_domain"], "CompactUp")
+        self.assertEqual(payload["obligation_count"], 0)
+        self.assertEqual(payload["violation_count"], 0)
+        self.assertEqual(payload["violations"], [])
 
-    def test_taste_obligation_loader_rejects_unsupported_criterion(self) -> None:
+    def test_taste_obligation_loader_rejects_retired_cross_domain_criterion(self) -> None:
         with TemporaryDirectory() as tmp:
             path = Path(tmp) / "taste.json"
             path.write_text(json.dumps({
                 "schema": "bedc.taste_obligation_registry",
                 "obligations": [{
-                    "id": "bad",
+                    "id": "retired",
                     "kind": "carrier_structure",
-                    "criterion": "self_reported_good_taste",
-                    "rejects_because": "not independently machine-checkable",
+                    "criterion": "carrier_faithfulness.cross_domain_canonical_payload_distinct",
+                    "rejects_because": "retired criterion",
                     "provenance": {"source": "unit"},
                     "added_ts": "2026-06-03T00:00:00Z",
                 }],
@@ -7709,42 +7697,6 @@ class DiscoveryAuditTests(unittest.TestCase):
             obligations, diagnostics = load_taste_obligations(path)
         self.assertEqual(obligations, [])
         self.assertEqual(diagnostics[0]["kind"], "invalid_taste_obligation_criterion")
-
-    def test_taste_evolver_adds_structural_distinctness_monotonically(self) -> None:
-        faithfulness = carrier_faithfulness_payload({
-            "candidates": [{
-                "target": "BEDC.Derived.ContinuousUp.ContinuousModulusWitness",
-                "provenance": [{
-                    "prior": "BEDC.Derived.CompactUp.CompactNetWitness",
-                    "relation": "reconstruction",
-                    "canonical_payload": "payload-cross",
-                    "evidence": "canonical_payload_equal",
-                }],
-            }],
-        })
-        with TemporaryDirectory() as tmp:
-            path = Path(tmp) / "taste.json"
-            path.write_text(json.dumps({
-                "schema": "bedc.taste_obligation_registry",
-                "obligations": [],
-            }), encoding="utf-8")
-            first = taste_gate_evolver.evolve_structural_distinctness(
-                registry_path=path,
-                carrier_faithfulness=faithfulness,
-                added_ts="2026-06-03T00:00:00Z",
-            )
-            second = taste_gate_evolver.evolve_structural_distinctness(
-                registry_path=path,
-                carrier_faithfulness=faithfulness,
-                added_ts="2026-06-03T00:00:00Z",
-            )
-            obligations, diagnostics = load_taste_obligations(path)
-        self.assertTrue(first["changed"])
-        self.assertTrue(first["monotonic"])
-        self.assertFalse(second["changed"])
-        self.assertTrue(second["monotonic"])
-        self.assertEqual(diagnostics, [])
-        self.assertEqual([item["id"] for item in obligations], ["structural_distinctness"])
 
     def test_discovery_radar_denominators_distinguish_empty_candidate_scan(self) -> None:
         payload = audit_payload(full_radar_scan=True)
@@ -7895,13 +7847,13 @@ class DiscoveryAuditTests(unittest.TestCase):
                 "conjectured_count": 0,
                 "candidates": [{"state": "refuted"}],
             },
-            "carrier_faithfulness": {
-                "cross_domain_under_encoding_count": 1,
+            "reconstruction_collision_report": {
+                "cross_domain_reconstruction_collision_count": 1,
                 "same_module_sibling_count": 0,
             },
             "taste_meta_gate": {
-                "obligation_count": 1,
-                "violation_count": 1,
+                "obligation_count": 0,
+                "violation_count": 0,
                 "registry_diagnostic_count": 0,
                 "registry_diagnostics": [],
             },
@@ -8026,13 +7978,13 @@ class DiscoveryAuditTests(unittest.TestCase):
                 "corpus_truncated": False,
                 "candidates": [{"state": "refuted"}],
             },
-            "carrier_faithfulness": {
-                "cross_domain_under_encoding_count": 1,
+            "reconstruction_collision_report": {
+                "cross_domain_reconstruction_collision_count": 1,
                 "same_module_sibling_count": 2,
             },
             "taste_meta_gate": {
-                "obligation_count": 1,
-                "violation_count": 1,
+                "obligation_count": 0,
+                "violation_count": 0,
                 "registry_diagnostic_count": 0,
                 "registry_diagnostics": [],
             },
@@ -8044,8 +7996,8 @@ class DiscoveryAuditTests(unittest.TestCase):
         self.assertFalse(audit.call_args.kwargs["full_radar_scan"])
         output = out.getvalue()
         self.assertIn("scanned=1743", output)
-        self.assertIn("carrier faithfulness: cross-domain under-encoding=1", output)
-        self.assertIn("taste gate: meta-obligations=1 violations=1", output)
+        self.assertIn("reconstruction collisions: cross-domain=1", output)
+        self.assertIn("taste gate: meta-obligations=0 violations=0", output)
 
     def test_current_repository_discovery_radar_is_present(self) -> None:
         payload = audit_payload()

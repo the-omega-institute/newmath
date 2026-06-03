@@ -3136,7 +3136,7 @@ DISCOVERY_GATE_WITNESS_MAX_BYTES = 2_000_000
 TASTE_OBLIGATION_MAX_ENTRIES = 200
 TASTE_OBLIGATION_MAX_BYTES = 200_000
 TASTE_OBLIGATION_KINDS = {"carrier_structure"}
-TASTE_OBLIGATION_CRITERIA = {"carrier_faithfulness.cross_domain_canonical_payload_distinct"}
+TASTE_OBLIGATION_CRITERIA = set()
 
 
 def _taste_registry_diag(
@@ -3161,11 +3161,11 @@ def _taste_registry_diag(
 def load_taste_obligations(
     path: Path = TASTE_OBLIGATION_REGISTRY_PATH,
 ) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
-    """Load data-driven meta taste obligations.
+    """Load the empty supplemental taste registry.
 
-    These obligations extend the audit surface around ChapterTasteGate. They
-    are informational for existing carriers and generation-facing for new
-    carrier production.
+    ChapterTasteGate is the active carrier admission surface. This loader is
+    retained as a stable CLI/audit interface and rejects all supplemental
+    criteria until a BEDC-native obligation is defined.
     """
     if not path.exists():
         return [], [_taste_registry_diag(
@@ -5058,7 +5058,7 @@ def _radar_cap_conjectured_candidates(
     return non_conjectured + kept_conjectured, dropped
 
 
-def _faithfulness_domain(name: str) -> str:
+def _reconstruction_collision_domain(name: str) -> str:
     parts = [part for part in str(name or "").split(".") if part]
     for part in parts:
         if part.endswith("Up") and len(part) > 2:
@@ -5072,14 +5072,14 @@ def _canonical_payload_digest(canonical_payload: str) -> str:
     return hashlib.sha256(canonical_payload.encode("utf-8")).hexdigest()
 
 
-def _faithfulness_collision_row(
+def _reconstruction_collision_row(
     target: str,
     prior: str,
     canonical_payload: str,
     source: str,
 ) -> dict[str, object]:
-    target_domain = _faithfulness_domain(target)
-    prior_domain = _faithfulness_domain(prior)
+    target_domain = _reconstruction_collision_domain(target)
+    prior_domain = _reconstruction_collision_domain(prior)
     classification = (
         "same_module_sibling"
         if target_domain and target_domain == prior_domain
@@ -5097,7 +5097,7 @@ def _faithfulness_collision_row(
     }
 
 
-def carrier_faithfulness_payload(
+def reconstruction_collision_report_payload(
     discovery_production_radar: dict[str, object],
     *,
     reconstruction_witnesses: Iterable[dict[str, object]] = (),
@@ -5132,7 +5132,7 @@ def carrier_faithfulness_payload(
             if key in seen:
                 continue
             seen.add(key)
-            row = _faithfulness_collision_row(target, prior, canonical_payload, source)
+            row = _reconstruction_collision_row(target, prior, canonical_payload, source)
             if row["classification"] == "same_module_sibling":
                 same_module.append(row)
             else:
@@ -5150,7 +5150,7 @@ def carrier_faithfulness_payload(
         if key in seen:
             continue
         seen.add(key)
-        row = _faithfulness_collision_row(
+        row = _reconstruction_collision_row(
             target,
             prior,
             canonical_payload,
@@ -5165,100 +5165,49 @@ def carrier_faithfulness_payload(
     same_module.sort(key=lambda item: (str(item["target_domain"]), str(item["target"]), str(item["prior"])))
     return {
         "informational": True,
-        "schema": "bedc.carrier_faithfulness",
+        "schema": "bedc.reconstruction_collision_report",
         "semantics": (
-            "canonical-payload collision measures carrier under-encoding risk; "
-            "cross-domain collisions indicate generic skeleton reuse plus naming, "
-            "not distinguishing mathematical structure"
+            "canonical-payload equality is negative evidence for discovery "
+            "synonym or demotion checks; it is not a ChapterTasteGate failure "
+            "and does not require carriers from different domains to be recoded"
         ),
         "source": "discovery_production_radar.candidates.provenance + discovery_gate_witness_registry",
-        "cross_domain_under_encoding_count": len(cross_domain),
+        "cross_domain_reconstruction_collision_count": len(cross_domain),
         "same_module_sibling_count": len(same_module),
         "collision_count": len(cross_domain) + len(same_module),
-        "cross_domain_under_encoding": cross_domain,
+        "cross_domain_reconstruction_collisions": cross_domain,
         "same_module_siblings": same_module,
         "boundary": (
-            "same-module siblings may be intentional variants; cross-domain collisions "
-            "are strong but informational under-encoding signals, not a gate"
+            "same-module siblings may be intentional variants; cross-domain "
+            "collisions are discovery-gate synonym/demotion signals only"
         ),
     }
 
 
 def taste_meta_gate_payload(
-    carrier_faithfulness: dict[str, object],
+    reconstruction_report: dict[str, object],
     *,
     obligations: list[dict[str, object]] | None = None,
     diagnostics: list[dict[str, object]] | None = None,
 ) -> dict[str, object]:
     if obligations is None or diagnostics is None:
         obligations, diagnostics = load_taste_obligations()
-    violations: list[dict[str, object]] = []
-    seen: set[tuple[str, str, str, str]] = set()
-    cross_domain = carrier_faithfulness.get("cross_domain_under_encoding", []) or []
-    if not isinstance(cross_domain, list):
-        cross_domain = []
-    for obligation in obligations:
-        if str(obligation.get("criterion") or "") != (
-            "carrier_faithfulness.cross_domain_canonical_payload_distinct"
-        ):
-            continue
-        for row in cross_domain:
-            if not isinstance(row, dict):
-                continue
-            target = str(row.get("target") or "")
-            prior = str(row.get("prior") or "")
-            digest = str(row.get("canonical_payload_digest") or "")
-            if not target or not prior:
-                continue
-            key = (str(obligation.get("id") or ""), target, prior, digest)
-            if key in seen:
-                continue
-            seen.add(key)
-            violations.append({
-                "obligation_id": str(obligation.get("id") or ""),
-                "kind": str(obligation.get("kind") or ""),
-                "criterion": str(obligation.get("criterion") or ""),
-                "target": target,
-                "prior": prior,
-                "target_domain": row.get("target_domain", ""),
-                "prior_domain": row.get("prior_domain", ""),
-                "canonical_payload_digest": digest,
-                "canonical_payload_summary": row.get("canonical_payload_summary", ""),
-                "source": row.get("source", ""),
-                "gate_status": "FAIL",
-                "informational": True,
-                "rejects_because": str(obligation.get("rejects_because") or ""),
-                "provenance": obligation.get("provenance"),
-                "independent_evidence": "carrier_faithfulness.cross_domain_under_encoding",
-                "message": (
-                    f"{target} shares canonical carrier payload with cross-domain prior "
-                    f"{prior}; carrier fails taste criterion {obligation.get('id')}"
-                ),
-            })
-    violations.sort(key=lambda item: (
-        str(item["obligation_id"]),
-        str(item["target_domain"]),
-        str(item["target"]),
-        str(item["prior"]),
-    ))
     return {
         "schema": "bedc.taste_meta_gate",
         "informational": True,
         "semantics": (
-            "meta-level, data-driven TasteGate obligations supplement Lean "
-            "ChapterTasteGate; existing carrier violations are reported without "
-            "changing audit exit code, while generation workflows may treat them "
-            "as forward taste gates"
+            "no active supplemental meta TasteGate obligations; ChapterTasteGate "
+            "remains the carrier admission gate"
         ),
         "registry": _repo_display_path(TASTE_OBLIGATION_REGISTRY_PATH),
         "obligation_count": len(obligations),
-        "violation_count": len(violations),
-        "violations": violations,
+        "violation_count": 0,
+        "violations": [],
         "obligations": obligations,
         "registry_diagnostic_count": len(diagnostics),
         "registry_diagnostics": diagnostics,
-        "generation_gate": "new carriers should reject any violation of a registered criterion",
-        "monotonicity": "new obligations add criteria; existing obligations are not relaxed",
+        "generation_gate": "none",
+        "monotonicity": "no supplemental obligations are active",
     }
 
 
@@ -11040,11 +10989,11 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         discovery_assert_gate=discovery_assert_gate,
         full_corpus_scan=full_radar_scan,
     )
-    carrier_faithfulness = carrier_faithfulness_payload(
+    reconstruction_collision_report = reconstruction_collision_report_payload(
         discovery_production_radar,
         reconstruction_witnesses=discovery_assert_gate.get("reconstruction_witnesses", []),
     )
-    taste_meta_gate = taste_meta_gate_payload(carrier_faithfulness)
+    taste_meta_gate = taste_meta_gate_payload(reconstruction_collision_report)
     discovery_nonasserted_hygiene = discovery_nonasserted_hygiene_payload(
         closurestatus_blocks,
     )
@@ -11089,7 +11038,7 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
             "witness_registry_diagnostics"
         ],
         "discovery_production_radar": discovery_production_radar,
-        "carrier_faithfulness": carrier_faithfulness,
+        "reconstruction_collision_report": reconstruction_collision_report,
         "taste_meta_gate": taste_meta_gate,
         "taste_meta_gate_violation_count": taste_meta_gate["violation_count"],
         "taste_obligation_registry_diagnostic_count": taste_meta_gate["registry_diagnostic_count"],
@@ -11467,20 +11416,19 @@ def cmd_audit(args: argparse.Namespace) -> int:
             f" truncated={radar.get('corpus_truncated', False)}"
             " (informational, surface-and-rank only)"
         )
-        faithfulness = payload["carrier_faithfulness"]
+        reconstruction = payload["reconstruction_collision_report"]
         print(
-            "[bedc-ci] carrier faithfulness:"
-            f" cross-domain under-encoding={faithfulness['cross_domain_under_encoding_count']}"
-            f" same-module siblings={faithfulness['same_module_sibling_count']}"
-            " (informational; canonical-payload collision = carrier encodes generic skeleton + name, "
-            "not distinguishing structure)"
+            "[bedc-ci] reconstruction collisions:"
+            f" cross-domain={reconstruction['cross_domain_reconstruction_collision_count']}"
+            f" same-module siblings={reconstruction['same_module_sibling_count']}"
+            " (informational; canonical-payload equality is discovery synonym/demotion evidence)"
         )
         taste_gate = payload["taste_meta_gate"]
         print(
             "[bedc-ci] taste gate:"
             f" meta-obligations={taste_gate['obligation_count']}"
             f" violations={taste_gate['violation_count']}"
-            " (informational; carrier fails taste criterion)"
+            " (informational; no active supplemental obligations)"
         )
         if taste_gate.get("registry_diagnostics"):
             print(
