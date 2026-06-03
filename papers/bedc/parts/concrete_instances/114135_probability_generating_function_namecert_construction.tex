@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\ProbabilityGeneratingFunctionUp$}
+\label{ch:concrete-instances-probability-generating-function-namecert}
+\origin{human}
+
+Following Feller and Billingsley on probability generating functions for integer-valued distributions, the $\ProbabilityGeneratingFunctionUp$ packet records the finite coefficient-window route by which a probability law over $\NatUp$ is read as a formal series before any scalar consumer asks for a $\RealUp$ seal. It sits after the probability-space rows of \autoref{ch:concrete-instances-probspace-namecert}, the distribution rows of \autoref{ch:concrete-instances-distribution-namecert}, the series carrier of \autoref{ch:concrete-instances-series-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite probability-mass windows, natural-index reads, coefficient streams, regular rational handoff, transport, replay, provenance, and local naming; it does not assert analytic convergence on a host disk, selected infinite sums, countable additivity beyond displayed rows, quotient stream equality, or ambient real completeness.
+
+\begin{definition}[Probability generating function carrier]
+\label{def:probability-generating-function-carrier}
+A $\ProbabilityGeneratingFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(P,D,I,S,W,R,E,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\ProbSpaceUp$ row that names the finite probability context for the displayed event and mass reads.
+\item $D$ is the $\DistributionUp$ row whose integer-valued mass table supplies the inspected coefficient window.
+\item $I$ is the $\NatUp$ index row naming the finite natural-number slots whose probabilities are exposed.
+\item $S$ is the $\SeriesUp$ coefficient-stream row, reading the displayed masses as the corresponding formal coefficient window.
+\item $W$ is the finite coefficient-window ledger connecting $D,I$ to $S$ without selecting an infinite stream.
+\item $R$ is the $\RegSeqRatUp$ readback row for the inspected probability coefficients and finite partial evaluations.
+\item $E$ is the $\RealUp$ seal row exported only after $P,D,I,S,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the probability, distribution, index, series, window, readback, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a coefficient or evaluation request through $P,D,I,S,W$ to $R$ and $E$.
+\item $K$ is the $\Pkg$ provenance over $\ProbabilityGeneratingFunctionUp$, $\ProbSpaceUp$, $\DistributionUp$, $\NatUp$, $\SeriesUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProbabilityGeneratingFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $P,D,I,S,W,R,E,H,C,K,N$. It has no coordinate for a host analytic function, a completed probability law outside the displayed distribution row, selected infinite coefficients, quotient stream equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Probability generating function NameCert obligations]
+\label{thm:probability-generating-function-namecert-obligations}
+For every accepted $\ProbabilityGeneratingFunctionUp$ carrier $G=(P,D,I,S,W,R,E,H,C,K,N)$, the local $\NameCert_{\ProbabilityGeneratingFunctionUp}$ surface consists exactly of probability-space admission through $P$; distribution-row admission through $D$; natural-index exposure through $I$; coefficient-stream exposure through $S$; finite coefficient-window exhaustion through $W$; $\RegSeqRatUp$ readback through $R$; $\RealUp$ seal ordering through $E$; and componentwise transport, continuation replay, package provenance, and local naming through $H,C,K,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:probability-generating-function-carrier}. The rows $P,D,I,S,W$ display the probability context, the integer-valued distribution, the finite natural-index slots, and the coefficient-stream window before any scalar readback is available.
+
+The regular rational row $R$ is downstream from that displayed coefficient window, and the Real seal $E$ is downstream from $R$. Thus a scalar consumer can only read probabilities and partial evaluations along the route already exposed by the finite coefficient data.
+
+Transport through $H$ and replay through $C$ preserve the same displayed route. Provenance and local naming through $K,N$ source and name it without adding host analytic semantics, selected infinite coefficients, quotient stream equality, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Probability generating function coefficient-window handoff]
+\label{thm:probability-generating-function-coefficient-window-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\ProbabilityGeneratingFunctionUp$ packet must read the finite route
+$$
+\ProbSpaceUp,\quad \DistributionUp,\quad \NatUp,\quad \SeriesUp,\quad W,\quad \RegSeqRatUp,\quad \RealUp
+$$
+through the same packet rows $P,D,I,S,W,R,E,H,C,K,N$. Consequently the generating-function read is a coefficient-window handoff and not a host analytic function, selected infinite series, quotient stream equality, countable-choice selector, or ambient Real-completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier and project the source rows $P,D,I,S,W$. The probability-space row and distribution row supply the finite mass table, while the natural-index row fixes exactly which coefficients the series row may expose.
+
+Read the scalar handoff through $R$ and $E$. The regular rational readback is obtained from the same finite coefficient windows, and the Real seal is visible only after that readback has been displayed.
+
+Finally pass through $H,C,K,N$. These rows transport, replay, source, and name the same route, so no consumer can replace it by host analytic convergence, selected representatives, quotient stream equality, countable choice, or ambient real completeness.
+\end{proof}
+
+\closureat{ProbabilityGeneratingFunctionUp}{seedStr}
+
+\begin{closurestatus}{\ProbabilityGeneratingFunctionUp}
+  \constructivestory{A $\ProbabilityGeneratingFunctionUp$ packet is generated from ProbSpaceUp rows, DistributionUp mass-table rows, NatUp index rows, SeriesUp coefficient-stream windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:probability-generating-function-carrier}, \autoref{thm:probability-generating-function-namecert-obligations}, and \autoref{thm:probability-generating-function-coefficient-window-handoff} seed the finite probability generating function route over probability, distribution, natural-index, series, regular rational, Real-seal, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic convergence on a host disk, selected infinite sums, quotient stream equality, countable choice, countable-additivity claims beyond displayed rows, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, probability-space admission, distribution-row admission, natural-index exposure, coefficient-window exactness, regular readback, Real-seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.ProbabilityGeneratingFunctionUp.}
+\end{closurestatus}
