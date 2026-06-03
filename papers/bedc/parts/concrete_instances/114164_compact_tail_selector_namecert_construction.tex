@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CompactTailSelectorUp$}
+\label{ch:concrete-instances-compact-tail-selector-namecert}
+\origin{human}
+
+Following the compact-uniform-continuity construction of \autoref{ch:visions-compact-uniform-continuity}, the $\CompactTailSelectorUp$ packet records the finite tail-window selector that a compact metric argument can hand to completion and real-valued consumers. It sits after the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the tolerance-only modulus surface of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet selects a displayed finite tail window from already named modulus and compact-net rows; it is not countable choice, open-cover compactness, sequential compactness, or an ambient completeness theorem.
+
+\begin{definition}[CompactTailSelector carrier]
+\label{def:compact-tail-selector-carrier}
+A $\CompactTailSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+T=(K,S,R,U,E,W,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, exposing only the inspected finite compact-net coverage and metric-distance witnesses.
+\item $S$ is the $\StreamNameUp$ row whose finite stream windows are being bounded by the selector.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the inspected stream windows and tolerance observations.
+\item $U$ is the $\UniformModulusUp$ row, already tolerance-only before the selector reads it.
+\item $E$ is the terminal $\RealUp$ seal reached only after $K,S,R,U$ and the selected window row have all been displayed.
+\item $W$ is the selected finite tail-window row. It stores the threshold index, the finite interval of inspected names, and the compact-net witness used to justify that this window covers the requested tolerance.
+\item $D$ is the dyadic tolerance ledger comparing the requested rational tolerance with the modulus and window rows.
+\item $H$ records componentwise $\hsame$ transport for compact metric data, stream windows, regular readbacks, uniform modulus rows, real seals, selected windows, tolerance comparisons, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from compact-net reads and uniform-modulus reads to the selected tail window, and then to regular readback and the real seal.
+\item $P$ is the $\Pkg$ provenance over $\CompactTailSelectorUp$, $\CompactMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\UniformModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactTailSelectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for countable choice, an arbitrary open cover, sequential compactness, a selected convergent subsequence, quotient real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[CompactTailSelector NameCert obligations]
+\label{thm:compact-tail-selector-namecert-obligations}
+For every accepted $\CompactTailSelectorUp$ carrier $T=(K,S,R,U,E,W,D,H,C,P,N)$, the local $\NameCert_{\CompactTailSelectorUp}$ surface consists exactly of carrier admission for the displayed compact metric row, stream-window row, regular rational readback, uniform modulus, real seal, selected tail window, dyadic tolerance ledger, componentwise transport, displayed replay, provenance, and local naming. Every Real-facing or completion-facing consumer must read the finite route
+$$
+K,S,R,U,D\longmapsto W\longmapsto E,H,C,P,N
+$$
+before treating the selected window as a tail bound.
+\end{theorem}
+\begin{proof}
+Project the rows of \autoref{def:compact-tail-selector-carrier}. The packet exposes compact metric data, stream windows, regular readbacks, a uniform modulus, a real seal, the selected tail-window row, a dyadic comparison row, and the structural rows.
+
+The selected window $W$ is downstream of the compact metric source and the uniform-modulus row. A consumer therefore cannot inspect a tail threshold without first displaying the compact-net coverage, the stream windows being bounded, the regular rational readback, and the tolerance comparison that ties the modulus to the requested precision.
+
+The rows $H,C,P,N$ preserve this route under classifier transport, continuation replay, provenance, and local naming. Since no coordinate stores countable choice, arbitrary open covers, sequential compactness, selected subsequences, quotient real equality, or ambient $\RealUp$ completeness, the listed obligations exhaust the local surface.
+\end{proof}
+
+\begin{theorem}[CompactTailSelector finite ledger]
+\label{thm:compact-tail-selector-finite-ledger}
+Let $T=(K,S,R,U,E,W,D,H,C,P,N)$ be an accepted $\CompactTailSelectorUp$ packet. The selected tail window is finite ledger data: it is read from the displayed $\CompactMetricUp$ source row, the finite $\StreamNameUp$ windows, the $\RegSeqRatUp$ observations, the $\UniformModulusUp$ row, and the dyadic tolerance comparison. It is not obtained from countable choice, an open-cover subcover theorem, a chosen subsequence, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Read $K,S,R,U,D$ in order. The compact metric row supplies only finite net coverage, the stream row supplies finite windows, the regular rational row supplies the observed tolerances, and the uniform-modulus row supplies a tolerance-only bound checked by $D$.
+
+The row $W$ stores the resulting threshold and inspected finite interval. Because $W$ is part of the same $\BHist$ packet, transport by $H$ and replay by $C$ move it componentwise with the compact source, stream windows, readback rows, and modulus row.
+
+The packet never opens an arbitrary cover or a sequence of choices. Its real-facing row $E$ is reached only after the finite ledger has been displayed, so no consumer can reinterpret the tail selector as countable choice, open-cover compactness, selected subsequence compactness, or ambient Real completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\CompactTailSelectorUp$ consumer that reads a tail threshold without the displayed CompactMetric source row, StreamName finite-window row, RegSeqRat readback row, UniformModulus row, dyadic tolerance ledger, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows refutes the carrier surface.}
+
+\independenceWitness{compactmetric, streamname, regseqrat, uniformmodulus, real: no listed sibling supplies the full packet $T=(K,S,R,U,E,W,D,H,C,P,N)$, because each sibling contributes a compact source, finite windows, rational readback, a modulus, or a terminal seal while this chapter binds them into one displayed tail-window selector.}
+
+\closureat{CompactTailSelectorUp}{seedStr}
+
+\begin{closurestatus}{\CompactTailSelectorUp}
+  \constructivestory{A $\CompactTailSelectorUp$ packet is generated from CompactMetric source rows, StreamName finite windows, RegSeqRat readback, a UniformModulus row, a RealUp seal, selected tail-window rows, dyadic tolerance comparisons, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-tail-selector-carrier}, \autoref{thm:compact-tail-selector-namecert-obligations}, and \autoref{thm:compact-tail-selector-finite-ledger} seed the finite tail-window selector consumed by compact-uniform and completion-facing arguments.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, sequential compactness, countable choice, selected subsequences, quotient real equality, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-source coverage, finite-window readback, modulus-to-tail exactness, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CompactTailSelectorUp.}
+\end{closurestatus}
