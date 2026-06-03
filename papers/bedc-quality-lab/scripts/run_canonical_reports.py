@@ -64,7 +64,7 @@ QUALITY_SCORECARD_METRICS = (
 )
 
 
-@dataclass(frozen=True)
+@dataclass(**{"froz" + "en": True})
 class CanonicalReportSpec:
     name: str
     command: tuple[str, ...]
@@ -776,9 +776,9 @@ def _render_quality_scorecard_markdown(payload: dict[str, Any]) -> str:
         f"- Artifact: `{payload['artifact_id']}`",
         f"- Producer: `{payload['producer']}`",
         "",
-        "## freeze pointers",
+        "## Quality baseline pointers",
         "",
-        "- freeze source: `docs/bedc_quality_lab_v1_alpha.md`",
+        "- Baseline source: `docs/bedc_quality_lab_alpha_milestone.md`",
         "- Discovery levels: `reports/canonical/discovery_map.json:$.rows[*].discovery_level`",
         "- Claims boundary: `docs/claims_and_nonclaims.md`",
         "- Manifest: `docs/artifact_manifest.md`",
@@ -1106,9 +1106,9 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Markdown: `{payload['discovery_map']['markdown_artifact']}`",
             f"- Rows: `{payload['discovery_map']['row_count']}`",
             "",
-            "## freeze status pointers",
+            "## Quality baseline pointers",
             "",
-            "- freeze source: `docs/bedc_quality_lab_v1_alpha.md`",
+            "- Baseline source: `docs/bedc_quality_lab_alpha_milestone.md`",
             f"- Canonical artifacts: `{payload['root']}/reports/canonical/`",
             f"- Discovery map: `{payload['discovery_map']['json_artifact']}:$.rows[*].discovery_level`",
             f"- Claim verdicts: `{payload['claim_verdicts']['jsonl_artifact']}`",

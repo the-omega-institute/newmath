@@ -2,7 +2,7 @@
 
 ## Report Claim Posture
 
-The v1 alpha report posture is lab-local and pointer-only. It reports EvidenceEnvelope artifacts, CostProtocol projections, `quality_q`, theorem-bound projection pointers, discovery-map rows, claim-verdict rows, negative-witness rows, and canonical artifact pointers.
+The alpha-stage report posture is lab-local and pointer-only. It reports EvidenceEnvelope artifacts, CostProtocol projections, `quality_q`, theorem-bound projection pointers, discovery-map rows, claim-verdict rows, negative-witness rows, and canonical artifact pointers.
 
 BEDC references are opaque pointers only, such as chapter path, label, or Lean target name stored in `bedc_refs`. This document does not copy BEDC chapter body or define BEDC semantics.
 
@@ -18,7 +18,7 @@ The forbidden exact-term source is `bedc_quality_lab/claim_terms.py:FORBIDDEN_PO
 
 ## Positive Wording Boundary
 
-`gap-head-on-h` is the only positive discovery prototype in this freeze frame, and only through `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]` plus `reports/canonical/gap-head-on-h.json` pointers such as `$.main_claim_status`, `$.control_verdict`, `$.treatment_comparison`, and `$.applicability_boundary`.
+`gap-head-on-h` is the only positive discovery prototype in this alpha-stage quality baseline, and only through `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]` plus `reports/canonical/gap-head-on-h.json` pointers such as `$.main_claim_status`, `$.control_verdict`, `$.treatment_comparison`, and `$.applicability_boundary`.
 
 Mixed, negative, or audit-improvement reports are under the nonclaim boundary. This includes `gap-head-discovery`, `certificate-guided-training`, `certificate-guided-discovery`, `nongaussian-distribution-sweep`, and `anisotropic-ou-sweep`.
 

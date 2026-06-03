@@ -7,8 +7,8 @@ from scripts import run_canonical_reports as canonical
 
 ROOT = Path(__file__).resolve().parents[1]
 CANONICAL = ROOT / "reports" / "canonical"
-FREEZE_MARKDOWN_SURFACES = (
-    ROOT / "docs" / "bedc_quality_lab_v1_alpha.md",
+ALPHA_MILESTONE_MARKDOWN_SURFACES = (
+    ROOT / "docs" / "bedc_quality_lab_alpha_milestone.md",
     ROOT / "docs" / "claims_and_nonclaims.md",
     ROOT / "docs" / "artifact_manifest.md",
     CANONICAL / "index.md",
@@ -38,10 +38,10 @@ def _walk_keys(value):
             yield from _walk_keys(cell)
 
 
-def test_hg_v1a_discovery_map_levels_are_frozen():
+def test_hg_amg_discovery_map_levels_are_baselined():
     assert (CANONICAL / "discovery_map.json").exists()
     assert (CANONICAL / "index.md").exists()
-    assert "## freeze status pointers" in (CANONICAL / "index.md").read_text(encoding="utf-8")
+    assert "## Quality baseline pointers" in (CANONICAL / "index.md").read_text(encoding="utf-8")
 
     rows = _discovery_rows_by_report()
     assert rows["gap-head-on-h"]["discovery_level"] == "D4"
@@ -50,16 +50,16 @@ def test_hg_v1a_discovery_map_levels_are_frozen():
     assert rows["anisotropic-ou-sweep"]["discovery_level"] == "D1"
 
 
-def test_hg_v1a_docs_use_claim_terms_source():
+def test_hg_amg_docs_use_claim_terms_source():
     assert FORBIDDEN_POSITIVE_CLAIM_TERMS
-    for path in FREEZE_MARKDOWN_SURFACES:
+    for path in ALPHA_MILESTONE_MARKDOWN_SURFACES:
         assert path.exists(), path
         text = path.read_text(encoding="utf-8").lower()
         hits = [term for term in FORBIDDEN_POSITIVE_CLAIM_TERMS if term.lower() in text]
         assert hits == [], f"{path.relative_to(ROOT)} contains forbidden positive claim terms: {hits}"
 
 
-def test_hg_v1a_scorecard_has_no_hidden_weight():
+def test_hg_amg_scorecard_has_no_hidden_weight():
     scorecard_json = CANONICAL / "quality-scorecard.json"
     scorecard_md = CANONICAL / "quality-scorecard.md"
     assert scorecard_json.exists()
@@ -75,5 +75,5 @@ def test_hg_v1a_scorecard_has_no_hidden_weight():
         assert term not in encoded_payload
         assert term not in markdown
 
-    assert all(spec.json_artifact != "reports/canonical/v1-alpha-freeze-gate.json" for spec in canonical.CANONICAL_REPORTS)
-    assert not (CANONICAL / "v1-alpha-freeze-gate.json").exists()
+    assert all(spec.json_artifact != "reports/canonical/alpha-milestone-gate.json" for spec in canonical.CANONICAL_REPORTS)
+    assert not (CANONICAL / "alpha-milestone-gate.json").exists()

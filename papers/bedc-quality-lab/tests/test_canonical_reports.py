@@ -508,7 +508,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     assert "HG-P core reports" in markdown
     assert "Auxiliary reports" in markdown
     assert "Quality scorecard" in markdown
-    assert "freeze status pointers" in markdown
+    assert "Quality baseline pointers" in markdown
     assert "reports/canonical/discovery_map.json:$.rows[*].discovery_level" in markdown
     assert "Negative witnesses" in markdown
     assert "Claim verdicts" in markdown
@@ -1168,7 +1168,7 @@ def test_quality_scorecard_has_no_weighted_total(tmp_path):
     assert "weighted" not in markdown.lower()
 
 
-def test_quality_scorecard_markdown_contains_freeze_pointers(tmp_path):
+def test_quality_scorecard_markdown_contains_baseline_pointers(tmp_path):
     old_root = canonical.ROOT
     old_dir = canonical.CANONICAL_DIR
     old_index = canonical.INDEX_ARTIFACT
@@ -1181,8 +1181,8 @@ def test_quality_scorecard_markdown_contains_freeze_pointers(tmp_path):
         canonical.CANONICAL_DIR = old_dir
         canonical.INDEX_ARTIFACT = old_index
 
-    assert "freeze pointers" in markdown
-    assert "docs/bedc_quality_lab_v1_alpha.md" in markdown
+    assert "Quality baseline pointers" in markdown
+    assert "docs/bedc_quality_lab_alpha_milestone.md" in markdown
     assert "reports/canonical/discovery_map.json:$.rows[*].discovery_level" in markdown
 
 

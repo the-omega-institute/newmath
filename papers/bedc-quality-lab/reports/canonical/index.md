@@ -37,9 +37,9 @@
 - Markdown: `reports/canonical/discovery_map.md`
 - Rows: `10`
 
-## freeze status pointers
+## Quality baseline pointers
 
-- freeze source: `docs/bedc_quality_lab_v1_alpha.md`
+- Baseline source: `docs/bedc_quality_lab_alpha_milestone.md`
 - Canonical artifacts: `papers/bedc-quality-lab/reports/canonical/`
 - Discovery map: `reports/canonical/discovery_map.json:$.rows[*].discovery_level`
 - Claim verdicts: `reports/canonical/claim_verdicts.jsonl`

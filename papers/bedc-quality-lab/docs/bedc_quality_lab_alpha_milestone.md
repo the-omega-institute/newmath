@@ -1,6 +1,6 @@
-# BEDC Quality Lab v1 Alpha
+# BEDC Quality Lab Alpha Milestone
 
-This document is a pointer hub for the v1 alpha freeze. Machine-readable status stays in canonical artifacts and local Python sources.
+This document is a pointer hub for the alpha-stage quality baseline. Machine-readable status stays in canonical artifacts and local Python sources.
 
 ## Discovery Levels
 
@@ -12,9 +12,9 @@ Discovery levels are read from `reports/canonical/discovery_map.json` at `$.rows
 | `DN` | negative discovery pointer |
 | `D1` | audit-improvement pointer |
 
-The frozen cells are:
+The baseline cells are:
 
-| report | frozen level pointer | evidence pointer |
+| report | baseline level pointer | evidence pointer |
 | --- | --- | --- |
 | `gap-head-on-h` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h].evidence_pointer` |
 | `certificate-guided-discovery` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery].failed_gate` |

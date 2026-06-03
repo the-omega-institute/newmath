@@ -4,9 +4,9 @@
 - Artifact: `bedc-quality-lab:quality-scorecard`
 - Producer: `scripts/run_canonical_reports.py`
 
-## freeze pointers
+## Quality baseline pointers
 
-- freeze source: `docs/bedc_quality_lab_v1_alpha.md`
+- Baseline source: `docs/bedc_quality_lab_alpha_milestone.md`
 - Discovery levels: `reports/canonical/discovery_map.json:$.rows[*].discovery_level`
 - Claims boundary: `docs/claims_and_nonclaims.md`
 - Manifest: `docs/artifact_manifest.md`

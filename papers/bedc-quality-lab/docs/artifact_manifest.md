@@ -2,17 +2,17 @@
 
 This manifest is a human navigation layer, not a second machine source. Each row gives an artifact id, a path, a discovery-level pointer, and a pointer status. Report status, bundle role, scorecard linkage, and report artifact paths stay in `reports/canonical/index.json`.
 
-## Freeze Surfaces
+## Quality Baseline Surfaces
 
 | artifact id | path | discovery_level pointer | pointer status |
 | --- | --- | --- | --- |
 | `bedc-quality-lab:canonical-report-index` | `reports/canonical/index.json` | `$.discovery_map` | pointer-only |
-| `bedc-quality-lab:canonical-report-index-md` | `reports/canonical/index.md` | `## Freeze status pointers` | pointer-only |
+| `bedc-quality-lab:canonical-report-index-md` | `reports/canonical/index.md` | `## Quality baseline pointers` | pointer-only |
 | `bedc-quality-lab:quality-scorecard` | `reports/canonical/quality-scorecard.json` | `$.rows` | pointer-only |
-| `bedc-quality-lab:quality-scorecard-md` | `reports/canonical/quality-scorecard.md` | `## Freeze pointers` | pointer-only |
-| `bedc-quality-lab:v1-alpha-freeze` | `docs/bedc_quality_lab_v1_alpha.md` | `## Discovery Levels` | pointer-only |
+| `bedc-quality-lab:quality-scorecard-md` | `reports/canonical/quality-scorecard.md` | `## Quality baseline pointers` | pointer-only |
+| `bedc-quality-lab:alpha-milestone` | `docs/bedc_quality_lab_alpha_milestone.md` | `## Discovery Levels` | pointer-only |
 | `bedc-quality-lab:claims-and-nonclaims` | `docs/claims_and_nonclaims.md` | `## Positive Wording Boundary` | pointer-only |
-| `bedc-quality-lab:artifact-manifest` | `docs/artifact_manifest.md` | `## Freeze Surfaces` | pointer-only |
+| `bedc-quality-lab:artifact-manifest` | `docs/artifact_manifest.md` | `## Quality Baseline Surfaces` | pointer-only |
 
 ## Discovery Rows
 
