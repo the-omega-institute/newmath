@@ -45,6 +45,13 @@
 - Transfer status: `pass`
 - Discovery level: `D4`
 
+## Dimension mismatch transfer robustness
+
+- Status: `pass`
+- JSON: `reports/canonical/dimension-mismatch-transfer-robustness.json`
+- Markdown: `reports/canonical/dimension-mismatch-transfer-robustness.md`
+- Audit status: `pass`
+
 ## Quality baseline pointers
 
 - Baseline source: `docs/bedc_quality_lab_alpha_milestone.md`

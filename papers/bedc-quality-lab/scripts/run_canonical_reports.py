@@ -33,6 +33,9 @@ DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
 DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
 DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.md"
 DIMENSION_MISMATCH_TRANSFER_ARTIFACT_ID = "bedc-quality-lab:dimension-mismatch-debt-transfer"
+DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_JSON_ARTIFACT = "reports/canonical/dimension-mismatch-transfer-robustness.json"
+DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_MARKDOWN_ARTIFACT = "reports/canonical/dimension-mismatch-transfer-robustness.md"
+DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_ARTIFACT_ID = "bedc-quality-lab:dimension-mismatch-transfer-robustness"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
 NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
@@ -1024,6 +1027,17 @@ def _dimension_mismatch_transfer_index_section() -> dict[str, Any]:
     }
 
 
+def _dimension_mismatch_transfer_robustness_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_JSON_ARTIFACT)
+    return {
+        "status": payload.get("status", "missing"),
+        "artifact_id": payload.get("artifact_id", DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_ARTIFACT_ID),
+        "json_artifact": DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_JSON_ARTIFACT,
+        "markdown_artifact": DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_MARKDOWN_ARTIFACT,
+        "audit_status": payload.get("audit_status", "missing"),
+    }
+
+
 def _negative_witnesses_index_section() -> dict[str, Any]:
     return {
         "status": "pointer-only",
@@ -1153,6 +1167,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "quality_scorecard": _quality_scorecard_index_section(),
         "discovery_map": _discovery_map_index_section(generated_at=timestamp),
         "dimension_mismatch_debt_transfer": _dimension_mismatch_transfer_index_section(),
+        "dimension_mismatch_transfer_robustness": _dimension_mismatch_transfer_robustness_index_section(),
         "negative_witnesses": _negative_witnesses_index_section(),
         "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
@@ -1227,6 +1242,13 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Markdown: `{payload['dimension_mismatch_debt_transfer']['markdown_artifact']}`",
             f"- Transfer status: `{payload['dimension_mismatch_debt_transfer']['transfer_status']}`",
             f"- Discovery level: `{payload['dimension_mismatch_debt_transfer']['discovery_level']}`",
+            "",
+            "## Dimension mismatch transfer robustness",
+            "",
+            f"- Status: `{payload['dimension_mismatch_transfer_robustness']['status']}`",
+            f"- JSON: `{payload['dimension_mismatch_transfer_robustness']['json_artifact']}`",
+            f"- Markdown: `{payload['dimension_mismatch_transfer_robustness']['markdown_artifact']}`",
+            f"- Audit status: `{payload['dimension_mismatch_transfer_robustness']['audit_status']}`",
             "",
             "## Quality baseline pointers",
             "",
@@ -1356,8 +1378,10 @@ def run_reports(
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
     write_discovery_map(generated_at=timestamp, root=ROOT, canonical_reports=CANONICAL_REPORTS)
     write_claim_verdicts(root=ROOT, generated_at=timestamp)
+    from scripts.run_dimension_mismatch_transfer_robustness import write_dimension_mismatch_transfer_robustness
     from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
 
+    write_dimension_mismatch_transfer_robustness(root=ROOT, generated_at=timestamp)
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
     from scripts.run_gap_head_mechanism_attribution import write_gap_head_mechanism_attribution
 
