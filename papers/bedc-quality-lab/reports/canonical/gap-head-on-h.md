@@ -1,6 +1,6 @@
 # Gap-Ledger Head on Learned h
 
-- Generated at: `2026-06-03T04:56:22.692390+00:00`
+- Generated at: `2026-06-03T05:12:44.988127+00:00`
 - Representation boundary: `learned_h`
 - Inference no ground-truth z: `true`
 - Sample count: `384`

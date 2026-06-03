@@ -259,6 +259,8 @@ def _rank_correlation(ledger: list[dict[str, Any]], arms: list[dict[str, Any]]) 
             pairs.append(
                 {
                     "arm": arm["name"],
+                    "ledger_row_id": str(row["row_id"]),
+                    "deletion_axes": list(axes),
                     "hinge_rank": int(row["hinge_rank"]),
                     "spectral_loss_proxy": float(row["eigenvalue_loss"]["spectral_loss_proxy"]),
                     "observed_degradation_score": float(arm["observed_degradation_score"]),
@@ -321,7 +323,13 @@ def _hardening_coverage(
         and math.isfinite(float(arm["metrics"]["quality_margin"]))
         for arm in arms
     )
-    finite_ledger_coverage = bool(hinge_ledger) and int(rank_correlation["n"]) == len(hinge_ledger)
+    ledger_rows = {str(row["row_id"]) for row in hinge_ledger}
+    covered_rows = {
+        str(pair["ledger_row_id"])
+        for pair in rank_correlation["pairs"]
+        if "ledger_row_id" in pair
+    }
+    finite_ledger_coverage = bool(ledger_rows) and ledger_rows <= covered_rows
     missing_row_negative_example = bool(
         negative_control["control_count"] > 0
         and negative_control["treatment_better_than_all_controls"] is False
@@ -330,17 +338,17 @@ def _hardening_coverage(
         {
             "name": "sameClass equivalence",
             "recorded": same_class_equivalence,
-            "source": "$.arms[*].deletion_axes",
+            "source": "$.arms[*].{deletion_axes,name,family}",
         },
         {
             "name": "margin stability",
             "recorded": margin_stability,
-            "source": "$.arms[*].metrics.bound_margin",
+            "source": "$.arms[*].metrics.{bound_margin,quality_margin}",
         },
         {
             "name": "finite ledger coverage",
             "recorded": finite_ledger_coverage,
-            "source": "$.rank_correlation.n",
+            "source": "$.hinge_ledger[*].row_id + $.rank_correlation.pairs[*].ledger_row_id",
         },
         {
             "name": "missing-row negative example",

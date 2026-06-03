@@ -124,6 +124,8 @@ def test_rank_correlation_uses_observed_degradation_without_reordering():
     assert [row["deletion"]["axes"] for row in ledger] == original_order
     assert correlation["n"] == 3
     assert correlation["pairs"][0]["arm"] == "hinge-ranked-treatment"
+    assert correlation["pairs"][0]["ledger_row_id"] == "delete-0"
+    assert correlation["pairs"][0]["deletion_axes"] == [0]
     assert correlation["pairs"][0]["hinge_rank"] == 1
     assert correlation["pairs"][0]["observed_degradation_score"] == pytest.approx(0.1)
     assert "do not alter hinge ledger rank" in correlation["ordering_note"]
@@ -188,6 +190,50 @@ def test_payload_records_hardening_coverage_cell():
         "finite ledger coverage",
         "missing-row negative example",
     ]
+
+
+def test_duplicate_rank_pairs_do_not_cover_missing_ledger_row():
+    ledger = hinge._build_hinge_ledger(TransitionKernelSpec(rho_by_axis=(0.92, 0.64)))
+    arms = [
+        {
+            "name": "hinge-ranked-treatment",
+            "family": "hinge-ranked-treatment",
+            "deletion_axes": [0],
+            "metrics": metrics(identifiability=0.9, error=0.1, margin=0.8, quality=0.7),
+            "observed_degradation_score": 0.4,
+        },
+        {
+            "name": "two-axis-module-analogue",
+            "family": "hinge-ranked-treatment",
+            "deletion_axes": [0, 1],
+            "metrics": metrics(identifiability=0.8, error=0.2, margin=0.7, quality=0.6),
+            "observed_degradation_score": 0.6,
+        },
+        {
+            "name": "tail-mixing-perturbation",
+            "family": "tail-mixing-perturbation",
+            "deletion_axes": [0],
+            "metrics": metrics(identifiability=0.7, error=0.3, margin=0.6, quality=0.5),
+            "observed_degradation_score": 0.5,
+        },
+    ]
+    rank_correlation = hinge._rank_correlation(ledger, arms)
+
+    coverage = hinge._hardening_coverage(
+        arms=arms,
+        hinge_ledger=ledger,
+        rank_correlation=rank_correlation,
+        negative_control={
+            "control_count": 1,
+            "treatment_better_than_all_controls": False,
+        },
+    )
+    coverage_items = {item["name"]: item for item in coverage["items"]}
+
+    assert rank_correlation["n"] == len(ledger)
+    assert [pair["deletion_axes"] for pair in rank_correlation["pairs"]] == [[0], [0, 1], [0]]
+    assert coverage_items["finite ledger coverage"]["recorded"] is False
+    assert coverage["recorded"] == 3
 
 
 def test_payload_keeps_schema_id_unchanged():

@@ -1061,7 +1061,7 @@
     "seed": 851,
     "use_torch": false
   },
-  "generated_at": "2026-06-03T04:56:24.527389+00:00",
+  "generated_at": "2026-06-03T05:12:47.441498+00:00",
   "hinge_ledger": [
     {
       "deletion": {
@@ -1159,17 +1159,17 @@
           {
             "name": "sameClass equivalence",
             "recorded": true,
-            "source": "$.arms[*].deletion_axes"
+            "source": "$.arms[*].{deletion_axes,name,family}"
           },
           {
             "name": "margin stability",
             "recorded": true,
-            "source": "$.arms[*].metrics.bound_margin"
+            "source": "$.arms[*].metrics.{bound_margin,quality_margin}"
           },
           {
             "name": "finite ledger coverage",
-            "recorded": true,
-            "source": "$.rank_correlation.n"
+            "recorded": false,
+            "source": "$.hinge_ledger[*].row_id + $.rank_correlation.pairs[*].ledger_row_id"
           },
           {
             "name": "missing-row negative example",
@@ -1177,7 +1177,7 @@
             "source": "$.negative_control_summary"
           }
         ],
-        "recorded": 4,
+        "recorded": 3,
         "required": 4
       },
       "negative_control": {
@@ -1204,19 +1204,32 @@
         "pairs": [
           {
             "arm": "hinge-ranked-treatment",
+            "deletion_axes": [
+              0
+            ],
             "hinge_rank": 1,
+            "ledger_row_id": "delete-0",
             "observed_degradation_score": -0.12736786306352205,
             "spectral_loss_proxy": 0.72417984
           },
           {
             "arm": "two-axis-module-analogue",
+            "deletion_axes": [
+              0,
+              1
+            ],
             "hinge_rank": 3,
+            "ledger_row_id": "delete-0-1",
             "observed_degradation_score": -0.15853263461520872,
             "spectral_loss_proxy": 1.0746336
           },
           {
             "arm": "tail-mixing-perturbation",
+            "deletion_axes": [
+              0
+            ],
             "hinge_rank": 1,
+            "ledger_row_id": "delete-0",
             "observed_degradation_score": -0.6242536786695799,
             "spectral_loss_proxy": 0.72417984
           }
@@ -1252,19 +1265,32 @@
     "pairs": [
       {
         "arm": "hinge-ranked-treatment",
+        "deletion_axes": [
+          0
+        ],
         "hinge_rank": 1,
+        "ledger_row_id": "delete-0",
         "observed_degradation_score": -0.12736786306352205,
         "spectral_loss_proxy": 0.72417984
       },
       {
         "arm": "two-axis-module-analogue",
+        "deletion_axes": [
+          0,
+          1
+        ],
         "hinge_rank": 3,
+        "ledger_row_id": "delete-0-1",
         "observed_degradation_score": -0.15853263461520872,
         "spectral_loss_proxy": 1.0746336
       },
       {
         "arm": "tail-mixing-perturbation",
+        "deletion_axes": [
+          0
+        ],
         "hinge_rank": 1,
+        "ledger_row_id": "delete-0",
         "observed_degradation_score": -0.6242536786695799,
         "spectral_loss_proxy": 0.72417984
       }

@@ -638,6 +638,8 @@ def _scorecard_hardening_coverage(payloads: dict[str, dict[str, Any]]) -> dict[s
     required = cell.get("required")
     if not isinstance(recorded, int) or not isinstance(required, int) or required <= 0:
         return _metric_not_ready("HardeningCoverage", f"{report}:{pointer}", "missing hardening denominator")
+    if recorded < required:
+        return _metric_not_ready("HardeningCoverage", f"{report}:{pointer}", "incomplete hardening coverage")
     return _metric_ready(
         "HardeningCoverage",
         recorded / required,
