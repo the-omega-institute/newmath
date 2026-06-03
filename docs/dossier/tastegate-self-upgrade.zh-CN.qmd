@@ -1,0 +1,55 @@
+---
+title: "TasteGate 自升级"
+subtitle: "由反例驱动的 carrier 品味 meta 闸."
+author: "The Omega Institute"
+date: 2026-06-03
+lang: zh-Hans
+description: "TasteGate 自升级把 carrier 反例转成单调、可机检的 meta 义务, 不改 Lean ChapterTasteGate 核心."
+---
+
+```{=html}
+<div class="lang-switch"><a href="tastegate-self-upgrade.qmd">English</a></div>
+```
+
+# TasteGate 自升级
+
+## 静态闸和 meta 闸
+
+`ChapterTasteGate` 仍然是局部 Lean 闸。它检查 chapter carrier 的 round-trip、layer separation、conservativity、no hidden input。这些义务是承重结构, 继续留在 Lean 侧。
+
+自升级机制在外层增加一个 meta 义务注册表: `lean4/scripts/taste_obligations.json`。它不替代 `ChapterTasteGate`。它记录从反例中发现的、可机检的品味判据, 专门覆盖局部闸当前可能漏掉的问题。
+
+Audit payload 的键是 `taste_meta_gate`。它报告注册义务数、违反数、注册表诊断, 以及违反已注册判据的 carrier 对。存量 carrier 只 informational 报告, 不因为已知欠编码直接破坏当前 build。
+
+## 第一条义务
+
+第一条注册义务是 `structural_distinctness`:
+
+| 字段 | 内容 |
+|---|---|
+| `kind` | `carrier_structure` |
+| `criterion` | `carrier_faithfulness.cross_domain_canonical_payload_distinct` |
+| 拒绝原因 | carrier 不应与不同领域的 carrier 共享 canonical payload |
+| 证据来源 | `carrier_faithfulness.cross_domain_under_encoding` |
+
+判据独立于注册表自述。注册表声明义务; `bedc_ci.py` 从 carrier-faithfulness payload 重新计算命中。carrier 自称有 taste 不算证据。
+
+## 反例
+
+`BEDC.Derived.ContinuousUp.ContinuousModulusWitness` 和 `BEDC.Derived.CompactUp.CompactNetWitness` 是领域不同但 canonical payload 相同的 carrier。名字指向不同数学角色, payload 却没有编码这个区别。
+
+这就是 taste 反例。它可以通过局部四条义务, 但仍然回答不了结构问题: carrier 是否真的携带了名字声称的数学内容? `structural_distinctness` 把这个失败类记录成可复用的 meta 义务。
+
+## 单调升级
+
+`lean4/scripts/taste_gate_evolver.py` 实现升级步骤。它寻找独立复验过的反例类, 在义务缺失时写入注册表, 然后重新加载注册表, 确认义务数量没有减少。
+
+方向只能收严。新义务可以增加拒绝判据, 不能放松既有判据。这和 discovery assertion gate 的 witness registry 纪律一致: 一旦某个反例类被注册, 后续 audit 必须继续暴露它。
+
+## 诚实边界
+
+这是 meta 闸, 不是 `ChapterTasteGate` 上的新字段。Lean 仍然证明局部 chapter 义务。Audit 层跨 carrier、跨领域读取, 而 canonical-payload 碰撞造成的欠编码正是在这个层面可见。
+
+这个机制不会硬 block 当前语料。它对存量 carrier 是 informational, 对新 carrier 生成是前向闸。生成器应该拒绝违反已注册品味判据的新 carrier, 但 audit 命令保持存量 finding 不改变 exit code。
+
+目标不是 cosmetic 差异化。只为改变 payload 而加 tag 或 wrapper 是 gaming。`structural_distinctness` 的精神是编码区分性结构, 不是隐藏碰撞。
