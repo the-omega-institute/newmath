@@ -1,6 +1,6 @@
 # Discovery Map
 
-- Generated at: `2026-06-03T08:31:03.281575+00:00`
+- Generated at: `2026-06-03T13:00:37.417129+00:00`
 - Rows: `10`
 
 | report | level | projection | audit | evidence |
@@ -15,3 +15,13 @@
 | `certificate-guided-training` | `DN` | `projected` | `valid` | `$.result.status` |
 | `certificate-guided-discovery` | `DN` | `projected` | `valid` | `$.positive_discovery` |
 | `spectral-ablation-hinge` | `DN` | `projected` | `valid` | `$.negative_control_summary.treatment_better_than_all_controls` |
+
+## D5 readiness
+
+### gap-head-on-h
+
+- `threshold`: `pass` (reports/canonical/gap-head-robustness-sweep.json:$.A1_threshold_sweep.treatment_verdict.positive) A1 threshold sweep passes under the canonical robustness final_status.
+- `ablation`: `pass` (reports/canonical/gap-head-robustness-sweep.json:$.A2_feature_ablation.status) A2 feature ablation is complete under the canonical robustness final_status.
+- `seed_expansion`: `pass` (reports/canonical/gap-head-robustness-sweep.json:$.A3_seed_expansion.final_verdict) A3 seed expansion has robust_positive final verdict under final_status=pass.
+- `adversarial`: `pass` (reports/canonical/discovery_negative_witnesses.json:$.witnesses) The eight adversarial witness kinds do not break the discovery gate.
+- `observed_debt_transfer`: `missing` (reports/canonical/observed-debt-sweep.json:$.gap_head_on_h_observed_debt_transfer.status) Observed-debt sweep covers observed-debt surfaces but has no gap-head-on-h observed-debt transfer metric.

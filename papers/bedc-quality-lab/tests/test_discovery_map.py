@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -75,6 +76,100 @@ def _write_all_payloads(root: Path):
         _write_payload(root, spec, _minimal_payload(spec))
 
 
+def _write_json_artifact(root: Path, artifact: str, payload):
+    path = root / artifact
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+
+
+def _read_json_artifact(root: Path, artifact: str):
+    return json.loads((root / artifact).read_text(encoding="utf-8"))
+
+
+def _robustness_context_payload():
+    return {
+        "final_status": "pass",
+        "acceptance_gates": {"status": "pass"},
+        "A1_threshold_sweep": {"treatment_verdict": {"positive": True}},
+        "A2_feature_ablation": {"status": "complete"},
+        "A3_seed_expansion": {"status": "complete", "final_verdict": "robust_positive"},
+        "A4_distribution_transfer": {
+            "status": "complete",
+            "policy": "pointer_only_existing_transfer_surfaces_no_retraining",
+        },
+    }
+
+
+def _negative_witnesses_context_payload(*, expected_kind_count=8):
+    return {
+        "status": "pointer-only",
+        "expected_kind_count": expected_kind_count,
+        "witnesses": [
+            {"kind": f"witness-{index}", "terminal_verdict": "rejected", "discovery_level": "DN"}
+            for index in range(expected_kind_count)
+        ],
+    }
+
+
+def _observed_debt_context_payload(*, transfer_metric=False):
+    payload = {
+        "hardgate_evidence": {
+            "C-HG1": {"status": "pass"},
+            "C-HG2": {"status": "pass"},
+            "C-HG3": {"status": "pass"},
+            "C-HG4": {"status": "pass"},
+        },
+        "config": {"C1_encoder_output_dims": [1, 2, 3], "baseline_encoder_dim": 2},
+        "cells": [{"row": "source/dimension-match"}],
+    }
+    if transfer_metric:
+        payload["gap_head_on_h_observed_debt_transfer"] = {"status": "pass"}
+    return payload
+
+
+def _write_gap_head_d5_context(root: Path, *, transfer_metric=False, witness_count=8):
+    _write_json_artifact(root, discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT, _robustness_context_payload())
+    _write_json_artifact(
+        root,
+        discovery_map.NEGATIVE_WITNESSES_ARTIFACT,
+        _negative_witnesses_context_payload(expected_kind_count=witness_count),
+    )
+    _write_json_artifact(
+        root,
+        discovery_map.OBSERVED_DEBT_ARTIFACT,
+        _observed_debt_context_payload(transfer_metric=transfer_metric),
+    )
+
+
+def _rewrite_gap_head_d5_artifact(root: Path, artifact: str, mutate):
+    payload = _read_json_artifact(root, artifact)
+    mutate(payload)
+    _write_json_artifact(root, artifact, payload)
+
+
+def _without_key(key):
+    def mutate(payload):
+        payload.pop(key, None)
+
+    return mutate
+
+
+def _set_nested(path, value):
+    def mutate(payload):
+        target = payload
+        for key in path[:-1]:
+            target = target[key]
+        target[path[-1]] = value
+
+    return mutate
+
+
+def _add_gate_breaking_witness(payload):
+    mutated_witnesses = deepcopy(payload["witnesses"])
+    mutated_witnesses[0]["terminal_verdict"] = "accepted"
+    payload["witnesses"] = mutated_witnesses
+
+
 def _row_by_report(payload):
     return {row["report"]: row for row in payload["rows"]}
 
@@ -112,6 +207,210 @@ def test_d4_rows_have_resolvable_control_pointer(tmp_path, report):
     assert verdict.discovery_level == "D4"
     assert evidence.control_pointer
     assert discovery_map.pointer_value(payload, evidence.control_pointer) is not None
+
+
+def test_gap_head_on_h_current_readiness_stays_d4_with_observed_debt_transfer_missing(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=False)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-on-h"]
+
+    assert row["discovery_level"] == "D4"
+    assert row["audit_status"] == "valid"
+    assert row["robustness_pointer"] == (
+        "reports/canonical/gap-head-robustness-sweep.json:$.A1_threshold_sweep.treatment_verdict.positive"
+    )
+    assert row["adversarial_pointer"] == "reports/canonical/discovery_negative_witnesses.json:$.witnesses"
+    assert row["observed_debt_transfer_pointer"] == (
+        "reports/canonical/observed-debt-sweep.json:$.gap_head_on_h_observed_debt_transfer.status"
+    )
+    assert row["d5_readiness"]["threshold"]["status"] == "pass"
+    assert row["d5_readiness"]["ablation"]["status"] == "pass"
+    assert row["d5_readiness"]["seed_expansion"]["status"] == "pass"
+    assert row["d5_readiness"]["adversarial"]["status"] == "pass"
+    assert row["d5_readiness"]["observed_debt_transfer"]["status"] == "missing"
+
+
+def test_gap_head_on_h_projects_to_d5_when_all_readiness_pointers_pass(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-on-h"]
+
+    assert row["discovery_level"] == "D5"
+    assert row["audit_status"] == "valid"
+    assert {criterion["status"] for criterion in row["d5_readiness"].values()} == {"pass"}
+
+
+@pytest.mark.parametrize(
+    ("criterion", "artifact", "mutate", "expected_status"),
+    [
+        (
+            "threshold",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _without_key("A1_threshold_sweep"),
+            "missing",
+        ),
+        (
+            "threshold",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A1_threshold_sweep", "treatment_verdict", "positive"), False),
+            "missing",
+        ),
+        (
+            "threshold",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A1_threshold_sweep", "treatment_verdict", "positive"), "incomplete"),
+            "missing",
+        ),
+        (
+            "ablation",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _without_key("A2_feature_ablation"),
+            "missing",
+        ),
+        (
+            "ablation",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A2_feature_ablation", "status"), "failed"),
+            "missing",
+        ),
+        (
+            "ablation",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A2_feature_ablation", "status"), "incomplete"),
+            "missing",
+        ),
+        (
+            "seed_expansion",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _without_key("A3_seed_expansion"),
+            "missing",
+        ),
+        (
+            "seed_expansion",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A3_seed_expansion", "status"), "incomplete"),
+            "missing",
+        ),
+        (
+            "seed_expansion",
+            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+            _set_nested(("A3_seed_expansion", "final_verdict"), "failed"),
+            "missing",
+        ),
+        (
+            "adversarial",
+            discovery_map.NEGATIVE_WITNESSES_ARTIFACT,
+            _without_key("witnesses"),
+            "failed",
+        ),
+        (
+            "adversarial",
+            discovery_map.NEGATIVE_WITNESSES_ARTIFACT,
+            _set_nested(("expected_kind_count",), 7),
+            "failed",
+        ),
+        (
+            "adversarial",
+            discovery_map.NEGATIVE_WITNESSES_ARTIFACT,
+            _add_gate_breaking_witness,
+            "failed",
+        ),
+        (
+            "observed_debt_transfer",
+            discovery_map.OBSERVED_DEBT_ARTIFACT,
+            _without_key("gap_head_on_h_observed_debt_transfer"),
+            "missing",
+        ),
+        (
+            "observed_debt_transfer",
+            discovery_map.OBSERVED_DEBT_ARTIFACT,
+            _set_nested(("gap_head_on_h_observed_debt_transfer", "status"), "failed"),
+            "missing",
+        ),
+        (
+            "observed_debt_transfer",
+            discovery_map.OBSERVED_DEBT_ARTIFACT,
+            _set_nested(("gap_head_on_h_observed_debt_transfer", "status"), "incomplete"),
+            "missing",
+        ),
+    ],
+)
+def test_gap_head_on_h_d5_readiness_fails_closed_per_real_criterion(
+    tmp_path,
+    criterion,
+    artifact,
+    mutate,
+    expected_status,
+):
+    _write_all_payloads(tmp_path)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _rewrite_gap_head_d5_artifact(tmp_path, artifact, mutate)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-on-h"]
+
+    statuses = {name: value["status"] for name, value in row["d5_readiness"].items()}
+    assert row["discovery_level"] == "D4"
+    assert row["audit_status"] == "valid"
+    assert statuses[criterion] == expected_status
+    assert {name for name, status in statuses.items() if status != "pass"} == {criterion}
+
+
+def test_gap_head_on_h_d5_claim_with_unresolved_pointer_is_invalid(monkeypatch):
+    spec = canonical._specs_by_name()["gap-head-on-h"]
+    payload = _minimal_payload(spec)
+    ledger = discovery_map.GapHeadD5ReadinessLedger(
+        criteria=(
+            discovery_map.GapHeadD5Criterion(
+                name="threshold",
+                status="pass",
+                artifact=discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
+                pointer="$.missing_positive_cell",
+                reason="fixture",
+            ),
+        )
+    )
+
+    def fake_readiness(context):
+        return ledger
+
+    monkeypatch.setattr(discovery_map, "_gap_head_d5_readiness", fake_readiness)
+
+    row = discovery_map.discovery_row(
+        spec,
+        payload,
+        {discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT: {"final_status": "pass"}},
+    )
+
+    assert row["discovery_level"] == "D5"
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "unresolved-d5-pointer-threshold"
+
+
+def test_adversarial_witness_count_does_not_create_positive_discovery(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=True, witness_count=8)
+    spec = canonical._specs_by_name()["gap-head-on-h"]
+    _write_payload(
+        tmp_path,
+        spec,
+        {
+            "treatment_verdict": {"positive": False},
+            "control_protocol": {"same_budget_as_treatment": True},
+            "control_verdict": {"positive": False},
+        },
+    )
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-on-h"]
+
+    assert row["d5_readiness"]["adversarial"]["status"] == "pass"
+    assert row["discovery_level"] == "D0"
+    assert row["classifier_reasons"] == ["no classifier shift or debt improvement"]
 
 
 @pytest.mark.parametrize(
