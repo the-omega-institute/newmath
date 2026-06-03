@@ -5097,6 +5097,7 @@ import BEDC.Derived.LocatedIntervalCompactnessUp.TasteGate
 import BEDC.Derived.LocatedIntervalCoverUp.TasteGate
 import BEDC.Derived.LocatedIntervalMidpointUp.TasteGate
 import BEDC.Derived.LocatedIntervalUp
+import BEDC.Derived.LocatedIntervalUp.CarrierHabitation
 import BEDC.Derived.LocatedIntervalUp.ClassifierStability
 import BEDC.Derived.LocatedIntervalUp.PublicConsumerRoute
 import BEDC.Derived.LocatedIntervalUp.RealStreamBracketCorrespondence
