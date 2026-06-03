@@ -13,6 +13,7 @@ HG_P_CORE = {
     "gap-head-on-h",
     "gap-head-discovery",
     "gap-head-ablation",
+    "gap-head-threshold-frontier",
     "certificate-guided-training",
     "certificate-guided-discovery",
 }
@@ -66,6 +67,46 @@ def _payload_for_spec(spec):
             "main_claim_status": "fixture status",
             "final_main_claim_status": "fixture status",
             "hardgate": {"status": "pass"},
+            "readiness": {"status": "D4-at-threshold"},
+            "threshold_curve": [
+                {
+                    "threshold": 0.05,
+                    "metrics": {
+                        "AUROC": {"mean": 0.6, "std": 0.0, "n": 2, "ci95_low": 0.6, "ci95_high": 0.6},
+                        "UnloggedErrorRate": {"mean": 0.1, "std": 0.0, "n": 2, "ci95_low": 0.1, "ci95_high": 0.1},
+                        "LoggedFalseAlarmRate": {"mean": 0.2, "std": 0.0, "n": 2, "ci95_low": 0.2, "ci95_high": 0.2},
+                        "CriticalUnloggedErrorRate": {"mean": 0.1, "std": 0.0, "n": 2, "ci95_low": 0.1, "ci95_high": 0.1},
+                        "QualityQ": {"mean": 0.3, "std": 0.0, "n": 2, "ci95_low": 0.3, "ci95_high": 0.3},
+                        "NetInformation": {"mean": 1.2, "std": 0.0, "n": 2, "ci95_low": 1.2, "ci95_high": 1.2},
+                    },
+                }
+            ],
+            "threshold_summary": {
+                "control_baseline": [
+                    {
+                        "threshold": 0.05,
+                        "metrics": {
+                            "CriticalUnloggedErrorRate": {"mean": 0.2, "std": 0.0, "n": 2, "ci95_low": 0.2, "ci95_high": 0.2}
+                        },
+                    }
+                ]
+            },
+            "pareto_axis_spec": {
+                "x": "AUROC",
+                "x_direction": "maximize",
+                "y": "CriticalLoggedCoverage",
+                "y_definition": "1 - CriticalUnloggedErrorRate",
+                "y_direction": "maximize",
+            },
+            "pareto_frontier": [
+                {
+                    "threshold": 0.05,
+                    "metrics": {
+                        "AUROC": {"mean": 0.6, "std": 0.0, "n": 2, "ci95_low": 0.6, "ci95_high": 0.6},
+                        "CriticalLoggedCoverage": {"mean": 0.9, "std": 0.0, "n": 2, "ci95_low": 0.9, "ci95_high": 0.9},
+                    },
+                }
+            ],
             "factor_attribution": {
                 "learned_head": {
                     "auroc_delta": -0.2,
@@ -174,6 +215,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-on-h",
         "gap-head-discovery",
         "gap-head-ablation",
+        "gap-head-threshold-frontier",
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
         "certificate-guided-discovery",
@@ -239,6 +281,30 @@ def test_canonical_reports_manifest_includes_gap_head_ablation():
     assert spec.cost_pointer == "$.control_protocol"
     assert spec.positive_claim_pointer == "$.factor_attribution.learned_head.auroc_delta"
     assert spec.control_pointer == "$.control_protocol"
+
+
+def test_canonical_reports_manifest_includes_gap_head_threshold_frontier():
+    spec = canonical._specs_by_name()["gap-head-threshold-frontier"]
+
+    assert spec.command == ("python3", "scripts/run_gap_head_threshold_sweep.py")
+    assert spec.json_artifact == "reports/canonical/gap-head-threshold-frontier.json"
+    assert spec.markdown_artifact == "reports/canonical/gap-head-threshold-frontier.md"
+    assert {
+        "threshold_curve",
+        "threshold_summary",
+        "pareto_axis_spec",
+        "pareto_frontier",
+        "hardgate",
+        "readiness",
+        "main_claim_status",
+        "not_claimed",
+    }.issubset(set(spec.required_json_keys))
+    assert "threshold_records" not in spec.required_json_keys
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.scope_pointer == "$.applicability_boundary"
+    assert spec.cost_pointer == "$.source_artifacts"
+    assert spec.positive_claim_pointer == "$.main_claim_status"
+    assert spec.control_pointer == "$.threshold_summary.control_baseline"
 
 
 def test_canonical_reports_manifest_includes_distribution_sweep():
@@ -701,6 +767,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
                     "pointer": "$.applicability_boundary",
                 },
                 {
+                    "report": "gap-head-threshold-frontier",
+                    "artifact": "reports/canonical/gap-head-threshold-frontier.json",
+                    "pointer": "$.applicability_boundary",
+                },
+                {
                     "report": "nongaussian-distribution-sweep",
                     "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
                     "pointer": "$.coverage_item",
@@ -721,8 +792,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 9,
-            "denominator": 9,
+            "numerator": 10,
+            "denominator": 10,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -753,6 +824,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
                     "pointer": "$.control_protocol",
                 },
                 {
+                    "report": "gap-head-threshold-frontier",
+                    "artifact": "reports/canonical/gap-head-threshold-frontier.json",
+                    "pointer": "$.source_artifacts",
+                },
+                {
                     "report": "nongaussian-distribution-sweep",
                     "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
                     "pointer": "$.source_artifacts.cost_protocol",
@@ -773,8 +849,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 9,
-            "denominator": 9,
+            "numerator": 10,
+            "denominator": 10,
         },
         "HardeningCoverage": {
             "value": 1.0,
