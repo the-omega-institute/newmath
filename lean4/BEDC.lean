@@ -4738,6 +4738,7 @@ import BEDC.Derived.InterHistTransportSealUp.TasteGate
 import BEDC.Derived.InterInscriptionCoherenceUp.TasteGate
 import BEDC.Derived.IntermediateValueBisectionUp
 import BEDC.Derived.IntermediateValueBisectionUp.TasteGate
+import BEDC.Derived.IntermediateValueTheoremUp
 import BEDC.Derived.IntermediateValueTheoremUp.TasteGate
 import BEDC.Derived.IntermediateValueUp.BisectionNesting
 import BEDC.Derived.IntermediateValueUp.BisectionWindowScope
@@ -5395,6 +5396,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ProvenanceNaming
 import BEDC.Derived.MetaCICCriticalPathUp.PublicConsumerSurface
 import BEDC.Derived.MetaCICCriticalPathUp.PublicExport
 import BEDC.Derived.MetaCICCriticalPathUp.PublicInterfaceFrontierReadiness
+import BEDC.Derived.MetaCICCriticalPathUp.PublicInterfaceGate
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionBudgetTriangle
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionFrontierFilter
 import BEDC.Derived.MetaCICCriticalPathUp.RealCompletionReadinessPackage
@@ -5412,6 +5414,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualCandidateSNHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudgetBridge
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualPublicHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionNormalizationFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.RootDischargeExactness
 import BEDC.Derived.MetaCICCriticalPathUp.RootRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.RootSocketTotality
@@ -8285,6 +8288,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.RootObligationLattice
 import BEDC.Derived.UniformCompletionFunctorUp.RouteObligations
 import BEDC.Derived.UniformCompletionFunctorUp.SourceExtensionReadback
 import BEDC.Derived.UniformCompletionFunctorUp.SourceFactorization
+import BEDC.Derived.UniformCompletionFunctorUp.SourceUnitCompatibility
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.UnitRootObligation
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalExtensionUniquenessLedger

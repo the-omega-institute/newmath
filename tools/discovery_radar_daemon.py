@@ -21,6 +21,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
+from structural_dna_build import ensure_structural_dna_build as shared_ensure_structural_dna_build
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LEAN_ROOT = REPO_ROOT / "lean4"
 LOG_DIR = REPO_ROOT / "tools" / "logs"
@@ -103,67 +105,7 @@ def structural_dna_probe() -> subprocess.CompletedProcess[str]:
 
 
 def ensure_structural_dna_build() -> str | None:
-    try:
-        build = run_lake_build("structural_dna")
-    except subprocess.TimeoutExpired as exc:
-        reason = f"structural_dna build timed out after {STRUCTURAL_DNA_BUILD_TIMEOUT}s"
-        append_log(f"[radar] [WARNING] {reason}")
-        return reason
-    except Exception as exc:
-        reason = f"structural_dna build could not start: {type(exc).__name__}: {exc}"
-        append_log(f"[radar] [WARNING] {reason}")
-        return reason
-    if build.returncode != 0:
-        details = short_process_output(build)
-        reason = f"structural_dna build failed exit={build.returncode}"
-        append_log(f"[radar] [WARNING] {reason}: {details}")
-        return reason
-    try:
-        probe = structural_dna_probe()
-    except subprocess.TimeoutExpired:
-        reason = f"structural_dna BEDC import probe timed out after {COMMAND_TIMEOUT}s"
-        append_log(f"[radar] [WARNING] {reason}")
-        return reason
-    except Exception as exc:
-        reason = f"structural_dna BEDC import probe could not start: {type(exc).__name__}: {exc}"
-        append_log(f"[radar] [WARNING] {reason}")
-        return reason
-    if probe.returncode == 0:
-        return None
-    try:
-        bedc_build = run_lake_build("BEDC")
-    except subprocess.TimeoutExpired:
-        reason = f"BEDC build timed out after {STRUCTURAL_DNA_BUILD_TIMEOUT}s"
-        append_log(f"[radar] [WARNING] {reason}")
-        return reason
-    except Exception as exc:
-        reason = f"BEDC build could not start: {type(exc).__name__}: {exc}"
-        append_log(f"[radar] [WARNING] {reason}")
-        return reason
-    if bedc_build.returncode != 0:
-        details = short_process_output(bedc_build)
-        reason = f"BEDC build failed exit={bedc_build.returncode}"
-        append_log(f"[radar] [WARNING] {reason}: {details}")
-        return reason
-    try:
-        probe_after_bedc = structural_dna_probe()
-    except subprocess.TimeoutExpired:
-        reason = f"structural_dna BEDC import probe timed out after BEDC build after {COMMAND_TIMEOUT}s"
-        append_log(f"[radar] [WARNING] {reason}")
-        return reason
-    except Exception as exc:
-        reason = (
-            "structural_dna BEDC import probe could not start after BEDC build: "
-            f"{type(exc).__name__}: {exc}"
-        )
-        append_log(f"[radar] [WARNING] {reason}")
-        return reason
-    if probe_after_bedc.returncode != 0:
-        details = short_process_output(probe_after_bedc)
-        reason = f"structural_dna BEDC import probe failed exit={probe_after_bedc.returncode}"
-        append_log(f"[radar] [WARNING] {reason}: {details}")
-        return reason
-    return None
+    return shared_ensure_structural_dna_build(append_log=append_log, label="radar")
 
 
 def parse_text_payload(output: str) -> dict[str, Any]:
