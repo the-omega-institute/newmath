@@ -259,6 +259,8 @@ def _rank_correlation(ledger: list[dict[str, Any]], arms: list[dict[str, Any]]) 
             pairs.append(
                 {
                     "arm": arm["name"],
+                    "ledger_row_id": str(row["row_id"]),
+                    "deletion_axes": list(axes),
                     "hinge_rank": int(row["hinge_rank"]),
                     "spectral_loss_proxy": float(row["eigenvalue_loss"]["spectral_loss_proxy"]),
                     "observed_degradation_score": float(arm["observed_degradation_score"]),
@@ -301,7 +303,73 @@ def _negative_control_summary(arms: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def _ledger_summary(rank_correlation: dict[str, Any], negative_control: dict[str, Any]) -> dict[str, Any]:
+def _hardening_coverage(
+    *,
+    arms: list[dict[str, Any]],
+    hinge_ledger: list[dict[str, Any]],
+    rank_correlation: dict[str, Any],
+    negative_control: dict[str, Any],
+) -> dict[str, Any]:
+    same_class_equivalence = any(
+        tuple(left["deletion_axes"]) == tuple(right["deletion_axes"])
+        and left["name"] != right["name"]
+        and left["family"] != right["family"]
+        for index, left in enumerate(arms)
+        for right in arms[index + 1 :]
+        if left["deletion_axes"] and right["deletion_axes"]
+    )
+    margin_stability = all(
+        math.isfinite(float(arm["metrics"]["bound_margin"]))
+        and math.isfinite(float(arm["metrics"]["quality_margin"]))
+        for arm in arms
+    )
+    ledger_rows = {str(row["row_id"]) for row in hinge_ledger}
+    covered_rows = {
+        str(pair["ledger_row_id"])
+        for pair in rank_correlation["pairs"]
+        if "ledger_row_id" in pair
+    }
+    finite_ledger_coverage = bool(ledger_rows) and ledger_rows <= covered_rows
+    missing_row_negative_example = bool(
+        negative_control["control_count"] > 0
+        and negative_control["treatment_better_than_all_controls"] is False
+    )
+    items = [
+        {
+            "name": "sameClass equivalence",
+            "recorded": same_class_equivalence,
+            "source": "$.arms[*].{deletion_axes,name,family}",
+        },
+        {
+            "name": "margin stability",
+            "recorded": margin_stability,
+            "source": "$.arms[*].metrics.{bound_margin,quality_margin}",
+        },
+        {
+            "name": "finite ledger coverage",
+            "recorded": finite_ledger_coverage,
+            "source": "$.hinge_ledger[*].row_id + $.rank_correlation.pairs[*].ledger_row_id",
+        },
+        {
+            "name": "missing-row negative example",
+            "recorded": missing_row_negative_example,
+            "source": "$.negative_control_summary",
+        },
+    ]
+    return {
+        "recorded": sum(1 for item in items if item["recorded"] is True),
+        "required": len(items),
+        "items": items,
+    }
+
+
+def _ledger_summary(
+    rank_correlation: dict[str, Any],
+    negative_control: dict[str, Any],
+    *,
+    arms: list[dict[str, Any]],
+    hinge_ledger: list[dict[str, Any]],
+) -> dict[str, Any]:
     spearman = float(rank_correlation["spearman"]) if not math.isnan(float(rank_correlation["spearman"])) else math.nan
     positive = bool(
         negative_control["treatment_better_than_all_controls"]
@@ -313,6 +381,12 @@ def _ledger_summary(rank_correlation: dict[str, Any], negative_control: dict[str
         "claim": "hinge-ranked deletion predicts observed quality degradation",
         "positive_prediction": positive,
         "basis": {
+            "hardening_coverage": _hardening_coverage(
+                arms=arms,
+                hinge_ledger=hinge_ledger,
+                rank_correlation=rank_correlation,
+                negative_control=negative_control,
+            ),
             "negative_control": negative_control,
             "rank_correlation": rank_correlation,
         },
@@ -430,7 +504,12 @@ def _payload() -> dict[str, Any]:
         "hinge_ledger": hinge_ledger,
         "rank_correlation": rank_correlation,
         "negative_control_summary": negative_control,
-        "ledger_summary": _ledger_summary(rank_correlation, negative_control),
+        "ledger_summary": _ledger_summary(
+            rank_correlation,
+            negative_control,
+            arms=arms,
+            hinge_ledger=hinge_ledger,
+        ),
         "applicability_boundary": {
             "claimed_scope": "Gaussian 2D latent + diagonal Gaussian OU transition + runner-local hinge ledger.",
             "not_claimed": "This report does not claim full biological killed-walk coverage or formal BEDC closure.",

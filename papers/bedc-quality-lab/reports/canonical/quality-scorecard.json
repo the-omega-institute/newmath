@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-02T18:50:45.786072+00:00",
+  "generated_at": "2026-06-03T05:12:47.442390+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -254,14 +254,18 @@
     {
       "dependency": "spectral-ablation-hinge:$.ledger_summary.basis.hardening_coverage",
       "metric": "HardeningCoverage",
-      "reason": "missing hardening coverage cell",
+      "reason": "incomplete hardening coverage",
       "status": "not-ready"
     },
     {
-      "dependency": "certificate-guided-discovery:$.audit_decision.overclaim_rate",
       "metric": "OverclaimRate",
-      "reason": "missing explicit overclaim denominator",
-      "status": "not-ready"
+      "source": {
+        "artifact": "reports/canonical/certificate-guided-discovery.json",
+        "pointer": "$.audit_decision.overclaim_rate",
+        "report": "certificate-guided-discovery"
+      },
+      "status": "ready",
+      "value": 0.0
     }
   ]
 }

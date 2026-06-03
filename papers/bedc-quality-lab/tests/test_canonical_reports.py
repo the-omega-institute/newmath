@@ -68,7 +68,7 @@ def _payload_for_spec(spec):
             "negative_result_ledger": [{"status": "fixture"}],
             "ledger_summary": {
                 "status": "fixture",
-                "basis": {"hardening_coverage": {"recorded": 3, "required": 5}},
+                "basis": {"hardening_coverage": {"recorded": 5, "required": 5}},
             },
             "negative_control_summary": {"status": "fixture"},
             "surface_delta_count": 2,
@@ -734,13 +734,13 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
             "denominator": 8,
         },
         "HardeningCoverage": {
-            "value": pytest.approx(3 / 5),
+            "value": 1.0,
             "source": {
                 "report": "spectral-ablation-hinge",
                 "artifact": "reports/canonical/spectral-ablation-hinge.json",
                 "pointer": "$.ledger_summary.basis.hardening_coverage",
             },
-            "numerator": 3,
+            "numerator": 5,
             "denominator": 5,
         },
         "OverclaimRate": {
@@ -840,6 +840,33 @@ def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):
         canonical.ROOT = old_root
         canonical.CANONICAL_DIR = old_dir
         canonical.INDEX_ARTIFACT = old_index
+
+
+def test_quality_scorecard_hardening_coverage_requires_full_count(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        _write_payloads_for_all_specs(canonical, tmp_path)
+        _mutate_payload(
+            canonical,
+            "spectral-ablation-hinge",
+            lambda payload: payload["ledger_summary"]["basis"].update(
+                {"hardening_coverage": {"recorded": 3, "required": 4}}
+            ),
+        )
+        scorecard = canonical._build_quality_scorecard([], generated_at="fixture-time")
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+
+    row = {item["metric"]: item for item in scorecard["rows"]}["HardeningCoverage"]
+    assert row["status"] == "not-ready"
+    assert row["dependency"] == "spectral-ablation-hinge:$.ledger_summary.basis.hardening_coverage"
+    assert row["reason"] == "incomplete hardening coverage"
+    assert "value" not in row
+    assert "numerator" not in row
 
 
 def test_quality_scorecard_cost_protocol_completeness_fails_closed_without_manifest_pointer(tmp_path):

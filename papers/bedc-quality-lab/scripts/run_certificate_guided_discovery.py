@@ -19,12 +19,33 @@ from bedc_quality_lab.claim_projection import (
     project_certificate_guided_claim,
     require_certificate_guided_projection_source,
 )
+from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.revocation import reevaluate_certified_claim
 
 SOURCE_JSON_ARTIFACT = "reports/certificate_guided_training.json"
 SOURCE_REPORT_ARTIFACT = "reports/certificate_guided_training.md"
 JSON_ARTIFACT = "reports/certificate_guided_discovery.json"
 REPORT_ARTIFACT = "reports/certificate_guided_discovery.md"
+
+def _text_for_term_scan(value: Any) -> str:
+    if isinstance(value, (dict, list, tuple)):
+        return json.dumps(value, sort_keys=True).lower()
+    return str(value).lower()
+
+def _overclaim_basis(report: dict[str, Any]) -> dict[str, Any]:
+    positive_claim_cell = {
+        "main_claim_status": report["main_claim_status"],
+        "claim_gate": report["claim_gate"],
+    }
+    text = _text_for_term_scan(positive_claim_cell)
+    hits = [term for term in FORBIDDEN_POSITIVE_CLAIM_TERMS if term.lower() in text]
+    checked = 1
+    fail_count = 1 if hits else 0
+    return {
+        "checked_claim_count": checked,
+        "forbidden_claim_fail_count": fail_count,
+        "forbidden_claim_term_hits": hits,
+    }
 
 def _load_payload(path: Path | None = None) -> dict[str, Any]:
     payload_path = ROOT / SOURCE_JSON_ARTIFACT if path is None else path
@@ -55,7 +76,7 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
     final_main_claim_status = (
         revocation_decision["new_status"] if revocation_decision["downgraded"] else main_claim_status
     )
-    return {
+    report = {
         "artifact": JSON_ARTIFACT,
         "source_artifacts": {
             "source_json_artifact": SOURCE_JSON_ARTIFACT,
@@ -87,6 +108,12 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
             "not_claimed": ["formal-bedc-closure", "global optimizer behavior", "new predicate formula"],
         },
     }
+    overclaim_basis = _overclaim_basis(report)
+    audit_decision["overclaim_basis"] = overclaim_basis
+    audit_decision["overclaim_rate"] = (
+        overclaim_basis["forbidden_claim_fail_count"] / overclaim_basis["checked_claim_count"]
+    )
+    return report
 
 def _write_payload(payload: dict[str, Any]) -> None:
     json_path = ROOT / JSON_ARTIFACT
