@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\AscoliCompactOperatorUp$}
+\label{ch:concrete-instances-ascoli-compact-operator-namecert}
+\origin{human}
+
+Following Arzela and Ascoli, and the compact-operator formulation in standard functional analysis, the $\AscoliCompactOperatorUp$ packet records compactness of an operator image as finite-net image data rather than as an ambient host compactness assertion. It sits between the Arzela--Ascoli certificate of \autoref{ch:concrete-instances-arzelaascoli-namecert}, the compact-metric surface of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite epsilon-net row of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the operator-norm chapter \autoref{ch:concrete-instances-operator-norm-namecert}, and the bounded-linear-functional boundary of \autoref{ch:concrete-instances-bounded-linear-functional-namecert}. The chapter names the finite operator-image route consumed by later Hilbert and spectral packets; it does not assert host compactness of a source ball, open-cover compactness, selected convergent subsequences, quotient operator equality, or ambient function-space completeness.
+
+\begin{definition}[Ascoli compact-operator carrier]
+\label{def:ascoli-compact-operator-carrier}
+An $\AscoliCompactOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+O=(T,B,K,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the bounded-linear operator row, read through the operator-norm ledger of \autoref{ch:concrete-instances-operator-norm-namecert} and the bounded-linear source discipline of \autoref{ch:concrete-instances-bounded-linear-functional-namecert};
+\item $B$ is the bounded source-ball row, recording only the displayed radius, source windows, and finite operator-norm bounds available to consumers;
+\item $K$ is the compact-metric image row, expressed as finite epsilon-net image data through $\CompactMetricUp$ and $\FiniteEpsilonNetUp$ rows;
+\item $E$ is the equicontinuity or Arzela--Ascoli finite-image ledger, recording the inspected family windows and finite image controls used before any compactness-facing export;
+\item $H$ records componentwise $\hsame$ transport for $T,B,K,E$;
+\item $C$ records the displayed $\Cont$ replay route forcing consumers to read the operator row, bounded source ball, finite-net image data, and Arzela--Ascoli ledger in that order;
+\item $P$ is the $\Pkg$ provenance over $\AscoliCompactOperatorUp$, $\ArzelaAscoliUp$, $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\mathsf{OperatorNorm}^{\uparrow}$, $\BoundedLinearFunctionalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\AscoliCompactOperatorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host compactness of the source ball, open-cover compactness, selected convergent subsequences, quotient equality of operators, or ambient Banach-space completeness.
+\end{definition}
+
+\begin{theorem}[Ascoli compact-operator NameCert obligations]
+\label{thm:ascoli-compact-operator-namecert-obligations}
+For every accepted $\AscoliCompactOperatorUp$ carrier $O=(T,B,K,E,H,C,P,N)$, the local $\NameCert_{\AscoliCompactOperatorUp}$ surface consists of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the bounded-linear operator, bounded source-ball, compact-metric image, finite-image ledger, transport, replay, provenance, and local naming rows;
+\item bounded-linear source compatibility, requiring every source-ball read to pass through the same operator-norm row $T$ and bounded source row $B$;
+\item finite-net image compactness, requiring compactness-facing output to be witnessed by the displayed finite epsilon-net image row $K$ rather than by a host compact subset;
+\item Arzela--Ascoli consumer handoff, requiring $E$ to display the equicontinuity or finite-image ledger consumed by the Arzela--Ascoli route before the operator image is exported;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the route $T,B,K,E$ under componentwise $\hsame$ movement;
+\item ledger refusal, excluding open-cover compactness, host compactness of the source ball, selected convergent subsequences, quotient operator equality, and ambient function-space completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ascoli-compact-operator-carrier}. The rows $T,B,K,E,H,C,P,N$ give carrier admission and leave no additional analytic coordinate.
+
+The source compatibility clause reads $T$ and $B$ first. The operator-norm row fixes the bounded-linear access discipline, while the source-ball row fixes the displayed bounded input surface.
+
+The compactness-facing route then reads $K$ and $E$. The image row is finite epsilon-net data over the compact-metric surface, and the Arzela--Ascoli ledger records the finite-image or equicontinuity handoff consumed before an operator-image export.
+
+Finally $H$ and $C$ transport and replay only the displayed rows. Since the carrier omits host compactness, open-cover compactness, selected subsequences, quotient operator equality, and ambient function-space completeness, those principles cannot enter the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Ascoli compact-operator finite-net image route]
+\label{thm:ascoli-compact-operator-finite-net-image}
+Every compact-operator consumer of an accepted $\AscoliCompactOperatorUp$ carrier must read the finite epsilon-net image route
+$$
+T,B \longmapsto K \longmapsto E \longmapsto H,C,P,N
+$$
+before any compactness-facing export of the operator image is available.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet $O=(T,B,K,E,H,C,P,N)$. The rows $T$ and $B$ determine the bounded-linear source side and the bounded input ball available to the consumer.
+
+The only compactness-facing image row is $K$. It is read through finite epsilon-net data over the compact-metric image surface, so a consumer cannot inspect an operator-image compactness claim before reading that finite-net row.
+
+The row $E$ then supplies the Arzela--Ascoli finite-image or equicontinuity handoff, and $H,C,P,N$ transport, replay, source, and name the same route. No carrier coordinate names host compactness or open-cover compactness, so every compact-operator export factors through the displayed finite-net image route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\AscoliCompactOperatorUp$ compactness-facing export factors through bounded-linear operator data, a bounded source-ball row, finite epsilon-net image data, an Arzela--Ascoli finite-image ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row. A read that exports compactness through host compactness of the source ball, open-cover compactness, selected subsequences, quotient operator equality, or ambient completeness refutes this packet.}
+
+\independenceWitness{arzelaascoli, compactmetric, finite-epsilon-net, operator-norm, bounded-linear-functional: no listed sibling is bijective to $\AscoliCompactOperatorUp$ because only this packet jointly binds the bounded operator row, bounded source-ball row, finite-net image row, Arzela--Ascoli consumer ledger, transport, replay, provenance, and local NameCert boundary in one compact-operator carrier.}
+
+\closureat{AscoliCompactOperatorUp}{seedStr}
+
+\begin{closurestatus}{\AscoliCompactOperatorUp}
+  \constructivestory{An $\AscoliCompactOperatorUp$ packet is generated from a bounded-linear operator row, bounded source-ball row, finite epsilon-net image row, Arzela--Ascoli finite-image ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ascoli-compact-operator-carrier}, \autoref{thm:ascoli-compact-operator-namecert-obligations}, and \autoref{thm:ascoli-compact-operator-finite-net-image} seed the finite-net compact-operator image route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host compactness, open-cover compactness, selected convergent subsequences, quotient operator equality, ambient function-space completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-linear source compatibility, finite-net image compactness, Arzela--Ascoli consumer handoff, transport and replay stability, and ledger refusal for BEDC.Derived.AscoliCompactOperatorUp.}
+\end{closurestatus}
