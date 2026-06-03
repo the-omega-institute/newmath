@@ -102,6 +102,7 @@ def assert_common_experiment_envelope(envelope):
 
 FALLBACK_LEDGER_GAPS = [
     "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial",
+    "kind=source; residue=action-transition-identification; severity=high; status=open",
     "kind=source; residue=distribution-family-coverage; severity=high; status=open",
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
@@ -114,7 +115,9 @@ FALLBACK_DEBT_ITEMS = [
     "kind=source; residue=latent-distribution-gaussianity; severity=none; status=closed; score=0.000000",
     "kind=source; residue=distribution-family-coverage; severity=high; status=open; score=0.240000",
     "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+    "kind=source; residue=dimension-match; severity=none; status=closed; score=0.000000",
     "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+    "kind=source; residue=action-transition-identification; severity=high; status=open; score=0.160000",
     "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.100000",
     "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
     "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000",
@@ -122,6 +125,7 @@ FALLBACK_DEBT_ITEMS = [
 
 TORCH_METADATA_LEDGER_GAPS = [
     "kind=classifier; residue=optimizer-certificate; severity=high; status=open",
+    "kind=source; residue=action-transition-identification; severity=high; status=open",
     "kind=source; residue=distribution-family-coverage; severity=high; status=open",
     "kind=source; residue=finite-sample-support; severity=high; status=open",
     "kind=source; residue=mixing-family-coverage; severity=high; status=open",
@@ -134,7 +138,9 @@ TORCH_METADATA_DEBT_ITEMS = [
     "kind=source; residue=latent-distribution-gaussianity; severity=none; status=closed; score=0.000000",
     "kind=source; residue=distribution-family-coverage; severity=high; status=open; score=0.240000",
     "kind=source; residue=finite-sample-support; severity=high; status=open; score=0.200000",
+    "kind=source; residue=dimension-match; severity=none; status=closed; score=0.000000",
     "kind=source; residue=transition-isotropy; severity=none; status=closed; score=0.000000",
+    "kind=source; residue=action-transition-identification; severity=high; status=open; score=0.160000",
     "kind=classifier; residue=optimizer-certificate; severity=high; status=open; score=0.200000",
     "kind=verification; residue=theorem3-bound-margin; severity=none; status=closed; score=0.000000",
     "kind=generalization; residue=global-claim-boundary; severity=none; status=closed; score=0.000000",

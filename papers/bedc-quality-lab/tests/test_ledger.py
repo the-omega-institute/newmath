@@ -6,8 +6,10 @@ from bedc_quality_lab.mixing import canonical_mixing_families
 
 def closed_latent_source():
     return {
+        "latent_dim": 2,
         "latent_distribution": LatentDistributionSpec.gaussian().to_source_spec(),
         "latent_distribution_coverage_keys": list(CANONICAL_LATENT_DISTRIBUTION_KEYS),
+        "action_transition_identified": True,
     }
 
 
@@ -67,7 +69,7 @@ def test_ledger_keeps_single_seed_global_claim_boundary_gap_live():
         "global_claim": True,
         **closed_latent_source(),
     }
-    classifier_spec = {"name": "certified-classifier", "training": "certified"}
+    classifier_spec = {"name": "certified-classifier", "training": "certified", "output_dim": 2}
     stability_spec = {"multi_seed": False}
     metrics = {
         "approx_identifiability_proxy": 0.8,
@@ -102,7 +104,7 @@ def test_ledger_metric_gap_pins_partial_and_open_statuses_below_bound_margin_mse
         "mixing": canonical_mixing_families(),
         **closed_latent_source(),
     }
-    classifier_spec = {"name": "certified-classifier", "training": "certified"}
+    classifier_spec = {"name": "certified-classifier", "training": "certified", "output_dim": 2}
     stability_spec = {"multi_seed": True}
     closed_metrics = {
         "theorem3_bound_mse": 1.0,
@@ -166,7 +168,7 @@ def test_ledger_filters_closed_debt_items():
         "global_claim": True,
         **closed_latent_source(),
     }
-    classifier_spec = {"name": "certified-classifier", "training": "certified"}
+    classifier_spec = {"name": "certified-classifier", "training": "certified", "output_dim": 2}
     stability_spec = {"multi_seed": True}
     metrics = {
         "approx_identifiability_proxy": 0.8,

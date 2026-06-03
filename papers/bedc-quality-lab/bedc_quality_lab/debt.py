@@ -106,6 +106,26 @@ def _finite_sample_score(source_spec: Mapping[str, Any], protocol: CostProtocol)
     return upper
 
 
+def _dimension_match_score(
+    source_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    upper = protocol.weight(LedgerRowKey("source", "dimension-match"))
+    latent_dim = source_spec.get("latent_dim")
+    output_dim = classifier_spec.get("output_dim")
+    if not isinstance(latent_dim, int) or not isinstance(output_dim, int):
+        return upper
+    if latent_dim <= 0 or output_dim <= 0:
+        return upper
+    gap = abs(latent_dim - output_dim)
+    if gap == 0:
+        return 0.0
+    if gap == 1:
+        return 0.5 * upper
+    return upper
+
+
 def _transition_isotropy_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
     upper = protocol.weight(LedgerRowKey("source", "transition-isotropy"))
     transition = source_spec.get("transition_kernel")
@@ -121,8 +141,22 @@ def _transition_isotropy_score(source_spec: Mapping[str, Any], protocol: CostPro
     return _bounded((float(gap) / 0.5) * upper, upper)
 
 
+def _action_transition_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
+    upper = protocol.weight(LedgerRowKey("source", "action-transition-identification"))
+    return 0.0 if source_spec.get("action_transition_identified") is True else upper
+
+
 def _optimization_score(classifier_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
     upper = protocol.weight(LedgerRowKey("classifier", "optimizer-certificate"))
+    steps = classifier_spec.get("optimizer_certificate_steps")
+    if isinstance(steps, int) and steps > 0:
+        if steps >= 2000:
+            return 0.0
+        if steps >= 500:
+            return 0.25 * upper
+        if steps >= 100:
+            return 0.5 * upper
+        return upper
     training = str(classifier_spec.get("training", ""))
     name = str(classifier_spec.get("name", ""))
     text = f"{name} {training}".lower()
@@ -229,8 +263,18 @@ def assess_debt(
             cost_protocol,
         ),
         _item(
+            LedgerRowKey("source", "dimension-match"),
+            _dimension_match_score(source_spec, classifier_spec, cost_protocol),
+            cost_protocol,
+        ),
+        _item(
             LedgerRowKey("source", "transition-isotropy"),
             _transition_isotropy_score(source_spec, cost_protocol),
+            cost_protocol,
+        ),
+        _item(
+            LedgerRowKey("source", "action-transition-identification"),
+            _action_transition_score(source_spec, cost_protocol),
             cost_protocol,
         ),
         _item(
