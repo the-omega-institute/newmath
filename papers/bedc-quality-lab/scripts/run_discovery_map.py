@@ -525,6 +525,7 @@ def _manifest_audit(
     registered = {spec.json_artifact for spec in reports}
     registered_pointer_artifacts = {
         "reports/canonical/quality-scorecard.json",
+        "reports/canonical/formal_hardening.json",
         DISCOVERY_MAP_JSON_ARTIFACT,
         NEGATIVE_WITNESSES_ARTIFACT,
     }

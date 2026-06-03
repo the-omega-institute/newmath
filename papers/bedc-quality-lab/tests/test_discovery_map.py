@@ -515,3 +515,23 @@ def test_manifest_audit_reports_unregistered_json_and_strict_fails(tmp_path):
         discovery_map.ROOT = old_root
 
     assert excinfo.value.code == 1
+
+
+def test_manifest_audit_registers_formal_hardening_pointer_artifact(tmp_path):
+    _write_all_payloads(tmp_path)
+    formal = tmp_path / "reports" / "canonical" / "formal_hardening.json"
+    formal.write_text(
+        json.dumps(
+            {
+                "artifact_id": "bedc-quality-lab:formal-hardening",
+                "ready": False,
+                "verification_ledger": [],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+
+    assert "reports/canonical/formal_hardening.json" not in payload["manifest_audit"]["unregistered_json_artifacts"]

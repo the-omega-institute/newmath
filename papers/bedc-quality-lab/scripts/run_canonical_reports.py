@@ -35,6 +35,9 @@ NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
 NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
+FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
+FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
+FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -700,22 +703,42 @@ def _scorecard_cost_protocol_completeness(payloads: dict[str, dict[str, Any]]) -
     )
 
 
+def _build_formal_hardening_payload(generated_at: str | None = None) -> dict[str, Any]:
+    from scripts.run_formal_hardening_report import build_formal_hardening_report
+
+    return build_formal_hardening_report(root=ROOT, generated_at=generated_at)
+
+
 def _scorecard_hardening_coverage(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    report = "spectral-ablation-hinge"
-    pointer = "$.ledger_summary.basis.hardening_coverage"
-    cell = _pointer_value(payloads.get(report, {}), pointer)
-    if not isinstance(cell, dict):
-        return _metric_not_ready("HardeningCoverage", f"{report}:{pointer}", "missing hardening coverage cell")
+    del payloads
+    pointer = "$.coverage"
+    dependency = f"formal_hardening:{pointer}"
+    payload = _build_formal_hardening_payload()
+    cell = _pointer_value(payload, pointer)
+    ledger = payload.get("verification_ledger")
+    if not isinstance(cell, dict) or not isinstance(ledger, list):
+        return _metric_not_ready("HardeningCoverage", dependency, "missing formal hardening coverage payload")
     recorded = cell.get("recorded")
     required = cell.get("required")
     if not isinstance(recorded, int) or not isinstance(required, int) or required <= 0:
-        return _metric_not_ready("HardeningCoverage", f"{report}:{pointer}", "missing hardening denominator")
-    if recorded < required:
-        return _metric_not_ready("HardeningCoverage", f"{report}:{pointer}", "incomplete hardening coverage")
+        return _metric_not_ready("HardeningCoverage", dependency, "missing formal hardening denominator")
+    rows_verified = all(
+        isinstance(row, dict)
+        and row.get("status") == "verified"
+        and row.get("recorded") is True
+        and row.get("evidence_resolved") is True
+        for row in ledger
+    )
+    if payload.get("ready") is not True or recorded != required or not rows_verified:
+        return _metric_not_ready("HardeningCoverage", dependency, "incomplete formal hardening evidence")
     return _metric_ready(
         "HardeningCoverage",
         recorded / required,
-        _canonical_source(report, pointer),
+        {
+            "report": "formal_hardening",
+            "artifact": FORMAL_HARDENING_JSON_ARTIFACT,
+            "pointer": pointer,
+        },
         numerator=recorded,
         denominator=required,
     )
@@ -977,6 +1000,20 @@ def _claim_verdicts_index_section(generated_at: str | None = None) -> dict[str, 
     }
 
 
+def _formal_hardening_index_section(generated_at: str | None = None) -> dict[str, Any]:
+    payload = _build_formal_hardening_payload(generated_at=generated_at)
+    return {
+        "status": "pointer-only",
+        "artifact_id": FORMAL_HARDENING_ARTIFACT_ID,
+        "json_artifact": FORMAL_HARDENING_JSON_ARTIFACT,
+        "markdown_artifact": FORMAL_HARDENING_MARKDOWN_ARTIFACT,
+        "ready": payload["ready"],
+        "recorded": payload["recorded"],
+        "required": payload["required"],
+        "gap_count": payload["gap_count"],
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -1044,6 +1081,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "discovery_map": _discovery_map_index_section(generated_at=timestamp),
         "negative_witnesses": _negative_witnesses_index_section(),
         "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
+        "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -1129,6 +1167,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- JSONL: `{payload['claim_verdicts']['jsonl_artifact']}`",
             f"- Rows: `{payload['claim_verdicts']['row_count']}`",
             "",
+            "## Formal hardening",
+            "",
+            f"- Status: `{payload['formal_hardening']['status']}`",
+            f"- JSON: `{payload['formal_hardening']['json_artifact']}`",
+            f"- Markdown: `{payload['formal_hardening']['markdown_artifact']}`",
+            f"- Ready: `{payload['formal_hardening']['ready']}`",
+            f"- Coverage: `{payload['formal_hardening']['recorded']}/{payload['formal_hardening']['required']}`",
+            f"- Gaps: `{payload['formal_hardening']['gap_count']}`",
+            "",
             "## Paper outline",
             "",
             f"- Status: `{outline['status']}`",
@@ -1197,6 +1244,9 @@ def run_reports(
     CANONICAL_DIR.mkdir(parents=True, exist_ok=True)
     results = [_run_spec(spec) for spec in _select_specs(only)]
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    from scripts.run_formal_hardening_report import write_formal_hardening_report
+
+    write_formal_hardening_report(root=ROOT, generated_at=timestamp)
     scorecard = _build_quality_scorecard(results, generated_at=timestamp)
     from scripts.run_discovery_map import write_discovery_map
     from scripts.run_claim_verdict_demo import write_claim_verdicts
