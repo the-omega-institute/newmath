@@ -57,6 +57,34 @@ The structural rows preserve the same route. Componentwise transport $H$, displa
 No excluded coordinate remains. Hence quotient filters, selected limits, countable-choice schedules, host equality of generated filters, and ambient completeness cannot be used in place of the displayed $\FilterBaseUp$ generation row.
 \end{proof}
 
+\begin{theorem}[Cauchy filter subbasis generated-base cofinality]
+\label{thm:cauchy-filter-subbasis-generated-base-cofinality}
+Every accepted $\CauchyFilterSubbasisUp$ carrier exposes the generated $\FilterBaseUp$ row $B$ as cofinal among the finite intersections named by $I$ and their displayed generated-event rows $E$. A completion-facing consumer must therefore read $U,I,E,G,B$ before it reads the $\CauchyFilterUp$ row $F$, the $\StreamNameUp$ windows $W$, the $\DyadicRatCoreUp$ tolerance ledger $T$, the $\RegSeqRatUp$ readback $R$, or the terminal $\RealUp$ seal $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-filter-subbasis-carrier}. The only finite-intersection data are $I$, the only generated events are $E$, and the only inclusion and coverage reads from those rows into a base are stored in $G$.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-filter-subbasis-namecert-obligations}. They force generated-event admission, generation-ledger coverage, and the $\FilterBaseUp$ handoff to be displayed as local certificate rows of the same packet.
+
+Use the filterbase generation theorem \autoref{thm:cauchy-filter-subbasis-filterbase-generation}. Since every completion-facing read must factor through $B$ before reaching $F,W,T,R,L$, the generated base is cofinal for the finite intersections visible to the packet.
+
+The classifier has no coordinate for quotient filters, selected limits, countable choice, host equality of generated filters, or ambient completeness. Hence no external filter object can replace the displayed cofinal generated-base row.
+\end{proof}
+
+\begin{theorem}[Cauchy filter subbasis refinement stability]
+\label{thm:cauchy-filter-subbasis-filter-refinement-stability}
+Suppose an accepted $\CauchyFilterSubbasisUp$ carrier replaces its generated base row $B$ by a displayed cofinal $\FilterRefinementUp$ row. Then the completion-facing route still reaches the same $\CauchyFilterUp$ row $F$, $\StreamNameUp$ windows $W$, $\DyadicRatCoreUp$ tolerance ledger $T$, $\RegSeqRatUp$ readback $R$, and $\RealUp$ seal $L$. The replacement exports no quotient filter, selected limit, countable-choice schedule, host equality of generated filters, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the generated-base cofinality theorem. It identifies $B$ as the displayed cofinal base among finite intersections before any Cauchy-filter or completion-facing row can be read.
+
+Apply the Cauchy-preservation and completion-route clauses for $\FilterRefinementUp$, namely \autoref{thm:filter-refinement-cauchy-preservation} and \autoref{thm:filter-refinement-completion-route}. The refinement row may replace a displayed base request by a cofinal target request, but it preserves the Cauchy-filter read through the finite comparison surface.
+
+Compose that refinement route with \autoref{thm:cauchy-filter-subbasis-filterbase-generation}. The downstream rows $F,W,T,R,L$ remain attached to the same subbasis-generated route because the consumer still passes through a displayed cofinal base before reading them.
+
+Finally inspect the excluded coordinates of the carrier. Since quotient filters, selected limits, choice schedules, host equality of generated filters, and ambient Real completeness are absent from $U,I,E,G,B,F,W,T,R,L,H,C,P,N$, the refinement cannot import any of them.
+\end{proof}
+
 \begin{theorem}[Cauchy filter subbasis completion handoff]
 \label{thm:cauchy-filter-subbasis-completion-handoff}
 Every completion-facing consumer of an accepted $\CauchyFilterSubbasisUp$ carrier must read the rows
