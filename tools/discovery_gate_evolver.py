@@ -4,8 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import contextlib
-import fcntl
 import importlib.util
 import json
 import os
@@ -13,7 +11,6 @@ import re
 import shutil
 import subprocess
 import sys
-import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -21,7 +18,6 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BASE_BRANCH = os.environ.get("BEDC_PIPELINE_BRANCH", "codex-auto-dev")
 DEFAULT_WORKTREE = Path("/tmp/bedc-gate-evolve-wt")
-PID_LOCK_PATH = Path("/tmp/.bedc_gate_evolver.pid")
 LOG_DIR = REPO_ROOT / "tools" / "logs"
 ESCALATION_LOG = LOG_DIR / "gate_evolver_escalations.log"
 DEFAULT_INPUT = LOG_DIR / "proven_pseudos.jsonl"
@@ -81,27 +77,6 @@ def append_log(message: str) -> None:
             return
     new_lines = old_lines[-(MAX_ESCALATION_LINES - 1):] + [f"{now_iso()} {message}"]
     ESCALATION_LOG.write_text("\n".join(new_lines) + "\n", encoding="utf-8")
-
-
-@contextlib.contextmanager
-def pid_lock():
-    pid_fd = os.open(PID_LOCK_PATH, os.O_RDWR | os.O_CREAT, 0o644)
-    try:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError:
-            sys.stderr.write(f"discovery gate evolver already running ({PID_LOCK_PATH})\n")
-            sys.exit(1)
-        os.ftruncate(pid_fd, 0)
-        os.write(pid_fd, f"{os.getpid()}\n".encode())
-        os.fsync(pid_fd)
-        yield
-    finally:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_UN)
-        except Exception:
-            pass
-        os.close(pid_fd)
 
 
 def run_cmd(
@@ -874,17 +849,10 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = parser().parse_args()
-    with pid_lock():
-        if args.once:
-            return run_once(args)
-        interval = max(1, int(args.interval))
-        append_log(f"[gate-evolver] daemon start interval={interval}s")
-        while True:
-            try:
-                run_once(args)
-            except Exception as exc:
-                append_log(f"[escalate] cycle failed: {type(exc).__name__}: {exc}")
-            time.sleep(interval)
+    if args.once:
+        return run_once(args)
+    sys.stderr.write("discovery gate evolver loop moved to tools/discovery_pipeline_daemon.py; use --once for debugging\n")
+    return 2
 
 
 if __name__ == "__main__":
