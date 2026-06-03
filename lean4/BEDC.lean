@@ -1936,6 +1936,7 @@ import BEDC.Derived.CauchyTailThresholdNormalizerUp.TasteGate
 import BEDC.Derived.CauchyTailWitnessEnvelopeUp.TasteGate
 import BEDC.Derived.CauchyTightnessUp.TasteGate
 import BEDC.Derived.CauchyUniformContinuityPrincipleUp.TasteGate
+import BEDC.Derived.CauchyUniformNetUp.FilterRealRoute
 import BEDC.Derived.CauchyUniformNetUp.TasteGate
 import BEDC.Derived.CauchyUp
 import BEDC.Derived.CauchyUp.CompletionLeftExactnessAdmission
@@ -5175,7 +5176,6 @@ import BEDC.Derived.LocatednessModulusUp.TasteGate
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
-import BEDC.Derived.LowerRealUp.LocatedCutLedger
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
@@ -5796,6 +5796,7 @@ import BEDC.Derived.MetricUp.VisibleContextPublicCertificate
 import BEDC.Derived.MetricUp.VisibleContextSemantic
 import BEDC.Derived.MetrizableCompletionUp.TasteGate
 import BEDC.Derived.MichaelSelectionUp.TasteGate
+import BEDC.Derived.MinimalCauchyFilterUp.RegularHandoff
 import BEDC.Derived.MinimalCauchyFilterUp.TasteGate
 import BEDC.Derived.MinimalRealizationUp.TasteGate
 import BEDC.Derived.MinkowskiInequalityUp.TasteGate
@@ -7224,7 +7225,6 @@ import BEDC.Derived.RegularCauchyMetricUp
 import BEDC.Derived.RegularCauchyMetricUp.ScopedKernelRoute
 import BEDC.Derived.RegularCauchyMetricUp.TasteGate
 import BEDC.Derived.RegularCauchyMidpointUp.TasteGate
-import BEDC.Derived.RegularCauchyMinimumUp.LeftBound
 import BEDC.Derived.RegularCauchyMinimumUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusAlgebraUp.TasteGate
 import BEDC.Derived.RegularCauchyModulusCompressionUp.TasteGate
@@ -7863,7 +7863,6 @@ import BEDC.Derived.StoppingTimeUp
 import BEDC.Derived.StreamDiagonalSelectorUp
 import BEDC.Derived.StreamDiagonalSelectorUp.TasteGate
 import BEDC.Derived.StreamLimitReflectionUp.TasteGate
-import BEDC.Derived.StreamMapUp.CompositionWindowRoute
 import BEDC.Derived.StreamMapUp.TasteGate
 import BEDC.Derived.StreamMergeUp.TasteGate
 import BEDC.Derived.StreamNameUp
