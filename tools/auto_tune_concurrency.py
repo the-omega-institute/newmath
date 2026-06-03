@@ -7,14 +7,14 @@ starve (empty rounds → cooldown storms) and don't oversubscribe (OOM
 + lake build contention). Hot-reloaded by orchestrators on next round
 dispatch.
 
-Demand-driven tuning:
-  lean      = clamp(top_size + LEAN_BUFFER, LEAN_MIN, LEAN_MAX)
-  paper     = clamp(root_unblocks + PAPER_BUFFER, PAPER_MIN, PAPER_MAX)
-  lean_lake = clamp(lean // LAKE_DIVISOR, LAKE_MIN, LAKE_MAX)
+Demand-driven tuning follows critical-path supply, then host capacity
+and load gates keep the worker pool below the point where CPU contention
+reduces throughput.
 
-Pressure-driven adjustments (applied AFTER demand-driven tuning):
-  - load avg 5min > LOAD_HIGH        → lean -= 2, paper -= 2 (clamped to MIN)
-  - mem avail (vm_stat) < RAM_LOW_GB → lean -= 4, lean_lake -= 1
+Pressure-driven adjustments:
+  - load avg 5min > 1.5 * physical cores → scale target downward
+  - load avg 5min >= 0.8 * physical cores → do not raise current concurrency
+  - mem avail (vm_stat) < RAM_LOW_GB      → lean -= 4, lean_lake -= 1
   - disk used % > DISK_PRESSURE_PCT  → aggressive log retention (1 day)
   - disk used % > DISK_PANIC_PCT     → emergency log retention (6 hours)
 
@@ -49,8 +49,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 CRITICAL_PATH = REPO_ROOT / "lean4/scripts/critical_path.py"
 CONFIG = REPO_ROOT / ".pipeline_parallel.json"
 
-# System pressure thresholds (8-core MBP, 16 GB RAM, 460 GB disk).
-LOAD_HIGH = 30.0            # 5-min load avg above this triggers concurrency cut
+# System pressure thresholds.
+LOAD_HIGH_PER_CORE = 1.5    # 5-min load avg above this scales concurrency down
+LOAD_LOW_PER_CORE = 0.8     # below this, supply-driven upward movement is allowed
+TOTAL_ACTIVE_PER_CORE = 1.25
 RAM_LOW_GB = 1.5            # vm_stat free + inactive below this triggers cut
 DISK_PRESSURE_PCT = 85      # tighten log retention to 1 day
 DISK_PANIC_PCT = 92         # tighten log retention to 6 hours
@@ -79,73 +81,192 @@ LOG_DIRS = [
     REPO_ROOT / "scripts" / "logs",
 ]
 
-# Tuning constants.
-#
-# ============================================================
-# Caps pinned by user directive:
-#   LEAN_MAX = 20 (2026-05-11)
-#   PAPER_MAX = 25 (2026-05-12, raised from 20)
-#
-# Floors:
-#   LEAN_MIN = 6  — allow ramp-down when R-side genuinely idle
-#                   (no Phase-B-0-chars cooldown storms)
-#   PAPER_MIN = 18 — keep P-side busy with discovery channels
-#                   (vision/automath/human_chapter_extension)
-#                   when high-leverage closure_mark drains
-#
-# Sustainability rationale: paper PDF moved out of round
-# (paper_builder_daemon handles full build async), lean
-# R-rounds skip in-round lake build (bg_builder handles it),
-# so per-round CPU cost is dominated by codex exec
-# (network-bound). 25+20 concurrent rounds is acceptable on
-# an 8-core MBP because most workers spend most time waiting
-# on the codex API rather than CPU/RAM.
-# ============================================================
+# Tuning constants. Host-specific caps are derived from these legacy
+# ceilings and the detected physical core count.
 LEAN_BUFFER = 0
-LEAN_MIN = 4
-LEAN_MAX = 16  # lowered 2026-05-15 (later): push lock starvation observed —
-               # R6327 held lock 1076s for codex_resolve_conflicts (which
-               # runs INSIDE the lock). With 16+ contenders, flock unfairness
-               # starves P workers >600s → cooldown cascades. Cap at 12
-               # reduces waiter pool. Structural fix (move codex_resolve
-               # outside lock) deferred to next orchestrator restart.
-LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
-               # 47% of R FAILs are `ff update of codex-auto-dev failed`
-               # and 23% are `Merge failed —` — cross-process race between
-               # R + P orchestrators + sync daemon all pushing to the same
-               # shared origin/codex-auto-dev branch. _git_lock is a
-               # threading.Lock (process-local), doesn't serialize across
-               # daemons. Until a cross-process file lock is wired into all
-               # three daemons (requires restart), the cheapest mitigation
-               # is dropping R concurrency so the per-tick push count
-               # halves. 8 keeps R throughput at ~5-7/h (above demand) and
-               # cuts ff-rejection rate dramatically.
-
+LEAN_MIN = 3
+LEAN_MAX = 16
 PAPER_BUFFER = 4
-PAPER_MIN = 6   # lowered 2026-05-15 (later): with PAPER_MAX=10 due to push-
-                # lock starvation, MIN must be ≤ MAX. 6 still keeps discovery
-                # channels warm. Restore once codex_resolve moves out of lock.
-PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
-                # (vision/automath/human_chapter_extension) need a warm
-                # pool of workers ready to consume new discovery candidates
-                # as soon as Phase Review emits them; PAPER_MIN=12 was
-                # making P plateau because root_unblocks=0 → paper_demand=10
-                # → clamp to 12 floor. With discovery HARD GATE active,
-                # 18 worker is the right cruising altitude.
-PAPER_MAX = 14  # lowered 2026-05-15 (later): same push-lock starvation —
-                # P workers wait >600s when R holds lock for codex_resolve.
-                # Cut from 25 → 10 reduces concurrent push contenders.
-
+PAPER_MIN = 3
+PAPER_MAX = 14
 LAKE_DIVISOR = 5
-LAKE_MIN = 2
+LAKE_MIN = 1
 LAKE_MAX = 3
+MAX_TICK_DELTA = 2
+MIN_CHANGE_DELTA = 2
+CPU_COUNT_FALLBACK = 4
 
 
 def clamp(x: int, lo: int, hi: int) -> int:
     return max(lo, min(hi, x))
 
 
-def compute_target(cp_data: dict) -> dict:
+def read_physical_cores() -> int:
+    """Return physical cores when available; fall back to logical CPUs."""
+    try:
+        res = subprocess.run(
+            ["sysctl", "-n", "hw.physicalcpu"],
+            capture_output=True, text=True, timeout=2,
+        )
+        if res.returncode == 0:
+            cores = int(res.stdout.strip())
+            if cores > 0:
+                return cores
+    except Exception:
+        pass
+    try:
+        logical = os.cpu_count()
+        if logical and logical > 0:
+            return logical
+    except Exception:
+        pass
+    return CPU_COUNT_FALLBACK
+
+
+def host_caps(cores: int) -> dict[str, int]:
+    paper_max = min(PAPER_MAX, max(PAPER_MIN, cores // 2))
+    lean_max = min(LEAN_MAX, max(LEAN_MIN, cores))
+    total_active_max = max(PAPER_MIN + LEAN_MIN, int(cores * TOTAL_ACTIVE_PER_CORE))
+    lake_max = clamp(cores // 8, LAKE_MIN, 2)
+    return {
+        "paper_min": PAPER_MIN,
+        "paper_max": paper_max,
+        "lean_min": LEAN_MIN,
+        "lean_max": lean_max,
+        "total_active_max": total_active_max,
+        "lake_min": LAKE_MIN,
+        "lake_max": lake_max,
+    }
+
+
+def cap_total_active(paper: int, lean: int, caps: dict[str, int]) -> tuple[int, int]:
+    total_max = caps["total_active_max"]
+    if paper + lean <= total_max:
+        return paper, lean
+
+    paper_min = caps["paper_min"]
+    lean_min = caps["lean_min"]
+    extra_budget = max(0, total_max - paper_min - lean_min)
+    paper_extra = max(0, paper - paper_min)
+    lean_extra = max(0, lean - lean_min)
+    extra_total = paper_extra + lean_extra
+    if extra_total == 0:
+        return paper_min, lean_min
+
+    paper = paper_min + (extra_budget * paper_extra) // extra_total
+    lean = lean_min + (extra_budget * lean_extra) // extra_total
+    while paper + lean < total_max and (paper < caps["paper_max"] or lean < caps["lean_max"]):
+        if lean_extra >= paper_extra and lean < caps["lean_max"]:
+            lean += 1
+        elif paper < caps["paper_max"]:
+            paper += 1
+        elif lean < caps["lean_max"]:
+            lean += 1
+        else:
+            break
+    while paper + lean > total_max:
+        if lean > caps["lean_min"] and lean >= paper:
+            lean -= 1
+        elif paper > caps["paper_min"]:
+            paper -= 1
+        else:
+            break
+    return paper, lean
+
+
+def load_adjusted_target(
+    paper: int,
+    lean: int,
+    load5: float,
+    cores: int,
+    caps: dict[str, int],
+) -> tuple[int, int, str | None]:
+    high = LOAD_HIGH_PER_CORE * cores
+    if load5 <= high:
+        return paper, lean, None
+
+    total_max = caps["total_active_max"]
+    pressure_ratio = high / max(load5, 0.01)
+    target_total = clamp(
+        int(total_max * pressure_ratio),
+        caps["paper_min"] + caps["lean_min"],
+        total_max,
+    )
+    paper, lean = cap_total_active(paper, lean, {**caps, "total_active_max": target_total})
+    return (
+        paper,
+        lean,
+        f"load5={load5:.1f}>{high:.1f}: scaled active target to {paper + lean}/{total_max}",
+    )
+
+
+def apply_hysteresis(
+    target: dict,
+    current: dict | None,
+    load5: float | None,
+    cores: int,
+    caps: dict[str, int],
+) -> list[str]:
+    if not current:
+        return []
+
+    notes: list[str] = []
+    high = LOAD_HIGH_PER_CORE * cores
+    low = LOAD_LOW_PER_CORE * cores
+    overloaded = load5 is not None and load5 > high
+    allow_raise = load5 is not None and load5 < low
+
+    for key in ("paper", "lean", "lean_lake"):
+        cur = current.get(key)
+        if not isinstance(cur, int):
+            continue
+        wanted = target[key]
+        if overloaded and wanted > cur:
+            wanted = cur
+        elif not allow_raise and wanted > cur:
+            wanted = cur
+
+        diff = wanted - cur
+        if diff == 0:
+            target[key] = cur
+            continue
+        if overloaded and diff < 0:
+            target[key] = wanted
+            notes.append(f"hysteresis: {key} {cur}→{target[key]}")
+            continue
+        if abs(diff) < MIN_CHANGE_DELTA:
+            target[key] = cur
+            notes.append(f"hysteresis: keep {key}={cur} (delta {diff:+d})")
+            continue
+        if diff > 0:
+            diff = min(diff, MAX_TICK_DELTA)
+        elif not overloaded:
+            diff = max(diff, -MAX_TICK_DELTA)
+        target[key] = cur + diff
+        notes.append(f"hysteresis: {key} {cur}→{target[key]}")
+
+    target["paper"] = clamp(target["paper"], caps["paper_min"], caps["paper_max"])
+    target["lean"] = clamp(target["lean"], caps["lean_min"], caps["lean_max"])
+    before_total_cap = (target["paper"], target["lean"])
+    target["paper"], target["lean"] = cap_total_active(target["paper"], target["lean"], caps)
+    after_total_cap = (target["paper"], target["lean"])
+    if after_total_cap != before_total_cap:
+        notes.append(
+            "capacity: active "
+            f"{before_total_cap[0]}+{before_total_cap[1]}→"
+            f"{after_total_cap[0]}+{after_total_cap[1]} "
+            f"(max {caps['total_active_max']})"
+        )
+    target["lean_lake"] = clamp(target["lean_lake"], caps["lake_min"], caps["lake_max"])
+    return notes
+
+
+def compute_target(
+    cp_data: dict,
+    metrics: dict | None = None,
+    current: dict | None = None,
+    cores: int | None = None,
+) -> dict:
     top = cp_data.get("top", [])
     top_size = len(top)
     sum_eff = sum(t.get("sibling_effective_unmarked", 0) for t in top)
@@ -164,11 +285,24 @@ def compute_target(cp_data: dict) -> dict:
     lean_demand = max(top_size, fallback_demand // 5)
     paper_demand = max(root_unblock_count, fallback_demand // 3)
 
-    lean = clamp(lean_demand + LEAN_BUFFER, LEAN_MIN, LEAN_MAX)
-    paper = clamp(paper_demand + PAPER_BUFFER, PAPER_MIN, PAPER_MAX)
-    lean_lake = clamp(lean // LAKE_DIVISOR, LAKE_MIN, LAKE_MAX)
+    metrics = metrics or {}
+    cores = cores or read_physical_cores()
+    caps = host_caps(cores)
+    notes: list[str] = []
 
-    return {
+    lean = clamp(lean_demand + LEAN_BUFFER, caps["lean_min"], caps["lean_max"])
+    paper = clamp(paper_demand + PAPER_BUFFER, caps["paper_min"], caps["paper_max"])
+    paper, lean = cap_total_active(paper, lean, caps)
+
+    load5 = metrics.get("load_5min")
+    if isinstance(load5, (int, float)):
+        paper, lean, note = load_adjusted_target(paper, lean, float(load5), cores, caps)
+        if note:
+            notes.append(note)
+
+    lean_lake = clamp(lean // LAKE_DIVISOR, caps["lake_min"], caps["lake_max"])
+
+    target = {
         "lean": lean,
         "paper": paper,
         "lean_lake": lean_lake,
@@ -181,8 +315,21 @@ def compute_target(cp_data: dict) -> dict:
             "bridge_candidates_total": bridge,
             "bridge_sync_pending_total": bridge_sync,
             "formal_axis_top_total": formal_top,
+            "physical_cores": cores,
+            "load_5min": load5 if isinstance(load5, (int, float)) else None,
+            "load_low": LOAD_LOW_PER_CORE * cores,
+            "load_high": LOAD_HIGH_PER_CORE * cores,
+            "paper_max": caps["paper_max"],
+            "lean_max": caps["lean_max"],
+            "lean_lake_max": caps["lake_max"],
+            "total_active_max": caps["total_active_max"],
+            "lean_demand": lean_demand,
+            "paper_demand": paper_demand,
+            "notes": notes,
         },
     }
+    notes.extend(apply_hysteresis(target, current, load5, cores, caps))
+    return target
 
 
 def run_critical_path() -> dict:
@@ -201,7 +348,7 @@ def read_system_metrics() -> dict:
         metrics["load_1min"] = load1
         metrics["load_5min"] = load5
         metrics["load_15min"] = load15
-    except OSError:
+    except Exception:
         pass
     # vm_stat: free + inactive pages. Page size is 16384 on arm64 Macs
     # (Apple Silicon) and 4096 on Intel. Parse the first line of vm_stat
@@ -236,19 +383,24 @@ def read_system_metrics() -> dict:
 
 
 def apply_pressure_adjustments(target: dict, metrics: dict) -> dict:
-    """Mutate target dict downward when load/RAM is high. Returns notes."""
+    """Mutate target dict downward when RAM is low. Returns notes."""
     notes: list[str] = []
-    load5 = metrics.get("load_5min", 0.0)
     mem_avail = metrics.get("mem_avail_gb", 99.0)
-    if load5 > LOAD_HIGH:
-        before = (target["lean"], target["paper"])
-        target["lean"] = clamp(target["lean"] - 2, LEAN_MIN, LEAN_MAX)
-        target["paper"] = clamp(target["paper"] - 2, PAPER_MIN, PAPER_MAX)
-        notes.append(f"load5={load5:.1f}>{LOAD_HIGH:.0f}: lean {before[0]}→{target['lean']}, paper {before[1]}→{target['paper']}")
+    signals = target.get("_signals", {})
+    caps = {
+        "paper_min": PAPER_MIN,
+        "paper_max": signals.get("paper_max", PAPER_MAX),
+        "lean_min": LEAN_MIN,
+        "lean_max": signals.get("lean_max", LEAN_MAX),
+        "total_active_max": signals.get("total_active_max", LEAN_MIN + PAPER_MIN),
+        "lake_min": LAKE_MIN,
+        "lake_max": signals.get("lean_lake_max", LAKE_MAX),
+    }
     if mem_avail < RAM_LOW_GB:
         before = (target["lean"], target["lean_lake"])
-        target["lean"] = clamp(target["lean"] - 4, LEAN_MIN, LEAN_MAX)
-        target["lean_lake"] = clamp(target["lean_lake"] - 1, LAKE_MIN, LAKE_MAX)
+        target["lean"] = clamp(target["lean"] - 4, caps["lean_min"], caps["lean_max"])
+        target["lean_lake"] = clamp(target["lean_lake"] - 1, caps["lake_min"], caps["lake_max"])
+        target["paper"], target["lean"] = cap_total_active(target["paper"], target["lean"], caps)
         notes.append(f"mem_avail={mem_avail:.1f}GB<{RAM_LOW_GB}: lean {before[0]}→{target['lean']}, lean_lake {before[1]}→{target['lean_lake']}")
     return {"adjustments": notes}
 
@@ -413,21 +565,42 @@ def main() -> int:
         f"disk_avail={metrics.get('disk_avail_gb', 0):.1f}GB",
         file=sys.stderr,
     ) if False else None  # keep formatting simple; print plain below
+    load5 = metrics.get("load_5min")
+    load5_text = f"{load5:.2f}" if isinstance(load5, (int, float)) else "unknown"
     metric_summary = (
-        f"metrics: load5={metrics.get('load_5min', 0):.2f} "
+        f"metrics: load5={load5_text} "
         f"mem_avail={metrics.get('mem_avail_gb', 0):.1f}GB "
         f"disk_used={metrics.get('disk_used_pct', 0):.1f}% "
         f"disk_avail={metrics.get('disk_avail_gb', 0):.1f}GB"
     )
     print(metric_summary, file=sys.stderr)
 
+    # Tolerate missing config file: sync daemon's stash/restore cycles
+    # have been observed deleting it. The orchestrator falls back to
+    # built-in defaults when the file is missing, so a missing CONFIG
+    # is recoverable: we just write a fresh one with the autotune
+    # values + empty seed for the rest.
+    try:
+        config = json.loads(CONFIG.read_text())
+    except FileNotFoundError:
+        config = {
+            "phase_b_timeout": 3600,
+            "phase_c_timeout": 6000,
+            "paper_review_timeout": 1800,
+            "paper_revise_timeout": 3600,
+        }
+
     cp_data = run_critical_path()
-    target = compute_target(cp_data)
-    signals = target.pop("_signals")
+    current = {k: config.get(k) for k in ("paper", "lean", "lean_lake")}
+    target = compute_target(cp_data, metrics=metrics, current=current)
+    signals = target["_signals"]
+    for note in signals.get("notes", []):
+        print(f"pressure: {note}", file=sys.stderr)
     pressure_notes = apply_pressure_adjustments(target, metrics)
     if pressure_notes["adjustments"]:
         for note in pressure_notes["adjustments"]:
             print(f"pressure: {note}", file=sys.stderr)
+    target.pop("_signals")
 
     # Housekeeping: log retention + stale worktree cleanup.
     if not args.no_clean:
@@ -455,20 +628,6 @@ def main() -> int:
                 file=sys.stderr,
             )
 
-    # Tolerate missing config file: sync daemon's stash/restore cycles
-    # have been observed deleting it. The orchestrator falls back to
-    # built-in defaults when the file is missing, so a missing CONFIG
-    # is recoverable: we just write a fresh one with the autotune
-    # values + empty seed for the rest.
-    try:
-        config = json.loads(CONFIG.read_text())
-    except FileNotFoundError:
-        config = {
-            "phase_b_timeout": 3600,
-            "phase_c_timeout": 6000,
-            "paper_review_timeout": 1800,
-            "paper_revise_timeout": 3600,
-        }
     keys = ("paper", "lean", "lean_lake")
 
     diffs = []
@@ -484,6 +643,14 @@ def main() -> int:
         f"sum_eff_unmarked={signals['sum_effective_unmarked']}, "
         f"root_unblocks={signals['root_unblock_count']}, "
         f"open_horizons={signals['open_horizons']}",
+        file=sys.stderr,
+    )
+    print(
+        f"caps: cores={signals['physical_cores']} "
+        f"paper_max={signals['paper_max']} lean_max={signals['lean_max']} "
+        f"lean_lake_max={signals['lean_lake_max']} "
+        f"total_active_max={signals['total_active_max']} "
+        f"load_low={signals['load_low']:.1f} load_high={signals['load_high']:.1f}",
         file=sys.stderr,
     )
 
