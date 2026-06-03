@@ -4,6 +4,8 @@ from __future__ import annotations
 import sys
 import unittest
 import json
+import threading
+import time
 from contextlib import nullcontext, redirect_stdout
 from io import StringIO
 from pathlib import Path
@@ -2017,6 +2019,54 @@ class DiscoveryRefutationPublisherTests(unittest.TestCase):
         self.assertIsNone(reason)
         build.assert_called_once()
 
+    def test_structural_dna_build_lock_serializes_callers(self) -> None:
+        import structural_dna_build  # type: ignore[import-not-found]
+
+        entered: list[str] = []
+        second_attempted = threading.Event()
+        first_can_release = threading.Event()
+        second_entered = threading.Event()
+        errors: list[BaseException] = []
+
+        def first() -> None:
+            try:
+                with structural_dna_build.structural_dna_build_lock(label="first", timeout=5):
+                    entered.append("first")
+                    second_attempted.wait(2)
+                    time.sleep(0.1)
+                    self.assertFalse(second_entered.is_set())
+                    first_can_release.set()
+            except BaseException as exc:
+                errors.append(exc)
+
+        def second() -> None:
+            try:
+                second_attempted.set()
+                with structural_dna_build.structural_dna_build_lock(label="second", timeout=5):
+                    entered.append("second")
+                    second_entered.set()
+            except BaseException as exc:
+                errors.append(exc)
+
+        with TemporaryDirectory() as tmp, \
+                patch.object(structural_dna_build, "STRUCTURAL_DNA_BUILD_LOCK", Path(tmp) / "build.lock"):
+            first_thread = threading.Thread(target=first)
+            second_thread = threading.Thread(target=second)
+            first_thread.start()
+            deadline = time.monotonic() + 2
+            while entered != ["first"] and time.monotonic() < deadline and not errors:
+                time.sleep(0.01)
+            self.assertEqual(entered, ["first"])
+            second_thread.start()
+            self.assertTrue(first_can_release.wait(2))
+            first_thread.join(2)
+            second_thread.join(2)
+            self.assertFalse(first_thread.is_alive())
+            self.assertFalse(second_thread.is_alive())
+            if errors:
+                raise errors[0]
+            self.assertEqual(entered, ["first", "second"])
+
     def test_discovery_gate_evolver_exact_keys_do_not_collapse_same_bucket(self) -> None:
         import discovery_gate_evolver  # type: ignore[import-not-found]
 
@@ -2057,6 +2107,25 @@ class DiscoveryRefutationPublisherTests(unittest.TestCase):
 
         with self.assertRaises(discovery_gate_evolver.FailClosed):
             discovery_gate_evolver.ensure_registry_capacity(1900, 2000, 1)
+
+    def test_discovery_gate_evolver_daemon_processes_before_sleep(self) -> None:
+        import discovery_gate_evolver  # type: ignore[import-not-found]
+
+        events: list[str] = []
+
+        def fake_sleep(_seconds: float) -> None:
+            events.append("sleep")
+            raise KeyboardInterrupt
+
+        with patch.object(sys, "argv", ["discovery_gate_evolver.py", "--interval", "999"]), \
+                patch.object(discovery_gate_evolver, "pid_lock", return_value=nullcontext()), \
+                patch.object(discovery_gate_evolver, "append_log", side_effect=events.append), \
+                patch.object(discovery_gate_evolver, "run_once", side_effect=lambda _args: events.append("run") or 0), \
+                patch.object(discovery_gate_evolver.time, "sleep", side_effect=fake_sleep):
+            with self.assertRaises(KeyboardInterrupt):
+                discovery_gate_evolver.main()
+        self.assertIn("[gate-evolver] daemon start interval=999s", events)
+        self.assertLess(events.index("run"), events.index("sleep"))
 
 
 if __name__ == "__main__":
