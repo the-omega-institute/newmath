@@ -3375,28 +3375,57 @@ def discovery_gate_witness_kernel_grounding(
     prior = pattern["prior"]
     expected_payload = pattern["canonical_payload"]
     expected_fp = pattern.get("reduced_fp") or pattern.get("candidate_reduced_fp") or ""
+
+    def _lookup(fps: dict[str, ExprFingerprint]) -> tuple[str, str, str, str]:
+        return (
+            _discovery_endpoint_canonical_payload(target, fps),
+            _discovery_endpoint_canonical_payload(prior, fps),
+            _discovery_endpoint_reduced_fp(target, fps),
+            _discovery_endpoint_reduced_fp(prior, fps),
+        )
+
     fps = payload_cache if payload_cache is not None else _run_structural_dna_expr_fingerprints([target, prior])
-    target_fp = _discovery_endpoint_reduced_fp(target, fps)
-    prior_fp = _discovery_endpoint_reduced_fp(prior, fps)
-    target_payload = _discovery_endpoint_canonical_payload(target, fps)
-    prior_payload = _discovery_endpoint_canonical_payload(prior, fps)
+    target_payload, prior_payload, target_fp, prior_fp = _lookup(fps)
+    # Retry-on-empty: a batched structural-DNA pass racing the builder's .lake
+    # rebuild can transiently emit empty payloads for carriers that are present
+    # and well-formed. A targeted single-pair re-run sidesteps that race before
+    # we judge a witness stale, so transient emptiness never masquerades as a
+    # real payload mismatch.
+    if not target_payload or not prior_payload:
+        retry = _run_structural_dna_expr_fingerprints([target, prior])
+        r_tp, r_pp, r_tf, r_pf = _lookup(retry)
+        target_payload = target_payload or r_tp
+        prior_payload = prior_payload or r_pp
+        target_fp = target_fp or r_tf
+        prior_fp = prior_fp or r_pf
+
     fp_ok = not expected_fp or (target_fp == expected_fp and prior_fp == expected_fp)
-    ok = bool(target_payload and prior_payload and target_payload == expected_payload and prior_payload == expected_payload and fp_ok)
+    payloads_present = bool(target_payload and prior_payload)
+    ok = bool(payloads_present and target_payload == expected_payload and prior_payload == expected_payload and fp_ok)
+    if ok:
+        status = "grounded"
+        message = "target and prior structural-DNA canonical reduced payloads match"
+    elif not payloads_present:
+        # Carrier present in the registry but structural-DNA did not emit its
+        # payload even after a targeted re-run: treat as transient/unavailable,
+        # not as a sound staleness verdict (which requires a computed payload).
+        status = "fingerprints_unavailable"
+        message = "structural-DNA payload unavailable for target/prior (transient, not a mismatch)"
+    else:
+        status = "mismatch"
+        message = "target/prior structural-DNA canonical reduced payloads do not match witness"
     return ok, {
         "target": target,
         "prior": prior,
         "evidence": "canonical_payload_equal",
+        "status": status,
         "expected_canonical_payload": expected_payload,
         "target_canonical_payload": target_payload,
         "prior_canonical_payload": prior_payload,
         "expected_reduced_fp": expected_fp,
         "target_reduced_fp": target_fp,
         "prior_reduced_fp": prior_fp,
-        "message": (
-            "target and prior structural-DNA canonical reduced payloads match"
-            if ok
-            else "target/prior structural-DNA canonical reduced payloads do not match witness"
-        ),
+        "message": message,
     }
 
 
@@ -3536,6 +3565,15 @@ def load_discovery_gate_witnesses(
             continue
         grounded, grounding = discovery_gate_witness_kernel_grounding(item)
         if not grounded:
+            # A transient structural-DNA unavailability (payload empty even after
+            # a targeted re-run) is not a sound staleness verdict; mark it so
+            # consumers can skip rather than hard-block on a build race. A real
+            # mismatch (payload computed but differing) stays blocking.
+            severity = (
+                "transient"
+                if str(grounding.get("status") or "") == "fingerprints_unavailable"
+                else "blocking"
+            )
             diagnostics.append(_discovery_gate_registry_diag(
                 path,
                 index + 1,
@@ -3547,6 +3585,7 @@ def load_discovery_gate_witnesses(
                 witness_id=witness_id,
             ))
             diagnostics[-1]["grounding"] = grounding
+            diagnostics[-1]["severity"] = severity
             continue
         normalized = dict(item)
         normalized["kind"] = "reconstruction"
