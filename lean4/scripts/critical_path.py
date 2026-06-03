@@ -258,7 +258,6 @@ FORMAL_GRADE_ORDER = [
 ]
 RETIREMENT_CLOSURE_THRESHOLD = "scopedClosure"
 RETIREMENT_FORMAL_THRESHOLD = "theoremCheckedV"
-TASTE_REPAIR_WEIGHT = 0.02
 
 _LEAN_BASE_WEIGHTS = {
     "top": 0.50,
@@ -345,7 +344,6 @@ def _compute_consumption_60min() -> dict[str, int]:
         "top_root_unblocks": 0,
         "closure_mark": 0,
         "carrier_isomorphism_capstone": 0,
-        "taste_repair_top": 0,
     }
     subjects: list[str] = []
     for branch in ("codex-auto-dev", "origin/codex-auto-dev", "HEAD"):
@@ -372,8 +370,6 @@ def _compute_consumption_60min() -> dict[str, int]:
         s = subject.lower()
         if re.search(r"discovery[-_ ]?candidate|delta ledger|classifier shift|confirmed composite|mechanical reconstruction", s):
             sources["discovery_candidate_top"] += 1
-        elif re.search(r"taste[-_ ]?repair|faithful recod|flagged carrier|structural distinct", s):
-            sources["taste_repair_top"] += 1
         elif re.search(r"sieve|discovery[-_ ]?sieve|clearance", s):
             sources["sieve_clearance_top"] += 1
         elif re.search(r"carrier[-_ ]?isomorphism|capstone", s):
@@ -440,8 +436,6 @@ def _dispatch_advice(side: str, weights: dict[str, float], supply: dict[str, int
         parts = [f"Pick {1 if weight < 0.34 else 2} of 3 from {key}" for key, weight in top]
         if weights.get("discovery_candidate_top", 0) > 0 and supply.get("discovery_candidate_top", 0):
             parts.append("Use at most 1 discovery candidate as bounded evidence attempt")
-        if weights.get("taste_repair_top", 0) > 0 and supply.get("taste_repair_top", 0):
-            parts.append("Use at most 1 taste repair only when ordinary formalization supply is light")
         if weights.get("carrier_isomorphism_capstone", 0) >= 0.10 and supply.get("carrier_isomorphism_capstone", 0):
             parts.append("Consider 1 capstone draft if other sources are blocked")
     else:
@@ -688,7 +682,6 @@ def _git_head_short() -> str:
 
 _objective_grades_cache: dict[str, str] | None = None
 _carrier_isomorphism_cache: dict | None = None
-_taste_repair_cache: dict | None = None
 _discovery_sieve_cache: dict | None = None
 _discovery_candidate_cache: dict | None = None
 _bedc_ci_scan_cache: tuple[object, object] | None = None
@@ -981,92 +974,6 @@ def _get_carrier_isomorphism_summary() -> dict:
         "phase2_top_buckets": top_buckets,
     }
     return _carrier_isomorphism_cache
-
-
-def _extract_taste_gate(payload: dict) -> dict:
-    gate = payload.get("taste_meta_gate")
-    return gate if isinstance(gate, dict) else payload
-
-
-def _get_taste_repair_payload() -> dict:
-    """Read TasteGate violations for the always-on low-priority repair lane."""
-    global _taste_repair_cache
-    if _taste_repair_cache is not None:
-        return _taste_repair_cache
-
-    try:
-        import bedc_ci  # type: ignore
-
-        gate = _extract_taste_gate(bedc_ci.audit_payload(full_radar_scan=False))
-    except Exception as exc:
-        _taste_repair_cache = {
-            "available": False,
-            "enabled": True,
-            "reason": f"TasteGate payload unavailable: {exc}",
-            "violations": [],
-            "violation_count": 0,
-        }
-        return _taste_repair_cache
-    violations = gate.get("violations", [])
-    if not isinstance(violations, list):
-        violations = []
-    _taste_repair_cache = {
-        "available": True,
-        "enabled": True,
-        "semantics": "low_priority_flagged_carrier_repair_lane",
-        "violation_count": int(gate.get("violation_count") or len(violations)),
-        "obligation_count": int(gate.get("obligation_count") or 0),
-        "violations": violations,
-    }
-    return _taste_repair_cache
-
-
-def compute_taste_repair_targets(payload: dict, max_n: int = 10) -> list[dict]:
-    violations = payload.get("violations", [])
-    if not isinstance(violations, list):
-        return []
-    worker_shard, total_shards = _current_worker_slice()
-    rows: list[dict] = []
-    seen: set[str] = set()
-    for item in violations:
-        if not isinstance(item, dict):
-            continue
-        carrier = str(item.get("target") or "").strip()
-        prior = str(item.get("prior") or "").strip()
-        if not carrier or carrier in seen:
-            continue
-        if _target_shard(carrier, total_shards) != worker_shard:
-            continue
-        seen.add(carrier)
-        short = carrier.rsplit(".", 1)[-1]
-        module = carrier.rsplit(".", 1)[0] if "." in carrier else carrier
-        target_file = "lean4/" + module.replace(".", "/") + ".lean"
-        rows.append({
-            "kind": "taste_repair",
-            "stable_key": f"taste_repair|{carrier}|{prior}",
-            "carrier": carrier,
-            "lean_name": carrier,
-            "prior": prior,
-            "target": carrier,
-            "target_file": target_file,
-            "chapter": item.get("target_domain") or short,
-            "target_domain": item.get("target_domain"),
-            "prior_domain": item.get("prior_domain"),
-            "obligation_id": item.get("obligation_id"),
-            "criterion": item.get("criterion"),
-            "independent_evidence": item.get("independent_evidence"),
-            "dispatch_source": "taste_repair_top",
-            "priority": "low",
-            "difficulty": "high",
-            "worker_shard": worker_shard,
-            "worker_shards": total_shards,
-            "strategy": (
-                "faithfully recode the flagged carrier so its canonical payload "
-                "reflects the domain mathematics rather than a generic skeleton"
-            ),
-        })
-    rows.sort(key=lambda row: (str(row.get("target_domain") or ""), str(row["carrier"])))
-    return _claim_top_with_cooldown(rows)[:max_n]
 
 
 def _get_discovery_sieve_payload() -> dict:
@@ -3361,8 +3268,6 @@ def main(argv: list[str] | None = None) -> int:
     discovery_candidate_top = compute_discovery_candidate_targets(
         discovery_candidates_payload,
     )
-    taste_repair_payload = _get_taste_repair_payload()
-    taste_repair_top = compute_taste_repair_targets(taste_repair_payload)
 
     _conc = read_dispatch_concurrency()
     _top_n = len(rolled)
@@ -3412,11 +3317,6 @@ def main(argv: list[str] | None = None) -> int:
         "capstone_overlap_map": compute_capstone_overlap_map(),
         "carrier_isomorphism": _get_carrier_isomorphism_summary(),
     }
-    payload["taste_repair_enabled"] = True
-    payload["taste_repair_top_total"] = taste_repair_payload.get("violation_count", 0)
-    payload["taste_repair_top"] = taste_repair_top
-    if not taste_repair_payload.get("available", False):
-        payload["taste_repair_reason"] = taste_repair_payload.get("reason", "unavailable")
     # Theorem-level surfaces (D-1 inventory + D-2 unformalized_top / drift_top).
     # Compute discover_all_theorems() once and reuse — the scan is the heaviest
     # call in the whole script (touches ~1100 .tex files paper-wide).
@@ -3450,8 +3350,6 @@ def main(argv: list[str] | None = None) -> int:
             "carrier_isomorphism_capstone": carrier_iso_phase2_bucket_count,
         }
         lean_base_weights = dict(_LEAN_BASE_WEIGHTS)
-        supply_lean["taste_repair_top"] = len(taste_repair_top)
-        lean_base_weights["taste_repair_top"] = TASTE_REPAIR_WEIGHT
         supply_paper = {
             "top": len(rolled),
             "sieve_clearance_top": len(sieve_clearance_top),
