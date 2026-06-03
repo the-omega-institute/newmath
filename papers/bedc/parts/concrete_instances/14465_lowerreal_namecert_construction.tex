@@ -119,6 +119,24 @@ $$
 is the consumer-facing route that exposes the lower ledger $L_0$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ handoff row $R$, the terminal $\RealUp$ seal $E$, and the support rows $H,C,P,N$ as a single finite $\Pkg$-named packet. The package may cite $\LocatedCutUp$, $\LocatedRealUp$, and $\UpperRealUp$ through provenance and boundary rows, but it exports no completed cut, quotient real equality, trichotomy branch, selected supremum, countable-choice selector, or host-completeness witness.
 \end{definition}
 
+\begin{theorem}[LowerReal directed lower-cut budget]
+\label{thm:lowerreal-directed-lower-cut-budget}
+Let
+$$
+L=(L_0,W,R,E,H,C,P,N)
+$$
+be an accepted $\LowerRealUp$ carrier. Any two accepted lower-ledger rows in $L_0$ with displayed dyadic comparison budgets admit a common lower-read refinement only through the same route $L_0,W,R,E,H,C,P,N$: the refinement consumes the $\DyadicRatCoreUp$ comparison rows, the $\StreamNameUp$ finite-window row, the $\RegSeqRatUp$ handoff, the $\LocatedCutUp$ and $\LocatedRealUp$ provenance rows, the $\UpperRealUp$ one-sided boundary, and the terminal $\RealUp$ seal before any public consumer may read it. The route exports no selected supremum, no trichotomy branch, no quotient real equality, and no host-completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:lower-real-carrier}. The lower information is stored in $L_0$, and each row carries its dyadic comparison budget beside the finite observation route $W,R,E$.
+
+Use the NameCert obligations of \autoref{thm:lower-real-namecert-obligations}. Lower-ledger transport preserves the same rational candidates and dyadic budgets through $H$ and $C$, while ledger exactness forbids a second lower ledger or hidden selector.
+
+Now attach the located-cut ledger of \autoref{thm:lowerreal-located-cut-ledger}. The $\LocatedCutUp$ and $\LocatedRealUp$ rows appear only through provenance over the same one-sided lower route, so a common refinement of two lower reads must stay inside $L_0,W,R,E,H,C,P,N$.
+
+Finally apply the UpperReal duality boundary of \autoref{thm:lowerreal-upperreal-duality-boundary}. The $\UpperRealUp$ row records the sibling one-sided boundary but supplies no upper-cut completion. Therefore the common lower-read refinement is directed only by the displayed lower budgets and cannot use selected suprema, trichotomy, quotient real equality, or host completeness.
+\end{proof}
+
 \begin{theorem}[LowerReal public package scope]
 \label{thm:lowerreal-public-package-scope}
 Every consumer of the public package of \autoref{def:lowerreal-public-package} must read the rows $L_0,W,R,E,H,C,P,N$ in the same scoped route established by \autoref{thm:lowerreal-scoped-kernel-obligation}. The package boundary is public only for that displayed one-sided lower-real surface; it does not add a second lower ledger, an upper-cut carrier, quotient real equality, trichotomy, selected suprema, countable choice, or host completeness.
