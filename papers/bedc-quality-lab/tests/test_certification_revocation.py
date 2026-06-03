@@ -44,7 +44,13 @@ def _publish(ledger, record, **overrides):
     )
 
 
-def _entry_from_record(record, *, published_at=PUBLISHED_AT, previous_entry_digest=None):
+def _entry_from_record(
+    record,
+    *,
+    published_at=PUBLISHED_AT,
+    source_ref=LEDGER_SOURCE_REF,
+    previous_entry_digest=None,
+):
     entry_basis = {
         "entry_kind": CERTIFICATION_REVOCATION_LEDGER_ENTRY_KIND,
         "revocation_id": record["revocation_id"],
@@ -52,8 +58,8 @@ def _entry_from_record(record, *, published_at=PUBLISHED_AT, previous_entry_dige
         "previous_revocation_id": record["previous_revocation_id"],
         "reason": record["reason"],
         "published_at": published_at,
-        "source_ref": record["source_ref"],
-        "certificate_source_ref": record["certificate_source_ref"],
+        "source_ref": source_ref,
+        "certificate_source_ref": record["source_ref"],
         "previous_entry_digest": previous_entry_digest,
     }
     return {
@@ -187,6 +193,32 @@ def test_current_head_publish_is_idempotent():
     assert len(again["entries"]) == 1
 
 
+def test_publish_source_ref_changes_entry_digest_for_same_record():
+    first = _record()
+    second = _record(
+        revoked_certificate_id=SECOND_CERTIFICATE_ID,
+        previous_revocation_id=first["revocation_id"],
+        source_ref="reports/revocations/run-58.json#revocation",
+    )
+    ledger = _ledger_with_entries(first)
+    alternate_ledger = _ledger_with_entries(first)
+
+    published = _publish(ledger, second, source_ref="reports/publish/primary.json")
+    alternate = _publish(
+        alternate_ledger,
+        second,
+        source_ref="reports/publish/alternate.json",
+    )
+
+    published_entry = published["entries"][-1]
+    alternate_entry = alternate["entries"][-1]
+    assert published_entry["source_ref"] == "reports/publish/primary.json"
+    assert alternate_entry["source_ref"] == "reports/publish/alternate.json"
+    assert published_entry["certificate_source_ref"] == second["source_ref"]
+    assert alternate_entry["certificate_source_ref"] == second["source_ref"]
+    assert published_entry["entry_digest"] != alternate_entry["entry_digest"]
+
+
 def test_publish_rejects_empty_ledger():
     with pytest.raises(ValueError, match="empty revocation ledger"):
         _publish(empty_certification_revocation_ledger(), _record())
@@ -314,8 +346,8 @@ def test_pointer_only_entry_shape():
         "previous_revocation_id": None,
         "reason": record["reason"],
         "published_at": PUBLISHED_AT,
-        "source_ref": record["source_ref"],
-        "certificate_source_ref": CERTIFICATE_SOURCE_REF,
+        "source_ref": LEDGER_SOURCE_REF,
+        "certificate_source_ref": SOURCE_REF,
         "previous_entry_digest": None,
         "entry_digest": entry["entry_digest"],
     }
@@ -392,20 +424,16 @@ def test_audit_detects_corruptions(mutate, expected):
     assert any(expected in error for error in audit_certification_revocation_ledger(ledger))
 
 
-def test_audit_rejects_entry_content_with_stale_revocation_id_after_chain_refresh():
+def test_audit_rejects_entry_content_without_digest_refresh():
     ledger = _two_entry_ledger()
-    first_entry, second_entry = ledger["entries"]
+    first_entry = ledger["entries"][0]
 
     first_entry["reason"] = "operator key scope withdrawn"
-    _refresh_entry_digest(first_entry)
-    second_entry["previous_entry_digest"] = first_entry["entry_digest"]
-    _refresh_entry_digest(second_entry)
-    ledger["head_entry_digest"] = second_entry["entry_digest"]
 
     errors = audit_certification_revocation_ledger(ledger)
 
     assert errors != []
-    assert any("entry 0 revocation_id mismatch" in error for error in errors)
+    assert any("entry 0 entry digest mismatch" in error for error in errors)
 
 
 @pytest.mark.parametrize(

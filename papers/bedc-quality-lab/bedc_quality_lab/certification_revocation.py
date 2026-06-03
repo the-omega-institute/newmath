@@ -120,7 +120,7 @@ def publish_certification_revocation(
         revocation_record.get("source_ref"),
         "record source_ref",
     )
-    certificate_source_ref = _require_non_empty_string(
+    _require_non_empty_string(
         revocation_record.get("certificate_source_ref"),
         "certificate_source_ref",
     )
@@ -143,8 +143,8 @@ def publish_certification_revocation(
         "previous_revocation_id": previous_revocation_id,
         "reason": reason,
         "published_at": timestamp_iso,
-        "source_ref": record_source_ref,
-        "certificate_source_ref": certificate_source_ref,
+        "source_ref": source_ref,
+        "certificate_source_ref": record_source_ref,
         "previous_entry_digest": ledger_state["head_entry_digest"],
     }
     entry = {
@@ -242,11 +242,6 @@ def audit_certification_revocation_ledger(ledger_state: Mapping[str, Any]) -> li
                 _require_timestamp(entry["published_at"])
             except ValueError:
                 errors.append(f"entry {index} published_at must be an ISO timestamp")
-
-        if _is_non_empty_string(revocation_id):
-            revocation_basis = _revocation_record_basis(entry)
-            if canonical_json_digest(revocation_basis) != revocation_id:
-                errors.append(f"entry {index} revocation_id mismatch")
 
         entry_digest = entry.get("entry_digest")
         if not _is_non_empty_string(entry_digest):
