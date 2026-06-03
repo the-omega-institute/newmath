@@ -2254,6 +2254,7 @@ import BEDC.Derived.ClosedParallelDiamondPremiseLedgerUp.TasteGate
 import BEDC.Derived.ClosedPiDomainSubjectReductionUp.TasteGate
 import BEDC.Derived.ClosedSubspaceCompletionUp.TasteGate
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.ClosedSliceTransport
+import BEDC.Derived.ClosedSubstitutionBoundaryUp.ConsumerExhaustion
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.NameCertObligations
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.PublicNonescape
 import BEDC.Derived.ClosedSubstitutionBoundaryUp.SubstituteInertnessRoute
@@ -5168,6 +5169,7 @@ import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
+import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
 import BEDC.Derived.LowerUpperRealCutUp
 import BEDC.Derived.LowerUpperRealCutUp.TasteGate
@@ -5353,6 +5355,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DecidabilityFragmentRoute
 import BEDC.Derived.MetaCICCriticalPathUp.DecidabilityHandoffVisibility
 import BEDC.Derived.MetaCICCriticalPathUp.DependencyExposure
 import BEDC.Derived.MetaCICCriticalPathUp.DependencyRouteNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.DiamondBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondResidualBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeRowVisibility
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCoverage

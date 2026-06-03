@@ -109,6 +109,51 @@ Use \autoref{thm:lower-real-namecert-obligations}, \autoref{thm:lower-real-realu
 Finally apply \autoref{thm:lowerreal-located-cut-ledger} and \autoref{thm:lowerreal-upperreal-duality-boundary}. They account for the located-cut ledger and the $\UpperRealUp$ sibling boundary without adding a second carrier side. The remaining structural rows are exactly $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, so the refused quotient, trichotomy, selected supremum, choice, and host-completeness objects have no row.
 \end{proof}
 
+\begin{definition}[LowerReal public package]
+\label{def:lowerreal-public-package}
+The $\LowerRealUp$ public package associated to an accepted carrier
+$$
+L=(L_0,W,R,E,H,C,P,N)
+$$
+is the consumer-facing route that exposes the lower ledger $L_0$, the $\StreamNameUp$ window row $W$, the $\RegSeqRatUp$ handoff row $R$, the terminal $\RealUp$ seal $E$, and the support rows $H,C,P,N$ as a single finite $\Pkg$-named packet. The package may cite $\LocatedCutUp$, $\LocatedRealUp$, and $\UpperRealUp$ through provenance and boundary rows, but it exports no completed cut, quotient real equality, trichotomy branch, selected supremum, countable-choice selector, or host-completeness witness.
+\end{definition}
+
+\begin{theorem}[LowerReal public package scope]
+\label{thm:lowerreal-public-package-scope}
+Every consumer of the public package of \autoref{def:lowerreal-public-package} must read the rows $L_0,W,R,E,H,C,P,N$ in the same scoped route established by \autoref{thm:lowerreal-scoped-kernel-obligation}. The package boundary is public only for that displayed one-sided lower-real surface; it does not add a second lower ledger, an upper-cut carrier, quotient real equality, trichotomy, selected suprema, countable choice, or host completeness.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. The carrier gives exactly $L_0,W,R,E,H,C,P,N$, and \autoref{thm:lower-real-namecert-obligations} identifies those rows as the full local obligation surface.
+
+Next apply the Real handoff and located-cut ledger theorems. They force each public read through $W,R,E$ and keep $\LocatedCutUp$ and $\LocatedRealUp$ as provenance anchors rather than as completed cut coordinates.
+
+Finally use the UpperReal boundary and scoped kernel obligation. The $\UpperRealUp$ row is only a sibling boundary, so the public package exposes the scoped lower route without adding any of the refused host or two-sided objects.
+\end{proof}
+
+\begin{theorem}[LowerReal public consumer export]
+\label{thm:lowerreal-public-consumer-export}
+Any downstream L10 consumer that imports $\LowerRealUp$ as public data receives only the package route of \autoref{def:lowerreal-public-package}: lower ledger $L_0$, finite $\StreamNameUp$ window $W$, $\RegSeqRatUp$ handoff $R$, $\RealUp$ seal $E$, and support rows $H,C,P,N$. The export is therefore a public consumer route for the existing lower-real scope, not a completeness theorem, a quotient representative, a trichotomy branch, a supremum selector, or a countable-choice functional.
+\end{theorem}
+\begin{proof}
+Read the public package scope theorem first. It fixes the consumer-visible rows before any downstream L10 packet can project lower-real data.
+
+Then use the Real handoff theorem. A consumer that wants Real-facing information must pass through $L_0,W,R,E$ in that order, with $H,C,P,N$ only transporting, replaying, sourcing, and naming the same route.
+
+The located-cut ledger and UpperReal boundary account for the sibling dependencies. Since those dependencies are not carrier coordinates for completion, quotient equality, trichotomy, selected suprema, or countable choice, the public export is exactly the finite package route.
+\end{proof}
+
+\begin{theorem}[LowerReal public nonescape]
+\label{thm:lowerreal-public-nonescape}
+The $\LowerRealUp$ public package has no escape route from the displayed rows $L_0,W,R,E,H,C,P,N$ to a Dedekind-cut completion, quotient real equality, trichotomy branch, selected supremum, countable-choice selector, or host-completeness coordinate. Every package read that reaches a public consumer is already covered by the carrier, NameCert obligations, Real handoff, located-cut ledger, UpperReal boundary, and scoped kernel obligation.
+\end{theorem}
+\begin{proof}
+Project the public package. Its only analytic rows are the lower ledger, stream window, regular rational handoff, and Real seal; its remaining rows are support for transport, replay, provenance, and local naming.
+
+Apply the NameCert obligations, Real handoff, and located-cut ledger. These results keep every accepted package read inside the same lower ledger and prohibit hidden second ledgers, quotient equality, selected suprema, countable choice, and host completeness.
+
+Close with the UpperReal boundary and scoped kernel obligation. They exhaust the sibling and kernel-facing dependencies, leaving no row from which a public consumer could extract the refused objects.
+\end{proof}
+
 \begin{closurestatus}{\LowerRealUp}
   \constructivestory{A $\LowerRealUp$ packet is generated from a displayed lower rational or dyadic ledger, finite StreamName windows, a RegSeqRat handoff row, a RealUp seal, componentwise transports, continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\scopedClosure}
