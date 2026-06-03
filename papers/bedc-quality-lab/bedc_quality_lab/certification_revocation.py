@@ -31,6 +31,13 @@ _ENTRY_KEYS = {
     "previous_entry_digest",
     "entry_digest",
 }
+_REVOCATION_RECORD_KEYS = (
+    "revoked_certificate_id",
+    "previous_revocation_id",
+    "reason",
+    "source_ref",
+    "certificate_source_ref",
+)
 
 
 def issue_certification_revocation_record(
@@ -96,8 +103,7 @@ def publish_certification_revocation(
         revocation_record.get("revocation_id"),
         "revocation_id",
     )
-    record_basis = dict(revocation_record)
-    record_basis.pop("revocation_id", None)
+    record_basis = _revocation_record_basis(revocation_record)
     if canonical_json_digest(record_basis) != revocation_id:
         raise ValueError("revocation_id mismatch")
 
@@ -110,7 +116,10 @@ def publish_certification_revocation(
         "previous_revocation_id",
     )
     reason = _require_non_empty_string(revocation_record.get("reason"), "reason")
-    _require_non_empty_string(revocation_record.get("source_ref"), "record source_ref")
+    record_source_ref = _require_non_empty_string(
+        revocation_record.get("source_ref"),
+        "record source_ref",
+    )
     certificate_source_ref = _require_non_empty_string(
         revocation_record.get("certificate_source_ref"),
         "certificate_source_ref",
@@ -134,7 +143,7 @@ def publish_certification_revocation(
         "previous_revocation_id": previous_revocation_id,
         "reason": reason,
         "published_at": timestamp_iso,
-        "source_ref": source_ref,
+        "source_ref": record_source_ref,
         "certificate_source_ref": certificate_source_ref,
         "previous_entry_digest": ledger_state["head_entry_digest"],
     }
@@ -234,6 +243,11 @@ def audit_certification_revocation_ledger(ledger_state: Mapping[str, Any]) -> li
             except ValueError:
                 errors.append(f"entry {index} published_at must be an ISO timestamp")
 
+        if _is_non_empty_string(revocation_id):
+            revocation_basis = _revocation_record_basis(entry)
+            if canonical_json_digest(revocation_basis) != revocation_id:
+                errors.append(f"entry {index} revocation_id mismatch")
+
         entry_digest = entry.get("entry_digest")
         if not _is_non_empty_string(entry_digest):
             errors.append(f"entry {index} entry_digest must be a non-empty string")
@@ -292,6 +306,10 @@ def _require_timestamp(value: Any) -> str:
     except ValueError as exc:
         raise ValueError("timestamp_iso must be an ISO timestamp") from exc
     return timestamp
+
+
+def _revocation_record_basis(record: Mapping[str, Any]) -> dict[str, Any]:
+    return {key: record[key] for key in _REVOCATION_RECORD_KEYS if key in record}
 
 
 def _entry_copies(entries: Any) -> list[dict[str, Any]]:

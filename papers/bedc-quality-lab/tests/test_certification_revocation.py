@@ -52,7 +52,7 @@ def _entry_from_record(record, *, published_at=PUBLISHED_AT, previous_entry_dige
         "previous_revocation_id": record["previous_revocation_id"],
         "reason": record["reason"],
         "published_at": published_at,
-        "source_ref": LEDGER_SOURCE_REF,
+        "source_ref": record["source_ref"],
         "certificate_source_ref": record["certificate_source_ref"],
         "previous_entry_digest": previous_entry_digest,
     }
@@ -60,6 +60,12 @@ def _entry_from_record(record, *, published_at=PUBLISHED_AT, previous_entry_dige
         **entry_basis,
         "entry_digest": canonical_json_digest(entry_basis),
     }
+
+
+def _refresh_entry_digest(entry):
+    basis = dict(entry)
+    basis.pop("entry_digest", None)
+    entry["entry_digest"] = canonical_json_digest(basis)
 
 
 def _ledger_with_entries(*records):
@@ -308,7 +314,7 @@ def test_pointer_only_entry_shape():
         "previous_revocation_id": None,
         "reason": record["reason"],
         "published_at": PUBLISHED_AT,
-        "source_ref": LEDGER_SOURCE_REF,
+        "source_ref": record["source_ref"],
         "certificate_source_ref": CERTIFICATE_SOURCE_REF,
         "previous_entry_digest": None,
         "entry_digest": entry["entry_digest"],
@@ -384,6 +390,22 @@ def test_audit_detects_corruptions(mutate, expected):
     mutate(ledger)
 
     assert any(expected in error for error in audit_certification_revocation_ledger(ledger))
+
+
+def test_audit_rejects_entry_content_with_stale_revocation_id_after_chain_refresh():
+    ledger = _two_entry_ledger()
+    first_entry, second_entry = ledger["entries"]
+
+    first_entry["reason"] = "operator key scope withdrawn"
+    _refresh_entry_digest(first_entry)
+    second_entry["previous_entry_digest"] = first_entry["entry_digest"]
+    _refresh_entry_digest(second_entry)
+    ledger["head_entry_digest"] = second_entry["entry_digest"]
+
+    errors = audit_certification_revocation_ledger(ledger)
+
+    assert errors != []
+    assert any("entry 0 revocation_id mismatch" in error for error in errors)
 
 
 @pytest.mark.parametrize(
