@@ -68,6 +68,14 @@
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
 - Rows: `18`
 
+## Negative witness summary
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/discovery_negative_witness_summary.json`
+- Markdown: `reports/canonical/discovery_negative_witness_summary.md`
+- Rows: `12`
+- Audit: `pass`
+
 ## Formal hardening
 
 - Status: `pointer-only`
