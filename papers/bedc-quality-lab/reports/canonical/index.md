@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-03T17:08:52.430894+00:00`
+- Generated at: `2026-06-03T20:44:31.353684+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -91,6 +91,15 @@
 - Ready: `False`
 - Coverage: `3/4`
 - Gaps: `1`
+
+## Gap-head mechanism attribution
+
+- Status: `pointer-only`
+- JSON: `reports/gap_head_mechanism_attribution.json`
+- Markdown: `reports/gap_head_mechanism_attribution.md`
+- Mechanism status: `probe-margin-channel`
+- Arms: `16`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 
 ## Paper outline
 

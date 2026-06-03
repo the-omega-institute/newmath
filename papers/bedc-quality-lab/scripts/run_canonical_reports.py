@@ -47,6 +47,9 @@ NEGATIVE_WITNESS_SUMMARY_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witn
 FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
 FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
 FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
+GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT = "reports/gap_head_mechanism_attribution.json"
+GAP_HEAD_MECHANISM_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/gap_head_mechanism_attribution.md"
+GAP_HEAD_MECHANISM_ATTRIBUTION_ARTIFACT_ID = "bedc-quality-lab:gap-head-mechanism-attribution"
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -472,6 +475,17 @@ def _load_report_payload(spec: CanonicalReportSpec) -> dict[str, Any]:
 
 def _load_artifact_payload(relative_path: str) -> dict[str, Any]:
     json_path = _artifact_path(relative_path)
+    if not json_path.exists():
+        return {}
+    try:
+        payload = json.loads(json_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+def _load_sidecar_payload(relative_path: str) -> dict[str, Any]:
+    json_path = ROOT / relative_path
     if not json_path.exists():
         return {}
     try:
@@ -1073,6 +1087,20 @@ def _formal_hardening_index_section(generated_at: str | None = None) -> dict[str
     }
 
 
+def _gap_head_mechanism_attribution_index_section() -> dict[str, Any]:
+    payload = _load_sidecar_payload(GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT)
+    return {
+        "status": "pointer-only",
+        "artifact_id": GAP_HEAD_MECHANISM_ATTRIBUTION_ARTIFACT_ID,
+        "json_artifact": GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT,
+        "markdown_artifact": GAP_HEAD_MECHANISM_ATTRIBUTION_MARKDOWN_ARTIFACT,
+        "mechanism_status": payload.get("mechanism_status", "missing"),
+        "arm_count": _pointer_value(payload, "$.config.arm_count") or "missing",
+        "hg_status": _pointer_value(payload, "$.HG_A1.status") or "missing",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -1144,6 +1172,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
+        "gap_head_mechanism_attribution": _gap_head_mechanism_attribution_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -1261,6 +1290,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Coverage: `{payload['formal_hardening']['recorded']}/{payload['formal_hardening']['required']}`",
             f"- Gaps: `{payload['formal_hardening']['gap_count']}`",
             "",
+            "## Gap-head mechanism attribution",
+            "",
+            f"- Status: `{payload['gap_head_mechanism_attribution']['status']}`",
+            f"- JSON: `{payload['gap_head_mechanism_attribution']['json_artifact']}`",
+            f"- Markdown: `{payload['gap_head_mechanism_attribution']['markdown_artifact']}`",
+            f"- Mechanism status: `{payload['gap_head_mechanism_attribution']['mechanism_status']}`",
+            f"- Arms: `{payload['gap_head_mechanism_attribution']['arm_count']}`",
+            f"- Canonical role: `{payload['gap_head_mechanism_attribution']['canonical_role']}`",
+            "",
             "## Paper outline",
             "",
             f"- Status: `{outline['status']}`",
@@ -1345,6 +1383,9 @@ def run_reports(
 
     write_dimension_mismatch_transfer_robustness(root=ROOT, generated_at=timestamp)
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
+    from scripts.run_gap_head_mechanism_attribution import write_gap_head_mechanism_attribution
+
+    write_gap_head_mechanism_attribution(root=ROOT, generated_at=timestamp)
     payload = _index(results, generated_at=timestamp)
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
