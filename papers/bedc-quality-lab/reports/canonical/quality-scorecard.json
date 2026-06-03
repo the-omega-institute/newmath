@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-03T06:17:47.832908+00:00",
+  "generated_at": "2026-06-03T06:59:30.116815+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -25,6 +25,11 @@
     {
       "json_artifact": "reports/canonical/gap-head-ablation.json",
       "name": "gap-head-ablation",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
+      "name": "gap-head-threshold-frontier",
       "status": "pass"
     },
     {
@@ -159,9 +164,9 @@
       "value": 10
     },
     {
-      "denominator": 9,
+      "denominator": 10,
       "metric": "ScopeCompleteness",
-      "numerator": 9,
+      "numerator": 10,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -189,6 +194,11 @@
           "report": "gap-head-ablation"
         },
         {
+          "artifact": "reports/canonical/gap-head-threshold-frontier.json",
+          "pointer": "$.applicability_boundary",
+          "report": "gap-head-threshold-frontier"
+        },
+        {
           "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
           "pointer": "$.coverage_item",
           "report": "nongaussian-distribution-sweep"
@@ -213,9 +223,9 @@
       "value": 1.0
     },
     {
-      "denominator": 9,
+      "denominator": 10,
       "metric": "CostProtocolCompleteness",
-      "numerator": 9,
+      "numerator": 10,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -241,6 +251,11 @@
           "artifact": "reports/canonical/gap-head-ablation.json",
           "pointer": "$.control_protocol",
           "report": "gap-head-ablation"
+        },
+        {
+          "artifact": "reports/canonical/gap-head-threshold-frontier.json",
+          "pointer": "$.source_artifacts",
+          "report": "gap-head-threshold-frontier"
         },
         {
           "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
