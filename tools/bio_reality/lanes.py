@@ -3672,7 +3672,25 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
             attempts = attempt
             _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "attempt", "attempt": attempt, "rel_file": rel_file})
             # Deterministic pre-fix: unicode_char_not_set_up → 替换常见 Unicode 数学字符为 LaTeX 等价
+            # 如果 target file 没 unicode (file detection 错), fallback 扫描 ALL bio_reality namecerts
             if last_error.get("category") == "unicode_char_not_set_up":
+                _UNICODE_CHARS_SCAN = "≤≥×÷→←↔⇒⇐∞±∓≠≈≡∈∉⊂⊆∪∩∀∃αβγδλμσπωΔΣΠΩ−–—"
+                if not any(u in content for u in _UNICODE_CHARS_SCAN):
+                    # target file 没 unicode chars, scan whole namecerts dir
+                    namecerts_dir = paper_dir / "parts" / "namecerts"
+                    for cand in sorted(namecerts_dir.glob("*.tex")):
+                        try:
+                            cand_text = cand.read_text(encoding="utf-8")
+                        except OSError:
+                            continue
+                        if any(u in cand_text for u in _UNICODE_CHARS_SCAN):
+                            try:
+                                rel_file = str(cand.relative_to(repo_resolved))
+                                target = cand
+                                content = cand_text
+                                break
+                            except ValueError:
+                                continue
                 unicode_to_latex = {
                     "≤": r"$\leq$", "≥": r"$\geq$", "×": r"$\times$", "÷": r"$\div$",
                     "→": r"$\to$", "←": r"$\leftarrow$", "↔": r"$\leftrightarrow$",
@@ -3702,24 +3720,22 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
                         target.write_text(content, encoding="utf-8")
                     except OSError:
                         pass
-            # Deterministic pre-fix: missing_dollar 经常是 \texttt{...} 内有 unescaped _ 触发的
-            # (LaTeX text mode 里 _ 被解释为 subscript 报 missing $). Try regex replace _→\_
-            # 仅在 \texttt{...} 内部, 不动 math mode 或已转义.
+            # Deterministic pre-fix: missing_dollar 经常是 text mode 里 unescaped _ 触发的
+            # (_ 被解释为 subscript 报 missing $). 两类已知 bio-W 来源:
+            #   1. \texttt{...} 内部的 _
+            #   2. 反引号-单引号文本引用 `..._..' 内部的 _ (路径 / 标识符 token)
+            # 两处都只在 text-mode span 内把 raw _ → \_, 不动 math mode 或已转义.
             if last_error.get("category") == "missing_dollar":
-                def _escape_texttt_underscores(match: "re.Match[str]") -> str:
-                    inner = match.group(1)
-                    fixed_inner = re.sub(r"(?<!\\)_", r"\\_", inner)
-                    return r"\texttt{" + fixed_inner + "}"
-                prefixed_content = re.sub(r"\\texttt\{([^{}]*)\}", _escape_texttt_underscores, content)
+                prefixed_content = _sanitize_textmode_underscores(content)
                 if prefixed_content != content:
                     try:
                         target.write_text(prefixed_content, encoding="utf-8")
                         returncode, output = _run_writeback_make_check(paper_dir)
                         if returncode == 0:
-                            _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "healed", "attempt": attempt, "rel_file": rel_file, "fix_kind": "deterministic_texttt_underscore"})
+                            _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "healed", "attempt": attempt, "rel_file": rel_file, "fix_kind": "deterministic_text_underscore"})
                             pdf_returncode, _pdf_output = _run_writeback_make_pdf(paper_dir)
                             pdf_rebuilt = "ok" if pdf_returncode == 0 else "failed"
-                            return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt, "fix_kind": "deterministic_texttt_underscore"}
+                            return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt, "fix_kind": "deterministic_text_underscore"}
                         # 没修好, 回滚 content 让 codex 试
                         target.write_text(content, encoding="utf-8")
                     except OSError:
@@ -3745,6 +3761,27 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
         return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts}
     except Exception as exc:
         return {"lane": "bio-H", "status": "error", "error": str(exc)}
+
+
+def _sanitize_textmode_underscores(text: str) -> str:
+    """Deterministically escape raw `_` inside text-mode spans before deploy.
+
+    codex 写出的 namecert 章节偶尔在 `\\texttt{...}` 或反引号引用 `..._..' 里留下
+    未转义的 `_` (text mode 报 "Missing $ inserted" 致命). 这是 bio-W 非确定性
+    输出, 在 write 时一律 normalize, 让 build 永不因此类断 (bio-H 不必再 heal,
+    也避免多文件破坏耗尽 heal attempt budget). 只动 `\\texttt{...}` 与反引号 span,
+    不碰 math mode / 已转义.
+    """
+    def _escape_all(inner: str) -> str:
+        # \texttt{...} 内容是 verbatim text, $ 不进 math, 全部 raw _ 转义
+        return re.sub(r"(?<!\\)_", r"\\_", inner)
+    def _escape_skip_math(inner: str) -> str:
+        # 反引号 span 可能含 inline $...$ math (合法下标 _), 只转义 math 外的 _
+        parts = re.split(r"(\$[^$]*\$)", inner)
+        return "".join(p if p.startswith("$") else re.sub(r"(?<!\\)_", r"\\_", p) for p in parts)
+    text = re.sub(r"\\texttt\{([^{}]*)\}", lambda m: r"\texttt{" + _escape_all(m.group(1)) + "}", text)
+    text = re.sub(r"`([^`']*)'", lambda m: "`" + _escape_skip_math(m.group(1)) + "'", text)
+    return text
 
 
 def _write_namecert_proposals(
@@ -3807,6 +3844,7 @@ def _write_namecert_proposals(
                 f"\\path{{tools/bio\\_reality/registries/claims.json}} still tracks the "
                 f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
             )
+        text = _sanitize_textmode_underscores(text)
         (namecerts_dir / f"{slug}.tex").write_text(text, encoding="utf-8")
         slugs.append(slug)
     return slugs

@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\PoincareDiskBoundaryTransportUp$}
+\label{ch:concrete-instances-poincare-disk-boundary-transport-namecert}
+\origin{human}
+
+Following Poincare disk geometry and Bishop--Bridges finite-data discipline, the $\PoincareDiskBoundaryTransportUp$ packet records boundary-preserving disk transport as displayed BEDC rows rather than as a host analytic automorphism of the disk. It concretizes the Poincare disk reading of \autoref{sec:hyperbolic-poincare-disk} after the disk-coordinate surface of \autoref{ch:concrete-instances-unitdisk-namecert}, the disk metric packet of \autoref{ch:concrete-instances-poincare-disk-metric-namecert}, the hyperbolic metric readback of \autoref{ch:concrete-instances-hyperbolic-metric-namecert}, and the boundary-fixed transport surface of \autoref{ch:concrete-instances-poincare-boundary-fixed-transport-namecert}. The packet names only finite disk, boundary, metric, transport, provenance, and NameCert rows; it does not claim a completed disk, quotient ideal-boundary equality, selected boundary point, host Mobius action, or global compactification.
+
+\begin{definition}[Poincare disk boundary transport carrier]
+\label{def:poincare-disk-boundary-transport-carrier}
+A $\PoincareDiskBoundaryTransportUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,B,M,T,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\UnitDiskUp$ disk-coordinate row, recording the finite source and target disk observations inspected by the transport.
+\item $B$ is the boundary row, recording the displayed boundary incidences and far-end labels preserved by the transport.
+\item $M$ is the metric-read row, sourced through $\PoincareDiskMetricUp$ and $\HyperbolicMetricUp$ comparisons over the same disk observations.
+\item $T$ is the transport row, recording the finite disk movement, boundary-preservation check, and admissible source-target route.
+\item $F$ is the fixed-boundary compatibility row, comparing the transport with the $\PoincareBoundaryFixedTransportUp$ surface when a consumer asks for boundary invariance.
+\item $H$ records componentwise $\hsame$ transport for disk coordinates, boundary rows, metric reads, disk transport, fixed-boundary compatibility, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route from disk observations to boundary-preserving transport and then to metric-facing consumers.
+\item $P$ is the $\Pkg$ provenance over $\PoincareDiskBoundaryTransportUp$, $\UnitDiskUp$, $\PoincareDiskMetricUp$, $\HyperbolicMetricUp$, $\PoincareBoundaryFixedTransportUp$, $\PoincareDiskPhaseTransportUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PoincareDiskBoundaryTransportUp}$ row.
+\end{enumerate}
+Accepted carriers are compared only through $D,B,M,T,F,H,C,P,N$. There is no coordinate for a completed disk, quotient ideal-boundary equality, selected boundary point, host Mobius action, global compactification, Lean verification, or bridge data.
+\end{definition}
+
+\begin{theorem}[Poincare disk boundary transport NameCert obligations]
+\label{thm:poincare-disk-boundary-transport-namecert-obligations}
+For every accepted $\PoincareDiskBoundaryTransportUp$ carrier $G=(D,B,M,T,F,H,C,P,N)$, the local $\NameCert_{\PoincareDiskBoundaryTransportUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for disk coordinates, boundary incidences, metric reads, disk transport, fixed-boundary compatibility, transport, replay, provenance, and local naming;
+\item disk-boundary visibility, requiring every transport read to expose $D$ and $B$ before a boundary-preserving route is exported;
+\item metric compatibility, requiring $M$ to be sourced through the same displayed disk observations and boundary rows used by $T$;
+\item fixed-boundary exactness, requiring $F$ to compare the route with $\PoincareBoundaryFixedTransportUp$ without introducing a selected boundary point or host automorphism;
+\item componentwise transport, displayed replay, provenance, and local naming for the same route through $H,C,P,N$.
+\end{enumerate}
+No Poincare disk boundary-transport obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $G=(D,B,M,T,F,H,C,P,N)$. The carrier definition exposes disk coordinates, boundary incidences, metric reads, transport, fixed-boundary compatibility, and structural rows.
+
+The boundary-preserving route starts with $D$ and $B$. A transport row cannot be read as boundary-preserving until the finite disk observations and the displayed boundary incidences are both visible.
+
+The metric and fixed-boundary checks then pass through $M,T,F$. The metric row reads the same disk data, the transport row records the admissible movement, and the fixed-boundary row compares that movement with the boundary-fixed transport surface.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same finite route. Since no carrier coordinate stores a completed disk, quotient ideal boundary, selected boundary point, host Mobius action, global compactification, Lean verification, or bridge data, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Poincare disk boundary transport nonescape]
+\label{thm:poincare-disk-boundary-transport-nonescape}
+Every boundary-preserving disk-transport read from an accepted $\PoincareDiskBoundaryTransportUp$ packet factors through
+$$
+\UnitDiskUp \longmapsto \PoincareDiskMetricUp,\HyperbolicMetricUp \longmapsto \PoincareBoundaryFixedTransportUp,\PoincareDiskPhaseTransportUp \longmapsto \BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+Thus a consumer receives only finite disk, boundary, metric, transport, replay, provenance, and naming rows, not a completed disk, quotient ideal-boundary equality, selected boundary point, host Mobius action, or global compactification.
+\end{theorem}
+\begin{proof}
+Start with the carrier rows of \autoref{def:poincare-disk-boundary-transport-carrier}. The disk row $D$ and boundary row $B$ are the only source of visible boundary data.
+
+The route reaches metric and transport consumers through $M,T,F$. These rows bind the metric read, disk movement, and fixed-boundary comparison to the same displayed source and boundary observations.
+
+The structural rows $H,C,P,N$ do not add a second geometric object. They preserve, replay, source, and name the displayed packet, so no completed disk, quotient ideal boundary, selected boundary point, host Mobius action, or global compactification can be exported from the accepted read.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\PoincareDiskBoundaryTransportUp$ read is refuted if a boundary-transport consumer obtains boundary preservation without displaying UnitDisk coordinates, boundary rows, PoincareDiskMetric and HyperbolicMetric reads, PoincareBoundaryFixedTransport compatibility, PoincareDiskPhaseTransport routing, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{unitdisk, poincare-disk-metric, hyperbolic-metric, poincare-boundary-fixed-transport, poincare-disk-phase-transport: no listed sibling is bijective to $\PoincareDiskBoundaryTransportUp$ because this packet jointly carries disk coordinates, boundary incidences, metric reads, boundary-preserving transport, fixed-boundary compatibility, replay, provenance, and local naming as one finite route.}
+
+\closureat{PoincareDiskBoundaryTransportUp}{seedStr}
+
+\begin{closurestatus}{\PoincareDiskBoundaryTransportUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-disk-boundary-transport-carrier}, \autoref{thm:poincare-disk-boundary-transport-namecert-obligations}, and \autoref{thm:poincare-disk-boundary-transport-nonescape} seed the finite boundary-preserving Poincare disk transport route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed disks, quotient ideal-boundary equality, selected boundary points, host Mobius actions, global compactification, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked disk-coordinate admission, boundary visibility, metric compatibility, fixed-boundary exactness, transport preservation, replay, provenance, and local naming for BEDC.Derived.PoincareDiskBoundaryTransportUp.}
+  \constructivestory{A $\PoincareDiskBoundaryTransportUp$ packet is generated from UnitDisk coordinates, displayed boundary incidences, PoincareDiskMetric and HyperbolicMetric reads, boundary-preserving disk transport, PoincareBoundaryFixedTransport compatibility, PoincareDiskPhaseTransport routing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

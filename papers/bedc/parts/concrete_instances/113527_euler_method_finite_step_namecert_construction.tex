@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\EulerMethodFiniteStepUp$}
+\label{ch:concrete-instances-euler-method-finite-step-namecert}
+\origin{human}
+
+Following Euler and the constructive numerical ODE tradition, the $\EulerMethodFiniteStepUp$ packet records the finite forward-step certificate by which a displayed ordinary differential equation is read through a bounded mesh, a visible initial state, and finitely many endpoint updates. It sits after the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the continuous-map row of \autoref{ch:concrete-instances-continuousmap-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The certificate names a bounded numerical flow segment; it does not assert exact solution existence, global continuation, convergence as the mesh tends to zero, or ambient real completeness.
+
+\begin{definition}[Euler finite-step carrier]
+\label{def:euler-method-finite-step-carrier}
+An $\EulerMethodFiniteStepUp$ carrier is a finite $\BHist$ packet
+$$
+E=(O,F,T,X,D,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ local time-state row, naming the initial state, finite time window, and state-cell boundary.
+\item $F$ is the $\ContinuousMapUp$ vector-field read available on the same displayed window.
+\item $T$ is the finite step ledger, recording the ordered time nodes, step widths, and endpoint budget.
+\item $X$ is the finite state-readback ledger, recording each displayed Euler update from the previous state and the vector-field row.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and arithmetic row for step widths, local products, and endpoint error budgets.
+\item $H$ records componentwise $\hsame$ transport for the ODE, vector-field, step, state, dyadic, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+O,F,T,D \longmapsto X \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\EulerMethodFiniteStepUp$, $\OdeUp$, $\ContinuousMapUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\EulerMethodFiniteStepUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows and their displayed transports. It has no coordinate for a host solution curve, selected limiting path, quotient equality of functions, countable-choice schedule, or an exact ODE solution.
+\end{definition}
+
+\begin{theorem}[Euler finite-step NameCert obligations]
+\label{thm:euler-method-finite-step-namecert-obligations}
+For every accepted $\EulerMethodFiniteStepUp$ carrier $E=(O,F,T,X,D,H,C,P,N)$, the local $\NameCert_{\EulerMethodFiniteStepUp}$ surface consists of the following five obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed $\OdeUp$ source $O$ and $\ContinuousMapUp$ vector-field row $F$;
+\item finite step-budget admission through $T$, including node order, step widths, and endpoint range;
+\item update-readback exposure through $X$, with each update read from the previous state, $F$, and the matching step-width row;
+\item dyadic arithmetic and tolerance accounting through $D$, stable under componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$;
+\item $\Pkg$ provenance and local naming through $P,N$, including the $\StreamNameUp$ and $\RealUp$ consumer faces reached only after the finite step ledger is visible.
+\end{enumerate}
+No local obligation may read exact ODE solution existence, convergence beyond the displayed finite step budget, global continuation, quotient path equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only analytic source rows are the ODE row $O$, vector-field row $F$, finite step ledger $T$, update ledger $X$, and dyadic arithmetic row $D$.
+
+The step ledger fixes the finite budget before any state readback is exposed. Each update in $X$ is therefore a displayed read from the previous state, the vector-field row, and the matching dyadic step-width data.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for a host solution curve, limiting path, global continuation, choice schedule, or ambient completeness theorem, the five rows listed in the statement exhaust the NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\EulerMethodFiniteStepUp$ consumer that reads an endpoint update without the displayed ODE row, continuous-map vector-field row, finite step ledger, dyadic arithmetic row, and structural $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the packet surface.}
+
+\independenceWitness{ode, continuousmap, dyadicratcore, streamname, real: none is bijective to $\EulerMethodFiniteStepUp$ because this packet binds the local ODE source, vector-field read, finite step budget, update ledger, dyadic arithmetic, transport, replay, provenance, and local naming rows into one finite method certificate.}
+
+\closureat{EulerMethodFiniteStepUp}{seedStr}
+
+\begin{closurestatus}{\EulerMethodFiniteStepUp}
+  \constructivestory{An $\EulerMethodFiniteStepUp$ packet is generated from an Ode local source row, a ContinuousMap vector-field row, a finite step ledger, finite update readbacks, DyadicRatCore arithmetic, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:euler-method-finite-step-carrier} and \autoref{thm:euler-method-finite-step-namecert-obligations} seed the finite forward-Euler step route over ODE, continuous-map, dyadic, stream-name, real-readback, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim exact ODE solution existence, convergence beyond the displayed finite step budget, global continuation, selected limiting paths, quotient function equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, step-budget visibility, update-readback exposure, dyadic arithmetic stability, transport, replay, provenance, and local naming for BEDC.Derived.EulerMethodFiniteStepUp.}
+\end{closurestatus}

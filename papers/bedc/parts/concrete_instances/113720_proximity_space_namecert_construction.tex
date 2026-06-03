@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\ProximitySpaceUp$}
+\label{ch:concrete-instances-proximity-space-namecert}
+\origin{human}
+
+Following Efremovic and Naimpally--Warrack on proximity spaces, the $\ProximitySpaceUp$ packet records nearness as finite NameCert data rather than as a quotient of filters or a selected completion object. It sits between the separated uniform boundary of \autoref{ch:concrete-instances-separated-uniform-space-namecert}, the completion route of \autoref{ch:concrete-instances-uniform-space-completion-namecert}, and the complete uniform-space seal of \autoref{ch:concrete-instances-complete-uniform-space-namecert}. The packet supplies a conservative L10 nearness interface for Real and Completion consumers; it does not assert compactness, choose completion points, or import choice principles.
+
+\begin{definition}[Proximity-space carrier]
+\label{def:proximity-space-carrier}
+A $\ProximitySpaceUp$ carrier is a finite $\BHist$ packet
+$$
+P=(N,D,S,K,H,C,G,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the nearness row, recording finite positive proximity observations between carried finite marks and the displayed neighborhood tests that witness them.
+\item $D$ is the diagonal and apartness row, requiring every accepted self-nearness read to pass through the displayed diagonal evidence and every rejected nearness read to expose its finite apartness witness.
+\item $S$ is the symmetry row, recording that a displayed nearness read may be replayed in the opposite order without introducing a host equality of points.
+\item $K$ is the composition row, recording the finite interpolation evidence used when two displayed nearness reads are composed through an admitted middle observation.
+\item $H$ records componentwise $\hsame$ transport for nearness, diagonal and apartness, symmetry, composition, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+N,D,S,K \longmapsto H .
+$$
+\item $G$ is the $\Pkg$ provenance over $\ProximitySpaceUp$, $\SeparatedUniformSpaceUp$, $\UniformSpaceCompletionUp$, $\CompleteUniformSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\ProximitySpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted proximity packets only through $N,D,S,K,H,C,G,L$. It has no coordinate for quotient filters, selected completions, open-cover compactness, countable choice, host equality of points, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Proximity-space NameCert obligations]
+\label{thm:proximity-space-namecert-obligations}
+For every accepted $\ProximitySpaceUp$ carrier $P=(N,D,S,K,H,C,G,L)$, the local $\NameCert_{\ProximitySpaceUp}$ surface consists exactly of carrier admission, finite nearness exposure, diagonal and apartness exactness, symmetry replay, finite composition, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every L10 completion or uniformity consumer must read the displayed route
+$$
+N,D,S,K \longmapsto H,C,G,L
+$$
+before using proximity as evidence for a separated or complete uniform-space boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:proximity-space-carrier}. The nearness row $N$ is the only row from which a consumer can read positive proximity observations, and the diagonal and apartness row $D$ is the only row from which it can read self-nearness or rejected-nearness evidence.
+
+The symmetry row $S$ and the composition row $K$ are finite replay rules. They transport a displayed nearness observation across order reversal or through an admitted middle observation, but they do not add a quotient relation or a hidden completion point.
+
+Finally inspect $H,C,G,L$. These rows transport, replay, source, and name the same finite route. Since no row contains quotient filters, selected completions, open-cover compactness, countable choice, host equality, or ambient completeness, the local NameCert surface exports none of those objects.
+\end{proof}
+
+\begin{theorem}[Proximity-space uniform-completion boundary]
+\label{thm:proximity-space-uniform-completion-boundary}
+Every separated uniform-space or completion-facing consumer of an accepted $\ProximitySpaceUp$ packet must read nearness through the finite diagonal, symmetry, and composition rows before entering the L10 uniform route. The boundary is
+$$
+\ProximitySpaceUp
+\longmapsto
+\SeparatedUniformSpaceUp
+\longmapsto
+\UniformSpaceCompletionUp
+\longmapsto
+\CompleteUniformSpaceUp .
+$$
+The downstream reads are the separated uniform boundary of \autoref{ch:concrete-instances-separated-uniform-space-namecert}, the uniform-space completion route of \autoref{ch:concrete-instances-uniform-space-completion-namecert}, and the complete uniform-space seal of \autoref{ch:concrete-instances-complete-uniform-space-namecert}. The proximity packet itself supplies only finite nearness data and does not construct quotient filters, select completions, prove open-cover compactness, or provide choice principles.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection in \autoref{def:proximity-space-carrier}. A consumer receives the finite nearness row $N$, the diagonal and apartness row $D$, the symmetry row $S$, and the composition row $K$ before any downstream uniform object is read.
+
+Use \autoref{thm:proximity-space-namecert-obligations}. It keeps the structural rows $H,C,G,L$ attached to the same displayed nearness route, so a consumer cannot replace the route by a host proximity relation or a quotient of filters.
+
+The separated uniform-space boundary is then the first downstream reader. It consumes the diagonal, symmetry, and composition information only as finite evidence compatible with \autoref{ch:concrete-instances-separated-uniform-space-namecert}.
+
+Completion-facing consumers may then pass to \autoref{ch:concrete-instances-uniform-space-completion-namecert} and \autoref{ch:concrete-instances-complete-uniform-space-namecert}. Since the proximity carrier has no coordinate for quotient filters, selected completions, open-cover compactness, countable choice, host equality, or ambient completeness, none of those objects is introduced by this boundary.
+\end{proof}
+
+\begin{theorem}[Proximity-space finite nearness stability]
+\label{thm:proximity-space-finite-nearness-stability}
+Let $P=(N,D,S,K,H,C,G,L)$ be an accepted $\ProximitySpaceUp$ carrier. Any replay of a displayed nearness observation under $\hsame$, symmetry, or finite composition remains inside the same finite route
+$$
+N,D,S,K \longmapsto H,C,G,L .
+$$
+Thus proximity stability is a property of displayed $\BHist$ rows and not a quotient-filter equality, selected completion, open-cover compactness theorem, countable-choice selector, host equality, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. The only nearness observations available to the consumer are the finite rows displayed by $N$, with diagonal and apartness evidence controlled by $D$.
+
+Symmetry and composition are read through $S$ and $K$. A replay in the opposite order or through a finite middle observation therefore stays inside the carrier rather than creating a new comparison principle.
+
+Componentwise $\hsame$ transport and displayed $\Cont$ replay are the structural rows $H$ and $C$. They preserve the same route, while $G$ and $L$ provide provenance and local naming only. No excluded quotient, selected completion, compactness, choice, host equality, or ambient completeness object is present in the packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ProximitySpaceUp$ consumer reads finite nearness, diagonal and apartness, symmetry, composition, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before it may pass to separated uniformity or completion-facing rows.}
+
+\independenceWitness{separateduniformspace, uniformspacecompletion, completeuniformspace: $\ProximitySpaceUp$ is not bijective to any listed sibling because it uniquely names finite nearness, diagonal and apartness, symmetry, and composition rows before the uniform and completion route is consumed.}
+
+\closureat{ProximitySpaceUp}{seedStr}
+
+\begin{closurestatus}{\ProximitySpaceUp}
+  \constructivestory{A $\ProximitySpaceUp$ packet is generated from a finite nearness row, a diagonal and apartness row, symmetry and composition rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:proximity-space-carrier}, \autoref{thm:proximity-space-namecert-obligations}, \autoref{thm:proximity-space-uniform-completion-boundary}, and \autoref{thm:proximity-space-finite-nearness-stability} seed the finite nearness interface over diagonal, apartness, symmetry, composition, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected completions, open-cover compactness, choice principles, host equality of points, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite nearness exposure, diagonal and apartness exactness, symmetry replay, finite composition, transport, replay, provenance, and non-escape for BEDC.Derived.ProximitySpaceUp.}
+\end{closurestatus}

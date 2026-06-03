@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\BoundedLatticeUp$}
+\label{ch:concrete-instances-bounded-lattice-namecert}
+\origin{human}
+
+Following Birkhoff and Tarski on bounded lattices, the $\BoundedLatticeUp$ packet records the finite meet--join interface equipped with displayed bottom and top rows. It sits after the order substrate of \autoref{ch:concrete-instances-poset-namecert}, the meet--join certificate of \autoref{ch:concrete-instances-lattice-namecert}, the certified-family route of \autoref{ch:concrete-instances-complete-lattice-namecert}, and the point-free open rows of \autoref{ch:concrete-instances-locale-space-namecert}. The packet supplies the standard bounded-lattice boundary needed by locale, frame, and domain-style consumers without importing host complete orders, powersets, Zorn principles, quotient representatives, or selected extrema.
+
+\begin{definition}[Bounded lattice carrier]
+\label{def:bounded-lattice-carrier}
+A $\BoundedLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(O,L,\bot,\top,M,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the underlying $\PosetUp$ order row, recording the visible comparison surface.
+\item $L$ is the $\LatticeUp$ meet--join row, recording the displayed finite meet and join operations over $O$.
+\item $\bot$ is the bottom row, giving a named element below every displayed carrier element by comparisons in $O$.
+\item $\top$ is the top row, giving a named element above every displayed carrier element by comparisons in $O$.
+\item $M$ records endpoint-meet exactness: displayed meets with $\bot$ and $\top$ reduce through the same order and lattice rows.
+\item $J$ records endpoint-join exactness: displayed joins with $\bot$ and $\top$ reduce through the same order and lattice rows.
+\item $H$ records componentwise $\hsame$ transport for the order, lattice, endpoint, exactness, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a bounded-lattice request through $O,L,\bot,\top,M,J,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BoundedLatticeUp$, $\PosetUp$, $\LatticeUp$, $\CompleteLatticeUp$, $\LocaleSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedLatticeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,L,\bot,\top,M,J,H,C,P,N$. It has no coordinate for a host complete lattice, powerset lattice, Zorn principle, quotient representative, arbitrary infimum or supremum operator, or selected external endpoint.
+\end{definition}
+
+\begin{theorem}[Bounded lattice NameCert obligations]
+\label{thm:bounded-lattice-namecert-obligations}
+For every accepted $\BoundedLatticeUp$ carrier $B=(O,L,\bot,\top,M,J,H,C,P,N)$, the local $\NameCert_{\BoundedLatticeUp}$ surface consists exactly of order-row admission, lattice-row admission, bottom-row exposure, top-row exposure, endpoint meet exactness, endpoint join exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every locale, frame, complete-lattice, or domain-style consumer must expose those rows before reading a bounded-lattice claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-lattice-carrier}. The order row $O$ supplies the only comparison surface, and the lattice row $L$ supplies the only displayed meet--join interface.
+
+The endpoint rows are then visible coordinates of the same packet. The row $\bot$ is read as the displayed lower endpoint, and the row $\top$ is read as the displayed upper endpoint, both by comparisons in $O$.
+
+Endpoint exactness is stored in $M$ and $J$. These rows bind meets and joins with the endpoints to the same order and lattice data, so a consumer cannot substitute an ambient infimum, supremum, powerset operation, or complete-order theorem.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since the excluded host objects are absent from the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bounded lattice locale handoff]
+\label{thm:bounded-lattice-locale-handoff}
+Every $\LocaleSpaceUp$, $\CompleteLatticeUp$, or frame-style consumer of an accepted $\BoundedLatticeUp$ packet must read the finite route
+$$
+O,L,\bot,\top \longmapsto M,J \longmapsto H,C,P,N
+$$
+before using bottom, top, meet, or join data. The handoff supplies a bounded meet--join boundary for finite open and certified-family rows, but it does not supply a host complete order, powerset of opens, unrestricted joins, Zorn-style maximal principle, quotient representative, or selected external endpoint.
+\end{theorem}
+\begin{proof}
+Begin with the order and lattice rows. By \autoref{thm:bounded-lattice-namecert-obligations}, a consumer first exposes $O$ and $L$, so the comparison, meet, and join data are the displayed BEDC rows also used by \autoref{ch:concrete-instances-lattice-namecert}.
+
+Next read the endpoint rows. The bottom and top entries are named as $\bot$ and $\top$ inside the packet, and their endpoint laws are checked through the rows $M$ and $J$ rather than through a complete-lattice carrier.
+
+The complete-lattice and locale neighbours provide comparison context only after this finite route is exposed. The certified-family route of \autoref{ch:concrete-instances-complete-lattice-namecert} and the point-free route of \autoref{ch:concrete-instances-locale-space-namecert} may consume the bounded lattice boundary, but they cannot replace it by host powersets or arbitrary joins.
+
+The support rows $H,C,P,N$ keep the same bounded-lattice data under transport, replay, provenance, and naming. Because no row stores host complete orders, Zorn principles, quotient representatives, unrestricted joins, or selected endpoints, the handoff remains a finite NameCert boundary.
+\end{proof}
+
+\falsifiablePrediction{Removing the $\PosetUp$ order row, $\LatticeUp$ meet--join row, bottom row, top row, endpoint meet exactness, endpoint join exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, or local $\NameCert$ row prevents a locale, complete-lattice, or frame-style consumer from verifying the bounded-lattice route.}
+
+\independenceWitness{poset, lattice, complete-lattice, locale-space: $\BoundedLatticeUp$ is not bijective to any listed sibling because it jointly carries order, meet--join, displayed bottom, displayed top, endpoint exactness, transport, replay, provenance, and local naming rows in one finite packet.}
+
+\closureat{BoundedLatticeUp}{seedStr}
+
+\begin{closurestatus}{\BoundedLatticeUp}
+  \constructivestory{A $\BoundedLatticeUp$ packet is generated from a PosetUp order row, a LatticeUp meet--join row, displayed bottom and top rows, endpoint meet and join exactness rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-lattice-carrier}, \autoref{thm:bounded-lattice-namecert-obligations}, and \autoref{thm:bounded-lattice-locale-handoff} seed the finite bounded-lattice boundary over order, meet, join, endpoints, endpoint exactness, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host complete orders, powerset lattices, unrestricted joins, Zorn principles, quotient representatives, selected external endpoints, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked order admission, lattice admission, bottom and top exposure, endpoint exactness, transport, replay, provenance, and local naming for BEDC.Derived.BoundedLatticeUp.}
+\end{closurestatus}

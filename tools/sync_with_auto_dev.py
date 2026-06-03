@@ -691,7 +691,22 @@ def main():
         print("[sync] working tree dirty; stashing with -u")
         try:
             with acquire_main_checkout_lock(timeout=120):
-                git("stash", "push", "-u", "-m", f"sync_with_auto_dev autostash {os.getpid()}")
+                push_res = run(["git", "stash", "push", "-u", "-m",
+                                f"sync_with_auto_dev autostash {os.getpid()}"],
+                               check=False, capture=True)
+                if push_res.returncode != 0:
+                    # A dirty tree that `git stash push -u` still refuses
+                    # (rc!=0) must NOT crash the whole sync via the raising
+                    # `git()` wrapper. A single crash here strands the main
+                    # checkout on whatever branch a prior partial tick left it
+                    # (observed: stuck on auto-dev, which makes auto_heal skip
+                    # every cycle with `not on codex-auto-dev`). Skip this tick
+                    # cleanly; the tree is untouched for the next tick.
+                    out = ((push_res.stdout or "") + (push_res.stderr or ""))[-200:]
+                    print(f"[sync] stash push failed (rc={push_res.returncode}); "
+                          f"skipping this tick without crashing: {out}",
+                          file=sys.stderr)
+                    return
                 res = git("rev-parse", "--verify", "--quiet", "stash@{0}",
                           check=False, capture=True)
         except TimeoutError as exc:
@@ -768,9 +783,8 @@ def main():
 
     # Step 4: dev catch-up PR.
     # When dev lags auto-dev by ≥1 day (or has diverged history),
-    # cut a branch from origin/auto-dev, open a PR targeting dev, and
-    # auto-merge once CI is green. Idempotent — skips when an existing
-    # open PR with the auto-sync label already covers this state.
+    # maintain one fixed branch from origin/auto-dev, open a PR targeting dev,
+    # and auto-merge once CI is green.
     if success and not args.no_push:
         try:
             sync_dev_catchup_pr()
@@ -780,14 +794,12 @@ def main():
 
 PR_LABEL = "auto-dev-sync"
 PR_BRANCH_PREFIX = "auto-dev-sync"
+PR_BRANCH = f"{PR_BRANCH_PREFIX}-current"
 PR_AGE_THRESHOLD_HOURS = 24
-# An un-merged catch-up PR open past this many hours is closed and reopened
-# on the current auto-dev tip, regardless of pending/failed check state, as
-# long as auto-dev has advanced past its head. auto-dev produces commits
-# continuously, so a stale PR head never lands on its own — the only way the
-# catch-up PR stays fresh is to time-box it. Env-overridable (no restart;
-# the sync daemon re-execs this script each cycle) to match the rest of the
-# daemon knobs (AUTO_HEAL_INTERVAL_SECONDS etc.).
+# A non-green catch-up PR open past this many hours is moved onto
+# the current auto-dev tip when auto-dev has advanced past its head. The
+# sync daemon re-execs this script each cycle, so env overrides take effect
+# without a daemon restart.
 try:
     PR_REPLACE_OPEN_HOURS = float(os.environ.get("BEDC_PR_REPLACE_OPEN_HOURS", "6"))
 except (TypeError, ValueError):
@@ -835,23 +847,153 @@ def _hours_since(iso_str: str) -> float | None:
         return None
 
 
-def _existing_open_pr() -> dict | None:
-    """Return the first open PR base=dev with our auto-sync label, else None."""
+def _open_sync_prs() -> list[dict]:
+    """Return open PRs base=dev with the auto-sync label."""
     try:
         res = run(["gh", "pr", "list",
                    "--base", UPSTREAM_BRANCH,
                    "--state", "open",
                    "--label", PR_LABEL,
                    "--json", "number,headRefName,headRefOid,mergeable,statusCheckRollup,title,createdAt",
-                   "--limit", "5"],
+                   "--limit", "100"],
                   capture=True, check=False)
         if res.returncode != 0:
-            return None
+            return []
         import json as _json
         rows = _json.loads(res.stdout or "[]")
-        return rows[0] if rows else None
+        return rows if isinstance(rows, list) else []
     except Exception:
-        return None
+        return []
+
+
+def _active_catchup_pr(open_prs: list[dict]) -> dict | None:
+    for pr in open_prs:
+        if pr.get("headRefName") == PR_BRANCH:
+            return pr
+    return None
+
+
+def _close_sync_pr(pr: dict, *, comment: str, delete_branch: bool) -> bool:
+    number = pr["number"]
+    head_ref = pr.get("headRefName")
+    close = run(["gh", "pr", "close", str(number), "--comment", comment],
+                capture=True, check=False)
+    if close.returncode != 0:
+        print(f"[sync] dev-catchup: close PR #{number} failed: "
+              f"{((close.stdout or '') + (close.stderr or '')).strip()[:300]}")
+        return False
+    if delete_branch and head_ref:
+        delete = run(["git", "push", "origin", "--delete", head_ref],
+                     capture=True, check=False)
+        if delete.returncode != 0:
+            print(f"[sync] dev-catchup: delete branch {head_ref} failed: "
+                  f"{((delete.stdout or '') + (delete.stderr or '')).strip()[:300]}")
+    print(f"[sync] dev-catchup: closed PR #{number}")
+    return True
+
+
+def _close_non_active_sync_prs(open_prs: list[dict], active_pr: dict | None) -> int:
+    active_number = active_pr.get("number") if active_pr else None
+    head = _origin_sha(MIRROR_BRANCH) or f"origin/{MIRROR_BRANCH}"
+    comment = (
+        f"Closed by the managed catch-up branch `{PR_BRANCH}` at {head}. "
+        f"The sync daemon keeps at most one active `{PR_LABEL}` PR."
+    )
+    closed = 0
+    for pr in open_prs:
+        if pr.get("number") == active_number:
+            continue
+        head_ref = pr.get("headRefName")
+        if _close_sync_pr(pr, comment=comment, delete_branch=(head_ref != PR_BRANCH)):
+            closed += 1
+    return closed
+
+
+def _push_catchup_branch(branch: str = PR_BRANCH) -> bool:
+    try:
+        run(["git", "fetch", "origin",
+             f"refs/heads/{MIRROR_BRANCH}:refs/remotes/origin/{MIRROR_BRANCH}"],
+            check=False, capture=True)
+        push = run(["git", "push", "origin", "--force",
+                    f"refs/remotes/origin/{MIRROR_BRANCH}:refs/heads/{branch}"],
+                   check=False, capture=True)
+        if push.returncode != 0:
+            print(f"[sync] dev-catchup: push branch {branch} failed: "
+                  f"{((push.stdout or '') + (push.stderr or '')).strip()[:400]}")
+            return False
+        return True
+    except Exception as exc:
+        print(f"[sync] dev-catchup: push branch {branch} failed: {exc}")
+        return False
+
+
+def _create_catchup_pr(branch: str, reasons: list[str]) -> bool:
+    body = (
+        f"Automated catch-up PR from `{MIRROR_BRANCH}` to `{UPSTREAM_BRANCH}`.\n\n"
+        f"Trigger: {'; '.join(reasons)}.\n\n"
+        f"This PR is managed by `tools/sync_with_auto_dev.py` and will be "
+        f"auto-merged once all required checks pass. Later sync cycles "
+        f"move `{branch}` to the current `{MIRROR_BRANCH}` tip, so "
+        f"the same PR tracks the current catch-up candidate."
+    )
+    title = f"Sync {MIRROR_BRANCH} to {UPSTREAM_BRANCH}"
+    cmd = ["gh", "pr", "create",
+           "--base", UPSTREAM_BRANCH,
+           "--head", branch,
+           "--title", title,
+           "--body", body,
+           "--label", PR_LABEL]
+    r = run(cmd, capture=True, check=False)
+    if r.returncode != 0:
+        # If the label doesn't exist yet, create it then retry once.
+        err = (r.stdout or "") + (r.stderr or "")
+        if "label" in err.lower() and "not found" in err.lower():
+            run(["gh", "label", "create", PR_LABEL,
+                 "--description", "Automated dev<-auto-dev sync PR",
+                 "--color", "0E8A16"],
+                check=False, capture=True)
+            r = run(cmd, capture=True, check=False)
+        if r.returncode != 0:
+            print(f"[sync] dev-catchup: gh pr create failed: "
+                  f"{((r.stdout or '') + (r.stderr or ''))[:400]}")
+            return False
+    print(f"[sync] dev-catchup: opened PR via branch {branch}")
+    return True
+
+
+def _format_pr_wait_state(pr: dict) -> str:
+    open_age = _hours_since(pr.get("createdAt") or "")
+    age_txt = f"{open_age:.1f}h" if open_age is not None else "?"
+    failed = "failed" if _pr_has_failed_check(pr) else "pending"
+    return f"PR #{pr['number']} open {age_txt} ({failed})"
+
+
+def _dev_catchup_needed(force_open_pr: bool, reasons: list[str]) -> bool:
+    dev_iso = _origin_commit_iso(UPSTREAM_BRANCH)
+    age_hours = _hours_since(dev_iso) if dev_iso else None
+
+    try:
+        ahead = run(
+            ["git", "rev-list", "--count",
+             f"origin/{UPSTREAM_BRANCH}..origin/{MIRROR_BRANCH}"],
+            capture=True, check=False).stdout.strip()
+        ahead_count = int(ahead) if ahead.isdigit() else 0
+    except Exception:
+        ahead_count = 0
+
+    if ahead_count <= 0:
+        return False
+    if force_open_pr:
+        reasons.append(f"auto-dev ahead of dev by {ahead_count} commit(s)")
+        return True
+    if age_hours is not None and age_hours >= PR_AGE_THRESHOLD_HOURS:
+        reasons.append(f"dev last commit {age_hours:.1f}h ago "
+                       f"(threshold {PR_AGE_THRESHOLD_HOURS}h)")
+        return True
+    if age_hours is not None and age_hours >= 6:
+        reasons.append(f"auto-dev ahead of dev by {ahead_count} commit(s)")
+        return True
+    return False
 
 
 def _all_checks_green(pr: dict) -> bool:
@@ -897,37 +1039,13 @@ def _auto_dev_advanced_past(pr_head: str | None) -> int:
     return _rev_list_count(f"{pr_head}..origin/{MIRROR_BRANCH}")
 
 
-def _close_stale_pr(pr: dict, advanced_by: int) -> bool:
-    number = pr["number"]
-    head_ref = pr.get("headRefName")
-    head = _origin_sha(MIRROR_BRANCH) or "current auto-dev HEAD"
-    comment = (
-        f"Superseded by fresh auto-dev HEAD {head} "
-        f"({advanced_by} commit(s) past this PR head)."
-    )
-    close = run(["gh", "pr", "close", str(number), "--comment", comment],
-                capture=True, check=False)
-    if close.returncode != 0:
-        print(f"[sync] dev-catchup: close stale PR #{number} failed: "
-              f"{((close.stdout or '') + (close.stderr or '')).strip()[:300]}")
-        return False
-    if head_ref:
-        delete = run(["git", "push", "origin", "--delete", head_ref],
-                     capture=True, check=False)
-        if delete.returncode != 0:
-            print(f"[sync] dev-catchup: delete stale branch {head_ref} failed: "
-                  f"{((delete.stdout or '') + (delete.stderr or '')).strip()[:300]}")
-    print(f"[sync] dev-catchup: closed stale PR #{number}; opening a fresh one")
-    return True
-
-
 def sync_dev_catchup_pr() -> None:
-    """Open / auto-merge a PR from a fresh auto-dev branch back into dev.
+    """Open / auto-merge a managed auto-dev catch-up PR back into dev.
 
     Trigger condition: origin/dev last commit older than threshold OR
     auto-dev/dev histories have diverged (not a pure ff descendant).
 
-    Idempotent: at most one open PR with PR_LABEL exists at a time.
+    Idempotent: at most one active open PR with PR_LABEL exists at a time.
     """
     if not _gh_available():
         print("[sync] dev-catchup: gh CLI missing; skipping")
@@ -935,9 +1053,11 @@ def sync_dev_catchup_pr() -> None:
     if not has_remote_branch(UPSTREAM_BRANCH):
         return
 
-    # Phase A: handle any existing open PR (merge if green, replace if stale).
-    pr = _existing_open_pr()
-    force_open_pr = False
+    # Phase A: keep one managed PR and close all other labeled open PRs.
+    open_prs = _open_sync_prs()
+    pr = _active_catchup_pr(open_prs)
+    closed_pr_count = _close_non_active_sync_prs(open_prs, pr)
+
     reasons = []
     if pr is not None:
         if _all_checks_green(pr):
@@ -956,121 +1076,37 @@ def sync_dev_catchup_pr() -> None:
                       f"into {UPSTREAM_BRANCH}; branch {head_ref} deleted")
             return
 
-        # Not green. Decide whether to replace it with a fresh PR.
+        # Not green. Keep the same PR and move its branch to current auto-dev.
         pr_head = pr.get("headRefOid")
         advanced_by = _auto_dev_advanced_past(pr_head)
         open_age = _hours_since(pr.get("createdAt") or "")
 
-        # (a) Failed checks + auto-dev has new commits → close and reopen
-        #     immediately on the fresh tip to try again. We do NOT wait for
-        #     the auto-dev HEAD to be green: the whole point of reopening is
-        #     to retry with newer content, and this giant library rarely
-        #     shows an all-green HEAD, so gating on it would strand the PR.
-        if _pr_has_failed_check(pr) and advanced_by > 0:
-            if not _close_stale_pr(pr, advanced_by):
-                return
-            force_open_pr = True
-            reasons.append(f"failed PR superseded by {MIRROR_BRANCH} "
-                           f"advancing {advanced_by} commit(s)")
-        # (b) Age-box the stuck-pending case: a PR whose checks never resolve
-        #     (perpetually pending, never flips to a failure conclusion) is
-        #     replaced once it has been open past PR_REPLACE_OPEN_HOURS and
-        #     auto-dev has moved past its head.
-        elif (open_age is not None and open_age >= PR_REPLACE_OPEN_HOURS
-                and advanced_by > 0):
-            if not _close_stale_pr(pr, advanced_by):
-                return
-            force_open_pr = True
-            reasons.append(f"PR open {open_age:.1f}h without merge "
-                           f"(threshold {PR_REPLACE_OPEN_HOURS}h); "
-                           f"{MIRROR_BRANCH} advanced {advanced_by} commit(s)")
-        else:
-            age_txt = f"{open_age:.1f}h" if open_age is not None else "?"
-            failed = "failed" if _pr_has_failed_check(pr) else "pending"
-            print(f"[sync] dev-catchup: PR #{pr['number']} open {age_txt} "
-                  f"({failed}) — leaving in place "
-                  f"({MIRROR_BRANCH} not ahead, or pending & < "
-                  f"{PR_REPLACE_OPEN_HOURS}h)")
+        if advanced_by > 0:
+            if _push_catchup_branch(PR_BRANCH):
+                print(f"[sync] dev-catchup: moved PR #{pr['number']} "
+                      f"on {PR_BRANCH}; {MIRROR_BRANCH} advanced "
+                      f"{advanced_by} commit(s)")
             return
 
-    # Phase B: no open PR. Check whether one is needed.
-    dev_iso = _origin_commit_iso(UPSTREAM_BRANCH)
-    age_hours = _hours_since(dev_iso) if dev_iso else None
+        if open_age is not None and open_age >= PR_REPLACE_OPEN_HOURS:
+            print(f"[sync] dev-catchup: {_format_pr_wait_state(pr)}; "
+                  f"{MIRROR_BRANCH} has not advanced past PR head")
+            return
 
-    # Divergence check: are there commits on auto-dev not on dev?
-    try:
-        ahead = run(
-            ["git", "rev-list", "--count",
-             f"origin/{UPSTREAM_BRANCH}..origin/{MIRROR_BRANCH}"],
-            capture=True, check=False).stdout.strip()
-        ahead_count = int(ahead) if ahead.isdigit() else 0
-    except Exception:
-        ahead_count = 0
-
-    needs_pr = force_open_pr
-    if age_hours is not None and age_hours >= PR_AGE_THRESHOLD_HOURS:
-        needs_pr = True
-        reasons.append(f"dev last commit {age_hours:.1f}h ago "
-                       f"(threshold {PR_AGE_THRESHOLD_HOURS}h)")
-    if ahead_count > 0 and age_hours is not None and age_hours >= 6:
-        # Lower bar (6h) once divergence exists — still want to land
-        # large pipeline outputs before they grow into thousands of
-        # commits, even if dev is technically less than 1 day old.
-        if not needs_pr:
-            needs_pr = True
-        reasons.append(f"auto-dev ahead of dev by {ahead_count} commit(s)")
-
-    if not needs_pr:
+        print(f"[sync] dev-catchup: {_format_pr_wait_state(pr)}; leaving "
+              f"managed PR in place")
         return
 
-    # Phase C: create branch + PR.
-    import datetime as _dt
-    stamp = _dt.datetime.now(_dt.timezone.utc).strftime("%Y%m%d-%H%M")
-    branch = f"{PR_BRANCH_PREFIX}-{stamp}"
+    # Phase B: no active PR. Check whether one is needed.
+    if not _dev_catchup_needed(closed_pr_count > 0, reasons):
+        return
+
+    # Phase C: create or update the fixed branch + PR.
+    branch = PR_BRANCH
     print(f"[sync] dev-catchup: opening PR — {'; '.join(reasons)}")
-    # Push origin/auto-dev as branch name (cheap — same SHA).
-    try:
-        run(["git", "fetch", "origin",
-             f"refs/heads/{MIRROR_BRANCH}:refs/remotes/origin/{MIRROR_BRANCH}"],
-            check=False, capture=True)
-        run(["git", "push", "origin",
-             f"refs/remotes/origin/{MIRROR_BRANCH}:refs/heads/{branch}"],
-            check=False, capture=True)
-    except Exception as exc:
-        print(f"[sync] dev-catchup: push branch {branch} failed: {exc}")
+    if not _push_catchup_branch(branch):
         return
-
-    body = (
-        f"Automated catch-up PR from `{MIRROR_BRANCH}` to `{UPSTREAM_BRANCH}`.\n\n"
-        f"Trigger: {'; '.join(reasons)}.\n\n"
-        f"This PR is created by `tools/sync_with_auto_dev.py` and will be "
-        f"auto-merged once all required checks pass (subsequent sync cycle "
-        f"checks status; deletes the branch on merge). The pipeline mirrors "
-        f"`{UPSTREAM_BRANCH}` back into `{MIRROR_BRANCH}` continuously, so "
-        f"this only carries content that already lived on `{MIRROR_BRANCH}`."
-    )
-    title = f"Sync {MIRROR_BRANCH} → {UPSTREAM_BRANCH} ({stamp})"
-    cmd = ["gh", "pr", "create",
-           "--base", UPSTREAM_BRANCH,
-           "--head", branch,
-           "--title", title,
-           "--body", body,
-           "--label", PR_LABEL]
-    r = run(cmd, capture=True, check=False)
-    if r.returncode != 0:
-        # If the label doesn't exist yet, create it then retry once.
-        err = (r.stdout or "") + (r.stderr or "")
-        if "label" in err.lower() and "not found" in err.lower():
-            run(["gh", "label", "create", PR_LABEL,
-                 "--description", "Automated dev<-auto-dev sync PR",
-                 "--color", "0E8A16"],
-                check=False, capture=True)
-            r = run(cmd, capture=True, check=False)
-        if r.returncode != 0:
-            print(f"[sync] dev-catchup: gh pr create failed: "
-                  f"{((r.stdout or '') + (r.stderr or ''))[:400]}")
-            return
-    print(f"[sync] dev-catchup: opened PR via branch {branch}")
+    _create_catchup_pr(branch, reasons)
 
 
 if __name__ == "__main__":

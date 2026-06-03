@@ -1,0 +1,60 @@
+\chapter{Sequentially Located Real NameCert Construction}
+\label{ch:concrete-instances-sequentially-located-real-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real sequences and locatedness, the $\SequentiallyLocatedRealUp$ packet records a sequence-indexed family of $\RealUp$ names whose finite observations carry an explicit locatedness witness at each inspected unary index. It sits after the $\StreamNameUp$ window surface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the located real sequence packet of \autoref{ch:concrete-instances-located-real-sequence-namecert}. The packet is a choice-free sequential locatedness carrier: every visible coordinate is finite, named, and ledgered before any downstream Real or Completion consumer may read it.
+
+\begin{definition}[Sequentially located real carrier]
+\label{def:sequentially-located-real-carrier}
+A $\SequentiallyLocatedRealUp$ carrier is a finite $\BHist$ packet
+$$
+X=(I,S,E,L,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the unary index-window row, naming the finite initial segment of sequence indices that a consumer may inspect.
+\item $S$ is the $\StreamNameUp$ observation row, displaying the finite stream windows attached to the indices in $I$.
+\item $E$ is the pointwise $\RealUp$ name row, recording the real-name packet exposed at each inspected index.
+\item $L$ is the locatedness-witness row, assigning to each unary index in $I$ the finite locatedness evidence used to compare the corresponding real-name observation with rational bounds.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream windows, pointwise real names, and locatedness witnesses.
+\item $Q$ is the finite request ledger, recording which indices, stream windows, rational bounds, and locatedness witnesses were exposed.
+\item $H$ records componentwise $\hsame$ transport for index windows, stream observations, pointwise real names, locatedness witnesses, regular rational readback, ledger rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from an index request through $I,S,E,L,R,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\SequentiallyLocatedRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentiallyLocatedRealUp}$ row.
+\end{enumerate}
+The carrier exposes sequence-indexed $\RealUp$ packets only through finite $\StreamNameUp$ observations and a locatedness witness for each inspected unary index.
+\end{definition}
+
+\begin{theorem}[Sequentially located real NameCert obligations]
+\label{thm:sequentially-located-real-namecert-obligations}
+For every accepted $\SequentiallyLocatedRealUp$ carrier
+$$
+X=(I,S,E,L,R,Q,H,C,P,N),
+$$
+the local $\NameCert_{\SequentiallyLocatedRealUp}$ surface consists of five finite obligation rows:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed $\BHist$ packet $X$ with unary index windows, finite stream observations, pointwise real-name rows, locatedness witnesses, regular rational readback, request ledger, transport, replay, provenance, and local naming rows;
+\item pointwise classifier stability: classified replacement of an inspected index, stream window, real-name row, or locatedness witness is transported componentwise through $H$ and replayed only along the displayed route in $C$;
+\item locatedness transport: the witness row $L$ moves with its unary index in $I$ and with its pointwise $\RealUp$ row in $E$, so no downstream read may detach a locatedness decision from the coordinate that generated it;
+\item $\RegSeqRatUp$ readback: the row $R$ is readable only after the corresponding $I,S,E,L$ rows have been displayed, matching the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert};
+\item ledger nonescape: the request ledger $Q$ records every exposed index, stream observation, rational bound, and locatedness witness before the packet reaches $P$ and $N$, and the packet exports no quotient stream, countable-choice selector, selected limit, ambient $\RealUp$ completeness theorem, or unchecked bridge data.
+\end{enumerate}
+These rows are the whole sequential locatedness surface consumed by the sibling sequence route of \autoref{ch:concrete-instances-located-real-sequence-namecert}.
+\end{theorem}
+
+\falsifiablePrediction{Every accepted $\SequentiallyLocatedRealUp$ read displays a finite unary index window, finite $\StreamNameUp$ observations, pointwise $\RealUp$ names, locatedness witnesses, one $\RegSeqRatUp$ readback row, a request ledger, and local transport, replay, provenance, and naming rows before any Real or Completion consumer reads the packet.}
+
+\independenceWitness{streamname, regseqrat, real, located-real-sequence: $\SequentiallyLocatedRealUp$ is not bijective to any listed sibling because it binds sequence-indexed $\RealUp$ names to per-index locatedness witnesses and a request ledger before the regular rational readback.}
+
+\closureat{SequentiallyLocatedRealUp}{seedStr}
+
+\begin{closurestatus}{\SequentiallyLocatedRealUp}
+  \constructivestory{A $\SequentiallyLocatedRealUp$ packet is generated from unary index windows, finite StreamName observations, pointwise Real names, per-index locatedness witnesses, RegSeqRat readback, a request ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequentially-located-real-carrier} and \autoref{thm:sequentially-located-real-namecert-obligations} seed the choice-free sequential locatedness carrier over StreamName, RegSeqRat, Real, and located-real-sequence consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not assert Real completeness, any choice principle, a selected limit, quotient stream equality, Lean verification, or checked bridge data.}
+  \upgradepath{Lean closure requires checked carrier admission, pointwise classifier stability, locatedness transport, RegSeqRat readback, and ledger nonescape for BEDC.Derived.SequentiallyLocatedRealUp.}
+\end{closurestatus}

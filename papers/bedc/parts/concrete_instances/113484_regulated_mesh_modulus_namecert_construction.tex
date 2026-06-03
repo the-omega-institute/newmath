@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedMeshModulusUp$}
+\label{ch:concrete-instances-regulated-mesh-modulus-namecert}
+\origin{human}
+
+Following Riemann and Darboux, a regulated function is useful for constructive integration only when a finite mesh request can be read before any integral value is sealed. The $\RegulatedMeshModulusUp$ packet records that mesh-control surface between the regulated-function source of \autoref{ch:concrete-instances-regulated-function-namecert}, the finite partition mesh of \autoref{ch:concrete-instances-finite-partition-mesh-namecert}, the tagged partition observations of \autoref{ch:concrete-instances-tagged-real-partition-namecert}, and the integration-facing handoff of \autoref{ch:concrete-instances-riemann-integrable-namecert}. It names a finite route for mesh-controlled tagged sums; it is not a host uniform-continuity theorem, an arbitrary refinement principle, a selected limiting integral, or an ambient completeness claim.
+
+\begin{definition}[Regulated mesh modulus carrier]
+\label{def:regulated-mesh-modulus-carrier}
+A $\RegulatedMeshModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(F,G,T,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the accepted $\RegulatedFunctionUp$ source row whose left and right local reads are the only function data available to the packet.
+\item $G$ is the $\FinitePartitionMeshUp$ mesh-control row, assigning each displayed oscillation request a finite partition mesh bound for the same regulated source.
+\item $T$ is the $\TaggedRealPartitionUp$ observation row, reading tagged partition samples only at partitions whose mesh has passed through $G$.
+\item $I$ is the $\RiemannIntegrableUp$ handoff row, available only after $F,G,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $F,G,T,I$.
+\item $C$ records displayed $\Cont$ replay from regulated reads through mesh bounds, tagged partition observations, the integration handoff, and the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedMeshModulusUp$, $\RegulatedFunctionUp$, $\FinitePartitionMeshUp$, $\TaggedRealPartitionUp$, $\RiemannIntegrableUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegulatedMeshModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,G,T,I,H,C,P,N$. It has no coordinate for host uniform continuity, arbitrary refinement choice, quotient equality of tagged sums, selected integral values, countable choice, open-cover compactness, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Regulated mesh modulus obligations]
+\label{thm:regulated-mesh-modulus-obligations}
+For every accepted $\RegulatedMeshModulusUp$ carrier
+$$
+M=(F,G,T,I,H,C,P,N),
+$$
+the local $\NameCert_{\RegulatedMeshModulusUp}$ surface consists exactly of carrier admission through $M$, regulated-function exposure through $F$, finite mesh-control exposure through $G$, tagged partition observation through $T$, Riemann-facing handoff through $I$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$. No obligation exports a host uniform-continuity modulus, arbitrary partition refinement, quotient equality of sums, a selected integral, countable choice, compactness, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-mesh-modulus-carrier}. The analytic rows are precisely the regulated source, the finite partition mesh, the tagged partition observations, and the Riemann handoff.
+
+A mesh request is answered by $G$ before tagged samples are inspected. Thus the row $T$ can read only partitions whose mesh-control route has already been displayed for the same regulated source $F$.
+
+The handoff row $I$ is downstream of $F,G,T$. The structural rows $H,C,P,N$ transport, replay, source, and name that same finite packet; they do not add any of the excluded host principles.
+\end{proof}
+
+\begin{theorem}[Regulated mesh modulus Riemann handoff]
+\label{thm:regulated-mesh-modulus-riemann-handoff}
+Every $\RiemannIntegrableUp$ consumer of an accepted $\RegulatedMeshModulusUp$ carrier factors through the finite route
+$$
+F,G,T \longmapsto I,H,C,P,N .
+$$
+The consumer first reads the regulated-function source, then the finite partition mesh bound, then the tagged real partition observations, and only then receives the integration-facing handoff. The route exports mesh-controlled tagged-sum data, not a selected integral value, host refinement theorem, quotient equality of sums, countable choice, compactness, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Begin with a Riemann-facing consumer of $M$. By the carrier definition, the consumer can inspect the regulated source only through $F$ and can request partition control only through the mesh row $G$.
+
+The tagged row $T$ then supplies observations attached to that mesh. Because $T$ is downstream of $G$, the consumer cannot replace the mesh-control step by an arbitrary refinement or by a host limiting argument.
+
+Finally the handoff row $I$ is sealed by $H,C,P,N$ as a local $\NameCert$ route. Since no selected integral, quotient, choice, compactness, or ambient-completeness coordinate occurs in $M$, the Riemann-facing output is exactly the displayed finite handoff.
+\end{proof}
+
+\falsifiablePrediction{A $\RegulatedMeshModulusUp$ consumer that reads $\RiemannIntegrableUp$ before displaying $F,G,T$, or that exports selected integrals, quotient equality of sums, arbitrary refinement choice, compactness, countable choice, or ambient completeness, refutes the carrier of \autoref{def:regulated-mesh-modulus-carrier}.}
+
+\independenceWitness{Nearest siblings: regulated-function, finite-partition-mesh, tagged-real-partition, and riemann-integrable. $\RegulatedMeshModulusUp$ is not bijective to any one sibling because it jointly carries regulated-function source data, finite mesh control, tagged partition observations, Riemann-facing handoff, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{RegulatedMeshModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedMeshModulusUp}
+  \constructivestory{A $\RegulatedMeshModulusUp$ packet is generated from a RegulatedFunction source row, a FinitePartitionMesh mesh-control row, a TaggedRealPartition observation row, a RiemannIntegrable handoff row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-mesh-modulus-carrier}, \autoref{thm:regulated-mesh-modulus-obligations}, and \autoref{thm:regulated-mesh-modulus-riemann-handoff} seed the finite regulated-function mesh-control route before Riemann-facing handoff reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host uniform continuity, arbitrary refinement choice, quotient equality of tagged sums, selected integral values, countable choice, compactness, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regulated-function exposure, mesh-control exactness, tagged partition observation, Riemann-facing handoff ordering, transport, replay, provenance, and local naming for BEDC.Derived.RegulatedMeshModulusUp.}
+\end{closurestatus}

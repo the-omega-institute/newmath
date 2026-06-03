@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalFanModulusUp$}
+\label{ch:concrete-instances-located-interval-fan-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on compact intervals, finite coverings, and fan-theorem style moduli, the $\LocatedIntervalFanModulusUp$ packet records the bounded binary fan/bar modulus surface needed by L10 interval-cover routes. It sits after the located interval-cover packet of \autoref{ch:concrete-instances-located-interval-cover-namecert}, the dyadic interval-cover packet of \autoref{ch:concrete-instances-dyadic-interval-cover-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite modulus certificate for located interval rows; it does not assert open-cover compactness, countable choice, bar induction outside the displayed finite tree, or an ambient real completeness principle.
+
+\begin{definition}[Located interval fan modulus carrier]
+\label{def:located-interval-fan-modulus-carrier}
+A $\LocatedIntervalFanModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(L,F,D,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LocatedIntervalCoverUp$ row listing the located interval requests, endpoint comparisons, and cover-membership reads exposed to the L10 route;
+\item $F$ is the binary fan/bar modulus row, a finite tree of binary prefixes with a displayed bar level and a modulus bound for the accepted interval requests;
+\item $D$ is the $\DyadicIntervalCoverUp$ window row, recording the dyadic subintervals and mesh refinements read by the fan row;
+\item $W$ is the $\StreamNameUp$ schedule row, listing the finite source windows opened before a branch prefix or interval endpoint is inspected;
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the stream windows, dyadic endpoint comparisons, and located interval decisions;
+\item $E$ is the terminal $\RealUp$ seal reached only after the rows $L,F,D,W,Q$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport for located interval rows, fan/bar rows, dyadic windows, stream schedules, rational readbacks, real seals, replay routes, provenance, and local naming;
+\item $C$ records displayed $\Cont$ replay from an L10 interval-cover request through the finite fan/bar row and then through $D,W,Q,E$;
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalFanModulusUp$, $\LocatedIntervalCoverUp$, $\DyadicIntervalCoverUp$, $\FanFunctionalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\LocatedIntervalFanModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,F,D,W,Q,E,H,C,P,N$. It has no coordinate for an open-cover compactness oracle, countable choice, a branch selected outside the finite fan, quotient real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located interval fan modulus NameCert obligations]
+\label{thm:located-interval-fan-modulus-namecert-obligations}
+For every accepted $\LocatedIntervalFanModulusUp$ carrier
+$$
+M=(L,F,D,W,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\LocatedIntervalFanModulusUp}$ surface consists exactly of carrier admission for the displayed rows, located interval-cover admission through $L$, binary fan/bar modulus admission through $F$, dyadic cover-window admission through $D$, stream-schedule admission through $W$, regular rational readback through $Q$, terminal real-seal admission through $E$, componentwise $\hsame$ stability through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-fan-modulus-carrier}. The displayed rows are exactly $L,F,D,W,Q,E,H,C,P,N$, so every local obligation is attached to one of those rows.
+
+The located interval-cover row is read before the fan row, and the fan row is read before the dyadic window, stream schedule, rational readback, and real seal. Thus a modulus claim cannot skip from an interval request directly to a real conclusion.
+
+The structural rows $H,C,P,N$ transport, replay, package, and name the same finite route. Since no excluded coordinate is present in the carrier, the local NameCert surface cannot call on open-cover compactness, countable choice, an off-packet branch selector, quotient real equality, or ambient real completeness.
+\end{proof}
+
+\begin{theorem}[Located interval fan modulus route]
+\label{thm:located-interval-fan-modulus-route}
+Every L10 interval-cover consumer of an accepted $\LocatedIntervalFanModulusUp$ packet factors through the finite route
+$$
+\LocatedIntervalCoverUp,\ \FanFunctionalUp,\ \DyadicIntervalCoverUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+In carrier notation this means that every exported modulus first reads the located interval row $L$, the binary fan/bar row $F$, the dyadic cover window $D$, the stream schedule $W$, the rational readback $Q$, the terminal real seal $E$, and the structural rows $H,C,P,N$. The route exports no open-cover compactness oracle, countable-choice selector, off-packet infinite branch, quotient real equality, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from an L10 interval-cover request. By \autoref{def:located-interval-fan-modulus-carrier}, the request enters the packet through $L$, where the located interval rows and cover-membership reads are displayed.
+
+The fan/bar modulus row $F$ can be inspected only after that located interval surface is present. Its binary prefixes are then compared against the dyadic window row $D$ and the finite stream schedule $W$.
+
+The rational readback $Q$ and real seal $E$ are downstream of those finite rows. Finally $H,C,P,N$ preserve the same route under transport, replay, provenance, and naming. Hence every consumer-facing modulus is bounded by the displayed finite packet.
+\end{proof}
+
+\falsifiablePrediction{A purported L10 interval-cover modulus that reads a $\RealUp$ conclusion without displaying the $\LocatedIntervalCoverUp$, $\FanFunctionalUp$, $\DyadicIntervalCoverUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows refutes the $\LocatedIntervalFanModulusUp$ carrier.}
+
+\independenceWitness{locatedintervalcover, dyadicintervalcover, fanfunctional, streamname, regseqrat, real: $\LocatedIntervalFanModulusUp$ binds the located interval row, binary fan/bar modulus row, dyadic cover window, stream schedule, regular rational readback, real seal, and structural transport rows in one finite NameCert packet; each named sibling lacks at least one of these rows as a local carrier obligation.}
+
+\begin{closurestatus}{\LocatedIntervalFanModulusUp}
+  \constructivestory{A $\LocatedIntervalFanModulusUp$ packet is generated from located interval-cover rows, a finite binary fan/bar modulus row, dyadic cover windows, stream schedules, regular rational readbacks, a terminal real seal, componentwise hsame transport, displayed Cont replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-fan-modulus-carrier}, \autoref{thm:located-interval-fan-modulus-namecert-obligations}, and \autoref{thm:located-interval-fan-modulus-route} bind the finite fan/bar modulus route for L10 located interval-cover consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, countable choice, bar induction outside the displayed finite tree, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{To reach obligationClosure, the located interval-cover row, binary fan/bar row, dyadic window, stream schedule, rational readback, real seal, and route obligations must be encoded as checked finite carrier obligations.}
+\end{closurestatus}

@@ -1,0 +1,98 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalApartnessModulusUp$}
+\label{ch:concrete-instances-bishop-interval-apartness-modulus-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis, the $\BishopIntervalApartnessModulusUp$ packet records the finite modulus data by which a located interval apartness claim becomes stable under smaller Real and Completion tolerances. It sits after the interval separation surface of \autoref{ch:concrete-instances-real-interval-apartness-namecert}, the located endpoint packet of \autoref{ch:concrete-instances-located-real-interval-namecert}, the Bishop located-real interface of \autoref{ch:concrete-instances-bishop-located-real-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a positive gap together with the finite threshold after which all endpoint inspections preserve the apartness certificate; it is not a trichotomy decision, quotient real equality, a chosen endpoint representative, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Bishop interval-apartness modulus carrier]
+\label{def:bishop-interval-apartness-modulus-carrier}
+A $\BishopIntervalApartnessModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(I,A,G,T,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\LocatedRealIntervalUp$ endpoint packet whose lower and upper endpoint rows are exposed before any modulus read.
+\item $A$ is the $\RealIntervalApartnessUp$ row recording the displayed interval separation side and the endpoint rows on which the gap is read.
+\item $G$ is the positive apartness gap, stored as a $\DyadicRatCoreUp$ witness compatible with the side selected by $A$.
+\item $T$ is the modulus threshold row: every endpoint-window request at a tolerance below $T$ preserves the positive gap row $G$ through the same interval-apartness side.
+\item $S$ is the $\StreamNameUp$ finite-window schedule naming exactly the endpoint inspections, gap checks, and threshold requests used by the packet.
+\item $R$ is the $\RegSeqRatUp$ readback row for those finite endpoint and threshold windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger tying the positive gap $G$ and the threshold row $T$ to one dyadic budget.
+\item $E$ is the terminal $\RealUp$ seal row consumed only after $I,A,G,T,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval, apartness, gap, threshold, window, readback, dyadic ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an interval-apartness-modulus request through $I,A,G,T,S,R,D,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalApartnessModulusUp$, $\RealIntervalApartnessUp$, $\LocatedRealIntervalUp$, $\BishopLocatedRealUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalApartnessModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host interval order, trichotomy, quotient equality of completed reals, selected endpoint representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.BishopIntervalApartnessModulusUp.BishopIntervalApartnessModulusTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Bishop interval-apartness modulus NameCert obligations]
+\label{thm:bishop-interval-apartness-modulus-namecert-obligations}
+For every accepted $\BishopIntervalApartnessModulusUp$ carrier $M=(I,A,G,T,S,R,D,E,H,C,P,N)$, the local $\NameCert_{\BishopIntervalApartnessModulusUp}$ surface consists exactly of carrier admission, located endpoint admission, interval-apartness admission, positive-gap admission, modulus-threshold admission, finite StreamName window admission, RegSeqRat readback, DyadicRatCore tolerance compatibility, Real seal admission, componentwise transport, displayed replay, provenance, and local naming for the displayed rows $I,A,G,T,S,R,D,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-interval-apartness-modulus-carrier}. The analytic rows are the located interval $I$, the interval-apartness row $A$, the positive gap $G$, the threshold row $T$, the finite windows $S$, the regular readback $R$, the dyadic ledger $D$, and the terminal Real seal $E$.
+
+The local certificate reads these rows in the displayed order. The threshold row may be consumed only after the apartness side and positive dyadic gap are visible, and the Real seal may be consumed only after the endpoint windows, regular readback, and dyadic ledger have been displayed.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for host interval order, trichotomy, quotient equality, selected representatives, countable choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Bishop interval-apartness modulus located-real route]
+\label{thm:bishop-interval-apartness-modulus-located-real-route}
+Every located-order or completion-facing read of an accepted $\BishopIntervalApartnessModulusUp$ carrier factors through
+$$
+\LocatedRealIntervalUp,\ \RealIntervalApartnessUp,\ \BishopLocatedRealUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert_{\BishopIntervalApartnessModulusUp}.
+$$
+The route exports a positive interval-apartness gap together with a threshold for stable endpoint inspections. It exports no host trichotomy, quotient real equality, selected endpoint representative, open-cover compactness, or ambient completeness principle for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Begin with the obligations of \autoref{thm:bishop-interval-apartness-modulus-namecert-obligations}. They force every consumer to expose the located interval row, the interval-apartness row, and the positive dyadic gap before it may read the modulus threshold.
+
+Next read the finite endpoint windows and regular rational readback. The $\BishopLocatedRealUp$ interface is consumed only through this same endpoint, window, readback, and dyadic-tolerance route; it cannot replace the displayed gap by a host comparison of completed reals.
+
+Finally route through the Real seal and the structural rows. Componentwise transport and displayed replay preserve the same packet, so the located-order or completion-facing consumer receives only the named finite modulus surface and none of the excluded host-order, quotient, selection, compactness, trichotomy, or completeness data.
+\end{proof}
+
+\begin{theorem}[Bishop interval-apartness modulus stability]
+\label{thm:bishop-interval-apartness-modulus-stability}
+Let $M=(I,A,G,T,S,R,D,E,H,C,P,N)$ and $M'=(I',A',G',T',S',R',D',E',H',C',P',N')$ be accepted $\BishopIntervalApartnessModulusUp$ carriers. If $H$ records componentwise $\hsame$ transport from each displayed row of $M$ to the corresponding row of $M'$, then the interval-apartness modulus of $M$ transports to $M'$ only through
+$$
+I,A,G,T,S,R,D,E,H,C,P,N .
+$$
+In particular, the positive gap and the threshold for smaller endpoint windows remain attached to the same finite $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ route.
+\end{theorem}
+\begin{proof}
+Project the two accepted carriers. The modulus rows are $G$ and $T$: $G$ records the positive dyadic gap, while $T$ records the threshold below which endpoint inspections preserve the same apartness side.
+
+Componentwise transport through $H$ carries the located interval, apartness side, gap, threshold, window schedule, readback, dyadic ledger, and Real seal to the corresponding rows of $M'$. The replay row $C$ cannot change the order of these reads; it only replays the displayed route.
+
+The NameCert obligations of \autoref{thm:bishop-interval-apartness-modulus-namecert-obligations} then repack the transported rows as the accepted modulus surface for $M'$. Because no host interval order, trichotomy, quotient equality, representative choice, or completeness coordinate is present, stability is exactly this row-local transport.
+\end{proof}
+
+\begin{theorem}[Bishop interval-apartness modulus Real-completion handoff]
+\label{thm:bishop-interval-apartness-modulus-real-completion-handoff}
+Every Real-and-Completion consumer of an accepted $\BishopIntervalApartnessModulusUp$ carrier reaches the terminal $\RealUp$ seal only after the displayed located interval, interval-apartness row, positive gap, threshold, finite windows, regular rational readback, and dyadic tolerance ledger have been read. Thus the handoff supplies a finite modulus for interval apartness without importing quotient real equality, selected limits, trichotomy, or ambient completion.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:bishop-interval-apartness-modulus-carrier}. The terminal Real row is $E$, and it appears only downstream of $I,A,G,T,S,R,D$.
+
+Apply the located-real route theorem. It keeps the completion-facing read inside the displayed $\LocatedRealIntervalUp$, $\RealIntervalApartnessUp$, $\BishopLocatedRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ rows before any Real seal is consumed.
+
+Apply the stability theorem to any transported packet used by the consumer. The positive gap and threshold remain attached to the same finite route under $\hsame$ transport and $\Cont$ replay. The provenance and local NameCert rows then name the same handoff, so no quotient equality, selected limit, trichotomy branch, or ambient completeness principle is exported.
+\end{proof}
+
+\closureat{BishopIntervalApartnessModulusUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalApartnessModulusUp}
+  \constructivestory{A $\BishopIntervalApartnessModulusUp$ packet is generated from a LocatedRealInterval endpoint packet, a RealIntervalApartness row, a positive DyadicRatCore gap, a modulus threshold, finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-apartness-modulus-carrier}, \autoref{thm:bishop-interval-apartness-modulus-namecert-obligations}, \autoref{thm:bishop-interval-apartness-modulus-located-real-route}, \autoref{thm:bishop-interval-apartness-modulus-stability}, and \autoref{thm:bishop-interval-apartness-modulus-real-completion-handoff} seed the finite interval-apartness modulus route from located endpoint rows and a positive dyadic gap through threshold, finite-window, regular-readback, Real seal, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host interval order, real trichotomy, quotient real equality, selected endpoint representatives, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval-apartness gap exposure, threshold stability, located-real routing, Real-completion handoff, transport, replay, provenance, and local naming for BEDC.Derived.BishopIntervalApartnessModulusUp.}
+\end{closurestatus}

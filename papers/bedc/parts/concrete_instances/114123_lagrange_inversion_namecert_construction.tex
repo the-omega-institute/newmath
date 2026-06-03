@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\LagrangeInversionUp$}
+\label{ch:concrete-instances-lagrange-inversion-namecert}
+\origin{human}
+
+Following Lagrange and the classical finite coefficient form of the inversion theorem, the $\LagrangeInversionUp$ packet records the coefficient-reversion route that extracts finitely many inverse-series coefficients from one displayed Taylor jet with a nonzero linear coefficient. It sits after the finite Taylor theorem route of \autoref{ch:concrete-instances-taylor-theorem-namecert}, the derivative observation surface of \autoref{ch:concrete-instances-derivative-namecert}, the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the dyadic rational arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular-rational readback rows of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seals of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite inverse-series coefficient extraction certificate; it does not import analytic inverse-function reasoning, a convergent inverse power series, quotient real equality, selected roots, or ambient real completeness.
+
+\begin{definition}[Lagrange inversion carrier]
+\label{def:lagrange-inversion-carrier}
+A $\LagrangeInversionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(c,J,a_1,R,B,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $c$ is the displayed center row, read as a named $\RealUp$ endpoint seal together with the finite local window in which the Taylor jet is interpreted.
+\item $J$ is the finite $\TaylorTheoremUp$ jet row. It lists the Taylor coefficients used by the inverse-coefficient extraction and records the associated $\DerivativeUp$ and $\PolynomialUp$ provenance.
+\item $a_1$ is the nonzero linear coefficient witness, represented as a displayed apartness or inverse row over $\DyadicRatCoreUp$ and sealed by the same $\RegSeqRatUp$ and $\RealUp$ readback route as $J$.
+\item $R$ is the finite coefficient-reversion ledger. Each inverse coefficient requested by the packet is obtained by a displayed recurrence using only earlier rows of $R$, the finite jet $J$, and the linear witness $a_1$.
+\item $B$ records dyadic rational coefficient bounds for the finite coefficient-reversion ledger and the polynomial truncations consumed by the packet.
+\item $Q$ lists the $\RegSeqRatUp$ readback rows for the displayed coefficients, the linear witness, the recurrence denominators, and the finite polynomial values.
+\item $E$ records the terminal $\RealUp$ endpoint seals for the center, coefficient reads, and finite inverse-polynomial handoff.
+\item $H$ records componentwise $\hsame$ transport for the center, Taylor jet, nonzero linear witness, reversion ledger, coefficient bounds, readback rows, endpoint seals, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every inverse-coefficient read through $c,J,a_1,R,B,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LagrangeInversionUp$, $\TaylorTheoremUp$, $\DerivativeUp$, $\PolynomialUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LagrangeInversionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed rows $c,J,a_1,R,B,Q,E,H,C,P,N$. It has no coordinate for an infinite inverse series, analytic convergence, selected inverse branches, quotient equality of real names, countable choice, or an ambient inverse-function theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.LagrangeInversionUp.LagrangeInversionTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Lagrange inversion NameCert obligations]
+\label{thm:lagrange-inversion-namecert-obligations}
+For every accepted $\LagrangeInversionUp$ carrier
+$$
+L=(c,J,a_1,R,B,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\LagrangeInversionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the displayed center, finite Taylor jet, nonzero linear coefficient witness, coefficient-reversion ledger, coefficient bounds, readback rows, endpoint seals, transport, replay, provenance, and local naming rows;
+\item Taylor-jet routing, requiring every source coefficient read to pass through $J$ and the finite $\TaylorTheoremUp$, $\DerivativeUp$, and $\PolynomialUp$ rows it names;
+\item linear-coefficient apartness, requiring every division used by the reversion recurrence to cite the displayed nonzero witness $a_1$ over $\DyadicRatCoreUp$;
+\item finite reversion exactness, requiring every row of $R$ to be computed from earlier displayed rows, the finite jet $J$, and the witness $a_1$;
+\item coefficient-bound readback, requiring $B$ and $Q$ to expose dyadic rational bounds and $\RegSeqRatUp$ reads before any terminal $\RealUp$ seal in $E$ is consumed;
+\item structural stability, requiring $H,C,P,N$ to transport, replay, source, and name only the rows already listed.
+\end{enumerate}
+No $\LagrangeInversionUp$ obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lagrange-inversion-carrier}. The theorem-facing rows are exactly $c,J,a_1,R,B,Q,E$, and the structural rows are exactly $H,C,P,N$.
+
+The source data are finite. The row $J$ is a $\TaylorTheoremUp$ jet and therefore already factors through derivative observations, polynomial assembly, dyadic coefficient arithmetic, regular rational readback, and real endpoint sealing. The row $a_1$ is displayed separately, so every recurrence division cites a named nonzero linear coefficient witness.
+
+The coefficient extraction is the finite ledger $R$. Each row of $R$ reads only earlier inverse-coefficient rows, the listed source coefficients in $J$, and the dyadic arithmetic attached to $a_1$; hence no analytic inverse branch or infinite series coordinate is introduced.
+
+Finally $B,Q,E$ bind the numeric output to finite readback. Dyadic coefficient bounds are displayed before regular rational reads, and the terminal $\RealUp$ seals are reached only after those rows are visible. The transport, replay, provenance, and local naming rows preserve this same packet, so the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Lagrange inversion Taylor-polynomial handoff]
+\label{thm:lagrange-inversion-taylor-polynomial-handoff}
+Every accepted $\LagrangeInversionUp$ carrier exports an inverse-polynomial coefficient read only through the finite route
+$$
+\TaylorTheoremUp \longmapsto \DerivativeUp,\PolynomialUp,\DyadicRatCoreUp \longmapsto R,B \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+More precisely, a consumer must first read the displayed center $c$, finite Taylor jet $J$, nonzero linear coefficient witness $a_1$, coefficient-reversion ledger $R$, dyadic coefficient bounds $B$, regular rational readbacks $Q$, endpoint seals $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before it may consume a finite inverse-polynomial coefficient. The handoff exports coefficient extraction only for the displayed finite truncation, not analytic convergence, selected inverse branches, quotient real equality, countable choice, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $L=(c,J,a_1,R,B,Q,E,H,C,P,N)$. The finite Taylor input is $J$, whose source dependencies are the Taylor theorem, derivative, polynomial, dyadic rational, regular rational, and real-name rows cited in the carrier.
+
+Next read the nonzero linear coefficient witness $a_1$. This row is the only source for the divisions in the reversion recurrence, so the consumer cannot replace it by a selected local inverse or by a host inverse-function theorem.
+
+Then consume the finite reversion ledger $R$ and coefficient bounds $B$. The ledger is finite because it contains only the inverse coefficients requested by the packet, and each displayed row cites earlier ledger entries and the finite source jet. The bounds in $B$ keep the dyadic rational output visible before readback.
+
+Finally pass through $Q,E,H,C,P,N$. Regular rational readback precedes the terminal real endpoint seals, while transport, replay, provenance, and local naming preserve exactly the displayed route. Since the carrier has no coordinate for analytic convergence, quotient real equality, selected inverse branches, countable choice, or ambient real completeness, every inverse-polynomial coefficient read is exhausted by the finite handoff above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LagrangeInversionUp$ inverse-coefficient read factors through a displayed center, finite TaylorTheorem jet, Derivative and Polynomial provenance, a nonzero linear coefficient witness, a finite coefficient-reversion ledger, DyadicRatCore coefficient bounds, RegSeqRat readbacks, Real endpoint seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{taylor-theorem, derivative, polynomial, dyadicratcore, regseqrat, real: $\LagrangeInversionUp$ is not bijective to any listed sibling because it jointly binds one center, one finite Taylor jet, a nonzero linear coefficient witness, coefficient-reversion recurrence rows, dyadic coefficient bounds, readback rows, endpoint seals, transport, replay, provenance, and local naming in one inverse-coefficient certificate.}
+
+\closureat{LagrangeInversionUp}{seedStr}
+
+\begin{closurestatus}{\LagrangeInversionUp}
+  \constructivestory{A $\LagrangeInversionUp$ packet is generated from a displayed center, a finite TaylorTheoremUp jet with DerivativeUp and PolynomialUp provenance, a nonzero linear coefficient witness, a finite coefficient-reversion ledger, DyadicRatCore coefficient bounds, RegSeqRat readbacks, Real endpoint seals, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lagrange-inversion-carrier}, \autoref{thm:lagrange-inversion-namecert-obligations}, and \autoref{thm:lagrange-inversion-taylor-polynomial-handoff} seed the finite inverse-series coefficient extraction route from a displayed Taylor jet to inverse-polynomial coefficient reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close analytic inverse-function reasoning, convergence of an inverse series, selected inverse branches, quotient real equality, countable choice, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Taylor-jet routing, nonzero linear coefficient apartness, finite reversion exactness, coefficient-bound readback, Real endpoint sealing, transport and replay stability, and nonescape for BEDC.Derived.LagrangeInversionUp.}
+\end{closurestatus}

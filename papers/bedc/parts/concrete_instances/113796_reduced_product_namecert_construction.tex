@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\ReducedProductUp$}
+\label{ch:concrete-instances-reduced-product-namecert}
+\origin{human}
+
+Following Chang and Keisler on reduced products in model theory, the $\ReducedProductUp$ packet records the finite BEDC naming surface for a family of first-order models read through a displayed filter. It sits after the membership discipline of $\SetLikeUp$, the carrier discipline of $\TypeLikeUp$, the syntactic rows of \autoref{ch:concrete-instances-firstorder-namecert}, the satisfaction rows of \autoref{ch:concrete-instances-modeltheory-namecert}, and the local $\NameCert$ carrier discipline. The packet exposes model-family rows, a filter row, pointwise formula reads, a filter-visible agreement classifier, transport, replay, provenance, and local naming; it does not assert an ultrafilter choice, quotient equality of functions, Los theorem, compactness, or any host model product.
+
+\begin{definition}[Reduced product carrier]
+\label{def:reduced-product-carrier}
+A $\ReducedProductUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(M,F,\Phi,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the model-family source row, naming the finite family window and the associated $\ModelTheoryUp$ structure rows available to a consumer.
+\item $F$ is the displayed filter row, recording the finite filter tokens, containment reads, and meet-closure witnesses used by the reduced-product route.
+\item $\Phi$ is the pointwise formula row, reading $\FirstOrderUp$ formula endpoints and their coordinatewise $\ModelTheoryUp$ satisfaction rows before any agreement comparison is public.
+\item $A$ is the filter-visible agreement classifier: two pointwise reads classify together only when the displayed filter row $F$ marks the coordinate set on which the pointwise formula rows agree.
+\item $H$ stores componentwise $\hsame$ transport for the model-family source, displayed filter, formula row, agreement classifier, replay row, provenance row, and local naming row.
+\item $C$ stores displayed $\Cont$ replay from a reduced-product consumer through $M,F,\Phi,A,H$ before any local name is exported.
+\item $P$ records $\Pkg$ provenance over $\ReducedProductUp$, $\SetLikeUp$, $\TypeLikeUp$, $\FirstOrderUp$, $\ModelTheoryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ReducedProductUp}$ row.
+\end{enumerate}
+Accepted carriers are compared only through $M,F,\Phi,A,H,C,P,N$. There is no coordinate for a chosen ultrafilter, quotient equality of functions, Los theorem, host compactness, or an ambient product model outside the displayed rows.
+\end{definition}
+\leandef{BEDC.Derived.ReducedProductUp}
+
+\begin{theorem}[Reduced product NameCert obligations]
+\label{thm:reduced-product-namecert-obligations}
+For every accepted $\ReducedProductUp$ carrier $Q=(M,F,\Phi,A,H,C,P,N)$, the local $\NameCert_{\ReducedProductUp}$ surface consists exactly of the following obligations:
+\begin{enumerate}
+\item carrier admission for the displayed model-family source $M$, filter row $F$, pointwise formula row $\Phi$, agreement classifier $A$, transport $H$, replay $C$, provenance $P$, and local naming $N$;
+\item displayed filter exposure, requiring every reduced-product agreement read to expose $F$ before the classifier $A$ is read;
+\item pointwise model-row stability, requiring every formula read in $\Phi$ to remain attached to the $\FirstOrderUp$ and $\ModelTheoryUp$ rows named by $M$;
+\item classifier transport, requiring filter-visible agreement to move only through componentwise $\hsame$ transport $H$ and displayed replay $C$;
+\item replay and provenance, requiring every downstream consumer to cite $P$ and $N$ after the route $M,F,\Phi,A,H,C$ has been displayed;
+\item refusal of ultrafilter choice, quotient equality, Los theorem, and host compactness, because none of these objects appears as a carrier coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:reduced-product-carrier}. The tuple lists exactly the model-family source, displayed filter, pointwise formula row, agreement classifier, transport, replay, provenance, and local naming rows.
+
+Displayed filter exposure is the second projection step. A consumer cannot read the agreement classifier $A$ until the filter row $F$ has named the finite coordinate set on which the pointwise formula rows are compared.
+
+Pointwise model-row stability follows from the source row $M$ and formula row $\Phi$. Formula endpoints are read through $\FirstOrderUp$, and their satisfaction rows are read through $\ModelTheoryUp$, so the reduced-product packet has no separate syntax or satisfaction source.
+
+Finally use $H,C,P,N$. The transport and replay rows preserve the same displayed route, while provenance and local naming attach the route to the BEDC carrier. Since no coordinate stores an ultrafilter choice, quotient equality, Los theorem, host compactness, or an ambient product model, the local certificate cannot export those principles.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ReducedProductUp$ agreement read exposes a model-family source row, displayed filter row, pointwise formula row, filter-visible classifier, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{setlike, typelike, firstorder, modeltheory: $\ReducedProductUp$ is not bijective to any listed sibling because it jointly carries a displayed filter row and a filter-visible pointwise agreement classifier over model-family and formula rows. SetLikeUp supplies membership without model satisfaction, TypeLikeUp supplies fiber transport without the filter-visible classifier, FirstOrderUp supplies syntax without model-family satisfaction, and ModelTheoryUp supplies satisfaction without the reduced-product filter row.}
+
+\closureat{ReducedProductUp}{seedStr}
+
+\begin{closurestatus}{\ReducedProductUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:reduced-product-carrier} and \autoref{thm:reduced-product-namecert-obligations} seed the finite model-family, displayed-filter, pointwise-formula, agreement-classifier, transport, replay, provenance, and local-name rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ultrafilter choice, quotient equality of functions, Los theorem, compactness, host model products, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, displayed filter exposure, pointwise model-row stability, classifier transport, replay, provenance, and refusal boundaries for BEDC.Derived.ReducedProductUp.}
+  \constructivestory{A $\ReducedProductUp$ packet is generated from a model-family source row, displayed filter row, pointwise formula row, filter-visible agreement classifier, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

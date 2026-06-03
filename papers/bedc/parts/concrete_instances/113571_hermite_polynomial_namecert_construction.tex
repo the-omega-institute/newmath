@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\HermitePolynomialUp$}
+\label{ch:concrete-instances-hermite-polynomial-namecert}
+\origin{human}
+
+Following Hermite and the standard orthogonal-polynomial tradition, the $\HermitePolynomialUp$ packet names the finite Gaussian-weight recurrence surface for the displayed family $H_n$ without importing an ambient $L^2$ space, quotient polynomial ring, or completed measure theory. It sits after the polynomial carrier of \autoref{ch:concrete-instances-polynomial-namecert}, the orthogonal-polynomial surface of \autoref{ch:concrete-instances-orthogonal-polynomial-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the sibling recurrence packets of \autoref{ch:concrete-instances-chebyshev-polynomial-namecert} and \autoref{ch:concrete-instances-legendre-polynomial-namecert}.
+
+\begin{definition}[Hermite polynomial carrier]
+\label{def:hermite-polynomial-carrier}
+A $\HermitePolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+G=(d,H_0,H_1,R,O,W,Q,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $d$ is the finite degree-window row.
+\item $H_0$ and $H_1$ are the seed $\PolynomialUp$ rows for the inspected Hermite family.
+\item $R$ is the finite recurrence ledger for $H_{n+1}=2xH_n-2nH_{n-1}$, including the displayed coefficient and polynomial-equality rows for each accepted step.
+\item $O$ is the $\OrthogonalPolynomialUp$ handoff row for the Gaussian-weight moment ledger and finite orthogonality reads.
+\item $W$ is the finite Gaussian-weight window row, recording the bounded moment and evaluation requests through which no completed measure space is exposed.
+\item $Q$ is the $\RegSeqRatUp$ readback row for inspected coefficients, moment approximants, and evaluations.
+\item $E$ is the terminal $\RealUp$ seal row for recurrence coefficients, Gaussian-window reads, and evaluation results.
+\item $T$ records componentwise $\hsame$ transport for the displayed rows.
+\item $C$ records displayed $\Cont$ replay of recurrence, Gaussian-window, readback, and orthogonality requests.
+\item $P$ is the $\Pkg$ provenance over $\HermitePolynomialUp$, $\PolynomialUp$, $\OrthogonalPolynomialUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HermitePolynomialUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host Gaussian measure, completed $L^2$ space, quotient polynomial equality, selected infinite basis, or analytic spectral theorem.
+\end{definition}
+
+\begin{theorem}[Hermite polynomial NameCert obligations]
+\label{thm:hermite-polynomial-namecert-obligations}
+For every accepted $\HermitePolynomialUp$ carrier $G=(d,H_0,H_1,R,O,W,Q,E,T,C,P,N)$, the local $\NameCert_{\HermitePolynomialUp}$ surface consists exactly of the following five obligation rows:
+\begin{enumerate}
+\item the $\PolynomialUp$ source row displaying the degree window, seed polynomials, recurrence coefficients, and polynomial-equality checks;
+\item the $\RealUp$ and $\RegSeqRatUp$ readback row sealing every inspected coefficient, finite Gaussian-window moment, and evaluation request;
+\item the $\OrthogonalPolynomialUp$ handoff row recording orthogonality only through displayed recurrence and finite Gaussian-weight window data;
+\item the recurrence-stability row, requiring $\hsame$ transport and displayed $\Cont$ replay to preserve the same Hermite seed and step ledgers;
+\item the $\Pkg$ and $\NameCert$ row naming the packet while exporting no host measure, quotient equality, infinite basis selector, or completed function space.
+\end{enumerate}
+No Hermite-polynomial obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hermite-polynomial-carrier}. The rows $d,H_0,H_1,R$ display the only polynomial source, so every recurrence and coefficient request is a finite $\PolynomialUp$ ledger read.
+
+The Gaussian-weight side is exposed by $O,W,Q,E$. The orthogonal-polynomial handoff $O$ can be read only together with the finite window row $W$, the regular rational readback row $Q$, and the terminal $\RealUp$ seal $E$.
+
+Finally $T,C,P,N$ preserve, replay, source, and name the same finite packet. Since no row stores a host Gaussian measure, completed $L^2$ space, quotient polynomial equality, selected infinite basis, or analytic spectral theorem, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hermite polynomial recurrence stability]
+\label{thm:hermite-polynomial-recurrence-stability}
+Every accepted $\HermitePolynomialUp$ recurrence read factors through
+$$
+d,H_0,H_1 \longmapsto R \longmapsto O,W,Q,E \longmapsto T,C,P,N .
+$$
+Under componentwise $\hsame$ transport and displayed $\Cont$ replay, the same finite seed rows, recurrence coefficients, Gaussian-weight windows, readback rows, Real seals, provenance, and local naming remain visible. The packet therefore cannot infer a host Gaussian measure, completed $L^2$ equality, selected infinite Hermite basis, or analytic spectral theorem from recurrence data alone.
+\end{theorem}
+\begin{proof}
+Start with the recurrence ledger. The degree row and the two seed rows determine the inspected recurrence window, and $R$ displays each accepted step of $H_{n+1}=2xH_n-2nH_{n-1}$ as a polynomial-row equality.
+
+Next read the orthogonality and value-facing rows. The handoff through $O$ is tied to the finite Gaussian-weight windows $W$, the regular readback $Q$, and the terminal Real seal $E$, so orthogonality remains a displayed finite ledger rather than a host measure-space claim.
+
+The transport and replay rows $T,C$ preserve exactly those coordinates, while $P,N$ record provenance and local naming. No carrier coordinate supplies the excluded host or infinite data, so recurrence stability is confined to the displayed route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HermitePolynomialUp$ read factors through PolynomialUp seeds and recurrence rows, RealUp and RegSeqRat readback, an OrthogonalPolynomialUp handoff, finite Gaussian-weight windows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+
+\independenceWitness{polynomial, real, regseqrat, dyadicratcore, orthogonal-polynomial, chebyshev-polynomial, legendre-polynomial: $\HermitePolynomialUp$ is not bijective to any listed sibling because it jointly carries Hermite seeds, recurrence coefficients, Gaussian-weight windows, orthogonality handoff, readback, Real sealing, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{HermitePolynomialUp}{seedStr}
+
+\begin{closurestatus}{\HermitePolynomialUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hermite-polynomial-carrier}, \autoref{thm:hermite-polynomial-namecert-obligations}, and \autoref{thm:hermite-polynomial-recurrence-stability} seed the finite Hermite recurrence and Gaussian-weight orthogonality certificate surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Gaussian measures, completed function spaces, quotient polynomial equality, selected infinite Hermite bases, analytic spectral theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, recurrence exactness, finite Gaussian-window readback, OrthogonalPolynomial handoff, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.HermitePolynomialUp.}
+  \constructivestory{A $\HermitePolynomialUp$ packet is generated from a degree window, two seed PolynomialUp rows, a finite Hermite recurrence ledger, an OrthogonalPolynomialUp handoff, finite Gaussian-weight windows, RegSeqRat readback, RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
