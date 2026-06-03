@@ -72,4 +72,86 @@ theorem MetaCICCriticalPathPublicExport [AskSetup] [PackageSetup]
   }
   exact ⟨cert, publicUnary⟩
 
+theorem MetaCICCriticalPathPublicInterface [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName l10Read candidateRead confluenceRead decidabilityRead residualRead
+      interfaceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont route localName l10Read →
+        Cont l10Read handoff candidateRead →
+          Cont candidateRead normalForm confluenceRead →
+            Cont confluenceRead obstruction decidabilityRead →
+              Cont decidabilityRead dischargeSocket residualRead →
+                Cont residualRead provenance interfaceRead →
+                  PkgSig bundle interfaceRead pkg →
+                    SemanticNameCert
+                        (fun row : BHist => hsame row interfaceRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row l10Read ∨ hsame row candidateRead ∨
+                            hsame row confluenceRead ∨ hsame row decidabilityRead ∨
+                              hsame row residualRead ∨ hsame row interfaceRead)
+                        (fun row : BHist =>
+                          hsame row interfaceRead ∧ PkgSig bundle interfaceRead pkg ∧
+                            PkgSig bundle provenance pkg)
+                        hsame ∧
+                      UnaryHistory interfaceRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro packet routeLocalNameL10 l10HandoffCandidate candidateNormalConfluence
+    confluenceObstructionDecidability decidabilitySocketResidual residualProvenanceInterface
+    interfacePkg
+  obtain ⟨_strongNormUnary, normalFormUnary, obstructionUnary, handoffUnary,
+    dischargeSocketUnary, _transportUnary, routeUnary, provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    provenancePkg⟩ := packet
+  have l10Unary : UnaryHistory l10Read :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameL10
+  have candidateUnary : UnaryHistory candidateRead :=
+    unary_cont_closed l10Unary handoffUnary l10HandoffCandidate
+  have confluenceUnary : UnaryHistory confluenceRead :=
+    unary_cont_closed candidateUnary normalFormUnary candidateNormalConfluence
+  have decidabilityUnary : UnaryHistory decidabilityRead :=
+    unary_cont_closed confluenceUnary obstructionUnary confluenceObstructionDecidability
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed decidabilityUnary dischargeSocketUnary decidabilitySocketResidual
+  have interfaceUnary : UnaryHistory interfaceRead :=
+    unary_cont_closed residualUnary provenanceUnary residualProvenanceInterface
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row interfaceRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row l10Read ∨ hsame row candidateRead ∨ hsame row confluenceRead ∨
+              hsame row decidabilityRead ∨ hsame row residualRead ∨ hsame row interfaceRead)
+          (fun row : BHist =>
+            hsame row interfaceRead ∧ PkgSig bundle interfaceRead pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro interfaceRead
+        ⟨hsame_refl interfaceRead, interfaceUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, interfacePkg, provenancePkg⟩
+  }
+  exact ⟨cert, interfaceUnary, provenancePkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
