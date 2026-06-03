@@ -1,0 +1,44 @@
+{
+  "artifact_id": "bedc-quality-lab:dimension-mismatch-transfer-robustness",
+  "audit_pointer": "reports/canonical/discovery_map.json:$.rows[report=dimension-mismatch-debt-transfer]",
+  "audit_reasons": [],
+  "audit_status": "pass",
+  "failed_or_deferred_gates": [],
+  "generated_at": "2026-06-03T20:10:40.691639+00:00",
+  "readiness_boundary": "pass = robust-control evidence for the existing scoped-D4 dimension-mismatch-debt-transfer surface; not a D5 upgrade, not global model quality.",
+  "robust_control_checks": [
+    {
+      "check": "HG-DM-R1",
+      "evidence_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.hardgate_evidence.HG-B3",
+      "reason": "source status, non-stub boundary, and learned-over-matched-random evidence resolve",
+      "verdict": "pass"
+    },
+    {
+      "check": "HG-DM-R2",
+      "evidence_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.hardgate_evidence.HG-B3.learned_minus_matched_random_auroc.ci95_low",
+      "reason": "learned-minus-matched-random AUROC lower confidence bound is positive",
+      "verdict": "pass"
+    },
+    {
+      "check": "HG-DM-R3",
+      "evidence_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.control_protocol",
+      "reason": "matched-random and vanilla controls resolve under the same h-only protocol",
+      "verdict": "pass"
+    },
+    {
+      "check": "HG-DM-R4",
+      "evidence_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.hardgate_evidence.HG-B4.audit.actual_model_input_columns",
+      "reason": "actual model input columns exactly match the declared h-only allowlist",
+      "verdict": "pass"
+    },
+    {
+      "check": "HG-DM-R5",
+      "evidence_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.hardgate_evidence.HG-B5.audit.hits",
+      "reason": "claim boundary has no forbidden positive terms and no aggregate ordering surface",
+      "verdict": "pass"
+    }
+  ],
+  "schema_id": "bedc-quality-lab:dimension-mismatch-transfer-robustness",
+  "source_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.status",
+  "status": "pass"
+}
