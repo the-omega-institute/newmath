@@ -773,6 +773,7 @@ import BEDC.Derived.BishopCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalCompositionUp.TasteGate
+import BEDC.Derived.BishopCompletionUp
 import BEDC.Derived.BishopEquicontinuityModulusUp
 import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.TasteGate
@@ -7458,6 +7459,7 @@ import BEDC.Derived.ResearchProgrammeExecutionGateUp.TasteGate
 import BEDC.Derived.ResearchProgrammeRouteUp.TasteGate
 import BEDC.Derived.ResidueUp
 import BEDC.Derived.ResidueUp.TasteGate
+import BEDC.Derived.ResolventIdentityUp
 import BEDC.Derived.RestrictedSurfaceBudgetUp.TasteGate
 import BEDC.Derived.ReviewAcceptanceGateUp.HumanApprovalBoundary
 import BEDC.Derived.ReviewAcceptanceGateUp.NameCertObligations
