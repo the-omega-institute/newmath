@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_canonical_reports as canonical
 
 
@@ -225,6 +226,9 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     json_artifacts = [spec.json_artifact for spec in canonical.CANONICAL_REPORTS]
     markdown_artifacts = [spec.markdown_artifact for spec in canonical.CANONICAL_REPORTS]
 
+    assert "formal_hardening" not in names
+    assert "reports/canonical/formal_hardening.json" not in json_artifacts
+    assert "reports/canonical/formal_hardening.md" not in markdown_artifacts
     assert len(names) == len(set(names))
     assert names == [
         "mixing-family-sweep",
@@ -493,6 +497,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "quality_scorecard",
         "negative_witnesses",
         "claim_verdicts",
+        "formal_hardening",
     }.issubset(payload)
     assert set(payload["paper_outline"]["core_reports"]) == HG_P_CORE
     assert payload["negative_witnesses"] == {
@@ -505,6 +510,16 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     assert payload["claim_verdicts"]["artifact_id"] == "bedc-quality-lab:claim-verdicts"
     assert payload["claim_verdicts"]["jsonl_artifact"] == "reports/canonical/claim_verdicts.jsonl"
     assert isinstance(payload["claim_verdicts"]["row_count"], int)
+    assert payload["formal_hardening"] == {
+        "status": "pointer-only",
+        "artifact_id": "bedc-quality-lab:formal-hardening",
+        "json_artifact": "reports/canonical/formal_hardening.json",
+        "markdown_artifact": "reports/canonical/formal_hardening.md",
+        "ready": False,
+        "recorded": 3,
+        "required": 4,
+        "gap_count": 1,
+    }
     assert "HG-P core reports" in markdown
     assert "Auxiliary reports" in markdown
     assert "Quality scorecard" in markdown
@@ -512,6 +527,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     assert "reports/canonical/discovery_map.json:$.rows[*].discovery_level" in markdown
     assert "Negative witnesses" in markdown
     assert "Claim verdicts" in markdown
+    assert "Formal hardening" in markdown
     assert "Paper outline" in markdown
     assert "Claims and non-claims" in markdown
     assert "Literature ledger pointer" in markdown
@@ -950,14 +966,9 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
             "denominator": 10,
         },
         "HardeningCoverage": {
-            "value": 1.0,
-            "source": {
-                "report": "spectral-ablation-hinge",
-                "artifact": "reports/canonical/spectral-ablation-hinge.json",
-                "pointer": "$.ledger_summary.basis.hardening_coverage",
-            },
-            "numerator": 5,
-            "denominator": 5,
+            "dependency": "formal_hardening:$.coverage",
+            "reason": "incomplete formal hardening evidence",
+            "status": "not-ready",
         },
         "OverclaimRate": {
             "value": pytest.approx(0.4),
@@ -972,7 +983,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
     by_metric = {row["metric"]: row for row in payload["rows"]}
     for metric, fields in expected.items():
         row = by_metric[metric]
-        assert row["status"] == "ready"
+        assert row["status"] == fields.get("status", "ready")
+        if row["status"] == "not-ready":
+            assert row["dependency"] == fields["dependency"]
+            assert row["reason"] == fields["reason"]
+            continue
         assert row["value"] == fields["value"]
         assert row["source"] == fields["source"]
         if "numerator" in fields:
@@ -1023,15 +1038,6 @@ def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):
             ),
         ),
         (
-            "HardeningCoverage",
-            "spectral-ablation-hinge:$.ledger_summary.basis.hardening_coverage",
-            lambda: _mutate_payload(
-                canonical,
-                "spectral-ablation-hinge",
-                lambda payload: payload["ledger_summary"].pop("basis"),
-            ),
-        ),
-        (
             "OverclaimRate",
             "certificate-guided-discovery:$.audit_decision.overclaim_rate",
             lambda: _mutate_payload(
@@ -1058,19 +1064,12 @@ def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):
         canonical.INDEX_ARTIFACT = old_index
 
 
-def test_quality_scorecard_hardening_coverage_requires_full_count(tmp_path):
+def test_quality_scorecard_hardening_coverage_uses_current_formal_payload(tmp_path):
     old_root = canonical.ROOT
     old_dir = canonical.CANONICAL_DIR
     old_index = canonical.INDEX_ARTIFACT
     try:
         _write_payloads_for_all_specs(canonical, tmp_path)
-        _mutate_payload(
-            canonical,
-            "spectral-ablation-hinge",
-            lambda payload: payload["ledger_summary"]["basis"].update(
-                {"hardening_coverage": {"recorded": 3, "required": 4}}
-            ),
-        )
         scorecard = canonical._build_quality_scorecard([], generated_at="fixture-time")
     finally:
         canonical.ROOT = old_root
@@ -1079,10 +1078,91 @@ def test_quality_scorecard_hardening_coverage_requires_full_count(tmp_path):
 
     row = {item["metric"]: item for item in scorecard["rows"]}["HardeningCoverage"]
     assert row["status"] == "not-ready"
-    assert row["dependency"] == "spectral-ablation-hinge:$.ledger_summary.basis.hardening_coverage"
-    assert row["reason"] == "incomplete hardening coverage"
+    assert row["dependency"] == "formal_hardening:$.coverage"
+    assert row["reason"] == "incomplete formal hardening evidence"
     assert "value" not in row
     assert "numerator" not in row
+
+
+def test_quality_scorecard_hardening_coverage_ready_iff_all_rows_verified(monkeypatch):
+    payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    verified_rows = []
+    for row in payload["verification_ledger"]:
+        ready_row = dict(row)
+        ready_row["status"] = "verified"
+        ready_row["recorded"] = True
+        ready_row["evidence_pointer"] = ready_row["evidence_pointer"] or (
+            "reports/canonical/formal_hardening.json:$.verification_ledger"
+        )
+        ready_row["gap"] = None
+        verified_rows.append(ready_row)
+    payload.update(
+        {
+            "ready": True,
+            "status": "ready",
+            "recorded": len(verified_rows),
+            "required": len(verified_rows),
+            "gap_count": 0,
+            "verification_ledger": verified_rows,
+            "coverage": {
+                "ready": True,
+                "recorded": len(verified_rows),
+                "required": len(verified_rows),
+                "gap_count": 0,
+                "gap_rows": [],
+            },
+        }
+    )
+    monkeypatch.setattr(canonical, "_build_formal_hardening_payload", lambda generated_at=None: payload)
+
+    row = canonical._scorecard_hardening_coverage({})
+
+    assert row["status"] == "ready"
+    assert row["value"] == 1.0
+    assert row["numerator"] == len(verified_rows)
+    assert row["denominator"] == len(verified_rows)
+    assert row["source"] == {
+        "report": "formal_hardening",
+        "artifact": "reports/canonical/formal_hardening.json",
+        "pointer": "$.coverage",
+    }
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda payload: payload.update({"ready": False}),
+        lambda payload: payload["verification_ledger"][0].update({"status": "missing"}),
+        lambda payload: payload["verification_ledger"][0].update({"recorded": False}),
+        lambda payload: payload["verification_ledger"][0].update({"evidence_pointer": ""}),
+        lambda payload: payload["coverage"].update({"recorded": payload["coverage"]["required"] - 1}),
+    ],
+)
+def test_quality_scorecard_hardening_coverage_fails_closed_for_any_unverified_cell(monkeypatch, mutate):
+    payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    rows = []
+    for row in payload["verification_ledger"]:
+        ready_row = dict(row)
+        ready_row["status"] = "verified"
+        ready_row["recorded"] = True
+        ready_row["evidence_pointer"] = ready_row["evidence_pointer"] or "reports/canonical/formal_hardening.json:$.x"
+        rows.append(ready_row)
+    payload.update(
+        {
+            "ready": True,
+            "recorded": len(rows),
+            "required": len(rows),
+            "verification_ledger": rows,
+            "coverage": {"recorded": len(rows), "required": len(rows), "ready": True, "gap_count": 0},
+        }
+    )
+    mutate(payload)
+    monkeypatch.setattr(canonical, "_build_formal_hardening_payload", lambda generated_at=None: payload)
+
+    row = canonical._scorecard_hardening_coverage({})
+
+    assert row["status"] == "not-ready"
+    assert row["dependency"] == "formal_hardening:$.coverage"
 
 
 def test_quality_scorecard_cost_protocol_completeness_fails_closed_without_manifest_pointer(tmp_path):

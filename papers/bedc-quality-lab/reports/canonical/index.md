@@ -60,6 +60,15 @@
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
 - Rows: `17`
 
+## Formal hardening
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/formal_hardening.json`
+- Markdown: `reports/canonical/formal_hardening.md`
+- Ready: `False`
+- Coverage: `3/4`
+- Gaps: `1`
+
 ## Paper outline
 
 - Status: `pointer-only`
