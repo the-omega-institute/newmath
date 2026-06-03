@@ -226,6 +226,7 @@ The local $\BHist$ packet is exhausted by $L,U,M,R,V,W,Q,A,H,C,P,N$. Therefore t
 \label{thm:dyadic-interval-cover-root-regular-readback}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ $\BHist$ packet satisfying \autoref{def:dyadic-interval-cover-root-obligation-surface}. Every root $\RegSeqRatUp$ readback used by the interval-cover packet is accounted for by $Q$ against the finite window row $W$, dyadic endpoint rows $L,U$, mesh row $M$, radius ledger $R$, membership ledger $V$, seal row $A$, and structural rows $H,C,P,N$. No later regular-sequence tail, quotient real equality, host real equality, countable choice, selected limit, or ambient completeness row can alter the root readback.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRootRegularReadback}
 \begin{proof}
 Project the readback row $Q$ from the root surface. It is tied to the finite window row $W$ and the mesh-radius rows $M,R$ before any cover membership decision is read.
 
@@ -617,6 +618,18 @@ Read the existing seal boundary through \autoref{thm:dyadic-interval-cover-real-
 Then use \autoref{thm:dyadicintervalcover-real-seal-cover-handoff} and \autoref{thm:dyadicintervalcover-real-seal-scope}. Both place the seal after the finite window, regular readback, mesh, radius, and membership rows, with the $\BishopIntervalCompactUp$ handoff still inside the displayed route.
 
 The nonescape claim follows from carrier exactness and ledger exactness. The accepted packet has no coordinate for host real equality, quotient stream equality, selected limits, countable choice, open-cover compactness, selected subcovers, or ambient Real completeness, so the seal cannot leave the finite projection route.
+\end{proof}
+
+\begin{theorem}[DyadicIntervalCover scoped finite-cover chain]
+\label{thm:dyadicintervalcover-scoped-finite-cover-chain}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Every scoped finite-cover chain exposed by $I$ factors through lower and upper endpoint rows in $\DyadicRatCoreUp$, finite-cover membership rows consumed by $\BishopIntervalCompactUp$, $\RegSeqRatUp$ readback through $W,Q$, and the terminal $\RealUp$ seal row $A$. The structural rows $H,C,P,N$ preserve the same finite route by $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming; the chain does not assert open-cover compactness, host selected subcovers, quotient real equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the endpoint, mesh, radius, and membership rows from \autoref{def:dyadic-interval-cover-carrier}. The rows $L,U$ are the dyadic endpoints, while $M,R,V$ are the finite cells and membership data visible to the interval-compactness consumer.
+
+Apply \autoref{thm:dyadicintervalcover-subcover-handoff-obligation}. It places any $\BishopIntervalCompactUp$ handoff behind the same displayed rows $L,U,M,R,V,W,Q,A,H,C,P,N$ and treats the handoff as a finite membership route rather than an open-cover theorem.
+
+Use \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The readback rows $W,Q$ and the seal row $A$ remain downstream of the displayed cover chain, so $\RegSeqRatUp$ and $\RealUp$ consumers receive only the finite route. The structural rows preserve that route and add no selected subcover or ambient compactness coordinate.
 \end{proof}
 
 \begin{closurestatus}{\DyadicIntervalCoverUp}
