@@ -4,15 +4,15 @@ This document is a pointer hub for the alpha-stage quality baseline. Machine-rea
 
 ## Discovery Levels
 
-Discovery levels are read from `reports/canonical/discovery_map.json` at `$.rows[*].discovery_level`.
+Discovery levels are read from `reports/canonical/discovery_map.json` at `$.rows[*].discovery_level`. The complete cell classification is machine-owned by `reports/canonical/discovery_map.json:$.rows[*]`.
 
 | level | pointer meaning |
 | --- | --- |
-| `D4` | positive discovery prototype pointer |
+| `D4` | discovery-level pointer |
 | `DN` | negative discovery pointer |
 | `D1` | audit-improvement pointer |
 
-The baseline cells are:
+Selected alpha milestone pointers are:
 
 | report | baseline level pointer | evidence pointer |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ The baseline cells are:
 
 | evidence class | pointer |
 | --- | --- |
-| `D4` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]` |
+| `D4` | selected examples: `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h]`; full set: `reports/canonical/discovery_map.json:$.rows[*].discovery_level` |
 | `DN` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery]` |
 | `D1` | `reports/canonical/discovery_map.json:$.rows[report=nongaussian-distribution-sweep]`; `reports/canonical/discovery_map.json:$.rows[report=anisotropic-ou-sweep]` |
 
