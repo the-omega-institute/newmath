@@ -3589,6 +3589,7 @@ import BEDC.Derived.DyadicIntervalArithmeticUp.EnclosureSoundness
 import BEDC.Derived.DyadicIntervalArithmeticUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalBasisUp.TasteGate
+import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RootCompactHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RootFiniteCoverBoundary
 import BEDC.Derived.DyadicIntervalCoverUp.RootRegularReadback
@@ -3723,6 +3724,7 @@ import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuityFiniteNetSelectorUp.TasteGate
 import BEDC.Derived.EquicontinuityUp
 import BEDC.Derived.EquicontinuityUp.FiniteNetReadiness
+import BEDC.Derived.EquicontinuityUp.RootCompactSourceAdmission
 import BEDC.Derived.EquicontinuityUp.SharedModulusHandoffPreservation
 import BEDC.Derived.EquicontinuityUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
@@ -3786,6 +3788,7 @@ import BEDC.Derived.FareySequenceUp.FiniteDensityRootPackage
 import BEDC.Derived.FareySequenceUp.FiniteMediantCoverage
 import BEDC.Derived.FareySequenceUp.LevelSuccessor
 import BEDC.Derived.FareySequenceUp.LevelSuccessorInduction
+import BEDC.Derived.FareySequenceUp.LocalNamingReplayScope
 import BEDC.Derived.FareySequenceUp.MediantDensityWindow
 import BEDC.Derived.FareySequenceUp.MediantRefinementStability
 import BEDC.Derived.FareySequenceUp.MediantWindowCoverage
