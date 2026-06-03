@@ -98,6 +98,24 @@ Use \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence}. It binds t
 Apply the regular route theorem, \autoref{thm:fast-cauchy-subsequence-regular-route}. The route from $Q$ to $W$ passes through $F$ and $R$, so each selected window is covered by the displayed cofinal selector, dyadic radius data carried in the fast-rate ledger, and regular rational readback.
 \end{proof}
 
+\begin{theorem}[Fast Cauchy subsequence tail normal form]
+\label{thm:fast-cauchy-subsequence-tail-normal-form}
+Every accepted $\FastCauchySubsequenceUp$ packet has a tail normal form whose selector is exposed only after the packet has factored through the displayed $\CauchyModulusUp$, $\CofinalSubsequenceUp$, $\DyadicRatCoreUp$, $\FastCauchyUp$, $\RealUp$, $\RegSeqRatUp$, $\RegularCauchySubsequenceUp$, and $\StreamNameUp$ rows. For a carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the normal-form read is
+$$
+S,\quad M,\quad Q,\quad F,\quad R,\quad W,\quad E,\quad H,\quad C,\quad P,\quad N .
+$$
+The exposed tail selector is therefore the cofinal finite-window row $Q$ read through inspected modulus bounds, dyadic radius support, fast-rate evidence, regular-subsequence handoff, regular rational readback, source windows, and the terminal Real seal, not an independent subsequence function or a countable-choice object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-subsequence-carrier}. The source windows $S$ and inspected modulus row $M$ are the first rows available to a tail request.
+
+Read the cofinal index next. The selector row $Q$ supplies the finite monotone-cofinal ledger, and by \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence} its windows are already tied to the inspected modulus data in $M$.
+
+Read the dyadic radius and fast-rate information through $F$. The provenance row records $\DyadicRatCoreUp$ support, and \autoref{thm:fast-cauchy-subsequence-selector-window-coverage} keeps the selected windows inside the displayed fast-rate ledger.
+
+Finally pass through the regular-Cauchy and Real-facing rows. The handoff $R$, readback $W$, and seal $E$ are read in order by \autoref{thm:fast-cauchy-subsequence-regular-route}, while $H,C,P,N$ transport, replay, source, and name the same route. Thus the tail selector appears only in the displayed normal form and cannot be replaced by a host subsequence or choice functional.
+\end{proof}
+
 \begin{theorem}[FastCauchySubsequence Real-seal selector boundary]
 \label{thm:fast-cauchy-subsequence-real-seal-selector-boundary}
 Every $\RealUp$ seal consumer of an accepted $\FastCauchySubsequenceUp$ packet must pass through the modulus row $M$, cofinal selector row $Q$, fast-rate row $F$, regular-subsequence row $R$, and regular rational readback row $W$ before the seal row $E$ is visible. The seal boundary is therefore the displayed route
