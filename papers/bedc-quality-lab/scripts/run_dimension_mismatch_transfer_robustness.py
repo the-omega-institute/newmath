@@ -50,6 +50,8 @@ FORBIDDEN_CLAIM_SUBSTRINGS = (
     "d5_readiness",
 )
 FORBIDDEN_SCORE_KEYS = ("score", "rank", "ranking", "grade", "total_score", "overall_score")
+MALFORMED_SOURCE_REASON = "source artifact is malformed or non-object"
+MALFORMED_SOURCE_MARKER = "__malformed_source_artifact__"
 
 
 def _root(root: Path | None) -> Path:
@@ -68,6 +70,14 @@ def _load_json(relative_path: str, *, root: Path | None = None) -> dict[str, Any
     if not isinstance(payload, dict):
         raise ValueError(f"artifact payload must be a JSON object: {relative_path}")
     return payload
+
+
+def _malformed_source_artifact() -> dict[str, Any]:
+    return {MALFORMED_SOURCE_MARKER: True}
+
+
+def _is_malformed_source_artifact(source: Mapping[str, Any]) -> bool:
+    return source.get(MALFORMED_SOURCE_MARKER) is True
 
 
 def _stat_cell(payload: Mapping[str, Any], pointer: str) -> Mapping[str, Any] | None:
@@ -106,6 +116,8 @@ def _check_row(name: str, verdict: str, evidence_pointer: str, reason: str) -> d
 
 def _source_integrity(source: Mapping[str, Any]) -> dict[str, str]:
     evidence_pointer = SOURCE_POINTER
+    if _is_malformed_source_artifact(source):
+        return _check_row("HG-DM-R1", "fail", f"{SOURCE_ARTIFACT}:$", MALFORMED_SOURCE_REASON)
     if not source:
         return _check_row("HG-DM-R1", "fail", evidence_pointer, "source artifact is missing")
     try:
@@ -319,7 +331,10 @@ def _aggregate_status(checks: Sequence[Mapping[str, str]], audit_status: str) ->
 
 
 def build_payload(*, root: Path | None = None, generated_at: str | None = None) -> dict[str, Any]:
-    source = _load_json(SOURCE_ARTIFACT, root=root)
+    try:
+        source = _load_json(SOURCE_ARTIFACT, root=root)
+    except (json.JSONDecodeError, ValueError, TypeError):
+        source = _malformed_source_artifact()
     discovery = _load_json(DISCOVERY_MAP_ARTIFACT, root=root)
     checks = [
         _source_integrity(source),

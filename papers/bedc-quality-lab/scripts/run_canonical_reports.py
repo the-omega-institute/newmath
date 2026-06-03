@@ -41,6 +41,9 @@ NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
 NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
+NEGATIVE_WITNESS_SUMMARY_JSON_ARTIFACT = "reports/canonical/discovery_negative_witness_summary.json"
+NEGATIVE_WITNESS_SUMMARY_MARKDOWN_ARTIFACT = "reports/canonical/discovery_negative_witness_summary.md"
+NEGATIVE_WITNESS_SUMMARY_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witness-summary"
 FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
 FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
 FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
@@ -1042,6 +1045,20 @@ def _claim_verdicts_index_section(generated_at: str | None = None) -> dict[str, 
     }
 
 
+def _negative_witness_summary_index_section(generated_at: str | None = None) -> dict[str, Any]:
+    from scripts.run_discovery_negative_witness_summary import build_discovery_negative_witness_summary
+
+    payload = build_discovery_negative_witness_summary(root=ROOT, generated_at=generated_at)
+    return {
+        "status": payload["status"],
+        "artifact_id": NEGATIVE_WITNESS_SUMMARY_ARTIFACT_ID,
+        "json_artifact": NEGATIVE_WITNESS_SUMMARY_JSON_ARTIFACT,
+        "markdown_artifact": NEGATIVE_WITNESS_SUMMARY_MARKDOWN_ARTIFACT,
+        "row_count": payload["row_count"],
+        "audit_status": payload["audit_status"],
+    }
+
+
 def _formal_hardening_index_section(generated_at: str | None = None) -> dict[str, Any]:
     payload = _build_formal_hardening_payload(generated_at=generated_at)
     return {
@@ -1125,6 +1142,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "dimension_mismatch_transfer_robustness": _dimension_mismatch_transfer_robustness_index_section(),
         "negative_witnesses": _negative_witnesses_index_section(),
         "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
+        "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
@@ -1226,6 +1244,14 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- JSONL: `{payload['claim_verdicts']['jsonl_artifact']}`",
             f"- Rows: `{payload['claim_verdicts']['row_count']}`",
             "",
+            "## Negative witness summary",
+            "",
+            f"- Status: `{payload['negative_witness_summary']['status']}`",
+            f"- JSON: `{payload['negative_witness_summary']['json_artifact']}`",
+            f"- Markdown: `{payload['negative_witness_summary']['markdown_artifact']}`",
+            f"- Rows: `{payload['negative_witness_summary']['row_count']}`",
+            f"- Audit: `{payload['negative_witness_summary']['audit_status']}`",
+            "",
             "## Formal hardening",
             "",
             f"- Status: `{payload['formal_hardening']['status']}`",
@@ -1315,8 +1341,10 @@ def run_reports(
     write_discovery_map(generated_at=timestamp, root=ROOT, canonical_reports=CANONICAL_REPORTS)
     write_claim_verdicts(root=ROOT, generated_at=timestamp)
     from scripts.run_dimension_mismatch_transfer_robustness import write_dimension_mismatch_transfer_robustness
+    from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
 
     write_dimension_mismatch_transfer_robustness(root=ROOT, generated_at=timestamp)
+    write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
     payload = _index(results, generated_at=timestamp)
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))

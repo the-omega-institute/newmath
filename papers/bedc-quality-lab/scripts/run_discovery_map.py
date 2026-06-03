@@ -620,6 +620,7 @@ def _manifest_audit(
         "reports/canonical/formal_hardening.json",
         DISCOVERY_MAP_JSON_ARTIFACT,
         NEGATIVE_WITNESSES_ARTIFACT,
+        "reports/canonical/discovery_negative_witness_summary.json",
         OBSERVED_DEBT_ARTIFACT,
         DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
     }

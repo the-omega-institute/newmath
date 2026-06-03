@@ -143,6 +143,35 @@ def test_source_integrity_fails_closed(tmp_path, mutate):
     assert "HG-DM-R1" in payload["failed_or_deferred_gates"]
 
 
+def test_malformed_source_json_fails_closed(tmp_path):
+    _write_inputs(tmp_path)
+    source_path = tmp_path / runner.SOURCE_ARTIFACT
+    source_path.write_text("{", encoding="utf-8")
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert payload["status"] == "fail"
+    assert _check(payload, "HG-DM-R1")["verdict"] == "fail"
+    assert _check(payload, "HG-DM-R1")["reason"] == runner.MALFORMED_SOURCE_REASON
+    assert "HG-DM-R1" in payload["failed_or_deferred_gates"]
+    assert "d5_readiness" not in payload
+
+
+@pytest.mark.parametrize("source_payload", [[], 1])
+def test_non_object_source_json_fails_closed(tmp_path, source_payload):
+    _write_inputs(tmp_path)
+    source_path = tmp_path / runner.SOURCE_ARTIFACT
+    source_path.write_text(json.dumps(source_payload), encoding="utf-8")
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert payload["status"] == "fail"
+    assert _check(payload, "HG-DM-R1")["verdict"] == "fail"
+    assert _check(payload, "HG-DM-R1")["reason"] == runner.MALFORMED_SOURCE_REASON
+    assert "HG-DM-R1" in payload["failed_or_deferred_gates"]
+    assert "d5_readiness" not in payload
+
+
 def test_resampling_stability_defers_on_nonpositive_delta(tmp_path):
     source = _source_payload()
     source["hardgate_evidence"]["HG-B3"]["learned_minus_matched_random_auroc"]["ci95_low"] = 0.0
