@@ -426,4 +426,38 @@ theorem ClosedTermSubstitutionCompilerPacket_shift_substitute_compatibility [Ask
   cases packetEq
   exact ⟨substitutionRoute, shiftRoute, sharedRoute, provenancePkg, sharedPkg⟩
 
+theorem ClosedTermSubstitutionCompilerPacket_closed_composition_handoff [AskSetup]
+    [PackageSetup]
+    {termGenerator closedBoundary operation fixedWitness transport continuation provenance
+      nameCert operationRead shiftRead compositionRead exportRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (∃ packet : ClosedTermSubstitutionCompilerUp,
+        packet =
+          ClosedTermSubstitutionCompilerUp.mk termGenerator closedBoundary operation fixedWitness
+            transport continuation provenance nameCert) ->
+      Cont closedBoundary operation operationRead ->
+        Cont closedBoundary fixedWitness shiftRead ->
+          Cont operationRead shiftRead compositionRead ->
+            Cont compositionRead nameCert exportRead ->
+              PkgSig bundle provenance pkg ->
+                PkgSig bundle exportRead pkg ->
+                  hsame operationRead (append closedBoundary operation) ∧
+                    hsame shiftRead (append closedBoundary fixedWitness) ∧
+                      hsame compositionRead (append operationRead shiftRead) ∧
+                        hsame exportRead (append compositionRead nameCert) ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle exportRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame PkgSig
+  intro packetWitness operationRoute shiftRoute compositionRoute exportRoute provenancePkg
+    exportPkg
+  obtain ⟨_packet, packetEq⟩ := packetWitness
+  cases packetEq
+  exact
+    ⟨operationRoute,
+      shiftRoute,
+      compositionRoute,
+      exportRoute,
+      provenancePkg,
+      exportPkg⟩
+
 end BEDC.Derived.ClosedTermSubstitutionCompilerUp
