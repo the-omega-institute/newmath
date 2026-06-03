@@ -70,6 +70,23 @@ def test_static_witnesses_remain_fail_closed_under_escape_hardening():
     assert {row["discovery_level"] for row in audit["witnesses"]}.isdisjoint({"D4", "D5"})
 
 
+def test_unmocked_producer_matches_checked_in_escape_sidecars():
+    checked_registry = _checked_in_registry()
+    checked_demotions = _checked_in_demotions()
+
+    registry = hardening.build_escape_registry(
+        root=ROOT,
+        generated_at=checked_registry["generated_at"],
+    )
+    demotions = hardening.build_demotions(
+        registry,
+        generated_at=checked_demotions["generated_at"],
+    )
+
+    assert registry == checked_registry
+    assert demotions == checked_demotions
+
+
 @pytest.mark.parametrize("kind", hardening.ACTIVE_KINDS)
 def test_active_pseudo_escape_rows_are_captured(kind):
     payload = _checked_in_registry()
@@ -173,6 +190,40 @@ def test_capacity_overflow_fails_closed_with_deterministic_admission(monkeypatch
     monkeypatch.setattr(hardening, "assign_discovery_level", lambda decision: Projection())
 
     with pytest.raises(RuntimeError, match="max_rows_per_kind"):
+        hardening.build_escape_registry(root=ROOT)
+
+
+def test_global_escape_capacity_overflow_fails_closed(monkeypatch):
+    candidates = [
+        hardening.PseudoCandidate(
+            kind=f"overflow_kind_{index // hardening.MAX_ROWS_PER_KIND:02d}",
+            source_pointer=f"reports/canonical/claim_verdicts.jsonl:{index}",
+            recipe_pointer=f"recipe://global-overflow/{index:02d}",
+            recipe_digest=f"{index:064x}"[-64:],
+            gate="discovery-gate",
+            certificate_payload={},
+            evidence_payload={},
+        )
+        for index in range(hardening.MAX_ESCAPE_ROWS + 1)
+    ]
+
+    class Projection:
+        discovery_level = "D4"
+        reasons = ("mock global overflow",)
+
+    monkeypatch.setattr(hardening, "pseudo_candidates", lambda root: candidates)
+    monkeypatch.setattr(
+        hardening,
+        "synthesize_certification_verdict",
+        lambda certificate_payload, evidence_payload, *, timestamp_iso: {
+            "verdict": "accepted",
+            "reason": "mock-global-overflow",
+            "evidence_basis": {},
+        },
+    )
+    monkeypatch.setattr(hardening, "assign_discovery_level", lambda decision: Projection())
+
+    with pytest.raises(RuntimeError, match=r"max_escape_rows=32"):
         hardening.build_escape_registry(root=ROOT)
 
 
