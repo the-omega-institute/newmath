@@ -83,8 +83,9 @@ def test_record_wires_real_debt_injection_certificate_and_target_score():
     assert baseline["classifier_spec"]["name"] == "certified-standardized-linear-reader"
     assert baseline["classifier_spec"]["cert_status"] == "certified"
     assert baseline["metrics"]["target_score"] == pytest.approx(0.0)
-    assert baseline["metrics"]["quality_debt"] == pytest.approx(0.2)
+    assert baseline["metrics"]["quality_debt"] == pytest.approx(0.36)
     assert baseline["ledger_gaps"] == [
+        "kind=source; residue=action-transition-identification; severity=high; status=open",
         "kind=verification; residue=theorem3-bound-margin; severity=high; status=open"
     ]
 
@@ -93,13 +94,13 @@ def test_record_wires_real_debt_injection_certificate_and_target_score():
     assert classifier_debt["classifier_spec"]["training"] == "deterministic standardization"
     assert classifier_debt["classifier_spec"]["cert_status"] == "certified"
     assert classifier_debt["metrics"]["target_score"] == pytest.approx(0.0)
-    assert classifier_debt["metrics"]["quality_debt"] == pytest.approx(0.3)
+    assert classifier_debt["metrics"]["quality_debt"] == pytest.approx(0.46)
     assert "kind=classifier; residue=optimizer-certificate; severity=medium; status=partial" in classifier_debt["ledger_gaps"]
 
     assert finite_sample_debt["generation"]["sample_count"] == 384
     assert finite_sample_debt["classifier_spec"]["cert_status"] == "certified"
     assert finite_sample_debt["metrics"]["target_score"] == pytest.approx(0.2)
-    assert finite_sample_debt["metrics"]["quality_debt"] == pytest.approx(0.4)
+    assert finite_sample_debt["metrics"]["quality_debt"] == pytest.approx(0.56)
     assert "kind=source; residue=finite-sample-support; severity=high; status=open" in finite_sample_debt["ledger_gaps"]
 
     assert combined_debt["generation"]["sample_count"] == 384
@@ -108,7 +109,7 @@ def test_record_wires_real_debt_injection_certificate_and_target_score():
     assert combined_debt["stability_spec"]["name"] == "single-seed-stability"
     assert combined_debt["stability_spec"]["multi_seed"] is False
     assert combined_debt["metrics"]["target_score"] == pytest.approx(0.2)
-    assert combined_debt["metrics"]["quality_debt"] == pytest.approx(0.6)
+    assert combined_debt["metrics"]["quality_debt"] == pytest.approx(0.76)
     assert "kind=generalization; residue=global-claim-boundary; severity=medium; status=partial" in combined_debt["ledger_gaps"]
 
 
@@ -119,11 +120,11 @@ def test_records_real_producer_remains_complete_and_monotone():
     assert len(records) == len(dose.DEBT_LEVELS) * dose.SEED_COUNT
     assert aggregate["record_count"] == len(records)
     assert aggregate["monotonicity"]["quality_q_means"] == pytest.approx([
-        0.7493259772233684,
-        0.6488804201061507,
-        0.5425342394938547,
-        0.44035778432843796,
-        0.34474597669571355,
+        0.5893259772233684,
+        0.48888042010615074,
+        0.3825342394938546,
+        0.2803577843284381,
+        0.1847459766957136,
     ])
     assert aggregate["monotonicity"]["strictly_decreasing"]
     assert aggregate["monotonicity"]["slope_ci_below_zero"]

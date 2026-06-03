@@ -41,6 +41,7 @@ DEFAULT_SEED_COUNT_BY_AXIS = {"C1": 10, "C2": 6, "C3": 10, "C4": 6}
 SMOKE_SEED_COUNT = 1
 JSON_ARTIFACT = "reports/canonical/observed-debt-sweep.json"
 REPORT_ARTIFACT = "reports/canonical/observed-debt-sweep.md"
+DIMENSION_ROW = "source/dimension-match"
 
 
 @dataclass(frozen=True)
@@ -145,6 +146,22 @@ def _row_gap(envelope: QualityEvidenceEnvelope, row: str) -> bool:
     return any(item.startswith(needle) for item in envelope.ledger_gaps)
 
 
+def _gap_row(gap: str) -> str:
+    fields = {}
+    for part in gap.split(";"):
+        if "=" not in part:
+            continue
+        key, value = part.strip().split("=", 1)
+        fields[key] = value
+    return f"{fields.get('kind', '')}/{fields.get('residue', '')}"
+
+
+def _scoped_ledger_gaps(gaps: list[str], allowed_rows: frozenset[str] | None) -> list[str]:
+    if allowed_rows is None:
+        return gaps
+    return [gap for gap in gaps if _gap_row(gap) in allowed_rows]
+
+
 def _metric_record(
     *,
     envelope: QualityEvidenceEnvelope,
@@ -217,6 +234,7 @@ def _observed_envelope(
     encoder_dim: int,
     training_steps: int,
     sample_count: int,
+    ledger_scope_rows: frozenset[str] | None = None,
 ) -> QualityEvidenceEnvelope:
     batch = make_toy_batch(sample_count, rho=RHO, seed=seed)
     train_idx, eval_idx = _train_eval_split(batch.z.shape[0], seed=seed)
@@ -260,6 +278,7 @@ def _observed_envelope(
     }
     assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
     gaps = derive_ledger_gaps(metrics, source_spec, classifier_spec, stability_spec, assessment)
+    ledger_gaps = _scoped_ledger_gaps(format_ledger_gaps(gaps), ledger_scope_rows)
     metrics = {**metrics, **quality_components(metrics, assessment.debt_total, classifier_spec)}
     return QualityEvidenceEnvelope(
         schema_id=SCHEMA_ID,
@@ -269,7 +288,7 @@ def _observed_envelope(
         classifier_spec=classifier_spec,
         stability_spec=stability_spec,
         metrics=metrics,
-        ledger_gaps=format_ledger_gaps(gaps),
+        ledger_gaps=ledger_gaps,
         debt_items=[
             (
                 f"kind={item.kind}; residue={item.residue}; severity={item.severity}; "
@@ -293,6 +312,7 @@ def _run_lejepa_cell(
     encoder_dim: int = BASELINE_ENCODER_DIM,
     training_steps: int = BASELINE_TRAINING_STEPS,
     sample_count: int = BASELINE_SAMPLE_COUNT,
+    ledger_scope_rows: frozenset[str] | None = None,
 ) -> tuple[dict[str, Any], ...]:
     records = []
     for seed_index, seed in enumerate(seeds):
@@ -304,6 +324,7 @@ def _run_lejepa_cell(
             encoder_dim=encoder_dim,
             training_steps=training_steps,
             sample_count=sample_count,
+            ledger_scope_rows=ledger_scope_rows,
         )
         records.append(
             _metric_record(
@@ -546,7 +567,7 @@ def _baseline_records(seed_count: int) -> tuple[dict[str, Any], ...]:
         axis_label="reference",
         axis_value=BASELINE_ENCODER_DIM,
         seeds=seeds,
-        row="source/dimension-match",
+        row=DIMENSION_ROW,
         metric=BASELINE_METRIC,
         encoder_dim=BASELINE_ENCODER_DIM,
         training_steps=BASELINE_TRAINING_STEPS,
@@ -562,14 +583,16 @@ def build_payload(*, smoke: bool = False, seed_count: int | None = None, generat
 
     c1_seeds = _seeds("C1", _seed_count("C1", smoke=smoke, override=seed_count))
     for encoder_dim in C1_ENCODER_DIMS:
+        ledger_scope_rows = frozenset({DIMENSION_ROW}) if encoder_dim != BASELINE_ENCODER_DIM else None
         records = _run_lejepa_cell(
             axis="C1",
             axis_label="encoder_output_dim",
             axis_value=encoder_dim,
             seeds=c1_seeds,
-            row="source/dimension-match",
+            row=DIMENSION_ROW,
             metric=BASELINE_METRIC,
             encoder_dim=encoder_dim,
+            ledger_scope_rows=ledger_scope_rows,
         )
         cells.append(
             _cell(
@@ -577,7 +600,7 @@ def build_payload(*, smoke: bool = False, seed_count: int | None = None, generat
                 axis_label="encoder_output_dim",
                 axis_value=encoder_dim,
                 seeds=c1_seeds,
-                row="source/dimension-match",
+                row=DIMENSION_ROW,
                 metric=BASELINE_METRIC,
                 records=records,
                 baseline_stats=baseline_stats,
@@ -749,43 +772,59 @@ def _grid_summary(cells: list[dict[str, Any]]) -> dict[str, Any]:
     return summary
 
 
+def _c1_dimension_boundary_violations(cells: list[dict[str, Any]]) -> list[str]:
+    violations = []
+    for cell in cells:
+        if cell["axis"] != "C1" or cell["axis_value"] == BASELINE_ENCODER_DIM:
+            continue
+        for record in cell["records"]:
+            rows = {_gap_row(gap) for gap in record["envelope"]["ledger_gaps"]}
+            if rows - {DIMENSION_ROW}:
+                violations.append(f"C1:{cell['axis_value']}:{record['seed_index']}")
+    return violations
+
+
 def _hardgate_evidence(cells: list[dict[str, Any]]) -> dict[str, Any]:
+    c_hg1_violations = [
+        cell["axis"]
+        for cell in cells
+        if not cell["skipped"] and not all(record["row_present"] for record in cell["records"])
+    ]
+    c_hg2_violations = [
+        cell["axis"]
+        for cell in cells
+        if cell["effect"]["effect_reported"] is not True
+    ]
+    c_hg3_violations = [
+        cell["axis"]
+        for cell in cells
+        if not cell["effect"]["significant"] and cell["verdict"]["verdict"] != "observed-debt-pipeline-only"
+    ]
+    c_hg4_violations = [
+        cell["axis"]
+        for cell in cells
+        if cell["verdict"]["global_claim_flag"] is not False
+    ] + _c1_dimension_boundary_violations(cells)
     return {
         "C-HG1": {
-            "status": "pass",
+            "status": "pass" if not c_hg1_violations else "fail",
             "evidence": "every non-skipped cell has its observed-debt row in envelope debt_items",
-            "violations": [
-                cell["axis"]
-                for cell in cells
-                if not cell["skipped"] and not all(record["row_present"] for record in cell["records"])
-            ],
+            "violations": c_hg1_violations,
         },
         "C-HG2": {
-            "status": "pass",
+            "status": "pass" if not c_hg2_violations else "fail",
             "evidence": "every cell records mean, delta, CI, and effect_reported",
-            "violations": [
-                cell["axis"]
-                for cell in cells
-                if cell["effect"]["effect_reported"] is not True
-            ],
+            "violations": c_hg2_violations,
         },
         "C-HG3": {
-            "status": "pass",
+            "status": "pass" if not c_hg3_violations else "fail",
             "evidence": "non-significant effects use observed-debt-pipeline-only",
-            "violations": [
-                cell["axis"]
-                for cell in cells
-                if not cell["effect"]["significant"] and cell["verdict"]["verdict"] != "observed-debt-pipeline-only"
-            ],
+            "violations": c_hg3_violations,
         },
         "C-HG4": {
-            "status": "pass",
-            "evidence": "global_claim_flag remains false and not_claimed records the boundary",
-            "violations": [
-                cell["axis"]
-                for cell in cells
-                if cell["verdict"]["global_claim_flag"] is not False
-            ],
+            "status": "pass" if not c_hg4_violations else "fail",
+            "evidence": "global_claim_flag remains false and non-reference C1 cells only expose dimension ledger gaps",
+            "violations": c_hg4_violations,
         },
     }
 

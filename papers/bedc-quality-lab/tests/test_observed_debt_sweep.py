@@ -5,13 +5,19 @@ from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
 from scripts import run_observed_debt_sweep as runner
 
 
-def make_envelope(*, run_id, axis_value, row, metric_value):
+def make_envelope(*, run_id, axis_value, row, metric_value, extra_gaps=()):
     kind, residue = row.split("/", 1)
-    closed = axis_value in {2, 2000, 4096, True}
+    if row == "source/dimension-match":
+        closed = axis_value == runner.BASELINE_ENCODER_DIM
+    elif row == "source/action-transition-identification":
+        closed = axis_value is True
+    else:
+        closed = axis_value in {2000, 4096}
     status = "closed" if closed else "open"
     severity = "none" if closed else "high"
     score = 0.0 if closed else 0.2
     gap = [] if closed else [f"kind={kind}; residue={residue}; severity={severity}; status={status}"]
+    gap.extend(extra_gaps)
     return QualityEvidenceEnvelope(
         schema_id=SCHEMA_ID,
         run_id=run_id,
@@ -39,10 +45,15 @@ def patch_lightweight_records(monkeypatch):
         records = []
         for seed_index, seed in enumerate(kwargs["seeds"]):
             value = 0.82
+            extra_gaps = ()
             if kwargs["axis"] == "baseline":
                 value = 0.80
-            elif kwargs["axis"] == "C1" and axis_value in {1, 4}:
+            elif kwargs["axis"] == "C1" and axis_value != runner.BASELINE_ENCODER_DIM:
                 value = 0.45
+                extra_gaps = (
+                    "kind=verification; residue=theorem3-bound-margin; severity=high; status=open",
+                    "kind=source; residue=distribution-family-coverage; severity=high; status=open",
+                )
             elif kwargs["axis"] == "C2" and axis_value < 100:
                 value = 0.50
             elif kwargs["axis"] == "C3" and axis_value < 512:
@@ -52,6 +63,11 @@ def patch_lightweight_records(monkeypatch):
                 axis_value=axis_value,
                 row=row,
                 metric_value=value,
+                extra_gaps=extra_gaps,
+            )
+            envelope.ledger_gaps[:] = runner._scoped_ledger_gaps(
+                envelope.ledger_gaps,
+                kwargs.get("ledger_scope_rows"),
             )
             records.append(
                 runner._metric_record(
@@ -84,6 +100,91 @@ def test_c1_grid_is_encoder_dim_set_and_each_cell_has_dimension_row(monkeypatch)
     assert {cell["axis_value"] for cell in c1} == {1, 2, 3, 4}
     assert all(cell["row"] == "source/dimension-match" for cell in c1)
     assert all(all(record["row_present"] for record in cell["records"]) for cell in c1)
+
+
+def test_c1_non_reference_cells_only_report_dimension_ledger_gap(monkeypatch):
+    patch_lightweight_records(monkeypatch)
+    monkeypatch.setattr(runner, "_planning_axis_available", lambda: (True, "ok"))
+
+    payload = runner.build_payload(smoke=True, generated_at="fixture-time")
+    c1_non_reference = [
+        cell
+        for cell in payload["cells"]
+        if cell["axis"] == "C1" and cell["axis_value"] != runner.BASELINE_ENCODER_DIM
+    ]
+
+    assert c1_non_reference
+    assert all(
+        {runner._gap_row(gap) for gap in record["envelope"]["ledger_gaps"]} == {"source/dimension-match"}
+        for cell in c1_non_reference
+        for record in cell["records"]
+    )
+    assert payload["hardgate_evidence"]["C-HG4"]["status"] == "pass"
+    assert payload["hardgate_evidence"]["C-HG4"]["violations"] == []
+    assert all(
+        evidence["status"] == "pass" and evidence["violations"] == []
+        for evidence in payload["hardgate_evidence"].values()
+    )
+
+
+def test_c_hg4_rejects_extra_c1_non_reference_ledger_gap():
+    envelope = make_envelope(
+        run_id="fixture-C1-1-0",
+        axis_value=1,
+        row="source/dimension-match",
+        metric_value=0.4,
+        extra_gaps=["kind=verification; residue=theorem3-bound-margin; severity=high; status=open"],
+    )
+    record = runner._metric_record(
+        envelope=envelope,
+        axis="C1",
+        axis_label="encoder_output_dim",
+        axis_value=1,
+        seed=123,
+        seed_index=0,
+        row="source/dimension-match",
+        metric="linear_identifiability_r2",
+    )
+    cell = {
+        "axis": "C1",
+        "axis_value": 1,
+        "records": [record],
+        "effect": {"significant": True, "effect_reported": True},
+        "verdict": {"verdict": "observed-debt", "global_claim_flag": False},
+        "skipped": False,
+    }
+
+    hardgate = runner._hardgate_evidence([cell])
+
+    assert hardgate["C-HG4"]["status"] == "fail"
+    assert hardgate["C-HG4"]["violations"] == ["C1:1:0"]
+
+
+def test_hardgate_status_fails_when_violations_are_present():
+    cell = {
+        "axis": "C1",
+        "axis_value": 1,
+        "records": [
+            {
+                "row_present": False,
+                "envelope": {
+                    "ledger_gaps": [
+                        "kind=source; residue=dimension-match; severity=high; status=open"
+                    ]
+                },
+                "seed_index": 0,
+            }
+        ],
+        "effect": {"effect_reported": False, "significant": False},
+        "verdict": {"verdict": "observed-debt", "global_claim_flag": False},
+        "skipped": False,
+    }
+
+    hardgate = runner._hardgate_evidence([cell])
+
+    for gate in ("C-HG1", "C-HG2", "C-HG3"):
+        assert hardgate[gate]["status"] == "fail"
+        assert "C1" in hardgate[gate]["violations"]
 
 
 def test_c2_grid_is_training_step_set_and_each_cell_has_optimizer_row(monkeypatch):
