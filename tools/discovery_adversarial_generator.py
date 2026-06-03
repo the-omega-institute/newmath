@@ -4,13 +4,10 @@
 from __future__ import annotations
 
 import argparse
-import contextlib
-import fcntl
 import importlib.util
 import json
 import os
 import sys
-import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -22,7 +19,6 @@ BEDC_CI_PATH = REPO_ROOT / "lean4" / "scripts" / "bedc_ci.py"
 LOG_DIR = REPO_ROOT / "tools" / "logs"
 DEFAULT_OUTPUT = LOG_DIR / "proven_pseudos.jsonl"
 DEFAULT_LOG = LOG_DIR / "discovery_adversarial_generator.log"
-PID_LOCK_PATH = Path("/tmp/.bedc_discovery_adversarial_generator.pid")
 DEFAULT_INTERVAL = 21600
 DEFAULT_MAX_NEW_PER_BUCKET = 1
 DEFAULT_MAX_RECORDS_PER_CYCLE = 50
@@ -56,27 +52,6 @@ def append_log(message: str, *, log_path: Path = DEFAULT_LOG) -> None:
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with log_path.open("a", encoding="utf-8") as handle:
         handle.write(f"{now_iso()} {message}\n")
-
-
-@contextlib.contextmanager
-def pid_lock():
-    pid_fd = os.open(PID_LOCK_PATH, os.O_RDWR | os.O_CREAT, 0o644)
-    try:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError:
-            sys.stderr.write(f"discovery adversarial generator already running ({PID_LOCK_PATH})\n")
-            sys.exit(1)
-        os.ftruncate(pid_fd, 0)
-        os.write(pid_fd, f"{os.getpid()}\n".encode())
-        os.fsync(pid_fd)
-        yield
-    finally:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_UN)
-        except Exception:
-            pass
-        os.close(pid_fd)
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -530,29 +505,21 @@ def parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = parser().parse_args()
-    with pid_lock():
-        if args.once:
-            try:
-                result = run_once(args)
-                print_once_result(result)
-                return 0
-            except FailClosed as exc:
-                append_log(f"[fail-closed] {exc}")
-                print_once_result({"status": "fail-closed", "error": str(exc)})
-                return 1
-            except Exception as exc:
-                append_log(f"[error] cycle failed: {type(exc).__name__}: {exc}")
-                print_once_result({"status": "error", "error_type": type(exc).__name__, "error": str(exc)})
-                return 2
-        append_log(f"[adversarial-generator] daemon start interval={max(1, int(args.interval))}s")
-        while True:
-            try:
-                run_once(args)
-            except FailClosed as exc:
-                append_log(f"[fail-closed] {exc}")
-            except Exception as exc:
-                append_log(f"[error] cycle failed: {type(exc).__name__}: {exc}")
-            time.sleep(max(1, int(args.interval)))
+    if args.once:
+        try:
+            result = run_once(args)
+            print_once_result(result)
+            return 0
+        except FailClosed as exc:
+            append_log(f"[fail-closed] {exc}")
+            print_once_result({"status": "fail-closed", "error": str(exc)})
+            return 1
+        except Exception as exc:
+            append_log(f"[error] cycle failed: {type(exc).__name__}: {exc}")
+            print_once_result({"status": "error", "error_type": type(exc).__name__, "error": str(exc)})
+            return 2
+    sys.stderr.write("discovery adversarial generator loop moved to tools/discovery_pipeline_daemon.py; use --once for debugging\n")
+    return 2
 
 
 if __name__ == "__main__":
