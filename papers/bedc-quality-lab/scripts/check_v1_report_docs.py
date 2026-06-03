@@ -153,23 +153,46 @@ def check_pointer_only_bedc(docs: dict[Path, str]) -> CheckResult:
 
 
 def check_certificate_guided_boundary(docs: dict[Path, str]) -> CheckResult:
-    text = "\n".join(docs.values()).lower()
-    if "certificate-guided-training" not in text:
+    training_lines = lines_with_phrase(docs, "certificate-guided-training")
+    if not training_lines:
         return CheckResult("HG-V1-Report-4", "FAIL", "certificate-guided-training is not documented")
-    if "certificate-guided-training" in text and "mixed/negative" not in text:
+    status_lines = certificate_guided_training_status_lines(docs)
+    mixed_lines = [hit for hit in status_lines if "mixed/negative" in hit.lower()]
+    if not mixed_lines:
         return CheckResult("HG-V1-Report-4", "FAIL", "certificate-guided-training lacks mixed/negative label")
-    bad_patterns = [
-        r"certificate-guided-training[^\n.]*positive discovery prototype",
-        r"positive discovery prototype[^\n.]*certificate-guided-training",
+    positive_lines = [
+        hit
+        for hit in status_lines
+        if "positive" in hit.lower() or POSITIVE_PROTOTYPE_PHRASE in hit.lower()
     ]
-    for pattern in bad_patterns:
-        if re.search(pattern, text):
-            return CheckResult(
-                "HG-V1-Report-4",
-                "FAIL",
-                "certificate-guided-training is framed with positive prototype wording",
-            )
+    if positive_lines:
+        return CheckResult(
+            "HG-V1-Report-4",
+            "FAIL",
+            "certificate-guided-training is framed with positive prototype wording: "
+            + " | ".join(positive_lines),
+        )
     return CheckResult("HG-V1-Report-4", "PASS", "certificate-guided-training is mixed/negative")
+
+
+def certificate_guided_training_status_lines(docs: dict[Path, str]) -> list[str]:
+    hits: list[str] = []
+    claims_path = ROOT / "docs" / "claims_and_nonclaims.md"
+    manifest_path = ROOT / "docs" / "artifact_manifest.md"
+    for line_no, line in enumerate(docs[claims_path].splitlines(), start=1):
+        lowered = line.strip().lower()
+        if lowered.startswith("`certificate-guided-training`"):
+            hits.append(f"{claims_path.relative_to(ROOT)}:{line_no}:{line.strip()}")
+    in_training_item = False
+    for line_no, line in enumerate(docs[manifest_path].splitlines(), start=1):
+        stripped = line.strip()
+        lowered = stripped.lower()
+        if lowered.startswith("- path:"):
+            in_training_item = "`reports/canonical/certificate-guided-training.{json,md}`" in lowered
+            continue
+        if in_training_item and lowered.startswith("- role:"):
+            hits.append(f"{manifest_path.relative_to(ROOT)}:{line_no}:{stripped}")
+    return hits
 
 
 def lines_with_phrase(docs: dict[Path, str], phrase: str) -> list[str]:
@@ -185,6 +208,7 @@ def lines_with_phrase(docs: dict[Path, str], phrase: str) -> list[str]:
 def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
     hits = lines_with_phrase(docs, POSITIVE_PROTOTYPE_PHRASE)
     bad_hits = [hit for hit in hits if UNIQUE_POSITIVE_REPORT not in hit]
+    good_hits = [hit for hit in hits if UNIQUE_POSITIVE_REPORT in hit]
     non_positive_bad: list[str] = []
     for hit in hits:
         lowered = hit.lower()
@@ -198,8 +222,7 @@ def check_unique_positive_prototype(docs: dict[Path, str]) -> CheckResult:
             "FAIL",
             "positive prototype wording outside gap-head-on-h: " + " | ".join(details),
         )
-    all_text = "\n".join(docs.values())
-    if UNIQUE_POSITIVE_REPORT not in all_text or POSITIVE_PROTOTYPE_PHRASE not in all_text:
+    if not good_hits:
         return CheckResult(
             "HG-V1-Report-5",
             "FAIL",
