@@ -103,11 +103,30 @@ Composition and limit transport do not add hidden coordinates. Composition conca
 Thus any public read factors through the displayed Banach, linear, norm, real, complete-metric, stream, regular-rational, history, transport, continuation, provenance, and naming rows. The excluded host and quotient objects are absent from the carrier and from the two transport constructions, so they cannot be exported by the packet.
 \end{proof}
 
-\closureat{BoundedLinearOperatorUp}{seedStr}
+\begin{theorem}[Bounded linear operator scoped dependency route]
+\label{thm:bounded-linear-operator-scoped-dependency-route}
+Every accepted $\BoundedLinearOperatorUp$ packet reads its carrier, linearity row, norm-bound row, composition row, limit-transport row, and nonescape boundary only through
+$$
+\BanachUp,\LinearMapUp,\NormUp,\RealUp,\CompleteMetricUp,\StreamNameUp,\RegSeqRatUp,\BHist,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The route therefore binds the paper-side scope of the packet to displayed Banach, linear, norm, real, complete-metric, stream, regular-rational, history, transport, replay, provenance, and naming data.
+\end{theorem}
+\leanchecked{BEDC.Derived.BoundedLinearOperatorUp.BoundedLinearOperatorCarrier\_scoped\_dependency\_route}
+\begin{proof}
+Read the accepted carrier through \autoref{def:bounded-linear-operator-carrier} and the local obligations in \autoref{thm:bounded-linear-operator-namecert-obligations}. These rows expose the endpoint action, linearity ledger, norm-bound endpoint, classifier transport, provenance, and local NameCert data.
+
+Composition remains inside the same route by \autoref{thm:bounded-linear-operator-composition-closure}. The composite ledger is built from displayed source and target Banach rows, RealUp multiplication rows, and the two visible operator ledgers.
+
+Limit transport remains inside the complete-metric and regular-rational route by \autoref{thm:bounded-linear-operator-limit-transport}. The proof consumes the source complete-metric witness, StreamName and RegSeqRat data, and the target Banach rows without adding a selected limit or hidden completeness coordinate.
+
+Finally apply \autoref{thm:bounded-linear-operator-nonescape-boundary}. Since that boundary excludes host function extensionality, quotient operator equality, selected limits, ambient Banach completeness beyond the displayed rows, and bridge checking, the listed dependencies are exactly the scoped route.
+\end{proof}
+
+\closureat{BoundedLinearOperatorUp}{scopedStr}
 
 \begin{closurestatus}{\BoundedLinearOperatorUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bounded-linear-operator-carrier}, \autoref{thm:bounded-linear-operator-namecert-obligations}, \autoref{thm:bounded-linear-operator-composition-closure}, \autoref{thm:bounded-linear-operator-limit-transport}, and \autoref{thm:bounded-linear-operator-nonescape-boundary} seed the public bounded-linear-operator surface over displayed Banach carriers.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:bounded-linear-operator-carrier}, \autoref{thm:bounded-linear-operator-namecert-obligations}, \autoref{thm:bounded-linear-operator-composition-closure}, \autoref{thm:bounded-linear-operator-limit-transport}, \autoref{thm:bounded-linear-operator-nonescape-boundary}, and \autoref{thm:bounded-linear-operator-scoped-dependency-route} bind carrier admission, classifier stability, linearity and bound exactness, composition closure, limit transport, algebraic operator rows, nonescape, and the scoped dependency route over displayed Banach carriers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter explicitly excludes host function extensionality, quotient operator equality, selected limits, ambient Banach completeness beyond the input rows, and bridge checking.}

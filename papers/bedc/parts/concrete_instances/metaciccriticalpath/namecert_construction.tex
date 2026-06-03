@@ -650,6 +650,36 @@ The discharge socket is still separate by \autoref{thm:metacic-critical-path-dis
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_normalization\_obstruction\_route\_coverage}
 
+\begin{theorem}[MetaCIC residual-confluence budget bridge]
+\label{thm:metacic-critical-path-residual-confluence-budget-bridge}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, a critical-path packet that exposes normalization obstruction, residual substitution boundary, finite-observation confluence, and candidate-mediated strong-normalization rows routes every residual-confluence consumer through the same finite budget ledger before any strong-normalization or confluence conclusion is exported. The bridge keeps the obstruction row $O$, the substitution-confluence-decidability handoff $U$, the discharge socket $D$, and the structural rows $H,C,P,L$ visible throughout the read.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_residual\_confluence\_budget\_bridge}
+\begin{proof}
+Start with the normalization side. By \autoref{thm:metacic-critical-path-normalization-frontier-factorization} and \autoref{thm:metacic-critical-path-normalization-obstruction-route-coverage}, every read from the strong-normalization row $S$ to the normal-form row $N$ keeps the obstruction row $O$ and the discharge socket $D$ visible.
+
+Next inspect the bounded handoff side. Apply \autoref{thm:metacic-critical-path-bounded-checker-handoff-totality}; the row $U$ exhausts the substitution, confluence, and decidability reads as bounded handoff obligations rather than closed theorem exports.
+
+The confluence-facing socket is then fixed by \autoref{thm:metacic-critical-path-confluence-decidability-socket}. Any finite-observation confluence or residual-substitution read remains mediated by $O,D,H,C,P,L$ and cannot split off into an independent Church--Rosser or beta-conversion decision procedure.
+
+Finally, candidate-mediated strong-normalization consumers receive only this finite budget route. Transport, replay, provenance, and local naming preserve the same packet rows, so every residual-confluence consumer reaches the SN and confluence surfaces through the shared ledger before any conclusion is exported.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path residual-substitution normalization frontier]
+\label{thm:metacic-critical-path-residual-substitution-normalization-frontier}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, a consumer that reads residual substitution through $U$ and reads normalization through the route from $S$ to $N$ must keep the obstruction row $O$, the discharge socket $D$, the structural transport row $H$, the replay row $C$, the provenance row $P$, and the local naming row $L$ visible. Consequently residual substitution is not an export route for closed subject reduction, arbitrary Church--Rosser, beta-conversion decidability, or full closed consistency.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualSubstitutionNormalizationFrontier}
+\begin{proof}
+Use \autoref{thm:metacic-critical-path-substitution-handoff-visibility} to read residual substitution through $U$. The handoff is a displayed packet coordinate, and its consumer must retain the obstruction and discharge rows rather than treating substitution support as a closed subject-reduction proof.
+
+Use \autoref{thm:metacic-critical-path-normalization-obstruction-route-coverage} for the normalization side. The route from $S$ to $N$ keeps $O$ visible, stops at normal-form readback, and does not fill the discharge socket $D$.
+
+Now apply \autoref{thm:metacic-critical-path-confluence-decidability-socket}. It keeps confluence-facing and decidability-facing reads socket-mediated by $O,D,H,C,P,L$, so the same consumer cannot split residual substitution into arbitrary Church--Rosser or beta-conversion decidability.
+
+Finally use \autoref{thm:metacic-critical-path-residual-confluence-budget-bridge}. The residual-confluence bridge shares the finite budget ledger with the normalization route, so transport, replay, provenance, and local naming preserve the displayed frontier rather than exporting closed consistency.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/public_tail_bridge}
 
 \input{parts/concrete_instances/metaciccriticalpath/frontier_rank_surface}

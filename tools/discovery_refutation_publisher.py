@@ -30,6 +30,8 @@ except Exception:  # pragma: no cover - usable from minimal checkouts.
     def host_path(_root: Path, name: str, default: str | Path) -> Path:
         return Path(os.environ.get(name, str(default))).expanduser()
 
+from structural_dna_build import ensure_structural_dna_build
+
 
 REPO_ROOT = host_path(
     Path(__file__).resolve().parent.parent,
@@ -160,9 +162,16 @@ def _reconstruction_provenance(candidate: dict[str, Any]) -> list[dict[str, Any]
             continue
         if item.get("kernel_grounded") is False:
             continue
-        candidate_fp = str(item.get("candidate_reduced_fp") or "")
-        prior_fp = str(item.get("reduced_fp") or "")
-        if not candidate_fp or not prior_fp or candidate_fp != prior_fp:
+        if str(item.get("evidence") or "") != "canonical_payload_equal":
+            continue
+        candidate_payload = str(item.get("candidate_canonical_payload") or "")
+        prior_payload = str(item.get("prior_canonical_payload") or "")
+        canonical_payload = str(item.get("canonical_payload") or "")
+        if not canonical_payload:
+            canonical_payload = candidate_payload if candidate_payload == prior_payload else ""
+        if not candidate_payload or not prior_payload or candidate_payload != prior_payload:
+            continue
+        if not canonical_payload:
             continue
         out.append(item)
     return out
@@ -185,7 +194,19 @@ def _evidence_reduced_fp(candidate: dict[str, Any]) -> str:
     return ""
 
 
-def _has_kernel_grounded_reduced_fp_twin(candidate: dict[str, Any]) -> bool:
+def _evidence_canonical_payload(candidate: dict[str, Any]) -> str:
+    for item in _reconstruction_provenance(candidate):
+        value = str(
+            item.get("canonical_payload")
+            or item.get("candidate_canonical_payload")
+            or ""
+        )
+        if value:
+            return value
+    return ""
+
+
+def _has_kernel_grounded_canonical_payload_twin(candidate: dict[str, Any]) -> bool:
     if str(candidate.get("state") or "") != "refuted":
         return False
     refutation = candidate.get("refutation")
@@ -195,24 +216,26 @@ def _has_kernel_grounded_reduced_fp_twin(candidate: dict[str, Any]) -> bool:
 
 
 def refutation_records_from_payload(payload: dict[str, Any], *, timestamp: str) -> list[dict[str, Any]]:
-    records: dict[tuple[str, str], dict[str, Any]] = {}
+    records: dict[tuple[str, tuple[str, ...]], dict[str, Any]] = {}
     for raw_candidate in payload.get("candidates", []) or []:
         if not isinstance(raw_candidate, dict):
             continue
-        if not _has_kernel_grounded_reduced_fp_twin(raw_candidate):
+        if not _has_kernel_grounded_canonical_payload_twin(raw_candidate):
             continue
         candidate = _candidate_name(raw_candidate)
         priors = _reconstruction_priors(raw_candidate)
         reduced_fp = _evidence_reduced_fp(raw_candidate)
-        if not candidate or not priors or not reduced_fp:
+        canonical_payload = _evidence_canonical_payload(raw_candidate)
+        if not candidate or not priors or not canonical_payload:
             continue
-        key = (candidate, reduced_fp)
-        why = "structural reconstruction (reduced_fp twin) of " + ", ".join(priors)
+        key = (candidate, tuple(priors))
+        why = "structural reconstruction (canonical payload equal) of " + ", ".join(priors)
         records[key] = {
             "candidate": candidate,
             "refuted_because": why,
             "evidence": {
                 "reduced_fp": reduced_fp,
+                "evidence": "canonical_payload_equal",
                 "prior": priors,
             },
             "kernel_grounded": True,
@@ -236,39 +259,56 @@ def load_existing_ledger(path: Path) -> list[dict[str, Any]]:
     return []
 
 
-def ledger_key(entry: dict[str, Any]) -> tuple[str, str]:
+def ledger_key(entry: dict[str, Any]) -> tuple[str, tuple[str, ...]]:
     evidence = entry.get("evidence")
-    reduced_fp = ""
+    priors: tuple[str, ...] = ()
     if isinstance(evidence, dict):
-        reduced_fp = str(evidence.get("reduced_fp") or "")
-    return (str(entry.get("candidate") or ""), reduced_fp)
+        raw_priors = evidence.get("prior")
+        if isinstance(raw_priors, list):
+            priors = tuple(sorted({str(item).strip() for item in raw_priors if str(item).strip()}))
+        else:
+            prior = str(raw_priors or "").strip()
+            if prior:
+                priors = (prior,)
+    return (str(entry.get("candidate") or ""), priors)
 
 
 def merge_records(existing: list[dict[str, Any]], current: list[dict[str, Any]], *, timestamp: str) -> list[dict[str, Any]]:
-    merged: dict[tuple[str, str], dict[str, Any]] = {}
+    first_seen_by_key: dict[tuple[str, tuple[str, ...]], str] = {}
     for entry in existing:
         key = ledger_key(entry)
         if not key[0] or not key[1]:
             continue
-        normalized = dict(entry)
-        normalized.setdefault("kernel_grounded", True)
-        normalized.setdefault("first_seen", timestamp)
-        normalized.pop("last_seen", None)
-        merged[key] = normalized
+        first_seen = str(entry.get("first_seen") or "").strip()
+        if first_seen:
+            first_seen_by_key.setdefault(key, first_seen)
+    merged: dict[tuple[str, tuple[str, ...]], dict[str, Any]] = {}
     for entry in current:
         key = ledger_key(entry)
-        previous = merged.get(key)
-        if previous is None:
-            merged[key] = entry
+        if not key[0] or not key[1]:
             continue
-        updated = dict(previous)
+        updated = dict(entry)
+        updated["first_seen"] = first_seen_by_key.get(key) or str(entry.get("first_seen") or timestamp)
         updated["refuted_because"] = entry["refuted_because"]
         updated["evidence"] = entry["evidence"]
         updated["kernel_grounded"] = True
-        if not updated.get("first_seen"):
-            updated["first_seen"] = entry["first_seen"]
+        updated.pop("last_seen", None)
         merged[key] = updated
     return [merged[key] for key in sorted(merged)]
+
+
+def ledger_content_signature(records: list[dict[str, Any]]) -> str:
+    normalized = [
+        {
+            "candidate": str(entry.get("candidate") or ""),
+            "refuted_because": str(entry.get("refuted_because") or ""),
+            "evidence": entry.get("evidence") if isinstance(entry.get("evidence"), dict) else {},
+            "kernel_grounded": bool(entry.get("kernel_grounded")),
+            "first_seen": str(entry.get("first_seen") or ""),
+        }
+        for entry in records
+    ]
+    return json.dumps(normalized, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
 def write_json_ledger(path: Path, records: list[dict[str, Any]]) -> None:
@@ -429,6 +469,8 @@ def push_to_origin(target_branch: str) -> bool:
 
 
 def commit_and_maybe_push(*, no_push: bool) -> tuple[bool, str]:
+    if no_push:
+        return True, "push skipped"
     if not ensure_publish_worktree():
         return False, "publish worktree unavailable"
     copy_ledgers_to_publish_worktree()
@@ -458,6 +500,9 @@ def commit_and_maybe_push(*, no_push: bool) -> tuple[bool, str]:
 
 def build_ledgers() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     timestamp = now_iso()
+    build_failure = ensure_structural_dna_build(append_log=append_log, label="refutation")
+    if build_failure is not None:
+        raise RuntimeError(build_failure)
     payload = load_radar_payload()
     degraded = radar_degraded_reason(payload)
     if degraded is not None:
@@ -468,12 +513,14 @@ def build_ledgers() -> tuple[list[dict[str, Any]], dict[str, Any]]:
     json_path = REPO_ROOT / JSON_LEDGER_REL
     existing = load_existing_ledger(json_path)
     records = merge_records(existing, current_records, timestamp=timestamp)
+    content_changed = ledger_content_signature(existing) != ledger_content_signature(records)
     write_json_ledger(json_path, records)
     write_markdown_ledger(REPO_ROOT / MD_LEDGER_REL, records)
     summary = {
         "radar_refuted_count": int(payload.get("refuted_count") or 0),
         "kernel_grounded_records": len(current_records),
         "ledger_records": len(records),
+        "ledger_content_changed": content_changed,
     }
     return records, summary
 
