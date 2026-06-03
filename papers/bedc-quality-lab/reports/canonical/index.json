@@ -37,6 +37,13 @@
         "report": "gap-head-discovery"
       },
       {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_protocol",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.factor_attribution.learned_head.auroc_delta",
+        "report": "gap-head-ablation"
+      },
+      {
         "bundle_role": "auxiliary",
         "control_pointer": null,
         "no_control_rationale_pointer": "$.negative_result_ledger",
@@ -67,7 +74,7 @@
     ],
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-03T05:12:47.442390+00:00",
+  "generated_at": "2026-06-03T06:17:47.832908+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -95,6 +102,7 @@
       "anisotropic-ou-sweep",
       "gap-head-on-h",
       "gap-head-discovery",
+      "gap-head-ablation",
       "certificate-guided-training",
       "certificate-guided-discovery"
     ],
@@ -199,7 +207,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.05,
+      "duration_seconds": 0.053,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
       "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
@@ -249,7 +257,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 2.419,
+      "duration_seconds": 2.339,
       "estimated_seconds": 90,
       "json_artifact": "reports/canonical/gap-head-on-h.json",
       "markdown_artifact": "reports/canonical/gap-head-on-h.md",
@@ -305,7 +313,7 @@
         "scope_pointer": "$.boundary_checks",
         "scope_status": "present"
       },
-      "duration_seconds": 0.01,
+      "duration_seconds": 0.009,
       "estimated_seconds": 5,
       "json_artifact": "reports/canonical/gap-head-discovery.json",
       "markdown_artifact": "reports/canonical/gap-head-discovery.md",
@@ -337,6 +345,58 @@
       }
     },
     {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_protocol",
+        "control_status": "present",
+        "cost_pointer": "$.control_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.applicability_boundary.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.factor_attribution.learned_head.auroc_delta",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.applicability_boundary",
+        "scope_status": "present"
+      },
+      "duration_seconds": 10.088,
+      "estimated_seconds": 120,
+      "json_artifact": "reports/canonical/gap-head-ablation.json",
+      "markdown_artifact": "reports/canonical/gap-head-ablation.md",
+      "name": "gap-head-ablation",
+      "producer_command": [
+        "python3",
+        "scripts/run_gap_head_ablation.py"
+      ],
+      "producer_status": "completed",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "generated_at",
+          "source_artifacts",
+          "applicability_boundary",
+          "control_protocol",
+          "config",
+          "records",
+          "aggregate",
+          "factor_attribution",
+          "hardgate",
+          "positive_discovery_pointer"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
@@ -356,7 +416,7 @@
         "scope_pointer": "$.coverage_item",
         "scope_status": "present"
       },
-      "duration_seconds": 0.04,
+      "duration_seconds": 0.041,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
       "markdown_artifact": "reports/canonical/nongaussian-distribution-sweep.md",
@@ -408,7 +468,7 @@
         "scope_pointer": "$.objective.required_rows",
         "scope_status": "present"
       },
-      "duration_seconds": 2.378,
+      "duration_seconds": 2.422,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/certificate-guided-training.json",
       "markdown_artifact": "reports/canonical/certificate-guided-training.md",
@@ -461,7 +521,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.005,
+      "duration_seconds": 0.003,
       "estimated_seconds": 5,
       "json_artifact": "reports/canonical/certificate-guided-discovery.json",
       "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",

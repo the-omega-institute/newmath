@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-03T05:12:47.442390+00:00`
+- Generated at: `2026-06-03T06:17:47.832908+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -11,6 +11,7 @@
 | `anisotropic-ou-sweep` | `pass` | `reports/canonical/anisotropic-ou-sweep.json` | `reports/canonical/anisotropic-ou-sweep.md` | `$.applicability_boundary` | `$.source_artifacts.cost_protocol` | `$.applicability_boundary.not_claimed` | `$.transition_debt_by_grid` | `$.config.arm` |
 | `gap-head-on-h` | `pass` | `reports/canonical/gap-head-on-h.json` | `reports/canonical/gap-head-on-h.md` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.forbidden_inference_columns` | `$.main_claim_status` | `$.control_protocol` |
 | `gap-head-discovery` | `pass` | `reports/canonical/gap-head-discovery.json` | `reports/canonical/gap-head-discovery.md` | `$.boundary_checks` | `$.score_terms` | `$.boundary_checks.forbidden_inference_columns` | `$.final_main_claim_status` | `$.matched_random_control` |
+| `gap-head-ablation` | `pass` | `reports/canonical/gap-head-ablation.json` | `reports/canonical/gap-head-ablation.md` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.not_claimed` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` |
 | `certificate-guided-training` | `pass` | `reports/canonical/certificate-guided-training.json` | `reports/canonical/certificate-guided-training.md` | `$.objective.required_rows` | `$.cost_protocol` | `$.not_claimed` | `$.claim_gate` | `$.paired_seed_protocol` |
 | `certificate-guided-discovery` | `pass` | `reports/canonical/certificate-guided-discovery.json` | `reports/canonical/certificate-guided-discovery.md` | `$.applicability_boundary` | `$.claim_gate` | `$.not_claimed` | `$.main_claim_status` | `$.matched_random_baseline` |
 
@@ -31,7 +32,7 @@
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, certificate-guided-training, certificate-guided-discovery`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, certificate-guided-training, certificate-guided-discovery`
 - Auxiliary reports: `nongaussian-distribution-sweep, spectral-ablation-hinge`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -45,6 +46,7 @@
 | `anisotropic-ou-sweep` | `hg_p_core` | `$.transition_debt_by_grid` | `None` | `$.config.arm` |
 | `gap-head-on-h` | `hg_p_core` | `$.main_claim_status` | `$.control_protocol` | `None` |
 | `gap-head-discovery` | `hg_p_core` | `$.final_main_claim_status` | `$.matched_random_control` | `None` |
+| `gap-head-ablation` | `hg_p_core` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` | `None` |
 | `nongaussian-distribution-sweep` | `auxiliary` | `$.main_claim_status` | `None` | `$.negative_result_ledger` |
 | `certificate-guided-training` | `hg_p_core` | `$.claim_gate` | `$.paired_seed_protocol` | `None` |
 | `certificate-guided-discovery` | `hg_p_core` | `$.main_claim_status` | `$.matched_random_baseline` | `None` |

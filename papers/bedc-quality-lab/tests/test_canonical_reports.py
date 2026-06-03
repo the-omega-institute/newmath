@@ -12,6 +12,7 @@ HG_P_CORE = {
     "anisotropic-ou-sweep",
     "gap-head-on-h",
     "gap-head-discovery",
+    "gap-head-ablation",
     "certificate-guided-training",
     "certificate-guided-discovery",
 }
@@ -64,6 +65,14 @@ def _payload_for_spec(spec):
             "paired_seed_protocol": {"status": "fixture"},
             "main_claim_status": "fixture status",
             "final_main_claim_status": "fixture status",
+            "hardgate": {"status": "pass"},
+            "factor_attribution": {
+                "learned_head": {
+                    "auroc_delta": -0.2,
+                    "status": "pass",
+                }
+            },
+            "positive_discovery_pointer": "$.factor_attribution.learned_head.auroc_delta",
             "matched_random_baseline": {"status": "fixture"},
             "negative_result_ledger": [{"status": "fixture"}],
             "ledger_summary": {
@@ -164,6 +173,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "anisotropic-ou-sweep",
         "gap-head-on-h",
         "gap-head-discovery",
+        "gap-head-ablation",
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
         "certificate-guided-discovery",
@@ -209,6 +219,26 @@ def test_gap_head_manifest_rows_are_canonical_and_keyed():
         "main_claim_status",
         "final_main_claim_status",
     }.issubset(set(discovery.required_json_keys))
+
+
+def test_canonical_reports_manifest_includes_gap_head_ablation():
+    spec = canonical._specs_by_name()["gap-head-ablation"]
+
+    assert spec.command == ("python3", "scripts/run_gap_head_ablation.py")
+    assert spec.json_artifact == "reports/canonical/gap-head-ablation.json"
+    assert spec.markdown_artifact == "reports/canonical/gap-head-ablation.md"
+    assert {
+        "records",
+        "aggregate",
+        "factor_attribution",
+        "hardgate",
+        "positive_discovery_pointer",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.scope_pointer == "$.applicability_boundary"
+    assert spec.cost_pointer == "$.control_protocol"
+    assert spec.positive_claim_pointer == "$.factor_attribution.learned_head.auroc_delta"
+    assert spec.control_pointer == "$.control_protocol"
 
 
 def test_canonical_reports_manifest_includes_distribution_sweep():
@@ -301,6 +331,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
     )
     assert {"matched_random_control", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["gap-head-discovery"].required_json_keys)
+    )
+    assert {"control_protocol", "hardgate", "factor_attribution"}.issubset(
+        set(canonical._specs_by_name()["gap-head-ablation"].required_json_keys)
     )
     assert {"claim_gate", "negative_result_ledger", "main_claim_status"}.issubset(
         set(canonical._specs_by_name()["nongaussian-distribution-sweep"].required_json_keys)
@@ -663,6 +696,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
                     "pointer": "$.boundary_checks",
                 },
                 {
+                    "report": "gap-head-ablation",
+                    "artifact": "reports/canonical/gap-head-ablation.json",
+                    "pointer": "$.applicability_boundary",
+                },
+                {
                     "report": "nongaussian-distribution-sweep",
                     "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
                     "pointer": "$.coverage_item",
@@ -683,8 +721,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 8,
-            "denominator": 8,
+            "numerator": 9,
+            "denominator": 9,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -710,6 +748,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
                     "pointer": "$.score_terms",
                 },
                 {
+                    "report": "gap-head-ablation",
+                    "artifact": "reports/canonical/gap-head-ablation.json",
+                    "pointer": "$.control_protocol",
+                },
+                {
                     "report": "nongaussian-distribution-sweep",
                     "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
                     "pointer": "$.source_artifacts.cost_protocol",
@@ -730,8 +773,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 8,
-            "denominator": 8,
+            "numerator": 9,
+            "denominator": 9,
         },
         "HardeningCoverage": {
             "value": 1.0,
