@@ -30,6 +30,9 @@ QUALITY_SCORECARD_ARTIFACT_ID = "bedc-quality-lab:quality-scorecard"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
+DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
+DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.md"
+DIMENSION_MISMATCH_TRANSFER_ARTIFACT_ID = "bedc-quality-lab:dimension-mismatch-debt-transfer"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
 NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
@@ -452,6 +455,17 @@ def _validate_json(path: Path, required_keys: Sequence[str]) -> dict[str, Any]:
 
 def _load_report_payload(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
+    if not json_path.exists():
+        return {}
+    try:
+        payload = json.loads(json_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+def _load_artifact_payload(relative_path: str) -> dict[str, Any]:
+    json_path = _artifact_path(relative_path)
     if not json_path.exists():
         return {}
     try:
@@ -979,6 +993,20 @@ def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, A
     }
 
 
+def _dimension_mismatch_transfer_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT)
+    transfer = _pointer_value(payload, "$.dimension_mismatch_debt_transfer")
+    return {
+        "status": "pointer-only",
+        "artifact_id": DIMENSION_MISMATCH_TRANSFER_ARTIFACT_ID,
+        "json_artifact": DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
+        "markdown_artifact": DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT,
+        "transfer_status": transfer.get("status") if isinstance(transfer, dict) else "missing",
+        "discovery_level": transfer.get("discovery_level") if isinstance(transfer, dict) else "missing",
+        "scope": transfer.get("scope") if isinstance(transfer, dict) else "missing",
+    }
+
+
 def _negative_witnesses_index_section() -> dict[str, Any]:
     return {
         "status": "pointer-only",
@@ -1079,6 +1107,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "reports": reports,
         "quality_scorecard": _quality_scorecard_index_section(),
         "discovery_map": _discovery_map_index_section(generated_at=timestamp),
+        "dimension_mismatch_debt_transfer": _dimension_mismatch_transfer_index_section(),
         "negative_witnesses": _negative_witnesses_index_section(),
         "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
@@ -1143,6 +1172,14 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- JSON: `{payload['discovery_map']['json_artifact']}`",
             f"- Markdown: `{payload['discovery_map']['markdown_artifact']}`",
             f"- Rows: `{payload['discovery_map']['row_count']}`",
+            "",
+            "## Dimension mismatch debt transfer",
+            "",
+            f"- Status: `{payload['dimension_mismatch_debt_transfer']['status']}`",
+            f"- JSON: `{payload['dimension_mismatch_debt_transfer']['json_artifact']}`",
+            f"- Markdown: `{payload['dimension_mismatch_debt_transfer']['markdown_artifact']}`",
+            f"- Transfer status: `{payload['dimension_mismatch_debt_transfer']['transfer_status']}`",
+            f"- Discovery level: `{payload['dimension_mismatch_debt_transfer']['discovery_level']}`",
             "",
             "## Quality baseline pointers",
             "",

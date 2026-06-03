@@ -129,6 +129,23 @@ def _observed_debt_transfer_context_payload(*, transfer_metric=False):
     return payload
 
 
+def _dimension_mismatch_payload(*, status="pass"):
+    return {
+        "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
+        "status": "pointer-only",
+        "control_protocol": {"control_arm": "matched_random_gap_head"},
+        "dimension_mismatch_debt_transfer": {
+            "status": status,
+            "status_code": "scoped-d4-boundary" if status == "pass" else "failed-boundary",
+            "reason": "fixture",
+            "scope": "encoder_dim grid against producer reference latent dimension",
+            "discovery_level": "D4" if status == "pass" else "DN",
+        },
+        "boundary_ledger": {"d5_shortcut": False},
+        "not_claimed": ["fixture"],
+    }
+
+
 def _write_gap_head_d5_context(root: Path, *, transfer_metric=False, witness_count=8):
     _write_json_artifact(root, discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT, _robustness_context_payload())
     _write_json_artifact(
@@ -556,3 +573,49 @@ def test_manifest_audit_registers_observed_debt_transfer_pointer_artifact(tmp_pa
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
     assert discovery_map.OBSERVED_DEBT_ARTIFACT not in payload["manifest_audit"]["unregistered_json_artifacts"]
+
+
+def test_manifest_audit_registers_dimension_mismatch_pointer_artifact(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_json_artifact(
+        tmp_path,
+        discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
+        _dimension_mismatch_payload(status="failed"),
+    )
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+
+    assert discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT not in payload["manifest_audit"]["unregistered_json_artifacts"]
+
+
+def test_dimension_mismatch_pass_projects_only_scoped_d4_no_d5_shortcut(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_json_artifact(
+        tmp_path,
+        discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
+        _dimension_mismatch_payload(status="pass"),
+    )
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["dimension-mismatch-debt-transfer"]
+
+    assert row["discovery_level"] == "D4"
+    assert row["audit_status"] == "valid"
+    assert row["control_pointer"] == "$.control_protocol"
+    assert "d5_readiness" not in row
+
+
+def test_dimension_mismatch_failed_projects_dn_with_failed_gate(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_json_artifact(
+        tmp_path,
+        discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
+        _dimension_mismatch_payload(status="failed"),
+    )
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["dimension-mismatch-debt-transfer"]
+
+    assert row["discovery_level"] == "DN"
+    assert row["audit_status"] == "valid"
+    assert row["failed_gate"] == "$.dimension_mismatch_debt_transfer.status"

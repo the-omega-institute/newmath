@@ -217,7 +217,10 @@ def _mapped_discovery_row(
     level = str(row.get("discovery_level", "D0"))
     if level == "D0":
         return None
-    spec = _specs_by_name()[report]
+    specs = _specs_by_name()
+    if report not in specs:
+        return None
+    spec = specs[report]
     payload = _load_payload(root, str(row["json_artifact"]))
     source = _claim_source(row)
     claim_id = f"claim:{report}"

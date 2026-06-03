@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-03T15:47:35.771561+00:00`
-- Rows: `10`
+- Generated at: `2026-06-03T17:08:52.430894+00:00`
+- Rows: `11`
 
 | report | level | projection | audit | evidence |
 | --- | --- | --- | --- | --- |
@@ -15,6 +15,7 @@
 | `certificate-guided-training` | `DN` | `projected` | `valid` | `$.result.status` |
 | `certificate-guided-discovery` | `DN` | `projected` | `valid` | `$.positive_discovery` |
 | `spectral-ablation-hinge` | `DN` | `projected` | `valid` | `$.negative_control_summary.treatment_better_than_all_controls` |
+| `dimension-mismatch-debt-transfer` | `D4` | `projected` | `valid` | `$.control_protocol` |
 
 ## D5 readiness
 

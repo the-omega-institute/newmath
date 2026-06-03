@@ -73,12 +73,14 @@ class GapHeadD5ReadinessLedger:
 GAP_HEAD_ROBUSTNESS_ARTIFACT = "reports/canonical/gap-head-robustness-sweep.json"
 NEGATIVE_WITNESSES_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 OBSERVED_DEBT_ARTIFACT = "reports/canonical/gap-head-observed-debt-transfer.json"
+DIMENSION_MISMATCH_TRANSFER_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
 GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
     GAP_HEAD_ROBUSTNESS_ARTIFACT,
     NEGATIVE_WITNESSES_ARTIFACT,
     OBSERVED_DEBT_ARTIFACT,
 )
 GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER = "$.gap_head_on_h_observed_debt_transfer.status"
+DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status"
 
 
 def _root(root: Path | None) -> Path:
@@ -375,6 +377,26 @@ def _debt_cell_projection(payload: Mapping[str, Any], pointer: str) -> tuple[dic
     return {}, ProjectionEvidence(projection_status="source-insufficient", debt_row_pointer=pointer)
 
 
+def _dimension_mismatch_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
+    status = pointer_value(payload, DIMENSION_MISMATCH_TRANSFER_POINTER)
+    if status == "pass":
+        return {"positive_discovery": True}, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
+            control_pointer="$.control_protocol",
+        )
+    if status == "failed":
+        return {"verdict": "rejected"}, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
+            failed_gate=DIMENSION_MISMATCH_TRANSFER_POINTER,
+        )
+    return {}, ProjectionEvidence(
+        projection_status="source-insufficient",
+        evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
+    )
+
+
 def _projection_overlay_and_evidence(
     spec: CanonicalReportSpec,
     payload: Mapping[str, Any],
@@ -529,6 +551,7 @@ def _manifest_audit(
         DISCOVERY_MAP_JSON_ARTIFACT,
         NEGATIVE_WITNESSES_ARTIFACT,
         OBSERVED_DEBT_ARTIFACT,
+        DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
     }
     directory_json = {
         f"reports/canonical/{path.name}"
@@ -554,6 +577,9 @@ def build_discovery_map(
     reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
     gap_head_d5_context = _load_gap_head_d5_context(root=root)
     rows = [discovery_row(spec, _load_payload(spec, root=root), gap_head_d5_context) for spec in reports]
+    dimension_payload = _load_artifact_payload(DIMENSION_MISMATCH_TRANSFER_ARTIFACT, root=root)
+    if dimension_payload:
+        rows.append(_dimension_mismatch_discovery_row(dimension_payload))
     return {
         "schema_id": DISCOVERY_MAP_SCHEMA_ID,
         "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,
@@ -565,6 +591,51 @@ def build_discovery_map(
         "manifest_audit": _manifest_audit(root=root, canonical_reports=reports),
         "rows": rows,
     }
+
+
+def _dimension_mismatch_discovery_row(payload: Mapping[str, Any]) -> dict[str, Any]:
+    overlay, evidence = _dimension_mismatch_projection(payload)
+    projected = dict(payload)
+    projected.update(overlay)
+    verdict = assign_discovery_level(projected)
+    audit_status, audit_reason = _dimension_mismatch_audit_row(payload, verdict.discovery_level, evidence)
+    row: dict[str, Any] = {
+        "report": "dimension-mismatch-debt-transfer",
+        "json_artifact": DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
+        "markdown_artifact": "reports/canonical/dimension-mismatch-debt-transfer.md",
+        "discovery_level": verdict.discovery_level,
+        "terminal_verdict": verdict.terminal_verdict,
+        "classifier_reasons": list(verdict.reasons),
+        "projection_status": evidence.projection_status,
+        "evidence_pointer": evidence.evidence_pointer,
+        "audit_status": audit_status,
+        "audit_reason": audit_reason,
+    }
+    if evidence.control_pointer is not None:
+        row["control_pointer"] = evidence.control_pointer
+    if evidence.failed_gate is not None:
+        row["failed_gate"] = evidence.failed_gate
+    return row
+
+
+def _dimension_mismatch_audit_row(
+    payload: Mapping[str, Any],
+    level: DiscoveryLevel,
+    evidence: ProjectionEvidence,
+) -> tuple[str, str]:
+    if level == "D5":
+        return "invalid", "dimension-mismatch-transfer-has-no-d5-shortcut"
+    if level == "D4":
+        if evidence.control_pointer is None:
+            return "invalid", "missing-control-pointer"
+        if pointer_value(payload, evidence.control_pointer) is None:
+            return "invalid", "unresolved-control-pointer"
+    if level == "DN":
+        if evidence.failed_gate is None:
+            return "invalid", "missing-failed-gate"
+        if pointer_value(payload, evidence.failed_gate) is None:
+            return "invalid", "unresolved-failed-gate"
+    return "valid", ""
 
 
 def render_markdown(payload: Mapping[str, Any]) -> str:
