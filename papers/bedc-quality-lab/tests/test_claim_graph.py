@@ -148,6 +148,23 @@ def test_claim_verdict_foreign_key_must_target_terminal_claim(tmp_path):
     assert any("lacks terminal graph foreign key" in error for error in claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows))
 
 
+def test_cg_hg4_non_claim_prefix_id_fails_closed(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    rows = claim_graph.load_claim_verdict_rows(root)
+    rows[0]["claim_id"] = "raw:gap-head-discovery"
+
+    with pytest.raises(ValueError, match="claim_id must start with claim: raw:gap-head-discovery"):
+        claim_graph.terminal_node_id_for_claim_id(rows[0]["claim_id"])
+
+    errors = claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows)
+    assert any("claim_id must start with claim: raw:gap-head-discovery" in error for error in errors)
+
+    _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
+    with pytest.raises(ValueError, match="claim_id must start with claim: raw:gap-head-discovery"):
+        claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+
+
 def test_terminal_claim_nodes_exact_cover_verdict_rows(tmp_path):
     root = _fixture_root(tmp_path)
     payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
@@ -155,6 +172,29 @@ def test_terminal_claim_nodes_exact_cover_verdict_rows(tmp_path):
     broken["nodes"] = [node for node in broken["nodes"] if node["node_id"] != "terminal:gap-head-transfer-atlas"]
 
     assert any("exact cover mismatch" in error or "terminal node missing" in error for error in _errors(broken, root))
+
+
+def test_terminal_exact_cover_rejects_extra_terminal_node(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    extra = deepcopy(next(node for node in payload["nodes"] if node["node_id"] == "terminal:gap-head-discovery"))
+    extra["node_id"] = "terminal:extra-fixture"
+    extra["source_pointer"] = f"{claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[0]"
+    broken["nodes"].append(extra)
+
+    assert any("exact cover mismatch" in error for error in _errors(broken, root))
+
+
+def test_terminal_exact_cover_rejects_duplicate_foreign_key(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    rows = claim_graph.load_claim_verdict_rows(root)
+    rows[1]["claim_graph_node_id"] = rows[0]["claim_graph_node_id"]
+
+    errors = claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows)
+
+    assert any("exact cover mismatch" in error for error in errors)
 
 
 def test_terminal_claim_node_points_back_to_jsonl_line(tmp_path):
