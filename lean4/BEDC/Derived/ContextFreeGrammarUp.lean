@@ -207,6 +207,65 @@ theorem ContextFreeGrammarPacket_consumer_boundary_determinacy [AskSetup] [Packa
   exact
     ⟨sameStart, sameReadback, sameRoute, sameBoundary, boundaryPkg, boundaryPkg'⟩
 
+theorem ContextFreeGrammarPacket_bhist_classifier_alignment_boundary [AskSetup]
+    [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint terminal' nonterminal' start' production' yield' derivation' readback'
+      transport' route' provenance' name' endpoint' productionBoundary derivationBoundary
+      yieldBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      ContextFreeGrammarPacket terminal' nonterminal' start' production' yield' derivation'
+        readback' transport' route' provenance' name' endpoint' bundle pkg ->
+        hsame terminal terminal' ->
+          hsame nonterminal nonterminal' ->
+            hsame production production' ->
+              hsame yield yield' ->
+                hsame derivation derivation' ->
+                  hsame transport transport' ->
+                    hsame name name' ->
+                      hsame endpoint endpoint' ->
+                        Cont production' yield' productionBoundary ->
+                          Cont derivation' transport' derivationBoundary ->
+                            Cont name' endpoint' yieldBoundary ->
+                              PkgSig bundle yieldBoundary pkg ->
+                                hsame start start' ∧ hsame readback productionBoundary ∧
+                                  hsame route derivationBoundary ∧
+                                    UnaryHistory productionBoundary ∧
+                                      UnaryHistory derivationBoundary ∧
+                                        PkgSig bundle endpoint pkg ∧
+                                          PkgSig bundle yieldBoundary pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont
+  intro packet packet' sameTerminal sameNonterminal sameProduction sameYield sameDerivation
+    sameTransport sameName sameEndpoint productionBoundaryRow derivationBoundaryRow
+    yieldBoundaryRow yieldBoundaryPkg
+  obtain ⟨_terminalUnary, _nonterminalUnary, _startUnary, _productionUnary, _yieldUnary,
+    _derivationUnary, _readbackUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, _endpointUnary, startRow, productionRow, derivationRow, _nameRow,
+    endpointRow, endpointPkg⟩ := packet
+  obtain ⟨_terminalUnary', _nonterminalUnary', _startUnary', productionUnary', yieldUnary',
+    derivationUnary', _readbackUnary', transportUnary', _routeUnary', _provenanceUnary',
+    nameUnary', endpointUnary', startRow', _productionRow', _derivationRow', _nameRow',
+    endpointRow', _endpointPkg'⟩ := packet'
+  have sameStart : hsame start start' :=
+    cont_respects_hsame sameTerminal sameNonterminal startRow startRow'
+  have sameReadback : hsame readback productionBoundary :=
+    cont_respects_hsame sameProduction sameYield productionRow productionBoundaryRow
+  have sameRoute : hsame route derivationBoundary :=
+    cont_respects_hsame sameDerivation sameTransport derivationRow derivationBoundaryRow
+  have productionBoundaryUnary : UnaryHistory productionBoundary :=
+    unary_cont_closed productionUnary' yieldUnary' productionBoundaryRow
+  have derivationBoundaryUnary : UnaryHistory derivationBoundary :=
+    unary_cont_closed derivationUnary' transportUnary' derivationBoundaryRow
+  have _yieldBoundaryUnary : UnaryHistory yieldBoundary :=
+    unary_cont_closed nameUnary' endpointUnary' yieldBoundaryRow
+  have _sameYieldBoundary : hsame endpoint yieldBoundary :=
+    cont_respects_hsame sameName sameEndpoint endpointRow yieldBoundaryRow
+  exact
+    ⟨sameStart, sameReadback, sameRoute, productionBoundaryUnary, derivationBoundaryUnary,
+      endpointPkg, yieldBoundaryPkg⟩
+
 theorem ContextFreeGrammarPacket_namecert_obligation_surface [AskSetup] [PackageSetup]
     {terminal nonterminal start production yield derivation readback transport route provenance name
       endpoint : BHist}
