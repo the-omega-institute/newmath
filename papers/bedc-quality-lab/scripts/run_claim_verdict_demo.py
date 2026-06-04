@@ -27,15 +27,17 @@ from scripts.run_discovery_map import build_discovery_map, pointer_value, projec
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
 ALLOWED_ROW_KEYS = frozenset({"claim_id", "claim_verdict", "reason", "source", "ledger_pointer"})
-DOWNGRADE_VERDICTS = frozenset(
+E1_TERMINAL_VERDICTS = frozenset(
     {
-        "negative_discovery",
-        "revoked_due_to_fresh_evidence",
-        "rejected_due_to_hidden_debt",
-        "rejected_due_to_scope_laundering",
+        "ledger_only_hardening_not_ready",
+        "rejected_hidden_debt",
+        "rejected_scope_laundering",
+        "demoted_audit_tradeoff",
+        "accepted_positive_discovery",
     }
 )
 POSITIVE_LEVELS = frozenset({"D4", "D5"})
+SCORECARD_ARTIFACT = "reports/canonical/quality-scorecard.json"
 DIMENSION_MISMATCH_REPORT = "dimension-mismatch-debt-transfer"
 DIMENSION_MISMATCH_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
 DIMENSION_MISMATCH_STATUS_POINTER = "$.dimension_mismatch_debt_transfer.status"
@@ -101,6 +103,23 @@ def _scorecard_ready(scorecard: Mapping[str, Any] | None) -> bool:
         return False
     ready, _detail = _scorecard_readiness({"quality_scorecard": scorecard})
     return ready is True
+
+
+def _scorecard_dependency_pointer(scorecard: Mapping[str, Any] | None) -> str:
+    if scorecard is None:
+        return f"{SCORECARD_ARTIFACT}:$.rows"
+    rows = scorecard.get("rows")
+    if not isinstance(rows, list):
+        return f"{SCORECARD_ARTIFACT}:$.rows"
+    for index, row in enumerate(rows):
+        if not isinstance(row, Mapping):
+            return f"{SCORECARD_ARTIFACT}:$.rows[{index}]"
+        if row.get("metric") == "HardeningCoverage" and row.get("status") != "ready":
+            return f"{SCORECARD_ARTIFACT}:$.rows[{index}]"
+    for index, row in enumerate(rows):
+        if isinstance(row, Mapping) and row.get("status") != "ready":
+            return f"{SCORECARD_ARTIFACT}:$.rows[{index}]"
+    return f"{SCORECARD_ARTIFACT}:$.rows"
 
 
 def _cost_protocol_loads(root: Path) -> bool:
@@ -246,6 +265,17 @@ def _discovery_map_row_pointer(root: Path, row: Mapping[str, Any]) -> str:
     raise ValueError(f"discovery map ledger row missing for claim: {row['report']}")
 
 
+def _hidden_debt_pointer(pointer: Any) -> bool:
+    if not isinstance(pointer, str):
+        return False
+    text = pointer.lower()
+    return "cost" in text or "debt" in text
+
+
+def _rejection_verdict_for_pointer(pointer: Any) -> str:
+    return "rejected_hidden_debt" if _hidden_debt_pointer(pointer) else "ledger_only_hardening_not_ready"
+
+
 def _row(
     *,
     claim_id: str,
@@ -258,6 +288,8 @@ def _row(
         raise ValueError(f"claim verdict reason must be non-empty: {claim_id}")
     if not ledger_pointer:
         raise ValueError(f"claim verdict needs a ledger pointer: {claim_id}")
+    if claim_verdict not in E1_TERMINAL_VERDICTS:
+        raise ValueError(f"unsupported E1 claim verdict for {claim_id}: {claim_verdict}")
     source_text = source.as_text() if isinstance(source, ClaimSource) else source
     item = {
         "claim_id": claim_id,
@@ -293,6 +325,7 @@ def _mapped_discovery_row(
     payload = _load_payload(root, str(row["json_artifact"]))
     source = _claim_source(row)
     claim_id = f"claim:{report}"
+    scorecard = _load_scorecard(root)
 
     positive_forbidden = _positive_claim_forbidden_pointer(spec, payload)
     if positive_forbidden is not None:
@@ -300,7 +333,7 @@ def _mapped_discovery_row(
         reason = "forbidden-overclaim" if hits else "missing-positive-claim-cell"
         return _row(
             claim_id=claim_id,
-            claim_verdict="rejected_due_to_scope_laundering",
+            claim_verdict="rejected_scope_laundering",
             reason=reason,
             source=_claim_source(row, positive_forbidden),
             ledger_pointer=f"{row['json_artifact']}:{positive_forbidden}",
@@ -310,20 +343,20 @@ def _mapped_discovery_row(
     if laundering_pointer is not None:
         return _row(
             claim_id=claim_id,
-            claim_verdict="rejected_due_to_scope_laundering",
+            claim_verdict="rejected_scope_laundering",
             reason="scope-discipline-failed",
             source=_claim_source(row, laundering_pointer),
             ledger_pointer=f"{row['json_artifact']}:{laundering_pointer}",
         )
 
-    projected = _projected_payload(spec=spec, payload=payload, scorecard=_load_scorecard(root))
+    projected = _projected_payload(spec=spec, payload=payload, scorecard=scorecard)
     terminal = synthesize_certification_verdict(None, projected, timestamp_iso=generated_at)
     projected_verdict = assign_discovery_level(projected)
 
     if not cost_protocol_ready and level in POSITIVE_LEVELS:
         return _row(
             claim_id=claim_id,
-            claim_verdict="rejected_due_to_hidden_debt",
+            claim_verdict="rejected_hidden_debt",
             reason="cost-protocol-unavailable",
             source=source,
             ledger_pointer=f"{row['json_artifact']}:{spec.cost_pointer}",
@@ -332,16 +365,16 @@ def _mapped_discovery_row(
     if not scorecard_ready and level in POSITIVE_LEVELS:
         return _row(
             claim_id=claim_id,
-            claim_verdict="rejected_due_to_hidden_debt",
+            claim_verdict="ledger_only_hardening_not_ready",
             reason="scorecard-not-ready",
             source=source,
-            ledger_pointer="reports/canonical/quality-scorecard.json:$.rows",
+            ledger_pointer=_scorecard_dependency_pointer(scorecard),
         )
 
     if terminal.get("verdict") == "demoted":
         return _row(
             claim_id=claim_id,
-            claim_verdict="rejected_due_to_hidden_debt",
+            claim_verdict="demoted_audit_tradeoff",
             reason=str(terminal.get("reason") or "demoted"),
             source=source,
             ledger_pointer=f"{row['json_artifact']}:{row.get('debt_row_pointer') or spec.cost_pointer}",
@@ -363,7 +396,7 @@ def _mapped_discovery_row(
             )
         return _row(
             claim_id=claim_id,
-            claim_verdict="rejected_due_to_hidden_debt",
+            claim_verdict="ledger_only_hardening_not_ready",
             reason="positive-discovery-gate-failed",
             source=source,
             ledger_pointer=f"{row['json_artifact']}:{row.get('control_pointer') or spec.control_pointer or spec.positive_claim_pointer}",
@@ -372,7 +405,7 @@ def _mapped_discovery_row(
     if level == "D1":
         return _row(
             claim_id=claim_id,
-            claim_verdict="audit_improvement_only",
+            claim_verdict="demoted_audit_tradeoff",
             reason="discovery-level-D1",
             source=source,
             ledger_pointer=_discovery_map_row_pointer(root, row),
@@ -380,7 +413,7 @@ def _mapped_discovery_row(
     if level == "D2":
         return _row(
             claim_id=claim_id,
-            claim_verdict="discovery_candidate",
+            claim_verdict="ledger_only_hardening_not_ready",
             reason="discovery-level-D2",
             source=source,
             ledger_pointer=_discovery_map_row_pointer(root, row),
@@ -388,7 +421,7 @@ def _mapped_discovery_row(
     if level == "D3":
         return _row(
             claim_id=claim_id,
-            claim_verdict="certified_discovery_not_positive",
+            claim_verdict="ledger_only_hardening_not_ready",
             reason="discovery-level-D3",
             source=source,
             ledger_pointer=_discovery_map_row_pointer(root, row),
@@ -397,7 +430,7 @@ def _mapped_discovery_row(
         pointer = row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")
         return _row(
             claim_id=claim_id,
-            claim_verdict="negative_discovery",
+            claim_verdict=_rejection_verdict_for_pointer(pointer),
             reason="discovery-level-DN",
             source=source,
             ledger_pointer=f"{row['json_artifact']}:{pointer}",
@@ -406,7 +439,7 @@ def _mapped_discovery_row(
         pointer = row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")
         return _row(
             claim_id=claim_id,
-            claim_verdict="revoked_due_to_fresh_evidence",
+            claim_verdict="demoted_audit_tradeoff",
             reason="discovery-level-DR",
             source=source,
             ledger_pointer=f"{row['json_artifact']}:{pointer}",
@@ -428,19 +461,23 @@ def _witness_row(witness: Mapping[str, Any], index: int) -> dict[str, Any]:
     source = f"reports/canonical/discovery_negative_witnesses.json:$.witnesses[{index}]"
 
     if kind == "hidden_debt_positive":
-        verdict = "rejected_due_to_hidden_debt"
+        verdict = "demoted_audit_tradeoff"
         reason = str(witness.get("terminal_reason") or "hidden-debt-positive")
     elif kind == "fresh_claim_downgrade" or level == "DR":
-        verdict = "revoked_due_to_fresh_evidence"
+        verdict = "demoted_audit_tradeoff"
         reason = str(witness.get("terminal_reason") or "fresh-evidence-revocation")
     elif terminal == "demoted" and basis.get("new_status") == "audit-improvement-tradeoff":
-        verdict = "rejected_due_to_hidden_debt"
+        verdict = "demoted_audit_tradeoff"
         reason = str(witness.get("terminal_reason") or "hidden-debt-positive")
     elif basis.get("forbidden_claim_term_hits"):
-        verdict = "rejected_due_to_scope_laundering"
+        verdict = "rejected_scope_laundering"
         reason = "forbidden-overclaim"
+    elif terminal == "ledger-only" and basis.get("scorecard_ready") is False:
+        verdict = "ledger_only_hardening_not_ready"
+        reason = str(witness.get("terminal_reason") or "scorecard-not-ready")
     elif terminal in {"rejected", "ledger-only"} or level == "DN":
-        verdict = "negative_discovery"
+        pointer_hint = basis.get("malformed_detail") or witness.get("terminal_reason") or kind
+        verdict = _rejection_verdict_for_pointer(pointer_hint)
         reason = str(witness.get("terminal_reason") or "negative-witness")
     else:
         raise ValueError(f"unsupported witness verdict basis: {kind}")

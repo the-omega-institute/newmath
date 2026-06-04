@@ -11,19 +11,16 @@ from scripts import run_canonical_reports as canonical
 ALLOWED_KEYS = {"claim_id", "claim_verdict", "reason", "source", "ledger_pointer"}
 VERDICT_NAMES = {
     "accepted_positive_discovery",
-    "audit_improvement_only",
-    "certified_discovery_not_positive",
-    "discovery_candidate",
-    "negative_discovery",
-    "revoked_due_to_fresh_evidence",
-    "rejected_due_to_hidden_debt",
-    "rejected_due_to_scope_laundering",
+    "demoted_audit_tradeoff",
+    "ledger_only_hardening_not_ready",
+    "rejected_hidden_debt",
+    "rejected_scope_laundering",
 }
 DOWNGRADE_VERDICTS = {
-    "negative_discovery",
-    "revoked_due_to_fresh_evidence",
-    "rejected_due_to_hidden_debt",
-    "rejected_due_to_scope_laundering",
+    "demoted_audit_tradeoff",
+    "ledger_only_hardening_not_ready",
+    "rejected_hidden_debt",
+    "rejected_scope_laundering",
 }
 
 
@@ -80,7 +77,16 @@ def _payload_for_level(level):
     return payload
 
 
-def _spec(name, artifact, *, scope="$.scope", cost="$.cost", not_claimed="$.not_claimed", positive="$.positive"):
+def _spec(
+    name,
+    artifact,
+    *,
+    scope="$.scope",
+    cost="$.cost",
+    not_claimed="$.not_claimed",
+    positive="$.positive",
+    control="$.control",
+):
     return canonical.CanonicalReportSpec(
         name=name,
         command=("python3", "scripts/run_fixture.py"),
@@ -93,7 +99,7 @@ def _spec(name, artifact, *, scope="$.scope", cost="$.cost", not_claimed="$.not_
         cost_pointer=cost,
         not_claimed_pointer=not_claimed,
         positive_claim_pointer=positive,
-        control_pointer="$.control",
+        control_pointer=control,
         no_control_rationale_pointer=None,
     )
 
@@ -189,7 +195,7 @@ def _dimension_mismatch_payload(*, status="pass", forbidden_claim=None):
     }
 
 
-def test_all_eight_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
+def test_all_five_e1_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
     rows = [
         _discovery_row("d4", "reports/canonical/d4.json", "D4"),
         _discovery_row("d1", "reports/canonical/d1.json", "D1"),
@@ -198,6 +204,7 @@ def test_all_eight_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
         _discovery_row("dn", "reports/canonical/dn.json", "DN"),
         _discovery_row("d0", "reports/canonical/d0.json", "D0"),
     ]
+    rows[-2]["failed_gate"] = "$.cost.hidden_debt"
     specs = tuple(_spec(row["report"], row["json_artifact"]) for row in rows)
     witnesses = [
         {"kind": "hidden_debt_positive", "terminal_verdict": "demoted", "terminal_reason": "audit-improvement-tradeoff", "discovery_level": "DR", "gate_basis": {"new_status": "audit-improvement-tradeoff"}},
@@ -239,7 +246,7 @@ def test_forbidden_overclaim_preempts_positive_acceptance_and_uses_claim_terms(t
 
     verdicts = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
 
-    assert verdicts[0]["claim_verdict"] == "rejected_due_to_scope_laundering"
+    assert verdicts[0]["claim_verdict"] == "rejected_scope_laundering"
     assert verdicts[0]["reason"] == "forbidden-overclaim"
     assert verdicts[0]["ledger_pointer"] == "reports/canonical/d4.json:$.positive"
 
@@ -251,7 +258,7 @@ def test_missing_cost_protocol_and_not_ready_scorecard_fail_closed(tmp_path, mon
     (tmp_path / "configs/default_cost_protocol.yaml").unlink()
 
     cost_verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
-    assert cost_verdict["claim_verdict"] == "rejected_due_to_hidden_debt"
+    assert cost_verdict["claim_verdict"] == "rejected_hidden_debt"
     assert cost_verdict["reason"] == "cost-protocol-unavailable"
 
     (tmp_path / "configs/default_cost_protocol.yaml").write_text(
@@ -260,8 +267,55 @@ def test_missing_cost_protocol_and_not_ready_scorecard_fail_closed(tmp_path, mon
     )
     _write_json(tmp_path / "reports/canonical/quality-scorecard.json", _scorecard(status="not-ready"))
     scorecard_verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
-    assert scorecard_verdict["claim_verdict"] == "rejected_due_to_hidden_debt"
+    assert scorecard_verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
     assert scorecard_verdict["reason"] == "scorecard-not-ready"
+    assert scorecard_verdict["ledger_pointer"].startswith("reports/canonical/quality-scorecard.json:$.rows")
+
+
+def test_hardening_coverage_not_ready_uses_dependency_pointer(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    scorecard = _scorecard()
+    hardening_index = next(
+        index for index, row in enumerate(scorecard["rows"]) if row["metric"] == "HardeningCoverage"
+    )
+    scorecard["rows"][hardening_index]["status"] = "not-ready"
+    _write_json(tmp_path / "reports/canonical/quality-scorecard.json", scorecard)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert verdict["reason"] == "scorecard-not-ready"
+    assert verdict["ledger_pointer"] == f"reports/canonical/quality-scorecard.json:$.rows[{hardening_index}]"
+
+
+def test_positive_discovery_gate_failure_routes_to_ledger_only_hardening_not_ready(tmp_path, monkeypatch):
+    rows = [_discovery_row("gap-head-on-h", "reports/canonical/gap-head-on-h.json", "D5")]
+    rows[0]["control_pointer"] = "$.matched_random_control.control_verdict.positive"
+    specs = (
+        _spec(
+            "gap-head-on-h",
+            "reports/canonical/gap-head-on-h.json",
+            control="$.matched_random_control.control_verdict.positive",
+        ),
+    )
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/gap-head-on-h.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload["matched_random_control"]["control_verdict"]["positive"] = True
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:gap-head-on-h"
+    assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert verdict["reason"] == "positive-discovery-gate-failed"
+    assert verdict["source"] == "reports/canonical/gap-head-on-h.json:$.positive_discovery"
+    assert verdict["ledger_pointer"] == (
+        "reports/canonical/gap-head-on-h.json:"
+        "$.matched_random_control.control_verdict.positive"
+    )
 
 
 def test_demoted_terminal_positive_discovery_fails_closed_with_ledger_pointer(tmp_path, monkeypatch):
@@ -279,7 +333,7 @@ def test_demoted_terminal_positive_discovery_fails_closed_with_ledger_pointer(tm
 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
-    assert verdict["claim_verdict"] == "rejected_due_to_hidden_debt"
+    assert verdict["claim_verdict"] == "demoted_audit_tradeoff"
     assert verdict["reason"] == "audit-improvement-tradeoff"
     assert verdict["ledger_pointer"] == "reports/canonical/d4.json:$.cost"
 
@@ -295,7 +349,7 @@ def test_scope_laundering_cell_rejects_with_real_pointer(tmp_path, monkeypatch):
 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
-    assert verdict["claim_verdict"] == "rejected_due_to_scope_laundering"
+    assert verdict["claim_verdict"] == "rejected_scope_laundering"
     assert verdict["reason"] == "scope-discipline-failed"
     assert verdict["ledger_pointer"] == "reports/canonical/gap-head-discovery.json:$.laundering_modes"
 
@@ -338,9 +392,9 @@ def test_noncanonical_dimension_mismatch_fails_closed_when_scorecard_not_ready(t
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:dimension-mismatch-debt-transfer"
-    assert verdict["claim_verdict"] == "rejected_due_to_hidden_debt"
+    assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
     assert verdict["reason"] == "scorecard-not-ready"
-    assert verdict["ledger_pointer"] == "reports/canonical/quality-scorecard.json:$.rows"
+    assert verdict["ledger_pointer"].startswith("reports/canonical/quality-scorecard.json:$.rows")
 
 
 def test_noncanonical_dimension_mismatch_forbidden_claim_rejects_with_pointer(tmp_path, monkeypatch):
@@ -355,7 +409,7 @@ def test_noncanonical_dimension_mismatch_forbidden_claim_rejects_with_pointer(tm
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:dimension-mismatch-debt-transfer"
-    assert verdict["claim_verdict"] == "rejected_due_to_scope_laundering"
+    assert verdict["claim_verdict"] == "rejected_scope_laundering"
     assert verdict["reason"] == "forbidden-overclaim"
     assert verdict["ledger_pointer"] == (
         "reports/canonical/dimension-mismatch-debt-transfer.json:"

@@ -113,13 +113,9 @@ def _stable_digest(value: Mapping[str, Any]) -> str:
 
 def _source_pointer(kind: str, claim_rows: list[Mapping[str, Any]]) -> str:
     if claim_rows:
-        if kind == "mechanism_ablation_fail_but_d5m_claim":
+        if kind in _ACTIVE_MUTATORS:
             for index, row in enumerate(claim_rows):
-                if row.get("claim_verdict") == "certified_discovery_not_positive":
-                    return f"{CLAIM_VERDICTS_ARTIFACT}:{index}"
-        if kind == "scale_only_overclaim":
-            for index, row in enumerate(claim_rows):
-                if row.get("claim_verdict") == "discovery_candidate":
+                if row.get("claim_verdict") == "ledger_only_hardening_not_ready":
                     return f"{CLAIM_VERDICTS_ARTIFACT}:{index}"
         return f"{CLAIM_VERDICTS_ARTIFACT}:0"
     return "reports/canonical/discovery_negative_witnesses.json:$.witnesses"
