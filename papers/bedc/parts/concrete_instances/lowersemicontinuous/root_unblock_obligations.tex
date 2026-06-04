@@ -78,6 +78,37 @@ representatives, choice, and ambient completeness. Hence the located
 transport factors through the root epigraph route already displayed.
 \end{proof}
 
+\begin{theorem}[LowerSemicontinuous root epigraph carrier admission]
+\label{thm:lowersemicontinuous-root-epigraph-carrier-admission}
+Every accepted root packet
+$L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)$ must expose the source row $X$,
+graph row $F$, epigraph ledger $E$, finite stream schedule $W$,
+$\RegSeqRatUp$ readback row $R$, located comparison row $O$, $\hsame$
+transport row $H$, $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and
+local $\NameCert$ row $N$ before any $\LowerRealUp$, $\UpperRealUp$, or
+$\RealUp$ consumer reads lower-semicontinuity data. No accepted root packet
+may supply that read through semantic liminf data, quotient equality,
+countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the root carrier of \autoref{def:lowersemicontinuous-root-carrier}.
+The displayed coordinates of $L_{\mathrm{root}}$ are exactly
+$X,F,E,W,R,O,H,C,P,N$, so any consumer-side read must first select one of
+those rows.
+
+Apply \autoref{thm:lowersemicontinuous-lowerreal-epigraph-classifier} and
+\autoref{thm:lowersemicontinuous-root-epigraph-located-transport}. The
+classifier pins the lower-real epigraph data to $X,F,E,W,R$, while the
+located transport keeps the comparison on $O,H,C,P,N$ before a
+$\LowerRealUp$, $\UpperRealUp$, or $\RealUp$ consumer can inspect it.
+
+Finally use coordinate exhaustion against
+\autoref{thm:lower-semicontinuous-real-seal-window-nonescape}. The carrier has
+no row for semantic liminf data, quotient equality, countable choice, or
+ambient Real completeness, so none of those readings can serve as the root
+epigraph admission route.
+\end{proof}
+
 \begin{theorem}[LowerSemicontinuous root epigraph RegSeqRat handoff]
 \label{thm:lowersemicontinuous-root-epigraph-regseqrat-handoff}
 Every Real-facing read from the epigraph ledger of
