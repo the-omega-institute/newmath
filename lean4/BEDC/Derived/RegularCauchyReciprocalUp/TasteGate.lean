@@ -219,4 +219,21 @@ theorem RegularCauchyReciprocalCarrier_apartness_window
                 (RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N),
           rfl⟩
 
+theorem RegularCauchyReciprocalClassifierStability
+    {x y : RegularCauchyReciprocalUp}
+    (hflow :
+      regularCauchyReciprocalToEventFlow x =
+        regularCauchyReciprocalToEventFlow y) :
+    x = y ∧
+      regularCauchyReciprocalFromEventFlow (regularCauchyReciprocalToEventFlow x) =
+        some x ∧
+        regularCauchyReciprocalFromEventFlow (regularCauchyReciprocalToEventFlow y) =
+          some y ∧
+          regularCauchyReciprocalEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  have hxy : x = y := regularCauchyReciprocalToEventFlow_injective hflow
+  exact
+    ⟨hxy, regularCauchyReciprocal_round_trip x, regularCauchyReciprocal_round_trip y,
+      rfl⟩
+
 end BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
