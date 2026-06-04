@@ -51,6 +51,40 @@ The rows $W$ and $T$ then display the finite observations and dyadic tolerances 
 Transport, replay, provenance, and local naming are supplied only by $H,C,P,Q$. Thus the route is finite and excludes quotient filters, selected subnet limits, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[LocatedUniformSpace entourage-location obligation]\label{thm:located-uniform-space-entourage-location-obligation}
+For every accepted $\LocatedUniformSpaceUp$ carrier
+$$
+L=(U,D,A,W,T,F,N,H,C,P,Q),
+$$
+each located entourage request must expose the directed entourage row $U$, directedness ledger $D$, located apartness row $A$, finite observation-window row $W$, and dyadic tolerance row $T$ before any $\CauchyFilterUp$ or $\CauchyNetUp$ handoff is available. The request may not enter $F$ from an unnamed entourage, a host locatedness predicate, a quotient-filter class, a selected limit, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:located-uniform-space-carrier}. The only coordinates that can answer an entourage-location request before Cauchy handoff are $U,D,A,W,T$.
+
+The directedness ledger $D$ refines requests only as displayed entourage rows over $U$, while $A$ records located apartness only for the displayed point or window. The rows $W$ and $T$ then provide the finite observation and dyadic tolerance data needed to state the request.
+
+Since $F$ is downstream of these five rows, a Cauchy consumer can be admitted only after the located entourage request has passed through them. No excluded host object is a coordinate of $L$, so none can supply a second route into $F$.
+\end{proof}
+
+\begin{theorem}[LocatedUniformSpace filter-net handoff exactness]\label{thm:located-uniform-space-filter-net-handoff-exactness}
+For every accepted $\LocatedUniformSpaceUp$ carrier
+$$
+L=(U,D,A,W,T,F,N,H,C,P,Q),
+$$
+every $\CauchyFilterUp$ or $\CauchyNetUp$ handoff through $F$ is exact only along the finite route
+$$
+U,D,A,W,T \longmapsto F \longmapsto N,H,C,P,Q .
+$$
+The packet therefore exports Cauchy-facing data as the displayed located-uniform handoff, not as quotient-filter equality, a selected subnet, a completed uniform-space theorem, separated reflection, or host locatedness.
+\end{theorem}
+\begin{proof}
+Begin with the handoff row $F$. By \autoref{thm:located-uniform-space-cauchy-filter-route}, a Cauchy-facing read reaches $F$ only after the directed entourage, locatedness, finite-window, and tolerance rows have been read.
+
+Apply the entourage-location obligation. It prevents $F$ from being entered by an unnamed entourage or external locatedness decision, so the handoff is tied to the displayed $U,D,A,W,T$ rows.
+
+Finally read $N,H,C,P,Q$. These rows supply rational readback, componentwise transport, displayed replay, provenance, and local naming for the same route. Because the carrier has no coordinate for quotient filters, selected subnet limits, completion, separated reflection, or host locatedness, the displayed route is the exact handoff surface.
+\end{proof}
+
 \begin{theorem}[LocatedUniformSpace real-completion boundary]\label{thm:located-uniform-space-real-completion-boundary}
 Every $\RealUp$ readback exported by a $\LocatedUniformSpaceUp$ packet is downstream of the displayed route through $U,D,A,W,T,F,N$ and the structural rows $H,C,P,Q$. The packet can feed completion-facing chapters only by exposing the finite located uniform data; it does not assert that the surrounding uniform space is complete, separated, precompact, or represented by chosen Cauchy names.
 \end{theorem}
@@ -61,11 +95,12 @@ The package row $P$ records the relationship with $\RealUp$ and the uniform sibl
 \end{proof}
 
 \closureat{LocatedUniformSpaceUp}{seedStr}
+\closureat{LocatedUniformSpaceUp}{obligationStr}
 
 \begin{closurestatus}{\LocatedUniformSpaceUp}
   \constructivestory{A $\LocatedUniformSpaceUp$ packet is generated from directed entourage data, located apartness, finite observation windows, dyadic tolerance rows, Cauchy filter and net handoff, regular rational readback, componentwise transport, displayed continuation, package provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-uniform-space-carrier}, \autoref{thm:located-uniform-space-namecert-obligations}, \autoref{thm:located-uniform-space-cauchy-filter-route}, and \autoref{thm:located-uniform-space-real-completion-boundary} seed the finite located directed-uniform certificate surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:located-uniform-space-carrier}, \autoref{thm:located-uniform-space-namecert-obligations}, \autoref{thm:located-uniform-space-cauchy-filter-route}, \autoref{thm:located-uniform-space-entourage-location-obligation}, \autoref{thm:located-uniform-space-filter-net-handoff-exactness}, and \autoref{thm:located-uniform-space-real-completion-boundary} bind the finite located directed-uniform certificate surface and its Cauchy filter/net obligation route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

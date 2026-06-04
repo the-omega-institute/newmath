@@ -1345,6 +1345,7 @@ import BEDC.Derived.CauchyCondensationUp.TasteGate
 import BEDC.Derived.CauchyContinuityCalibrationUp.TasteGate
 import BEDC.Derived.CauchyContinuityPrincipleUp.RealSealBoundary
 import BEDC.Derived.CauchyContinuityPrincipleUp.TasteGate
+import BEDC.Derived.CauchyContinuousExtensionUp.CompletionConsumer
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularSourceHandoff
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularTailTransport
 import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
@@ -7133,6 +7134,7 @@ import BEDC.Derived.RegularCauchyAbsUp.RealSealBoundary
 import BEDC.Derived.RegularCauchyAbsUp.RegSeqRatHandoff
 import BEDC.Derived.RegularCauchyAbsUp.TasteGate
 import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
+import BEDC.Derived.RegularCauchyAffineCombinationUp.Stability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.TasteGate
 import BEDC.Derived.RegularCauchyAlgebraCoherenceUp.TasteGate
 import BEDC.Derived.RegularCauchyApartnessBudgetUp.TasteGate
@@ -7289,6 +7291,7 @@ import BEDC.Derived.RegularCauchyNonexpansiveMapUp.TasteGate
 import BEDC.Derived.RegularCauchyOrderUp.TasteGate
 import BEDC.Derived.RegularCauchyProductBudgetUp.TasteGate
 import BEDC.Derived.RegularCauchyProductCriterionUp.TasteGate
+import BEDC.Derived.RegularCauchyProductCriterionUp.WindowBudgetExactness
 import BEDC.Derived.RegularCauchyProductProjectionUp
 import BEDC.Derived.RegularCauchyProductProjectionUp.TasteGate
 import BEDC.Derived.RegularCauchyProductUp
