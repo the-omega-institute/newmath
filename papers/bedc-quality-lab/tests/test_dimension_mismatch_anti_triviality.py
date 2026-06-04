@@ -84,7 +84,12 @@ def _source_artifact(root, status="pass"):
             {
                 "dimension_mismatch_debt_transfer": {
                     "status": status,
-                    "discovery_level": "D4" if status == "pass" else "DN",
+                    "base_level": "D4",
+                    "anti_triviality_status": "scale_leakage_detected",
+                    "effective_level": "DN",
+                    "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
+                    "terminal_verdict": "negative_discovery",
+                    "discovery_level": "DN",
                 }
             }
         ),
@@ -163,7 +168,7 @@ def test_hg_b1_at3_metadata_non_positive_does_not_demote_and_positive_is_reachab
         },
     )
     payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
-    assert payload["status"] == "pass_preserve_scoped_d4"
+    assert payload["status"] == "anti_triviality_passed"
     assert payload["hardgate_evidence"]["HG-B1-AT3"]["status"] == "pass"
 
     _patch_metrics(
@@ -213,7 +218,7 @@ def test_hg_b1_at4_status_precedence_five_states_and_metadata_beats_scale(tmp_pa
             "h_normalized_no_scale": _metrics(positive=True),
         },
     )
-    assert runner.build_payload(root=tmp_path, generated_at="fixture-time")["status"] == "pass_preserve_scoped_d4"
+    assert runner.build_payload(root=tmp_path, generated_at="fixture-time")["status"] == "anti_triviality_passed"
 
     _patch_metrics(
         monkeypatch,
@@ -269,6 +274,8 @@ def test_hg_b1_at6_sidecar_boundary_and_schema_invariants(tmp_path, monkeypatch)
 
     assert payload["mechanism_status"] == "not_claimed"
     assert payload["d5m_status"] == "not_claimed"
+    assert payload["sidecar_role"] == "folded_evidence_source"
+    assert "No standalone positive discovery-map promotion from this evidence source." in payload["not_claimed"]
     assert runner.JSON_ARTIFACT not in canonical_jsons
     assert "dimension_mismatch_anti_triviality" not in json.dumps([spec.name for spec in canonical.CANONICAL_REPORTS])
     assert payload["schema_id"] == runner.SCHEMA_ID

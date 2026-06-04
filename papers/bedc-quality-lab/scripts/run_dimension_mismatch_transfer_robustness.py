@@ -34,8 +34,8 @@ SOURCE_POINTER = f"{SOURCE_ARTIFACT}:{SOURCE_STATUS_POINTER}"
 DISCOVERY_MAP_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_POINTER = "$.rows[report=dimension-mismatch-debt-transfer]"
 READINESS_BOUNDARY = (
-    "pass = robust-control evidence for the existing scoped-D4 "
-    "dimension-mismatch-debt-transfer surface; not a D5 upgrade, not global model quality."
+    "pass = robust-control evidence for the source dimension-mismatch-debt-transfer surface "
+    "with terminal DN downgrade under anti-triviality; not a D5 upgrade, not global model quality."
 )
 FORBIDDEN_CLAIM_SUBSTRINGS = (
     "global quality",
@@ -304,14 +304,20 @@ def _discovery_map_audit(discovery: Mapping[str, Any]) -> tuple[str, list[str], 
         return "defer", ["discovery_map_row_missing"], f"{DISCOVERY_MAP_ARTIFACT}:{DISCOVERY_MAP_POINTER}"
     reasons = row.get("classifier_reasons")
     audit_reasons: list[str] = []
-    if row.get("discovery_level") != "D4":
-        audit_reasons.append("dimension-mismatch discovery row is not D4")
-    if row.get("control_pointer") != "$.control_protocol":
-        audit_reasons.append("dimension-mismatch discovery row control pointer changed")
+    if row.get("base_level") != "D4":
+        audit_reasons.append("dimension-mismatch discovery row base level is not D4")
+    if row.get("anti_triviality_status") != "scale_leakage_detected":
+        audit_reasons.append("dimension-mismatch discovery row does not record scale leakage")
+    if row.get("effective_level") != "DN" or row.get("discovery_level") != "DN":
+        audit_reasons.append("dimension-mismatch discovery row effective level is not DN")
+    if row.get("terminal_verdict") != "negative_discovery":
+        audit_reasons.append("dimension-mismatch discovery row terminal verdict is not negative_discovery")
+    if row.get("failed_gate") != "$.dimension_mismatch_debt_transfer.anti_triviality_status":
+        audit_reasons.append("dimension-mismatch discovery row failed gate changed")
     if "d5_readiness" in row:
         audit_reasons.append("dimension-mismatch discovery row contains d5_readiness")
-    if not isinstance(reasons, list) or "robustness evidence absent" not in reasons:
-        audit_reasons.append("dimension-mismatch discovery row does not record absent robustness evidence")
+    if not isinstance(reasons, list) or "verdict=rejected" not in reasons:
+        audit_reasons.append("dimension-mismatch discovery row does not record rejected classifier verdict")
     if row.get("audit_status") != "valid":
         audit_reasons.append("dimension-mismatch discovery row audit status is not valid")
     return (

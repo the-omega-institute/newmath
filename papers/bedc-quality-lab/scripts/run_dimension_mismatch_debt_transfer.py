@@ -27,10 +27,14 @@ from scripts import run_observed_debt_sweep as observed_debt
 
 JSON_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
 REPORT_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.md"
+ANTI_TRIVIALITY_ARTIFACT = "reports/dimension_mismatch_anti_triviality.json"
 ARTIFACT_ID = "bedc-quality-lab:dimension-mismatch-debt-transfer"
 TRANSFER_STATUS_POINTER = "$.dimension_mismatch_debt_transfer.status"
-DEFAULT_AXIS = "C1"
+EFFECTIVE_LEVEL_POINTER = "$.dimension_mismatch_debt_transfer.effective_level"
+BASE_LEVEL = "D4"
+DEFAULT_AXIS = "encoder-dim-grid"
 DEFAULT_AXIS_LABEL = "encoder_output_dim"
+SOURCE_OBSERVED_DEBT_AXIS = 'C1'
 DEFAULT_ROW = observed_debt.DIMENSION_ROW
 DEFAULT_SCOPE = "encoder_dim grid against producer reference latent dimension"
 H_ONLY_REPRESENTATION_SUMMARY_COLUMNS = (
@@ -73,6 +77,14 @@ FORBIDDEN_FEATURE_COLUMNS = (
     "envelope_record",
 )
 NOT_CLAIMED = (
+    "global dimension theory",
+    "representation-geometric debt transfer",
+    "D5 promotion",
+    "global model quality",
+    "full LeJEPA",
+    "full TensorNameCert",
+    "LLM behavior",
+    "mechanism closure unless D5-M",
     "no global quality conclusion",
     "no full LeJEPA conclusion",
     "no claim outside the listed encoder_dim-grid debt-transfer surface",
@@ -243,7 +255,13 @@ def _surface_matrix() -> dict[str, Any]:
     rows: list[list[float]] = []
     labels: list[list[float]] = []
     evidence_rows: list[dict[str, Any]] = []
-    seeds = tuple(int(seed) for seed in observed_debt._seeds(DEFAULT_AXIS, observed_debt.DEFAULT_SEED_COUNT_BY_AXIS[DEFAULT_AXIS]))
+    seeds = tuple(
+        int(seed)
+        for seed in observed_debt._seeds(
+            SOURCE_OBSERVED_DEBT_AXIS,
+            observed_debt.DEFAULT_SEED_COUNT_BY_AXIS[SOURCE_OBSERVED_DEBT_AXIS],
+        )
+    )
     reference_dim: int | None = None
     for seed_index, seed in enumerate(seeds):
         for encoder_dim in observed_debt.C1_ENCODER_DIMS:
@@ -477,7 +495,7 @@ def _result(matrix: Mapping[str, Any], records: Sequence[Mapping[str, Any]]) -> 
     learned = _arm_metrics(records, "learned_h_summary_head")["failure_detection_auroc"]
     matched = _arm_metrics(records, observed_transfer.producer.MATCHED_RANDOM_ARM)["failure_detection_auroc"]
     return DimensionMismatchTransferResult(
-        surface_id="observed-debt-c1-encoder-dim-grid",
+        surface_id="observed-debt-encoder-dim-grid",
         status=status,
         status_code="scoped-d4-boundary" if status == "pass" else "failed-boundary",
         reason="all dimension-mismatch transfer hardgates passed"
@@ -506,7 +524,98 @@ def _result(matrix: Mapping[str, Any], records: Sequence[Mapping[str, Any]]) -> 
     )
 
 
-def build_payload(*, generated_at: str | None = None) -> dict[str, Any]:
+def _sidecar_gate(root: Path, *, required: bool) -> dict[str, Any]:
+    path = root / ANTI_TRIVIALITY_ARTIFACT
+    if not required:
+        return {
+            "status": "source_only",
+            "sidecar_status": None,
+            "recommended_projection": None,
+            "effective_level": BASE_LEVEL,
+            "terminal_verdict": "source_pass",
+            "downgrade_reason": None,
+            "failed_gate": None,
+            "reason": "anti-triviality sidecar has not been folded into this source snapshot",
+        }
+    if not path.exists():
+        return {
+            "status": "defer",
+            "sidecar_status": None,
+            "recommended_projection": None,
+            "effective_level": "defer",
+            "terminal_verdict": "incomplete",
+            "downgrade_reason": None,
+            "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+            "reason": "anti-triviality sidecar is absent",
+        }
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {
+            "status": "defer",
+            "sidecar_status": None,
+            "recommended_projection": None,
+            "effective_level": "defer",
+            "terminal_verdict": "incomplete",
+            "downgrade_reason": None,
+            "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+            "reason": "anti-triviality sidecar is malformed",
+        }
+    if not isinstance(payload, dict):
+        return {
+            "status": "defer",
+            "sidecar_status": None,
+            "recommended_projection": None,
+            "effective_level": "defer",
+            "terminal_verdict": "incomplete",
+            "downgrade_reason": None,
+            "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+            "reason": "anti-triviality sidecar is not a JSON object",
+        }
+    sidecar_status = payload.get("status")
+    projection = payload.get("recommended_projection")
+    if sidecar_status in {"scale_leakage_detected", "metadata_leakage_detected"} and projection == "demote_to_DN_or_D1":
+        return {
+            "status": "pass",
+            "sidecar_status": str(sidecar_status),
+            "recommended_projection": str(projection),
+            "effective_level": "DN",
+            "terminal_verdict": "negative_discovery",
+            "downgrade_reason": "scale_only_or_metadata_proxy_sufficient"
+            if sidecar_status == "scale_leakage_detected"
+            else "metadata_proxy_sufficient",
+            "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+            "reason": "anti-triviality sidecar recommends DN demotion",
+        }
+    if sidecar_status == "anti_triviality_passed" and projection == "no_level_change_signal_detected":
+        return {
+            "status": "pass",
+            "sidecar_status": str(sidecar_status),
+            "recommended_projection": str(projection),
+            "effective_level": BASE_LEVEL,
+            "terminal_verdict": "source_pass",
+            "downgrade_reason": None,
+            "failed_gate": None,
+            "reason": "anti-triviality sidecar does not recommend demotion",
+        }
+    return {
+        "status": "defer",
+        "sidecar_status": sidecar_status if isinstance(sidecar_status, str) else None,
+        "recommended_projection": projection if isinstance(projection, str) else None,
+        "effective_level": "defer",
+        "terminal_verdict": "incomplete",
+        "downgrade_reason": None,
+        "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        "reason": "anti-triviality sidecar status and recommended projection are not foldable",
+    }
+
+
+def build_payload(
+    *,
+    root: Path = ROOT,
+    generated_at: str | None = None,
+    require_anti_triviality: bool = True,
+) -> dict[str, Any]:
     matrix = _surface_matrix()
     fold_records = [
         _fold_record(matrix, fold_seed=int(seed), fold_index=index)
@@ -515,6 +624,20 @@ def build_payload(*, generated_at: str | None = None) -> dict[str, Any]:
     result = _result(matrix, fold_records)
     status = result.status
     pass_count = 1 if status == "pass" else 0
+    source_level = result.discovery_level
+    sidecar = _sidecar_gate(root, required=require_anti_triviality) if status == "pass" else {
+        "status": "source_failed",
+        "sidecar_status": None,
+        "recommended_projection": None,
+        "effective_level": source_level,
+        "terminal_verdict": "source_failed",
+        "downgrade_reason": None,
+        "failed_gate": TRANSFER_STATUS_POINTER,
+        "reason": "source hardgate failure blocks anti-triviality folding",
+    }
+    effective_level = str(sidecar["effective_level"]) if status == "pass" else source_level
+    terminal_verdict = str(sidecar["terminal_verdict"])
+    downgrade_reason = sidecar["downgrade_reason"]
     return {
         "artifact_id": ARTIFACT_ID,
         "artifact": JSON_ARTIFACT,
@@ -579,10 +702,31 @@ def build_payload(*, generated_at: str | None = None) -> dict[str, Any]:
             "status_code": result.status_code,
             "reason": result.reason,
             "scope": DEFAULT_SCOPE,
-            "discovery_level": result.discovery_level,
+            "base_level": BASE_LEVEL,
+            "anti_triviality_status": sidecar["sidecar_status"],
+            "anti_triviality_projection": sidecar["recommended_projection"],
+            "anti_triviality_fold_status": sidecar["status"],
+            "anti_triviality_fold_reason": sidecar["reason"],
+            "effective_level": effective_level,
+            "downgrade_reason": downgrade_reason,
+            "terminal_verdict": terminal_verdict,
+            "discovery_level": effective_level,
             "pass_surface_count": pass_count,
             "total_surface_count": 1,
-            "discovery_map_pointer": TRANSFER_STATUS_POINTER,
+            "discovery_map_pointer": EFFECTIVE_LEVEL_POINTER,
+            "hypothesis": "h-summary dimension-mismatch debt transfer remains non-trivial after metadata and scale controls",
+            "failed_gate": sidecar["failed_gate"],
+            "what_was_learned": sidecar["reason"],
+            "not_claimed": [
+                "global dimension theory",
+                "representation-geometric debt transfer",
+                "D5 promotion",
+            ],
+            "anti_triviality_evidence": {
+                "artifact": ANTI_TRIVIALITY_ARTIFACT,
+                "status_pointer": "$.status",
+                "recommended_projection_pointer": "$.recommended_projection",
+            },
         },
         "metrics": {
             "by_arm": {
@@ -605,13 +749,17 @@ def build_payload(*, generated_at: str | None = None) -> dict[str, Any]:
         "hardgate_evidence": result.hardgates,
         "boundary_ledger": {
             "status": "recorded",
-            "projection": "scoped D4" if status == "pass" else "DN",
+            "projection": effective_level,
             "failed_gates": [
                 name for name, gate in result.hardgates.items() if gate["status"] != "pass"
             ],
             "d5_shortcut": False,
             "scope": DEFAULT_SCOPE,
-            "reason": "pass is capped at scoped D4; failed status emits no positive D4/D5 fields",
+            "base_level": BASE_LEVEL,
+            "effective_level": effective_level,
+            "terminal_verdict": terminal_verdict,
+            "downgrade_reason": downgrade_reason,
+            "reason": sidecar["reason"],
         },
         "not_claimed": list(NOT_CLAIMED),
     }
@@ -662,7 +810,10 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             "| --- | --- | --- |",
             f"| status | `{transfer['status']}` | `{TRANSFER_STATUS_POINTER}` |",
             f"| status code | `{transfer['status_code']}` | `$.dimension_mismatch_debt_transfer.status_code` |",
-            f"| discovery level | `{transfer['discovery_level']}` | `$.dimension_mismatch_debt_transfer.discovery_level` |",
+            f"| base level | `{transfer['base_level']}` | `$.dimension_mismatch_debt_transfer.base_level` |",
+            f"| anti-triviality status | `{transfer['anti_triviality_status']}` | `$.dimension_mismatch_debt_transfer.anti_triviality_status` |",
+            f"| effective level | `{transfer['effective_level']}` | `{EFFECTIVE_LEVEL_POINTER}` |",
+            f"| terminal verdict | `{transfer['terminal_verdict']}` | `$.dimension_mismatch_debt_transfer.terminal_verdict` |",
             f"| scope | `{transfer['scope']}` | `$.dimension_mismatch_debt_transfer.scope` |",
             "",
             "## Not claimed",
@@ -675,17 +826,23 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def _write_payload(payload: Mapping[str, Any]) -> None:
-    json_path = ROOT / JSON_ARTIFACT
-    report_path = ROOT / REPORT_ARTIFACT
+def write_dimension_mismatch_debt_transfer(
+    *,
+    root: Path = ROOT,
+    generated_at: str | None = None,
+    require_anti_triviality: bool = True,
+) -> dict[str, Any]:
+    payload = build_payload(root=root, generated_at=generated_at, require_anti_triviality=require_anti_triviality)
+    json_path = root / JSON_ARTIFACT
+    report_path = root / REPORT_ARTIFACT
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     report_path.write_text(render_markdown(payload), encoding="utf-8")
+    return payload
 
 
 def main() -> None:
-    payload = build_payload()
-    _write_payload(payload)
+    payload = write_dimension_mismatch_debt_transfer()
     transfer = payload["dimension_mismatch_debt_transfer"]
     learned = payload["metrics"]["by_arm"]["learned_h_summary_head"]["failure_detection_auroc"]
     matched = payload["metrics"]["by_arm"][observed_transfer.producer.MATCHED_RANDOM_ARM]["failure_detection_auroc"]

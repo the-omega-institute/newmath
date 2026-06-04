@@ -3,7 +3,7 @@
 - Status: `pass`
 - Artifact id: `bedc-quality-lab:dimension-mismatch-transfer-robustness`
 - Source pointer: `reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.status`
-- Readiness boundary: pass = robust-control evidence for the existing scoped-D4 dimension-mismatch-debt-transfer surface; not a D5 upgrade, not global model quality.
+- Readiness boundary: pass = robust-control evidence for the source dimension-mismatch-debt-transfer surface with terminal DN downgrade under anti-triviality; not a D5 upgrade, not global model quality.
 
 ## Robust control checks
 

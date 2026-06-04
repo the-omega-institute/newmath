@@ -28,7 +28,12 @@ def _source_payload(status="pass"):
             "status": status,
             "status_code": "scoped-d4-boundary" if status == "pass" else "failed-boundary",
             "scope": "encoder_dim grid against producer reference latent dimension",
-            "discovery_level": "D4" if status == "pass" else "DN",
+            "base_level": "D4",
+            "anti_triviality_status": "scale_leakage_detected",
+            "effective_level": "DN",
+            "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
+            "terminal_verdict": "negative_discovery",
+            "discovery_level": "DN",
         },
         "control_protocol": {
             "control_arm": "matched_random_gap_head",
@@ -73,7 +78,7 @@ def _source_payload(status="pass"):
         },
         "boundary_ledger": {
             "status": "recorded",
-            "projection": "scoped D4",
+            "projection": "DN",
             "failed_gates": [],
             "d5_shortcut": False,
         },
@@ -85,16 +90,21 @@ def _source_payload(status="pass"):
     }
 
 
-def _discovery_map_payload(level="D4", *, d5=False):
+def _discovery_map_payload(level="DN", *, d5=False):
     row = {
         "report": "dimension-mismatch-debt-transfer",
         "json_artifact": runner.SOURCE_ARTIFACT,
         "markdown_artifact": runner.transfer.REPORT_ARTIFACT,
         "discovery_level": level,
+        "base_level": "D4",
+        "anti_triviality_status": "scale_leakage_detected",
+        "effective_level": "DN",
+        "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
+        "terminal_verdict": "negative_discovery",
         "projection_status": "projected",
-        "evidence_pointer": runner.SOURCE_STATUS_POINTER,
-        "control_pointer": "$.control_protocol",
-        "classifier_reasons": ["positive_discovery=true", "robustness evidence absent"],
+        "evidence_pointer": "$.dimension_mismatch_debt_transfer.effective_level",
+        "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        "classifier_reasons": ["verdict=rejected"],
         "audit_status": "valid",
         "audit_reason": "",
     }
@@ -246,9 +256,13 @@ def test_real_pass_shape_stays_pointer_only_and_does_not_promote_d5(tmp_path):
     assert persisted["artifact_id"] == runner.ARTIFACT_ID
     assert persisted["source_pointer"] == f"{runner.SOURCE_ARTIFACT}:{runner.SOURCE_STATUS_POINTER}"
     assert all(check["verdict"] == "pass" for check in persisted["robust_control_checks"])
+    assert "terminal DN downgrade" in persisted["readiness_boundary"]
     assert "not a D5 upgrade" in persisted["readiness_boundary"]
     assert "d5_readiness" not in persisted
-    assert row["discovery_level"] == "D4"
+    assert row["base_level"] == "D4"
+    assert row["effective_level"] == "DN"
+    assert row["discovery_level"] == "DN"
+    assert row["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
     assert "d5_readiness" not in row
     assert "score" not in json.dumps(persisted["robust_control_checks"]).lower()
 

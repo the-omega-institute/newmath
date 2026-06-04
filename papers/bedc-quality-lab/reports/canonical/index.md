@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-04T11:04:50.081457+00:00`
+- Generated at: `2026-06-04T11:53:28.456838+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -44,7 +44,9 @@
 - JSON: `reports/canonical/dimension-mismatch-debt-transfer.json`
 - Markdown: `reports/canonical/dimension-mismatch-debt-transfer.md`
 - Transfer status: `pass`
-- Discovery level: `D4`
+- Base level: `D4`
+- Effective level: `DN`
+- Terminal verdict: `negative_discovery`
 
 ## Dimension mismatch transfer robustness
 
@@ -59,6 +61,7 @@
 - Canonical artifacts: `papers/bedc-quality-lab/reports/canonical/`
 - Discovery map: `reports/canonical/discovery_map.json:$.rows[*].discovery_level`
 - Claim verdicts: `reports/canonical/claim_verdicts.jsonl`
+- Claim capsule: `reports/canonical/claim_capsule.json`
 - Negative witnesses: `reports/canonical/discovery_negative_witnesses.json`
 - Scorecard: `reports/canonical/quality-scorecard.json:$.rows`
 - Claims boundary: `docs/claims_and_nonclaims.md`
@@ -76,12 +79,20 @@
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
 - Rows: `19`
 
+## Claim capsule
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/claim_capsule.json`
+- Schema: `bedc.quality.claim_capsule`
+- Effective level: `DN`
+- Terminal verdict: `negative_discovery`
+
 ## Negative witness summary
 
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witness_summary.json`
 - Markdown: `reports/canonical/discovery_negative_witness_summary.md`
-- Rows: `12`
+- Rows: `13`
 - Audit: `pass`
 
 ## Formal hardening

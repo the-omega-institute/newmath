@@ -1,4 +1,14 @@
 {
+  "claim_capsule": {
+    "artifact_id": "bedc-quality-lab:claim-capsule",
+    "capsule_status": "complete",
+    "claim_id": "claim:dimension-mismatch-debt-transfer",
+    "effective_level": "DN",
+    "json_artifact": "reports/canonical/claim_capsule.json",
+    "schema_id": "bedc.quality.claim_capsule",
+    "status": "pointer-only",
+    "terminal_verdict": "negative_discovery"
+  },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
@@ -96,11 +106,14 @@
   },
   "dimension_mismatch_debt_transfer": {
     "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
-    "discovery_level": "D4",
+    "base_level": "D4",
+    "discovery_level": "DN",
+    "effective_level": "DN",
     "json_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
     "markdown_artifact": "reports/canonical/dimension-mismatch-debt-transfer.md",
     "scope": "encoder_dim grid against producer reference latent dimension",
     "status": "pointer-only",
+    "terminal_verdict": "negative_discovery",
     "transfer_status": "pass"
   },
   "dimension_mismatch_transfer_robustness": {
@@ -118,9 +131,9 @@
       "D1": 4,
       "D2": 0,
       "D3": 0,
-      "D4": 2,
+      "D4": 1,
       "D5": 1,
-      "DN": 4,
+      "DN": 5,
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
@@ -147,7 +160,7 @@
     "mechanism_status": "probe-margin-channel",
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-04T11:04:50.081457+00:00",
+  "generated_at": "2026-06-04T11:53:28.456838+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -187,7 +200,7 @@
     "audit_status": "pass",
     "json_artifact": "reports/canonical/discovery_negative_witness_summary.json",
     "markdown_artifact": "reports/canonical/discovery_negative_witness_summary.md",
-    "row_count": 12,
+    "row_count": 13,
     "status": "pointer-only"
   },
   "negative_witnesses": {
@@ -273,7 +286,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.076,
+      "duration_seconds": 0.049,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
       "markdown_artifact": "reports/canonical/mixing-family-sweep.md",
@@ -323,7 +336,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.055,
+      "duration_seconds": 0.049,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
       "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
@@ -373,7 +386,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 2.444,
+      "duration_seconds": 2.242,
       "estimated_seconds": 90,
       "json_artifact": "reports/canonical/gap-head-on-h.json",
       "markdown_artifact": "reports/canonical/gap-head-on-h.md",
@@ -429,7 +442,7 @@
         "scope_pointer": "$.boundary_checks",
         "scope_status": "present"
       },
-      "duration_seconds": 0.01,
+      "duration_seconds": 0.008,
       "estimated_seconds": 5,
       "json_artifact": "reports/canonical/gap-head-discovery.json",
       "markdown_artifact": "reports/canonical/gap-head-discovery.md",
@@ -480,7 +493,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 10.574,
+      "duration_seconds": 9.712,
       "estimated_seconds": 120,
       "json_artifact": "reports/canonical/gap-head-ablation.json",
       "markdown_artifact": "reports/canonical/gap-head-ablation.md",
@@ -532,7 +545,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 2.37,
+      "duration_seconds": 2.192,
       "estimated_seconds": 120,
       "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
       "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
@@ -586,7 +599,7 @@
         "scope_pointer": "$.coverage_item",
         "scope_status": "present"
       },
-      "duration_seconds": 0.043,
+      "duration_seconds": 0.039,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
       "markdown_artifact": "reports/canonical/nongaussian-distribution-sweep.md",
@@ -638,7 +651,7 @@
         "scope_pointer": "$.objective.required_rows",
         "scope_status": "present"
       },
-      "duration_seconds": 4.751,
+      "duration_seconds": 3.421,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/certificate-guided-training.json",
       "markdown_artifact": "reports/canonical/certificate-guided-training.md",
@@ -697,7 +710,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.006,
+      "duration_seconds": 0.004,
       "estimated_seconds": 5,
       "json_artifact": "reports/canonical/certificate-guided-discovery.json",
       "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",
@@ -754,7 +767,7 @@
         "scope_pointer": "$.arm_protocol",
         "scope_status": "present"
       },
-      "duration_seconds": 2.439,
+      "duration_seconds": 1.774,
       "estimated_seconds": 30,
       "json_artifact": "reports/canonical/sigreg-training-proxy.json",
       "markdown_artifact": "reports/canonical/sigreg-training-proxy.md",
@@ -816,7 +829,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.006,
+      "duration_seconds": 0.005,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
       "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",

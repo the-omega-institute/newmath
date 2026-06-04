@@ -37,7 +37,7 @@ C1_ENCODER_DIMS = (1, 2, 3, 4)
 C2_TRAINING_STEPS = (10, 20, 50, 100, 500, 2000)
 C3_SAMPLE_COUNTS = (128, 256, 512, 1024, 4096)
 C4_ACTION_TRANSITION_VALUES = (False, True)
-DEFAULT_SEED_COUNT_BY_AXIS = {"C1": 10, "C2": 6, "C3": 10, "C4": 6}
+DEFAULT_SEED_COUNT_BY_AXIS = {'C1': 10, "C2": 6, "C3": 10, "C4": 6}
 SMOKE_SEED_COUNT = 1
 JSON_ARTIFACT = "reports/canonical/observed-debt-sweep.json"
 REPORT_ARTIFACT = "reports/canonical/observed-debt-sweep.md"
@@ -583,16 +583,16 @@ def _baseline_records(seed_count: int) -> tuple[dict[str, Any], ...]:
 
 
 def build_payload(*, smoke: bool = False, seed_count: int | None = None, generated_at: str | None = None) -> dict[str, Any]:
-    baseline_seed_count = _seed_count("C1", smoke=smoke, override=seed_count)
+    baseline_seed_count = _seed_count('C1', smoke=smoke, override=seed_count)
     baseline_records = _baseline_records(baseline_seed_count)
     baseline_stats = _stats(baseline_records, BASELINE_METRIC)
     cells: list[ObservedDebtCell] = []
 
-    c1_seeds = _seeds("C1", _seed_count("C1", smoke=smoke, override=seed_count))
+    c1_seeds = _seeds('C1', _seed_count('C1', smoke=smoke, override=seed_count))
     for encoder_dim in C1_ENCODER_DIMS:
         ledger_scope_rows = frozenset({DIMENSION_ROW}) if encoder_dim != BASELINE_ENCODER_DIM else None
         records = _run_lejepa_cell(
-            axis="C1",
+            axis='C1',
             axis_label="encoder_output_dim",
             axis_value=encoder_dim,
             seeds=c1_seeds,
@@ -603,7 +603,7 @@ def build_payload(*, smoke: bool = False, seed_count: int | None = None, generat
         )
         cells.append(
             _cell(
-                axis="C1",
+                axis='C1',
                 axis_label="encoder_output_dim",
                 axis_value=encoder_dim,
                 seeds=c1_seeds,
@@ -720,7 +720,7 @@ def build_payload(*, smoke: bool = False, seed_count: int | None = None, generat
             "baseline_sample_count": BASELINE_SAMPLE_COUNT,
             "actual_seed_count_by_axis": {
                 "baseline": baseline_seed_count,
-                "C1": len(c1_seeds),
+                'C1': len(c1_seeds),
                 "C2": len(c2_seeds),
                 "C3": len(c3_seeds),
                 "C4": len(c4_seeds),
@@ -767,7 +767,7 @@ def build_payload(*, smoke: bool = False, seed_count: int | None = None, generat
 
 def _grid_summary(cells: list[dict[str, Any]]) -> dict[str, Any]:
     summary: dict[str, Any] = {}
-    for axis in ("C1", "C2", "C3", "C4"):
+    for axis in ('C1', "C2", "C3", "C4"):
         rows = [cell for cell in cells if cell["axis"] == axis]
         summary[axis] = {
             "cell_count": len(rows),
@@ -782,7 +782,7 @@ def _grid_summary(cells: list[dict[str, Any]]) -> dict[str, Any]:
 def _c1_dimension_boundary_violations(cells: list[dict[str, Any]]) -> list[str]:
     violations = []
     for cell in cells:
-        if cell["axis"] != "C1" or cell["axis_value"] == BASELINE_ENCODER_DIM:
+        if cell["axis"] != 'C1' or cell["axis_value"] == BASELINE_ENCODER_DIM:
             continue
         for record in cell["records"]:
             rows = {_gap_row(gap) for gap in record["envelope"]["ledger_gaps"]}

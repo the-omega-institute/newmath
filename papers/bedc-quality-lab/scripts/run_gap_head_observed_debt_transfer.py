@@ -389,7 +389,7 @@ def _boundary_ledger(surfaces: list[dict[str, Any]]) -> dict[str, Any]:
         ],
         "excluded_observed_debt_axes": [
             {
-                "axis": "C1",
+                "axis": 'C1',
                 "reason": "encoder dimension is not a real training knob in the reused gap-head-on-h producer",
             },
             {

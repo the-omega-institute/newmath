@@ -39,6 +39,8 @@ class ProjectionEvidence:
     adversarial_pointer: str | None = None
     observed_debt_transfer_pointer: str | None = None
     d5_readiness: "GapHeadD5ReadinessLedger | None" = None
+    canonical_discovery_level: DiscoveryLevel | None = None
+    canonical_terminal_verdict: str | None = None
 
 
 @dataclass(frozen=True)
@@ -82,6 +84,8 @@ GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
 )
 GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER = "$.gap_head_on_h_observed_debt_transfer.status"
 DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status"
+DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER = "$.dimension_mismatch_debt_transfer.effective_level"
+DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER = "$.dimension_mismatch_debt_transfer.anti_triviality_status"
 
 
 def _root(root: Path | None) -> Path:
@@ -543,6 +547,9 @@ def _debt_cell_projection(payload: Mapping[str, Any], pointer: str) -> tuple[dic
 
 def _dimension_mismatch_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
     status = pointer_value(payload, DIMENSION_MISMATCH_TRANSFER_POINTER)
+    effective_level = pointer_value(payload, DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER)
+    terminal_verdict = pointer_value(payload, "$.dimension_mismatch_debt_transfer.terminal_verdict")
+    anti_triviality_status = pointer_value(payload, DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER)
     if status == "pass":
         try:
             assert_transfer_artifact_integrity(
@@ -557,16 +564,37 @@ def _dimension_mismatch_projection(payload: Mapping[str, Any]) -> tuple[dict[str
                 projection_status="source-insufficient",
                 evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
             )
-        return {"positive_discovery": True}, ProjectionEvidence(
-            projection_status="projected",
-            evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
-            control_pointer="$.control_protocol",
-        )
+        if effective_level == "DN" and terminal_verdict == "negative_discovery":
+            return {"verdict": "rejected"}, ProjectionEvidence(
+                projection_status="projected",
+                evidence_pointer=DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER,
+                failed_gate=DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER,
+                canonical_discovery_level="DN",
+                canonical_terminal_verdict="negative_discovery",
+            )
+        if effective_level == "D4" and terminal_verdict == "source_pass":
+            return {}, ProjectionEvidence(
+                projection_status="projected",
+                evidence_pointer=DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER,
+                canonical_discovery_level="D4",
+                canonical_terminal_verdict="source_pass",
+            )
+        if anti_triviality_status == "scale_leakage_detected":
+            return {"verdict": "rejected"}, ProjectionEvidence(
+                projection_status="projected",
+                evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
+                failed_gate=DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER,
+                canonical_discovery_level="DN" if effective_level == "DN" else None,
+                canonical_terminal_verdict=terminal_verdict if isinstance(terminal_verdict, str) else None,
+            )
     if status == "failed":
+        canonical_level = effective_level if isinstance(effective_level, str) and effective_level in DISCOVERY_LEVELS else None
         return {"verdict": "rejected"}, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
             failed_gate=DIMENSION_MISMATCH_TRANSFER_POINTER,
+            canonical_discovery_level=canonical_level,
+            canonical_terminal_verdict=terminal_verdict if isinstance(terminal_verdict, str) else None,
         )
     return {}, ProjectionEvidence(
         projection_status="source-insufficient",
@@ -734,6 +762,7 @@ def _manifest_audit(
         DISCOVERY_MAP_JSON_ARTIFACT,
         NEGATIVE_WITNESSES_ARTIFACT,
         "reports/canonical/discovery_negative_witness_summary.json",
+        "reports/canonical/claim_capsule.json",
         OBSERVED_DEBT_ARTIFACT,
         DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
     }
@@ -782,13 +811,15 @@ def _dimension_mismatch_discovery_row(payload: Mapping[str, Any]) -> dict[str, A
     projected = dict(payload)
     projected.update(overlay)
     verdict = assign_discovery_level(projected)
-    audit_status, audit_reason = _dimension_mismatch_audit_row(payload, verdict.discovery_level, evidence)
+    discovery_level = evidence.canonical_discovery_level or verdict.discovery_level
+    terminal_verdict = evidence.canonical_terminal_verdict or verdict.terminal_verdict
+    audit_status, audit_reason = _dimension_mismatch_audit_row(payload, discovery_level, terminal_verdict, evidence)
     row: dict[str, Any] = {
         "report": "dimension-mismatch-debt-transfer",
         "json_artifact": DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
         "markdown_artifact": "reports/canonical/dimension-mismatch-debt-transfer.md",
-        "discovery_level": verdict.discovery_level,
-        "terminal_verdict": verdict.terminal_verdict,
+        "discovery_level": discovery_level,
+        "terminal_verdict": terminal_verdict,
         "classifier_reasons": list(verdict.reasons),
         "projection_status": evidence.projection_status,
         "evidence_pointer": evidence.evidence_pointer,
@@ -799,26 +830,54 @@ def _dimension_mismatch_discovery_row(payload: Mapping[str, Any]) -> dict[str, A
         row["control_pointer"] = evidence.control_pointer
     if evidence.failed_gate is not None:
         row["failed_gate"] = evidence.failed_gate
+    claim = payload.get("dimension_mismatch_debt_transfer")
+    if isinstance(claim, Mapping):
+        for key in (
+            "base_level",
+            "anti_triviality_status",
+            "effective_level",
+            "downgrade_reason",
+            "hypothesis",
+            "what_was_learned",
+            "not_claimed",
+        ):
+            if key in claim:
+                row[key] = claim[key]
     return row
 
 
 def _dimension_mismatch_audit_row(
     payload: Mapping[str, Any],
     level: DiscoveryLevel,
+    terminal_verdict: str,
     evidence: ProjectionEvidence,
 ) -> tuple[str, str]:
+    canonical_effective_level = pointer_value(payload, "$.dimension_mismatch_debt_transfer.effective_level")
+    canonical_discovery_level = pointer_value(payload, "$.dimension_mismatch_debt_transfer.discovery_level")
+    canonical_terminal_verdict = pointer_value(payload, "$.dimension_mismatch_debt_transfer.terminal_verdict")
+    if isinstance(canonical_effective_level, str) and canonical_effective_level in DISCOVERY_LEVELS and level != canonical_effective_level:
+        return "invalid", "dimension-mismatch-discovery-level-disagrees-with-canonical-effective-level"
+    if isinstance(canonical_discovery_level, str) and canonical_discovery_level in DISCOVERY_LEVELS and level != canonical_discovery_level:
+        return "invalid", "dimension-mismatch-discovery-level-disagrees-with-canonical-discovery-level"
+    if isinstance(canonical_terminal_verdict, str) and terminal_verdict != canonical_terminal_verdict:
+        return "invalid", "dimension-mismatch-terminal-verdict-disagrees-with-canonical"
     if level == "D5":
         return "invalid", "dimension-mismatch-transfer-has-no-d5-shortcut"
     if level == "D4":
-        if evidence.control_pointer is None:
-            return "invalid", "missing-control-pointer"
-        if pointer_value(payload, evidence.control_pointer) is None:
-            return "invalid", "unresolved-control-pointer"
+        if terminal_verdict == "source_pass" and evidence.failed_gate is None:
+            return "valid", ""
+        return "invalid", "dimension-mismatch-d4-requires-source-pass"
     if level == "DN":
         if evidence.failed_gate is None:
             return "invalid", "missing-failed-gate"
         if pointer_value(payload, evidence.failed_gate) is None:
             return "invalid", "unresolved-failed-gate"
+        if pointer_value(payload, "$.dimension_mismatch_debt_transfer.base_level") == "D4":
+            if pointer_value(payload, "$.dimension_mismatch_debt_transfer.effective_level") != "DN":
+                return "invalid", "dimension-mismatch-base-d4-without-terminal-dn"
+        if pointer_value(payload, DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER) == "scale_leakage_detected":
+            if pointer_value(payload, "$.dimension_mismatch_debt_transfer.effective_level") != "DN":
+                return "invalid", "scale-leakage-effective-level-not-dn"
     return "valid", ""
 
 

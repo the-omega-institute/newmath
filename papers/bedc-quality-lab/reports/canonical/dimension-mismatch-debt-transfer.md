@@ -23,11 +23,22 @@
 | --- | --- | --- |
 | status | `pass` | `$.dimension_mismatch_debt_transfer.status` |
 | status code | `scoped-d4-boundary` | `$.dimension_mismatch_debt_transfer.status_code` |
-| discovery level | `D4` | `$.dimension_mismatch_debt_transfer.discovery_level` |
+| base level | `D4` | `$.dimension_mismatch_debt_transfer.base_level` |
+| anti-triviality status | `scale_leakage_detected` | `$.dimension_mismatch_debt_transfer.anti_triviality_status` |
+| effective level | `DN` | `$.dimension_mismatch_debt_transfer.effective_level` |
+| terminal verdict | `negative_discovery` | `$.dimension_mismatch_debt_transfer.terminal_verdict` |
 | scope | `encoder_dim grid against producer reference latent dimension` | `$.dimension_mismatch_debt_transfer.scope` |
 
 ## Not claimed
 
+- global dimension theory
+- representation-geometric debt transfer
+- D5 promotion
+- global model quality
+- full LeJEPA
+- full TensorNameCert
+- LLM behavior
+- mechanism closure unless D5-M
 - no global quality conclusion
 - no full LeJEPA conclusion
 - no claim outside the listed encoder_dim-grid debt-transfer surface
