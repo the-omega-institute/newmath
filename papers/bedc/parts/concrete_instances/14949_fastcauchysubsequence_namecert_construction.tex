@@ -100,6 +100,50 @@ Use \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence}. It binds t
 Apply the regular route theorem, \autoref{thm:fast-cauchy-subsequence-regular-route}. The route from $Q$ to $W$ passes through $F$ and $R$, so each selected window is covered by the displayed cofinal selector, dyadic radius data carried in the fast-rate ledger, and regular rational readback.
 \end{proof}
 
+\begin{theorem}[FastCauchySubsequence selected-window induction]
+\label{thm:fast-cauchy-subsequence-selected-window-induction}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the finite list of selected windows is determined by the displayed rows $M,Q,F,R,W$. More precisely, induction over the selected-window rows exposed by $Q$ reads each step through
+$$
+M\longmapsto Q\longmapsto F\longmapsto R\longmapsto W ,
+$$
+with $S,H,C,P,N$ only transporting and naming the route. No induction step may branch on host subsequence equality, an independent selector function, countable choice, quotient Cauchy classes, selected limits, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the selected windows named by $Q$. The carrier exposes them as a finite $\BHist$ ledger, so the induction is ordinary finite row induction over the displayed selector entries.
+
+At the base row, \autoref{thm:fast-cauchy-subsequence-modulus-selector-coherence} binds the selected source window to the inspected modulus row $M$. The fast-rate data $F$, regular-subsequence handoff $R$, and regular rational readback $W$ then read the same window by \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}.
+
+For the successor row, repeat the same projection on the next displayed selector entry. Since the carrier has no coordinate for host subsequence equality, countable choice, quotient Cauchy classes, selected limits, or ambient completeness, the step can only reuse the displayed $M,Q,F,R,W$ route.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence tail-choice refusal]
+\label{thm:fast-cauchy-subsequence-tail-choice-refusal}
+Let $A=(S,M,Q,F,R,W,E,H,C,P,N)$ be an accepted $\FastCauchySubsequenceUp$ carrier. Any tail-choice claim made by a downstream consumer is accepted only when it is read from the finite selector windows already covered by $M,Q,F,R,W$. A claim whose witness is a host subsequence functional, a countable-choice schedule, quotient equality of Cauchy representatives, a selected limit, or ambient $\RealUp$ completeness has no row in the carrier and is therefore not a $\FastCauchySubsequenceUp$ read.
+\end{theorem}
+\begin{proof}
+Start with selector-window coverage. It makes every selected window pass through the cofinal selector $Q$, inspected modulus data $M$, fast-rate row $F$, regular-subsequence handoff $R$, and $\RegSeqRatUp$ readback $W$.
+
+A tail-choice claim must therefore name one of those finite rows. If it names an external functional or a countable schedule instead, there is no carrier coordinate that can be transported by $H$, replayed by $C$, sourced by $P$, or named by $N$.
+
+The refusal is stable under finite-window induction from \autoref{thm:fast-cauchy-subsequence-selected-window-induction}. Each additional selected window is another displayed $M,Q,F,R,W$ row, not an opportunity to import host equality, quotient classes, selected limits, or $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence Real-seal nonescape induction]
+\label{thm:fast-cauchy-subsequence-real-seal-nonescape-induction}
+For every accepted $\FastCauchySubsequenceUp$ carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, finite induction over the selected-window ledger preserves the Real-seal boundary. At every selected window, any route that reaches the terminal seal row $E$ has already consumed the displayed rows
+$$
+M,\quad Q,\quad F,\quad R,\quad W .
+$$
+Thus Real-facing reads cannot escape through host subsequence equality, countable choice, quotient Cauchy classes, selected limits, trichotomy, or ambient $\RealUp$ completeness at any finite induction stage.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:fast-cauchy-subsequence-selected-window-induction} as the induction spine. The base selected window is read through $M,Q,F,R,W$ before any Real-facing consumer can ask for $E$.
+
+For the successor window, apply the same finite row projection. Selector-window coverage keeps the new window inside the fast-rate ledger and regular-subsequence handoff before the regular rational readback $W$ is public.
+
+The Real-facing conclusion follows from \autoref{thm:fast-cauchy-subsequence-tail-choice-refusal}. Since no induction stage carries a host selector, quotient Cauchy class, selected limit, trichotomy witness, or completeness coordinate, the terminal seal cannot expose any such data.
+\end{proof}
+
 \begin{theorem}[Fast Cauchy subsequence tail normal form]
 \label{thm:fast-cauchy-subsequence-tail-normal-form}
 Every accepted $\FastCauchySubsequenceUp$ packet has a tail normal form whose selector is exposed only after the packet has factored through the displayed $\CauchyModulusUp$, $\CofinalSubsequenceUp$, $\DyadicRatCoreUp$, $\FastCauchyUp$, $\RealUp$, $\RegSeqRatUp$, $\RegularCauchySubsequenceUp$, and $\StreamNameUp$ rows. For a carrier $A=(S,M,Q,F,R,W,E,H,C,P,N)$, the normal-form read is
