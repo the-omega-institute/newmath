@@ -547,6 +547,7 @@ import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
 import BEDC.Derived.AxiomDependencyTupleUp.RouteNonexport
 import BEDC.Derived.AxiomDependencyTupleUp.SupplyLedgerReadback
+import BEDC.Derived.AxiomPurityGateUp
 import BEDC.Derived.AxiomPurityGateUp.TasteGate
 import BEDC.Derived.AxiomPurityGateUp.WitnessPreservingConsumer
 import BEDC.Derived.AxiomQueryLedgerUp
@@ -3945,6 +3946,7 @@ import BEDC.Derived.FanModulusBoundaryUp.TasteGate
 import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
+import BEDC.Derived.FanfunctionalUp.BarScopeObligations
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
@@ -4043,6 +4045,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.SourceCarrier
 import BEDC.Derived.FastCauchySubsequenceUp.SourceReplayExhaustion
 import BEDC.Derived.FastCauchySubsequenceUp.SourceSurface
 import BEDC.Derived.FastCauchySubsequenceUp.SynchronizedWindow
+import BEDC.Derived.FastCauchySubsequenceUp.TailComparisonExtraction
 import BEDC.Derived.FastCauchySubsequenceUp.TailExtractionObligations
 import BEDC.Derived.FastCauchySubsequenceUp.TailModulusLock
 import BEDC.Derived.FastCauchySubsequenceUp.TailRegularity
@@ -5170,6 +5173,7 @@ import BEDC.Derived.LawCertificateUp.ContinuationScope
 import BEDC.Derived.LawCertificateUp.NameCert
 import BEDC.Derived.LawCertificateUp.TasteGate
 import BEDC.Derived.LawlessSequenceUp.TasteGate
+import BEDC.Derived.LawlikeSequenceUp.TasteGate
 import BEDC.Derived.LaxMilgramUp.TasteGate
 import BEDC.Derived.LayeredRelationCertUp.TasteGate
 import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
@@ -5425,6 +5429,7 @@ import BEDC.Derived.LowerSemicontinuousUp.EpigraphLedgerRefusal
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedSetExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedSetHandoff
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedStability
+import BEDC.Derived.LowerSemicontinuousUp.EpigraphThresholdMonotonicity
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowInduction
 import BEDC.Derived.LowerSemicontinuousUp.FiniteEpigraphThresholdExhaustion
@@ -7993,6 +7998,7 @@ import BEDC.Derived.SequentialCompletenessCriterionUp.TasteGate
 import BEDC.Derived.SequentialCompletionUp.TasteGate
 import BEDC.Derived.SequentialContinuityUp.MetricRowStability
 import BEDC.Derived.SequentialContinuityUp.TasteGate
+import BEDC.Derived.SequentialRealCompactnessUp.TasteGate
 import BEDC.Derived.SequentialUniformCompletionUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
