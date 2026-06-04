@@ -236,4 +236,42 @@ theorem RegularCauchyReciprocalClassifierStability
     ⟨hxy, regularCauchyReciprocal_round_trip x, regularCauchyReciprocal_round_trip y,
       rfl⟩
 
+theorem RegularCauchyReciprocalTerminalSealNonTotality
+    (x : RegularCauchyReciprocalUp) :
+    ∃ Q A M W D B T E H C P N : BHist,
+      x = RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N ∧
+        List.Mem A (regularCauchyReciprocalFields x) ∧
+          List.Mem T (regularCauchyReciprocalFields x) ∧
+            List.Mem E (regularCauchyReciprocalFields x) ∧
+              BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk Q A M W D B T E H C P N =>
+      exact
+        ⟨Q, A, M, W, D, B, T, E, H, C, P, N, rfl,
+          List.Mem.tail Q (List.Mem.head [M, W, D, B, T, E, H, C, P, N]),
+          List.Mem.tail Q
+            (List.Mem.tail A
+              (List.Mem.tail M
+                (List.Mem.tail W
+                  (List.Mem.tail D
+                    (List.Mem.tail B
+                      (List.Mem.head [E, H, C, P, N])))))),
+          List.Mem.tail Q
+            (List.Mem.tail A
+              (List.Mem.tail M
+                (List.Mem.tail W
+                  (List.Mem.tail D
+                    (List.Mem.tail B
+                      (List.Mem.tail T (List.Mem.head [H, C, P, N]))))))),
+          by
+            change
+              regularCauchyReciprocalFromEventFlow
+                  (regularCauchyReciprocalToEventFlow
+                    (RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N)) =
+                some (RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N)
+            exact
+              regularCauchyReciprocal_round_trip
+                (RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N)⟩
+
 end BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
