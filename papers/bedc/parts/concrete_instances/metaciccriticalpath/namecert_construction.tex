@@ -697,6 +697,20 @@ Next compose the public provenance and frontier results. The public provenance r
 The stated hypothesis says that this finite candidate-mediated ledger has already consumed the listed obstruction, audit, boundary, endpoint, and residual rows. Therefore the local SN handoff condition for the public critical-path route is discharged, but no theorem outside that local handoff is exported.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path L10 residual route]
+\label{thm:metacic-critical-path-l10-residual-route}
+Let $K=(S,N,O,U,D,H,C,P,L)$ be an accepted $\MetaCICCriticalPathUp$ packet. If the candidate-mediated SN row attached to $K$ consumes the subject-reduction obstruction row $O$, the normalization route $S \to N$, the decidability boundary in $U$, the normal-false endpoint $N$, and the residual rows mediated by $U$, then every L10 four-object exit certificate read from $K$ must route through the same finite residual ledger before any $\RealUp$- or $\CompletionUp$-facing consumer can read it. The visible exit route is the shared packet surface $O,U,D,H,C,P,L$ together with the normalization endpoint $N$; it exports no closed subject reduction, no full strong normalization theorem, no global Church--Rosser theorem, no beta-conversion decision procedure, and no closed consistency theorem.
+\end{theorem}
+\begin{proof}
+Start with the public provenance route. The public rows identify the obstruction, normalization audit, decidability boundary, normal-false endpoint, residual substitution, replay, provenance, and local naming data as rows of the same accepted packet, so an L10 exit certificate cannot detach them into an external theorem export.
+
+Use \autoref{thm:metacic-critical-path-residual-confluence-budget-bridge}. It keeps residual-confluence reads on the finite budget ledger and prevents a confluence-facing consumer from bypassing $O,D,H,C,P,L$.
+
+Next apply \autoref{thm:metacic-critical-path-residual-substitution-normalization-frontier}. Residual substitution and normalization share the same frontier: the route through $U$ and the route $S \to N$ must keep the obstruction row, discharge socket, transport, replay, provenance, and naming rows visible.
+
+Finally apply \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-discharge}. Its hypothesis is exactly the consumed candidate-mediated ledger named in the statement, so the L10 four-object exit certificate can be read only after that ledger has discharged the local SN handoff. The Real- or Completion-facing consumer therefore receives a routed residual certificate, not an independent closed MetaCIC metatheorem.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/public_tail_bridge}
 
 \input{parts/concrete_instances/metaciccriticalpath/frontier_rank_surface}
