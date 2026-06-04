@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\CountablyCompactMetricUp$}
+\label{ch:concrete-instances-countably-compact-metric-namecert}
+\origin{human}
+
+Following Kelley, Bourbaki, and Bishop--Bridges compactness practice, the $\CountablyCompactMetricUp$ packet records the metric specialization of countable-cover compactness as finite NameCert data. It reads the metric and compact-metric source surfaces of \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-compactmetric-namecert}, the countable-cover row of \autoref{ch:concrete-instances-countably-compact-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the sequential consumer surface of \autoref{ch:concrete-instances-sequentialcompact-namecert}, the finite cluster-point route of \autoref{ch:concrete-instances-real-sequence-cluster-point-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a metric countable-cover certificate; it does not turn arbitrary open-cover compactness, countable choice, or an ambient Heine--Borel theorem into a primitive row.
+
+\begin{definition}[Countably compact metric carrier]
+\label{def:countably-compact-metric-carrier}
+A $\CountablyCompactMetricUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,C,W,S,Q,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ or $\CompactMetricUp$ source row, exposing only the named metric observations, compact-metric probes, and finite cover data used by the packet.
+\item $C$ is the countable cover enumeration row read through $\CountablyCompactUp$. It records the displayed countable family of metric-open rows and the source-surface coverage checks that the packet is allowed to inspect.
+\item $W$ is the $\StreamNameUp$ finite cover-window row. It lists the inspected prefixes of the countable cover, the finite metric probes attached to those prefixes, and the pointwise cover checks visible in each prefix.
+\item $S$ is the finite subcover ledger. It records the accepted finite prefix, its compact-metric witness rows, and the statement that later enumeration rows are not needed for the displayed source read.
+\item $Q$ is the sequential consumer window. It is read either through $\SequentialCompactUp$ or through the $\RealSequenceClusterPointUp$ route when the downstream consumer asks for a sequence or cluster-point comparison over the same metric source.
+\item $H$ stores componentwise $\hsame$ transport for the metric source, countable-cover enumeration, stream windows, finite-subcover ledger, sequential consumer window, replay, provenance, and local naming rows.
+\item $R$ stores displayed $\Cont$ replay from a countable-cover metric request through $M,C,W,S,Q,H$.
+\item $P$ is the $\Pkg$ provenance over $\CountablyCompactMetricUp$, $\MetricUp$, $\CompactMetricUp$, $\CountablyCompactUp$, $\SequentialCompactUp$, $\RealSequenceClusterPointUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CountablyCompactMetricUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary open covers, selected subcovers by countable choice, quotient equality of metric opens, host sequential compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Countably compact metric NameCert obligations]
+\label{thm:countably-compact-metric-namecert-obligations}
+For every accepted $\CountablyCompactMetricUp$ carrier $K=(M,C,W,S,Q,H,R,P,N)$, the local $\NameCert_{\CountablyCompactMetricUp}$ surface consists exactly of metric or compact-metric source admission, countable cover enumeration through $\CountablyCompactUp$, $\StreamNameUp$ finite cover windows, finite subcover ledger readback, sequential or cluster-point consumer windows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every metric compactness consumer must read $M,C,W,S,Q$ before the structural rows $H,R,P,N$ can be consumed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:countably-compact-metric-carrier}. The only source information is the metric or compact-metric row $M$, and the only countable-cover information is the row $C$ read through $\CountablyCompactUp$.
+
+The finite evidence is downstream of that countable cover. Row $W$ exposes the inspected $\StreamNameUp$ prefixes, and $S$ records the finite prefix whose metric-open rows cover the displayed source surface.
+
+The sequential comparison is not a second compactness principle. Row $Q$ is a consumer window for $\SequentialCompactUp$ or $\RealSequenceClusterPointUp$, so sequence and cluster-point reads must pass through the already displayed finite cover window and subcover ledger.
+
+Finally $H,R,P,N$ transport, replay, source, and name exactly those rows. Since no field stores arbitrary open covers, selected subcovers by countable choice, quotient open equality, host sequential compactness, or ambient real completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Countably compact metric sequential window handoff]
+\label{thm:countably-compact-metric-sequential-window-handoff}
+Every accepted $\CountablyCompactMetricUp$ packet that is consumed by a sequential or real-cluster-point route factors through the finite chain
+$$
+\MetricUp,\ \CompactMetricUp
+\longrightarrow
+\CountablyCompactUp
+\longrightarrow
+\StreamNameUp
+\longrightarrow
+\SequentialCompactUp,\ \RealSequenceClusterPointUp
+\longrightarrow
+\RealUp .
+$$
+The handoff exports only the displayed metric source row, countable-cover enumeration, finite cover windows, finite subcover ledger, sequential consumer window, transports, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $K=(M,C,W,S,Q,H,R,P,N)$. A sequential or cluster-point consumer first reads the metric source $M$ and the countable cover row $C$, so the consumer sees a displayed countable metric cover rather than an arbitrary host cover.
+
+The finite cover evidence is then fixed by $W$ and $S$. The $\StreamNameUp$ row supplies the inspected prefixes, and the finite subcover ledger supplies the accepted prefix for the same metric source.
+
+Only after those rows are visible may $Q$ be consumed. Thus the $\SequentialCompactUp$ or $\RealSequenceClusterPointUp$ comparison window is a downstream read of the finite cover route, and the terminal $\RealUp$ seal is reached only through that displayed chain.
+
+The structural rows $H,R,P,N$ preserve and name the same packet. They do not add countable choice, open-cover compactness, quotient open equality, host subsequence selection, or ambient real completeness.
+\end{proof}
+
+\closureat{CountablyCompactMetricUp}{seedStr}
+
+\begin{closurestatus}{\CountablyCompactMetricUp}
+  \constructivestory{A $\CountablyCompactMetricUp$ packet is generated from a metric or compact-metric source row, a CountablyCompact countable-cover enumeration, StreamName finite cover windows, a finite subcover ledger, a sequential or cluster-point consumer window, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:countably-compact-metric-carrier}, \autoref{thm:countably-compact-metric-namecert-obligations}, and \autoref{thm:countably-compact-metric-sequential-window-handoff} seed the metric countable-cover carrier over Metric, CompactMetric, CountablyCompact, SequentialCompact, RealSequenceClusterPoint, StreamName, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary open-cover compactness, countable choice, host sequential compactness, a selected cluster point, ambient Real completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Formalization requires carrier admission, countable-cover enumeration, StreamName finite-window exactness, finite-subcover ledger readback, sequential or cluster-point consumer handoff, transport, replay, provenance, and local naming for BEDC.Derived.CountablyCompactMetricUp.}
+\end{closurestatus}
