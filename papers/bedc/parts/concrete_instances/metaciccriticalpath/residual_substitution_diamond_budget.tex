@@ -148,6 +148,44 @@ Now apply the candidate-mediated SN frontier of \autoref{thm:metacic-critical-pa
 Finally use residual diamond source totality, \autoref{thm:metacic-critical-path-residual-diamond-source-totality}. Since source totality already requires those faces before bounded conversion reads $U$, any checker that loses one of them or moves it to a detached route is outside the accepted $\MetaCICCriticalPathUp$ packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC residual diamond typed L10 budget]
+\label{thm:metacic-critical-path-residual-diamond-typed-l10-budget}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. A typed residual-diamond consumer may read bounded conversion only after the residual-substitution frontier, residual-budget socket, candidate-mediated strong-normalization frontier, typed-example boundary, and all four L10 source faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+remain on the same packet route. Thus the typed conversion read cannot detach its residual proof from the closed-substitution boundary, spend a socket budget outside $D,H,C,P,L$, omit the candidate-mediated SN frontier, or replace any L10 source face by a later reconstruction.
+\end{theorem}
+\begin{proof}
+Start with residual diamond source totality, \autoref{thm:metacic-critical-path-residual-diamond-source-totality}. It puts the closed-substitution boundary, residual-budget socket, candidate-mediated frontier, and L10 source rows on one route before bounded conversion may read $U$.
+
+Use residual diamond L10 source nonescape, \autoref{thm:metacic-critical-path-residual-diamond-l10-source-nonescape}, to retain $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as displayed source faces. The typed-example boundary is then read through the same candidate-mediated rows, so the bounded conversion consumer receives one finite budget rather than a detached typed proof.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual diamond source-face retention]
+\label{thm:metacic-critical-path-residual-diamond-source-face-retention}
+For an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the residual-diamond route retains the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ faces whenever the residual-substitution frontier, residual-budget socket, candidate-mediated SN frontier, and typed-example boundary are used to feed bounded conversion. A consumer that reads one of those faces through a detached route, or reads bounded conversion after dropping one face, leaves the accepted packet.
+\end{theorem}
+\begin{proof}
+Apply the residual diamond L10 source nonescape theorem. It already prevents the bounded conversion handoff from consuming $U$ after losing any of the four L10 source faces.
+
+Now attach residual diamond source totality. Source totality supplies the same closed-substitution, socket-budget, and candidate-mediated rows required by the residual diamond route. The typed-example boundary can therefore be retained only as part of the displayed packet route; it has no separate source-face reconstruction step.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual diamond bounded conversion nonescape]
+\label{thm:metacic-critical-path-residual-diamond-bounded-conversion-nonescape}
+Let $K=(S,N,O,U,D,H,C,P,L)$ be an accepted $\MetaCICCriticalPathUp$ packet. Bounded conversion may be read from the residual diamond checker only while the residual-substitution frontier, residual-budget socket, candidate-mediated strong-normalization frontier, typed-example boundary, and the four L10 source faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ remain on the same route before $U$ is consumed. The read exports no full confluence theorem, no beta-conversion decidability, no quotient equality of terms, no selected limit, and no ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Compose residual diamond source totality with residual diamond L10 source nonescape. The first theorem supplies the closed-substitution, socket-budget, and candidate-mediated rows needed before bounded conversion can read $U$.
+
+The second theorem keeps the four L10 source faces visible on that route. Since the typed-example boundary is also consumed before the handoff, any consumer missing one of those rows is outside the accepted packet, and the conclusion is limited to bounded conversion on the displayed finite budget.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual diamond four-face budget]
 \label{thm:metacic-critical-path-residual-diamond-four-face-budget}
 Let
