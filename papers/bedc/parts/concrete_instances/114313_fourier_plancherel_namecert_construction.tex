@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FourierPlancherelUp$}
+\label{ch:concrete-instances-fourier-plancherel-namecert}
+\origin{human}
+
+Following Plancherel and the Fourier analysis presentation of Stein--Shakarchi, the $\FourierPlancherelUp$ packet records the finite-energy isometry surface that sits after the finite observation route of \autoref{ch:concrete-instances-fourier-namecert}, the transform rows of \autoref{ch:concrete-instances-fourier-transform-namecert}, the finite energy identity of \autoref{ch:concrete-instances-parseval-namecert}, and the finite energy carrier of \autoref{ch:concrete-instances-finite-fourier-energy-namecert}. It also consumes the pairing row of \autoref{ch:concrete-instances-innerproduct-namecert}, the integral row of \autoref{ch:concrete-instances-integral-namecert}, the regular-rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names only the BEDC certificate for the finite-energy Plancherel handoff; it does not assert Fourier inversion, pointwise convergence, quotient equality of functions, selected representatives, or ambient Hilbert-space completeness.
+
+\begin{definition}[Fourier-Plancherel finite-energy carrier]
+\label{def:fourier-plancherel-carrier}
+A $\FourierPlancherelUp$ carrier is a finite $\BHist$ packet
+$$
+P=(T,A,E,J,I,Q,R,S,H,C,V,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is the $\FourierTransformUp$ transform row, read through \autoref{ch:concrete-instances-fourier-transform-namecert};
+\item $A$ is the $\ParsevalUp$ finite identity row, read through \autoref{ch:concrete-instances-parseval-namecert};
+\item $E$ is the $\FiniteFourierEnergyUp$ energy ledger, read through \autoref{ch:concrete-instances-finite-fourier-energy-namecert};
+\item $J$ is the $\FourierUp$ finite observation source row;
+\item $I$ is the $\InnerProductUp$ pairing row;
+\item $Q$ is the $\IntegralUp$ integral-energy row;
+\item $R$ is the $\RegSeqRatUp$ regular-rational approximation and readback row;
+\item $S$ is the terminal $\RealUp$ seal row for the displayed energy comparison;
+\item $H$ stores componentwise $\hsame$ transports for $T,A,E,J,I,Q,R,S,V,N$;
+\item $C$ stores the displayed $\Cont$ replay routes from finite transform observations and Parseval ledgers to the sealed energy comparison;
+\item $V$ is the $\Pkg$ provenance over the Fourier, FourierTransform, Parseval, FiniteFourierEnergy, InnerProduct, Integral, RegSeqRat, and Real sibling packets;
+\item $N$ is the local $\NameCert_{\FourierPlancherelUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Fourier inversion, pointwise convergence, quotient equality of functions, selected representatives, an unrestricted completed Hilbert space, or Lean verification.
+\end{definition}
+
+\begin{theorem}[Fourier-Plancherel NameCert obligations]
+\label{thm:fourier-plancherel-namecert-obligations}
+For every accepted $\FourierPlancherelUp$ carrier $P=(T,A,E,J,I,Q,R,S,H,C,V,N)$, the local $\NameCert_{\FourierPlancherelUp}$ obligation surface consists of carrier admission, transform-row visibility, Parseval-row visibility, finite-energy ledger visibility, Fourier observation visibility, inner-product and integral row compatibility, regular-rational readback, Real seal stability, componentwise transport, displayed replay, provenance, and local naming. These obligations do not include inversion, convergence, quotient function equality, selected representatives, or ambient Hilbert-space completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:fourier-plancherel-carrier}. The definition lists exactly the finite rows $T,A,E,J,I,Q,R,S,H,C,V,N$ and assigns the transform, Parseval, energy, observation, pairing, integral, readback, seal, transport, replay, provenance, and naming roles.
+
+The analytic rows are read only through their sibling certificates. The transform surface comes from $\FourierTransformUp$, the finite identity from $\ParsevalUp$, the energy ledger from $\FiniteFourierEnergyUp$, and the finite observation source from $\FourierUp$.
+
+The scalar comparison remains sealed. The rows $I,Q,R,S$ carry inner-product, integral, regular-rational, and Real-seal data, while $H,C,V,N$ preserve and name the same route. Since no additional coordinate is present, the excluded inversion, convergence, quotient, representative, and ambient-completeness readings cannot be projected.
+\end{proof}
+
+\begin{theorem}[Fourier-Plancherel finite-energy isometry]
+\label{thm:fourier-plancherel-finite-energy-isometry}
+Every $\FourierPlancherelUp$ consumer that reads a finite-energy isometry must factor through
+$$
+T,A,E,J,I,Q,R,S,H,C,V,N .
+$$
+The route identifies only the displayed BEDC energy comparison between the transform-side finite-energy ledger and the source-side finite-energy ledger after regular-rational readback and Real sealing. It does not identify host functions, choose representatives, complete a quotient coefficient space, prove Fourier inversion, or assert pointwise convergence.
+\end{theorem}
+\begin{proof}
+Begin with the transform-side rows. The consumer reads $T$ through $\FourierTransformUp$ and the finite observation source $J$ through $\FourierUp$.
+
+Next read the energy identity surface. The rows $A$ and $E$ supply the Parseval and finite Fourier energy ledgers, while $I$ and $Q$ provide the pairing and integral-energy rows used by the displayed comparison.
+
+Finally pass through scalar readback and sealing. The row $R$ carries the regular-rational approximation route, $S$ seals the resulting comparison as a $\RealUp$-facing energy statement, and $H,C,V,N$ preserve, replay, source, and name the same finite route.
+
+The carrier has no coordinate for host function equality, selected representatives, quotient coefficient spaces, inversion, or pointwise convergence. Hence the isometry reading is exactly the finite-energy BEDC handoff stated above.
+\end{proof}
+
+\begin{closurestatus}{\FourierPlancherelUp}
+  \constructivestory{A $\FourierPlancherelUp$ packet is generated from FourierTransform, Parseval, FiniteFourierEnergy, Fourier observation, InnerProduct, Integral, RegSeqRat, Real seal, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fourier-plancherel-carrier}, \autoref{thm:fourier-plancherel-namecert-obligations}, and \autoref{thm:fourier-plancherel-finite-energy-isometry} seed the finite-energy Plancherel handoff consumed by downstream Fourier-completion work.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Fourier inversion, pointwise convergence, quotient equality of functions, selected representatives, ambient Hilbert-space completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier and NameCert obligation coverage for the displayed Plancherel finite-energy route.}
+\end{closurestatus}
