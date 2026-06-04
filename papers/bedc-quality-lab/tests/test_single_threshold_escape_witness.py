@@ -168,7 +168,7 @@ def test_hg_stew_6_threshold_packet_never_promotes_discovery():
     payload = stew.build_sidecar(root=ROOT, generated_at="2030-01-01T00:00:00+00:00")
 
     assert payload["status"] == "escaped-positive-captured"
-    assert payload["projection"]["discovery_level"] == "D4"
+    assert payload["projection"]["discovery_level"] == "DN"
     assert payload["projection"]["escaped_positive_is_discovery_evidence"] is False
     assert payload["hardgates"]["HG-STEW-6"]["promotion"] == "none"
     assert payload["escaped_rows"][0]["reason"] == (

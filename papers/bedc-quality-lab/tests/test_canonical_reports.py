@@ -1093,7 +1093,14 @@ def test_quality_scorecard_is_generated_by_canonical_runner(tmp_path, monkeypatc
         json_path = canonical._artifact_path(spec.json_artifact)
         md_path = canonical._artifact_path(spec.markdown_artifact)
         json_path.parent.mkdir(parents=True, exist_ok=True)
-        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        payload = _payload_for_spec(spec)
+        if spec.name == "gap-head-transfer-atlas":
+            payload["multi_surface_d5_o"] = {
+                "decision": "pass",
+                "discovery_level": "D5-O",
+                "pass_surface_count": 3,
+            }
+        json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
 
     monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
@@ -1119,7 +1126,14 @@ def test_discovery_map_is_registered_by_canonical_runner(tmp_path, monkeypatch):
         json_path = canonical._artifact_path(spec.json_artifact)
         md_path = canonical._artifact_path(spec.markdown_artifact)
         json_path.parent.mkdir(parents=True, exist_ok=True)
-        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        payload = _payload_for_spec(spec)
+        if spec.name == "gap-head-transfer-atlas":
+            payload["multi_surface_d5_o"] = {
+                "decision": "pass",
+                "discovery_level": "D5-O",
+                "pass_surface_count": 3,
+            }
+        json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
 
     monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
@@ -1141,7 +1155,14 @@ def test_gap_head_transfer_atlas_index_matches_discovery_map_row(tmp_path, monke
         json_path = canonical._artifact_path(spec.json_artifact)
         md_path = canonical._artifact_path(spec.markdown_artifact)
         json_path.parent.mkdir(parents=True, exist_ok=True)
-        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        payload = _payload_for_spec(spec)
+        if spec.name == "gap-head-transfer-atlas":
+            payload["multi_surface_d5_o"] = {
+                "decision": "pass",
+                "discovery_level": "D5-O",
+                "pass_surface_count": 3,
+            }
+        json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
 
     monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
@@ -1151,6 +1172,15 @@ def test_gap_head_transfer_atlas_index_matches_discovery_map_row(tmp_path, monke
         (canonical.CANONICAL_DIR / "discovery_map.json").read_text(encoding="utf-8")
     )
     atlas_row = next(row for row in discovery_payload["rows"] if row["report"] == "gap-head-transfer-atlas")
+    negative_reports = json.loads(
+        (canonical.CANONICAL_DIR / "negative_discovery_reports.json").read_text(encoding="utf-8")
+    )
+    owner_index = int(
+        atlas_row["negative_report_pointer"]
+        .removeprefix("reports/canonical/negative_discovery_reports.json:$.rows[")
+        .removesuffix("]")
+    )
+    atlas_owner = negative_reports["rows"][owner_index]
     verdicts = [
         json.loads(line)
         for line in (canonical.CANONICAL_DIR / "claim_verdicts.jsonl").read_text(encoding="utf-8").splitlines()
@@ -1160,8 +1190,8 @@ def test_gap_head_transfer_atlas_index_matches_discovery_map_row(tmp_path, monke
 
     assert payload["gap_head_transfer_atlas"]["decision"] == "pass"
     assert payload["gap_head_transfer_atlas"]["discovery_level"] == atlas_row["discovery_level"]
-    assert atlas_row["terminal_verdict"] == claim["claim_verdict"]
-    assert atlas_row["terminal_verdict"] != "pass"
+    assert atlas_owner["terminal_verdict"] == "rejected"
+    assert claim["claim_verdict"] == "ledger_only_hardening_not_ready"
 
 
 def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_path, monkeypatch):

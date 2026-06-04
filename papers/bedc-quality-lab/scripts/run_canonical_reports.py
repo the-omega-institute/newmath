@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 import sys
 import time
-from typing import Any, Literal, Sequence
+from typing import Any, Literal, Mapping, Sequence
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -1156,6 +1156,12 @@ def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, A
     }
 
 
+def _discovery_map_payload(generated_at: str | None = None) -> dict[str, Any]:
+    from scripts.run_discovery_map import build_discovery_map
+
+    return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=CANONICAL_REPORTS)
+
+
 def _dimension_mismatch_transfer_index_section() -> dict[str, Any]:
     payload = _load_artifact_payload(DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT)
     transfer = _pointer_value(payload, "$.dimension_mismatch_debt_transfer")
@@ -1327,9 +1333,18 @@ def _formal_hardening_index_section(generated_at: str | None = None) -> dict[str
     }
 
 
-def _gap_head_transfer_atlas_index_section() -> dict[str, Any]:
+def _gap_head_transfer_atlas_index_section(discovery_map_payload: Mapping[str, Any] | None = None) -> dict[str, Any]:
     payload = _load_artifact_payload(GAP_HEAD_TRANSFER_ATLAS_JSON_ARTIFACT)
     decision = _pointer_value(payload, "$.multi_surface_d5_o")
+    rows = discovery_map_payload.get("rows") if isinstance(discovery_map_payload, Mapping) else None
+    map_row = next(
+        (
+            row
+            for row in rows
+            if isinstance(row, Mapping) and row.get("report") == "gap-head-transfer-atlas"
+        ),
+        {},
+    ) if isinstance(rows, list) else {}
     return {
         "status": "pointer-only",
         "artifact_id": payload.get("artifact_id", GAP_HEAD_TRANSFER_ATLAS_ARTIFACT_ID),
@@ -1339,7 +1354,8 @@ def _gap_head_transfer_atlas_index_section() -> dict[str, Any]:
         "boundary_ledger_pointer": "$.boundary_ledger",
         "claim_capsule_pointer": "$.config.claim_capsule_artifact",
         "decision": decision.get("decision") if isinstance(decision, dict) else "missing",
-        "discovery_level": decision.get("discovery_level") if isinstance(decision, dict) else "missing",
+        "discovery_level": map_row.get("discovery_level", "missing"),
+        "discovery_level_pointer": "reports/canonical/discovery_map.json:$.rows[?report=gap-head-transfer-atlas].discovery_level",
         "pass_surface_count": decision.get("pass_surface_count") if isinstance(decision, dict) else "missing",
     }
 
@@ -1460,13 +1476,21 @@ def _index(
 ) -> dict[str, Any]:
     reports = list(results)
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    discovery_map_payload = _discovery_map_payload(generated_at=timestamp)
     return {
         "schema_id": INDEX_SCHEMA_ID,
         "generated_at": timestamp,
         "root": INDEX_ROOT,
         "reports": reports,
         "quality_scorecard": _quality_scorecard_index_section(),
-        "discovery_map": _discovery_map_index_section(generated_at=timestamp),
+        "discovery_map": {
+            "status": "pointer-only",
+            "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,
+            "json_artifact": DISCOVERY_MAP_JSON_ARTIFACT,
+            "markdown_artifact": DISCOVERY_MAP_MARKDOWN_ARTIFACT,
+            "row_count": discovery_map_payload["row_count"],
+            "level_counts": discovery_map_payload["level_counts"],
+        },
         "dimension_mismatch_debt_transfer": _dimension_mismatch_transfer_index_section(),
         "dimension_mismatch_transfer_robustness": _dimension_mismatch_transfer_robustness_index_section(),
         "negative_witnesses": _negative_witnesses_index_section(),
@@ -1476,7 +1500,7 @@ def _index(
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
-        "gap_head_transfer_atlas": _gap_head_transfer_atlas_index_section(),
+        "gap_head_transfer_atlas": _gap_head_transfer_atlas_index_section(discovery_map_payload),
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "gap_head_mechanism_namecert": _gap_head_mechanism_namecert_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),

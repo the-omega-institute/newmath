@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-map",
-  "generated_at": "2026-06-04T20:45:45.009667+00:00",
+  "generated_at": "2026-06-04T16:07:55.096198+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
     "D0": 2,
@@ -61,10 +61,13 @@
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
-        "positive_discovery=true",
-        "acceptance_gates.status=pass",
-        "final_status=pass",
-        "mechanism_attribution_all_pass=false"
+        "positive_terminal=true",
+        "classifier_shift=true",
+        "net_positive_signal=true",
+        "control_negative=true",
+        "scorecard_ready=true",
+        "robustness_ready=true",
+        "mechanism_ready=false"
       ],
       "control_pointer": "$.control_protocol",
       "d5_readiness": {
@@ -112,14 +115,19 @@
       "projection_status": "projected",
       "report": "gap-head-on-h",
       "robustness_pointer": "reports/canonical/gap-head-robustness-sweep.json:$.A1_threshold_sweep.treatment_verdict.positive",
+      "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
       "terminal_verdict": ""
     },
     {
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
-        "positive_discovery=true",
-        "robustness evidence absent"
+        "positive_terminal=true",
+        "classifier_shift=true",
+        "net_positive_signal=true",
+        "control_negative=true",
+        "scorecard_ready=true",
+        "robustness_ready=false"
       ],
       "control_pointer": "$.matched_random_control",
       "discovery_level": "D4",
@@ -128,6 +136,7 @@
       "markdown_artifact": "reports/canonical/gap-head-discovery.md",
       "projection_status": "projected",
       "report": "gap-head-discovery",
+      "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
       "terminal_verdict": ""
     },
     {
@@ -159,7 +168,13 @@
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
-        "multi_surface_d5_o.discovery_level"
+        "positive_terminal=true",
+        "classifier_shift=true",
+        "net_positive_signal=true",
+        "control_negative=true",
+        "scorecard_ready=true",
+        "robustness_ready=true",
+        "mechanism_ready=false"
       ],
       "control_pointer": "$.config.control_arm",
       "discovery_level": "D5-O",
@@ -168,6 +183,7 @@
       "markdown_artifact": "reports/canonical/gap_head_transfer_atlas.md",
       "projection_status": "projected",
       "report": "gap-head-transfer-atlas",
+      "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
       "terminal_verdict": "ledger_only_hardening_not_ready"
     },
     {

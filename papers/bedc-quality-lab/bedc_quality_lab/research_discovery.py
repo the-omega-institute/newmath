@@ -23,6 +23,21 @@ class ResearchDiscoveryVerdict:
     revocation_status: str | None
 
 
+@dataclass(frozen=True)
+class DiscoveryGateBasis:
+    classifier_shift: bool
+    positive_net: bool
+    control_negative: bool
+    scorecard_ready: bool
+    robustness_ready: bool
+    mechanism_ready: bool
+    terminal_failed: bool
+    revoked: bool
+    positive_terminal: bool
+    source_pointers: Mapping[str, str]
+    failed_gate_reasons: tuple[str, ...]
+
+
 def _string_value(value: Any, default: str = "") -> str:
     return value if isinstance(value, str) else default
 
@@ -117,6 +132,13 @@ def _positive_discovery(payload: Mapping[str, Any], main: Mapping[str, Any] | No
     return treatment is not None and treatment.get("positive") is True
 
 
+def _positive_net_signal(payload: Mapping[str, Any], main: Mapping[str, Any] | None) -> bool:
+    for source in (payload, main, _first_mapping(payload, "evidence_basis")):
+        if source is not None and source.get("net_positive_signal") is True:
+            return True
+    return False
+
+
 def _has_robustness_report_pass(payload: Mapping[str, Any]) -> bool:
     gates = _first_mapping(payload, "acceptance_gates")
     if gates is not None and gates.get("status") != "pass":
@@ -167,28 +189,27 @@ def _mechanism_attribution_all_pass(payload: Mapping[str, Any]) -> bool:
     return False
 
 
-def _positive_discovery_tail(payload: Mapping[str, Any]) -> tuple[DiscoveryLevel, tuple[str, ...]]:
-    if not _has_robustness_report_pass(payload):
-        return "D4", ("positive_discovery=true", "robustness evidence absent")
-    if _mechanism_attribution_all_pass(payload):
-        return (
-            "D5-M",
-            (
-                "positive_discovery=true",
-                "acceptance_gates.status=pass",
-                "final_status=pass",
-                "mechanism_attribution_all_pass=true",
-            ),
-        )
-    return (
-        "D5-O",
-        (
-            "positive_discovery=true",
-            "acceptance_gates.status=pass",
-            "final_status=pass",
-            "mechanism_attribution_all_pass=false",
-        ),
-    )
+def _source_pointers(payload: Mapping[str, Any]) -> dict[str, str]:
+    result: dict[str, str] = {}
+    direct = _first_mapping(payload, "source_pointers")
+    if direct is not None:
+        for key, value in direct.items():
+            if isinstance(key, str) and isinstance(value, str) and value:
+                result[key] = value
+    for source_key, pointer_key in (
+        ("operational_pointer", "operational"),
+        ("mechanism_pointer", "mechanism"),
+        ("mechanism_case_pointer", "mechanism_case"),
+    ):
+        value = payload.get(source_key)
+        if isinstance(value, str) and value:
+            result[pointer_key] = value
+    return result
+
+
+def _mechanism_ready(payload: Mapping[str, Any], source_pointers: Mapping[str, str]) -> bool:
+    required = {"operational", "mechanism", "mechanism_case"}
+    return required <= set(source_pointers) and _mechanism_attribution_all_pass(payload)
 
 
 def _classifier_shift(main: Mapping[str, Any] | None) -> bool:
@@ -312,18 +333,119 @@ def _experiment_id(payload: Mapping[str, Any]) -> str:
     return ""
 
 
-def _assign_level(
+def _d4_failed_gate_reasons(basis: DiscoveryGateBasis) -> tuple[str, ...]:
+    reasons: list[str] = []
+    if not basis.positive_terminal:
+        reasons.append("positive_terminal=false")
+    if not basis.classifier_shift:
+        reasons.append("classifier_shift=false")
+    if not basis.positive_net:
+        reasons.append("net_positive_signal=false")
+    if not basis.control_negative:
+        reasons.append("control_negative=false")
+    if not basis.scorecard_ready:
+        reasons.append("scorecard_ready=false")
+    return tuple(reasons)
+
+
+def _build_discovery_gate_basis(
     payload: Mapping[str, Any],
     terminal_verdict: str,
     main: Mapping[str, Any] | None,
+) -> DiscoveryGateBasis:
+    revoked, revocation_reason = _revocation_signal(payload)
+    terminal_failed = terminal_verdict in {"rejected", "demoted"} or terminal_verdict.startswith("DN(")
+    source_pointers = _source_pointers(payload)
+    positive_terminal = _positive_discovery(payload, main)
+    provisional = DiscoveryGateBasis(
+        classifier_shift=_classifier_shift(main),
+        positive_net=_positive_net_signal(payload, main),
+        control_negative=_control_positive(payload) is False,
+        scorecard_ready=_scorecard_ready(payload),
+        robustness_ready=_has_robustness_report_pass(payload),
+        mechanism_ready=_mechanism_ready(payload, source_pointers),
+        terminal_failed=terminal_failed,
+        revoked=revoked,
+        positive_terminal=positive_terminal,
+        source_pointers=source_pointers,
+        failed_gate_reasons=(),
+    )
+    failed_reasons = _d4_failed_gate_reasons(provisional)
+    if revoked and revocation_reason is not None:
+        failed_reasons = (revocation_reason, *failed_reasons)
+    return DiscoveryGateBasis(
+        classifier_shift=provisional.classifier_shift,
+        positive_net=provisional.positive_net,
+        control_negative=provisional.control_negative,
+        scorecard_ready=provisional.scorecard_ready,
+        robustness_ready=provisional.robustness_ready,
+        mechanism_ready=provisional.mechanism_ready,
+        terminal_failed=provisional.terminal_failed,
+        revoked=provisional.revoked,
+        positive_terminal=provisional.positive_terminal,
+        source_pointers=provisional.source_pointers,
+        failed_gate_reasons=failed_reasons,
+    )
+
+
+def _assign_level(
+    payload: Mapping[str, Any],
+    terminal_verdict: str,
+    basis: DiscoveryGateBasis,
+    main: Mapping[str, Any] | None,
 ) -> tuple[DiscoveryLevel, tuple[str, ...]]:
-    revoked_signal, revocation_reason = _revocation_signal(payload)
-    if revoked_signal:
-        return "DR", (revocation_reason or "revocation signal present",)
-    if terminal_verdict in {"rejected", "demoted"} or terminal_verdict.startswith("DN("):
+    if basis.revoked:
+        reason = basis.failed_gate_reasons[0] if basis.failed_gate_reasons else "revocation signal present"
+        return "DR", (reason,)
+    if basis.terminal_failed:
         return "DN", (f"verdict={terminal_verdict}",)
-    if _positive_discovery(payload, main):
-        return _positive_discovery_tail(payload)
+    d4_pass = (
+        basis.positive_terminal
+        and basis.classifier_shift
+        and basis.positive_net
+        and basis.control_negative
+        and basis.scorecard_ready
+    )
+    if basis.positive_terminal and not d4_pass:
+        return "DN", basis.failed_gate_reasons
+    if d4_pass and basis.robustness_ready and basis.mechanism_ready:
+        return (
+            "D5-M",
+            (
+                "positive_terminal=true",
+                "classifier_shift=true",
+                "net_positive_signal=true",
+                "control_negative=true",
+                "scorecard_ready=true",
+                "robustness_ready=true",
+                "mechanism_ready=true",
+            ),
+        )
+    if d4_pass and basis.robustness_ready:
+        return (
+            "D5-O",
+            (
+                "positive_terminal=true",
+                "classifier_shift=true",
+                "net_positive_signal=true",
+                "control_negative=true",
+                "scorecard_ready=true",
+                "robustness_ready=true",
+                "mechanism_ready=false",
+            ),
+        )
+    if d4_pass:
+        return (
+            "D4",
+            (
+                "positive_terminal=true",
+                "classifier_shift=true",
+                "net_positive_signal=true",
+                "control_negative=true",
+                "scorecard_ready=true",
+                "robustness_ready=false",
+            ),
+        )
     if _structural_discovery(main):
         return "D3", ("main_verdict.structural_discovery=true", "main_verdict.shift_information>0")
     if _classifier_shift(main):
@@ -350,7 +472,8 @@ def assign_discovery_level(payload: Mapping[str, Any]) -> ResearchDiscoveryVerdi
 
     main = _first_verdict_row(payload)
     terminal_verdict = _terminal_verdict(payload)
-    level, reasons = _assign_level(payload, terminal_verdict, main)
+    basis = _build_discovery_gate_basis(payload, terminal_verdict, main)
+    level, reasons = _assign_level(payload, terminal_verdict, basis, main)
     return ResearchDiscoveryVerdict(
         experiment_id=_experiment_id(payload),
         terminal_verdict=terminal_verdict,
