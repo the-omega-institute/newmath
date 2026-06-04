@@ -4529,6 +4529,7 @@ import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FundamentalGroupUp.TasteGate
 import BEDC.Derived.FundamentalTheoremCalculusUp
 import BEDC.Derived.GDeltaSetUp.TasteGate
+import BEDC.Derived.GalerkinErrorEstimateUp
 import BEDC.Derived.GaloisConnectionUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
@@ -5547,7 +5548,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNSubjectReductionBou
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateNormalizationBudget
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateNormalizationL10SourceExactness
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateNormalizationSocketExhaustion
-import BEDC.Derived.MetaCICCriticalPathUp.CandidateRealRegularHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualStability
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateRouteDischargeRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNBoundary
@@ -5849,6 +5849,7 @@ import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineUp.NameCertObligations
 import BEDC.Derived.MetaCICSubstitutionSpineUp.TasteGate
+import BEDC.Derived.MetaCICTypedNormalizationAuditUp.TasteGate
 import BEDC.Derived.MetaCICTypedParallelDiamondBoundaryUp
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
@@ -7294,6 +7295,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.StabilityDescentInvariantOblig
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.RealizerSpaceUp.TasteGate
 import BEDC.Derived.RealseriesUp
+import BEDC.Derived.ReassignmentSupportCompressionUp.TasteGate
 import BEDC.Derived.RectifiableCurveUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.Carrier
 import BEDC.Derived.RecursionAuthorizationLedgerUp.DescentTransportStability
