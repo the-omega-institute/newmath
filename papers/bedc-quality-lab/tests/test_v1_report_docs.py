@@ -7,6 +7,7 @@ from scripts.check_v1_report_docs import (
     D4_DISCOVERY_LEVEL,
     JSON_POINTER_RE,
     SELECTED_WORKED_CASE_DISCOVERY_LEVEL,
+    check_literature_ledger,
     exclusive_positive_worked_case_hits,
     jsonpath_exists,
 )
@@ -50,6 +51,14 @@ CANONICAL_JSON_RE = re.compile(r"^reports/canonical/[^`\s]+\.json$")
 CANONICAL_JSON_WITH_POINTER_RE = re.compile(r"^(reports/canonical/[^`\s]+\.json):(\$.*)$")
 CANONICAL_JSON_PAIR_RE = re.compile(r"^reports/canonical/([^`\s]+)\.\{json,md\}$")
 CANONICAL_JSON_GLOB_RE = re.compile(r"^reports/canonical/\*\.\{json,md\}$")
+MINIMAL_LEDGER_DOCS = {
+    V1_REPORT: "`reports/canonical/index.json:$.literature_ledger`",
+}
+MINIMAL_LEDGER_INDEX = {
+    "literature_ledger": {
+        "status": "ready",
+    },
+}
 
 
 def _code_spans(text: str) -> list[str]:
@@ -126,6 +135,48 @@ def test_v1_docs_point_to_literature_ledger_without_listing_records():
     assert ledger["status"] == "ready"
     for record_id in ledger["record_ids"]:
         assert record_id not in combined
+
+
+def test_literature_ledger_gate_fails_when_docs_omit_index_pointer():
+    result = check_literature_ledger({V1_REPORT: "literature ledger"}, MINIMAL_LEDGER_INDEX)
+
+    assert result.status == "FAIL"
+    assert "v1 docs must point to reports/canonical/index.json:$.literature_ledger" in result.detail
+
+
+def test_literature_ledger_gate_fails_when_docs_repeat_record_id():
+    ledger = validate_literature_ledger(ROOT)
+    assert ledger["record_ids"]
+    docs = {
+        V1_REPORT: (
+            "`reports/canonical/index.json:$.literature_ledger`\n"
+            f"{ledger['record_ids'][0]}"
+        )
+    }
+
+    result = check_literature_ledger(docs, MINIMAL_LEDGER_INDEX)
+
+    assert result.status == "FAIL"
+    assert f"v1 docs repeat literature ledger record id: {ledger['record_ids'][0]}" in result.detail
+
+
+def test_literature_ledger_gate_fails_when_index_omits_ledger_entry():
+    result = check_literature_ledger(MINIMAL_LEDGER_DOCS, {})
+
+    assert result.status == "FAIL"
+    assert "canonical index missing $.literature_ledger" in result.detail
+
+
+def test_literature_ledger_gate_fails_when_index_ready_but_validator_not_ready(tmp_path, monkeypatch):
+    import scripts.check_v1_report_docs as docs_gate
+
+    monkeypatch.setattr(docs_gate, "ROOT", tmp_path)
+    monkeypatch.setattr(docs_gate, "LITERATURE_LEDGER_PATH", tmp_path / "docs" / "lit" / "literature_ledger.yaml")
+
+    result = docs_gate.check_literature_ledger(MINIMAL_LEDGER_DOCS, MINIMAL_LEDGER_INDEX)
+
+    assert result.status == "FAIL"
+    assert "canonical index claims ready while literature validator is not ready" in result.detail
 
 
 def test_v1_report_uses_claim_terms_source():

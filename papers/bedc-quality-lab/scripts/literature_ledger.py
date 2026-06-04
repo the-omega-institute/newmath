@@ -10,6 +10,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+
 
 ROOT = Path(__file__).resolve().parents[1]
 LEDGER_POINTER = "docs/lit/literature_ledger.yaml"
@@ -31,12 +33,6 @@ REQUIRED_RECORD_FIELDS = (
     "claim_boundary",
     "not_claimed",
     "revoke_if",
-)
-FORBIDDEN_POSITIVE_CLAIM_TERMS = (
-    "full-lejepa",
-    "global-quality",
-    "full-tensor-namecert",
-    "llm-behavior",
 )
 BEDC_BODY_MARKERS = (
     "\\closurestatus",
