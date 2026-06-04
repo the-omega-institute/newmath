@@ -3936,6 +3936,7 @@ import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
+import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
@@ -4016,6 +4017,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.RegularReadback
 import BEDC.Derived.FastCauchySubsequenceUp.RegularReadbackObligation
 import BEDC.Derived.FastCauchySubsequenceUp.RootObligation
 import BEDC.Derived.FastCauchySubsequenceUp.SelectedWindowInduction
+import BEDC.Derived.FastCauchySubsequenceUp.SelectionSurface
 import BEDC.Derived.FastCauchySubsequenceUp.SelectorRegularityPullback
 import BEDC.Derived.FastCauchySubsequenceUp.SelectorWindowCoverage
 import BEDC.Derived.FastCauchySubsequenceUp.SourceCarrier
@@ -5395,6 +5397,7 @@ import BEDC.Derived.LowerSemicontinuousUp.BaireSuperlevelHandoff
 import BEDC.Derived.LowerSemicontinuousUp.BaireWindowFactorization
 import BEDC.Derived.LowerSemicontinuousUp.ClosedSuperlevelCarrier
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLedgerRefusal
+import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedSetExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedSetHandoff
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedStability
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
@@ -5589,6 +5592,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateNormalizationBudget
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateNormalizationL10SourceExactness
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateNormalizationSocketExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateRealRegularHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualBudgetInterface
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualL10FrontierRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateResidualStability
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateRouteDischargeRefusal
@@ -5651,6 +5655,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.HandoffExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffRowCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.KernelFrontierExposure
 import BEDC.Derived.MetaCICCriticalPathUp.L10BudgetExit
+import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeAxis
 import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeGate
 import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeOrder
 import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
@@ -7885,6 +7890,7 @@ import BEDC.Derived.ScientificObjectUp.RecordClassifierAdmission
 import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScientificObjectUp.TruthDomainGapScope
 import BEDC.Derived.ScottRealUp.TasteGate
+import BEDC.Derived.SecantMethodUp.TasteGate
 import BEDC.Derived.SecondCountableUp
 import BEDC.Derived.SelectedTailSeedUp.TasteGate
 import BEDC.Derived.SelectionFreeCauchyRealUp
@@ -8721,6 +8727,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatRealSourceHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.RootObligationLattice
 import BEDC.Derived.UniformCompletionFunctorUp.RootObligationSurface
 import BEDC.Derived.UniformCompletionFunctorUp.RouteObligations
+import BEDC.Derived.UniformCompletionFunctorUp.ScopedL10ObligationRoute
 import BEDC.Derived.UniformCompletionFunctorUp.SourceExtensionReadback
 import BEDC.Derived.UniformCompletionFunctorUp.SourceFactorization
 import BEDC.Derived.UniformCompletionFunctorUp.SourceUnitCompatibility
