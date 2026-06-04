@@ -1,18 +1,26 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetrizableSpaceUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive MetrizableSpaceUp : Type where
-  | mk
-      (topology metric ball window readback sealRow transportRow replay provenance name : BHist) :
-      MetrizableSpaceUp
+  | mk (T M B W R E H C P N : BHist) : MetrizableSpaceUp
   deriving DecidableEq
 
 def metrizableSpaceEncodeBHist : BHist → RawEvent
@@ -38,9 +46,7 @@ private theorem metrizableSpaceDecodeEncode :
 
 def metrizableSpaceFields : MetrizableSpaceUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | MetrizableSpaceUp.mk topology metric ball window readback sealRow transportRow replay
-      provenance name =>
-      [topology, metric, ball, window, readback, sealRow, transportRow, replay, provenance, name]
+  | MetrizableSpaceUp.mk T M B W R E H C P N => [T, M, B, W, R, E, H, C, P, N]
 
 def metrizableSpaceToEventFlow : MetrizableSpaceUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
@@ -74,28 +80,26 @@ private theorem metrizableSpaceRoundTrip :
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk topology metric ball window readback sealRow transportRow replay provenance name =>
+  | mk T M B W R E H C P N =>
       change
         some
           (MetrizableSpaceUp.mk
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist topology))
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist metric))
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist ball))
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist window))
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist readback))
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist sealRow))
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist transportRow))
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist replay))
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist provenance))
-            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist name))) =
-          some
-            (MetrizableSpaceUp.mk topology metric ball window readback sealRow transportRow replay
-              provenance name)
-      rw [metrizableSpaceDecodeEncode topology, metrizableSpaceDecodeEncode metric,
-        metrizableSpaceDecodeEncode ball, metrizableSpaceDecodeEncode window,
-        metrizableSpaceDecodeEncode readback, metrizableSpaceDecodeEncode sealRow,
-        metrizableSpaceDecodeEncode transportRow, metrizableSpaceDecodeEncode replay,
-        metrizableSpaceDecodeEncode provenance, metrizableSpaceDecodeEncode name]
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist T))
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist M))
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist B))
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist W))
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist R))
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist E))
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist H))
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist C))
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist P))
+            (metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist N))) =
+          some (MetrizableSpaceUp.mk T M B W R E H C P N)
+      rw [metrizableSpaceDecodeEncode T, metrizableSpaceDecodeEncode M,
+        metrizableSpaceDecodeEncode B, metrizableSpaceDecodeEncode W,
+        metrizableSpaceDecodeEncode R, metrizableSpaceDecodeEncode E,
+        metrizableSpaceDecodeEncode H, metrizableSpaceDecodeEncode C,
+        metrizableSpaceDecodeEncode P, metrizableSpaceDecodeEncode N]
 
 private theorem metrizableSpaceToEventFlow_injective {x y : MetrizableSpaceUp} :
     metrizableSpaceToEventFlow x = metrizableSpaceToEventFlow y → x = y := by
@@ -114,15 +118,12 @@ private theorem metrizableSpaceFieldFaithfulProof :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y h
   cases x with
-  | mk topology₁ metric₁ ball₁ window₁ readback₁ seal₁ transport₁ replay₁ provenance₁ name₁ =>
+  | mk T₁ M₁ B₁ W₁ R₁ E₁ H₁ C₁ P₁ N₁ =>
       cases y with
-        | mk topology₂ metric₂ ball₂ window₂ readback₂ seal₂ transport₂ replay₂ provenance₂
-          name₂ =>
+      | mk T₂ M₂ B₂ W₂ R₂ E₂ H₂ C₂ P₂ N₂ =>
           change
-            [topology₁, metric₁, ball₁, window₁, readback₁, seal₁, transport₁, replay₁,
-              provenance₁, name₁] =
-              [topology₂, metric₂, ball₂, window₂, readback₂, seal₂, transport₂, replay₂,
-                provenance₂, name₂] at h
+            [T₁, M₁, B₁, W₁, R₁, E₁, H₁, C₁, P₁, N₁] =
+              [T₂, M₂, B₂, W₂, R₂, E₂, H₂, C₂, P₂, N₂] at h
           cases h
           rfl
 
@@ -147,14 +148,78 @@ instance metrizableSpaceFieldFaithful : FieldFaithful MetrizableSpaceUp where
   field_faithful := metrizableSpaceFieldFaithfulProof
 
 theorem MetrizableSpaceTasteGate_single_carrier_alignment :
-    (∀ x : MetrizableSpaceUp,
-      BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x) ∧
-        ChapterTasteGate MetrizableSpaceUp := by
+    Nonempty (ChapterTasteGate MetrizableSpaceUp) ∧
+      Nonempty (FieldFaithful MetrizableSpaceUp) ∧
+      (∀ h : BHist, metrizableSpaceDecodeBHist (metrizableSpaceEncodeBHist h) = h) ∧
+      (∀ x : MetrizableSpaceUp,
+        metrizableSpaceFromEventFlow (metrizableSpaceToEventFlow x) = some x) ∧
+      (∀ x y : MetrizableSpaceUp,
+        metrizableSpaceToEventFlow x = metrizableSpaceToEventFlow y → x = y) ∧
+      metrizableSpaceEncodeBHist BHist.Empty = ([] : RawEvent) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   constructor
-  · intro x
-    change metrizableSpaceFromEventFlow (metrizableSpaceToEventFlow x) = some x
-    exact metrizableSpaceRoundTrip x
-  · exact metrizableSpaceChapterTasteGate
+  · exact ⟨metrizableSpaceChapterTasteGate⟩
+  constructor
+  · exact ⟨metrizableSpaceFieldFaithful⟩
+  constructor
+  · exact metrizableSpaceDecodeEncode
+  constructor
+  · exact metrizableSpaceRoundTrip
+  constructor
+  · intro x y heq
+    exact metrizableSpaceToEventFlow_injective heq
+  · rfl
+
+theorem MetrizableSpaceCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {T M B W R E H C P N route : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    metrizableSpaceFields (MetrizableSpaceUp.mk T M B W R E H C P N) =
+        [T, M, B, W, R, E, H, C, P, N] →
+      Cont T B W →
+        Cont M W R →
+          Cont R E route →
+            PkgSig bundle N pkg →
+              SemanticNameCert
+                (fun row : BHist =>
+                  hsame row route ∧
+                    ∃ packet : MetrizableSpaceUp,
+                      packet = MetrizableSpaceUp.mk T M B W R E H C P N ∧
+                        metrizableSpaceFields packet = [T, M, B, W, R, E, H, C, P, N])
+                (fun row : BHist => Cont T B W ∧ Cont M W R ∧ Cont R E row)
+                (fun row : BHist => hsame row route ∧ PkgSig bundle N pkg)
+                hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro fieldsEq topologyWindow metricReadback realRoute pkgSig
+  let packet := MetrizableSpaceUp.mk T M B W R E H C P N
+  have sourceRoute :
+      hsame route route ∧
+        ∃ packet : MetrizableSpaceUp,
+          packet = MetrizableSpaceUp.mk T M B W R E H C P N ∧
+            metrizableSpaceFields packet = [T, M, B, W, R, E, H, C, P, N] :=
+    ⟨hsame_refl route, Exists.intro packet ⟨rfl, fieldsEq⟩⟩
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro route sourceRoute
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _row' sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _row' _row'' sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro row source
+      cases source.left
+      exact ⟨topologyWindow, metricReadback, realRoute⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, pkgSig⟩
+  }
 
 end BEDC.Derived.MetrizableSpaceUp

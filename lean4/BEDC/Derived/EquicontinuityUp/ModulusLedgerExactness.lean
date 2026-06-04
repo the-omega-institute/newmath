@@ -32,7 +32,7 @@ theorem EquicontinuityCarrier_modulus_ledger_exactness [AskSetup] [PackageSetup]
                   UnaryHistory boundaryRead := by
   -- BEDC touchpoint anchor: EquicontinuityCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier unaryM radiusModulus modulusBoundary boundaryPkg
-  obtain ⟨unaryK, unaryF, unaryRho, _unaryR, radiusRoute, _handoffRoute, pkgP, _pkgN⟩ :=
+  obtain ⟨unaryK, unaryF, unaryRho, _unaryR, _unaryN, radiusRoute, _handoffRoute, pkgP, _pkgN⟩ :=
     carrier
   have radiusUnary : UnaryHistory radiusRead :=
     unary_cont_closed unaryK unaryF radiusRoute
