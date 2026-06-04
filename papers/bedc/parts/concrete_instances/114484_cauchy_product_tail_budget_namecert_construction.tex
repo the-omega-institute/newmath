@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyProductTailBudgetUp$}
+\label{ch:concrete-instances-cauchy-product-tail-budget-namecert}
+\origin{human}
+
+Following Cauchy and Hardy on finite estimates for products of convergent series, the $\CauchyProductTailBudgetUp$ packet records the tail-budget surface used before a Cauchy product read may reach a Real-facing endpoint. It sits after the Cauchy-product convergence route of \autoref{ch:concrete-instances-cauchy-product-convergence-namecert}, the product metric route of \autoref{ch:concrete-instances-cauchy-product-metric-namecert}, the real-series source of \autoref{ch:concrete-instances-realseries-namecert}, the dyadic rational arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite tail budgets for product estimates; it does not claim selected infinite sums, quotient series equality, choice, trichotomy, or $\RealUp$ completeness.
+
+\begin{definition}[Cauchy product tail-budget carrier]
+\label{def:cauchy-product-tail-budget-carrier}
+A $\CauchyProductTailBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,C,M,S,D,Q,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $C$ are the two $\RealSeriesUp$ source rows whose finite partial-sum windows are inspected.
+\item $M$ is the $\CauchyProductUp$ convergence and product-metric row, read through the sibling routes of \autoref{ch:concrete-instances-cauchy-product-convergence-namecert} and \autoref{ch:concrete-instances-cauchy-product-metric-namecert}.
+\item $S$ is the finite tail schedule, naming the left tail, right tail, and mixed finite convolution windows allowed for a requested precision.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the product estimate, including the dyadic radii assigned to the two source tails and to the mixed product window.
+\item $Q$ is the $\RegSeqRatUp$ readback row obtained from the displayed source windows and the tail schedule.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after $A,C,M,S,D,Q$ are visible.
+\item $H$ records componentwise $\hsame$ transport for the source series, product row, tail schedule, dyadic ledger, readback, Real seal, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay of the same tail-budget route.
+\item $P$ is the $\Pkg$ provenance over $\CauchyProductTailBudgetUp$, $\CauchyProductUp$, $\RealSeriesUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CauchyProductTailBudgetUp}$ row.
+\end{enumerate}
+The classifier reads only these rows. It has no coordinate for a selected infinite sum, quotient equality of series, a choice-selected tail, trichotomy, host multiplication on completed reals, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy product tail-budget NameCert obligations]
+\label{thm:cauchy-product-tail-budget-namecert-obligations}
+For every accepted $\CauchyProductTailBudgetUp$ carrier $B=(A,C,M,S,D,Q,E,H,T,P,N)$, the local $\NameCert_{\CauchyProductTailBudgetUp}$ surface consists exactly of carrier admission, two $\RealSeriesUp$ source exposures, Cauchy-product convergence and metric routing, finite tail-schedule exposure, $\DyadicRatCoreUp$ tolerance accounting, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-product-tail-budget-carrier}. The two source rows $A,C$, the product row $M$, the tail schedule $S$, and the dyadic ledger $D$ are the only numerical rows available before readback.
+
+The readback row $Q$ is downstream of those finite rows. It repacks displayed source windows and product-tail budgets as regular rational data rather than as quotient series equality or a chosen infinite sum.
+
+Finally inspect $E,H,T,P,N$. The Real seal $E$ is reached only after the source, product, schedule, dyadic, and readback rows have been displayed, while the structural rows preserve the same packet. Hence the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Cauchy product tail-budget Real-seal nonescape]
+\label{thm:cauchy-product-tail-budget-real-seal-nonescape}
+Every Real-facing read of an accepted $\CauchyProductTailBudgetUp$ carrier must pass through the finite route
+$$
+\RealSeriesUp,\ \CauchyProductUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp \longmapsto \RealUp
+$$
+with the displayed tail schedule, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows still attached. The route exports no selected infinite sum, quotient series equality, choice-selected tail, trichotomy row, host completed multiplication, or ambient $\RealUp$ completeness witness.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cauchy-product-tail-budget-namecert-obligations}. It makes the two real-series sources, product convergence and metric row, finite tail schedule, dyadic tolerance ledger, and regular readback mandatory before the Real seal can be consumed.
+
+The finite route through $S,D,Q$ controls the tail request. A consumer may inspect only the displayed left, right, and mixed product windows assigned to the requested precision; no coordinate supplies an external tail selector or a host infinite-sum object.
+
+The structural rows $H,T,P,N$ preserve this same route under transport, replay, provenance, and naming. Therefore any Real-facing read reaches $E$ only through the displayed BEDC rows and cannot escape to quotient series equality, choice, trichotomy, host multiplication, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyProductTailBudgetUp$ endpoint read exposes two RealSeries source rows, one CauchyProduct convergence and metric row, a finite tail schedule, a DyadicRatCore tolerance ledger, RegSeqRat readback, a Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert evidence before any product-tail estimate is public.}
+
+\independenceWitness{cauchy-product-convergence, cauchy-product-metric, realseries, dyadicratcore, regseqrat: $\CauchyProductTailBudgetUp$ is not bijective to any listed sibling because it jointly carries two source series, the product convergence and metric route, finite left-right-mixed tail schedules, dyadic product tolerances, regular readback, terminal Real sealing, transport, replay, provenance, and local naming in one tail-budget packet.}
+
+\closureat{CauchyProductTailBudgetUp}{seedStr}
+
+\begin{closurestatus}{\CauchyProductTailBudgetUp}
+  \constructivestory{A $\CauchyProductTailBudgetUp$ packet is generated from two RealSeries source rows, a CauchyProduct convergence and metric row, a finite tail schedule, a DyadicRatCore tolerance ledger, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-product-tail-budget-carrier}, \autoref{thm:cauchy-product-tail-budget-namecert-obligations}, and \autoref{thm:cauchy-product-tail-budget-real-seal-nonescape} seed the finite Cauchy-product tail-budget route over displayed series, product, dyadic, readback, Real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, selected infinite sums, quotient series equality, choice, trichotomy, host completed multiplication, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, product-convergence and metric routing, finite tail-schedule exposure, dyadic tolerance accounting, RegSeqRat readback, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyProductTailBudgetUp.}
+\end{closurestatus}
