@@ -23,6 +23,7 @@ try:
     import agent_bus
     import bedc_writeback_gates
     import bio_reality_loop
+    import deepening_gates
     import oracle_consultation
     from experiments import runner as experiment_runner
     import signal_assimilator
@@ -33,6 +34,7 @@ except ModuleNotFoundError:  # pragma: no cover
     import agent_bus
     import bedc_writeback_gates
     import bio_reality_loop
+    import deepening_gates
     import oracle_consultation
     from experiments import runner as experiment_runner
     import signal_assimilator
@@ -43,6 +45,8 @@ except ModuleNotFoundError:  # pragma: no cover
 SCRIPT_DIR = Path(__file__).resolve().parent
 DOMAIN_PROFILE = SCRIPT_DIR / "dna_to_protein_ladder.json"
 PIPELINE_CONFIG = SCRIPT_DIR / "pipeline_config.json"
+FRONTIER_MIN_CYCLES_BETWEEN_PROPOSALS = 6
+FRONTIER_NEW_CONJECTURE_QUIET_CYCLES = 3
 
 
 def now_iso() -> str:
@@ -1238,6 +1242,320 @@ def _maybe_run_bio_plan_oracle(
     return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_resumed": bool(existing_conv_id)}
 
 
+def _append_frontier_log(store: BioRealityStore, event: str, details: dict[str, Any]) -> None:
+    path = store.paths.root / "state" / "frontier_materialize.log"
+    record = {"ts": now_iso(), "event": event, "details": details}
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+    except OSError:
+        return
+
+
+def _claim_status_counts(claims: list[dict[str, Any]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for claim in claims:
+        status = str(claim.get("status") or "open")
+        counts[status] = counts.get(status, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _frontier_queue_exhaustion_reason(claims: list[dict[str, Any]], new_event_count: int) -> str:
+    if not claims:
+        return "no_claims"
+    if new_event_count:
+        return "plan_events_opened_this_cycle"
+    terminal_statuses = {"passed", "needs_data", "needs_external", "failed"}
+    counts = _claim_status_counts(claims)
+    pending = {status: count for status, count in counts.items() if status not in terminal_statuses}
+    if pending:
+        return "executable_pending:" + ",".join(f"{status}={pending[status]}" for status in sorted(pending))
+    return ""
+
+
+def _frontier_vision_excerpt(store: BioRealityStore, limit: int = 10000) -> str:
+    path = store.paths.vision_dir / "dna-to-protein-realization-boundary.md"
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    addendum = text.find("## Addendum")
+    excerpt = text[addendum:] if addendum >= 0 else text
+    return excerpt[-limit:]
+
+
+def _frontier_prompt(
+    vision_excerpt: str,
+    conjectures: list[dict[str, Any]],
+    contacts: list[dict[str, Any]],
+    probes: list[dict[str, Any]],
+    claims: list[dict[str, Any]],
+) -> str:
+    layer_order = [
+        "code_read",
+        "codon_usage_topology",
+        "orf_eligibility",
+        "translation_realization",
+        "structural_order",
+        "physical_admissibility",
+        "function_realization",
+        "system_phenotype",
+        "cross_layer_relation",
+    ]
+    layers = [layer for layer in layer_order if layer in deepening_gates.LAYERS]
+    if len(layers) != len(deepening_gates.LAYERS):
+        layers = sorted(deepening_gates.LAYERS)
+    existing = [
+        {
+            "conjecture_id": str(item.get("conjecture_id") or ""),
+            "claimed_layer": str(item.get("claimed_layer") or ""),
+            "biological_object": str(item.get("biological_object") or "")[:180],
+        }
+        for item in conjectures
+        if isinstance(item, dict)
+    ]
+    contact_summaries = [
+        {
+            "contact_id": str(item.get("contact_id") or ""),
+            "source_kind": str(item.get("source_kind") or ""),
+            "can_test": item.get("can_test") if isinstance(item.get("can_test"), list) else [],
+        }
+        for item in contacts
+        if isinstance(item, dict)
+    ]
+    probe_summaries = [
+        {
+            "probe_id": str(item.get("probe_id") or ""),
+            "probe_kind": str(item.get("probe_kind") or ""),
+            "test_statement": str(item.get("test_statement") or "")[:180],
+        }
+        for item in probes
+        if isinstance(item, dict)
+    ]
+    claim_summaries = [
+        {
+            "claim_id": str(item.get("claim_id") or ""),
+            "status": str(item.get("status") or ""),
+            "statement": str(item.get("statement") or "")[:180],
+        }
+        for item in claims
+        if isinstance(item, dict)
+    ]
+    return "\n".join(
+        [
+            "You are proposing exactly one gated BioReality frontier conjecture.",
+            "Output only one JSON object. Do not wrap it in Markdown. Do not include prose outside JSON.",
+            "",
+            "Scientific discipline:",
+            "- Do not invent evidence, contacts, probes, claim links, or verification.",
+            "- Use only existing contact_id and probe_id values if you reference reality_contact_refs or probe_refs.",
+            "- If no existing contact/probe can support the layer, still output the best candidate with empty refs; the deterministic gate may reject it.",
+            "- The conjecture must be the next uncovered cross-layer decomposition from the vision, not a duplicate of existing conjecture_id values.",
+            "- It must not skip the mandatory translation-readout step toward structure, function, or phenotype.",
+            "",
+            "ID syntax:",
+            deepening_gates.ID_PATTERN,
+            "",
+            "Layer ontology from deepening_gates.LAYERS, low to high where applicable:",
+            json.dumps(layers, ensure_ascii=False),
+            "",
+            "Required JSON schema keys:",
+            json.dumps(
+                {
+                    "conjecture_id": "lowercase dotted/kebab id matching ID_PATTERN",
+                    "informal_statement": "nonempty bounded statement",
+                    "biological_object": "nonempty object under study",
+                    "claimed_layer": "one value from the layer ontology",
+                    "bedc_minimal_form": {
+                        "carrier": "nonempty finite carrier/readout surface",
+                        "distinctions": ["at least one distinction"],
+                        "internal_structure": ["coordinate|closure|spectrum|trigger|rank|homology|relation|none"],
+                        "readback": "nonempty readback boundary",
+                    },
+                    "evidence_basis": ["external_reality|bedc_coordinate|bedc_closure|bedc_spectrum|derived_probe|mismatch_ledger|mechanism_bridge"],
+                    "reality_contact_refs": ["existing contact_id only"],
+                    "probe_refs": ["existing probe_id only"],
+                    "forbidden_claims": ["at least one explicit layer-crossing refusal"],
+                    "null_reason": "empty string or specific null boundary",
+                    "linked_claim_ids": ["existing claim_id only, or empty"],
+                    "last_verified_at": "empty string because this is only a proposal",
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            ),
+            "",
+            "Vision excerpt:",
+            vision_excerpt or "VISION FILE MISSING",
+            "",
+            "Existing conjectures to avoid:",
+            _compact_json(existing, limit=5000),
+            "",
+            "Existing reality contacts available for refs:",
+            _compact_json(contact_summaries, limit=4000),
+            "",
+            "Existing probes available for refs:",
+            _compact_json(probe_summaries, limit=4000),
+            "",
+            "Existing claims available for linked_claim_ids:",
+            _compact_json(claim_summaries, limit=4000),
+        ]
+    )
+
+
+def _parse_frontier_conjecture_json(stdout: str) -> dict[str, Any] | None:
+    parsed = _extract_json_object_from_text(_extract_codex_event_text(stdout))
+    return parsed if isinstance(parsed, dict) else None
+
+
+def _run_frontier_codex(prompt: str, repo_root: Path, timeout_seconds: int = 240) -> tuple[dict[str, Any] | None, str, str]:
+    prompt_path = ""
+    try:
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", delete=False) as handle:
+            handle.write(prompt)
+            prompt_path = handle.name
+        with Path(prompt_path).open("r", encoding="utf-8") as stdin:
+            completed = subprocess.run(
+                [
+                    "codex",
+                    "exec",
+                    "--dangerously-bypass-approvals-and-sandbox",
+                    "--json",
+                    "-C",
+                    str(repo_root),
+                ],
+                stdin=stdin,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=timeout_seconds,
+                check=False,
+            )
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        return None, "", f"subprocess_error: {exc}"
+    finally:
+        if prompt_path:
+            try:
+                Path(prompt_path).unlink()
+            except OSError:
+                pass
+    if completed.returncode != 0:
+        return None, completed.stdout or "", completed.stderr or ""
+    return _parse_frontier_conjecture_json(completed.stdout or ""), completed.stdout or "", completed.stderr or ""
+
+
+def _validate_frontier_conjecture(store: BioRealityStore, record: dict[str, Any]) -> list[str]:
+    contacts = store.load_contacts()
+    probes = store.load_probes()
+    contact_by_id = {
+        str(contact.get("contact_id") or ""): contact
+        for contact in contacts
+        if isinstance(contact, dict) and contact.get("contact_id")
+    }
+    probe_ids = {
+        str(probe.get("probe_id") or "")
+        for probe in probes
+        if isinstance(probe, dict) and probe.get("probe_id")
+    }
+    return deepening_gates.validate_conjecture(record, contact_by_id, probe_ids)
+
+
+def _maybe_propose_frontier_conjecture(
+    store: BioRealityStore,
+    claims: list[dict[str, Any]],
+    *,
+    new_event_count: int,
+) -> dict[str, Any]:
+    state = _read_oracle_state(store)
+    lane_state = state.get("bio-Plan") if isinstance(state.get("bio-Plan"), dict) else {}
+    cycle = int(lane_state.get("cycle") or 0)
+    if cycle <= 0:
+        cycle = 1
+        lane_state["cycle"] = cycle
+    conjectures = store.load_conjectures()
+    conjecture_count = len(conjectures)
+    previous_count = lane_state.get("last_frontier_conjecture_count")
+    try:
+        previous_count_int = int(previous_count)
+    except (TypeError, ValueError):
+        previous_count_int = conjecture_count
+    if conjecture_count > previous_count_int:
+        lane_state["last_frontier_new_conjecture_cycle"] = cycle
+    lane_state["last_frontier_conjecture_count"] = conjecture_count
+
+    def finish(reason: str, proposed: int = 0) -> dict[str, Any]:
+        lane_state["last_frontier_reason"] = reason
+        state["bio-Plan"] = lane_state
+        _write_oracle_state(store, state)
+        return {"frontier_proposed": proposed, "frontier_reason": reason}
+
+    exhaustion_reason = _frontier_queue_exhaustion_reason(claims, new_event_count)
+    if exhaustion_reason:
+        return finish(exhaustion_reason)
+
+    last_new_cycle = int(lane_state.get("last_frontier_new_conjecture_cycle") or 0)
+    if last_new_cycle > 0 and cycle - last_new_cycle < FRONTIER_NEW_CONJECTURE_QUIET_CYCLES:
+        return finish(f"recent_conjecture:cycle_delta={cycle - last_new_cycle}")
+    last_proposed_cycle = int(lane_state.get("last_frontier_proposed_cycle") or 0)
+    if last_proposed_cycle > 0 and cycle - last_proposed_cycle < FRONTIER_MIN_CYCLES_BETWEEN_PROPOSALS:
+        return finish(f"rate_limited:cycle_delta={cycle - last_proposed_cycle}")
+
+    vision_excerpt = _frontier_vision_excerpt(store)
+    if not vision_excerpt:
+        _append_frontier_log(store, "frontier_skipped", {"reason": "vision_missing"})
+        return finish("vision_missing")
+
+    repo_root = _repo_root_from_store(store)
+    contacts = store.load_contacts()
+    probes = store.load_probes()
+    prompt = _frontier_prompt(vision_excerpt, conjectures, contacts, probes, claims)
+    parsed, raw_stdout, raw_stderr = _run_frontier_codex(prompt, repo_root, timeout_seconds=240)
+    if parsed is None:
+        _append_frontier_log(
+            store,
+            "frontier_discarded",
+            {
+                "reason": "codex_unparseable",
+                "stdout_tail": _tail_text(raw_stdout, 800),
+                "stderr_tail": _tail_text(raw_stderr, 800),
+            },
+        )
+        return finish("codex_unparseable")
+
+    parsed.setdefault("linked_claim_ids", [])
+    parsed.setdefault("last_verified_at", "")
+    existing_ids = {
+        str(item.get("conjecture_id") or "")
+        for item in conjectures
+        if isinstance(item, dict) and item.get("conjecture_id")
+    }
+    conjecture_id = str(parsed.get("conjecture_id") or "")
+    if conjecture_id in existing_ids:
+        _append_frontier_log(store, "frontier_discarded", {"reason": "duplicate_conjecture_id", "conjecture_id": conjecture_id})
+        return finish(f"duplicate_conjecture_id:{conjecture_id}")
+
+    issues = _validate_frontier_conjecture(store, parsed)
+    if issues:
+        _append_frontier_log(
+            store,
+            "frontier_discarded",
+            {
+                "reason": "gate_rejected",
+                "conjecture_id": conjecture_id,
+                "issues": issues,
+                "candidate": parsed,
+            },
+        )
+        return finish("gate_rejected:" + "; ".join(issues[:3]))
+
+    append_jsonl(store.paths.conjectures, [parsed])
+    lane_state["last_frontier_proposed_cycle"] = cycle
+    lane_state["last_frontier_new_conjecture_cycle"] = cycle
+    lane_state["last_frontier_conjecture_count"] = conjecture_count + 1
+    _append_frontier_log(store, "frontier_appended", {"conjecture_id": conjecture_id, "claimed_layer": parsed.get("claimed_layer")})
+    return finish(f"appended:{conjecture_id}", proposed=1)
+
+
 def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
     """Detect phase-advance and stuck-claim signals, emit events for bio-R."""
     claims_document = _load_claims_document(store.paths.claims_registry)
@@ -1343,12 +1661,14 @@ def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
     merged = agent_bus._dedup(existing_events + new_events, "event_id")
     store.write_events(merged)
     oracle_summary = _maybe_run_bio_plan_oracle(store, claims, phases_passed, trigger_event)
+    frontier_summary = _maybe_propose_frontier_conjecture(store, claims, new_event_count=len(new_events))
     return {
         "lane": "bio-Plan",
         "phase_advance_events": phase_advance_events,
         "stuck_redesign_events": stuck_redesign_events,
         "phases_passed": phases_passed,
         **oracle_summary,
+        **frontier_summary,
     }
 
 
@@ -2073,13 +2393,26 @@ def _bios_codex_resolve_merge(
     if not conflict_files:
         return False, {"reason": "no_conflict_files"}
     sig = hashlib.sha256(("|".join([upstream_sha] + sorted(conflict_files))).encode("utf-8")).hexdigest()[:16]
-    if _bios_resolve_recent_count(store, sig, recurring_window) >= recurring_threshold:
-        _bios_resolve_record(store, {"signature": sig, "action": "recurring_skip", "files_count": len(conflict_files)})
-        return False, {"reason": "recurring_skip", "signature": sig, "files_count": len(conflict_files)}
+    take_theirs_bedc = bool(cfg.get("papers_bedc_take_theirs") or False)
+    take_theirs_bioreality_namecert = bool(cfg.get("papers_bio_reality_namecert_take_theirs", True))
+
+    def _take_theirs_eligible(rel: str) -> bool:
+        if take_theirs_bedc and rel.startswith("papers/bedc/"):
+            return True
+        if take_theirs_bioreality_namecert and rel.startswith("papers/bio_reality/parts/namecerts/"):
+            return True
+        return False
+
+    # recurring_skip 只对需 codex 解决的内容冲突限流 (避免反复烧 codex). 若所有冲突文件
+    # 都能用确定性 take-theirs 解决 (papers/bedc 或 churned bio_reality namecert), 跳过限流:
+    # take-theirs 无 codex 成本、确定、重复执行安全; 否则 churn 反复造同一冲突会让 behind 无界增长.
+    if not all(_take_theirs_eligible(f) for f in conflict_files):
+        if _bios_resolve_recent_count(store, sig, recurring_window) >= recurring_threshold:
+            _bios_resolve_record(store, {"signature": sig, "action": "recurring_skip", "files_count": len(conflict_files)})
+            return False, {"reason": "recurring_skip", "signature": sig, "files_count": len(conflict_files)}
     selected = conflict_files[:max_files]
     resolved_paths: list[str] = []
     failures: list[dict[str, Any]] = []
-    take_theirs_bedc = bool(cfg.get("papers_bedc_take_theirs") or False)
     for rel_path in selected:
         target = repo_root / rel_path
         try:
@@ -2088,7 +2421,7 @@ def _bios_codex_resolve_merge(
         except (ValueError, OSError):
             failures.append({"path": rel_path, "reason": "path_outside_repo"})
             continue
-        if take_theirs_bedc and rel_path.startswith("papers/bedc/"):
+        if _take_theirs_eligible(rel_path):
             try:
                 co = _run_command(repo_root, ["git", "checkout", "--theirs", "--", rel_path], timeout=30.0)
                 if co.returncode != 0:
