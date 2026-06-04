@@ -343,6 +343,51 @@ Use the root locatedness-window theorem for rational-window reads. The same carr
 Finally combine the existing projection obligation with the Real-metric nonescape theorem. Downstream root consumers may add their own endpoint or projection evidence, but that evidence is outside the $\LocatedSetUp$ carrier, so the listed host and completion objects cannot be exported by $L$.
 \end{proof}
 
+\begin{definition}[LocatedSet MetricSubspace exactness row]
+\label{def:located-set-metric-subspace-exactness-row}
+For an accepted $\LocatedSetUp$ packet $L=(X,A,Q,R,E,T,H,C,P,N)$, the MetricSubspace exactness row is the finite subrow
+$$
+M_L=(X,A,Q,R,E,T,H,C,P,N)
+$$
+read with $X$ as the parent $\MetricUp$ row, $A$ as the displayed $\MetricSubspaceUp$ admission row, $Q$ as the located-distance ledger, $R$ as the rational-window row, $E$ as the $\RealUp$ distance seal, and $T,H,C,P,N$ as the located-metric handoff, transport, replay, provenance, and local naming rows. It synchronizes the parent metric, subspace admission, and located-distance ledger before any consumer reads the Real-facing seal.
+\end{definition}
+
+\begin{theorem}[LocatedSet MetricSubspace exactness]
+\label{thm:located-set-metric-subspace-exactness}
+Every accepted $\LocatedSetUp$ read preserves the MetricSubspace exactness row $M_L$ through $X,A,Q,R,E,T,H,C,P,N$. In particular, the parent $\MetricUp$ row, $\MetricSubspaceUp$ admission row, and located-distance ledger are read together before rational windows, the $\RealUp$ seal, located-metric handoff, transport, replay, provenance, and local naming are exposed to a consumer.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier projection. The definition of $M_L$ uses exactly the displayed rows of the packet, so preserving the carrier rows preserves the exactness row.
+
+Apply the root distance obligation to force distance reads through $X,A,Q,R,E,T,H,C,P,N$. It places the parent metric and subspace admission before the located-distance ledger reaches the rational windows and Real seal.
+
+Use the root nonescape theorem for the consumer side. Since no host metric equality, quotient subset equality, or selected endpoint coordinate is present, a consumer cannot detach $Q$ from the same $X,A$ source route. The read therefore preserves $M_L$.
+\end{proof}
+
+\begin{theorem}[LocatedSet LocatedMetric readback coverage]
+\label{thm:located-set-locatedmetric-readback-coverage}
+Every $\LocatedMetricUp$ consumer of an accepted $\LocatedSetUp$ packet exhausts the exactness row $M_L$ before reading the $\RealUp$ seal $E$. The consumer receives the located-distance ledger $Q$ only after the parent metric row $X$ and MetricSubspace admission row $A$, and it reaches $E$ only through the rational-window row $R$ and the displayed handoff route $T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the LocatedMetric-facing route from the carrier. The handoff row $T$ is attached to the same tuple as $X,A,Q,R,E,H,C,P,N$, so it cannot expose an independent located-metric ledger.
+
+Apply the locatedness-window theorem. It exhausts $R$ between $Q$ and $E$, while the root distance obligation keeps $Q$ downstream of $X,A$.
+
+Finally use the exactness theorem. The consumer can read the Real seal only after the synchronized row $M_L$ has supplied the parent metric, subspace admission, ledger, windows, handoff, transport, replay, provenance, and local naming data.
+\end{proof}
+
+\begin{theorem}[LocatedSet Real-seal window monotonicity]
+\label{thm:located-set-real-seal-window-monotonicity}
+If an accepted $\LocatedSetUp$ packet refines its rational-window row $R$ along the displayed located-distance route, the $\RealUp$ seal route remains monotone over the same exactness row $M_L$. The refinement may shrink or strengthen the rational windows, but it cannot change the parent metric row, MetricSubspace admission, located-distance ledger, located-metric handoff, transport, replay, provenance, or local NameCert row used to read the Real seal.
+\end{theorem}
+\begin{proof}
+Use the locatedness-window theorem to locate the refinement inside $R$. The surrounding rows $X,A,Q,E,T,H,C,P,N$ remain the rows of the same accepted packet.
+
+Apply MetricSubspace exactness. It synchronizes $X,A,Q$ before the rational windows and keeps $E$ downstream of that same route.
+
+The Real-seal consumer boundary and root nonescape theorem rule out changing the route by importing completion, compactness, quotient equality, or selected endpoint data. Thus refinement of $R$ is monotone for the Real-seal route over $M_L$.
+\end{proof}
+
 \closureat{LocatedSetUp}{seedStr}
 
 \begin{closurestatus}{\LocatedSetUp}
