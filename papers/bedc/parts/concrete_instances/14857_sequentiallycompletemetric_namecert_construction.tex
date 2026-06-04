@@ -227,6 +227,42 @@ $$
 where $X$ is the metric source row of \autoref{thm:sequentially-complete-metric-namecert-obligations}, $S$ is the finite $\StreamNameUp$ window row, $R$ is the $\RegSeqRatUp$ readback attached to those windows, $M$ is the modulus threshold row, $L$ is the displayed limit row, $D$ is the late-distance ledger, and $H,C,P,N$ are the transport, replay, provenance, and local naming rows. The package contains no quotient-completion equality, selected representative, countable-choice schedule, ambient-completeness witness, independent completed carrier, or $\RealUp$ completeness row.
 \end{definition}
 
+\begin{theorem}[SequentiallyCompleteMetric Cauchy-window obligation]
+\label{thm:sequentially-complete-metric-cauchy-window-obligation}
+For an accepted $\SequentiallyCompleteMetricUp$ carrier $Q=(X,S,M,L,D,H,C,P,N)$, every finite Cauchy-window obligation package $\Omega_Q=(X,S,R,M,L,D,H,C,P,N)$ must display the finite $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback row $R$, the $\RealUp$ seal-facing rows reached from $D$, the ambient $\BHist$ packet, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\SequentiallyCompleteMetricUp}$ row before any completion-facing consumer can read the window.
+\end{theorem}
+\begin{proof}
+Project the package $\Omega_Q$ from \autoref{def:sequentially-complete-metric-finite-cauchy-window}. Its displayed rows already contain $S,R,M,L,D,H,C,P,N$ over the same metric source $X$.
+
+Read the analytic front of the package first. The finite $\StreamNameUp$ windows $S$ and their $\RegSeqRatUp$ readback $R$ expose the inspected sequence data, while $M,L,D$ bind the requested tolerance, displayed point row, and late-distance comparisons.
+
+The support rows then close the obligation surface. The $\BHist$ carrier records the finite packet, $H$ transports it by $\hsame$, $C$ replays it by $\Cont$, $P$ sources it through $\Pkg$, and $N$ names it by the local $\NameCert$ row. No further completion object is read by this package.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric RegSeqRat handoff]
+\label{thm:sequentially-complete-metric-regseqrat-handoff}
+In the notation of \autoref{def:sequentially-complete-metric-finite-cauchy-window}, the $\RegSeqRatUp$ readback row $R$ is the unique handoff surface from the displayed finite $\StreamNameUp$ windows $S$ to the late-distance ledger $D$ and the $\RealUp$ seal-facing rows. The handoff is recorded inside the same $\BHist$ packet and is transported, replayed, sourced, and named only by $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Start with the window rows $S$ of $\Omega_Q$. They are finite $\StreamNameUp$ observations over the metric source $X$, so a consumer can read only the displayed windows before the rational handoff appears.
+
+The row $R$ is the regular rational readback attached to those same windows. It is therefore the row that connects the source-window data to the tolerance, point, and late-distance rows $M,L,D$ before any $\RealUp$-facing seal is available.
+
+Finally inspect $H,C,P,N$. These rows do not add another readback surface; they transport the same handoff by $\hsame$, replay it by $\Cont$, source it by $\Pkg$, and name it by the local $\NameCert$ row.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric Real-seal nonescape]
+\label{thm:sequentially-complete-metric-real-seal-nonescape}
+Every $\RealUp$ seal-facing read produced from a finite Cauchy-window obligation package $\Omega_Q=(X,S,R,M,L,D,H,C,P,N)$ is confined to the displayed finite $\StreamNameUp$ windows $S$, the $\RegSeqRatUp$ readback $R$, the late-distance ledger $D$, the $\BHist$ packet, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The seal-facing read exports no host completion equality, representative choice, countable-choice schedule, ambient-completeness witness, or independent completed carrier.
+\end{theorem}
+\begin{proof}
+Read the package order. The $\RealUp$-facing boundary can be reached only after $S$ and $R$ have displayed the finite stream windows and regular rational data, and after $M,L,D$ have displayed the tolerance and late-distance rows.
+
+Apply the Cauchy-window obligation and the RegSeqRat handoff above. Together they force every seal-facing request through the same finite $\BHist$ packet and the same rows $S,R,D,H,C,P,N$.
+
+There is no remaining coordinate in $\Omega_Q$ for host completion equality, representative choice, choice schedules, ambient completeness, or an independent completed carrier. Hence the $\RealUp$ seal-facing read cannot escape the displayed finite route.
+\end{proof}
+
 \begin{theorem}[SequentiallyCompleteMetric limit readback package]
 \label{thm:sequentially-complete-metric-limit-readback-package}
 Let $Q=(X,S,M,L,D,H,C,P,N)$ be an accepted $\SequentiallyCompleteMetricUp$ carrier, and let $\Omega_Q=(X,S,R,M,L,D,H,C,P,N)$ be its finite Cauchy-window obligation package. The rows of $\Omega_Q$ expose the completion-facing limit readback by first reading the metric source $X$, then the finite StreamName windows $S$ and their $\RegSeqRatUp$ readbacks $R$, then the modulus threshold $M$, displayed limit $L$, and late-distance ledger $D$. The readback is the same route named by \autoref{thm:sequentially-complete-metric-limit-modulus-induction} and exhausted by \autoref{thm:sequentially-complete-metric-completion-route-exhaustion}; it does not pass through quotient completion or a selected representative.
