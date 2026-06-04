@@ -132,5 +132,60 @@ theorem MetacicNormalizationAuditCarrier_sn_scope [AskSetup] [PackageSetup]
   }
   exact ⟨cert, auditUnary⟩
 
+theorem MetacicNormalizationAuditCarrier_confluence_boundary [AskSetup] [PackageSetup]
+    {kernel normalizer frontier sn confluence audit ledger transport replay provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicNormalizationAuditUp kernel normalizer frontier sn confluence audit ledger
+        transport replay provenance localName bundle pkg →
+      SemanticNameCert
+          (fun row : BHist => hsame row confluence ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row confluence ∨ hsame row ledger ∨ hsame row provenance)
+          (fun row : BHist =>
+            hsame row confluence ∧ Cont confluence audit ledger ∧
+              PkgSig bundle provenance pkg)
+          hsame ∧ UnaryHistory confluence := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory PkgSig
+  intro carrier
+  obtain ⟨_kernelUnary, _normalizerUnary, _frontierUnary, _snUnary, confluenceUnary,
+    _auditUnary, _ledgerUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _kernelNormalizerFrontier, _frontierSnAudit, confluenceAuditLedger,
+    _transportReplaySame, provenancePkg, _localNamePkg⟩ := carrier
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row confluence ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row confluence ∨ hsame row ledger ∨ hsame row provenance)
+        (fun row : BHist =>
+          hsame row confluence ∧ Cont confluence audit ledger ∧
+            PkgSig bundle provenance pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro confluence ⟨hsame_refl confluence, confluenceUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inl sourceRow.left
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, confluenceAuditLedger, provenancePkg⟩
+  }
+  exact ⟨cert, confluenceUnary⟩
+
 end MetacicNormalizationAuditUp
 end BEDC.Derived
