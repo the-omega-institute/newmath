@@ -618,7 +618,7 @@ def _manifest_audit(
     registered_pointer_artifacts = {
         "reports/canonical/quality-scorecard.json",
         "reports/canonical/formal_hardening.json",
-        "reports/canonical/gap_head_attribution_v3.json",
+        "reports/canonical/gap_head_attribution_capsule.json",
         DISCOVERY_MAP_JSON_ARTIFACT,
         NEGATIVE_WITNESSES_ARTIFACT,
         "reports/canonical/discovery_negative_witness_summary.json",

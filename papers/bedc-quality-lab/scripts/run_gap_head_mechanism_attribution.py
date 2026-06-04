@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts import run_gap_head_attribution_v3 as a1
+from scripts import run_gap_head_attribution_capsule as a1
 
 
 JSON_ARTIFACT = "reports/gap_head_mechanism_attribution.json"
@@ -44,7 +44,7 @@ def _load_a1_payload(root: Path) -> dict[str, Any]:
         payload = json.loads(path.read_text(encoding="utf-8"))
         if isinstance(payload, dict):
             return payload
-    return a1.write_gap_head_attribution_v3(root=root)
+    return a1.write_gap_head_attribution_capsule(root=root)
 
 
 def _project_payload(a1_payload: Mapping[str, Any], *, generated_at: str) -> dict[str, Any]:

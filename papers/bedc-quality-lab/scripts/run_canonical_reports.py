@@ -51,9 +51,9 @@ FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
 GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT = "reports/gap_head_mechanism_attribution.json"
 GAP_HEAD_MECHANISM_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/gap_head_mechanism_attribution.md"
 GAP_HEAD_MECHANISM_ATTRIBUTION_ARTIFACT_ID = "bedc-quality-lab:gap-head-mechanism-attribution"
-GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_v3.json"
-GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_v3.md"
-GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_v3"
+GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
+GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.md"
+GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_capsule"
 RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT = "reports/release_manifest_sidecar.json"
 RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT = "reports/release_manifest_sidecar.md"
 RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID = "bedc-quality-lab:release-manifest-sidecar"
@@ -264,8 +264,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
-        name="gap-head-attribution-v3",
-        command=("python3", "scripts/run_gap_head_attribution_v3.py"),
+        name="gap-head-attribution-capsule",
+        command=("python3", "scripts/run_gap_head_attribution_capsule.py"),
         json_artifact=GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT,
         markdown_artifact=GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT,
         required_json_keys=(
@@ -1233,7 +1233,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
-        "gap_head_attribution_v3": _gap_head_attribution_index_section(),
+        "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "gap_head_mechanism_attribution": _gap_head_mechanism_attribution_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "paper_outline": _paper_outline(reports),
@@ -1355,13 +1355,13 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             "",
             "## Gap-head attribution capsule",
             "",
-            f"- Status: `{payload['gap_head_attribution_v3']['status']}`",
-            f"- JSON: `{payload['gap_head_attribution_v3']['json_artifact']}`",
-            f"- Markdown: `{payload['gap_head_attribution_v3']['markdown_artifact']}`",
-            f"- Run id: `{payload['gap_head_attribution_v3']['run_id']}`",
-            f"- D5-O: `{payload['gap_head_attribution_v3']['d5_o_status']}`",
-            f"- D5-M: `{payload['gap_head_attribution_v3']['d5_m_status']}`",
-            f"- Mechanism case: `{payload['gap_head_attribution_v3']['mechanism_case']}`",
+            f"- Status: `{payload['gap_head_attribution_capsule']['status']}`",
+            f"- JSON: `{payload['gap_head_attribution_capsule']['json_artifact']}`",
+            f"- Markdown: `{payload['gap_head_attribution_capsule']['markdown_artifact']}`",
+            f"- Run id: `{payload['gap_head_attribution_capsule']['run_id']}`",
+            f"- D5-O: `{payload['gap_head_attribution_capsule']['d5_o_status']}`",
+            f"- D5-M: `{payload['gap_head_attribution_capsule']['d5_m_status']}`",
+            f"- Mechanism case: `{payload['gap_head_attribution_capsule']['mechanism_case']}`",
             "",
             "## Gap-head mechanism attribution",
             "",

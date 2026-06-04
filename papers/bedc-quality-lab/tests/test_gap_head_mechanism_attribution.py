@@ -5,7 +5,7 @@ import numpy as np
 from bedc_quality_lab import __all__ as package_all
 from bedc_quality_lab.schema import SCHEMA_ID
 from scripts import run_canonical_reports as canonical
-from scripts import run_gap_head_attribution_v3 as a1
+from scripts import run_gap_head_attribution_capsule as a1
 from scripts import run_gap_head_mechanism_attribution as runner
 
 
@@ -33,11 +33,11 @@ def test_mechanism_projection_reads_a1_source_only():
 
     assert projection["artifact_id"] == "bedc-quality-lab:gap-head-mechanism-attribution"
     assert projection["sidecar_role"] == "compatibility_projection"
-    assert projection["canonical_source"]["json_artifact"] == "reports/canonical/gap_head_attribution_v3.json"
+    assert projection["canonical_source"]["json_artifact"] == "reports/canonical/gap_head_attribution_capsule.json"
     assert projection["mechanism_status"] == "D5-O retained, mechanism = probe-margin-channel"
     assert projection["D5_target"]["mechanism"]["failed_gate"] == "A1-HG3"
     assert projection["config"]["arm_count"] == 22
-    assert projection["HG_A1"]["source_pointer"] == "reports/canonical/gap_head_attribution_v3.json:$.hardgates"
+    assert projection["HG_A1"]["source_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.hardgates"
     assert "gates" not in projection["HG_A1"]
     assert SCHEMA_ID == "bedc-quality-lab:evidence-envelope"
     assert package_all == ["QualityEvidenceEnvelope"]

@@ -2,7 +2,7 @@
 
 - Generated at: `2026-06-04T06:25:34.301051+00:00`
 - Run id: `a1-20260604T062534Z`
-- Artifact id: `gap_head_attribution_v3`
+- Artifact id: `gap_head_attribution_capsule`
 - D5-O: `ready`
 - D5-M: `blocked`
 - Mechanism case: `Case 2`

@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from scripts.experiment_stats import metric_stats
-from scripts import run_gap_head_attribution_v3 as runner
+from scripts import run_gap_head_attribution_capsule as runner
 
 
 EXPECTED_ARMS = (

@@ -33,10 +33,10 @@ from scripts.run_gap_ledger_head_on_h import (
 
 SCHEMA_ID = "bedc.quality.claim_capsule.v1"
 SOURCE_ISSUE = 692
-ARTIFACT_ID = "gap_head_attribution_v3"
-CANONICAL_NAME = "gap-head-attribution-v3"
-CANONICAL_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_v3.json"
-CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_v3.md"
+ARTIFACT_ID = "gap_head_attribution_capsule"
+CANONICAL_NAME = "gap-head-attribution-capsule"
+CANONICAL_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
+CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.md"
 RUNS_DIR = "reports/runs"
 PROJECTION_DIM = 1
 PROJECTION_SEED_SALT = 811_773
@@ -206,7 +206,7 @@ def _full_builder(surface: Mapping[str, Any], spec: AttributionArmSpec, seed: in
     return _require_matrix("features", surface["features"]), list(surface["feature_columns"]), {}
 
 
-def _roots_builder(surface: Mapping[str, Any], spec: AttributionArmSpec, seed: int) -> tuple[np.ndarray, list[str], dict[str, Any]]:
+def _selected_roots_builder(surface: Mapping[str, Any], spec: AttributionArmSpec, seed: int) -> tuple[np.ndarray, list[str], dict[str, Any]]:
     del seed
     roots = set(spec.feature_roots)
     blocks = _surface_blocks(surface)
@@ -214,17 +214,6 @@ def _roots_builder(surface: Mapping[str, Any], spec: AttributionArmSpec, seed: i
     parts = [blocks[root] for root in order if root in roots]
     columns = [column for root in order if root in roots for column in _block_columns(surface, {root})]
     return np.column_stack(parts).astype(np.float64), columns, {}
-
-
-def _without_roots_builder(surface: Mapping[str, Any], spec: AttributionArmSpec, seed: int) -> tuple[np.ndarray, list[str], dict[str, Any]]:
-    del seed
-    included = set(spec.feature_roots)
-    blocks = _surface_blocks(surface)
-    order = ("h", "score", "margin", "transition_delta", "quality")
-    parts = [blocks[root] for root in order if root in included]
-    columns = [column for root in order if root in included for column in _block_columns(surface, {root})]
-    return np.column_stack(parts).astype(np.float64), columns, {}
-
 
 def _h_centered_builder(surface: Mapping[str, Any], spec: AttributionArmSpec, seed: int) -> tuple[np.ndarray, list[str], dict[str, Any]]:
     del spec, seed
@@ -259,9 +248,6 @@ def _h_norm_builder(surface: Mapping[str, Any], spec: AttributionArmSpec, seed: 
 def _h_pair_from_surface(surface: Mapping[str, Any], h: np.ndarray) -> np.ndarray:
     if "h_pair" in surface:
         return _require_matrix("h_pair", surface["h_pair"])
-    representation = surface.get("representation")
-    if isinstance(representation, Mapping) and int(representation.get("output_dim", h.shape[1])) == h.shape[1]:
-        return np.roll(h, shift=1, axis=0)
     return np.roll(h, shift=1, axis=0)
 
 
@@ -318,26 +304,26 @@ def _make_spec(
 
 ARM_SPECS: tuple[AttributionArmSpec, ...] = (
     _make_spec("full", "full", _full_builder, ("h", "score", "margin", "transition_delta", "quality"), gate_role="primary"),
-    _make_spec("h_only", "h", _roots_builder, ("h",)),
+    _make_spec("h_only", "h", _selected_roots_builder, ("h",)),
     _make_spec("h_centered_only", "h", _h_centered_builder, ("h_centered",)),
     _make_spec("h_normalized_no_scale", "h", _h_normalized_builder, ("h_normalized_no_scale",)),
     _make_spec("h_direction_only", "h", _h_direction_builder, ("h_direction",)),
     _make_spec("h_norm_only", "h_control", _h_norm_builder, ("h_norm",), gate_role="A1-HG4-control"),
     _make_spec("h_random_rotation", "h_control", _rotation_builder, ("h_random_rotation",), control_role="h_derived_control", seed_policy="seed_orthogonal_rotation"),
     _make_spec("h_random_projection_lowdim", "h_control", _projection_builder, ("h_random_projection_lowdim",), control_role="h_derived_control", seed_policy="seed_gaussian_projection"),
-    _make_spec("score_only", "score", _roots_builder, ("score",)),
-    _make_spec("margin_only", "margin", _roots_builder, ("margin",)),
+    _make_spec("score_only", "score", _selected_roots_builder, ("score",)),
+    _make_spec("margin_only", "margin", _selected_roots_builder, ("margin",)),
     _make_spec("score_plus_margin", "score_margin", _score_plus_margin_builder, ("score_plus_margin",), gate_role="A1-HG3-control"),
-    _make_spec("transition_delta_only", "transition", _roots_builder, ("transition_delta",)),
-    _make_spec("quality_scalars_only", "quality", _roots_builder, ("quality",)),
-    _make_spec("h_plus_margin", "combined", _roots_builder, ("h", "margin")),
-    _make_spec("h_plus_transition", "combined", _roots_builder, ("h", "transition_delta")),
-    _make_spec("h_plus_quality", "combined", _roots_builder, ("h", "quality")),
-    _make_spec("full_without_h", "ablation", _without_roots_builder, ("score", "margin", "transition_delta", "quality")),
-    _make_spec("full_without_score", "ablation", _without_roots_builder, ("h", "margin", "transition_delta", "quality")),
-    _make_spec("full_without_margin", "ablation", _without_roots_builder, ("h", "score", "transition_delta", "quality")),
-    _make_spec("full_without_transition", "ablation", _without_roots_builder, ("h", "score", "margin", "quality"), gate_role="A1-HG5-ablation"),
-    _make_spec("full_without_quality_scalars", "ablation", _without_roots_builder, ("h", "score", "margin", "transition_delta")),
+    _make_spec("transition_delta_only", "transition", _selected_roots_builder, ("transition_delta",)),
+    _make_spec("quality_scalars_only", "quality", _selected_roots_builder, ("quality",)),
+    _make_spec("h_plus_margin", "combined", _selected_roots_builder, ("h", "margin")),
+    _make_spec("h_plus_transition", "combined", _selected_roots_builder, ("h", "transition_delta")),
+    _make_spec("h_plus_quality", "combined", _selected_roots_builder, ("h", "quality")),
+    _make_spec("full_without_h", "ablation", _selected_roots_builder, ("score", "margin", "transition_delta", "quality")),
+    _make_spec("full_without_score", "ablation", _selected_roots_builder, ("h", "margin", "transition_delta", "quality")),
+    _make_spec("full_without_margin", "ablation", _selected_roots_builder, ("h", "score", "transition_delta", "quality")),
+    _make_spec("full_without_transition", "ablation", _selected_roots_builder, ("h", "score", "margin", "quality"), gate_role="A1-HG5-ablation"),
+    _make_spec("full_without_quality_scalars", "ablation", _selected_roots_builder, ("h", "score", "margin", "transition_delta")),
     _make_spec("matched_random", "negative_control", _full_builder, ("h", "score", "margin", "transition_delta", "quality"), control_role="matched_random_gap_labels", gate_role="A1-HG1-control"),
 )
 ARM_NAMES = tuple(spec.name for spec in ARM_SPECS)
@@ -676,7 +662,7 @@ def _source_artifacts(config: GapHeadRunConfig, run_dir: Path) -> dict[str, Any]
     return {
         "artifact_id": ARTIFACT_ID,
         "source_issue": SOURCE_ISSUE,
-        "generation_script": "scripts/run_gap_head_attribution_v3.py",
+        "generation_script": "scripts/run_gap_head_attribution_capsule.py",
         "surface_helper": "scripts/run_gap_ledger_head_on_h.py::_surface_for_seed",
         "fit_helper": "scripts/run_gap_ledger_head_on_h.py::_fit_gap_head",
         "predict_helper": "scripts/run_gap_ledger_head_on_h.py::_predict_gap_head",
@@ -883,7 +869,7 @@ def _active_config(run_id: str) -> GapHeadRunConfig:
     )
 
 
-def build_gap_head_attribution_v3(
+def build_gap_head_attribution_capsule(
     *,
     root: Path | str | None = None,
     run_id: str | None = None,
@@ -902,14 +888,14 @@ def build_gap_head_attribution_v3(
     return _build_payload(records, active_config, run_id=active_run_id, generated_at=timestamp, run_dir=run_dir)
 
 
-def write_gap_head_attribution_v3(
+def write_gap_head_attribution_capsule(
     *,
     root: Path | str | None = None,
     run_id: str | None = None,
     generated_at: str | None = None,
     canonical: bool = True,
 ) -> dict[str, Any]:
-    payload = build_gap_head_attribution_v3(root=root, run_id=run_id, generated_at=generated_at)
+    payload = build_gap_head_attribution_capsule(root=root, run_id=run_id, generated_at=generated_at)
     _write_artifacts(payload, ROOT / RUNS_DIR / payload["run_id"], canonical=canonical)
     return payload
 
@@ -924,7 +910,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 def main(argv: Sequence[str] | None = None) -> None:
     args = parse_args(argv)
-    payload = write_gap_head_attribution_v3(
+    payload = write_gap_head_attribution_capsule(
         root=args.root,
         run_id=args.run_id,
         canonical=not args.no_canonical,

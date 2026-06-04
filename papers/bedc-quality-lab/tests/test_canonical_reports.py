@@ -15,7 +15,7 @@ HG_P_CORE = {
     "gap-head-discovery",
     "gap-head-ablation",
     "gap-head-threshold-frontier",
-    "gap-head-attribution-v3",
+    "gap-head-attribution-capsule",
     "certificate-guided-training",
     "certificate-guided-discovery",
 }
@@ -250,7 +250,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-discovery",
         "gap-head-ablation",
         "gap-head-threshold-frontier",
-        "gap-head-attribution-v3",
+        "gap-head-attribution-capsule",
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
         "certificate-guided-discovery",
@@ -343,12 +343,12 @@ def test_canonical_reports_manifest_includes_gap_head_threshold_frontier():
     assert spec.control_pointer == "$.threshold_summary.control_baseline"
 
 
-def test_canonical_reports_manifest_includes_gap_head_attribution_v3():
-    spec = canonical._specs_by_name()["gap-head-attribution-v3"]
+def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
+    spec = canonical._specs_by_name()["gap-head-attribution-capsule"]
 
-    assert spec.command == ("python3", "scripts/run_gap_head_attribution_v3.py")
-    assert spec.json_artifact == "reports/canonical/gap_head_attribution_v3.json"
-    assert spec.markdown_artifact == "reports/canonical/gap_head_attribution_v3.md"
+    assert spec.command == ("python3", "scripts/run_gap_head_attribution_capsule.py")
+    assert spec.json_artifact == "reports/canonical/gap_head_attribution_capsule.json"
+    assert spec.markdown_artifact == "reports/canonical/gap_head_attribution_capsule.md"
     assert {
         "schema_id",
         "source_issue",
@@ -936,8 +936,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
                 {
-                    "report": "gap-head-attribution-v3",
-                    "artifact": "reports/canonical/gap_head_attribution_v3.json",
+                    "report": "gap-head-attribution-capsule",
+                    "artifact": "reports/canonical/gap_head_attribution_capsule.json",
                     "pointer": "$.scope.not_claimed",
                 },
                 {
@@ -998,8 +998,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
                 {
-                    "report": "gap-head-attribution-v3",
-                    "artifact": "reports/canonical/gap_head_attribution_v3.json",
+                    "report": "gap-head-attribution-capsule",
+                    "artifact": "reports/canonical/gap_head_attribution_capsule.json",
                     "pointer": "$.cost_protocol_pointer",
                 },
                 {
