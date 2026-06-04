@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer, resolve_artifact_pointer
-from bedc_quality_lab.discovery_compiler.negative_reports import build_negative_discovery_reports
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,7 +39,7 @@ def test_discovery_map_pointer_cells_resolve_against_canonical_artifacts():
 
 def test_discovery_map_does_not_copy_negative_report_body_cells():
     discovery = _load_json("reports/canonical/discovery_map.json")
-    reports = build_negative_discovery_reports(root=ROOT, generated_at="2030-01-01T00:00:00+00:00")
+    reports = _load_json("reports/canonical/negative_discovery_reports.json")
     forbidden = {
         "terminal_verdict",
         "classifier_reasons",
@@ -69,7 +68,6 @@ def test_negative_discovery_artifacts_are_written_only_by_core():
     allowed = {
         "bedc_quality_lab/discovery_compiler/negative_reports.py",
         "bedc_quality_lab/discovery_compiler/compiler.py",
-        "scripts/run_canonical_reports.py",
         "scripts/run_discovery_negative_witness_summary.py",
     }
     writers = []
@@ -87,9 +85,23 @@ def test_negative_discovery_artifacts_are_written_only_by_core():
 
 
 def test_discovery_compiler_core_has_no_backend_terms_or_backend_imports():
-    forbidden_terms = ("rho", "Gaussian", "OU", "SIGReg", "Hermite", "LeJEPA")
+    forbidden_terms = (
+        "gap-head",
+        "certificate-guided",
+        "sigreg-training-proxy",
+        "anisotropic-ou-sweep",
+        "nongaussian-distribution-sweep",
+        "mixing-family-sweep",
+        "dimension-mismatch",
+        "rho",
+        "Gaussian",
+        "SIGReg",
+        "Hermite",
+        "LeJEPA",
+    )
     for path in CORE.glob("*.py"):
         text = path.read_text(encoding="utf-8")
         assert "bedc_quality_lab.backends" not in text
+        assert "run_canonical_reports" not in text
         for term in forbidden_terms:
             assert term not in text

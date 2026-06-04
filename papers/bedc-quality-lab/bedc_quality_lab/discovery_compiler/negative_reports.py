@@ -79,12 +79,11 @@ def build_negative_discovery_reports(
     *,
     root: Path,
     generated_at: str | None = None,
-    discovery_rows: Sequence[Mapping[str, Any]] | None = None,
+    discovery_rows: Sequence[Mapping[str, Any]],
+    source_evidence: str = "backend_adapter.derive_negative_discovery_rows",
 ) -> dict[str, Any]:
     timestamp = _timestamp(generated_at)
-    from .projection import build_negative_discovery_owner_rows
-
-    owner_rows = list(discovery_rows) if discovery_rows is not None else build_negative_discovery_owner_rows(root=root)
+    owner_rows = list(discovery_rows)
     witness_payload = _load_json(root, NEGATIVE_WITNESS_SUMMARY_ARTIFACT)
     raw_witnesses = witness_payload.get("witnesses", [])
     witnesses = raw_witnesses if isinstance(raw_witnesses, list) else []
@@ -132,7 +131,7 @@ def build_negative_discovery_reports(
         "json_artifact": JSON_ARTIFACT,
         "markdown_artifact": MARKDOWN_ARTIFACT,
         "source_artifacts": {
-            "source_evidence": "bedc_quality_lab.discovery_compiler.projection.build_negative_discovery_owner_rows",
+            "source_evidence": source_evidence,
             "witnesses": NEGATIVE_WITNESS_SUMMARY_ARTIFACT,
         },
         "row_count": len(rows),
@@ -159,8 +158,19 @@ def render_negative_reports_markdown(payload: Mapping[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def write_negative_discovery_reports(*, root: Path, generated_at: str | None = None) -> dict[str, Any]:
-    payload = build_negative_discovery_reports(root=root, generated_at=generated_at)
+def write_negative_discovery_reports(
+    *,
+    root: Path,
+    generated_at: str | None = None,
+    discovery_rows: Sequence[Mapping[str, Any]],
+    source_evidence: str = "backend_adapter.derive_negative_discovery_rows",
+) -> dict[str, Any]:
+    payload = build_negative_discovery_reports(
+        root=root,
+        generated_at=generated_at,
+        discovery_rows=discovery_rows,
+        source_evidence=source_evidence,
+    )
     json_path = root / JSON_ARTIFACT
     markdown_path = root / MARKDOWN_ARTIFACT
     json_path.parent.mkdir(parents=True, exist_ok=True)
@@ -184,7 +194,9 @@ def build_negative_witness_summary(
     generated_at: str | None = None,
 ) -> dict[str, Any]:
     timestamp = _timestamp(generated_at)
-    reports = build_negative_discovery_reports(root=root, generated_at=timestamp)
+    reports = _load_json(root, JSON_ARTIFACT)
+    if not reports:
+        raise ValueError("negative discovery reports must be written before witness summary")
     map_pointers = _discovery_map_pointers_by_negative_id(root)
     verdict_rows = _load_jsonl(root, CLAIM_VERDICTS_ARTIFACT)
     verdicts = _verdicts_by_kind(verdict_rows)

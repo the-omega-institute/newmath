@@ -9,10 +9,7 @@ from bedc_quality_lab.discovery_compiler.backend import BackendEvidenceAdapter, 
 from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule, build_claim_capsule_payload
 from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
 from bedc_quality_lab.discovery_compiler.map import DiscoveryMapRow, build_discovery_map_payload
-from bedc_quality_lab.discovery_compiler.negative_reports import (
-    JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT,
-    NEGATIVE_WITNESS_SUMMARY_ARTIFACT,
-)
+from bedc_quality_lab.discovery_compiler.negative_reports import JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT
 
 
 class FakeAdapter:
@@ -65,6 +62,29 @@ class FakeAdapter:
     def derive_ledger_rows(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
         return self.compute_metrics(root=root, generated_at=generated_at)["rows"]
 
+    def derive_negative_discovery_rows(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
+        self.calls.append("negative")
+        return [
+            {
+                "negative_id": "dn:fixture-report",
+                "kind": "discovery_report",
+                "report": "fixture-report",
+                "source": "reports/canonical/fixture.json:$.failed",
+                "json_artifact": "reports/canonical/fixture.json",
+                "markdown_artifact": "reports/canonical/fixture.md",
+                "ledger_pointer": "reports/canonical/fixture.json:$.failed",
+                "discovery_level": "DN",
+                "terminal_verdict": "negative_discovery",
+                "classifier_reasons": ["fixture"],
+                "projection_status": "projected",
+                "evidence_pointer": "$.failed",
+                "failed_gate": "$.failed",
+                "debt_row_pointer": None,
+                "audit_status": "pass",
+                "audit_reason": "",
+            }
+        ]
+
     def project_discovery_level(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
         return self.derive_ledger_rows(root=root, generated_at=generated_at)
 
@@ -73,7 +93,7 @@ def _write_fixture_sources(root: Path) -> None:
     canonical = root / "reports" / "canonical"
     canonical.mkdir(parents=True, exist_ok=True)
     (canonical / "fixture.json").write_text(json.dumps({"failed": True}) + "\n", encoding="utf-8")
-    (root / NEGATIVE_WITNESS_SUMMARY_ARTIFACT).write_text(
+    (canonical / "discovery_negative_witnesses.json").write_text(
         json.dumps({"status": "pointer-only", "expected_kind_count": 0, "witnesses": []}) + "\n",
         encoding="utf-8",
     )
@@ -92,6 +112,8 @@ def test_backend_contract_and_current_lab_adapter_metadata():
 def test_claim_capsule_validates_required_cells():
     payload = build_claim_capsule_payload(
         generated_at="fixture-time",
+        claim_id="claim:fixture",
+        report="fixture-report",
         source_artifact="reports/canonical/dimension-mismatch-debt-transfer.json",
         source_pointer="$.dimension_mismatch_debt_transfer",
         claim={
@@ -108,7 +130,7 @@ def test_claim_capsule_validates_required_cells():
 
     capsule = ClaimCapsule.from_payload(payload)
 
-    assert capsule.claim_id == "claim:dimension-mismatch-debt-transfer"
+    assert capsule.claim_id == "claim:fixture"
     assert capsule.status == "complete"
     with pytest.raises(ValueError, match="schema_id"):
         ClaimCapsule.from_payload({**payload, "schema_id": "wrong"})
@@ -154,49 +176,12 @@ def test_build_discovery_map_payload_validates_rows():
     assert payload["level_counts"]["D4"] == 1
 
 
-def test_compile_discovery_writes_negative_owner_before_map(monkeypatch, tmp_path):
-    from bedc_quality_lab.discovery_compiler import projection
-
+def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):
     _write_fixture_sources(tmp_path)
     adapter = FakeAdapter()
-    calls: list[str] = []
-    original_compute_metrics = adapter.compute_metrics
-
-    def compute_with_trace(*, root: Path, generated_at: str | None = None):
-        calls.append("map")
-        return original_compute_metrics(root=root, generated_at=generated_at)
-
-    adapter.compute_metrics = compute_with_trace  # type: ignore[method-assign]
-
-    def fake_owner_rows(*, root: Path | None = None, canonical_reports=None):
-        calls.append("negative")
-        assert root == tmp_path
-        return [
-            {
-                "negative_id": "dn:fixture-report",
-                "kind": "discovery_report",
-                "report": "fixture-report",
-                "source": "reports/canonical/fixture.json:$.failed",
-                "json_artifact": "reports/canonical/fixture.json",
-                "markdown_artifact": "reports/canonical/fixture.md",
-                "ledger_pointer": "reports/canonical/fixture.json:$.failed",
-                "discovery_level": "DN",
-                "terminal_verdict": "negative_discovery",
-                "classifier_reasons": ["fixture"],
-                "projection_status": "projected",
-                "evidence_pointer": "$.failed",
-                "failed_gate": "$.failed",
-                "debt_row_pointer": None,
-                "audit_status": "pass",
-                "audit_reason": "",
-            }
-        ]
-
-    monkeypatch.setattr(projection, "build_negative_discovery_owner_rows", fake_owner_rows)
 
     result = compile_discovery(root=tmp_path, generated_at="fixture-time", adapter=adapter)
 
-    assert calls[:2] == ["negative", "map"]
-    assert adapter.calls == ["map"]
+    assert adapter.calls == ["negative", "map"]
     assert result["negative_discovery_reports"]["rows"][0]["terminal_verdict"] == "negative_discovery"
     assert result["discovery_map"]["rows"][0]["negative_report_pointer"] == f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]"

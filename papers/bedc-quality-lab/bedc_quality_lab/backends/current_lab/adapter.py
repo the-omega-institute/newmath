@@ -6,8 +6,9 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_compiler.backend import TheoryBackend
-from bedc_quality_lab.discovery_compiler import projection
 from scripts.run_canonical_reports import CANONICAL_REPORTS
+
+from . import projection
 
 
 class CurrentLabBackendEvidenceAdapter:
@@ -36,6 +37,10 @@ class CurrentLabBackendEvidenceAdapter:
 
     def derive_ledger_rows(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
         return projection.build_discovery_map(generated_at=generated_at, root=root, canonical_reports=CANONICAL_REPORTS)["rows"]
+
+    def derive_negative_discovery_rows(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
+        del generated_at
+        return projection.build_negative_discovery_owner_rows(root=root, canonical_reports=CANONICAL_REPORTS)
 
     def project_discovery_level(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
         return self.derive_ledger_rows(root=root, generated_at=generated_at)

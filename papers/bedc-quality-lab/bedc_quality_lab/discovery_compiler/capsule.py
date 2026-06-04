@@ -41,6 +41,8 @@ class ClaimCapsule:
 def build_claim_capsule_payload(
     *,
     generated_at: str,
+    claim_id: str,
+    report: str,
     source_artifact: str,
     source_pointer: str,
     claim: Mapping[str, Any] | None,
@@ -52,8 +54,8 @@ def build_claim_capsule_payload(
         "json_artifact": CLAIM_CAPSULE_JSON_ARTIFACT,
         "generated_at": generated_at,
         "producer": "bedc_quality_lab.discovery_compiler.capsule",
-        "claim_id": "claim:dimension-mismatch-debt-transfer",
-        "report": "dimension-mismatch-debt-transfer",
+        "claim_id": claim_id,
+        "report": report,
         "source": source_artifact,
         "source_pointer": source_pointer,
     }

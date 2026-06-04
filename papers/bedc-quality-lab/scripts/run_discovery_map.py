@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from bedc_quality_lab.discovery_compiler import projection as _projection
+from bedc_quality_lab.backends.current_lab import projection as _projection
 
 
 _projection.ROOT = ROOT

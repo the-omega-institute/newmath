@@ -1204,6 +1204,8 @@ def _build_claim_capsule(generated_at: str) -> dict[str, Any]:
         transfer = None
     return build_claim_capsule_payload(
         generated_at=generated_at,
+        claim_id="claim:dimension-mismatch-debt-transfer",
+        report="dimension-mismatch-debt-transfer",
         source_artifact=DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
         source_pointer="$.dimension_mismatch_debt_transfer",
         claim=transfer,
@@ -1238,7 +1240,12 @@ def _claim_capsule_index_section(generated_at: str | None = None) -> dict[str, A
 def _negative_witness_summary_index_section(generated_at: str | None = None) -> dict[str, Any]:
     from scripts.run_discovery_negative_witness_summary import build_discovery_negative_witness_summary
 
-    payload = build_discovery_negative_witness_summary(root=ROOT, generated_at=generated_at)
+    try:
+        payload = build_discovery_negative_witness_summary(root=ROOT, generated_at=generated_at)
+    except ValueError as exc:
+        if str(exc) != "negative discovery reports must be written before witness summary":
+            raise
+        payload = {"status": "missing", "row_count": 0, "audit_status": "missing"}
     return {
         "status": payload["status"],
         "artifact_id": NEGATIVE_WITNESS_SUMMARY_ARTIFACT_ID,
@@ -1250,16 +1257,15 @@ def _negative_witness_summary_index_section(generated_at: str | None = None) -> 
 
 
 def _negative_discovery_reports_index_section(generated_at: str | None = None) -> dict[str, Any]:
-    from bedc_quality_lab.discovery_compiler.negative_reports import build_negative_discovery_reports
-
-    payload = build_negative_discovery_reports(root=ROOT, generated_at=generated_at)
+    del generated_at
+    payload = _load_artifact_payload(NEGATIVE_DISCOVERY_REPORTS_JSON_ARTIFACT)
     return {
-        "status": payload["status"],
+        "status": payload.get("status", "missing"),
         "artifact_id": NEGATIVE_DISCOVERY_REPORTS_ARTIFACT_ID,
         "json_artifact": NEGATIVE_DISCOVERY_REPORTS_JSON_ARTIFACT,
         "markdown_artifact": NEGATIVE_DISCOVERY_REPORTS_MARKDOWN_ARTIFACT,
-        "row_count": payload["row_count"],
-        "audit_status": payload["audit_status"],
+        "row_count": payload.get("row_count", 0),
+        "audit_status": payload.get("audit_status", "missing"),
     }
 
 
@@ -1693,21 +1699,20 @@ def run_reports(
     write_dimension_mismatch_anti_triviality(root=ROOT, generated_at=timestamp)
     write_dimension_mismatch_debt_transfer(root=ROOT, generated_at=timestamp, require_anti_triviality=True)
     scorecard = _build_quality_scorecard(results, generated_at=timestamp)
-    from bedc_quality_lab.discovery_compiler.negative_reports import write_negative_discovery_reports
-    from scripts.run_discovery_map import write_discovery_map
+    from bedc_quality_lab.backends.current_lab.adapter import CurrentLabBackendEvidenceAdapter
+    from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
     from scripts.run_claim_verdict_demo import write_claim_verdicts
 
     _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
-    write_negative_discovery_reports(root=ROOT, generated_at=timestamp)
-    write_discovery_map(generated_at=timestamp, root=ROOT, canonical_reports=CANONICAL_REPORTS)
+    compile_discovery(root=ROOT, generated_at=timestamp, adapter=CurrentLabBackendEvidenceAdapter())
     write_claim_verdicts(root=ROOT, generated_at=timestamp)
     _write_json_atomic(_artifact_path(CLAIM_CAPSULE_JSON_ARTIFACT), _build_claim_capsule(timestamp))
     from scripts.run_dimension_mismatch_transfer_robustness import write_dimension_mismatch_transfer_robustness
     from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
 
     write_dimension_mismatch_transfer_robustness(root=ROOT, generated_at=timestamp)
-    write_negative_discovery_reports(root=ROOT, generated_at=timestamp)
+    compile_discovery(root=ROOT, generated_at=timestamp, adapter=CurrentLabBackendEvidenceAdapter())
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
     from scripts.run_gap_head_mechanism_attribution import write_gap_head_mechanism_attribution
 

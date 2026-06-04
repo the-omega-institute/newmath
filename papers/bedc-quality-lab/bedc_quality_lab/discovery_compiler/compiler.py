@@ -34,7 +34,12 @@ def compile_discovery(
 ) -> Mapping[str, Any]:
     timestamp = _timestamp(generated_at)
     active = adapter
-    negative_payload = write_negative_discovery_reports(root=root, generated_at=timestamp) if write_reports else {}
+    negative_rows = active.derive_negative_discovery_rows(root=root, generated_at=timestamp)
+    negative_payload = (
+        write_negative_discovery_reports(root=root, generated_at=timestamp, discovery_rows=negative_rows)
+        if write_reports
+        else {}
+    )
     map_payload = active.compute_metrics(root=root, generated_at=timestamp)
     summary_payload = write_negative_witness_summary(root=root, generated_at=timestamp) if write_reports else {}
     return {
