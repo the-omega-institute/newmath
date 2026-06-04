@@ -64,12 +64,48 @@ Next read the digit and index rows. The $\BoolUp$ row $B$ supplies only the obse
 The handoff is completed by the structural rows $H,C,P,N$. They transport, replay, source, and name the same finite prefix windows, so downstream consumers receive a StreamName-compatible finite observation packet and receive no host infinite stream, primitive lawless-choice source, countable-choice row, quotient-stream equality, or $\RealUp$ completeness surface.
 \end{proof}
 
+\begin{theorem}[Lawless sequence choice-free carrier obligation]
+\label{thm:lawless-sequence-choice-free-carrier-obligation}
+Every accepted $\LawlessSequenceUp$ carrier read is a finite prefix packet over $\StreamNameUp$, $\BoolUp$, $\NatUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. In particular, every consumer-visible observation is read from the displayed rows $W,B,I,H,C,P,N$ of \autoref{def:lawless-sequence-carrier}, and no host infinite sequence, primitive lawless choice source, quotient stream equality, or countable-choice schedule is exported.
+\end{theorem}
+\begin{proof}
+Project the carrier rows in \autoref{def:lawless-sequence-carrier}. The only prefix data available to a consumer is the $\StreamNameUp$ window $W$ together with the $\BoolUp$ digit row $B$ and the $\NatUp$ index ledger $I$.
+
+Apply the finite-window scope theorem \autoref{thm:lawless-sequence-finite-window-scope}. It factors every consumer read through $I\longmapsto W\longmapsto B$ before the structural rows can be consumed.
+
+Finally use the StreamName handoff theorem \autoref{thm:lawless-sequence-streamname-handoff}. The handoff transports and replays the same finite rows through $H,C,P,N$, so no accepted read can recover a host infinite sequence, a primitive lawless-choice source, quotient stream equality, or countable-choice schedule.
+\end{proof}
+
+\begin{theorem}[Lawless sequence StreamName window obligation]
+\label{thm:lawless-sequence-streamname-window-obligation}
+Every replayed observation of an accepted $\LawlessSequenceUp$ carrier factors through displayed $\StreamNameUp$ windows and $\BaireSpaceUp$ prefix rows before a digit read is exposed. The replay route is finite: it reads an index from $I$, a window from $W$, the corresponding digit from $B$, and then the transport, continuation, provenance, and local naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with a replayed observation and project its index request from $I$. The finite-window scope theorem \autoref{thm:lawless-sequence-finite-window-scope} sends that request through the displayed window route $I\longmapsto W\longmapsto B$.
+
+The $\BaireSpaceUp$ use is the prefix-row reading already named in \autoref{thm:lawless-sequence-streamname-handoff}. It is attached to the same $\StreamNameUp$ window $W$, not to a completed stream or an ambient function.
+
+Now replay through $C$ and transport through $H$. Provenance $P$ and the local $\NameCert$ row $N$ name the same finite packet, so every accepted observation remains a displayed StreamName window with BaireSpace prefix coverage and a visible Bool digit row.
+\end{proof}
+
+\begin{theorem}[Lawless sequence Real-boundary nonescape]
+\label{thm:lawless-sequence-real-boundary-nonescape}
+No accepted $\LawlessSequenceUp$ packet exports $\RealUp$ completeness, quotient stream equality, a host infinite sequence, or a countable-choice schedule. Any downstream countable-name or real-boundary consumer must first pass through the finite rows $W,B,I,H,C,P,N$ and receives only the StreamName-compatible finite prefix surface of \autoref{thm:lawless-sequence-streamname-handoff}.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:lawless-sequence-carrier}. Its classifier compares packets only through the finite rows $W,B,I,H,C,P,N$, and the definition explicitly leaves $\RealUp$ completeness, quotient stream equality, host infinite sequence data, and countable choice outside the carrier.
+
+Apply \autoref{thm:lawless-sequence-choice-free-carrier-obligation}. Every accepted read is already a finite prefix packet over StreamName, Bool, Nat, transport, replay, provenance, and local naming.
+
+Finally apply the StreamName handoff theorem \autoref{thm:lawless-sequence-streamname-handoff}. A countable-name consumer receives only the finite prefix window and its digit rows, so any real-boundary use that asks for completeness, quotient equality, a host sequence, or a countable-choice schedule exits the accepted $\LawlessSequenceUp$ packet.
+\end{proof}
+
 \closureat{LawlessSequenceUp}{seedStr}
 
 \begin{closurestatus}{\LawlessSequenceUp}
   \constructivestory{A $\LawlessSequenceUp$ packet is generated from finite StreamName prefix windows, Bool digit rows, Nat prefix indices, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:lawless-sequence-carrier}, \autoref{thm:lawless-sequence-namecert-obligations}, \autoref{thm:lawless-sequence-finite-window-scope}, and \autoref{thm:lawless-sequence-streamname-handoff} bind lawless-sequence observation to finite StreamName windows, Bool digit rows, Nat prefix indices, transport, continuation, provenance, and local naming.}
+  \scopeclosed{\autoref{def:lawless-sequence-carrier}, \autoref{thm:lawless-sequence-namecert-obligations}, \autoref{thm:lawless-sequence-finite-window-scope}, \autoref{thm:lawless-sequence-streamname-handoff}, \autoref{thm:lawless-sequence-choice-free-carrier-obligation}, \autoref{thm:lawless-sequence-streamname-window-obligation}, and \autoref{thm:lawless-sequence-real-boundary-nonescape} bind lawless-sequence observation to finite StreamName windows, Bool digit rows, Nat prefix indices, transport, continuation, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host infinite sequences, countable choice, lawless choice as a primitive, quotient streams, $\RealUp$ completeness, Lean verification, or bridge checking.}
