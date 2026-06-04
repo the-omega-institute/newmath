@@ -3580,6 +3580,7 @@ import BEDC.Derived.DirichletSeriesUp
 import BEDC.Derived.DirichletSeriesUp.EulerProduct
 import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUnitUp
+import BEDC.Derived.DistributionDerivativeUp.TasteGate
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.DivisibilityUp
 import BEDC.Derived.DnaWindowSixBoundaryTileUp.TasteGate
