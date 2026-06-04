@@ -2358,6 +2358,8 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootClosednessBudgetExhaust
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootClosednessGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerRouteExhaustion
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerAuditFactorization
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueBridgeDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootLedgerReadiness
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootNamecertHandoff
@@ -3682,6 +3684,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.LedgerExactness
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligation
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementScope
 import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
+import BEDC.Derived.DyadicIntervalCoverUp.ObligationSurface
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealCoverHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescape
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescapeObligation
@@ -3841,6 +3844,7 @@ import BEDC.Derived.EquicontinuityUp.ContinuousMapModulusRoute
 import BEDC.Derived.EquicontinuityUp.FiniteModulusCarrier
 import BEDC.Derived.EquicontinuityUp.FiniteNetConsumerBoundary
 import BEDC.Derived.EquicontinuityUp.FiniteNetReadiness
+import BEDC.Derived.EquicontinuityUp.ModulusHandoffAdmission
 import BEDC.Derived.EquicontinuityUp.ModulusLedgerExactness
 import BEDC.Derived.EquicontinuityUp.RootCompactSourceAdmission
 import BEDC.Derived.EquicontinuityUp.RootObligationFiniteNet
@@ -3951,6 +3955,7 @@ import BEDC.Derived.FastCauchySeqUp
 import BEDC.Derived.FastCauchySequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySequenceUp.TasteGate
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalReadbackNonescape
+import BEDC.Derived.FastCauchySubsequenceUp.CofinalTailStability
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalWindowObligation
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusRegularHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorCoherence
@@ -8595,6 +8600,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.CarrierAdmission
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyFilterNonescape
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.CompletionConsumerFrontier
+import BEDC.Derived.UniformCompletionFunctorUp.CompletionHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.DyadicWindowStability
 import BEDC.Derived.UniformCompletionFunctorUp.ExtensionOrdering
 import BEDC.Derived.UniformCompletionFunctorUp.FunctorialReplayStability
