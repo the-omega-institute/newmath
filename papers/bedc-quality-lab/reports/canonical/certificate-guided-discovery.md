@@ -5,7 +5,7 @@
 - Main claim status: `observed-negative`
 - Terminal verdict: `demoted`
 - Discovery level: `DN`
-- Hardgate status: `non-positive`
+- Hardgate status: `failed`
 - Failed gate: `audit-improvement-tradeoff`
 - Four-gate positive: `false`
 - Training quality gate: `false`
@@ -16,10 +16,10 @@
 - Revocation downgraded: `false`
 - Revocation reason: `no-certified-claim`
 - Revocation ledger rows: `0`
-- Verdict: `negative` / net `-0.133891` / positive `false`
-- Matched-random baseline: `negative` / net `-0.141426` / positive `false`
-- Benefit declined by `-0.229040` under the shared cost protocol.
-- Debt declined by `-0.155149` under the shared cost protocol.
-- Net information did not clear zero: `-0.133891`.
-- Quality-q delta: `-0.073891`.
-- Not claimed: `formal BEDC closure is not claimed by this lab-local runner; global optimizer behavior is not claimed by this lab-local runner; positive quality improvement is not claimed unless the paired after-minus-before quality_q CI lower bound is above zero; positive quality wording is not claimed for debt reduction paired with benefit decline; positive quality wording is not claimed when the paired quality_q CI lower bound does not clear zero; positive discovery is not claimed unless classifier surface delta, imported positive_discovery, positive net information, and training positive quality gate all hold`
+- Verdict: `negative` / net `-0.007800` / positive `false`
+- Matched-random baseline: `negative` / net `-0.069800` / positive `false`
+- Benefit declined by `-0.009800` under the shared cost protocol.
+- Debt declined by `-0.078000` under the shared cost protocol.
+- Net information did not clear zero: `-0.007800`.
+- Quality-q delta: `0.059000`.
+- Not claimed: `lab-local constraint-training evidence only; global model quality is not claimed; full LeJEPA is not claimed; full TensorNameCert is not claimed; LLM behavior is not claimed; mechanism closure is not claimed; claim is falsifiable and revocable; positive wording is not claimed for audit-improvement-tradeoff DN evidence; positive discovery is not claimed unless classifier surface delta, imported positive_discovery, positive net information, and training positive quality gate all hold`

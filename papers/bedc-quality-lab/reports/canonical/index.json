@@ -173,13 +173,13 @@
     "markdown_artifact": "reports/canonical/gap_head_attribution_capsule.md",
     "mechanism_case": "Case 2",
     "run_artifacts": {
-      "claim_capsule": "reports/runs/a1-canonical/claim_capsule.json",
-      "raw_metrics": "reports/runs/a1-canonical/raw_metrics.jsonl",
-      "report": "reports/runs/a1-canonical/report.md",
-      "run_dir": "reports/runs/a1-canonical",
-      "summary": "reports/runs/a1-canonical/summary.json"
+      "claim_capsule": "reports/runs/a1-20260604T151639Z/claim_capsule.json",
+      "raw_metrics": "reports/runs/a1-20260604T151639Z/raw_metrics.jsonl",
+      "report": "reports/runs/a1-20260604T151639Z/report.md",
+      "run_dir": "reports/runs/a1-20260604T151639Z",
+      "summary": "reports/runs/a1-20260604T151639Z/summary.json"
     },
-    "run_id": "a1-canonical",
+    "run_id": "a1-20260604T151639Z",
     "status": "pointer-only"
   },
   "gap_head_mechanism_attribution": {
@@ -204,7 +204,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-04T13:39:39+00:00",
+  "generated_at": "2026-06-04T15:16:56.178829+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -803,6 +803,8 @@
         "control_status": "present",
         "cost_pointer": "$.cost_protocol",
         "cost_status": "present",
+        "evidence_label": "constraint_lagrangian",
+        "evidence_pointer": "$.arm_protocol.compat_roles.after",
         "forbidden_claim_term_hits": [],
         "forbidden_claim_terms_status": "pass",
         "literature_ref_ids": [],
@@ -822,7 +824,7 @@
       "name": "certificate-guided-training",
       "producer_command": [
         "python3",
-        "scripts/run_certificate_guided_training.py"
+        "scripts/run_certificate_guided_constraint_training.py"
       ],
       "producer_status": "reused",
       "status": "pass",
@@ -830,12 +832,19 @@
         "missing_artifacts": [],
         "required_json_keys": [
           "generated_at",
+          "run_id",
           "cost_protocol",
           "source_artifacts",
           "paired_seed_protocol",
           "objective",
-          "records",
+          "grid_summary",
+          "grid_metrics_artifact",
+          "grid_summary_artifact",
+          "raw_metrics_artifact",
+          "raw_metrics_record_count",
+          "raw_grid_record_count",
           "deltas",
+          "metrics",
           "paired_delta_ci",
           "arm_protocol",
           "arm_summaries",
@@ -845,6 +854,7 @@
           "verdict",
           "discovery_level",
           "not_claimed",
+          "claim_capsule",
           "result"
         ],
         "required_key_validation": {

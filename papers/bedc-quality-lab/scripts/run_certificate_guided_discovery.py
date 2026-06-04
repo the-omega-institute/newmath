@@ -16,6 +16,7 @@ from bedc_quality_lab.claim_projection import (
     AFTER_ROLE,
     BEFORE_ROLE,
     CONTROL_ROLE,
+    _records,
     project_certificate_guided_claim,
     require_certificate_guided_projection_source,
 )
@@ -132,7 +133,7 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
         "projection_script": "scripts/run_certificate_guided_discovery.py",
         "generated_from": {"artifact": SOURCE_JSON_ARTIFACT, "generated_at": payload.get("generated_at")},
         "generated_at": generated_at,
-        "arms": [{"role": record["role"], "candidate_id": record["candidate_id"]} for record in payload["records"]],
+        "arms": [{"role": record["role"], "candidate_id": record["candidate_id"]} for record in _records(payload)],
         "verdicts": [main],
         "surface_delta_count": main["surface_delta_count"],
         "positive_discovery": main["positive_discovery"],

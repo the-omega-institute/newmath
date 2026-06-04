@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+import json
+from pathlib import Path
 from typing import Any, Mapping
 
 from bedc_quality_lab.classifier_shift import (
@@ -49,10 +51,11 @@ def require_certificate_guided_projection_source(payload: Mapping[str, Any]) -> 
     if "positive_quality_improvement" not in payload["claim_gate"]:
         raise ValueError("certificate-guided claim_gate must contain positive_quality_improvement")
     _require_paired_quality_ci(payload)
+    records = _records(payload)
     roles = _resolved_compat_roles(payload)
     if {BEFORE_ROLE, AFTER_ROLE, CONTROL_ROLE} - roles:
         raise ValueError("certificate-guided payload must contain before, after, and control records")
-    record_roles = _record_roles(payload)
+    record_roles = _record_roles(payload, records)
     try:
         main_pair = _resolved_pair(payload, "main_pair", (BEFORE_ROLE, AFTER_ROLE))
         control_pair = _resolved_pair(payload, "control_pair", (BEFORE_ROLE, CONTROL_ROLE))
@@ -64,18 +67,65 @@ def require_certificate_guided_projection_source(payload: Mapping[str, Any]) -> 
         raise ValueError("certificate-guided payload must record ledger rows")
     if payload.get("result", {}).get("shared_cost_protocol_name") is not True:
         raise ValueError("certificate-guided payload must share a cost protocol")
-    for record in payload["records"]:
+    for record in records:
         if not record.get("ledger_rows"):
             raise ValueError(f"record lacks ledger rows: {record.get('role')}")
 
 
-def _record_roles(payload: Mapping[str, Any]) -> set[str]:
-    return {str(record.get("role")) for record in payload.get("records", []) if record.get("role") is not None}
+def _artifact_root(payload: Mapping[str, Any]) -> Path:
+    artifact = payload.get("artifact")
+    if not isinstance(artifact, str):
+        return Path.cwd()
+    artifact_path = Path(artifact)
+    if not artifact_path.is_absolute():
+        return Path.cwd()
+    parts = artifact_path.parts
+    if "reports" not in parts:
+        return Path.cwd()
+    index = parts.index("reports")
+    return Path(*parts[:index]) if index > 0 else Path("/")
+
+
+def _load_jsonl(path: Path) -> list[dict[str, Any]]:
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        if not isinstance(row, dict):
+            raise ValueError(f"certificate-guided JSONL row must be an object: {path}")
+        rows.append(row)
+    return rows
+
+
+def _records(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
+    direct = payload.get("records")
+    if isinstance(direct, list):
+        return [dict(record) for record in direct if isinstance(record, Mapping)]
+    artifact = payload.get("raw_metrics_artifact")
+    if not isinstance(artifact, str):
+        source_artifacts = payload.get("source_artifacts")
+        if isinstance(source_artifacts, Mapping):
+            artifact = source_artifacts.get("raw_metrics_artifact")
+    if not isinstance(artifact, str):
+        return []
+    path = Path(artifact)
+    if not path.is_absolute():
+        cwd_path = Path.cwd() / path
+        path = cwd_path if cwd_path.exists() else _artifact_root(payload) / path
+    if not path.exists():
+        return []
+    return _load_jsonl(path)
+
+
+def _record_roles(payload: Mapping[str, Any], records: list[dict[str, Any]] | None = None) -> set[str]:
+    source = _records(payload) if records is None else records
+    return {str(record.get("role")) for record in source if record.get("role") is not None}
 
 
 def _record_arm_roles(payload: Mapping[str, Any]) -> dict[str, str]:
     roles: dict[str, str] = {}
-    for record in payload.get("records", []):
+    for record in _records(payload):
         arm = record.get("arm")
         role = record.get("role")
         if isinstance(arm, str) and isinstance(role, str):
@@ -193,7 +243,7 @@ def _mean_record(records: list[dict[str, Any]], role: str) -> dict[str, Any]:
 
 
 def _project_pair(payload: Mapping[str, Any], before_role: str, after_role: str) -> dict[str, Any]:
-    records = list(payload["records"])
+    records = _records(payload)
     before = _mean_record(records, before_role)
     after = _mean_record(records, after_role)
     source_ids = frozenset(f"metric:{name}" for name in METRIC_NAMES)
@@ -304,7 +354,7 @@ def _evidence_basis(payload: Mapping[str, Any], main: Mapping[str, Any], baselin
     return {
         "source_schema_id": payload.get("schema_id"),
         "source_artifact": payload.get("artifact"),
-        "record_roles": [record.get("role") for record in payload.get("records", [])],
+        "record_roles": [record.get("role") for record in _records(payload)],
         "metric_names": list(METRIC_NAMES),
         "main_pair": [main["before_role"], main["after_role"]],
         "baseline_pair": [baseline["before_role"], baseline["after_role"]],

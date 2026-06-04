@@ -1,154 +1,46 @@
-# Certificate-Guided Training
+# Certificate-Guided Constraint Training
 
-- Generated at: `2026-06-03T07:48:43.521220+00:00`
-- Cost protocol: `bedc-quality-lab-default-cost-protocol`
-- Formula: `task_loss + lambda_s*stability + lambda_m*margin + lambda_l*ledger + lambda_c*coverage`
-- Result: `negative`
-- Result note: certificate-guided candidate did not improve every tracked projection
+- Generated at: `2026-06-04T15:42:14.733636+00:00`
+- Run id: `certificate-guided-constraint-training`
+- Producer: `scripts/run_certificate_guided_constraint_training.py`
+- Objective: `min L_task subject to UER <= alpha, Benefit >= beta, Debt <= gamma`
+- Verdict: `DN(audit-improvement-tradeoff)`
+- Failed gate: `audit-improvement-tradeoff`
+- Claim capsule: `reports/runs/certificate-guided-constraint-training/claim_capsule.json`
+- Grid summaries: `3402`
+- Raw grid records: `27216`
+- Raw metric records: `56`
+- Raw metrics: `reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl`
+- Grid metrics: `reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl`
+- Grid summary records: `reports/runs/certificate-guided-constraint-training/grid_summary.jsonl`
 
-## Records
+## Arms
 
-| role | candidate | seed | loss | quality_q | debt | cost | benefit | unlogged | critical unlogged | deterministic fallback | torch arm |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |
-| `before` | `deterministic-baseline` | `18` | 2.526851 | -0.939052 | 1.000000 | 0.030000 | 0.090948 | 0.539130 | 0.539130 | `true` | `false` |
-| `debt_only` | `certificate-guided-debt-support` | `18` | 1.362085 | -0.987207 | 0.957207 | 0.030000 | 0.000000 | 0.043478 | 0.000000 | `true` | `false` |
-| `benefit_only` | `certificate-guided-benefit-support` | `18` | 2.526851 | -0.939052 | 1.000000 | 0.030000 | 0.090948 | 0.539130 | 0.539130 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `18` | 1.362085 | -0.987207 | 0.957207 | 0.030000 | 0.000000 | 0.043478 | 0.000000 | `true` | `false` |
-| `control` | `matched-random-debt-control` | `18` | 3.206462 | -1.060000 | 1.000000 | 0.060000 | 0.000000 | 0.539130 | 0.539130 | `false` | `true` |
-| `before` | `deterministic-baseline` | `25` | 2.460511 | -0.912619 | 1.000000 | 0.030000 | 0.117381 | 0.521739 | 0.521739 | `true` | `false` |
-| `debt_only` | `certificate-guided-debt-support` | `25` | 1.293851 | -0.959426 | 0.950000 | 0.030000 | 0.020574 | 0.000000 | 0.000000 | `true` | `false` |
-| `benefit_only` | `certificate-guided-benefit-support` | `25` | 2.460511 | -0.912619 | 1.000000 | 0.030000 | 0.117381 | 0.521739 | 0.521739 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `25` | 1.293851 | -0.959426 | 0.950000 | 0.030000 | 0.020574 | 0.000000 | 0.000000 | `true` | `false` |
-| `control` | `matched-random-debt-control` | `25` | 2.943691 | -1.060000 | 1.000000 | 0.060000 | 0.000000 | 0.521739 | 0.521739 | `false` | `true` |
-| `before` | `deterministic-baseline` | `36` | 2.226803 | -0.671910 | 1.000000 | 0.030000 | 0.358090 | 0.486957 | 0.486957 | `true` | `false` |
-| `debt_only` | `certificate-guided-debt-support` | `36` | 1.231623 | -0.758924 | 0.950000 | 0.030000 | 0.221076 | 0.026087 | 0.000000 | `true` | `false` |
-| `benefit_only` | `certificate-guided-benefit-support` | `36` | 2.226803 | -0.671910 | 1.000000 | 0.030000 | 0.358090 | 0.486957 | 0.486957 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `36` | 1.231623 | -0.758924 | 0.950000 | 0.030000 | 0.221076 | 0.026087 | 0.000000 | `true` | `false` |
-| `control` | `matched-random-debt-control` | `36` | 2.589730 | -0.672620 | 1.000000 | 0.060000 | 0.387380 | 0.486957 | 0.486957 | `false` | `true` |
-| `before` | `deterministic-baseline` | `44` | 2.384578 | -1.030000 | 1.000000 | 0.030000 | 0.000000 | 0.460870 | 0.460870 | `true` | `false` |
-| `debt_only` | `certificate-guided-debt-support` | `44` | 1.202477 | -0.762157 | 0.950000 | 0.030000 | 0.217843 | 0.000000 | 0.000000 | `true` | `false` |
-| `benefit_only` | `certificate-guided-benefit-support` | `44` | 2.384578 | -1.030000 | 1.000000 | 0.030000 | 0.000000 | 0.460870 | 0.460870 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `44` | 1.202477 | -0.762157 | 0.950000 | 0.030000 | 0.217843 | 0.000000 | 0.000000 | `true` | `false` |
-| `control` | `matched-random-debt-control` | `44` | 2.447143 | -0.895067 | 1.000000 | 0.060000 | 0.164933 | 0.460870 | 0.460870 | `false` | `true` |
-| `before` | `deterministic-baseline` | `57` | 2.084012 | -0.356172 | 1.000000 | 0.030000 | 0.673828 | 0.504348 | 0.504348 | `true` | `false` |
-| `debt_only` | `certificate-guided-debt-support` | `57` | 1.267066 | -0.903610 | 0.950000 | 0.030000 | 0.076390 | 0.000000 | 0.000000 | `true` | `false` |
-| `benefit_only` | `certificate-guided-benefit-support` | `57` | 2.084012 | -0.356172 | 1.000000 | 0.030000 | 0.673828 | 0.504348 | 0.504348 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `57` | 1.267066 | -0.903610 | 0.950000 | 0.030000 | 0.076390 | 0.000000 | 0.000000 | `true` | `false` |
-| `control` | `matched-random-debt-control` | `57` | 2.442175 | -0.597848 | 1.000000 | 0.060000 | 0.462152 | 0.504348 | 0.504348 | `false` | `true` |
-| `before` | `deterministic-baseline` | `63` | 2.413855 | -1.030000 | 1.000000 | 0.030000 | 0.000000 | 0.469565 | 0.469565 | `true` | `false` |
-| `debt_only` | `certificate-guided-debt-support` | `63` | 1.358841 | -0.980000 | 0.950000 | 0.030000 | 0.000000 | 0.017391 | 0.000000 | `true` | `false` |
-| `benefit_only` | `certificate-guided-benefit-support` | `63` | 2.413855 | -1.030000 | 1.000000 | 0.030000 | 0.000000 | 0.469565 | 0.469565 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `63` | 1.358841 | -0.980000 | 0.950000 | 0.030000 | 0.000000 | 0.017391 | 0.000000 | `true` | `false` |
-| `control` | `matched-random-debt-control` | `63` | 2.371405 | -0.504863 | 1.000000 | 0.060000 | 0.555137 | 0.469565 | 0.469565 | `false` | `true` |
-| `before` | `deterministic-baseline` | `72` | 2.095292 | -0.343338 | 1.000000 | 0.030000 | 0.686662 | 0.513043 | 0.513043 | `true` | `false` |
-| `debt_only` | `certificate-guided-debt-support` | `72` | 1.367108 | -0.973465 | 0.950000 | 0.030000 | 0.006535 | 0.052174 | 0.000000 | `true` | `false` |
-| `benefit_only` | `certificate-guided-benefit-support` | `72` | 2.095292 | -0.343338 | 1.000000 | 0.030000 | 0.686662 | 0.513043 | 0.513043 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `72` | 1.367108 | -0.973465 | 0.950000 | 0.030000 | 0.006535 | 0.052174 | 0.000000 | `true` | `false` |
-| `control` | `matched-random-debt-control` | `72` | 2.885492 | -0.697488 | 1.000000 | 0.060000 | 0.362512 | 0.513043 | 0.513043 | `false` | `true` |
-| `before` | `deterministic-baseline` | `89` | 2.104245 | -0.478629 | 1.000000 | 0.030000 | 0.551371 | 0.486957 | 0.486957 | `true` | `false` |
-| `debt_only` | `certificate-guided-debt-support` | `89` | 1.331820 | -0.876459 | 0.950000 | 0.030000 | 0.103541 | 0.069565 | 0.000000 | `true` | `false` |
-| `benefit_only` | `certificate-guided-benefit-support` | `89` | 2.104245 | -0.478629 | 1.000000 | 0.030000 | 0.551371 | 0.486957 | 0.486957 | `true` | `false` |
-| `after` | `certificate-guided-sample-support` | `89` | 1.331820 | -0.876459 | 0.950000 | 0.030000 | 0.103541 | 0.069565 | 0.000000 | `true` | `false` |
-| `control` | `matched-random-debt-control` | `89` | 2.555014 | -0.573641 | 1.000000 | 0.060000 | 0.486359 | 0.486957 | 0.486957 | `false` | `true` |
+| arm | role | records | feasible grid records | delta debt | delta benefit | delta quality_q |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| `baseline` | `before` | 8 | 0 | 0.000000 | 0.000000 | 0.000000 |
+| `debt_only` | `debt_only` | 8 | 729 | -0.050000 | -0.060800 | -0.035000 |
+| `benefit_only` | `benefit_only` | 8 | 0 | 0.018000 | 0.023000 | -0.005000 |
+| `debt_plus_benefit` | `debt_plus_benefit` | 8 | 891 | -0.064000 | -0.027050 | 0.020000 |
+| `constraint_lagrangian` | `after` | 8 | 972 | -0.078000 | -0.009800 | 0.059000 |
+| `constraint_lagrangian_adaptive_lambda` | `adaptive` | 8 | 972 | -0.070000 | 0.003000 | 0.066000 |
+| `matched_random_debt` | `control` | 8 | 0 | -0.025000 | -0.015800 | -0.005000 |
 
-## Deltas
+## C1 Hardgates
 
-| comparison | debt | cost | benefit | quality_q | loss |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| `after_minus_before` | -0.049099 | 0.000000 | -0.229040 | -0.179941 | -0.985160 |
-| `control_minus_before` | 0.000000 | 0.030000 | -0.007476 | -0.037476 | 0.393121 |
-| `debt_plus_benefit_minus_baseline` | -0.049099 | 0.000000 | -0.229040 | -0.179941 | -0.985160 |
-| `matched_random_debt_minus_baseline` | 0.000000 | 0.030000 | -0.007476 | -0.037476 | 0.393121 |
-
-## Scope
-
-- Claimed scope: `certificate-guided before-after-control projection on paired local seeds`
-- Seeds: `18, 25, 36, 44, 57, 63, 72, 89`
-- Split fingerprint key: `split_fingerprint`
-
-## Cost Protocol
-
-- Name: `bedc-quality-lab-default-cost-protocol`
-- Formula: `quality_q`
-
-## Before-After-Control
-
-- Records present: `true`
-- Shared cost protocol: `true`
-- Shared split fingerprint class: `true`
-
-## Paired-Seed CI
-
-| comparison | metric | status | n | mean | ci95 low | ci95 high |
-| --- | --- | --- | ---: | ---: | ---: | ---: |
-| `after_minus_before` | `quality_q_delta` | `ok` | 8 | -0.179941 | -0.396289 | 0.036407 |
-| `control_minus_before` | `quality_q_delta` | `ok` | 8 | -0.037476 | -0.224878 | 0.149926 |
-| `debt_plus_benefit_minus_baseline` | `quality_q_delta` | `ok` | 8 | -0.179941 | -0.396289 | 0.036407 |
-| `matched_random_debt_minus_baseline` | `quality_q_delta` | `ok` | 8 | -0.037476 | -0.224878 | 0.149926 |
-
-## Claim Gate
-
-- Mechanical quality gate: `false`
-- Required quality_q CI lower > 0: `true`
-- Observed quality_q CI lower: `-0.396289`
-- Paired CI status: `ok`
-- Audit improvement tradeoff: `true`
-- Blockers: `quality-q-ci95-low-nonpositive, audit-improvement-tradeoff`
+- C1-HG1: `fail`
+- C1-HG2: `fail`
+- C1-HG3: `fail`
+- C1-HG4: `pass`
+- C1-HG5: `pass`
 
 ## Not Claimed
 
-- formal BEDC closure is not claimed by this lab-local runner
-- global optimizer behavior is not claimed by this lab-local runner
-- positive quality improvement is not claimed unless the paired after-minus-before quality_q CI lower bound is above zero
-- positive quality wording is not claimed for debt reduction paired with benefit decline
-- positive quality wording is not claimed when the paired quality_q CI lower bound does not clear zero
-
-## Ledger Rows
-
-- `before`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `debt_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:partial:0.007207; generalization/global-claim-boundary:closed:0.000000`
-- `benefit_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `after`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:partial:0.007207; generalization/global-claim-boundary:closed:0.000000`
-- `control`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:open:0.200000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `before`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `debt_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `benefit_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `after`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `control`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:open:0.200000; verification/theorem3-bound-margin:partial:0.107466; generalization/global-claim-boundary:closed:0.000000`
-- `before`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `debt_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `benefit_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `after`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `control`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:open:0.200000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `before`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:partial:0.023924; generalization/global-claim-boundary:closed:0.000000`
-- `debt_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `benefit_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:partial:0.023924; generalization/global-claim-boundary:closed:0.000000`
-- `after`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `control`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:open:0.200000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `before`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `debt_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `benefit_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `after`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `control`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:open:0.200000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `before`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:partial:0.024476; generalization/global-claim-boundary:closed:0.000000`
-- `debt_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `benefit_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:partial:0.024476; generalization/global-claim-boundary:closed:0.000000`
-- `after`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `control`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:open:0.200000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `before`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `debt_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `benefit_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `after`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `control`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:open:0.200000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `before`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `debt_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `benefit_only`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `after`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:partial:0.050000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:partial:0.100000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-- `control`: `source/source-coverage:open:0.180000; source/mixing-family-coverage:open:0.220000; source/latent-distribution-gaussianity:closed:0.000000; source/distribution-family-coverage:open:0.240000; source/finite-sample-support:open:0.200000; source/dimension-match:closed:0.000000; source/transition-isotropy:closed:0.000000; source/action-transition-identification:open:0.160000; classifier/optimizer-certificate:open:0.200000; verification/theorem3-bound-margin:closed:0.000000; generalization/global-claim-boundary:closed:0.000000`
-
-## Source Artifacts
-
-- Generation script: `scripts/run_certificate_guided_training.py`
-- Canonical runner: `scripts/run_gaussian_ou_lejepa.py::run_experiment`
-- Gap-ledger metric surface: `scripts/run_gaussian_ou_gap_ledger_head.py`
-- Helper: `bedc_quality_lab.training.certificate_guided`
+- lab-local constraint-training evidence only
+- global model quality is not claimed
+- full LeJEPA is not claimed
+- full TensorNameCert is not claimed
+- LLM behavior is not claimed
+- mechanism closure is not claimed
+- claim is falsifiable and revocable
+- positive wording is not claimed for audit-improvement-tradeoff DN evidence

@@ -513,7 +513,9 @@ def _mapped_discovery_row(
         return _row(
             claim_id=claim_id,
             claim_verdict=_rejection_verdict_for_pointer(pointer),
-            reason="discovery-level-DN",
+            reason="discovery-level-DN:constraint_lagrangian"
+            if report == "certificate-guided-training"
+            else "discovery-level-DN",
             source=source,
             ledger_pointer=f"{row['json_artifact']}:{pointer}",
         )

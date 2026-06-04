@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-04T13:39:39+00:00`
+- Generated at: `2026-06-04T15:16:56.178829+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -120,7 +120,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/gap_head_attribution_capsule.json`
 - Markdown: `reports/canonical/gap_head_attribution_capsule.md`
-- Run id: `a1-canonical`
+- Run id: `a1-20260604T151639Z`
 - D5-O: `ready`
 - D5-M: `blocked`
 - Mechanism case: `Case 2`

@@ -250,7 +250,7 @@ def build_sidecar(*, root: Path | None = None, generated_at: str | None = None) 
             "escaped_rows": _escaped_row(pseudo, projection),
             "not_claimed": list(_at(threshold_payload, "applicability_boundary", "not_claimed") or []),
             "sidecar_not_claimed": ["No threshold tuning claim.", "No D5 claim.", "No canonical discovery-map promotion.", "No model-quality solution claim."],
-            "revoke_conditions": ["deferred registry row is removed or changes kind", "threshold policy changes so single-threshold readiness is unavailable or actively covered", "control baseline pointer is missing", "forbidden claim term or score field appears in claim-bearing fields"],
+            "revoke_conditions": ["deferred registry row is absent or changes kind", "threshold policy changes so single-threshold readiness is unavailable or actively covered", "control baseline pointer is missing", "forbidden claim term or score field appears in claim-bearing fields"],
         }
     )
     return payload

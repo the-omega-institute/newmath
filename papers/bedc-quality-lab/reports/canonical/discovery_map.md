@@ -1,6 +1,6 @@
 # Discovery Map
 
-- Generated at: `2026-06-04T13:39:39+00:00`
+- Generated at: `2026-06-04T15:16:56.178829+00:00`
 - Rows: `14`
 
 | report | level | base | mechanism | projection | audit | evidence |
@@ -14,7 +14,7 @@
 | `gap-head-transfer-atlas` | `D5-O` | `` | `` | `projected` | `valid` | `$.config.control_arm` |
 | `gap-head-attribution-capsule` | `D0` | `D5-O` | `blocked` | `two-axis-recorded` | `valid` | `$.d5_m` |
 | `nongaussian-distribution-sweep` | `D1` | `` | `` | `projected` | `valid` | `$.negative_result_ledger` |
-| `certificate-guided-training` | `DN` | `` | `` | `projected` | `valid` | `$.result.status` |
+| `certificate-guided-training` | `DN` | `` | `` | `projected` | `valid` | `$.claim_capsule.terminal_verdict` |
 | `certificate-guided-discovery` | `DN` | `` | `` | `projected` | `valid` | `$.positive_discovery` |
 | `sigreg-training-proxy` | `D1` | `` | `` | `projected` | `valid` | `$.d1_evidence.debt_delta` |
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `$.negative_control_summary.treatment_better_than_all_controls` |

@@ -364,17 +364,24 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
     ),
     CanonicalReportSpec(
         name="certificate-guided-training",
-        command=("python3", "scripts/run_certificate_guided_training.py"),
+        command=("python3", "scripts/run_certificate_guided_constraint_training.py"),
         json_artifact="reports/canonical/certificate-guided-training.json",
         markdown_artifact="reports/canonical/certificate-guided-training.md",
         required_json_keys=(
             "generated_at",
+            "run_id",
             "cost_protocol",
             "source_artifacts",
             "paired_seed_protocol",
             "objective",
-            "records",
+            "grid_summary",
+            "grid_metrics_artifact",
+            "grid_summary_artifact",
+            "raw_metrics_artifact",
+            "raw_metrics_record_count",
+            "raw_grid_record_count",
             "deltas",
+            "metrics",
             "paired_delta_ci",
             "arm_protocol",
             "arm_summaries",
@@ -384,6 +391,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "verdict",
             "discovery_level",
             "not_claimed",
+            "claim_capsule",
             "result",
         ),
         estimated_seconds=20,
@@ -1030,7 +1038,7 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
     no_control_rationale_pointer = spec.no_control_rationale_pointer
     positive_claim_pointer = spec.positive_claim_pointer
     forbidden_claim_terms = _forbidden_claim_term_check(spec, payload)
-    return {
+    discipline = {
         "bundle_role": spec.bundle_role,
         "scope_pointer": spec.scope_pointer,
         "scope_status": _pointer_status(payload, spec.scope_pointer),
@@ -1048,6 +1056,13 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
         "forbidden_claim_term_hits": forbidden_claim_terms["hits"],
         "literature_ref_ids": list(spec.literature_ref_ids),
     }
+    if spec.name == "certificate-guided-training":
+        evidence_pointer = "$.arm_protocol.compat_roles.after"
+        evidence_label = _pointer_value(payload, evidence_pointer)
+        discipline["evidence_pointer"] = evidence_pointer
+        if isinstance(evidence_label, str):
+            discipline["evidence_label"] = evidence_label
+    return discipline
 
 
 def _literature_ledger() -> dict[str, Any]:
@@ -1665,6 +1680,17 @@ def _write_text_atomic(path: Path, text: str) -> None:
     tmp.replace(path)
 
 
+def _reusable_generated_at() -> str | None:
+    if not INDEX_ARTIFACT.exists():
+        return None
+    try:
+        payload = json.loads(INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    generated_at = payload.get("generated_at") if isinstance(payload, dict) else None
+    return generated_at if isinstance(generated_at, str) and generated_at else None
+
+
 def run_reports(
     *,
     only: str | None = None,
@@ -1675,7 +1701,12 @@ def run_reports(
     CANONICAL_DIR.mkdir(parents=True, exist_ok=True)
     reuse_existing = only is None and not force
     results = [_run_spec(spec, reuse_existing=reuse_existing) for spec in _select_specs(only)]
-    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    timestamp = (
+        generated_at
+        if generated_at is not None
+        else (_reusable_generated_at() if reuse_existing else None)
+        or datetime.now(timezone.utc).isoformat()
+    )
     from scripts.run_formal_hardening_report import write_formal_hardening_report
 
     write_formal_hardening_report(root=ROOT, generated_at=timestamp)

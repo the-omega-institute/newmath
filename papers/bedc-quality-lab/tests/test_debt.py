@@ -1,5 +1,6 @@
 import math
 
+from bedc_quality_lab.cost_protocol import SCOPED_DEBT_ROWS
 from bedc_quality_lab.debt import assess_debt, format_debt_items
 from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
 from bedc_quality_lab.latent_distribution import (
@@ -118,6 +119,16 @@ def assess_case(source_spec, classifier_spec=None, stability_spec=None):
         closed_source_spec() | source_spec,
         classifier_spec or {"name": "align-classifier", "training": "align-cov-mean"},
         stability_spec or {"name": "single-seed"},
+    )
+
+
+def assess_scoped_case(source_spec, classifier_spec=None, stability_spec=None):
+    return assess_debt(
+        closed_metrics(approx_identifiability_proxy=0.25),
+        closed_source_spec() | source_spec,
+        classifier_spec or {"name": "align-classifier", "training": "align-cov-mean"},
+        stability_spec or {"name": "single-seed"},
+        extra_rows=SCOPED_DEBT_ROWS,
     )
 
 
@@ -516,6 +527,138 @@ def test_optimizer_certificate_steps_pin_closed_partial_open_statuses():
         status="closed",
         score=0.0,
     )
+
+
+def test_dimension_match_closed_partial_open_for_encoder_output_dim():
+    closed_assessment = assess_scoped_case({"latent_dim": 2}, {"output_dim": 2, "training": "certified"})
+    partial_assessment = assess_scoped_case({"latent_dim": 2}, {"output_dim": 1, "training": "certified"})
+    open_assessment = assess_scoped_case({"latent_dim": 2}, {"output_dim": 4, "training": "certified"})
+
+    assert_residue(
+        closed_assessment,
+        "dimension-match",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+    assert_residue(
+        partial_assessment,
+        "dimension-match",
+        kind="source",
+        severity="medium",
+        status="partial",
+        score=0.09,
+    )
+    assert_residue(
+        open_assessment,
+        "dimension-match",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.18,
+    )
+
+
+def test_dimension_match_missing_or_invalid_dimensions_fail_open():
+    missing_latent = assess_debt(
+        closed_metrics(),
+        {},
+        {"output_dim": 2},
+        {"multi_seed": True},
+        extra_rows=SCOPED_DEBT_ROWS,
+    )
+    missing_output = assess_scoped_case({"latent_dim": 2}, {"training": "certified"})
+    invalid_latent = assess_scoped_case({"latent_dim": 0}, {"output_dim": 2, "training": "certified"})
+    invalid_output = assess_scoped_case({"latent_dim": 2}, {"output_dim": "2", "training": "certified"})
+
+    for assessment in (missing_latent, missing_output, invalid_latent, invalid_output):
+        assert_residue(
+            assessment,
+            "dimension-match",
+            kind="source",
+            severity="high",
+            status="open",
+            score=0.18,
+        )
+
+
+def test_action_transition_identified_closes_row():
+    assessment = assess_scoped_case({"latent_dim": 2, "action_transition_identified": True}, {"output_dim": 2})
+
+    assert_residue(
+        assessment,
+        "action-transition-identification",
+        kind="source",
+        severity="none",
+        status="closed",
+        score=0.0,
+    )
+
+
+def test_action_transition_false_opens_row_and_formats_ledger_gap():
+    source_spec = closed_source_spec() | {
+        "latent_dim": 2,
+        "action_transition_identified": False,
+    }
+    classifier_spec = {"output_dim": 2, "training": "certified"}
+    stability_spec = {"multi_seed": True}
+    assessment = assess_debt(
+        closed_metrics(),
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        extra_rows=SCOPED_DEBT_ROWS,
+    )
+    gaps = derive_ledger_gaps(closed_metrics(), source_spec, classifier_spec, stability_spec, assessment)
+
+    assert_residue(
+        assessment,
+        "action-transition-identification",
+        kind="source",
+        severity="high",
+        status="open",
+        score=0.16,
+    )
+    assert (
+        "kind=source; residue=action-transition-identification; severity=high; status=open"
+        in format_ledger_gaps(gaps)
+    )
+
+
+def test_action_transition_missing_or_invalid_values_fail_open_and_format_ledger_gap():
+    classifier_spec = {"output_dim": 2, "training": "certified"}
+    stability_spec = {"multi_seed": True}
+    missing_source = closed_source_spec() | {"latent_dim": 2}
+    missing_source.pop("action_transition_identified")
+    cases = (
+        missing_source,
+        closed_source_spec() | {"latent_dim": 2, "action_transition_identified": None},
+        closed_source_spec() | {"latent_dim": 2, "action_transition_identified": "true"},
+    )
+
+    for source_spec in cases:
+        assessment = assess_debt(
+            closed_metrics(),
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            extra_rows=SCOPED_DEBT_ROWS,
+        )
+        gaps = derive_ledger_gaps(closed_metrics(), source_spec, classifier_spec, stability_spec, assessment)
+
+        assert_residue(
+            assessment,
+            "action-transition-identification",
+            kind="source",
+            severity="high",
+            status="open",
+            score=0.16,
+        )
+        assert (
+            "kind=source; residue=action-transition-identification; severity=high; status=open"
+            in format_ledger_gaps(gaps)
+        )
 
 
 def test_global_claim_multi_seed_thresholds_pin_closed_partial_open_statuses():
