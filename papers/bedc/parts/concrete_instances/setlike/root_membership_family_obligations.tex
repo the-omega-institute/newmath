@@ -1,0 +1,47 @@
+\begin{theorem}[SetLike root membership obligation]
+\label{thm:setlike-root-membership-obligation}
+Every root consumer of an accepted $\SetLikeUp$ packet that attempts to read membership must display the route
+$$
+M,Q,H,C,P,N
+$$
+before the membership judgment is available. The source row $M$ supplies the carried membership surface, $Q$ supplies the displayed membership classifier, and $H,C,P,N$ transport, replay, source, and name the same route. The read exports no ambient powerset, unrestricted subset object, host equality of sets, quotient set equality, or universe-level membership relation.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:setlike-carrier}. The only membership-facing source row is $M$, and the only classifier row attached to that source is $Q$.
+
+Use \autoref{thm:setlike-membership-route}. Any downstream membership read must factor through the displayed finite route before sibling consumers may cite the packet.
+
+Finally read the structural rows. The rows $H,C,P,N$ preserve, replay, source, and locally name the same membership surface, so the root consumer cannot replace it by a host powerset, quotient set equality, or universe-level membership relation.
+\end{proof}
+
+\begin{theorem}[SetLike bounded comprehension family handoff]
+\label{thm:setlike-bounded-comprehension-family-handoff}
+Every restricted-comprehension consumer of an accepted $\SetLikeUp$ packet reads a bounded family only through
+$$
+M,Q,I,R .
+$$
+The membership source $M$, displayed classifier $Q$, implication ledger $I$, and restricted-comprehension row $R$ together provide the bounded family handoff. The handoff does not supply unrestricted separation, a powerset carrier, quotient equality of subsets, selected representatives, or an external comprehension principle.
+\end{theorem}
+\begin{proof}
+Start from the restricted-comprehension row $R$ in \autoref{def:setlike-carrier}. It is a displayed packet coordinate and not a host comprehension operator.
+
+Apply \autoref{thm:setlike-bounded-comprehension-transport}. The bounded family consumed by $R$ is visible only after the membership source, classifier, and implication rows $M,Q,I$ have been read.
+
+The structural preservation clauses then keep the same bounded route under transport and replay. Since no row stores unrestricted separation, powersets, quotient subset equality, selected representatives, or an external comprehension principle, the consumer receives only the bounded family handoff.
+\end{proof}
+
+\begin{theorem}[SetLike TypeLike family nonescape]
+\label{thm:setlike-typelike-family-nonescape}
+A $\TypeLikeUp$ family consumer that cites a $\SetLikeUp$ packet may use only the displayed rows
+$$
+M,Q,I,R,E,H,C,P,N
+$$
+and cannot reinterpret the SetLike membership or family rows as a host universe, an ambient type of all subsets, quotient set equality, or external equality of family fibers.
+\end{theorem}
+\begin{proof}
+Begin with the sibling read through the package row $P$. The $\TypeLikeUp$ consumer receives a cited $\SetLikeUp$ packet, not a replacement carrier for the host universe.
+
+Apply \autoref{thm:setlike-membership-route} and \autoref{thm:setlike-bounded-comprehension-transport}. Membership, implication, bounded comprehension, and extensional comparison all remain inside $M,Q,I,R,E$ before the structural rows are replayed.
+
+Finally use $H,C,P,N$ to transport, replay, source, and name that same route. These rows do not add a universe classifier, a powerset object, quotient set equality, or external equality of family fibers, so the TypeLike family read cannot escape the SetLike certificate surface.
+\end{proof}
