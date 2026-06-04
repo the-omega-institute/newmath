@@ -573,4 +573,28 @@ theorem DyadicIntervalCoverSealNonescape [AskSetup] [PackageSetup]
     ⟨unaryW, unaryQ, unaryM, unaryV, unaryA, windowUnary, readbackUnary, coverUnary,
       sealUnary, windowRoute, readbackRoute, coverRoute, sealRoute, provenancePkg, sealPkg⟩
 
+theorem DyadicIntervalCoverBishopIntervalCompactHandoff [AskSetup] [PackageSetup]
+    {L U M R V W Q A H C P N endpointRead coverRead sealRead compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    (UnaryHistory L ∧ UnaryHistory U ∧ UnaryHistory M ∧ UnaryHistory R ∧
+        UnaryHistory V ∧ UnaryHistory W ∧ UnaryHistory Q ∧ UnaryHistory A ∧
+          UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+            PkgSig bundle P pkg) -> Cont L U endpointRead -> Cont M R coverRead ->
+      Cont coverRead A sealRead -> Cont endpointRead sealRead compactRead ->
+        PkgSig bundle compactRead pkg -> UnaryHistory endpointRead ∧
+          UnaryHistory coverRead ∧ UnaryHistory sealRead ∧ UnaryHistory compactRead ∧
+            Cont L U endpointRead ∧ Cont M R coverRead ∧ Cont coverRead A sealRead ∧
+              Cont endpointRead sealRead compactRead ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle compactRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrierRows endpointRoute coverRoute sealRoute compactRoute compactPkg
+  obtain ⟨unaryL, unaryU, unaryM, unaryR, _unaryV, _unaryW, _unaryQ, unaryA,
+    _unaryH, _unaryC, _unaryP, _unaryN, provenancePkg⟩ := carrierRows
+  let endpointUnary := unary_cont_closed unaryL unaryU endpointRoute
+  let coverUnary := unary_cont_closed unaryM unaryR coverRoute
+  let sealUnary := unary_cont_closed coverUnary unaryA sealRoute
+  exact
+    ⟨endpointUnary, coverUnary, sealUnary, unary_cont_closed endpointUnary sealUnary compactRoute,
+      endpointRoute, coverRoute, sealRoute, compactRoute, provenancePkg, compactPkg⟩
+
 end BEDC.Derived.DyadicIntervalCoverUp
