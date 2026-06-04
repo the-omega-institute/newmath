@@ -4003,7 +4003,6 @@ import BEDC.Derived.FastCauchySequenceUp.TasteGate
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalReadbackNonescape
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalRegSeqRatCoverage
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalSelectorStrictGrowth
-import BEDC.Derived.FastCauchySubsequenceUp.CofinalSelectorTotality
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalTailObligation
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalTailStability
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalWindowObligation
@@ -7964,6 +7963,7 @@ import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
 import BEDC.Derived.SequentialCompactRealUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.BaireCylinderExposure
 import BEDC.Derived.SequentialCompactUp.BaireRegSeqRatExhaustion
+import BEDC.Derived.SequentialCompactUp.ClusterCarrierStability
 import BEDC.Derived.SequentialCompactUp.CompactMetricHandoff
 import BEDC.Derived.SequentialCompactUp.CylinderMonotoneWindow
 import BEDC.Derived.SequentialCompactUp.FiniteSubsequenceObligation
