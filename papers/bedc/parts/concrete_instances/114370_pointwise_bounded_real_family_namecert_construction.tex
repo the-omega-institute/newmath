@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\PointwiseBoundedRealFamilyUp$}
+\label{ch:concrete-instances-pointwise-bounded-real-family-namecert}
+\origin{human}
+
+Bishop-style constructive analysis and the Arzela--Ascoli finite-family tradition motivate the $\PointwiseBoundedRealFamilyUp$ packet as a finite naming certificate for inspected real-family bounds. The packet sits between the stream naming route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational handoff of \autoref{ch:concrete-instances-regseqrat-namecert}, the real seal of \autoref{ch:concrete-instances-real-namecert}, and the displayed finite upper-bound surface of \autoref{ch:concrete-instances-locatedsupremum-namecert}. It records boundedness over a named finite index window, not infinite Arzela--Ascoli compactness, open-cover compactness, choice-selected subsequences, a host supremum, or completeness of $\RealUp$.
+
+\begin{definition}[Pointwise bounded Real-family carrier]
+\label{def:pointwise-bounded-real-family-carrier}
+A $\PointwiseBoundedRealFamilyUp$ carrier is a finite $\BHist$ packet
+$$
+T=(I,S,R,E,B,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the index-window ledger. It lists the finite family positions currently inspected and contains no ambient set of all indices.
+\item $S$ is the $\StreamNameUp$ observation ledger. For each displayed index in $I$, it records the finite stream windows read from the corresponding component.
+\item $R$ is the $\RegSeqRatUp$ handoff row attached to the observed stream windows, limited to the precisions named in $I$ and $S$.
+\item $E$ is the $\RealUp$ seal row for the components whose stream and regular rational rows have already been displayed.
+\item $B$ is the per-index dyadic bound witness row. Each entry pairs one inspected index with a dyadic upper-bound witness for the corresponding displayed $\RealUp$ seal.
+\item $U$ is the finite supremum ledger. It displays the upper-bound rows obtained from the finite list of dyadic witnesses in $B$, using $\LocatedSupremumUp$ only as a local finite-row consumer.
+\item $H$ records componentwise $\hsame$ transport for the index ledger, stream observations, regular handoffs, Real seals, dyadic bound witnesses, finite supremum rows, continuation rows, provenance rows, and local naming row.
+\item $C$ records displayed $\Cont$ replay from $I$ to $S$, from $S$ to $R$, from $R$ to $E$, from $E$ to $B$, and from the finite dyadic witness list $B$ to the finite upper-bound ledger $U$.
+\item $P$ is the $\Pkg$ provenance over $\PointwiseBoundedRealFamilyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedSupremumUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PointwiseBoundedRealFamilyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for infinite families, open covers, choice-selected subsequences, a host supremum, quotient-stream equality, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Pointwise bounded Real-family finite supremum obligation]
+\label{thm:pointwise-bounded-real-family-finite-supremum-obligation}
+Every accepted $\PointwiseBoundedRealFamilyUp$ packet exposes its bound only through displayed finite supremum rows over the inspected index window. The consumer may read the route
+$$
+I,S,R,E,B\longmapsto U
+$$
+and the structural rows $H,C,P,N$, but it receives no host supremum, no choice-selected index family, and no completeness theorem for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pointwise-bounded-real-family-carrier}. The visible rows are the finite index window $I$, the $\StreamNameUp$ observations $S$, the $\RegSeqRatUp$ handoffs $R$, the $\RealUp$ seals $E$, the dyadic bound witnesses $B$, the finite upper-bound ledger $U$, and the structural rows $H,C,P,N$.
+
+Induct over the displayed index-window ledger $I$. The empty window exposes only the displayed empty upper-bound row. In the successor step, the next component is read through its $\StreamNameUp$ observation row, then through its $\RegSeqRatUp$ handoff, and only then through its $\RealUp$ seal.
+
+For each inspected index, consume the corresponding dyadic witness in $B$. The componentwise $\hsame$ row preserves the witness under transport, and the $\Cont$ row replays the handoff without adding an ambient supremum coordinate.
+
+Finally, read $\LocatedSupremumUp$ only at the finite upper-bound ledger $U$. This ledger displays the finite supremum rows already generated from the inspected dyadic witnesses, so the exported bound is a finite packet row rather than a host supremum, a choice-selected family, or a consequence of $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PointwiseBoundedRealFamilyUp$ bound read factors through displayed finite dyadic witnesses and a finite $\LocatedSupremumUp$ row before any consumer sees an upper-bound certificate.}
+
+\independenceWitness{streamname, regseqrat, real, locatedsupremum: $\PointwiseBoundedRealFamilyUp$ is not bijective to any listed sibling because it jointly carries a finite index-window ledger, component stream observations, regular rational handoffs, Real seals, per-index dyadic bound witnesses, finite upper-bound rows, componentwise transports, displayed continuations, package provenance, and local naming.}
+
+\closureat{PointwiseBoundedRealFamilyUp}{seedStr}
+
+\begin{closurestatus}{\PointwiseBoundedRealFamilyUp}
+  \constructivestory{A $\PointwiseBoundedRealFamilyUp$ packet is generated from a finite inspected index window, StreamName observations, RegSeqRat handoffs, RealUp seals, per-index dyadic bound witnesses, displayed finite supremum rows, componentwise transports, continuations, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pointwise-bounded-real-family-carrier} and \autoref{thm:pointwise-bounded-real-family-finite-supremum-obligation} bind the finite family carrier and its finite upper-bound obligation.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim infinite Arzela--Ascoli, open-cover compactness, choice-selected subsequences, host supremum, RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite index-window stability, per-component StreamName and RegSeqRat routing, Real seal non-escape, and finite LocatedSupremum upper-bound coverage for BEDC.Derived.PointwiseBoundedRealFamilyUp.}
+\end{closurestatus}

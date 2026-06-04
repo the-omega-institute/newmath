@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\SubmartingaleUp$}
+\label{ch:concrete-instances-submartingale-namecert}
+\origin{human}
+
+Following Doob and Meyer, a submartingale is the inequality-direction sibling of a martingale: the conditional expectation of the next visible value is required to dominate the current value rather than equal it. The $\SubmartingaleUp$ packet records the finite NameCert surface for this one-sided adapted-sequence object. It sits between the finite martingale carrier of \autoref{ch:concrete-instances-martingale-namecert}, the bounded stopping windows of \autoref{ch:concrete-instances-optionalstopping-namecert}, the crossing ledger of \autoref{ch:concrete-instances-upcrossing-namecert}, the Doob upcrossing inequality packet of \autoref{ch:concrete-instances-doob-upcrossing-namecert}, and the convergence-preparation surface of \autoref{ch:concrete-instances-martingale-convergence-namecert}. The chapter names only the finite one-sided conditional-expectation carrier and its handoff to finite upcrossing rows; it does not assert almost-sure convergence, measure completion, or a quotient of stochastic processes.
+
+\begin{definition}[Submartingale finite adapted carrier]
+\label{def:submartingale-carrier}
+A $\SubmartingaleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(\Omega,R,C,F,X,E,I,T,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the displayed $\ProbSpaceUp$ row naming the probability context.
+\item $R$ is the consumed $\RandomVarUp$ source packet for the finite endpoint rows.
+\item $C$ is the consumed $\CondExpUp$ packet supplying conditional-expectation endpoints.
+\item $F$ is the finite filtration and adaptedness ledger over a unary time spine $0,\ldots,T$.
+\item $X$ is the finite endpoint family $X_0,\ldots,X_T$ read through $\RandomVarUp$ rows and visible in the corresponding filtration rows.
+\item $E$ is the finite conditional-expectation family $E_{n+1|n}$ whose source row is $X_{n+1}$ and whose conditioning visibility row is the $n$th filtration row.
+\item $I$ is the one-sided comparison ledger recording
+$$
+X_n\leq_R E_{n+1|n}
+$$
+for every displayed successor $n<T$, with the order comparison read through the carried $\RealUp$ endpoint classifier.
+\item $H$ records componentwise $\hsame$ transport for $\Omega,R,C,F,X,E,I,T,K,P,N$.
+\item $K$ records displayed $\Cont$ replay for endpoint exposure, conditional-expectation exposure, filtration visibility, one-sided comparison, bounded stopping-window reads, and finite upcrossing handoff.
+\item $P$ is the $\Pkg$ provenance row naming exactly $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, $\OptionalStoppingUp$, $\UpcrossingUp$, $\DoobUpcrossingUp$, $\MartingaleConvergenceUp$, and the local submartingale rows.
+\item $N$ is the local $\NameCert_{\SubmartingaleUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the displayed probability, random-variable, conditional-expectation, filtration, endpoint, one-sided comparison, transport, continuation, package, and local certificate rows.
+\end{definition}
+
+\begin{theorem}[Submartingale NameCert obligations]
+\label{thm:submartingale-namecert-obligations}
+The seed $\NameCert_{\SubmartingaleUp}$ surface consists exactly of carrier exposure for $S=(\Omega,R,C,F,X,E,I,T,H,K,P,N)$, classifier transport of every displayed row of that carrier, endpoint exposure through $\RandomVarUp$, conditional-expectation exposure through $\CondExpUp$, filtration and adaptedness exposure through $F$, one-sided comparison exposure through $I$, bounded stopped-window routing through $\OptionalStoppingUp$, finite crossing-ledger handoff through $\UpcrossingUp$, finite Doob-bound handoff through $\DoobUpcrossingUp$, convergence-preparation handoff through $\MartingaleConvergenceUp$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is \autoref{def:submartingale-carrier}. It supplies the full finite row list and fixes the local classifier to those rows.
+
+The analytic rows are $R,C,F,X,E,I$. The endpoint rows are read through $\RandomVarUp$, the conditional-expectation faces are read through $\CondExpUp$, and the inequality ledger $I$ records the one-sided comparison $X_n\leq_R E_{n+1|n}$ at each displayed successor.
+
+The downstream rows are bounded and finite. Optional stopping can inspect only the displayed time window, the upcrossing ledger can count only lower-to-upper passages inside that window, and the Doob-upcrossing packet receives only the crossing count and expectation-bound rows.
+
+The structural rows $H,K,P,N$ transport, replay, source, and name the same finite packet. Since no row contains an almost-sure quotient, an unbounded stopping index, a limiting event, or a completed measure carrier, the listed obligations exhaust the seed NameCert surface.
+\end{proof}
+
+\begin{theorem}[Submartingale Doob upcrossing handoff]
+\label{thm:submartingale-doob-upcrossing-handoff}
+Every accepted $\SubmartingaleUp$ carrier exports exactly the finite rows needed by a Doob-style upcrossing consumer: the displayed probability row, finite endpoint rows, finite filtration ledger, one-sided conditional-expectation comparison rows, fixed lower and upper $\RealUp$ boundary endpoints, bounded $\OptionalStoppingUp$ stopped-window routes, and the resulting lower-to-upper crossing-count ledger. The handoff is a finite dependency route into $\UpcrossingUp$ and $\DoobUpcrossingUp$; it is not a martingale convergence theorem and it does not construct an almost-sure quotient.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:submartingale-carrier}. The available stochastic rows are $\Omega,R,C,F,X,E,I$ over the displayed finite time spine.
+
+The one-sided comparison ledger $I$ is the only point where the submartingale direction is read. It supplies $X_n\leq_R E_{n+1|n}$ through the carried $\RealUp$ endpoint classifier and through no host-level order relation.
+
+Bounded stopped-window reads then factor through $\OptionalStoppingUp$. The crossing-count read consumes the finite endpoint rows, boundary endpoints, lower and upper decision ledgers, and stopped-window rows exactly as in $\UpcrossingUp$.
+
+Finally the Doob-facing inequality surface consumes that finite crossing ledger through $\DoobUpcrossingUp$. The carrier contains no limiting event and no almost-sure quotient coordinate, so a downstream $\MartingaleConvergenceUp$ packet receives only the finite upcrossing handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SubmartingaleUp$ consumer that reaches an $\UpcrossingUp$, $\DoobUpcrossingUp$, or $\MartingaleConvergenceUp$ handoff without the displayed $\ProbSpaceUp$ source, $\RandomVarUp$ endpoint rows, $\CondExpUp$ conditional-expectation rows, finite filtration ledger, one-sided comparison row, and bounded $\OptionalStoppingUp$ route refutes the carrier surface.}
+
+\independenceWitness{martingale, optionalstopping, upcrossing, doob-upcrossing, martingale-convergence: no listed sibling supplies the whole submartingale packet $S=(\Omega,R,C,F,X,E,I,T,H,K,P,N)$, because $\MartingaleUp$ closes equality-direction conditional expectation, $\OptionalStoppingUp$ closes bounded stopped windows, $\UpcrossingUp$ closes crossing-count ledgers, $\DoobUpcrossingUp$ closes finite inequality rows, and $\MartingaleConvergenceUp$ consumes convergence-preparation data while this chapter binds the one-sided adapted carrier that feeds those rows.}
+
+\begin{closurestatus}{\SubmartingaleUp}
+  \constructivestory{A $\SubmartingaleUp$ packet is generated from a displayed probability row, random-variable endpoint rows, conditional-expectation rows, a finite filtration and adaptedness ledger, one-sided comparison rows, bounded stopping-window routes, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:submartingale-carrier}, \autoref{thm:submartingale-namecert-obligations}, and \autoref{thm:submartingale-doob-upcrossing-handoff} seed the finite one-sided martingale NameCert boundary and its Doob-style upcrossing handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim martingale convergence, almost-sure quotient equality, unbounded stopping, measure completion, or a standard bridge.}
+  \upgradepath{A formal route can encode the finite carrier and prove classifier transport, one-sided comparison routing, bounded stopping-window handoff, finite upcrossing handoff, and ledger exactness.}
+\end{closurestatus}
