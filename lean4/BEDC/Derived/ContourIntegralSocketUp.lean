@@ -145,4 +145,66 @@ theorem ContourIntegralSocketCarrier_ledger_exactness
   }
   exact ⟨cert, contourRoute, provenanceRoute, lawRoute⟩
 
+theorem ContourIntegralSocketBoundaryRouteTotality
+    {contour holomorphic modulus output ledger transport route provenance name : BHist} :
+    ContourIntegralSocketCarrier contour holomorphic modulus output ledger transport route
+        provenance name →
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row (append route provenance) ∧
+              Cont route provenance (append route provenance))
+          (fun row : BHist =>
+            hsame row contour ∨ hsame row holomorphic ∨ hsame row ledger ∨
+              hsame row route ∨ hsame row provenance ∨ hsame row name ∨
+                hsame row (append route provenance))
+          (fun row : BHist =>
+            hsame row (append route provenance) ∧ Cont contour holomorphic route ∧
+              Cont route ledger provenance ∧ Cont route provenance (append route provenance))
+          hsame ∧
+        Cont contour holomorphic route ∧ Cont route ledger provenance ∧
+          Cont route provenance (append route provenance) := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert ContourIntegralSocketCarrier
+  intro carrier
+  have contourRoute : Cont contour holomorphic route := carrier.right.left
+  have provenanceRoute : Cont route ledger provenance := carrier.right.right.left
+  have boundaryRoute : Cont route provenance (append route provenance) := rfl
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row (append route provenance) ∧
+              Cont route provenance (append route provenance))
+          (fun row : BHist =>
+            hsame row contour ∨ hsame row holomorphic ∨ hsame row ledger ∨
+              hsame row route ∨ hsame row provenance ∨ hsame row name ∨
+                hsame row (append route provenance))
+          (fun row : BHist =>
+            hsame row (append route provenance) ∧ Cont contour holomorphic route ∧
+              Cont route ledger provenance ∧ Cont route provenance (append route provenance))
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro (append route provenance)
+          ⟨hsame_refl (append route provenance), boundaryRoute⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, contourRoute, provenanceRoute, source.right⟩
+  }
+  exact ⟨cert, contourRoute, provenanceRoute, boundaryRoute⟩
+
 end BEDC.Derived.ContourIntegralSocketUp
