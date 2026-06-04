@@ -52,4 +52,38 @@ theorem DyadicIntervalCoverRootCompactHandoff [AskSetup] [PackageSetup]
     ⟨endpointUnary, coverUnary, windowUnary, sealUnary, compactUnary, endpointCont,
       coverCont, windowCont, sealCont, compactCont, pPkg, compactPkg⟩
 
+theorem DyadicIntervalCoverBishopIntervalCompactHandoff [AskSetup] [PackageSetup]
+    {L U M R V W Q A H C P N endpointRead windowRead sealRead compactRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicIntervalCoverRootObligationSurface L U M R V W Q A H C P N bundle pkg ->
+      Cont L U endpointRead ->
+        Cont W Q windowRead ->
+          Cont endpointRead V sealRead ->
+            Cont sealRead A compactRead ->
+              PkgSig bundle compactRead pkg ->
+                UnaryHistory compactRead ∧ Cont sealRead A compactRead ∧
+                  PkgSig bundle compactRead pkg ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro surface endpointCont windowCont sealCont compactCont compactPkg
+  have lUnary : UnaryHistory L := surface.left
+  have uUnary : UnaryHistory U := surface.right.left
+  have vUnary : UnaryHistory V := surface.right.right.right.right.left
+  have wUnary : UnaryHistory W := surface.right.right.right.right.right.left
+  have qUnary : UnaryHistory Q := surface.right.right.right.right.right.right.left
+  have aUnary : UnaryHistory A := surface.right.right.right.right.right.right.right.left
+  have pPkg : PkgSig bundle P pkg :=
+    surface.right.right.right.right.right.right.right.right.right.right.right.right.left
+  have nPkg : PkgSig bundle N pkg :=
+    surface.right.right.right.right.right.right.right.right.right.right.right.right.right
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed lUnary uUnary endpointCont
+  have _windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed wUnary qUnary windowCont
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed endpointUnary vUnary sealCont
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed sealUnary aUnary compactCont
+  exact ⟨compactUnary, compactCont, compactPkg, pPkg, nPkg⟩
+
 end BEDC.Derived.DyadicIntervalCoverUp
