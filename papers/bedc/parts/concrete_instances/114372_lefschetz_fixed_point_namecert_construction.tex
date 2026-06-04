@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\LefschetzFixedPointUp$}
+\label{ch:concrete-instances-lefschetz-fixed-point-namecert}
+\origin{human}
+
+Following Lefschetz fixed point theory, the $\LefschetzFixedPointUp$ packet records only the finite chain-level trace ledger attached to a displayed endomap. It reconstructs the theorem's computable accounting surface inside BEDC by naming chain groups, boundary compatibility, induced homology rows, alternating traces, and fixed-point ledger rows, while leaving global topological fixed-point existence outside the packet.
+
+\begin{definition}[Lefschetz fixed point finite-chain carrier]
+\label{def:lefschetz-fixed-point-finite-chain-carrier}
+A $\LefschetzFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+L=(X,K,F,A,T,H,C,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the consumed $\NameCert_{\CompactUp}$ row for the finite compact source visible to the construction.
+\item $K$ is the finite cellular or simplicial chain ledger, including boundary rows and degree indices.
+\item $F$ is the consumed $\NameCert_{\ContinuousMapUp}$ row for the self-map whose chain-map shadow is being read.
+\item $A$ records the finite chain-map compatibility rows, including boundary commutation and transport of cells or basis rows.
+\item $T$ is the finite trace ledger over the induced homology or chain quotient rows, expressed through displayed $\MatrixUp$ or $\LinearMapUp$ trace data.
+\item $H$ records componentwise $\hsame$ transport for compact source, chain ledger, continuous-map row, chain-map row, trace ledger, continuation, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from $X,K,F$ into $A$, from $A$ into $T$, and from $T$ into the local fixed-point ledger row.
+\item $R$ is the fixed-point accounting row: it may record a nonzero displayed Lefschetz trace, a zero trace, or a refusal that the displayed finite rows do not support a fixed-point read.
+\item $P$ is the $\Pkg$ provenance over $\LefschetzFixedPointUp$, $\CompactUp$, $\ContinuousMapUp$, $\HomologyUp$, $\MatrixUp$, $\LinearMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LefschetzFixedPointUp}$ row.
+\end{enumerate}
+The carrier exports only the finite trace and fixed-point accounting ledger. It contains no ambient topological fixed-point theorem, no host singular homology machinery, no quotient space construction beyond the displayed finite rows, and no global existence claim.
+\end{definition}
+
+\begin{theorem}[LefschetzFixedPoint NameCert obligations]
+\label{thm:lefschetz-fixed-point-namecert-obligations}
+For every accepted $\LefschetzFixedPointUp$ carrier $L=(X,K,F,A,T,H,C,R,P,N)$, the local $\NameCert_{\LefschetzFixedPointUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the compact source, finite chain ledger, continuous self-map, chain-map compatibility, trace ledger, transport, replay, fixed-point accounting, provenance, and naming rows;
+\item chain-map route, requiring every trace read to pass through $X,K,F,A$ before any $\HomologyUp$, $\MatrixUp$, or $\LinearMapUp$ trace row is selected;
+\item Lefschetz trace ledger, recording the displayed alternating trace rows and their finite homology or chain-quotient sources in $T$;
+\item fixed-point accounting row, exposing only the local ledger conclusion $R$ obtained from the displayed trace rows;
+\item no-host-existence boundary, excluding global fixed-point existence, host compactness theorems, host singular homology, and undeclared topological degree machinery.
+\end{enumerate}
+No obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:lefschetz-fixed-point-finite-chain-carrier}. The available sources are exactly $X,K,F,A,T,H,C,R,P,N$.
+
+The chain-map route forces trace reads through the displayed compact source, finite chain ledger, continuous-map row, and chain-map compatibility row. Thus the trace ledger $T$ can cite only finite $\HomologyUp$, $\MatrixUp$, or $\LinearMapUp$ data already reached by that route.
+
+The fixed-point accounting row $R$ is downstream from $T$. It records the local outcome named by the packet, but it does not assert a global fixed-point theorem for arbitrary compact spaces or arbitrary continuous maps.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite data. Since none of these rows contains host singular homology, an ambient quotient construction, or a global existence theorem, those claims remain outside the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Lefschetz fixed point finite-trace ledger]
+\label{thm:lefschetz-fixed-point-finite-trace-ledger}
+Let $L=(X,K,F,A,T,H,C,R,P,N)$ be an accepted $\LefschetzFixedPointUp$ carrier. Every fixed-point read exported by $L$ factors through the finite route
+$$
+X,K,F \longmapsto A \longmapsto T \longmapsto R,C,P,N .
+$$
+The exported read may cite the displayed alternating trace rows, but it cannot bypass $A$ or $T$ to import a host fixed-point theorem, a host homology theory, or an undeclared topological-degree computation.
+\end{theorem}
+\begin{proof}
+Begin with an exported fixed-point request. The only visible source rows are the compact source $X$, the finite chain ledger $K$, and the self-map row $F$.
+
+The request must then pass through the chain-map compatibility ledger $A$. Only after boundary compatibility and basis transport are displayed can the continuation route select the finite trace ledger $T$.
+
+The row $R$ records the local fixed-point accounting result attached to those traces. The structural rows $C,P,N$ expose this result as named BEDC data, while $H$ preserves it under accepted transport. No coordinate in the carrier supplies the excluded host machinery.
+\end{proof}
+
+\closureat{LefschetzFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\LefschetzFixedPointUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lefschetz-fixed-point-finite-chain-carrier}, \autoref{thm:lefschetz-fixed-point-namecert-obligations}, and \autoref{thm:lefschetz-fixed-point-finite-trace-ledger} seed the finite Lefschetz trace packet over displayed $\CompactUp$, $\ContinuousMapUp$, $\HomologyUp$, $\MatrixUp$, and $\LinearMapUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global classical fixed-point existence, host singular homology, host quotient-space construction, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, chain-map routing, finite trace exactness, fixed-point accounting nonescape, transport stability, and no-host-existence boundary for BEDC.Derived.LefschetzFixedPointUp.}
+  \constructivestory{A $\LefschetzFixedPointUp$ packet is generated from a displayed compact source, finite chain ledger, continuous self-map row, chain-map compatibility ledger, alternating trace rows, fixed-point accounting row, componentwise transport, replay, provenance, and local NameCert data.}
+\end{closurestatus}
