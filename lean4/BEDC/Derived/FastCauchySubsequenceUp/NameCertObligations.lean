@@ -214,4 +214,41 @@ theorem FastCauchySubsequenceRegularRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, modulusUnary, selectorUnary, fastUnary, regularUnary, sealUnary⟩
 
+theorem FastCauchySubsequence_tail_normal_form [AskSetup] [PackageSetup]
+    {S M Q F R W E H C P N modulusRead selectorRead fastRead regularRead tailRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchySubsequenceCarrier S M Q F R W E H C P N bundle pkg →
+      Cont S M modulusRead →
+        Cont modulusRead Q selectorRead →
+          Cont selectorRead F fastRead →
+            Cont fastRead R regularRead →
+              Cont regularRead W tailRead →
+                PkgSig bundle tailRead pkg →
+                  UnaryHistory modulusRead ∧ UnaryHistory selectorRead ∧
+                    UnaryHistory fastRead ∧ UnaryHistory regularRead ∧
+                      UnaryHistory tailRead ∧ Cont S M modulusRead ∧
+                        Cont modulusRead Q selectorRead ∧ Cont selectorRead F fastRead ∧
+                          Cont fastRead R regularRead ∧ Cont regularRead W tailRead ∧
+                            PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                              PkgSig bundle tailRead pkg := by
+  -- BEDC touchpoint anchor: FastCauchySubsequenceCarrier BHist ProbeBundle Pkg Cont
+  intro carrier modulusRoute selectorRoute fastRoute regularRoute tailRoute tailPkg
+  obtain ⟨SUnary, MUnary, QUnary, FUnary, RUnary, WUnary, _EUnary, _HUnary,
+    _CUnary, _PUnary, _NUnary, provenancePkg, localNamePkg⟩ := carrier
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed SUnary MUnary modulusRoute
+  have selectorUnary : UnaryHistory selectorRead :=
+    unary_cont_closed modulusUnary QUnary selectorRoute
+  have fastUnary : UnaryHistory fastRead :=
+    unary_cont_closed selectorUnary FUnary fastRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed fastUnary RUnary regularRoute
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed regularUnary WUnary tailRoute
+  exact
+    ⟨modulusUnary, selectorUnary, fastUnary, regularUnary, tailUnary,
+      modulusRoute, selectorRoute, fastRoute, regularRoute, tailRoute,
+      provenancePkg, localNamePkg, tailPkg⟩
+
 end BEDC.Derived.FastCauchySubsequenceUp
