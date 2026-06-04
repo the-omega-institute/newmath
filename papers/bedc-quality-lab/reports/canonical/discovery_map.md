@@ -1,6 +1,6 @@
 # Discovery Map
 
-- Generated at: `2026-06-04T15:16:56.178829+00:00`
+- Generated at: `2026-06-04T17:07:24.830378+00:00`
 - Rows: `14`
 
 | report | level | base | mechanism | projection | audit | evidence |
@@ -9,16 +9,16 @@
 | `anisotropic-ou-sweep` | `D1` | `` | `` | `projected` | `valid` | `$.transition_debt_by_grid` |
 | `gap-head-on-h` | `D5` | `` | `` | `projected` | `valid` | `$.control_protocol` |
 | `gap-head-discovery` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
-| `gap-head-ablation` | `DN` | `` | `` | `projected` | `valid` | `$.hardgate.status` |
+| `gap-head-ablation` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[0]` |
 | `gap-head-threshold-frontier` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `gap-head-transfer-atlas` | `D5-O` | `` | `` | `projected` | `valid` | `$.config.control_arm` |
 | `gap-head-attribution-capsule` | `D0` | `D5-O` | `blocked` | `two-axis-recorded` | `valid` | `$.d5_m` |
 | `nongaussian-distribution-sweep` | `D1` | `` | `` | `projected` | `valid` | `$.negative_result_ledger` |
-| `certificate-guided-training` | `DN` | `` | `` | `projected` | `valid` | `$.claim_capsule.terminal_verdict` |
-| `certificate-guided-discovery` | `DN` | `` | `` | `projected` | `valid` | `$.positive_discovery` |
+| `certificate-guided-training` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[1]` |
+| `certificate-guided-discovery` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[2]` |
 | `sigreg-training-proxy` | `D1` | `` | `` | `projected` | `valid` | `$.d1_evidence.debt_delta` |
-| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `$.negative_control_summary.treatment_better_than_all_controls` |
-| `dimension-mismatch-debt-transfer` | `DN` | `D4` | `` | `projected` | `valid` | `$.dimension_mismatch_debt_transfer.anti_triviality_status` |
+| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
+| `dimension-mismatch-debt-transfer` | `DN` | `D4` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
 
 ## D5 readiness
 

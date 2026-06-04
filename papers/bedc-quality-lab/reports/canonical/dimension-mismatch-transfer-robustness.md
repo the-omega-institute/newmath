@@ -1,6 +1,6 @@
 # Dimension-Mismatch Transfer Robustness
 
-- Status: `pass`
+- Status: `fail`
 - Artifact id: `bedc-quality-lab:dimension-mismatch-transfer-robustness`
 - Source pointer: `reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.status`
 - Readiness boundary: pass = robust-control evidence for the source dimension-mismatch-debt-transfer surface with terminal DN downgrade under anti-triviality; not a D5 upgrade, not global model quality.
@@ -17,6 +17,12 @@
 
 ## Audit
 
-- Audit status: `pass`
+- Audit status: `fail`
 - Audit pointer: `reports/canonical/discovery_map.json:$.rows[report=dimension-mismatch-debt-transfer]`
-- Failed or deferred gates: ``
+- Failed or deferred gates: `discovery-map-boundary`
+
+- dimension-mismatch discovery row does not record scale leakage
+- dimension-mismatch discovery row effective level is not DN
+- dimension-mismatch discovery row terminal verdict is not negative_discovery
+- dimension-mismatch discovery row failed gate changed
+- dimension-mismatch discovery row does not record rejected classifier verdict

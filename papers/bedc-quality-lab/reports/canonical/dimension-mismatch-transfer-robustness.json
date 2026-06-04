@@ -1,10 +1,18 @@
 {
   "artifact_id": "bedc-quality-lab:dimension-mismatch-transfer-robustness",
   "audit_pointer": "reports/canonical/discovery_map.json:$.rows[report=dimension-mismatch-debt-transfer]",
-  "audit_reasons": [],
-  "audit_status": "pass",
-  "failed_or_deferred_gates": [],
-  "generated_at": "2026-06-04T15:16:56.178829+00:00",
+  "audit_reasons": [
+    "dimension-mismatch discovery row does not record scale leakage",
+    "dimension-mismatch discovery row effective level is not DN",
+    "dimension-mismatch discovery row terminal verdict is not negative_discovery",
+    "dimension-mismatch discovery row failed gate changed",
+    "dimension-mismatch discovery row does not record rejected classifier verdict"
+  ],
+  "audit_status": "fail",
+  "failed_or_deferred_gates": [
+    "discovery-map-boundary"
+  ],
+  "generated_at": "2026-06-04T16:07:55.096198+00:00",
   "readiness_boundary": "pass = robust-control evidence for the source dimension-mismatch-debt-transfer surface with terminal DN downgrade under anti-triviality; not a D5 upgrade, not global model quality.",
   "robust_control_checks": [
     {
@@ -40,5 +48,5 @@
   ],
   "schema_id": "bedc-quality-lab:dimension-mismatch-transfer-robustness",
   "source_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.status",
-  "status": "pass"
+  "status": "fail"
 }

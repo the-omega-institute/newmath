@@ -1,6 +1,6 @@
 # Gap-Head Mechanism Attribution Projection
 
-- Generated at: `2026-06-04T15:16:56.178829+00:00`
+- Generated at: `2026-06-04T16:07:55.096198+00:00`
 - Sidecar role: `compatibility_projection`
 - Canonical source: `reports/canonical/gap_head_attribution_capsule.json`
 - Source run id: `a1-20260604T151639Z`

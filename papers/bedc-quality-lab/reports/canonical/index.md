@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-04T15:16:56.178829+00:00`
+- Generated at: `2026-06-04T16:07:55.096198+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -52,10 +52,10 @@
 
 ## Dimension mismatch transfer robustness
 
-- Status: `pass`
+- Status: `fail`
 - JSON: `reports/canonical/dimension-mismatch-transfer-robustness.json`
 - Markdown: `reports/canonical/dimension-mismatch-transfer-robustness.md`
-- Audit status: `pass`
+- Audit status: `fail`
 
 ## Quality baseline pointers
 
@@ -74,6 +74,14 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witnesses.json`
 - Expected kinds: `8`
+
+## Negative discovery reports
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/negative_discovery_reports.json`
+- Markdown: `reports/canonical/negative_discovery_reports.md`
+- Rows: `13`
+- Audit: `pass`
 
 ## Claim verdicts
 
@@ -142,7 +150,7 @@
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 - Release bundle status: `ready`
 - Tag status: `absent`
-- Version: `0.1.0`
+- Version: `0.0.1`
 
 ## Paper outline
 

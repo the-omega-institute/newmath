@@ -64,6 +64,7 @@ def test_summary_covers_all_dn_discovery_map_rows():
         assert row["ledger_pointer"]
         assert row["ledger_pointer"] == row["source"]
         assert row["discovery_map_pointer"].startswith("reports/canonical/discovery_map.json:$.rows[")
+        assert row["discovery_map_pointer"].endswith(".negative_report_pointer")
         assert row["witness_pointer"] is None
         assert row["claim_verdict_pointer"] is None
         assert row["audit_status"] == "pass"

@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-map",
-  "generated_at": "2026-06-04T15:16:56.178829+00:00",
+  "generated_at": "2026-06-04T17:07:24.830378+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
     "D0": 2,
@@ -132,17 +132,13 @@
     {
       "audit_reason": "",
       "audit_status": "valid",
-      "classifier_reasons": [
-        "verdict=rejected"
-      ],
       "discovery_level": "DN",
       "evidence_pointer": null,
-      "failed_gate": "$.hardgate.status",
       "json_artifact": "reports/canonical/gap-head-ablation.json",
       "markdown_artifact": "reports/canonical/gap-head-ablation.md",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
       "projection_status": "projected",
-      "report": "gap-head-ablation",
-      "terminal_verdict": "rejected"
+      "report": "gap-head-ablation"
     },
     {
       "audit_reason": "",
@@ -214,35 +210,25 @@
     {
       "audit_reason": "",
       "audit_status": "valid",
-      "classifier_reasons": [
-        "verdict=DN(audit-improvement-tradeoff)"
-      ],
-      "debt_row_pointer": "$.deltas.after_minus_before.debt_delta",
       "discovery_level": "DN",
       "evidence_label": "constraint_lagrangian",
       "evidence_pointer": "$.arm_protocol.compat_roles.after",
-      "failed_gate": "$.claim_capsule.terminal_verdict",
       "json_artifact": "reports/canonical/certificate-guided-training.json",
       "markdown_artifact": "reports/canonical/certificate-guided-training.md",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[1]",
       "projection_status": "projected",
-      "report": "certificate-guided-training",
-      "terminal_verdict": "DN(audit-improvement-tradeoff)"
+      "report": "certificate-guided-training"
     },
     {
       "audit_reason": "",
       "audit_status": "valid",
-      "classifier_reasons": [
-        "verdict=rejected"
-      ],
-      "debt_row_pointer": "$.verdicts.0.deltas.debt_delta",
       "discovery_level": "DN",
       "evidence_pointer": null,
-      "failed_gate": "$.positive_discovery",
       "json_artifact": "reports/canonical/certificate-guided-discovery.json",
       "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[2]",
       "projection_status": "projected",
-      "report": "certificate-guided-discovery",
-      "terminal_verdict": "rejected"
+      "report": "certificate-guided-discovery"
     },
     {
       "audit_reason": "",
@@ -262,43 +248,25 @@
     {
       "audit_reason": "",
       "audit_status": "valid",
-      "classifier_reasons": [
-        "verdict=rejected"
-      ],
       "discovery_level": "DN",
       "evidence_pointer": null,
-      "failed_gate": "$.negative_control_summary.treatment_better_than_all_controls",
       "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
       "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[3]",
       "projection_status": "projected",
-      "report": "spectral-ablation-hinge",
-      "terminal_verdict": "rejected"
+      "report": "spectral-ablation-hinge"
     },
     {
-      "anti_triviality_status": "scale_leakage_detected",
       "audit_reason": "",
       "audit_status": "valid",
       "base_level": "D4",
-      "classifier_reasons": [
-        "verdict=rejected"
-      ],
       "discovery_level": "DN",
-      "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
-      "effective_level": "DN",
       "evidence_pointer": "$.dimension_mismatch_debt_transfer.effective_level",
-      "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
-      "hypothesis": "h-summary dimension-mismatch debt transfer remains non-trivial after metadata and scale controls",
       "json_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
       "markdown_artifact": "reports/canonical/dimension-mismatch-debt-transfer.md",
-      "not_claimed": [
-        "global dimension theory",
-        "representation-geometric debt transfer",
-        "D5 promotion"
-      ],
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
       "projection_status": "projected",
-      "report": "dimension-mismatch-debt-transfer",
-      "terminal_verdict": "negative_discovery",
-      "what_was_learned": "anti-triviality sidecar recommends DN demotion"
+      "report": "dimension-mismatch-debt-transfer"
     }
   ],
   "schema_id": "bedc-quality-lab:canonical-discovery-map"
