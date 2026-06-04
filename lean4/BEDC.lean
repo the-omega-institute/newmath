@@ -4005,6 +4005,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.CofinalRegSeqRatCoverage
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalSelectorStrictGrowth
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalTailObligation
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalTailStability
+import BEDC.Derived.FastCauchySubsequenceUp.CofinalWindowCertificate
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalWindowObligation
 import BEDC.Derived.FastCauchySubsequenceUp.DyadicTailBudget
 import BEDC.Derived.FastCauchySubsequenceUp.EffectiveCauchyConsumer
