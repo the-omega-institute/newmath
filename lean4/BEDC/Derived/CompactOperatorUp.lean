@@ -138,4 +138,33 @@ theorem CompactOperatorCarrier_finite_rank_approximation_boundary [AskSetup] [Pa
       finiteRankUnary, sourceTargetOperator, operatorImageNetCompact, compactModulusFiniteRank,
       localNamePkg, finiteRankPkg⟩
 
+theorem CompactOperatorCarrier_spectral_refusal_boundary [AskSetup] [PackageSetup]
+    {source target operator imageNet modulus transport replay provenance localName compactRead
+      spectralRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactOperatorCarrier source target operator imageNet modulus transport replay provenance
+        localName bundle pkg ->
+      Cont operator imageNet compactRead ->
+        Cont provenance replay spectralRead ->
+          PkgSig bundle compactRead pkg ->
+            PkgSig bundle spectralRead pkg ->
+              UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory operator ∧
+                UnaryHistory imageNet ∧ UnaryHistory modulus ∧ UnaryHistory compactRead ∧
+                  UnaryHistory spectralRead ∧ Cont operator imageNet compactRead ∧
+                    Cont provenance replay spectralRead ∧ PkgSig bundle localName pkg ∧
+                      PkgSig bundle compactRead pkg ∧ PkgSig bundle spectralRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier operatorImageNetCompact provenanceReplaySpectral compactPkg spectralPkg
+  obtain ⟨sourceUnary, targetUnary, operatorUnary, imageNetUnary, modulusUnary,
+    _transportUnary, replayUnary, provenanceUnary, _localNameUnary, _sourceTargetOperator,
+    _operatorImageNetModulus, _provenanceTransportLocalName, localNamePkg⟩ := carrier
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed operatorUnary imageNetUnary operatorImageNetCompact
+  have spectralUnary : UnaryHistory spectralRead :=
+    unary_cont_closed provenanceUnary replayUnary provenanceReplaySpectral
+  exact
+    ⟨sourceUnary, targetUnary, operatorUnary, imageNetUnary, modulusUnary, compactUnary,
+      spectralUnary, operatorImageNetCompact, provenanceReplaySpectral, localNamePkg,
+      compactPkg, spectralPkg⟩
+
 end BEDC.Derived
