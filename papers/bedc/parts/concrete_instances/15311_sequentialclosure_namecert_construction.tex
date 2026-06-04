@@ -148,6 +148,46 @@ Replay is controlled by $C$. The handoff theorem \autoref{thm:sequential-closure
 Finally $P$ and $N$ repackage the transported rows as the local NameCert surface described in \autoref{thm:sequential-closure-namecert-obligations}. Thus topology transport preserves the same finite sequence-limit ledger rather than creating a second closure witness.
 \end{proof}
 
+\begin{theorem}[SequentialClosure Kuratowski idempotence]
+\label{thm:sequentialclosure-kuratowski-idempotence}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. A second sequential-closure read whose source row is the closure output of $K$ contracts to the same displayed limit ledger whenever its witnesses are expressed by $\StreamNameUp$ windows over $Q$, $\RegSeqRatUp$ tail data through $R$, and $\RealUp$ equality seals through $A$. The contraction is an idempotence obligation for the finite packet only: it does not assert an ambient Kuratowski closure operator on all subsets of the host space.
+\end{theorem}
+\begin{proof}
+Read the first closure packet through \autoref{thm:sequential-closure-root-limit-ledger}. The candidate limit row is exported only after the finite test ledger $U$, StreamName windows $W$, RegSeqRat handoff $R$, and Real seal $A$ have been displayed.
+
+For the second read, inspect its source witness. If a sequence entry points to a prior closure output, replay that output by the same rows $T,M,S,Q,L,U,W,R,A$ rather than introducing a new host closure coordinate.
+
+The contraction is then componentwise. Transport through $H$ identifies the topology, located-source, sequence, handoff, and Real-seal rows, while $C,P,N$ repack the same witness as a single $\SequentialClosureUp$ certificate. Since every step is a finite replay of displayed windows, idempotence holds only inside this BEDC carrier surface.
+\end{proof}
+
+\begin{theorem}[SequentialClosure closed-set fixpoint]
+\label{thm:sequentialclosure-closed-set-fixpoint}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet, and suppose the $\LocatedSetUp$ source row $S$ carries a displayed sequential closedness witness: every $\StreamNameUp$ sequence over $S$ with $\RegSeqRatUp$ tail data and $\RealUp$ equality seal has its candidate limit admitted back through $S$. Then the closure output named by $K$ is fixed by $S$ under the same located-set transport. This is a NameCert fixpoint for the displayed closedness witness, not a choice-based closed-set theorem.
+\end{theorem}
+\begin{proof}
+Start with the located source row $S$. The closedness witness is read as finite data over $S$, not as a detached predicate on an ambient topology.
+
+Apply the sequence-limit handoff of \autoref{thm:sequential-closure-sequence-limit-handoff}. The closure read presents exactly the sequence source, StreamName windows, RegSeqRat handoff, and Real seal required by the displayed closedness witness.
+
+Now replay the witness back into $S$. LocatedSet transport preserves the admitted membership row, and componentwise $\hsame$ transport by $H$ keeps the topology and metric rows fixed. Therefore the closure output is repacked as an $S$-admitted point by $C,P,N$, with no appeal to countable choice or host closedness.
+\end{proof}
+
+\begin{theorem}[SequentialClosure topology sequence-filter handoff]
+\label{thm:sequentialclosure-topology-sequence-filter-handoff}
+For an accepted $\SequentialClosureUp$ packet $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, every topology-facing neighbourhood request around $L$ that is also read as a finite sequence-filter request factors through the same route
+$$
+T,S,Q,U,W,R,A,H,C,P,N.
+$$
+The $\TopologyUp$ request supplies the neighbourhood row, $\StreamNameUp$ supplies the inspected tail windows, $\RegSeqRatUp$ and $\RealUp$ seal the metric comparison, and $\LocatedSetUp$ transport keeps the source membership boundary visible.
+\end{theorem}
+\begin{proof}
+Begin with a neighbourhood request from the topology row $T$. The topology handoff of \autoref{thm:sequential-closure-topology-handoff} forces the request through the displayed source, sequence, test, and window ledgers rather than through a host closure operator.
+
+Read the same request as a sequence-filter witness by naming the finite StreamName windows in $W$. Each tail inspection remains tied to the source row $S$, so located-set membership is transported before the metric side is sealed.
+
+Finally consume $R$ and $A$. The RegSeqRat row records the rational tail budget and the Real row seals the comparison at the candidate limit. The structural rows $H,C,P,N$ then package the topology and sequence-filter views as the same finite handoff.
+\end{proof}
+
 \closureat{SequentialClosureUp}{seedStr}
 
 \begin{closurestatus}{\SequentialClosureUp}
