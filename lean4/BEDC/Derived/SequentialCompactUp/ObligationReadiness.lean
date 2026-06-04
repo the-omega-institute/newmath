@@ -277,4 +277,33 @@ theorem SequentialCompactCarrier_root_obligation_nonescape [AskSetup] [PackageSe
   }
   exact ⟨cert, rootUnary⟩
 
+theorem SequentialCompactCarrier_regseqrat_readback_route [AskSetup] [PackageSetup]
+    {K B S W R E H C P N selectedRead regularRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SequentialCompactCarrier K B S W R E H C P N bundle pkg →
+      Cont S W selectedRead →
+        Cont selectedRead R regularRead →
+          Cont regularRead E terminalRead →
+            PkgSig bundle terminalRead pkg →
+              UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory E ∧
+                UnaryHistory selectedRead ∧ UnaryHistory regularRead ∧
+                  UnaryHistory terminalRead ∧ Cont S W selectedRead ∧
+                    Cont selectedRead R regularRead ∧
+                      Cont regularRead E terminalRead ∧ PkgSig bundle P pkg ∧
+                        PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier selectedRoute regularRoute terminalRoute terminalPkg
+  obtain ⟨_kUnary, _bUnary, sUnary, wUnary, rUnary, eUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, _compactBaireStream, _streamWindowRegular, _regularSealTransport,
+    _transportReplayProvenance, provenancePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selectedRead :=
+    unary_cont_closed sUnary wUnary selectedRoute
+  have regularReadUnary : UnaryHistory regularRead :=
+    unary_cont_closed selectedUnary rUnary regularRoute
+  have terminalReadUnary : UnaryHistory terminalRead :=
+    unary_cont_closed regularReadUnary eUnary terminalRoute
+  exact
+    ⟨wUnary, rUnary, eUnary, selectedUnary, regularReadUnary, terminalReadUnary,
+      selectedRoute, regularRoute, terminalRoute, provenancePkg, terminalPkg⟩
+
 end BEDC.Derived.SequentialCompactUp
