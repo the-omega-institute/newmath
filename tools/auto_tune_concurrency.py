@@ -51,7 +51,12 @@ CONFIG = REPO_ROOT / ".pipeline_parallel.json"
 
 # System pressure thresholds.
 LOAD_HIGH_PER_CORE = 1.5    # 5-min load avg above this scales concurrency down
-LOAD_LOW_PER_CORE = 0.8     # below this, supply-driven upward movement is allowed
+LOAD_LOW_PER_CORE = 1.15    # below this, supply-driven upward movement is allowed.
+# Was 0.8: on an N-core box a working pipeline idles at load ~= cores (>0.8*cores),
+# so the allow-raise gate (load5 < low) never opened and concurrency stayed pinned
+# at the floor, never climbing to total_active_max. 1.15 puts the hold-band at
+# [1.15*cores, 1.5*cores] so raises fire while there is real headroom; LOAD_HIGH
+# (1.5) remains the thrash guard.
 TOTAL_ACTIVE_PER_CORE = 1.25
 RAM_LOW_GB = 1.5            # vm_stat free + inactive below this triggers cut
 DISK_PRESSURE_PCT = 85      # tighten log retention to 1 day
