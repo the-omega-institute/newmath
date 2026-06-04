@@ -73,4 +73,114 @@ theorem CoveringDimensionCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨unary_transport localNameUnary (hsame_symm source.right), localNamePkg⟩
   }
 
+theorem CoveringDimensionFiniteEpsilonNetCarrier [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName sample : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont epsilonNet cover sample →
+        PkgSig bundle sample pkg →
+          SemanticNameCert
+              (fun row : BHist =>
+                hsame row epsilonNet ∨ hsame row cover ∨ hsame row refinement ∨
+                  hsame row orderBound ∨ hsame row sample)
+              (fun row : BHist => UnaryHistory row)
+              (fun row : BHist => PkgSig bundle localName pkg ∨ PkgSig bundle sample pkg)
+              hsame ∧
+            UnaryHistory sample := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame SemanticNameCert
+  intro carrier epsilonCoverSample samplePkg
+  obtain ⟨_compactUnary, epsilonUnary, coverUnary, refinementUnary, orderUnary,
+    _lebesgueUnary, _transportUnary, _replayUnary, _provenanceUnary, _localUnary,
+    _compactEpsilonCover, _coverRefinementOrder, _orderLebesgueReplay,
+    _transportReplayProvenance, _provenancePkg, localNamePkg⟩ := carrier
+  have sampleUnary : UnaryHistory sample :=
+    unary_cont_closed epsilonUnary coverUnary epsilonCoverSample
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro epsilonNet (Or.inl (hsame_refl epsilonNet))
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro row other sameRows source
+          cases source with
+          | inl epsilonSource =>
+              exact Or.inl (hsame_trans (hsame_symm sameRows) epsilonSource)
+          | inr rest =>
+              cases rest with
+              | inl coverSource =>
+                  exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) coverSource))
+              | inr rest =>
+                  cases rest with
+                  | inl refinementSource =>
+                      exact
+                        Or.inr
+                          (Or.inr
+                            (Or.inl (hsame_trans (hsame_symm sameRows) refinementSource)))
+                  | inr rest =>
+                      cases rest with
+                      | inl orderSource =>
+                          exact
+                            Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inl (hsame_trans (hsame_symm sameRows) orderSource))))
+                      | inr sampleSource =>
+                          exact
+                            Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr (hsame_trans (hsame_symm sameRows) sampleSource))))
+      }
+      pattern_sound := by
+        intro row source
+        cases source with
+        | inl epsilonSource =>
+            exact unary_transport epsilonUnary (hsame_symm epsilonSource)
+        | inr rest =>
+            cases rest with
+            | inl coverSource =>
+                exact unary_transport coverUnary (hsame_symm coverSource)
+            | inr rest =>
+                cases rest with
+                | inl refinementSource =>
+                    exact unary_transport refinementUnary (hsame_symm refinementSource)
+                | inr rest =>
+                    cases rest with
+                    | inl orderSource =>
+                        exact unary_transport orderUnary (hsame_symm orderSource)
+                    | inr sampleSource =>
+                        exact unary_transport sampleUnary (hsame_symm sampleSource)
+      ledger_sound := by
+        intro row source
+        cases source with
+        | inl _epsilonSource =>
+            exact Or.inl localNamePkg
+        | inr rest =>
+            cases rest with
+            | inl _coverSource =>
+                exact Or.inl localNamePkg
+            | inr rest =>
+                cases rest with
+                | inl _refinementSource =>
+                    exact Or.inl localNamePkg
+                | inr rest =>
+                    cases rest with
+                    | inl _orderSource =>
+                        exact Or.inl localNamePkg
+                    | inr _sampleSource =>
+                        exact Or.inr samplePkg
+    }
+  · exact sampleUnary
+
 end BEDC.Derived.CoveringdimensionUp
