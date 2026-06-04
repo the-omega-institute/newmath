@@ -1,38 +1,43 @@
 \origin{ai}
+\subsection{Modeled tAI coupling for Q6 synonymous residuals}
+\label{sec:bioreality-q6-modeled-tai-coupling}
 
-\subsection{Modeled tAI Survival Matrix for the $B^{\ast}_{Q6}$ Residual Coordinates}
-\label{subsec:bior-q6-translation-survival-modeled-tai}
-
-\paragraph{Finite row.}
-This BioReality record tests whether the finite synonymous-residual coordinates in the $B^{\ast}_{Q6}$ packet can remain visible after passage through a bounded translation readout. The carrier for the test is the finite mediation surface of triples $(q_i,t_j,p_k)$, where $q_i$ ranges over synonymous residual coordinates, $t_j$ ranges over translation readouts, and $p_k$ ranges over matched protein-abundance readouts. In the present row, only the modeled translation layer is populated: the readout is modeled tAI codon weight $w_{\mathrm{codon}}$ computed from local GtRNAdb tRNA gene-copy payloads and dos Reis wobble $s$-values. The experiment identifier is \texttt{4250daa2488f}, verified at \texttt{2026-06-04T16:05:02+00:00}.
-
-\paragraph{Residual coordinates.}
-The tested residual list is finite and explicit. It consists of
+\paragraph{Finite coordinate surface.}
+This BioReality record concerns a finite mediation surface whose rows are triples $(q_i,t_j,p_k)$.  The first coordinate $q_i$ ranges over the computed $B^*_{Q6}$ synonymous residual coordinates, the second coordinate $t_j$ ranges over translation-layer readouts, and the third coordinate $p_k$ ranges over matched protein-abundance readouts when such rows are available.  In the present finite run, the realized readout is narrower: $t_j$ is a modeled tAI codon-weight readout computed from GtRNAdb tRNA gene copy information and dos Reis wobble $s$-values.  The codon-count ambient space has $61$ sense codons.  The computed residual coordinate list has nine entries:
 $$
 \begin{aligned}
-R = \{&\mathrm{Arg\_AGR},\ \mathrm{Ile\_AUA},\ \mathrm{K\_AAA},\ \mathrm{Leu\_CUN\_vs\_UUR},\ \\
+R_{Q6}=\{&\mathrm{Arg\_AGR},\ \mathrm{Ile\_AUA},\ \mathrm{K\_AAA},\ \mathrm{Leu\_CUN\_vs\_UUR},\ \\
 &\mathrm{Leu\_UUA\_vs\_UUG},\ \mathrm{Ser\_UCA\_vs\_UCG},\ \mathrm{Ser\_UCR\_vs\_AGY},\ \\
 &\mathrm{Thr\_ACR\_vs\_ACY},\ \mathrm{f3\_stress}\}.
 \end{aligned}
 $$
-These nine coordinates are not treated as direct protein observables. Their admissible readback in this row is only through a translation-readout matrix. Amino-acid sequence, organism identity, GC3, coding-sequence length, and the M-density baseline remain controls or baselines; they are not promoted into residual coordinates. The codon-count ambient space has $61$ sense codons, and the row therefore remains a finite codon-level calculation rather than a population-level biological law.
+The readback is therefore a controlled matrix from residual coordinates into modeled codon-adaptation weights.  A direct residual-to-protein association is not admitted as a protein-realization claim unless a residual first passes a translation-readout step and is then joined to matched protein abundance under the declared controls.
 
-\paragraph{Translation contact.}
-The contact uses three organism-scoped tRNA payloads. The local GtRNAdb payload contains all $20$ standard amino-acid families in each organism. For \texttt{escherichia\_coli\_k12}, the payload has $89$ FASTA headers, $87$ matched FASTA headers, and $2$ unmatched headers. For \texttt{homo\_sapiens}, it has $432$ FASTA headers and all $432$ are matched. For \texttt{saccharomyces\_cerevisiae}, it has $275$ FASTA headers and all $275$ are matched. The modeled tAI computation returned $61$ sense-codon weights for each of the three organisms, with zero raw-weight fallback count equal to $0$ in all three cases. Thus the local translation-weight construction is complete at the finite modeled-tAI level.
+\paragraph{Organism rows and tRNA coverage.}
+The finite run has experiment id $4250\mathrm{daa}2488\mathrm{f}$ and verification timestamp $2026$-$06$-$04\mathrm{T}16{:}35{:}06+00{:}00$.  It uses three organism rows: \emph{Escherichia coli} K-12, \emph{Homo sapiens}, and \emph{Saccharomyces cerevisiae}.  Each modeled tAI table covers all $61$ sense codons and has zero raw-weight fallback count.  The local GtRNAdb payload contains all $20$ standard amino-acid families in each organism.  The row counts are finite and explicit: \emph{E. coli} K-12 has $89$ FASTA headers, $87$ matched headers, and $2$ unmatched headers; human has $432$ headers, all $432$ matched; yeast has $275$ headers, all $275$ matched.  Thus the modeled readout is not an empty or shape-only object.  It is a finite codon-weight surface with organism-indexed tRNA-copy support.
 
-\paragraph{Survival statistic.}
-Let $S_{ij}$ denote the bounded coupling score between residual coordinate $q_i$ and modeled tAI readout coordinate $t_j$ under the finite contact. The declared coupling threshold is $0.01$. The row reports $81$ entries above threshold, with
+\paragraph{Bounded coupling statistic.}
+The bounded-contact threshold is $0.01$.  The modeled tAI coupling matrix has $81$ entries above this threshold, with
 $$
 \begin{aligned}
-\max_{i,j} |S_{ij}| &= 3801961.031607896,\\
-\max_i |S_{ii}| &= 3801961.031607896,\\
-\tau &= 0.01.
+\max |S_{ij}|&=3{,}801{,}961.031607896,\\
+\max |S_i^{\mathrm{diag}}|&=3{,}801{,}961.031607896,\\
+\tau&=0.01.
 \end{aligned}
 $$
-The break condition for this modeled contact is not met: the finite modeled-tAI matrix does contain entries with $|S_{ij}|$ above the bounded-contact threshold. This supports a bounded matrix statement: at least one $B^{\ast}_{Q6}$ residual coordinate has nonzero modeled-tAI coupling in the finite organism set. It does not support a powered survival claim, because the organism count is $3$ rather than the declared threshold of at least $40$ matched species for powered survival.
+The finite break condition is not met for this bounded modeled-tAI contact: the record states that failure would require either no modeled-tAI matrix entry with $|S_{ij}|$ above the bounded-contact threshold, or a request for powered survival without at least $40$ matched species.  Since the matrix has $81$ above-threshold entries, the first failure mode is absent.  Since only $3$ organisms are present, the second clause prevents any powered multi-species survival interpretation.  The correct layer classification is therefore modeled and underpowered translation realization, not ribosome-profiling validation and not proteomics validation.
 
-\paragraph{Mediation boundary.}
-The intended cross-layer claim has the form $Q_i \to T_j \to P_k$: a residual coordinate may be considered for downstream protein-abundance mediation only if it first survives a translation readout. The present row fills the modeled $Q_i \to T_j$ contact, but it does not fill the matched protein-abundance coordinate $P_k$ and it does not attach organism-matched ribosome-profiling translation-efficiency rows. Consequently a direct $Q_i \to P_k$ association is inadmissible here. Matched mRNA abundance is also only a control for separating transcription-layer signal from translation-layer signal; transcript abundance alone is not a translation readout and is not protein output.
+\paragraph{Mediation interpretation.}
+For a residual coordinate $q_i$ to enter the intended mediation matrix, the admissible path has the form
+$$
+\begin{aligned}
+q_i \longrightarrow t_j \longrightarrow p_k,
+\end{aligned}
+$$
+where $t_j$ is a translation readout such as tAI, stAI, ribosome occupancy, or translation efficiency, and $p_k$ is matched protein abundance.  The present run fills only the modeled-tAI part of the middle coordinate.  It does not fill ribosome occupancy, translation efficiency from RPF and mRNA, or protein abundance.  Matched mRNA abundance remains a control for separating transcription-layer signal from translation-layer signal; it is not itself a translation survival row.  The baseline controls remain amino-acid composition, organism, GC3, coding-sequence length, and M-density baseline, with matched mRNA abundance required before a downstream protein-abundance mediation claim is made.
 
-\paragraph{Local verdict.}
-The finite row is positive for bounded modeled-tAI coupling and negative for promotion beyond that scope. It may be stated that the $B^{\ast}_{Q6}$ residual list has a nonempty modeled translation-weight coupling matrix over three organisms, with $81$ above-threshold entries and complete $61$-sense-codon modeled tAI weights in each organism. It may not be stated that the residual coordinates realize ribosome occupancy, translation efficiency, downstream protein abundance, folding, physical admissibility, biological function, mechanism, selection, or universality. Those stronger claims require separate organism-matched contacts: ribosome-profiling or translation-efficiency rows for observed translation, proteomics rows for matched protein abundance, and matched mRNA rows only as controls. Until those rows are attached and the controlled mediation matrix is recomputed, this chapter records modeled translation-weight survival only.
+\paragraph{Local claim boundary.}
+The finite result supports a bounded modeled-tAI coupling statement: within three organism rows and nine $B^*_{Q6}$ residual coordinates, the modeled codon-adaptation surface is nonzero above threshold.  It does not establish observed ribosome dynamics, direct translation efficiency, mature protein abundance, folding, physical admissibility, molecular function, mechanism, selection, or universality.  No claim about CUN/UUR directionality, any single-organism sign, or a population law follows from these rows alone.  A protein-abundance statement would require matched proteomics rows and a surviving $q_i\to t_j$ step; a translation-efficiency statement would require organism-matched ribosome-profiling and mRNA rows; a mechanistic or functional statement would require a further contact at that layer.  If all future mediated improvements are nonpositive after the declared controls and simpler-baseline ablation, then the $B^*_{Q6}$ packet remains bounded at codon-count residual or translation-readout status rather than moving into protein-realization fitting.
+
+\paragraph{Finite verdict.}
+The modeled-tAI matrix is therefore ready as a bounded BioReality chapter: it has explicit residual coordinates, explicit organism rows, complete modeled sense-codon readouts, finite tRNA-header counts, a declared threshold, and a nonzero above-threshold matrix count.  Its evidential scope is deliberately narrow.  The chapter records a translation-readout contact for modeled codon-adaptation weights and preserves the separation between finite coordinate geometry, transcription controls, observed translation measurements, and downstream protein abundance.
