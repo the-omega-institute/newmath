@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\ConvergenceFilterUp$}
+\label{ch:concrete-instances-convergence-filter-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on filter convergence, the $\ConvergenceFilterUp$ packet records the standard neighbourhood-eventuality reading of a displayed filter base as finite BEDC NameCert data. It sits after the generated-base interface of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter route of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a convergence-facing handoff without quotient filters, selected limits, countable choice, host equality of filters, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Convergence filter carrier]\label{def:convergence-filter-carrier}
+A $\ConvergenceFilterUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,Nb,x,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FilterBaseUp$ row, carrying the finite base tokens, finite-intersection discipline, refinement witnesses, and displayed event rows.
+\item $Nb$ is the neighbourhood and eventuality row at the displayed point, recording which finite neighbourhood tokens are met by which base events.
+\item $x$ is the limit-point row, naming the candidate point only through the visible neighbourhood-eventuality surface.
+\item $W$ is the $\StreamNameUp$ finite-window row used when the convergence packet is sampled by completion-facing consumers.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the same displayed windows.
+\item $E$ is the terminal $\RealUp$ seal row reached after the filter-base, neighbourhood, limit-point, window, and readback rows have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the filter base, neighbourhood row, limit-point row, StreamName windows, RegSeqRat readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite base events through neighbourhood eventuality, limit-point naming, windows, readback, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\ConvergenceFilterUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ConvergenceFilterUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $F,Nb,x,W,R,E,H,C,P,N$. It has no coordinate for quotient filters, selected limits, host equality of neighbourhood systems, host real equality, countable-choice schedules, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Convergence filter NameCert obligations]\label{thm:convergence-filter-namecert-obligations}
+For every accepted $\ConvergenceFilterUp$ carrier $K=(F,Nb,x,W,R,E,H,C,P,N)$, the local $\NameCert_{\ConvergenceFilterUp}$ surface consists exactly of filter-base exposure through $F$, neighbourhood-eventuality exposure through $Nb$, limit-point naming through $x$, StreamName window exposure through $W$, RegSeqRat readback through $R$, Real sealing through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:convergence-filter-carrier}. The accepted packet exposes exactly the rows $F,Nb,x,W,R,E,H,C,P,N$.
+
+The convergence-facing rows are upstream. Row $F$ supplies finite filter-base data, and $Nb$ records the neighbourhood-eventuality checks at the displayed point named by $x$.
+
+The completion-facing rows are downstream. Consumers read finite windows through $W$, regular rational readback through $R$, and the terminal Real seal through $E$ only after the filter-base and neighbourhood rows have been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since quotient filters, selected limits, host neighbourhood equality, host real equality, countable choice, and ambient Real completeness are absent from the classifier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+\leanstmt{BEDC.Derived.ConvergenceFilterUp}
+
+\begin{theorem}[Convergence filter completion handoff]\label{thm:convergence-filter-completion-handoff}
+Every completion-facing read exported by an accepted $\ConvergenceFilterUp$ carrier factors through the displayed $\FilterBaseUp$ row $F$, the neighbourhood-eventuality row $Nb$, the limit-point row $x$, the $\StreamNameUp$ row $W$, the $\RegSeqRatUp$ row $R$, and the terminal $\RealUp$ seal row $E$ in that order. When the filter-base row is also read through the $\CauchyFilterUp$ sibling surface, the handoff remains a finite neighbourhood convergence route and not a quotient-filter or selected-limit construction.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:convergence-filter-namecert-obligations}. They force every accepted consumer to expose $F,Nb,x,W,R,E$ before any structural row can name a completion-facing read.
+
+The filter-base row is the only source for event data. Its finite refinement and intersection witnesses are read before $Nb$ may certify eventual membership of displayed neighbourhood tokens at $x$.
+
+The completion route is then fixed by the L10 readback rows. StreamName windows are exposed through $W$, the regular rational readback is exposed through $R$, and the Real-facing endpoint is sealed through $E$.
+
+If the same base is consumed by a CauchyFilter sibling, the packet still exports only the rows already visible in $F,Nb,x,W,R,E,H,C,P,N$. Thus the route is stable under the Cauchy-filter handoff while excluding quotient filters, selected limits, choice schedules, host real equality, and ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ConvergenceFilterUp$ completion-facing read exposes a FilterBaseUp row, a neighbourhood-eventuality row at a displayed limit point, StreamNameUp windows, RegSeqRatUp readback, a terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row before it can serve a Real or Completion consumer.}
+
+\independenceWitness{filterbase, cauchyfilter, streamname, regseqrat, real: none is bijective with $\ConvergenceFilterUp$ because this packet jointly carries the finite filter-base route, neighbourhood-eventuality checks, limit-point naming, finite windows, readback, Real seal, transport, replay, provenance, and local naming rows.}
+
+\closureat{ConvergenceFilterUp}{seedStr}
+
+\begin{closurestatus}{\ConvergenceFilterUp}
+  \constructivestory{A $\ConvergenceFilterUp$ packet is generated from a FilterBase row, a neighbourhood-eventuality row, a displayed limit-point row, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:convergence-filter-carrier}, \autoref{thm:convergence-filter-namecert-obligations}, and \autoref{thm:convergence-filter-completion-handoff} seed the finite convergence-filter route over $\FilterBaseUp$, $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.ConvergenceFilterUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filter equality, selected limits, countable choice, host equality of neighbourhood systems, host real equality, ambient $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, filter-base exposure, neighbourhood eventuality, limit-point naming, CauchyFilterUp handoff, StreamNameUp window exposure, RegSeqRatUp readback, RealUp seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.ConvergenceFilterUp.}
+\end{closurestatus}

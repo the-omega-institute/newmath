@@ -695,6 +695,7 @@ import BEDC.Derived.BaireUltrametricUp.TasteGate
 import BEDC.Derived.BanachAlaogluUp.TasteGate
 import BEDC.Derived.BanachAlgebraUp
 import BEDC.Derived.BanachAlgebraUp.CompletionProductNonescape
+import BEDC.Derived.BanachAlgebraUp.NormSubmultiplicativityLedger
 import BEDC.Derived.BanachAlgebraUp.TasteGate
 import BEDC.Derived.BanachContractionPrincipleUp.TasteGate
 import BEDC.Derived.BanachContractionUp.TasteGate
@@ -2886,6 +2887,7 @@ import BEDC.Derived.ContractiveCauchyIteratorUp.TasteGate
 import BEDC.Derived.ContractiveCauchyOrbitUp.TasteGate
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
+import BEDC.Derived.ConvergenceFilterUp
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
@@ -5263,6 +5265,7 @@ import BEDC.Derived.LowerRealUp.DirectedLowerCutBudget
 import BEDC.Derived.LowerRealUp.LocatedCutLedger
 import BEDC.Derived.LowerRealUp.PublicNonescape
 import BEDC.Derived.LowerRealUp.PublicPackageScope
+import BEDC.Derived.LowerRealUp.PublicRegSeqRatRealRoute
 import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerRealUp.UpperRealDualityBoundary
 import BEDC.Derived.LowerSemicontinuousUp.BaireSuperlevelHandoff
@@ -8508,6 +8511,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.ReadbackToleranceTerminalRoute
 import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescape
 import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatRealSourceHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.RootObligationLattice
+import BEDC.Derived.UniformCompletionFunctorUp.RootObligationSurface
 import BEDC.Derived.UniformCompletionFunctorUp.RouteObligations
 import BEDC.Derived.UniformCompletionFunctorUp.SourceExtensionReadback
 import BEDC.Derived.UniformCompletionFunctorUp.SourceFactorization
