@@ -713,6 +713,7 @@ import BEDC.Derived.BeliefUp.FiniteEvidenceConsumerCompleteness
 import BEDC.Derived.BeliefUp.ObservationTransport
 import BEDC.Derived.BeliefUp.TasteGate
 import BEDC.Derived.BernsteinPolynomialUp.TasteGate
+import BEDC.Derived.BertrandTestUp
 import BEDC.Derived.BesselInequalityUp.TasteGate
 import BEDC.Derived.BesselUp
 import BEDC.Derived.BetaCongruenceDomainAuditUp.TasteGate
@@ -5199,17 +5200,16 @@ import BEDC.Derived.LowerRealUp.LocatedCutLedger
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
-import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphClassifier
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface
 import BEDC.Derived.LowerSemicontinuousUp.NameCertScope
 import BEDC.Derived.LowerSemicontinuousUp.PublicExport
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphBasis
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedReadback
-import BEDC.Derived.LowerSemicontinuousUp.RootNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RootRealSealBoundary
 import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
+import BEDC.Derived.LowerSemicontinuousUp.WindowFactorization
 import BEDC.Derived.LowerUpperRealCutUp
 import BEDC.Derived.LowerUpperRealCutUp.TasteGate
 import BEDC.Derived.LyapunovStabilityUp
@@ -6150,6 +6150,7 @@ import BEDC.Derived.OnticStateUp.TransportScope
 import BEDC.Derived.OnticTowerUp.Classifier
 import BEDC.Derived.OnticTowerUp.TasteGate
 import BEDC.Derived.OpenBallUp.TasteGate
+import BEDC.Derived.OpenDenseSequenceUp
 import BEDC.Derived.OpenFitPacketUp.NoFinalOracleBoundary
 import BEDC.Derived.OpenFitPacketUp.SignatureFitHandoff
 import BEDC.Derived.OpenFitPacketUp.TasteGate
@@ -7951,6 +7952,7 @@ import BEDC.Derived.SturmRootCountUp.TasteGate
 import BEDC.Derived.SturmRootIsolationUp.SignVariationHandoff
 import BEDC.Derived.SturmRootIsolationUp.TasteGate
 import BEDC.Derived.SturmSequenceUp.TasteGate
+import BEDC.Derived.SubdifferentialUp.TasteGate
 import BEDC.Derived.SubgroupUp
 import BEDC.Derived.SubgroupUp.AppendE1UnitKernelUnary
 import BEDC.Derived.SubgroupUp.IntersectionClassifierClosure
@@ -8072,7 +8074,6 @@ import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
 import BEDC.Derived.TheoryTransitionCertificateUp.NameCert
 import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ThetaFunctionUp
-import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
