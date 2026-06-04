@@ -3878,6 +3878,7 @@ import BEDC.Derived.EquicontinuityUp.RootCompactSourceAdmission
 import BEDC.Derived.EquicontinuityUp.RootCompactSourceLock
 import BEDC.Derived.EquicontinuityUp.RootFamilyLedgerLock
 import BEDC.Derived.EquicontinuityUp.RootFamilyModulusLedger
+import BEDC.Derived.EquicontinuityUp.RootObligationCarrier
 import BEDC.Derived.EquicontinuityUp.RootObligationFiniteNet
 import BEDC.Derived.EquicontinuityUp.RootObligationNonescape
 import BEDC.Derived.EquicontinuityUp.RootObligationUniformModulus
@@ -4001,6 +4002,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorCoherence
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorObligation
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusThresholdExtraction
 import BEDC.Derived.FastCauchySubsequenceUp.NameCertObligations
+import BEDC.Derived.FastCauchySubsequenceUp.PhaseRealCompletionExitRoute
 import BEDC.Derived.FastCauchySubsequenceUp.RealCompletionTailReadbackRoute
 import BEDC.Derived.FastCauchySubsequenceUp.RealNameNonescape
 import BEDC.Derived.FastCauchySubsequenceUp.RealSealNonescape
@@ -4010,6 +4012,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.RealSealSelectorBoundary
 import BEDC.Derived.FastCauchySubsequenceUp.RealUpTailHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatTailReadback
 import BEDC.Derived.FastCauchySubsequenceUp.RegularReadback
+import BEDC.Derived.FastCauchySubsequenceUp.RegularReadbackObligation
 import BEDC.Derived.FastCauchySubsequenceUp.RootObligation
 import BEDC.Derived.FastCauchySubsequenceUp.SelectedWindowInduction
 import BEDC.Derived.FastCauchySubsequenceUp.SelectorRegularityPullback
@@ -5612,6 +5615,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualFrontierRoute
 import BEDC.Derived.MetaCICCriticalPathUp.ConsistencyRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ConsumerRefusalExactness
+import BEDC.Derived.MetaCICCriticalPathUp.Core
 import BEDC.Derived.MetaCICCriticalPathUp.CurrentOpenPhaseReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.DecidabilityFragmentRoute
 import BEDC.Derived.MetaCICCriticalPathUp.DecidabilityHandoffVisibility
@@ -5687,6 +5691,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.NormalizationSourceVisibility
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionLedgerExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionSocketSeparation
+import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseConsumerTotality
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseExactBoundaryHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseSourceNonescape
@@ -6081,6 +6086,7 @@ import BEDC.Derived.ModNUp
 import BEDC.Derived.ModelCatUp
 import BEDC.Derived.ModelCatUp.TasteGate
 import BEDC.Derived.ModelPredictiveControlUp
+import BEDC.Derived.ModelPredictiveControlUp.BHistCarrier
 import BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 import BEDC.Derived.ModelTheoryUp
 import BEDC.Derived.ModelTraceUp.TasteGate
@@ -6616,6 +6622,7 @@ import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.CompleteMetricSourceLock
 import BEDC.Derived.PolishspaceUp.CompleteSeparableHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableMetricRow
+import BEDC.Derived.PolishspaceUp.CompleteSeparableNamecertObligations
 import BEDC.Derived.PolishspaceUp.CompleteSeparableNonescape
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
@@ -6644,6 +6651,7 @@ import BEDC.Derived.PolishspaceUp.NameCertLedgerTransport
 import BEDC.Derived.PolishspaceUp.NameCertObligations
 import BEDC.Derived.PolishspaceUp.ObservationLedgerConsumerExactness
 import BEDC.Derived.PolishspaceUp.ObservationLedgerExhaustion
+import BEDC.Derived.PolishspaceUp.RealCompletionReadbackNonescape
 import BEDC.Derived.PolishspaceUp.RealRegseqratNonescape
 import BEDC.Derived.PolishspaceUp.RegSeqRatRealHandoff
 import BEDC.Derived.PolishspaceUp.RegSeqRatWindowUnblock
