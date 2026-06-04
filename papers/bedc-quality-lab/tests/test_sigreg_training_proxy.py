@@ -249,5 +249,5 @@ def test_canonical_denominators_include_sigreg_training_proxy(tmp_path, monkeypa
     scorecard = canonical._build_quality_scorecard(reports, generated_at="fixture-time")
     by_metric = {row["metric"]: row for row in scorecard["rows"]}
 
-    assert by_metric["ScopeCompleteness"]["denominator"] == 12
-    assert by_metric["CostProtocolCompleteness"]["denominator"] == 12
+    assert by_metric["ScopeCompleteness"]["denominator"] == 13
+    assert by_metric["CostProtocolCompleteness"]["denominator"] == 13

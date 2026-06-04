@@ -12,7 +12,7 @@
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 21,
+    "row_count": 22,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -65,6 +65,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.main_claim_status",
         "report": "gap-head-threshold-frontier"
+      },
+      {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.config.control_arm",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.multi_surface_d5_o",
+        "report": "gap-head-transfer-atlas"
       },
       {
         "bundle_role": "hg_p_core",
@@ -140,11 +147,12 @@
       "D3": 0,
       "D4": 1,
       "D5": 1,
+      "D5-O": 1,
       "DN": 5,
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 13,
+    "row_count": 14,
     "status": "pointer-only"
   },
   "formal_hardening": {
@@ -165,13 +173,13 @@
     "markdown_artifact": "reports/canonical/gap_head_attribution_capsule.md",
     "mechanism_case": "Case 2",
     "run_artifacts": {
-      "claim_capsule": "reports/runs/a1-20260604T122406Z/claim_capsule.json",
-      "raw_metrics": "reports/runs/a1-20260604T122406Z/raw_metrics.jsonl",
-      "report": "reports/runs/a1-20260604T122406Z/report.md",
-      "run_dir": "reports/runs/a1-20260604T122406Z",
-      "summary": "reports/runs/a1-20260604T122406Z/summary.json"
+      "claim_capsule": "reports/runs/a1-canonical/claim_capsule.json",
+      "raw_metrics": "reports/runs/a1-canonical/raw_metrics.jsonl",
+      "report": "reports/runs/a1-canonical/report.md",
+      "run_dir": "reports/runs/a1-canonical",
+      "summary": "reports/runs/a1-canonical/summary.json"
     },
-    "run_id": "a1-20260604T122406Z",
+    "run_id": "a1-canonical",
     "status": "pointer-only"
   },
   "gap_head_mechanism_attribution": {
@@ -184,7 +192,19 @@
     "mechanism_status": "D5-O retained, mechanism = probe-margin-channel",
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-04T13:07:13.161133+00:00",
+  "gap_head_transfer_atlas": {
+    "artifact_id": "bedc-quality-lab:gap-head-transfer-atlas",
+    "boundary_ledger_pointer": "$.boundary_ledger",
+    "claim_capsule_pointer": "$.config.claim_capsule_artifact",
+    "decision": "pass",
+    "decision_pointer": "$.multi_surface_d5_o",
+    "discovery_level": "D5-O",
+    "json_artifact": "reports/canonical/gap_head_transfer_atlas.json",
+    "markdown_artifact": "reports/canonical/gap_head_transfer_atlas.md",
+    "pass_surface_count": 4,
+    "status": "pointer-only"
+  },
+  "generated_at": "2026-06-04T13:39:39+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -245,6 +265,7 @@
       "gap-head-discovery",
       "gap-head-ablation",
       "gap-head-threshold-frontier",
+      "gap-head-transfer-atlas",
       "gap-head-attribution-capsule",
       "certificate-guided-training",
       "certificate-guided-discovery",
@@ -596,6 +617,60 @@
           "readiness",
           "main_claim_status",
           "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.config.control_arm",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts.metric_helper",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.multi_surface_d5_o",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 180,
+      "json_artifact": "reports/canonical/gap_head_transfer_atlas.json",
+      "markdown_artifact": "reports/canonical/gap_head_transfer_atlas.md",
+      "name": "gap-head-transfer-atlas",
+      "producer_command": [
+        "python3",
+        "scripts/run_gap_head_transfer_atlas.py"
+      ],
+      "producer_status": "reused",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "config",
+          "surface_registry",
+          "prior_observation_packet",
+          "surfaces",
+          "boundary_ledger",
+          "hardgate_evidence",
+          "multi_surface_d5_o",
+          "not_claimed",
+          "forbidden_claim_term_audit"
         ],
         "required_key_validation": {
           "missing_keys": [],

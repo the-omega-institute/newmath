@@ -69,7 +69,7 @@ def _base_payload():
 
 def _payload_for_level(level):
     payload = _base_payload()
-    if level in {"D4", "D5"}:
+    if level in {"D4", "D5", "D5-O"}:
         payload.update(
             {
                 "positive_discovery": True,
@@ -404,6 +404,47 @@ def test_demoted_terminal_positive_discovery_fails_closed_with_ledger_pointer(tm
     assert verdict["claim_verdict"] == "demoted_audit_tradeoff"
     assert verdict["reason"] == "audit-improvement-tradeoff"
     assert verdict["ledger_pointer"] == "reports/canonical/d4.json:$.cost"
+
+
+def test_gap_head_transfer_atlas_d5_o_routes_as_positive_level(tmp_path, monkeypatch):
+    rows = [
+        _discovery_row(
+            "gap-head-transfer-atlas",
+            "reports/canonical/gap_head_transfer_atlas.json",
+            "D5-O",
+            pointer="$.multi_surface_d5_o.decision",
+        )
+    ]
+    rows[0]["terminal_verdict"] = "pass"
+    rows[0]["control_pointer"] = "$.config.control_arm"
+    specs = (
+        _spec(
+            "gap-head-transfer-atlas",
+            "reports/canonical/gap_head_transfer_atlas.json",
+            cost="$.source_artifacts.metric_helper",
+            positive="$.multi_surface_d5_o",
+            control="$.config.control_arm",
+        ),
+    )
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/gap_head_transfer_atlas.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload.update(
+        {
+            "config": {"control_arm": "matched_random_gap_head"},
+            "source_artifacts": {
+                "cost_protocol": "configs/default_cost_protocol.yaml",
+                "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
+            },
+            "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O"},
+        }
+    )
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:gap-head-transfer-atlas"
+    assert verdict["reason"] != "unsupported-discovery-level"
 
 
 def test_scope_laundering_cell_rejects_with_real_pointer(tmp_path, monkeypatch):

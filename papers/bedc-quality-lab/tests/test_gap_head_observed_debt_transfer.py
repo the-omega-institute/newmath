@@ -147,7 +147,7 @@ def test_markdown_is_pointer_only_and_artifact_is_not_canonical(monkeypatch):
     markdown = transfer.render_markdown(payload)
 
     assert "$.gap_head_on_h_observed_debt_transfer.status" in markdown
-    assert "$.surfaces[*].verdict" in markdown
+    assert "$.surfaces.<index>.verdict" in markdown
     assert "records" not in markdown
     assert "raw payload" not in markdown.lower()
     assert "gap-head-observed-debt-transfer.json" not in {

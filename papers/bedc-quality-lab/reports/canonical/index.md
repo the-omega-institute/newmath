@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-04T13:07:13.161133+00:00`
+- Generated at: `2026-06-04T13:39:39+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -13,6 +13,7 @@
 | `gap-head-discovery` | `pass` | `reports/canonical/gap-head-discovery.json` | `reports/canonical/gap-head-discovery.md` | `$.boundary_checks` | `$.score_terms` | `$.boundary_checks.forbidden_inference_columns` | `$.final_main_claim_status` | `$.matched_random_control` |
 | `gap-head-ablation` | `pass` | `reports/canonical/gap-head-ablation.json` | `reports/canonical/gap-head-ablation.md` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.not_claimed` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` |
 | `gap-head-threshold-frontier` | `pass` | `reports/canonical/gap-head-threshold-frontier.json` | `reports/canonical/gap-head-threshold-frontier.md` | `$.applicability_boundary` | `$.source_artifacts` | `$.not_claimed` | `$.main_claim_status` | `$.threshold_summary.control_baseline` |
+| `gap-head-transfer-atlas` | `pass` | `reports/canonical/gap_head_transfer_atlas.json` | `reports/canonical/gap_head_transfer_atlas.md` | `$.not_claimed` | `$.source_artifacts.metric_helper` | `$.not_claimed` | `$.multi_surface_d5_o` | `$.config.control_arm` |
 | `gap-head-attribution-capsule` | `pass` | `reports/canonical/gap_head_attribution_capsule.json` | `reports/canonical/gap_head_attribution_capsule.md` | `$.scope.not_claimed` | `$.cost_protocol_pointer` | `$.scope.not_claimed` | `$.d5_m` | `$.control_pointer` |
 | `certificate-guided-training` | `pass` | `reports/canonical/certificate-guided-training.json` | `reports/canonical/certificate-guided-training.md` | `$.objective.required_rows` | `$.cost_protocol` | `$.not_claimed` | `$.claim_gate` | `$.paired_seed_protocol` |
 | `certificate-guided-discovery` | `pass` | `reports/canonical/certificate-guided-discovery.json` | `reports/canonical/certificate-guided-discovery.md` | `$.applicability_boundary` | `$.claim_gate` | `$.not_claimed` | `$.main_claim_status` | `$.matched_random_baseline` |
@@ -37,7 +38,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
-- Rows: `13`
+- Rows: `14`
 
 ## Dimension mismatch debt transfer
 
@@ -78,7 +79,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `21`
+- Rows: `22`
 
 ## Claim capsule
 
@@ -105,12 +106,21 @@
 - Coverage: `4/4`
 - Gaps: `0`
 
+## Gap-head transfer atlas
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/gap_head_transfer_atlas.json`
+- Markdown: `reports/canonical/gap_head_transfer_atlas.md`
+- Decision pointer: `$.multi_surface_d5_o`
+- Boundary ledger pointer: `$.boundary_ledger`
+- Claim capsule pointer: `$.config.claim_capsule_artifact`
+
 ## Gap-head attribution capsule
 
 - Status: `pointer-only`
 - JSON: `reports/canonical/gap_head_attribution_capsule.json`
 - Markdown: `reports/canonical/gap_head_attribution_capsule.md`
-- Run id: `a1-20260604T122406Z`
+- Run id: `a1-canonical`
 - D5-O: `ready`
 - D5-M: `blocked`
 - Mechanism case: `Case 2`
@@ -137,7 +147,7 @@
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, gap-head-threshold-frontier, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy`
 - Auxiliary reports: `nongaussian-distribution-sweep, spectral-ablation-hinge`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -153,6 +163,7 @@
 | `gap-head-discovery` | `hg_p_core` | `$.final_main_claim_status` | `$.matched_random_control` | `None` |
 | `gap-head-ablation` | `hg_p_core` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` | `None` |
 | `gap-head-threshold-frontier` | `hg_p_core` | `$.main_claim_status` | `$.threshold_summary.control_baseline` | `None` |
+| `gap-head-transfer-atlas` | `hg_p_core` | `$.multi_surface_d5_o` | `$.config.control_arm` | `None` |
 | `gap-head-attribution-capsule` | `hg_p_core` | `$.d5_m` | `$.control_pointer` | `None` |
 | `nongaussian-distribution-sweep` | `auxiliary` | `$.main_claim_status` | `None` | `$.negative_result_ledger` |
 | `certificate-guided-training` | `hg_p_core` | `$.claim_gate` | `$.paired_seed_protocol` | `None` |

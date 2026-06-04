@@ -164,7 +164,7 @@ def test_build_sidecar_construction_failure_reports_failed_boundary_row(tmp_path
     assert "missing $.threshold_summary.control_baseline" in payload["hardgates"]["HG-STEW-5"]["failures"]
 
 
-def test_hg_stew_6_single_threshold_sidecar_never_promotes_discovery():
+def test_hg_stew_6_threshold_packet_never_promotes_discovery():
     payload = stew.build_sidecar(root=ROOT, generated_at="2030-01-01T00:00:00+00:00")
 
     assert payload["status"] == "escaped-positive-captured"

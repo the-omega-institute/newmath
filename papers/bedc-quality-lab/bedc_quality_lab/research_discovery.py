@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Any, Literal, Mapping
 
 
-DiscoveryLevel = Literal["D0", "D1", "D2", "D3", "D4", "D5", "DN", "DR"]
+DiscoveryLevel = Literal["D0", "D1", "D2", "D3", "D4", "D5", "D5-O", "DN", "DR"]
 
 
 @dataclass(frozen=True)
