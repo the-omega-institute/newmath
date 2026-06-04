@@ -218,6 +218,49 @@ instance groundLoopBoundaryChapterTasteGate : ChapterTasteGate GroundLoopBoundar
     intro x y hxy heq
     exact hxy (groundLoopBoundaryToEventFlow_injective heq)
 
+instance groundLoopBoundaryFieldFaithful : FieldFaithful GroundLoopBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun x =>
+    match x with
+    | GroundLoopBoundaryUp.mk marks sameness cross reflection history contRoutes provenance
+        nameCert =>
+        [marks, sameness, cross, reflection, history, contRoutes, provenance, nameCert]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk marksA samenessA crossA reflectionA historyA contRoutesA provenanceA nameCertA =>
+        cases y with
+        | mk marksB samenessB crossB reflectionB historyB contRoutesB provenanceB nameCertB =>
+            injection h with hMarks restA
+            injection restA with hSameness restB
+            injection restB with hCross restC
+            injection restC with hReflection restD
+            injection restD with hHistory restE
+            injection restE with hContRoutes restF
+            injection restF with hProvenance restG
+            injection restG with hNameCert _
+            cases hMarks
+            cases hSameness
+            cases hCross
+            cases hReflection
+            cases hHistory
+            cases hContRoutes
+            cases hProvenance
+            cases hNameCert
+            rfl
+
+instance groundLoopBoundaryNontrivial : Nontrivial GroundLoopBoundaryUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨GroundLoopBoundaryUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      GroundLoopBoundaryUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty, by
+        intro h
+        injection h with hMarks _ _ _ _ _ _ _
+        cases hMarks⟩
+
 theorem GroundLoopBoundaryTasteGate_single_carrier_alignment :
     (∀ h : BHist, groundLoopBoundaryDecodeBHist (groundLoopBoundaryEncodeBHist h) = h) ∧
       (∀ x : GroundLoopBoundaryUp,
