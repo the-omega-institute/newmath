@@ -441,4 +441,84 @@ theorem SequentialCompactRegSeqRatHandoffExactness [AskSetup] [PackageSetup]
     ⟨cert, wUnary, rUnary, eUnary, wrUnary, wreUnary, wrRoute, wreRoute,
       provenancePkg⟩
 
+theorem SequentialCompactRegSeqRatStreamScope [AskSetup] [PackageSetup]
+    {K B S W R E H C P N selectedWindow regularRead transported replayed named : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SequentialCompactCarrier K B S W R E H C P N bundle pkg →
+      Cont S W selectedWindow →
+        Cont selectedWindow R regularRead →
+          Cont regularRead H transported →
+            Cont transported C replayed →
+              Cont replayed N named →
+                PkgSig bundle named pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row named ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row S ∨ hsame row W ∨ hsame row R ∨ hsame row H ∨
+                          hsame row C ∨ hsame row N ∨ hsame row selectedWindow ∨
+                            hsame row regularRead ∨ hsame row named)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont S W selectedWindow ∧
+                          Cont selectedWindow R regularRead ∧
+                            Cont regularRead H transported ∧ Cont transported C replayed ∧
+                              PkgSig bundle named pkg)
+                      hsame ∧ UnaryHistory selectedWindow ∧ UnaryHistory regularRead ∧
+                        UnaryHistory transported ∧ UnaryHistory replayed ∧
+                          UnaryHistory named := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  intro carrier selectedRoute regularRoute transportRoute replayRoute nameRoute namedPkg
+  obtain ⟨_kUnary, _bUnary, sUnary, wUnary, rUnary, _eUnary, hUnary, cUnary,
+    _pUnary, nUnary, _compactBaireStream, _streamWindowRegular, _regularSealTransport,
+    _transportReplayProvenance, _provenancePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selectedWindow :=
+    unary_cont_closed sUnary wUnary selectedRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed selectedUnary rUnary regularRoute
+  have transportedUnary : UnaryHistory transported :=
+    unary_cont_closed regularUnary hUnary transportRoute
+  have replayedUnary : UnaryHistory replayed :=
+    unary_cont_closed transportedUnary cUnary replayRoute
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed replayedUnary nUnary nameRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row named ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row S ∨ hsame row W ∨ hsame row R ∨ hsame row H ∨ hsame row C ∨
+            hsame row N ∨ hsame row selectedWindow ∨ hsame row regularRead ∨
+              hsame row named)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont S W selectedWindow ∧
+            Cont selectedWindow R regularRead ∧ Cont regularRead H transported ∧
+              Cont transported C replayed ∧ PkgSig bundle named pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro named ⟨hsame_refl named, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, selectedRoute, regularRoute, transportRoute, replayRoute,
+          namedPkg⟩
+  }
+  exact
+    ⟨cert, selectedUnary, regularUnary, transportedUnary, replayedUnary, namedUnary⟩
+
 end BEDC.Derived.SequentialCompactUp
