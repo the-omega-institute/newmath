@@ -85,17 +85,30 @@ Thus the ledger is exact: every public contextual-class read is a read of the fi
 \end{proof}
 \leanchecked{BEDC.Derived.ContextualClassReadingUp.ContextualClassReadingLedgerExactness}
 
+\begin{theorem}[Contextual class reading public interface export]
+\label{thm:contextual-class-reading-public-interface-export}
+Let $K=(E,G,R,S,H,C,P,N)$ be an accepted $\ContextualClassReadingUp$ carrier. The public interface exported by $K$ is exactly the finite contextual classifier row $G$, relation-first licensing row $R$, scoped consumer row $S$, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local $\NameCert$ row $N$, together with the expression row $E$ they license. No public consumer receives a host class object, a context-free classifier, or an unscoped membership row outside this displayed packet.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The definition exposes only $E,G,R,S,H,C,P,N$, and the obligation theorem identifies contextual classifier exposure, relation-first licensing, scoped consumption, transport, replay, provenance, and local naming as the complete surface.
+
+Apply the no-object-promotion theorem. It blocks any public read of $E$ from turning $G$ into a host class object or an unstratified membership predicate.
+
+Apply classifier transport and ledger exactness. Transported reads must return through $H$ and $C$, while the ledger exports only the finite packet rows. Thus the public interface is precisely the displayed contextual classifier, relation-first licensing, scoped consumer, transport, replay, provenance, and local NameCert surface.
+\end{proof}
+
 \closureat{ContextualClassReadingUp}{seedStr}
 \closureat{ContextualClassReadingUp}{obligationStr}
 \closureat{ContextualClassReadingUp}{scopedStr}
+\closureat{ContextualClassReadingUp}{publicStr}
 
 \begin{closurestatus}{\ContextualClassReadingUp}
   \constructivestory{A $\ContextualClassReadingUp$ packet is generated from a class-like expression row, a displayed classifier context, a relation-first licensing row, a scope row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ ledger.}
-  \theoryclosure{\scopedClosure}
+  \theoryclosure{\publicClosure}
   \scopeclosed{\autoref{def:contextual-class-reading-carrier}, \autoref{thm:contextual-class-reading-namecert-obligations}, \autoref{thm:contextual-class-reading-no-object-promotion}, \autoref{thm:contextual-class-reading-classifier-transport}, and \autoref{thm:contextual-class-reading-ledger-exactness} bind the finite carrier, local obligations, no-promotion boundary, classifier transport, and ledger exactness for contextual class readings.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close Lean verification, bridge checking, host class ontology, primitive class extensions, global membership, reducibility, or context-free classifiers.}
-  \upgradepath{Scoped closure requires explicitly tying the displayed obligations to BEDC primitives and the public consumer scope for contextual class readings.}
+  \upgradepath{The next bridge obligation is a checked public interface theorem tying the exported contextual classifier, relation-first licensing, scoped consumer, transport, replay, provenance, and local NameCert rows to BEDC.Derived.ContextualClassReadingUp.}
 \end{closurestatus}
