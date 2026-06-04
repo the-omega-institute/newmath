@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
@@ -251,11 +252,35 @@ end BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 
 namespace BEDC.Derived.ModelSelectionBoundaryUp
 
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Package
 
 def taste_gate :=
   TasteGate.taste_gate
+
+theorem ModelSelectionBoundaryAuditScope [AskSetup] [PackageSetup]
+    (x : TasteGate.ModelSelectionBoundaryUp) :
+    (∀ h : BHist, Cont h BHist.Empty h) ∧
+      (Pkg = Pkg) ∧
+        ∃ M S F D L T P N : BHist,
+          x = TasteGate.ModelSelectionBoundaryUp.mk M S F D L T P N ∧
+            TasteGate.modelSelectionBoundaryFromEventFlow
+                (TasteGate.modelSelectionBoundaryToEventFlow x) =
+              some x := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg
+  constructor
+  · intro h
+    exact cont_intro rfl
+  · constructor
+    · rfl
+    · cases x with
+      | mk M S F D L T P N =>
+          exact
+            ⟨M, S, F, D, L, T, P, N, rfl,
+              TasteGate.ModelSelectionBoundaryTasteGate_single_carrier_alignment.left
+                (TasteGate.ModelSelectionBoundaryUp.mk M S F D L T P N)⟩
 
 theorem ModelSelectionBoundary_namecert_obligations
     (x : TasteGate.ModelSelectionBoundaryUp) :
