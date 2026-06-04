@@ -80,6 +80,42 @@ Use the transport row componentwise. The source metric, stream windows, rational
 The replay and provenance rows preserve the same route to the $\CompleteMetricUp$ handoff. Since no quotient completion, representative-selection, choice, open-cover, ambient-completeness, or $\RealUp$ completeness coordinate is present, the transported classifier read is exactly the same sequence-completeness surface.
 \end{proof}
 
+\begin{theorem}[SequentiallyCompleteMetric Cauchy-sequence obligation]
+\label{thm:sequentially-complete-metric-cauchy-sequence-obligation}
+Every accepted $\SequentiallyCompleteMetricUp$ packet $Q=(X,S,M,L,D,H,C,P,N)$ must display the $\MetricUp$ source $X$, the $\StreamNameUp$ windows in $S$, the $\RegSeqRatUp$ readback of those windows, and the modulus threshold row $M$ before any sequence-completeness read can be consumed. The read then reaches the displayed limit row $L$ and late-distance ledger $D$ only through the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+\end{theorem}
+\begin{proof}
+Project the carrier definition for $Q$. The sequence row $S$ is meaningful only over the displayed metric source $X$, and its finite windows are the only sequence observations present in the packet.
+
+Read the rational and threshold rows next. The $\RegSeqRatUp$ readback attached to $S$ supplies the rational window data, while $M$ supplies the late threshold requested by the sequence-completeness consumer.
+
+Only after those rows are displayed can the consumer read $L$ and $D$. The rows $H,C,P,N$ transport, replay, source, and name this same route, so no sequence-completeness read bypasses the metric source, stream windows, rational readback, or modulus threshold.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric limit-stability obligation]
+\label{thm:sequentially-complete-metric-limit-stability-obligation}
+Let $Q=(X,S,M,L,D,H,C,P,N)$ and $Q'=(X',S',M',L',D',H',C',P',N')$ be accepted $\SequentiallyCompleteMetricUp$ packets. If the displayed transport identifies $X,S,M,L,D,C,P,N$ with $X',S',M',L',D',C',P',N'$ componentwise by $\hsame$, then the limit read exposed by $Q$ is the same limit read exposed by $Q'$. In particular, $\hsame$ transport preserves the displayed limit row and the late-distance ledger before any $\CompleteMetricUp$ or $\MetricCompletionUp$ consumer can compare the packets.
+\end{theorem}
+\begin{proof}
+Start with the classifier-transport theorem. It confines comparison of accepted packets to the displayed metric source, stream-window, regular-readback, modulus, distance-ledger, replay, provenance, and local naming rows.
+
+Use the componentwise transport hypotheses. The displayed limit rows $L$ and $L'$ are compared only after the common metric source, sequence windows, and modulus thresholds have been transported, and the late-distance ledgers $D$ and $D'$ carry the corresponding distance comparisons.
+
+Replay through $C,P,N$ and $C',P',N'$. Since neither carrier contains a quotient-completion equality, selected representative, ambient completeness witness, or independent completed carrier, the transported limit read is exactly the same finite limit-stability surface.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric separated uniqueness boundary]
+\label{thm:sequentially-complete-metric-separated-uniqueness-boundary}
+For an accepted $\SequentiallyCompleteMetricUp$ carrier $Q=(X,S,M,L,D,H,C,P,N)$, separated uniqueness is only a boundary condition on displayed limit reads. Any uniqueness consumer must first read the $\MetricUp$ classifier in $X$, the common $\StreamNameUp$ windows and $\RegSeqRatUp$ readback of $S$, the modulus row $M$, the displayed limit row $L$, and the late-distance ledger $D$. The packet exports neither quotient completion nor completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the rows of $Q$. The source metric classifier in $X$ is the only equality-facing surface available to a separated uniqueness consumer, and the sequence data are displayed only through $S$ and its regular rational readback.
+
+Read the convergence rows. The modulus row $M$ supplies the late threshold, while $L$ and $D$ provide the displayed limit and the finite distance comparisons used at the separation boundary.
+
+The structural rows $H,C,P,N$ preserve this finite route without adding a completed quotient carrier or a real-completeness theorem. Therefore separated uniqueness can be consumed only as a boundary condition on the displayed rows, not as quotient completion or $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[SequentiallyCompleteMetric late-bound coverage]
 \label{thm:sequentially-complete-metric-late-bound-coverage}
 Every tolerance request made to an accepted $\SequentiallyCompleteMetricUp$ carrier $Q=(X,S,M,L,D,H,C,P,N)$ factors first through the modulus row $M$ and then through the distance-bound ledger $D$ before any $\CompleteMetricUp$ handoff is available. Thus a completion-facing consumer receives late convergence data only as a displayed threshold and a displayed metric-distance comparison inside $X$.
