@@ -3870,6 +3870,7 @@ import BEDC.Derived.EquicontinuityUp.FiniteNetReadiness
 import BEDC.Derived.EquicontinuityUp.ModulusHandoffAdmission
 import BEDC.Derived.EquicontinuityUp.ModulusLedgerExactness
 import BEDC.Derived.EquicontinuityUp.RootCompactSourceAdmission
+import BEDC.Derived.EquicontinuityUp.RootCompactSourceLock
 import BEDC.Derived.EquicontinuityUp.RootFamilyLedgerLock
 import BEDC.Derived.EquicontinuityUp.RootFamilyModulusLedger
 import BEDC.Derived.EquicontinuityUp.RootObligationFiniteNet
@@ -3989,6 +3990,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.CofinalTailStability
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalWindowObligation
 import BEDC.Derived.FastCauchySubsequenceUp.DyadicTailBudget
 import BEDC.Derived.FastCauchySubsequenceUp.EffectiveCauchyConsumer
+import BEDC.Derived.FastCauchySubsequenceUp.EffectiveConsumerExport
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusRegularHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorCoherence
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusThresholdExtraction
@@ -6494,6 +6496,7 @@ import BEDC.Derived.PackageExportDisciplineUp.TasteGate
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
 import BEDC.Derived.PackageMapBoundaryUp.TasteGate
 import BEDC.Derived.PackingNumberUp
+import BEDC.Derived.PackingNumberUp.TasteGate
 import BEDC.Derived.PadicUp
 import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
