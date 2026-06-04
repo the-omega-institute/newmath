@@ -3582,6 +3582,7 @@ import BEDC.Derived.DirichletUniformConvergenceUp.TasteGate
 import BEDC.Derived.DirichletUnitUp
 import BEDC.Derived.DistributionUp
 import BEDC.Derived.DivisibilityUp
+import BEDC.Derived.DnaBoundaryTriggerClosureUp.TasteGate
 import BEDC.Derived.DnaWindowSixBoundaryTileUp.TasteGate
 import BEDC.Derived.DoCalculusUp
 import BEDC.Derived.DoCalculusUp.TasteGate
@@ -5349,9 +5350,11 @@ import BEDC.Derived.LowerSemicontinuousUp.BaireOneSourceHandoff
 import BEDC.Derived.LowerSemicontinuousUp.BaireSuperlevelHandoff
 import BEDC.Derived.LowerSemicontinuousUp.BaireWindowFactorization
 import BEDC.Derived.LowerSemicontinuousUp.ClosedSuperlevelCarrier
+import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedSetHandoff
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedStability
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowInduction
+import BEDC.Derived.LowerSemicontinuousUp.FiniteEpigraphThresholdExhaustion
 import BEDC.Derived.LowerSemicontinuousUp.KernelScope
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransport
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransportInduction
@@ -5372,6 +5375,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCarrierAdmission
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphLocatedTransport
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphRegSeqRatHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedReadback
+import BEDC.Derived.LowerSemicontinuousUp.RootLocatedRealNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RootNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RootObligationSplit
 import BEDC.Derived.LowerSemicontinuousUp.RootRealSealBoundary
@@ -5676,6 +5680,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateBudgetCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateMediatedHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceFaceRetention
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondTypedL10Budget
