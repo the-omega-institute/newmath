@@ -3,6 +3,7 @@ import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SternBrocotContinuedFractionBridgeUp
+namespace TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,25 +11,23 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive SternBrocotContinuedFractionBridgeUp : Type where
-  | mk
-      (tree approximation farey continuedFraction convergent interval window readback realSeal
-        transport continuation provenance name : BHist) :
-      SternBrocotContinuedFractionBridgeUp
+  | mk (S A F Q V I W R E H C P N : BHist) : SternBrocotContinuedFractionBridgeUp
+  deriving DecidableEq
 
-private def sternBrocotContinuedFractionBridgeEncodeBHist : BHist -> RawEvent
+def sternBrocotContinuedFractionBridgeEncodeBHist : BHist -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: sternBrocotContinuedFractionBridgeEncodeBHist h
   | BHist.e1 h => BMark.b1 :: sternBrocotContinuedFractionBridgeEncodeBHist h
 
-private def sternBrocotContinuedFractionBridgeDecodeBHist : RawEvent -> BHist
+def sternBrocotContinuedFractionBridgeDecodeBHist : RawEvent -> BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (sternBrocotContinuedFractionBridgeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (sternBrocotContinuedFractionBridgeDecodeBHist tail)
 
-private theorem sternBrocotContinuedFractionBridge_decode_encode_bhist :
-    ∀ h : BHist,
+private theorem SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode :
+    forall h : BHist,
       sternBrocotContinuedFractionBridgeDecodeBHist
         (sternBrocotContinuedFractionBridgeEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -38,155 +37,133 @@ private theorem sternBrocotContinuedFractionBridge_decode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private def sternBrocotContinuedFractionBridgeToEventFlow :
+def sternBrocotContinuedFractionBridgeFields :
+    SternBrocotContinuedFractionBridgeUp -> List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | SternBrocotContinuedFractionBridgeUp.mk S A F Q V I W R E H C P N =>
+      [S, A, F, Q, V, I, W, R, E, H, C, P, N]
+
+def sternBrocotContinuedFractionBridgeToEventFlow :
     SternBrocotContinuedFractionBridgeUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | SternBrocotContinuedFractionBridgeUp.mk tree approximation farey continuedFraction
-      convergent interval window readback realSeal transport continuation provenance name =>
-      [[BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist tree,
-        [BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist approximation,
-        [BMark.b1, BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist farey,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist continuedFraction,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist convergent,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist interval,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist window,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist readback,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist realSeal,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist transport,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist continuation,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist provenance,
-        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
-          BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
-        sternBrocotContinuedFractionBridgeEncodeBHist name]
+  | x =>
+      (sternBrocotContinuedFractionBridgeFields x).map
+        sternBrocotContinuedFractionBridgeEncodeBHist
 
-private def sternBrocotContinuedFractionBridgeRawAt : Nat -> EventFlow -> RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => sternBrocotContinuedFractionBridgeRawAt n rest
-
-private def sternBrocotContinuedFractionBridgeLengthEq : Nat -> EventFlow -> Bool
-  -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => sternBrocotContinuedFractionBridgeLengthEq n rest
-
-private def sternBrocotContinuedFractionBridgeFromEventFlow :
+def sternBrocotContinuedFractionBridgeFromEventFlow :
     EventFlow -> Option SternBrocotContinuedFractionBridgeUp
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match sternBrocotContinuedFractionBridgeLengthEq 26 flow with
-      | true =>
-          some
-            (SternBrocotContinuedFractionBridgeUp.mk
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 1 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 3 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 5 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 7 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 9 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 11 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 13 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 15 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 17 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 19 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 21 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 23 flow))
-              (sternBrocotContinuedFractionBridgeDecodeBHist
-                (sternBrocotContinuedFractionBridgeRawAt 25 flow)))
-      | false => none
+  | S :: restS =>
+      match restS with
+      | A :: restA =>
+          match restA with
+          | F :: restF =>
+              match restF with
+              | Q :: restQ =>
+                  match restQ with
+                  | V :: restV =>
+                      match restV with
+                      | I :: restI =>
+                          match restI with
+                          | W :: restW =>
+                              match restW with
+                              | R :: restR =>
+                                  match restR with
+                                  | E :: restE =>
+                                      match restE with
+                                      | H :: restH =>
+                                          match restH with
+                                          | C :: restC =>
+                                              match restC with
+                                              | P :: restP =>
+                                                  match restP with
+                                                  | N :: rest =>
+                                                      match rest with
+                                                      | [] =>
+                                                          some
+                                                            (SternBrocotContinuedFractionBridgeUp.mk
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist S)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist A)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist F)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist Q)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist V)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist I)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist W)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist R)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist E)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist H)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist C)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist P)
+                                                              (sternBrocotContinuedFractionBridgeDecodeBHist N))
+                                                      | _ :: _ => none
+                                                  | [] => none
+                                              | [] => none
+                                          | [] => none
+                                      | [] => none
+                                  | [] => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
+  | [] => none
 
-private theorem sternBrocotContinuedFractionBridge_round_trip :
-    ∀ x : SternBrocotContinuedFractionBridgeUp,
+private theorem sternBrocotContinuedFractionBridge_mk_congr
+    {S S' A A' F F' Q Q' V V' I I' W W' R R' E E' H H' C C' P P' N N' : BHist}
+    (hS : S' = S) (hA : A' = A) (hF : F' = F) (hQ : Q' = Q)
+    (hV : V' = V) (hI : I' = I) (hW : W' = W) (hR : R' = R)
+    (hE : E' = E) (hH : H' = H) (hC : C' = C) (hP : P' = P)
+    (hN : N' = N) :
+    SternBrocotContinuedFractionBridgeUp.mk S' A' F' Q' V' I' W' R' E' H' C' P' N' =
+      SternBrocotContinuedFractionBridgeUp.mk S A F Q V I W R E H C P N := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases hS
+  cases hA
+  cases hF
+  cases hQ
+  cases hV
+  cases hI
+  cases hW
+  cases hR
+  cases hE
+  cases hH
+  cases hC
+  cases hP
+  cases hN
+  rfl
+
+private theorem SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_round_trip :
+    forall x : SternBrocotContinuedFractionBridgeUp,
       sternBrocotContinuedFractionBridgeFromEventFlow
         (sternBrocotContinuedFractionBridgeToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk tree approximation farey continuedFraction convergent interval window readback realSeal
-      transport continuation provenance name =>
-      change
-        some
-          (SternBrocotContinuedFractionBridgeUp.mk
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist tree))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist approximation))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist farey))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist continuedFraction))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist convergent))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist interval))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist window))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist readback))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist realSeal))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist transport))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist continuation))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist provenance))
-            (sternBrocotContinuedFractionBridgeDecodeBHist
-              (sternBrocotContinuedFractionBridgeEncodeBHist name))) =
-        some
-          (SternBrocotContinuedFractionBridgeUp.mk tree approximation farey
-            continuedFraction convergent interval window readback realSeal transport continuation
-            provenance name)
-      rw [sternBrocotContinuedFractionBridge_decode_encode_bhist tree,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist approximation,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist farey,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist continuedFraction,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist convergent,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist interval,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist window,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist readback,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist realSeal,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist transport,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist continuation,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist provenance,
-        sternBrocotContinuedFractionBridge_decode_encode_bhist name]
+  | mk S A F Q V I W R E H C P N =>
+      exact
+        congrArg some
+          (sternBrocotContinuedFractionBridge_mk_congr
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode S)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode A)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode F)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode Q)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode V)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode I)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode W)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode R)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode E)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode H)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode C)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode P)
+            (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode N))
 
 private theorem sternBrocotContinuedFractionBridgeToEventFlow_injective
     {x y : SternBrocotContinuedFractionBridgeUp} :
     sternBrocotContinuedFractionBridgeToEventFlow x =
-      sternBrocotContinuedFractionBridgeToEventFlow y ->
-    x = y := by
+        sternBrocotContinuedFractionBridgeToEventFlow y ->
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -196,8 +173,10 @@ private theorem sternBrocotContinuedFractionBridgeToEventFlow_injective
           (sternBrocotContinuedFractionBridgeToEventFlow y) :=
     congrArg sternBrocotContinuedFractionBridgeFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (sternBrocotContinuedFractionBridge_round_trip x).symm
-      (Eq.trans hread (sternBrocotContinuedFractionBridge_round_trip y)))
+    (Eq.trans
+      (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_round_trip y)))
 
 instance sternBrocotContinuedFractionBridgeBHistCarrier :
     BHistCarrier SternBrocotContinuedFractionBridgeUp where
@@ -212,31 +191,57 @@ instance sternBrocotContinuedFractionBridgeChapterTasteGate :
     intro x
     change
       sternBrocotContinuedFractionBridgeFromEventFlow
-        (sternBrocotContinuedFractionBridgeToEventFlow x) = some x
-    exact sternBrocotContinuedFractionBridge_round_trip x
+          (sternBrocotContinuedFractionBridgeToEventFlow x) =
+        some x
+    exact SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (sternBrocotContinuedFractionBridgeToEventFlow_injective heq)
 
+def taste_gate : ChapterTasteGate SternBrocotContinuedFractionBridgeUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  sternBrocotContinuedFractionBridgeChapterTasteGate
+
 theorem SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment :
-    (∀ h : BHist,
+    (forall h : BHist,
       sternBrocotContinuedFractionBridgeDecodeBHist
         (sternBrocotContinuedFractionBridgeEncodeBHist h) = h) ∧
-      (∀ x : SternBrocotContinuedFractionBridgeUp,
+      (forall x : SternBrocotContinuedFractionBridgeUp,
         sternBrocotContinuedFractionBridgeFromEventFlow
           (sternBrocotContinuedFractionBridgeToEventFlow x) = some x) ∧
-        (∀ x y : SternBrocotContinuedFractionBridgeUp,
-          sternBrocotContinuedFractionBridgeToEventFlow x =
+      (forall x y : SternBrocotContinuedFractionBridgeUp,
+        sternBrocotContinuedFractionBridgeToEventFlow x =
             sternBrocotContinuedFractionBridgeToEventFlow y ->
           x = y) ∧
-          sternBrocotContinuedFractionBridgeEncodeBHist BHist.Empty = ([] : List BMark) := by
+      sternBrocotContinuedFractionBridgeEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨sternBrocotContinuedFractionBridge_decode_encode_bhist,
-      sternBrocotContinuedFractionBridge_round_trip,
-      by
-        intro x y heq
-        exact sternBrocotContinuedFractionBridgeToEventFlow_injective heq,
-      rfl⟩
+  constructor
+  · exact SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_decode
+  constructor
+  · exact SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment_round_trip
+  constructor
+  · intro x y heq
+    exact sternBrocotContinuedFractionBridgeToEventFlow_injective heq
+  · rfl
+
+end TasteGate
+
+abbrev SternBrocotContinuedFractionBridgeUp :=
+  TasteGate.SternBrocotContinuedFractionBridgeUp
+
+theorem SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment :
+    (forall h : BEDC.FKernel.Hist.BHist,
+      TasteGate.sternBrocotContinuedFractionBridgeDecodeBHist
+        (TasteGate.sternBrocotContinuedFractionBridgeEncodeBHist h) = h) ∧
+      (forall x : SternBrocotContinuedFractionBridgeUp,
+        TasteGate.sternBrocotContinuedFractionBridgeFromEventFlow
+          (TasteGate.sternBrocotContinuedFractionBridgeToEventFlow x) = some x) ∧
+      (forall x y : SternBrocotContinuedFractionBridgeUp,
+        TasteGate.sternBrocotContinuedFractionBridgeToEventFlow x =
+            TasteGate.sternBrocotContinuedFractionBridgeToEventFlow y ->
+          x = y) ∧
+      TasteGate.sternBrocotContinuedFractionBridgeEncodeBHist BEDC.FKernel.Hist.BHist.Empty =
+        ([] : List BEDC.FKernel.Mark.BMark) :=
+  TasteGate.SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment
 
 end BEDC.Derived.SternBrocotContinuedFractionBridgeUp
