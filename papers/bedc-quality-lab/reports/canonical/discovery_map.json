@@ -1,10 +1,10 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-map",
-  "generated_at": "2026-06-03T17:08:52.430894+00:00",
+  "generated_at": "2026-06-04T11:04:50.081457+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
     "D0": 1,
-    "D1": 3,
+    "D1": 4,
     "D2": 0,
     "D3": 0,
     "D4": 2,
@@ -14,12 +14,16 @@
   },
   "manifest_audit": {
     "unregistered_json_artifacts": [
+      "reports/canonical/demote_thesis_invariant_audit.json",
+      "reports/canonical/dimension-mismatch-transfer-robustness.json",
+      "reports/canonical/discovery_gate_demotions.json",
+      "reports/canonical/discovery_gate_escape_registry.json",
       "reports/canonical/gap-head-robustness-sweep.json",
       "reports/canonical/observed-debt-sweep.json"
     ]
   },
   "markdown_artifact": "reports/canonical/discovery_map.md",
-  "row_count": 11,
+  "row_count": 12,
   "rows": [
     {
       "audit_reason": "",
@@ -199,6 +203,21 @@
       "projection_status": "projected",
       "report": "certificate-guided-discovery",
       "terminal_verdict": "rejected"
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "main_verdict.deltas.debt_delta<0"
+      ],
+      "debt_row_pointer": "$.d1_evidence.debt_delta",
+      "discovery_level": "D1",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/sigreg-training-proxy.json",
+      "markdown_artifact": "reports/canonical/sigreg-training-proxy.md",
+      "projection_status": "projected",
+      "report": "sigreg-training-proxy",
+      "terminal_verdict": "d1-pointer-accepted"
     },
     {
       "audit_reason": "",

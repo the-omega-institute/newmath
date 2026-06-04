@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-04T03:33:42.350600+00:00`
+- Generated at: `2026-06-04T11:04:50.081457+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -15,6 +15,7 @@
 | `gap-head-threshold-frontier` | `pass` | `reports/canonical/gap-head-threshold-frontier.json` | `reports/canonical/gap-head-threshold-frontier.md` | `$.applicability_boundary` | `$.source_artifacts` | `$.not_claimed` | `$.main_claim_status` | `$.threshold_summary.control_baseline` |
 | `certificate-guided-training` | `pass` | `reports/canonical/certificate-guided-training.json` | `reports/canonical/certificate-guided-training.md` | `$.objective.required_rows` | `$.cost_protocol` | `$.not_claimed` | `$.claim_gate` | `$.paired_seed_protocol` |
 | `certificate-guided-discovery` | `pass` | `reports/canonical/certificate-guided-discovery.json` | `reports/canonical/certificate-guided-discovery.md` | `$.applicability_boundary` | `$.claim_gate` | `$.not_claimed` | `$.main_claim_status` | `$.matched_random_baseline` |
+| `sigreg-training-proxy` | `pass` | `reports/canonical/sigreg-training-proxy.json` | `reports/canonical/sigreg-training-proxy.md` | `$.arm_protocol` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.full_lejepa_boundary` |
 
 ## Auxiliary reports
 
@@ -35,7 +36,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
-- Rows: `11`
+- Rows: `12`
 
 ## Dimension mismatch debt transfer
 
@@ -73,7 +74,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `18`
+- Rows: `19`
 
 ## Negative witness summary
 
@@ -114,7 +115,7 @@
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, gap-head-threshold-frontier, certificate-guided-training, certificate-guided-discovery`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, gap-head-threshold-frontier, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy`
 - Auxiliary reports: `nongaussian-distribution-sweep, spectral-ablation-hinge`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -133,6 +134,7 @@
 | `nongaussian-distribution-sweep` | `auxiliary` | `$.main_claim_status` | `None` | `$.negative_result_ledger` |
 | `certificate-guided-training` | `hg_p_core` | `$.claim_gate` | `$.paired_seed_protocol` | `None` |
 | `certificate-guided-discovery` | `hg_p_core` | `$.main_claim_status` | `$.matched_random_baseline` | `None` |
+| `sigreg-training-proxy` | `hg_p_core` | `$.positive_claim` | `None` | `$.full_lejepa_boundary` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
 
 ## Literature ledger pointer

@@ -16,10 +16,10 @@
 - Revocation downgraded: `false`
 - Revocation reason: `no-certified-claim`
 - Revocation ledger rows: `0`
-- Verdict: `negative` / net `-0.239941` / positive `false`
-- Matched-random baseline: `negative` / net `-0.077476` / positive `false`
+- Verdict: `negative` / net `-0.133891` / positive `false`
+- Matched-random baseline: `negative` / net `-0.141426` / positive `false`
 - Benefit declined by `-0.229040` under the shared cost protocol.
-- Debt declined by `-0.049099` under the shared cost protocol.
-- Net information did not clear zero: `-0.239941`.
-- Quality-q delta: `-0.179941`.
+- Debt declined by `-0.155149` under the shared cost protocol.
+- Net information did not clear zero: `-0.133891`.
+- Quality-q delta: `-0.073891`.
 - Not claimed: `formal BEDC closure is not claimed by this lab-local runner; global optimizer behavior is not claimed by this lab-local runner; positive quality improvement is not claimed unless the paired after-minus-before quality_q CI lower bound is above zero; positive quality wording is not claimed for debt reduction paired with benefit decline; positive quality wording is not claimed when the paired quality_q CI lower bound does not clear zero; positive discovery is not claimed unless classifier surface delta, imported positive_discovery, positive net information, and training positive quality gate all hold`

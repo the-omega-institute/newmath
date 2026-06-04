@@ -405,6 +405,113 @@ def _certificate_discovery_projection(payload: Mapping[str, Any]) -> tuple[dict[
     return overlay, ProjectionEvidence(projection_status="source-insufficient")
 
 
+def _sigreg_training_proxy_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
+    consistency = _sigreg_training_proxy_consistency(payload)
+    status = pointer_value(payload, "$.result.status")
+    debt_delta = pointer_value(payload, "$.d1_evidence.debt_delta")
+    if consistency[0] and status == "d1-pointer-accepted" and isinstance(debt_delta, (int, float)) and not isinstance(debt_delta, bool):
+        return {
+            "verdict": "d1-pointer-accepted",
+            "main_verdict": {"deltas": {"debt_delta": float(debt_delta)}},
+        }, ProjectionEvidence(
+            projection_status="projected",
+            debt_row_pointer="$.d1_evidence.debt_delta",
+        )
+    if status == "negative" or not consistency[0]:
+        return {"verdict": "rejected"}, ProjectionEvidence(
+            projection_status="projected",
+            failed_gate=consistency[2],
+            debt_row_pointer="$.d1_evidence.debt_delta",
+        )
+    return {}, ProjectionEvidence(projection_status="source-insufficient", debt_row_pointer="$.d1_evidence.debt_delta")
+
+
+def _sigreg_failed_gate_pointer(payload: Mapping[str, Any]) -> str:
+    failed_gate = pointer_value(payload, "$.failed_gate")
+    if isinstance(failed_gate, str) and failed_gate:
+        return f"$.d1_evidence.d1_hardgates.{failed_gate}.status"
+    hardgates = pointer_value(payload, "$.d1_evidence.d1_hardgates")
+    if isinstance(hardgates, Mapping):
+        for name, row in hardgates.items():
+            if isinstance(name, str) and isinstance(row, Mapping) and row.get("status") != "pass":
+                return f"$.d1_evidence.d1_hardgates.{name}.status"
+    return "$.hardgate.status"
+
+
+def _sigreg_training_proxy_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
+    hardgates = pointer_value(payload, "$.d1_evidence.d1_hardgates")
+    if not isinstance(hardgates, Mapping) or not hardgates:
+        return False, "missing-d1-hardgates", "$.d1_evidence.d1_hardgates"
+
+    failed_gates = [
+        name
+        for name, row in hardgates.items()
+        if not isinstance(row, Mapping) or row.get("status") != "pass"
+    ]
+    all_pass = not failed_gates
+    result_status = pointer_value(payload, "$.result.status")
+    result_level = pointer_value(payload, "$.result.discovery_level")
+    result_terminal = pointer_value(payload, "$.result.terminal_verdict")
+    claim_gate_status = pointer_value(payload, "$.claim_gate.status")
+    hardgate_status = pointer_value(payload, "$.hardgate.status")
+    claim_tradeoff = pointer_value(payload, "$.claim_gate.training_audit_improvement_tradeoff")
+    failed_gate = pointer_value(payload, "$.failed_gate")
+    hardgate_failed_gate = pointer_value(payload, "$.hardgate.failed_gate")
+    capsule_status = pointer_value(payload, "$.result.claim_capsule_status")
+    forbidden_audit_status = pointer_value(payload, "$.forbidden_claim_term_audit.status")
+    if all_pass:
+        expected = {
+            "result_status": "d1-pointer-accepted",
+            "result_level": "D1",
+            "result_terminal": "d1-pointer-accepted",
+            "claim_gate_status": "pass",
+            "hardgate_status": "pass",
+            "claim_tradeoff": True,
+            "failed_gate": None,
+            "hardgate_failed_gate": None,
+            "capsule_status": "d1-pointer-accepted",
+            "forbidden_audit_status": "pass",
+        }
+    else:
+        expected_failed = failed_gates[0]
+        expected = {
+            "result_status": "negative",
+            "result_level": "DN",
+            "result_terminal": "rejected",
+            "claim_gate_status": "fail",
+            "hardgate_status": "fail",
+            "claim_tradeoff": False,
+            "failed_gate": expected_failed,
+            "hardgate_failed_gate": expected_failed,
+            "capsule_status": "failed",
+        }
+
+    observed = {
+        "result_status": result_status,
+        "result_level": result_level,
+        "result_terminal": result_terminal,
+        "claim_gate_status": claim_gate_status,
+        "hardgate_status": hardgate_status,
+        "claim_tradeoff": claim_tradeoff,
+        "failed_gate": failed_gate,
+        "hardgate_failed_gate": hardgate_failed_gate,
+        "capsule_status": capsule_status,
+        "forbidden_audit_status": forbidden_audit_status,
+    }
+    for key, expected_value in expected.items():
+        if observed[key] != expected_value:
+            return False, f"sigreg-{key}-mismatch", _sigreg_failed_gate_pointer(payload)
+    if forbidden_audit_status != "pass":
+        hg5 = hardgates.get("D1-HG5")
+        if all_pass or not isinstance(hg5, Mapping) or hg5.get("status") != "fail":
+            return False, "sigreg-forbidden_audit_status-mismatch", "$.forbidden_claim_term_audit.status"
+    if all_pass:
+        debt_delta = pointer_value(payload, "$.d1_evidence.debt_delta")
+        if not isinstance(debt_delta, (int, float)) or isinstance(debt_delta, bool) or float(debt_delta) >= 0.0:
+            return False, "sigreg-debt-delta-mismatch", "$.d1_evidence.debt_delta"
+    return True, "", _sigreg_failed_gate_pointer(payload)
+
+
 def _gap_head_ablation_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
     if pointer_value(payload, "$.hardgate.status") == "fail":
         return {"verdict": "rejected"}, ProjectionEvidence(projection_status="projected", failed_gate="$.hardgate.status")
@@ -482,6 +589,8 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _certificate_training_projection(payload)
     elif spec.name == "certificate-guided-discovery":
         overlay, evidence = _certificate_discovery_projection(payload)
+    elif spec.name == "sigreg-training-proxy":
+        overlay, evidence = _sigreg_training_proxy_projection(payload)
     elif spec.name == "gap-head-ablation":
         overlay, evidence = _gap_head_ablation_projection(payload)
     elif spec.name == "spectral-ablation-hinge":
@@ -547,6 +656,10 @@ def _audit_row(
 ) -> tuple[str, str]:
     if level not in DISCOVERY_LEVELS:
         return "invalid", "missing-discovery-level"
+    if spec.name == "sigreg-training-proxy":
+        consistent, reason, _failed_pointer = _sigreg_training_proxy_consistency(payload)
+        if not consistent:
+            return "invalid", reason
     if level in {"D4", "D5"}:
         if evidence.control_pointer is None:
             return "invalid", "missing-control-pointer"

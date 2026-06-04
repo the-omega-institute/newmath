@@ -20,12 +20,16 @@ REQUIRED_DEBT_ROWS = frozenset(
         LedgerRowKey("source", "latent-distribution-gaussianity"),
         LedgerRowKey("source", "distribution-family-coverage"),
         LedgerRowKey("source", "finite-sample-support"),
-        LedgerRowKey("source", "dimension-match"),
         LedgerRowKey("source", "transition-isotropy"),
-        LedgerRowKey("source", "action-transition-identification"),
         LedgerRowKey("classifier", "optimizer-certificate"),
         LedgerRowKey("verification", "theorem3-bound-margin"),
         LedgerRowKey("generalization", "global-claim-boundary"),
+    }
+)
+SCOPED_DEBT_ROWS = frozenset(
+    {
+        LedgerRowKey("source", "dimension-match"),
+        LedgerRowKey("source", "action-transition-identification"),
     }
 )
 
@@ -205,7 +209,7 @@ def _cost_protocol_from_mapping(data: Mapping[str, Any]) -> CostProtocol:
         if not isinstance(raw_key, str):
             raise ValueError("cost protocol row weight keys must be strings")
         row = _parse_row_key(raw_key)
-        if row not in REQUIRED_DEBT_ROWS:
+        if row not in REQUIRED_DEBT_ROWS | SCOPED_DEBT_ROWS:
             raise ValueError(f"unknown cost protocol row: {raw_key}")
         if row in row_weights:
             raise ValueError(f"duplicate cost protocol row: {raw_key}")

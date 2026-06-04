@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-03T06:59:30.116815+00:00",
+  "generated_at": "2026-06-04T11:04:50.081457+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -45,6 +45,11 @@
     {
       "json_artifact": "reports/canonical/certificate-guided-discovery.json",
       "name": "certificate-guided-discovery",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/sigreg-training-proxy.json",
+      "name": "sigreg-training-proxy",
       "status": "pass"
     },
     {
@@ -164,9 +169,9 @@
       "value": 10
     },
     {
-      "denominator": 10,
+      "denominator": 11,
       "metric": "ScopeCompleteness",
-      "numerator": 10,
+      "numerator": 11,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -214,6 +219,11 @@
           "report": "certificate-guided-discovery"
         },
         {
+          "artifact": "reports/canonical/sigreg-training-proxy.json",
+          "pointer": "$.arm_protocol",
+          "report": "sigreg-training-proxy"
+        },
+        {
           "artifact": "reports/canonical/spectral-ablation-hinge.json",
           "pointer": "$.applicability_boundary",
           "report": "spectral-ablation-hinge"
@@ -223,9 +233,9 @@
       "value": 1.0
     },
     {
-      "denominator": 10,
+      "denominator": 11,
       "metric": "CostProtocolCompleteness",
-      "numerator": 10,
+      "numerator": 11,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -271,6 +281,11 @@
           "artifact": "reports/canonical/certificate-guided-discovery.json",
           "pointer": "$.claim_gate",
           "report": "certificate-guided-discovery"
+        },
+        {
+          "artifact": "reports/canonical/sigreg-training-proxy.json",
+          "pointer": "$.source_artifacts.cost_protocol",
+          "report": "sigreg-training-proxy"
         },
         {
           "artifact": "reports/canonical/spectral-ablation-hinge.json",
