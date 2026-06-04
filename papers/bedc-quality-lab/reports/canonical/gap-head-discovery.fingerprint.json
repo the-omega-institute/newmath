@@ -1,0 +1,114 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-04T16:07:55.096198+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "6ee50886225b36578f6183c45af74e7380b1b9c82a9fcf5c02f3ec4bbab9eb4a",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "e9a631afb2175938595d0b3b28046d47ff8a737484991671784925b73c7eeecc"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f50cdd778d236752d22d51ee03f1fd97c17ce35f057d551a8940c88f962069ca"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/classifier_shift.py",
+        "sha256": "bb09e8c6cbe9991e04a23c97c7f1b16d431a6045fb49c9b6f7c72dbd743fe209"
+      },
+      {
+        "path": "bedc_quality_lab/discovery.py",
+        "sha256": "1ad23d8bdc99a53f8ab0878f0d5e84326503ae380dddd2439ef9072789748187"
+      },
+      {
+        "path": "bedc_quality_lab/ledger.py",
+        "sha256": "750a6bc5fba663b8eb599ba43eea9e4b158c57777d95d96be4e0f1cb3ee36ad8"
+      },
+      {
+        "path": "bedc_quality_lab/scope.py",
+        "sha256": "f8051a5e0c78f35c7b14960b692ee95fdd1f830d092b3a34ad07169d55926eee"
+      },
+      {
+        "path": "scripts/run_gap_head_discovery.py",
+        "sha256": "93a52b63619662c1e462f5cdf24d2840a6a9f03b59c7bbcc6e5a9197b32f57a3"
+      }
+    ],
+    "report_output_schema_id": "schema-unspecified",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_gap_head_discovery.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/gap-head-on-h.json",
+        "sha256": "06f4ee472ed12507a2547452731a430bfdc2441f3442933ed04181a7e836b9af"
+      },
+      {
+        "path": "reports/canonical/gap-head-on-h.md",
+        "sha256": "734876d8d17d1b1229d98cbfff17ac5355ae55f04e5c0b4c441bcb6b47c0eaa2"
+      }
+    ],
+    "spec": {
+      "bundle_role": "hg_p_core",
+      "command": [
+        "python3",
+        "scripts/run_gap_head_discovery.py"
+      ],
+      "control_pointer": "$.matched_random_control",
+      "cost_pointer": "$.score_terms",
+      "estimated_seconds": 5,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/gap-head-discovery.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/gap-head-discovery.md",
+      "name": "gap-head-discovery",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.boundary_checks.forbidden_inference_columns",
+      "positive_claim_pointer": "$.final_main_claim_status",
+      "required_json_keys": [
+        "generated_at",
+        "source_artifacts",
+        "boundary_checks",
+        "surface_delta_count",
+        "benefit_terms",
+        "positive_discovery",
+        "matched_random_control",
+        "main_claim_status",
+        "final_main_claim_status"
+      ],
+      "scope_pointer": "$.boundary_checks"
+    }
+  },
+  "json_artifact": "reports/canonical/gap-head-discovery.json",
+  "markdown_artifact": "reports/canonical/gap-head-discovery.md",
+  "output_digest": "0101b28ccfdbba896ef108ce26a22be906d07f1ffafbf193b740cdcbddf14b2a",
+  "producer_command": [
+    "python3",
+    "scripts/run_gap_head_discovery.py"
+  ],
+  "report_name": "gap-head-discovery",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

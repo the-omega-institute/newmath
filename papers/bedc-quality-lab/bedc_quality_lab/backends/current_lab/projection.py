@@ -1232,7 +1232,7 @@ def _manifest_audit(
     directory_json = {
         f"reports/canonical/{path.name}"
         for path in sorted((_root(root) / "reports" / "canonical").glob("*.json"))
-        if path.name != "index.json"
+        if path.name != "index.json" and not path.name.endswith(".fingerprint.json")
     }
     return {
         "unregistered_json_artifacts": sorted(directory_json - registered - registered_pointer_artifacts),

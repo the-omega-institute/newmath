@@ -339,6 +339,17 @@ def _mutate_payload(canonical_module, report_name, update):
     json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
 
 
+def _write_fingerprint_fixture(canonical_module, root, spec, *, script_text="SEED = 7\n\ndef main(argv=None):\n    return None\n"):
+    script = root / spec.command[1]
+    script.parent.mkdir(parents=True, exist_ok=True)
+    script.write_text(script_text, encoding="utf-8")
+    json_path = canonical_module._artifact_path(spec.json_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    canonical_module._artifact_path(spec.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
+    return canonical_module._write_fingerprint_sidecar(spec, generated_at="fixture")
+
+
 def _index_row_for_spec(spec):
     return {
         "name": spec.name,
@@ -346,6 +357,7 @@ def _index_row_for_spec(spec):
         "status": "pass",
         "json_artifact": spec.json_artifact,
         "markdown_artifact": spec.markdown_artifact,
+        "fingerprint_sidecar": canonical._artifact_path(spec.json_artifact).with_suffix(".fingerprint.json").relative_to(canonical.ROOT).as_posix(),
         "discipline": {
             "scope_pointer": spec.scope_pointer,
             "cost_pointer": spec.cost_pointer,
@@ -365,7 +377,7 @@ def _read_committed_claim_verdicts():
 def _normalized_index_report(report):
     item = dict(report)
     item["duration_seconds"] = 0.0
-    item["producer_status"] = "reused"
+    item["producer_status"] = "skipped"
     return item
 
 
@@ -976,8 +988,42 @@ def test_run_spec_can_reuse_existing_artifacts_without_producer(tmp_path, monkey
     result = canonical._run_spec(spec, reuse_existing=True)
 
     assert result["status"] == "pass"
-    assert result["producer_status"] == "reused"
+    assert result["producer_status"] == "skipped"
     assert result["validation"]["status"] == "pass"
+
+
+def test_matching_fingerprint_skips_producer_but_validates(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    calls = {"producer": 0, "validation": 0, "discipline": 0}
+    monkeypatch.setattr(canonical, "_run_producer", lambda _spec: calls.__setitem__("producer", calls["producer"] + 1))
+    monkeypatch.setattr(canonical, "_artifact_validation", lambda _spec: calls.__setitem__("validation", calls["validation"] + 1) or {"status": "pass"})
+    monkeypatch.setattr(canonical, "_discipline", lambda _spec: calls.__setitem__("discipline", calls["discipline"] + 1) or {"forbidden_claim_terms_status": "pass"})
+
+    result = canonical._run_spec(spec, mode="verify")
+
+    assert result["producer_status"] == "skipped"
+    assert result["fingerprint_status"] == "match"
+    assert calls == {"producer": 0, "validation": 1, "discipline": 1}
+
+
+def test_fingerprint_staleness_fail_closed_and_cold_digest(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    (tmp_path / spec.command[1]).write_text("SEED = 8\n\ndef main(argv=None):\n    return None\n", encoding="utf-8")
+
+    assert canonical._fingerprint_matches(spec) == (False, "input-fingerprint")
+    assert "fingerprint sidecar mismatch" in canonical._run_spec(spec, mode="verify")["error"]
+
+    monkeypatch.setattr(canonical, "_run_producer", lambda target: _write_fingerprint_fixture(canonical, tmp_path, target))
+    result = canonical._run_spec(spec, mode="cold", generated_at="fixture")
+    sidecar = json.loads(canonical._fingerprint_path(spec).read_text(encoding="utf-8"))
+    assert result["producer_status"] == "completed"
+    assert sidecar["output_digest"] == canonical._canonical_output_digest(spec)
 
 
 def test_run_spec_force_path_runs_producer_for_existing_artifacts(tmp_path, monkeypatch):
@@ -1065,9 +1111,9 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
         canonical.INDEX_ARTIFACT = old_index
         canonical._run_producer = old_runner
 
-    assert calls == ["gap-head-on-h"]
+    assert calls == ["gap-head-on-h", "gap-head-discovery"]
     assert payload["schema_id"] == canonical.INDEX_SCHEMA_ID
-    assert len(payload["reports"]) == 1
+    assert len(payload["reports"]) == 2
     assert payload["reports"][0]["status"] == "pass"
     assert payload["reports"][0]["validation"]["required_key_validation"]["status"] == "pass"
     assert json.loads(index_path.read_text(encoding="utf-8")) == payload
@@ -1075,6 +1121,13 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     assert "gap-head-on-h" in index_markdown
     assert (canonical_dir / "quality-scorecard.json").exists()
     assert (canonical_dir / "quality-scorecard.md").exists()
+
+
+def test_targeted_selection_includes_declared_dependents():
+    assert [spec.name for spec in canonical._selected_specs_with_dependents("certificate-guided-training")] == [
+        "certificate-guided-training",
+        "certificate-guided-discovery",
+    ]
 
 
 def test_quality_scorecard_has_exactly_twelve_metric_rows(tmp_path):
@@ -2429,9 +2482,12 @@ def test_run_reports_certificate_guided_discovery_uses_canonical_training_source
             cls.REPORT_JSON.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
             cls.REPORT_MD.write_text("# stub discovery\n", encoding="utf-8")
 
+    real_import_module = canonical.importlib.import_module
+
     def fake_import_module(module_name):
-        assert module_name == "scripts.run_certificate_guided_discovery"
-        return StubDiscoveryProducer
+        if module_name == "scripts.run_certificate_guided_discovery":
+            return StubDiscoveryProducer
+        return real_import_module(module_name)
 
     monkeypatch.setattr(canonical.importlib, "import_module", fake_import_module)
 

@@ -1,0 +1,96 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-04T16:07:55.096198+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "479b397a89be05413fa6b97916fecc7dc056008df91aaafff38937b2d8de401e",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "e9a631afb2175938595d0b3b28046d47ff8a737484991671784925b73c7eeecc"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f50cdd778d236752d22d51ee03f1fd97c17ce35f057d551a8940c88f962069ca"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "scripts/experiment_stats.py",
+        "sha256": "baf70e1676d60b747bff592d9eee380a114cb59c3f5305d683be9a2a89d1d9ae"
+      },
+      {
+        "path": "scripts/run_gap_head_threshold_sweep.py",
+        "sha256": "246de4bc7a70d4f44ad254fecec38dd82e40472105a25bb24d87e3efcdca8cea"
+      }
+    ],
+    "report_output_schema_id": "schema-unspecified",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_gap_head_threshold_sweep.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [],
+    "spec": {
+      "bundle_role": "hg_p_core",
+      "command": [
+        "python3",
+        "scripts/run_gap_head_threshold_sweep.py"
+      ],
+      "control_pointer": "$.threshold_summary.control_baseline",
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 120,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
+      "name": "gap-head-threshold-frontier",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.main_claim_status",
+      "required_json_keys": [
+        "generated_at",
+        "config",
+        "source_artifacts",
+        "applicability_boundary",
+        "threshold_curve",
+        "threshold_summary",
+        "pareto_axis_spec",
+        "pareto_frontier",
+        "hardgate",
+        "readiness",
+        "main_claim_status",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.applicability_boundary"
+    }
+  },
+  "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
+  "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
+  "output_digest": "d4962769af8aeb5c86e035674567b2e74b17e71d4084e51cf944cb63b500fdb9",
+  "producer_command": [
+    "python3",
+    "scripts/run_gap_head_threshold_sweep.py"
+  ],
+  "report_name": "gap-head-threshold-frontier",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

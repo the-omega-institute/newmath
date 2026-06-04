@@ -1,0 +1,124 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-04T16:07:55.096198+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "9f0e3fa3f88002a86427cbad34c4653c150b3f481bd3d5f6a0917e3ea34c4b94",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "e9a631afb2175938595d0b3b28046d47ff8a737484991671784925b73c7eeecc"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f50cdd778d236752d22d51ee03f1fd97c17ce35f057d551a8940c88f962069ca"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/claim_terms.py",
+        "sha256": "838e8f3ef822e929c63aa811f80d86f6451478a0468626544babf43dc7b52af5"
+      },
+      {
+        "path": "bedc_quality_lab/identifiability_bound.py",
+        "sha256": "208f81e90d5f97caf49b7ee47a735241c303076f510ff6ba2dfe855de0112f14"
+      },
+      {
+        "path": "bedc_quality_lab/latent_distribution.py",
+        "sha256": "83408419c973a5f248cfad3e9f6f8d56ab1ebde79d65484c36cff62774ebe1a8"
+      },
+      {
+        "path": "bedc_quality_lab/model.py",
+        "sha256": "d7611dd13ccf81966e7418f6d54eef622c313d32ced14dcc602a596700f004f3"
+      },
+      {
+        "path": "bedc_quality_lab/toy_world.py",
+        "sha256": "bb70c21f00e8609ca5313587e49d64c899d4f000acfae612d05bf923e602555b"
+      },
+      {
+        "path": "scripts/run_sigreg_gaussianity_reproduction.py",
+        "sha256": "2545759674168487b4d11324db29bf0976de560e317ecf1d69502882004f95d2"
+      },
+      {
+        "path": "scripts/run_sigreg_training_proxy.py",
+        "sha256": "06e51f66ef536c1425bce49ef017aaa52c69438116c5251d53cc941a65cc2f3e"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:sigreg-training-proxy",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_sigreg_training_proxy.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [],
+    "spec": {
+      "bundle_role": "hg_p_core",
+      "command": [
+        "python3",
+        "scripts/run_sigreg_training_proxy.py"
+      ],
+      "control_pointer": null,
+      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "estimated_seconds": 30,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/sigreg-training-proxy.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/sigreg-training-proxy.md",
+      "name": "sigreg-training-proxy",
+      "no_control_rationale_pointer": "$.full_lejepa_boundary",
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.positive_claim",
+      "required_json_keys": [
+        "generated_at",
+        "run_id",
+        "run_artifacts",
+        "source_artifacts",
+        "config",
+        "objective",
+        "arm_protocol",
+        "arm_summaries",
+        "d1_evidence",
+        "claim_gate",
+        "hardgate",
+        "failed_gate",
+        "what_was_learned",
+        "not_claimed",
+        "full_lejepa_boundary",
+        "result",
+        "positive_claim",
+        "claim_capsule_ref",
+        "result_snapshot_ref",
+        "forbidden_claim_term_audit"
+      ],
+      "scope_pointer": "$.arm_protocol"
+    }
+  },
+  "json_artifact": "reports/canonical/sigreg-training-proxy.json",
+  "markdown_artifact": "reports/canonical/sigreg-training-proxy.md",
+  "output_digest": "d56b7bab510e3ef4275ac0503778b403c10b8def011f62d6cdce434d0e28dc9c",
+  "producer_command": [
+    "python3",
+    "scripts/run_sigreg_training_proxy.py"
+  ],
+  "report_name": "sigreg-training-proxy",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}
