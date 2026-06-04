@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\LebesgueNumberFunctionUp$}
+\label{ch:concrete-instances-lebesgue-number-function-namecert}
+\origin{human}
+
+Following Lebesgue and Bishop--Bridges constructive analysis, the $\LebesgueNumberFunctionUp$ packet records the finite cover-to-radius ledger used when a compact metric source supplies displayed cover rows and downstream uniform-continuity consumers need explicit positive radii. It sits after the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite-cover Lebesgue-number surface of \autoref{ch:concrete-instances-finite-cover-lebesgue-number-namecert}, the Lebesgue-number lemma route of \autoref{ch:concrete-instances-lebesgue-number-lemma-namecert}, the compact-uniform modulus extractor of \autoref{ch:concrete-instances-compact-uniform-modulus-extractor-namecert}, the rational positivity row of \autoref{ch:concrete-instances-rat-namecert}, and the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names a finite function ledger assigning radii to displayed cover entries; it does not assert open-cover compactness, choose a cover refinement from an ambient theorem, or hide a modulus inside host analysis.
+
+\begin{definition}[LebesgueNumberFunction carrier]
+\label{def:lebesgue-number-function-carrier}
+A $\LebesgueNumberFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(K,U,C,L,R,D,W,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact metric source row, read through $\CompactMetricUp$ and carrying the finite compactness data available to the packet;
+\item $U$ is the finite cover row, listing the displayed cover entries to which radii may be assigned;
+\item $C$ is the compact finite-cover and Lebesgue-number row, routing the cover through the finite-cover Lebesgue-number and Lebesgue-number lemma surfaces;
+\item $L$ is the function ledger assigning a displayed positive radius to each cover entry that has been admitted by $U$ and $C$;
+\item $R$ is the rational tolerance row, recording positivity and comparison data for each ledger radius through $\RatUp$;
+\item $D$ is the dyadic tolerance row, recording endpoint and refinement budgets through $\DyadicRatCoreUp$;
+\item $W$ is the finite witness-window row, recording the compact windows on which the radius assignment is checked;
+\item $H$ stores componentwise $\hsame$ transports for $K,U,C,L,R,D,W$ and for the structural rows;
+\item $T$ stores displayed transport and replay routes for cover entries, radius reads, and compact-window witnesses;
+\item $P$ is the $\Pkg$ provenance over the compact metric source, finite cover row, Lebesgue-number rows, rational and dyadic tolerances, witness windows, transports, and local naming evidence;
+\item $N$ is the local $\NameCert_{\LebesgueNumberFunctionUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. It has no coordinate for an arbitrary open-cover compactness principle, a selected refinement outside the displayed cover, a host real-valued radius function, countable choice, or an ambient uniform-continuity theorem.
+\end{definition}
+
+\begin{theorem}[LebesgueNumberFunction NameCert obligations]
+\label{thm:lebesgue-number-function-namecert-obligations}
+The local $\NameCert_{\LebesgueNumberFunctionUp}$ surface consists of carrier exposure for $K,U,C,L,R,D,W,H,T,P,N$, finite cover admission for every entry read by $L$, positive-radius ledger stability through $R$ and $D$, witness-window replay through $W$ and $T$, componentwise transport through $H$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lebesgue-number-function-carrier}. The only analytic rows are the compact metric source, finite cover, compact finite-cover route, radius ledger, rational and dyadic tolerance rows, and witness windows.
+
+Read the cover and radius obligations together. A ledger entry in $L$ is accepted only for a cover entry already displayed by $U$ and certified through $C$, while $R$ and $D$ record the positivity and tolerance data for the assigned radius.
+
+The remaining rows bind the ledger to BEDC structure. Witness windows $W$ are replayed by $T$, transported by $H$, recorded by $P$, and named by $N$, so the NameCert surface has no hidden radius function or ambient compactness proof.
+\end{proof}
+
+\begin{theorem}[LebesgueNumberFunction finite-cover handoff]
+\label{thm:lebesgue-number-function-finite-cover-handoff}
+Every accepted $\LebesgueNumberFunctionUp$ packet hands a finite cover row from $U$ through the compact finite-cover and Lebesgue-number row $C$ before any consumer reads a radius assignment in $L$. The handoff preserves the same compact metric source $K$, rational tolerance row $R$, dyadic tolerance row $D$, witness-window row $W$, transport rows $H,T$, provenance row $P$, and local name $N$.
+\end{theorem}
+\begin{proof}
+Begin with the compact metric source and finite cover rows $K$ and $U$. They fix the source and the displayed cover entries before the packet exposes any radius.
+
+Use the compact finite-cover and Lebesgue-number row $C$. It is the only route from the cover entries to the positive-radius ledger, so a consumer cannot read $L$ before the finite-cover handoff has occurred.
+
+Finally preserve the structural rows. The rational and dyadic tolerance rows, finite witness windows, transports, replay routes, provenance, and local name are carried with the same cover entry, giving a handoff rather than a detached radius table.
+\end{proof}
+
+\begin{theorem}[LebesgueNumberFunction uniform-modulus boundary]
+\label{thm:lebesgue-number-function-uniform-modulus-boundary}
+A $\CompactUniformModulusExtractorUp$ or uniform-continuity consumer may read an accepted $\LebesgueNumberFunctionUp$ packet only as the finite ledger $K,U,C,L,R,D,W,H,T,P,N$. It receives the displayed cover-to-radius assignments and witness windows, but receives no open-cover compactness principle, no selected host modulus, no quotient real equality, no countable-choice schedule, and no ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Read the finite-cover handoff first. It supplies the compact source, displayed cover entries, Lebesgue-number route, radius ledger, tolerance rows, and witness windows as one finite packet.
+
+A uniform-modulus consumer may reuse those rows, but only through the transports, replay routes, provenance, and local naming data. Thus the consumer receives a named finite ledger, not a function chosen from outside the packet.
+
+The excluded principles require coordinates absent from the carrier: open-cover compactness, host modulus selection, quotient real equality, countable choice, or ambient Real completeness. Since none of these coordinates appears in $F$, they remain outside the uniform-modulus boundary.
+\end{proof}
+
+\begin{closurestatus}{\LebesgueNumberFunctionUp}
+  \constructivestory{A $\LebesgueNumberFunctionUp$ packet is generated from a compact metric source, a displayed finite cover row, compact finite-cover and Lebesgue-number rows, a positive-radius ledger, rational and dyadic tolerance rows, finite witness windows, componentwise transport, replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lebesgue-number-function-carrier}, \autoref{thm:lebesgue-number-function-namecert-obligations}, \autoref{thm:lebesgue-number-function-finite-cover-handoff}, and \autoref{thm:lebesgue-number-function-uniform-modulus-boundary} describe the finite cover-to-radius ledger and its consumer boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, open-cover compactness, selected host moduli, quotient real equality, countable choice, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean carrier and NameCert obligation rows for the finite cover-to-radius ledger.}
+\end{closurestatus}
