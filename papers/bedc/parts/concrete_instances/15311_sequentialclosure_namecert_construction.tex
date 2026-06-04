@@ -112,6 +112,42 @@ The request ledger $U$ determines how the consumer may proceed. A purely neighbo
 The final packaging is local. Transport by $H$, replay by $C$, provenance by $P$, and naming by $N$ repack the same finite rows as $\NameCert_{\SequentialClosureUp}$ evidence. Since the packet has no coordinate for host topological closure, compactness, arbitrary sequence selection, or $\RealUp$ completeness, the topology and metric handoff exports only the displayed closure route.
 \end{proof}
 
+\begin{theorem}[SequentialClosure root sequence carrier]
+\label{thm:sequential-closure-root-sequence-carrier}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. A sequence-closure carrier read is available only after the packet displays the $\LocatedSetUp$ or subset source row $S$, the $\MetricUp$ row $M$, the $\StreamNameUp$ row $Q$, the $\RegSeqRatUp$ row $R$, the $\RealUp$ seal $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\SequentialClosureUp}$ row $N$ in the same finite $\BHist$ carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-closure-carrier}. The sequence row $Q$ is not a detached stream; it is read beside the source row $S$, metric row $M$, test ledger $U$, window ledger $W$, handoff row $R$, and Real seal $A$.
+
+Use \autoref{thm:sequential-closure-namecert-obligations} to identify the local NameCert obligations and \autoref{thm:sequential-closure-sequence-limit-handoff} to force every closure consumer through the displayed sequence-limit route. The RegSeqRat limit route of \autoref{thm:sequential-closure-regseqrat-limit-route} supplies the rational readback boundary for metric requests.
+
+The located-set stability theorem \autoref{thm:sequential-closure-located-set-stability} keeps source membership and admitted sequence entries over the same $S$ row, while \autoref{thm:sequential-closure-topology-handoff} repacks the topology-facing read through $H,C,P,N$. Hence the carrier read is available only with the listed finite $\BHist$ rows displayed.
+\end{proof}
+
+\begin{theorem}[SequentialClosure root limit ledger]
+\label{thm:sequential-closure-root-limit-ledger}
+For an accepted $\SequentialClosureUp$ packet $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, the limit witness ledger is finite: all accepted reads of the candidate limit row $L$ pass through $U,W,R,A,H,C,P,N$. The packet refuses selected subsequences, quotient stream equality, countable choice, and ambient $\RealUp$ completeness as limit-witness sources.
+\end{theorem}
+\begin{proof}
+The finite ledger is visible in the carrier definition: requests are stored in $U$, inspected sequence windows in $W$, rational readback in $R$, Real comparison in $A$, and structural packaging in $H,C,P,N$.
+
+Apply \autoref{thm:sequential-closure-sequence-limit-handoff} for the dependency order from $T,M,S,Q,L$ to $U,W,R,A$ and then to $H,C,P,N$. Apply \autoref{thm:sequential-closure-regseqrat-limit-route} for the metric side of the same ledger.
+
+The refusal clauses are forced by absence of carrier coordinates. Neither selected subsequences nor quotient stream equality appear in $Q$ or $W$, countable choice has no row in $U$ or $C$, and ambient $\RealUp$ completeness is not part of the seal $A$. The NameCert obligations of \autoref{thm:sequential-closure-namecert-obligations} therefore close only the displayed finite ledger.
+\end{proof}
+
+\begin{theorem}[SequentialClosure root topology transport]
+\label{thm:sequential-closure-root-topology-transport}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. Any topology-facing transport of the closure read preserves the same sequence-limit rows $T,M,S,Q,L,U,W,R,A$ under componentwise $\hsame$ and displayed $\Cont$ replay, and then repackages the transported read through $P,N$.
+\end{theorem}
+\begin{proof}
+Start with the componentwise $\hsame$ row $H$. By \autoref{thm:sequential-closure-located-set-stability}, transport preserves the source row $S$, admitted sequence entries, RegSeqRat handoffs, and Real seals along the same displayed coordinates.
+
+Replay is controlled by $C$. The handoff theorem \autoref{thm:sequential-closure-sequence-limit-handoff} keeps the sequence-limit route over $T,M,S,Q,L,U,W,R,A$, and the topology handoff theorem \autoref{thm:sequential-closure-topology-handoff} states that neighbourhood-facing consumers receive no host closure operator.
+
+Finally $P$ and $N$ repackage the transported rows as the local NameCert surface described in \autoref{thm:sequential-closure-namecert-obligations}. Thus topology transport preserves the same finite sequence-limit ledger rather than creating a second closure witness.
+\end{proof}
+
 \closureat{SequentialClosureUp}{seedStr}
 
 \begin{closurestatus}{\SequentialClosureUp}
