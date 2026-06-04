@@ -7,6 +7,7 @@ import argparse
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 import importlib
+import inspect
 import json
 from pathlib import Path
 import sys
@@ -54,6 +55,9 @@ FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
 GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT = "reports/gap_head_mechanism_attribution.json"
 GAP_HEAD_MECHANISM_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/gap_head_mechanism_attribution.md"
 GAP_HEAD_MECHANISM_ATTRIBUTION_ARTIFACT_ID = "bedc-quality-lab:gap-head-mechanism-attribution"
+GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
+GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.md"
+GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_capsule"
 RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT = "reports/release_manifest_sidecar.json"
 RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT = "reports/release_manifest_sidecar.md"
 RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID = "bedc-quality-lab:release-manifest-sidecar"
@@ -261,6 +265,44 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         not_claimed_pointer="$.not_claimed",
         positive_claim_pointer="$.main_claim_status",
         control_pointer="$.threshold_summary.control_baseline",
+        no_control_rationale_pointer=None,
+    ),
+    CanonicalReportSpec(
+        name="gap-head-attribution-capsule",
+        command=("python3", "scripts/run_gap_head_attribution_capsule.py"),
+        json_artifact=GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT,
+        markdown_artifact=GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "generated_at",
+            "source_issue",
+            "artifact_id",
+            "run_id",
+            "d5_o",
+            "d5_m",
+            "mechanism_case",
+            "hardgates",
+            "claim_capsule_hardgates",
+            "cost_protocol_pointer",
+            "control_pointer",
+            "control_evidence",
+            "scope_seal",
+            "forbidden_column_audit",
+            "failed_gate",
+            "what_was_learned",
+            "revocation_ledger",
+            "positive_discovery_inputs",
+            "scope",
+            "source_artifacts",
+            "aggregate",
+        ),
+        estimated_seconds=120,
+        bundle_role="hg_p_core",
+        scope_pointer="$.scope.not_claimed",
+        cost_pointer="$.cost_protocol_pointer",
+        not_claimed_pointer="$.scope.not_claimed",
+        positive_claim_pointer="$.d5_m",
+        control_pointer="$.control_pointer",
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
@@ -491,7 +533,10 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
 def _run_producer(spec: CanonicalReportSpec) -> None:
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
-    module.main()
+    if inspect.signature(module.main).parameters:
+        module.main([])
+    else:
+        module.main()
 
 
 def _validate_json(path: Path, required_keys: Sequence[str]) -> dict[str, Any]:
@@ -548,6 +593,13 @@ def _pointer_value(payload: dict[str, Any], pointer: str | None) -> Any:
         else:
             return None
     return cursor
+
+
+def _cost_protocol_evidence(payload: dict[str, Any], pointer: str | None) -> Any:
+    value = _pointer_value(payload, pointer)
+    if isinstance(value, str) and value.startswith("$."):
+        return _pointer_value(payload, value)
+    return value
 
 
 def _report_payloads_by_name() -> dict[str, dict[str, Any]]:
@@ -761,7 +813,7 @@ def _scorecard_scope_completeness(payloads: dict[str, dict[str, Any]]) -> dict[s
 def _scorecard_cost_protocol_completeness(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
     sources = [(spec.name, spec.cost_pointer) for spec in CANONICAL_REPORTS]
     for spec in CANONICAL_REPORTS:
-        if _pointer_value(payloads.get(spec.name, {}), spec.cost_pointer) is None:
+        if _cost_protocol_evidence(payloads.get(spec.name, {}), spec.cost_pointer) is None:
             return _metric_not_ready(
                 "CostProtocolCompleteness",
                 f"{spec.name}:{spec.cost_pointer}",
@@ -1226,6 +1278,20 @@ def _gap_head_mechanism_attribution_index_section() -> dict[str, Any]:
         "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
     }
 
+def _gap_head_attribution_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT)
+    return {
+        "status": "pointer-only",
+        "artifact_id": GAP_HEAD_ATTRIBUTION_ARTIFACT_ID,
+        "json_artifact": GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT,
+        "markdown_artifact": GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT,
+        "run_id": payload.get("run_id", "missing"),
+        "run_artifacts": _pointer_value(payload, "$.source_artifacts.run_artifacts") or "missing",
+        "d5_o_status": _pointer_value(payload, "$.d5_o.status") or "missing",
+        "d5_m_status": _pointer_value(payload, "$.d5_m.status") or "missing",
+        "mechanism_case": _pointer_value(payload, "$.mechanism_case.case") or "missing",
+    }
+
 
 def _release_manifest_sidecar_index_section() -> dict[str, Any]:
     payload = _load_sidecar_payload(RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT)
@@ -1262,11 +1328,20 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     }
 
 
-def _run_spec(spec: CanonicalReportSpec) -> dict[str, Any]:
+def _has_persisted_artifacts(spec: CanonicalReportSpec) -> bool:
+    return _artifact_path(spec.json_artifact).exists() and _artifact_path(spec.markdown_artifact).exists()
+
+
+def _run_spec(spec: CanonicalReportSpec, *, reuse_existing: bool = False) -> dict[str, Any]:
     start = time.perf_counter()
     error = None
+    producer_status = "reused"
     try:
-        _run_producer(spec)
+        if reuse_existing and _has_persisted_artifacts(spec):
+            pass
+        else:
+            _run_producer(spec)
+            producer_status = "completed"
     except Exception as exc:  # pragma: no cover - kept for CLI fail-closed behavior
         error = str(exc)
     duration = time.perf_counter() - start
@@ -1288,7 +1363,7 @@ def _run_spec(spec: CanonicalReportSpec) -> dict[str, Any]:
         "status": status,
         "duration_seconds": float(f"{duration:.3f}"),
         "estimated_seconds": spec.estimated_seconds,
-        "producer_status": "completed" if error is None else "error",
+        "producer_status": producer_status if error is None else "error",
         "validation": validation,
     }
     if error is not None:
@@ -1313,6 +1388,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
+        "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "gap_head_mechanism_attribution": _gap_head_mechanism_attribution_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "paper_outline": _paper_outline(reports),
@@ -1443,6 +1519,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Coverage: `{payload['formal_hardening']['recorded']}/{payload['formal_hardening']['required']}`",
             f"- Gaps: `{payload['formal_hardening']['gap_count']}`",
             "",
+            "## Gap-head attribution capsule",
+            "",
+            f"- Status: `{payload['gap_head_attribution_capsule']['status']}`",
+            f"- JSON: `{payload['gap_head_attribution_capsule']['json_artifact']}`",
+            f"- Markdown: `{payload['gap_head_attribution_capsule']['markdown_artifact']}`",
+            f"- Run id: `{payload['gap_head_attribution_capsule']['run_id']}`",
+            f"- D5-O: `{payload['gap_head_attribution_capsule']['d5_o_status']}`",
+            f"- D5-M: `{payload['gap_head_attribution_capsule']['d5_m_status']}`",
+            f"- Mechanism case: `{payload['gap_head_attribution_capsule']['mechanism_case']}`",
+            "",
             "## Gap-head mechanism attribution",
             "",
             f"- Status: `{payload['gap_head_mechanism_attribution']['status']}`",
@@ -1526,9 +1612,11 @@ def run_reports(
     only: str | None = None,
     json_summary: str | None = None,
     generated_at: str | None = None,
+    force: bool = False,
 ) -> dict[str, Any]:
     CANONICAL_DIR.mkdir(parents=True, exist_ok=True)
-    results = [_run_spec(spec) for spec in _select_specs(only)]
+    reuse_existing = only is None and not force
+    results = [_run_spec(spec, reuse_existing=reuse_existing) for spec in _select_specs(only)]
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     from scripts.run_formal_hardening_report import write_formal_hardening_report
 
@@ -1592,6 +1680,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--list", action="store_true", help="List canonical report manifest rows.")
     parser.add_argument("--only", metavar="NAME", help="Run one canonical report by manifest name.")
+    parser.add_argument("--force", action="store_true", help="Regenerate all selected canonical producer artifacts.")
     parser.add_argument("--json-summary", metavar="PATH", help="Write a JSON run summary to PATH.")
     return parser.parse_args(argv)
 
@@ -1601,7 +1690,7 @@ def main(argv: Sequence[str] | None = None) -> None:
     if args.list:
         _list_manifest()
         return
-    run_reports(only=args.only, json_summary=args.json_summary)
+    run_reports(only=args.only, json_summary=args.json_summary, force=args.force)
 
 
 if __name__ == "__main__":

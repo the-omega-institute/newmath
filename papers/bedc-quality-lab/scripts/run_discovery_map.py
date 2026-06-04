@@ -44,6 +44,19 @@ class ProjectionEvidence:
 
 
 @dataclass(frozen=True)
+class AttributionCapsuleLevels:
+    base_level: str
+    base_status: str
+    mechanism_level: str
+    mechanism_status: str
+    mechanism_channel: str
+    failed_gate: str | None
+    operational_pointer: str
+    mechanism_pointer: str
+    mechanism_case_pointer: str
+
+
+@dataclass(frozen=True)
 class GapHeadD5Criterion:
     name: str
     status: str
@@ -86,6 +99,9 @@ GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER = "$.gap_head_on_h_observed_debt_transfe
 DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status"
 DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER = "$.dimension_mismatch_debt_transfer.effective_level"
 DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER = "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER = "$.d5_o"
+ATTRIBUTION_CAPSULE_MECHANISM_POINTER = "$.d5_m"
+ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER = "$.mechanism_case"
 
 
 def _root(root: Path | None) -> Path:
@@ -602,6 +618,52 @@ def _dimension_mismatch_projection(payload: Mapping[str, Any]) -> tuple[dict[str
     )
 
 
+def _mechanism_channel(status: Any) -> str | None:
+    if not isinstance(status, str):
+        return None
+    prefix = "D5-O retained, mechanism = "
+    if status.startswith(prefix):
+        return status.removeprefix(prefix)
+    return None
+
+
+def _attribution_capsule_levels(payload: Mapping[str, Any]) -> AttributionCapsuleLevels | None:
+    d5_o = pointer_value(payload, ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER)
+    d5_m = pointer_value(payload, ATTRIBUTION_CAPSULE_MECHANISM_POINTER)
+    mechanism_case = pointer_value(payload, ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER)
+    if not isinstance(d5_o, Mapping) or not isinstance(d5_m, Mapping) or not isinstance(mechanism_case, Mapping):
+        return None
+    base_status = d5_o.get("status")
+    mechanism_status = d5_m.get("status")
+    failed_gate = d5_m.get("failed_gate")
+    channel = _mechanism_channel(mechanism_case.get("status"))
+    if base_status == "ready" and mechanism_status == "blocked" and isinstance(failed_gate, str) and channel:
+        return AttributionCapsuleLevels(
+            base_level="D5-O",
+            base_status="ready",
+            mechanism_level="blocked",
+            mechanism_status="blocked",
+            mechanism_channel=channel,
+            failed_gate=failed_gate,
+            operational_pointer=ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER,
+            mechanism_pointer=ATTRIBUTION_CAPSULE_MECHANISM_POINTER,
+            mechanism_case_pointer=ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER,
+        )
+    if base_status == "ready" and mechanism_status == "ready" and d5_m.get("passed") is True:
+        return AttributionCapsuleLevels(
+            base_level="D5-O",
+            base_status="ready",
+            mechanism_level="D5-M",
+            mechanism_status="ready",
+            mechanism_channel=channel or "not-recorded",
+            failed_gate=None,
+            operational_pointer=ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER,
+            mechanism_pointer=ATTRIBUTION_CAPSULE_MECHANISM_POINTER,
+            mechanism_case_pointer=ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER,
+        )
+    return None
+
+
 def _projection_overlay_and_evidence(
     spec: CanonicalReportSpec,
     payload: Mapping[str, Any],
@@ -629,6 +691,11 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _debt_cell_projection(payload, "$.negative_result_ledger")
     elif spec.name == "mixing-family-sweep":
         overlay, evidence = _debt_cell_projection(payload, "$.coverage_item.debt_item")
+    elif spec.name == "gap-head-attribution-capsule":
+        overlay, evidence = {}, ProjectionEvidence(
+            projection_status="two-axis-recorded",
+            evidence_pointer=spec.positive_claim_pointer,
+        )
     else:
         overlay, evidence = {}, ProjectionEvidence(projection_status="source-insufficient")
     return overlay, evidence
@@ -642,6 +709,12 @@ def projection_payload(
     """Copy a canonical payload and overlay only classifier-readable lab fields."""
 
     overlay, _evidence = _projection_overlay_and_evidence(spec, payload, context)
+    if spec.name == "gap-head-attribution-capsule":
+        return {
+            "artifact_id": payload.get("artifact_id", spec.name),
+            "json_artifact": payload.get("json_artifact", spec.json_artifact),
+            **overlay,
+        }
     projected = dict(payload)
     projected.update(overlay)
     return projected
@@ -688,6 +761,16 @@ def _audit_row(
         consistent, reason, _failed_pointer = _sigreg_training_proxy_consistency(payload)
         if not consistent:
             return "invalid", reason
+    if spec.name == "gap-head-attribution-capsule":
+        levels = _attribution_capsule_levels(payload)
+        if levels is None:
+            return "invalid", "attribution-capsule-level-cells-missing"
+        if pointer_value(payload, levels.operational_pointer) is None:
+            return "invalid", "unresolved-operational-pointer"
+        if pointer_value(payload, levels.mechanism_pointer) is None:
+            return "invalid", "unresolved-mechanism-pointer"
+        if pointer_value(payload, levels.mechanism_case_pointer) is None:
+            return "invalid", "unresolved-mechanism-case-pointer"
     if level in {"D4", "D5"}:
         if evidence.control_pointer is None:
             return "invalid", "missing-control-pointer"
@@ -746,6 +829,23 @@ def discovery_row(
         row["observed_debt_transfer_pointer"] = evidence.observed_debt_transfer_pointer
     if evidence.d5_readiness is not None:
         row["d5_readiness"] = evidence.d5_readiness.as_dict()
+    if spec.name == "gap-head-attribution-capsule":
+        levels = _attribution_capsule_levels(payload)
+        if levels is not None:
+            row.update(
+                {
+                    "base_level": levels.base_level,
+                    "base_status": levels.base_status,
+                    "mechanism_level": levels.mechanism_level,
+                    "mechanism_status": levels.mechanism_status,
+                    "mechanism_channel": levels.mechanism_channel,
+                    "operational_pointer": levels.operational_pointer,
+                    "mechanism_pointer": levels.mechanism_pointer,
+                    "mechanism_case_pointer": levels.mechanism_case_pointer,
+                }
+            )
+            if levels.failed_gate is not None:
+                row["mechanism_failed_gate"] = levels.failed_gate
     return row
 
 
@@ -759,6 +859,7 @@ def _manifest_audit(
     registered_pointer_artifacts = {
         "reports/canonical/quality-scorecard.json",
         "reports/canonical/formal_hardening.json",
+        "reports/canonical/gap_head_attribution_capsule.json",
         DISCOVERY_MAP_JSON_ARTIFACT,
         NEGATIVE_WITNESSES_ARTIFACT,
         "reports/canonical/discovery_negative_witness_summary.json",
@@ -888,8 +989,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Generated at: `{payload['generated_at']}`",
         f"- Rows: `{payload['row_count']}`",
         "",
-        "| report | level | projection | audit | evidence |",
-        "| --- | --- | --- | --- | --- |",
+        "| report | level | base | mechanism | projection | audit | evidence |",
+        "| --- | --- | --- | --- | --- | --- | --- |",
     ]
     for row in payload["rows"]:
         pointer = row.get("control_pointer") or row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")
@@ -898,6 +999,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             "| "
             f"`{row['report']}` | "
             f"`{row['discovery_level']}` | "
+            f"`{row.get('base_level', '')}` | "
+            f"`{row.get('mechanism_level', '')}` | "
             f"`{row['projection_status']}` | "
             f"`{row['audit_status']}` | "
             f"`{pointer_display}` |"

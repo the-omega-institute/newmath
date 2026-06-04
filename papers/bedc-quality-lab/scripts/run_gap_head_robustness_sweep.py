@@ -169,9 +169,9 @@ def _a1_threshold_summary(source_payload: dict[str, Any]) -> dict[str, Any]:
         "primary_tau": float(source_payload["config"]["primary_tau"]),
         "primary_epsilon": float(source_payload["config"]["primary_epsilon"]),
         "threshold_scan_metadata": {
-            "tau_grid": "$.config.tau_grid",
-            "epsilon_grid": "$.config.epsilon_grid",
-            "primary_gap_sound": "$.aggregate.by_arm.*.gap_sound_*",
+            "tau_grid": "$.A1_threshold_sweep.tau_grid",
+            "epsilon_grid": "$.A1_threshold_sweep.epsilon_grid",
+            "primary_gap_sound": "$.A1_threshold_sweep.learned_gap_head_on_h",
         },
         "learned_gap_head_on_h": {
             "failure_detection_auroc": aggregate["by_arm"][learned]["failure_detection_auroc"],

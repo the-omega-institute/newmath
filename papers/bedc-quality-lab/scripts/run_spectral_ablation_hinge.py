@@ -338,17 +338,17 @@ def _hardening_coverage(
         {
             "name": "sameClass equivalence",
             "recorded": same_class_equivalence,
-            "source": "$.arms[*].{deletion_axes,name,family}",
+            "source": "$.arms",
         },
         {
             "name": "margin stability",
             "recorded": margin_stability,
-            "source": "$.arms[*].metrics.{bound_margin,quality_margin}",
+            "source": "$.arms",
         },
         {
             "name": "finite ledger coverage",
             "recorded": finite_ledger_coverage,
-            "source": "$.hinge_ledger[*].row_id + $.rank_correlation.pairs[*].ledger_row_id",
+            "source": "$.rank_correlation.pairs",
         },
         {
             "name": "missing-row negative example",

@@ -251,7 +251,10 @@ def test_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
     verdicts = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
 
     assert {row["claim_verdict"] for row in verdicts} == VERDICT_NAMES
-    assert "claim:d0" not in {row["claim_id"] for row in verdicts}
+    by_claim = {row["claim_id"]: row for row in verdicts}
+    assert by_claim["claim:d0"]["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert by_claim["claim:d0"]["reason"] == "discovery-level-D0"
+    assert by_claim["claim:d0"]["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[5].discovery_level"
 
 
 def test_jsonl_row_schema_reason_and_downgrade_pointers(tmp_path, monkeypatch):
