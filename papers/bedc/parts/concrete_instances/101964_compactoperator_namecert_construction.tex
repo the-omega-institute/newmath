@@ -73,6 +73,39 @@ The downstream handoff is then forced by \autoref{thm:compact-operator-namecert-
 \end{proof}
 \leanchecked{BEDC.Derived.CompactOperatorCarrier\_functional\_analysis\_route}
 
+\begin{definition}[Compact operator approximation scheme]
+\label{def:compact-operator-approximation-scheme}
+A compact operator approximation scheme is a finite $\BHist$ packet
+$$
+A=(S,T,B,N,M,H,C,P,L)
+$$
+whose rows display a source $\BanachUp$ row $S$, a target $\BanachUp$ row $T$, a $\BoundedLinearOperatorUp$ row $B$, a finite image-net schedule $N$, a tail/modulus ledger $M$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and a local $\NameCert_{\CompactOperatorUp}$ row $L$. The scheme is accepted only when $N$ and $M$ are read after $B$, so compactness is exposed by finite image-net and tail data rather than by host equality of operators or a choice-selected compactness witness.
+\end{definition}
+
+\begin{theorem}[Compact operator bounded-image precompactness]
+\label{thm:compact-operator-bounded-image-precompactness}
+Every accepted compact operator approximation scheme exposes bounded-image precompactness only through its displayed finite image-net schedule and tail/modulus rows. A consumer may read precompactness from $A=(S,T,B,N,M,H,C,P,L)$ only after the source row $S$, target row $T$, bounded-linear-operator row $B$, schedule row $N$, and ledger row $M$ have been displayed.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:compact-operator-approximation-scheme} to project the accepted scheme. The analytic rows available to a consumer are the Banach endpoints $S,T$, the bounded-linear-operator row $B$, the finite image-net schedule $N$, and the tail/modulus ledger $M$.
+
+Apply \autoref{thm:compact-operator-namecert-obligations}. Its carrier admission and finite-image-net stability rows force every compactness read through $N$ and $M$, and its bounded-operator compatibility row requires $B$ before those compact rows can be consumed.
+
+The remaining rows $H,C,P,L$ only transport, replay, source, and name the same finite packet. Since none of them stores host operator equality or a choice-selected compactness coordinate, bounded-image precompactness is visible exactly through the displayed finite image-net and tail/modulus rows.
+\end{proof}
+
+\begin{theorem}[Compact operator ideal consumer boundary]
+\label{thm:compact-operator-ideal-consumer-boundary}
+$\OperatorIdealUp$ and $\NuclearUp$ consumers may read compactness from a $\CompactOperatorUp$ packet only after the $\BoundedLinearOperatorUp$ row and finite image-net schedule have been displayed. The consumer route passes through the Banach endpoints of \autoref{ch:concrete-instances-banach-namecert}, the bounded operator surface of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, and then the ideal and nuclear readers of \autoref{ch:concrete-instances-operatorideal-namecert} and \autoref{ch:concrete-instances-nuclear-namecert}; it does not pass through host operator equality or choice-selected compactness.
+\end{theorem}
+\begin{proof}
+Start with the compact operator carrier of \autoref{def:compact-operator-carrier}. It displays Banach endpoint rows $S,T$ and a bounded-linear-operator row $B$ before the compact image-net schedule $N$ and tail/modulus row $M$.
+
+Use \autoref{thm:compact-operator-functional-analysis-route}. The functional-analysis handoff already factors downstream compact reads through $\CompactOperatorUp$ before $\OperatorIdealUp$ or $\NuclearUp$ can consume them.
+
+Finally apply \autoref{thm:compact-operator-bounded-image-precompactness}. It pins precompactness to $B,N,M$ and the finite transport and replay rows, so the ideal and nuclear consumers inherit compactness through the displayed schedule rather than through host operator equality, an external selector, or an unledgered compactness principle.
+\end{proof}
+
 \closureat{CompactOperatorUp}{seedStr}
 
 \begin{closurestatus}{\CompactOperatorUp}
