@@ -6948,6 +6948,7 @@ import BEDC.Derived.RealTailAgreementSealUp.TerminalRoute
 import BEDC.Derived.RealTailAgreementSealUp.WindowAgreementDeterminacy
 import BEDC.Derived.RealTailAgreementSealUp.WindowRoute
 import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
+import BEDC.Derived.RealUniformCauchyFilterCompletionUp
 import BEDC.Derived.RealUniformCauchyNameUp.TasteGate
 import BEDC.Derived.RealUniformEmbeddingUp
 import BEDC.Derived.RealUniformEmbeddingUp.TasteGate
