@@ -4,9 +4,12 @@
 from __future__ import annotations
 
 import argparse
-from dataclasses import dataclass, replace
+import ast
+from dataclasses import asdict, dataclass, replace
 from datetime import datetime, timezone
+import hashlib
 import importlib
+import importlib.util
 import inspect
 import json
 from pathlib import Path
@@ -25,6 +28,8 @@ from scripts.literature_ledger import validate_literature_ledger
 CANONICAL_DIR = ROOT / "reports" / "canonical"
 INDEX_ARTIFACT = CANONICAL_DIR / "index.json"
 INDEX_SCHEMA_ID = "bedc-quality-lab:canonical-report-index"
+FINGERPRINT_SCHEMA_ID = "bedc-quality-lab:canonical-report-fingerprint"
+FINGERPRINT_INPUT_SCHEMA_ID = "bedc-quality-lab:canonical-report-input-fingerprint"
 INDEX_ROOT = "papers/bedc-quality-lab"
 QUALITY_SCORECARD_JSON_ARTIFACT = "reports/canonical/quality-scorecard.json"
 QUALITY_SCORECARD_MARKDOWN_ARTIFACT = "reports/canonical/quality-scorecard.md"
@@ -535,6 +540,21 @@ def _select_specs(only: str | None) -> tuple[CanonicalReportSpec, ...]:
     return (by_name[only],)
 
 
+def _selected_specs_with_dependents(only: str | None, *, include_dependents: bool = True) -> tuple[CanonicalReportSpec, ...]:
+    selected = list(_select_specs(only))
+    if only is None or not include_dependents:
+        return tuple(selected)
+    dependent_names = {
+        "gap-head-on-h": ("gap-head-discovery",),
+        "certificate-guided-training": ("certificate-guided-discovery",),
+    }.get(only, ())
+    by_name = _specs_by_name()
+    for name in dependent_names:
+        if name in by_name:
+            selected.append(by_name[name])
+    return tuple(selected)
+
+
 def _module_name_from_command(command: Sequence[str]) -> str:
     if len(command) != 2 or command[0] != "python3":
         raise ValueError(f"unsupported producer command: {' '.join(command)}")
@@ -542,6 +562,223 @@ def _module_name_from_command(command: Sequence[str]) -> str:
     if script.suffix != ".py" or script.parts[0] != "scripts":
         raise ValueError(f"producer command must target scripts/*.py: {' '.join(command)}")
     return ".".join(script.with_suffix("").parts)
+
+
+def _relative(path: Path) -> str:
+    return path.relative_to(ROOT).as_posix()
+
+
+def _path_digest(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() and path.is_file() else "missing"
+
+
+def _json_digest(payload: Any) -> str:
+    return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+def _fingerprint_path(spec: CanonicalReportSpec) -> Path:
+    return _artifact_path(spec.json_artifact).with_suffix(".fingerprint.json")
+
+
+def _canonical_output_digest(spec: CanonicalReportSpec) -> str:
+    parts = {
+        spec.json_artifact: _path_digest(_artifact_path(spec.json_artifact)),
+        spec.markdown_artifact: _path_digest(_artifact_path(spec.markdown_artifact)),
+    }
+    return _json_digest(parts)
+
+
+def _local_module_path(module_name: str) -> Path | None:
+    direct = ROOT / Path(*module_name.split(".")).with_suffix(".py")
+    if direct.exists():
+        return direct.resolve()
+    package_init = ROOT / Path(*module_name.split(".")) / "__init__.py"
+    if package_init.exists():
+        return package_init.resolve()
+    spec = importlib.util.find_spec(module_name)
+    origin = None if spec is None else spec.origin
+    if origin is None:
+        return None
+    path = Path(origin).resolve()
+    try:
+        path.relative_to(ROOT)
+    except ValueError:
+        return None
+    return path if path.suffix == ".py" else None
+
+
+def _local_imports(path: Path) -> set[str]:
+    try:
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+    except (OSError, SyntaxError):
+        return set()
+    try:
+        relative_path = path.resolve().relative_to(ROOT)
+    except ValueError:
+        relative_path = path
+    module_parts = relative_path.with_suffix("").parts
+    if module_parts and module_parts[-1] == "__init__":
+        package_parts = module_parts[:-1]
+    else:
+        package_parts = module_parts[:-1]
+    imports: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            imports.update(alias.name for alias in node.names)
+        elif isinstance(node, ast.ImportFrom):
+            if node.level == 0:
+                if node.module is not None:
+                    imports.add(node.module)
+                continue
+            base_count = len(package_parts) - node.level + 1
+            if base_count < 0:
+                continue
+            resolved_parts = list(package_parts[:base_count])
+            if node.module is not None:
+                resolved_parts.extend(node.module.split("."))
+                imports.add(".".join(resolved_parts))
+            else:
+                for alias in node.names:
+                    if alias.name != "*":
+                        imports.add(".".join([*resolved_parts, alias.name]))
+    return {
+        name
+        for name in imports
+        if name == "scripts" or name.startswith("scripts.") or name == "bedc_quality_lab" or name.startswith("bedc_quality_lab.")
+    }
+
+
+def _import_closure(command: Sequence[str]) -> list[str]:
+    seen: set[str] = set()
+    pending = [_module_name_from_command(command)]
+    paths: set[Path] = set()
+    while pending:
+        module_name = pending.pop()
+        if module_name in seen:
+            continue
+        seen.add(module_name)
+        path = _local_module_path(module_name)
+        if path is None:
+            continue
+        paths.add(path)
+        pending.extend(sorted(_local_imports(path) - seen))
+    return [_relative(path) for path in sorted(paths)]
+
+
+def _config_inputs() -> list[dict[str, str]]:
+    paths = sorted(
+        path
+        for base in (ROOT / "configs", ROOT / "docs" / "lit")
+        if base.exists()
+        for path in base.rglob("*")
+        if path.is_file()
+    )
+    return [{"path": _relative(path), "sha256": _path_digest(path)} for path in paths]
+
+
+def _dependency_abi() -> dict[str, str]:
+    abi = {"python": sys.version.split()[0], "executable": sys.executable}
+    for package in ("numpy", "torch"):
+        try:
+            module = importlib.import_module(package)
+        except ImportError:
+            abi[package] = "not-installed"
+        else:
+            abi[package] = str(getattr(module, "__version__", "unknown"))
+    return abi
+
+
+def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
+    payload = _load_artifact_payload(spec.json_artifact) if _artifact_path(spec.json_artifact).exists() else {}
+    source_artifacts = payload.get("source_artifacts") if isinstance(payload, Mapping) else None
+    paths: set[str] = set()
+    if isinstance(source_artifacts, Mapping):
+        for value in source_artifacts.values():
+            if isinstance(value, str) and value.startswith("reports/") and Path(value).suffix in {".json", ".jsonl", ".md"}:
+                paths.add(value)
+    if spec.name == "gap-head-discovery":
+        paths.add("reports/canonical/gap-head-on-h.json")
+    if spec.name == "certificate-guided-discovery":
+        paths.update(("reports/canonical/certificate-guided-training.json", "reports/canonical/certificate-guided-training.md"))
+    paths.discard(spec.json_artifact)
+    paths.discard(spec.markdown_artifact)
+    return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]
+
+
+def _input_record(spec: CanonicalReportSpec) -> dict[str, Any]:
+    payload = _load_artifact_payload(spec.json_artifact) if _artifact_path(spec.json_artifact).exists() else {}
+    schema_id = payload.get("schema_id") or payload.get("artifact_id") if isinstance(payload, dict) else None
+    import_paths = _import_closure(spec.command)
+    return {
+        "fingerprint_schema_id": FINGERPRINT_INPUT_SCHEMA_ID,
+        "runner_fingerprint_schema_id": FINGERPRINT_SCHEMA_ID,
+        "report_output_schema_id": str(schema_id or "schema-unspecified"),
+        "spec": asdict(spec),
+        "producer_sources": [{"path": path, "sha256": _path_digest(ROOT / path)} for path in import_paths],
+        "config_inputs": _config_inputs(),
+        "source_artifacts": _source_artifact_inputs(spec),
+        "seed_constants": {
+            "environment": {"PYTHONHASHSEED": "unset"},
+            "command": list(spec.command),
+        },
+        "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+        "dependency_abi": _dependency_abi(),
+    }
+
+
+def _input_fingerprint(spec: CanonicalReportSpec) -> tuple[str, dict[str, Any]]:
+    record = _input_record(spec)
+    return _json_digest(record), record
+
+
+def _load_fingerprint_sidecar(spec: CanonicalReportSpec) -> dict[str, Any]:
+    path = _fingerprint_path(spec)
+    if not path.exists():
+        raise ValueError(f"missing fingerprint sidecar: {_relative(path)}")
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"corrupt fingerprint sidecar: {_relative(path)}: {exc}") from exc
+    if not isinstance(payload, dict) or payload.get("schema_id") != FINGERPRINT_SCHEMA_ID:
+        raise ValueError(f"invalid fingerprint sidecar: {_relative(path)}")
+    return payload
+
+
+def _write_fingerprint_sidecar(spec: CanonicalReportSpec, *, generated_at: str | None = None) -> dict[str, Any]:
+    input_fingerprint, inputs = _input_fingerprint(spec)
+    payload = {
+        "schema_id": FINGERPRINT_SCHEMA_ID,
+        "report_name": spec.name,
+        "json_artifact": spec.json_artifact,
+        "markdown_artifact": spec.markdown_artifact,
+        "producer_command": list(spec.command),
+        "input_fingerprint": input_fingerprint,
+        "output_digest": _canonical_output_digest(spec),
+        "inputs": inputs,
+        "generated_by": {
+            "runner": "scripts/run_canonical_reports.py",
+            "generated_at": generated_at,
+        },
+    }
+    _write_json_atomic(_fingerprint_path(spec), payload)
+    return payload
+
+
+def _fingerprint_matches(spec: CanonicalReportSpec) -> tuple[bool, str]:
+    sidecar = _load_fingerprint_sidecar(spec)
+    input_fingerprint, _inputs = _input_fingerprint(spec)
+    expected = {
+        "report_name": spec.name,
+        "json_artifact": spec.json_artifact,
+        "markdown_artifact": spec.markdown_artifact,
+        "producer_command": list(spec.command),
+        "input_fingerprint": input_fingerprint,
+        "output_digest": _canonical_output_digest(spec),
+    }
+    for key, value in expected.items():
+        if sidecar.get(key) != value:
+            return False, key.replace("_", "-")
+    return True, "match"
 
 
 def _set_existing_attr(module: Any, name: str, value: Any) -> None:
@@ -1434,20 +1671,49 @@ def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     }
 
 
-def _has_persisted_artifacts(spec: CanonicalReportSpec) -> bool:
-    return _artifact_path(spec.json_artifact).exists() and _artifact_path(spec.markdown_artifact).exists()
-
-
-def _run_spec(spec: CanonicalReportSpec, *, reuse_existing: bool = False) -> dict[str, Any]:
+def _run_spec(
+    spec: CanonicalReportSpec,
+    *,
+    mode: Literal["changed", "verify", "cold"] = "changed",
+    generated_at: str | None = None,
+    reuse_existing: bool | None = None,
+) -> dict[str, Any]:
+    if reuse_existing is not None:
+        mode = "verify" if reuse_existing else "cold"
     start = time.perf_counter()
     error = None
-    producer_status = "reused"
+    producer_status = "skipped"
+    fingerprint_status = "unchecked"
+    fingerprint_reason = "not-evaluated"
     try:
-        if reuse_existing and _has_persisted_artifacts(spec):
-            pass
-        else:
+        if mode == "cold":
             _run_producer(spec)
             producer_status = "completed"
+            fingerprint_status = "written"
+            fingerprint_reason = "cold"
+            _write_fingerprint_sidecar(spec, generated_at=generated_at)
+        else:
+            if reuse_existing is True and _artifact_path(spec.json_artifact).exists() and _artifact_path(spec.markdown_artifact).exists():
+                matches, reason = True, "artifact-present-reuse"
+            else:
+                try:
+                    matches, reason = _fingerprint_matches(spec)
+                except ValueError as exc:
+                    if mode == "verify":
+                        raise
+                    matches, reason = False, str(exc)
+            fingerprint_status = "match" if matches else "miss"
+            fingerprint_reason = reason
+            if matches:
+                producer_status = "skipped"
+            elif mode == "verify":
+                raise ValueError(f"fingerprint sidecar mismatch for {spec.name}: {reason}")
+            else:
+                _run_producer(spec)
+                producer_status = "completed"
+                fingerprint_status = "written"
+                fingerprint_reason = reason
+                _write_fingerprint_sidecar(spec, generated_at=generated_at)
     except Exception as exc:  # pragma: no cover - kept for CLI fail-closed behavior
         error = str(exc)
     duration = time.perf_counter() - start
@@ -1467,9 +1733,12 @@ def _run_spec(spec: CanonicalReportSpec, *, reuse_existing: bool = False) -> dic
         "bundle_role": spec.bundle_role,
         "discipline": discipline,
         "status": status,
-        "duration_seconds": 0.0 if producer_status == "reused" else float(f"{duration:.3f}"),
+        "duration_seconds": 0.0 if producer_status == "skipped" else float(f"{duration:.3f}"),
         "estimated_seconds": spec.estimated_seconds,
         "producer_status": producer_status if error is None else "error",
+        "fingerprint_sidecar": _relative(_fingerprint_path(spec)),
+        "fingerprint_status": fingerprint_status,
+        "fingerprint_reason": fingerprint_reason,
         "validation": validation,
     }
     if error is not None:
@@ -1537,8 +1806,8 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             [
                 f"## {title}",
                 "",
-                "| report | status | json | markdown | scope | cost | not-claimed | positive claim | control |",
-                "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+                "| report | status | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
             ]
         )
         for report in reports:
@@ -1550,6 +1819,7 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
                 f"`{report['status']}` | "
                 f"`{report['json_artifact']}` | "
                 f"`{report['markdown_artifact']}` | "
+                f"`{report['fingerprint_sidecar']}` | "
                 f"`{discipline['scope_pointer']}` | "
                 f"`{discipline['cost_pointer']}` | "
                 f"`{discipline['not_claimed_pointer']}` | "
@@ -1772,16 +2042,21 @@ def run_reports(
     json_summary: str | None = None,
     generated_at: str | None = None,
     force: bool = False,
+    cold: bool = False,
+    verify_fingerprints: bool = False,
 ) -> dict[str, Any]:
     CANONICAL_DIR.mkdir(parents=True, exist_ok=True)
-    reuse_existing = only is None and not force
-    results = [_run_spec(spec, reuse_existing=reuse_existing) for spec in _select_specs(only)]
+    mode: Literal["changed", "verify", "cold"] = "cold" if cold or force else "verify" if verify_fingerprints else "changed"
     timestamp = (
         generated_at
         if generated_at is not None
-        else (_reusable_generated_at() if reuse_existing else None)
+        else (_reusable_generated_at() if mode != "cold" else None)
         or datetime.now(timezone.utc).isoformat()
     )
+    results = [
+        _run_spec(spec, mode=mode, generated_at=timestamp)
+        for spec in _selected_specs_with_dependents(only, include_dependents=mode == "changed")
+    ]
     from scripts.run_formal_hardening_report import write_formal_hardening_report
 
     write_formal_hardening_report(root=ROOT, generated_at=timestamp)
@@ -1850,6 +2125,12 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--list", action="store_true", help="List canonical report manifest rows.")
     parser.add_argument("--only", metavar="NAME", help="Run one canonical report by manifest name.")
     parser.add_argument("--force", action="store_true", help="Regenerate all selected canonical producer artifacts.")
+    parser.add_argument("--cold", action="store_true", help="Regenerate all selected canonical producer artifacts and write fingerprint sidecars.")
+    parser.add_argument(
+        "--verify-fingerprints",
+        action="store_true",
+        help="Fail when a selected committed artifact has no matching fingerprint sidecar.",
+    )
     parser.add_argument("--json-summary", metavar="PATH", help="Write a JSON run summary to PATH.")
     return parser.parse_args(argv)
 
@@ -1859,7 +2140,13 @@ def main(argv: Sequence[str] | None = None) -> None:
     if args.list:
         _list_manifest()
         return
-    run_reports(only=args.only, json_summary=args.json_summary, force=args.force)
+    run_reports(
+        only=args.only,
+        json_summary=args.json_summary,
+        force=args.force,
+        cold=args.cold,
+        verify_fingerprints=args.verify_fingerprints,
+    )
 
 
 if __name__ == "__main__":

@@ -1,30 +1,30 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-04T16:07:55.096198+00:00`
+- Generated at: `2026-06-04T23:06:29.939392+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
 
-| report | status | json | markdown | scope | cost | not-claimed | positive claim | control |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `mixing-family-sweep` | `pass` | `reports/canonical/mixing-family-sweep.json` | `reports/canonical/mixing-family-sweep.md` | `$.applicability_boundary` | `$.source_artifacts.cost_protocol` | `$.applicability_boundary.not_claimed` | `$.coverage_item` | `$.coverage_item` |
-| `anisotropic-ou-sweep` | `pass` | `reports/canonical/anisotropic-ou-sweep.json` | `reports/canonical/anisotropic-ou-sweep.md` | `$.applicability_boundary` | `$.source_artifacts.cost_protocol` | `$.applicability_boundary.not_claimed` | `$.transition_debt_by_grid` | `$.config.arm` |
-| `gap-head-on-h` | `pass` | `reports/canonical/gap-head-on-h.json` | `reports/canonical/gap-head-on-h.md` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.forbidden_inference_columns` | `$.main_claim_status` | `$.control_protocol` |
-| `gap-head-discovery` | `pass` | `reports/canonical/gap-head-discovery.json` | `reports/canonical/gap-head-discovery.md` | `$.boundary_checks` | `$.score_terms` | `$.boundary_checks.forbidden_inference_columns` | `$.final_main_claim_status` | `$.matched_random_control` |
-| `gap-head-ablation` | `pass` | `reports/canonical/gap-head-ablation.json` | `reports/canonical/gap-head-ablation.md` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.not_claimed` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` |
-| `gap-head-threshold-frontier` | `pass` | `reports/canonical/gap-head-threshold-frontier.json` | `reports/canonical/gap-head-threshold-frontier.md` | `$.applicability_boundary` | `$.source_artifacts` | `$.not_claimed` | `$.main_claim_status` | `$.threshold_summary.control_baseline` |
-| `gap-head-transfer-atlas` | `pass` | `reports/canonical/gap_head_transfer_atlas.json` | `reports/canonical/gap_head_transfer_atlas.md` | `$.not_claimed` | `$.source_artifacts.metric_helper` | `$.not_claimed` | `$.multi_surface_d5_o` | `$.config.control_arm` |
-| `gap-head-attribution-capsule` | `pass` | `reports/canonical/gap_head_attribution_capsule.json` | `reports/canonical/gap_head_attribution_capsule.md` | `$.scope.not_claimed` | `$.cost_protocol_pointer` | `$.scope.not_claimed` | `$.d5_m` | `$.control_pointer` |
-| `certificate-guided-training` | `pass` | `reports/canonical/certificate-guided-training.json` | `reports/canonical/certificate-guided-training.md` | `$.objective.required_rows` | `$.cost_protocol` | `$.not_claimed` | `$.claim_gate` | `$.paired_seed_protocol` |
-| `certificate-guided-discovery` | `pass` | `reports/canonical/certificate-guided-discovery.json` | `reports/canonical/certificate-guided-discovery.md` | `$.applicability_boundary` | `$.claim_gate` | `$.not_claimed` | `$.main_claim_status` | `$.matched_random_baseline` |
-| `sigreg-training-proxy` | `pass` | `reports/canonical/sigreg-training-proxy.json` | `reports/canonical/sigreg-training-proxy.md` | `$.arm_protocol` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.full_lejepa_boundary` |
+| report | status | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `mixing-family-sweep` | `pass` | `reports/canonical/mixing-family-sweep.json` | `reports/canonical/mixing-family-sweep.md` | `reports/canonical/mixing-family-sweep.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts.cost_protocol` | `$.applicability_boundary.not_claimed` | `$.coverage_item` | `$.coverage_item` |
+| `anisotropic-ou-sweep` | `pass` | `reports/canonical/anisotropic-ou-sweep.json` | `reports/canonical/anisotropic-ou-sweep.md` | `reports/canonical/anisotropic-ou-sweep.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts.cost_protocol` | `$.applicability_boundary.not_claimed` | `$.transition_debt_by_grid` | `$.config.arm` |
+| `gap-head-on-h` | `pass` | `reports/canonical/gap-head-on-h.json` | `reports/canonical/gap-head-on-h.md` | `reports/canonical/gap-head-on-h.fingerprint.json` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.forbidden_inference_columns` | `$.main_claim_status` | `$.control_protocol` |
+| `gap-head-discovery` | `pass` | `reports/canonical/gap-head-discovery.json` | `reports/canonical/gap-head-discovery.md` | `reports/canonical/gap-head-discovery.fingerprint.json` | `$.boundary_checks` | `$.score_terms` | `$.boundary_checks.forbidden_inference_columns` | `$.final_main_claim_status` | `$.matched_random_control` |
+| `gap-head-ablation` | `pass` | `reports/canonical/gap-head-ablation.json` | `reports/canonical/gap-head-ablation.md` | `reports/canonical/gap-head-ablation.fingerprint.json` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.not_claimed` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` |
+| `gap-head-threshold-frontier` | `pass` | `reports/canonical/gap-head-threshold-frontier.json` | `reports/canonical/gap-head-threshold-frontier.md` | `reports/canonical/gap-head-threshold-frontier.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.not_claimed` | `$.main_claim_status` | `$.threshold_summary.control_baseline` |
+| `gap-head-transfer-atlas` | `pass` | `reports/canonical/gap_head_transfer_atlas.json` | `reports/canonical/gap_head_transfer_atlas.md` | `reports/canonical/gap_head_transfer_atlas.fingerprint.json` | `$.not_claimed` | `$.source_artifacts.metric_helper` | `$.not_claimed` | `$.multi_surface_d5_o` | `$.config.control_arm` |
+| `gap-head-attribution-capsule` | `pass` | `reports/canonical/gap_head_attribution_capsule.json` | `reports/canonical/gap_head_attribution_capsule.md` | `reports/canonical/gap_head_attribution_capsule.fingerprint.json` | `$.scope.not_claimed` | `$.cost_protocol_pointer` | `$.scope.not_claimed` | `$.d5_m` | `$.control_pointer` |
+| `certificate-guided-training` | `pass` | `reports/canonical/certificate-guided-training.json` | `reports/canonical/certificate-guided-training.md` | `reports/canonical/certificate-guided-training.fingerprint.json` | `$.objective.required_rows` | `$.cost_protocol` | `$.not_claimed` | `$.claim_gate` | `$.paired_seed_protocol` |
+| `certificate-guided-discovery` | `pass` | `reports/canonical/certificate-guided-discovery.json` | `reports/canonical/certificate-guided-discovery.md` | `reports/canonical/certificate-guided-discovery.fingerprint.json` | `$.applicability_boundary` | `$.claim_gate` | `$.not_claimed` | `$.main_claim_status` | `$.matched_random_baseline` |
+| `sigreg-training-proxy` | `pass` | `reports/canonical/sigreg-training-proxy.json` | `reports/canonical/sigreg-training-proxy.md` | `reports/canonical/sigreg-training-proxy.fingerprint.json` | `$.arm_protocol` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.full_lejepa_boundary` |
 
 ## Auxiliary reports
 
-| report | status | json | markdown | scope | cost | not-claimed | positive claim | control |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `nongaussian-distribution-sweep` | `pass` | `reports/canonical/nongaussian-distribution-sweep.json` | `reports/canonical/nongaussian-distribution-sweep.md` | `$.coverage_item` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.main_claim_status` | `$.negative_result_ledger` |
-| `spectral-ablation-hinge` | `pass` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
+| report | status | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `nongaussian-distribution-sweep` | `pass` | `reports/canonical/nongaussian-distribution-sweep.json` | `reports/canonical/nongaussian-distribution-sweep.md` | `reports/canonical/nongaussian-distribution-sweep.fingerprint.json` | `$.coverage_item` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.main_claim_status` | `$.negative_result_ledger` |
+| `spectral-ablation-hinge` | `pass` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
 
 ## Quality scorecard
 
@@ -136,7 +136,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/gap_head_attribution_capsule.json`
 - Markdown: `reports/canonical/gap_head_attribution_capsule.md`
-- Run id: `a1-20260604T212205Z`
+- Run id: `a1-20260604T230717Z`
 - D5-O: `ready`
 - D5-M: `blocked`
 - Mechanism case: `Case C`

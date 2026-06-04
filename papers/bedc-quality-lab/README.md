@@ -16,10 +16,10 @@ python3 scripts/run_canonical_reports.py --help
 - `reports/example_envelope.json`
 - `reports/quality_report.md`
 
-`make check` 是本目录的一键验证入口：先运行 lab-local pytest，再通过
-`scripts/run_canonical_reports.py` 生成 `reports/canonical/` 下的 canonical 报告和
-`reports/canonical/index.json`。
-同一 runner 也生成 `reports/canonical/quality-scorecard.{json,md}`。
+`make check` 是本目录的一键验证入口：运行 lab-local pytest，并通过
+`scripts/run_canonical_reports.py --verify-fingerprints` 检查 committed canonical
+报告与 fingerprint sidecar 的一致性。canonical runner 的 changed-only、cold path
+和单报告选择语义以 `python3 scripts/run_canonical_reports.py --help` 为准。
 
 ## 依赖
 

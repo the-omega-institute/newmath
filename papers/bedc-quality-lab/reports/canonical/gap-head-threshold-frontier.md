@@ -1,6 +1,6 @@
 # Gap-Head Threshold Frontier
 
-- Generated at: `2026-06-04T15:16:05.487409+00:00`
+- Generated at: `2026-06-04T23:06:44.920172+00:00`
 - Hardgate status: `pass`
 - Readiness: `D5-ready`
 - Sample count: `384`
