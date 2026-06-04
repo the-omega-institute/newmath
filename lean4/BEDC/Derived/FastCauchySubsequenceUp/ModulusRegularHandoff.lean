@@ -1,4 +1,4 @@
-import BEDC.Derived.FastCauchySubsequenceUp.ModulusRegularHandoff
+import BEDC.Derived.FastCauchySubsequenceUp.NameCertObligations
 
 namespace BEDC.Derived.FastCauchySubsequenceUp
 
@@ -10,38 +10,38 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem FastCauchySubsequenceRealNameNonescape [AskSetup] [PackageSetup]
-    {S M Q F R W E H C P N modulusRead selectorRead fastRead regularRead windowRead
-      sealRead namedRead : BHist}
+theorem FastCauchySubsequenceModulusRegularHandoff [AskSetup] [PackageSetup]
+    {S M Q F R W E H C P N modulusRead selectorRead fastRead regularRead sealRead
+      namedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     FastCauchySubsequenceCarrier S M Q F R W E H C P N bundle pkg ->
       Cont S M modulusRead ->
         Cont modulusRead Q selectorRead ->
           Cont selectorRead F fastRead ->
             Cont fastRead R regularRead ->
-              Cont regularRead W windowRead ->
-                Cont windowRead E sealRead ->
-                  Cont sealRead N namedRead ->
-                    PkgSig bundle namedRead pkg ->
-                      SemanticNameCert
-                          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
-                          (fun row : BHist =>
-                            hsame row S ∨ hsame row M ∨ hsame row Q ∨ hsame row F ∨
-                              hsame row R ∨ hsame row W ∨ hsame row E ∨
-                                hsame row namedRead)
-                          (fun row : BHist =>
-                            UnaryHistory row ∧ Cont S M modulusRead ∧
-                              Cont modulusRead Q selectorRead ∧
-                                Cont selectorRead F fastRead ∧
-                                  Cont fastRead R regularRead ∧
-                                    Cont regularRead W windowRead ∧
-                                      Cont windowRead E sealRead ∧
-                                        Cont sealRead N namedRead ∧
-                                          PkgSig bundle namedRead pkg)
-                          hsame ∧ UnaryHistory namedRead := by
-  -- BEDC touchpoint anchor: FastCauchySubsequenceCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert
-  intro carrier modulusRoute selectorRoute fastRoute regularRoute windowRoute sealRoute
-    nameRoute namedPkg
+              Cont regularRead W sealRead ->
+                Cont sealRead N namedRead ->
+                  PkgSig bundle namedRead pkg ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row S ∨ hsame row M ∨ hsame row Q ∨ hsame row F ∨
+                            hsame row R ∨ hsame row W ∨ hsame row E ∨
+                              hsame row namedRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont S M modulusRead ∧
+                            Cont modulusRead Q selectorRead ∧
+                              Cont selectorRead F fastRead ∧
+                                Cont fastRead R regularRead ∧
+                                  Cont regularRead W sealRead ∧
+                                    Cont sealRead N namedRead ∧
+                                      PkgSig bundle namedRead pkg)
+                        hsame ∧ UnaryHistory modulusRead ∧ UnaryHistory selectorRead ∧
+                      UnaryHistory fastRead ∧ UnaryHistory regularRead ∧
+                        UnaryHistory sealRead ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: FastCauchySubsequenceCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier modulusRoute selectorRoute fastRoute regularRoute sealRoute nameRoute
+    namedPkg
   obtain ⟨unaryS, unaryM, unaryQ, unaryF, unaryR, unaryW, unaryE, _unaryH, _unaryC,
     _unaryP, unaryN, _provenancePkg, _localNamePkg⟩ := carrier
   have modulusUnary : UnaryHistory modulusRead :=
@@ -52,10 +52,8 @@ theorem FastCauchySubsequenceRealNameNonescape [AskSetup] [PackageSetup]
     unary_cont_closed selectorUnary unaryF fastRoute
   have regularUnary : UnaryHistory regularRead :=
     unary_cont_closed fastUnary unaryR regularRoute
-  have windowUnary : UnaryHistory windowRead :=
-    unary_cont_closed regularUnary unaryW windowRoute
   have sealUnary : UnaryHistory sealRead :=
-    unary_cont_closed windowUnary unaryE sealRoute
+    unary_cont_closed regularUnary unaryW sealRoute
   have namedUnary : UnaryHistory namedRead :=
     unary_cont_closed sealUnary unaryN nameRoute
   have cert :
@@ -67,8 +65,8 @@ theorem FastCauchySubsequenceRealNameNonescape [AskSetup] [PackageSetup]
           (fun row : BHist =>
             UnaryHistory row ∧ Cont S M modulusRead ∧ Cont modulusRead Q selectorRead ∧
               Cont selectorRead F fastRead ∧ Cont fastRead R regularRead ∧
-                Cont regularRead W windowRead ∧ Cont windowRead E sealRead ∧
-                  Cont sealRead N namedRead ∧ PkgSig bundle namedRead pkg)
+                Cont regularRead W sealRead ∧ Cont sealRead N namedRead ∧
+                  PkgSig bundle namedRead pkg)
           hsame := {
     core := {
       carrier_inhabited :=
@@ -101,9 +99,10 @@ theorem FastCauchySubsequenceRealNameNonescape [AskSetup] [PackageSetup]
     ledger_sound := by
       intro _row source
       exact
-        ⟨source.right, modulusRoute, selectorRoute, fastRoute, regularRoute, windowRoute,
-          sealRoute, nameRoute, namedPkg⟩
+        ⟨source.right, modulusRoute, selectorRoute, fastRoute, regularRoute, sealRoute,
+          nameRoute, namedPkg⟩
   }
-  exact ⟨cert, namedUnary⟩
+  exact
+    ⟨cert, modulusUnary, selectorUnary, fastUnary, regularUnary, sealUnary, namedUnary⟩
 
 end BEDC.Derived.FastCauchySubsequenceUp
