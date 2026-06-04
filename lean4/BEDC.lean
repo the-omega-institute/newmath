@@ -3668,7 +3668,6 @@ import BEDC.Derived.DyadicIntervalCoverUp.RootCellCarrier
 import BEDC.Derived.DyadicIntervalCoverUp.RootCompactHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RootFiniteCoverBoundary
 import BEDC.Derived.DyadicIntervalCoverUp.RootNonescape
-import BEDC.Derived.DyadicIntervalCoverUp.RootRefinementCoverage
 import BEDC.Derived.DyadicIntervalCoverUp.RootRegularReadback
 import BEDC.Derived.DyadicIntervalCoverUp.RootWindowCoverage
 import BEDC.Derived.DyadicIntervalCoverUp.RootWindowObligations
@@ -5281,10 +5280,8 @@ import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowInduction
 import BEDC.Derived.LowerSemicontinuousUp.KernelScope
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransport
-import BEDC.Derived.LowerSemicontinuousUp.LocatedReadbackCompatibility
 import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphClassifier
 import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphRoute
-import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationBasis
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface
 import BEDC.Derived.LowerSemicontinuousUp.NameCertScope
 import BEDC.Derived.LowerSemicontinuousUp.PublicExport
@@ -5298,7 +5295,6 @@ import BEDC.Derived.LowerSemicontinuousUp.RootRealSealBoundary
 import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
 import BEDC.Derived.LowerSemicontinuousUp.SuperlevelThresholdSurface
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
-import BEDC.Derived.LowerSemicontinuousUp.TransportReplayExactness
 import BEDC.Derived.LowerSemicontinuousUp.WindowFactorization
 import BEDC.Derived.LowerUpperRealCutUp
 import BEDC.Derived.LowerUpperRealCutUp.TasteGate
@@ -5490,7 +5486,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.DependencyRouteNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondResidualBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeRowVisibility
-import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseSplit
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketInduction
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketLocality
@@ -7056,7 +7051,6 @@ import BEDC.Derived.RealUp.PairReadback
 import BEDC.Derived.RealUp.PrefixTailExtension
 import BEDC.Derived.RealUp.PrefixTruncation
 import BEDC.Derived.RealUp.Readback
-import BEDC.Derived.RealUp.RealAlgOrderApartnessMetricHandoff
 import BEDC.Derived.RealUp.RegseqratFiniteRequestFusion
 import BEDC.Derived.RealUp.RegseqratFiniteWindowSealExactness
 import BEDC.Derived.RealUp.RegseqratStreamCertificateSpine
@@ -7223,7 +7217,6 @@ import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.ReflectiveStabilityUp.TasteGate
 import BEDC.Derived.RefusalRegistryUp.TasteGate
 import BEDC.Derived.RefutationBoundaryUp
-import BEDC.Derived.RefutationBoundaryUp.TasteGate
 import BEDC.Derived.RefutationWitnessUp
 import BEDC.Derived.RefuterTraceUp.PermittedRefutationRoute
 import BEDC.Derived.RefuterTraceUp.TasteGate
