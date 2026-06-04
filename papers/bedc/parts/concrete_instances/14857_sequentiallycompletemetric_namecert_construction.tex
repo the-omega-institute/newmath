@@ -140,10 +140,52 @@ Apply the complete-metric handoff and late-bound coverage theorems. They show th
 There is no coordinate in $Q$ for quotient completion equality, selected representatives, choice schedules, open-cover compactness, ambient completeness, or $\RealUp$ completeness. Hence every root-facing request for those claims remains outside the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[SequentiallyCompleteMetric limit-modulus induction]
+\label{thm:sequentially-complete-metric-limit-modulus-induction}
+Let $Q=(X,S,M,L,D,H,C,P,N)$ be an accepted $\SequentiallyCompleteMetricUp$ carrier, and let $\rho$ be any finite tolerance-request history addressed to the sequence-completeness surface of $Q$. Every initial segment of $\rho$ factors through the displayed route
+$$
+M\longmapsto S\longmapsto \RegSeqRatUp\longmapsto D\longmapsto L
+$$
+inside the same $\BHist$ packet before the $\CompleteMetricUp$ or $\MetricCompletionUp$ boundary can read a limit claim. Thus each finite request path reaches the displayed limit row $L$ only through the modulus row $M$, the stream-window row $S$, the regular rational readback of $S$, the late-distance ledger $D$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of $Q$. The tolerance interface has only the displayed modulus row $M$, the stream row $S$, the readback route through $\RegSeqRatUp$, the displayed limit $L$, and the late-distance ledger $D$ available for convergence data.
+
+Induct on the finite request history $\rho$. For the empty history, there is no consumer-facing limit read, so the factorization is the trivial carrier projection through $M,S,L,D,H,C,P,N$.
+
+For the successor history, apply the induction hypothesis to the preceding requests. The next tolerance is replayed through $\Cont$ by first reading a threshold from $M$, then reading the corresponding stream windows from $S$ and their regular rational data, and then reading the late-distance row in $D$ which compares the displayed sequence values to $L$ inside $X$.
+
+The rows $H,P,N$ transport, source, and name exactly this replay. Since the carrier exposes no quotient equality, selected representative, choice schedule, host completeness, or $\RealUp$ completeness coordinate, every finite request path remains inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ data.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric completion-consumer factorization]
+\label{thm:sequentially-complete-metric-completion-consumer-factorization}
+Every $\CompleteMetricUp$ or $\MetricCompletionUp$ consumer of an accepted $\SequentiallyCompleteMetricUp$ packet $Q=(X,S,M,L,D,H,C,P,N)$ factors through the same visible surface $S,M,L,D,H,C,P,N$ together with the source metric row $X$. In particular, the consumer reads sequence completeness only as finite stream windows, regular rational readback, a displayed modulus, a displayed limit, late-distance bounds, componentwise transport, continuation replay, provenance, and local naming; it cannot read quotient-completion equality, selected representatives, countable choice, open-cover compactness, ambient completeness, or an independent complete carrier.
+\end{theorem}
+\begin{proof}
+Start from a completion-facing request. The carrier definition gives the consumer no entry point except the named rows $X,S,M,L,D,H,C,P,N$.
+
+The $\CompleteMetricUp$ handoff reads $S,M,L,D$ as its limit-witness surface over $X$. The $\MetricCompletionUp$ boundary receives the same route through $C$, with $H$ preserving componentwise transport and $P,N$ preserving provenance and local naming.
+
+No second surface is present. Since quotient completion, representative selection, countable-choice schedules, open-cover compactness, ambient completeness, and independent completed carriers are absent from $Q$, every completion consumer factors through the displayed finite route.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric choice-free uniqueness boundary]
+\label{thm:sequentially-complete-metric-choice-free-uniqueness-boundary}
+Let $Q=(X,S,M,L,D,H,C,P,N)$ and $Q'=(X,S,M,L',D',H',C',P',N')$ be accepted $\SequentiallyCompleteMetricUp$ packets with the same displayed source metric row $X$, stream row $S$, and modulus row $M$. If $D$ and $D'$ satisfy the same late-distance requests under the same classifier rows, then any consumer-facing comparison between the displayed limits $L$ and $L'$ is identified only through the source $\MetricUp$ classifier and the transported sequence-completeness rows. It is not identified by host equality, selected representatives, quotient completion, or choice of a preferred limit name.
+\end{theorem}
+\begin{proof}
+Project both packets. Their shared source, stream, and modulus rows force every convergence comparison to begin with the same $\MetricUp$ classifier, the same $\StreamNameUp$ windows, and the same $\RegSeqRatUp$ readback.
+
+Use the hypothesis on the late-distance ledgers. For each displayed tolerance request, $D$ and $D'$ provide the same kind of late comparison from the same sequence row to the displayed limit rows $L$ and $L'$ inside the source metric classifier.
+
+The comparison is then transported only by the visible $\hsame$ rows and replayed only by $\Cont$. Because neither packet contains host equality of points, selected representatives, quotient-completion equality, or a choice operator choosing one limit name, the consumer-facing uniqueness boundary is exactly the source metric classifier together with the displayed finite convergence rows.
+\end{proof}
+
 \begin{closurestatus}{\SequentiallyCompleteMetricUp}
   \constructivestory{A $\SequentiallyCompleteMetricUp$ packet is generated from a displayed $\MetricUp$ source, a regular Cauchy sequence read through $\StreamNameUp$ and $\RegSeqRatUp$ rows, a modulus, a displayed limit point, late-distance bound rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:sequentially-complete-metric-carrier}, \autoref{thm:sequentially-complete-metric-namecert-obligations}, \autoref{thm:sequentially-complete-metric-complete-metric-handoff}, \autoref{thm:sequentially-complete-metric-classifier-transport}, \autoref{thm:sequentially-complete-metric-late-bound-coverage}, and \autoref{thm:sequentially-complete-metric-nonescape} seed the finite sequence-completeness bridge from regular Cauchy data to the $\CompleteMetricUp$ limit-witness surface.}
+  \scopeclosed{\autoref{def:sequentially-complete-metric-carrier}, \autoref{thm:sequentially-complete-metric-namecert-obligations}, \autoref{thm:sequentially-complete-metric-complete-metric-handoff}, \autoref{thm:sequentially-complete-metric-classifier-transport}, \autoref{thm:sequentially-complete-metric-late-bound-coverage}, \autoref{thm:sequentially-complete-metric-nonescape}, \autoref{thm:sequentially-complete-metric-limit-modulus-induction}, \autoref{thm:sequentially-complete-metric-completion-consumer-factorization}, and \autoref{thm:sequentially-complete-metric-choice-free-uniqueness-boundary} seed the finite sequence-completeness bridge from regular Cauchy data to the $\CompleteMetricUp$ limit-witness surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, open-cover compactness, ambient completeness, or any assertion that $\RealUp$ is complete.}

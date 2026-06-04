@@ -202,6 +202,49 @@ theorem LowerRealCarrier_realup_handoff
     exact LowerRealTasteGate_single_carrier_alignment_decode_encode E
   exact ⟨windowReadUnary, sealReadUnary, windowRoute, sealRoute, sealDecode⟩
 
+theorem LowerRealCarrier_scoped_kernel_obligation
+    {L0 W R E H C P N locatedRead rationalRead realRead scopedRead : BHist} :
+    lowerRealFields (LowerRealUp.mk L0 W R E H C P N) = [L0, W, R, E, H, C, P, N] ->
+      UnaryHistory L0 ->
+        UnaryHistory W ->
+          UnaryHistory R ->
+            UnaryHistory E ->
+              UnaryHistory N ->
+                Cont L0 W locatedRead ->
+                  Cont locatedRead R rationalRead ->
+                    Cont rationalRead E realRead ->
+                      Cont realRead N scopedRead ->
+                        UnaryHistory locatedRead ∧
+                          UnaryHistory rationalRead ∧
+                            UnaryHistory realRead ∧
+                              UnaryHistory scopedRead ∧
+                                Cont L0 W locatedRead ∧
+                                  Cont locatedRead R rationalRead ∧
+                                    Cont rationalRead E realRead ∧
+                                      Cont realRead N scopedRead ∧
+                                        hsame
+                                          (lowerRealDecodeBHist (lowerRealEncodeBHist L0))
+                                          L0 := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro fieldRows l0Unary windowUnary rationalUnary realUnary nameUnary locatedRoute
+    rationalRoute realRoute scopedRoute
+  cases fieldRows
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed l0Unary windowUnary locatedRoute
+  have rationalReadUnary : UnaryHistory rationalRead :=
+    unary_cont_closed locatedUnary rationalUnary rationalRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed rationalReadUnary realUnary realRoute
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed realReadUnary nameUnary scopedRoute
+  have lowerDecode :
+      hsame (lowerRealDecodeBHist (lowerRealEncodeBHist L0)) L0 := by
+    change lowerRealDecodeBHist (lowerRealEncodeBHist L0) = L0
+    exact LowerRealTasteGate_single_carrier_alignment_decode_encode L0
+  exact
+    ⟨locatedUnary, rationalReadUnary, realReadUnary, scopedReadUnary, locatedRoute,
+      rationalRoute, realRoute, scopedRoute, lowerDecode⟩
+
 theorem LowerRealPublicConsumer_export [AskSetup] [PackageSetup]
     {L0 W R E H C P N lowerRead rationalRead realRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

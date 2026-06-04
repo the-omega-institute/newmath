@@ -2181,6 +2181,7 @@ import BEDC.Derived.ClebschGordanUp
 import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
 import BEDC.Derived.ClosedBallCompactnessUp.TasteGate
+import BEDC.Derived.ClosedBetaPathUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalCompactUp
 import BEDC.Derived.ClosedBoundedIntervalCompactUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalDarbouxPartitionUp.TasteGate
@@ -3631,7 +3632,6 @@ import BEDC.Derived.DyadicIntervalArithmeticUp.EnclosureSoundness
 import BEDC.Derived.DyadicIntervalArithmeticUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalBasisUp.TasteGate
-import BEDC.Derived.DyadicIntervalCoverUp.EndpointComparisonTotality
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligation
 import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RootCompactHandoff
@@ -4827,6 +4827,7 @@ import BEDC.Derived.IntervalArithmeticUp
 import BEDC.Derived.IntervalBisectionTreeUp.TasteGate
 import BEDC.Derived.IntervalBisectionUp.TasteGate
 import BEDC.Derived.IntervalCauchyCompletenessUp.TasteGate
+import BEDC.Derived.IntervalConnectednessUp.TasteGate
 import BEDC.Derived.IntervalDomainUp.TasteGate
 import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
 import BEDC.Derived.IntervalLengthUp.TasteGate
@@ -5217,7 +5218,6 @@ import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.BaireSuperlevelHandoff
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
-import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransport
 import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphClassifier
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface
 import BEDC.Derived.LowerSemicontinuousUp.NameCertScope
@@ -8427,6 +8427,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.CompletionConsumerFrontier
 import BEDC.Derived.UniformCompletionFunctorUp.ExtensionOrdering
 import BEDC.Derived.UniformCompletionFunctorUp.FunctorialReplayStability
 import BEDC.Derived.UniformCompletionFunctorUp.L10SourceAdmission
+import BEDC.Derived.UniformCompletionFunctorUp.ReadbackSealExactness
 import BEDC.Derived.UniformCompletionFunctorUp.ReadbackToleranceTerminalRoute
 import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescape
 import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatRealSourceHandoff
