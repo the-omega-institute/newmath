@@ -10,6 +10,9 @@ import sys
 from pathlib import Path
 from typing import Any
 
+if str(Path(__file__).resolve().parents[1]) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 
 
