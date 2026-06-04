@@ -50,15 +50,25 @@ CRITICAL_PATH = REPO_ROOT / "lean4/scripts/critical_path.py"
 CONFIG = REPO_ROOT / ".pipeline_parallel.json"
 
 # System pressure thresholds.
-LOAD_HIGH_PER_CORE = 1.5    # 5-min load avg above this scales concurrency down
-LOAD_LOW_PER_CORE = 1.15    # below this, supply-driven upward movement is allowed.
-# Was 0.8: on an N-core box a working pipeline idles at load ~= cores (>0.8*cores),
-# so the allow-raise gate (load5 < low) never opened and concurrency stayed pinned
-# at the floor, never climbing to total_active_max. 1.15 puts the hold-band at
-# [1.15*cores, 1.5*cores] so raises fire while there is real headroom; LOAD_HIGH
-# (1.5) remains the thrash guard.
-TOTAL_ACTIVE_PER_CORE = 1.25
-RAM_LOW_GB = 1.5            # vm_stat free + inactive below this triggers cut
+LOAD_HIGH_PER_CORE = 2.0    # 5-min load avg above this scales concurrency down.
+LOAD_LOW_PER_CORE = 1.5     # below this, supply-driven upward movement is allowed.
+# paper/lean are codex-exec children blocked on the codex API (I/O-bound), so CPU
+# load is a poor governor for them — a busy pipeline shows load ~= cores without
+# CPU saturation. The real binding resource on this box is MEMORY, governed by
+# RAM_LOW_GB below. The load band is widened to [1.5*cores, 2.0*cores] so the
+# CPU-load scaledown does not prematurely throttle I/O-bound children; memory is
+# the true ceiling. (Was 0.8/1.5: too tight, pinned concurrency at the floor and
+# let CPU-load fight the memory governor.)
+TOTAL_ACTIVE_PER_CORE = 1.75   # 8-core box -> total_active_max 14 (was 1.25 -> 10).
+# Measured step up toward the memory edge: at paper3/lean6 the box sat at ~9G
+# effective free / 0.69G swap / load 3.3, clearly under-utilized. RAM_LOW_GB
+# (raised below) is the proactive governor that cuts BEFORE swap thrash, so the
+# count ceiling can rise without re-triggering the early-May OOM (which was at
+# 30 active AND confounded by a since-fixed vm_stat page-size misread).
+RAM_LOW_GB = 3.0            # vm_stat free+inactive below this triggers cut.
+# Raised 1.5 -> 3.0: cut concurrency PROACTIVELY while ~3G effective remains,
+# i.e. before the box dips into sustained swap. This is the real ceiling for
+# "press the machine full" — memory, governed early, not the core count.
 DISK_PRESSURE_PCT = 85      # tighten log retention to 1 day
 DISK_PANIC_PCT = 92         # tighten log retention to 6 hours
 
@@ -129,8 +139,11 @@ def read_physical_cores() -> int:
 
 
 def host_caps(cores: int) -> dict[str, int]:
-    paper_max = min(PAPER_MAX, max(PAPER_MIN, cores // 2))
-    lean_max = min(LEAN_MAX, max(LEAN_MIN, cores))
+    # paper/lean count cheap I/O-bound codex-exec children, not lake builds (the
+    # ~1.5GB hog stays pinned at lean_lake via lake_max). They oversubscribe cores
+    # safely; MEMORY (RAM_LOW_GB) is the binding governor, not the core fraction.
+    paper_max = min(PAPER_MAX, max(PAPER_MIN, cores))
+    lean_max = min(LEAN_MAX, max(LEAN_MIN, cores + 4))
     total_active_max = max(PAPER_MIN + LEAN_MIN, int(cores * TOTAL_ACTIVE_PER_CORE))
     lake_max = clamp(cores // 8, LAKE_MIN, 2)
     return {
