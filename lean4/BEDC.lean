@@ -5364,6 +5364,7 @@ import BEDC.Derived.LowerSemicontinuousUp.KernelScope
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransport
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransportInduction
 import BEDC.Derived.LowerSemicontinuousUp.LocatedReadbackCompatibility
+import BEDC.Derived.LowerSemicontinuousUp.LocatedReadbackStability
 import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphClassifier
 import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphRoute
 import BEDC.Derived.LowerSemicontinuousUp.NameCertBasisObligations
@@ -5847,6 +5848,7 @@ import BEDC.Derived.MetaCICSubjectReductionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICSubjectReductionObligationUp.TasteGate
 import BEDC.Derived.MetaCICSubstitutionSpineUp.NameCertObligations
 import BEDC.Derived.MetaCICSubstitutionSpineUp.TasteGate
+import BEDC.Derived.MetaCICTypedNormalizationAuditUp.TasteGate
 import BEDC.Derived.MetaCICTypedParallelDiamondBoundaryUp
 import BEDC.Derived.MetaClosureObstructionUp.TasteGate
 import BEDC.Derived.MetaClosureWitnessLedgerUp.TasteGate
@@ -6139,6 +6141,7 @@ import BEDC.Derived.NatUp
 import BEDC.Derived.NatUp.AddSourceSpineForwardLink
 import BEDC.Derived.NatUp.TasteGate
 import BEDC.Derived.NatUp.UnaryBridgeCutBoundary
+import BEDC.Derived.NaturalDeductionUp.TasteGate
 import BEDC.Derived.NegativeCertificateBoundaryUp.TasteGate
 import BEDC.Derived.NegativeNameBoundaryUp
 import BEDC.Derived.NegativeNameBoundaryUp.NameCertObligations
@@ -7291,6 +7294,7 @@ import BEDC.Derived.RealityConstrainedTruthCertUp.StabilityDescentInvariantOblig
 import BEDC.Derived.RealityConstrainedTruthCertUp.TasteGate
 import BEDC.Derived.RealizerSpaceUp.TasteGate
 import BEDC.Derived.RealseriesUp
+import BEDC.Derived.ReassignmentSupportCompressionUp.TasteGate
 import BEDC.Derived.RectifiableCurveUp.TasteGate
 import BEDC.Derived.RecursionAuthorizationLedgerUp.Carrier
 import BEDC.Derived.RecursionAuthorizationLedgerUp.DescentTransportStability
@@ -7395,6 +7399,7 @@ import BEDC.Derived.RegularCauchyCompletionFrontierUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionReflectorUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionStabilityUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUnitUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalPropertyUp.TasteGate
