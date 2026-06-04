@@ -130,6 +130,54 @@ Apply the Real-distance seal exactness theorem, \autoref{thm:located-set-real-di
 The structural rows $H,C,P,N$ preserve the same route by componentwise transport, continuation replay, provenance, and local naming. The nearest-point refusal boundary then excludes replacing this witness by a selected endpoint.
 \end{proof}
 
+\begin{theorem}[LocatedSet distance-window monotonicity]
+\label{thm:located-set-distance-window-monotonicity}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. If a displayed positive rational tolerance request for $L$ is refined to a smaller positive rational tolerance, then the corresponding rational distance windows remain monotone inside the same route
+$$
+X,A,Q,R,E,T,H,C,P,N .
+$$
+The refinement may shrink the visible lower and upper rational comparison windows in $R$, but it cannot change the parent metric row, the $\MetricSubspaceUp$ admission row, the located-distance ledger, the $\RealUp$ seal, or the structural transport rows.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:located-set-carrier}. The only coordinates available to a tolerance request are the parent metric row $X$, admission row $A$, located-distance ledger $Q$, rational windows $R$, real seal $E$, located-metric handoff $T$, and structural rows $H,C,P,N$.
+
+Use \autoref{thm:located-set-namecert-obligations}. Positive tolerance handling is part of the located-distance stability and rational-window readback surface, so a refinement must be recorded in the same displayed rows rather than in a detached metric object.
+
+Apply \autoref{thm:located-set-distance-handoff}. It keeps every distance read downstream of $X,A,Q,R,E$, and \autoref{thm:located-set-real-distance-seal-exactness} keeps the $\RealUp$ readback sealed to the same rational windows. Hence refinement changes only the window bounds displayed in $R$, preserving monotonicity of the accepted route.
+\end{proof}
+
+\begin{theorem}[LocatedSet positive-tolerance readback]
+\label{thm:located-set-positive-tolerance-readback}
+For an accepted $\LocatedSetUp$ packet $L=(X,A,Q,R,E,T,H,C,P,N)$, every $\RealUp$ distance readback from $L$ factors through a positive rational tolerance request in $Q$ and a displayed rational-window read in $R$. Thus a consumer may read the Real distance seal $E$ only after the route
+$$
+X\longmapsto A\longmapsto Q\longmapsto R
+$$
+has supplied the parent metric observations, subspace admission data, positive tolerance evidence, and rational comparison windows.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:located-set-carrier}. The row $Q$ is the located-distance ledger for positive rational tolerance requests, and $R$ is the rational distance row packaging the lower and upper comparison windows supplied by $Q$.
+
+Use \autoref{thm:located-set-namecert-obligations}. It makes located-distance stability, rational-window readback, and $\RealUp$ seal handoff local obligations of the same $\NameCert_{\LocatedSetUp}$ row.
+
+Now apply \autoref{thm:located-set-distance-handoff} and \autoref{thm:located-set-real-distance-seal-exactness}. Together they force every Real-distance read to pass through $X,A,Q,R,E$ in that order, so $E$ cannot be consumed before a positive tolerance request in $Q$ and a rational-window read in $R$ have been displayed.
+\end{proof}
+
+\begin{theorem}[LocatedSet subspace-carrier transport]
+\label{thm:located-set-subspace-carrier-transport}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Carrier transport along the $\MetricSubspaceUp$ admission row preserves the full located-distance route
+$$
+X,A,Q,R,E,T,H,C,P,N .
+$$
+In particular, an admitted subspace presentation may transport the parent metric row and membership evidence through $H$ and replay it through $C$, but it may not detach $Q,R,E,T,P,N$ from the same carrier route.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:located-set-carrier}. The admission row $A$ is displayed as part of the same finite packet as the parent metric row, located-distance ledger, rational windows, real seal, located-metric handoff, transport, replay, provenance, and local name.
+
+Use \autoref{thm:located-set-namecert-obligations}. Parent metric compatibility and $\MetricSubspaceUp$ admission stability are local obligations, and componentwise $\hsame$ transport is carried by $H$ for every analytic and structural row.
+
+Finally apply \autoref{thm:located-set-distance-handoff} and \autoref{thm:located-set-real-distance-seal-exactness}. The distance and Real-readback routes remain $X,A,Q,R,E,T,H,C,P,N$, so carrier transport along admission preserves the located-distance route and supplies no nearest-point choice, quotient subset equality, ambient completion, or full real-completeness principle.
+\end{proof}
+
 \begin{theorem}[LocatedSet open-ball distance window]
 \label{thm:located-set-open-ball-distance-window}
 Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Any open-ball, proximinal, or projection consumer that reads a located-set distance window from $L$ must first pass through the parent $\MetricUp$ row of \autoref{ch:concrete-instances-metric-namecert}, the $\MetricSubspaceUp$ admission route of \autoref{ch:concrete-instances-metric-subspace-namecert}, the $\LocatedMetricUp$ handoff of \autoref{ch:concrete-instances-locatedmetric-namecert}, the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$.
