@@ -479,6 +479,7 @@ $$
 $$
 The functorial unit, bind, and classifier routes exposed by the packet are exactly the finite route compositions through $U,F,E,R,W,D,S,H,C,P,N$. In particular, functoriality is witnessed by the $\CauchyCompletionFunctorUp$ handoff row $F$, the $\CompletionUniversalPropertyUp$ row $E$, the $\StreamNameUp$ and $\RegSeqRatUp$ observation rows $W,R$, the $\RealUp$ seal $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$; it is not transported from a source-equivalence theorem outside the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorFunctoriality}
 \begin{proof}
 Read the packet from left to right. The source coordinate $U$ determines the uniform-completion input, and $F$ supplies the unit, bind, and classifier handoff rows for that same input.
 
@@ -495,6 +496,7 @@ $$
 $$
 Thus the packet hands completion data to downstream consumers by displayed rows only: the source row $U$, functorial handoff $F$, universal-property row $E$, window and readback rows $W,R,D$, seal row $S$, transport $H$, replay $C$, provenance $P$, and naming $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorCompletionHandoff}
 \begin{proof}
 Start with the carrier row $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$. A completion consumer has no coordinate other than these displayed rows, so it first reads the $\UniformCompletionUp$ source $U$ and then the $\CauchyCompletionFunctorUp$ handoff $F$.
 
@@ -661,6 +663,7 @@ Apply the completion handoff and L10 source-admission routes. The public consume
 
 Finally use ledger exactness. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same finite route, while quotient completion, selected limits, countable choice, and ambient Real completeness have no coordinate in the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorPublicNamecertExport}
 
 \falsifiablePrediction{Every $\UniformCompletionFunctorUp$ completion-facing read factors through one $\UniformCompletionUp$ source row, one $\CauchyCompletionFunctorUp$ handoff row, one $\CompletionUniversalPropertyUp$ universal-extension row, one $\RegSeqRatUp$ readback row, one $\StreamNameUp$ finite-window row, one $\DyadicRatCoreUp$ tolerance row, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
