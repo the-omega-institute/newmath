@@ -1,14 +1,12 @@
-import BEDC.Derived.PackingNumberUp
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.PackingNumberUp
+namespace BEDC.Derived.PackingNumberUp.TasteGate
 
-open BEDC.FKernel.Ask
-open BEDC.FKernel.Bundle
-open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
@@ -18,88 +16,114 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive PackingNumberUp : Type where
-  | mk (X eps U D B H C P N : BHist) : PackingNumberUp
+  | mk
+      (source tolerance centers distance budget transport replay provenance name :
+        BHist) : PackingNumberUp
   deriving DecidableEq
 
-def packingNumberEncodeBHist : BHist -> RawEvent
+def packingNumberEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: packingNumberEncodeBHist h
   | BHist.e1 h => BMark.b1 :: packingNumberEncodeBHist h
 
-def packingNumberDecodeBHist : RawEvent -> BHist
+def packingNumberDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (packingNumberDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (packingNumberDecodeBHist tail)
 
-private theorem packingNumberDecode_encode :
-    forall h : BHist, packingNumberDecodeBHist (packingNumberEncodeBHist h) = h := by
+private theorem packingNumberDecode_encode_bhist :
+    ∀ h : BHist, packingNumberDecodeBHist (packingNumberEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def packingNumberFields : PackingNumberUp -> List BHist
+def packingNumberToEventFlow : PackingNumberUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | PackingNumberUp.mk X eps U D B H C P N => [X, eps, U, D, B, H, C, P, N]
+  | PackingNumberUp.mk source tolerance centers distance budget transport replay provenance name =>
+      [[BMark.b0],
+        packingNumberEncodeBHist source,
+        [BMark.b1, BMark.b0],
+        packingNumberEncodeBHist tolerance,
+        [BMark.b1, BMark.b1, BMark.b0],
+        packingNumberEncodeBHist centers,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        packingNumberEncodeBHist distance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        packingNumberEncodeBHist budget,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        packingNumberEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        packingNumberEncodeBHist replay,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        packingNumberEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        packingNumberEncodeBHist name]
 
-def packingNumberToEventFlow : PackingNumberUp -> EventFlow
-  -- BEDC touchpoint anchor: BHist BMark
-  | x => (packingNumberFields x).map packingNumberEncodeBHist
-
-private def packingNumberEventAt : Nat -> EventFlow -> RawEvent
+private def packingNumberEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => packingNumberEventAt index rest
+  | Nat.succ index, _event :: rest => packingNumberEventAtDefault index rest
 
-def packingNumberFromEventFlow : EventFlow -> Option PackingNumberUp :=
+def packingNumberFromEventFlow (ef : EventFlow) : Option PackingNumberUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (PackingNumberUp.mk
-        (packingNumberDecodeBHist (packingNumberEventAt 0 ef))
-        (packingNumberDecodeBHist (packingNumberEventAt 1 ef))
-        (packingNumberDecodeBHist (packingNumberEventAt 2 ef))
-        (packingNumberDecodeBHist (packingNumberEventAt 3 ef))
-        (packingNumberDecodeBHist (packingNumberEventAt 4 ef))
-        (packingNumberDecodeBHist (packingNumberEventAt 5 ef))
-        (packingNumberDecodeBHist (packingNumberEventAt 6 ef))
-        (packingNumberDecodeBHist (packingNumberEventAt 7 ef))
-        (packingNumberDecodeBHist (packingNumberEventAt 8 ef)))
+  some
+    (PackingNumberUp.mk
+      (packingNumberDecodeBHist (packingNumberEventAtDefault 1 ef))
+      (packingNumberDecodeBHist (packingNumberEventAtDefault 3 ef))
+      (packingNumberDecodeBHist (packingNumberEventAtDefault 5 ef))
+      (packingNumberDecodeBHist (packingNumberEventAtDefault 7 ef))
+      (packingNumberDecodeBHist (packingNumberEventAtDefault 9 ef))
+      (packingNumberDecodeBHist (packingNumberEventAtDefault 11 ef))
+      (packingNumberDecodeBHist (packingNumberEventAtDefault 13 ef))
+      (packingNumberDecodeBHist (packingNumberEventAtDefault 15 ef))
+      (packingNumberDecodeBHist (packingNumberEventAtDefault 17 ef)))
 
 private theorem packingNumber_round_trip :
-    forall x : PackingNumberUp,
+    ∀ x : PackingNumberUp,
       packingNumberFromEventFlow (packingNumberToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
-  | mk X eps U D B H C P N =>
+  | mk source tolerance centers distance budget transport replay provenance name =>
       change
         some
-            (PackingNumberUp.mk
-              (packingNumberDecodeBHist (packingNumberEncodeBHist X))
-              (packingNumberDecodeBHist (packingNumberEncodeBHist eps))
-              (packingNumberDecodeBHist (packingNumberEncodeBHist U))
-              (packingNumberDecodeBHist (packingNumberEncodeBHist D))
-              (packingNumberDecodeBHist (packingNumberEncodeBHist B))
-              (packingNumberDecodeBHist (packingNumberEncodeBHist H))
-              (packingNumberDecodeBHist (packingNumberEncodeBHist C))
-              (packingNumberDecodeBHist (packingNumberEncodeBHist P))
-              (packingNumberDecodeBHist (packingNumberEncodeBHist N))) =
-          some (PackingNumberUp.mk X eps U D B H C P N)
-      rw [packingNumberDecode_encode X, packingNumberDecode_encode eps,
-        packingNumberDecode_encode U, packingNumberDecode_encode D,
-        packingNumberDecode_encode B, packingNumberDecode_encode H,
-        packingNumberDecode_encode C, packingNumberDecode_encode P,
-        packingNumberDecode_encode N]
+          (PackingNumberUp.mk
+            (packingNumberDecodeBHist (packingNumberEncodeBHist source))
+            (packingNumberDecodeBHist (packingNumberEncodeBHist tolerance))
+            (packingNumberDecodeBHist (packingNumberEncodeBHist centers))
+            (packingNumberDecodeBHist (packingNumberEncodeBHist distance))
+            (packingNumberDecodeBHist (packingNumberEncodeBHist budget))
+            (packingNumberDecodeBHist (packingNumberEncodeBHist transport))
+            (packingNumberDecodeBHist (packingNumberEncodeBHist replay))
+            (packingNumberDecodeBHist (packingNumberEncodeBHist provenance))
+            (packingNumberDecodeBHist (packingNumberEncodeBHist name))) =
+          some
+            (PackingNumberUp.mk source tolerance centers distance budget transport replay
+              provenance name)
+      rw [packingNumberDecode_encode_bhist source,
+        packingNumberDecode_encode_bhist tolerance,
+        packingNumberDecode_encode_bhist centers,
+        packingNumberDecode_encode_bhist distance,
+        packingNumberDecode_encode_bhist budget,
+        packingNumberDecode_encode_bhist transport,
+        packingNumberDecode_encode_bhist replay,
+        packingNumberDecode_encode_bhist provenance,
+        packingNumberDecode_encode_bhist name]
 
 private theorem packingNumberToEventFlow_injective {x y : PackingNumberUp} :
-    packingNumberToEventFlow x = packingNumberToEventFlow y -> x = y := by
+    packingNumberToEventFlow x = packingNumberToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -109,17 +133,6 @@ private theorem packingNumberToEventFlow_injective {x y : PackingNumberUp} :
   exact Option.some.inj
     (Eq.trans (packingNumber_round_trip x).symm
       (Eq.trans hread (packingNumber_round_trip y)))
-
-private theorem packingNumber_field_faithful :
-    forall x y : PackingNumberUp, packingNumberFields x = packingNumberFields y -> x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk X1 eps1 U1 D1 B1 H1 C1 P1 N1 =>
-      cases y with
-      | mk X2 eps2 U2 D2 B2 H2 C2 P2 N2 =>
-          cases hfields
-          rfl
 
 instance packingNumberBHistCarrier : BHistCarrier PackingNumberUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -138,111 +151,63 @@ instance packingNumberChapterTasteGate : ChapterTasteGate PackingNumberUp where
 
 instance packingNumberFieldFaithful : FieldFaithful PackingNumberUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := packingNumberFields
-  field_faithful := packingNumber_field_faithful
+  fields := fun x =>
+    match x with
+    | PackingNumberUp.mk source tolerance centers distance budget transport replay provenance name =>
+        [source, tolerance, centers, distance, budget, transport, replay, provenance, name]
+  field_faithful := by
+    -- BEDC touchpoint anchor: BHist BMark
+    intro x y h
+    cases x with
+    | mk source₁ tolerance₁ centers₁ distance₁ budget₁ transport₁ replay₁ provenance₁ name₁ =>
+        cases y with
+        | mk source₂ tolerance₂ centers₂ distance₂ budget₂ transport₂ replay₂ provenance₂ name₂ =>
+            injection h with hSource rest₁
+            injection rest₁ with hTolerance rest₂
+            injection rest₂ with hCenters rest₃
+            injection rest₃ with hDistance rest₄
+            injection rest₄ with hBudget rest₅
+            injection rest₅ with hTransport rest₆
+            injection rest₆ with hReplay rest₇
+            injection rest₇ with hProvenance rest₈
+            injection rest₈ with hName _
+            cases hSource
+            cases hTolerance
+            cases hCenters
+            cases hDistance
+            cases hBudget
+            cases hTransport
+            cases hReplay
+            cases hProvenance
+            cases hName
+            rfl
 
-instance packingNumberNontrivial :
-    BEDC.Meta.TasteGate.Nontrivial PackingNumberUp where
+instance packingNumberNontrivial : Nontrivial PackingNumberUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨PackingNumberUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      PackingNumberUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
+    ⟨PackingNumberUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      PackingNumberUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty, by
         intro h
-        cases h⟩
+        injection h with hSource _ _ _ _ _ _ _ _
+        cases hSource⟩
 
 theorem PackingNumberTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate PackingNumberUp) ∧
-      Nonempty (FieldFaithful PackingNumberUp) ∧
-      Nonempty (BEDC.Meta.TasteGate.Nontrivial PackingNumberUp) ∧
-      (forall h : BHist, packingNumberDecodeBHist (packingNumberEncodeBHist h) = h) ∧
-      (forall x : PackingNumberUp,
+    (∀ h : BHist, packingNumberDecodeBHist (packingNumberEncodeBHist h) = h) ∧
+      (∀ x : PackingNumberUp,
         packingNumberFromEventFlow (packingNumberToEventFlow x) = some x) ∧
-      (forall x y : PackingNumberUp,
-        packingNumberToEventFlow x = packingNumberToEventFlow y -> x = y) ∧
-      packingNumberEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark
+        (∀ x y : PackingNumberUp,
+          packingNumberToEventFlow x = packingNumberToEventFlow y → x = y) ∧
+          packingNumberEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
   constructor
-  · exact ⟨packingNumberChapterTasteGate⟩
-  constructor
-  · exact ⟨packingNumberFieldFaithful⟩
-  constructor
-  · exact ⟨packingNumberNontrivial⟩
-  constructor
-  · exact packingNumberDecode_encode
-  constructor
-  · exact packingNumber_round_trip
-  constructor
-  · intro x y heq
-    exact packingNumberToEventFlow_injective heq
-  · rfl
+  · exact packingNumberDecode_encode_bhist
+  · constructor
+    · exact packingNumber_round_trip
+    · constructor
+      · intro x y heq
+        exact packingNumberToEventFlow_injective heq
+      · rfl
 
-theorem PackingNumberNamecertObligations [AskSetup] [PackageSetup]
-    {X eps U D B H C P N separatedRead budgetRead : BHist}
-    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    PackingNumberCarrier X eps U D B H C P N separatedRead bundle pkg ->
-      Cont separatedRead D budgetRead ->
-        PkgSig bundle budgetRead pkg ->
-          SemanticNameCert
-              (fun row : BHist => hsame row budgetRead ∧ UnaryHistory row)
-              (fun row : BHist =>
-                hsame row X ∨ hsame row eps ∨ hsame row U ∨ hsame row D ∨
-                  hsame row B ∨ hsame row separatedRead ∨ hsame row budgetRead)
-              (fun row : BHist =>
-                UnaryHistory row ∧ Cont X U separatedRead ∧
-                  Cont separatedRead D budgetRead ∧ PkgSig bundle budgetRead pkg)
-              hsame ∧
-            UnaryHistory X ∧ UnaryHistory eps ∧ UnaryHistory U ∧ UnaryHistory D ∧
-              UnaryHistory B ∧ UnaryHistory separatedRead ∧ UnaryHistory budgetRead := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
-  intro carrier separatedBudget budgetPkg
-  obtain ⟨xUnary, epsUnary, uUnary, dUnary, bUnary, _hUnary, _cUnary, _pUnary,
-    _nUnary, separatedUnary, sourceCentersSeparated, _provenancePkg⟩ := carrier
-  have budgetUnary : UnaryHistory budgetRead :=
-    unary_cont_closed separatedUnary dUnary separatedBudget
-  have cert :
-      SemanticNameCert
-          (fun row : BHist => hsame row budgetRead ∧ UnaryHistory row)
-          (fun row : BHist =>
-            hsame row X ∨ hsame row eps ∨ hsame row U ∨ hsame row D ∨
-              hsame row B ∨ hsame row separatedRead ∨ hsame row budgetRead)
-          (fun row : BHist =>
-            UnaryHistory row ∧ Cont X U separatedRead ∧ Cont separatedRead D budgetRead ∧
-              PkgSig bundle budgetRead pkg)
-          hsame := {
-    core := {
-      carrier_inhabited := Exists.intro budgetRead ⟨hsame_refl budgetRead, budgetUnary⟩
-      equiv_refl := by
-        intro row _source
-        exact hsame_refl row
-      equiv_symm := by
-        intro _row _other sameRows
-        exact hsame_symm sameRows
-      equiv_trans := by
-        intro _row _middle _other sameLeft sameRight
-        exact hsame_trans sameLeft sameRight
-      carrier_respects_equiv := by
-        intro _row _other sameRows source
-        exact
-          ⟨hsame_trans (hsame_symm sameRows) source.left,
-            unary_transport source.right sameRows⟩
-    }
-    pattern_sound := by
-      intro _row source
-      exact
-        Or.inr
-          (Or.inr
-            (Or.inr
-              (Or.inr
-                (Or.inr
-                  (Or.inr source.left)))))
-    ledger_sound := by
-      intro _row source
-      exact ⟨source.right, sourceCentersSeparated, separatedBudget, budgetPkg⟩
-  }
-  exact
-    ⟨cert, xUnary, epsUnary, uUnary, dUnary, bUnary, separatedUnary, budgetUnary⟩
-
-end BEDC.Derived.PackingNumberUp
+end BEDC.Derived.PackingNumberUp.TasteGate
