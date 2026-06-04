@@ -26,10 +26,7 @@ from scripts import run_gaussian_ou_distinction_head as distinction
 from scripts import run_gap_head_robustness_sweep as robustness
 from scripts.experiment_stats import metric_stats
 from scripts.run_gaussian_ou_gap_ledger_head import (
-    BETA,
     GAP_CHANNELS,
-    PRIMARY_EPSILON,
-    PRIMARY_TAU,
     _fit_gap_head,
     _metrics_for_arm,
     _predict_gap_head,
@@ -190,6 +187,26 @@ def _encode_torch(
     lr: float,
     weight_decay: float,
 ) -> tuple[np.ndarray, np.ndarray]:
+    encoder, device = _fit_torch_encoder(
+        train_x=train_x,
+        train_x_pair=train_x_pair,
+        seed=seed,
+        steps=steps,
+        lr=lr,
+        weight_decay=weight_decay,
+    )
+    return _apply_torch_encoder(encoder=encoder, device=device, all_x=all_x, all_x_pair=all_x_pair)
+
+
+def _fit_torch_encoder(
+    *,
+    train_x: np.ndarray,
+    train_x_pair: np.ndarray,
+    seed: int,
+    steps: int,
+    lr: float,
+    weight_decay: float,
+) -> tuple[Any, Any]:
     from bedc_quality_lab.model import (
         build_tiny_encoder,
         choose_device,
@@ -216,6 +233,18 @@ def _encode_torch(
         loss = representation_loss(h, h_pair)
         loss.backward()
         optimizer.step()
+    return encoder, device
+
+
+def _apply_torch_encoder(
+    *,
+    encoder: Any,
+    device: Any,
+    all_x: np.ndarray,
+    all_x_pair: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    import torch
+
     with torch.no_grad():
         all_t = torch.as_tensor(all_x, dtype=torch.float32, device=device)
         all_pair_t = torch.as_tensor(all_x_pair, dtype=torch.float32, device=device)
@@ -316,16 +345,22 @@ def _surface_for_seed(*, spec: TrainingChoiceArmSpec, seed: int) -> dict[str, An
     z = distinction._require_finite("z", batch.z)
     z_pair = distinction._require_finite("z_pair", batch.z_pair)
     train_idx, eval_idx = distinction._train_eval_split(z.shape[0], seed=seed)
+    torch_encoder = None
+    torch_device = None
     if spec.use_torch:
-        h, h_pair = _encode_torch(
+        torch_encoder, torch_device = _fit_torch_encoder(
             train_x=batch.x[train_idx],
             train_x_pair=batch.x_pair[train_idx],
-            all_x=batch.x,
-            all_x_pair=batch.x_pair,
             seed=seed,
             steps=spec.steps,
             lr=spec.lr,
             weight_decay=spec.weight_decay,
+        )
+        h, h_pair = _apply_torch_encoder(
+            encoder=torch_encoder,
+            device=torch_device,
+            all_x=batch.x,
+            all_x_pair=batch.x_pair,
         )
     else:
         h, h_pair = _encode_deterministic(
@@ -365,15 +400,19 @@ def _surface_for_seed(*, spec: TrainingChoiceArmSpec, seed: int) -> dict[str, An
     off_target_rows = []
     for target in distinction.DISTINCTIONS:
         z_changed = distinction._intervene(target, z, z_pair)
-        h_changed, _ = (
-            _encode_deterministic(
+        if spec.use_torch:
+            h_changed, _ = _apply_torch_encoder(
+                encoder=torch_encoder,
+                device=torch_device,
+                all_x=mix_latents(z_changed, DEFAULT_MIXING),
+                all_x_pair=batch.x_pair,
+            )
+        else:
+            h_changed, _ = _encode_deterministic(
                 train_x=batch.x[train_idx],
                 all_x=mix_latents(z_changed, DEFAULT_MIXING),
                 all_x_pair=batch.x_pair,
             )
-            if not spec.use_torch
-            else (h, h_pair)
-        )
         target_off_target = np.zeros(z.shape[0], dtype=np.float64)
         for name in distinction.DISTINCTIONS:
             if name == target:
@@ -800,14 +839,25 @@ def build_payload(*, generated_at: str | None = None) -> dict[str, Any]:
         "aggregate": _aggregate(reference_records),
         "records": reference_records,
     }
-    arm_results = [
-        _arm_result(
-            spec=spec,
-            reference_spec=arms[1] if spec.use_torch else reference_spec,
-            reference_protocols=reference_protocols,
+    arm_results = []
+    reference_protocols_by_arm = {reference_spec.arm_id: reference_protocols}
+    for spec in arms[1:]:
+        compared_reference_spec = arms[1] if spec.use_torch else reference_spec
+        compared_reference_protocols = reference_protocols_by_arm.get(
+            compared_reference_spec.arm_id,
+            reference_protocols,
         )
-        for spec in arms[1:]
-    ]
+        result = _arm_result(
+            spec=spec,
+            reference_spec=compared_reference_spec,
+            reference_protocols=compared_reference_protocols,
+        )
+        arm_results.append(result)
+        if result.get("records"):
+            reference_protocols_by_arm[spec.arm_id] = {
+                int(record["seed"]): dict(record["protocol"])
+                for record in result["records"]
+            }
     all_results = [reference_result, *arm_results]
     boundary_ledger = [
         {

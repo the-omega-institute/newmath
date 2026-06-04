@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 import bedc_quality_lab
+import numpy as np
 import pytest
 from bedc_quality_lab.schema import SCHEMA_ID
 from scripts import run_canonical_reports as canonical
@@ -174,6 +175,25 @@ def test_forbidden_column_audit_reuses_h_feature_audit():
     assert failed["forbidden_present"] == ["prediction_error"]
 
 
+def test_torch_off_target_intervention_reencodes_changed_observations(monkeypatch):
+    apply_inputs = []
+
+    monkeypatch.setattr(runner, "_fit_torch_encoder", lambda **kwargs: ("encoder", "device"))
+
+    def fake_apply_torch_encoder(*, encoder, device, all_x, all_x_pair):
+        apply_inputs.append(np.asarray(all_x, dtype=np.float64).copy())
+        return np.asarray(all_x, dtype=np.float64), np.asarray(all_x_pair, dtype=np.float64)
+
+    monkeypatch.setattr(runner, "_apply_torch_encoder", fake_apply_torch_encoder)
+    spec = _spec(steps=0, ledger_certificate_steps=0)
+
+    surface = runner._surface_for_seed(spec=spec, seed=11)
+
+    assert surface["gap_label_rates"]["off_target_intervention"] > 0.0
+    assert len(apply_inputs) == 1 + len(runner.distinction.DISTINCTIONS)
+    assert any(not np.array_equal(apply_inputs[0], changed) for changed in apply_inputs[1:])
+
+
 def test_strict_conjunction_blocks_positive_when_reduction_gate_fails():
     gates = runner._hardgates(
         protocol_audit={"status": "pass"},
@@ -253,6 +273,49 @@ def test_payload_has_no_hidden_weight_or_total_score_and_keeps_source_api(monkey
     for term in runner.FORBIDDEN_POSITIVE_CLAIM_TERMS:
         assert term not in text
     assert "scripts/run_training_choice_observability.py" in payload["source_artifacts"]["generation_script"]
+
+
+def test_torch_candidate_protocol_audit_uses_adamw_reference(monkeypatch):
+    reference = _spec(
+        arm_id=runner.REFERENCE_ARM_ID,
+        role="reference",
+        training_family="deterministic-standardization",
+        optimizer_family="none",
+        steps=0,
+        lr=0.0,
+        weight_decay=0.0,
+        use_torch=False,
+        ledger_certificate_steps=0,
+        boundary_when_unavailable=False,
+        declared_training_choice_axis="training_family",
+    )
+    adamw = _spec(arm_id="adamw_reference", role="torch_reference", steps=80, ledger_certificate_steps=80)
+    weak = _spec()
+    monkeypatch.setattr(runner, "training_choice_arms", lambda: (reference, adamw, weak))
+
+    def fake_record(spec, seed, seed_index):
+        split_delta = 0 if spec.arm_id == runner.REFERENCE_ARM_ID else 7
+        return {
+            "seed": seed,
+            "protocol": _protocol(seed, split_delta=split_delta),
+            "feature_audit": {"status": "pass", "forbidden_present": []},
+            "feature_columns": ["h:0"],
+            "arms": {},
+            "comparison": {},
+        }
+
+    monkeypatch.setattr(runner, "_run_record", fake_record)
+    monkeypatch.setattr(runner, "_aggregate", lambda records: _aggregate())
+
+    payload = runner.build_payload(generated_at="fixture-time")
+    weak_result = next(
+        arm
+        for arm in payload["training_choice_observability"]["arms"]
+        if arm["arm_id"] == "adamw_undertrained"
+    )
+
+    assert weak_result["hardgates"]["HG-TCO-1"]["status"] == "pass"
+    assert weak_result["hardgates"]["HG-TCO-1"]["audit"]["protocol_mismatches"] == []
 
 
 def test_write_artifacts_targets_runs(tmp_path):
