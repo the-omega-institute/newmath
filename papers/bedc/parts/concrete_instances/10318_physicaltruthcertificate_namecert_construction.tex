@@ -76,19 +76,38 @@ If a consumer depends on one observer history alone, then it omits the invariant
 
 \independenceWitness{physical-fit-tower, reality-constrained-signature-fit, reality-constrained-open-fit, reality-constrained-objectivity, physical-model-audit: no sibling carries the full TruthCert packet with fit, tower, descent, observer invariance, ledger, and failure surface as one carrier.}
 
+\begin{theorem}[Physical truth certificate bridge interface]
+\label{thm:physical-truth-certificate-bridge-interface}
+Every public $\PhysicalTruthCertificateUp$ TruthCert packet bridges to consumers only through the displayed route
+$$
+S,F,O,D,I,L,R,H,C,P,N .
+$$
+The bridge interface may expose source trace, open fit, observer invariance, tower descent, stability, ledger, failure surface, transport, replay, provenance, and local naming. It refuses model--reality identity, completed physical truth, unledgered oracle export, hidden observer certainty, host equality, and any truth row outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:physical-truth-certificate-carrier}. The only public coordinates are $S,F,O,D,I,L,R,H,C,P,N$, and the carrier explicitly omits model--reality identity, detached certainty, host equality, and hidden truth-oracle rows.
+
+Apply the NameCert obligations of \autoref{thm:physical-truth-certificate-namecert-obligations}. They make open-fit exposure, observer-invariance exposure, tower descent, stability, ledger exactness, failure exposure, transport, replay, provenance, and local naming the complete public surface.
+
+Use the open-fit non-escape and observer-invariance theorems, \autoref{thm:physical-truth-certificate-open-fit-nonescape} and \autoref{thm:physical-truth-certificate-observer-invariance}. They prevent a consumer from replacing the displayed route by final fit, a single observer history, or a bare mathematical model row.
+
+Thus the bridge interface is exactly the finite TruthCert route through $S,F,O,D,I,L,R,H,C,P,N$, with all identity, completed-truth, unledgered-oracle, hidden-certainty, and host-equality exports refused.
+\end{proof}
+
 \closureat{PhysicalTruthCertificateUp}{seedStr}
 \closureat{PhysicalTruthCertificateUp}{obligationStr}[BEDC.Derived.PhysicalTruthCertificateUp.PhysicalTruthCertificateNameCertObligations]
 \closureat{PhysicalTruthCertificateUp}{scopedStr}[BEDC.Derived.PhysicalTruthCertificateUp.taste\_gate]
 \closureat{PhysicalTruthCertificateUp}{publicStr}
+\closureat{PhysicalTruthCertificateUp}{bridgedStr}
 
 \begin{closurestatus}{\PhysicalTruthCertificateUp}
   \constructivestory{A $\PhysicalTruthCertificateUp$ packet is generated from finite source traces, reality-constrained open fit, observer invariance, tower descent, stability, ledger, failure surface, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \leanchecked{BEDC.Derived.PhysicalTruthCertificateUp.taste\_gate}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:physical-truth-certificate-carrier}, \autoref{thm:physical-truth-certificate-namecert-obligations}, \autoref{thm:physical-truth-certificate-open-fit-nonescape}, and \autoref{thm:physical-truth-certificate-observer-invariance} bind the carrier, NameCert obligations, open-fit non-escape, observer-invariance route, falsifiable prediction, independence witness, and TasteGate marker to the displayed physical-truth packet.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:physical-truth-certificate-carrier}, \autoref{thm:physical-truth-certificate-namecert-obligations}, \autoref{thm:physical-truth-certificate-open-fit-nonescape}, \autoref{thm:physical-truth-certificate-observer-invariance}, and \autoref{thm:physical-truth-certificate-bridge-interface} bind the carrier, NameCert obligations, open-fit non-escape, observer-invariance route, bridge interface, falsifiable prediction, independence witness, and TasteGate marker to the displayed physical-truth packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, final physical truth, host model--reality equality, unbounded observation, or a total observer-independent oracle.}
-  \upgradepath{The next obligation is a bridge theorem from the public TruthCert packet to the abstract interface while Lean verification remains an independent axis.}
+  \upgradepath{The next obligation is Lean verification and checked bridge evidence for the public TruthCert interface while the paper-side bridge route remains fixed.}
 \end{closurestatus}
