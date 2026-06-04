@@ -138,6 +138,75 @@ theorem SequentialCompactCarrier_window_transport [AskSetup] [PackageSetup]
   }
   exact ⟨cert, transportedStreamUnary, transportedWindowUnary, terminalReadUnary⟩
 
+theorem SequentialCompactSelectorMonotonicity [AskSetup] [PackageSetup]
+    {K B S W R E H C P N selectedRead monotoneRead terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SequentialCompactCarrier K B S W R E H C P N bundle pkg ->
+      Cont S W selectedRead ->
+        Cont selectedRead H monotoneRead ->
+          Cont monotoneRead C terminalRead ->
+            PkgSig bundle terminalRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row W ∨ hsame row H ∨ hsame row C ∨ hsame row selectedRead ∨
+                      hsame row monotoneRead ∨ hsame row terminalRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont S W selectedRead ∧
+                      Cont selectedRead H monotoneRead ∧ Cont monotoneRead C terminalRead ∧
+                        PkgSig bundle P pkg ∧ PkgSig bundle terminalRead pkg)
+                  hsame ∧ UnaryHistory selectedRead ∧ UnaryHistory monotoneRead ∧
+                UnaryHistory terminalRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier selectedRoute monotoneRoute terminalRoute terminalPkg
+  obtain ⟨_kUnary, _bUnary, sUnary, wUnary, _rUnary, _eUnary, hUnary, cUnary,
+    _pUnary, _nUnary, _compactBaireStream, _streamWindowRegular, _regularSealTransport,
+    _transportReplayProvenance, provenancePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selectedRead :=
+    unary_cont_closed sUnary wUnary selectedRoute
+  have monotoneUnary : UnaryHistory monotoneRead :=
+    unary_cont_closed selectedUnary hUnary monotoneRoute
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed monotoneUnary cUnary terminalRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row W ∨ hsame row H ∨ hsame row C ∨ hsame row selectedRead ∨
+              hsame row monotoneRead ∨ hsame row terminalRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S W selectedRead ∧ Cont selectedRead H monotoneRead ∧
+              Cont monotoneRead C terminalRead ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle terminalRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro terminalRead ⟨hsame_refl terminalRead, terminalUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, selectedRoute, monotoneRoute, terminalRoute, provenancePkg,
+          terminalPkg⟩
+  }
+  exact ⟨cert, selectedUnary, monotoneUnary, terminalUnary⟩
+
 theorem SequentialCompact_root_obligation_baire_window [AskSetup] [PackageSetup]
     {K B S W R E H C P N selectedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
