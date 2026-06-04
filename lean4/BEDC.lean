@@ -4013,6 +4013,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySubsequenceUp.PhaseRealCompletionExitRoute
 import BEDC.Derived.FastCauchySubsequenceUp.RealCompletionTailReadbackRoute
 import BEDC.Derived.FastCauchySubsequenceUp.RealNameNonescape
+import BEDC.Derived.FastCauchySubsequenceUp.RealSealHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.RealSealNonescape
 import BEDC.Derived.FastCauchySubsequenceUp.RealSealNonescapeInduction
 import BEDC.Derived.FastCauchySubsequenceUp.RealSealObligation
@@ -8217,6 +8218,7 @@ import BEDC.Derived.StepIndexedTotalHostUp
 import BEDC.Derived.StepIndexedTotalHostUp.Separation
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.SternBrocotApproximationUp.TasteGate
+import BEDC.Derived.SternBrocotContinuedFractionBridgeUp.TasteGate
 import BEDC.Derived.SternBrocotIntervalUp.TasteGate
 import BEDC.Derived.SternBrocotUp.TasteGate
 import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
@@ -8782,6 +8784,7 @@ import BEDC.Derived.UniformLimitMetricUp.TasteGate
 import BEDC.Derived.UniformLimitTheoremUp.TasteGate
 import BEDC.Derived.UniformLimitUp
 import BEDC.Derived.UniformLipschitzCompactVisionUp.TasteGate
+import BEDC.Derived.UniformModulusCompositionUp.TasteGate
 import BEDC.Derived.UniformModulusUp
 import BEDC.Derived.UniformModulusUp.CompactContinuousHandoff
 import BEDC.Derived.UniformModulusUp.CompactMetricThresholdFactorization
