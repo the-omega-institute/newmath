@@ -5379,6 +5379,7 @@ import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp.SubjectReductionObstructionLedger
 import BEDC.Derived.MetaCICBetaAuditUp.TasteGate
+import BEDC.Derived.MetaCICCandidateNormalizationWitnessUp
 import BEDC.Derived.MetaCICCandidateSetSNHandoffUp.TasteGate
 import BEDC.Derived.MetaCICCandidateStrongNormalizationUp
 import BEDC.Derived.MetaCICCandidateStrongNormalizationUp.TasteGate
@@ -6327,6 +6328,7 @@ import BEDC.Derived.OptionUp.VisibleExclusion
 import BEDC.Derived.OptionUp.VisiblePayloadWitnesses
 import BEDC.Derived.OptionUp.VisibleReadback
 import BEDC.Derived.OptionUpNullableBridge
+import BEDC.Derived.OptionalStieltjesModulusUp
 import BEDC.Derived.OptionalStoppingUp
 import BEDC.Derived.OptionalStoppingUp.TasteGate
 import BEDC.Derived.OracleAugmentedSubstrateUp.TasteGate
@@ -6815,7 +6817,6 @@ import BEDC.Derived.RealClassifierUp
 import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
 import BEDC.Derived.RealCompletenessDiagonalSelectorUp.NameCertObligations
-import BEDC.Derived.RealCompletenessDiagonalSelectorUp.TasteGate
 import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 import BEDC.Derived.RealCompletenessUp
 import BEDC.Derived.RealCompletionExactBoundaryUp.AllRowsNecessary
