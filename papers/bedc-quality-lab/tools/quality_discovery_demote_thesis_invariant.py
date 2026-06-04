@@ -262,8 +262,13 @@ def _search_tradeoff_evidence(value: Any, pointer: str, *, recursive: bool) -> T
         if direct is not None:
             return direct
         for key, cell in value.items():
-            if recursive or str(key) in EVIDENCE_CONTAINER_KEYS or str(key).endswith("_basis"):
-                evidence = _search_tradeoff_evidence(cell, _json_pointer_child(pointer, str(key)), recursive=recursive)
+            key_text = str(key)
+            if recursive:
+                evidence = _search_tradeoff_evidence(cell, _json_pointer_child(pointer, key_text), recursive=True)
+                if evidence is not None:
+                    return evidence
+            elif key_text in EVIDENCE_CONTAINER_KEYS or key_text.endswith("_basis"):
+                evidence = _search_tradeoff_evidence(cell, _json_pointer_child(pointer, key_text), recursive=True)
                 if evidence is not None:
                     return evidence
     elif isinstance(value, list) and recursive:

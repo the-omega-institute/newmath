@@ -7,7 +7,6 @@ from tools import quality_discovery_demote_thesis_invariant as audit
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SIDECAR_PATH = ROOT / audit.SIDECAR_ARTIFACT
 
 
 def _write_fixture(root: Path, payload):
@@ -129,6 +128,96 @@ def test_failed_wrapper_container_does_not_suppress_positive_record(tmp_path):
     assert payload["escaped_positive_count"] == 1
     assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.wrapper.records[0]"
     assert payload["escaped_positive_rows"][0]["positive_signal"] == "positive=true"
+
+
+def test_ancestor_gate_basis_list_tradeoff_is_caught(tmp_path):
+    _write_fixture(
+        tmp_path,
+        {
+            "record": {
+                "gate_basis": [
+                    {
+                        "debt_delta": -1,
+                        "benefit_delta": -1,
+                    }
+                ],
+                "cell": {
+                    "positive": True,
+                },
+            }
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "fail"
+    assert payload["positive_candidate_count"] == 1
+    assert payload["escaped_positive_count"] == 1
+    assert payload["escaped_positive_rows"][0]["file"] == "reports/fixture.json"
+    assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.record.cell"
+    assert payload["escaped_positive_rows"][0]["positive_signal"] == "positive=true"
+    assert payload["escaped_positive_rows"][0]["tradeoff_evidence_pointer"] == "$.record.gate_basis[0]"
+
+
+def test_ancestor_nested_deltas_tradeoff_is_caught(tmp_path):
+    _write_fixture(
+        tmp_path,
+        {
+            "record": {
+                "deltas": {
+                    "after_minus_before": {
+                        "debt_delta": -1,
+                        "benefit_delta": -1,
+                    }
+                },
+                "records": [
+                    {
+                        "positive": True,
+                    }
+                ],
+            }
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "fail"
+    assert payload["positive_candidate_count"] == 1
+    assert payload["escaped_positive_count"] == 1
+    assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.record.records[0]"
+    assert payload["escaped_positive_rows"][0]["tradeoff_evidence_pointer"] == "$.record.deltas.after_minus_before"
+
+
+def test_ancestor_nested_baseline_delta_tradeoff_is_caught(tmp_path):
+    _write_fixture(
+        tmp_path,
+        {
+            "record": {
+                "deltas": {
+                    "debt_plus_benefit_minus_baseline": {
+                        "debt_delta": -1,
+                        "benefit_delta": -1,
+                    }
+                },
+                "records": [
+                    {
+                        "positive": True,
+                    }
+                ],
+            }
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "fail"
+    assert payload["positive_candidate_count"] == 1
+    assert payload["escaped_positive_count"] == 1
+    assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.record.records[0]"
+    assert (
+        payload["escaped_positive_rows"][0]["tradeoff_evidence_pointer"]
+        == "$.record.deltas.debt_plus_benefit_minus_baseline"
+    )
 
 
 def test_non_positive_tradeoff_fixture_passes(tmp_path):
