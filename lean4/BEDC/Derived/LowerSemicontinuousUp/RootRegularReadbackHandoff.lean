@@ -234,4 +234,113 @@ theorem LowerSemicontinuousRegularReadback_transport [AskSetup] [PackageSetup]
   }
   exact ⟨sameReadback, sameLocated, cert⟩
 
+theorem LowerSemicontinuousRegularReadbackNonescape [AskSetup] [PackageSetup]
+    {source graph epigraph schedule readback comparison transport replay provenance name
+      windowRead valueRead epigraphRead locatedRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    lowerSemicontinuousRootFields
+        (LowerSemicontinuousUp.mk source graph epigraph schedule readback comparison
+          transport replay provenance name) =
+        [source, graph, epigraph, schedule, readback, comparison, transport, replay,
+          provenance, name] ->
+      UnaryHistory schedule ->
+        UnaryHistory readback ->
+          UnaryHistory epigraph ->
+            UnaryHistory comparison ->
+              UnaryHistory provenance ->
+                UnaryHistory name ->
+                  Cont schedule readback windowRead ->
+                    Cont windowRead epigraph valueRead ->
+                      Cont valueRead comparison epigraphRead ->
+                        Cont epigraphRead provenance locatedRead ->
+                          Cont locatedRead name namedRead ->
+                            PkgSig bundle provenance pkg ->
+                              PkgSig bundle name pkg ->
+                                SemanticNameCert
+                                    (fun row : BHist =>
+                                      hsame row namedRead ∧ UnaryHistory row)
+                                    (fun row : BHist =>
+                                      hsame row schedule ∨ hsame row readback ∨
+                                        hsame row epigraph ∨ hsame row comparison ∨
+                                          hsame row windowRead ∨ hsame row valueRead ∨
+                                            hsame row epigraphRead ∨
+                                              hsame row locatedRead ∨
+                                                hsame row namedRead)
+                                    (fun row : BHist =>
+                                      UnaryHistory row ∧
+                                        Cont schedule readback windowRead ∧
+                                          Cont windowRead epigraph valueRead ∧
+                                            Cont valueRead comparison epigraphRead ∧
+                                              Cont epigraphRead provenance locatedRead ∧
+                                                Cont locatedRead name namedRead ∧
+                                                  PkgSig bundle provenance pkg ∧
+                                                    PkgSig bundle name pkg)
+                                    hsame ∧
+                                  UnaryHistory windowRead ∧ UnaryHistory valueRead ∧
+                                    UnaryHistory epigraphRead ∧ UnaryHistory locatedRead ∧
+                                      UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Cont PkgSig SemanticNameCert UnaryHistory
+  intro fields scheduleUnary readbackUnary epigraphUnary comparisonUnary provenanceUnary
+    nameUnary scheduleRoute valueRoute epigraphRoute locatedRoute namedRoute provenancePkg
+    namePkg
+  have _acceptedFields :
+      lowerSemicontinuousRootFields
+          (LowerSemicontinuousUp.mk source graph epigraph schedule readback comparison
+            transport replay provenance name) =
+          [source, graph, epigraph, schedule, readback, comparison, transport, replay,
+            provenance, name] := fields
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed scheduleUnary readbackUnary scheduleRoute
+  have valueUnary : UnaryHistory valueRead :=
+    unary_cont_closed windowUnary epigraphUnary valueRoute
+  have epigraphReadUnary : UnaryHistory epigraphRead :=
+    unary_cont_closed valueUnary comparisonUnary epigraphRoute
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed epigraphReadUnary provenanceUnary locatedRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed locatedUnary nameUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row schedule ∨ hsame row readback ∨ hsame row epigraph ∨
+              hsame row comparison ∨ hsame row windowRead ∨ hsame row valueRead ∨
+                hsame row epigraphRead ∨ hsame row locatedRead ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont schedule readback windowRead ∧
+              Cont windowRead epigraph valueRead ∧ Cont valueRead comparison epigraphRead ∧
+                Cont epigraphRead provenance locatedRead ∧ Cont locatedRead name namedRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, scheduleRoute, valueRoute, epigraphRoute, locatedRoute,
+          namedRoute, provenancePkg, namePkg⟩
+  }
+  exact
+    ⟨cert, windowUnary, valueUnary, epigraphReadUnary, locatedUnary, namedUnary⟩
+
 end BEDC.Derived.LowerSemicontinuousUp
