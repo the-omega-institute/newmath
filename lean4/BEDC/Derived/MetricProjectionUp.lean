@@ -84,4 +84,55 @@ theorem MetricProjectionCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨source.right, pkgSig⟩
   }
 
+theorem MetricProjectionCarrier_endpoint_separation [AskSetup] [PackageSetup]
+    {H C D I W E T R P N locatedMetric locatedWindow endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg →
+      Cont D I locatedMetric →
+        Cont locatedMetric W locatedWindow →
+          Cont locatedWindow E endpoint →
+            PkgSig bundle endpoint pkg →
+              UnaryHistory D ∧ UnaryHistory I ∧ UnaryHistory W ∧ UnaryHistory E ∧
+                UnaryHistory locatedMetric ∧ UnaryHistory locatedWindow ∧
+                  UnaryHistory endpoint ∧ Cont D I locatedMetric ∧
+                    Cont locatedMetric W locatedWindow ∧ Cont locatedWindow E endpoint ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier locatedMetricRoute locatedWindowRoute endpointRoute endpointPkg
+  obtain ⟨_HUnary, _CUnary, DUnary, IUnary, WUnary, EUnary, _TUnary, _RUnary,
+    _PUnary, _NUnary, _windowRoute, _replayRoute, provenancePkg⟩ := carrier
+  have locatedMetricUnary : UnaryHistory locatedMetric :=
+    unary_cont_closed DUnary IUnary locatedMetricRoute
+  have locatedWindowUnary : UnaryHistory locatedWindow :=
+    unary_cont_closed locatedMetricUnary WUnary locatedWindowRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed locatedWindowUnary EUnary endpointRoute
+  exact
+    ⟨DUnary, IUnary, WUnary, EUnary, locatedMetricUnary, locatedWindowUnary,
+      endpointUnary, locatedMetricRoute, locatedWindowRoute, endpointRoute,
+      provenancePkg, endpointPkg⟩
+
+theorem MetricProjectionCarrier_locatedset_endpoint_separation [AskSetup] [PackageSetup]
+    {H C D I W E T R P N locatedEndpoint projectionEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg ->
+      Cont D I locatedEndpoint ->
+        Cont I W projectionEndpoint ->
+          PkgSig bundle projectionEndpoint pkg ->
+            UnaryHistory D ∧ UnaryHistory I ∧ UnaryHistory W ∧
+              UnaryHistory locatedEndpoint ∧ UnaryHistory projectionEndpoint ∧
+                Cont D I locatedEndpoint ∧ Cont I W projectionEndpoint ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle projectionEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier locatedRoute projectionRoute projectionPkg
+  obtain ⟨_HUnary, _CUnary, DUnary, IUnary, WUnary, _EUnary, _TUnary, _RUnary,
+    _PUnary, _NUnary, _windowRoute, _distanceRoute, pkgSig⟩ := carrier
+  have locatedUnary : UnaryHistory locatedEndpoint :=
+    unary_cont_closed DUnary IUnary locatedRoute
+  have projectionUnary : UnaryHistory projectionEndpoint :=
+    unary_cont_closed IUnary WUnary projectionRoute
+  exact
+    ⟨DUnary, IUnary, WUnary, locatedUnary, projectionUnary, locatedRoute,
+      projectionRoute, pkgSig, projectionPkg⟩
+
 end BEDC.Derived.MetricProjectionUp
