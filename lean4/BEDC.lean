@@ -5370,6 +5370,7 @@ import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp.SubjectReductionObstructionLedger
 import BEDC.Derived.MetaCICBetaAuditUp.TasteGate
+import BEDC.Derived.MetaCICCandidateNormalizationWitnessUp
 import BEDC.Derived.MetaCICCandidateSetSNHandoffUp.TasteGate
 import BEDC.Derived.MetaCICCandidateStrongNormalizationUp
 import BEDC.Derived.MetaCICCandidateStrongNormalizationUp.TasteGate
