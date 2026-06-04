@@ -225,4 +225,23 @@ theorem SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment :
   · rfl
 
 end TasteGate
+
+abbrev SternBrocotContinuedFractionBridgeUp :=
+  TasteGate.SternBrocotContinuedFractionBridgeUp
+
+theorem SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment :
+    (forall h : BEDC.FKernel.Hist.BHist,
+      TasteGate.sternBrocotContinuedFractionBridgeDecodeBHist
+        (TasteGate.sternBrocotContinuedFractionBridgeEncodeBHist h) = h) ∧
+      (forall x : SternBrocotContinuedFractionBridgeUp,
+        TasteGate.sternBrocotContinuedFractionBridgeFromEventFlow
+          (TasteGate.sternBrocotContinuedFractionBridgeToEventFlow x) = some x) ∧
+      (forall x y : SternBrocotContinuedFractionBridgeUp,
+        TasteGate.sternBrocotContinuedFractionBridgeToEventFlow x =
+            TasteGate.sternBrocotContinuedFractionBridgeToEventFlow y ->
+          x = y) ∧
+      TasteGate.sternBrocotContinuedFractionBridgeEncodeBHist BEDC.FKernel.Hist.BHist.Empty =
+        ([] : List BEDC.FKernel.Mark.BMark) :=
+  TasteGate.SternBrocotContinuedFractionBridgeTasteGate_single_carrier_alignment
+
 end BEDC.Derived.SternBrocotContinuedFractionBridgeUp
