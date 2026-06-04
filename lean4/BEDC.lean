@@ -2312,10 +2312,12 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ObligationRouteTriad
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerLandingSurface
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursiveReadback
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditCompilerCoherence
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditReplayTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
@@ -5200,12 +5202,14 @@ import BEDC.Derived.LowerRealUp.LocatedCutLedger
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
+import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphClassifier
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface
 import BEDC.Derived.LowerSemicontinuousUp.NameCertScope
 import BEDC.Derived.LowerSemicontinuousUp.PublicExport
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphBasis
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedReadback
+import BEDC.Derived.LowerSemicontinuousUp.RootNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RootRealSealBoundary
 import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
 import BEDC.Derived.LowerSemicontinuousUp.TasteGate
@@ -8074,6 +8078,7 @@ import BEDC.Derived.TheoryTransitionCertificateUp.LedgerRefinementBoundary
 import BEDC.Derived.TheoryTransitionCertificateUp.NameCert
 import BEDC.Derived.TheoryTransitionCertificateUp.TasteGate
 import BEDC.Derived.ThetaFunctionUp
+import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
