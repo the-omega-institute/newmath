@@ -142,6 +142,46 @@ Then use \autoref{thm:locatedset-distance-witness-obligation}. A proximinal cons
 Finally apply \autoref{thm:located-set-nearest-point-refusal-boundary} and \autoref{thm:locatedset-metric-projection-carrier-admission}. Endpoint or projection evidence is a consumer-supplied row outside the located-set carrier, so the proximinal route cannot escape the displayed packet or import open-cover compactness.
 \end{proof}
 
+\begin{theorem}[LocatedSet parent-subspace admission]
+\label{thm:located-set-parent-subspace-admission}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Every consumer that admits $L$ as a located subset must first read $X$ as the parent $\MetricUp$ row and $A$ as the displayed $\MetricSubspaceUp$ admission row before any located-distance, real-seal, or proximinal route is public. The admission surface is preserved only through the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-set-carrier}. The first two analytic rows are exactly the parent metric row $X$ and the subspace admission row $A$.
+
+Use \autoref{thm:located-set-namecert-obligations}. Parent metric compatibility and $\MetricSubspaceUp$ admission stability are local NameCert obligations, so a consumer cannot begin with $Q,R,E,T$ as detached located-distance data.
+
+Finally apply \autoref{thm:locatedset-proximinal-consumer-nonescape}. Even a proximinal consumer must expose the full route $X,A,Q,R,E,T,H,C,P,N$ before reading the packet as located-set input. Thus parent and admission rows remain public prerequisites, with $H,C,P,N$ preserving the same route.
+\end{proof}
+
+\begin{theorem}[LocatedSet distance-ledger totality]
+\label{thm:located-set-distance-ledger-totality}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Every admitted ambient-point distance request handled by $L$ is accounted for by the finite route
+$$
+X\longmapsto A\longmapsto Q\longmapsto R\longmapsto E\longmapsto T\longmapsto H,C,P,N .
+$$
+No accepted request may skip the located-distance ledger $Q$, replace the rational-window row $R$, or read the $\RealUp$ seal $E$ before the parent metric and subspace admission rows have been displayed.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:located-set-distance-handoff}. It orders every distance read through $X,A,Q,R,E$ before any located-metric, completion, compactness, or total-boundedness consumer can use the result.
+
+Apply \autoref{thm:located-set-real-distance-seal-exactness}. The real distance seal is exact only as the seal of the displayed parent metric, admission, located-distance, rational-window, and located-metric route.
+
+The totality claim is therefore local to accepted requests: once a request is admitted by $X$ and $A$, its comparison evidence is in $Q$, its rational windows are in $R$, and its real seal is in $E$. The rows $T,H,C,P,N$ expose this same ledger to consumers without adding nearest-point selection, open-cover compactness, or hidden completion data.
+\end{proof}
+
+\begin{theorem}[LocatedSet real-seal consumer boundary]
+\label{thm:located-set-real-seal-consumer-boundary}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Any completion, compactness, projection, or proximinal consumer that reads the $\RealUp$ distance seal $E$ must keep that seal downstream of the displayed route $X,A,Q,R$ and upstream of the located-metric handoff $T$ and structural rows $H,C,P,N$. The consumer receives no selected nearest point, open-cover compactness proof, quotient subset equality, completed ambient metric space, or full real-completeness row from $E$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:located-set-real-distance-seal-exactness}. It identifies $E$ as the seal of the parent metric, subspace admission, located-distance ledger, rational windows, and located-metric handoff.
+
+Now use \autoref{thm:located-set-nearest-point-refusal-boundary}. No row of the carrier is an endpoint witness row, so a projection or proximinal consumer cannot reinterpret $E$ as a selected nearest point.
+
+Finally combine \autoref{thm:locatedset-distance-witness-obligation} with \autoref{thm:locatedset-proximinal-consumer-nonescape}. The consumer boundary remains the same route through $\MetricUp$, $\MetricSubspaceUp$, $\LocatedMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, and the excluded completion, compactness, quotient, and endpoint principles are not carrier coordinates.
+\end{proof}
+
 \falsifiablePrediction{Every $\LocatedSetUp$ read from an accepted packet factors through the parent $\MetricUp$ row, $\MetricSubspaceUp$ admission row, located-distance ledger, rational comparison windows, $\RealUp$ distance seal, located-metric handoff, componentwise transport, continuation replay, provenance, and local $\NameCert$ before any completion, compactness, or total-boundedness consumer reads the route.}
 
 \independenceWitness{metric, metricsubspace, locatedmetric, real: $\LocatedSetUp$ is not bijective to any listed sibling because it jointly carries parent metric data, displayed subspace admission, a located-distance ledger, rational windows, a RealUp distance seal, located-metric handoff, transport, continuation replay, provenance, and local naming.}
