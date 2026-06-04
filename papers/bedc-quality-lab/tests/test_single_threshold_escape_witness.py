@@ -1,8 +1,6 @@
 import json
 from pathlib import Path
 
-import pytest
-
 from bedc_quality_lab.schema import SCHEMA_ID
 from scripts import run_canonical_reports as canonical
 from scripts import run_single_threshold_escape_witness as stew
@@ -114,6 +112,20 @@ def test_hg_stew_4_missing_deferred_registry_row_is_stale_source_boundary(tmp_pa
     assert "HG-STEW-4" not in payload["hardgates"]
 
 
+def test_build_sidecar_source_integrity_failure_reports_public_status(tmp_path):
+    threshold = _threshold_payload()
+    threshold.pop("threshold_curve")
+    _write_sources(tmp_path, threshold=threshold)
+
+    payload = stew.build_sidecar(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "source-integrity-failed"
+    assert payload["hardgates"]["HG-STEW-1"]["status"] == "fail"
+    assert "missing $.threshold_curve" in payload["hardgates"]["HG-STEW-1"]["failures"]
+    assert payload["hardgates"]["HG-STEW-4"]["status"] == "pass"
+    assert "HG-STEW-2" not in payload["hardgates"]
+
+
 def test_hg_stew_5_forbidden_terms_and_missing_control_baseline_fail():
     threshold = _threshold_payload()
     pseudo = stew.build_pseudo_payload(threshold)
@@ -135,6 +147,21 @@ def test_hg_stew_5_forbidden_terms_and_missing_control_baseline_fail():
     assert ok is False
     assert any("forbidden positive claim terms" in failure for failure in failures)
     assert any("forbidden score fields" in failure for failure in failures)
+
+
+def test_build_sidecar_construction_failure_reports_failed_boundary_row(tmp_path):
+    threshold = _threshold_payload()
+    threshold["threshold_summary"] = dict(threshold["threshold_summary"])
+    threshold["threshold_summary"].pop("control_baseline")
+    _write_sources(tmp_path, threshold=threshold)
+
+    payload = stew.build_sidecar(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "construction-failed"
+    assert payload["hardgates"]["HG-STEW-1"]["status"] == "pass"
+    assert payload["hardgates"]["HG-STEW-2"]["status"] == "pass"
+    assert payload["hardgates"]["HG-STEW-5"]["status"] == "fail"
+    assert "missing $.threshold_summary.control_baseline" in payload["hardgates"]["HG-STEW-5"]["failures"]
 
 
 def test_hg_stew_6_single_threshold_sidecar_never_promotes_discovery():
@@ -180,6 +207,48 @@ def test_sidecar_pointer_only_local_schema_and_not_in_canonical_reports(tmp_path
     assert stew.JSON_ARTIFACT not in {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
     assert json.loads(json_path.read_text(encoding="utf-8"))["schema_id"] == stew.LOCAL_SCHEMA_ID
     assert "Single Threshold Escape Witness" in md_path.read_text(encoding="utf-8")
+
+
+def test_cli_main_writes_artifacts_and_returns_status_contract(tmp_path):
+    success_root = tmp_path / "success"
+    _write_sources(success_root)
+
+    assert stew.main(["--root", str(success_root)]) == 0
+    json_path = success_root / stew.JSON_ARTIFACT
+    md_path = success_root / stew.MARKDOWN_ARTIFACT
+    assert json_path.exists()
+    assert md_path.exists()
+    assert json.loads(json_path.read_text(encoding="utf-8"))["status"] == "escaped-positive-captured"
+    assert "status: `escaped-positive-captured`" in md_path.read_text(encoding="utf-8")
+
+    registry = _registry_payload()
+    registry["deferred_kinds"] = [
+        row for row in registry["deferred_kinds"] if row["kind"] != stew.DEFERRED_KIND
+    ]
+    stale_root = tmp_path / "stale"
+    _write_sources(stale_root, registry=registry)
+
+    source_failure = _threshold_payload()
+    source_failure.pop("threshold_curve")
+    source_root = tmp_path / "source"
+    _write_sources(source_root, threshold=source_failure)
+
+    construction_failure = _threshold_payload()
+    construction_failure["threshold_summary"] = dict(construction_failure["threshold_summary"])
+    construction_failure["threshold_summary"].pop("control_baseline")
+    construction_root = tmp_path / "construction"
+    _write_sources(construction_root, threshold=construction_failure)
+
+    failure_cases = [
+        (stale_root, "stale-source-boundary"),
+        (source_root, "source-integrity-failed"),
+        (construction_root, "construction-failed"),
+    ]
+    for root, status in failure_cases:
+        assert stew.main(["--root", str(root)]) == 1
+        payload = json.loads((root / stew.JSON_ARTIFACT).read_text(encoding="utf-8"))
+        assert payload["status"] == status
+        assert (root / stew.MARKDOWN_ARTIFACT).exists()
 
 
 def test_projection_path_is_research_discovery_projector(monkeypatch):
