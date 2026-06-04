@@ -2579,7 +2579,11 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
     if behind_before_sync > 0:
         merge_attempted = True
         try:
-            merge = _run_command(repo_root, ["git", "merge", "--no-ff", "-m", f"Sync auto-dev {upstream_sha[:12]}", compare_ref], timeout=300.0)
+            # --autostash: daemon 在 bio-S 时工作树常带 runtime drift / in-flight 写入 (bio-K 在
+            # cycle 末才 commit). 不 autostash 的话 git merge 会因 "local changes would be
+            # overwritten" 被拒 → 无 conflict marker → codex_resolve 找不到冲突文件 → 误判
+            # conflict_aborted, behind 无界增长. autostash 先 stash 脏树、merge 后自动 pop.
+            merge = _run_command(repo_root, ["git", "merge", "--no-ff", "--autostash", "-m", f"Sync auto-dev {upstream_sha[:12]}", compare_ref], timeout=300.0)
         except (OSError, subprocess.TimeoutExpired) as exc:
             merge_status = "conflict_aborted"
             _append_sync_log(store, "merge_error", {"ref": compare_ref, "error": str(exc)})
