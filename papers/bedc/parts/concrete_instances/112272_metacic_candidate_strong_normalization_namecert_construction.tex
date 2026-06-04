@@ -76,6 +76,20 @@ It remains to inspect the structural rows. The audit row $A$ names the same sibl
 Therefore the exported endpoint surface is componentwise identical through $A,H,C,P,N,G$. An evidence-free endpoint or a missing-refusal endpoint would require a coordinate outside $S$, and no such coordinate exists in the carrier.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate strong-normalization candidate-fuel endpoint descent]
+\label{thm:metacic-candidate-strong-normalization-candidate-fuel-endpoint-descent}
+Let $S=(T,K,F,E,R,A,H,C,P,N,G)$ be an accepted $\MetaCICCandidateStrongNormalizationUp$ carrier. Any accepted carrier read exposing the same closed typed term row $T$, candidate row $K$, and fuel row $F$ reaches the endpoint row $E$ only through the displayed descent ledger and the refusal row $R$. Decreasing or replaying the fuel ledger preserves the same endpoint boundary through $A,H,C,P,N,G$ and cannot yield evidence-free strong normalization, global confluence, or subject reduction.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-strong-normalization-carrier}. The positive route displays the closed typed term, candidate evidence, fuel ledger, and endpoint rows $T,K,F,E$ in that order.
+
+Read the refusal route at the same time. The row $R$ rejects any endpoint read that omits candidate evidence, omits fuel, or turns the endpoint into an evidence-free strong-normalization theorem.
+
+Now compare a decreased or replayed fuel ledger with the original accepted read. The structural rows $A,H,C,P,N,G$ preserve the sibling audit boundary, componentwise transport, replay, provenance, local naming, and TasteGate field order without adding confluence or subject-reduction coordinates.
+
+Apply \autoref{thm:metacic-candidate-strong-normalization-fuel-refusal-determinacy} to rule out an alternate endpoint surface once $T,K,F,E,R$ are fixed. Hence every accepted descent-facing read reaches the same endpoint boundary through the displayed ledger and refusal rows.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate strong-normalization TasteGate boundary]
 \label{thm:metacic-candidate-strong-normalization-tastegate-boundary}
 Lean support for $\MetaCICCandidateStrongNormalizationUp$ must provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in \texttt{TasteGate.lean}. Nontriviality distinguishes a carrier with candidate, fuel, endpoint, and refusal rows from a closed-term endpoint without those rows; field faithfulness preserves the field order
