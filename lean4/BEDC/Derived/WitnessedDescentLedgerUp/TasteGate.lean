@@ -203,4 +203,37 @@ theorem WitnessedDescentLedgerTasteGate_single_carrier_alignment :
         exact witnessedDescentLedgerToEventFlow_injective heq,
       rfl⟩
 
+theorem WitnessedDescentLedgerPublicReadback :
+    ∀ ledger : WitnessedDescentLedgerUp,
+      ∃ source bridge descentRequest witness transport continuation provenance name : BHist,
+        ledger = WitnessedDescentLedgerUp.mk source bridge descentRequest witness transport
+            continuation provenance name ∧
+          List.Mem (witnessedDescentLedgerEncodeBHist source)
+            (witnessedDescentLedgerToEventFlow ledger) ∧
+          List.Mem (witnessedDescentLedgerEncodeBHist bridge)
+            (witnessedDescentLedgerToEventFlow ledger) ∧
+          List.Mem (witnessedDescentLedgerEncodeBHist descentRequest)
+            (witnessedDescentLedgerToEventFlow ledger) ∧
+          List.Mem (witnessedDescentLedgerEncodeBHist witness)
+            (witnessedDescentLedgerToEventFlow ledger) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro ledger
+  cases ledger with
+  | mk source bridge descentRequest witness transport continuation provenance name =>
+      exact
+        ⟨source, bridge, descentRequest, witness, transport, continuation, provenance, name,
+          rfl,
+          List.Mem.tail _ (List.Mem.head _),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))),
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))))),
+          List.Mem.tail _
+            (List.Mem.tail _
+              (List.Mem.tail _
+                (List.Mem.tail _
+                  (List.Mem.tail _
+                    (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)))))))⟩
+
 end BEDC.Derived.WitnessedDescentLedgerUp
