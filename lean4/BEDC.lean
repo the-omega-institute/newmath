@@ -2561,6 +2561,7 @@ import BEDC.Derived.CompletionExtensionUniquenessUp.TasteGate
 import BEDC.Derived.CompletionExtractorUp
 import BEDC.Derived.CompletionExtractorUp.TasteGate
 import BEDC.Derived.CompletionFunctorUp
+import BEDC.Derived.CompletionFunctorUp.BridgeCompositionExactness
 import BEDC.Derived.CompletionFunctorUp.NonEscape
 import BEDC.Derived.CompletionFunctorUp.TasteGate
 import BEDC.Derived.CompletionIdempotenceUp.TasteGate
@@ -3637,6 +3638,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.RootNonescape
 import BEDC.Derived.DyadicIntervalCoverUp.RootRegularReadback
 import BEDC.Derived.DyadicIntervalCoverUp.RootWindowCoverage
 import BEDC.Derived.DyadicIntervalCoverUp.ScopedFiniteCoverChain
+import BEDC.Derived.DyadicIntervalCoverUp.SubcoverExclusionObligation
 import BEDC.Derived.DyadicIntervalCoverUp.TasteGate
 import BEDC.Derived.DyadicIntervalDiameterUp.TasteGate
 import BEDC.Derived.DyadicIntervalNestingUp.TasteGate
@@ -3871,7 +3873,9 @@ import BEDC.Derived.FastCauchySequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySequenceUp.TasteGate
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorCoherence
 import BEDC.Derived.FastCauchySubsequenceUp.NameCertObligations
+import BEDC.Derived.FastCauchySubsequenceUp.SelectedWindowInduction
 import BEDC.Derived.FastCauchySubsequenceUp.SelectorWindowCoverage
+import BEDC.Derived.FastCauchySubsequenceUp.SourceCarrier
 import BEDC.Derived.FastCauchySubsequenceUp.TasteGate
 import BEDC.Derived.FastCauchyUp
 import BEDC.Derived.FastCauchyUp.Core
@@ -5209,6 +5213,7 @@ import BEDC.Derived.LowerRealUp.DedekindCutAdmission
 import BEDC.Derived.LowerRealUp.LocatedCutLedger
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
+import BEDC.Derived.LowerSemicontinuousUp.BaireSuperlevelHandoff
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphClassifier
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface

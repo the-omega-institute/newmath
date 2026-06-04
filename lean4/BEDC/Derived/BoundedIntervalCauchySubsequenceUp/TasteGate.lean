@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BoundedIntervalCauchySubsequenceUp
@@ -25,7 +26,7 @@ def boundedIntervalCauchySubsequenceDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (boundedIntervalCauchySubsequenceDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (boundedIntervalCauchySubsequenceDecodeBHist tail)
 
-private theorem BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode :
+private theorem boundedIntervalCauchySubsequence_decode_encode :
     ∀ h : BHist,
       boundedIntervalCauchySubsequenceDecodeBHist
           (boundedIntervalCauchySubsequenceEncodeBHist h) =
@@ -44,105 +45,115 @@ def boundedIntervalCauchySubsequenceFields :
       [I, S, W, D, T, Q, E, R, H, C, P, N]
 
 def boundedIntervalCauchySubsequenceToEventFlow :
-    BoundedIntervalCauchySubsequenceUp → EventFlow :=
+    BoundedIntervalCauchySubsequenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (boundedIntervalCauchySubsequenceFields x).map
-      boundedIntervalCauchySubsequenceEncodeBHist
+  | x =>
+      (boundedIntervalCauchySubsequenceFields x).map
+        boundedIntervalCauchySubsequenceEncodeBHist
 
-private def boundedIntervalCauchySubsequenceEventAtDefault :
-    Nat → EventFlow → RawEvent
+private def boundedIntervalCauchySubsequenceRawAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
+  | 0, [] => []
+  | 0, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      boundedIntervalCauchySubsequenceEventAtDefault index rest
+  | Nat.succ index, _event :: rest => boundedIntervalCauchySubsequenceRawAt index rest
 
-def boundedIntervalCauchySubsequenceFromEventFlow
-    (ef : EventFlow) : Option BoundedIntervalCauchySubsequenceUp :=
+private def boundedIntervalCauchySubsequenceLengthEq : Nat → EventFlow → Bool
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (BoundedIntervalCauchySubsequenceUp.mk
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 0 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 1 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 2 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 3 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 4 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 5 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 6 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 7 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 8 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 9 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 10 ef))
-      (boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEventAtDefault 11 ef)))
+  | 0, [] => true
+  | 0, _ :: _ => false
+  | Nat.succ _, [] => false
+  | Nat.succ index, _event :: rest => boundedIntervalCauchySubsequenceLengthEq index rest
 
-private theorem BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_round_trip :
+def boundedIntervalCauchySubsequenceFromEventFlow :
+    EventFlow → Option BoundedIntervalCauchySubsequenceUp
+  -- BEDC touchpoint anchor: BHist BMark
+  | flow =>
+      match boundedIntervalCauchySubsequenceLengthEq 12 flow with
+      | true =>
+          some
+            (BoundedIntervalCauchySubsequenceUp.mk
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 0 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 1 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 2 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 3 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 4 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 5 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 6 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 7 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 8 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 9 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 10 flow))
+              (boundedIntervalCauchySubsequenceDecodeBHist
+                (boundedIntervalCauchySubsequenceRawAt 11 flow)))
+      | false => none
+
+private theorem boundedIntervalCauchySubsequence_round_trip :
     ∀ x : BoundedIntervalCauchySubsequenceUp,
       boundedIntervalCauchySubsequenceFromEventFlow
           (boundedIntervalCauchySubsequenceToEventFlow x) =
         some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro token
-  cases token with
+  intro x
+  cases x with
   | mk I S W D T Q E R H C P N =>
       change
         some
-            (BoundedIntervalCauchySubsequenceUp.mk
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist I))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist S))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist W))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist D))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist T))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist Q))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist E))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist R))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist H))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist C))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist P))
-              (boundedIntervalCauchySubsequenceDecodeBHist
-                (boundedIntervalCauchySubsequenceEncodeBHist N))) =
+          (BoundedIntervalCauchySubsequenceUp.mk
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist I))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist S))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist W))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist D))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist T))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist Q))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist E))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist R))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist H))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist C))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist P))
+            (boundedIntervalCauchySubsequenceDecodeBHist
+              (boundedIntervalCauchySubsequenceEncodeBHist N))) =
           some (BoundedIntervalCauchySubsequenceUp.mk I S W D T Q E R H C P N)
-      rw [BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode I,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode S,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode W,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode D,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode T,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode Q,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode E,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode R,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode H,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode C,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode P,
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode N]
+      rw [boundedIntervalCauchySubsequence_decode_encode I,
+        boundedIntervalCauchySubsequence_decode_encode S,
+        boundedIntervalCauchySubsequence_decode_encode W,
+        boundedIntervalCauchySubsequence_decode_encode D,
+        boundedIntervalCauchySubsequence_decode_encode T,
+        boundedIntervalCauchySubsequence_decode_encode Q,
+        boundedIntervalCauchySubsequence_decode_encode E,
+        boundedIntervalCauchySubsequence_decode_encode R,
+        boundedIntervalCauchySubsequence_decode_encode H,
+        boundedIntervalCauchySubsequence_decode_encode C,
+        boundedIntervalCauchySubsequence_decode_encode P,
+        boundedIntervalCauchySubsequence_decode_encode N]
 
-private theorem BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem boundedIntervalCauchySubsequenceToEventFlow_injective
     {x y : BoundedIntervalCauchySubsequenceUp} :
     boundedIntervalCauchySubsequenceToEventFlow x =
-      boundedIntervalCauchySubsequenceToEventFlow y → x = y := by
+        boundedIntervalCauchySubsequenceToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -152,10 +163,8 @@ private theorem BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignme
           (boundedIntervalCauchySubsequenceToEventFlow y) :=
     congrArg boundedIntervalCauchySubsequenceFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans
-      (BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread
-        (BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (boundedIntervalCauchySubsequence_round_trip x).symm
+      (Eq.trans hread (boundedIntervalCauchySubsequence_round_trip y)))
 
 instance boundedIntervalCauchySubsequenceBHistCarrier :
     BHistCarrier BoundedIntervalCauchySubsequenceUp where
@@ -172,31 +181,29 @@ instance boundedIntervalCauchySubsequenceChapterTasteGate :
       boundedIntervalCauchySubsequenceFromEventFlow
           (boundedIntervalCauchySubsequenceToEventFlow x) =
         some x
-    exact BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_round_trip x
+    exact boundedIntervalCauchySubsequence_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy
-      (BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow_injective
-        heq)
+    exact hxy (boundedIntervalCauchySubsequenceToEventFlow_injective heq)
+
+namespace TasteGate
 
 theorem BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      boundedIntervalCauchySubsequenceDecodeBHist
-        (boundedIntervalCauchySubsequenceEncodeBHist h) = h) ∧
-      (∀ x : BoundedIntervalCauchySubsequenceUp,
-        boundedIntervalCauchySubsequenceFromEventFlow
-          (boundedIntervalCauchySubsequenceToEventFlow x) = some x) ∧
-      (∀ x y : BoundedIntervalCauchySubsequenceUp,
-        boundedIntervalCauchySubsequenceToEventFlow x =
-          boundedIntervalCauchySubsequenceToEventFlow y → x = y) ∧
-      boundedIntervalCauchySubsequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
+        boundedIntervalCauchySubsequenceDecodeBHist
+            (boundedIntervalCauchySubsequenceEncodeBHist h) =
+          h) ∧
+      Nonempty (BHistCarrier BoundedIntervalCauchySubsequenceUp) ∧
+        Nonempty (ChapterTasteGate BoundedIntervalCauchySubsequenceUp) ∧
+          boundedIntervalCauchySubsequenceEncodeBHist BHist.Empty =
+            ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_decode,
-      BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq =>
-        BoundedIntervalCauchySubsequenceTasteGate_single_carrier_alignment_toEventFlow_injective
-          heq),
+    ⟨boundedIntervalCauchySubsequence_decode_encode,
+      Nonempty.intro boundedIntervalCauchySubsequenceBHistCarrier,
+      Nonempty.intro boundedIntervalCauchySubsequenceChapterTasteGate,
       rfl⟩
+
+end TasteGate
 
 end BEDC.Derived.BoundedIntervalCauchySubsequenceUp
