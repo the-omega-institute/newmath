@@ -3841,6 +3841,7 @@ import BEDC.Derived.EpigraphUp.LowerSemicontinuousHandoff
 import BEDC.Derived.EpigraphUp.TasteGate
 import BEDC.Derived.EpistemicOntologyBridgeUp.TasteGate
 import BEDC.Derived.EpistemicWitnessUp.TasteGate
+import BEDC.Derived.EpsilonDeltaLimitUp
 import BEDC.Derived.EqtypeUp
 import BEDC.Derived.EquicontinuityFamilyUp
 import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
@@ -3858,6 +3859,7 @@ import BEDC.Derived.EquicontinuityUp.FiniteNetReadiness
 import BEDC.Derived.EquicontinuityUp.ModulusHandoffAdmission
 import BEDC.Derived.EquicontinuityUp.ModulusLedgerExactness
 import BEDC.Derived.EquicontinuityUp.RootCompactSourceAdmission
+import BEDC.Derived.EquicontinuityUp.RootFamilyModulusLedger
 import BEDC.Derived.EquicontinuityUp.RootObligationFiniteNet
 import BEDC.Derived.EquicontinuityUp.RootObligationUniformModulus
 import BEDC.Derived.EquicontinuityUp.RootUnblockCompactModulusConsumer
@@ -6459,6 +6461,7 @@ import BEDC.Derived.OvertRealUp.TasteGate
 import BEDC.Derived.PackageExportDisciplineUp.TasteGate
 import BEDC.Derived.PackageGovernanceExportUp.TasteGate
 import BEDC.Derived.PackageMapBoundaryUp.TasteGate
+import BEDC.Derived.PackingNumberUp
 import BEDC.Derived.PadicUp
 import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
@@ -7392,6 +7395,7 @@ import BEDC.Derived.RegularCauchyCompletionFrontierUp.NameCertObligations
 import BEDC.Derived.RegularCauchyCompletionFrontierUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionMonadUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionReflectorUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionStabilityUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniquenessUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUnitUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalPropertyUp.TasteGate
