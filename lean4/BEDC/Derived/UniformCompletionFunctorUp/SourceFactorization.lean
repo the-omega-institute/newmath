@@ -101,4 +101,89 @@ theorem UniformCompletionFunctorCarrier_source_factorization [AskSetup] [Package
   }
   exact ⟨cert, handoffUnary, sealUnary⟩
 
+theorem UniformCompletionFunctorExtensionRootObligation [AskSetup] [PackageSetup]
+    {U F E R W D S H C P N sourceRead extensionRead transported replayed sourced named : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCompletionFunctorCarrier U F E R W D S H C P N bundle pkg →
+      Cont U F sourceRead →
+        Cont sourceRead E extensionRead →
+          Cont extensionRead H transported →
+            Cont transported C replayed →
+              Cont replayed P sourced →
+                Cont sourced N named →
+                  PkgSig bundle named pkg →
+                    SemanticNameCert
+                      (fun row : BHist => hsame row named ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row U ∨ hsame row F ∨ hsame row E ∨ hsame row H ∨
+                          hsame row C ∨ hsame row P ∨ hsame row N ∨
+                            hsame row named)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont U F sourceRead ∧
+                          Cont sourceRead E extensionRead ∧
+                            Cont extensionRead H transported ∧
+                              Cont transported C replayed ∧ Cont replayed P sourced ∧
+                                PkgSig bundle named pkg)
+                      hsame ∧ UnaryHistory sourceRead ∧ UnaryHistory extensionRead ∧
+                        UnaryHistory transported ∧ UnaryHistory replayed ∧
+                          UnaryHistory sourced ∧ UnaryHistory named := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier sourceRoute extensionRoute transportRoute replayRoute sourcePkgRoute
+    nameRoute namedPkg
+  obtain ⟨unaryU, unaryF, unaryE, _unaryR, _unaryW, _unaryD, _unaryS, unaryH,
+    unaryC, unaryP, unaryN, _carrierSourceRoute, _carrierReadbackRoute,
+      _carrierSealRoute, _provenancePkg, _localNamePkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed unaryU unaryF sourceRoute
+  have extensionUnary : UnaryHistory extensionRead :=
+    unary_cont_closed sourceUnary unaryE extensionRoute
+  have transportedUnary : UnaryHistory transported :=
+    unary_cont_closed extensionUnary unaryH transportRoute
+  have replayedUnary : UnaryHistory replayed :=
+    unary_cont_closed transportedUnary unaryC replayRoute
+  have sourcedUnary : UnaryHistory sourced :=
+    unary_cont_closed replayedUnary unaryP sourcePkgRoute
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed sourcedUnary unaryN nameRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row named ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row U ∨ hsame row F ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨
+            hsame row P ∨ hsame row N ∨ hsame row named)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont U F sourceRead ∧ Cont sourceRead E extensionRead ∧
+            Cont extensionRead H transported ∧ Cont transported C replayed ∧
+              Cont replayed P sourced ∧ PkgSig bundle named pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro named ⟨hsame_refl named, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, sourceRoute, extensionRoute, transportRoute, replayRoute,
+          sourcePkgRoute, namedPkg⟩
+  }
+  exact
+    ⟨cert, sourceUnary, extensionUnary, transportedUnary, replayedUnary, sourcedUnary,
+      namedUnary⟩
+
 end BEDC.Derived.UniformCompletionFunctorUp
