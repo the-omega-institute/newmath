@@ -66,4 +66,25 @@ theorem LocatedSetCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨source.right, provenance⟩
   }
 
+theorem LocatedSetCarrier_distance_witness_obligation [AskSetup] [PackageSetup]
+    {X A Q R E T H C P N witnessRead : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    LocatedSetCarrier X A Q R E T H C P N bundle pkg ->
+      Cont E T witnessRead ->
+        PkgSig bundle N pkg ->
+          PkgSig bundle witnessRead pkg ->
+            UnaryHistory witnessRead ∧ Cont X A Q ∧ Cont Q R E ∧
+              Cont E T witnessRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg ∧
+                PkgSig bundle witnessRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier witnessRoute namePkg witnessPkg
+  obtain ⟨_xUnary, _aUnary, _qUnary, _rUnary, eUnary, tUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, metricRoute, distanceRoute, _locatedMetricRoute,
+    provenancePkg⟩ := carrier
+  have witnessUnary : UnaryHistory witnessRead :=
+    unary_cont_closed eUnary tUnary witnessRoute
+  exact
+    ⟨witnessUnary, metricRoute, distanceRoute, witnessRoute, provenancePkg, namePkg,
+      witnessPkg⟩
+
 end BEDC.Derived.LocatedSetUp
