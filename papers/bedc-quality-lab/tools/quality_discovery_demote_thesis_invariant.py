@@ -343,8 +343,6 @@ def audit_root(root: Path, *, sidecar_artifact: str = SIDECAR_ARTIFACT, generate
                 signal = _positive_signal(frame.value, frame.pointer)
                 if signal is None:
                     continue
-                if _has_explicit_non_positive(frame.value):
-                    continue
                 guarded_by = _guarded_by_non_positive_ancestor(frame, ancestors)
                 if guarded_by is not None:
                     continue

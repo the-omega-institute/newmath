@@ -57,6 +57,60 @@ def test_positive_tradeoff_fixture_is_caught(tmp_path):
     ]
 
 
+def test_same_object_discovery_conflict_tradeoff_is_caught(tmp_path):
+    _write_fixture(
+        tmp_path,
+        {
+            "cell": {
+                "positive": True,
+                "discovery_level": "DN",
+                "debt_delta": -1,
+                "benefit_delta": -1,
+            }
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "fail"
+    assert payload["positive_candidate_count"] == 1
+    assert payload["escaped_positive_count"] == 1
+    assert payload["escaped_positive_rows"] == [
+        {
+            "file": "reports/fixture.json",
+            "json_pointer": "$.cell",
+            "positive_signal": "positive=true",
+            "tradeoff_evidence_pointer": "$.cell",
+            "evidence_kind": "debt_delta_and_benefit_delta_down",
+            "reason": "debt_delta<0 and benefit_delta<0",
+        }
+    ]
+
+
+def test_same_object_terminal_conflict_tradeoff_is_caught(tmp_path):
+    _write_fixture(
+        tmp_path,
+        {
+            "cell": {
+                "main_claim_status": "positive",
+                "terminal_verdict": "demoted",
+                "debt_delta": -1,
+                "benefit_delta": -1,
+            }
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "fail"
+    assert payload["positive_candidate_count"] == 1
+    assert payload["escaped_positive_count"] == 1
+    assert payload["escaped_positive_rows"][0]["file"] == "reports/fixture.json"
+    assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.cell"
+    assert payload["escaped_positive_rows"][0]["positive_signal"] == "main_claim_status=positive"
+    assert payload["escaped_positive_rows"][0]["tradeoff_evidence_pointer"] == "$.cell"
+
+
 def test_terminal_status_fields_positive_tradeoffs_are_caught(tmp_path):
     for field in ("final_main_claim_status", "status", "result_status", "new_status"):
         case_root = tmp_path / field
@@ -286,6 +340,62 @@ def test_demoted_parent_suppresses_nested_positive_basis(tmp_path):
     assert payload["status"] == "pass"
     assert payload["positive_candidate_count"] == 0
     assert payload["escaped_positive_rows"] == []
+
+
+def test_non_positive_ancestor_suppresses_evidence_scoped_positive_row(tmp_path):
+    _write_fixture(
+        tmp_path,
+        {
+            "row": {
+                "terminal_verdict": "demoted",
+                "evidence_basis": {
+                    "cell": {
+                        "positive": True,
+                        "discovery_level": "D4",
+                        "debt_delta": -1,
+                        "benefit_delta": -1,
+                    }
+                },
+            }
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "pass"
+    assert payload["positive_candidate_count"] == 0
+    assert payload["escaped_positive_rows"] == []
+
+
+def test_main_returns_nonzero_for_escaped_positive_and_writes_pointer_sidecar(tmp_path):
+    _write_fixture(
+        tmp_path,
+        {
+            "cell": {
+                "positive": True,
+                "discovery_level": "D4",
+                "debt_delta": -1,
+                "benefit_delta": -1,
+            }
+        },
+    )
+
+    assert audit.main(["--root", str(tmp_path)]) == 1
+
+    sidecar = json.loads((tmp_path / audit.SIDECAR_ARTIFACT).read_text(encoding="utf-8"))
+    assert sidecar["status"] == "fail"
+    assert sidecar["escaped_positive_count"] == 1
+    assert sidecar["escaped_positive_rows"] == [
+        {
+            "file": "reports/fixture.json",
+            "json_pointer": "$.cell",
+            "positive_signal": "positive=true",
+            "tradeoff_evidence_pointer": "$.cell",
+            "evidence_kind": "debt_delta_and_benefit_delta_down",
+            "reason": "debt_delta<0 and benefit_delta<0",
+        }
+    ]
+    audit.assert_pointer_only_boundary(sidecar)
 
 
 def test_checked_in_artifacts_pass_demote_thesis_invariant():
