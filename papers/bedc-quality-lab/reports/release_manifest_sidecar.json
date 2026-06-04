@@ -1,0 +1,82 @@
+{
+  "artifact_id": "bedc-quality-lab:release-manifest-sidecar",
+  "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+  "generated_at": "2026-06-04T07:02:53.666685+00:00",
+  "not_claimed": [
+    "tag_status is falsifiable metadata, not a release-quality proof",
+    "not the release tag itself",
+    "not lab bundle release-ready unless all required pointers and the tag predicate resolve",
+    "not a positive scientific result",
+    "not model-quality evidence",
+    "not a BEDC closure, NameCert, or scorecard upgrade",
+    "not a substitute for PR-3 or PR-6 hardening coverage"
+  ],
+  "release_bundle_status": "ready",
+  "required_pointers": [
+    {
+      "failure": null,
+      "id": "canonical-index",
+      "path": "reports/canonical/index.json",
+      "pointer": "$.schema_id",
+      "status": "resolved"
+    },
+    {
+      "failure": null,
+      "id": "artifact-manifest-navigation",
+      "path": "docs/artifact_manifest.md",
+      "pointer": "## Quality Baseline Surfaces",
+      "status": "resolved"
+    },
+    {
+      "failure": null,
+      "id": "literature-ledger-release-navigation",
+      "path": "docs/lit/literature_ledger.yaml",
+      "pointer": "$.records[id=lit-artifact-release-navigation]",
+      "status": "resolved"
+    },
+    {
+      "failure": null,
+      "id": "version-file",
+      "path": "VERSION",
+      "pointer": "file",
+      "status": "resolved"
+    },
+    {
+      "failure": null,
+      "id": "canonical-index-markdown",
+      "path": "reports/canonical/index.md",
+      "pointer": "# Canonical Report Index",
+      "status": "resolved"
+    },
+    {
+      "failure": null,
+      "id": "artifact-manifest-self-row",
+      "path": "docs/artifact_manifest.md",
+      "pointer": "row:bedc-quality-lab:artifact-manifest",
+      "status": "resolved"
+    }
+  ],
+  "revoke_if": "Revoke ready status if any required pointer stops resolving, the requested tag becomes stale, or this sidecar is used as report status evidence.",
+  "schema_id": "bedc-quality-lab:release-manifest-sidecar",
+  "source_pointers": {
+    "artifact_manifest": {
+      "path": "docs/artifact_manifest.md",
+      "pointer": "## Quality Baseline Surfaces"
+    },
+    "canonical_index": {
+      "path": "reports/canonical/index.json",
+      "pointer": "$"
+    },
+    "literature_ledger_release_navigation": {
+      "path": "docs/lit/literature_ledger.yaml",
+      "pointer": "$.records[id=lit-artifact-release-navigation]"
+    },
+    "version": {
+      "path": "VERSION",
+      "pointer": "file"
+    }
+  },
+  "tag_ref": null,
+  "tag_status": "absent",
+  "version": "0.1.0"
+}

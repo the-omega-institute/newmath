@@ -1,0 +1,181 @@
+{
+  "artifact_id": "gap_head_attribution_v3",
+  "claim_capsule_hardgates": {
+    "CC-HG1": {
+      "name": "CC-HG1",
+      "status": "pass"
+    },
+    "CC-HG2": {
+      "name": "CC-HG2",
+      "status": "pass"
+    },
+    "CC-HG3": {
+      "name": "CC-HG3",
+      "status": "pass"
+    },
+    "CC-HG4": {
+      "name": "CC-HG4",
+      "status": "pass"
+    },
+    "CC-HG5": {
+      "name": "CC-HG5",
+      "status": "pass"
+    },
+    "CC-HG6": {
+      "name": "CC-HG6",
+      "status": "pass"
+    },
+    "CC-HG7": {
+      "name": "CC-HG7",
+      "status": "pass"
+    }
+  },
+  "control_pointer": {
+    "h_random_projection_lowdim": "$.aggregate.by_arm.h_random_projection_lowdim",
+    "h_random_rotation": "$.aggregate.by_arm.h_random_rotation",
+    "matched_random": "$.aggregate.by_arm.matched_random"
+  },
+  "cost_protocol_pointer": "$.source_artifacts.source_surface",
+  "d5_m": {
+    "failed_gate": "A1-HG3",
+    "passed": false,
+    "requires": [
+      "A1-HG1",
+      "A1-HG2",
+      "A1-HG3",
+      "A1-HG4",
+      "A1-HG5"
+    ],
+    "status": "blocked"
+  },
+  "d5_o": {
+    "A1_capsule_arm_count": 22,
+    "claim": "D5-O robust operational pointer retained from canonical gap-head-on-h evidence.",
+    "source_pointer": "reports/canonical/gap-head-on-h.json",
+    "status": "ready"
+  },
+  "failed_gate": "A1-HG3",
+  "forbidden_column_audit": {
+    "assertion_helper": "scripts/run_gap_ledger_head_on_h.py::_assert_inference_columns",
+    "forbidden_columns": [
+      "z",
+      "z_pair",
+      "gap_label",
+      "prediction_error",
+      "eval_gap_labels",
+      "config_metadata"
+    ],
+    "status": "pass",
+    "violations": []
+  },
+  "hardgates": {
+    "failed_gate": "A1-HG3",
+    "gates": {
+      "A1-HG1": {
+        "criterion": "full AUROC CI-low > matched_random AUROC CI-high",
+        "evidence": {
+          "full_ci_low": 0.7996948122113381,
+          "matched_random_ci_high": 0.5278142856600613
+        },
+        "name": "A1-HG1",
+        "status": "pass"
+      },
+      "A1-HG2": {
+        "criterion": "full UER reduction CI-low > matched_random UER reduction CI-high",
+        "evidence": {
+          "full_ci_low": 0.35022397208243455,
+          "matched_random_ci_high": 0.27862060044169346
+        },
+        "name": "A1-HG2",
+        "status": "pass"
+      },
+      "A1-HG3": {
+        "criterion": "full AUROC CI-low > score_plus_margin AUROC CI-high",
+        "evidence": {
+          "full_ci_low": 0.7996948122113381,
+          "score_plus_margin_ci_high": 0.8454823105481024
+        },
+        "name": "A1-HG3",
+        "status": "fail"
+      },
+      "A1-HG4": {
+        "criterion": "full AUROC CI-low > h_norm_only AUROC CI-high",
+        "evidence": {
+          "full_ci_low": 0.7996948122113381,
+          "h_norm_only_ci_high": 0.6161950416603894
+        },
+        "name": "A1-HG4",
+        "status": "pass"
+      },
+      "A1-HG5": {
+        "criterion": "full_without_transition and full indistinguishable means no transition mechanism claim",
+        "evidence": {
+          "full_mean": 0.8155891135051798,
+          "full_without_transition_mean": 0.8261615105102602,
+          "transition_mechanism_claimed": false,
+          "transition_not_claimed_due_to_no_difference": true
+        },
+        "name": "A1-HG5",
+        "status": "pass"
+      },
+      "A1-HG6": {
+        "criterion": "D5-M requires A1-HG1 through A1-HG5 all pass",
+        "evidence": {
+          "required_gates": [
+            "A1-HG1",
+            "A1-HG2",
+            "A1-HG3",
+            "A1-HG4",
+            "A1-HG5"
+          ]
+        },
+        "name": "A1-HG6",
+        "status": "fail"
+      }
+    },
+    "status": "fail"
+  },
+  "mechanism_case": {
+    "case": "Case 2",
+    "failed_gate": "A1-HG3",
+    "status": "D5-O retained, mechanism = probe-margin-channel",
+    "what_was_learned": "score_plus_margin remains statistically competitive with full."
+  },
+  "positive_discovery_inputs": [
+    "A1-HG1",
+    "A1-HG2"
+  ],
+  "revocation_ledger": [
+    {
+      "artifact_id": "gap_head_attribution_v3",
+      "event": "claim-demotion",
+      "failed_gate": "A1-HG3",
+      "new_status": "D5-O-retained-D5-M-blocked",
+      "timestamp": "2026-06-04T06:47:49.176427+00:00"
+    }
+  ],
+  "run_id": "a1-20260604T064749Z",
+  "schema_id": "bedc.quality.claim_capsule.v1",
+  "scope": {
+    "not_claimed": [
+      "global model quality",
+      "full LeJEPA reproduction",
+      "full TensorNameCert",
+      "LLM behavior quality",
+      "mechanism closure unless D5-M"
+    ]
+  },
+  "scope_seal": {
+    "not_claimed": [
+      "global model quality",
+      "full LeJEPA reproduction",
+      "full TensorNameCert",
+      "LLM behavior quality",
+      "mechanism closure unless D5-M"
+    ],
+    "scope": "Gaussian-OU learned-h gap-head attribution capsule for issue 692 A1.",
+    "status": "sealed"
+  },
+  "source_issue": 692,
+  "what_was_learned": "score_plus_margin remains statistically competitive with full."
+}

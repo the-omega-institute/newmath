@@ -54,6 +54,9 @@ GAP_HEAD_MECHANISM_ATTRIBUTION_ARTIFACT_ID = "bedc-quality-lab:gap-head-mechanis
 GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_v3.json"
 GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_v3.md"
 GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_v3"
+RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT = "reports/release_manifest_sidecar.json"
+RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT = "reports/release_manifest_sidecar.md"
+RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID = "bedc-quality-lab:release-manifest-sidecar"
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -1130,7 +1133,6 @@ def _gap_head_mechanism_attribution_index_section() -> dict[str, Any]:
         "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
     }
 
-
 def _gap_head_attribution_index_section() -> dict[str, Any]:
     payload = _load_artifact_payload(GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT)
     return {
@@ -1143,6 +1145,20 @@ def _gap_head_attribution_index_section() -> dict[str, Any]:
         "d5_o_status": _pointer_value(payload, "$.d5_o.status") or "missing",
         "d5_m_status": _pointer_value(payload, "$.d5_m.status") or "missing",
         "mechanism_case": _pointer_value(payload, "$.mechanism_case.case") or "missing",
+    }
+
+
+def _release_manifest_sidecar_index_section() -> dict[str, Any]:
+    payload = _load_sidecar_payload(RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT)
+    return {
+        "status": "pointer-only",
+        "artifact_id": payload.get("artifact_id", RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID),
+        "json_artifact": RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT,
+        "markdown_artifact": RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT,
+        "canonical_role": payload.get("canonical_role", "sidecar_not_in_CANONICAL_REPORTS"),
+        "release_bundle_status": payload.get("release_bundle_status", "missing"),
+        "tag_status": payload.get("tag_status", "missing"),
+        "version": payload.get("version", "missing"),
     }
 
 
@@ -1219,6 +1235,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
         "gap_head_attribution_v3": _gap_head_attribution_index_section(),
         "gap_head_mechanism_attribution": _gap_head_mechanism_attribution_index_section(),
+        "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -1355,6 +1372,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Arms: `{payload['gap_head_mechanism_attribution']['arm_count']}`",
             f"- Canonical role: `{payload['gap_head_mechanism_attribution']['canonical_role']}`",
             "",
+            "## Release manifest sidecar",
+            "",
+            f"- Status: `{payload['release_manifest_sidecar']['status']}`",
+            f"- JSON: `{payload['release_manifest_sidecar']['json_artifact']}`",
+            f"- Markdown: `{payload['release_manifest_sidecar']['markdown_artifact']}`",
+            f"- Canonical role: `{payload['release_manifest_sidecar']['canonical_role']}`",
+            f"- Release bundle status: `{payload['release_manifest_sidecar']['release_bundle_status']}`",
+            f"- Tag status: `{payload['release_manifest_sidecar']['tag_status']}`",
+            f"- Version: `{payload['release_manifest_sidecar']['version']}`",
+            "",
             "## Paper outline",
             "",
             f"- Status: `{outline['status']}`",
@@ -1442,6 +1469,12 @@ def run_reports(
     from scripts.run_gap_head_mechanism_attribution import write_gap_head_mechanism_attribution
 
     write_gap_head_mechanism_attribution(root=ROOT, generated_at=timestamp)
+    draft_payload = _index(results, generated_at=timestamp)
+    _write_json_atomic(INDEX_ARTIFACT, draft_payload)
+    _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))
+    from scripts.release_manifest_sidecar import write_release_manifest_sidecar
+
+    write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
     payload = _index(results, generated_at=timestamp)
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))

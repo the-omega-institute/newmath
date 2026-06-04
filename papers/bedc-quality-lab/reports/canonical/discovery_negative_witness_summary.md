@@ -1,6 +1,6 @@
 # Discovery Negative Witness Summary
 
-- Generated at: `2026-06-03T19:25:03.606946+00:00`
+- Generated at: `2026-06-04T07:02:53.666685+00:00`
 - Status: `pointer-only`
 - Audit: `pass`
 - Rows: `12`
@@ -8,9 +8,9 @@
 | negative id | verdict | reason | ledger | discovery map | witness | claim verdict | audit |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `dn:gap-head-ablation` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/gap-head-ablation.json:$.hardgate.status` | `reports/canonical/discovery_map.json:$.rows[4]` | `None` | `None` | `pass` |
-| `dn:certificate-guided-training` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-training.json:$.result.status` | `reports/canonical/discovery_map.json:$.rows[7]` | `None` | `None` | `pass` |
-| `dn:certificate-guided-discovery` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-discovery.json:$.positive_discovery` | `reports/canonical/discovery_map.json:$.rows[8]` | `None` | `None` | `pass` |
-| `dn:spectral-ablation-hinge` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/spectral-ablation-hinge.json:$.negative_control_summary.treatment_better_than_all_controls` | `reports/canonical/discovery_map.json:$.rows[9]` | `None` | `None` | `pass` |
+| `dn:certificate-guided-training` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-training.json:$.result.status` | `reports/canonical/discovery_map.json:$.rows[8]` | `None` | `None` | `pass` |
+| `dn:certificate-guided-discovery` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-discovery.json:$.positive_discovery` | `reports/canonical/discovery_map.json:$.rows[9]` | `None` | `None` | `pass` |
+| `dn:spectral-ablation-hinge` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/spectral-ablation-hinge.json:$.negative_control_summary.treatment_better_than_all_controls` | `reports/canonical/discovery_map.json:$.rows[10]` | `None` | `None` | `pass` |
 | `witness:classifier_surface_delta_zero` | `negative_discovery` | `no-classifier-shift` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]` | `reports/canonical/claim_verdicts.jsonl:10` | `pass` |
 | `witness:matched_control_positive` | `negative_discovery` | `control-unresolved` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]` | `reports/canonical/claim_verdicts.jsonl:11` | `pass` |
 | `witness:hidden_debt_positive` | `rejected_due_to_hidden_debt` | `audit-improvement-tradeoff` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]` | `reports/canonical/claim_verdicts.jsonl:12` | `pass` |

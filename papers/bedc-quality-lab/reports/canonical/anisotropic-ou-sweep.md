@@ -1,6 +1,6 @@
 # Anisotropic Gaussian-OU transition-isotropy sweep
 
-- Generated at: `2026-06-03T05:12:42.566115+00:00`
+- Generated at: `2026-06-04T07:02:20.760622+00:00`
 - Seed count: `20`
 - Sample count: `384`
 - Applicability boundary: `Gaussian latent + anisotropic transition`
@@ -11,7 +11,7 @@
 
 | rho_by_axis | isotropic | anisotropy gap | transition debt mean | status | quality_q mean |
 | --- | --- | ---: | ---: | --- | ---: |
-| `(0.9, 0.9)` | `True` | 0.000000 | 0.000000 | closed | -0.612048 |
+| `(0.9, 0.9)` | `True` | 0.000000 | 0.000000 | closed | -0.669061 |
 | `(0.9, 0.6)` | `False` | 0.300000 | 0.072000 | open-or-partial | -0.741922 |
 | `(0.95, 0.3)` | `False` | 0.650000 | 0.120000 | open-or-partial | -0.791576 |
 | `(0.99, 0.5)` | `False` | 0.490000 | 0.117600 | open-or-partial | -0.801242 |
@@ -21,9 +21,9 @@
 | rho_by_axis | quality_q delta vs isotropic | negative result |
 | --- | ---: | --- |
 | `(0.9, 0.9)` | 0.000000 | `False` |
-| `(0.9, 0.6)` | -0.129874 | `True` |
-| `(0.95, 0.3)` | -0.179528 | `True` |
-| `(0.99, 0.5)` | -0.189194 | `True` |
+| `(0.9, 0.6)` | -0.072861 | `True` |
+| `(0.95, 0.3)` | -0.122515 | `True` |
+| `(0.99, 0.5)` | -0.132181 | `True` |
 
 ## Applicability boundary
 

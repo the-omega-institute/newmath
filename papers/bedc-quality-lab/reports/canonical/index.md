@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-04T06:25:51.157766+00:00`
+- Generated at: `2026-06-04T07:02:53.666685+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -98,7 +98,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/gap_head_attribution_v3.json`
 - Markdown: `reports/canonical/gap_head_attribution_v3.md`
-- Run id: `a1-20260604T062534Z`
+- Run id: `a1-20260604T070236Z`
 - D5-O: `ready`
 - D5-M: `blocked`
 - Mechanism case: `Case 2`
@@ -111,6 +111,16 @@
 - Mechanism status: `D5-O retained, mechanism = probe-margin-channel`
 - Arms: `22`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+
+## Release manifest sidecar
+
+- Status: `pointer-only`
+- JSON: `reports/release_manifest_sidecar.json`
+- Markdown: `reports/release_manifest_sidecar.md`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+- Release bundle status: `ready`
+- Tag status: `absent`
+- Version: `0.1.0`
 
 ## Paper outline
 
