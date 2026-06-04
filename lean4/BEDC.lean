@@ -5250,6 +5250,7 @@ import BEDC.Derived.LocalTimeFiberUp
 import BEDC.Derived.LocalTimeFiberUp.TasteGate
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
+import BEDC.Derived.LocallyCompactMetricUp.TasteGate
 import BEDC.Derived.LocallyCompactUp.ClosedBallNeighborhoodBase
 import BEDC.Derived.LocallyCompactUp.CompactBallWindow
 import BEDC.Derived.LocallyCompactUp.CompactWindowRootAdmission
@@ -8207,6 +8208,7 @@ import BEDC.Derived.StepIndexedTotalHostUp
 import BEDC.Derived.StepIndexedTotalHostUp.Separation
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.SternBrocotApproximationUp.TasteGate
+import BEDC.Derived.SternBrocotContinuedFractionBridgeUp.TasteGate
 import BEDC.Derived.SternBrocotIntervalUp.TasteGate
 import BEDC.Derived.SternBrocotUp.TasteGate
 import BEDC.Derived.StieltjesMeasureBoundaryUp.TasteGate
@@ -8870,6 +8872,7 @@ import BEDC.Derived.WeylGroupUp.TasteGate
 import BEDC.Derived.WhitneyEmbeddingFiniteAtlasUp.TasteGate
 import BEDC.Derived.WhitneyExtensionFiniteJetUp.TasteGate
 import BEDC.Derived.WindowCoverageTriggerAlgebraUp.TasteGate
+import BEDC.Derived.WitnessedDescentLedgerUp
 import BEDC.Derived.WitnessedDescentLedgerUp.TasteGate
 import BEDC.Derived.WitnessedRefutationUp.TasteGate
 import BEDC.Derived.WobbleQuotientSpectralTriggerUp.TasteGate
