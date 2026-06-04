@@ -101,6 +101,13 @@ def _read_json_artifact(root: Path, artifact: str):
     return json.loads((root / artifact).read_text(encoding="utf-8"))
 
 
+def _owner_by_pointer(root: Path, pointer: str):
+    owners = discovery_map.build_negative_discovery_owner_rows(root=root)
+    index_text = pointer.removeprefix("reports/canonical/negative_discovery_reports.json:$.rows[").removesuffix("]")
+    assert index_text.isdigit()
+    return owners[int(index_text)]
+
+
 def _robustness_context_payload():
     return {
         "final_status": "pass",
@@ -432,10 +439,14 @@ def test_gap_head_transfer_atlas_failed_claim_projects_dn(tmp_path):
 
     discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(discovery_payload)["gap-head-transfer-atlas"]
+    owner = _owner_by_pointer(tmp_path, row["negative_report_pointer"])
 
     assert row["discovery_level"] == "DN"
-    assert row["terminal_verdict"] == "rejected"
-    assert row["failed_gate"] == "$.multi_surface_d5_o.decision"
+    assert row["negative_report_pointer"].startswith("reports/canonical/negative_discovery_reports.json:$.rows[")
+    assert "terminal_verdict" not in row
+    assert "failed_gate" not in row
+    assert owner["terminal_verdict"] == "rejected"
+    assert owner["failed_gate"] == "$.multi_surface_d5_o.decision"
     assert row["audit_status"] == "valid"
 
 
@@ -815,17 +826,21 @@ def test_dimension_mismatch_pass_with_scale_leakage_projects_terminal_dn(tmp_pat
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(payload)["dimension-mismatch-debt-transfer"]
+    owner = _owner_by_pointer(tmp_path, row["negative_report_pointer"])
 
-    assert row["base_level"] == "D4"
-    assert row["anti_triviality_status"] == "scale_leakage_detected"
-    assert row["effective_level"] == "DN"
-    assert row["downgrade_reason"] == "scale_only_or_metadata_proxy_sufficient"
     assert row["discovery_level"] == "DN"
-    assert row["terminal_verdict"] == "negative_discovery"
+    assert "anti_triviality_status" not in row
+    assert "effective_level" not in row
+    assert "downgrade_reason" not in row
+    assert "terminal_verdict" not in row
+    assert owner["anti_triviality_status"] == "scale_leakage_detected"
+    assert owner["effective_level"] == "DN"
+    assert owner["downgrade_reason"] == "scale_only_or_metadata_proxy_sufficient"
+    assert owner["terminal_verdict"] == "negative_discovery"
     assert row["audit_status"] == "valid"
-    assert row["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
-    assert row["hypothesis"] == "fixture hypothesis"
-    assert row["what_was_learned"] == "fixture learned"
+    assert owner["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+    assert owner["hypothesis"] == "fixture hypothesis"
+    assert owner["what_was_learned"] == "fixture learned"
     assert "control_pointer" not in row
     assert "d5_readiness" not in row
 
@@ -892,8 +907,11 @@ def test_dimension_mismatch_failed_projects_dn_with_failed_gate(tmp_path):
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(payload)["dimension-mismatch-debt-transfer"]
+    owner = _owner_by_pointer(tmp_path, row["negative_report_pointer"])
 
     assert row["discovery_level"] == "DN"
     assert row["audit_status"] == "valid"
-    assert row["failed_gate"] == "$.dimension_mismatch_debt_transfer.status"
-    assert row["terminal_verdict"] == "negative_discovery"
+    assert "failed_gate" not in row
+    assert "terminal_verdict" not in row
+    assert owner["failed_gate"] == "$.dimension_mismatch_debt_transfer.status"
+    assert owner["terminal_verdict"] == "negative_discovery"

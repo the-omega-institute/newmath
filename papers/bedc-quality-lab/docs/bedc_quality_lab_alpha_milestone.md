@@ -4,7 +4,7 @@ This document is a pointer hub for the alpha-stage quality baseline. Machine-rea
 
 ## Discovery Levels
 
-Discovery levels are read from `reports/canonical/discovery_map.json` at `$.rows[*].discovery_level`. The complete cell classification is machine-owned by `reports/canonical/discovery_map.json:$.rows[*]`.
+Discovery levels are read from `reports/canonical/discovery_map.json` at `$.rows[*].discovery_level`. DN report bodies are machine-owned by `reports/canonical/negative_discovery_reports.json:$.rows[*]`; discovery-map DN rows carry only the resolvable owner pointer.
 
 | level | pointer meaning |
 | --- | --- |
@@ -17,7 +17,7 @@ Selected alpha milestone pointers are:
 | report | baseline level pointer | evidence pointer |
 | --- | --- | --- |
 | `gap-head-on-h` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=gap-head-on-h].evidence_pointer` |
-| `certificate-guided-discovery` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery].failed_gate` |
+| `certificate-guided-discovery` | `reports/canonical/discovery_map.json:$.rows[report=certificate-guided-discovery].discovery_level` | `reports/canonical/negative_discovery_reports.json:$.rows[report=certificate-guided-discovery].failed_gate` |
 | `nongaussian-distribution-sweep` | `reports/canonical/discovery_map.json:$.rows[report=nongaussian-distribution-sweep].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=nongaussian-distribution-sweep].debt_row_pointer` |
 | `anisotropic-ou-sweep` | `reports/canonical/discovery_map.json:$.rows[report=anisotropic-ou-sweep].discovery_level` | `reports/canonical/discovery_map.json:$.rows[report=anisotropic-ou-sweep].debt_row_pointer` |
 
