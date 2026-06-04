@@ -4037,6 +4037,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.SourceCarrier
 import BEDC.Derived.FastCauchySubsequenceUp.SourceReplayExhaustion
 import BEDC.Derived.FastCauchySubsequenceUp.SourceSurface
 import BEDC.Derived.FastCauchySubsequenceUp.SynchronizedWindow
+import BEDC.Derived.FastCauchySubsequenceUp.TailComparisonExtraction
 import BEDC.Derived.FastCauchySubsequenceUp.TailExtractionObligations
 import BEDC.Derived.FastCauchySubsequenceUp.TailModulusLock
 import BEDC.Derived.FastCauchySubsequenceUp.TailRegularity
@@ -5163,6 +5164,7 @@ import BEDC.Derived.LawCertificateUp.ContinuationScope
 import BEDC.Derived.LawCertificateUp.NameCert
 import BEDC.Derived.LawCertificateUp.TasteGate
 import BEDC.Derived.LawlessSequenceUp.TasteGate
+import BEDC.Derived.LawlikeSequenceUp.TasteGate
 import BEDC.Derived.LaxMilgramUp.TasteGate
 import BEDC.Derived.LayeredRelationCertUp.TasteGate
 import BEDC.Derived.LayeredRelationDisplayUp.TasteGate
