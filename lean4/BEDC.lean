@@ -5549,6 +5549,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualCandidateSNHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualConfluenceBudgetBridge
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDecidabilityCut
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateMediatedHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualPublicHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualSubstitutionDiamondBudget
@@ -6780,6 +6781,7 @@ import BEDC.Derived.RealCauchyWitnessGridUp.TasteGate
 import BEDC.Derived.RealClassifierUp
 import BEDC.Derived.RealClosureUp.TasteGate
 import BEDC.Derived.RealCofinalModulusGateUp.TasteGate
+import BEDC.Derived.RealCompletenessDiagonalSelectorUp.NameCertObligations
 import BEDC.Derived.RealCompletenessTailChoiceAuditUp.TasteGate
 import BEDC.Derived.RealCompletenessUp
 import BEDC.Derived.RealCompletionExactBoundaryUp.AllRowsNecessary
