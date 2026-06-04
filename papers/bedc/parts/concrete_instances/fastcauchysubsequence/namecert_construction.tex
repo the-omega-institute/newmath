@@ -237,6 +237,18 @@ Use the cofinal-window obligation above for every selected finite window. Each s
 Finally apply the NameCert obligations of \autoref{thm:fast-cauchy-subsequence-namecert-obligations}. The support rows $H,C,P,N$ preserve componentwise transport, replay, provenance, and local naming only for the displayed finite route, so the forbidden host-level data has no coordinate through which it could escape.
 \end{proof}
 
+\begin{theorem}[FastCauchySubsequence formal target ledger]
+\label{thm:fast-cauchy-subsequence-formal-target-ledger}
+Any later Lean target for $\FastCauchySubsequenceUp$ must encode the same displayed carrier rows used in this chapter: inspected source windows $S$, the $\CauchyModulusUp$ row $M$, the $\CofinalSubsequenceUp$ row $Q$, the $\FastCauchyUp$ rate row $F$, the $\RegularCauchySubsequenceUp$ handoff $R$, the $\RegSeqRatUp$ readback $W$, the $\RealUp$ seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\FastCauchySubsequenceUp}$ row $N$. The target may prove only obligations over these rows and must not encode quotient stream equality, selected limits, countable choice, trichotomy, or $\RealUp$ completeness as hidden support.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. It lists exactly the displayed source windows, CauchyModulus, CofinalSubsequence, FastCauchy, RegularCauchySubsequence, RegSeqRat, Real seal, transport, replay, provenance, and local NameCert rows.
+
+Apply the local obligation theorems in order. The NameCert obligations, regular route, modulus-selector coherence, selected-window induction, cofinal-window obligation, and Real-seal nonescape theorem all consume the same rows and never introduce a second carrier.
+
+The formal target therefore has no room for quotient stream equality, selected limits, countable choice, trichotomy, or $\RealUp$ completeness. Any such field would be outside $S,M,Q,F,R,W,E,H,C,P,N$ and would not be the chapter's finite $\BHist$ ledger.
+\end{proof}
+
 \begin{closurestatus}{\FastCauchySubsequenceUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:fast-cauchy-subsequence-carrier}, \autoref{thm:fast-cauchy-subsequence-namecert-obligations}, and \autoref{thm:fast-cauchy-subsequence-regular-route} seed the inspected-modulus route from cofinal fast subsequence selection to regular rational readback and the terminal real seal.}
