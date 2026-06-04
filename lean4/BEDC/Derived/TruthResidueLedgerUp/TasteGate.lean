@@ -232,6 +232,23 @@ theorem TruthResidueLedger_falsifiable_boundary
         ⟨O, I, B, P, F, G, H, C, Q, N, rfl, rfl, cont_intro rfl,
           cont_intro rfl, cont_intro rfl, cont_intro rfl, hsame_refl G⟩
 
+theorem TruthResidueLedger_field_coverage (x : TruthResidueLedgerUp) :
+    ∃ O I B P F G H C Q N : BHist,
+      x = TruthResidueLedgerUp.mk O I B P F G H C Q N ∧
+        truthResidueLedgerFields x = [O, I, B, P, F, G, H, C, Q, N] ∧
+          Cont O I (append O I) ∧
+            Cont B P (append B P) ∧
+              Cont P F (append P F) ∧
+                Cont F G (append F G) ∧
+                  hsame H H ∧ hsame C C ∧ hsame Q Q ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk O I B P F G H C Q N =>
+      exact
+        ⟨O, I, B, P, F, G, H, C, Q, N, rfl, rfl, cont_intro rfl,
+          cont_intro rfl, cont_intro rfl, cont_intro rfl, hsame_refl H,
+          hsame_refl C, hsame_refl Q, hsame_refl N⟩
+
 theorem TruthResidueLedger_namecert_obligations
     {O I B P F G H C Q N obsRead invariantRead bridgeRead predictionRead
       falsificationRead nonfinalRead : BHist} :
