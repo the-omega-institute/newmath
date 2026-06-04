@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\LikelihoodRatioTestUp$}
+\label{ch:concrete-instances-likelihood-ratio-test-namecert}
+\origin{human}
+
+Following Neyman and Pearson, the $\LikelihoodRatioTestUp$ packet records a finite decision ledger for comparing a displayed null hypothesis against a displayed alternative through likelihood-score rows. It sits after the hypothesis surface of \autoref{ch:concrete-instances-hypothesis-namecert}, the estimator ledger of \autoref{ch:concrete-instances-estimator-namecert}, the Fisher-information score route of \autoref{ch:concrete-instances-fisherinfo-namecert}, the Bayesian likelihood row of \autoref{ch:concrete-instances-bayesian-namecert}, and the probability source of \autoref{ch:concrete-instances-probspace-namecert}. The packet names only a finite test decision surface, not asymptotic optimality, host probability measure theory, selected critical regions, posterior odds, or measure-theoretic choice.
+
+\begin{definition}[Likelihood-ratio test carrier]\label{def:likelihood-ratio-test-carrier}
+A $\LikelihoodRatioTestUp$ carrier is a finite $\BHist$ packet
+$$
+T=(H_0,H_1,L,\tau,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H_0$ is the null-hypothesis row, read through the $\HypothesisUp$ carrier and attached to the displayed $\ProbSpaceUp$ source.
+\item $H_1$ is the alternative-hypothesis row, read through the same hypothesis and probability-source surface.
+\item $L$ is the finite likelihood-score ledger, carrying the inspected observation windows, likelihood comparisons, estimator readbacks, Fisher-information score rows when present, and Bayesian likelihood row when present.
+\item $\tau$ is the threshold row, displaying the finite critical comparison requested by the test.
+\item $D$ is the decision row, recording the accepted local decision after $H_0,H_1,L,\tau$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the null hypothesis, alternative hypothesis, likelihood ledger, threshold, decision, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the probability source and hypothesis rows through the likelihood ledger and threshold to the decision row.
+\item $P$ is the $\Pkg$ provenance over $\LikelihoodRatioTestUp$, $\HypothesisUp$, $\EstimatorUp$, $\FisherInfoUp$, $\BayesianUp$, $\ProbSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LikelihoodRatioTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $H_0,H_1,L,\tau,D,H,C,P,N$. It has no coordinate for asymptotic power, uniformly most powerful optimality, posterior odds, selected rejection regions, ambient measure completion, or host probability choice.
+\end{definition}
+
+\begin{theorem}[Likelihood-ratio test NameCert obligations]\label{thm:likelihood-ratio-test-namecert-obligations}
+For every accepted $\LikelihoodRatioTestUp$ carrier $T=(H_0,H_1,L,\tau,D,H,C,P,N)$, the local $\NameCert_{\LikelihoodRatioTestUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the null hypothesis, alternative hypothesis, likelihood-score ledger, threshold, decision, transport, replay, provenance, and local naming rows;
+\item hypothesis-source stability, requiring $H_0$ and $H_1$ to remain attached to the same $\ProbSpaceUp$ source and to the hypothesis carrier of \autoref{ch:concrete-instances-hypothesis-namecert};
+\item likelihood-ledger stability, requiring every score comparison in $L$ to be read through the displayed estimator, Fisher-information, Bayesian likelihood, or probability-source row named by \autoref{ch:concrete-instances-estimator-namecert}, \autoref{ch:concrete-instances-fisherinfo-namecert}, \autoref{ch:concrete-instances-bayesian-namecert}, and \autoref{ch:concrete-instances-probspace-namecert};
+\item threshold stability, requiring $\tau$ to be displayed before the decision row $D$ is consumed;
+\item decision nonescape, requiring $D$ to export only the finite likelihood-ratio decision and not asymptotic optimality, posterior odds, selected critical regions, host measure completion, or measure-theoretic choice;
+\item componentwise transport, displayed replay, package provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+These obligations certify only the finite statistical decision ledger.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:likelihood-ratio-test-carrier}. Its visible rows are exactly the two hypothesis rows, likelihood-score ledger, threshold, decision, and structural rows.
+
+Hypothesis-source stability is read from $H_0$ and $H_1$. Both rows point back to the displayed hypothesis carrier and probability source, so the test does not compare hypotheses from unrelated sources.
+
+Likelihood-ledger stability is read from $L$. Each score comparison is attached to displayed observation, estimator, Fisher-information, Bayesian likelihood, or probability-source rows before the threshold can be applied.
+
+The threshold and decision rows are downstream. The row $\tau$ supplies the finite comparison boundary, and $D$ records the resulting local decision only after the ledger has been displayed.
+
+Rows $H,C,P,N$ transport, replay, source, and name the same packet. Since no additional coordinate stores asymptotic optimality, posterior odds, selected critical regions, host measure completion, or choice, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Likelihood-ratio test finite-ledger threshold stability]\label{thm:likelihood-ratio-test-finite-ledger-threshold-stability}
+Let $T=(H_0,H_1,L,\tau,D,H,C,P,N)$ and $T'=(H'_0,H'_1,L',\tau',D',H',C',P',N')$ be accepted $\LikelihoodRatioTestUp$ carriers. If componentwise $\hsame$ transport identifies the null rows, alternative rows, likelihood ledgers, threshold rows, decision rows, replay rows, provenance rows, and local naming rows, then the threshold decision exposed by $T$ is the same finite decision exposed by $T'$. The comparison is made only through the displayed hypothesis, estimator, Fisher-information, Bayesian likelihood, probability-source, transport, replay, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Start with the two accepted carriers. The classifier has no readable coordinates beyond $H_0,H_1,L,\tau,D,H,C,P,N$ and their primed counterparts.
+
+Use componentwise $\hsame$ transport. The null and alternative hypotheses are compared through the displayed hypothesis and probability-source rows, the likelihood ledgers are compared through their finite score entries, and the threshold rows are compared before either decision row is read.
+
+The replay and provenance rows preserve the same route to the local decision. Because neither carrier contains an asymptotic optimality theorem, posterior-odds row, selected critical region, host measure completion, or choice principle, the transported threshold decision is the same finite ledger decision.
+\end{proof}
+
+\falsifiablePrediction{Every $\LikelihoodRatioTestUp$ decision read factors through a null hypothesis row, an alternative hypothesis row, a finite likelihood-score ledger, a displayed threshold, a decision row, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{hypothesis, estimator, fisherinfo, bayesian, probspace: $\LikelihoodRatioTestUp$ is not bijective to any listed sibling because it jointly carries two hypothesis rows, likelihood-score entries, a threshold row, a decision row, transport, replay, provenance, and local naming.}
+
+\closureat{LikelihoodRatioTestUp}{seedStr}
+
+\begin{closurestatus}{\LikelihoodRatioTestUp}
+  \constructivestory{A $\LikelihoodRatioTestUp$ packet is generated from a null hypothesis row, an alternative hypothesis row, a finite likelihood-score ledger, a displayed threshold row, a decision row, componentwise hsame transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:likelihood-ratio-test-carrier}, \autoref{thm:likelihood-ratio-test-namecert-obligations}, and \autoref{thm:likelihood-ratio-test-finite-ledger-threshold-stability} seed the finite likelihood-ratio decision route through Hypothesis, Estimator, FisherInfo, Bayesian, ProbSpace, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close asymptotic optimality, uniformly most powerful tests, posterior odds, selected critical regions, host probability measure theory, ambient measure completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, hypothesis-source stability, likelihood-ledger stability, threshold stability, decision nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LikelihoodRatioTestUp.}
+\end{closurestatus}
