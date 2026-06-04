@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyCanonicalModulusUp
@@ -162,7 +163,7 @@ instance regularCauchyCanonicalModulusChapterTasteGate :
     exact hxy (RegularCauchyCanonicalModulusUp_toEventFlow_injective heq)
 
 theorem RegularCauchyCanonicalModulusTasteGate_single_carrier_alignment :
-    (forall h : BHist,
+    (∀ h : BHist,
       regularCauchyCanonicalModulusDecodeBHist
           (regularCauchyCanonicalModulusEncodeBHist h) = h) ∧
       Nonempty (BHistCarrier RegularCauchyCanonicalModulusUp) ∧
