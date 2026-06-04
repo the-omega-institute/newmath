@@ -79,6 +79,20 @@ Apply \autoref{thm:sierpinski-space-namecert-obligation-surface}. The structural
 Since the carrier has no coordinate for excluded middle, proof-irrelevant open equality, selected limits, quotient stream representatives, or ambient Real completeness, none of those objects can be supplied by the handoff.
 \end{proof}
 
+\begin{theorem}[Sierpinski observable-open induction]
+\label{thm:sierpinski-space-observable-open-induction}
+Let $S=(B,O,W,H,C,P,N)$ be an accepted $\SierpinskiSpaceUp$ carrier, and let $\omega$ be a finite observable-open request history addressed to the displayed $\StreamNameUp$ window list $W$. The request is exhausted by induction on that finite window list. The base case reads no positive observation beyond the $\BoolUp$ truth row $B$ and the $\TopologyUp$ open row $O$. In the step case, consuming one displayed window from $W$ preserves the specialization-order readback through the transport row $H$, then replays the same observable-open route through $C,P,N$. Thus every finite observable-open request over $S$ remains inside $B,O,W,H,C,P,N$ before any topology-facing consumer can read open membership.
+\end{theorem}
+\begin{proof}
+Read the observable-open classifier from \autoref{thm:sierpinski-space-open-set-classifier}. It restricts every membership comparison to the displayed truth row $B$, the open row $O$, the StreamName window row $W$, and the specialization-order readback determined by those rows.
+
+Induct on the displayed finite window list inside $W$. In the empty case, the request history contains no positive window report, so the only available observable information is the pair $B,O$ together with the structural rows that name the route.
+
+For a successor window, consume the first displayed window and apply the obligation surface of \autoref{thm:sierpinski-space-namecert-obligation-surface}. Finite-observation stability keeps the window attached to the same open row $O$, and specialization-order stability transports the readback componentwise through $H$.
+
+After the window is consumed, apply the consumer handoff of \autoref{thm:sierpinski-space-consumer-handoff}. The remaining request is replayed through $C$ and sourced and named by $P,N$, so the induction step produces the same finite route for the tail of the window list. No host open-membership proposition, hidden evaluator, selected limit, quotient stream, or ambient Real-completeness coordinate is introduced.
+\end{proof}
+
 \closureat{SierpinskiSpaceUp}{seedStr}
 
 \begin{closurestatus}{\SierpinskiSpaceUp}
