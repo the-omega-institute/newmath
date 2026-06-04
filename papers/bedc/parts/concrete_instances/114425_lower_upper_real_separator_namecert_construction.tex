@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\LowerUpperRealSeparatorUp$}
+\label{ch:concrete-instances-lower-upper-real-separator-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\LowerUpperRealSeparatorUp$ packet records the finite BEDC surface by which a lower-real ledger and an upper-real ledger are held apart by an explicit separator row. It reads the one-sided real carriers of \autoref{ch:concrete-instances-lowerreal-namecert} and \autoref{ch:concrete-instances-upperreal-namecert}, the cut interface of \autoref{ch:concrete-instances-locatedcut-namecert}, the located-real handoff of \autoref{ch:concrete-instances-locatedreal-namecert}, the stream window of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the constructive separator boundary; it does not assert trichotomy, quotient equality, selected suprema, countable choice, or host completeness.
+
+\begin{definition}[LowerUpperRealSeparator carrier]
+\label{def:lower-upper-real-separator-carrier}
+A $\LowerUpperRealSeparatorUp$ carrier is a finite $\BHist$ packet
+$$
+G=(L,U,S,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the $\LowerRealUp$ ledger, including the lower-set classifier, rational read rows, and displayed lower approximation evidence.
+\item $U$ is the $\UpperRealUp$ ledger, including the upper-set classifier, rational read rows, and displayed upper approximation evidence.
+\item $S$ is the separator row, recording the finite apartness or located-cut boundary that keeps accepted lower and upper reads in their declared order.
+\item $W$ is the $\StreamNameUp$ window through which consumers request finite readback precision.
+\item $R$ is the $\RegSeqRatUp$ readback row that converts the windowed request into regular rational comparison data.
+\item $E$ is the $\RealUp$ seal naming the terminal real-facing route when the lower and upper evidence is exported together.
+\item $H$ records componentwise $\hsame$ transport for $L,U,S,W,R,E$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+L,U,S \longmapsto W,R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\LowerUpperRealSeparatorUp$, $\LowerRealUp$, $\UpperRealUp$, $\LocatedCutUp$, $\LocatedRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LowerUpperRealSeparatorUp}$ row.
+\end{enumerate}
+The classifier of the carrier compares accepted packets only through the displayed lower ledger, upper ledger, separator row, stream window, regular rational readback, Real seal, componentwise transport, continuation replay, provenance, and local naming row.
+\end{definition}
+
+\begin{theorem}[LowerUpperRealSeparator NameCert obligations]
+\label{thm:lower-upper-real-separator-namecert-obligations}
+For every accepted $\LowerUpperRealSeparatorUp$ carrier
+$$
+G=(L,U,S,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\LowerUpperRealSeparatorUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the lower ledger, upper ledger, separator row, stream window, regular rational readback, Real seal, transport row, replay row, provenance row, and local naming row;
+\item componentwise classifier compatibility, requiring accepted comparison to be read row by row from $L,U,S,W,R,E,H,C,P,N$;
+\item lower/upper compatibility, requiring the separator row $S$ to display the boundary by which lower and upper reads remain ordered under the same windowed request;
+\item Real-route stability, requiring the terminal read through $E$ to preserve the preceding $\StreamNameUp$ and $\RegSeqRatUp$ rows;
+\item separator-ledger nonescape, requiring the provenance and local NameCert rows to source no trichotomy, quotient equality, selected supremum, countable-choice, or host-completeness coordinate.
+\end{enumerate}
+No separator obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lower-upper-real-separator-carrier}. The visible one-sided real coordinates are exactly the lower ledger $L$, the upper ledger $U$, the separator row $S$, the stream window $W$, the regular rational readback $R$, and the Real seal $E$.
+
+Classifier compatibility is componentwise. A transported packet keeps each ledger on the same displayed field, and replay through $C$ can only revisit the rows already named by $L,U,S,W,R,E$.
+
+Lower/upper compatibility is supplied by the separator row. It is read after the one-sided ledgers and before the readback window, so a consumer cannot replace it by a host trichotomy decision or by an unlisted supremum selector.
+
+Finally inspect $P$ and $N$. Their source list contains only the displayed packet dependencies and local naming data. Since no coordinate stores quotient real equality, choice, selected suprema, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[LowerUpperRealSeparator Real route]
+\label{thm:lower-upper-real-separator-real-route}
+Every consumer route from an accepted $\LowerUpperRealSeparatorUp$ carrier factors through
+$$
+\StreamNameUp,\RegSeqRatUp,\RealUp
+$$
+after reading the displayed lower ledger, upper ledger, and separator row. The route may export finite one-sided-real boundary data to $\RealUp$, but it cannot expose trichotomy, quotient equality, selected suprema, countable choice, or host completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $G=(L,U,S,W,R,E,H,C,P,N)$. The only route out of the one-sided ledgers first reads $L$ and $U$, then the separator row $S$.
+
+The consumer request is then windowed by $W$ and read back by $R$. These rows give finite regular rational comparison data before any terminal Real-facing seal is available.
+
+The Real export is the row $E$, transported by $H$ and replayed by $C$. Because $P$ and $N$ name only this finite route, a consumer receives no trichotomy, quotient equality, selected supremum, countable-choice principle, or host-completeness witness.
+\end{proof}
+
+\closureat{LowerUpperRealSeparatorUp}{seedStr}
+
+\begin{closurestatus}{\LowerUpperRealSeparatorUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lower-upper-real-separator-carrier}, \autoref{thm:lower-upper-real-separator-namecert-obligations}, and \autoref{thm:lower-upper-real-separator-real-route} seed the one-sided-real separator boundary over displayed lower, upper, stream, readback, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Cauchy completion, trichotomy, quotient equality, selected suprema, countable choice, host completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, componentwise classifier compatibility, lower/upper compatibility, Real-route stability, separator-ledger nonescape, and a Lean carrier surface for BEDC.Derived.LowerUpperRealSeparatorUp.}
+\end{closurestatus}
