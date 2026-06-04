@@ -45,7 +45,7 @@ def _matrix():
     )
     rows = [
         {
-            "axis": "C1",
+            "axis": transfer.DEFAULT_AXIS,
             "axis_label": "encoder_output_dim",
             "axis_value": index + 1,
             "row": transfer.DEFAULT_ROW,
@@ -88,6 +88,15 @@ def _patch_matrix(monkeypatch):
                 "failure_detection_auroc_delta_learned_minus_vanilla": 0.4,
             },
         },
+    )
+
+
+def _sidecar(root: Path, *, status: str = "scale_leakage_detected", projection: str = "demote_to_DN_or_D1") -> None:
+    path = root / transfer.ANTI_TRIVIALITY_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps({"status": status, "recommended_projection": projection}) + "\n",
+        encoding="utf-8",
     )
 
 
@@ -143,16 +152,35 @@ def test_surface_matrix_actual_input_matches_h_only_allowlist():
     assert audit["actual_model_input_width"] == len(transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS)
 
 
-def test_build_payload_records_hardgates_and_scoped_d4_pass(monkeypatch):
+def test_build_payload_records_hardgates_and_sidecar_driven_dn(monkeypatch, tmp_path):
     _patch_matrix(monkeypatch)
     monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
     monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
 
-    payload = transfer.build_payload(generated_at="fixture-time")
+    payload = transfer.build_payload(root=tmp_path, generated_at="fixture-time")
 
     assert payload["dimension_mismatch_debt_transfer"]["status"] == "pass"
-    assert payload["dimension_mismatch_debt_transfer"]["discovery_level"] == "D4"
+    assert payload["dimension_mismatch_debt_transfer"]["base_level"] == "D4"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_status"] == "scale_leakage_detected"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_projection"] == "demote_to_DN_or_D1"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_fold_status"] == "pass"
+    assert payload["dimension_mismatch_debt_transfer"]["effective_level"] == "DN"
+    assert payload["dimension_mismatch_debt_transfer"]["discovery_level"] == "DN"
+    assert payload["dimension_mismatch_debt_transfer"]["terminal_verdict"] == "negative_discovery"
+    assert payload["dimension_mismatch_debt_transfer"]["downgrade_reason"] == "scale_only_or_metadata_proxy_sufficient"
+    assert payload["dimension_mismatch_debt_transfer"]["hypothesis"]
+    assert payload["dimension_mismatch_debt_transfer"]["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+    assert payload["dimension_mismatch_debt_transfer"]["what_was_learned"]
+    assert payload["dimension_mismatch_debt_transfer"]["not_claimed"] == [
+        "global dimension theory",
+        "representation-geometric debt transfer",
+        "D5 promotion",
+    ]
     assert payload["boundary_ledger"]["d5_shortcut"] is False
+    assert payload["boundary_ledger"]["projection"] == "DN"
+    assert payload["dimension_mismatch_debt_transfer"]["pass_surface_count"] == 1
+    assert payload["dimension_mismatch_debt_transfer"]["total_surface_count"] == 1
     assert {gate["status"] for gate in payload["hardgate_evidence"].values()} == {"pass"}
     assert payload["hardgate_evidence"]["HG-B2"]["matched_random_auroc"]["mean"] == 0.5
     assert payload["hardgate_evidence"]["HG-B3"]["reason"]
@@ -160,6 +188,56 @@ def test_build_payload_records_hardgates_and_scoped_d4_pass(monkeypatch):
         transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS
     )
     assert all(row["reason"] and row["status_code"] for row in payload["surfaces"][0]["result_rows"])
+
+
+def test_sidecar_absent_or_unfoldable_does_not_emit_terminal_dn(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+
+    missing = transfer.build_payload(root=tmp_path, generated_at="fixture-time")
+    assert missing["dimension_mismatch_debt_transfer"]["anti_triviality_fold_status"] == "defer"
+    assert missing["dimension_mismatch_debt_transfer"]["effective_level"] == "defer"
+    assert missing["dimension_mismatch_debt_transfer"]["terminal_verdict"] == "incomplete"
+
+    _sidecar(tmp_path, status="anti_triviality_passed", projection="no_level_change_signal_detected")
+    passed = transfer.build_payload(root=tmp_path, generated_at="fixture-time")
+    assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_status"] == "anti_triviality_passed"
+    assert passed["dimension_mismatch_debt_transfer"]["effective_level"] == "D4"
+    assert passed["dimension_mismatch_debt_transfer"]["terminal_verdict"] == "source_pass"
+
+
+def test_source_snapshot_can_be_written_before_sidecar(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+
+    payload = transfer.build_payload(root=tmp_path, generated_at="fixture-time", require_anti_triviality=False)
+
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_fold_status"] == "source_only"
+    assert payload["dimension_mismatch_debt_transfer"]["effective_level"] == "D4"
+    assert payload["dimension_mismatch_debt_transfer"]["terminal_verdict"] == "source_pass"
+
+
+@pytest.mark.parametrize("gate_name", ["HG-B1", "HG-B4", "HG-B5"])
+def test_selected_hardgate_failure_sets_failed_status_and_denominator(monkeypatch, tmp_path, gate_name):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+    original = transfer._hardgates
+
+    def fake_hardgates(*, matrix, records):
+        gates = original(matrix=matrix, records=records)
+        gates[gate_name] = {**gates[gate_name], "status": "fail"}
+        return gates
+
+    monkeypatch.setattr(transfer, "_hardgates", fake_hardgates)
+    payload = transfer.build_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert payload["dimension_mismatch_debt_transfer"]["status"] == "failed"
+    assert payload["dimension_mismatch_debt_transfer"]["pass_surface_count"] == 0
+    assert payload["dimension_mismatch_debt_transfer"]["total_surface_count"] == 1
 
 
 def test_failed_comparison_projects_no_positive_d4_d5(monkeypatch):
@@ -215,10 +293,11 @@ def test_markdown_is_pointer_only_and_artifact_is_not_canonical(monkeypatch):
     _patch_matrix(monkeypatch)
     monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
     monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
-    payload = transfer.build_payload(generated_at="fixture-time")
+    payload = transfer.build_payload(generated_at="fixture-time", require_anti_triviality=False)
     markdown = transfer.render_markdown(payload)
 
     assert "$.dimension_mismatch_debt_transfer.status" in markdown
+    assert "effective level" in markdown
     assert "Metric rows" in markdown
     assert "no non-trivial debt-transfer mechanism independent of encoder-dimension information" in markdown
     assert "raw_h" not in markdown
@@ -233,9 +312,8 @@ def test_write_payload_keeps_pointer_artifact(tmp_path, monkeypatch):
     monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
     monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
     monkeypatch.setattr(transfer, "ROOT", tmp_path)
-    payload = transfer.build_payload(generated_at="fixture-time")
 
-    transfer._write_payload(payload)
+    payload = transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time", require_anti_triviality=False)
 
     written = json.loads((tmp_path / transfer.JSON_ARTIFACT).read_text(encoding="utf-8"))
     markdown = (tmp_path / transfer.REPORT_ARTIFACT).read_text(encoding="utf-8")

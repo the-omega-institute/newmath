@@ -1,15 +1,15 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-map",
-  "generated_at": "2026-06-04T11:04:50.081457+00:00",
+  "generated_at": "2026-06-04T11:53:28.456838+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
     "D0": 1,
     "D1": 4,
     "D2": 0,
     "D3": 0,
-    "D4": 2,
+    "D4": 1,
     "D5": 1,
-    "DN": 4,
+    "DN": 5,
     "DR": 0
   },
   "manifest_audit": {
@@ -235,20 +235,30 @@
       "terminal_verdict": "rejected"
     },
     {
+      "anti_triviality_status": "scale_leakage_detected",
       "audit_reason": "",
       "audit_status": "valid",
+      "base_level": "D4",
       "classifier_reasons": [
-        "positive_discovery=true",
-        "robustness evidence absent"
+        "verdict=rejected"
       ],
-      "control_pointer": "$.control_protocol",
-      "discovery_level": "D4",
-      "evidence_pointer": "$.dimension_mismatch_debt_transfer.status",
+      "discovery_level": "DN",
+      "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
+      "effective_level": "DN",
+      "evidence_pointer": "$.dimension_mismatch_debt_transfer.effective_level",
+      "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+      "hypothesis": "h-summary dimension-mismatch debt transfer remains non-trivial after metadata and scale controls",
       "json_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
       "markdown_artifact": "reports/canonical/dimension-mismatch-debt-transfer.md",
+      "not_claimed": [
+        "global dimension theory",
+        "representation-geometric debt transfer",
+        "D5 promotion"
+      ],
       "projection_status": "projected",
       "report": "dimension-mismatch-debt-transfer",
-      "terminal_verdict": ""
+      "terminal_verdict": "negative_discovery",
+      "what_was_learned": "anti-triviality sidecar recommends DN demotion"
     }
   ],
   "schema_id": "bedc-quality-lab:canonical-discovery-map"

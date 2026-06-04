@@ -160,7 +160,11 @@ def _observed_debt_transfer_context_payload(*, transfer_metric=False):
     return payload
 
 
-def _dimension_mismatch_payload(*, status="pass"):
+def _dimension_mismatch_payload(*, status="pass", anti_triviality_status="scale_leakage_detected"):
+    effective_level = "D4" if anti_triviality_status == "anti_triviality_passed" else "DN"
+    terminal_verdict = "source_pass" if effective_level == "D4" else "negative_discovery"
+    downgrade_reason = None if effective_level == "D4" else "scale_only_or_metadata_proxy_sufficient"
+    failed_gate = None if effective_level == "D4" else "$.dimension_mismatch_debt_transfer.anti_triviality_status"
     return {
         "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
         "status": "pointer-only",
@@ -170,7 +174,23 @@ def _dimension_mismatch_payload(*, status="pass"):
             "status_code": "scoped-d4-boundary" if status == "pass" else "failed-boundary",
             "reason": "fixture",
             "scope": "encoder_dim grid against producer reference latent dimension",
-            "discovery_level": "D4" if status == "pass" else "DN",
+            "base_level": "D4",
+            "anti_triviality_status": anti_triviality_status,
+            "anti_triviality_projection": "no_level_change_signal_detected"
+            if anti_triviality_status == "anti_triviality_passed"
+            else "demote_to_DN_or_D1",
+            "effective_level": effective_level,
+            "downgrade_reason": downgrade_reason,
+            "terminal_verdict": terminal_verdict,
+            "discovery_level": effective_level,
+            "hypothesis": "fixture hypothesis",
+            "failed_gate": failed_gate,
+            "what_was_learned": "fixture learned",
+            "not_claimed": [
+                "global dimension theory",
+                "representation-geometric debt transfer",
+                "D5 promotion",
+            ],
         },
         "boundary_ledger": {"d5_shortcut": False},
         "hardgate_evidence": {
@@ -663,7 +683,7 @@ def test_manifest_audit_registers_dimension_mismatch_pointer_artifact(tmp_path):
     assert discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT not in payload["manifest_audit"]["unregistered_json_artifacts"]
 
 
-def test_dimension_mismatch_pass_projects_only_scoped_d4_no_d5_shortcut(tmp_path):
+def test_dimension_mismatch_pass_with_scale_leakage_projects_terminal_dn(tmp_path):
     _write_all_payloads(tmp_path)
     _write_json_artifact(
         tmp_path,
@@ -674,9 +694,42 @@ def test_dimension_mismatch_pass_projects_only_scoped_d4_no_d5_shortcut(tmp_path
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(payload)["dimension-mismatch-debt-transfer"]
 
-    assert row["discovery_level"] == "D4"
+    assert row["base_level"] == "D4"
+    assert row["anti_triviality_status"] == "scale_leakage_detected"
+    assert row["effective_level"] == "DN"
+    assert row["downgrade_reason"] == "scale_only_or_metadata_proxy_sufficient"
+    assert row["discovery_level"] == "DN"
+    assert row["terminal_verdict"] == "negative_discovery"
     assert row["audit_status"] == "valid"
-    assert row["control_pointer"] == "$.control_protocol"
+    assert row["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+    assert row["hypothesis"] == "fixture hypothesis"
+    assert row["what_was_learned"] == "fixture learned"
+    assert "control_pointer" not in row
+    assert "d5_readiness" not in row
+
+
+def test_dimension_mismatch_source_pass_keeps_canonical_d4_terminal(tmp_path):
+    _write_all_payloads(tmp_path)
+    canonical_payload = _dimension_mismatch_payload(
+        status="pass",
+        anti_triviality_status="anti_triviality_passed",
+    )
+    _write_json_artifact(tmp_path, discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT, canonical_payload)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["dimension-mismatch-debt-transfer"]
+    claim = canonical_payload["dimension_mismatch_debt_transfer"]
+
+    assert claim["effective_level"] == "D4"
+    assert claim["terminal_verdict"] == "source_pass"
+    assert row["effective_level"] == claim["effective_level"]
+    assert row["discovery_level"] == claim["discovery_level"]
+    assert row["terminal_verdict"] == claim["terminal_verdict"]
+    assert row["projection_status"] == "projected"
+    assert row["evidence_pointer"] == discovery_map.DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER
+    assert row["audit_status"] == "valid"
+    assert "failed_gate" not in row
+    assert "control_pointer" not in row
     assert "d5_readiness" not in row
 
 
@@ -703,7 +756,8 @@ def test_dimension_mismatch_pass_rejects_malformed_transfer_artifact(tmp_path, m
     assert row["evidence_pointer"] == discovery_map.DIMENSION_MISMATCH_TRANSFER_POINTER
     assert "control_pointer" not in row
     assert row["discovery_level"] != "D4"
-    assert row["audit_status"] == "valid"
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "dimension-mismatch-discovery-level-disagrees-with-canonical-effective-level"
 
 
 def test_dimension_mismatch_failed_projects_dn_with_failed_gate(tmp_path):
@@ -720,3 +774,4 @@ def test_dimension_mismatch_failed_projects_dn_with_failed_gate(tmp_path):
     assert row["discovery_level"] == "DN"
     assert row["audit_status"] == "valid"
     assert row["failed_gate"] == "$.dimension_mismatch_debt_transfer.status"
+    assert row["terminal_verdict"] == "negative_discovery"

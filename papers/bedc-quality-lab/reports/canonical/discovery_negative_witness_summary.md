@@ -1,9 +1,9 @@
 # Discovery Negative Witness Summary
 
-- Generated at: `2026-06-04T11:04:50.081457+00:00`
+- Generated at: `2026-06-04T11:53:28.456838+00:00`
 - Status: `pointer-only`
 - Audit: `pass`
-- Rows: `12`
+- Rows: `13`
 
 | negative id | verdict | reason | ledger | discovery map | witness | claim verdict | audit |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -11,6 +11,7 @@
 | `dn:certificate-guided-training` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-training.json:$.result.status` | `reports/canonical/discovery_map.json:$.rows[7]` | `None` | `None` | `pass` |
 | `dn:certificate-guided-discovery` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-discovery.json:$.positive_discovery` | `reports/canonical/discovery_map.json:$.rows[8]` | `None` | `None` | `pass` |
 | `dn:spectral-ablation-hinge` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/spectral-ablation-hinge.json:$.negative_control_summary.treatment_better_than_all_controls` | `reports/canonical/discovery_map.json:$.rows[10]` | `None` | `None` | `pass` |
+| `dn:dimension-mismatch-debt-transfer` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.anti_triviality_status` | `reports/canonical/discovery_map.json:$.rows[11]` | `None` | `None` | `pass` |
 | `witness:classifier_surface_delta_zero` | `ledger_only_hardening_not_ready` | `no-classifier-shift` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]` | `reports/canonical/claim_verdicts.jsonl:11` | `pass` |
 | `witness:matched_control_positive` | `ledger_only_hardening_not_ready` | `control-unresolved` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]` | `reports/canonical/claim_verdicts.jsonl:12` | `pass` |
 | `witness:hidden_debt_positive` | `demoted_audit_tradeoff` | `audit-improvement-tradeoff` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]` | `reports/canonical/claim_verdicts.jsonl:13` | `pass` |

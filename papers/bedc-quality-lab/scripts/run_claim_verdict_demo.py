@@ -27,6 +27,19 @@ from scripts.run_discovery_map import build_discovery_map, pointer_value, projec
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
 ALLOWED_ROW_KEYS = frozenset({"claim_id", "claim_verdict", "reason", "source", "ledger_pointer"})
+DIMENSION_MISMATCH_ALLOWED_ROW_KEYS = frozenset(
+    {
+        "claim_id",
+        "claim_verdict",
+        "reason",
+        "source",
+        "ledger_pointer",
+        "hypothesis",
+        "failed_gate",
+        "what_was_learned",
+        "downgrade_reason",
+    }
+)
 E1_TERMINAL_VERDICTS = frozenset(
     {
         "ledger_only_hardening_not_ready",
@@ -41,6 +54,8 @@ SCORECARD_ARTIFACT = "reports/canonical/quality-scorecard.json"
 DIMENSION_MISMATCH_REPORT = "dimension-mismatch-debt-transfer"
 DIMENSION_MISMATCH_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
 DIMENSION_MISMATCH_STATUS_POINTER = "$.dimension_mismatch_debt_transfer.status"
+DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER = "$.dimension_mismatch_debt_transfer.effective_level"
+DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER = "$.dimension_mismatch_debt_transfer.anti_triviality_status"
 DIMENSION_MISMATCH_SCOPE_POINTER = "$.dimension_mismatch_debt_transfer.scope"
 DIMENSION_MISMATCH_COST_POINTER = "$.source_artifacts"
 DIMENSION_MISMATCH_NOT_CLAIMED_POINTER = "$.not_claimed"
@@ -213,11 +228,12 @@ def _control_positive(verdict_payload: Mapping[str, Any]) -> bool:
 def _dimension_mismatch_projection_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
     projected = dict(payload)
     status = pointer_value(payload, DIMENSION_MISMATCH_STATUS_POINTER)
-    if status == "pass":
-        projected["positive_discovery"] = True
-        projected["net_positive_signal"] = True
-        projected["net_information"] = 1.0
-        projected["matched_random_control"] = {"control_verdict": {"positive": False}}
+    effective_level = pointer_value(payload, DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER)
+    terminal_verdict = pointer_value(payload, "$.dimension_mismatch_debt_transfer.terminal_verdict")
+    if status == "pass" and effective_level == "DN" and terminal_verdict == "negative_discovery":
+        projected["verdict"] = "rejected"
+    elif status == "pass" and pointer_value(payload, DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER) == "scale_leakage_detected":
+        projected["verdict"] = "rejected"
     elif status == "failed":
         projected["verdict"] = "rejected"
     return projected
@@ -265,6 +281,17 @@ def _discovery_map_row_pointer(root: Path, row: Mapping[str, Any]) -> str:
     raise ValueError(f"discovery map ledger row missing for claim: {row['report']}")
 
 
+def _discovery_map_audit_pointer(root: Path, row: Mapping[str, Any]) -> str:
+    rows = _load_discovery_rows(root, generated_at=None)
+    for index, candidate in enumerate(rows):
+        if (
+            candidate.get("report") == row.get("report")
+            and candidate.get("json_artifact") == row.get("json_artifact")
+        ):
+            return f"reports/canonical/discovery_map.json:$.rows[{index}].audit_status"
+    raise ValueError(f"discovery map ledger row missing for claim: {row['report']}")
+
+
 def _hidden_debt_pointer(pointer: Any) -> bool:
     if not isinstance(pointer, str):
         return False
@@ -300,6 +327,38 @@ def _row(
     }
     if frozenset(item) != ALLOWED_ROW_KEYS:
         raise ValueError(f"claim verdict row has invalid keys: {sorted(item)}")
+    return item
+
+
+def _dimension_mismatch_negative_row(
+    *,
+    claim_id: str,
+    reason: str,
+    source: ClaimSource | str,
+    ledger_pointer: str,
+    payload: Mapping[str, Any],
+) -> dict[str, Any]:
+    claim = pointer_value(payload, "$.dimension_mismatch_debt_transfer")
+    if not isinstance(claim, Mapping):
+        raise ValueError("dimension mismatch negative verdict requires source claim node")
+    required = ("hypothesis", "failed_gate", "what_was_learned", "downgrade_reason")
+    missing = [key for key in required if key not in claim or claim[key] in (None, "")]
+    if missing:
+        raise ValueError(f"dimension mismatch negative verdict source cells missing: {', '.join(missing)}")
+    source_text = source.as_text() if isinstance(source, ClaimSource) else source
+    item = {
+        "claim_id": claim_id,
+        "claim_verdict": "negative_discovery",
+        "reason": reason,
+        "source": source_text,
+        "ledger_pointer": ledger_pointer,
+        "hypothesis": str(claim["hypothesis"]),
+        "failed_gate": str(claim["failed_gate"]),
+        "what_was_learned": str(claim["what_was_learned"]),
+        "downgrade_reason": str(claim["downgrade_reason"]),
+    }
+    if frozenset(item) != DIMENSION_MISMATCH_ALLOWED_ROW_KEYS:
+        raise ValueError(f"dimension mismatch claim verdict row has invalid keys: {sorted(item)}")
     return item
 
 
@@ -352,6 +411,15 @@ def _mapped_discovery_row(
     projected = _projected_payload(spec=spec, payload=payload, scorecard=scorecard)
     terminal = synthesize_certification_verdict(None, projected, timestamp_iso=generated_at)
     projected_verdict = assign_discovery_level(projected)
+
+    if row.get("audit_status") != "valid":
+        return _row(
+            claim_id=claim_id,
+            claim_verdict="ledger_only_hardening_not_ready",
+            reason="discovery-map-audit-not-valid",
+            source=source,
+            ledger_pointer=_discovery_map_audit_pointer(root, row),
+        )
 
     if not cost_protocol_ready and level in POSITIVE_LEVELS:
         return _row(
@@ -428,6 +496,14 @@ def _mapped_discovery_row(
         )
     if level == "DN":
         pointer = row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")
+        if report == DIMENSION_MISMATCH_REPORT:
+            return _dimension_mismatch_negative_row(
+                claim_id=claim_id,
+                reason="discovery-level-DN",
+                source=source,
+                ledger_pointer=f"{row['json_artifact']}:{pointer}",
+                payload=payload,
+            )
         return _row(
             claim_id=claim_id,
             claim_verdict=_rejection_verdict_for_pointer(pointer),

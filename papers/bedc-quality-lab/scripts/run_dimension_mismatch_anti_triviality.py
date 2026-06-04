@@ -82,7 +82,7 @@ STATUS_PRECEDENCE = (
     "source_not_pass",
     "metadata_leakage_detected",
     "scale_leakage_detected",
-    "pass_preserve_scoped_d4",
+    "anti_triviality_passed",
     "defer_no_normalized_signal",
 )
 FORBIDDEN_MODEL_INPUT_ROOTS = (
@@ -119,7 +119,7 @@ NOT_CLAIMED = (
     "No full Tensor NameCert claim.",
     "No LLM behavior claim.",
     "No D5 mechanism closure claim.",
-    "No canonical discovery-map promotion from this sidecar.",
+    "No standalone positive discovery-map promotion from this evidence source.",
 )
 SCOPE_NOTE = (
     "SCOPE_NOTE: requested bedc_quality_lab/gap_head.py and bedc_quality_lab/observed_debt.py "
@@ -171,7 +171,13 @@ def _surface_rows() -> dict[str, Any]:
     rows: list[dict[str, float]] = []
     evidence_rows: list[dict[str, Any]] = []
     labels: list[list[float]] = []
-    seeds = tuple(int(seed) for seed in observed_debt._seeds(source_transfer.DEFAULT_AXIS, observed_debt.DEFAULT_SEED_COUNT_BY_AXIS[source_transfer.DEFAULT_AXIS]))
+    seeds = tuple(
+        int(seed)
+        for seed in observed_debt._seeds(
+            source_transfer.SOURCE_OBSERVED_DEBT_AXIS,
+            observed_debt.DEFAULT_SEED_COUNT_BY_AXIS[source_transfer.SOURCE_OBSERVED_DEBT_AXIS],
+        )
+    )
     reference_dim: int | None = None
     for seed_index, seed in enumerate(seeds):
         for encoder_dim in observed_debt.C1_ENCODER_DIMS:
@@ -419,8 +425,8 @@ def _state_machine(*, source_pass: bool, arm_positive: Mapping[str, bool]) -> di
         projection = "demote_to_DN_or_D1"
         reason = "scale-only arm is positive under the strict conjunction predicate"
     elif arm_positive.get("h_normalized_no_scale", False):
-        status = "pass_preserve_scoped_d4"
-        projection = "preserve_scoped_D4"
+        status = "anti_triviality_passed"
+        projection = "no_level_change_signal_detected"
         reason = "normalized h-direction arm is positive while metadata and scale arms are non-positive"
     else:
         status = "defer_no_normalized_signal"
@@ -546,7 +552,7 @@ def build_payload(*, root: Path = ROOT, generated_at: str | None = None) -> dict
         "status": state["status"],
         "recommended_projection": state["projection"],
         "reason": state["reason"],
-        "sidecar_role": "pointer_only_non_canonical",
+        "sidecar_role": "folded_evidence_source",
         "mechanism_status": "not_claimed",
         "d5m_status": "not_claimed",
         "source": source,

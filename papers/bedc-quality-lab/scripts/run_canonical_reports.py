@@ -42,6 +42,9 @@ NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
 NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
+CLAIM_CAPSULE_JSON_ARTIFACT = "reports/canonical/claim_capsule.json"
+CLAIM_CAPSULE_ARTIFACT_ID = "bedc-quality-lab:claim-capsule"
+CLAIM_CAPSULE_SCHEMA_ID = "bedc.quality.claim_capsule"
 NEGATIVE_WITNESS_SUMMARY_JSON_ARTIFACT = "reports/canonical/discovery_negative_witness_summary.json"
 NEGATIVE_WITNESS_SUMMARY_MARKDOWN_ARTIFACT = "reports/canonical/discovery_negative_witness_summary.md"
 NEGATIVE_WITNESS_SUMMARY_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witness-summary"
@@ -1051,7 +1054,10 @@ def _dimension_mismatch_transfer_index_section() -> dict[str, Any]:
         "json_artifact": DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
         "markdown_artifact": DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT,
         "transfer_status": transfer.get("status") if isinstance(transfer, dict) else "missing",
+        "base_level": transfer.get("base_level") if isinstance(transfer, dict) else "missing",
+        "effective_level": transfer.get("effective_level") if isinstance(transfer, dict) else "missing",
         "discovery_level": transfer.get("discovery_level") if isinstance(transfer, dict) else "missing",
+        "terminal_verdict": transfer.get("terminal_verdict") if isinstance(transfer, dict) else "missing",
         "scope": transfer.get("scope") if isinstance(transfer, dict) else "missing",
     }
 
@@ -1085,6 +1091,97 @@ def _claim_verdicts_index_section(generated_at: str | None = None) -> dict[str, 
         "artifact_id": CLAIM_VERDICTS_ARTIFACT_ID,
         "jsonl_artifact": CLAIM_VERDICTS_JSONL_ARTIFACT,
         "row_count": len(rows),
+    }
+
+
+def _build_claim_capsule(generated_at: str) -> dict[str, Any]:
+    dimension = _load_artifact_payload(DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT)
+    transfer = _pointer_value(dimension, "$.dimension_mismatch_debt_transfer")
+    if not isinstance(transfer, dict):
+        return {
+            "schema_id": CLAIM_CAPSULE_SCHEMA_ID,
+            "artifact_id": CLAIM_CAPSULE_ARTIFACT_ID,
+            "json_artifact": CLAIM_CAPSULE_JSON_ARTIFACT,
+            "generated_at": generated_at,
+            "producer": "scripts/run_canonical_reports.py",
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "report": "dimension-mismatch-debt-transfer",
+            "source": DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
+            "source_pointer": "$.dimension_mismatch_debt_transfer",
+            "status": "incomplete",
+            "reason": "source claim node is missing",
+        }
+    required = (
+        "base_level",
+        "anti_triviality_status",
+        "effective_level",
+        "downgrade_reason",
+        "terminal_verdict",
+        "hypothesis",
+        "failed_gate",
+        "what_was_learned",
+    )
+    missing = [key for key in required if key not in transfer]
+    if missing:
+        return {
+            "schema_id": CLAIM_CAPSULE_SCHEMA_ID,
+            "artifact_id": CLAIM_CAPSULE_ARTIFACT_ID,
+            "json_artifact": CLAIM_CAPSULE_JSON_ARTIFACT,
+            "generated_at": generated_at,
+            "producer": "scripts/run_canonical_reports.py",
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "report": "dimension-mismatch-debt-transfer",
+            "source": DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
+            "source_pointer": "$.dimension_mismatch_debt_transfer",
+            "status": "incomplete",
+            "reason": "source claim node is missing required cells",
+            "missing_cells": missing,
+        }
+    not_claimed = [
+        "global dimension theory",
+        "representation-geometric debt transfer",
+        "D5 promotion",
+        "global model quality",
+        "full LeJEPA",
+        "full TensorNameCert",
+        "LLM behavior",
+        "mechanism closure unless D5-M",
+    ]
+    return {
+        "schema_id": CLAIM_CAPSULE_SCHEMA_ID,
+        "artifact_id": CLAIM_CAPSULE_ARTIFACT_ID,
+        "json_artifact": CLAIM_CAPSULE_JSON_ARTIFACT,
+        "generated_at": generated_at,
+        "producer": "scripts/run_canonical_reports.py",
+        "claim_id": "claim:dimension-mismatch-debt-transfer",
+        "report": "dimension-mismatch-debt-transfer",
+        "source": DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
+        "source_pointer": "$.dimension_mismatch_debt_transfer",
+        "status": "complete",
+        "base_level": transfer["base_level"],
+        "anti_triviality_status": transfer["anti_triviality_status"],
+        "effective_level": transfer["effective_level"],
+        "downgrade_reason": transfer["downgrade_reason"],
+        "terminal_verdict": transfer["terminal_verdict"],
+        "hypothesis": transfer["hypothesis"],
+        "failed_gate": transfer["failed_gate"],
+        "what_was_learned": transfer["what_was_learned"],
+        "not_claimed": not_claimed,
+    }
+
+
+def _claim_capsule_index_section(generated_at: str | None = None) -> dict[str, Any]:
+    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    payload = _build_claim_capsule(timestamp)
+    return {
+        "status": "pointer-only",
+        "artifact_id": CLAIM_CAPSULE_ARTIFACT_ID,
+        "schema_id": CLAIM_CAPSULE_SCHEMA_ID,
+        "json_artifact": CLAIM_CAPSULE_JSON_ARTIFACT,
+        "claim_id": payload["claim_id"],
+        "capsule_status": payload["status"],
+        "effective_level": payload.get("effective_level"),
+        "terminal_verdict": payload.get("terminal_verdict"),
     }
 
 
@@ -1213,6 +1310,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "dimension_mismatch_transfer_robustness": _dimension_mismatch_transfer_robustness_index_section(),
         "negative_witnesses": _negative_witnesses_index_section(),
         "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
+        "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
         "gap_head_mechanism_attribution": _gap_head_mechanism_attribution_index_section(),
@@ -1285,7 +1383,9 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- JSON: `{payload['dimension_mismatch_debt_transfer']['json_artifact']}`",
             f"- Markdown: `{payload['dimension_mismatch_debt_transfer']['markdown_artifact']}`",
             f"- Transfer status: `{payload['dimension_mismatch_debt_transfer']['transfer_status']}`",
-            f"- Discovery level: `{payload['dimension_mismatch_debt_transfer']['discovery_level']}`",
+            f"- Base level: `{payload['dimension_mismatch_debt_transfer']['base_level']}`",
+            f"- Effective level: `{payload['dimension_mismatch_debt_transfer']['effective_level']}`",
+            f"- Terminal verdict: `{payload['dimension_mismatch_debt_transfer']['terminal_verdict']}`",
             "",
             "## Dimension mismatch transfer robustness",
             "",
@@ -1300,6 +1400,7 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Canonical artifacts: `{payload['root']}/reports/canonical/`",
             f"- Discovery map: `{payload['discovery_map']['json_artifact']}:$.rows[*].discovery_level`",
             f"- Claim verdicts: `{payload['claim_verdicts']['jsonl_artifact']}`",
+            f"- Claim capsule: `{payload['claim_capsule']['json_artifact']}`",
             f"- Negative witnesses: `{payload['negative_witnesses']['json_artifact']}`",
             f"- Scorecard: `{payload['quality_scorecard']['json_artifact']}:$.rows`",
             "- Claims boundary: `docs/claims_and_nonclaims.md`",
@@ -1316,6 +1417,14 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Status: `{payload['claim_verdicts']['status']}`",
             f"- JSONL: `{payload['claim_verdicts']['jsonl_artifact']}`",
             f"- Rows: `{payload['claim_verdicts']['row_count']}`",
+            "",
+            "## Claim capsule",
+            "",
+            f"- Status: `{payload['claim_capsule']['status']}`",
+            f"- JSON: `{payload['claim_capsule']['json_artifact']}`",
+            f"- Schema: `{payload['claim_capsule']['schema_id']}`",
+            f"- Effective level: `{payload['claim_capsule']['effective_level']}`",
+            f"- Terminal verdict: `{payload['claim_capsule']['terminal_verdict']}`",
             "",
             "## Negative witness summary",
             "",
@@ -1424,6 +1533,13 @@ def run_reports(
     from scripts.run_formal_hardening_report import write_formal_hardening_report
 
     write_formal_hardening_report(root=ROOT, generated_at=timestamp)
+    from scripts.run_dimension_mismatch_debt_transfer import write_dimension_mismatch_debt_transfer
+
+    write_dimension_mismatch_debt_transfer(root=ROOT, generated_at=timestamp, require_anti_triviality=False)
+    from scripts.run_dimension_mismatch_anti_triviality import write_dimension_mismatch_anti_triviality
+
+    write_dimension_mismatch_anti_triviality(root=ROOT, generated_at=timestamp)
+    write_dimension_mismatch_debt_transfer(root=ROOT, generated_at=timestamp, require_anti_triviality=True)
     scorecard = _build_quality_scorecard(results, generated_at=timestamp)
     from scripts.run_discovery_map import write_discovery_map
     from scripts.run_claim_verdict_demo import write_claim_verdicts
@@ -1432,6 +1548,7 @@ def run_reports(
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
     write_discovery_map(generated_at=timestamp, root=ROOT, canonical_reports=CANONICAL_REPORTS)
     write_claim_verdicts(root=ROOT, generated_at=timestamp)
+    _write_json_atomic(_artifact_path(CLAIM_CAPSULE_JSON_ARTIFACT), _build_claim_capsule(timestamp))
     from scripts.run_dimension_mismatch_transfer_robustness import write_dimension_mismatch_transfer_robustness
     from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
 

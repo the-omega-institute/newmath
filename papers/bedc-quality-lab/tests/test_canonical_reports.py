@@ -1,6 +1,8 @@
 import json
 import os
 from pathlib import Path
+import sys
+import types
 
 import pytest
 
@@ -571,7 +573,44 @@ def test_positive_claims_have_control_or_no_control_rationale():
         assert has_control or has_rationale
 
 
-def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_sections():
+def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_sections(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    for spec in canonical.CANONICAL_REPORTS:
+        json_path = canonical._artifact_path(spec.json_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    transfer_path = tmp_path / canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT
+    transfer_path.parent.mkdir(parents=True, exist_ok=True)
+    transfer_path.write_text(
+        json.dumps(
+            {
+                "dimension_mismatch_debt_transfer": {
+                    "status": "pass",
+                    "base_level": "D4",
+                    "anti_triviality_status": "scale_leakage_detected",
+                    "effective_level": "DN",
+                    "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
+                    "terminal_verdict": "negative_discovery",
+                    "hypothesis": "fixture hypothesis",
+                    "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+                    "what_was_learned": "fixture learned",
+                    "discovery_level": "DN",
+                    "scope": "fixture scope",
+                }
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    robustness_path = tmp_path / canonical.DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_JSON_ARTIFACT
+    robustness_path.write_text(json.dumps({"audit_status": "pass"}) + "\n", encoding="utf-8")
+    monkeypatch.setattr(
+        canonical,
+        "_build_formal_hardening_payload",
+        lambda generated_at=None: {"ready": True, "recorded": 4, "required": 4, "gap_count": 0},
+    )
     reports = [_index_row_for_spec(spec) for spec in canonical.CANONICAL_REPORTS]
     payload = canonical._index(reports)
     markdown = canonical._render_index_markdown(payload)
@@ -582,10 +621,11 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "honest_boundary",
         "literature_ledger",
         "quality_scorecard",
-        "negative_witnesses",
-        "claim_verdicts",
-        "formal_hardening",
-    }.issubset(payload)
+            "negative_witnesses",
+            "claim_verdicts",
+            "claim_capsule",
+            "formal_hardening",
+        }.issubset(payload)
     assert set(payload["paper_outline"]["core_reports"]) == HG_P_CORE
     assert payload["negative_witnesses"] == {
         "status": "pointer-only",
@@ -597,6 +637,12 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     assert payload["claim_verdicts"]["artifact_id"] == "bedc-quality-lab:claim-verdicts"
     assert payload["claim_verdicts"]["jsonl_artifact"] == "reports/canonical/claim_verdicts.jsonl"
     assert isinstance(payload["claim_verdicts"]["row_count"], int)
+    assert payload["claim_capsule"]["status"] == "pointer-only"
+    assert payload["claim_capsule"]["artifact_id"] == "bedc-quality-lab:claim-capsule"
+    assert payload["claim_capsule"]["schema_id"] == "bedc.quality.claim_capsule"
+    assert payload["claim_capsule"]["json_artifact"] == "reports/canonical/claim_capsule.json"
+    assert payload["claim_capsule"]["effective_level"] == "DN"
+    assert payload["claim_capsule"]["terminal_verdict"] == "negative_discovery"
     assert payload["formal_hardening"] == {
         "status": "pointer-only",
         "artifact_id": "bedc-quality-lab:formal-hardening",
@@ -614,6 +660,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     assert "reports/canonical/discovery_map.json:$.rows[*].discovery_level" in markdown
     assert "Negative witnesses" in markdown
     assert "Claim verdicts" in markdown
+    assert "Claim capsule" in markdown
     assert "Formal hardening" in markdown
     assert "Paper outline" in markdown
     assert "Claims and non-claims" in markdown
@@ -835,6 +882,108 @@ def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_
     assert payload["claim_verdicts"]["jsonl_artifact"] not in json_artifacts
     assert (canonical.CANONICAL_DIR / "claim_verdicts.jsonl").exists()
     assert "claim_verdicts.jsonl" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
+
+
+def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+
+    def fake_run_producer(spec):
+        json_path = canonical._artifact_path(spec.json_artifact)
+        md_path = canonical._artifact_path(spec.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    def write_transfer(*, root, generated_at=None, require_anti_triviality=True):
+        path = root / canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "dimension_mismatch_debt_transfer": {
+                "status": "pass",
+                "base_level": "D4",
+                "anti_triviality_status": "scale_leakage_detected" if require_anti_triviality else None,
+                "effective_level": "DN" if require_anti_triviality else "D4",
+                "downgrade_reason": "scale_only_or_metadata_proxy_sufficient" if require_anti_triviality else None,
+                "terminal_verdict": "negative_discovery" if require_anti_triviality else "source_pass",
+                "hypothesis": "fixture hypothesis",
+                "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status" if require_anti_triviality else None,
+                "what_was_learned": "fixture learned",
+            }
+        }
+        path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+        return payload
+
+    def write_sidecar(*, root, generated_at=None):
+        path = root / "reports/dimension_mismatch_anti_triviality.json"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {"status": "scale_leakage_detected", "recommended_projection": "demote_to_DN_or_D1"}
+        path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+        return payload
+
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_dimension_mismatch_debt_transfer",
+        types.SimpleNamespace(write_dimension_mismatch_debt_transfer=write_transfer),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_dimension_mismatch_anti_triviality",
+        types.SimpleNamespace(write_dimension_mismatch_anti_triviality=write_sidecar),
+    )
+
+    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    capsule_path = canonical.CANONICAL_DIR / "claim_capsule.json"
+    capsule = json.loads(capsule_path.read_text(encoding="utf-8"))
+    json_artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+
+    assert payload["claim_capsule"]["json_artifact"] == "reports/canonical/claim_capsule.json"
+    assert payload["claim_capsule"]["capsule_status"] == "complete"
+    assert "reports/canonical/claim_capsule.json" not in json_artifacts
+    assert capsule["schema_id"] == "bedc.quality.claim_capsule"
+    assert capsule["status"] == "complete"
+    assert capsule["effective_level"] == "DN"
+    assert capsule["downgrade_reason"] == "scale_only_or_metadata_proxy_sufficient"
+    assert {
+        "global dimension theory",
+        "representation-geometric debt transfer",
+        "D5 promotion",
+        "global model quality",
+        "full LeJEPA",
+        "full TensorNameCert",
+        "LLM behavior",
+        "mechanism closure unless D5-M",
+    }.issubset(set(capsule["not_claimed"]))
+
+
+def test_claim_capsule_missing_source_node_is_incomplete_not_synthetic_dn(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+
+    capsule = canonical._build_claim_capsule("fixture-time")
+
+    assert capsule["status"] == "incomplete"
+    assert capsule["reason"] == "source claim node is missing"
+    assert "effective_level" not in capsule
+    assert "terminal_verdict" not in capsule
+
+
+def test_claim_capsule_missing_required_cells_is_incomplete_not_synthetic_dn(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    path = tmp_path / canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"dimension_mismatch_debt_transfer": {"base_level": "D4"}}) + "\n", encoding="utf-8")
+
+    capsule = canonical._build_claim_capsule("fixture-time")
+
+    assert capsule["status"] == "incomplete"
+    assert "effective_level" in capsule["missing_cells"]
+    assert "terminal_verdict" in capsule["missing_cells"]
 
 
 def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
