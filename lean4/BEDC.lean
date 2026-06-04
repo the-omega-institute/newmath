@@ -6493,6 +6493,8 @@ import BEDC.Derived.PhysicalModelAuditUp.TasteGate
 import BEDC.Derived.PhysicalNameCertAuditUp.TasteGate
 import BEDC.Derived.PhysicalOperationDescentUp.TasteGate
 import BEDC.Derived.PhysicalRecordInvariantUp.TasteGate
+import BEDC.Derived.PhysicalTruthCertificateUp.BridgeInterface
+import BEDC.Derived.PhysicalTruthCertificateUp.Carrier
 import BEDC.Derived.PhysicalTruthCertificateUp.NameCertObligations
 import BEDC.Derived.PhysicalTruthCertificateUp.OpenFitNonescape
 import BEDC.Derived.PhysicalTruthCertificateUp.TasteGate
