@@ -2399,7 +2399,10 @@ def _bios_codex_resolve_merge(
     def _take_theirs_eligible(rel: str) -> bool:
         if take_theirs_bedc and rel.startswith("papers/bedc/"):
             return True
-        if take_theirs_bioreality_namecert and rel.startswith("papers/bio_reality/parts/namecerts/"):
+        # 整个 papers/bio_reality/parts/ 都是 churn 改写的等价论文内容 (namecert + spine
+        # codon_window_reality_boundary.tex 等), 冲突取 theirs 安全. registries (claims.json/
+        # experiments.json) 不在 parts/ 下, 不受影响——我们的 claim 不会被覆盖.
+        if take_theirs_bioreality_namecert and rel.startswith("papers/bio_reality/parts/"):
             return True
         return False
 
