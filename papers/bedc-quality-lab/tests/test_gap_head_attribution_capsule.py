@@ -417,6 +417,105 @@ def test_case_a_residualized_collapse_blocks_d5_m():
     assert runner._d5_m(hardgates, a4_hardgates)["passed"] is False
 
 
+def _assert_a4_gate_blocks_d5_m(aggregate, residualized, score_margin, failed_gate):
+    hardgates = runner._a1_hardgates(aggregate)
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    d5_m = runner._d5_m(hardgates, a4_hardgates)
+
+    assert hardgates["gates"]["A1-HG6"]["status"] == "pass"
+    assert a4_hardgates["gates"][failed_gate]["status"] == "fail"
+    assert d5_m["passed"] is False
+    assert d5_m["status"] == "blocked"
+    return a4_hardgates, d5_m
+
+
+def test_a4_hg1_residualized_status_failure_blocks_d5_m():
+    aggregate = _aggregate()
+    residualized = _residualized_fixture(aggregate, status="fail")
+    score_margin = _score_margin_fixture("not_score_margin_sufficient")
+
+    a4_hardgates, d5_m = _assert_a4_gate_blocks_d5_m(aggregate, residualized, score_margin, "A4-HG1")
+
+    assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG3"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG4"]["status"] == "pass"
+    assert d5_m["failed_gate"] == "A4-HG1"
+
+
+def test_a4_hg3_full_without_score_margin_ci_failure_blocks_d5_m():
+    aggregate = _aggregate(full_without_score_and_margin=(0.50, -0.01))
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("not_score_margin_sufficient")
+
+    a4_hardgates, d5_m = _assert_a4_gate_blocks_d5_m(aggregate, residualized, score_margin, "A4-HG3")
+
+    assert a4_hardgates["gates"]["A4-HG1"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG4"]["status"] == "pass"
+    assert d5_m["failed_gate"] == "A4-HG3"
+
+
+def test_a4_hg4_score_margin_status_failure_blocks_d5_m():
+    aggregate = _aggregate()
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("not_score_margin_sufficient", status="fail")
+
+    a4_hardgates, d5_m = _assert_a4_gate_blocks_d5_m(aggregate, residualized, score_margin, "A4-HG4")
+
+    assert a4_hardgates["gates"]["A4-HG1"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG3"]["status"] == "pass"
+    assert d5_m["failed_gate"] == "A4-HG4"
+
+
+def test_a4_hg4_unknown_channel_classification_blocks_d5_m():
+    aggregate = _aggregate()
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("shortcut_unknown")
+
+    a4_hardgates, d5_m = _assert_a4_gate_blocks_d5_m(aggregate, residualized, score_margin, "A4-HG4")
+
+    assert a4_hardgates["gates"]["A4-HG1"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG3"]["status"] == "pass"
+    assert d5_m["failed_gate"] == "A4-HG4"
+
+
+@pytest.mark.parametrize(
+    ("cell", "missing"),
+    [
+        ("present", True),
+        ("present", False),
+        ("deterministic", True),
+        ("deterministic", False),
+        ("finite", True),
+        ("finite", False),
+        ("seed_paired", True),
+        ("seed_paired", False),
+        ("column_audited", True),
+        ("column_audited", False),
+        ("classified", True),
+        ("classified", False),
+    ],
+)
+def test_a4_hg4_protocol_check_cell_failure_blocks_d5_m(cell, missing):
+    aggregate = _aggregate()
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("not_score_margin_sufficient")
+    if missing:
+        score_margin["protocol_checks"].pop(cell)
+    else:
+        score_margin["protocol_checks"][cell] = False
+
+    a4_hardgates, d5_m = _assert_a4_gate_blocks_d5_m(aggregate, residualized, score_margin, "A4-HG4")
+
+    assert a4_hardgates["gates"]["A4-HG1"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG3"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG4"]["evidence"]["protocol_checks"].get(cell) is (None if missing else False)
+    assert d5_m["failed_gate"] == "A4-HG4"
+
+
 @pytest.mark.parametrize(
     ("classification", "expected_hg5"),
     [
