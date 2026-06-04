@@ -1,0 +1,111 @@
+\chapter{A Concrete Naming Certificate for $\UrysohnUniversalMetricUp$}
+\label{ch:concrete-instances-urysohn-universal-metric-namecert}
+\origin{human}
+
+Following Urysohn's construction of a universal separable metric space and the Bishop--Bridges discipline for constructive metric data, the $\UrysohnUniversalMetricUp$ packet records finite one-point extension requests as BEDC NameCert rows. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the separable-metric source of \autoref{ch:concrete-instances-separablemetric-namecert}, the complete-metric boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the completion handoff of \autoref{ch:concrete-instances-metriccompletion-namecert}, and the terminal real-distance seal of \autoref{ch:concrete-instances-real-namecert}. The packet exposes the finite Katetov-extension surface needed by L10 metric and completion consumers without selecting a host Urysohn space, quotienting completion streams, invoking choice, or importing ambient $\RealUp$ completeness.
+
+\begin{definition}[Urysohn universal metric finite-extension carrier]\label{def:urysohn-universal-metric-finite-extension-carrier}
+A $\UrysohnUniversalMetricUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,S,K,L,R,F,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ source row, including point classifiers and all inspected distance requests.
+\item $S$ is the $\SeparableMetricUp$ dense-name row used to enumerate the finite support of each extension request.
+\item $K$ is the $\CompleteMetricUp$ boundary row read over the same metric source.
+\item $L$ is the $\MetricCompletionUp$ handoff row, available only after the finite extension request has been displayed.
+\item $R$ is the $\RealUp$ distance and tolerance seal row for every finite support distance, requested new distance, and compatibility inequality.
+\item $F$ is the finite Katetov-extension request row. It names a finite support family, a proposed distance from the new point to each support point, and the triangle and reverse-triangle budgets checked through $M$ and $R$.
+\item $A$ is the finite admission ledger. It records that every requested distance cell in $F$ is compatible with the support distances already displayed by $M$ and the dense-name row $S$.
+\item $E$ is the extension-realization handoff row. It allows a consumer to read the requested one-point extension only after $M,S,K,L,R,F,A$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the metric source, separable row, complete boundary, completion handoff, real seals, finite extension request, admission ledger, realization handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from any finite Katetov request through the same source, dense-name, real-distance, admission, completion, and realization rows.
+\item $P$ is the $\Pkg$ provenance over $\UrysohnUniversalMetricUp$, $\MetricSpaceUp$, $\SeparableMetricUp$, $\CompleteMetricUp$, $\MetricCompletionUp$, $\RealUp$, finite Katetov requests, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UrysohnUniversalMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,S,K,L,R,F,A,E,H,C,P,N$. It has no coordinate for a chosen host universal metric space, quotient completion equality, selected dense enumeration outside $S$, arbitrary countable extension sequence, choice functional, Lean verification, standard bridge, or ambient real-completeness principle.
+\end{definition}
+
+\begin{theorem}[Urysohn universal metric NameCert obligations]\label{thm:urysohn-universal-metric-namecert-obligations}
+For every accepted $\UrysohnUniversalMetricUp$ carrier
+$$
+U=(M,S,K,L,R,F,A,E,H,C,P,N),
+$$
+the local $\NameCert_{\UrysohnUniversalMetricUp}$ surface consists exactly of six finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the metric source, separable dense row, complete-metric boundary, completion handoff, real-distance seals, finite Katetov request, admission ledger, realization handoff, transport, replay, provenance, and local name;
+\item common-source discipline, requiring $S,K,L,R,F,A$ to be read over the same $\MetricSpaceUp$ row $M$;
+\item finite support visibility, requiring every extension request in $F$ to list its support points through $S$ before a new distance row may be inspected;
+\item Katetov compatibility, requiring the triangle and reverse-triangle budgets in $F$ and $A$ to be witnessed by displayed $\RealUp$ comparisons over the already exposed support distances;
+\item completion handoff order, requiring $E$ to be consumed before $L$ is treated as a completion-facing realization row;
+\item nonescape, excluding host universal spaces, quotient completion equality, countable choice, selected infinite extension chains, ambient $\RealUp$ completeness, Lean verification, and bridge credentials from the packet.
+\end{enumerate}
+No Urysohn universal metric obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:urysohn-universal-metric-finite-extension-carrier}. The displayed tuple $M,S,K,L,R,F,A,E,H,C,P,N$ is the whole public surface, so carrier admission is exactly admission of those rows.
+
+The common-source obligation follows from the order of the rows. The separable dense row, complete-metric boundary, completion handoff, real-distance seals, request row, and admission ledger are all transported by the same $H$ row over the metric source $M$.
+
+Finite support visibility is forced by $F$. A one-point extension request names only finitely many support points, and those support names are opened through $S$ before any proposed new distance can be read.
+
+Katetov compatibility is checked by $R$ and $A$. The real-distance row supplies the support distances and proposed distances, while the admission ledger records the triangle and reverse-triangle budgets for each displayed support pair.
+
+Finally, $E,L,H,C,P,N$ preserve only that displayed route. Since none of the carrier coordinates stores a host universal space, quotient completion equality, selected infinite chain, choice functional, ambient completeness theorem, Lean verification, or bridge credential, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Urysohn universal metric finite-extension route]\label{thm:urysohn-universal-metric-finite-extension-route}
+Every finite one-point extension request accepted by a $\UrysohnUniversalMetricUp$ carrier factors through
+$$
+\MetricSpaceUp \longmapsto \SeparableMetricUp \longmapsto \RealUp \longmapsto F,A \longmapsto E .
+$$
+In particular, the requested extension is read as a displayed finite Katetov route over the current metric source, not as a point selected from a host universal space or as an equality class in a completed quotient.
+\end{theorem}
+\begin{proof}
+Begin with the metric source row $M$. It supplies the support-distance comparisons that any extension request must respect.
+
+Read the separable row $S$ next. The request row $F$ can name only the finitely many support points exposed by the dense-name surface, so no hidden enumeration or chosen ambient point is available.
+
+The distance budgets are then read through $R$ and $A$. These rows display the proposed distances and the triangle and reverse-triangle checks against the already exposed support distances.
+
+The realization handoff $E$ is downstream of the same rows. It therefore exports the finite Katetov extension route itself, while host universal spaces, quotient representatives, selected points, choice functionals, and ambient completeness remain outside the packet.
+\end{proof}
+
+\begin{theorem}[Urysohn universal metric completion handoff]\label{thm:urysohn-universal-metric-completion-handoff}
+Let $U=(M,S,K,L,R,F,A,E,H,C,P,N)$ be an accepted $\UrysohnUniversalMetricUp$ carrier. Any completion-facing consumer of $U$ must first read the finite-extension route of \autoref{thm:urysohn-universal-metric-finite-extension-route}, then the complete-metric boundary $K$, and only then the $\MetricCompletionUp$ handoff row $L$. Thus the packet supplies completion consumers with displayed finite extension data and a named completion boundary, not a quotient completion construction or a selected limit point.
+\end{theorem}
+\begin{proof}
+Apply the finite-extension route. The request reaches $E$ only after $M,S,R,F,A$ have displayed the metric source, finite support, real-distance budgets, and admission ledger.
+
+Next inspect the complete-metric boundary $K$. It is attached to the same source row $M$ by the transport row $H$, so it cannot introduce a second metric source or a host completion object.
+
+Only after those rows are exposed may the consumer read $L$. The $\MetricCompletionUp$ handoff is therefore a downstream row of the finite-extension packet and complete-metric boundary, not a quotient construction, selected completion representative, countable-choice sequence, or ambient completeness theorem.
+\end{proof}
+
+\begin{theorem}[Urysohn universal metric nonescape boundary]\label{thm:urysohn-universal-metric-nonescape-boundary}
+For every accepted $\UrysohnUniversalMetricUp$ carrier, the finite-extension and completion-handoff rows expose no host universal metric space, no selected dense enumeration beyond the displayed $\SeparableMetricUp$ row, no quotient completion equality, no arbitrary countable extension chain, no choice functional, no Lean verification credential, no standard bridge, and no ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Inspect the carrier boundary in \autoref{def:urysohn-universal-metric-finite-extension-carrier}. The only public coordinates are the metric source, separable row, complete boundary, completion handoff, real-distance seals, finite request, admission ledger, realization handoff, transport, replay, provenance, and local name.
+
+The finite-extension theorem and completion-handoff theorem read those rows in order. They never introduce an additional coordinate from which a host universal space, quotient equality, selected infinite chain, choice functional, Lean credential, bridge credential, or ambient completeness principle could be recovered.
+
+Therefore every public consumer remains inside the displayed NameCert packet. Any claim requiring one of the excluded objects is outside the scope of $\UrysohnUniversalMetricUp$ as recorded here.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\UrysohnUniversalMetricUp$ finite-extension read exposes the $\MetricSpaceUp$, $\SeparableMetricUp$, $\RealUp$, finite Katetov request, admission ledger, and realization handoff rows before any $\MetricCompletionUp$ consumer may inspect the completion boundary.}
+
+\independenceWitness{metric, separablemetric, completemetric, metriccompletion, real: $\UrysohnUniversalMetricUp$ is not bijective to any listed sibling because it jointly binds finite Katetov-extension requests, displayed real-distance compatibility budgets, separable support rows, complete-metric boundaries, completion handoffs, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local NameCert rows.}
+
+\closureat{UrysohnUniversalMetricUp}{seedStr}
+
+\begin{closurestatus}{\UrysohnUniversalMetricUp}
+  \constructivestory{A $\UrysohnUniversalMetricUp$ packet is generated from a displayed MetricSpace row, SeparableMetric dense row, CompleteMetric boundary, MetricCompletion handoff, Real distance seals, finite Katetov-extension request, admission ledger, realization handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:urysohn-universal-metric-finite-extension-carrier}, \autoref{thm:urysohn-universal-metric-namecert-obligations}, \autoref{thm:urysohn-universal-metric-finite-extension-route}, \autoref{thm:urysohn-universal-metric-completion-handoff}, and \autoref{thm:urysohn-universal-metric-nonescape-boundary} seed the finite-extension completion-neighbour route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host Urysohn-space existence, quotient completion equality, countable choice, selected infinite extension chains, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-source discipline, finite support visibility, Katetov compatibility, completion handoff order, and nonescape for BEDC.Derived.UrysohnUniversalMetricUp.}
+\end{closurestatus}
