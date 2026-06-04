@@ -65,10 +65,43 @@ Therefore a consumer cannot invert the endpoint row into a $\LocatedSetUp$ coord
 \end{proof}
 \leanchecked{BEDC.Derived.MetricProjectionUp.MetricProjectionCarrier\_endpoint\_separation}
 
+\begin{theorem}[MetricProjection carrier stability obligation]\label{thm:metric-projection-obligation-carrier-stability}
+Let $Q=(H,C,D,I,W,E,T,R,P,N)$ and $Q'=(H',C',D',I',W',E',T',R',P',N')$ be accepted $\MetricProjectionUp$ carriers whose displayed Hilbert source, closed convex source, metric distance ledger, located infimum budget, minimizing window, endpoint row, transport, replay, provenance, and local naming rows agree componentwise through the classifier of \autoref{def:metric-projection-carrier}. Then every accepted projection-facing read through $Q$ transports to the corresponding read through $Q'$ without adding a host nearest-point selector, quotient representative, trichotomy decision, countable-choice schedule, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Use the carrier inventory of \autoref{def:metric-projection-carrier}. The classifier compares exactly $H,C,D,I,W,E,T,R,P,N$, so any transported read must preserve those rows componentwise.
+
+Apply \autoref{thm:metric-projection-namecert-obligations}. The local NameCert route reads carrier admission, distance ledgers, located infimum budget, minimizing window, endpoint, transport, replay, provenance, and naming in the displayed order.
+
+Finally apply \autoref{thm:metric-projection-closest-point-nonescape}. Since the endpoint can escape only through $I,W,E$ and the structural rows, classifier stability cannot introduce a selector, quotient representative, trichotomy decision, countable-choice schedule, or ambient completeness row.
+\end{proof}
+
+\begin{theorem}[MetricProjection located-infimum replay obligation]\label{thm:metric-projection-obligation-located-infimum-replay}
+For an accepted $\MetricProjectionUp$ carrier $Q=(H,C,D,I,W,E,T,R,P,N)$, every closest-point replay that consumes the located infimum budget must first read the Hilbert row $H$, closed convex row $C$, metric distance row $D$, and located infimum row $I$, then replay the minimizing window $W$ before the endpoint row $E$ can be admitted. The replay is the route displayed by \autoref{thm:metric-projection-namecert-obligations} and remains inside the LocatedSet endpoint-separation boundary of \autoref{thm:metricprojection-locatedset-endpoint-separation}.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:metric-projection-namecert-obligations}. They place $H,C,D,I,W,E,T,R,P,N$ in dependency order, with distance comparison and infimum data preceding the endpoint.
+
+The located infimum row $I$ is not an endpoint. It supplies the lower-bound and approximation budget that $W$ replays through finite minimizing windows over the displayed closed convex source.
+
+Use \autoref{thm:metricprojection-locatedset-endpoint-separation}. The LocatedSet route contributes parent metric, subspace, distance, rational-window, Real-seal, and located-metric source rows before the projection endpoint is read, so the replay cannot collapse into a LocatedSet coordinate or hidden closest-point selector.
+\end{proof}
+
+\begin{theorem}[MetricProjection endpoint admission obligation]\label{thm:metric-projection-obligation-endpoint-admission}
+For an accepted $\MetricProjectionUp$ carrier $Q=(H,C,D,I,W,E,T,R,P,N)$, the endpoint row $E$ is admitted only after the minimizing-window row $W$ has replayed the located-infimum route over $H,C,D,I$ and after the LocatedSet source route has supplied its endpoint-separation boundary. Any consumer of $E$ must then pass through $T,R,P,N$ before using the endpoint as a projection-facing row.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply \autoref{thm:metric-projection-obligation-located-infimum-replay}. The rows $H,C,D,I,W$ are the only route by which the endpoint can be reached from the Hilbert, convex, metric, and located-infimum data.
+
+Next apply \autoref{thm:metricprojection-locatedset-endpoint-separation}. It separates the projection endpoint from the LocatedSet coordinate route and forces the source handoff to remain upstream of $E$.
+
+Finally use \autoref{thm:metric-projection-closest-point-nonescape}. The endpoint consumer must pass through transport, replay, provenance, and local naming rows $T,R,P,N$, so endpoint admission remains a finite BEDC packet boundary and not a host projection principle.
+\end{proof}
+
 \begin{closurestatus}{\MetricProjectionUp}
   \constructivestory{A $\MetricProjectionUp$ packet is generated from a Hilbert source, closed convex source, metric distance ledger, located infimum budget, approximating minimizing window, projection endpoint, componentwise transport, continuation replay, package provenance, and local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metric-projection-carrier}, \autoref{thm:metric-projection-namecert-obligations}, and \autoref{thm:metric-projection-closest-point-nonescape} seed the finite nearest-point projection interface over displayed Hilbert, convex, metric, complete-metric, and real readback rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:metric-projection-carrier}, \autoref{thm:metric-projection-namecert-obligations}, \autoref{thm:metric-projection-closest-point-nonescape}, \autoref{thm:metricprojection-locatedset-endpoint-separation}, \autoref{thm:metric-projection-obligation-carrier-stability}, \autoref{thm:metric-projection-obligation-located-infimum-replay}, and \autoref{thm:metric-projection-obligation-endpoint-admission} bind the carrier admission, classifier stability, located-infimum replay, minimizing-window endpoint admission, and closest-point nonescape obligations over displayed Hilbert, convex, metric, complete-metric, LocatedSet, and real readback rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim Lean verification, a host nearest-point selector, quotient equality of Hilbert points, countable choice, trichotomy, or ambient RealUp completeness.}
