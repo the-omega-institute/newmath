@@ -121,6 +121,22 @@ Finally use ledger exhaustion from \autoref{thm:cannot-claim-export-gate-ledger-
 \end{proof}
 \leanchecked{BEDC.Derived.CannotClaimExportGateUp.CannotClaimExportGate\_obligation\_closure\_package}
 
+\begin{theorem}[Cannot-claim export gate kernel scope lock]
+\label{thm:cannot-claim-export-gate-kernel-scope-lock}
+For every accepted $\CannotClaimExportGateUp$ carrier $G=(R,F,E,Q,T,A,H,C,P,N)$, the consumer-facing scope of the gate is locked to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, registry, refusal, export, target, and audit rows. The TasteGate marker
+$$
+\texttt{BEDC.Derived.CannotClaimExportGateUp.CannotClaimExportGateTasteGate\_single\_carrier\_alignment}
+$$
+is the Lean-facing field-separation witness: it keeps $R,F,E,Q,T,A,H,C,P,N$ as distinct carrier rows before any checked-target export read can be compared. Thus a refused registry row has no kernel route to a checked formal-package target outside the displayed rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its only rows are $R,F,E,Q,T,A,H,C,P,N$, with $R$ displaying the registry site, $F$ the refusal, $E,Q$ the export decision and grade, $T$ the target route, and $A$ the audit readback.
+
+Apply registry factorization, export-grade scope, TasteGate handoff, and ledger exhaustion. These results force every consumer-facing export read through the same finite row sequence before local naming, while the checked TasteGate marker records the Lean-facing fact that the fields remain separated.
+
+The structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ transport, replay, source, and name that packet. Since no extra checked-target coordinate is present, the kernel scope is exactly the displayed gate surface.
+\end{proof}
+
 \falsifiablePrediction{A refused cannot-claim registry row cannot be exported as a checked formal-package target through an accepted CannotClaimExportGateUp packet.}
 
 \independenceWitness{registryexportsurface, refusalregistry, machineinterfaceboundary, bedcphilosophypackage, auditexportfirewall: none is bijective to CannotClaimExportGateUp because the gate simultaneously carries refusal status, export grade, target route, audit readback, transport, continuation, provenance, and local NameCert rows.}
@@ -131,8 +147,8 @@ The Lean follow-up must provide $\Nontrivial\ \CannotClaimExportGateUp$ and $\Fi
 
 \begin{closurestatus}{\CannotClaimExportGateUp}
   \constructivestory{A $\CannotClaimExportGateUp$ packet is generated from registry rows, refusal rows, export-decision rows, target rows, audit rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The classifier makes a blocked claim exportable only as a blocked claim: any consumer must read the registry entry and the refusal surface before reaching the export gate or formal target row. The ledger story is refusal preservation, where the audit and continuation rows carry the same cannot-claim evidence forward, preventing a refused registry item from being read as a checked package target or silently converted into success.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the carrier, NameCert obligations, refusal nonescape, registry factorization, export-grade scope, TasteGate handoff, ledger exhaustion, and obligation-closure package for $\CannotClaimExportGateUp$.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter binds the carrier, NameCert obligations, refusal nonescape, registry factorization, export-grade scope, TasteGate handoff, ledger exhaustion, obligation-closure package, and kernel scope lock for $\CannotClaimExportGateUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
