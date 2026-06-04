@@ -54,6 +54,13 @@ METRIC_NAMES = (
 )
 NON_POSITIVE_TERMINAL_VERDICTS = {"rejected", "demoted", "ledger-only"}
 NON_POSITIVE_LEVELS = {"DN", "DR", "D0", "D1", "D2", "D3"}
+REQUIRED_GAP_FIELDS = (
+    "bedc_gap_field",
+    "violated_principle",
+    "required_ledger_row",
+    "demotion",
+    "regression_test",
+)
 
 
 @dataclass(frozen=True)
@@ -65,6 +72,75 @@ class RuntimeWitness:
 
 
 Mutator = Callable[[dict[str, Any], dict[str, Any]], None]
+
+
+@dataclass(frozen=True)
+class WitnessGapContract:
+    bedc_gap_field: str
+    violated_principle: str
+    required_ledger_row: str
+    demotion: str
+    regression_test: str
+
+
+WITNESS_GAP_CONTRACTS: dict[str, WitnessGapContract] = {
+    "classifier_surface_delta_zero": WitnessGapContract(
+        bedc_gap_field="ClassifierSpec gap",
+        violated_principle="Classifier movement requires a nonzero surface delta before a discovery claim can leave observation status.",
+        required_ledger_row="ClassifierSpec row recording the classifier surface delta and rejected zero-delta projection.",
+        demotion="rejected/DN",
+        regression_test="tests/test_certificate_guided_discovery.py::test_nonpositive_net_information_forces_non_positive_discovery_on_classifier_surface",
+    ),
+    "matched_control_positive": WitnessGapContract(
+        bedc_gap_field="Control / Intervention ledger gap",
+        violated_principle="A matched control with the same positive signal blocks attribution to the intervention.",
+        required_ledger_row="Control ledger row comparing treatment and matched control under the same cost and split protocol.",
+        demotion="rejected/DN",
+        regression_test="tests/test_gap_head_discovery.py::test_control_positive_forces_unresolved_main_claim",
+    ),
+    "hidden_debt_positive": WitnessGapContract(
+        bedc_gap_field="LedgerPolicy gap",
+        violated_principle="A positive certificate cannot hide debt behind an observed-negative projection.",
+        required_ledger_row="LedgerPolicy row binding positive status to visible debt and audit-improvement tradeoff status.",
+        demotion="demoted/DR",
+        regression_test="tests/test_demote_thesis_invariant_audit.py::test_positive_tradeoff_fixture_is_caught",
+    ),
+    "cost_protocol_missing": WitnessGapContract(
+        bedc_gap_field="CostProtocol gap",
+        violated_principle="A discovery projection is malformed when the payload does not share a cost protocol.",
+        required_ledger_row="CostProtocol row naming the shared protocol that prices benefit, cost, and debt cells.",
+        demotion="rejected/DN",
+        regression_test="tests/test_certificate_guided_discovery.py::test_loader_rejects_when_shared_cost_protocol_name_not_true",
+    ),
+    "scorecard_not_ready": WitnessGapContract(
+        bedc_gap_field="ClosureStatus gap",
+        violated_principle="A not-ready scorecard cannot certify a positive discovery terminal status.",
+        required_ledger_row="ClosureStatus row recording quality scorecard readiness for every required metric.",
+        demotion="ledger-only/D1",
+        regression_test="tests/test_verdict.py::test_well_formed_not_ready_scorecard_goes_to_ledger_only",
+    ),
+    "forbidden_inference_column": WitnessGapContract(
+        bedc_gap_field="SourceSpec contamination",
+        violated_principle="A source specification with forbidden inference terms cannot support a positive claim.",
+        required_ledger_row="SourceSpec row listing forbidden claim-term hits and the contaminated source cell.",
+        demotion="rejected/DN",
+        regression_test="tests/test_rejection.py::test_rejects_forbidden_positive_claim_term_from_shared_owner",
+    ),
+    "benefit_debt_tradeoff": WitnessGapContract(
+        bedc_gap_field="Positive information gap",
+        violated_principle="A benefit claim with unresolved debt tradeoff is audit improvement, not positive discovery.",
+        required_ledger_row="Positive-information row separating quality benefit from debt tradeoff status.",
+        demotion="demoted/DR",
+        regression_test="tests/test_certificate_guided_discovery.py::test_tradeoff_training_payload_keeps_discovery_main_claim_non_positive",
+    ),
+    "fresh_claim_downgrade": WitnessGapContract(
+        bedc_gap_field="Revocation ledger gap",
+        violated_principle="Fresh weak evidence must revoke the earlier positive status instead of preserving it.",
+        required_ledger_row="Revocation ledger row naming the stale certificate, fresh evidence, and downgraded status.",
+        demotion="demoted/DR",
+        regression_test="tests/test_research_discovery.py::test_hg_dl_4_revocation_decision_is_revoked_discovery",
+    ),
+}
 
 
 def _scorecard(status: str = "ready") -> dict[str, Any]:
@@ -132,17 +208,29 @@ def _terminal_decision(witness: RuntimeWitness) -> dict[str, Any]:
     )
 
 
+def _expected_demotion(decision: Mapping[str, Any], discovery_level: str) -> str:
+    return f"{decision['verdict']}/{discovery_level}"
+
+
 def _ledger_row(witness: RuntimeWitness) -> dict[str, Any]:
+    contract = WITNESS_GAP_CONTRACTS[witness.kind]
     decision = _terminal_decision(witness)
     projection = assign_discovery_level(decision)
     if decision["verdict"] not in NON_POSITIVE_TERMINAL_VERDICTS:
         raise RuntimeError(f"{witness.kind} passed terminal gate as {decision['verdict']}")
     if projection.discovery_level not in NON_POSITIVE_LEVELS:
         raise RuntimeError(f"{witness.kind} reached positive discovery level {projection.discovery_level}")
+    if contract.demotion != _expected_demotion(decision, projection.discovery_level):
+        raise RuntimeError(f"{witness.kind} contract demotion does not match gate replay")
     basis = decision["evidence_basis"]
     return {
         "kind": witness.kind,
         "soundness": witness.soundness,
+        "bedc_gap_field": contract.bedc_gap_field,
+        "violated_principle": contract.violated_principle,
+        "required_ledger_row": contract.required_ledger_row,
+        "demotion": contract.demotion,
+        "regression_test": contract.regression_test,
         "terminal_verdict": decision["verdict"],
         "terminal_reason": decision["reason"],
         "discovery_level": projection.discovery_level,
@@ -270,6 +358,8 @@ def runtime_witnesses() -> list[RuntimeWitness]:
 
 
 def build_witness_ledger(*, generated_at: str | None = None) -> dict[str, Any]:
+    if tuple(WITNESS_GAP_CONTRACTS) != EXPECTED_KINDS:
+        raise RuntimeError(f"unexpected witness contract kind order: {list(WITNESS_GAP_CONTRACTS)}")
     rows = [_ledger_row(witness) for witness in runtime_witnesses()]
     kinds = [row["kind"] for row in rows]
     if tuple(kinds) != EXPECTED_KINDS:
@@ -296,6 +386,29 @@ def assert_pointer_only_boundary(payload: Mapping[str, Any]) -> None:
         raise RuntimeError("witness ledger contains forbidden host.env string")
 
 
+def validate_witness_gap_contracts(payload: Mapping[str, Any]) -> None:
+    witnesses = payload.get("witnesses")
+    if not isinstance(witnesses, list):
+        raise RuntimeError("witness ledger must contain witness rows")
+    kinds = [row.get("kind") if isinstance(row, Mapping) else None for row in witnesses]
+    if tuple(kinds) != EXPECTED_KINDS:
+        raise RuntimeError(f"unexpected witness kind order: {kinds}")
+    for row in witnesses:
+        if not isinstance(row, Mapping):
+            raise RuntimeError("witness row must be a JSON object")
+        kind = str(row["kind"])
+        contract = WITNESS_GAP_CONTRACTS[kind]
+        for field in REQUIRED_GAP_FIELDS:
+            value = row.get(field)
+            if not isinstance(value, str) or not value.strip():
+                raise RuntimeError(f"{kind} missing required gap field {field}")
+            if value != getattr(contract, field):
+                raise RuntimeError(f"{kind} has stale gap field {field}")
+        expected = f"{row.get('terminal_verdict')}/{row.get('discovery_level')}"
+        if row["demotion"] != expected:
+            raise RuntimeError(f"{kind} demotion does not match terminal replay")
+
+
 def _walk_keys(value: Any):
     if isinstance(value, Mapping):
         for key, cell in value.items():
@@ -312,6 +425,7 @@ def write_witness_ledger(path: Path | None = None, *, generated_at: str | None =
         raise ValueError(f"refresh may only write {LEDGER_ARTIFACT}")
     payload = build_witness_ledger(generated_at=generated_at)
     assert_pointer_only_boundary(payload)
+    validate_witness_gap_contracts(payload)
     target.parent.mkdir(parents=True, exist_ok=True)
     tmp = target.with_suffix(target.suffix + ".tmp")
     tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -327,8 +441,10 @@ def load_checked_in_ledger(path: Path | None = None) -> dict[str, Any]:
 def replay_checked_in_ledger(path: Path | None = None) -> dict[str, Any]:
     checked_in = load_checked_in_ledger(path)
     assert_pointer_only_boundary(checked_in)
+    validate_witness_gap_contracts(checked_in)
     fresh = build_witness_ledger(generated_at=checked_in.get("generated_at"))
     fresh["generated_at"] = checked_in.get("generated_at")
+    validate_witness_gap_contracts(fresh)
     if checked_in != fresh:
         raise RuntimeError("checked-in discovery negative witnesses are stale")
     return fresh
