@@ -657,6 +657,7 @@ import BEDC.Derived.BaireMetricUp
 import BEDC.Derived.BaireMetricUp.BaireSpacePrefixDensityRoute
 import BEDC.Derived.BaireMetricUp.CauchyPrefixThread
 import BEDC.Derived.BaireMetricUp.CompleteMetricNonescape
+import BEDC.Derived.BaireMetricUp.CompleteMetricReadback
 import BEDC.Derived.BaireMetricUp.CompleteUltrametricConsumerObligations
 import BEDC.Derived.BaireMetricUp.CompleteUltrametricExhaustion
 import BEDC.Derived.BaireMetricUp.FirstDisagreementDyadicRadiusExactness
@@ -6961,6 +6962,7 @@ import BEDC.Derived.RealUniformStructureUp.EntourageShrink
 import BEDC.Derived.RealUniformStructureUp.EntourageShrinkStability
 import BEDC.Derived.RealUniformStructureUp.PositiveRadiusEntourageRefinement
 import BEDC.Derived.RealUniformStructureUp.RealEqualityFilterBoundary
+import BEDC.Derived.RealUniformStructureUp.SubbasisCompletionHandoff
 import BEDC.Derived.RealUniformStructureUp.TasteGate
 import BEDC.Derived.RealUniformTailComparisonUp.TasteGate
 import BEDC.Derived.RealUp
