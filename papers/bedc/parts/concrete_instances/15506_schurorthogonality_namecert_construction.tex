@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exports only this finite orthogonality ledger. It contains no host character table, no quotient carrier of conjugacy classes, no ambient inner-product space, and no complete category of representations.
 \end{definition}
+\leanchecked{BEDC.Derived.SchurOrthogonalityUp.SchurOrthogonalityTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[SchurOrthogonality NameCert obligations]
 \label{thm:schur-orthogonality-namecert-obligations}
@@ -37,6 +38,7 @@ For every accepted $\SchurOrthogonalityUp$ carrier $S=(G,V,X,\Phi,\Omega,H,C,P,N
 \end{enumerate}
 No local obligation is stored outside these finite rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.SchurOrthogonalityUp.SchurOrthogonalityCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:schur-orthogonality-carrier}. The only available data are the consumed $G,V,X$ rows, the pairing ledger $\Phi$, the orthogonality ledger $\Omega$, and the structural rows $H,C,P,N$.
 
@@ -97,6 +99,20 @@ Inspect the orthogonality ledger $\Omega$. Its displayed entries contain the fin
 Transport acts componentwise through $H$. The averaging entry is moved with the same group, vector-space, character-theory, pairing, and orthogonality rows, so the transported packet still names the same finite source.
 
 Replay and provenance then preserve this source. The continuation row $C$ can only replay the displayed route, $P$ can only cite its package provenance, and $N$ names the local certificate. Hence no second averaging source is introduced.
+\end{proof}
+
+\begin{theorem}[SchurOrthogonality row and column orthogonality ledger]
+\label{thm:schurorthogonality-row-column-orthogonality-ledger}
+Let $S=(G,V,X,\Phi,\Omega,H,C,P,N)$ be an accepted $\SchurOrthogonalityUp$ carrier. The row relations, column relations, normalization rows, and zero-off-diagonal rows exported by $S$ are exposed only through $G,V,X,\Phi,\Omega,H,C,P,N$. A $\RepresentationRingUp$ or $\InducedRepUp$ consumer may read these rows only through the displayed finite pairing and orthogonality ledger, and cannot bypass the packet by importing a host character table, quotient conjugacy-class carrier, ambient inner product, or complete representation category.
+\end{theorem}
+\begin{proof}
+The carrier in \autoref{def:schur-orthogonality-carrier} has only the displayed source rows $G,V,X$, the pairing ledger $\Phi$, the orthogonality ledger $\Omega$, and the structural rows $H,C,P,N$.
+
+By \autoref{thm:schur-orthogonality-character-pairing-route}, every exported orthogonality read first passes through the character-pairing ledger. By \autoref{thm:schurorthogonality-character-inner-product}, the corresponding pairing is already a finite ledger read before any row of $\Omega$ is selected.
+
+The downstream route is then governed by \autoref{thm:schurorthogonality-representation-ring-route} and \autoref{thm:schurorthogonality-group-averaging-ledger}. These force $\RepresentationRingUp$ and $\InducedRepUp$ consumers to receive only the finite Schur row, column, normalization, and zero-off-diagonal entries named by $\Omega$ and replayed by $C$.
+
+Since no coordinate of $S$ stores a host character table, quotient conjugacy-class carrier, ambient inner product, or complete representation category, such objects cannot serve as alternate sources for the same consumer read.
 \end{proof}
 
 \closureat{SchurOrthogonalityUp}{seedStr}
