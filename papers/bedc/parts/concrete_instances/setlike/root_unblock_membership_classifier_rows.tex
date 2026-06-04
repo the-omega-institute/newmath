@@ -1,0 +1,34 @@
+\begin{definition}[SetLike root carrier membership]\label{def:setlike-root-carrier-membership}
+For an accepted $\SetLikeUp$ packet $S=(M,Q,I,R,E,H,C,P,N)$, the root carrier membership read is the certified family route
+$$
+\begin{gathered}
+M \longrightarrow Q \longrightarrow I \longrightarrow R \longrightarrow E,\\
+H \longrightarrow C \longrightarrow P \longrightarrow N .
+\end{gathered}
+$$
+The row $M$ is the finite $\BHist$ membership source, $Q$ is the classifier row over that source, $I$ is subset implication between certified membership rows, $R$ is bounded comprehension after the membership and subset rows are visible, $E$ is the displayed extensional boundary, and $H,C,P,N$ transport, replay, source, and locally name the same certified family packet.
+\end{definition}
+
+\begin{theorem}[SetLike root classifier transport]\label{thm:setlike-root-classifier-transport}
+Every $\hsame$ or $\Cont$ transport of the root carrier membership read of \autoref{def:setlike-root-carrier-membership} preserves the displayed membership classifier. A TypeLike, FirstOrder, ModelTheory, or root consumer that reads the transported packet receives $M,Q,I,R,E,H,C,P,N$ as one certified family route, and receives no host membership relation, ambient powerset, quotient equality of sets, selected representative, or external classifier.
+\end{theorem}
+\begin{proof}
+Project the route of \autoref{def:setlike-root-carrier-membership}. The membership read is based on $M$ and $Q$, while $I,R,E$ are downstream ledger rows over the same classifier.
+
+Use componentwise $\hsame$ transport and displayed $\Cont$ replay. These rows move the finite packet without replacing $Q$ by a host relation or by a classifier over a different source.
+
+Finally read $P$ and $N$. Provenance and local naming expose the same certified family packet to downstream consumers, so TypeLike, FirstOrder, ModelTheory, and root consumers see only the transported SetLike route.
+\end{proof}
+
+\begin{theorem}[SetLike root NameCert obligations]\label{thm:setlike-root-namecert-obligations}
+The root $\NameCert_{\SetLikeUp}$ obligations for membership consumers are exactly carrier admission for \autoref{def:setlike-root-carrier-membership}, classifier transport for $M,Q$, bounded-comprehension ledger exposure for $I,R,E$, componentwise $\hsame$ and $\Cont$ preservation through $H,C$, provenance and local naming through $P,N$, and the boundary excluding host extensionality. Any root consumer that imports host set equality, ambient powersets, unrestricted separation, selected representatives, or an external membership classifier is outside the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with carrier admission. The definition presents the only membership carrier available to a root consumer: the finite route $M,Q,I,R,E,H,C,P,N$.
+
+Apply classifier transport. It keeps membership reads on $M,Q$ and makes $H,C$ preserve the displayed classifier rather than a host membership relation.
+
+Use the bounded-comprehension ledger rows. The subset and comprehension coordinates $I,R,E$ are read only after the membership classifier is visible, so comprehension remains a finite BEDC ledger.
+
+Finally attach provenance and local naming. Since $P,N$ name only the displayed route, the accepted NameCert surface has no coordinate for host extensionality, powersets, unrestricted separation, selected representatives, or external classifiers.
+\end{proof}
