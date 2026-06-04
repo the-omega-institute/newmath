@@ -166,6 +166,22 @@ Now use the sibling route theorem \autoref{thm:metacic-parallel-diamond-frontier
 The only admissible discharge surface is the residual-substitution compatibility chapter named in the statement. Without that separate certificate, the obstruction row $O$ continues to block full closed confluence, subject reduction, evaluator equality, quotient term equality, and kernel consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond frontier compatibility discharge surface]
+\label{thm:metacic-parallel-diamond-frontier-compatibility-discharge-surface}
+For an accepted $\MetaCICParallelDiamondFrontierUp$ packet, only a separate $\MetaCICResidualSubstitutionCompatibilityUp$ row may turn the retained $P,O$ premise-obstruction surface into a discharged local diamond. Without that compatibility row, every confluence consumer retains the full conditional spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+and may read the packet only as a conditional parallel-diamond frontier, not as premise-free confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the discharge obstruction theorem, \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. It identifies $P$ as the retained residual-substitution premise and $O$ as the obstruction row that remains visible unless the separate compatibility chapter supplies a certificate.
+
+Next use premise retention, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The premise row is not confined to the statement of the theorem; it is transported through the critical-pair, residual-frontier, closed-checker, and closed-normal rows of the accepted carrier.
+
+Finally apply the confluence handoff, \autoref{thm:metacic-parallel-diamond-confluence-handoff}. That handoff exports the complete route $P,K,J,R,S,C,B,O,H,T,G,N$ to confluence-facing consumers. Since no row in this packet is the separate $\MetaCICResidualSubstitutionCompatibilityUp$ certificate, the handoff remains conditional and the refused endpoints stay outside the frontier.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond closed-checker retention]
 \label{thm:metacic-parallel-diamond-closed-checker-retention}
 Any accepted $\MetaCICParallelDiamondFrontierUp$ packet whose local-diamond handoff retains the residual-substitution premise row $P$ must also retain the closed-checker seal row $S$ and the closed-normal fragment row $C$ before that handoff can be read. Thus the conditional handoff boundary is the joint row surface $P,S,C$ together with the displayed critical-pair, residual-frontier, bounded-check, obstruction, transport, replay, provenance, and local naming rows. It is not a proof of residual substitution, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
