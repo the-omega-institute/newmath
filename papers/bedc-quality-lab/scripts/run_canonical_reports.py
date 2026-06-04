@@ -612,13 +612,35 @@ def _local_imports(path: Path) -> set[str]:
         tree = ast.parse(path.read_text(encoding="utf-8"))
     except (OSError, SyntaxError):
         return set()
+    try:
+        relative_path = path.resolve().relative_to(ROOT)
+    except ValueError:
+        relative_path = path
+    module_parts = relative_path.with_suffix("").parts
+    if module_parts and module_parts[-1] == "__init__":
+        package_parts = module_parts[:-1]
+    else:
+        package_parts = module_parts[:-1]
     imports: set[str] = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             imports.update(alias.name for alias in node.names)
-        elif isinstance(node, ast.ImportFrom) and node.module is not None:
+        elif isinstance(node, ast.ImportFrom):
             if node.level == 0:
-                imports.add(node.module)
+                if node.module is not None:
+                    imports.add(node.module)
+                continue
+            base_count = len(package_parts) - node.level + 1
+            if base_count < 0:
+                continue
+            resolved_parts = list(package_parts[:base_count])
+            if node.module is not None:
+                resolved_parts.extend(node.module.split("."))
+                imports.add(".".join(resolved_parts))
+            else:
+                for alias in node.names:
+                    if alias.name != "*":
+                        imports.add(".".join([*resolved_parts, alias.name]))
     return {
         name
         for name in imports
@@ -1672,7 +1694,7 @@ def _run_spec(
             _write_fingerprint_sidecar(spec, generated_at=generated_at)
         else:
             if reuse_existing is True and _artifact_path(spec.json_artifact).exists() and _artifact_path(spec.markdown_artifact).exists():
-                matches, reason = True, "legacy-reuse"
+                matches, reason = True, "artifact-present-reuse"
             else:
                 try:
                     matches, reason = _fingerprint_matches(spec)

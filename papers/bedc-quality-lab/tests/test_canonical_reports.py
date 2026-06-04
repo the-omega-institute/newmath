@@ -350,6 +350,147 @@ def _write_fingerprint_fixture(canonical_module, root, spec, *, script_text="SEE
     return canonical_module._write_fingerprint_sidecar(spec, generated_at="fixture")
 
 
+def _set_canonical_tmp_root(monkeypatch, tmp_path):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+
+
+def _write_lab_report_import_fixture(root, spec):
+    (root / "bedc_quality_lab").mkdir(parents=True, exist_ok=True)
+    (root / "bedc_quality_lab" / "__init__.py").write_text("", encoding="utf-8")
+    (root / "bedc_quality_lab" / "report.py").write_text(
+        "\n".join(
+            [
+                "from .cost_protocol import load_cost_protocol",
+                "from .schema import QualityEvidenceEnvelope",
+                "from .tensor_namecert_candidate import from_quality_evidence_envelope",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    for name in ("cost_protocol", "schema", "tensor_namecert_candidate"):
+        (root / "bedc_quality_lab" / f"{name}.py").write_text(f"{name.upper()} = 'fixture'\n", encoding="utf-8")
+    script = root / spec.command[1]
+    script.parent.mkdir(parents=True, exist_ok=True)
+    script.write_text(
+        "from bedc_quality_lab.report import QualityEvidenceEnvelope\n\nSEED = 7\n",
+        encoding="utf-8",
+    )
+
+
+def _patch_lightweight_run_reports(monkeypatch):
+    def write_json(root, artifact, payload):
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    def write_markdown(root, artifact, text):
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+    def fake_formal_hardening(*, root, generated_at=None):
+        write_json(root, canonical.FORMAL_HARDENING_JSON_ARTIFACT, {"ready": True, "recorded": 1, "required": 1, "gap_count": 0})
+        write_markdown(root, canonical.FORMAL_HARDENING_MARKDOWN_ARTIFACT, "# formal\n")
+        return {}
+
+    def fake_discovery(*, root, generated_at=None, adapter=None):
+        write_json(
+            root,
+            canonical.DISCOVERY_MAP_JSON_ARTIFACT,
+            {"generated_at": generated_at, "row_count": 0, "level_counts": {}, "rows": []},
+        )
+        write_markdown(root, canonical.DISCOVERY_MAP_MARKDOWN_ARTIFACT, "# discovery\n")
+        return {}
+
+    def fake_transfer(*, root, generated_at=None, require_anti_triviality=False):
+        write_json(
+            root,
+            canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
+            {
+                "dimension_mismatch_debt_transfer": {
+                    "status": "pass",
+                    "base_level": "D4",
+                    "effective_level": "D4",
+                    "terminal_verdict": "ledger_only_hardening_not_ready",
+                }
+            },
+        )
+        write_markdown(root, canonical.DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT, "# transfer\n")
+        return {}
+
+    def fake_anti_triviality(*, root, generated_at=None):
+        return {}
+
+    def fake_robustness(*, root, generated_at=None):
+        write_json(root, canonical.DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_JSON_ARTIFACT, {"status": "pass", "audit_status": "pass"})
+        write_markdown(root, canonical.DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_MARKDOWN_ARTIFACT, "# robust\n")
+        return {}
+
+    def fake_witness_summary(*, root, generated_at=None):
+        write_json(root, canonical.NEGATIVE_WITNESS_SUMMARY_JSON_ARTIFACT, {"status": "pointer-only", "row_count": 0, "audit_status": "pass", "rows": []})
+        write_markdown(root, canonical.NEGATIVE_WITNESS_SUMMARY_MARKDOWN_ARTIFACT, "# witness\n")
+        return {}
+
+    def fake_claim_graph(*, root, generated_at=None):
+        write_json(root, canonical.CLAIM_GRAPH_JSON_ARTIFACT, {"status": "pointer-only", "nodes": [], "edges": []})
+        write_markdown(root, canonical.CLAIM_GRAPH_MARKDOWN_ARTIFACT, "# graph\n")
+        return {}
+
+    def fake_mechanism(*, root, generated_at=None):
+        return {}
+
+    def fake_release(*, root, generated_at=None):
+        return {}
+
+    monkeypatch.setattr(
+        canonical,
+        "_build_quality_scorecard",
+        lambda results, generated_at=None: {"generated_at": generated_at, "rows": [], "metrics": []},
+    )
+    monkeypatch.setattr(canonical, "_render_quality_scorecard_markdown", lambda payload: "# scorecard\n")
+    monkeypatch.setattr(canonical, "_build_claim_capsule", lambda generated_at: {"status": "complete"})
+    monkeypatch.setattr(
+        canonical,
+        "_index",
+        lambda results, generated_at=None, claim_verdict_rows=None: {
+            "schema_id": canonical.INDEX_SCHEMA_ID,
+            "generated_at": generated_at,
+            "reports": list(results),
+            "claim_verdicts": list(claim_verdict_rows or []),
+        },
+    )
+    monkeypatch.setattr(canonical, "_render_index_markdown", lambda payload: "# index\n")
+    monkeypatch.setitem(sys.modules, "scripts.run_formal_hardening_report", types.SimpleNamespace(write_formal_hardening_report=fake_formal_hardening))
+    monkeypatch.setitem(sys.modules, "bedc_quality_lab.backends.current_lab.adapter", types.SimpleNamespace(CurrentLabBackendEvidenceAdapter=lambda: object()))
+    monkeypatch.setitem(sys.modules, "bedc_quality_lab.discovery_compiler.compiler", types.SimpleNamespace(compile_discovery=fake_discovery))
+    monkeypatch.setitem(sys.modules, "scripts.run_claim_graph", types.SimpleNamespace(write_claim_graph=fake_claim_graph))
+    monkeypatch.setitem(sys.modules, "scripts.run_claim_verdict_demo", types.SimpleNamespace(write_claim_verdicts=lambda root, generated_at=None: []))
+    monkeypatch.setitem(sys.modules, "scripts.run_gap_head_mechanism_namecert", types.SimpleNamespace(write_gap_head_mechanism_namecert=fake_mechanism))
+    monkeypatch.setitem(sys.modules, "scripts.run_dimension_mismatch_debt_transfer", types.SimpleNamespace(write_dimension_mismatch_debt_transfer=fake_transfer))
+    monkeypatch.setitem(sys.modules, "scripts.run_dimension_mismatch_anti_triviality", types.SimpleNamespace(write_dimension_mismatch_anti_triviality=fake_anti_triviality))
+    monkeypatch.setitem(sys.modules, "scripts.run_dimension_mismatch_transfer_robustness", types.SimpleNamespace(write_dimension_mismatch_transfer_robustness=fake_robustness))
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_discovery_negative_witness_summary",
+        types.SimpleNamespace(
+            write_discovery_negative_witness_summary=fake_witness_summary,
+            build_discovery_negative_witness_summary=lambda root, generated_at=None: {"status": "pointer-only", "row_count": 0, "audit_status": "pass"},
+        ),
+    )
+    monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
+
+
+def _file_digest_map(root):
+    return {
+        path.relative_to(root).as_posix(): canonical._path_digest(path)
+        for path in sorted(root.rglob("*"))
+        if path.is_file()
+    }
+
+
 def _index_row_for_spec(spec):
     return {
         "name": spec.name,
@@ -1026,6 +1167,92 @@ def test_fingerprint_staleness_fail_closed_and_cold_digest(tmp_path, monkeypatch
     assert sidecar["output_digest"] == canonical._canonical_output_digest(spec)
 
 
+def test_relative_lab_helper_imports_enter_fingerprint_closure(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    _write_lab_report_import_fixture(tmp_path, spec)
+
+    paths = canonical._import_closure(spec.command)
+
+    assert paths == sorted(paths)
+    assert "bedc_quality_lab/report.py" in paths
+    assert "bedc_quality_lab/cost_protocol.py" in paths
+    assert "bedc_quality_lab/schema.py" in paths
+    assert "bedc_quality_lab/tensor_namecert_candidate.py" in paths
+
+
+@pytest.mark.parametrize(
+    ("label", "mutate"),
+    [
+        ("producer-source", lambda root, spec: (root / spec.command[1]).write_text("SEED = 8\n", encoding="utf-8")),
+        ("config", lambda root, spec: (root / "configs" / "default_cost_protocol.yaml").write_text("unit_cost: 2\n", encoding="utf-8")),
+        ("seed-cell", lambda root, spec: (root / spec.command[1]).write_text("SEED = 9\n", encoding="utf-8")),
+        ("source-artifact", lambda root, spec: (root / "reports" / "canonical" / "upstream.json").write_text('{"cell": 2}\n', encoding="utf-8")),
+    ],
+)
+def test_fingerprint_staleness_inputs_cause_miss(tmp_path, monkeypatch, label, mutate):
+    del label
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    config_path = tmp_path / "configs" / "default_cost_protocol.yaml"
+    config_path.parent.mkdir(parents=True, exist_ok=True)
+    config_path.write_text("unit_cost: 1\n", encoding="utf-8")
+    json_path = canonical._artifact_path(spec.json_artifact)
+    payload = json.loads(json_path.read_text(encoding="utf-8"))
+    upstream_path = tmp_path / "reports" / "canonical" / "upstream.json"
+    upstream_path.write_text('{"cell": 1}\n', encoding="utf-8")
+    payload["source_artifacts"] = {"upstream": "reports/canonical/upstream.json"}
+    json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    canonical._write_fingerprint_sidecar(spec, generated_at="fixture")
+
+    mutate(tmp_path, spec)
+
+    assert canonical._fingerprint_matches(spec) == (False, "input-fingerprint")
+
+
+def test_relative_lab_helper_edit_causes_fingerprint_miss(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    _write_lab_report_import_fixture(tmp_path, spec)
+    _write_fingerprint_fixture(canonical, tmp_path, spec, script_text=(tmp_path / spec.command[1]).read_text(encoding="utf-8"))
+
+    (tmp_path / "bedc_quality_lab" / "cost_protocol.py").write_text("COST_PROTOCOL = 'changed'\n", encoding="utf-8")
+
+    assert canonical._fingerprint_matches(spec) == (False, "input-fingerprint")
+
+
+def test_dependency_abi_change_causes_fingerprint_miss(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "_dependency_abi", lambda: {"python": "fixture-a"})
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+
+    monkeypatch.setattr(canonical, "_dependency_abi", lambda: {"python": "fixture-b"})
+
+    assert canonical._fingerprint_matches(spec) == (False, "input-fingerprint")
+
+
+def test_verify_mode_fails_closed_for_missing_or_corrupt_sidecar(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    canonical._fingerprint_path(spec).unlink()
+
+    missing = canonical._run_spec(spec, mode="verify")
+    assert missing["status"] == "error"
+    assert "missing fingerprint sidecar" in missing["error"]
+
+    canonical._fingerprint_path(spec).write_text("{not-json}\n", encoding="utf-8")
+    corrupt = canonical._run_spec(spec, mode="verify")
+    assert corrupt["status"] == "error"
+    assert "corrupt fingerprint sidecar" in corrupt["error"]
+
+
 def test_run_spec_force_path_runs_producer_for_existing_artifacts(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
@@ -1121,6 +1348,161 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     assert "gap-head-on-h" in index_markdown
     assert (canonical_dir / "quality-scorecard.json").exists()
     assert (canonical_dir / "quality-scorecard.md").exists()
+
+
+def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    calls = []
+    monkeypatch.setattr(canonical, "_run_producer", lambda called: calls.append(called.name))
+
+    payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == []
+    assert payload["reports"][0]["fingerprint_status"] == "match"
+    assert payload["reports"][0]["producer_status"] == "skipped"
+
+
+def test_run_reports_cold_runs_selected_report(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    calls = []
+
+    def fake_run_producer(called):
+        calls.append(called.name)
+        _write_fingerprint_fixture(canonical, tmp_path, called)
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(cold=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == ["mixing-family-sweep"]
+    assert payload["reports"][0]["fingerprint_status"] == "written"
+    assert json.loads(canonical._fingerprint_path(spec).read_text(encoding="utf-8"))["output_digest"] == canonical._canonical_output_digest(spec)
+
+
+def test_run_reports_force_runs_selected_report(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    calls = []
+
+    def fake_run_producer(called):
+        calls.append(called.name)
+        _write_fingerprint_fixture(canonical, tmp_path, called)
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(force=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == ["mixing-family-sweep"]
+    assert payload["reports"][0]["producer_status"] == "completed"
+
+
+def test_run_reports_cold_only_matches_normalized_committed_artifact(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    committed_payload = _payload_for_spec(spec)
+
+    def fake_run_producer(called):
+        json_path = canonical._artifact_path(called.json_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(committed_payload, sort_keys=True) + "\n", encoding="utf-8")
+        canonical._artifact_path(called.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    canonical.run_reports(cold=True, only=spec.name, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert json.loads(canonical._artifact_path(spec.json_artifact).read_text(encoding="utf-8")) == committed_payload
+
+
+def test_changed_only_runs_stale_report_and_declared_dependent(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    unrelated = canonical._specs_by_name()["mixing-family-sweep"]
+    source = canonical._specs_by_name()["gap-head-on-h"]
+    dependent = canonical._specs_by_name()["gap-head-discovery"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (unrelated, source, dependent))
+    monkeypatch.setattr(canonical, "_selected_specs_with_dependents", lambda only, include_dependents=True: (unrelated, source, dependent))
+    for spec in (unrelated, source, dependent):
+        _write_fingerprint_fixture(canonical, tmp_path, spec)
+    (tmp_path / source.command[1]).write_text("SEED = 18\n", encoding="utf-8")
+    calls = []
+
+    def fake_run_producer(called):
+        calls.append(called.name)
+        json_path = canonical._artifact_path(called.json_artifact)
+        payload = _payload_for_spec(called)
+        if called.name == "gap-head-on-h":
+            payload["producer_cell"] = "changed"
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+        canonical._artifact_path(called.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert calls == ["gap-head-on-h", "gap-head-discovery"]
+    by_name = {row["name"]: row for row in payload["reports"]}
+    assert by_name["mixing-family-sweep"]["producer_status"] == "skipped"
+    assert by_name["mixing-family-sweep"]["validation"]["status"] == "pass"
+    assert by_name["gap-head-on-h"]["producer_status"] == "completed"
+    assert by_name["gap-head-discovery"]["producer_status"] == "completed"
+
+
+def test_matching_changed_only_run_is_idempotent(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    monkeypatch.setattr(canonical, "_run_producer", lambda called: (_ for _ in ()).throw(AssertionError(called.name)))
+
+    canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    first = _file_digest_map(tmp_path)
+    canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    second = _file_digest_map(tmp_path)
+
+    assert first == second
+
+
+def test_same_seed_produces_same_payload(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    calls = []
+
+    def fake_run_producer(called):
+        calls.append(called.name)
+        seed = 314
+        json_path = canonical._artifact_path(called.json_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        payload = _payload_for_spec(called)
+        payload["seeded_value"] = seed * 17
+        json_path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+        canonical._artifact_path(called.markdown_artifact).write_text(f"# seed {seed}\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    canonical.run_reports(cold=True, generated_at="2030-01-01T00:00:00+00:00")
+    first = json.loads(canonical._artifact_path(spec.json_artifact).read_text(encoding="utf-8"))
+    canonical.run_reports(cold=True, generated_at="2030-01-01T00:00:00+00:00")
+    second = json.loads(canonical._artifact_path(spec.json_artifact).read_text(encoding="utf-8"))
+
+    assert calls == ["mixing-family-sweep", "mixing-family-sweep"]
+    assert first == second
 
 
 def test_targeted_selection_includes_declared_dependents():
