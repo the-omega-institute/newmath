@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\CompactlySupportedRealFunctionUp$}
+\label{ch:concrete-instances-compactly-supported-real-function-namecert}
+\origin{human}
+
+Following Bourbaki and Rudin, a compactly supported real function is a real-valued function whose nonzero behavior is confined to a compact portion of the real line. The $\CompactlySupportedRealFunctionUp$ packet records this classical object as finite NameCert data over the constructive real and completion frontier. It consumes the real terminal surface of \autoref{ch:concrete-instances-real-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic source core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the continuous-map carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, and the closed bounded interval route of \autoref{ch:concrete-instances-closedboundedinterval-namecert}. The packet names finite support, readback, and continuity obligations only; it does not assert full function-space completeness, host extensional equality of functions, a global Heine--Borel theorem, or choice-selected support endpoints.
+
+\begin{definition}[Compactly supported real function carrier]
+\label{def:compactly-supported-real-function-carrier}
+A $\CompactlySupportedRealFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(G,R,S,K,H,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the function graph window row. It records finite stream observations of input and output names and exposes graph data only through the same $\StreamNameUp$ requests.
+\item $R$ is the $\RealUp$ readback row. It seals output observations as real names only after the stream, regular rational, and dyadic source rows have been displayed.
+\item $S$ is the support-bound certificate. It records a closed bounded interval outside which every accepted graph-window read is certified as the zero real output.
+\item $K$ is the compact and closed-bounded support handoff row. It reads $S$ through the $\ClosedBoundedIntervalUp$ route and exposes compact-support data as a finite interval handoff rather than as open-cover compactness.
+\item $H$ stores componentwise $\hsame$ transport for graph windows, Real readback, support bounds, compact interval handoff, continuity replay, provenance, and the local naming row.
+\item $T$ stores $\Cont$ replay for the route from stream observations to regular rational and dyadic reads, from those reads to the Real seal, and from the support-bound row to continuous-map consumers.
+\item $C$ is the $\ContinuousMapUp$ compatibility row. It records that a consumer may read continuity only through the displayed graph-window, Real readback, support-bound, and support-handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\CompactlySupportedRealFunctionUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\ContinuousMapUp$, $\ClosedBoundedIntervalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactlySupportedRealFunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,R,S,K,H,T,C,P,N$. It has no coordinate for host function equality, total function-space completeness, open-cover Heine--Borel compactness, selected support endpoints, or ambient quotient equality of Real names.
+\end{definition}
+\leandef{BEDC.Derived.CompactlySupportedRealFunctionUp}
+
+\begin{theorem}[Compactly supported real function NameCert obligations]
+\label{thm:compactly-supported-real-function-namecert-obligations}
+For every accepted $\CompactlySupportedRealFunctionUp$ carrier $F=(G,R,S,K,H,T,C,P,N)$, the local $\NameCert_{\CompactlySupportedRealFunctionUp}$ surface is exhausted by carrier admission, graph-window coherence, Real readback, support-bound stability, compact and closed-bounded support handoff, componentwise transport, continuity replay, provenance, and local naming. Every consumer must read the finite route
+$$
+\StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \RealUp,\ \ContinuousMapUp,\ \ClosedBoundedIntervalUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+through the displayed rows $G,R,S,K,H,T,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:compactly-supported-real-function-carrier}. The graph-window row, Real readback row, support-bound row, compact support handoff, transport, replay, continuity, provenance, and local name are the only rows in the carrier.
+
+Graph-window coherence is read through $G$. The row exposes input and output observations as finite stream requests, so a consumer cannot replace the graph by host function equality or by an untracked total map.
+
+The Real readback and support obligations are downstream from the same finite observations. The rows $R,S,K$ seal regular rational and dyadic data as Real outputs, record the closed bounded support interval, and hand that interval to compact-support consumers without importing open-cover compactness.
+
+Finally $H,T,C,P,N$ transport, replay, source, and name this same route. Since no excluded equality, endpoint-selection, completeness, or open-cover row occurs in the carrier, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Compactly supported real function support bound]
+\label{thm:compactly-supported-real-function-support-bound}
+Let $F=(G,R,S,K,H,T,C,P,N)$ be an accepted $\CompactlySupportedRealFunctionUp$ packet. Any consumer that cites compact support for $F$ must read the support-bound certificate $S$ and the closed-bounded handoff $K$ before it reads the $\ContinuousMapUp$ compatibility row $C$ or the $\RealUp$ output seal $R$ as compact-support data. Thus support is witnessed by the displayed closed bounded interval route, not by a selected endpoint pair outside the packet or by a host-level compactness theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The only support data are the certificate row $S$ and the compact closed-bounded handoff row $K$.
+
+Read $S$ through the graph-window row $G$. The certificate states that accepted observations outside the displayed interval are zero-output observations, so support is tied to the same stream, regular rational, dyadic, and Real readback route.
+
+Now use $K$ and $C$. The handoff exposes support through $\ClosedBoundedIntervalUp$, while the continuity row allows continuous-map consumers to replay the same graph-window and Real-readback data. No row supplies open-cover compactness, selected endpoints, quotient equality of functions, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{Every $\CompactlySupportedRealFunctionUp$ read from an accepted packet factors through graph windows, Real readback, a displayed support-bound certificate, closed-bounded support handoff, componentwise transport, Cont replay, continuous-map compatibility, provenance, and local NameCert before compact-support consumers inspect the route.}
+
+\independenceWitness{real, streamname, regseqrat, dyadicratcore, continuousmap, closedboundedinterval: $\CompactlySupportedRealFunctionUp$ is not bijective to any listed sibling because it jointly carries graph-window data, Real output readback, support-bound evidence, closed-bounded compact-support handoff, continuity replay, provenance, and local naming.}
+
+\closureat{CompactlySupportedRealFunctionUp}{seedStr}
+
+\begin{closurestatus}{\CompactlySupportedRealFunctionUp}
+  \constructivestory{A $\CompactlySupportedRealFunctionUp$ packet starts from finite graph windows, reads Real outputs through StreamName, RegSeqRat, and DyadicRatCore rows, records a closed bounded support certificate, hands support to compact and continuous-map consumers, and preserves the route by hsame transport, Cont replay, Pkg provenance, and local NameCert.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compactly-supported-real-function-carrier}, \autoref{thm:compactly-supported-real-function-namecert-obligations}, and \autoref{thm:compactly-supported-real-function-support-bound} seed the finite compact-support route over Real, stream, regular rational, dyadic, continuous-map, and closed bounded interval rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function equality, function-space completeness, open-cover Heine--Borel compactness, selected support endpoints, quotient equality of Real names, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked graph-window coherence, Real readback, support-bound stability, closed-bounded support handoff, continuity replay, ledger nonescape, and a Lean carrier surface for BEDC.Derived.CompactlySupportedRealFunctionUp.}
+\end{closurestatus}
