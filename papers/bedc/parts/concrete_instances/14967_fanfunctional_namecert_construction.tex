@@ -95,6 +95,40 @@ functional, a choice-selected branch, open-cover compactness, or real
 completeness.
 \end{proof}
 
+\begin{theorem}[FanFunctional root carrier admission]
+\label{thm:fan-functional-root-carrier-admission}
+Every root-obligation read of an accepted $\FanFunctionalUp$ packet must admit the full finite carrier
+$$
+\Phi=(C,F,\varepsilon,B,D,W,M,H,K,P,N)
+$$
+as $\BHist$ data before any compact-uniform consumer reads it. The rows $C,F,\varepsilon,B,D,W,M,H,K,P,N$ expose the Cantor prefix, fan bar, epsilon request, branch window, finite depth, witness window, modulus handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ surface as one packet.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:fan-functional-carrier-surface}. Carrier admission reads the displayed tuple before any downstream consumer may inspect a modulus row.
+
+The structural rows then bind the read. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve exactly $C,F,\varepsilon,B,D,W,M,H,K,P,N$, so a consumer has no entry point outside the admitted carrier.
+\end{proof}
+
+\begin{theorem}[FanFunctional root finite bar depth]
+\label{thm:fan-functional-root-finite-bar-depth}
+For every accepted $\FanFunctionalUp$ carrier $\Phi=(C,F,\varepsilon,B,D,W,M,H,K,P,N)$, the finite bar-depth row $D$ is exposed after the $\CantorSpaceUp$ and $\FanTheoremUp$ rows $C,F$ and before any witness-window use of $W$ or modulus read of $M$. Thus every $\BHist$ route through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ sees finite depth before it sees witness-window coverage.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations. Bar-depth exactness is a separate row obligation, and witness-window coverage is downstream from that exactness.
+
+The order is therefore $C,F$ first, then $D$, then $W,M$. Transport through $H$, replay through $K$, provenance through $P$, and naming through $N$ keep this order inside the same finite packet and do not add a selected branch or infinite bar proof.
+\end{proof}
+
+\begin{theorem}[FanFunctional root uniform-modulus handoff]
+\label{thm:fan-functional-root-uniform-modulus-handoff}
+Every accepted $\FanFunctionalUp$ carrier $\Phi=(C,F,\varepsilon,B,D,W,M,H,K,P,N)$ routes its $\UniformModulusUp$ handoff through $\CantorSpaceUp$, $\FanTheoremUp$, $\CompactMetricUp$, and $\UniformContinuityUp$ before the row $M$ is exported. The route is a finite $\BHist$ package through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, not a host functional, open-cover compactness proof, selected branch, or ambient Real-completeness argument.
+\end{theorem}
+\begin{proof}
+First read $C$ and $F$ to obtain the finite Cantor-prefix and fan-bar surfaces. The compact-metric row consumes only the finite windows $B,D,W$, and the uniform-continuity row consumes the epsilon request $\varepsilon$ over those same windows.
+
+The extracted row $M$ is then the $\UniformModulusUp$ handoff. Rows $H,K,P,N$ transport, replay, source, and name the same finite route, so the exported modulus is exactly the Cantor, fan, compact-metric, and uniform-continuity route displayed by the carrier.
+\end{proof}
+
 \begin{theorem}[FanFunctional prefix-window carrier admission]
 \label{thm:fan-functional-prefix-window-carrier-admission}
 Every consumer-visible modulus read from an accepted $\FanFunctionalUp$ carrier must first admit the Cantor prefix row $C$, finite fan row $F$, tolerance row $\varepsilon$, branch-window row $B$, depth row $D$, witness-window row $W$, modulus row $M$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $K$, $\Pkg$ provenance row $P$, and local $\NameCert_{\FanFunctionalUp}$ row $N$. No $\CompactMetricUp$, $\UniformContinuityUp$, or $\UniformModulusUp$ consumer may read a modulus before those rows have appeared on the same finite packet.
