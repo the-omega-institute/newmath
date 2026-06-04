@@ -735,4 +735,30 @@ Next use the RegSeqRat handoff theorem \autoref{thm:metacic-critical-path-candid
 Finally apply the confluence-decidability consumer boundary, \autoref{thm:metacic-critical-path-confluence-decidability-consumer-boundary}. A confluence consumer may inspect only the displayed frontier after the L10 route has been exposed; the excluded global MetaCIC, quotient, completeness, and consistency claims are not packet coordinates.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate-mediated frontier subject-reduction row absence]
+\label{thm:metacic-critical-path-candidate-mediated-frontier-subject-reduction-row-absence}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. The candidate-mediated strong-normalization frontier may expose the candidate row $S$, closed normal-form row $N$, handoff row $U$, componentwise transport row $H$, continuation row $C$, provenance row $P$, local naming row $L$, and the four L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp .
+$$
+The obstruction row $O$ and discharge socket $D$ remain visible throughout that route, but no closed subject-reduction row is present until a separate SubjectReduction discharge packet is cited.
+\end{theorem}
+\begin{proof}
+Start from the candidate-mediated SN route and the frontier normal-form discharge, \autoref{thm:metacic-critical-path-candidate-mediated-sn-route} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-normal-form-discharge}. They identify the exposed frontier rows as $S,N,U,H,C,P,L$ together with the four L10 faces, while still listing the socket data of $K$.
+
+Next apply socket separation and socket exhaustion, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-socket-separation} and \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. These keep $O$ and $D$ visible as obstruction and discharge-socket rows rather than as discharged subject-reduction evidence.
+
+Use the subject-reduction socket theorem and readiness theorem, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-subject-reduction-socket} and \autoref{thm:metacic-criticalpath-subject-reduction-socket-readiness}. They permit a subject-reduction consumer to inspect the normal-form discharge only as readiness data unless a separate subject-reduction row is cited.
+
+Therefore the candidate-mediated frontier has no coordinate from which to read closed subject reduction. A later SubjectReduction discharge packet may fill the socket, but the frontier itself exports only the listed rows, the visible obstruction, and the visible socket.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedFrontierSubjectReductionRowAbsence}
+
 \input{parts/concrete_instances/metaciccriticalpath/candidate_mediated_sn_residual_route}

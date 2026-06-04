@@ -106,6 +106,7 @@ Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. It
 
 Since the carrier contains no row beyond $L,U,M,R,V,W,Q,A,H,C,P,N$, the finite-window surface is exhausted by those rows.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverFiniteWindowCarrier}
 
 \begin{theorem}[DyadicIntervalCover Bishop interval compact handoff]
 \label{thm:dyadicintervalcover-bishop-interval-compact-handoff}
@@ -636,6 +637,7 @@ The nonescape claim follows from carrier exactness and ledger exactness. The acc
 \label{thm:dyadicintervalcover-scoped-finite-cover-chain}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Every scoped finite-cover chain exposed by $I$ factors through lower and upper endpoint rows in $\DyadicRatCoreUp$, finite-cover membership rows consumed by $\BishopIntervalCompactUp$, $\RegSeqRatUp$ readback through $W,Q$, and the terminal $\RealUp$ seal row $A$. The structural rows $H,C,P,N$ preserve the same finite route by $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming; the chain does not assert open-cover compactness, host selected subcovers, quotient real equality, countable choice, or ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverScopedFiniteCoverChain}
 \begin{proof}
 Project the endpoint, mesh, radius, and membership rows from \autoref{def:dyadic-interval-cover-carrier}. The rows $L,U$ are the dyadic endpoints, while $M,R,V$ are the finite cells and membership data visible to the interval-compactness consumer.
 
@@ -646,10 +648,10 @@ Use \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The readba
 
 \begin{closurestatus}{\DyadicIntervalCoverUp}
   \constructivestory{A $\DyadicIntervalCoverUp$ packet is generated from dyadic lower and upper endpoint rows, a mesh index, a radius ledger, finite cover-membership rows, StreamName windows, RegSeqRat readbacks, a Real seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:dyadic-interval-cover-carrier}, \autoref{thm:dyadic-interval-cover-namecert-obligations}, and \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion} bind the finite dyadic interval-cover seed over the Real and Completion route.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:dyadicintervalcover-mesh-refinement-scope}, \autoref{thm:dyadicintervalcover-window-coverage-scope}, and \autoref{thm:dyadicintervalcover-real-seal-scope} bind the finite mesh-refinement, finite-window coverage, and Real-seal handoff kernel scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, Heine--Borel compactness, sequential compactness, selected limits, quotient real equality, host real equality, countable choice, Real completeness, or a standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite membership transport, regular-window exhaustion, seal nonescape, and ledger exactness for the displayed packet.}
+  \upgradepath{Public closure requires a public export theorem that reuses the scoped mesh, window, and Real-seal route without adding selected subcovers, quotient real equality, countable choice, or ambient compactness.}
 \end{closurestatus}

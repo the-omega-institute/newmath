@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\StarRefinementModulusUp$}
+\label{ch:concrete-instances-star-refinement-modulus-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on star refinements of uniform covers, and Bishop--Bridges compact metric uniform-continuity arguments, the $\StarRefinementModulusUp$ packet records the finite step that turns a displayed star-refined compact cover into a tolerance-only $\UniformModulusUp$ handoff. It sits after the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite Lebesgue-number ledger of \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, the metric triangle estimate of \autoref{ch:concrete-instances-metric-triangle-uniform-estimate-namecert}, and the uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. The packet names only finite cover-refinement, radius, center, estimate, and handoff rows; it does not assert open-cover compactness, choose an external Lebesgue number, form quotient equality of maps, use countable choice, or import ambient completeness.
+
+\begin{definition}[StarRefinementModulus carrier]\label{def:star-refinement-modulus-carrier}
+A $\StarRefinementModulusUp$ carrier is a finite $\BHist$ packet
+$$
+S=(K,R,L,E,T,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ finite-cover and finite-center row.
+\item $R$ is the star-refined cover row, recording that every displayed star lies inside a displayed member of the target cover.
+\item $L$ is the $\FiniteLebesgueNumberUp$ positive-radius ledger attached to the refined cover.
+\item $E$ is the $\MetricTriangleUniformEstimateUp$ estimate row used to compare a point with a selected finite center and then with its image.
+\item $T$ is the dyadic tolerance row that ties the requested target tolerance to the radius ledger.
+\item $U$ is the resulting $\UniformModulusUp$ handoff row.
+\item $H$ records componentwise $\hsame$ transport for $K,R,L,E,T,U,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a target tolerance request through the star-refinement, Lebesgue-radius, triangle-estimate, and uniform-modulus rows.
+\item $P$ is the $\Pkg$ provenance over $\StarRefinementModulusUp$, $\CompactMetricUp$, $\FiniteLebesgueNumberUp$, $\MetricTriangleUniformEstimateUp$, $\UniformModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\StarRefinementModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,R,L,E,T,U,H,C,P,N$. It has no coordinate for arbitrary open-cover compactness, a choice-selected refinement, a host modulus function, quotient map equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[StarRefinementModulus NameCert obligations]\label{thm:star-refinement-modulus-namecert-obligations}
+For every accepted $\StarRefinementModulusUp$ carrier
+$$
+S=(K,R,L,E,T,U,H,C,P,N),
+$$
+the local $\NameCert_{\StarRefinementModulusUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for compact finite-cover data, star-refinement rows, finite Lebesgue-radius data, triangle estimates, dyadic tolerances, uniform-modulus handoff, transport, replay, provenance, and local naming;
+\item star-refinement exposure, requiring each target-cover request to pass through the displayed row $R$ before any radius ledger is read;
+\item Lebesgue-radius exposure, requiring the positive radius row $L$ to be tied to the refined cover and compact metric row $K$;
+\item triangle-estimate exactness, requiring $E$ to mediate the finite-center comparison before $U$ is exposed;
+\item uniform-modulus handoff, requiring $U$ to be produced only from $K,R,L,E,T$ and excluding arbitrary open covers, selected external radii, quotient map equality, countable choice, Lean verification, and bridge checking.
+\end{enumerate}
+No StarRefinementModulus obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The compact metric row is $K$, the star-refined cover row is $R$, the finite Lebesgue-radius ledger is $L$, the triangle estimate is $E$, and the tolerance-to-modulus handoff is $T,U$.
+
+The star-refinement exposure row is forced because the carrier has no arbitrary cover coordinate. Every target-cover request therefore enters through $R$ before a radius can be read.
+
+The positive-radius row $L$ is tied to $K$ and $R$, while the triangle estimate $E$ supplies the finite-center comparison. The dyadic row $T$ then converts the requested target tolerance into the source precision consumed by $U$.
+
+Transport $H$ and replay $C$ preserve the same route before provenance and local naming. Since the carrier has no row for open-cover compactness, external radius selection, quotient map equality, choice, Lean verification, or bridge data, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[StarRefinementModulus cover-to-modulus exactness]\label{thm:star-refinement-modulus-cover-to-modulus-exactness}
+Every $\UniformModulusUp$ read accepted by a $\StarRefinementModulusUp$ carrier factors through the finite route
+$$
+\CompactMetricUp(K),\ R \longmapsto \FiniteLebesgueNumberUp(L) \longmapsto \MetricTriangleUniformEstimateUp(E),T \longmapsto \UniformModulusUp(U).
+$$
+Thus the compact-uniform-continuity consumer receives the cover-refinement-to-uniform-modulus route as displayed BEDC data, not as a host Heine--Cantor theorem, selected Lebesgue number, quotient equality of maps, countable-choice selector, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a target tolerance request. Carrier admission exposes the compact finite-cover row $K$ and the star-refinement row $R$ as the only cover data available to the request.
+
+Read the finite Lebesgue-number ledger $L$. It supplies a displayed positive radius for the refined cover, tied to the compact metric row rather than to an external open-cover compactness theorem.
+
+Apply the metric triangle estimate $E$ with the dyadic tolerance row $T$. The estimate compares the source point to its finite center and then to the target read, so the resulting precision is the source-side modulus datum.
+
+Finally expose $U$ through $H,C,P,N$. These rows transport, replay, source, and name the same finite route, leaving no coordinate for selected external radii, quotient map equality, countable choice, host Heine--Cantor, or ambient completeness.
+\end{proof}
+
+\closureat{StarRefinementModulusUp}{seedStr}
+\closureat{StarRefinementModulusUp}{obligationStr}
+
+\begin{closurestatus}{\StarRefinementModulusUp}
+  \constructivestory{A $\StarRefinementModulusUp$ packet is generated from compact metric finite-cover data, star-refinement rows, finite Lebesgue-radius ledgers, metric triangle estimates, dyadic tolerance rows, a UniformModulus handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:star-refinement-modulus-carrier}, \autoref{thm:star-refinement-modulus-namecert-obligations}, and \autoref{thm:star-refinement-modulus-cover-to-modulus-exactness} bind the finite cover-refinement-to-uniform-modulus route for compact-uniform-continuity consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, selected external Lebesgue numbers, quotient equality of maps, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Checked closure requires carrier admission, star-refinement exposure, Lebesgue-radius exposure, triangle-estimate exactness, uniform-modulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.StarRefinementModulusUp.}
+\end{closurestatus}

@@ -49,6 +49,67 @@ The Lebesgue-ledger row $L$ ties the same cover route to positive radius data. I
 Finally $H,T,P,N$ transport, replay, package, and name the same finite surface. Since the carrier contains no arbitrary open-cover coordinate, choice-selected refinement, host subcover theorem, classical dimension theorem, quotient equality, or external multiplicity oracle, none of those objects can enter the local NameCert obligations.
 \end{proof}
 
+\begin{definition}[Covering dimension compact-net root]
+\label{def:covering-dimension-compact-net-root}
+For an accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N),
+$$
+the compact-net root is the finite source surface consisting of $K,E$ together with the downstream cover, refinement, order, Lebesgue-ledger, transport, replay, provenance, and naming rows. It is the reusable $\BHist$ root through which every compact finite-cover consumer must enter before reading any dimension-bound data.
+\end{definition}
+
+\begin{theorem}[Covering dimension compact-net admission]
+\label{thm:covering-dimension-compact-net-admission}
+Every compact finite-cover consumer of an accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N)
+$$
+must first admit the compact-net root through the compact metric row $K$ and the finite epsilon-net row $E$. The consumer cannot read the finite cover row $C$, refinement row $R$, order row $O$, Lebesgue ledger $L$, or structural rows $H,T,P,N$ as a dimension-bound packet until the $\BHist$ source of $K,E$ is visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:covering-dimension-carrier}. The compact source row $K$ and finite epsilon-net row $E$ precede every cover or refinement row in the displayed packet.
+
+Use the NameCert obligations of \autoref{thm:covering-dimension-namecert-obligations}. They require compact metric admission and finite epsilon-net admission before cover admission, refinement containment, order-bound verification, and Lebesgue-ledger compatibility are available.
+
+Thus the compact-net root of \autoref{def:covering-dimension-compact-net-root} is not optional bookkeeping. It is the entry surface for later finite-cover consumers, while $H,T,P,N$ only transport, replay, source, and name the same root.
+\end{proof}
+
+\begin{theorem}[Covering dimension refinement multiplicity window]
+\label{thm:covering-dimension-refinement-multiplicity-window}
+For every accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N),
+$$
+any refinement-order read must pass from the finite cover row $C$ through the refinement map $R$ before the order-bound witness row $O$ is inspected. The multiplicity window counted by $O$ is therefore a finite $\BHist$ ledger over displayed refined members and their parents in $C$, not a host overlap oracle or an arbitrary open-cover dimension predicate.
+\end{theorem}
+\begin{proof}
+Read the cover and refinement rows from \autoref{def:covering-dimension-carrier}. The row $C$ lists the cover members, while $R$ assigns each refined member to one displayed parent and records the containment witness.
+
+Apply the NameCert obligations. Order-bound verification through $O$ is downstream of cover admission and refinement containment, so $O$ can count only refined members already visible through $C$ and $R$.
+
+The structural rows $H,T,P,N$ preserve this finite multiplicity window. Since no carrier coordinate stores a host overlap oracle, choice-selected refinement, or classical dimension predicate, the order read is exactly the displayed $C,R,O$ window.
+\end{proof}
+
+\begin{theorem}[Covering dimension Lebesgue-ledger handoff]
+\label{thm:covering-dimension-lebesgue-ledger-handoff}
+Every compact-cover Lebesgue read exported by an accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N)
+$$
+must pass through the finite ledger route
+$$
+L \longmapsto H,T,P,N
+$$
+after the compact-net root $K,E$ and the finite cover-refinement rows $C,R,O$ have been displayed. The handoff exports the same $\CompactCoverLebesgueLedgerUp$ evidence, componentwise transport, replay, provenance, and local naming; it does not export open-cover compactness, selected subcovers, quotient real equality, or host dimension data.
+\end{theorem}
+\begin{proof}
+Start with the compact-net admission theorem, \autoref{thm:covering-dimension-compact-net-admission}. It places $K,E$ before every downstream cover and dimension-bound read.
+
+Then use \autoref{thm:covering-dimension-refinement-multiplicity-window}. The finite cover, refinement map, and order ledger are read through $C,R,O$ before a Lebesgue-style handoff can certify compatibility with the same finite cover route.
+
+Finally apply the NameCert obligations of \autoref{thm:covering-dimension-namecert-obligations}. They keep the Lebesgue ledger $L$ attached to componentwise transport $H$, displayed replay $T$, provenance $P$, and local naming $N$, excluding open-cover compactness, selected subcovers, quotient real equality, and host dimension data from the handoff.
+\end{proof}
+
 \begin{theorem}[Covering dimension refinement order]
 \label{thm:covering-dimension-refinement-order}
 Every accepted $\CoveringDimensionUp$ refinement factors through the finite route
