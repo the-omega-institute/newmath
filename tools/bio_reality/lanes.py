@@ -2393,13 +2393,26 @@ def _bios_codex_resolve_merge(
     if not conflict_files:
         return False, {"reason": "no_conflict_files"}
     sig = hashlib.sha256(("|".join([upstream_sha] + sorted(conflict_files))).encode("utf-8")).hexdigest()[:16]
-    if _bios_resolve_recent_count(store, sig, recurring_window) >= recurring_threshold:
-        _bios_resolve_record(store, {"signature": sig, "action": "recurring_skip", "files_count": len(conflict_files)})
-        return False, {"reason": "recurring_skip", "signature": sig, "files_count": len(conflict_files)}
+    take_theirs_bedc = bool(cfg.get("papers_bedc_take_theirs") or False)
+    take_theirs_bioreality_namecert = bool(cfg.get("papers_bio_reality_namecert_take_theirs", True))
+
+    def _take_theirs_eligible(rel: str) -> bool:
+        if take_theirs_bedc and rel.startswith("papers/bedc/"):
+            return True
+        if take_theirs_bioreality_namecert and rel.startswith("papers/bio_reality/parts/namecerts/"):
+            return True
+        return False
+
+    # recurring_skip 只对需 codex 解决的内容冲突限流 (避免反复烧 codex). 若所有冲突文件
+    # 都能用确定性 take-theirs 解决 (papers/bedc 或 churned bio_reality namecert), 跳过限流:
+    # take-theirs 无 codex 成本、确定、重复执行安全; 否则 churn 反复造同一冲突会让 behind 无界增长.
+    if not all(_take_theirs_eligible(f) for f in conflict_files):
+        if _bios_resolve_recent_count(store, sig, recurring_window) >= recurring_threshold:
+            _bios_resolve_record(store, {"signature": sig, "action": "recurring_skip", "files_count": len(conflict_files)})
+            return False, {"reason": "recurring_skip", "signature": sig, "files_count": len(conflict_files)}
     selected = conflict_files[:max_files]
     resolved_paths: list[str] = []
     failures: list[dict[str, Any]] = []
-    take_theirs_bedc = bool(cfg.get("papers_bedc_take_theirs") or False)
     for rel_path in selected:
         target = repo_root / rel_path
         try:
@@ -2408,7 +2421,7 @@ def _bios_codex_resolve_merge(
         except (ValueError, OSError):
             failures.append({"path": rel_path, "reason": "path_outside_repo"})
             continue
-        if take_theirs_bedc and rel_path.startswith("papers/bedc/"):
+        if _take_theirs_eligible(rel_path):
             try:
                 co = _run_command(repo_root, ["git", "checkout", "--theirs", "--", rel_path], timeout=30.0)
                 if co.returncode != 0:
