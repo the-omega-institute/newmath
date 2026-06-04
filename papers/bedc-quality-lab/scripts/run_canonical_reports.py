@@ -1183,10 +1183,13 @@ def _negative_witnesses_index_section() -> dict[str, Any]:
     }
 
 
-def _claim_verdicts_index_section(generated_at: str | None = None) -> dict[str, Any]:
-    from scripts.run_claim_verdict_demo import compile_claim_verdicts
-
-    rows = compile_claim_verdicts(ROOT, generated_at=generated_at)
+def _claim_verdicts_index_section(rows: Sequence[dict[str, Any]] | None = None) -> dict[str, Any]:
+    if rows is None:
+        path = ROOT / CLAIM_VERDICTS_JSONL_ARTIFACT
+        if path.exists():
+            rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
+        else:
+            rows = []
     return {
         "status": "pointer-only",
         "artifact_id": CLAIM_VERDICTS_ARTIFACT_ID,
@@ -1406,7 +1409,12 @@ def _run_spec(spec: CanonicalReportSpec, *, reuse_existing: bool = False) -> dic
     return result
 
 
-def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None) -> dict[str, Any]:
+def _index(
+    results: Sequence[dict[str, Any]],
+    *,
+    generated_at: str | None = None,
+    claim_verdict_rows: Sequence[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     reports = list(results)
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     return {
@@ -1420,7 +1428,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "dimension_mismatch_transfer_robustness": _dimension_mismatch_transfer_robustness_index_section(),
         "negative_witnesses": _negative_witnesses_index_section(),
         "negative_discovery_reports": _negative_discovery_reports_index_section(generated_at=timestamp),
-        "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
+        "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
@@ -1706,24 +1714,24 @@ def run_reports(
     _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
     compile_discovery(root=ROOT, generated_at=timestamp, adapter=CurrentLabBackendEvidenceAdapter())
-    write_claim_verdicts(root=ROOT, generated_at=timestamp)
     _write_json_atomic(_artifact_path(CLAIM_CAPSULE_JSON_ARTIFACT), _build_claim_capsule(timestamp))
     from scripts.run_dimension_mismatch_transfer_robustness import write_dimension_mismatch_transfer_robustness
     from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
 
     write_dimension_mismatch_transfer_robustness(root=ROOT, generated_at=timestamp)
     compile_discovery(root=ROOT, generated_at=timestamp, adapter=CurrentLabBackendEvidenceAdapter())
+    claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
     from scripts.run_gap_head_mechanism_attribution import write_gap_head_mechanism_attribution
 
     write_gap_head_mechanism_attribution(root=ROOT, generated_at=timestamp)
-    draft_payload = _index(results, generated_at=timestamp)
+    draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))
     from scripts.release_manifest_sidecar import write_release_manifest_sidecar
 
     write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
-    payload = _index(results, generated_at=timestamp)
+    payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
     if json_summary is not None:

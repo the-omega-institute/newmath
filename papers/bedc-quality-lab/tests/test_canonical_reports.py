@@ -347,16 +347,17 @@ def _normalized_index_report(report):
 
 def _canonical_bundle_payloads_for_timestamps(*, index_timestamp, discovery_timestamp):
     committed_index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    generated_claims = claim_verdict_demo.compile_claim_verdicts(canonical.ROOT, generated_at=index_timestamp)
     generated_index = canonical._index(
         [_normalized_index_report(report) for report in committed_index["reports"]],
         generated_at=index_timestamp,
+        claim_verdict_rows=generated_claims,
     )
     generated_discovery = discovery_map.build_discovery_map(
         generated_at=discovery_timestamp,
         root=canonical.ROOT,
         canonical_reports=canonical.CANONICAL_REPORTS,
     )
-    generated_claims = claim_verdict_demo.compile_claim_verdicts(canonical.ROOT, generated_at=index_timestamp)
     return generated_index, generated_discovery, generated_claims
 
 
@@ -1128,6 +1129,191 @@ def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_
     assert "claim_verdicts.jsonl" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
 
 
+def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    calls = []
+
+    def fake_run_producer(spec):
+        json_path = canonical._artifact_path(spec.json_artifact)
+        md_path = canonical._artifact_path(spec.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
+
+    def fake_formal_hardening(*, root, generated_at=None):
+        calls.append("formal-hardening")
+        path = root / canonical.FORMAL_HARDENING_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps({"ready": True, "recorded": 1, "required": 1, "gap_count": 0}, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        (root / canonical.FORMAL_HARDENING_MARKDOWN_ARTIFACT).write_text("# formal\n", encoding="utf-8")
+        return {"ready": True, "recorded": 1, "required": 1, "gap_count": 0}
+
+    def fake_compile_discovery(*, root, generated_at=None, adapter=None):
+        calls.append("discovery")
+        path = root / canonical.DISCOVERY_MAP_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(
+                {
+                    "generated_at": generated_at,
+                    "row_count": 1,
+                    "level_counts": {"D0": 1},
+                    "rows": [
+                        {
+                            "report": "gap-head-discovery",
+                            "json_artifact": "reports/canonical/gap-head-discovery.json",
+                            "markdown_artifact": "reports/canonical/gap-head-discovery.md",
+                            "discovery_level": "D0",
+                            "terminal_verdict": "",
+                            "classifier_reasons": [],
+                            "projection_status": "projected",
+                            "evidence_pointer": "$.positive_discovery",
+                            "audit_status": "valid",
+                            "audit_reason": "",
+                        }
+                    ],
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        (root / canonical.DISCOVERY_MAP_MARKDOWN_ARTIFACT).write_text("# discovery\n", encoding="utf-8")
+        return {"discovery_map": {"row_count": 1}}
+
+    def fake_transfer(*, root, generated_at=None, require_anti_triviality=False):
+        calls.append("dimension-transfer")
+        path = root / canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(
+                {
+                    "dimension_mismatch_debt_transfer": {
+                        "status": "pass",
+                        "base_level": "D4",
+                        "effective_level": "D4",
+                        "discovery_level": "D4",
+                        "terminal_verdict": "ledger_only_hardening_not_ready",
+                        "scope": "fixture",
+                    },
+                    "control_protocol": {},
+                    "not_claimed": [],
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        (root / canonical.DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT).write_text("# transfer\n", encoding="utf-8")
+        return {}
+
+    def fake_sidecar(*, root, generated_at=None):
+        calls.append("dimension-sidecar")
+        return {}
+
+    def fake_claim_capsule(generated_at):
+        return {
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "status": "complete",
+            "effective_level": "D4",
+            "terminal_verdict": "ledger_only_hardening_not_ready",
+        }
+
+    def fake_robustness(*, root, generated_at=None):
+        calls.append("dimension-robustness")
+        path = root / canonical.DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"status": "pass", "audit_status": "pass"}) + "\n", encoding="utf-8")
+        (root / canonical.DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_MARKDOWN_ARTIFACT).write_text("# robust\n", encoding="utf-8")
+        return {}
+
+    def fake_witness_summary(*, root, generated_at=None):
+        calls.append("witness-summary")
+        path = root / canonical.NEGATIVE_WITNESS_SUMMARY_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps({"status": "pointer-only", "row_count": 0, "audit_status": "pass", "rows": []}) + "\n",
+            encoding="utf-8",
+        )
+        (root / canonical.NEGATIVE_WITNESS_SUMMARY_MARKDOWN_ARTIFACT).write_text("# witness\n", encoding="utf-8")
+        return {"status": "pointer-only", "row_count": 0, "audit_status": "pass"}
+
+    def fake_build_witness_summary(*, root, generated_at=None):
+        return {"status": "pointer-only", "row_count": 0, "audit_status": "pass"}
+
+    def fake_mechanism(*, root, generated_at=None):
+        return {}
+
+    def fake_release(*, root, generated_at=None):
+        return {}
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+    monkeypatch.setattr(canonical, "_build_formal_hardening_payload", lambda generated_at=None: {"ready": True, "recorded": 1, "required": 1, "gap_count": 0})
+    monkeypatch.setattr(canonical, "_build_claim_capsule", fake_claim_capsule)
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_formal_hardening_report",
+        types.SimpleNamespace(write_formal_hardening_report=fake_formal_hardening),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "bedc_quality_lab.discovery_compiler.compiler",
+        types.SimpleNamespace(compile_discovery=fake_compile_discovery),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_dimension_mismatch_debt_transfer",
+        types.SimpleNamespace(write_dimension_mismatch_debt_transfer=fake_transfer),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_dimension_mismatch_anti_triviality",
+        types.SimpleNamespace(write_dimension_mismatch_anti_triviality=fake_sidecar),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_dimension_mismatch_transfer_robustness",
+        types.SimpleNamespace(write_dimension_mismatch_transfer_robustness=fake_robustness),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_discovery_negative_witness_summary",
+        types.SimpleNamespace(
+            write_discovery_negative_witness_summary=fake_witness_summary,
+            build_discovery_negative_witness_summary=fake_build_witness_summary,
+        ),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_gap_head_mechanism_attribution",
+        types.SimpleNamespace(write_gap_head_mechanism_attribution=fake_mechanism),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.release_manifest_sidecar",
+        types.SimpleNamespace(write_release_manifest_sidecar=fake_release),
+    )
+
+    payload = canonical.run_reports(only="gap-head-discovery", generated_at="2030-01-01T00:00:00+00:00")
+    rows = [
+        json.loads(line)
+        for line in (canonical.CANONICAL_DIR / "claim_verdicts.jsonl").read_text(encoding="utf-8").splitlines()
+        if line
+    ]
+    scorecard_hash = claim_verdict_demo.load_scorecard_snapshot(tmp_path).scorecard_hash
+
+    assert calls.index("formal-hardening") < calls.index("discovery") < calls.index("witness-summary")
+    assert rows
+    assert all(row["scorecard_hash"] == scorecard_hash for row in rows)
+    assert all(row["formal_hardening_ready"] is True for row in rows)
+    assert payload["claim_verdicts"]["row_count"] == len(rows)
+
+
 def test_committed_canonical_bundle_matches_registered_reports():
     from scripts import run_claim_verdict_demo as claim_verdicts
     from scripts import run_discovery_map as discovery_map
@@ -1158,6 +1344,7 @@ def test_committed_canonical_bundle_matches_registered_reports():
     regenerated_index = canonical._index(
         index_payload["reports"],
         generated_at=index_payload["generated_at"],
+        claim_verdict_rows=regenerated_claim_rows,
     )
 
     assert discovery_payload == regenerated_discovery

@@ -14,17 +14,10 @@ ALLOWED_KEYS = {
     "reason",
     "source",
     "ledger_pointer",
-}
-DIMENSION_MISMATCH_ALLOWED_KEYS = {
-    "claim_id",
-    "claim_verdict",
-    "reason",
-    "source",
-    "ledger_pointer",
-    "hypothesis",
-    "failed_gate",
-    "what_was_learned",
-    "downgrade_reason",
+    "scorecard_pointer",
+    "scorecard_hash",
+    "scorecard_ready",
+    "formal_hardening_ready",
 }
 VERDICT_NAMES = {
     "accepted_positive_discovery",
@@ -128,6 +121,10 @@ def _fixture_root(tmp_path, monkeypatch, rows, payloads, witnesses=()):
     monkeypatch.setattr(canonical, "CANONICAL_REPORTS", tuple(payloads))
     _write_json(tmp_path / "reports/canonical/discovery_map.json", {"rows": rows})
     _write_json(tmp_path / "reports/canonical/quality-scorecard.json", _scorecard())
+    _write_json(
+        tmp_path / "reports/canonical/formal_hardening.json",
+        {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
+    )
     _write_json(tmp_path / "reports/canonical/discovery_negative_witnesses.json", {"witnesses": list(witnesses)})
     (tmp_path / "configs").mkdir(parents=True, exist_ok=True)
     (tmp_path / "configs/default_cost_protocol.yaml").write_text(
@@ -147,6 +144,18 @@ def _fixture_root(tmp_path, monkeypatch, rows, payloads, witnesses=()):
         )
         _write_json(tmp_path / spec.json_artifact, payload)
     return tmp_path
+
+
+def _scorecard_hash(root):
+    return demo.load_scorecard_snapshot(root).scorecard_hash
+
+
+def _assert_provenance(row, root, *, scorecard_ready=True, formal_hardening_ready=True):
+    assert set(row) == ALLOWED_KEYS
+    assert row["scorecard_pointer"] == "reports/canonical/quality-scorecard.json:$.rows"
+    assert row["scorecard_hash"] == _scorecard_hash(root)
+    assert row["scorecard_ready"] is scorecard_ready
+    assert row["formal_hardening_ready"] is formal_hardening_ready
 
 
 def rows_by_report(rows):
@@ -265,7 +274,7 @@ def test_jsonl_row_schema_reason_and_downgrade_pointers(tmp_path, monkeypatch):
     verdicts = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
 
     for row in verdicts:
-        assert set(row) == ALLOWED_KEYS
+        _assert_provenance(row, tmp_path)
         assert row["reason"]
         assert "schema_id" not in row
         assert "SCHEMA_ID" not in row
@@ -305,6 +314,7 @@ def test_missing_cost_protocol_and_not_ready_scorecard_fail_closed(tmp_path, mon
     )
     _write_json(tmp_path / "reports/canonical/quality-scorecard.json", _scorecard(status="not-ready"))
     scorecard_verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+    _assert_provenance(scorecard_verdict, tmp_path, scorecard_ready=False)
     assert scorecard_verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
     assert scorecard_verdict["reason"] == "scorecard-not-ready"
     assert scorecard_verdict["ledger_pointer"].startswith("reports/canonical/quality-scorecard.json:$.rows")
@@ -323,6 +333,7 @@ def test_hardening_coverage_not_ready_uses_dependency_pointer(tmp_path, monkeypa
 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
+    _assert_provenance(verdict, tmp_path, scorecard_ready=False)
     assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
     assert verdict["reason"] == "scorecard-not-ready"
     assert verdict["ledger_pointer"] == f"reports/canonical/quality-scorecard.json:$.rows[{hardening_index}]"
@@ -374,7 +385,7 @@ def test_constraint_lagrangian_dn_reason_preserves_evidence_label(tmp_path, monk
 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
-    assert set(verdict) == ALLOWED_KEYS
+    _assert_provenance(verdict, tmp_path)
     assert verdict["claim_id"] == "claim:certificate-guided-training"
     assert verdict["reason"] == "discovery-level-DN:constraint_lagrangian"
     assert verdict["source"] == "reports/canonical/certificate-guided-training.json:$.arm_protocol.compat_roles.after"
@@ -429,6 +440,21 @@ def test_demoted_terminal_positive_discovery_fails_closed_with_ledger_pointer(tm
     assert verdict["claim_verdict"] == "demoted_audit_tradeoff"
     assert verdict["reason"] == "audit-improvement-tradeoff"
     assert verdict["ledger_pointer"] == "reports/canonical/d4.json:$.cost"
+
+
+def test_formal_hardening_readiness_is_row_provenance(tmp_path, monkeypatch):
+    rows = [_discovery_row("d1", "reports/canonical/d1.json", "D1")]
+    specs = (_spec("d1", "reports/canonical/d1.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    _write_json(
+        tmp_path / "reports/canonical/formal_hardening.json",
+        {"ready": False, "recorded": 0, "required": 1, "gap_count": 1},
+    )
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    _assert_provenance(verdict, tmp_path, formal_hardening_ready=False)
+    assert verdict["claim_verdict"] == "demoted_audit_tradeoff"
 
 
 def test_gap_head_transfer_atlas_d5_o_routes_as_positive_level(tmp_path, monkeypatch):
@@ -503,7 +529,7 @@ def test_noncanonical_dimension_mismatch_discovery_row_emits_negative_claim_verd
     assert "dimension-mismatch-debt-transfer.json" not in {
         Path(spec.json_artifact).name for spec in canonical.CANONICAL_REPORTS
     }
-    assert set(verdict) == DIMENSION_MISMATCH_ALLOWED_KEYS
+    _assert_provenance(verdict, tmp_path)
     assert verdict["claim_verdict"] == "negative_discovery"
     assert verdict["reason"] == "discovery-level-DN"
     assert verdict["source"] == (
@@ -514,10 +540,6 @@ def test_noncanonical_dimension_mismatch_discovery_row_emits_negative_claim_verd
         "reports/canonical/dimension-mismatch-debt-transfer.json:"
         "$.dimension_mismatch_debt_transfer.anti_triviality_status"
     )
-    assert verdict["hypothesis"] == "fixture hypothesis"
-    assert verdict["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
-    assert verdict["what_was_learned"] == "fixture learned"
-    assert verdict["downgrade_reason"] == "scale_only_or_metadata_proxy_sufficient"
     discovery_map = json.loads((tmp_path / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
     assert discovery_map["rows"][0]["discovery_level"] == "DN"
 
@@ -536,7 +558,8 @@ def test_noncanonical_dimension_mismatch_dn_ignores_positive_scorecard_gate(tmp_
     assert verdict["claim_id"] == "claim:dimension-mismatch-debt-transfer"
     assert verdict["claim_verdict"] == "negative_discovery"
     assert verdict["reason"] == "discovery-level-DN"
-    assert verdict["downgrade_reason"] == "scale_only_or_metadata_proxy_sufficient"
+    _assert_provenance(verdict, tmp_path, scorecard_ready=False)
+    assert verdict["ledger_pointer"].endswith("$.dimension_mismatch_debt_transfer.anti_triviality_status")
 
 
 def test_noncanonical_dimension_mismatch_dn_requires_valid_discovery_map_audit(tmp_path, monkeypatch):
