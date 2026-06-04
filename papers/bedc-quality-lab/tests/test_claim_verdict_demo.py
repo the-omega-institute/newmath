@@ -356,6 +356,31 @@ def test_positive_discovery_gate_failure_routes_to_ledger_only_hardening_not_rea
     )
 
 
+def test_constraint_lagrangian_dn_reason_preserves_evidence_label(tmp_path, monkeypatch):
+    rows = [_discovery_row("certificate-guided-training", "reports/canonical/certificate-guided-training.json", "DN")]
+    rows[0]["evidence_pointer"] = "$.arm_protocol.compat_roles.after"
+    rows[0]["failed_gate"] = "$.claim_capsule.terminal_verdict"
+    specs = (_spec("certificate-guided-training", "reports/canonical/certificate-guided-training.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/certificate-guided-training.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload.update(
+        {
+            "arm_protocol": {"compat_roles": {"after": "constraint_lagrangian"}},
+            "claim_capsule": {"terminal_verdict": "DN(audit-improvement-tradeoff)"},
+        }
+    )
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert set(verdict) == ALLOWED_KEYS
+    assert verdict["claim_id"] == "claim:certificate-guided-training"
+    assert verdict["reason"] == "discovery-level-DN:constraint_lagrangian"
+    assert verdict["source"] == "reports/canonical/certificate-guided-training.json:$.arm_protocol.compat_roles.after"
+    assert verdict["ledger_pointer"] == "reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict"
+
+
 @pytest.mark.parametrize("audit_status", ["invalid", None])
 def test_positive_discovery_requires_valid_discovery_map_audit(tmp_path, monkeypatch, audit_status):
     rows = [_discovery_row("gap-head-discovery", "reports/canonical/gap-head-discovery.json", "D4")]

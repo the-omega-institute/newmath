@@ -83,12 +83,35 @@ def _payload_for_spec(spec):
             "paired_seed_protocol": {"status": "fixture"},
             "arm_protocol": {"status": "fixture"},
             "arm_summaries": {"status": "fixture"},
+            "grid_summary": {"record_count": 1, "by_arm": {"constraint_lagrangian": {"record_count": 1}}},
+            "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+            "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+            "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl",
+            "raw_metrics_record_count": 56,
+            "raw_grid_record_count": 3024,
             "main_claim_status": "fixture status",
             "final_main_claim_status": "fixture status",
             "hardgate": {"status": "pass"},
             "failed_gate": None,
             "verdict": "accepted",
             "discovery_level": "D0",
+            "metrics": {
+                "delta_debt": -0.25,
+                "delta_benefit": -0.10,
+                "delta_cost": 0.0,
+                "delta_quality_q": 0.15,
+                "UER": {"mean": 0.1},
+                "FalseLedgerRate": {"mean": 0.05},
+                "positive_quality_gate": False,
+                "positive_discovery": False,
+                "audit_improvement_tradeoff": spec.name == "certificate-guided-training",
+                "ParetoDominance": False,
+            },
+            "claim_capsule": {
+                "schema_id": "bedc.quality.claim_capsule",
+                "terminal_verdict": "DN(audit-improvement-tradeoff)",
+                "failed_gate": "audit-improvement-tradeoff" if spec.name == "certificate-guided-training" else None,
+            },
             "readiness": {"status": "D4-at-threshold"},
             "threshold_curve": [
                 {
@@ -577,8 +600,9 @@ def test_canonical_reports_manifest_includes_mixing_and_anisotropic_sweeps():
 def test_canonical_reports_manifest_includes_certificate_guided_projection():
     training = canonical._specs_by_name()["certificate-guided-training"]
     discovery = canonical._specs_by_name()["certificate-guided-discovery"]
+    training_discipline = canonical._discipline(training)
 
-    assert training.command == ("python3", "scripts/run_certificate_guided_training.py")
+    assert training.command == ("python3", "scripts/run_certificate_guided_constraint_training.py")
     assert training.json_artifact == "reports/canonical/certificate-guided-training.json"
     assert training.markdown_artifact == "reports/canonical/certificate-guided-training.md"
     assert discovery.command == ("python3", "scripts/run_certificate_guided_discovery.py")
@@ -589,14 +613,22 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
         "paired_delta_ci",
         "arm_protocol",
         "arm_summaries",
+        "grid_summary",
+        "grid_metrics_artifact",
+        "grid_summary_artifact",
+        "raw_metrics_artifact",
+        "metrics",
         "claim_gate",
         "hardgate",
         "failed_gate",
         "verdict",
         "discovery_level",
         "not_claimed",
+        "claim_capsule",
     }.issubset(set(training.required_json_keys))
     assert training.bundle_role == "hg_p_core"
+    assert training_discipline["evidence_pointer"] == "$.arm_protocol.compat_roles.after"
+    assert training_discipline["evidence_label"] == "constraint_lagrangian"
     assert {
         "positive_discovery",
         "net_information",
@@ -1094,6 +1126,43 @@ def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_
     assert payload["claim_verdicts"]["jsonl_artifact"] not in json_artifacts
     assert (canonical.CANONICAL_DIR / "claim_verdicts.jsonl").exists()
     assert "claim_verdicts.jsonl" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
+
+
+def test_committed_canonical_bundle_matches_registered_reports():
+    from scripts import run_claim_verdict_demo as claim_verdicts
+    from scripts import run_discovery_map as discovery_map
+
+    canonical_dir = canonical.ROOT / "reports" / "canonical"
+    discovery_payload = json.loads((canonical_dir / "discovery_map.json").read_text(encoding="utf-8"))
+    claim_rows = [
+        json.loads(line)
+        for line in (canonical_dir / "claim_verdicts.jsonl").read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    index_payload = json.loads((canonical_dir / "index.json").read_text(encoding="utf-8"))
+    spec_names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+
+    assert {row["report"] for row in discovery_payload["rows"]}.issuperset(spec_names)
+    assert {row["claim_id"].removeprefix("claim:") for row in claim_rows if row["claim_id"].startswith("claim:")}.issuperset(spec_names)
+    assert {row["name"] for row in index_payload["reports"]} == spec_names
+
+    regenerated_discovery = discovery_map.build_discovery_map(
+        generated_at=discovery_payload["generated_at"],
+        root=canonical.ROOT,
+        canonical_reports=canonical.CANONICAL_REPORTS,
+    )
+    regenerated_claim_rows = claim_verdicts.compile_claim_verdicts(
+        canonical.ROOT,
+        generated_at=discovery_payload["generated_at"],
+    )
+    regenerated_index = canonical._index(
+        index_payload["reports"],
+        generated_at=index_payload["generated_at"],
+    )
+
+    assert discovery_payload == regenerated_discovery
+    assert claim_rows == regenerated_claim_rows
+    assert index_payload == regenerated_index
 
 
 def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, monkeypatch):

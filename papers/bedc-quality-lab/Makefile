@@ -1,6 +1,6 @@
 .PHONY: check test canonical-reports run-example clean-reports
 
-check: test canonical-reports
+check: canonical-reports test
 
 test:
 	python3 -m pytest -q

@@ -51,7 +51,9 @@ def _minimal_payload(spec):
         payload.update({
             "result": {"status": "negative"},
             "deltas": {"after_minus_before": {"debt_delta": -0.25}},
+            "arm_protocol": {"compat_roles": {"after": "constraint_lagrangian"}},
             "claim_gate": {"audit_improvement_tradeoff": True},
+            "claim_capsule": {"terminal_verdict": "DN(audit-improvement-tradeoff)"},
         })
         return payload
     if spec.name == "certificate-guided-discovery":
@@ -635,7 +637,7 @@ def test_adversarial_witness_count_does_not_create_positive_discovery(tmp_path):
 @pytest.mark.parametrize(
     ("report", "expected_pointer"),
     [
-        ("certificate-guided-training", "$.result.status"),
+        ("certificate-guided-training", "$.claim_capsule.terminal_verdict"),
         ("certificate-guided-discovery", "$.positive_discovery"),
         ("gap-head-ablation", "$.hardgate.status"),
         ("spectral-ablation-hinge", "$.negative_control_summary.treatment_better_than_all_controls"),
@@ -651,6 +653,21 @@ def test_dn_rows_have_failed_gate_pointing_to_negative_cell(tmp_path, report, ex
     assert verdict.discovery_level == "DN"
     assert evidence.failed_gate == expected_pointer
     assert discovery_map.pointer_value(payload, expected_pointer) is not None
+
+
+def test_certificate_training_discovery_map_preserves_claim_capsule_terminal_verdict(tmp_path):
+    spec = canonical._specs_by_name()["certificate-guided-training"]
+    payload = _minimal_payload(spec)
+    projected = discovery_map.projection_payload(spec, payload)
+    row = discovery_map.discovery_row(spec, payload)
+
+    assert projected["verdict"] == payload["claim_capsule"]["terminal_verdict"]
+    assert row["terminal_verdict"] == payload["claim_capsule"]["terminal_verdict"]
+    assert row["discovery_level"] == "DN"
+    assert row["evidence_pointer"] == "$.arm_protocol.compat_roles.after"
+    assert row["evidence_label"] == "constraint_lagrangian"
+    assert row["failed_gate"] == "$.claim_capsule.terminal_verdict"
+    assert discovery_map.pointer_value(payload, "$.arm_protocol.compat_roles.after") == "constraint_lagrangian"
 
 
 @pytest.mark.parametrize(

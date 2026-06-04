@@ -253,7 +253,7 @@ def _assign_level(
     revoked_signal, revocation_reason = _revocation_signal(payload)
     if revoked_signal:
         return "DR", (revocation_reason or "revocation signal present",)
-    if terminal_verdict in {"rejected", "demoted"}:
+    if terminal_verdict in {"rejected", "demoted"} or terminal_verdict.startswith("DN("):
         return "DN", (f"verdict={terminal_verdict}",)
     if _positive_discovery(payload, main):
         if _has_robustness_report_pass(payload):

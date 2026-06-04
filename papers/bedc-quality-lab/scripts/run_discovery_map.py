@@ -390,17 +390,19 @@ def _gap_head_robustness_projection(
 def _certificate_training_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
     overlay: dict[str, Any] = {}
     status = pointer_value(payload, "$.result.status")
+    terminal_verdict = pointer_value(payload, "$.claim_capsule.terminal_verdict")
     debt_delta = _after_minus_before_debt_delta(payload)
-    if status == "negative":
-        overlay["verdict"] = "rejected"
+    if isinstance(terminal_verdict, str) and terminal_verdict:
+        overlay["verdict"] = terminal_verdict
     if debt_delta is not None:
         overlay["main_verdict"] = {"deltas": {"debt_delta": debt_delta}}
     if pointer_value(payload, "$.claim_gate.audit_improvement_tradeoff") is True:
         overlay["claim_gate"] = {"training_audit_improvement_tradeoff": True}
-    if status == "negative":
+    if status == "negative" and isinstance(terminal_verdict, str) and terminal_verdict:
         return overlay, ProjectionEvidence(
             projection_status="projected",
-            failed_gate="$.result.status",
+            evidence_pointer="$.arm_protocol.compat_roles.after",
+            failed_gate="$.claim_capsule.terminal_verdict",
             debt_row_pointer="$.deltas.after_minus_before.debt_delta",
         )
     if debt_delta is not None or pointer_value(payload, "$.claim_gate.audit_improvement_tradeoff") is True:
@@ -914,6 +916,10 @@ def discovery_row(
     }
     if evidence.control_pointer is not None:
         row["control_pointer"] = evidence.control_pointer
+    if spec.name == "certificate-guided-training" and evidence.evidence_pointer is not None:
+        label = pointer_value(payload, evidence.evidence_pointer)
+        if isinstance(label, str):
+            row["evidence_label"] = label
     if evidence.failed_gate is not None:
         row["failed_gate"] = evidence.failed_gate
     if evidence.debt_row_pointer is not None:
