@@ -163,11 +163,13 @@ BASE auto-heal daemon (fifth default-launched component):
 
 ```bash
 mkdir -p $REPO/scripts/logs && \
-nohup python3 $REPO/tools/auto_heal_base.py >> $REPO/scripts/logs/auto_heal.log 2>&1 &
+AUTO_HEAL_CI_POLL_FALLBACK=1 nohup python3 $REPO/tools/auto_heal_base.py >> $REPO/scripts/logs/auto_heal.log 2>&1 &
 disown
 ```
 
-`tools/auto_heal_base.py` runs every 15 min (`AUTO_HEAL_INTERVAL_SECONDS` env override, default 900s). Cycle: fetch + ff codex-auto-dev → run `bedc_ci.py audit` → if dup paper labels detected on BASE, invoke codex with `HEAL_DUP_LABELS_PROMPT` to delete the redundant copy (canonical-site rules: hub vs sibling, semantic stem matching). Codex commits the cleanup directly on main checkout, daemon pushes to origin. Without this, a single duplicate-label commit on BASE stalls every subsequent round in audit-fail / SHALLOW-GROWTH cooldown loops indefinitely (observed 2026-05-06: 9 cooldowns × 180s + 36 SHALLOW lints over 30 min before manual surgery resolved). Skips when the working tree is dirty or branch isn't codex-auto-dev — never fights a human edit.
+**`AUTO_HEAL_CI_POLL_FALLBACK=1` is REQUIRED in the launch** (operator directive 2026-06-04: auto_heal's core job is "whatever turns CI red, codex-fix until green"). Without it the daemon only acts on externally-registered CI watchers (`/tmp/auto_heal_ci_watchers.json`), which in practice are never created → it stays blind to CI reds (logs "CI watch callbacks clean" forever even while `BEDC Build` is failing on auto-dev). With it set, each cycle runs `detect_ci_failures(60min)` → for each unseen failure `heal_ci_failure()` (dispatches codex with `gh run view --log-failed`) → `verify_then_push` to the mirror, one heal per cycle, with an attempt-cap so a genuinely-unfixable run doesn't thrash codex forever. It verifies each failure against current BASE before healing, so stale-SHA "noisy red" (auto-dev rebuilds every mirrored SHA incl. already-self-corrected) is skipped, not chased.
+
+`tools/auto_heal_base.py` runs every 15 min (`AUTO_HEAL_INTERVAL_SECONDS` env override, default 900s). Cycle: fetch + ff codex-auto-dev → run `bedc_ci.py audit` → if dup paper labels detected on BASE, invoke codex with `HEAL_DUP_LABELS_PROMPT` to delete the redundant copy (canonical-site rules: hub vs sibling, semantic stem matching) → then poll CI for failures and codex-heal them (per the flag above). Codex commits the cleanup directly on main checkout, daemon pushes to origin. Without this, a single duplicate-label commit on BASE stalls every subsequent round in audit-fail / SHALLOW-GROWTH cooldown loops indefinitely (observed 2026-05-06: 9 cooldowns × 180s + 36 SHALLOW lints over 30 min before manual surgery resolved). Skips when the working tree is dirty or branch isn't codex-auto-dev — never fights a human edit.
 
 Taste curator daemon (sixth default-launched component):
 
