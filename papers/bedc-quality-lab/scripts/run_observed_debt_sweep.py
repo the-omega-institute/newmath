@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from bedc_quality_lab.debt import assess_debt
+from bedc_quality_lab.debt import ACTION_TRANSITION_ROW, DIMENSION_MATCH_ROW, assess_debt
 from bedc_quality_lab.identifiability_bound import identifiability_bound_metrics
 from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
 from bedc_quality_lab.metrics import metric_bundle, quality_components
@@ -276,7 +276,8 @@ def _observed_envelope(
         "axis_value": axis_value,
         "multi_seed": True,
     }
-    assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
+    extra_rows = (DIMENSION_MATCH_ROW,) if axis == "C1" else ()
+    assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec, extra_rows=extra_rows)
     gaps = derive_ledger_gaps(metrics, source_spec, classifier_spec, stability_spec, assessment)
     ledger_gaps = _scoped_ledger_gaps(format_ledger_gaps(gaps), ledger_scope_rows)
     metrics = {**metrics, **quality_components(metrics, assessment.debt_total, classifier_spec)}
@@ -373,7 +374,13 @@ def _action_transition_envelope(
         "seed_index": int(seed_index),
         "multi_seed": True,
     }
-    assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec)
+    assessment = assess_debt(
+        metrics,
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        extra_rows=(ACTION_TRANSITION_ROW,),
+    )
     gaps = derive_ledger_gaps(metrics, source_spec, classifier_spec, stability_spec, assessment)
     metrics = {**metrics, **quality_components(metrics, assessment.debt_total, classifier_spec)}
     return QualityEvidenceEnvelope(

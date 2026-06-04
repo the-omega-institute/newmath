@@ -83,7 +83,7 @@ def test_hg_dl_3_accepts_existing_claim_gate_audit_improvement_key():
 
     assert verdict.discovery_level == "DN"
     assert verdict.reasons == ("verdict=demoted",)
-    assert verdict.net_information == pytest.approx(-0.23994104742363015)
+    assert verdict.net_information == pytest.approx(-0.13389102274229192)
 
     no_shift = dict(_canonical_payload("certificate-guided-discovery.json"))
     no_shift["verdict"] = ""

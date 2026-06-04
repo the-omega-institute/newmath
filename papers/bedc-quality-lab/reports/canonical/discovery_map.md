@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-03T17:08:52.430894+00:00`
-- Rows: `11`
+- Generated at: `2026-06-04T11:04:50.081457+00:00`
+- Rows: `12`
 
 | report | level | projection | audit | evidence |
 | --- | --- | --- | --- | --- |
@@ -14,6 +14,7 @@
 | `nongaussian-distribution-sweep` | `D1` | `projected` | `valid` | `$.negative_result_ledger` |
 | `certificate-guided-training` | `DN` | `projected` | `valid` | `$.result.status` |
 | `certificate-guided-discovery` | `DN` | `projected` | `valid` | `$.positive_discovery` |
+| `sigreg-training-proxy` | `D1` | `projected` | `valid` | `$.d1_evidence.debt_delta` |
 | `spectral-ablation-hinge` | `DN` | `projected` | `valid` | `$.negative_control_summary.treatment_better_than_all_controls` |
 | `dimension-mismatch-debt-transfer` | `D4` | `projected` | `valid` | `$.control_protocol` |
 

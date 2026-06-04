@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Mapping, Any
+from typing import Iterable, Mapping, Any
 
-from .cost_protocol import CostProtocol, REQUIRED_DEBT_ROWS, load_cost_protocol
+from .cost_protocol import CostProtocol, REQUIRED_DEBT_ROWS, SCOPED_DEBT_ROWS, load_cost_protocol
 from .latent_distribution import CANONICAL_LATENT_DISTRIBUTION_KEYS, covered_distribution_family_keys
 from .ledger import LedgerEntry, LedgerRowKey, ledger_debt, ledger_gap, recorded_rows, required_rows
 from .mixing import covered_canonical_mixing_families
 from .theorem_bound_quality import THEOREM_BOUND_ROW, _bound_values
 
+ACTION_TRANSITION_ROW = LedgerRowKey("source", "action-transition-identification")
+DIMENSION_MATCH_ROW = LedgerRowKey("source", "dimension-match")
 _EPS = 1.0e-12
 
 
@@ -111,7 +113,7 @@ def _dimension_match_score(
     classifier_spec: Mapping[str, Any],
     protocol: CostProtocol,
 ) -> float:
-    upper = protocol.weight(LedgerRowKey("source", "dimension-match"))
+    upper = protocol.weight(DIMENSION_MATCH_ROW)
     latent_dim = source_spec.get("latent_dim")
     output_dim = classifier_spec.get("output_dim")
     if not isinstance(latent_dim, int) or not isinstance(output_dim, int):
@@ -142,7 +144,7 @@ def _transition_isotropy_score(source_spec: Mapping[str, Any], protocol: CostPro
 
 
 def _action_transition_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
-    upper = protocol.weight(LedgerRowKey("source", "action-transition-identification"))
+    upper = protocol.weight(ACTION_TRANSITION_ROW)
     return 0.0 if source_spec.get("action_transition_identified") is True else upper
 
 
@@ -211,6 +213,13 @@ def _required_entries(protocol: CostProtocol) -> tuple[LedgerEntry, ...]:
     )
 
 
+def _required_entries_for_rows(rows: Iterable[LedgerRowKey], protocol: CostProtocol) -> tuple[LedgerEntry, ...]:
+    return tuple(
+        LedgerEntry(row=row, source_ref="quality-lab-cost-policy", weight=protocol.weight(row), critical=True)
+        for row in rows
+    )
+
+
 def _recorded_entries(items: tuple[DebtItem, ...]) -> tuple[LedgerEntry, ...]:
     entries = []
     for item in items:
@@ -232,6 +241,7 @@ def assess_debt(
     classifier_spec: Mapping[str, Any],
     stability_spec: Mapping[str, Any],
     protocol: CostProtocol | None = None,
+    extra_rows: Iterable[LedgerRowKey] = (),
 ) -> DebtAssessment:
     """Assess canonical producer debt from the consensus producer surface.
 
@@ -239,8 +249,13 @@ def assess_debt(
     envelope fields; the present scoring consumes the current debt subset.
     """
     cost_protocol = load_cost_protocol() if protocol is None else protocol
-    cost_protocol.validate_required_rows(REQUIRED_DEBT_ROWS)
-    items = (
+    requested_extra_rows = frozenset(extra_rows)
+    unknown_extra_rows = requested_extra_rows - SCOPED_DEBT_ROWS
+    if unknown_extra_rows:
+        rows = ", ".join(f"{row.kind}/{row.residue}" for row in sorted(unknown_extra_rows))
+        raise ValueError(f"unknown scoped debt rows: {rows}")
+    cost_protocol.validate_required_rows(REQUIRED_DEBT_ROWS | requested_extra_rows)
+    items = [
         _item(LedgerRowKey("source", "source-coverage"), _source_score(source_spec, cost_protocol), cost_protocol),
         _item(
             LedgerRowKey("source", "mixing-family-coverage"),
@@ -263,18 +278,8 @@ def assess_debt(
             cost_protocol,
         ),
         _item(
-            LedgerRowKey("source", "dimension-match"),
-            _dimension_match_score(source_spec, classifier_spec, cost_protocol),
-            cost_protocol,
-        ),
-        _item(
             LedgerRowKey("source", "transition-isotropy"),
             _transition_isotropy_score(source_spec, cost_protocol),
-            cost_protocol,
-        ),
-        _item(
-            LedgerRowKey("source", "action-transition-identification"),
-            _action_transition_score(source_spec, cost_protocol),
             cost_protocol,
         ),
         _item(
@@ -292,16 +297,32 @@ def assess_debt(
             _global_claim_score(source_spec, stability_spec, cost_protocol),
             cost_protocol,
         ),
-    )
-    required = required_rows(_required_entries(cost_protocol))
-    recorded = recorded_rows(_recorded_entries(items))
+    ]
+    if DIMENSION_MATCH_ROW in requested_extra_rows:
+        items.insert(
+            5,
+            _item(
+                DIMENSION_MATCH_ROW,
+                _dimension_match_score(source_spec, classifier_spec, cost_protocol),
+                cost_protocol,
+            ),
+        )
+    if ACTION_TRANSITION_ROW in requested_extra_rows:
+        insert_at = 7 if DIMENSION_MATCH_ROW in requested_extra_rows else 6
+        items.insert(
+            insert_at,
+            _item(ACTION_TRANSITION_ROW, _action_transition_score(source_spec, cost_protocol), cost_protocol),
+        )
+    item_tuple = tuple(items)
+    required = required_rows(_required_entries_for_rows(REQUIRED_DEBT_ROWS | requested_extra_rows, cost_protocol))
+    recorded = recorded_rows(_recorded_entries(item_tuple))
     gap = ledger_gap(required, recorded)
     cost_map = {
         LedgerRowKey(item.kind, item.residue): item.score
-        for item in items
+        for item in item_tuple
     }
     total = ledger_debt(gap, cost_map)
-    return DebtAssessment(items=items, debt_total=float(total))
+    return DebtAssessment(items=item_tuple, debt_total=float(total))
 
 
 def format_debt_items(assessment: DebtAssessment) -> list[str]:

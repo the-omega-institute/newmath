@@ -7,6 +7,7 @@ from bedc_quality_lab.cost_protocol import (
     NotClaimedPolicy,
     QualityFormula,
     REQUIRED_DEBT_ROWS,
+    SCOPED_DEBT_ROWS,
     load_cost_protocol,
 )
 from bedc_quality_lab.debt import assess_debt
@@ -83,9 +84,7 @@ def closed_specs():
             "mixing": canonical_mixing_families(),
             "latent_distribution": {"family": "gaussian", "coverage_key": "gaussian"},
             "latent_distribution_coverage_keys": list(CANONICAL_LATENT_DISTRIBUTION_KEYS),
-            "latent_dim": 2,
             "sample_count": 2048,
-            "action_transition_identified": True,
             "global_claim": False,
         },
         {"name": "certified-search", "training": "certified", "output_dim": 2},
@@ -113,7 +112,7 @@ def item_scores(assessment):
 def test_default_protocol_covers_all_debt_rows():
     protocol = load_cost_protocol()
 
-    assert frozenset(protocol.row_weights) == REQUIRED_DEBT_ROWS
+    assert frozenset(protocol.row_weights) == REQUIRED_DEBT_ROWS | SCOPED_DEBT_ROWS
     assert protocol.quality_formula.id == QUALITY_Q_FORMULA_ID
     assert protocol.formula_description() == quality_formula_description()
 
@@ -167,9 +166,7 @@ def test_debt_uses_injected_protocol_weights():
             "mixing": canonical_mixing_families(),
             "latent_distribution": {"family": "gaussian", "coverage_key": "gaussian"},
             "latent_distribution_coverage_keys": list(CANONICAL_LATENT_DISTRIBUTION_KEYS),
-            "latent_dim": 2,
             "sample_count": 2048,
-            "action_transition_identified": True,
         },
         {"name": "certified-search", "training": "certified", "output_dim": 2},
         {"multi_seed": True},

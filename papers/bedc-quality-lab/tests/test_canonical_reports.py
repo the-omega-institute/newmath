@@ -17,6 +17,7 @@ HG_P_CORE = {
     "gap-head-threshold-frontier",
     "certificate-guided-training",
     "certificate-guided-discovery",
+    "sigreg-training-proxy",
 }
 QUALITY_SCORECARD_METRICS = {
     "CertCov",
@@ -156,6 +157,53 @@ def _payload_for_spec(spec):
             "result": {"status": "negative" if spec.name == "certificate-guided-training" else "fixture"},
             "deltas": {"after_minus_before": {"debt_delta": -0.25}},
             "verdicts": [{"deltas": {"debt_delta": -0.25}}],
+            "run_id": "fixture-run",
+            "run_artifacts": {
+                "claim_capsule": "reports/runs/fixture/claim_capsule.json",
+                "raw_metrics": "reports/runs/fixture/raw_metrics.jsonl",
+                "summary": "reports/runs/fixture/summary.json",
+                "report": "reports/runs/fixture/report.md",
+            },
+            "objective": {
+                "required_rows": ["fixture"],
+                "id": "sigreg_sliced_cf_training_proxy",
+                "loss": "(1-lambda)*alignment + lambda*sigreg_sliced_cf",
+            },
+            "arm_protocol": {
+                "exact_arm_count": 4,
+                "arms": [
+                    "covariance_proxy_current",
+                    "true_sigreg_sliced_cf",
+                    "vicreg_like_covariance",
+                    "alignment_only",
+                ],
+            },
+            "d1_evidence": {
+                "debt_delta": -1.0,
+                "d1_hardgates": {
+                    "D1-HG1": {"status": "pass"},
+                    "D1-HG2": {"status": "pass"},
+                    "D1-HG3": {"status": "pass"},
+                    "D1-HG4": {"status": "pass"},
+                    "D1-HG5": {"status": "pass"},
+                },
+            },
+            "positive_claim": {"text": "fixture D1 SIGReg training proxy", "scope": "fixture", "level": "D1"},
+            "claim_capsule_ref": {
+                "artifact": "reports/runs/fixture/claim_capsule.json",
+                "pointer": "$",
+            },
+            "result_snapshot_ref": {
+                "artifact": "reports/runs/fixture/result_snapshot.json",
+                "pointer": "$",
+            },
+            "full_lejepa_boundary": {
+                "claim": False,
+                "required_to_claim": ["2D mixings", "grid", "distribution sweep"],
+            },
+            "what_was_learned": "fixture",
+            "failed_gate": None,
+            "forbidden_claim_term_audit": {"status": "pass", "hits": []},
         }
     )
     if spec.name == "mixing-family-sweep":
@@ -251,6 +299,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
         "certificate-guided-discovery",
+        "sigreg-training-proxy",
         "spectral-ablation-hinge",
     ]
     assert "certificate-guided-arms" not in names
@@ -422,6 +471,33 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
         "main_claim_status",
     }.issubset(set(discovery.required_json_keys))
     assert discovery.bundle_role == "hg_p_core"
+
+
+def test_canonical_reports_manifest_includes_sigreg_training_proxy():
+    spec = canonical._specs_by_name()["sigreg-training-proxy"]
+
+    assert spec.command == ("python3", "scripts/run_sigreg_training_proxy.py")
+    assert spec.json_artifact == "reports/canonical/sigreg-training-proxy.json"
+    assert spec.markdown_artifact == "reports/canonical/sigreg-training-proxy.md"
+    assert {
+        "run_artifacts",
+        "objective",
+        "arm_protocol",
+        "d1_evidence",
+        "positive_claim",
+        "claim_capsule_ref",
+        "result_snapshot_ref",
+        "full_lejepa_boundary",
+        "not_claimed",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.scope_pointer == "$.arm_protocol"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.not_claimed_pointer == "$.not_claimed"
+    assert spec.positive_claim_pointer == "$.positive_claim"
+    assert spec.control_pointer is None
+    assert spec.no_control_rationale_pointer == "$.full_lejepa_boundary"
+
 
 def test_certificate_guided_discovery_required_keys_do_not_require_audit_fields():
     discovery = canonical._specs_by_name()["certificate-guided-discovery"]
@@ -922,13 +998,18 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
                 {
+                    "report": "sigreg-training-proxy",
+                    "artifact": "reports/canonical/sigreg-training-proxy.json",
+                    "pointer": "$.arm_protocol",
+                },
+                {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 10,
-            "denominator": 10,
+            "numerator": 11,
+            "denominator": 11,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -979,13 +1060,18 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.claim_gate",
                 },
                 {
+                    "report": "sigreg-training-proxy",
+                    "artifact": "reports/canonical/sigreg-training-proxy.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 10,
-            "denominator": 10,
+            "numerator": 11,
+            "denominator": 11,
         },
         "HardeningCoverage": {
             "value": 1.0,

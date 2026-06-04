@@ -1,6 +1,6 @@
 # Gap-Head Mechanism Attribution
 
-- Generated at: `2026-06-03T20:44:31.353684+00:00`
+- Generated at: `2026-06-04T11:04:50.081457+00:00`
 - Artifact: `bedc-quality-lab:gap-head-mechanism-attribution`
 - Sidecar role: `pointer_only_non_canonical`
 - Mechanism status: `probe-margin-channel`
