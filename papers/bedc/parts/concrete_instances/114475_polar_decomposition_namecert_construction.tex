@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\PolarDecompositionUp$}
+\label{ch:concrete-instances-polar-decomposition-namecert}
+\origin{human}
+
+Following Conway and Reed--Simon, the polar-decomposition interface records the finite operator-factorization surface by which a bounded operator is read as a positive part followed by a partial-isometry or unitary handoff. The $\PolarDecompositionUp$ packet consumes the bounded-operator route of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the Hilbert and inner-product rows of \autoref{ch:concrete-instances-hilbert-namecert} and \autoref{ch:concrete-instances-innerproduct-namecert}, the matrix and singular-value ledgers of \autoref{ch:concrete-instances-matrix-namecert} and \autoref{ch:concrete-instances-singular-value-decomposition-namecert}, the unitary-group boundary of \autoref{ch:concrete-instances-unitarygroup-namecert}, and the spectral-radius estimates of \autoref{ch:concrete-instances-spectral-radius-namecert}. It names only a displayed finite factorization packet; it does not assert a global spectral theorem, selected bases, quotient operator equality, or ambient Hilbert completeness.
+
+\begin{definition}[Polar decomposition carrier]
+\label{def:polar-decomposition-carrier}
+A $\PolarDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+P=(T,A,U,S,R,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\BoundedLinearOperatorUp$ row whose source and target Hilbert endpoints are the operator being factored.
+\item $A$ is the positive-part row. It records the displayed nonnegative self-adjoint endpoint read as the finite positive component of the factorization, not as an unbounded spectral-calculus object.
+\item $U$ is the partial-isometry or unitary handoff row. It is read through $\UnitaryGroupUp$ when the inspected finite window supports a unitary restriction and otherwise records the partial-isometry boundary over the same Hilbert endpoint rows.
+\item $S$ is the $\SingularValueDecompositionUp$ and $\MatrixUp$ ledger. It records finite matrix windows, singular values, and frame data used by finite-dimensional consumers of the same factorization route.
+\item $R$ is the $\SpectralRadiusUp$ estimate row. It supplies only the norm-growth and radius bounds displayed by the sibling packet.
+\item $H$ stores componentwise $\hsame$ transport for the operator row, positive part, handoff row, SVD and matrix ledger, spectral estimate, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from a factorization request through $T,A,U,S,R,H$.
+\item $G$ is the $\Pkg$ provenance over $\PolarDecompositionUp$, $\BoundedLinearOperatorUp$, $\HilbertUp$, $\InnerProductUp$, $\MatrixUp$, $\SingularValueDecompositionUp$, $\UnitaryGroupUp$, $\SpectralRadiusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PolarDecompositionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host spectral theorem, a selected basis outside the packet, quotient equality of operators, or a completeness theorem for the ambient Hilbert carrier.
+\end{definition}
+
+\begin{theorem}[Polar decomposition NameCert obligations]
+\label{thm:polar-decomposition-namecert-obligations}
+For every accepted $\PolarDecompositionUp$ carrier
+$$
+P=(T,A,U,S,R,H,C,G,N),
+$$
+the local $\NameCert_{\PolarDecompositionUp}$ surface consists exactly of bounded-operator admission, positive-part exposure, partial-isometry or unitary handoff, SVD and matrix ledger routing, spectral-radius estimate routing, componentwise transport, displayed replay, provenance, local naming, and nonescape for global spectral theorems, selected bases, quotient operator equality, and ambient Hilbert completeness.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:polar-decomposition-carrier}. The only analytic rows are the bounded operator $T$, the positive part $A$, the handoff row $U$, the finite SVD and matrix ledger $S$, and the spectral estimate $R$.
+
+The factorization obligation is therefore finite. A consumer first reads $T$ through $\BoundedLinearOperatorUp$, then reads $A$ as the positive component attached to the same Hilbert and inner-product rows, and then reads $U$ as the displayed partial-isometry or unitary handoff.
+
+The matrix and spectral consumers are downstream from that same route. Row $S$ exposes only finite matrix and singular-value windows, while $R$ exposes only the sibling spectral-radius estimate. Rows $H,C,G,N$ transport, replay, source, and name the packet, so no excluded global theorem or quotient object can be read from the carrier.
+\end{proof}
+
+\begin{theorem}[Polar decomposition partial-isometry handoff]
+\label{thm:polar-decomposition-partial-isometry-handoff}
+Every accepted $\PolarDecompositionUp$ packet reads a factorization handoff only through the route
+$$
+\BoundedLinearOperatorUp \longrightarrow \HilbertUp \longrightarrow \InnerProductUp \longrightarrow \UnitaryGroupUp \longrightarrow \SingularValueDecompositionUp \longrightarrow \SpectralRadiusUp .
+$$
+The row $U$ is admissible only as the displayed partial-isometry or unitary boundary attached to the same bounded operator row $T$ and positive part $A$. It exports no selected polar factor outside the packet, no host quotient equality of operators, and no ambient Hilbert completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $P=(T,A,U,S,R,H,C,G,N)$. The operator endpoint is $T$, so every factorization read starts from the displayed $\BoundedLinearOperatorUp$ row over Hilbert and inner-product data.
+
+Read the positive part $A$ and the handoff row $U$ together. The handoff is accepted only when it is tied to the same source and target rows as $T$ and to the same positive component $A$; the unitary case is read through the sibling $\UnitaryGroupUp$ route.
+
+Finally read $S$ and $R$. The SVD and matrix ledger supplies finite inspected windows, and the spectral-radius row supplies only displayed estimate data. Since the carrier contains no selected external polar factor, quotient operator equality, or Hilbert-completeness row, the handoff remains the finite packet described in the statement.
+\end{proof}
+
+\falsifiablePrediction{Every $\PolarDecompositionUp$ consumer that reaches a factorization handoff must first read the bounded-operator row, positive-part row, partial-isometry or unitary row, SVD and matrix ledger, spectral-radius estimate, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{boundedlinearoperator, hilbert, innerproduct, matrix, singularvaluedecomposition, unitarygroup, spectralradius: $\PolarDecompositionUp$ is not bijective to any listed sibling because it jointly carries a bounded operator, positive part, partial-isometry or unitary handoff, finite SVD and matrix ledger, spectral-radius estimate, structural replay, provenance, and local naming.}
+
+\closureat{PolarDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\PolarDecompositionUp}
+  \constructivestory{A $\PolarDecompositionUp$ packet is generated from a BoundedLinearOperatorUp row over Hilbert and inner-product data, a positive-part row, a partial-isometry or unitary handoff, finite SVD and matrix ledgers, a SpectralRadiusUp estimate, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:polar-decomposition-carrier}, \autoref{thm:polar-decomposition-namecert-obligations}, and \autoref{thm:polar-decomposition-partial-isometry-handoff} seed the finite polar-factorization packet over bounded operators, Hilbert rows, positive parts, unitary handoffs, SVD ledgers, and spectral-radius estimates.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a global spectral theorem, selected bases, quotient operator equality, ambient Hilbert completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive-part exactness, partial-isometry handoff, SVD and spectral ledger routing, structural replay, provenance, and nonescape for BEDC.Derived.PolarDecompositionUp.}
+\end{closurestatus}
