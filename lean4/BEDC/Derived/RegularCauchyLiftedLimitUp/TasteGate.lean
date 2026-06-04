@@ -1,14 +1,18 @@
+import BEDC.FKernel.Ask
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyLiftedLimitUp
 
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -194,5 +198,27 @@ theorem RegularCauchyLiftedLimitNamecertObligations
           rfl⟩
 
 end TasteGate
+
+theorem RegularCauchyLiftedLimitCarrier_namecert_obligations
+    [AskSetup] [PackageSetup] (x : RegularCauchyLiftedLimitUp) :
+    (∀ h : BHist, Cont h BHist.Empty h) ∧
+      (Pkg = Pkg) ∧
+        ∃ D S R W E H C P N : BHist,
+          x = RegularCauchyLiftedLimitUp.mk D S R W E H C P N ∧
+            regularCauchyLiftedLimitFromEventFlow
+                (regularCauchyLiftedLimitToEventFlow x) =
+              some x := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg
+  constructor
+  · intro h
+    exact cont_intro rfl
+  · constructor
+    · rfl
+    · cases x with
+      | mk D S R W E H C P N =>
+          exact
+            ⟨D, S, R, W, E, H, C, P, N, rfl,
+              regularCauchyLiftedLimit_round_trip
+                (RegularCauchyLiftedLimitUp.mk D S R W E H C P N)⟩
 
 end BEDC.Derived.RegularCauchyLiftedLimitUp

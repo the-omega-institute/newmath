@@ -289,4 +289,34 @@ theorem RealityConstrainedFinalSynthesisLedger_model_selection_handoff
         ⟨T, R, M, F, B, O, S, H, C, P, N, rfl, rfl, cont_intro rfl,
           cont_intro rfl, cont_intro rfl, cont_intro rfl, hsame_refl H, hsame_refl N⟩
 
+theorem RealityConstrainedFinalSynthesis_obligation_route_closure
+    (T R M F B O S H C P N : BHist) :
+    let x := TasteGate.RealityConstrainedFinalSynthesisLedgerUp.mk T R M F B O S H C P N
+    TasteGate.realityConstrainedFinalSynthesisLedgerFields x =
+        [T, R, M, F, B, O, S, H, C, P, N] ∧
+      Cont T R (append T R) ∧
+        Cont R M (append R M) ∧
+          Cont M F (append M F) ∧
+            Cont F B (append F B) ∧
+              Cont B O (append B O) ∧
+                Cont O S (append O S) ∧
+                  Cont S H (append S H) ∧
+                    Cont H C (append H C) ∧
+                      Cont C P (append C P) ∧
+                        Cont P N (append P N) ∧
+                          hsame (append P N) (append P N) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  constructor
+  · rfl
+  · exact
+      ⟨cont_intro rfl,
+        ⟨cont_intro rfl,
+          ⟨cont_intro rfl,
+            ⟨cont_intro rfl,
+              ⟨cont_intro rfl,
+                ⟨cont_intro rfl,
+                  ⟨cont_intro rfl,
+                    ⟨cont_intro rfl,
+                      ⟨cont_intro rfl, ⟨cont_intro rfl, hsame_refl (append P N)⟩⟩⟩⟩⟩⟩⟩⟩⟩⟩
+
 end BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp
