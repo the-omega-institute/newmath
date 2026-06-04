@@ -72,6 +72,46 @@ The metric side of the request then factors through $R$ and $A$. The RegSeqRat h
 Transport, provenance, and local naming through $H,P,N$ preserve the same dependency order. This proves the stated factorization and leaves no available row from which a consumer could extract host closure, arbitrary sequence selection, quotient stream equality, compactness, or detached completeness.
 \end{proof}
 
+\begin{theorem}[SequentialClosure RegSeqRat limit route]
+\label{thm:sequential-closure-regseqrat-limit-route}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. Any metric-side closure read of the candidate limit row $L$ must expose the finite window ledger $W$, translate the requested tolerance through the $\RegSeqRatUp$ handoff row $R$, and seal the resulting distance comparison through the $\RealUp$ row $A$. Thus the packet exports a sequence-limit route only as displayed RegSeqRat/Real data downstream of $T,M,S,Q,L,U,W$.
+\end{theorem}
+\begin{proof}
+Project the packet carrier. The rows $T,M,S,Q,L$ name the ambient topology, ambient metric, source row, sequence source, and candidate limit, while $U$ records the neighbourhood and metric requests that a closure consumer may ask.
+
+The metric request cannot bypass the finite windows. The continuation row $C$ first exposes the StreamName windows $W$, so the inspected sequence entries and index budgets remain visible before any distance comparison is read.
+
+The handoff then passes through $R$ and $A$. The row $R$ records the regular rational readback for the displayed tolerance, and the row $A$ seals the corresponding Real comparison. Transport by $H$ and packaging by $P,N$ preserve this order, so no detached Real completeness or host limit principle is exported.
+\end{proof}
+
+\begin{theorem}[SequentialClosure LocatedSet stability]
+\label{thm:sequential-closure-located-set-stability}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet whose source row $S$ is read as a $\LocatedSetUp$ surface. If a second packet is componentwise $\hsame$ to $K$ on $T,M,S,Q,L,U,W,R,A,C,P,N$, then admitted sequence entries, located-set membership reads, RegSeqRat handoffs, and Real seals are transported through the same $S$ row. The stability claim is only this finite LocatedSet-preserving replay.
+\end{theorem}
+\begin{proof}
+Start from the componentwise $\hsame$ data recorded by $H$. It identifies the topology and metric rows, the located-set source row $S$, the displayed sequence row $Q$, the candidate limit row $L$, and the test and window ledgers $U,W$.
+
+Membership stability is read before the limit handoff. Each accepted sequence entry is admitted through the same located-set source surface $S$, and the transported packet can only replay those displayed entries because no arbitrary subsequence or external closure row appears in the carrier.
+
+Finally transport the metric side through $R$ and $A$. The RegSeqRat and Real rows are downstream of the same located-set and sequence windows, so the transported closure read preserves located-set admission while adding no compactness, quotient stream equality, or detached completeness assertion.
+\end{proof}
+
+\begin{theorem}[SequentialClosure topology handoff]
+\label{thm:sequential-closure-topology-handoff}
+For an accepted $\SequentialClosureUp$ packet $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, every topology-facing closure consumer receives the candidate limit row through the finite handoff
+$$
+T,M,S,Q,L,U,W,R,A,H,C,P,N .
+$$
+Neighbourhood requests are answered through $U$ over the common topology row $T$, metric requests are answered through $M$ and then $R,A$, and the exported closure evidence is repacked by the local $\NameCert_{\SequentialClosureUp}$ row $N$ without a host closure operator.
+\end{theorem}
+\begin{proof}
+Begin with a topology-facing request around the candidate limit $L$. The carrier admits $L$ only beside the ambient topology row $T$, metric row $M$, source row $S$, and displayed sequence row $Q$.
+
+The request ledger $U$ determines how the consumer may proceed. A purely neighbourhood-facing read stays over $T,S,Q,L,U,W$, while a metric-facing read also consumes the distance comparison route through $M,R,A$.
+
+The final packaging is local. Transport by $H$, replay by $C$, provenance by $P$, and naming by $N$ repack the same finite rows as $\NameCert_{\SequentialClosureUp}$ evidence. Since the packet has no coordinate for host topological closure, compactness, arbitrary sequence selection, or $\RealUp$ completeness, the topology and metric handoff exports only the displayed closure route.
+\end{proof}
+
 \closureat{SequentialClosureUp}{seedStr}
 
 \begin{closurestatus}{\SequentialClosureUp}
