@@ -21,8 +21,8 @@ theorem EquicontinuityRootUnblockFamilyModulusExactness [AskSetup] [PackageSetup
                 PkgSig bundle modulusRead pkg := by
   -- BEDC touchpoint anchor: EquicontinuityCarrier BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
   intro carrier familyRoute modulusRoute modulusPkg
-  obtain ⟨unaryK, unaryF, unaryRho, _unaryR, _radiusRoute, _handoffRoute, provenancePkg,
-    _localNamePkg⟩ := carrier
+  obtain ⟨unaryK, unaryF, unaryRho, _unaryR, _unaryN, _radiusRoute, _handoffRoute,
+    provenancePkg, _localNamePkg⟩ := carrier
   have familyUnary : UnaryHistory familyRead :=
     unary_cont_closed unaryK unaryF familyRoute
   have modulusUnary : UnaryHistory modulusRead :=
