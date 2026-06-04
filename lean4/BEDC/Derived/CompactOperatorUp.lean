@@ -110,6 +110,32 @@ theorem CompactOperatorCarrier_ideal_consumer_boundary [AskSetup] [PackageSetup]
     ⟨compactUnary, idealUnary, nuclearUnary, operatorImageNetCompact, compactProvenanceIdeal,
       idealReplayNuclear, localNamePkg, idealPkg, nuclearPkg⟩
 
+theorem CompactOperatorCarrier_tail_modulus_consumer_exactness [AskSetup] [PackageSetup]
+    {source target operator imageNet modulus transport replay provenance localName tailRead
+      terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactOperatorCarrier source target operator imageNet modulus transport replay provenance
+        localName bundle pkg ->
+      Cont imageNet modulus tailRead ->
+        Cont tailRead transport terminalRead ->
+          PkgSig bundle terminalRead pkg ->
+            UnaryHistory imageNet ∧ UnaryHistory modulus ∧ UnaryHistory transport ∧
+              UnaryHistory tailRead ∧ UnaryHistory terminalRead ∧
+                Cont imageNet modulus tailRead ∧ Cont tailRead transport terminalRead ∧
+                  PkgSig bundle localName pkg ∧ PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier imageNetModulusTail tailTransportTerminal terminalPkg
+  obtain ⟨_sourceUnary, _targetUnary, _operatorUnary, imageNetUnary, modulusUnary,
+    transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, _sourceTargetOperator,
+    _operatorImageNetModulus, _provenanceTransportLocalName, localNamePkg⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed imageNetUnary modulusUnary imageNetModulusTail
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed tailUnary transportUnary tailTransportTerminal
+  exact
+    ⟨imageNetUnary, modulusUnary, transportUnary, tailUnary, terminalUnary,
+      imageNetModulusTail, tailTransportTerminal, localNamePkg, terminalPkg⟩
+
 theorem CompactOperatorCarrier_finite_rank_approximation_boundary [AskSetup] [PackageSetup]
     {source target operator imageNet modulus transport replay provenance localName compactRead
       finiteRankRead : BHist}
