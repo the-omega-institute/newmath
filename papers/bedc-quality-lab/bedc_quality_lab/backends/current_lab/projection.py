@@ -1120,6 +1120,7 @@ def _manifest_audit(
         NEGATIVE_WITNESSES_ARTIFACT,
         "reports/canonical/discovery_negative_witness_summary.json",
         "reports/canonical/claim_capsule.json",
+        "reports/canonical/claim_graph.json",
         OBSERVED_DEBT_ARTIFACT,
         DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
         "reports/canonical/gap_head_transfer_atlas.json",

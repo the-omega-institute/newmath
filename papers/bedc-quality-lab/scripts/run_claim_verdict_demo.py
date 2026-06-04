@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.artifact_freshness import ScorecardSnapshot, load_scorecard_snapshot
+from bedc_quality_lab.claim_graph import terminal_node_id_for_claim_id
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.cost_protocol import load_cost_protocol
 from bedc_quality_lab.research_discovery import assign_discovery_level
@@ -30,6 +31,7 @@ CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
 ALLOWED_ROW_KEYS = frozenset(
     {
         "claim_id",
+        "claim_graph_node_id",
         "claim_verdict",
         "reason",
         "source",
@@ -315,6 +317,7 @@ def _row(
     source_text = source.as_text() if isinstance(source, ClaimSource) else source
     item = {
         "claim_id": claim_id,
+        "claim_graph_node_id": terminal_node_id_for_claim_id(claim_id),
         "claim_verdict": claim_verdict,
         "reason": reason,
         "source": source_text,

@@ -10,6 +10,7 @@ from scripts import run_canonical_reports as canonical
 
 ALLOWED_KEYS = {
     "claim_id",
+    "claim_graph_node_id",
     "claim_verdict",
     "reason",
     "source",
@@ -152,6 +153,8 @@ def _scorecard_hash(root):
 
 def _assert_provenance(row, root, *, scorecard_ready=True, formal_hardening_ready=True):
     assert set(row) == ALLOWED_KEYS
+    assert row["claim_graph_node_id"] == demo.terminal_node_id_for_claim_id(row["claim_id"])
+    assert row["claim_graph_node_id"].startswith("terminal:")
     assert row["scorecard_pointer"] == "reports/canonical/quality-scorecard.json:$.rows"
     assert row["scorecard_hash"] == _scorecard_hash(root)
     assert row["scorecard_ready"] is scorecard_ready
@@ -264,6 +267,28 @@ def test_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
     assert by_claim["claim:d0"]["claim_verdict"] == "ledger_only_hardening_not_ready"
     assert by_claim["claim:d0"]["reason"] == "discovery-level-D0"
     assert by_claim["claim:d0"]["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[5].discovery_level"
+    assert all(row["claim_graph_node_id"].startswith("terminal:") for row in verdicts)
+
+
+def test_claim_verdict_rows_allow_only_identity_graph_foreign_key(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert set(verdict) == ALLOWED_KEYS
+    assert verdict["claim_graph_node_id"] == "terminal:d4"
+    assert {
+        "depends_on",
+        "node_type",
+        "source_pointer",
+        "discovery_level",
+        "terminal_verdict",
+        "not_claimed",
+        "hardgate",
+        "mechanism_certificate",
+    }.isdisjoint(verdict)
 
 
 def test_jsonl_row_schema_reason_and_downgrade_pointers(tmp_path, monkeypatch):
