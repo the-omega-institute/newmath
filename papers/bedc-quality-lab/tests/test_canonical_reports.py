@@ -7,7 +7,9 @@ import types
 import pytest
 
 from scripts import run_formal_hardening_report as formal_hardening
+from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
+from scripts import run_discovery_map as discovery_map
 
 
 HG_P_CORE = {
@@ -17,6 +19,7 @@ HG_P_CORE = {
     "gap-head-discovery",
     "gap-head-ablation",
     "gap-head-threshold-frontier",
+    "gap-head-attribution-capsule",
     "certificate-guided-training",
     "certificate-guided-discovery",
     "sigreg-training-proxy",
@@ -69,6 +72,7 @@ def _payload_for_spec(spec):
             "objective": {"required_rows": ["fixture"]},
             "cost_protocol": {"name": "fixture"},
             "not_claimed": ["fixture nonclaim"],
+            "scope": {"not_claimed": ["fixture nonclaim"]},
             "claim_gate": {
                 "status": "fixture",
                 "audit_improvement_tradeoff": spec.name == "certificate-guided-training",
@@ -231,6 +235,15 @@ def _payload_for_spec(spec):
     if spec.name == "nongaussian-distribution-sweep":
         payload["negative_result_ledger"] = [{"status": "negative"}, {"status": "negative"}]
         payload["coverage_item"] = {"debt_item": {"status": "open"}}
+    if spec.name == "gap-head-attribution-capsule":
+        payload["cost_protocol_pointer"] = "$.source_artifacts.cost_protocol"
+        payload["source_artifacts"]["cost_protocol"] = {
+            "status": "recorded",
+            "surface_protocol": {"surface_helper": "fixture-surface-helper"},
+            "control_protocol": {"matched_random_helper": "fixture-control-helper"},
+        }
+        payload["d5_o"] = {"status": "ready"}
+        payload["d5_m"] = {"status": "blocked", "passed": False}
     return payload
 
 
@@ -282,6 +295,33 @@ def _index_row_for_spec(spec):
     }
 
 
+def _read_committed_claim_verdicts():
+    path = canonical.ROOT / canonical.CLAIM_VERDICTS_JSONL_ARTIFACT
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+
+
+def _normalized_index_report(report):
+    item = dict(report)
+    item["duration_seconds"] = 0.0
+    item["producer_status"] = "reused"
+    return item
+
+
+def _canonical_bundle_payloads_for_timestamps(*, index_timestamp, discovery_timestamp):
+    committed_index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    generated_index = canonical._index(
+        [_normalized_index_report(report) for report in committed_index["reports"]],
+        generated_at=index_timestamp,
+    )
+    generated_discovery = discovery_map.build_discovery_map(
+        generated_at=discovery_timestamp,
+        root=canonical.ROOT,
+        canonical_reports=canonical.CANONICAL_REPORTS,
+    )
+    generated_claims = claim_verdict_demo.compile_claim_verdicts(canonical.ROOT, generated_at=index_timestamp)
+    return generated_index, generated_discovery, generated_claims
+
+
 def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     names = [spec.name for spec in canonical.CANONICAL_REPORTS]
     json_artifacts = [spec.json_artifact for spec in canonical.CANONICAL_REPORTS]
@@ -298,6 +338,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-discovery",
         "gap-head-ablation",
         "gap-head-threshold-frontier",
+        "gap-head-attribution-capsule",
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
         "certificate-guided-discovery",
@@ -318,6 +359,40 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         assert spec.cost_pointer.startswith("$.")
         assert spec.not_claimed_pointer.startswith("$.")
         assert spec.positive_claim_pointer.startswith("$.")
+
+
+def test_committed_canonical_bundle_covers_every_registered_report():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    discovery_payload = json.loads((canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    claim_rows = _read_committed_claim_verdicts()
+    registered = {spec.name: spec for spec in canonical.CANONICAL_REPORTS}
+
+    index_reports = {row["name"]: row for row in index_payload["reports"]}
+    discovery_rows = {row["report"]: row for row in discovery_payload["rows"]}
+    claim_ids = {row["claim_id"] for row in claim_rows}
+
+    assert set(index_reports) == set(registered)
+    assert set(registered).issubset(discovery_rows)
+    assert {f"claim:{name}" for name in registered}.issubset(claim_ids)
+    for name, spec in registered.items():
+        assert index_reports[name]["json_artifact"] == spec.json_artifact
+        assert discovery_rows[name]["json_artifact"] == spec.json_artifact
+        assert (canonical.ROOT / spec.json_artifact).exists()
+        assert (canonical.ROOT / spec.markdown_artifact).exists()
+
+
+def test_committed_canonical_bundle_matches_generation_chain():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    discovery_payload = json.loads((canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    claim_rows = _read_committed_claim_verdicts()
+    generated_index, generated_discovery, generated_claims = _canonical_bundle_payloads_for_timestamps(
+        index_timestamp=index_payload["generated_at"],
+        discovery_timestamp=discovery_payload["generated_at"],
+    )
+
+    assert index_payload == generated_index
+    assert discovery_payload == generated_discovery
+    assert claim_rows == generated_claims
 
 
 def test_gap_head_manifest_rows_are_canonical_and_keyed():
@@ -389,6 +464,32 @@ def test_canonical_reports_manifest_includes_gap_head_threshold_frontier():
     assert spec.cost_pointer == "$.source_artifacts"
     assert spec.positive_claim_pointer == "$.main_claim_status"
     assert spec.control_pointer == "$.threshold_summary.control_baseline"
+
+
+def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
+    spec = canonical._specs_by_name()["gap-head-attribution-capsule"]
+
+    assert spec.command == ("python3", "scripts/run_gap_head_attribution_capsule.py")
+    assert spec.json_artifact == "reports/canonical/gap_head_attribution_capsule.json"
+    assert spec.markdown_artifact == "reports/canonical/gap_head_attribution_capsule.md"
+    assert {
+        "schema_id",
+        "source_issue",
+        "artifact_id",
+        "run_id",
+        "d5_o",
+        "d5_m",
+        "mechanism_case",
+        "hardgates",
+        "claim_capsule_hardgates",
+        "forbidden_column_audit",
+        "source_artifacts",
+        "aggregate",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.scope_pointer == "$.scope.not_claimed"
+    assert spec.cost_pointer == "$.cost_protocol_pointer"
+    assert spec.control_pointer == "$.control_pointer"
 
 
 def test_canonical_reports_manifest_includes_distribution_sweep():
@@ -714,6 +815,47 @@ def test_forbidden_term_at_positive_claim_pointer_is_caught(tmp_path, monkeypatc
     assert result["discipline"]["positive_claim_pointer"] == "$.coverage_item"
     assert result["discipline"]["forbidden_claim_terms_status"] == "fail"
     assert result["discipline"]["forbidden_claim_term_hits"] == ["full-lejepa"]
+
+
+def test_run_spec_can_reuse_existing_artifacts_without_producer(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+
+    def unexpected_producer(_spec):
+        raise AssertionError("producer should not run")
+
+    monkeypatch.setattr(canonical, "_run_producer", unexpected_producer)
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["status"] == "pass"
+    assert result["producer_status"] == "reused"
+    assert result["validation"]["status"] == "pass"
+
+
+def test_run_spec_force_path_runs_producer_for_existing_artifacts(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    json_path.parent.mkdir(parents=True, exist_ok=True)
+    json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    md_path.write_text("# fixture\n", encoding="utf-8")
+    calls = []
+
+    monkeypatch.setattr(canonical, "_run_producer", lambda called: calls.append(called.name))
+
+    result = canonical._run_spec(spec, reuse_existing=False)
+
+    assert calls == ["mixing-family-sweep"]
+    assert result["producer_status"] == "completed"
 
 
 def test_literature_ledger_status_follows_validator_not_path_existence(tmp_path, monkeypatch):
@@ -1132,6 +1274,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
                 {
+                    "report": "gap-head-attribution-capsule",
+                    "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+                    "pointer": "$.scope.not_claimed",
+                },
+                {
                     "report": "nongaussian-distribution-sweep",
                     "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
                     "pointer": "$.coverage_item",
@@ -1157,8 +1304,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 11,
-            "denominator": 11,
+            "numerator": 12,
+            "denominator": 12,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -1194,6 +1341,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
                 {
+                    "report": "gap-head-attribution-capsule",
+                    "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+                    "pointer": "$.cost_protocol_pointer",
+                },
+                {
                     "report": "nongaussian-distribution-sweep",
                     "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
                     "pointer": "$.source_artifacts.cost_protocol",
@@ -1219,8 +1371,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 11,
-            "denominator": 11,
+            "numerator": 12,
+            "denominator": 12,
         },
         "HardeningCoverage": {
             "value": 1.0,
@@ -1256,6 +1408,109 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
             assert row["numerator"] == fields["numerator"]
         if "denominator" in fields:
             assert row["denominator"] == fields["denominator"]
+
+
+def test_positive_discovery_count_is_limited_to_discovery_producers(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        _write_payloads_for_all_specs(canonical, tmp_path)
+        scorecard = canonical._build_quality_scorecard([], generated_at="fixture-time")
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+
+    row = {item["metric"]: item for item in scorecard["rows"]}["PositiveDiscoveryCount"]
+    assert row["status"] == "ready"
+    assert row["denominator"] == 2
+    assert row["source"] == [
+        {
+            "report": "gap-head-discovery",
+            "artifact": "reports/canonical/gap-head-discovery.json",
+            "pointer": "$.positive_discovery",
+        },
+        {
+            "report": "certificate-guided-discovery",
+            "artifact": "reports/canonical/certificate-guided-discovery.json",
+            "pointer": "$.positive_discovery",
+        },
+    ]
+
+
+def test_attribution_capsule_d5_cells_project_minimal_two_axis_discovery_map_row(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        _write_payloads_for_all_specs(canonical, tmp_path)
+        spec = canonical._specs_by_name()["gap-head-attribution-capsule"]
+        _mutate_payload(
+            canonical,
+            "gap-head-attribution-capsule",
+            lambda payload: payload.update(
+                {
+                    "d5_o": {"status": "ready"},
+                    "d5_m": {"status": "blocked", "passed": False, "failed_gate": "A1-HG3"},
+                    "mechanism_case": {"status": "D5-O retained, mechanism = probe-margin-channel"},
+                }
+            ),
+        )
+
+        payload = discovery_map.build_discovery_map(
+            generated_at="fixture-time",
+            root=tmp_path,
+            canonical_reports=canonical.CANONICAL_REPORTS,
+        )
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+    row = {item["report"]: item for item in payload["rows"]}[spec.name]
+
+    assert row["discovery_level"] == "D0"
+    assert row["projection_status"] == "two-axis-recorded"
+    assert row["evidence_pointer"] == spec.positive_claim_pointer
+    assert row["base_level"] == "D5-O"
+    assert row["base_status"] == "ready"
+    assert row["mechanism_level"] == "blocked"
+    assert row["mechanism_status"] == "blocked"
+    assert row["mechanism_channel"] == "probe-margin-channel"
+    assert row["mechanism_failed_gate"] == "A1-HG3"
+    assert row["operational_pointer"] == "$.d5_o"
+    assert row["mechanism_pointer"] == "$.d5_m"
+    assert row["mechanism_case_pointer"] == "$.mechanism_case"
+    assert row["audit_status"] == "valid"
+
+
+def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
+    capsule = json.loads((canonical.ROOT / "reports/canonical/gap_head_attribution_capsule.json").read_text(encoding="utf-8"))
+    sidecar = json.loads((canonical.ROOT / "reports/gap_head_mechanism_attribution.json").read_text(encoding="utf-8"))
+    discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
+    index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    claim_rows = _read_committed_claim_verdicts()
+
+    row = {item["report"]: item for item in discovery["rows"]}["gap-head-attribution-capsule"]
+    index_row = {item["name"]: item for item in index["reports"]}["gap-head-attribution-capsule"]
+    claim_row = {item["claim_id"]: item for item in claim_rows}["claim:gap-head-attribution-capsule"]
+    row_index = next(
+        index
+        for index, item in enumerate(discovery["rows"])
+        if item["report"] == "gap-head-attribution-capsule"
+    )
+
+    assert index_row["json_artifact"] == "reports/canonical/gap_head_attribution_capsule.json"
+    assert row["json_artifact"] == index_row["json_artifact"]
+    assert claim_row["ledger_pointer"] == f"reports/canonical/discovery_map.json:$.rows[{row_index}].discovery_level"
+    assert claim_row["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.d5_m"
+    assert capsule["d5_o"]["status"] == sidecar["D5_target"]["operational"]["status"] == row["base_status"] == "ready"
+    assert row["base_level"] == "D5-O"
+    assert capsule["d5_m"]["status"] == sidecar["D5_target"]["mechanism"]["status"] == row["mechanism_status"] == "blocked"
+    assert row["mechanism_level"] == "blocked"
+    assert capsule["d5_m"]["failed_gate"] == sidecar["D5_target"]["mechanism"]["failed_gate"] == row["mechanism_failed_gate"]
+    assert capsule["mechanism_case"]["status"] == sidecar["mechanism_status"] == "D5-O retained, mechanism = probe-margin-channel"
+    assert row["mechanism_channel"] == "probe-margin-channel"
 
 
 def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):
@@ -1548,6 +1803,30 @@ def test_quality_scorecard_cost_protocol_completeness_fails_closed_without_manif
     row = {item["metric"]: item for item in scorecard["rows"]}["CostProtocolCompleteness"]
     assert row["status"] == "not-ready"
     assert row["dependency"] == "gap-head-discovery:$.score_terms"
+    assert "value" not in row
+    assert "numerator" not in row
+
+
+def test_quality_scorecard_cost_protocol_completeness_fails_closed_for_dangling_indirect_pointer(tmp_path):
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        _write_payloads_for_all_specs(canonical, tmp_path)
+        _mutate_payload(
+            canonical,
+            "gap-head-attribution-capsule",
+            lambda payload: payload.update({"cost_protocol_pointer": "$.source_artifacts.missing_cost_protocol"}),
+        )
+        scorecard = canonical._build_quality_scorecard([], generated_at="fixture-time")
+    finally:
+        canonical.ROOT = old_root
+        canonical.CANONICAL_DIR = old_dir
+        canonical.INDEX_ARTIFACT = old_index
+
+    row = {item["metric"]: item for item in scorecard["rows"]}["CostProtocolCompleteness"]
+    assert row["status"] == "not-ready"
+    assert row["dependency"] == "gap-head-attribution-capsule:$.cost_protocol_pointer"
     assert "value" not in row
     assert "numerator" not in row
 

@@ -262,6 +262,7 @@ def _surface_for_seed(*, seed: int, config: GapHeadRunConfig) -> dict[str, Any]:
     )
     return {
         "features": features,
+        "h_pair": h_pair,
         "feature_columns": feature_columns,
         "gap_labels": gap_labels,
         "prediction_error": prediction_error,

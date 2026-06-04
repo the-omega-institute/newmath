@@ -1,22 +1,23 @@
 # Discovery Map
 
-- Generated at: `2026-06-04T11:53:28.456838+00:00`
-- Rows: `12`
+- Generated at: `2026-06-04T13:07:13.161133+00:00`
+- Rows: `13`
 
-| report | level | projection | audit | evidence |
-| --- | --- | --- | --- | --- |
-| `mixing-family-sweep` | `D1` | `projected` | `valid` | `$.coverage_item.debt_item` |
-| `anisotropic-ou-sweep` | `D1` | `projected` | `valid` | `$.transition_debt_by_grid` |
-| `gap-head-on-h` | `D5` | `projected` | `valid` | `$.control_protocol` |
-| `gap-head-discovery` | `D4` | `projected` | `valid` | `$.matched_random_control` |
-| `gap-head-ablation` | `DN` | `projected` | `valid` | `$.hardgate.status` |
-| `gap-head-threshold-frontier` | `D0` | `source-insufficient` | `valid` | `source-insufficient` |
-| `nongaussian-distribution-sweep` | `D1` | `projected` | `valid` | `$.negative_result_ledger` |
-| `certificate-guided-training` | `DN` | `projected` | `valid` | `$.result.status` |
-| `certificate-guided-discovery` | `DN` | `projected` | `valid` | `$.positive_discovery` |
-| `sigreg-training-proxy` | `D1` | `projected` | `valid` | `$.d1_evidence.debt_delta` |
-| `spectral-ablation-hinge` | `DN` | `projected` | `valid` | `$.negative_control_summary.treatment_better_than_all_controls` |
-| `dimension-mismatch-debt-transfer` | `DN` | `projected` | `valid` | `$.dimension_mismatch_debt_transfer.anti_triviality_status` |
+| report | level | base | mechanism | projection | audit | evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| `mixing-family-sweep` | `D1` | `` | `` | `projected` | `valid` | `$.coverage_item.debt_item` |
+| `anisotropic-ou-sweep` | `D1` | `` | `` | `projected` | `valid` | `$.transition_debt_by_grid` |
+| `gap-head-on-h` | `D5` | `` | `` | `projected` | `valid` | `$.control_protocol` |
+| `gap-head-discovery` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
+| `gap-head-ablation` | `DN` | `` | `` | `projected` | `valid` | `$.hardgate.status` |
+| `gap-head-threshold-frontier` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `gap-head-attribution-capsule` | `D0` | `D5-O` | `blocked` | `two-axis-recorded` | `valid` | `$.d5_m` |
+| `nongaussian-distribution-sweep` | `D1` | `` | `` | `projected` | `valid` | `$.negative_result_ledger` |
+| `certificate-guided-training` | `DN` | `` | `` | `projected` | `valid` | `$.result.status` |
+| `certificate-guided-discovery` | `DN` | `` | `` | `projected` | `valid` | `$.positive_discovery` |
+| `sigreg-training-proxy` | `D1` | `` | `` | `projected` | `valid` | `$.d1_evidence.debt_delta` |
+| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `$.negative_control_summary.treatment_better_than_all_controls` |
+| `dimension-mismatch-debt-transfer` | `DN` | `D4` | `` | `projected` | `valid` | `$.dimension_mismatch_debt_transfer.anti_triviality_status` |
 
 ## D5 readiness
 

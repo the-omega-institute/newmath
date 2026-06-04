@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-04T11:53:28.456838+00:00",
+  "generated_at": "2026-06-04T13:07:13.161133+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -30,6 +30,11 @@
     {
       "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
       "name": "gap-head-threshold-frontier",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+      "name": "gap-head-attribution-capsule",
       "status": "pass"
     },
     {
@@ -169,9 +174,9 @@
       "value": 10
     },
     {
-      "denominator": 11,
+      "denominator": 12,
       "metric": "ScopeCompleteness",
-      "numerator": 11,
+      "numerator": 12,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -204,6 +209,11 @@
           "report": "gap-head-threshold-frontier"
         },
         {
+          "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+          "pointer": "$.scope.not_claimed",
+          "report": "gap-head-attribution-capsule"
+        },
+        {
           "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
           "pointer": "$.coverage_item",
           "report": "nongaussian-distribution-sweep"
@@ -233,9 +243,9 @@
       "value": 1.0
     },
     {
-      "denominator": 11,
+      "denominator": 12,
       "metric": "CostProtocolCompleteness",
-      "numerator": 11,
+      "numerator": 12,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -266,6 +276,11 @@
           "artifact": "reports/canonical/gap-head-threshold-frontier.json",
           "pointer": "$.source_artifacts",
           "report": "gap-head-threshold-frontier"
+        },
+        {
+          "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+          "pointer": "$.cost_protocol_pointer",
+          "report": "gap-head-attribution-capsule"
         },
         {
           "artifact": "reports/canonical/nongaussian-distribution-sweep.json",

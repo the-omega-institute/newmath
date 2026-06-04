@@ -68,6 +68,13 @@ def _minimal_payload(spec):
     if spec.name == "mixing-family-sweep":
         payload.update({"coverage_item": {"debt_item": {"status": "open"}}})
         return payload
+    if spec.name == "gap-head-attribution-capsule":
+        payload.update({
+            "d5_o": {"status": "ready"},
+            "d5_m": {"status": "blocked", "passed": False, "failed_gate": "A1-HG3"},
+            "mechanism_case": {"status": "D5-O retained, mechanism = probe-margin-channel"},
+        })
+        return payload
     return payload
 
 
@@ -282,6 +289,27 @@ def test_threshold_frontier_without_projection_remains_d0_source_insufficient(tm
     assert row["projection_status"] == "source-insufficient"
     assert row["audit_status"] == "valid"
     assert row["audit_reason"] == ""
+
+
+def test_attribution_capsule_projection_records_operational_and_mechanism_axes(tmp_path):
+    _write_all_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-attribution-capsule"]
+
+    assert row["discovery_level"] == "D0"
+    assert row["projection_status"] == "two-axis-recorded"
+    assert row["base_level"] == "D5-O"
+    assert row["base_status"] == "ready"
+    assert row["mechanism_level"] == "blocked"
+    assert row["mechanism_status"] == "blocked"
+    assert row["mechanism_channel"] == "probe-margin-channel"
+    assert row["mechanism_failed_gate"] == "A1-HG3"
+    assert row["evidence_pointer"] == "$.d5_m"
+    assert row["operational_pointer"] == "$.d5_o"
+    assert row["mechanism_pointer"] == "$.d5_m"
+    assert row["mechanism_case_pointer"] == "$.mechanism_case"
+    assert row["audit_status"] == "valid"
 
 
 @pytest.mark.parametrize("report", ["gap-head-on-h", "gap-head-discovery"])

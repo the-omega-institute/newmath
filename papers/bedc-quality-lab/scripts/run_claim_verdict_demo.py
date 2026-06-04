@@ -372,8 +372,16 @@ def _mapped_discovery_row(
 ) -> dict[str, Any] | None:
     report = str(row["report"])
     level = str(row.get("discovery_level", "D0"))
+    source = _claim_source(row)
+    claim_id = f"claim:{report}"
     if level == "D0":
-        return None
+        return _row(
+            claim_id=claim_id,
+            claim_verdict="ledger_only_hardening_not_ready",
+            reason="discovery-level-D0",
+            source=source,
+            ledger_pointer=_discovery_map_row_pointer(root, row),
+        )
     specs = _specs_by_name()
     if report == DIMENSION_MISMATCH_REPORT and str(row.get("json_artifact")) == DIMENSION_MISMATCH_ARTIFACT:
         spec = _dimension_mismatch_pointer_spec()
@@ -382,8 +390,6 @@ def _mapped_discovery_row(
     else:
         return None
     payload = _load_payload(root, str(row["json_artifact"]))
-    source = _claim_source(row)
-    claim_id = f"claim:{report}"
     scorecard = _load_scorecard(root)
 
     positive_forbidden = _positive_claim_forbidden_pointer(spec, payload)
