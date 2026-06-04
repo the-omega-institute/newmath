@@ -5390,6 +5390,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RealRegSeqRatScope
 import BEDC.Derived.LowerSemicontinuousUp.RealSealExportBoundary
 import BEDC.Derived.LowerSemicontinuousUp.RealSealWindowExhaustion
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphBasis
+import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCarrier
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCarrierAdmission
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphLocatedTransport
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphRegSeqRatHandoff
@@ -5642,6 +5643,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10NormalizationFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.L10ObjectStatusReadback
 import BEDC.Derived.MetaCICCriticalPathUp.L10PrefixDependencyInduction
 import BEDC.Derived.MetaCICCriticalPathUp.L10ReadinessLocalMinimality
+import BEDC.Derived.MetaCICCriticalPathUp.L10ResidualRoute
 import BEDC.Derived.MetaCICCriticalPathUp.L10StatusBridgeObligation
 import BEDC.Derived.MetaCICCriticalPathUp.LeanHandoffSurface
 import BEDC.Derived.MetaCICCriticalPathUp.LeanTargetIntake
