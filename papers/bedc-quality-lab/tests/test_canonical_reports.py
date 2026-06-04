@@ -305,6 +305,24 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
         json_path.parent.mkdir(parents=True, exist_ok=True)
         json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
+    sidecar_path = tmp_path / canonical_module.GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT
+    sidecar_path.parent.mkdir(parents=True, exist_ok=True)
+    sidecar_path.write_text(
+        json.dumps(
+            {
+                "artifact_id": canonical_module.GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID,
+                "ledger_policy": {"mechanism_closure_debt": "open"},
+                "closure_status": {"mechanism_spec": "partial"},
+                "mechanism_spec": {
+                    "candidate_mechanism": "probe-margin-channel",
+                    "full_vs_score_plus_margin": "not separated",
+                    "a1_failed_gate": "A1-HG3",
+                },
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def _mutate_payload(canonical_module, report_name, update):
@@ -552,6 +570,40 @@ def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
     assert spec.scope_pointer == "$.scope.not_claimed"
     assert spec.cost_pointer == "$.cost_protocol_pointer"
     assert spec.control_pointer == "$.control_pointer"
+
+
+def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, monkeypatch):
+    sidecar = tmp_path / canonical.GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT
+    sidecar.parent.mkdir(parents=True)
+    sidecar.write_text(
+        json.dumps(
+            {
+                "artifact_id": canonical.GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID,
+                "mechanism_spec": {"candidate_mechanism": "probe-margin-channel"},
+                "ledger_policy": {"mechanism_closure_debt": "open"},
+                "closure_status": {"mechanism_spec": "partial"},
+            }
+        ),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    names = [spec.name for spec in canonical.CANONICAL_REPORTS]
+
+    section = canonical._gap_head_mechanism_namecert_index_section()
+    payload = canonical._index([])
+    markdown = canonical._render_index_markdown(payload)
+
+    assert "gap-head-mechanism-namecert" not in names
+    assert section["artifact_id"] == canonical.GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID
+    assert section["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert section["ledger_policy_pointer"] == "$.ledger_policy.mechanism_closure_debt"
+    assert section["closure_status_pointer"] == "$.closure_status.mechanism_spec"
+    assert section["candidate_mechanism"] == "probe-margin-channel"
+    assert payload["gap_head_mechanism_namecert"]["mechanism_closure_debt"] == "open"
+    absent_key = "gap_head_mechanism_" + "attribution"
+    assert absent_key not in payload
+    assert "Gap-head mechanism NameCert candidate" in markdown
 
 
 def test_canonical_reports_manifest_includes_distribution_sweep():
@@ -1290,8 +1342,8 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
     )
     monkeypatch.setitem(
         sys.modules,
-        "scripts.run_gap_head_mechanism_attribution",
-        types.SimpleNamespace(write_gap_head_mechanism_attribution=fake_mechanism),
+        "scripts.run_gap_head_mechanism_namecert",
+        types.SimpleNamespace(write_gap_head_mechanism_namecert=fake_mechanism),
     )
     monkeypatch.setitem(
         sys.modules,
@@ -1817,12 +1869,15 @@ def test_attribution_capsule_d5_cells_project_minimal_two_axis_discovery_map_row
     assert row["operational_pointer"] == "$.d5_o"
     assert row["mechanism_pointer"] == "$.d5_m"
     assert row["mechanism_case_pointer"] == "$.mechanism_case"
+    assert row["mechanism_namecert_pointer"] == "reports/gap_head_mechanism_namecert.json"
+    assert row["mechanism_ledger_pointer"] == "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt"
+    assert row["mechanism_closure_pointer"] == "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec"
     assert row["audit_status"] == "valid"
 
 
 def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     capsule = json.loads((canonical.ROOT / "reports/canonical/gap_head_attribution_capsule.json").read_text(encoding="utf-8"))
-    sidecar = json.loads((canonical.ROOT / "reports/gap_head_mechanism_attribution.json").read_text(encoding="utf-8"))
+    sidecar = json.loads((canonical.ROOT / "reports/gap_head_mechanism_namecert.json").read_text(encoding="utf-8"))
     discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
     index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
     claim_rows = _read_committed_claim_verdicts()
@@ -1840,13 +1895,18 @@ def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     assert row["json_artifact"] == index_row["json_artifact"]
     assert claim_row["ledger_pointer"] == f"reports/canonical/discovery_map.json:$.rows[{row_index}].discovery_level"
     assert claim_row["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.d5_m"
-    assert capsule["d5_o"]["status"] == sidecar["D5_target"]["operational"]["status"] == row["base_status"] == "ready"
+    assert capsule["d5_o"]["status"] == row["base_status"] == "ready"
     assert row["base_level"] == "D5-O"
-    assert capsule["d5_m"]["status"] == sidecar["D5_target"]["mechanism"]["status"] == row["mechanism_status"] == "blocked"
+    assert sidecar["ledger_policy"]["mechanism_closure_debt"] == "open"
+    assert sidecar["closure_status"]["mechanism_spec"] == "partial"
+    assert row["mechanism_status"] == "blocked"
     assert row["mechanism_level"] == "blocked"
-    assert capsule["d5_m"]["failed_gate"] == sidecar["D5_target"]["mechanism"]["failed_gate"] == row["mechanism_failed_gate"]
-    assert capsule["mechanism_case"]["status"] == sidecar["mechanism_status"] == "D5-O retained, mechanism = probe-margin-channel"
+    assert capsule["d5_m"]["failed_gate"] == sidecar["mechanism_spec"]["a1_failed_gate"] == row["mechanism_failed_gate"]
+    assert capsule["mechanism_case"]["status"] == sidecar["mechanism_spec"]["a1_mechanism_status"]
+    assert sidecar["mechanism_spec"]["candidate_mechanism"] == "probe-margin-channel"
     assert row["mechanism_channel"] == "probe-margin-channel"
+    assert row["mechanism_ledger_pointer"] == "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt"
+    assert row["mechanism_closure_pointer"] == "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec"
 
 
 def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):

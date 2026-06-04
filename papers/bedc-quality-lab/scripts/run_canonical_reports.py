@@ -58,9 +58,9 @@ FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
 GAP_HEAD_TRANSFER_ATLAS_JSON_ARTIFACT = "reports/canonical/gap_head_transfer_atlas.json"
 GAP_HEAD_TRANSFER_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_transfer_atlas.md"
 GAP_HEAD_TRANSFER_ATLAS_ARTIFACT_ID = "bedc-quality-lab:gap-head-transfer-atlas"
-GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT = "reports/gap_head_mechanism_attribution.json"
-GAP_HEAD_MECHANISM_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/gap_head_mechanism_attribution.md"
-GAP_HEAD_MECHANISM_ATTRIBUTION_ARTIFACT_ID = "bedc-quality-lab:gap-head-mechanism-attribution"
+GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT = "reports/gap_head_mechanism_namecert.json"
+GAP_HEAD_MECHANISM_NAMECERT_MARKDOWN_ARTIFACT = "reports/gap_head_mechanism_namecert.md"
+GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID = "bedc-quality-lab:gap-head-mechanism-namecert"
 GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
 GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.md"
 GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_capsule"
@@ -1303,16 +1303,18 @@ def _gap_head_transfer_atlas_index_section() -> dict[str, Any]:
     }
 
 
-def _gap_head_mechanism_attribution_index_section() -> dict[str, Any]:
-    payload = _load_sidecar_payload(GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT)
+def _gap_head_mechanism_namecert_index_section() -> dict[str, Any]:
+    payload = _load_sidecar_payload(GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT)
     return {
         "status": "pointer-only",
-        "artifact_id": GAP_HEAD_MECHANISM_ATTRIBUTION_ARTIFACT_ID,
-        "json_artifact": GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT,
-        "markdown_artifact": GAP_HEAD_MECHANISM_ATTRIBUTION_MARKDOWN_ARTIFACT,
-        "mechanism_status": payload.get("mechanism_status", "missing"),
-        "arm_count": _pointer_value(payload, "$.config.arm_count") or "missing",
-        "hg_status": _pointer_value(payload, "$.HG_A1.status") or "missing",
+        "artifact_id": payload.get("artifact_id", GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID),
+        "json_artifact": GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT,
+        "markdown_artifact": GAP_HEAD_MECHANISM_NAMECERT_MARKDOWN_ARTIFACT,
+        "ledger_policy_pointer": "$.ledger_policy.mechanism_closure_debt",
+        "closure_status_pointer": "$.closure_status.mechanism_spec",
+        "candidate_mechanism": _pointer_value(payload, "$.mechanism_spec.candidate_mechanism") or "missing",
+        "mechanism_closure_debt": _pointer_value(payload, "$.ledger_policy.mechanism_closure_debt") or "missing",
+        "mechanism_spec_closure": _pointer_value(payload, "$.closure_status.mechanism_spec") or "missing",
         "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
     }
 
@@ -1434,7 +1436,7 @@ def _index(
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
         "gap_head_transfer_atlas": _gap_head_transfer_atlas_index_section(),
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
-        "gap_head_mechanism_attribution": _gap_head_mechanism_attribution_index_section(),
+        "gap_head_mechanism_namecert": _gap_head_mechanism_namecert_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
@@ -1591,14 +1593,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- D5-M: `{payload['gap_head_attribution_capsule']['d5_m_status']}`",
             f"- Mechanism case: `{payload['gap_head_attribution_capsule']['mechanism_case']}`",
             "",
-            "## Gap-head mechanism attribution",
+            "## Gap-head mechanism NameCert candidate",
             "",
-            f"- Status: `{payload['gap_head_mechanism_attribution']['status']}`",
-            f"- JSON: `{payload['gap_head_mechanism_attribution']['json_artifact']}`",
-            f"- Markdown: `{payload['gap_head_mechanism_attribution']['markdown_artifact']}`",
-            f"- Mechanism status: `{payload['gap_head_mechanism_attribution']['mechanism_status']}`",
-            f"- Arms: `{payload['gap_head_mechanism_attribution']['arm_count']}`",
-            f"- Canonical role: `{payload['gap_head_mechanism_attribution']['canonical_role']}`",
+            f"- Status: `{payload['gap_head_mechanism_namecert']['status']}`",
+            f"- JSON: `{payload['gap_head_mechanism_namecert']['json_artifact']}`",
+            f"- Markdown: `{payload['gap_head_mechanism_namecert']['markdown_artifact']}`",
+            f"- Ledger policy pointer: `{payload['gap_head_mechanism_namecert']['ledger_policy_pointer']}`",
+            f"- Closure status pointer: `{payload['gap_head_mechanism_namecert']['closure_status_pointer']}`",
+            f"- Candidate mechanism: `{payload['gap_head_mechanism_namecert']['candidate_mechanism']}`",
+            f"- Canonical role: `{payload['gap_head_mechanism_namecert']['canonical_role']}`",
             "",
             "## Release manifest sidecar",
             "",
@@ -1710,21 +1713,21 @@ def run_reports(
     from bedc_quality_lab.backends.current_lab.adapter import CurrentLabBackendEvidenceAdapter
     from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
     from scripts.run_claim_verdict_demo import write_claim_verdicts
+    from scripts.run_gap_head_mechanism_namecert import write_gap_head_mechanism_namecert
 
     _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
+    write_gap_head_mechanism_namecert(root=ROOT, generated_at=timestamp)
     compile_discovery(root=ROOT, generated_at=timestamp, adapter=CurrentLabBackendEvidenceAdapter())
     _write_json_atomic(_artifact_path(CLAIM_CAPSULE_JSON_ARTIFACT), _build_claim_capsule(timestamp))
     from scripts.run_dimension_mismatch_transfer_robustness import write_dimension_mismatch_transfer_robustness
     from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
 
     write_dimension_mismatch_transfer_robustness(root=ROOT, generated_at=timestamp)
+    write_gap_head_mechanism_namecert(root=ROOT, generated_at=timestamp)
     compile_discovery(root=ROOT, generated_at=timestamp, adapter=CurrentLabBackendEvidenceAdapter())
     claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
-    from scripts.run_gap_head_mechanism_attribution import write_gap_head_mechanism_attribution
-
-    write_gap_head_mechanism_attribution(root=ROOT, generated_at=timestamp)
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))

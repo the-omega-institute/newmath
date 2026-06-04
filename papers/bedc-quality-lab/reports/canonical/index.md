@@ -133,13 +133,14 @@
 - D5-M: `blocked`
 - Mechanism case: `Case 2`
 
-## Gap-head mechanism attribution
+## Gap-head mechanism NameCert candidate
 
 - Status: `pointer-only`
-- JSON: `reports/gap_head_mechanism_attribution.json`
-- Markdown: `reports/gap_head_mechanism_attribution.md`
-- Mechanism status: `D5-O retained, mechanism = probe-margin-channel`
-- Arms: `22`
+- JSON: `reports/gap_head_mechanism_namecert.json`
+- Markdown: `reports/gap_head_mechanism_namecert.md`
+- Ledger policy pointer: `$.ledger_policy.mechanism_closure_debt`
+- Closure status pointer: `$.closure_status.mechanism_spec`
+- Candidate mechanism: `probe-margin-channel`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 
 ## Release manifest sidecar

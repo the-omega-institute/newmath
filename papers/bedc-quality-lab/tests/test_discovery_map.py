@@ -89,6 +89,19 @@ def _minimal_payload(spec):
 def _write_all_payloads(root: Path):
     for spec in canonical.CANONICAL_REPORTS:
         _write_payload(root, spec, _minimal_payload(spec))
+    _write_json_artifact(
+        root,
+        discovery_map.MECHANISM_NAMECERT_ARTIFACT,
+        {
+            "ledger_policy": {"mechanism_closure_debt": "open"},
+            "closure_status": {"mechanism_spec": "partial"},
+            "mechanism_spec": {
+                "candidate_mechanism": "probe-margin-channel",
+                "full_vs_score_plus_margin": "not separated",
+                "a1_failed_gate": "A1-HG3",
+            },
+        },
+    )
 
 
 def _write_json_artifact(root: Path, artifact: str, payload):
@@ -239,6 +252,19 @@ def _write_gap_head_d5_context(root: Path, *, transfer_metric=False, witness_cou
         discovery_map.OBSERVED_DEBT_ARTIFACT,
         _observed_debt_transfer_context_payload(transfer_metric=transfer_metric),
     )
+    _write_json_artifact(
+        root,
+        discovery_map.MECHANISM_NAMECERT_ARTIFACT,
+        {
+            "ledger_policy": {"mechanism_closure_debt": "open"},
+            "closure_status": {"mechanism_spec": "partial"},
+            "mechanism_spec": {
+                "candidate_mechanism": "probe-margin-channel",
+                "full_vs_score_plus_margin": "not separated",
+                "a1_failed_gate": "A1-HG3",
+            },
+        },
+    )
 
 
 def _rewrite_gap_head_d5_artifact(root: Path, artifact: str, mutate):
@@ -324,6 +350,9 @@ def test_attribution_capsule_projection_records_operational_and_mechanism_axes(t
     assert row["operational_pointer"] == "$.d5_o"
     assert row["mechanism_pointer"] == "$.d5_m"
     assert row["mechanism_case_pointer"] == "$.mechanism_case"
+    assert row["mechanism_namecert_pointer"] == "reports/gap_head_mechanism_namecert.json"
+    assert row["mechanism_ledger_pointer"] == "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt"
+    assert row["mechanism_closure_pointer"] == "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec"
     assert row["audit_status"] == "valid"
 
 
