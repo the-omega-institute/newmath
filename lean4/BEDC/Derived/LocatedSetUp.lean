@@ -135,4 +135,57 @@ theorem LocatedSetDistanceLedger_totality [AskSetup] [PackageSetup]
     ⟨windowUnary, sealUnary, handoffUnary, locatedRoute, windowRoute, sealRoute,
       handoffRoute, provenancePkg, handoffPkg⟩
 
+theorem LocatedSetRealDistanceSealExactness [AskSetup] [PackageSetup]
+    {X A Q R E T H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedSetCarrier X A Q R E T H C P N bundle pkg ->
+      SemanticNameCert
+          (fun row : BHist => hsame row E ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row A ∨ hsame row Q ∨ hsame row R ∨
+              hsame row E ∨ hsame row T)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg ∧ Cont E T C)
+          hsame ∧
+        UnaryHistory E ∧ Cont X A Q ∧ Cont Q R E ∧ Cont E T C ∧
+          PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont hsame SemanticNameCert
+  intro carrier
+  obtain ⟨_xUnary, _aUnary, _qUnary, _rUnary, eUnary, _tUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, metricRoute, distanceRoute, sealRoute, provenancePkg⟩ :=
+      carrier
+  have sourceAtE : hsame E E ∧ UnaryHistory E :=
+    ⟨hsame_refl E, eUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row E ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row A ∨ hsame row Q ∨ hsame row R ∨
+              hsame row E ∨ hsame row T)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg ∧ Cont E T C)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro E sourceAtE
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, sealRoute⟩
+  }
+  exact ⟨cert, eUnary, metricRoute, distanceRoute, sealRoute, provenancePkg⟩
+
 end BEDC.Derived.LocatedSetUp
