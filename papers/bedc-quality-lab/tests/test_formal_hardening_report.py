@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from bedc_quality_lab import claim_terms
 from scripts import run_formal_hardening_report as formal_hardening
 
@@ -38,8 +40,8 @@ def test_formal_hardening_report_has_pointer_only_ledger_schema():
 
     assert payload["artifact_id"] == "bedc-quality-lab:formal-hardening"
     assert payload["producer"] == "scripts/run_formal_hardening_report.py"
-    assert payload["status"] == "not-ready"
-    assert payload["ready"] is False
+    assert payload["status"] == "ready"
+    assert payload["ready"] is True
     assert "schema_id" not in payload
     assert "report_schema_id" not in payload
     assert "report_kind" not in payload
@@ -48,20 +50,47 @@ def test_formal_hardening_report_has_pointer_only_ledger_schema():
     assert {row["status"] for row in payload["verification_ledger"]} <= {"verified", "missing"}
 
 
-def test_delete_1_finite_ledger_coverage_is_currently_missing():
+def test_finite_ledger_coverage_has_resolved_lean_evidence_chain():
     payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
     row = _row_by_id(payload)["finite-ledger-coverage"]
 
-    assert row["status"] == "missing"
-    assert row["recorded"] is False
-    assert row["evidence_resolved"] is False
+    assert row["status"] == "verified"
+    assert row["recorded"] is True
+    assert row["evidence_resolved"] is True
     assert row["required"] is True
-    assert row["evidence_pointer"] is None
-    assert row["gap"] == "delete-1 has no recorded finite ledger coverage evidence"
-    assert payload["recorded"] == 3
+    assert row["evidence_pointer"] == "lean://FiniteLedgerCoverage.coverage_of_recorded_witnesses"
+    assert row["formal_pointer"] == "lean://FiniteLedgerCoverage.coverage_of_recorded_witnesses"
+    assert row["gap"] is None
+    assert "lab-local pointer-only finite coverage evidence" in row["trust_boundary"]
+    assert "not a BEDC closure certificate" in row["trust_boundary"]
+    assert "not a global model quality certificate" in row["trust_boundary"]
+    assert payload["recorded"] == 4
     assert payload["required"] == 4
-    assert payload["gap_count"] == 1
-    assert payload["coverage"]["gap_rows"] == ["finite-ledger-coverage"]
+    assert payload["gap_count"] == 0
+    assert payload["coverage"] == {
+        "ready": True,
+        "recorded": 4,
+        "required": 4,
+        "gap_count": 0,
+        "gap_rows": [],
+    }
+
+
+def test_missing_row_negative_example_remains_independently_reportable():
+    payload = formal_hardening.build_formal_hardening_report(generated_at="fixture-time")
+    row = _row_by_id(payload)["missing-row-negative-example"]
+    lean_result = formal_hardening._resolve_evidence_pointer(
+        "lean://FiniteLedgerCoverage.missingRow_not_covered",
+        root=formal_hardening.ROOT,
+    )
+
+    assert row["status"] == "verified"
+    assert row["recorded"] is True
+    assert row["evidence_resolved"] is True
+    assert row["item_id"] != "finite-ledger-coverage"
+    assert lean_result.resolved is True
+    assert lean_result.kind == "lean-symbol"
+    assert lean_result.reason is None
 
 
 def test_formal_hardening_report_fails_closed_for_bogus_pointer(monkeypatch):
@@ -153,6 +182,67 @@ def test_formal_hardening_report_fails_closed_for_missing_artifact(monkeypatch):
     assert row["recorded"] is False
     assert row["evidence_resolved"] is False
     assert payload["ready"] is False
+
+
+def test_lean_evidence_pointer_resolves_for_tracked_theorem():
+    result = formal_hardening._resolve_evidence_pointer(
+        "lean://FiniteLedgerCoverage.coverage_of_recorded_witnesses",
+        root=formal_hardening.ROOT,
+    )
+
+    assert result.resolved is True
+    assert result.kind == "lean-symbol"
+    assert result.reason is None
+
+
+def test_lean_evidence_pointer_fails_closed_for_missing_symbol():
+    result = formal_hardening._resolve_evidence_pointer(
+        "lean://FiniteLedgerCoverage.missing_theorem",
+        root=formal_hardening.ROOT,
+    )
+
+    assert result.resolved is False
+    assert result.kind == "lean-symbol"
+    assert result.reason == "missing Lean symbol"
+
+
+def test_lean_evidence_pointer_fails_closed_for_missing_file(tmp_path):
+    result = formal_hardening._resolve_evidence_pointer(
+        "lean://FiniteLedgerCoverage.coverage_of_recorded_witnesses",
+        root=tmp_path,
+    )
+
+    assert result.resolved is False
+    assert result.kind == "lean-symbol"
+    assert result.reason == "missing Lean file"
+
+
+def test_lean_evidence_pointer_fails_closed_for_unknown_module():
+    result = formal_hardening._resolve_evidence_pointer(
+        "lean://UnknownModule.coverage_of_recorded_witnesses",
+        root=formal_hardening.ROOT,
+    )
+
+    assert result.resolved is False
+    assert result.kind == "lean-symbol"
+    assert result.reason == "unknown Lean module"
+
+
+@pytest.mark.parametrize(
+    "pointer",
+    [
+        "lean:///tmp/FiniteLedgerCoverage.coverage_of_recorded_witnesses",
+        "lean://../FiniteLedgerCoverage.coverage_of_recorded_witnesses",
+        "lean://FiniteLedgerCoverage../coverage_of_recorded_witnesses",
+        "/tmp/FiniteLedgerCoverage.lean:$.coverage",
+        "file://formal/lean/FiniteLedgerCoverage.lean",
+    ],
+)
+def test_evidence_pointer_fails_closed_for_path_like_or_traversal_shapes(pointer):
+    result = formal_hardening._resolve_evidence_pointer(pointer, root=formal_hardening.ROOT)
+
+    assert result.resolved is False
+    assert result.kind in {"canonical-json", "invalid"}
 
 
 def test_formal_hardening_report_has_no_forbidden_claim_or_hidden_weight_terms():
