@@ -281,7 +281,13 @@ def _payload_for_spec(spec):
             "control_protocol": {"matched_random_helper": "fixture-control-helper"},
         }
         payload["d5_o"] = {"status": "ready"}
-        payload["d5_m"] = {"status": "blocked", "passed": False}
+        payload["d5_m"] = {"status": "blocked", "passed": False, "failed_gate": "A4-HG5"}
+        payload["residualized_attribution"] = {"status": "pass"}
+        payload["score_margin_causal_evidence"] = {"channel_classification": "score_margin_sufficient"}
+        payload["a4_hardgates"] = {
+            "status": "fail",
+            "gates": {"A4-HG5": {"status": "fail"}},
+        }
     return payload
 
 
@@ -561,6 +567,9 @@ def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
         "d5_m",
         "mechanism_case",
         "hardgates",
+        "residualized_attribution",
+        "score_margin_causal_evidence",
+        "a4_hardgates",
         "claim_capsule_hardgates",
         "forbidden_column_audit",
         "source_artifacts",
@@ -570,6 +579,7 @@ def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
     assert spec.scope_pointer == "$.scope.not_claimed"
     assert spec.cost_pointer == "$.cost_protocol_pointer"
     assert spec.control_pointer == "$.control_pointer"
+    assert "residualized-attribution" not in {item.name for item in canonical.CANONICAL_REPORTS}
 
 
 def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, monkeypatch):
@@ -1941,8 +1951,8 @@ def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     assert row["mechanism_level"] == "blocked"
     assert capsule["d5_m"]["failed_gate"] == sidecar["mechanism_spec"]["a1_failed_gate"] == row["mechanism_failed_gate"]
     assert capsule["mechanism_case"]["status"] == sidecar["mechanism_spec"]["a1_mechanism_status"]
-    assert sidecar["mechanism_spec"]["candidate_mechanism"] == "probe-margin-channel"
-    assert row["mechanism_channel"] == "probe-margin-channel"
+    assert sidecar["mechanism_spec"]["candidate_mechanism"] == capsule["mechanism_case"]["candidate_mechanism"]
+    assert row["mechanism_channel"] == sidecar["mechanism_spec"]["candidate_mechanism"]
     assert row["mechanism_ledger_pointer"] == "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt"
     assert row["mechanism_closure_pointer"] == "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec"
 

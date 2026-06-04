@@ -69,10 +69,16 @@ def from_gap_head_sources(
     d5_m = _mapping(a1_capsule.get("d5_m"))
     hardgates = _mapping(a1_capsule.get("hardgates"))
     gates = _mapping(hardgates.get("gates"))
+    a4_hardgates = _mapping(a1_capsule.get("a4_hardgates"))
+    a4_gates = _mapping(a4_hardgates.get("gates"))
+    a4_hg5 = _mapping(a4_gates.get("A4-HG5"))
+    residualized_attribution = _mapping(a1_capsule.get("residualized_attribution"))
+    score_margin_causal_evidence = _mapping(a1_capsule.get("score_margin_causal_evidence"))
 
     candidate_mechanism = _candidate_mechanism(mechanism_case)
     full_vs_score_plus_margin = _full_vs_score_plus_margin(gates, mechanism_case)
     canonical_source_status = "present" if a1_capsule else "missing"
+    a4_pointer_present = bool(residualized_attribution and score_margin_causal_evidence and a4_hg5)
 
     target_classifier = {
         "name": "gap-head-on-h",
@@ -99,10 +105,15 @@ def from_gap_head_sources(
         "full_vs_score_plus_margin": full_vs_score_plus_margin,
         "a1_mechanism_case": mechanism_case.get("case", "missing"),
         "a1_mechanism_status": mechanism_case.get("status", "missing"),
-        "a1_failed_gate": mechanism_case.get("failed_gate") or d5_m.get("failed_gate"),
+        "a1_failed_gate": hardgates.get("failed_gate") or d5_m.get("failed_gate"),
         "a1_d5_m_status": d5_m.get("status", "missing"),
         "a1_d5_m_passed": bool(d5_m.get("passed") is True),
         "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_case",
+        "a4_gate_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
+        "residualized_attribution_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+        "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
+        "a4_d5_m_passed": bool(a4_hg5.get("status") == "pass"),
+        "a4_pointer_present": a4_pointer_present,
     }
     intervention_spec = _intervention_spec(operational_payload)
     ablation_spec = _ablation_spec(ablation_payload, robustness_payload)
@@ -231,6 +242,9 @@ def _mapping(value: Any) -> Mapping[str, Any]:
 
 
 def _candidate_mechanism(mechanism_case: Mapping[str, Any]) -> str:
+    explicit = mechanism_case.get("candidate_mechanism")
+    if explicit in {"probe-margin-channel", "mixed-score-margin-channel", "closed-attribution", "unresolved"}:
+        return str(explicit)
     status = mechanism_case.get("status")
     if isinstance(status, str) and "mechanism = probe-margin-channel" in status:
         return "probe-margin-channel"
@@ -311,8 +325,9 @@ def _closure_status(
 ) -> dict[str, str]:
     mechanism_closed = (
         mechanism_spec.get("candidate_mechanism") != "probe-margin-channel"
-        and mechanism_spec.get("full_vs_score_plus_margin") == "separated"
         and mechanism_spec.get("a1_d5_m_passed") is True
+        and mechanism_spec.get("a4_d5_m_passed") is True
+        and mechanism_spec.get("a4_pointer_present") is True
     )
     return {
         "target_classifier": "closed",
@@ -326,13 +341,22 @@ def _closure_status(
 
 def _ledger_policy(mechanism_spec: Mapping[str, Any], closure_status: Mapping[str, str]) -> dict[str, Any]:
     mechanism_closed = closure_status.get("mechanism_spec") == "closed"
-    full_separated = mechanism_spec.get("full_vs_score_plus_margin") == "separated"
-    debt = "closed" if mechanism_closed and full_separated else "open"
+    debt = "closed" if mechanism_closed else "open"
     blockers: list[str] = []
     if mechanism_spec.get("candidate_mechanism") == "probe-margin-channel":
         blockers.append("probe-margin-channel")
     if mechanism_spec.get("full_vs_score_plus_margin") == "not separated":
         blockers.append("full_vs_score_plus_margin")
+    if mechanism_spec.get("a4_d5_m_passed") is not True:
+        blockers.extend(["A4-HG1", "A4-HG2", "A4-HG3", "A4-HG4", "A4-HG5"])
+    if not mechanism_spec.get("residualized_attribution_pointer"):
+        blockers.append("residualized_attribution")
+    if not mechanism_spec.get("score_margin_causal_evidence_pointer"):
+        blockers.append("score_margin_causal_evidence")
+    if mechanism_spec.get("a4_pointer_present") is not True:
+        for blocker in ("residualized_attribution", "score_margin_causal_evidence"):
+            if blocker not in blockers:
+                blockers.append(blocker)
     if not mechanism_closed and not blockers:
         blockers.append("mechanism_spec")
     return {

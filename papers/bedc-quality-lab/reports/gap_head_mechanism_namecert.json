@@ -13,7 +13,7 @@
     "required_pointers": {
       "$.closure_status.mechanism_spec": "partial",
       "$.ledger_policy.mechanism_closure_debt": "open",
-      "$.mechanism_spec.candidate_mechanism": "probe-margin-channel",
+      "$.mechanism_spec.candidate_mechanism": "unresolved",
       "$.mechanism_spec.full_vs_score_plus_margin": "not separated"
     },
     "scope_seal": "closed",
@@ -39,8 +39,12 @@
   "json_artifact": "reports/gap_head_mechanism_namecert.json",
   "ledger_policy": {
     "blocking_cells": [
-      "probe-margin-channel",
-      "full_vs_score_plus_margin"
+      "full_vs_score_plus_margin",
+      "A4-HG1",
+      "A4-HG2",
+      "A4-HG3",
+      "A4-HG4",
+      "A4-HG5"
     ],
     "closure_pointer": "$.closure_status.mechanism_spec",
     "d5_m_ready_policy": "requires closed ledger_policy.mechanism_closure_debt and closed closure_status.mechanism_spec",
@@ -52,10 +56,15 @@
     "a1_d5_m_passed": false,
     "a1_d5_m_status": "blocked",
     "a1_failed_gate": "A1-HG3",
-    "a1_mechanism_case": "Case 2",
-    "a1_mechanism_status": "D5-O retained, mechanism = probe-margin-channel",
-    "candidate_mechanism": "probe-margin-channel",
+    "a1_mechanism_case": "Case C",
+    "a1_mechanism_status": "D5-O retained, mechanism unresolved",
+    "a4_d5_m_passed": false,
+    "a4_gate_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
+    "a4_pointer_present": true,
+    "candidate_mechanism": "unresolved",
     "full_vs_score_plus_margin": "not separated",
+    "residualized_attribution_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+    "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
     "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_case"
   },
   "name": "MechanismNameCertCandidate:gap-head-on-h",
@@ -71,7 +80,7 @@
     "canonical_source": {
       "artifact_id": "gap_head_attribution_capsule",
       "json_artifact": "reports/canonical/gap_head_attribution_capsule.json",
-      "run_id": "a1-20260604T151639Z",
+      "run_id": "a1-20260604T212205Z",
       "status": "present"
     },
     "optional_sources": {
