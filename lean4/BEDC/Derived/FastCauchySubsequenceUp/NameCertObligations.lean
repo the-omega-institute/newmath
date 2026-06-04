@@ -251,4 +251,41 @@ theorem FastCauchySubsequence_tail_normal_form [AskSetup] [PackageSetup]
       modulusRoute, selectorRoute, fastRoute, regularRoute, tailRoute,
       provenancePkg, localNamePkg, tailPkg⟩
 
+theorem FastCauchySubsequenceTailChoiceRefusal [AskSetup] [PackageSetup]
+    {S M Q F R W E H C P N selectedRead fastRead regularRead readbackRead
+      refusalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FastCauchySubsequenceCarrier S M Q F R W E H C P N bundle pkg →
+      Cont Q F selectedRead →
+        Cont selectedRead R fastRead →
+          Cont fastRead W regularRead →
+            Cont regularRead E readbackRead →
+              Cont H readbackRead refusalRead →
+                PkgSig bundle refusalRead pkg →
+                  UnaryHistory selectedRead ∧ UnaryHistory fastRead ∧
+                    UnaryHistory regularRead ∧ UnaryHistory readbackRead ∧
+                      UnaryHistory refusalRead ∧ Cont Q F selectedRead ∧
+                        Cont selectedRead R fastRead ∧ Cont fastRead W regularRead ∧
+                          Cont regularRead E readbackRead ∧
+                            Cont H readbackRead refusalRead ∧ PkgSig bundle P pkg ∧
+                              PkgSig bundle refusalRead pkg := by
+  -- BEDC touchpoint anchor: FastCauchySubsequenceCarrier BHist ProbeBundle Pkg Cont
+  intro carrier selectedRoute fastRoute regularRoute readbackRoute refusalRoute refusalPkg
+  obtain ⟨_unaryS, _unaryM, unaryQ, unaryF, unaryR, unaryW, unaryE, unaryH,
+    _unaryC, unaryP, _unaryN, provenancePkg, _localNamePkg⟩ := carrier
+  have selectedUnary : UnaryHistory selectedRead :=
+    unary_cont_closed unaryQ unaryF selectedRoute
+  have fastUnary : UnaryHistory fastRead :=
+    unary_cont_closed selectedUnary unaryR fastRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed fastUnary unaryW regularRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed regularUnary unaryE readbackRoute
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed unaryH readbackUnary refusalRoute
+  exact
+    ⟨selectedUnary, fastUnary, regularUnary, readbackUnary, refusalUnary,
+      selectedRoute, fastRoute, regularRoute, readbackRoute, refusalRoute,
+      provenancePkg, refusalPkg⟩
+
 end BEDC.Derived.FastCauchySubsequenceUp
