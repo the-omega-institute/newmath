@@ -1,4 +1,5 @@
 import BEDC.FKernel.Cont
+import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 
@@ -58,6 +59,34 @@ theorem RealReciprocalCarrier_namecert_obligation_surface
         intro _row sourceRow
         exact sourceRow
     }
+
+theorem RealReciprocalCarrier_apartness_domain_stability
+    {R A D M H C P N R' A' D' M' H' C' P' N' : BHist} :
+    RealReciprocalCarrier R A D M H C P N ->
+      hsame R R' ->
+        hsame A A' ->
+          hsame D D' ->
+            hsame M M' ->
+              hsame H H' ->
+                hsame C C' ->
+                  hsame P P' ->
+                    hsame N N' ->
+                      RealReciprocalCarrier R' A' D' M' H' C' P' N' ∧
+                        Cont R' A' D' ∧ Cont D' M' H' := by
+  -- BEDC touchpoint anchor: RealReciprocalCarrier BHist Cont hsame NameCert
+  intro carrier sameR sameA sameD sameM sameH sameC sameP sameN
+  obtain ⟨sourceRoute, handoffRoute, transportRow, nameRow⟩ := carrier
+  have sourceRoute' : Cont R' A' D' :=
+    cont_hsame_transport sameR sameA sameD sourceRoute
+  have handoffRoute' : Cont D' M' H' :=
+    cont_hsame_transport sameD sameM sameH handoffRoute
+  have transportRow' : hsame C' P' :=
+    hsame_trans (hsame_symm sameC) (hsame_trans transportRow sameP)
+  have nameRow' : hsame P' N' :=
+    hsame_trans (hsame_symm sameP) (hsame_trans nameRow sameN)
+  exact
+    ⟨⟨sourceRoute', handoffRoute', transportRow', nameRow'⟩, sourceRoute',
+      handoffRoute'⟩
 
 end RealReciprocalUp
 end BEDC.Derived
