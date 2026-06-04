@@ -2399,7 +2399,10 @@ def _bios_codex_resolve_merge(
     def _take_theirs_eligible(rel: str) -> bool:
         if take_theirs_bedc and rel.startswith("papers/bedc/"):
             return True
-        if take_theirs_bioreality_namecert and rel.startswith("papers/bio_reality/parts/namecerts/"):
+        # 整个 papers/bio_reality/parts/ 都是 churn 改写的等价论文内容 (namecert + spine
+        # codon_window_reality_boundary.tex 等), 冲突取 theirs 安全. registries (claims.json/
+        # experiments.json) 不在 parts/ 下, 不受影响——我们的 claim 不会被覆盖.
+        if take_theirs_bioreality_namecert and rel.startswith("papers/bio_reality/parts/"):
             return True
         return False
 
@@ -2576,7 +2579,11 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
     if behind_before_sync > 0:
         merge_attempted = True
         try:
-            merge = _run_command(repo_root, ["git", "merge", "--no-ff", "-m", f"Sync auto-dev {upstream_sha[:12]}", compare_ref], timeout=300.0)
+            # --autostash: daemon 在 bio-S 时工作树常带 runtime drift / in-flight 写入 (bio-K 在
+            # cycle 末才 commit). 不 autostash 的话 git merge 会因 "local changes would be
+            # overwritten" 被拒 → 无 conflict marker → codex_resolve 找不到冲突文件 → 误判
+            # conflict_aborted, behind 无界增长. autostash 先 stash 脏树、merge 后自动 pop.
+            merge = _run_command(repo_root, ["git", "merge", "--no-ff", "--autostash", "-m", f"Sync auto-dev {upstream_sha[:12]}", compare_ref], timeout=300.0)
         except (OSError, subprocess.TimeoutExpired) as exc:
             merge_status = "conflict_aborted"
             _append_sync_log(store, "merge_error", {"ref": compare_ref, "error": str(exc)})
