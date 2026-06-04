@@ -3668,6 +3668,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.RootCellCarrier
 import BEDC.Derived.DyadicIntervalCoverUp.RootCompactHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RootFiniteCoverBoundary
 import BEDC.Derived.DyadicIntervalCoverUp.RootNonescape
+import BEDC.Derived.DyadicIntervalCoverUp.RootRefinementCoverage
 import BEDC.Derived.DyadicIntervalCoverUp.RootRegularReadback
 import BEDC.Derived.DyadicIntervalCoverUp.RootWindowCoverage
 import BEDC.Derived.DyadicIntervalCoverUp.RootWindowObligations
@@ -4097,7 +4098,6 @@ import BEDC.Derived.FieldUp.TwoSidedEmptySolution
 import BEDC.Derived.FilterBaseUp
 import BEDC.Derived.FilterBaseUp.TasteGate
 import BEDC.Derived.FilterConvergenceUp.TasteGate
-import BEDC.Derived.FilterLimitCriterionUp
 import BEDC.Derived.FilterRefinementUp.CauchyBaseDependency
 import BEDC.Derived.FilterRefinementUp.CauchyPreservation
 import BEDC.Derived.FilterRefinementUp.CompletionRoute
@@ -5490,6 +5490,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DependencyRouteNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DiamondResidualBudget
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeRowVisibility
+import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCaseSplit
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketInduction
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketLocality
@@ -7346,7 +7347,6 @@ import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RealSealNonescape
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RepresentativeIndependence
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
-import BEDC.Derived.RegularCauchyInterleavingStabilityUp
 import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularCauchyInterleavingUp.BridgeReadbackScope
 import BEDC.Derived.RegularCauchyInterleavingUp.CompletionSelectorNonescape
