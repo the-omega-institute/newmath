@@ -3686,6 +3686,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.EndpointComparisonTotality
 import BEDC.Derived.DyadicIntervalCoverUp.FiniteSubcoverLedger
 import BEDC.Derived.DyadicIntervalCoverUp.L10WindowObligations
 import BEDC.Derived.DyadicIntervalCoverUp.LedgerExactness
+import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementInduction
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligation
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementScope
 import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
@@ -3971,6 +3972,7 @@ import BEDC.Derived.FastCauchySequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySequenceUp.TasteGate
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalReadbackNonescape
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalRegSeqRatCoverage
+import BEDC.Derived.FastCauchySubsequenceUp.CofinalSelectorStrictGrowth
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalTailStability
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalWindowObligation
 import BEDC.Derived.FastCauchySubsequenceUp.EffectiveCauchyConsumer
