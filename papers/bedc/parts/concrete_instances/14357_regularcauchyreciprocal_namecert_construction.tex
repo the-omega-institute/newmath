@@ -58,6 +58,40 @@ Next open the finite window row $W$ by using the modulus row $M$. The dyadic led
 Finally project $T$ and then $E$ from the carrier. The readback row names the reciprocal candidate as regular rational data, while the seal row is terminal and adds no second route around the displayed finite chain.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy reciprocal classifier stability]
+\label{thm:regular-cauchy-reciprocal-classifier-stability}
+Let
+$$
+R=(Q,A,M,W,D,B,T,E,H,C,P,N)
+\quad\hbox{and}\quad
+R'=(Q',A',M',W',D',B',T',E',H',C',P',N')
+$$
+be accepted $\RegularCauchyReciprocalUp$ carriers. If the displayed transport row $H$ supplies componentwise $\hsame$ comparisons from each row of $R$ to the corresponding row of $R'$, then the local classifier preserves the $\RegSeqRatUp$ source, apartness row, modulus row, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\CauchyInverseBudgetUp$ budget row, reciprocal readback row, and terminal $\RealUp$ seal route.
+\end{theorem}
+\begin{proof}
+Project the transport coordinate $H$ from the carrier. Its comparisons are componentwise, so the source rows $Q,Q'$, apartness rows $A,A'$, modulus rows $M,M'$, finite windows $W,W'$, dyadic ledgers $D,D'$, budget rows $B,B'$, readback rows $T,T'$, and seal rows $E,E'$ are matched before any classifier conclusion is read.
+
+Apply the apartness-window theorem to both carriers. Since the transported apartness rows remain the first reciprocal-facing rows, the reciprocal denominator witness is preserved by the classifier.
+
+Apply the readback-route theorem to both carriers. The transported route from $Q$ through $B$ to $T$ matches the transported route from $Q'$ through $B'$ to $T'$, and the terminal seal rows are reached only after those finite routes.
+
+Thus classifier equality cannot forget, reorder, or replace any analytic row of the reciprocal packet. It transports exactly the displayed source, apartness, modulus, window, dyadic, budget, readback, and Real seal coordinates.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy reciprocal terminal seal non-totality]
+\label{thm:regular-cauchy-reciprocal-terminal-seal-non-totality}
+The terminal $\RealUp$ seal row $E$ of an accepted $\RegularCauchyReciprocalUp$ carrier cannot be reread as a total reciprocal operation on all $\RealUp$ names. Any route from the seal back to a reciprocal candidate must still factor through the displayed $\RegSeqRatUp$ source row $Q$, apartness row $A$, modulus row $M$, finite $\StreamNameUp$ window $W$, dyadic ledger $D$, $\CauchyInverseBudgetUp$ budget row $B$, and regular readback row $T$.
+\end{theorem}
+\begin{proof}
+Inspect the carrier definition. The seal coordinate $E$ is listed after the source, apartness, modulus, window, dyadic, budget, and readback rows, and the classifier reads it as one coordinate of the twelve-row packet.
+
+The readback-route theorem states that $E$ is reached only after the finite route through $T$ has been displayed. Therefore the seal does not introduce a second route from arbitrary $\RealUp$ names to reciprocal data.
+
+The apartness-window theorem keeps $A$ mandatory for every reciprocal-facing row. Since a total reciprocal on all $\RealUp$ names would erase the need for such a displayed apartness row, it is not present in the packet.
+
+Consequently the terminal seal records only the end of one finite regular-Cauchy reciprocal read. It cannot be exported as a total reciprocal operation or as a boundary bypass around the apartness obligation.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy reciprocal NameCert obligations]
 \label{thm:regular-cauchy-reciprocal-namecert-obligations}
 The seed $\NameCert_{\RegularCauchyReciprocalUp}$ surface consists exactly of carrier exposure for $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$, apartness-window exposure through $A$, finite-window exposure through $W$, dyadic reciprocal arithmetic through $D$, sibling budget exposure through $B$, regular readback through $T$, terminal $\RealUp$ sealing through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
@@ -77,7 +111,7 @@ The structural rows $H,C,P,N$ transport, replay, source, and name the same finit
 \begin{closurestatus}{\RegularCauchyReciprocalUp}
   \constructivestory{A $\RegularCauchyReciprocalUp$ packet is generated from a $\RegSeqRatUp$ source, an apartness-window row, a finite modulus row, a $\StreamNameUp$ window, a $\DyadicRatCoreUp$ ledger, a $\CauchyInverseBudgetUp$ budget row, a reciprocal readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-reciprocal-carrier}, \autoref{thm:regular-cauchy-reciprocal-apartness-window}, \autoref{thm:regular-cauchy-reciprocal-readback-route}, and \autoref{thm:regular-cauchy-reciprocal-namecert-obligations} seed the reciprocal NameCert boundary for regular Cauchy names over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyInverseBudgetUp$, and $\RealUp$.}
+  \scopeclosed{\autoref{def:regular-cauchy-reciprocal-carrier}, \autoref{thm:regular-cauchy-reciprocal-apartness-window}, \autoref{thm:regular-cauchy-reciprocal-readback-route}, \autoref{thm:regular-cauchy-reciprocal-classifier-stability}, \autoref{thm:regular-cauchy-reciprocal-terminal-seal-non-totality}, and \autoref{thm:regular-cauchy-reciprocal-namecert-obligations} seed the reciprocal NameCert boundary for regular Cauchy names over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyInverseBudgetUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a total reciprocal, trichotomy, quotient stream equality, selected limits, ambient real completeness, or a Lean theorem.}
