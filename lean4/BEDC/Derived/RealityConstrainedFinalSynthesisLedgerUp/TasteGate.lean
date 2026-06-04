@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -262,3 +263,30 @@ theorem RealityConstrainedFinalSynthesisLedgerTasteGate_single_carrier_alignment
         · rfl
 
 end BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
+
+namespace BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp
+
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+
+theorem RealityConstrainedFinalSynthesisLedger_model_selection_handoff
+    (x : TasteGate.RealityConstrainedFinalSynthesisLedgerUp) :
+    ∃ T R M F B O S H C P N : BHist,
+      x =
+          TasteGate.RealityConstrainedFinalSynthesisLedgerUp.mk T R M F B O S H C P N ∧
+        TasteGate.realityConstrainedFinalSynthesisLedgerFields x =
+          [T, R, M, F, B, O, S, H, C, P, N] ∧
+          Cont B O (append B O) ∧
+            Cont B S (append B S) ∧
+              Cont T B (append T B) ∧
+                Cont F B (append F B) ∧
+                  hsame H H ∧
+                    hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk T R M F B O S H C P N =>
+      exact
+        ⟨T, R, M, F, B, O, S, H, C, P, N, rfl, rfl, cont_intro rfl,
+          cont_intro rfl, cont_intro rfl, cont_intro rfl, hsame_refl H, hsame_refl N⟩
+
+end BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp
