@@ -856,6 +856,14 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
         "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
         "expected_kind_count": 8,
+        "schema_role": "bedc-gap-witness-ledger",
+        "required_fields": [
+            "bedc_gap_field",
+            "violated_principle",
+            "required_ledger_row",
+            "demotion",
+            "regression_test",
+        ],
     }
     assert payload["claim_verdicts"]["status"] == "pointer-only"
     assert payload["claim_verdicts"]["artifact_id"] == "bedc-quality-lab:claim-verdicts"
