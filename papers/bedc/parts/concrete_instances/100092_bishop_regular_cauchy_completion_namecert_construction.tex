@@ -114,6 +114,24 @@ Use classifier transport from \autoref{thm:bishop-regular-cauchy-completion-clas
 Finally apply seal stability from \autoref{thm:bishop-regular-cauchy-completion-seal-stability}. The Real seals are downstream of the displayed regular Cauchy route, so the diagonal comparison cannot bypass the ordered read through quotient stream equality, selected limits, countable choice, host real equality, or ambient Real completeness.
 \end{proof}
 
+\begin{theorem}[Bishop regular Cauchy completion window induction]
+\label{thm:bishop-regular-cauchy-completion-window-induction}
+Every accepted completion-facing comparison over a $\BishopRegularCauchyCompletionUp$ carrier
+$$
+B=(E,S,R,D,W,H,C,P,N)
+$$
+is obtained by induction on the displayed finite window row $W$. The base case reads the first finite observation through $S,R,E$ under the dyadic tail budget exposed by $D$. The step extends the same dyadic budget through $D,W$ before any terminal $\RealUp$ seal is visible, and then replays the enlarged window through $S,R,E,H,C,P,N$. The induction exports no quotient stream equality, selected limit, countable-choice schedule, host real equality, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition \autoref{def:bishop-regular-cauchy-completion-carrier}. The only finite growth coordinate available to a completion-facing comparison is the common-tail window row $W$, and every read of that row is tied to the dyadic tail modulus $D$.
+
+The base case is the first displayed observation. By common-tail modulus stability, \autoref{thm:bishop-regular-cauchy-completion-common-tail-modulus-stability}, the comparison must expose the dyadic budget in $D$ before it can read the finite observation row $S$, the regular readback row $R$, or the endpoint seal row $E$.
+
+For the step, extend the same finite window rather than choosing a new stream representative. Diagonal-window stability, \autoref{thm:bishop-regular-cauchy-completion-diagonal-window-stability}, keeps the comparison inside the already fixed $D,W$ route as the next StreamName and RegSeqRat observations are displayed.
+
+Finally apply seal stability and nonescape exactness, \autoref{thm:bishop-regular-cauchy-completion-seal-stability} and \autoref{thm:bishop-regular-cauchy-completion-nonescape-exactness}. The terminal $\RealUp$ seal is downstream of the finite window recursion, while quotient stream equality, selected limits, countable choice, host equality, and ambient Real completeness have no carrier coordinate from which they could be read.
+\end{proof}
+
 \begin{theorem}[Bishop regular Cauchy completion tail equivalence is quotient-free]
 \label{thm:bishop-regular-cauchy-completion-tail-equivalence-quotient-free}
 Let $B=(E,S,R,D,W,H,C,P,N)$ and $B'=(E',S',R',D,W,H',C',P',N')$ be accepted $\BishopRegularCauchyCompletionUp$ packets sharing the same dyadic tail modulus $D$ and the same common-tail window $W$. Then their completion-facing comparison is carried only by the displayed rows
