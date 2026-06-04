@@ -89,6 +89,34 @@ Finally apply the candidate-mediated SN frontier of \autoref{thm:metacic-critica
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualDiamondSourceTotality}
 
+\begin{theorem}[MetaCIC residual diamond L10 source separation]
+\label{thm:metacic-critical-path-residual-diamond-l10-source-separation}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any residual diamond checker that feeds bounded conversion must preserve the $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ source faces as distinct displayed rows before it reads $U$. The checker may pass those faces through the candidate-mediated and residual-budget routes, but it may not merge them into a single Real-readback row or reconstruct one face after bounded conversion has consumed the handoff.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-critical-path-residual-substitution-diamond-budget}. It forces any diamond, confluence, or bounded decidability consumer to expose the residual-substitution frontier, candidate-mediated SN frontier, residual-budget socket route, and L10 source rows on the same packet route.
+
+Use the residual decidability cut of \autoref{thm:metacic-critical-path-residual-decidability-cut}. A bounded conversion readback can inspect $U$ only after the residual frontier, checker route, SN confluence-decidability budget, and residual-budget socket have been displayed together.
+
+Finally apply \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-residual-diamond-source-totality}. The candidate-mediated frontier keeps the L10 source faces visible with the candidate rows, and source totality requires those faces before bounded conversion reads $U$. Therefore the four source faces remain separated as displayed rows throughout the residual diamond route.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual diamond candidate-budget coverage]
+\label{thm:metacic-critical-path-residual-diamond-candidate-budget-coverage}
+For an accepted $\MetaCICCriticalPathUp$ packet $K=(S,N,O,U,D,H,C,P,L)$, the candidate-mediated strong-normalization rows, residual-budget socket rows, and L10 source rows jointly cover the bounded conversion consumer route. A bounded conversion consumer may read $U$ only after all three families are displayed on the same packet route; omitting any one family leaves no accepted residual diamond checker for the consumer.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-critical-path-residual-substitution-diamond-budget}. It names the combined route through the residual-substitution frontier, candidate-mediated strong-normalization frontier, SN confluence-decidability budget, residual-budget socket route, and L10 source rows.
+
+Attach \autoref{thm:metacic-critical-path-residual-decidability-cut}. The cut prevents bounded conversion from reading $U$ through a detached confluence proof or a route that omits the checker, budget, or residual socket.
+
+Now use \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} together with \autoref{thm:metacic-critical-path-residual-diamond-source-totality}. The candidate rows supply the strong-normalization frontier, the socket rows supply the residual budget, and the L10 rows supply the finite Real and completion source faces. These three families exhaust the bounded conversion consumer route without adding full confluence, beta-conversion decidability, quotient term equality, selected limits, ambient $\RealUp$ completeness, or kernel consistency.
+\end{proof}
+
 \begin{theorem}[MetaCIC residual-diamond budget source nonescape]
 \label{thm:metacic-critical-path-residual-diamond-budget-source-nonescape}
 Let
@@ -160,6 +188,7 @@ $$
 $$
 remain on the same packet route. Thus the typed conversion read cannot detach its residual proof from the closed-substitution boundary, spend a socket budget outside $D,H,C,P,L$, omit the candidate-mediated SN frontier, or replace any L10 source face by a later reconstruction.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualDiamondTypedL10Budget}
 \begin{proof}
 Start with residual diamond source totality, \autoref{thm:metacic-critical-path-residual-diamond-source-totality}. It puts the closed-substitution boundary, residual-budget socket, candidate-mediated frontier, and L10 source rows on one route before bounded conversion may read $U$.
 
@@ -180,6 +209,7 @@ Now attach residual diamond source totality. Source totality supplies the same c
 \label{thm:metacic-critical-path-residual-diamond-bounded-conversion-nonescape}
 Let $K=(S,N,O,U,D,H,C,P,L)$ be an accepted $\MetaCICCriticalPathUp$ packet. Bounded conversion may be read from the residual diamond checker only while the residual-substitution frontier, residual-budget socket, candidate-mediated strong-normalization frontier, typed-example boundary, and the four L10 source faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ remain on the same route before $U$ is consumed. The read exports no full confluence theorem, no beta-conversion decidability, no quotient equality of terms, no selected limit, and no ambient $\RealUp$ completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualDiamondBoundedConversionNonescape}
 \begin{proof}
 Compose residual diamond source totality with residual diamond L10 source nonescape. The first theorem supplies the closed-substitution, socket-budget, and candidate-mediated rows needed before bounded conversion can read $U$.
 
