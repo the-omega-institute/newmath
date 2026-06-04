@@ -32,3 +32,36 @@ Use the bounded-comprehension ledger rows. The subset and comprehension coordina
 
 Finally attach provenance and local naming. Since $P,N$ name only the displayed route, the accepted NameCert surface has no coordinate for host extensionality, powersets, unrestricted separation, selected representatives, or external classifiers.
 \end{proof}
+
+\begin{theorem}[SetLike membership classifier root unblock]\label{thm:setlike-membership-classifier-root-unblock}
+Every downstream membership read of an accepted $\SetLikeUp$ packet exposes the membership source $M$, the classifier row $Q$, the transport row $H$, the replay row $C$, the provenance row $P$, and the local naming row $N$ before the read may be consumed by a root dependency. The read therefore reaches TypeLike, FirstOrder, ModelTheory, or another root consumer only as the displayed finite membership classifier route, not as host membership, ambient powerset inclusion, unrestricted separation, quotient equality, or an external satisfaction relation.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:setlike-root-carrier-membership}. The membership source and classifier are exactly $M$ and $Q$, and no other row supplies a membership predicate.
+
+Apply \autoref{thm:setlike-membership-route} and \autoref{thm:setlike-root-classifier-transport}. They force every membership-facing read through the displayed carrier route and preserve the classifier under $\hsame$ transport and $\Cont$ replay.
+
+Finally read the structural rows $H,C,P,N$. Provenance and local naming expose the same finite route to downstream consumers, so the root dependency cannot replace it by host membership, powersets, unrestricted separation, quotient equality, or external satisfaction.
+\end{proof}
+
+\begin{theorem}[SetLike subset comprehension root unblock]\label{thm:setlike-subset-comprehension-root-unblock}
+Every root read of subset implication or restricted comprehension for an accepted $\SetLikeUp$ packet must pass through the finite route $M,Q,I,R,H,C,P,N$: $M,Q$ expose the displayed membership classifier, $I$ exposes subset implication between those classified rows, $R$ exposes restricted comprehension only after $M,Q,I$ are visible, and $H,C,P,N$ transport, replay, source, and locally name the same packet. The route exports no ambient powerset, unrestricted comprehension principle, host subset relation, selected representative, or quotient equality of sets.
+\end{theorem}
+\begin{proof}
+Start with the membership route of \autoref{thm:setlike-membership-route}. Any subset or comprehension read is downstream of the displayed membership classifier $M,Q$.
+
+Use the rows $I$ and $R$ from \autoref{def:setlike-root-carrier-membership}. The implication row compares certified membership rows, and the restricted-comprehension row is available only after that comparison has been displayed.
+
+Finally apply \autoref{thm:setlike-root-namecert-obligations}. The structural rows $H,C,P,N$ keep the same finite route available to root consumers and leave no coordinate for ambient powersets, unrestricted comprehension, host subset relations, selected representatives, or quotient equality.
+\end{proof}
+
+\begin{theorem}[SetLike extensionality root unblock]\label{thm:setlike-extensionality-root-unblock}
+Every extensional comparison exported by an accepted $\SetLikeUp$ packet is only the displayed classifier boundary $E$ over the membership rows $M,Q$ with support from $H,C,P,N$. A downstream root consumer may read that boundary as the packet's extensional comparison route, but it may not identify it with host set equality, quotient equality of sets, selected representatives, an ambient inclusion predicate, or an external extensionality principle.
+\end{theorem}
+\begin{proof}
+Project the extensional boundary of \autoref{def:setlike-root-carrier-membership}. The row $E$ is the only comparison coordinate, and it is tied to the same displayed membership source $M$ and classifier $Q$.
+
+Use the SetLike membership route and the root NameCert obligations. They make $E$ available only after the carrier rows have exposed the membership classifier and the structural preservation rows.
+
+Thus a root consumer receives an extensional boundary for the accepted packet, not host set equality. The rows $H,C,P,N$ preserve and name that boundary without adding quotient equality, selected representatives, ambient inclusion, or external extensionality.
+\end{proof}
