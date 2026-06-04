@@ -3828,6 +3828,7 @@ import BEDC.Derived.EquicontinuityUp.RootCompactSourceAdmission
 import BEDC.Derived.EquicontinuityUp.RootUnblockCompactModulusConsumer
 import BEDC.Derived.EquicontinuityUp.RootUnblockFamilyModulusExactness
 import BEDC.Derived.EquicontinuityUp.RootUnblockFiniteNetConsumerBoundary
+import BEDC.Derived.EquicontinuityUp.RootUnblockFiniteNetHandoff
 import BEDC.Derived.EquicontinuityUp.RootUnblockSharedRadiusCarrier
 import BEDC.Derived.EquicontinuityUp.SharedModulusHandoffPreservation
 import BEDC.Derived.EquicontinuityUp.TasteGate
@@ -8546,6 +8547,7 @@ import BEDC.Derived.UniformCauchySeriesUp.TasteGate
 import BEDC.Derived.UniformCauchySubsequenceUp.TasteGate
 import BEDC.Derived.UniformClosureUp.TasteGate
 import BEDC.Derived.UniformCompleteSpaceUp.TasteGate
+import BEDC.Derived.UniformCompletionCommonWindowUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.BridgeSourceLock
 import BEDC.Derived.UniformCompletionFunctorUp.CarrierAdmission
 import BEDC.Derived.UniformCompletionFunctorUp.CauchyFilterNonescape
