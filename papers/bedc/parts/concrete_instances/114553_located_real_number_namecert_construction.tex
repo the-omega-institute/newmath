@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\LocatedRealNumberUp$}
+\label{ch:concrete-instances-located-real-number-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a located real number is a real name whose finite rational observations also carry a displayed locatedness test. The $\LocatedRealNumberUp$ packet sits between the constructive real-line interface of \autoref{ch:concrete-instances-constructive-real-line-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational source of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. It records a Bishop-style located name as finite BEDC data, not as a completed host real, quotient stream, trichotomy principle, selected comparison oracle, or ambient completeness theorem.
+
+\begin{definition}[Located real number carrier]
+\label{def:located-real-number-carrier}
+A $\LocatedRealNumberUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,R,D,E,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ schedule row for inspected precision requests, rational intervals, and locatedness questions.
+\item $R$ is the $\RegSeqRatUp$ regular rational name row read through $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and interval ledger used to compare requested radii, endpoint gaps, and rational enclosure witnesses.
+\item $E$ is the terminal $\RealUp$ seal row, consumed only after $S,R,D$ are visible.
+\item $A$ is the $\ConstructiveRealLineUp$ interface row recording the Bishop locatedness surface available to downstream real-line consumers.
+\item $H$ records componentwise $\hsame$ transport for the stream, regular-rational, dyadic, real-seal, constructive-real-line, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a locatedness request through $S,R,D,E,A,H$.
+\item $P$ is the $\Pkg$ provenance over $\LocatedRealNumberUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\ConstructiveRealLineUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedRealNumberUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,E,A,H,C,P,N$. It has no coordinate for quotient equality of real names, trichotomy, a selected sign decision, a host locatedness predicate, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located real number NameCert obligations]
+\label{thm:located-real-number-namecert-obligations}
+For every accepted $\LocatedRealNumberUp$ carrier $L=(S,R,D,E,A,H,C,P,N)$, the local $\NameCert_{\LocatedRealNumberUp}$ surface consists exactly of carrier admission, stream-window visibility, regular-rational readback, dyadic tolerance and enclosure exactness, terminal $\RealUp$ seal nonescape, constructive-real-line locatedness exposure, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-real-number-carrier}. The rows $S,R,D,E,A,H,C,P,N$ are the full inventory of data available to an accepted packet.
+
+The real-name route is finite. A consumer first reads the stream schedule $S$, then the regular rational row $R$, then the dyadic tolerance and enclosure ledger $D$, and only then may consume the terminal real seal $E$.
+
+The locatedness route is the row $A$. It records the constructive real-line interface attached to the same regular rational and dyadic data, so a locatedness request cannot bypass the displayed window and tolerance rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name that same finite packet. Since no row contains quotient equality of real names, trichotomy, a selected sign decision, host locatedness, or ambient completeness, the listed rows exhaust the local certificate obligations.
+\end{proof}
+
+\begin{theorem}[Located real number RegSeqRat handoff]
+\label{thm:located-real-number-regseqrat-handoff}
+Every $\ConstructiveRealLineUp$ or completion-facing consumer of an accepted $\LocatedRealNumberUp$ carrier must read the route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp
+$$
+with the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows retained before the located real-number claim is public. The exported datum is a finite Bishop-style located real name and not a quotient real, selected comparison function, trichotomy principle, host completion object, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:located-real-number-namecert-obligations}. It makes stream-window visibility, regular-rational readback, dyadic tolerance exactness, and Real-seal nonescape mandatory rows of every accepted local certificate.
+
+The $\ConstructiveRealLineUp$ row $A$ is downstream of the same displayed route. It can expose locatedness only after the requested finite window, rational name row, dyadic enclosure ledger, and terminal seal have been shown.
+
+Transport and replay do not add analytic content. The rows $H,C,P,N$ preserve the same packet under $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, leaving no coordinate for quotient equality, trichotomy, selected comparison, host completion, or ambient real completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedRealNumberUp$ read exposes a StreamName window, RegSeqRat regular rational name, DyadicRatCore tolerance and enclosure ledger, terminal RealUp seal, ConstructiveRealLine locatedness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row before any consumer reads located real-number data.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, constructive-real-line: no listed sibling is bijective with $\LocatedRealNumberUp$ because this packet jointly binds finite observation windows, regular rational readback, dyadic locatedness ledgers, a Real seal, constructive real-line exposure, transport, replay, provenance, and local naming.}
+
+\closureat{LocatedRealNumberUp}{seedStr}
+
+\begin{closurestatus}{\LocatedRealNumberUp}
+  \constructivestory{A $\LocatedRealNumberUp$ packet is generated from StreamName windows, a RegSeqRat regular rational row, DyadicRatCore tolerance and enclosure data, a terminal RealUp seal, a ConstructiveRealLine locatedness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-real-number-carrier}, \autoref{thm:located-real-number-namecert-obligations}, and \autoref{thm:located-real-number-regseqrat-handoff} seed the finite Bishop-style located real-name route over DyadicRatCore, StreamName, RegSeqRat, Real, ConstructiveRealLine, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of real names, trichotomy, selected sign decisions, host locatedness predicates, ambient Real completeness, Lean proof obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, stream-window visibility, regular-rational readback, dyadic tolerance exactness, Real seal nonescape, constructive-real-line exposure, transport, replay, provenance, and local naming for BEDC.Derived.LocatedRealNumberUp.}
+\end{closurestatus}
