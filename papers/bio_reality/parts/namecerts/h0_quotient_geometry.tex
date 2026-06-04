@@ -1,42 +1,62 @@
-\subsection{Quotient Geometry as an ORF-Eligibility Boundary Record}\label{sec:bioreality-h0-quotient-geometry}\origin{ai}
+\subsection{Quotient geometry at the ORF-eligibility boundary}
+\label{sec:bioreality-h0-quotient-geometry}
+\origin{ai}
 
-\paragraph{Finite coordinate content.}
-The row named \texttt{h0.quotient.geometry} records a finite quotient calculation on the codon-side geometry before any biological interval is asserted.  The carrier under inspection is the twenty-element set
-$M=\{\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}$.
-A separate motif compression row identifies
-$R=\{\mathrm{AAA},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UGA},\mathrm{UUA}\}$
-with no missing and no extra listed motifs.  The finite incidence profile for $M$ is
-$$\begin{aligned}
-f(M)&=(20,38,26,8,1),
-\end{aligned}$$
-while the recorded quotient has ten classes and quotient profile
-$$\begin{aligned}
-f(\pi(M))&=(10,14,6,1).
-\end{aligned}$$
-The product-decomposition check returns the empty obstruction list, so this row is a completed finite geometry calculation at the codon-coordinate level.  Its quotient representatives are the ten binary rows
-$00001,00011,00101,00111,01000,01001,10001,10011,10101,10111$, giving $|\pi(M)|=10$.
+\paragraph{Finite codon packet.}
+The record concerns the finite codon geometry obtained before any independent biological interval is allowed to promote the result into an open-reading-frame claim.  The finite motif row gives
+$$
+\begin{aligned}
+R=\{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU, UAA, UAG,\cr
+&UCA, UGA, UUA\},
+\end{aligned}
+$$
+with no missing and no surplus entries in the motif-compression check.  The larger enumerated set has cardinality $20$ and is
+$$
+\begin{aligned}
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\cr
+&CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\}.
+\end{aligned}
+$$
+The equality test identifies this same $M$ as $WNR\cup CUN$, so the row is not being read as a biological observation.  It is a finite algebraic catalogue of codon words whose role is to expose which boundary tests would be needed before ORF eligibility can be asserted.
 
-\paragraph{Saturation and boundary behavior.}
-The saturation row \texttt{h0.f3.saturation} gives the eighteen-element set
-$\operatorname{Sat}_{f3}(R)=\{\mathrm{AAA},\mathrm{AAG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\}$.
-The same run records the boundary term as empty, so the finite calculation has no residual $f3$ boundary at this level:
-$$\begin{aligned}
-\partial_{f3}(R)&=\varnothing.
-\end{aligned}$$
-It also records
-$M=\operatorname{Med}(R)\cup\{\mathrm{ACA}\}$
-as the twenty-element list displayed above.  In particular, the finite saturation row distinguishes the two codons $\mathrm{ACA}$ and $\mathrm{ACG}$ from the eighteen saturated entries without converting that distinction into a biological event.  The computation therefore supplies a compact quotient-and-saturation coordinate for a later ORF-eligibility test, not an observed transcript, not an observed coding interval, and not a protein-level claim.
+\paragraph{Saturation and quotient counts.}
+The third-position saturation row reports
+$$
+\begin{aligned}
+\operatorname{Sat}_{f_3}(R)=\{&AAA,AAG,AGA,AGG,AUA,AUG,CUA,CUC,CUG,CUU,\cr
+&UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
+\end{aligned}
+$$
+so the saturation contains $18$ codons and omits exactly $ACA$ and $ACG$ from $M$.  The displayed row also records $f_3$ boundary as the empty list, so the boundary condition is exhausted inside this finite enumeration.  The full $M$ geometry has $f$-vector
+$$
+\begin{aligned}
+(20,38,26,8,1),
+\end{aligned}
+$$
+whereas the quotient image has $10$ points and $f$-vector
+$$
+\begin{aligned}
+(10,14,6,1).
+\end{aligned}
+$$
+The product-decomposition test for $M$ is recorded as an empty failure list.  Thus the quotient is a compressed finite shape of the codon enumeration, not a measurement of transcription, translation, folding, biochemical feasibility, or organismal role.
 
-\paragraph{ORF-eligibility contact status.}
-The seed statement attached to this geometry says that open-reading-frame eligibility must be tested by start/stop enumeration only after a separate biological interval contact has been supplied.  In the boundary-only row \texttt{h2.orf.start\_stop.window\_eligibility}, one external window manifest is loaded, with one input window and one classified window, under the stated scope \texttt{external\_window\_start\_stop\_enumeration\_only}.  That row explicitly reports \texttt{no\_geometry\_to\_translation\_promotion} as \texttt{orf\_eligibility\_only}.  Thus the start/stop-window enumeration is a classifier of interval eligibility, not a derivation of translation from the quotient geometry.
+\paragraph{Quotient image.}
+The quotient projection attached to $M$ is the ten-row set
+$$
+\begin{aligned}
+\pi(M)=\{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\cr
+&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),\cr
+&(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned}
+$$
+This is the exact finite image used by the chapter.  Its scientific meaning is intentionally narrow: it partitions the codon packet by the selected quotient coordinates and supplies a compact audit trail for start/stop-window enumeration.  It does not by itself say that any interval occurs in a genome, that a transcript is present, that a ribosome translates it, that the resulting amino-acid chain folds, that the molecule is physically admissible, that it has a function, or that a general biological law has been found.
 
-A stronger curated interval contact is also present in \texttt{h2.orf\_eligibility.curated\_interval\_contact}.  It loads 168 curated rows from NCBI RefSeq GenBank XML CDS intervals for \emph{Escherichia coli} K-12 MG1655 accession \texttt{NC\_000913.3}, snapshot date 2026-05-30.  The protocol was frozen at 2026-05-29T19:11:13+00:00, before the external evidence timestamp 2026-05-30T10:29:31+00:00; classifier rules, input classes, baselines, and held-out splits are all recorded as fixed before observation.  The required classes are boundary cases, matched non-ORF decoys, and positive curated ORFs.  The positive interval test accepts $72$ of $72$ positives, and the matched decoy test rejects $72$ of $72$ decoys; both one-sided exact binomial tails are recorded as
-$$\begin{aligned}
-p&=2.117582368135751\times 10^{-22}.
-\end{aligned}$$
-The predeclared paired baseline comparison records $72$ wins in $72$ pairs with the same tail probability.  The three held-out splits each contain $24$ positives and $24$ decoys, with positive accept rate $1.0$ and decoy reject rate $1.0$ in the left-locus, middle-locus, and right-locus folds.  The $24$ boundary cases have promoted count $0$ and promoted fraction $0.0$.
+\paragraph{Reality-contact boundary.}
+The ORF start/stop-window row contains one loaded finite nucleotide-window manifest with one input window, and that one window is classified by start/stop enumeration.  Its own scope is explicitly limited to external window start/stop enumeration, with snapshot date $2026$-$05$-$25$, and the recorded classification says only \texttt{orf\_eligibility\_only}.  The present quotient chapter therefore treats the codon geometry as a boundary instrument: it can organize a proposed test, but it cannot certify an ORF without a separate curated sequence, transcript, or interval annotation.  In the finite-row data supplied for this claim, the immediate contact list is empty, so the chapter records no direct promotion from the quotient row to an observed ORF.
 
-\paragraph{Local interpretation.}
-The quotient row is therefore a finite codon-geometry record whose verified content is the pair of profiles $(20,38,26,8,1)$ and $(10,14,6,1)$, the ten quotient representatives listed above, and the absence of a product-decomposition obstruction.  The ORF rows add a later reality-facing contact in which start/stop enumeration is tested against curated intervals and controls.  The biological reading remains deliberately narrow: with the curated interval contact, this chapter may speak about ORF eligibility for the recorded finite interval experiment; without such a contact, the same geometry remains only a proposed boundary test.
+\paragraph{Curated interval comparison.}
+A later interval-contact row supplies a distinct external annotation packet with $168$ rows from NCBI RefSeq GenBank XML CDS intervals for \emph{Escherichia coli} K-$12$ MG$1655$, accession $NC\_000913.3$, snapshot date $2026$-$05$-$30$.  That row is not part of the quotient computation, but it shows what a separate contact looks like when present: $72$ positive curated ORF intervals are accepted, $72$ matched non-ORF decoys are rejected, and $24$ boundary cases are not promoted.  The positive and decoy one-sided binomial upper-tail values are both $2.117582368135751\times 10^{-22}$, and three held-out splits each report $24$ positives accepted at rate $1.0$ and $24$ decoys rejected at rate $1.0$.  These numbers are useful as a contrast class: the quotient row supplies finite codon geometry, while the interval-contact row supplies independent biological annotation.  Even with that stronger contact, the recorded scope still excludes translation realization, protein structure, physical admissibility, biological function, mechanism, universality, and any global law.
 
-No translation realization follows from these rows.  No folded structure, physical admissibility, biological function, molecular mechanism, or universal law follows from them.  Those claims would require separate observations or experiments aimed at those layers.  The self-check row agrees with this restriction: it records a BioReality self-check boundary saying that no codon geometry is promoted across biological layers, with three checked gates.  Consequently, \texttt{h0.quotient.geometry} is ready as a standalone finite quotient record and as a properly bounded input to ORF-eligibility testing, but it is not evidence for any higher biological layer by itself.
+\paragraph{Local verdict.}
+The finite quotient geometry is ready as a self-contained BioReality record for the layer named \texttt{orf\_eligibility}, provided its reading remains confined to eligibility bookkeeping.  The verified facts support the codon sets $R$ and $M$, the third-position saturation relation, the product-decomposition check, the ten-point quotient image, and the quotient $f$-vector.  They do not support any higher biological interpretation.  Any future assertion that an eligible window is an observed ORF must cite a separate biological interval contact, and any assertion about translation, folding, physical admissibility, function, mechanism, or universality must cite still stronger contacts appropriate to those layers.
