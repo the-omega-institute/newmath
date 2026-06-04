@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\HallMarriageUp$}
+\label{ch:concrete-instances-hall-marriage-namecert}
+\origin{human}
+
+Following Hall's marriage theorem, the $\HallMarriageUp$ packet records a finite matching certificate whose only public witnesses are bipartite incidence rows, finite neighborhood ledgers, augmenting path traces, and local NameCert data. Its dependency route reads $\MatchingUp$ from \autoref{ch:concrete-instances-matching-namecert}, residual capacity bookkeeping from \autoref{ch:concrete-instances-networkflow-namecert}, set membership rows from \autoref{ch:concrete-instances-setlike-namecert}, decidable branch bits from \autoref{ch:concrete-instances-bool-namecert}, and finite ordered witness rows from \autoref{ch:concrete-instances-list-namecert}.
+
+\begin{definition}[HallMarriage finite matching carrier]
+\label{def:hall-marriage-carrier}
+The HallMarriage carrier is the finite $\BHist$ packet
+$$
+H=(L,R,E,N,S,B,A,M,U,P,C,T,Q)
+$$
+where $L$ and $R$ are the left and right vertex lists, $E$ is the bipartite incidence ledger, $N$ records every finite neighborhood query as a $\SetLikeUp$ membership row, $S$ is the Hall surplus table, $B$ is the $\BoolUp$ decision trace for empty, saturated, and augmenting-path branches, $A$ is the finite alternating-path row, $M$ is the partial matching ledger read through $\MatchingUp$, $U$ is the residual update row read through $\NetworkFlowUp$, and $P,C,T,Q$ are provenance, replay, componentwise transport, and local NameCert data.
+
+The carrier is accepted only when every witness is a displayed finite row. It contains no choice-selected transversal, infinite search tree, host cardinality comparison, or classical maximality principle.
+\end{definition}
+
+\begin{theorem}[HallMarriage NameCert obligations]
+\label{thm:hall-marriage-namecert-obligations}
+Every accepted $\HallMarriageUp$ certificate exposes the carrier of \autoref{def:hall-marriage-carrier}, verifies that each left sublist has a displayed neighborhood row in $N$, checks the surplus table $S$ against those rows, and records each matching update in $M,U$. Thus the NameCert obligation surface is the finite route
+$$
+L,R,E,N,S,B,A,M,U,P,C,T,Q,
+$$
+not an appeal to a selected system of representatives, an ambient finite-choice theorem, or a host maximum matching oracle.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The vertex lists $L,R$ and incidence ledger $E$ determine every neighborhood query, while $N$ records the resulting finite $\SetLikeUp$ membership rows.
+
+The Hall surplus table $S$ is checked only against those displayed rows. The $\BoolUp$ row $B$ then decides which finite branch is being replayed: already saturated, locally extendable, or routed through an alternating path.
+
+The matching row $M$ and residual update row $U$ consume the same finite evidence through the $\MatchingUp$ and $\NetworkFlowUp$ dependency surfaces. Since the carrier has no coordinate for choice, cardinality by quotient, or maximality outside the displayed ledgers, the local NameCert obligations are exactly the listed finite rows.
+\end{proof}
+
+\begin{theorem}[HallMarriage augmenting path induction]
+\label{thm:hall-marriage-augmenting-path-induction}
+For an accepted carrier $H=(L,R,E,N,S,B,A,M,U,P,C,T,Q)$, every unmatched left vertex either is already assigned by the matching row $M$ or is handled by a finite induction on the alternating-path row $A$. Each induction step consumes a displayed incidence entry from $E$, a neighborhood witness from $N$, a branch bit from $B$, and a residual update from $U$, and it strictly advances along the finite $\ListUp$ path row.
+\end{theorem}
+\begin{proof}
+Start with the finite path row $A$. The base case is the empty path branch recorded by $B$, where the matching row $M$ already assigns the left vertex or the surplus table exposes a free right vertex.
+
+For the induction step, read the next incidence witness from $E$ and its neighborhood membership certificate from $N$. The branch bit in $B$ states whether the right endpoint is free or already matched.
+
+If it is free, append the displayed edge to the matching row and record the residual update in $U$. If it is already matched, follow the unique displayed matching edge in $M$ and continue along the tail of the finite $\ListUp$ path.
+
+The path row strictly decreases under this tail read, so the construction terminates without an infinite search tree. The resulting update remains inside $M,U,P,C,T,Q$, hence the augmenting-path induction is a finite HallMarriage NameCert route.
+\end{proof}
+
+\closureat{HallMarriageUp}{seedStr}
+
+\begin{closurestatus}{\HallMarriageUp}
+  \constructivestory{A $\HallMarriageUp$ packet is generated from finite left and right vertex lists, a bipartite incidence ledger, finite neighborhood rows, a Hall surplus table, branch bits, alternating paths, matching updates, residual updates, provenance, replay, transport, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hall-marriage-carrier}, \autoref{thm:hall-marriage-namecert-obligations}, and \autoref{thm:hall-marriage-augmenting-path-induction} seed the finite matching certificate route for Hall's marriage theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, infinite matching, selected transversals, ambient finite-choice principles, host cardinality comparison, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, neighborhood surplus verification, matching update stability, residual update stability, augmenting-path termination, transport, replay, provenance, and local naming for BEDC.Derived.HallMarriageUp.}
+\end{closurestatus}
