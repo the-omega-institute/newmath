@@ -7884,6 +7884,7 @@ import BEDC.Derived.ScientificObjectUp.RecordClassifierAdmission
 import BEDC.Derived.ScientificObjectUp.TasteGate
 import BEDC.Derived.ScientificObjectUp.TruthDomainGapScope
 import BEDC.Derived.ScottRealUp.TasteGate
+import BEDC.Derived.SecantMethodUp.TasteGate
 import BEDC.Derived.SecondCountableUp
 import BEDC.Derived.SelectedTailSeedUp.TasteGate
 import BEDC.Derived.SelectionFreeCauchyRealUp
