@@ -68,9 +68,40 @@ private theorem CauchySumLimitTasteGate_single_carrier_alignment_round_trip :
   intro x
   cases x with
   | mk X Y S Q D A H C P N =>
-      simp only [CauchySumLimitTasteGate_single_carrier_alignment_toEventFlow, CauchySumLimitTasteGate_single_carrier_alignment_fields,
-        CauchySumLimitTasteGate_single_carrier_alignment_fromEventFlow, List.map_cons, List.map_nil,
-        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode]
+      change
+        some
+          (CauchySumLimitUp.mk
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist X))
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist Y))
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist S))
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist Q))
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist D))
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist A))
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist H))
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist C))
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist P))
+            (CauchySumLimitTasteGate_single_carrier_alignment_decodeBHist
+              (CauchySumLimitTasteGate_single_carrier_alignment_encodeBHist N))) =
+          some (CauchySumLimitUp.mk X Y S Q D A H C P N)
+      rw [CauchySumLimitTasteGate_single_carrier_alignment_decode_encode X,
+        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode Y,
+        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode S,
+        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode Q,
+        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode D,
+        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode A,
+        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode H,
+        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode C,
+        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode P,
+        CauchySumLimitTasteGate_single_carrier_alignment_decode_encode N]
 
 private theorem CauchySumLimitTasteGate_single_carrier_alignment_toEventFlow_injective {x y : CauchySumLimitUp} :
     CauchySumLimitTasteGate_single_carrier_alignment_toEventFlow x = CauchySumLimitTasteGate_single_carrier_alignment_toEventFlow y →
@@ -102,10 +133,5 @@ instance CauchySumLimitTasteGate_single_carrier_alignment_ChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (CauchySumLimitTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
-theorem CauchySumLimitTasteGate_single_carrier_alignment :
-    ChapterTasteGate CauchySumLimitUp := by
-  -- BEDC touchpoint anchor: BHist BMark
-  exact CauchySumLimitTasteGate_single_carrier_alignment_ChapterTasteGate
 
 end BEDC.Derived.CauchySumLimitUp
