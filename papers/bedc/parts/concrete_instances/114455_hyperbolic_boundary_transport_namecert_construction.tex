@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\HyperbolicBoundaryTransportUp$}
+\label{ch:concrete-instances-hyperbolic-boundary-transport-namecert}
+\origin{human}
+
+Following the Poincare disk model and the Denjoy--Wolff boundary principle, the $\HyperbolicBoundaryTransportUp$ packet records boundary-fixed disk transport as finite NameCert data. It realizes the boundary-fixed disk transport schema of \autoref{def:hyperbolic-boundary-fixed-disk-transport} through the isometry rows of \autoref{ch:concrete-instances-hyperbolic-isometry-group-namecert}, the boundary refusal rows of \autoref{ch:concrete-instances-boundary-far-end-noncenter-namecert}, and the ray-boundary rows of \autoref{ch:concrete-instances-gromov-boundary-namecert}. The packet names a finite disk-map and boundary-transport carrier; it is not a completed hyperbolic plane, a selected ideal endpoint, quotient boundary equality, or a global dynamical theorem.
+
+\begin{definition}[Hyperbolic boundary transport carrier]
+\label{def:hyperbolic-boundary-transport-carrier}
+A $\HyperbolicBoundaryTransportUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,F,R,P,H,T,M,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the finite disk-map row, recording the displayed source and target disk observations and the map applied between them.
+\item $F$ is the boundary far-end row, recording the boundary commitment preserved by the transport.
+\item $R$ is the reversible transport row, recording the displayed inverse route and the finite two-sided replay checks.
+\item $P$ is the provenance row over the Poincare disk, Denjoy--Wolff boundary reading, $\HyperbolicIsometryGroupUp$, $\BoundaryFarEndNoncenterUp$, $\GromovBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $H$ records componentwise $\hsame$ transport for disk maps, boundary far-end rows, reversible transport, provenance, metric noncollapse, replay, and local naming.
+\item $T$ records displayed $\Cont$ replay from disk-map inspection through boundary preservation, reversible transport, metric noncollapse, provenance, and local naming.
+\item $M$ is the metric noncollapse row, refusing any read that turns boundary-fixed transport into an interior-center fixed point or a collapsed zero-distance transport.
+\item $N$ is the local $\NameCert_{\HyperbolicBoundaryTransportUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,F,R,P,H,T,M,N$. It has no coordinate for a completed disk, selected ideal endpoint, quotient boundary equality, hidden global hyperbolic metric, or physical observer law.
+\end{definition}
+\leandef{BEDC.Derived.HyperbolicBoundaryTransportUp}
+
+\begin{theorem}[Hyperbolic boundary transport NameCert obligations]
+\label{thm:hyperbolic-boundary-transport-namecert-obligations}
+For every accepted $\HyperbolicBoundaryTransportUp$ carrier
+$$
+B=(D,F,R,P,H,T,M,N),
+$$
+the local $\NameCert_{\HyperbolicBoundaryTransportUp}$ surface consists exactly of finite disk-map admission, boundary far-end preservation, reversible transport replay, provenance, componentwise $\hsame$ transport, displayed $\Cont$ replay, metric noncollapse, local naming, and refusal of completed hyperbolic planes, selected ideal endpoints, quotient boundary equality, hidden global metrics, and physical observer laws.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hyperbolic-boundary-transport-carrier}. The disk-map row $D$, boundary row $F$, reversible transport row $R$, provenance row $P$, transport row $H$, replay row $T$, metric noncollapse row $M$, and naming row $N$ are the whole accepted packet.
+
+Boundary preservation is read from $F$ after the disk-map row $D$ has been displayed. Reversibility is read from $R$ and replayed through $T$, so the consumer sees finite two-sided route data rather than a host global transformation.
+
+Metric noncollapse is the row $M$. It keeps the boundary-fixed route from becoming an interior-center fixed point or a collapsed metric read.
+
+Finally, $P,H,T,N$ source, transport, replay, and name the same finite surface. Since the excluded objects are absent from every carrier coordinate, they cannot enter the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\HyperbolicBoundaryTransportUp$ read is refuted if it exports boundary-fixed transport without the disk-map row, boundary far-end row, reversible transport row, metric noncollapse row, hsame transport, Cont replay, provenance, and local NameCert row.}
+
+\independenceWitness{hyperbolic\_isometry\_group, boundary\_far\_end\_noncenter, gromov\_boundary: the isometry sibling carries group and metric-preservation rows, the noncenter sibling carries boundary refusal rows, and the Gromov-boundary sibling carries ray-boundary rows, but only $\HyperbolicBoundaryTransportUp$ binds disk map, fixed boundary far end, reversible transport, provenance, noncollapse, replay, and local naming in one packet.}
+
+\closureat{HyperbolicBoundaryTransportUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicBoundaryTransportUp}
+  \constructivestory{A $\HyperbolicBoundaryTransportUp$ packet is generated from disk-map rows, boundary far-end rows, reversible transport rows, provenance, componentwise hsame transport, displayed Cont replay, metric noncollapse rows, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-boundary-transport-carrier}, \autoref{thm:hyperbolic-boundary-transport-namecert-obligations}, the falsifiable prediction, and the independence witness seed the finite boundary-fixed disk transport route over disk-map, boundary, reversible transport, provenance, noncollapse, replay, and local naming rows.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.HyperbolicBoundaryTransportUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed hyperbolic planes, selected ideal endpoints, quotient boundary equality, hidden global hyperbolic metrics, physical observer laws, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked disk-map admission, boundary preservation, reversible transport replay, provenance, metric noncollapse, transport, replay, and local naming for BEDC.Derived.HyperbolicBoundaryTransportUp.}
+\end{closurestatus}
