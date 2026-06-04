@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\MetrizableSpaceUp$}
+\label{ch:concrete-instances-metrizable-space-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley-style topology, the $\MetrizableSpaceUp$ packet records the finite BEDC handoff by which a displayed topology may expose a metric whose ball-neighbourhood rows answer the same local open requests. It sits between the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the metric-space surface of \autoref{ch:concrete-instances-metric-space-namecert}, the finite $\StreamNameUp$ window interface of \autoref{ch:concrete-instances-streamname-namecert}, the $\RegSeqRatUp$ distance readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a metrizable-space interface, not a Urysohn metrization theorem, open-cover compactness, quotient equality, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[MetrizableSpace carrier]
+\label{def:metrizable-space-carrier}
+A $\MetrizableSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(T,M,B,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, carrying open-row classifiers, point-neighbourhood requests, and finite membership reads.
+\item $M$ is the $\MetricSpaceUp$ metric row over the same displayed point carrier.
+\item $B$ is the ball-neighbourhood basis row. It records, for each displayed point and tolerance request, the metric ball row whose inclusion and refinement reads answer the topology row $T$.
+\item $W$ is the $\StreamNameUp$ finite-window row used when a distance request is inspected by finitely many named observations.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational distance stream generated from $W$ and the metric row $M$.
+\item $E$ is the terminal $\RealUp$ seal for the distance value, reachable only after $M,B,W,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for topology rows, metric rows, ball-basis rows, distance windows, regular readback, Real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a topological neighbourhood or distance request through $T,M,B,W,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\MetrizableSpaceUp$, $\TopologyUp$, $\MetricSpaceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetrizableSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for Urysohn separation hypotheses, open-cover compactness, quotient point equality, selected metric representatives, countable-choice schedules, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[MetrizableSpace NameCert obligations]
+\label{thm:metrizable-space-namecert-obligations}
+For every accepted $\MetrizableSpaceUp$ carrier $Z=(T,M,B,W,R,E,H,C,P,N)$, the local $\NameCert_{\MetrizableSpaceUp}$ surface consists exactly of topology carrier admission, metric row admission, ball-neighbourhood basis visibility, finite distance-window inspection, $\RegSeqRatUp$ distance readback, terminal $\RealUp$ sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No local obligation is stored outside those finite rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metrizable-space-carrier}. The topology source, metric row, ball-basis row, distance window, regular readback, Real seal, transport, replay, provenance, and local naming row are the only displayed coordinates.
+
+The topological side is read through $T$ and $B$. A neighbourhood request must first name the open-row classifier in $T$ and then read the ball-basis witness that relates the displayed metric ball to that topology row.
+
+The metric side is read through $M,W,R,E$. A distance request cannot reach a Real value until the metric row has been displayed, the finite window has been inspected, the regular rational readback has been produced, and the terminal Real seal has been exposed.
+
+Rows $H,C,P,N$ only transport, replay, source, and name the same finite packet. Since no remaining coordinate stores the excluded objects, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetrizableSpace metric-topology handoff]
+\label{thm:metrizable-space-metric-topology-handoff}
+Every topology-facing or metric-facing consumer of an accepted $\MetrizableSpaceUp$ packet factors through
+$$
+\TopologyUp,\quad \MetricSpaceUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+The topology read receives ball-neighbourhood basis rows tied to $T$, while the metric read receives distance windows, regular readback, and a terminal Real seal tied to $M$. The handoff exports no Urysohn metrization theorem, open-cover compactness, quotient equality, selected representative, countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the topology-facing request. The carrier exposes topology only through $T$, and the basis row $B$ is the only row that answers neighbourhood requests by metric balls.
+
+For a metric-facing request, read $M$ before the distance window $W$. The window is then converted by $R$ into a regular rational distance readback and sealed by $E$ as the only Real-facing endpoint.
+
+Transport and replay through $H$ and $C$ preserve the same route, while $P$ and $N$ record provenance and local naming. The carrier contains no row for the excluded global theorems or selectors, so the handoff is exactly the finite BEDC route displayed above.
+\end{proof}
+
+\closureat{MetrizableSpaceUp}{seedStr}
+
+\begin{closurestatus}{\MetrizableSpaceUp}
+  \constructivestory{A $\MetrizableSpaceUp$ packet is generated from a TopologyUp source row, MetricSpaceUp metric row, ball-neighbourhood basis row, StreamNameUp finite distance windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metrizable-space-carrier}, \autoref{thm:metrizable-space-namecert-obligations}, and \autoref{thm:metrizable-space-metric-topology-handoff} seed the finite topology-to-metric handoff over topology rows, metric rows, ball-neighbourhood basis rows, distance windows, regular readback, Real seals, provenance, and naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Urysohn metrization, open-cover compactness, quotient equality, selected representatives, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ball-neighbourhood basis visibility, finite distance-window inspection, regular readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.MetrizableSpaceUp.}
+\end{closurestatus}
