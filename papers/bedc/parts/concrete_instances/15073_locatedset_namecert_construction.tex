@@ -218,6 +218,58 @@ Use \autoref{thm:located-set-namecert-obligations}. Parent metric compatibility 
 Finally apply \autoref{thm:locatedset-proximinal-consumer-nonescape}. Even a proximinal consumer must expose the full route $X,A,Q,R,E,T,H,C,P,N$ before reading the packet as located-set input. Thus parent and admission rows remain public prerequisites, with $H,C,P,N$ preserving the same route.
 \end{proof}
 
+\begin{theorem}[LocatedSet carrier admission]
+\label{thm:located-set-carrier-admission}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Carrier admission for $L$ is exhausted by the displayed $\MetricUp$ row $X$, $\MetricSubspaceUp$ admission row $A$, $\LocatedMetricUp$ handoff row $T$, $\RealUp$ seal $E$, $\BHist$ transport row $H$, componentwise $\hsame$ data, $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$. The admission route does not add nearest-point selection, open-cover compactness, quotient subset equality, ambient completion, or full $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-set-carrier}. The tuple lists exactly the parent metric, subspace admission, located-distance ledger, rational-window, Real-seal, located-metric handoff, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:located-set-namecert-obligations}. It identifies carrier admission, parent metric compatibility, $\MetricSubspaceUp$ admission stability, located-distance stability, rational-window readback, $\RealUp$ seal handoff, located-metric consumer compatibility, and ledger non-escape as the local NameCert obligations.
+
+Finally use \autoref{thm:located-set-distance-handoff} and \autoref{thm:located-set-parent-subspace-admission}. They keep every consumer downstream of $X,A,Q,R,E,T,H,C,P,N$, so admission exposes only the displayed finite route and none of the excluded endpoint, compactness, quotient, completion, or full-completeness principles.
+\end{proof}
+
+\begin{theorem}[LocatedSet classifier stability]
+\label{thm:located-set-classifier-stability}
+For accepted $\LocatedSetUp$ packets, classifier stability is computed only from the displayed rows $X,A,Q,R,E,T,H,C,P,N$ over $\MetricUp$, $\MetricSubspaceUp$, $\LocatedMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. If those rows are transported componentwise by the same $\hsame$ data and replayed by the same $\Cont$ route, the located-set classifier remains stable; it cannot be changed by a hidden nearest-point selector, open-cover compactness proof, quotient subset equality, ambient completion, or full Real-completeness row.
+\end{theorem}
+\begin{proof}
+Read the classifier clause in \autoref{def:located-set-carrier}. It compares located-set packets through the displayed tuple and has no coordinate for endpoint selection, open covers, quotient subset equality, completion, or full Real completeness.
+
+Use \autoref{thm:located-set-namecert-obligations}. The stability obligations for parent metric compatibility, subspace admission, located-distance data, rational windows, Real sealing, and located-metric handoff are all local obligations of the same $\NameCert$ row.
+
+The transport row $H$ and replay row $C$ preserve those rows componentwise through $\hsame$ and $\Cont$. Therefore any accepted classifier read remains the same finite BEDC route through $X,A,Q,R,E,T,H,C,P,N$ and cannot be altered by data outside the carrier.
+\end{proof}
+
+\begin{theorem}[LocatedSet distance exactness]
+\label{thm:located-set-distance-exactness}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Every distance read from $L$ is exact as the finite route
+$$
+\MetricUp \longmapsto \MetricSubspaceUp \longmapsto Q \longmapsto R \longmapsto \RealUp \longmapsto \LocatedMetricUp
+$$
+with $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows retained. The exactness route exposes no nearest-point selection, open-cover compactness, quotient subset equality, ambient completion, or full $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:located-set-distance-handoff}. It forces each ambient-point distance read through $X,A,Q,R,E$ before any located-metric, completion, compactness, or total-boundedness consumer sees the result.
+
+Apply \autoref{thm:located-set-real-distance-seal-exactness}. The $\RealUp$ read is exact only as the seal of the parent metric row, subspace admission row, located-distance ledger, rational windows, and located-metric handoff.
+
+Use \autoref{thm:located-set-nearest-point-refusal-boundary}. Endpoint evidence is not a carrier coordinate, and the same refusal excludes open-cover compactness, quotient subset equality, ambient completion, and full Real completeness from the distance route.
+\end{proof}
+
+\begin{theorem}[LocatedSet ledger nonescape]
+\label{thm:located-set-ledger-nonescape}
+Every $\LocatedSetUp$ root-obligation ledger read that cites $\MetricUp$, $\MetricSubspaceUp$, $\LocatedMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ remains inside the accepted carrier route $X,A,Q,R,E,T,H,C,P,N$. A downstream projection, proximinal, completion, compactness, or Real-distance consumer may add its own endpoint or completion evidence, but it cannot read nearest-point selection, open-cover compactness, quotient subset equality, ambient completion, or full Real completeness from the $\LocatedSetUp$ ledger itself.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:located-set-carrier-admission}. It fixes the admitted carrier rows and the local NameCert obligations inside $X,A,Q,R,E,T,H,C,P,N$.
+
+Use \autoref{thm:located-set-classifier-stability}. Componentwise $\hsame$ transport and $\Cont$ replay preserve the same classifier-facing rows, so the ledger cannot introduce a hidden classifier coordinate.
+
+Finally apply \autoref{thm:located-set-distance-exactness} together with \autoref{thm:locatedset-proximinal-consumer-nonescape}. Distance and projection consumers must keep the displayed route public before adding their own evidence, so the located-set ledger cannot escape to selected endpoints, open-cover compactness, quotient subset equality, ambient completion, or full Real completeness.
+\end{proof}
+
 \begin{theorem}[LocatedSet distance-ledger totality]
 \label{thm:located-set-distance-ledger-totality}
 Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Every admitted ambient-point distance request handled by $L$ is accounted for by the finite route
