@@ -57,16 +57,27 @@ Any permitted read of the reflection boundary uses $R$ and is transported only b
 Since the carrier inventory has no coordinate for truth-total reflection, a host runtime, a host truth predicate, or a meta-level truth classifier, no downstream consumer can project such data from the packet. The only exported boundary is the finite distinction between closed ground generation and open meta-truth refusal.
 \end{proof}
 
+\begin{theorem}[Ground-loop boundary scoped kernel route]
+\label{thm:ground-loop-boundary-scoped-kernel-route}
+Every accepted $\GroundLoopBoundaryUp$ packet binds its displayed rows to the exact BEDC primitive scope: the mark inventory $M$ is scoped to $\BMark$, the positive sameness rows $S$ and cross-mark refusal row $X$ are scoped to $\msame$, transport $H$ is scoped to $\hsame$, replay $C$ is scoped to $\Cont$, provenance $P$ is scoped to $\Pkg$, and local naming $N$ is scoped to $\NameCert$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $G=(M,S,X,R,H,C,P,N)$ through \autoref{def:ground-loop-boundary-carrier}. Each row is named by the primitive that stores it: marks by $\BMark$, mark sameness and refusal by $\msame$, transport by $\hsame$, replay by $\Cont$, provenance by $\Pkg$, and local naming by $\NameCert$.
+
+The meta non-escape theorem \autoref{thm:ground-loop-boundary-meta-nonescape} exhausts every permitted consumer through these rows. Since the carrier has no further coordinate for host truth, runtime export, or a meta-level classifier, the listed primitive bindings are the whole scope of the packet.
+\end{proof}
+
 \closureat{GroundLoopBoundaryUp}{seedStr}
 \closureat{GroundLoopBoundaryUp}{obligationStr}
+\closureat{GroundLoopBoundaryUp}{scopedStr}
 
 \begin{closurestatus}{\GroundLoopBoundaryUp}
   \constructivestory{A $\GroundLoopBoundaryUp$ packet is generated from the two $\BMark$ rows, the two positive $\msame$ rows, cross-mark refusal rows, a reflection-boundary row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:ground-loop-boundary-carrier}, \autoref{thm:ground-loop-boundary-namecert-obligations}, and \autoref{thm:ground-loop-boundary-meta-nonescape}, with the displayed TasteGate marker above, bind the finite carrier, NameCert obligation rows, and non-escape boundary between closed ground distinction and open meta-truth refusal.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:ground-loop-boundary-carrier}, \autoref{thm:ground-loop-boundary-namecert-obligations}, \autoref{thm:ground-loop-boundary-meta-nonescape}, and \autoref{thm:ground-loop-boundary-scoped-kernel-route}, with the displayed TasteGate marker above, bind the finite carrier, NameCert obligation rows, non-escape boundary, and exact primitive scope between closed ground distinction and open meta-truth refusal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean-side formal verification, truth-total reflection, a host runtime export, a host truth predicate, or a bridge to the internal CIC-star structure.}
-  \upgradepath{Scoped closure requires binding the mark-row exposure, positive sameness exposure, cross-mark refusal, reflection-boundary transport, provenance, and meta non-escape obligations to their exact BEDC primitive scope.}
+  \upgradepath{Public closure requires a reusable consumer-facing interface for the scoped ground-loop boundary rows.}
 \end{closurestatus}
