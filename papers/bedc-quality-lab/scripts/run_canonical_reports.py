@@ -52,6 +52,9 @@ NEGATIVE_WITNESS_SUMMARY_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witn
 FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
 FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
 FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
+GAP_HEAD_TRANSFER_ATLAS_JSON_ARTIFACT = "reports/canonical/gap_head_transfer_atlas.json"
+GAP_HEAD_TRANSFER_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_transfer_atlas.md"
+GAP_HEAD_TRANSFER_ATLAS_ARTIFACT_ID = "bedc-quality-lab:gap-head-transfer-atlas"
 GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT = "reports/gap_head_mechanism_attribution.json"
 GAP_HEAD_MECHANISM_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/gap_head_mechanism_attribution.md"
 GAP_HEAD_MECHANISM_ATTRIBUTION_ARTIFACT_ID = "bedc-quality-lab:gap-head-mechanism-attribution"
@@ -265,6 +268,34 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         not_claimed_pointer="$.not_claimed",
         positive_claim_pointer="$.main_claim_status",
         control_pointer="$.threshold_summary.control_baseline",
+        no_control_rationale_pointer=None,
+    ),
+    CanonicalReportSpec(
+        name="gap-head-transfer-atlas",
+        command=("python3", "scripts/run_gap_head_transfer_atlas.py"),
+        json_artifact=GAP_HEAD_TRANSFER_ATLAS_JSON_ARTIFACT,
+        markdown_artifact=GAP_HEAD_TRANSFER_ATLAS_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "config",
+            "surface_registry",
+            "prior_observation_packet",
+            "surfaces",
+            "boundary_ledger",
+            "hardgate_evidence",
+            "multi_surface_d5_o",
+            "not_claimed",
+            "forbidden_claim_term_audit",
+        ),
+        estimated_seconds=180,
+        bundle_role="hg_p_core",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts.metric_helper",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.multi_surface_d5_o",
+        control_pointer="$.config.control_arm",
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
@@ -1265,6 +1296,23 @@ def _formal_hardening_index_section(generated_at: str | None = None) -> dict[str
     }
 
 
+def _gap_head_transfer_atlas_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(GAP_HEAD_TRANSFER_ATLAS_JSON_ARTIFACT)
+    decision = _pointer_value(payload, "$.multi_surface_d5_o")
+    return {
+        "status": "pointer-only",
+        "artifact_id": payload.get("artifact_id", GAP_HEAD_TRANSFER_ATLAS_ARTIFACT_ID),
+        "json_artifact": GAP_HEAD_TRANSFER_ATLAS_JSON_ARTIFACT,
+        "markdown_artifact": GAP_HEAD_TRANSFER_ATLAS_MARKDOWN_ARTIFACT,
+        "decision_pointer": "$.multi_surface_d5_o",
+        "boundary_ledger_pointer": "$.boundary_ledger",
+        "claim_capsule_pointer": "$.config.claim_capsule_artifact",
+        "decision": decision.get("decision") if isinstance(decision, dict) else "missing",
+        "discovery_level": decision.get("discovery_level") if isinstance(decision, dict) else "missing",
+        "pass_surface_count": decision.get("pass_surface_count") if isinstance(decision, dict) else "missing",
+    }
+
+
 def _gap_head_mechanism_attribution_index_section() -> dict[str, Any]:
     payload = _load_sidecar_payload(GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT)
     return {
@@ -1388,6 +1436,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
+        "gap_head_transfer_atlas": _gap_head_transfer_atlas_index_section(),
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "gap_head_mechanism_attribution": _gap_head_mechanism_attribution_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
@@ -1518,6 +1567,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Ready: `{payload['formal_hardening']['ready']}`",
             f"- Coverage: `{payload['formal_hardening']['recorded']}/{payload['formal_hardening']['required']}`",
             f"- Gaps: `{payload['formal_hardening']['gap_count']}`",
+            "",
+            "## Gap-head transfer atlas",
+            "",
+            f"- Status: `{payload['gap_head_transfer_atlas']['status']}`",
+            f"- JSON: `{payload['gap_head_transfer_atlas']['json_artifact']}`",
+            f"- Markdown: `{payload['gap_head_transfer_atlas']['markdown_artifact']}`",
+            f"- Decision pointer: `{payload['gap_head_transfer_atlas']['decision_pointer']}`",
+            f"- Boundary ledger pointer: `{payload['gap_head_transfer_atlas']['boundary_ledger_pointer']}`",
+            f"- Claim capsule pointer: `{payload['gap_head_transfer_atlas']['claim_capsule_pointer']}`",
             "",
             "## Gap-head attribution capsule",
             "",

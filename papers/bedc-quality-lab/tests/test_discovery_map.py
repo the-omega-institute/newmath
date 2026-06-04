@@ -35,6 +35,12 @@ def _minimal_payload(spec):
     if spec.name == "gap-head-ablation":
         payload.update({"hardgate": {"status": "fail", "gates": {"learned_head": {"status": "pass"}}}})
         return payload
+    if spec.name == "gap-head-transfer-atlas":
+        payload.update({
+            "config": {"control_arm": "matched_random_gap_head"},
+            "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
+        })
+        return payload
     if spec.name == "spectral-ablation-hinge":
         payload.update({
             "ledger_summary": {"status": "negative"},
@@ -358,6 +364,77 @@ def test_gap_head_on_h_projects_to_d5_when_all_readiness_pointers_pass(tmp_path)
     assert row["discovery_level"] == "D5"
     assert row["audit_status"] == "valid"
     assert {criterion["status"] for criterion in row["d5_readiness"].values()} == {"pass"}
+
+
+def test_gap_head_transfer_atlas_discovery_row_matches_canonical_claim(tmp_path):
+    _write_all_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-transfer-atlas"]
+    atlas_payload = _read_json_artifact(tmp_path, "reports/canonical/gap_head_transfer_atlas.json")
+    claim = atlas_payload["multi_surface_d5_o"]
+
+    assert row["discovery_level"] == claim["discovery_level"]
+    assert claim["decision"] == "pass"
+    assert row["terminal_verdict"] == "ledger_only_hardening_not_ready"
+    assert row["projection_status"] == "projected"
+    assert row["evidence_pointer"] == "$.multi_surface_d5_o.decision"
+    assert row["control_pointer"] == "$.config.control_arm"
+    assert row["audit_status"] == "valid"
+
+
+def test_gap_head_transfer_atlas_audit_rejects_unresolved_control_pointer(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+    payload = _minimal_payload(spec)
+    payload["config"].pop("control_arm")
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-transfer-atlas"]
+
+    assert row["discovery_level"] == "D5-O"
+    assert row["control_pointer"] == "$.config.control_arm"
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "unresolved-control-pointer"
+
+
+def test_gap_head_transfer_atlas_audit_rejects_terminal_claim_mismatch(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+    payload = _minimal_payload(spec)
+    _write_payload(tmp_path, spec, payload)
+    evidence = discovery_map.ProjectionEvidence(
+        projection_status="projected",
+        evidence_pointer="$.multi_surface_d5_o.decision",
+        control_pointer="$.config.control_arm",
+    )
+
+    status, reason = discovery_map._audit_row(spec, payload, "D5-O", evidence, "pass")
+
+    assert status == "invalid"
+    assert reason == "atlas-terminal-claim-verdict-mismatch"
+
+
+def test_gap_head_transfer_atlas_failed_claim_projects_dn(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+    payload = _minimal_payload(spec)
+    payload["multi_surface_d5_o"] = {
+        "decision": "failed",
+        "discovery_level": "DN",
+        "pass_surface_count": 3,
+        "failed_gates": ["A2-HG4"],
+    }
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-transfer-atlas"]
+
+    assert row["discovery_level"] == "DN"
+    assert row["terminal_verdict"] == "rejected"
+    assert row["failed_gate"] == "$.multi_surface_d5_o.decision"
+    assert row["audit_status"] == "valid"
 
 
 @pytest.mark.parametrize(

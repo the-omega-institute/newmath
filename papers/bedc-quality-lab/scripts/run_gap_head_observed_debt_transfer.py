@@ -459,7 +459,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             f"- Report artifact pointer: `{payload['report']}`",
             f"- Artifact id pointer: `$.artifact_id`",
             f"- Transfer status pointer: `{TRANSFER_STATUS_POINTER}`",
-            f"- Surface verdict pointer: `$.surfaces[*].verdict`",
+            f"- Surface verdict nodes: `$.surfaces.<index>.verdict`",
             f"- Hardgate evidence pointer: `$.hardgate_evidence`",
             f"- Boundary ledger pointer: `$.observed_debt_transfer_boundary`",
             f"- Not claimed pointer: `$.not_claimed`",

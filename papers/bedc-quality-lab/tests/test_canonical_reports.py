@@ -19,6 +19,7 @@ HG_P_CORE = {
     "gap-head-discovery",
     "gap-head-ablation",
     "gap-head-threshold-frontier",
+    "gap-head-transfer-atlas",
     "gap-head-attribution-capsule",
     "certificate-guided-training",
     "certificate-guided-discovery",
@@ -47,6 +48,7 @@ def _payload_for_spec(spec):
             "source_artifacts": {
                 "cost_protocol": "configs/default_cost_protocol.yaml",
                 "canonical_runner": "scripts/run_gaussian_ou_lejepa.py",
+                "metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm",
             },
             "applicability_boundary": {
                 "claimed_scope": "fixture scope",
@@ -163,6 +165,17 @@ def _payload_for_spec(spec):
             "result": {"status": "negative" if spec.name == "certificate-guided-training" else "fixture"},
             "deltas": {"after_minus_before": {"debt_delta": -0.25}},
             "verdicts": [{"deltas": {"debt_delta": -0.25}}],
+            "surface_registry": [{"surface_id": "S0"}],
+            "surfaces": [{"surface_id": "S0"}],
+            "boundary_ledger": [],
+            "hardgate_evidence": {"A2-HG5": {"status": "pass"}},
+            "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
+            "prior_observation_packet": {
+                "status": "prior_observation",
+                "counts_as_a2_hg_pass_evidence": False,
+                "packet_pointer": "$.prior_observation_packet",
+                "observations": {},
+            },
             "run_id": "fixture-run",
             "run_artifacts": {
                 "claim_capsule": "reports/runs/fixture/claim_capsule.json",
@@ -212,6 +225,8 @@ def _payload_for_spec(spec):
             "forbidden_claim_term_audit": {"status": "pass", "hits": []},
         }
     )
+    if spec.name == "gap-head-transfer-atlas":
+        payload["config"] = {"control_arm": "matched_random_gap_head"}
     if spec.name == "mixing-family-sweep":
         payload["coverage_item"] = {
             "canonical_families": ["a", "b", "c"],
@@ -338,6 +353,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-discovery",
         "gap-head-ablation",
         "gap-head-threshold-frontier",
+        "gap-head-transfer-atlas",
         "gap-head-attribution-capsule",
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
@@ -464,6 +480,28 @@ def test_canonical_reports_manifest_includes_gap_head_threshold_frontier():
     assert spec.cost_pointer == "$.source_artifacts"
     assert spec.positive_claim_pointer == "$.main_claim_status"
     assert spec.control_pointer == "$.threshold_summary.control_baseline"
+
+
+def test_canonical_reports_manifest_includes_gap_head_transfer_atlas():
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+
+    assert spec.command == ("python3", "scripts/run_gap_head_transfer_atlas.py")
+    assert spec.json_artifact == "reports/canonical/gap_head_transfer_atlas.json"
+    assert spec.markdown_artifact == "reports/canonical/gap_head_transfer_atlas.md"
+    assert {
+        "surface_registry",
+        "prior_observation_packet",
+        "surfaces",
+        "boundary_ledger",
+        "hardgate_evidence",
+        "multi_surface_d5_o",
+        "forbidden_claim_term_audit",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.scope_pointer == "$.not_claimed"
+    assert spec.cost_pointer == "$.source_artifacts.metric_helper"
+    assert spec.positive_claim_pointer == "$.multi_surface_d5_o"
+    assert spec.control_pointer == "$.config.control_arm"
 
 
 def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
@@ -1001,6 +1039,38 @@ def test_discovery_map_is_registered_by_canonical_runner(tmp_path, monkeypatch):
     assert "Discovery map" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
 
 
+def test_gap_head_transfer_atlas_index_matches_discovery_map_row(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+
+    def fake_run_producer(spec):
+        json_path = canonical._artifact_path(spec.json_artifact)
+        md_path = canonical._artifact_path(spec.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+    discovery_payload = json.loads(
+        (canonical.CANONICAL_DIR / "discovery_map.json").read_text(encoding="utf-8")
+    )
+    atlas_row = next(row for row in discovery_payload["rows"] if row["report"] == "gap-head-transfer-atlas")
+    verdicts = [
+        json.loads(line)
+        for line in (canonical.CANONICAL_DIR / "claim_verdicts.jsonl").read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    claim = next(row for row in verdicts if row["claim_id"] == "claim:gap-head-transfer-atlas")
+
+    assert payload["gap_head_transfer_atlas"]["decision"] == "pass"
+    assert payload["gap_head_transfer_atlas"]["discovery_level"] == atlas_row["discovery_level"]
+    assert atlas_row["terminal_verdict"] == claim["claim_verdict"]
+    assert atlas_row["terminal_verdict"] != "pass"
+
+
 def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
@@ -1274,6 +1344,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
                 {
+                    "report": "gap-head-transfer-atlas",
+                    "artifact": "reports/canonical/gap_head_transfer_atlas.json",
+                    "pointer": "$.not_claimed",
+                },
+                {
                     "report": "gap-head-attribution-capsule",
                     "artifact": "reports/canonical/gap_head_attribution_capsule.json",
                     "pointer": "$.scope.not_claimed",
@@ -1304,8 +1379,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 12,
-            "denominator": 12,
+            "numerator": 13,
+            "denominator": 13,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -1341,6 +1416,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
                 {
+                    "report": "gap-head-transfer-atlas",
+                    "artifact": "reports/canonical/gap_head_transfer_atlas.json",
+                    "pointer": "$.source_artifacts.metric_helper",
+                },
+                {
                     "report": "gap-head-attribution-capsule",
                     "artifact": "reports/canonical/gap_head_attribution_capsule.json",
                     "pointer": "$.cost_protocol_pointer",
@@ -1371,8 +1451,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 12,
-            "denominator": 12,
+            "numerator": 13,
+            "denominator": 13,
         },
         "HardeningCoverage": {
             "value": 1.0,

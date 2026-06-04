@@ -25,7 +25,7 @@ DISCOVERY_MAP_SCHEMA_ID = "bedc-quality-lab:canonical-discovery-map"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
-DISCOVERY_LEVELS: tuple[DiscoveryLevel, ...] = ("D0", "D1", "D2", "D3", "D4", "D5", "DN", "DR")
+DISCOVERY_LEVELS: tuple[DiscoveryLevel, ...] = ("D0", "D1", "D2", "D3", "D4", "D5", "D5-O", "DN", "DR")
 
 
 @dataclass(frozen=True)
@@ -97,6 +97,10 @@ GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
 )
 GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER = "$.gap_head_on_h_observed_debt_transfer.status"
 DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status"
+GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER = "$.multi_surface_d5_o.decision"
+GAP_HEAD_TRANSFER_ATLAS_CONTROL_POINTER = "$.config.control_arm"
+ACCEPTED_CLAIM_VERDICT = "accepted_positive_discovery"
+NOT_READY_CLAIM_VERDICT = "ledger_only_hardening_not_ready"
 DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER = "$.dimension_mismatch_debt_transfer.effective_level"
 DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER = "$.dimension_mismatch_debt_transfer.anti_triviality_status"
 ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER = "$.d5_o"
@@ -618,6 +622,26 @@ def _dimension_mismatch_projection(payload: Mapping[str, Any]) -> tuple[dict[str
     )
 
 
+def _gap_head_transfer_atlas_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
+    decision = pointer_value(payload, GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER)
+    if decision == "pass":
+        return {"positive_discovery": True}, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer=GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER,
+            control_pointer=GAP_HEAD_TRANSFER_ATLAS_CONTROL_POINTER,
+        )
+    if decision == "failed":
+        return {"verdict": "rejected"}, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer=GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER,
+            failed_gate=GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER,
+        )
+    return {}, ProjectionEvidence(
+        projection_status="source-insufficient",
+        evidence_pointer=GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER,
+    )
+
+
 def _mechanism_channel(status: Any) -> str | None:
     if not isinstance(status, str):
         return None
@@ -683,6 +707,8 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _sigreg_training_proxy_projection(payload)
     elif spec.name == "gap-head-ablation":
         overlay, evidence = _gap_head_ablation_projection(payload)
+    elif spec.name == "gap-head-transfer-atlas":
+        overlay, evidence = _gap_head_transfer_atlas_projection(payload)
     elif spec.name == "spectral-ablation-hinge":
         overlay, evidence = _spectral_ablation_projection(payload)
     elif spec.name == "anisotropic-ou-sweep":
@@ -748,15 +774,70 @@ def _unresolved_d5_criterion(evidence: ProjectionEvidence, context: Mapping[str,
     return None
 
 
+def _atlas_claim_terminal(payload: Mapping[str, Any], level: DiscoveryLevel) -> str:
+    decision = pointer_value(payload, GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER)
+    if decision == "failed" or level == "DN":
+        return "rejected"
+    if decision != "pass" or level != "D5-O":
+        return ""
+    return NOT_READY_CLAIM_VERDICT
+
+
+def _atlas_claim_acceptance_consistent(payload: Mapping[str, Any], level: DiscoveryLevel, terminal_verdict: str) -> bool:
+    derived = _atlas_claim_terminal(payload, level)
+    if terminal_verdict == "pass":
+        return derived == ACCEPTED_CLAIM_VERDICT
+    return derived != ACCEPTED_CLAIM_VERDICT and terminal_verdict == derived
+
+
+def _audit_pointer_cell(payload: Mapping[str, Any], pointer: str | None, missing_reason: str, unresolved_reason: str) -> tuple[str, str] | None:
+    if pointer is None:
+        return "invalid", missing_reason
+    if pointer_value(payload, pointer) is None:
+        return "invalid", unresolved_reason
+    return None
+
+
+def _audit_emitted_pointers(payload: Mapping[str, Any], evidence: ProjectionEvidence) -> tuple[str, str] | None:
+    for field in (
+        "evidence_pointer",
+        "control_pointer",
+        "failed_gate",
+        "debt_row_pointer",
+        "robustness_pointer",
+        "adversarial_pointer",
+        "observed_debt_transfer_pointer",
+    ):
+        pointer = getattr(evidence, field)
+        if pointer is not None and pointer_value(payload, pointer) is None:
+            return "invalid", f"unresolved-{field.replace('_', '-')}"
+    return None
+
+
 def _audit_row(
     spec: CanonicalReportSpec,
     payload: Mapping[str, Any],
     level: DiscoveryLevel,
     evidence: ProjectionEvidence,
+    terminal_verdict: str = "",
     context: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> tuple[str, str]:
     if level not in DISCOVERY_LEVELS:
         return "invalid", "missing-discovery-level"
+    if spec.name == "gap-head-transfer-atlas":
+        claim = pointer_value(payload, "$.multi_surface_d5_o")
+        if not isinstance(claim, Mapping):
+            return "invalid", "missing-atlas-claim"
+        if pointer_value(payload, "$.multi_surface_d5_o.decision") is None:
+            return "invalid", "unresolved-atlas-decision"
+        if pointer_value(payload, "$.multi_surface_d5_o.discovery_level") is None:
+            return "invalid", "unresolved-atlas-discovery-level"
+        pointer_result = _audit_emitted_pointers(payload, evidence)
+        if pointer_result is not None:
+            return pointer_result
+        if not _atlas_claim_acceptance_consistent(payload, level, terminal_verdict):
+            return "invalid", "atlas-terminal-claim-verdict-mismatch"
+        return "valid", ""
     if spec.name == "sigreg-training-proxy":
         consistent, reason, _failed_pointer = _sigreg_training_proxy_consistency(payload)
         if not consistent:
@@ -772,24 +853,31 @@ def _audit_row(
         if pointer_value(payload, levels.mechanism_case_pointer) is None:
             return "invalid", "unresolved-mechanism-case-pointer"
     if level in {"D4", "D5"}:
-        if evidence.control_pointer is None:
-            return "invalid", "missing-control-pointer"
-        if pointer_value(payload, evidence.control_pointer) is None:
-            return "invalid", "unresolved-control-pointer"
+        pointer_result = _audit_pointer_cell(
+            payload,
+            evidence.control_pointer,
+            "missing-control-pointer",
+            "unresolved-control-pointer",
+        )
+        if pointer_result is not None:
+            return pointer_result
         if level == "D5" and spec.name == "gap-head-on-h":
             reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
             if reason is not None:
                 return "invalid", reason
     if level == "DN":
-        if evidence.failed_gate is None:
-            return "invalid", "missing-failed-gate"
-        if pointer_value(payload, evidence.failed_gate) is None:
-            return "invalid", "unresolved-failed-gate"
+        pointer_result = _audit_pointer_cell(payload, evidence.failed_gate, "missing-failed-gate", "unresolved-failed-gate")
+        if pointer_result is not None:
+            return pointer_result
     if level == "D1":
-        if evidence.debt_row_pointer is None:
-            return "invalid", "missing-debt-row-pointer"
-        if pointer_value(payload, evidence.debt_row_pointer) is None:
-            return "invalid", "unresolved-debt-row-pointer"
+        pointer_result = _audit_pointer_cell(
+            payload,
+            evidence.debt_row_pointer,
+            "missing-debt-row-pointer",
+            "unresolved-debt-row-pointer",
+        )
+        if pointer_result is not None:
+            return pointer_result
     return "valid", ""
 
 
@@ -802,14 +890,23 @@ def discovery_row(
     projected = projection_payload(spec, payload, context_payloads)
     evidence = _projection_evidence(spec, payload, context_payloads)
     verdict = assign_discovery_level(projected)
-    audit_status, audit_reason = _audit_row(spec, payload, verdict.discovery_level, evidence, context_payloads)
+    discovery_level: DiscoveryLevel = verdict.discovery_level
+    terminal_verdict = verdict.terminal_verdict
+    classifier_reasons = list(verdict.reasons)
+    if spec.name == "gap-head-transfer-atlas":
+        claim = pointer_value(payload, "$.multi_surface_d5_o")
+        if isinstance(claim, Mapping) and claim.get("discovery_level") in DISCOVERY_LEVELS:
+            discovery_level = claim["discovery_level"]  # type: ignore[assignment]
+            terminal_verdict = _atlas_claim_terminal(payload, discovery_level)
+            classifier_reasons = ["multi_surface_d5_o.discovery_level"]
+    audit_status, audit_reason = _audit_row(spec, payload, discovery_level, evidence, terminal_verdict, context_payloads)
     row: dict[str, Any] = {
         "report": spec.name,
         "json_artifact": spec.json_artifact,
         "markdown_artifact": spec.markdown_artifact,
-        "discovery_level": verdict.discovery_level,
-        "terminal_verdict": verdict.terminal_verdict,
-        "classifier_reasons": list(verdict.reasons),
+        "discovery_level": discovery_level,
+        "terminal_verdict": terminal_verdict,
+        "classifier_reasons": classifier_reasons,
         "projection_status": evidence.projection_status,
         "evidence_pointer": evidence.evidence_pointer,
         "audit_status": audit_status,
@@ -866,6 +963,7 @@ def _manifest_audit(
         "reports/canonical/claim_capsule.json",
         OBSERVED_DEBT_ARTIFACT,
         DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
+        "reports/canonical/gap_head_transfer_atlas.json",
     }
     directory_json = {
         f"reports/canonical/{path.name}"
