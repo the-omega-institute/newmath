@@ -135,4 +135,38 @@ theorem MetricProjectionCarrier_locatedset_endpoint_separation [AskSetup] [Packa
     ⟨DUnary, IUnary, WUnary, locatedUnary, projectionUnary, locatedRoute,
       projectionRoute, pkgSig, projectionPkg⟩
 
+theorem MetricProjectionLocatedInfimumReplayObligation [AskSetup] [PackageSetup]
+    {H C D I W E T R P N hilbertConvex distanceInfimum windowEndpoint replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg ->
+      Cont H C hilbertConvex ->
+        Cont D I distanceInfimum ->
+          Cont I W windowEndpoint ->
+            Cont windowEndpoint E replayRead ->
+              PkgSig bundle replayRead pkg ->
+                UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory D ∧ UnaryHistory I ∧
+                  UnaryHistory W ∧ UnaryHistory E ∧ UnaryHistory hilbertConvex ∧
+                    UnaryHistory distanceInfimum ∧ UnaryHistory windowEndpoint ∧
+                      UnaryHistory replayRead ∧ Cont H C hilbertConvex ∧
+                        Cont D I distanceInfimum ∧ Cont I W windowEndpoint ∧
+                          Cont windowEndpoint E replayRead ∧ PkgSig bundle P pkg ∧
+                            PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier hilbertRoute distanceRoute windowRoute replayRoute replayPkg
+  obtain ⟨HUnary, CUnary, DUnary, IUnary, WUnary, EUnary, _TUnary, _RUnary,
+    _PUnary, _NUnary, _storedWindowRoute, _storedDistanceRoute, provenancePkg⟩ :=
+    carrier
+  have hilbertConvexUnary : UnaryHistory hilbertConvex :=
+    unary_cont_closed HUnary CUnary hilbertRoute
+  have distanceInfimumUnary : UnaryHistory distanceInfimum :=
+    unary_cont_closed DUnary IUnary distanceRoute
+  have windowEndpointUnary : UnaryHistory windowEndpoint :=
+    unary_cont_closed IUnary WUnary windowRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed windowEndpointUnary EUnary replayRoute
+  exact
+    ⟨HUnary, CUnary, DUnary, IUnary, WUnary, EUnary, hilbertConvexUnary,
+      distanceInfimumUnary, windowEndpointUnary, replayReadUnary, hilbertRoute,
+      distanceRoute, windowRoute, replayRoute, provenancePkg, replayPkg⟩
+
 end BEDC.Derived.MetricProjectionUp
