@@ -78,6 +78,57 @@ representatives, choice, and ambient completeness. Hence the located
 transport factors through the root epigraph route already displayed.
 \end{proof}
 
+\begin{theorem}[LowerSemicontinuous root epigraph RegSeqRat handoff]
+\label{thm:lowersemicontinuous-root-epigraph-regseqrat-handoff}
+Every Real-facing read from the epigraph ledger of
+$L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)$ must first pass through the
+$\StreamNameUp$ schedule row $W$, the $\RegSeqRatUp$ value row $R$, the
+$\LowerRealUp$ epigraph row $E$, the located comparison row $O$, and the
+structural rows $H,C,P,N$. The handoff therefore exports a finite scheduled
+readback of the epigraph route, not an unscheduled Real value or a host liminf
+operation.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:lowersemicontinuous-lowerreal-epigraph-classifier}. It
+fixes the epigraph classifier on the displayed rows $X,F,W,R,E$ before any
+located comparison is considered.
+
+Use \autoref{thm:lowersemicontinuous-regular-readback-transport}. The
+transported readback keeps the same StreamName schedule and RegSeqRat row
+visible when the located row $O$ is consumed.
+
+Now apply \autoref{thm:lowersemicontinuous-root-epigraph-located-transport} and
+\autoref{thm:lowersemicontinuous-real-seal-export-boundary}. These boundary
+steps force the Real-facing read through $W,R,E,O,H,C,P,N$, so the export is a
+scheduled epigraph handoff rather than a semantic Real operation.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous located Real non-escape]
+\label{thm:lowersemicontinuous-root-located-real-nonescape}
+The located comparison row $O$ of
+$L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)$ cannot export semantic liminf data,
+quotient $\RealUp$ equality, selected representatives, countable choice, or
+ambient $\RealUp$ completeness. Any Real-facing located comparison remains a
+read of the displayed epigraph ledger $E$, schedule $W$, regular rational row
+$R$, transport $H$, replay $C$, provenance $P$, and local NameCert row $N$.
+\end{theorem}
+\begin{proof}
+Read the comparison through
+\autoref{thm:lowersemicontinuous-root-epigraph-regseqrat-handoff}. The only
+available Real-facing handoff has already exposed $W,R,E,O,H,C,P,N$.
+
+The classifier and transport rows are controlled by
+\autoref{thm:lowersemicontinuous-lowerreal-epigraph-classifier} and
+\autoref{thm:lowersemicontinuous-regular-readback-transport}. They keep the
+located comparison attached to the displayed lower-real epigraph route.
+
+Finally use \autoref{thm:lowersemicontinuous-root-epigraph-located-transport}
+with \autoref{thm:lowersemicontinuous-real-seal-export-boundary}. Since the
+carrier has no coordinates for semantic liminf, quotient equality, selected
+representatives, choice, or ambient completeness, none of those data can escape
+through the located Real comparison.
+\end{proof}
+
 \begin{theorem}[LowerSemicontinuous Real-seal export boundary]
 \label{thm:lowersemicontinuous-real-seal-export-boundary}
 Every $\RealUp$ export of $L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)$ is bounded
