@@ -87,4 +87,31 @@ theorem LocatedSetCarrier_distance_witness_obligation [AskSetup] [PackageSetup]
     ⟨witnessUnary, metricRoute, distanceRoute, witnessRoute, provenancePkg, namePkg,
       witnessPkg⟩
 
+theorem LocatedSetDistanceLedger_totality [AskSetup] [PackageSetup]
+    {X A Q R E T H C P N windowRead sealRead handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedSetCarrier X A Q R E T H C P N bundle pkg ->
+      Cont Q R windowRead ->
+        Cont windowRead E sealRead ->
+          Cont sealRead T handoffRead ->
+            PkgSig bundle handoffRead pkg ->
+              UnaryHistory windowRead ∧ UnaryHistory sealRead ∧
+                UnaryHistory handoffRead ∧ Cont X A Q ∧ Cont Q R windowRead ∧
+                  Cont windowRead E sealRead ∧ Cont sealRead T handoffRead ∧
+                    PkgSig bundle P pkg ∧ PkgSig bundle handoffRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier windowRoute sealRoute handoffRoute handoffPkg
+  obtain ⟨_xUnary, _aUnary, qUnary, rUnary, eUnary, tUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, locatedRoute, _distanceRoute, _sealRoute, provenancePkg⟩ :=
+      carrier
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed qUnary rUnary windowRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowUnary eUnary sealRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed sealUnary tUnary handoffRoute
+  exact
+    ⟨windowUnary, sealUnary, handoffUnary, locatedRoute, windowRoute, sealRoute,
+      handoffRoute, provenancePkg, handoffPkg⟩
+
 end BEDC.Derived.LocatedSetUp
