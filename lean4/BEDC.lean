@@ -2909,7 +2909,6 @@ import BEDC.Derived.ConvergenceRadiusUp.TailShiftBoundary
 import BEDC.Derived.ConvergentNetUp.TasteGate
 import BEDC.Derived.ConvergentRealSequenceCauchyUp.TasteGate
 import BEDC.Derived.ConvergentSequenceCauchyUp.TasteGate
-import BEDC.Derived.ConvexCompactIntervalUp
 import BEDC.Derived.ConvexConjugateUp.TasteGate
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
@@ -5282,6 +5281,7 @@ import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LowerRealUp.DedekindCutAdmission
 import BEDC.Derived.LowerRealUp.DirectedLowerCutBudget
 import BEDC.Derived.LowerRealUp.LocatedCutLedger
+import BEDC.Derived.LowerRealUp.LocatedSupremumHandoff
 import BEDC.Derived.LowerRealUp.PublicNonescape
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.PublicRegSeqRatRealRoute
@@ -7807,6 +7807,7 @@ import BEDC.Derived.SeriesUp
 import BEDC.Derived.SetUp
 import BEDC.Derived.SetlikeUp.MembershipKernel
 import BEDC.Derived.SetlikeUp.MembershipRoute
+import BEDC.Derived.SetlikeUp.MembershipStability
 import BEDC.Derived.SetlikeUp.SubsetLedger
 import BEDC.Derived.SetlikeUp.TasteGate
 import BEDC.Derived.SharedTailNormalizerUp.TasteGate
