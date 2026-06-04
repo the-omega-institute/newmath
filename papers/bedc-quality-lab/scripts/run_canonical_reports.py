@@ -326,6 +326,9 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "d5_m",
             "mechanism_case",
             "hardgates",
+            "residualized_attribution",
+            "score_margin_causal_evidence",
+            "a4_hardgates",
             "claim_capsule_hardgates",
             "cost_protocol_pointer",
             "control_pointer",
@@ -1387,6 +1390,12 @@ def _gap_head_attribution_index_section() -> dict[str, Any]:
         "d5_o_status": _pointer_value(payload, "$.d5_o.status") or "missing",
         "d5_m_status": _pointer_value(payload, "$.d5_m.status") or "missing",
         "mechanism_case": _pointer_value(payload, "$.mechanism_case.case") or "missing",
+        "residualized_attribution_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+        "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
+        "a4_hardgates_status_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.status",
+        "a4_hg5_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
+        "a4_hardgates_status": _pointer_value(payload, "$.a4_hardgates.status") or "missing",
+        "a4_hg5_status": _pointer_value(payload, "$.a4_hardgates.gates.A4-HG5.status") or "missing",
     }
 
 

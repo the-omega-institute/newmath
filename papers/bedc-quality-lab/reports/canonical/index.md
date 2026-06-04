@@ -136,10 +136,10 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/gap_head_attribution_capsule.json`
 - Markdown: `reports/canonical/gap_head_attribution_capsule.md`
-- Run id: `a1-20260604T151639Z`
+- Run id: `a1-20260604T212205Z`
 - D5-O: `ready`
 - D5-M: `blocked`
-- Mechanism case: `Case 2`
+- Mechanism case: `Case C`
 
 ## Gap-head mechanism NameCert candidate
 
@@ -148,7 +148,7 @@
 - Markdown: `reports/gap_head_mechanism_namecert.md`
 - Ledger policy pointer: `$.ledger_policy.mechanism_closure_debt`
 - Closure status pointer: `$.closure_status.mechanism_spec`
-- Candidate mechanism: `probe-margin-channel`
+- Candidate mechanism: `unresolved`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 
 ## Release manifest sidecar

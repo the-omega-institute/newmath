@@ -13,6 +13,7 @@ def _capsule(root):
                 "run_id": "fixture",
                 "mechanism_case": {
                     "case": "Case 2",
+                    "candidate_mechanism": "probe-margin-channel",
                     "status": "D5-O retained, mechanism = probe-margin-channel",
                     "failed_gate": "A1-HG3",
                     "what_was_learned": "score_plus_margin remains statistically competitive with full.",
@@ -20,6 +21,9 @@ def _capsule(root):
                 "d5_o": {"status": "ready"},
                 "d5_m": {"status": "blocked", "passed": False, "failed_gate": "A1-HG3"},
                 "hardgates": {"gates": {"A1-HG3": {"status": "fail"}}},
+                "a4_hardgates": {"gates": {"A4-HG5": {"status": "fail"}}},
+                "residualized_attribution": {"status": "pass"},
+                "score_margin_causal_evidence": {"channel_classification": "score_margin_sufficient"},
             }
         )
         + "\n",
@@ -54,6 +58,7 @@ def test_optional_source_absence_fails_closed_as_missing_or_partial(tmp_path):
     assert payload["stability_spec"]["status"] == "missing"
     assert payload["closure_status"]["mechanism_spec"] == "partial"
     assert payload["ledger_policy"]["mechanism_closure_debt"] == "open"
+    assert "A4-HG5" in payload["ledger_policy"]["blocking_cells"]
 
 
 def test_missing_a1_source_fails_closed_without_writing_upstream_artifact(tmp_path):

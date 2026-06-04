@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Produce the A1 gap-head attribution capsule for issue 692."""
+"""Produce the gap-head attribution capsule."""
 
 from __future__ import annotations
 
@@ -41,6 +41,8 @@ RUNS_DIR = "reports/runs"
 PROJECTION_DIM = 1
 PROJECTION_SEED_SALT = 811_773
 ROTATION_SEED_SALT = 811_747
+SCORE_MARGIN_SHUFFLE_SALT = 933_871
+SCORE_MARGIN_REPLACE_SALT = 933_887
 EPS = 1.0e-8
 NOT_CLAIMED = (
     "global model quality",
@@ -289,6 +291,92 @@ def _score_plus_margin_builder(surface: Mapping[str, Any], spec: AttributionArmS
     return np.column_stack(parts).astype(np.float64), columns, {"threshold_policy": "score_threshold_over_full_surface"}
 
 
+def _score_margin_matrix(surface: Mapping[str, Any]) -> tuple[np.ndarray, list[str]]:
+    blocks = _surface_blocks(surface)
+    columns = _block_columns(surface, {"score"}) + _block_columns(surface, {"margin"})
+    return np.column_stack([blocks["score"], blocks["margin"]]).astype(np.float64), columns
+
+
+def _matrix_rank_and_condition(design: np.ndarray) -> tuple[int, float]:
+    singular = np.linalg.svd(design, compute_uv=False)
+    rank = int(np.linalg.matrix_rank(design))
+    positive = singular[singular > EPS]
+    condition = float(positive[0] / positive[-1]) if positive.size else math.inf
+    return rank, condition
+
+
+def _max_abs_correlation(left: np.ndarray, right: np.ndarray) -> float:
+    x = _require_matrix("left", left)
+    y = _require_matrix("right", right)
+    if x.shape[0] != y.shape[0]:
+        raise ValueError("correlation matrices must align")
+    x0 = x - x.mean(axis=0, keepdims=True)
+    y0 = y - y.mean(axis=0, keepdims=True)
+    x_scale = np.linalg.norm(x0, axis=0)
+    y_scale = np.linalg.norm(y0, axis=0)
+    usable_x = x_scale > EPS
+    usable_y = y_scale > EPS
+    if not np.any(usable_x) or not np.any(usable_y):
+        return 0.0
+    corr = (x0[:, usable_x].T @ y0[:, usable_y]) / np.outer(x_scale[usable_x], y_scale[usable_y])
+    return float(np.max(np.abs(corr))) if corr.size else 0.0
+
+
+def _residualized_h_against_score_margin(surface: Mapping[str, Any]) -> tuple[np.ndarray, dict[str, Any]]:
+    h = _surface_blocks(surface)["h"]
+    score_margin, score_margin_columns = _score_margin_matrix(surface)
+    design = np.column_stack([np.ones(score_margin.shape[0], dtype=np.float64), score_margin])
+    rank, condition_number = _matrix_rank_and_condition(design)
+    coefficients, *_ = np.linalg.lstsq(design, h, rcond=None)
+    residual = (h - design @ coefficients).astype(np.float64)
+    before = _max_abs_correlation(h, score_margin)
+    after = _max_abs_correlation(residual, score_margin)
+    finite = bool(np.all(np.isfinite(residual)))
+    full_rank = rank == min(design.shape)
+    condition_pass = bool(math.isfinite(condition_number) and condition_number <= 1.0e8)
+    correlation_pass = bool(after <= max(1.0e-8, before * 1.0e-6))
+    return residual, {
+        "method": "least_squares_residual_h_against_intercept_score_margin",
+        "score_margin_columns": score_margin_columns,
+        "design_columns": ["intercept", *score_margin_columns],
+        "sample_count": int(design.shape[0]),
+        "h_dim": int(h.shape[1]),
+        "design_rank": rank,
+        "required_rank": int(min(design.shape)),
+        "condition_number": condition_number,
+        "finite_values": finite,
+        "rank_guard": "pass" if full_rank else "fail",
+        "condition_number_guard": "pass" if condition_pass else "fail",
+        "max_abs_corr_before": before,
+        "max_abs_corr_after": after,
+        "correlation_removal": "pass" if correlation_pass else "fail",
+        "deterministic": True,
+    }
+
+
+def _full_residualized_builder(surface: Mapping[str, Any], spec: AttributionArmSpec, seed: int) -> tuple[np.ndarray, list[str], dict[str, Any]]:
+    del spec, seed
+    residual_h, metadata = _residualized_h_against_score_margin(surface)
+    blocks = _surface_blocks(surface)
+    features = np.column_stack([residual_h, blocks["score"], blocks["margin"], blocks["transition_delta"], blocks["quality"]])
+    columns = (
+        [f"residualized_h:{index}" for index in range(residual_h.shape[1])]
+        + _block_columns(surface, {"score"})
+        + _block_columns(surface, {"margin"})
+        + _block_columns(surface, {"transition_delta"})
+        + _block_columns(surface, {"quality"})
+    )
+    return features.astype(np.float64), columns, {"residualization": metadata}
+
+
+def _full_without_score_margin_builder(surface: Mapping[str, Any], spec: AttributionArmSpec, seed: int) -> tuple[np.ndarray, list[str], dict[str, Any]]:
+    del spec, seed
+    blocks = _surface_blocks(surface)
+    features = np.column_stack([blocks["h"], blocks["transition_delta"], blocks["quality"]])
+    columns = _block_columns(surface, {"h"}) + _block_columns(surface, {"transition_delta"}) + _block_columns(surface, {"quality"})
+    return features.astype(np.float64), columns, {"removed_feature_roots": ["score", "margin"]}
+
+
 def _make_spec(
     name: str,
     family: str,
@@ -324,6 +412,8 @@ ARM_SPECS: tuple[AttributionArmSpec, ...] = (
     _make_spec("full_without_margin", "ablation", _selected_roots_builder, ("h", "score", "transition_delta", "quality")),
     _make_spec("full_without_transition", "ablation", _selected_roots_builder, ("h", "score", "margin", "quality"), gate_role="A1-HG5-ablation"),
     _make_spec("full_without_quality_scalars", "ablation", _selected_roots_builder, ("h", "score", "margin", "transition_delta")),
+    _make_spec("full_residualized_against_score_margin", "residualized_attribution", _full_residualized_builder, ("residualized_h", "score", "margin", "transition_delta", "quality"), gate_role="A4-HG2-primary"),
+    _make_spec("full_without_score_and_margin", "residualized_attribution", _full_without_score_margin_builder, ("h", "transition_delta", "quality"), gate_role="A4-HG3-primary"),
     _make_spec("matched_random", "negative_control", _full_builder, ("h", "score", "margin", "transition_delta", "quality"), control_role="matched_random_gap_labels", gate_role="A1-HG1-control"),
 )
 ARM_NAMES = tuple(spec.name for spec in ARM_SPECS)
@@ -500,6 +590,246 @@ def _gate(name: str, passed: bool, criterion: str, evidence: Mapping[str, Any]) 
     }
 
 
+def _ci_beats(aggregate: Mapping[str, Any], arm: str, baseline: str, metric: str) -> bool:
+    return _ci_low(aggregate, arm, metric) > _ci_high(aggregate, baseline, metric)
+
+
+def _positive_ci(aggregate: Mapping[str, Any], arm: str, metric: str) -> bool:
+    return _ci_low(aggregate, arm, metric) > 0.0
+
+
+def _residualized_attribution(records: Sequence[Mapping[str, Any]], aggregate: Mapping[str, Any]) -> dict[str, Any]:
+    arm_order = ["full_residualized_against_score_margin", "full_without_score_and_margin"]
+    arm_records = [record for record in records if record["arm"] in arm_order]
+    metadata = [
+        {
+            "seed": int(record["seed"]),
+            "arm": record["arm"],
+            "residualization": record.get("metadata", {}).get("residualization", {}),
+        }
+        for record in arm_records
+        if record["arm"] == "full_residualized_against_score_margin"
+    ]
+    finite_pass = all(item["residualization"].get("finite_values") is True for item in metadata)
+    rank_pass = all(item["residualization"].get("rank_guard") == "pass" for item in metadata)
+    condition_pass = all(item["residualization"].get("condition_number_guard") == "pass" for item in metadata)
+    correlation_pass = all(item["residualization"].get("correlation_removal") == "pass" for item in metadata)
+    deterministic_pass = all(item["residualization"].get("deterministic") is True for item in metadata)
+    return {
+        "status": "pass" if finite_pass and rank_pass and condition_pass and correlation_pass and deterministic_pass else "fail",
+        "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+        "residualization_metadata": metadata,
+        "guard_outcomes": {
+            "finite_values": "pass" if finite_pass else "fail",
+            "rank_guard": "pass" if rank_pass else "fail",
+            "condition_number_guard": "pass" if condition_pass else "fail",
+            "deterministic_construction": "pass" if deterministic_pass else "fail",
+            "score_margin_correlation_removal": "pass" if correlation_pass else "fail",
+        },
+        "a4_arm_order": arm_order,
+        "per_seed_arm_metrics": [
+            {
+                "seed": int(record["seed"]),
+                "arm": record["arm"],
+                "AUROC": record["metrics"]["AUROC"],
+                "UER_reduction": record["comparison"]["unlogged_error_reduction"],
+            }
+            for record in arm_records
+        ],
+        "ci_summaries": {
+            arm: {
+                "AUROC": aggregate["by_arm"][arm]["AUROC"],
+                "UER_reduction": aggregate["by_arm"][arm]["UER_reduction"],
+            }
+            for arm in arm_order
+        },
+    }
+
+
+def _perturbed_score_margin_features(
+    surface: Mapping[str, Any],
+    *,
+    seed: int,
+    mode: str,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    features = _require_matrix("features", surface["features"]).copy()
+    columns = list(surface["feature_columns"])
+    roots = [column.split(":", 1)[0] for column in columns]
+    score_margin_indices = [index for index, root in enumerate(roots) if root in {"score", "margin"}]
+    if not score_margin_indices:
+        raise ValueError("score/margin columns are required")
+    before = features.copy()
+    salt = SCORE_MARGIN_SHUFFLE_SALT if mode == "shuffle_score_margin" else SCORE_MARGIN_REPLACE_SALT
+    rng = np.random.default_rng(int(seed) + salt)
+    if mode == "shuffle_score_margin":
+        order = rng.permutation(features.shape[0])
+        features[:, score_margin_indices] = features[order][:, score_margin_indices]
+        protocol = "seed_deterministic_row_permutation"
+    elif mode == "replace_high_gap_score_margin_from_low_gap":
+        labels = _require_matrix("gap_labels", surface["gap_labels"])
+        score_margin_signal = np.max(labels[:, :2], axis=1)
+        high_rows = np.flatnonzero(score_margin_signal > 0.0)
+        low_rows = np.flatnonzero(score_margin_signal <= 0.0)
+        if high_rows.size and low_rows.size:
+            replacement = rng.choice(low_rows, size=high_rows.size, replace=True)
+            features[high_rows[:, None], score_margin_indices] = features[replacement[:, None], score_margin_indices]
+        protocol = "seed_deterministic_high_gap_replaced_from_low_gap"
+    else:
+        raise ValueError(f"unknown score/margin intervention mode: {mode}")
+    moved = np.any(np.abs(features - before) > 1.0e-12, axis=0)
+    moved_roots = sorted({roots[index] for index, value in enumerate(moved) if value})
+    moved_columns = [columns[index] for index, value in enumerate(moved) if value]
+    audit_pass = bool(moved_columns and set(moved_roots).issubset({"score", "margin"}))
+    return features.astype(np.float64), {
+        "mode": mode,
+        "seed_salt": int(salt),
+        "protocol": protocol,
+        "touched_column_audit": {
+            "status": "pass" if audit_pass else "fail",
+            "allowed_roots": ["score", "margin"],
+            "touched_roots": moved_roots,
+            "touched_columns": moved_columns,
+            "unchanged_non_score_margin_columns": bool(set(moved_roots).issubset({"score", "margin"})),
+        },
+    }
+
+
+def _metrics_for_features(
+    *,
+    arm: str,
+    features: np.ndarray,
+    surface: Mapping[str, Any],
+) -> dict[str, Any]:
+    train_idx = surface["train_idx"]
+    eval_idx = surface["eval_idx"]
+    labels = _require_matrix("gap_labels", surface["gap_labels"])
+    eval_labels = labels[eval_idx]
+    eval_error = np.asarray(surface["prediction_error"], dtype=np.float64)[eval_idx]
+    heads = _fit_gap_head(features[train_idx], labels[train_idx])
+    probabilities = _predict_gap_head(heads, features[eval_idx])
+    return _metric_projection(
+        _metrics_for_arm(
+            arm=arm,
+            probabilities=probabilities,
+            labels=eval_labels,
+            prediction_error=eval_error,
+        )
+    )
+
+
+def _score_margin_intervention_records(config: GapHeadRunConfig) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for seed_index, seed in enumerate(config.seeds):
+        surface = _surface_for_seed(seed=int(seed), config=config)
+        base_features = _require_matrix("features", surface["features"])
+        before = _metrics_for_features(arm="score_margin_before", features=base_features, surface=surface)
+        per_seed: dict[str, Any] = {
+            "seed": int(seed),
+            "seed_index": int(seed_index),
+            "before_metrics": before,
+            "after_metrics": {},
+            "audits": {},
+            "deltas": {},
+        }
+        for mode in ("shuffle_score_margin", "replace_high_gap_score_margin_from_low_gap"):
+            changed, audit = _perturbed_score_margin_features(surface, seed=int(seed), mode=mode)
+            after = _metrics_for_features(arm=mode, features=changed, surface=surface)
+            per_seed["after_metrics"][mode] = after
+            per_seed["audits"][mode] = audit
+            per_seed["deltas"][mode] = {
+                "AUROC_after_minus_before": float(after["AUROC"]["value"] - before["AUROC"]["value"]),
+                "UER_after_minus_before": float(after["UnloggedErrorRate"] - before["UnloggedErrorRate"]),
+                "UER_reduction_after_minus_before": float(before["UnloggedErrorRate"] - after["UnloggedErrorRate"]),
+            }
+        records.append(per_seed)
+    return records
+
+
+def _score_margin_causal_evidence(config: GapHeadRunConfig) -> dict[str, Any]:
+    records = _score_margin_intervention_records(config)
+    modes = ("shuffle_score_margin", "replace_high_gap_score_margin_from_low_gap")
+    finite = all(
+        math.isfinite(float(record["before_metrics"]["AUROC"]["value"]))
+        and all(math.isfinite(float(record["after_metrics"][mode]["AUROC"]["value"])) for mode in modes)
+        for record in records
+    )
+    audit_pass = all(record["audits"][mode]["touched_column_audit"]["status"] == "pass" for record in records for mode in modes)
+    deterministic = True
+    seed_paired = all(set(record["after_metrics"]) == set(modes) for record in records)
+    ci_summaries = {
+        mode: {
+            "AUROC_after_minus_before": metric_stats(record["deltas"][mode]["AUROC_after_minus_before"] for record in records),
+            "UER_after_minus_before": metric_stats(record["deltas"][mode]["UER_after_minus_before"] for record in records),
+        }
+        for mode in modes
+    }
+    movement_low = min(float(ci_summaries[mode]["AUROC_after_minus_before"]["ci95_low"]) for mode in modes)
+    movement_high = max(float(ci_summaries[mode]["AUROC_after_minus_before"]["ci95_high"]) for mode in modes)
+    if movement_low >= -0.02:
+        classification = "score_margin_sufficient"
+    elif movement_high < -0.02:
+        classification = "not_score_margin_sufficient"
+    else:
+        classification = "inconclusive"
+    return {
+        "status": "pass" if finite and audit_pass and deterministic and seed_paired else "fail",
+        "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
+        "deterministic_salts": {
+            "shuffle_score_margin": SCORE_MARGIN_SHUFFLE_SALT,
+            "replace_high_gap_score_margin_from_low_gap": SCORE_MARGIN_REPLACE_SALT,
+        },
+        "shuffle_score_margin": {
+            "protocol": "seed_deterministic_row_permutation",
+            "per_seed_before_after_metrics": [
+                {
+                    "seed": int(record["seed"]),
+                    "before": record["before_metrics"],
+                    "after": record["after_metrics"]["shuffle_score_margin"],
+                    "delta": record["deltas"]["shuffle_score_margin"],
+                    "audit": record["audits"]["shuffle_score_margin"],
+                }
+                for record in records
+            ],
+            "ci_summaries": ci_summaries["shuffle_score_margin"],
+        },
+        "replace_high_gap_score_margin_from_low_gap": {
+            "protocol": "seed_deterministic_high_gap_replaced_from_low_gap",
+            "per_seed_before_after_metrics": [
+                {
+                    "seed": int(record["seed"]),
+                    "before": record["before_metrics"],
+                    "after": record["after_metrics"]["replace_high_gap_score_margin_from_low_gap"],
+                    "delta": record["deltas"]["replace_high_gap_score_margin_from_low_gap"],
+                    "audit": record["audits"]["replace_high_gap_score_margin_from_low_gap"],
+                }
+                for record in records
+            ],
+            "ci_summaries": ci_summaries["replace_high_gap_score_margin_from_low_gap"],
+        },
+        "paired_deltas": [
+            {
+                "seed": int(record["seed"]),
+                "same_seed": True,
+                "same_arm_fit_path": True,
+                "same_metric_set": True,
+                "shuffle_score_margin": record["deltas"]["shuffle_score_margin"],
+                "replace_high_gap_score_margin_from_low_gap": record["deltas"]["replace_high_gap_score_margin_from_low_gap"],
+            }
+            for record in records
+        ],
+        "channel_classification": classification,
+        "protocol_checks": {
+            "present": True,
+            "deterministic": deterministic,
+            "finite": finite,
+            "seed_paired": seed_paired,
+            "column_audited": audit_pass,
+            "classified": classification in {"score_margin_sufficient", "not_score_margin_sufficient", "inconclusive"},
+        },
+        "ci_summaries": ci_summaries,
+    }
+
+
 def _a1_hardgates(aggregate: Mapping[str, Any]) -> dict[str, Any]:
     hg1 = _ci_low(aggregate, "full", "AUROC") > _ci_high(aggregate, "matched_random", "AUROC")
     hg2 = _ci_low(aggregate, "full", "UER_reduction") > _ci_high(aggregate, "matched_random", "UER_reduction")
@@ -560,35 +890,170 @@ def _a1_hardgates(aggregate: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def _mechanism_case(aggregate: Mapping[str, Any], hardgates: Mapping[str, Any]) -> dict[str, Any]:
-    if hardgates["gates"]["A1-HG3"]["status"] == "pass" and hardgates["gates"]["A1-HG4"]["status"] == "pass":
+def _shortcut_controls_clear(aggregate: Mapping[str, Any]) -> dict[str, bool]:
+    controls = (
+        "h_norm_only",
+        "h_direction_only",
+        "h_normalized_no_scale",
+        "transition_delta_only",
+        "score_plus_margin",
+    )
+    return {
+        control: _ci_low(aggregate, "full_residualized_against_score_margin", "AUROC") > _ci_high(aggregate, control, "AUROC")
+        for control in controls
+    }
+
+
+def _a4_hardgates(
+    aggregate: Mapping[str, Any],
+    residualized_attribution: Mapping[str, Any],
+    score_margin_causal_evidence: Mapping[str, Any],
+) -> dict[str, Any]:
+    hg1 = residualized_attribution.get("status") == "pass"
+    hg2 = (
+        _ci_beats(aggregate, "full_residualized_against_score_margin", "matched_random", "AUROC")
+        and _positive_ci(aggregate, "full_residualized_against_score_margin", "UER_reduction")
+    )
+    hg3 = (
+        _ci_beats(aggregate, "full_without_score_and_margin", "matched_random", "AUROC")
+        and _positive_ci(aggregate, "full_without_score_and_margin", "UER_reduction")
+    )
+    protocol = score_margin_causal_evidence.get("protocol_checks", {})
+    hg4 = (
+        score_margin_causal_evidence.get("status") == "pass"
+        and all(protocol.get(name) is True for name in ("present", "deterministic", "finite", "seed_paired", "column_audited", "classified"))
+        and score_margin_causal_evidence.get("channel_classification") in {"score_margin_sufficient", "not_score_margin_sufficient", "inconclusive"}
+    )
+    shortcut_clear = _shortcut_controls_clear(aggregate)
+    hg5 = (
+        hg1
+        and hg2
+        and hg3
+        and hg4
+        and score_margin_causal_evidence.get("channel_classification") == "not_score_margin_sufficient"
+        and all(shortcut_clear.values())
+    )
+    gates = {
+        "A4-HG1": _gate(
+            "A4-HG1",
+            hg1,
+            "residualization finite/rank/condition/determinism/correlation-removal guards all pass",
+            {"guard_outcomes": residualized_attribution.get("guard_outcomes", {})},
+        ),
+        "A4-HG2": _gate(
+            "A4-HG2",
+            hg2,
+            "full_residualized_against_score_margin beats matched_random by AUROC CI and has positive UER-reduction CI",
+            {
+                "full_residualized_auroc_ci_low": _ci_low(aggregate, "full_residualized_against_score_margin", "AUROC"),
+                "matched_random_auroc_ci_high": _ci_high(aggregate, "matched_random", "AUROC"),
+                "full_residualized_uer_reduction_ci_low": _ci_low(aggregate, "full_residualized_against_score_margin", "UER_reduction"),
+            },
+        ),
+        "A4-HG3": _gate(
+            "A4-HG3",
+            hg3,
+            "full_without_score_and_margin beats matched_random by AUROC CI and has positive UER-reduction CI",
+            {
+                "full_without_score_margin_auroc_ci_low": _ci_low(aggregate, "full_without_score_and_margin", "AUROC"),
+                "matched_random_auroc_ci_high": _ci_high(aggregate, "matched_random", "AUROC"),
+                "full_without_score_margin_uer_reduction_ci_low": _ci_low(aggregate, "full_without_score_and_margin", "UER_reduction"),
+            },
+        ),
+        "A4-HG4": _gate(
+            "A4-HG4",
+            hg4,
+            "score/margin intervention protocol is present, deterministic, finite, paired, column-audited, and classified",
+            {
+                "protocol_checks": dict(protocol),
+                "channel_classification": score_margin_causal_evidence.get("channel_classification"),
+                "causal_objects": [
+                    "$.score_margin_causal_evidence.shuffle_score_margin",
+                    "$.score_margin_causal_evidence.replace_high_gap_score_margin_from_low_gap",
+                    "$.score_margin_causal_evidence.paired_deltas",
+                    "$.score_margin_causal_evidence.channel_classification",
+                ],
+            },
+        ),
+        "A4-HG5": _gate(
+            "A4-HG5",
+            hg5,
+            "A4-HG1 through A4-HG4 pass, score/margin is not sufficient, and shortcut controls are not sufficient competitors",
+            {
+                "required_gates": ["A4-HG1", "A4-HG2", "A4-HG3", "A4-HG4"],
+                "channel_classification": score_margin_causal_evidence.get("channel_classification"),
+                "shortcut_controls_clear": shortcut_clear,
+                "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
+            },
+        ),
+    }
+    failed = [name for name, gate in gates.items() if gate["status"] != "pass"]
+    return {
+        "status": "pass" if not failed else "fail",
+        "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates",
+        "gates": gates,
+        "failed_gate": failed[0] if failed else None,
+    }
+
+
+def _mechanism_case(
+    aggregate: Mapping[str, Any],
+    hardgates: Mapping[str, Any],
+    a4_hardgates: Mapping[str, Any] | None = None,
+    score_margin_causal_evidence: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    if a4_hardgates is None or score_margin_causal_evidence is None:
+        if hardgates["gates"]["A1-HG3"]["status"] == "pass" and hardgates["gates"]["A1-HG4"]["status"] == "pass":
+            return {
+                "case": "Case C",
+                "status": "D5-M candidate",
+                "failed_gate": hardgates["failed_gate"],
+                "candidate_mechanism": "closed-attribution",
+                "what_was_learned": "full exceeds score_plus_margin and h_norm_only under the predeclared CI gates.",
+            }
         return {
-            "case": "Case 1",
-            "status": "D5-M candidate",
-            "failed_gate": hardgates["failed_gate"],
-            "what_was_learned": "full exceeds score_plus_margin and h_norm_only under the predeclared CI gates.",
-        }
-    score_close = _ci_high(aggregate, "score_plus_margin", "AUROC") >= _ci_low(aggregate, "full", "AUROC")
-    norm_close = _ci_high(aggregate, "h_norm_only", "AUROC") >= _ci_low(aggregate, "full", "AUROC")
-    if score_close:
-        return {
-            "case": "Case 2",
+            "case": "Case B",
             "status": "D5-O retained, mechanism = probe-margin-channel",
-            "failed_gate": "A1-HG3",
+            "failed_gate": hardgates["failed_gate"],
+            "candidate_mechanism": "probe-margin-channel",
             "what_was_learned": "score_plus_margin remains statistically competitive with full.",
         }
-    if norm_close:
+    residualized_strong = (
+        a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
+        and a4_hardgates["gates"]["A4-HG3"]["status"] == "pass"
+    )
+    classification = score_margin_causal_evidence.get("channel_classification")
+    if not residualized_strong:
+        mechanism = "probe-margin-channel" if classification == "score_margin_sufficient" else "unresolved"
         return {
-            "case": "Case 3",
-            "status": "demote mechanism to scale/norm detector",
-            "failed_gate": "A1-HG4",
-            "what_was_learned": "h_norm_only remains statistically competitive with full.",
+            "case": "Case A",
+            "status": f"D5-O retained, mechanism = {mechanism}" if mechanism == "probe-margin-channel" else "D5-O retained, mechanism unresolved",
+            "failed_gate": a4_hardgates["failed_gate"],
+            "candidate_mechanism": mechanism,
+            "what_was_learned": "residualized attribution collapses against the predeclared matched-random comparisons.",
+        }
+    if classification == "score_margin_sufficient":
+        return {
+            "case": "Case B",
+            "status": "D5-O retained, mechanism = probe-margin-channel",
+            "failed_gate": "A4-HG5",
+            "candidate_mechanism": "probe-margin-channel",
+            "what_was_learned": "residualized attribution remains strong, but score/margin remains sufficient.",
+        }
+    if classification == "not_score_margin_sufficient":
+        return {
+            "case": "Case C",
+            "status": "D5-M candidate" if a4_hardgates["gates"]["A4-HG5"]["status"] == "pass" else "D5-O retained, mechanism unresolved",
+            "failed_gate": a4_hardgates["failed_gate"],
+            "candidate_mechanism": "closed-attribution" if a4_hardgates["gates"]["A4-HG5"]["status"] == "pass" else "unresolved",
+            "what_was_learned": "residualized attribution remains strong and score/margin is not sufficient.",
         }
     return {
-        "case": "Case 2",
+        "case": "Case B",
         "status": "D5-O retained, mechanism unresolved",
-        "failed_gate": hardgates["failed_gate"],
-        "what_was_learned": "the attribution ledger did not satisfy every D5-M gate.",
+        "failed_gate": "A4-HG5",
+        "candidate_mechanism": "mixed-score-margin-channel",
+        "what_was_learned": "residualized attribution remains strong, but score/margin sufficiency is inconclusive.",
     }
 
 
@@ -601,13 +1066,20 @@ def _d5_o(aggregate: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def _d5_m(hardgates: Mapping[str, Any]) -> dict[str, Any]:
-    passed = hardgates["gates"]["A1-HG6"]["status"] == "pass"
+def _d5_m(hardgates: Mapping[str, Any], a4_hardgates: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    a1_passed = hardgates["gates"]["A1-HG6"]["status"] == "pass"
+    a4_passed = a4_hardgates is not None and a4_hardgates["gates"]["A4-HG5"]["status"] == "pass"
+    passed = a1_passed and a4_passed
+    failed_gate = None
+    if not a1_passed:
+        failed_gate = hardgates["failed_gate"] or "A1-HG6"
+    elif not a4_passed:
+        failed_gate = (a4_hardgates or {}).get("failed_gate") or "A4-HG5"
     return {
         "status": "ready" if passed else "blocked",
         "passed": bool(passed),
-        "requires": ["A1-HG1", "A1-HG2", "A1-HG3", "A1-HG4", "A1-HG5"],
-        "failed_gate": hardgates["failed_gate"],
+        "requires": ["A1-HG1", "A1-HG2", "A1-HG3", "A1-HG4", "A1-HG5", "A1-HG6", "A4-HG1", "A4-HG2", "A4-HG3", "A4-HG4", "A4-HG5"],
+        "failed_gate": failed_gate,
     }
 
 
@@ -634,15 +1106,15 @@ def _scope_seal() -> dict[str, Any]:
     }
 
 
-def _revocation_ledger(hardgates: Mapping[str, Any], generated_at: str) -> list[dict[str, Any]]:
-    if hardgates["status"] == "pass":
+def _revocation_ledger(hardgates: Mapping[str, Any], generated_at: str, d5_m: Mapping[str, Any] | None = None) -> list[dict[str, Any]]:
+    if (d5_m or {}).get("passed") is True:
         return []
     return [
         {
             "event": "claim-demotion",
             "timestamp": generated_at,
             "artifact_id": ARTIFACT_ID,
-            "failed_gate": hardgates["failed_gate"],
+            "failed_gate": (d5_m or {}).get("failed_gate") or hardgates["failed_gate"],
             "new_status": "D5-O-retained-D5-M-blocked",
         }
     ]
@@ -738,13 +1210,16 @@ def _build_payload(
 ) -> dict[str, Any]:
     aggregate = _aggregate(records)
     hardgates = _a1_hardgates(aggregate)
-    mechanism_case = _mechanism_case(aggregate, hardgates)
+    residualized_attribution = _residualized_attribution(records, aggregate)
+    score_margin_causal_evidence = _score_margin_causal_evidence(config)
+    a4_hardgates = _a4_hardgates(aggregate, residualized_attribution, score_margin_causal_evidence)
+    mechanism_case = _mechanism_case(aggregate, hardgates, a4_hardgates, score_margin_causal_evidence)
     columns_by_arm = {
         arm: next(record["feature_columns"] for record in records if record["arm"] == arm)
         for arm in ARM_NAMES
     }
     forbidden_audit = _forbidden_column_audit(columns_by_arm)
-    d5_m = _d5_m(hardgates)
+    d5_m = _d5_m(hardgates, a4_hardgates)
     source_artifacts = _source_artifacts(config, run_dir)
     capsule: dict[str, Any] = {
         "schema_id": SCHEMA_ID,
@@ -756,6 +1231,9 @@ def _build_payload(
         "d5_m": d5_m,
         "mechanism_case": mechanism_case,
         "hardgates": hardgates,
+        "residualized_attribution": residualized_attribution,
+        "score_margin_causal_evidence": score_margin_causal_evidence,
+        "a4_hardgates": a4_hardgates,
         "claim_capsule_hardgates": {},
         "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
         "control_pointer": _control_pointer(),
@@ -764,7 +1242,7 @@ def _build_payload(
         "forbidden_column_audit": forbidden_audit,
         "failed_gate": d5_m["failed_gate"],
         "what_was_learned": mechanism_case["what_was_learned"],
-        "revocation_ledger": _revocation_ledger(hardgates, generated_at),
+        "revocation_ledger": _revocation_ledger(hardgates, generated_at, d5_m),
         "positive_discovery_inputs": ["A1-HG1", "A1-HG2"] if hardgates["gates"]["A1-HG1"]["status"] == "pass" and hardgates["gates"]["A1-HG2"]["status"] == "pass" else [],
         "scope": {"not_claimed": list(NOT_CLAIMED)},
         "source_artifacts": source_artifacts,
@@ -820,6 +1298,9 @@ def _render_report(payload: Mapping[str, Any]) -> str:
     lines.extend(["", "## A1 Hardgates", "", "| gate | status |", "| --- | --- |"])
     for name, gate in payload["hardgates"]["gates"].items():
         lines.append(f"| `{name}` | `{gate['status']}` |")
+    lines.extend(["", "## A4 Hardgates", "", "| gate | status |", "| --- | --- |"])
+    for name, gate in payload["a4_hardgates"]["gates"].items():
+        lines.append(f"| `{name}` | `{gate['status']}` |")
     lines.extend(["", "## Claim Capsule Hardgates", "", "| gate | status |", "| --- | --- |"])
     for name, gate in payload["claim_capsule_hardgates"].items():
         lines.append(f"| `{name}` | `{gate['status']}` |")
@@ -850,6 +1331,9 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
         "d5_m",
         "mechanism_case",
         "hardgates",
+        "residualized_attribution",
+        "score_margin_causal_evidence",
+        "a4_hardgates",
         "claim_capsule_hardgates",
         "cost_protocol_pointer",
         "control_pointer",
@@ -881,6 +1365,9 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
         "d5_m",
         "mechanism_case",
         "hardgates",
+        "residualized_attribution",
+        "score_margin_causal_evidence",
+        "a4_hardgates",
         "claim_capsule_hardgates",
         "cost_protocol_pointer",
         "control_pointer",

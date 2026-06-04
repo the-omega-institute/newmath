@@ -4,7 +4,7 @@
 - JSON: `reports/gap_head_mechanism_namecert.json`
 - Candidate: `MechanismNameCertCandidate:gap-head-on-h`
 - Target classifier: `gap-head-on-h`
-- Candidate mechanism: `probe-margin-channel`
+- Candidate mechanism: `unresolved`
 - Full vs score plus margin: `not separated`
 - Mechanism closure debt: `open`
 - Mechanism spec closure: `partial`

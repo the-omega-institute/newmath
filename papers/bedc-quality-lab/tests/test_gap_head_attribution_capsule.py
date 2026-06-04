@@ -31,6 +31,8 @@ EXPECTED_ARMS = (
     "full_without_margin",
     "full_without_transition",
     "full_without_quality_scalars",
+    "full_residualized_against_score_margin",
+    "full_without_score_and_margin",
     "matched_random",
 )
 
@@ -81,6 +83,8 @@ def _aggregate(**overrides):
         "full_without_margin": (0.80, 0.34),
         "full_without_transition": (0.78, 0.31),
         "full_without_quality_scalars": (0.84, 0.38),
+        "full_residualized_against_score_margin": (0.84, 0.36),
+        "full_without_score_and_margin": (0.82, 0.34),
         "matched_random": (0.51, 0.01),
     }
     values.update(overrides)
@@ -184,7 +188,11 @@ def _pointer_target_payload(artifact, doc, pointer_path):
 def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
     aggregate = _aggregate()
     hardgates = runner._a1_hardgates(aggregate)
-    case = runner._mechanism_case(aggregate, hardgates)
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("not_score_margin_sufficient")
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
+    d5_m = runner._d5_m(hardgates, a4_hardgates)
     source_artifacts = {
         "artifact_id": runner.ARTIFACT_ID,
         "source_issue": 692,
@@ -198,9 +206,12 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
         "run_id": "a1-fixture",
         "generated_at": "2026-01-02T03:04:05+00:00",
         "d5_o": runner._d5_o(aggregate),
-        "d5_m": runner._d5_m(hardgates),
+        "d5_m": d5_m,
         "mechanism_case": case,
         "hardgates": hardgates,
+        "residualized_attribution": residualized,
+        "score_margin_causal_evidence": score_margin,
+        "a4_hardgates": a4_hardgates,
         "claim_capsule_hardgates": {"CC-HG6": {"name": "CC-HG6", "status": "unchecked"}},
         "cost_protocol_pointer": pointer,
         "control_pointer": runner._control_pointer(),
@@ -209,13 +220,61 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
         "forbidden_column_audit": runner._forbidden_column_audit({arm: ["h:0"] for arm in runner.ARM_NAMES}),
         "failed_gate": None,
         "what_was_learned": case["what_was_learned"],
-        "revocation_ledger": runner._revocation_ledger(hardgates, "2026-01-02T03:04:05+00:00"),
+        "revocation_ledger": runner._revocation_ledger(hardgates, "2026-01-02T03:04:05+00:00", d5_m),
         "positive_discovery_inputs": ["A1-HG1", "A1-HG2"],
         "config": {"sample_count": 8, "seed_count": 1},
         "source_artifacts": source_artifacts,
         "aggregate": aggregate,
         "records": [{"arm": arm, "fixture": True} for arm in runner.ARM_NAMES],
         "scope": {"not_claimed": list(runner.NOT_CLAIMED)},
+    }
+
+
+def _residualized_fixture(aggregate, *, status="pass"):
+    return {
+        "status": status,
+        "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+        "guard_outcomes": {
+            "finite_values": status,
+            "rank_guard": status,
+            "condition_number_guard": status,
+            "deterministic_construction": status,
+            "score_margin_correlation_removal": status,
+        },
+        "residualization_metadata": [{"seed": seed, "residualization": {"finite_values": status == "pass"}} for seed in aggregate["seed_order"]],
+        "a4_arm_order": ["full_residualized_against_score_margin", "full_without_score_and_margin"],
+        "per_seed_arm_metrics": [],
+        "ci_summaries": {
+            arm: {
+                "AUROC": aggregate["by_arm"][arm]["AUROC"],
+                "UER_reduction": aggregate["by_arm"][arm]["UER_reduction"],
+            }
+            for arm in ("full_residualized_against_score_margin", "full_without_score_and_margin")
+        },
+    }
+
+
+def _score_margin_fixture(classification="not_score_margin_sufficient", *, status="pass"):
+    return {
+        "status": status,
+        "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
+        "deterministic_salts": {
+            "shuffle_score_margin": runner.SCORE_MARGIN_SHUFFLE_SALT,
+            "replace_high_gap_score_margin_from_low_gap": runner.SCORE_MARGIN_REPLACE_SALT,
+        },
+        "shuffle_score_margin": {"per_seed_before_after_metrics": [], "ci_summaries": {}},
+        "replace_high_gap_score_margin_from_low_gap": {"per_seed_before_after_metrics": [], "ci_summaries": {}},
+        "paired_deltas": [{"seed": 1, "same_seed": True, "same_arm_fit_path": True, "same_metric_set": True}],
+        "channel_classification": classification,
+        "protocol_checks": {
+            "present": True,
+            "deterministic": True,
+            "finite": True,
+            "seed_paired": True,
+            "column_audited": True,
+            "classified": True,
+        },
+        "ci_summaries": {},
     }
 
 
@@ -288,37 +347,95 @@ def test_seeded_rotation_and_projection_are_deterministic():
     assert proj_a.shape == (3, 1)
 
 
-def test_a1_hardgates_and_case_one_d5_m():
+def test_residualization_guards_are_finite_deterministic_and_remove_score_margin_correlation():
+    surface = {
+        "feature_columns": ["h:0", "h:1", "score:a", "margin:a", "transition_delta:a", "quality:q"],
+        "features": np.array(
+            [
+                [1.0, 3.0, 0.1, 0.9, 0.0, 1.0],
+                [2.0, 5.0, 0.2, 0.7, 0.1, 1.0],
+                [3.0, 7.0, 0.3, 0.8, 0.0, 1.0],
+                [4.0, 9.0, 0.4, 0.4, 0.1, 1.0],
+                [5.0, 11.0, 0.5, 0.6, 0.0, 1.0],
+            ],
+            dtype=np.float64,
+        ),
+    }
+
+    residual_a, meta_a = runner._residualized_h_against_score_margin(surface)
+    residual_b, meta_b = runner._residualized_h_against_score_margin(surface)
+
+    np.testing.assert_allclose(residual_a, residual_b)
+    assert meta_a == meta_b
+    assert meta_a["finite_values"] is True
+    assert meta_a["rank_guard"] == "pass"
+    assert meta_a["condition_number_guard"] == "pass"
+    assert meta_a["correlation_removal"] == "pass"
+    assert meta_a["max_abs_corr_after"] <= meta_a["max_abs_corr_before"]
+
+
+def test_a4_case_c_is_only_d5_m_candidate():
     aggregate = _aggregate()
     hardgates = runner._a1_hardgates(aggregate)
-    case = runner._mechanism_case(aggregate, hardgates)
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("not_score_margin_sufficient")
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
 
     assert hardgates["status"] == "pass"
     assert hardgates["gates"]["A1-HG6"]["status"] == "pass"
-    assert case["case"] == "Case 1"
-    assert runner._d5_m(hardgates)["passed"] is True
+    assert a4_hardgates["gates"]["A4-HG5"]["status"] == "pass"
+    assert case["case"] == "Case C"
+    assert runner._d5_m(hardgates, a4_hardgates)["passed"] is True
 
 
-def test_case_two_margin_shortcut_blocks_d5_m():
-    aggregate = _aggregate(score_plus_margin=(0.86, 0.39))
+def test_case_b_score_margin_sufficiency_blocks_d5_m_even_when_residualized_full_is_strong():
+    aggregate = _aggregate()
     hardgates = runner._a1_hardgates(aggregate)
-    case = runner._mechanism_case(aggregate, hardgates)
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("score_margin_sufficient")
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
 
-    assert hardgates["gates"]["A1-HG3"]["status"] == "fail"
-    assert hardgates["gates"]["A1-HG6"]["status"] == "fail"
-    assert case["case"] == "Case 2"
-    assert case["failed_gate"] == "A1-HG3"
-    assert runner._d5_m(hardgates)["passed"] is False
+    assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG5"]["status"] == "fail"
+    assert case["case"] == "Case B"
+    assert case["failed_gate"] == "A4-HG5"
+    assert runner._d5_m(hardgates, a4_hardgates)["passed"] is False
 
 
-def test_case_three_norm_shortcut_blocks_d5_m():
-    aggregate = _aggregate(h_norm_only=(0.86, 0.39))
+def test_case_a_residualized_collapse_blocks_d5_m():
+    aggregate = _aggregate(full_residualized_against_score_margin=(0.50, -0.01))
     hardgates = runner._a1_hardgates(aggregate)
-    case = runner._mechanism_case(aggregate, hardgates)
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("not_score_margin_sufficient")
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
 
-    assert hardgates["gates"]["A1-HG4"]["status"] == "fail"
-    assert case["case"] == "Case 3"
-    assert case["failed_gate"] == "A1-HG4"
+    assert a4_hardgates["gates"]["A4-HG2"]["status"] == "fail"
+    assert case["case"] == "Case A"
+    assert runner._d5_m(hardgates, a4_hardgates)["passed"] is False
+
+
+@pytest.mark.parametrize(
+    ("classification", "expected_hg5"),
+    [
+        ("not_score_margin_sufficient", "pass"),
+        ("score_margin_sufficient", "fail"),
+        ("inconclusive", "fail"),
+    ],
+)
+def test_a4_hg5_channel_classification_paths(classification, expected_hg5):
+    aggregate = _aggregate()
+    hardgates = runner._a1_hardgates(aggregate)
+    a4_hardgates = runner._a4_hardgates(aggregate, _residualized_fixture(aggregate), _score_margin_fixture(classification))
+
+    assert a4_hardgates["gates"]["A4-HG1"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG3"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG4"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG5"]["status"] == expected_hg5
+    assert runner._d5_m(hardgates, a4_hardgates)["passed"] is (expected_hg5 == "pass")
 
 
 def test_hg5_never_claims_transition_when_full_without_transition_matches_full():
@@ -333,27 +450,34 @@ def test_hg5_never_claims_transition_when_full_without_transition_matches_full()
 
 def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     generated_at = "2026-01-02T03:04:05+00:00"
-    aggregate = _aggregate(score_plus_margin=(0.86, 0.39))
+    aggregate = _aggregate()
     hardgates = runner._a1_hardgates(aggregate)
-    case = runner._mechanism_case(aggregate, hardgates)
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("score_margin_sufficient")
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    d5_m = runner._d5_m(hardgates, a4_hardgates)
+    case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
     capsule = {
         "schema_id": runner.SCHEMA_ID,
         "source_issue": 692,
         "artifact_id": runner.ARTIFACT_ID,
         "run_id": "fixture",
         "d5_o": runner._d5_o(aggregate),
-        "d5_m": runner._d5_m(hardgates),
+        "d5_m": d5_m,
         "mechanism_case": case,
         "hardgates": hardgates,
+        "residualized_attribution": residualized,
+        "score_margin_causal_evidence": score_margin,
+        "a4_hardgates": a4_hardgates,
         "claim_capsule_hardgates": {},
         "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
         "control_pointer": runner._control_pointer(),
         "control_evidence": runner._control_evidence(aggregate),
         "scope_seal": runner._scope_seal(),
         "forbidden_column_audit": runner._forbidden_column_audit({arm: ["h:0"] for arm in runner.ARM_NAMES}),
-        "failed_gate": "A1-HG3",
+        "failed_gate": d5_m["failed_gate"],
         "what_was_learned": case["what_was_learned"],
-        "revocation_ledger": runner._revocation_ledger(hardgates, generated_at),
+        "revocation_ledger": runner._revocation_ledger(hardgates, generated_at, d5_m),
         "positive_discovery_inputs": [],
         "scope": {"not_claimed": list(runner.NOT_CLAIMED)},
         "source_artifacts": {
@@ -380,7 +504,7 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
         assert _resolve_pointer(capsule, control_pointer) == capsule["control_evidence"][control_arm]
     assert capsule["forbidden_column_audit"]["status"] == "pass"
     assert set(runner.NOT_CLAIMED).issubset(set(capsule["scope"]["not_claimed"]))
-    assert capsule["revocation_ledger"][0]["failed_gate"] == "A1-HG3"
+    assert capsule["revocation_ledger"][0]["failed_gate"] == "A4-HG5"
 
 
 @pytest.mark.parametrize(
