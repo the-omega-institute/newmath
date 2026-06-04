@@ -3732,6 +3732,7 @@ import BEDC.Derived.DyadicMetricTriangleUp
 import BEDC.Derived.DyadicMetricTriangleUp.TasteGate
 import BEDC.Derived.DyadicMetricUp.TasteGate
 import BEDC.Derived.DyadicMidpointUp
+import BEDC.Derived.DyadicOrderTopologyUp
 import BEDC.Derived.DyadicPartitionUp.TasteGate
 import BEDC.Derived.DyadicPrecisionUp
 import BEDC.Derived.DyadicPrecisionUp.TasteGate
@@ -3861,6 +3862,7 @@ import BEDC.Derived.EquicontinuityUp.RootUnblockFiniteNetConsumerBoundary
 import BEDC.Derived.EquicontinuityUp.RootUnblockFiniteNetHandoff
 import BEDC.Derived.EquicontinuityUp.RootUnblockSharedRadiusCarrier
 import BEDC.Derived.EquicontinuityUp.SharedModulusHandoffPreservation
+import BEDC.Derived.EquicontinuityUp.SharedRadiusFamilyCoverReadiness
 import BEDC.Derived.EquicontinuityUp.TasteGate
 import BEDC.Derived.EquicontinuityUp.UniformModulusConsumerBoundary
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
@@ -7449,6 +7451,7 @@ import BEDC.Derived.RegularCauchyInterleavingUp.SwapSymmetryBoundary
 import BEDC.Derived.RegularCauchyInterleavingUp.TasteGate
 import BEDC.Derived.RegularCauchyInterpolationUp.TasteGate
 import BEDC.Derived.RegularCauchyIntervalSelectorUp
+import BEDC.Derived.RegularCauchyLiftedLimitUp.TasteGate
 import BEDC.Derived.RegularCauchyLimitClassifierUp
 import BEDC.Derived.RegularCauchyLimitClassifierUp.BudgetSynchronizerRouteAgreement
 import BEDC.Derived.RegularCauchyLimitClassifierUp.FiniteRouteExactness
