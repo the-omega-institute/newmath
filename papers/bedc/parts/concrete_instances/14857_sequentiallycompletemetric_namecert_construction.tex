@@ -164,6 +164,30 @@ After the threshold is displayed, $S$ supplies the finite stream windows and $\R
 The replay row $C$ exposes this same coverage to the $\CompleteMetricUp$ and $\MetricCompletionUp$ boundaries, while $H,P,N$ preserve the route under transport, provenance, and naming. No step requires or exports $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[SequentiallyCompleteMetric source-first tail read]
+\label{thm:sequentially-complete-metric-source-first-tail-read}
+Let $Q=(X,S,M,L,D,H,C,P,N)$ be an accepted $\SequentiallyCompleteMetricUp$ carrier. Every accepted tail-read packet that is later consumed as a displayed limit read must expose the $\MetricUp$ source row $X$, the $\StreamNameUp$ windows in $S$, the $\RegSeqRatUp$ readback attached to those windows, and the modulus row $M$ before any displayed limit row $L$ or late-distance ledger $D$ is read. Thus a completion-facing tail read is source-first: it cannot begin from a free-standing limit, a quotient-completion class, or a selected representative.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequentially-complete-metric-carrier}. The only metric source is $X$, the only sequence observations are the windows in $S$, and the regular rational readback attached to those observations is part of the same finite sequence row.
+
+Apply root modulus coverage from \autoref{thm:sequentially-complete-metric-root-modulus-coverage}. A tolerance request cannot inspect late-distance data until the modulus row $M$ has supplied its displayed threshold, so the tail read already contains $X,S$ and the $\RegSeqRatUp$ readback before $D$ is available.
+
+Now use root nonescape from \autoref{thm:sequentially-complete-metric-root-nonescape} and the complete-metric handoff of \autoref{thm:sequentially-complete-metric-complete-metric-handoff}. The handoff sends the same source-first rows to the $\CompleteMetricUp$ boundary, and the nonescape clause blocks any route that would start from a quotient class, representative selector, or independent limit row.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric limit ledger nonescape]
+\label{thm:sequentially-complete-metric-limit-ledger-nonescape}
+Let $Q=(X,S,M,L,D,H,C,P,N)$ be an accepted $\SequentiallyCompleteMetricUp$ carrier. The limit ledger formed by $L,D,H,C,P,N$ cannot export quotient completion, selected representatives, countable choice, open-cover compactness, ambient completeness, or any assertion that $\RealUp$ is complete. Every such request is returned to the carrier rows of \autoref{def:sequentially-complete-metric-carrier}, the source-first read of \autoref{thm:sequentially-complete-metric-source-first-tail-read}, the root nonescape boundary of \autoref{thm:sequentially-complete-metric-root-nonescape}, and the complete-metric handoff of \autoref{thm:sequentially-complete-metric-complete-metric-handoff}.
+\end{theorem}
+\begin{proof}
+Read the ledger coordinates. The displayed limit row $L$ is an admitted point history of the metric source, while $D$ records late-distance comparisons from the sequence windows to that point; the remaining rows $H,C,P,N$ only transport, replay, source, and name the same packet.
+
+Use the source-first tail-read theorem. It forces every completion-facing read of $L$ and $D$ to pass through $X,S$ with its $\RegSeqRatUp$ readback and through the modulus row $M$ before the limit ledger is consumed.
+
+Apply root nonescape and the complete-metric handoff. Those two results identify the downstream completion read with the same finite rows and refuse all coordinates for quotient completion, selected representatives, countable choice, open-cover compactness, ambient completeness, or $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[SequentiallyCompleteMetric root nonescape]
 \label{thm:sequentially-complete-metric-root-nonescape}
 Every root-facing consumer of an accepted $\SequentiallyCompleteMetricUp$ carrier $Q=(X,S,M,L,D,H,C,P,N)$ is confined to the displayed $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CompleteMetricUp$, $\MetricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows of $Q$. In particular, the root route cannot escape to quotient completion equality, selected representatives, countable choice, open-cover compactness, ambient completeness, or completeness of $\RealUp$.
