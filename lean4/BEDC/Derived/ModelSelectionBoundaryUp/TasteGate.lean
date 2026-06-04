@@ -282,4 +282,21 @@ theorem ModelSelectionBoundaryAuditScope [AskSetup] [PackageSetup]
               TasteGate.ModelSelectionBoundaryTasteGate_single_carrier_alignment.left
                 (TasteGate.ModelSelectionBoundaryUp.mk M S F D L T P N)⟩
 
+theorem ModelSelectionBoundary_namecert_obligations
+    (x : TasteGate.ModelSelectionBoundaryUp) :
+    ∃ M S F D L T P N : BHist,
+      x = TasteGate.ModelSelectionBoundaryUp.mk M S F D L T P N ∧
+        TasteGate.modelSelectionBoundaryFields x = [M, S, F, D, L, T, P, N] ∧
+          Cont F D (append F D) ∧
+            Cont D L (append D L) ∧
+              Cont M T (append M T) ∧
+                hsame P P ∧
+                  hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk M S F D L T P N =>
+      exact
+        ⟨M, S, F, D, L, T, P, N, rfl, rfl, cont_intro rfl, cont_intro rfl,
+          cont_intro rfl, hsame_refl P, hsame_refl N⟩
+
 end BEDC.Derived.ModelSelectionBoundaryUp
