@@ -307,6 +307,42 @@ Finally combine \autoref{thm:locatedset-distance-witness-obligation} with \autor
 
 \independenceWitness{metric, metricsubspace, locatedmetric, real: $\LocatedSetUp$ is not bijective to any listed sibling because it jointly carries parent metric data, displayed subspace admission, a located-distance ledger, rational windows, a RealUp distance seal, located-metric handoff, transport, continuation replay, provenance, and local naming.}
 
+\begin{theorem}[LocatedSet root distance obligation]
+\label{thm:locatedset-root-distance-obligation}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Every root distance consumer of $L$ factors by projection through the displayed $\MetricUp$ row $X$, $\MetricSubspaceUp$ admission row $A$, $\LocatedMetricUp$ distance ledger $Q$, rational comparison windows $R$, terminal $\RealUp$ distance seal $E$, located-metric handoff $T$, $\BHist$ transport row $H$, $\hsame$ identifications, $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet onto $X,A,Q,R,E,T,H,C,P,N$. These rows are the only coordinates displayed by the located-set carrier.
+
+Use the root distance witness theorem together with the Real-distance seal exactness theorem. The distance read starts at the parent $\MetricUp$ row, passes through the displayed $\MetricSubspaceUp$ and $\LocatedMetricUp$ rows, and reaches $\RealUp$ only through $Q,R,E$.
+
+Transport, replay, provenance, and local naming are then read from $H,C,P,N$, with the componentwise $\hsame$ data carried by the same packet. Since no other coordinate is available, every root distance consumer follows this route.
+\end{proof}
+
+\begin{theorem}[LocatedSet root locatedness window]
+\label{thm:locatedset-root-locatedness-window}
+For an accepted $\LocatedSetUp$ packet $L=(X,A,Q,R,E,T,H,C,P,N)$, every locatedness-window consumer is exhausted by the finite rational windows $R$ sitting between the $\LocatedMetricUp$ ledger $Q$ and the $\RealUp$ seal $E$. The consumer must also preserve the surrounding $\MetricUp$, $\MetricSubspaceUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and it receives no selected nearest point, open-cover compactness proof, quotient subset equality, completed ambient metric space, or full Real-completeness row.
+\end{theorem}
+\begin{proof}
+Begin with the rational-window rows displayed in the carrier. They are downstream of the located-distance ledger and upstream of the Real seal.
+
+Apply the distance-witness obligation and the real-seal consumer boundary. They identify the only route by which a locatedness read can reach a Real-facing endpoint: $X,A,Q,R,E,T,H,C,P,N$.
+
+The structural rows carry this finite route through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The excluded endpoint, compactness, quotient, completion, and full-completeness data are not rows of the packet.
+\end{proof}
+
+\begin{theorem}[LocatedSet root nonescape]
+\label{thm:locatedset-root-nonescape}
+Every root consumer of an accepted $\LocatedSetUp$ packet $L=(X,A,Q,R,E,T,H,C,P,N)$ that asks for distance data, locatedness windows, or a downstream root route remains inside the displayed $\MetricUp$, $\MetricSubspaceUp$, $\LocatedMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. No root consumer obtains host metric equality, quotient subset equality, selected endpoint data, open-cover compactness, completed ambient metric space, or full $\RealUp$ completeness from $L$.
+\end{theorem}
+\begin{proof}
+Use the root distance obligation to account for distance reads. It fixes the route through $X,A,Q,R,E,T,H,C,P,N$.
+
+Use the root locatedness-window theorem for rational-window reads. The same carrier rows are displayed, with $R$ placed between the located-distance ledger and the Real seal.
+
+Finally combine the existing projection obligation with the Real-metric nonescape theorem. Downstream root consumers may add their own endpoint or projection evidence, but that evidence is outside the $\LocatedSetUp$ carrier, so the listed host and completion objects cannot be exported by $L$.
+\end{proof}
+
 \closureat{LocatedSetUp}{seedStr}
 
 \begin{closurestatus}{\LocatedSetUp}
