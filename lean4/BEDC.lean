@@ -2313,10 +2313,12 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ObligationRouteTriad
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerLandingSurface
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursiveReadback
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditCompilerCoherence
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditReplayTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
@@ -3867,6 +3869,7 @@ import BEDC.Derived.FastCauchySequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySequenceUp.TasteGate
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorCoherence
 import BEDC.Derived.FastCauchySubsequenceUp.NameCertObligations
+import BEDC.Derived.FastCauchySubsequenceUp.SelectedWindowInduction
 import BEDC.Derived.FastCauchySubsequenceUp.SelectorWindowCoverage
 import BEDC.Derived.FastCauchySubsequenceUp.TasteGate
 import BEDC.Derived.FastCauchyUp
@@ -5204,6 +5207,7 @@ import BEDC.Derived.LowerRealUp.DedekindCutAdmission
 import BEDC.Derived.LowerRealUp.LocatedCutLedger
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.TasteGate
+import BEDC.Derived.LowerSemicontinuousUp.BaireSuperlevelHandoff
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.LowerRealEpigraphClassifier
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface
