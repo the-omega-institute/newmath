@@ -27,7 +27,7 @@ REGISTRY_ARTIFACT = "reports/canonical/discovery_gate_escape_registry.json"
 CANONICAL_ROLE = "sidecar-not-in-CANONICAL_REPORTS"
 DEFERRED_KIND = "single_threshold_positive_only"
 POSITIVE_RULE = "AUROC.ci95_low > 0.5"
-ESCAPE_LEVELS = {"D4", "D5"}
+ESCAPE_LEVELS = {"D4", "D5-O", "D5-M"}
 FORBIDDEN_CLAIM_KEYS = {"score", "total_score", "rank", "grade", "hidden_cost", "hidden_cost_weight", "hidden-cost"}
 POINTERS = {
     "threshold_curve": f"{THRESHOLD_ARTIFACT}:$.threshold_curve",

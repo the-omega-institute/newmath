@@ -95,10 +95,12 @@ GAP_HEAD_ROBUSTNESS_ARTIFACT = "reports/canonical/gap-head-robustness-sweep.json
 NEGATIVE_WITNESSES_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 OBSERVED_DEBT_ARTIFACT = "reports/canonical/gap-head-observed-debt-transfer.json"
 DIMENSION_MISMATCH_TRANSFER_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
+ATTRIBUTION_CAPSULE_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
 GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
     GAP_HEAD_ROBUSTNESS_ARTIFACT,
     NEGATIVE_WITNESSES_ARTIFACT,
     OBSERVED_DEBT_ARTIFACT,
+    ATTRIBUTION_CAPSULE_ARTIFACT,
 )
 GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER = "$.gap_head_on_h_observed_debt_transfer.status"
 DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status"
@@ -340,12 +342,24 @@ def _gap_head_on_h_projection(
 ) -> tuple[dict[str, Any], ProjectionEvidence]:
     overlay: dict[str, Any] = {}
     evidence_pointer = "$.treatment_verdict.positive"
-    ledger = _gap_head_d5_readiness({} if context is None else context)
+    context_payloads = {} if context is None else context
+    ledger = _gap_head_d5_readiness(context_payloads)
+    attribution_capsule = context_payloads.get(ATTRIBUTION_CAPSULE_ARTIFACT, {})
     if pointer_value(payload, evidence_pointer) is True:
         overlay["positive_discovery"] = True
         if ledger.all_pass:
             overlay["acceptance_gates"] = {"status": "pass"}
             overlay["final_status"] = "pass"
+            d5_m = pointer_value(attribution_capsule, ATTRIBUTION_CAPSULE_MECHANISM_POINTER)
+            mechanism_case = pointer_value(attribution_capsule, ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER)
+            if isinstance(d5_m, Mapping):
+                overlay["d5_m"] = dict(d5_m)
+                overlay["mechanism_attribution"] = {
+                    "all_pass": d5_m.get("passed") is True,
+                    "status": d5_m.get("status"),
+                    "failed_gate": d5_m.get("failed_gate"),
+                    "channel": _mechanism_channel(mechanism_case.get("status")) if isinstance(mechanism_case, Mapping) else None,
+                }
         return overlay, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer=evidence_pointer,
@@ -867,7 +881,7 @@ def _audit_row(
             return "invalid", "unresolved-mechanism-pointer"
         if pointer_value(payload, levels.mechanism_case_pointer) is None:
             return "invalid", "unresolved-mechanism-case-pointer"
-    if level in {"D4", "D5"}:
+    if level in {"D4", "D5-O", "D5-M"}:
         pointer_result = _audit_pointer_cell(
             payload,
             evidence.control_pointer,
@@ -876,7 +890,7 @@ def _audit_row(
         )
         if pointer_result is not None:
             return pointer_result
-        if level == "D5" and spec.name == "gap-head-on-h":
+        if level in {"D5-O", "D5-M"} and spec.name == "gap-head-on-h":
             reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
             if reason is not None:
                 return "invalid", reason
@@ -1154,7 +1168,7 @@ def _dimension_mismatch_audit_row(
         return "invalid", "dimension-mismatch-discovery-level-disagrees-with-canonical-discovery-level"
     if isinstance(canonical_terminal_verdict, str) and terminal_verdict != canonical_terminal_verdict:
         return "invalid", "dimension-mismatch-terminal-verdict-disagrees-with-canonical"
-    if level == "D5":
+    if level in {"D5-O", "D5-M"}:
         return "invalid", "dimension-mismatch-transfer-has-no-d5-shortcut"
     if level == "D4":
         if terminal_verdict == "source_pass" and evidence.failed_gate is None:

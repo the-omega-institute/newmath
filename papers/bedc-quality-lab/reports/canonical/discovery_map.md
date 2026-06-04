@@ -7,7 +7,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | `mixing-family-sweep` | `D1` | `` | `` | `projected` | `valid` | `$.coverage_item.debt_item` |
 | `anisotropic-ou-sweep` | `D1` | `` | `` | `projected` | `valid` | `$.transition_debt_by_grid` |
-| `gap-head-on-h` | `D5` | `` | `` | `projected` | `valid` | `$.control_protocol` |
+| `gap-head-on-h` | `D5-O` | `` | `` | `projected` | `valid` | `$.control_protocol` |
 | `gap-head-discovery` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `gap-head-ablation` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[0]` |
 | `gap-head-threshold-frontier` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |

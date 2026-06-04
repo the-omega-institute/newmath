@@ -10,7 +10,7 @@ DISCOVERY_MAP_SCHEMA_ID = "bedc-quality-lab:canonical-discovery-map"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
-DISCOVERY_LEVELS = ("D0", "D1", "D2", "D3", "D4", "D5", "D5-O", "DN", "DR")
+DISCOVERY_LEVELS = ("D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M", "DN", "DR")
 DN_FACT_KEYS = frozenset(
     {
         "terminal_verdict",

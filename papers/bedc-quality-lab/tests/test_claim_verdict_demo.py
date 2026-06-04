@@ -62,7 +62,7 @@ def _base_payload():
 
 def _payload_for_level(level):
     payload = _base_payload()
-    if level in {"D4", "D5", "D5-O"}:
+    if level in {"D4", "D5-O", "D5-M"}:
         payload.update(
             {
                 "positive_discovery": True,
@@ -71,7 +71,7 @@ def _payload_for_level(level):
                 "matched_random_control": {"control_verdict": {"positive": False}},
             }
         )
-        if level == "D5":
+        if level in {"D5-O", "D5-M"}:
             payload["acceptance_gates"] = {"status": "pass"}
             payload["final_status"] = "pass"
     elif level == "D3":
@@ -340,7 +340,7 @@ def test_hardening_coverage_not_ready_uses_dependency_pointer(tmp_path, monkeypa
 
 
 def test_positive_discovery_gate_failure_routes_to_ledger_only_hardening_not_ready(tmp_path, monkeypatch):
-    rows = [_discovery_row("gap-head-on-h", "reports/canonical/gap-head-on-h.json", "D5")]
+    rows = [_discovery_row("gap-head-on-h", "reports/canonical/gap-head-on-h.json", "D5-O")]
     rows[0]["control_pointer"] = "$.matched_random_control.control_verdict.positive"
     specs = (
         _spec(

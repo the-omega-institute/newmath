@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Any, Literal, Mapping
 
 
-DiscoveryLevel = Literal["D0", "D1", "D2", "D3", "D4", "D5", "D5-O", "DN", "DR"]
+DiscoveryLevel = Literal["D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M", "DN", "DR"]
 
 
 @dataclass(frozen=True)
@@ -122,6 +122,73 @@ def _has_robustness_report_pass(payload: Mapping[str, Any]) -> bool:
     if gates is not None and gates.get("status") != "pass":
         return False
     return payload.get("final_status") == "pass" and gates is not None
+
+
+def _mechanism_attribution_all_pass(payload: Mapping[str, Any]) -> bool:
+    mechanism_status = _optional_string(payload.get("mechanism_status"))
+    if mechanism_status == "probe-margin-channel":
+        return False
+
+    mechanism_gate = _first_mapping(payload, "mechanism_attribution")
+    if mechanism_gate is not None:
+        if mechanism_gate.get("channel") == "probe-margin-channel":
+            return False
+        if mechanism_gate.get("status") in {"blocked", "failed"}:
+            return False
+        if mechanism_gate.get("failed_gate") is not None:
+            return False
+        if mechanism_gate.get("all_pass") is True:
+            return True
+
+    d5_target = _first_mapping(payload, "D5_target")
+    mechanism_target = _first_mapping(d5_target, "mechanism") if d5_target is not None else None
+    if mechanism_target is not None:
+        if mechanism_target.get("status") in {"blocked", "failed"}:
+            return False
+        if mechanism_target.get("failed_gate") is not None:
+            return False
+        if mechanism_target.get("passed") is True:
+            return True
+
+    d5_m = _first_mapping(payload, "d5_m")
+    if d5_m is not None:
+        if d5_m.get("status") in {"blocked", "failed"}:
+            return False
+        if d5_m.get("failed_gate") is not None:
+            return False
+        if d5_m.get("passed") is True:
+            return True
+
+    attribution_gates = _first_list(payload, "mechanism_attribution_gates")
+    if attribution_gates is not None:
+        statuses = [row.get("status") for row in attribution_gates if isinstance(row, Mapping)]
+        return bool(statuses) and all(status == "pass" for status in statuses)
+
+    return False
+
+
+def _positive_discovery_tail(payload: Mapping[str, Any]) -> tuple[DiscoveryLevel, tuple[str, ...]]:
+    if not _has_robustness_report_pass(payload):
+        return "D4", ("positive_discovery=true", "robustness evidence absent")
+    if _mechanism_attribution_all_pass(payload):
+        return (
+            "D5-M",
+            (
+                "positive_discovery=true",
+                "acceptance_gates.status=pass",
+                "final_status=pass",
+                "mechanism_attribution_all_pass=true",
+            ),
+        )
+    return (
+        "D5-O",
+        (
+            "positive_discovery=true",
+            "acceptance_gates.status=pass",
+            "final_status=pass",
+            "mechanism_attribution_all_pass=false",
+        ),
+    )
 
 
 def _classifier_shift(main: Mapping[str, Any] | None) -> bool:
@@ -256,9 +323,7 @@ def _assign_level(
     if terminal_verdict in {"rejected", "demoted"} or terminal_verdict.startswith("DN("):
         return "DN", (f"verdict={terminal_verdict}",)
     if _positive_discovery(payload, main):
-        if _has_robustness_report_pass(payload):
-            return "D5", ("positive_discovery=true", "acceptance_gates.status=pass", "final_status=pass")
-        return "D4", ("positive_discovery=true", "robustness evidence absent")
+        return _positive_discovery_tail(payload)
     if _structural_discovery(main):
         return "D3", ("main_verdict.structural_discovery=true", "main_verdict.shift_information>0")
     if _classifier_shift(main):
@@ -271,15 +336,16 @@ def _assign_level(
 
 
 def assign_discovery_level(payload: Mapping[str, Any]) -> ResearchDiscoveryVerdict:
-    """Project a lab payload onto D0-D5/DN/DR without defining a report schema.
+    """Project a lab payload onto discovery levels without defining a report schema.
 
     The projector reads existing lab report and projection keys directly:
     top-level ``verdict`` for terminal decisions; ``evidence_basis`` for verdict
     basis fields; ``main_verdict`` or canonical ``verdicts[0]`` for projection
     rows; ``claim_gate`` for audit tradeoff evidence; ``revocation_decision`` or
-    certificate status for revocation evidence. D5 only accepts the real
-    gap-head robustness report markers ``acceptance_gates.status`` and
-    ``final_status`` when they accompany a positive discovery payload.
+    certificate status for revocation evidence. Operational closure accepts the
+    real gap-head robustness report markers ``acceptance_gates.status`` and
+    ``final_status`` when they accompany a positive discovery payload; mechanism
+    closure additionally requires attribution gates to pass.
     """
 
     main = _first_verdict_row(payload)

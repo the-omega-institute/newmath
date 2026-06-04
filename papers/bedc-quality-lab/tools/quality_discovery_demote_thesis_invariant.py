@@ -23,7 +23,7 @@ SCOPE_PATHS = (
     "runs/**/*.jsonl",
 )
 
-POSITIVE_DISCOVERY_LEVELS = {"D4", "D5"}
+POSITIVE_DISCOVERY_LEVELS = {"D4", "D5-O", "D5-M"}
 NON_POSITIVE_DISCOVERY_LEVELS = {"DN", "DR", "D0", "D1", "D2", "D3"}
 POSITIVE_TERMINAL_VALUES = {
     "positive",

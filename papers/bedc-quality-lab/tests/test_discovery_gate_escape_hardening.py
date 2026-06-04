@@ -67,7 +67,7 @@ def test_static_witnesses_remain_fail_closed_under_escape_hardening():
     assert audit["fail_closed"] is True
     assert len(audit["witnesses"]) == 8
     assert all(row["fail_closed"] is True for row in audit["witnesses"])
-    assert {row["discovery_level"] for row in audit["witnesses"]}.isdisjoint({"D4", "D5"})
+    assert {row["discovery_level"] for row in audit["witnesses"]}.isdisjoint({"D4", "D5-O", "D5-M"})
 
 
 def test_unmocked_producer_matches_checked_in_escape_sidecars():
@@ -148,6 +148,43 @@ def test_weak_mock_gate_escape_still_emits_demote_pointer(monkeypatch):
     assert {row["discovery_level"] for row in registry["escaped_rows"]} == {"D4"}
     assert len(demotions["demotions"]) == len(registry["escaped_rows"])
     assert all(row["demote_status"] == "proposed" for row in demotions["demotions"])
+
+
+@pytest.mark.parametrize("discovery_level", ["D5-O", "D5-M"])
+def test_d5_split_level_only_projection_is_escaped_positive(monkeypatch, discovery_level):
+    candidate = hardening.PseudoCandidate(
+        kind="level_only_projection",
+        source_pointer="reports/canonical/claim_verdicts.jsonl:0",
+        recipe_pointer="recipe://level-only-projection",
+        recipe_digest="1" * 64,
+        gate="discovery-gate",
+        certificate_payload={},
+        evidence_payload={},
+    )
+
+    class Projection:
+        reasons = ("mock level-only projection",)
+
+        def __init__(self, level):
+            self.discovery_level = level
+
+    monkeypatch.setattr(
+        hardening,
+        "synthesize_certification_verdict",
+        lambda certificate_payload, evidence_payload, *, timestamp_iso: {
+            "verdict": "accepted",
+            "reason": "mock-level-only",
+            "evidence_basis": {},
+        },
+    )
+    monkeypatch.setattr(hardening, "assign_discovery_level", lambda decision: Projection(discovery_level))
+
+    row = hardening._evaluate_candidate(candidate)
+
+    assert row["escaped"] is True
+    assert row["escaped_positive_is_discovery_evidence"] is False
+    assert row["terminal_verdict"] == "accepted"
+    assert row["discovery_level"] == discovery_level
 
 
 def test_capacity_overflow_fails_closed_with_deterministic_admission(monkeypatch):
