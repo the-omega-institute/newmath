@@ -4658,7 +4658,6 @@ def discovery_assert_gate_payload(
     informational_sites: list[dict[str, object]] = []
     failures: list[dict[str, object]] = []
     status_counts: Counter[str] = Counter()
-    gate_witnesses, witness_diagnostics = load_discovery_gate_witnesses()
 
     for block in blocks:
         if block.get("error"):
@@ -4684,12 +4683,15 @@ def discovery_assert_gate_payload(
         locus = (block["file"], int(block["line"]), f"{block['region']}Up")
         positive_blocks.append((block, target, candidate_targets, locus))
 
+    gate_witnesses: list[dict[str, object]] = []
+    witness_diagnostics: list[dict[str, object]] = []
     profiles_by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
     profiles_by_target: dict[str, dict[str, object]] = {}
     integrity_by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
     integrity_violations: dict[tuple[str, int, str], list[dict[str, object]]] = {}
     kernel_checks: dict[str, KernelAssertionCheck] = {}
     if positive_blocks:
+        gate_witnesses, witness_diagnostics = load_discovery_gate_witnesses()
         sieve = sieve_payload or discovery_sieve_payload(
             blocks,
             lean_scan.discovery_delta_ledgers,

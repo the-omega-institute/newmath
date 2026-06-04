@@ -1020,30 +1020,51 @@ def _clone_lake_cache(wt_path: Path) -> None:
         (dst / "packages").symlink_to(src_pkg)
 
     # 2. APFS-clone build/ and config/ (round-local, writable copies).
-    for sub in ("build", "config"):
-        src_sub = src / sub
-        dst_sub = dst / sub
-        if not src_sub.exists():
-            continue
-        result = run_cmd(["cp", "-Rc", str(src_sub), str(dst_sub)], timeout=600)
-        if result.returncode != 0:
-            logger.warning(f"APFS clone of .lake/{sub} failed, retrying...")
-            if dst_sub.exists():
-                shutil.rmtree(dst_sub, ignore_errors=True)
-            time.sleep(2)
+    #    Hold _main_cache_lock so the read of src/ does not observe the
+    #    builder's _sync_lake_cache_to_main() mid-swap (rmtree+rename of
+    #    ir/BEDC and lib/lean/BEDC). Without the lock the swap deletes whole
+    #    subtrees mid-copy, producing an ENOENT storm that crashed the round.
+    #    This is the serialization the lock's docstring already promises; the
+    #    reader was simply never wired to it. The cache is a warm-start
+    #    speedup, so any residual missing file is tolerated below (lake
+    #    recompiles the gaps on the round's incremental build).
+    with _main_cache_lock:
+        for sub in ("build", "config"):
+            src_sub = src / sub
+            dst_sub = dst / sub
+            if not src_sub.exists():
+                continue
             result = run_cmd(["cp", "-Rc", str(src_sub), str(dst_sub)], timeout=600)
-        if result.returncode != 0:
-            logger.warning(f"APFS clone retry failed for .lake/{sub}, falling back to regular copy")
-            if dst_sub.exists():
-                shutil.rmtree(dst_sub, ignore_errors=True)
-            shutil.copytree(
-                str(src_sub),
-                str(dst_sub),
-                symlinks=True,
-                ignore=shutil.ignore_patterns(
-                    "*.new_*", "*.tmp", "*.partial", ".DS_Store"
-                ),
-            )
+            if result.returncode != 0:
+                logger.warning(f"APFS clone of .lake/{sub} failed, retrying...")
+                if dst_sub.exists():
+                    shutil.rmtree(dst_sub, ignore_errors=True)
+                time.sleep(2)
+                result = run_cmd(["cp", "-Rc", str(src_sub), str(dst_sub)], timeout=600)
+            if result.returncode != 0:
+                logger.warning(f"APFS clone retry failed for .lake/{sub}, falling back to regular copy")
+                if dst_sub.exists():
+                    shutil.rmtree(dst_sub, ignore_errors=True)
+                try:
+                    shutil.copytree(
+                        str(src_sub),
+                        str(dst_sub),
+                        symlinks=True,
+                        ignore=shutil.ignore_patterns(
+                            "*.new_*", "*.tmp", "*.partial", ".DS_Store"
+                        ),
+                    )
+                except shutil.Error as e:
+                    # A file vanished mid-copy (a concurrent writer still
+                    # mutating despite the lock, e.g. merge_lake_cache_back
+                    # under its own lock). A warm-partial cache is fine; lake
+                    # recompiles the missing files. Degrade instead of
+                    # aborting the whole round.
+                    skipped = len(e.args[0]) if e.args and isinstance(e.args[0], list) else "?"
+                    logger.warning(
+                        f"Partial .lake/{sub} copy ({skipped} file(s) skipped); "
+                        f"proceeding with warm-partial cache"
+                    )
 
     elapsed = time.monotonic() - start
     logger.info(f"Set up .lake in worktree ({elapsed:.1f}s): "

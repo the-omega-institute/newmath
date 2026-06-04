@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFusionUp$}
+\label{ch:concrete-instances-regular-cauchy-fusion-namecert}
+\origin{human}
+
+Bishop and Bridges constructive analysis compares real names by passing to a common regular tail rather than by choosing a quotient representative. The $\RegularCauchyFusionUp$ packet records that comparison as finite NameCert data: it reads the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the window names of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the fast-subsequence handoff of \autoref{ch:concrete-instances-fastcauchysubsequence-namecert}.
+
+\begin{definition}[RegularCauchyFusion carrier]
+\label{def:regular-cauchy-fusion-carrier}
+A $\RegularCauchyFusionUp$ carrier is a finite $\BHist$ packet
+$$
+\Phi=(L,R,D,S,T,U,V,W,E,H,C,P,N)
+$$
+whose rows have the following roles:
+\begin{enumerate}
+\item $L$ and $R$ are the two input regular Cauchy name rows.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger used by both inputs.
+\item $S$ and $T$ are the two $\StreamNameUp$ window schedules read from the inputs.
+\item $U$ is the common finite refinement window where the schedules are compared.
+\item $V$ is the $\FastCauchySubsequenceUp$ handoff that reaches the refinement without countable choice.
+\item $W$ is the $\RegSeqRatUp$ readback row consumed by the comparison.
+\item $E$ is the terminal $\RealUp$ name seal reached from the displayed regular readback.
+\item $H,C,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\RegularCauchyFusionUp}$ naming rows.
+\end{enumerate}
+\end{definition}
+\leanstmt{BEDC.Derived.RegularCauchyFusionUp}
+
+\begin{theorem}[RegularCauchyFusion NameCert obligations]
+\label{thm:regular-cauchy-fusion-namecert-obligations}
+For an accepted $\RegularCauchyFusionUp$ carrier $\Phi=(L,R,D,S,T,U,V,W,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyFusionUp}$ surface consists exactly of finite obligations for input-name admission, dyadic tolerance reuse, two stream-window reads, common-refinement exposure, fast-subsequence access, regular rational readback, Real-name sealing, componentwise transport, displayed replay, provenance, and local naming. The surface exports no quotient Cauchy class, selected representative, selected limit, countable-choice functional, host real equality, trichotomy, ambient $\RealUp$ completeness, or standard bridge.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The input names $L,R$, dyadic ledger $D$, stream windows $S,T$, common refinement $U$, fast-subsequence handoff $V$, readback row $W$, and terminal seal $E$ are all displayed coordinates of $\Phi$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only those displayed coordinates. They do not add a quotient class, selected representative, host equality, choice schedule, completeness principle, or bridge row.
+
+Thus the NameCert obligation surface is precisely the finite carrier route listed above. Any consumer asking for the refused objects must ask for a row that is absent from $\Phi$.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFusion L10 sibling dependency]
+\label{thm:regular-cauchy-fusion-l10-sibling-dependency}
+Every $\RegularCauchyFusionUp$ comparison read factors through the sibling route
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp,\quad \FastCauchySubsequenceUp .
+$$
+The dyadic ledger fixes the tolerance, the two stream-name rows expose finite windows, the fast-subsequence handoff supplies the common refinement, the regular rational row reads the refined comparison, and the Real row seals only that displayed readback.
+\end{theorem}
+\begin{proof}
+Start with the dyadic and stream rows. The ledger $D$ is the only tolerance coordinate, while $S$ and $T$ are the only window schedules available for the two input names.
+
+Use the fast-subsequence handoff row $V$ to reach the common refinement $U$ without selecting an infinite subsequence. The row is finite carrier data and remains tied to the same dyadic and stream schedules.
+
+The regular rational readback $W$ and terminal seal $E$ then consume that common refinement. Since the packet has no quotient, selected-limit, choice, or completeness row, the comparison remains inside the five sibling dependencies displayed in the statement.
+\end{proof}
+
+\begin{theorem}[RegularCauchyFusion common refinement comparison]
+\label{thm:regular-cauchy-fusion-common-refinement-comparison}
+For any accepted $\RegularCauchyFusionUp$ carrier, both input regular Cauchy names are compared only after the common refinement row $U$ has been displayed. A downstream Real-and-Completion consumer receives the route
+$$
+L,R,D,S,T,U,V,W,E,H,C,P,N
+$$
+and may inspect finite agreement over the refinement, but it receives no quotient equality of Cauchy names and no selected representative of either input.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The two input rows $L,R$ are not compared directly; they first expose their dyadic tolerance ledger and stream windows through $D,S,T$.
+
+The refinement row $U$ is reached through the fast-subsequence handoff $V$. This gives a finite common window on which the regular rational row $W$ can read both presentations.
+
+The Real seal $E$ receives only that regular readback. The structural rows preserve the route and do not create quotient equality, a representative selector, a selected limit, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\RegularCauchyFusionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-fusion-carrier}, \autoref{thm:regular-cauchy-fusion-namecert-obligations}, and \autoref{thm:regular-cauchy-fusion-l10-sibling-dependency} seed the common-refinement comparison route for two regular Cauchy presentations.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.RegularCauchyFusionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient Cauchy equality, selected representatives, selected limits, countable choice, trichotomy, ambient Real completeness, Lean theorem verification, or a standard bridge.}
+  \upgradepath{A later verification route can encode carrier admission, dyadic tolerance reuse, stream-window comparison, fast-subsequence handoff, regular rational readback, Real-name sealing, transport, replay, provenance, and local naming for the displayed packet.}
+  \constructivestory{A $\RegularCauchyFusionUp$ packet is generated from two regular Cauchy name rows, a shared DyadicRatCore tolerance ledger, two StreamName window schedules, a common refinement window, a FastCauchySubsequence handoff, RegSeqRat readback, a RealUp name seal, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+\end{closurestatus}
