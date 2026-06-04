@@ -11,4 +11,8 @@ inductive ConvergenceFilterUp : Type where
       ConvergenceFilterUp
   deriving DecidableEq
 
+def convergenceFilterRows : ConvergenceFilterUp → List BHist
+  -- BEDC touchpoint anchor: BHist
+  | ConvergenceFilterUp.mk F Nb x W R E H C P N => [F, Nb, x, W, R, E, H, C, P, N]
+
 end BEDC.Derived
