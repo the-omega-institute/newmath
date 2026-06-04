@@ -238,14 +238,26 @@ The nonescape clause follows from \autoref{thm:locatedsupremum-real-seal-nonesca
 \end{proof}
 \leanchecked{BEDC.Derived.LocatedSupremumUp.LocatedSupremumCarrier\_window\_transport}
 
-\closureat{LocatedSupremumUp}{obligationStr}[BEDC.Derived.LocatedSupremumUp.LocatedSupremum\_real\_seal\_boundary]
+\begin{theorem}[LocatedSupremum standard bridge route]
+\label{thm:located-supremum-standard-bridge-route}
+Let $S=(L,U,A,W,R,E,H,C,P,N)$ be an accepted $\LocatedSupremumUp$ packet. Every standard-interface read of $S$ factors through the public finite rows $L,U,A,W,R,E,H,C,P,N$: the abstract bridge can inspect only the located family row, located upper-bound ledger, lower-approximation cofinality, $\StreamNameUp$ precision window, $\RegSeqRatUp$ handoff, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\LocatedSupremumUp}$ row. It receives no selected supremum, quotient cut, trichotomy row, host real equality test, countable-choice selector, or ambient real-completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the public finite interface recorded by \autoref{thm:located-supremum-namecert-obligations}. It exposes only the rows $L,U,A,W,R,E,H,C,P,N$ and makes the located upper-bound ledger and lower-approximation cofinality packet data.
+
+Use \autoref{thm:located-supremum-regseqrat-handoff} and \autoref{thm:located-supremum-real-seal-boundary}. Any real-facing read must pass through the $\StreamNameUp$ window $W$, the $\RegSeqRatUp$ handoff $R$, and the terminal $\RealUp$ seal $E$ before it can be exported.
+
+Finally apply \autoref{thm:located-supremum-window-transport}. The transport and replay rows $H,C$ preserve the same route, while $P,N$ only source and name it. Thus the standard-interface bridge reads exactly the displayed public rows and none of the excluded host or quotient principles.
+\end{proof}
+
+\closureat{LocatedSupremumUp}{bridgedStr}[BEDC.Derived.LocatedSupremumUp.LocatedSupremum\_real\_seal\_boundary]
 
 \begin{closurestatus}{\LocatedSupremumUp}
   \constructivestory{A $\LocatedSupremumUp$ packet is generated from a located family row, an upper-bound ledger, a lower-approximation ledger, a StreamName precision window, a RegSeqRat handoff, a RealUp seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:located-supremum-carrier}, \autoref{thm:located-supremum-namecert-obligations}, \autoref{thm:located-supremum-upper-bound-ledger-stability}, \autoref{thm:located-supremum-lower-approximation-cofinality}, \autoref{thm:located-supremum-regseqrat-real-handoff-stability}, \autoref{thm:located-supremum-monotone-convergence-consumer-envelope}, and \autoref{thm:located-supremum-window-transport} expose the public finite interface: located upper-bound ledger, lower-approximation cofinality, RegSeqRat handoff, monotone-sequence consumer envelope, and window transport over the L10 Real and Completion route.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:located-supremum-carrier}, \autoref{thm:located-supremum-namecert-obligations}, \autoref{thm:located-supremum-upper-bound-ledger-stability}, \autoref{thm:located-supremum-lower-approximation-cofinality}, \autoref{thm:located-supremum-regseqrat-real-handoff-stability}, \autoref{thm:located-supremum-monotone-convergence-consumer-envelope}, \autoref{thm:located-supremum-window-transport}, and \autoref{thm:located-supremum-standard-bridge-route} expose the standard bridge route: located upper-bound ledger, lower-approximation cofinality, RegSeqRat handoff, Real seal, transport, replay, provenance, and local naming over the L10 Real and Completion interface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim full Dedekind completeness, arbitrary least-upper-bound completeness, quotient cuts, selected suprema, trichotomy, host real equality, countable choice, Real completeness, or a standard bridge.}
-  \upgradepath{A higher grade requires a verified standard bridge for this public interface, including carrier admission, located upper-bound stability, lower-approximation cofinality, classifier transport, ledger exhaustion, handoff stability, and real-seal factorization.}
+  \notclaimed{This chapter does not claim full Dedekind completeness, arbitrary least-upper-bound completeness, quotient cuts, selected suprema, trichotomy, host real equality, countable choice, Real completeness, or Lean bridge checking.}
+  \upgradepath{Verification of the standard bridge route requires carrier admission, located upper-bound stability, lower-approximation cofinality, classifier transport, ledger exhaustion, handoff stability, and real-seal factorization.}
 \end{closurestatus}
