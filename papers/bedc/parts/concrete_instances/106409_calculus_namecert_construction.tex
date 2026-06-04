@@ -208,6 +208,42 @@ The earlier real-seal theorem \autoref{thm:calculus-limit-real-seal-obligation} 
 Finally use \autoref{thm:calculus-namecert-obligations}. The local NameCert surface lists regular-rational readback as a root obligation, so every export from $L,D,I$ must first pass through $Q$ with $R$ and the underlying dyadic tolerance route visible.
 \end{proof}
 
+\begin{theorem}[Calculus continuous-limit carrier budget]
+\label{thm:calculus-continuous-limit-carrier-budget}
+For every accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, a continuous-map graph read and a limit-window read must both be displayed before any $\RealUp$ seal is exported. The graph row $C$ supplies the named finite graph and pointwise replay windows, the limit row $L$ supplies the convergence windows, and the regular-rational row $Q$ supplies the $\RegSeqRatUp$ readback used by the terminal real boundary $R$. Thus a real-facing calculus export cannot bypass $C,L,Q$ or treat Real completeness as an ambient carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:calculus-carrier}. The only continuous-map graph coordinate is $C$, the only limit-window coordinate is $L$, and the only regular-rational readback coordinate is $Q$.
+
+Use \autoref{thm:calculus-continuous-map-graph-replay-obligation}. It requires $R,L,C,Q,H,T,P,N$ before a derivative or integral consumer can read the continuous-map graph.
+
+Use \autoref{thm:calculus-regseqrat-readback-root-obligation}. Every real-facing export from $L,D,I$ must expose $Q$ together with $R$ and the dyadic tolerance route. Hence the Real seal is downstream of the displayed graph, limit, and readback rows rather than an ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Calculus derivative-integral source separation]
+\label{thm:calculus-derivative-integral-source-separation}
+For every accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, the derivative row $D$ and integral row $I$ remain separated even when they share the source rows $R,L,C,Q,H,T,P,N$. A derivative consumer must read local difference-quotient and remainder data from $D$, while an integral consumer must read partition, tagged-sum, and endpoint handoff data from $I$; no shared support row identifies the two sources or exports a host fundamental theorem.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:calculus-carrier}. The derivative source is the coordinate $D$, and the integral source is the coordinate $I$.
+
+Apply \autoref{thm:calculus-derivative-integral-separation-obligation}. That theorem already records that the two rows use the same finite support but do not supply each other's conclusions.
+
+The carrier list contains no coordinate for quotient function equality, a selected antiderivative, or a host fundamental theorem. Therefore shared support through $R,L,C,Q,H,T,P,N$ preserves source separation rather than collapsing $D$ and $I$.
+\end{proof}
+
+\begin{theorem}[Calculus real RegSeqRat error handoff]
+\label{thm:calculus-real-regseqrat-error-handoff}
+Every real-facing error estimate exported by an accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$ must first display the $\RegSeqRatUp$ row $Q$ and the dyadic rational tolerance route inherited by that readback. Limit, derivative, and integral consumers may then hand the estimate to the $\RealUp$ boundary $R$, but only after the regular-rational and dyadic data have been read inside the finite packet.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:calculus-regseqrat-readback-root-obligation}. It makes $Q$ mandatory before any real-facing value is exported from $L,D,I$.
+
+The derivative and integral routes use the same readback discipline. Their finite quotient, remainder, partition, tagged-sum, and endpoint rows are compared through regular-rational data before a Real-facing estimate is named.
+
+Finally apply \autoref{thm:calculus-namecert-obligations}. The local NameCert surface contains $R,L,C,D,I,Q,H,T,P,N$ and no ambient Real-completeness or host error functional. Thus the handoff to $R$ is downstream of $\RegSeqRatUp$ and dyadic readback data in $Q$.
+\end{proof}
+
 \closureat{CalculusUp}{seedStr}
 
 \begin{closurestatus}{\CalculusUp}

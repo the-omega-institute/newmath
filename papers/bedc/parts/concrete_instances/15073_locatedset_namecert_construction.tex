@@ -186,6 +186,63 @@ Apply \autoref{thm:located-set-real-distance-seal-exactness}. The real distance 
 The totality claim is therefore local to accepted requests: once a request is admitted by $X$ and $A$, its comparison evidence is in $Q$, its rational windows are in $R$, and its real seal is in $E$. The rows $T,H,C,P,N$ expose this same ledger to consumers without adding nearest-point selection, open-cover compactness, or hidden completion data.
 \end{proof}
 
+\begin{definition}[LocatedSet root obligation carrier]
+\label{def:located-set-root-carrier}
+The root-obligation carrier of an accepted $\LocatedSetUp$ packet $L=(X,A,Q,R,E,T,H,C,P,N)$ is the three-row public interface
+$$
+\mathsf{Root}_{\LocatedSetUp}(L)=(D,J,S)
+$$
+where:
+\begin{enumerate}
+\item $D$ is the distance-witness row that reads the parent $\MetricUp$ row $X$, the $\MetricSubspaceUp$ admission row $A$, the located-distance ledger $Q$, the rational windows $R$, the $\RealUp$ seal $E$, and the $\LocatedMetricUp$ handoff $T$.
+\item $J$ is the projection-admission row. It records that any $\ProximinalSetUp$ or $\MetricProjectionUp$ consumer must add its own endpoint or projection witness after reading $X,A,Q,R,E,T,H,C,P,N$.
+\item $S$ is the Real-metric nonescape row. It records that every Real-distance or metric-projection read stays inside the displayed $\MetricUp$, $\MetricSubspaceUp$, $\LocatedMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route.
+\end{enumerate}
+The root carrier has no coordinate for selected nearest points, quotient subset equality, ambient completion, open-cover compactness, or full $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[LocatedSet root distance witness]
+\label{thm:located-set-root-distance-witness}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet and let $\mathsf{Root}_{\LocatedSetUp}(L)=(D,J,S)$ be its root-obligation carrier. The row $D$ is total for accepted distance-witness requests: every downstream $\LocatedMetricUp$, $\ProximinalSetUp$, or $\MetricProjectionUp$ consumer that cites a distance witness from $L$ must read $X,A,Q,R,E,T,H,C,P,N$ and cannot replace $Q,R,E$ by an endpoint selector.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:located-set-distance-ledger-totality}. It accounts for each admitted ambient-point distance request by the route $X,A,Q,R,E,T,H,C,P,N$.
+
+The row $D$ of \autoref{def:located-set-root-carrier} is exactly this route presented as the root distance-witness obligation. It does not introduce a second distance object or a detached witness.
+
+Apply \autoref{thm:locatedset-distance-witness-obligation}. A downstream located-metric, proximinal, or projection consumer must retain the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows while reading the same $\MetricUp$, $\MetricSubspaceUp$, $\LocatedMetricUp$, and $\RealUp$ route.
+
+Finally use \autoref{thm:located-set-nearest-point-refusal-boundary}. Since no row of $L$ is an endpoint witness row, the distance witness in $D$ cannot be replaced by selected nearest-point data.
+\end{proof}
+
+\begin{theorem}[LocatedSet root projection obligation]
+\label{thm:located-set-root-projection-obligation}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet with root-obligation carrier $(D,J,S)$. Any $\ProximinalSetUp$ or $\MetricProjectionUp$ consumer admitted over $L$ must first expose the located-set route $X,A,Q,R,E,T,H,C,P,N$ and then supply any endpoint, projection, or proximinal witness as a consumer row outside the $\LocatedSetUp$ packet.
+\end{theorem}
+\begin{proof}
+Read the projection-admission row $J$ from \autoref{def:located-set-root-carrier}. Its only source data are the displayed rows of the accepted located-set packet and the statement that endpoint evidence is added by the consumer.
+
+Apply \autoref{thm:locatedset-metric-projection-carrier-admission}. A metric-projection carrier may consume $L$ only after displaying $X,A,Q,R,E,T,H,C,P,N$.
+
+Now apply \autoref{thm:locatedset-proximinal-consumer-nonescape}. The same route is required for a proximinal consumer, and any nearest-point or projection endpoint remains outside the carrier.
+
+Thus the projection obligation is a route-exhaustion statement: all available located-set evidence is read before the consumer endpoint row appears, and no projection row is smuggled back into $L$.
+\end{proof}
+
+\begin{theorem}[LocatedSet root Real-metric nonescape]
+\label{thm:located-set-root-real-metric-nonescape}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet with root-obligation carrier $(D,J,S)$. Every consumer that reads a $\RealUp$ distance seal or a $\MetricProjectionUp$ route from $L$ remains inside the displayed $\MetricUp$, $\MetricSubspaceUp$, $\LocatedMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows; it receives no host metric equality, quotient subset equality, selected endpoint, completed ambient metric space, or full real-completeness principle from the located-set packet.
+\end{theorem}
+\begin{proof}
+Read the nonescape row $S$ from \autoref{def:located-set-root-carrier}. It names the exact sibling route available to Real-distance and projection consumers.
+
+Use \autoref{thm:located-set-real-distance-seal-exactness}. The $\RealUp$ distance read is exhausted by the parent metric row, subspace admission row, located-distance ledger, rational windows, Real seal, located-metric handoff, and structural rows.
+
+Use \autoref{thm:located-set-real-seal-consumer-boundary}. Completion, compactness, projection, and proximinal consumers must keep $E$ downstream of $X,A,Q,R$ and upstream of $T,H,C,P,N$.
+
+Finally combine the root distance witness with the projection obligation. The first fixes the distance witness inside $D$, and the second keeps endpoint or projection evidence in the consumer row. Hence a Real-metric or projection read cannot escape to host equality, quotient subset equality, selected endpoint data, ambient completion, or full real completeness.
+\end{proof}
+
 \begin{theorem}[LocatedSet real-seal consumer boundary]
 \label{thm:located-set-real-seal-consumer-boundary}
 Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Any completion, compactness, projection, or proximinal consumer that reads the $\RealUp$ distance seal $E$ must keep that seal downstream of the displayed route $X,A,Q,R$ and upstream of the located-metric handoff $T$ and structural rows $H,C,P,N$. The consumer receives no selected nearest point, open-cover compactness proof, quotient subset equality, completed ambient metric space, or full real-completeness row from $E$.
