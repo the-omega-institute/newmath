@@ -2483,6 +2483,7 @@ import BEDC.Derived.CompactOpenFunctionSpaceUp.TasteGate
 import BEDC.Derived.CompactOpenMetricUp
 import BEDC.Derived.CompactOpenMetricUp.TasteGate
 import BEDC.Derived.CompactOperatorUp
+import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
@@ -3670,6 +3671,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligation
 import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescape
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescapeObligation
+import BEDC.Derived.DyadicIntervalCoverUp.RefinementChainInduction
 import BEDC.Derived.DyadicIntervalCoverUp.RefinementStability
 import BEDC.Derived.DyadicIntervalCoverUp.RegSeqRatRoute
 import BEDC.Derived.DyadicIntervalCoverUp.RootCellCarrier
@@ -3819,6 +3821,7 @@ import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuityFiniteNetSelectorUp.TasteGate
 import BEDC.Derived.EquicontinuityUp
 import BEDC.Derived.EquicontinuityUp.ArzelaAscoliConsumerRoute
+import BEDC.Derived.EquicontinuityUp.ContinuousFamilyLedgerAdmission
 import BEDC.Derived.EquicontinuityUp.ContinuousMapModulusRoute
 import BEDC.Derived.EquicontinuityUp.FiniteModulusCarrier
 import BEDC.Derived.EquicontinuityUp.FiniteNetConsumerBoundary
@@ -5002,7 +5005,6 @@ import BEDC.Derived.KuratowskiClosureUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionNaturalityUp
 import BEDC.Derived.KuratowskiCompletionNaturalityUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionUp.TasteGate
-import BEDC.Derived.KuratowskiConvergenceUp
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.KuratowskiHyperspaceUp.TasteGate
 import BEDC.Derived.LFunctionUp
@@ -7800,6 +7802,7 @@ import BEDC.Derived.SequentialCompactUp.ObligationReadiness
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.SelectorRefusal
 import BEDC.Derived.SequentialCompactUp.TasteGate
+import BEDC.Derived.SequentialCompactUp.WindowExtractionScope
 import BEDC.Derived.SequentialCompactnessUp.BolzanoWeierstrassWindow
 import BEDC.Derived.SequentialCompactnessUp.CompactMetricRoute
 import BEDC.Derived.SequentialCompactnessUp.NameCertObligations
