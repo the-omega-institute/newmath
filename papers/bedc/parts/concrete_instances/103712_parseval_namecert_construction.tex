@@ -50,6 +50,46 @@ The $\RealUp$ seal $L$ is downstream of those rows. Thus the endpoint is a seal 
 Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since every readable coordinate has already been listed, the certificate cannot export Plancherel, inversion, convergence closure, or Lean verification.
 \end{proof}
 
+\begin{theorem}[Parseval coefficient integral handoff]
+\label{thm:parseval-coefficient-integral-handoff}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, every coefficient-facing energy comparison must read the finite route
+$$
+F \longmapsto S \longmapsto I \longmapsto E
+$$
+before the terminal $\RealUp$ seal $L$ is available. The route records Fourier coefficient windows, the SOne source row, the InnerProduct pairing row, and the Integral energy row as one finite handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:parseval-carrier}. The rows $F,S,I,E$ are displayed before the readback row, tolerance ledger, and terminal seal.
+
+Apply the NameCert obligations of \autoref{thm:parseval-namecert-obligations}. Coefficient-window exactness reads $F$ with the source row $S$, finite partial-energy ledger accounting reads the pairing witnesses in $I$, and integral-energy handoff reads $E$ from the same finite source window.
+
+Thus a coefficient-facing energy comparison reaches $L$ only after the route $F \longmapsto S \longmapsto I \longmapsto E$ has been displayed. The theorem records the finite Parseval handoff and does not add Plancherel, inversion, convergence, or Hilbert completeness.
+\end{proof}
+
+\begin{theorem}[Parseval dyadic tolerance ledger]
+\label{thm:parseval-dyadic-tolerance-ledger}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the $\DyadicRatCoreUp$ row $D$ accounts for exactly the finite summation, pairing, integral readback, and energy-comparison tolerances used by the displayed Parseval surface. No tolerance for an infinite series, completed norm, quotient coefficient class, or host function equality is available outside $D$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only tolerance coordinate is $D$, and it is listed after the finite coefficient windows, source row, pairing row, integral row, and regular readback.
+
+Use the dyadic tolerance accounting row in \autoref{thm:parseval-namecert-obligations}. It assigns $D$ to finite summation, pairing, integral readback, and comparison tolerances, so every numerical budget for the energy comparison is read through the same DyadicRatCore ledger.
+
+Since the carrier has no coordinate for infinite-series convergence, completed Hilbert norms, quotient coefficient spaces, or host function equality, no additional tolerance source can be exported by the packet.
+\end{proof}
+
+\begin{theorem}[Parseval Real seal nonescape]
+\label{thm:parseval-real-seal-nonescape}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the $\RealUp$ seal $L$ seals only the displayed finite energy comparison built from $F,S,I,E,R,D$. It excludes Plancherel, inversion, convergence, Hilbert completeness, host function equality, and quotient coefficient spaces.
+\end{theorem}
+\begin{proof}
+Project the carrier. The seal $L$ is downstream of the Fourier window, SOne source, InnerProduct pairing, Integral energy row, RegSeqRat readback, and DyadicRatCore tolerance ledger.
+
+Apply \autoref{thm:parseval-namecert-obligations}. Its Real seal non-escape row states that $L$ seals only the displayed energy comparison and not a host function equality or completed norm equality.
+
+The exclusions follow from the carrier inventory and the same obligation rows. Plancherel, inversion, convergence, Hilbert completeness, host function equality, and quotient coefficient spaces have no readable coordinate in $K$, so they cannot escape through $L$.
+\end{proof}
+
 \falsifiablePrediction{Every $\ParsevalUp$ energy-facing read factors through Fourier coefficient windows, an SOne source row, an InnerProduct pairing row, an Integral energy row, RegSeqRat readback, a DyadicRatCore tolerance ledger, a Real seal, hsame transport, Cont replay, Pkg provenance, and local naming.}
 
 \independenceWitness{fourier, s1, innerproduct, integral, regseqrat, dyadicratcore, real: $\ParsevalUp$ is not bijective to any listed sibling because it jointly carries coefficient-energy windows, source rows, pairing witnesses, integral-energy observations, regular readbacks, dyadic tolerance accounting, real sealing, transport, replay, provenance, and local naming.}
