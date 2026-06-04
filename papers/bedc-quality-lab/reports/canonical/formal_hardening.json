@@ -1,22 +1,20 @@
 {
   "artifact_id": "bedc-quality-lab:formal-hardening",
   "coverage": {
-    "gap_count": 1,
-    "gap_rows": [
-      "finite-ledger-coverage"
-    ],
-    "ready": false,
-    "recorded": 3,
+    "gap_count": 0,
+    "gap_rows": [],
+    "ready": true,
+    "recorded": 4,
     "required": 4
   },
-  "gap_count": 1,
+  "gap_count": 0,
   "generated_at": "2026-06-03T14:16:28.906247+00:00",
   "producer": "scripts/run_formal_hardening_report.py",
-  "ready": false,
-  "recorded": 3,
+  "ready": true,
+  "recorded": 4,
   "required": 4,
   "root": "papers/bedc-quality-lab",
-  "status": "not-ready",
+  "status": "ready",
   "trust_boundary": "pointer-only verification ledger; not a QualityEvidenceEnvelope and not a BEDC closure certificate",
   "verification_ledger": [
     {
@@ -46,17 +44,17 @@
       "trust_boundary": "pointer-only evidence ledger; no BEDC closure claim"
     },
     {
-      "evidence_pointer": null,
-      "evidence_resolved": false,
-      "formal_pointer": "bedc_quality_lab.ledger.ledger_gap",
-      "gap": "delete-1 has no recorded finite ledger coverage evidence",
+      "evidence_pointer": "lean://FiniteLedgerCoverage.coverage_of_recorded_witnesses",
+      "evidence_resolved": true,
+      "formal_pointer": "lean://FiniteLedgerCoverage.coverage_of_recorded_witnesses",
+      "gap": null,
       "item_id": "finite-ledger-coverage",
       "name": "finite ledger coverage",
-      "recorded": false,
+      "recorded": true,
       "required": true,
       "source_pointer": "reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[2]",
-      "status": "missing",
-      "trust_boundary": "delete-1 gap blocks full hardening coverage"
+      "status": "verified",
+      "trust_boundary": "lab-local pointer-only finite coverage evidence; not a BEDC closure certificate, not a global model quality certificate, and revocable if the Lean file or theorem surface disappears"
     },
     {
       "evidence_pointer": "reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[3].recorded",

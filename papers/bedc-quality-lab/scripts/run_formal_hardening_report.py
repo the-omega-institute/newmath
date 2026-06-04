@@ -39,6 +39,13 @@ class _HardeningItem:
     required: bool = True
 
 
+@dataclass(frozen=True)
+class EvidencePointerResult:
+    resolved: bool
+    kind: str
+    reason: str | None = None
+
+
 _ITEMS: tuple[_HardeningItem, ...] = (
     _HardeningItem(
         item_id="same-class-equivalence",
@@ -65,10 +72,13 @@ _ITEMS: tuple[_HardeningItem, ...] = (
         name="finite ledger coverage",
         row=LedgerRowKey("formal-hardening", "finite-ledger-coverage"),
         source_pointer="reports/canonical/spectral-ablation-hinge.json:$.ledger_summary.basis.hardening_coverage.items[2]",
-        evidence_pointer=None,
-        formal_pointer="bedc_quality_lab.ledger.ledger_gap",
-        gap="delete-1 has no recorded finite ledger coverage evidence",
-        trust_boundary="delete-1 gap blocks full hardening coverage",
+        evidence_pointer="lean://FiniteLedgerCoverage.coverage_of_recorded_witnesses",
+        formal_pointer="lean://FiniteLedgerCoverage.coverage_of_recorded_witnesses",
+        gap=None,
+        trust_boundary=(
+            "lab-local pointer-only finite coverage evidence; not a BEDC closure certificate, "
+            "not a global model quality certificate, and revocable if the Lean file or theorem surface disappears"
+        ),
     ),
     _HardeningItem(
         item_id="missing-row-negative-example",
@@ -92,6 +102,11 @@ def _row_id(row: LedgerRowKey) -> str:
 
 
 _JSONPATH_PART = re.compile(r"([A-Za-z_][A-Za-z0-9_-]*)(?:\[(\d+)\])?")
+_LEAN_POINTER = re.compile(r"lean://([A-Za-z_][A-Za-z0-9_']*)\.([A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)$")
+_LEAN_DECL_NAME = re.compile(r"\btheorem\s+([A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*)\b")
+_LEAN_MODULE_FILES = {
+    "FiniteLedgerCoverage": Path("formal") / "lean" / "FiniteLedgerCoverage.lean",
+}
 
 
 def _truthy_evidence(value: Any) -> bool:
@@ -118,31 +133,71 @@ def _resolve_jsonpath(payload: Any, jsonpath: str) -> Any:
     return cursor
 
 
-def _resolve_evidence_pointer(pointer: str | None, *, root: Path) -> bool:
-    if not isinstance(pointer, str) or not pointer.strip():
-        return False
+def _resolve_json_evidence_pointer(pointer: str, *, root: Path) -> EvidencePointerResult:
     try:
         artifact, jsonpath = pointer.split(":", 1)
         artifact_path = Path(artifact)
         if artifact_path.is_absolute():
-            return False
+            return EvidencePointerResult(False, "canonical-json", "absolute artifact path")
         canonical_prefix = Path("reports") / "canonical"
         if (
             artifact_path.parent != canonical_prefix
             or artifact_path.suffix != ".json"
             or ".." in artifact_path.parts
         ):
-            return False
+            return EvidencePointerResult(False, "canonical-json", "non-canonical artifact path")
         if artifact_path == Path(FORMAL_HARDENING_JSON_ARTIFACT):
-            return False
+            return EvidencePointerResult(False, "canonical-json", "self pointer")
         payload = json.loads((root / artifact_path).read_text(encoding="utf-8"))
-        return _truthy_evidence(_resolve_jsonpath(payload, jsonpath))
-    except Exception:
-        return False
+        if not _truthy_evidence(_resolve_jsonpath(payload, jsonpath)):
+            return EvidencePointerResult(False, "canonical-json", "falsy evidence value")
+        return EvidencePointerResult(True, "canonical-json")
+    except Exception as exc:
+        return EvidencePointerResult(False, "canonical-json", type(exc).__name__)
+
+
+def _lean_declared_symbols(source: str, *, module: str) -> set[str]:
+    symbols: set[str] = set()
+    for match in _LEAN_DECL_NAME.finditer(source):
+        declared = match.group(1)
+        symbols.add(declared)
+        if "." not in declared:
+            symbols.add(f"{module}.{declared}")
+    return symbols
+
+
+def _resolve_lean_evidence_pointer(pointer: str, *, root: Path) -> EvidencePointerResult:
+    match = _LEAN_POINTER.fullmatch(pointer)
+    if match is None:
+        return EvidencePointerResult(False, "invalid", "invalid Lean pointer")
+    module, symbol = match.groups()
+    module_path = _LEAN_MODULE_FILES.get(module)
+    if module_path is None:
+        return EvidencePointerResult(False, "lean-symbol", "unknown Lean module")
+    if module_path.suffix != ".lean" or module_path.is_absolute() or ".." in module_path.parts:
+        return EvidencePointerResult(False, "lean-symbol", "non-lean target")
+    file_path = root / module_path
+    if not file_path.exists():
+        return EvidencePointerResult(False, "lean-symbol", "missing Lean file")
+    source = file_path.read_text(encoding="utf-8")
+    qualified = f"{module}.{symbol}"
+    if symbol not in _lean_declared_symbols(source, module=module) and qualified not in _lean_declared_symbols(source, module=module):
+        return EvidencePointerResult(False, "lean-symbol", "missing Lean symbol")
+    return EvidencePointerResult(True, "lean-symbol")
+
+
+def _resolve_evidence_pointer(pointer: str | None, *, root: Path) -> EvidencePointerResult:
+    if not isinstance(pointer, str) or not pointer.strip():
+        return EvidencePointerResult(False, "invalid", "missing pointer")
+    if pointer.startswith("lean://"):
+        return _resolve_lean_evidence_pointer(pointer, root=root)
+    if "://" in pointer:
+        return EvidencePointerResult(False, "invalid", "unsupported pointer scheme")
+    return _resolve_json_evidence_pointer(pointer, root=root)
 
 
 def _entry_for_item(item: _HardeningItem, *, root: Path) -> LedgerRowKey | None:
-    return item.row if _resolve_evidence_pointer(item.evidence_pointer, root=root) else None
+    return item.row if _resolve_evidence_pointer(item.evidence_pointer, root=root).resolved else None
 
 
 def _profile(items: tuple[_HardeningItem, ...], *, root: Path) -> HardeningProfile:

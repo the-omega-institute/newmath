@@ -526,10 +526,10 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "artifact_id": "bedc-quality-lab:formal-hardening",
         "json_artifact": "reports/canonical/formal_hardening.json",
         "markdown_artifact": "reports/canonical/formal_hardening.md",
-        "ready": False,
-        "recorded": 3,
+        "ready": True,
+        "recorded": 4,
         "required": 4,
-        "gap_count": 1,
+        "gap_count": 0,
     }
     assert "HG-P core reports" in markdown
     assert "Auxiliary reports" in markdown
@@ -761,12 +761,20 @@ def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_
     assert "claim_verdicts.jsonl" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
 
 
-def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
+def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
     old_root = canonical.ROOT
     old_dir = canonical.CANONICAL_DIR
     old_index = canonical.INDEX_ARTIFACT
     try:
         _write_payloads_for_all_specs(canonical, tmp_path)
+        monkeypatch.setattr(
+            canonical,
+            "_build_formal_hardening_payload",
+            lambda generated_at=None: formal_hardening.build_formal_hardening_report(
+                root=formal_hardening.ROOT,
+                generated_at=generated_at,
+            ),
+        )
         payload = canonical._build_quality_scorecard([], generated_at="fixture-time")
     finally:
         canonical.ROOT = old_root
@@ -980,9 +988,14 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path):
             "denominator": 10,
         },
         "HardeningCoverage": {
-            "dependency": "formal_hardening:$.coverage",
-            "reason": "incomplete formal hardening evidence",
-            "status": "not-ready",
+            "value": 1.0,
+            "source": {
+                "report": "formal_hardening",
+                "artifact": "reports/canonical/formal_hardening.json",
+                "pointer": "$.coverage",
+            },
+            "numerator": 4,
+            "denominator": 4,
         },
         "OverclaimRate": {
             "value": pytest.approx(0.4),
@@ -1078,12 +1091,20 @@ def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):
         canonical.INDEX_ARTIFACT = old_index
 
 
-def test_quality_scorecard_hardening_coverage_uses_current_formal_payload(tmp_path):
+def test_quality_scorecard_hardening_coverage_uses_current_formal_payload(tmp_path, monkeypatch):
     old_root = canonical.ROOT
     old_dir = canonical.CANONICAL_DIR
     old_index = canonical.INDEX_ARTIFACT
     try:
         _write_payloads_for_all_specs(canonical, tmp_path)
+        monkeypatch.setattr(
+            canonical,
+            "_build_formal_hardening_payload",
+            lambda generated_at=None: formal_hardening.build_formal_hardening_report(
+                root=formal_hardening.ROOT,
+                generated_at=generated_at,
+            ),
+        )
         scorecard = canonical._build_quality_scorecard([], generated_at="fixture-time")
     finally:
         canonical.ROOT = old_root
@@ -1091,11 +1112,15 @@ def test_quality_scorecard_hardening_coverage_uses_current_formal_payload(tmp_pa
         canonical.INDEX_ARTIFACT = old_index
 
     row = {item["metric"]: item for item in scorecard["rows"]}["HardeningCoverage"]
-    assert row["status"] == "not-ready"
-    assert row["dependency"] == "formal_hardening:$.coverage"
-    assert row["reason"] == "incomplete formal hardening evidence"
-    assert "value" not in row
-    assert "numerator" not in row
+    assert row["status"] == "ready"
+    assert row["value"] == 1.0
+    assert row["numerator"] == 4
+    assert row["denominator"] == 4
+    assert row["source"] == {
+        "report": "formal_hardening",
+        "artifact": "reports/canonical/formal_hardening.json",
+        "pointer": "$.coverage",
+    }
 
 
 def test_quality_scorecard_hardening_coverage_ready_iff_all_rows_verified(monkeypatch):
@@ -1140,6 +1165,32 @@ def test_quality_scorecard_hardening_coverage_ready_iff_all_rows_verified(monkey
         "artifact": "reports/canonical/formal_hardening.json",
         "pointer": "$.coverage",
     }
+
+
+def test_quality_scorecard_hardening_coverage_reads_payload_not_lean_file(monkeypatch, tmp_path):
+    payload = {
+        "ready": True,
+        "status": "ready",
+        "recorded": 1,
+        "required": 1,
+        "verification_ledger": [
+            {
+                "status": "verified",
+                "recorded": True,
+                "evidence_resolved": True,
+            }
+        ],
+        "coverage": {"ready": True, "recorded": 1, "required": 1, "gap_count": 0, "gap_rows": []},
+    }
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "_build_formal_hardening_payload", lambda generated_at=None: payload)
+
+    row = canonical._scorecard_hardening_coverage({})
+
+    assert row["status"] == "ready"
+    assert row["value"] == 1.0
+    assert row["numerator"] == 1
+    assert row["denominator"] == 1
 
 
 @pytest.mark.parametrize(

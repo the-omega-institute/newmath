@@ -88,9 +88,9 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/formal_hardening.json`
 - Markdown: `reports/canonical/formal_hardening.md`
-- Ready: `False`
-- Coverage: `3/4`
-- Gaps: `1`
+- Ready: `True`
+- Coverage: `4/4`
+- Gaps: `0`
 
 ## Gap-head mechanism attribution
 
