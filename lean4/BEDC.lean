@@ -5318,6 +5318,7 @@ import BEDC.Derived.LowerRealUp.PublicNonescape
 import BEDC.Derived.LowerRealUp.PublicPackageScope
 import BEDC.Derived.LowerRealUp.PublicRegSeqRatRealRoute
 import BEDC.Derived.LowerRealUp.TasteGate
+import BEDC.Derived.LowerRealUp.UpperRealComparisonNonescape
 import BEDC.Derived.LowerRealUp.UpperRealDualityBoundary
 import BEDC.Derived.LowerSemicontinuousUp.BaireOneSourceHandoff
 import BEDC.Derived.LowerSemicontinuousUp.BaireSuperlevelHandoff
@@ -5647,6 +5648,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondBudgetSourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateMediatedHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceFaceRetention
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondTypedL10Budget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualPublicHandoff
@@ -8603,6 +8605,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.SourceUnitCompatibility
 import BEDC.Derived.UniformCompletionFunctorUp.TasteGate
 import BEDC.Derived.UniformCompletionFunctorUp.UnitRootObligation
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalExtensionUniquenessLedger
+import BEDC.Derived.UniformCompletionFunctorUp.UniversalExtensionUniquenessRoute
 import BEDC.Derived.UniformCompletionFunctorUp.UniversalHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.WindowFunctoriality
 import BEDC.Derived.UniformCompletionMonadUp
