@@ -30,7 +30,7 @@ REVOKE_IF = (
 
 
 PointerStatus = Literal["resolved", "missing"]
-TagStatus = Literal["absent", "present", "stale", "unknown"]
+TagStatus = Literal["absent", "present", "stale", "unknown", "requested-missing"]
 ReleaseBundleStatus = Literal["ready", "not-ready"]
 
 
@@ -95,7 +95,7 @@ class ReleasePointerResolver:
         rows = tuple(self._required_pointer_rows())
         tag_status = self._tag_status(tag_ref)
         release_status: ReleaseBundleStatus = (
-            "ready" if all(row.status == "resolved" for row in rows) and tag_status != "stale" else "not-ready"
+            "ready" if all(row.status == "resolved" for row in rows) and tag_status in ("absent", "present") else "not-ready"
         )
         return ReleaseManifestSidecar(
             schema_id=SCHEMA_ID,
@@ -242,7 +242,7 @@ class ReleasePointerResolver:
             return "absent"
         tag = self._git_stdout("rev-parse", "--verify", f"refs/tags/{tag_ref}^{{commit}}")
         if tag is None:
-            return "absent"
+            return "requested-missing"
         head = self._git_stdout("rev-parse", "HEAD")
         if head is None:
             return "unknown"

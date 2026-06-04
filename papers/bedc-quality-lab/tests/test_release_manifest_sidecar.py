@@ -93,14 +93,18 @@ def test_tag_status_is_falsifiable_metadata(tmp_path, monkeypatch):
     assert stale.tag_status == "stale"
     assert stale.release_bundle_status == "not-ready"
 
-    def fake_git_absent(self, *args):
+    not_requested = sidecar.resolve_release_manifest(tmp_path)
+    assert not_requested.tag_status == "absent"
+    assert not_requested.release_bundle_status == "ready"
+
+    def fake_git_requested_missing(self, *args):
         return None
 
-    monkeypatch.setattr(sidecar.ReleasePointerResolver, "_git_stdout", fake_git_absent)
-    absent = sidecar.resolve_release_manifest(tmp_path, tag_ref="release-tag")
-    payload = absent.to_payload()
-    assert absent.tag_status == "absent"
-    assert absent.release_bundle_status == "ready"
+    monkeypatch.setattr(sidecar.ReleasePointerResolver, "_git_stdout", fake_git_requested_missing)
+    requested_missing = sidecar.resolve_release_manifest(tmp_path, tag_ref="release-tag")
+    payload = requested_missing.to_payload()
+    assert requested_missing.tag_status == "requested-missing"
+    assert requested_missing.release_bundle_status == "not-ready"
     assert "quality_scorecard" not in payload
     assert "formal_hardening" not in payload
     assert "discovery_map" not in payload
