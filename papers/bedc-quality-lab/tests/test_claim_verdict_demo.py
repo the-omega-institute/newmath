@@ -77,7 +77,16 @@ def _payload_for_level(level):
     return payload
 
 
-def _spec(name, artifact, *, scope="$.scope", cost="$.cost", not_claimed="$.not_claimed", positive="$.positive"):
+def _spec(
+    name,
+    artifact,
+    *,
+    scope="$.scope",
+    cost="$.cost",
+    not_claimed="$.not_claimed",
+    positive="$.positive",
+    control="$.control",
+):
     return canonical.CanonicalReportSpec(
         name=name,
         command=("python3", "scripts/run_fixture.py"),
@@ -90,7 +99,7 @@ def _spec(name, artifact, *, scope="$.scope", cost="$.cost", not_claimed="$.not_
         cost_pointer=cost,
         not_claimed_pointer=not_claimed,
         positive_claim_pointer=positive,
-        control_pointer="$.control",
+        control_pointer=control,
         no_control_rationale_pointer=None,
     )
 
@@ -279,6 +288,34 @@ def test_hardening_coverage_not_ready_uses_dependency_pointer(tmp_path, monkeypa
     assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
     assert verdict["reason"] == "scorecard-not-ready"
     assert verdict["ledger_pointer"] == f"reports/canonical/quality-scorecard.json:$.rows[{hardening_index}]"
+
+
+def test_positive_discovery_gate_failure_routes_to_ledger_only_hardening_not_ready(tmp_path, monkeypatch):
+    rows = [_discovery_row("gap-head-on-h", "reports/canonical/gap-head-on-h.json", "D5")]
+    rows[0]["control_pointer"] = "$.matched_random_control.control_verdict.positive"
+    specs = (
+        _spec(
+            "gap-head-on-h",
+            "reports/canonical/gap-head-on-h.json",
+            control="$.matched_random_control.control_verdict.positive",
+        ),
+    )
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/gap-head-on-h.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload["matched_random_control"]["control_verdict"]["positive"] = True
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:gap-head-on-h"
+    assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert verdict["reason"] == "positive-discovery-gate-failed"
+    assert verdict["source"] == "reports/canonical/gap-head-on-h.json:$.positive_discovery"
+    assert verdict["ledger_pointer"] == (
+        "reports/canonical/gap-head-on-h.json:"
+        "$.matched_random_control.control_verdict.positive"
+    )
 
 
 def test_demoted_terminal_positive_discovery_fails_closed_with_ledger_pointer(tmp_path, monkeypatch):
