@@ -2909,6 +2909,7 @@ import BEDC.Derived.ConvergenceRadiusUp.TailShiftBoundary
 import BEDC.Derived.ConvergentNetUp.TasteGate
 import BEDC.Derived.ConvergentRealSequenceCauchyUp.TasteGate
 import BEDC.Derived.ConvergentSequenceCauchyUp.TasteGate
+import BEDC.Derived.ConvexCompactIntervalUp
 import BEDC.Derived.ConvexConjugateUp.TasteGate
 import BEDC.Derived.ConvexSetUp
 import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
@@ -3577,6 +3578,7 @@ import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
 import BEDC.Derived.DoublingMetricUp.TasteGate
 import BEDC.Derived.DugundjiExtensionUp.TasteGate
+import BEDC.Derived.DunfordFunctionalCalculusUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicApproximationUp
 import BEDC.Derived.DyadicApproximationUp.BridgeConsumers
@@ -3675,6 +3677,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.RootCompactHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RootFiniteCoverBoundary
 import BEDC.Derived.DyadicIntervalCoverUp.RootLedgerObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RootNonescape
+import BEDC.Derived.DyadicIntervalCoverUp.RootRealSealHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RootRefinementCoverage
 import BEDC.Derived.DyadicIntervalCoverUp.RootRegularReadback
 import BEDC.Derived.DyadicIntervalCoverUp.RootWindowCoverage
@@ -3684,6 +3687,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.ScopedFiniteCoverChain
 import BEDC.Derived.DyadicIntervalCoverUp.SubcoverExclusionObligation
 import BEDC.Derived.DyadicIntervalCoverUp.TailPullbackStability
 import BEDC.Derived.DyadicIntervalCoverUp.TasteGate
+import BEDC.Derived.DyadicIntervalCoverUp.WindowCoverageScope
 import BEDC.Derived.DyadicIntervalDiameterUp.TasteGate
 import BEDC.Derived.DyadicIntervalNestingUp.TasteGate
 import BEDC.Derived.DyadicIntervalRefinementUp.TasteGate
@@ -3821,6 +3825,7 @@ import BEDC.Derived.EquicontinuityUp.FiniteNetConsumerBoundary
 import BEDC.Derived.EquicontinuityUp.FiniteNetReadiness
 import BEDC.Derived.EquicontinuityUp.ModulusLedgerExactness
 import BEDC.Derived.EquicontinuityUp.RootCompactSourceAdmission
+import BEDC.Derived.EquicontinuityUp.RootUnblockCompactModulusConsumer
 import BEDC.Derived.EquicontinuityUp.RootUnblockFamilyModulusExactness
 import BEDC.Derived.EquicontinuityUp.RootUnblockFiniteNetConsumerBoundary
 import BEDC.Derived.EquicontinuityUp.RootUnblockSharedRadiusCarrier
@@ -4995,6 +5000,7 @@ import BEDC.Derived.KuratowskiClosureUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionNaturalityUp
 import BEDC.Derived.KuratowskiCompletionNaturalityUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionUp.TasteGate
+import BEDC.Derived.KuratowskiConvergenceUp
 import BEDC.Derived.KuratowskiEmbeddingUp.TasteGate
 import BEDC.Derived.KuratowskiHyperspaceUp.TasteGate
 import BEDC.Derived.LFunctionUp
