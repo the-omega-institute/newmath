@@ -93,6 +93,24 @@ Next apply \autoref{thm:metacic-normalization-audit-candidate-mediated-sn-closur
 The residual budget is completed by the refusal row $N$. That row records that confluence, subject-reduction transport, and full closed Church--Rosser remain outside the normalization export. Replaying the route through $F,T,H,P,L$ names the same spent budget and leaves no coordinate for evidence-free strong normalization.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit candidate-frontier refusal]
+\label{thm:metacic-normalization-audit-candidate-frontier-refusal}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. Any strong-normalization export that crosses from candidate evidence to closed-term normalization must display the rows
+$$
+R,C,S,A,N,F,H,T,P,L.
+$$
+If the candidate row $R$, the closed-candidate projection row $C$, or the finite candidate-set scope row $S$ is absent, the packet returns only the local obligation surface and does not export closed-term normalization.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:metacic-normalization-audit-obligation-surface}. It exposes candidate evidence, closed-term projection, finite SN scope, application boundary, refusal, route, transport, replay, provenance, and local naming as separate rows, so a closed-term normalization read cannot skip directly to a conclusion.
+
+Use the SN scope theorem \autoref{thm:metacic-normalization-audit-sn-scope} and the closed-term projection route recorded by \autoref{thm:metacic-normalization-audit-candidate-mediated-sn-closure}. Together they allow closed-term SN only when the candidate evidence, closed-candidate projection, and candidate-set scope rows have already been displayed.
+
+Now apply the residual-budget obligation of \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. The residual row accounts for the application boundary and confluence refusal before any SN export leaves the candidate side.
+
+If any of $R,C,S$ is absent, the route lacks the evidence needed to cross the frontier. The structural rows $F,H,T,P,L$ can only replay and name the local obligation surface, so the packet refuses evidence-free closed-term normalization.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit confluence boundary]
 \label{thm:metacic-normalization-audit-confluence-boundary}
 Agreement on the rows of an accepted $\MetacicNormalizationAuditUp$ packet preserves normalization-side reads, but it does not discharge the confluence or subject-reduction rows isolated by \autoref{ch:concrete-instances-metacic-confluence-audit-namecert} and \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}. In particular, the packet exports no proof of full closed Church--Rosser, no proof of substitution compatibility, and no subject-reduction transport theorem for arbitrary closed proofs.
