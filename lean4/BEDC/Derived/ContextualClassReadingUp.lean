@@ -180,4 +180,41 @@ theorem ContextualClassReadingLedgerExactness [AskSetup] [PackageSetup]
       replayUnary, expressionContextRelation, relationScopeRoute, contextRelation,
       transportedScope, localNamePkg, replayPkg⟩
 
+theorem ContextualClassReadingCarrier_public_interface_export [AskSetup] [PackageSetup]
+    {expression context relation scope transport route provenance localName objectRead exported
+      hostTail : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextualClassReadingCarrier expression context relation scope transport route provenance
+        localName bundle pkg ->
+      Cont context relation objectRead ->
+        PkgSig bundle objectRead pkg ->
+          Cont localName transport exported ->
+            PkgSig bundle exported pkg ->
+              UnaryHistory expression ∧ UnaryHistory context ∧ UnaryHistory relation ∧
+                UnaryHistory scope ∧ UnaryHistory transport ∧ UnaryHistory route ∧
+                  UnaryHistory provenance ∧ UnaryHistory localName ∧ UnaryHistory objectRead ∧
+                    UnaryHistory exported ∧ Cont expression context relation ∧
+                      Cont relation scope route ∧ Cont context relation objectRead ∧
+                        Cont localName transport exported ∧ PkgSig bundle localName pkg ∧
+                          PkgSig bundle objectRead pkg ∧ PkgSig bundle exported pkg ∧
+                            (Cont objectRead (BHist.e0 hostTail) context -> False) ∧
+                              (Cont objectRead (BHist.e1 hostTail) context -> False) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier contextRelation objectReadPkg localNameTransport exportedPkg
+  obtain ⟨expressionUnary, contextUnary, relationUnary, scopeUnary, transportUnary,
+    routeUnary, provenanceUnary, localNameUnary, expressionContextRelation, relationScopeRoute,
+    _routeTransportProvenance, localNamePkg⟩ := carrier
+  have objectReadUnary : UnaryHistory objectRead :=
+    unary_cont_closed contextUnary relationUnary contextRelation
+  have exportedUnary : UnaryHistory exported :=
+    unary_cont_closed localNameUnary transportUnary localNameTransport
+  exact
+    ⟨expressionUnary, contextUnary, relationUnary, scopeUnary, transportUnary, routeUnary,
+      provenanceUnary, localNameUnary, objectReadUnary, exportedUnary,
+      expressionContextRelation, relationScopeRoute, contextRelation, localNameTransport,
+      localNamePkg, objectReadPkg, exportedPkg,
+      (fun back =>
+        (cont_mutual_extension_right_tail_absurd.left contextRelation back)),
+      (fun back =>
+        (cont_mutual_extension_right_tail_absurd.right contextRelation back))⟩
+
 end BEDC.Derived.ContextualClassReadingUp
