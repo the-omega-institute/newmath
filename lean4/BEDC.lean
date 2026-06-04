@@ -2313,10 +2313,12 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ObligationRouteTriad
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerLandingSurface
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursiveReadback
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorHandoff
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditCompilerCoherence
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditReplayTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
@@ -5228,6 +5230,7 @@ import BEDC.Derived.MachineInterfaceFormalizationTargetUp.TasteGate
 import BEDC.Derived.MachineInterfaceSocketUp.TasteGate
 import BEDC.Derived.MachineReadableAuditInterfaceUp.ObligationBasis
 import BEDC.Derived.MachineReadableAuditInterfaceUp.TasteGate
+import BEDC.Derived.MackeyDecompositionUp
 import BEDC.Derived.MagmaUp
 import BEDC.Derived.ManifoldUp
 import BEDC.Derived.ManifoldUp.AtlasSurface
