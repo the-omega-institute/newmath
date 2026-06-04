@@ -52,6 +52,18 @@ Read $C$ and $S$ downstream from $R$. These rows record the closed typed term pr
 The carrier contains no coordinate that constructs candidate evidence for every closed typed term. Therefore agreement on the packet preserves the finite SN scope while excluding the blanket evidence-free endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit candidate-mediated SN closure]
+\label{thm:metacic-normalization-audit-candidate-mediated-sn-closure}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. If a consumer reads the candidate row $R$, the closed-term projection row $C$, the finite strong-normalization scope row $S$, and the application-boundary row $A$, then every exported strong-normalization claim factors through those rows and through no evidence-free global strong-normalization theorem. In particular, an SN export may name candidate evidence, closed-term projection, finite scope inventory, and application adequacy under the displayed boundary, but it cannot replace them by a blanket theorem for all closed typed MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:metacic-normalization-audit-obligation-surface}. The accepted packet exposes normalization reads only through the displayed candidate, projection, finite-scope, application-boundary, refusal, replay, transport, provenance, and naming rows.
+
+Use \autoref{thm:metacic-normalization-audit-sn-scope}. It identifies the strong-normalization content as the candidate-mediated scope carried by $R,C,S$ and explicitly withholds a blanket endpoint for closed typed terms without one of the displayed evidence rows.
+
+Finally apply \autoref{thm:metacic-normalization-audit-ledger-policy}. The ledger route forces manuscript consumers to replay the same packet coordinates and blocks host termination or hidden theorem reads. Since $A$ is part of the accepted boundary, application-facing SN claims remain inside the candidate-mediated route rather than becoming an evidence-free global theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit confluence boundary]
 \label{thm:metacic-normalization-audit-confluence-boundary}
 Agreement on the rows of an accepted $\MetacicNormalizationAuditUp$ packet preserves normalization-side reads, but it does not discharge the confluence or subject-reduction rows isolated by \autoref{ch:concrete-instances-metacic-confluence-audit-namecert} and \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}. In particular, the packet exports no proof of full closed Church--Rosser, no proof of substitution compatibility, and no subject-reduction transport theorem for arbitrary closed proofs.
@@ -85,7 +97,7 @@ Because the carrier has no coordinate for a host oracle, hidden theorem, quotien
 \begin{closurestatus}{\MetacicNormalizationAuditUp}
   \constructivestory{A $\MetacicNormalizationAuditUp$ packet is generated from candidate evidence rows, checked closed-term SN projection rows, finite strong-normalization scope rows, application-boundary rows, confluence-boundary refusal rows, route replay, componentwise transport, package provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-normalization-audit-carrier}, \autoref{thm:metacic-normalization-audit-obligation-surface}, \autoref{thm:metacic-normalization-audit-sn-scope}, \autoref{thm:metacic-normalization-audit-confluence-boundary}, and \autoref{thm:metacic-normalization-audit-ledger-policy} bind the finite normalization audit packet and its sibling confluence boundary.}
+  \scopeclosed{\autoref{def:metacic-normalization-audit-carrier}, \autoref{thm:metacic-normalization-audit-obligation-surface}, \autoref{thm:metacic-normalization-audit-sn-scope}, \autoref{thm:metacic-normalization-audit-candidate-mediated-sn-closure}, \autoref{thm:metacic-normalization-audit-confluence-boundary}, and \autoref{thm:metacic-normalization-audit-ledger-policy} bind the finite normalization audit packet and its sibling confluence boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
