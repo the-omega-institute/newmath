@@ -353,6 +353,53 @@ Use \autoref{thm:calculus-continuous-limit-carrier-budget}. A continuous-map gra
 The structural rows preserve the same route through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since the carrier has no coordinate for the excluded host principles, every limit-shaped read remains confined to the listed BEDC dependency rows.
 \end{proof}
 
+\begin{definition}[Calculus root carrier]
+\label{def:calculus-root-carrier}
+A $\CalculusUp$ root carrier is a finite $\BHist$ packet
+$$
+G=(C,D,I,L,R,Q,Y,H,T,P,N)
+$$
+whose rows are the $\ContinuousMapUp$ graph and replay surface $C$, the $\DerivativeUp$ difference-quotient row $D$, the $\IntegralUp$ finite-sum row $I$, the $\LimitUp$ window row $L$, the terminal $\RealUp$ boundary $R$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance and denominator ledger $Y$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and the local $\NameCert_{\CalculusUp}$ row $N$. The root classifier compares accepted packets only through these finite rows. It has no coordinate for a host limit operator, quotient equality of functions, a selected derivative operator, a selected antiderivative, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Calculus root ContinuousMap handoff]
+\label{thm:calculus-root-continuousmap-handoff}
+For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,R,Q,Y,H,T,P,N)$, any derivative, integral, or limit consumer must display the $\ContinuousMapUp$ row $C$ before it reads $D$, $I$, or $L$ and before it consumes the $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ rows. The handoff is a finite graph-and-replay read through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, not an ambient function space or host continuity theorem.
+\end{theorem}
+\begin{proof}
+Project the root carrier of \autoref{def:calculus-root-carrier}. The only coordinate that names graph and pointwise replay data is the row $C$, so calculus consumers cannot read derivative, integral, or limit data as graph data unless $C$ is visible.
+
+Use \autoref{thm:calculus-continuous-map-graph-replay-obligation}. It already places derivative and integral consumers behind the continuous-map graph route of the calculus packet.
+
+The rows $H,T,P,N$ preserve that same graph route under transport, replay, provenance, and local naming. Since $G$ has no coordinate for a host function space or host continuity theorem, the handoff remains the displayed $\ContinuousMapUp$ row.
+\end{proof}
+
+\begin{theorem}[Calculus root derivative-integral boundary]
+\label{thm:calculus-root-derivative-integral-boundary}
+For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,R,Q,Y,H,T,P,N)$, the $\DerivativeUp$ row $D$ and the $\IntegralUp$ row $I$ are separate boundary rows over the common support $C,L,Q,Y,R,H,T,P,N$. A derivative read may use finite difference-quotient data from $D$, and an integral read may use finite-sum data from $I$, but neither row supplies the other's conclusion or a host fundamental theorem.
+\end{theorem}
+\begin{proof}
+Read the two source rows from \autoref{def:calculus-root-carrier}. The derivative source is $D$, and the integral source is $I$; they are distinct coordinates of the finite packet.
+
+Apply \autoref{thm:calculus-derivative-integral-source-separation}. It states that derivative and integral sources remain separated even when they share the real, limit, continuous-map, regular-rational, transport, replay, provenance, and local naming support.
+
+The dyadic tolerance row $Y$ and readback row $Q$ only provide comparison data before the terminal Real boundary $R$ is consumed. They do not identify $D$ with $I$ and do not contain a selected antiderivative, quotient function equality, or host fundamental theorem.
+\end{proof}
+
+\begin{theorem}[Calculus root Real-seal nonescape]
+\label{thm:calculus-root-real-seal-nonescape}
+For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,R,Q,Y,H,T,P,N)$, every Real-facing export from derivative, integral, or limit data must pass through the $\RegSeqRatUp$ row $Q$ and the $\DyadicRatCoreUp$ tolerance ledger $Y$ before the terminal $\RealUp$ boundary $R$ is consumed. The export remains inside the displayed finite packet and cannot escape to host limit operators, quotient function equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the root carrier. The terminal Real boundary is $R$, while $Q$ and $Y$ are the only regular-rational and dyadic tolerance rows available before that boundary is read.
+
+Use \autoref{thm:calculus-regseqrat-readback-root-obligation}. It requires every real-facing value exported from the calculus limit, derivative, and integral rows to display regular-rational readback before the Real boundary is consumed.
+
+Use \autoref{thm:calculus-root-limit-nonescape} for limit-shaped reads and \autoref{thm:calculus-root-derivative-integral-boundary} for derivative and integral source separation. Together they keep the route inside $C,D,I,L,Q,Y,R,H,T,P,N$.
+
+Because the root carrier has no coordinate for host limit operators, quotient function equality, selected derivative or antiderivative operators, or ambient Real completeness, no Real-facing export can bypass $Q,Y$ on the way to $R$.
+\end{proof}
+
 \closureat{CalculusUp}{seedStr}
 
 \begin{closurestatus}{\CalculusUp}
