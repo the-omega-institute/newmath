@@ -89,6 +89,14 @@
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
 - Rows: `22`
 
+## Claim graph
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/claim_graph.json`
+- Markdown: `reports/canonical/claim_graph.md`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+- Nodes: `66`
+
 ## Claim capsule
 
 - Status: `pointer-only`

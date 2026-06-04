@@ -50,6 +50,9 @@ NEGATIVE_WITNESSES_REQUIRED_FIELDS = (
 )
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
+CLAIM_GRAPH_JSON_ARTIFACT = "reports/canonical/claim_graph.json"
+CLAIM_GRAPH_MARKDOWN_ARTIFACT = "reports/canonical/claim_graph.md"
+CLAIM_GRAPH_ARTIFACT_ID = "bedc-quality-lab:claim-graph"
 CLAIM_CAPSULE_JSON_ARTIFACT = "reports/canonical/claim_capsule.json"
 CLAIM_CAPSULE_ARTIFACT_ID = "bedc-quality-lab:claim-capsule"
 CLAIM_CAPSULE_SCHEMA_ID = "bedc.quality.claim_capsule"
@@ -1207,6 +1210,35 @@ def _claim_verdicts_index_section(rows: Sequence[dict[str, Any]] | None = None) 
     }
 
 
+def _claim_graph_index_section(generated_at: str | None = None) -> dict[str, Any]:
+    from bedc_quality_lab.claim_graph import build_claim_graph_payload
+
+    path = ROOT / CLAIM_GRAPH_JSON_ARTIFACT
+    if path.exists():
+        payload = _load_artifact_payload(CLAIM_GRAPH_JSON_ARTIFACT)
+    else:
+        try:
+            payload = build_claim_graph_payload(root=ROOT, generated_at=generated_at)
+        except (OSError, ValueError):
+            payload = {"status": "missing", "node_count": 0, "hardgates": {}}
+    hardgates = payload.get("hardgates") if isinstance(payload, dict) else {}
+    return {
+        "status": payload.get("status", "missing") if isinstance(payload, dict) else "missing",
+        "artifact_id": CLAIM_GRAPH_ARTIFACT_ID,
+        "json_artifact": CLAIM_GRAPH_JSON_ARTIFACT,
+        "markdown_artifact": CLAIM_GRAPH_MARKDOWN_ARTIFACT,
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "node_count": payload.get("node_count", 0) if isinstance(payload, dict) else 0,
+        "hardgate_status": {
+            name: gate.get("status", "missing")
+            for name, gate in sorted(hardgates.items())
+            if isinstance(gate, dict)
+        }
+        if isinstance(hardgates, dict)
+        else {},
+    }
+
+
 def _build_claim_capsule(generated_at: str) -> dict[str, Any]:
     from bedc_quality_lab.discovery_compiler.capsule import build_claim_capsule_payload
 
@@ -1440,6 +1472,7 @@ def _index(
         "negative_witnesses": _negative_witnesses_index_section(),
         "negative_discovery_reports": _negative_discovery_reports_index_section(generated_at=timestamp),
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
+        "claim_graph": _claim_graph_index_section(generated_at=timestamp),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
@@ -1557,6 +1590,14 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Status: `{payload['claim_verdicts']['status']}`",
             f"- JSONL: `{payload['claim_verdicts']['jsonl_artifact']}`",
             f"- Rows: `{payload['claim_verdicts']['row_count']}`",
+            "",
+            "## Claim graph",
+            "",
+            f"- Status: `{payload['claim_graph']['status']}`",
+            f"- JSON: `{payload['claim_graph']['json_artifact']}`",
+            f"- Markdown: `{payload['claim_graph']['markdown_artifact']}`",
+            f"- Canonical role: `{payload['claim_graph']['canonical_role']}`",
+            f"- Nodes: `{payload['claim_graph']['node_count']}`",
             "",
             "## Claim capsule",
             "",
@@ -1721,6 +1762,7 @@ def run_reports(
     scorecard = _build_quality_scorecard(results, generated_at=timestamp)
     from bedc_quality_lab.backends.current_lab.adapter import CurrentLabBackendEvidenceAdapter
     from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
+    from scripts.run_claim_graph import write_claim_graph
     from scripts.run_claim_verdict_demo import write_claim_verdicts
     from scripts.run_gap_head_mechanism_namecert import write_gap_head_mechanism_namecert
 
@@ -1736,6 +1778,8 @@ def run_reports(
     write_gap_head_mechanism_namecert(root=ROOT, generated_at=timestamp)
     compile_discovery(root=ROOT, generated_at=timestamp, adapter=CurrentLabBackendEvidenceAdapter())
     claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
+    if only is None:
+        write_claim_graph(root=ROOT, generated_at=timestamp)
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)

@@ -7,6 +7,7 @@ from scripts import run_claim_verdict_demo as claim_verdict_demo
 
 ROW_KEYS = {
     "claim_id",
+    "claim_graph_node_id",
     "claim_verdict",
     "reason",
     "source",
@@ -35,6 +36,7 @@ def test_checked_in_claim_verdicts_match_current_scorecard_snapshot_before_rewri
     assert index_payload["claim_verdicts"]["row_count"] == len(committed_rows)
     for row in committed_rows:
         assert set(row) == ROW_KEYS
+        assert row["claim_graph_node_id"].startswith("terminal:")
         assert row["scorecard_pointer"] == snapshot.scorecard_pointer
         assert row["scorecard_hash"] == snapshot.scorecard_hash
         assert row["scorecard_ready"] is snapshot.scorecard_ready
