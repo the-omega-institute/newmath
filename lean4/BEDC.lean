@@ -2901,6 +2901,7 @@ import BEDC.Derived.ContractiveCauchyOrbitUp.TasteGate
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.ConvergenceFilterUp
+import BEDC.Derived.ConvergenceFilterUp.NameCertObligations
 import BEDC.Derived.ConvergenceRadiusUp
 import BEDC.Derived.ConvergenceRadiusUp.CauchyProduct
 import BEDC.Derived.ConvergenceRadiusUp.CoefficientRingInclusion
@@ -3675,6 +3676,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.LedgerExactness
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligation
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementScope
 import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
+import BEDC.Derived.DyadicIntervalCoverUp.RealSealCoverHandoff
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescape
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescapeObligation
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealScope
