@@ -3942,6 +3942,7 @@ import BEDC.Derived.FastCauchySequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySequenceUp.TasteGate
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalReadbackNonescape
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalWindowObligation
+import BEDC.Derived.FastCauchySubsequenceUp.ModulusRegularHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorCoherence
 import BEDC.Derived.FastCauchySubsequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySubsequenceUp.RealNameNonescape
