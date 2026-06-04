@@ -177,6 +177,68 @@ theorem BaireMetricCarrier_complete_metric_handoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, prefixUnary, radiusUnary, metricUnary⟩
 
+theorem BaireMetricNamecertObligationSurface [AskSetup] [PackageSetup]
+    {B W D R U S H C P N radiusRead ultrametricRead metricRead obligation : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricCarrier B W D R U S H C P N bundle pkg →
+      Cont S B radiusRead →
+        Cont radiusRead D ultrametricRead →
+          Cont ultrametricRead R metricRead →
+            Cont metricRead N obligation →
+              PkgSig bundle obligation pkg →
+                SemanticNameCert (fun row : BHist => hsame row obligation)
+                    (fun row : BHist =>
+                      Cont metricRead N row ∧ PkgSig bundle obligation pkg)
+                    (fun row : BHist => UnaryHistory row ∧ PkgSig bundle obligation pkg)
+                    hsame ∧
+                  UnaryHistory radiusRead ∧ UnaryHistory ultrametricRead ∧
+                    UnaryHistory metricRead ∧ UnaryHistory obligation ∧
+                      PkgSig bundle P pkg := by
+  -- BEDC touchpoint anchor: BaireMetricCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier sourceBaseRadius radiusDepthUltrametric ultrametricRootMetric
+    metricNameObligation obligationPkg
+  obtain ⟨bUnary, _wUnary, dUnary, rUnary, _uUnary, sUnary, _hUnary, _cUnary,
+    _pUnary, nUnary, _carrierSBW, _carrierWDR, _carrierRUC, _carrierCNP, carrierPkg,
+    _carrierNamePkg⟩ := carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed sUnary bUnary sourceBaseRadius
+  have ultrametricUnary : UnaryHistory ultrametricRead :=
+    unary_cont_closed radiusUnary dUnary radiusDepthUltrametric
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed ultrametricUnary rUnary ultrametricRootMetric
+  have obligationUnary : UnaryHistory obligation :=
+    unary_cont_closed metricUnary nUnary metricNameObligation
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row obligation)
+          (fun row : BHist => Cont metricRead N row ∧ PkgSig bundle obligation pkg)
+          (fun row : BHist => UnaryHistory row ∧ PkgSig bundle obligation pkg) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro obligation (hsame_refl obligation)
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact hsame_trans (hsame_symm sameRows) source
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        ⟨cont_result_hsame_transport metricNameObligation (hsame_symm source),
+          obligationPkg⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨unary_transport obligationUnary (hsame_symm source), obligationPkg⟩
+  }
+  exact
+    ⟨cert, radiusUnary, ultrametricUnary, metricUnary, obligationUnary, carrierPkg⟩
+
 theorem BaireMetricCarrier_root_observation [AskSetup] [PackageSetup]
     {B W D R U S H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     BaireMetricCarrier B W D R U S H C P N bundle pkg ->
