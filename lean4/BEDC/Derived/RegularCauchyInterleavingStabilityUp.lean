@@ -1,17 +1,23 @@
 import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.GroundCompiler.EventFlow
 
 namespace BEDC.Derived
 
 open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 
 inductive RegularCauchyInterleavingStabilityUp : Type where
@@ -150,6 +156,14 @@ private theorem regularCauchyInterleavingStability_round_trip :
         regularCauchyInterleavingStability_decode_encode_bhist P,
         regularCauchyInterleavingStability_decode_encode_bhist N]
 
+def RegularCauchyInterleavingStabilityCarrier [AskSetup] [PackageSetup]
+    (A B SA SB sigma M W E H C P N : BHist) (bundle : ProbeBundle ProbeName)
+    (pkg : Pkg) : Prop :=
+  UnaryHistory A ∧ UnaryHistory B ∧ UnaryHistory SA ∧ UnaryHistory SB ∧
+    UnaryHistory sigma ∧ UnaryHistory M ∧ UnaryHistory W ∧ UnaryHistory E ∧
+      UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+        PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
 theorem RegularCauchyInterleavingStabilityUp.RegularCauchyInterleavingStabilityCarrier_obligations
     [AskSetup] [PackageSetup] (x : RegularCauchyInterleavingStabilityUp) :
     (∀ h : BHist, Cont h BHist.Empty h) ∧
@@ -171,5 +185,91 @@ theorem RegularCauchyInterleavingStabilityUp.RegularCauchyInterleavingStabilityC
             ⟨A, B, SA, SB, sigma, M, W, E, H, C, P, N, rfl,
               regularCauchyInterleavingStability_round_trip
                 (RegularCauchyInterleavingStabilityUp.mk A B SA SB sigma M W E H C P N)⟩
+
+theorem RegularCauchyInterleavingStabilityUp.RegularCauchyInterleavingStabilityClassifier
+    [AskSetup] [PackageSetup]
+    {A B SA SB sigma M W E H C P N selectedEven selectedOdd sharedRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyInterleavingStabilityCarrier A B SA SB sigma M W E H C P N bundle pkg ->
+      Cont SA sigma selectedEven ->
+        Cont SB sigma selectedOdd ->
+          Cont selectedEven selectedOdd sharedRead ->
+            Cont sharedRead E sealRead ->
+              PkgSig bundle sealRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row A ∨ hsame row B ∨ hsame row SA ∨ hsame row SB ∨
+                        hsame row sigma ∨ hsame row M ∨ hsame row W ∨ hsame row E ∨
+                          hsame row sharedRead ∨ hsame row sealRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont SA sigma selectedEven ∧
+                        Cont SB sigma selectedOdd ∧
+                          Cont selectedEven selectedOdd sharedRead ∧
+                            Cont sharedRead E sealRead ∧ PkgSig bundle P pkg ∧
+                              PkgSig bundle sealRead pkg)
+                    hsame ∧ UnaryHistory selectedEven ∧ UnaryHistory selectedOdd ∧
+                  UnaryHistory sharedRead ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: RegularCauchyInterleavingStabilityCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier evenRoute oddRoute sharedRoute sealRoute sealPkg
+  obtain ⟨_unaryA, _unaryB, unarySA, unarySB, unarySigma, _unaryM, _unaryW,
+    unaryE, _unaryH, _unaryC, _unaryP, _unaryN, provenancePkg, _namePkg⟩ := carrier
+  have selectedEvenUnary : UnaryHistory selectedEven :=
+    unary_cont_closed unarySA unarySigma evenRoute
+  have selectedOddUnary : UnaryHistory selectedOdd :=
+    unary_cont_closed unarySB unarySigma oddRoute
+  have sharedUnary : UnaryHistory sharedRead :=
+    unary_cont_closed selectedEvenUnary selectedOddUnary sharedRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed sharedUnary unaryE sealRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row A ∨ hsame row B ∨ hsame row SA ∨ hsame row SB ∨
+              hsame row sigma ∨ hsame row M ∨ hsame row W ∨ hsame row E ∨
+                hsame row sharedRead ∨ hsame row sealRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont SA sigma selectedEven ∧
+              Cont SB sigma selectedOdd ∧ Cont selectedEven selectedOdd sharedRead ∧
+                Cont sharedRead E sealRead ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle sealRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro sealRead ⟨hsame_refl sealRead, sealUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, evenRoute, oddRoute, sharedRoute, sealRoute, provenancePkg,
+          sealPkg⟩
+  }
+  exact ⟨cert, selectedEvenUnary, selectedOddUnary, sharedUnary, sealUnary⟩
 
 end BEDC.Derived
