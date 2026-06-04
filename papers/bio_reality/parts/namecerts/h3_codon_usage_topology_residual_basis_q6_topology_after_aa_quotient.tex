@@ -1,67 +1,62 @@
-\subsection{Q6 Residual Basis After the Amino-Acid Quotient}
-\label{sec:bioreality-q6-residual-basis-after-aa-quotient}
 \origin{ai}
 
-\paragraph{Finite object.}
-The record concerns codon-level synonymous residuals after amino-acid composition has already been held fixed. The working object is the per-organism coding-sequence codon-count table projected to the residual basis $B^{*}_{Q6}$, rather than to amino-acid totals alone. The nine named coordinates are
-$$
-\begin{aligned}
-B^{*}_{Q6}=\{&K_{AAA},\ Arg_{AGR},\ Ile_{AUA},\ Leu_{CUN/UUR},\ Leu_{UUA/UUG},\\
-&Ser_{UCR/AGY},\ Ser_{UCA/UCG},\ Thr_{ACR/ACY},\ f_{3}\text{-stress antisymmetric}\}.
-\end{aligned}
-$$
-In the finite computation attached to this record, all nine coordinates were computed, and seven of them had residual variance above the threshold $0.01$. Thus the observed nonzero fraction was $7/9=0.7777777777777778$. The contact is deliberately small: it uses one codon-count table each for human, budding yeast, and the K--12 strain of \emph{Escherichia coli}. The organism count is therefore $3$, and the row should be read as a bounded contact with those three organisms, not as an estimate over life.
+\subsection{Amino-acid residual topology for Q6 codon usage}
+\label{sec:q6-residual-topology-after-aa-quotient}
 
-\paragraph{Compressed Q6 motif support.}
-The lower-level Q6 motif check supplies a finite list rather than a verbal category. The verified residual motif union is
-$$
-\begin{aligned}
-R=\{&AAA,\ AGA,\ AGG,\ AUA,\ CUA,\ CUC,\ CUG,\ CUU,\\
-&UAA,\ UAG,\ UCA,\ UGA,\ UUA\}.
-\end{aligned}
-$$
-The same run reported no missing codons and no extra codons in this motif comparison. This matters because several of the residual coordinates are not visible from an amino-acid quotient alone: $AAA/AAG$ separates lysine codons, $AGR$ separates the arginine subfamily, $AUA$ separates isoleucine usage, and the leucine split $CUN/UUR$ is not recovered by total leucine abundance. Consequently, a model that only measures coarse codon mass in the compressed motif class can fit a local usage direction while still being blind to the residual tests posed here.
+\paragraph{Claim.}
+The object studied here is the per-organism codon-count table after quotienting away amino-acid identity and then reading the remaining synonymous degrees of freedom through the residual basis $B^{\ast}_{Q6}$. The carrier is therefore not a protein-function object and not a folding object. It is the finite collection of codon-count coordinates obtained from coding-sequence summaries, projected onto the nine named residual directions
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and an antisymmetric third-position stress coordinate. The scientific assertion is intentionally narrow: if Q6 codon topology participates in DNA-to-protein realization beyond the amino-acid string, then at least one of these quotient-residual coordinates should improve a bounded readout after the amino-acid sequence and simpler codon-feature baselines have already been conditioned on.
 
-\paragraph{Quotient geometry.}
-The independent quotient computation gives the finite combinatorial profile used to keep the residual statement disciplined. The verified $M$ profile has f-vector
+\paragraph{Finite codon contact.}
+The finite contact used for this chapter contains one codon-count table for each of three organisms: $homo\_sapiens$, $saccharomyces\_cerevisiae$, and $escherichia\_coli\_k12$. The NCBI genetic code was loaded, and the contact scope is explicitly finite: it is a three-organism comparison, not an estimate of a population law. On this finite row set, the residual computation returned $9$ basis elements, of which $7$ exceeded the variance threshold $0.01$. Thus the observed nonzero fraction was
 $$
 \begin{aligned}
-(20,38,26,8,1),
+  \frac{7}{9} &= 0.7777777777777778.
 \end{aligned}
 $$
-while the quotient profile has f-vector
-$$
-\begin{aligned}
-(10,14,6,1).
-\end{aligned}
-$$
-The quotient image has size $10$, with verified representatives
-$$
-\begin{aligned}
-& (0,0,0,0,1),\ (0,0,0,1,1),\ (0,0,1,0,1),\ (0,0,1,1,1),\\
-& (0,1,0,0,0),\ (0,1,0,0,1),\ (1,0,0,0,1),\ (1,0,1,1,1),\\
-& (1,0,1,0,1),\ (1,0,1,1,1).
-\end{aligned}
-$$
-This finite quotient data fixes the distinction between a coarse $M$-density baseline and the residual basis $B^{*}_{Q6}$. The residual basis is therefore not an ornament on the amino-acid quotient; it is the remaining coordinate system in which synonymous codon choices can still be tested after amino-acid composition has been accounted for.
+This number says that the amino-acid quotient does not collapse the Q6 residual coordinate system on the three sampled organisms. It does not, by itself, say that ribosomes, protein output, folding, or function have been measured.
 
-\paragraph{Survival question.}
-For a readout $r$ in $\{\text{tAI},\ \text{ribosome occupancy},\ \text{protein abundance}\}$, the intended statistic is a conditional survival comparison
+\paragraph{Motif and quotient geometry.}
+The finite motif compression contact identifies the relevant $R$ set as exactly the following thirteen codons:
 $$
 \begin{aligned}
-S_Q(r\mid Z)=J_0(Z)-J_Q(Z,q),
+R = \{&AAA, AGA, AGG, AUA, CUA, CUC, CUG, CUU,\\
+     &UAA, UAG, UCA, UGA, UUA\}.
 \end{aligned}
 $$
-where $q\in B^{*}_{Q6}$ and $Z$ includes the amino-acid sequence $y$, organismal context, and simpler codon-feature baselines. A positive value would mean that the named residual coordinate improves the bounded readout after the amino-acid quotient and the simpler baseline have already been charged. The stricter comparison against an $M$-density baseline is
+The check reported no missing codons and no extra codons relative to this motif union. The accompanying quotient-geometry contact recorded the $M$ face vector
 $$
 \begin{aligned}
-S_Q(r\mid Z,\Delta_M)>0,
+  f(M) &= (20,38,26,8,1),
 \end{aligned}
 $$
-for at least one residual coordinate, organism, and admissible readout. The current finite row does not yet contain that paired statistic. It contains the residual coordinates, the three-organism codon-count contact, the Q6 motif compression check, and the quotient geometry; it does not contain an organism-matched codon-usage, tRNA-copy, and tAI or stAI table in which the controlled score has been estimated.
+and the quotient face vector
+$$
+\begin{aligned}
+  f(\pi_M) &= (10,14,6,1).
+\end{aligned}
+$$
+The quotient image has size $10$, with the finite points
+$$
+\begin{aligned}
+\pi_M = \{&(0,0,0,0,1),(0,0,0,1,1),(0,0,1,0,1),(0,0,1,1,1),\\
+&(0,1,0,0,0),(0,1,0,0,1),(1,0,0,0,1),(1,0,0,1,1),\\
+&(1,0,1,0,1),(1,0,1,1,1)\}.
+\end{aligned}
+$$
+These finite vectors separate the quotient geometry from the residual basis. In particular, an $M$-density baseline can describe a local codon-topology summary, but it cannot by itself test distinctions such as $CUN$ versus $UUR$ leucine usage or $AAA$ versus $AAG$ lysine usage. Those tests require residual coordinates after amino-acid composition has been controlled.
 
-\paragraph{Local interpretation.}
-The finite result is therefore a geometry-and-contact result, not a translation-efficiency result. It says that, in the three available organism tables, the amino-acid-residual coordinates are computable and mostly nonzero, with $7$ of $9$ coordinates passing the stated residual-variance threshold. It also says that the residual coordinates are more discriminating than an $M$-only description for questions such as $CUN/UUR$ leucine separation or $AAA/AAG$ lysine separation. What remains unproved is the biological survival claim: no positive $S_Q$ value has yet been measured against a controlled readout.
+\paragraph{Conditional survival statistic.}
+For a readout $r$ such as a bounded tAI or stAI weight table, ribosome occupancy, or protein abundance, the intended statistic compares a baseline model $J_0$ against a model $J_Q$ that also includes one residual direction $q \in B^{\ast}_{Q6}$. With $Z$ containing the amino-acid sequence $y$, organism and sequence context, and simpler codon-feature baselines, the local score is
+$$
+\begin{aligned}
+  S_Q(r\mid Z) &= J_0(Z)-J_Q(Z,q).
+\end{aligned}
+$$
+A positive value is meaningful only relative to that specified conditioning set and that readout. The sharper insufficiency test asks whether $S_Q(r\mid Z,\Delta_M) > 0$ for some residual direction after the $M$-density baseline $\Delta_M$ is already present. If every such score is nonpositive, the finite data do not support a residual improvement over the $M$ baseline. If some score is positive, the conclusion remains local to the organism, readout, and control variables.
 
-\paragraph{Boundary.}
-No translation realization, ribosome-mediated mechanism, protein abundance effect, folded structure, physical admissibility, biochemical function, or universal law follows from the nonzero residual coordinates by themselves. A tAI or stAI contact can supply a bounded translation-layer readout only after it is paired organism by organism with the codon-usage and tRNA-copy data and after amino-acid composition is controlled. Until that paired statistic exists, the correct status is a blocked null boundary for the survival claim, while the residual-basis computation remains a finite coordinate observation over human, yeast, and \emph{E. coli} K--12.
+\paragraph{Current boundary.}
+The finite computation has established three points: the $R$ motif set is exactly the thirteen-codon set displayed above; the quotient geometry has the stated $M$ and $\pi_M$ face vectors with $|\pi_M|=10$; and the amino-acid-residual basis is nontrivial on the three-organism codon-count contact, with $7$ of $9$ residual coordinates nonzero above threshold $0.01$. What is not yet present is an organism-matched table combining codon usage, tRNA copy-number spectra, and tAI or stAI readouts into controlled estimates of $S_Q(r\mid Z,\Delta_M)$. Therefore the chapter records a coordinate-level and finite-contact result, while leaving the positive survival claim blocked until that paired statistic is computed.
+
+\paragraph{Local non-claim.}
+No translation-realization conclusion follows from codon-count residual variance alone. No folding, physical admissibility, biological function, biochemical mechanism, protein-abundance effect, ribosome-mediated causal story, or universal biological law follows from the finite residual computation. Such conclusions would require a separate measurement contact at the corresponding layer, with amino-acid composition and lower-complexity codon features controlled in the stated statistic.
