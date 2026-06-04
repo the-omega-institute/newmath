@@ -15,3 +15,21 @@ Apply \autoref{thm:real-modulus-convergence-regseqrat-uniqueness-handoff}. The s
 
 Thus every accepted consumer edge passes through $\RegSeqRatUp$, $\CauchyEquivalenceSetoidUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RealUp$ before the seal is used. The exclusion clauses follow from the carrier and the cited factorization and handoff theorems.
 \end{proof}
+
+\begin{theorem}[Real modulus RegSeqRat-to-Real Cauchy factorization]
+\label{thm:real-modulus-of-convergence-regseqrat-real-cauchy-factorization}
+Every $\RealModulusOfConvergenceUp$ consumer whose seal is read as Cauchy-facing data factors through
+$$
+\RegSeqRatUp \longmapsto \CauchyEquivalenceSetoidUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RealUp
+$$
+before it reaches any $\CompletionUp$ or $\CauchyFilterLimitUp$ consumer. The route exposes regular rational windows, Cauchy-equivalence comparison, dyadic tolerance ledgers, finite stream names, and the terminal Real seal; it exports no quotient stream, selected limit, countable-choice schedule, host $\RealUp$ equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-modulus-of-convergence-carrier}. The Cauchy-facing seal is available only after the displayed dyadic ledger, finite stream windows, regular rational readback, modulus ledger, terminal Real seal, transport, replay, provenance, and local NameCert rows have been read.
+
+Apply \autoref{thm:real-modulus-of-convergence-regseqrat-consumer-route}. It already forces every Real-facing consumer through $\RegSeqRatUp$, $\CauchyEquivalenceSetoidUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RealUp$ before the convergence-modulus datum can be used.
+
+Now compose the Cauchy-equivalence setoid factorization of \autoref{thm:real-modulus-of-convergence-cauchy-equivalence-setoid-factorization} with the RegSeqRat uniqueness handoff of \autoref{thm:real-modulus-convergence-regseqrat-uniqueness-handoff}. The first places equality-facing reads before the terminal Real seal, and the second keeps the regular rational route shared by uniqueness and Real-seal consumers.
+
+Thus a $\CompletionUp$ or $\CauchyFilterLimitUp$ consumer receives the modulus packet only after the RegSeqRat-to-Real Cauchy route has been displayed. Since the carrier has no quotient-stream, selected-limit, countable-choice, host-Real-equality, or ambient-completeness coordinate, none of those principles is exported by the factorization.
+\end{proof}
