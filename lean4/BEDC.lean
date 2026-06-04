@@ -2922,6 +2922,7 @@ import BEDC.Derived.ContractionMappingUp.TasteGate
 import BEDC.Derived.ContractionPrincipleUp.TasteGate
 import BEDC.Derived.ContractiveCauchyIteratorUp.TasteGate
 import BEDC.Derived.ContractiveCauchyOrbitUp.TasteGate
+import BEDC.Derived.ContractiveMapUp.TasteGate
 import BEDC.Derived.ControlControllabilityUp
 import BEDC.Derived.ControlObservabilityUp
 import BEDC.Derived.ConvergenceFilterUp
@@ -4028,6 +4029,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatTailReadback
 import BEDC.Derived.FastCauchySubsequenceUp.RegularReadback
 import BEDC.Derived.FastCauchySubsequenceUp.RegularReadbackObligation
 import BEDC.Derived.FastCauchySubsequenceUp.RootObligation
+import BEDC.Derived.FastCauchySubsequenceUp.SealBoundaryExhaustion
 import BEDC.Derived.FastCauchySubsequenceUp.SelectedWindowInduction
 import BEDC.Derived.FastCauchySubsequenceUp.SelectionSurface
 import BEDC.Derived.FastCauchySubsequenceUp.SelectionSurfaceWindow
@@ -4435,6 +4437,7 @@ import BEDC.Derived.FiniteRealSectionUp.WindowReadbackDeterminacy
 import BEDC.Derived.FiniteReflectionTupleUp.Core
 import BEDC.Derived.FiniteReflectionTupleUp.TasteGate
 import BEDC.Derived.FiniteRefutationBoundaryUp.TasteGate
+import BEDC.Derived.FiniteRelationUp.TasteGate
 import BEDC.Derived.FiniteSimplicialChainUp.TasteGate
 import BEDC.Derived.FiniteStateTransducerUp.TasteGate
 import BEDC.Derived.FiniteSubcoverCriterionUp.TasteGate
