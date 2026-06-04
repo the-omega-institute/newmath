@@ -1,20 +1,19 @@
-import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
-import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.NaturalDeductionUp
+namespace BEDC.Derived.NaturalDeductionUp.TasteGate
 
-open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
-open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive NaturalDeductionUp : Type where
-  | mk (A R S Q B T H K P N : BHist) : NaturalDeductionUp
+  | mk :
+      (assumption rule discharge conclusion boundary transport component replay provenance
+        name : BHist) →
+        NaturalDeductionUp
   deriving DecidableEq
 
 def naturalDeductionEncodeBHist : BHist → RawEvent
@@ -29,7 +28,14 @@ def naturalDeductionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (naturalDeductionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (naturalDeductionDecodeBHist tail)
 
-private theorem naturalDeductionDecode_encode_bhist :
+private def naturalDeductionRawAt : Nat → EventFlow → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | 0, [] => []
+  | 0, head :: _ => head
+  | Nat.succ _, [] => []
+  | Nat.succ n, _ :: rest => naturalDeductionRawAt n rest
+
+private theorem naturalDeduction_decode_encode_bhist :
     ∀ h : BHist, naturalDeductionDecodeBHist (naturalDeductionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -43,58 +49,74 @@ private theorem naturalDeductionDecode_encode_bhist :
 
 def naturalDeductionFields : NaturalDeductionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | NaturalDeductionUp.mk A R S Q B T H K P N => [A, R, S, Q, B, T, H, K, P, N]
+  | NaturalDeductionUp.mk assumption rule discharge conclusion boundary transport component replay
+      provenance name =>
+      [assumption, rule, discharge, conclusion, boundary, transport, component, replay,
+        provenance, name]
 
 def naturalDeductionToEventFlow : NaturalDeductionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (naturalDeductionFields x).map naturalDeductionEncodeBHist
-
-private def naturalDeductionEventAt : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => naturalDeductionEventAt index rest
+  | NaturalDeductionUp.mk assumption rule discharge conclusion boundary transport component replay
+      provenance name =>
+      [naturalDeductionEncodeBHist assumption,
+        naturalDeductionEncodeBHist rule,
+        naturalDeductionEncodeBHist discharge,
+        naturalDeductionEncodeBHist conclusion,
+        naturalDeductionEncodeBHist boundary,
+        naturalDeductionEncodeBHist transport,
+        naturalDeductionEncodeBHist component,
+        naturalDeductionEncodeBHist replay,
+        naturalDeductionEncodeBHist provenance,
+        naturalDeductionEncodeBHist name]
 
 def naturalDeductionFromEventFlow (ef : EventFlow) : Option NaturalDeductionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (NaturalDeductionUp.mk
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 0 ef))
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 1 ef))
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 2 ef))
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 3 ef))
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 4 ef))
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 5 ef))
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 6 ef))
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 7 ef))
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 8 ef))
-      (naturalDeductionDecodeBHist (naturalDeductionEventAt 9 ef)))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 0 ef))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 1 ef))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 2 ef))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 3 ef))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 4 ef))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 5 ef))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 6 ef))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 7 ef))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 8 ef))
+      (naturalDeductionDecodeBHist (naturalDeductionRawAt 9 ef)))
 
-private theorem naturalDeduction_round_trip (x : NaturalDeductionUp) :
-    naturalDeductionFromEventFlow (naturalDeductionToEventFlow x) = some x := by
+private theorem naturalDeduction_round_trip :
+    ∀ x : NaturalDeductionUp,
+      naturalDeductionFromEventFlow (naturalDeductionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
-  | mk A R S Q B T H K P N =>
+  | mk assumption rule discharge conclusion boundary transport component replay provenance name =>
       change
         some
           (NaturalDeductionUp.mk
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist A))
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist R))
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist S))
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist Q))
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist B))
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist T))
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist H))
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist K))
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist P))
-            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist N))) =
-          some (NaturalDeductionUp.mk A R S Q B T H K P N)
-      rw [naturalDeductionDecode_encode_bhist A, naturalDeductionDecode_encode_bhist R,
-        naturalDeductionDecode_encode_bhist S, naturalDeductionDecode_encode_bhist Q,
-        naturalDeductionDecode_encode_bhist B, naturalDeductionDecode_encode_bhist T,
-        naturalDeductionDecode_encode_bhist H, naturalDeductionDecode_encode_bhist K,
-        naturalDeductionDecode_encode_bhist P, naturalDeductionDecode_encode_bhist N]
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist assumption))
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist rule))
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist discharge))
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist conclusion))
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist boundary))
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist transport))
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist component))
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist replay))
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist provenance))
+            (naturalDeductionDecodeBHist (naturalDeductionEncodeBHist name))) =
+          some
+            (NaturalDeductionUp.mk assumption rule discharge conclusion boundary transport
+              component replay provenance name)
+      rw [naturalDeduction_decode_encode_bhist assumption,
+        naturalDeduction_decode_encode_bhist rule,
+        naturalDeduction_decode_encode_bhist discharge,
+        naturalDeduction_decode_encode_bhist conclusion,
+        naturalDeduction_decode_encode_bhist boundary,
+        naturalDeduction_decode_encode_bhist transport,
+        naturalDeduction_decode_encode_bhist component,
+        naturalDeduction_decode_encode_bhist replay,
+        naturalDeduction_decode_encode_bhist provenance,
+        naturalDeduction_decode_encode_bhist name]
 
 private theorem naturalDeductionToEventFlow_injective {x y : NaturalDeductionUp} :
     naturalDeductionToEventFlow x = naturalDeductionToEventFlow y → x = y := by
@@ -107,6 +129,18 @@ private theorem naturalDeductionToEventFlow_injective {x y : NaturalDeductionUp}
   exact Option.some.inj
     (Eq.trans (naturalDeduction_round_trip x).symm
       (Eq.trans hread (naturalDeduction_round_trip y)))
+
+private theorem naturalDeduction_field_faithful :
+    ∀ x y : NaturalDeductionUp, naturalDeductionFields x = naturalDeductionFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk assumption rule discharge conclusion boundary transport component replay provenance name =>
+      cases y with
+      | mk assumption' rule' discharge' conclusion' boundary' transport' component' replay'
+          provenance' name' =>
+          cases hfields
+          rfl
 
 instance naturalDeductionBHistCarrier : BHistCarrier NaturalDeductionUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -123,10 +157,37 @@ instance naturalDeductionChapterTasteGate : ChapterTasteGate NaturalDeductionUp 
     intro x y hxy heq
     exact hxy (naturalDeductionToEventFlow_injective heq)
 
-def NaturalDeductionCarrier (A R S Q B T H K P N : BHist) : Prop :=
-  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
-  UnaryHistory A ∧ UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory Q ∧
-    UnaryHistory B ∧ UnaryHistory T ∧ UnaryHistory H ∧ UnaryHistory K ∧
-      UnaryHistory P ∧ UnaryHistory N ∧ Cont A R S ∧ Cont S Q K ∧ hsame T H
+instance naturalDeductionFieldFaithful : FieldFaithful NaturalDeductionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := naturalDeductionFields
+  field_faithful := naturalDeduction_field_faithful
 
-end BEDC.Derived.NaturalDeductionUp
+instance naturalDeductionNontrivial : Nontrivial NaturalDeductionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨NaturalDeductionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      NaturalDeductionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate NaturalDeductionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  naturalDeductionChapterTasteGate
+
+theorem NaturalDeductionTasteGate_single_carrier_alignment :
+    (∀ h : BHist, naturalDeductionDecodeBHist (naturalDeductionEncodeBHist h) = h) ∧
+      Nonempty (Nontrivial NaturalDeductionUp) ∧
+        Nonempty (ChapterTasteGate NaturalDeductionUp) ∧
+          Nonempty (FieldFaithful NaturalDeductionUp) ∧
+            naturalDeductionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact
+    ⟨naturalDeduction_decode_encode_bhist,
+      ⟨⟨naturalDeductionNontrivial⟩,
+        ⟨⟨naturalDeductionChapterTasteGate⟩,
+          ⟨⟨naturalDeductionFieldFaithful⟩, rfl⟩⟩⟩⟩
+
+end BEDC.Derived.NaturalDeductionUp.TasteGate
