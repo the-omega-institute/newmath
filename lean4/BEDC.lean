@@ -1944,6 +1944,7 @@ import BEDC.Derived.CauchySpaceUp
 import BEDC.Derived.CauchySpaceUp.TasteGate
 import BEDC.Derived.CauchySpeedupUp
 import BEDC.Derived.CauchySpeedupUp.TasteGate
+import BEDC.Derived.CauchyStabilityModulusUp
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchySumLimitUp.NameCertObligations
 import BEDC.Derived.CauchySumLimitUp.TasteGate
@@ -2698,6 +2699,7 @@ import BEDC.Derived.ConstructiveCompletionModulusUp.FiniteRoute
 import BEDC.Derived.ConstructiveCompletionModulusUp.TasteGate
 import BEDC.Derived.ConstructiveDiniModulusUp.TasteGate
 import BEDC.Derived.ConstructiveDiniTheoremUp.TasteGate
+import BEDC.Derived.ConstructiveGreenFunctionUp.TasteGate
 import BEDC.Derived.ConstructiveHeineBorelIntervalUp
 import BEDC.Derived.ConstructiveMeanValueUp.TasteGate
 import BEDC.Derived.ConstructivePolishSpaceUp.TasteGate
@@ -3670,6 +3672,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.FiniteSubcoverLedger
 import BEDC.Derived.DyadicIntervalCoverUp.L10WindowObligations
 import BEDC.Derived.DyadicIntervalCoverUp.LedgerExactness
 import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligation
+import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementScope
 import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescape
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescapeObligation
@@ -4756,6 +4759,7 @@ import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
 import BEDC.Derived.HurwitzApproximationUp.TasteGate
 import BEDC.Derived.HyersUlamStabilityUp.TasteGate
+import BEDC.Derived.HyperbolicBoundaryTransportUp
 import BEDC.Derived.HyperbolicExpansionLedgerUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicBoundaryUp.TasteGate
 import BEDC.Derived.HyperbolicGeodesicFlowUp
