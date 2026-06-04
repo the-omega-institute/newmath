@@ -187,5 +187,67 @@ theorem MetacicNormalizationAuditCarrier_confluence_boundary [AskSetup] [Package
   }
   exact ⟨cert, confluenceUnary⟩
 
+theorem MetacicNormalizationAuditCarrier_closed_term_projection_route [AskSetup]
+    [PackageSetup]
+    {kernel normalizer frontier sn confluence audit ledger transport replay provenance
+      localName closedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicNormalizationAuditUp kernel normalizer frontier sn confluence audit ledger
+        transport replay provenance localName bundle pkg →
+      Cont audit replay closedRead →
+        PkgSig bundle closedRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row closedRead ∧ UnaryHistory row ∧
+                PkgSig bundle row pkg)
+              (fun row : BHist =>
+                hsame row audit ∨ hsame row closedRead ∨ hsame row provenance)
+              (fun row : BHist =>
+                hsame row closedRead ∧ Cont audit replay closedRead ∧
+                  PkgSig bundle provenance pkg)
+              hsame ∧ UnaryHistory audit ∧ UnaryHistory closedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory PkgSig
+  intro carrier auditReplayClosed closedPkg
+  obtain ⟨_kernelUnary, _normalizerUnary, _frontierUnary, _snUnary, _confluenceUnary,
+    auditUnary, _ledgerUnary, _transportUnary, replayUnary, provenanceUnary,
+    _localNameUnary, _kernelNormalizerFrontier, _frontierSnAudit, _confluenceAuditLedger,
+    _transportReplaySame, provenancePkg, _localNamePkg⟩ := carrier
+  have closedUnary : UnaryHistory closedRead :=
+    unary_cont_closed auditUnary replayUnary auditReplayClosed
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row closedRead ∧ UnaryHistory row ∧
+          PkgSig bundle row pkg)
+        (fun row : BHist =>
+          hsame row audit ∨ hsame row closedRead ∨ hsame row provenance)
+        (fun row : BHist =>
+          hsame row closedRead ∧ Cont audit replay closedRead ∧
+            PkgSig bundle provenance pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro closedRead
+        ⟨hsame_refl closedRead, closedUnary, closedPkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row other sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inl sourceRow.left)
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, auditReplayClosed, provenancePkg⟩
+  }
+  exact ⟨cert, auditUnary, closedUnary⟩
+
 end MetacicNormalizationAuditUp
 end BEDC.Derived
