@@ -44,18 +44,42 @@ def finiteModulusDiagonalToEventFlow : FiniteModulusDiagonalUp → EventFlow
 
 def finiteModulusDiagonalFromEventFlow : EventFlow → Option FiniteModulusDiagonalUp
   -- BEDC touchpoint anchor: BHist BMark
-  | M :: S :: T :: Q :: E :: H :: C :: P :: [] =>
-      some
-        (FiniteModulusDiagonalUp.mk
-          (finiteModulusDiagonalDecodeBHist M)
-          (finiteModulusDiagonalDecodeBHist S)
-          (finiteModulusDiagonalDecodeBHist T)
-          (finiteModulusDiagonalDecodeBHist Q)
-          (finiteModulusDiagonalDecodeBHist E)
-          (finiteModulusDiagonalDecodeBHist H)
-          (finiteModulusDiagonalDecodeBHist C)
-          (finiteModulusDiagonalDecodeBHist P))
-  | _ => none
+  | M :: restM =>
+      match restM with
+      | S :: restS =>
+          match restS with
+          | T :: restT =>
+              match restT with
+              | Q :: restQ =>
+                  match restQ with
+                  | E :: restE =>
+                      match restE with
+                      | H :: restH =>
+                          match restH with
+                          | C :: restC =>
+                              match restC with
+                              | P :: restP =>
+                                  match restP with
+                                  | [] =>
+                                      some
+                                        (FiniteModulusDiagonalUp.mk
+                                          (finiteModulusDiagonalDecodeBHist M)
+                                          (finiteModulusDiagonalDecodeBHist S)
+                                          (finiteModulusDiagonalDecodeBHist T)
+                                          (finiteModulusDiagonalDecodeBHist Q)
+                                          (finiteModulusDiagonalDecodeBHist E)
+                                          (finiteModulusDiagonalDecodeBHist H)
+                                          (finiteModulusDiagonalDecodeBHist C)
+                                          (finiteModulusDiagonalDecodeBHist P))
+                                  | _ :: _ => none
+                              | [] => none
+                          | [] => none
+                      | [] => none
+                  | [] => none
+              | [] => none
+          | [] => none
+      | [] => none
+  | [] => none
 
 private theorem finiteModulusDiagonal_round_trip (x : FiniteModulusDiagonalUp) :
     finiteModulusDiagonalFromEventFlow (finiteModulusDiagonalToEventFlow x) = some x := by
@@ -114,11 +138,7 @@ theorem FiniteModulusDiagonalTasteGate_single_carrier_alignment :
         BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty] := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   constructor
-  · exact
-      finiteModulusDiagonal_round_trip
-        (FiniteModulusDiagonalUp.mk BHist.Empty (BHist.e0 BHist.Empty)
-          (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-          BHist.Empty)
+  · rfl
   · rfl
 
 end BEDC.Derived.FiniteModulusDiagonalUp
