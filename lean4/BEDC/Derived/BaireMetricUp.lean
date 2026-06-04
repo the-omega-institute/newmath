@@ -509,4 +509,88 @@ theorem BaireMetricCauchyWindowCompletenessHandoff [AskSetup] [PackageSetup]
   }
   exact ⟨cert, prefixUnary, radiusUnary, ultrametricUnary, completeUnary⟩
 
+theorem BaireMetricUltrametricCylinderObligation [AskSetup] [PackageSetup]
+    {S B W D R U H C P N radiusRead ultrametricRead metricRead strongRead
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireMetricPrefixDistanceCarrier S B W D R U H C P N radiusRead ultrametricRead
+        bundle pkg ->
+      Cont ultrametricRead R metricRead ->
+        Cont metricRead U strongRead ->
+          Cont strongRead N publicRead ->
+            PkgSig bundle publicRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row S ∨ hsame row B ∨ hsame row W ∨ hsame row D ∨
+                      hsame row R ∨ hsame row U ∨ hsame row publicRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont S B radiusRead ∧
+                      Cont radiusRead D ultrametricRead ∧
+                        Cont ultrametricRead R metricRead ∧
+                          Cont metricRead U strongRead ∧
+                            Cont strongRead N publicRead ∧
+                              PkgSig bundle publicRead pkg)
+                  hsame ∧ UnaryHistory metricRead ∧ UnaryHistory strongRead ∧
+                UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BaireMetricPrefixDistanceCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier metricRoute strongRoute publicRoute publicPkg
+  obtain ⟨unaryS, unaryB, _unaryW, unaryD, unaryR, unaryU, _unaryH, _unaryC,
+    _unaryP, unaryN, radiusRoute, ultrametricRoute, _provenancePkg, _localNamePkg⟩ :=
+    carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed unaryS unaryB radiusRoute
+  have ultrametricUnary : UnaryHistory ultrametricRead :=
+    unary_cont_closed radiusUnary unaryD ultrametricRoute
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed ultrametricUnary unaryR metricRoute
+  have strongUnary : UnaryHistory strongRead :=
+    unary_cont_closed metricUnary unaryU strongRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed strongUnary unaryN publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row B ∨ hsame row W ∨ hsame row D ∨ hsame row R ∨
+              hsame row U ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S B radiusRead ∧ Cont radiusRead D ultrametricRead ∧
+              Cont ultrametricRead R metricRead ∧ Cont metricRead U strongRead ∧
+                Cont strongRead N publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, radiusRoute, ultrametricRoute, metricRoute, strongRoute,
+          publicRoute, publicPkg⟩
+  }
+  exact ⟨cert, metricUnary, strongUnary, publicUnary⟩
+
 end BEDC.Derived.BaireMetricUp
