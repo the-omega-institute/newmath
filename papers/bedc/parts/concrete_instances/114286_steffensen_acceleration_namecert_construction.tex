@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\SteffensenAccelerationUp$}
+\label{ch:concrete-instances-steffensen-acceleration-namecert}
+\origin{human}
+
+Following Steffensen and Aitken, the $\SteffensenAccelerationUp$ packet records a fixed-point acceleration window by naming the local delta-squared transform of consecutive iterates before any real-number seal is read. It sits beside the $\AitkenDeltaSquaredUp$ acceleration certificate of \autoref{ch:concrete-instances-aitken-delta-squared-namecert}, the Newton step surface of \autoref{ch:concrete-instances-newtoniteration-namecert}, the fixed-point iterate schedule of \autoref{ch:concrete-instances-fixed-point-iteration-namecert}, the stream row of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the final real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names a finite numerical-analysis carrier; it does not assert host fixed-point equality, quotient real equality, convergence by countable choice, or an ambient completeness theorem.
+
+\begin{definition}[Steffensen acceleration carrier]
+\label{def:steffensen-acceleration-carrier}
+A $\SteffensenAccelerationUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,A,N,F,W,R,E,H,C,P,L)
+$$
+with the following rows:
+\begin{enumerate}
+\item $I$ is the $\FixedPointIterationUp$ iterate-window row, exposing three consecutive inspected approximants and the displayed fixed-point map row;
+\item $A$ is the $\AitkenDeltaSquaredUp$ delta-squared transform row applied to that finite window;
+\item $N$ is the optional $\NewtonIterationUp$ neighbour row when the displayed fixed-point map is read through a Newton-style residual update;
+\item $F$ records the finite denominator-apartness and fallback ledger needed to keep the transformed window constructive;
+\item $W$ is the $\StreamNameUp$ schedule naming the inspected iterate depths;
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational acceleration values;
+\item $E$ is the downstream $\RealUp$ seal reached only after $R$ is displayed;
+\item $H$ records componentwise $\hsame$ transport of $I,A,N,F,W,R,E$;
+\item $C$ records displayed $\Cont$ replay of the same finite acceleration route;
+\item $P$ is the $\Pkg$ provenance over $\SteffensenAccelerationUp$, $\AitkenDeltaSquaredUp$, $\NewtonIterationUp$, $\FixedPointIterationUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $L$ is the local $\NameCert_{\SteffensenAccelerationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient fixed point, an infinite convergence proof, quotient equality of real names, or a choice-selected subsequence of iterates.
+\end{definition}
+
+\begin{theorem}[Steffensen finite-window NameCert obligations]
+\label{thm:steffensen-acceleration-namecert-obligations}
+For the carrier of \autoref{def:steffensen-acceleration-carrier}, the local $\NameCert_{\SteffensenAccelerationUp}$ surface consists exactly of carrier admission, fixed-point iterate-window admission through $I$, Aitken delta-squared transform admission through $A$, Newton-neighbour admission through $N$ when present, denominator-apartness and fallback admission through $F$, stream schedule admission through $W$, regular rational readback through $R$, downstream $\RealUp$ sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier $S=(I,A,N,F,W,R,E,H,C,P,L)$. The finite iterate row $I$ supplies only the inspected fixed-point window, while $A$ records the Aitken delta-squared calculation on that same window.
+
+The rows $N$ and $F$ restrict the numerical read to displayed Newton-neighbour and denominator-apartness data. If the denominator row is not available, the fallback ledger remains part of the named packet rather than being replaced by a host convergence claim.
+
+Finally $W,R,E,H,C,P,L$ schedule, read back, seal, transport, replay, source, and name the same finite route. Since no other coordinate appears in the carrier, the NameCert surface cannot export host fixed-point equality, quotient real equality, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Steffensen acceleration Real-seal route]
+\label{thm:steffensen-acceleration-real-seal-route}
+Every $\RealUp$-facing consumer of an accepted $\SteffensenAccelerationUp$ packet must pass through the finite route
+$$
+I,A,N,F,W,R,E,H,C,P,L .
+$$
+The consumer receives an inspected fixed-point iterate window, the Aitken delta-squared acceleration row, any displayed Newton-neighbour residual row, the denominator-apartness or fallback ledger, the stream schedule, and the $\RegSeqRatUp$ readback before it may read the $\RealUp$ seal. It receives no host fixed point, no quotient equality of real names, no hidden convergence principle, and no countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier of \autoref{def:steffensen-acceleration-carrier}. The iterate row $I$ and transform row $A$ determine the acceleration window before any real-facing data are visible.
+
+Next read the numerical guard rows. The Newton-neighbour row $N$ is optional packet data, and the denominator row $F$ records the constructive apartness or fallback route needed by the delta-squared transform.
+
+The stream and rational rows $W,R$ then present the accelerated values as finite readback data. Only after those rows are displayed does $E$ seal the route as a $\RealUp$ consumer surface, while $H,C,P,L$ preserve the same packet under transport, replay, provenance, and naming.
+\end{proof}
+
+\closureat{SteffensenAccelerationUp}{seedStr}
+
+\begin{closurestatus}{\SteffensenAccelerationUp}
+  \constructivestory{A $\SteffensenAccelerationUp$ packet is generated from a fixed-point iterate window, an Aitken delta-squared transform row, an optional Newton-neighbour row, a denominator-apartness or fallback ledger, a stream schedule, regular rational readback, a downstream real-name seal, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:steffensen-acceleration-carrier}, \autoref{thm:steffensen-acceleration-namecert-obligations}, and \autoref{thm:steffensen-acceleration-real-seal-route} specify the finite Steffensen acceleration packet and its route to $\RegSeqRatUp$ and $\RealUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, a standard bridge, host fixed-point equality, quotient real equality, a general convergence theorem, countable choice, or ambient completeness of $\RealUp$.}
+  \upgradepath{Obligation closure requires Lean encoding of the finite carrier, transform guard, readback route, and Real-facing non-escape theorem.}
+\end{closurestatus}
