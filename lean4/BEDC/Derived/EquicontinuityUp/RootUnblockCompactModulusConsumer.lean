@@ -1,0 +1,69 @@
+import BEDC.Derived.EquicontinuityUp
+
+namespace BEDC.Derived.EquicontinuityUp
+
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
+theorem EquicontinuityRootUnblockCompactModulusConsumer [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead compactModulusRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityCarrier K F eps rho M T R P N radiusRead handoffRead bundle pkg →
+      UnaryHistory M →
+        Cont handoffRead M compactModulusRead →
+          Cont compactModulusRead N namedRead →
+            PkgSig bundle namedRead pkg →
+              SemanticNameCert
+                  (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row K ∨ hsame row F ∨ hsame row rho ∨ hsame row M ∨
+                      hsame row compactModulusRead ∨ hsame row N ∨ hsame row namedRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont K F radiusRead ∧
+                      Cont radiusRead rho handoffRead ∧
+                        Cont handoffRead M compactModulusRead ∧
+                          Cont compactModulusRead N namedRead ∧ PkgSig bundle namedRead pkg)
+                  hsame := by
+  -- BEDC touchpoint anchor: EquicontinuityCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier unaryM compactModulusRoute namedRoute namedPkg
+  obtain ⟨radiusUnary, handoffUnary, radiusRoute, handoffRoute, _pkgP, _pkgN⟩ :=
+    EquicontinuityCarrier_shared_radius_stability carrier
+  obtain ⟨_unaryK, _unaryF, _unaryRho, _unaryR, unaryN, _radiusRoute, _handoffRoute,
+    _pkgP2, _pkgN2⟩ := carrier
+  have compactModulusUnary : UnaryHistory compactModulusRead :=
+    unary_cont_closed handoffUnary unaryM compactModulusRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed compactModulusUnary unaryN namedRoute
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, radiusRoute, handoffRoute, compactModulusRoute, namedRoute, namedPkg⟩
+  }
+
+end BEDC.Derived.EquicontinuityUp
