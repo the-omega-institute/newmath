@@ -5320,6 +5320,7 @@ import BEDC.Derived.LocatedRegSeqRatUp.TasteGate
 import BEDC.Derived.LocatedRegularizationUp.TasteGate
 import BEDC.Derived.LocatedSequenceModulusUp.TasteGate
 import BEDC.Derived.LocatedSequenceSupremumUp.TasteGate
+import BEDC.Derived.LocatedSetUp
 import BEDC.Derived.LocatedSpaceUp.TasteGate
 import BEDC.Derived.LocatedSubsetUp.TasteGate
 import BEDC.Derived.LocatedSupremumModulusUp
