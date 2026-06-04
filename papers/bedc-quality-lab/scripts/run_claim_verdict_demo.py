@@ -50,7 +50,7 @@ E1_TERMINAL_VERDICTS = frozenset(
         "negative_discovery",
     }
 )
-POSITIVE_LEVELS = frozenset({"D4", "D5", "D5-O"})
+POSITIVE_LEVELS = frozenset({"D4", "D5-O", "D5-M"})
 SCORECARD_ARTIFACT = "reports/canonical/quality-scorecard.json"
 DIMENSION_MISMATCH_REPORT = "dimension-mismatch-debt-transfer"
 DIMENSION_MISMATCH_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"

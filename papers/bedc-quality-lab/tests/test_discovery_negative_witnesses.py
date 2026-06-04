@@ -85,7 +85,7 @@ def test_each_pseudo_witness_fails_closed_under_current_verdict_gate(decisions_b
 
     assert decision["verdict"] in {"rejected", "demoted", "ledger-only"}
     assert decision["verdict"] != "positive-discovery"
-    assert projected.discovery_level not in {"D4", "D5"}
+    assert projected.discovery_level not in {"D4", "D5-O", "D5-M"}
 
 
 def test_cost_protocol_missing_and_scorecard_not_ready_never_reach_positive_levels(decisions_by_kind):
@@ -93,9 +93,9 @@ def test_cost_protocol_missing_and_scorecard_not_ready_never_reach_positive_leve
     scorecard = _decision_for_kind(decisions_by_kind, "scorecard_not_ready")
 
     assert cost["verdict"] in {"rejected", "ledger-only"}
-    assert assign_discovery_level(cost).discovery_level not in {"D4", "D5"}
+    assert assign_discovery_level(cost).discovery_level not in {"D4", "D5-O", "D5-M"}
     assert scorecard["verdict"] in {"rejected", "ledger-only"}
-    assert assign_discovery_level(scorecard).discovery_level not in {"D4", "D5"}
+    assert assign_discovery_level(scorecard).discovery_level not in {"D4", "D5-O", "D5-M"}
 
 
 def test_replay_matches_checked_in_pointer_only_ledger():

@@ -40,7 +40,7 @@ DEFERRED_KINDS = (
     "single_threshold_positive_only",
     "metadata_leakage_detector",
 )
-ESCAPE_LEVELS = {"D4", "D5"}
+ESCAPE_LEVELS = {"D4", "D5-O", "D5-M"}
 NON_ESCAPE_TERMINAL_VERDICTS = {"rejected", "demoted", "ledger-only", "accepted"}
 NON_ESCAPE_LEVELS = {"DN", "DR", "D0", "D1", "D2", "D3"}
 FORBIDDEN_SIDECAR_FIELDS = {

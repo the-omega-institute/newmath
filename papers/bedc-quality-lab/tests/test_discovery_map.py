@@ -363,14 +363,14 @@ def test_gap_head_on_h_current_readiness_stays_d4_with_observed_debt_transfer_mi
     assert row["d5_readiness"]["observed_debt_transfer"]["status"] == "missing"
 
 
-def test_gap_head_on_h_projects_to_d5_when_all_readiness_pointers_pass(tmp_path):
+def test_gap_head_on_h_projects_to_d5_o_when_readiness_passes_without_mechanism_closure(tmp_path):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(payload)["gap-head-on-h"]
 
-    assert row["discovery_level"] == "D5"
+    assert row["discovery_level"] == "D5-O"
     assert row["audit_status"] == "valid"
     assert {criterion["status"] for criterion in row["d5_readiness"].values()} == {"pass"}
 
@@ -592,7 +592,7 @@ def test_gap_head_on_h_d5_readiness_fails_closed_per_real_criterion(
     assert {name for name, status in statuses.items() if status != "pass"} == {criterion}
 
 
-def test_gap_head_on_h_d5_claim_with_unresolved_pointer_is_invalid(monkeypatch):
+def test_gap_head_on_h_d5_o_claim_with_unresolved_pointer_is_invalid(monkeypatch):
     spec = canonical._specs_by_name()["gap-head-on-h"]
     payload = _minimal_payload(spec)
     ledger = discovery_map.GapHeadD5ReadinessLedger(
@@ -618,7 +618,7 @@ def test_gap_head_on_h_d5_claim_with_unresolved_pointer_is_invalid(monkeypatch):
         {discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT: {"final_status": "pass"}},
     )
 
-    assert row["discovery_level"] == "D5"
+    assert row["discovery_level"] == "D5-O"
     assert row["audit_status"] == "invalid"
     assert row["audit_reason"] == "unresolved-d5-pointer-threshold"
 

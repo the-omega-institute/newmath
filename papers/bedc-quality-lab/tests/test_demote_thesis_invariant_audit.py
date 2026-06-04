@@ -2,6 +2,8 @@ import ast
 import json
 from pathlib import Path
 
+import pytest
+
 from scripts import run_canonical_reports as canonical
 from tools import quality_discovery_demote_thesis_invariant as audit
 
@@ -155,6 +157,28 @@ def test_terminal_positive_verdict_tradeoff_is_caught(tmp_path):
     assert payload["escaped_positive_count"] == 1
     assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.cell"
     assert payload["escaped_positive_rows"][0]["positive_signal"] == "verdict=terminal-positive"
+
+
+@pytest.mark.parametrize("discovery_level", ["D5-O", "D5-M"])
+def test_d5_split_level_only_positive_tradeoff_is_caught(tmp_path, discovery_level):
+    _write_fixture(
+        tmp_path,
+        {
+            "cell": {
+                "discovery_level": discovery_level,
+                "debt_delta": -1,
+                "benefit_delta": -1,
+            }
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "fail"
+    assert payload["positive_candidate_count"] == 1
+    assert payload["escaped_positive_count"] == 1
+    assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.cell"
+    assert payload["escaped_positive_rows"][0]["positive_signal"] == f"discovery_level={discovery_level}"
 
 
 def test_failed_wrapper_container_does_not_suppress_positive_record(tmp_path):

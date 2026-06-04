@@ -52,8 +52,8 @@ BEDC_BODY_MARKERS = [
 SELECTED_WORKED_CASE_PHRASE = "selected positive worked case"
 SELECTED_WORKED_CASE_REPORT = "gap-head-on-h"
 D4_DISCOVERY_LEVEL = "D4"
-SELECTED_WORKED_CASE_DISCOVERY_LEVEL = "D5"
-POSITIVE_DISCOVERY_LEVELS = frozenset({"D4", "D5"})
+SELECTED_WORKED_CASE_DISCOVERY_LEVEL = "D5-O"
+POSITIVE_DISCOVERY_LEVELS = frozenset({"D4", "D5-O", "D5-M"})
 NON_POSITIVE_REPORTS = [
     "certificate-guided-training",
     "certificate-guided-discovery",
@@ -286,7 +286,11 @@ def check_selected_positive_worked_case(docs: dict[Path, str]) -> CheckResult:
     if not selected_rows:
         return CheckResult("HG-V1-Report-5", "FAIL", "gap-head-on-h row missing from discovery map")
     if selected_rows[0].get("discovery_level") != SELECTED_WORKED_CASE_DISCOVERY_LEVEL:
-        return CheckResult("HG-V1-Report-5", "FAIL", "gap-head-on-h is not D5 in discovery map")
+        return CheckResult(
+            "HG-V1-Report-5",
+            "FAIL",
+            f"gap-head-on-h is not {SELECTED_WORKED_CASE_DISCOVERY_LEVEL} in discovery map",
+        )
     return CheckResult("HG-V1-Report-5", "PASS", "gap-head-on-h is the selected positive worked case")
 
 

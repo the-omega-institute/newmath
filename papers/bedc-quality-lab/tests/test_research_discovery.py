@@ -172,7 +172,7 @@ def test_hg_dl_5_no_shift_and_no_debt_improvement_is_observation():
     assert verdict.reasons == ("no classifier shift or debt improvement",)
 
 
-def test_positive_discovery_with_real_robustness_report_is_d5():
+def test_positive_discovery_with_real_robustness_report_is_d5_o():
     payload = _canonical_payload("gap-head-discovery.json")
     payload.update(
         {
@@ -183,8 +183,59 @@ def test_positive_discovery_with_real_robustness_report_is_d5():
 
     verdict = assign_discovery_level(payload)
 
-    assert verdict.discovery_level == "D5"
-    assert verdict.reasons == ("positive_discovery=true", "acceptance_gates.status=pass", "final_status=pass")
+    assert verdict.discovery_level == "D5-O"
+    assert verdict.reasons == (
+        "positive_discovery=true",
+        "acceptance_gates.status=pass",
+        "final_status=pass",
+        "mechanism_attribution_all_pass=false",
+    )
+
+
+def test_positive_discovery_with_mechanism_attribution_is_d5_m():
+    payload = _canonical_payload("gap-head-discovery.json")
+    payload.update(
+        {
+            "acceptance_gates": {"status": "pass"},
+            "final_status": "pass",
+            "mechanism_attribution": {
+                "all_pass": True,
+                "status": "ready",
+                "failed_gate": None,
+                "channel": "closed-attribution",
+            },
+        }
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D5-M"
+    assert verdict.reasons == (
+        "positive_discovery=true",
+        "acceptance_gates.status=pass",
+        "final_status=pass",
+        "mechanism_attribution_all_pass=true",
+    )
+
+
+def test_probe_margin_channel_blocks_d5_m():
+    payload = _canonical_payload("gap-head-discovery.json")
+    payload.update(
+        {
+            "acceptance_gates": {"status": "pass"},
+            "final_status": "pass",
+            "mechanism_attribution": {
+                "all_pass": True,
+                "status": "ready",
+                "failed_gate": None,
+                "channel": "probe-margin-channel",
+            },
+        }
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D5-O"
 
 
 def test_structural_discovery_without_positive_is_d3():
