@@ -4969,6 +4969,7 @@ import BEDC.Derived.KleeneTreeUp.SpeckerBoundaryRoute
 import BEDC.Derived.KleeneTreeUp.TasteGate
 import BEDC.Derived.KleisliTraceUp.TasteGate
 import BEDC.Derived.KnotUp
+import BEDC.Derived.KolmogorovRieszFiniteTranslationUp
 import BEDC.Derived.KolmogorovUp
 import BEDC.Derived.KonigLemmaUp.TasteGate
 import BEDC.Derived.KoszulDualityUp
@@ -5384,6 +5385,7 @@ import BEDC.Derived.MetaCICAuditMapFamilyUp.TasteGate
 import BEDC.Derived.MetaCICAuditMatrixUp.TasteGate
 import BEDC.Derived.MetaCICBetaAuditUp.SubjectReductionObstructionLedger
 import BEDC.Derived.MetaCICBetaAuditUp.TasteGate
+import BEDC.Derived.MetaCICCandidateNormalizationWitnessUp
 import BEDC.Derived.MetaCICCandidateSetSNHandoffUp.TasteGate
 import BEDC.Derived.MetaCICCandidateStrongNormalizationUp
 import BEDC.Derived.MetaCICCandidateStrongNormalizationUp.TasteGate
@@ -6333,6 +6335,7 @@ import BEDC.Derived.OptionUp.VisibleExclusion
 import BEDC.Derived.OptionUp.VisiblePayloadWitnesses
 import BEDC.Derived.OptionUp.VisibleReadback
 import BEDC.Derived.OptionUpNullableBridge
+import BEDC.Derived.OptionalStieltjesModulusUp
 import BEDC.Derived.OptionalStoppingUp
 import BEDC.Derived.OptionalStoppingUp.TasteGate
 import BEDC.Derived.OracleAugmentedSubstrateUp.TasteGate
@@ -7050,6 +7053,7 @@ import BEDC.Derived.RealUp.PairReadback
 import BEDC.Derived.RealUp.PrefixTailExtension
 import BEDC.Derived.RealUp.PrefixTruncation
 import BEDC.Derived.RealUp.Readback
+import BEDC.Derived.RealUp.RealAlgOrderApartnessMetricHandoff
 import BEDC.Derived.RealUp.RegseqratFiniteRequestFusion
 import BEDC.Derived.RealUp.RegseqratFiniteWindowSealExactness
 import BEDC.Derived.RealUp.RegseqratStreamCertificateSpine
