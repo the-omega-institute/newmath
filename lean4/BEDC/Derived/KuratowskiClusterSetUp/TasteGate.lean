@@ -14,22 +14,20 @@ inductive KuratowskiClusterSetUp : Type where
   | mk (S F Kh Km C M B X R E T U P N : BHist) : KuratowskiClusterSetUp
   deriving DecidableEq
 
-def kuratowskiClusterSetEncodeBHist : BHist -> RawEvent :=
+def kuratowskiClusterSetEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  fun
   | BHist.Empty => []
   | BHist.e0 h => BMark.b0 :: kuratowskiClusterSetEncodeBHist h
   | BHist.e1 h => BMark.b1 :: kuratowskiClusterSetEncodeBHist h
 
-def kuratowskiClusterSetDecodeBHist : RawEvent -> BHist :=
+def kuratowskiClusterSetDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
-  fun
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (kuratowskiClusterSetDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (kuratowskiClusterSetDecodeBHist tail)
 
 private theorem kuratowskiClusterSet_decode_encode :
-    forall h : BHist,
+    ∀ h : BHist,
       kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -38,48 +36,47 @@ private theorem kuratowskiClusterSet_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def kuratowskiClusterSetFields : KuratowskiClusterSetUp -> List BHist :=
+def kuratowskiClusterSetFields : KuratowskiClusterSetUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  fun
   | KuratowskiClusterSetUp.mk S F Kh Km C M B X R E T U P N =>
       [S, F, Kh, Km, C, M, B, X, R, E, T, U, P, N]
 
-def kuratowskiClusterSetToEventFlow : KuratowskiClusterSetUp -> EventFlow :=
+def kuratowskiClusterSetToEventFlow : KuratowskiClusterSetUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
   fun x => (kuratowskiClusterSetFields x).map kuratowskiClusterSetEncodeBHist
 
-private def kuratowskiClusterSetEventAt : Nat -> EventFlow -> RawEvent :=
+private def kuratowskiClusterSetEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  fun
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => kuratowskiClusterSetEventAt index rest
+  | Nat.succ index, _event :: rest => kuratowskiClusterSetEventAtDefault index rest
 
-def kuratowskiClusterSetFromEventFlow :
-    EventFlow -> Option KuratowskiClusterSetUp :=
+def kuratowskiClusterSetFromEventFlow
+    (ef : EventFlow) : Option KuratowskiClusterSetUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (KuratowskiClusterSetUp.mk
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 0 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 1 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 2 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 3 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 4 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 5 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 6 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 7 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 8 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 9 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 10 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 11 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 12 ef))
-        (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAt 13 ef)))
+  some
+    (KuratowskiClusterSetUp.mk
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 0 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 1 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 2 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 3 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 4 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 5 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 6 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 7 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 8 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 9 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 10 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 11 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 12 ef))
+      (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEventAtDefault 13 ef)))
 
-private theorem kuratowskiClusterSet_round_trip (x : KuratowskiClusterSetUp) :
-    kuratowskiClusterSetFromEventFlow (kuratowskiClusterSetToEventFlow x) = some x := by
+private theorem kuratowskiClusterSet_round_trip :
+    ∀ x : KuratowskiClusterSetUp,
+      kuratowskiClusterSetFromEventFlow (kuratowskiClusterSetToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
   | mk S F Kh Km C M B X R E T U P N =>
       change
@@ -100,24 +97,17 @@ private theorem kuratowskiClusterSet_round_trip (x : KuratowskiClusterSetUp) :
             (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEncodeBHist P))
             (kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEncodeBHist N))) =
           some (KuratowskiClusterSetUp.mk S F Kh Km C M B X R E T U P N)
-      rw [kuratowskiClusterSet_decode_encode S,
-        kuratowskiClusterSet_decode_encode F,
-        kuratowskiClusterSet_decode_encode Kh,
-        kuratowskiClusterSet_decode_encode Km,
-        kuratowskiClusterSet_decode_encode C,
-        kuratowskiClusterSet_decode_encode M,
-        kuratowskiClusterSet_decode_encode B,
-        kuratowskiClusterSet_decode_encode X,
-        kuratowskiClusterSet_decode_encode R,
-        kuratowskiClusterSet_decode_encode E,
-        kuratowskiClusterSet_decode_encode T,
-        kuratowskiClusterSet_decode_encode U,
-        kuratowskiClusterSet_decode_encode P,
-        kuratowskiClusterSet_decode_encode N]
+      rw [kuratowskiClusterSet_decode_encode S, kuratowskiClusterSet_decode_encode F,
+        kuratowskiClusterSet_decode_encode Kh, kuratowskiClusterSet_decode_encode Km,
+        kuratowskiClusterSet_decode_encode C, kuratowskiClusterSet_decode_encode M,
+        kuratowskiClusterSet_decode_encode B, kuratowskiClusterSet_decode_encode X,
+        kuratowskiClusterSet_decode_encode R, kuratowskiClusterSet_decode_encode E,
+        kuratowskiClusterSet_decode_encode T, kuratowskiClusterSet_decode_encode U,
+        kuratowskiClusterSet_decode_encode P, kuratowskiClusterSet_decode_encode N]
 
 private theorem kuratowskiClusterSetToEventFlow_injective
     {x y : KuratowskiClusterSetUp} :
-    kuratowskiClusterSetToEventFlow x = kuratowskiClusterSetToEventFlow y -> x = y := by
+    kuratowskiClusterSetToEventFlow x = kuratowskiClusterSetToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -127,6 +117,18 @@ private theorem kuratowskiClusterSetToEventFlow_injective
   exact Option.some.inj
     (Eq.trans (kuratowskiClusterSet_round_trip x).symm
       (Eq.trans hread (kuratowskiClusterSet_round_trip y)))
+
+private theorem kuratowskiClusterSet_field_faithful :
+    ∀ x y : KuratowskiClusterSetUp,
+      kuratowskiClusterSetFields x = kuratowskiClusterSetFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk S F Kh Km C M B X R E T U P N =>
+      cases y with
+      | mk S' F' Kh' Km' C' M' B' X' R' E' T' U' P' N' =>
+          cases hfields
+          rfl
 
 instance kuratowskiClusterSetBHistCarrier :
     BHistCarrier KuratowskiClusterSetUp where
@@ -145,19 +147,30 @@ instance kuratowskiClusterSetChapterTasteGate :
     intro x y hxy heq
     exact hxy (kuratowskiClusterSetToEventFlow_injective heq)
 
+instance kuratowskiClusterSetFieldFaithful :
+    FieldFaithful KuratowskiClusterSetUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := kuratowskiClusterSetFields
+  field_faithful := kuratowskiClusterSet_field_faithful
+
+def taste_gate : ChapterTasteGate KuratowskiClusterSetUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  kuratowskiClusterSetChapterTasteGate
+
 theorem KuratowskiClusterSetTasteGate_single_carrier_alignment :
-    (forall h : BHist,
-      kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEncodeBHist h) = h) ∧
-      (forall x : KuratowskiClusterSetUp,
-        kuratowskiClusterSetFromEventFlow (kuratowskiClusterSetToEventFlow x) = some x) ∧
-        (forall x y : KuratowskiClusterSetUp,
-          kuratowskiClusterSetToEventFlow x = kuratowskiClusterSetToEventFlow y -> x = y) ∧
-          kuratowskiClusterSetEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+    ChapterTasteGate KuratowskiClusterSetUp ∧
+      Nonempty (FieldFaithful KuratowskiClusterSetUp) ∧
+        (∀ h : BHist,
+          kuratowskiClusterSetDecodeBHist (kuratowskiClusterSetEncodeBHist h) = h) ∧
+          (∀ x : KuratowskiClusterSetUp,
+            kuratowskiClusterSetFromEventFlow (kuratowskiClusterSetToEventFlow x) = some x) ∧
+            (∀ x y : KuratowskiClusterSetUp,
+              kuratowskiClusterSetToEventFlow x = kuratowskiClusterSetToEventFlow y → x = y) ∧
+              kuratowskiClusterSetEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
   exact
-    ⟨kuratowskiClusterSet_decode_encode,
-      kuratowskiClusterSet_round_trip,
-      (fun _ _ heq => kuratowskiClusterSetToEventFlow_injective heq),
-      rfl⟩
+    ⟨kuratowskiClusterSetChapterTasteGate, ⟨kuratowskiClusterSetFieldFaithful⟩,
+      kuratowskiClusterSet_decode_encode, kuratowskiClusterSet_round_trip,
+      (fun _ _ heq => kuratowskiClusterSetToEventFlow_injective heq), rfl⟩
 
 end BEDC.Derived.KuratowskiClusterSetUp.TasteGate
