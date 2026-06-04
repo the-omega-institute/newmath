@@ -2578,12 +2578,20 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
     merge_sha = ""
     if behind_before_sync > 0:
         merge_attempted = True
+        # bio-S 时工作树常带 runtime drift + daemon 生成的 untracked 草稿 (尤其 papers/bedc
+        # dispatch). auto-dev 常带与之重名的 tracked 新文件 → git merge 因 "untracked working
+        # tree files would be overwritten" / "local changes would be overwritten" 被拒 → 无
+        # conflict marker → codex_resolve 找不到冲突文件 → 误判 conflict_aborted, behind 无界涨.
+        # --autostash 只 stash tracked, 挡不住 untracked blocker; 用 stash --include-untracked
+        # 把 tracked drift + untracked 草稿都挪开, merge (+ codex_resolve) 后再 pop 还原.
+        pre_merge_stashed = False
         try:
-            # --autostash: daemon 在 bio-S 时工作树常带 runtime drift / in-flight 写入 (bio-K 在
-            # cycle 末才 commit). 不 autostash 的话 git merge 会因 "local changes would be
-            # overwritten" 被拒 → 无 conflict marker → codex_resolve 找不到冲突文件 → 误判
-            # conflict_aborted, behind 无界增长. autostash 先 stash 脏树、merge 后自动 pop.
-            merge = _run_command(repo_root, ["git", "merge", "--no-ff", "--autostash", "-m", f"Sync auto-dev {upstream_sha[:12]}", compare_ref], timeout=300.0)
+            st = _run_command(repo_root, ["git", "stash", "push", "--include-untracked", "-m", "bio-S pre-merge"], timeout=120.0)
+            pre_merge_stashed = st.returncode == 0 and "No local changes" not in (st.stdout or "")
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            _append_sync_log(store, "pre_merge_stash_failed", {"error": str(exc)})
+        try:
+            merge = _run_command(repo_root, ["git", "merge", "--no-ff", "-m", f"Sync auto-dev {upstream_sha[:12]}", compare_ref], timeout=300.0)
         except (OSError, subprocess.TimeoutExpired) as exc:
             merge_status = "conflict_aborted"
             _append_sync_log(store, "merge_error", {"ref": compare_ref, "error": str(exc)})
@@ -2624,6 +2632,14 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
                     if abort.returncode != 0:
                         abort_detail = (abort.stderr or abort.stdout or "git merge --abort failed").strip()
                         _append_sync_log(store, "merge_abort_failed", {"returncode": abort.returncode, "detail": abort_detail[-2000:]})
+        if pre_merge_stashed:
+            try:
+                pop = _run_command(repo_root, ["git", "stash", "pop"], timeout=120.0)
+                if pop.returncode != 0:
+                    # pop 冲突: drift 留在 stash (下个 cycle daemon 会重生成), 不阻断 sync.
+                    _append_sync_log(store, "pre_merge_stash_pop_conflict", {"detail": (pop.stderr or pop.stdout or "")[-500:]})
+            except (OSError, subprocess.TimeoutExpired) as exc:
+                _append_sync_log(store, "pre_merge_stash_pop_failed", {"error": str(exc)})
 
     new_state = dict(state)
     new_state.update(
