@@ -186,4 +186,14 @@ theorem PackingNumberNamecertObligations [AskSetup] [PackageSetup]
   exact
     ⟨cert, xUnary, epsUnary, uUnary, dUnary, bUnary, separatedUnary, budgetUnary⟩
 
+theorem PackingNumberTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      TasteGate.packingNumberDecodeBHist (TasteGate.packingNumberEncodeBHist h) = h) ∧
+      (∀ x : TasteGate.PackingNumberUp,
+        TasteGate.packingNumberFromEventFlow (TasteGate.packingNumberToEventFlow x) = some x) ∧
+        (∀ x y : TasteGate.PackingNumberUp,
+          TasteGate.packingNumberToEventFlow x = TasteGate.packingNumberToEventFlow y → x = y) ∧
+          TasteGate.packingNumberEncodeBHist BHist.Empty = ([] : List BEDC.FKernel.Mark.BMark) := by
+  exact TasteGate.PackingNumberTasteGate_single_carrier_alignment
+
 end BEDC.Derived.PackingNumberUp
