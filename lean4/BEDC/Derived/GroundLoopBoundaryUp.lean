@@ -24,4 +24,15 @@ theorem GroundLoopBoundaryCarrier_ground_replay_composite
     exact append_assoc M S R
   · exact carrier.right.right.right.right.left
 
+theorem GroundLoopBoundaryCarrier_scoped_kernel_route
+    {M S X R H C P N : BHist}
+    (carrier : GroundLoopBoundaryCarrier M S X R H C P N) :
+    msame BMark.b0 BMark.b0 ∧ msame BMark.b1 BMark.b1 ∧
+      Cont M (append S R) C ∧ hsame P N ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame msame
+  have replay := GroundLoopBoundaryCarrier_ground_replay_composite carrier
+  exact
+    ⟨carrier.left, carrier.right.left, replay.left, replay.right,
+      carrier.right.right.right.right.right.right⟩
+
 end BEDC.Derived.GroundLoopBoundaryUp
