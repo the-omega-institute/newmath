@@ -130,6 +130,22 @@ Apply the Real-distance seal exactness theorem, \autoref{thm:located-set-real-di
 The structural rows $H,C,P,N$ preserve the same route by componentwise transport, continuation replay, provenance, and local naming. The nearest-point refusal boundary then excludes replacing this witness by a selected endpoint.
 \end{proof}
 
+\begin{theorem}[LocatedSet open-ball distance window]
+\label{thm:located-set-open-ball-distance-window}
+Let $L=(X,A,Q,R,E,T,H,C,P,N)$ be an accepted $\LocatedSetUp$ packet. Any open-ball, proximinal, or projection consumer that reads a located-set distance window from $L$ must first pass through the parent $\MetricUp$ row of \autoref{ch:concrete-instances-metric-namecert}, the $\MetricSubspaceUp$ admission route of \autoref{ch:concrete-instances-metric-subspace-namecert}, the $\LocatedMetricUp$ handoff of \autoref{ch:concrete-instances-locatedmetric-namecert}, the $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}, and the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows $H,C,P,N$.
+
+The window therefore exposes only the route $X,A,Q,R,E,T,H,C,P,N$; it does not supply an open-ball center selector, nearest-point endpoint, projection endpoint, quotient subset equality, ambient completed metric space, or full $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with the distance handoff of \autoref{thm:located-set-distance-handoff}. It orders every distance read through the parent metric row $X$, the subspace admission row $A$, the located-distance ledger $Q$, the rational window row $R$, and the Real seal $E$.
+
+Apply the Real-distance seal exactness theorem, \autoref{thm:located-set-real-distance-seal-exactness}. It identifies the sibling route through \autoref{ch:concrete-instances-metric-namecert}, \autoref{ch:concrete-instances-metric-subspace-namecert}, \autoref{ch:concrete-instances-locatedmetric-namecert}, and \autoref{ch:concrete-instances-real-namecert} as the only route by which a Real distance read becomes available.
+
+Now use \autoref{thm:locatedset-distance-witness-obligation}. A downstream open-ball, proximinal, or projection consumer that cites the distance window must retain the visible $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows while reading the same witness.
+
+The nearest-point refusal boundary and metric-projection carrier admission then keep endpoint evidence outside the $\LocatedSetUp$ packet. Thus the open-ball distance window is a routed finite witness, not a selected center, nearest point, projection endpoint, quotient subset, completed metric space, or full real-completeness row.
+\end{proof}
+
 \begin{theorem}[LocatedSet proximinal consumer nonescape]
 \label{thm:locatedset-proximinal-consumer-nonescape}
 Every $\ProximinalSetUp$ consumer of an accepted $\LocatedSetUp$ packet must expose the carrier route $X,A,Q,R,E,T,H,C,P,N$ before using the packet as located-set input. If the proximinal consumer supplies a nearest-point or projection endpoint, that endpoint is an additional consumer row; it cannot be read from the $\LocatedSetUp$ packet itself and cannot bypass $\MetricUp$, $\MetricSubspaceUp$, $\LocatedMetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, or $\NameCert$.
