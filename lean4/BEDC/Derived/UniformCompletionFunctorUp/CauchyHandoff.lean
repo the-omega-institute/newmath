@@ -142,4 +142,46 @@ theorem UniformCompletionFunctorCauchyCompletionHandoff [AskSetup] [PackageSetup
   }
   exact ⟨cert, cauchyUnary, extensionUnary, realSealUnary⟩
 
+theorem UniformCompletionFunctorCauchyCompletionHandoffOrdering [AskSetup] [PackageSetup]
+    {U F E R W D S H C P N handoffRead extensionRead regseqRead windowRead dyadicRead
+      sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCompletionFunctorCarrier U F E R W D S H C P N bundle pkg ->
+      Cont U F handoffRead ->
+        Cont handoffRead E extensionRead ->
+          Cont extensionRead R regseqRead ->
+            Cont regseqRead W windowRead ->
+              Cont windowRead D dyadicRead ->
+                Cont dyadicRead S sealRead ->
+                  PkgSig bundle sealRead pkg ->
+                    UnaryHistory handoffRead ∧ UnaryHistory extensionRead ∧
+                      UnaryHistory regseqRead ∧ UnaryHistory windowRead ∧
+                        UnaryHistory dyadicRead ∧ UnaryHistory sealRead ∧
+                          Cont U F handoffRead ∧ Cont handoffRead E extensionRead ∧
+                            Cont extensionRead R regseqRead ∧ Cont regseqRead W windowRead ∧
+                              Cont windowRead D dyadicRead ∧ Cont dyadicRead S sealRead ∧
+                                PkgSig bundle P pkg ∧ PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier handoffRoute extensionRoute regseqRoute windowRoute dyadicRoute sealRoute
+    sealPkg
+  obtain ⟨unaryU, unaryF, unaryE, unaryR, unaryW, unaryD, unaryS, _unaryH, _unaryC,
+    unaryP, _unaryN, _sourceRoute, _readbackRoute, _sealCarrierRoute, provenancePkg,
+    _localNamePkg⟩ := carrier
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed unaryU unaryF handoffRoute
+  have extensionUnary : UnaryHistory extensionRead :=
+    unary_cont_closed handoffUnary unaryE extensionRoute
+  have regseqUnary : UnaryHistory regseqRead :=
+    unary_cont_closed extensionUnary unaryR regseqRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed regseqUnary unaryW windowRoute
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed windowUnary unaryD dyadicRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed dyadicUnary unaryS sealRoute
+  exact
+    ⟨handoffUnary, extensionUnary, regseqUnary, windowUnary, dyadicUnary, sealUnary,
+      handoffRoute, extensionRoute, regseqRoute, windowRoute, dyadicRoute, sealRoute,
+      provenancePkg, sealPkg⟩
+
 end BEDC.Derived.UniformCompletionFunctorUp
