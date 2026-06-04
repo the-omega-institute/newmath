@@ -58,6 +58,79 @@ def test_positive_tradeoff_fixture_is_caught(tmp_path):
     ]
 
 
+def test_terminal_status_fields_positive_tradeoffs_are_caught(tmp_path):
+    for field in ("final_main_claim_status", "status", "result_status", "new_status"):
+        case_root = tmp_path / field
+        _write_fixture(
+            case_root,
+            {
+                "cell": {
+                    field: "positive",
+                    "debt_delta": -1,
+                    "benefit_delta": -1,
+                }
+            },
+        )
+
+        payload = audit.audit_root(case_root, generated_at="2030-01-01T00:00:00+00:00")
+
+        assert payload["status"] == "fail"
+        assert payload["positive_candidate_count"] == 1
+        assert payload["escaped_positive_count"] == 1
+        assert payload["escaped_positive_rows"][0]["file"] == "reports/fixture.json"
+        assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.cell"
+        assert payload["escaped_positive_rows"][0]["positive_signal"] == f"{field}=positive"
+        assert payload["escaped_positive_rows"][0]["tradeoff_evidence_pointer"] == "$.cell"
+
+
+def test_terminal_positive_verdict_tradeoff_is_caught(tmp_path):
+    _write_fixture(
+        tmp_path,
+        {
+            "cell": {
+                "verdict": "terminal-positive",
+                "debt_delta": -1,
+                "benefit_delta": -1,
+            }
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "fail"
+    assert payload["positive_candidate_count"] == 1
+    assert payload["escaped_positive_count"] == 1
+    assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.cell"
+    assert payload["escaped_positive_rows"][0]["positive_signal"] == "verdict=terminal-positive"
+
+
+def test_failed_wrapper_container_does_not_suppress_positive_record(tmp_path):
+    _write_fixture(
+        tmp_path,
+        {
+            "wrapper": {
+                "status": "fail",
+                "records": [
+                    {
+                        "positive": True,
+                        "discovery_level": "D4",
+                        "debt_delta": -1,
+                        "benefit_delta": -1,
+                    }
+                ],
+            }
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "fail"
+    assert payload["positive_candidate_count"] == 1
+    assert payload["escaped_positive_count"] == 1
+    assert payload["escaped_positive_rows"][0]["json_pointer"] == "$.wrapper.records[0]"
+    assert payload["escaped_positive_rows"][0]["positive_signal"] == "positive=true"
+
+
 def test_non_positive_tradeoff_fixture_passes(tmp_path):
     _write_fixture(
         tmp_path,

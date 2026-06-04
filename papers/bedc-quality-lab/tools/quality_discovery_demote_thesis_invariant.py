@@ -29,6 +29,8 @@ POSITIVE_TERMINAL_VALUES = {
     "positive",
     "positive-discovery",
     "positive_discovery",
+    "terminal-positive",
+    "terminal_positive",
     "discovery_candidate",
     "certified_discovery",
     "accepted_positive",
@@ -166,7 +168,11 @@ def _normalized_text(value: Any) -> str | None:
 
 def _is_positive_terminal(value: Any) -> bool:
     normalized = _normalized_text(value)
-    return normalized in POSITIVE_TERMINAL_VALUES if normalized is not None else False
+    if normalized is None:
+        return False
+    if normalized in NON_POSITIVE_TERMINAL_VALUES:
+        return False
+    return normalized in POSITIVE_TERMINAL_VALUES or "positive" in normalized
 
 
 def _is_non_positive_terminal(value: Any) -> bool:
@@ -179,9 +185,7 @@ def _positive_signal(value: Mapping[str, Any], pointer: str) -> PositiveSignal |
         return PositiveSignal(_json_pointer_child(pointer, "positive"), "positive=true")
     if value.get("positive_discovery") is True:
         return PositiveSignal(_json_pointer_child(pointer, "positive_discovery"), "positive_discovery=true")
-    if _normalized_text(value.get("main_claim_status")) == "positive":
-        return PositiveSignal(_json_pointer_child(pointer, "main_claim_status"), "main_claim_status=positive")
-    for field in ("verdict", "terminal_verdict", "claim_verdict"):
+    for field in sorted(TERMINAL_FIELDS):
         if _is_positive_terminal(value.get(field)):
             return PositiveSignal(_json_pointer_child(pointer, field), f"{field}={value.get(field)}")
     if value.get("discovery_level") in POSITIVE_DISCOVERY_LEVELS:
@@ -212,7 +216,7 @@ def _guarded_by_non_positive_ancestor(frame: Frame, ancestors: Sequence[Frame]) 
     for ancestor in ancestors:
         if not _has_explicit_non_positive(ancestor.value):
             continue
-        if ancestor.pointer != "$" or _basis_scoped_child(ancestor.pointer, frame.pointer):
+        if _basis_scoped_child(ancestor.pointer, frame.pointer):
             return ancestor.pointer
     return None
 
