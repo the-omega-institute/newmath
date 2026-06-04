@@ -10,6 +10,7 @@ from scripts.check_v1_report_docs import (
     exclusive_positive_worked_case_hits,
     jsonpath_exists,
 )
+from scripts.literature_ledger import validate_literature_ledger
 from scripts import run_canonical_reports as canonical
 from tests.test_alpha_milestone_gate import HIDDEN_SCORECARD_TERMS
 
@@ -114,6 +115,17 @@ def test_v1_report_pointers_resolve():
             if not jsonpath_exists(payload, pointer):
                 failures.append(f"{path.relative_to(ROOT)}: missing {json_span}:{pointer}")
     assert failures == []
+
+
+def test_v1_docs_point_to_literature_ledger_without_listing_records():
+    combined = "\n".join(path.read_text(encoding="utf-8") for path in V1_DOC_SURFACES)
+    ledger = validate_literature_ledger(ROOT)
+
+    assert "reports/canonical/index.json" in combined
+    assert "$.literature_ledger" in combined
+    assert ledger["status"] == "ready"
+    for record_id in ledger["record_ids"]:
+        assert record_id not in combined
 
 
 def test_v1_report_uses_claim_terms_source():

@@ -19,6 +19,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from scripts.literature_ledger import validate_literature_ledger
 
 CANONICAL_DIR = ROOT / "reports" / "canonical"
 INDEX_ARTIFACT = CANONICAL_DIR / "index.json"
@@ -925,18 +926,7 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
 
 
 def _literature_ledger() -> dict[str, Any]:
-    if LITERATURE_LEDGER.exists():
-        return {
-            "status": "ready",
-            "pointer": "docs/lit/literature_ledger.yaml",
-            "records": "external-ledger",
-        }
-    return {
-        "status": "not-ready",
-        "pointer": "docs/lit/literature_ledger.yaml",
-        "dependency": "#548",
-        "records": "not-loaded",
-    }
+    return validate_literature_ledger(ROOT)
 
 
 def _paper_outline(reports: Sequence[dict[str, Any]]) -> dict[str, Any]:
