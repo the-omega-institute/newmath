@@ -3846,6 +3846,7 @@ import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuityFiniteNetSelectorUp.TasteGate
 import BEDC.Derived.EquicontinuityUp
 import BEDC.Derived.EquicontinuityUp.ArzelaAscoliConsumerRoute
+import BEDC.Derived.EquicontinuityUp.CompactFamilyNetReadiness
 import BEDC.Derived.EquicontinuityUp.CompactSourceAdmission
 import BEDC.Derived.EquicontinuityUp.ContinuousFamilyAdmission
 import BEDC.Derived.EquicontinuityUp.ContinuousFamilyLedgerAdmission
@@ -4525,6 +4526,7 @@ import BEDC.Derived.FunctorUp.ZeroHeadedComposition
 import BEDC.Derived.FundamentalGroupUp.TasteGate
 import BEDC.Derived.FundamentalTheoremCalculusUp
 import BEDC.Derived.GDeltaSetUp.TasteGate
+import BEDC.Derived.GalerkinErrorEstimateUp
 import BEDC.Derived.GaloisConnectionUp
 import BEDC.Derived.GaloisExtUp
 import BEDC.Derived.GaloisExtUp.NormalSeparableCombinedExactness
