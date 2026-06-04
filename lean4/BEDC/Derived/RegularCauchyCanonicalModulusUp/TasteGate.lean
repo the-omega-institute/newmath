@@ -11,7 +11,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RegularCauchyCanonicalModulusUp : Type where
-  | mk (D S R Q E H C P N : BHist) : RegularCauchyCanonicalModulusUp
+  | mk
+      (dyadic stream regular modulus endpoint transport replay provenance
+        localName : BHist) : RegularCauchyCanonicalModulusUp
   deriving DecidableEq
 
 def regularCauchyCanonicalModulusEncodeBHist : BHist → RawEvent
@@ -26,11 +28,10 @@ def regularCauchyCanonicalModulusDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (regularCauchyCanonicalModulusDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (regularCauchyCanonicalModulusDecodeBHist tail)
 
-private theorem regularCauchyCanonicalModulusDecode_encode :
+private theorem RegularCauchyCanonicalModulusUp_decode :
     ∀ h : BHist,
       regularCauchyCanonicalModulusDecodeBHist
-          (regularCauchyCanonicalModulusEncodeBHist h) =
-        h := by
+          (regularCauchyCanonicalModulusEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -41,16 +42,18 @@ private theorem regularCauchyCanonicalModulusDecode_encode :
 def regularCauchyCanonicalModulusFields :
     RegularCauchyCanonicalModulusUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | RegularCauchyCanonicalModulusUp.mk D S R Q E H C P N => [D, S, R, Q, E, H, C, P, N]
+  | RegularCauchyCanonicalModulusUp.mk dyadic stream regular modulus endpoint transport
+      replay provenance localName =>
+      [dyadic, stream, regular, modulus, endpoint, transport, replay, provenance, localName]
 
 def regularCauchyCanonicalModulusToEventFlow :
     RegularCauchyCanonicalModulusUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun x => (regularCauchyCanonicalModulusFields x).map
-    regularCauchyCanonicalModulusEncodeBHist
+  fun x =>
+    (regularCauchyCanonicalModulusFields x).map
+      regularCauchyCanonicalModulusEncodeBHist
 
-private def regularCauchyCanonicalModulusEventAtDefault :
-    Nat → EventFlow → RawEvent
+private def regularCauchyCanonicalModulusEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -82,48 +85,48 @@ def regularCauchyCanonicalModulusFromEventFlow
       (regularCauchyCanonicalModulusDecodeBHist
         (regularCauchyCanonicalModulusEventAtDefault 8 ef)))
 
-private theorem regularCauchyCanonicalModulus_round_trip :
-    ∀ x : RegularCauchyCanonicalModulusUp,
-      regularCauchyCanonicalModulusFromEventFlow
-          (regularCauchyCanonicalModulusToEventFlow x) =
-        some x := by
+private theorem RegularCauchyCanonicalModulusUp_round_trip
+    (x : RegularCauchyCanonicalModulusUp) :
+    regularCauchyCanonicalModulusFromEventFlow
+        (regularCauchyCanonicalModulusToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
-  | mk D S R Q E H C P N =>
+  | mk dyadic stream regular modulus endpoint transport replay provenance localName =>
       change
         some
-            (RegularCauchyCanonicalModulusUp.mk
-              (regularCauchyCanonicalModulusDecodeBHist
-                (regularCauchyCanonicalModulusEncodeBHist D))
-              (regularCauchyCanonicalModulusDecodeBHist
-                (regularCauchyCanonicalModulusEncodeBHist S))
-              (regularCauchyCanonicalModulusDecodeBHist
-                (regularCauchyCanonicalModulusEncodeBHist R))
-              (regularCauchyCanonicalModulusDecodeBHist
-                (regularCauchyCanonicalModulusEncodeBHist Q))
-              (regularCauchyCanonicalModulusDecodeBHist
-                (regularCauchyCanonicalModulusEncodeBHist E))
-              (regularCauchyCanonicalModulusDecodeBHist
-                (regularCauchyCanonicalModulusEncodeBHist H))
-              (regularCauchyCanonicalModulusDecodeBHist
-                (regularCauchyCanonicalModulusEncodeBHist C))
-              (regularCauchyCanonicalModulusDecodeBHist
-                (regularCauchyCanonicalModulusEncodeBHist P))
-              (regularCauchyCanonicalModulusDecodeBHist
-                (regularCauchyCanonicalModulusEncodeBHist N))) =
-          some (RegularCauchyCanonicalModulusUp.mk D S R Q E H C P N)
-      rw [regularCauchyCanonicalModulusDecode_encode D,
-        regularCauchyCanonicalModulusDecode_encode S,
-        regularCauchyCanonicalModulusDecode_encode R,
-        regularCauchyCanonicalModulusDecode_encode Q,
-        regularCauchyCanonicalModulusDecode_encode E,
-        regularCauchyCanonicalModulusDecode_encode H,
-        regularCauchyCanonicalModulusDecode_encode C,
-        regularCauchyCanonicalModulusDecode_encode P,
-        regularCauchyCanonicalModulusDecode_encode N]
+          (RegularCauchyCanonicalModulusUp.mk
+            (regularCauchyCanonicalModulusDecodeBHist
+              (regularCauchyCanonicalModulusEncodeBHist dyadic))
+            (regularCauchyCanonicalModulusDecodeBHist
+              (regularCauchyCanonicalModulusEncodeBHist stream))
+            (regularCauchyCanonicalModulusDecodeBHist
+              (regularCauchyCanonicalModulusEncodeBHist regular))
+            (regularCauchyCanonicalModulusDecodeBHist
+              (regularCauchyCanonicalModulusEncodeBHist modulus))
+            (regularCauchyCanonicalModulusDecodeBHist
+              (regularCauchyCanonicalModulusEncodeBHist endpoint))
+            (regularCauchyCanonicalModulusDecodeBHist
+              (regularCauchyCanonicalModulusEncodeBHist transport))
+            (regularCauchyCanonicalModulusDecodeBHist
+              (regularCauchyCanonicalModulusEncodeBHist replay))
+            (regularCauchyCanonicalModulusDecodeBHist
+              (regularCauchyCanonicalModulusEncodeBHist provenance))
+            (regularCauchyCanonicalModulusDecodeBHist
+              (regularCauchyCanonicalModulusEncodeBHist localName))) =
+          some
+            (RegularCauchyCanonicalModulusUp.mk dyadic stream regular modulus endpoint
+              transport replay provenance localName)
+      rw [RegularCauchyCanonicalModulusUp_decode dyadic,
+        RegularCauchyCanonicalModulusUp_decode stream,
+        RegularCauchyCanonicalModulusUp_decode regular,
+        RegularCauchyCanonicalModulusUp_decode modulus,
+        RegularCauchyCanonicalModulusUp_decode endpoint,
+        RegularCauchyCanonicalModulusUp_decode transport,
+        RegularCauchyCanonicalModulusUp_decode replay,
+        RegularCauchyCanonicalModulusUp_decode provenance,
+        RegularCauchyCanonicalModulusUp_decode localName]
 
-private theorem regularCauchyCanonicalModulusToEventFlow_injective
+private theorem RegularCauchyCanonicalModulusUp_toEventFlow_injective
     {x y : RegularCauchyCanonicalModulusUp} :
     regularCauchyCanonicalModulusToEventFlow x =
         regularCauchyCanonicalModulusToEventFlow y →
@@ -137,54 +140,40 @@ private theorem regularCauchyCanonicalModulusToEventFlow_injective
           (regularCauchyCanonicalModulusToEventFlow y) :=
     congrArg regularCauchyCanonicalModulusFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (regularCauchyCanonicalModulus_round_trip x).symm
-      (Eq.trans hread (regularCauchyCanonicalModulus_round_trip y)))
+    (Eq.trans (RegularCauchyCanonicalModulusUp_round_trip x).symm
+      (Eq.trans hread (RegularCauchyCanonicalModulusUp_round_trip y)))
 
-private def regularCauchyCanonicalModulusBHistCarrierDef :
+instance regularCauchyCanonicalModulusBHistCarrier :
     BHistCarrier RegularCauchyCanonicalModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := regularCauchyCanonicalModulusToEventFlow
   fromEventFlow := regularCauchyCanonicalModulusFromEventFlow
 
-instance regularCauchyCanonicalModulusBHistCarrier :
-    BHistCarrier RegularCauchyCanonicalModulusUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  regularCauchyCanonicalModulusBHistCarrierDef
-
-private def regularCauchyCanonicalModulusChapterTasteGateDef :
+instance regularCauchyCanonicalModulusChapterTasteGate :
     ChapterTasteGate RegularCauchyCanonicalModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
     change
       regularCauchyCanonicalModulusFromEventFlow
-          (regularCauchyCanonicalModulusToEventFlow x) =
-        some x
-    exact regularCauchyCanonicalModulus_round_trip x
+          (regularCauchyCanonicalModulusToEventFlow x) = some x
+    exact RegularCauchyCanonicalModulusUp_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (regularCauchyCanonicalModulusToEventFlow_injective heq)
-
-instance regularCauchyCanonicalModulusChapterTasteGate :
-    ChapterTasteGate RegularCauchyCanonicalModulusUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  regularCauchyCanonicalModulusChapterTasteGateDef
+    exact hxy (RegularCauchyCanonicalModulusUp_toEventFlow_injective heq)
 
 theorem RegularCauchyCanonicalModulusTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       regularCauchyCanonicalModulusDecodeBHist
-          (regularCauchyCanonicalModulusEncodeBHist h) =
-        h) ∧
+          (regularCauchyCanonicalModulusEncodeBHist h) = h) ∧
       Nonempty (BHistCarrier RegularCauchyCanonicalModulusUp) ∧
         Nonempty (ChapterTasteGate RegularCauchyCanonicalModulusUp) ∧
           regularCauchyCanonicalModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact regularCauchyCanonicalModulusDecode_encode
-  · constructor
-    · exact ⟨regularCauchyCanonicalModulusBHistCarrierDef⟩
-    · constructor
-      · exact ⟨regularCauchyCanonicalModulusChapterTasteGateDef⟩
-      · rfl
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨RegularCauchyCanonicalModulusUp_decode,
+      ⟨regularCauchyCanonicalModulusBHistCarrier⟩,
+      ⟨regularCauchyCanonicalModulusChapterTasteGate⟩,
+      rfl⟩
 
 end BEDC.Derived.RegularCauchyCanonicalModulusUp
