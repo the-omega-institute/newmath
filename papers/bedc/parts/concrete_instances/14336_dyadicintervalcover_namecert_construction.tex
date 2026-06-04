@@ -142,6 +142,7 @@ Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion} to 
 
 Thus refinement changes only the displayed finite interval rows and their transported membership witnesses. It does not create an open-cover compactness row, a selected subcover, a host equality test, a quotient stream, a choice functional, or a Real-completeness witness.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRefinementStability}
 
 \begin{theorem}[DyadicIntervalCover route-cover stability]
 \label{thm:dyadicintervalcover-route-cover-stability}
@@ -156,6 +157,7 @@ Now apply \autoref{thm:dyadicintervalcover-refinement-stability}. The refinement
 
 The provenance and local naming rows $P,N$ and $P',N'$ keep the transported route inside the same packet boundary. Therefore the refinement preserves the finite cover route and cannot introduce open-cover compactness, a selected subcover, quotient equality, countable choice, or Real completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRouteCoverStability}
 
 \begin{theorem}[DyadicIntervalCover ledger exactness]
 \label{thm:dyadicintervalcover-ledger-exactness}
@@ -165,6 +167,7 @@ I=(L,U,M,R,V,W,Q,A,H,C,P,N),
 $$
 the radius ledger $R$ and membership row $V$ account for exactly the dyadic endpoint comparisons and regular-name windows read through $L,U,M,W,Q,A$. The ledger exports no open-cover compactness theorem, selected subcover, host real equality, quotient stream, countable choice, or Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverLedgerExactness}
 \begin{proof}
 Project the displayed carrier. The ledger row $R$ supplies the tolerance data for endpoint comparisons and for each inspected regular-name window, while $V$ records the finite membership witnesses at that tolerance.
 
@@ -181,6 +184,7 @@ I=(L,U,M,R,V,W,Q,A,H,C,P,N),
 $$
 the obligation surface is the finite ledger consisting of the $\DyadicRatCoreUp$ endpoint rows $L,U$, mesh row $M$, radius ledger $R$, cover-membership row $V$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $Q$, visible $\RealUp$ seal row $A$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$. This surface records finite mesh, refinement, membership, and real-window handoff data only; it contains no open-cover compactness coordinate and no selected-subcover coordinate.
 \end{definition}
+\leandef{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverObligationSurface}
 
 \begin{definition}[DyadicIntervalCover root obligation surface]
 \label{def:dyadic-interval-cover-root-obligation-surface}
@@ -385,11 +389,13 @@ Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. It
 
 Now apply \autoref{thm:dyadic-interval-cover-regular-window-ledger}. The readback row $Q$ is accounted together with $W$ and $R$ against the mesh and membership rows $M,V$. Endpoint rows $L,U$ and the seal row $A$ remain displayed packet data, while $H,C,P,N$ only transport, replay, package, and name the same finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRegSeqRatRoute}
 
 \begin{theorem}[DyadicIntervalCover Real seal nonescape]
 \label{thm:dyadic-interval-cover-real-seal-nonescape}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Every $\RealUp$ seal read through $A$ is downstream of the displayed endpoint, mesh, radius, membership, window, and readback rows $L,U,M,R,V,W,Q$ and remains inside the structural rows $H,C,P,N$. The seal cannot export open-cover compactness, selected subcovers, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRealSealNonescape}
 \begin{proof}
 Project $A$ from the carrier. The seal row appears only after the dyadic endpoint rows, mesh row, radius ledger, membership row, finite StreamName window, and RegSeqRat readback row have been displayed.
 
@@ -406,6 +412,7 @@ L,U,M,R,V,W,Q,A,H,C,P,N ,
 $$
 and it contains no open-cover compactness theorem, selected subcover, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverL10WindowObligations}
 \begin{proof}
 Apply \autoref{thm:dyadic-interval-cover-mesh-refinement-obligation}. It places every refinement read behind the endpoint rows, mesh row, radius ledger, membership row, and structural replay data.
 
@@ -420,6 +427,7 @@ Finally apply \autoref{thm:dyadic-interval-cover-regular-window-ledger}. It iden
 \label{thm:dyadicintervalcover-root-window-obligations}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ $\BHist$ packet. Every root-window obligation for $I$ is read through the displayed $\StreamNameUp$ finite-window row $W$, $\RegSeqRatUp$ readback row $Q$, $\DyadicRatCoreUp$ endpoint and radius rows $L,U,R$, and visible $\RealUp$ seal $A$ before the local $\NameCert$ row $N$ is exported. The root window has no coordinate for open-cover compactness, selected subcovers, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRootWindowObligations}
 \begin{proof}
 Project the carrier of \autoref{def:dyadic-interval-cover-carrier}. The $\BHist$ packet lists the endpoint rows, mesh row, radius ledger, membership row, finite window, readback, Real seal, transport, replay, provenance, and local naming row as its entire root surface.
 
@@ -432,6 +440,7 @@ Use \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion} to bi
 \label{thm:dyadicintervalcover-root-refinement-obligations}
 For accepted $\DyadicIntervalCoverUp$ packets $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ and $I'=(L',U',M',R',V',W',Q',A',H',C',P',N')$, any root refinement displayed by the packet is an $\hsame$ and $\Cont$ route over endpoint, mesh, radius, membership, window, readback, and seal rows. Refinement may sharpen $M$ and compare the dyadic endpoint and radius rows through $\DyadicRatCoreUp$, but it preserves the same $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRootRefinementObligations}
 \begin{proof}
 Project both carriers. The only rows that can vary under refinement are the displayed endpoint, mesh, radius, membership, finite-window, readback, seal, transport, replay, provenance, and local naming rows.
 
@@ -444,6 +453,7 @@ Use \autoref{thm:dyadic-interval-cover-membership-transport}. The membership row
 \label{thm:dyadicintervalcover-root-ledger-obligations}
 For every accepted $\DyadicIntervalCoverUp$ carrier $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$, the root ledger obligations are exhausted by the radius ledger $R$ and finite membership row $V$ against the endpoint rows $L,U$, mesh row $M$, finite window $W$, readback row $Q$, Real seal $A$, and structural rows $H,C,P,N$. No hidden cover ledger, open-cover selector, later regular-sequence tail, quotient real equality, countable choice, or ambient completeness datum is available outside those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRootLedgerObligations}
 \begin{proof}
 Begin with \autoref{thm:dyadic-interval-cover-regular-window-ledger}. It identifies the regular-window ledger as the finite accounting of $W,Q,R$ against the mesh and membership rows $M,V$.
 
@@ -456,6 +466,7 @@ Finally read the structural rows $H,C,P,N$ through the carrier. They transport, 
 \label{thm:dyadicintervalcover-root-cell-carrier}
 For every accepted $\DyadicIntervalCoverUp$ carrier $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$, the root cell carrier rows consist exactly of the dyadic endpoint cell rows $L,U$, the mesh-level row $M$, the finite coverage ledger rows $R,V$, and the displayed $\Cont$ replay row $C$ over the same cover surface. These rows are transported by $H$, packaged by $P$, and named by $N$, and they do not expose open-cover compactness, selected subcovers, quotient real equality, countable choice, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRootCellCarrier}
 \begin{proof}
 Project the accepted carrier through \autoref{def:dyadic-interval-cover-carrier}. The endpoint cells are exactly $L,U$, the displayed mesh level is $M$, and the coverage accounting appears only as the radius and membership rows $R,V$.
 
@@ -475,11 +486,13 @@ For the successor step, apply \autoref{thm:dyadicintervalcover-root-refinement-o
 
 It remains to preserve coverage rather than merely row shape. Use \autoref{thm:dyadicintervalcover-root-ledger-obligations}; the finite coverage ledger is exhausted by $R,V$ at each stage, so the induction keeps the cover within the same displayed rows and introduces no selected subcover, quotient equality, choice schedule, or Real-completeness coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRootRefinementCoverage}
 
 \begin{theorem}[DyadicIntervalCover root Real-seal handoff]
 \label{thm:dyadicintervalcover-root-real-seal-handoff}
 Any $\RealUp$ consumer reading a root $\DyadicIntervalCoverUp$ seal must first pass through $\DyadicRatCoreUp$ endpoint comparison, the $\StreamNameUp$ finite window row, the $\RegSeqRatUp$ readback row, and the local $\NameCert_{\DyadicIntervalCoverUp}$ coverage surface. Only after those rows are displayed may the consumer read the Real seal $A$, and that read does not import host real equality, quotient stream equality, selected limits, countable choice, open-cover compactness, or ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRootRealSealHandoff}
 \begin{proof}
 Start with \autoref{thm:dyadic-interval-cover-endpoint-row-admission}. The lower and upper endpoint cells enter only as $\DyadicRatCoreUp$ rows, with the mesh and ledger data displayed before any Real-facing seal is public.
 
@@ -499,6 +512,7 @@ Apply \autoref{thm:dyadicintervalcover-refinement-stability}. A refinement can o
 
 Now use \autoref{thm:dyadicintervalcover-ledger-exactness} and \autoref{thm:dyadicintervalcover-root-ledger-obligations}. They identify $R,V$ as the exact finite ledger against $L,U,M,W,Q,A,H,C,P,N$. Thus the cell-refinement read is exhausted by the displayed rows and has no coordinate for compactness, selected subcovers, quotient equality, choice, or Real completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverCellRefinementExhaustion}
 
 \begin{theorem}[DyadicIntervalCover refinement-chain induction]
 \label{thm:dyadicintervalcover-refinement-chain-induction}
@@ -515,11 +529,13 @@ For the successor step, apply \autoref{thm:dyadicintervalcover-refinement-stabil
 
 It remains to keep the ledger bounded along the chain. Use \autoref{thm:dyadicintervalcover-ledger-exactness} together with \autoref{thm:dyadicintervalcover-root-ledger-obligations}: each stage reads only $R,V$ against $L,U,M,W,Q,A,H,C,P,N$. Therefore finite induction preserves the same cover surface and introduces no hidden compactness, selected subcover, quotient equality, choice, or completeness row.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRefinementChainInduction}
 
 \begin{theorem}[DyadicIntervalCover Real-seal cover handoff]
 \label{thm:dyadicintervalcover-real-seal-cover-handoff}
 Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. Any $\RealUp$ seal $A$ consumed by a cover reader factors through the finite window row $W$, regular-rational readback row $Q$, mesh row $M$, radius ledger $R$, and membership row $V$ before the seal is exposed to the reader. The handoff may then be transported, replayed, packaged, and named by $H,C,P,N$, but it cannot expose host real equality, quotient stream equality, selected limits, countable choice, open-cover compactness, or ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRealSealCoverHandoff}
 \begin{proof}
 Start with \autoref{thm:dyadicintervalcover-finite-window-carrier}. It places the Real seal $A$ behind the displayed finite cover surface rather than before it.
 
@@ -564,6 +580,7 @@ Apply \autoref{thm:dyadic-interval-cover-regular-sequence-window-exhaustion}. Ev
 
 Use \autoref{thm:dyadicintervalcover-refinement-stability}. The componentwise $\hsame$ row and displayed $\Cont$ replay preserve endpoint, mesh, radius, membership, window, readback, and seal rows, while $\Pkg$ provenance and $\NameCert$ naming keep the packet local. Hence tail pullback cannot import quotient stream equality, selected limits, countable choice, host equality, or Real completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverTailPullbackStability}
 
 \begin{theorem}[DyadicIntervalCover scoped mesh refinement]
 \label{thm:dyadicintervalcover-mesh-refinement-scope}
@@ -576,6 +593,7 @@ Proceed by induction over the displayed refinement rows. The base case is the ad
 
 The $\BishopIntervalCompactUp$ handoff reads only this finite cover membership surface. Since $P,N$ source and name the same packet, the scoped obligation remains a finite refinement route and cannot acquire an unlisted compactness or choice principle.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverMeshRefinementScope}
 
 \begin{theorem}[DyadicIntervalCover scoped finite-window coverage]
 \label{thm:dyadicintervalcover-window-coverage-scope}
@@ -588,6 +606,7 @@ The finite observation boundary is then supplied by $W$ and $Q$. The stream row 
 
 Finally use $V,H,C,P,N$ to record membership, transport it along the displayed route, replay the same read, source it, and name it. This proves finite-window coverage by packet projection, not by a selected finite subcover or an open-cover compactness theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverWindowCoverageScope}
 
 \begin{theorem}[DyadicIntervalCover scoped Real-seal handoff]
 \label{thm:dyadicintervalcover-real-seal-scope}
@@ -600,6 +619,7 @@ Next pass through $W$ and $Q$. These rows make the cover data readable as finite
 
 The structural rows $H,C,P,N$ preserve the same route under transport, replay, provenance, and naming. The $\BishopIntervalCompactUp$ handoff therefore receives a finite Real-seal boundary, not a host compactness theorem or a completion principle.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRealSealScope}
 
 \begin{theorem}[DyadicIntervalCover mesh refinement obligation]
 \label{thm:dyadicintervalcover-mesh-refinement-obligation}
@@ -624,6 +644,7 @@ Next apply \autoref{thm:dyadicintervalcover-window-coverage-scope}. The coverage
 
 The structural rows complete the handoff. By \autoref{thm:dyadicintervalcover-root-cell-carrier}, $H,C,P,N$ transport, replay, source, and name the same finite cell surface; no selected subcover, host compactness theorem, quotient real equality, countable choice, or ambient completion row is exported.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverSubcoverHandoffObligation}
 
 \begin{theorem}[DyadicIntervalCover Real-seal nonescape obligation]
 \label{thm:dyadicintervalcover-real-seal-nonescape-obligation}
@@ -636,6 +657,7 @@ Then use \autoref{thm:dyadicintervalcover-real-seal-cover-handoff} and \autoref{
 
 The nonescape claim follows from carrier exactness and ledger exactness. The accepted packet has no coordinate for host real equality, quotient stream equality, selected limits, countable choice, open-cover compactness, selected subcovers, or ambient Real completeness, so the seal cannot leave the finite projection route.
 \end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverRealSealNonescapeObligation}
 
 \begin{theorem}[DyadicIntervalCover scoped finite-cover chain]
 \label{thm:dyadicintervalcover-scoped-finite-cover-chain}
@@ -650,10 +672,12 @@ Apply \autoref{thm:dyadicintervalcover-subcover-handoff-obligation}. It places a
 Use \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The readback rows $W,Q$ and the seal row $A$ remain downstream of the displayed cover chain, so $\RegSeqRatUp$ and $\RealUp$ consumers receive only the finite route. The structural rows preserve that route and add no selected subcover or ambient compactness coordinate.
 \end{proof}
 
+\closureat{DyadicIntervalCoverUp}{publicStr}
+
 \begin{closurestatus}{\DyadicIntervalCoverUp}
   \constructivestory{A $\DyadicIntervalCoverUp$ packet is generated from dyadic lower and upper endpoint rows, a mesh index, a radius ledger, finite cover-membership rows, StreamName windows, RegSeqRat readbacks, a Real seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{thm:dyadicintervalcover-mesh-refinement-scope}, \autoref{thm:dyadicintervalcover-window-coverage-scope}, and \autoref{thm:dyadicintervalcover-real-seal-scope} bind the finite mesh-refinement, finite-window coverage, and Real-seal handoff kernel scope.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{thm:dyadicintervalcover-mesh-refinement-scope}, \autoref{thm:dyadicintervalcover-window-coverage-scope}, \autoref{thm:dyadicintervalcover-real-seal-scope}, and \autoref{thm:dyadicintervalcover-scoped-finite-cover-chain} bind the public finite-cover route through mesh refinement, finite-window coverage, Real-seal handoff, and the exported cover chain.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, Heine--Borel compactness, sequential compactness, selected limits, quotient real equality, host real equality, countable choice, Real completeness, or a standard bridge.}

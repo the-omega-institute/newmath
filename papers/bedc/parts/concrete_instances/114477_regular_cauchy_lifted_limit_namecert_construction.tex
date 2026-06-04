@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyLiftedLimitUp$}
+\label{ch:concrete-instances-regular-cauchy-lifted-limit-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy real construction, the $\RegularCauchyLiftedLimitUp$ packet records the diagonal-limit handoff anticipated by \autoref{sec:real-completeness-limit-theorem} and \autoref{thm:real-completeness-limit-exists-unique}. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite rows by which a regular Cauchy diagonal read is lifted to a Real-facing limit seal without selected representatives, quotient stream equality, countable choice, or ambient Real-completeness as a hidden coordinate.
+
+\begin{definition}[Regular Cauchy lifted-limit carrier]
+\label{def:regular-cauchy-lifted-limit-carrier}
+A $\RegularCauchyLiftedLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,S,R,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ diagonal tolerance ledger, carrying the finite precision budgets and comparison cells used by the lift.
+\item $S$ is the $\StreamNameUp$ schedule row, naming the finite windows inspected at each displayed diagonal budget.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row produced from the scheduled windows and dyadic budgets.
+\item $W$ is the lifted-limit witness row, recording that the same finite diagonal observations determine the displayed limit read.
+\item $E$ is the terminal $\RealUp$ seal row available after $D,S,R,W$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport across dyadic budget, stream schedule, regular readback, lifted witness, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the diagonal handoff route
+$$
+D,S \longmapsto R \longmapsto W \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyLiftedLimitUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyLiftedLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,W,E,H,C,P,N$. It has no coordinate for quotient equality of regular streams, selected representatives, countable choice, host real equality, a detached completion operator, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyLiftedLimitUp.RegularCauchyLiftedLimitTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy lifted-limit NameCert obligations]
+\label{thm:regular-cauchy-lifted-limit-namecert-obligations}
+For every accepted $\RegularCauchyLiftedLimitUp$ carrier
+$$
+L=(D,S,R,W,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyLiftedLimitUp}$ surface consists exactly of carrier admission for the $\DyadicRatCoreUp$ diagonal tolerance ledger, $\StreamNameUp$ finite-window schedule, $\RegSeqRatUp$ readback, lifted-limit witness, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every consumer of the Real-completeness limit theorem's diagonal handoff must pass through these rows and cannot replace them by quotient stream equality, selected representatives, countable choice, host real equality, a detached completion operator, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyLiftedLimitUp.TasteGate.RegularCauchyLiftedLimitNamecertObligations}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-lifted-limit-carrier}. The accepted packet exposes exactly the dyadic budget, finite stream schedule, regular rational readback, lifted-limit witness, Real seal, transport, replay, provenance, and local naming rows.
+
+The diagonal handoff begins at the $\DyadicRatCoreUp$ row $D$ and the $\StreamNameUp$ row $S$. These rows supply the finite precision and window data cited by the originating limit theorem.
+
+The $\RegSeqRatUp$ row $R$ is downstream of those observations, and the witness row $W$ binds the same observations to the terminal $\RealUp$ seal $E$. Transport through $H$ and replay through $C$ preserve the route.
+
+Finally $P$ and $N$ source and name the same finite packet. Since no excluded quotient, selector, choice, host equality, detached completion, or ambient-completeness row is present, the displayed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy lifted-limit diagonal handoff]
+\label{thm:regular-cauchy-lifted-limit-diagonal-handoff}
+Let $L=(D,S,R,W,E,H,C,P,N)$ be an accepted $\RegularCauchyLiftedLimitUp$ carrier. Every diagonal-limit read exported toward a $\RealUp$ consumer factors through
+$$
+D,S \longmapsto R \longmapsto W \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives a $\DyadicRatCoreUp$ budget ledger, $\StreamNameUp$ finite-window schedule, $\RegSeqRatUp$ readback, lifted-limit witness, terminal $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data, and receives no quotient stream equality, selected representative, countable choice schedule, detached completion operator, or ambient Real-completeness credential.
+\end{theorem}
+\begin{proof}
+Start with a diagonal-limit read from the accepted packet. Projection exposes the ordered rows $D,S,R,W,E,H,C,P,N$.
+
+The dyadic budget ledger $D$ and finite schedule $S$ are the only data available before the regular rational readback. Thus $R$ is determined by displayed finite observations rather than by a quotient stream.
+
+The witness row $W$ records the lift from that regular readback to the terminal Real seal $E$. The rows $H,C,P,N$ then transport, replay, source, and name the same finite handoff.
+
+Therefore every Real-facing consumer receives exactly the displayed diagonal route and none of the excluded quotient, selection, choice, completion, or ambient-completeness data.
+\end{proof}
+
+\closureat{RegularCauchyLiftedLimitUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyLiftedLimitUp}
+  \constructivestory{A $\RegularCauchyLiftedLimitUp$ packet is generated from a DyadicRatCore diagonal tolerance ledger, StreamName finite-window schedule, RegSeqRat readback, lifted-limit witness, terminal RealUp seal, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-lifted-limit-carrier}, \autoref{thm:regular-cauchy-lifted-limit-namecert-obligations}, and \autoref{thm:regular-cauchy-lifted-limit-diagonal-handoff} seed the finite diagonal-limit handoff surface for Real-completeness consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of regular streams, selected representatives, countable choice, host real equality, detached completion operators, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal-budget stability, finite-window readback exactness, lifted-limit witness stability, Real seal handoff, and downstream nonescape for BEDC.Derived.RegularCauchyLiftedLimitUp.}
+\end{closurestatus}

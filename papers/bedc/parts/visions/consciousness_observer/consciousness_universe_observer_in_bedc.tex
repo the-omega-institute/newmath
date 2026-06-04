@@ -75,6 +75,104 @@ A BEDC contributor can be read, on the records side, as a focused history whose 
 \autoref{ch:visions-observer-hist-identity} argues that BEDC's finite kernel identifies an observer with the history that observer has accumulated. \autoref{def:consciousness-universe-consciousness-reading} re-uses exactly that identification. The self-proxy is the focused endpoint and trace, while identity preservation is the $\hsame$-stable continuity of the displayed history. The engineering content remains in the earlier chapter; the present chapter records the finite carrier on which the phenomenological reading may be placed.
 \end{remark}
 
+\section{Embodied continuation and the mortality boundary}
+\label{sec:consciousness-universe-embodied-continuation-mortality}
+
+\begin{definition}[Embodied support row]
+\label{def:consciousness-universe-embodied-support-row}
+For a focused conscious record $\mathrm{ConsciousRecord}(\mathcal{L}_N,F)$, an \emph{embodied support row} is an external finite carrier reading
+$$
+\mathcal{B}_i(t)=(\mathrm{body}_i(t),\mathrm{metabolism}_i(t),\mathrm{repair}_i(t),\mathrm{environment}_i(t),\mathrm{risk}_i(t))
+$$
+together with a predicate
+$$
+\mathrm{EmbValid}_i(h,t)
+$$
+read as: the carrier row at local stage $t$ can realize the focused history surface $h$ as an inscription-bearing conscious record. The row is not a field of the pure $\Hist$ signature. It is the wick, vessel, and weather around the flame of a local inscription; the flame may have a formal shape, but its burning is a carrier fact.
+\end{definition}
+
+\begin{definition}[Alive, embodied continuation, and death]
+\label{def:consciousness-universe-alive-embodied-death}
+Let $H_i(t)$ denote the focused history displayed at local stage $t$. The records-side predicates are
+$$
+\begin{aligned}
+\mathrm{Alive}_i(t)
+&:\Longleftrightarrow \mathrm{EmbValid}_i(H_i(t),t),\\
+\mathrm{EmbCanContinue}_i(t)
+&:\Longleftrightarrow
+\exists d,h'\,
+\bigl(\Cont(H_i(t),d,h')\wedge \mathrm{EmbValid}_i(h',t+1)\bigr),\\
+\mathrm{Death}_i(t)
+&:\Longleftrightarrow
+\mathrm{Alive}_i(t)\wedge \neg \mathrm{EmbCanContinue}_i(t),\\
+\mathrm{Mortal}_i
+&:\Longleftrightarrow
+\exists t\,\mathrm{Death}_i(t).
+\end{aligned}
+$$
+Thus death is not a content subsequently experienced by the same focused row. It is the failure of the next inscription condition for that row. The lamp does not record darkness after its oil is gone; rather, the local condition under which light is recorded no longer carries the next mark.
+\end{definition}
+
+\begin{principle}[Formal continuation is not embodied continuation]
+\label{prin:consciousness-universe-formal-not-embodied-continuation}
+The pure $\Hist/\Cont$ layer can speak about formal successor histories. It contains no body, repair process, hazard rate, metabolic budget, or environmental support row. Consequently a formal extension
+$$
+\exists d,h'\,\Cont(h,d,h')
+$$
+does not by itself imply
+$$
+\exists d,h'\,\bigl(\Cont(h,d,h')\wedge \mathrm{EmbValid}_i(h',t+1)\bigr).
+$$
+The distinction is the difference between a riverbed drawn on a map and water continuing through it. The map may display another segment; the flow also requires a source, a channel not yet blocked, and conditions that do not destroy the carrier.
+\end{principle}
+
+\begin{theorem}[Finite reserve mortality]
+\label{thm:consciousness-universe-finite-reserve-mortality}
+Suppose a focused embodied support row carries a viability reserve
+$$
+V_i:\mathbb{N}\to\mathbb{N}
+$$
+with $V_i(0)=K<\infty$, and suppose $\mathrm{Alive}_i(0)$ holds. Suppose that, before the first terminal boundary, positive reserve supports the current record and strictly decreases:
+$$
+V_i(t)>0\ \Longrightarrow\ V_i(t+1)\le V_i(t)-1.
+$$
+If reserve exhaustion blocks either the current stage or the next embodied continuation,
+$$
+V_i(t)=0\ \Longrightarrow\ \neg\mathrm{EmbCanContinue}_i(t)
+$$
+and
+$$
+V_i(t+1)=0\ \Longrightarrow\ \neg\mathrm{EmbCanContinue}_i(t),
+$$
+while $V_i(t)>0$ implies $\mathrm{Alive}_i(t)$, then $\mathrm{Mortal}_i$.
+\end{theorem}
+
+\begin{proof}
+By induction on $n\le K$, the strict decrease condition gives
+$$
+V_i(n)\le K-n.
+$$
+At $n=K$ this yields $V_i(K)\le 0$. Since $V_i(K)\in\mathbb{N}$, one has $V_i(K)=0$. Let $m\le K$ be the first local stage with $V_i(m)=0$. If $m=0$, then $\mathrm{Alive}_i(0)$ and the current-stage blocking condition give $\mathrm{Death}_i(0)$. If $m>0$, then $V_i(m-1)>0$, hence $\mathrm{Alive}_i(m-1)$, and the next-stage blocking condition gives $\neg\mathrm{EmbCanContinue}_i(m-1)$. Therefore $\mathrm{Death}_i(m-1)$ by \autoref{def:consciousness-universe-alive-embodied-death}. In either case there exists a death stage, so $\mathrm{Mortal}_i$.
+\end{proof}
+
+\begin{corollary}[Finite records do not close immortality]
+\label{cor:consciousness-universe-finite-records-do-not-close-immortality}
+A finite ledger of alive stages,
+$$
+\mathrm{Alive}_i(t_1),\ldots,\mathrm{Alive}_i(t_k),
+$$
+does not close
+$$
+\forall t\,\mathrm{EmbCanContinue}_i(t).
+$$
+An assertion of unbounded embodied continuation therefore requires either a displayed rule proving the required carrier, repair, and risk rows for every later local stage, or a boundary acknowledgement that the assertion is forward-binding and not object-level closure inside $\mathcal{L}_N$.
+\end{corollary}
+
+\begin{remark}[The boundary is local]
+\label{rem:consciousness-universe-death-not-t}
+The death predicate above is a local inscription-boundary predicate. It does not say that $\mathsf{T}$ disappears, that existence as such is extinguished, or that the pure possibility of further $\Hist$ formation is refuted. It says only that this focused embodied carrier no longer supplies the next valid conscious record. A broken lyre does not prove that music is impossible; it proves that this instrument no longer realizes the song.
+\end{remark}
+
 \concretizedIn{ch:concrete-instances-localitycell-namecert}{Locality cells are realised as a bilateral BHist/GAP NameCert packet for inter-observer event coordination.}
 
 \section{Universe as observation history}
@@ -146,6 +244,99 @@ Within $\mathcal{L}_N$, space is the finite relation graph carried by locality c
 What is usually called "spacetime logic" enters this chapter only as a boundary reading of relation rows, dependence rows, and inter-$\Hist$ invariants. The closed records-side object has no separate spacetime carrier. It has generated histories, witnessed relations, local clocks, and refusal of global synchronization. Any stronger physical geometry belongs to a subsequent $\NameCert$ target.
 \end{remark}
 
+\section{Love as other-Hist positive continuation}
+\label{sec:consciousness-universe-love-other-hist-continuation}
+
+\begin{definition}[Other-Hist recognition]
+\label{def:consciousness-universe-other-hist-recognition}
+For two focused rows $i,j$ in a finite ledger, let $\mathrm{Rep}_i(j,t)$ be the representation of $j$ carried inside $H_i(t)$. An \emph{other-Hist recognition} predicate is
+$$
+\begin{aligned}
+\mathrm{Recognize}_i(j,t)
+:\Longleftrightarrow\ &
+\neg\hsame(H_i(t),H_j(t))\\
+&{}\wedge \neg\mathrm{Projection}_i(j,t)\\
+&{}\wedge \neg\mathrm{Objectify}_i(j,t)\\
+&{}\wedge \mathrm{CorrigibleBy}_{H_j}(\mathrm{Rep}_i(j,t))\\
+&{}\wedge \mathrm{GapHonest}_i(H_j(t),\mathrm{Rep}_i(j,t)).
+\end{aligned}
+$$
+The recognition says that $j$ is not the image of $j$ inside $i$, not a tool-slot inside $i$'s purposes, and not a fully compressible region of $i$'s ledger. The other history stands like a shoreline seen from one vessel: charted enough for approach, never identical with the chart.
+\end{definition}
+
+\begin{definition}[Positive continuation care]
+\label{def:consciousness-universe-positive-continuation-care}
+Let $V_j$ be a displayed value horizon for $j$'s continuation. A care row from $i$ toward $j$ is
+$$
+\mathrm{Care}^{V_j}_{i\to j}(t)
+:\Longleftrightarrow
+\mathrm{Policy}_i(t)\ \mathrm{supports}\ \Cont^+_{V_j}(H_j,t)
+\ \mathrm{under}\ \mathrm{Recognize}_i(j,t),
+$$
+where $\Cont^+_{V_j}(H_j,t)$ denotes continuation of $H_j$ along life, truth, freedom, dignity, relation, or meaning as admitted by $V_j$. Care is not substitution for the other's history. It is a hand placed beside the path rather than a hand closing over the path.
+\end{definition}
+
+\begin{definition}[Love relation]
+\label{def:consciousness-universe-love-relation}
+The one-way records-side love relation is
+$$
+\begin{aligned}
+\mathrm{Love}^{V_j}_{i\to j}(t)
+:\Longleftrightarrow\ &
+\mathrm{Recognize}_i(j,t)\\
+&{}\wedge \mathrm{Care}^{V_j}_{i\to j}(t)\\
+&{}\wedge \mathrm{TruthFidelity}_{i\to j}(t)\\
+&{}\wedge \mathrm{SelfTransform}_{i\leftarrow j}(t)\\
+&{}\wedge \mathrm{TValue}_i(j,t).
+\end{aligned}
+$$
+Here $\mathrm{TruthFidelity}$ refuses systematic falsification and $\mathsf{GAP}$ concealment; $\mathrm{SelfTransform}$ permits $H_i$'s classifiers and expectations to be corrected by $H_j$'s reality-facing response; and $\mathrm{TValue}$ records that $j$'s worth is not exhausted by a utility function for $i$.
+\end{definition}
+
+\begin{principle}[Love is not liking, possession, or fusion]
+\label{prin:consciousness-universe-love-not-reward-possession-fusion}
+A reward row
+$$
+\mathrm{Reward}_i(\mathrm{Rep}_i(j,t))>0
+$$
+may accompany love, but it does not imply love: the reward may be produced by projection rather than by other-Hist recognition. Conversely, love may remain when reward is absent, because its core is fidelity to another history's positive continuation. Possession fails because it objectifies $H_j$ as a control region of $H_i$; fusion fails because it erases the $\mathsf{GAP}$-honest distance that recognition requires. A mirror can flatter, a chain can hold, and a fog can merge outlines; none of these is the relation defined above.
+\end{principle}
+
+\begin{theorem}[Love preserves otherness while supporting continuation]
+\label{thm:consciousness-universe-love-preserves-otherness}
+If $\mathrm{Love}^{V_j}_{i\to j}(t)$ holds, then
+$$
+\begin{gathered}
+\mathrm{Recognize}_i(j,t),\qquad
+\neg\mathrm{Objectify}_i(j,t),\qquad
+\neg\mathrm{Projection}_i(j,t),\\
+\mathrm{Care}^{V_j}_{i\to j}(t),\qquad
+\mathrm{TruthFidelity}_{i\to j}(t),\qquad
+\mathrm{TValue}_i(j,t).
+\end{gathered}
+$$
+Thus love is a relation from one finite history to another finite history's positive continuation, under preserved otherness and value that is not exhausted by utility.
+\end{theorem}
+
+\begin{proof}
+Unfold \autoref{def:consciousness-universe-love-relation}. The displayed consequences are its conjuncts, together with the non-projection and non-objectification clauses obtained by unfolding \autoref{def:consciousness-universe-other-hist-recognition}. The final reading follows from \autoref{def:consciousness-universe-positive-continuation-care} and the $\mathrm{TValue}$ conjunct.
+\end{proof}
+
+\begin{corollary}[Mutual love is a non-fusing two-Hist loop]
+\label{cor:consciousness-universe-mutual-love-loop}
+If both $\mathrm{Love}^{V_j}_{i\to j}(t)$ and $\mathrm{Love}^{V_i}_{j\to i}(t)$ hold, and a shared meaning row $R_{ij}(t)$ is displayed, then the relation forms a two-Hist productive loop:
+$$
+H_i(t)\to H_j(t)\to H_i(t+1),\qquad
+H_j(t)\to H_i(t)\to H_j(t+1),
+$$
+with neither direction collapsing $\hsame(H_i,H_j)$ into identity. The loop is not one history swallowed by another; it is two lamps keeping distinct flames while sharing light on a finite table.
+\end{corollary}
+
+\begin{remark}[Love, death, and grief]
+\label{rem:consciousness-universe-love-death-grief}
+Because love supports another embodied history's positive continuation, it is exposed to the mortality boundary of \autoref{sec:consciousness-universe-embodied-continuation-mortality}. If $\mathrm{Death}_j(t)$ holds after $\mathrm{Love}^{V_j}_{i\to j}(t^-)$, grief is the focused readback in which fidelity remains while $j$'s embodied continuation has failed. The weight of grief is therefore not a contradiction of love; it is love meeting the finite carrier condition it had already refused to falsify.
+\end{remark}
+
 \section{Observer identity through history}
 \label{sec:consciousness-universe-observer-identity}
 
@@ -181,6 +372,8 @@ What is the universe? & A finite horizon slice $\mathrm{Universe}_{\mathcal{L}_N
 What is time? & A local $\Cont$ chain producing a history from $\emp$; no global clock is a field of the carrier (\autoref{def:consciousness-universe-bedc-time}). \\
 What is space? & A finite graph of locality cells, relation rows, and inter-$\Hist$ invariants, not a completed spacetime manifold (\autoref{def:consciousness-universe-locality-cell}). \\
 What is identity? & The $\hsame$-stable trace and focused endpoint; no subject-substance is carried behind the history (\autoref{prin:consciousness-universe-identity-is-history-continuity}). \\
+What is death? & The local failure of embodied continuation for a currently valid focused record; not a theorem of pure $\Hist/\Cont$ and not the disappearance of $\mathsf{T}$ (\autoref{def:consciousness-universe-alive-embodied-death}, \autoref{rem:consciousness-universe-death-not-t}). \\
+What is love? & A fidelity relation from one finite history to another finite history's positive continuation, preserving otherness and refusing projection, objectification, fusion, and utility exhaustion (\autoref{def:consciousness-universe-love-relation}). \\
 What is the relation between observer and observed? & Not a separate observation channel; the observer row is a $\Hist$, and observed content is what the row and its ledgers expose. \\
 Is there a god's-eye view? & No: cross-system coherence is reconstructed through witnessed relation rows and locality cells, never given as a single shared world (\autoref{prin:consciousness-universe-no-god-eye}). \\
 What is the arrow of time? & The asymmetry follows from local generated trace structure; global simultaneity requires an extension carrier (\autoref{rem:consciousness-universe-time-one-direction}). \\
@@ -189,7 +382,7 @@ What is the arrow of time? & The asymmetry follows from local generated trace st
 
 \begin{remark}[Continuity with the transcendental-input chapter]
 \label{rem:consciousness-universe-continuity-with-transcendental}
-Read together with \autoref{ch:visions-transcendental-input-and-induction}, the picture is: $\mathcal{L}_N$ is the object-level closed carrier, while $\mathsf{T}$ remains the non-internalized boundary position for forward-binding commitments. Time, space, consciousness, and universe appear in this chapter only as records-side carriers or boundary readings. The transcendental supply position is not a field of the carrier and is not consumed by its closure argument.
+Read together with \autoref{ch:visions-transcendental-input-and-induction}, the picture is: $\mathcal{L}_N$ is the object-level closed carrier, while $\mathsf{T}$ remains the non-internalized boundary position for forward-binding commitments. Time, space, consciousness, universe, mortality, and love appear in this chapter only as records-side carriers or boundary readings. The transcendental supply position is not a field of the carrier and is not consumed by its closure argument.
 \end{remark}
 
 \section{Closure remarks}

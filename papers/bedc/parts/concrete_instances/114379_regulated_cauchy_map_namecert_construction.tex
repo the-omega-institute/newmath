@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RegulatedCauchyMapUp$}
+\label{ch:concrete-instances-regulated-cauchy-map-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regulated functions and constructive completions, the $\RegulatedCauchyMapUp$ packet records the L10 interface by which a regulated approximant family acts on Cauchy names. It sits after the regulated-function surface of \autoref{ch:concrete-instances-regulated-function-namecert}, the Cauchy-continuous map surface of \autoref{ch:concrete-instances-cauchycontinuousmap-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite handoff from regulated approximants to completion-facing Cauchy names; it does not assert host function equality, selected limits, quotient stream equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regulated Cauchy map carrier]
+\label{def:regulated-cauchy-map-carrier}
+A $\RegulatedCauchyMapUp$ carrier is a finite $\BHist$ packet
+$$
+M=(F,A,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\RegulatedFunctionUp$ source row, exposing only finite step-window, endpoint, and oscillation data available to the approximant family.
+\item $A$ is the $\CauchyContinuousMapUp$ action row, recording that displayed Cauchy input windows are sent to displayed Cauchy output windows through the same regulated approximants.
+\item $S$ is the $\StreamNameUp$ finite observation schedule for the input and output Cauchy names.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to the displayed output windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the regulated approximant, input window, and output window at each inspected stage.
+\item $E$ is the terminal $\RealUp$ seal reached only after $F,A,S,R,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the regulated source, Cauchy action, stream windows, regular readback, dyadic tolerance, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a regulated Cauchy-map request through $F,A,S,R,D,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\RegulatedCauchyMapUp$, $\RegulatedFunctionUp$, $\CauchyContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegulatedCauchyMapUp}$ row.
+\end{enumerate}
+Accepted packets are compared only through $F,A,S,R,D,E,H,C,P,N$ and have no coordinate for host function equality, an external completion operator, quotient Cauchy streams, selected limiting points, countable choice, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Regulated Cauchy map carrier admission]
+\label{thm:regulated-cauchy-map-carrier-admission}
+For every accepted $\RegulatedCauchyMapUp$ carrier $M=(F,A,S,R,D,E,H,C,P,N)$, the local $\NameCert_{\RegulatedCauchyMapUp}$ surface consists exactly of regulated-function source exposure, Cauchy-continuous action exposure, finite stream-window exposure, regular rational readback, dyadic tolerance comparison, terminal Real sealing, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regulated-cauchy-map-carrier}. The row $F$ is the only regulated-function source, and $A$ is the only row that acts on Cauchy input and output names.
+
+The Cauchy-name data is then read through $S,R,D$. Finite stream windows are opened first, regular rational readback is attached to those windows, and dyadic tolerances record the comparisons used by the regulated approximants.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same finite route. Since the carrier has no coordinate for host function equality, selected limits, quotient streams, or ambient completeness, the listed rows exhaust the admission surface.
+\end{proof}
+
+\begin{theorem}[Regulated Cauchy map completion handoff]
+\label{thm:regulated-cauchy-map-completion-handoff}
+Every completion-facing consumer of an accepted $\RegulatedCauchyMapUp$ packet must read the route
+$$
+\RegulatedFunctionUp(F),\ \CauchyContinuousMapUp(A),\ \StreamNameUp(S),\ \RegSeqRatUp(R),\ \DyadicRatCoreUp(D),\ \RealUp(E)
+$$
+before exporting a Real-facing output. The handoff transports regulated approximants over Cauchy names as finite BEDC rows, not as a host-level function between completed real spaces.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $M=(F,A,S,R,D,E,H,C,P,N)$. The source approximant data is visible only in $F$, and the Cauchy action is visible only in $A$.
+
+The output Cauchy name is not sealed directly. It first exposes finite observations through $S$, regular rational readback through $R$, and dyadic tolerance comparisons through $D$.
+
+Only after those rows are present may the terminal $\RealUp$ seal $E$ be consumed. The structural rows $H,C,P,N$ preserve this order, so the completion handoff cannot import host function equality, quotient Cauchy streams, selected limits, or ambient real completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegulatedCauchyMapUp$ completion-facing read must expose regulated-function, Cauchy-continuous action, StreamName, RegSeqRat, DyadicRatCore, Real seal, hsame, Cont, Pkg, and local NameCert rows.}
+
+\independenceWitness{regulated-function, cauchycontinuousmap, streamname, regseqrat, dyadicratcore, real: $\RegulatedCauchyMapUp$ is not bijective with any listed sibling because it jointly carries regulated approximants, Cauchy-name action, finite stream observations, regular readback, dyadic tolerances, terminal Real sealing, transport, replay, provenance, and local naming as one L10 interface.}
+
+\closureat{RegulatedCauchyMapUp}{seedStr}
+
+\begin{closurestatus}{\RegulatedCauchyMapUp}
+  \constructivestory{A $\RegulatedCauchyMapUp$ packet is generated from a RegulatedFunction source row, a CauchyContinuousMap action row, StreamName finite windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regulated-cauchy-map-carrier}, \autoref{thm:regulated-cauchy-map-carrier-admission}, and \autoref{thm:regulated-cauchy-map-completion-handoff} seed the finite L10 regulated-Cauchy action interface over regulated approximants and Cauchy-name readback rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, host function equality, selected limits, quotient Cauchy streams, countable choice, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, regulated-source exposure, Cauchy action exactness, finite-window readback, dyadic tolerance nonescape, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegulatedCauchyMapUp.}
+\end{closurestatus}

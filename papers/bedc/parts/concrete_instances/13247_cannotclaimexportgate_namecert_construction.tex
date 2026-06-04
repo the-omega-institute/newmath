@@ -108,21 +108,34 @@ Finally use the TasteGate handoff. It keeps $R,F,E,Q,T,A,H,C,P,N$ as distinct fi
 \end{proof}
 \leanchecked{BEDC.Derived.CannotClaimExportGateUp.CannotClaimExportGate\_ledger\_exhaustion}
 
+\begin{theorem}[Cannot-claim export gate obligation-closure package]
+\label{thm:cannot-claim-export-gate-obligation-closure-package}
+An accepted $\CannotClaimExportGateUp$ packet exposing the carrier definition, NameCert obligations, refusal nonescape, registry factorization, export-grade scope, TasteGate handoff, and ledger exhaustion supplies the full obligationClosure package for the gate. The package consists of registry row $R$, refusal row $F$, export rows $E,Q$, target row $T$, audit row $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, package provenance $P$, and local $\NameCert_{\CannotClaimExportGateUp}$ naming row $N$.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:cannot-claim-export-gate-carrier}. It displays exactly the rows $R,F,E,Q,T,A,H,C,P,N$, so the package has named coordinates for registry exposure, refusal exposure, export decision, export grade, target route, audit readback, transport, replay, provenance, and local naming.
+
+Apply the NameCert obligations theorem \autoref{thm:cannot-claim-export-gate-obligations}. It identifies those coordinates as the local obligation surface. Apply refusal nonescape, registry factorization, export-grade scope, and the TasteGate handoff from \autoref{thm:cannot-claim-export-gate-refusal-nonescape}, \autoref{thm:cannot-claim-export-gate-registry-factorization}, \autoref{thm:cannot-claim-export-gate-export-grade-scope}, and \autoref{thm:cannot-claim-export-gate-tastegate-handoff}. These theorems force the refused claim to pass through $R,F,E,Q,T,A$ while $H,C,P,N$ preserve the same field-faithful packet.
+
+Finally use ledger exhaustion from \autoref{thm:cannot-claim-export-gate-ledger-exhaustion}. Since no additional export coordinate remains, the displayed rows are sufficient for the obligationClosure package and no verification-axis claim is needed to state the paper-side closure package.
+\end{proof}
+\leanchecked{BEDC.Derived.CannotClaimExportGateUp.CannotClaimExportGate\_obligation\_closure\_package}
+
 \falsifiablePrediction{A refused cannot-claim registry row cannot be exported as a checked formal-package target through an accepted CannotClaimExportGateUp packet.}
 
 \independenceWitness{registryexportsurface, refusalregistry, machineinterfaceboundary, bedcphilosophypackage, auditexportfirewall: none is bijective to CannotClaimExportGateUp because the gate simultaneously carries refusal status, export grade, target route, audit readback, transport, continuation, provenance, and local NameCert rows.}
 
 The Lean follow-up must provide $\Nontrivial\ \CannotClaimExportGateUp$ and $\FieldFaithful\ \CannotClaimExportGateUp$ instances in \texttt{lean4/BEDC/Derived/CannotClaimExportGateUp/TasteGate.lean}. The field-faithfulness witness must preserve $R,F,E,Q,T,A,H,C,P,N$ as distinct rows before a checked target can cite \texttt{BEDC.Derived.CannotClaimExportGateUp.TasteGate.CannotClaimExportGateTasteGate\_single\_carrier\_alignment}.
 
-\closureat{CannotClaimExportGateUp}{seedStr}
+\closureat{CannotClaimExportGateUp}{obligationStr}[BEDC.Derived.CannotClaimExportGateUp.CannotClaimExportGate\_obligation\_closure\_package]
 
 \begin{closurestatus}{\CannotClaimExportGateUp}
   \constructivestory{A $\CannotClaimExportGateUp$ packet is generated from registry rows, refusal rows, export-decision rows, target rows, audit rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The classifier makes a blocked claim exportable only as a blocked claim: any consumer must read the registry entry and the refusal surface before reaching the export gate or formal target row. The ledger story is refusal preservation, where the audit and continuation rows carry the same cannot-claim evidence forward, preventing a refused registry item from being read as a checked package target or silently converted into success.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, refusal-nonescape, registry-factorization, TasteGate-handoff, Lean-follow-up boundary, and existing closure annotation for $\CannotClaimExportGateUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the carrier, NameCert obligations, refusal nonescape, registry factorization, export-grade scope, TasteGate handoff, ledger exhaustion, and obligation-closure package for $\CannotClaimExportGateUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim export of refused registry rows as checked formal-package targets outside the displayed registry, refusal, export, target, audit, transport, and naming rows.}
-  \upgradepath{To reach obligationClosure, the cannot-claim carrier and refusal-preserving export factorization must be encoded and checked over finite rows.}
+  \upgradepath{Scoped closure requires the finite export-gate package to identify its consumer-facing scope across the registry, refusal, export, target, audit, transport, continuation, provenance, and local naming rows.}
 \end{closurestatus}

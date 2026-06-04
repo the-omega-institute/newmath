@@ -68,6 +68,7 @@ R'=(Q',A',M',W',D',B',T',E',H',C',P',N')
 $$
 be accepted $\RegularCauchyReciprocalUp$ carriers. If the displayed transport row $H$ supplies componentwise $\hsame$ comparisons from each row of $R$ to the corresponding row of $R'$, then the local classifier preserves the $\RegSeqRatUp$ source, apartness row, modulus row, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, $\CauchyInverseBudgetUp$ budget row, reciprocal readback row, and terminal $\RealUp$ seal route.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalClassifierStability}
 \begin{proof}
 Project the transport coordinate $H$ from the carrier. Its comparisons are componentwise, so the source rows $Q,Q'$, apartness rows $A,A'$, modulus rows $M,M'$, finite windows $W,W'$, dyadic ledgers $D,D'$, budget rows $B,B'$, readback rows $T,T'$, and seal rows $E,E'$ are matched before any classifier conclusion is read.
 
@@ -82,6 +83,7 @@ Thus classifier equality cannot forget, reorder, or replace any analytic row of 
 \label{thm:regular-cauchy-reciprocal-terminal-seal-non-totality}
 The terminal $\RealUp$ seal row $E$ of an accepted $\RegularCauchyReciprocalUp$ carrier cannot be reread as a total reciprocal operation on all $\RealUp$ names. Any route from the seal back to a reciprocal candidate must still factor through the displayed $\RegSeqRatUp$ source row $Q$, apartness row $A$, modulus row $M$, finite $\StreamNameUp$ window $W$, dyadic ledger $D$, $\CauchyInverseBudgetUp$ budget row $B$, and regular readback row $T$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalTerminalSealNonTotality}
 \begin{proof}
 Inspect the carrier definition. The seal coordinate $E$ is listed after the source, apartness, modulus, window, dyadic, budget, and readback rows, and the classifier reads it as one coordinate of the twelve-row packet.
 
@@ -90,6 +92,30 @@ The readback-route theorem states that $E$ is reached only after the finite rout
 The apartness-window theorem keeps $A$ mandatory for every reciprocal-facing row. Since a total reciprocal on all $\RealUp$ names would erase the need for such a displayed apartness row, it is not present in the packet.
 
 Consequently the terminal seal records only the end of one finite regular-Cauchy reciprocal read. It cannot be exported as a total reciprocal operation or as a boundary bypass around the apartness obligation.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy reciprocal denominator apartness]
+\label{thm:regular-cauchy-reciprocal-denominator-apartness}
+For every accepted $\RegularCauchyReciprocalUp$ carrier $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$, the dyadic reciprocal row $D$ and the $\CauchyInverseBudgetUp$ budget row $B$ are admissible only after the apartness row $A$ displays a positive lower bound for the inspected $\RegSeqRatUp$ tail named by $Q,M,W$. A consumer that reads $D$ or $B$ without that positive lower-bound display has not reached a reciprocal row of the packet.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:regular-cauchy-reciprocal-carrier}. The source row $Q$, apartness row $A$, modulus row $M$, and finite window row $W$ precede the dyadic reciprocal row $D$ and budget row $B$ in the carrier route.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-apartness-window}. It states that $A$ is exposed before $D,B,T,E$ can be consumed, so the denominator-side condition is part of the carrier admission rather than a later Real-facing consequence.
+
+Finally read \autoref{thm:regular-cauchy-reciprocal-readback-route}. The route from $Q$ to $T$ passes through $A,M,W,D,B$ in that order, and therefore $D$ and $B$ are reciprocal rows only when the inspected regular tail has the displayed positive lower bound supplied by $A$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy reciprocal tail stability]
+\label{thm:regular-cauchy-reciprocal-tail-stability}
+Let $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ be an accepted $\RegularCauchyReciprocalUp$ carrier. If a later inspected $\StreamNameUp$ window preserves the $\RegSeqRatUp$ source row $Q$ together with the apartness row $A$, modulus row $M$, finite window row $W$, and dyadic reciprocal row $D$, then the same reciprocal readback row $T$ and terminal $\RealUp$ seal row $E$ transport through $H,C,P,N$. Thus shifting to a later tail window cannot change the reciprocal readback unless it changes one of $A,M,W,D$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}. A later window that preserves $A,M,W,D$ keeps the same displayed positive lower-bound and dyadic reciprocal data for the inspected regular tail.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-readback-route}. Since the route to $T$ passes through $Q,A,M,W,D,B$, preserving the apartness, window, and dyadic rows preserves the reciprocal readback route once the same budget row is read.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-classifier-stability}. The transport row $H$ compares corresponding carrier rows componentwise, while $C,P,N$ replay, source, and name the same packet. The terminal seal $E$ is therefore transported with $T$ rather than recomputed from a new denominator condition.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy reciprocal NameCert obligations]

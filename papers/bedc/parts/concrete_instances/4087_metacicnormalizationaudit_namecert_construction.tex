@@ -53,6 +53,19 @@ Read $C$ and $S$ downstream from $R$. These rows record the closed typed term pr
 The carrier contains no coordinate that constructs candidate evidence for every closed typed term. Therefore agreement on the packet preserves the finite SN scope while excluding the blanket evidence-free endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit closed-term projection route]
+\label{thm:metacic-normalization-audit-closed-term-projection-route}
+Every closed-term strong-normalization read exported by an accepted $\MetacicNormalizationAuditUp$ packet must pass through the reducibility-candidate row $R$, the checked closed projection row $C$, the finite scope row $S$, and the application-boundary row $A$. The route may project candidate, closed-candidate, candidate-set, Pi, and application evidence into the finite SN inventory, but it cannot replace those rows by evidence-free global strong normalization for closed MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Project the carrier $Z=(R,C,S,A,N,F,H,T,P,L)$. A closed-term SN consumer first sees candidate evidence in $R$ and the checked closed projection row $C$, so the read is already routed through displayed finite data.
+
+Apply \autoref{thm:metacic-normalization-audit-sn-scope}. The finite SN consequences live in $S$ only after the candidate-mediated projection has supplied the relevant evidence.
+
+Finally apply \autoref{thm:metacic-normalization-audit-candidate-mediated-sn-closure}. The application-facing boundary $A$ keeps application SN inside the same candidate route and refuses any evidence-free global SN endpoint.
+\end{proof}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditCarrier\_closed\_term\_projection\_route}
+
 \begin{theorem}[MetaCIC normalization audit candidate-mediated SN closure]
 \label{thm:metacic-normalization-audit-candidate-mediated-sn-closure}
 Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. If a consumer reads the candidate row $R$, the closed-term projection row $C$, the finite strong-normalization scope row $S$, and the application-boundary row $A$, then every exported strong-normalization claim factors through those rows and through no evidence-free global strong-normalization theorem. In particular, an SN export may name candidate evidence, closed-term projection, finite scope inventory, and application adequacy under the displayed boundary, but it cannot replace them by a blanket theorem for all closed typed MetaCIC terms.

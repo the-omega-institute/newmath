@@ -87,6 +87,43 @@ Use \autoref{thm:uniform-completion-functor-namecert-obligations}. Handoff exact
 The introduction's CauchyCompletionFunctor and CompletionUniversalProperty siblings provide exactly those consumer surfaces. Nothing in the carrier adds quotient completion equality, a selected limit, host complete-uniform-space structure, or choice, so the Cauchy handoff is the displayed route $U \longmapsto F \longmapsto E$.
 \end{proof}
 
+\begin{theorem}[UniformCompletionFunctor bridge source lock]
+\label{thm:uniform-completion-functor-bridge-source-lock}
+Every bridge read of the source coordinate in an accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$ factors through the ordered finite route
+$$
+U \longmapsto F \longmapsto E \longmapsto R,W,D
+$$
+before the terminal $\RealUp$ seal row $S$ is exposed. The read cannot bypass the $\UniformCompletionUp$ source row $U$, cannot treat $F,E,R,W,D$ as independent completion sources, and cannot export a bridge surface that omits the displayed source before reaching $S,H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorCarrier\_bridge\_source\_lock}
+\begin{proof}
+Begin with the carrier of \autoref{def:uniform-completion-functor-carrier}. The only source coordinate is $U$, and every downstream completion-facing row is displayed after it.
+
+Use \autoref{thm:uniformcompletionfunctor-source-obligation}. It fixes $U$ as the first public row of any completion-facing read, so a bridge cannot begin from $F,E,R,W,D$ or from the terminal Real seal.
+
+Next apply \autoref{thm:uniformcompletionfunctor-cauchy-handoff}. The Cauchy-completion handoff $F$ is attached to the same source row, and the universal-extension row $E$ is downstream from that handoff.
+
+Finally use \autoref{thm:uniformcompletionfunctor-real-seal-nonescape}. The readback, window, and dyadic rows $R,W,D$ appear before the Real seal $S$, while $H,C,P,N$ only transport, replay, source, and name the same route. Hence every bridge read is source-locked through $U,F,E,R,W,D$ before any Real-facing seal is consumed.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor Cauchy-completion handoff ordering]
+\label{thm:uniform-completion-functor-cauchy-completion-handoff}
+The $\CauchyCompletionFunctorUp$ row $F$ of an accepted $\UniformCompletionFunctorUp$ carrier is consumable only after the $\UniformCompletionUp$ source row $U$ has been displayed and only before the universal-extension row $E$ is read. Any downstream $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer receives $F$ only through the ordered route
+$$
+U \longmapsto F \longmapsto E \longmapsto R,W,D \longmapsto S .
+$$
+\end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorCauchyCompletionHandoffOrdering}
+\begin{proof}
+Project the rows of \autoref{def:uniform-completion-functor-carrier}. The Cauchy-completion handoff coordinate $F$ is placed between the source coordinate $U$ and the universal-extension coordinate $E$.
+
+Apply \autoref{thm:uniformcompletionfunctor-source-obligation} and \autoref{thm:uniformcompletionfunctor-cauchy-handoff}. Together they require $U$ before $F$ and require $E$ only after the handoff has been displayed.
+
+For downstream consumers, use \autoref{thm:uniformcompletionfunctor-regseqrat-real-source-handoff}. It sends regular rational readback, stream windows, dyadic tolerance, and the Real seal through $R,W,D,S$ after the same $U,F,E$ prefix.
+
+Thus $F$ is neither a free-standing completion object nor a late Real-facing seal. It is the finite handoff row consumed after $U$ and before $E$, with $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ strictly downstream.
+\end{proof}
+
 \begin{theorem}[UniformCompletionFunctor Real seal nonescape from root rows]
 \label{thm:uniformcompletionfunctor-real-seal-nonescape}
 For every accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$, the terminal $\RealUp$ seal row $S$ can be consumed only after the rows $R,W,D$ have been displayed downstream of $U,F,E$. The rows $H,C,P,N$ may transport, replay, source, and name that same route, but they cannot turn $S$ into a quotient completion, selected limit, host complete uniform space, open-cover compactness proof, or choice principle.
@@ -338,6 +375,7 @@ Apply \autoref{thm:uniform-completion-functor-universal-handoff}. The displayed 
 \label{thm:uniform-completion-functor-universal-extension-uniqueness-route}
 For every accepted $\UniformCompletionFunctorUp$ packet, the universal-extension row $E$ is consumed after $U,F$ and before $R,W,D,S$. The uniqueness information therefore appears as a displayed ledger route from the source and functorial handoff into the readback, window, tolerance, and seal rows, not as a host complete-uniform-space theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorUniversalExtensionUniquenessRoute}
 \begin{proof}
 Project the accepted carrier
 $$
@@ -365,6 +403,7 @@ Apply \autoref{thm:uniform-completion-functor-namecert-obligations}. Its readbac
 
 Use \autoref{thm:uniform-completion-functor-universal-handoff} and \autoref{thm:uniform-completion-functor-universal-extension-uniqueness-route}. Together they route every completion-facing consumer through $U,F,E$ before any downstream readback row is inspected. Since no excluded completion or choice coordinate occurs in the carrier, the displayed readback route is total exactly over those rows.
 \end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatReadbackTotality.UniformCompletionFunctorRegSeqRatReadbackTotality}
 
 \begin{theorem}[UniformCompletionFunctor dyadic window stability]
 \label{thm:uniform-completion-functor-dyadic-window-stability}
@@ -413,6 +452,7 @@ Apply \autoref{thm:uniform-completion-functor-namecert-obligations} to account f
 
 It remains to rule out escape from the ledger. Componentwise $\hsame$ transport is confined to $H$, displayed replay is confined to $C$, provenance is confined to $P$, and local naming is confined to $N$. Because no further coordinate is present, the packet exports exactly the displayed ledger and none of the excluded completion or choice principles.
 \end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorLedgerExactness}
 
 \begin{theorem}[UniformCompletionFunctor carrier admission]
 \label{thm:uniform-completion-functor-carrier-admission}
@@ -439,6 +479,7 @@ $$
 $$
 The functorial unit, bind, and classifier routes exposed by the packet are exactly the finite route compositions through $U,F,E,R,W,D,S,H,C,P,N$. In particular, functoriality is witnessed by the $\CauchyCompletionFunctorUp$ handoff row $F$, the $\CompletionUniversalPropertyUp$ row $E$, the $\StreamNameUp$ and $\RegSeqRatUp$ observation rows $W,R$, the $\RealUp$ seal $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$; it is not transported from a source-equivalence theorem outside the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorFunctoriality}
 \begin{proof}
 Read the packet from left to right. The source coordinate $U$ determines the uniform-completion input, and $F$ supplies the unit, bind, and classifier handoff rows for that same input.
 
@@ -455,6 +496,7 @@ $$
 $$
 Thus the packet hands completion data to downstream consumers by displayed rows only: the source row $U$, functorial handoff $F$, universal-property row $E$, window and readback rows $W,R,D$, seal row $S$, transport $H$, replay $C$, provenance $P$, and naming $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorCompletionHandoff}
 \begin{proof}
 Start with the carrier row $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$. A completion consumer has no coordinate other than these displayed rows, so it first reads the $\UniformCompletionUp$ source $U$ and then the $\CauchyCompletionFunctorUp$ handoff $F$.
 
@@ -475,6 +517,7 @@ U,F,E,R,W,D,S,H,C,P,N .
 $$
 Here $U$ is the source uniformity row, $F$ is the Cauchy-completion unit and handoff row, $E$ is the universal-extension row, $R$ is the $\RegSeqRatUp$ readback row, $W$ is the $\StreamNameUp$ scheduling row, $D$ is the $\DyadicRatCoreUp$ tolerance-comparison row, $S$ is the terminal $\RealUp$ seal, $H$ is componentwise transport, $C$ is replay, $P$ is provenance, and $N$ is local naming. No completion consumer can read the functorial extension before this surface is displayed, and the ledger-exactness row excludes quotient completions, selected limits, host complete uniform spaces, open-cover compactness, and choice.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorRootObligationSurface}
 \begin{proof}
 Project the carrier of \autoref{def:uniform-completion-functor-carrier}. It displays the source row $U$, handoff row $F$, universal-extension row $E$, readback row $R$, scheduling row $W$, tolerance row $D$, seal row $S$, and the structural rows $H,C,P,N$ as one finite $\BHist$ packet.
 
@@ -523,6 +566,7 @@ U,F,E,R,W,D,S,H,C,P,N .
 $$
 The read exports no selected limit, quotient equality, host function extensionality, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorExtensionRootObligation}
 \begin{proof}
 Project the universal-extension row $E$ from the carrier of \autoref{def:uniform-completion-functor-carrier}. It is downstream of the source row $U$ and the Cauchy handoff row $F$.
 
@@ -592,6 +636,7 @@ Apply \autoref{thm:uniform-completion-functor-l10-source-admission}. The source 
 
 Finally use \autoref{thm:uniform-completion-functor-ledger-exactness}. The ledger has no coordinate for selected limits, quotient completion equality, host complete uniform spaces, open-cover compactness, or choice. Therefore every Real-facing consumer route is the finite L10 route through the displayed rows.
 \end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorRealSealConsumerRoute}
 
 \begin{theorem}[UniformCompletionFunctor scoped L10 obligation route]
 \label{thm:uniform-completion-functor-scoped-l10-obligation-route}
@@ -620,6 +665,7 @@ Apply the completion handoff and L10 source-admission routes. The public consume
 
 Finally use ledger exactness. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row preserve the same finite route, while quotient completion, selected limits, countable choice, and ambient Real completeness have no coordinate in the packet.
 \end{proof}
+\leanchecked{BEDC.Derived.UniformCompletionFunctorUp.UniformCompletionFunctorPublicNamecertExport}
 
 \falsifiablePrediction{Every $\UniformCompletionFunctorUp$ completion-facing read factors through one $\UniformCompletionUp$ source row, one $\CauchyCompletionFunctorUp$ handoff row, one $\CompletionUniversalPropertyUp$ universal-extension row, one $\RegSeqRatUp$ readback row, one $\StreamNameUp$ finite-window row, one $\DyadicRatCoreUp$ tolerance row, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
