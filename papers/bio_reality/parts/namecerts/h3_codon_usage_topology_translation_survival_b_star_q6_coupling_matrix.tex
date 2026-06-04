@@ -1,35 +1,32 @@
-\subsection{B-star Q6 coupling against translation-survival readouts}\label{subsec:b-star-q6-coupling-translation-survival}
+\subsection{NameCert: h3.codon\_usage\_topology.translation\_survival.b\_star\_q6\_coupling\_matrix}
+\label{sec:namecert-h3_codon_usage_topology_translation_survival_b_star_q6_coupling_matrix}
 \origin{ai}
+\noindent\textit{Proposed by bio-namer; review status: draft.}
 
-\paragraph{Finite carrier.}
-The record studies a nine-coordinate residual codon-usage carrier against translation-related readouts.  The coordinate side is the post-amino-acid-quotient list
-$\{\mathrm{Arg}_{\mathrm{AGR}},\mathrm{Ile}_{\mathrm{AUA}},\mathrm{K}_{\mathrm{AAA}},\mathrm{Leu}_{\mathrm{CUN}/\mathrm{UUR}},\mathrm{Leu}_{\mathrm{UUA}/\mathrm{UUG}},\mathrm{Ser}_{\mathrm{UCA}/\mathrm{UCG}},\mathrm{Ser}_{\mathrm{UCR}/\mathrm{AGY}},\mathrm{Thr}_{\mathrm{ACR}/\mathrm{ACY}},f3\text{-}\mathrm{stress}\}$.
-These nine rows are evaluated in the $61$-codon count space after the synonymous projection has removed the amino-acid-composition component.  The intended survival matrix is $S_{ij}=S_{q_i}(r_j\mid Z)$, where $q_i$ ranges over the nine residual coordinates, $r_j$ ranges over translation-facing readouts such as tAI, stAI, ribosome occupancy, translation efficiency, or protein abundance, and $Z$ contains amino-acid composition, organism context, GC3, transcript or coding-sequence length, and the simpler $M$-density baseline.  The matrix entry is not merely a raw covariance: a positive entry requires a controlled partial-$R^2$ or description-length improvement after the full control set has been applied.
+\paragraph{NameCert chapter slug.}
+Proposed slug: `h3\_codon\_usage\_topology\_b\_star\_q6\_coupling\_matrix`. First B*\_Q6 translation-survival precursor NameCert at codon\_usage\_topology layer, computing coupling matrix A\_ij = q\_i\textasciicircum{}T Sigma ell\_perp before any true ribo-seq survival score is available.
 
-\paragraph{Observed finite row.}
-The verified computation loaded three organism rows: Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K-12.  In this finite table the available readout was not a direct translation measurement.  It was the tRNA-Leu CUN-versus-UUR log-copy spectrum, used as a proxy contact for codon-usage geometry against a tRNA-copy summary.  The coupling statistic was
-$$
-\begin{aligned}
-A_{ij} &= q_i^{T}\Sigma\ell_j^{\perp},
-\end{aligned}
-$$
-where $\ell_j^{\perp}$ denotes the readout weight after synonymous projection and $\Sigma$ is the residual count covariance.  The break threshold for this proxy coupling run was $|A_{ij}|<0.01$ for all nine rows.  That null condition was not met: all $9$ residual coordinates had nonzero proxy-coupling entries, and the largest absolute entry was $1{,}882{,}464.1106377328$.  Thus the finite contact does show that the nine-coordinate residual basis is not numerically silent against the chosen tRNA-Leu copy-ratio proxy.  It does not by itself produce a positive survival entry $S_{ij}>0$.
+\paragraph{Carrier.}
+Carrier name: `BStarQ6CouplingMatrixLedger`. Finite 9-by-1 coupling table A\_ij between the nine amino-acid-residual codon coordinates and the synonymous-projected tRNA-Leu copy-spectrum proxy readout, computed across human, yeast, and E. coli K-12 codon-usage tables under explicit amino-acid quotient P\_tau.
 
-\paragraph{Leucine gate row.}
-A second finite row isolates the Leu CUN/UUR coordinate against the organism-level tRNA-Leu copy-ratio contact.  The same three organisms were used.  The reported Pearson value was $1.0$, and the reported partial Pearson value after the stated control was also $1.0$ with $n=3$.  The organism-level log-ratio signs were not uniform: the log ratios were $1.3514980212896148$, $-0.24869078488829677$, and $1.0086640520051702$, with signs $+1,-1,+1$.  This is a small finite-row association, not a population estimate.  The sign reversal is important because it prevents reading the row as a universal direction rule even before the absence of a nontrivial $n\geq 8$ test is considered.
+\paragraph{Distinctions.}
+- Nine B*\_Q6 residual coordinate vectors q\_i projected to syn space. - Amino-acid quotient projection P\_tau and its complement P\_syn. - Per-organism codon count vector n. - Per-organism synonymous residual u = n - P\_tau n. - Cross-organism residual covariance Sigma. - Proxy readout ell = log(tRNA-Leu-CUN / tRNA-Leu-UUR) per organism with synonymous projection. - Coupling entry A\_ij = q\_i\textasciicircum{}T Sigma ell\_perp per (i, j) pair. - Falsification threshold 0.01 on |A\_ij|.
 
-\paragraph{Survival test.}
-The scientific survival claim is stronger than the available proxy coupling.  For each residual coordinate $q_i$ and each translation readout $r_j$, the required statistic is a controlled comparison between a baseline model using $Z$ and an augmented model using $Z$ together with $q_i$.  In schematic form, the survival entry is positive only when
-$$
-\begin{aligned}
-S_{ij} &> 0
-\quad\text{after controlling for amino-acid composition, organism, GC3, length, and the }M\text{-density baseline.}
-\end{aligned}
-$$
-The current rows satisfy a weaker condition: the proxy coupling matrix is nonzero and exceeds the $0.01$ threshold in at least one entry, indeed in all nine listed residual rows.  They do not include organism-matched tAI or stAI weights as the measured readout, ribosome-profiling translation efficiency, matched protein abundance, or matched mRNA abundance used to form translation-efficiency residuals.  Therefore the correct readback is that the B-star Q6 residual basis remains a live candidate for translation-layer testing, while the survival matrix itself remains unfilled.
+\paragraph{Readback.}
+The ledger reads back to Kazusa codon-usage tables, GtRNAdb tRNA-Leu copy tables, and the NCBI genetic-code table, via the claim record `h3.codon\_usage\_topology.translation\_survival.b\_star\_q6\_coupling\_matrix`, the linked conjecture `translation\_survival.b\_star\_q6\_survival\_matrix.translation\_realization`, and the latest passed run of `b\_star\_q6\_coupling\_matrix\_validation`.
 
-\paragraph{Local exclusion rule.}
-No translation realization follows from the proxy row alone.  A tRNA gene-copy ratio is not tRNA abundance, not tRNA charging, not ribosome occupancy, not translation efficiency, and not protein output.  The proxy coupling also says nothing about folding, structural order, physical admissibility, biochemical function, mechanism, pathway behavior, or biological universality.  Each of those stronger claims would need its own matched measurement contact and its own controlled statistic.  In particular, a positive $A_{ij}$ value may motivate the next test, but it is not a positive $S_{ij}$ value until the declared readout and the full control set have been used.
+\paragraph{Derivation from coordinate, closure, spectrum, and relation.}
+Coordinate slot: 9 codon-class-indicator vectors and amino-acid identification of each codon. Relation slot: synonymous projection P\_syn = I - P\_tau and the linear coupling form q\_i\textasciicircum{}T Sigma ell\_perp. Spectrum slot: the magnitude spectrum of A\_ij entries against threshold 0.01, recording which residual coordinates couple to the proxy readout. No biological mechanism, ribosome dynamics, or protein output is kernel content; those remain external bridge values.
 
-\paragraph{Status.}
-The finite record is suitable as a bounded BioReality chapter because it gives concrete row counts, organism identities, coordinate names, the codon-space dimension, the break threshold, the maximum coupling magnitude, and the three-organism Leu sign pattern.  Its conclusion is deliberately narrow: the proxy coupling break condition failed, so the residual coordinates are not absorbed at the proxy-coupling level; however, the translation-survival statement still awaits direct translation readouts and the full controlled survival computation.
+\paragraph{Curated reality contacts and observed facts.}
+- Kazusa codon-usage pointers per organism, GtRNAdb tRNA-Leu copy pointers per organism, NCBI genetic-code table pointer. - Per-organism tRNA-Leu CUN/UUR log-ratio: human +0.626, yeast -1.358, E. coli +0.956 (sign reversal at yeast). - 9-entry coupling vector A\_ij with strongest magnitudes at f3-stress (-1.88e6), Leu\_CUN\_vs\_UUR (+1.84e5), K\_AAA (-1.35e5), and Ile\_AUA (-1.27e5); all 9 entries above 0.01 threshold.
+
+\paragraph{Layer discipline and out-of-scope assertions.}
+- Does not assert that coupling A\_ij implies survival S\_ij; true survival requires ribo-seq, stAI, or protein-abundance readouts under controls. - Does not assert ribosome-mediated translation realization from codon-count couplings alone. - Does not assert protein folding, structural order, physical admissibility, biological function, biochemical pathway evidence, or universal biological law. - Does not interpret single-sign A\_ij entries as universal directionality. - Does not bypass the amino-acid composition control via the P\_tau projection. - Does not promote a three-organism finite coupling to a population-level estimate.
+
+\paragraph{BEDC carrier, distinctions, internal structure, and readback.}
+- Carrier: finite 9-by-K coupling matrix on synonymous residual space across organisms. - Distinctions: 9 residual q\_i + P\_tau projection + Sigma covariance + ell\_perp + threshold + per-entry sign-magnitude. - Readback: closed-form coupling A\_ij = q\_i\textasciicircum{}T Sigma ell\_perp reported per (i, j) pair. - Falsifiable boundary: refuted if all 9 |A\_ij| < 0.01 against the proxy readout. On the loaded three organisms, all 9 entries exceed the threshold (max |A\_ij| = 1.88e6 at f3-stress), so the falsification condition does not hold here.
+
+\paragraph{Polynomial finite-row witness.}
+The witness is the 9-row coupling table indexed by (q\_i, A\_ij): (K\_AAA, -1.35e5), (Arg\_AGR, -1.89e4), (Ile\_AUA, -1.27e5), (Leu\_CUN\_vs\_UUR, +1.84e5), (Leu\_UUA\_vs\_UUG, -5.41e4), (Ser\_UCR\_vs\_AGY, -9.17e4), (Ser\_UCA\_vs\_UCG, +4.01e4), (Thr\_ACR\_vs\_ACY, -4.38e4), (f3\_stress, -1.88e6). All 9 entries are above the 0.01 threshold; the coupling matrix is not null on the three-organism proxy contact.
+
