@@ -103,3 +103,23 @@ Attach the diamond budget and residual decidability cut, \autoref{thm:metacic-cr
 
 Finally apply the candidate-mediated SN frontier, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. The candidate rows and L10 source faces remain visible through $S,N,O,U,D,H,C,P,L$, so a missing candidate row, missing socket budget, or absent source row is outside the accepted $\MetaCICCriticalPathUp$ packet.
 \end{proof}
+
+\begin{theorem}[MetaCIC residual diamond L10 source nonescape]
+\label{thm:metacic-critical-path-residual-diamond-l10-source-nonescape}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any residual diamond checker feeding bounded conversion must preserve, on the same packet route, the L10 source faces from $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before reading the candidate-mediated handoff row $U$. Consequently a checker that detaches the residual substitution frontier, omits the diamond budget, bypasses the residual decidability cut, drops the candidate-mediated SN frontier, or reads only residual diamond source totality without those L10 faces exits the accepted packet.
+\end{theorem}
+\begin{proof}
+Start with the residual-substitution frontier of \autoref{thm:metacic-critical-path-residual-substitution-frontier}. It places closed substitution, residual budget, and candidate-mediated normalization on one route before a confluence-facing consumer may read $U$.
+
+Attach the diamond budget of \autoref{thm:metacic-critical-path-diamond-budget}. The residual diamond checker has no independent budget coordinate; it must consume the same SN confluence-decidability and residual-budget rows carried by $D,H,C,P,L$.
+
+Use the residual decidability cut of \autoref{thm:metacic-critical-path-residual-decidability-cut}. A bounded conversion readback can inspect $U$ only after the residual frontier, checker factorization, SN confluence-decidability budget, and residual-budget socket are visible on the same packet route.
+
+Now apply the candidate-mediated SN frontier of \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It keeps the L10 source faces from $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ visible with the candidate rows rather than allowing them to be reconstructed after the handoff.
+
+Finally use residual diamond source totality, \autoref{thm:metacic-critical-path-residual-diamond-source-totality}. Since source totality already requires those faces before bounded conversion reads $U$, any checker that loses one of them or moves it to a detached route is outside the accepted $\MetaCICCriticalPathUp$ packet.
+\end{proof}
