@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveUltrafilterBoundaryUp$}
+\label{ch:concrete-instances-constructive-ultrafilter-boundary-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ConstructiveUltrafilterBoundaryUp$ packet records the finite filter data that constructive analysis can inspect before an ultrafilter or unrestricted selector would be needed. It sits beside the finite refusal surfaces of \autoref{ch:concrete-instances-countable-choice-boundary-namecert}, \autoref{ch:concrete-instances-unique-choice-principle-namecert}, \autoref{ch:concrete-instances-cauchy-choice-boundary-namecert}, and \autoref{ch:concrete-instances-choice-recipe-ledger-namecert}, while its scheduled observations use the finite windows of \autoref{ch:concrete-instances-streamname-namecert}. The packet names the boundary between finite-intersection filter witnesses and nonconstructive ultrafilter selection; it does not supply a maximal filter, a quotient-selected extension, a host Boolean-prime-ideal theorem, countable choice, or ambient completion data.
+
+\begin{definition}[Constructive ultrafilter boundary carrier]
+\label{def:constructive-ultrafilter-boundary-carrier}
+A $\ConstructiveUltrafilterBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+U=(F,I,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite filter-base row, listing the inspected base members, declared ambient meet operation, inhabited witness rows, and monotonicity data visible to the packet.
+\item $I$ is the finite-intersection ledger, recording each displayed finite meet request and the witness that the resulting row remains inside the generated filter base.
+\item $E$ is the extension-request row, naming the requested ultrafilter or maximal-filter extension and the finite data the request is allowed to inspect.
+\item $R$ is the ultrafilter and choice-refusal row. It records that the packet answers $E$ only by finite witness replay and by refusal accounting, not by producing a maximal filter or selector.
+\item $H$ records componentwise $\hsame$ transport for the filter base, finite-intersection ledger, extension request, refusal row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite base and intersection data to the refusal boundary.
+\item $P$ is the $\Pkg$ provenance over $\ConstructiveUltrafilterBoundaryUp$, $\CountableChoiceBoundaryUp$, $\UniqueChoicePrincipleUp$, $\CauchyChoiceBoundaryUp$, $\ChoiceRecipeLedgerUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ConstructiveUltrafilterBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $F,I,E,R,H,C,P,N$. It has no coordinate for hidden maximality, quotient Boolean-algebra equality, global ultrafilter selection, countable-choice enumeration, or host-side excluded middle.
+\end{definition}
+
+\begin{theorem}[Finite filter witness row]
+\label{thm:constructive-ultrafilter-boundary-finite-filter-row}
+For every accepted $\ConstructiveUltrafilterBoundaryUp$ carrier $U=(F,I,E,R,H,C,P,N)$, every filter witness available to a consumer is read through the finite base row $F$ and finite-intersection ledger $I$, then transported and replayed through $H,C,P,N$. The consumer cannot read a maximal filter, an ultrafilter extension, or a selected extension family from those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-ultrafilter-boundary-carrier}. The only rows carrying positive filter data are the finite base row $F$ and the finite-intersection ledger $I$.
+
+The structural rows do not add new filter members. They transport the displayed rows through $H$, replay the same finite route through $C$, record source data in $P$, and name the local packet through $N$.
+
+The extension request $E$ is therefore a demand boundary, not a witness source. Since maximality, ultrafilter selection, quotient equality, countable choice, and excluded middle have no carrier coordinate, every available filter witness is exhausted by the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[No ultrafilter selector nonescape]
+\label{thm:constructive-ultrafilter-boundary-no-ultrafilter-selector}
+An accepted $\ConstructiveUltrafilterBoundaryUp$ packet may record an ultrafilter-extension request, but every answer to that request factors through the refusal row $R$ and the finite witness route $F,I,H,C,P,N$. Thus the packet exports no ultrafilter selector, no maximal-filter extension, no Boolean-prime-ideal principle, no countable-choice schedule, and no hidden host predicate deciding all subsets.
+\end{theorem}
+\begin{proof}
+Start from the extension-request row $E$. By the carrier definition, $E$ is paired with the refusal row $R$ before any consumer can interpret the request.
+
+The refusal row is downstream of the finite data. It can cite the inspected base row $F$ and intersection ledger $I$, but it has no field that returns a maximal filter or a selector.
+
+Use the sibling boundaries named in the provenance row. \autoref{ch:concrete-instances-countable-choice-boundary-namecert}, \autoref{ch:concrete-instances-unique-choice-principle-namecert}, \autoref{ch:concrete-instances-cauchy-choice-boundary-namecert}, and \autoref{ch:concrete-instances-choice-recipe-ledger-namecert} keep selector demand, unique-choice demand, Cauchy choice demand, and finite recipe demand separate from a produced choice output.
+
+Finally the $\StreamNameUp$ dependency supplies only finite inspection windows. Transport, replay, provenance, and local naming preserve the same refusal route, so the extension request cannot escape into an ultrafilter selector or host maximality theorem.
+\end{proof}
+
+\falsifiablePrediction{If an accepted packet displays only $F,I,H,C,P,N$, an ultrafilter-extension request can be recorded only as the refusal row $R$; it cannot be read as a selected maximal filter.}
+
+\independenceWitness{countable-choice-boundary, unique-choice-principle, cauchy-choice-boundary, choice-recipe-ledger, streamname: $\ConstructiveUltrafilterBoundaryUp$ is not bijective to any listed sibling because it binds finite filter bases, finite-intersection ledgers, extension requests, ultrafilter refusal, transport, replay, provenance, and local NameCert rows in one boundary packet.}
+
+\closureat{ConstructiveUltrafilterBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveUltrafilterBoundaryUp}
+  \constructivestory{A $\ConstructiveUltrafilterBoundaryUp$ packet is generated from finite filter-base rows, finite-intersection ledgers, extension-request rows, ultrafilter and choice-refusal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-ultrafilter-boundary-carrier}, \autoref{thm:constructive-ultrafilter-boundary-finite-filter-row}, and \autoref{thm:constructive-ultrafilter-boundary-no-ultrafilter-selector} seed the finite filter-witness boundary against ultrafilter selection.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ultrafilter existence, maximal-filter selection, Boolean-prime-ideal transfer, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-intersection ledger stability, extension-request refusal, transport, replay, provenance, and local naming for BEDC.Derived.ConstructiveUltrafilterBoundaryUp.}
+\end{closurestatus}
