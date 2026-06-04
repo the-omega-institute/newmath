@@ -110,4 +110,32 @@ theorem CompactOperatorCarrier_ideal_consumer_boundary [AskSetup] [PackageSetup]
     ⟨compactUnary, idealUnary, nuclearUnary, operatorImageNetCompact, compactProvenanceIdeal,
       idealReplayNuclear, localNamePkg, idealPkg, nuclearPkg⟩
 
+theorem CompactOperatorCarrier_finite_rank_approximation_boundary [AskSetup] [PackageSetup]
+    {source target operator imageNet modulus transport replay provenance localName compactRead
+      finiteRankRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompactOperatorCarrier source target operator imageNet modulus transport replay provenance
+        localName bundle pkg ->
+      Cont operator imageNet compactRead ->
+        Cont compactRead modulus finiteRankRead ->
+          PkgSig bundle finiteRankRead pkg ->
+            UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory operator ∧
+              UnaryHistory imageNet ∧ UnaryHistory modulus ∧ UnaryHistory compactRead ∧
+                UnaryHistory finiteRankRead ∧ Cont source target operator ∧
+                  Cont operator imageNet compactRead ∧ Cont compactRead modulus finiteRankRead ∧
+                    PkgSig bundle localName pkg ∧ PkgSig bundle finiteRankRead pkg := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont ProbeBundle PkgSig
+  intro carrier operatorImageNetCompact compactModulusFiniteRank finiteRankPkg
+  obtain ⟨sourceUnary, targetUnary, operatorUnary, imageNetUnary, modulusUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary, sourceTargetOperator,
+    _operatorImageNetModulus, _provenanceTransportLocalName, localNamePkg⟩ := carrier
+  have compactUnary : UnaryHistory compactRead :=
+    unary_cont_closed operatorUnary imageNetUnary operatorImageNetCompact
+  have finiteRankUnary : UnaryHistory finiteRankRead :=
+    unary_cont_closed compactUnary modulusUnary compactModulusFiniteRank
+  exact
+    ⟨sourceUnary, targetUnary, operatorUnary, imageNetUnary, modulusUnary, compactUnary,
+      finiteRankUnary, sourceTargetOperator, operatorImageNetCompact, compactModulusFiniteRank,
+      localNamePkg, finiteRankPkg⟩
+
 end BEDC.Derived
