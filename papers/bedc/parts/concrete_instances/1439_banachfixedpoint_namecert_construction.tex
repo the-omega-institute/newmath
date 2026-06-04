@@ -214,6 +214,24 @@ Next apply \autoref{thm:banach-fixed-point-public-export} and \autoref{thm:banac
 Finally apply \autoref{thm:banach-fixed-point-completion-handoff-scope} and \autoref{thm:banach-fixed-point-endpoint-fixedness}. The endpoint comparison is therefore sealed inside $R,E,H,C,P,N$, so a standard bridge has no coordinate from which to extract host fixed-point equality, a choice-selected limit, or ambient completeness beyond the carried row $d$.
 \end{proof}
 
+\begin{theorem}[BanachFixedPoint standard bridge]
+\label{thm:banach-fixed-point-std-bridge}
+The displayed packet rows
+$$
+B,\ d,\ T,\ \lambda,\ I,\ M,\ R,\ E,\ H,\ C,\ P,\ N
+$$
+provide the paper standard bridge from the $\BanachFixedPointUp$ certificate to the ordinary contraction-principle reading. The bridge preserves exactly the finite Picard ledger, explicit rational contraction modulus, completion handoff, seal-facing endpoint classifier, componentwise transport, replay, provenance, and local naming rows. It preserves no host fixed-point equality, choice-selected limit, quotient-map equality, global nonlinear-analysis structure, or ambient completeness beyond the carried $\CompleteMetricUp$ row.
+\end{theorem}
+\begin{proof}
+Begin with the carrier projection from \autoref{def:banach-fixed-point-carrier}. The rows $B,d,T,\lambda,I,M,R,E,H,C,P,N$ are the whole readable packet surface.
+
+Apply \autoref{thm:banach-fixed-point-bridge-packet-scope}. Any standard bridge must factor through these rows, the public export surface, and the completion handoff scope.
+
+The ordinary contraction-principle reading is therefore obtained only by reading the finite Picard ledger $I$, the rational contraction row $\lambda$, the explicit modulus $M$, the completion handoff $R$, and the endpoint classifier $E$. The structural rows $H,C,P,N$ transport, replay, source, and name the same data.
+
+The exclusions follow from the same packet scope. Since the bridge has no coordinate for host fixed-point equality, choice-selected limits, quotient-map equality, global nonlinear-analysis structure, or ambient completeness beyond $d$, none of those readings is exported.
+\end{proof}
+
 \closureat{BanachFixedPointUp}{seedStr}
 \closureat{BanachFixedPointUp}{obligationStr}
 \closureat{BanachFixedPointUp}{scopedStr}
@@ -221,12 +239,12 @@ Finally apply \autoref{thm:banach-fixed-point-completion-handoff-scope} and \aut
 
 \begin{closurestatus}{\BanachFixedPointUp}
   \constructivestory{A $\BanachFixedPointUp$ packet is generated from a $\BanachUp$ carrier row, a $\CompleteMetricUp$ and $\MetricSpaceUp$ distance row, a contraction-map row, a rational Lipschitz ledger below the unit bound, a finite $\PicardContractionUp$ ledger, an explicit $\CauchyModulusUp$ row, a $\RegSeqRatUp$ convergence handoff, a $\RealUp$ seal-facing endpoint row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:banach-fixed-point-scoped-transport-route} binds every consumer route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, while \autoref{thm:banach-fixed-point-completion-handoff-scope} confines completion handoff to $\lambda$, $M$, $R$, $d$, and $E$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{thm:banach-fixed-point-scoped-transport-route} binds every consumer route to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, while \autoref{thm:banach-fixed-point-std-bridge} supplies the paper standard bridge to the ordinary contraction-principle reading.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.BanachFixedPointUp.BanachFixedPointPacket\_public\_export}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not close host fixed-point equality, choice-selected limits, global nonlinear analysis, ambient completeness beyond the carried $\CompleteMetricUp$ row, or bridge checking.}
-  \upgradepath{Bridged closure requires a standard bridge over the displayed fixed-point packet and its public export surface.}
+  \upgradepath{Mature closure requires examples and completeness for downstream consumers of the displayed bridge surface.}
 \end{closurestatus}
