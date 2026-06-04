@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\AbsoluteNeighborhoodRetractUp$}
+\label{ch:concrete-instances-absolute-neighborhood-retract-namecert}
+\origin{human}
+
+Following Borsuk and Dugundji, the $\AbsoluteNeighborhoodRetractUp$ packet records the neighbourhood-local retract-extension surface used by compact and located metric analysis. It refines the retract route of \autoref{ch:concrete-instances-absolute-retract-namecert}, reads compact source data through \autoref{ch:concrete-instances-compactmetric-namecert}, reads distance comparison through \autoref{ch:concrete-instances-locatedmetric-namecert}, and consumes the closed-extension and separation anchors of \autoref{ch:concrete-instances-tietze-extension-namecert} and \autoref{ch:concrete-instances-urysohn-lemma-namecert}. The packet names only displayed neighbourhood, extension, and retraction rows; it does not assert a selected neighbourhood-retraction principle.
+
+\begin{definition}[Absolute neighbourhood retract carrier]\label{def:absolute-neighborhood-retract-carrier}
+An $\AbsoluteNeighborhoodRetractUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,K,L,U,T,V,E,R,S,H,C,P,N)
+$$
+where:
+\begin{itemize}
+\item $X$ is the displayed source carrier row;
+\item $K$ is the compact-metric source row read through $\CompactMetricUp$;
+\item $L$ is the located-metric comparison row read through $\LocatedMetricUp$;
+\item $U$ is the displayed neighbourhood row around the closed source packet;
+\item $T$ is the $\TietzeExtensionUp$ closed-extension row;
+\item $V$ is the $\UrysohnLemmaUp$ separating-function row used to expose $U$ as a displayed neighbourhood boundary;
+\item $E$ records the finite extension request over the closed source row;
+\item $R$ records the candidate retraction from the displayed neighbourhood row back to the source row;
+\item $S$ records stability of the retraction after the extension and separation rows are visible;
+\item $H,C,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\AbsoluteNeighborhoodRetractUp}$ row.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Absolute neighbourhood retract NameCert obligations]\label{thm:absolute-neighborhood-retract-namecert-obligations}
+For every accepted $\AbsoluteNeighborhoodRetractUp$ carrier $A=(X,K,L,U,T,V,E,R,S,H,C,P,N)$, the local $\NameCert_{\AbsoluteNeighborhoodRetractUp}$ surface consists exactly of source admission, compact-metric readback, located-metric comparison, displayed neighbourhood exposure, Tietze extension exposure, Urysohn separation exposure, finite extension request, neighbourhood retraction row, retraction-stability row, componentwise transport, displayed replay, provenance, and local naming. A consumer that omits one of $K,L,U,T,V,E,R,S,H,C,P,N$ is outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:absolute-neighborhood-retract-carrier}. Each coordinate is finite $\BHist$ data, and the local naming row $N$ names only the displayed packet.
+
+The compact and located-metric rows provide the source scope. The neighbourhood row $U$ is then exposed through the separation route, and the closed-extension row $T$ supplies the extension side of the retract-extension packet.
+
+Finally read $E,R,S,H,C,P,N$. These rows package the extension request, neighbourhood retraction, stability, transport, replay, provenance, and name without adding a selected neighbourhood-retraction theorem, quotient compactum, open-cover compactness argument, or choice of extension operators.
+\end{proof}
+
+\begin{theorem}[Absolute neighbourhood extension-retraction route]\label{thm:absolute-neighborhood-retract-extension-retraction-route}
+Every accepted $\AbsoluteNeighborhoodRetractUp$ packet whose retraction row $R$ is consumed must first expose the compact-metric row $K$, located-metric row $L$, displayed neighbourhood row $U$, Tietze extension row $T$, Urysohn separation row $V$, and finite extension request $E$. The retraction read is then transported through $S,H,C,P,N$ as a neighbourhood-local BEDC route, not as an ambient absolute retract theorem or a selected family of retractions.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:absolute-neighborhood-retract-namecert-obligations}. They make $K,L,U,T,V,E,R,S,H,C,P,N$ the visible surface for any accepted packet.
+
+The extension side is read before the retraction. The compact-metric and located-metric rows bound the source, the Urysohn row exposes the neighbourhood boundary, and the Tietze row records the closed-extension data over that boundary.
+
+The retraction row $R$ is therefore a neighbourhood-local coordinate of the same finite packet. The stability, transport, replay, provenance, and local naming rows keep the route inside $S,H,C,P,N$, so no arbitrary selected neighbourhood retraction, quotient compactum, open-cover compactness principle, or chosen extension operator is exported.
+\end{proof}
+
+\closureat{AbsoluteNeighborhoodRetractUp}{seedStr}
+
+\begin{closurestatus}{\AbsoluteNeighborhoodRetractUp}
+  \constructivestory{An $\AbsoluteNeighborhoodRetractUp$ packet is generated from CompactMetricUp source rows, LocatedMetricUp comparison rows, displayed neighbourhood rows, TietzeExtensionUp extension rows, UrysohnLemmaUp separation rows, finite extension and retraction rows, stability rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:absolute-neighborhood-retract-carrier}, \autoref{thm:absolute-neighborhood-retract-namecert-obligations}, and \autoref{thm:absolute-neighborhood-retract-extension-retraction-route} seed the neighbourhood-local retract-extension packet over compact-metric, located-metric, extension, and separation rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary selected neighbourhood retractions, quotient compacta, open-cover compactness, choice of extension operators, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-metric readback, located-metric comparison, neighbourhood exposure, Tietze extension exposure, Urysohn separation exposure, retraction stability, transport, replay, provenance, and local naming for BEDC.Derived.AbsoluteNeighborhoodRetractUp.}
+\end{closurestatus}
