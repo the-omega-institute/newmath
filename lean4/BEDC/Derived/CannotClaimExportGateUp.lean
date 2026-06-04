@@ -154,4 +154,85 @@ theorem CannotClaimExportGate_obligation_closure_package [AskSetup] [PackageSetu
   }
   exact ⟨cert, auditReadUnary⟩
 
+theorem CannotClaimExportGate_kernel_scope_lock [AskSetup] [PackageSetup]
+    {registry refusal exportDecision exportGrade target audit transport continuation
+      provenance name route gradeRead auditRead lockedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CannotClaimExportGateCarrier registry refusal exportDecision exportGrade target audit
+        transport continuation provenance name bundle pkg ->
+      Cont audit transport route ->
+        Cont refusal exportDecision gradeRead ->
+          Cont gradeRead target auditRead ->
+            Cont auditRead name lockedRead ->
+              PkgSig bundle route pkg ->
+                PkgSig bundle lockedRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row lockedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row registry ∨ hsame row refusal ∨
+                          hsame row exportDecision ∨ hsame row exportGrade ∨
+                            hsame row target ∨ hsame row audit ∨ hsame row route ∨
+                              hsame row lockedRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont audit transport route ∧
+                          Cont refusal exportDecision gradeRead ∧
+                            Cont gradeRead target auditRead ∧
+                              Cont auditRead name lockedRead ∧
+                                PkgSig bundle lockedRead pkg)
+                      hsame ∧ UnaryHistory route ∧ UnaryHistory gradeRead ∧
+                    UnaryHistory auditRead ∧ UnaryHistory lockedRead := by
+  -- BEDC touchpoint anchor: CannotClaimExportGateCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier auditTransportRoute gradeRoute auditRoute lockRoute _routePkg lockedPkg
+  obtain ⟨_registryUnary, refusalUnary, exportDecisionUnary, _exportGradeUnary,
+    targetUnary, auditUnary, transportUnary, _continuationUnary, _provenanceUnary,
+    nameUnary, _registryDecision, _decisionTarget, _targetContinuation,
+    _auditProvenance, _provenancePkg, _namePkg⟩ := carrier
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed auditUnary transportUnary auditTransportRoute
+  have gradeReadUnary : UnaryHistory gradeRead :=
+    unary_cont_closed refusalUnary exportDecisionUnary gradeRoute
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed gradeReadUnary targetUnary auditRoute
+  have lockedUnary : UnaryHistory lockedRead :=
+    unary_cont_closed auditReadUnary nameUnary lockRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row lockedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row registry ∨ hsame row refusal ∨ hsame row exportDecision ∨
+              hsame row exportGrade ∨ hsame row target ∨ hsame row audit ∨
+                hsame row route ∨ hsame row lockedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont audit transport route ∧
+              Cont refusal exportDecision gradeRead ∧ Cont gradeRead target auditRead ∧
+                Cont auditRead name lockedRead ∧ PkgSig bundle lockedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro lockedRead ⟨hsame_refl lockedRead, lockedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, auditTransportRoute, gradeRoute, auditRoute, lockRoute,
+          lockedPkg⟩
+  }
+  exact ⟨cert, routeUnary, gradeReadUnary, auditReadUnary, lockedUnary⟩
+
 end BEDC.Derived.CannotClaimExportGateUp
