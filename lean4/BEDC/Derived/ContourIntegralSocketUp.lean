@@ -99,4 +99,50 @@ theorem ContourIntegralSocketCarrier_component_transport_closure
   cases sameOutput
   exact And.intro carrier (And.intro carrier.right.left carrier.right.right.left)
 
+theorem ContourIntegralSocketCarrier_ledger_exactness
+    {contour holomorphic modulus output ledger transport route provenance name lawRead : BHist} :
+    ContourIntegralSocketCarrier contour holomorphic modulus output ledger transport route
+        provenance name →
+      Cont ledger route lawRead →
+        SemanticNameCert
+            (fun row : BHist => hsame row lawRead ∧ Cont ledger route lawRead)
+            (fun row : BHist => hsame row lawRead ∧ Cont route ledger provenance)
+            (fun row : BHist => hsame row lawRead ∧ Cont ledger route lawRead)
+            hsame ∧
+          Cont contour holomorphic route ∧
+            Cont route ledger provenance ∧ Cont ledger route lawRead := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert ContourIntegralSocketCarrier
+  intro carrier lawRoute
+  have contourRoute : Cont contour holomorphic route := carrier.right.left
+  have provenanceRoute : Cont route ledger provenance := carrier.right.right.left
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row lawRead ∧ Cont ledger route lawRead)
+          (fun row : BHist => hsame row lawRead ∧ Cont route ledger provenance)
+          (fun row : BHist => hsame row lawRead ∧ Cont ledger route lawRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro lawRead ⟨hsame_refl lawRead, lawRoute⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro row row' sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨source.left, provenanceRoute⟩
+    ledger_sound := by
+      intro _row source
+      exact source
+  }
+  exact ⟨cert, contourRoute, provenanceRoute, lawRoute⟩
+
 end BEDC.Derived.ContourIntegralSocketUp
