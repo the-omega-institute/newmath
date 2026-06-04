@@ -3845,6 +3845,7 @@ import BEDC.Derived.EquicontinuityFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuityFiniteNetSelectorUp.TasteGate
 import BEDC.Derived.EquicontinuityUp
 import BEDC.Derived.EquicontinuityUp.ArzelaAscoliConsumerRoute
+import BEDC.Derived.EquicontinuityUp.CompactFamilyNetReadiness
 import BEDC.Derived.EquicontinuityUp.CompactSourceAdmission
 import BEDC.Derived.EquicontinuityUp.ContinuousFamilyAdmission
 import BEDC.Derived.EquicontinuityUp.ContinuousFamilyLedgerAdmission
