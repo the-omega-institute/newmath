@@ -250,6 +250,44 @@ The formal target therefore has no room for quotient stream equality, selected l
 \end{proof}
 \leanchecked{BEDC.Derived.FastCauchySubsequenceUp.FastCauchySubsequenceFormalTargetLedger}
 
+\begin{theorem}[FastCauchySubsequence cofinal tail obligation]
+\label{thm:fast-cauchy-subsequence-cofinal-tail-obligation}
+Let $A=(S,M,Q,F,R,W,E,H,C,P,N)$ be an accepted $\FastCauchySubsequenceUp$ carrier. Before any downstream consumer may read the $\FastCauchyUp$ row $F$, the cofinal selector row $Q$ must expose, for every inspected modulus threshold in $M$, a finite tail window whose selector index lies beyond that threshold and whose source window is still covered by $M$. The obligation is a row-order condition inside $S,M,Q,F,R,W,E,H,C,P,N$; it is not supplied by a host subsequence function, countable choice, quotient Cauchy equality, selected limit, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier and inspect the rows before $F$. The available analytic rows are the source windows $S$, the inspected modulus row $M$, and the cofinal selector row $Q$.
+
+Use \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. Every selected window is already a finite row covered by the displayed selector, inspected modulus data, and fast-rate ledger, so a downstream fast-Cauchy read cannot invent a later selector outside the packet.
+
+For each inspected threshold in $M$, exhaust the finite row order of $Q$ until the first displayed selector row beyond that threshold is reached. Cofinality is read as the presence of that later row in the selector ledger, and coverage is read back through $M$.
+
+Only after this tail window has been displayed may $F$ consume it as fast-rate evidence. The structural rows $H,C,P,N$ transport, replay, source, and name the same tail route, while the carrier lacks every refused host-level coordinate.
+\end{proof}
+
+\begin{theorem}[FastCauchySubsequence RegSeqRat and Real route]
+\label{thm:fast-cauchy-subsequence-regseqrat-real-route}
+Every $\RegSeqRatUp$ or $\RealUp$-facing read of an accepted $\FastCauchySubsequenceUp$ carrier factors through the displayed route
+$$
+\CauchyModulusUp,\quad
+\CofinalSubsequenceUp,\quad
+\FastCauchyUp,\quad
+\RegularCauchySubsequenceUp,\quad
+\RegSeqRatUp,\quad
+\DyadicRatCoreUp,\quad
+\RealUp .
+$$
+In carrier notation, the consumer reads $M,Q,F,R,W,E$ with dyadic radius support recorded in the provenance row $P$ before the terminal seal is available, and it reads no independent rational sequence, quotient Cauchy class, selected limit, host subsequence equality, countable-choice selector, trichotomy, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Begin with the regular route of \autoref{thm:fast-cauchy-subsequence-regular-route}. It already places every Real-facing read downstream of the inspected modulus row $M$, cofinal selector row $Q$, fast-rate row $F$, regular-subsequence handoff $R$, and regular rational readback $W$.
+
+Use the cofinal tail obligation above to expose the tail window before $F$ is consumed. The selector row therefore supplies a later covered window for every inspected modulus threshold, rather than delegating the choice to an external subsequence.
+
+Next apply \autoref{thm:fast-cauchy-subsequence-selector-window-coverage}. The selected window carries the dyadic radius support named in $P$, passes through the fast-rate row $F$, and is repacked by $R$ before the $\RegSeqRatUp$ row $W$ can be read.
+
+Finally the terminal row $E$ seals the same route as a $\RealUp$ read. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the route and do not add any of the refused host-level data.
+\end{proof}
+
 \begin{closurestatus}{\FastCauchySubsequenceUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:fast-cauchy-subsequence-carrier}, \autoref{thm:fast-cauchy-subsequence-namecert-obligations}, and \autoref{thm:fast-cauchy-subsequence-regular-route} seed the inspected-modulus route from cofinal fast subsequence selection to regular rational readback and the terminal real seal.}
