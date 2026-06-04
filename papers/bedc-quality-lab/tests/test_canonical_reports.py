@@ -1566,3 +1566,55 @@ def test_index_markdown_lists_gap_head_reports():
     assert "gap-head-discovery" in markdown
     assert "nongaussian-distribution-sweep" in markdown
     assert "certificate-guided-discovery" in markdown
+
+
+def test_release_manifest_sidecar_index_summary_is_pointer_only(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    (tmp_path / "reports").mkdir(parents=True)
+    (tmp_path / "reports" / "release_manifest_sidecar.json").write_text(
+        json.dumps(
+            {
+                "schema_id": "bedc-quality-lab:release-manifest-sidecar",
+                "artifact_id": "bedc-quality-lab:release-manifest-sidecar",
+                "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+                "release_bundle_status": "ready",
+                "tag_status": "absent",
+                "version": "0.0.1",
+                "required_pointers": [{"id": "canonical-index"}],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    section = canonical._release_manifest_sidecar_index_section()
+    payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
+    markdown = canonical._render_index_markdown(payload)
+
+    assert section == {
+        "status": "pointer-only",
+        "artifact_id": "bedc-quality-lab:release-manifest-sidecar",
+        "json_artifact": "reports/release_manifest_sidecar.json",
+        "markdown_artifact": "reports/release_manifest_sidecar.md",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "release_bundle_status": "ready",
+        "tag_status": "absent",
+        "version": "0.0.1",
+    }
+    assert payload["release_manifest_sidecar"] == section
+    assert set(section) == {
+        "status",
+        "artifact_id",
+        "json_artifact",
+        "markdown_artifact",
+        "canonical_role",
+        "release_bundle_status",
+        "tag_status",
+        "version",
+    }
+    assert "release_manifest_sidecar" not in [spec.name for spec in canonical.CANONICAL_REPORTS]
+    assert "required_pointers" not in json.dumps(payload["release_manifest_sidecar"])
+    assert "release_manifest_sidecar" not in json.dumps(payload["discovery_map"])
+    assert "Release manifest sidecar" in markdown

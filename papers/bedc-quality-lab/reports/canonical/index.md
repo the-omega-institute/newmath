@@ -101,6 +101,16 @@
 - Arms: `16`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 
+## Release manifest sidecar
+
+- Status: `pointer-only`
+- JSON: `reports/release_manifest_sidecar.json`
+- Markdown: `reports/release_manifest_sidecar.md`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+- Release bundle status: `ready`
+- Tag status: `absent`
+- Version: `0.1.0`
+
 ## Paper outline
 
 - Status: `pointer-only`
