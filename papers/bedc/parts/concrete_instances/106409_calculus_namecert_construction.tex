@@ -135,6 +135,54 @@ Both rows may use the same real seal, rational readback, dyadic tolerance, trans
 Since the carrier contains no coordinate for a host fundamental theorem, selected antiderivative, quotient function equality, or ambient real completeness, derivative and Riemann finite-sum consumers remain separated after projection.
 \end{proof}
 
+\begin{theorem}[Calculus Real-seal error budget]
+\label{thm:calculus-real-seal-error-budget}
+Every derivative, integral, or limit read exported by an accepted $\CalculusUp$ local-linearization carrier $\Lambda=(E,R,D,L,J,H,C,P,N)$ exposes a source graph or finite-sum row, a $\RegSeqRatUp$ readback row, a $\DyadicRatCoreUp$ tolerance ledger, and the terminal $\RealUp$ seal before any calculus conclusion is public. The exposed route is one of
+$$
+C,L,R,D,E,H,P,N
+\qquad\text{or}\qquad
+C,J,R,D,E,H,P,N,
+$$
+according to whether the consumer asks for a derivative/limit read or a Riemann finite-sum read, and it has no coordinate for host limits, quotient function equality, selected antiderivatives, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the local-linearization carrier. Its calculus-facing source rows are the derivative row $L$, the Riemann finite-sum row $J$, the continuous-map graph row implicit in $C$, the regular-rational readback row $R$, the dyadic tolerance row $D$, and the real seal $E$.
+
+Apply \autoref{thm:calculus-derivative-continuation-obligation} to derivative-shaped reads and \autoref{thm:calculus-integral-finite-sum-obligation} to integral-shaped reads. Apply \autoref{thm:calculus-continuous-limit-carrier-budget} and \autoref{thm:calculus-continuousmap-limit-route} for limit and continuous-map reads.
+
+The real-seal route is then forced by \autoref{thm:calculus-limit-real-seal-obligation}. The separating theorem \autoref{thm:calculus-riemann-derivative-separation} prevents the finite-sum row from supplying derivative data and prevents the derivative row from supplying integral data.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same exposed inventory. Since the carrier lacks the excluded host coordinates, the listed rows form the full public error budget before any calculus conclusion is read.
+\end{proof}
+
+\begin{theorem}[Calculus source-window obligation]
+\label{thm:calculus-source-window-obligation}
+For an accepted $\CalculusUp$ carrier, every derivative, integral, and limit consumer must display the finite source window on which the read depends before it reaches a public conclusion. A derivative read displays a difference-quotient window, an integral read displays a partition and tagged finite-sum window, and a limit read displays the $\LimitUp$ and $\ContinuousMapUp$ window rows, all with $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance data, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CalculusUp}$ naming.
+\end{theorem}
+\begin{proof}
+Start from the carrier rows of \autoref{def:calculus-carrier} and the local-linearization rows of \autoref{def:calculus-local-linearization-carrier}. They display the finite source rows $D,I,L,J$ together with the regular-rational, dyadic, Real, transport, replay, provenance, and naming support.
+
+For derivative reads, use \autoref{thm:calculus-derivative-continuation-obligation} and \autoref{thm:calculus-derivative-limit-obligation}. The conclusion remains behind the displayed difference-quotient source, the continuous-map route, the regular-rational readback, and the dyadic tolerance data.
+
+For integral reads, use \autoref{thm:calculus-integral-finite-sum-obligation} and \autoref{thm:calculus-root-integral-regseqrat-handoff}. The finite partition, tagged-sum, endpoint, and readback rows are visible before the Real boundary is consumed.
+
+For limit reads, use \autoref{thm:calculus-continuous-limit-carrier-budget}, \autoref{thm:calculus-continuousmap-limit-route}, and \autoref{thm:calculus-root-limit-nonescape}. These force the continuous-map and limit windows to remain inside the displayed BEDC route.
+\end{proof}
+
+\begin{theorem}[Calculus local operation nonescape]
+\label{thm:calculus-local-operation-nonescape}
+Every public $\CalculusUp$ local operation read is confined to the displayed $\BHist$ rows for source graph data or finite sums, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CalculusUp}$ naming. No derivative, integral, or limit conclusion may replace those rows by a host function space, host limit operator, quotient equality of functions, selected derivative operator, selected antiderivative, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory from \autoref{def:calculus-carrier}. The local operations are stored only in the derivative, integral, and limit rows, and all Real-facing reads pass through the regular-rational and dyadic rows before the terminal seal is consumed.
+
+Apply \autoref{thm:calculus-root-continuousmap-handoff} to keep every operation behind its graph-and-replay row. Apply \autoref{thm:calculus-root-derivative-integral-boundary} and \autoref{thm:calculus-riemann-derivative-separation} to keep derivative and integral sources distinct.
+
+The Real-facing boundary is controlled by \autoref{thm:calculus-root-real-seal-nonescape} together with \autoref{thm:calculus-real-seal-error-budget}. The source-window requirement is exactly \autoref{thm:calculus-source-window-obligation}.
+
+Thus each operation is exported only through the displayed BEDC packet. The excluded host and quotient objects are absent from the carrier, so there is no accepted escape route outside the finite local operation surface.
+\end{proof}
+
 \begin{definition}[Calculus carrier]
 \label{def:calculus-carrier}
 A $\CalculusUp$ carrier is a finite $\BHist$ packet
