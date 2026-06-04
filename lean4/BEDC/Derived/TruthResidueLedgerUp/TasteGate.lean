@@ -1,3 +1,4 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
@@ -5,6 +6,7 @@ import BEDC.Meta.TasteGate
 namespace BEDC.Derived.TruthResidueLedgerUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -208,5 +210,22 @@ theorem TruthResidueLedgerTasteGate_single_carrier_alignment :
             ⟨⟨truthResidueLedgerChapterTasteGate⟩,
               ⟨⟨truthResidueLedgerFieldFaithful⟩,
                 ⟨truthResidueLedgerNontrivial⟩⟩⟩⟩⟩⟩⟩
+
+theorem TruthResidueLedger_falsifiable_boundary
+    (x : TruthResidueLedgerUp) :
+    ∃ O I B P F G H C Q N : BHist,
+      x = TruthResidueLedgerUp.mk O I B P F G H C Q N ∧
+        truthResidueLedgerFields x = [O, I, B, P, F, G, H, C, Q, N] ∧
+          Cont B P (append B P) ∧
+            Cont I F (append I F) ∧
+              Cont P N (append P N) ∧
+                Cont F N (append F N) ∧
+                  hsame G G := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk O I B P F G H C Q N =>
+      exact
+        ⟨O, I, B, P, F, G, H, C, Q, N, rfl, rfl, cont_intro rfl,
+          cont_intro rfl, cont_intro rfl, cont_intro rfl, hsame_refl G⟩
 
 end BEDC.Derived.TruthResidueLedgerUp
