@@ -1,0 +1,23 @@
+\begin{theorem}[MetaCIC critical-path subject-reduction socket budget]
+\label{thm:metacic-critical-path-subject-reduction-socket-budget}
+Every closed-consistency consumer of a $\MetaCICCriticalPathUp$ packet must display the subject-reduction socket row $D$ before it attempts to read full closed consistency. The visible route may use the closed-strong-normalization row $S$, normal-form consistency row $N$, obstruction row $O$, handoff row $U$, and structural rows $H,C,P,L$, but the transition from normal-form consistency to full closed consistency remains blocked until $D$ is filled by an external subject-reduction discharge.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(S,N,O,U,D,H,C,P,L)$ from \autoref{def:metacic-critical-path-packet}. The row $D$ is listed as the discharge-bundle socket, not as a supplied subject-reduction theorem.
+
+Apply \autoref{thm:metacic-critical-path-consistency-handoff}. The consistency-facing route can pass from $S$ to the normal-form row $N$, but it stops before full closed consistency unless the socket is separately filled.
+
+Apply \autoref{thm:metacic-critical-path-obstruction-boundary}, \autoref{thm:metacic-critical-path-root-socket-totality}, and \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. The obstruction row $O$ remains visible under $U,H,C,P,L$, so no consumer can erase the socket or reinterpret it as a discharged subject-reduction row.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 discharge budget]
+\label{thm:metacic-critical-path-l10-discharge-budget}
+The subject-reduction socket $D$ of a $\MetaCICCriticalPathUp$ packet is tied to the L10 discharge budget through the four named completion faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. A consumer that claims the L10 exit route must expose those four object rows together with $D,H,C,P,L$ before reading the exit certificate; it cannot use the exit route to bypass the subject-reduction socket or to read full closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the L10 exit certificate already recorded for the chapter. The certificate names the four-object route through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as the completion-facing discharge budget.
+
+Apply \autoref{thm:metacic-critical-path-l10-four-object-exit-certificate} and \autoref{thm:metaciccriticalpath-l10-exit-dependency-budget}. These results expose the four object rows as a bounded exit dependency rather than as a proof of closed subject reduction.
+
+Finally combine the exit route with \autoref{thm:metacic-critical-path-subject-reduction-socket-budget}. The same structural rows $H,C,P,L$ replay and name $D$ next to the four L10 faces, so the consumer cannot use the exit certificate to bypass the socket or promote normal-form consistency to full closed consistency.
+\end{proof}
