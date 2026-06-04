@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.KuratowskiHyperspaceUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -12,6 +14,25 @@ open BEDC.Meta.TasteGate
 inductive KuratowskiHyperspaceUp : Type where
   | mk (H E U F D S C P M : BHist) : KuratowskiHyperspaceUp
   deriving DecidableEq
+
+def kuratowskiHyperspaceFields : KuratowskiHyperspaceUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | KuratowskiHyperspaceUp.mk H E U F D S C P M => [H, E, U, F, D, S, C, P, M]
+
+theorem KuratowskiHyperspaceCarrier_distance_stability
+    {H E U F D S C P M route profile completion : BHist} :
+    kuratowskiHyperspaceFields (KuratowskiHyperspaceUp.mk H E U F D S C P M) =
+        [H, E, U, F, D, S, C, P, M] →
+      Cont H F profile →
+        Cont E F route →
+          Cont U route completion →
+            hsame D route →
+              hsame S completion →
+                hsame D route ∧ hsame S completion ∧ Cont H F profile ∧
+                  Cont E F route ∧ Cont U route completion := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro _fieldsEq profileRoute embeddingRoute completionRoute distanceStable sealStable
+  exact ⟨distanceStable, sealStable, profileRoute, embeddingRoute, completionRoute⟩
 
 def kuratowskiHyperspaceEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -161,10 +182,10 @@ theorem KuratowskiHyperspaceTasteGate_single_carrier_alignment :
       (kuratowskiHyperspaceDecodeBHist (BMark.b0 :: []) =
         BHist.e0 BHist.Empty)
       (And
-        (forall h : BHist,
+        (∀ h : BHist,
           kuratowskiHyperspaceDecodeBHist
             (kuratowskiHyperspaceEncodeBHist h) = h)
-        (forall x : KuratowskiHyperspaceUp,
+        (∀ x : KuratowskiHyperspaceUp,
           kuratowskiHyperspaceFromEventFlow
             (kuratowskiHyperspaceToEventFlow x) = some x)) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
