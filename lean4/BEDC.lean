@@ -3671,6 +3671,7 @@ import BEDC.Derived.DyadicIntervalCoverUp.MeshRefinementObligation
 import BEDC.Derived.DyadicIntervalCoverUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescape
 import BEDC.Derived.DyadicIntervalCoverUp.RealSealNonescapeObligation
+import BEDC.Derived.DyadicIntervalCoverUp.RefinementChainInduction
 import BEDC.Derived.DyadicIntervalCoverUp.RefinementStability
 import BEDC.Derived.DyadicIntervalCoverUp.RegSeqRatRoute
 import BEDC.Derived.DyadicIntervalCoverUp.RootCellCarrier
@@ -7801,6 +7802,7 @@ import BEDC.Derived.SequentialCompactUp.ObligationReadiness
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.SelectorRefusal
 import BEDC.Derived.SequentialCompactUp.TasteGate
+import BEDC.Derived.SequentialCompactUp.WindowExtractionScope
 import BEDC.Derived.SequentialCompactnessUp.BolzanoWeierstrassWindow
 import BEDC.Derived.SequentialCompactnessUp.CompactMetricRoute
 import BEDC.Derived.SequentialCompactnessUp.NameCertObligations
