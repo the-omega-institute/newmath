@@ -439,4 +439,94 @@ theorem LowerSemicontinuousClosedSuperlevelThresholdExhaustion [AskSetup] [Packa
   exact
     ⟨cert, thresholdUnary, boundaryUnary, stableUnary, replayUnary, exhaustedUnary⟩
 
+theorem LowerSemicontinuousUpperRealHandoff [AskSetup] [PackageSetup]
+    {X F E W R O H C P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    lowerSemicontinuousRootFields (LowerSemicontinuousUp.mk X F E W R O H C P N) =
+        [X, F, E, W, R, O, H, C, P, N] ->
+      UnaryHistory W ->
+        UnaryHistory R ->
+          UnaryHistory O ->
+            UnaryHistory H ->
+              PkgSig bundle P pkg ->
+                PkgSig bundle N pkg ->
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row (append (append (append W R) O) H) ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row W ∨ hsame row R ∨ hsame row E ∨ hsame row O ∨
+                          hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                            hsame row (append W R) ∨ hsame row (append (append W R) O) ∨
+                              hsame row (append (append (append W R) O) H))
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont W R (append W R) ∧
+                          Cont (append W R) O (append (append W R) O) ∧
+                            Cont (append (append W R) O) H
+                              (append (append (append W R) O) H) ∧
+                              PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                      hsame ∧
+                    UnaryHistory (append W R) ∧
+                      UnaryHistory (append (append W R) O) ∧
+                        UnaryHistory (append (append (append W R) O) H) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame
+  intro fields wUnary rUnary oUnary hUnary provenancePkg namePkg
+  have _acceptedFields :
+      lowerSemicontinuousRootFields (LowerSemicontinuousUp.mk X F E W R O H C P N) =
+        [X, F, E, W, R, O, H, C, P, N] := fields
+  have wrRoute : Cont W R (append W R) := rfl
+  have wroRoute : Cont (append W R) O (append (append W R) O) := rfl
+  have wrohRoute :
+      Cont (append (append W R) O) H (append (append (append W R) O) H) := rfl
+  have wrUnary : UnaryHistory (append W R) :=
+    unary_cont_closed wUnary rUnary wrRoute
+  have wroUnary : UnaryHistory (append (append W R) O) :=
+    unary_cont_closed wrUnary oUnary wroRoute
+  have wrohUnary : UnaryHistory (append (append (append W R) O) H) :=
+    unary_cont_closed wroUnary hUnary wrohRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row (append (append (append W R) O) H) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row W ∨ hsame row R ∨ hsame row E ∨ hsame row O ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row (append W R) ∨
+                hsame row (append (append W R) O) ∨
+                  hsame row (append (append (append W R) O) H))
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W R (append W R) ∧
+              Cont (append W R) O (append (append W R) O) ∧
+                Cont (append (append W R) O) H
+                  (append (append (append W R) O) H) ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro (append (append (append W R) O) H)
+          ⟨hsame_refl (append (append (append W R) O) H), wrohUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          (Or.inr source.left)))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, wrRoute, wroRoute, wrohRoute, provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, wrUnary, wroUnary, wrohUnary⟩
+
 end BEDC.Derived.LowerSemicontinuousUp
