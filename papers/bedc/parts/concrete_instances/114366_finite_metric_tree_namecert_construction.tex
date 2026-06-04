@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FiniteMetricTreeUp$}
+\label{ch:concrete-instances-finite-metric-tree-namecert}
+\origin{human}
+
+Following Buneman and Dress, finite tree metrics are read from a finite weighted tree by the path-distance ledger on its vertices. The $\FiniteMetricTreeUp$ packet records that classical object as constructive L10 finite-metric witness data: it sits over the metric surface of \autoref{ch:concrete-instances-metric-namecert}, the graph and tree routes of \autoref{ch:concrete-instances-graph-namecert} and \autoref{ch:concrete-instances-tree-namecert}, and the finite-net consumer surface of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}. The packet is a finite path-distance certificate, not a quotient metric space, not a selected geodesic in an ambient graph, and not a host compactness theorem.
+
+\begin{definition}[FiniteMetricTree carrier]
+\label{def:finite-metric-tree-carrier}
+A $\FiniteMetricTreeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(V,E,W,P,M,G,R,H,C,K,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite vertex ledger, listing the accepted vertex names and the finite equality classifier used by later distance reads.
+\item $E$ is the finite edge ledger, listing accepted undirected edge incidences between vertices of $V$.
+\item $W$ is the edge-length row, assigning a positive $\RealUp$-sealed or rationally witnessed length to every displayed edge.
+\item $P$ is the path-distance readback row. For each accepted pair of vertices it records the unique finite tree path through $E$ and the finite sum of edge lengths from $W$.
+\item $M$ is the $\MetricUp$ row whose distance witness is exactly the path-distance readback $P$ and whose metric laws are checked against the finite path ledger.
+\item $G$ is the sibling graph-and-tree route, exposing the $\GraphUp$ adjacency row and the $\TreeUp$ connected-acyclic row before any path-distance readback is consumed.
+\item $R$ is the finite four-point comparison ledger. For each displayed quadruple it records the two largest of the three pair sums and the equality comparison required by the tree-metric condition.
+\item $H$ stores componentwise $\hsame$ transport for vertices, edges, edge lengths, path distances, metric rows, graph/tree rows, four-point ledgers, continuation rows, provenance, and the local naming row.
+\item $C$ stores $\Cont$ replay from a vertex-pair or quadruple request through the finite graph/tree route, path-distance readback, metric row, and four-point ledger.
+\item $K$ is the $\Pkg$ provenance over $\FiniteMetricTreeUp$, $\MetricUp$, $\GraphUp$, $\TreeUp$, finite-net consumers, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteMetricTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $V,E,W,P,M,G,R,H,C,K,N$. It has no coordinate for quotient metric spaces, choice-selected paths outside the finite tree, open-cover compactness, infinite graph completion, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FiniteMetricTree NameCert obligations]
+\label{thm:finite-metric-tree-namecert-obligations}
+For every accepted $\FiniteMetricTreeUp$ carrier $T=(V,E,W,P,M,G,R,H,C,K,N)$, the local $\NameCert_{\FiniteMetricTreeUp}$ surface consists exactly of carrier admission, finite vertex-ledger admission, edge-ledger admission, positive edge-length readback, graph/tree route exposure, path-distance exactness, metric-law stability, four-point comparison stability, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and ledger nonescape.
+
+In particular, any $\MetricUp$, $\GraphUp$, $\TreeUp$, or finite-net consumer must read the displayed finite ledger route
+$$
+V\longmapsto E\longmapsto W\longmapsto P\longmapsto M\longmapsto G\longmapsto R\longmapsto H,C,K,N
+$$
+before using the packet as finite tree-metric data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-metric-tree-carrier}. The projection exposes exactly the finite vertex ledger, edge ledger, edge-length row, path-distance readback, metric row, graph/tree route, four-point ledger, and structural rows.
+
+The graph/tree route is read before distance data. The $\GraphUp$ row names the finite adjacency surface, while the $\TreeUp$ row supplies connectedness and acyclicity as displayed finite data; therefore the path row $P$ can read a unique finite route without selecting a path from an ambient graph.
+
+Metric-law stability follows from the same path-distance ledger. Symmetry reverses the finite path, reflexivity reads the empty path, and the triangle comparison concatenates displayed finite paths before returning to the tree path through the metric row $M$.
+
+The four-point comparison row $R$ is downstream of $P$ and $M$. It records quadruple comparisons only from displayed path distances, so componentwise transport through $H$ and replay through $C$ preserve the comparison surface.
+
+Finally, $K$ and $N$ source and name the finite packet. Since no carrier row stores quotient metric spaces, choice-selected ambient paths, open-cover compactness, infinite graph completion, or ambient real completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[FiniteMetricTree four-point stability]
+\label{thm:finite-metric-tree-four-point-stability}
+Let $T=(V,E,W,P,M,G,R,H,C,K,N)$ and $T'=(V',E',W',P',M',G',R',H',C',K',N')$ be accepted $\FiniteMetricTreeUp$ packets. If the vertex ledger, edge ledger, edge-length row, path-distance readback, metric row, graph/tree route, four-point ledger, replay row, provenance row, and local naming row of $T$ are transported componentwise through the displayed $\hsame$ and $\Cont$ routes to the corresponding rows of $T'$, then every finite four-point tree-metric comparison accepted by $R$ is accepted by $R'$ with the same displayed pair-sum equality.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:finite-metric-tree-namecert-obligations}. The four-point comparison row is not independent data; it is downstream of the finite vertex, edge, edge-length, path-distance, metric, and graph/tree rows.
+
+Transport the carrier componentwise. The displayed $\hsame$ rows carry vertices to vertices, edges to edges, edge lengths to edge lengths, and path-distance readbacks to path-distance readbacks, while the $\Cont$ rows replay the same quadruple request through the transported packet.
+
+The four-point ledger therefore recomputes its three pair sums from transported path distances. Since the accepted comparison in $R$ was read only from those sums, $R'$ accepts the same tree-metric equality after transport.
+
+No external geodesic selector, quotient metric equality, compactness principle, or ambient completion can alter the comparison, because none is a coordinate of either accepted packet.
+\end{proof}
+
+\falsifiablePrediction{A consumer that claims $\FiniteMetricTreeUp$ four-point stability while omitting the finite vertex ledger, edge ledger, edge-length row, path-distance readback, MetricUp row, GraphUp/TreeUp route, four-point ledger, hsame transport, Cont replay, Pkg provenance, or NameCert row refutes the carrier of \autoref{def:finite-metric-tree-carrier}.}
+
+\independenceWitness{metric, graph, tree, finite-epsilon-net: $\FiniteMetricTreeUp$ is not bijective to any listed sibling because it jointly carries a finite weighted tree ledger, exact path-distance readback, MetricUp row, GraphUp/TreeUp route, four-point comparison ledger, transport, replay, provenance, and local naming.}
+
+\closureat{FiniteMetricTreeUp}{seedStr}
+
+\begin{closurestatus}{\FiniteMetricTreeUp}
+  \constructivestory{A $\FiniteMetricTreeUp$ packet is generated from finite vertex rows, finite edge rows, positive edge-length rows, path-distance readback, MetricUp rows, GraphUp/TreeUp route rows, four-point comparison rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-metric-tree-carrier}, \autoref{thm:finite-metric-tree-namecert-obligations}, and \autoref{thm:finite-metric-tree-four-point-stability} seed the finite tree-metric NameCert interface and its componentwise four-point stability route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient metric spaces, selected ambient geodesics, open-cover compactness, infinite graph completion, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric-law stability, path-distance exactness, four-point comparison stability, graph/tree route exposure, and ledger nonescape for BEDC.Derived.FiniteMetricTreeUp.}
+\end{closurestatus}
