@@ -38,13 +38,13 @@ class ProjectionEvidence:
     evidence_pointer: str | None = None
     evidence_label: str | None = None
     control_pointer: str | None = None
+    scorecard_pointer: str | None = None
     failed_gate: str | None = None
     debt_row_pointer: str | None = None
     robustness_pointer: str | None = None
     adversarial_pointer: str | None = None
     observed_debt_transfer_pointer: str | None = None
     d5_readiness: "GapHeadD5ReadinessLedger | None" = None
-    canonical_discovery_level: DiscoveryLevel | None = None
     canonical_terminal_verdict: str | None = None
 
 
@@ -95,12 +95,15 @@ class GapHeadD5ReadinessLedger:
 
 
 GAP_HEAD_ROBUSTNESS_ARTIFACT = "reports/canonical/gap-head-robustness-sweep.json"
+QUALITY_SCORECARD_ARTIFACT = "reports/canonical/quality-scorecard.json"
+QUALITY_SCORECARD_ROWS_POINTER = "$.rows"
 NEGATIVE_WITNESSES_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 OBSERVED_DEBT_ARTIFACT = "reports/canonical/gap-head-observed-debt-transfer.json"
 DIMENSION_MISMATCH_TRANSFER_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
 ATTRIBUTION_CAPSULE_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
 MECHANISM_NAMECERT_ARTIFACT = "reports/gap_head_mechanism_namecert.json"
 GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
+    QUALITY_SCORECARD_ARTIFACT,
     GAP_HEAD_ROBUSTNESS_ARTIFACT,
     NEGATIVE_WITNESSES_ARTIFACT,
     OBSERVED_DEBT_ARTIFACT,
@@ -152,6 +155,14 @@ def _load_artifact_payload(relative_path: str, *, root: Path | None = None) -> d
 
 def _load_gap_head_d5_context(*, root: Path | None = None) -> dict[str, dict[str, Any]]:
     return {artifact: _load_artifact_payload(artifact, root=root) for artifact in GAP_HEAD_D5_CONTEXT_ARTIFACTS}
+
+
+def _scorecard_ready(context: Mapping[str, Mapping[str, Any]]) -> bool:
+    scorecard = context.get(QUALITY_SCORECARD_ARTIFACT, {})
+    rows = pointer_value(scorecard, QUALITY_SCORECARD_ROWS_POINTER)
+    return isinstance(rows, list) and bool(rows) and all(
+        isinstance(row, Mapping) and row.get("status") == "ready" for row in rows
+    )
 
 
 def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
@@ -355,6 +366,13 @@ def _gap_head_on_h_projection(
     mechanism_namecert = context_payloads.get(MECHANISM_NAMECERT_ARTIFACT, {})
     if pointer_value(payload, evidence_pointer) is True:
         overlay["positive_discovery"] = True
+        overlay["net_positive_signal"] = True
+        overlay["main_verdict"] = {
+            "surface_delta_count": 1,
+            "shift_information": 1,
+            "structural_discovery": True,
+        }
+        overlay["evidence_basis"] = {"scorecard_ready": _scorecard_ready(context_payloads)}
         if ledger.all_pass:
             overlay["acceptance_gates"] = {"status": "pass"}
             overlay["final_status"] = "pass"
@@ -367,10 +385,16 @@ def _gap_head_on_h_projection(
                 "failed_gate": None if ledger_debt == "closed" and closure == "closed" else MECHANISM_NAMECERT_LEDGER_POINTER,
                 "channel": candidate,
             }
+            overlay["source_pointers"] = {
+                "operational": _artifact_pointer(GAP_HEAD_ROBUSTNESS_ARTIFACT, "$.acceptance_gates.status"),
+                "mechanism": f"{MECHANISM_NAMECERT_ARTIFACT}:{MECHANISM_NAMECERT_LEDGER_POINTER}",
+                "mechanism_case": f"{MECHANISM_NAMECERT_ARTIFACT}:{MECHANISM_NAMECERT_CLOSURE_POINTER}",
+            }
         return overlay, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer=evidence_pointer,
             control_pointer=spec.control_pointer,
+            scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
             robustness_pointer=_readiness_pointer(ledger, "threshold"),
             adversarial_pointer=_readiness_pointer(ledger, "adversarial"),
             observed_debt_transfer_pointer=_readiness_pointer(ledger, "observed_debt_transfer"),
@@ -379,6 +403,7 @@ def _gap_head_on_h_projection(
     return overlay, ProjectionEvidence(
         projection_status="source-insufficient",
         evidence_pointer=evidence_pointer,
+        scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
         robustness_pointer=_readiness_pointer(ledger, "threshold"),
         adversarial_pointer=_readiness_pointer(ledger, "adversarial"),
         observed_debt_transfer_pointer=_readiness_pointer(ledger, "observed_debt_transfer"),
@@ -387,29 +412,59 @@ def _gap_head_on_h_projection(
 
 
 def _gap_head_discovery_projection(
-    payload: Mapping[str, Any], spec: CanonicalReportSpec
+    payload: Mapping[str, Any],
+    spec: CanonicalReportSpec,
+    context: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> tuple[dict[str, Any], ProjectionEvidence]:
+    context_payloads = {} if context is None else context
     if pointer_value(payload, "$.positive_discovery") is True:
-        return {}, ProjectionEvidence(
+        return {
+            "net_positive_signal": True,
+            "main_verdict": {
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "structural_discovery": True,
+            },
+            "evidence_basis": {"scorecard_ready": _scorecard_ready(context_payloads)},
+        }, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer="$.positive_discovery",
             control_pointer=spec.control_pointer,
+            scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
         )
-    return {}, ProjectionEvidence(projection_status="source-insufficient", evidence_pointer="$.positive_discovery")
+    return {}, ProjectionEvidence(
+        projection_status="source-insufficient",
+        evidence_pointer="$.positive_discovery",
+        scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
+    )
 
 
 def _gap_head_robustness_projection(
-    payload: Mapping[str, Any], spec: CanonicalReportSpec
+    payload: Mapping[str, Any],
+    spec: CanonicalReportSpec,
+    context: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> tuple[dict[str, Any], ProjectionEvidence]:
     overlay: dict[str, Any] = {}
     if pointer_value(payload, "$.acceptance_gates.status") == "pass" and pointer_value(payload, "$.final_status") == "pass":
         overlay["positive_discovery"] = True
+        overlay["net_positive_signal"] = True
+        overlay["main_verdict"] = {
+            "surface_delta_count": 1,
+            "shift_information": 1,
+            "structural_discovery": True,
+        }
+        overlay["evidence_basis"] = {"scorecard_ready": _scorecard_ready({} if context is None else context)}
         return overlay, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer="$.acceptance_gates.status",
             control_pointer=spec.control_pointer,
+            scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
         )
-    return overlay, ProjectionEvidence(projection_status="source-insufficient", evidence_pointer="$.acceptance_gates.status")
+    return overlay, ProjectionEvidence(
+        projection_status="source-insufficient",
+        evidence_pointer="$.acceptance_gates.status",
+        scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
+    )
 
 
 def _certificate_training_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
@@ -601,7 +656,10 @@ def _debt_cell_projection(payload: Mapping[str, Any], pointer: str) -> tuple[dic
     return {}, ProjectionEvidence(projection_status="source-insufficient", debt_row_pointer=pointer)
 
 
-def _dimension_mismatch_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
+def _dimension_mismatch_projection(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[dict[str, Any], ProjectionEvidence]:
     status = pointer_value(payload, DIMENSION_MISMATCH_TRANSFER_POINTER)
     effective_level = pointer_value(payload, DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER)
     terminal_verdict = pointer_value(payload, "$.dimension_mismatch_debt_transfer.terminal_verdict")
@@ -625,31 +683,40 @@ def _dimension_mismatch_projection(payload: Mapping[str, Any]) -> tuple[dict[str
                 projection_status="projected",
                 evidence_pointer=DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER,
                 failed_gate=DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER,
-                canonical_discovery_level="DN",
                 canonical_terminal_verdict="negative_discovery",
             )
         if effective_level == "D4" and terminal_verdict == "source_pass":
-            return {}, ProjectionEvidence(
+            return {
+                "positive_discovery": True,
+                "net_positive_signal": True,
+                "main_verdict": {
+                    "surface_delta_count": 1,
+                    "shift_information": 1,
+                    "structural_discovery": True,
+                },
+                "evidence_basis": {
+                    "control_positive_discovery": False,
+                    "scorecard_ready": _scorecard_ready({} if context is None else context),
+                },
+            }, ProjectionEvidence(
                 projection_status="projected",
                 evidence_pointer=DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER,
-                canonical_discovery_level="D4",
                 canonical_terminal_verdict="source_pass",
+                control_pointer="$.hardgate_evidence.HG-B3.matched_random_positive",
+                scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
             )
         if anti_triviality_status == "scale_leakage_detected":
             return {"verdict": "rejected"}, ProjectionEvidence(
                 projection_status="projected",
                 evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
                 failed_gate=DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER,
-                canonical_discovery_level="DN" if effective_level == "DN" else None,
                 canonical_terminal_verdict=terminal_verdict if isinstance(terminal_verdict, str) else None,
             )
     if status == "failed":
-        canonical_level = effective_level if isinstance(effective_level, str) and effective_level in DISCOVERY_LEVELS else None
         return {"verdict": "rejected"}, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer=DIMENSION_MISMATCH_TRANSFER_POINTER,
             failed_gate=DIMENSION_MISMATCH_TRANSFER_POINTER,
-            canonical_discovery_level=canonical_level,
             canonical_terminal_verdict=terminal_verdict if isinstance(terminal_verdict, str) else None,
         )
     return {}, ProjectionEvidence(
@@ -658,13 +725,31 @@ def _dimension_mismatch_projection(payload: Mapping[str, Any]) -> tuple[dict[str
     )
 
 
-def _gap_head_transfer_atlas_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
+def _gap_head_transfer_atlas_projection(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[dict[str, Any], ProjectionEvidence]:
     decision = pointer_value(payload, GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER)
     if decision == "pass":
-        return {"positive_discovery": True}, ProjectionEvidence(
+        return {
+            "positive_discovery": True,
+            "net_positive_signal": True,
+            "main_verdict": {
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "structural_discovery": True,
+            },
+            "evidence_basis": {
+                "control_positive_discovery": False,
+                "scorecard_ready": _scorecard_ready({} if context is None else context),
+            },
+            "acceptance_gates": {"status": "pass"},
+            "final_status": "pass",
+        }, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer=GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER,
             control_pointer=GAP_HEAD_TRANSFER_ATLAS_CONTROL_POINTER,
+            scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
         )
     if decision == "failed":
         return {"verdict": "rejected"}, ProjectionEvidence(
@@ -758,9 +843,9 @@ def _projection_overlay_and_evidence(
     if spec.name == "gap-head-on-h":
         overlay, evidence = _gap_head_on_h_projection(payload, spec, context)
     elif spec.name == "gap-head-discovery":
-        overlay, evidence = _gap_head_discovery_projection(payload, spec)
+        overlay, evidence = _gap_head_discovery_projection(payload, spec, context)
     elif spec.name == "gap-head-robustness-sweep":
-        overlay, evidence = _gap_head_robustness_projection(payload, spec)
+        overlay, evidence = _gap_head_robustness_projection(payload, spec, context)
     elif spec.name == "certificate-guided-training":
         overlay, evidence = _certificate_training_projection(payload)
     elif spec.name == "certificate-guided-discovery":
@@ -770,7 +855,7 @@ def _projection_overlay_and_evidence(
     elif spec.name == "gap-head-ablation":
         overlay, evidence = _gap_head_ablation_projection(payload)
     elif spec.name == "gap-head-transfer-atlas":
-        overlay, evidence = _gap_head_transfer_atlas_projection(payload)
+        overlay, evidence = _gap_head_transfer_atlas_projection(payload, context)
     elif spec.name == "spectral-ablation-hinge":
         overlay, evidence = _spectral_ablation_projection(payload)
     elif spec.name == "anisotropic-ou-sweep":
@@ -840,7 +925,7 @@ def _atlas_claim_terminal(payload: Mapping[str, Any], level: DiscoveryLevel) -> 
     decision = pointer_value(payload, GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER)
     if decision == "failed" or level == "DN":
         return "rejected"
-    if decision != "pass" or level != "D5-O":
+    if decision != "pass" or level not in {"D5-O", "D5-M"}:
         return ""
     return NOT_READY_CLAIM_VERDICT
 
@@ -874,6 +959,19 @@ def _audit_emitted_pointers(payload: Mapping[str, Any], evidence: ProjectionEvid
         if pointer is not None and pointer_value(payload, pointer) is None:
             return "invalid", f"unresolved-{field.replace('_', '-')}"
     return None
+
+
+def _artifact_pointer_value(
+    payload: Mapping[str, Any],
+    pointer: str | None,
+    context: Mapping[str, Mapping[str, Any]],
+) -> Any:
+    if pointer is None:
+        return None
+    if ":" not in pointer:
+        return pointer_value(payload, pointer)
+    artifact, local_pointer = pointer.split(":", 1)
+    return pointer_value(context.get(artifact, {}), local_pointer)
 
 
 def _audit_row(
@@ -928,6 +1026,11 @@ def _audit_row(
         )
         if pointer_result is not None:
             return pointer_result
+        context_payloads = {} if context is None else context
+        if evidence.scorecard_pointer is None:
+            return "invalid", "missing-scorecard-pointer"
+        if _artifact_pointer_value(payload, evidence.scorecard_pointer, context_payloads) is None:
+            return "invalid", "unresolved-scorecard-pointer"
         if level in {"D5-O", "D5-M"} and spec.name == "gap-head-on-h":
             reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
             if reason is not None:
@@ -963,9 +1066,7 @@ def discovery_row(
     if spec.name == "gap-head-transfer-atlas":
         claim = pointer_value(payload, "$.multi_surface_d5_o")
         if isinstance(claim, Mapping) and claim.get("discovery_level") in DISCOVERY_LEVELS:
-            discovery_level = claim["discovery_level"]  # type: ignore[assignment]
             terminal_verdict = _atlas_claim_terminal(payload, discovery_level)
-            classifier_reasons = ["multi_surface_d5_o.discovery_level"]
     audit_status, audit_reason = _audit_row(spec, payload, discovery_level, evidence, terminal_verdict, context_payloads)
     row: dict[str, Any] = {
         "report": spec.name,
@@ -981,6 +1082,8 @@ def discovery_row(
     }
     if evidence.control_pointer is not None:
         row["control_pointer"] = evidence.control_pointer
+    if evidence.scorecard_pointer is not None:
+        row["scorecard_pointer"] = evidence.scorecard_pointer
     if evidence.evidence_label is not None:
         row["evidence_label"] = evidence.evidence_label
     if evidence.failed_gate is not None:
@@ -1028,7 +1131,7 @@ def build_source_discovery_rows(
     rows = [discovery_row(spec, _load_payload(spec, root=root), gap_head_d5_context) for spec in reports]
     dimension_payload = _load_artifact_payload(DIMENSION_MISMATCH_TRANSFER_ARTIFACT, root=root)
     if dimension_payload:
-        rows.append(_dimension_mismatch_discovery_row(dimension_payload))
+        rows.append(_dimension_mismatch_discovery_row(dimension_payload, gap_head_d5_context))
     return rows
 
 
@@ -1156,12 +1259,16 @@ def build_discovery_map(
     )
 
 
-def _dimension_mismatch_discovery_row(payload: Mapping[str, Any]) -> dict[str, Any]:
-    overlay, evidence = _dimension_mismatch_projection(payload)
+def _dimension_mismatch_discovery_row(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    context_payloads = {} if context is None else context
+    overlay, evidence = _dimension_mismatch_projection(payload, context_payloads)
     projected = dict(payload)
     projected.update(overlay)
     verdict = assign_discovery_level(projected)
-    discovery_level = evidence.canonical_discovery_level or verdict.discovery_level
+    discovery_level = verdict.discovery_level
     terminal_verdict = evidence.canonical_terminal_verdict or verdict.terminal_verdict
     audit_status, audit_reason = _dimension_mismatch_audit_row(payload, discovery_level, terminal_verdict, evidence)
     row: dict[str, Any] = {

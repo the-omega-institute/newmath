@@ -89,6 +89,7 @@ def _minimal_payload(spec):
 def _write_all_payloads(root: Path):
     for spec in canonical.CANONICAL_REPORTS:
         _write_payload(root, spec, _minimal_payload(spec))
+    _write_json_artifact(root, discovery_map.QUALITY_SCORECARD_ARTIFACT, _scorecard_payload())
     _write_json_artifact(
         root,
         discovery_map.MECHANISM_NAMECERT_ARTIFACT,
@@ -108,6 +109,27 @@ def _write_json_artifact(root: Path, artifact: str, payload):
     path = root / artifact
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+
+
+def _scorecard_payload(status="ready"):
+    metrics = (
+        "CertCov",
+        "DebtQ",
+        "CriticalDebt",
+        "LedgerCompleteness",
+        "ClassifierShiftCount",
+        "PositiveDiscoveryCount",
+        "AuditImprovementCount",
+        "NegativeResultCount",
+        "ScopeCompleteness",
+        "CostProtocolCompleteness",
+        "HardeningCoverage",
+        "OverclaimRate",
+    )
+    return {
+        "artifact_id": "bedc-quality-lab:quality-scorecard",
+        "rows": [{"metric": metric, "status": status} for metric in metrics],
+    }
 
 
 def _read_json_artifact(root: Path, artifact: str):
@@ -358,15 +380,20 @@ def test_attribution_capsule_projection_records_operational_and_mechanism_axes(t
 
 @pytest.mark.parametrize("report", ["gap-head-on-h", "gap-head-discovery"])
 def test_d4_rows_have_resolvable_control_pointer(tmp_path, report):
+    _write_all_payloads(tmp_path)
     spec = canonical._specs_by_name()[report]
     payload = _minimal_payload(spec)
-    projected = discovery_map.projection_payload(spec, payload)
-    evidence = discovery_map._projection_evidence(spec, payload)
+    context = discovery_map._load_gap_head_d5_context(root=tmp_path)
+    projected = discovery_map.projection_payload(spec, payload, context)
+    evidence = discovery_map._projection_evidence(spec, payload, context)
     verdict = discovery_map.assign_discovery_level(projected)
 
     assert verdict.discovery_level == "D4"
     assert evidence.control_pointer
+    assert evidence.scorecard_pointer
     assert discovery_map.pointer_value(payload, evidence.control_pointer) is not None
+    artifact, pointer = evidence.scorecard_pointer.split(":", 1)
+    assert discovery_map.pointer_value(_read_json_artifact(tmp_path, artifact), pointer) is not None
 
 
 def test_gap_head_on_h_current_readiness_stays_d4_with_observed_debt_transfer_missing(tmp_path):
@@ -418,6 +445,7 @@ def test_gap_head_transfer_atlas_discovery_row_matches_canonical_claim(tmp_path)
     assert row["projection_status"] == "projected"
     assert row["evidence_pointer"] == "$.multi_surface_d5_o.decision"
     assert row["control_pointer"] == "$.config.control_arm"
+    assert row["scorecard_pointer"] == "reports/canonical/quality-scorecard.json:$.rows"
     assert row["audit_status"] == "valid"
 
 
@@ -624,6 +652,10 @@ def test_gap_head_on_h_d5_readiness_fails_closed_per_real_criterion(
 def test_gap_head_on_h_d5_o_claim_with_unresolved_pointer_is_invalid(monkeypatch):
     spec = canonical._specs_by_name()["gap-head-on-h"]
     payload = _minimal_payload(spec)
+    context = {
+        discovery_map.QUALITY_SCORECARD_ARTIFACT: _scorecard_payload(),
+        discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT: {"final_status": "pass"},
+    }
     ledger = discovery_map.GapHeadD5ReadinessLedger(
         criteria=(
             discovery_map.GapHeadD5Criterion(
@@ -644,7 +676,7 @@ def test_gap_head_on_h_d5_o_claim_with_unresolved_pointer_is_invalid(monkeypatch
     row = discovery_map.discovery_row(
         spec,
         payload,
-        {discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT: {"final_status": "pass"}},
+        context,
     )
 
     assert row["discovery_level"] == "D5-O"
@@ -672,6 +704,40 @@ def test_adversarial_witness_count_does_not_create_positive_discovery(tmp_path):
     assert row["d5_readiness"]["adversarial"]["status"] == "pass"
     assert row["discovery_level"] == "D0"
     assert row["classifier_reasons"] == ["no classifier shift or debt improvement"]
+
+
+def test_discovery_map_has_no_generic_d5_level(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+
+    assert all(row["discovery_level"] != "D5" for row in payload["rows"])
+    assert "D5" not in payload["level_counts"]
+
+
+def test_positive_discovery_rows_have_resolvable_gate_pointers(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+
+    for row in payload["rows"]:
+        if row["discovery_level"] not in {"D4", "D5-O", "D5-M"}:
+            continue
+        source = _read_json_artifact(tmp_path, row["json_artifact"])
+        assert discovery_map.pointer_value(source, row["evidence_pointer"]) is not None
+        assert discovery_map.pointer_value(source, row["control_pointer"]) is not None
+        scorecard_artifact, scorecard_pointer = row["scorecard_pointer"].split(":", 1)
+        assert discovery_map.pointer_value(_read_json_artifact(tmp_path, scorecard_artifact), scorecard_pointer) is not None
+        if row["discovery_level"] in {"D5-O", "D5-M"} and "robustness_pointer" in row:
+            robustness_artifact, robustness_pointer = row["robustness_pointer"].split(":", 1)
+            assert discovery_map.pointer_value(_read_json_artifact(tmp_path, robustness_artifact), robustness_pointer) is not None
+            if row["discovery_level"] == "D5-M":
+                mechanism_artifact, mechanism_pointer = row["mechanism_pointer"].split(":", 1)
+                mechanism_case_artifact, mechanism_case_pointer = row["mechanism_case_pointer"].split(":", 1)
+                assert discovery_map.pointer_value(_read_json_artifact(tmp_path, mechanism_artifact), mechanism_pointer) is not None
+                assert discovery_map.pointer_value(_read_json_artifact(tmp_path, mechanism_case_artifact), mechanism_case_pointer) is not None
 
 
 @pytest.mark.parametrize(
@@ -755,9 +821,8 @@ def test_strict_manifest_audit_marks_missing_control_invalid(tmp_path):
     payload = {"treatment_verdict": {"positive": True}, "control_verdict": {"positive": False}}
     row = discovery_map.discovery_row(spec, payload)
 
-    assert row["discovery_level"] == "D4"
-    assert row["audit_status"] == "invalid"
-    assert row["audit_reason"] == "unresolved-control-pointer"
+    assert row["discovery_level"] == "DN"
+    assert row["classifier_reasons"] == ["scorecard_ready=false"]
 
     _write_all_payloads(tmp_path)
     _write_payload(tmp_path, spec, payload)
@@ -895,7 +960,7 @@ def test_dimension_mismatch_source_pass_keeps_canonical_d4_terminal(tmp_path):
     assert row["evidence_pointer"] == discovery_map.DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER
     assert row["audit_status"] == "valid"
     assert "failed_gate" not in row
-    assert "control_pointer" not in row
+    assert row["control_pointer"] == "$.hardgate_evidence.HG-B3.matched_random_positive"
     assert "d5_readiness" not in row
 
 

@@ -1,4 +1,5 @@
 import json
+from itertools import product
 from pathlib import Path
 
 import pytest
@@ -16,12 +17,31 @@ def _canonical_payload(name: str) -> dict:
     return json.loads((ROOT / "reports" / "canonical" / name).read_text(encoding="utf-8"))
 
 
-def test_hg_dl_1_gap_head_discovery_report_is_positive_discovery():
+def _positive_payload(**overrides) -> dict:
+    payload = {
+        "artifact": "reports/canonical/positive-fixture.json",
+        "positive_discovery": True,
+        "net_positive_signal": True,
+        "main_verdict": {
+            "surface_delta_count": 1,
+            "shift_information": 1,
+            "structural_discovery": True,
+        },
+        "evidence_basis": {
+            "control_positive_discovery": False,
+            "scorecard_ready": True,
+        },
+    }
+    payload.update(overrides)
+    return payload
+
+
+def test_hg_dl_1_gap_head_discovery_report_without_scorecard_fails_closed():
     verdict = assign_discovery_level(_canonical_payload("gap-head-discovery.json"))
 
     assert isinstance(verdict, ResearchDiscoveryVerdict)
-    assert verdict.discovery_level == "D4"
-    assert verdict.reasons == ("positive_discovery=true", "robustness evidence absent")
+    assert verdict.discovery_level == "DN"
+    assert verdict.reasons == ("scorecard_ready=false",)
     assert verdict.experiment_id == "reports/canonical/gap-head-discovery.json"
     assert verdict.terminal_verdict == ""
     assert verdict.classifier_shift is True
@@ -30,6 +50,44 @@ def test_hg_dl_1_gap_head_discovery_report_is_positive_discovery():
     assert verdict.control_positive is False
     assert verdict.audit_status is None
     assert verdict.revocation_status is None
+
+
+@pytest.mark.parametrize(
+    ("classifier_shift", "positive_net", "control_negative", "scorecard_ready", "positive_terminal"),
+    product((False, True), repeat=5),
+)
+def test_d4_finite_gate_matrix(
+    classifier_shift,
+    positive_net,
+    control_negative,
+    scorecard_ready,
+    positive_terminal,
+):
+    payload = {
+        "positive_discovery": positive_terminal,
+        "net_positive_signal": positive_net,
+        "main_verdict": {
+            "surface_delta_count": 1 if classifier_shift else 0,
+            "shift_information": 1 if classifier_shift else 0,
+            "structural_discovery": classifier_shift,
+            "deltas": {"debt_delta": 0.0},
+        },
+        "evidence_basis": {
+            "control_positive_discovery": not control_negative,
+            "scorecard_ready": scorecard_ready,
+        },
+    }
+
+    verdict = assign_discovery_level(payload)
+
+    if classifier_shift and positive_net and control_negative and scorecard_ready and positive_terminal:
+        assert verdict.discovery_level == "D4"
+    elif positive_terminal:
+        assert verdict.discovery_level == "DN"
+    elif classifier_shift:
+        assert verdict.discovery_level == "D3"
+    else:
+        assert verdict.discovery_level == "D0"
 
 
 @pytest.mark.parametrize("terminal_verdict", ["demoted", "rejected"])
@@ -173,7 +231,7 @@ def test_hg_dl_5_no_shift_and_no_debt_improvement_is_observation():
 
 
 def test_positive_discovery_with_real_robustness_report_is_d5_o():
-    payload = _canonical_payload("gap-head-discovery.json")
+    payload = _positive_payload()
     payload.update(
         {
             "acceptance_gates": {"status": "pass"},
@@ -185,15 +243,18 @@ def test_positive_discovery_with_real_robustness_report_is_d5_o():
 
     assert verdict.discovery_level == "D5-O"
     assert verdict.reasons == (
-        "positive_discovery=true",
-        "acceptance_gates.status=pass",
-        "final_status=pass",
-        "mechanism_attribution_all_pass=false",
+        "positive_terminal=true",
+        "classifier_shift=true",
+        "net_positive_signal=true",
+        "control_negative=true",
+        "scorecard_ready=true",
+        "robustness_ready=true",
+        "mechanism_ready=false",
     )
 
 
 def test_positive_discovery_with_mechanism_attribution_is_d5_m():
-    payload = _canonical_payload("gap-head-discovery.json")
+    payload = _positive_payload()
     payload.update(
         {
             "acceptance_gates": {"status": "pass"},
@@ -204,6 +265,11 @@ def test_positive_discovery_with_mechanism_attribution_is_d5_m():
                 "failed_gate": None,
                 "channel": "closed-attribution",
             },
+            "source_pointers": {
+                "operational": "reports/canonical/gap-head-robustness-sweep.json:$.acceptance_gates.status",
+                "mechanism": "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt",
+                "mechanism_case": "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec",
+            },
         }
     )
 
@@ -211,15 +277,18 @@ def test_positive_discovery_with_mechanism_attribution_is_d5_m():
 
     assert verdict.discovery_level == "D5-M"
     assert verdict.reasons == (
-        "positive_discovery=true",
-        "acceptance_gates.status=pass",
-        "final_status=pass",
-        "mechanism_attribution_all_pass=true",
+        "positive_terminal=true",
+        "classifier_shift=true",
+        "net_positive_signal=true",
+        "control_negative=true",
+        "scorecard_ready=true",
+        "robustness_ready=true",
+        "mechanism_ready=true",
     )
 
 
 def test_probe_margin_channel_blocks_d5_m():
-    payload = _canonical_payload("gap-head-discovery.json")
+    payload = _positive_payload()
     payload.update(
         {
             "acceptance_gates": {"status": "pass"},
@@ -230,7 +299,48 @@ def test_probe_margin_channel_blocks_d5_m():
                 "failed_gate": None,
                 "channel": "probe-margin-channel",
             },
+            "source_pointers": {
+                "operational": "reports/canonical/gap-head-robustness-sweep.json:$.acceptance_gates.status",
+                "mechanism": "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt",
+                "mechanism_case": "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec",
+            },
         }
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D5-O"
+
+
+def test_terminal_dn_overrides_positive_gate():
+    verdict = assign_discovery_level(_positive_payload(verdict="rejected"))
+
+    assert verdict.discovery_level == "DN"
+    assert verdict.reasons == ("verdict=rejected",)
+
+
+def test_revocation_overrides_positive_gate():
+    verdict = assign_discovery_level(
+        _positive_payload(
+            certificate_status={"status": "revoked"},
+            verdict="rejected",
+        )
+    )
+
+    assert verdict.discovery_level == "DR"
+    assert verdict.reasons == ("certificate_status.status=revoked",)
+
+
+def test_d5_m_requires_mechanism_source_pointers():
+    payload = _positive_payload(
+        acceptance_gates={"status": "pass"},
+        final_status="pass",
+        mechanism_attribution={
+            "all_pass": True,
+            "status": "ready",
+            "failed_gate": None,
+            "channel": "closed-attribution",
+        },
     )
 
     verdict = assign_discovery_level(payload)
