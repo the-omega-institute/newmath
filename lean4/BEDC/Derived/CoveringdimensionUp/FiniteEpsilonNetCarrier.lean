@@ -10,7 +10,8 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem CoveringDimensionFiniteEpsilonNetCarrier [AskSetup] [PackageSetup]
+theorem covering_dimension_finite_epsilon_net_carrier_semantic_namecert_boundary
+    [AskSetup] [PackageSetup]
     {K E C R O L H T P N coverRead refineRead orderRead ledgerRead namedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     UnaryHistory K ->
