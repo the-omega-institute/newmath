@@ -15,6 +15,7 @@ HG_P_CORE = {
     "gap-head-discovery",
     "gap-head-ablation",
     "gap-head-threshold-frontier",
+    "gap-head-attribution-v3",
     "certificate-guided-training",
     "certificate-guided-discovery",
 }
@@ -66,6 +67,7 @@ def _payload_for_spec(spec):
             "objective": {"required_rows": ["fixture"]},
             "cost_protocol": {"name": "fixture"},
             "not_claimed": ["fixture nonclaim"],
+            "scope": {"not_claimed": ["fixture nonclaim"]},
             "claim_gate": {
                 "status": "fixture",
                 "audit_improvement_tradeoff": spec.name == "certificate-guided-training",
@@ -248,6 +250,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-discovery",
         "gap-head-ablation",
         "gap-head-threshold-frontier",
+        "gap-head-attribution-v3",
         "nongaussian-distribution-sweep",
         "certificate-guided-training",
         "certificate-guided-discovery",
@@ -338,6 +341,32 @@ def test_canonical_reports_manifest_includes_gap_head_threshold_frontier():
     assert spec.cost_pointer == "$.source_artifacts"
     assert spec.positive_claim_pointer == "$.main_claim_status"
     assert spec.control_pointer == "$.threshold_summary.control_baseline"
+
+
+def test_canonical_reports_manifest_includes_gap_head_attribution_v3():
+    spec = canonical._specs_by_name()["gap-head-attribution-v3"]
+
+    assert spec.command == ("python3", "scripts/run_gap_head_attribution_v3.py")
+    assert spec.json_artifact == "reports/canonical/gap_head_attribution_v3.json"
+    assert spec.markdown_artifact == "reports/canonical/gap_head_attribution_v3.md"
+    assert {
+        "schema_id",
+        "source_issue",
+        "artifact_id",
+        "run_id",
+        "d5_o",
+        "d5_m",
+        "mechanism_case",
+        "hardgates",
+        "claim_capsule_hardgates",
+        "forbidden_column_audit",
+        "source_artifacts",
+        "aggregate",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.scope_pointer == "$.scope.not_claimed"
+    assert spec.cost_pointer == "$.cost_protocol_pointer"
+    assert spec.control_pointer == "$.control_pointer"
 
 
 def test_canonical_reports_manifest_includes_distribution_sweep():
@@ -907,6 +936,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
                 {
+                    "report": "gap-head-attribution-v3",
+                    "artifact": "reports/canonical/gap_head_attribution_v3.json",
+                    "pointer": "$.scope.not_claimed",
+                },
+                {
                     "report": "nongaussian-distribution-sweep",
                     "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
                     "pointer": "$.coverage_item",
@@ -927,8 +961,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 10,
-            "denominator": 10,
+            "numerator": 11,
+            "denominator": 11,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -964,6 +998,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
                 {
+                    "report": "gap-head-attribution-v3",
+                    "artifact": "reports/canonical/gap_head_attribution_v3.json",
+                    "pointer": "$.cost_protocol_pointer",
+                },
+                {
                     "report": "nongaussian-distribution-sweep",
                     "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
                     "pointer": "$.source_artifacts.cost_protocol",
@@ -984,8 +1023,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 10,
-            "denominator": 10,
+            "numerator": 11,
+            "denominator": 11,
         },
         "HardeningCoverage": {
             "value": 1.0,

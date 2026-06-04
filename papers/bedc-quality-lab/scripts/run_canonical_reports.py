@@ -51,6 +51,9 @@ FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
 GAP_HEAD_MECHANISM_ATTRIBUTION_JSON_ARTIFACT = "reports/gap_head_mechanism_attribution.json"
 GAP_HEAD_MECHANISM_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/gap_head_mechanism_attribution.md"
 GAP_HEAD_MECHANISM_ATTRIBUTION_ARTIFACT_ID = "bedc-quality-lab:gap-head-mechanism-attribution"
+GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_v3.json"
+GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT = "reports/canonical/gap_head_attribution_v3.md"
+GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_v3"
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -255,6 +258,43 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         not_claimed_pointer="$.not_claimed",
         positive_claim_pointer="$.main_claim_status",
         control_pointer="$.threshold_summary.control_baseline",
+        no_control_rationale_pointer=None,
+    ),
+    CanonicalReportSpec(
+        name="gap-head-attribution-v3",
+        command=("python3", "scripts/run_gap_head_attribution_v3.py"),
+        json_artifact=GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT,
+        markdown_artifact=GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "generated_at",
+            "source_issue",
+            "artifact_id",
+            "run_id",
+            "d5_o",
+            "d5_m",
+            "mechanism_case",
+            "hardgates",
+            "claim_capsule_hardgates",
+            "cost_protocol_pointer",
+            "control_pointer",
+            "scope_seal",
+            "forbidden_column_audit",
+            "failed_gate",
+            "what_was_learned",
+            "revocation_ledger",
+            "positive_discovery_inputs",
+            "scope",
+            "source_artifacts",
+            "aggregate",
+        ),
+        estimated_seconds=120,
+        bundle_role="hg_p_core",
+        scope_pointer="$.scope.not_claimed",
+        cost_pointer="$.cost_protocol_pointer",
+        not_claimed_pointer="$.scope.not_claimed",
+        positive_claim_pointer="$.d5_m",
+        control_pointer="$.control_pointer",
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
@@ -1091,6 +1131,21 @@ def _gap_head_mechanism_attribution_index_section() -> dict[str, Any]:
     }
 
 
+def _gap_head_attribution_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT)
+    return {
+        "status": "pointer-only",
+        "artifact_id": GAP_HEAD_ATTRIBUTION_ARTIFACT_ID,
+        "json_artifact": GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT,
+        "markdown_artifact": GAP_HEAD_ATTRIBUTION_MARKDOWN_ARTIFACT,
+        "run_id": payload.get("run_id", "missing"),
+        "run_artifacts": _pointer_value(payload, "$.source_artifacts.run_artifacts") or "missing",
+        "d5_o_status": _pointer_value(payload, "$.d5_o.status") or "missing",
+        "d5_m_status": _pointer_value(payload, "$.d5_m.status") or "missing",
+        "mechanism_case": _pointer_value(payload, "$.mechanism_case.case") or "missing",
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -1162,6 +1217,7 @@ def _index(results: Sequence[dict[str, Any]], *, generated_at: str | None = None
         "claim_verdicts": _claim_verdicts_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
         "formal_hardening": _formal_hardening_index_section(generated_at=timestamp),
+        "gap_head_attribution_v3": _gap_head_attribution_index_section(),
         "gap_head_mechanism_attribution": _gap_head_mechanism_attribution_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
@@ -1279,6 +1335,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Ready: `{payload['formal_hardening']['ready']}`",
             f"- Coverage: `{payload['formal_hardening']['recorded']}/{payload['formal_hardening']['required']}`",
             f"- Gaps: `{payload['formal_hardening']['gap_count']}`",
+            "",
+            "## Gap-head attribution capsule",
+            "",
+            f"- Status: `{payload['gap_head_attribution_v3']['status']}`",
+            f"- JSON: `{payload['gap_head_attribution_v3']['json_artifact']}`",
+            f"- Markdown: `{payload['gap_head_attribution_v3']['markdown_artifact']}`",
+            f"- Run id: `{payload['gap_head_attribution_v3']['run_id']}`",
+            f"- D5-O: `{payload['gap_head_attribution_v3']['d5_o_status']}`",
+            f"- D5-M: `{payload['gap_head_attribution_v3']['d5_m_status']}`",
+            f"- Mechanism case: `{payload['gap_head_attribution_v3']['mechanism_case']}`",
             "",
             "## Gap-head mechanism attribution",
             "",

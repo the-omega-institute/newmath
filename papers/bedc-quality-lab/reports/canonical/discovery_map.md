@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-03T17:08:52.430894+00:00`
-- Rows: `11`
+- Generated at: `2026-06-04T06:25:51.157766+00:00`
+- Rows: `12`
 
 | report | level | projection | audit | evidence |
 | --- | --- | --- | --- | --- |
@@ -11,6 +11,7 @@
 | `gap-head-discovery` | `D4` | `projected` | `valid` | `$.matched_random_control` |
 | `gap-head-ablation` | `DN` | `projected` | `valid` | `$.hardgate.status` |
 | `gap-head-threshold-frontier` | `D0` | `source-insufficient` | `valid` | `source-insufficient` |
+| `gap-head-attribution-v3` | `D0` | `source-insufficient` | `valid` | `source-insufficient` |
 | `nongaussian-distribution-sweep` | `D1` | `projected` | `valid` | `$.negative_result_ledger` |
 | `certificate-guided-training` | `DN` | `projected` | `valid` | `$.result.status` |
 | `certificate-guided-discovery` | `DN` | `projected` | `valid` | `$.positive_discovery` |

@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-04T03:33:42.350600+00:00`
+- Generated at: `2026-06-04T06:25:51.157766+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -13,6 +13,7 @@
 | `gap-head-discovery` | `pass` | `reports/canonical/gap-head-discovery.json` | `reports/canonical/gap-head-discovery.md` | `$.boundary_checks` | `$.score_terms` | `$.boundary_checks.forbidden_inference_columns` | `$.final_main_claim_status` | `$.matched_random_control` |
 | `gap-head-ablation` | `pass` | `reports/canonical/gap-head-ablation.json` | `reports/canonical/gap-head-ablation.md` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.not_claimed` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` |
 | `gap-head-threshold-frontier` | `pass` | `reports/canonical/gap-head-threshold-frontier.json` | `reports/canonical/gap-head-threshold-frontier.md` | `$.applicability_boundary` | `$.source_artifacts` | `$.not_claimed` | `$.main_claim_status` | `$.threshold_summary.control_baseline` |
+| `gap-head-attribution-v3` | `pass` | `reports/canonical/gap_head_attribution_v3.json` | `reports/canonical/gap_head_attribution_v3.md` | `$.scope.not_claimed` | `$.cost_protocol_pointer` | `$.scope.not_claimed` | `$.d5_m` | `$.control_pointer` |
 | `certificate-guided-training` | `pass` | `reports/canonical/certificate-guided-training.json` | `reports/canonical/certificate-guided-training.md` | `$.objective.required_rows` | `$.cost_protocol` | `$.not_claimed` | `$.claim_gate` | `$.paired_seed_protocol` |
 | `certificate-guided-discovery` | `pass` | `reports/canonical/certificate-guided-discovery.json` | `reports/canonical/certificate-guided-discovery.md` | `$.applicability_boundary` | `$.claim_gate` | `$.not_claimed` | `$.main_claim_status` | `$.matched_random_baseline` |
 
@@ -35,7 +36,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
-- Rows: `11`
+- Rows: `12`
 
 ## Dimension mismatch debt transfer
 
@@ -92,19 +93,29 @@
 - Coverage: `4/4`
 - Gaps: `0`
 
+## Gap-head attribution capsule
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/gap_head_attribution_v3.json`
+- Markdown: `reports/canonical/gap_head_attribution_v3.md`
+- Run id: `a1-20260604T062534Z`
+- D5-O: `ready`
+- D5-M: `blocked`
+- Mechanism case: `Case 2`
+
 ## Gap-head mechanism attribution
 
 - Status: `pointer-only`
 - JSON: `reports/gap_head_mechanism_attribution.json`
 - Markdown: `reports/gap_head_mechanism_attribution.md`
-- Mechanism status: `probe-margin-channel`
-- Arms: `16`
+- Mechanism status: `D5-O retained, mechanism = probe-margin-channel`
+- Arms: `22`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, gap-head-threshold-frontier, certificate-guided-training, certificate-guided-discovery`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, gap-head-threshold-frontier, gap-head-attribution-v3, certificate-guided-training, certificate-guided-discovery`
 - Auxiliary reports: `nongaussian-distribution-sweep, spectral-ablation-hinge`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -120,6 +131,7 @@
 | `gap-head-discovery` | `hg_p_core` | `$.final_main_claim_status` | `$.matched_random_control` | `None` |
 | `gap-head-ablation` | `hg_p_core` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` | `None` |
 | `gap-head-threshold-frontier` | `hg_p_core` | `$.main_claim_status` | `$.threshold_summary.control_baseline` | `None` |
+| `gap-head-attribution-v3` | `hg_p_core` | `$.d5_m` | `$.control_pointer` | `None` |
 | `nongaussian-distribution-sweep` | `auxiliary` | `$.main_claim_status` | `None` | `$.negative_result_ledger` |
 | `certificate-guided-training` | `hg_p_core` | `$.claim_gate` | `$.paired_seed_protocol` | `None` |
 | `certificate-guided-discovery` | `hg_p_core` | `$.main_claim_status` | `$.matched_random_baseline` | `None` |

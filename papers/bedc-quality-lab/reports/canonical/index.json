@@ -57,6 +57,13 @@
         "report": "gap-head-threshold-frontier"
       },
       {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_pointer",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.d5_m",
+        "report": "gap-head-attribution-v3"
+      },
+      {
         "bundle_role": "auxiliary",
         "control_pointer": null,
         "no_control_rationale_pointer": "$.negative_result_ledger",
@@ -107,7 +114,7 @@
     "artifact_id": "bedc-quality-lab:discovery-map",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 1,
+      "D0": 2,
       "D1": 3,
       "D2": 0,
       "D3": 0,
@@ -117,7 +124,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 11,
+    "row_count": 12,
     "status": "pointer-only"
   },
   "formal_hardening": {
@@ -130,17 +137,34 @@
     "required": 4,
     "status": "pointer-only"
   },
+  "gap_head_attribution_v3": {
+    "artifact_id": "gap_head_attribution_v3",
+    "d5_m_status": "blocked",
+    "d5_o_status": "ready",
+    "json_artifact": "reports/canonical/gap_head_attribution_v3.json",
+    "markdown_artifact": "reports/canonical/gap_head_attribution_v3.md",
+    "mechanism_case": "Case 2",
+    "run_artifacts": {
+      "claim_capsule": "reports/runs/a1-20260604T062534Z/claim_capsule.json",
+      "raw_metrics": "reports/runs/a1-20260604T062534Z/raw_metrics.jsonl",
+      "report": "reports/runs/a1-20260604T062534Z/report.md",
+      "run_dir": "reports/runs/a1-20260604T062534Z",
+      "summary": "reports/runs/a1-20260604T062534Z/summary.json"
+    },
+    "run_id": "a1-20260604T062534Z",
+    "status": "pointer-only"
+  },
   "gap_head_mechanism_attribution": {
-    "arm_count": 16,
+    "arm_count": 22,
     "artifact_id": "bedc-quality-lab:gap-head-mechanism-attribution",
     "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
     "hg_status": "fail",
     "json_artifact": "reports/gap_head_mechanism_attribution.json",
     "markdown_artifact": "reports/gap_head_mechanism_attribution.md",
-    "mechanism_status": "probe-margin-channel",
+    "mechanism_status": "D5-O retained, mechanism = probe-margin-channel",
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-04T03:33:42.350600+00:00",
+  "generated_at": "2026-06-04T06:25:51.157766+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -201,6 +225,7 @@
       "gap-head-discovery",
       "gap-head-ablation",
       "gap-head-threshold-frontier",
+      "gap-head-attribution-v3",
       "certificate-guided-training",
       "certificate-guided-discovery"
     ],
@@ -255,7 +280,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.054,
+      "duration_seconds": 0.073,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
       "markdown_artifact": "reports/canonical/mixing-family-sweep.md",
@@ -305,7 +330,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.049,
+      "duration_seconds": 0.054,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
       "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
@@ -355,7 +380,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 2.224,
+      "duration_seconds": 2.378,
       "estimated_seconds": 90,
       "json_artifact": "reports/canonical/gap-head-on-h.json",
       "markdown_artifact": "reports/canonical/gap-head-on-h.md",
@@ -411,7 +436,7 @@
         "scope_pointer": "$.boundary_checks",
         "scope_status": "present"
       },
-      "duration_seconds": 0.008,
+      "duration_seconds": 0.01,
       "estimated_seconds": 5,
       "json_artifact": "reports/canonical/gap-head-discovery.json",
       "markdown_artifact": "reports/canonical/gap-head-discovery.md",
@@ -462,7 +487,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 9.599,
+      "duration_seconds": 10.32,
       "estimated_seconds": 120,
       "json_artifact": "reports/canonical/gap-head-ablation.json",
       "markdown_artifact": "reports/canonical/gap-head-ablation.md",
@@ -514,7 +539,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 2.177,
+      "duration_seconds": 2.306,
       "estimated_seconds": 120,
       "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
       "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
@@ -549,6 +574,69 @@
       }
     },
     {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_pointer",
+        "control_status": "present",
+        "cost_pointer": "$.cost_protocol_pointer",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.scope.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.d5_m",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.scope.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 12.83,
+      "estimated_seconds": 120,
+      "json_artifact": "reports/canonical/gap_head_attribution_v3.json",
+      "markdown_artifact": "reports/canonical/gap_head_attribution_v3.md",
+      "name": "gap-head-attribution-v3",
+      "producer_command": [
+        "python3",
+        "scripts/run_gap_head_attribution_v3.py"
+      ],
+      "producer_status": "completed",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "generated_at",
+          "source_issue",
+          "artifact_id",
+          "run_id",
+          "d5_o",
+          "d5_m",
+          "mechanism_case",
+          "hardgates",
+          "claim_capsule_hardgates",
+          "cost_protocol_pointer",
+          "control_pointer",
+          "scope_seal",
+          "forbidden_column_audit",
+          "failed_gate",
+          "what_was_learned",
+          "revocation_ledger",
+          "positive_discovery_inputs",
+          "scope",
+          "source_artifacts",
+          "aggregate"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
@@ -568,7 +656,7 @@
         "scope_pointer": "$.coverage_item",
         "scope_status": "present"
       },
-      "duration_seconds": 0.039,
+      "duration_seconds": 0.04,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
       "markdown_artifact": "reports/canonical/nongaussian-distribution-sweep.md",
@@ -620,7 +708,7 @@
         "scope_pointer": "$.objective.required_rows",
         "scope_status": "present"
       },
-      "duration_seconds": 3.27,
+      "duration_seconds": 3.974,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/certificate-guided-training.json",
       "markdown_artifact": "reports/canonical/certificate-guided-training.md",
@@ -679,7 +767,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.003,
+      "duration_seconds": 0.005,
       "estimated_seconds": 5,
       "json_artifact": "reports/canonical/certificate-guided-discovery.json",
       "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",
@@ -736,7 +824,7 @@
         "scope_pointer": "$.applicability_boundary",
         "scope_status": "present"
       },
-      "duration_seconds": 0.005,
+      "duration_seconds": 0.006,
       "estimated_seconds": 20,
       "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
       "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",
