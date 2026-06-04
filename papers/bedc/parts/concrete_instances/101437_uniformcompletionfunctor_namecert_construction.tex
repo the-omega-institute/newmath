@@ -591,6 +591,22 @@ Apply \autoref{thm:uniform-completion-functor-l10-source-admission}. The source 
 Finally use \autoref{thm:uniform-completion-functor-ledger-exactness}. The ledger has no coordinate for selected limits, quotient completion equality, host complete uniform spaces, open-cover compactness, or choice. Therefore every Real-facing consumer route is the finite L10 route through the displayed rows.
 \end{proof}
 
+\begin{theorem}[UniformCompletionFunctor scoped L10 obligation route]
+\label{thm:uniform-completion-functor-scoped-l10-obligation-route}
+The scoped obligation surface of an accepted $\UniformCompletionFunctorUp$ packet is exactly the finite route
+$$
+\UniformCompletionUp,\ \CauchyCompletionFunctorUp,\ \CompletionUniversalPropertyUp,\ \RegSeqRatUp,\ \RealUp,\ \StreamNameUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Concretely, every source read must project the row $U$, every target completion read must pass through the Cauchy-completion handoff $F$ and universal-property row $E$, every regular and real-facing read must display $R,S,W$, and every structural replay must remain inside $H,C,P,N$. No quotient completion class, ambient completeness assumption, host complete uniform space, open-cover compactness principle, or choice-selected representative belongs to the scope.
+\end{theorem}
+\begin{proof}
+Start with the carrier and local NameCert obligations, \autoref{def:uniform-completion-functor-carrier} and \autoref{thm:uniform-completion-functor-namecert-obligations}. They list exactly the source row $U$, handoff row $F$, universal-extension row $E$, readback rows $R,W,D,S$, and structural rows $H,C,P,N$.
+
+Use \autoref{thm:uniform-completion-functor-universal-handoff} and \autoref{thm:uniformcompletionfunctor-root-obligation-surface}. These theorems order the same rows from the UniformCompletion source through the CauchyCompletionFunctor and CompletionUniversalProperty handoff before any RegSeqRat, StreamName, DyadicRatCore, or Real seal row can be consumed.
+
+Finally apply \autoref{thm:uniform-completion-functor-real-seal-consumer} and \autoref{thm:uniform-completion-functor-ledger-exactness}. The Real-facing route remains inside the displayed L10 packet, and the ledger excludes quotient completion classes, ambient completeness, host complete uniform spaces, open-cover compactness, and choice. Hence the scoped obligation surface is the finite BEDC route named in the statement.
+\end{proof}
+
 \falsifiablePrediction{Every $\UniformCompletionFunctorUp$ completion-facing read factors through one $\UniformCompletionUp$ source row, one $\CauchyCompletionFunctorUp$ handoff row, one $\CompletionUniversalPropertyUp$ universal-extension row, one $\RegSeqRatUp$ readback row, one $\StreamNameUp$ finite-window row, one $\DyadicRatCoreUp$ tolerance row, one terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
 
 \independenceWitness{uniformcompletion, cauchycompletionfunctor, completionuniversalproperty, regseqrat, streamname, dyadicratcore, real: $\UniformCompletionFunctorUp$ is not bijective to any listed sibling because it jointly carries the source, functorial handoff, universal-extension, regular readback, finite-window, dyadic tolerance, Real seal, transport, replay, provenance, and local NameCert rows as one finite completion-consumer packet.}
