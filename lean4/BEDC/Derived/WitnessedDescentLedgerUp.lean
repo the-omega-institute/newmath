@@ -1,4 +1,5 @@
 import BEDC.Derived.WitnessedDescentLedgerUp.TasteGate
+import BEDC.Derived.WitnessedDescentLedgerUp.DisplayedWitnessAccountability
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 
