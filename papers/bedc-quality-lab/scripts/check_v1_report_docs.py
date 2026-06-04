@@ -9,6 +9,15 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 
+if str(Path(__file__).resolve().parents[1]) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from scripts.literature_ledger import (
+    FORBIDDEN_POSITIVE_CLAIM_TERMS as LITERATURE_FORBIDDEN_TERMS,
+    LEDGER_POINTER,
+    validate_literature_ledger,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DOC_PATHS = [
@@ -20,6 +29,7 @@ DOC_PATHS = [
 ]
 INDEX_PATH = ROOT / "reports" / "canonical" / "index.json"
 DISCOVERY_MAP_PATH = ROOT / "reports" / "canonical" / "discovery_map.json"
+LITERATURE_LEDGER_PATH = ROOT / LEDGER_POINTER
 
 BEDC_BODY_MARKERS = [
     r"\\closurestatus",
@@ -361,6 +371,45 @@ def check_json_pointers(docs: dict[Path, str]) -> CheckResult:
     return CheckResult("HG-V1-Report-pointers", "PASS", "all canonical JSON pointers resolve")
 
 
+def check_literature_ledger(docs: dict[Path, str], index: dict | None) -> CheckResult:
+    summary = validate_literature_ledger(ROOT)
+    failures = list(summary["failures"])
+    combined_docs = "\n".join(docs.values())
+    if "reports/canonical/index.json" not in combined_docs or "$.literature_ledger" not in combined_docs:
+        failures.append("v1 docs must point to reports/canonical/index.json:$.literature_ledger")
+
+    for record_id in summary["record_ids"]:
+        if record_id in combined_docs:
+            failures.append(f"v1 docs repeat literature ledger record id: {record_id}")
+
+    if LITERATURE_LEDGER_PATH.exists():
+        ledger_text = LITERATURE_LEDGER_PATH.read_text(encoding="utf-8").lower()
+        for term in LITERATURE_FORBIDDEN_TERMS:
+            if term in ledger_text:
+                failures.append(f"literature ledger contains forbidden wording: {term}")
+
+    if index is None:
+        failures.append("reports/canonical/index.json is missing")
+    else:
+        index_ledger = index.get("literature_ledger")
+        if not isinstance(index_ledger, dict):
+            failures.append("canonical index missing $.literature_ledger")
+        elif index_ledger.get("status") == "ready" and summary["status"] != "ready":
+            failures.append("canonical index claims ready while literature validator is not ready")
+
+    if failures:
+        return CheckResult(
+            "HG-V1-Report-literature-ledger",
+            "FAIL",
+            " | ".join(failures),
+        )
+    return CheckResult(
+        "HG-V1-Report-literature-ledger",
+        "PASS",
+        "literature ledger readiness is validator-owned and docs stay pointer-only",
+    )
+
+
 def json_report_path_from_span(span: str) -> Path | None:
     match = REPORT_REF_RE.match(span)
     if not match:
@@ -457,6 +506,7 @@ def main() -> int:
             check_certificate_guided_boundary(docs),
             check_selected_positive_worked_case(docs),
             check_json_pointers(docs),
+            check_literature_ledger(docs, index),
         ]
     except Exception as exc:
         print(f"HG-V1-Report-DOCS: FAIL: {exc}")

@@ -593,16 +593,19 @@ def test_forbidden_term_at_positive_claim_pointer_is_caught(tmp_path, monkeypatc
     assert result["discipline"]["forbidden_claim_term_hits"] == ["full-lejepa"]
 
 
-def test_literature_ledger_is_pointer_only_after_issue_548(tmp_path, monkeypatch):
+def test_literature_ledger_status_follows_validator_not_path_existence(tmp_path, monkeypatch):
     ledger = tmp_path / "docs" / "lit" / "literature_ledger.yaml"
-    monkeypatch.setattr(canonical, "LITERATURE_LEDGER", ledger)
+    ledger.parent.mkdir(parents=True)
+    ledger.write_text("{}\n", encoding="utf-8")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
 
     payload = canonical._literature_ledger()
 
     assert payload["status"] == "not-ready"
-    assert payload["dependency"] == "#548"
-    assert payload["records"] == "not-loaded"
-    assert "record" not in payload
+    assert payload["pointer"] == "docs/lit/literature_ledger.yaml"
+    assert payload["record_count"] == 0
+    assert "failures" in payload
+    assert "records" not in payload
 
 
 def test_artifact_path_rejects_non_canonical_paths():

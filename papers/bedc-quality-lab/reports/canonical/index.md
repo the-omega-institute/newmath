@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-03T20:44:31.353684+00:00`
+- Generated at: `2026-06-04T03:33:42.350600+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -127,7 +127,7 @@
 
 ## Literature ledger pointer
 
-- Status: `not-ready`
+- Status: `ready`
 - Pointer: `docs/lit/literature_ledger.yaml`
 
 ## Honest boundary
