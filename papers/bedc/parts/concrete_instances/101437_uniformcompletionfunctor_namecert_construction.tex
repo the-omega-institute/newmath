@@ -87,6 +87,41 @@ Use \autoref{thm:uniform-completion-functor-namecert-obligations}. Handoff exact
 The introduction's CauchyCompletionFunctor and CompletionUniversalProperty siblings provide exactly those consumer surfaces. Nothing in the carrier adds quotient completion equality, a selected limit, host complete-uniform-space structure, or choice, so the Cauchy handoff is the displayed route $U \longmapsto F \longmapsto E$.
 \end{proof}
 
+\begin{theorem}[UniformCompletionFunctor bridge source lock]
+\label{thm:uniform-completion-functor-bridge-source-lock}
+Every bridge read of the source coordinate in an accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$ factors through the ordered finite route
+$$
+U \longmapsto F \longmapsto E \longmapsto R,W,D
+$$
+before the terminal $\RealUp$ seal row $S$ is exposed. The read cannot bypass the $\UniformCompletionUp$ source row $U$, cannot treat $F,E,R,W,D$ as independent completion sources, and cannot export a bridge surface that omits the displayed source before reaching $S,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:uniform-completion-functor-carrier}. The only source coordinate is $U$, and every downstream completion-facing row is displayed after it.
+
+Use \autoref{thm:uniformcompletionfunctor-source-obligation}. It fixes $U$ as the first public row of any completion-facing read, so a bridge cannot begin from $F,E,R,W,D$ or from the terminal Real seal.
+
+Next apply \autoref{thm:uniformcompletionfunctor-cauchy-handoff}. The Cauchy-completion handoff $F$ is attached to the same source row, and the universal-extension row $E$ is downstream from that handoff.
+
+Finally use \autoref{thm:uniformcompletionfunctor-real-seal-nonescape}. The readback, window, and dyadic rows $R,W,D$ appear before the Real seal $S$, while $H,C,P,N$ only transport, replay, source, and name the same route. Hence every bridge read is source-locked through $U,F,E,R,W,D$ before any Real-facing seal is consumed.
+\end{proof}
+
+\begin{theorem}[UniformCompletionFunctor Cauchy-completion handoff ordering]
+\label{thm:uniform-completion-functor-cauchy-completion-handoff}
+The $\CauchyCompletionFunctorUp$ row $F$ of an accepted $\UniformCompletionFunctorUp$ carrier is consumable only after the $\UniformCompletionUp$ source row $U$ has been displayed and only before the universal-extension row $E$ is read. Any downstream $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, or $\RealUp$ consumer receives $F$ only through the ordered route
+$$
+U \longmapsto F \longmapsto E \longmapsto R,W,D \longmapsto S .
+$$
+\end{theorem}
+\begin{proof}
+Project the rows of \autoref{def:uniform-completion-functor-carrier}. The Cauchy-completion handoff coordinate $F$ is placed between the source coordinate $U$ and the universal-extension coordinate $E$.
+
+Apply \autoref{thm:uniformcompletionfunctor-source-obligation} and \autoref{thm:uniformcompletionfunctor-cauchy-handoff}. Together they require $U$ before $F$ and require $E$ only after the handoff has been displayed.
+
+For downstream consumers, use \autoref{thm:uniformcompletionfunctor-regseqrat-real-source-handoff}. It sends regular rational readback, stream windows, dyadic tolerance, and the Real seal through $R,W,D,S$ after the same $U,F,E$ prefix.
+
+Thus $F$ is neither a free-standing completion object nor a late Real-facing seal. It is the finite handoff row consumed after $U$ and before $E$, with $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealUp$ strictly downstream.
+\end{proof}
+
 \begin{theorem}[UniformCompletionFunctor Real seal nonescape from root rows]
 \label{thm:uniformcompletionfunctor-real-seal-nonescape}
 For every accepted $\UniformCompletionFunctorUp$ carrier $\mathcal{F}=(U,F,E,R,W,D,S,H,C,P,N)$, the terminal $\RealUp$ seal row $S$ can be consumed only after the rows $R,W,D$ have been displayed downstream of $U,F,E$. The rows $H,C,P,N$ may transport, replay, source, and name that same route, but they cannot turn $S$ into a quotient completion, selected limit, host complete uniform space, open-cover compactness proof, or choice principle.
