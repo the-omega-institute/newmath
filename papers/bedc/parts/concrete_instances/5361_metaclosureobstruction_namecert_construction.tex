@@ -64,12 +64,26 @@ The last claim follows from the carrier definition itself. Row $T$ is one of the
 
 \independenceWitness{WitnessedRefutation, CertificateTruthBranchBoundary, ReflectionLimitBoundary, GroundLoopBoundary, HaltingDistinctionLimit: the obstruction packet contains both a forbidden-schema request row and a truth-branch refusal row. WitnessedRefutation carries the permitted refuter without the forbidden-schema packet; CertificateTruthBranchBoundary carries the branch boundary without the meta-loop obstruction packet; ReflectionLimitBoundary carries structural reflection limits without a contradiction-schema request; GroundLoopBoundary carries closed mark distinction without certificate-indexed truth refusal; HaltingDistinctionLimit carries a halting diagonal obstruction without the three-schema refusal ledger. Hence none is bijective to $\MetaClosureObstructionUp$ while preserving NameCert obligations.}
 
-\closureat{MetaClosureObstructionUp}{seedStr}
+\closureat{MetaClosureObstructionUp}{obligationStr}
+
+\begin{theorem}[MetaClosureObstruction truth-branch obligation]
+\label{thm:metaclosure-obstruction-truth-branch-obligation}
+Let $O=(R,S,F,T,M,H,C,P,N)$ be an accepted $\MetaClosureObstructionUp$ carrier. Before any consumer may compare the obstruction packet with certificate-indexed truth closure, the truth-branch refusal row $T$ must be displayed and transported with the permitted refutation route $R$, forbidden-schema request $S$, schema refusal row $F$, meta-loop boundary $M$, componentwise $\hsame$ data $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $O$. The truth-branch refusal row $T$ is a displayed coordinate of the same finite $\BHist$ packet as $R,S,F,M,H,C,P,N$.
+
+A consumer comparing obstruction with certificate-indexed truth closure must first read $T$. Without that row, the carrier definition supplies only a permitted refutation route and a schema refusal, not the truth-branch refusal needed at the certificate-indexed boundary.
+
+Transport and replay preserve this order. The row $H$ carries $T$ componentwise with the other displayed rows, $C$ replays the same refusal route, and $P,N$ source and name it as part of the local $\NameCert$ surface.
+
+Thus the comparison obligation is not a verification claim and not a truth-closure rule. It is the paper-side requirement that $T$ remain present before any truth-branch consumer can inspect the obstruction packet.
+\end{proof}
 
 \begin{closurestatus}{\MetaClosureObstructionUp}
   \constructivestory{A $\MetaClosureObstructionUp$ packet is generated from a permitted refutation route, a forbidden contradiction-schema request, schema and truth-branch refusal rows, a meta-loop boundary row, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:meta-closure-obstruction-carrier}, \autoref{thm:meta-closure-obstruction-namecert-obligations}, and \autoref{thm:meta-closure-obstruction-nonescape} bind the finite obstruction packet separating permitted refutation from meta-loop truth closure.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:meta-closure-obstruction-carrier}, \autoref{thm:meta-closure-obstruction-namecert-obligations}, \autoref{thm:meta-closure-obstruction-nonescape}, and \autoref{thm:metaclosure-obstruction-truth-branch-obligation} bind the finite obstruction packet separating permitted refutation from meta-loop truth closure.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
