@@ -141,6 +141,42 @@ Route replay is controlled by $F$ and $T$, while $H$ preserves componentwise agr
 Because the carrier has no coordinate for a host oracle, hidden theorem, quotient equality, or evidence-free global SN theorem, the ledger policy blocks any consumer from bypassing the finite packet.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit residual fuel decreases]
+\label{thm:metacic-normalization-audit-residual-fuel-decreases}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet equipped with a finite residual-fuel ledger for candidate-mediated strong-normalization reads. Each permitted reduction replay spends one displayed unit of that ledger before the next candidate read is consulted, and the spent ledger is transported through $R,C,S,A,N,F,H,T,P,L$. Hence a manuscript consumer may cite a decreasing finite measure for the audited route, but not a global normalization measure for arbitrary closed MetaCIC terms.
+\end{theorem}
+\begin{proof}
+Project the finite audit rows. The candidate evidence row $R$, closed-term projection row $C$, and finite SN scope row $S$ are the only rows from which a reduction replay can obtain normalization evidence.
+
+Attach the residual-fuel ledger to that replay. A permitted step consumes one named fuel entry and then returns to the candidate-mediated rows; the application boundary $A$ prevents the consumer from reading the step as unconditional application SN.
+
+Transport and refusal close the measure. The row $H$ preserves the spent fuel under componentwise agreement, $F,T,P,L$ replay and package the same finite ledger, and $N$ keeps confluence and subject-reduction boundaries outside the measure. The resulting decrease is therefore local to the packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit candidate frontier extension]
+\label{thm:metacic-normalization-audit-candidate-frontier-extension}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. If a new closed term is admitted at the candidate frontier by displayed $\mathrm{ClosedTypedCandidateSetMember}$ evidence in $R$ and its closed-term projection is recorded in $C$, then the finite SN scope $S$ may be extended by one frontier entry with its residual-fuel row. The extension preserves the application boundary $A$ and the confluence refusal $N$; it does not assert arbitrary substitution compatibility or full Church--Rosser.
+\end{theorem}
+\begin{proof}
+Begin at the candidate frontier. The new closed term is not admitted by syntax alone; it arrives with displayed candidate-set membership in $R$ and a matching closed-term projection in $C$.
+
+Extend the finite scope by adding the corresponding entry to $S$. The residual-fuel obligation of \autoref{thm:metacic-normalization-audit-residual-fuel-decreases} supplies the finite measure attached to the new frontier item.
+
+Finally preserve the boundaries. The application row $A$ keeps application-facing uses inside candidate evidence, while $N$ leaves confluence, substitution compatibility, and subject reduction in their sibling audit surfaces. Structural replay through $F,H,T,P,L$ packages the extended frontier without turning it into a global normalization theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit confluence socket]
+\label{thm:metacic-normalization-audit-confluence-socket}
+For an accepted $\MetacicNormalizationAuditUp$ packet $Z=(R,C,S,A,N,F,H,T,P,L)$, the confluence boundary row $N$ acts as a socket to \autoref{ch:concrete-instances-metacic-confluence-audit-namecert} and \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}: normalization-side candidate evidence may be compared with those sibling confluence rows only after the residual-fuel and candidate-frontier obligations have been displayed. The socket records compatibility of audit surfaces, not full closed Church--Rosser, arbitrary substitution compatibility, or subject reduction.
+\end{theorem}
+\begin{proof}
+Read the normalization route first. The rows $R,C,S,A$ provide candidate-mediated SN and application-boundary evidence, while the residual-fuel and frontier obligations expose the finite measure and admitted candidate boundary.
+
+Now inspect $N$. It does not prove confluence; it names the boundary at which the normalization audit can be placed beside the confluence audit siblings for comparison of finite rows.
+
+The structural rows $F,H,T,P,L$ preserve that comparison as a socket. They allow the manuscript route to carry normalization evidence up to the confluence boundary, but no row identifies the socket with full Church--Rosser, substitution compatibility, or subject reduction for arbitrary closed proofs.
+\end{proof}
+
 \closureat{MetacicNormalizationAuditUp}{seedStr}
 
 \begin{closurestatus}{\MetacicNormalizationAuditUp}
