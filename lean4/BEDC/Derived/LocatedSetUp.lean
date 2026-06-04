@@ -87,6 +87,27 @@ theorem LocatedSetCarrier_distance_witness_obligation [AskSetup] [PackageSetup]
     ⟨witnessUnary, metricRoute, distanceRoute, witnessRoute, provenancePkg, namePkg,
       witnessPkg⟩
 
+theorem LocatedSetCarrier_distance_window_monotonicity [AskSetup] [PackageSetup]
+    {X A Q R E T H C P N refinedWindow : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    LocatedSetCarrier X A Q R E T H C P N bundle pkg ->
+      Cont Q R refinedWindow ->
+        PkgSig bundle refinedWindow pkg ->
+          UnaryHistory Q ∧ UnaryHistory R ∧ UnaryHistory E ∧
+            UnaryHistory refinedWindow ∧ Cont X A Q ∧ Cont Q R E ∧
+              Cont Q R refinedWindow ∧ Cont E T C ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle refinedWindow pkg := by
+  -- BEDC touchpoint anchor: LocatedSetCarrier BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier refinedRoute refinedPkg
+  obtain ⟨_xUnary, _aUnary, qUnary, rUnary, eUnary, _tUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, metricRoute, distanceRoute, sealRoute, provenancePkg⟩ :=
+      carrier
+  have refinedUnary : UnaryHistory refinedWindow :=
+    unary_cont_closed qUnary rUnary refinedRoute
+  exact
+    ⟨qUnary, rUnary, eUnary, refinedUnary, metricRoute, distanceRoute, refinedRoute,
+      sealRoute, provenancePkg, refinedPkg⟩
+
 theorem LocatedSetDistanceLedger_totality [AskSetup] [PackageSetup]
     {X A Q R E T H C P N windowRead sealRead handoffRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
