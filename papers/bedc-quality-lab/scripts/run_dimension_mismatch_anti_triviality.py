@@ -20,7 +20,6 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from scripts.experiment_stats import metric_stats
 from scripts import run_dimension_mismatch_debt_transfer as source_transfer
-from scripts import run_gap_head_mechanism_attribution as mechanism
 from scripts import run_gap_head_observed_debt_transfer as observed_transfer
 from scripts import run_gap_head_robustness_sweep as robustness
 from scripts import run_gaussian_ou_gap_ledger_head as gap_head
@@ -143,9 +142,19 @@ def _require_matrix(name: str, value: np.ndarray) -> np.ndarray:
     return array
 
 
+def _row_l2_direction(h: np.ndarray) -> np.ndarray:
+    value = np.asarray(h, dtype=np.float64)
+    if value.ndim != 2 or value.shape[0] == 0:
+        raise ValueError("h must be a non-empty matrix")
+    if not np.all(np.isfinite(value)):
+        raise ValueError("h contains non-finite values")
+    norms = np.linalg.norm(value, axis=1, keepdims=True)
+    return np.divide(value, norms, out=np.zeros_like(value, dtype=np.float64), where=norms > 0.0)
+
+
 def _direction_summary(h: np.ndarray, h_pair: np.ndarray) -> dict[str, float]:
-    h_direction = mechanism._row_l2_direction(_require_matrix("h", h))
-    pair_direction = mechanism._row_l2_direction(_require_matrix("h_pair", h_pair))
+    h_direction = _row_l2_direction(_require_matrix("h", h))
+    pair_direction = _row_l2_direction(_require_matrix("h_pair", h_pair))
     if h_direction.shape != pair_direction.shape:
         raise ValueError("h and h_pair direction matrices must align")
     h_abs = np.abs(h_direction)

@@ -118,6 +118,15 @@ def test_three_arm_construction_exact_columns_and_metadata_exclusions():
     assert tuple(matrices["h_normalized_no_scale"]["feature_columns"]) == runner.H_NORMALIZED_NO_SCALE_COLUMNS
 
 
+def test_local_row_l2_direction_helper():
+    h = np.array([[3.0, 4.0], [0.0, 0.0]], dtype=np.float64)
+
+    direction = runner._row_l2_direction(h)
+
+    np.testing.assert_allclose(direction[0], [0.6, 0.8])
+    np.testing.assert_allclose(direction[1], [0.0, 0.0])
+
+
 def test_hg_b1_at1_per_arm_forbidden_feature_audit():
     assert runner._forbidden_feature_audit("config_metadata_only", runner.CONFIG_METADATA_ONLY_COLUMNS)["status"] == "pass"
     assert runner._forbidden_feature_audit("scale_only", runner.SCALE_ONLY_COLUMNS)["status"] == "pass"

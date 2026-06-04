@@ -59,6 +59,9 @@ class AttributionCapsuleLevels:
     operational_pointer: str
     mechanism_pointer: str
     mechanism_case_pointer: str
+    mechanism_namecert_pointer: str
+    mechanism_ledger_pointer: str
+    mechanism_closure_pointer: str
 
 
 @dataclass(frozen=True)
@@ -96,11 +99,13 @@ NEGATIVE_WITNESSES_ARTIFACT = "reports/canonical/discovery_negative_witnesses.js
 OBSERVED_DEBT_ARTIFACT = "reports/canonical/gap-head-observed-debt-transfer.json"
 DIMENSION_MISMATCH_TRANSFER_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
 ATTRIBUTION_CAPSULE_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
+MECHANISM_NAMECERT_ARTIFACT = "reports/gap_head_mechanism_namecert.json"
 GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
     GAP_HEAD_ROBUSTNESS_ARTIFACT,
     NEGATIVE_WITNESSES_ARTIFACT,
     OBSERVED_DEBT_ARTIFACT,
     ATTRIBUTION_CAPSULE_ARTIFACT,
+    MECHANISM_NAMECERT_ARTIFACT,
 )
 GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER = "$.gap_head_on_h_observed_debt_transfer.status"
 DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status"
@@ -113,6 +118,9 @@ DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER = "$.dimension_mismatch_debt_transfer
 ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER = "$.d5_o"
 ATTRIBUTION_CAPSULE_MECHANISM_POINTER = "$.d5_m"
 ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER = "$.mechanism_case"
+MECHANISM_NAMECERT_LEDGER_POINTER = "$.ledger_policy.mechanism_closure_debt"
+MECHANISM_NAMECERT_CLOSURE_POINTER = "$.closure_status.mechanism_spec"
+MECHANISM_NAMECERT_CANDIDATE_POINTER = "$.mechanism_spec.candidate_mechanism"
 NEGATIVE_DISCOVERY_REPORTS_ARTIFACT = "reports/canonical/negative_discovery_reports.json"
 def _root(root: Path | None) -> Path:
     return ROOT if root is None else root
@@ -344,22 +352,21 @@ def _gap_head_on_h_projection(
     evidence_pointer = "$.treatment_verdict.positive"
     context_payloads = {} if context is None else context
     ledger = _gap_head_d5_readiness(context_payloads)
-    attribution_capsule = context_payloads.get(ATTRIBUTION_CAPSULE_ARTIFACT, {})
+    mechanism_namecert = context_payloads.get(MECHANISM_NAMECERT_ARTIFACT, {})
     if pointer_value(payload, evidence_pointer) is True:
         overlay["positive_discovery"] = True
         if ledger.all_pass:
             overlay["acceptance_gates"] = {"status": "pass"}
             overlay["final_status"] = "pass"
-            d5_m = pointer_value(attribution_capsule, ATTRIBUTION_CAPSULE_MECHANISM_POINTER)
-            mechanism_case = pointer_value(attribution_capsule, ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER)
-            if isinstance(d5_m, Mapping):
-                overlay["d5_m"] = dict(d5_m)
-                overlay["mechanism_attribution"] = {
-                    "all_pass": d5_m.get("passed") is True,
-                    "status": d5_m.get("status"),
-                    "failed_gate": d5_m.get("failed_gate"),
-                    "channel": _mechanism_channel(mechanism_case.get("status")) if isinstance(mechanism_case, Mapping) else None,
-                }
+            ledger_debt = pointer_value(mechanism_namecert, MECHANISM_NAMECERT_LEDGER_POINTER)
+            closure = pointer_value(mechanism_namecert, MECHANISM_NAMECERT_CLOSURE_POINTER)
+            candidate = pointer_value(mechanism_namecert, MECHANISM_NAMECERT_CANDIDATE_POINTER)
+            overlay["mechanism_attribution"] = {
+                "all_pass": ledger_debt == "closed" and closure == "closed",
+                "status": "ready" if ledger_debt == "closed" and closure == "closed" else "blocked",
+                "failed_gate": None if ledger_debt == "closed" and closure == "closed" else MECHANISM_NAMECERT_LEDGER_POINTER,
+                "channel": candidate,
+            }
         return overlay, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer=evidence_pointer,
@@ -680,17 +687,37 @@ def _mechanism_channel(status: Any) -> str | None:
     return None
 
 
-def _attribution_capsule_levels(payload: Mapping[str, Any]) -> AttributionCapsuleLevels | None:
+def _namecert_mechanism_status(payload: Mapping[str, Any]) -> tuple[str, str, str, str | None] | None:
+    ledger_debt = pointer_value(payload, MECHANISM_NAMECERT_LEDGER_POINTER)
+    mechanism_closure = pointer_value(payload, MECHANISM_NAMECERT_CLOSURE_POINTER)
+    candidate = pointer_value(payload, MECHANISM_NAMECERT_CANDIDATE_POINTER)
+    failed_gate = pointer_value(payload, "$.mechanism_spec.a1_failed_gate")
+    if not isinstance(ledger_debt, str) or not isinstance(mechanism_closure, str) or not isinstance(candidate, str):
+        return None
+    mechanism_level = "D5-M" if ledger_debt == "closed" and mechanism_closure == "closed" else "blocked"
+    mechanism_status = "ready" if mechanism_level == "D5-M" else "blocked"
+    return mechanism_level, mechanism_status, candidate, failed_gate if isinstance(failed_gate, str) else None
+
+
+def _attribution_capsule_levels(
+    payload: Mapping[str, Any],
+    mechanism_namecert: Mapping[str, Any] | None = None,
+) -> AttributionCapsuleLevels | None:
     d5_o = pointer_value(payload, ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER)
     d5_m = pointer_value(payload, ATTRIBUTION_CAPSULE_MECHANISM_POINTER)
     mechanism_case = pointer_value(payload, ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER)
     if not isinstance(d5_o, Mapping) or not isinstance(d5_m, Mapping) or not isinstance(mechanism_case, Mapping):
         return None
     base_status = d5_o.get("status")
-    mechanism_status = d5_m.get("status")
-    failed_gate = d5_m.get("failed_gate")
-    channel = _mechanism_channel(mechanism_case.get("status"))
-    if base_status == "ready" and mechanism_status == "blocked" and isinstance(failed_gate, str) and channel:
+    namecert_status = _namecert_mechanism_status(mechanism_namecert or {})
+    if namecert_status is not None:
+        mechanism_level, mechanism_status, channel, failed_gate = namecert_status
+    else:
+        mechanism_status = d5_m.get("status")
+        failed_gate = d5_m.get("failed_gate")
+        channel = _mechanism_channel(mechanism_case.get("status")) or "missing"
+        mechanism_level = "D5-M" if mechanism_status == "ready" and d5_m.get("passed") is True else "blocked"
+    if base_status == "ready" and mechanism_level == "blocked" and isinstance(failed_gate, str) and channel:
         return AttributionCapsuleLevels(
             base_level="D5-O",
             base_status="ready",
@@ -701,18 +728,24 @@ def _attribution_capsule_levels(payload: Mapping[str, Any]) -> AttributionCapsul
             operational_pointer=ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER,
             mechanism_pointer=ATTRIBUTION_CAPSULE_MECHANISM_POINTER,
             mechanism_case_pointer=ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER,
+            mechanism_namecert_pointer=MECHANISM_NAMECERT_ARTIFACT,
+            mechanism_ledger_pointer=f"{MECHANISM_NAMECERT_ARTIFACT}:{MECHANISM_NAMECERT_LEDGER_POINTER}",
+            mechanism_closure_pointer=f"{MECHANISM_NAMECERT_ARTIFACT}:{MECHANISM_NAMECERT_CLOSURE_POINTER}",
         )
-    if base_status == "ready" and mechanism_status == "ready" and d5_m.get("passed") is True:
+    if base_status == "ready" and mechanism_level == "D5-M":
         return AttributionCapsuleLevels(
             base_level="D5-O",
             base_status="ready",
             mechanism_level="D5-M",
             mechanism_status="ready",
-            mechanism_channel=channel or "not-recorded",
+            mechanism_channel=channel,
             failed_gate=None,
             operational_pointer=ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER,
             mechanism_pointer=ATTRIBUTION_CAPSULE_MECHANISM_POINTER,
             mechanism_case_pointer=ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER,
+            mechanism_namecert_pointer=MECHANISM_NAMECERT_ARTIFACT,
+            mechanism_ledger_pointer=f"{MECHANISM_NAMECERT_ARTIFACT}:{MECHANISM_NAMECERT_LEDGER_POINTER}",
+            mechanism_closure_pointer=f"{MECHANISM_NAMECERT_ARTIFACT}:{MECHANISM_NAMECERT_CLOSURE_POINTER}",
         )
     return None
 
@@ -872,7 +905,7 @@ def _audit_row(
         if not consistent:
             return "invalid", reason
     if spec.name == "gap-head-attribution-capsule":
-        levels = _attribution_capsule_levels(payload)
+        levels = _attribution_capsule_levels(payload, (context or {}).get(MECHANISM_NAMECERT_ARTIFACT, {}))
         if levels is None:
             return "invalid", "attribution-capsule-level-cells-missing"
         if pointer_value(payload, levels.operational_pointer) is None:
@@ -881,6 +914,11 @@ def _audit_row(
             return "invalid", "unresolved-mechanism-pointer"
         if pointer_value(payload, levels.mechanism_case_pointer) is None:
             return "invalid", "unresolved-mechanism-case-pointer"
+        mechanism_namecert = (context or {}).get(MECHANISM_NAMECERT_ARTIFACT, {})
+        if pointer_value(mechanism_namecert, MECHANISM_NAMECERT_LEDGER_POINTER) is None:
+            return "invalid", "unresolved-mechanism-ledger-pointer"
+        if pointer_value(mechanism_namecert, MECHANISM_NAMECERT_CLOSURE_POINTER) is None:
+            return "invalid", "unresolved-mechanism-closure-pointer"
     if level in {"D4", "D5-O", "D5-M"}:
         pointer_result = _audit_pointer_cell(
             payload,
@@ -958,7 +996,7 @@ def discovery_row(
     if evidence.d5_readiness is not None:
         row["d5_readiness"] = evidence.d5_readiness.as_dict()
     if spec.name == "gap-head-attribution-capsule":
-        levels = _attribution_capsule_levels(payload)
+        levels = _attribution_capsule_levels(payload, context_payloads.get(MECHANISM_NAMECERT_ARTIFACT, {}))
         if levels is not None:
             row.update(
                 {
@@ -970,6 +1008,9 @@ def discovery_row(
                     "operational_pointer": levels.operational_pointer,
                     "mechanism_pointer": levels.mechanism_pointer,
                     "mechanism_case_pointer": levels.mechanism_case_pointer,
+                    "mechanism_namecert_pointer": levels.mechanism_namecert_pointer,
+                    "mechanism_ledger_pointer": levels.mechanism_ledger_pointer,
+                    "mechanism_closure_pointer": levels.mechanism_closure_pointer,
                 }
             )
             if levels.failed_gate is not None:
@@ -1082,6 +1123,7 @@ def _manifest_audit(
         OBSERVED_DEBT_ARTIFACT,
         DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
         "reports/canonical/gap_head_transfer_atlas.json",
+        MECHANISM_NAMECERT_ARTIFACT,
     }
     directory_json = {
         f"reports/canonical/{path.name}"
