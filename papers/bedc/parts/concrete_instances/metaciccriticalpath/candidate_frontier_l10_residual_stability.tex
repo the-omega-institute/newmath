@@ -41,6 +41,7 @@ Apply \autoref{thm:metacic-critical-path-candidate-residual-stability}. Candidat
 
 The $\RealUp$ boundary is therefore downstream of $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$. The packet has no coordinate for host equality, selected limits, quotient stream equality, or ambient completeness, so the handoff remains a finite regular readback route.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathRealRegularHandoff}
 
 \begin{theorem}[MetaCIC candidate frontier nonescape]
 \label{thm:metacic-critical-path-frontier-nonescape}
@@ -61,10 +62,26 @@ Once those displayed rows have been consumed, no remaining coordinate can supply
 \label{thm:metacic-critical-path-l10-residual-dyadic-route}
 Every candidate-frontier residual read used by $\MetaCICCriticalPathUp$ passes through the displayed $\DyadicRatCoreUp$ tolerance ledger, the finite $\StreamNameUp$ observation window, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal before it can be consumed by the residual substitution frontier. The route is part of the finite stability surface of \autoref{def:metacic-critical-path-candidate-residual-stability-surface}; it is not a quotient-stream equality, selected limit, host real equality, global normalization theorem, or ambient Real-completion principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathL10ResidualDyadicRoute}
 \begin{proof}
 Start with candidate residual stability, \autoref{thm:metacic-critical-path-candidate-residual-stability}. It keeps residual substitution and diamond-budget reads attached to the displayed packet and to the four L10 source faces.
 
 Apply the real-regular handoff of \autoref{thm:metacic-critical-path-real-regular-handoff}. Any real-facing source row must first expose the dyadic arithmetic face, then the stream observation face, then the regular-rational readback face, and only then the $\RealUp$ seal.
 
 Finally use candidate frontier nonescape, \autoref{thm:metacic-critical-path-frontier-nonescape}. Since the frontier can consume only the displayed residual rows, obstruction and socket rows, residual budget, and L10 faces, the dyadic tolerance ledger, finite observation window, regular readback, and seal remain visible until the residual substitution frontier consumes them.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate residual L10 frontier route]
+\label{thm:metacic-critical-path-candidate-residual-l10-frontier-route}
+Every candidate-frontier residual read used by $\MetaCICCriticalPathUp$ must expose $\DyadicRatCoreUp$ tolerance data, $\StreamNameUp$ finite observation windows, $\RegSeqRatUp$ readback, and the $\RealUp$ seal before the residual substitution frontier consumes it. The obstruction and discharge socket rows remain visible throughout the route, so the candidate-mediated frontier cannot replace the displayed L10 read by quotient stream equality, selected limits, host equality, ambient Real-completeness, arbitrary strong normalization, closed subject reduction, or global confluence.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateResidualL10FrontierRoute}
+\begin{proof}
+Begin with candidate residual stability, \autoref{thm:metacic-critical-path-candidate-residual-stability}. It keeps candidate-mediated strong-normalization evidence attached to the displayed residual rows and to the four L10 source faces.
+
+Apply the real-regular handoff of \autoref{thm:metacic-critical-path-real-regular-handoff}. A real-facing residual read therefore reaches $\RealUp$ only after the $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ rows have been displayed.
+
+Use candidate frontier nonescape, \autoref{thm:metacic-critical-path-frontier-nonescape}. The obstruction and discharge socket rows remain visible while the residual frontier consumes the read, so the candidate route cannot erase or fill them.
+
+Finally apply the L10 residual dyadic route, \autoref{thm:metacic-critical-path-l10-residual-dyadic-route}. It identifies the dyadic tolerance ledger, finite observation window, regular readback, and Real seal as the visible route consumed by the residual substitution frontier, excluding quotient stream equality, selected limits, host equality, ambient Real-completeness, and the larger metatheoretic principles listed above.
 \end{proof}
