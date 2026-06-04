@@ -84,4 +84,135 @@ theorem MetricProjectionCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨source.right, pkgSig⟩
   }
 
+theorem MetricProjectionCarrier_endpoint_separation [AskSetup] [PackageSetup]
+    {H C D I W E T R P N locatedMetric locatedWindow endpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg →
+      Cont D I locatedMetric →
+        Cont locatedMetric W locatedWindow →
+          Cont locatedWindow E endpoint →
+            PkgSig bundle endpoint pkg →
+              UnaryHistory D ∧ UnaryHistory I ∧ UnaryHistory W ∧ UnaryHistory E ∧
+                UnaryHistory locatedMetric ∧ UnaryHistory locatedWindow ∧
+                  UnaryHistory endpoint ∧ Cont D I locatedMetric ∧
+                    Cont locatedMetric W locatedWindow ∧ Cont locatedWindow E endpoint ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle endpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier locatedMetricRoute locatedWindowRoute endpointRoute endpointPkg
+  obtain ⟨_HUnary, _CUnary, DUnary, IUnary, WUnary, EUnary, _TUnary, _RUnary,
+    _PUnary, _NUnary, _windowRoute, _replayRoute, provenancePkg⟩ := carrier
+  have locatedMetricUnary : UnaryHistory locatedMetric :=
+    unary_cont_closed DUnary IUnary locatedMetricRoute
+  have locatedWindowUnary : UnaryHistory locatedWindow :=
+    unary_cont_closed locatedMetricUnary WUnary locatedWindowRoute
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed locatedWindowUnary EUnary endpointRoute
+  exact
+    ⟨DUnary, IUnary, WUnary, EUnary, locatedMetricUnary, locatedWindowUnary,
+      endpointUnary, locatedMetricRoute, locatedWindowRoute, endpointRoute,
+      provenancePkg, endpointPkg⟩
+
+theorem MetricProjectionCarrier_locatedset_endpoint_separation [AskSetup] [PackageSetup]
+    {H C D I W E T R P N locatedEndpoint projectionEndpoint : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg ->
+      Cont D I locatedEndpoint ->
+        Cont I W projectionEndpoint ->
+          PkgSig bundle projectionEndpoint pkg ->
+            UnaryHistory D ∧ UnaryHistory I ∧ UnaryHistory W ∧
+              UnaryHistory locatedEndpoint ∧ UnaryHistory projectionEndpoint ∧
+                Cont D I locatedEndpoint ∧ Cont I W projectionEndpoint ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle projectionEndpoint pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier locatedRoute projectionRoute projectionPkg
+  obtain ⟨_HUnary, _CUnary, DUnary, IUnary, WUnary, _EUnary, _TUnary, _RUnary,
+    _PUnary, _NUnary, _windowRoute, _distanceRoute, pkgSig⟩ := carrier
+  have locatedUnary : UnaryHistory locatedEndpoint :=
+    unary_cont_closed DUnary IUnary locatedRoute
+  have projectionUnary : UnaryHistory projectionEndpoint :=
+    unary_cont_closed IUnary WUnary projectionRoute
+  exact
+    ⟨DUnary, IUnary, WUnary, locatedUnary, projectionUnary, locatedRoute,
+      projectionRoute, pkgSig, projectionPkg⟩
+
+theorem MetricProjectionCarrier_obligation_carrier_stability [AskSetup] [PackageSetup]
+    {H C D I W E T R P N H' C' D' I' W' E' T' R' P' N' read read' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg ->
+      hsame H H' ->
+        hsame C C' ->
+          hsame D D' ->
+            hsame I I' ->
+              hsame W W' ->
+                hsame E E' ->
+                  hsame T T' ->
+                    hsame R R' ->
+                      hsame P P' ->
+                        hsame N N' ->
+                          Cont I W read ->
+                            hsame read read' ->
+                              PkgSig bundle read' pkg ->
+                                UnaryHistory H' ∧ UnaryHistory C' ∧
+                                  UnaryHistory D' ∧ UnaryHistory I' ∧
+                                    UnaryHistory W' ∧ UnaryHistory E' ∧
+                                      UnaryHistory T' ∧ UnaryHistory R' ∧
+                                        UnaryHistory P' ∧ UnaryHistory N' ∧
+                                          UnaryHistory read' ∧ Cont I W read ∧
+                                            PkgSig bundle P pkg ∧
+                                              PkgSig bundle read' pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier sameH sameC sameD sameI sameW sameE sameT sameR sameP sameN
+    readRoute sameRead readPkg
+  obtain ⟨HUnary, CUnary, DUnary, IUnary, WUnary, EUnary, TUnary, RUnary, PUnary,
+    NUnary, _windowRoute, _distanceRoute, provenance⟩ := carrier
+  have HUnary' : UnaryHistory H' := unary_transport HUnary sameH
+  have CUnary' : UnaryHistory C' := unary_transport CUnary sameC
+  have DUnary' : UnaryHistory D' := unary_transport DUnary sameD
+  have IUnary' : UnaryHistory I' := unary_transport IUnary sameI
+  have WUnary' : UnaryHistory W' := unary_transport WUnary sameW
+  have EUnary' : UnaryHistory E' := unary_transport EUnary sameE
+  have TUnary' : UnaryHistory T' := unary_transport TUnary sameT
+  have RUnary' : UnaryHistory R' := unary_transport RUnary sameR
+  have PUnary' : UnaryHistory P' := unary_transport PUnary sameP
+  have NUnary' : UnaryHistory N' := unary_transport NUnary sameN
+  have readUnary : UnaryHistory read := unary_cont_closed IUnary WUnary readRoute
+  have readUnary' : UnaryHistory read' := unary_transport readUnary sameRead
+  exact
+    ⟨HUnary', CUnary', DUnary', IUnary', WUnary', EUnary', TUnary', RUnary',
+      PUnary', NUnary', readUnary', readRoute, provenance, readPkg⟩
+
+theorem MetricProjectionLocatedInfimumReplayObligation [AskSetup] [PackageSetup]
+    {H C D I W E T R P N hilbertConvex distanceInfimum windowEndpoint replayRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg ->
+      Cont H C hilbertConvex ->
+        Cont D I distanceInfimum ->
+          Cont I W windowEndpoint ->
+            Cont windowEndpoint E replayRead ->
+              PkgSig bundle replayRead pkg ->
+                UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory D ∧ UnaryHistory I ∧
+                  UnaryHistory W ∧ UnaryHistory E ∧ UnaryHistory hilbertConvex ∧
+                    UnaryHistory distanceInfimum ∧ UnaryHistory windowEndpoint ∧
+                      UnaryHistory replayRead ∧ Cont H C hilbertConvex ∧
+                        Cont D I distanceInfimum ∧ Cont I W windowEndpoint ∧
+                          Cont windowEndpoint E replayRead ∧ PkgSig bundle P pkg ∧
+                            PkgSig bundle replayRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier hilbertRoute distanceRoute windowRoute replayRoute replayPkg
+  obtain ⟨HUnary, CUnary, DUnary, IUnary, WUnary, EUnary, _TUnary, _RUnary,
+    _PUnary, _NUnary, _storedWindowRoute, _storedDistanceRoute, provenancePkg⟩ :=
+    carrier
+  have hilbertConvexUnary : UnaryHistory hilbertConvex :=
+    unary_cont_closed HUnary CUnary hilbertRoute
+  have distanceInfimumUnary : UnaryHistory distanceInfimum :=
+    unary_cont_closed DUnary IUnary distanceRoute
+  have windowEndpointUnary : UnaryHistory windowEndpoint :=
+    unary_cont_closed IUnary WUnary windowRoute
+  have replayReadUnary : UnaryHistory replayRead :=
+    unary_cont_closed windowEndpointUnary EUnary replayRoute
+  exact
+    ⟨HUnary, CUnary, DUnary, IUnary, WUnary, EUnary, hilbertConvexUnary,
+      distanceInfimumUnary, windowEndpointUnary, replayReadUnary, hilbertRoute,
+      distanceRoute, windowRoute, replayRoute, provenancePkg, replayPkg⟩
+
 end BEDC.Derived.MetricProjectionUp

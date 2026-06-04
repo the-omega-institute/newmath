@@ -166,6 +166,22 @@ Now use the sibling route theorem \autoref{thm:metacic-parallel-diamond-frontier
 The only admissible discharge surface is the residual-substitution compatibility chapter named in the statement. Without that separate certificate, the obstruction row $O$ continues to block full closed confluence, subject reduction, evaluator equality, quotient term equality, and kernel consistency.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond frontier compatibility discharge surface]
+\label{thm:metacic-parallel-diamond-frontier-compatibility-discharge-surface}
+For an accepted $\MetaCICParallelDiamondFrontierUp$ packet, only a separate $\MetaCICResidualSubstitutionCompatibilityUp$ row may turn the retained $P,O$ premise-obstruction surface into a discharged local diamond. Without that compatibility row, every confluence consumer retains the full conditional spine
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+and may read the packet only as a conditional parallel-diamond frontier, not as premise-free confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the discharge obstruction theorem, \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. It identifies $P$ as the retained residual-substitution premise and $O$ as the obstruction row that remains visible unless the separate compatibility chapter supplies a certificate.
+
+Next use premise retention, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The premise row is not confined to the statement of the theorem; it is transported through the critical-pair, residual-frontier, closed-checker, and closed-normal rows of the accepted carrier.
+
+Finally apply the confluence handoff, \autoref{thm:metacic-parallel-diamond-confluence-handoff}. That handoff exports the complete route $P,K,J,R,S,C,B,O,H,T,G,N$ to confluence-facing consumers. Since no row in this packet is the separate $\MetaCICResidualSubstitutionCompatibilityUp$ certificate, the handoff remains conditional and the refused endpoints stay outside the frontier.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond closed-checker retention]
 \label{thm:metacic-parallel-diamond-closed-checker-retention}
 Any accepted $\MetaCICParallelDiamondFrontierUp$ packet whose local-diamond handoff retains the residual-substitution premise row $P$ must also retain the closed-checker seal row $S$ and the closed-normal fragment row $C$ before that handoff can be read. Thus the conditional handoff boundary is the joint row surface $P,S,C$ together with the displayed critical-pair, residual-frontier, bounded-check, obstruction, transport, replay, provenance, and local naming rows. It is not a proof of residual substitution, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
@@ -251,6 +267,26 @@ Use the route theorem and premise retention, \autoref{thm:metacic-parallel-diamo
 Apply discharge obstruction and the confluence handoff theorem, \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction} and \autoref{thm:metacic-parallel-diamond-confluence-handoff}. These results keep the obstruction row visible and identify the exported route as the retained conditional handoff consumed by confluence-facing siblings.
 
 Finally use the residual budget theorem \autoref{thm:metacic-parallel-diamond-frontier-budget}. Since the budget cannot omit $P$ or $O$, any exported confluence result remains conditional residual confluence over the displayed spine rather than one of the refused premise-free, typing, equality, quotient, Church--Rosser, or kernel endpoints.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-join readback]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-readback}
+For an accepted $\MetaCICParallelDiamondFrontierUp$ carrier $F=(P,K,J,R,S,C,B,O,H,T,G,N)$, every residual-join readback consumed by bounded conversion must display the closed substitution boundary rows, candidate-mediated strong-normalization rows, residual budget rows, typed-example boundary rows, and the four L10 source faces
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp
+$$
+before reading the handoff. In carrier terms, the readback must expose $P,K,J,R,S,C,B,O,H,T,G,N$ together with the typed-window and L10 source rows, and it cannot be consumed as full confluence, global beta decidability, closed subject reduction, quotient term equality, selected limits, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with residual confluence, \autoref{thm:metacic-parallel-diamond-frontier-residual-confluence}. It forces a confluence consumer to keep the residual-substitution premise, local critical pair, candidate join, residual frontier, checker seal, closed-normal fragment, bounded-check row, obstruction row, and structural rows visible through the full spine $P,K,J,R,S,C,B,O,H,T,G,N$.
+
+Next use the typed-window handoff of \autoref{thm:metacic-parallel-diamond-frontier-typed-window-handoff}. A bounded-conversion consumer may read the frontier only after the typed window has retained the same residual spine for candidate-normalization and confluence-audit consumers.
+
+Premise preservation, \autoref{thm:metacic-parallel-diamond-frontier-premise-preservation}, keeps the residual-substitution row $P$ from disappearing into a completed diamond. The local-diamond and critical-pair routes of \autoref{thm:metacic-local-diamond-frontier} and \autoref{thm:metacic-parallel-diamond-frontier-route} supply the candidate join and residual budget rows without discharging the obstruction row $O$.
+
+The typed-example boundary and the four L10 source faces are then read as source rows, not as semantic quotients. They expose $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before the bounded-conversion handoff is consumed, so selected limits and ambient real completeness are unavailable.
+
+Combining these routes gives a finite residual-join readback frontier. Since every step retains the premise and obstruction rows, the result is not full confluence, global beta decidability, closed subject reduction, quotient term equality, selected limits, or $\RealUp$ completeness.
 \end{proof}
 
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.

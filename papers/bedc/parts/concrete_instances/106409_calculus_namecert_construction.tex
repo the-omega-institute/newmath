@@ -208,6 +208,20 @@ The earlier real-seal theorem \autoref{thm:calculus-limit-real-seal-obligation} 
 Finally use \autoref{thm:calculus-namecert-obligations}. The local NameCert surface lists regular-rational readback as a root obligation, so every export from $L,D,I$ must first pass through $Q$ with $R$ and the underlying dyadic tolerance route visible.
 \end{proof}
 
+\begin{theorem}[Calculus root regular readback obligation]
+\label{thm:calculus-root-obligation-regular-readback}
+Every derivative, integral, or limit export from an accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$ must expose the $\RegSeqRatUp$ readback row $Q$ and the inherited $\DyadicRatCoreUp$ tolerance route before the terminal $\RealUp$ seal $R$ is consumed. The export is a displayed calculus packet read and not a host analytic estimate, quotient real equality, or ambient Real completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:calculus-carrier}. The limit row is $L$, the derivative row is $D$, the integral row is $I$, the common regular-rational readback row is $Q$, and the terminal Real boundary is $R$.
+
+Apply \autoref{thm:calculus-regseqrat-readback-root-obligation}. It already requires every real-facing value exported from $L,D,I$ to display $Q$ together with $R$ and the dyadic tolerance route inherited by the regular-rational readback.
+
+Apply \autoref{thm:calculus-continuous-limit-carrier-budget}. It forces a continuous-map graph read and a limit-window read to remain visible before any Real seal is exported, with $Q$ supplying the readback used by $R$.
+
+Thus no derivative, integral, or limit consumer can replace the displayed readback by a host analytic estimate, quotient real equality, or ambient Real completeness. The root obligation is exactly the route through $Q$ and its dyadic tolerance data before $R$ is consumed.
+\end{proof}
+
 \begin{theorem}[Calculus continuous-limit carrier budget]
 \label{thm:calculus-continuous-limit-carrier-budget}
 For every accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, a continuous-map graph read and a limit-window read must both be displayed before any $\RealUp$ seal is exported. The graph row $C$ supplies the named finite graph and pointwise replay windows, the limit row $L$ supplies the convergence windows, and the regular-rational row $Q$ supplies the $\RegSeqRatUp$ readback used by the terminal real boundary $R$. Thus a real-facing calculus export cannot bypass $C,L,Q$ or treat Real completeness as an ambient carrier.
@@ -284,6 +298,59 @@ Use \autoref{thm:calculus-real-regseqrat-error-handoff}. The real-facing estimat
 Derivative and integral reads remain downstream consumers. The row $D$ supplies only finite difference-quotient data, and the row $I$ supplies only finite-sum data, so neither can replace the continuity-to-limit-to-readback route.
 
 Finally read $H,T,P,N$. These rows give componentwise transport, displayed continuation replay, package provenance, and local naming for the same packet. The carrier therefore exports a finite continuity real-readback route and no host continuity theorem, function-space equality, quotient real equality, selected antiderivative, or ambient completeness principle.
+\end{proof}
+
+\begin{definition}[Calculus root derivative-integral carrier]
+\label{def:calculus-root-derivative-integral-carrier}
+A $\CalculusUp$ root derivative-integral carrier is the carrier
+$$
+K=(R,L,C,D,I,Q,H,T,P,N)
+$$
+of \autoref{def:calculus-carrier} read with the following root dependency rows singled out:
+\begin{enumerate}
+\item $R$ is the $\RealUp$ boundary for endpoint, value, error, derivative, integral, and limit readback.
+\item $Q$ is the $\RegSeqRatUp$ readback row carrying the rational comparison and error schedule used before $R$ is consumed.
+\item the dyadic tolerance data inherited by $Q$ is the $\DyadicRatCoreUp$ dependency row for denominator, radius, and comparison reads;
+\item $C$ is the $\ContinuousMapUp$ graph and pointwise replay row used before derivative, integral, or limit consumers read function data;
+\item $D,I,L,H,T,P,N$ are respectively the derivative source row, integral finite-sum row, limit route, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CalculusUp}$ row.
+\end{enumerate}
+The root classifier compares accepted packets only through these displayed $\BHist$, $\hsame$, $\Cont$, $\NameCert$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\ContinuousMapUp$ rows. It has no coordinate for a host function space, quotient equality of functions, a selected derivative operator, a selected antiderivative, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Calculus root derivative real handoff]
+\label{thm:calculus-root-derivative-real-handoff}
+For every accepted $\CalculusUp$ root derivative-integral carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, a derivative-facing real read must expose the $\ContinuousMapUp$ row $C$, the $\DerivativeUp$ row $D$, the $\RegSeqRatUp$ row $Q$, the $\DyadicRatCoreUp$ tolerance data inherited by $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and the local $\NameCert_{\CalculusUp}$ row $N$ before the $\RealUp$ boundary $R$ is consumed.
+\end{theorem}
+\begin{proof}
+Project the root carrier of \autoref{def:calculus-root-derivative-integral-carrier}. The derivative source is $D$, but $D$ is public only as part of the same $\BHist$ packet as the graph row $C$, readback row $Q$, transport row $H$, replay row $T$, provenance row $P$, and local naming row $N$.
+
+Use \autoref{thm:calculus-derivative-limit-obligation}. It already places every derivative-limit read behind the $\ContinuousMapUp$ graph row, the regular-rational readback, the dyadic tolerance route, and the structural rows.
+
+The terminal real boundary is $R$. Since no coordinate of the root carrier contains quotient function equality, a selected derivative operator, or ambient real completeness, the derivative-facing handoff reaches $R$ only through the displayed finite route.
+\end{proof}
+
+\begin{theorem}[Calculus root integral RegSeqRat handoff]
+\label{thm:calculus-root-integral-regseqrat-handoff}
+For every accepted $\CalculusUp$ root derivative-integral carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, an integral-facing read through the $\IntegralUp$ row $I$ must first display the $\ContinuousMapUp$ row $C$, the finite-sum and endpoint handoff data in $I$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance route inherited by $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and the local $\NameCert_{\CalculusUp}$ row $N$. Only after this readback may the consumer reach the $\RealUp$ boundary $R$.
+\end{theorem}
+\begin{proof}
+Read the integral source row $I$ from \autoref{def:calculus-root-derivative-integral-carrier}. Its partition, tag, finite-sum, and endpoint data are displayed inside the same finite $\BHist$ packet as $C,Q,H,T,P,N$.
+
+Apply \autoref{thm:calculus-integral-sum-obligation}. That obligation forces the integral row through the real boundary, limit route, continuous-map replay, regular-rational readback, dyadic tolerance ledger, transport, replay, provenance, and local naming rows.
+
+The $\RegSeqRatUp$ handoff is therefore not optional. The consumer cannot replace $Q$ by a host integration functional, selected antiderivative, quotient function equality, or ambient completeness theorem before reading $R$.
+\end{proof}
+
+\begin{theorem}[Calculus root limit nonescape]
+\label{thm:calculus-root-limit-nonescape}
+For every accepted $\CalculusUp$ root derivative-integral carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, each limit-shaped read exported by $L$ must remain inside the route through the $\ContinuousMapUp$ graph row $C$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance route inherited by $Q$, the terminal $\RealUp$ boundary $R$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and local $\NameCert_{\CalculusUp}$ row $N$. It cannot escape to a host limit operator, quotient equality of functions, selected derivative operator, selected antiderivative, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project the limit row $L$ from the root carrier. By construction, $L$ is not a standalone host limit object; it is stored together with $C,Q,R,H,T,P,N$ in the displayed calculus packet.
+
+Use \autoref{thm:calculus-continuous-limit-carrier-budget}. A continuous-map graph read and a limit-window read must both be displayed before any real-facing seal is exported, and the regular-rational row $Q$ supplies the readback used by $R$.
+
+The structural rows preserve the same route through $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since the carrier has no coordinate for the excluded host principles, every limit-shaped read remains confined to the listed BEDC dependency rows.
 \end{proof}
 
 \closureat{CalculusUp}{seedStr}
