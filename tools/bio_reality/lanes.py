@@ -3695,6 +3695,58 @@ def _bio_w_persist_cache(
         return
 
 
+def _namecert_cache_path(repo_root: Path, log_dir: str | Path, slug: str) -> Path:
+    base = Path(log_dir)
+    if not base.is_absolute():
+        base = repo_root / base
+    return base / f"namecert_{slug}.input.sha256"
+
+
+def _namecert_content_key(
+    claim_id: str,
+    slug: str,
+    verified_facts: dict[str, Any],
+    conjecture: dict[str, Any],
+    linked_contacts: Any,
+    linked_probes: Any,
+    linked_mismatches: Any,
+) -> str:
+    # 只反映科学输入 (claim / verified facts / conjecture / contacts / probes / mismatches),
+    # 不反映每-cycle 刷新的心跳时间戳. 这是 namecert reword churn 的根因修复: namecert 渲染
+    # 此前每 cycle 无条件重跑 codex → 语义相同章节被反复重新措辞. facts 不变 + 已部署 rich
+    # → 跳过 codex, 章节稳定.
+    payload = json.dumps(
+        {
+            "claim_id": claim_id,
+            "slug": slug,
+            "verified_facts": verified_facts,
+            "conjecture": conjecture,
+            "linked_contacts": linked_contacts,
+            "linked_probes": linked_probes,
+            "linked_mismatches": linked_mismatches,
+        },
+        sort_keys=True,
+        ensure_ascii=False,
+        default=str,
+    )
+    return hashlib.sha256(_canonical_prompt_for_hash(payload).encode("utf-8")).hexdigest()
+
+
+def _read_namecert_cache(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
+def _write_namecert_cache(path: Path, content_key: str) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content_key, encoding="utf-8")
+    except OSError:
+        return
+
+
 def render_namecert_with_codex(
     claim_id: str,
     slug: str,
@@ -4354,6 +4406,22 @@ def _write_namecert_proposals(
             mismatches_by_probe,
         )
         verified_facts = _verified_facts_for_claim(conjecture, claim_id)
+        deployed = namecerts_dir / f"{slug}.tex"
+        content_key = _namecert_content_key(
+            claim_id, slug, verified_facts, conjecture,
+            linked_contacts, linked_probes, linked_mismatches,
+        )
+        cache_path = _namecert_cache_path(repo_root, writer_config["log_dir"], slug)
+        # 科学输入未变 + 已部署 rich → 跳过 codex 重渲染. 这消除 namecert reword churn 的根因
+        # (此前每 cycle 无条件重跑 codex, 把语义相同章节反复重新措辞).
+        if deployed.exists() and _read_namecert_cache(cache_path) == content_key:
+            try:
+                cached_existing = deployed.read_text(encoding="utf-8")
+            except OSError:
+                cached_existing = ""
+            if cached_existing and not _is_stub_namecert(cached_existing):
+                slugs.append(slug)
+                continue
         codex_text = _codex_written_content(
             render_namecert_with_codex,
             (claim_id, slug, verified_facts, conjecture, linked_contacts, linked_probes, linked_mismatches),
@@ -4362,7 +4430,6 @@ def _write_namecert_proposals(
             repo_root,
             writer_config,
         )
-        deployed = namecerts_dir / f"{slug}.tex"
         codex_ok = bool(codex_text)
         text = codex_text if codex_text else _render_namecert_proposal(markdown_path, slug)
         hygiene_issues = bedc_writeback_gates.check_chapter_hygiene(text, require_origin_ai=True)
@@ -4377,6 +4444,8 @@ def _write_namecert_proposals(
                     existing = ""
                 if existing and not _is_stub_namecert(existing):
                     # codex 失败/hygiene 不过, 但已部署是 rich → 保留, 不被 stub 覆盖.
+                    # 记缓存键, 让后续 cycle 在 facts 不变时直接跳过 codex (不再每轮重试).
+                    _write_namecert_cache(cache_path, content_key)
                     slugs.append(slug)
                     continue
             if hygiene_issues:
@@ -4394,6 +4463,9 @@ def _write_namecert_proposals(
                 )
         text = _sanitize_textmode_underscores(text)
         deployed.write_text(text, encoding="utf-8")
+        # 仅在 codex 真产出干净 rich 章节时记缓存键; stub 写出不记 (下 cycle 仍重试 codex).
+        if codex_ok and not hygiene_issues:
+            _write_namecert_cache(cache_path, content_key)
         slugs.append(slug)
     return slugs
 
