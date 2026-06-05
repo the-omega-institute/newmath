@@ -178,6 +178,46 @@ Apply root modulus coverage from \autoref{thm:sequentially-complete-metric-root-
 Now use root nonescape from \autoref{thm:sequentially-complete-metric-root-nonescape} and the complete-metric handoff of \autoref{thm:sequentially-complete-metric-complete-metric-handoff}. The handoff sends the same source-first rows to the $\CompleteMetricUp$ boundary, and the nonescape clause blocks any route that would start from a quotient class, representative selector, or independent limit row.
 \end{proof}
 
+\begin{theorem}[SequentiallyCompleteMetric tail induction]
+\label{thm:sequentially-complete-metric-tail-induction}
+Let $Q=(X,S,M,L,D,H,C,P,N)$ be an accepted $\SequentiallyCompleteMetricUp$ carrier. Any finite induction over completion-facing tails of the displayed sequence must keep the $\MetricUp$ source $X$, the $\StreamNameUp$ tail windows in $S$, the $\RegSeqRatUp$ readback of those windows, the modulus row $M$, the displayed limit row $L$, and the late-distance ledger $D$ on the same route. The base tail reads $X,S,M$ before $L,D$, and each successor tail may extend only the displayed window and late-distance rows before replay through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Use the source-first tail read. The base tail cannot enter through $L$ or $D$ alone, so it first exposes the metric source, StreamName windows, regular rational readback, and modulus row.
+
+For the successor tail, append one displayed window request to $S$. The regular rational readback remains the handoff from the window to the tolerance ledger, and the modulus row still supplies the threshold before the new late-distance entry in $D$ is visible.
+
+Project the carrier rows $H,C,P,N$ at the end of the induction step. They transport, replay, source, and name the same finite route, so tail induction cannot introduce quotient completion, selected representatives, countable choice, ambient completeness, or $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric limit ledger coverage]
+\label{thm:sequentially-complete-metric-limit-ledger-coverage}
+For an accepted $\SequentiallyCompleteMetricUp$ carrier $Q=(X,S,M,L,D,H,C,P,N)$, every tolerance request that reaches the displayed limit ledger must first read the modulus row $M$ and the late-distance ledger $D$ over the $\MetricUp$ source $X$ and the $\StreamNameUp/\RegSeqRatUp$ sequence rows. Only after this coverage is displayed may the request be handed to $\CompleteMetricUp$; no tolerance request reaches that handoff through an unrecorded limit, quotient-completion class, selected representative, or host Cauchy schedule.
+\end{theorem}
+\begin{proof}
+Start from root modulus coverage. It requires each tolerance request to obtain its threshold from $M$ before any late-distance comparison is consumed.
+
+Apply the source-first tail read and tail induction. Together they keep the sequence windows and regular rational readback upstream of the late-distance ledger for the base tail and for every successor tail.
+
+Finally use the complete-metric handoff. The $\CompleteMetricUp$ boundary receives only the already covered route $X,S,M,L,D,H,C,P,N$, so the handoff has no separate entry for unrecorded limits, quotient classes, selected representatives, host schedules, ambient completeness, or $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric completion-consumer route]
+\label{thm:sequentially-complete-metric-completion-consumer-route}
+Every $\MetricCompletionUp$ consumer admitted by an accepted $\SequentiallyCompleteMetricUp$ carrier receives only the displayed sequence-completeness packet
+$$
+X,S,M,L,D,H,C,P,N .
+$$
+The consumer must read the source-first tail route, the tail-induction route, and the limit-ledger coverage route before it can use the $\CompleteMetricUp$ handoff. It receives no second completion carrier, quotient equality, selected representative, countable-choice schedule, ambient complete space, or proof that $\RealUp$ is complete.
+\end{theorem}
+\begin{proof}
+Begin with the source-first tail route. It confines every completion-facing read to the metric source, sequence windows, regular rational readback, and modulus row before limit data are inspected.
+
+Next use tail induction and limit-ledger coverage. These results ensure that finite tail refinement and every tolerance request keep the late-distance ledger attached to the same displayed carrier rows.
+
+Apply the complete-metric handoff and root nonescape. The handoff exposes the packet to $\CompleteMetricUp$, while nonescape refuses all coordinates for an independent completion carrier, quotient equality, representative selection, countable choice, ambient completeness, or $\RealUp$ completeness. The $\MetricCompletionUp$ consumer therefore receives exactly the displayed packet.
+\end{proof}
+
 \begin{theorem}[SequentiallyCompleteMetric limit ledger nonescape]
 \label{thm:sequentially-complete-metric-limit-ledger-nonescape}
 Let $Q=(X,S,M,L,D,H,C,P,N)$ be an accepted $\SequentiallyCompleteMetricUp$ carrier. The limit ledger formed by $L,D,H,C,P,N$ cannot export quotient completion, selected representatives, countable choice, open-cover compactness, ambient completeness, or any assertion that $\RealUp$ is complete. Every such request is returned to the carrier rows of \autoref{def:sequentially-complete-metric-carrier}, the source-first read of \autoref{thm:sequentially-complete-metric-source-first-tail-read}, the root nonescape boundary of \autoref{thm:sequentially-complete-metric-root-nonescape}, and the complete-metric handoff of \autoref{thm:sequentially-complete-metric-complete-metric-handoff}.
