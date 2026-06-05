@@ -11,25 +11,60 @@ from bedc_quality_lab.mechanism_namecert_candidate import (
 
 def _a1_capsule(*, candidate="probe-margin-channel", separated="not separated", a4_pass=False, classification="score_margin_sufficient"):
     status = "D5-O retained, mechanism = probe-margin-channel" if candidate == "probe-margin-channel" else "D5-M candidate"
-    return {
+    failed_gate = None if a4_pass and separated == "separated" else "A4-HG5"
+    mechanism_status = "ready" if a4_pass and separated == "separated" else "blocked"
+    payload = {
         "artifact_id": "gap_head_attribution_capsule",
         "run_id": "fixture",
+        "source_issues": [692, 747],
         "mechanism_case": {
             "case": "Case B" if candidate == "probe-margin-channel" else "Case C",
             "status": status,
-            "failed_gate": "A4-HG5" if not a4_pass else None,
+            "failed_gate": failed_gate,
             "candidate_mechanism": candidate,
             "what_was_learned": "score_plus_margin remains statistically competitive with full."
             if separated == "not separated"
             else "residualized attribution remains strong and score/margin is not sufficient.",
         },
         "d5_o": {"status": "ready"},
-        "d5_m": {"status": "ready" if a4_pass and separated == "separated" else "blocked", "passed": a4_pass and separated == "separated", "failed_gate": None if a4_pass and separated == "separated" else "A4-HG5"},
+        "d5_m": {"status": mechanism_status, "passed": mechanism_status == "ready", "failed_gate": failed_gate},
         "hardgates": {"gates": {"A1-HG3": {"status": "fail" if separated == "not separated" else "pass"}}},
-        "a4_hardgates": {"gates": {"A4-HG5": {"status": "pass" if a4_pass else "fail"}}},
+        "a4_hardgates": {
+            "gates": {
+                "A4-HG2": {"status": "pass"},
+                "A4-HG3": {"status": "pass"},
+                "A4-HG5": {"status": "pass" if a4_pass else "fail"},
+            }
+        },
         "residualized_attribution": {"status": "pass"},
         "score_margin_causal_evidence": {"channel_classification": classification},
     }
+    payload["mechanism_evidence"] = {
+        "base_level": "D5-O",
+        "base_status": "ready",
+        "mechanism_level": "D5-M" if mechanism_status == "ready" else "blocked",
+        "mechanism_status": mechanism_status,
+        "candidate_mechanism": candidate,
+        "failed_gate": failed_gate,
+        "residualized_significant": True,
+        "control_clear": True,
+        "score_margin_sufficient": classification == "score_margin_sufficient",
+        "required_gate_pointers": [
+            "$.a4_hardgates.gates.A4-HG2.status",
+            "$.a4_hardgates.gates.A4-HG3.status",
+            "$.a4_hardgates.gates.A4-HG5.status",
+        ],
+        "metric_pointers": {
+            "residualized_status": "$.residualized_attribution.status",
+            "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+        },
+        "ledger_debt_pointer": "$.ledger_debt.0.status",
+        "closure_pointer": "$.mechanism_evidence.mechanism_status",
+        "source_issue": 747,
+    }
+    payload["ledger_debt"] = [{"debt_id": "gap-head-mechanism-evidence-closure", "status": "closed" if mechanism_status == "ready" else "open"}]
+    payload["not_implemented"] = ["nonlinear_residualization", "full_causal_replacement_scope"]
+    return payload
 
 
 def test_exact_field_shape_json_ready_and_package_local():
@@ -94,13 +129,11 @@ def test_closed_d5_m_requires_closed_ledger_and_closed_mechanism_spec():
 def test_a1_only_d5_m_evidence_cannot_close_without_a4_hg5():
     capsule = _a1_capsule(candidate="closed-attribution", separated="separated", a4_pass=True, classification="not_score_margin_sufficient")
     capsule["d5_m"] = {"status": "ready", "passed": True, "failed_gate": None}
-    capsule.pop("a4_hardgates")
-    capsule.pop("residualized_attribution")
-    capsule.pop("score_margin_causal_evidence")
+    capsule.pop("mechanism_evidence")
 
     candidate = MechanismNameCertCandidate.from_gap_head_sources(a1_capsule=capsule)
 
-    assert candidate.mechanism_spec["a1_d5_m_passed"] is True
+    assert candidate.mechanism_spec["a1_d5_m_passed"] is False
     assert candidate.mechanism_spec["a4_d5_m_passed"] is False
     assert candidate.closure_status["mechanism_spec"] == "partial"
     assert candidate.ledger_policy["mechanism_closure_debt"] == "open"

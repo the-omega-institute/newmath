@@ -14,7 +14,7 @@
       "$.closure_status.mechanism_spec": "partial",
       "$.ledger_policy.mechanism_closure_debt": "open",
       "$.mechanism_spec.candidate_mechanism": "unresolved",
-      "$.mechanism_spec.full_vs_score_plus_margin": "not separated"
+      "$.mechanism_spec.full_vs_score_plus_margin": "separated"
     },
     "scope_seal": "closed",
     "status": "pass"
@@ -30,7 +30,7 @@
     "stability_spec": "closed",
     "target_classifier": "closed"
   },
-  "generated_at": "2026-06-04T23:06:29.939392+00:00",
+  "generated_at": "2026-06-05T07:13:11.713087+00:00",
   "intervention_spec": {
     "control_pointer": "reports/canonical/gap-head-on-h.json:$.control_verdict.positive",
     "status": "closed",
@@ -39,7 +39,6 @@
   "json_artifact": "reports/gap_head_mechanism_namecert.json",
   "ledger_policy": {
     "blocking_cells": [
-      "full_vs_score_plus_margin",
       "A4-HG1",
       "A4-HG2",
       "A4-HG3",
@@ -56,16 +55,32 @@
     "a1_d5_m_passed": false,
     "a1_d5_m_status": "blocked",
     "a1_failed_gate": "A1-HG3",
-    "a1_mechanism_case": "Case C",
-    "a1_mechanism_status": "D5-O retained, mechanism unresolved",
+    "a1_mechanism_case": "mechanism_evidence",
+    "a1_mechanism_status": "blocked",
     "a4_d5_m_passed": false,
-    "a4_gate_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
+    "a4_gate_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.required_gate_pointers",
     "a4_pointer_present": true,
     "candidate_mechanism": "unresolved",
-    "full_vs_score_plus_margin": "not separated",
-    "residualized_attribution_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
-    "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
-    "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_case"
+    "full_vs_score_plus_margin": "separated",
+    "mechanism_evidence_closure_pointer": "$.mechanism_evidence.mechanism_status",
+    "mechanism_evidence_gate_pointers": [
+      "$.a4_hardgates.gates.A4-HG2.status",
+      "$.a4_hardgates.gates.A4-HG3.status",
+      "$.a4_hardgates.gates.A4-HG5.status"
+    ],
+    "mechanism_evidence_ledger_debt_pointer": "$.ledger_debt.0.status",
+    "mechanism_evidence_metric_pointers": {
+      "replacement_control_delta": "$.score_margin_causal_evidence.replace_high_gap_score_margin_from_low_gap.ci_summaries.AUROC_after_minus_before.mean",
+      "residualized_full_auroc": "$.residualized_attribution.ci_summaries.full_residualized_against_score_margin.AUROC.mean",
+      "residualized_status": "$.residualized_attribution.status",
+      "residualized_without_score_margin_auroc": "$.residualized_attribution.ci_summaries.full_without_score_and_margin.AUROC.mean",
+      "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+      "shuffle_score_margin_delta": "$.score_margin_causal_evidence.shuffle_score_margin.ci_summaries.AUROC_after_minus_before.mean"
+    },
+    "mechanism_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
+    "residualized_attribution_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.metric_pointers.residualized_status",
+    "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.metric_pointers.score_margin_channel_classification",
+    "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
   },
   "name": "MechanismNameCertCandidate:gap-head-on-h",
   "schema_id": "bedc-quality-lab:mechanism-namecert-candidate",
@@ -80,7 +95,7 @@
     "canonical_source": {
       "artifact_id": "gap_head_attribution_capsule",
       "json_artifact": "reports/canonical/gap_head_attribution_capsule.json",
-      "run_id": "a1-20260604T230717Z",
+      "run_id": "a1-20260605T071311Z",
       "status": "present"
     },
     "optional_sources": {

@@ -5,7 +5,7 @@
 - Candidate: `MechanismNameCertCandidate:gap-head-on-h`
 - Target classifier: `gap-head-on-h`
 - Candidate mechanism: `unresolved`
-- Full vs score plus margin: `not separated`
+- Full vs score plus margin: `separated`
 - Mechanism closure debt: `open`
 - Mechanism spec closure: `partial`
 - Mechanism ledger pointer: `$.ledger_policy.mechanism_closure_debt`

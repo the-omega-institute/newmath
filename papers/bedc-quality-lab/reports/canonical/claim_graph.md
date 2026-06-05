@@ -1,6 +1,6 @@
 # Claim Graph
 
-- Generated at: `2026-06-04T23:06:29.939392+00:00`
+- Generated at: `2026-06-05T07:13:11.713087+00:00`
 - Status: `pointer-only`
 - Nodes: `75`
 
@@ -20,7 +20,7 @@
 | `projected:gap-head-threshold-frontier` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[5]` | `raw:gap-head-threshold-frontier` |
 | `raw:gap-head-transfer-atlas` | `raw_evidence` | `reports/canonical/gap_head_transfer_atlas.json:$.multi_surface_d5_o.decision` |  |
 | `projected:gap-head-transfer-atlas` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[6]` | `raw:gap-head-transfer-atlas` |
-| `raw:gap-head-attribution-capsule` | `raw_evidence` | `reports/canonical/gap_head_attribution_capsule.json:$.d5_m` |  |
+| `raw:gap-head-attribution-capsule` | `raw_evidence` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` |  |
 | `projected:gap-head-attribution-capsule` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[7]` | `raw:gap-head-attribution-capsule` |
 | `raw:nongaussian-distribution-sweep` | `raw_evidence` | `reports/canonical/nongaussian-distribution-sweep.json:$.negative_result_ledger` |  |
 | `projected:nongaussian-distribution-sweep` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[8]` | `raw:nongaussian-distribution-sweep` |

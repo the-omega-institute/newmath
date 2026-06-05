@@ -23,6 +23,10 @@ CAPSULE_METRIC_POINTERS = {
     "claim_capsule_hardgates_status": "$.claim_capsule_hardgates",
     "d5_m_passed": "$.d5_m.passed",
     "mechanism_case_status": "$.mechanism_case.status",
+    "mechanism_evidence_status": "$.mechanism_evidence.mechanism_status",
+    "mechanism_evidence_candidate": "$.mechanism_evidence.candidate_mechanism",
+    "mechanism_evidence_failed_gate": "$.mechanism_evidence.failed_gate",
+    "mechanism_evidence_ledger_debt": "$.ledger_debt.0.status",
 }
 
 METRIC_POINTERS = {
@@ -49,6 +53,8 @@ def _resolve_payload_pointer(payload: Mapping[str, Any], pointer: str) -> Any:
     for part in pointer[2:].split("."):
         if isinstance(cursor, Mapping) and part in cursor:
             cursor = cursor[part]
+        elif isinstance(cursor, Sequence) and not isinstance(cursor, (str, bytes, bytearray)) and part.isdigit() and int(part) < len(cursor):
+            cursor = cursor[int(part)]
         else:
             raise KeyError(pointer)
     return cursor
@@ -82,6 +88,10 @@ class GapHeadAttributionBackendEvidenceAdapter:
             "claim_capsule_hardgates_status",
             "d5_m_passed",
             "mechanism_case_status",
+            "mechanism_evidence_status",
+            "mechanism_evidence_candidate",
+            "mechanism_evidence_failed_gate",
+            "mechanism_evidence_ledger_debt",
         ),
         theorem_rows=(
             {
@@ -93,12 +103,12 @@ class GapHeadAttributionBackendEvidenceAdapter:
             {
                 "name": "namecert/mechanism-candidate-audit",
                 "owner": OWNER,
-                "evidence_pointer": "$.mechanism_case",
+                "evidence_pointer": "$.mechanism_evidence",
             },
             {
                 "name": "closure/mechanism-closure-debt",
                 "owner": OWNER,
-                "evidence_pointer": "$.d5_m",
+                "evidence_pointer": "$.ledger_debt.0",
             },
         ),
         ledger_rows=(
@@ -189,8 +199,8 @@ class GapHeadAttributionBackendEvidenceAdapter:
             },
             "control_pointer": payload["control_pointer"],
             "control_evidence": payload["control_evidence"],
-            "mechanism_case": payload["mechanism_case"],
-            "d5_m": payload["d5_m"],
+            "mechanism_evidence": payload["mechanism_evidence"],
+            "ledger_debt": payload["ledger_debt"],
             "scope": payload["scope"],
             "source_artifacts": source_artifacts,
         }

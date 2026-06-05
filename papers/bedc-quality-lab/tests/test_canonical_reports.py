@@ -284,6 +284,32 @@ def _payload_for_spec(spec):
         payload["d5_m"] = {"status": "blocked", "passed": False, "failed_gate": "A4-HG5"}
         payload["residualized_attribution"] = {"status": "pass"}
         payload["score_margin_causal_evidence"] = {"channel_classification": "score_margin_sufficient"}
+        payload["mechanism_evidence"] = {
+            "base_level": "D5-O",
+            "base_status": "ready",
+            "mechanism_level": "blocked",
+            "mechanism_status": "blocked",
+            "candidate_mechanism": "probe-margin-channel",
+            "failed_gate": "A4-HG5",
+            "residualized_significant": True,
+            "control_clear": True,
+            "score_margin_sufficient": True,
+            "required_gate_pointers": [
+                "$.a4_hardgates.gates.A4-HG2.status",
+                "$.a4_hardgates.gates.A4-HG3.status",
+                "$.a4_hardgates.gates.A4-HG5.status",
+            ],
+            "metric_pointers": {
+                "residualized_status": "$.residualized_attribution.status",
+                "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+            },
+            "ledger_debt_pointer": "$.ledger_debt.0.status",
+            "closure_pointer": "$.mechanism_evidence.mechanism_status",
+            "source_issue": 747,
+        }
+        payload["ledger_debt"] = [{"debt_id": "gap-head-mechanism-evidence-closure", "status": "open"}]
+        payload["not_implemented"] = ["nonlinear_residualization", "full_causal_replacement_scope"]
+        payload["source_issues"] = [692, 747]
         payload["a4_hardgates"] = {
             "status": "fail",
             "gates": {"A4-HG5": {"status": "fail"}},
@@ -761,11 +787,15 @@ def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
     assert {
         "schema_id",
         "source_issue",
+        "source_issues",
         "artifact_id",
         "run_id",
         "d5_o",
         "d5_m",
         "mechanism_case",
+        "mechanism_evidence",
+        "not_implemented",
+        "ledger_debt",
         "hardgates",
         "residualized_attribution",
         "score_margin_causal_evidence",
@@ -2451,6 +2481,35 @@ def test_attribution_capsule_d5_cells_project_minimal_two_axis_discovery_map_row
                     "d5_o": {"status": "ready"},
                     "d5_m": {"status": "blocked", "passed": False, "failed_gate": "A1-HG3"},
                     "mechanism_case": {"status": "D5-O retained, mechanism = probe-margin-channel"},
+                    "mechanism_evidence": {
+                        "base_level": "D5-O",
+                        "base_status": "ready",
+                        "mechanism_level": "blocked",
+                        "mechanism_status": "blocked",
+                        "candidate_mechanism": "probe-margin-channel",
+                        "failed_gate": "A1-HG3",
+                        "residualized_significant": True,
+                        "control_clear": True,
+                        "score_margin_sufficient": True,
+                        "required_gate_pointers": [
+                            "$.a4_hardgates.gates.A4-HG2.status",
+                            "$.a4_hardgates.gates.A4-HG3.status",
+                            "$.a4_hardgates.gates.A4-HG5.status",
+                        ],
+                        "metric_pointers": {
+                            "residualized_status": "$.residualized_attribution.status",
+                            "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+                        },
+                        "ledger_debt_pointer": "$.ledger_debt.0.status",
+                        "closure_pointer": "$.mechanism_evidence.mechanism_status",
+                        "source_issue": 747,
+                    },
+                    "ledger_debt": [{"debt_id": "gap-head-mechanism-evidence-closure", "status": "open"}],
+                    "not_implemented": ["nonlinear_residualization", "full_causal_replacement_scope"],
+                    "source_issues": [692, 747],
+                    "a4_hardgates": {"gates": {"A4-HG2": {"status": "pass"}, "A4-HG3": {"status": "pass"}, "A4-HG5": {"status": "fail"}}},
+                    "residualized_attribution": {"status": "pass"},
+                    "score_margin_causal_evidence": {"channel_classification": "score_margin_sufficient"},
                 }
             ),
         )
@@ -2468,7 +2527,7 @@ def test_attribution_capsule_d5_cells_project_minimal_two_axis_discovery_map_row
 
     assert row["discovery_level"] == "D0"
     assert row["projection_status"] == "two-axis-recorded"
-    assert row["evidence_pointer"] == spec.positive_claim_pointer
+    assert row["evidence_pointer"] == "$.mechanism_evidence"
     assert row["base_level"] == "D5-O"
     assert row["base_status"] == "ready"
     assert row["mechanism_level"] == "blocked"
@@ -2476,11 +2535,11 @@ def test_attribution_capsule_d5_cells_project_minimal_two_axis_discovery_map_row
     assert row["mechanism_channel"] == "probe-margin-channel"
     assert row["mechanism_failed_gate"] == "A1-HG3"
     assert row["operational_pointer"] == "$.d5_o"
-    assert row["mechanism_pointer"] == "$.d5_m"
-    assert row["mechanism_case_pointer"] == "$.mechanism_case"
-    assert row["mechanism_namecert_pointer"] == "reports/gap_head_mechanism_namecert.json"
-    assert row["mechanism_ledger_pointer"] == "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt"
-    assert row["mechanism_closure_pointer"] == "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec"
+    assert row["mechanism_pointer"] == "$.mechanism_evidence"
+    assert row["mechanism_case_pointer"] == "$.mechanism_evidence.candidate_mechanism"
+    assert row["mechanism_namecert_pointer"] == "reports/canonical/gap_head_attribution_capsule.json"
+    assert row["mechanism_ledger_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status"
+    assert row["mechanism_closure_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status"
     assert row["audit_status"] == "valid"
 
 
@@ -2503,19 +2562,19 @@ def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     assert index_row["json_artifact"] == "reports/canonical/gap_head_attribution_capsule.json"
     assert row["json_artifact"] == index_row["json_artifact"]
     assert claim_row["ledger_pointer"] == f"reports/canonical/discovery_map.json:$.rows[{row_index}].discovery_level"
-    assert claim_row["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.d5_m"
+    assert claim_row["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
     assert capsule["d5_o"]["status"] == row["base_status"] == "ready"
     assert row["base_level"] == "D5-O"
     assert sidecar["ledger_policy"]["mechanism_closure_debt"] == "open"
     assert sidecar["closure_status"]["mechanism_spec"] == "partial"
     assert row["mechanism_status"] == "blocked"
     assert row["mechanism_level"] == "blocked"
-    assert capsule["d5_m"]["failed_gate"] == sidecar["mechanism_spec"]["a1_failed_gate"] == row["mechanism_failed_gate"]
-    assert capsule["mechanism_case"]["status"] == sidecar["mechanism_spec"]["a1_mechanism_status"]
-    assert sidecar["mechanism_spec"]["candidate_mechanism"] == capsule["mechanism_case"]["candidate_mechanism"]
+    assert capsule["mechanism_evidence"]["failed_gate"] == sidecar["mechanism_spec"]["a1_failed_gate"] == row["mechanism_failed_gate"]
+    assert capsule["mechanism_evidence"]["mechanism_status"] == sidecar["mechanism_spec"]["a1_mechanism_status"]
+    assert sidecar["mechanism_spec"]["candidate_mechanism"] == capsule["mechanism_evidence"]["candidate_mechanism"]
     assert row["mechanism_channel"] == sidecar["mechanism_spec"]["candidate_mechanism"]
-    assert row["mechanism_ledger_pointer"] == "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt"
-    assert row["mechanism_closure_pointer"] == "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec"
+    assert row["mechanism_ledger_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status"
+    assert row["mechanism_closure_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status"
 
 
 def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):
