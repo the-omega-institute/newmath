@@ -212,6 +212,52 @@ Apply the tail-neighborhood handoff of \autoref{thm:frechet-filter-tail-neighbor
 Use the common-tail refinement of \autoref{thm:frechet-filter-tail-common-refinement}. The displayed common threshold is read through the same cofinite-tail row, so the meet obligation belongs to $B$ before any schedule or metric consumer can inspect later rows.
 \end{proof}
 
+\begin{theorem}[FrechetFilter cofinite-tail closure induction]
+\label{thm:frechet-filter-tail-closure-induction}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Any finite iteration of the $\FilterBaseUp$ meet row $B$ over displayed cofinite-tail requests preserves the common-tail route of \autoref{thm:frechet-filter-tail-common-refinement}. After the iteration, every resulting request still factors through
+$$
+U,T \longmapsto S,M,B \longmapsto Q,R,A,H,C,P,N ,
+$$
+with no selected tail, quotient filter equality, countable-choice selector, or ambient completion coordinate.
+\end{theorem}
+\begin{proof}
+Use induction on the finite list of cofinite-tail requests displayed by the packet. The empty and singleton cases are exactly the carrier route of \autoref{thm:frechet-filter-tail-neighborhood-handoff}.
+
+For the step, apply \autoref{thm:frechet-filter-tail-common-refinement} to the current common tail and the next displayed request. The $\FilterBaseUp$ meet row $B$ supplies the next common threshold while keeping the route inside $U,T,S,M,B$.
+
+Finally replay the downstream handoff through \autoref{thm:frechet-filter-filterbase-meet-obligation}. The CauchyFilter, RegSeqRat, Real, transport, continuation, provenance, and naming rows remain downstream of the same finite cofinite-tail surface.
+\end{proof}
+
+\begin{theorem}[FrechetFilter threshold monotonicity]
+\label{thm:frechet-filter-threshold-monotonicity}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Enlarging the displayed cofinite-tail threshold preserves every downstream $\StreamNameUp$, $\MetricUp$, $\CauchyFilterUp$, $\RegSeqRatUp$, and $\RealUp$ consumer of the packet. The enlarged read may replay the same rows $S,M,Q,R,A,H,C,P,N$ only after the new threshold has passed through $T$ and the $\FilterBaseUp$ meet row $B$.
+\end{theorem}
+\begin{proof}
+Begin with the threshold and tail-neighborhood handoff of \autoref{thm:frechet-filter-tail-neighborhood-handoff}. A larger displayed threshold remains a cofinite-tail request over the same finite complement row $T$.
+
+Apply \autoref{thm:frechet-filter-tail-common-refinement}. The original threshold and the enlarged threshold admit the enlarged threshold itself as a displayed common tail, so the schedule and metric rows still read the same cofinite surface through $S,M,B$.
+
+The downstream consumers are then forced by \autoref{thm:frechet-filter-filterbase-meet-obligation}. Since $Q,R,A,H,C,P,N$ are reached only after the filter-base meet row, threshold enlargement preserves their route without adding a selector or completion witness.
+\end{proof}
+
+\begin{theorem}[FrechetFilter cofinite meet associativity]
+\label{thm:frechet-filter-cofinite-meet-associativity}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. For any three displayed cofinite-tail requests in the same packet, the two iterated meet routes through $B$,
+$$
+(U_1 \wedge U_2)\wedge U_3
+\qquad\hbox{and}\qquad
+U_1\wedge (U_2 \wedge U_3),
+$$
+determine the same displayed $\BHist$ common-tail route for downstream consumers. The associativity claim is only a route-level equality over the carrier rows; it does not assert quotient filter equality.
+\end{theorem}
+\begin{proof}
+Apply the finite closure induction of \autoref{thm:frechet-filter-tail-closure-induction} to the ordered triple of displayed cofinite-tail requests. Both parenthesizations consume the same three requests through the same $\FilterBaseUp$ meet row $B$.
+
+Use \autoref{thm:frechet-filter-tail-common-refinement} at each binary meet. In each parenthesization the final threshold is the displayed common tail above all three inputs, so the downstream route begins with the same finite cofinite-tail surface.
+
+Finally apply \autoref{thm:frechet-filter-filterbase-meet-obligation}. Since schedule, metric, CauchyFilter, RegSeqRat, Real, transport, replay, provenance, and local naming rows are read only after $B$, associativity holds at the displayed $\BHist$ route level and does not create quotient filter equality.
+\end{proof}
+
 \begin{theorem}[FrechetFilter sequential-completion handoff]
 \label{thm:frechet-filter-sequential-completion-handoff}
 Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Every $\SequentiallyCompleteMetricUp$ consumer of $F$ receives only the rows
