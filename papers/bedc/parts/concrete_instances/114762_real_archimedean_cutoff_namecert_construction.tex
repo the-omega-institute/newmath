@@ -1,0 +1,105 @@
+\chapter{Real Archimedean Cutoff NameCert Construction}
+\label{ch:concrete-instances-real-archimedean-cutoff-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the
+$\RealArchimedeanCutoffUp$ packet records the finite Archimedean cutoff row
+for displayed $\RealUp$ names. It reads a real name only through finite
+$\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$
+tolerance ledger, and a $\NatUp$ unary bound history, so the cutoff certificate
+stays inside displayed BEDC data and does not claim trichotomy, quotient reals,
+least upper bounds, choice, or ambient completeness.
+
+\begin{definition}[RealArchimedeanCutoff carrier]
+\label{def:real-archimedean-cutoff-carrier}
+A $\RealArchimedeanCutoffUp$ carrier is a finite $\BHist$ packet
+$$
+C=(R,S,G,D,U,L,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the terminal $\RealUp$ seal whose displayed name is being cut off
+at a finite Archimedean scale.
+\item $S$ is the finite $\StreamNameUp$ window family opened from $R$ at the
+requested precisions.
+\item $G$ is the $\RegSeqRatUp$ readback row attached to those windows, so
+every inspected rational value has a regular sequence source.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger comparing the inspected
+readback values with the displayed dyadic cutoff scale.
+\item $U$ is the $\NatUp$ and $\mathsf{UnaryHistory}$ bound row naming the
+finite number of window extensions used by the cutoff read.
+\item $L$ is the finite cutoff ledger pairing each requested precision with
+the displayed stream window, regular readback, dyadic tolerance, and unary
+bound row used for that precision.
+\item $H$ stores componentwise $\hsame$ transport for the Real seal, stream
+windows, regular readback, dyadic tolerance ledger, unary bound row, cutoff
+ledger, replay rows, provenance row, and local naming row.
+\item $T$ stores displayed $\Cont$ replay from a cutoff request through
+$R,S,G,D,U,L,H$.
+\item $P$ is the $\Pkg$ provenance over $\RealArchimedeanCutoffUp$,
+$\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\NatUp$,
+$\mathsf{UnaryHistory}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealArchimedeanCutoffUp}$ row.
+\end{enumerate}
+The carrier contains only the displayed finite cutoff surface. It has no
+trichotomy row, no quotient equality of real names, no selected representative
+stream, no least-upper-bound object, no choice selector, and no completeness
+coordinate.
+\end{definition}
+
+\begin{theorem}[RealArchimedeanCutoff NameCert obligations]
+\label{thm:real-archimedean-cutoff-namecert-obligations}
+For every accepted $\RealArchimedeanCutoffUp$ carrier
+$C=(R,S,G,D,U,L,H,T,P,N)$, the local
+$\NameCert_{\RealArchimedeanCutoffUp}$ surface consists exactly of the
+following finite obligations:
+\begin{enumerate}
+\item carrier admission for the Real seal, stream windows, regular readback,
+dyadic tolerance ledger, unary bound row, cutoff ledger, componentwise
+transport, replay, provenance, and local naming rows;
+\item classifier stability, requiring every classified cutoff read to
+transport $R,S,G,D,U,L$ through the stored $\hsame$ and $\Cont$ routes;
+\item finite bound readback, requiring the unary row $U$ to expose the finite
+number of window extensions used before the cutoff ledger $L$ is accepted;
+\item Real seal nonescape, requiring every completion-facing consumer to read
+$S,G,D,U,L,H,T,P,N$ before it receives the $\RealUp$ seal row $R$;
+\item ledger exactness, requiring each accepted cutoff comparison to be the
+displayed row in $L$ that pairs the relevant $\StreamNameUp$ window,
+$\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance entry, and
+$\NatUp$ or $\mathsf{UnaryHistory}$ bound.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from the tuple in
+\autoref{def:real-archimedean-cutoff-carrier}. The Real seal, finite stream
+windows, regular readback, dyadic tolerance ledger, unary bound row, cutoff
+ledger, transport table, replay table, provenance row, and local naming row
+are all explicit coordinates of the accepted packet.
+
+Classifier stability is componentwise. The stored $\hsame$ and $\Cont$ rows
+transport the Real seal together with the stream windows and regular readback,
+and they transport the dyadic tolerance and unary bound rows beside the same
+cutoff ledger.
+
+Finite bound readback then uses only $U$ and $L$. The unary row names how many
+window extensions are opened, while the ledger records which displayed
+window, readback, and dyadic tolerance entry is used at each requested
+precision.
+
+Finally inspect the carrier inventory. Since the packet has no coordinate for
+trichotomy, quotient equality of real names, selected representatives,
+least-upper-bound machinery, choice, or ambient completeness, every
+completion-facing read remains inside the displayed finite cutoff surface.
+\end{proof}
+
+\closureat{RealArchimedeanCutoffUp}{seedStr}
+
+\begin{closurestatus}{\RealArchimedeanCutoffUp}
+  \constructivestory{A $\RealArchimedeanCutoffUp$ packet is generated from a RealUp seal, finite StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a NatUp unary bound history, a cutoff ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-archimedean-cutoff-carrier} and \autoref{thm:real-archimedean-cutoff-namecert-obligations} seed the finite Archimedean cutoff certificate for displayed Real names through StreamName, RegSeqRat, DyadicRatCore, Nat, and UnaryHistory rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim trichotomy, quotient equality of real names, selected representatives, least upper bounds, choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, finite bound readback, Real seal nonescape, and ledger exactness for BEDC.Derived.RealArchimedeanCutoffUp.}
+\end{closurestatus}
