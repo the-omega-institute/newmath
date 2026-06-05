@@ -212,4 +212,19 @@ theorem RefusalRegistryCarrier_export_control (x : RefusalRegistryUp) :
             BEDC.Meta.TasteGate.ChapterTasteGate.conservativity
               (x := x) (w := w) (m := m) hw hm⟩⟩
 
+theorem RefusalRegistryObligationPack (x : RefusalRegistryUp) :
+    (∃ B E G C S V T P N : BHist,
+      x = RefusalRegistryUp.mk B E G C S V T P N ∧
+        refusalRegistryFields x = [B, E, G, C, S, V, T, P, N]) ∧
+      ∃ ef : EventFlow,
+        refusalRegistryFromEventFlow ef = some x ∧
+          (∀ (w : RawEvent) (m : BMark), List.Mem w ef → List.Mem m w →
+            m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · cases x with
+    | mk B E G C S V T P N =>
+        exact ⟨B, E, G, C, S, V, T, P, N, rfl, rfl⟩
+  · exact (RefusalRegistryCarrier_export_control x).right
+
 end BEDC.Derived.RefusalRegistryUp
