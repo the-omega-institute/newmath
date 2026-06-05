@@ -714,6 +714,7 @@ import BEDC.Derived.BanachFixedPointStabilityUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.BanachLatticeUp.TasteGate
 import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
+import BEDC.Derived.BanachSpaceUp.CauchyWindowScope
 import BEDC.Derived.BanachSpaceUp.TasteGate
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
