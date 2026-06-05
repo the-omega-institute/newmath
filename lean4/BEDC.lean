@@ -2917,6 +2917,7 @@ import BEDC.Derived.ContinuationTraceNormalFormUp
 import BEDC.Derived.ContinuationTraceNormalFormUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.ContinuedFractionConvergentsUp.TasteGate
+import BEDC.Derived.ContinuedFractionRealUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuedFractionUp.TasteGate
 import BEDC.Derived.ContinuityCarrierNameCertUp
