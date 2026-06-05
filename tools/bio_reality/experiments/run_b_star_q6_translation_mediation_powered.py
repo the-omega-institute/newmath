@@ -37,6 +37,9 @@ ORGANISM_PAIRS = [
     {"organism": "saccharomyces_cerevisiae", "trna_organism": "saccharomyces_cerevisiae"},
     {"organism": "mycobacterium_smegmatis_str_mc2_155", "trna_organism": "mycobacterium_smegmatis_str_mc2_155"},
     {"organism": "escherichia_coli_k12_mg1655", "trna_organism": "escherichia_coli"},
+    {"organism": "homo_sapiens", "trna_organism": "homo_sapiens"},
+    {"organism": "danio_rerio", "trna_organism": "danio_rerio"},
+    {"organism": "gallus_gallus", "trna_organism": "gallus_gallus"},
 ]
 MIN_ORGANISMS = 2
 MIN_PROTEINS_PER_ORGANISM = 500
