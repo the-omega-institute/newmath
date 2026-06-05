@@ -5,17 +5,22 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.cost_protocol import SCOPED_DEBT_ROWS
+from bedc_quality_lab.debt import assess_debt
 from bedc_quality_lab.discovery_compiler.backend import TheoryBackend
+from bedc_quality_lab.ledger import LedgerRowKey, derive_ledger_gaps
 from scripts import run_gaussian_ou_lejepa
 
 
-def _parse_ledger_gap(row: str) -> dict[str, str]:
-    cells = {}
-    for item in row.split(";"):
-        key, _, value = item.strip().partition("=")
-        if key and value:
-            cells[key] = value
-    return cells
+def _ledger_row_key(row: Mapping[str, Any]) -> LedgerRowKey:
+    return LedgerRowKey(kind=str(row["kind"]), residue=str(row["residue"]))
+
+
+def _ledger_projection(row: Mapping[str, Any], status_by_key: Mapping[LedgerRowKey, Any]) -> Mapping[str, str]:
+    status = status_by_key.get(_ledger_row_key(row))
+    if status is None:
+        return {"status": "declared", "severity": "declared"}
+    return {"status": status.status, "severity": status.severity}
 
 
 class LeJEPABackendEvidenceAdapter:
@@ -88,16 +93,36 @@ class LeJEPABackendEvidenceAdapter:
 
     def derive_ledger_rows(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
         payload = self.compute_metrics(root=root, generated_at=generated_at)
-        gap_by_key = {}
-        for gap in payload["ledger_gaps"]:
-            parsed = _parse_ledger_gap(gap)
-            gap_by_key[f"{parsed.get('kind')}/{parsed.get('residue')}"] = parsed
+        declared_rows = frozenset(_ledger_row_key(row) for row in self.backend.ledger_rows)
+        debt_assessment = assess_debt(
+            payload["metrics"],
+            payload["source_spec"],
+            payload["classifier_spec"],
+            payload["stability_spec"],
+            extra_rows=declared_rows & SCOPED_DEBT_ROWS,
+        )
+        gaps = derive_ledger_gaps(
+            payload["metrics"],
+            payload["source_spec"],
+            payload["classifier_spec"],
+            payload["stability_spec"],
+            debt_assessment,
+        )
+        status_by_key = {
+            LedgerRowKey(item.kind, item.residue): item
+            for item in debt_assessment.items
+        }
+        status_by_key.update(
+            {
+                LedgerRowKey(gap.kind, gap.residue): gap
+                for gap in gaps
+            }
+        )
         return [
             {
                 **row,
-                "status": gap_by_key.get(f"{row['kind']}/{row['residue']}", {}).get("status", "declared"),
-                "severity": gap_by_key.get(f"{row['kind']}/{row['residue']}", {}).get("severity", "declared"),
-                "evidence_pointer": "$.ledger_gaps",
+                **_ledger_projection(row, status_by_key),
+                "evidence_pointer": "bedc_quality_lab.ledger.derive_ledger_gaps",
                 "owner": "scripts.run_gaussian_ou_lejepa.run_experiment",
             }
             for row in self.backend.ledger_rows

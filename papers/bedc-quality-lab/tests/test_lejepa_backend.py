@@ -33,9 +33,20 @@ EXPECTED_LEDGER_ROWS = (
 def fake_envelope():
     return SimpleNamespace(
         run_id="fake-delegated-run",
-        source_spec={"latent_distribution": "fake-gaussian", "transition_isotropic": True},
+        source_spec={
+            "latent_distribution": "gaussian",
+            "latent_dim": 2,
+            "sample_count": 128,
+            "transition_kernel": {"isotropic": True},
+            "transition_isotropic": True,
+        },
         pattern_spec={"name": "fake-pattern"},
-        classifier_spec={"cert_status": "fake-certified", "cert_threshold": {"theorem3_bound_mse": 12.5}},
+        classifier_spec={
+            "name": "deterministic-standardization",
+            "output_dim": 2,
+            "cert_status": "fake-certified",
+            "cert_threshold": {"theorem3_bound_mse": 12.5},
+        },
         stability_spec={"seed": 99},
         metrics={
             "alignment_gap_delta_mse": 1.0,
@@ -45,7 +56,7 @@ def fake_envelope():
             "linear_identifiability_r2": 5.0,
             "delegated_extra_metric": 6.0,
         },
-        ledger_gaps=["kind=source; residue=finite-sample-support; severity=high; status=open"],
+        ledger_gaps=["kind=source; residue=finite-sample-support; severity=low; status=closed"],
         debt_items=["kind=classifier; residue=optimizer-certificate; severity=medium; status=partial; score=0.5"],
         artifacts={
             "envelope": "reports/backend-probes/lejepa/fake-envelope.json",
@@ -95,7 +106,7 @@ def test_compute_metrics_delegates_to_gaussian_ou_lejepa(monkeypatch, tmp_path):
     assert payload["classifier_spec"]["cert_status"] == "fake-certified"
     assert payload["classifier_spec"]["cert_threshold"]["theorem3_bound_mse"] == 12.5
     assert payload["source_spec"]["transition_isotropic"] is True
-    assert payload["ledger_gaps"] == ["kind=source; residue=finite-sample-support; severity=high; status=open"]
+    assert payload["ledger_gaps"] == ["kind=source; residue=finite-sample-support; severity=low; status=closed"]
     assert payload["artifacts"]["envelope"] == "reports/backend-probes/lejepa/fake-envelope.json"
 
 
@@ -108,7 +119,13 @@ def test_ledger_projection_consumes_delegated_gaps(monkeypatch, tmp_path):
 
     assert by_key["source/finite-sample-support"]["status"] == "open"
     assert by_key["source/finite-sample-support"]["severity"] == "high"
-    assert by_key["source/dimension-match"]["status"] == "declared"
+    assert by_key["source/dimension-match"]["status"] == "closed"
+    assert by_key["source/dimension-match"]["severity"] == "none"
+    assert by_key["source/latent-distribution-gaussianity"]["status"] == "closed"
+    assert by_key["source/transition-isotropy"]["status"] == "closed"
+    assert by_key["classifier/optimizer-certificate"]["status"] == "partial"
+    assert by_key["classifier/optimizer-certificate"]["severity"] == "medium"
+    assert {row["evidence_pointer"] for row in rows} == {"bedc_quality_lab.ledger.derive_ledger_gaps"}
     assert {row["owner"] for row in rows} == {"scripts.run_gaussian_ou_lejepa.run_experiment"}
     assert all("terminal_verdict" not in row for row in rows)
     assert adapter.derive_negative_discovery_rows(root=tmp_path) == ()
