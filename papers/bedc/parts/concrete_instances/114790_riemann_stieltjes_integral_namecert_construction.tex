@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\RiemannStieltjesIntegralUp$}
+\label{ch:concrete-instances-riemann-stieltjes-integral-namecert}
+\origin{human}
+
+Following Riemann and Stieltjes, and the Bishop-style use of tagged partitions, the $\RiemannStieltjesIntegralUp$ packet records a finite integral carrier for a regulated real integrand against a bounded-variation integrator. It presents the integral value only through displayed partition sums, variation control, regular-rational readback, finite stream windows, and the terminal real-name seal; it does not import a measure space, a selected limiting partition, a quotient of functions, countable choice, or ambient $\RealUp$ completeness.
+
+This chapter is a bounded-variation consumer over the Real and Completion route. It reads the tagged-partition surface of \autoref{ch:concrete-instances-riemannintegral-namecert}, the variation ledger of \autoref{ch:concrete-instances-boundedvariation-namecert}, the regulated real function surface of \autoref{ch:concrete-instances-regulatedrealfunction-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The existing $\RiemannStieltjesUp$ chapter supplies a neighboring handoff surface, while this packet isolates the integral carrier consumed by later bounded-variation arguments.
+
+\begin{definition}[Riemann--Stieltjes integral carrier]
+\label{def:riemann-stieltjes-integral-carrier}
+A $\RiemannStieltjesIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+I=(F,G,V,T,S,Q,W,R,E,H,C,P,N)
+$$
+with displayed rows: $F$ is the $\RegulatedRealFunctionUp$ integrand row; $G$ is the regulated real integrator row; $V$ is the $\BoundedVariationUp$ ledger for $G$; $T$ is the tagged-partition row inherited from the $\RiemannIntegralUp$ surface; $S$ is the finite Stieltjes-sum row; $Q$ is the mesh and refinement request row; $W$ is the $\StreamNameUp$ finite-window row; $R$ is the $\RegSeqRatUp$ readback row for the accepted sums; $E$ is the terminal $\RealUp$ seal for the integral value; and $H,C,P,N$ are the componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert_{\RiemannStieltjesIntegralUp}$ rows.
+\end{definition}
+
+\begin{theorem}[Riemann--Stieltjes integral NameCert obligations]
+\label{thm:riemann-stieltjes-integral-namecert-obligations}
+For every accepted carrier $I=(F,G,V,T,S,Q,W,R,E,H,C,P,N)$, the local $\NameCert_{\RiemannStieltjesIntegralUp}$ surface consists exactly of carrier admission; regulated real integrand and integrator exposure through $F,G$; bounded-variation control through $V$; tagged-partition and Stieltjes-sum exposure through $T,S,Q$; finite-window and regular-rational readback through $W,R$; terminal real sealing through $E$; componentwise transport, replay, provenance, and local naming through $H,C,P,N$; and non-escape from measure spaces, quotient functions, selected partition limits, countable choice, and ambient completion.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The rows $F,G,V$ expose the regulated real function data and the bounded-variation control before any Stieltjes sum can be inspected.
+
+The tagged-partition rows $T,S,Q$ then describe only finite sums and refinement requests. They inherit the finite partition discipline from the Riemann integral surface but attach the integrator step differences through the displayed variation ledger rather than through a measure.
+
+The completion-facing read is forced through $W,R,E$. The finite windows are read as $\StreamNameUp$ rows, the accepted sums as $\RegSeqRatUp$ readback rows, and the endpoint value only after the $\RealUp$ seal is displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no carrier coordinate names a measure space, quotient function, selected limiting partition, countable-choice schedule, or ambient completion theorem, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Riemann--Stieltjes integral bounded-variation handoff]
+\label{thm:riemann-stieltjes-integral-bounded-variation-handoff}
+Every downstream bounded-variation consumer of an accepted $\RiemannStieltjesIntegralUp$ packet must factor its integral read through
+$$
+F,G,V,T,S,Q,W,R,E,H,C,P,N .
+$$
+In particular, the consumer receives the $\BoundedVariationUp$ ledger for the integrator before it may read the Stieltjes-sum row, and it receives the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows before it may treat the integral as a Real-facing value.
+\end{theorem}
+\begin{proof}
+Start with a bounded-variation-facing consumer. The packet has no integral-value coordinate except the terminal seal $E$, and $E$ is downstream of the finite-window and regular-rational readback rows $W,R$.
+
+The Stieltjes-sum row $S$ is also downstream of $V$. Thus the consumer cannot inspect integrator step differences without first displaying the bounded-variation ledger that controls those differences.
+
+Now apply the Real and Completion route discipline. The finite window $W$ and regular readback $R$ are the only rows that connect finite sums to the terminal $\RealUp$ seal, so the consumer must pass through $\StreamNameUp$ and $\RegSeqRatUp$ before reading $E$.
+
+Transport, replay, provenance, and local naming preserve the same route. Hence any accepted bounded-variation handoff factors through the displayed rows and cannot replace them by a measure-completion, quotient-function, selected-limit, or ambient-completeness assertion.
+\end{proof}
+
+\closureat{RiemannStieltjesIntegralUp}{seedStr}
+\begin{closurestatus}{\RiemannStieltjesIntegralUp}
+  \constructivestory{A $\RiemannStieltjesIntegralUp$ packet is generated from regulated real function rows, a bounded-variation ledger, tagged finite partitions, Stieltjes sums, finite stream windows, regular rational readback, a terminal real seal, componentwise transport, displayed replay, package provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-stieltjes-integral-carrier}, \autoref{thm:riemann-stieltjes-integral-namecert-obligations}, and \autoref{thm:riemann-stieltjes-integral-bounded-variation-handoff} seed the finite Riemann--Stieltjes integral packet over bounded-variation, tagged-partition, finite-window, regular-rational, and real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure-theoretic integration, Lebesgue--Stieltjes completion, quotient function equality, selected limiting partitions, countable choice, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, tagged-partition stability, bounded-variation control, finite-window readback, regular-rational exactness, terminal real sealing, transport, replay, provenance, and local naming for the same packet.}
+\end{closurestatus}
