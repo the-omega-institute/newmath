@@ -3819,6 +3819,8 @@ import BEDC.Derived.DyadicStepFunctionUp.WindowCarrier
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicSubdivisionUp.TasteGate
 import BEDC.Derived.DyadicSubsequenceUp.TasteGate
+import BEDC.Derived.DyadicSupremumUp.FiniteWindowExhaustion
+import BEDC.Derived.DyadicSupremumUp.LocatedCutHandoff
 import BEDC.Derived.DyadicSupremumUp.NameCertObligations
 import BEDC.Derived.DyadicSupremumUp.TasteGate
 import BEDC.Derived.DyadicTailBallUp.MonotoneInclusion
@@ -4835,6 +4837,8 @@ import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
+import BEDC.Derived.HilbertAlexanderBlockerUp.NameCertObligations
+import BEDC.Derived.HilbertAlexanderBlockerUp.TasteGate
 import BEDC.Derived.HilbertBasisUp.TasteGate
 import BEDC.Derived.HilbertCubeUp.TasteGate
 import BEDC.Derived.HilbertUp
@@ -6653,6 +6657,8 @@ import BEDC.Derived.PhilosophyGapMapLedgerUp.TasteGate
 import BEDC.Derived.PhilosophyGovernanceExportUp.TasteGate
 import BEDC.Derived.PhilosophyMapTargetUp.TasteGate
 import BEDC.Derived.PhilosophySynthesisAuditUp.TasteGate
+import BEDC.Derived.PhysicalInductionGateUp.NameCertObligations
+import BEDC.Derived.PhysicalInductionGateUp.TasteGate
 import BEDC.Derived.PhysicalInductionStabilitySealUp.NameCert
 import BEDC.Derived.PhysicalInductionStabilitySealUp.TasteGate
 import BEDC.Derived.PhysicalInductionUp.TasteGate
