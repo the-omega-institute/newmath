@@ -4007,6 +4007,8 @@ import BEDC.Derived.FanfunctionalUp.CantorCompactnessScope
 import BEDC.Derived.FanfunctionalUp.CantorModulusLedger
 import BEDC.Derived.FanfunctionalUp.CantorPrefixModulusHandoff
 import BEDC.Derived.FanfunctionalUp.CompactContinuityConsumer
+import BEDC.Derived.FanfunctionalUp.CompactMetricFiniteNetRoute
+import BEDC.Derived.FanfunctionalUp.CompactMetricUniformBarScope
 import BEDC.Derived.FanfunctionalUp.CompactUniformConsumerScope
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusObligations
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
