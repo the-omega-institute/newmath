@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyArithmeticUp$}
+\label{ch:concrete-instances-regular-cauchy-arithmetic-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive real analysis, the $\RegularCauchyArithmeticUp$ packet records the finite arithmetic surface used when regular Cauchy names are added, multiplied, negated, compared against displayed dyadic tolerances, and sealed for $\RealUp$ consumers without quotienting the names. It sits over the $\CauchyUp$ carrier of \autoref{ch:concrete-instances-cauchy-namecert}, the $\RegSeqRatUp$ rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the $\StreamNameUp$ finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives L10 Real and Completion consumers an arithmetic carrier between regular rational sequences and the Real seal while refusing quotient real equality, selected representatives, trichotomy, countable-choice schedules, ambient completeness, and unrestricted field algebra over host reals.
+
+\begin{definition}[Regular Cauchy arithmetic carrier]
+\label{def:regular-cauchy-arithmetic-carrier}
+A $\RegularCauchyArithmeticUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,Y,S,T,R,Q,D,O,W,E,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\CauchyUp$ source-name rows admitted for arithmetic.
+\item $S$ and $T$ are the corresponding $\StreamNameUp$ finite-window rows.
+\item $R$ and $Q$ are the $\RegSeqRatUp$ readback rows attached to the same windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, including the displayed radii used for arithmetic error budgets.
+\item $O$ is the operation row naming which of addition, multiplication, unary negation, distance comparison, or constant insertion is being performed.
+\item $W$ is the regular-Cauchy output window row produced from $R,Q,D,O$.
+\item $E$ is the terminal $\RealUp$ seal row, available only after the source names, stream windows, rational readbacks, tolerance ledger, operation row, and output window have been read.
+\item $H$ records componentwise $\hsame$ transport for the source names, stream windows, regular readbacks, tolerance ledger, operation row, output window, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an arithmetic request through $X,Y,S,T,R,Q,D,O,W,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyArithmeticUp$, $\CauchyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyArithmeticUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient equality of Cauchy names, selected representatives, trichotomy, countable-choice schedules, ambient completeness, or host-real field algebra.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy arithmetic NameCert obligations]
+\label{thm:regular-cauchy-arithmetic-namecert-obligations}
+For an accepted $\RegularCauchyArithmeticUp$ carrier $A=(X,Y,S,T,R,Q,D,O,W,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyArithmeticUp}$ surface consists exactly of carrier admission for the two Cauchy source names, their finite stream windows, their regular rational readbacks, the dyadic tolerance ledger, the displayed operation row, the regular-Cauchy output window, the terminal Real seal, transport, replay, provenance, and local naming; classifier stability under componentwise $\hsame$ transport; arithmetic tolerance coverage for the operation named by $O$; exact routing from $R,Q,D,O$ into $W$; Real-facing nonescape through $E$; and ledger refusal for quotient name equality, selected representatives, trichotomy, countable-choice schedules, ambient completeness, and host-real field algebra.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The rows $X,Y,S,T,R,Q,D,O,W,E,H,C,P,N$ are the only displayed coordinates, so carrier admission, operation routing, provenance, and local naming are read directly from the packet.
+
+Classifier stability is componentwise. Transport through $H$ must preserve both source names, both stream windows, both regular readbacks, the dyadic tolerance ledger, the operation row, the output window, the Real seal, replay, provenance, and local naming before two arithmetic packets can be identified.
+
+Arithmetic coverage is finite. The operation row $O$ selects the displayed arithmetic task, the tolerance ledger $D$ supplies the requested dyadic budget, and the regular readbacks $R,Q$ provide the rational data from which $W$ is built.
+
+Finally $E,C,P,N$ seal, replay, source, and name the same route. Since no carrier coordinate stores quotient equality, selected representatives, trichotomy, countable choice, ambient completeness, or host-real field algebra, the refusal clauses follow by carrier exhaustion.
+\end{proof}
+
+\begin{theorem}[RegSeqRat route for regular Cauchy arithmetic]
+\label{thm:regular-cauchy-arithmetic-regseqrat-route}
+Every accepted $\RegularCauchyArithmeticUp$ arithmetic read factors through the displayed route
+$$
+\CauchyUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ O,\ W .
+$$
+In carrier notation, the output window $W$ can be consumed only after $X,Y,S,T,R,Q,D,O$ are visible. Thus downstream $\RegSeqRatUp$ consumers receive the two source readbacks, the dyadic error ledger, the operation row, transport, replay, provenance, and local naming, but receive no quotient stream equality, selected representative, external rational sequence, trichotomy, countable-choice schedule, or ambient completeness witness.
+\end{theorem}
+\begin{proof}
+Start with an arithmetic request. The two source rows $X,Y$ admit only Cauchy-name data, while $S,T$ determine the finite windows inspected by the request.
+
+The request then reads $R,Q$ and $D$. These rows supply regular rational readback and dyadic tolerance budgets before the operation row $O$ is applied.
+
+The output window $W$ is therefore produced inside the displayed route, and $H,C,P,N$ transport, replay, source, and name exactly that route. No additional carrier coordinate is available for quotient stream equality, selected representatives, external rational streams, trichotomy, choice schedules, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy arithmetic Real seal nonescape]
+\label{thm:regular-cauchy-arithmetic-real-seal-nonescape}
+Every $\RealUp$-facing read of an accepted $\RegularCauchyArithmeticUp$ packet must expose the two Cauchy source rows, both stream-window rows, both $\RegSeqRatUp$ readbacks, the $\DyadicRatCoreUp$ tolerance ledger, the displayed operation row, and the regular-Cauchy output window before the terminal seal row $E$ is read. The Real seal exports the named arithmetic packet and refuses quotient real equality, selected representatives, trichotomy, countable-choice schedules, ambient completeness, and unrestricted host-real algebra.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations to order the visible rows. A Real-facing read starts with $X,Y,S,T$, then consumes $R,Q,D,O$, and only then reaches the output window $W$.
+
+The seal row $E$ is terminal by definition of the carrier route. It can certify the displayed arithmetic packet for $\RealUp$ consumers, but it cannot introduce data absent from the preceding rows.
+
+Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the same finite route. The excluded quotient, representative, trichotomy, choice, completeness, and host-algebra objects have no coordinate in the packet, so the seal cannot escape to them.
+\end{proof}
+
+\independenceWitness{cauchy, streamname, regseqrat, dyadicratcore, real: $\RegularCauchyArithmeticUp$ is not bijective to any listed sibling because it jointly carries two Cauchy source names, stream windows, regular rational readbacks, a dyadic arithmetic tolerance ledger, an operation row, an output window, a Real seal, transport, replay, provenance, and local NameCert rows as one arithmetic packet.}
+
+\closureat{RegularCauchyArithmeticUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyArithmeticUp}
+  \constructivestory{A $\RegularCauchyArithmeticUp$ packet is generated from two Cauchy source rows, StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a displayed arithmetic operation row, a regular-Cauchy output window, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-arithmetic-carrier}, \autoref{thm:regular-cauchy-arithmetic-namecert-obligations}, \autoref{thm:regular-cauchy-arithmetic-regseqrat-route}, and \autoref{thm:regular-cauchy-arithmetic-real-seal-nonescape} seed the finite arithmetic route over Cauchy, StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected representatives, trichotomy, countable-choice schedules, ambient completeness, host-real algebra, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for the regular Cauchy arithmetic route.}
+\end{closurestatus}

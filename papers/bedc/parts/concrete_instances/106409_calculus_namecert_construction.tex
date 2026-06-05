@@ -547,6 +547,50 @@ Use \autoref{thm:calculus-root-limit-nonescape} for limit-shaped reads and \auto
 Because the root carrier has no coordinate for host limit operators, quotient function equality, selected derivative or antiderivative operators, or ambient Real completeness, no Real-facing export can bypass $Q,Y$ on the way to $R$.
 \end{proof}
 
+\begin{definition}[Calculus root operation ledger]
+\label{def:calculus-root-operation-ledger}
+The $\CalculusUp$ root operation ledger attached to an accepted carrier $G=(C,D,I,L,R,Q,Y,H,T,P,N)$ is the displayed row inventory
+$$
+\begin{aligned}
+\mathsf{OpLedger}_{\CalculusUp}(G)=
+(&C,D,I,L,R,Q,Y,H,T,P,N).
+\end{aligned}
+$$
+Here $C$ is the continuous-map graph and replay row, $D$ is the derivative difference-quotient row, $I$ is the integral finite-sum row, $L$ is the limit-window row, $R$ is the terminal $\RealUp$ boundary, $Q$ is the $\RegSeqRatUp$ readback row, $Y$ is the $\DyadicRatCoreUp$ tolerance ledger, $H$ is componentwise $\hsame$ transport, $T$ is displayed $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert_{\CalculusUp}$ row. The ledger has no row for a host function space, quotient equality of functions, a selected antiderivative, a selected derivative operator, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Calculus root operation ledger exhaustion]
+\label{thm:calculus-root-operation-ledger-exhaustion}
+For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,R,Q,Y,H,T,P,N)$, every derivative, integral, limit, or Real-facing operation read is exhausted by the operation ledger of \autoref{def:calculus-root-operation-ledger}. A consumer may read derivative data only through $C,D,Q,Y,R,H,T,P,N$, integral data only through $C,I,Q,Y,R,H,T,P,N$, and limit data only through $C,L,Q,Y,R,H,T,P,N$. No operation read may replace those rows by a host function space, quotient equality of functions, selected antiderivatives, selected derivative operators, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the root carrier of \autoref{def:calculus-root-carrier}. It displays exactly the rows $C,D,I,L,R,Q,Y,H,T,P,N$, and \autoref{def:calculus-root-operation-ledger} only repackages that same finite inventory as the operation ledger.
+
+Apply \autoref{thm:calculus-root-continuousmap-handoff}. Every derivative, integral, and limit consumer must display $C$ before reading $D$, $I$, or $L$.
+
+For derivative and integral reads, apply \autoref{thm:calculus-root-derivative-integral-boundary}. It keeps $D$ and $I$ as separate source rows over the common support and refuses a host fundamental theorem or selected antiderivative.
+
+For limit and Real-facing reads, apply \autoref{thm:calculus-root-limit-nonescape} and \autoref{thm:calculus-root-real-seal-nonescape}. They force the read through $Q,Y$ before $R$ is consumed and leave no coordinate for host limits, quotient function equality, selected derivative or antiderivative operators, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Calculus root unblock Real operation ledger]
+\label{thm:calculus-root-unblock-real-operation-ledger}
+The root $\CalculusUp$ operation ledger unblocks downstream derivative, integral, limit, and completion consumers only as the finite BEDC route
+$$
+C,D,I,L,R,Q,Y,H,T,P,N .
+$$
+Any downstream consumer that asks for a Real-facing calculus value must display the relevant operation row $D$, $I$, or $L$, the graph row $C$, the regular-rational readback $Q$, the dyadic tolerance ledger $Y$, the terminal Real boundary $R$, and the structural rows $H,T,P,N$. The ledger does not export ambient function spaces, quotient equality, selected antiderivatives, selected derivative operators, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Read the operation ledger from \autoref{def:calculus-root-operation-ledger}. The only public rows available to a downstream consumer are the displayed finite rows $C,D,I,L,R,Q,Y,H,T,P,N$.
+
+Use the derivative-integral boundary of \autoref{thm:calculus-root-derivative-integral-boundary} for operation separation. It prevents the derivative row from supplying integral conclusions and prevents the integral row from supplying derivative conclusions.
+
+Use the Real-seal nonescape theorem \autoref{thm:calculus-root-real-seal-nonescape}. It requires every Real-facing export from derivative, integral, or limit data to pass through $Q,Y$ before $R$ is consumed.
+
+Finally apply \autoref{thm:calculus-root-operation-ledger-exhaustion}. The exhaustion statement identifies the ledger as the full consumer-facing route, so the root unblock surface is a finite operation ledger and not a host analytic structure or ambient completeness principle.
+\end{proof}
+
 \closureat{CalculusUp}{seedStr}
 
 \begin{closurestatus}{\CalculusUp}
