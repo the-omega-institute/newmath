@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CompactGraphContinuityUp$}
+\label{ch:concrete-instances-compact-graph-continuity-namecert}
+\origin{human}
+
+Following Kelley and Bishop--Bridges, compact graph continuity is the finite certificate route by which a displayed closed-graph packet over a compact metric source yields a uniform-modulus handoff without appealing to a host quotient of functions or an external open-cover selection. The $\CompactGraphContinuityUp$ packet sits over the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, and the tolerance-only consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}. It also reads the metric and real endpoint rows used by those chapters before exposing any graph-continuity conclusion.
+
+\begin{definition}[Compact graph continuity carrier]
+\label{def:compact-graph-continuity-carrier}
+A $\CompactGraphContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+G=(K,F,\Gamma,M,Q,W,R,U,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row, including displayed finite covers, center histories, metric balls, and source-point classifier transport.
+\item $F$ is the $\ContinuousMapUp$ row for the displayed map whose graph is being inspected.
+\item $\Gamma$ is the graph row: it records finite source-target observations, graph membership readback, and graph classifier stability under the source and target classifiers.
+\item $M$ is the target metric row for graph-value comparisons and endpoint separation tests.
+\item $Q$ is the finite compact-cover query row that turns a source tolerance request into a displayed finite list of graph tests.
+\item $W$ is the closed-graph witness row, recording that every failed target separation is detected by one of the displayed graph tests.
+\item $R$ is the regular rational or dyadic comparison row used to read the graph tests as finite tolerance inequalities.
+\item $U$ is the $\UniformModulusUp$ handoff row produced from $K,F,\Gamma,M,Q,W,R$.
+\item $H$ stores componentwise $\hsame$ transport for compact source rows, continuous-map rows, graph rows, metric endpoints, compact-cover queries, closed-graph witnesses, rational comparisons, uniform-modulus handoffs, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ replay from a requested tolerance through the rows $K,F,\Gamma,M,Q,W,R,H$ to the handoff row $U$.
+\item $P$ is the $\Pkg$ provenance over $\CompactGraphContinuityUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactGraphContinuityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host equality of maps, quotient equality of graphs, open-cover compactness outside $K$, a choice-selected graph neighbourhood, or ambient completeness of the target.
+\end{definition}
+
+\begin{theorem}[Compact graph continuity NameCert obligations]
+\label{thm:compact-graph-continuity-namecert-obligations}
+For every accepted $\CompactGraphContinuityUp$ carrier
+$$
+G=(K,F,\Gamma,M,Q,W,R,U,H,C,P,N),
+$$
+the local $\NameCert_{\CompactGraphContinuityUp}$ obligations are exactly compact metric source exposure, ContinuousMap row exposure, finite graph membership readback, source-target graph classifier stability, target-metric separation detection, finite compact-cover query exactness, closed-graph witness exactness, rational tolerance readback, UniformModulus handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-graph-continuity-carrier}. The admitted packet exposes $K,F,\Gamma,M,Q,W,R,U,H,C,P,N$ and no other theorem-facing row.
+
+The source part is $K,F,\Gamma,M$. These rows identify the compact metric source, the displayed continuous map, the finite graph observations, and the target metric comparisons consumed by graph separation tests.
+
+The compactness and graph-closure part is $Q,W,R$. The query row names only finitely many compact-cover and graph tests for a tolerance request; the closed-graph witness row explains why a missing target neighbourhood is detected by those tests; and the rational row makes the resulting inequalities public.
+
+Finally $U,H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no coordinate for host map equality, quotient graph equality, external open-cover compactness, selected graph neighbourhoods, or ambient target completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Compact graph continuity uniform-modulus handoff]
+\label{thm:compact-graph-continuity-uniform-modulus-handoff}
+Every accepted $\CompactGraphContinuityUp$ packet exports a $\UniformModulusUp$ row only after the consumer has read the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the displayed continuous-map row of \autoref{ch:concrete-instances-continuousmap-namecert}, the finite graph row, the target metric separation tests, the compact-cover query row, the closed-graph witness row, and the rational tolerance readback. Thus the handoff to \autoref{ch:concrete-instances-uniformmodulus-namecert} is a finite graph/modulus obligation surface, not an ambient closed-graph theorem for arbitrary host maps.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $G=(K,F,\Gamma,M,Q,W,R,U,H,C,P,N)$. A tolerance request reaches the replay row $C$, which exposes the compact metric source $K$, the continuous-map row $F$, the graph row $\Gamma$, and the target metric comparison row $M$.
+
+The compact-cover query $Q$ then reduces the request to finitely many displayed graph tests. The closed-graph witness $W$ and the rational comparison row $R$ certify those tests inside the same packet.
+
+Only after this finite route is visible does the row $U$ become a public $\UniformModulusUp$ handoff. Transport and provenance through $H,P,N$ keep the route attached to the same local name, so a downstream consumer cannot replace it by host map equality, quotient graph equality, external open-cover compactness, selected neighbourhoods, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CompactGraphContinuityUp$ read that exports a $\UniformModulusUp$ row must first expose the compact metric source, continuous-map row, finite graph row, target metric separation row, compact-cover query, closed-graph witness, rational tolerance readback, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{compactmetric, continuousmap, uniformmodulus, metric, real: $\CompactGraphContinuityUp$ is not bijective to any listed sibling because it jointly carries compact finite-cover data, one displayed continuous-map row, graph membership and graph-stability rows, target separation tests, compact-cover graph queries, closed-graph witnesses, rational tolerance readback, UniformModulus handoff, transport, replay, provenance, and local naming in one carrier.}
+
+\closureat{CompactGraphContinuityUp}{seedStr}
+
+\begin{closurestatus}{\CompactGraphContinuityUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-graph-continuity-carrier}, \autoref{thm:compact-graph-continuity-namecert-obligations}, and \autoref{thm:compact-graph-continuity-uniform-modulus-handoff} seed the finite closed-graph-to-uniform-modulus route over compact metric, ContinuousMap, UniformModulus, Metric, Real, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close an ambient closed-graph theorem, quotient equality of graphs, host equality of maps, external open-cover compactness, selected graph neighbourhoods, Lean proof obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact source exposure, continuous-map exposure, graph classifier stability, target separation detection, finite compact-cover query exactness, closed-graph witness exactness, rational tolerance readback, UniformModulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.CompactGraphContinuityUp.}
+  \constructivestory{A $\CompactGraphContinuityUp$ packet is generated from CompactMetric finite-cover rows, ContinuousMap graph rows, target Metric separation tests, compact-cover graph queries, closed-graph witnesses, rational tolerance readbacks, UniformModulus handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
