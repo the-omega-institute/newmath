@@ -38,6 +38,20 @@ Next attach the candidate and finite-observation frontier. Theorems~\ref{thm:met
 Finally use the public handoff theorem above together with discharge-socket coverage, \autoref{thm:metaciccriticalpath-candidate-mediated-sn-public} and \autoref{thm:metacic-critical-path-discharge-socket-coverage}. The subject-reduction socket remains visible and unfilled, so the confluence frontier is a public readiness surface over finite BEDC rows rather than a global Church--Rosser, beta-decidability, full-confluence, or subject-reduction theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path formal target router]
+\label{thm:metaciccriticalpath-formal-target-router}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, any candidate-mediated strong-normalization consumer for $\MetaCICCriticalPathUp$ must pass through the candidate-mediated SN public boundary of \autoref{thm:metaciccriticalpath-candidate-mediated-sn-public}, the confluence frontier of \autoref{thm:metaciccriticalpath-confluence-frontier-public}, and the L10 normalization discharge budget of \autoref{thm:metaciccriticalpath-l10-normalization-discharge-budget} before any $\RealUp$, $\RegSeqRatUp$, or $\StreamNameUp$ discharge row is read. The router exposes a finite target route through $S,N,O,U,D,H,C,P,L$; it does not export hidden infinite reduction, full MetaCIC strong normalization, ambient real completeness, or a completed subject-reduction socket.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated SN public boundary. It places CandidateMediatedSN and CandidateSNConfluenceBoundary on the displayed carrier route and prevents a consumer from treating them as full strong normalization.
+
+Next attach the confluence frontier. The frontier keeps FiniteObservationConfluence and MetaCICNormalizationFrontier on the same public route, while the subject-reduction socket remains visible as a socket rather than as a closed theorem.
+
+Finally use the L10 normalization discharge budget. That budget orders the $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ discharge faces behind the finite source rows and the socket-aware route.
+
+The nonescape clauses from these three surfaces compose: no hidden infinite reduction, ambient real-completeness claim, or closed subject-reduction discharge is available outside the displayed packet. Hence every formal target consumer must pass through the stated router before reading the L10 discharge rows.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path public export]
 \label{thm:metacic-critical-path-public-export}
 For every accepted $\MetaCICCriticalPathUp$ carrier

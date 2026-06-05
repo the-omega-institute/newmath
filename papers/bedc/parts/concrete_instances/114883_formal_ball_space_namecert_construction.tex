@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\FormalBallSpaceUp$}
+\label{ch:concrete-instances-formal-ball-space-namecert}
+\origin{human}
+
+Following Edalat and Heckmann formal-ball presentations of metric completion, the $\FormalBallSpaceUp$ packet records the finite center-radius space read used by constructive completion consumers. It sits after the metric source of \autoref{ch:concrete-instances-metric-namecert}, the separated-metric boundary of \autoref{ch:concrete-instances-separatedmetric-namecert}, the formal-ball domain of \autoref{ch:concrete-instances-formal-ball-domain-namecert}, the formal-ball completion route of \autoref{ch:concrete-instances-formal-ball-completion-namecert}, the finite stream interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert carrier for rounded formal balls over a displayed metric source; it is not a quotient completion, a selected limit, a host basis of all balls, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[FormalBallSpace carrier]
+\label{def:formal-ball-space-carrier}
+A $\FormalBallSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,X,R,B,O,S,W,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ source row, carrying the displayed distance witness and its finite replay surface.
+\item $X$ is the center carrier row read over the same metric source.
+\item $R$ is the positive radius read, supplied through $\RegSeqRatUp$ or an equivalent positive rational tolerance row.
+\item $B$ is the formal-ball pair row, recording center-radius pairs $(x,r)$ with $x$ read from $X$ and $r$ read from $R$.
+\item $O$ is the ball-order and refinement row, displaying the accepted comparison between formal balls.
+\item $S$ is the rounded-shrink schedule row, recording finite radius shrinkage requests before completion consumers inspect the packet.
+\item $W$ is the $\StreamNameUp$ readback row for finite window addresses of centers, radii, comparisons, and shrink steps.
+\item $Q$ is the $\RegSeqRatUp$ readback row that exposes the positive-radius and shrink tolerances to real-facing consumers.
+\item $H$ records componentwise $\hsame$ transport for metric sources, centers, positive radii, formal-ball pairs, refinement rows, shrink schedules, readback windows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from metric requests through center-radius reads, order and refinement checks, rounded shrinkage, stream windows, regular rational readback, and completion-facing handoff.
+\item $P$ is the $\Pkg$ provenance over $\FormalBallSpaceUp$, $\MetricSpaceUp$, $\SeparatedMetricUp$, $\FormalBallDomainUp$, $\FormalBallCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FormalBallSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,X,R,B,O,S,W,Q,H,C,P,N$. It has no coordinate for quotient equality of completions, selected Cauchy representatives, a host family of all balls, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FormalBallSpace NameCert obligations]
+\label{thm:formal-ball-space-namecert-obligations}
+For every accepted $\FormalBallSpaceUp$ carrier
+$$
+F=(M,X,R,B,O,S,W,Q,H,C,P,N),
+$$
+the local $\NameCert_{\FormalBallSpaceUp}$ surface consists exactly of carrier admission for the displayed metric source, center carrier, positive radius read, formal-ball pair row, ball-order and refinement row, rounded-shrink schedule, finite StreamName window, RegSeqRat readback, componentwise transport, displayed replay, provenance, and local naming. Positive-radius stability is read from $R$ and $Q$; order and refinement stability is read from $O$ under $H,C$; roundedness is read from $S$; completion readback passes through $W,Q$ before any $\FormalBallCompletionUp$ or $\RealUp$ consumer is served; and ledger nonescape keeps quotient completion equality, selected limits, host all-ball bases, countable choice, and ambient completeness outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:formal-ball-space-carrier}. Carrier admission exposes the rows $M,X,R,B,O,S,W,Q,H,C,P,N$ and no further coordinate.
+
+Use finite row induction over the displayed packet. The center and radius rows give the formal-ball pair $B$; the order and refinement row $O$ compares only those displayed pairs; and the rounded-shrink schedule $S$ consumes finite positive-radius data before a completion-facing read is available.
+
+Transport and replay are componentwise. The rows $H$ and $C$ preserve the metric source, center, positive radius, order, shrink schedule, StreamName window, and RegSeqRat readback together, while $P$ and $N$ source and name the same finite surface.
+
+Finally read completion consumers through $W$ and $Q$. Since the accepted carrier has no row for quotient completion equality, selected representatives, a host basis of all balls, countable choice, or ambient completeness, those objects cannot become local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\FormalBallSpaceUp$ completion-facing read that bypasses the positive-radius row $R$, the rounded-shrink schedule $S$, or the readback rows $W,Q$ is rejected by \autoref{def:formal-ball-space-carrier}, because the carrier exposes completion data only through the finite center-radius packet.}
+
+\independenceWitness{metric, separatedmetric, formal-ball-domain, formal-ball-completion, streamname, regseqrat, real: the packet is not bijective with any listed sibling because it jointly records metric source, center carrier, positive radius, formal-ball pair, refinement order, rounded shrinkage, finite windows, regular rational readback, transport, replay, provenance, and local NameCert naming.}
+
+\closureat{FormalBallSpaceUp}{seedStr}
+
+\begin{closurestatus}{\FormalBallSpaceUp}
+  \constructivestory{A $\FormalBallSpaceUp$ packet is generated from a displayed MetricSpaceUp source, center carrier rows, positive radius reads, formal-ball pairs, ball-order and refinement rows, rounded-shrink schedules, StreamName finite windows, RegSeqRat readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:formal-ball-space-carrier} and \autoref{thm:formal-ball-space-namecert-obligations} seed the finite formal-ball space carrier over positive radii, rounded refinement, completion readback, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion equality, selected limits, a host all-ball basis, countable choice, ambient $\RealUp$ completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, positive-radius stability, order and refinement stability, rounded-shrink schedule replay, completion readback, ledger nonescape, and TasteGate field faithfulness for BEDC.Derived.FormalBallSpaceUp.}
+\end{closurestatus}
