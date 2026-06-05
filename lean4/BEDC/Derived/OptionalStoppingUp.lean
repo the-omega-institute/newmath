@@ -296,4 +296,114 @@ theorem OptionalStoppingCarrier_post_stop_tail_erasure [AskSetup] [PackageSetup]
       sameRowsReadback, routeReadback, provenanceSame', endpointSame', namecertSame, pkgSig⟩,
       hsame_refl stoppedValue⟩
 
+theorem OptionalStoppingFiniteFiltrationNonescape [AskSetup] [PackageSetup]
+    {prob process stopping bound stoppedValue filtration integrability sameRows route provenance
+      namecert endpoint expectationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptionalStoppingCarrier prob process stopping bound stoppedValue filtration integrability sameRows
+        route provenance namecert endpoint bundle pkg →
+      Cont endpoint namecert expectationRead →
+        PkgSig bundle expectationRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row expectationRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row prob ∨ hsame row process ∨ hsame row stopping ∨ hsame row bound ∨
+                  hsame row stoppedValue ∨ hsame row filtration ∨ hsame row integrability ∨
+                    hsame row expectationRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont stopping bound stoppedValue ∧
+                  Cont process filtration integrability ∧ Cont endpoint namecert expectationRead ∧
+                    PkgSig bundle endpoint pkg ∧ PkgSig bundle expectationRead pkg)
+              hsame ∧
+            UnaryHistory expectationRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier expectationCont expectationPkg
+  obtain ⟨_probUnary, _processUnary, _stoppingUnary, _boundUnary, _stoppedValueUnary,
+    _filtrationUnary, _integrabilityUnary, _sameRowsUnary, _routeUnary, _provenanceUnary,
+    namecertUnary, endpointUnary, stoppedValueCont, integrabilityCont, _sameRowsSame,
+    _routeSame, _provenanceSame, _endpointSame, _namecertSame, endpointPkg⟩ := carrier
+  have expectationUnary : UnaryHistory expectationRead :=
+    unary_cont_closed endpointUnary namecertUnary expectationCont
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row expectationRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row prob ∨ hsame row process ∨ hsame row stopping ∨ hsame row bound ∨
+              hsame row stoppedValue ∨ hsame row filtration ∨ hsame row integrability ∨
+                hsame row expectationRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont stopping bound stoppedValue ∧
+              Cont process filtration integrability ∧ Cont endpoint namecert expectationRead ∧
+                PkgSig bundle endpoint pkg ∧ PkgSig bundle expectationRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro expectationRead ⟨hsame_refl expectationRead, expectationUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, stoppedValueCont, integrabilityCont, expectationCont, endpointPkg,
+          expectationPkg⟩
+  }
+  exact ⟨cert, expectationUnary⟩
+
+theorem OptionalStoppingCarrier_finite_filtration_nonescape [AskSetup] [PackageSetup]
+    {prob process stopping bound stoppedValue filtration integrability sameRows route provenance
+      namecert endpoint truncatedRead expectationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    OptionalStoppingCarrier prob process stopping bound stoppedValue filtration integrability sameRows
+        route provenance namecert endpoint bundle pkg ->
+      Cont stoppedValue filtration truncatedRead ->
+        Cont truncatedRead integrability expectationRead ->
+          PkgSig bundle expectationRead pkg ->
+            UnaryHistory prob ∧
+              UnaryHistory process ∧
+                UnaryHistory stopping ∧
+                  UnaryHistory bound ∧
+                    UnaryHistory stoppedValue ∧
+                      UnaryHistory filtration ∧
+                        UnaryHistory integrability ∧
+                          UnaryHistory truncatedRead ∧
+                            UnaryHistory expectationRead ∧
+                              Cont stopping bound stoppedValue ∧
+                                Cont process filtration integrability ∧
+                                  Cont stoppedValue filtration truncatedRead ∧
+                                    Cont truncatedRead integrability expectationRead ∧
+                                      hsame endpoint (append stoppedValue integrability) ∧
+                                        PkgSig bundle endpoint pkg ∧
+                                          PkgSig bundle expectationRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier truncatedRoute expectationRoute expectationPkg
+  obtain ⟨probUnary, processUnary, stoppingUnary, boundUnary, stoppedValueUnary,
+    filtrationUnary, integrabilityUnary, _sameRowsUnary, _routeUnary, _provenanceUnary,
+    _namecertUnary, _endpointUnary, stoppedValueReadback, integrabilityReadback, _sameRows,
+    _route, _provenanceSame, endpointSame, _namecertSame, endpointPkg⟩ := carrier
+  have truncatedUnary : UnaryHistory truncatedRead :=
+    unary_cont_closed stoppedValueUnary filtrationUnary truncatedRoute
+  have expectationUnary : UnaryHistory expectationRead :=
+    unary_cont_closed truncatedUnary integrabilityUnary expectationRoute
+  exact
+    ⟨probUnary, processUnary, stoppingUnary, boundUnary, stoppedValueUnary, filtrationUnary,
+      integrabilityUnary, truncatedUnary, expectationUnary, stoppedValueReadback,
+      integrabilityReadback, truncatedRoute, expectationRoute, endpointSame, endpointPkg,
+      expectationPkg⟩
+
 end BEDC.Derived.OptionalStoppingUp
