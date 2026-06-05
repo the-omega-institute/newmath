@@ -718,6 +718,60 @@ def _discovery_regularized_training_projection(
     )
 
 
+def _mechanism_seeking_network_projection(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[dict[str, Any], ProjectionEvidence]:
+    consistent, _reason, failed_pointer = _mechanism_seeking_network_consistency(payload)
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    if not isinstance(signal, Mapping):
+        return {"verdict": "rejected"}, ProjectionEvidence(
+            projection_status="projected",
+            failed_gate="$.discovery_map_signal",
+        )
+    level = signal.get("level_candidate")
+    status = signal.get("status")
+    if consistent and level == "D4" and status == "d4-candidate":
+        return {
+            "positive_discovery": True,
+            "net_positive_signal": True,
+            "main_verdict": {
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "structural_discovery": True,
+                "mechanism_seeking_network": {
+                    "level_candidate": "D4",
+                    "status": "d4-candidate",
+                    "evidence_pointer": "$.mechanism_gate_summary",
+                    "mechanism_evidence_pointer": "$.mechanism_gate_summary.by_mechanism",
+                },
+            },
+            "evidence_basis": {
+                "mechanism_seeking_network": True,
+                "control_positive_discovery": False,
+                "net_positive_signal": True,
+                "scorecard_ready": _scorecard_ready({} if context is None else context),
+            },
+        }, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer="$.mechanism_gate_summary",
+            control_pointer="$.matched_random_control",
+            scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
+        )
+    return {
+        "verdict": "rejected",
+        "main_verdict": {
+            "mechanism_seeking_network": {
+                "level_candidate": "DN",
+                "status": "negative",
+            },
+        },
+    }, ProjectionEvidence(
+        projection_status="projected",
+        failed_gate=failed_pointer,
+    )
+
+
 def _sigreg_failed_gate_pointer(payload: Mapping[str, Any]) -> str:
     failed_gate = pointer_value(payload, "$.failed_gate")
     if isinstance(failed_gate, str) and failed_gate:
@@ -816,6 +870,49 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
     if signal.get("torch_training_evidence_pointer") != "$.torch_training_evidence":
         return False, "drt-torch-pointer-mismatch", "$.discovery_map_signal.torch_training_evidence_pointer"
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.surface_registry.classifier_shift"
+
+
+def _mechanism_seeking_network_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    hardgate = pointer_value(payload, "$.hardgate.gates")
+    failed = pointer_value(payload, "$.hardgate.failed_gate")
+    forbidden_audit = pointer_value(payload, "$.forbidden_claim_term_audit.status")
+    if not isinstance(signal, Mapping):
+        return False, "missing-msn-discovery-map-signal", "$.discovery_map_signal"
+    if not isinstance(hardgate, Mapping):
+        return False, "missing-msn-hardgates", "$.hardgate.gates"
+    failed_gates = [
+        name
+        for name, row in hardgate.items()
+        if isinstance(name, str) and name.startswith("MSN-HG") and (not isinstance(row, Mapping) or row.get("status") != "pass")
+    ]
+    all_pass = not failed_gates and forbidden_audit == "pass"
+    if all_pass:
+        expected = {
+            "status": "d4-candidate",
+            "level_candidate": "D4",
+            "reason": "mechanism-gate-positive",
+            "failed_gate": None,
+            "failed_gate_pointer": None,
+        }
+    else:
+        expected_failed = failed_gates[0] if failed_gates else "forbidden-positive-claim-term"
+        expected = {
+            "status": "negative",
+            "level_candidate": "DN",
+            "reason": "hardgate-failed" if failed_gates else "forbidden-positive-claim-term",
+            "failed_gate": expected_failed,
+            "failed_gate_pointer": f"$.hardgate.gates.{expected_failed}.status" if failed_gates else "$.forbidden_claim_term_audit.status",
+        }
+    for key, expected_value in expected.items():
+        if signal.get(key) != expected_value:
+            pointer = signal.get("failed_gate_pointer")
+            return False, f"msn-{key}-mismatch", pointer if isinstance(pointer, str) else "$.discovery_map_signal"
+    if pointer_value(payload, "$.hardgate.failed_gate") != expected["failed_gate"]:
+        return False, "msn-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
+    if signal.get("mechanism_evidence_pointer") not in {"$.mechanism_gate_summary", "$.mechanism_gate_summary.by_mechanism"}:
+        return False, "msn-mechanism-pointer-mismatch", "$.discovery_map_signal.mechanism_evidence_pointer"
+    return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.mechanism_gate_summary"
 
 
 def _sigreg_training_proxy_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
@@ -1090,6 +1187,8 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _sigreg_mini_grid_projection(payload)
     elif spec.name == "discovery-regularized-training":
         overlay, evidence = _discovery_regularized_training_projection(payload, context)
+    elif spec.name == "mechanism-seeking-network":
+        overlay, evidence = _mechanism_seeking_network_projection(payload, context)
     elif spec.name == "gap-head-ablation":
         overlay, evidence = _gap_head_ablation_projection(payload)
     elif spec.name == "gap-head-transfer-atlas":
@@ -1251,6 +1350,10 @@ def _audit_row(
             return "invalid", reason
     if spec.name == "discovery-regularized-training":
         consistent, reason, _failed_pointer = _discovery_regularized_training_consistency(payload)
+        if not consistent:
+            return "invalid", reason
+    if spec.name == "mechanism-seeking-network":
+        consistent, reason, _failed_pointer = _mechanism_seeking_network_consistency(payload)
         if not consistent:
             return "invalid", reason
     if spec.name == "gap-head-attribution-capsule":
