@@ -2717,6 +2717,7 @@ import BEDC.Derived.CompressionDescentAuditUp.RouteSoundness
 import BEDC.Derived.CompressionDescentAuditUp.TasteGate
 import BEDC.Derived.CompressionLedgerFunctorUp.TasteGate
 import BEDC.Derived.ComputableRealUp
+import BEDC.Derived.ComputableUniformContinuityUp.TasteGate
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.ConcaveModulusUp.NameCertObligations
 import BEDC.Derived.ConcaveModulusUp.SubadditiveHandoff
