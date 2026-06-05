@@ -1,4 +1,4 @@
-import BEDC.Derived.FiniteOscillationUniformModulusUp.NameCertObligations
+import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
@@ -8,6 +8,10 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
+
+inductive FiniteOscillationUniformModulusUp : Type where
+  | mk (K M A B O U H C P N : BHist) : FiniteOscillationUniformModulusUp
+  deriving DecidableEq
 
 def finiteOscillationUniformModulusEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -33,12 +37,18 @@ private theorem finiteOscillationUniformModulus_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def finiteOscillationUniformModulusToEventFlow :
-    FiniteOscillationUniformModulusUp → EventFlow :=
+def finiteOscillationUniformModulusFields :
+    FiniteOscillationUniformModulusUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (finiteOscillationUniformModulusFields x).map
-      finiteOscillationUniformModulusEncodeBHist
+  | FiniteOscillationUniformModulusUp.mk K M A B O U H C P N =>
+      [K, M, A, B, O, U, H, C, P, N]
+
+def finiteOscillationUniformModulusToEventFlow :
+    FiniteOscillationUniformModulusUp → EventFlow
+  -- BEDC touchpoint anchor: BHist BMark
+  | x =>
+      (finiteOscillationUniformModulusFields x).map
+        finiteOscillationUniformModulusEncodeBHist
 
 private def finiteOscillationUniformModulusEventAtDefault :
     Nat → EventFlow → RawEvent
@@ -176,7 +186,7 @@ instance finiteOscillationUniformModulusFieldFaithful :
   field_faithful := finiteOscillationUniformModulus_fields_faithful
 
 instance finiteOscillationUniformModulusNontrivial :
-    Nontrivial FiniteOscillationUniformModulusUp where
+    BEDC.Meta.TasteGate.Nontrivial FiniteOscillationUniformModulusUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨FiniteOscillationUniformModulusUp.mk BHist.Empty BHist.Empty BHist.Empty
@@ -197,14 +207,23 @@ def taste_gate_witness : FieldFaithful FiniteOscillationUniformModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   finiteOscillationUniformModulusFieldFaithful
 
-theorem FiniteOscillationUniformModulusTasteGate_single_carrier_alignment
-    (x : FiniteOscillationUniformModulusUp) :
-    finiteOscillationUniformModulusFromEventFlow
-        (finiteOscillationUniformModulusToEventFlow x) =
-        some x ∧
-      finiteOscillationUniformModulusEncodeBHist BHist.Empty = ([] : RawEvent) ∧
-        finiteOscillationUniformModulusEncodeBHist (BHist.e0 BHist.Empty) = [BMark.b0] := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact ⟨finiteOscillationUniformModulus_round_trip x, rfl, rfl⟩
+theorem FiniteOscillationUniformModulusTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        finiteOscillationUniformModulusDecodeBHist
+            (finiteOscillationUniformModulusEncodeBHist h) = h) ∧
+      (∀ x : FiniteOscillationUniformModulusUp,
+        finiteOscillationUniformModulusFromEventFlow
+            (finiteOscillationUniformModulusToEventFlow x) = some x) ∧
+        (∀ x y : FiniteOscillationUniformModulusUp,
+          finiteOscillationUniformModulusToEventFlow x =
+              finiteOscillationUniformModulusToEventFlow y →
+            x = y) ∧
+          finiteOscillationUniformModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  exact
+    ⟨finiteOscillationUniformModulus_decode_encode,
+      finiteOscillationUniformModulus_round_trip,
+      (fun _ _ heq => finiteOscillationUniformModulusToEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.FiniteOscillationUniformModulusUp
