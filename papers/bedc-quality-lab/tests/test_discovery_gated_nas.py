@@ -1,6 +1,10 @@
 import json
 
+import pytest
+
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
+import bedc_quality_lab.discovery_gated_nas as dgn
+from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_gated_nas import (
     DEFAULT_CANDIDATES,
     DEFAULT_SEEDS,
@@ -250,6 +254,45 @@ def test_hg5_fails_closed_without_mechanism_certificate():
     }
 
     _assert_dn_projection(_with_recomputed_signal(mutated), "DG-NAS-HG5")
+
+
+def test_forbidden_alias_row_refuses_projection():
+    projection = runner.build_projection(generated_at="fixture-time")
+    rows = [{**projection["raw_rows"][0], "forbidden_alias_count": 1}, *projection["raw_rows"][1:]]
+
+    with pytest.raises(ValueError, match="forbidden alias"):
+        DiscoveryGatedNasProjection(
+            config=projection["summary_payload"]["config"],
+            records=rows,
+            generated_at="fixture-time",
+            run_artifacts=projection["summary_payload"]["run_artifacts"],
+        ).project()
+
+
+def test_forbidden_positive_claim_term_demotes_to_dn(monkeypatch):
+    term = FORBIDDEN_POSITIVE_CLAIM_TERMS[0]
+    monkeypatch.setattr(
+        dgn,
+        "POSITIVE_CLAIM",
+        {
+            **dgn.POSITIVE_CLAIM,
+            "text": f"Discovery-gated NAS claim mentions {term}.",
+        },
+    )
+
+    projected = runner.build_projection(generated_at="fixture-time")
+    payload = projected["summary_payload"]
+
+    assert payload["claim_capsule_status"] == "failed"
+    assert payload["failed_gate"] == "forbidden-positive-claim-term"
+    assert payload["hardgate"]["gates"]["forbidden-positive-claim-term"]["status"] == "fail"
+    assert payload["discovery_map_signal"]["level_candidate"] == "DN"
+    assert payload["discovery_map_signal"]["failed_gate"] == "forbidden-positive-claim-term"
+    assert payload["discovery_map_signal"]["failed_gate_pointer"] == "$.forbidden_claim_term_audit.status"
+    assert payload["forbidden_claim_term_audit"]["status"] == "fail"
+    assert payload["forbidden_claim_term_audit"]["hits"] == [term]
+    assert projected["claim_capsule_payload"]["claim_status"] == "failed"
+    assert projected["claim_capsule_payload"]["failed_gate"] == "forbidden-positive-claim-term"
 
 
 def test_negative_dg_nas_projection_maps_failed_hardgate_to_dn_row():
