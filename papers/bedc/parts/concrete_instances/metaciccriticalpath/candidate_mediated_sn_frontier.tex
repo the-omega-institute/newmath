@@ -195,5 +195,28 @@ Use the discharge-row theorem and discharge-socket induction, \autoref{thm:metac
 Finally read the existing discharge coverage theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. It packages the same rows as the whole available frontier budget. Since none of the displayed coordinates is closed subject reduction, arbitrary strong normalization, global confluence, beta-conversion decidability, quotient term equality, selected limits, host equality, or $\RealUp$ completeness, the stated refusals remain outside the discharge coverage.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate frontier source exhaustion]
+\label{thm:metacic-critical-path-candidate-frontier-source-exhaustion}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any candidate-mediated handoff that reaches the confluence-decidability boundary has exactly the displayed source faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp,
+$$
+together with the visible obstruction and discharge rows $O,D$. Replaying $U$ cannot add a redex-frontier source, discharge-socket source, quotient source, selected-limit source, host-equality source, closed-subject-reduction source, full-confluence source, beta-decidability source, or ambient Real-completeness source.
+\end{theorem}
+\begin{proof}
+First read the candidate-mediated frontier, the L10 readback theorem, and the completion lock. These results place every handoff that reaches $U$ behind the same four source faces and keep $O,D$ visible at the boundary.
+
+Next apply handoff totality and obstruction nonescape. Totality exhausts the finite handoff surface by $S,N,U,H,C,P,L$, the visible rows $O,D$, and the four L10 faces, while nonescape prevents replay from erasing the obstruction row or filling the discharge socket.
+
+Finally use discharge coverage. The discharge surface is already accounted for by the displayed rows, so replaying $U$ has no remaining coordinate from which to import a redex-frontier source, quotient source, selected-limit source, host-equality source, closed-subject-reduction source, full-confluence source, beta-decidability source, or ambient Real-completeness source.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/candidate_frontier_socket_coproduct}
 \input{parts/concrete_instances/metaciccriticalpath/candidate_mediated_sn_residual_route}
