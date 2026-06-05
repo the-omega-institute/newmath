@@ -5530,6 +5530,7 @@ import BEDC.Derived.LowerSemicontinuousUp.EpigraphThresholdMonotonicity
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphThresholdRefinement
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowInduction
+import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowMonotoneRefinement
 import BEDC.Derived.LowerSemicontinuousUp.FiniteEpigraphThresholdExhaustion
 import BEDC.Derived.LowerSemicontinuousUp.KernelScope
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphFilterStability
@@ -6374,6 +6375,7 @@ import BEDC.Derived.NegativeNameBoundaryUp.QuotientSoundnessLatticeLink
 import BEDC.Derived.NeighborhoodFilterUp.TasteGate
 import BEDC.Derived.NeighborhoodFunctionUp.TasteGate
 import BEDC.Derived.NemytskiiOperatorUp
+import BEDC.Derived.NestedCauchyIntervalSelectionUp.TasteGate
 import BEDC.Derived.NestedCauchyRealSectionUp.TasteGate
 import BEDC.Derived.NestedClosedBallUp.TasteGate
 import BEDC.Derived.NestedClosedIntervalUp
@@ -8194,6 +8196,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootLimitWitness
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.SeparatedUniquenessBoundary
+import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstTailRead
 import BEDC.Derived.SequentiallyCompleteMetricUp.TailInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
