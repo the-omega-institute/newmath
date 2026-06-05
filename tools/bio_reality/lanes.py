@@ -3626,14 +3626,22 @@ _VOLATILE_TS_RE = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:[
 # 不同 → cache 永远 miss → codex 反复重生成 (rich→rich reword churn). 剥掉它后, attempt-1
 # (无 feedback) 与 attempt-2 (带 feedback) 同 canonical → 命中缓存, 章节稳定, 不再每 cycle 重写.
 _CORRECTIVE_FEEDBACK_RE = re.compile(r"(?m)^# Corrective feedback\n(?:(?!^# )[^\n]*\n)*")
+# experiment_run_id 是 per-run provenance (含运行时间戳的 hash), 确定性实验每 cycle 重跑都
+# 产生新值. 它不是科学内容 (R 集合 / p 值 / λ 不变), 却随每 cycle 变 → 让 prompt canonical
+# 每 cycle 不同 → bio-W cache 永远 miss → 章节每 cycle 重渲染 + codex 偶失败回退 thin 模板 →
+# rich↔thin 抖动. 把 run-id 值中性化, 让 cache key 只反映科学事实.
+_VOLATILE_RUNID_RE = re.compile(r'("(?:experiment_run_id|run_id|experiment_run_ids)"\s*:\s*)"[0-9a-fA-F]{6,}"')
+_VOLATILE_RUNID_LIST_RE = re.compile(r'("experiment_run_ids"\s*:\s*)\[[^\]]*\]')
 
 
 def _canonical_prompt_for_hash(prompt: str) -> str:
-    # Cache key 只反映科学内容, 不反映每-cycle 刷新的心跳时间戳 (last_verified_at) 与
-    # corrective feedback 段 (上轮 retry 提示). 否则 hash 每 cycle 变 → cache 永远 miss →
-    # codex 把语义相同的章节反复重写 (churn): 烧 token + 无意义 commit + PDF 噪声.
-    # run-id / 科学数值保留, 实验真重跑时仍正常触发重生成.
+    # Cache key 只反映科学内容, 不反映每-cycle 刷新的心跳时间戳 (last_verified_at)、corrective
+    # feedback 段 (上轮 retry 提示) 与 experiment_run_id (per-run provenance). 否则 hash 每 cycle
+    # 变 → cache 永远 miss → codex 把语义相同章节反复重写 (churn): 烧 token + 无意义 commit +
+    # PDF 噪声. 科学数值 (R/p/λ) 保留, 实验数值真变时仍正常触发重生成.
     prompt = _CORRECTIVE_FEEDBACK_RE.sub("", prompt)
+    prompt = _VOLATILE_RUNID_LIST_RE.sub(r"\1[]", prompt)
+    prompt = _VOLATILE_RUNID_RE.sub(r'\1"<runid>"', prompt)
     return _VOLATILE_TS_RE.sub("<ts>", prompt)
 
 
@@ -3693,6 +3701,18 @@ def _bio_w_persist_cache(
         chapter_path.write_text(chapter_text, encoding="utf-8")
     except OSError:
         return
+
+
+def _bio_w_cached_chapter(repo_root: Path, log_dir: str | Path, conjecture_id: str) -> str:
+    # 取某 conjecture 上次成功渲染的 rich 章节 (若有). 用于 codex 本 cycle 失败时, 拒绝用
+    # thin 模板回退覆盖已有 rich 内容 (rich→thin 降级/抖动的防线).
+    task_id = _safe_task_id(f"conjecture-{conjecture_id}")
+    _, chapter_path = _bio_w_cache_paths(repo_root, log_dir, task_id)
+    try:
+        text = chapter_path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    return text if text.strip() else ""
 
 
 def _namecert_cache_path(repo_root: Path, log_dir: str | Path, slug: str) -> Path:
@@ -4527,7 +4547,12 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         if codex_text:
             part_lines.extend([codex_text.rstrip(), ""])
         else:
-            part_lines.extend(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe))
+            # codex 本 cycle 失败: 优先复用上次缓存的 rich 章节, 不让 thin 模板覆盖 (防 rich→thin 降级).
+            cached_rich = _bio_w_cached_chapter(repo_root, str(writer_config["log_dir"]), conjecture_id)
+            if cached_rich:
+                part_lines.extend([cached_rich.rstrip(), ""])
+            else:
+                part_lines.extend(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe))
     if not conjectures:
         part_lines.extend(["No conjecture has passed the BioReality gates.", ""])
 
