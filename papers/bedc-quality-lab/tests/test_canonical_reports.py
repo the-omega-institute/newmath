@@ -24,6 +24,7 @@ HG_P_CORE = {
     "certificate-guided-training",
     "certificate-guided-discovery",
     "sigreg-training-proxy",
+    "sigreg-mini-grid",
 }
 QUALITY_SCORECARD_METRICS = {
     "CertCov",
@@ -629,6 +630,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "certificate-guided-training",
         "certificate-guided-discovery",
         "sigreg-training-proxy",
+        "sigreg-mini-grid",
         "lejepa-theorem-ledger",
         "spectral-ablation-hinge",
     ]
@@ -2308,6 +2310,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.arm_protocol",
                 },
                 {
+                    "report": "sigreg-mini-grid",
+                    "artifact": "reports/canonical/sigreg-mini-grid.json",
+                    "pointer": "$.grid",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.scope",
@@ -2318,8 +2325,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 14,
-            "denominator": 14,
+            "numerator": 15,
+            "denominator": 15,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -2385,6 +2392,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {
+                    "report": "sigreg-mini-grid",
+                    "artifact": "reports/canonical/sigreg-mini-grid.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.source_artifacts.cost_protocol",
@@ -2395,8 +2407,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 14,
-            "denominator": 14,
+            "numerator": 15,
+            "denominator": 15,
         },
         "HardeningCoverage": {
             "value": 1.0,
