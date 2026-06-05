@@ -54,6 +54,57 @@ ORGANISMS = [
     },
 ]
 
+TARGET_ORGANISMS = [
+    {
+        "organism": "homo_sapiens",
+        "organism_label": "Homo sapiens",
+        "ncbi_taxid": "9606",
+        "cds_url": "https://ftp.ensembl.org/pub/current_fasta/homo_sapiens/cds/Homo_sapiens.GRCh38.cds.all.fa.gz",
+        "cds_source_name": "Ensembl Homo_sapiens GRCh38 current cds.all",
+        "gtf_url": "https://ftp.ensembl.org/pub/current_gtf/homo_sapiens/Homo_sapiens.GRCh38.115.gtf.gz",
+        "gtf_source_name": "Ensembl Homo_sapiens GRCh38 release 115 GTF",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to Ensembl protein_id from the HTTP-fetched Ensembl GTF; each protein keeps the longest CDS among mapped transcripts.",
+    },
+    {
+        "organism": "arabidopsis_thaliana",
+        "organism_label": "Arabidopsis thaliana",
+        "ncbi_taxid": "3702",
+        "cds_url": "https://ftp.ensemblgenomes.ebi.ac.uk/pub/plants/current/fasta/arabidopsis_thaliana/cds/Arabidopsis_thaliana.TAIR10.cds.all.fa.gz",
+        "cds_source_name": "EnsemblPlants Arabidopsis_thaliana TAIR10 current cds.all",
+        "gtf_url": "https://ftp.ensemblgenomes.ebi.ac.uk/pub/plants/current/gtf/arabidopsis_thaliana/Arabidopsis_thaliana.TAIR10.62.gtf.gz",
+        "gtf_source_name": "EnsemblPlants Arabidopsis_thaliana TAIR10 release 62 GTF",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to identifiers present in the HTTP-fetched EnsemblPlants CDS FASTA and GTF; each matched protein keeps the longest CDS among mapped transcripts.",
+    },
+    {
+        "organism": "danio_rerio",
+        "organism_label": "Danio rerio",
+        "ncbi_taxid": "7955",
+        "cds_url": "https://ftp.ensembl.org/pub/current_fasta/danio_rerio/cds/Danio_rerio.GRCz11.cds.all.fa.gz",
+        "cds_source_name": "Ensembl Danio_rerio GRCz11 current cds.all",
+        "gtf_url": "https://ftp.ensembl.org/pub/current_gtf/danio_rerio/Danio_rerio.GRCz11.115.gtf.gz",
+        "gtf_source_name": "Ensembl Danio_rerio GRCz11 release 115 GTF",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to Ensembl protein_id from the HTTP-fetched Ensembl GTF; each protein keeps the longest CDS among mapped transcripts.",
+    },
+    {
+        "organism": "gallus_gallus",
+        "organism_label": "Gallus gallus",
+        "ncbi_taxid": "9031",
+        "cds_url": "https://ftp.ensembl.org/pub/release-106/fasta/gallus_gallus/cds/Gallus_gallus.GRCg6a.cds.all.fa.gz",
+        "cds_source_name": "Ensembl Gallus_gallus GRCg6a release 106 cds.all",
+        "gtf_url": "https://ftp.ensembl.org/pub/release-106/gtf/gallus_gallus/Gallus_gallus.GRCg6a.106.gtf.gz",
+        "gtf_source_name": "Ensembl Gallus_gallus GRCg6a release 106 GTF",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to Ensembl protein_id from the HTTP-fetched Ensembl release 106 GTF; each protein keeps the longest CDS among mapped transcripts.",
+    },
+    {
+        "organism": "pseudomonas_aeruginosa_pao1",
+        "organism_label": "Pseudomonas aeruginosa PAO1",
+        "ncbi_taxid": "208964",
+        "cds_url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/006/765/GCF_000006765.1_ASM676v1/GCF_000006765.1_ASM676v1_cds_from_genomic.fna.gz",
+        "cds_source_name": "NCBI RefSeq GCF_000006765.1 ASM676v1 cds_from_genomic",
+        "join_method": "PAXdb external id after taxid prefix is matched exactly to unique NCBI CDS header identifiers, primarily PA locus tags.",
+    },
+]
+
 
 def fetch_bytes(url: str) -> bytes:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -74,6 +125,54 @@ def parse_bracket_fields(header: str) -> dict[str, list[str]]:
     for key, value in re.findall(r"\[([^=\]]+)=([^\]]*)\]", header):
         fields.setdefault(key, []).append(value)
     return fields
+
+
+def parse_colon_fields(header: str) -> dict[str, list[str]]:
+    fields: dict[str, list[str]] = {}
+    for token in header.split():
+        if ":" not in token:
+            continue
+        key, value = token.split(":", 1)
+        if key in {"chromosome", "scaffold", "primary_assembly", "description"}:
+            continue
+        fields.setdefault(key, []).append(value)
+    return fields
+
+
+def strip_version(identifier: str) -> str:
+    if re.search(r"\.[0-9]+$", identifier):
+        return identifier.rsplit(".", 1)[0]
+    return identifier
+
+
+def parse_gtf_attributes(attributes: str) -> dict[str, list[str]]:
+    fields: dict[str, list[str]] = {}
+    for key, value in re.findall(r'([A-Za-z_][A-Za-z0-9_]*) "([^"]*)"', attributes):
+        fields.setdefault(key, []).append(value)
+    return fields
+
+
+def parse_gtf_transcript_to_identifiers(text: str) -> dict[str, set[str]]:
+    mapping: dict[str, set[str]] = {}
+    for raw_line in text.splitlines():
+        if not raw_line or raw_line.startswith("#"):
+            continue
+        parts = raw_line.split("\t")
+        if len(parts) != 9 or parts[2] != "CDS":
+            continue
+        fields = parse_gtf_attributes(parts[8])
+        transcript_ids = fields.get("transcript_id", [])
+        if not transcript_ids:
+            continue
+        identifiers: set[str] = set()
+        for key in ("protein_id", "ccds_id", "exon_id", "gene_id", "gene_name", "transcript_name"):
+            for value in fields.get(key, []):
+                identifiers.add(value)
+                identifiers.add(strip_version(value))
+        for transcript_id in transcript_ids:
+            for key in (transcript_id, strip_version(transcript_id)):
+                mapping.setdefault(key, set()).update(x for x in identifiers if x)
+    return mapping
 
 
 def normalize_seq(seq: str) -> str:
@@ -99,12 +198,19 @@ def parse_fasta(text: str) -> list[dict[str, object]]:
 
 def header_identifiers(header: str) -> set[str]:
     fields = parse_bracket_fields(header)
+    colon_fields = parse_colon_fields(header)
     identifiers: set[str] = set()
     first_token = header.split(None, 1)[0]
     identifiers.add(first_token)
+    identifiers.add(strip_version(first_token))
     for key in ("locus_tag", "gene", "protein_id"):
         for value in fields.get(key, []):
             identifiers.add(value)
+            identifiers.add(strip_version(value))
+    for key in ("gene", "gene_symbol"):
+        for value in colon_fields.get(key, []):
+            identifiers.add(value)
+            identifiers.add(strip_version(value))
     for value in fields.get("db_xref", []):
         identifiers.add(value)
         if ":" in value:
@@ -114,6 +220,10 @@ def header_identifiers(header: str) -> set[str]:
         if "_" in tail:
             identifiers.add(tail.rsplit("_", 1)[0])
     return {x for x in identifiers if x}
+
+
+def transcript_identifier(header: str) -> str:
+    return header.split(None, 1)[0]
 
 
 def count_codons(seq: str) -> tuple[dict[str, int], int]:
@@ -171,6 +281,54 @@ def unique_identifier_index(cds_records: list[dict[str, object]]) -> tuple[dict[
     unique = {identifier: records[0] for identifier, records in buckets.items() if len(records) == 1}
     multiplicities = {identifier: len(records) for identifier, records in buckets.items()}
     return unique, multiplicities
+
+
+def longest_identifier_index(
+    cds_records: list[dict[str, object]],
+    gtf_mapping: dict[str, set[str]] | None = None,
+) -> tuple[dict[str, dict[str, object]], dict[str, int]]:
+    buckets: dict[str, list[dict[str, object]]] = {}
+    for record in cds_records:
+        identifiers = set(header_identifiers(str(record["header"])))
+        if gtf_mapping is not None:
+            transcript_id = transcript_identifier(str(record["header"]))
+            identifiers.update(gtf_mapping.get(transcript_id, set()))
+            identifiers.update(gtf_mapping.get(strip_version(transcript_id), set()))
+        for identifier in identifiers:
+            buckets.setdefault(identifier, []).append(record)
+    selected: dict[str, dict[str, object]] = {}
+    multiplicities: dict[str, int] = {}
+    for identifier, records in buckets.items():
+        multiplicities[identifier] = len(records)
+        selected[identifier] = max(records, key=lambda record: len(str(record["seq"])))
+    return selected, multiplicities
+
+
+def abundance_rows_from_local_file(config: dict[str, str]) -> tuple[list[dict[str, object]], dict[str, object], bytes]:
+    path = DATA_DIR / f"proteomics_abundance_{config['organism']}.json"
+    data = json.loads(path.read_text())
+    protein_abundance = data.get("protein_abundance", {})
+    if not isinstance(protein_abundance, dict):
+        raise ValueError(f"{path} has no protein_abundance object")
+    rows: list[dict[str, object]] = []
+    taxid = config["ncbi_taxid"]
+    for protein_id, abundance_ppm in protein_abundance.items():
+        if not str(protein_id).startswith(taxid + "."):
+            continue
+        rows.append(
+            {
+                "gene_name": "",
+                "protein_id": protein_id,
+                "ext_id": str(protein_id).split(".", 1)[1],
+                "abundance_ppm": abundance_ppm,
+            }
+        )
+    raw_text = str(data.get("raw_payload_text", ""))
+    raw_payload = raw_text.encode("utf-8")
+    expected_sha = data.get("payload_sha256")
+    if expected_sha and sha256_hex(raw_payload) != expected_sha:
+        raise ValueError(f"{path} raw_payload_text sha256 does not match payload_sha256")
+    return rows, data, raw_payload
 
 
 def join_records(
@@ -301,6 +459,137 @@ def build_organism(config: dict[str, str]) -> tuple[dict[str, object] | None, di
         }
 
 
+def build_target_organism(config: dict[str, str]) -> tuple[dict[str, object] | None, dict[str, object]]:
+    started = datetime.now(timezone.utc).isoformat()
+    try:
+        cds_raw_gz = fetch_bytes(config["cds_url"])
+        cds_text = gzip.decompress(cds_raw_gz).decode("utf-8", "replace")
+        abundance_rows, abundance_metadata, paxdb_raw = abundance_rows_from_local_file(config)
+        cds_records = parse_fasta(cds_text)
+        gtf_mapping: dict[str, set[str]] | None = None
+        gtf_raw_gz: bytes | None = None
+        gtf_text = ""
+        if config.get("gtf_url"):
+            gtf_raw_gz = fetch_bytes(config["gtf_url"])
+            gtf_text = gzip.decompress(gtf_raw_gz).decode("utf-8", "replace")
+            gtf_mapping = parse_gtf_transcript_to_identifiers(gtf_text)
+            cds_index, multiplicities = longest_identifier_index(cds_records, gtf_mapping)
+            index_policy = "longest_cds_per_identifier"
+        else:
+            cds_index, multiplicities = unique_identifier_index(cds_records)
+            index_policy = "unique_identifier_only"
+        joined, match_sources = join_records(abundance_rows, cds_index)
+        n_abundance = len(abundance_rows)
+        n_joined = len(joined)
+        hit_rate = n_joined / n_abundance if n_abundance else 0.0
+        output = {
+            "schema_version": 1,
+            "organism": config["organism"],
+            "organism_label": config["organism_label"],
+            "ncbi_taxid": config["ncbi_taxid"],
+            "source_kind": "ensembl_or_ncbi_cds + local_verified_paxdb_join",
+            "source_name": "HTTP-fetched CDS FASTA joined to locally archived PAXdb protein abundance",
+            "cds_source_name": config["cds_source_name"],
+            "cds_source_url": config["cds_url"],
+            "cds_payload_sha256": sha256_hex(cds_raw_gz),
+            "cds_payload_byte_size": len(cds_raw_gz),
+            "cds_payload_raw_prefix_base64": raw_prefix_b64(cds_raw_gz),
+            "cds_payload_raw_prefix_byte_count": min(RAW_SLICE_BYTES, len(cds_raw_gz)),
+            "cds_payload_decompressed_prefix_text": cds_text[:RAW_SLICE_BYTES],
+            "cds_payload_note": "full_raw_gzip_payload_sha256 plus deterministic raw gzip prefix slice; decompressed FASTA parsed deterministically",
+            "paxdb_source_url": str(abundance_metadata.get("source_url", "")),
+            "paxdb_payload_sha256": str(abundance_metadata.get("payload_sha256", sha256_hex(paxdb_raw))),
+            "paxdb_payload_byte_size": int(abundance_metadata.get("payload_byte_size", len(paxdb_raw))),
+            "paxdb_payload_raw_prefix_text": paxdb_raw[:RAW_SLICE_BYTES].decode("utf-8", "replace"),
+            "paxdb_payload_raw_prefix_byte_count": min(RAW_SLICE_BYTES, len(paxdb_raw)),
+            "paxdb_payload_note": "local proteomics_abundance raw_payload_text sha256 checked against its archived payload_sha256",
+            "paxdb_name": abundance_metadata.get("paxdb_name"),
+            "paxdb_filename": abundance_metadata.get("paxdb_filename"),
+            "join_method": config["join_method"],
+            "join_policy": "Only exact identifier matches present in fetched CDS/GTF payloads are accepted. Unmatched proteins are discarded.",
+            "join_index_policy": index_policy,
+            "join_match_sources": match_sources,
+            "n_cds_records": len(cds_records),
+            "n_unique_cds_identifiers": len(cds_index),
+            "n_abundance_proteins": n_abundance,
+            "n_joined": n_joined,
+            "join_hit_rate": hit_rate,
+            "fetched_at": started,
+            "fetched_by": USER_AGENT,
+            "joined": joined,
+            "cannot_claim": [
+                "measured abundance + real CDS codon; 非 translation rate; 非 mechanism",
+                "PAXdb abundance does not by itself establish ribosome occupancy, elongation speed, folding, function, phenotype, or fitness.",
+                "The join is identifier-level evidence only; proteins without exact CDS identifiers are discarded.",
+            ],
+            "derivation_boundary": "not_bedc_kernel_content",
+        }
+        if gtf_raw_gz is not None:
+            output.update(
+                {
+                    "id_mapping_source_name": config["gtf_source_name"],
+                    "id_mapping_source_url": config["gtf_url"],
+                    "id_mapping_payload_sha256": sha256_hex(gtf_raw_gz),
+                    "id_mapping_payload_byte_size": len(gtf_raw_gz),
+                    "id_mapping_payload_raw_prefix_base64": raw_prefix_b64(gtf_raw_gz),
+                    "id_mapping_payload_raw_prefix_byte_count": min(RAW_SLICE_BYTES, len(gtf_raw_gz)),
+                    "id_mapping_payload_decompressed_prefix_text": gtf_text[:RAW_SLICE_BYTES],
+                    "id_mapping_payload_note": "full_raw_gzip_payload_sha256 for GTF used only to map transcript_id to protein_id and other explicit attributes",
+                    "n_id_mapping_transcripts": len(gtf_mapping or {}),
+                }
+            )
+        manifest_row = {
+            "organism": config["organism"],
+            "organism_label": config["organism_label"],
+            "ncbi_taxid": config["ncbi_taxid"],
+            "status": "success",
+            "n_abundance_proteins": n_abundance,
+            "n_joined": n_joined,
+            "join_hit_rate": hit_rate,
+            "usable_for_powered_per_protein_s_qp": hit_rate > 0.2 and n_joined >= 1000,
+            "cds_source_url": config["cds_url"],
+            "cds_payload_sha256": sha256_hex(cds_raw_gz),
+            "paxdb_source_url": str(abundance_metadata.get("source_url", "")),
+            "paxdb_payload_sha256": str(abundance_metadata.get("payload_sha256", sha256_hex(paxdb_raw))),
+            "output_file": f"tools/bio_reality/data/cds_codon_abundance_{config['organism']}.json",
+            "join_method": config["join_method"],
+            "join_match_sources": match_sources,
+            "join_index_policy": index_policy,
+            "n_cds_records": len(cds_records),
+            "n_unique_cds_identifiers": len(cds_index),
+            "ambiguous_identifier_count": sum(1 for n in multiplicities.values() if n > 1),
+        }
+        if gtf_raw_gz is not None:
+            manifest_row.update(
+                {
+                    "id_mapping_source_url": config["gtf_url"],
+                    "id_mapping_payload_sha256": sha256_hex(gtf_raw_gz),
+                    "n_id_mapping_transcripts": len(gtf_mapping or {}),
+                }
+            )
+        return output, manifest_row
+    except Exception as exc:
+        return None, {
+            "organism": config["organism"],
+            "organism_label": config["organism_label"],
+            "ncbi_taxid": config["ncbi_taxid"],
+            "status": "failed",
+            "reason": f"{type(exc).__name__}: {exc}",
+            "cds_source_url": config["cds_url"],
+            "id_mapping_source_url": config.get("gtf_url"),
+        }
+
+
+def load_existing_manifest_rows() -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    manifest_path = DATA_DIR / "cds_codon_campaign_manifest.json"
+    if not manifest_path.exists():
+        return [], []
+    manifest = json.loads(manifest_path.read_text())
+    successes = [row for row in manifest.get("successes", []) if isinstance(row, dict)]
+    failures = [row for row in manifest.get("failures", []) if isinstance(row, dict)]
+    return successes, failures
+
+
 def assert_output_integrity(output: dict[str, object]) -> None:
     joined = output["joined"]
     if not isinstance(joined, list):
@@ -321,19 +610,22 @@ def assert_output_integrity(output: dict[str, object]) -> None:
 
 
 def main() -> int:
-    successes: list[dict[str, object]] = []
-    failures: list[dict[str, object]] = []
-    manifest_rows: list[dict[str, object]] = []
-    for config in ORGANISMS:
-        output, row = build_organism(config)
-        manifest_rows.append(row)
+    existing_successes, existing_failures = load_existing_manifest_rows()
+    rows_by_organism = {
+        str(row.get("organism")): row
+        for row in existing_successes + existing_failures
+    }
+    for config in TARGET_ORGANISMS:
+        output, row = build_target_organism(config)
+        rows_by_organism[config["organism"]] = row
         if output is None:
-            failures.append(row)
             continue
         assert_output_integrity(output)
         output_path = DATA_DIR / f"cds_codon_abundance_{config['organism']}.json"
         output_path.write_text(json.dumps(output, indent=2, sort_keys=True) + "\n")
-        successes.append(row)
+    manifest_rows = list(rows_by_organism.values())
+    successes = [row for row in manifest_rows if row.get("status") == "success"]
+    failures = [row for row in manifest_rows if row.get("status") == "failed"]
     usable = [
         {"organism": row["organism"], "n_joined": row["n_joined"]}
         for row in successes
@@ -343,11 +635,11 @@ def main() -> int:
         "schema_version": 1,
         "source_name": "per-protein CDS codon composition joined to PAXdb abundance",
         "source_kind": "real_http_fetch_only",
-        "raw_payload_policy": "Each PAXdb abundance payload and each CDS FASTA gzip payload was fetched by HTTP and recorded by full raw payload sha256.",
+        "raw_payload_policy": "Each CDS FASTA gzip payload was fetched by HTTP and recorded by full raw payload sha256. Ensembl GTF mapping payloads, where used, were also fetched by HTTP and sha256 archived. PAXdb abundance payloads are locally archived proteomics_abundance raw payloads checked by sha256.",
         "fetched_at": datetime.now(timezone.utc).isoformat(),
         "fetched_by": USER_AGENT,
         "target_relation": "powered per-protein S^QP input table",
-        "organism_count": len(ORGANISMS),
+        "organism_count": len(manifest_rows),
         "success_count": len(successes),
         "failure_count": len(failures),
         "successes": successes,
@@ -357,8 +649,8 @@ def main() -> int:
         "usable_powered_per_protein_s_qp": usable,
         "cannot_claim": [
             "measured abundance + real CDS codon; 非 translation rate; 非 mechanism",
-            "No organism is retained without a true HTTP-fetched CDS payload and true HTTP-fetched PAXdb payload.",
-            "No protein is retained without an exact unique identifier join between PAXdb and CDS FASTA.",
+            "No newly attempted organism is retained without a true HTTP-fetched CDS payload.",
+            "No protein is retained without an exact identifier join between PAXdb and CDS FASTA/GTF evidence.",
         ],
         "derivation_boundary": "not_bedc_kernel_content",
     }
