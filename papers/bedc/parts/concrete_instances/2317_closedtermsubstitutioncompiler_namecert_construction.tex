@@ -200,15 +200,27 @@ Boundary-ledger exactness is \autoref{thm:closed-term-substitution-compiler-boun
 Non-escape is supplied by \autoref{thm:closed-term-substitution-compiler-binder-budget-nonescape} and \autoref{thm:closed-term-substitution-compiler-public-nonescape}. These theorems identify the absent semantics that no public projection can recover. The existing Lean TasteGate marker on \autoref{thm:closed-term-substitution-compiler-boundary} supplies the current checked alignment witness, while the formal status of this package remains unadvanced.
 \end{proof}
 
-\closureat{ClosedTermSubstitutionCompilerUp}{scopedStr}
+\begin{theorem}[ClosedTermSubstitutionCompiler bridge route]
+\label{thm:closed-term-substitution-compiler-bridge-route}
+Every compiler-facing read of an accepted $\ClosedTermSubstitutionCompilerUp$ packet bridges the concrete $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\mathsf{shift\_closed}$, and $\mathsf{substitute\_closed}$ rows to the public $\ClosedTermSubstitutionCompilerUp$ interface through the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The bridge route excludes evaluator correctness, subject reduction, host CIC truth, and unregistered binder budgets.
+\end{theorem}
+\begin{proof}
+Project the packet $K=(T,D,V,F,H,C,P,N)$ from \autoref{def:closed-term-substitution-compiler}. The concrete compiler rows are exactly $D$ for $\mathsf{ClosedAt}$, $V$ for $\mathsf{shift}$ and $\mathsf{substitute}$, and $F$ for $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$.
+
+Apply the boundary-ledger exactness theorem to force every compiler-facing substitution or shift read through those concrete rows. Then use the public non-escape and binder-budget non-escape theorems to restrict the exported interface to the displayed $\BHist$, $\Cont$, $\Pkg$, and local $\NameCert$ route.
+
+The bridge therefore reaches the public $\ClosedTermSubstitutionCompilerUp$ surface only through the named packet rows. Evaluator correctness, subject reduction, host CIC truth, and unregistered binder budgets have no coordinate in $K$, so they cannot be recovered by the bridge.
+\end{proof}
+
+\closureat{ClosedTermSubstitutionCompilerUp}{bridgedStr}
 
 \begin{closurestatus}{\ClosedTermSubstitutionCompilerUp}
   \constructivestory{A $\ClosedTermSubstitutionCompilerUp$ packet is generated from MetaCIC term constructors, the $\mathsf{ClosedAt}$ classifier, the $\mathsf{shift}$ and $\mathsf{substitute}$ operation rows, the $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$ witness rows, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public scope records the finite carrier, closed-boundary substitution and shift routes, classifier transport surface, NameCert obligations, self-compilation boundary handoff, boundary-ledger exactness, shift compatibility, public and binder-budget non-escape, and the obligation-closure package over the same compiler-facing packet.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{The bridged scope records the finite carrier, closed-boundary substitution and shift routes, classifier transport surface, NameCert obligations, self-compilation boundary handoff, boundary-ledger exactness, shift compatibility, public and binder-budget non-escape, the obligation-closure package, and the bridge route from concrete compiler rows to the public interface over the same packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close evaluator soundness, subject reduction, open-term substitution semantics, host CIC truth, total self-compilation, or a checked Lean certificate for the whole packet.}
-  \upgradepath{A higher theory grade requires a checked bridge for the same compiler-facing packet, while checked Lean formalization remains separate.}
+  \upgradepath{A higher theory grade requires mature examples and completeness of consumer coverage for the same compiler-facing bridge route, while checked Lean formalization remains separate.}
 \end{closurestatus}
