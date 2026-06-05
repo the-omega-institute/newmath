@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\CechNerveUp$}
+\label{ch:concrete-instances-cech-nerve-namecert}
+\origin{human}
+
+Following Cech, Leray, and the classical cover-nerve construction, the $\CechNerveUp$ packet records the finite simplicial object determined by a displayed finite topological cover. It sits after the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the finite-radius cover ledger of \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, and the finite face inventory of \autoref{ch:concrete-instances-simplicialcomplex-namecert}. The packet names cover members, intersection witnesses, nerve faces, stability, ledger, transport, provenance, and local naming rows; it does not assert the nerve theorem, selected points in arbitrary intersections, open-cover compactness, quotient realization equality, or ambient homology computation.
+
+\begin{definition}[Cech nerve carrier]
+\label{def:cech-nerve-carrier}
+A $\CechNerveUp$ carrier is a finite $\BHist$ packet
+$$
+K=(T,L,U,F,I,S,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TopologyUp$ source row, carrying the indexed-open membership classifier used by the cover.
+\item $L$ is the $\FiniteLebesgueNumberUp$ or finite-cover radius row, recording the finite cover scale when the cover is served by compact or metric data.
+\item $U$ is the finite cover-member row, listing the displayed cover indices and their topology-open witnesses.
+\item $F$ is the nerve-face classifier row: a finite subset of cover indices is accepted exactly when its displayed intersection witness is present.
+\item $I$ is the intersection-witness ledger, recording the finite meet or overlap data consumed by $F$.
+\item $S$ is the $\SimplicialComplexUp$ row whose faces are the accepted finite nerve faces.
+\item $G$ is the stability row, carrying componentwise $\hsame$ transport for the topology, cover, intersection, nerve-face, simplicial-complex, ledger, replay, provenance, and local naming rows.
+\item $H$ is the nonescape ledger, refusing selected intersection points, arbitrary subcovers, host nerve realizations, quotient simplicial equality, and ambient homology computation.
+\item $C$ records displayed $\Cont$ replay from a cover request through $T,L,U,I,F,S,G,H$.
+\item $P$ is the $\Pkg$ provenance over $\CechNerveUp$, $\TopologyUp$, $\FiniteLebesgueNumberUp$, $\SimplicialComplexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CechNerveUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed cover members, intersection witnesses, nerve-face classifier, simplicial-complex row, stability row, ledger row, replay, provenance, and local naming data.
+\end{definition}
+
+\begin{theorem}[Cech nerve NameCert obligations]
+\label{thm:cech-nerve-namecert-obligations}
+For every accepted $\CechNerveUp$ carrier $K=(T,L,U,F,I,S,G,H,C,P,N)$, the local $\NameCert_{\CechNerveUp}$ surface consists exactly of carrier admission through $T,L,U,F,I,S,G,H,C,P,N$; classifier admission for the finite nerve-face row $F$; stability under componentwise transport through $G$; ledger exposure through $I,H$; replay through $C$; provenance through $P$; local naming through $N$; and nonescape for selected intersection points, arbitrary subcover choice, host nerve realizations, quotient simplicial equality, and ambient homology computation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cech-nerve-carrier}. The topology row $T$, finite-radius or finite-cover row $L$, cover-member row $U$, intersection ledger $I$, nerve-face classifier $F$, and simplicial-complex row $S$ are the only geometric coordinates in the packet.
+
+The classifier is finite. A face is accepted only through $F$, and $F$ reads the displayed intersection witnesses in $I$ over the listed cover members $U$. Thus the nerve is the finite face inventory delivered to $\SimplicialComplexUp$, not a host simplicial realization.
+
+Stability is componentwise. The row $G$ transports topology, cover, intersection, face, and simplicial-complex data together, while $C$ replays the same route and $P,N$ source and name the packet.
+
+Finally read the ledger row $H$. Since the carrier has no coordinate for selected intersection points, arbitrary subcover choice, quotient realization equality, or ambient homology computation, those objects cannot be exported by an accepted $\CechNerveUp$ read.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CechNerveUp$ read exposes a topology row, finite cover or radius row, cover-member row, intersection-witness ledger, finite nerve-face classifier, simplicial-complex row, componentwise hsame stability, nonescape ledger, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{topology, finitelebesguenumber, simplicialcomplex, compact-cover-nerve, support-nerve-census: none is bijective to $\CechNerveUp$ because this packet jointly carries cover members, finite intersection witnesses, nerve-face classification, a simplicial-complex export row, stability, ledger, replay, provenance, and local naming as one cover-to-simplicial-object certificate.}
+
+\begin{closurestatus}{\CechNerveUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cech-nerve-carrier} and \autoref{thm:cech-nerve-namecert-obligations} seed the finite cover-to-simplicial-object certificate over TopologyUp, FiniteLebesgueNumberUp, SimplicialComplexUp, transport, ledger, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the nerve theorem, selected intersection points, arbitrary subcover choice, open-cover compactness, quotient realization equality, ambient homology computation, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked cover-member admission, finite intersection-witness exposure, nerve-face classification, SimplicialComplex handoff, transport stability, ledger nonescape, replay, provenance, and local naming for BEDC.Derived.CechNerveUp.}
+  \constructivestory{A $\CechNerveUp$ packet is generated from a TopologyUp source row, a finite cover or FiniteLebesgueNumberUp radius row, cover-member rows, intersection-witness rows, a finite nerve-face classifier, a SimplicialComplexUp export row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+\end{closurestatus}
