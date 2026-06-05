@@ -20,15 +20,15 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-05T08:07:25Z
+> 最后刷新: 2026-06-05T09:29:15Z
 
-**Daemon 状态**: monitor (monitor cycle 10, adjust_since_research 0, round_counter 2867, last_adjust none)
+**Daemon 状态**: monitor (monitor cycle 11, adjust_since_research 0, round_counter 2972, last_adjust none)
 
-**待处理 queue** (50 条 finding):
-- isolated_theorem: 35 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (52 条 finding):
+- isolated_theorem: 36 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 10 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 4 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
-- missing_origin: 1 条; 代表样本 `bioreality_q_six_modeled_tai_bounded_coupling`
+- missing_origin: 2 条; 代表样本 `bioreality_q_six_modeled_tai_bounded_coupling`, `bioreality_q_six_powered_modeled_tai_survival`
 
 **最近 alert 概览** (24h 内):
 - TASTE ALERT category=isolated_theorem: 21 次
@@ -209,6 +209,8 @@ to case-by-case judgment.
 - 2026-06-05T05:39:06Z: `resolved` `add_downstream_user` for `BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRegularReadback_transport` (flag `isolated_theorem`, finding `isolated_theorem:lowersemicontinuous:BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRegularReadback_transport:6137c810`). Rationale: The theorem is not just staging: the paper already uses the regular-readback transport as part of the root-unblock route, but Lean had no downstream dependency. I connected the sibling theorem LowerSemicontinuousRootEpigraphLocatedTransport to this theorem by importing RootRegularReadbackHandoff and reusing LowerSemicontinuousRegularReadback_transport to obtain the readback and epigraph hsame transport before continuing to the located comparison certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-06-05T08:07:08Z: `resolved` `add_downstream_user` for `BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousKernelSource_obligations` (flag `isolated_theorem`, finding `isolated_theorem:lowersemicontinuous:BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousKernelSource_obligations:6137c810`). Rationale: The target is not a disposable wrapper: it packages the finite X-W-R-E kernel-source route into a SemanticNameCert, and the paper immediately uses that route conceptually as the prefix of the lowersemicontinuous NameCert scope. I added a sibling consumer, LowerSemicontinuousKernelSourceNameCertScope_handoff, in NameCertScope.lean; it calls LowerSemicontinuousKernelSource_obligations and then extends the same route through the local NameCert scope certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-06-05T09:28:58Z: `resolved` `leave_with_rationale` for `BEDC.Derived.LocatedCauchyFilterBasisUp.LocatedCauchyFilterBasisCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.LocatedCauchyFilterBasisUp.LocatedCauchyFilterBasisCarrier_namecert_obligations:83e32db6`). Rationale: The theorem is not a trivial wrapper: it builds a SemanticNameCert for the LocatedCauchyFilterBasis carrier and projects finite Cont/PkgSig/UnaryHistory obligations used by the paper's NameCert obligation surface. I attempted an add_downstream_user consumer in LocatedCauchyFilterUp.BasisRefinementRoute tying that certificate to the filter-tail Real seal route, but lake build failed on that edit, so I reverted all changes as required and leave the theorem as staging-only with the failed consumer attempt recorded. Gate results: lake_build=failed: error: BEDC/Derived/LocatedCauchyFilterUp/BasisRefinementRoute.lean:88:4: Unknown identifier `BEDC.Derived.LocatedCauchyFilterBasisUp`; error: BEDC/Derived/LocatedCauchyFilterUp/BasisRefinementRoute.lean:84:46: unsolved goals; Some required targets logged failures: BEDC.Derived.LocatedCauchyFilterUp.BasisRefinementRoute; error: build failed, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
