@@ -96,6 +96,59 @@ Apply \autoref{thm:cauchy-core-streamname-regseqrat-window}. It forces any acces
 Finally use \autoref{thm:cauchy-core-regseqrat-real-seal}. The $\RealUp$ seal $E$ is downstream of the regular rational readback, so no Real-facing consumer can bypass the finite tail ledger. Since the carrier has no selected-limit, quotient-stream, countable-choice, trichotomy, or ambient-completeness coordinate, the displayed finite induction exhausts the criterion.
 \end{proof}
 
+\begin{definition}[Cauchy finite-window modulus carrier]
+\label{def:cauchy-finite-window-modulus-carrier}
+The finite-window modulus carrier associated to an accepted $\CauchyUp$ packet is the displayed handoff surface
+$$
+W=(S,D,M,Q,R,E,H,C,P,N)
+$$
+read from the carrier of \autoref{def:cauchy-carrier}. Its rows have the following roles:
+\begin{enumerate}
+\item $S$ records the finite $\StreamNameUp$ windows inspected by a tail request.
+\item $D$ records the $\DyadicRatCoreUp$ tolerance cells and slack conversions attached to those windows.
+\item $M$ records the explicit modulus threshold row used to accept later-window requests.
+\item $Q$ records the compatibility row tying each displayed window, dyadic tolerance, modulus threshold, and $\RegSeqRatUp$ readback.
+\item $R$ records the regular-rational readback exposed only after $S,D,M,Q$ have been displayed.
+\item $E$ records the downstream $\RealUp$ seal-facing row.
+\item $H,C,P,N$ record componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CauchyUp}$ naming for the same finite route.
+\end{enumerate}
+The carrier admits only these displayed coordinates. It has no coordinate for quotient-stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy finite-window tail induction]
+\label{thm:cauchy-finite-window-tail-induction}
+Let $W=(S,D,M,Q,R,E,H,C,P,N)$ be the finite-window modulus carrier of \autoref{def:cauchy-finite-window-modulus-carrier}. Every accepted tail request obtained by extending the displayed $\StreamNameUp$ window row preserves the dyadic tolerance row $D$, the modulus threshold row $M$, the compatibility row $Q$, and the $\RegSeqRatUp$ readback row $R$ before the $\RealUp$ seal $E$ is exposed. Thus the induction route is
+$$
+S,D,M \longmapsto Q \longmapsto R \longmapsto E
+$$
+with $H,C,P,N$ transporting, replaying, sourcing, and naming the same displayed handoff.
+\end{theorem}
+\begin{proof}
+Project the underlying accepted Cauchy carrier through \autoref{def:cauchy-carrier} and read it in the window/modulus order specified by \autoref{def:cauchy-finite-window-modulus-carrier}. The only tail-request rows available are $S,D,M,Q,R,E,H,C,P,N$.
+
+Induct over the displayed $\StreamNameUp$ windows retained by $S$. The empty window has no tolerance request outside $D$ and no readback outside the route named by \autoref{thm:cauchy-core-streamname-regseqrat-window}.
+
+For the successor step, the new inspected window is accepted only through the dyadic cell in $D$ and the threshold supplied by $M$. Apply \autoref{thm:cauchy-core-finite-tail-criterion} to keep the same finite tail ledger attached to the extended request.
+
+The compatibility row $Q$ is then the unique displayed row where the window, dyadic tolerance, modulus threshold, and regular readback are jointly inspected. Apply \autoref{thm:cauchy-modulus-readback-route} to place $R$ after $Q$ and $E$ after $R$.
+
+The structural rows $H,C,P,N$ preserve this route under transport, replay, provenance, and local naming. Since none of the rows supplies quotient-stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness, the induction cannot expose any such principle.
+\end{proof}
+
+\begin{theorem}[Cauchy RegSeqRat handoff obligation]
+\label{thm:cauchy-regseqrat-handoff-obligation}
+Every $\RegSeqRatUp$ consumer of an accepted $\CauchyUp$ packet must factor through the finite-window modulus carrier of \autoref{def:cauchy-finite-window-modulus-carrier} and the tail-induction route of \autoref{thm:cauchy-finite-window-tail-induction}. In particular, the consumer reads $S,D,M,Q$ before $R$, and any Real-facing use reads $E$ only after that $\RegSeqRatUp$ handoff.
+\end{theorem}
+\begin{proof}
+Begin with an accepted Cauchy packet and project its rows by \autoref{def:cauchy-carrier}. The carrier supplies finite stream windows, dyadic tolerances, a modulus row, a compatibility row, regular-rational readback, a terminal Real-facing seal, and structural transport, replay, provenance, and naming rows.
+
+Apply \autoref{thm:cauchy-core-streamname-regseqrat-window}. It forces access to the $\RegSeqRatUp$ row through the displayed $S,D,M,Q$ route, so no consumer can inspect $R$ independently of the finite window and tolerance data.
+
+Next apply \autoref{thm:cauchy-core-finite-tail-criterion} and \autoref{thm:cauchy-finite-window-tail-induction}. These identify the finite tail ledger and show that accepted extensions preserve the dyadic tolerance, modulus threshold, compatibility, and regular readback rows before the Real seal is exposed.
+
+Finally use \autoref{thm:cauchy-modulus-readback-route}. The structural rows $H,C,P,N$ transport and name the same handoff, while the carrier contains no quotient-stream equality, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness. Hence every $\RegSeqRatUp$ consumer factors through the stated finite-window induction surface.
+\end{proof}
+
 \begin{theorem}[Cauchy RegSeqRat Real seal]
 \label{thm:cauchy-core-regseqrat-real-seal}
 Every $\RealUp$-facing read of an accepted $\CauchyUp$ packet factors through the $\RegSeqRatUp$ readback row before the terminal real seal. In the notation of \autoref{def:cauchy-carrier}, the seal-facing route is
