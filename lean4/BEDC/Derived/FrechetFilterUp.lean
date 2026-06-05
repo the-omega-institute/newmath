@@ -19,10 +19,12 @@ open BEDC.FKernel.Unary
 def FrechetFilterCarrier [AskSetup] [PackageSetup]
     (U T S M B Q R A H C P N : BHist) (bundle : ProbeBundle ProbeName)
     (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
   UnaryHistory U ∧ UnaryHistory T ∧ UnaryHistory S ∧ UnaryHistory M ∧
     UnaryHistory B ∧ UnaryHistory Q ∧ UnaryHistory R ∧ UnaryHistory A ∧
       UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
-        PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+        Cont U T S ∧ Cont S M B ∧ Cont B Q R ∧ Cont R A C ∧
+          PkgSig bundle P pkg ∧ PkgSig bundle N pkg
 
 theorem FrechetFilterRootCauchyConsumerBoundary [AskSetup] [PackageSetup]
     {U T S M B Q R A H C P N cauchyRead readbackRead sealRead namedRead : BHist}
@@ -50,7 +52,8 @@ theorem FrechetFilterRootCauchyConsumerBoundary [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
   intro carrier cauchyRoute readbackRoute sealRoute nameRoute provenancePkg namedPkg
   obtain ⟨UUnary, TUnary, _SUnary, _MUnary, _BUnary, QUnary, RUnary, _AUnary,
-    _HUnary, _CUnary, _PUnary, NUnary, _carrierProvenancePkg, _carrierNamePkg⟩ :=
+    _HUnary, _CUnary, _PUnary, NUnary, _carrierRootRoute, _carrierScheduleRoute,
+    _carrierReadbackRoute, _carrierSealRoute, _carrierProvenancePkg, _carrierNamePkg⟩ :=
       carrier
   have cauchyUnary : UnaryHistory cauchyRead :=
     unary_cont_closed UUnary TUnary cauchyRoute

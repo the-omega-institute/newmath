@@ -15,16 +15,14 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 def SequentiallyCompleteMetricCarrier [AskSetup] [PackageSetup]
-    (source streamRow modulus limit lateLedger transport route provenance name acceptance :
-      BHist)
+    (source streamRow modulus limit lateLedger transport route provenance name : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory PkgSig
   UnaryHistory source ∧ UnaryHistory streamRow ∧ UnaryHistory modulus ∧
     UnaryHistory limit ∧ UnaryHistory lateLedger ∧ UnaryHistory transport ∧
       UnaryHistory route ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
-        UnaryHistory acceptance ∧ Cont source streamRow route ∧
-          Cont route limit acceptance ∧ hsame transport name ∧
-            PkgSig bundle acceptance pkg
+        Cont source streamRow route ∧ Cont route limit lateLedger ∧ hsame transport name ∧
+          PkgSig bundle provenance pkg
 
 theorem SequentiallyCompleteMetricNameCertObligations [AskSetup] [PackageSetup]
     {X S M L D H C P N metricRead _sequenceRead modulusRead limitRead distanceRead
@@ -79,26 +77,25 @@ theorem SequentiallyCompleteMetricNameCertObligations [AskSetup] [PackageSetup]
   }
 
 theorem SequentiallyCompleteMetricPacket_semantic_name_certificate [AskSetup] [PackageSetup]
-    {source streamRow modulus limit lateLedger transport route provenance name acceptance :
-      BHist}
+    {source streamRow modulus limit lateLedger transport route provenance name : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     SequentiallyCompleteMetricCarrier source streamRow modulus limit lateLedger transport
-        route provenance name acceptance bundle pkg →
+        route provenance name bundle pkg →
       SemanticNameCert
         (fun row : BHist =>
           SequentiallyCompleteMetricCarrier source streamRow modulus limit lateLedger
-            transport route provenance name acceptance bundle pkg ∧ hsame row name)
+            transport route provenance name bundle pkg ∧ hsame row name)
         (fun row : BHist =>
           hsame row source ∨ hsame row streamRow ∨ hsame row modulus ∨
             hsame row limit ∨ hsame row lateLedger ∨ hsame row name)
-        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle acceptance pkg)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle provenance pkg)
         hsame := by
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier
   have carrierProof := carrier
   obtain ⟨_sourceUnary, _streamUnary, _modulusUnary, _limitUnary, _ledgerUnary,
-    _transportUnary, _routeUnary, _provenanceUnary, nameUnary, _acceptanceUnary,
-    _sourceStreamRoute, _routeLimitAcceptance, _transportName, acceptancePkg⟩ := carrier
+    _transportUnary, _routeUnary, _provenanceUnary, nameUnary, _sourceStreamRoute,
+    _routeLimitLedger, _transportName, provenancePkg⟩ := carrier
   exact {
     core := {
       carrier_inhabited :=
@@ -121,7 +118,7 @@ theorem SequentiallyCompleteMetricPacket_semantic_name_certificate [AskSetup] [P
       exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.right))))
     ledger_sound := by
       intro _row source
-      exact And.intro (unary_transport nameUnary (hsame_symm source.right)) acceptancePkg
+      exact And.intro (unary_transport nameUnary (hsame_symm source.right)) provenancePkg
   }
 
 theorem SequentiallyCompleteMetricRealSealNonescape [AskSetup] [PackageSetup]
