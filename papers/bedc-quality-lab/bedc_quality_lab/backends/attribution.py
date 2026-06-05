@@ -16,13 +16,18 @@ from scripts import run_gap_head_attribution_capsule
 OWNER = "scripts.run_gap_head_attribution_capsule.build_gap_head_attribution_capsule"
 
 
-METRIC_POINTERS = {
+CAPSULE_METRIC_POINTERS = {
     "full_unlogged_error_rate_mean": "$.aggregate.by_arm.full.UnloggedErrorRate.mean",
     "hardgates_failed_gate": "$.hardgates.failed_gate",
     "a4_hardgates_failed_gate": "$.a4_hardgates.failed_gate",
     "claim_capsule_hardgates_status": "$.claim_capsule_hardgates",
     "d5_m_passed": "$.d5_m.passed",
     "mechanism_case_status": "$.mechanism_case.status",
+}
+
+METRIC_POINTERS = {
+    name: f"$.metrics.{name}"
+    for name in CAPSULE_METRIC_POINTERS
 }
 
 
@@ -50,7 +55,7 @@ def _resolve_payload_pointer(payload: Mapping[str, Any], pointer: str) -> Any:
 
 
 def _project_metric(payload: Mapping[str, Any], name: str) -> Any:
-    value = _resolve_payload_pointer(payload, METRIC_POINTERS[name])
+    value = _resolve_payload_pointer(payload, CAPSULE_METRIC_POINTERS[name])
     if name == "claim_capsule_hardgates_status":
         return {
             str(gate_name): str(gate["status"])
@@ -83,7 +88,7 @@ class GapHeadAttributionBackendEvidenceAdapter:
                 "name": "control/matched-random-control",
                 "owner": OWNER,
                 "evidence_pointer": "$.control_evidence.matched_random",
-                "control_pointer": "$.control_pointer.matched_random",
+                "control_pointer": "$.control_evidence.matched_random",
             },
             {
                 "name": "namecert/mechanism-candidate-audit",
@@ -105,9 +110,9 @@ class GapHeadAttributionBackendEvidenceAdapter:
             {"kind": "generalization", "residue": "global-claim-boundary"},
         ),
         hardgates=(
-            {"name": "A1", "pointer": "$.hardgates"},
-            {"name": "A4", "pointer": "$.a4_hardgates"},
-            {"name": "claim-capsule", "pointer": "$.claim_capsule_hardgates"},
+            {"name": "A1", "pointer": "$.hardgates.A1"},
+            {"name": "A4", "pointer": "$.hardgates.A4"},
+            {"name": "claim-capsule", "pointer": "$.hardgates.claim_capsule"},
         ),
         not_claimed=(
             "canonical report production",

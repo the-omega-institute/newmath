@@ -71,6 +71,28 @@ def resolve_projection_pointer(payload, pointer):
     return cursor
 
 
+def collect_backend_projection_pointers(adapter, payload):
+    for row in adapter.backend.theorem_rows:
+        yield f"theorem_rows.{row['name']}.evidence_pointer", row["evidence_pointer"]
+        if "control_pointer" in row:
+            yield f"theorem_rows.{row['name']}.control_pointer", row["control_pointer"]
+    for gate in adapter.backend.hardgates:
+        yield f"hardgates.{gate['name']}.pointer", gate["pointer"]
+    for name, pointer in payload["metric_pointers"].items():
+        yield f"metric_pointers.{name}", pointer
+    for name, pointer in payload["control_pointer"].items():
+        yield f"control_pointer.{name}", pointer
+
+
+def assert_projection_pointers_resolve(payload, pointers):
+    seen = []
+    for label, pointer in pointers:
+        resolved = resolve_projection_pointer(payload, pointer)
+        assert resolved is not None, label
+        seen.append(label)
+    return tuple(seen)
+
+
 def test_adapter_metadata_and_module_loading_contract():
     adapter: BackendEvidenceAdapter = GapHeadAttributionBackendEvidenceAdapter()
     backend = adapter.backend
@@ -105,7 +127,7 @@ def test_adapter_metadata_and_module_loading_contract():
     control_row = backend.theorem_rows[0]
     assert control_row["name"] == "control/matched-random-control"
     assert control_row["evidence_pointer"] == "$.control_evidence.matched_random"
-    assert control_row["control_pointer"] == "$.control_pointer.matched_random"
+    assert control_row["control_pointer"] == "$.control_evidence.matched_random"
     assert backend.theorem_rows[1]["evidence_pointer"] == "$.mechanism_case"
     assert backend.theorem_rows[2]["evidence_pointer"] == "$.d5_m"
 
@@ -143,14 +165,11 @@ def test_compute_metrics_delegates_to_capsule_builder(monkeypatch, tmp_path):
     }
     assert payload["metrics"]["d5_m_passed"] is False
     assert payload["metrics"]["mechanism_case_status"] == "D5-O retained, mechanism unresolved"
-    assert payload["metric_pointers"]["full_unlogged_error_rate_mean"] == (
-        "$.aggregate.by_arm.full.UnloggedErrorRate.mean"
-    )
-    assert payload["control_pointer"]["matched_random"] == "$.control_evidence.matched_random"
+    assert set(payload["metric_pointers"]) == set(GapHeadAttributionBackendEvidenceAdapter.backend.metrics)
     assert "terminal_verdict" not in payload
 
 
-def test_theorem_evidence_pointers_resolve_in_adapter_projection(monkeypatch, tmp_path):
+def test_backend_pointer_surfaces_resolve_in_adapter_projection(monkeypatch, tmp_path):
     monkeypatch.setattr(
         attribution.run_gap_head_attribution_capsule,
         "build_gap_head_attribution_capsule",
@@ -160,9 +179,26 @@ def test_theorem_evidence_pointers_resolve_in_adapter_projection(monkeypatch, tm
     adapter = GapHeadAttributionBackendEvidenceAdapter()
     payload = adapter.compute_metrics(root=tmp_path, generated_at="fake-time")
 
-    for row in adapter.backend.theorem_rows:
-        resolved = resolve_projection_pointer(payload, row["evidence_pointer"])
-        assert resolved is not None
+    labels = assert_projection_pointers_resolve(payload, collect_backend_projection_pointers(adapter, payload))
+
+    assert labels == (
+        "theorem_rows.control/matched-random-control.evidence_pointer",
+        "theorem_rows.control/matched-random-control.control_pointer",
+        "theorem_rows.namecert/mechanism-candidate-audit.evidence_pointer",
+        "theorem_rows.closure/mechanism-closure-debt.evidence_pointer",
+        "hardgates.A1.pointer",
+        "hardgates.A4.pointer",
+        "hardgates.claim-capsule.pointer",
+        "metric_pointers.full_unlogged_error_rate_mean",
+        "metric_pointers.hardgates_failed_gate",
+        "metric_pointers.a4_hardgates_failed_gate",
+        "metric_pointers.claim_capsule_hardgates_status",
+        "metric_pointers.d5_m_passed",
+        "metric_pointers.mechanism_case_status",
+        "control_pointer.matched_random",
+        "control_pointer.h_random_rotation",
+        "control_pointer.h_random_projection_lowdim",
+    )
 
 
 def test_ledger_projection_uses_structured_debt_kernel(monkeypatch, tmp_path):
