@@ -543,6 +543,7 @@ import BEDC.Derived.AuthorizedRecursorUp.TasteGate
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.AxiomDependencyAuditMapUp
 import BEDC.Derived.AxiomDependencyMapUp
+import BEDC.Derived.AxiomDependencyMapUp.TasteGate
 import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
@@ -7253,6 +7254,7 @@ import BEDC.Derived.RealMetricUp.NameCertObligations
 import BEDC.Derived.RealMetricUp.TasteGate
 import BEDC.Derived.RealMinMaxUp.TasteGate
 import BEDC.Derived.RealModulusCriterionUp.TasteGate
+import BEDC.Derived.RealModulusExtractionUp.TasteGate
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
@@ -8207,6 +8209,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.LimitModulusInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
+import BEDC.Derived.SequentiallyCompleteMetricUp.RegularLimitExtraction
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootLimitWitness
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusCoverage
