@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\BishopCountableDenseRationalGridUp$}
+\label{ch:concrete-instances-bishop-countable-dense-rational-grid-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopCountableDenseRationalGridUp$ packet presents the rational grid used by countable real approximation as finite rational-window data. It sits over the $\RatUp$ row of \autoref{ch:concrete-instances-rat-namecert} and the dyadic arithmetic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, feeds the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, and supplies the rational readback surface used by \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}. The packet is a constructive grid certificate; it is not a Dedekind-cut presentation, not a quotient class of Cauchy names, not a countable-choice schedule, and not a completeness theorem for $\RealUp$.
+
+\begin{definition}[Bishop countable dense rational grid carrier]
+\label{def:bishop-countable-dense-rational-grid-carrier}
+A $\BishopCountableDenseRationalGridUp$ carrier is a finite $\BHist$ packet
+$$
+G=(Q,D,W,S,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ rational-coordinate row, storing the visible numerator, denominator, sign, and comparison data used by the current grid window.
+\item $D$ is the $\DyadicRatCoreUp$ scale row, recording dyadic tolerances, midpoint steps, and interval refinements compatible with $Q$.
+\item $W$ is the finite $\StreamNameUp$ request-window row. It records which rational grid points and tolerance scales are currently inspected.
+\item $S$ is the successor-window row. It lists the finite neighboring rational grid candidates obtained by one dyadic refinement of the current window.
+\item $R$ is the $\RegSeqRatUp$ handoff row, translating each inspected grid window into regular rational readback data.
+\item $E$ is the $\RealUp$ boundary row. It records only the finite real-window comparisons needed to read a candidate as a real approximation.
+\item $H$ records componentwise $\hsame$ transport for rational coordinates, dyadic scales, StreamName windows, successor windows, regular-rational handoff, real-boundary reads, continuation, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a grid request through $Q,D,W,S,R,E$.
+\item $P$ is the $\Pkg$ provenance over $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopCountableDenseRationalGridUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the rows $Q,D,W,S,R,E,H,C,P,N$. It has no coordinate for Dedekind cuts, quotient equality of Cauchy names, countable choice, host enumeration of all rationals, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Bishop countable dense rational grid NameCert obligations]
+\label{thm:bishop-countable-dense-rational-grid-namecert-obligations}
+For every accepted $\BishopCountableDenseRationalGridUp$ carrier $G=(Q,D,W,S,R,E,H,C,P,N)$, the local $\NameCert_{\BishopCountableDenseRationalGridUp}$ surface consists exactly of carrier admission for the ten displayed rows, rational-coordinate visibility through $Q$, dyadic scale compatibility through $D$, finite StreamName request coverage through $W$, one-step neighbor coverage through $S$, regular rational readback through $R$, finite Real-window boundary through $E$, componentwise transport through $H$, continuation replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-countable-dense-rational-grid-carrier}. The only positive approximation data are the rational coordinate row $Q$, the dyadic scale row $D$, the finite request window $W$, and the successor-window row $S$.
+
+Perform finite window induction over $W$. The base window reads the currently displayed rational coordinate and dyadic tolerance. The step case refines the dyadic scale once, reads the neighboring rational candidates in $S$, and keeps each candidate attached to the same rational and dyadic rows.
+
+The readback rows are downstream. The row $R$ translates the displayed grid window into regular rational data before $E$ exposes any finite real-boundary comparison. Transport, continuation, provenance, and local naming through $H,C,P,N$ package that route and do not add any hidden cut, quotient, choice, global enumeration, or completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Bishop countable dense rational grid Real-window handoff]
+\label{thm:bishop-countable-dense-rational-grid-real-window-handoff}
+Every $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of an accepted $\BishopCountableDenseRationalGridUp$ packet must pass through the finite route
+$$
+Q,D,W,S,R,E \longmapsto H,C,P,N .
+$$
+Thus a real-window consumer may read rational grid points, dyadic tolerances, regular-rational readback, and finite real-boundary comparisons, but it receives no Dedekind cut, no quotient class of Cauchy names, no countable-choice schedule, no host enumeration of all rationals, and no $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with a downstream request. Carrier admission exposes $Q,D,W,S$ as finite grid data: a rational coordinate, a dyadic tolerance, the currently inspected StreamName window, and the neighboring candidates obtained by the displayed refinement step.
+
+Replay the request through $C$. The regular-rational handoff $R$ is read only after the rational and dyadic rows have been displayed, and the Real boundary row $E$ is read only as a finite comparison attached to that same handoff.
+
+Finally transport and package the route through $H,P,N$. Since the carrier has no field for cuts, quotient equality, countable choice, host enumeration, or completeness, the handoff remains a finite rational-grid window into $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+\end{proof}
+
+\begin{closurestatus}{\BishopCountableDenseRationalGridUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-countable-dense-rational-grid-carrier}, \autoref{thm:bishop-countable-dense-rational-grid-namecert-obligations}, and \autoref{thm:bishop-countable-dense-rational-grid-real-window-handoff} seed the finite rational-grid window over $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind cuts, quotient equality of Cauchy names, countable choice, host enumeration of all rationals, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational-coordinate visibility, dyadic scale compatibility, finite StreamName coverage, regular-rational handoff, Real-window nonescape, and local NameCert exactness for the same packet.}
+  \constructivestory{A $\BishopCountableDenseRationalGridUp$ packet is generated from Rat coordinates, DyadicRatCore tolerance scales, finite StreamName request windows, successor grid windows, RegSeqRat readback, Real boundary rows, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
