@@ -3978,10 +3978,12 @@ import BEDC.Derived.FanfunctionalUp.CantorCompactnessScope
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusObligations
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
+import BEDC.Derived.FanfunctionalUp.ModulusHandoffNonescape
 import BEDC.Derived.FanfunctionalUp.ModulusWindowMonotonicity
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
 import BEDC.Derived.FanfunctionalUp.ObligationPrecedence
 import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
+import BEDC.Derived.FanfunctionalUp.RealRegSeqRatScope
 import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RootFiniteBarDepth
 import BEDC.Derived.FanfunctionalUp.RootUnblockCantorPrefix
@@ -5443,8 +5445,10 @@ import BEDC.Derived.LocatedRealUp.TasteGate
 import BEDC.Derived.LocatedRegSeqRatUp
 import BEDC.Derived.LocatedRegSeqRatUp.TasteGate
 import BEDC.Derived.LocatedRegularizationUp.TasteGate
+import BEDC.Derived.LocatedSequenceLimitUp.TasteGate
 import BEDC.Derived.LocatedSequenceModulusUp.TasteGate
 import BEDC.Derived.LocatedSequenceSupremumUp.TasteGate
+import BEDC.Derived.LocatedSequenceUp.TasteGate
 import BEDC.Derived.LocatedSetUp
 import BEDC.Derived.LocatedSetUp.TasteGate
 import BEDC.Derived.LocatedSpaceUp.TasteGate
