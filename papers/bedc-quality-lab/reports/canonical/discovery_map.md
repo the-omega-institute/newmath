@@ -1,7 +1,7 @@
 # Discovery Map
 
 - Generated at: `2026-06-05T07:13:11.713087+00:00`
-- Rows: `22`
+- Rows: `23`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -22,6 +22,7 @@
 | `sigreg-mini-grid` | `D2` | `` | `` | `projected` | `valid` | `$.trend_summary.expected_trend` |
 | `discovery-regularized-training` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
+| `discovery-gated-nas` | `D5-M` | `` | `` | `projected` | `valid` | `$.matched_baseline_control` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |

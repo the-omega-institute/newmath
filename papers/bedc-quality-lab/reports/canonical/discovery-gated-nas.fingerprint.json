@@ -1,0 +1,130 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-05T07:13:11.713087+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "fbd865794d95b283ced98c54c92a3a32d1e2aca4d75ba8540622454a9f44c63b",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "e9a631afb2175938595d0b3b28046d47ff8a737484991671784925b73c7eeecc"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/claim_terms.py",
+        "sha256": "838e8f3ef822e929c63aa811f80d86f6451478a0468626544babf43dc7b52af5"
+      },
+      {
+        "path": "bedc_quality_lab/discovery_compiler/capsule.py",
+        "sha256": "b23375da3dc15dcfdadbd28ae8bffe268151e99314e15983bcbe3c4e0cf783ac"
+      },
+      {
+        "path": "bedc_quality_lab/discovery_gated_nas.py",
+        "sha256": "dd494f6084d8525079d383e7074cb6a5d1640aeac1e272f4300647f9b93af4aa"
+      },
+      {
+        "path": "scripts/run_discovery_gated_nas.py",
+        "sha256": "a37102c979dbbb608509213f7123a1d757754e71e077e403110f9482eb990abe"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:discovery-gated-nas",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_discovery_gated_nas.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/runs/discovery-gated-nas/claim_capsule.json",
+        "sha256": "694629a3eca768d46769011bb2979d957977af1c2647dc823a9f6f4db7a601b0"
+      },
+      {
+        "path": "reports/runs/discovery-gated-nas/raw_metrics.jsonl",
+        "sha256": "ce12b192f2649cbddb55cfa58eceb4f4f4a8896e747ea4b82eae0d5b6991e7c8"
+      }
+    ],
+    "spec": {
+      "bundle_role": "hg_p_core",
+      "command": [
+        "python3",
+        "scripts/run_discovery_gated_nas.py"
+      ],
+      "control_pointer": "$.matched_baseline_control",
+      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "estimated_seconds": 2,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/discovery-gated-nas.json",
+      "literature_ref_ids": [
+        "lit-lejepa-theorem-ledger"
+      ],
+      "markdown_artifact": "reports/canonical/discovery-gated-nas.md",
+      "name": "discovery-gated-nas",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.positive_claim",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "run_id",
+        "producer",
+        "projector",
+        "run_artifacts",
+        "source_artifacts",
+        "config",
+        "grid",
+        "records",
+        "surface_registry",
+        "search_objective_summary",
+        "negative_witness_mutations",
+        "candidate_protocol",
+        "device_protocol",
+        "torch_nas_evidence",
+        "matched_baseline_control",
+        "hardgate",
+        "failed_gate",
+        "discovery_map_signal",
+        "positive_claim",
+        "claim_capsule_ref",
+        "not_claimed",
+        "what_was_learned",
+        "revocation_rows",
+        "forbidden_claim_term_audit"
+      ],
+      "scope_pointer": "$.grid"
+    }
+  },
+  "json_artifact": "reports/canonical/discovery-gated-nas.json",
+  "markdown_artifact": "reports/canonical/discovery-gated-nas.md",
+  "output_digest": "64dbd1e232dd5c5f1505dc9e113f7e1e721603f6379c0b1c7238c26de947573b",
+  "producer_command": [
+    "python3",
+    "scripts/run_discovery_gated_nas.py"
+  ],
+  "report_name": "discovery-gated-nas",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

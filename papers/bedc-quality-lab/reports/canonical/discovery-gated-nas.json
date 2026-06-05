@@ -1,0 +1,407 @@
+{
+  "artifact_id": "bedc-quality-lab:discovery-gated-nas",
+  "candidate_protocol": {
+    "deterministic_anchor": {
+      "candidate_count": 6,
+      "evidence_pointer": "$.search_objective_summary.selected_candidate",
+      "primary": true,
+      "replayable": true,
+      "selection_rule": "select the highest rounded search score among candidates with zero witness violations"
+    },
+    "torch_evidence": {
+      "bounded_optional": true,
+      "evidence_pointer": "$.torch_nas_evidence",
+      "primary": false
+    }
+  },
+  "claim_capsule_ref": "reports/runs/discovery-gated-nas/claim_capsule.json",
+  "claim_capsule_status": "d5-m-candidate",
+  "config": {
+    "arms": [
+      "candidate",
+      "parameter_matched_baseline",
+      "compute_matched_baseline"
+    ],
+    "candidates": [
+      "score_margin_shortcut",
+      "residualized_h_path",
+      "scale_invariant_norm",
+      "control_separated_route",
+      "multi_surface_mechanism_packet",
+      "bounded_discovery_gate"
+    ],
+    "dependency_abi": {
+      "torch": "not-requested"
+    },
+    "drift_tolerance": 1e-05,
+    "lambda_compute": 0.001,
+    "lambda_discovery": 0.42,
+    "lambda_witness": 0.55,
+    "requested_device": "auto",
+    "resolved_device": "not-requested",
+    "run_id": "discovery-gated-nas",
+    "seeds": [
+      19,
+      31,
+      47
+    ],
+    "steps": 12,
+    "surfaces": [
+      "copy_shift",
+      "parity_route",
+      "scale_probe"
+    ],
+    "torch_status": "unavailable"
+  },
+  "device_protocol": {
+    "dependency_abi": {
+      "torch": "not-requested"
+    },
+    "drift_tolerance": 1e-05,
+    "evidence_pointer": "$.torch_nas_evidence",
+    "requested_device": "auto",
+    "resolved_device": "not-requested",
+    "status": "unavailable"
+  },
+  "discovery_map_signal": {
+    "candidate_protocol_pointer": "$.candidate_protocol",
+    "control_pointer": "$.matched_baseline_control",
+    "evidence_pointer": "$.search_objective_summary.selected_candidate",
+    "failed_gate": null,
+    "failed_gate_pointer": null,
+    "level_candidate": "D5-M",
+    "negative_witness_pointer": "$.negative_witness_mutations",
+    "reason": "discovery-gated-search-positive",
+    "search_objective_pointer": "$.search_objective_summary",
+    "status": "d5-m-candidate",
+    "surface_registry_pointer": "$.surface_registry",
+    "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
+    "torch_nas_evidence_pointer": "$.torch_nas_evidence"
+  },
+  "failed_gate": null,
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "run-local:discovery-gated-nas",
+  "grid": {
+    "arm_count": 3,
+    "candidate_count": 6,
+    "expected_record_count": 162,
+    "record_count": 162,
+    "seed_count": 3,
+    "surface_count": 3,
+    "torch_record_count": 0
+  },
+  "hardgate": {
+    "failed_gate": null,
+    "gates": {
+      "DG-NAS-HG1": {
+        "evidence": "Parameter-matched baseline is required.",
+        "evidence_pointer": "$.matched_baseline_control.parameter_matched",
+        "status": "pass"
+      },
+      "DG-NAS-HG2": {
+        "evidence": "Compute-matched baseline is required.",
+        "evidence_pointer": "$.matched_baseline_control.compute_matched",
+        "status": "pass"
+      },
+      "DG-NAS-HG3": {
+        "evidence": "D4 candidate requires classifier shift evidence.",
+        "evidence_pointer": "$.search_objective_summary.selected_candidate",
+        "status": "pass"
+      },
+      "DG-NAS-HG4": {
+        "evidence": "D5-O requires multi-surface robustness.",
+        "evidence_pointer": "$.search_objective_summary.selected_candidate",
+        "status": "pass"
+      },
+      "DG-NAS-HG5": {
+        "evidence": "D5-M requires a mechanism certificate.",
+        "evidence_pointer": "$.search_objective_summary.selected_candidate",
+        "status": "pass"
+      },
+      "DG-NAS-HG6": {
+        "evidence": "Any witness violation must demote the candidate.",
+        "evidence_pointer": "$.negative_witness_mutations",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "matched_baseline_control": {
+    "compute_matched": {
+      "evidence_pointer": "$.matched_baseline_control.compute_matched",
+      "row_count": 54,
+      "search_score_mean": 0.59174
+    },
+    "compute_matched_present": true,
+    "control_positive": false,
+    "evidence_pointer": "$.matched_baseline_control",
+    "parameter_matched": {
+      "evidence_pointer": "$.matched_baseline_control.parameter_matched",
+      "row_count": 54,
+      "search_score_mean": 0.57574
+    },
+    "parameter_matched_present": true
+  },
+  "negative_witness_mutations": {
+    "demoted_candidate_count": 3,
+    "evidence_pointer": "$.negative_witness_mutations.rows",
+    "mutation_map": {
+      "control_positive": "control_separated_route",
+      "scale_leakage": "scale_invariant_norm",
+      "score_margin_shortcut": "residualized_h_path"
+    },
+    "rows": [
+      {
+        "evidence_pointer": "$.search_objective_summary.by_candidate.score_margin_shortcut",
+        "mutation_candidate": "residualized_h_path",
+        "mutation_pointer": "$.search_objective_summary.by_candidate.residualized_h_path",
+        "mutation_rule": "add residualized h path",
+        "source_candidate": "score_margin_shortcut",
+        "source_candidate_demoted": true,
+        "witness_kind": "score_margin_shortcut"
+      },
+      {
+        "evidence_pointer": "$.search_objective_summary.by_candidate.residualized_h_path",
+        "mutation_candidate": "scale_invariant_norm",
+        "mutation_pointer": "$.search_objective_summary.by_candidate.scale_invariant_norm",
+        "mutation_rule": "add scale-invariant norm",
+        "source_candidate": "residualized_h_path",
+        "source_candidate_demoted": true,
+        "witness_kind": "scale_leakage"
+      },
+      {
+        "evidence_pointer": "$.search_objective_summary.by_candidate.scale_invariant_norm",
+        "mutation_candidate": "control_separated_route",
+        "mutation_pointer": "$.search_objective_summary.by_candidate.control_separated_route",
+        "mutation_rule": "add stronger control separation",
+        "source_candidate": "scale_invariant_norm",
+        "source_candidate_demoted": true,
+        "witness_kind": "control_positive"
+      }
+    ],
+    "selected_candidate_has_violation": false,
+    "witness_violating_candidate_count": 3
+  },
+  "not_claimed": [
+    "real model training",
+    "general architecture superiority",
+    "unbounded NAS search",
+    "production device authority",
+    "standalone verdict ownership"
+  ],
+  "positive_claim": {
+    "level_candidate": "D5-M",
+    "scope": "deterministic anchor candidate enumeration with bounded optional PyTorch evidence",
+    "text": "Discovery-gated NAS records bounded lab-local architecture search evidence where discovery gates, cost controls, and negative witnesses determine candidate selection."
+  },
+  "producer": "scripts/run_discovery_gated_nas.py",
+  "projector": "bedc_quality_lab.discovery_gated_nas.DiscoveryGatedNasProjection",
+  "records": {
+    "deterministic_anchor_rows": 162,
+    "expected_deterministic_anchor_rows": 162,
+    "metric_keys": [
+      "quality_q",
+      "discovery_bonus",
+      "compute_cost",
+      "witness_violation_count",
+      "search_score",
+      "classifier_shift_count",
+      "mechanism_certificate",
+      "multi_surface_robust"
+    ],
+    "raw_rows_pointer": "reports/runs/discovery-gated-nas/raw_metrics.jsonl",
+    "rounding": {
+      "decimals": 6,
+      "drift_tolerance": 1e-05
+    },
+    "torch_evidence_rows": 0
+  },
+  "revocation_rows": [
+    {
+      "active": true,
+      "condition": "revoke if deterministic replay changes rounded search objective summaries beyond tolerance",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke if a negative-witness candidate is selected without demotion",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke if the optional PyTorch arm is promoted over the deterministic anchor",
+      "status": "armed"
+    }
+  ],
+  "run_artifacts": {
+    "claim_capsule": "reports/runs/discovery-gated-nas/claim_capsule.json",
+    "raw_metrics": "reports/runs/discovery-gated-nas/raw_metrics.jsonl",
+    "report": "reports/runs/discovery-gated-nas/report.md",
+    "summary": "reports/runs/discovery-gated-nas/summary.json"
+  },
+  "run_id": "discovery-gated-nas",
+  "schema_id": "bedc-quality-lab:discovery-gated-nas",
+  "search_objective_summary": {
+    "by_arm_score_mean": {
+      "candidate": 0.72674,
+      "compute_matched_baseline": 0.59174,
+      "parameter_matched_baseline": 0.57574
+    },
+    "by_candidate": {
+      "bounded_discovery_gate": {
+        "candidate_id": "bounded_discovery_gate",
+        "classifier_shift_count": 9,
+        "compute_cost_mean": 126.0,
+        "demoted": false,
+        "evidence_pointer": "$.search_objective_summary.by_candidate.bounded_discovery_gate",
+        "mechanism_certificate": true,
+        "multi_surface_robust": true,
+        "quality_q_mean": 0.811907,
+        "row_count": 9,
+        "search_score": 1.105907,
+        "witness_violation_count": 0
+      },
+      "control_separated_route": {
+        "candidate_id": "control_separated_route",
+        "classifier_shift_count": 9,
+        "compute_cost_mean": 112.0,
+        "demoted": false,
+        "evidence_pointer": "$.search_objective_summary.by_candidate.control_separated_route",
+        "mechanism_certificate": false,
+        "multi_surface_robust": true,
+        "quality_q_mean": 0.771907,
+        "row_count": 9,
+        "search_score": 1.079907,
+        "witness_violation_count": 0
+      },
+      "multi_surface_mechanism_packet": {
+        "candidate_id": "multi_surface_mechanism_packet",
+        "classifier_shift_count": 9,
+        "compute_cost_mean": 119.0,
+        "demoted": false,
+        "evidence_pointer": "$.search_objective_summary.by_candidate.multi_surface_mechanism_packet",
+        "mechanism_certificate": true,
+        "multi_surface_robust": true,
+        "quality_q_mean": 0.791907,
+        "row_count": 9,
+        "search_score": 1.092907,
+        "witness_violation_count": 0
+      },
+      "residualized_h_path": {
+        "candidate_id": "residualized_h_path",
+        "classifier_shift_count": 9,
+        "compute_cost_mean": 98.0,
+        "demoted": true,
+        "evidence_pointer": "$.search_objective_summary.by_candidate.residualized_h_path",
+        "mechanism_certificate": false,
+        "multi_surface_robust": false,
+        "quality_q_mean": 0.711907,
+        "row_count": 9,
+        "search_score": 0.483907,
+        "witness_violation_count": 9
+      },
+      "scale_invariant_norm": {
+        "candidate_id": "scale_invariant_norm",
+        "classifier_shift_count": 9,
+        "compute_cost_mean": 105.0,
+        "demoted": true,
+        "evidence_pointer": "$.search_objective_summary.by_candidate.scale_invariant_norm",
+        "mechanism_certificate": false,
+        "multi_surface_robust": false,
+        "quality_q_mean": 0.731907,
+        "row_count": 9,
+        "search_score": 0.496907,
+        "witness_violation_count": 9
+      },
+      "score_margin_shortcut": {
+        "candidate_id": "score_margin_shortcut",
+        "classifier_shift_count": 0,
+        "compute_cost_mean": 91.0,
+        "demoted": true,
+        "evidence_pointer": "$.search_objective_summary.by_candidate.score_margin_shortcut",
+        "mechanism_certificate": false,
+        "multi_surface_robust": false,
+        "quality_q_mean": 0.741907,
+        "row_count": 9,
+        "search_score": 0.100907,
+        "witness_violation_count": 9
+      }
+    },
+    "by_surface": {
+      "copy_shift": 0.71774,
+      "parity_route": 0.72674,
+      "scale_probe": 0.73574
+    },
+    "evidence_pointer": "$.search_objective_summary.selected_candidate",
+    "lambda_compute": 0.001,
+    "lambda_discovery": 0.42,
+    "lambda_witness": 0.55,
+    "objective": "S(M)=Q(M)+lambda_D*I[D4_or_D5]-lambda_C*Compute-lambda_W*WitnessViolations",
+    "selected_candidate": {
+      "candidate_id": "bounded_discovery_gate",
+      "classifier_shift_count": 9,
+      "compute_cost_mean": 126.0,
+      "demoted": false,
+      "evidence_pointer": "$.search_objective_summary.by_candidate.bounded_discovery_gate",
+      "mechanism_certificate": true,
+      "multi_surface_robust": true,
+      "quality_q_mean": 0.811907,
+      "row_count": 9,
+      "search_score": 1.105907,
+      "witness_violation_count": 0
+    },
+    "selected_classifier_shift_count": 9,
+    "selected_mechanism_certificate": true,
+    "selected_multi_surface_robust": true
+  },
+  "source_artifacts": {
+    "claim_capsule": "reports/runs/discovery-gated-nas/claim_capsule.json",
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "producer_sources": [
+      "bedc_quality_lab/discovery_gated_nas.py",
+      "scripts/run_discovery_gated_nas.py"
+    ],
+    "raw_rows": "reports/runs/discovery-gated-nas/raw_metrics.jsonl"
+  },
+  "surface_registry": {
+    "copy_shift": {
+      "candidate_evidence_pointer": "$.search_objective_summary.by_surface.copy_shift",
+      "candidate_protocol_pointer": "$.candidate_protocol",
+      "negative_witness_pointer": "$.negative_witness_mutations",
+      "surface_id": "copy_shift"
+    },
+    "forbidden_alias_audit": {
+      "audited_alias_count": 3,
+      "forbidden_alias_count": 0,
+      "status": "pass"
+    },
+    "parity_route": {
+      "candidate_evidence_pointer": "$.search_objective_summary.by_surface.parity_route",
+      "candidate_protocol_pointer": "$.candidate_protocol",
+      "negative_witness_pointer": "$.negative_witness_mutations",
+      "surface_id": "parity_route"
+    },
+    "scale_probe": {
+      "candidate_evidence_pointer": "$.search_objective_summary.by_surface.scale_probe",
+      "candidate_protocol_pointer": "$.candidate_protocol",
+      "negative_witness_pointer": "$.negative_witness_mutations",
+      "surface_id": "scale_probe"
+    }
+  },
+  "torch_nas_evidence": {
+    "evidence_pointer": "$.records.raw_rows_pointer",
+    "protocols": [],
+    "row_count": 0,
+    "status": "unavailable"
+  },
+  "what_was_learned": "The deterministic anchor selects a discovery-gated candidate only after matched baselines and negative-witness demotions are recorded."
+}

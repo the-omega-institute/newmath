@@ -29,6 +29,7 @@ HG_P_CORE = {
     "sigreg-mini-grid",
     "discovery-regularized-training",
     "mechanism-seeking-network",
+    "discovery-gated-nas",
 }
 QUALITY_SCORECARD_METRICS = {
     "CertCov",
@@ -260,6 +261,53 @@ def _payload_for_spec(spec):
             "forbidden_claim_term_audit": {"status": "pass", "hits": []},
         }
     )
+    if spec.name == "discovery-gated-nas":
+        payload.update(
+            {
+                "search_objective_summary": {
+                    "selected_candidate": {
+                        "candidate_id": "bounded_discovery_gate",
+                        "classifier_shift_count": 3,
+                        "multi_surface_robust": True,
+                        "mechanism_certificate": True,
+                        "witness_violation_count": 0,
+                        "search_score": 1.0,
+                    },
+                    "by_candidate": {"bounded_discovery_gate": {"search_score": 1.0}},
+                },
+                "negative_witness_mutations": {
+                    "mutation_map": {
+                        "score_margin_shortcut": "residualized_h_path",
+                        "scale_leakage": "scale_invariant_norm",
+                        "control_positive": "control_separated_route",
+                    },
+                    "rows": [],
+                    "witness_violating_candidate_count": 3,
+                    "demoted_candidate_count": 3,
+                    "selected_candidate_has_violation": False,
+                },
+                "candidate_protocol": {"deterministic_anchor": {"primary": True}},
+                "device_protocol": {"requested_device": "auto", "resolved_device": "not-requested"},
+                "torch_nas_evidence": {"status": "unavailable", "row_count": 0},
+                "matched_baseline_control": {
+                    "parameter_matched_present": True,
+                    "compute_matched_present": True,
+                    "parameter_matched": {"row_count": 1},
+                    "compute_matched": {"row_count": 1},
+                    "control_positive": False,
+                },
+                "discovery_map_signal": {
+                    "status": "d5-m-candidate",
+                    "level_candidate": "D5-M",
+                    "reason": "discovery-gated-search-positive",
+                    "failed_gate": None,
+                    "failed_gate_pointer": None,
+                    "search_objective_pointer": "$.search_objective_summary",
+                    "negative_witness_pointer": "$.negative_witness_mutations",
+                    "torch_nas_evidence_pointer": "$.torch_nas_evidence",
+                },
+            }
+        )
     if spec.name == "certificate-gated-attention":
         payload.update(
             {
@@ -670,6 +718,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "sigreg-mini-grid",
         "discovery-regularized-training",
         "mechanism-seeking-network",
+        "discovery-gated-nas",
         "lejepa-theorem-ledger",
         "spectral-ablation-hinge",
     ]
@@ -2374,6 +2423,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.grid",
                 },
                 {
+                    "report": "discovery-gated-nas",
+                    "artifact": "reports/canonical/discovery-gated-nas.json",
+                    "pointer": "$.grid",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.scope",
@@ -2384,8 +2438,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 18,
-            "denominator": 18,
+            "numerator": 20,
+            "denominator": 20,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -2476,6 +2530,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {
+                    "report": "discovery-gated-nas",
+                    "artifact": "reports/canonical/discovery-gated-nas.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.source_artifacts.cost_protocol",
@@ -2486,8 +2545,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 18,
-            "denominator": 18,
+            "numerator": 20,
+            "denominator": 20,
         },
         "HardeningCoverage": {
             "value": 1.0,
