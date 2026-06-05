@@ -114,6 +114,24 @@ Now apply the residual-budget obligation of \autoref{thm:metacic-normalization-a
 If any of $R,C,S$ is absent, the route lacks the evidence needed to cross the frontier. The structural rows $F,H,T,P,L$ can only replay and name the local obligation surface, so the packet refuses evidence-free closed-term normalization.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit closed-term budget totality]
+\label{thm:metacic-normalization-audit-closed-term-budget-totality}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. Every closed-term strong-normalization export must display all rows
+$$
+R,C,S,A,N,F,H,T,P,L.
+$$
+The rows $R,C,S$ supply candidate evidence, checked closed-term projection, and finite SN inventory; the row $A$ preserves application-boundary spending; and the row $N$ retains the confluence, subject-reduction, and closed Church--Rosser refusal. Thus the packet exports only candidate-mediated closed-term SN with an explicit finite budget, and it exports no evidence-free global strong-normalization theorem.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-normalization-audit-obligation-surface}. It lists $R,C,S,A,N,F,H,T,P,L$ as the complete local obligation surface, so a closed-term SN export cannot omit a carrier row.
+
+Use \autoref{thm:metacic-normalization-audit-sn-scope}. The positive SN content is candidate-mediated: $R$ names candidate evidence, $C$ records the checked closed-term projection, and $S$ stores the finite strong-normalization inventory.
+
+Apply \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. It ties every exported SN read to a residual budget that also passes through the application boundary $A$ and the confluence refusal row $N$.
+
+Finally use \autoref{thm:metacic-normalization-audit-candidate-frontier-refusal}. If the candidate frontier is not displayed, the packet returns only the local obligation surface. Therefore totality of the closed-term budget means total display of the finite rows above, not an evidence-free global SN theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit confluence boundary]
 \label{thm:metacic-normalization-audit-confluence-boundary}
 Agreement on the rows of an accepted $\MetacicNormalizationAuditUp$ packet preserves normalization-side reads, but it does not discharge the confluence or subject-reduction rows isolated by \autoref{ch:concrete-instances-metacic-confluence-audit-namecert} and \autoref{ch:concrete-instances-metacicconfluenceauditwitness-namecert}. In particular, the packet exports no proof of full closed Church--Rosser, no proof of substitution compatibility, and no subject-reduction transport theorem for arbitrary closed proofs.
