@@ -20,18 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-06-04T04:55:42Z
+> 最后刷新: 2026-06-05T05:39:24Z
 
-**Daemon 状态**: monitor (monitor cycle 8, adjust_since_research 0, round_counter 490, last_adjust none)
+**Daemon 状态**: monitor (monitor cycle 9, adjust_since_research 0, round_counter 2612, last_adjust none)
 
-**待处理 queue** (10 条 finding):
+**待处理 queue** (41 条 finding):
+- isolated_theorem: 28 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 10 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
+- low_entropy_template: 2 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`
+- missing_origin: 1 条; 代表样本 `bioreality_q_six_modeled_tai_bounded_coupling`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=unauthorized_capstone: 3 次
+- TASTE ALERT category=isolated_theorem: 18 次
 - TASTE ALERT category=low_entropy_template: 2 次
-- TASTE ALERT category=cycle_exception: 1 次
-- TASTE ALERT category=isolated_theorem: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
 
@@ -204,6 +205,8 @@ to case-by-case judgment.
 - 2026-06-04T01:52:42Z: `resolved` `leave_with_rationale` for `setlike` (flag `low_entropy_template`, finding `low_entropy_template:setlike:f67907f0:5173a1a9`). Rationale: The daemon target is empty; the evidence points to the paper label thm:setlike-typelike-modeltheory-handoff rather than a Lean declaration. I found no corresponding Lean theorem in lean4/BEDC/Derived/SetlikeUp, while the paper theorem is consumed by later SetLike obligations in the same sibling file and by the extensionality refusal obligation in the chapter spine. Deleting it would remove the local routing premise that ties TypeLike, FirstOrder, and ModelTheory consumers to the SetLike membership/classifier surface; adding a Lean downstream user is not well-posed because there is no Lean target to consume. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 - 2026-06-04T06:09:59Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BaireMetricUp.BaireMetricObligationPrefixCompleteness` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BaireMetricUp.BaireMetricObligationPrefixCompleteness:355593a6`). Rationale: Surrounding context shows this declaration is an unconsumed main-file prefix-completeness projection, with the paper marker instead pointing to the sibling theorem BEDC.Derived.BaireMetricUp.BaireMetricCarrier_obligation_prefix_completeness and a stronger consumer theorem immediately following in the same Lean file. I attempted delete_theorem after verifying no exact repo references beyond the declaration itself, but the required lake build gate exited with code -1 during full build progress and no successful gate result was available, so the deletion was reverted and the daemon should record this as a gate-blocked leave decision. Gate results: lake_build=exit code -1 during full lake build; tail showed ordinary progress through BEDC.Derived.LocatedUniformCompletionUp.TasteGate with no success exit, audit=skipped, phase_d_lint=skipped.
+
+- 2026-06-05T05:39:06Z: `resolved` `add_downstream_user` for `BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRegularReadback_transport` (flag `isolated_theorem`, finding `isolated_theorem:lowersemicontinuous:BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRegularReadback_transport:6137c810`). Rationale: The theorem is not just staging: the paper already uses the regular-readback transport as part of the root-unblock route, but Lean had no downstream dependency. I connected the sibling theorem LowerSemicontinuousRootEpigraphLocatedTransport to this theorem by importing RootRegularReadbackHandoff and reusing LowerSemicontinuousRegularReadback_transport to obtain the readback and epigraph hsame transport before continuing to the located comparison certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
