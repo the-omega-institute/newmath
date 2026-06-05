@@ -28,6 +28,7 @@ CLAIM_CAPSULE_ARTIFACT = "reports/runs/model-discovery-suite/claim_capsule.json"
 DRT_CANONICAL_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 MSN_CANONICAL_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
 CGA_CANONICAL_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
+DG_NAS_CANONICAL_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 LEJEPA_THEOREM_LEDGER_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
 
 
@@ -301,6 +302,28 @@ def build_model_discovery_payload(*, generated_at: str) -> dict[str, Any]:
                 "pointer": "$.theorem_rows",
             },
         },
+        "discovery_gated_nas_refs": {
+            "discovery_map_signal": {
+                "artifact": DG_NAS_CANONICAL_ARTIFACT,
+                "pointer": "$.discovery_map_signal",
+            },
+            "surface_registry": {
+                "artifact": DG_NAS_CANONICAL_ARTIFACT,
+                "pointer": "$.surface_registry",
+            },
+            "candidate_protocol": {
+                "artifact": DG_NAS_CANONICAL_ARTIFACT,
+                "pointer": "$.candidate_protocol",
+            },
+            "negative_witness_mutations": {
+                "artifact": DG_NAS_CANONICAL_ARTIFACT,
+                "pointer": "$.negative_witness_mutations",
+            },
+            "theorem_ledger": {
+                "artifact": LEJEPA_THEOREM_LEDGER_ARTIFACT,
+                "pointer": "$.theorem_rows",
+            },
+        },
         "not_claimed": list(candidate.not_claimed),
     }
     return payload
@@ -348,6 +371,16 @@ class ModelDiscoveryBackendEvidenceAdapter:
                     "$.surface_registry",
                     "$.certificate_gate_summary",
                     "$.torch_attention_evidence",
+                    "$.discovery_map_signal.theorem_ledger_ref",
+                ),
+            },
+            "discovery_gated_nas": {
+                "artifact": DG_NAS_CANONICAL_ARTIFACT,
+                "pointers": (
+                    "$.discovery_map_signal",
+                    "$.surface_registry",
+                    "$.candidate_protocol",
+                    "$.negative_witness_mutations",
                     "$.discovery_map_signal.theorem_ledger_ref",
                 ),
             },

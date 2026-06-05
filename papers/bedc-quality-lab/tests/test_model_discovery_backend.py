@@ -6,6 +6,7 @@ import pytest
 from bedc_quality_lab.backends.model_discovery import (
     CGA_CANONICAL_ARTIFACT,
     CLAIM_CAPSULE_ARTIFACT,
+    DG_NAS_CANONICAL_ARTIFACT,
     DRT_CANONICAL_ARTIFACT,
     MSN_CANONICAL_ARTIFACT,
     NM_HARDGATE_IDS,
@@ -153,6 +154,21 @@ def test_model_discovery_consumes_cga_by_pointer_only():
     assert refs["certificate_gate_summary"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.certificate_gate_summary"}
     assert refs["torch_attention_evidence"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.torch_attention_evidence"}
     assert "attention_leak" not in refs
+    assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
+
+
+def test_model_discovery_consumes_dg_nas_by_pointer_only():
+    adapter = ModelDiscoveryBackendEvidenceAdapter()
+    source_spec = adapter.build_source_spec()
+    payload = build_model_discovery_payload(generated_at="fixture-time")
+
+    assert source_spec["discovery_gated_nas"]["artifact"] == DG_NAS_CANONICAL_ARTIFACT
+    refs = payload["discovery_gated_nas_refs"]
+    assert refs["discovery_map_signal"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"}
+    assert refs["surface_registry"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
+    assert refs["candidate_protocol"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.candidate_protocol"}
+    assert refs["negative_witness_mutations"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.negative_witness_mutations"}
+    assert "search_score" not in refs
     assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
 
 

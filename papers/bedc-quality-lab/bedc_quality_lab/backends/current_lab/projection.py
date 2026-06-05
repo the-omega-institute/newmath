@@ -827,6 +827,73 @@ def _certificate_gated_attention_projection(
     )
 
 
+def _discovery_gated_nas_projection(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[dict[str, Any], ProjectionEvidence]:
+    consistent, _reason, failed_pointer = _discovery_gated_nas_consistency(payload)
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    if not isinstance(signal, Mapping):
+        return {"verdict": "rejected"}, ProjectionEvidence(
+            projection_status="projected",
+            failed_gate="$.discovery_map_signal",
+        )
+    level = signal.get("level_candidate")
+    status = signal.get("status")
+    if consistent and level == "D5-M" and status == "d5-m-candidate":
+        return {
+            "positive_discovery": True,
+            "net_positive_signal": True,
+            "acceptance_gates": {"status": "pass"},
+            "final_status": "pass",
+            "mechanism_attribution": {
+                "all_pass": True,
+                "status": "ready",
+                "failed_gate": None,
+                "channel": pointer_value(payload, "$.search_objective_summary.selected_candidate.candidate_id"),
+            },
+            "source_pointers": {
+                "operational": "$.search_objective_summary.selected_candidate",
+                "mechanism": "$.candidate_protocol",
+                "mechanism_case": "$.negative_witness_mutations",
+            },
+            "main_verdict": {
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "structural_discovery": True,
+                "discovery_gated_nas": {
+                    "level_candidate": "D5-M",
+                    "status": "d5-m-candidate",
+                    "evidence_pointer": "$.search_objective_summary.selected_candidate",
+                    "negative_witness_pointer": "$.negative_witness_mutations",
+                },
+            },
+            "evidence_basis": {
+                "discovery_gated_nas": True,
+                "control_positive_discovery": False,
+                "net_positive_signal": True,
+                "scorecard_ready": _scorecard_ready({} if context is None else context),
+            },
+        }, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer="$.search_objective_summary.selected_candidate",
+            control_pointer="$.matched_baseline_control",
+            scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
+        )
+    return {
+        "verdict": "rejected",
+        "main_verdict": {
+            "discovery_gated_nas": {
+                "level_candidate": "DN",
+                "status": "negative",
+            },
+        },
+    }, ProjectionEvidence(
+        projection_status="projected",
+        failed_gate=failed_pointer,
+    )
+
+
 def _sigreg_failed_gate_pointer(payload: Mapping[str, Any]) -> str:
     failed_gate = pointer_value(payload, "$.failed_gate")
     if isinstance(failed_gate, str) and failed_gate:
@@ -1012,6 +1079,52 @@ def _certificate_gated_attention_consistency(payload: Mapping[str, Any]) -> tupl
     if signal.get("torch_attention_evidence_pointer") != "$.torch_attention_evidence":
         return False, "cga-torch-pointer-mismatch", "$.discovery_map_signal.torch_attention_evidence_pointer"
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.certificate_gate_summary.gated_vs_plain_valid"
+
+
+def _discovery_gated_nas_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
+    hardgates = pointer_value(payload, "$.hardgate.gates")
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    if not isinstance(hardgates, Mapping) or not hardgates:
+        return False, "missing-dg-nas-hardgates", "$.hardgate.gates"
+    if not isinstance(signal, Mapping):
+        return False, "missing-dg-nas-discovery-map-signal", "$.discovery_map_signal"
+    failed = next(
+        (
+            name
+            for name in ("DG-NAS-HG1", "DG-NAS-HG2", "DG-NAS-HG3", "DG-NAS-HG4", "DG-NAS-HG5", "DG-NAS-HG6")
+            if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
+        ),
+        None,
+    )
+    if failed is None:
+        expected = {
+            "status": "d5-m-candidate",
+            "level_candidate": "D5-M",
+            "reason": "discovery-gated-search-positive",
+            "failed_gate": None,
+            "failed_gate_pointer": None,
+        }
+    else:
+        expected = {
+            "status": "negative",
+            "level_candidate": "DN",
+            "reason": "hardgate-failed",
+            "failed_gate": failed,
+            "failed_gate_pointer": f"$.hardgate.gates.{failed}.status",
+        }
+    for key, expected_value in expected.items():
+        if signal.get(key) != expected_value:
+            pointer = signal.get("failed_gate_pointer")
+            return False, f"dg-nas-{key}-mismatch", pointer if isinstance(pointer, str) else "$.discovery_map_signal"
+    if pointer_value(payload, "$.hardgate.failed_gate") != expected["failed_gate"]:
+        return False, "dg-nas-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
+    if signal.get("search_objective_pointer") != "$.search_objective_summary":
+        return False, "dg-nas-search-objective-pointer-mismatch", "$.discovery_map_signal.search_objective_pointer"
+    if signal.get("negative_witness_pointer") != "$.negative_witness_mutations":
+        return False, "dg-nas-negative-witness-pointer-mismatch", "$.discovery_map_signal.negative_witness_pointer"
+    if signal.get("torch_nas_evidence_pointer") != "$.torch_nas_evidence":
+        return False, "dg-nas-torch-pointer-mismatch", "$.discovery_map_signal.torch_nas_evidence_pointer"
+    return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.search_objective_summary.selected_candidate"
 
 
 def _sigreg_training_proxy_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
@@ -1290,6 +1403,8 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _mechanism_seeking_network_projection(payload, context)
     elif spec.name == "certificate-gated-attention":
         overlay, evidence = _certificate_gated_attention_projection(payload, context)
+    elif spec.name == "discovery-gated-nas":
+        overlay, evidence = _discovery_gated_nas_projection(payload, context)
     elif spec.name == "gap-head-ablation":
         overlay, evidence = _gap_head_ablation_projection(payload)
     elif spec.name == "gap-head-transfer-atlas":
@@ -1459,6 +1574,10 @@ def _audit_row(
             return "invalid", reason
     if spec.name == "certificate-gated-attention":
         consistent, reason, _failed_pointer = _certificate_gated_attention_consistency(payload)
+        if not consistent:
+            return "invalid", reason
+    if spec.name == "discovery-gated-nas":
+        consistent, reason, _failed_pointer = _discovery_gated_nas_consistency(payload)
         if not consistent:
             return "invalid", reason
     if spec.name == "gap-head-attribution-capsule":
