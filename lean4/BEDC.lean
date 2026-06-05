@@ -711,6 +711,7 @@ import BEDC.Derived.BanachDualUp.TasteGate
 import BEDC.Derived.BanachFixedPointIterationBudgetUp
 import BEDC.Derived.BanachFixedPointStabilityUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
+import BEDC.Derived.BanachLatticeUp.TasteGate
 import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
 import BEDC.Derived.BanachSpaceUp.TasteGate
 import BEDC.Derived.BanachSteinhausUp.TasteGate
@@ -4586,6 +4587,7 @@ import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.AssocEmptyResult
 import BEDC.Derived.FunctorUp.AssocReflects
+import BEDC.Derived.FunctorUp.Certificate
 import BEDC.Derived.FunctorUp.CompEmptyMiddleInversion
 import BEDC.Derived.FunctorUp.CompEndpointCycleBoundaryComponents
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
@@ -5625,6 +5627,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10BudgetLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateLedgerPublicBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierNormalFormDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierObstructionNonescape
