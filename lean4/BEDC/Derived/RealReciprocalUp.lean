@@ -88,5 +88,53 @@ theorem RealReciprocalCarrier_apartness_domain_stability
     ⟨⟨sourceRoute', handoffRoute', transportRow', nameRow'⟩, sourceRoute',
       handoffRoute'⟩
 
+theorem RealReciprocalCarrier_regular_cauchy_handoff {R A D M H C P N endpoint : BHist} :
+    RealReciprocalCarrier R A D M H C P N →
+      Cont H C endpoint →
+        Cont R A D ∧ Cont D M H ∧ Cont H C endpoint ∧
+          SemanticNameCert
+            (fun row : BHist => RealReciprocalCarrier R A D M H C P row)
+            (fun _row : BHist => Cont R A D ∧ Cont D M H ∧ hsame C P)
+            (fun row : BHist => RealReciprocalCarrier R A D M H C P row ∧
+              Cont H C endpoint)
+            hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert NameCert
+  intro carrier endpointRoute
+  obtain ⟨sourceRoute, handoffRoute, transportRow, nameRow⟩ := carrier
+  have sourceN : RealReciprocalCarrier R A D M H C P N :=
+    ⟨sourceRoute, handoffRoute, transportRow, nameRow⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => RealReciprocalCarrier R A D M H C P row)
+        (fun _row : BHist => Cont R A D ∧ Cont D M H ∧ hsame C P)
+        (fun row : BHist => RealReciprocalCarrier R A D M H C P row ∧ Cont H C endpoint)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N sourceN
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        obtain ⟨sourceRoute', handoffRoute', transportRow', nameRow'⟩ := sourceRow
+        exact
+          ⟨sourceRoute', handoffRoute', transportRow',
+            hsame_trans nameRow' sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, sourceRow.right.left, sourceRow.right.right.left⟩
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow, endpointRoute⟩
+  }
+  exact ⟨sourceRoute, handoffRoute, endpointRoute, cert⟩
+
 end RealReciprocalUp
 end BEDC.Derived
