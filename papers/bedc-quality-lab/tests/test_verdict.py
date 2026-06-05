@@ -39,6 +39,36 @@ def _payload(*, scorecard_status="ready"):
     return payload
 
 
+def _finite_gate(*, status="pass", overlap_status="disjoint", positive_count=1):
+    positive = [f"reports/canonical/positive.json:$.rows[{index}]" for index in range(positive_count)]
+    return {
+        "status": status,
+        "hardgates": {
+            "FG-HG1": {"status": "pass", "reason": "positive evidence pointers are finite and unique"},
+            "FG-HG2": {"status": "pass", "reason": "negative summary ids and row pointers are finite"},
+            "FG-HG3": {"status": "pass", "reason": "revocation pointers are finite with explicit overlap status"},
+            "FG-HG4": {"status": "pass", "reason": "finite projection is materialized and sorted deterministically"},
+        },
+        "counts": {
+            "positive": positive_count,
+            "negative": 0,
+            "revocation": 0,
+        },
+        "pointers": {
+            "positive": positive,
+            "negative": [],
+            "revocation": [],
+        },
+        "overlaps": {
+            "status": overlap_status,
+            "positive_negative": [],
+            "positive_revocation": positive if overlap_status == "revocation-positive-overlap" else [],
+            "negative_revocation": [],
+        },
+        "not_claimed": ["finite gate checks finite evidence-set structure, not model-result correctness"],
+    }
+
+
 def _role_records(payload, role):
     return [record for record in payload["records"] if record["role"] == role]
 
@@ -131,6 +161,7 @@ def test_fallback_scorecard_key_counts_as_ready_scorecard():
 def test_positive_discovery_requires_ready_scorecard_and_net_positive_signal():
     evidence = _payload()
     _make_positive_main(evidence)
+    evidence["finite_gate"] = _finite_gate()
     decision = _decide({"main_claim_status": "positive"}, evidence)
 
     assert decision["verdict"] == "positive-discovery"
@@ -138,6 +169,8 @@ def test_positive_discovery_requires_ready_scorecard_and_net_positive_signal():
     assert decision["evidence_basis"]["main_claim_status"] == "positive"
     assert decision["evidence_basis"]["scorecard_ready"] is True
     assert decision["evidence_basis"]["net_positive_signal"] is True
+    assert decision["evidence_basis"]["finite_gate_status"] == "pass"
+    assert decision["evidence_basis"]["finite_positive_count"] == 1
 
 
 def test_explicit_rejection_preempts_demoted_and_ledger_only():
@@ -216,6 +249,51 @@ def test_positive_discovery_does_not_pass_without_ready_scorecard():
     assert decision["reason"] == "scorecard-not-ready"
     assert decision["evidence_basis"]["net_positive_signal"] is True
     assert decision["evidence_basis"]["scorecard_ready"] is False
+
+
+def test_positive_discovery_requires_finite_gate_pass():
+    evidence = _payload()
+    _make_positive_main(evidence)
+    decision = _decide({"main_claim_status": "positive"}, evidence)
+
+    assert decision["verdict"] == "rejected"
+    assert decision["reason"] == "malformed-evidence"
+    assert decision["evidence_basis"]["finite_gate_status"] is None
+
+
+def test_malformed_finite_gate_fails_closed_to_rejected():
+    evidence = _payload()
+    evidence["finite_gate"] = {**_finite_gate(), "pointers": "not-a-pointer-map"}
+    decision = _decide({"main_claim_status": "observed-negative"}, evidence)
+
+    assert decision["verdict"] == "rejected"
+    assert decision["reason"] == "malformed-evidence"
+    assert decision["evidence_basis"]["malformed_detail"] == "$.finite_gate.pointers:not-mapping"
+    assert decision["evidence_basis"]["finite_gate_status"] == "malformed"
+
+
+def test_repeated_positive_pointer_count_mismatch_fails_closed():
+    evidence = _payload()
+    evidence["finite_gate"] = _finite_gate(positive_count=2)
+    evidence["finite_gate"]["pointers"]["positive"] = ["reports/canonical/positive.json:$.rows[0]"]
+    decision = _decide({"main_claim_status": "observed-negative"}, evidence)
+
+    assert decision["verdict"] == "rejected"
+    assert decision["reason"] == "malformed-evidence"
+    assert decision["evidence_basis"]["malformed_detail"] == "$.finite_gate.pointers.positive:count-mismatch"
+    assert decision["evidence_basis"]["finite_positive_count"] == 2
+
+
+def test_revocation_positive_overlap_demotes_before_positive_promotion():
+    evidence = _payload()
+    _make_positive_main(evidence)
+    evidence["finite_gate"] = _finite_gate(overlap_status="revocation-positive-overlap")
+    decision = _decide({"main_claim_status": "positive"}, evidence)
+
+    assert decision["verdict"] == "demoted"
+    assert decision["reason"] == "finite-revocation-positive-overlap"
+    assert decision["evidence_basis"]["finite_overlap_status"] == "revocation-positive-overlap"
+    assert decision["evidence_basis"]["net_positive_signal"] is True
 
 
 def test_accepted_does_not_pass_with_malformed_scorecard_rows():

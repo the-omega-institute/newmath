@@ -9,6 +9,7 @@ from typing import Any, Mapping
 
 from .backend import BackendEvidenceAdapter
 from .negative_reports import write_negative_discovery_reports, write_negative_witness_summary
+from .projection import project_finite_discovery_gate
 
 
 def _timestamp(generated_at: str | None) -> str:
@@ -46,10 +47,17 @@ def compile_discovery(
         )
     map_payload = active.compute_metrics(root=root, generated_at=timestamp)
     summary_payload = write_negative_witness_summary(root=root, generated_at=timestamp) if write_reports else {}
+    finite_gate = project_finite_discovery_gate(
+        {
+            "discovery_map": map_payload,
+            "negative_witness_summary": summary_payload,
+        }
+    )
     return {
         "generated_at": timestamp,
         "backend": active.backend.name,
         "discovery_map": map_payload,
         "negative_discovery_reports": negative_payload,
         "negative_witness_summary": summary_payload,
+        "finite_gate": finite_gate,
     }

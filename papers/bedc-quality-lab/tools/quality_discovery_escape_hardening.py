@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.verdict import POSITIVE_DISCOVERY, synthesize_certification_verdict
 from tools import quality_discovery_adversarial_generator as adversarial_generator
@@ -121,6 +122,17 @@ def _source_pointer(kind: str, claim_rows: list[Mapping[str, Any]]) -> str:
     return "reports/canonical/discovery_negative_witnesses.json:$.witnesses"
 
 
+def _positive_discovery_map(source_pointer: str) -> dict[str, Any]:
+    artifact, separator, pointer = source_pointer.partition(":")
+    row: dict[str, Any] = {"discovery_level": "D0"}
+    if separator and pointer.startswith("$."):
+        row["json_artifact"] = artifact
+        row["evidence_pointer"] = pointer
+    else:
+        row["evidence_pointer"] = source_pointer
+    return {"rows": [row]}
+
+
 def _static_witness_audit() -> dict[str, Any]:
     rows = []
     for index, witness in enumerate(adversarial_generator.runtime_witnesses()):
@@ -171,6 +183,13 @@ def pseudo_candidates(root: Path) -> list[PseudoCandidate]:
         certificate, evidence = _base_candidate()
         mutate(certificate, evidence)
         source_pointer = _source_pointer(kind, claim_rows)
+        evidence["finite_gate"] = project_finite_discovery_gate(
+            {
+                "discovery_map": _positive_discovery_map(source_pointer),
+                "negative_witness_summary": {"audit_status": "pass", "row_count": 0, "rows": []},
+                "revocations": [],
+            }
+        )
         digest_source = {
             "kind": kind,
             "source_pointer": source_pointer,

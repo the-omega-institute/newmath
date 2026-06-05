@@ -73,6 +73,13 @@ _FLAT_BASIS_KEYS = (
     "ledger_row_event",
     "scorecard_ready",
     "net_positive_signal",
+    "finite_gate_status",
+    "finite_gate_not_claimed",
+    "finite_positive_count",
+    "finite_negative_count",
+    "finite_revocation_count",
+    "finite_overlap_status",
+    "finite_gate_failures",
 )
 
 
@@ -86,6 +93,8 @@ def _empty_basis() -> dict[str, Any]:
     basis["blockers"] = []
     basis["scorecard_ready"] = False
     basis["net_positive_signal"] = False
+    basis["finite_gate_not_claimed"] = []
+    basis["finite_gate_failures"] = []
     return basis
 
 
@@ -145,6 +154,67 @@ def _net_positive_from_projection(evidence_payload: Mapping[str, Any]) -> bool:
         and main.get("positive_discovery") is True
         and float(main.get("net_information", 0.0)) > 0.0
     )
+
+
+def _finite_gate_basis(evidence_payload: Mapping[str, Any]) -> tuple[dict[str, Any], str | None]:
+    gate = evidence_payload.get("finite_gate")
+    if gate is None:
+        return {}, None
+    if not isinstance(gate, Mapping):
+        return {"finite_gate_status": "malformed", "finite_gate_failures": ["finite_gate:not-mapping"]}, "$.finite_gate:not-mapping"
+
+    counts = gate.get("counts")
+    pointers = gate.get("pointers")
+    overlaps = gate.get("overlaps")
+    not_claimed = gate.get("not_claimed")
+    hardgates = gate.get("hardgates")
+    if not isinstance(counts, Mapping):
+        return {"finite_gate_status": "malformed", "finite_gate_failures": ["finite_gate.counts:not-mapping"]}, "$.finite_gate.counts:not-mapping"
+    if not isinstance(pointers, Mapping):
+        return {"finite_gate_status": "malformed", "finite_gate_failures": ["finite_gate.pointers:not-mapping"]}, "$.finite_gate.pointers:not-mapping"
+    if not isinstance(overlaps, Mapping):
+        return {"finite_gate_status": "malformed", "finite_gate_failures": ["finite_gate.overlaps:not-mapping"]}, "$.finite_gate.overlaps:not-mapping"
+    if not isinstance(not_claimed, list) or not all(isinstance(item, str) for item in not_claimed):
+        return {"finite_gate_status": "malformed", "finite_gate_failures": ["finite_gate.not_claimed:not-string-list"]}, "$.finite_gate.not_claimed:not-string-list"
+    if not isinstance(hardgates, Mapping):
+        return {"finite_gate_status": "malformed", "finite_gate_failures": ["finite_gate.hardgates:not-mapping"]}, "$.finite_gate.hardgates:not-mapping"
+
+    failures = sorted(
+        name
+        for name, value in hardgates.items()
+        if isinstance(name, str) and (not isinstance(value, Mapping) or value.get("status") != "pass")
+    )
+    status = gate.get("status")
+    status_text = status if isinstance(status, str) else "malformed"
+    basis = {
+        "finite_gate_status": status_text,
+        "finite_gate_not_claimed": list(not_claimed),
+        "finite_positive_count": counts.get("positive"),
+        "finite_negative_count": counts.get("negative"),
+        "finite_revocation_count": counts.get("revocation"),
+        "finite_overlap_status": overlaps.get("status"),
+        "finite_gate_failures": failures,
+    }
+    if status_text not in {"pass", "fail"}:
+        return basis, "$.finite_gate.status:invalid"
+    for key in ("positive", "negative", "revocation"):
+        if type(counts.get(key)) is not int:
+            return basis, f"$.finite_gate.counts.{key}:not-int"
+        pointer_rows = pointers.get(key)
+        if not isinstance(pointer_rows, list):
+            return basis, f"$.finite_gate.pointers.{key}:not-list"
+        if len(pointer_rows) != counts.get(key):
+            return basis, f"$.finite_gate.pointers.{key}:count-mismatch"
+        if key == "negative":
+            if not all(isinstance(row, list) for row in pointer_rows):
+                return basis, f"$.finite_gate.pointers.{key}:malformed-row"
+        elif not all(isinstance(row, str) for row in pointer_rows):
+            return basis, f"$.finite_gate.pointers.{key}:malformed-row"
+    if not isinstance(overlaps.get("status"), str):
+        return basis, "$.finite_gate.overlaps.status:not-string"
+    if status_text == "pass" and failures:
+        return basis, "$.finite_gate.hardgates:failure-with-pass-status"
+    return basis, None
 
 
 def _merge_rejection(basis: dict[str, Any], decision: Mapping[str, Any]) -> None:
@@ -235,9 +305,20 @@ def synthesize_certification_verdict(
     _merge_revocation(basis, revocation_decision)
     basis["scorecard_ready"] = scorecard_ready is True
     basis["net_positive_signal"] = _net_positive_from_projection(evidence_payload)
+    finite_basis, finite_malformed_detail = _finite_gate_basis(evidence_payload)
+    basis.update(finite_basis)
 
     if scorecard_detail is not None:
         basis["malformed_detail"] = scorecard_detail
+        return _decision(
+            verdict=REJECTED,
+            reason=MALFORMED_EVIDENCE,
+            evidence_basis=basis,
+            timestamp_iso=timestamp_iso,
+        )
+
+    if finite_malformed_detail is not None:
+        basis["malformed_detail"] = finite_malformed_detail
         return _decision(
             verdict=REJECTED,
             reason=MALFORMED_EVIDENCE,
@@ -277,7 +358,22 @@ def synthesize_certification_verdict(
             timestamp_iso=timestamp_iso,
         )
 
+    if basis["finite_overlap_status"] == "revocation-positive-overlap":
+        return _decision(
+            verdict=DEMOTED,
+            reason="finite-revocation-positive-overlap",
+            evidence_basis=basis,
+            timestamp_iso=timestamp_iso,
+        )
+
     if basis["net_positive_signal"] is True:
+        if basis["finite_gate_status"] != "pass":
+            return _decision(
+                verdict=REJECTED,
+                reason=MALFORMED_EVIDENCE,
+                evidence_basis=basis,
+                timestamp_iso=timestamp_iso,
+            )
         return _decision(
             verdict=POSITIVE_DISCOVERY,
             reason="net-positive-signal",

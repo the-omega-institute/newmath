@@ -56,6 +56,7 @@ def build_claim_capsule_payload(
     source_pointer: str,
     claim: Mapping[str, Any] | None,
     not_claimed: Sequence[str] = (),
+    finite_gate: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     base = {
         "schema_id": CLAIM_CAPSULE_SCHEMA_ID,
@@ -101,5 +102,21 @@ def build_claim_capsule_payload(
         "what_was_learned": claim["what_was_learned"],
         "not_claimed": list(not_claimed),
     }
+    if finite_gate is not None:
+        counts = finite_gate.get("counts")
+        pointers = finite_gate.get("pointers")
+        gate_not_claimed = finite_gate.get("not_claimed")
+        copied_not_claimed = list(gate_not_claimed) if isinstance(gate_not_claimed, Sequence) and not isinstance(gate_not_claimed, (str, bytes, bytearray)) else []
+        parity: dict[str, bool] = {}
+        if isinstance(counts, Mapping) and isinstance(pointers, Mapping):
+            for key in ("positive", "negative", "revocation"):
+                pointer_rows = pointers.get(key)
+                parity[key] = isinstance(pointer_rows, list) and type(counts.get(key)) is int and len(pointer_rows) == counts[key]
+        payload["finite_gate"] = {
+            "status": finite_gate.get("status"),
+            "counts": dict(counts) if isinstance(counts, Mapping) else {},
+            "not_claimed": copied_not_claimed,
+            "pointer_count_parity": parity,
+        }
     ClaimCapsule.from_payload(payload)
     return payload
