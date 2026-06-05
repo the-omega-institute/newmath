@@ -673,14 +673,27 @@ Apply \autoref{thm:dyadicintervalcover-subcover-handoff-obligation}. It places a
 Use \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The readback rows $W,Q$ and the seal row $A$ remain downstream of the displayed cover chain, so $\RegSeqRatUp$ and $\RealUp$ consumers receive only the finite route. The structural rows preserve that route and add no selected subcover or ambient compactness coordinate.
 \end{proof}
 
+\begin{theorem}[DyadicIntervalCover public finite-cover export]
+\label{thm:dyadicintervalcover-public-finite-cover-export}
+Let $I=(L,U,M,R,V,W,Q,A,H,C,P,N)$ be an accepted $\DyadicIntervalCoverUp$ packet. The public export surface of $I$ is the single finite-cover NameCert route that displays the finite mesh $M$, dyadic endpoint rows $L,U$, cover-membership ledger $V$, $\StreamNameUp$ window row $W$, $\RegSeqRatUp$ readback row $Q$, $\RealUp$ seal row $A$, and $\BishopIntervalCompactUp$ handoff through $H,C,P,N$. This route exports finite-cover data only; it still refuses selected finite subcovers, quotient real equality, countable choice, open-cover compactness, host compactness, and ambient completion.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:dyadicintervalcover-scoped-finite-cover-chain}. It already factors every scoped finite-cover chain through $L,U,M,R,V,W,Q,A,H,C,P,N$ and excludes open-cover compactness, selected subcovers, quotient equality, countable choice, and ambient completeness.
+
+Use \autoref{thm:dyadicintervalcover-subcover-handoff-obligation}. The $\BishopIntervalCompactUp$ consumer is reached only after the dyadic endpoint, mesh, radius, membership, window, readback, Real-seal, transport, replay, provenance, and naming rows are displayed.
+
+Finally apply \autoref{thm:dyadicintervalcover-mesh-refinement-obligation} and \autoref{thm:dyadicintervalcover-real-seal-nonescape-obligation}. The first keeps the finite mesh and refinement data inside the displayed dyadic route, while the second keeps the Real seal downstream of the same finite projection. Hence the public export is the named finite-cover NameCert route itself, with no extra selector, quotient, choice, compactness, or completion coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.DyadicIntervalCoverUp.DyadicIntervalCoverPublicFiniteCoverExport}
+
 \closureat{DyadicIntervalCoverUp}{publicStr}
 
 \begin{closurestatus}{\DyadicIntervalCoverUp}
   \constructivestory{A $\DyadicIntervalCoverUp$ packet is generated from dyadic lower and upper endpoint rows, a mesh index, a radius ledger, finite cover-membership rows, StreamName windows, RegSeqRat readbacks, a Real seal, componentwise transport, displayed continuation replay, package provenance, and a local NameCert row.}
   \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:dyadicintervalcover-mesh-refinement-scope}, \autoref{thm:dyadicintervalcover-window-coverage-scope}, \autoref{thm:dyadicintervalcover-real-seal-scope}, and \autoref{thm:dyadicintervalcover-scoped-finite-cover-chain} bind the public finite-cover route through mesh refinement, finite-window coverage, Real-seal handoff, and the exported cover chain.}
+  \scopeclosed{\autoref{thm:dyadicintervalcover-mesh-refinement-scope}, \autoref{thm:dyadicintervalcover-window-coverage-scope}, \autoref{thm:dyadicintervalcover-real-seal-scope}, \autoref{thm:dyadicintervalcover-scoped-finite-cover-chain}, and \autoref{thm:dyadicintervalcover-public-finite-cover-export} bind the public finite-cover route through mesh refinement, finite-window coverage, Real-seal handoff, and the exported cover chain.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, Heine--Borel compactness, sequential compactness, selected limits, quotient real equality, host real equality, countable choice, Real completeness, or a standard bridge.}
-  \upgradepath{Public closure requires a public export theorem that reuses the scoped mesh, window, and Real-seal route without adding selected subcovers, quotient real equality, countable choice, or ambient compactness.}
+  \upgradepath{Verification closure requires Lean coverage for the public finite-cover export route and then a standard bridge that preserves the same refusal surface.}
 \end{closurestatus}

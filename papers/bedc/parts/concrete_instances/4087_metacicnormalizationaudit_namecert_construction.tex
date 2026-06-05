@@ -40,6 +40,18 @@ The structural rows $F,H,T,P,L$ replay, transport, package, and name only those 
 \end{proof}
 \leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditCarrier\_obligation\_surface}
 
+\begin{theorem}[MetaCIC normalization audit candidate boundary]
+\label{thm:metacic-normalization-audit-candidate-boundary}
+Every accepted $\MetacicNormalizationAuditUp$ read that claims normalization must first expose the candidate packet in $R$, the closedness trace in $C$, the beta-chain route in $S$, and the residual and confluence boundary rows in $A$ and $N$. The replay rows $F,H,T,P,L$ may transport and name that same route, but they do not supply subject reduction, confluence, or strong normalization unless downstream candidate, residual, or frontier packets supply those rows explicitly.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:metacic-normalization-audit-obligation-surface}. It makes $R,C,S,A,N$ separate displayed rows of the accepted packet, so a normalization read cannot jump directly from the packet name to a closed-term conclusion.
+
+The candidate packet is read through $R$, and the closedness trace is read through $C$. The beta-chain route and finite normalization inventory are then read through $S$, with the application boundary $A$ still present.
+
+Finally inspect the refusal row $N$ together with replay through $F,H,T,P,L$. Those rows preserve the same finite route and keep the confluence and subject-reduction frontier visible. Therefore subject reduction, confluence, and strong normalization outside the displayed candidate route must come from downstream candidate, residual, or frontier packets rather than from this audit packet alone.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit finite SN scope]
 \label{thm:metacic-normalization-audit-sn-scope}
 The strong-normalization content exported by an accepted $\MetacicNormalizationAuditUp$ packet is exactly the candidate-mediated scope stored in $R,C,S$: candidate-to-SN consequences, closed typed term SN from candidate, closed-candidate, or candidate-set evidence, Pi adequacy, application adequacy under candidate evidence, typed example SN facts, and the associated no-infinite-reduction consequences. It does not export a blanket theorem that every closed typed MetaCIC term is strongly normalizing without one of those displayed evidence rows.
@@ -241,6 +253,7 @@ R,C,S,A,N,F,H,T,P,L .
 $$
 Consequently a candidate-mediated SN export may cite closed-term projection, candidate-set membership, residual fuel, application adequacy under the displayed boundary, and the confluence socket, but it cannot cite evidence-free global SN, full closed Church--Rosser, arbitrary substitution compatibility, subject reduction, quotient reduction equality, or a host evaluator.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditCandidateRoutePack}
 \begin{proof}
 Begin with the closed-term projection route of \autoref{thm:metacic-normalization-audit-closed-term-projection-route}. It forces a closed-term SN read through candidate evidence $R$, projection $C$, finite scope $S$, and the application boundary $A$.
 

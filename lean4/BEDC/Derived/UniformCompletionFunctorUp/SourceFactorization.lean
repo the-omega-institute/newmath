@@ -101,6 +101,61 @@ theorem UniformCompletionFunctorCarrier_source_factorization [AskSetup] [Package
   }
   exact ⟨cert, handoffUnary, sealUnary⟩
 
+theorem UniformCompletionFunctorSourceFactorization [AskSetup] [PackageSetup]
+    {u f e r w d s h c p n sourceRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UniformCompletionFunctorCarrier u f e r w d s h c p n bundle pkg ->
+      Cont u f sourceRead ->
+        PkgSig bundle sourceRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row sourceRead ∧ UnaryHistory row)
+              (fun row : BHist => hsame row u ∨ hsame row f ∨ hsame row sourceRead)
+              (fun row : BHist =>
+                hsame row sourceRead ∧ PkgSig bundle sourceRead pkg ∧
+                  PkgSig bundle p pkg)
+              hsame ∧ UnaryHistory sourceRead := by
+  -- BEDC touchpoint anchor: UniformCompletionFunctorCarrier BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier sourceRoute sourcePkg
+  obtain ⟨unaryU, unaryF, _unaryE, _unaryR, _unaryW, _unaryD, _unaryS, _unaryH,
+    _unaryC, _provenanceUnary, _localUnary, _carrierSourceRoute, _carrierReadbackRoute,
+      _carrierSealRoute, provenancePkg, _localNamePkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed unaryU unaryF sourceRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row sourceRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row u ∨ hsame row f ∨ hsame row sourceRead)
+          (fun row : BHist =>
+            hsame row sourceRead ∧ PkgSig bundle sourceRead pkg ∧
+              PkgSig bundle p pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro sourceRead ⟨hsame_refl sourceRead, sourceUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, sourcePkg, provenancePkg⟩
+  }
+  exact ⟨cert, sourceUnary⟩
+
 theorem UniformCompletionFunctorExtensionRootObligation [AskSetup] [PackageSetup]
     {U F E R W D S H C P N sourceRead extensionRead transported replayed sourced named : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
