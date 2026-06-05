@@ -4674,6 +4674,8 @@ import BEDC.Derived.FrechetFilterUp
 import BEDC.Derived.FrechetFilterUp.CarrierAdmissionObligation
 import BEDC.Derived.FrechetFilterUp.CofinalTailStabilityObligation
 import BEDC.Derived.FrechetFilterUp.NameCertObligations
+import BEDC.Derived.FrechetFilterUp.TailCommonRefinement
+import BEDC.Derived.FrechetFilterUp.TailNeighborhoodHandoff
 import BEDC.Derived.FrechetFilterUp.TasteGate
 import BEDC.Derived.FrechetUrysohnUp.TasteGate
 import BEDC.Derived.FredholmAlternativeUp.TasteGate
@@ -5966,6 +5968,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.SNDischargeFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketBudget
+import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionBoundaryRouting
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionConfluenceSocketLedger
@@ -7179,6 +7182,7 @@ import BEDC.Derived.RealApproximationEnvelopeUp
 import BEDC.Derived.RealApproximationSchemeUp.TasteGate
 import BEDC.Derived.RealArchimedeanBoundSchemaUp.TasteGate
 import BEDC.Derived.RealArchimedeanPropertyUp.TasteGate
+import BEDC.Derived.RealArithmeticProgressionUp.TasteGate
 import BEDC.Derived.RealBaireCylinderUp.TasteGate
 import BEDC.Derived.RealBallUp
 import BEDC.Derived.RealBolzanoUp.TasteGate
