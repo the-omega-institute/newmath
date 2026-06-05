@@ -74,6 +74,46 @@ The carrier definition then supplies the remaining visible ledger rows. The row 
 Only after these rows are displayed can $L,H,C,P,N$ seal and preserve the route. Since the route is finite at each row, it cannot be replaced by Plancherel, Fourier inversion, Hilbert completion, quotient coefficient spaces, or host function equality.
 \end{proof}
 
+\begin{theorem}[Parseval root orthogonality ledger]
+\label{thm:parseval-root-orthogonality-ledger}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, every root orthogonality read must expose the $\FourierUp$ coefficient-window row $F$, the $\SOneUp$ source row $S$, and the $\InnerProductUp$ pairing row $I$ before it can be compared with the $\IntegralUp$ energy row $E$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, or the terminal $\RealUp$ seal $L$. The orthogonality ledger is therefore a finite NameCert route through $F,S,I,E,R,D,L,H,C,P,N$, not a complete orthonormal basis, Plancherel theorem, Fourier inversion theorem, quotient coefficient space, or host equality of circle functions.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:parseval-carrier}. The only rows that can support an orthogonality read are the coefficient windows $F$, circle source $S$, and pairing witnesses $I$.
+
+Apply \autoref{thm:parseval-root-finite-coefficient-ledger}. It forces the root coefficient ledger to display $F,S,I,E,R,D$ before the seal and structural rows can preserve the comparison.
+
+Finally use the NameCert obligations of \autoref{thm:parseval-namecert-obligations}. The coefficient-window exactness and finite partial-energy ledger clauses keep the orthogonality read inside the displayed Fourier, SOne, and InnerProduct rows, so no host basis theorem or quotient coefficient space is exported.
+\end{proof}
+
+\begin{theorem}[Parseval root coefficient integral budget]
+\label{thm:parseval-root-coefficient-integral-budget}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the root coefficient-to-integral budget is exhausted by the finite route from coefficient windows and source samples through pairing witnesses to the integral-energy row, regular readback, dyadic tolerance ledger, and Real seal. In symbols, the readable route is
+$$
+F,S,I \longmapsto E,R,D \longmapsto L,H,C,P,N .
+$$
+No separate coefficient budget for infinite summation, completed norms, quotient coefficient equality, Plancherel, inversion, or host function equality is available outside this displayed route.
+\end{theorem}
+\begin{proof}
+Start with the root finite coefficient ledger of \autoref{thm:parseval-root-finite-coefficient-ledger}. It already makes $F,S,I,E,R,D$ visible before the seal, transport, replay, provenance, and naming rows are consumed.
+
+Use the NameCert obligations of \autoref{thm:parseval-namecert-obligations}. The finite partial-energy ledger accounting row requires the pairing witnesses in $I$ before the integral row $E$ is compared, and the dyadic tolerance accounting row assigns the numerical budget to $D$.
+
+The Real seal row $L$ and the structural rows $H,C,P,N$ then preserve only this displayed budget. Since no carrier coordinate names an infinite coefficient series, completed norm, quotient equality, Plancherel theorem, inversion theorem, or host equality, those objects cannot enter the root budget.
+\end{proof}
+
+\begin{theorem}[Parseval root Real energy seal boundary]
+\label{thm:parseval-root-real-energy-seal-boundary}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the root $\RealUp$ energy seal boundary is reached only after the Fourier coefficient windows, SOne source row, InnerProduct pairing row, Integral energy row, RegSeqRat readback row, and DyadicRatCore tolerance ledger have all been displayed. The seal $L$ records the finite energy comparison preserved by $H,C,P,N$ and refuses Plancherel, Fourier inversion, convergence closure, Hilbert-space completeness, quotient coefficient spaces, infinite coefficient summation, and host function equality.
+\end{theorem}
+\begin{proof}
+Read the carrier and the Real seal non-escape clause. By \autoref{def:parseval-carrier} and \autoref{thm:parseval-namecert-obligations}, $L$ is downstream of $F,S,I,E,R,D$ and seals only the displayed finite energy comparison.
+
+Apply \autoref{thm:parseval-root-orthogonality-ledger} and \autoref{thm:parseval-root-coefficient-integral-budget}. The first fixes the Fourier, SOne, and InnerProduct rows before any orthogonality-facing read, while the second exhausts the coefficient-to-integral budget through $E,R,D$.
+
+Finally project the structural rows $H,C,P,N$. They transport, replay, source, and name the same sealed comparison without adding analytic coordinates, so the root Real boundary cannot export the refused host theorems, quotient objects, infinite summations, or completed norms.
+\end{proof}
+
 \begin{theorem}[Parseval root Real seal nonescape]
 \label{thm:parseval-root-real-seal-nonescape}
 For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the root $\RealUp$ seal $L$ is nonescaping: it seals only the displayed finite energy comparison built from $F,S,I,E,R,D$ and preserved by $H,C,P,N$. By \autoref{def:parseval-carrier} and \autoref{thm:parseval-namecert-obligations}, $L$ exports no Plancherel theorem, inversion theorem, Hilbert-completeness claim, quotient coefficient space, or host function equality.
