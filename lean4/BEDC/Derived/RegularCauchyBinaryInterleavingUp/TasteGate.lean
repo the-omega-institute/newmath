@@ -1,11 +1,21 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyBinaryInterleavingUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -226,5 +236,82 @@ theorem RegularCauchyBinaryInterleavingTasteGate_single_carrier_alignment :
       (fun _ _ heq =>
         RegularCauchyBinaryInterleavingTasteGate_single_carrier_alignment_injective heq),
       rfl⟩
+
+theorem RegularCauchyBinaryInterleavingNameCertObligations [AskSetup] [PackageSetup]
+    {S0 S1 E O T R0 R1 L H K P N projectionRead toleranceRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    regularCauchyBinaryInterleavingFields
+        (RegularCauchyBinaryInterleavingUp.mk S0 S1 E O T R0 R1 L H K P N) =
+        [S0, S1, E, O, T, R0, R1, L, H, K, P, N] ->
+      UnaryHistory S0 ->
+        UnaryHistory E ->
+          UnaryHistory T ->
+            UnaryHistory R0 ->
+              UnaryHistory R1 ->
+                UnaryHistory L ->
+                  Cont S0 E projectionRead ->
+                    Cont projectionRead T toleranceRead ->
+                      Cont toleranceRead L sealRead ->
+                        PkgSig bundle P pkg ->
+                          PkgSig bundle N pkg ->
+                            SemanticNameCert
+                                (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row S0 ∨ hsame row S1 ∨ hsame row E ∨
+                                    hsame row O ∨ hsame row T ∨ hsame row R0 ∨
+                                      hsame row R1 ∨ hsame row L ∨ hsame row sealRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ Cont S0 E projectionRead ∧
+                                    Cont projectionRead T toleranceRead ∧
+                                      Cont toleranceRead L sealRead ∧ PkgSig bundle P pkg ∧
+                                        PkgSig bundle N pkg)
+                                hsame ∧
+                              UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro fieldRows s0Unary eUnary tUnary _r0Unary _r1Unary lUnary projectionRoute
+    toleranceRoute sealRoute provenancePkg namePkg
+  cases fieldRows
+  have projectionUnary : UnaryHistory projectionRead :=
+    unary_cont_closed s0Unary eUnary projectionRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed projectionUnary tUnary toleranceRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed toleranceUnary lUnary sealRoute
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro sealRead ⟨hsame_refl sealRead, sealUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact
+          Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left)))))))
+      ledger_sound := by
+        intro _row source
+        exact
+          ⟨source.right, projectionRoute, toleranceRoute, sealRoute, provenancePkg, namePkg⟩
+    }
+  · exact sealUnary
 
 end BEDC.Derived.RegularCauchyBinaryInterleavingUp
