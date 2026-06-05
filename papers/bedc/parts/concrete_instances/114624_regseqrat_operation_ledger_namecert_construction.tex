@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\RegSeqRatOperationLedgerUp$}
+\label{ch:concrete-instances-regseqrat-operation-ledger-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive arithmetic, the $\RegSeqRatOperationLedgerUp$ packet records the finite operation-input ledger that must be displayed before arithmetic on regular rational sequences is allowed to feed a Real-facing seal. It sits between the source rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite-window service of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic operation budget of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal seal of \autoref{ch:concrete-instances-real-namecert}. The ledger is pre-theorem input data for the arithmetic packets of \autoref{ch:concrete-instances-regularcauchysum-namecert} and \autoref{ch:concrete-instances-regularcauchyproduct-namecert}; it does not claim RealAlgOrder closure or full real arithmetic.
+
+\begin{definition}[RegSeqRat operation ledger carrier]
+\label{def:regseqrat-operation-ledger-carrier}
+A $\RegSeqRatOperationLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+O=(A,B,W_A,W_B,D,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows whose regular rational sequence data may be used by the operation request.
+\item $W_A$ and $W_B$ are synchronized $\StreamNameUp$ window rows, exposing the same precision window for the two source reads.
+\item $D$ is the $\DyadicRatCoreUp$ operation budget, recording the finite endpoint addition, multiplication, comparison, and error-allocation rows available to the operation request.
+\item $Q$ is the output regularity row, requiring the proposed operation output to remain a $\RegSeqRatUp$ readback before any Real-facing consumer reads it.
+\item $E$ is the $\RealUp$ seal boundary, reached only after $A,B,W_A,W_B,D,Q$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the two sources, synchronized windows, dyadic budget, output regularity row, seal boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an operation request through $A,B,W_A,W_B,D,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegSeqRatOperationLedgerUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegSeqRatOperationLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted ledgers only through $A,B,W_A,W_B,D,Q,E,H,C,P,N$. It has no coordinate for quotient streams, selected limits, host real arithmetic, order trichotomy, RealAlgOrder closure, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[RegSeqRat operation ledger NameCert obligations]
+\label{thm:regseqrat-operation-ledger-namecert-obligations}
+For every accepted $\RegSeqRatOperationLedgerUp$ carrier $O=(A,B,W_A,W_B,D,Q,E,H,C,P,N)$, the local $\NameCert_{\RegSeqRatOperationLedgerUp}$ surface consists exactly of two-source $\RegSeqRatUp$ admission, synchronized $\StreamNameUp$ window exposure, $\DyadicRatCoreUp$ operation-budget accounting, output regularity exposure through $Q$, the downstream $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every arithmetic consumer must read the finite route
+$$
+A,B,W_A,W_B,D,Q \longmapsto E \longmapsto H,C,P,N
+$$
+before it may hand the request to $\RegularCauchySumUp$, $\RegularCauchyProductUp$, or a Real-facing seal.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regseqrat-operation-ledger-carrier}. The only source rows are $A$ and $B$, and the only observable schedules are the synchronized window rows $W_A,W_B$.
+
+Read the operation budget next. The dyadic row $D$ is the sole coordinate for endpoint arithmetic, comparison, and error allocation, while $Q$ is the only row that records output regularity before a downstream seal is available.
+
+Finally route the accepted read through $E,H,C,P,N$. These rows seal, transport, replay, source, and name the same finite ledger, so they cannot add quotient streams, selected limits, host real arithmetic, order trichotomy, RealAlgOrder closure, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[RegSeqRat operation ledger regularity preservation]
+\label{thm:regseqrat-operation-ledger-regularity-preservation}
+Let $O=(A,B,W_A,W_B,D,Q,E,H,C,P,N)$ be an accepted $\RegSeqRatOperationLedgerUp$ carrier. Any operation request that is routed through the ledger preserves regular rational sequence visibility in the following sense: the two $\RegSeqRatUp$ sources $A,B$, the synchronized $\StreamNameUp$ windows $W_A,W_B$, and the $\DyadicRatCoreUp$ budget $D$ must be displayed before the output regularity row $Q$ is read, and $Q$ must be read before the $\RealUp$ seal boundary $E$ is available. Thus the ledger can feed $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ as pre-theorem input data, but it does not by itself prove real addition, real multiplication, ordered-field laws, quotient-stream equality, or completeness.
+\end{theorem}
+\begin{proof}
+Start with source visibility. The carrier exposes exactly two regular rational sequence rows and their synchronized finite windows, so a consumer cannot manufacture an operation output without first reading $A,B,W_A,W_B$.
+
+Use the dyadic budget row $D$ for the finite operation request. Endpoint arithmetic and error allocation are therefore recorded before output regularity is inspected.
+
+The output row $Q$ is downstream of those inputs and upstream of the seal row $E$. Hence any Real-facing read sees a regular rational output only through the displayed ledger. The packet can be consumed by the sum and product chapters as operation-input data, but the refused real arithmetic and order principles have no carrier coordinate here.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegSeqRatOperationLedgerUp$ operation read factors through two $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ operation budget, an output regularity row, a $\RealUp$ seal boundary, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming before $\RegularCauchySumUp$ or $\RegularCauchyProductUp$ consumes it.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, real, regular-cauchy-sum, regular-cauchy-product: $\RegSeqRatOperationLedgerUp$ is not bijective to any listed sibling because it jointly carries two source regular names, synchronized observation windows, dyadic operation budgeting, output regularity, a Real seal boundary, structural transport, replay, provenance, and a local NameCert row.}
+
+\closureat{RegSeqRatOperationLedgerUp}{seedStr}
+
+\begin{closurestatus}{\RegSeqRatOperationLedgerUp}
+  \constructivestory{A $\RegSeqRatOperationLedgerUp$ packet is generated from two $\RegSeqRatUp$ source rows, synchronized $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ operation budget, an output regularity row, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regseqrat-operation-ledger-carrier}, \autoref{thm:regseqrat-operation-ledger-namecert-obligations}, and \autoref{thm:regseqrat-operation-ledger-regularity-preservation} seed the finite operation-input ledger for regular rational sequence arithmetic before Real-facing operation descent.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealAlgOrder, ordered-field laws, complete real arithmetic, quotient-stream equality, selected limits, host real arithmetic, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-source regularity, synchronized window exactness, dyadic operation-budget accounting, output regularity preservation, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.RegSeqRatOperationLedgerUp.}
+\end{closurestatus}
