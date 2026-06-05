@@ -28,6 +28,7 @@ HG_P_CORE = {
     "sigreg-training-proxy",
     "sigreg-mini-grid",
     "discovery-regularized-training",
+    "mechanism-seeking-network",
 }
 QUALITY_SCORECARD_METRICS = {
     "CertCov",
@@ -235,6 +236,13 @@ def _payload_for_spec(spec):
                 },
             },
             "positive_claim": {"text": "fixture D1 SIGReg training proxy", "scope": "fixture", "level": "D1"},
+            "mechanism_gate_summary": {
+                "accepted": True,
+                "accepted_surface_count": 2,
+                "by_mechanism": {"copy_route": {"accepted": True}, "parity_gate": {"accepted": True}},
+            },
+            "gate_protocol": {"status": "fixture", "evidence_pointer": "$.mechanism_gate_summary"},
+            "torch_evidence": {"status": "unavailable", "row_count": 0},
             "claim_capsule_ref": {
                 "artifact": "reports/runs/fixture/claim_capsule.json",
                 "pointer": "$",
@@ -661,6 +669,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "sigreg-training-proxy",
         "sigreg-mini-grid",
         "discovery-regularized-training",
+        "mechanism-seeking-network",
         "lejepa-theorem-ledger",
         "spectral-ablation-hinge",
     ]
@@ -2360,6 +2369,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.grid",
                 },
                 {
+                    "report": "mechanism-seeking-network",
+                    "artifact": "reports/canonical/mechanism-seeking-network.json",
+                    "pointer": "$.grid",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.scope",
@@ -2454,6 +2468,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                 {
                     "report": "discovery-regularized-training",
                     "artifact": "reports/canonical/discovery-regularized-training.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
+                    "report": "mechanism-seeking-network",
+                    "artifact": "reports/canonical/mechanism-seeking-network.json",
                     "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {

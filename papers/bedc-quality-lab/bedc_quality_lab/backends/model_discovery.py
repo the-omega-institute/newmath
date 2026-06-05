@@ -26,6 +26,7 @@ RUN_ARTIFACT = "reports/runs/model-discovery-suite/summary.json"
 RUN_MARKDOWN_ARTIFACT = "reports/runs/model-discovery-suite/summary.md"
 CLAIM_CAPSULE_ARTIFACT = "reports/runs/model-discovery-suite/claim_capsule.json"
 DRT_CANONICAL_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
+MSN_CANONICAL_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
 CGA_CANONICAL_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 LEJEPA_THEOREM_LEDGER_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
 
@@ -256,6 +257,28 @@ def build_model_discovery_payload(*, generated_at: str) -> dict[str, Any]:
                 "pointer": "$.theorem_rows",
             },
         },
+        "mechanism_seeking_network_refs": {
+            "discovery_map_signal": {
+                "artifact": MSN_CANONICAL_ARTIFACT,
+                "pointer": "$.discovery_map_signal",
+            },
+            "surface_registry": {
+                "artifact": MSN_CANONICAL_ARTIFACT,
+                "pointer": "$.surface_registry",
+            },
+            "mechanism_gate_summary": {
+                "artifact": MSN_CANONICAL_ARTIFACT,
+                "pointer": "$.mechanism_gate_summary",
+            },
+            "gate_protocol": {
+                "artifact": MSN_CANONICAL_ARTIFACT,
+                "pointer": "$.gate_protocol",
+            },
+            "theorem_ledger": {
+                "artifact": LEJEPA_THEOREM_LEDGER_ARTIFACT,
+                "pointer": "$.theorem_rows",
+            },
+        },
         "certificate_gated_attention_refs": {
             "discovery_map_signal": {
                 "artifact": CGA_CANONICAL_ARTIFACT,
@@ -305,6 +328,16 @@ class ModelDiscoveryBackendEvidenceAdapter:
                     "$.discovery_map_signal",
                     "$.surface_registry",
                     "$.torch_training_evidence",
+                    "$.discovery_map_signal.theorem_ledger_ref",
+                ),
+            },
+            "mechanism_seeking_network": {
+                "artifact": MSN_CANONICAL_ARTIFACT,
+                "pointers": (
+                    "$.discovery_map_signal",
+                    "$.surface_registry",
+                    "$.mechanism_gate_summary",
+                    "$.gate_protocol",
                     "$.discovery_map_signal.theorem_ledger_ref",
                 ),
             },

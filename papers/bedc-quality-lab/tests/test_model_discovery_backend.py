@@ -7,6 +7,7 @@ from bedc_quality_lab.backends.model_discovery import (
     CGA_CANONICAL_ARTIFACT,
     CLAIM_CAPSULE_ARTIFACT,
     DRT_CANONICAL_ARTIFACT,
+    MSN_CANONICAL_ARTIFACT,
     NM_HARDGATE_IDS,
     RUN_ARTIFACT,
     TASK_IDS,
@@ -122,6 +123,21 @@ def test_model_discovery_consumes_drt_by_pointer_only():
     assert refs["surface_registry"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
     assert refs["torch_training_evidence"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.torch_training_evidence"}
     assert "quality_q" not in refs
+    assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
+
+
+def test_model_discovery_consumes_msn_by_pointer_only():
+    adapter = ModelDiscoveryBackendEvidenceAdapter()
+    source_spec = adapter.build_source_spec()
+    payload = build_model_discovery_payload(generated_at="fixture-time")
+
+    assert source_spec["mechanism_seeking_network"]["artifact"] == MSN_CANONICAL_ARTIFACT
+    refs = payload["mechanism_seeking_network_refs"]
+    assert refs["discovery_map_signal"] == {"artifact": MSN_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"}
+    assert refs["surface_registry"] == {"artifact": MSN_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
+    assert refs["mechanism_gate_summary"] == {"artifact": MSN_CANONICAL_ARTIFACT, "pointer": "$.mechanism_gate_summary"}
+    assert refs["gate_protocol"] == {"artifact": MSN_CANONICAL_ARTIFACT, "pointer": "$.gate_protocol"}
+    assert "mechanism_score" not in refs
     assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
 
 

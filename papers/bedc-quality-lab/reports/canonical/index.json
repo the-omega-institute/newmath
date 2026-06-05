@@ -21,13 +21,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 83,
+    "node_count": 86,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 29,
+    "row_count": 30,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -152,6 +152,13 @@
         "report": "discovery-regularized-training"
       },
       {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.matched_random_control",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.positive_claim",
+        "report": "mechanism-seeking-network"
+      },
+      {
         "bundle_role": "auxiliary",
         "control_pointer": null,
         "no_control_rationale_pointer": "$.scope",
@@ -191,14 +198,14 @@
       "D1": 4,
       "D2": 1,
       "D3": 0,
-      "D4": 3,
+      "D4": 4,
       "D5-M": 0,
       "D5-O": 2,
       "DN": 7,
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 21,
+    "row_count": 22,
     "status": "pointer-only"
   },
   "formal_hardening": {
@@ -348,7 +355,8 @@
       "certificate-guided-discovery",
       "sigreg-training-proxy",
       "sigreg-mini-grid",
-      "discovery-regularized-training"
+      "discovery-regularized-training",
+      "mechanism-seeking-network"
     ],
     "sections": [
       "experiment bench scope",
@@ -1383,6 +1391,79 @@
           "arm_protocol",
           "device_protocol",
           "torch_training_evidence",
+          "matched_random_control",
+          "hardgate",
+          "failed_gate",
+          "discovery_map_signal",
+          "positive_claim",
+          "claim_capsule_ref",
+          "not_claimed",
+          "what_was_learned",
+          "revocation_rows",
+          "forbidden_claim_term_audit"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.matched_random_control",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts.cost_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [
+          "lit-lejepa-theorem-ledger"
+        ],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.positive_claim",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.grid",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/mechanism-seeking-network.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/mechanism-seeking-network.json",
+      "markdown_artifact": "reports/canonical/mechanism-seeking-network.md",
+      "name": "mechanism-seeking-network",
+      "producer_command": [
+        "python3",
+        "scripts/run_mechanism_seeking_network.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "run_id",
+          "producer",
+          "projector",
+          "run_artifacts",
+          "source_artifacts",
+          "config",
+          "grid",
+          "records",
+          "surface_registry",
+          "mechanism_gate_summary",
+          "gate_protocol",
+          "device_protocol",
+          "torch_evidence",
           "matched_random_control",
           "hardgate",
           "failed_gate",
