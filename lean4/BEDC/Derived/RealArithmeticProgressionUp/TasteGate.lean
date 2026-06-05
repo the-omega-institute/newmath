@@ -163,6 +163,21 @@ def taste_gate : ChapterTasteGate RealArithmeticProgressionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   realArithmeticProgressionChapterTasteGate
 
+theorem RealArithmeticProgressionTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        realArithmeticProgressionDecodeBHist (realArithmeticProgressionEncodeBHist h) = h) ∧
+      (∀ x : RealArithmeticProgressionUp,
+        realArithmeticProgressionFromEventFlow (realArithmeticProgressionToEventFlow x) =
+          some x) ∧
+        (∀ x y : RealArithmeticProgressionUp,
+          realArithmeticProgressionToEventFlow x = realArithmeticProgressionToEventFlow y →
+            x = y) ∧
+          realArithmeticProgressionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+  exact
+    ⟨realArithmeticProgression_decode_encode_bhist, realArithmeticProgression_round_trip,
+      fun _x _y heq => realArithmeticProgressionToEventFlow_injective heq, rfl⟩
+
 def RealArithmeticProgressionCarrier [AskSetup] [PackageSetup]
     (a d S R D H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
