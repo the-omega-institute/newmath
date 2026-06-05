@@ -3621,13 +3621,19 @@ def _bio_w_cache_paths(repo_root: Path, log_dir: str | Path, task_id: str) -> tu
 
 
 _VOLATILE_TS_RE = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:[+-]\d{2}:\d{2}|Z)?")
+# 剥掉 "# Corrective feedback\n...\n" 段 (到下一个 "# " 段或文末). corrective feedback 是
+# 上一轮 gate/hygiene 的 retry 提示, 每 cycle 重派生 → 让 prompt 含/不含 feedback 的 canonical
+# 不同 → cache 永远 miss → codex 反复重生成 (rich→rich reword churn). 剥掉它后, attempt-1
+# (无 feedback) 与 attempt-2 (带 feedback) 同 canonical → 命中缓存, 章节稳定, 不再每 cycle 重写.
+_CORRECTIVE_FEEDBACK_RE = re.compile(r"(?m)^# Corrective feedback\n(?:(?!^# )[^\n]*\n)*")
 
 
 def _canonical_prompt_for_hash(prompt: str) -> str:
-    # Cache key 必须只反映科学内容, 不反映每-cycle 刷新的心跳时间戳 (last_verified_at 等).
-    # 否则 prompt hash 每 cycle 变 → cache 永远 miss → codex 把语义相同的章节反复
-    # 重新措辞 (churn): 烧 token + 产无意义 commit + PDF 噪声. 只剥 ISO 时间戳;
+    # Cache key 只反映科学内容, 不反映每-cycle 刷新的心跳时间戳 (last_verified_at) 与
+    # corrective feedback 段 (上轮 retry 提示). 否则 hash 每 cycle 变 → cache 永远 miss →
+    # codex 把语义相同的章节反复重写 (churn): 烧 token + 无意义 commit + PDF 噪声.
     # run-id / 科学数值保留, 实验真重跑时仍正常触发重生成.
+    prompt = _CORRECTIVE_FEEDBACK_RE.sub("", prompt)
     return _VOLATILE_TS_RE.sub("<ts>", prompt)
 
 
