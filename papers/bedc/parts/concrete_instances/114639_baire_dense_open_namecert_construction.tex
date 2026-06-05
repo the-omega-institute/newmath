@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\BaireDenseOpenUp$}
+\label{ch:concrete-instances-baire-dense-open-namecert}
+\origin{human}
+
+Following Baire and Bishop--Bridges, the $\BaireDenseOpenUp$ packet records the finite dense-open schedule that a constructive Baire-category argument may inspect before any generic-point or residual-set conclusion is asserted. It sits beside the Baire metric carrier of \autoref{ch:concrete-instances-bairemetric-namecert}, the complete-metric handoff of \autoref{ch:concrete-instances-completemetric-namecert}, the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names dense-open requests, finite complete-metric windows, StreamName schedules, RegSeqRat readbacks, transport, replay, provenance, and local naming; it does not choose a generic point, take an ambient countable intersection, or import open-cover compactness.
+
+\begin{definition}[Baire dense-open schedule carrier]
+\label{def:baire-dense-open-schedule-carrier}
+A $\BaireDenseOpenUp$ carrier is a finite $\BHist$ packet
+$$
+G=(D,W,S,R,T,C,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the dense-open request row, recording the finite list of open predicates, dense-witness obligations, and inspected refinement indices.
+\item $W$ is the complete-metric window row, recording the displayed ball, radius, refinement, and nonempty-witness data available from $\CompleteMetricUp$ and $\BaireMetricUp$.
+\item $S$ is the $\StreamNameUp$ schedule row controlling which dense-open requests and complete-metric windows may be inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational radii, shrinkage witnesses, and tolerance comparisons attached to $W$.
+\item $T$ is the topology row, recording that each inspected dense-open request is read through the displayed $\TopologyUp$ basis and not through an ambient host set.
+\item $C$ records displayed $\Cont$ replay from $D,S$ to $W$, from $W$ to $R$, and from $T$ to the local dense-open read.
+\item $H$ records componentwise $\hsame$ transport for dense-open rows, complete-metric windows, schedules, rational readback, topology rows, replay, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\BaireDenseOpenUp$, $\BaireMetricUp$, $\CompleteMetricUp$, $\TopologyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BaireDenseOpenUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,S,R,T,C,H,P,N$. It has no coordinate for a choice-selected generic point, a completed residual set, open-cover compactness, quotient equality of names, or ambient completeness beyond the displayed complete-metric windows.
+\end{definition}
+
+\begin{theorem}[Baire dense-open schedule obligation surface]
+\label{thm:baire-dense-open-schedule-obligation-surface}
+For every accepted $\BaireDenseOpenUp$ carrier $G=(D,W,S,R,T,C,H,P,N)$, the local $\NameCert_{\BaireDenseOpenUp}$ surface consists exactly of five finite rows:
+\begin{enumerate}
+\item dense-open request admission through $D$, including the displayed open rows, dense-witness obligations, and inspected refinement indices;
+\item complete-metric window admission through $W$, with BaireMetric and CompleteMetric radii exposed before any schedule read is consumed;
+\item finite observation scheduling through $S$ and rational readback through $R$, so every inspected radius and shrinkage claim is replayed through StreamName and RegSeqRat rows;
+\item topology and replay compatibility through $T,C,H$, preserving the same dense-open and window rows under $\Cont$ replay and componentwise $\hsame$ transport;
+\item provenance and local naming through $P,N$, attaching the packet to the BaireMetric, CompleteMetric, Topology, StreamName, and RegSeqRat sources named in this chapter.
+\end{enumerate}
+The surface explicitly refuses a choice-selected generic point, open-cover compactness, quotient equality of names, and ambient completeness not already displayed in the complete-metric window row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:baire-dense-open-schedule-carrier}. The dense-open row $D$ and complete-metric window row $W$ are the only mathematical rows visible before replay, so a consumer must name the inspected open predicates and the corresponding finite metric windows.
+
+Next read the schedule and rational rows. The $\StreamNameUp$ schedule $S$ determines which entries of $D$ and $W$ are inspected, while the $\RegSeqRatUp$ row $R$ records the rational radius and shrinkage readback for those entries.
+
+Finally apply the topology, transport, replay, provenance, and local naming rows $T,C,H,P,N$. These rows preserve the displayed packet and do not add a selector, a host intersection, quotient equality, or an ambient completeness theorem. The five listed rows therefore exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BaireDenseOpenUp$ read exposes a finite dense-open schedule, complete-metric window row, StreamName schedule, and RegSeqRat readback before any Baire-category consumer may cite the packet.}
+
+\independenceWitness{bairemetric, completemetric, topology, streamname, regseqrat: $\BaireDenseOpenUp$ is not bijective to any listed sibling because it jointly carries dense-open request rows, complete-metric window rows, schedule rows, rational readback, topology replay, transport, provenance, and local naming.}
+
+\closureat{BaireDenseOpenUp}{seedStr}
+
+\begin{closurestatus}{\BaireDenseOpenUp}
+  \constructivestory{A $\BaireDenseOpenUp$ packet is generated from finite dense-open request rows, complete-metric window rows, StreamName schedules, RegSeqRat rational readback, topology replay, componentwise transport, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-dense-open-schedule-carrier} and \autoref{thm:baire-dense-open-schedule-obligation-surface} seed the finite dense-open schedule surface over displayed BaireMetric, CompleteMetric, Topology, StreamName, RegSeqRat, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close choice-selected generic points, open-cover compactness, quotient equality of names, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense-open row exactness, complete-metric window stability, StreamName schedule replay, RegSeqRat readback, topology compatibility, and local NameCert rows for BEDC.Derived.BaireDenseOpenUp.}
+\end{closurestatus}
