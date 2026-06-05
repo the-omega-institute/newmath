@@ -1,3 +1,6 @@
 """Backend adapters for discovery compiler."""
 
-__all__ = ["current_lab", "lejepa"]
+from . import sigreg
+from .sigreg import SIGRegBackendEvidenceAdapter
+
+__all__ = ["current_lab", "lejepa", "sigreg", "SIGRegBackendEvidenceAdapter"]
