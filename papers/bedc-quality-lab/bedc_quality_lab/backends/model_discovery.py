@@ -27,6 +27,7 @@ RUN_MARKDOWN_ARTIFACT = "reports/runs/model-discovery-suite/summary.md"
 CLAIM_CAPSULE_ARTIFACT = "reports/runs/model-discovery-suite/claim_capsule.json"
 DRT_CANONICAL_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 MSN_CANONICAL_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
+CGA_CANONICAL_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 LEJEPA_THEOREM_LEDGER_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
 
 
@@ -278,6 +279,28 @@ def build_model_discovery_payload(*, generated_at: str) -> dict[str, Any]:
                 "pointer": "$.theorem_rows",
             },
         },
+        "certificate_gated_attention_refs": {
+            "discovery_map_signal": {
+                "artifact": CGA_CANONICAL_ARTIFACT,
+                "pointer": "$.discovery_map_signal",
+            },
+            "surface_registry": {
+                "artifact": CGA_CANONICAL_ARTIFACT,
+                "pointer": "$.surface_registry",
+            },
+            "certificate_gate_summary": {
+                "artifact": CGA_CANONICAL_ARTIFACT,
+                "pointer": "$.certificate_gate_summary",
+            },
+            "torch_attention_evidence": {
+                "artifact": CGA_CANONICAL_ARTIFACT,
+                "pointer": "$.torch_attention_evidence",
+            },
+            "theorem_ledger": {
+                "artifact": LEJEPA_THEOREM_LEDGER_ARTIFACT,
+                "pointer": "$.theorem_rows",
+            },
+        },
         "not_claimed": list(candidate.not_claimed),
     }
     return payload
@@ -315,6 +338,16 @@ class ModelDiscoveryBackendEvidenceAdapter:
                     "$.surface_registry",
                     "$.mechanism_gate_summary",
                     "$.gate_protocol",
+                    "$.discovery_map_signal.theorem_ledger_ref",
+                ),
+            },
+            "certificate_gated_attention": {
+                "artifact": CGA_CANONICAL_ARTIFACT,
+                "pointers": (
+                    "$.discovery_map_signal",
+                    "$.surface_registry",
+                    "$.certificate_gate_summary",
+                    "$.torch_attention_evidence",
                     "$.discovery_map_signal.theorem_ledger_ref",
                 ),
             },

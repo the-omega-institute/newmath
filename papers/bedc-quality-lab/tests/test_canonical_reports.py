@@ -19,6 +19,7 @@ HG_P_CORE = {
     "gap-head-discovery",
     "gap-head-ablation",
     "ledger-aware-transformer",
+    "certificate-gated-attention",
     "gap-head-threshold-frontier",
     "gap-head-transfer-atlas",
     "gap-head-attribution-capsule",
@@ -259,6 +260,30 @@ def _payload_for_spec(spec):
             "forbidden_claim_term_audit": {"status": "pass", "hits": []},
         }
     )
+    if spec.name == "certificate-gated-attention":
+        payload.update(
+            {
+                "certificate_gate_summary": {
+                    "valid_gate_pass_rate": 1.0,
+                    "invalid_gate_pass_rate": 0.0,
+                    "gated_attention_leak_reduction_positive": True,
+                    "gated_vs_plain_valid": {"leak_reduction_mean": 0.1},
+                },
+                "gate_protocol": {"status": "fixture"},
+                "device_protocol": {"requested_device": "auto", "resolved_device": "not-requested"},
+                "torch_attention_evidence": {"status": "unavailable", "row_count": 0},
+                "matched_random_control": {"matched_random_gate_separation_positive": True},
+                "discovery_map_signal": {
+                    "status": "d4-candidate",
+                    "level_candidate": "D4",
+                    "reason": "certificate-gate-positive",
+                    "failed_gate": None,
+                    "failed_gate_pointer": None,
+                    "certificate_evidence_pointer": "$.certificate_gate_summary",
+                    "torch_attention_evidence_pointer": "$.torch_attention_evidence",
+                },
+            }
+        )
     if spec.name == "gap-head-transfer-atlas":
         payload["config"] = {"control_arm": "matched_random_gap_head"}
     if spec.name == "mixing-family-sweep":
@@ -634,6 +659,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-discovery",
         "gap-head-ablation",
         "ledger-aware-transformer",
+        "certificate-gated-attention",
         "gap-head-threshold-frontier",
         "gap-head-transfer-atlas",
         "gap-head-attribution-capsule",
@@ -2287,15 +2313,20 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "artifact": "reports/canonical/gap-head-ablation.json",
                     "pointer": "$.applicability_boundary",
                 },
-                {
-                    "report": "ledger-aware-transformer",
-                    "artifact": "reports/canonical/ledger-aware-transformer.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "gap-head-threshold-frontier",
-                    "artifact": "reports/canonical/gap-head-threshold-frontier.json",
-                    "pointer": "$.applicability_boundary",
+                    {
+                        "report": "ledger-aware-transformer",
+                        "artifact": "reports/canonical/ledger-aware-transformer.json",
+                        "pointer": "$.applicability_boundary",
+                    },
+                    {
+                        "report": "certificate-gated-attention",
+                        "artifact": "reports/canonical/certificate-gated-attention.json",
+                        "pointer": "$.grid",
+                    },
+                    {
+                        "report": "gap-head-threshold-frontier",
+                        "artifact": "reports/canonical/gap-head-threshold-frontier.json",
+                        "pointer": "$.applicability_boundary",
                 },
                 {
                     "report": "gap-head-transfer-atlas",
@@ -2384,15 +2415,20 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "artifact": "reports/canonical/gap-head-ablation.json",
                     "pointer": "$.control_protocol",
                 },
-                {
-                    "report": "ledger-aware-transformer",
-                    "artifact": "reports/canonical/ledger-aware-transformer.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "gap-head-threshold-frontier",
-                    "artifact": "reports/canonical/gap-head-threshold-frontier.json",
-                    "pointer": "$.source_artifacts",
+                    {
+                        "report": "ledger-aware-transformer",
+                        "artifact": "reports/canonical/ledger-aware-transformer.json",
+                        "pointer": "$.source_artifacts.cost_protocol",
+                    },
+                    {
+                        "report": "certificate-gated-attention",
+                        "artifact": "reports/canonical/certificate-gated-attention.json",
+                        "pointer": "$.source_artifacts.cost_protocol",
+                    },
+                    {
+                        "report": "gap-head-threshold-frontier",
+                        "artifact": "reports/canonical/gap-head-threshold-frontier.json",
+                        "pointer": "$.source_artifacts",
                 },
                 {
                     "report": "gap-head-transfer-atlas",
