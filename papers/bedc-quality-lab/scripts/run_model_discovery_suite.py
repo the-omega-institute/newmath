@@ -72,9 +72,9 @@ def build_claim_capsule(summary: Mapping[str, Any]) -> dict[str, Any]:
     )
 
 
-def build_run_payload(*, generated_at: str) -> tuple[dict[str, Any], dict[str, Any]]:
+def build_run_payload(*, root: Path = ROOT, generated_at: str) -> tuple[dict[str, Any], dict[str, Any]]:
     adapter = ModelDiscoveryBackendEvidenceAdapter()
-    summary = dict(adapter.compute_metrics(root=ROOT, generated_at=generated_at))
+    summary = dict(adapter.compute_metrics(root=root, generated_at=generated_at))
     capsule = build_claim_capsule(summary)
     capsule["json_artifact"] = CLAIM_CAPSULE_ARTIFACT
     capsule["source_evidence"] = {
@@ -93,7 +93,7 @@ def build_run_payload(*, generated_at: str) -> tuple[dict[str, Any], dict[str, A
 
 
 def write_run(*, root: Path, generated_at: str) -> dict[str, Path]:
-    summary, capsule = build_run_payload(generated_at=generated_at)
+    summary, capsule = build_run_payload(root=root, generated_at=generated_at)
     summary_path = root / RUN_ARTIFACT
     capsule_path = root / CLAIM_CAPSULE_ARTIFACT
     markdown_path = root / RUN_MARKDOWN_ARTIFACT

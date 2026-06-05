@@ -35,6 +35,27 @@ def _model_claim() -> dict:
     }
 
 
+def _write_dg_nas_canonical(tmp_path: Path, *, level: str, failed_gate_pointer: str | None = None) -> dict:
+    from scripts import run_discovery_gated_nas as dg_nas_runner
+
+    projection = dg_nas_runner.build_projection(generated_at="fixture-time")
+    dg_nas_runner.write_artifacts(projection, root=tmp_path)
+    path = tmp_path / DG_NAS_CANONICAL_ARTIFACT
+    canonical = json.loads(path.read_text(encoding="utf-8"))
+    signal = canonical["discovery_map_signal"]
+    signal["level_candidate"] = level
+    signal["status"] = "negative" if level == "DN" else "d5-m-candidate"
+    signal["failed_gate"] = "DG-NAS-HG4" if level == "DN" else None
+    signal["failed_gate_pointer"] = failed_gate_pointer if level == "DN" else None
+    canonical["hardgate"]["failed_gate"] = signal["failed_gate"]
+    canonical["hardgate"]["status"] = "fail" if level == "DN" else "pass"
+    if level == "DN":
+        canonical["hardgate"]["gates"]["DG-NAS-HG4"]["status"] = "fail"
+    canonical["grid"]["record_count"] = 17 if level == "DN" else 19
+    path.write_text(json.dumps(canonical, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return canonical
+
+
 def test_architecture_claim_capsule_uses_quality_schema_and_capsule_subtype():
     payload = build_architecture_claim_capsule_payload(
         generated_at="fixture-time",
@@ -136,6 +157,52 @@ def test_model_discovery_projection_metadata_points_to_dg_nas_owner(tmp_path):
         assert pointer_value(canonical, cell["pointer"]) is not None, key
 
 
+def test_model_discovery_adapter_projects_pointer_only_negative_rows(tmp_path):
+    adapter = ModelDiscoveryBackendEvidenceAdapter()
+    positive_root = tmp_path / "positive"
+    negative_root = tmp_path / "negative"
+    positive_canonical = _write_dg_nas_canonical(positive_root, level="D5-M")
+    negative_canonical = _write_dg_nas_canonical(
+        negative_root,
+        level="DN",
+        failed_gate_pointer="$.hardgate.gates.DG-NAS-HG4.status",
+    )
+
+    assert adapter.derive_negative_discovery_rows(root=positive_root) == ()
+
+    negative_rows = adapter.derive_negative_discovery_rows(root=negative_root)
+    assert negative_rows == (
+        {
+            "negative_id": "dn:model-discovery:discovery-gated-nas",
+            "report_id": "model-discovery-suite",
+            "kind": "model_discovery_projection",
+            "report": "model-discovery-suite",
+            "claim_id": "claim:model-discovery-suite",
+            "source": f"{DG_NAS_CANONICAL_ARTIFACT}:$.discovery_map_signal",
+            "json_artifact": RUN_ARTIFACT,
+            "markdown_artifact": "reports/runs/model-discovery-suite/summary.md",
+            "ledger_pointer": f"{DG_NAS_CANONICAL_ARTIFACT}:$.discovery_map_signal",
+            "discovery_level": "DN",
+            "classifier_reasons": ["canonical-dg-nas-hardgate-failed"],
+            "projection_status": "projected",
+            "evidence_pointer": "$.discovery_map_signal",
+            "failed_gate": "$.hardgate.gates.DG-NAS-HG4.status",
+            "what_was_learned": "DG-NAS canonical hardgate blocks the model-discovery projection.",
+            "next_hypothesis": "inspect the canonical DG-NAS failed-gate pointer",
+            "audit_status": "pass",
+            "audit_reason": "",
+        },
+    )
+    assert pointer_value(negative_canonical, negative_rows[0]["failed_gate"]) == "fail"
+
+    positive_rows = adapter.derive_ledger_rows(root=positive_root)
+    negative_ledger_rows = adapter.derive_ledger_rows(root=negative_root)
+    assert adapter.project_discovery_level(root=positive_root) == positive_rows
+    assert adapter.project_discovery_level(root=negative_root) == negative_ledger_rows
+    assert positive_rows[0]["discovery_level"] == positive_canonical["discovery_map_signal"]["level_candidate"]
+    assert negative_ledger_rows[0]["discovery_level"] == "DN"
+
+
 def test_model_discovery_consumes_drt_by_pointer_only():
     adapter = ModelDiscoveryBackendEvidenceAdapter()
     source_spec = adapter.build_source_spec()
@@ -224,6 +291,26 @@ def test_model_discovery_run_local_subtype_parity(tmp_path):
     assert summary["claim_capsule_ref"]["capsule_subtype"] == capsule["capsule_subtype"]
     assert pointer_value(summary, "$.claim_capsule_ref.artifact") == CLAIM_CAPSULE_ARTIFACT
     assert require_architecture_claim_capsule(capsule).payload["claim_id"] == "claim:model-discovery-suite"
+
+
+def test_model_discovery_runner_reads_caller_root(tmp_path):
+    canonical = _write_dg_nas_canonical(
+        tmp_path,
+        level="DN",
+        failed_gate_pointer="$.hardgate.gates.DG-NAS-HG4.status",
+    )
+
+    paths = runner.write_run(root=tmp_path, generated_at="fixture-time")
+    summary = json.loads(Path(paths["summary"]).read_text(encoding="utf-8"))
+    markdown = Path(paths["markdown"]).read_text(encoding="utf-8")
+
+    metadata = summary["projection_metadata"]
+    assert metadata["canonical_level_candidate"] == "DN"
+    assert metadata["canonical_failed_gate"] == "DG-NAS-HG4"
+    assert metadata["canonical_record_count"] == canonical["grid"]["record_count"]
+    assert metadata["canonical_record_count"] != 162
+    assert "- Canonical level candidate: `DN`" in markdown
+    assert "- Canonical failed gate: `DG-NAS-HG4`" in markdown
 
 
 def test_model_discovery_capsule_evidence_pointers_resolve(tmp_path):
