@@ -7,7 +7,7 @@ from typing import Any, Mapping, Sequence
 
 
 CLAIM_CAPSULE_SCHEMA_ID = "bedc.quality.claim_capsule"
-CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID = "bedc.quality.claim_capsule.v1"
+CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID = "bedc.quality.claim_capsule.run_local"
 CLAIM_CAPSULE_JSON_ARTIFACT = "reports/canonical/claim_capsule.json"
 CLAIM_CAPSULE_ARTIFACT_ID = "bedc-quality-lab:claim-capsule"
 

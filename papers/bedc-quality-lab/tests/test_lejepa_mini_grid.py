@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -80,6 +81,93 @@ def _fake_single_arm(**kwargs):
     )
 
 
+def test_run_single_arm_forwards_backend_arguments_and_derives_probe_metrics(monkeypatch):
+    backend_calls = []
+    probe_inits = []
+    probe_scores = []
+
+    def fake_run_experiment(**kwargs):
+        backend_calls.append(kwargs)
+        return SimpleNamespace(
+            run_id="backend-arm",
+            metrics={
+                "alignment_loss_mse": 0.31,
+                "covariance_trace": 0.20,
+                "covariance_deviation": 0.07,
+                "linear_identifiability_r2": 0.80,
+                "quality_q": 0.44,
+                "actual_recovery_mse": 0.12,
+                "theorem3_bound_mse": 0.55,
+            },
+        )
+
+    class FakeProbe:
+        def __init__(self, *, directions, frequencies, guard_thresholds):
+            probe_inits.append(
+                {
+                    "directions": directions,
+                    "frequencies": frequencies,
+                    "guard_thresholds": guard_thresholds,
+                }
+            )
+
+        def score(self, h, *, seed, directions, frequencies):
+            probe_scores.append(
+                {
+                    "h": h,
+                    "seed": seed,
+                    "directions": directions,
+                    "frequencies": frequencies,
+                }
+            )
+            return {"sigreg_penalty": 0.123}
+
+    monkeypatch.setattr(runner.run_gaussian_ou_lejepa, "run_experiment", fake_run_experiment)
+    monkeypatch.setattr(runner, "SlicedCFGaussianityProbe", FakeProbe)
+
+    row = runner.run_single_arm(
+        alignment_lambda=0.005,
+        rho=0.95,
+        mixing="parabolic",
+        seed=37,
+        sample_count=128,
+        directions=6,
+        frequencies=(0.5, 1.5),
+        use_torch=True,
+    )
+
+    assert len(backend_calls) == 1
+    assert backend_calls[0]["alignment_lambda"] == pytest.approx(0.005)
+    assert backend_calls[0]["mixing"] == "parabolic_shear"
+    assert backend_calls[0]["rho"] == pytest.approx(0.95)
+    assert backend_calls[0]["sample_count"] == 128
+    assert backend_calls[0]["seed"] == 37
+    assert backend_calls[0]["use_torch"] is True
+    assert len(probe_inits) == 1
+    assert probe_inits[0]["directions"] == 6
+    assert tuple(probe_inits[0]["frequencies"]) == (0.5, 1.5)
+    assert len(probe_scores) == 1
+    assert probe_scores[0]["seed"] == 37
+    assert probe_scores[0]["directions"] == 2
+    assert tuple(probe_scores[0]["frequencies"]) == (0.5, 1.5)
+    assert probe_scores[0]["h"].tolist() == [[0.80, 0.44], [0.12, 0.55], [0.31, 0.07]]
+    assert row["alignment_lambda"] == pytest.approx(0.005)
+    assert row["rho"] == pytest.approx(0.95)
+    assert row["mixing"] == "parabolic"
+    assert row["source_mixing"] == "parabolic_shear"
+    assert row["seed"] == 37
+    assert row["sample_count"] == 128
+    assert row["alignment_loss"] == pytest.approx(0.31)
+    assert row["sigreg_sliced_cf"] == pytest.approx(0.123)
+    assert row["covariance_proxy"] == pytest.approx(0.07)
+    assert row["linear_identifiability_r2"] == pytest.approx(0.80)
+    assert row["actual_recovery_mse"] == pytest.approx(0.12)
+    assert row["theorem3_bound_mse"] == pytest.approx(0.55)
+    assert row["collapse_rate"] == pytest.approx(0.40)
+    assert row["quality_q"] == pytest.approx(0.44)
+    assert row["source_run_id"] == "backend-arm"
+
+
 def test_default_grid_enumerates_300_cells_and_writes_four_run_artifacts(monkeypatch, tmp_path):
     calls = []
 
@@ -141,9 +229,9 @@ def test_non_gaussian_mixing_downgrades_broad_claim():
     assert "broad non-Gaussian mixing generalization" in summary["not_claimed"]
 
 
-def test_capsule_v1_alias_is_run_local_and_canonical_schema_stays_unversioned():
+def test_capsule_run_local_alias_is_semantic_and_canonical_schema_stays_unversioned():
     assert capsule.CLAIM_CAPSULE_SCHEMA_ID == "bedc.quality.claim_capsule"
-    assert capsule.CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID == "bedc.quality.claim_capsule.v1"
+    assert capsule.CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID == "bedc.quality.claim_capsule.run_local"
 
     payload = {
         "schema_id": capsule.CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID,
