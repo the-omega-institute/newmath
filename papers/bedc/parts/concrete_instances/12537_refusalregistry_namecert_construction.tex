@@ -62,6 +62,18 @@ The claim registry layer of \autoref{ch:concrete-instances-claimregistrylayer-na
 If a separate accepted claim-entry row is absent, the claim layer has only the refusal boundary supplied by $\RefusalRegistryUp$. Package provenance and local naming preserve that boundary; they do not create acceptance. Thus the handoff blocks conversion from refusal to claim export without a displayed accepted entry.
 \end{proof}
 
+\begin{theorem}[Refusal registry obligation pack]
+\label{thm:refusal-registry-obligation-pack}
+For an accepted $\RefusalRegistryUp$ packet $R=(B,E,G,C,S,V,T,P,N)$, the complete local obligation pack consists exactly of the carrier row $B$, refusal-entry classifier row $E$, gate row $G$, cannot-claim row $C$, status row $S$, provenance row $V$, componentwise transport row $T$, package row $P$, and local $\NameCert_{\RefusalRegistryUp}$ row $N$. Any package consumer that drops one of these rows leaves the refusal packet and receives neither an accepted claim nor a valid refusal export.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:refusal-registry-carrier}. Its displayed coordinates are precisely $B,E,G,C,S,V,T,P,N$, so the carrier and classifier surface is finite and has no hidden acceptance row.
+
+Apply \autoref{thm:refusal-registry-export-control} and \autoref{thm:refusal-registry-nonescape}. The first theorem forces blocked exports to use the displayed refusal packet, while the second blocks any route that has neither the refusal entry and gate nor a separate accepted registry entry.
+
+Finally apply \autoref{thm:refusal-registry-claim-layer-handoff}. The handoff preserves the same nine rows when the claim layer reads the packet, and it cannot convert the blocked row into an accepted claim without an accepted claim-entry row. Thus the listed rows are exactly the local obligation pack.
+\end{proof}
+
 \falsifiablePrediction{A package claim with no refusal entry, gate row, or accepted registry entry has no export route through $\RefusalRegistryUp$.}
 
 \independenceWitness{registrylayer, claimregistrylayer, theoremgapregistry, truthresidueledger: none is bijective to $\RefusalRegistryUp$ because this carrier stores blocked claim, refusal entry, gate, cannot-claim route, status, provenance, transport, package, and local naming rows as a dedicated refusal packet.}
