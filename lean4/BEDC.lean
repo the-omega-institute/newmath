@@ -840,6 +840,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ClassifierTransport
 import BEDC.Derived.BishopRegularCauchyCompletionUp.DiagonalWindowStability
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ObligationClosurePackage
+import BEDC.Derived.BishopRegularCauchyCompletionUp.PublicRealSeal
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RealSealConsumer
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RegularityEnvelope
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ScopedKernelRoute
@@ -1383,6 +1384,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.CompletionConsumer
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularSourceHandoff
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularTailTransport
 import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
+import BEDC.Derived.CauchyContinuousExtensionUp.UniformModulusSink
 import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
@@ -2714,6 +2716,7 @@ import BEDC.Derived.CompressionDescentAuditUp.RouteSoundness
 import BEDC.Derived.CompressionDescentAuditUp.TasteGate
 import BEDC.Derived.CompressionLedgerFunctorUp.TasteGate
 import BEDC.Derived.ComputableRealUp
+import BEDC.Derived.ComputableUniformContinuityUp.TasteGate
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.ConcaveModulusUp.NameCertObligations
 import BEDC.Derived.ConcaveModulusUp.SubadditiveHandoff
@@ -8169,6 +8172,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootLimitWitness
+import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.SeparatedUniquenessBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.TailInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
