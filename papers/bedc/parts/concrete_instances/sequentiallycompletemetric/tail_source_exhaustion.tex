@@ -1,0 +1,11 @@
+\begin{theorem}[SequentiallyCompleteMetric tail source exhaustion]
+\label{thm:sequentially-complete-metric-tail-source-exhaustion}
+Let $Q=(X,S,M,L,D,H,C,P,N)$ be an accepted $\SequentiallyCompleteMetricUp$ carrier. Every completion-facing tail read is exhausted by the displayed source route through $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricCompletionUp$, and $\CompleteMetricUp$ rows: the read must expose the metric source $X$, stream windows $S$, regular rational readback attached to $S$, modulus row $M$, displayed limit row $L$, late-distance ledger $D$, transport $H$, replay $C$, provenance $P$, and local naming $N$ before any completion consumer is admitted. No further quotient completion, selected representative, countable-choice schedule, ambient $\RealUp$ completeness, or independent completed-point carrier is exported.
+\end{theorem}
+\begin{proof}
+Start from the source-first subsequence read of \autoref{thm:sequentially-complete-metric-source-first-subsequence-read}. It already forces subsequence, tail, and cofinal-window consumers through $X,S,M,L,D$ before either a $\CompleteMetricUp$ or $\MetricCompletionUp$ handoff can inspect the packet.
+
+Next attach the display route and regular readback rows. By \autoref{thm:sequentially-complete-metric-display-route}, the source route is ordered through the metric source, stream windows, regular rational readback, modulus, limit, late-distance ledger, transport, replay, provenance, and local naming rows.
+
+Finally use \autoref{thm:sequentially-complete-metric-completion-factorization-ledger}. A completion-facing consumer receives exactly this finite ledger route, so the tail read is exhausted at the displayed $\CompleteMetricUp$ boundary and cannot export quotient completion, selected representatives, countable choice, ambient Real completeness, or an independent completed carrier.
+\end{proof}
