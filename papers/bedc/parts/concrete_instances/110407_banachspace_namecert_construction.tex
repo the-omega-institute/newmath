@@ -54,6 +54,7 @@ $$
 $$
 through the carrier rows $V,N,M,Q,S,R,E,Z$ before it may consume the structural rows $H,C,P,L$. The handoff supplies a constructive complete normed-space interface, not Hahn--Banach, selected limits, quotient completion equality, countable choice, host vector equality, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.BanachSpaceUp.BanachSpaceCauchyCompletionHandoff}
 \begin{proof}
 Start with the NameCert obligations of \autoref{thm:banach-space-namecert-obligations}. They make $V$ and $N$ the only source of vector-space and norm data and force completion-facing reads to pass through the induced metric row $M$.
 
@@ -79,6 +80,7 @@ Finally use \autoref{thm:banach-space-cauchy-completion-handoff}. It keeps $Z,H,
 \label{thm:banach-space-completion-stability-obligation}
 For accepted $\BanachSpaceUp$ packets, componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the completion handoff route through $Q,S,R,E$. Any stable completion-facing consumer must read the same Cauchy request ledger, completion handoff, regular rational tolerance readback, and terminal Real seal before it reaches the local name.
 \end{theorem}
+\leanchecked{BEDC.Derived.BanachSpaceUp.BanachSpaceCompletionStabilityObligation}
 \begin{proof}
 Project $H$ and $C$ from \autoref{def:banach-space-carrier}. These rows transport and replay the displayed coordinates of the packet; they do not introduce a second completion object or an external selector.
 
@@ -163,7 +165,8 @@ B=(V,N,M,Q,S,R,E,Z,H,C,P,L),
 $$
 the completion obligation surface consists exactly of the $\VecSpaceUp$ row $V$, the $\NormUp$ row $N$, the induced metric row $M$, the $\CauchyNetCompletionUp$ request ledger $Q$, the $\MetricCompletionUp$ handoff $S$, the $\RegSeqRatUp$ readback $R$, the terminal $\RealUp$ seal $E$, the $\SeparatedCompletionUp$ boundary $Z$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\BanachSpaceUp}$ row $L$. A completion consumer has no other row from which to read completeness, linearity, separation, or naming.
 \end{theorem}
-\leanchecked{BEDC.Derived.BanachSpaceUp.BanachSpaceCarrier\_completion\_obligation\_surface}
+\leanchecked{BEDC.Derived.BanachSpaceUp.BanachSpaceCompletionObligationSurface}
+\leanvariant{BEDC.Derived.BanachSpaceUp.BanachSpaceCarrier\_completion\_obligation\_surface}
 \begin{proof}
 Project the carrier of \autoref{def:banach-space-carrier}. The rows $V,N,M,Q,S,R,E,Z,H,C,P,L$ are the entire displayed packet, with $V,N,M$ giving the normed vector metric surface and $Q,S,R,E$ giving the completion route.
 
@@ -230,6 +233,7 @@ Then use \autoref{thm:banach-space-completion-stability-obligation}. Transport a
 \label{thm:banach-space-namecert-frontier}
 The rows in \autoref{def:banach-space-complete-metric-reduction}, together with the transport, replay, provenance, and local naming rows $H,C,P,L$, form the Banach-space obligation frontier for obligation closure. The frontier consists exactly of vector, norm, induced metric, Cauchy-window, completion-handoff, regular-rational, real-seal, separated-comparison, transport, replay, provenance, and naming obligations; it does not include Hahn--Banach, selected limits, quotient completion equality, countable choice, host vector equality, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.BanachSpaceUp.BanachSpaceNameCertFrontier}
 \begin{proof}
 Use \autoref{thm:banach-space-namecert-obligations} to identify the local certificate surface. It lists precisely the rows $V,N,M,Q,S,R,E,Z,H,C,P,L$.
 
