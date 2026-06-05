@@ -213,6 +213,24 @@ Now spend the residual budget using \autoref{thm:metacic-normalization-audit-res
 Finally apply the confluence socket of \autoref{thm:metacic-normalization-audit-confluence-socket}. The socket permits comparison with sibling confluence rows only after the residual-fuel and candidate-frontier obligations are visible, so the candidate-route pack remains a finite audit route rather than a global SN or confluence theorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit public route]
+\label{thm:metacic-normalization-audit-public-route}
+Any public normalization export from an accepted $\MetacicNormalizationAuditUp$ packet $Z=(R,C,S,A,N,F,H,T,P,L)$ must display the complete route
+$$
+R,C,S,A,N,F,H,T,P,L .
+$$
+Here $R$ is candidate evidence, $C$ is closed-term projection, $S$ is finite strong-normalization scope, $A$ is the application boundary, $N$ is the confluence refusal row, $F$ is route replay, $H$ is componentwise $\hsame$ transport, $T$ is displayed $\Cont$ replay, $P$ is provenance, and $L$ is the local $\NameCert_{\MetacicNormalizationAuditUp}$ row. This public route may be consumed by closed-normal consistency routes, but it is not evidence-free global strong normalization, full closed Church--Rosser, arbitrary substitution compatibility, subject-reduction transport, quotient reduction equality, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:metacic-normalization-audit-candidate-route-pack}. It already identifies the candidate-facing public route as the displayed row family $R,C,S,A,N,F,H,T,P,L$.
+
+Use \autoref{thm:metacic-normalization-audit-candidate-mediated-sn-closure}. The strong-normalization content remains inside candidate evidence, closed-term projection, finite scope, and the application boundary; no evidence-free global SN endpoint is introduced.
+
+Apply \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. The residual-budget row ties the SN read to the confluence refusal $N$ before replay, transport, provenance, and local naming can expose it to a public consumer.
+
+Finally apply \autoref{thm:metacic-normalization-audit-confluence-socket}. The socket allows the route to meet closed-normal consistency consumers beside the confluence audit siblings, but it records only compatibility of finite audit surfaces. Thus the public export is exactly the displayed finite route and not a global confluence, substitution, subject-reduction, quotient, or evaluator claim.
+\end{proof}
+
 \closureat{MetacicNormalizationAuditUp}{seedStr}
 
 \begin{closurestatus}{\MetacicNormalizationAuditUp}
