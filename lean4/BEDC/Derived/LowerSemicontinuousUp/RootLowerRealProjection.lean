@@ -1,4 +1,8 @@
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.LowerSemicontinuousUp
 
@@ -11,8 +15,7 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem LowerSemicontinuousRootLowerRealProjection [AskSetup] [PackageSetup]
-    {X F E W R O H C P N windowRead epigraphRead lowerProjection replayRead
-      namedRead : BHist}
+    {X F E W R O H C P N lowerRead comparisonRead endpointRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     lowerSemicontinuousRootEpigraphFields (LowerSemicontinuousUp.mk X F E W R O H C P N) =
         [X, F, W, R, E, O, H, C, P, N] ->
@@ -20,58 +23,47 @@ theorem LowerSemicontinuousRootLowerRealProjection [AskSetup] [PackageSetup]
         UnaryHistory R ->
           UnaryHistory E ->
             UnaryHistory O ->
-              UnaryHistory C ->
-                UnaryHistory N ->
-                  Cont W R windowRead ->
-                    Cont windowRead E epigraphRead ->
-                      Cont epigraphRead O lowerProjection ->
-                        Cont lowerProjection C replayRead ->
-                          Cont replayRead N namedRead ->
-                            PkgSig bundle P pkg ->
-                              PkgSig bundle N pkg ->
-                                SemanticNameCert
-                                    (fun row : BHist =>
-                                      hsame row lowerProjection ∧ UnaryHistory row)
-                                    (fun row : BHist =>
-                                      hsame row W ∨ hsame row R ∨ hsame row E ∨
-                                        hsame row O ∨ Cont epigraphRead O lowerProjection)
-                                    (fun row : BHist =>
-                                      UnaryHistory row ∧ Cont W R windowRead ∧
-                                        Cont windowRead E epigraphRead ∧
-                                          Cont epigraphRead O lowerProjection ∧
-                                            PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
-                                    hsame ∧ UnaryHistory namedRead := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame
-  intro fields wUnary rUnary eUnary oUnary cUnary nUnary windowRoute epigraphRoute
-    projectionRoute replayRoute namedRoute provenancePkg namePkg
-  have _acceptedFields :
-      lowerSemicontinuousRootEpigraphFields
-          (LowerSemicontinuousUp.mk X F E W R O H C P N) =
-        [X, F, W, R, E, O, H, C, P, N] := fields
-  have windowUnary : UnaryHistory windowRead :=
-    unary_cont_closed wUnary rUnary windowRoute
-  have epigraphUnary : UnaryHistory epigraphRead :=
-    unary_cont_closed windowUnary eUnary epigraphRoute
-  have projectionUnary : UnaryHistory lowerProjection :=
-    unary_cont_closed epigraphUnary oUnary projectionRoute
-  have replayUnary : UnaryHistory replayRead :=
-    unary_cont_closed projectionUnary cUnary replayRoute
-  have namedUnary : UnaryHistory namedRead :=
-    unary_cont_closed replayUnary nUnary namedRoute
+              Cont W R lowerRead ->
+                Cont lowerRead E comparisonRead ->
+                  Cont comparisonRead O endpointRead ->
+                    PkgSig bundle P pkg ->
+                      PkgSig bundle N pkg ->
+                        SemanticNameCert
+                            (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row W ∨ hsame row R ∨ hsame row E ∨
+                                hsame row O ∨ hsame row endpointRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ Cont W R lowerRead ∧
+                                Cont lowerRead E comparisonRead ∧
+                                  Cont comparisonRead O endpointRead ∧
+                                    PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                            hsame ∧
+                          UnaryHistory endpointRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro fieldRows wUnary rUnary eUnary oUnary lowerRoute comparisonRoute endpointRoute
+    provenancePkg namePkg
+  cases fieldRows
+  have lowerUnary : UnaryHistory lowerRead :=
+    unary_cont_closed wUnary rUnary lowerRoute
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed lowerUnary eUnary comparisonRoute
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed comparisonUnary oUnary endpointRoute
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row lowerProjection ∧ UnaryHistory row)
+          (fun row : BHist => hsame row endpointRead ∧ UnaryHistory row)
           (fun row : BHist =>
             hsame row W ∨ hsame row R ∨ hsame row E ∨ hsame row O ∨
-              Cont epigraphRead O lowerProjection)
+              hsame row endpointRead)
           (fun row : BHist =>
-            UnaryHistory row ∧ Cont W R windowRead ∧ Cont windowRead E epigraphRead ∧
-              Cont epigraphRead O lowerProjection ∧ PkgSig bundle P pkg ∧
+            UnaryHistory row ∧ Cont W R lowerRead ∧ Cont lowerRead E comparisonRead ∧
+              Cont comparisonRead O endpointRead ∧ PkgSig bundle P pkg ∧
                 PkgSig bundle N pkg)
           hsame := {
     core := {
       carrier_inhabited :=
-        Exists.intro lowerProjection ⟨hsame_refl lowerProjection, projectionUnary⟩
+        Exists.intro endpointRead ⟨hsame_refl endpointRead, endpointUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -88,14 +80,13 @@ theorem LowerSemicontinuousRootLowerRealProjection [AskSetup] [PackageSetup]
             unary_transport source.right sameRows⟩
     }
     pattern_sound := by
-      intro _row _source
-      exact Or.inr (Or.inr (Or.inr (Or.inr projectionRoute)))
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
     ledger_sound := by
       intro _row source
       exact
-        ⟨source.right, windowRoute, epigraphRoute, projectionRoute, provenancePkg,
-          namePkg⟩
+        ⟨source.right, lowerRoute, comparisonRoute, endpointRoute, provenancePkg, namePkg⟩
   }
-  exact ⟨cert, namedUnary⟩
+  exact ⟨cert, endpointUnary⟩
 
 end BEDC.Derived.LowerSemicontinuousUp
