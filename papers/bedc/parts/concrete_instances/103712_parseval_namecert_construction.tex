@@ -114,6 +114,67 @@ Use the dyadic tolerance accounting row in \autoref{thm:parseval-namecert-obliga
 Since the carrier has no coordinate for infinite-series convergence, completed Hilbert norms, quotient coefficient spaces, or host function equality, no additional tolerance source can be exported by the packet.
 \end{proof}
 
+\begin{definition}[Parseval inner-product carrier route]
+\label{def:parseval-inner-product-carrier}
+For an accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the inner-product carrier route is the displayed subpacket
+$$
+(F,S,I,E,R,D,L,H,C,P,N)
+$$
+read as Fourier coefficient windows, $\SOneUp$ source rows, $\InnerProductUp$ pairing witnesses, $\IntegralUp$ energy observations, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance accounting, the terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ParsevalUp}$ naming. It contains no row for completed Hilbert norms, quotient coefficient classes, selected representatives, Plancherel, inversion, or host function equality.
+\end{definition}
+
+\begin{theorem}[Parseval inner-product NameCert obligations]
+\label{thm:parseval-inner-product-namecert-obligations}
+Every consumer of the inner-product carrier route in \autoref{def:parseval-inner-product-carrier} must display all rows $F,S,I,E,R,D,L,H,C,P,N$ before it reads an energy comparison. The rows $F,S,I$ bind Fourier coefficient windows, circle-source samples, and finite pairing witnesses; the rows $E,R,D,L$ bind integral-energy observation, regular rational readback, dyadic tolerance accounting, and the terminal Real seal; the rows $H,C,P,N$ preserve, replay, source, and name the same route. The obligation does not claim Plancherel, inversion, completed Hilbert norms, quotient coefficient classes, or host function equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition \autoref{def:parseval-carrier}. Its accepted inventory is exactly $F,S,I,E,R,D,L,H,C,P,N$, and \autoref{def:parseval-inner-product-carrier} reads no additional coordinate.
+
+Apply \autoref{thm:parseval-namecert-obligations}. Carrier admission, coefficient-window exactness, finite partial-energy ledger accounting, integral-energy handoff, dyadic tolerance accounting, Real seal non-escape, and structural transport already require each listed row.
+
+The refused analytic endpoints have no row in the accepted packet. Therefore a consumer of the inner-product route receives only the displayed NameCert obligations and cannot import Plancherel, inversion, a completed Hilbert norm, a quotient coefficient class, or host equality of functions.
+\end{proof}
+
+\begin{theorem}[Parseval L2 energy identity route]
+\label{thm:parseval-l2-energy-identity-route}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the only L2-facing energy identity route is the finite path from $F,S,I$ through $E,R,D$ to $L$, then through $H,C,P,N$. The route compares coefficient energy and integral energy only through displayed $\FourierUp$, $\SOneUp$, $\InnerProductUp$, $\IntegralUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ rows. It does not assert completed Hilbert-space equality, Plancherel, Fourier inversion, quotient coefficient equality, or host function equality.
+\end{theorem}
+\begin{proof}
+Read the route from \autoref{def:parseval-inner-product-carrier}. The coefficient side is $F,S,I$, the integral side is $E$, and the readback and tolerance rows are $R,D$ before the Real seal $L$.
+
+Use \autoref{thm:parseval-inner-product-namecert-obligations}. It forces every energy comparison to display the full row family before a consumer may read the comparison.
+
+Finally use \autoref{thm:parseval-dyadic-tolerance-ledger}. The tolerance ledger is finite and attached to summation, pairing, integral readback, and energy comparison only. Hence the L2-facing phrase names this finite route and not a completed Hilbert-space identity or host theorem.
+\end{proof}
+
+\begin{theorem}[Parseval Fourier Real readback boundary]
+\label{thm:parseval-fourier-real-readback-boundary}
+Every $\FourierUp$ consumer that reads a $\RealUp$ endpoint through $\ParsevalUp$ must pass through the displayed carrier rows $F,S,I,E,R,D,L,H,C,P,N$. The readback boundary is the route
+$$
+F,S,I,E,R,D \longmapsto L \longmapsto H,C,P,N .
+$$
+It is a finite Fourier-to-Real energy seal through $\RegSeqRatUp$ and $\DyadicRatCoreUp$, not a Plancherel theorem, inversion theorem, quotient coefficient class, completed Hilbert norm, or host function equality.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. A Fourier-facing consumer first sees coefficient windows in $F$, source samples in $S$, and finite pairing witnesses in $I$.
+
+Apply \autoref{thm:parseval-l2-energy-identity-route}. The route reaches the integral row, regular readback, tolerance ledger, and Real seal only through the displayed finite path.
+
+The structural rows $H,C,P,N$ preserve that same path after the seal is read. Because the carrier lacks coordinates for Plancherel, inversion, quotient coefficient classes, completed norms, or host equality, none of those endpoints can cross the Fourier-to-Real boundary.
+\end{proof}
+
+\begin{theorem}[Parseval SOne orthogonality handoff]
+\label{thm:parseval-sone-orthogonality-handoff}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, any orthogonality-facing read from the $\SOneUp$ row $S$ is handed to $\InnerProductUp$ only through the finite pairing row $I$ and then to $\IntegralUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$ through $E,R,D,L$. The handoff records displayed circle-source rows and pairing witnesses; it does not claim a complete orthonormal basis, Fourier inversion, Plancherel, quotient coefficient equality, or equality of host functions on the circle.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:parseval-carrier}. The circle source is visible only as $S$, and the pairing witnesses are visible only as $I$ after the Fourier coefficient row $F$ has fixed the finite observation window.
+
+Use \autoref{thm:parseval-inner-product-namecert-obligations}. It makes $F,S,I,E,R,D,L,H,C,P,N$ mandatory before any energy comparison is consumed, so an orthogonality-facing read cannot leave the displayed carrier.
+
+Combine this with \autoref{thm:parseval-fourier-real-readback-boundary}. The downstream Real endpoint is reached only through $E,R,D,L$ and structural preservation. Thus the handoff is finite and local to the packet, with no complete basis, inversion theorem, Plancherel theorem, quotient class, or host circle-function equality exported.
+\end{proof}
+
 \begin{theorem}[Parseval Real seal nonescape]
 \label{thm:parseval-real-seal-nonescape}
 For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the $\RealUp$ seal $L$ seals only the displayed finite energy comparison built from $F,S,I,E,R,D$. It excludes Plancherel, inversion, convergence, Hilbert completeness, host function equality, and quotient coefficient spaces.
