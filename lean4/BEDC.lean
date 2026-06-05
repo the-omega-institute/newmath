@@ -4673,6 +4673,7 @@ import BEDC.Derived.FrechetCompletionUp.TasteGate
 import BEDC.Derived.FrechetDerivativeUp.TasteGate
 import BEDC.Derived.FrechetFilterUp
 import BEDC.Derived.FrechetFilterUp.CarrierAdmissionObligation
+import BEDC.Derived.FrechetFilterUp.CauchySourceBoundary
 import BEDC.Derived.FrechetFilterUp.CofinalTailStabilityObligation
 import BEDC.Derived.FrechetFilterUp.NameCertObligations
 import BEDC.Derived.FrechetFilterUp.TailCommonRefinement
@@ -7854,6 +7855,7 @@ import BEDC.Derived.RegularCauchyRateExtractionUp.TasteGate
 import BEDC.Derived.RegularCauchyRealReflectionUp.TasteGate
 import BEDC.Derived.RegularCauchyRealUp.TasteGate
 import BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
+import BEDC.Derived.RegularCauchyReflectionLedgerUp.TasteGate
 import BEDC.Derived.RegularCauchyRegularityWitnessUp.TasteGate
 import BEDC.Derived.RegularCauchyReindexInvarianceUp.TasteGate
 import BEDC.Derived.RegularCauchyReverseTriangleUp.TasteGate
@@ -8255,6 +8257,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyFilterBridge
 import BEDC.Derived.SequentiallyCompleteMetricUp.CauchySequenceObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyTailStability
 import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyWindowObligation
+import BEDC.Derived.SequentiallyCompleteMetricUp.ChoiceFreeUniquenessBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.ClassifierTransport
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompleteMetricHandoff
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionConsumerRoute
