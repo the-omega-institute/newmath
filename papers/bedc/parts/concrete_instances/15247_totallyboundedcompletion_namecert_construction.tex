@@ -52,6 +52,35 @@ The separated and extension obligations are then local to $S$ and $U$. Equality 
 Finally, the provenance row $P$ and local naming row $L$ name only the displayed coordinates. Since none of those coordinates contains open-cover compactness, quotient representatives, selected limit points, countable choice, detached Real completeness, or ambient completeness, no such datum can be exported by the NameCert surface.
 \end{proof}
 
+\begin{definition}[TotallyBoundedCompletion carrier admission obligation]
+\label{def:totally-bounded-completion-carrier-admission-obligation}
+The carrier admission obligation for $\TotallyBoundedCompletionUp$ is the requirement that every accepted $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$ display all eleven rows before its local $\NameCert_{\TotallyBoundedCompletionUp}$ row is read. The source metric row $X$ feeds the $\TotallyBoundedUp$ finite-net ledger $T$; the refinement row $N$ feeds the $\CauchyFilterBasisUp$ row $F$; the dense $\CompletionEmbeddingUp$ row $E$ and $\ConstructiveMetricCompletionUp$ route $C$ precede the separated equality row $S$ and the $\UniformContinuousExtensionUp$ handoff $U$; and $H,P,L$ record componentwise $\hsame$ transport, package provenance, and local naming. The displayed $\Cont$ replay may follow only this row order.
+\end{definition}
+
+\begin{theorem}[TotallyBoundedCompletion refinement ledger obligation]
+\label{thm:totally-bounded-completion-refinement-ledger-obligation}
+For every accepted $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$ satisfying \autoref{def:totally-bounded-completion-carrier-admission-obligation}, every refinement request admitted by $\NameCert_{\TotallyBoundedCompletionUp}$ must consume the $\TotallyBoundedUp$ ledger $T$, the net-refinement row $N$, the $\CauchyFilterBasisUp$ row $F$, the $\CompletionEmbeddingUp$ row $E$, and the $\ConstructiveMetricCompletionUp$ route $C$ before it is transported by $H$ or replayed by $\Cont$. The request cannot bypass $T,N,F,E,C$ by reading only $S,U,H,P,L$.
+\end{theorem}
+\begin{proof}
+Project the refinement request from the displayed packet. Carrier admission supplies the rows $X,T,N,F,E,C,S,U,H,P,L$ and names the permitted dependency order through the local $\NameCert$ row.
+
+The refinement request is indexed by a tolerance read, so it first inspects the finite centers, membership rows, distance witnesses, and rational bounds in the $\TotallyBoundedUp$ ledger $T$. The row $N$ is then the only permitted refinement coordinate, and the generated basis row $F$ records the corresponding $\CauchyFilterBasisUp$ packet.
+
+The completion-facing part of the request must pass through $E$ and $C$ before separated comparison or extension handoff is visible. Componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay preserve this route; they do not create a shortcut around the finite-net, basis, embedding, and constructive-completion rows.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion separated extension obligation]
+\label{thm:totally-bounded-completion-separated-extension-obligation}
+For every accepted $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$ admitted by $\NameCert_{\TotallyBoundedCompletionUp}$, a separated equality read in $S$ or a uniformly continuous extension read in $U$ is valid only after the source row $X$, the $\TotallyBoundedUp$ finite-net ledger $T$, the refinement row $N$, the $\CauchyFilterBasisUp$ row $F$, the $\CompletionEmbeddingUp$ row $E$, and the $\ConstructiveMetricCompletionUp$ route $C$ have been displayed. Componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay may transport the separated or extension read, but they may not replace the dependency on $T,N,F,E,C$.
+\end{theorem}
+\begin{proof}
+Read the separated equality coordinate $S$ and the extension handoff coordinate $U$ from the carrier. Both coordinates are downstream rows of the same $\BHist$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, so their admission is governed by the local $\NameCert$ surface rather than by an external completion theorem.
+
+The source, finite-net, refinement, basis, embedding, and constructive-completion rows are already displayed before $S$ or $U$ can be consumed. Thus a separated equality comparison still depends on the Cauchy-filter and completion route, and a uniformly continuous extension consumer still depends on the finite-net route that produced the completed packet.
+
+Transport and replay preserve that dependency. The $\hsame$ row $H$ moves each coordinate componentwise, while the displayed $\Cont$ replay follows the same row order; neither operation supplies a new separated quotient, a selected limit, or an extension principle outside $\TotallyBoundedUp$, $\CauchyFilterBasisUp$, $\CompletionEmbeddingUp$, $\ConstructiveMetricCompletionUp$, and $\UniformContinuousExtensionUp$.
+\end{proof}
+
 \begin{theorem}[TotallyBoundedCompletion net handoff]
 \label{thm:totally-bounded-completion-net-handoff}
 Let $K=(X,T,N,F,E,C,S,U,H,P,L)$ be an accepted $\TotallyBoundedCompletionUp$ packet. Every completion-facing consumer that requests finite total-bounded data factors through
