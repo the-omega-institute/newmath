@@ -481,6 +481,14 @@ def test_gap_head_mechanism_blockage_dangling_pointer_fails_closed(tmp_path):
     assert "gap-head-mechanism-blockage" not in {item["report_id"] for item in owners}
 
 
+def test_pointer_value_resolves_bracketed_list_index_and_fails_closed():
+    payload = {"rows": [{"status": "ready"}, {"status": "blocked"}]}
+
+    assert discovery_map.pointer_value(payload, "$.rows[0].status") == "ready"
+    assert discovery_map.pointer_value(payload, "$.rows[2].status") is None
+    assert discovery_map.pointer_value(payload, "$.rows[bad].status") is None
+
+
 @pytest.mark.parametrize(
     ("mutator", "expected_pointer"),
     [
