@@ -3692,7 +3692,13 @@ def _bio_w_persist_cache(
     prompt: str,
     parsed: dict[str, Any] | None,
 ) -> None:
-    if not isinstance(parsed, dict) or parsed.get("verdict") != "ready":
+    # 持久化任何非空章节, 不限 verdict=ready. 关键 churn 修复: cross-layer conjecture
+    # (S^QP / translation_survival 等) 的 conjecture-级数据较薄, codex 常返回
+    # verdict=needs_more_data; 若只缓存 ready, 这些章节的 hash 永不持久 → 每 cycle
+    # 重渲染 (相同 prompt 反复出非确定 prose, 偶尔丢 spectral 细节) → 持续 churn.
+    # 缓存后: 同 prompt (科学不变) 命中不重渲染, 数据真变才重渲染. needs_more_data 的
+    # 自评不影响章节内容本身被部署 (run_writeback 用非空 codex_text).
+    if not isinstance(parsed, dict) or parsed.get("verdict") in (None, "skip"):
         return
     chapter_text = str(parsed.get("chapter_content") or "")
     if not chapter_text.strip():
