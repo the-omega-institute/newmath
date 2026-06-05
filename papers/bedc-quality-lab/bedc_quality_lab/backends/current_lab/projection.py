@@ -606,6 +606,64 @@ def _sigreg_training_proxy_projection(payload: Mapping[str, Any]) -> tuple[dict[
     return {}, ProjectionEvidence(projection_status="source-insufficient", debt_row_pointer="$.d1_evidence.debt_delta")
 
 
+def _sigreg_mini_grid_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
+    consistent, _reason, failed_pointer = _sigreg_mini_grid_consistency(payload)
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    if not isinstance(signal, Mapping):
+        return {"verdict": "rejected"}, ProjectionEvidence(
+            projection_status="projected",
+            failed_gate="$.discovery_map_signal",
+        )
+    level = signal.get("level_candidate")
+    status = signal.get("status")
+    if consistent and level == "D2" and status == "d2-candidate":
+        return {
+            "main_verdict": {
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "sigreg_mini_grid": {
+                    "level_candidate": "D2",
+                    "status": "d2-candidate",
+                    "evidence_pointer": "$.trend_summary.expected_trend",
+                },
+            },
+            "evidence_basis": {
+                "sigreg_mini_grid": True,
+                "control_positive_discovery": None,
+            },
+        }, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer="$.trend_summary.expected_trend",
+        )
+    if consistent and level == "D1" and status == "d1-grid-evidence":
+        return {
+            "main_verdict": {
+                "deltas": {"debt_delta": -1.0},
+                "sigreg_mini_grid": {
+                    "level_candidate": "D1",
+                    "status": "d1-grid-evidence",
+                    "debt_row_pointer": "$.tradeoff_ledger.rows.0",
+                },
+            },
+            "claim_gate": {"training_audit_improvement_tradeoff": True},
+        }, ProjectionEvidence(
+            projection_status="projected",
+            debt_row_pointer="$.tradeoff_ledger.rows.0",
+        )
+    return {
+        "verdict": "rejected",
+        "main_verdict": {
+            "sigreg_mini_grid": {
+                "level_candidate": "DN",
+                "status": "negative",
+            },
+        },
+    }, ProjectionEvidence(
+        projection_status="projected",
+        failed_gate=failed_pointer,
+    )
+
+
 def _sigreg_failed_gate_pointer(payload: Mapping[str, Any]) -> str:
     failed_gate = pointer_value(payload, "$.failed_gate")
     if isinstance(failed_gate, str) and failed_gate:
@@ -616,6 +674,52 @@ def _sigreg_failed_gate_pointer(payload: Mapping[str, Any]) -> str:
             if isinstance(name, str) and isinstance(row, Mapping) and row.get("status") != "pass":
                 return f"$.d1_evidence.d1_hardgates.{name}.status"
     return "$.hardgate.status"
+
+
+def _sigreg_mini_grid_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
+    hardgates = pointer_value(payload, "$.c3_hardgates")
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    if not isinstance(hardgates, Mapping) or not hardgates:
+        return False, "missing-c3-hardgates", "$.c3_hardgates"
+    if not isinstance(signal, Mapping):
+        return False, "missing-discovery-map-signal", "$.discovery_map_signal"
+    failed_gates = [
+        name
+        for name in ("C3-HG1", "C3-HG2", "C3-HG3", "C3-HG4")
+        if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
+    ]
+    structural_failed = next((name for name in failed_gates if name in {"C3-HG1", "C3-HG2", "C3-HG4"}), None)
+    if structural_failed is not None:
+        expected = {
+            "status": "negative",
+            "level_candidate": "DN",
+            "reason": "structural-hardgate-failed",
+            "failed_gate": structural_failed,
+            "failed_gate_pointer": f"$.c3_hardgates.{structural_failed}.status",
+        }
+    elif "C3-HG3" in failed_gates:
+        expected = {
+            "status": "d1-grid-evidence",
+            "level_candidate": "D1",
+            "reason": "trend-hardgate-failed",
+            "failed_gate": "C3-HG3",
+            "failed_gate_pointer": "$.c3_hardgates.C3-HG3.status",
+        }
+    else:
+        expected = {
+            "status": "d2-candidate",
+            "level_candidate": "D2",
+            "reason": "expected-trend",
+            "failed_gate": None,
+            "failed_gate_pointer": None,
+        }
+    for key, expected_value in expected.items():
+        if signal.get(key) != expected_value:
+            pointer = signal.get("failed_gate_pointer")
+            return False, f"sigreg-mini-grid-{key}-mismatch", pointer if isinstance(pointer, str) else "$.discovery_map_signal"
+    if pointer_value(payload, "$.hardgate.failed_gate") != expected["failed_gate"]:
+        return False, "sigreg-mini-grid-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
+    return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.hardgate.status"
 
 
 def _sigreg_training_proxy_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
@@ -886,6 +990,8 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _certificate_discovery_projection(payload)
     elif spec.name == "sigreg-training-proxy":
         overlay, evidence = _sigreg_training_proxy_projection(payload)
+    elif spec.name == "sigreg-mini-grid":
+        overlay, evidence = _sigreg_mini_grid_projection(payload)
     elif spec.name == "gap-head-ablation":
         overlay, evidence = _gap_head_ablation_projection(payload)
     elif spec.name == "gap-head-transfer-atlas":
@@ -1039,6 +1145,10 @@ def _audit_row(
         return "valid", ""
     if spec.name == "sigreg-training-proxy":
         consistent, reason, _failed_pointer = _sigreg_training_proxy_consistency(payload)
+        if not consistent:
+            return "invalid", reason
+    if spec.name == "sigreg-mini-grid":
+        consistent, reason, _failed_pointer = _sigreg_mini_grid_consistency(payload)
         if not consistent:
             return "invalid", reason
     if spec.name == "gap-head-attribution-capsule":
