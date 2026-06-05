@@ -30,6 +30,7 @@ The carrier has no coordinate for an accepted export with an absent refusal entr
 \label{thm:refusal-registry-export-control}
 Every blocked package claim governed by $\RefusalRegistryUp$ must display the blocked row $B$, refusal entry $E$, gate row $G$, cannot-claim route $C$, status row $S$, provenance row $V$, componentwise transport $T$, package provenance $P$, and local naming row $N$ in the same finite carrier. A consumer may cite the blocked claim only through that refusal packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.RefusalRegistryUp.RefusalRegistryCarrier\_export\_control}
 \begin{proof}
 Project the carrier of \autoref{def:refusal-registry-carrier}. The blocked claim is not merely a missing registry entry; it is the finite packet $R=(B,E,G,C,S,V,T,P,N)$.
 
@@ -42,6 +43,7 @@ Rows $S,V,T,P,N$ make the refusal auditable. They preserve the status, source, t
 \label{thm:refusal-registry-nonescape}
 A package claim with no refusal entry, no gate row, and no accepted registry entry has no export route through $\RefusalRegistryUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RefusalRegistryUp.RefusalRegistry\_nonescape}
 \begin{proof}
 Use \autoref{thm:refusal-registry-export-control}. Any blocked export governed by $\RefusalRegistryUp$ is read through $R=(B,E,G,C,S,V,T,P,N)$, and an accepted export must instead be supplied by a sibling registry entry in \autoref{ch:concrete-instances-registrylayer-namecert}, \autoref{ch:concrete-instances-claimregistrylayer-namecert}, or \autoref{ch:concrete-instances-theoremgapregistry-namecert}.
 
