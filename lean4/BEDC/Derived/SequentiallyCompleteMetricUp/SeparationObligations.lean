@@ -15,73 +15,65 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem SequentiallyCompleteMetricSeparationObligations [AskSetup] [PackageSetup]
-    {X S M L D H C P N windowRead readbackRead lateDistanceRead handoffRead
-      transportedRead replayRead namedRead : BHist}
+    {X S M L D H C P N sequenceRead modulusRead limitRead distanceRead replayRead
+      separationRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     sequentiallyCompleteMetricFields (SequentiallyCompleteMetricUp.mk X S M L D H C P N) =
-        [X, S, M, L, D, H, C, P, N] →
-      UnaryHistory X →
-        UnaryHistory S →
-          UnaryHistory M →
-            UnaryHistory L →
-              UnaryHistory D →
-                UnaryHistory H →
-                  UnaryHistory C →
-                    UnaryHistory N →
-                      Cont X S windowRead →
-                        Cont windowRead M readbackRead →
-                          Cont readbackRead D lateDistanceRead →
-                            Cont lateDistanceRead L handoffRead →
-                              Cont handoffRead H transportedRead →
-                                Cont transportedRead C replayRead →
-                                  Cont replayRead N namedRead →
-                                    PkgSig bundle P pkg →
-                                      PkgSig bundle N pkg →
-                                        SemanticNameCert
-                                            (fun row : BHist =>
-                                              hsame row namedRead ∧ UnaryHistory row)
-                                            (fun row : BHist =>
-                                              hsame row X ∨ hsame row S ∨ hsame row M ∨
-                                                hsame row L ∨ hsame row D ∨ hsame row H ∨
-                                                  hsame row C ∨ hsame row N ∨
-                                                    hsame row namedRead ∨
-                                                      Cont handoffRead H transportedRead ∨
-                                                        Cont transportedRead C replayRead)
-                                            (fun row : BHist =>
-                                              UnaryHistory row ∧ Cont X S windowRead ∧
-                                                Cont windowRead M readbackRead ∧
-                                                  Cont readbackRead D lateDistanceRead ∧
-                                                    Cont lateDistanceRead L handoffRead ∧
-                                                      Cont handoffRead H transportedRead ∧
-                                                        Cont transportedRead C replayRead ∧
-                                                          Cont replayRead N namedRead ∧
-                                                            PkgSig bundle P pkg ∧
-                                                              PkgSig bundle N pkg)
-                                            hsame ∧
-                                          UnaryHistory namedRead := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
-  intro fieldRows xUnary sUnary mUnary lUnary dUnary hUnary cUnary nUnary windowRoute
-    readbackRoute lateDistanceRoute handoffRoute transportedRoute replayRoute namedRoute
-    provenancePkg namePkg
+        [X, S, M, L, D, H, C, P, N] ->
+      UnaryHistory X ->
+        UnaryHistory S ->
+          UnaryHistory M ->
+            UnaryHistory L ->
+              UnaryHistory D ->
+                UnaryHistory C ->
+                  UnaryHistory N ->
+                    Cont X S sequenceRead ->
+                      Cont sequenceRead M modulusRead ->
+                        Cont modulusRead L limitRead ->
+                          Cont limitRead D distanceRead ->
+                            Cont distanceRead C replayRead ->
+                              Cont replayRead N separationRead ->
+                                PkgSig bundle P pkg ->
+                                  PkgSig bundle N pkg ->
+                                    SemanticNameCert
+                                        (fun row : BHist =>
+                                          hsame row separationRead ∧ UnaryHistory row)
+                                        (fun row : BHist =>
+                                          hsame row X ∨ hsame row S ∨ hsame row M ∨
+                                            hsame row L ∨ hsame row D ∨
+                                              hsame row separationRead)
+                                        (fun row : BHist =>
+                                          UnaryHistory row ∧ Cont X S sequenceRead ∧
+                                            Cont sequenceRead M modulusRead ∧
+                                              Cont modulusRead L limitRead ∧
+                                                Cont limitRead D distanceRead ∧
+                                                  Cont distanceRead C replayRead ∧
+                                                    Cont replayRead N separationRead ∧
+                                                      PkgSig bundle P pkg ∧
+                                                        PkgSig bundle N pkg)
+                                        hsame ∧
+                                      UnaryHistory separationRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro fieldRows xUnary sUnary mUnary lUnary dUnary cUnary nUnary sequenceRoute
+    modulusRoute limitRoute distanceRoute replayRoute separationRoute provenancePkg namePkg
   cases fieldRows
-  have windowUnary : UnaryHistory windowRead :=
-    unary_cont_closed xUnary sUnary windowRoute
-  have readbackUnary : UnaryHistory readbackRead :=
-    unary_cont_closed windowUnary mUnary readbackRoute
-  have lateDistanceUnary : UnaryHistory lateDistanceRead :=
-    unary_cont_closed readbackUnary dUnary lateDistanceRoute
-  have handoffUnary : UnaryHistory handoffRead :=
-    unary_cont_closed lateDistanceUnary lUnary handoffRoute
-  have transportedUnary : UnaryHistory transportedRead :=
-    unary_cont_closed handoffUnary hUnary transportedRoute
+  have sequenceUnary : UnaryHistory sequenceRead :=
+    unary_cont_closed xUnary sUnary sequenceRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed sequenceUnary mUnary modulusRoute
+  have limitUnary : UnaryHistory limitRead :=
+    unary_cont_closed modulusUnary lUnary limitRoute
+  have distanceUnary : UnaryHistory distanceRead :=
+    unary_cont_closed limitUnary dUnary distanceRoute
   have replayUnary : UnaryHistory replayRead :=
-    unary_cont_closed transportedUnary cUnary replayRoute
-  have namedUnary : UnaryHistory namedRead :=
-    unary_cont_closed replayUnary nUnary namedRoute
+    unary_cont_closed distanceUnary cUnary replayRoute
+  have separationUnary : UnaryHistory separationRead :=
+    unary_cont_closed replayUnary nUnary separationRoute
   constructor
   · exact {
       core := {
-        carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+        carrier_inhabited :=
+          Exists.intro separationRead ⟨hsame_refl separationRead, separationUnary⟩
         equiv_refl := by
           intro row _source
           exact hsame_refl row
@@ -99,22 +91,13 @@ theorem SequentiallyCompleteMetricSeparationObligations [AskSetup] [PackageSetup
       }
       pattern_sound := by
         intro _row source
-        exact
-          Or.inr
-            (Or.inr
-              (Or.inr
-                (Or.inr
-                  (Or.inr
-                    (Or.inr
-                      (Or.inr
-                        (Or.inr
-                          (Or.inl source.left))))))))
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
       ledger_sound := by
         intro _row source
         exact
-          ⟨source.right, windowRoute, readbackRoute, lateDistanceRoute, handoffRoute,
-            transportedRoute, replayRoute, namedRoute, provenancePkg, namePkg⟩
+          ⟨source.right, sequenceRoute, modulusRoute, limitRoute, distanceRoute,
+            replayRoute, separationRoute, provenancePkg, namePkg⟩
     }
-  · exact namedUnary
+  · exact separationUnary
 
 end BEDC.Derived.SequentiallyCompleteMetricUp
