@@ -1,0 +1,103 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-05T07:13:11.713087+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "f58277b810a1b22114f389a12b8de0f52567a3d6c692f7c663463f46b57f01e6",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "e9a631afb2175938595d0b3b28046d47ff8a737484991671784925b73c7eeecc"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/discovery_compiler/capsule.py",
+        "sha256": "b23375da3dc15dcfdadbd28ae8bffe268151e99314e15983bcbe3c4e0cf783ac"
+      },
+      {
+        "path": "bedc_quality_lab/ledger_aware_transformer.py",
+        "sha256": "c15274cb60820377c2fefa5127506acda610c3f6359459759330fb46a5d6cc60"
+      },
+      {
+        "path": "scripts/run_ledger_aware_transformer.py",
+        "sha256": "249bd73c68fee276676bf39f2523535a4533662a1721d88e30ba4a9aa5a50cc0"
+      }
+    ],
+    "report_output_schema_id": "bedc.model.ledger_aware_transformer",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_ledger_aware_transformer.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [],
+    "spec": {
+      "bundle_role": "hg_p_core",
+      "command": [
+        "python3",
+        "scripts/run_ledger_aware_transformer.py"
+      ],
+      "control_pointer": "$.control_protocol",
+      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "estimated_seconds": 2,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/ledger-aware-transformer.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/ledger-aware-transformer.md",
+      "name": "ledger-aware-transformer",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.positive_claim",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifacts",
+        "config",
+        "surface_registry",
+        "applicability_boundary",
+        "control_protocol",
+        "records",
+        "aggregate_metrics",
+        "ledger",
+        "positive_claim",
+        "claim_capsule_ref",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.applicability_boundary"
+    }
+  },
+  "json_artifact": "reports/canonical/ledger-aware-transformer.json",
+  "markdown_artifact": "reports/canonical/ledger-aware-transformer.md",
+  "output_digest": "1b809130699120c1ddc837d22e052d6b905d75be7e98511f48f09bc90e25d028",
+  "producer_command": [
+    "python3",
+    "scripts/run_ledger_aware_transformer.py"
+  ],
+  "report_name": "ledger-aware-transformer",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}
