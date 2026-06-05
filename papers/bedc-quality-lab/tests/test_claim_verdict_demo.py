@@ -457,6 +457,38 @@ def test_constraint_lagrangian_dn_reason_preserves_evidence_label(tmp_path, monk
     )
 
 
+def test_certificate_gated_attention_row_maps_existing_positive_verdict(tmp_path, monkeypatch):
+    rows = [_discovery_row("certificate-gated-attention", "reports/canonical/certificate-gated-attention.json", "D4")]
+    rows[0]["control_pointer"] = "$.matched_random_control"
+    specs = (
+        _spec(
+            "certificate-gated-attention",
+            "reports/canonical/certificate-gated-attention.json",
+            positive="$.positive_claim",
+            control="$.matched_random_control",
+        ),
+    )
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/certificate-gated-attention.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload.update(
+        {
+            "positive_claim": {"text": "certificate-gated attention fixture", "scope": "bounded"},
+            "matched_random_control": {"control_verdict": {"positive": False}},
+            "certificate_gate_summary": {"gated_vs_plain_valid": {"leak_reduction_mean": 0.1}},
+            "net_positive_signal": True,
+            "positive_discovery": True,
+        }
+    )
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:certificate-gated-attention"
+    assert verdict["claim_verdict"] in demo.CLAIM_VERDICTS
+    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+
+
 @pytest.mark.parametrize("audit_status", ["invalid", None])
 def test_positive_discovery_requires_valid_discovery_map_audit(tmp_path, monkeypatch, audit_status):
     rows = [_discovery_row("gap-head-discovery", "reports/canonical/gap-head-discovery.json", "D4")]
