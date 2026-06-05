@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab.backends.model_discovery import (
+    CGA_CANONICAL_ARTIFACT,
     CLAIM_CAPSULE_ARTIFACT,
     DRT_CANONICAL_ARTIFACT,
     NM_HARDGATE_IDS,
@@ -121,6 +122,21 @@ def test_model_discovery_consumes_drt_by_pointer_only():
     assert refs["surface_registry"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
     assert refs["torch_training_evidence"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.torch_training_evidence"}
     assert "quality_q" not in refs
+    assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
+
+
+def test_model_discovery_consumes_cga_by_pointer_only():
+    adapter = ModelDiscoveryBackendEvidenceAdapter()
+    source_spec = adapter.build_source_spec()
+    payload = build_model_discovery_payload(generated_at="fixture-time")
+
+    assert source_spec["certificate_gated_attention"]["artifact"] == CGA_CANONICAL_ARTIFACT
+    refs = payload["certificate_gated_attention_refs"]
+    assert refs["discovery_map_signal"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"}
+    assert refs["surface_registry"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
+    assert refs["certificate_gate_summary"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.certificate_gate_summary"}
+    assert refs["torch_attention_evidence"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.torch_attention_evidence"}
+    assert "attention_leak" not in refs
     assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
 
 

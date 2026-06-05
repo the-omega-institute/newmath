@@ -1,7 +1,7 @@
 # Discovery Map
 
 - Generated at: `2026-06-05T07:13:11.713087+00:00`
-- Rows: `20`
+- Rows: `21`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -11,6 +11,7 @@
 | `gap-head-discovery` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `gap-head-ablation` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[0]` |
 | `ledger-aware-transformer` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `certificate-gated-attention` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `gap-head-threshold-frontier` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `gap-head-transfer-atlas` | `D5-O` | `` | `` | `projected` | `valid` | `$.config.control_arm` |
 | `gap-head-attribution-capsule` | `D0` | `D5-O` | `blocked` | `two-axis-recorded` | `valid` | `$.mechanism_evidence` |
