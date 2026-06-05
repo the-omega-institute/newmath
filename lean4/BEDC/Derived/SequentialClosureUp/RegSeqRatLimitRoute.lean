@@ -31,7 +31,7 @@ theorem SequentialClosureRegSeqRatLimitRoute [AskSetup] [PackageSetup]
   intro carrier limitRoute windowRoute regSeqRoute realSealRoute namedRoute namedPkg
   obtain ⟨_topologyUnary, _metricUnary, _sourceUnary, _sequenceUnary, limitUnaryBase,
     requestUnary, windowUnaryBase, regSeqUnaryBase, realSealUnaryBase, _transportUnary,
-    _continuationUnary, _provenanceUnary, nameUnary, provenancePkg⟩ := carrier
+    _continuationUnary, _provenanceUnary, nameUnary, provenancePkg, _localNamePkg⟩ := carrier
   have limitUnary : UnaryHistory limitRead :=
     unary_cont_closed limitUnaryBase requestUnary limitRoute
   have windowUnary : UnaryHistory windowRead :=
