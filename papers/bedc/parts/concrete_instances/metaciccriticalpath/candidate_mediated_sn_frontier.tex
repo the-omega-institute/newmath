@@ -185,6 +185,35 @@ Finally apply socket exhaustion, \autoref{thm:metacic-critical-path-candidate-no
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedFrontierObstructionNonescape}
 
+\begin{theorem}[MetaCIC candidate-mediated SN frontier discharge]
+\label{thm:metacic-critical-path-candidate-mediated-sn-frontier-frontier-discharge}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. A candidate-mediated strong-normalization handoff may approach the discharge socket only through the displayed rows
+$$
+S,N,O,U,D,H,C,P,L
+$$
+and the L10 source faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp .
+$$
+The socket $D$ remains unfilled until a separate closed subject-reduction row is displayed. In particular the handoff exports no closed subject reduction, unrestricted strong normalization, full confluence, beta-conversion decidability, quotient term equality, selected limit, host equality, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the candidate-mediated frontier theorem and L10 readback theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback}. They place any candidate-mediated SN read behind the rows $S,N,O,U,D,H,C,P,L$ and force the four L10 faces to be displayed before the handoff row $U$ is consumed.
+
+Next apply frontier handoff totality, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-handoff-totality}. It exhausts the handoff route by $S,N,U,H,C,P,L$, the visible boundary rows $O,D$, and the same four L10 source faces, so a consumer has no additional route into the discharge socket.
+
+Use obstruction nonescape, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-obstruction-nonescape}. It keeps $O$ and $D$ visible while the finite candidate-mediated route is replayed, and it blocks any reading of candidate-mediated SN as a closed subject-reduction row.
+
+Finally apply socket exhaustion, \autoref{thm:metacic-critical-path-candidate-normalization-socket-exhaustion}. After the displayed rows and L10 faces have been consumed, no packet coordinate remains from which quotient equality, selected limits, host equality, Real completeness, global confluence, beta-decidability, unrestricted strong normalization, or closed subject reduction could be recovered. The discharge boundary is therefore approached but not filled.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate frontier discharge coverage]
 \label{thm:metacic-critical-path-candidate-frontier-discharge-coverage}
 Let
