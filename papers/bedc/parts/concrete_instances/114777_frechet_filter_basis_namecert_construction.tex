@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\FrechetFilterBasisUp$}
+\label{ch:concrete-instances-frechet-filter-basis-namecert}
+\origin{human}
+
+Following Bourbaki and Kelley, the $\FrechetFilterBasisUp$ packet isolates the cofinite-tail basis that generates the Frechet filter before any consumer reads a full filter surface. It sits between the finite-tail rows of \autoref{ch:concrete-instances-finite-tail-filter-namecert}, the filter-base rows of \autoref{ch:concrete-instances-filterbase-namecert}, and the FrechetFilter route of \autoref{ch:concrete-instances-frechetfilter-namecert}. Sequential consumers read the same finite basis through $\CauchyFilterUp$, $\SequentiallyCompleteMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, and the terminal $\RealUp$ seal, never through quotient filter equality or a selected limit.
+
+\begin{definition}[FrechetFilterBasis carrier]
+\label{def:frechet-filter-basis-carrier}
+A $\FrechetFilterBasisUp$ carrier is a finite $\BHist$ packet
+$$
+B=(U,T,F,S,Q,M,R,A,H,C,P,N)
+$$
+whose rows have the following roles:
+\begin{enumerate}
+\item $U$ is the displayed unary tail-threshold row.
+\item $T$ is the $\FiniteTailFilterUp$ finite-complement row, recording tail containment by finite data.
+\item $F$ is the $\FilterBaseUp$ meet row for cofinite-tail neighborhoods.
+\item $S$ is the $\StreamNameUp$ schedule row read only after $U,T,F$.
+\item $Q$ is the $\CauchyFilterUp$ handoff row built from that basis.
+\item $M$ is the $\FrechetFilterUp$ consumer row receiving the generated filter surface.
+\item $R$ is the $\RegSeqRatUp$ tail readback row.
+\item $A$ is the $\RealUp$ seal row available only after the regular readback.
+\item $H,C,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\FrechetFilterBasisUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a quotient filter, external cofinite-set algebra, countable tail selector, selected limit, ambient completion, or independent $\RealUp$ completeness proof.
+\end{definition}
+
+\begin{theorem}[FrechetFilterBasis NameCert obligations]
+\label{thm:frechet-filter-basis-namecert-obligations}
+For every accepted $\FrechetFilterBasisUp$ carrier $B=(U,T,F,S,Q,M,R,A,H,C,P,N)$, the local $\NameCert_{\FrechetFilterBasisUp}$ consists exactly of carrier admission for those rows, cofinite-tail basis admission through $U,T,F$, common-tail meet stability through $F$, FrechetFilter handoff through $M$, CauchyFilter and sequential-completion handoff through $Q,S,R,A$, transport and replay through $H,C$, provenance through $P$, and the refusal of quotient filters, selected limits, countable selectors, ambient completion, and independent Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only rows that can mention cofinite tails are $U,T,F$, and the only rows that can export that surface are $M$ and $Q$.
+
+The meet row $F$ supplies the common-tail refinement before the stream schedule $S$ and regular readback $R$ can be inspected. The replay row $C$ fixes that order, while $H$ transports it componentwise and $P,N$ name only the displayed packet.
+
+Thus every listed obligation is read from $U,T,F,S,Q,M,R,A,H,C,P,N$. The refused objects are absent from the carrier, so the local certificate cannot project them.
+\end{proof}
+
+\begin{theorem}[FrechetFilterBasis CauchyFilter handoff]
+\label{thm:frechet-filter-basis-cauchyfilter-handoff}
+Every $\CauchyFilterUp$ consumer of an accepted $\FrechetFilterBasisUp$ carrier reads the finite cofinite-tail basis through
+$$
+U,T,F \longmapsto S,Q \longmapsto R,A,H,C,P,N .
+$$
+The handoff also supplies the $\FrechetFilterUp$ row $M$ as the generated filter surface, but it exports no quotient filter equality, countable tail selector, selected limit, ambient completion, or separate Real-completeness object.
+\end{theorem}
+\begin{proof}
+Read $U,T,F$ from \autoref{def:frechet-filter-basis-carrier}. They are the threshold, finite-complement, and FilterBase meet rows, hence the complete basis source.
+
+The continuation row then places $S$ and $Q$ downstream of that source. A CauchyFilter read cannot reach $Q$ before the finite basis has been displayed, and the FrechetFilter row $M$ receives the same generated surface.
+
+The readback and Real rows $R,A$ are later consumers of the same route. Since no refused host object is a carrier coordinate, the handoff remains a finite NameCert route.
+\end{proof}
+
+\begin{theorem}[FrechetFilter sequential-completion tail-basis route]
+\label{thm:frechet-filter-sequential-completion-tail-basis-route}
+Every $\SequentiallyCompleteMetricUp$ consumer that starts from a $\FrechetFilterUp$ tail source may instead read the narrower $\FrechetFilterBasisUp$ route
+$$
+\FiniteTailFilterUp(U,T),\ \FilterBaseUp(F),\ \StreamNameUp(S),\ \CauchyFilterUp(Q),\ \RegSeqRatUp(R),\ \RealUp(A),\ H,C,P,N
+$$
+before treating the source as a completion input. This route is a finite cofinite-tail basis route and not a full quotient-filter or ambient-completion route.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:frechet-filter-basis-namecert-obligations} to isolate the admitted rows. The basis part is exactly $U,T,F$, and the sequential-facing consumers are attached only through $S,Q,R,A$.
+
+Apply \autoref{thm:frechet-filter-basis-cauchyfilter-handoff}. It identifies the CauchyFilter export as the same finite basis read, with the FrechetFilter row $M$ generated from it rather than supplied independently.
+
+Sequential completion therefore consumes the regular-rational and Real-facing rows after the basis handoff. The refused quotient filter, selected limit, countable selector, and ambient completion coordinates are unavailable.
+\end{proof}
+
+\closureat{FrechetFilterBasisUp}{seedStr}
+
+\begin{closurestatus}{\FrechetFilterBasisUp}
+  \constructivestory{A $\FrechetFilterBasisUp$ packet is generated from finite tail thresholds, cofinite finite-complement rows, FilterBase meets, StreamName schedules, CauchyFilter handoff, FrechetFilter generation, RegSeqRat readback, Real seal, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-filter-basis-carrier} and \autoref{thm:frechet-filter-basis-namecert-obligations} seed the cofinite-tail basis surface for FrechetFilter and sequential-completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, quotient filter equality, selected limits, countable tail selection, ambient completion, or independent Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, common-tail meet stability, FrechetFilter handoff, CauchyFilter handoff, sequential-completion routing, transport, replay, provenance, and local naming for BEDC.Derived.FrechetFilterBasisUp.}
+\end{closurestatus}
