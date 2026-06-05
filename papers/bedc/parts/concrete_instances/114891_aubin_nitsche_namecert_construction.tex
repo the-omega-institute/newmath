@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\AubinNitscheUp$}
+\label{ch:concrete-instances-aubin-nitsche-namecert}
+\origin{human}
+
+Following Aubin and Nitsche on finite-element duality estimates, the $\AubinNitscheUp$ packet records the finite BEDC route by which an $L^2$-style error read is obtained from Galerkin orthogonality, a displayed dual solve, Sobolev regularity, projection comparison, and a terminal Real error-bound row. It sits over the Galerkin projection surface of \autoref{ch:concrete-instances-galerkin-projection-namecert}, the variational dual row of \autoref{ch:concrete-instances-lax-milgram-namecert}, the regularity source of \autoref{ch:concrete-instances-sobolev-namecert}, and the scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed duality-error route; it does not import host Hilbert-space quotients, selected minimizers, ambient completeness, or an unrestricted PDE solution operator.
+
+\begin{definition}[Aubin-Nitsche carrier]
+\label{def:aubin-nitsche-carrier}
+An $\AubinNitscheUp$ carrier is a finite $\BHist$ packet
+$$
+A=(G,L,S,H,R,D,E,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GalerkinProjectionUp$ row, exposing the finite trial space, projection residual, and Galerkin orthogonality surface used by the error read.
+\item $L$ is the $\LaxMilgramUp$ dual row, displaying the variational dual solve available for the residual functional.
+\item $S$ is the $\SobolevUp$ regularity row, recording the finite regularity budget that allows the dual solution to be compared with projected test data.
+\item $H$ is the $\HilbertUp$ or norm-comparison row, carrying the displayed pairing and norm ledger without quotienting the ambient function space.
+\item $R$ is the $\RealUp$ error-bound row, sealing constants, radii, and tolerances used by the final scalar estimate.
+\item $D$ is the duality comparison row, relating the primal error read to the dual residual route through $G,L,S,H$.
+\item $E$ is the projection-error row, exposing the approximation term that bounds the dual test error before $R$ is read.
+\item $T$ records componentwise $\hsame$ transport for $G,L,S,H,R,D,E$ and for the replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an $L^2$-error request through
+$$
+G,L,S,H,D,E \longmapsto R \longmapsto T,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\AubinNitscheUp$, $\GalerkinProjectionUp$, $\LaxMilgramUp$, $\SobolevUp$, $\HilbertUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AubinNitscheUp}$ row.
+\end{enumerate}
+The carrier contains no host Hilbert-space quotient, selected minimizer, ambient completeness theorem, unrestricted PDE solution operator, Lean verification row, or bridge credential.
+\end{definition}
+
+\begin{theorem}[Aubin-Nitsche NameCert obligations]
+\label{thm:aubin-nitsche-namecert-obligations}
+For every accepted $\AubinNitscheUp$ carrier
+$$
+A=(G,L,S,H,R,D,E,T,C,P,N),
+$$
+the local $\NameCert_{\AubinNitscheUp}$ surface consists exactly of carrier admission for the displayed rows, Galerkin orthogonality exposure through $G$, dual-solve exposure through $L$, Sobolev regularity exposure through $S$, norm or Hilbert comparison through $H$, projection-error comparison through $E$, duality comparison through $D$, Real-bound sealing through $R$, componentwise transport through $T$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:aubin-nitsche-carrier}. The analytic rows are the Galerkin row $G$, dual Lax--Milgram row $L$, Sobolev regularity row $S$, norm or Hilbert comparison row $H$, duality comparison row $D$, projection-error row $E$, and Real-bound row $R$.
+
+The Galerkin and dual rows expose the two variational inputs. The row $G$ supplies the displayed residual-orthogonality surface, while $L$ supplies only the dual solve named by the variational certificate.
+
+The regularity and comparison rows then bound the dual test error. The row $S$ records the finite Sobolev budget, $H$ records the pairing and norm ledger, and $E$ records the projection-error comparison before any scalar estimate is sealed.
+
+Finally $D$ composes the displayed duality comparison and $R$ seals the scalar error data. The structural rows $T,C,P,N$ transport, replay, source, and name the same route, so no hidden quotient, selected minimizer, ambient completeness theorem, unrestricted PDE solution operator, Lean verification row, or bridge credential remains available.
+\end{proof}
+
+\begin{theorem}[Aubin-Nitsche duality-error route]
+\label{thm:aubin-nitsche-duality-error-route}
+Every public $L^2$-error read exported by an accepted $\AubinNitscheUp$ carrier factors through the displayed route
+$$
+\GalerkinProjectionUp \longmapsto \LaxMilgramUp \longmapsto \SobolevUp \longmapsto \HilbertUp \longmapsto \RealUp
+$$
+and through the packet rows for duality comparison, projection error, transport, replay, provenance, and local naming. The exported estimate is a finite duality-error certificate; it exports no host Hilbert-space quotient, selected minimizer, ambient completeness theorem, unrestricted PDE solution operator, quotient real equality, or countable-choice selector.
+\end{theorem}
+\begin{proof}
+Start with a public $L^2$-error request. By \autoref{thm:aubin-nitsche-namecert-obligations}, the request first reads the Galerkin projection row $G$ and its residual-orthogonality surface.
+
+The dual route is then forced through $L$. The dual solve is available only as the displayed Lax--Milgram row, so the consumer cannot replace it by a host solution operator or selected minimizer.
+
+Next read $S,H,E,D$ in order. These rows supply the Sobolev regularity budget, norm or Hilbert pairing ledger, projection-error comparison, and duality comparison needed before the scalar bound is exposed.
+
+The Real row $R$ is the only scalar seal in the carrier. Since $T,C,P,N$ preserve the same rows and no forbidden coordinate appears in the carrier, the public error read remains inside the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every $\AubinNitscheUp$ error read factors through displayed GalerkinProjectionUp, LaxMilgramUp, SobolevUp, HilbertUp, RealUp, duality comparison, projection-error, BHist, hsame, Cont, Pkg, and NameCert rows before any public estimate is exported.}
+
+\independenceWitness{galerkin-projection, lax-milgram, sobolev, hilbert, real: $\AubinNitscheUp$ is not bijective to any listed sibling because it jointly carries Galerkin orthogonality, a variational dual solve, Sobolev regularity, norm or Hilbert comparison, projection-error comparison, Real scalar sealing, transport, replay, provenance, and local naming.}
+
+\closureat{AubinNitscheUp}{seedStr}
+
+\begin{closurestatus}{\AubinNitscheUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:aubin-nitsche-carrier}, \autoref{thm:aubin-nitsche-namecert-obligations}, and \autoref{thm:aubin-nitsche-duality-error-route} seed the finite duality-error route over Galerkin, Lax--Milgram, Sobolev, norm or Hilbert, projection, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host Hilbert-space quotients, selected minimizers, ambient completeness, unrestricted PDE solution operators, quotient real equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Galerkin orthogonality exposure, dual-solve exposure, Sobolev regularity exposure, projection-error comparison, Real-bound sealing, componentwise transport, replay, provenance, and local naming for BEDC.Derived.AubinNitscheUp.}
+  \constructivestory{An $\AubinNitscheUp$ packet is generated from a Galerkin projection row, LaxMilgram dual row, Sobolev regularity row, norm or Hilbert comparison row, Real error-bound row, duality comparison row, projection-error row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
