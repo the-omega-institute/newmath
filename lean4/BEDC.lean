@@ -1200,7 +1200,6 @@ import BEDC.Derived.CantorSetUp.TasteGate
 import BEDC.Derived.CantorSetUp.TernaryPrefixClassifier
 import BEDC.Derived.CantorSetUp.TernaryPrefixDensity
 import BEDC.Derived.CantorSetUp.TriadicWindowStability
-import BEDC.Derived.CantorSpaceCompactnessUp.TasteGate
 import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorTernarySetUp.TasteGate
@@ -5630,7 +5629,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionConsumerRoute
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionSocketBudget
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedNormalizationCandidateLedger
-import BEDC.Derived.MetaCICCriticalPathUp.BridgeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDeciderExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeBudgetRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeFrontier
@@ -5728,6 +5726,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FrontierNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankConsumerExactness
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankNameCertObligations
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankOpenNode
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankSoundness
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankTransportStability
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffRowCoverage
@@ -5738,7 +5737,6 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeGate
 import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeOrder
 import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10DependencyBudget
-import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyBridge
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitScopeSeal
@@ -8067,6 +8065,7 @@ import BEDC.Derived.SequentialContinuityUp.MetricRowStability
 import BEDC.Derived.SequentialContinuityUp.TasteGate
 import BEDC.Derived.SequentialRealCompactnessUp.TasteGate
 import BEDC.Derived.SequentialUniformCompletionUp.TasteGate
+import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
 import BEDC.Derived.SeriesLimitComparisonUp.TasteGate
