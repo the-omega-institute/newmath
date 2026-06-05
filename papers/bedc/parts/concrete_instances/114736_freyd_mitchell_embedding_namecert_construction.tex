@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\FreydMitchellEmbeddingUp$}
+\label{ch:concrete-instances-freyd-mitchell-embedding-namecert}
+\origin{human}
+
+Following Freyd and Mitchell, the $\FreydMitchellEmbeddingUp$ packet records the finite certificate surface needed to name the exact embedding route from a small abelian category into a module category. It depends on the abelian-category carrier of \autoref{ch:concrete-instances-abeliancat-namecert}, the functor carrier of \autoref{ch:concrete-instances-functor-namecert}, and the module carrier of \autoref{ch:concrete-instances-module-namecert}; it also uses the natural-transformation interface of \autoref{ch:concrete-instances-nattrans-namecert} to keep comparison rows explicit.
+
+\section{Carrier}
+\label{sec:freyd-mitchell-embedding-carrier}
+
+\begin{definition}[FreydMitchellEmbeddingUp displayed carrier]
+\label{def:freyd-mitchell-embedding-carrier}
+A $\FreydMitchellEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+\mathcal F=(A,R,M,E,X,K,C,H,P,N)
+$$
+with the following displayed rows.
+\begin{enumerate}
+  \item $A$ is an $\AbelianCatUp$ source row whose object, morphism, zero, biproduct, kernel, cokernel, image, coimage, and factorisation data are the visible rows of \autoref{ch:concrete-instances-abeliancat-namecert}.
+  \item $R$ is the ring or algebra row over which the target module category is displayed.
+  \item $M$ is a $\ModuleUp$ target row naming the module carrier, hom rows, additive structure, scalar action, and componentwise $\hsame$ transport inherited from \autoref{ch:concrete-instances-module-namecert}.
+  \item $E$ is a $\FunctorUp$ row from $A$ into the displayed module category; it contains object mapping, morphism mapping, identity preservation, composition preservation, and codomain classifier transport.
+  \item $X$ is an exactness ledger: for every visible kernel, cokernel, image, coimage, and epi--mono factorisation row in $A$, the image under $E$ is recorded as the corresponding kernel, cokernel, image, coimage, or exact sequence row in $M$.
+  \item $K$ is a faithfulness ledger: if two displayed morphisms of $A$ have the same transported module morphism under $E$, the ledger returns the original morphism-classifier equality in $A$.
+  \item $C$ is a comparison row for naturality and finite diagram compatibility, expressed through $\NatTransUp$ rows when two displayed finite diagrams in $A$ are transported into $M$.
+  \item $H$ is componentwise $\hsame$ transport for $A,R,M,E,X,K,C$.
+  \item $P$ is package provenance tying the carrier to the finite source presentation, the target module presentation, and the embedding rows.
+  \item $N$ is the local $\NameCert_{\FreydMitchellEmbeddingUp}$ row.
+\end{enumerate}
+The carrier names the finite BEDC obligation surface for an exact faithful embedding packet. It does not assert that every small abelian category admits such a packet, nor does it construct a universal module category from arbitrary external data.
+\end{definition}
+
+\begin{theorem}[FreydMitchellEmbeddingUp NameCert obligations]
+\label{thm:freyd-mitchell-embedding-namecert-obligations}
+For the carrier of \autoref{def:freyd-mitchell-embedding-carrier}, the local $\NameCert_{\FreydMitchellEmbeddingUp}$ surface consists exactly of carrier admission for $\mathcal F=(A,R,M,E,X,K,C,H,P,N)$; source admission through $\NameCert_{\AbelianCatUp}$; target admission through $\NameCert_{\ModuleUp}$; embedding admission through $\NameCert_{\FunctorUp}$; naturality comparison through $\NameCert_{\NatTransUp}$; exactness replay through $X$; faithfulness replay through $K$; componentwise transport through $H$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Read the abelian-category source row first. Its additive, kernel, cokernel, image, coimage, and factorisation fields are the only exactness rows that the embedding packet is allowed to consume.
+
+Next read the target module row and the functor row. The module row supplies the additive target hom structure and scalar action, while the functor row supplies object mapping, morphism mapping, identity preservation, and composition preservation. These are the rows on which the exactness ledger $X$ and the faithfulness ledger $K$ are indexed.
+
+Finally read the comparison, transport, provenance, and name rows. The $\NatTransUp$ comparison row records finite diagram compatibility; $H$ transports every displayed component; $P$ records the finite source and target presentations; and $N$ names the packet. Repacking these rows gives precisely the displayed $\NameCert_{\FreydMitchellEmbeddingUp}$ surface and no full embedding existence theorem.
+\end{proof}
+
+\closureat{FreydMitchellEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\FreydMitchellEmbeddingUp}
+  \constructivestory{A $\FreydMitchellEmbeddingUp$ packet is generated from an abelian-category source row, a module target row, an exact faithful functor row, finite exactness and faithfulness ledgers, naturality comparison rows, componentwise $\hsame$ transport, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:freyd-mitchell-embedding-carrier} and \autoref{thm:freyd-mitchell-embedding-namecert-obligations} seed the finite BEDC certificate surface for an exact faithful embedding packet from an abelian-category carrier to a module carrier.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not claim the Freyd--Mitchell embedding theorem, existence for arbitrary small abelian categories, target ring construction, or Lean verification.}
+  \upgradepath{Formalization must introduce the displayed carrier and prove the NameCert obligation surface without adding an external embedding existence premise.}
+\end{closurestatus}
