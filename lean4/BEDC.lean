@@ -730,6 +730,7 @@ import BEDC.Derived.BanachSpaceUp.NormedCauchyLedger
 import BEDC.Derived.BanachSpaceUp.SeparatedCompletionBoundary
 import BEDC.Derived.BanachSpaceUp.SeparatedNameCertObligation
 import BEDC.Derived.BanachSpaceUp.TasteGate
+import BEDC.Derived.BanachSpaceUp.VectorOperationTransportObligation
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
@@ -1182,7 +1183,6 @@ import BEDC.Derived.CalculusUp.DerivativeContinuationObligation
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
 import BEDC.Derived.CalculusUp.LimitRealSealObligation
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
-import BEDC.Derived.CalculusUp.RiemannDerivativeSeparation
 import BEDC.Derived.CalculusUp.RootL10Nonescape
 import BEDC.Derived.CalculusUp.RootLimitDerivativeIntegralRoute
 import BEDC.Derived.CalculusUp.RootPublicPackageReadiness
@@ -1572,6 +1572,7 @@ import BEDC.Derived.CauchyLimitSealUp.StreamNameSynchronizerPullback
 import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
+import BEDC.Derived.CauchyLocatedApartnessUp.TasteGate
 import BEDC.Derived.CauchyLocatedRealEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyLocatednessUp.TasteGate
 import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
@@ -4106,6 +4107,7 @@ import BEDC.Derived.FanfunctionalUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.UniformModulusCompactConsumer
 import BEDC.Derived.FanfunctionalUp.UniformModulusConsumerBoundary
 import BEDC.Derived.FanfunctionalUp.UniformModulusScope
+import BEDC.Derived.FanfunctionalUp.UniformmodulusConsumerScope
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
@@ -8727,7 +8729,6 @@ import BEDC.Derived.SubjectReductionBundleTraceUp
 import BEDC.Derived.SubjectReductionBundleTraceUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.Carrier
-import BEDC.Derived.SubjectReductionDischargeLedgerUp.CarrierExposure
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionHandoff
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.TransportReplay
