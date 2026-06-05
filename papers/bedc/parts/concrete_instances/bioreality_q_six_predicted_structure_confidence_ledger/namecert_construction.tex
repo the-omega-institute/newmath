@@ -1,0 +1,36 @@
+\chapter{BioRealityQSixPredictedStructureConfidenceLedger NameCert Construction}
+\label{ch:concrete-instances-bioreality_q_six_predicted_structure_confidence_ledger-namecert}
+\origin{ai}
+
+The $\BioRealityQSixPredictedStructureConfidenceLedgerUp$ packet records a finite confidence ledger for predicted protein-structure rows in the BioReality $Q6$ surface. It binds the structure-source key, protein identifier, organism row, prediction-confidence scalar, confidence bucket, row provenance, replay ledger, and local NameCert boundary without promoting the prediction to an experimental structure, causal mechanism, folding proof, pathway annotation, or therapeutic claim.
+
+\begin{definition}[Predicted-structure confidence ledger]
+\label{def:bioreality-q-six-predicted-structure-confidence-ledger-carrier}
+A $\BioRealityQSixPredictedStructureConfidenceLedgerUp$ carrier is the finite packet
+$$
+L=(S,P,O,C,B,H,R,G,N)
+$$
+where $S$ is the structure-source key, $P$ is the protein identifier, $O$ is the organism row, $C$ is the prediction-confidence scalar, $B$ is the displayed confidence bucket, $H$ is componentwise transport, $R$ is replay provenance, $G$ is package provenance, and $N$ is the local $\NameCert$ row. The carrier has no coordinate for an experimental fold, causal mechanism, selected conformer, host structure equality, pathway-level annotation, or therapeutic interpretation.
+\end{definition}
+
+\begin{theorem}[Predicted-structure confidence ledger scope]
+\label{thm:bioreality-q-six-predicted-structure-confidence-ledger-scope}
+Every accepted $\BioRealityQSixPredictedStructureConfidenceLedgerUp$ read factors through the finite rows $S,P,O,C,B,H,R,G,N$. The read may report a displayed prediction-confidence bucket, but it exports no experimental structure, causal mechanism, selected conformer, host structure equality, pathway-level annotation, or therapeutic interpretation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bioreality-q-six-predicted-structure-confidence-ledger-carrier}. Its visible rows are exactly the source key, protein identifier, organism row, confidence scalar, confidence bucket, transport, replay, package provenance, and local name.
+
+The confidence bucket is downstream from the displayed scalar and row provenance. Transport and replay preserve those finite rows without adding a structural primitive.
+
+Since the excluded claims have no carrier coordinate, an accepted read cannot export them through the local certificate.
+\end{proof}
+
+\begin{closurestatus}{\BioRealityQSixPredictedStructureConfidenceLedgerUp}
+  \constructivestory{The carrier is generated from finite structure-source keys, protein identifiers, organism rows, prediction-confidence scalars, displayed confidence buckets, transport, replay, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bioreality-q-six-predicted-structure-confidence-ledger-carrier} and \autoref{thm:bioreality-q-six-predicted-structure-confidence-ledger-scope} seed the finite confidence-ledger boundary for predicted protein-structure rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{No experimental structure, causal mechanism, selected conformer, host structure equality, pathway-level annotation, therapeutic interpretation, Lean verification, or bridge checking is closed.}
+  \upgradepath{Obligation closure requires checked carrier admission, confidence-bucket scope, row-provenance replay, and non-promotion boundaries for BEDC.Derived.BioRealityQSixPredictedStructureConfidenceLedgerUp.}
+\end{closurestatus}
