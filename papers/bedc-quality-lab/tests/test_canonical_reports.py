@@ -18,6 +18,7 @@ HG_P_CORE = {
     "gap-head-on-h",
     "gap-head-discovery",
     "gap-head-ablation",
+    "ledger-aware-transformer",
     "gap-head-threshold-frontier",
     "gap-head-transfer-atlas",
     "gap-head-attribution-capsule",
@@ -624,6 +625,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-on-h",
         "gap-head-discovery",
         "gap-head-ablation",
+        "ledger-aware-transformer",
         "gap-head-threshold-frontier",
         "gap-head-transfer-atlas",
         "gap-head-attribution-capsule",
@@ -2277,6 +2279,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
                 {
+                    "report": "ledger-aware-transformer",
+                    "artifact": "reports/canonical/ledger-aware-transformer.json",
+                    "pointer": "$.applicability_boundary",
+                },
+                {
                     "report": "gap-head-threshold-frontier",
                     "artifact": "reports/canonical/gap-head-threshold-frontier.json",
                     "pointer": "$.applicability_boundary",
@@ -2332,12 +2339,12 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-                "numerator": 16,
-                "denominator": 16,
-            },
-            "CostProtocolCompleteness": {
-                "value": 1.0,
-                "source": [
+            "numerator": 17,
+            "denominator": 17,
+        },
+        "CostProtocolCompleteness": {
+            "value": 1.0,
+            "source": [
                 {
                     "report": "mixing-family-sweep",
                     "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -2362,6 +2369,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "report": "gap-head-ablation",
                     "artifact": "reports/canonical/gap-head-ablation.json",
                     "pointer": "$.control_protocol",
+                },
+                {
+                    "report": "ledger-aware-transformer",
+                    "artifact": "reports/canonical/ledger-aware-transformer.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {
                     "report": "gap-head-threshold-frontier",
@@ -2419,9 +2431,9 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
             ],
-                "numerator": 16,
-                "denominator": 16,
-            },
+            "numerator": 17,
+            "denominator": 17,
+        },
         "HardeningCoverage": {
             "value": 1.0,
             "source": {
