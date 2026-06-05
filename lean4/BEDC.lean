@@ -4008,6 +4008,8 @@ import BEDC.Derived.FanfunctionalUp.CantorModulusLedger
 import BEDC.Derived.FanfunctionalUp.CantorPrefixModulusHandoff
 import BEDC.Derived.FanfunctionalUp.CantorPrefixNonescape
 import BEDC.Derived.FanfunctionalUp.CompactContinuityConsumer
+import BEDC.Derived.FanfunctionalUp.CompactMetricFiniteNetRoute
+import BEDC.Derived.FanfunctionalUp.CompactMetricUniformBarScope
 import BEDC.Derived.FanfunctionalUp.CompactUniformConsumerScope
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusObligations
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
@@ -8195,6 +8197,7 @@ import BEDC.Derived.SequentialCompactUp.RootRealSealRefusal
 import BEDC.Derived.SequentialCompactUp.RootRegSeqRatExposure
 import BEDC.Derived.SequentialCompactUp.RootSelectedWindowRoute
 import BEDC.Derived.SequentialCompactUp.SelectorRefusal
+import BEDC.Derived.SequentialCompactUp.StreamNameSubsequenceRoute
 import BEDC.Derived.SequentialCompactUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.WindowExtractionScope
 import BEDC.Derived.SequentialCompactnessUp.BolzanoWeierstrassWindow
@@ -9005,6 +9008,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.ReadbackSealExactness
 import BEDC.Derived.UniformCompletionFunctorUp.ReadbackToleranceTerminalRoute
 import BEDC.Derived.UniformCompletionFunctorUp.RealSealConsumerRoute
 import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescape
+import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescapeFromDisplayedRoute
 import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatReadbackTotality
 import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatRealSourceHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.RootObligationLattice
