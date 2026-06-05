@@ -9,13 +9,13 @@ from scripts import run_canonical_reports as canonical
 from scripts import run_claim_verdict_demo as claim_verdicts
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_negative_witness_summary as summary
+from bedc_quality_lab.discovery_compiler.negative_reports import OWNER_FACT_KEYS
 
 
 ALLOWED_ROW_KEYS = {
     "negative_id",
     "negative_verdict",
     "reason",
-    "source",
     "ledger_pointer",
     "discovery_map_pointer",
     "witness_pointer",
@@ -68,7 +68,6 @@ def test_summary_covers_all_dn_discovery_map_rows():
         assert row["negative_verdict"] == "negative_discovery"
         assert row["reason"] == "discovery-level-DN"
         assert row["ledger_pointer"]
-        assert row["ledger_pointer"] == row["source"]
         assert row["discovery_map_pointer"].startswith("reports/canonical/discovery_map.json:$.rows[")
         assert row["discovery_map_pointer"].endswith(".negative_report_pointer")
         assert row["witness_pointer"] is None
@@ -97,9 +96,9 @@ def test_summary_covers_all_negative_witness_rows_with_compiled_verdict_pointers
         assert compiled_row["claim_id"] == f"claim:witness:{witness['kind']}"
         assert row["negative_verdict"] == compiled_row["claim_verdict"]
         assert row["reason"] == compiled_row["reason"]
-        assert row["source"] == f"reports/canonical/discovery_negative_witnesses.json:$.witnesses[{index}]"
-        assert row["ledger_pointer"] == row["source"]
-        assert row["witness_pointer"] == row["source"]
+        source = f"reports/canonical/discovery_negative_witnesses.json:$.witnesses[{index}]"
+        assert row["ledger_pointer"] == source
+        assert row["witness_pointer"] == source
         assert row["discovery_map_pointer"] is None
         assert row["audit_status"] == "pass"
 
@@ -129,10 +128,23 @@ def test_summary_rows_are_pointer_only_and_key_allowlisted():
         assert set(row) == ALLOWED_ROW_KEYS
         assert not (set(row) & FORBIDDEN_ROW_KEYS)
         for key, value in row.items():
-            if key in {"source", "ledger_pointer", "discovery_map_pointer", "witness_pointer", "claim_verdict_pointer"}:
+            if key in {"ledger_pointer", "discovery_map_pointer", "witness_pointer", "claim_verdict_pointer"}:
                 continue
             text = str(value).lower()
             assert not any(term in text for term in FORBIDDEN_POSITIVE_TERMS)
+
+
+def test_summary_rejects_owner_fact_keys_outside_pointers():
+    payload = _build_payload()
+    allowed_code_or_audit_keys = {"negative_id", "audit_status"}
+    leaked_owner_keys = {
+        key
+        for row in payload["rows"]
+        for key in row
+        if key in OWNER_FACT_KEYS and not key.endswith("_pointer") and key not in allowed_code_or_audit_keys
+    }
+
+    assert leaked_owner_keys == set()
 
 
 def test_summary_does_not_call_verdict_engine(monkeypatch):
