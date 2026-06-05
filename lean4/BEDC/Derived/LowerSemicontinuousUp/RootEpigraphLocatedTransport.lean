@@ -1,4 +1,4 @@
-import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
+import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
 
 namespace BEDC.Derived.LowerSemicontinuousUp
 
@@ -41,10 +41,22 @@ theorem LowerSemicontinuousRootEpigraphLocatedTransport [AskSetup] [PackageSetup
   have _acceptedFields :
       lowerSemicontinuousRootFields (LowerSemicontinuousUp.mk X F E W R O H C P N) =
         [X, F, E, W, R, O, H, C, P, N] := fields
-  have sameWindow : hsame windowRead windowRead' :=
-    cont_respects_hsame sameW sameR windowRoute windowRoute'
-  have sameEpigraph : hsame epigraphRead epigraphRead' :=
-    cont_respects_hsame sameWindow sameE epigraphRoute epigraphRoute'
+  have regularTransport :
+      hsame windowRead windowRead' ∧ hsame epigraphRead epigraphRead' ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row epigraphRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row W ∨ hsame row R ∨ hsame row E ∨ hsame row O ∨ hsame row H ∨
+              hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row windowRead ∨
+                hsame row epigraphRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont W R windowRead ∧ Cont windowRead E epigraphRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame :=
+    LowerSemicontinuousRegularReadback_transport wUnary rUnary eUnary oUnary sameW sameR
+      sameE windowRoute windowRoute' epigraphRoute epigraphRoute' provenancePkg namePkg
+  have sameWindow : hsame windowRead windowRead' := regularTransport.left
+  have sameEpigraph : hsame epigraphRead epigraphRead' := regularTransport.right.left
   have sameLocated : hsame locatedRead locatedRead' :=
     cont_respects_hsame sameEpigraph sameO locatedRoute locatedRoute'
   have windowUnary : UnaryHistory windowRead :=
