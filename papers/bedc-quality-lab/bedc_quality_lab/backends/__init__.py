@@ -1,3 +1,5 @@
 """Backend adapters for discovery compiler."""
 
-__all__ = ["current_lab", "lejepa"]
+from .attribution import GapHeadAttributionBackendEvidenceAdapter
+
+__all__ = ["GapHeadAttributionBackendEvidenceAdapter", "attribution", "current_lab", "lejepa"]
