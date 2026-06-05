@@ -51,6 +51,46 @@ The FilterBase row $B$ supplies the common-tail meet for any pair of displayed t
 The readback row $R$ and Real seal $A$ sit downstream of the same route, while $H$ preserves componentwise transport and $P,N$ package only that finite carrier. Hence no Real completeness, quotient filter equality, selected limit, countable-choice selector, or ambient completion coordinate remains available.
 \end{proof}
 
+\begin{theorem}[FrechetFilter carrier admission obligation]
+\label{thm:frechet-filter-carrier-admission-obligation}
+For every accepted $\FrechetFilterUp$ carrier $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$, the rows $U,T,S,M,B,Q,R,A,H,C,P,N$ are the complete admitted source surface for the local $\NameCert_{\FrechetFilterUp}$ packet. In particular every $\FiniteTailFilterUp$, $\StreamNameUp$, $\MetricUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\RegSeqRatUp$, $\RealUp$, transport, continuation, provenance, and local naming read is admitted only through those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frechet-filter-carrier}. Its displayed coordinates are exactly the unary threshold, cofinite tail-neighborhood, schedule, metric, filter-base, handoff, readback, seal, transport, replay, provenance, and local naming rows.
+
+Apply the NameCert obligations of \autoref{thm:frechet-filter-namecert-obligations}. The carrier-admission clause lists the same rows and the final clause says that no NameCert obligation is stored outside them.
+
+The later handoff and consumer-route theorems use only this admitted surface. In particular \autoref{thm:frechet-filter-tail-neighborhood-handoff}, \autoref{thm:frechet-filter-cauchy-source-boundary}, and \autoref{thm:frechet-filter-real-completion-consumer-route} all replay through subroutes of $U,T,S,M,B,Q,R,A,H,C,P,N$, so no extra source coordinate is available to any consumer.
+\end{proof}
+
+\begin{theorem}[FrechetFilter cofinal-tail stability obligation]
+\label{thm:frechet-filter-cofinal-tail-stability-obligation}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. If two accepted cofinite-tail requests are based on the same finite-tail row $T$, then their displayed thresholds refine through the $\FilterBaseUp$ meet row $B$ before any $\StreamNameUp$ schedule row or $\MetricUp$ tolerance row is read.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frechet-filter-carrier}. The rows $U$ and $T$ present the unary threshold and cofinite tail-neighborhood data, while $B$ is the displayed row where the common-tail meet is stored.
+
+Use \autoref{thm:frechet-filter-namecert-obligations}. Its cofinal-tail stability clause requires two displayed thresholds over the same cofinite-tail surface to pass through the common displayed tail supplied by $B$.
+
+The route is then the one isolated by \autoref{thm:frechet-filter-tail-neighborhood-handoff} and \autoref{thm:frechet-filter-tail-common-refinement}. Those theorems place $S$ and $M$ downstream of $U,T,B$, so schedule and metric consumers cannot read before the FilterBase meet has refined the two requests.
+\end{proof}
+
+\begin{theorem}[FrechetFilter convergence-consumer handoff obligation]
+\label{thm:frechet-filter-convergence-consumer-handoff-obligation}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Every $\CauchyFilterUp$, $\RegSeqRatUp$, $\SequentiallyCompleteMetricUp$, or $\RealUp$-facing consumer receives the FrechetFilter route only through the displayed rows
+$$
+U,T,S,M,B,Q,R,A,H,C,P,N .
+$$
+No convergence-facing consumer receives a separate quotient filter, selected limit, countable-choice selector, Real-completeness proof, or ambient completion object.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:frechet-filter-carrier}. The rows $Q,R,A$ are downstream handoff, readback, and seal rows, and $H,C,P,N$ only transport, replay, package, and name the same finite packet.
+
+Apply \autoref{thm:frechet-filter-namecert-obligations}. The convergence-consumer handoff clause identifies the displayed cofinite-tail surface as the only export to $\CauchyFilterUp$ and sequential-completion consumers, while the readback and seal clause fixes the order in which $R$ and $A$ may be read.
+
+The consumer skeleton is supplied by \autoref{thm:frechet-filter-cauchy-source-boundary}, \autoref{thm:frechet-filter-regseqrat-tail-readback}, \autoref{thm:frechet-filter-real-completion-consumer-route}, and \autoref{thm:frechet-filter-sequential-completion-handoff}. Together these routes replay exactly $U,T,S,M,B,Q,R,A,H,C,P,N$, and the ledger refusal theorem keeps quotient equality, selected limits, choice selectors, completeness, and ambient completion outside the handoff.
+\end{proof}
+
 \begin{theorem}[FrechetFilter tail-neighborhood handoff]
 \label{thm:frechet-filter-tail-neighborhood-handoff}
 Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Every displayed cofinite-tail neighborhood read factors through the finite route
