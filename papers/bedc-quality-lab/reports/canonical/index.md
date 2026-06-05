@@ -19,6 +19,7 @@
 | `certificate-guided-discovery` | `pass` | `reports/canonical/certificate-guided-discovery.json` | `reports/canonical/certificate-guided-discovery.md` | `reports/canonical/certificate-guided-discovery.fingerprint.json` | `$.applicability_boundary` | `$.claim_gate` | `$.not_claimed` | `$.main_claim_status` | `$.matched_random_baseline` |
 | `sigreg-training-proxy` | `pass` | `reports/canonical/sigreg-training-proxy.json` | `reports/canonical/sigreg-training-proxy.md` | `reports/canonical/sigreg-training-proxy.fingerprint.json` | `$.arm_protocol` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.full_lejepa_boundary` |
 | `sigreg-mini-grid` | `pass` | `reports/canonical/sigreg-mini-grid.json` | `reports/canonical/sigreg-mini-grid.md` | `reports/canonical/sigreg-mini-grid.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.not_claimed` |
+| `discovery-regularized-training` | `pass` | `reports/canonical/discovery-regularized-training.json` | `reports/canonical/discovery-regularized-training.md` | `reports/canonical/discovery-regularized-training.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
 
 ## Auxiliary reports
 
@@ -40,7 +41,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
-- Rows: `18`
+- Rows: `19`
 
 ## Dimension mismatch debt transfer
 
@@ -87,7 +88,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `26`
+- Rows: `27`
 
 ## Claim graph
 
@@ -95,7 +96,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `74`
+- Nodes: `77`
 
 ## Claim capsule
 
@@ -173,7 +174,7 @@
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training`
 - Auxiliary reports: `nongaussian-distribution-sweep, lejepa-theorem-ledger, spectral-ablation-hinge`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -196,6 +197,7 @@
 | `certificate-guided-discovery` | `hg_p_core` | `$.main_claim_status` | `$.matched_random_baseline` | `None` |
 | `sigreg-training-proxy` | `hg_p_core` | `$.positive_claim` | `None` | `$.full_lejepa_boundary` |
 | `sigreg-mini-grid` | `hg_p_core` | `$.positive_claim` | `None` | `$.not_claimed` |
+| `discovery-regularized-training` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
 

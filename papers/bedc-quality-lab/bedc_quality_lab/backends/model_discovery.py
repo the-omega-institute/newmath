@@ -25,6 +25,8 @@ NM_HARDGATE_IDS = tuple(f"NM-HG{index}" for index in range(1, 15))
 RUN_ARTIFACT = "reports/runs/model-discovery-suite/summary.json"
 RUN_MARKDOWN_ARTIFACT = "reports/runs/model-discovery-suite/summary.md"
 CLAIM_CAPSULE_ARTIFACT = "reports/runs/model-discovery-suite/claim_capsule.json"
+DRT_CANONICAL_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
+LEJEPA_THEOREM_LEDGER_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
 
 
 @dataclass(frozen=True)
@@ -235,6 +237,24 @@ def build_model_discovery_payload(*, generated_at: str) -> dict[str, Any]:
         "mechanism_namecert_candidate": "not-ready",
         "scope_seal": {"boundary": "run-local deterministic toy model discovery"},
         "cost_protocol": {"unit": "toy-step", "status": "declared"},
+        "discovery_regularized_training_refs": {
+            "discovery_map_signal": {
+                "artifact": DRT_CANONICAL_ARTIFACT,
+                "pointer": "$.discovery_map_signal",
+            },
+            "surface_registry": {
+                "artifact": DRT_CANONICAL_ARTIFACT,
+                "pointer": "$.surface_registry",
+            },
+            "torch_training_evidence": {
+                "artifact": DRT_CANONICAL_ARTIFACT,
+                "pointer": "$.torch_training_evidence",
+            },
+            "theorem_ledger": {
+                "artifact": LEJEPA_THEOREM_LEDGER_ARTIFACT,
+                "pointer": "$.theorem_rows",
+            },
+        },
         "not_claimed": list(candidate.not_claimed),
     }
     return payload
@@ -253,7 +273,19 @@ class ModelDiscoveryBackendEvidenceAdapter:
     )
 
     def build_source_spec(self) -> Mapping[str, Any]:
-        return {"run_artifact": RUN_ARTIFACT, "task_ids": list(TASK_IDS)}
+        return {
+            "run_artifact": RUN_ARTIFACT,
+            "task_ids": list(TASK_IDS),
+            "discovery_regularized_training": {
+                "artifact": DRT_CANONICAL_ARTIFACT,
+                "pointers": (
+                    "$.discovery_map_signal",
+                    "$.surface_registry",
+                    "$.torch_training_evidence",
+                    "$.discovery_map_signal.theorem_ledger_ref",
+                ),
+            },
+        }
 
     def build_pattern_spec(self) -> Mapping[str, Any]:
         return {"status": "run-local", "capsule_subtype": ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE}

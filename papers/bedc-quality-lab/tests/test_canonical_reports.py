@@ -25,6 +25,7 @@ HG_P_CORE = {
     "certificate-guided-discovery",
     "sigreg-training-proxy",
     "sigreg-mini-grid",
+    "discovery-regularized-training",
 }
 QUALITY_SCORECARD_METRICS = {
     "CertCov",
@@ -631,6 +632,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "certificate-guided-discovery",
         "sigreg-training-proxy",
         "sigreg-mini-grid",
+        "discovery-regularized-training",
         "lejepa-theorem-ledger",
         "spectral-ablation-hinge",
     ]
@@ -2315,6 +2317,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.grid",
                 },
                 {
+                    "report": "discovery-regularized-training",
+                    "artifact": "reports/canonical/discovery-regularized-training.json",
+                    "pointer": "$.grid",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.scope",
@@ -2325,12 +2332,12 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 15,
-            "denominator": 15,
-        },
-        "CostProtocolCompleteness": {
-            "value": 1.0,
-            "source": [
+                "numerator": 16,
+                "denominator": 16,
+            },
+            "CostProtocolCompleteness": {
+                "value": 1.0,
+                "source": [
                 {
                     "report": "mixing-family-sweep",
                     "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -2397,6 +2404,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {
+                    "report": "discovery-regularized-training",
+                    "artifact": "reports/canonical/discovery-regularized-training.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.source_artifacts.cost_protocol",
@@ -2407,9 +2419,9 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 15,
-            "denominator": 15,
-        },
+                "numerator": 16,
+                "denominator": 16,
+            },
         "HardeningCoverage": {
             "value": 1.0,
             "source": {

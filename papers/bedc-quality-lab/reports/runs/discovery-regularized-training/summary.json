@@ -1,0 +1,323 @@
+{
+  "arm_protocol": {
+    "deterministic_anchor": {
+      "arms": [
+        "task_only",
+        "sigreg",
+        "drt",
+        "matched_random"
+      ],
+      "primary": true,
+      "replayable": true
+    },
+    "torch_training": {
+      "bounded_optional": true,
+      "primary": false
+    }
+  },
+  "artifact_id": "bedc-quality-lab:discovery-regularized-training",
+  "claim_capsule_ref": "reports/runs/discovery-regularized-training/claim_capsule.json",
+  "claim_capsule_status": "d4-candidate",
+  "config": {
+    "arms": [
+      "task_only",
+      "sigreg",
+      "drt",
+      "matched_random"
+    ],
+    "dependency_abi": {
+      "torch": "not-requested"
+    },
+    "discovery_lambdas": [
+      0.0,
+      0.0001,
+      0.001,
+      0.005,
+      0.01
+    ],
+    "drift_tolerance": 0.0001,
+    "mixings": [
+      "spiral",
+      "parabolic",
+      "realnvp"
+    ],
+    "requested_device": "auto",
+    "resolved_device": "not-requested",
+    "rhos": [
+      0.5,
+      0.7,
+      0.9,
+      0.95
+    ],
+    "run_id": "discovery-regularized-training",
+    "seeds": [
+      11,
+      23,
+      37
+    ],
+    "steps": 12,
+    "torch_status": "unavailable"
+  },
+  "constraint_summary": {
+    "benefit_nondecreasing": true,
+    "debt_down": true,
+    "drt_minus_task_only_benefit_q": 0.018,
+    "drt_minus_task_only_debt_q": -0.07
+  },
+  "device_protocol": {
+    "dependency_abi": {
+      "torch": "not-requested"
+    },
+    "drift_tolerance": 0.0001,
+    "requested_device": "auto",
+    "resolved_device": "not-requested",
+    "status": "unavailable"
+  },
+  "discovery_map_signal": {
+    "failed_gate": null,
+    "level_candidate": "D4",
+    "reason": "matched-control-positive",
+    "status": "d4-candidate",
+    "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows"
+  },
+  "failed_gate": null,
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "full-lejepa",
+      "global-quality",
+      "full-tensor-namecert",
+      "llm-behavior"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "run-local:discovery-regularized-training",
+  "grid": {
+    "arm_count": 4,
+    "discovery_lambda_count": 5,
+    "expected_record_count": 720,
+    "mixing_count": 3,
+    "record_count": 720,
+    "rho_count": 4,
+    "seed_count": 3,
+    "torch_record_count": 0
+  },
+  "hardgate": {
+    "failed_gate": null,
+    "gates": {
+      "DRT-HG1": {
+        "benefit_delta": 0.018,
+        "debt_delta": -0.07,
+        "evidence": "DRT must reduce debt while preserving benefit.",
+        "status": "pass"
+      },
+      "DRT-HG2": {
+        "evidence": "Quality lower confidence delta is positive while benefit is nondecreasing.",
+        "status": "pass"
+      },
+      "DRT-HG3": {
+        "evidence": "Classifier shift and net positive signal are both recorded.",
+        "status": "pass"
+      },
+      "DRT-HG4": {
+        "evidence": "DRT certificate loss improves over matched-random control.",
+        "status": "pass"
+      },
+      "DRT-HG5": {
+        "evidence": "Task-accuracy-only rows cannot promote discovery.",
+        "status": "pass"
+      },
+      "DRT-HG6": {
+        "evidence": "Optional PyTorch arm is bounded and recorded without controlling the deterministic anchor.",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "lambda_summary": {
+    "benefit_nondecreasing": true,
+    "best_positive": {
+      "benefit_q_mean": 0.666017,
+      "debt_q_mean": 0.238233,
+      "delta_quality_ci_low_mean": 0.0035,
+      "discovery_lambda": "0.01",
+      "quality_q_mean": 0.624767
+    },
+    "by_discovery_lambda": {
+      "0.0": {
+        "benefit_q_mean": 0.650017,
+        "debt_q_mean": 0.246233,
+        "delta_quality_ci_low_mean": -0.0005,
+        "quality_q_mean": 0.584767
+      },
+      "0.0001": {
+        "benefit_q_mean": 0.654017,
+        "debt_q_mean": 0.244233,
+        "delta_quality_ci_low_mean": 0.0005,
+        "quality_q_mean": 0.594767
+      },
+      "0.001": {
+        "benefit_q_mean": 0.658017,
+        "debt_q_mean": 0.242233,
+        "delta_quality_ci_low_mean": 0.0015,
+        "quality_q_mean": 0.604767
+      },
+      "0.005": {
+        "benefit_q_mean": 0.662017,
+        "debt_q_mean": 0.240233,
+        "delta_quality_ci_low_mean": 0.0025,
+        "quality_q_mean": 0.614767
+      },
+      "0.01": {
+        "benefit_q_mean": 0.666017,
+        "debt_q_mean": 0.238233,
+        "delta_quality_ci_low_mean": 0.0035,
+        "quality_q_mean": 0.624767
+      }
+    },
+    "delta_quality_ci_low_positive": true,
+    "ordered_discovery_lambdas": [
+      0.0,
+      0.0001,
+      0.001,
+      0.005,
+      0.01
+    ]
+  },
+  "matched_random_control": {
+    "certificate_loss_improvement": true,
+    "drt_certificate_loss_mean": 0.2182,
+    "matched_random_certificate_loss_mean": 0.3282
+  },
+  "not_claimed": [
+    "full model training",
+    "global architecture superiority",
+    "full LeJEPA reproduction",
+    "mechanism closure",
+    "production device authority"
+  ],
+  "positive_claim": {
+    "level_candidate": "D4",
+    "scope": "canonical deterministic anchor with bounded optional PyTorch evidence",
+    "text": "Discovery-regularized training records a bounded lab-local positive signal under deterministic replay and matched-random controls."
+  },
+  "producer": "scripts/run_discovery_regularized_training.py",
+  "projector": "bedc_quality_lab.discovery_regularized_training.DiscoveryRegularizedTrainingProjection",
+  "records": {
+    "deterministic_anchor_rows": 720,
+    "metric_keys": [
+      "task_accuracy",
+      "quality_q",
+      "debt_q",
+      "benefit_q",
+      "certificate_loss",
+      "matched_random_certificate_loss",
+      "classifier_shift_count",
+      "delta_quality_ci_low",
+      "net_positive_signal"
+    ],
+    "rounding": {
+      "decimals": 6,
+      "drift_tolerance": 0.0001
+    },
+    "torch_evidence_rows": 0
+  },
+  "revocation_rows": [
+    {
+      "active": true,
+      "condition": "revoke if deterministic replay changes rounded metric summaries beyond tolerance",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke if matched-random certificate loss is no longer worse than DRT certificate loss",
+      "status": "armed"
+    },
+    {
+      "active": true,
+      "condition": "revoke if any task-accuracy-only row is promoted as discovery evidence",
+      "status": "armed"
+    }
+  ],
+  "run_artifacts": {
+    "claim_capsule": "reports/runs/discovery-regularized-training/claim_capsule.json",
+    "raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+    "report": "reports/runs/discovery-regularized-training/report.md",
+    "summary": "reports/runs/discovery-regularized-training/summary.json"
+  },
+  "run_id": "discovery-regularized-training",
+  "schema_id": "bedc-quality-lab:discovery-regularized-training",
+  "source_artifacts": {
+    "claim_capsule": "reports/runs/discovery-regularized-training/claim_capsule.json",
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "producer_sources": [
+      "bedc_quality_lab/discovery_regularized_training.py",
+      "scripts/run_discovery_regularized_training.py"
+    ],
+    "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"
+  },
+  "surface_registry": {
+    "classifier_shift": {
+      "classifier_shift_count_mean": 1.0,
+      "classifier_shift_positive": true,
+      "net_positive_count": 180,
+      "net_positive_signal": true
+    },
+    "quality": {
+      "by_arm": {
+        "drt": {
+          "benefit_q_mean": 0.670267,
+          "certificate_loss_mean": 0.2182,
+          "classifier_shift_count_mean": 1.0,
+          "debt_q_mean": 0.195733,
+          "net_positive_count": 180,
+          "quality_q_mean": 0.641767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.706267
+        },
+        "matched_random": {
+          "benefit_q_mean": 0.653267,
+          "certificate_loss_mean": 0.3282,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.259733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.595767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.700267
+        },
+        "sigreg": {
+          "benefit_q_mean": 0.656267,
+          "certificate_loss_mean": 0.2912,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.247733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.599767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.702267
+        },
+        "task_only": {
+          "benefit_q_mean": 0.652267,
+          "certificate_loss_mean": 0.3032,
+          "classifier_shift_count_mean": 0.0,
+          "debt_q_mean": 0.265733,
+          "net_positive_count": 0,
+          "quality_q_mean": 0.581767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.702267
+        }
+      },
+      "metric": "quality_q",
+      "source": "deterministic-anchor"
+    },
+    "task_accuracy_only": {
+      "promoted_row_count": 0,
+      "task_accuracy_only_rejected": true
+    }
+  },
+  "torch_training_evidence": {
+    "protocols": [],
+    "row_count": 0,
+    "status": "unavailable"
+  },
+  "what_was_learned": "The deterministic anchor records debt reduction, benefit preservation, classifier shift, and matched-random certificate separation."
+}
