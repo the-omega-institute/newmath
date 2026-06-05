@@ -4009,12 +4009,14 @@ import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RealRegSeqRatScope
 import BEDC.Derived.FanfunctionalUp.RootCantorWindowHandoff
 import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
+import BEDC.Derived.FanfunctionalUp.RootChoiceFreeNonescape
 import BEDC.Derived.FanfunctionalUp.RootFiniteBarDepth
 import BEDC.Derived.FanfunctionalUp.RootModulusWindowCoverage
 import BEDC.Derived.FanfunctionalUp.RootSchemaLedger
 import BEDC.Derived.FanfunctionalUp.RootUnblockCantorPrefix
 import BEDC.Derived.FanfunctionalUp.RootUnblockCompactRoute
 import BEDC.Derived.FanfunctionalUp.RootUnblockFanDepth
+import BEDC.Derived.FanfunctionalUp.RootUniformContinuityConsumer
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusObligation
 import BEDC.Derived.FanfunctionalUp.RootWindowObligations
@@ -4506,6 +4508,7 @@ import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.FiniteOrthonormalBasisUp.TasteGate
 import BEDC.Derived.FiniteOscillationPartitionUp.TasteGate
 import BEDC.Derived.FiniteOscillationRadiusLedgerUp.TasteGate
+import BEDC.Derived.FiniteOscillationUniformModulusUp.NameCertObligations
 import BEDC.Derived.FinitePartitionMeshUp.TasteGate
 import BEDC.Derived.FinitePhaseSamplingUp
 import BEDC.Derived.FinitePrefixAutomatonUp.TasteGate
@@ -5369,6 +5372,7 @@ import BEDC.Derived.LocalTimeFiberUp
 import BEDC.Derived.LocalTimeFiberUp.TasteGate
 import BEDC.Derived.LocalityCellUp
 import BEDC.Derived.LocalityCellUp.TasteGate
+import BEDC.Derived.LocalizedCauchyRateUp.TasteGate
 import BEDC.Derived.LocallyCompactMetricUp.TasteGate
 import BEDC.Derived.LocallyCompactUp.ClosedBallNeighborhoodBase
 import BEDC.Derived.LocallyCompactUp.CompactBallWindow
@@ -5552,6 +5556,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RealRegSeqRatScope
 import BEDC.Derived.LowerSemicontinuousUp.RealSealExportBoundary
 import BEDC.Derived.LowerSemicontinuousUp.RealSealWindowExhaustion
+import BEDC.Derived.LowerSemicontinuousUp.RootCarrierRowsExposed
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphBasis
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCarrier
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCarrierAdmission
@@ -6698,6 +6703,7 @@ import BEDC.Derived.PadicUp.EmptyAlignment
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
+import BEDC.Derived.ParsevalUp.NameCertObligations
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
@@ -9004,6 +9010,7 @@ import BEDC.Derived.UniformEmbeddingUp.TasteGate
 import BEDC.Derived.UniformEntourageBasisUp.TasteGate
 import BEDC.Derived.UniformEntourageRegularNameUp.TasteGate
 import BEDC.Derived.UniformEntourageSpaceUp.TasteGate
+import BEDC.Derived.UniformEquicontinuityModulusUp.TasteGate
 import BEDC.Derived.UniformHomeomorphismUp.TasteGate
 import BEDC.Derived.UniformIntegralLimitUp.TasteGate
 import BEDC.Derived.UniformLimitContinuityUp
