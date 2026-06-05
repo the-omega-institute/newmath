@@ -195,4 +195,21 @@ theorem RefusalRegistryTasteGate_single_carrier_alignment :
       ⟨refusalRegistry_round_trip,
         ⟨fun _x _y heq => refusalRegistryToEventFlow_injective heq, rfl⟩⟩⟩
 
+theorem RefusalRegistryCarrier_export_control (x : RefusalRegistryUp) :
+    FieldFaithful.fields x = refusalRegistryFields x ∧
+      ∃ ef : EventFlow,
+        refusalRegistryFromEventFlow ef = some x ∧
+          (∀ (w : RawEvent) (m : BMark), List.Mem w ef → List.Mem m w →
+            m = BMark.b0 ∨ m = BMark.b1) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  exact
+    ⟨rfl,
+      ⟨refusalRegistryToEventFlow x,
+        refusalRegistry_round_trip x,
+        by
+          intro w m hw hm
+          exact
+            BEDC.Meta.TasteGate.ChapterTasteGate.conservativity
+              (x := x) (w := w) (m := m) hw hm⟩⟩
+
 end BEDC.Derived.RefusalRegistryUp
