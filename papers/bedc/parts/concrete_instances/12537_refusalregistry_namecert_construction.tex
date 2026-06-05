@@ -74,6 +74,22 @@ Apply \autoref{thm:refusal-registry-export-control} and \autoref{thm:refusal-reg
 Finally apply \autoref{thm:refusal-registry-claim-layer-handoff}. The handoff preserves the same nine rows when the claim layer reads the packet, and it cannot convert the blocked row into an accepted claim without an accepted claim-entry row. Thus the listed rows are exactly the local obligation pack.
 \end{proof}
 
+\begin{theorem}[Refusal registry public export surface]
+\label{thm:refusal-registry-public-export-surface}
+Every downstream package or registry consumer may cite $\RefusalRegistryUp$ only through the displayed refusal packet
+$$
+R=(B,E,G,C,S,V,T,P,N).
+$$
+The public citation surface consists of the blocked-claim row $B$, refusal-entry row $E$, gate row $G$, cannot-claim route $C$, status row $S$, provenance row $V$, componentwise transport row $T$, package row $P$, and local naming row $N$; it contains no silent acceptance coordinate and no route that lets a package or registry consumer read a blocked claim outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:refusal-registry-carrier}. Its visible coordinates are exactly $B,E,G,C,S,V,T,P,N$, so any public read of the registry packet starts from the displayed refusal rows.
+
+Use \autoref{thm:refusal-registry-export-control} and \autoref{thm:refusal-registry-obligation-pack}. The export-control theorem confines blocked package claims to the same packet, and the obligation pack shows that dropping one row leaves both accepted-claim export and valid refusal export unavailable.
+
+The claim-layer handoff of \autoref{thm:refusal-registry-claim-layer-handoff} preserves this surface for registry consumers. Therefore downstream packages and registries may cite only the displayed refusal packet, with no hidden acceptance route.
+\end{proof}
+
 \falsifiablePrediction{A package claim with no refusal entry, gate row, or accepted registry entry has no export route through $\RefusalRegistryUp$.}
 
 \independenceWitness{registrylayer, claimregistrylayer, theoremgapregistry, truthresidueledger: none is bijective to $\RefusalRegistryUp$ because this carrier stores blocked claim, refusal entry, gate, cannot-claim route, status, provenance, transport, package, and local naming rows as a dedicated refusal packet.}
@@ -82,13 +98,14 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/RefusalRegistryUp/TasteGate.l
 
 \closureat{RefusalRegistryUp}{obligationStr}
 \closureat{RefusalRegistryUp}{scopedStr}
+\closureat{RefusalRegistryUp}{publicStr}
 
 \begin{closurestatus}{\RefusalRegistryUp}
   \constructivestory{A $\RefusalRegistryUp$ packet is generated from blocked-claim, refusal-entry, gate, cannot-claim route, status, provenance, componentwise hsame transport, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:refusal-registry-carrier}, \autoref{thm:refusal-registry-export-control}, \autoref{thm:refusal-registry-nonescape}, \autoref{thm:refusal-registry-claim-layer-handoff}, the TasteGate marker, the falsifiable prediction, and the independence witness bind the refusal rows against $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\TheoremGapRegistryUp$, $\TruthResidueLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:refusal-registry-carrier}, \autoref{thm:refusal-registry-export-control}, \autoref{thm:refusal-registry-nonescape}, \autoref{thm:refusal-registry-claim-layer-handoff}, \autoref{thm:refusal-registry-public-export-surface}, the TasteGate marker, the falsifiable prediction, and the independence witness bind the refusal rows against $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\TheoremGapRegistryUp$, $\TruthResidueLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, complete package governance, or correctness of every downstream refusal row.}
-  \upgradepath{Public closure requires a reusable refusal export surface for downstream package and registry consumers.}
+  \upgradepath{Bridge closure requires a checked standard bridge for package and registry consumers of the displayed refusal packet.}
 \end{closurestatus}
