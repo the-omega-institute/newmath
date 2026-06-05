@@ -5,8 +5,8 @@ import BEDC.FKernel.NameCert
 
 namespace BEDC.Derived
 
-inductive RealReciprocalUp : Type
-  | carrier
+inductive RealReciprocalUp : Type where
+  | mk (X A B Q D E H C P N : _root_.BEDC.FKernel.Hist.BHist) : RealReciprocalUp
 
 namespace RealReciprocalUp
 
