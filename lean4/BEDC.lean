@@ -1336,6 +1336,7 @@ import BEDC.Derived.CauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.CauchyCompletionFunctorialityUp.TasteGate
 import BEDC.Derived.CauchyCompletionIsometryUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliAdjunctionUp.TasteGate
+import BEDC.Derived.CauchyCompletionKleisliCategoryUp.TasteGate
 import BEDC.Derived.CauchyCompletionKleisliUp.TasteGate
 import BEDC.Derived.CauchyCompletionLeftExactnessUp.TasteGate
 import BEDC.Derived.CauchyCompletionLiftUp
@@ -6020,6 +6021,7 @@ import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierExtension
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusal
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateLedgerLocality
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateMediatedSNClosure
 import BEDC.Derived.MetacicNormalizationAuditUp.ClosedTermBudgetTotality
 import BEDC.Derived.MetacicNormalizationAuditUp.ConfluenceSocket
@@ -8071,6 +8073,7 @@ import BEDC.Derived.SequentialClosureUp.KuratowskiIdempotence
 import BEDC.Derived.SequentialClosureUp.LimitRowHandoff
 import BEDC.Derived.SequentialClosureUp.NameCertObligationSurface
 import BEDC.Derived.SequentialClosureUp.NameCertObligations
+import BEDC.Derived.SequentialClosureUp.ObligationClosureSurface
 import BEDC.Derived.SequentialClosureUp.RegSeqRatLimitRoute
 import BEDC.Derived.SequentialClosureUp.RootLimitLedger
 import BEDC.Derived.SequentialClosureUp.RootSequenceCarrier
