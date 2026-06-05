@@ -88,12 +88,12 @@ class GapHeadAttributionBackendEvidenceAdapter:
             {
                 "name": "namecert/mechanism-candidate-audit",
                 "owner": OWNER,
-                "evidence_pointer": "$.audit",
+                "evidence_pointer": "$.mechanism_case",
             },
             {
                 "name": "closure/mechanism-closure-debt",
                 "owner": OWNER,
-                "evidence_pointer": "$.ledger_policy.mechanism_closure_debt",
+                "evidence_pointer": "$.d5_m",
             },
         ),
         ledger_rows=(

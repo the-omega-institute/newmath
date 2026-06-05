@@ -60,6 +60,17 @@ def fake_capsule():
     }
 
 
+def resolve_projection_pointer(payload, pointer):
+    assert isinstance(pointer, str)
+    assert pointer.startswith("$.")
+    cursor = payload
+    for part in pointer[2:].split("."):
+        assert isinstance(cursor, dict)
+        assert part in cursor
+        cursor = cursor[part]
+    return cursor
+
+
 def test_adapter_metadata_and_module_loading_contract():
     adapter: BackendEvidenceAdapter = GapHeadAttributionBackendEvidenceAdapter()
     backend = adapter.backend
@@ -95,8 +106,8 @@ def test_adapter_metadata_and_module_loading_contract():
     assert control_row["name"] == "control/matched-random-control"
     assert control_row["evidence_pointer"] == "$.control_evidence.matched_random"
     assert control_row["control_pointer"] == "$.control_pointer.matched_random"
-    assert backend.theorem_rows[1]["evidence_pointer"] == "$.audit"
-    assert backend.theorem_rows[2]["evidence_pointer"] == "$.ledger_policy.mechanism_closure_debt"
+    assert backend.theorem_rows[1]["evidence_pointer"] == "$.mechanism_case"
+    assert backend.theorem_rows[2]["evidence_pointer"] == "$.d5_m"
 
 
 def test_compute_metrics_delegates_to_capsule_builder(monkeypatch, tmp_path):
@@ -137,6 +148,21 @@ def test_compute_metrics_delegates_to_capsule_builder(monkeypatch, tmp_path):
     )
     assert payload["control_pointer"]["matched_random"] == "$.control_evidence.matched_random"
     assert "terminal_verdict" not in payload
+
+
+def test_theorem_evidence_pointers_resolve_in_adapter_projection(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        attribution.run_gap_head_attribution_capsule,
+        "build_gap_head_attribution_capsule",
+        lambda **kwargs: fake_capsule(),
+    )
+
+    adapter = GapHeadAttributionBackendEvidenceAdapter()
+    payload = adapter.compute_metrics(root=tmp_path, generated_at="fake-time")
+
+    for row in adapter.backend.theorem_rows:
+        resolved = resolve_projection_pointer(payload, row["evidence_pointer"])
+        assert resolved is not None
 
 
 def test_ledger_projection_uses_structured_debt_kernel(monkeypatch, tmp_path):
