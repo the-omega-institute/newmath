@@ -4419,13 +4419,24 @@ def _sanitize_textmode_underscores(text: str) -> str:
     # 还原: 前面不是反斜杠 (排除 \\ 续行) 且后面不接字母 (排除 \newcommand/\times 等真命令).
     text = re.sub(r"(?<!\\)\\n(?![a-zA-Z])", "\n", text)
     text = re.sub(r"(?<!\\)\\t(?![a-zA-Z])", " ", text)
+
+    def _fix_text_region(s: str) -> str:
+        # text region (在 $...$ / label 命令保护区之外). 两步:
+        # 1) 转义裸 `_` (NC_000913 / orf_eligibility 等) → \_, 防 "Missing $ inserted".
+        s = re.sub(r"(?<!\\)_", r"\\_", s)
+        # 2) codex 偶尔把数学写成裸 \mathrm{...\setminus...} 留在 prose → 'allowed only in
+        #    math mode' / 'Missing $' 致命 build 断. 把这类裸数学字体宏整体包进 $...$,
+        #    让里面的 \setminus 等数学命令合法 (mode-agnostic 单独不够, 因内部还有数学符号).
+        s = re.sub(r"\\(math(?:rm|sf|bf|it|bb|cal|frak|scr))\{([^{}$]*)\}", lambda mm: "$" + mm.group(0) + "$", s)
+        return s
+
     out: list[str] = []
     last = 0
     for m in _SANITIZE_PROTECT_RE.finditer(text):
-        out.append(re.sub(r"(?<!\\)_", r"\\_", text[last:m.start()]))
+        out.append(_fix_text_region(text[last:m.start()]))
         out.append(m.group(0))  # 受保护区: 原样保留
         last = m.end()
-    out.append(re.sub(r"(?<!\\)_", r"\\_", text[last:]))
+    out.append(_fix_text_region(text[last:]))
     return "".join(out)
 
 
