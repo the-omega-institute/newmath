@@ -3968,6 +3968,7 @@ import BEDC.Derived.FanfunctionalUp.BarScopeObligations
 import BEDC.Derived.FanfunctionalUp.CantorCompactnessScope
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
+import BEDC.Derived.FanfunctionalUp.ModulusWindowMonotonicity
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
 import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
@@ -5989,6 +5990,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierExtension
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusal
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateMediatedSNClosure
 import BEDC.Derived.MetacicNormalizationAuditUp.TasteGate
@@ -8041,12 +8043,14 @@ import BEDC.Derived.SequentialCompactUp.BaireRegSeqRatExhaustion
 import BEDC.Derived.SequentialCompactUp.ClusterCarrierStability
 import BEDC.Derived.SequentialCompactUp.CompactMetricConsumerScope
 import BEDC.Derived.SequentialCompactUp.CompactMetricHandoff
+import BEDC.Derived.SequentialCompactUp.CompactMetricRootSurface
 import BEDC.Derived.SequentialCompactUp.CylinderMonotoneWindow
 import BEDC.Derived.SequentialCompactUp.FiniteSubsequenceObligation
 import BEDC.Derived.SequentialCompactUp.ObligationReadiness
 import BEDC.Derived.SequentialCompactUp.RealSealConsumerBoundary
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.RealSealWindowNonescape
+import BEDC.Derived.SequentialCompactUp.RegSeqRatClusterHandoff
 import BEDC.Derived.SequentialCompactUp.RegularTailNonescape
 import BEDC.Derived.SequentialCompactUp.RootObligationSurface
 import BEDC.Derived.SequentialCompactUp.RootRealSealRefusal
