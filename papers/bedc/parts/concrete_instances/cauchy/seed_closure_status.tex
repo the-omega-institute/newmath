@@ -20,12 +20,24 @@ Project the Cauchy packet through the carrier boundary of \autoref{thm:cauchy-se
 Carrier admission supplies the Cauchy source row. Window, tolerance, and readback exposure supply the $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows. The terminal route supplies the Real-facing seal, and the remaining rows supply $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local naming. No further local obligation is available inside the seed packet.
 \end{proof}
 
+\begin{theorem}[Cauchy filter-modulus scoped route]
+\label{thm:cauchy-filter-modulus-scoped-route}
+Every public $\CauchyUp$ seed read used by a filter, modulus, Real-facing, or completion-facing consumer factors through the displayed finite route consisting of $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance rows, $\RegSeqRatUp$ readback, the terminal $\RealUp$ seal row, $\BHist$ carrier data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CauchyUp}$ row. The route exports no quotient stream equality, selected limit, countable choice, trichotomy, host real equality, quotient completion, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the Cauchy seed boundary of \autoref{thm:cauchy-seed-carrier-boundary}. It exhausts the carrier by the Cauchy source row, finite stream windows, dyadic tolerance rows, regular readback, Real-facing seal, transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:cauchy-seed-namecert-obligation}. It identifies those same rows as the local NameCert obligation surface, so any filter or modulus consumer reads the seed packet through finite windows, dyadic budgets, regular-rational data, and the Real-facing seal rather than through an external completion object.
+
+The sibling routes of \autoref{thm:cauchy-orphan-streamname-route}, \autoref{thm:cauchy-l10-child-dependency-route}, and \autoref{thm:cauchy-seed-closure-route} keep the same packet ordered through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ before completion-facing consumers inspect it. Since $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ only carry, transport, replay, source, and name that route, the excluded quotient, selection, choice, trichotomy, host-equality, and ambient-completeness objects remain outside the scoped boundary.
+\end{proof}
+
 \closureat{CauchyUp}{obligationStr}
 
 \begin{closurestatus}{\CauchyUp}
   \constructivestory{A $\CauchyUp$ seed packet is generated from finite stream windows, DyadicRatCore tolerance rows, RegSeqRat readback, a terminal Real-facing seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:cauchy-seed-carrier-boundary} and \autoref{thm:cauchy-seed-namecert-obligation} enumerate the carrier boundary and NameCert obligation surface for finite stream windows, dyadic tolerances, regular rational readback, and Real-facing seal data.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:cauchy-seed-carrier-boundary}, \autoref{thm:cauchy-seed-namecert-obligation}, and \autoref{thm:cauchy-filter-modulus-scoped-route} bind the $\CauchyUp$ seed scope to $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient completion, selected limits, countable choice, host real equality, ambient Real completeness, Lean verification, or a public standard bridge.}

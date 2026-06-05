@@ -274,6 +274,90 @@ Next apply \autoref{thm:frechet-filter-real-completion-consumer-route}. The Real
 Finally use \autoref{thm:frechet-filter-completion-nonescape}. Since the carrier has no coordinate for a selected limit or ambient completion object, a sequential-completion consumer receives only the displayed finite rows named in the statement.
 \end{proof}
 
+\begin{theorem}[FrechetFilter tail meet monotone refinement]
+\label{thm:frechetfilter-tail-meet-monotone-refinement}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier.
+For any two displayed cofinite-tail requests read from the finite-tail row
+$T$, the $\FilterBaseUp$ meet row $B$ refines them monotonically: enlarging
+either unary threshold only enlarges the displayed common-tail threshold, and
+every downstream $\StreamNameUp$ schedule row, $\MetricUp$ tolerance row,
+$\CauchyFilterUp$ handoff row, $\RegSeqRatUp$ readback row, and $\RealUp$ seal
+continues to factor through the same finite cofinite-tail route.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $U,T,B$ are the only rows where threshold data,
+finite complements, and common-tail meets are displayed before schedule or
+metric consumers can read later coordinates.
+
+Apply \autoref{thm:frechet-filter-tail-common-refinement} to the two
+cofinite-tail requests. The common threshold is read through the same finite
+tail row, and enlarging either input threshold can only move the displayed
+common tail farther along that row.
+
+Now replay downstream consumption through
+\autoref{thm:frechet-filter-filterbase-meet-obligation}. Since $S,M,Q,R,A$
+are all downstream of $B$, the monotone refinement preserves their route and
+does not introduce quotient filter equality, a selected tail, countable
+choice, a selected limit, or ambient completion.
+\end{proof}
+
+\begin{theorem}[FrechetFilter Cauchy-filter basis cofinal route]
+\label{thm:frechetfilter-cauchy-filter-basis-cofinal-route}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier.
+Every Cauchy-filter-basis consumer of the packet reads the same cofinal tail
+route
+$$
+U,T \longmapsto B \longmapsto S,M,Q \longmapsto H,C,P,N .
+$$
+The consumer may use the $\FilterBaseUp$ meet row to refine finite tails, but
+it cannot replace the displayed basis by quotient filter equality, selected
+representatives, countable-choice tail selection, or an ambient completion
+object.
+\end{theorem}
+\begin{proof}
+Begin with the Cauchy-source boundary of
+\autoref{thm:frechet-filter-cauchy-source-boundary}. It places every
+$\CauchyFilterUp$ source read after $U,T,S,M,B$ and before the structural rows
+$H,C,P,N$.
+
+Use \autoref{thm:frechetfilter-tail-meet-monotone-refinement}. Any basis
+refinement demanded by the Cauchy consumer is a refinement through the same
+cofinite-tail meet row $B$, so the basis remains cofinal in the displayed
+finite-tail surface.
+
+Finally apply \autoref{thm:frechet-filter-cauchy-filter-export}. The export
+is the row $Q$ attached to that same route, not a quotient filter or selected
+representative. The absent quotient, selection, choice, and completion data
+have no carrier coordinates.
+\end{proof}
+
+\begin{theorem}[FrechetFilter sequential-completion tail exhaustion]
+\label{thm:frechetfilter-sequential-completion-tail-exhaustion}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier.
+The sequential-completion handoff exhausts the tail ledger: every
+$\SequentiallyCompleteMetricUp$ read consumes the unary threshold row, the
+cofinite-tail row, the FilterBase meet row, the StreamName schedule row, the
+Metric tolerance row, the Cauchy-filter handoff, the regular rational
+readback, the Real seal, and the structural rows $H,C,P,N$, with no remaining
+tail coordinate outside the displayed packet.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:frechet-filter-sequential-completion-handoff}. It
+states that a sequential-completion consumer receives only
+$U,T,S,M,B,Q,R,A,H,C,P,N$.
+
+Insert the cofinal basis route from
+\autoref{thm:frechetfilter-cauchy-filter-basis-cofinal-route}. This identifies
+the Cauchy-filter input to the completion consumer with the same finite
+cofinite-tail route through $U,T,B,S,M,Q,H,C,P,N$.
+
+Complete the route with \autoref{thm:frechet-filter-regseqrat-tail-readback}
+and \autoref{thm:frechet-filter-completion-nonescape}. The readback row $R$
+and seal row $A$ are downstream of the exhausted tail ledger, so the handoff
+cannot export quotient filter equality, a selected limit, countable choice, a
+selected representative, or ambient completion.
+\end{proof}
+
 \begin{theorem}[FrechetFilter tail-ledger refusal]
 \label{thm:frechet-filter-tail-ledger-refusal}
 For every accepted $\FrechetFilterUp$ carrier $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$, the local tail ledger refuses quotient filter equality, countable-choice tail selection, selected limits, ambient completion, and $\RealUp$ completeness. Each refused conclusion is absent because it is not one of the carrier coordinates $U,T,S,M,B,Q,R,A,H,C,P,N$ and is not produced by the displayed handoff theorems.
