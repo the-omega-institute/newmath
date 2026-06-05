@@ -90,6 +90,7 @@ import BEDC.Derived.AnalyticContinuationSocketUp.VisionConcretization
 import BEDC.Derived.AnalyticContinuationSocketUp.ZetaBranchObstructionExactness
 import BEDC.Derived.AnchorChangeInvariantUp.TasteGate
 import BEDC.Derived.AnchorStabilityCertificateUp.TasteGate
+import BEDC.Derived.AnchorSubcubeTriggerUp.TasteGate
 import BEDC.Derived.ApartnessCompletionUp.TasteGate
 import BEDC.Derived.ApartnessContinuityUp.TasteGate
 import BEDC.Derived.ApartnessCotransitivityUp.TasteGate
@@ -1182,6 +1183,7 @@ import BEDC.Derived.CalculusUp.DerivativeContinuationObligation
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
 import BEDC.Derived.CalculusUp.LimitRealSealObligation
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
+import BEDC.Derived.CalculusUp.RiemannDerivativeSeparation
 import BEDC.Derived.CalculusUp.RootL10Nonescape
 import BEDC.Derived.CalculusUp.RootLimitDerivativeIntegralRoute
 import BEDC.Derived.CalculusUp.RootPublicPackageReadiness
@@ -7807,6 +7809,7 @@ import BEDC.Derived.RegularCauchyDensityUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp
 import BEDC.Derived.RegularCauchyDiagonalExchangeUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalExtractionUp.TasteGate
+import BEDC.Derived.RegularCauchyDiagonalMeetUp.SharedThresholdFactorization
 import BEDC.Derived.RegularCauchyDiagonalMeetUp.TasteGate
 import BEDC.Derived.RegularCauchyDiagonalUp
 import BEDC.Derived.RegularCauchyDiagonalUp.BridgeNonEscape
@@ -8728,6 +8731,8 @@ import BEDC.Derived.SubjectReductionBundleTraceUp
 import BEDC.Derived.SubjectReductionBundleTraceUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.Carrier
+import BEDC.Derived.SubjectReductionDischargeLedgerUp.CarrierExposure
+import BEDC.Derived.SubjectReductionDischargeLedgerUp.ProvenanceExactness
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.SubjectReductionHandoff
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.TasteGate
 import BEDC.Derived.SubjectReductionDischargeLedgerUp.TransportReplay
