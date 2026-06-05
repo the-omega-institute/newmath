@@ -163,3 +163,21 @@ The martingale-window handoff and integrability requirements are also retained. 
 
 It remains to compare stopped values. Both $O$ and $O_{\leq\tau}$ read their stopped value from the same first stopping branch $\tau$, the same process row at that branch, and the same filtration-window row at that branch. The stopped value coordinate is the same displayed row $V$, and the transports and continuation route that identify it with the branch read are retained in $H_{\leq\tau}$ and $C_{\leq\tau}$. Hence the local $\OptionalStoppingUp$ classifier identifies the stopped-value row of the truncated packet with the original stopped value row $V$.
 \end{proof}
+
+\begin{theorem}[OptionalStopping finite-filtration nonescape]
+\label{thm:optional-stopping-finite-filtration-nonescape}
+Let $O_{\leq\tau}=(\Omega,X_{\leq\tau},T_{\leq\tau},\tau,V,F_{\leq\tau},I_{\leq\tau},H_{\leq\tau},C_{\leq\tau},P,N)$ be a stopping-branch exact post-stop truncation of an accepted $\OptionalStoppingUp$ carrier. Every expectation-facing consumer of the truncated packet must read the rows
+$$
+\Omega,\quad X_{\leq\tau},\quad T_{\leq\tau},\quad \tau,\quad V,\quad F_{\leq\tau},\quad I_{\leq\tau},\quad H_{\leq\tau},\quad C_{\leq\tau},\quad P,\quad N
+$$
+before any stopped-value or expectation row is exported. No expectation-facing read may inspect a filtration row after $\tau$, an unbounded stopping branch, a measure completion, an almost-sure quotient, or an unstated integrability family.
+\end{theorem}
+\begin{proof}
+First read the stopped value route. By \autoref{thm:optional-stopping-bounded-stopped-value-readback}, the row $V$ is obtained from the first displayed stopping branch, the matching process row, and the matching finite filtration-window row.
+
+Now restrict the packet to the post-stop truncation. The tail-erasure lemma, \autoref{lem:optional-stopping-post-stop-tail-erasure}, says that the retained tuple is accepted and keeps the same stopped-value row. Thus the stopped-value read remains inside $\Omega,X_{\leq\tau},T_{\leq\tau},\tau,V,F_{\leq\tau},I_{\leq\tau},H_{\leq\tau},C_{\leq\tau},P,N$.
+
+Next apply the finite expectation window of \autoref{thm:optional-stopping-finite-expectation-window}. Every expectation-facing read must include the finite probability row, stopped-process rows, stopped value, filtration ledger, integrability row, displayed transports, continuation routes, package provenance, and local certificate. In the truncated packet those are exactly the displayed rows through $\tau$.
+
+Finally use the boundary theorem \autoref{thm:optional-stopping-no-escape-boundary}. Since post-stop rows after $\tau$ are absent and the public boundary exports no unbounded stopping, measure completion, almost-sure quotient, or unstated uniform-integrability principle, the retained finite filtration is the only expectation-facing read surface.
+\end{proof}
