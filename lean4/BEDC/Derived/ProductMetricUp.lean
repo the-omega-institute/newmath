@@ -221,6 +221,43 @@ theorem ProductMetricCarrier_distance_ledger_triangle_route [AskSetup] [PackageS
     ⟨distanceUnary, transportUnary, triangleReadUnary, transportRow, triangleRoute,
       provenancePkg⟩
 
+theorem ProductMetricCarrier_distance_ledger_scope [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      componentRead scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont leftDistance rightDistance componentRead ->
+        Cont product componentRead scopedRead ->
+          PkgSig bundle scopedRead pkg ->
+            UnaryHistory leftDistance ∧ UnaryHistory rightDistance ∧
+              UnaryHistory componentRead ∧ UnaryHistory scopedRead ∧
+                hsame distance componentRead ∧ hsame transport scopedRead ∧
+                  Cont leftDistance rightDistance distance ∧
+                    Cont leftDistance rightDistance componentRead ∧
+                      Cont product componentRead scopedRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle scopedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier componentReadRow scopedReadRow scopedReadPkg
+  obtain ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, _localCertUnary,
+    productRow, distanceRow, transportRow, _routeRow, provenancePkg, _nameCert⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed leftUnary rightUnary productRow
+  have componentReadUnary : UnaryHistory componentRead :=
+    unary_cont_closed leftDistanceUnary rightDistanceUnary componentReadRow
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed productUnary componentReadUnary scopedReadRow
+  have sameDistanceComponentRead : hsame distance componentRead :=
+    cont_respects_hsame (hsame_refl leftDistance) (hsame_refl rightDistance) distanceRow
+      componentReadRow
+  have sameTransportScopedRead : hsame transport scopedRead :=
+    cont_respects_hsame (hsame_refl product) sameDistanceComponentRead transportRow
+      scopedReadRow
+  exact
+    ⟨leftDistanceUnary, rightDistanceUnary, componentReadUnary, scopedReadUnary,
+      sameDistanceComponentRead, sameTransportScopedRead, distanceRow, componentReadRow,
+      scopedReadRow, provenancePkg, scopedReadPkg⟩
+
 theorem ProductMetricCarrier_metricspace_obligation_package [AskSetup] [PackageSetup]
     {left right leftDistance rightDistance product distance transport route provenance localCert
       leftRead rightRead triangleRead : BHist}
@@ -466,5 +503,84 @@ theorem ProductMetricCarrier_realup_consumer_package [AskSetup] [PackageSetup]
     ⟨productUnary, distanceUnary, componentReadUnary, productRealReadUnary,
       sameDistanceComponentRead, sameTransportProductRealRead, transportRow, productRealReadRow,
       provenancePkg, productRealReadPkg⟩
+
+theorem ProductMetricCarrier_scoped_dependency_package [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      leftRead rightRead triangleRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont left product leftRead ->
+        Cont right product rightRead ->
+          Cont distance transport triangleRead ->
+            SemanticNameCert
+                (fun row : BHist => hsame row triangleRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row left ∨ hsame row right ∨ hsame row leftDistance ∨
+                    hsame row rightDistance ∨ hsame row product ∨ hsame row distance ∨
+                      hsame row transport ∨ hsame row triangleRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont left right product ∧
+                    Cont leftDistance rightDistance distance ∧ Cont product distance transport ∧
+                      Cont distance transport triangleRead ∧ PkgSig bundle provenance pkg)
+                hsame ∧
+              UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                UnaryHistory triangleRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier leftProjection rightProjection triangleRoute
+  obtain ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, _localCertUnary,
+    productRow, distanceRow, transportRow, _routeRow, provenancePkg, _nameCert⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed leftUnary rightUnary productRow
+  have distanceUnary : UnaryHistory distance :=
+    unary_cont_closed leftDistanceUnary rightDistanceUnary distanceRow
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed productUnary distanceUnary transportRow
+  have leftReadUnary : UnaryHistory leftRead :=
+    unary_cont_closed leftUnary productUnary leftProjection
+  have rightReadUnary : UnaryHistory rightRead :=
+    unary_cont_closed rightUnary productUnary rightProjection
+  have triangleReadUnary : UnaryHistory triangleRead :=
+    unary_cont_closed distanceUnary transportUnary triangleRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row triangleRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row left ∨ hsame row right ∨ hsame row leftDistance ∨
+              hsame row rightDistance ∨ hsame row product ∨ hsame row distance ∨
+                hsame row transport ∨ hsame row triangleRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont left right product ∧
+              Cont leftDistance rightDistance distance ∧ Cont product distance transport ∧
+                Cont distance transport triangleRead ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro triangleRead ⟨hsame_refl triangleRead, triangleReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, productRow, distanceRow, transportRow, triangleRoute,
+          provenancePkg⟩
+  }
+  exact ⟨cert, leftReadUnary, rightReadUnary, triangleReadUnary⟩
 
 end BEDC.Derived.ProductMetricUp
