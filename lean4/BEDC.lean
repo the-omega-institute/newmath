@@ -714,8 +714,11 @@ import BEDC.Derived.BanachFixedPointStabilityUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.BanachLatticeUp.TasteGate
 import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
+import BEDC.Derived.BanachSpaceUp
 import BEDC.Derived.BanachSpaceUp.CauchyWindowScope
 import BEDC.Derived.BanachSpaceUp.CompletionConsumerScope
+import BEDC.Derived.BanachSpaceUp.NormCompletionLedgerObligation
+import BEDC.Derived.BanachSpaceUp.SeparatedNameCertObligation
 import BEDC.Derived.BanachSpaceUp.TasteGate
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
@@ -1728,6 +1731,7 @@ import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowTerminality
 import BEDC.Derived.CauchyNetCompletionUp.MooreSmithHandoff
 import BEDC.Derived.CauchyNetCompletionUp.NameCertObligations
 import BEDC.Derived.CauchyNetCompletionUp.RootEventualStability
+import BEDC.Derived.CauchyNetCompletionUp.RootSealNonescape
 import BEDC.Derived.CauchyNetCompletionUp.SeparatedComparisonExhaustion
 import BEDC.Derived.CauchyNetCompletionUp.TasteGate
 import BEDC.Derived.CauchyNetFilterCorrespondenceUp.TasteGate
@@ -1995,6 +1999,7 @@ import BEDC.Derived.CauchySpeedupUp
 import BEDC.Derived.CauchySpeedupUp.TasteGate
 import BEDC.Derived.CauchyStabilityModulusUp
 import BEDC.Derived.CauchyStabilityUp.TasteGate
+import BEDC.Derived.CauchyStructureUp.TasteGate
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchySumLimitUp.NameCertObligations
 import BEDC.Derived.CauchySumLimitUp.TasteGate
@@ -6913,6 +6918,7 @@ import BEDC.Derived.PolishspaceUp.CompleteSeparableHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableMetricRow
 import BEDC.Derived.PolishspaceUp.CompleteSeparableNamecertObligations
 import BEDC.Derived.PolishspaceUp.CompleteSeparableNonescape
+import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationFrontier
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRoute
@@ -6931,6 +6937,7 @@ import BEDC.Derived.PolishspaceUp.DenseCompletionLedgerRefusal
 import BEDC.Derived.PolishspaceUp.DenseScheduleRootObligation
 import BEDC.Derived.PolishspaceUp.EffectivePresentationHandoff
 import BEDC.Derived.PolishspaceUp.EffectiveRepresentationHandoff
+import BEDC.Derived.PolishspaceUp.EffectiveRepresentedSourceBoundary
 import BEDC.Derived.PolishspaceUp.L10CompleteSeparableConsumerPackage
 import BEDC.Derived.PolishspaceUp.L10ConsumerBoundary
 import BEDC.Derived.PolishspaceUp.L10RootUnblockPackage
