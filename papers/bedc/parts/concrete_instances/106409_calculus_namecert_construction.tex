@@ -113,6 +113,31 @@ obtained by reading the local-linearization rows $E,R,D,L,J,H,C,P,N$ together wi
 The package compares accepted calculus reads only through those rows. It has no coordinate for a host function space, selected antiderivative, selected derivative operator, quotient equality of functions, host limit operator, host integral functional, or ambient $\RealUp$ completeness.
 \end{definition}
 
+\begin{definition}[Calculus root obligation surface]
+\label{def:calculus-root-obligation-surface}
+The $\CalculusUp$ root obligation surface is the ordered read of $\Pi_{\CalculusUp}$ through the derivative row, integral finite-sum row, $\LimitUp$ row, $\ContinuousMapUp$ graph-replay row, $\DyadicRatCoreUp$ tolerance row, $\RegSeqRatUp$ readback row, $\RealUp$ seal row, and the transport, replay, provenance, and local naming rows. It is the same finite packet as \autoref{def:calculus-root-public-package}, read as downstream obligations rather than as a public package.
+\end{definition}
+
+\begin{theorem}[Calculus root limit derivative integral route]
+\label{thm:calculus-root-limit-derivative-integral-route}
+Every $\CalculusUp$ root read for limits, derivatives, integrals, continuous-map replay, $\DyadicRatCoreUp$ tolerances, $\RegSeqRatUp$ readback, or $\RealUp$ sealing passes through the obligation surface of \autoref{def:calculus-root-obligation-surface}. The consumer may choose the relevant operation row, but the shared route remains $\Pi_{\CalculusUp}$.
+\end{theorem}
+\begin{proof}
+Read the obligation surface as the public package with its rows ordered by consumer. Derivative, integral, and limit consumers select $D_{\mathrm{root}}$, $I_{\mathrm{root}}$, or $L_{\mathrm{root}}$, respectively, while continuous-map replay, dyadic tolerance, regular readback, Real seal, transport, replay, provenance, and naming remain common rows.
+
+Apply the existing root package readiness theorem. It already forces each listed consumer through $\Pi_{\CalculusUp}$, so reading the same packet as an obligation surface gives the stated L10 route.
+\end{proof}
+
+\begin{theorem}[Calculus root L10 nonescape]
+\label{thm:calculus-root-l10-nonescape}
+The obligation surface of \autoref{def:calculus-root-obligation-surface} exports no host function space, quotient function equality, selected antiderivative, host limit operator, host integral functional, or ambient $\RealUp$ completeness. Every L10 calculus consumer stays inside the displayed limit, derivative, integral, continuous-map, dyadic-rational, regular-rational, Real-seal, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Compare the refused objects with the row inventory of \autoref{def:calculus-root-obligation-surface}. None is a row of the displayed obligation surface.
+
+Use \autoref{thm:calculus-root-limit-derivative-integral-route} for the positive route and \autoref{thm:calculus-root-package-nonescape} for the boundary. Together they exhaust the public calculus read through $\Pi_{\CalculusUp}$ and leave no coordinate for the refused host objects.
+\end{proof}
+
 \begin{theorem}[Calculus root public package readiness]
 \label{thm:calculus-root-public-package-readiness}
 Every downstream $\CalculusUp$ consumer of derivative, integral, limit, continuous-map, or Real-facing data factors through the root public package of \autoref{def:calculus-root-public-package}. A derivative consumer reads the derivative rows and the shared graph, dyadic, regular-rational, Real, transport, replay, provenance, and naming rows; an integral consumer reads the Riemann finite-sum rows and the same support; a limit consumer reads the $\LimitUp$ and $\ContinuousMapUp$ rows and the same support. No downstream calculus consumer obtains a public conclusion from a row outside $\Pi_{\CalculusUp}$.
