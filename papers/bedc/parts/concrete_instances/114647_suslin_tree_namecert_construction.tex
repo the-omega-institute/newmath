@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SuslinTreeUp$}
+\label{ch:concrete-instances-suslin-tree-namecert}
+\origin{human}
+
+Following Suslin's tree problem and standard set-theoretic order theory, the $\SuslinTreeUp$ packet records the visible order-theoretic surface of a height-$\omega_1$ tree with no displayed uncountable chain and no displayed uncountable antichain. It sits beside the $\AronszajnTreeUp$ obstruction of \autoref{ch:concrete-instances-aronszajn-tree-namecert}, the $\TreeUp$ source of \autoref{ch:concrete-instances-tree-namecert}, the $\POSetUp$ comparison surface of \autoref{ch:concrete-instances-poset-namecert}, the unary $\OrderUp$ read of \autoref{ch:concrete-instances-order-namecert}, the membership discipline of \autoref{ch:concrete-instances-set-namecert}, and the ordinal-analysis ledger of \autoref{ch:concrete-instances-ordinal-analysis-namecert}. The packet names the finite BEDC route through tree source, partial-order comparison, level accounting, chain-boundary refusal, antichain-boundary refusal, transport, replay, provenance, and local naming; it does not assert Suslin's hypothesis, construct a Suslin tree in any host universe, choose a club, or decide independence from the usual axioms of set theory.
+
+\begin{definition}[Suslin tree carrier]
+\label{def:suslin-tree-carrier}
+A $\SuslinTreeUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,O,L,C,A,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the $\TreeUp$ source row, naming the tree nodes, predecessor route, root discipline, and displayed level map.
+\item $O$ is the $\POSetUp$ and $\OrderUp$ comparison row, recording the tree order as a partial-order read with finite predecessor comparison data.
+\item $L$ is the level-accounting row, exposing the countable displayed levels and the ordinal-height interface used by $\OrdinalAnalysisUp$.
+\item $C$ is the chain-boundary row, recording that no displayed uncountable chain route is exported by the packet.
+\item $A$ is the antichain-boundary row, recording that no displayed uncountable antichain route is exported by the packet.
+\item $H$ stores componentwise $\hsame$ transport for the tree source, order comparison, level ledger, chain boundary, antichain boundary, continuation, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from order and level requests through $T,O,L,C,A$.
+\item $P$ is the $\Pkg$ provenance over $\SuslinTreeUp$, $\AronszajnTreeUp$, $\TreeUp$, $\POSetUp$, $\OrderUp$, $\SetUp$, $\OrdinalAnalysisUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SuslinTreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,O,L,C,A,H,K,P,N$. It has no coordinate for a host construction of $\omega_1$, a selected club, a forcing extension, a proof or refutation of Suslin's hypothesis, Kurepa splitting, a maximal antichain selector, or a detached set-theoretic universe.
+\end{definition}
+
+\begin{theorem}[Suslin tree NameCert obligations]
+\label{thm:suslin-tree-namecert-obligations}
+For every accepted $\SuslinTreeUp$ carrier $S=(T,O,L,C,A,H,K,P,N)$, the local $\NameCert_{\SuslinTreeUp}$ surface consists exactly of carrier admission for the displayed tree source, order comparison, level ledger, chain boundary, antichain boundary, transport, replay, provenance, and local naming rows; tree-source visibility through $T$; partial-order and unary-order visibility through $O$; level accounting through $L$; chain and antichain boundary visibility through $C,A$; componentwise transport through $H$; displayed continuation through $K$; package provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:suslin-tree-carrier}. The accepted inventory is exactly $T,O,L,C,A,H,K,P,N$, so every consumer must read the tree source, order comparison, level ledger, and two boundary rows before the local name is available.
+
+The sibling anchors supply only their displayed surfaces. The Aronszajn-tree chapter \autoref{ch:concrete-instances-aronszajn-tree-namecert} supplies the height-$\omega_1$ branch-boundary comparison, while the tree, poset, order, set, and ordinal-analysis chapters supply source, comparison, membership, and level-accounting rows.
+
+Rows $H,K,P,N$ preserve and replay that same finite route. Since no carrier coordinate names a host universe, forcing construction, selected club, maximal antichain selector, or decision of Suslin's hypothesis, none of those endpoints can be exported by the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Suslin tree chain--antichain boundary]
+\label{thm:suslin-tree-chain-antichain-boundary}
+Every order, set, or ordinal-analysis consumer of an accepted $\SuslinTreeUp$ carrier must read both boundary rows
+$$
+C,A
+$$
+after the displayed tree source, partial-order comparison, and level ledger rows $T,O,L$. The row $C$ blocks an exported uncountable chain route, and the row $A$ blocks an exported uncountable antichain route. The packet therefore records the Suslin-tree chain--antichain boundary as finite NameCert data beside $\AronszajnTreeUp$, without deciding Suslin's hypothesis, constructing a host Suslin tree, choosing a club, selecting a maximal antichain, or importing a detached set-theoretic universe.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:suslin-tree-namecert-obligations}. It requires the source row $T$, the order row $O$, and the level row $L$ before either boundary can be read.
+
+Read the two boundary rows separately. The chain boundary $C$ refuses an exported uncountable branch or chain route, while the antichain boundary $A$ refuses an exported uncountable antichain route. Keeping both rows visible is what distinguishes the Suslin-tree packet from the sibling $\AronszajnTreeUp$ route.
+
+Finally apply the structural rows of \autoref{def:suslin-tree-carrier}. Transport, replay, provenance, and local naming preserve only the displayed boundary packet. They cannot add a host construction, force a set-theoretic decision, choose a club, select a maximal antichain, or import any detached universe data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SuslinTreeUp$ order-facing read factors through a TreeUp source row, POSetUp and OrderUp comparison row, level-accounting row, chain-boundary row, antichain-boundary row, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{aronszajn-tree, tree, poset, order, set, ordinal-analysis: $\SuslinTreeUp$ is not bijective to any listed sibling because it jointly carries a tree source, order comparison, level ledger, no-uncountable-chain boundary, no-uncountable-antichain boundary, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{SuslinTreeUp}{seedStr}
+
+\begin{closurestatus}{\SuslinTreeUp}
+  \constructivestory{A $\SuslinTreeUp$ packet is generated from a displayed TreeUp source, POSetUp and OrderUp comparison row, level-accounting ledger, chain-boundary row, antichain-boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:suslin-tree-carrier}, \autoref{thm:suslin-tree-namecert-obligations}, and \autoref{thm:suslin-tree-chain-antichain-boundary} seed the finite Suslin-tree order-boundary packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, Suslin's hypothesis, host construction of a Suslin tree, forcing independence, club selection, maximal antichain selection, or ambient set-theoretic completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, tree-source discipline, order-comparison exactness, level-ledger visibility, chain-boundary nonescape, antichain-boundary nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SuslinTreeUp.}
+\end{closurestatus}
