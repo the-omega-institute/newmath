@@ -156,16 +156,24 @@ def taste_gate : ChapterTasteGate FrechetFilterUp :=
   frechetFilterChapterTasteGate
 
 theorem FrechetFilterTasteGate_single_carrier_alignment :
-    (∀ h : BHist, frechetFilterDecodeBHist (frechetFilterEncodeBHist h) = h) ∧
-      (∀ x : FrechetFilterUp,
-        frechetFilterFromEventFlow (frechetFilterToEventFlow x) = some x) ∧
-        (∀ x y : FrechetFilterUp, frechetFilterToEventFlow x = frechetFilterToEventFlow y →
-          x = y) ∧
-          (∀ x y : FrechetFilterUp, frechetFilterFields x = frechetFilterFields y → x = y) ∧
-            frechetFilterEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+    Nonempty (ChapterTasteGate FrechetFilterUp) ∧
+      Nonempty (FieldFaithful FrechetFilterUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial FrechetFilterUp) ∧
+          (∀ h : BHist, frechetFilterDecodeBHist (frechetFilterEncodeBHist h) = h) ∧
+            (∀ x : FrechetFilterUp,
+              frechetFilterFromEventFlow (frechetFilterToEventFlow x) = some x) ∧
+              (∀ x y : FrechetFilterUp,
+                frechetFilterToEventFlow x = frechetFilterToEventFlow y → x = y) ∧
+                (∀ x y : FrechetFilterUp,
+                  frechetFilterFields x = frechetFilterFields y → x = y) ∧
+                  frechetFilterEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨frechetFilter_decode_encode, frechetFilter_round_trip,
+    ⟨⟨frechetFilterChapterTasteGate⟩,
+      ⟨frechetFilterFieldFaithful⟩,
+      ⟨frechetFilterNontrivial⟩,
+      frechetFilter_decode_encode,
+      frechetFilter_round_trip,
       (fun _ _ heq => frechetFilterToEventFlow_injective heq),
       frechetFilter_fields_faithful, rfl⟩
 
