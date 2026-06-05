@@ -840,6 +840,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ClassifierTransport
 import BEDC.Derived.BishopRegularCauchyCompletionUp.DiagonalWindowStability
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ObligationClosurePackage
+import BEDC.Derived.BishopRegularCauchyCompletionUp.PublicRealSeal
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RealSealConsumer
 import BEDC.Derived.BishopRegularCauchyCompletionUp.RegularityEnvelope
 import BEDC.Derived.BishopRegularCauchyCompletionUp.ScopedKernelRoute
@@ -1383,6 +1384,7 @@ import BEDC.Derived.CauchyContinuousExtensionUp.CompletionConsumer
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularSourceHandoff
 import BEDC.Derived.CauchyContinuousExtensionUp.RegularTailTransport
 import BEDC.Derived.CauchyContinuousExtensionUp.TasteGate
+import BEDC.Derived.CauchyContinuousExtensionUp.UniformModulusSink
 import BEDC.Derived.CauchyContinuousExtensionUp.UniquenessLedger
 import BEDC.Derived.CauchyContinuousImageUp.TasteGate
 import BEDC.Derived.CauchyContinuousMapUp
@@ -2633,6 +2635,7 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
+import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionAdjointUp.TasteGate
 import BEDC.Derived.CompletionComparisonUp.TasteGate
@@ -6084,6 +6087,7 @@ import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
 import BEDC.Derived.MetricClosedBallUp.TasteGate
 import BEDC.Derived.MetricClosureUp.TasteGate
 import BEDC.Derived.MetricCofinalCompletionUp.TasteGate
+import BEDC.Derived.MetricCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.MetricCompletionComparisonUp.TasteGate
 import BEDC.Derived.MetricCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.MetricCompletionFiniteCoproductUp.TasteGate
@@ -8168,6 +8172,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootLimitWitness
+import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.SeparatedUniquenessBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.TailInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
