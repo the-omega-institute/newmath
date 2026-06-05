@@ -37,9 +37,11 @@ def finiteOscillationPartitionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (finiteOscillationPartitionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteOscillationPartitionDecodeBHist tail)
 
-private theorem finiteOscillationPartition_decode_encode :
-    ∀ h : BHist, finiteOscillationPartitionDecodeBHist
-      (finiteOscillationPartitionEncodeBHist h) = h := by
+theorem finiteOscillationPartitionDecodeEncodeBHist :
+    ∀ h : BHist,
+      finiteOscillationPartitionDecodeBHist
+          (finiteOscillationPartitionEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -47,12 +49,13 @@ private theorem finiteOscillationPartition_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def finiteOscillationPartitionFields : FiniteOscillationPartitionUp → List BHist
+def finiteOscillationPartitionFields :
+    FiniteOscillationPartitionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | FiniteOscillationPartitionUp.mk I M A B R H C P N =>
-      [I, M, A, B, R, H, C, P, N]
+  | FiniteOscillationPartitionUp.mk I M A B R H C P N => [I, M, A, B, R, H, C, P, N]
 
-def finiteOscillationPartitionToEventFlow : FiniteOscillationPartitionUp → EventFlow
+def finiteOscillationPartitionToEventFlow :
+    FiniteOscillationPartitionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (finiteOscillationPartitionFields x).map finiteOscillationPartitionEncodeBHist
 
@@ -70,7 +73,8 @@ private def finiteOscillationPartitionLengthEq : Nat → EventFlow → Bool
   | Nat.succ _, [] => false
   | Nat.succ n, _ :: rest => finiteOscillationPartitionLengthEq n rest
 
-def finiteOscillationPartitionFromEventFlow : EventFlow → Option FiniteOscillationPartitionUp
+def finiteOscillationPartitionFromEventFlow :
+    EventFlow → Option FiniteOscillationPartitionUp
   -- BEDC touchpoint anchor: BHist BMark
   | flow =>
       match finiteOscillationPartitionLengthEq 9 flow with
@@ -91,7 +95,8 @@ def finiteOscillationPartitionFromEventFlow : EventFlow → Option FiniteOscilla
 private theorem finiteOscillationPartition_round_trip :
     ∀ x : FiniteOscillationPartitionUp,
       finiteOscillationPartitionFromEventFlow
-        (finiteOscillationPartitionToEventFlow x) = some x := by
+          (finiteOscillationPartitionToEventFlow x) =
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -109,33 +114,38 @@ private theorem finiteOscillationPartition_round_trip :
             (finiteOscillationPartitionDecodeBHist (finiteOscillationPartitionEncodeBHist P))
             (finiteOscillationPartitionDecodeBHist (finiteOscillationPartitionEncodeBHist N))) =
           some (FiniteOscillationPartitionUp.mk I M A B R H C P N)
-      rw [finiteOscillationPartition_decode_encode I,
-        finiteOscillationPartition_decode_encode M,
-        finiteOscillationPartition_decode_encode A,
-        finiteOscillationPartition_decode_encode B,
-        finiteOscillationPartition_decode_encode R,
-        finiteOscillationPartition_decode_encode H,
-        finiteOscillationPartition_decode_encode C,
-        finiteOscillationPartition_decode_encode P,
-        finiteOscillationPartition_decode_encode N]
+      rw [finiteOscillationPartitionDecodeEncodeBHist I,
+        finiteOscillationPartitionDecodeEncodeBHist M,
+        finiteOscillationPartitionDecodeEncodeBHist A,
+        finiteOscillationPartitionDecodeEncodeBHist B,
+        finiteOscillationPartitionDecodeEncodeBHist R,
+        finiteOscillationPartitionDecodeEncodeBHist H,
+        finiteOscillationPartitionDecodeEncodeBHist C,
+        finiteOscillationPartitionDecodeEncodeBHist P,
+        finiteOscillationPartitionDecodeEncodeBHist N]
 
 private theorem finiteOscillationPartitionToEventFlow_injective
     {x y : FiniteOscillationPartitionUp} :
     finiteOscillationPartitionToEventFlow x =
-      finiteOscillationPartitionToEventFlow y → x = y := by
+        finiteOscillationPartitionToEventFlow y →
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      finiteOscillationPartitionFromEventFlow (finiteOscillationPartitionToEventFlow x) =
-        finiteOscillationPartitionFromEventFlow (finiteOscillationPartitionToEventFlow y) :=
+      finiteOscillationPartitionFromEventFlow
+          (finiteOscillationPartitionToEventFlow x) =
+        finiteOscillationPartitionFromEventFlow
+          (finiteOscillationPartitionToEventFlow y) :=
     congrArg finiteOscillationPartitionFromEventFlow heq
   exact Option.some.inj
     (Eq.trans (finiteOscillationPartition_round_trip x).symm
       (Eq.trans hread (finiteOscillationPartition_round_trip y)))
 
 private theorem finiteOscillationPartition_fields_faithful :
-    ∀ x y : FiniteOscillationPartitionUp, finiteOscillationPartitionFields x =
-      finiteOscillationPartitionFields y → x = y := by
+    ∀ x y : FiniteOscillationPartitionUp,
+      finiteOscillationPartitionFields x =
+          finiteOscillationPartitionFields y →
+        x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
@@ -158,7 +168,8 @@ instance finiteOscillationPartitionChapterTasteGate :
     intro x
     change
       finiteOscillationPartitionFromEventFlow
-        (finiteOscillationPartitionToEventFlow x) = some x
+          (finiteOscillationPartitionToEventFlow x) =
+        some x
     exact finiteOscillationPartition_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -186,6 +197,28 @@ def taste_gate : ChapterTasteGate FiniteOscillationPartitionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   finiteOscillationPartitionChapterTasteGate
 
+def finiteOscillationPartitionTasteGate :
+    ChapterTasteGate FiniteOscillationPartitionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  taste_gate
+
+theorem FiniteOscillationPartitionTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+        finiteOscillationPartitionDecodeBHist
+            (finiteOscillationPartitionEncodeBHist h) =
+          h) ∧
+      Nonempty (ChapterTasteGate FiniteOscillationPartitionUp) ∧
+        Nonempty (BEDC.Meta.TasteGate.Nontrivial FiniteOscillationPartitionUp) ∧
+          Nonempty (BEDC.Meta.TasteGate.FieldFaithful FiniteOscillationPartitionUp) := by
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
+  constructor
+  · exact finiteOscillationPartitionDecodeEncodeBHist
+  · constructor
+    · exact ⟨finiteOscillationPartitionChapterTasteGate⟩
+    · constructor
+      · exact ⟨finiteOscillationPartitionNontrivial⟩
+      · exact ⟨finiteOscillationPartitionFieldFaithful⟩
+
 structure FiniteOscillationPartitionCarrier [AskSetup] [PackageSetup]
     (I M A B R H C P N : BHist) (bundle : ProbeBundle ProbeName)
     (pkg : Pkg) : Prop where
@@ -207,7 +240,7 @@ structure FiniteOscillationPartitionCarrier [AskSetup] [PackageSetup]
 
 theorem FiniteOscillationPartition_namecert_obligations [AskSetup] [PackageSetup]
     {I M A B R H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    FiniteOscillationPartitionCarrier I M A B R H C P N bundle pkg ->
+    FiniteOscillationPartitionCarrier I M A B R H C P N bundle pkg →
       SemanticNameCert
         (fun row : BHist =>
           FiniteOscillationPartitionCarrier I M A B R H C P N bundle pkg ∧
