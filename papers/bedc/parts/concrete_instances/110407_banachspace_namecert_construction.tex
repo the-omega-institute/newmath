@@ -61,6 +61,42 @@ The Cauchy request ledger $Q$ and completion handoff $S$ are then read with the 
 Finally the separated-completion row $Z$ and the structural rows $H,C,P,L$ keep comparison, transport, replay, provenance, and naming on the same packet. Since the carrier contains no Hahn--Banach functional, selector, quotient-completion object, choice schedule, host equality, or ambient-completeness coordinate, every downstream Banach-space read is exhausted by the displayed handoff.
 \end{proof}
 
+\begin{theorem}[Banach space normed Cauchy ledger]
+\label{thm:banach-space-normed-cauchy-ledger}
+Every Cauchy request read from an accepted $\BanachSpaceUp$ carrier must expose the $\VecSpaceUp$ row $V$, the $\NormUp$ row $N$, the induced metric row $M$, and the Cauchy ledger row $Q$ before the completion handoff $S$ or terminal rows $R,E,Z$ are consumed. The request is therefore a normed finite-ledger read through $V,N,M,Q,S,R,E,Z,H,C,P,L$, not a selected-limit, quotient-class, or host-equality read.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory of \autoref{def:banach-space-carrier}. The only vector data are in $V$, the only norm data are in $N$, and the metric row $M$ is displayed beside them rather than supplied by an ambient metric space.
+
+Apply \autoref{thm:banach-space-namecert-obligations}. The local certificate exposes $Q$ as the Cauchy request ledger before the completion handoff $S$ and the tolerance rows $R,E$ can be read.
+
+Finally use \autoref{thm:banach-space-cauchy-completion-handoff}. It keeps $Z,H,C,P,L$ downstream of the displayed normed Cauchy ledger, so the carrier cannot export selected limits, quotient Cauchy classes, or host vector equality.
+\end{proof}
+
+\begin{theorem}[Banach space completion stability obligation]
+\label{thm:banach-space-completion-stability-obligation}
+For accepted $\BanachSpaceUp$ packets, componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the completion handoff route through $Q,S,R,E$. Any stable completion-facing consumer must read the same Cauchy request ledger, completion handoff, regular rational tolerance readback, and terminal Real seal before it reaches the local name.
+\end{theorem}
+\begin{proof}
+Project $H$ and $C$ from \autoref{def:banach-space-carrier}. These rows transport and replay the displayed coordinates of the packet; they do not introduce a second completion object or an external selector.
+
+By \autoref{thm:banach-space-namecert-obligations}, the rows $Q,S,R,E$ are part of the local NameCert surface. Transport and replay must therefore carry the Cauchy ledger, completion handoff, rational tolerance readback, and Real seal as named rows.
+
+Apply \autoref{thm:banach-space-cauchy-completion-handoff}. The stable route remains $V,N,M,Q,S,R,E,Z,H,C,P,L$, so completion stability is a preservation obligation on the displayed handoff rather than a hidden completeness principle.
+\end{proof}
+
+\begin{theorem}[Banach space separated-completion boundary]
+\label{thm:banach-space-separated-completion-boundary}
+Every equality-facing consumer of an accepted $\BanachSpaceUp$ packet must pass through the $\SeparatedCompletionUp$ row $Z$ after the displayed completion route and before local naming. Such consumers cannot use host vector equality, quotient completion classes, selected limits, countable choice, trichotomy, Hahn--Banach, or ambient $\RealUp$ completeness as a replacement for $Z$.
+\end{theorem}
+\begin{proof}
+Read $Z$ from the carrier of \autoref{def:banach-space-carrier}. It is the only separated-comparison coordinate available to equality-facing consumers.
+
+Use \autoref{thm:banach-space-namecert-obligations} to place $Z$ in the local certificate surface with $V,N,M,Q,S,R,E,H,C,P,L$. The equality read must therefore pass through the displayed vector, norm, metric, Cauchy, completion, tolerance, and Real-seal rows before it reaches $Z$.
+
+Finally invoke \autoref{thm:banach-space-cauchy-completion-handoff}. Since the carrier has no coordinate for host vector equality, quotient completion classes, selected limits, countable choice, trichotomy, Hahn--Banach, or ambient $\RealUp$ completeness, $Z$ is the boundary through which equality-facing Banach-space consumers must pass.
+\end{proof}
+
 \closureat{BanachSpaceUp}{seedStr}
 
 \begin{closurestatus}{\BanachSpaceUp}
