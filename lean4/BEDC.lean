@@ -1547,6 +1547,7 @@ import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyLocatedRealEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyLocatednessUp.TasteGate
 import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
+import BEDC.Derived.CauchyMergeUp
 import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
 import BEDC.Derived.CauchyModulusChoiceUp
@@ -5310,7 +5311,6 @@ import BEDC.Derived.LimitPointCompactUp.TasteGate
 import BEDC.Derived.LimitSelectorUp
 import BEDC.Derived.LimitSpaceUp.TasteGate
 import BEDC.Derived.LimitUp.BishopHandoff
-import BEDC.Derived.LimitUp.FiniteWindowExactness
 import BEDC.Derived.LimitUp.TasteGate
 import BEDC.Derived.LimsupUp.TasteGate
 import BEDC.Derived.LinearMapUp
@@ -8157,6 +8157,7 @@ import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
+import BEDC.Derived.SequentialCauchyFilterUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
 import BEDC.Derived.SequentialClosureUp
@@ -8197,6 +8198,7 @@ import BEDC.Derived.SequentialCompactUp.RootRealSealRefusal
 import BEDC.Derived.SequentialCompactUp.RootRegSeqRatExposure
 import BEDC.Derived.SequentialCompactUp.RootSelectedWindowRoute
 import BEDC.Derived.SequentialCompactUp.SelectorRefusal
+import BEDC.Derived.SequentialCompactUp.StreamNameSubsequenceRoute
 import BEDC.Derived.SequentialCompactUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.WindowExtractionScope
 import BEDC.Derived.SequentialCompactnessUp.BolzanoWeierstrassWindow
@@ -8218,7 +8220,6 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyWindowObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.ClassifierTransport
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompleteMetricHandoff
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionConsumerRoute
-import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionHandoffObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionRouteExhaustion
 import BEDC.Derived.SequentiallyCompleteMetricUp.DisplayedLimitUniqueness
 import BEDC.Derived.SequentiallyCompleteMetricUp.LateBoundCoverage
@@ -8227,7 +8228,6 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.LimitLedgerCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitLedgerNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitModulusInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitNonescape
-import BEDC.Derived.SequentiallyCompleteMetricUp.LimitReadbackPackage
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RegularCauchyLimitCoverage
