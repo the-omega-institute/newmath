@@ -782,6 +782,7 @@ import BEDC.Derived.BishopCauchyLimitCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyModulusEquivalenceUp.TasteGate
 import BEDC.Derived.BishopCauchyModulusExtractionUp.TasteGate
 import BEDC.Derived.BishopCauchyNormalizationUp.TasteGate
+import BEDC.Derived.BishopCauchyRealEnvelopeUp
 import BEDC.Derived.BishopCauchyRealUp
 import BEDC.Derived.BishopCauchyRealUp.TasteGate
 import BEDC.Derived.BishopCauchySequenceUp.TasteGate
@@ -1922,6 +1923,7 @@ import BEDC.Derived.CauchyRemainderEstimateUp.TasteGate
 import BEDC.Derived.CauchyRepresentationUp.StreamRegSeqRatHandoff
 import BEDC.Derived.CauchyRepresentationUp.TasteGate
 import BEDC.Derived.CauchyRootCriterionUp.TasteGate
+import BEDC.Derived.CauchySchlomilchCondensationUp.TasteGate
 import BEDC.Derived.CauchySchwarzRealUp.Carrier
 import BEDC.Derived.CauchySchwarzRealUp.TasteGate
 import BEDC.Derived.CauchySealBudgetSynchronizerUp
@@ -4090,6 +4092,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.RealUpTailHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatCompletionHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatRealRoute
 import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatTailReadback
+import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatTailTransport
 import BEDC.Derived.FastCauchySubsequenceUp.RegularReadback
 import BEDC.Derived.FastCauchySubsequenceUp.RegularReadbackObligation
 import BEDC.Derived.FastCauchySubsequenceUp.RegularSubsequenceHandoffTotality
@@ -8100,6 +8103,7 @@ import BEDC.Derived.SequentialClosureUp.RootTopologyTransport
 import BEDC.Derived.SequentialClosureUp.SequenceLimitHandoff
 import BEDC.Derived.SequentialClosureUp.TasteGate
 import BEDC.Derived.SequentialClosureUp.TopologyHandoff
+import BEDC.Derived.SequentialClosureUp.TopologySequenceFilterHandoff
 import BEDC.Derived.SequentialCompactRealUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.BaireCylinderExposure
 import BEDC.Derived.SequentialCompactUp.BaireRealWindowAdmission
@@ -8139,6 +8143,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.CauchySequenceObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.ClassifierTransport
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompleteMetricHandoff
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
+import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
@@ -8239,6 +8244,7 @@ import BEDC.Derived.SigmaCompactUp.TasteGate
 import BEDC.Derived.SignedBinaryExpansionUp
 import BEDC.Derived.SignedBinaryExpansionUp.TasteGate
 import BEDC.Derived.SignedDigitCauchyModulusUp.TasteGate
+import BEDC.Derived.SignedDigitIntervalRealUp.TasteGate
 import BEDC.Derived.SignedDigitRealUp
 import BEDC.Derived.SignedDigitRealUp.TasteGate
 import BEDC.Derived.SignedDigitStreamUp
@@ -8550,6 +8556,7 @@ import BEDC.Derived.TauberianRemainderUp
 import BEDC.Derived.TauberianRemainderUp.TasteGate
 import BEDC.Derived.TaylorModelUp
 import BEDC.Derived.TaylorModelUp.TasteGate
+import BEDC.Derived.TaylorPolynomialUp.TasteGate
 import BEDC.Derived.TaylorRemainderUp
 import BEDC.Derived.TemperedDistributionUp.TasteGate
 import BEDC.Derived.TensorAlgebraUp.TasteGate
