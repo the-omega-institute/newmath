@@ -714,7 +714,9 @@ import BEDC.Derived.BanachFixedPointStabilityUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
 import BEDC.Derived.BanachLatticeUp.TasteGate
 import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
+import BEDC.Derived.BanachSpaceUp
 import BEDC.Derived.BanachSpaceUp.CauchyWindowScope
+import BEDC.Derived.BanachSpaceUp.CompletionConsumerScope
 import BEDC.Derived.BanachSpaceUp.TasteGate
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
@@ -1166,6 +1168,7 @@ import BEDC.Derived.CalculusUp.ContinuousMapLimitRoute
 import BEDC.Derived.CalculusUp.DerivativeContinuationObligation
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
 import BEDC.Derived.CalculusUp.LimitRealSealObligation
+import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
 import BEDC.Derived.CalculusUp.RootL10Nonescape
 import BEDC.Derived.CalculusUp.RootLimitDerivativeIntegralRoute
 import BEDC.Derived.CalculusUp.RootRealSealNonescape
@@ -1939,6 +1942,7 @@ import BEDC.Derived.CauchyRealOrderedFieldUp.TasteGate
 import BEDC.Derived.CauchyRealizerSequenceUp.TasteGate
 import BEDC.Derived.CauchyRealizerTailModulusUp.TasteGate
 import BEDC.Derived.CauchyRealizerUp.TasteGate
+import BEDC.Derived.CauchyRegularCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.CauchyRegularExtractionUp
 import BEDC.Derived.CauchyRegularityModulusUp.TasteGate
 import BEDC.Derived.CauchyRegularizationUp
@@ -1992,6 +1996,7 @@ import BEDC.Derived.CauchySpeedupUp
 import BEDC.Derived.CauchySpeedupUp.TasteGate
 import BEDC.Derived.CauchyStabilityModulusUp
 import BEDC.Derived.CauchyStabilityUp.TasteGate
+import BEDC.Derived.CauchyStructureUp.TasteGate
 import BEDC.Derived.CauchySubsequenceExtractionUp.TasteGate
 import BEDC.Derived.CauchySumLimitUp.NameCertObligations
 import BEDC.Derived.CauchySumLimitUp.TasteGate
