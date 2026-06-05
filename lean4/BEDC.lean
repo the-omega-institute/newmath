@@ -7034,6 +7034,7 @@ import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProductFilterUp.TasteGate
 import BEDC.Derived.ProductMetricUp
 import BEDC.Derived.ProductMetricUp.BridgeCertificate
+import BEDC.Derived.ProductMetricUp.NameCertObligations
 import BEDC.Derived.ProductMetricUp.TasteGate
 import BEDC.Derived.ProductRegularCauchyLimitUp.TasteGate
 import BEDC.Derived.ProductTopologyUp.TasteGate
