@@ -178,6 +178,40 @@ Now inspect $N$. It does not prove confluence; it names the boundary at which th
 The structural rows $F,H,T,P,L$ preserve that comparison as a socket. They allow the manuscript route to carry normalization evidence up to the confluence boundary, but no row identifies the socket with full Church--Rosser, substitution compatibility, or subject reduction for arbitrary closed proofs.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization audit obligation pack]
+\label{thm:metacic-normalization-audit-obligation-pack}
+For an accepted $\MetacicNormalizationAuditUp$ packet $Z=(R,C,S,A,N,F,H,T,P,L)$, the exact audit package is the displayed row family
+$$
+R,C,S,A,N,F,H,T,P,L .
+$$
+The package contains reducibility-candidate evidence, closed-term projection, finite strong-normalization scope, application boundary, confluence refusal, route replay, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. It contains no evidence-free global strong-normalization theorem, no unconditional application-SN theorem, no full closed Church--Rosser theorem, no arbitrary substitution-compatibility theorem, no subject-reduction transport theorem, no quotient equality over reductions, and no host evaluator.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-normalization-audit-carrier}. Its coordinates are exactly $R,C,S,A,N,F,H,T,P,L$, with no hidden normalization, confluence, quotient, or evaluator coordinate.
+
+Apply \autoref{thm:metacic-normalization-audit-obligation-surface}. That theorem identifies the local NameCert obligations for carrier admission, candidate visibility, projection visibility, finite SN scope, application boundary, confluence refusal, replay, transport, provenance, and local naming.
+
+Use \autoref{thm:metacic-normalization-audit-sn-scope}, \autoref{thm:metacic-normalization-audit-closed-term-projection-route}, and \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. Together they keep every SN read inside candidate evidence, closed-term projection, finite scope, residual budget, and refusal rows. The refused global endpoints therefore have no row in the exact audit package.
+\end{proof}
+
+\begin{theorem}[MetaCIC normalization audit candidate-route pack]
+\label{thm:metacic-normalization-audit-candidate-route-pack}
+Before any strong-normalization export from an accepted $\MetacicNormalizationAuditUp$ packet is public, the manuscript route must display candidate evidence in $R$, closed-term projection in $C$, residual fuel through the finite scope and replay rows $S,F,T$, the application boundary $A$, and the confluence refusal row $N$. The resulting public-facing route is
+$$
+R,C,S,A,N,F,H,T,P,L .
+$$
+Consequently a candidate-mediated SN export may cite closed-term projection, candidate-set membership, residual fuel, application adequacy under the displayed boundary, and the confluence socket, but it cannot cite evidence-free global SN, full closed Church--Rosser, arbitrary substitution compatibility, subject reduction, quotient reduction equality, or a host evaluator.
+\end{theorem}
+\begin{proof}
+Begin with the closed-term projection route of \autoref{thm:metacic-normalization-audit-closed-term-projection-route}. It forces a closed-term SN read through candidate evidence $R$, projection $C$, finite scope $S$, and the application boundary $A$.
+
+Attach the candidate-mediated closure theorem \autoref{thm:metacic-normalization-audit-candidate-mediated-sn-closure}. This keeps application-facing SN inside the displayed candidate route and blocks the evidence-free global endpoint.
+
+Now spend the residual budget using \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. The residual route links $R,C,S,A$ to the refusal row $N$, while replay and transport through $F,H,T,P,L$ preserve the same public-facing packet.
+
+Finally apply the confluence socket of \autoref{thm:metacic-normalization-audit-confluence-socket}. The socket permits comparison with sibling confluence rows only after the residual-fuel and candidate-frontier obligations are visible, so the candidate-route pack remains a finite audit route rather than a global SN or confluence theorem.
+\end{proof}
+
 \closureat{MetacicNormalizationAuditUp}{seedStr}
 
 \begin{closurestatus}{\MetacicNormalizationAuditUp}
