@@ -1,4 +1,4 @@
-import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
+import BEDC.Derived.LowerSemicontinuousUp.RootRegularReadbackHandoff
 
 namespace BEDC.Derived.LowerSemicontinuousUp
 
@@ -97,5 +97,90 @@ theorem LowerSemicontinuousNameCertScope [AskSetup] [PackageSetup]
           provenancePkg, namePkg⟩
   }
   exact ⟨cert, scheduleUnary, readbackUnary, epigraphUnary, scopeUnary⟩
+
+theorem LowerSemicontinuousKernelSourceNameCertScope_handoff [AskSetup] [PackageSetup]
+    {X F E W R O H C P N scheduleRead readbackRead epigraphRead scopeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    lowerSemicontinuousRootFields (LowerSemicontinuousUp.mk X F E W R O H C P N) =
+        [X, F, E, W, R, O, H, C, P, N] ->
+      UnaryHistory X ->
+        UnaryHistory W ->
+          UnaryHistory R ->
+            UnaryHistory E ->
+              UnaryHistory N ->
+                Cont X W scheduleRead ->
+                  Cont scheduleRead R readbackRead ->
+                    Cont readbackRead E epigraphRead ->
+                      Cont epigraphRead N scopeRead ->
+                        PkgSig bundle P pkg ->
+                          PkgSig bundle N pkg ->
+                            (SemanticNameCert
+                                (fun row : BHist => hsame row epigraphRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row X ∨ hsame row F ∨ hsame row E ∨
+                                    hsame row W ∨ hsame row R ∨ hsame row O ∨
+                                      hsame row H ∨ hsame row C ∨ hsame row P ∨
+                                        hsame row N ∨ hsame row scheduleRead ∨
+                                          hsame row readbackRead ∨ hsame row epigraphRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ Cont X W scheduleRead ∧
+                                    Cont scheduleRead R readbackRead ∧
+                                      Cont readbackRead E epigraphRead ∧
+                                        PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                                hsame ∧
+                              UnaryHistory scheduleRead ∧ UnaryHistory readbackRead ∧
+                                UnaryHistory epigraphRead) ∧
+                              SemanticNameCert
+                                (fun row : BHist => hsame row scopeRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row X ∨ hsame row W ∨ hsame row R ∨
+                                    hsame row E ∨ hsame row P ∨ hsame row N ∨
+                                      hsame row scheduleRead ∨ hsame row readbackRead ∨
+                                        hsame row epigraphRead ∨ hsame row scopeRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ Cont X W scheduleRead ∧
+                                    Cont scheduleRead R readbackRead ∧
+                                      Cont readbackRead E epigraphRead ∧
+                                        Cont epigraphRead N scopeRead ∧
+                                          PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                                hsame ∧
+                              UnaryHistory scheduleRead ∧ UnaryHistory readbackRead ∧
+                                UnaryHistory epigraphRead ∧ UnaryHistory scopeRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Cont PkgSig SemanticNameCert hsame UnaryHistory
+  intro fields xUnary wUnary rUnary eUnary nUnary scheduleRoute readbackRoute epigraphRoute
+    scopeRoute provenancePkg namePkg
+  have kernelSource :
+      SemanticNameCert
+          (fun row : BHist => hsame row epigraphRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row F ∨ hsame row E ∨ hsame row W ∨
+              hsame row R ∨ hsame row O ∨ hsame row H ∨ hsame row C ∨
+                hsame row P ∨ hsame row N ∨ hsame row scheduleRead ∨
+                  hsame row readbackRead ∨ hsame row epigraphRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont X W scheduleRead ∧
+              Cont scheduleRead R readbackRead ∧ Cont readbackRead E epigraphRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame ∧
+        UnaryHistory scheduleRead ∧ UnaryHistory readbackRead ∧ UnaryHistory epigraphRead :=
+    LowerSemicontinuousKernelSource_obligations xUnary wUnary rUnary eUnary scheduleRoute
+      readbackRoute epigraphRoute provenancePkg namePkg
+  have scopeCert :
+      SemanticNameCert
+          (fun row : BHist => hsame row scopeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row W ∨ hsame row R ∨ hsame row E ∨ hsame row P ∨
+              hsame row N ∨ hsame row scheduleRead ∨ hsame row readbackRead ∨
+                hsame row epigraphRead ∨ hsame row scopeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont X W scheduleRead ∧ Cont scheduleRead R readbackRead ∧
+              Cont readbackRead E epigraphRead ∧ Cont epigraphRead N scopeRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame ∧
+        UnaryHistory scheduleRead ∧ UnaryHistory readbackRead ∧
+          UnaryHistory epigraphRead ∧ UnaryHistory scopeRead :=
+    LowerSemicontinuousNameCertScope fields xUnary wUnary rUnary eUnary nUnary scheduleRoute
+      readbackRoute epigraphRoute scopeRoute provenancePkg namePkg
+  exact ⟨kernelSource, scopeCert⟩
 
 end BEDC.Derived.LowerSemicontinuousUp
