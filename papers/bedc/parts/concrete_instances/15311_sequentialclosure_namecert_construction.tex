@@ -241,11 +241,47 @@ On the metric side, apply \autoref{thm:sequential-closure-regseqrat-limit-route}
 The root limit ledger theorem \autoref{thm:sequential-closure-root-limit-ledger} excludes selected subsequences, quotient stream equality, countable choice, and ambient $\RealUp$ completeness as limit-witness sources. Therefore the only available handoff for $L$ is the displayed finite route.
 \end{proof}
 
+\begin{theorem}[SequentialClosure kernel scope surface]
+\label{thm:sequentialclosure-kernel-scope-surface}
+For an accepted $\SequentialClosureUp$ carrier $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, the scoped BEDC kernel surface is exactly the displayed packet over $\TopologyUp$, $\MetricUp$, $\LocatedSetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and the local $\NameCert_{\SequentialClosureUp}$ rows. Every topology or metric closure read must compose the existing sequence-limit handoff, neighbourhood-test stability, sequence-window coverage, and limit-row handoff rows before it can be presented to a downstream consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier. The rows $T,M,S,Q,L,U,W,R,A,H,C,P,N$ name the topology, metric, located source, displayed sequence, candidate limit, test ledger, finite windows, rational readback, Real seal, transport, replay, provenance, and local NameCert coordinates.
+
+Compose the already displayed handoffs in dependency order. The sequence-limit handoff of \autoref{thm:sequential-closure-sequence-limit-handoff} keeps every closure read on $T,M,S,Q,L,U,W,R,A,H,C,P,N$, while \autoref{thm:sequentialclosure-neighbourhood-test-stability} fixes the topology and metric request rows.
+
+The final scope is supplied by \autoref{thm:sequentialclosure-sequence-window-coverage} and \autoref{thm:sequentialclosure-limit-row-handoff}. Finite StreamName windows precede the RegSeqRat readback, and the Real seal follows that readback. Thus the kernel surface is scoped to the listed BEDC rows rather than to host closure or detached completeness.
+\end{proof}
+
+\begin{theorem}[SequentialClosure carrier admission scope]
+\label{thm:sequentialclosure-carrier-admission-scope}
+Carrier admission for $\SequentialClosureUp$ admits a closure packet only when the same finite $\BHist$ row displays the $\TopologyUp$ source $T$, $\MetricUp$ source $M$, $\LocatedSetUp$ or subset row $S$, $\StreamNameUp$ sequence row $Q$ and windows $W$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\SequentialClosureUp}$ row $N$. Admission does not create a second carrier for an ambient closure operator or for a detached limit theorem.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:sequential-closure-carrier}. Its displayed tuple contains one topology row, one metric row, one source row, one sequence source, one candidate limit, one test ledger, one finite window ledger, one RegSeqRat handoff, one Real seal, and the structural rows.
+
+Use \autoref{thm:sequential-closure-root-sequence-carrier} for the carrier side. It binds the sequence row to the LocatedSet or subset source, the metric row, StreamName windows, RegSeqRat handoff, Real seal, transport, replay, provenance, and local naming rows in the same packet.
+
+Use \autoref{thm:sequential-closure-root-limit-ledger} for the limit side. The candidate limit row is admitted only through $U,W,R,A,H,C,P,N$, so the carrier has no place to store host closure, arbitrary selection, quotient stream equality, or an independent completeness proof.
+\end{proof}
+
+\begin{theorem}[SequentialClosure nonescape scope]
+\label{thm:sequentialclosure-nonescape-scope}
+For every accepted $\SequentialClosureUp$ carrier $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, a downstream $\TopologyUp$, $\MetricUp$, $\LocatedSetUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer can read closure evidence only through $T,M,S,Q,L,U,W,R,A,H,C,P,N$ and the local $\NameCert_{\SequentialClosureUp}$ row. The packet exports no host topological closure, selected subsequence, quotient stream equality, open-cover compactness, countable choice, detached $\RealUp$ completeness, or additional bridge row.
+\end{theorem}
+\begin{proof}
+Read the consumer route through \autoref{thm:sequentialclosure-kernel-scope-surface}. Topology and metric requests are scoped to $T,M,U$, located-source requests to $S,Q$, sequence windows to $W$, and metric limit reads to $R,A$.
+
+Apply \autoref{thm:sequentialclosure-carrier-admission-scope}. Since all accepted carrier data lives in the same $\BHist$ tuple and is transported only by $H$ and replayed only by $C$, a consumer cannot introduce a second closure source while preserving the local NameCert.
+
+The exclusions follow from \autoref{thm:sequential-closure-namecert-obligations} and \autoref{thm:sequential-closure-sequence-limit-handoff}. The absent claims have no carrier coordinate, no continuation edge, no provenance entry, and no NameCert row, so they cannot escape through the scoped kernel packet.
+\end{proof}
+
 \closureat{SequentialClosureUp}{obligationStr}
 
 \begin{closurestatus}{\SequentialClosureUp}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:sequential-closure-carrier}, \autoref{thm:sequential-closure-namecert-obligations}, \autoref{thm:sequential-closure-sequence-limit-handoff}, \autoref{thm:sequentialclosure-obligation-closure-surface}, \autoref{thm:sequentialclosure-neighbourhood-test-stability}, \autoref{thm:sequentialclosure-sequence-window-coverage}, and \autoref{thm:sequentialclosure-limit-row-handoff} enumerate the finite obligation surface from displayed sequence-limit data to topology and metric closure consumers.}
+  \scopeclosed{\autoref{def:sequential-closure-carrier}, \autoref{thm:sequential-closure-namecert-obligations}, \autoref{thm:sequential-closure-sequence-limit-handoff}, \autoref{thm:sequentialclosure-obligation-closure-surface}, \autoref{thm:sequentialclosure-neighbourhood-test-stability}, \autoref{thm:sequentialclosure-sequence-window-coverage}, \autoref{thm:sequentialclosure-limit-row-handoff}, \autoref{thm:sequentialclosure-kernel-scope-surface}, \autoref{thm:sequentialclosure-carrier-admission-scope}, and \autoref{thm:sequentialclosure-nonescape-scope} enumerate the finite obligation surface from displayed sequence-limit data to topology and metric closure consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host topological closure, arbitrary sequence selection, general sequential compactness, quotient stream equality, $\RealUp$ completeness, Lean verification, or bridge checking.}
