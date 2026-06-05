@@ -532,13 +532,11 @@ class SIGRegMiniGridProjection:
                 "row_key": "sigreg_sliced_cf",
                 "source": "SlicedCFGaussianityProbe.score.sigreg_penalty",
                 "mean": sigreg_mean,
-                "row_pointer": "$.raw_rows[*].sigreg_sliced_cf",
             },
             "covariance_proxy_metric": {
                 "row_key": "covariance_proxy",
                 "source": "SlicedCFGaussianityProbe.score.cov_to_identity_fro",
                 "mean": cov_mean,
-                "row_pointer": "$.raw_rows[*].covariance_proxy",
             },
             "mean_delta_sigreg_minus_covariance_proxy": (
                 None if sigreg_mean is None or cov_mean is None else float(sigreg_mean - cov_mean)

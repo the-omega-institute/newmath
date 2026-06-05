@@ -119,6 +119,23 @@ def _recursive_keys(value):
     return set()
 
 
+def _recursive_pointer_fields(value, path="$"):
+    if isinstance(value, dict):
+        found = []
+        for key, item in value.items():
+            child_path = f"{path}.{key}"
+            if isinstance(key, str) and key.endswith("_pointer"):
+                found.append((child_path, item))
+            found.extend(_recursive_pointer_fields(item, child_path))
+        return found
+    if isinstance(value, list):
+        found = []
+        for index, item in enumerate(value):
+            found.extend(_recursive_pointer_fields(item, f"{path}.{index}"))
+        return found
+    return []
+
+
 def test_run_single_arm_forwards_backend_arguments_and_derives_probe_metrics(monkeypatch):
     backend_calls = []
     probe_inits = []
@@ -385,3 +402,9 @@ def test_sigreg_mini_grid_canonical_spec_and_producer(tmp_path):
     assert canonical_summary["claim_capsule_ref"] == canonical_summary["run_artifacts"]["claim_capsule"]
     assert canonical_summary["not_claimed"] == capsule["not_claimed"]
     assert "terminal_verdict" not in _recursive_keys({"summary": canonical_summary, "capsule": capsule})
+    dangling = [
+        (path, pointer)
+        for path, pointer in _recursive_pointer_fields(canonical_summary)
+        if pointer is not None and discovery_map.pointer_value(canonical_summary, pointer) is None
+    ]
+    assert dangling == []
