@@ -4416,9 +4416,11 @@ def _sanitize_textmode_underscores(text: str) -> str:
     # 先修 JSON double-escape 残留: codex 偶尔把 chapter_content 的换行/制表写成字面
     # `\n` / `\t` (backslash-n, JSON 里多转义一层) 而非真字符 → LaTeX 报
     # "Undefined control sequence \n" 致命 build 断 (flaky: 取决于该轮 render 是否带残留).
-    # 还原: 前面不是反斜杠 (排除 \\ 续行) 且后面不接字母 (排除 \newcommand/\times 等真命令).
-    text = re.sub(r"(?<!\\)\\n(?![a-zA-Z])", "\n", text)
-    text = re.sub(r"(?<!\\)\\t(?![a-zA-Z])", " ", text)
+    # 还原: 前面不是反斜杠 (排除 \\ 续行) 且后面不接**小写**字母. 真 LaTeX 命令 (\newcommand/
+    # \nu/\node/\times/\tau ...) 首字母后皆小写, 故 \n / \t 后接小写时保留; 而 JSON 残留的
+    # 字面 \nThis / \nThe / \tFoo (换行/制表后接大写词或非字母) 还原为换行/空格.
+    text = re.sub(r"(?<!\\)\\n(?![a-z])", "\n", text)
+    text = re.sub(r"(?<!\\)\\t(?![a-z])", " ", text)
 
     def _fix_text_region(s: str) -> str:
         # text region (在 $...$ / label 命令保护区之外). 两步:
