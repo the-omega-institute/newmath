@@ -583,4 +583,37 @@ theorem ProductMetricCarrier_scoped_dependency_package [AskSetup] [PackageSetup]
   }
   exact ⟨cert, leftReadUnary, rightReadUnary, triangleReadUnary⟩
 
+theorem ProductMetricCarrier_public_metricspace_export [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      publicDistance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont product distance publicDistance ->
+        PkgSig bundle publicDistance pkg ->
+          UnaryHistory product ∧ UnaryHistory distance ∧ UnaryHistory transport ∧
+            UnaryHistory publicDistance ∧ hsame transport publicDistance ∧
+              Cont left right product ∧ Cont leftDistance rightDistance distance ∧
+                Cont product distance transport ∧ Cont product distance publicDistance ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle publicDistance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame UnaryHistory PkgSig
+  intro carrier publicDistanceRoute publicDistancePkg
+  obtain ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, _localCertUnary,
+    productRow, distanceRow, transportRow, _routeRow, provenancePkg, _nameCert⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed leftUnary rightUnary productRow
+  have distanceUnary : UnaryHistory distance :=
+    unary_cont_closed leftDistanceUnary rightDistanceUnary distanceRow
+  have transportUnary : UnaryHistory transport :=
+    unary_cont_closed productUnary distanceUnary transportRow
+  have publicDistanceUnary : UnaryHistory publicDistance :=
+    unary_cont_closed productUnary distanceUnary publicDistanceRoute
+  have sameTransportPublicDistance : hsame transport publicDistance :=
+    cont_respects_hsame (hsame_refl product) (hsame_refl distance) transportRow
+      publicDistanceRoute
+  exact
+    ⟨productUnary, distanceUnary, transportUnary, publicDistanceUnary,
+      sameTransportPublicDistance, productRow, distanceRow, transportRow,
+      publicDistanceRoute, provenancePkg, publicDistancePkg⟩
+
 end BEDC.Derived.ProductMetricUp
