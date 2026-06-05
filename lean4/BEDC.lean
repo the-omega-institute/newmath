@@ -543,6 +543,7 @@ import BEDC.Derived.AuthorizedRecursorUp.TasteGate
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.AxiomDependencyAuditMapUp
 import BEDC.Derived.AxiomDependencyMapUp
+import BEDC.Derived.AxiomDependencyMapUp.TasteGate
 import BEDC.Derived.AxiomDependencyTupleUp
 import BEDC.Derived.AxiomDependencyTupleUp.ConsumerExhaustion
 import BEDC.Derived.AxiomDependencyTupleUp.NameCertObligations
@@ -3999,6 +4000,8 @@ import BEDC.Derived.FanfunctionalUp.BarScopeObligations
 import BEDC.Derived.FanfunctionalUp.CantorCompactnessScope
 import BEDC.Derived.FanfunctionalUp.CantorModulusLedger
 import BEDC.Derived.FanfunctionalUp.CantorPrefixModulusHandoff
+import BEDC.Derived.FanfunctionalUp.CompactContinuityConsumer
+import BEDC.Derived.FanfunctionalUp.CompactUniformConsumerScope
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusObligations
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
