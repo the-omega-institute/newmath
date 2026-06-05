@@ -210,6 +210,47 @@ sequential compactness theorem, the induction admits exactly the selected
 windows listed in $W$.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass selector finite-window stabilization]
+\label{thm:bolzano-weierstrass-selector-finite-window-stabilization}
+Let $T=(B,M,Q,W,D,R,E,H,C,P,N)$ be an accepted
+$\BolzanoWeierstrassSelectorUp$ packet. If a selected finite
+$\StreamNameUp$ window in $W$ is replaced by a later displayed window admitted
+by the same monotone selector ledger $M$ and inspected-threshold row $Q$, then
+the route
+$$
+B,M,Q\longmapsto W\longmapsto D\longmapsto R\longmapsto E
+$$
+is preserved through $\MonotoneSubsequenceUp$,
+$\BoundedMonotoneCauchyWitnessUp$,
+$\BoundedMonotoneConvergenceSealUp$, $\StreamNameUp$,
+$\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. The stabilized packet
+records only this finite-window replacement route; it does not export full
+Bolzano--Weierstrass, sequential compactness, countable choice, quotient
+streams, host equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project $B,M,Q,W,D,R,E,H,C,P,N$ from the carrier. The replacement hypothesis
+uses the same $M$ and $Q$ rows, so it remains inside the selector-induction
+budget of \autoref{def:bolzano-weierstrass-selector-induction-budget}.
+
+Apply \autoref{thm:bolzano-weierstrass-selector-finite-monotone-induction} to
+the displayed later window. Finite induction over $B,M,Q,W$ admits that window
+through the same $\MonotoneSubsequenceUp$ comparison row, and $H,C$ replay the
+transport without adding a subsequence object or a choice functional.
+
+Now use the cluster and regular-Cauchy seal routes already proved in
+\autoref{thm:bolzano-weierstrass-selector-cluster-route} and
+\autoref{thm:bolzano-weierstrass-selector-regular-cauchy-cluster-seal}. The
+dyadic rows $D$, regular handoff $R$, and Real seal $E$ are consumed after the
+stabilized selected window, so the downstream route is still the finite chain
+through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+No carrier coordinate remains for full Bolzano--Weierstrass compactness,
+sequential compactness, countable choice, quotient-stream equality, host
+equality, or ambient $\RealUp$ completeness. The theorem therefore stabilizes
+only the displayed finite window.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass selector regular Cauchy cluster seal]
 \label{thm:bolzano-weierstrass-selector-regular-cauchy-cluster-seal}
 For every accepted $\BolzanoWeierstrassSelectorUp$ packet
