@@ -4605,8 +4605,8 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     pdf_build_detail = ""
     paper_dir = paths.paper_main.parent
     if (paper_dir / "Makefile").exists():
-        try:
-            build = subprocess.run(
+        def _run_make_pdf() -> subprocess.CompletedProcess:
+            return subprocess.run(
                 ["make", "-s"],
                 cwd=paper_dir,
                 env=_tex_env(),
@@ -4616,11 +4616,23 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
                 timeout=300.0,
                 check=False,
             )
+        try:
+            build = _run_make_pdf()
+            if build.returncode != 0:
+                # 单趟 make 失败常因上一轮中断 / 并发 build 留下的 stale main.aux 等中间文件,
+                # 单趟无法自愈. 清掉 aux 类中间文件 (不删 main.pdf) 后重试一次: 内容本身干净时即成功.
+                for aux in ("main.aux", "main.out", "main.toc", "main.fls", "main.fdb_latexmk", "main.lof", "main.lot"):
+                    try:
+                        (paper_dir / aux).unlink()
+                    except OSError:
+                        pass
+                build = _run_make_pdf()
             if build.returncode == 0:
                 pdf_build_status = "ok"
             else:
                 pdf_build_status = "failed"
-                pdf_build_detail = ((build.stderr or build.stdout) or "")[-400:]
+                # 捕获 stdout (真 LaTeX 错误) 而非仅 make wrapper stderr, 便于后续诊断.
+                pdf_build_detail = ((build.stdout or "") + "\n" + (build.stderr or ""))[-600:]
         except (OSError, subprocess.TimeoutExpired) as exc:
             pdf_build_status = "error"
             pdf_build_detail = str(exc)[-400:]
