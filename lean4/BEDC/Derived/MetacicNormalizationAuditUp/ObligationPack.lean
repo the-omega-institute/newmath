@@ -109,4 +109,55 @@ theorem MetacicNormalizationAuditObligationPack [AskSetup] [PackageSetup]
   }
   exact ⟨cert, auditUnary, closedUnary, residualUnary, socketUnary, publicUnary⟩
 
+theorem MetacicNormalizationAuditObligationPack_surface_public_route [AskSetup] [PackageSetup]
+    {kernel normalizer frontier sn confluence audit ledger transport replay provenance
+      localName closedRead residualRead socketRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicNormalizationAuditUp kernel normalizer frontier sn confluence audit ledger
+        transport replay provenance localName bundle pkg →
+      Cont frontier sn audit →
+        Cont audit replay closedRead →
+          Cont closedRead ledger residualRead →
+            Cont residualRead confluence socketRead →
+              Cont socketRead localName publicRead →
+                PkgSig bundle publicRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        MetacicNormalizationAuditUp kernel normalizer frontier sn confluence audit
+                          ledger transport replay provenance localName bundle pkg ∧
+                            hsame row localName)
+                      (fun row : BHist =>
+                        MetacicNormalizationAuditUp kernel normalizer frontier sn confluence audit
+                          ledger transport replay provenance localName bundle pkg ∧
+                            hsame row localName)
+                      (fun row : BHist =>
+                        MetacicNormalizationAuditUp kernel normalizer frontier sn confluence audit
+                          ledger transport replay provenance localName bundle pkg ∧
+                            hsame row localName)
+                      hsame ∧
+                    SemanticNameCert
+                        (fun row : BHist =>
+                          hsame row publicRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+                        (fun row : BHist =>
+                          hsame row frontier ∨ hsame row sn ∨ hsame row audit ∨
+                            hsame row closedRead ∨ hsame row residualRead ∨
+                              hsame row confluence ∨ hsame row socketRead ∨
+                                hsame row localName ∨ hsame row publicRead)
+                        (fun row : BHist =>
+                          hsame row publicRead ∧ Cont frontier sn audit ∧
+                            Cont audit replay closedRead ∧
+                              Cont closedRead ledger residualRead ∧
+                                Cont residualRead confluence socketRead ∧
+                                  PkgSig bundle provenance pkg)
+                        hsame ∧ UnaryHistory audit ∧ UnaryHistory closedRead ∧
+                      UnaryHistory residualRead ∧ UnaryHistory socketRead ∧
+                        UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: MetacicNormalizationAuditUp BHist ProbeBundle Pkg SemanticNameCert Cont PkgSig hsame UnaryHistory
+  intro carrier frontierSnAudit auditReplayClosed closedLedgerResidual
+    residualConfluenceSocket socketLocalNamePublic publicPkg
+  exact
+    ⟨MetacicNormalizationAuditCarrier_obligation_surface carrier,
+      MetacicNormalizationAuditObligationPack carrier frontierSnAudit auditReplayClosed
+        closedLedgerResidual residualConfluenceSocket socketLocalNamePublic publicPkg⟩
+
 end BEDC.Derived.MetacicNormalizationAuditUp
