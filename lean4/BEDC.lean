@@ -717,6 +717,7 @@ import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
 import BEDC.Derived.BanachSpaceUp
 import BEDC.Derived.BanachSpaceUp.CauchyWindowScope
 import BEDC.Derived.BanachSpaceUp.CompletionConsumerScope
+import BEDC.Derived.BanachSpaceUp.LinearCompletionNonescape
 import BEDC.Derived.BanachSpaceUp.NormCompletionLedgerObligation
 import BEDC.Derived.BanachSpaceUp.SeparatedNameCertObligation
 import BEDC.Derived.BanachSpaceUp.TasteGate
@@ -4085,6 +4086,7 @@ import BEDC.Derived.FanfunctionalUp.RootWindowObligations
 import BEDC.Derived.FanfunctionalUp.ScopedChoiceNonescape
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
 import BEDC.Derived.FanfunctionalUp.ScopedFiniteModulusExport
+import BEDC.Derived.FanfunctionalUp.UniformModulusCompactConsumer
 import BEDC.Derived.FanfunctionalUp.UniformModulusConsumerBoundary
 import BEDC.Derived.FanfunctionalUp.UniformModulusScope
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
