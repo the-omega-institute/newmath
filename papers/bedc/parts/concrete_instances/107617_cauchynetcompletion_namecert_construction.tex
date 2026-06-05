@@ -109,6 +109,7 @@ The remaining rows are downstream witnesses. The request row $Q$, the Moore--Smi
 
 Since the excluded objects have no carrier coordinate, none of them can replace $D,W$ as the directed source of an accepted read.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyNetCompletionUp.CauchyNetCompletionDirectedWindowTerminality}
 
 \begin{theorem}[CauchyNetCompletion separated-comparison exhaustion]
 \label{thm:cauchy-net-completion-separated-comparison-exhaustion}
@@ -136,6 +137,48 @@ Apply \autoref{thm:cauchy-net-completion-moore-smith-handoff}. It sends every Mo
 The choice-free boundary theorem, \autoref{thm:cauchy-net-completion-choice-free-limit-boundary}, keeps the later readback rows $R,A,H,C,P,N$ downstream of the same route.
 
 Thus a uniform consumer that bypasses $U$ or replaces $D,W,Q$ by any excluded completion object is outside the accepted $\CauchyNetCompletionUp$ packet.
+\end{proof}
+
+\begin{theorem}[CauchyNetCompletion root filter admission]
+\label{thm:cauchy-net-completion-root-filter-admission}
+Every root completion consumer of an accepted $\CauchyNetCompletionUp$ carrier $K=(D,W,Q,M,U,S,R,A,H,C,P,N)$ must admit the directed substrate $D$, retained directed-window row $W$, and completion-boundary request $Q$ before Moore--Smith, metric, uniform, separated, readback, or Real-seal rows are inspected. No root consumer may replace $D,W,Q$ by a selected limit, quotient net, countable-choice selector, host completion equality, ambient completion object, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-net-completion-carrier}. The first three root rows are exactly $D,W,Q$, and the Moore--Smith, uniform, separated, readback, and Real-seal rows occur only downstream.
+
+Apply the NameCert obligations of \autoref{thm:cauchy-net-completion-namecert-obligations}. Directed-net coverage requires a completion-facing request to consume $D$ and $W$ before $Q,M,U,S,R,A$ can be inspected.
+
+The Moore--Smith handoff, \autoref{thm:cauchy-net-completion-moore-smith-handoff}, keeps metric and uniform consumers on the same route. Thus root admission starts with $D,W,Q$ for every completion consumer.
+
+The excluded completion objects have no carrier coordinate, so none can serve as the admitted root filter row.
+\end{proof}
+
+\begin{theorem}[CauchyNetCompletion root eventual stability]
+\label{thm:cauchy-net-completion-root-eventual-stability}
+Suppose an accepted $\CauchyNetCompletionUp$ carrier retains a directed-window row $W$ over $D$, and a later common-upper-window witness replaces $W$ by a retained row $W'$ over the same directed substrate and completion-boundary request $Q$. Then the accepted packet is preserved through the separated comparison row $S$, regular readback row $R$, Real seal $A$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Start with the directed-window terminality theorem, \autoref{thm:cauchy-net-completion-directed-window-terminality}. It makes $D,W$ the terminal directed-window source for every completion-facing read.
+
+The later common-upper-window witness is still a retained directed-window row over the same $D$ and $Q$. Replacing $W$ by $W'$ therefore changes only the displayed window coordinate and not the completion-boundary request or the sibling handoff route.
+
+Apply the choice-free boundary theorem, \autoref{thm:cauchy-net-completion-choice-free-limit-boundary}. The rows $S,R,A$ are downstream of the directed-window and completion-boundary route, so their accepted reads are preserved by the later witness.
+
+Finally the structural rows $H,C,P,N$ transport, replay, source, and name the same retained packet. Since no selected limit, quotient net, countable choice, host equality, ambient completion, or $\RealUp$ completeness row participates, eventual stability is a finite retained-window preservation claim.
+\end{proof}
+
+\begin{theorem}[CauchyNetCompletion root seal nonescape]
+\label{thm:cauchy-net-completion-root-seal-nonescape}
+In every accepted $\CauchyNetCompletionUp$ carrier $K=(D,W,Q,M,U,S,R,A,H,C,P,N)$, the Real seal $A$ cannot be read before the directed substrate $D$, directed-window row $W$, completion-boundary request $Q$, Moore--Smith handoff $M$, uniform handoff $U$, separated comparison row $S$, and regular readback row $R$ have been displayed. Reading $A$ exports no selected limit, quotient net, countable choice, host completion equality, ambient completion, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier. The row $A$ is listed after $D,W,Q,M,U,S,R$, and the carrier gives no alternate Real-seal source.
+
+Apply \autoref{thm:cauchy-net-completion-moore-smith-handoff}. It routes Moore--Smith, metric, and uniform completion consumers from $D,W,Q$ through $M,U,S$ before the numerical readback rows are reached.
+
+Use the choice-free limit boundary of \autoref{thm:cauchy-net-completion-choice-free-limit-boundary}. That theorem places $R,A,H,C,P,N$ downstream of the displayed directed-net completion route and excludes hidden limit data.
+
+The carrier contains no selected-limit, quotient-net, countable-choice, host-equality, ambient-completion, or $\RealUp$-completeness coordinate. Therefore the root Real seal cannot export any of those objects.
 \end{proof}
 
 \falsifiablePrediction{If a directed-net completion consumer reads a boundary without first displaying the $\CauchyNetUp$ directed-window row and the Moore--Smith, metric, or uniform handoff row it consumes, it is not a $\CauchyNetCompletionUp$ packet.}
