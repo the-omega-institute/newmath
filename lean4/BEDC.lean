@@ -4058,6 +4058,7 @@ import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
 import BEDC.Derived.FanfunctionalUp.ModulusHandoffNonescape
 import BEDC.Derived.FanfunctionalUp.ModulusWindowMonotonicity
+import BEDC.Derived.FanfunctionalUp.NameCertNonescape
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
 import BEDC.Derived.FanfunctionalUp.ObligationPrecedence
 import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
