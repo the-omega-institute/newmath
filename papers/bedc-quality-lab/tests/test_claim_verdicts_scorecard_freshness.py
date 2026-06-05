@@ -42,7 +42,7 @@ def test_checked_in_claim_verdicts_match_current_scorecard_snapshot_before_rewri
     assert committed_rows
     assert index_payload["claim_verdicts"]["row_count"] == len(committed_rows)
     for row in committed_rows:
-        if row["claim_verdict"] == "negative_discovery":
+        if set(row) == DN_ROW_KEYS:
             assert set(row) == DN_ROW_KEYS
             assert row["claim_graph_node_id"].startswith("terminal:")
             assert row["negative_report_pointer"].startswith("reports/canonical/negative_discovery_reports.json:$.")

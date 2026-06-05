@@ -529,7 +529,7 @@ def test_gap_head_transfer_atlas_discovery_row_matches_canonical_claim(tmp_path)
 
     assert row["discovery_level"] == claim["discovery_level"]
     assert claim["decision"] == "pass"
-    assert row["terminal_verdict"] == "ledger_only_hardening_not_ready"
+    assert row["terminal_verdict"] == "mechanism_not_closed"
     assert row["projection_status"] == "projected"
     assert row["evidence_pointer"] == "$.multi_surface_d5_o.decision"
     assert row["control_pointer"] == "$.config.control_arm"

@@ -308,7 +308,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
             raise ValueError(f"claim verdict graph foreign key mismatch: {row['claim_id']}")
         base_dependency = _base_dependency_for_row(row, discovery_by_report)
         depends_on = (base_dependency,)
-        if row.get("claim_verdict") == "demoted_audit_tradeoff":
+        if row.get("claim_verdict") == "revoked_discovery":
             revocation_id = _revocation_node_id(terminal_id)
             source_pointer = _first_resolving_pointer(
                 root,
@@ -511,6 +511,12 @@ def _validate_cg_hg1(verdict_rows: Sequence[Mapping[str, Any]], by_id: Mapping[s
             errors.append(f"CG-HG1 accepted positive lacks raw_evidence ancestry: {node_id}")
         if not any(by_id[ancestor].node_type == "projected_discovery" for ancestor in ancestors if ancestor in by_id):
             errors.append(f"CG-HG1 accepted positive lacks projected_discovery ancestry: {node_id}")
+        node = by_id[node_id]
+        if not any(
+            dependency in by_id and by_id[dependency].node_type == "projected_discovery"
+            for dependency in node.depends_on
+        ):
+            errors.append(f"CG-HG1 accepted positive lacks direct projected_discovery dependency: {node_id}")
     return errors
 
 

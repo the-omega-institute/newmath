@@ -116,7 +116,7 @@ def _source_pointer(kind: str, claim_rows: list[Mapping[str, Any]]) -> str:
     if claim_rows:
         if kind in _ACTIVE_MUTATORS:
             for index, row in enumerate(claim_rows):
-                if row.get("claim_verdict") == "ledger_only_hardening_not_ready":
+                if row.get("claim_verdict") == "projected_discovery_required":
                     return f"{CLAIM_VERDICTS_ARTIFACT}:{index}"
         return f"{CLAIM_VERDICTS_ARTIFACT}:0"
     return "reports/canonical/discovery_negative_witnesses.json:$.witnesses"
