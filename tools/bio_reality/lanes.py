@@ -4044,6 +4044,11 @@ def _codex_written_content(
         if codex_result is None:
             corrective_feedback = ["codex invocation failed or returned unparsable output"]
             continue
+        # 缓存命中的章节在首次渲染时已通过 gate; 它返回 used_fact_ids=["cached"] (长度1),
+        # 会被 min_used_fact_ids 等 gate 误判失败 → 触发 corrective retry → 绕过缓存重渲染
+        # → 每 cycle churn. 命中缓存直接返回, 不重复 gate (这是 codon_window churn 的真根因).
+        if codex_result.get("cache_hit"):
+            return str(codex_result.get("chapter_content") or "")
         issues = _codex_chapter_gate_issues(codex_result, verified_facts, claim_id, writer_config)
         if not issues:
             return str(codex_result.get("chapter_content") or "")
