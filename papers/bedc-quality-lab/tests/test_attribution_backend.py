@@ -14,6 +14,10 @@ EXPECTED_METRICS = (
     "claim_capsule_hardgates_status",
     "d5_m_passed",
     "mechanism_case_status",
+    "mechanism_evidence_status",
+    "mechanism_evidence_candidate",
+    "mechanism_evidence_failed_gate",
+    "mechanism_evidence_ledger_debt",
 )
 EXPECTED_LEDGER_ROWS = (
     "source/source-coverage",
@@ -44,6 +48,32 @@ def fake_capsule():
         },
         "d5_m": {"passed": False, "status": "blocked", "failed_gate": "A4-HG5"},
         "mechanism_case": {"status": "D5-O retained, mechanism unresolved"},
+        "mechanism_evidence": {
+            "base_level": "D5-O",
+            "base_status": "ready",
+            "mechanism_level": "blocked",
+            "mechanism_status": "blocked",
+            "candidate_mechanism": "unresolved",
+            "failed_gate": "A4-HG5",
+            "residualized_significant": True,
+            "control_clear": True,
+            "score_margin_sufficient": False,
+            "required_gate_pointers": [
+                "$.a4_hardgates.gates.A4-HG2.status",
+                "$.a4_hardgates.gates.A4-HG3.status",
+                "$.a4_hardgates.gates.A4-HG5.status",
+            ],
+            "metric_pointers": {
+                "residualized_status": "$.residualized_attribution.status",
+                "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+            },
+            "ledger_debt_pointer": "$.ledger_debt.0.status",
+            "closure_pointer": "$.mechanism_evidence.mechanism_status",
+            "source_issue": 747,
+        },
+        "ledger_debt": [{"debt_id": "gap-head-mechanism-evidence-closure", "status": "open"}],
+        "residualized_attribution": {"status": "pass"},
+        "score_margin_causal_evidence": {"channel_classification": "not_score_margin_sufficient"},
         "control_pointer": {
             "matched_random": "$.control_evidence.matched_random",
             "h_random_rotation": "$.control_evidence.h_random_rotation",
@@ -65,9 +95,13 @@ def resolve_projection_pointer(payload, pointer):
     assert pointer.startswith("$.")
     cursor = payload
     for part in pointer[2:].split("."):
-        assert isinstance(cursor, dict)
-        assert part in cursor
-        cursor = cursor[part]
+        if isinstance(cursor, dict):
+            assert part in cursor
+            cursor = cursor[part]
+        else:
+            assert isinstance(cursor, list)
+            assert part.isdigit()
+            cursor = cursor[int(part)]
     return cursor
 
 
@@ -128,8 +162,8 @@ def test_adapter_metadata_and_module_loading_contract():
     assert control_row["name"] == "control/matched-random-control"
     assert control_row["evidence_pointer"] == "$.control_evidence.matched_random"
     assert control_row["control_pointer"] == "$.control_evidence.matched_random"
-    assert backend.theorem_rows[1]["evidence_pointer"] == "$.mechanism_case"
-    assert backend.theorem_rows[2]["evidence_pointer"] == "$.d5_m"
+    assert backend.theorem_rows[1]["evidence_pointer"] == "$.mechanism_evidence"
+    assert backend.theorem_rows[2]["evidence_pointer"] == "$.ledger_debt.0"
 
 
 def test_compute_metrics_delegates_to_capsule_builder(monkeypatch, tmp_path):
@@ -165,6 +199,10 @@ def test_compute_metrics_delegates_to_capsule_builder(monkeypatch, tmp_path):
     }
     assert payload["metrics"]["d5_m_passed"] is False
     assert payload["metrics"]["mechanism_case_status"] == "D5-O retained, mechanism unresolved"
+    assert payload["metrics"]["mechanism_evidence_status"] == "blocked"
+    assert payload["metrics"]["mechanism_evidence_candidate"] == "unresolved"
+    assert payload["metrics"]["mechanism_evidence_failed_gate"] == "A4-HG5"
+    assert payload["metrics"]["mechanism_evidence_ledger_debt"] == "open"
     assert set(payload["metric_pointers"]) == set(GapHeadAttributionBackendEvidenceAdapter.backend.metrics)
     assert "terminal_verdict" not in payload
 
@@ -195,6 +233,10 @@ def test_backend_pointer_surfaces_resolve_in_adapter_projection(monkeypatch, tmp
         "metric_pointers.claim_capsule_hardgates_status",
         "metric_pointers.d5_m_passed",
         "metric_pointers.mechanism_case_status",
+        "metric_pointers.mechanism_evidence_status",
+        "metric_pointers.mechanism_evidence_candidate",
+        "metric_pointers.mechanism_evidence_failed_gate",
+        "metric_pointers.mechanism_evidence_ledger_debt",
         "control_pointer.matched_random",
         "control_pointer.h_random_rotation",
         "control_pointer.h_random_projection_lowdim",

@@ -199,15 +199,21 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
         "generation_script": "scripts/run_gap_head_attribution_capsule.py",
         "cost_protocol": {"status": "recorded", "unit": "fixture"},
     }
+    d5_o = runner._d5_o(aggregate)
+    mechanism_evidence = runner._mechanism_evidence(d5_o, d5_m, case, a4_hardgates, residualized, score_margin)
     return {
         "schema_id": runner.SCHEMA_ID,
         "source_issue": 692,
+        "source_issues": [692, 747],
         "artifact_id": runner.ARTIFACT_ID,
         "run_id": "a1-fixture",
         "generated_at": "2026-01-02T03:04:05+00:00",
-        "d5_o": runner._d5_o(aggregate),
+        "d5_o": d5_o,
         "d5_m": d5_m,
         "mechanism_case": case,
+        "mechanism_evidence": mechanism_evidence,
+        "not_implemented": list(runner.NOT_IMPLEMENTED),
+        "ledger_debt": runner._ledger_debt(mechanism_evidence),
         "hardgates": hardgates,
         "residualized_attribution": residualized,
         "score_margin_causal_evidence": score_margin,
@@ -255,6 +261,16 @@ def _residualized_fixture(aggregate, *, status="pass"):
 
 
 def _score_margin_fixture(classification="not_score_margin_sufficient", *, status="pass"):
+    ci_summaries = {
+        "shuffle_score_margin": {
+            "AUROC_after_minus_before": {"mean": -0.05},
+            "UER_after_minus_before": {"mean": 0.01},
+        },
+        "replace_high_gap_score_margin_from_low_gap": {
+            "AUROC_after_minus_before": {"mean": -0.06},
+            "UER_after_minus_before": {"mean": 0.01},
+        },
+    }
     return {
         "status": status,
         "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
@@ -262,8 +278,8 @@ def _score_margin_fixture(classification="not_score_margin_sufficient", *, statu
             "shuffle_score_margin": runner.SCORE_MARGIN_SHUFFLE_SALT,
             "replace_high_gap_score_margin_from_low_gap": runner.SCORE_MARGIN_REPLACE_SALT,
         },
-        "shuffle_score_margin": {"per_seed_before_after_metrics": [], "ci_summaries": {}},
-        "replace_high_gap_score_margin_from_low_gap": {"per_seed_before_after_metrics": [], "ci_summaries": {}},
+        "shuffle_score_margin": {"per_seed_before_after_metrics": [], "ci_summaries": ci_summaries["shuffle_score_margin"]},
+        "replace_high_gap_score_margin_from_low_gap": {"per_seed_before_after_metrics": [], "ci_summaries": ci_summaries["replace_high_gap_score_margin_from_low_gap"]},
         "paired_deltas": [{"seed": 1, "same_seed": True, "same_arm_fit_path": True, "same_metric_set": True}],
         "channel_classification": classification,
         "protocol_checks": {
@@ -274,7 +290,7 @@ def _score_margin_fixture(classification="not_score_margin_sufficient", *, statu
             "column_audited": True,
             "classified": True,
         },
-        "ci_summaries": {},
+        "ci_summaries": ci_summaries,
     }
 
 
@@ -556,14 +572,20 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
     d5_m = runner._d5_m(hardgates, a4_hardgates)
     case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
+    d5_o = runner._d5_o(aggregate)
+    mechanism_evidence = runner._mechanism_evidence(d5_o, d5_m, case, a4_hardgates, residualized, score_margin)
     capsule = {
         "schema_id": runner.SCHEMA_ID,
         "source_issue": 692,
+        "source_issues": [692, 747],
         "artifact_id": runner.ARTIFACT_ID,
         "run_id": "fixture",
-        "d5_o": runner._d5_o(aggregate),
+        "d5_o": d5_o,
         "d5_m": d5_m,
         "mechanism_case": case,
+        "mechanism_evidence": mechanism_evidence,
+        "not_implemented": list(runner.NOT_IMPLEMENTED),
+        "ledger_debt": runner._ledger_debt(mechanism_evidence),
         "hardgates": hardgates,
         "residualized_attribution": residualized,
         "score_margin_causal_evidence": score_margin,
@@ -592,8 +614,25 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
 
     assert capsule["schema_id"] == "bedc.quality.claim_capsule"
     assert capsule["source_issue"] == 692
+    assert capsule["source_issues"] == [692, 747]
     assert capsule["d5_o"]["status"] == "ready"
     assert capsule["d5_m"]["status"] == "blocked"
+    assert capsule["mechanism_evidence"]["base_level"] == "D5-O"
+    assert capsule["mechanism_evidence"]["mechanism_level"] == "blocked"
+    assert capsule["mechanism_evidence"]["candidate_mechanism"] == "probe-margin-channel"
+    assert capsule["mechanism_evidence"]["required_gate_pointers"] == [
+        "$.a4_hardgates.gates.A4-HG2.status",
+        "$.a4_hardgates.gates.A4-HG3.status",
+        "$.a4_hardgates.gates.A4-HG5.status",
+    ]
+    assert set(capsule["mechanism_evidence"]["metric_pointers"]) >= {
+        "residualized_status",
+        "score_margin_channel_classification",
+        "shuffle_score_margin_delta",
+        "replacement_control_delta",
+    }
+    assert set(capsule["not_implemented"]) == {"nonlinear_residualization", "full_causal_replacement_scope"}
+    assert capsule["ledger_debt"]
     assert all(row["status"] == "pass" for row in capsule["claim_capsule_hardgates"].values())
     assert {f"CC-HG{index}" for index in range(1, 8)} == set(capsule["claim_capsule_hardgates"])
     resolved = _resolve_pointer(capsule, capsule["cost_protocol_pointer"])

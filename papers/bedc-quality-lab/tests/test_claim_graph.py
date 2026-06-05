@@ -76,6 +76,9 @@ def _fixture_root(tmp_path: Path) -> Path:
                     "evidence_pointer": "$.multi_surface_d5_o",
                     "audit_status": "valid",
                     "audit_reason": "",
+                    "mechanism_status": "blocked",
+                    "mechanism_pointer": "$.mechanism_evidence",
+                    "mechanism_ledger_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
                 },
             ]
         },
@@ -109,6 +112,14 @@ def _fixture_root(tmp_path: Path) -> Path:
         tmp_path,
         claim_graph.MECHANISM_NAMECERT_ARTIFACT,
         {"mechanism_spec": {"candidate_mechanism": "probe-margin-channel"}},
+    )
+    _write_json(
+        tmp_path,
+        "reports/canonical/gap_head_attribution_capsule.json",
+        {
+            "mechanism_evidence": {"mechanism_status": "blocked"},
+            "ledger_debt": [{"status": "open"}],
+        },
     )
     return tmp_path
 
@@ -236,7 +247,9 @@ def test_cg_hg2_d5_o_rows_record_mechanism_status(tmp_path):
 
     assert entries
     assert entries[0]["projected_node_id"] == "projected:gap-head-transfer-atlas"
-    assert entries[0]["mechanism_status"] == "no-d5-m-mechanism"
+    assert entries[0]["mechanism_status"] == "blocked"
+    assert entries[0]["mechanism_pointer"] == "$.mechanism_evidence"
+    assert entries[0]["mechanism_source_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status"
 
 
 def test_cg_hg3_raw_evidence_does_not_become_terminal_claim(tmp_path):

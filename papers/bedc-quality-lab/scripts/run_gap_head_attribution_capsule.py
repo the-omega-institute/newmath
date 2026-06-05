@@ -33,6 +33,7 @@ from scripts.run_gap_ledger_head_on_h import (
 
 SCHEMA_ID = "bedc.quality.claim_capsule"
 SOURCE_ISSUE = 692
+SOURCE_ISSUES = (692, 747)
 ARTIFACT_ID = "gap_head_attribution_capsule"
 CANONICAL_NAME = "gap-head-attribution-capsule"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
@@ -50,6 +51,10 @@ NOT_CLAIMED = (
     "full TensorNameCert",
     "LLM behavior quality",
     "mechanism closure unless D5-M",
+)
+NOT_IMPLEMENTED = (
+    "nonlinear_residualization",
+    "full_causal_replacement_scope",
 )
 FORBIDDEN_COLUMNS = (
     "z",
@@ -1083,6 +1088,85 @@ def _d5_m(hardgates: Mapping[str, Any], a4_hardgates: Mapping[str, Any] | None =
     }
 
 
+def _mechanism_evidence(
+    d5_o: Mapping[str, Any],
+    d5_m: Mapping[str, Any],
+    mechanism_case: Mapping[str, Any],
+    a4_hardgates: Mapping[str, Any],
+    residualized_attribution: Mapping[str, Any],
+    score_margin_causal_evidence: Mapping[str, Any],
+) -> dict[str, Any]:
+    a4_gates = a4_hardgates.get("gates", {})
+    required_gate_pointers = [
+        "$.a4_hardgates.gates.A4-HG2.status",
+        "$.a4_hardgates.gates.A4-HG3.status",
+        "$.a4_hardgates.gates.A4-HG5.status",
+    ]
+    residualized_significant = all(
+        isinstance(a4_gates, Mapping)
+        and isinstance(a4_gates.get(name), Mapping)
+        and a4_gates[name].get("status") == "pass"
+        for name in ("A4-HG2", "A4-HG3")
+    )
+    shortcut_controls = (
+        a4_gates.get("A4-HG5", {}).get("evidence", {}).get("shortcut_controls_clear", {})
+        if isinstance(a4_gates, Mapping) and isinstance(a4_gates.get("A4-HG5"), Mapping)
+        else {}
+    )
+    control_clear = isinstance(shortcut_controls, Mapping) and bool(shortcut_controls) and all(shortcut_controls.values())
+    classification = score_margin_causal_evidence.get("channel_classification")
+    mechanism_level = "D5-M" if d5_m.get("status") == "ready" and d5_m.get("passed") is True else "blocked"
+    mechanism_status = "ready" if mechanism_level == "D5-M" else "blocked"
+    return {
+        "base_level": "D5-O",
+        "base_status": str(d5_o.get("status") or "missing"),
+        "mechanism_level": mechanism_level,
+        "mechanism_status": mechanism_status,
+        "candidate_mechanism": str(mechanism_case.get("candidate_mechanism") or "unresolved"),
+        "failed_gate": d5_m.get("failed_gate") or mechanism_case.get("failed_gate") or a4_hardgates.get("failed_gate"),
+        "residualized_significant": bool(residualized_attribution.get("status") == "pass" and residualized_significant),
+        "control_clear": bool(control_clear),
+        "score_margin_sufficient": classification == "score_margin_sufficient",
+        "required_gate_pointers": required_gate_pointers,
+        "metric_pointers": {
+            "residualized_status": "$.residualized_attribution.status",
+            "residualized_full_auroc": "$.residualized_attribution.ci_summaries.full_residualized_against_score_margin.AUROC.mean",
+            "residualized_without_score_margin_auroc": "$.residualized_attribution.ci_summaries.full_without_score_and_margin.AUROC.mean",
+            "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+            "shuffle_score_margin_delta": "$.score_margin_causal_evidence.shuffle_score_margin.ci_summaries.AUROC_after_minus_before.mean",
+            "replacement_control_delta": "$.score_margin_causal_evidence.replace_high_gap_score_margin_from_low_gap.ci_summaries.AUROC_after_minus_before.mean",
+        },
+        "ledger_debt_pointer": "$.ledger_debt.0.status",
+        "closure_pointer": "$.mechanism_evidence.mechanism_status",
+        "source_issue": 747,
+    }
+
+
+def _ledger_debt(mechanism_evidence: Mapping[str, Any]) -> list[dict[str, Any]]:
+    mechanism_closed = mechanism_evidence.get("mechanism_level") == "D5-M" and mechanism_evidence.get("mechanism_status") == "ready"
+    failed_gate = mechanism_evidence.get("failed_gate")
+    return [
+        {
+            "debt_id": "gap-head-mechanism-evidence-closure",
+            "status": "closed" if mechanism_closed else "open",
+            "owner_pointer": "$.mechanism_evidence",
+            "evidence_pointer": f"$.a4_hardgates.gates.{failed_gate}" if isinstance(failed_gate, str) and failed_gate.startswith("A4-") else "$.mechanism_evidence",
+        },
+        {
+            "debt_id": "nonlinear-residualization-boundary",
+            "status": "open",
+            "owner_pointer": "$.not_implemented.0",
+            "evidence_pointer": "$.residualized_attribution",
+        },
+        {
+            "debt_id": "full-causal-replacement-boundary",
+            "status": "open",
+            "owner_pointer": "$.not_implemented.1",
+            "evidence_pointer": "$.score_margin_causal_evidence",
+        },
+    ]
+
+
 def _control_pointer() -> dict[str, Any]:
     return {
         "matched_random": "$.control_evidence.matched_random",
@@ -1220,16 +1304,29 @@ def _build_payload(
     }
     forbidden_audit = _forbidden_column_audit(columns_by_arm)
     d5_m = _d5_m(hardgates, a4_hardgates)
+    d5_o = _d5_o(aggregate)
+    mechanism_evidence = _mechanism_evidence(
+        d5_o,
+        d5_m,
+        mechanism_case,
+        a4_hardgates,
+        residualized_attribution,
+        score_margin_causal_evidence,
+    )
     source_artifacts = _source_artifacts(config, run_dir)
     capsule: dict[str, Any] = {
         "schema_id": SCHEMA_ID,
         "source_issue": SOURCE_ISSUE,
+        "source_issues": list(SOURCE_ISSUES),
         "artifact_id": ARTIFACT_ID,
         "run_id": run_id,
         "generated_at": generated_at,
-        "d5_o": _d5_o(aggregate),
+        "d5_o": d5_o,
         "d5_m": d5_m,
         "mechanism_case": mechanism_case,
+        "mechanism_evidence": mechanism_evidence,
+        "not_implemented": list(NOT_IMPLEMENTED),
+        "ledger_debt": _ledger_debt(mechanism_evidence),
         "hardgates": hardgates,
         "residualized_attribution": residualized_attribution,
         "score_margin_causal_evidence": score_margin_causal_evidence,
@@ -1325,11 +1422,15 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
     claim_capsule = {key: payload[key] for key in (
         "schema_id",
         "source_issue",
+        "source_issues",
         "artifact_id",
         "run_id",
         "d5_o",
         "d5_m",
         "mechanism_case",
+        "mechanism_evidence",
+        "not_implemented",
+        "ledger_debt",
         "hardgates",
         "residualized_attribution",
         "score_margin_causal_evidence",
@@ -1358,12 +1459,16 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
     summary = {key: payload[key] for key in (
         "schema_id",
         "source_issue",
+        "source_issues",
         "artifact_id",
         "run_id",
         "generated_at",
         "d5_o",
         "d5_m",
         "mechanism_case",
+        "mechanism_evidence",
+        "not_implemented",
+        "ledger_debt",
         "hardgates",
         "residualized_attribution",
         "score_margin_causal_evidence",

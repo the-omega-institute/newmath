@@ -373,13 +373,19 @@ def _hardgates(
     mechanism_resolves = mechanism_node is not None and source_pointer_resolves(root, mechanism_node.source_pointer)
     for row in d5_o_rows:
         report = str(row["report"])
+        mechanism_status = str(row.get("mechanism_status") or "blocked")
+        mechanism_pointer = row.get("mechanism_pointer")
+        mechanism_source_pointer = row.get("mechanism_ledger_pointer") or row.get("mechanism_closure_pointer") or row.get("mechanism_pointer")
+        mechanism_certificate_node_id = mechanism_node.node_id if mechanism_status == "ready" and mechanism_resolves and mechanism_node is not None else None
         mechanism_entries.append(
             {
                 "projected_node_id": f"projected:{report}",
                 "discovery_level": "D5-O",
-                "mechanism_certificate_node_id": None,
-                "mechanism_status": "no-d5-m-mechanism",
+                "mechanism_certificate_node_id": mechanism_certificate_node_id,
+                "mechanism_status": mechanism_status,
                 "mechanism_candidate_node_id": mechanism_node.node_id if mechanism_resolves and mechanism_node is not None else None,
+                "mechanism_pointer": mechanism_pointer if isinstance(mechanism_pointer, str) else None,
+                "mechanism_source_pointer": mechanism_source_pointer if isinstance(mechanism_source_pointer, str) else None,
                 "source_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[{discovery_rows.index(row)}]",
             }
         )
@@ -530,7 +536,7 @@ def _validate_cg_hg2(payload: Mapping[str, Any], by_id: Mapping[str, ClaimGraphN
             entry_projected.add(projected)
         mechanism_id = entry.get("mechanism_certificate_node_id")
         if mechanism_id is None:
-            if entry.get("mechanism_status") != "no-d5-m-mechanism":
+            if entry.get("mechanism_status") not in {"blocked", "missing"}:
                 errors.append(f"CG-HG2 missing mechanism status for {projected}")
         elif not isinstance(mechanism_id, str) or mechanism_id not in by_id or by_id[mechanism_id].node_type != "mechanism_certificate":
             errors.append(f"CG-HG2 mechanism node missing or wrong type for {projected}")

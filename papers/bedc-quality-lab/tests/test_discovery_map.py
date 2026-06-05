@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
 
@@ -81,6 +82,34 @@ def _minimal_payload(spec):
             "d5_o": {"status": "ready"},
             "d5_m": {"status": "blocked", "passed": False, "failed_gate": "A1-HG3"},
             "mechanism_case": {"status": "D5-O retained, mechanism = probe-margin-channel"},
+            "mechanism_evidence": {
+                "base_level": "D5-O",
+                "base_status": "ready",
+                "mechanism_level": "blocked",
+                "mechanism_status": "blocked",
+                "candidate_mechanism": "probe-margin-channel",
+                "failed_gate": "A1-HG3",
+                "residualized_significant": True,
+                "control_clear": True,
+                "score_margin_sufficient": True,
+                "required_gate_pointers": [
+                    "$.a4_hardgates.gates.A4-HG2.status",
+                    "$.a4_hardgates.gates.A4-HG3.status",
+                    "$.a4_hardgates.gates.A4-HG5.status",
+                ],
+                "metric_pointers": {
+                    "residualized_status": "$.residualized_attribution.status",
+                    "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+                },
+                "ledger_debt_pointer": "$.ledger_debt.0.status",
+                "closure_pointer": "$.mechanism_evidence.mechanism_status",
+                "source_issue": 747,
+            },
+            "ledger_debt": [{"debt_id": "gap-head-mechanism-evidence-closure", "status": "open"}],
+            "not_implemented": ["nonlinear_residualization", "full_causal_replacement_scope"],
+            "a4_hardgates": {"gates": {"A4-HG2": {"status": "pass"}, "A4-HG3": {"status": "pass"}, "A4-HG5": {"status": "fail"}}},
+            "residualized_attribution": {"status": "pass"},
+            "score_margin_causal_evidence": {"channel_classification": "score_margin_sufficient"},
         })
         return payload
     return payload
@@ -386,14 +415,55 @@ def test_attribution_capsule_projection_records_operational_and_mechanism_axes(t
     assert row["mechanism_status"] == "blocked"
     assert row["mechanism_channel"] == "probe-margin-channel"
     assert row["mechanism_failed_gate"] == "A1-HG3"
-    assert row["evidence_pointer"] == "$.d5_m"
+    assert row["evidence_pointer"] == "$.mechanism_evidence"
     assert row["operational_pointer"] == "$.d5_o"
-    assert row["mechanism_pointer"] == "$.d5_m"
-    assert row["mechanism_case_pointer"] == "$.mechanism_case"
-    assert row["mechanism_namecert_pointer"] == "reports/gap_head_mechanism_namecert.json"
-    assert row["mechanism_ledger_pointer"] == "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt"
-    assert row["mechanism_closure_pointer"] == "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec"
+    assert row["mechanism_pointer"] == "$.mechanism_evidence"
+    assert row["mechanism_case_pointer"] == "$.mechanism_evidence.candidate_mechanism"
+    assert row["mechanism_namecert_pointer"] == "reports/canonical/gap_head_attribution_capsule.json"
+    assert row["mechanism_ledger_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status"
+    assert row["mechanism_closure_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status"
     assert row["audit_status"] == "valid"
+
+
+@pytest.mark.parametrize(
+    ("mutator", "expected_pointer"),
+    [
+        (
+            lambda payload: payload["mechanism_evidence"]["required_gate_pointers"].__setitem__(
+                0,
+                "$.a4_hardgates.gates.A4-HG2.missing_status",
+            ),
+            "$.a4_hardgates.gates.A4-HG2.missing_status",
+        ),
+        (
+            lambda payload: payload["mechanism_evidence"]["metric_pointers"].__setitem__(
+                "residualized_status",
+                "$.residualized_attribution.missing_status",
+            ),
+            "$.residualized_attribution.missing_status",
+        ),
+    ],
+)
+def test_attribution_capsule_audit_rejects_unresolved_mechanism_evidence_pointer(
+    tmp_path,
+    mutator,
+    expected_pointer,
+):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-attribution-capsule"]
+    payload = _minimal_payload(spec)
+    mutator(payload)
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-attribution-capsule"]
+
+    assert expected_pointer in mechanism_evidence_pointers(
+        discovery_map.project_gap_head_mechanism_evidence(payload),
+    )
+    assert discovery_map.pointer_value(payload, expected_pointer) is None
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "unresolved-mechanism-evidence-pointer"
 
 
 @pytest.mark.parametrize("report", ["gap-head-on-h", "gap-head-discovery"])
@@ -752,10 +822,16 @@ def test_positive_discovery_rows_have_resolvable_gate_pointers(tmp_path):
             robustness_artifact, robustness_pointer = row["robustness_pointer"].split(":", 1)
             assert discovery_map.pointer_value(_read_json_artifact(tmp_path, robustness_artifact), robustness_pointer) is not None
             if row["discovery_level"] == "D5-M":
-                mechanism_artifact, mechanism_pointer = row["mechanism_pointer"].split(":", 1)
-                mechanism_case_artifact, mechanism_case_pointer = row["mechanism_case_pointer"].split(":", 1)
-                assert discovery_map.pointer_value(_read_json_artifact(tmp_path, mechanism_artifact), mechanism_pointer) is not None
-                assert discovery_map.pointer_value(_read_json_artifact(tmp_path, mechanism_case_artifact), mechanism_case_pointer) is not None
+                if ":" in row["mechanism_pointer"]:
+                    mechanism_artifact, mechanism_pointer = row["mechanism_pointer"].split(":", 1)
+                    assert discovery_map.pointer_value(_read_json_artifact(tmp_path, mechanism_artifact), mechanism_pointer) is not None
+                else:
+                    assert discovery_map.pointer_value(source, row["mechanism_pointer"]) is not None
+                if ":" in row["mechanism_case_pointer"]:
+                    mechanism_case_artifact, mechanism_case_pointer = row["mechanism_case_pointer"].split(":", 1)
+                    assert discovery_map.pointer_value(_read_json_artifact(tmp_path, mechanism_case_artifact), mechanism_case_pointer) is not None
+                else:
+                    assert discovery_map.pointer_value(source, row["mechanism_case_pointer"]) is not None
 
 
 @pytest.mark.parametrize(
