@@ -1,54 +1,56 @@
 \origin{ai}
 
-\subsection{Cross-organism CUN/UUR leucine gate}
+\subsection{Cross-organism CUN/UUR leucine usage as an organism-level translation contact}
 \label{sec:h3-translation-realization-cross-organism-cun-uur-leu-gate}
 
-\paragraph{Finite packet.}
-This record treats the leucine codon split $\mathrm{CUN}/\mathrm{UUR}$ as a finite organism-indexed measurement problem.  The carrier is the residual pair consisting of an organism label, the signed value of $\log(\#\mathrm{CUN}/\#\mathrm{UUR})$, and the corresponding $\mathrm{tRNA}$-Leu gene-copy ratio after amino-acid-composition control.  The biological object is not a ribosome trace or a protein phenotype; it is the paired use of per-organism codon-usage summaries and organism-level $\mathrm{tRNA}$-Leu gene-copy spectra.  The checked organisms in the finite row are $\mathrm{Homo\ sapiens}$, $\mathrm{Saccharomyces\ cerevisiae}$, and $\mathrm{Escherichia\ coli\ K12}$, so the row count is $n=3$.
-
-\paragraph{Code-table anchor.}
-The packet also carries the independent finite code-table fact that the module $M$ has cardinality $20$ and is exactly the listed union $\mathrm{WNR}\cup\mathrm{CUN}$:
+\paragraph{Finite carrier.}
+The packet treats the leucine codon split between the CUN block and the UUR block as a finite organism-indexed statistic, not as a molecular mechanism. The carrier has four recorded coordinates: the signed value of $\log(CUN/UUR)$, the organism-level tRNA-Leu gene-copy ratio, an external organism label, and an amino-acid-composition control. The relevant codon support also records the finite set
 $$
 \begin{aligned}
-M=\{&\mathrm{AAA},\mathrm{AAG},\mathrm{ACA},\mathrm{ACG},\mathrm{AGA},\mathrm{AGG},\mathrm{AUA},\mathrm{AUG},\mathrm{CUA},\mathrm{CUC},\\
-&\mathrm{CUG},\mathrm{CUU},\mathrm{UAA},\mathrm{UAG},\mathrm{UCA},\mathrm{UCG},\mathrm{UGA},\mathrm{UGG},\mathrm{UUA},\mathrm{UUG}\},\\
-|M|&=20.
+M=\{&AAA,AAG,ACA,ACG,AGA,AGG,AUA,AUG,CUA,CUC,\\
+& CUG,CUU,UAA,UAG,UCA,UCG,UGA,UGG,UUA,UUG\},
 \end{aligned}
 $$
-This anchor supplies only codon-label and finite-set discipline.  It does not by itself supply organism-matched codon usage, gene-copy spectra, translation dynamics, folding information, physical admissibility, function, or a universal biological rule.
+with $|M|=20$. Within that support, the leucine comparison uses the two synonymous blocks $CUN=\{CUA,CUC,CUG,CUU\}$ and $UUR=\{UUA,UUG\}$. The coordinate is therefore not the assertion that either block is biologically prior; it is the finite signed readout obtained after grouping the observed codon-usage rows by organism and comparing the two leucine subfamilies.
 
-\paragraph{Measured organism row.}
-For the three loaded organisms, the observed log-ratio values are
+\paragraph{Measured rows.}
+The recorded validation run loaded three organism rows:
 $$
 \begin{aligned}
-\ell_{\mathrm{human}}&=1.3514980212896148,\\
-\ell_{\mathrm{yeast}}&=-0.24869078488829677,\\
-\ell_{\mathrm{ecoli}}&=1.0086640520051702.
+&homo\_sapiens,\quad saccharomyces\_cerevisiae,\quad escherichia\_coli\_k12.
 \end{aligned}
 $$
-The associated signs are
+For these rows the observed $\log(CUN/UUR)$ values were
 $$
 \begin{aligned}
-\operatorname{sgn}(\ell_{\mathrm{human}})&=1,\\
-\operatorname{sgn}(\ell_{\mathrm{yeast}})&=-1,\\
-\operatorname{sgn}(\ell_{\mathrm{ecoli}})&=1.
+1.3514980212896148,\quad -0.24869078488829677,\quad 1.0086640520051702.
 \end{aligned}
 $$
-Thus the sign is not uniform across the finite organism row.  The stored scalar field records $\mathrm{sign\_uniform}=\mathrm{false}$, which is the first bounded contact: a single cross-organism direction is not supported by these three rows.
-
-\paragraph{Controlled association.}
-The paired statistic records a Pearson coefficient of $1.0$ for the finite row and a positive partial correlation with the $\mathrm{tRNA}$-Leu ratio after amino-acid-composition control:
+The corresponding signs were
 $$
 \begin{aligned}
-r&=1.0,\\
-r_{\mathrm{partial}}&=1.0,\\
-n&=3.
++1,\quad -1,\quad +1,
 \end{aligned}
 $$
-Within this packet, that is the whole admitted numerical content.  The claim is therefore narrow: in the available three-organism table, $\log(\#\mathrm{CUN}/\#\mathrm{UUR})$ is sign-changing across organisms and its magnitude is positively aligned with the organism-level $\mathrm{tRNA}$-Leu copy-ratio field after the stated composition control.  No $p$-value, confidence interval, regression coefficient beyond the listed correlations, hit rate, or independent replication count is present in the row, so the result is a finite registered contact rather than a population-level statistical law.
+so the finite row set explicitly rejects sign uniformity: $sign\_uniform=false$. This is the main finite obstruction to treating the CUN/UUR sign as a fixed organism-independent direction. Human and the bacterial row are positive in the recorded order, while the yeast row is negative in that same finite table. The statistic is therefore a context-sensitive organism-level readout.
 
-\paragraph{Local interpretation.}
-The packet supports only an organism-level codon-usage and gene-copy co-readback.  The codon-usage contact reports sequence-composition summaries; the gene-copy contact reports genome-annotation summaries by anticodon family.  Together they can test the bounded relation between the $\mathrm{CUN}/\mathrm{UUR}$ leucine split and the $\mathrm{tRNA}$-Leu copy-number spectrum.  They do not observe ribosome motion, elongation kinetics, protein output, folding, biochemical admissibility, cellular function, or evolutionary necessity.  Consequently, the sign reversal is a context-dependent finite-row observation, not a rule that must hold for all organisms.
+\paragraph{Paired tRNA-Leu contact.}
+The validation also records a positive paired association between the CUN/UUR log ratio and the tRNA-Leu gene-copy ratio. The reported Pearson coefficient is
+$$
+\begin{aligned}
+r=1.0,
+\end{aligned}
+$$
+and the amino-acid-composition-controlled partial statistic is
+$$
+\begin{aligned}
+r_{partial}=1.0,\qquad n=3.
+\end{aligned}
+$$
+Thus the packet is admitted only in the narrow sense that the three-row organism table supplies a paired codon-usage and tRNA-copy-number contact whose finite statistic passes the stated test. The amino-acid-composition control matters: a raw leucine-block log ratio alone would only be a sequence-composition observation, whereas the accepted row is the controlled pairing of codon usage with the organism-level tRNA-Leu copy spectrum.
 
-\paragraph{Boundary.}
-The admissible conclusion is limited to the recorded three-row paired statistic.  No translation event, folding state, physical admissibility statement, biological function, ribosome-mediated mechanism, or universal law follows from the code-table row, the identifier shape, the raw $\mathrm{CUN}/\mathrm{UUR}$ sign, or the $\mathrm{tRNA}$-Leu wording unless another separately recorded contact supplies that layer.  In particular, a raw log-ratio without amino-acid-composition control is not sufficient for this packet, and the finite code-table anchor cannot repair missing organism-matched usage or gene-copy data.  The present row is therefore ready only as a scoped translation-realization statistic: it records a controlled codon-usage/gene-copy association and explicitly stops before mechanism, structure, function, physical admissibility, and universality.
+\paragraph{Interpretation.}
+The outcome supports a bounded translation-layer statistic: the sign of $\log(CUN/UUR)$ is not uniform across the measured organisms, and in the available three-row table its magnitude and sign align positively with the recorded tRNA-Leu copy-number ratio after the stated control. This is a contact between codon-usage summaries and genome-annotation summaries. It does not observe ribosomes in motion, does not measure translation speed, and does not determine which proteins are made under a cellular condition. The reported value $r_{partial}=1.0$ is therefore best read as an exact statistic for the provided finite rows, not as a population law.
+
+\paragraph{Local exclusion.}
+No process-level translation conclusion, folded structure, physical admissibility, biological function, ribosome-mediated mechanism, or universal cross-organism principle follows from this packet unless a separate contact supplies that additional measurement. In particular, the sign reversal is not a rule about all organisms, and the positive paired statistic is not evidence about protein folding or organismal function. The chapter records only the finite organism-matched codon-usage and tRNA-Leu gene-copy relation described above.
