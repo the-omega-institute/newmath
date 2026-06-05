@@ -4224,7 +4224,7 @@ def _write_namecert_proposals(
                 except OSError:
                     existing = ""
                 if existing and not _is_stub_namecert(existing):
-                    _append_writeback_log(store, "kept_existing_rich_on_codex_fail", {"claim_id": claim_id, "slug": slug, "codex_ok": codex_ok, "hygiene_issues": hygiene_issues[:3]})
+                    # codex 失败/hygiene 不过, 但已部署是 rich → 保留, 不被 stub 覆盖.
                     slugs.append(slug)
                     continue
             if hygiene_issues:
