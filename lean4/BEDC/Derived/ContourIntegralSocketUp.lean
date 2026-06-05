@@ -207,4 +207,69 @@ theorem ContourIntegralSocketBoundaryRouteTotality
   }
   exact ⟨cert, contourRoute, provenanceRoute, boundaryRoute⟩
 
+theorem ContourIntegralSocketNonescape
+    {contour holomorphic modulus output ledger transport route provenance name
+      boundaryRead : BHist} :
+    ContourIntegralSocketCarrier contour holomorphic modulus output ledger transport route
+        provenance name →
+      Cont route provenance boundaryRead →
+        SemanticNameCert
+            (fun row : BHist => hsame row boundaryRead ∧ Cont route provenance boundaryRead)
+            (fun row : BHist =>
+              hsame row contour ∨ hsame row holomorphic ∨ hsame row modulus ∨
+                hsame row output ∨ hsame row ledger ∨ hsame row route ∨
+                  hsame row provenance ∨ hsame row name ∨ hsame row boundaryRead)
+            (fun row : BHist =>
+              hsame row boundaryRead ∧ Cont contour holomorphic route ∧
+                Cont route ledger provenance ∧ Cont route provenance boundaryRead)
+            hsame ∧
+          Cont contour holomorphic route ∧ Cont route ledger provenance := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert ContourIntegralSocketCarrier
+  intro carrier boundaryRoute
+  have contourRoute : Cont contour holomorphic route := carrier.right.left
+  have provenanceRoute : Cont route ledger provenance := carrier.right.right.left
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundaryRead ∧ Cont route provenance boundaryRead)
+          (fun row : BHist =>
+            hsame row contour ∨ hsame row holomorphic ∨ hsame row modulus ∨
+              hsame row output ∨ hsame row ledger ∨ hsame row route ∨
+                hsame row provenance ∨ hsame row name ∨ hsame row boundaryRead)
+          (fun row : BHist =>
+            hsame row boundaryRead ∧ Cont contour holomorphic route ∧
+              Cont route ledger provenance ∧ Cont route provenance boundaryRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro boundaryRead ⟨hsame_refl boundaryRead, boundaryRoute⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, contourRoute, provenanceRoute, source.right⟩
+  }
+  exact ⟨cert, contourRoute, provenanceRoute⟩
+
 end BEDC.Derived.ContourIntegralSocketUp
