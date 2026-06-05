@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CayleyTheoremUp
+namespace BEDC.Derived.CayleyTheoremUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -42,35 +42,25 @@ def cayleyTheoremToEventFlow : CayleyTheoremUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
   | x => (cayleyTheoremFields x).map cayleyTheoremEncodeBHist
 
-private def CayleyTheoremTasteGate_single_carrier_alignment_eventAt :
-    Nat → EventFlow → RawEvent
+private def cayleyTheoremEventAt : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest =>
-      CayleyTheoremTasteGate_single_carrier_alignment_eventAt index rest
+  | Nat.succ index, _event :: rest => cayleyTheoremEventAt index rest
 
 def cayleyTheoremFromEventFlow (ef : EventFlow) : Option CayleyTheoremUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (CayleyTheoremUp.mk
-      (cayleyTheoremDecodeBHist
-        (CayleyTheoremTasteGate_single_carrier_alignment_eventAt 0 ef))
-      (cayleyTheoremDecodeBHist
-        (CayleyTheoremTasteGate_single_carrier_alignment_eventAt 1 ef))
-      (cayleyTheoremDecodeBHist
-        (CayleyTheoremTasteGate_single_carrier_alignment_eventAt 2 ef))
-      (cayleyTheoremDecodeBHist
-        (CayleyTheoremTasteGate_single_carrier_alignment_eventAt 3 ef))
-      (cayleyTheoremDecodeBHist
-        (CayleyTheoremTasteGate_single_carrier_alignment_eventAt 4 ef))
-      (cayleyTheoremDecodeBHist
-        (CayleyTheoremTasteGate_single_carrier_alignment_eventAt 5 ef))
-      (cayleyTheoremDecodeBHist
-        (CayleyTheoremTasteGate_single_carrier_alignment_eventAt 6 ef))
-      (cayleyTheoremDecodeBHist
-        (CayleyTheoremTasteGate_single_carrier_alignment_eventAt 7 ef)))
+      (cayleyTheoremDecodeBHist (cayleyTheoremEventAt 0 ef))
+      (cayleyTheoremDecodeBHist (cayleyTheoremEventAt 1 ef))
+      (cayleyTheoremDecodeBHist (cayleyTheoremEventAt 2 ef))
+      (cayleyTheoremDecodeBHist (cayleyTheoremEventAt 3 ef))
+      (cayleyTheoremDecodeBHist (cayleyTheoremEventAt 4 ef))
+      (cayleyTheoremDecodeBHist (cayleyTheoremEventAt 5 ef))
+      (cayleyTheoremDecodeBHist (cayleyTheoremEventAt 6 ef))
+      (cayleyTheoremDecodeBHist (cayleyTheoremEventAt 7 ef)))
 
 private theorem CayleyTheoremTasteGate_single_carrier_alignment_round_trip
     (x : CayleyTheoremUp) :
@@ -117,8 +107,7 @@ instance cayleyTheoremBHistCarrier : BHistCarrier CayleyTheoremUp where
   toEventFlow := cayleyTheoremToEventFlow
   fromEventFlow := cayleyTheoremFromEventFlow
 
-instance cayleyTheoremChapterTasteGate :
-    ChapterTasteGate CayleyTheoremUp where
+instance cayleyTheoremChapterTasteGate : ChapterTasteGate CayleyTheoremUp where
   -- BEDC touchpoint anchor: BHist BMark
   round_trip := by
     intro x
@@ -128,18 +117,24 @@ instance cayleyTheoremChapterTasteGate :
     intro x y hxy heq
     exact hxy (CayleyTheoremTasteGate_single_carrier_alignment_toEventFlow_injective heq)
 
+def CayleyTheoremTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate CayleyTheoremUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  cayleyTheoremChapterTasteGate
+
 theorem CayleyTheoremTasteGate_single_carrier_alignment :
     (∀ h : BHist, cayleyTheoremDecodeBHist (cayleyTheoremEncodeBHist h) = h) ∧
       (∀ x : CayleyTheoremUp,
         cayleyTheoremFromEventFlow (cayleyTheoremToEventFlow x) = some x) ∧
-      (∀ x y : CayleyTheoremUp,
-        cayleyTheoremToEventFlow x = cayleyTheoremToEventFlow y -> x = y) ∧
-      cayleyTheoremEncodeBHist BHist.Empty = ([] : List BMark) := by
+        (∀ x y : CayleyTheoremUp,
+          cayleyTheoremToEventFlow x = cayleyTheoremToEventFlow y → x = y) ∧
+          cayleyTheoremEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨CayleyTheoremTasteGate_single_carrier_alignment_decode_encode,
       CayleyTheoremTasteGate_single_carrier_alignment_round_trip,
-      fun _ _ heq => CayleyTheoremTasteGate_single_carrier_alignment_toEventFlow_injective heq,
+      (fun _ _ heq =>
+        CayleyTheoremTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
-end BEDC.Derived.CayleyTheoremUp
+end BEDC.Derived.CayleyTheoremUp.TasteGate

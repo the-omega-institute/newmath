@@ -3998,6 +3998,7 @@ import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RealRegSeqRatScope
 import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RootFiniteBarDepth
+import BEDC.Derived.FanfunctionalUp.RootSchemaLedger
 import BEDC.Derived.FanfunctionalUp.RootUnblockCantorPrefix
 import BEDC.Derived.FanfunctionalUp.RootUnblockCompactRoute
 import BEDC.Derived.FanfunctionalUp.RootUnblockFanDepth
@@ -5667,6 +5668,7 @@ import BEDC.Derived.MetaCICConfluenceDiamondBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICConfluenceSubstitutionBoundaryUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPairLedgerUp.TasteGate
 import BEDC.Derived.MetaCICCriticalPathUp
+import BEDC.Derived.MetaCICCriticalPathUp.AuditFrontierFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerBudgetFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerFrontierSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedCheckerHandoffTotality
@@ -5763,6 +5765,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketTotality
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketTotalityRoute
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamReadinessBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamUnblockCoverage
+import BEDC.Derived.MetaCICCriticalPathUp.DownstreamUnblockSurface
 import BEDC.Derived.MetaCICCriticalPathUp.ExactBoundaryGate
 import BEDC.Derived.MetaCICCriticalPathUp.ExactBoundaryPrefixDeterminacy
 import BEDC.Derived.MetaCICCriticalPathUp.FourFaceAuditFloor
@@ -6049,6 +6052,7 @@ import BEDC.Derived.MetacicNormalizationAuditUp.CandidateMediatedSNClosure
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateRoutePack
 import BEDC.Derived.MetacicNormalizationAuditUp.ClosedTermBudgetTotality
 import BEDC.Derived.MetacicNormalizationAuditUp.ConfluenceSocket
+import BEDC.Derived.MetacicNormalizationAuditUp.NormalizationAuditCandidateBoundary
 import BEDC.Derived.MetacicNormalizationAuditUp.TasteGate
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
@@ -6287,6 +6291,7 @@ import BEDC.Derived.MonotoneSubsequenceUp.TasteGate
 import BEDC.Derived.MontelTheoremUp.TasteGate
 import BEDC.Derived.MooreAronszajnKernelUp
 import BEDC.Derived.MooreAronszajnKernelUp.TasteGate
+import BEDC.Derived.MooreOsgoodUp.IteratedLimitHandoff
 import BEDC.Derived.MooreOsgoodUp.TasteGate
 import BEDC.Derived.MooreSmithCauchyNetFilterBridgeUp.TasteGate
 import BEDC.Derived.MooreSmithCauchySubnetCriterionUp.TasteGate
@@ -8589,6 +8594,7 @@ import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
 import BEDC.Derived.TightLocatedCutUp.TasteGate
+import BEDC.Derived.ToeplitzLemmaUp.RegularSequenceHandoff
 import BEDC.Derived.ToeplitzLemmaUp.TasteGate
 import BEDC.Derived.TopGroupUp
 import BEDC.Derived.TopGroupUp.BHistCarrier
