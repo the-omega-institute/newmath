@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\JordanHolderUp$}
+\label{ch:concrete-instances-jordan-holder-namecert}
+\origin{human}
+
+Following Jordan and Holder, the $\JordanHolderUp$ packet reconstructs finite-group composition-series data as a BEDC NameCert surface. It sits beside the group carrier of \autoref{ch:concrete-instances-group-namecert}, the subgroup carrier of \autoref{ch:concrete-instances-subgroup-namecert}, the quotient-group carrier of \autoref{ch:concrete-instances-quotientgroup-namecert}, and the Sylow packet of \autoref{ch:concrete-instances-sylow-namecert}. Those sibling chapters supply group operations, subgroup containment, quotient-factor rows, and prime-power subgroup witnesses; this chapter records how a composition-series certificate names the factor rows without importing a classification theorem, a selected series, or an unrecorded isomorphism oracle.
+
+\begin{definition}[Jordan-Holder carrier]
+\label{def:jordan-holder-carrier}
+A $\JordanHolderUp$ carrier is a finite $\BHist$ packet
+$$
+J=(G,S,Q,F,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\GroupUp$ source row, carrying the multiplication, unit, inverse, and finite carrier window.
+\item $S$ is the composition-series row, listing the finite chain of $\SubgroupUp$ entries from the trivial subgroup to $G$.
+\item $Q$ is the quotient-factor row, recording each adjacent $\QuotientGroupUp$ factor exposed by the chain.
+\item $F$ is the simple-factor classifier row, recording that each displayed quotient factor has no nontrivial normal-subgroup row inside the factor surface.
+\item $E$ is the factor-equivalence ledger, comparing two displayed composition-series rows only through finite permutations and componentwise quotient-factor equivalences.
+\item $H$ records componentwise $\hsame$ transport for the group source, series, quotient factors, simple-factor classifiers, equivalence ledger, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the group source through the series and factor rows.
+\item $P$ is the $\Pkg$ provenance over $\JordanHolderUp$, $\GroupUp$, $\SubgroupUp$, $\QuotientGroupUp$, $\SylowUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\JordanHolderUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a chosen canonical composition series, a complete finite-simple-group classifier, an unrecorded quotient isomorphism, or a proof that two arbitrary chains are equal outside the displayed factor ledger.
+\end{definition}
+
+\begin{theorem}[Jordan-Holder NameCert obligation surface]
+\label{thm:jordan-holder-namecert-obligation-surface}
+For an accepted $\JordanHolderUp$ packet $J=(G,S,Q,F,E,H,C,P,N)$, the local NameCert obligation surface consists exactly of the finite group source row $G$, composition-series row $S$, quotient-factor row $Q$, simple-factor classifier row $F$, factor-equivalence ledger $E$, componentwise transport row $H$, replay row $C$, package row $P$, and local naming row $N$. Any consumer that drops one of these rows leaves the composition-series certificate and receives neither a quotient-factor certificate nor a Jordan-Holder comparison route.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:jordan-holder-carrier}. The group source, subgroup chain, quotient factors, simple-factor classifiers, and factor-equivalence ledger are displayed as distinct finite rows.
+
+The sibling surfaces determine what each row may export. The group row is read through \autoref{ch:concrete-instances-group-namecert}, the series entries through \autoref{ch:concrete-instances-subgroup-namecert}, and the adjacent factors through \autoref{ch:concrete-instances-quotientgroup-namecert}.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the same packet. Since no canonical-series selector or hidden quotient-isomorphism oracle is present, deleting any displayed row exits the certificate surface.
+\end{proof}
+
+\begin{theorem}[Jordan-Holder composition-series route]
+\label{thm:jordan-holder-composition-series-route}
+Every composition-series consumer of an accepted $\JordanHolderUp$ packet must read the finite route
+$$
+G \to S \to Q \to F \to E \to H,C,P,N .
+$$
+The route may cite the Sylow packet only as prime-power subgroup provenance for displayed finite-group rows, and it may cite quotient factors only through the adjacent $\QuotientGroupUp$ rows in $Q$. It does not export a classification of finite simple groups, a chosen canonical series, or an equality of arbitrary composition-series lists outside the factor-equivalence ledger $E$.
+\end{theorem}
+\begin{proof}
+Start with the source group row $G$ and the displayed chain $S$. Each adjacent pair in the chain supplies a quotient-factor request, so the consumer reaches the factor row $Q$ before any comparison is available.
+
+Read the simple-factor classifier row $F$ and the factor-equivalence ledger $E$. The classifier confines each factor to the displayed quotient surface, while $E$ records comparison only by finite reindexing and componentwise factor equivalence.
+
+Finally replay through $H,C,P,N$. Provenance may cite \autoref{ch:concrete-instances-sylow-namecert} for finite prime-power subgroup rows, but the replay has no coordinate for a canonical composition series, a finite-simple-group classification theorem, or an external quotient-isomorphism oracle.
+\end{proof}
+
+\closureat{JordanHolderUp}{seedStr}
+
+\begin{closurestatus}{\JordanHolderUp}
+  \constructivestory{A $\JordanHolderUp$ packet is generated from a finite group source, a composition-series chain, adjacent quotient factors, simple-factor classifier rows, factor-equivalence ledger rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:jordan-holder-carrier}, \autoref{thm:jordan-holder-namecert-obligation-surface}, and \autoref{thm:jordan-holder-composition-series-route} seed the finite composition-series certificate surface over $\GroupUp$, $\SubgroupUp$, $\QuotientGroupUp$, $\SylowUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, classification of finite simple groups, canonical composition-series selection, or equality of arbitrary series outside the displayed factor ledger.}
+  \upgradepath{Obligation closure requires checked carrier admission, quotient-factor exactness, simple-factor classifier stability, factor-equivalence transport, replay, provenance, and local naming for BEDC.Derived.JordanHolderUp.}
+\end{closurestatus}
