@@ -159,6 +159,15 @@
 - Tag status: `absent`
 - Version: `0.0.1`
 
+## Release NameCert candidate
+
+- Status: `pointer-only`
+- JSON: `reports/release_namecert_candidate.json`
+- Markdown: `reports/release_namecert_candidate.md`
+- Owner artifact: `bedc-quality-lab:release-manifest-sidecar`
+- Candidate status: `ready-candidate`
+- Revoke pointer: `$.ledger_policy.revoke_if`
+
 ## Paper outline
 
 - Status: `pointer-only`

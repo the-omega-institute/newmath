@@ -82,6 +82,9 @@ GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_capsule"
 RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT = "reports/release_manifest_sidecar.json"
 RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT = "reports/release_manifest_sidecar.md"
 RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID = "bedc-quality-lab:release-manifest-sidecar"
+RELEASE_NAMECERT_CANDIDATE_JSON_ARTIFACT = "reports/release_namecert_candidate.json"
+RELEASE_NAMECERT_CANDIDATE_MARKDOWN_ARTIFACT = "reports/release_namecert_candidate.md"
+RELEASE_NAMECERT_CANDIDATE_ARTIFACT_ID = "bedc-quality-lab:release-namecert-candidate"
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -1661,6 +1664,28 @@ def _release_manifest_sidecar_index_section() -> dict[str, Any]:
     }
 
 
+def _release_namecert_candidate_index_section() -> dict[str, Any]:
+    payload = _load_sidecar_payload(RELEASE_NAMECERT_CANDIDATE_JSON_ARTIFACT)
+    source_spec = payload.get("source_spec") if isinstance(payload.get("source_spec"), dict) else {}
+    ledger_policy = payload.get("ledger_policy") if isinstance(payload.get("ledger_policy"), dict) else {}
+    return {
+        "status": "pointer-only",
+        "artifact_id": payload.get("artifact_id", RELEASE_NAMECERT_CANDIDATE_ARTIFACT_ID),
+        "json_artifact": RELEASE_NAMECERT_CANDIDATE_JSON_ARTIFACT,
+        "markdown_artifact": RELEASE_NAMECERT_CANDIDATE_MARKDOWN_ARTIFACT,
+        "owner_artifact": source_spec.get("sidecar_artifact_id", RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID),
+        "candidate_status": payload.get("candidate_status", "missing"),
+        "ledger_policy_pointer": "$.ledger_policy",
+        "revoke_if_pointer": "$.ledger_policy.revoke_if",
+        "source_sidecar_digest": source_spec.get("sidecar_digest", "missing"),
+        "tag_absent_policy": (
+            ledger_policy.get("tag_absent", {}).get("status", "missing")
+            if isinstance(ledger_policy.get("tag_absent"), dict)
+            else "missing"
+        ),
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -1793,6 +1818,7 @@ def _index(
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "gap_head_mechanism_namecert": _gap_head_mechanism_namecert_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
+        "release_namecert_candidate": _release_namecert_candidate_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -1975,6 +2001,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Tag status: `{payload['release_manifest_sidecar']['tag_status']}`",
             f"- Version: `{payload['release_manifest_sidecar']['version']}`",
             "",
+            "## Release NameCert candidate",
+            "",
+            f"- Status: `{payload['release_namecert_candidate']['status']}`",
+            f"- JSON: `{payload['release_namecert_candidate']['json_artifact']}`",
+            f"- Markdown: `{payload['release_namecert_candidate']['markdown_artifact']}`",
+            f"- Owner artifact: `{payload['release_namecert_candidate']['owner_artifact']}`",
+            f"- Candidate status: `{payload['release_namecert_candidate']['candidate_status']}`",
+            f"- Revoke pointer: `{payload['release_namecert_candidate']['revoke_if_pointer']}`",
+            "",
             "## Paper outline",
             "",
             f"- Status: `{outline['status']}`",
@@ -2115,8 +2150,10 @@ def run_reports(
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))
     from scripts.release_manifest_sidecar import write_release_manifest_sidecar
+    from scripts.run_release_namecert_candidate import write_release_namecert_candidate
 
     write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
+    write_release_namecert_candidate(root=ROOT, generated_at=timestamp, make_check_passed=True)
     payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))

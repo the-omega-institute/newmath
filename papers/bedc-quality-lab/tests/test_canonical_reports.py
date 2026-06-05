@@ -354,6 +354,25 @@ def _set_canonical_tmp_root(monkeypatch, tmp_path):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
+
+
+def _write_release_pointer_fixture(root):
+    (root / "docs" / "lit").mkdir(parents=True, exist_ok=True)
+    (root / "docs" / "artifact_manifest.md").write_text(
+        "# Artifact Manifest\n\n"
+        "## Quality Baseline Surfaces\n\n"
+        "| artifact id | path | discovery_level pointer | pointer status |\n"
+        "| --- | --- | --- | --- |\n"
+        "| `bedc-quality-lab:artifact-manifest` | `docs/artifact_manifest.md` | "
+        "`## Quality Baseline Surfaces` | pointer-only |\n",
+        encoding="utf-8",
+    )
+    (root / "docs" / "lit" / "literature_ledger.yaml").write_text(
+        json.dumps({"records": [{"id": "lit-artifact-release-navigation"}]}) + "\n",
+        encoding="utf-8",
+    )
+    (root / "VERSION").write_text("0.0.1\n", encoding="utf-8")
 
 
 def _write_lab_report_import_fixture(root, spec):
@@ -443,6 +462,33 @@ def _patch_lightweight_run_reports(monkeypatch):
         return {}
 
     def fake_release(*, root, generated_at=None):
+        write_json(
+            root,
+            canonical.RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT,
+            {
+                "schema_id": canonical.RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID,
+                "artifact_id": canonical.RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID,
+                "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+                "generated_at": generated_at,
+                "version": "0.0.1",
+                "tag_ref": None,
+                "release_bundle_status": "ready",
+                "tag_status": "absent",
+                "source_pointers": {},
+                "required_pointers": [
+                    {
+                        "id": "fixture-pointer",
+                        "path": "reports/canonical/index.json",
+                        "pointer": "$.schema_id",
+                        "status": "resolved",
+                        "failure": None,
+                    }
+                ],
+                "not_claimed": ["fixture boundary"],
+                "revoke_if": "Revoke if fixture pointer stops resolving.",
+            },
+        )
+        write_markdown(root, canonical.RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT, "# release sidecar\n")
         return {}
 
     monkeypatch.setattr(
@@ -1308,6 +1354,7 @@ def test_run_reports_only_writes_index_and_summary_from_producer(tmp_path):
     canonical.ROOT = tmp_path
     canonical.CANONICAL_DIR = tmp_path / "reports" / "canonical"
     canonical.INDEX_ARTIFACT = tmp_path / "reports" / "canonical" / "index.json"
+    _write_release_pointer_fixture(tmp_path)
     canonical_dir = canonical.CANONICAL_DIR
     index_path = canonical.INDEX_ARTIFACT
     summary_path = tmp_path / "summary.json"
@@ -1533,6 +1580,7 @@ def test_quality_scorecard_is_generated_by_canonical_runner(tmp_path, monkeypatc
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
         json_path = canonical._artifact_path(spec.json_artifact)
@@ -1566,6 +1614,7 @@ def test_discovery_map_is_registered_by_canonical_runner(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
         json_path = canonical._artifact_path(spec.json_artifact)
@@ -1595,6 +1644,7 @@ def test_gap_head_transfer_atlas_index_matches_discovery_map_row(tmp_path, monke
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
         json_path = canonical._artifact_path(spec.json_artifact)
@@ -1644,6 +1694,7 @@ def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
         json_path = canonical._artifact_path(spec.json_artifact)
@@ -1669,6 +1720,7 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
     calls = []
 
     def fake_run_producer(spec):
@@ -1786,6 +1838,38 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
         return {}
 
     def fake_release(*, root, generated_at=None):
+        path = root / canonical.RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            json.dumps(
+                {
+                    "schema_id": canonical.RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID,
+                    "artifact_id": canonical.RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID,
+                    "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+                    "generated_at": generated_at,
+                    "version": "0.0.1",
+                    "tag_ref": None,
+                    "release_bundle_status": "ready",
+                    "tag_status": "absent",
+                    "source_pointers": {},
+                    "required_pointers": [
+                        {
+                            "id": "fixture-pointer",
+                            "path": "reports/canonical/index.json",
+                            "pointer": "$.schema_id",
+                            "status": "resolved",
+                            "failure": None,
+                        }
+                    ],
+                    "not_claimed": ["fixture boundary"],
+                    "revoke_if": "Revoke if fixture pointer stops resolving.",
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        (root / canonical.RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT).write_text("# release sidecar\n", encoding="utf-8")
         return {}
 
     monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
@@ -1892,6 +1976,7 @@ def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, 
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
         json_path = canonical._artifact_path(spec.json_artifact)
@@ -2759,6 +2844,7 @@ def test_quality_scorecard_uses_caller_timestamp(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
         json_path = canonical._artifact_path(spec.json_artifact)
@@ -2845,6 +2931,7 @@ def test_run_reports_certificate_guided_discovery_uses_canonical_training_source
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
     source_json = canonical.CANONICAL_DIR / "certificate-guided-training.json"
     source_report = canonical.CANONICAL_DIR / "certificate-guided-training.md"
     source_json.parent.mkdir(parents=True, exist_ok=True)

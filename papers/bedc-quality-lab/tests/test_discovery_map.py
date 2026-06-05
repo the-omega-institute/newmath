@@ -111,6 +111,24 @@ def _write_json_artifact(root: Path, artifact: str, payload):
     path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
 
 
+def _write_release_pointer_fixture(root: Path):
+    (root / "docs" / "lit").mkdir(parents=True, exist_ok=True)
+    (root / "docs" / "artifact_manifest.md").write_text(
+        "# Artifact Manifest\n\n"
+        "## Quality Baseline Surfaces\n\n"
+        "| artifact id | path | discovery_level pointer | pointer status |\n"
+        "| --- | --- | --- | --- |\n"
+        "| `bedc-quality-lab:artifact-manifest` | `docs/artifact_manifest.md` | "
+        "`## Quality Baseline Surfaces` | pointer-only |\n",
+        encoding="utf-8",
+    )
+    (root / "docs" / "lit" / "literature_ledger.yaml").write_text(
+        json.dumps({"records": [{"id": "lit-artifact-release-navigation"}]}) + "\n",
+        encoding="utf-8",
+    )
+    (root / "VERSION").write_text("0.0.1\n", encoding="utf-8")
+
+
 def _scorecard_payload(status="ready"):
     metrics = (
         "CertCov",
@@ -800,6 +818,7 @@ def test_run_reports_index_contains_discovery_map(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
 
     def fake_run_producer(spec):
         _write_payload(tmp_path, spec, _minimal_payload(spec))
