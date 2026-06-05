@@ -219,6 +219,18 @@ inventory, so no hidden closed subject-reduction theorem is imported.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_socket\_route\_totality}
 
+\begin{theorem}[MetaCIC critical-path subject-reduction socket factorization]
+\label{thm:metacic-critical-path-subject-reduction-socket-factorization}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, any route attempting to use the discharge socket $D$ must factor through the displayed rows $S,N,O,U,D,H,C,P,L$. Along that route the obstruction row $O$ remains visible, and $D$ remains a socket unless a separate subject-reduction certificate row is displayed by the consumer.
+\end{theorem}
+\begin{proof}
+Start with a socket-facing route. The consistency handoff and obstruction boundary, \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-obstruction-boundary}, route any consistency read through the visible packet while keeping $O$ present.
+
+Now use discharge-socket nonescape, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. It prevents the displayed packet rows from filling $D$ by themselves, so the only admissible way to discharge the socket is to show a separate subject-reduction certificate row.
+
+Finally apply socket route totality, \autoref{thm:metacic-critical-path-socket-route-totality}. Any route that mentions $D$ must retain $S,N,O,U,D,H,C,P,L$ as its visible row inventory. Hence the attempted discharge factors through the displayed packet and cannot hide $O$ or turn $D$ into a closed subject-reduction theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC critical-path obstruction-ledger exhaustion]
 \label{thm:metacic-critical-path-obstruction-ledger-exhaustion}
 For every accepted $\MetaCICCriticalPathUp$ root-unblock packet $K=(S,N,O,U,D,H,C,P,L)$, the visible obstruction row $O$ and socket row $D$ exhaust the blocked subject-reduction routes. No hidden closed-consistency coordinate can be read from $S,N,U,H,C,P,L$ once the obstruction and socket rows remain visible.
