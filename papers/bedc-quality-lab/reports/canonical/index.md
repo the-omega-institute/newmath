@@ -12,6 +12,7 @@
 | `gap-head-on-h` | `pass` | `reports/canonical/gap-head-on-h.json` | `reports/canonical/gap-head-on-h.md` | `reports/canonical/gap-head-on-h.fingerprint.json` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.forbidden_inference_columns` | `$.main_claim_status` | `$.control_protocol` |
 | `gap-head-discovery` | `pass` | `reports/canonical/gap-head-discovery.json` | `reports/canonical/gap-head-discovery.md` | `reports/canonical/gap-head-discovery.fingerprint.json` | `$.boundary_checks` | `$.score_terms` | `$.boundary_checks.forbidden_inference_columns` | `$.final_main_claim_status` | `$.matched_random_control` |
 | `gap-head-ablation` | `pass` | `reports/canonical/gap-head-ablation.json` | `reports/canonical/gap-head-ablation.md` | `reports/canonical/gap-head-ablation.fingerprint.json` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.not_claimed` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` |
+| `ledger-aware-transformer` | `pass` | `reports/canonical/ledger-aware-transformer.json` | `reports/canonical/ledger-aware-transformer.md` | `reports/canonical/ledger-aware-transformer.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.control_protocol` |
 | `gap-head-threshold-frontier` | `pass` | `reports/canonical/gap-head-threshold-frontier.json` | `reports/canonical/gap-head-threshold-frontier.md` | `reports/canonical/gap-head-threshold-frontier.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.not_claimed` | `$.main_claim_status` | `$.threshold_summary.control_baseline` |
 | `gap-head-transfer-atlas` | `pass` | `reports/canonical/gap_head_transfer_atlas.json` | `reports/canonical/gap_head_transfer_atlas.md` | `reports/canonical/gap_head_transfer_atlas.fingerprint.json` | `$.not_claimed` | `$.source_artifacts.metric_helper` | `$.not_claimed` | `$.multi_surface_d5_o` | `$.config.control_arm` |
 | `gap-head-attribution-capsule` | `pass` | `reports/canonical/gap_head_attribution_capsule.json` | `reports/canonical/gap_head_attribution_capsule.md` | `reports/canonical/gap_head_attribution_capsule.fingerprint.json` | `$.scope.not_claimed` | `$.cost_protocol_pointer` | `$.scope.not_claimed` | `$.d5_m` | `$.control_pointer` |
@@ -40,7 +41,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
-- Rows: `18`
+- Rows: `19`
 
 ## Dimension mismatch debt transfer
 
@@ -87,7 +88,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `26`
+- Rows: `27`
 
 ## Claim graph
 
@@ -95,7 +96,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `74`
+- Nodes: `77`
 
 ## Claim capsule
 
@@ -173,7 +174,7 @@
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, ledger-aware-transformer, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid`
 - Auxiliary reports: `nongaussian-distribution-sweep, lejepa-theorem-ledger, spectral-ablation-hinge`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -188,6 +189,7 @@
 | `gap-head-on-h` | `hg_p_core` | `$.main_claim_status` | `$.control_protocol` | `None` |
 | `gap-head-discovery` | `hg_p_core` | `$.final_main_claim_status` | `$.matched_random_control` | `None` |
 | `gap-head-ablation` | `hg_p_core` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` | `None` |
+| `ledger-aware-transformer` | `hg_p_core` | `$.positive_claim` | `$.control_protocol` | `None` |
 | `gap-head-threshold-frontier` | `hg_p_core` | `$.main_claim_status` | `$.threshold_summary.control_baseline` | `None` |
 | `gap-head-transfer-atlas` | `hg_p_core` | `$.multi_surface_d5_o` | `$.config.control_arm` | `None` |
 | `gap-head-attribution-capsule` | `hg_p_core` | `$.d5_m` | `$.control_pointer` | `None` |
