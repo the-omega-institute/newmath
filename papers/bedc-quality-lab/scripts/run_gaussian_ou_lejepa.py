@@ -61,10 +61,14 @@ def _torch_encoder(
     eval_x_pair: np.ndarray,
     *,
     seed: int,
+    alignment_lambda: float = 1.0,
 ) -> tuple[np.ndarray, np.ndarray]:
     from bedc_quality_lab.model import (
+        align_loss,
         build_tiny_encoder,
         choose_device,
+        covariance_loss,
+        mean_loss,
         representation_loss,
         set_deterministic_seed,
     )
@@ -81,7 +85,11 @@ def _torch_encoder(
         optimizer.zero_grad(set_to_none=True)
         h = encoder(x_t)
         h_pair = encoder(x_pair_t)
-        loss = representation_loss(h, h_pair)
+        loss = (
+            representation_loss(h, h_pair)
+            if float(alignment_lambda) == 1.0
+            else float(alignment_lambda) * align_loss(h, h_pair) + covariance_loss(h) + 0.1 * mean_loss(h)
+        )
         loss.backward()
         optimizer.step()
     with torch.no_grad():
@@ -98,6 +106,7 @@ def run_experiment(
     sample_count: int = 384,
     seed: int = 23,
     rho: float = 0.82,
+    alignment_lambda: float = 1.0,
     transition_kernel: TransitionKernelSpec | None = None,
     mixing: str = DEFAULT_MIXING,
     run_id: str = "gaussian-ou-lejepa-seed-23",
@@ -116,7 +125,17 @@ def run_experiment(
 
     if use_torch:
         try:
-            h, h_pair = _torch_encoder(train_x, train_x_pair, eval_x, eval_x_pair, seed=seed)
+            if float(alignment_lambda) == 1.0:
+                h, h_pair = _torch_encoder(train_x, train_x_pair, eval_x, eval_x_pair, seed=seed)
+            else:
+                h, h_pair = _torch_encoder(
+                    train_x,
+                    train_x_pair,
+                    eval_x,
+                    eval_x_pair,
+                    seed=seed,
+                    alignment_lambda=alignment_lambda,
+                )
             encoder_name = "tiny-mlp-2-128-128-2"
         except Exception:
             h, h_pair = _fallback_encoder(train_x, eval_x, eval_x_pair)
@@ -149,6 +168,7 @@ def run_experiment(
         "name": encoder_name,
         "output_dim": 2,
         "training": "align-cov-mean" if encoder_name.startswith("tiny") else "deterministic-standardization",
+        "alignment_lambda": float(alignment_lambda),
         "split_policy": "train-eval-disjoint",
         "train_fraction": 0.70,
         "train_count": int(train_idx.shape[0]),
