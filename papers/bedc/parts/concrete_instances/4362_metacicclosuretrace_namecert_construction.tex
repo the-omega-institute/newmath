@@ -363,6 +363,18 @@ Use the kernel-ledger boundary, candidate-mediated closedness ledger, confluence
 Finally apply obligation status registration. It assembles the ClosurePreservation, substitution, beta-chain, kernel-trace, candidate-mediated strong-normalization, confluence, and decidability routes into the public paper boundary while preserving the refusal of subject reduction, full normalization, kernel soundness, and Lean verification.
 \end{proof}
 
+\begin{theorem}[MetaCICClosureTrace public bridge obligation]
+\label{thm:metacicclosuretrace-public-bridge-obligation}
+Any standard bridge for the public $\MetaCICClosureTraceUp$ boundary must preserve exactly the displayed public rows of \autoref{thm:metacic-closure-trace-public-boundary}: ClosurePreservation rows, substitution rows, beta-chain rows, kernel-trace accounting, candidate-mediated normalization-facing rows, confluence-facing rows, decidability-facing rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. The bridge obligation may not import subject reduction, type preservation, full normalization, kernel soundness, confluence, decidable conversion, decidable typing, quotient term equality, or any stronger MetaCIC theorem as an unrecorded premise.
+\end{theorem}
+\begin{proof}
+Start from the public boundary theorem, \autoref{thm:metacic-closure-trace-public-boundary}. It lists the rows that a public consumer may inspect before exporting the closure trace.
+
+Use obligation status registration, \autoref{thm:metacicclosuretrace-obligation-status-registration}. That theorem registers the paper obligation surface as closedness, generator accounting, kernel acceptance accounting, transport, replay, provenance, and naming, while refusing subject reduction, confluence, normalization, conversion soundness, and kernel soundness.
+
+The bridge obligation is therefore a preservation boundary for those public rows. A future bridge can check that the displayed rows survive the bridge schema, but it cannot strengthen the carrier by importing typing, confluence, normalization, or kernel-soundness evidence from outside the packet.
+\end{proof}
+
 \closureat{MetaCICClosureTraceUp}{publicStr}
 
 \begin{closurestatus}{\MetaCICClosureTraceUp}
