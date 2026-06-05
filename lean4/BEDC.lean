@@ -3954,6 +3954,8 @@ import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.BarScopeObligations
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
+import BEDC.Derived.FanfunctionalUp.RootUnblockCantorPrefix
+import BEDC.Derived.FanfunctionalUp.RootUnblockFanDepth
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
 import BEDC.Derived.FanfunctionalUp.ScopedChoiceNonescape
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
@@ -4017,6 +4019,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.CofinalFastRateScope
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalModulusConsumption
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalReadbackNonescape
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalRegSeqRatCoverage
+import BEDC.Derived.FastCauchySubsequenceUp.CofinalRegularWindow
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalSelectorStrictGrowth
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalSelectorTotality
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalTailObligation
@@ -7994,6 +7997,7 @@ import BEDC.Derived.SequentialCompactUp.BaireCylinderExposure
 import BEDC.Derived.SequentialCompactUp.BaireRealWindowAdmission
 import BEDC.Derived.SequentialCompactUp.BaireRegSeqRatExhaustion
 import BEDC.Derived.SequentialCompactUp.ClusterCarrierStability
+import BEDC.Derived.SequentialCompactUp.CompactMetricConsumerScope
 import BEDC.Derived.SequentialCompactUp.CompactMetricHandoff
 import BEDC.Derived.SequentialCompactUp.CylinderMonotoneWindow
 import BEDC.Derived.SequentialCompactUp.FiniteSubsequenceObligation
