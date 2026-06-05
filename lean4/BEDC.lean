@@ -3636,6 +3636,7 @@ import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
 import BEDC.Derived.DoublingMetricUp.TasteGate
 import BEDC.Derived.DugundjiExtensionUp.TasteGate
+import BEDC.Derived.DuhamelPrincipleUp.TasteGate
 import BEDC.Derived.DunfordFunctionalCalculusUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicApproximationUp
@@ -3969,6 +3970,7 @@ import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.BarScopeObligations
 import BEDC.Derived.FanfunctionalUp.CantorCompactnessScope
+import BEDC.Derived.FanfunctionalUp.FiniteBarModulusObligations
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
 import BEDC.Derived.FanfunctionalUp.ModulusWindowMonotonicity
@@ -8040,10 +8042,13 @@ import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
 import BEDC.Derived.SequentialClosureUp
+import BEDC.Derived.SequentialClosureUp.KuratowskiIdempotence
 import BEDC.Derived.SequentialClosureUp.NameCertObligationSurface
 import BEDC.Derived.SequentialClosureUp.NameCertObligations
 import BEDC.Derived.SequentialClosureUp.RegSeqRatLimitRoute
+import BEDC.Derived.SequentialClosureUp.RootLimitLedger
 import BEDC.Derived.SequentialClosureUp.RootSequenceCarrier
+import BEDC.Derived.SequentialClosureUp.RootTopologyTransport
 import BEDC.Derived.SequentialClosureUp.SequenceLimitHandoff
 import BEDC.Derived.SequentialClosureUp.TasteGate
 import BEDC.Derived.SequentialCompactRealUp.TasteGate
