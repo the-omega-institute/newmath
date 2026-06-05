@@ -2139,6 +2139,14 @@ def run_agent_lane(store: BioRealityStore, *, execute_codex: bool = True, max_di
 
 def run_quality_lane(store: BioRealityStore) -> dict[str, Any]:
     summary = agent_bus.run_quality_lane(store)
+    # 每 cycle 先重新编译 durable quality export (从当前 gate-passed/review-ready packet),
+    # 再让 bio-Q 消费它产 hardening targets. 编译失败不阻断 bio-Q.
+    try:
+        import quality_lab_export
+        rebuilt = quality_lab_export.main([])
+        summary["quality_export_rebuilt"] = (rebuilt == 0)
+    except Exception as exc:
+        summary["quality_export_error"] = str(exc)[:200]
     summary.update(_consume_quality_lab_export_for_hardening(store))
     return summary
 
