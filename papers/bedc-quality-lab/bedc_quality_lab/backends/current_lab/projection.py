@@ -933,7 +933,6 @@ def _projection_overlay_and_evidence(
         overlay, evidence = {}, ProjectionEvidence(
             projection_status="theorem-ledger-recorded",
             evidence_pointer="$.theorem_rows",
-            debt_row_pointer="$.main_verdict.deltas.debt_delta",
         )
     else:
         overlay, evidence = {}, ProjectionEvidence(projection_status="source-insufficient")

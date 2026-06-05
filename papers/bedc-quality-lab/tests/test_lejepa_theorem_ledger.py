@@ -56,14 +56,18 @@ def test_f_hg4_literature_used_by_pointer_resolves():
 def test_implemented_metrics_are_real_gaussian_ou_lejepa_outputs():
     payload = _payload()
     backend_metrics = set(LeJEPABackendEvidenceAdapter.backend.metrics)
-    source_text = (canonical.ROOT / "scripts" / "run_gaussian_ou_lejepa.py").read_text(encoding="utf-8")
+    envelope = run_gaussian_ou_lejepa.run_experiment(
+        use_torch=False,
+        sample_count=8,
+        seed=23,
+    )
 
     assert tuple(payload["metric_catalog"]) == LeJEPABackendEvidenceAdapter.backend.metrics
     assert run_gaussian_ou_lejepa.run_experiment.__name__ == "run_experiment"
     for row in payload["theorem_rows"]:
         for metric in row["implemented_metrics"]:
             assert metric in backend_metrics
-            assert metric in source_text or metric in json.dumps(LeJEPABackendEvidenceAdapter.backend.metrics)
+            assert metric in envelope.metrics
     assert payload["hardgates"]["metric_resolvability"]["status"] == "pass"
 
 

@@ -254,7 +254,6 @@ def build_payload(*, run_id: str = "lejepa-theorem-ledger", generated_at: str | 
         },
         "main_verdict": {
             "status": "ledger-row-ssot",
-            "deltas": {"debt_delta": -1.0},
         },
         "claim_gate": {
             "status": "pass",
@@ -267,7 +266,6 @@ def build_payload(*, run_id: str = "lejepa-theorem-ledger", generated_at: str | 
     draft["status"] = _overall_status(hardgates)
     draft["result"] = {
         "status": draft["status"],
-        "debt_row_pointer": "$.main_verdict.deltas.debt_delta",
         "not_claimed_pointer": "$.not_claimed",
     }
     return draft
