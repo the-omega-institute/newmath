@@ -1,0 +1,134 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-04T23:06:29.939392+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "852c00789ca2a004b56534e26477261658586923a3f0a1c3b316e7785cf23863",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "e9a631afb2175938595d0b3b28046d47ff8a737484991671784925b73c7eeecc"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "bedc_quality_lab/backends/lejepa.py",
+        "sha256": "ab865e1c03ce47e010d17252e01a61c7b60681d308d6b8d8463623f1ce5774f6"
+      },
+      {
+        "path": "bedc_quality_lab/cost_protocol.py",
+        "sha256": "b53dee486c8a5bed06b8618588f0ea29e73bab46213044d6748d6e3e6633428a"
+      },
+      {
+        "path": "bedc_quality_lab/debt.py",
+        "sha256": "85c7c04b58aa99ed83bc6877e606f675b8bfe5879218e84815aa3b034844f5f6"
+      },
+      {
+        "path": "bedc_quality_lab/discovery_compiler/backend.py",
+        "sha256": "d9c13a37014e3def44ebf02ce07e19ac1e5a3b45c48202a8147af9633d227af0"
+      },
+      {
+        "path": "bedc_quality_lab/latent_distribution.py",
+        "sha256": "83408419c973a5f248cfad3e9f6f8d56ab1ebde79d65484c36cff62774ebe1a8"
+      },
+      {
+        "path": "bedc_quality_lab/ledger.py",
+        "sha256": "750a6bc5fba663b8eb599ba43eea9e4b158c57777d95d96be4e0f1cb3ee36ad8"
+      },
+      {
+        "path": "bedc_quality_lab/metrics.py",
+        "sha256": "b5e6ad3f40802377f3fd122902f053c8cde3cc9ac3a01c8d155bcd1df0c482fe"
+      },
+      {
+        "path": "bedc_quality_lab/mixing.py",
+        "sha256": "49ae896ad5c7d1a7c1c41baf7ce569ce7ebe180f91788dfe4f472d7f52517747"
+      },
+      {
+        "path": "bedc_quality_lab/theorem_bound_quality.py",
+        "sha256": "c31e27bbad0285aec8076ec20e72422139df4d8cbb6cfa93f92c6197282e5e29"
+      },
+      {
+        "path": "scripts/run_lejepa_theorem_ledger.py",
+        "sha256": "9c90d0637f49ae0b2e557e714184bb8182714b51b11160bb096b3d2d8959622d"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:lejepa-theorem-ledger",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_lejepa_theorem_ledger.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_lejepa_theorem_ledger.py"
+      ],
+      "control_pointer": null,
+      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "estimated_seconds": 1,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+      "literature_ref_ids": [
+        "lit-lejepa-theorem-ledger"
+      ],
+      "markdown_artifact": "reports/canonical/lejepa_theorem_ledger.md",
+      "name": "lejepa-theorem-ledger",
+      "no_control_rationale_pointer": "$.scope",
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.positive_claim",
+      "required_json_keys": [
+        "schema_id",
+        "generated_at",
+        "run_id",
+        "source_artifacts",
+        "scope",
+        "role_catalog",
+        "metric_catalog",
+        "backend_theorem_rows",
+        "backend_ledger_rows",
+        "theorem_rows",
+        "hardgates",
+        "not_claimed",
+        "positive_claim",
+        "main_verdict",
+        "claim_gate",
+        "result"
+      ],
+      "scope_pointer": "$.scope"
+    }
+  },
+  "json_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+  "markdown_artifact": "reports/canonical/lejepa_theorem_ledger.md",
+  "output_digest": "07ebbfaab9979e4d2d712f865907223b5d6fc71baa68b6390c314bfa49512310",
+  "producer_command": [
+    "python3",
+    "scripts/run_lejepa_theorem_ledger.py"
+  ],
+  "report_name": "lejepa-theorem-ledger",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

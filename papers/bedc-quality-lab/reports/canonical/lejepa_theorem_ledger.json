@@ -1,0 +1,197 @@
+{
+  "artifact_id": "bedc-quality-lab:lejepa-theorem-ledger",
+  "backend_ledger_rows": [
+    {
+      "kind": "source",
+      "residue": "latent-distribution-gaussianity"
+    },
+    {
+      "kind": "source",
+      "residue": "transition-isotropy"
+    },
+    {
+      "kind": "source",
+      "residue": "dimension-match"
+    },
+    {
+      "kind": "source",
+      "residue": "finite-sample-support"
+    },
+    {
+      "kind": "classifier",
+      "residue": "optimizer-certificate"
+    }
+  ],
+  "backend_theorem_rows": [
+    {
+      "name": "theorem3-bound-certificate",
+      "owner": "scripts.run_gaussian_ou_lejepa.run_experiment",
+      "pointer": "$.classifier_spec.cert_status"
+    }
+  ],
+  "claim_gate": {
+    "status": "pass",
+    "training_audit_improvement_tradeoff": false
+  },
+  "generated_at": "2026-06-04T23:06:29.939392+00:00",
+  "hardgates": {
+    "F-HG1": {
+      "role_failures": [],
+      "severity": "none",
+      "status": "pass"
+    },
+    "F-HG2": {
+      "severity": "none",
+      "shape_failures": [],
+      "status": "pass"
+    },
+    "F-HG3": {
+      "hits": [],
+      "severity": "none",
+      "status": "pass"
+    },
+    "F-HG4": {
+      "severity": "none",
+      "status": "pass",
+      "used_by_pointer": "docs/lit/literature_ledger.yaml:$.records[id=lit-lejepa-theorem-ledger].used_by"
+    },
+    "metric_resolvability": {
+      "known_metrics": [
+        "actual_recovery_mse",
+        "alignment_gap_delta_mse",
+        "linear_identifiability_r2",
+        "theorem3_bound_mse",
+        "whitening_deviation_epsilon"
+      ],
+      "metric_failures": [],
+      "severity": "none",
+      "status": "pass"
+    }
+  },
+  "json_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+  "main_verdict": {
+    "status": "ledger-row-ssot"
+  },
+  "markdown_artifact": "reports/canonical/lejepa_theorem_ledger.md",
+  "metric_catalog": [
+    "alignment_gap_delta_mse",
+    "whitening_deviation_epsilon",
+    "theorem3_bound_mse",
+    "actual_recovery_mse",
+    "linear_identifiability_r2"
+  ],
+  "not_claimed": [
+    "The ledger records theorem-row certificate boundaries only.",
+    "The ledger does not discharge optimizer, finite-sample, or source reconstruction debt."
+  ],
+  "positive_claim": {
+    "scope": "canonical LeJEPA theorem-row mapping",
+    "status": "ledger-row-ssot"
+  },
+  "result": {
+    "not_claimed_pointer": "$.not_claimed",
+    "status": "pass"
+  },
+  "role_catalog": [
+    "Ledger",
+    "SourceSpec",
+    "StabCert"
+  ],
+  "run_id": "lejepa-theorem-ledger",
+  "schema_id": "bedc-quality-lab:lejepa-theorem-ledger",
+  "scope": {
+    "claim_boundary": "Rows map LeJEPA theorem labels to certificate roles and ledger debt.",
+    "not_claimed": [
+      "BEDC closure",
+      "paper theorem derivation",
+      "terminal verdict classification",
+      "general model quality"
+    ],
+    "status": "pointer-only-theorem-row-ledger"
+  },
+  "source_artifacts": {
+    "cost_protocol": "configs/default_cost_protocol.yaml",
+    "gaussian_ou_runner": "scripts/run_gaussian_ou_lejepa.py",
+    "lejepa_backend": "bedc_quality_lab.backends.lejepa.LeJEPABackendEvidenceAdapter",
+    "literature_ledger": "docs/lit/literature_ledger.yaml",
+    "producer": "scripts/run_lejepa_theorem_ledger.py"
+  },
+  "status": "pass",
+  "theorem_rows": [
+    {
+      "bedc_role": "SourceSpec",
+      "evidence_pointer": "$.source_artifacts.gaussian_ou_runner",
+      "implemented_metrics": [],
+      "ledger_debt": "Source assumptions are explicit in the envelope, while theorem-level source discharge remains outside the lab-local certificate row.",
+      "not_implemented": [
+        "paper theorem statement is not represented as a kernel-checked formal target",
+        "source assumptions are recorded as payload fields rather than closed source reconstruction"
+      ],
+      "role_basis": "This row owns the theorem-to-source-spec mapping for Gaussian latent, OU transition, and dimension-match assumptions.",
+      "status_projection": {
+        "severity": "medium",
+        "status": "declared"
+      },
+      "theorem": "theorem-1",
+      "title": "Gaussian-OU source specification"
+    },
+    {
+      "bedc_role": "StabCert",
+      "evidence_pointer": "$.metric_catalog",
+      "implemented_metrics": [
+        "alignment_gap_delta_mse",
+        "whitening_deviation_epsilon"
+      ],
+      "ledger_debt": "Stability evidence is metric-backed and scoped to the Gaussian-OU toy runner.",
+      "not_implemented": [
+        "stability claim is represented by metric cells rather than a closed theorem certificate",
+        "optimizer and population-optimum assumptions are not discharged by the local runner"
+      ],
+      "role_basis": "This row tracks the stability-facing alignment and whitening measurements emitted by the LeJEPA runner.",
+      "status_projection": {
+        "severity": "medium",
+        "status": "partial"
+      },
+      "theorem": "theorem-2",
+      "title": "Representation stability certificate boundary"
+    },
+    {
+      "bedc_role": "StabCert",
+      "evidence_pointer": "$.backend_theorem_rows[0]",
+      "implemented_metrics": [
+        "theorem3_bound_mse",
+        "actual_recovery_mse",
+        "linear_identifiability_r2"
+      ],
+      "ledger_debt": "The existing LeJEPA backend points theorem3-bound-certificate at classifier_spec.cert_status; this ledger records the theorem-row boundary.",
+      "not_implemented": [
+        "bound projection is a certificate cell and not a theorem derivation",
+        "finite-sample and optimizer certificates remain ledger debt"
+      ],
+      "role_basis": "This row is the canonical location for the current theorem-bound certificate projection.",
+      "status_projection": {
+        "severity": "high",
+        "status": "partial"
+      },
+      "theorem": "theorem-3",
+      "title": "Recovery bound certificate"
+    },
+    {
+      "bedc_role": "Ledger",
+      "evidence_pointer": "$.backend_ledger_rows",
+      "implemented_metrics": [],
+      "ledger_debt": "Ledger rows identify source and classifier residues that must stay visible until discharged by stronger evidence.",
+      "not_implemented": [
+        "ledger row statuses are derived from local debt machinery rather than theorem closure",
+        "terminal verdict classification is outside the LeJEPA backend theorem row"
+      ],
+      "role_basis": "This row owns the theorem-to-ledger mapping for source and classifier residues.",
+      "status_projection": {
+        "severity": "medium",
+        "status": "declared"
+      },
+      "theorem": "theorem-4",
+      "title": "Ledger closure boundary"
+    }
+  ]
+}
