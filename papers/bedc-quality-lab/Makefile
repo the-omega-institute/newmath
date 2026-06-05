@@ -1,4 +1,4 @@
-.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa build-bedc-jepa-manifest probe-public-minigrid clean-reports
+.PHONY: test run-example run-bedc-jepa run-bedc-jepa-experiment run-torch-bedc-jepa build-bedc-jepa-manifest build-bedc-jepa-quality-backend probe-public-minigrid clean-reports
 
 test:
 	python3 -m pytest -q
@@ -18,8 +18,11 @@ run-torch-bedc-jepa:
 build-bedc-jepa-manifest:
 	python3 scripts/build_bedc_jepa_artifact_manifest.py
 
+build-bedc-jepa-quality-backend:
+	python3 scripts/build_bedc_jepa_quality_backend_candidate.py
+
 probe-public-minigrid:
 	python3 scripts/probe_public_minigrid.py
 
 clean-reports:
-	rm -f reports/example_envelope.json reports/quality_report.md reports/bedc_jepa_boundary_envelope.json reports/bedc_jepa_boundary_report.md reports/bedc_jepa_four_system_experiment.json reports/bedc_jepa_artifact_manifest.json reports/bedc_jepa_public_minigrid_probe.json reports/bedc_jepa_torch_objective.json
+	rm -f reports/example_envelope.json reports/quality_report.md reports/bedc_jepa_boundary_envelope.json reports/bedc_jepa_boundary_report.md reports/bedc_jepa_four_system_experiment.json reports/bedc_jepa_artifact_manifest.json reports/bedc_jepa_quality_backend_candidate.json reports/bedc_jepa_public_minigrid_probe.json reports/bedc_jepa_torch_objective.json
