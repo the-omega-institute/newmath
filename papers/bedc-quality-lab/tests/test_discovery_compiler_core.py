@@ -10,6 +10,7 @@ from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule, build_clai
 from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
 from bedc_quality_lab.discovery_compiler.map import DiscoveryMapRow, build_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.negative_reports import JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT
+from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
 
 
 class FakeAdapter:
@@ -240,3 +241,65 @@ def test_compile_discovery_finite_gate_is_materialized_and_deterministic(tmp_pat
     assert isinstance(first_gate["pointers"]["positive"], list)
     assert isinstance(first_gate["pointers"]["negative"], list)
     assert isinstance(first_gate["pointers"]["revocation"], list)
+
+
+def test_project_finite_discovery_gate_rejects_duplicate_positive_pointer():
+    payload = {
+        "discovery_map": {
+            "rows": [
+                {
+                    "json_artifact": "reports/canonical/positive.json",
+                    "discovery_level": "D4",
+                    "evidence_pointer": "$.evidence",
+                },
+                {
+                    "json_artifact": "reports/canonical/positive.json",
+                    "discovery_level": "D5-M",
+                    "evidence_pointer": "$.evidence",
+                },
+            ]
+        },
+        "negative_witness_summary": {
+            "audit_status": "pass",
+            "row_count": 0,
+            "rows": [],
+        },
+        "revocation_ledger": [],
+    }
+
+    gate = project_finite_discovery_gate(payload)
+
+    assert gate["status"] == "fail"
+    assert gate["hardgates"]["FG-HG1"]["status"] == "fail"
+    assert "FG-HG1" in [name for name, hardgate in gate["hardgates"].items() if hardgate["status"] == "fail"]
+
+
+def test_project_finite_discovery_gate_rejects_duplicate_revocation_pointer():
+    payload = {
+        "discovery_map": {
+            "rows": [
+                {
+                    "json_artifact": "reports/canonical/revocations.json",
+                    "discovery_level": "DR",
+                    "evidence_pointer": "$.rows[0]",
+                },
+                {
+                    "json_artifact": "reports/canonical/revocations.json",
+                    "discovery_level": "DR",
+                    "evidence_pointer": "$.rows[0]",
+                },
+            ]
+        },
+        "negative_witness_summary": {
+            "audit_status": "pass",
+            "row_count": 0,
+            "rows": [],
+        },
+        "revocation_ledger": [],
+    }
+
+    gate = project_finite_discovery_gate(payload)
+
+    assert gate["status"] == "fail"
+    assert gate["hardgates"]["FG-HG3"]["status"] == "fail"
+    assert "FG-HG3" in [name for name, hardgate in gate["hardgates"].items() if hardgate["status"] == "fail"]
