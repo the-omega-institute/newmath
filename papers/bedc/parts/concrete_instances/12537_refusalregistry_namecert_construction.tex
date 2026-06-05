@@ -56,6 +56,7 @@ The structural rows $S,V,T,P,N$ cannot manufacture either missing route; they on
 \label{thm:refusal-registry-claim-layer-handoff}
 Every $\RefusalRegistryUp$ packet handed to $\ClaimRegistryLayerUp$ exposes the same blocked claim, refusal entry, gate, cannot-claim route, status, provenance, transport, package, and local NameCert rows. The claim layer may read the packet as a refusal boundary, but it may not convert the blocked row into an accepted claim unless a separate accepted claim-entry row is displayed.
 \end{theorem}
+\leanchecked{BEDC.Derived.RefusalRegistryUp.RefusalRegistry\_claim\_layer\_handoff}
 \begin{proof}
 Start with the rows of \autoref{def:refusal-registry-carrier}. Componentwise transport $T$ sends the displayed refusal rows to the sibling claim layer without merging them with an accepted claim-entry row.
 
