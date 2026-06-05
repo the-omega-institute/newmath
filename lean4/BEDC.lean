@@ -4370,6 +4370,7 @@ import BEDC.Derived.FiniteErrorBudgetUp.StdBridge
 import BEDC.Derived.FiniteErrorBudgetUp.TasteGate
 import BEDC.Derived.FiniteFanBarModulusUp.TasteGate
 import BEDC.Derived.FiniteGaugeCoverUp
+import BEDC.Derived.FiniteGaugeCoverUp.TasteGate
 import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteIntersectionPropertyUp.TasteGate
@@ -4679,6 +4680,7 @@ import BEDC.Derived.FrechetFilterUp.CauchySourceBoundary
 import BEDC.Derived.FrechetFilterUp.CofinalTailStabilityObligation
 import BEDC.Derived.FrechetFilterUp.NameCertObligations
 import BEDC.Derived.FrechetFilterUp.RootSequentialCompletionHandoff
+import BEDC.Derived.FrechetFilterUp.SequentialCompletionHandoff
 import BEDC.Derived.FrechetFilterUp.TailCommonRefinement
 import BEDC.Derived.FrechetFilterUp.TailNeighborhoodHandoff
 import BEDC.Derived.FrechetFilterUp.TasteGate
@@ -8861,6 +8863,7 @@ import BEDC.Derived.TriggerHypergraphReliabilityUp
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
+import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
