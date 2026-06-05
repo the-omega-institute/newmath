@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\WeierstrassRootTestUp$}
+\label{ch:concrete-instances-weierstrass-root-test-namecert}
+\origin{human}
+
+Following Cauchy and Hadamard, the $\WeierstrassRootTestUp$ packet records the traditional root-test convergence route as finite BEDC certificate data over regular Cauchy tails. It sits between the displayed root-bound handoff of \autoref{ch:concrete-instances-regular-cauchy-root-test-namecert}, the majorant schedule of \autoref{ch:concrete-instances-cauchy-majorant-series-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter names the finite majorant route needed by Real and Completion consumers; it does not assert selected limits, quotient sequence equality, countable choice, or ambient Real completeness.
+
+\begin{definition}[Weierstrass root-test carrier]
+\label{def:weierstrass-root-test-carrier}
+A $\WeierstrassRootTestUp$ carrier is a finite $\BHist$ packet
+$$
+W=(A,Q,M,D,T,B,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the inspected series or tail-source row whose terms are read through finite windows.
+\item $Q$ is the root-bound witness row, recording a displayed dyadic bound strictly below the unit scale and a finite entry index after which the bound applies.
+\item $M$ is the finite modulus row assigning each precision request a tail threshold beyond the root-bound entry index.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the root-bound row with the requested tail precision.
+\item $T$ is the $\RegularCauchyRootTestUp$ handoff row that turns $A,Q,M,D$ into a regular Cauchy tail route.
+\item $B$ is the $\CauchyMajorantSeriesUp$ majorant row, displaying the geometric majorant schedule consumed by the tail estimate.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained only after the root-test handoff and the majorant row have both been exposed.
+\item $E$ is the $\RealUp$ seal reached only from the displayed regular readback row.
+\item $H$ records componentwise $\hsame$ transport for the source, root-bound, modulus, tolerance, root-test handoff, majorant, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a root-bound request through $A,Q,M,D,T,B,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\WeierstrassRootTestUp$, $\RegularCauchyRootTestUp$, $\CauchyMajorantSeriesUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WeierstrassRootTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for a selected limit, quotient sequence equality, countable-choice tail selector, ambient Real completeness, host limsup theorem, or detached summation object.
+\end{definition}
+
+\begin{theorem}[Weierstrass root-test NameCert obligations]
+\label{thm:weierstrass-root-test-namecert-obligations}
+For every accepted $\WeierstrassRootTestUp$ carrier $W=(A,Q,M,D,T,B,R,E,H,C,P,N)$, the local $\NameCert_{\WeierstrassRootTestUp}$ surface consists exactly of carrier admission for the displayed twelve-row packet, root-bound exposure through $Q$, modulus exposure through $M$, dyadic tolerance exactness through $D$, $\RegularCauchyRootTestUp$ handoff through $T$, $\CauchyMajorantSeriesUp$ tail-majorant exposure through $B$, $\RegSeqRatUp$ readback through $R$, $\RealUp$ seal non-escape through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:weierstrass-root-test-carrier}. The displayed rows are exactly $A,Q,M,D,T,B,R,E,H,C,P,N$, so every local obligation must be read from one of those rows.
+
+Read the root-bound portion first. The row $Q$ supplies the dyadic bound and entry index, $M$ supplies the finite threshold for the requested precision, and $D$ records the dyadic comparisons used by that request.
+
+Apply the root-test and majorant rows. The handoff $T$ is the $\RegularCauchyRootTestUp$ route from the displayed root-bound data to a regular Cauchy tail, while $B$ is the $\CauchyMajorantSeriesUp$ schedule that records the finite tail majorant consumed by the same request.
+
+The rows $R$ and $E$ are downstream endpoints. The regular readback $R$ is available only after $T$ and $B$, and the terminal seal $E$ is available only after $R$.
+
+Finally use $H,C,P,N$ to transport, replay, source, and name the same route. Since the carrier contains no selected limit, quotient sequence equality, countable-choice tail selector, ambient Real completeness, host limsup theorem, or detached summation object, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Weierstrass root-test tail majorant]
+\label{thm:weierstrass-root-test-tail-majorant}
+Every Real or Completion-facing consumer of an accepted $\WeierstrassRootTestUp$ carrier must read the finite route
+$$
+A,Q,M,D \longmapsto \RegularCauchyRootTestUp(T) \longmapsto \CauchyMajorantSeriesUp(B) \longmapsto \RegSeqRatUp(R) \longmapsto \RealUp(E)
+$$
+before it can use the exported convergence surface. The route gives a regular-Cauchy root-test majorant, not a selected limiting value, quotient sequence equality, countable-choice schedule, ambient Real completeness, host limsup theorem, or detached infinite summation object.
+\end{theorem}
+\begin{proof}
+Start with a precision request against the carrier. The rows $Q,M,D$ display the root-bound, finite threshold, and dyadic tolerance data attached to the source row $A$.
+
+Use \autoref{thm:regular-cauchy-root-test-tail-bound-handoff}. It identifies the root-test handoff $T$ as a regular Cauchy tail route read only from the displayed source, root-bound, modulus, and dyadic rows.
+
+Next use \autoref{thm:cauchy-majorant-series-tail-control}. The majorant row $B$ supplies the finite tail-control schedule that a Real or Completion consumer must inspect before any endpoint readback is available.
+
+The readback row $R$ and seal row $E$ then terminate the route through $\RegSeqRatUp$ and $\RealUp$. Transport, replay, provenance, and local naming preserve this order, so no consumer receives selected limits, quotient sequence equality, countable choice, ambient Real completeness, a host limsup theorem, or an unrecorded summation object.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\WeierstrassRootTestUp$ endpoint read factors through a root-bound witness, finite modulus, DyadicRatCore tolerance ledger, RegularCauchyRootTest handoff, CauchyMajorantSeries tail schedule, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{regular-cauchy-root-test, cauchy-majorant-series, regseqrat, dyadicratcore, real: $\WeierstrassRootTestUp$ is not bijective to any listed sibling because it jointly carries root-bound data, a finite modulus, dyadic tolerance comparisons, regular-Cauchy root-test handoff, majorant schedule, regular readback, Real sealing, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{WeierstrassRootTestUp}{seedStr}
+
+\begin{closurestatus}{\WeierstrassRootTestUp}
+  \constructivestory{A $\WeierstrassRootTestUp$ packet is generated from a displayed source row, root-bound witness, finite modulus, DyadicRatCore tolerance ledger, RegularCauchyRootTest handoff, CauchyMajorantSeries tail-majorant row, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:weierstrass-root-test-carrier}, \autoref{thm:weierstrass-root-test-namecert-obligations}, and \autoref{thm:weierstrass-root-test-tail-majorant} seed the finite root-test majorant route from displayed root-bound data through regular Cauchy readback and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient sequence equality, countable choice, ambient Real completeness, host limsup theorems, detached infinite summation objects, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, root-bound exactness, modulus coverage, dyadic tolerance exactness, root-test handoff, majorant tail control, RegSeqRat readback, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.WeierstrassRootTestUp.}
+\end{closurestatus}
