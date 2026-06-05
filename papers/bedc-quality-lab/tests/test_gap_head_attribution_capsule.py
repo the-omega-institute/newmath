@@ -158,6 +158,10 @@ def _collect_pointers(obj, path="$", *, collect_all_strings=False):
 
 def _pointer_target_payload(artifact, doc, pointer_path):
     root = _lab_root_for_artifact(artifact)
+    if pointer_path == "$.source_pointer":
+        source_artifact = doc.get("source")
+        if isinstance(source_artifact, str) and (root / source_artifact).exists():
+            return json.loads((root / source_artifact).read_text(encoding="utf-8"))
     parent_path = pointer_path.rsplit(".", 1)[0]
     parent = _node_at_path(doc, parent_path)
     if isinstance(parent, dict):

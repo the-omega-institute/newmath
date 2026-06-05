@@ -66,7 +66,7 @@ def build_claim_capsule(summary: Mapping[str, Any]) -> dict[str, Any]:
         claim_id="claim:model-discovery-suite",
         report="model-discovery-suite",
         source_artifact=RUN_ARTIFACT,
-        source_pointer="$.source_evidence",
+        source_pointer="$.claim_capsule_ref",
         model_claim=model_claim,
         not_claimed=summary["not_claimed"],
     )

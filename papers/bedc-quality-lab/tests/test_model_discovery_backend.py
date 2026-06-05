@@ -103,6 +103,12 @@ def test_model_discovery_backend_is_deterministic_toy_and_terminal_verdict_free(
     assert "terminal_verdict" not in adapter.backend.metrics
 
 
+def test_model_discovery_tasks_carry_control_baseline():
+    payload = build_model_discovery_payload(generated_at="fixture-time")
+
+    assert {row["control_baseline"] for row in payload["task_grid"]} == {"parameter-matched-linear-reader"}
+
+
 def test_model_discovery_nm_hardgate_pointers_resolve():
     payload = build_model_discovery_payload(generated_at="fixture-time")
 
@@ -124,3 +130,35 @@ def test_model_discovery_run_local_subtype_parity(tmp_path):
     assert {row["claim_capsule_pointer"] for row in summary["ledger_rows"]} == {"$.claim_capsule_ref.artifact"}
     assert pointer_value(summary, "$.claim_capsule_ref.artifact") == CLAIM_CAPSULE_ARTIFACT
     assert require_architecture_claim_capsule(capsule).payload["claim_id"] == "claim:model-discovery-suite"
+
+
+def test_model_discovery_capsule_evidence_pointers_resolve(tmp_path):
+    paths = runner.write_run(root=tmp_path, generated_at="fixture-time")
+    artifacts = {
+        RUN_ARTIFACT: json.loads(Path(paths["summary"]).read_text(encoding="utf-8")),
+        CLAIM_CAPSULE_ARTIFACT: json.loads(Path(paths["claim_capsule"]).read_text(encoding="utf-8")),
+    }
+    capsule = artifacts[CLAIM_CAPSULE_ARTIFACT]
+    summary = artifacts[RUN_ARTIFACT]
+
+    assert pointer_value(artifacts[capsule["source"]], capsule["source_pointer"]) is not None
+
+    baseline_pointers = capsule["model_claim"]["baselines"]
+    assert len(baseline_pointers) == 3
+    assert {cell["pointer"] for cell in baseline_pointers} == {
+        "$.baselines.parameter_matched",
+        "$.baselines.compute_matched",
+        "$.baselines.matched_random_structural_control",
+    }
+    for cell in baseline_pointers:
+        assert pointer_value(artifacts[cell["artifact"]], cell["pointer"]) is not None
+
+    for key in ("candidate_pointer", "evidence_pointer"):
+        cell = capsule["model_claim"][key]
+        assert pointer_value(artifacts[cell["artifact"]], cell["pointer"]) is not None
+
+    source_evidence = capsule["source_evidence"]
+    assert pointer_value(artifacts[source_evidence["artifact"]], source_evidence["pointer"]) is not None
+
+    forbidden_pointer = summary["claim_capsule_ref"]["forbidden_evidence_pointer"]
+    assert pointer_value(capsule, forbidden_pointer) == ["test_label", "ood_label", "ledger_verdict"]
