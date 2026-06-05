@@ -1,0 +1,57 @@
+\chapter{A Concrete Naming Certificate for $\KKMFiniteCoverUp$}
+\label{ch:concrete-instances-kkm-finite-cover-namecert}
+\origin{human}
+
+Following Knaster, Kuratowski, and Mazurkiewicz, the $\KKMFiniteCoverUp$ packet records the finite simplex-cover boundary used in the KKM lemma as displayed NameCert data. It sits beside the finite labelled-simplex route of \autoref{ch:concrete-instances-sperner-lemma-namecert}, the convex-set carrier of \autoref{ch:concrete-instances-convexset-namecert}, the compactness surface of \autoref{ch:concrete-instances-compact-namecert}, the continuous-map rows of \autoref{ch:concrete-instances-continuousmap-namecert}, and the simplicial approximation route of \autoref{ch:concrete-instances-simplicial-approximation-namecert}. The packet names only finite face-cover ledgers, classifier rows, transport, replay, provenance, and local naming; it does not assert arbitrary open-cover compactness, nonconstructive point selection, quotient closed-set equality, or host topological completeness.
+
+\begin{definition}[KKM finite-cover carrier]
+\label{def:kkm-finite-cover-carrier}
+A $\KKMFiniteCoverUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,F,V,L,C_0,A,T,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+  \item $S$ is the finite simplex inventory row, read through the same finite-face surface used by $\SpernerLemmaUp$ and $\SimplicialApproximationUp$.
+  \item $F$ is the face-incidence ledger: each row names a face of the simplex and the finite set of vertices spanning that face.
+  \item $V$ is the vertex-indexed cover row assigning to each displayed vertex a cover cell row.
+  \item $L$ is the face-preserving classifier row, asserting that every displayed face is covered by the cells indexed by its own vertices.
+  \item $C_0$ is the $\ConvexSetUp$ support row for the carried simplex and its face hulls.
+  \item $A$ is the $\CompactUp$ finite-subcover support row for the displayed simplex boundary.
+  \item $T$ is the $\ContinuousMapUp$ and $\SimplicialApproximationUp$ handoff row used when a consumer reads the cover through a subdivision or approximation route.
+  \item $R$ is the $\SpernerLemmaUp$ readback row converting the face-preserving cover classifier into the labelled-simplex obstruction route.
+  \item $P$ is the $\Pkg$ provenance over $\KKMFiniteCoverUp$, $\SpernerLemmaUp$, $\ConvexSetUp$, $\CompactUp$, $\ContinuousMapUp$, $\SimplicialApproximationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+  \item $N$ is the local $\NameCert_{\KKMFiniteCoverUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary open cover, a selected point in an intersection, quotient equality of closed sets, countable choice, or ambient compactness outside the displayed finite simplex rows.
+\end{definition}
+
+\begin{theorem}[KKM finite-cover NameCert obligations]
+\label{thm:kkm-finite-cover-namecert-obligations}
+For every accepted $\KKMFiniteCoverUp$ carrier $K=(S,F,V,L,C_0,A,T,R,P,N)$, the local $\NameCert_{\KKMFiniteCoverUp}$ surface consists exactly of finite simplex admission, face-incidence exactness, vertex-cover row admission, face-preserving classifier stability, convex-face support, compact finite-boundary support, continuous or simplicial approximation handoff, Sperner readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. Thus every finite-cover obligation factors through
+$$
+\SpernerLemmaUp,\quad \ConvexSetUp,\quad \CompactUp,\quad \ContinuousMapUp,\quad \SimplicialApproximationUp .
+$$
+No obligation is discharged by nonconstructive selection, arbitrary open-cover compactness, quotient cover equality, countable choice, or a host intersection theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier. The finite simplex and face-incidence rows $S,F$ determine the only faces visible to the packet, while $V,L$ record the vertex-indexed cover cells and the face-preserving classifier over those same rows.
+
+Use the convex and compact support rows. The $\ConvexSetUp$ row $C_0$ supplies the finite face-hull surface, and the $\CompactUp$ row $A$ supplies only the displayed finite-boundary support; neither row introduces arbitrary open-cover compactness or selected intersection points.
+
+Route consumers through the finite topology dependencies. The $\ContinuousMapUp$ and $\SimplicialApproximationUp$ row $T$ exposes subdivision or approximation reads, and the $\SpernerLemmaUp$ row $R$ supplies the labelled-simplex obstruction route already isolated by \autoref{ch:concrete-instances-sperner-lemma-namecert}.
+
+Finally preserve the packet through $P,N$ and the displayed structural rows. Componentwise $\hsame$ transport and $\Cont$ replay keep the cover classifier attached to the same finite face ledger, so every admitted NameCert read factors through the named sibling certificates and no stronger compactness or selection principle is exported.
+\end{proof}
+
+\closureat{KKMFiniteCoverUp}{seedStr}
+
+\begin{closurestatus}{\KKMFiniteCoverUp}
+  \constructivestory{A $\KKMFiniteCoverUp$ packet is generated from a finite simplex inventory, face-incidence ledger, vertex-indexed cover rows, a face-preserving classifier, ConvexSetUp support, CompactUp finite-boundary support, ContinuousMapUp and SimplicialApproximationUp handoff rows, SpernerLemmaUp readback, structural transport, replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kkm-finite-cover-carrier} and \autoref{thm:kkm-finite-cover-namecert-obligations} seed the finite KKM cover route through SpernerLemmaUp, ConvexSetUp, CompactUp, ContinuousMapUp, SimplicialApproximationUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary open-cover compactness, nonconstructive selection of an intersection point, quotient cover equality, countable choice, or a checked Lean certificate for the KKM packet.}
+  \upgradepath{Obligation closure requires checked carrier admission, face-preserving classifier stability, finite-cover handoff, Sperner readback, structural replay, provenance exhaustion, and local naming for the same packet.}
+\end{closurestatus}
