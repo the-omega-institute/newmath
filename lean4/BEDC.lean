@@ -3821,6 +3821,8 @@ import BEDC.Derived.DyadicStepFunctionUp.WindowCarrier
 import BEDC.Derived.DyadicSubdivisionUp
 import BEDC.Derived.DyadicSubdivisionUp.TasteGate
 import BEDC.Derived.DyadicSubsequenceUp.TasteGate
+import BEDC.Derived.DyadicSupremumUp.FiniteWindowExhaustion
+import BEDC.Derived.DyadicSupremumUp.LocatedCutHandoff
 import BEDC.Derived.DyadicSupremumUp.NameCertObligations
 import BEDC.Derived.DyadicSupremumUp.TasteGate
 import BEDC.Derived.DyadicTailBallUp.MonotoneInclusion
