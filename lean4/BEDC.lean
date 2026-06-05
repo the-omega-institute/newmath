@@ -1721,6 +1721,7 @@ import BEDC.Derived.CauchyModulusUp
 import BEDC.Derived.CauchyModulusUp.DependencyBoundary
 import BEDC.Derived.CauchyModulusUp.WindowCompositionHandoff
 import BEDC.Derived.CauchyNetCompletionUp.ChoiceFreeLimitBoundary
+import BEDC.Derived.CauchyNetCompletionUp.DirectedWindowTerminality
 import BEDC.Derived.CauchyNetCompletionUp.MooreSmithHandoff
 import BEDC.Derived.CauchyNetCompletionUp.NameCertObligations
 import BEDC.Derived.CauchyNetCompletionUp.TasteGate
@@ -4860,6 +4861,7 @@ import BEDC.Derived.GroupUp.TerminalProduct
 import BEDC.Derived.GroupUp.UnaryAppendInverseObstruction
 import BEDC.Derived.GrzegorczykRealUp.TasteGate
 import BEDC.Derived.HInfinityControlUp.TasteGate
+import BEDC.Derived.HaarWaveletUp.TasteGate
 import BEDC.Derived.HadamardFinitePartUp.TasteGate
 import BEDC.Derived.HadamardProductSeriesUp.TasteGate
 import BEDC.Derived.HallMarriageUp.TasteGate
@@ -6908,6 +6910,7 @@ import BEDC.Derived.PolishspaceUp.CompleteSeparableRoute
 import BEDC.Derived.PolishspaceUp.CompleteSeparableSourceLock
 import BEDC.Derived.PolishspaceUp.CompleteSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.CompleteSeparableUnblockPackage
+import BEDC.Derived.PolishspaceUp.CompleteSeparableWindowExhaustion
 import BEDC.Derived.PolishspaceUp.CompletionDenseScheduleObligation
 import BEDC.Derived.PolishspaceUp.CompletionDensityHandoff
 import BEDC.Derived.PolishspaceUp.CompletionDensityReadback
@@ -8944,6 +8947,7 @@ import BEDC.Derived.TypedGapSocketTaxonomyUp.TasteGate
 import BEDC.Derived.TypedReductionNormalFormUp
 import BEDC.Derived.TypedSupplySocketUp.TasteGate
 import BEDC.Derived.TypingJudgmentClassifierUp.TasteGate
+import BEDC.Derived.UltrametricBaireTheoremUp
 import BEDC.Derived.UltrametricSpaceUp
 import BEDC.Derived.UnaryContMonoidUp
 import BEDC.Derived.UnaryContMonoidUp.CategoryRootReadiness
