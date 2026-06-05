@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-05T15:06:33.784937+00:00`
+- Generated at: `2026-06-05T07:13:11.713087+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -95,7 +95,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `78`
+- Nodes: `74`
 
 ## Claim capsule
 

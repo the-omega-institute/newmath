@@ -120,7 +120,7 @@ DIMENSION_MISMATCH_TRANSFER_POINTER = "$.dimension_mismatch_debt_transfer.status
 GAP_HEAD_TRANSFER_ATLAS_DECISION_POINTER = "$.multi_surface_d5_o.decision"
 GAP_HEAD_TRANSFER_ATLAS_CONTROL_POINTER = "$.config.control_arm"
 ACCEPTED_CLAIM_VERDICT = "accepted_positive_discovery"
-NOT_READY_CLAIM_VERDICT = "ledger_only_hardening_not_ready"
+MECHANISM_NOT_CLOSED_CLAIM_VERDICT = "mechanism_not_closed"
 DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER = "$.dimension_mismatch_debt_transfer.effective_level"
 DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER = "$.dimension_mismatch_debt_transfer.anti_triviality_status"
 ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER = "$.d5_o"
@@ -1072,7 +1072,7 @@ def _atlas_claim_terminal(payload: Mapping[str, Any], level: DiscoveryLevel) -> 
         return "rejected"
     if decision != "pass" or level not in {"D5-O", "D5-M"}:
         return ""
-    return NOT_READY_CLAIM_VERDICT
+    return MECHANISM_NOT_CLOSED_CLAIM_VERDICT
 
 
 def _atlas_claim_acceptance_consistent(payload: Mapping[str, Any], level: DiscoveryLevel, terminal_verdict: str) -> bool:

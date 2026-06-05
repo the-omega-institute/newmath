@@ -98,7 +98,7 @@ def test_dn_verdict_rows_are_pointer_only_and_resolve_to_canonical_owner():
         for line in (ROOT / "reports/canonical/claim_verdicts.jsonl").read_text(encoding="utf-8").splitlines()
         if line
     ]
-    dn_rows = [row for row in rows if row["claim_verdict"] == "negative_discovery"]
+    dn_rows = [row for row in rows if "negative_report_pointer" in row]
 
     assert dn_rows
     for row in dn_rows:

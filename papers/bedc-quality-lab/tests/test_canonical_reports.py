@@ -460,7 +460,7 @@ def _patch_lightweight_run_reports(monkeypatch):
                     "status": "pass",
                     "base_level": "D4",
                     "effective_level": "D4",
-                    "terminal_verdict": "ledger_only_hardening_not_ready",
+                    "terminal_verdict": "projected_discovery_required",
                 }
             },
         )
@@ -589,10 +589,7 @@ def _read_committed_claim_verdicts():
 
 
 def _normalized_index_report(report):
-    item = dict(report)
-    item["duration_seconds"] = 0.0
-    item["producer_status"] = "skipped"
-    return item
+    return dict(report)
 
 
 def _canonical_bundle_payloads_for_timestamps(*, index_timestamp, discovery_timestamp):
@@ -1820,7 +1817,7 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
                         "base_level": "D4",
                         "effective_level": "D4",
                         "discovery_level": "D4",
-                        "terminal_verdict": "ledger_only_hardening_not_ready",
+                        "terminal_verdict": "projected_discovery_required",
                         "scope": "fixture",
                     },
                     "control_protocol": {},
@@ -1843,7 +1840,7 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
             "claim_id": "claim:dimension-mismatch-debt-transfer",
             "status": "complete",
             "effective_level": "D4",
-            "terminal_verdict": "ledger_only_hardening_not_ready",
+            "terminal_verdict": "projected_discovery_required",
         }
 
     def fake_robustness(*, root, generated_at=None):

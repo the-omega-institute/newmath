@@ -1,8 +1,8 @@
 # Claim Graph
 
-- Generated at: `2026-06-05T15:06:33.784937+00:00`
+- Generated at: `2026-06-05T07:13:11.713087+00:00`
 - Status: `pointer-only`
-- Nodes: `78`
+- Nodes: `74`
 
 | node | type | source | depends on |
 | --- | --- | --- | --- |
@@ -50,26 +50,22 @@
 | `negative-witness:forbidden_inference_column` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[5]` |  |
 | `negative-witness:benefit_debt_tradeoff` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]` |  |
 | `negative-witness:fresh_claim_downgrade` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]` |  |
-| `revocation:mixing-family-sweep` | `revocation` | `reports/canonical/discovery_map.json:$.rows[0].discovery_level` | `projected:mixing-family-sweep` |
-| `revocation:anisotropic-ou-sweep` | `revocation` | `reports/canonical/discovery_map.json:$.rows[1].discovery_level` | `projected:anisotropic-ou-sweep` |
-| `revocation:nongaussian-distribution-sweep` | `revocation` | `reports/canonical/discovery_map.json:$.rows[8].discovery_level` | `projected:nongaussian-distribution-sweep` |
-| `revocation:sigreg-training-proxy` | `revocation` | `reports/canonical/discovery_map.json:$.rows[11].discovery_level` | `projected:sigreg-training-proxy` |
 | `revocation:witness:hidden_debt_positive` | `revocation` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]` | `negative-witness:hidden_debt_positive` |
 | `revocation:witness:benefit_debt_tradeoff` | `revocation` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]` | `negative-witness:benefit_debt_tradeoff` |
 | `revocation:witness:fresh_claim_downgrade` | `revocation` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]` | `negative-witness:fresh_claim_downgrade` |
 | `mechanism:gap-head-mechanism-namecert` | `mechanism_certificate` | `reports/gap_head_mechanism_namecert.json:$` |  |
-| `terminal:mixing-family-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[0]` | `revocation:mixing-family-sweep` |
-| `terminal:anisotropic-ou-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[1]` | `revocation:anisotropic-ou-sweep` |
+| `terminal:mixing-family-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[0]` | `projected:mixing-family-sweep` |
+| `terminal:anisotropic-ou-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[1]` | `projected:anisotropic-ou-sweep` |
 | `terminal:gap-head-on-h` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[2]` | `projected:gap-head-on-h` |
 | `terminal:gap-head-discovery` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[3]` | `projected:gap-head-discovery` |
 | `terminal:gap-head-ablation` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[4]` | `projected:gap-head-ablation` |
 | `terminal:gap-head-threshold-frontier` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[5]` | `projected:gap-head-threshold-frontier` |
 | `terminal:gap-head-transfer-atlas` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[6]` | `projected:gap-head-transfer-atlas` |
 | `terminal:gap-head-attribution-capsule` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[7]` | `projected:gap-head-attribution-capsule` |
-| `terminal:nongaussian-distribution-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[8]` | `revocation:nongaussian-distribution-sweep` |
+| `terminal:nongaussian-distribution-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[8]` | `projected:nongaussian-distribution-sweep` |
 | `terminal:certificate-guided-training` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[9]` | `projected:certificate-guided-training` |
 | `terminal:certificate-guided-discovery` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[10]` | `projected:certificate-guided-discovery` |
-| `terminal:sigreg-training-proxy` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[11]` | `revocation:sigreg-training-proxy` |
+| `terminal:sigreg-training-proxy` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[11]` | `projected:sigreg-training-proxy` |
 | `terminal:sigreg-mini-grid` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[12]` | `projected:sigreg-mini-grid` |
 | `terminal:lejepa-theorem-ledger` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[13]` | `projected:lejepa-theorem-ledger` |
 | `terminal:spectral-ablation-hinge` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[14]` | `projected:spectral-ablation-hinge` |
