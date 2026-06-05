@@ -204,6 +204,7 @@ Non-escape is supplied by \autoref{thm:closed-term-substitution-compiler-binder-
 \label{thm:closed-term-substitution-compiler-bridge-route}
 Every compiler-facing read of an accepted $\ClosedTermSubstitutionCompilerUp$ packet bridges the concrete $\mathsf{ClosedAt}$, $\mathsf{shift}$, $\mathsf{substitute}$, $\mathsf{shift\_closed}$, and $\mathsf{substitute\_closed}$ rows to the public $\ClosedTermSubstitutionCompilerUp$ interface through the displayed $\BHist$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The bridge route excludes evaluator correctness, subject reduction, host CIC truth, and unregistered binder budgets.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedTermSubstitutionCompilerUp.ClosedTermSubstitutionCompilerPacket\_bridge\_route}
 \begin{proof}
 Project the packet $K=(T,D,V,F,H,C,P,N)$ from \autoref{def:closed-term-substitution-compiler}. The concrete compiler rows are exactly $D$ for $\mathsf{ClosedAt}$, $V$ for $\mathsf{shift}$ and $\mathsf{substitute}$, and $F$ for $\mathsf{shift\_closed}$ and $\mathsf{substitute\_closed}$.
 
