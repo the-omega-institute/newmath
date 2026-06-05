@@ -4335,6 +4335,7 @@ import BEDC.Derived.FiniteErrorBudgetUp
 import BEDC.Derived.FiniteErrorBudgetUp.StdBridge
 import BEDC.Derived.FiniteErrorBudgetUp.TasteGate
 import BEDC.Derived.FiniteFanBarModulusUp.TasteGate
+import BEDC.Derived.FiniteGaugeCoverUp
 import BEDC.Derived.FiniteGroupRepresentationUp.TasteGate
 import BEDC.Derived.FiniteHistLocalityPacketUp.TasteGate
 import BEDC.Derived.FiniteIntersectionPropertyUp.TasteGate
@@ -8209,6 +8210,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.SeparatedUniquenessBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceRead
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstTailRead
 import BEDC.Derived.SequentiallyCompleteMetricUp.TailInduction
+import BEDC.Derived.SequentiallyCompleteMetricUp.TailSourceExhaustion
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp

@@ -25,7 +25,7 @@ def finiteOscillationUniformModulusDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (finiteOscillationUniformModulusDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (finiteOscillationUniformModulusDecodeBHist tail)
 
-private theorem finiteOscillationUniformModulusDecodeEncodeBHist :
+private theorem finiteOscillationUniformModulus_decode_encode :
     ∀ h : BHist,
       finiteOscillationUniformModulusDecodeBHist
           (finiteOscillationUniformModulusEncodeBHist h) =
@@ -50,57 +50,47 @@ def finiteOscillationUniformModulusToEventFlow :
       (finiteOscillationUniformModulusFields x).map
         finiteOscillationUniformModulusEncodeBHist
 
-private def finiteOscillationUniformModulusRawAt : Nat → EventFlow → RawEvent
+private def finiteOscillationUniformModulusEventAtDefault :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, w :: _ => w
-  | Nat.succ _, [] => []
-  | Nat.succ n, _ :: rest => finiteOscillationUniformModulusRawAt n rest
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      finiteOscillationUniformModulusEventAtDefault index rest
 
-private def finiteOscillationUniformModulusLengthEq : Nat → EventFlow → Bool
+def finiteOscillationUniformModulusFromEventFlow
+    (ef : EventFlow) : Option FiniteOscillationUniformModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => true
-  | 0, _ :: _ => false
-  | Nat.succ _, [] => false
-  | Nat.succ n, _ :: rest => finiteOscillationUniformModulusLengthEq n rest
+  some
+    (FiniteOscillationUniformModulusUp.mk
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 0 ef))
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 1 ef))
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 2 ef))
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 3 ef))
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 4 ef))
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 5 ef))
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 6 ef))
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 7 ef))
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 8 ef))
+      (finiteOscillationUniformModulusDecodeBHist
+        (finiteOscillationUniformModulusEventAtDefault 9 ef)))
 
-def finiteOscillationUniformModulusFromEventFlow :
-    EventFlow → Option FiniteOscillationUniformModulusUp
+private theorem finiteOscillationUniformModulus_round_trip
+    (x : FiniteOscillationUniformModulusUp) :
+    finiteOscillationUniformModulusFromEventFlow
+        (finiteOscillationUniformModulusToEventFlow x) =
+      some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  | flow =>
-      match finiteOscillationUniformModulusLengthEq 10 flow with
-      | true =>
-          some
-            (FiniteOscillationUniformModulusUp.mk
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 0 flow))
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 1 flow))
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 2 flow))
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 3 flow))
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 4 flow))
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 5 flow))
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 6 flow))
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 7 flow))
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 8 flow))
-              (finiteOscillationUniformModulusDecodeBHist
-                (finiteOscillationUniformModulusRawAt 9 flow)))
-      | false => none
-
-private theorem finiteOscillationUniformModulus_round_trip :
-    ∀ x : FiniteOscillationUniformModulusUp,
-      finiteOscillationUniformModulusFromEventFlow
-          (finiteOscillationUniformModulusToEventFlow x) =
-        some x := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk K M A B O U H C P N =>
       change
@@ -127,16 +117,16 @@ private theorem finiteOscillationUniformModulus_round_trip :
             (finiteOscillationUniformModulusDecodeBHist
               (finiteOscillationUniformModulusEncodeBHist N))) =
           some (FiniteOscillationUniformModulusUp.mk K M A B O U H C P N)
-      rw [finiteOscillationUniformModulusDecodeEncodeBHist K,
-        finiteOscillationUniformModulusDecodeEncodeBHist M,
-        finiteOscillationUniformModulusDecodeEncodeBHist A,
-        finiteOscillationUniformModulusDecodeEncodeBHist B,
-        finiteOscillationUniformModulusDecodeEncodeBHist O,
-        finiteOscillationUniformModulusDecodeEncodeBHist U,
-        finiteOscillationUniformModulusDecodeEncodeBHist H,
-        finiteOscillationUniformModulusDecodeEncodeBHist C,
-        finiteOscillationUniformModulusDecodeEncodeBHist P,
-        finiteOscillationUniformModulusDecodeEncodeBHist N]
+      rw [finiteOscillationUniformModulus_decode_encode K,
+        finiteOscillationUniformModulus_decode_encode M,
+        finiteOscillationUniformModulus_decode_encode A,
+        finiteOscillationUniformModulus_decode_encode B,
+        finiteOscillationUniformModulus_decode_encode O,
+        finiteOscillationUniformModulus_decode_encode U,
+        finiteOscillationUniformModulus_decode_encode H,
+        finiteOscillationUniformModulus_decode_encode C,
+        finiteOscillationUniformModulus_decode_encode P,
+        finiteOscillationUniformModulus_decode_encode N]
 
 private theorem finiteOscillationUniformModulusToEventFlow_injective
     {x y : FiniteOscillationUniformModulusUp} :
@@ -213,6 +203,10 @@ def taste_gate : ChapterTasteGate FiniteOscillationUniformModulusUp :=
   -- BEDC touchpoint anchor: BHist BMark
   finiteOscillationUniformModulusChapterTasteGate
 
+def taste_gate_witness : FieldFaithful FiniteOscillationUniformModulusUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  finiteOscillationUniformModulusFieldFaithful
+
 theorem FiniteOscillationUniformModulusTasteGate_single_carrier_alignment :
     (∀ h : BHist,
         finiteOscillationUniformModulusDecodeBHist
@@ -227,7 +221,7 @@ theorem FiniteOscillationUniformModulusTasteGate_single_carrier_alignment :
           finiteOscillationUniformModulusEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark FieldFaithful ChapterTasteGate
   exact
-    ⟨finiteOscillationUniformModulusDecodeEncodeBHist,
+    ⟨finiteOscillationUniformModulus_decode_encode,
       finiteOscillationUniformModulus_round_trip,
       (fun _ _ heq => finiteOscillationUniformModulusToEventFlow_injective heq),
       rfl⟩
