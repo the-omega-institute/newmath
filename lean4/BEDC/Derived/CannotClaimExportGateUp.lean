@@ -230,6 +230,64 @@ theorem CannotClaimExportGateObligationClosurePackage [AskSetup] [PackageSetup]
   }
   exact ⟨cert, namedUnary⟩
 
+theorem CannotClaimExportGateCarrierSurface [AskSetup] [PackageSetup]
+    {R F E Q T A H C P N named : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CannotClaimExportGateCarrier R F E Q T A H C P N bundle pkg ->
+      Cont A N named ->
+        PkgSig bundle P pkg ->
+          PkgSig bundle N pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row named ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row R ∨ hsame row F ∨ hsame row E ∨ hsame row Q ∨
+                    hsame row T ∨ hsame row A ∨ hsame row named)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                hsame ∧ UnaryHistory named := by
+  -- BEDC touchpoint anchor: CannotClaimExportGateCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier auditNameRoute provenancePkg namePkg
+  obtain ⟨_rUnary, _fUnary, _eUnary, _qUnary, _tUnary, aUnary, _hUnary,
+    _cUnary, _pUnary, nUnary, _registryDecision, _decisionTarget,
+    _targetContinuation, _auditProvenance, _carrierProvenancePkg,
+    _carrierNamePkg⟩ := carrier
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed aUnary nUnary auditNameRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row named ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row R ∨ hsame row F ∨ hsame row E ∨ hsame row Q ∨
+              hsame row T ∨ hsame row A ∨ hsame row named)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro named ⟨hsame_refl named, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, namedUnary⟩
+
 theorem CannotClaimExportGate_kernel_scope_lock [AskSetup] [PackageSetup]
     {registry refusal exportDecision exportGrade target audit transport continuation
       provenance name route gradeRead auditRead lockedRead : BHist}

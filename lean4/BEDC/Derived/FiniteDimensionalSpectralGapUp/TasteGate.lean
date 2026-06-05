@@ -171,9 +171,9 @@ private theorem FiniteDimensionalSpectralGapTasteGate_single_carrier_alignment_f
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk M₁ T₁ V₁ E₁ D₁ R₁ S₁ H₁ C₁ P₁ N₁ =>
+  | mk M1 T1 V1 E1 D1 R1 S1 H1 C1 P1 N1 =>
       cases y with
-      | mk M₂ T₂ V₂ E₂ D₂ R₂ S₂ H₂ C₂ P₂ N₂ =>
+      | mk M2 T2 V2 E2 D2 R2 S2 H2 C2 P2 N2 =>
           injection hfields with hM tail0
           injection tail0 with hT tail1
           injection tail1 with hV tail2
@@ -242,11 +242,13 @@ theorem FiniteDimensionalSpectralGapTasteGate_single_carrier_alignment :
     Nonempty (BHistCarrier FiniteDimensionalSpectralGapUp) ∧
       Nonempty (ChapterTasteGate FiniteDimensionalSpectralGapUp) ∧
         (∀ x : FiniteDimensionalSpectralGapUp,
-          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x) := by
+          finiteDimensionalSpectralGapFromEventFlow
+              (finiteDimensionalSpectralGapToEventFlow x) =
+            some x) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
     ⟨⟨finiteDimensionalSpectralGapBHistCarrier⟩,
       ⟨finiteDimensionalSpectralGapChapterTasteGate⟩,
-      fun x => ChapterTasteGate.round_trip x⟩
+      FiniteDimensionalSpectralGapTasteGate_single_carrier_alignment_round_trip⟩
 
 end BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
