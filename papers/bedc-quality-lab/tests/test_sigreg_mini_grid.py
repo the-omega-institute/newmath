@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from copy import deepcopy
+from types import SimpleNamespace
 
 import pytest
 
@@ -118,6 +119,93 @@ def _recursive_keys(value):
     return set()
 
 
+def test_run_single_arm_forwards_backend_arguments_and_derives_probe_metrics(monkeypatch):
+    backend_calls = []
+    probe_inits = []
+    probe_scores = []
+
+    def fake_run_experiment(**kwargs):
+        backend_calls.append(kwargs)
+        return SimpleNamespace(
+            run_id="sigreg-backend-arm",
+            metrics={
+                "alignment_loss_mse": 0.31,
+                "covariance_trace": 0.20,
+                "covariance_deviation": 0.07,
+                "linear_identifiability_r2": 0.80,
+                "quality_q": 0.44,
+                "actual_recovery_mse": 0.12,
+                "theorem3_bound_mse": 0.55,
+            },
+        )
+
+    class FakeProbe:
+        def __init__(self, *, directions, frequencies, guard_thresholds):
+            probe_inits.append(
+                {
+                    "directions": directions,
+                    "frequencies": frequencies,
+                    "guard_thresholds": guard_thresholds,
+                }
+            )
+
+        def score(self, h, *, seed, directions, frequencies):
+            probe_scores.append(
+                {
+                    "h": h,
+                    "seed": seed,
+                    "directions": directions,
+                    "frequencies": frequencies,
+                }
+            )
+            return {"sigreg_penalty": 0.123, "cov_to_identity_fro": 0.456}
+
+    monkeypatch.setattr(runner.run_gaussian_ou_lejepa, "run_experiment", fake_run_experiment)
+    monkeypatch.setattr(runner, "SlicedCFGaussianityProbe", FakeProbe)
+
+    row = runner.run_single_arm(
+        alignment_lambda=0.005,
+        rho=0.95,
+        mixing="parabolic",
+        seed=37,
+        sample_count=128,
+        directions=6,
+        frequencies=(0.5, 1.5),
+        use_torch=True,
+    )
+
+    assert len(backend_calls) == 1
+    assert backend_calls[0]["alignment_lambda"] == pytest.approx(0.005)
+    assert backend_calls[0]["mixing"] == "parabolic_shear"
+    assert backend_calls[0]["rho"] == pytest.approx(0.95)
+    assert backend_calls[0]["sample_count"] == 128
+    assert backend_calls[0]["seed"] == 37
+    assert backend_calls[0]["use_torch"] is True
+    assert len(probe_inits) == 1
+    assert probe_inits[0]["directions"] == 6
+    assert tuple(probe_inits[0]["frequencies"]) == (0.5, 1.5)
+    assert len(probe_scores) == 1
+    assert probe_scores[0]["seed"] == 37
+    assert probe_scores[0]["directions"] == 2
+    assert tuple(probe_scores[0]["frequencies"]) == (0.5, 1.5)
+    assert probe_scores[0]["h"].tolist() == [[0.80, 0.44], [0.12, 0.55], [0.31, 0.07]]
+    assert row["alignment_lambda"] == pytest.approx(0.005)
+    assert row["rho"] == pytest.approx(0.95)
+    assert row["mixing"] == "parabolic"
+    assert row["source_mixing"] == "parabolic_shear"
+    assert row["seed"] == 37
+    assert row["sample_count"] == 128
+    assert row["alignment_loss"] == pytest.approx(0.31)
+    assert row["sigreg_sliced_cf"] == pytest.approx(0.123)
+    assert row["covariance_proxy"] == pytest.approx(0.456)
+    assert row["linear_identifiability_r2"] == pytest.approx(0.80)
+    assert row["actual_recovery_mse"] == pytest.approx(0.12)
+    assert row["theorem3_bound_mse"] == pytest.approx(0.55)
+    assert row["collapse_rate"] == pytest.approx(0.40)
+    assert row["quality_q"] == pytest.approx(0.44)
+    assert row["source_run_id"] == "sigreg-backend-arm"
+
+
 def test_sigreg_mini_grid_required_and_forbidden_keys():
     projected = _project()
     summary = projected["summary_payload"]
@@ -156,11 +244,43 @@ def test_sigreg_mini_grid_metric_separation_gate():
     assert missing_summary["metric_separation"]["status"] == "fail"
     assert missing_summary["c3_hardgates"]["C3-HG1"]["status"] == "fail"
 
+    partial_missing = [dict(row) for row in _supported_records()]
+    partial_missing[0].pop("covariance_proxy")
+    partial_missing_summary = _project(partial_missing)["summary_payload"]
+    assert partial_missing_summary["metric_separation"]["status"] == "fail"
+    assert partial_missing_summary["c3_hardgates"]["C3-HG1"]["status"] == "fail"
+    assert partial_missing_summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert partial_missing_summary["discovery_map_signal"]["status"] == "negative"
+
+    partial_missing_sigreg = [dict(row) for row in _supported_records()]
+    partial_missing_sigreg[0].pop("sigreg_sliced_cf")
+    partial_missing_sigreg_summary = _project(partial_missing_sigreg)["summary_payload"]
+    assert partial_missing_sigreg_summary["metric_separation"]["status"] == "fail"
+    assert partial_missing_sigreg_summary["c3_hardgates"]["C3-HG1"]["status"] == "fail"
+    assert partial_missing_sigreg_summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert partial_missing_sigreg_summary["discovery_map_signal"]["status"] == "negative"
+
     non_finite = [dict(row) for row in _supported_records()]
     for row in non_finite:
         row["sigreg_sliced_cf"] = float("nan")
     non_finite_summary = _project(non_finite)["summary_payload"]
     assert non_finite_summary["metric_separation"]["status"] == "fail"
+
+    partial_non_finite = [dict(row) for row in _supported_records()]
+    partial_non_finite[0]["sigreg_sliced_cf"] = float("nan")
+    partial_non_finite_summary = _project(partial_non_finite)["summary_payload"]
+    assert partial_non_finite_summary["metric_separation"]["status"] == "fail"
+    assert partial_non_finite_summary["c3_hardgates"]["C3-HG1"]["status"] == "fail"
+    assert partial_non_finite_summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert partial_non_finite_summary["discovery_map_signal"]["status"] == "negative"
+
+    partial_non_finite_cov = [dict(row) for row in _supported_records()]
+    partial_non_finite_cov[0]["covariance_proxy"] = float("nan")
+    partial_non_finite_cov_summary = _project(partial_non_finite_cov)["summary_payload"]
+    assert partial_non_finite_cov_summary["metric_separation"]["status"] == "fail"
+    assert partial_non_finite_cov_summary["c3_hardgates"]["C3-HG1"]["status"] == "fail"
+    assert partial_non_finite_cov_summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert partial_non_finite_cov_summary["discovery_map_signal"]["status"] == "negative"
 
     collapsed = [dict(row) for row in _supported_records()]
     for row in collapsed:

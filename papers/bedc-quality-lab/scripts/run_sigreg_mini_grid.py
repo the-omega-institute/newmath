@@ -117,9 +117,24 @@ def run_single_arm(
     }
 
 
-def _deterministic_record(alignment_lambda: float, rho: float, mixing: str, seed: int, sample_count: int) -> dict[str, Any]:
-    lambda_rank = DEFAULT_ALIGNMENT_LAMBDAS.index(float(alignment_lambda))
-    rho_rank = DEFAULT_RHOS.index(float(rho))
+def _rank(value: Any, ordered_values: Sequence[Any]) -> int:
+    normalized = tuple(float(item) if isinstance(item, (float, int)) else str(item) for item in ordered_values)
+    target = float(value) if isinstance(value, (float, int)) else str(value)
+    return normalized.index(target)
+
+
+def _deterministic_record(
+    alignment_lambda: float,
+    rho: float,
+    mixing: str,
+    seed: int,
+    sample_count: int,
+    *,
+    alignment_lambdas: Sequence[float] = DEFAULT_ALIGNMENT_LAMBDAS,
+    rhos: Sequence[float] = DEFAULT_RHOS,
+) -> dict[str, Any]:
+    lambda_rank = _rank(float(alignment_lambda), alignment_lambdas)
+    rho_rank = _rank(float(rho), rhos)
     mixing_penalty = {"spiral": 0.0, "parabolic": 0.02, "realnvp": 0.035}.get(str(mixing), 0.05)
     seed_jitter = (int(seed) % 19) * 1.0e-5
     return {
@@ -182,6 +197,8 @@ def collect_records(
                     str(cell["mixing"]),
                     int(cell["seed"]),
                     int(sample_count),
+                    alignment_lambdas=alignment_lambdas,
+                    rhos=rhos,
                 )
             )
         else:

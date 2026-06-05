@@ -511,18 +511,18 @@ class SIGRegMiniGridProjection:
         }
 
     def _metric_separation(self) -> dict[str, Any]:
-        sigreg_values = [value for value in (_metric(row, "sigreg_sliced_cf") for row in self.records) if value is not None]
-        cov_values = [value for value in (_metric(row, "covariance_proxy") for row in self.records) if value is not None]
+        row_pairs = [(_metric(row, "sigreg_sliced_cf"), _metric(row, "covariance_proxy")) for row in self.records]
+        complete_row_pairs = [(sigreg, cov) for sigreg, cov in row_pairs if sigreg is not None and cov is not None]
+        sigreg_values = [sigreg for sigreg, _ in complete_row_pairs]
+        cov_values = [cov for _, cov in complete_row_pairs]
         sigreg_mean = _mean(sigreg_values)
         cov_mean = _mean(cov_values)
-        separate_reported = bool(sigreg_values and cov_values)
+        separate_reported = bool(row_pairs) and len(complete_row_pairs) == len(row_pairs)
         collapsed = False
         if separate_reported:
             collapsed = all(
-                _metric(row, "sigreg_sliced_cf") is not None
-                and _metric(row, "covariance_proxy") is not None
-                and abs(float(_metric(row, "sigreg_sliced_cf")) - float(_metric(row, "covariance_proxy"))) <= 1.0e-12
-                for row in self.records
+                abs(float(sigreg) - float(cov)) <= 1.0e-12
+                for sigreg, cov in complete_row_pairs
             )
         return {
             "status": _status(separate_reported and not collapsed),
