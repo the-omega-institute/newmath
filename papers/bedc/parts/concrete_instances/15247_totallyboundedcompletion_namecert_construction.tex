@@ -86,6 +86,46 @@ Apply \autoref{thm:totally-bounded-completion-namecert-obligations}. Finite-net 
 Every excluded principle is absent from this route. Open-cover compactness, quotient representatives, selected limit points, countable-choice schedules, and full $\RealUp$ completeness have no carrier coordinate, no replay edge, and no provenance row in the packet, so the exported read cannot escape the displayed finite ledger.
 \end{proof}
 
+\begin{theorem}[TotallyBoundedCompletion finite-net completion obligations]
+\label{thm:totally-bounded-completion-finite-net-completion-obligations}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, a completion-facing read is admitted only after it displays the finite-net rows of $\TotallyBoundedUp$, the generated $\CauchyFilterBasisUp$ row, the dense $\CompletionEmbeddingUp$ row, the $\ConstructiveMetricCompletionUp$ route, and the downstream $\UniformContinuousExtensionUp$ handoff. The carrier has no completion obligation outside those rows.
+\end{theorem}
+\begin{proof}
+Project the read from \autoref{def:totally-bounded-completion-carrier}. The finite-net rows are exactly $T$ and their refinement requests are exactly $N$.
+
+Next apply \autoref{thm:totally-bounded-completion-net-handoff}. The displayed route sends $T,N$ through the Cauchy-filter basis $F$, the completion embedding $E$, and the constructive completion route $C$ before separated comparison or extension reads are available.
+
+Finally use \autoref{thm:totally-bounded-completion-namecert-obligations}. Its separated and extension handoff clause forces $S$ and $U$ to remain downstream of $F,E,C$, while $H,P,L$ only transport, source, and name the same finite route.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion refinement stability]
+\label{thm:totally-bounded-completion-refinement-stability}
+Let $K=(X,T,N,F,E,C,S,U,H,P,L)$ and $K'=(X',T',N',F',E',C',S',U',H',P',L')$ be accepted $\TotallyBoundedCompletionUp$ packets. If their displayed source metric rows, finite-net ledgers, Cauchy-filter basis rows, embedding rows, completion routes, extension rows, provenance rows, and local naming rows are related componentwise by $\hsame$, and the displayed $\Cont$ replay sends each tolerance request in $K$ to the corresponding request in $K'$, then every refinement request in $K'$ remains on the same finite-net and Cauchy-filter route as the corresponding request in $K$.
+\end{theorem}
+\begin{proof}
+Begin with the refinement coordinate. By carrier projection, a refinement request can inspect only the finite-net ledger $T$, the refinement row $N$, and their transported counterparts $T',N'$.
+
+The componentwise $\hsame$ hypotheses identify the displayed source metric, centers, membership constructors, distance witnesses, and rational bounds. The $\Cont$ replay preserves the tolerance request, so the target request is not replaced by an open cover, a host finite set, or a selected subnet.
+
+Apply \autoref{thm:totally-bounded-completion-net-handoff} on both packets. The source refinement moves through $F,E,C$ and the target refinement moves through $F',E',C'$ in the same order, with $S,U,H,P,L$ and $S',U',H',P',L'$ only recording separated comparison, extension handoff, transport, provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion extension handoff]
+\label{thm:totally-bounded-completion-extension-handoff}
+Every $\UniformContinuousExtensionUp$ consumer of an accepted $\TotallyBoundedCompletionUp$ packet receives only the displayed route
+$$
+X,T,N,F,E,C,S,U,H,P,L .
+$$
+In particular, the consumer cannot read a quotient completion, a selected limit, countable choice, an open-cover compactness theorem, or ambient $\RealUp$ completeness in place of the finite completion route.
+\end{theorem}
+\begin{proof}
+The extension consumer first opens the carrier coordinate $U$. By \autoref{def:totally-bounded-completion-carrier}, that row is downstream from the source metric, finite-net ledger, refinement row, Cauchy-filter basis, embedding, constructive completion route, and separated equality row.
+
+Use \autoref{thm:totally-bounded-completion-finite-net-completion-obligations}. It requires the finite-net, Cauchy-filter, embedding, constructive completion, and extension rows to be displayed before the handoff can be read.
+
+The non-escape conclusion follows from \autoref{thm:totally-bounded-completion-no-escape}. The excluded objects have no carrier coordinate and no provenance row, so the uniformly continuous extension read is exactly the listed route.
+\end{proof}
+
 \begin{closurestatus}{\TotallyBoundedCompletionUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:totally-bounded-completion-carrier}, \autoref{thm:totally-bounded-completion-namecert-obligations}, \autoref{thm:totally-bounded-completion-net-handoff}, and \autoref{thm:totally-bounded-completion-no-escape} seed the finite route from explicit total-bounded net ledgers through constructive completion.}
