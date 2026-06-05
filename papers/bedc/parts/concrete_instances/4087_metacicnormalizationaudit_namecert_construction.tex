@@ -99,6 +99,7 @@ The residual budget is completed by the refusal row $N$. That row records that c
 \label{thm:metacic-normalization-audit-candidate-ledger-locality}
 Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. Every strong-normalization export must keep candidate evidence $R$, closed projection $C$, finite scope $S$, application boundary $A$, and confluence refusal $N$ in the same candidate ledger before replay through $F,H,T,P,L$. No consumer may replace those rows by global strong normalization, subject reduction, confluence, quotient equality, or host evaluator evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditCandidateLedgerLocality}
 \begin{proof}
 Begin with the obligation surface of \autoref{thm:metacic-normalization-audit-obligation-surface}. It exposes $R,C,S,A,N$ as separate rows of one accepted packet, so an SN export cannot read the finite scope while dropping the candidate evidence, closed projection, application boundary, or refusal row.
 
