@@ -2,6 +2,7 @@
 \label{thm:closed-term-substitution-boundary-route-determinacy}
 Let $S=(T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N)$ be an accepted $\ClosedTermSubstitutionBoundaryUp$ packet. If two downstream closed-boundary reads agree on the displayed carrier rows and on the continuation row $C$, then they reach the same closed shift row $Q$ and the same substitute-closed row $R$. The determined route is the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ packet, not a separate host substitution semantics.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryRouteDeterminacy}
 \begin{proof}
 Start with \autoref{def:closed-term-substitution-boundary-carrier} and \autoref{def:closed-term-substitution-boundary-classifier}. They make $T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N$ the only accepted packet rows, so agreement on the carrier rows already fixes the visible source, value, depth, closedness, ledger, audit, transport, provenance, and local naming data.
 
@@ -18,6 +19,7 @@ T,V,d,C_{\mathsf{src}},C_{\mathsf{val}},Q,R,L,A,H,C,P,N.
 $$
 The route cannot add an open-term coordinate, host syntax quotient, hidden evaluator, compiler correctness theorem, or subject-reduction theorem to the context stack.
 \end{theorem}
+\leanchecked{BEDC.Derived.ClosedtermsubstitutionboundaryUp.ClosedTermSubstitutionBoundaryContextStackNonescape}
 \begin{proof}
 Read the recognizer side through \autoref{thm:closed-term-substitution-boundary-recognizer-landing-surface}. The recognizer route reaches the boundary only after acceptance, generated recognition, tuple-image landing, and readback of the displayed packet rows.
 

@@ -220,6 +220,39 @@ The integral handoff is carried by $I$. Its partition, finite-sum, and endpoint 
 Finally $H,T,P,N$ transport, replay, source, and name exactly the displayed rows. Since no coordinate contains host function-space equality, ambient completeness, a selected derivative operator, or an unbounded integral functional, every accepted read remains inside the finite calculus packet.
 \end{proof}
 
+\begin{definition}[Calculus completion-source envelope]
+\label{def:calculus-completion-source-envelope}
+The $\CalculusUp$ completion-source envelope is the finite row inventory read jointly from \autoref{def:calculus-carrier} and \autoref{def:calculus-local-linearization-carrier}. It consists of the displayed BEDC rows
+$$
+\RealUp,\ \LimitUp,\ \ContinuousMapUp,\ \DerivativeUp,\ \IntegralUp,\ \RegSeqRatUp,\ \DyadicRatCoreUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert.
+$$
+The $\RealUp$ row is the terminal seal for endpoint values and tolerances. The $\LimitUp$ and $\ContinuousMapUp$ rows expose convergence windows and graph replay. The $\DerivativeUp$ and $\IntegralUp$ rows expose finite difference-quotient, remainder, partition, tagged-sum, and endpoint handoff data. The $\RegSeqRatUp$ and $\DyadicRatCoreUp$ rows carry rational readback and dyadic tolerance data before any Real-facing seal is consumed. The remaining $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows transport, replay, source, and name exactly this finite packet.
+\end{definition}
+
+\begin{theorem}[Calculus completion-source envelope obligations]
+\label{thm:calculus-completion-source-envelope-obligations}
+For every accepted $\CalculusUp$ carrier and every accepted $\CalculusUp$ local-linearization carrier, any derivative, integral, or limit consumer must expose the completion-source envelope rows of \autoref{def:calculus-completion-source-envelope} before it reaches a public calculus conclusion. Thus a calculus conclusion may read only through displayed Real, Limit, ContinuousMap, Derivative, Integral, RegSeqRat, DyadicRatCore, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and not through a host limit operator, quotient function equality, selected global derivative operator, unbounded integration functional, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the finite rows of \autoref{def:calculus-carrier} and \autoref{def:calculus-local-linearization-carrier}. Together they expose the Real boundary, limit route, continuous-map replay, derivative source, integral source, regular-rational readback, dyadic tolerance data, transport, replay, provenance, and local naming listed in \autoref{def:calculus-completion-source-envelope}.
+
+Apply \autoref{thm:calculus-namecert-obligations}. It identifies carrier admission, real-boundary exposure, limit-window readback, continuous-map replay, local-linear approximation routing, finite difference-quotient readback, integral finite-sum handoff, regular-rational readback, componentwise transport, displayed replay, provenance, and naming as the local NameCert surface.
+
+Now apply \autoref{thm:calculus-source-window-obligation}. Derivative, integral, and limit consumers must display their finite source windows with the regular-rational, dyadic, transport, replay, provenance, and naming rows before any public conclusion is read. The excluded host objects have no row in either carrier, so the envelope is the full public route.
+\end{proof}
+
+\begin{theorem}[Calculus completion-source real readback]
+\label{thm:calculus-completion-source-real-readback}
+Every $\RealUp$-facing calculus read from an accepted $\CalculusUp$ carrier or accepted $\CalculusUp$ local-linearization carrier factors through the $\RegSeqRatUp$ and $\DyadicRatCoreUp$ rows of \autoref{def:calculus-completion-source-envelope} before the $\RealUp$ seal is consumed. In particular, derivative, integral, and limit reads may hand a value to the Real boundary only after the displayed regular-rational readback and dyadic tolerance route have been exposed inside the finite BEDC packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:calculus-regseqrat-dyadic-error-route}. It forces every Real-facing error estimate in the local-linearization carrier through the regular-rational readback row and dyadic tolerance ledger before the terminal Real seal is read.
+
+Use \autoref{thm:calculus-real-seal-error-budget}. The derivative, integral, and limit routes expose a source graph or finite-sum row together with regular-rational readback, dyadic tolerance data, and the Real seal before any calculus conclusion is public.
+
+Finally apply \autoref{thm:calculus-local-operation-nonescape}. Public local operation reads cannot replace the displayed packet by a host function space, host limit operator, quotient equality of functions, selected derivative operator, selected antiderivative, or ambient Real completeness. Therefore every Real-facing calculus read factors through $\RegSeqRatUp$ and $\DyadicRatCoreUp$ before reaching $\RealUp$.
+\end{proof}
+
 \begin{theorem}[Calculus continuous-map graph replay obligation]
 \label{thm:calculus-continuous-map-graph-replay-obligation}
 For every accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, a continuous-map read is public only after the consumer has displayed the $\RealUp$ boundary $R$, the $\LimitUp$ window route $L$, the $\ContinuousMapUp$ graph row $C$, the $\RegSeqRatUp$ readback row $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, provenance $P$, and the local $\NameCert_{\CalculusUp}$ row $N$. A derivative or integral consumer using that continuous-map read must therefore factor through $R,L,C,Q,H,T,P,N$ before reading $D$ or $I$.
