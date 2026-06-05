@@ -196,9 +196,13 @@ def taste_gate : ChapterTasteGate SchwarzLemmaUp :=
   -- BEDC touchpoint anchor: BHist BMark
   SchwarzLemmaTasteGate_single_carrier_alignment_ChapterTasteGate
 
+namespace TasteGate
+
 theorem SchwarzLemmaTasteGate_single_carrier_alignment :
     ChapterTasteGate SchwarzLemmaUp := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact taste_gate
+
+end TasteGate
 
 end BEDC.Derived.SchwarzLemmaUp
