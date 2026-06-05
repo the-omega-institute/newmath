@@ -5629,6 +5629,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphSpecialization
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedComparison
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedReadback
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedRealNonescape
+import BEDC.Derived.LowerSemicontinuousUp.RootLocatedSetNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedSetThresholdRoute
 import BEDC.Derived.LowerSemicontinuousUp.RootLowerRealProjection
 import BEDC.Derived.LowerSemicontinuousUp.RootNonescape
