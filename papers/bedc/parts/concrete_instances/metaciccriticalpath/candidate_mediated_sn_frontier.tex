@@ -219,5 +219,30 @@ Finally use discharge coverage. The discharge surface is already accounted for b
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierSourceExhaustion}
 
+\begin{theorem}[MetaCIC candidate frontier axiom boundary]
+\label{thm:metacic-critical-path-candidate-frontier-axiom-frontier}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. An accepted candidate-mediated handoff through $U$ may consume strong-normalization frontier evidence only through the displayed rows $S,N,U,H,C,P,L$, the visible obstruction and discharge rows $O,D$, and the source faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp .
+$$
+It cannot discharge axioms, closed subject reduction, global confluence, beta-decidability, quotient term equality, selected limits, host equality, or ambient $\RealUp$ completeness unless separate rows in the packet display those claims.
+\end{theorem}
+\begin{proof}
+First read the L10 source locks from \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback} and \autoref{thm:metacic-critical-path-candidate-mediated-sn-l10-completion-lock}. They force every handoff through $U$ to expose $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as named source rows before any confluence-facing or decidability-facing consumer reads the handoff.
+
+Next apply the RegSeqRat handoff theorem \autoref{thm:metacic-critical-path-candidate-frontier-regseqrat-handoff}. It fixes the regular-rational source of the handoff inside the same four-face window, so the frontier cannot replace that route by selected limits, quotient equality, host equality, or ambient Real completeness.
+
+Use discharge coverage and source exhaustion, \autoref{thm:metacic-critical-path-candidate-frontier-discharge-coverage} and \autoref{thm:metacic-critical-path-candidate-frontier-source-exhaustion}. These theorems exhaust the accepted handoff surface by the displayed candidate rows, the visible obstruction and socket rows, and the four source faces.
+
+Finally read the completion lock together with the exhausted source surface. Axioms, closed subject reduction, global confluence, beta-decidability, quotient term equality, selected limits, host equality, and ambient $\RealUp$ completeness are not among those rows. Therefore a candidate-mediated strong-normalization handoff can pass evidence to the boundary, but it cannot silently become a discharge of any listed claim without a separate displayed row for that claim.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/candidate_frontier_socket_coproduct}
 \input{parts/concrete_instances/metaciccriticalpath/candidate_mediated_sn_residual_route}
