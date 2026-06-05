@@ -2369,6 +2369,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ObligationRouteTriad
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.PrimitiveLedgerScope
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerLandingSurface
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursiveReadback
@@ -2390,6 +2391,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDownstreamCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootLedgerReadiness
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootNamecertHandoff
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationDependency
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationExportLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationReadbackLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationTotality
@@ -4042,6 +4044,7 @@ import BEDC.Derived.FareySequenceUp.StreamWindowDenominatorLock
 import BEDC.Derived.FareySequenceUp.StreamWindowStability
 import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
+import BEDC.Derived.FastCauchyCriterionUp.TasteGate
 import BEDC.Derived.FastCauchyModulusUp.TasteGate
 import BEDC.Derived.FastCauchyNormalFormUp.TasteGate
 import BEDC.Derived.FastCauchySeqUp
@@ -6020,6 +6023,7 @@ import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierExtension
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusal
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateLedgerLocality
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateMediatedSNClosure
 import BEDC.Derived.MetacicNormalizationAuditUp.ClosedTermBudgetTotality
 import BEDC.Derived.MetacicNormalizationAuditUp.ConfluenceSocket
