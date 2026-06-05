@@ -6,6 +6,7 @@ from copy import deepcopy
 
 import pytest
 
+import bedc_quality_lab.certificate_gated_attention as cga
 from bedc_quality_lab.certificate_gated_attention import (
     CGA_HARDGATES,
     DEFAULT_BACKBONES,
@@ -217,6 +218,44 @@ def test_torch_arm_protocol_records_mps_or_cpu_fields(monkeypatch):
     assert set(protocol) == set(TorchAttentionArmProtocol.__dataclass_fields__)
     assert protocol["requested_device"] == "mps"
     assert protocol["resolved_device"] == "mps"
+
+
+def test_cga_hg5_rejects_unexpected_torch_status():
+    summary = _project(torch_status="unexpected-runtime-state")["summary_payload"]
+
+    assert summary["torch_attention_evidence"]["status"] == "unexpected-runtime-state"
+    assert summary["hardgate"]["gates"]["CGA-HG5"]["status"] == "fail"
+    assert summary["hardgate"]["failed_gate"] == "CGA-HG5"
+    assert summary["discovery_map_signal"]["status"] == "negative"
+    assert summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert summary["discovery_map_signal"]["failed_gate"] == "CGA-HG5"
+    assert summary["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.CGA-HG5.status"
+    assert discovery_map.pointer_value(summary, summary["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
+
+
+def test_forbidden_positive_claim_term_demotes_claim(monkeypatch):
+    forbidden_claim = {
+        "text": "Certificate-gated attention is not a global-quality result.",
+        "scope": "deterministic anchor grid with bounded optional PyTorch evidence",
+    }
+    monkeypatch.setattr(cga, "POSITIVE_CLAIM", forbidden_claim)
+    projected = _project()
+    summary = projected["summary_payload"]
+    capsule = projected["claim_capsule_payload"]
+
+    assert summary["forbidden_claim_term_audit"]["status"] == "fail"
+    assert summary["forbidden_claim_term_audit"]["hits"] == ["global-quality"]
+    assert summary["claim_capsule_status"] == "failed"
+    assert summary["failed_gate"] == "forbidden-positive-claim-term"
+    assert summary["hardgate"]["gates"]["forbidden-positive-claim-term"]["status"] == "fail"
+    assert summary["discovery_map_signal"]["status"] == "negative"
+    assert summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert summary["discovery_map_signal"]["reason"] == "forbidden-positive-claim-term"
+    assert summary["discovery_map_signal"]["failed_gate"] == "forbidden-positive-claim-term"
+    assert summary["discovery_map_signal"]["failed_gate_pointer"] == "$.forbidden_claim_term_audit.status"
+    assert discovery_map.pointer_value(summary, summary["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
+    assert capsule["claim_status"] == "failed"
+    assert capsule["failed_gate"] == "forbidden-positive-claim-term"
 
 
 def test_seed_idempotence_and_quantized_tolerance():
