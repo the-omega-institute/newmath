@@ -75,13 +75,15 @@ The sibling dependencies remain sources rather than replacements. $\ScientificOb
 \end{proof}
 
 The Lean TasteGate file \texttt{lean4/BEDC/Derived/TruthResidueLedgerUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \TruthResidueLedgerUp$ and $\mathsf{FieldFaithful}\ \TruthResidueLedgerUp$ instances over the same carrier. The instances must preserve $O,I,B,P,F,G,H,C,Q,N$ and must keep conservative fit, prediction-gap, falsification, and non-finality rows as separate fields.
+\leanchecked{BEDC.Derived.TruthResidueLedgerUp.TruthResidueLedgerTasteGate\_single\_carrier\_alignment}
 
 \closureat{TruthResidueLedgerUp}{scopedStr}
+\closureat{TruthResidueLedgerUp}{publicStr}[BEDC.Derived.TruthResidueLedgerUp.TruthResidueLedgerTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\TruthResidueLedgerUp}
   \constructivestory{A $\TruthResidueLedgerUp$ packet is generated from observation records, invariant rows, conservative model-bridge rows, prediction-gap rows, falsification rows, non-finality rows, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:truth-residue-ledger-carrier}, \autoref{thm:truth-residue-ledger-namecert-obligations}, \autoref{thm:truth-residue-ledger-falsifiable-boundary}, and \autoref{thm:truth-residue-ledger-field-coverage} close the scoped route over the carrier, obligation, falsifiable-boundary, field-coverage, $\hsame$, $\Cont$, $\Pkg$, and local NameCert rows for scientific truth as audited stability.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:truth-residue-ledger-carrier}, \autoref{thm:truth-residue-ledger-namecert-obligations}, \autoref{thm:truth-residue-ledger-falsifiable-boundary}, and \autoref{thm:truth-residue-ledger-field-coverage} close the public export as the falsifiable field-coverage route over $O,I,B,P,F,G,H,C,Q,N$ for scientific truth as audited stability.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, final correspondence, model--world identity, ambient completeness, or falsification-free truth.}
