@@ -1,0 +1,70 @@
+{
+  "artifact_id": "bedc-quality-lab:claim-capsule",
+  "capsule_subtype": "bedc.model.architecture_claim_capsule",
+  "claim_id": "claim:model-discovery-suite",
+  "generated_at": "2026-06-05T00:00:00+00:00",
+  "json_artifact": "reports/runs/model-discovery-suite/claim_capsule.json",
+  "model_claim": {
+    "baselines": [
+      {
+        "artifact": "reports/runs/model-discovery-suite/summary.json",
+        "pointer": "$.baselines.parameter_matched"
+      },
+      {
+        "artifact": "reports/runs/model-discovery-suite/summary.json",
+        "pointer": "$.baselines.compute_matched"
+      },
+      {
+        "artifact": "reports/runs/model-discovery-suite/summary.json",
+        "pointer": "$.baselines.matched_random_structural_control"
+      }
+    ],
+    "candidate_pointer": {
+      "artifact": "reports/runs/model-discovery-suite/summary.json",
+      "pointer": "$.model_candidates.0"
+    },
+    "claim": "A toy architecture candidate is evaluated only as run-local discovery-gated evidence.",
+    "evidence_pointer": {
+      "artifact": "reports/runs/model-discovery-suite/summary.json",
+      "pointer": "$.task_grid"
+    },
+    "forbidden_evidence": [
+      "test_label",
+      "ood_label",
+      "ledger_verdict"
+    ],
+    "model_id": "toy-discovery-gated-transformer",
+    "required_gates": [
+      "NM-HG1",
+      "NM-HG2",
+      "NM-HG3",
+      "NM-HG4",
+      "NM-HG5",
+      "NM-HG6",
+      "NM-HG7",
+      "NM-HG8",
+      "NM-HG9",
+      "NM-HG10",
+      "NM-HG11",
+      "NM-HG12",
+      "NM-HG13",
+      "NM-HG14"
+    ]
+  },
+  "not_claimed": [
+    "real-model training",
+    "general architecture superiority",
+    "D5 promotion"
+  ],
+  "producer": "bedc_quality_lab.discovery_compiler.capsule",
+  "report": "model-discovery-suite",
+  "schema_id": "bedc.quality.claim_capsule",
+  "source": "reports/runs/model-discovery-suite/summary.json",
+  "source_evidence": {
+    "artifact": "reports/runs/model-discovery-suite/summary.json",
+    "capsule_subtype": "bedc.model.architecture_claim_capsule",
+    "pointer": "$.claim_capsule_ref"
+  },
+  "source_pointer": "$.source_evidence",
+  "status": "complete"
+}

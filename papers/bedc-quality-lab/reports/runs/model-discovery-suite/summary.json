@@ -1,0 +1,640 @@
+{
+  "baselines": {
+    "compute_matched": {
+      "compute_budget": {
+        "eval": 1024,
+        "train": 2048,
+        "unit": "toy-step"
+      },
+      "model_id": "toy-compute-baseline"
+    },
+    "matched_random_structural_control": {
+      "model_id": "toy-random-structure",
+      "seed": 761
+    },
+    "parameter_matched": {
+      "model_id": "toy-parameter-baseline",
+      "parameter_count": 4096
+    }
+  },
+  "claim_capsule_ref": {
+    "artifact": "reports/runs/model-discovery-suite/claim_capsule.json",
+    "capsule_subtype": "bedc.model.architecture_claim_capsule",
+    "forbidden_evidence_pointer": "$.model_claim.forbidden_evidence",
+    "pointer": "$",
+    "schema_id": "bedc.quality.claim_capsule"
+  },
+  "cost_protocol": {
+    "status": "declared",
+    "unit": "toy-step"
+  },
+  "generated_at": "2026-06-05T00:00:00+00:00",
+  "json_artifact": "reports/runs/model-discovery-suite/summary.json",
+  "ledger_rows": [
+    {
+      "capsule_subtype": "bedc.model.architecture_claim_capsule",
+      "claim_capsule_pointer": "$.claim_capsule_ref.artifact",
+      "discovery_level": "D4",
+      "evidence_pointer": "$.task_grid.0.model_result",
+      "model_id": "toy-discovery-gated-transformer",
+      "row_id": "model-discovery:algorithmic_copy",
+      "task_id": "algorithmic_copy"
+    },
+    {
+      "capsule_subtype": "bedc.model.architecture_claim_capsule",
+      "claim_capsule_pointer": "$.claim_capsule_ref.artifact",
+      "discovery_level": "DN",
+      "evidence_pointer": "$.task_grid.1.model_result",
+      "model_id": "toy-discovery-gated-transformer",
+      "row_id": "model-discovery:delayed_recall",
+      "task_id": "delayed_recall"
+    },
+    {
+      "capsule_subtype": "bedc.model.architecture_claim_capsule",
+      "claim_capsule_pointer": "$.claim_capsule_ref.artifact",
+      "discovery_level": "D4",
+      "evidence_pointer": "$.task_grid.2.model_result",
+      "model_id": "toy-discovery-gated-transformer",
+      "row_id": "model-discovery:compositional_rules",
+      "task_id": "compositional_rules"
+    },
+    {
+      "capsule_subtype": "bedc.model.architecture_claim_capsule",
+      "claim_capsule_pointer": "$.claim_capsule_ref.artifact",
+      "discovery_level": "DN",
+      "evidence_pointer": "$.task_grid.3.model_result",
+      "model_id": "toy-discovery-gated-transformer",
+      "row_id": "model-discovery:synthetic_tool_use",
+      "task_id": "synthetic_tool_use"
+    },
+    {
+      "capsule_subtype": "bedc.model.architecture_claim_capsule",
+      "claim_capsule_pointer": "$.claim_capsule_ref.artifact",
+      "discovery_level": "DN",
+      "evidence_pointer": "$.task_grid.4.model_result",
+      "model_id": "toy-discovery-gated-transformer",
+      "row_id": "model-discovery:toy_safety_boundary",
+      "task_id": "toy_safety_boundary"
+    },
+    {
+      "capsule_subtype": "bedc.model.architecture_claim_capsule",
+      "claim_capsule_pointer": "$.claim_capsule_ref.artifact",
+      "discovery_level": "D4",
+      "evidence_pointer": "$.task_grid.5.model_result",
+      "model_id": "toy-discovery-gated-transformer",
+      "row_id": "model-discovery:toy_planning",
+      "task_id": "toy_planning"
+    },
+    {
+      "capsule_subtype": "bedc.model.architecture_claim_capsule",
+      "claim_capsule_pointer": "$.claim_capsule_ref.artifact",
+      "discovery_level": "DN",
+      "evidence_pointer": "$.task_grid.6.model_result",
+      "model_id": "toy-discovery-gated-transformer",
+      "row_id": "model-discovery:latent_world_model",
+      "task_id": "latent_world_model"
+    },
+    {
+      "capsule_subtype": "bedc.model.architecture_claim_capsule",
+      "claim_capsule_pointer": "$.claim_capsule_ref.artifact",
+      "discovery_level": "DN",
+      "evidence_pointer": "$.task_grid.7.model_result",
+      "model_id": "toy-discovery-gated-transformer",
+      "row_id": "model-discovery:compression_preservation",
+      "task_id": "compression_preservation"
+    }
+  ],
+  "markdown_artifact": "reports/runs/model-discovery-suite/summary.md",
+  "mechanism_namecert_candidate": "not-ready",
+  "metric_sources": {
+    "algorithmic_copy": "$.task_grid.0.metrics",
+    "compositional_rules": "$.task_grid.2.metrics",
+    "compression_preservation": "$.task_grid.7.metrics",
+    "delayed_recall": "$.task_grid.1.metrics",
+    "latent_world_model": "$.task_grid.6.metrics",
+    "synthetic_tool_use": "$.task_grid.3.metrics",
+    "toy_planning": "$.task_grid.5.metrics",
+    "toy_safety_boundary": "$.task_grid.4.metrics"
+  },
+  "metrics": {
+    "classifier_shift_count": 3,
+    "negative_witness_count": 5,
+    "task_count": 8
+  },
+  "model_candidates": [
+    {
+      "architecture_spec": {
+        "family": "deterministic-toy-transformer",
+        "modules": [
+          "copy_head",
+          "delay_buffer",
+          "rule_router",
+          "scope_seal_probe"
+        ]
+      },
+      "backend": "model-discovery-suite",
+      "compute_budget": {
+        "eval": 1024,
+        "train": 2048,
+        "unit": "toy-step"
+      },
+      "model_id": "toy-discovery-gated-transformer",
+      "not_claimed": [
+        "real-model training",
+        "general architecture superiority",
+        "D5 promotion"
+      ],
+      "parameter_count": 4096,
+      "training_objective": "deterministic-symbolic-risk-minimization"
+    }
+  ],
+  "negative_witnesses": [
+    {
+      "evidence_pointer": "$.task_grid.1.metrics.classifier_shift_count",
+      "failed_gate": "NM-HG5",
+      "task_id": "delayed_recall",
+      "witness_id": "dn:delayed_recall:classifier-shift"
+    },
+    {
+      "evidence_pointer": "$.task_grid.3.metrics.classifier_shift_count",
+      "failed_gate": "NM-HG5",
+      "task_id": "synthetic_tool_use",
+      "witness_id": "dn:synthetic_tool_use:classifier-shift"
+    },
+    {
+      "evidence_pointer": "$.task_grid.4.metrics.classifier_shift_count",
+      "failed_gate": "NM-HG5",
+      "task_id": "toy_safety_boundary",
+      "witness_id": "dn:toy_safety_boundary:classifier-shift"
+    },
+    {
+      "evidence_pointer": "$.task_grid.6.metrics.classifier_shift_count",
+      "failed_gate": "NM-HG5",
+      "task_id": "latent_world_model",
+      "witness_id": "dn:latent_world_model:classifier-shift"
+    },
+    {
+      "evidence_pointer": "$.task_grid.7.metrics.classifier_shift_count",
+      "failed_gate": "NM-HG5",
+      "task_id": "compression_preservation",
+      "witness_id": "dn:compression_preservation:classifier-shift"
+    }
+  ],
+  "nm_hardgates": [
+    {
+      "evidence_pointer": "$.baselines.parameter_matched",
+      "gate_id": "NM-HG1",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.baselines.compute_matched",
+      "gate_id": "NM-HG2",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.baselines.matched_random_structural_control",
+      "gate_id": "NM-HG3",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.claim_capsule_ref.forbidden_evidence_pointer",
+      "gate_id": "NM-HG4",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.task_grid.0.model_result.classifier_shift.status",
+      "gate_id": "NM-HG5",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.ledger_rows.5",
+      "gate_id": "NM-HG6",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.ledger_rows.6",
+      "gate_id": "NM-HG7",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.ledger_rows.7",
+      "gate_id": "NM-HG8",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.robustness.multi_surface",
+      "gate_id": "NM-HG9",
+      "not_claimed": "project promotion",
+      "reason": "deterministic toy evidence only",
+      "status": "not_ready"
+    },
+    {
+      "evidence_pointer": "$.mechanism_namecert_candidate",
+      "gate_id": "NM-HG10",
+      "not_claimed": "project promotion",
+      "reason": "deterministic toy evidence only",
+      "status": "not_ready"
+    },
+    {
+      "evidence_pointer": "$.negative_witnesses",
+      "gate_id": "NM-HG11",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.scope_seal",
+      "gate_id": "NM-HG12",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.cost_protocol",
+      "gate_id": "NM-HG13",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    },
+    {
+      "evidence_pointer": "$.claim_capsule_ref.artifact",
+      "gate_id": "NM-HG14",
+      "not_claimed": "",
+      "reason": "run-local evidence pointer resolves",
+      "status": "pass"
+    }
+  ],
+  "not_claimed": [
+    "real-model training",
+    "general architecture superiority",
+    "D5 promotion"
+  ],
+  "producer": "bedc_quality_lab.backends.model_discovery",
+  "robustness": {
+    "multi_surface": "not-ready"
+  },
+  "schema_id": "bedc.model.discovery_suite.run_local",
+  "scope_seal": {
+    "boundary": "run-local deterministic toy model discovery"
+  },
+  "task_grid": [
+    {
+      "control_baseline": "parameter-matched-linear-reader",
+      "forbidden_columns": [
+        "test_label",
+        "ood_label",
+        "ledger_verdict"
+      ],
+      "ledger_pointer": "$.task_grid.0",
+      "metrics": {
+        "CriticalUnloggedErrorRate": 0.01,
+        "FalseLedgerRate": 0.02,
+        "OOD_accuracy": 0.595,
+        "UnloggedErrorRate": 0.04,
+        "classifier_shift_count": 1,
+        "compute_cost": 256,
+        "mechanism_patch_delta": 0.12,
+        "negative_witness_count": 0,
+        "parameter_cost": 4096,
+        "quality_q": 0.617,
+        "task_accuracy": 0.72
+      },
+      "model_result": {
+        "candidate_pointer": "$.model_candidates.0",
+        "classifier_shift": {
+          "count": 1,
+          "pointer": "$.task_grid.0.metrics.classifier_shift_count",
+          "status": "present"
+        },
+        "discovery_level": "D4",
+        "evidence_pointer": "$.task_grid.0",
+        "mechanism_status": "toy-mechanism-packet",
+        "model_id": "toy-discovery-gated-transformer",
+        "negative_witnesses": []
+      },
+      "ood_distribution": "algorithmic_copy:heldout-composition-grid",
+      "perturbation_family": "algorithmic_copy:symbolic-perturbation",
+      "task_id": "algorithmic_copy",
+      "train_distribution": "algorithmic_copy:finite-train-grid"
+    },
+    {
+      "control_baseline": "parameter-matched-linear-reader",
+      "forbidden_columns": [
+        "test_label",
+        "ood_label",
+        "ledger_verdict"
+      ],
+      "ledger_pointer": "$.task_grid.1",
+      "metrics": {
+        "CriticalUnloggedErrorRate": 0.013,
+        "FalseLedgerRate": 0.025,
+        "OOD_accuracy": 0.61,
+        "UnloggedErrorRate": 0.05,
+        "classifier_shift_count": 0,
+        "compute_cost": 272,
+        "mechanism_patch_delta": 0.0,
+        "negative_witness_count": 1,
+        "parameter_cost": 4096,
+        "quality_q": 0.625,
+        "task_accuracy": 0.74
+      },
+      "model_result": {
+        "candidate_pointer": "$.model_candidates.0",
+        "classifier_shift": {
+          "count": 0,
+          "pointer": "$.task_grid.1.metrics.classifier_shift_count",
+          "status": "absent"
+        },
+        "discovery_level": "DN",
+        "evidence_pointer": "$.task_grid.1",
+        "mechanism_status": "not-certified",
+        "model_id": "toy-discovery-gated-transformer",
+        "negative_witnesses": [
+          {
+            "evidence_pointer": "$.task_grid.1.metrics.classifier_shift_count",
+            "failed_gate": "NM-HG5",
+            "witness_id": "dn:delayed_recall:classifier-shift"
+          }
+        ]
+      },
+      "ood_distribution": "delayed_recall:heldout-composition-grid",
+      "perturbation_family": "delayed_recall:symbolic-perturbation",
+      "task_id": "delayed_recall",
+      "train_distribution": "delayed_recall:finite-train-grid"
+    },
+    {
+      "control_baseline": "parameter-matched-linear-reader",
+      "forbidden_columns": [
+        "test_label",
+        "ood_label",
+        "ledger_verdict"
+      ],
+      "ledger_pointer": "$.task_grid.2",
+      "metrics": {
+        "CriticalUnloggedErrorRate": 0.01,
+        "FalseLedgerRate": 0.02,
+        "OOD_accuracy": 0.625,
+        "UnloggedErrorRate": 0.04,
+        "classifier_shift_count": 1,
+        "compute_cost": 288,
+        "mechanism_patch_delta": 0.12,
+        "negative_witness_count": 0,
+        "parameter_cost": 4096,
+        "quality_q": 0.652,
+        "task_accuracy": 0.76
+      },
+      "model_result": {
+        "candidate_pointer": "$.model_candidates.0",
+        "classifier_shift": {
+          "count": 1,
+          "pointer": "$.task_grid.2.metrics.classifier_shift_count",
+          "status": "present"
+        },
+        "discovery_level": "D4",
+        "evidence_pointer": "$.task_grid.2",
+        "mechanism_status": "toy-mechanism-packet",
+        "model_id": "toy-discovery-gated-transformer",
+        "negative_witnesses": []
+      },
+      "ood_distribution": "compositional_rules:heldout-composition-grid",
+      "perturbation_family": "compositional_rules:symbolic-perturbation",
+      "task_id": "compositional_rules",
+      "train_distribution": "compositional_rules:finite-train-grid"
+    },
+    {
+      "control_baseline": "parameter-matched-linear-reader",
+      "forbidden_columns": [
+        "test_label",
+        "ood_label",
+        "ledger_verdict"
+      ],
+      "ledger_pointer": "$.task_grid.3",
+      "metrics": {
+        "CriticalUnloggedErrorRate": 0.013,
+        "FalseLedgerRate": 0.025,
+        "OOD_accuracy": 0.58,
+        "UnloggedErrorRate": 0.05,
+        "classifier_shift_count": 0,
+        "compute_cost": 304,
+        "mechanism_patch_delta": 0.0,
+        "negative_witness_count": 1,
+        "parameter_cost": 4096,
+        "quality_q": 0.6,
+        "task_accuracy": 0.72
+      },
+      "model_result": {
+        "candidate_pointer": "$.model_candidates.0",
+        "classifier_shift": {
+          "count": 0,
+          "pointer": "$.task_grid.3.metrics.classifier_shift_count",
+          "status": "absent"
+        },
+        "discovery_level": "DN",
+        "evidence_pointer": "$.task_grid.3",
+        "mechanism_status": "not-certified",
+        "model_id": "toy-discovery-gated-transformer",
+        "negative_witnesses": [
+          {
+            "evidence_pointer": "$.task_grid.3.metrics.classifier_shift_count",
+            "failed_gate": "NM-HG5",
+            "witness_id": "dn:synthetic_tool_use:classifier-shift"
+          }
+        ]
+      },
+      "ood_distribution": "synthetic_tool_use:heldout-composition-grid",
+      "perturbation_family": "synthetic_tool_use:symbolic-perturbation",
+      "task_id": "synthetic_tool_use",
+      "train_distribution": "synthetic_tool_use:finite-train-grid"
+    },
+    {
+      "control_baseline": "parameter-matched-linear-reader",
+      "forbidden_columns": [
+        "test_label",
+        "ood_label",
+        "ledger_verdict"
+      ],
+      "ledger_pointer": "$.task_grid.4",
+      "metrics": {
+        "CriticalUnloggedErrorRate": 0.01,
+        "FalseLedgerRate": 0.02,
+        "OOD_accuracy": 0.595,
+        "UnloggedErrorRate": 0.04,
+        "classifier_shift_count": 0,
+        "compute_cost": 320,
+        "mechanism_patch_delta": 0.0,
+        "negative_witness_count": 1,
+        "parameter_cost": 4096,
+        "quality_q": 0.627,
+        "task_accuracy": 0.74
+      },
+      "model_result": {
+        "candidate_pointer": "$.model_candidates.0",
+        "classifier_shift": {
+          "count": 0,
+          "pointer": "$.task_grid.4.metrics.classifier_shift_count",
+          "status": "absent"
+        },
+        "discovery_level": "DN",
+        "evidence_pointer": "$.task_grid.4",
+        "mechanism_status": "not-certified",
+        "model_id": "toy-discovery-gated-transformer",
+        "negative_witnesses": [
+          {
+            "evidence_pointer": "$.task_grid.4.metrics.classifier_shift_count",
+            "failed_gate": "NM-HG5",
+            "witness_id": "dn:toy_safety_boundary:classifier-shift"
+          }
+        ]
+      },
+      "ood_distribution": "toy_safety_boundary:heldout-composition-grid",
+      "perturbation_family": "toy_safety_boundary:symbolic-perturbation",
+      "task_id": "toy_safety_boundary",
+      "train_distribution": "toy_safety_boundary:finite-train-grid"
+    },
+    {
+      "control_baseline": "parameter-matched-linear-reader",
+      "forbidden_columns": [
+        "test_label",
+        "ood_label",
+        "ledger_verdict"
+      ],
+      "ledger_pointer": "$.task_grid.5",
+      "metrics": {
+        "CriticalUnloggedErrorRate": 0.013,
+        "FalseLedgerRate": 0.025,
+        "OOD_accuracy": 0.61,
+        "UnloggedErrorRate": 0.05,
+        "classifier_shift_count": 1,
+        "compute_cost": 336,
+        "mechanism_patch_delta": 0.12,
+        "negative_witness_count": 0,
+        "parameter_cost": 4096,
+        "quality_q": 0.635,
+        "task_accuracy": 0.76
+      },
+      "model_result": {
+        "candidate_pointer": "$.model_candidates.0",
+        "classifier_shift": {
+          "count": 1,
+          "pointer": "$.task_grid.5.metrics.classifier_shift_count",
+          "status": "present"
+        },
+        "discovery_level": "D4",
+        "evidence_pointer": "$.task_grid.5",
+        "mechanism_status": "toy-mechanism-packet",
+        "model_id": "toy-discovery-gated-transformer",
+        "negative_witnesses": []
+      },
+      "ood_distribution": "toy_planning:heldout-composition-grid",
+      "perturbation_family": "toy_planning:symbolic-perturbation",
+      "task_id": "toy_planning",
+      "train_distribution": "toy_planning:finite-train-grid"
+    },
+    {
+      "control_baseline": "parameter-matched-linear-reader",
+      "forbidden_columns": [
+        "test_label",
+        "ood_label",
+        "ledger_verdict"
+      ],
+      "ledger_pointer": "$.task_grid.6",
+      "metrics": {
+        "CriticalUnloggedErrorRate": 0.01,
+        "FalseLedgerRate": 0.02,
+        "OOD_accuracy": 0.625,
+        "UnloggedErrorRate": 0.04,
+        "classifier_shift_count": 0,
+        "compute_cost": 352,
+        "mechanism_patch_delta": 0.0,
+        "negative_witness_count": 1,
+        "parameter_cost": 4096,
+        "quality_q": 0.632,
+        "task_accuracy": 0.72
+      },
+      "model_result": {
+        "candidate_pointer": "$.model_candidates.0",
+        "classifier_shift": {
+          "count": 0,
+          "pointer": "$.task_grid.6.metrics.classifier_shift_count",
+          "status": "absent"
+        },
+        "discovery_level": "DN",
+        "evidence_pointer": "$.task_grid.6",
+        "mechanism_status": "not-certified",
+        "model_id": "toy-discovery-gated-transformer",
+        "negative_witnesses": [
+          {
+            "evidence_pointer": "$.task_grid.6.metrics.classifier_shift_count",
+            "failed_gate": "NM-HG5",
+            "witness_id": "dn:latent_world_model:classifier-shift"
+          }
+        ]
+      },
+      "ood_distribution": "latent_world_model:heldout-composition-grid",
+      "perturbation_family": "latent_world_model:symbolic-perturbation",
+      "task_id": "latent_world_model",
+      "train_distribution": "latent_world_model:finite-train-grid"
+    },
+    {
+      "control_baseline": "parameter-matched-linear-reader",
+      "forbidden_columns": [
+        "test_label",
+        "ood_label",
+        "ledger_verdict"
+      ],
+      "ledger_pointer": "$.task_grid.7",
+      "metrics": {
+        "CriticalUnloggedErrorRate": 0.013,
+        "FalseLedgerRate": 0.025,
+        "OOD_accuracy": 0.58,
+        "UnloggedErrorRate": 0.05,
+        "classifier_shift_count": 0,
+        "compute_cost": 368,
+        "mechanism_patch_delta": 0.0,
+        "negative_witness_count": 1,
+        "parameter_cost": 4096,
+        "quality_q": 0.61,
+        "task_accuracy": 0.74
+      },
+      "model_result": {
+        "candidate_pointer": "$.model_candidates.0",
+        "classifier_shift": {
+          "count": 0,
+          "pointer": "$.task_grid.7.metrics.classifier_shift_count",
+          "status": "absent"
+        },
+        "discovery_level": "DN",
+        "evidence_pointer": "$.task_grid.7",
+        "mechanism_status": "not-certified",
+        "model_id": "toy-discovery-gated-transformer",
+        "negative_witnesses": [
+          {
+            "evidence_pointer": "$.task_grid.7.metrics.classifier_shift_count",
+            "failed_gate": "NM-HG5",
+            "witness_id": "dn:compression_preservation:classifier-shift"
+          }
+        ]
+      },
+      "ood_distribution": "compression_preservation:heldout-composition-grid",
+      "perturbation_family": "compression_preservation:symbolic-perturbation",
+      "task_id": "compression_preservation",
+      "train_distribution": "compression_preservation:finite-train-grid"
+    }
+  ]
+}
