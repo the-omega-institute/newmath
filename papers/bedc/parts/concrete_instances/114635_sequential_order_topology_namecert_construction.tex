@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\SequentialOrderTopologyUp$}
+\label{ch:concrete-instances-sequential-order-topology-namecert}
+\origin{human}
+
+Following Kelley and Engelking topology together with Bishop--Bridges sequence practice, the $\SequentialOrderTopologyUp$ packet records the finite order/topology interface whose open reads are tested through displayed sequence windows. It sits beside the real order-topology packet of \autoref{ch:concrete-instances-real-order-topology-namecert} and the dyadic order-topology packet of \autoref{ch:concrete-instances-dyadic-order-topology-namecert}; it gives L10 consumers a sequence-window route through $\StreamNameUp$, $\RegSeqRatUp$, and the $\RealUp$ seal without asserting Real completeness, trichotomy, host subsets, selected limits, or open-cover compactness.
+
+\begin{definition}[Sequential order topology carrier]
+\label{def:sequential-order-topology-carrier}
+A $\SequentialOrderTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+(O,T,S,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OrderUp$ source row, including only the order comparisons and endpoint probes admitted by the local carrier.
+\item $T$ is the $\TopologyUp$ generated-open row whose opens are read from the displayed order intervals and not from host subset predicates.
+\item $S$ is the sequence-window source row, carrying the finite observation surface that downstream $\StreamNameUp$ consumers may inspect.
+\item $W$ is the $\StreamNameUp$ window row, recording the finite sequence names and index windows used to test sequential openness.
+\item $R$ is the $\RegSeqRatUp$ readback row, attaching regular rational observations to the displayed sequence windows.
+\item $E$ is the $\RealUp$ seal row, used only as the terminal real-name boundary for sequence reads that have already passed through $O,T,S,W,R$.
+\item $H$ records componentwise $\hsame$ transport for the order, topology, sequence-window, stream-name, regular-readback, Real-seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from order intervals through generated opens, sequence windows, regular rational readback, the Real seal, and the local naming row.
+\item $P$ is the $\Pkg$ provenance over $\SequentialOrderTopologyUp$, $\OrderUp$, $\TopologyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialOrderTopologyUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for Real completeness, order trichotomy, host subset equality, selected limits, arbitrary open-cover compactness, quotient sequence equality, or a bridge certificate.
+\end{definition}
+
+\begin{theorem}[Sequential order topology NameCert obligations]
+\label{thm:sequential-order-topology-namecert-obligations}
+For an accepted $\SequentialOrderTopologyUp$ carrier $(O,T,S,W,R,E,H,C,P,N)$, the local $\NameCert$ surface consists of five obligations:
+\begin{enumerate}
+\item carrier admission for the displayed $\OrderUp$ source, $\TopologyUp$ generated-open row, sequence-window source, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seal, transport, replay, provenance, and local naming rows;
+\item order-row stability, requiring every comparison used by a sequential-open read to pass through the displayed order row $O$ before the topology row accepts it;
+\item sequential-open readback, requiring every open read tested by a sequence to display $S,W,R$ before reaching the generated-open row or the Real seal;
+\item topology compatibility, requiring the topology row $T$ to record only generated opens whose interval and sequence-window witnesses are replayed through $C$;
+\item nonescape, stating that no Real completeness, trichotomy, host subset predicate, selected limit, open-cover compactness principle, quotient sequence equality, or bridge certificate is exported by the packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:sequential-order-topology-carrier}. The tuple displays exactly one order row, one topology row, one sequence source, one stream-window row, one regular rational readback, one Real seal, and the structural transport, replay, provenance, and naming rows.
+
+Order-row stability follows from the placement of $O$ before $T,W,R,E$. A consumer cannot test interval membership, endpoint order, or order-generated openness without reading the displayed order row first.
+
+Sequential-open readback is the route through $S,W,R$. The stream windows and regular rational observations are displayed before any sequence-facing open read reaches the topology row or the Real seal.
+
+Topology compatibility is supplied by $T$ and $C$. The topology row records generated opens from the displayed order and sequence-window witnesses, while the replay row preserves that route rather than replacing it by a host subset predicate.
+
+Finally inspect the carrier inventory. The excluded completeness, trichotomy, selected-limit, open-cover, quotient, and bridge data are absent from the tuple, so no local NameCert projection can export them.
+\end{proof}
+
+\begin{theorem}[Sequential order topology StreamName handoff]
+\label{thm:sequential-order-topology-stream-handoff}
+Every sequence-convergence read consumed from an accepted $\SequentialOrderTopologyUp$ packet passes through the finite route
+$$
+S\longrightarrow W\longrightarrow R\longrightarrow E\longrightarrow H,C,P,N .
+$$
+Thus a convergence-facing consumer sees $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, and the $\RealUp$ seal as displayed rows of the same packet before it can use the order/topology interface.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only sequence source is $S$, the only stream-window row is $W$, and the only regular rational readback row is $R$, so a sequence-convergence request has no alternate entry point.
+
+Read the handoff in order. The finite windows in $W$ name the sequence observations, $R$ attaches the regular rational readback needed by L10 completion consumers, and $E$ records only the Real-seal boundary reached by those displayed rows.
+
+Replay through $H,C,P,N$. These rows transport, replay, source, and name the same handoff, while the sibling order-topology chapters \autoref{ch:concrete-instances-real-order-topology-namecert} and \autoref{ch:concrete-instances-dyadic-order-topology-namecert} supply point/order topology neighbours rather than a replacement for this sequence-window route.
+\end{proof}
+
+\closureat{SequentialOrderTopologyUp}{seedStr}
+
+\begin{closurestatus}{\SequentialOrderTopologyUp}
+  \constructivestory{A $\SequentialOrderTopologyUp$ packet is generated from displayed Order, Topology, sequence-window, StreamName, RegSeqRat, Real-seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-order-topology-carrier}, \autoref{thm:sequential-order-topology-namecert-obligations}, and \autoref{thm:sequential-order-topology-stream-handoff} seed the finite sequential order-topology route through order, generated-open, sequence-window, StreamName, RegSeqRat, Real-seal, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, trichotomy, host subsets, selected limits, quotient sequence equality, open-cover compactness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, order-row stability, sequential-open readback, topology compatibility, StreamName handoff, transport, replay, provenance, local naming, and nonescape for BEDC.Derived.SequentialOrderTopologyUp.}
+\end{closurestatus}

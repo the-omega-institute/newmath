@@ -527,6 +527,46 @@ Apply the Real-seal nonescape theorem. The seal-facing read is confined to $S,R,
 There is no coordinate in the carrier for quotient completion, selected representatives, countable-choice schedules, ambient completeness, or completeness of $\RealUp$. Therefore the Real-facing route ends at the displayed readback-and-seal boundary rather than at any host completion principle.
 \end{proof}
 
+\begin{theorem}[SequentiallyCompleteMetric display route]
+\label{thm:sequentially-complete-metric-display-route}
+Every accepted $\SequentiallyCompleteMetricUp$ packet exposes its root sequence-completeness surface in the order
+$$
+X,S,R,M,L,D,H,C,P,N .
+$$
+Here $X$ is the metric source, $S$ is the $\StreamNameUp$ window row, $R$ is the $\RegSeqRatUp$ readback attached to that row, $M$ is the displayed modulus, $L$ is the displayed limit, $D$ is the late-distance ledger, $H$ is componentwise $\hsame$ transport, $C$ is $\Cont$ replay, $P$ is $\Pkg$ provenance, and $N$ is the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequentially-complete-metric-carrier} and the finite Cauchy-window package of \autoref{def:sequentially-complete-metric-finite-cauchy-window}. The carrier supplies $X,S,M,L,D,H,C,P,N$, and the package displays the regular rational readback row $R$ between the stream windows and the modulus.
+
+Apply the completion handoff obligations of \autoref{thm:sequentially-complete-metric-completion-handoff-obligations}. They require every completion-facing consumer to read the metric source, finite stream windows, regular rational readback, modulus threshold, displayed limit row, late-distance ledger, transport, replay, provenance, and local naming rows before using the handoff.
+
+Finally compose with regular limit extraction from \autoref{thm:sequentially-complete-metric-regular-limit-extraction}. The extraction reaches $L$ and $D$ only after $X,S,R,M$ have been displayed, and the route is then replayed through $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric limit nonescape]
+\label{thm:sequentially-complete-metric-limit-nonescape}
+For an accepted $\SequentiallyCompleteMetricUp$ carrier, the displayed limit row $L$ cannot be replaced by quotient completion, selected representatives, countable choice, open-cover compactness, ambient completeness, or $\RealUp$ completeness. Any limit-facing read is confined to the displayed metric source, stream windows, regular rational readback, modulus, late-distance ledger, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with the ledger nonescape theorem \autoref{thm:sequentially-complete-metric-nonescape}. It states that the carrier has no row for quotient completion, selected representatives, countable choice, open-cover compactness, ambient completeness, or completeness of $\RealUp$.
+
+Use the limit readback package of \autoref{thm:sequentially-complete-metric-limit-readback-package}. The displayed limit row is read together with the late-distance ledger through the same finite Cauchy-window package, so the limit witness remains a row of the accepted packet.
+
+The Real route boundary of \autoref{thm:sequentially-complete-metric-real-route-boundary} gives the final exclusion. Even when a consumer asks for a $\RealUp$-facing route, it reaches only the displayed readback-and-seal boundary, not a completeness theorem for $\RealUp$ or an ambient completion object.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric RegSeqRat source route]
+\label{thm:sequentially-complete-metric-regseqrat-source-route}
+Every sequence-completeness consumer reaches the late-distance ledger $D$ only after the $\StreamNameUp$ windows and $\RegSeqRatUp$ readback rows have been displayed over the same metric source. The route is source-first: it reads $X$, then $S$ and $R$, then the modulus $M$, and only then the displayed limit row $L$ and late-distance ledger $D$.
+\end{theorem}
+\begin{proof}
+Project the finite Cauchy-window package. Its sequence surface is not a free stream: the windows $S$ and regular rational readback $R$ are displayed over the metric source row $X$ before any modulus or limit row is available.
+
+Apply the Cauchy-sequence obligation of \autoref{thm:sequentially-complete-metric-cauchy-sequence-obligation}. It forces the source metric, stream windows, rational readback, and modulus threshold to be exposed before a sequence-completeness read can consume $L$ or $D$.
+
+Now use source-first tail read from \autoref{thm:sequentially-complete-metric-source-first-tail-read}. A tail read later consumed as a displayed limit read cannot begin from a free-standing limit, quotient-completion class, or selected representative, so every path to the late-distance ledger passes through $\StreamNameUp$ and $\RegSeqRatUp$ first.
+\end{proof}
+
 \begin{closurestatus}{\SequentiallyCompleteMetricUp}
   \constructivestory{A $\SequentiallyCompleteMetricUp$ packet is generated from a displayed $\MetricUp$ source, a regular Cauchy sequence read through $\StreamNameUp$ and $\RegSeqRatUp$ rows, a modulus, a displayed limit point, late-distance bound rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
