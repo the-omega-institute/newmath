@@ -214,6 +214,7 @@ Finally use the downstream anchor and scope theorem. By \autoref{thm:productmetr
 \label{thm:productmetric-real-classifier-public-export}
 Let $Q=(X,Y,d_X,d_Y,\Pi,\delta,H,C,P,N)$ be an accepted $\ProductMetricUp$ packet. The scoped product packet exports a public $\MetricSpaceUp$-facing $\RealUp$ classifier surface exactly through the two component $\MetricSpaceUp$ distance rows $d_X$ and $d_Y$, the $\ProdUp$ pairing row $\Pi$, the product-distance ledger $\delta$, the displayed $\hsame$ and $\Cont$ transports, the $\Pkg$ provenance row, and the local $\NameCert_{\ProductMetricUp}$ row. It exports no host pair equality, quotient product, selected real limit, or external metric proof.
 \end{theorem}
+\leanchecked{BEDC.Derived.ProductMetricUp.ProductMetricCarrier\_real\_classifier\_public\_export}
 \begin{proof}
 First build the component distance surface. Apply \autoref{thm:productmetric-component-distance-transport}; the two component $\MetricSpaceUp$ classifiers carry the $\RealUp$ distance rows $d_X$ and $d_Y$ through the displayed $\hsame$ and $\Cont$ routes.
 
@@ -255,12 +256,14 @@ Finally apply projection route exactness. Each component read enters through the
 \closureat{ProductMetricUp}{seedStr}
 \closureat{ProductMetricUp}{obligationStr}
 \closureat{ProductMetricUp}{scopedStr}
+\closureat{ProductMetricUp}{publicStr}[BEDC.Derived.ProductMetricUp.ProductMetricCarrier\_metricspace\_anchor]
 
 \begin{closurestatus}{\ProductMetricUp}
   \constructivestory{A $\ProductMetricUp$ packet is generated from two $\MetricSpaceUp$ carrier and classifier rows, two $\RealUp$ distance witness rows, a $\ProdUp$ pairing row, a product-distance ledger, componentwise $\hsame$ transport, projection $\Cont$ routes, $\Pkg$ provenance, and a local naming row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{The scoped rows are \autoref{thm:productmetric-scoped-dependency-package} and \autoref{thm:productmetric-distance-ledger-scope}: every product-distance read is bound to the displayed component metrics, pairing row, distance ledger, projection routes, package provenance, and local naming surface.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{The scoped rows are \autoref{thm:productmetric-scoped-dependency-package} and \autoref{thm:productmetric-distance-ledger-scope}; the public export row is \autoref{thm:productmetric-public-metricspace-export}, which binds every product-distance read to the displayed component metrics, pairing row, distance ledger, projection routes, package provenance, and local naming surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.ProductMetricUp.ProductMetricCarrier\_metricspace\_anchor}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close quotient products, host pair equality, selected real limits, classical choice data, compactness of the product, or bridge checking.}
