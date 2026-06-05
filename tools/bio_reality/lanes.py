@@ -3286,6 +3286,9 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"\providecommand{\hsame}{\equiv_h}",
         r"\providecommand{\Cont}{\mathrm{Cont}}",
         r"\providecommand{\Pkg}{\mathrm{Pkg}}",
+        r"% article 类无 \chapter: codex 偶尔在 namecert/conjecture 写 \chapter → "
+        r"Undefined control sequence 致命 build 断. 降级为 \section 兜底, 不让结构命令断 build.",
+        r"\providecommand{\chapter}[1]{\section{#1}}",
         r"\newtheorem{definition}{Definition}[section]",
         r"\newtheorem{theorem}[definition]{Theorem}",
         r"\newtheorem{lemma}[definition]{Lemma}",
@@ -4410,6 +4413,12 @@ def _sanitize_textmode_underscores(text: str) -> str:
         转义会破坏 \\ref 匹配 / 路径).
     已转义的 `\\_` 不重复处理.
     """
+    # 先修 JSON double-escape 残留: codex 偶尔把 chapter_content 的换行/制表写成字面
+    # `\n` / `\t` (backslash-n, JSON 里多转义一层) 而非真字符 → LaTeX 报
+    # "Undefined control sequence \n" 致命 build 断 (flaky: 取决于该轮 render 是否带残留).
+    # 还原: 前面不是反斜杠 (排除 \\ 续行) 且后面不接字母 (排除 \newcommand/\times 等真命令).
+    text = re.sub(r"(?<!\\)\\n(?![a-zA-Z])", "\n", text)
+    text = re.sub(r"(?<!\\)\\t(?![a-zA-Z])", " ", text)
     out: list[str] = []
     last = 0
     for m in _SANITIZE_PROTECT_RE.finditer(text):

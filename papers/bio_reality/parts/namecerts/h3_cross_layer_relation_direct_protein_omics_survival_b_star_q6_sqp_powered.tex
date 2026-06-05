@@ -1,0 +1,39 @@
+\subsection{Direct protein-omics survival of $B^{\ast}_{Q6}$ residual coordinates}\label{subsec:b-star-q6-direct-protein-omics-survival}
+\origin{ai}
+
+\paragraph{Finite row object.}
+This record tests whether synonymous residual coordinates in the $B^{\ast}_{Q6}$ family retain direct predictive contact with measured protein abundance after ordinary sequence-level composition has been removed.  The finite carrier is a CDS-by-organism table whose rows are real coding sequences joined to measured protein abundance.  Its coordinate block contains the nine residual coordinates
+$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.
+The readout is $\log_{10}(\mathrm{abundance\_ppm})$ from measured PAXdb protein abundance, joined to CDS codon counts.  The organism rows are finite and explicit: $3739$ joined proteins for \emph{Escherichia coli} K-12 MG1655 with join hit rate $0.9978649586335735$, $4129$ joined proteins for \emph{Mycobacterium smegmatis} str. mc2 155 with join hit rate $1.0$, and $5815$ joined proteins for \emph{Saccharomyces cerevisiae} with join hit rate $0.9156038419146592$.
+
+\paragraph{Residualization model.}
+For each organism, the protein-abundance column is tested only after residualizing against the declared baseline controls: CDS length, amino-acid composition, GC3, and methionine-density controls.  The recorded control block has $24$ columns in each organism, with $\operatorname{rank}(Z)=23$.  The residual coordinate block keeps full coordinate rank in every organism:
+$$
+\begin{aligned}
+\operatorname{rank}(\widetilde Q) &= 9,\\
+\#\{q_i\} &= 9.
+\end{aligned}
+$$
+The residual degrees of freedom after removing $Z$ are $3716$ for \emph{E. coli}, $4106$ for \emph{M. smegmatis}, and $5792$ for yeast.  The recorded residual response energies are $4020.333671802061$, $5729.194538214237$, and $2958.1865890925337$, respectively.  The energy explained by the baseline control block is $432.89050065533684$ in \emph{E. coli}, $183.85037813566998$ in \emph{M. smegmatis}, and $882.6526210803958$ in yeast.  The degeneracy threshold for the residualized response is $R^2=0.999999$, and each organism is marked as rank-sufficient for the finite regression problem.
+
+\paragraph{Direct $Q\to P$ statistic.}
+The computed direct protein-omics statistic is the partial survival of the nine-coordinate $B^{\ast}_{Q6}$ residual block against the protein abundance readout after the baseline controls have been removed.  The positive threshold is $10^{-12}$.  The finite readback is:
+$$
+\begin{aligned}
+R^2_{QP}(\emph{E. coli}) &= 0.10767526677985896,\\
+R^2_{QP}(\emph{M. smegmatis}) &= 0.03209009170649934,\\
+R^2_{QP}(\emph{S. cerevisiae}) &= 0.29837624994140827.
+\end{aligned}
+$$
+All three organism-specific fits report $9$ surviving coordinates.  Thus the bounded conclusion of this finite row is not merely that a codon table can be formed; it is that the amino-acid-quotient synonymous residual block still carries a positive direct association with measured protein abundance in each of the three joined organism datasets after the listed baseline controls have been removed.
+
+\paragraph{Translation boundary.}
+This direct $S^{QP}$ result is not a translation-rate result.  The same project memory also records a modeled tAI contact for three organisms, computed from GtRNAdb tRNA gene-copy data and dos Reis wobble weights.  That modeled contact contains all standard amino-acid tRNA families for the three organisms: \emph{E. coli} K-12 has $89$ FASTA headers, $87$ matched headers, and $20$ standard amino-acid families; human has $432$ headers, all matched, and $20$ families; yeast has $275$ headers, all matched, and $20$ families.  The modeled tAI readout has $61$ sense codons in each organism and no zero-raw-weight fallback cases.  It also records $81$ coupling entries above threshold $0.01$, with maximum absolute score $3801961.031607896$.
+
+Those tAI rows are useful as a modeled translation-adaptation contact, but they are not measured ribosome profiling, not measured translation efficiency, and not a mediator matrix joining the same CDS rows to protein abundance.  The direct protein-omics computation reported here also records that it does not use perturbation, rescue, ribosome profiling, matched transcript controls, or an explicit $Q_i\to T_j\to P_k$ mediation fit.  Consequently the symbol $S^{QP}$ in this chapter denotes a direct codon-residual to protein-abundance association, not a causal translation mechanism and not a mediated translation claim.
+
+\paragraph{Local interpretation.}
+The finite observation is a cross-layer association from synonymous residual coordinates to measured protein abundance under the stated baseline residualization.  It supports the narrower statement that $B^{\ast}_{Q6}$ residual information can survive into a protein-omics abundance readout in these joined finite datasets.  It does not by itself identify whether the route passes through elongation speed, initiation, mRNA abundance, protein turnover, measurement bias, or another biological covariate not included in the finite table.  A stronger mediated claim would require the same CDS rows to carry a measured translation readout $T_j$, matched mRNA controls, and an explicit comparison of the direct $Q_i\to P_k$ signal before and after conditioning on $T_j$.
+
+\paragraph{Cannot-claim boundary.}
+No translation mechanism follows from this chapter alone.  No folding statement, physical admissibility statement, localization statement, post-translational-modification statement, pathway-function statement, phenotype statement, or universal biological law follows from the positive $R^2_{QP}$ values.  Protein abundance is a steady-state omics readout with known noise routes, including protein turnover, ionization efficiency, sample preparation effects, and identifier aggregation.  The finite result should therefore be read as positive direct protein-omics survival of the nine $B^{\ast}_{Q6}$ synonymous residual coordinates in the stated rows, with mechanism and higher biological layers held outside the claim until separate matched contacts supply them.
