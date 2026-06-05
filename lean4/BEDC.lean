@@ -2322,6 +2322,7 @@ import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditBoundaryFactorization
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRouteCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRouteTotality
@@ -2357,6 +2358,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NameCertThresholdPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NamecertSourceLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NormalizationFrontierHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ObligationRouteTriad
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerLandingSurface
@@ -2377,6 +2379,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerAuditFactorizat
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueBridgeDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDownstreamCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootLedgerReadiness
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootNamecertHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationExportLock
@@ -4012,6 +4015,7 @@ import BEDC.Derived.FastCauchySequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySequenceUp.TasteGate
 import BEDC.Derived.FastCauchySubsequenceUp.ChoiceFreeCompletionWindow
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalFastRateScope
+import BEDC.Derived.FastCauchySubsequenceUp.CofinalModulusConsumption
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalReadbackNonescape
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalRegSeqRatCoverage
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalSelectorStrictGrowth
@@ -4426,6 +4430,7 @@ import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditHandoff
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditNonclosure
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.FiniteOrthonormalBasisUp.TasteGate
+import BEDC.Derived.FiniteOscillationPartitionUp.TasteGate
 import BEDC.Derived.FiniteOscillationRadiusLedgerUp.TasteGate
 import BEDC.Derived.FinitePartitionMeshUp.TasteGate
 import BEDC.Derived.FinitePhaseSamplingUp
