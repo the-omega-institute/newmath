@@ -108,4 +108,67 @@ theorem RatStreamNameFiniteWindowClassifier_open_phase_four_face_exit_readback
       readbackRoute
   exact ⟨selectedClassifier, readbackUnary, sealSame⟩
 
+theorem StreamNameFourFaceAuditCleanThresholdReadback [AskSetup] [PackageSetup]
+    {window ledger readback realSeal support route auditRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory window ->
+      UnaryHistory ledger ->
+          UnaryHistory readback ->
+          UnaryHistory realSeal ->
+            UnaryHistory support ->
+              Cont window ledger readback ->
+                Cont readback realSeal route ->
+                  Cont route support auditRead ->
+                    PkgSig bundle support pkg ->
+                      PkgSig bundle auditRead pkg ->
+                        SemanticNameCert
+                            (fun row : BHist => hsame row auditRead ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row window ∨ hsame row ledger ∨ hsame row readback ∨
+                                hsame row realSeal ∨ hsame row support ∨ hsame row auditRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ Cont window ledger readback ∧
+                                Cont readback realSeal route ∧ Cont route support auditRead ∧
+                                  PkgSig bundle support pkg ∧ PkgSig bundle auditRead pkg)
+                            hsame ∧
+                          UnaryHistory auditRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro windowUnary ledgerUnary _readbackUnary realSealUnary supportUnary windowLedgerReadback
+    readbackSealRoute routeSupportAudit supportPkg auditPkg
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed windowUnary ledgerUnary windowLedgerReadback
+  have routeUnary : UnaryHistory route :=
+    unary_cont_closed readbackUnary realSealUnary readbackSealRoute
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed routeUnary supportUnary routeSupportAudit
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited := Exists.intro auditRead ⟨hsame_refl auditRead, auditUnary⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows source
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) source.left,
+              unary_transport source.right sameRows⟩
+      }
+      pattern_sound := by
+        intro _row source
+        exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      ledger_sound := by
+        intro _row source
+        exact
+          ⟨source.right, windowLedgerReadback, readbackSealRoute, routeSupportAudit,
+            supportPkg, auditPkg⟩
+    }
+  · exact auditUnary
+
 end BEDC.Derived.StreamNameUp
