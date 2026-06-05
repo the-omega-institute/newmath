@@ -765,6 +765,7 @@ import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedBoundaryExactness
 import BEDC.Derived.BinderContextSubstitutionSealUp.ClosedTermBoundaryDependency
 import BEDC.Derived.BinderContextSubstitutionSealUp.CompilerHandoff
 import BEDC.Derived.BinderContextSubstitutionSealUp.ObligationConsumer
+import BEDC.Derived.BirkhoffInterpolationUp.TasteGate
 import BEDC.Derived.BisectionConvergenceUp.TasteGate
 import BEDC.Derived.BisectionMethodUp.TasteGate
 import BEDC.Derived.BisectionRootCauchySealUp.TasteGate
@@ -4018,6 +4019,7 @@ import BEDC.Derived.FanfunctionalUp.RootWindowObligations
 import BEDC.Derived.FanfunctionalUp.ScopedChoiceNonescape
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
 import BEDC.Derived.FanfunctionalUp.ScopedFiniteModulusExport
+import BEDC.Derived.FanfunctionalUp.UniformModulusConsumerBoundary
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
@@ -5705,6 +5707,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceLockCertificate
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateLedgerPublicBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierNormalFormDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierObstructionNonescape
