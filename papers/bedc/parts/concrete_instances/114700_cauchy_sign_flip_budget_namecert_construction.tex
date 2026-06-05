@@ -1,0 +1,71 @@
+\chapter{Cauchy Sign-Flip Budget NameCert Construction}
+\label{ch:concrete-instances-cauchy-sign-flip-budget-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchySignFlipBudgetUp$ packet records the finite sign-flip budget consumed when a regular Cauchy rational name is negated and then sealed as a Real-facing name. It sits after the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the displayed negation route of \autoref{ch:concrete-instances-regularcauchynegation-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives later Real algebra certificates a finite budget object for sign reversal, rather than treating negation as an ambient completed-real operation.
+
+\begin{definition}[Cauchy sign-flip budget carrier]
+\label{def:cauchy-sign-flip-budget-carrier}
+A $\CauchySignFlipBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(S,D,R,F,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ window row naming the finite source windows opened by a requested negation read.
+\item $D$ is the $\DyadicRatCoreUp$ budget row recording endpoint scale, requested precision, and the sign-flipped dyadic tolerance rows attached to $S$.
+\item $R$ is the $\RegSeqRatUp$ readback row for the source regular rational name over the same windows.
+\item $F$ is the finite sign-flip ledger, pairing each displayed dyadic endpoint in $D$ with its negated endpoint and the same tolerance request.
+\item $G$ is the $\RegularCauchyNegationUp$ consumer row that reads $S,D,R,F$ before any downstream algebraic consumer may use the negated name.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the regular readback, dyadic sign-flip ledger, and negation consumer row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the window, dyadic budget, readback, sign-flip ledger, negation consumer, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite sign-flip request through $S,D,R,F,G,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchySignFlipBudgetUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchyNegationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchySignFlipBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,R,F,G,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, host real negation, trichotomy, ambient $\RealUp$ completeness, or bridge credentials.
+\end{definition}
+
+\begin{theorem}[Cauchy sign-flip budget window stability]
+\label{thm:cauchy-sign-flip-budget-window-stability}
+Let $B=(S,D,R,F,G,E,H,C,P,N)$ and $B'=(S',D',R',F',G',E',H',C',P',N')$ be accepted $\CauchySignFlipBudgetUp$ carriers. If the $\StreamNameUp$ window rows, $\DyadicRatCoreUp$ budget rows, $\RegSeqRatUp$ readback rows, and structural rows agree under the displayed $\hsame$ and $\Cont$ transport, then the sign-flip ledger and terminal Real-seal route cannot diverge. Every public negation read is forced through the same finite route
+$$
+S\longmapsto D\longmapsto R\longmapsto F\longmapsto G\longmapsto E
+$$
+and its transported counterpart for $B'$.
+\end{theorem}
+\begin{proof}
+Project both carriers through \autoref{def:cauchy-sign-flip-budget-carrier}. The public analytic coordinates are exactly the window row, dyadic budget row, regular readback row, sign-flip ledger, negation consumer row, and Real seal row.
+
+The assumed $\hsame$ and $\Cont$ agreement identifies the source windows, the dyadic tolerance budget, and the regular readback. Since $F$ has no independent coordinate beyond the displayed dyadic endpoint sign reversal over those rows, the sign-flip ledger is transported with the same finite windows.
+
+The $\RegularCauchyNegationUp$ row $G$ is downstream of $S,D,R,F$, and the $\RealUp$ seal $E$ is downstream of $G$. Thus a Real-facing consumer cannot select a second negation route or a second seal route. The transported packet $B'$ follows the same argument with primed rows.
+\end{proof}
+
+\begin{theorem}[Cauchy sign-flip budget Real-seal boundary]
+\label{thm:cauchy-sign-flip-budget-real-seal-boundary}
+Every $\RealUp$ algebra, apartness, sum, difference, or additive-inverse consumer of an accepted $\CauchySignFlipBudgetUp$ carrier must expose the $\StreamNameUp$ windows, $\DyadicRatCoreUp$ sign-flip budget, $\RegSeqRatUp$ readback, $\RegularCauchyNegationUp$ consumer row, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows. The packet exports no quotient stream equality, selected host limit, completed-real inverse law, trichotomy, ambient completeness, or bridge credential.
+\end{theorem}
+\begin{proof}
+Start from the carrier inventory of \autoref{def:cauchy-sign-flip-budget-carrier}. The sign-flip budget is displayed before the negation consumer row, and the negation consumer row is displayed before the terminal Real seal.
+
+Apply \autoref{thm:cauchy-sign-flip-budget-window-stability}. Any later algebraic or apartness read preserves the same finite window and dyadic-budget route under the stored transport and replay rows.
+
+The excluded objects have no carrier coordinate and no provenance row. Hence they cannot be exported by the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchySignFlipBudgetUp$ read must expose StreamName windows, DyadicRatCore sign-flip budget rows, RegSeqRat readback, RegularCauchyNegation consumer rows, a terminal RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+
+\independenceWitness{streamname, dyadicratcore, regseqrat, regularcauchynegation, real: $\CauchySignFlipBudgetUp$ is not bijective to any listed sibling because it jointly stores the finite windows, dyadic sign-flip budget, regular readback, negation consumer row, terminal Real seal, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{CauchySignFlipBudgetUp}{seedStr}
+
+\begin{closurestatus}{\CauchySignFlipBudgetUp}
+  \constructivestory{A $\CauchySignFlipBudgetUp$ packet is generated from StreamName windows, DyadicRatCore sign-flip budget rows, RegSeqRat readback, RegularCauchyNegation consumer rows, a terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-sign-flip-budget-carrier}, \autoref{thm:cauchy-sign-flip-budget-window-stability}, and \autoref{thm:cauchy-sign-flip-budget-real-seal-boundary} seed the finite sign-flip budget consumed by regular Cauchy negation and Real sealing.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host real negation, completed-real inverse laws, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, window stability, dyadic sign-flip budget preservation, RegSeqRat readback, RegularCauchyNegation consumption, Real-seal nonescape, transport, replay, provenance, and local naming for $\CauchySignFlipBudgetUp$.}
+\end{closurestatus}
