@@ -2394,22 +2394,25 @@ def _bios_codex_resolve_merge(
         return False, {"reason": "no_conflict_files"}
     sig = hashlib.sha256(("|".join([upstream_sha] + sorted(conflict_files))).encode("utf-8")).hexdigest()[:16]
     take_theirs_bedc = bool(cfg.get("papers_bedc_take_theirs") or False)
-    take_theirs_bioreality_namecert = bool(cfg.get("papers_bio_reality_namecert_take_theirs", True))
+    take_ours_bioreality = bool(cfg.get("papers_bio_reality_take_ours", True))
 
-    def _take_theirs_eligible(rel: str) -> bool:
+    def _conflict_side(rel: str) -> str | None:
+        # 按域定权威方向:
+        #  - papers/bedc/ 是 Loning 域 → auto-dev 权威 → 取 theirs.
+        #  - papers/bio_reality/parts/ 是我方域 → 我方 daemon 生成的 rich 内容权威;
+        #    auto-dev 上是更旧的 bio-namer draft stub, 取 theirs 会把 rich 章节降级成
+        #    stub → rich↔stub 每 cycle ping-pong churn. 故取 OURS, 保我方内容.
+        #    registries (claims.json/experiments.json) 不在 parts/ 下, 不受影响.
         if take_theirs_bedc and rel.startswith("papers/bedc/"):
-            return True
-        # 整个 papers/bio_reality/parts/ 都是 churn 改写的等价论文内容 (namecert + spine
-        # codon_window_reality_boundary.tex 等), 冲突取 theirs 安全. registries (claims.json/
-        # experiments.json) 不在 parts/ 下, 不受影响——我们的 claim 不会被覆盖.
-        if take_theirs_bioreality_namecert and rel.startswith("papers/bio_reality/parts/"):
-            return True
-        return False
+            return "theirs"
+        if take_ours_bioreality and rel.startswith("papers/bio_reality/parts/"):
+            return "ours"
+        return None
 
     # recurring_skip 只对需 codex 解决的内容冲突限流 (避免反复烧 codex). 若所有冲突文件
-    # 都能用确定性 take-theirs 解决 (papers/bedc 或 churned bio_reality namecert), 跳过限流:
-    # take-theirs 无 codex 成本、确定、重复执行安全; 否则 churn 反复造同一冲突会让 behind 无界增长.
-    if not all(_take_theirs_eligible(f) for f in conflict_files):
+    # 都能用确定性 checkout --ours/--theirs 解决, 跳过限流: 确定、无 codex 成本、重复安全;
+    # 否则 churn 反复造同一冲突会让 behind 无界增长.
+    if not all(_conflict_side(f) for f in conflict_files):
         if _bios_resolve_recent_count(store, sig, recurring_window) >= recurring_threshold:
             _bios_resolve_record(store, {"signature": sig, "action": "recurring_skip", "files_count": len(conflict_files)})
             return False, {"reason": "recurring_skip", "signature": sig, "files_count": len(conflict_files)}
@@ -2424,14 +2427,19 @@ def _bios_codex_resolve_merge(
         except (ValueError, OSError):
             failures.append({"path": rel_path, "reason": "path_outside_repo"})
             continue
-        if _take_theirs_eligible(rel_path):
+        side = _conflict_side(rel_path)
+        if side:
             try:
-                co = _run_command(repo_root, ["git", "checkout", "--theirs", "--", rel_path], timeout=30.0)
+                co = _run_command(repo_root, ["git", "checkout", f"--{side}", "--", rel_path], timeout=30.0)
                 if co.returncode != 0:
-                    failures.append({"path": rel_path, "reason": "checkout_theirs_failed", "stderr": (co.stderr or "")[-200:]})
+                    failures.append({"path": rel_path, "reason": f"checkout_{side}_failed", "stderr": (co.stderr or "")[-200:]})
+                    continue
+                add = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
+                if add.returncode != 0:
+                    failures.append({"path": rel_path, "reason": "git_add_failed", "stderr": (add.stderr or "")[-200:]})
                     continue
             except (OSError, subprocess.TimeoutExpired) as exc:
-                failures.append({"path": rel_path, "reason": "checkout_theirs_exception", "error": str(exc)})
+                failures.append({"path": rel_path, "reason": f"checkout_{side}_exception", "error": str(exc)})
                 continue
             resolved_paths.append(rel_path)
             continue
@@ -4130,25 +4138,34 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
         return {"lane": "bio-H", "status": "error", "error": str(exc)}
 
 
-def _sanitize_textmode_underscores(text: str) -> str:
-    """Deterministically escape raw `_` inside text-mode spans before deploy.
+_SANITIZE_PROTECT_RE = re.compile(
+    r"\$\$.*?\$\$"                          # display math
+    r"|\$[^$]*\$"                           # inline math
+    r"|\\(?:label|ref|autoref|eqref|cref|Cref|pageref|nameref|input|include|cite|citep|citet|citeauthor|url|href|hyperref|bibliography)\b\s*(?:\[[^\]]*\])?\{[^{}]*\}",
+    re.S,
+)
 
-    codex 写出的 namecert 章节偶尔在 `\\texttt{...}` 或反引号引用 `..._..' 里留下
-    未转义的 `_` (text mode 报 "Missing $ inserted" 致命). 这是 bio-W 非确定性
-    输出, 在 write 时一律 normalize, 让 build 永不因此类断 (bio-H 不必再 heal,
-    也避免多文件破坏耗尽 heal attempt budget). 只动 `\\texttt{...}` 与反引号 span,
-    不碰 math mode / 已转义.
+
+def _sanitize_textmode_underscores(text: str) -> str:
+    """Deterministically escape every raw `_` in text mode before deploy.
+
+    codex 写出的 namecert/spine 非确定性地在正文留裸 `_` (NC_000913 / orf_eligibility /
+    \\texttt{a_b} / 反引号引用 等) → LaTeX text mode 报 "Missing $ inserted" 致命.
+    在 write 时一律 normalize, 让 build 不因此断 (bio-H 不必再 heal, 也避免多文件
+    破坏耗尽 heal budget). 转义 prose / texttt / 反引号里的 raw `_`, 但**跳过**:
+      - math ($...$ / $$...$$) 里的合法下标 `_`;
+      - label 族命令参数 (\\label/\\ref/\\input/\\cite/\\url ... 里的 `_` 是字面 key,
+        转义会破坏 \\ref 匹配 / 路径).
+    已转义的 `\\_` 不重复处理.
     """
-    def _escape_all(inner: str) -> str:
-        # \texttt{...} 内容是 verbatim text, $ 不进 math, 全部 raw _ 转义
-        return re.sub(r"(?<!\\)_", r"\\_", inner)
-    def _escape_skip_math(inner: str) -> str:
-        # 反引号 span 可能含 inline $...$ math (合法下标 _), 只转义 math 外的 _
-        parts = re.split(r"(\$[^$]*\$)", inner)
-        return "".join(p if p.startswith("$") else re.sub(r"(?<!\\)_", r"\\_", p) for p in parts)
-    text = re.sub(r"\\texttt\{([^{}]*)\}", lambda m: r"\texttt{" + _escape_all(m.group(1)) + "}", text)
-    text = re.sub(r"`([^`']*)'", lambda m: "`" + _escape_skip_math(m.group(1)) + "'", text)
-    return text
+    out: list[str] = []
+    last = 0
+    for m in _SANITIZE_PROTECT_RE.finditer(text):
+        out.append(re.sub(r"(?<!\\)_", r"\\_", text[last:m.start()]))
+        out.append(m.group(0))  # 受保护区: 原样保留
+        last = m.end()
+    out.append(re.sub(r"(?<!\\)_", r"\\_", text[last:]))
+    return "".join(out)
 
 
 def _write_namecert_proposals(
@@ -4802,6 +4819,41 @@ def _ensure_aggregator_line(aggregator: Path, subdir_slug: str) -> None:
     aggregator.write_text(text, encoding="utf-8")
 
 
+_BEDC_UP_MACRO_RE = re.compile(r"\\([A-Z][A-Za-z0-9]*Up)\b")
+
+
+def _register_bedc_chapter_macros_atomic(hub_text: str, spine_text: str, repo_root: Path) -> list[str]:
+    """扫描章里引用的 \\<Name>Up 记号, 把 preamble 里缺失的按约定补 \\providecommand,
+    与章写入同一工作树 (同 commit), 消除"宏未定义"窗口. providecommand 对已定义宏是 no-op,
+    安全幂等. 约定: \\<Name>Up → \\mathsf{<Name>}^{\\uparrow} (与 late_tail 现有 1500+ 行一致)."""
+    preamble = repo_root / "papers" / "bedc" / "preamble_chapter_macros_late_tail.tex"
+    if not preamble.exists():
+        return []
+    referenced = set(_BEDC_UP_MACRO_RE.findall(hub_text)) | set(_BEDC_UP_MACRO_RE.findall(spine_text))
+    if not referenced:
+        return []
+    try:
+        existing = preamble.read_text(encoding="utf-8")
+    except OSError:
+        return []
+    added: list[str] = []
+    new_lines: list[str] = []
+    for macro in sorted(referenced):
+        if (r"\providecommand{\%s}" % macro) in existing or (r"\newcommand{\%s}" % macro) in existing or (r"\def\%s" % macro) in existing:
+            continue
+        inner = macro[:-2]  # 去掉末尾 "Up"
+        new_lines.append(r"\providecommand{\%s}{\mathsf{%s}^{\uparrow}}" % (macro, inner))
+        added.append(macro)
+    if not new_lines:
+        return []
+    try:
+        body = existing if existing.endswith("\n") else existing + "\n"
+        preamble.write_text(body + "\n".join(new_lines) + "\n", encoding="utf-8")
+    except OSError:
+        return []
+    return added
+
+
 def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     try:
         config = _load_bedc_writeback_config()
@@ -4965,6 +5017,12 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         spine_path.parent.mkdir(parents=True, exist_ok=True)
         hub_path.write_text(hub_text, encoding="utf-8")
         spine_path.write_text(spine_text, encoding="utf-8")
+        # 原子地注册章里引用的 \<Name>Up 记号: 写章与宏定义进同一工作树 (→ 同 commit),
+        # 否则 BEDC preamble 缺该宏 → "Undefined control sequence" → BEDC PDF/CI 红 →
+        # auto_heal 事后救火打地鼠. 这是从根源消除"宏未定义"窗口.
+        registered = _register_bedc_chapter_macros_atomic(hub_text, spine_text, repo_root)
+        if registered:
+            _append_bedc_writeback_log(store, "macros_registered", {"claim_id": claim_id, "macros": registered})
         _ensure_aggregator_line(aggregator, subdir_slug)
         written += 1
         _append_bedc_writeback_log(
