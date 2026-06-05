@@ -5,6 +5,7 @@ import pytest
 
 from bedc_quality_lab.backends.model_discovery import (
     CLAIM_CAPSULE_ARTIFACT,
+    DRT_CANONICAL_ARTIFACT,
     NM_HARDGATE_IDS,
     RUN_ARTIFACT,
     TASK_IDS,
@@ -107,6 +108,20 @@ def test_model_discovery_tasks_carry_control_baseline():
     payload = build_model_discovery_payload(generated_at="fixture-time")
 
     assert {row["control_baseline"] for row in payload["task_grid"]} == {"parameter-matched-linear-reader"}
+
+
+def test_model_discovery_consumes_drt_by_pointer_only():
+    adapter = ModelDiscoveryBackendEvidenceAdapter()
+    source_spec = adapter.build_source_spec()
+    payload = build_model_discovery_payload(generated_at="fixture-time")
+
+    assert source_spec["discovery_regularized_training"]["artifact"] == DRT_CANONICAL_ARTIFACT
+    refs = payload["discovery_regularized_training_refs"]
+    assert refs["discovery_map_signal"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"}
+    assert refs["surface_registry"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
+    assert refs["torch_training_evidence"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.torch_training_evidence"}
+    assert "quality_q" not in refs
+    assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
 
 
 def test_model_discovery_nm_hardgate_pointers_resolve():

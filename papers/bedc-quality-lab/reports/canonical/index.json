@@ -21,13 +21,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 77,
+    "node_count": 80,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 27,
+    "row_count": 28,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -138,6 +138,13 @@
         "report": "sigreg-mini-grid"
       },
       {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.matched_random_control",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.positive_claim",
+        "report": "discovery-regularized-training"
+      },
+      {
         "bundle_role": "auxiliary",
         "control_pointer": null,
         "no_control_rationale_pointer": "$.scope",
@@ -177,14 +184,14 @@
       "D1": 4,
       "D2": 1,
       "D3": 0,
-      "D4": 1,
+      "D4": 2,
       "D5-M": 0,
       "D5-O": 2,
       "DN": 7,
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 19,
+    "row_count": 20,
     "status": "pointer-only"
   },
   "formal_hardening": {
@@ -332,7 +339,8 @@
       "certificate-guided-training",
       "certificate-guided-discovery",
       "sigreg-training-proxy",
-      "sigreg-mini-grid"
+      "sigreg-mini-grid",
+      "discovery-regularized-training"
     ],
     "sections": [
       "experiment bench scope",
@@ -1225,6 +1233,80 @@
           "claim_capsule_ref",
           "claim_capsule_status",
           "positive_claim",
+          "not_claimed",
+          "what_was_learned",
+          "revocation_rows",
+          "forbidden_claim_term_audit"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.matched_random_control",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts.cost_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [
+          "lit-lejepa-theorem-ledger"
+        ],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.positive_claim",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.grid",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/discovery-regularized-training.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/discovery-regularized-training.json",
+      "markdown_artifact": "reports/canonical/discovery-regularized-training.md",
+      "name": "discovery-regularized-training",
+      "producer_command": [
+        "python3",
+        "scripts/run_discovery_regularized_training.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "run_id",
+          "producer",
+          "projector",
+          "run_artifacts",
+          "source_artifacts",
+          "config",
+          "grid",
+          "records",
+          "surface_registry",
+          "lambda_summary",
+          "constraint_summary",
+          "arm_protocol",
+          "device_protocol",
+          "torch_training_evidence",
+          "matched_random_control",
+          "hardgate",
+          "failed_gate",
+          "discovery_map_signal",
+          "positive_claim",
+          "claim_capsule_ref",
           "not_claimed",
           "what_was_learned",
           "revocation_rows",

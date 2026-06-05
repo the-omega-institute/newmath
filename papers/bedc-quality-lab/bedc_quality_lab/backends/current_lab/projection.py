@@ -664,6 +664,60 @@ def _sigreg_mini_grid_projection(payload: Mapping[str, Any]) -> tuple[dict[str, 
     )
 
 
+def _discovery_regularized_training_projection(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[dict[str, Any], ProjectionEvidence]:
+    consistent, _reason, failed_pointer = _discovery_regularized_training_consistency(payload)
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    if not isinstance(signal, Mapping):
+        return {"verdict": "rejected"}, ProjectionEvidence(
+            projection_status="projected",
+            failed_gate="$.discovery_map_signal",
+        )
+    level = signal.get("level_candidate")
+    status = signal.get("status")
+    if consistent and level == "D4" and status == "d4-candidate":
+        return {
+            "positive_discovery": True,
+            "net_positive_signal": True,
+            "main_verdict": {
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "structural_discovery": True,
+                "discovery_regularized_training": {
+                    "level_candidate": "D4",
+                    "status": "d4-candidate",
+                    "evidence_pointer": "$.surface_registry.classifier_shift",
+                    "torch_training_evidence_pointer": "$.torch_training_evidence",
+                },
+            },
+            "evidence_basis": {
+                "discovery_regularized_training": True,
+                "control_positive_discovery": False,
+                "net_positive_signal": True,
+                "scorecard_ready": _scorecard_ready({} if context is None else context),
+            },
+        }, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer="$.surface_registry.classifier_shift",
+            control_pointer="$.matched_random_control",
+            scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
+        )
+    return {
+        "verdict": "rejected",
+        "main_verdict": {
+            "discovery_regularized_training": {
+                "level_candidate": "DN",
+                "status": "negative",
+            },
+        },
+    }, ProjectionEvidence(
+        projection_status="projected",
+        failed_gate=failed_pointer,
+    )
+
+
 def _sigreg_failed_gate_pointer(payload: Mapping[str, Any]) -> str:
     failed_gate = pointer_value(payload, "$.failed_gate")
     if isinstance(failed_gate, str) and failed_gate:
@@ -720,6 +774,48 @@ def _sigreg_mini_grid_consistency(payload: Mapping[str, Any]) -> tuple[bool, str
     if pointer_value(payload, "$.hardgate.failed_gate") != expected["failed_gate"]:
         return False, "sigreg-mini-grid-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.hardgate.status"
+
+
+def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
+    hardgates = pointer_value(payload, "$.hardgate.gates")
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    if not isinstance(hardgates, Mapping) or not hardgates:
+        return False, "missing-drt-hardgates", "$.hardgate.gates"
+    if not isinstance(signal, Mapping):
+        return False, "missing-drt-discovery-map-signal", "$.discovery_map_signal"
+    failed = next(
+        (
+            name
+            for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5")
+            if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
+        ),
+        None,
+    )
+    if failed is None:
+        expected = {
+            "status": "d4-candidate",
+            "level_candidate": "D4",
+            "reason": "matched-control-positive",
+            "failed_gate": None,
+            "failed_gate_pointer": None,
+        }
+    else:
+        expected = {
+            "status": "negative",
+            "level_candidate": "DN",
+            "reason": "hardgate-failed",
+            "failed_gate": failed,
+            "failed_gate_pointer": f"$.hardgate.gates.{failed}.status",
+        }
+    for key, expected_value in expected.items():
+        if signal.get(key) != expected_value:
+            pointer = signal.get("failed_gate_pointer")
+            return False, f"drt-{key}-mismatch", pointer if isinstance(pointer, str) else "$.discovery_map_signal"
+    if pointer_value(payload, "$.hardgate.failed_gate") != expected["failed_gate"]:
+        return False, "drt-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
+    if signal.get("torch_training_evidence_pointer") != "$.torch_training_evidence":
+        return False, "drt-torch-pointer-mismatch", "$.discovery_map_signal.torch_training_evidence_pointer"
+    return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.surface_registry.classifier_shift"
 
 
 def _sigreg_training_proxy_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
@@ -992,6 +1088,8 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _sigreg_training_proxy_projection(payload)
     elif spec.name == "sigreg-mini-grid":
         overlay, evidence = _sigreg_mini_grid_projection(payload)
+    elif spec.name == "discovery-regularized-training":
+        overlay, evidence = _discovery_regularized_training_projection(payload, context)
     elif spec.name == "gap-head-ablation":
         overlay, evidence = _gap_head_ablation_projection(payload)
     elif spec.name == "gap-head-transfer-atlas":
@@ -1149,6 +1247,10 @@ def _audit_row(
             return "invalid", reason
     if spec.name == "sigreg-mini-grid":
         consistent, reason, _failed_pointer = _sigreg_mini_grid_consistency(payload)
+        if not consistent:
+            return "invalid", reason
+    if spec.name == "discovery-regularized-training":
+        consistent, reason, _failed_pointer = _discovery_regularized_training_consistency(payload)
         if not consistent:
             return "invalid", reason
     if spec.name == "gap-head-attribution-capsule":
