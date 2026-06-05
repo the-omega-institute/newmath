@@ -319,5 +319,147 @@ theorem MetacicNormalizationAuditCarrier_ledger_policy [AskSetup] [PackageSetup]
   }
   exact ⟨cert, ledgerReadUnary, provenancePkg, localNamePkg⟩
 
+theorem MetacicNormalizationAuditResidualBudgetObligation [AskSetup] [PackageSetup]
+    {kernel normalizer frontier sn confluence audit ledger transport replay provenance
+      localName residualRead budgetRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicNormalizationAuditUp kernel normalizer frontier sn confluence audit ledger
+        transport replay provenance localName bundle pkg →
+      Cont audit replay residualRead →
+        Cont residualRead confluence budgetRead →
+          PkgSig bundle budgetRead pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  hsame row budgetRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+                (fun row : BHist =>
+                  hsame row frontier ∨ hsame row sn ∨ hsame row audit ∨
+                    hsame row confluence ∨ hsame row residualRead ∨
+                      hsame row budgetRead ∨ hsame row provenance)
+                (fun row : BHist =>
+                  hsame row budgetRead ∧ Cont frontier sn audit ∧
+                    Cont audit replay residualRead ∧
+                      Cont residualRead confluence budgetRead ∧
+                        PkgSig bundle provenance pkg)
+                hsame ∧ UnaryHistory audit ∧ UnaryHistory residualRead ∧
+              UnaryHistory budgetRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory PkgSig
+  intro carrier residualRoute budgetRoute budgetPkg
+  obtain ⟨_kernelUnary, _normalizerUnary, frontierUnary, snUnary, confluenceUnary,
+    _auditUnary, _ledgerUnary, _transportUnary, replayUnary, _provenanceUnary,
+    _localNameUnary, _kernelNormalizerFrontier, frontierSnAudit, _confluenceAuditLedger,
+    _transportReplaySame, provenancePkg, _localNamePkg⟩ := carrier
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed frontierUnary snUnary frontierSnAudit
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed auditUnary replayUnary residualRoute
+  have budgetUnary : UnaryHistory budgetRead :=
+    unary_cont_closed residualUnary confluenceUnary budgetRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row budgetRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+          (fun row : BHist =>
+            hsame row frontier ∨ hsame row sn ∨ hsame row audit ∨
+              hsame row confluence ∨ hsame row residualRead ∨ hsame row budgetRead ∨
+                hsame row provenance)
+          (fun row : BHist =>
+            hsame row budgetRead ∧ Cont frontier sn audit ∧
+              Cont audit replay residualRead ∧ Cont residualRead confluence budgetRead ∧
+                PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro budgetRead
+        ⟨hsame_refl budgetRead, budgetUnary, budgetPkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        cases sameRows
+        exact sourceRow
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sourceRow.left)))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.left, frontierSnAudit, residualRoute, budgetRoute, provenancePkg⟩
+  }
+  exact ⟨cert, auditUnary, residualUnary, budgetUnary⟩
+
+theorem MetacicNormalizationAuditCarrier_residual_budget_obligation [AskSetup] [PackageSetup]
+    {kernel normalizer frontier sn confluence audit ledger transport replay provenance
+      localName residualRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetacicNormalizationAuditUp kernel normalizer frontier sn confluence audit ledger
+        transport replay provenance localName bundle pkg →
+      Cont audit ledger residualRead →
+        PkgSig bundle residualRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row residualRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row frontier ∨ hsame row sn ∨ hsame row audit ∨
+                  hsame row ledger ∨ hsame row residualRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont frontier sn audit ∧
+                  Cont audit ledger residualRead ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle residualRead pkg)
+              hsame ∧ UnaryHistory residualRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SemanticNameCert hsame Cont UnaryHistory PkgSig
+  intro carrier auditLedgerResidual residualPkg
+  obtain ⟨_kernelUnary, _normalizerUnary, frontierUnary, snUnary, _confluenceUnary,
+    _auditUnary, ledgerUnary, _transportUnary, _replayUnary, _provenanceUnary,
+    _localNameUnary, _kernelNormalizerFrontier, frontierSnAudit, _confluenceAuditLedger,
+    _transportReplaySame, provenancePkg, _localNamePkg⟩ := carrier
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed frontierUnary snUnary frontierSnAudit
+  have residualUnary : UnaryHistory residualRead :=
+    unary_cont_closed auditUnary ledgerUnary auditLedgerResidual
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row residualRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row frontier ∨ hsame row sn ∨ hsame row audit ∨
+              hsame row ledger ∨ hsame row residualRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont frontier sn audit ∧
+              Cont audit ledger residualRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle residualRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro residualRead
+        ⟨hsame_refl residualRead, residualUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left)))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, frontierSnAudit, auditLedgerResidual, provenancePkg,
+          residualPkg⟩
+  }
+  exact ⟨cert, residualUnary, provenancePkg⟩
+
 end MetacicNormalizationAuditUp
 end BEDC.Derived
