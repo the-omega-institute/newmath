@@ -167,7 +167,7 @@ theorem FrechetFilterTasteGate_single_carrier_alignment :
                 (∀ x y : FrechetFilterUp,
                   frechetFilterFields x = frechetFilterFields y → x = y) ∧
                   frechetFilterEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
     ⟨⟨frechetFilterChapterTasteGate⟩,
       ⟨frechetFilterFieldFaithful⟩,

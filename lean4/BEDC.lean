@@ -4673,6 +4673,7 @@ import BEDC.Derived.FrechetDerivativeUp.TasteGate
 import BEDC.Derived.FrechetFilterUp
 import BEDC.Derived.FrechetFilterUp.CarrierAdmissionObligation
 import BEDC.Derived.FrechetFilterUp.CofinalTailStabilityObligation
+import BEDC.Derived.FrechetFilterUp.NameCertObligations
 import BEDC.Derived.FrechetFilterUp.TailNeighborhoodHandoff
 import BEDC.Derived.FrechetFilterUp.TasteGate
 import BEDC.Derived.FrechetUrysohnUp.TasteGate
@@ -8263,6 +8264,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.LimitModulusInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitReadbackPackage
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
+import BEDC.Derived.SequentiallyCompleteMetricUp.LimitUniquenessBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.MetricCompletionConsumerAdmission
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RealRefusalBoundary
