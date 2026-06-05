@@ -33,7 +33,7 @@ from scripts.run_gap_ledger_head_on_h import (
 
 SCHEMA_ID = "bedc.quality.claim_capsule"
 SOURCE_ISSUE = 692
-SOURCE_ISSUES = (692, 747)
+SOURCE_ISSUES = (692, 747, 750)
 ARTIFACT_ID = "gap_head_attribution_capsule"
 CANONICAL_NAME = "gap-head-attribution-capsule"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
@@ -44,6 +44,7 @@ PROJECTION_SEED_SALT = 811_773
 ROTATION_SEED_SALT = 811_747
 SCORE_MARGIN_SHUFFLE_SALT = 933_871
 SCORE_MARGIN_REPLACE_SALT = 933_887
+HEAD_PATCH_PERMUTE_SALT = 750_311
 EPS = 1.0e-8
 NOT_CLAIMED = (
     "global model quality",
@@ -722,6 +723,203 @@ def _metrics_for_features(
     )
 
 
+def _head_patched_eval_features(
+    surface: Mapping[str, Any],
+    *,
+    seed: int,
+    mode: str,
+) -> tuple[np.ndarray, dict[str, Any]]:
+    features = _require_matrix("features", surface["features"]).copy()
+    eval_idx = np.asarray(surface["eval_idx"], dtype=np.int64)
+    columns = list(surface["feature_columns"])
+    roots = [column.split(":", 1)[0] for column in columns]
+    h_indices = [index for index, root in enumerate(roots) if root == "h"]
+    if not h_indices:
+        raise ValueError("h columns are required")
+    before = features.copy()
+    if mode == "null_head":
+        features[np.ix_(eval_idx, h_indices)] = 0.0
+        protocol = "deterministic_eval_head_null_patch"
+        seed_salt = None
+    elif mode == "permute_head_rows":
+        seed_salt = HEAD_PATCH_PERMUTE_SALT
+        rng = np.random.default_rng(int(seed) + seed_salt)
+        order = rng.permutation(eval_idx)
+        features[np.ix_(eval_idx, h_indices)] = before[np.ix_(order, h_indices)]
+        protocol = "seed_deterministic_eval_head_row_permutation"
+    else:
+        raise ValueError(f"unknown head patch mode: {mode}")
+    changed = np.abs(features - before) > 1.0e-12
+    train_changed = bool(np.any(changed[np.asarray(surface["train_idx"], dtype=np.int64), :]))
+    eval_changed = bool(np.any(changed[eval_idx, :]))
+    touched_columns = [columns[index] for index, value in enumerate(np.any(changed, axis=0)) if value]
+    touched_roots = sorted({column.split(":", 1)[0] for column in touched_columns})
+    audit_pass = bool(eval_changed and not train_changed and touched_columns and set(touched_roots).issubset({"h"}))
+    return features.astype(np.float64), {
+        "mode": mode,
+        "seed_salt": seed_salt,
+        "protocol": protocol,
+        "touched_column_audit": {
+            "status": "pass" if audit_pass else "fail",
+            "allowed_roots": ["h"],
+            "touched_roots": touched_roots,
+            "touched_columns": touched_columns,
+            "unchanged_non_h_columns": bool(set(touched_roots).issubset({"h"})),
+            "train_features_unchanged": not train_changed,
+            "eval_features_changed": eval_changed,
+        },
+    }
+
+
+def _head_patch_metrics_for_features(
+    *,
+    arm: str,
+    train_features: np.ndarray,
+    eval_features: np.ndarray,
+    surface: Mapping[str, Any],
+) -> dict[str, Any]:
+    train_idx = surface["train_idx"]
+    eval_idx = surface["eval_idx"]
+    labels = _require_matrix("gap_labels", surface["gap_labels"])
+    eval_labels = labels[eval_idx]
+    eval_error = np.asarray(surface["prediction_error"], dtype=np.float64)[eval_idx]
+    heads = _fit_gap_head(train_features[train_idx], labels[train_idx])
+    probabilities = _predict_gap_head(heads, eval_features[eval_idx])
+    return _metric_projection(
+        _metrics_for_arm(
+            arm=arm,
+            probabilities=probabilities,
+            labels=eval_labels,
+            prediction_error=eval_error,
+        )
+    )
+
+
+def _head_channel_patch_records(config: GapHeadRunConfig) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    for seed_index, seed in enumerate(config.seeds):
+        surface = _surface_for_seed(seed=int(seed), config=config)
+        base_features = _require_matrix("features", surface["features"])
+        before = _head_patch_metrics_for_features(
+            arm="head_patch_before",
+            train_features=base_features,
+            eval_features=base_features,
+            surface=surface,
+        )
+        per_seed: dict[str, Any] = {
+            "seed": int(seed),
+            "seed_index": int(seed_index),
+            "before_metrics": before,
+            "after_metrics": {},
+            "audits": {},
+            "deltas": {},
+        }
+        for mode in ("null_head", "permute_head_rows"):
+            changed, audit = _head_patched_eval_features(surface, seed=int(seed), mode=mode)
+            after = _head_patch_metrics_for_features(
+                arm=mode,
+                train_features=base_features,
+                eval_features=changed,
+                surface=surface,
+            )
+            per_seed["after_metrics"][mode] = after
+            per_seed["audits"][mode] = audit
+            per_seed["deltas"][mode] = {
+                "AUROC_after_minus_before": float(after["AUROC"]["value"] - before["AUROC"]["value"]),
+                "UER_after_minus_before": float(after["UnloggedErrorRate"] - before["UnloggedErrorRate"]),
+                "UER_reduction_after_minus_before": float(before["UnloggedErrorRate"] - after["UnloggedErrorRate"]),
+            }
+        records.append(per_seed)
+    return records
+
+
+def _head_channel_patch_evidence(config: GapHeadRunConfig) -> dict[str, Any]:
+    records = _head_channel_patch_records(config)
+    modes = ("null_head", "permute_head_rows")
+    finite = all(
+        math.isfinite(float(record["before_metrics"]["AUROC"]["value"]))
+        and all(math.isfinite(float(record["after_metrics"][mode]["AUROC"]["value"])) for mode in modes)
+        for record in records
+    )
+    audit_pass = all(record["audits"][mode]["touched_column_audit"]["status"] == "pass" for record in records for mode in modes)
+    deterministic = True
+    seed_paired = all(set(record["after_metrics"]) == set(modes) for record in records)
+    ci_summaries = {
+        mode: {
+            "AUROC_after_minus_before": metric_stats(record["deltas"][mode]["AUROC_after_minus_before"] for record in records),
+            "UER_after_minus_before": metric_stats(record["deltas"][mode]["UER_after_minus_before"] for record in records),
+            "UER_reduction_after_minus_before": metric_stats(record["deltas"][mode]["UER_reduction_after_minus_before"] for record in records),
+        }
+        for mode in modes
+    }
+    auroc_drop = all(float(ci_summaries[mode]["AUROC_after_minus_before"]["ci95_high"]) < -0.02 for mode in modes)
+    uer_not_improved = all(float(ci_summaries[mode]["UER_after_minus_before"]["ci95_low"]) >= 0.0 for mode in modes)
+    status = "pass" if finite and audit_pass and deterministic and seed_paired else "fail"
+    gate_status = "pass" if status == "pass" and auroc_drop and uer_not_improved else "fail"
+    return {
+        "status": status,
+        "gate_status": gate_status,
+        "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence",
+        "deterministic_salts": {
+            "null_head": None,
+            "permute_head_rows": HEAD_PATCH_PERMUTE_SALT,
+        },
+        "null_head": {
+            "protocol": "deterministic_eval_head_null_patch",
+            "per_seed_before_after_metrics": [
+                {
+                    "seed": int(record["seed"]),
+                    "before": record["before_metrics"],
+                    "after": record["after_metrics"]["null_head"],
+                    "delta": record["deltas"]["null_head"],
+                    "audit": record["audits"]["null_head"],
+                }
+                for record in records
+            ],
+            "ci_summaries": ci_summaries["null_head"],
+        },
+        "permute_head_rows": {
+            "protocol": "seed_deterministic_eval_head_row_permutation",
+            "per_seed_before_after_metrics": [
+                {
+                    "seed": int(record["seed"]),
+                    "before": record["before_metrics"],
+                    "after": record["after_metrics"]["permute_head_rows"],
+                    "delta": record["deltas"]["permute_head_rows"],
+                    "audit": record["audits"]["permute_head_rows"],
+                }
+                for record in records
+            ],
+            "ci_summaries": ci_summaries["permute_head_rows"],
+        },
+        "paired_deltas": [
+            {
+                "seed": int(record["seed"]),
+                "same_seed": True,
+                "same_full_arm_fit_path": True,
+                "same_metric_set": True,
+                "null_head": record["deltas"]["null_head"],
+                "permute_head_rows": record["deltas"]["permute_head_rows"],
+            }
+            for record in records
+        ],
+        "protocol_checks": {
+            "present": True,
+            "deterministic": deterministic,
+            "finite": finite,
+            "seed_paired": seed_paired,
+            "column_audited": audit_pass,
+            "eval_only_patch": audit_pass,
+        },
+        "gate_criterion": "both head patches have AUROC delta CI-high < -0.02 and UER delta CI-low >= 0.0",
+        "gate_evidence": {
+            "auroc_drop": auroc_drop,
+            "uer_not_improved": uer_not_improved,
+        },
+        "ci_summaries": ci_summaries,
+    }
+
+
 def _score_margin_intervention_records(config: GapHeadRunConfig) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     for seed_index, seed in enumerate(config.seeds):
@@ -913,7 +1111,9 @@ def _a4_hardgates(
     aggregate: Mapping[str, Any],
     residualized_attribution: Mapping[str, Any],
     score_margin_causal_evidence: Mapping[str, Any],
+    head_channel_patch_evidence: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
+    head_channel_patch_evidence = {} if head_channel_patch_evidence is None else head_channel_patch_evidence
     hg1 = residualized_attribution.get("status") == "pass"
     hg2 = (
         _ci_beats(aggregate, "full_residualized_against_score_margin", "matched_random", "AUROC")
@@ -929,12 +1129,19 @@ def _a4_hardgates(
         and all(protocol.get(name) is True for name in ("present", "deterministic", "finite", "seed_paired", "column_audited", "classified"))
         and score_margin_causal_evidence.get("channel_classification") in {"score_margin_sufficient", "not_score_margin_sufficient", "inconclusive"}
     )
+    head_protocol = head_channel_patch_evidence.get("protocol_checks", {})
+    head_causal_patch = (
+        head_channel_patch_evidence.get("status") == "pass"
+        and head_channel_patch_evidence.get("gate_status") == "pass"
+        and all(head_protocol.get(name) is True for name in ("present", "deterministic", "finite", "seed_paired", "column_audited", "eval_only_patch"))
+    )
     shortcut_clear = _shortcut_controls_clear(aggregate)
     hg5 = (
         hg1
         and hg2
         and hg3
         and hg4
+        and head_causal_patch
         and score_margin_causal_evidence.get("channel_classification") == "not_score_margin_sufficient"
         and all(shortcut_clear.values())
     )
@@ -980,14 +1187,31 @@ def _a4_hardgates(
                 ],
             },
         ),
+        "head_causal_patch": _gate(
+            "head_causal_patch",
+            head_causal_patch,
+            "head patch protocol is present, deterministic, finite, paired, eval-only, column-audited, and degrades AUROC without improving UER",
+            {
+                "protocol_checks": dict(head_protocol),
+                "gate_status": head_channel_patch_evidence.get("gate_status"),
+                "gate_evidence": head_channel_patch_evidence.get("gate_evidence", {}),
+                "causal_objects": [
+                    "$.head_channel_patch_evidence.null_head",
+                    "$.head_channel_patch_evidence.permute_head_rows",
+                    "$.head_channel_patch_evidence.paired_deltas",
+                    "$.head_channel_patch_evidence.gate_status",
+                ],
+            },
+        ),
         "A4-HG5": _gate(
             "A4-HG5",
             hg5,
-            "A4-HG1 through A4-HG4 pass, score/margin is not sufficient, and shortcut controls are not sufficient competitors",
+            "A4-HG1 through A4-HG4 and head_causal_patch pass, score/margin is not sufficient, and shortcut controls are not sufficient competitors",
             {
-                "required_gates": ["A4-HG1", "A4-HG2", "A4-HG3", "A4-HG4"],
+                "required_gates": ["A4-HG1", "A4-HG2", "A4-HG3", "A4-HG4", "head_causal_patch"],
                 "channel_classification": score_margin_causal_evidence.get("channel_classification"),
                 "shortcut_controls_clear": shortcut_clear,
+                "head_causal_patch_status": "pass" if head_causal_patch else "fail",
                 "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
             },
         ),
@@ -1073,7 +1297,12 @@ def _d5_o(aggregate: Mapping[str, Any]) -> dict[str, Any]:
 
 def _d5_m(hardgates: Mapping[str, Any], a4_hardgates: Mapping[str, Any] | None = None) -> dict[str, Any]:
     a1_passed = hardgates["gates"]["A1-HG6"]["status"] == "pass"
-    a4_passed = a4_hardgates is not None and a4_hardgates["gates"]["A4-HG5"]["status"] == "pass"
+    a4_gates = (a4_hardgates or {}).get("gates", {})
+    a4_passed = (
+        a4_hardgates is not None
+        and a4_gates.get("head_causal_patch", {}).get("status") == "pass"
+        and a4_gates.get("A4-HG5", {}).get("status") == "pass"
+    )
     passed = a1_passed and a4_passed
     failed_gate = None
     if not a1_passed:
@@ -1083,7 +1312,20 @@ def _d5_m(hardgates: Mapping[str, Any], a4_hardgates: Mapping[str, Any] | None =
     return {
         "status": "ready" if passed else "blocked",
         "passed": bool(passed),
-        "requires": ["A1-HG1", "A1-HG2", "A1-HG3", "A1-HG4", "A1-HG5", "A1-HG6", "A4-HG1", "A4-HG2", "A4-HG3", "A4-HG4", "A4-HG5"],
+        "requires": [
+            "A1-HG1",
+            "A1-HG2",
+            "A1-HG3",
+            "A1-HG4",
+            "A1-HG5",
+            "A1-HG6",
+            "A4-HG1",
+            "A4-HG2",
+            "A4-HG3",
+            "A4-HG4",
+            "head_causal_patch",
+            "A4-HG5",
+        ],
         "failed_gate": failed_gate,
     }
 
@@ -1095,11 +1337,14 @@ def _mechanism_evidence(
     a4_hardgates: Mapping[str, Any],
     residualized_attribution: Mapping[str, Any],
     score_margin_causal_evidence: Mapping[str, Any],
+    head_channel_patch_evidence: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
+    head_channel_patch_evidence = {} if head_channel_patch_evidence is None else head_channel_patch_evidence
     a4_gates = a4_hardgates.get("gates", {})
     required_gate_pointers = [
         "$.a4_hardgates.gates.A4-HG2.status",
         "$.a4_hardgates.gates.A4-HG3.status",
+        "$.a4_hardgates.gates.head_causal_patch.status",
         "$.a4_hardgates.gates.A4-HG5.status",
     ]
     residualized_significant = all(
@@ -1135,10 +1380,20 @@ def _mechanism_evidence(
             "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
             "shuffle_score_margin_delta": "$.score_margin_causal_evidence.shuffle_score_margin.ci_summaries.AUROC_after_minus_before.mean",
             "replacement_control_delta": "$.score_margin_causal_evidence.replace_high_gap_score_margin_from_low_gap.ci_summaries.AUROC_after_minus_before.mean",
+            "head_patch_status": "$.head_channel_patch_evidence.gate_status",
+            "head_patch_delta": "$.head_channel_patch_evidence.null_head.ci_summaries.AUROC_after_minus_before.mean",
         },
         "ledger_debt_pointer": "$.ledger_debt.0.status",
         "closure_pointer": "$.mechanism_evidence.mechanism_status",
-        "source_issue": 747,
+        "head_patch_status": str(head_channel_patch_evidence.get("gate_status") or "missing"),
+        "head_patch_delta": (
+            head_channel_patch_evidence.get("null_head", {})
+            .get("ci_summaries", {})
+            .get("AUROC_after_minus_before", {})
+            .get("mean")
+        ),
+        "source_issue": 750,
+        "source_issues": [747, 750],
     }
 
 
@@ -1247,6 +1502,7 @@ def _source_artifacts(config: GapHeadRunConfig, run_dir: Path) -> dict[str, Any]
     return {
         "artifact_id": ARTIFACT_ID,
         "source_issue": SOURCE_ISSUE,
+        "source_issues": list(SOURCE_ISSUES),
         "generation_script": "scripts/run_gap_head_attribution_capsule.py",
         "surface_helper": surface_helper,
         "fit_helper": fit_helper,
@@ -1296,7 +1552,8 @@ def _build_payload(
     hardgates = _a1_hardgates(aggregate)
     residualized_attribution = _residualized_attribution(records, aggregate)
     score_margin_causal_evidence = _score_margin_causal_evidence(config)
-    a4_hardgates = _a4_hardgates(aggregate, residualized_attribution, score_margin_causal_evidence)
+    head_channel_patch_evidence = _head_channel_patch_evidence(config)
+    a4_hardgates = _a4_hardgates(aggregate, residualized_attribution, score_margin_causal_evidence, head_channel_patch_evidence)
     mechanism_case = _mechanism_case(aggregate, hardgates, a4_hardgates, score_margin_causal_evidence)
     columns_by_arm = {
         arm: next(record["feature_columns"] for record in records if record["arm"] == arm)
@@ -1312,6 +1569,7 @@ def _build_payload(
         a4_hardgates,
         residualized_attribution,
         score_margin_causal_evidence,
+        head_channel_patch_evidence,
     )
     source_artifacts = _source_artifacts(config, run_dir)
     capsule: dict[str, Any] = {
@@ -1330,6 +1588,7 @@ def _build_payload(
         "hardgates": hardgates,
         "residualized_attribution": residualized_attribution,
         "score_margin_causal_evidence": score_margin_causal_evidence,
+        "head_channel_patch_evidence": head_channel_patch_evidence,
         "a4_hardgates": a4_hardgates,
         "claim_capsule_hardgates": {},
         "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
@@ -1434,6 +1693,7 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
         "hardgates",
         "residualized_attribution",
         "score_margin_causal_evidence",
+        "head_channel_patch_evidence",
         "a4_hardgates",
         "claim_capsule_hardgates",
         "cost_protocol_pointer",
@@ -1472,6 +1732,7 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
         "hardgates",
         "residualized_attribution",
         "score_margin_causal_evidence",
+        "head_channel_patch_evidence",
         "a4_hardgates",
         "claim_capsule_hardgates",
         "cost_protocol_pointer",

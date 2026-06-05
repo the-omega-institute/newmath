@@ -11,7 +11,7 @@ def _capsule(root):
             {
                 "artifact_id": "gap_head_attribution_capsule",
                 "run_id": "fixture",
-                "source_issues": [692, 747],
+                "source_issues": [692, 747, 750],
                 "mechanism_case": {
                     "case": "Case 2",
                     "candidate_mechanism": "probe-margin-channel",
@@ -22,7 +22,7 @@ def _capsule(root):
                 "d5_o": {"status": "ready"},
                 "d5_m": {"status": "blocked", "passed": False, "failed_gate": "A1-HG3"},
                 "hardgates": {"gates": {"A1-HG3": {"status": "fail"}}},
-                "a4_hardgates": {"gates": {"A4-HG5": {"status": "fail"}}},
+                "a4_hardgates": {"gates": {"head_causal_patch": {"status": "fail"}, "A4-HG5": {"status": "fail"}}},
                 "residualized_attribution": {"status": "pass"},
                 "score_margin_causal_evidence": {"channel_classification": "score_margin_sufficient"},
                 "mechanism_evidence": {
@@ -38,15 +38,21 @@ def _capsule(root):
                     "required_gate_pointers": [
                         "$.a4_hardgates.gates.A4-HG2.status",
                         "$.a4_hardgates.gates.A4-HG3.status",
+                        "$.a4_hardgates.gates.head_causal_patch.status",
                         "$.a4_hardgates.gates.A4-HG5.status",
                     ],
                     "metric_pointers": {
                         "residualized_status": "$.residualized_attribution.status",
                         "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+                        "head_patch_status": "$.head_channel_patch_evidence.gate_status",
+                        "head_patch_delta": "$.head_channel_patch_evidence.null_head.ci_summaries.AUROC_after_minus_before.mean",
                     },
                     "ledger_debt_pointer": "$.ledger_debt.0.status",
                     "closure_pointer": "$.mechanism_evidence.mechanism_status",
-                    "source_issue": 747,
+                    "head_patch_status": "fail",
+                    "head_patch_delta": -0.005,
+                    "source_issue": 750,
+                    "source_issues": [747, 750],
                 },
                 "ledger_debt": [{"debt_id": "gap-head-mechanism-evidence-closure", "status": "open"}],
                 "not_implemented": ["nonlinear_residualization", "full_causal_replacement_scope"],

@@ -27,6 +27,8 @@ CAPSULE_METRIC_POINTERS = {
     "mechanism_evidence_candidate": "$.mechanism_evidence.candidate_mechanism",
     "mechanism_evidence_failed_gate": "$.mechanism_evidence.failed_gate",
     "mechanism_evidence_ledger_debt": "$.ledger_debt.0.status",
+    "mechanism_evidence_head_patch_status": "$.mechanism_evidence.head_patch_status",
+    "mechanism_evidence_head_patch_delta": "$.mechanism_evidence.head_patch_delta",
 }
 
 METRIC_POINTERS = {
@@ -92,6 +94,8 @@ class GapHeadAttributionBackendEvidenceAdapter:
             "mechanism_evidence_candidate",
             "mechanism_evidence_failed_gate",
             "mechanism_evidence_ledger_debt",
+            "mechanism_evidence_head_patch_status",
+            "mechanism_evidence_head_patch_delta",
         ),
         theorem_rows=(
             {
