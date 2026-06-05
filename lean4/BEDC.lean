@@ -7027,6 +7027,7 @@ import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProductFilterUp.TasteGate
 import BEDC.Derived.ProductMetricUp
+import BEDC.Derived.ProductMetricUp.NameCertObligations
 import BEDC.Derived.ProductRegularCauchyLimitUp.TasteGate
 import BEDC.Derived.ProductTopologyUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
