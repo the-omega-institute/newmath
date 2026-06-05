@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\HaltingRefusalLedgerUp$}
+\label{ch:concrete-instances-halting-refusal-ledger-namecert}
+\origin{ai}
+
+The $\HaltingRefusalLedgerUp$ packet realizes the boundary of \autoref{ch:visions-channel-termination-vs-halting-boundary} as finite refusal data. It sits beside the fuel-indexed substrate bridge of \autoref{ch:concrete-instances-fuel-indexed-substrate-bridge-namecert}, the reduction fuel boundary of \autoref{ch:concrete-instances-reductionfuelboundary-namecert}, the step-indexed total host of \autoref{ch:concrete-instances-step-indexed-total-host-namecert}, the host trace surface of \autoref{ch:concrete-instances-hosttotaltrace-namecert}, and the closed-observation total-host packet of \autoref{ch:concrete-instances-closed-observation-total-host-namecert}. The packet records how a local channel or bounded trace may terminate while a global halting classifier remains refused.
+
+\falsifiablePrediction{Every $\HaltingRefusalLedgerUp$ read exposes finite fuel, trace, timeout-refusal, channel-termination, hsame, Cont, Pkg, and NameCert rows before refusing global halting.}
+
+\independenceWitness{fuel-indexed-substrate-bridge, reductionfuelboundary, step-indexed-total-host, hosttotaltrace, closed-observation-total-host: the ledger is not bijective to any listed sibling because it jointly stores local channel termination, finite fuel, trace readback, timeout refusal, and global-halting refusal in one packet.}
+
+\begin{definition}[HaltingRefusalLedger carrier]
+\label{def:halting-refusal-ledger-carrier}
+A $\HaltingRefusalLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+G=(F,T,U,L,R,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the finite fuel row read through $\FuelIndexedSubstrateBridgeUp$ and $\ReductionFuelBoundaryUp$.
+\item $T$ is the finite trace row read through $\HostTotalTraceUp$ and the substrate-side bounded trace surface.
+\item $U$ is the timeout-refusal row recording that exhaustion of the displayed fuel is a local refusal, not a global nontermination proof.
+\item $L$ is the local channel-termination row supplied by the channel boundary of \autoref{ch:visions-channel-termination-vs-halting-boundary}.
+\item $R$ is the total-host readback row routed through $\StepIndexedTotalHostUp$ and $\ClosedObservationTotalHostUp$.
+\item $B$ is the global-halting refusal row. It blocks any request to turn $F,T,U,L,R$ into a total classifier for arbitrary certificate-level halting.
+\item $H$ stores componentwise $\hsame$ transport for fuel, trace, timeout refusal, channel termination, total-host readback, global-halting refusal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a halting-boundary request through $F,T,U,L,R,B,H$.
+\item $P$ is the $\Pkg$ provenance over $\HaltingRefusalLedgerUp$, $\FuelIndexedSubstrateBridgeUp$, $\ReductionFuelBoundaryUp$, $\StepIndexedTotalHostUp$, $\HostTotalTraceUp$, $\ClosedObservationTotalHostUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HaltingRefusalLedgerUp}$ row.
+\end{enumerate}
+The carrier contains no global halting oracle, no selected nontermination witness, no total classifier for arbitrary certificate continuations, and no collapse of local channel termination into certificate-level halting.
+\end{definition}
+
+\begin{theorem}[HaltingRefusalLedger NameCert obligations]
+\label{thm:halting-refusal-ledger-namecert-obligations}
+For every accepted $\HaltingRefusalLedgerUp$ carrier $G=(F,T,U,L,R,B,H,C,P,N)$, the local $\NameCert_{\HaltingRefusalLedgerUp}$ surface consists exactly of carrier admission for the finite fuel, trace, timeout-refusal, channel-termination, total-host readback, global-halting refusal, transport, replay, provenance, and naming rows; fuel-trace exposure through $F,T$; timeout exactness through $U$; channel-local termination exposure through $L$; total-host readback through $R$; and global-halting refusal through $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:halting-refusal-ledger-carrier}. The rows $F,T,U,L,R,B,H,C,P,N$ are the complete finite packet exposed to a halting-boundary consumer.
+
+The local positive rows are $F,T,L,R$. Fuel and trace are read through the fuel-indexed substrate and host-trace siblings, while $L$ records only channel-local event termination and $R$ records only total-host readback under displayed observations.
+
+The refusal rows are $U$ and $B$. A timeout row refuses to treat fuel exhaustion as a completed unbounded computation, and the global-halting row refuses to turn local termination or finite trace evidence into a total classifier for arbitrary certificate continuations.
+
+Transport, replay, provenance, and naming preserve this separation through $H,C,P,N$. Since no carrier coordinate stores a global halting oracle, selected nontermination witness, or total certificate-level classifier, the NameCert obligations are exhausted by the displayed ledger rows.
+\end{proof}
+
+The Lean TasteGate surface for $\HaltingRefusalLedgerUp$ must provide explicit $\mathsf{Nontrivial}\ \HaltingRefusalLedgerUp$ and $\mathsf{FieldFaithful}\ \HaltingRefusalLedgerUp$ instances preserving finite fuel, trace, timeout-refusal, channel-termination, total-host readback, global-halting refusal, componentwise transport, displayed replay, provenance, and local naming rows.
+
+\closureat{HaltingRefusalLedgerUp}{seedStr}
+
+\begin{closurestatus}{\HaltingRefusalLedgerUp}
+  \constructivestory{A $\HaltingRefusalLedgerUp$ packet is generated from finite fuel, finite trace, timeout-refusal, channel-termination, total-host readback, global-halting refusal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:halting-refusal-ledger-carrier} and \autoref{thm:halting-refusal-ledger-namecert-obligations} seed the finite refusal ledger separating local channel termination and bounded trace evidence from global certificate-level halting.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a global halting classifier, selected nontermination witness, total classifier for arbitrary certificate continuations, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fuel-trace exposure, timeout exactness, channel-local termination exposure, total-host readback, and global-halting refusal for BEDC.Derived.HaltingRefusalLedgerUp.}
+\end{closurestatus}
