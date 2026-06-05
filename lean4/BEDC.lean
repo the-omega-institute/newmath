@@ -3858,6 +3858,7 @@ import BEDC.Derived.EmptyFableMachineUp.Ledger
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EmptyUp.TasteGate
+import BEDC.Derived.EnergyBiasedTriggerReliabilityUp.TasteGate
 import BEDC.Derived.EngelExpansionUp.TasteGate
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EntanglementUp
@@ -3958,6 +3959,8 @@ import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.BarScopeObligations
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
+import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
+import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RootUnblockCantorPrefix
 import BEDC.Derived.FanfunctionalUp.RootUnblockFanDepth
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
@@ -4582,6 +4585,7 @@ import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.AssocEmptyResult
 import BEDC.Derived.FunctorUp.AssocReflects
+import BEDC.Derived.FunctorUp.Certificate
 import BEDC.Derived.FunctorUp.CompEmptyMiddleInversion
 import BEDC.Derived.FunctorUp.CompEndpointCycleBoundaryComponents
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
