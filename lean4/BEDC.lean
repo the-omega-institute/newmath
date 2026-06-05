@@ -4049,6 +4049,7 @@ import BEDC.Derived.FanfunctionalUp.RootCantorCompactModulus
 import BEDC.Derived.FanfunctionalUp.RootCantorWindowHandoff
 import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RootChoiceFreeNonescape
+import BEDC.Derived.FanfunctionalUp.RootDepthExhaustion
 import BEDC.Derived.FanfunctionalUp.RootFiniteBarDepth
 import BEDC.Derived.FanfunctionalUp.RootFiniteDepthExhaustion
 import BEDC.Derived.FanfunctionalUp.RootModulusWindowCoverage
@@ -7027,6 +7028,7 @@ import BEDC.Derived.ProdUp.SourceMonotonicity
 import BEDC.Derived.ProdUp.Typed
 import BEDC.Derived.ProductFilterUp.TasteGate
 import BEDC.Derived.ProductMetricUp
+import BEDC.Derived.ProductMetricUp.TasteGate
 import BEDC.Derived.ProductRegularCauchyLimitUp.TasteGate
 import BEDC.Derived.ProductTopologyUp.TasteGate
 import BEDC.Derived.ProgrammeStrengthGradientLedgerUp.TasteGate
