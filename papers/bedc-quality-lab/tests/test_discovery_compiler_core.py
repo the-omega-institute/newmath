@@ -125,6 +125,16 @@ def test_backend_contract_and_current_lab_adapter_metadata():
 
 
 def test_claim_capsule_validates_required_cells():
+    finite_gate = {
+        "status": "pass",
+        "counts": {"positive": 1, "negative": 2, "revocation": 0},
+        "pointers": {
+            "positive": ["reports/canonical/positive.json:$.rows[0]"],
+            "negative": [["dn:fixture", "reports/canonical/negative.json:$.rows[0]", "", "", ""]],
+            "revocation": [],
+        },
+        "not_claimed": ["finite gate checks finite evidence-set structure, not model-result correctness"],
+    }
     payload = build_claim_capsule_payload(
         generated_at="fixture-time",
         claim_id="claim:fixture",
@@ -141,12 +151,20 @@ def test_claim_capsule_validates_required_cells():
             "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
             "what_was_learned": "fixture learned",
         },
+        finite_gate=finite_gate,
     )
 
     capsule = ClaimCapsule.from_payload(payload)
 
     assert capsule.claim_id == "claim:fixture"
     assert capsule.status == "complete"
+    assert payload["finite_gate"] == {
+        "status": "pass",
+        "counts": {"positive": 1, "negative": 2, "revocation": 0},
+        "not_claimed": ["finite gate checks finite evidence-set structure, not model-result correctness"],
+        "pointer_count_parity": {"positive": True, "negative": False, "revocation": True},
+    }
+    assert "what_was_learned" not in payload["finite_gate"]
     with pytest.raises(ValueError, match="schema_id"):
         ClaimCapsule.from_payload({**payload, "schema_id": "wrong"})
 
@@ -201,3 +219,24 @@ def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):
     assert result["negative_discovery_reports"]["rows"][0]["terminal_verdict"] == "negative_discovery"
     assert result["negative_discovery_reports"]["row_count"] == 6
     assert result["discovery_map"]["rows"][0]["negative_report_pointer"] == f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]"
+    assert result["finite_gate"]["status"] == "fail"
+    assert result["finite_gate"]["counts"]["negative"] == result["negative_witness_summary"]["row_count"]
+    assert isinstance(result["finite_gate"]["pointers"]["negative"], list)
+    assert "what_was_learned" not in json.dumps(result["finite_gate"], sort_keys=True)
+
+
+def test_compile_discovery_finite_gate_is_materialized_and_deterministic(tmp_path):
+    _write_fixture_sources(tmp_path)
+    first = compile_discovery(root=tmp_path, generated_at="fixture-time", adapter=FakeAdapter())
+    second = compile_discovery(root=tmp_path, generated_at="fixture-time", adapter=FakeAdapter())
+
+    first_gate = first["finite_gate"]
+    second_gate = second["finite_gate"]
+
+    assert json.dumps(first_gate, sort_keys=True) == json.dumps(second_gate, sort_keys=True)
+    assert first_gate["counts"]["positive"] == 0
+    assert first_gate["counts"]["negative"] == len(first_gate["pointers"]["negative"])
+    assert first_gate["counts"]["revocation"] == len(first_gate["pointers"]["revocation"])
+    assert isinstance(first_gate["pointers"]["positive"], list)
+    assert isinstance(first_gate["pointers"]["negative"], list)
+    assert isinstance(first_gate["pointers"]["revocation"], list)

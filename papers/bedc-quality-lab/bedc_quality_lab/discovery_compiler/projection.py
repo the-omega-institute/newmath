@@ -10,6 +10,13 @@ from typing import Any, Mapping, Sequence
 from .map import DISCOVERY_MAP_JSON_ARTIFACT, DISCOVERY_MAP_MARKDOWN_ARTIFACT, build_discovery_map_payload
 
 
+POSITIVE_DISCOVERY_LEVELS = frozenset({"D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M"})
+FINITE_GATE_NOT_CLAIMED = (
+    "finite gate checks finite evidence-set structure, not model-result correctness",
+    "finite gate does not own negative witness report facts",
+)
+
+
 def build_discovery_map(
     *,
     rows: Sequence[Mapping[str, Any]],
@@ -18,6 +25,161 @@ def build_discovery_map(
 ) -> dict[str, Any]:
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     return build_discovery_map_payload(rows=rows, generated_at=timestamp, manifest_audit=manifest_audit)
+
+
+def _rows(payload: Mapping[str, Any], key: str = "rows") -> list[Mapping[str, Any]]:
+    value = payload.get(key)
+    if not isinstance(value, Sequence) or isinstance(value, (str, bytes, bytearray)):
+        return []
+    return [row for row in value if isinstance(row, Mapping)]
+
+
+def _materialized_rows(payloads: Mapping[str, Any], key: str) -> list[Mapping[str, Any]]:
+    value = payloads.get(key)
+    if isinstance(value, Mapping):
+        return _rows(value)
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        return [row for row in value if isinstance(row, Mapping)]
+    return []
+
+
+def _row_pointer(artifact: str, index: int) -> str:
+    return f"{artifact}:$.rows[{index}]"
+
+
+def _evidence_pointer(row: Mapping[str, Any], index: int) -> str:
+    artifact = row.get("json_artifact")
+    pointer = row.get("evidence_pointer")
+    if isinstance(artifact, str) and isinstance(pointer, str) and pointer.startswith("$."):
+        return f"{artifact}:{pointer}"
+    if isinstance(pointer, str) and ":$." in pointer:
+        return pointer
+    return _row_pointer(DISCOVERY_MAP_JSON_ARTIFACT, index)
+
+
+def _string_cell(row: Mapping[str, Any], key: str) -> str | None:
+    value = row.get(key)
+    return value if isinstance(value, str) and value else None
+
+
+def _negative_pointer_tuple(row: Mapping[str, Any]) -> list[str]:
+    return [
+        _string_cell(row, "negative_id") or "",
+        _string_cell(row, "ledger_pointer") or "",
+        _string_cell(row, "discovery_map_pointer") or "",
+        _string_cell(row, "witness_pointer") or "",
+        _string_cell(row, "claim_verdict_pointer") or "",
+    ]
+
+
+def _revocation_pointer(row: Mapping[str, Any], index: int) -> str:
+    for key in ("source_ref", "certificate_source_ref", "source_pointer", "ledger_pointer"):
+        value = row.get(key)
+        if isinstance(value, str) and value:
+            return value
+    return _row_pointer(DISCOVERY_MAP_JSON_ARTIFACT, index)
+
+
+def _hardgate(status: bool, reason: str) -> dict[str, str]:
+    return {"status": "pass" if status else "fail", "reason": reason}
+
+
+def project_finite_discovery_gate(payloads: Mapping[str, Any]) -> dict[str, Any]:
+    discovery_map = payloads.get("discovery_map")
+    map_rows = _rows(discovery_map) if isinstance(discovery_map, Mapping) else []
+    negative_summary = payloads.get("negative_witness_summary")
+    negative_rows = _rows(negative_summary) if isinstance(negative_summary, Mapping) else []
+    ledger_rows = _materialized_rows(payloads, "revocation_ledger")
+    revocation_rows = _materialized_rows(payloads, "revocations")
+
+    positive_pointers = sorted(
+        _evidence_pointer(row, index)
+        for index, row in enumerate(map_rows)
+        if row.get("discovery_level") in POSITIVE_DISCOVERY_LEVELS
+    )
+    negative_pointers = sorted(_negative_pointer_tuple(row) for row in negative_rows)
+    map_revocation_pointers = [
+        _evidence_pointer(row, index)
+        for index, row in enumerate(map_rows)
+        if row.get("discovery_level") == "DR"
+    ]
+    ledger_revocation_pointers = [
+        _revocation_pointer(row, index) for index, row in enumerate([*ledger_rows, *revocation_rows])
+    ]
+    revocation_pointers = sorted([*map_revocation_pointers, *ledger_revocation_pointers])
+
+    negative_ids = [_string_cell(row, "negative_id") for row in negative_rows]
+    negative_ids = [value for value in negative_ids if value is not None]
+    positive_unique = len(set(positive_pointers)) == len(positive_pointers)
+    negative_unique = len(set(negative_ids)) == len(negative_ids) == len(negative_rows)
+    revocation_unique = len(set(revocation_pointers)) == len(revocation_pointers)
+
+    negative_row_count = negative_summary.get("row_count") if isinstance(negative_summary, Mapping) else None
+    negative_audit_pass = not isinstance(negative_summary, Mapping) or negative_summary.get("audit_status") == "pass"
+    positive_parity = len(positive_pointers) == sum(
+        1 for row in map_rows if row.get("discovery_level") in POSITIVE_DISCOVERY_LEVELS
+    )
+    negative_parity = negative_row_count == len(negative_rows)
+    revocation_parity = len(revocation_pointers) == len(map_revocation_pointers) + len(ledger_revocation_pointers)
+
+    positive_set = set(positive_pointers)
+    negative_set = {cell for row in negative_pointers for cell in row[1:] if isinstance(cell, str)}
+    revocation_set = set(revocation_pointers)
+    overlap_pairs = {
+        "positive_negative": sorted(positive_set & negative_set),
+        "positive_revocation": sorted(positive_set & revocation_set),
+        "negative_revocation": sorted(negative_set & revocation_set),
+    }
+    if overlap_pairs["positive_revocation"]:
+        overlap_status = "revocation-positive-overlap"
+    elif overlap_pairs["positive_negative"]:
+        overlap_status = "positive-negative-overlap"
+    elif overlap_pairs["negative_revocation"]:
+        overlap_status = "revocation-negative-overlap"
+    else:
+        overlap_status = "disjoint"
+
+    hardgates = {
+        "FG-HG1": _hardgate(positive_parity and positive_unique, "positive evidence pointers are finite and unique"),
+        "FG-HG2": _hardgate(negative_parity and negative_unique and negative_audit_pass, "negative summary ids and row pointers are finite"),
+        "FG-HG3": _hardgate(revocation_parity and revocation_unique, "revocation pointers are finite with explicit overlap status"),
+        "FG-HG4": _hardgate(True, "finite projection is materialized and sorted deterministically"),
+    }
+    failures = sorted(name for name, gate in hardgates.items() if gate["status"] != "pass")
+    counts = {
+        "positive": len(positive_pointers),
+        "positive_pointers": len(positive_pointers),
+        "negative": len(negative_rows),
+        "negative_pointers": len(negative_pointers),
+        "revocation": len(revocation_pointers),
+        "revocation_pointers": len(revocation_pointers),
+        "discovery_map_rows": len(map_rows),
+        "negative_summary_rows": len(negative_rows),
+        "negative_summary_report_rows": int(negative_summary.get("dn_discovery_map_row_count", 0))
+        if isinstance(negative_summary, Mapping) and type(negative_summary.get("dn_discovery_map_row_count")) is int
+        else 0,
+        "negative_summary_witness_rows": int(negative_summary.get("witness_row_count", 0))
+        if isinstance(negative_summary, Mapping) and type(negative_summary.get("witness_row_count")) is int
+        else 0,
+        "negative_summary_claim_verdict_rows": int(negative_summary.get("claim_verdict_row_count", 0))
+        if isinstance(negative_summary, Mapping) and type(negative_summary.get("claim_verdict_row_count")) is int
+        else 0,
+    }
+    return {
+        "status": "pass" if not failures else "fail",
+        "hardgates": hardgates,
+        "counts": counts,
+        "pointers": {
+            "positive": positive_pointers,
+            "negative": negative_pointers,
+            "revocation": revocation_pointers,
+        },
+        "overlaps": {
+            "status": overlap_status,
+            **overlap_pairs,
+        },
+        "not_claimed": list(FINITE_GATE_NOT_CLAIMED),
+    }
 
 
 def render_markdown(payload: Mapping[str, Any]) -> str:

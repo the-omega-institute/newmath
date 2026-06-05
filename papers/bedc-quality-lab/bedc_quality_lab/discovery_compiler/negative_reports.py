@@ -381,6 +381,10 @@ def build_negative_witness_summary(
         }
         rows.append(item)
     audit_reasons = [row["negative_id"] for row in rows if row["audit_status"] != "pass"]
+    negative_ids = [row["negative_id"] for row in rows]
+    duplicate_ids = sorted({negative_id for negative_id in negative_ids if negative_ids.count(negative_id) > 1})
+    if duplicate_ids:
+        raise ValueError(f"duplicate negative witness summary ids: {', '.join(duplicate_ids)}")
     dn_count = len(reports["rows"])
     witness_count = len(witnesses)
     return {

@@ -40,6 +40,10 @@ DEFERRED_KINDS = (
     "single_threshold_positive_only",
     "metadata_leakage_detector",
 )
+FINITE_GATE_NOT_CLAIMED = (
+    "finite gate checks finite evidence-set structure, not model-result correctness",
+    "finite gate does not own negative witness report facts",
+)
 ESCAPE_LEVELS = {"D4", "D5-O", "D5-M"}
 NON_ESCAPE_TERMINAL_VERDICTS = {"rejected", "demoted", "ledger-only", "accepted"}
 NON_ESCAPE_LEVELS = {"DN", "DR", "D0", "D1", "D2", "D3"}
@@ -121,6 +125,35 @@ def _source_pointer(kind: str, claim_rows: list[Mapping[str, Any]]) -> str:
     return "reports/canonical/discovery_negative_witnesses.json:$.witnesses"
 
 
+def _finite_gate(source_pointer: str) -> dict[str, Any]:
+    return {
+        "status": "pass",
+        "hardgates": {
+            "FG-HG1": {"status": "pass", "reason": "positive evidence pointers are finite and unique"},
+            "FG-HG2": {"status": "pass", "reason": "negative summary ids and row pointers are finite"},
+            "FG-HG3": {"status": "pass", "reason": "revocation pointers are finite with explicit overlap status"},
+            "FG-HG4": {"status": "pass", "reason": "finite projection is materialized and sorted deterministically"},
+        },
+        "counts": {
+            "positive": 1,
+            "negative": 0,
+            "revocation": 0,
+        },
+        "pointers": {
+            "positive": [source_pointer],
+            "negative": [],
+            "revocation": [],
+        },
+        "overlaps": {
+            "status": "disjoint",
+            "positive_negative": [],
+            "positive_revocation": [],
+            "negative_revocation": [],
+        },
+        "not_claimed": list(FINITE_GATE_NOT_CLAIMED),
+    }
+
+
 def _static_witness_audit() -> dict[str, Any]:
     rows = []
     for index, witness in enumerate(adversarial_generator.runtime_witnesses()):
@@ -171,6 +204,7 @@ def pseudo_candidates(root: Path) -> list[PseudoCandidate]:
         certificate, evidence = _base_candidate()
         mutate(certificate, evidence)
         source_pointer = _source_pointer(kind, claim_rows)
+        evidence["finite_gate"] = _finite_gate(source_pointer)
         digest_source = {
             "kind": kind,
             "source_pointer": source_pointer,

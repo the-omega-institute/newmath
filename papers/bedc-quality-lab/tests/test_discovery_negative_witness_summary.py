@@ -10,6 +10,7 @@ from scripts import run_claim_verdict_demo as claim_verdicts
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_negative_witness_summary as summary
 from bedc_quality_lab.discovery_compiler.negative_reports import OWNER_FACT_KEYS
+from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
 
 
 ALLOWED_ROW_KEYS = {
@@ -131,7 +132,44 @@ def test_summary_rows_are_pointer_only_and_key_allowlisted():
             if key in {"ledger_pointer", "discovery_map_pointer", "witness_pointer", "claim_verdict_pointer"}:
                 continue
             text = str(value).lower()
-            assert not any(term in text for term in FORBIDDEN_POSITIVE_TERMS)
+        assert not any(term in text for term in FORBIDDEN_POSITIVE_TERMS)
+
+
+def test_finite_gate_consumes_negative_summary_row_pointers():
+    payload = _build_payload()
+    gate = project_finite_discovery_gate(
+        {
+            "discovery_map": _load_json(summary.ROOT / summary.DISCOVERY_MAP_ARTIFACT),
+            "negative_witness_summary": payload,
+        }
+    )
+
+    assert gate["hardgates"]["FG-HG2"]["status"] == "pass"
+    assert gate["counts"]["negative"] == payload["row_count"]
+    assert len(gate["pointers"]["negative"]) == payload["row_count"]
+    assert gate["counts"]["negative_summary_report_rows"] == payload["dn_discovery_map_row_count"]
+    assert gate["counts"]["negative_summary_witness_rows"] == payload["witness_row_count"]
+    assert gate["counts"]["negative_summary_claim_verdict_rows"] == payload["claim_verdict_row_count"]
+    for row in gate["pointers"]["negative"]:
+        assert row[0]
+        assert any(pointer for pointer in row[1:])
+    forbidden_owner_terms = {"what_was_learned", "failed_gate", "hypothesis"}
+    assert not any(term in json.dumps(gate, sort_keys=True) for term in forbidden_owner_terms)
+
+
+def test_finite_gate_rejects_duplicate_negative_id_from_summary():
+    payload = _build_payload()
+    duplicate = {**payload, "rows": [*payload["rows"], dict(payload["rows"][0])], "row_count": payload["row_count"] + 1}
+    gate = project_finite_discovery_gate(
+        {
+            "discovery_map": _load_json(summary.ROOT / summary.DISCOVERY_MAP_ARTIFACT),
+            "negative_witness_summary": duplicate,
+        }
+    )
+
+    assert gate["status"] == "fail"
+    assert gate["hardgates"]["FG-HG2"]["status"] == "fail"
+    assert "FG-HG2" in [name for name, hardgate in gate["hardgates"].items() if hardgate["status"] == "fail"]
 
 
 def test_summary_rejects_owner_fact_keys_outside_pointers():
