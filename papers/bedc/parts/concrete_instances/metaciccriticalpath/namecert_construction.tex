@@ -111,6 +111,7 @@ It remains only to check exhaustion. The carrier definition supplies no tenth co
 \label{thm:metacic-critical-path-typed-candidate-frontier-bridge}
 Every typed candidate-frontier read of an accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$ must expose the closed-strong-normalization row $S$, conditional confluence and bounded decidability handoff row $U$, subject-reduction obstruction row $O$, discharge socket $D$, transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $L$ before any consistency-facing consumer may use the normal-form row $N$. The bridge records those rows as a frontier surface and does not claim closed subject reduction.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathTypedCandidateFrontierBridge}
 \begin{proof}
 Use the consistency handoff. \autoref{thm:metacic-critical-path-consistency-handoff} permits a consumer to move from $S$ to $N$ only through the displayed route rows and keeps the discharge socket $D$ separate.
 
@@ -191,6 +192,8 @@ Use the consistency handoff and obstruction boundary, \autoref{thm:metacic-criti
 Finally apply the obligation surface, transport row stability, local naming exhaustion, and discharge-socket nonescape from \autoref{thm:metacic-critical-path-namecert-obligation-surface}, \autoref{thm:metacic-critical-path-transport-row-stability}, \autoref{thm:metacic-critical-path-local-naming-exhaustion}, and \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. These rows cover every accepted consumer read, so a consumer that does not present a separate subject-reduction input remains bounded by the displayed root-unblock packet.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_discharge\_socket\_coverage}
+
+\input{parts/concrete_instances/metaciccriticalpath/subject_reduction_socket_separation}
 
 \begin{theorem}[MetaCIC critical-path socket route totality]
 \label{thm:metacic-critical-path-socket-route-totality}
