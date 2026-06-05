@@ -4679,6 +4679,7 @@ import BEDC.Derived.FrechetFilterUp.CauchySourceBoundary
 import BEDC.Derived.FrechetFilterUp.CofinalTailStabilityObligation
 import BEDC.Derived.FrechetFilterUp.NameCertObligations
 import BEDC.Derived.FrechetFilterUp.RootSequentialCompletionHandoff
+import BEDC.Derived.FrechetFilterUp.SequentialCompletionHandoff
 import BEDC.Derived.FrechetFilterUp.TailCommonRefinement
 import BEDC.Derived.FrechetFilterUp.TailNeighborhoodHandoff
 import BEDC.Derived.FrechetFilterUp.TasteGate
@@ -5614,6 +5615,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCoverage
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphCoverageExactness
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphLocatedTransport
 import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphRegSeqRatHandoff
+import BEDC.Derived.LowerSemicontinuousUp.RootEpigraphSpecialization
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedComparison
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedReadback
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedRealNonescape
@@ -8294,6 +8296,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusLimitFactorization
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.SeparatedUniquenessBoundary
+import BEDC.Derived.SequentiallyCompleteMetricUp.SeparationObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceCompletionNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceRead
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceReadback
@@ -8861,6 +8864,7 @@ import BEDC.Derived.TriggerHypergraphReliabilityUp
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
+import BEDC.Derived.TubeLemmaUp.TasteGate
 import BEDC.Derived.TuringMachineUp
 import BEDC.Derived.TwinSubstrateAuditBridgeUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
