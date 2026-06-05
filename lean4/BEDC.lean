@@ -7575,6 +7575,7 @@ import BEDC.Derived.RegularCauchyDifferenceUp
 import BEDC.Derived.RegularCauchyDistanceUp.TasteGate
 import BEDC.Derived.RegularCauchyDivisionUp.TasteGate
 import BEDC.Derived.RegularCauchyEnclosureFilterUp.TasteGate
+import BEDC.Derived.RegularCauchyEntourageBasisUp.TasteGate
 import BEDC.Derived.RegularCauchyEqualityCriterionUp
 import BEDC.Derived.RegularCauchyEquivalenceUp.RefinementTransport
 import BEDC.Derived.RegularCauchyEquivalenceUp.TasteGate
@@ -8025,8 +8026,11 @@ import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
 import BEDC.Derived.SequentialClosureUp
+import BEDC.Derived.SequentialClosureUp.NameCertObligationSurface
+import BEDC.Derived.SequentialClosureUp.NameCertObligations
 import BEDC.Derived.SequentialClosureUp.RegSeqRatLimitRoute
 import BEDC.Derived.SequentialClosureUp.SequenceLimitHandoff
+import BEDC.Derived.SequentialClosureUp.TasteGate
 import BEDC.Derived.SequentialCompactRealUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.BaireCylinderExposure
 import BEDC.Derived.SequentialCompactUp.BaireRealWindowAdmission
@@ -8060,6 +8064,7 @@ import BEDC.Derived.SequentialContinuityUp.MetricRowStability
 import BEDC.Derived.SequentialContinuityUp.TasteGate
 import BEDC.Derived.SequentialRealCompactnessUp.TasteGate
 import BEDC.Derived.SequentialUniformCompletionUp.TasteGate
+import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
 import BEDC.Derived.SeriesLimitComparisonUp.TasteGate

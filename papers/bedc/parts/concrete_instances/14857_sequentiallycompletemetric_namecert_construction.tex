@@ -24,6 +24,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for quotient completion equality, selected representatives, countable choice, open-cover compactness, ambient completeness, or completeness of $\RealUp$.
 \end{definition}
+\leandef{BEDC.Derived.SequentiallyCompleteMetricUp.SequentiallyCompleteMetricUp}
 
 \begin{theorem}[SequentiallyCompleteMetric NameCert obligations]
 \label{thm:sequentially-complete-metric-namecert-obligations}
@@ -565,6 +566,42 @@ Project the finite Cauchy-window package. Its sequence surface is not a free str
 Apply the Cauchy-sequence obligation of \autoref{thm:sequentially-complete-metric-cauchy-sequence-obligation}. It forces the source metric, stream windows, rational readback, and modulus threshold to be exposed before a sequence-completeness read can consume $L$ or $D$.
 
 Now use source-first tail read from \autoref{thm:sequentially-complete-metric-source-first-tail-read}. A tail read later consumed as a displayed limit read cannot begin from a free-standing limit, quotient-completion class, or selected representative, so every path to the late-distance ledger passes through $\StreamNameUp$ and $\RegSeqRatUp$ first.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric window-limit extraction]
+\label{thm:sequentially-complete-metric-window-limit-extraction}
+Every accepted $\SequentiallyCompleteMetricUp$ packet extracts its displayed limit row from finite $\BHist$ windows before any completion-facing consumer may use the packet. The extraction route reads the metric source row, the $\StreamNameUp$ windows, the $\RegSeqRatUp$ source rows, the modulus row, and the $\RealUp$ seal-facing late-distance row through the same $\hsame$ transports and $\Cont$ replays, and only then admits the resulting boundary to a $\MetricCompletionUp$ consumer.
+\end{theorem}
+\begin{proof}
+Start from the display route of \autoref{thm:sequentially-complete-metric-display-route}. It orders the rows as $X,S,R,M,L,D,H,C,P,N$, so the limit row $L$ is never available before the finite stream windows and regular rational readback rows.
+
+Apply regular limit extraction and the Real route boundary. The $\RegSeqRatUp$ source rows provide the rational tolerance readback, while the $\RealUp$ seal is reached only through the late-distance ledger $D$ inside the same packet.
+
+Finally use the completion handoff obligations. A $\MetricCompletionUp$ consumer receives the extracted limit boundary only after $\hsame$ transport and $\Cont$ replay have preserved the displayed finite-window route; quotient completion, selected representatives, countable choice, and ambient Real completeness remain outside the carrier.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric tail cofinality]
+\label{thm:sequentially-complete-metric-tail-cofinality}
+For every accepted $\SequentiallyCompleteMetricUp$ carrier, tail replacement by a cofinal finite window preserves the same completion-facing obligation surface. The replacement may change only the displayed $\BHist$ window inspected by the $\StreamNameUp$ row; it must keep the $\RegSeqRatUp$ source row, modulus row, $\RealUp$ seal-facing ledger, $\hsame$ transport, $\Cont$ replay, provenance, and local $\NameCert$ rows on the same route before a $\MetricCompletionUp$ consumer is admitted.
+\end{theorem}
+\begin{proof}
+Use source-first tail read from \autoref{thm:sequentially-complete-metric-source-first-tail-read}. A tail read cannot enter through a free-standing limit, so it must first display the metric source together with the finite stream windows and regular rational readback.
+
+Apply the RegSeqRat source route above. The cofinal tail keeps the same $R$ row as the rational source for the modulus and the late-distance ledger, so the $\RealUp$ seal-facing boundary is transported rather than regenerated.
+
+The completion-consumer factorization then admits the same $\MetricCompletionUp$ consumer route. Since $H,C,P,N$ preserve only the displayed packet, the cofinal tail cannot introduce quotient completion, selected representatives, countable choice, ambient completeness, or an independent completed carrier.
+\end{proof}
+
+\begin{theorem}[SequentiallyCompleteMetric completion consumer admission]
+\label{thm:sequentially-complete-metric-completion-consumer}
+Every $\MetricCompletionUp$ consumer admitted by an accepted $\SequentiallyCompleteMetricUp$ packet must first display the finite $\BHist$ window-limit extraction and tail-cofinality routes over the same $\RegSeqRatUp$ source rows. The admitted consumer sees the $\RealUp$ seal only as the terminal readback of the late-distance ledger, with $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ preserving the packet; it does not receive quotient completion, selected representatives, countable choice, open-cover compactness, ambient Real completeness, or a proof that $\RealUp$ is complete.
+\end{theorem}
+\begin{proof}
+Begin with completion-consumer factorization. It identifies the consumer entry point with the displayed rows of the $\SequentiallyCompleteMetricUp$ carrier and refuses any independent completion object.
+
+Attach window-limit extraction. The consumer must read the finite $\BHist$ windows, the $\StreamNameUp$ route, the $\RegSeqRatUp$ source rows, the modulus, and the $\RealUp$ seal-facing ledger before the displayed limit row can be used.
+
+Attach tail cofinality. Cofinal tail replacement preserves the same source rows and structural replay, so admission to $\MetricCompletionUp$ is stable under finite-window refinement but still confined to the packet. The refusal clauses of the nonescape and Real boundary theorems exclude quotient completion, selected representatives, countable choice, open-cover compactness, ambient Real completeness, and $\RealUp$ completeness.
 \end{proof}
 
 \begin{closurestatus}{\SequentiallyCompleteMetricUp}
