@@ -156,6 +156,7 @@ grammar packet has no coordinate for an infinite parse tree, host language
 set, grammar quotient, or unbounded machine trace, the pushdown consumer
 cannot extract one through this route.
 \end{proof}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarPacket\_pushdown\_handoff}
 
 \begin{theorem}[ContextFreeGrammar terminal-yield finite window]
 \label{thm:contextfreegrammar-terminal-yield-window}
@@ -282,6 +283,7 @@ $\RegularLanguageUp$ or $\TuringMachineUp$ readers.
 \label{thm:contextfreegrammar-regularlanguage-inclusion-certificate}
 Every accepted $\RegularLanguageUp$ finite-automaton packet yields a $\ContextFreeGrammarUp$ packet whose production ledger simulates the deterministic transition ledger and whose terminal yield is the accepted $\ListUp$ word. The construction reads only the finite alphabet row, state row, transition table, initial row, accepting endpoint row, input-word spine, deterministic run ledger, componentwise transport rows, continuation rows, and package provenance of \autoref{ch:concrete-instances-regularlanguage-namecert}; it does not pass through a host language-set semantics or an ambient subset relation.
 \end{theorem}
+\leanchecked{BEDC.Derived.ContextFreeGrammarUp.ContextFreeGrammarRegularLanguageInclusionCertificate}
 \begin{proof}
 Start from the grammar carrier of \autoref{def:contextfreegrammar-bhist-carrier}. For each visible automaton transition row in the deterministic run ledger of \autoref{thm:regularlanguage-deterministic-run-ledger}, create the corresponding finite production row carrying the current state, consumed terminal, and next state as displayed nonterminal and terminal coordinates.
 
