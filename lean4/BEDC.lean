@@ -2658,6 +2658,7 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
+import BEDC.Derived.CompleteUltrametricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionAdjointUp.TasteGate
@@ -5620,6 +5621,7 @@ import BEDC.Derived.LowerSemicontinuousUp.RootLocatedComparison
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedReadback
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedRealNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RootLocatedSetThresholdRoute
+import BEDC.Derived.LowerSemicontinuousUp.RootLowerRealProjection
 import BEDC.Derived.LowerSemicontinuousUp.RootNonescape
 import BEDC.Derived.LowerSemicontinuousUp.RootObligationSplit
 import BEDC.Derived.LowerSemicontinuousUp.RootRealSealBoundary
@@ -7638,6 +7640,7 @@ import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
 import BEDC.Derived.ReflectiveInquiryUp.Nonescape
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.ReflectiveStabilityUp.TasteGate
+import BEDC.Derived.RefusalRegistryUp.ClaimLayerHandoff
 import BEDC.Derived.RefusalRegistryUp.RefusalRegistryNonescape
 import BEDC.Derived.RefusalRegistryUp.TasteGate
 import BEDC.Derived.RefutationBoundaryUp
@@ -8267,7 +8270,9 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyWindowObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.ChoiceFreeUniquenessBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.ClassifierTransport
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompleteMetricHandoff
+import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionConsumerAdmission
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionConsumerRoute
+import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionFactorizationLedger
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionHandoffObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionRouteExhaustion
 import BEDC.Derived.SequentiallyCompleteMetricUp.DisplayRoute
@@ -8728,6 +8733,7 @@ import BEDC.Derived.TensorProductUp
 import BEDC.Derived.TermStratumChoiceClosureUp.TasteGate
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TernaryExpansionUp.TasteGate
+import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
