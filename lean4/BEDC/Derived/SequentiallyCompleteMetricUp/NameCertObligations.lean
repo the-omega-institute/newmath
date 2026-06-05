@@ -124,4 +124,91 @@ theorem SequentiallyCompleteMetricPacket_semantic_name_certificate [AskSetup] [P
       exact And.intro (unary_transport nameUnary (hsame_symm source.right)) acceptancePkg
   }
 
+theorem SequentiallyCompleteMetricRealSealNonescape [AskSetup] [PackageSetup]
+    {X S R M L D H C P N windowRead regularRead sealRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    sequentiallyCompleteMetricFields (SequentiallyCompleteMetricUp.mk X S M L D H C P N) =
+        [X, S, M, L, D, H, C, P, N] →
+      UnaryHistory S →
+        UnaryHistory R →
+          UnaryHistory D →
+            UnaryHistory C →
+              UnaryHistory N →
+                Cont S R windowRead →
+                  Cont windowRead D regularRead →
+                    Cont regularRead N sealRead →
+                      Cont sealRead C namedRead →
+                        PkgSig bundle P pkg →
+                          PkgSig bundle namedRead pkg →
+                            SemanticNameCert
+                                (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row S ∨ hsame row R ∨ hsame row D ∨
+                                    hsame row H ∨ hsame row C ∨ hsame row P ∨
+                                      hsame row N ∨ hsame row namedRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ Cont S R windowRead ∧
+                                    Cont windowRead D regularRead ∧
+                                      Cont regularRead N sealRead ∧
+                                        Cont sealRead C namedRead ∧ PkgSig bundle P pkg ∧
+                                          PkgSig bundle namedRead pkg)
+                                hsame ∧ UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro fieldRows sUnary rUnary dUnary cUnary nUnary windowRoute regularRoute sealRoute
+    namedRoute provenancePkg namedPkg
+  cases fieldRows
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed sUnary rUnary windowRoute
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed windowUnary dUnary regularRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed regularUnary nUnary sealRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed sealUnary cUnary namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row R ∨ hsame row D ∨ hsame row H ∨ hsame row C ∨
+              hsame row P ∨ hsame row N ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S R windowRead ∧ Cont windowRead D regularRead ∧
+              Cont regularRead N sealRead ∧ Cont sealRead C namedRead ∧
+                PkgSig bundle P pkg ∧ PkgSig bundle namedRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr sourceRow.left))))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, windowRoute, regularRoute, sealRoute, namedRoute, provenancePkg,
+          namedPkg⟩
+  }
+  exact ⟨cert, namedUnary⟩
+
 end BEDC.Derived.SequentiallyCompleteMetricUp
