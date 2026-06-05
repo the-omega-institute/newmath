@@ -235,6 +235,22 @@ def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
         return None
     cursor: Any = payload
     for part in pointer[2:].split("."):
+        while "[" in part and part.endswith("]"):
+            key, bracket = part.split("[", 1)
+            if key:
+                if not isinstance(cursor, Mapping) or key not in cursor:
+                    return None
+                cursor = cursor[key]
+            index_text = bracket[:-1]
+            if not index_text.isdigit() or not isinstance(cursor, list):
+                return None
+            index = int(index_text)
+            if index >= len(cursor):
+                return None
+            cursor = cursor[index]
+            part = ""
+        if not part:
+            continue
         if isinstance(cursor, Mapping) and part in cursor:
             cursor = cursor[part]
         elif isinstance(cursor, list) and part.isdigit() and int(part) < len(cursor):
@@ -1763,7 +1779,52 @@ def _sidecar_discovery_rows(*, root: Path | None = None) -> list[dict[str, Any]]
                 "not_claimed": training.get("not_claimed", []),
             }
         )
+    rows.extend(_gap_head_mechanism_blockage_rows(root=base))
     return rows
+
+
+def _gap_head_mechanism_blockage_rows(*, root: Path) -> list[dict[str, Any]]:
+    capsule = _load_artifact_payload(ATTRIBUTION_CAPSULE_ARTIFACT, root=root)
+    sidecar = _load_artifact_payload(MECHANISM_NAMECERT_ARTIFACT, root=root)
+    evidence = project_gap_head_mechanism_evidence(capsule)
+    if evidence is None:
+        return []
+    if (
+        evidence.base_status != "ready"
+        or evidence.mechanism_status != "blocked"
+        or pointer_value(sidecar, MECHANISM_NAMECERT_LEDGER_POINTER) != "open"
+        or unresolved_mechanism_evidence_pointers(capsule, evidence)
+    ):
+        return []
+    pointers = (
+        MECHANISM_EVIDENCE_POINTER,
+        "$.mechanism_evidence.failed_gate",
+        evidence.ledger_debt_pointer,
+    )
+    if any(pointer_value(capsule, pointer) is None for pointer in pointers):
+        return []
+    not_claimed = pointer_value(sidecar, "$.source_spec.scope_seal.not_claimed")
+    if not isinstance(not_claimed, list):
+        return []
+    return [
+        {
+            "report": "gap-head-mechanism-blockage",
+            "json_artifact": ATTRIBUTION_CAPSULE_ARTIFACT,
+            "markdown_artifact": "reports/canonical/gap_head_attribution_capsule.md",
+            "discovery_level": "DN",
+            "terminal_verdict": "negative_discovery",
+            "classifier_reasons": ["gap-head-mechanism-blocked"],
+            "projection_status": "mechanism-blockage-projected",
+            "evidence_pointer": MECHANISM_EVIDENCE_POINTER,
+            "failed_gate": "$.mechanism_evidence.failed_gate",
+            "debt_row_pointer": evidence.ledger_debt_pointer,
+            "audit_status": "valid",
+            "audit_reason": "",
+            "what_was_learned": "gap-head operational readiness is present while D5-M remains blocked by the mechanism evidence",
+            "next_hypothesis": "separate score and margin evidence from a closed mechanism proof before any D5-M promotion",
+            "not_claimed": not_claimed,
+        }
+    ]
 
 
 def build_negative_discovery_owner_rows(

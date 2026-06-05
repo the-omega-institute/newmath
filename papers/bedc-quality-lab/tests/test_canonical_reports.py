@@ -396,7 +396,11 @@ def _payload_for_spec(spec):
         payload["source_issues"] = [692, 747]
         payload["a4_hardgates"] = {
             "status": "fail",
-            "gates": {"A4-HG5": {"status": "fail"}},
+            "gates": {
+                "A4-HG2": {"status": "pass"},
+                "A4-HG3": {"status": "pass"},
+                "A4-HG5": {"status": "fail"},
+            },
         }
     return payload
 
@@ -427,6 +431,15 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
         json.dumps(
             {
                 "artifact_id": canonical_module.GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID,
+                "source_spec": {
+                    "scope_seal": {
+                        "not_claimed": [
+                            "not a formal BEDC NameCert",
+                            "not Lean verification",
+                            "not mechanism theorem closure",
+                        ]
+                    }
+                },
                 "ledger_policy": {"mechanism_closure_debt": "open"},
                 "closure_status": {"mechanism_spec": "partial"},
                 "mechanism_spec": {
@@ -2722,6 +2735,56 @@ def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     assert row["mechanism_channel"] == sidecar["mechanism_spec"]["candidate_mechanism"]
     assert row["mechanism_ledger_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status"
     assert row["mechanism_closure_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status"
+
+
+def test_gap_head_mechanism_blockage_negative_owner_is_pointer_linked():
+    negative_reports = json.loads((canonical.ROOT / "reports/canonical/negative_discovery_reports.json").read_text(encoding="utf-8"))
+    discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
+    claim_rows = _read_committed_claim_verdicts()
+    claim_graph = json.loads((canonical.ROOT / "reports/canonical/claim_graph.json").read_text(encoding="utf-8"))
+    capsule = json.loads((canonical.ROOT / "reports/canonical/gap_head_attribution_capsule.json").read_text(encoding="utf-8"))
+
+    owner_index, owner = next(
+        (index, row)
+        for index, row in enumerate(negative_reports["rows"])
+        if row["report_id"] == "gap-head-mechanism-blockage"
+    )
+    discovery_index, discovery_row = next(
+        (index, row)
+        for index, row in enumerate(discovery["rows"])
+        if row["report"] == "gap-head-mechanism-blockage"
+    )
+    claim_row = next(row for row in claim_rows if row["claim_id"] == "claim:gap-head-mechanism-blockage")
+    graph_nodes = {row["node_id"]: row for row in claim_graph["nodes"]}
+
+    assert owner["negative_id"] == "dn:gap-head-mechanism-blockage"
+    assert owner["json_artifact"] == "reports/canonical/gap_head_attribution_capsule.json"
+    assert owner["failed_gate"] == "$.mechanism_evidence.failed_gate"
+    assert owner["evidence_pointer"] == "$.mechanism_evidence"
+    assert owner["debt_row_pointer"] == "$.ledger_debt.0.status"
+    assert owner["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.failed_gate"
+    assert capsule["mechanism_evidence"]["failed_gate"] == "A1-HG3"
+    assert discovery_row["negative_report_pointer"] == f"reports/canonical/negative_discovery_reports.json:$.rows[{owner_index}]"
+    assert claim_row["negative_report_pointer"] == discovery_row["negative_report_pointer"]
+    assert claim_row["claim_verdict"] == "negative_discovery"
+    assert graph_nodes["raw:gap-head-mechanism-blockage"]["source_pointer"] == (
+        "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
+    )
+    assert graph_nodes["projected:gap-head-mechanism-blockage"]["source_pointer"] == (
+        f"reports/canonical/discovery_map.json:$.rows[{discovery_index}]"
+    )
+    assert graph_nodes["terminal:gap-head-mechanism-blockage"]["terminal_verdict"] == "negative_discovery"
+
+
+def test_attribution_capsule_remains_non_terminal_verdict_producer():
+    capsule = json.loads((canonical.ROOT / "reports/canonical/gap_head_attribution_capsule.json").read_text(encoding="utf-8"))
+    discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
+    rows = {row["report"]: row for row in discovery["rows"]}
+
+    assert "terminal_verdict" not in capsule
+    assert rows["gap-head-attribution-capsule"]["discovery_level"] == "D0"
+    assert rows["gap-head-attribution-capsule"]["terminal_verdict"] == ""
+    assert rows["gap-head-mechanism-blockage"]["discovery_level"] == "DN"
 
 
 def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):

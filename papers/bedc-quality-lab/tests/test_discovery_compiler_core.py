@@ -72,6 +72,7 @@ class FakeAdapter:
             "dimension-mismatch-scale-leakage",
             "single-threshold-escape",
             "training-choice-observability",
+            "gap-head-mechanism-blockage",
         )
         return [
             {
@@ -218,7 +219,7 @@ def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):
 
     assert adapter.calls == ["negative", "map"]
     assert result["negative_discovery_reports"]["rows"][0]["terminal_verdict"] == "negative_discovery"
-    assert result["negative_discovery_reports"]["row_count"] == 6
+    assert result["negative_discovery_reports"]["row_count"] == 7
     assert result["discovery_map"]["rows"][0]["negative_report_pointer"] == f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]"
     assert result["finite_gate"]["status"] == "fail"
     assert result["finite_gate"]["counts"]["negative"] == result["negative_witness_summary"]["row_count"]

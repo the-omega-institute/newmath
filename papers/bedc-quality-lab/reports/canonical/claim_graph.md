@@ -2,7 +2,7 @@
 
 - Generated at: `2026-06-05T07:13:11.713087+00:00`
 - Status: `pointer-only`
-- Nodes: `89`
+- Nodes: `92`
 
 | node | type | source | depends on |
 | --- | --- | --- | --- |
@@ -52,6 +52,8 @@
 | `projected:single-threshold-escape` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[21]` | `raw:single-threshold-escape` |
 | `raw:training-choice-observability` | `raw_evidence` | `runs/training_choice_observability.json:$.boundary_ledger` |  |
 | `projected:training-choice-observability` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[22]` | `raw:training-choice-observability` |
+| `raw:gap-head-mechanism-blockage` | `raw_evidence` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` |  |
+| `projected:gap-head-mechanism-blockage` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[23]` | `raw:gap-head-mechanism-blockage` |
 | `negative-witness:classifier_surface_delta_zero` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]` |  |
 | `negative-witness:matched_control_positive` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]` |  |
 | `negative-witness:hidden_debt_positive` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]` |  |
@@ -87,14 +89,15 @@
 | `terminal:dimension-mismatch-debt-transfer` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[20]` | `projected:dimension-mismatch-debt-transfer` |
 | `terminal:single-threshold-escape` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | `projected:single-threshold-escape` |
 | `terminal:training-choice-observability` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | `projected:training-choice-observability` |
-| `terminal:witness:classifier_surface_delta_zero` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[23]` | `negative-witness:classifier_surface_delta_zero` |
-| `terminal:witness:matched_control_positive` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[24]` | `negative-witness:matched_control_positive` |
-| `terminal:witness:hidden_debt_positive` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[25]` | `revocation:witness:hidden_debt_positive` |
-| `terminal:witness:cost_protocol_missing` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[26]` | `negative-witness:cost_protocol_missing` |
-| `terminal:witness:scorecard_not_ready` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[27]` | `negative-witness:scorecard_not_ready` |
-| `terminal:witness:forbidden_inference_column` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[28]` | `negative-witness:forbidden_inference_column` |
-| `terminal:witness:benefit_debt_tradeoff` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[29]` | `revocation:witness:benefit_debt_tradeoff` |
-| `terminal:witness:fresh_claim_downgrade` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[30]` | `revocation:witness:fresh_claim_downgrade` |
+| `terminal:gap-head-mechanism-blockage` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[23]` | `projected:gap-head-mechanism-blockage` |
+| `terminal:witness:classifier_surface_delta_zero` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[24]` | `negative-witness:classifier_surface_delta_zero` |
+| `terminal:witness:matched_control_positive` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[25]` | `negative-witness:matched_control_positive` |
+| `terminal:witness:hidden_debt_positive` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[26]` | `revocation:witness:hidden_debt_positive` |
+| `terminal:witness:cost_protocol_missing` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[27]` | `negative-witness:cost_protocol_missing` |
+| `terminal:witness:scorecard_not_ready` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[28]` | `negative-witness:scorecard_not_ready` |
+| `terminal:witness:forbidden_inference_column` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[29]` | `negative-witness:forbidden_inference_column` |
+| `terminal:witness:benefit_debt_tradeoff` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[30]` | `revocation:witness:benefit_debt_tradeoff` |
+| `terminal:witness:fresh_claim_downgrade` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[31]` | `revocation:witness:fresh_claim_downgrade` |
 
 ## Hardgates
 

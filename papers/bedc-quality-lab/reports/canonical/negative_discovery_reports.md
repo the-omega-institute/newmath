@@ -2,7 +2,7 @@
 
 - Generated at: `2026-06-05T07:13:11.713087+00:00`
 - Status: `pointer-only`
-- Rows: `7`
+- Rows: `8`
 
 | negative id | report id | claim | failed gate | source | audit |
 | --- | --- | --- | --- | --- | --- |
@@ -13,3 +13,4 @@
 | `dn:dimension-mismatch-scale-leakage` | `dimension-mismatch-scale-leakage` | `claim:dimension-mismatch-debt-transfer` | `$.dimension_mismatch_debt_transfer.anti_triviality_status` | `reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.anti_triviality_status` | `pass` |
 | `dn:single-threshold-escape` | `single-threshold-escape` | `claim:single-threshold-escape` | `$.projection.escaped_positive_is_discovery_evidence` | `runs/single_threshold_escape_witness.json:$.projection.escaped_positive_is_discovery_evidence` | `pass` |
 | `dn:training-choice-observability` | `training-choice-observability` | `claim:training-choice-observability` | `$.training_choice_observability.ledger_risk_only_arm_count` | `runs/training_choice_observability.json:$.training_choice_observability.ledger_risk_only_arm_count` | `pass` |
+| `dn:gap-head-mechanism-blockage` | `gap-head-mechanism-blockage` | `claim:gap-head-mechanism-blockage` | `$.mechanism_evidence.failed_gate` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.failed_gate` | `pass` |

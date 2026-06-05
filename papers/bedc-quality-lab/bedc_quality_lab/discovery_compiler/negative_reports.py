@@ -29,6 +29,7 @@ REQUIRED_NEGATIVE_REPORT_IDS = frozenset(
         "dimension-mismatch-scale-leakage",
         "single-threshold-escape",
         "training-choice-observability",
+        "gap-head-mechanism-blockage",
     }
 )
 OWNER_FACT_KEYS = frozenset(
