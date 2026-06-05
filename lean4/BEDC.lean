@@ -4675,6 +4675,7 @@ import BEDC.Derived.FrechetFilterUp
 import BEDC.Derived.FrechetFilterUp.CarrierAdmissionObligation
 import BEDC.Derived.FrechetFilterUp.CofinalTailStabilityObligation
 import BEDC.Derived.FrechetFilterUp.NameCertObligations
+import BEDC.Derived.FrechetFilterUp.SequentialCompletionHandoff
 import BEDC.Derived.FrechetFilterUp.TailCommonRefinement
 import BEDC.Derived.FrechetFilterUp.TailNeighborhoodHandoff
 import BEDC.Derived.FrechetFilterUp.TasteGate

@@ -202,4 +202,81 @@ theorem FrechetFilterConvergenceConsumerHandoffObligation [AskSetup] [PackageSet
   }
   exact ⟨cert, namedUnary⟩
 
+theorem FrechetFilterCompletionNonescape [AskSetup] [PackageSetup]
+    {U T S M B Q R A H C P N sourceRead cauchyRead readbackRead completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FrechetFilterCarrier U T S M B Q R A H C P N bundle pkg ->
+      Cont U T sourceRead ->
+        Cont sourceRead Q cauchyRead ->
+          Cont cauchyRead R readbackRead ->
+            Cont readbackRead N completionRead ->
+              PkgSig bundle P pkg ->
+                PkgSig bundle completionRead pkg ->
+                  SemanticNameCert
+                    (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row U ∨ hsame row T ∨ hsame row Q ∨ hsame row R ∨
+                        hsame row N ∨ hsame row completionRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont U T sourceRead ∧
+                        Cont sourceRead Q cauchyRead ∧ Cont cauchyRead R readbackRead ∧
+                          Cont readbackRead N completionRead ∧ PkgSig bundle P pkg ∧
+                            PkgSig bundle completionRead pkg)
+                    hsame ∧
+                  UnaryHistory completionRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier sourceRoute cauchyRoute readbackRoute completionRoute provenancePkg
+    completionPkg
+  obtain ⟨UUnary, TUnary, _SUnary, _MUnary, _BUnary, QUnary, RUnary, _AUnary,
+    _HUnary, _CUnary, _PUnary, NUnary, _carrierTailRoute, _carrierScheduleRoute,
+    _carrierCauchyRoute, _carrierReadbackRoute, _carrierProvenancePkg,
+    _carrierNamePkg⟩ := carrier
+  have sourceUnary : UnaryHistory sourceRead :=
+    unary_cont_closed UUnary TUnary sourceRoute
+  have cauchyUnary : UnaryHistory cauchyRead :=
+    unary_cont_closed sourceUnary QUnary cauchyRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed cauchyUnary RUnary readbackRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed readbackUnary NUnary completionRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row U ∨ hsame row T ∨ hsame row Q ∨ hsame row R ∨ hsame row N ∨
+            hsame row completionRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont U T sourceRead ∧ Cont sourceRead Q cauchyRead ∧
+            Cont cauchyRead R readbackRead ∧ Cont readbackRead N completionRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle completionRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro completionRead ⟨hsame_refl completionRead, completionUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, sourceRoute, cauchyRoute, readbackRoute, completionRoute,
+          provenancePkg, completionPkg⟩
+  }
+  exact ⟨cert, completionUnary⟩
+
 end BEDC.Derived.FrechetFilterUp
