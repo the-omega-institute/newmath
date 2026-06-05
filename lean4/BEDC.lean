@@ -718,6 +718,8 @@ import BEDC.Derived.BanachSpaceUp
 import BEDC.Derived.BanachSpaceUp.CauchyCompletionHandoff
 import BEDC.Derived.BanachSpaceUp.CauchyWindowScope
 import BEDC.Derived.BanachSpaceUp.CompletionConsumerScope
+import BEDC.Derived.BanachSpaceUp.CompletionObligationSurface
+import BEDC.Derived.BanachSpaceUp.CompletionStabilityObligation
 import BEDC.Derived.BanachSpaceUp.LinearCompletionNonescape
 import BEDC.Derived.BanachSpaceUp.NormCompletionLedgerObligation
 import BEDC.Derived.BanachSpaceUp.NormedCauchyLedger
