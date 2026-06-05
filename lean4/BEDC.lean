@@ -711,6 +711,7 @@ import BEDC.Derived.BanachDualUp.TasteGate
 import BEDC.Derived.BanachFixedPointIterationBudgetUp
 import BEDC.Derived.BanachFixedPointStabilityUp.TasteGate
 import BEDC.Derived.BanachFixedPointUp
+import BEDC.Derived.BanachLatticeUp.TasteGate
 import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
 import BEDC.Derived.BanachSpaceUp.TasteGate
 import BEDC.Derived.BanachSteinhausUp.TasteGate
@@ -3858,6 +3859,7 @@ import BEDC.Derived.EmptyFableMachineUp.Ledger
 import BEDC.Derived.EmptyFableMachineUp.TasteGate
 import BEDC.Derived.EmptyUp
 import BEDC.Derived.EmptyUp.TasteGate
+import BEDC.Derived.EnergyBiasedTriggerReliabilityUp.TasteGate
 import BEDC.Derived.EngelExpansionUp.TasteGate
 import BEDC.Derived.EnrichedCatUp
 import BEDC.Derived.EntanglementUp
@@ -3958,6 +3960,8 @@ import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.BarScopeObligations
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
+import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
+import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RootUnblockCantorPrefix
 import BEDC.Derived.FanfunctionalUp.RootUnblockFanDepth
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
@@ -5621,6 +5625,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10BudgetLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateLedgerPublicBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierNormalFormDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierObstructionNonescape
@@ -7222,6 +7227,7 @@ import BEDC.Derived.RealTailAgreementSealUp.TerminalRoute
 import BEDC.Derived.RealTailAgreementSealUp.WindowAgreementDeterminacy
 import BEDC.Derived.RealTailAgreementSealUp.WindowRoute
 import BEDC.Derived.RealTailAgreementTransitivityUp.TasteGate
+import BEDC.Derived.RealTightnessUp.TasteGate
 import BEDC.Derived.RealUniformCauchyFilterCompletionUp
 import BEDC.Derived.RealUniformCauchyNameUp.TasteGate
 import BEDC.Derived.RealUniformEmbeddingUp
