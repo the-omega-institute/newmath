@@ -1,4 +1,5 @@
 import importlib.util
+import sys
 from dataclasses import replace
 from pathlib import Path
 
@@ -411,6 +412,39 @@ def test_experiment_torch_success_path_uses_tiny_encoder_metadata(monkeypatch):
     assert_meaningful_metric_thresholds(envelope)
 
 
+def test_experiment_torch_nondefault_alignment_lambda_reaches_encoder(monkeypatch):
+    calls = {}
+
+    def fake_torch_encoder(train_x, train_x_pair, eval_x, eval_x_pair, *, seed, alignment_lambda):
+        calls["seed"] = seed
+        calls["alignment_lambda"] = alignment_lambda
+        h, h_pair = runner._fallback_encoder(train_x, eval_x, eval_x_pair)
+        return h, h_pair
+
+    monkeypatch.setattr(runner, "_torch_encoder", fake_torch_encoder)
+
+    envelope = runner.run_experiment(use_torch=True, alignment_lambda=0.25)
+
+    assert calls == {"seed": 23, "alignment_lambda": 0.25}
+    assert_common_experiment_envelope(envelope)
+    assert_classifier_spec_base(
+        envelope,
+        {
+            "name": "tiny-mlp-2-128-128-2",
+            "output_dim": 2,
+            "training": "align-cov-mean",
+            "alignment_lambda": 0.25,
+        },
+    )
+    assert_classifier_certificate(envelope)
+    assert_canonical_quality_rows(
+        envelope,
+        ledger_gaps=TORCH_METADATA_LEDGER_GAPS,
+        debt_items=TORCH_METADATA_DEBT_ITEMS,
+    )
+    assert_meaningful_metric_thresholds(envelope)
+
+
 def test_experiment_torch_failure_silently_uses_fallback_metadata(monkeypatch):
     def failing_torch_encoder(train_x, train_x_pair, eval_x, eval_x_pair, *, seed):
         raise RuntimeError("forced test failure")
@@ -516,6 +550,123 @@ def test_torch_encoder_receives_train_arrays_and_returns_eval_arrays(monkeypatch
     assert calls["eval_x"].shape == calls["eval_x_pair"].shape == (115, 2)
     assert not any(np.array_equal(row, calls["eval_x"][0]) for row in calls["train_x"])
     assert envelope.classifier_spec["eval_count"] == 115
+
+
+def test_torch_encoder_selects_weighted_loss_for_nondefault_alignment_lambda(monkeypatch):
+    backward_losses = []
+
+    class FakeLoss:
+        def __init__(self, expression):
+            self.expression = expression
+
+        def __mul__(self, scale):
+            return FakeLoss(f"{scale}*{self.expression}")
+
+        def __rmul__(self, scale):
+            return FakeLoss(f"{scale}*{self.expression}")
+
+        def __add__(self, other):
+            return FakeLoss(f"({self.expression}+{other.expression})")
+
+        def backward(self):
+            backward_losses.append(self.expression)
+
+    class FakeTensor:
+        def __init__(self, values):
+            self.values = np.asarray(values, dtype=np.float64)
+
+        def detach(self):
+            return self
+
+        def cpu(self):
+            return self
+
+        def numpy(self):
+            return self.values
+
+    class FakeEncoder:
+        def to(self, device):
+            assert device == "cpu"
+            return self
+
+        def parameters(self):
+            return []
+
+        def __call__(self, tensor):
+            return FakeTensor(tensor.values)
+
+    class FakeOptimizer:
+        def __init__(self, parameters, *, lr, weight_decay):
+            assert list(parameters) == []
+            assert lr == pytest.approx(2e-3)
+            assert weight_decay == pytest.approx(1e-4)
+
+        def zero_grad(self, *, set_to_none):
+            assert set_to_none is True
+
+        def step(self):
+            pass
+
+    class FakeNoGrad:
+        def __enter__(self):
+            return None
+
+        def __exit__(self, exc_type, exc, traceback):
+            return False
+
+    class FakeTorch:
+        float32 = "float32"
+
+        class optim:
+            AdamW = FakeOptimizer
+
+        @staticmethod
+        def as_tensor(values, *, dtype, device):
+            assert dtype == "float32"
+            assert device == "cpu"
+            return FakeTensor(values)
+
+        @staticmethod
+        def no_grad():
+            return FakeNoGrad()
+
+    monkeypatch.setitem(sys.modules, "torch", FakeTorch)
+    monkeypatch.setattr("bedc_quality_lab.model.set_deterministic_seed", lambda seed: None)
+    monkeypatch.setattr("bedc_quality_lab.model.choose_device", lambda: "cpu")
+    monkeypatch.setattr("bedc_quality_lab.model.build_tiny_encoder", lambda: FakeEncoder())
+    monkeypatch.setattr(
+        "bedc_quality_lab.model.representation_loss",
+        lambda h, h_pair: FakeLoss("representation"),
+    )
+    monkeypatch.setattr("bedc_quality_lab.model.align_loss", lambda h, h_pair: FakeLoss("align"))
+    monkeypatch.setattr("bedc_quality_lab.model.covariance_loss", lambda h: FakeLoss("covariance"))
+    monkeypatch.setattr("bedc_quality_lab.model.mean_loss", lambda h: FakeLoss("mean"))
+
+    train_x = np.array([[1.0, 2.0], [3.0, 4.0]], dtype=np.float64)
+    train_x_pair = np.array([[1.5, 2.5], [3.5, 4.5]], dtype=np.float64)
+    eval_x = np.array([[5.0, 6.0]], dtype=np.float64)
+    eval_x_pair = np.array([[5.5, 6.5]], dtype=np.float64)
+
+    default_h, default_h_pair = runner._torch_encoder(train_x, train_x_pair, eval_x, eval_x_pair, seed=23)
+    default_losses = list(backward_losses)
+    backward_losses.clear()
+
+    weighted_h, weighted_h_pair = runner._torch_encoder(
+        train_x,
+        train_x_pair,
+        eval_x,
+        eval_x_pair,
+        seed=23,
+        alignment_lambda=0.25,
+    )
+    weighted_losses = list(backward_losses)
+
+    assert default_h == pytest.approx(eval_x)
+    assert default_h_pair == pytest.approx(eval_x_pair)
+    assert weighted_h == pytest.approx(eval_x)
+    assert weighted_h_pair == pytest.approx(eval_x_pair)
+    assert default_losses == ["representation"] * 80
+    assert weighted_losses == ["((0.25*align+covariance)+0.1*mean)"] * 80
 
 
 def test_report_includes_bound_metrics_without_positive_margin_assumption(tmp_path):
