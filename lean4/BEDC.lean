@@ -2658,6 +2658,7 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
+import BEDC.Derived.CompleteUltrametricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionAdjointUp.TasteGate
@@ -7638,6 +7639,7 @@ import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
 import BEDC.Derived.ReflectiveInquiryUp.Nonescape
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.ReflectiveStabilityUp.TasteGate
+import BEDC.Derived.RefusalRegistryUp.ClaimLayerHandoff
 import BEDC.Derived.RefusalRegistryUp.RefusalRegistryNonescape
 import BEDC.Derived.RefusalRegistryUp.TasteGate
 import BEDC.Derived.RefutationBoundaryUp
@@ -8296,6 +8298,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusLimitFactorization
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.SeparatedUniquenessBoundary
+import BEDC.Derived.SequentiallyCompleteMetricUp.SeparationObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceCompletionNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceRead
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceReadback
@@ -8305,6 +8308,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.TailFusion
 import BEDC.Derived.SequentiallyCompleteMetricUp.TailInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.TailSourceExhaustion
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
+import BEDC.Derived.SequentiallyCompleteMetricUp.WindowLimitExtraction
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
 import BEDC.Derived.SeriesLimitComparisonUp.TasteGate
@@ -8728,6 +8732,7 @@ import BEDC.Derived.TensorProductUp
 import BEDC.Derived.TermStratumChoiceClosureUp.TasteGate
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TernaryExpansionUp.TasteGate
+import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
