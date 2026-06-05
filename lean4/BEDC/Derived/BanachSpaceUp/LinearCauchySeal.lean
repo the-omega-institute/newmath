@@ -16,65 +16,63 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-theorem BanachSpaceCarrier_linear_cauchy_seal [AskSetup] [PackageSetup]
-    {V N M Q S R E Z H C P L cauchyRead completionRead toleranceRead sealRead : BHist}
+theorem BanachSpaceLinearCauchySeal [AskSetup] [PackageSetup]
+    {V N M Q S R E Z H C P L cauchyRead completionRead toleranceRead sealRead
+      namedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     (UnaryHistory V ∧ UnaryHistory N ∧ UnaryHistory M ∧ UnaryHistory Q ∧
         UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory E ∧ UnaryHistory Z ∧
           UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory L ∧
-            PkgSig bundle P pkg) →
-      Cont V N M →
-        Cont M Q cauchyRead →
-          Cont cauchyRead S completionRead →
-            Cont completionRead R toleranceRead →
-              Cont toleranceRead E sealRead →
-                PkgSig bundle L pkg →
+            PkgSig bundle P pkg ∧ PkgSig bundle L pkg) →
+      Cont M Q cauchyRead →
+        Cont cauchyRead S completionRead →
+          Cont completionRead R toleranceRead →
+            Cont toleranceRead E sealRead →
+              Cont sealRead L namedRead →
+                PkgSig bundle namedRead pkg →
                   SemanticNameCert
-                      (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+                      (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
                       (fun row : BHist =>
                         hsame row V ∨ hsame row N ∨ hsame row M ∨ hsame row Q ∨
-                          hsame row S ∨ hsame row R ∨ hsame row E ∨ hsame row sealRead)
+                          hsame row S ∨ hsame row R ∨ hsame row E ∨ hsame row Z ∨
+                            hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row L ∨
+                              hsame row namedRead)
                       (fun row : BHist =>
                         UnaryHistory row ∧ Cont M Q cauchyRead ∧
                           Cont cauchyRead S completionRead ∧
                             Cont completionRead R toleranceRead ∧
-                              Cont toleranceRead E sealRead ∧ PkgSig bundle L pkg)
+                              Cont toleranceRead E sealRead ∧ Cont sealRead L namedRead ∧
+                                PkgSig bundle namedRead pkg)
                       hsame ∧
-                    UnaryHistory cauchyRead ∧ UnaryHistory completionRead ∧
-                      UnaryHistory toleranceRead ∧ UnaryHistory sealRead := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont SemanticNameCert hsame UnaryHistory
-  intro carrierRows vectorMetricRoute cauchyRoute completionRoute toleranceRoute sealRoute
-    localPkg
-  have vUnary : UnaryHistory V := carrierRows.left
-  have nUnary : UnaryHistory N := carrierRows.right.left
-  have qUnary : UnaryHistory Q := carrierRows.right.right.right.left
-  have sUnary : UnaryHistory S := carrierRows.right.right.right.right.left
-  have rUnary : UnaryHistory R := carrierRows.right.right.right.right.right.left
-  have eUnary : UnaryHistory E := carrierRows.right.right.right.right.right.right.left
-  have metricUnary : UnaryHistory M :=
-    unary_cont_closed vUnary nUnary vectorMetricRoute
+                    UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory BanachSpaceUp
+  intro carrierRows cauchyRoute completionRoute toleranceRoute sealRoute namedRoute namedPkg
+  obtain ⟨_VUnary, _NUnary, MUnary, QUnary, SUnary, RUnary, EUnary, _ZUnary,
+    _HUnary, _CUnary, _PUnary, LUnary, _provenancePkg, _localPkg⟩ := carrierRows
   have cauchyUnary : UnaryHistory cauchyRead :=
-    unary_cont_closed metricUnary qUnary cauchyRoute
+    unary_cont_closed MUnary QUnary cauchyRoute
   have completionUnary : UnaryHistory completionRead :=
-    unary_cont_closed cauchyUnary sUnary completionRoute
+    unary_cont_closed cauchyUnary SUnary completionRoute
   have toleranceUnary : UnaryHistory toleranceRead :=
-    unary_cont_closed completionUnary rUnary toleranceRoute
+    unary_cont_closed completionUnary RUnary toleranceRoute
   have sealUnary : UnaryHistory sealRead :=
-    unary_cont_closed toleranceUnary eUnary sealRoute
+    unary_cont_closed toleranceUnary EUnary sealRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed sealUnary LUnary namedRoute
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row sealRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
           (fun row : BHist =>
             hsame row V ∨ hsame row N ∨ hsame row M ∨ hsame row Q ∨ hsame row S ∨
-              hsame row R ∨ hsame row E ∨ hsame row sealRead)
+              hsame row R ∨ hsame row E ∨ hsame row Z ∨ hsame row H ∨ hsame row C ∨
+                hsame row P ∨ hsame row L ∨ hsame row namedRead)
           (fun row : BHist =>
             UnaryHistory row ∧ Cont M Q cauchyRead ∧ Cont cauchyRead S completionRead ∧
               Cont completionRead R toleranceRead ∧ Cont toleranceRead E sealRead ∧
-                PkgSig bundle L pkg)
+                Cont sealRead L namedRead ∧ PkgSig bundle namedRead pkg)
           hsame := {
     core := {
-      carrier_inhabited :=
-        Exists.intro sealRead ⟨hsame_refl sealRead, sealUnary⟩
+      carrier_inhabited := Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -92,13 +90,25 @@ theorem BanachSpaceCarrier_linear_cauchy_seal [AskSetup] [PackageSetup]
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr source.left)))))))))))
     ledger_sound := by
       intro _row source
       exact
-        ⟨source.right, cauchyRoute, completionRoute, toleranceRoute, sealRoute,
-          localPkg⟩
+        ⟨source.right, cauchyRoute, completionRoute, toleranceRoute, sealRoute, namedRoute,
+          namedPkg⟩
   }
-  exact ⟨cert, cauchyUnary, completionUnary, toleranceUnary, sealUnary⟩
+  exact ⟨cert, namedUnary⟩
 
 end BEDC.Derived.BanachSpaceUp
