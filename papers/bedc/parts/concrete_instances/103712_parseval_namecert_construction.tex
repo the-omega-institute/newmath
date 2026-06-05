@@ -339,6 +339,44 @@ Attach the circle source and pairing rows using \autoref{thm:parseval-sone-basis
 The regular readback and terminal seal are then supplied by the carrier rows $R$ and $L$. Transport, replay, provenance, and local naming can preserve the stable coefficient route, but they cannot add quotient coefficient spaces, Plancherel, inversion, or Hilbert completeness.
 \end{proof}
 
+\begin{theorem}[Parseval finite Fourier carrier admission]
+\label{thm:parseval-finite-fourier-carrier-admission}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, any Parseval carrier read must expose the finite $\FourierUp$ coefficient rows in $F$, the $\SOneUp$ basis and source rows in $S$, the finite $\IntegralUp$ energy rows in $E$, and the terminal $\RealUp$ seal row $L$ before the energy equality is consumed. The exposed route is the same carrier route certified by \autoref{def:parseval-carrier}, \autoref{thm:parseval-namecert-obligations}, and \autoref{thm:parseval-root-coefficient-stability}; no downstream consumer may read a coefficient equality while omitting any of $F,S,I,E,R,D,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:parseval-carrier}. The Fourier, circle-source, integral-energy, readback, tolerance, Real-seal, and structural coordinates are exactly $F,S,I,E,R,D,L,H,C,P,N$.
+
+Apply \autoref{thm:parseval-namecert-obligations}. Its carrier-admission, coefficient-window exactness, finite partial-energy ledger, integral-energy handoff, dyadic tolerance, and Real-seal clauses require these rows before the finite energy comparison can be read.
+
+Finally use \autoref{thm:parseval-root-coefficient-stability}. Coefficient stability remains tied to the displayed Fourier, SOne, InnerProduct, Integral, DyadicRatCore, RegSeqRat, and Real rows, so a carrier read that omits any listed row is outside the packet.
+\end{proof}
+
+\begin{theorem}[Parseval inner-product energy ledger]
+\label{thm:parseval-innerproduct-energy-ledger}
+For every accepted $\ParsevalUp$ carrier $K=(F,S,I,E,R,D,L,H,C,P,N)$, the coefficient-side inner-product energy ledger and the integral-side energy ledger share the same $\BHist/\hsame/\Cont/\Pkg$ route. The coefficient side is read through $F,S,I$, the integral side is read through $E,R,D,L$, and both sides are transported, replayed, sourced, and named only through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the finite route from \autoref{thm:parseval-root-obligation-surface}. It forces every root energy consumer through the same displayed carrier rows before any equality is consumed.
+
+For the coefficient side, apply \autoref{thm:parseval-root-fourier-innerproduct-route}. The Fourier coefficient windows, SOne source rows, and InnerProduct pairing witnesses are the only coefficient-side energy rows available.
+
+For the integral side, apply \autoref{thm:parseval-root-integral-regseqrat-handoff} and \autoref{thm:parseval-real-seal-nonescape}. The integral-energy row, regular readback, dyadic tolerance ledger, and Real seal are downstream from the same source and pairing data.
+
+The structural rows are shared because the carrier has only one $H,C,P,N$ family. Hence both ledgers use the same $\BHist/\hsame/\Cont/\Pkg$ route and cannot split into independent coefficient and integral certificates.
+\end{proof}
+
+\begin{theorem}[Parseval Real-seal refusal boundary]
+\label{thm:parseval-real-seal-refusal-boundary}
+Every accepted $\ParsevalUp$ packet exports no Plancherel theorem, quotient function equality, selected convergence datum, host $L^2$ space, or ambient $\RealUp$ completeness. Its Real-facing boundary is only the displayed finite seal $L$ over $F,S,I,E,R,D,H,C,P,N$, as constrained by \autoref{thm:parseval-real-seal-nonescape} and \autoref{thm:parseval-root-real-energy-nonescape}.
+\end{theorem}
+\begin{proof}
+Start with the classifier in \autoref{def:parseval-carrier}. It compares accepted carriers only through the displayed rows and has no coordinate for Plancherel, quotient functions, selected convergence, host $L^2$ spaces, or ambient completeness.
+
+Apply \autoref{thm:parseval-real-seal-nonescape}. The Real seal $L$ seals only the finite energy comparison built from the Fourier, SOne, InnerProduct, Integral, RegSeqRat, and DyadicRatCore rows.
+
+Finally use \autoref{thm:parseval-root-real-energy-nonescape}. The root Real read stays downstream from the same displayed carrier route, so none of the refused analytic objects can cross the Real-seal boundary.
+\end{proof}
+
 \begin{theorem}[Parseval root Real energy nonescape]
 \label{thm:parseval-root-real-energy-nonescape}
 Every $\RealUp$ energy read exported by $\ParsevalUp$ is downstream from $\FourierUp$, $\InnerProductUp$, $\IntegralUp$, $\SOneUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ rows in the displayed carrier. The exported seal is a finite energy-comparison endpoint only: it refuses Plancherel, Fourier inversion, Hilbert completeness, quotient coefficient spaces, host function equality, infinite coefficient summation, and completed ambient norms.
