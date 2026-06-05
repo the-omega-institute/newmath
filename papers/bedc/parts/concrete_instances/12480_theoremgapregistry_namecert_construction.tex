@@ -70,20 +70,36 @@ The audit-export row $A$ points to \autoref{ch:concrete-instances-registrylayer-
 The ledger nonescape row $L$ records this absence explicitly. Componentwise transport, package provenance, and local naming preserve the displayed packet, so every accepted export factors through the listed rows and no theorem or gap reading escapes its gate.
 \end{proof}
 
+\begin{theorem}[Theorem-gap registry public export surface]
+\label{thm:theorem-gap-registry-public-export-surface}
+Every public theorem/gap registry export from an accepted $\TheoremGapRegistryUp$ packet is routed through
+$$
+T,D,S,G,C,F,A,L,H,P,N.
+$$
+The public surface exposes theorem entries, dependency strengths, theorem strengths, gap entries, gap-gate coverage, refusals, audit export, ledger nonescape, transport, provenance, and local naming as separate rows; it exports no theorem entry above its displayed dependency license and no gap entry without its displayed gate.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The packet lists the rows $T,D,S,G,C,F,A,L,H,P,N$ and has no hidden registry table or outside ledger coordinate.
+
+Use the strength gate and gap-gate coverage theorems. Theorem~\ref{thm:theorem-gap-registry-strength-gate} prevents a theorem entry from exceeding its displayed dependency license, while Theorem~\ref{thm:theorem-gap-registry-gap-gate-coverage} prevents a gap entry from being accepted without a gate and refusal route.
+
+Finally apply ledger nonescape. Theorem~\ref{thm:theorem-gap-registry-ledger-nonescape} forces every accepted export through the same displayed rows and through the sibling registry, claim-registry, truth-residue, and gap-failure audit surfaces. Hence the listed rows form the public export surface.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\TheoremGapRegistryUp$ packet cannot raise a theorem entry above the weakest displayed dependency strength unless a new witnessed dependency row is added to the packet.}
 
 \independenceWitness{registrylayer, claimregistrylayer, truth-residue-ledger, gap-failure-bridge-audit: $\TheoremGapRegistryUp$ joins theorem-strength rows to gap-gate rows; the sibling packets lack that combined carrier and are not bijective to it.}
 
 The future Lean \texttt{TasteGate.lean} must provide explicit $\Nontrivial\ \TheoremGapRegistryUp$ and $\FieldFaithful\ \TheoremGapRegistryUp$ instances. Those instances must preserve $T,D,S,G,C,F,A,L,H,P,N$ as separate displayed fields before any checked theorem may cite the $\TheoremGapRegistryUp$ packet as a field-faithful registry surface.
 
-\closureat{TheoremGapRegistryUp}{scopedStr}
+\closureat{TheoremGapRegistryUp}{publicStr}
 
 \begin{closurestatus}{\TheoremGapRegistryUp}
   \constructivestory{A $\TheoremGapRegistryUp$ packet is generated from theorem-entry, dependency-strength, theorem-strength, gap-entry, gap-gate coverage, refusal, audit-export, ledger nonescape, hsame transport, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:theorem-gap-registry-carrier}, \autoref{thm:theorem-gap-registry-strength-gate}, \autoref{thm:theorem-gap-registry-gap-gate-coverage}, \autoref{thm:theorem-gap-registry-ledger-nonescape}, and the displayed TasteGate marker bind theorem-strength and gap-gate scope to visible $\BHist$, $\hsame$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:theorem-gap-registry-carrier}, \autoref{thm:theorem-gap-registry-strength-gate}, \autoref{thm:theorem-gap-registry-gap-gate-coverage}, \autoref{thm:theorem-gap-registry-ledger-nonescape}, \autoref{thm:theorem-gap-registry-public-export-surface}, and the displayed TasteGate marker bind theorem-strength, gap-gate scope, and public registry export to visible $\BHist$, $\hsame$, $\Pkg$, and $\NameCert$ rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, complete registry governance, bridge checking, or correctness of every downstream theorem and gap entry.}
-  \upgradepath{Public closure requires a downstream theorem/gap export surface, while Lean closure remains independent.}
+  \upgradepath{Bridge closure requires a standard bridge and Lean verification remains independent.}
 \end{closurestatus}
