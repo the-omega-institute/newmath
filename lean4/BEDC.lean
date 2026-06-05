@@ -2391,6 +2391,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.LedgerRouteSeparation
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.MetacicPublicHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.MetacicSocketFactorization
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NameCertExportTotality
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NameCertRootUnblockPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NameCertThresholdPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NamecertSourceLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NormalizationFrontierHandoff
@@ -5864,6 +5865,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.FrontierNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankConsumerExactness
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankNameCertObligations
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankOpenNode
+import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankReplayClosure
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankSoundness
 import BEDC.Derived.MetaCICCriticalPathUp.FrontierRankTransportStability
 import BEDC.Derived.MetaCICCriticalPathUp.HandoffExhaustion
@@ -5985,6 +5987,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketBudget
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketReadiness
+import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionBoundaryRouting
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionConfluenceSocketLedger
 import BEDC.Derived.MetaCICCriticalPathUp.SubstitutionHandoffVisibility
@@ -6552,6 +6555,7 @@ import BEDC.Derived.ObjectKnowledgeCertificateUp.TasteGate
 import BEDC.Derived.ObjectivityRefutationBoundaryUp.SiblingIndependence
 import BEDC.Derived.ObjectivityRefutationBoundaryUp.TasteGate
 import BEDC.Derived.ObservableCauchySealUp.TasteGate
+import BEDC.Derived.ObservableDiameterDecayUp.NameCertObligations
 import BEDC.Derived.ObservableDiameterDecayUp.ObservableDiameterDecayTasteGate
 import BEDC.Derived.ObservableOpenFilterUp
 import BEDC.Derived.ObservableUp
@@ -6932,6 +6936,7 @@ import BEDC.Derived.PolishspaceUp.StreamNameBasis
 import BEDC.Derived.PolishspaceUp.StreamNameDenseHandoff
 import BEDC.Derived.PolishspaceUp.StreamNameRealDependencyAnchor
 import BEDC.Derived.PolishspaceUp.StreamNameRealRootObligation
+import BEDC.Derived.PolishspaceUp.StreamReadbackExactness
 import BEDC.Derived.PolishspaceUp.StreamReadbackStability
 import BEDC.Derived.PolishspaceUp.TasteGate
 import BEDC.Derived.PolynomialUp
