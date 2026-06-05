@@ -45,7 +45,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
-- Rows: `23`
+- Rows: `24`
 
 ## Dimension mismatch debt transfer
 
@@ -85,14 +85,14 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/negative_discovery_reports.json`
 - Markdown: `reports/canonical/negative_discovery_reports.md`
-- Rows: `7`
+- Rows: `8`
 - Audit: `pass`
 
 ## Claim verdicts
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `31`
+- Rows: `32`
 
 ## Claim graph
 
@@ -100,7 +100,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `89`
+- Nodes: `92`
 
 ## Claim capsule
 
@@ -115,7 +115,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witness_summary.json`
 - Markdown: `reports/canonical/discovery_negative_witness_summary.md`
-- Rows: `15`
+- Rows: `16`
 - Audit: `pass`
 
 ## Formal hardening

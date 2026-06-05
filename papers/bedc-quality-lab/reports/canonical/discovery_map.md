@@ -1,7 +1,7 @@
 # Discovery Map
 
 - Generated at: `2026-06-05T07:13:11.713087+00:00`
-- Rows: `23`
+- Rows: `24`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -28,6 +28,7 @@
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
 | `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
 | `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
+| `gap-head-mechanism-blockage` | `DN` | `` | `` | `mechanism-blockage-projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
 
 ## D5 readiness
 

@@ -62,10 +62,10 @@ def _string_cell(row: Mapping[str, Any], key: str) -> str | None:
     return value if isinstance(value, str) and value else None
 
 
-def _negative_pointer_tuple(row: Mapping[str, Any]) -> list[str]:
+def _negative_pointer_tuple(row: Mapping[str, Any], index: int) -> list[str]:
     return [
         _string_cell(row, "negative_id") or "",
-        _string_cell(row, "ledger_pointer") or "",
+        _row_pointer("reports/canonical/discovery_negative_witness_summary.json", index),
         _string_cell(row, "discovery_map_pointer") or "",
         _string_cell(row, "witness_pointer") or "",
         _string_cell(row, "claim_verdict_pointer") or "",
@@ -97,7 +97,7 @@ def project_finite_discovery_gate(payloads: Mapping[str, Any]) -> dict[str, Any]
         for index, row in enumerate(map_rows)
         if row.get("discovery_level") in POSITIVE_DISCOVERY_LEVELS
     )
-    negative_pointers = sorted(_negative_pointer_tuple(row) for row in negative_rows)
+    negative_pointers = sorted(_negative_pointer_tuple(row, index) for index, row in enumerate(negative_rows))
     map_revocation_pointers = [
         _evidence_pointer(row, index)
         for index, row in enumerate(map_rows)
