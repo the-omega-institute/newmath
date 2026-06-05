@@ -11,58 +11,55 @@ open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
 theorem PolishSpaceStreamRealizationObligation [AskSetup] [PackageSetup]
-    {M K D S R W H C G N denseRead scheduleRead streamRead readbackRead : BHist}
+    {M K D S R W H C G N denseRead streamWindow readbackRead frontierRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    BEDC.Derived.PolishSpaceUp.PolishSpaceCarrier M K D S R W H C G N bundle pkg →
-      Cont M D denseRead →
-        Cont denseRead S scheduleRead →
-          Cont scheduleRead R streamRead →
-            Cont streamRead W readbackRead →
-              PkgSig bundle G pkg →
-                PkgSig bundle N pkg →
+    BEDC.Derived.PolishSpaceUp.PolishSpaceCarrier M K D S R W H C G N bundle pkg ->
+      Cont M D denseRead ->
+        Cont denseRead S streamWindow ->
+          Cont streamWindow R readbackRead ->
+            Cont readbackRead W frontierRead ->
+              PkgSig bundle G pkg ->
+                PkgSig bundle N pkg ->
                   SemanticNameCert
-                      (fun row : BHist => hsame row readbackRead ∧ UnaryHistory row)
+                      (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
                       (fun row : BHist =>
-                        hsame row M ∨ hsame row D ∨ hsame row S ∨ hsame row R ∨
-                          hsame row W ∨ hsame row denseRead ∨ hsame row scheduleRead ∨
-                            hsame row streamRead ∨ hsame row readbackRead)
+                        hsame row S ∨ hsame row R ∨ hsame row W ∨
+                          hsame row denseRead ∨ hsame row streamWindow ∨
+                            hsame row readbackRead ∨ hsame row frontierRead)
                       (fun row : BHist =>
-                        UnaryHistory row ∧ Cont M D denseRead ∧
-                          Cont denseRead S scheduleRead ∧
-                            Cont scheduleRead R streamRead ∧
-                              Cont streamRead W readbackRead ∧ PkgSig bundle G pkg ∧
-                                PkgSig bundle N pkg)
+                        UnaryHistory row ∧ Cont denseRead S streamWindow ∧
+                          Cont streamWindow R readbackRead ∧
+                            Cont readbackRead W frontierRead ∧ PkgSig bundle G pkg ∧
+                              PkgSig bundle N pkg)
                       hsame ∧
-                    UnaryHistory denseRead ∧ UnaryHistory scheduleRead ∧
-                      UnaryHistory streamRead ∧ UnaryHistory readbackRead := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
-  intro carrier denseRoute scheduleRoute streamRoute readbackRoute gPkg nPkg
-  obtain ⟨mUnary, _kUnary, dUnary, sUnary, rUnary, wUnary, _hUnary, _cUnary,
-    _gUnary, _nUnary, _metricCompleteLedger, _ledgerStreamReadback,
-    _transportReplayProvenance, _carrierGPkg, _carrierNPkg⟩ := carrier
+                    UnaryHistory denseRead ∧ UnaryHistory streamWindow ∧
+                      UnaryHistory readbackRead ∧ UnaryHistory frontierRead := by
+  -- BEDC touchpoint anchor: PolishSpaceCarrier BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier denseRoute streamRoute readbackRoute frontierRoute provenancePkg localNamePkg
+  obtain ⟨MUnary, _KUnary, DUnary, SUnary, RUnary, WUnary, _HUnary, _CUnary,
+    _GUnary, _NUnary, _metricCompleteLedger, _ledgerStreamReadback,
+    _transportReplayProvenance, _carrierPkg, _localPkg⟩ := carrier
   have denseUnary : UnaryHistory denseRead :=
-    unary_cont_closed mUnary dUnary denseRoute
-  have scheduleUnary : UnaryHistory scheduleRead :=
-    unary_cont_closed denseUnary sUnary scheduleRoute
-  have streamUnary : UnaryHistory streamRead :=
-    unary_cont_closed scheduleUnary rUnary streamRoute
+    unary_cont_closed MUnary DUnary denseRoute
+  have streamUnary : UnaryHistory streamWindow :=
+    unary_cont_closed denseUnary SUnary streamRoute
   have readbackUnary : UnaryHistory readbackRead :=
-    unary_cont_closed streamUnary wUnary readbackRoute
+    unary_cont_closed streamUnary RUnary readbackRoute
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed readbackUnary WUnary frontierRoute
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row readbackRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row frontierRead ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row M ∨ hsame row D ∨ hsame row S ∨ hsame row R ∨ hsame row W ∨
-              hsame row denseRead ∨ hsame row scheduleRead ∨ hsame row streamRead ∨
-                hsame row readbackRead)
+            hsame row S ∨ hsame row R ∨ hsame row W ∨ hsame row denseRead ∨
+              hsame row streamWindow ∨ hsame row readbackRead ∨ hsame row frontierRead)
           (fun row : BHist =>
-            UnaryHistory row ∧ Cont M D denseRead ∧ Cont denseRead S scheduleRead ∧
-              Cont scheduleRead R streamRead ∧ Cont streamRead W readbackRead ∧
+            UnaryHistory row ∧ Cont denseRead S streamWindow ∧
+              Cont streamWindow R readbackRead ∧ Cont readbackRead W frontierRead ∧
                 PkgSig bundle G pkg ∧ PkgSig bundle N pkg)
           hsame := {
     core := {
-      carrier_inhabited :=
-        Exists.intro readbackRead ⟨hsame_refl readbackRead, readbackUnary⟩
+      carrier_inhabited := Exists.intro frontierRead ⟨hsame_refl frontierRead, frontierUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -83,17 +80,14 @@ theorem PolishSpaceStreamRealizationObligation [AskSetup] [PackageSetup]
       exact
         Or.inr
           (Or.inr
-            (Or.inr
               (Or.inr
                 (Or.inr
                   (Or.inr
-                    (Or.inr
-                      (Or.inr source.left)))))))
+                  (Or.inr source.left)))))
     ledger_sound := by
       intro _row source
-      exact
-        ⟨source.right, denseRoute, scheduleRoute, streamRoute, readbackRoute, gPkg, nPkg⟩
+      exact ⟨source.right, streamRoute, readbackRoute, frontierRoute, provenancePkg, localNamePkg⟩
   }
-  exact ⟨cert, denseUnary, scheduleUnary, streamUnary, readbackUnary⟩
+  exact ⟨cert, denseUnary, streamUnary, readbackUnary, frontierUnary⟩
 
 end BEDC.Derived.PolishspaceUp
