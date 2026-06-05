@@ -13,14 +13,19 @@ DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
 DISCOVERY_LEVELS = ("D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M", "DN", "DR")
 DN_FACT_KEYS = frozenset(
     {
+        "report_id",
+        "claim_id",
         "terminal_verdict",
         "classifier_reasons",
         "failed_gate",
         "debt_row_pointer",
+        "base_level",
         "anti_triviality_status",
         "downgrade_reason",
         "effective_level",
         "hypothesis",
+        "next_hypothesis",
+        "stop_reason",
         "not_claimed",
         "what_was_learned",
     }

@@ -21,6 +21,7 @@
 - Audit pointer: `reports/canonical/discovery_map.json:$.rows[report=dimension-mismatch-debt-transfer]`
 - Failed or deferred gates: `discovery-map-boundary`
 
+- dimension-mismatch discovery row base level is not D4
 - dimension-mismatch discovery row does not record scale leakage
 - dimension-mismatch discovery row effective level is not DN
 - dimension-mismatch discovery row terminal verdict is not negative_discovery

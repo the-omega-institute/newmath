@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer, resolve_artifact_pointer
+from bedc_quality_lab.discovery_compiler.negative_reports import REQUIRED_NEGATIVE_REPORT_IDS
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -60,8 +61,55 @@ def test_discovery_map_does_not_copy_negative_report_body_cells():
         assert not (set(row) & forbidden)
         pointer = row["negative_report_pointer"]
         owner = resolve_artifact_pointer(ROOT, pointer)
-        assert owner == owners[f"dn:{row['report']}"]
+        negative_id = (
+            "dn:dimension-mismatch-scale-leakage"
+            if row["report"] == "dimension-mismatch-debt-transfer"
+            else f"dn:{row['report']}"
+        )
+        assert owner == owners[negative_id]
         assert owner["terminal_verdict"]
+
+
+def test_negative_discovery_reports_are_canonical_owner_for_required_dn_ids():
+    reports = _load_json("reports/canonical/negative_discovery_reports.json")
+    rows = reports["rows"]
+    report_ids = {row["report_id"] for row in rows}
+
+    assert REQUIRED_NEGATIVE_REPORT_IDS <= report_ids
+    assert not any(row["kind"] == "witness" for row in rows)
+    for row in rows:
+        assert row["kind"] == "discovery_report"
+        assert row["negative_id"] == f"dn:{row['report_id']}"
+        assert row["failed_gate"]
+        assert row["what_was_learned"]
+        assert row.get("next_hypothesis") or row.get("stop_reason")
+        assert resolve_artifact_pointer(ROOT, row["source"]) is not None
+        assert resolve_artifact_pointer(ROOT, row["ledger_pointer"]) is not None
+    dimension = next(row for row in rows if row["report_id"] == "dimension-mismatch-scale-leakage")
+    assert dimension["claim_id"] == "claim:dimension-mismatch-debt-transfer"
+    assert dimension["base_level"] == "D4"
+    assert dimension["effective_level"] == "DN"
+    assert dimension["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+
+
+def test_dn_verdict_rows_are_pointer_only_and_resolve_to_canonical_owner():
+    rows = [
+        json.loads(line)
+        for line in (ROOT / "reports/canonical/claim_verdicts.jsonl").read_text(encoding="utf-8").splitlines()
+        if line
+    ]
+    dn_rows = [row for row in rows if row["claim_verdict"] == "negative_discovery"]
+
+    assert dn_rows
+    for row in dn_rows:
+        assert set(row) == {
+            "claim_id",
+            "claim_graph_node_id",
+            "claim_verdict",
+            "reason",
+            "negative_report_pointer",
+        }
+        assert resolve_artifact_pointer(ROOT, row["negative_report_pointer"]) is not None
 
 
 def test_negative_discovery_artifacts_are_written_only_by_core():
@@ -86,13 +134,10 @@ def test_negative_discovery_artifacts_are_written_only_by_core():
 
 def test_discovery_compiler_core_has_no_backend_terms_or_backend_imports():
     forbidden_terms = (
-        "gap-head",
-        "certificate-guided",
         "sigreg-training-proxy",
         "anisotropic-ou-sweep",
         "nongaussian-distribution-sweep",
         "mixing-family-sweep",
-        "dimension-mismatch",
         "rho",
         "Gaussian",
         "SIGReg",

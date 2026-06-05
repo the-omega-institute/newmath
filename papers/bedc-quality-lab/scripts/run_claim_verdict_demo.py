@@ -20,6 +20,7 @@ from bedc_quality_lab.artifact_freshness import ScorecardSnapshot, load_scorecar
 from bedc_quality_lab.claim_graph import terminal_node_id_for_claim_id
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.cost_protocol import load_cost_protocol
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.verdict import synthesize_certification_verdict
 from scripts.run_canonical_reports import CANONICAL_REPORTS, CanonicalReportSpec
@@ -40,6 +41,15 @@ ALLOWED_ROW_KEYS = frozenset(
         "scorecard_hash",
         "scorecard_ready",
         "formal_hardening_ready",
+    }
+)
+DN_VERDICT_ROW_KEYS = frozenset(
+    {
+        "claim_id",
+        "claim_graph_node_id",
+        "claim_verdict",
+        "reason",
+        "negative_report_pointer",
     }
 )
 E1_TERMINAL_VERDICTS = frozenset(
@@ -335,11 +345,8 @@ def _row(
 def _dimension_mismatch_negative_row(
     *,
     claim_id: str,
-    reason: str,
-    source: ClaimSource | str,
-    ledger_pointer: str,
+    negative_report_pointer: str,
     payload: Mapping[str, Any],
-    scorecard_snapshot: ScorecardSnapshot,
 ) -> dict[str, Any]:
     claim = pointer_value(payload, "$.dimension_mismatch_debt_transfer")
     if not isinstance(claim, Mapping):
@@ -348,15 +355,22 @@ def _dimension_mismatch_negative_row(
     missing = [key for key in required if key not in claim or claim[key] in (None, "")]
     if missing:
         raise ValueError(f"dimension mismatch negative verdict source cells missing: {', '.join(missing)}")
-    source_text = source.as_text() if isinstance(source, ClaimSource) else source
-    return _row(
-        claim_id=claim_id,
-        claim_verdict="negative_discovery",
-        reason=reason,
-        source=source_text,
-        ledger_pointer=ledger_pointer,
-        scorecard_snapshot=scorecard_snapshot,
-    )
+    return _negative_discovery_row(claim_id=claim_id, reason="discovery-level-DN", negative_report_pointer=negative_report_pointer)
+
+
+def _negative_discovery_row(*, claim_id: str, reason: str, negative_report_pointer: str) -> dict[str, Any]:
+    if not negative_report_pointer:
+        raise ValueError(f"negative discovery verdict needs negative_report_pointer: {claim_id}")
+    item = {
+        "claim_id": claim_id,
+        "claim_graph_node_id": terminal_node_id_for_claim_id(claim_id),
+        "claim_verdict": "negative_discovery",
+        "reason": reason,
+        "negative_report_pointer": negative_report_pointer,
+    }
+    if frozenset(item) != DN_VERDICT_ROW_KEYS:
+        raise ValueError(f"negative discovery verdict row has invalid keys: {sorted(item)}")
+    return item
 
 
 def _mapped_discovery_row(
@@ -379,6 +393,18 @@ def _mapped_discovery_row(
             source=source,
             ledger_pointer=_discovery_map_row_pointer(root, row),
             scorecard_snapshot=scorecard_snapshot,
+        )
+    if level == "DN" and report not in _specs_by_name() and report != DIMENSION_MISMATCH_REPORT:
+        negative_report_pointer = row.get("negative_report_pointer")
+        if not isinstance(negative_report_pointer, str):
+            raise ValueError(f"DN discovery map row lacks negative_report_pointer: {report}")
+        owner = resolve_artifact_pointer(root, negative_report_pointer)
+        if not isinstance(owner, Mapping):
+            raise ValueError(f"DN discovery map row has unresolved negative_report_pointer: {report}")
+        return _negative_discovery_row(
+            claim_id=claim_id,
+            reason="discovery-level-DN",
+            negative_report_pointer=negative_report_pointer,
         )
     specs = _specs_by_name()
     if report == DIMENSION_MISMATCH_REPORT and str(row.get("json_artifact")) == DIMENSION_MISMATCH_ARTIFACT:
@@ -510,25 +536,28 @@ def _mapped_discovery_row(
             scorecard_snapshot=scorecard_snapshot,
         )
     if level == "DN":
-        pointer = row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")
+        negative_report_pointer = row.get("negative_report_pointer")
+        if not isinstance(negative_report_pointer, str):
+            owner_path = root / "reports/canonical/negative_discovery_reports.json"
+            if owner_path.exists():
+                raise ValueError(f"DN discovery map row lacks negative_report_pointer: {report}")
+            negative_report_pointer = f"{row['json_artifact']}:{row.get('failed_gate') or row.get('debt_row_pointer') or row.get('evidence_pointer')}"
+        else:
+            owner = resolve_artifact_pointer(root, negative_report_pointer)
+            if not isinstance(owner, Mapping):
+                raise ValueError(f"DN discovery map row has unresolved negative_report_pointer: {report}")
         if report == DIMENSION_MISMATCH_REPORT:
             return _dimension_mismatch_negative_row(
                 claim_id=claim_id,
-                reason="discovery-level-DN",
-                source=source,
-                ledger_pointer=f"{row['json_artifact']}:{pointer}",
+                negative_report_pointer=negative_report_pointer,
                 payload=payload,
-                scorecard_snapshot=scorecard_snapshot,
             )
-        return _row(
+        return _negative_discovery_row(
             claim_id=claim_id,
-            claim_verdict=_rejection_verdict_for_pointer(pointer),
             reason="discovery-level-DN:constraint_lagrangian"
             if report == "certificate-guided-training"
             else "discovery-level-DN",
-            source=source,
-            ledger_pointer=f"{row['json_artifact']}:{pointer}",
-            scorecard_snapshot=scorecard_snapshot,
+            negative_report_pointer=negative_report_pointer,
         )
     if level == "DR":
         pointer = row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")

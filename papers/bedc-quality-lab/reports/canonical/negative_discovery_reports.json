@@ -5,11 +5,12 @@
   "generated_at": "2026-06-04T23:06:29.939392+00:00",
   "json_artifact": "reports/canonical/negative_discovery_reports.json",
   "markdown_artifact": "reports/canonical/negative_discovery_reports.md",
-  "row_count": 13,
+  "row_count": 7,
   "rows": [
     {
       "audit_reason": "",
       "audit_status": "pass",
+      "claim_id": "claim:gap-head-ablation",
       "claim_verdict_pointer": null,
       "classifier_reasons": [
         "verdict=rejected"
@@ -24,14 +25,19 @@
       "ledger_pointer": "reports/canonical/gap-head-ablation.json:$.hardgate.status",
       "markdown_artifact": "reports/canonical/gap-head-ablation.md",
       "negative_id": "dn:gap-head-ablation",
+      "next_hypothesis": "isolate which gap-head channel carries the rejected ablation surface",
       "projection_status": "projected",
       "report": "gap-head-ablation",
+      "report_id": "gap-head-ablation",
       "source": "reports/canonical/gap-head-ablation.json:$.hardgate.status",
-      "terminal_verdict": "rejected"
+      "stop_reason": null,
+      "terminal_verdict": "rejected",
+      "what_was_learned": "removing the learned gap head breaks the projected discovery gate"
     },
     {
       "audit_reason": "",
       "audit_status": "pass",
+      "claim_id": "claim:certificate-guided-training",
       "claim_verdict_pointer": null,
       "classifier_reasons": [
         "verdict=DN(audit-improvement-tradeoff)"
@@ -46,14 +52,19 @@
       "ledger_pointer": "reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict",
       "markdown_artifact": "reports/canonical/certificate-guided-training.md",
       "negative_id": "dn:certificate-guided-training",
+      "next_hypothesis": "test whether a debt-only or constrained optimizer separates audit improvement from hidden classifier tradeoff",
       "projection_status": "projected",
       "report": "certificate-guided-training",
+      "report_id": "certificate-guided-training",
       "source": "reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict",
-      "terminal_verdict": "DN(audit-improvement-tradeoff)"
+      "stop_reason": null,
+      "terminal_verdict": "DN(audit-improvement-tradeoff)",
+      "what_was_learned": "constraint_lagrangian did not clear the audit-improvement hardgate"
     },
     {
       "audit_reason": "",
       "audit_status": "pass",
+      "claim_id": "claim:certificate-guided-discovery",
       "claim_verdict_pointer": null,
       "classifier_reasons": [
         "verdict=rejected"
@@ -68,14 +79,19 @@
       "ledger_pointer": "reports/canonical/certificate-guided-discovery.json:$.positive_discovery",
       "markdown_artifact": "reports/canonical/certificate-guided-discovery.md",
       "negative_id": "dn:certificate-guided-discovery",
+      "next_hypothesis": "reuse the training owner report and isolate whether any discovery surface survives matched controls",
       "projection_status": "projected",
       "report": "certificate-guided-discovery",
+      "report_id": "certificate-guided-discovery",
       "source": "reports/canonical/certificate-guided-discovery.json:$.positive_discovery",
-      "terminal_verdict": "rejected"
+      "stop_reason": null,
+      "terminal_verdict": "rejected",
+      "what_was_learned": "certificate-guided discovery remains negative at the canonical positive-discovery gate"
     },
     {
       "audit_reason": "",
       "audit_status": "pass",
+      "claim_id": "claim:spectral-ablation-hinge",
       "claim_verdict_pointer": null,
       "classifier_reasons": [
         "verdict=rejected"
@@ -90,15 +106,21 @@
       "ledger_pointer": "reports/canonical/spectral-ablation-hinge.json:$.negative_control_summary.treatment_better_than_all_controls",
       "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",
       "negative_id": "dn:spectral-ablation-hinge",
+      "next_hypothesis": "replace the hinge with a control-matched spectral channel before any promotion attempt",
       "projection_status": "projected",
       "report": "spectral-ablation-hinge",
+      "report_id": "spectral-ablation-hinge",
       "source": "reports/canonical/spectral-ablation-hinge.json:$.negative_control_summary.treatment_better_than_all_controls",
-      "terminal_verdict": "rejected"
+      "stop_reason": null,
+      "terminal_verdict": "rejected",
+      "what_was_learned": "spectral ablation does not beat the negative control boundary"
     },
     {
       "anti_triviality_status": "scale_leakage_detected",
       "audit_reason": "",
       "audit_status": "pass",
+      "base_level": "D4",
+      "claim_id": "claim:dimension-mismatch-debt-transfer",
       "claim_verdict_pointer": null,
       "classifier_reasons": [
         "verdict=rejected"
@@ -115,7 +137,8 @@
       "kind": "discovery_report",
       "ledger_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.anti_triviality_status",
       "markdown_artifact": "reports/canonical/dimension-mismatch-debt-transfer.md",
-      "negative_id": "dn:dimension-mismatch-debt-transfer",
+      "negative_id": "dn:dimension-mismatch-scale-leakage",
+      "next_hypothesis": "add anti-triviality evidence that rules out scale-only or metadata proxy separation",
       "not_claimed": [
         "global dimension theory",
         "representation-geometric debt transfer",
@@ -123,87 +146,85 @@
       ],
       "projection_status": "projected",
       "report": "dimension-mismatch-debt-transfer",
+      "report_id": "dimension-mismatch-scale-leakage",
       "source": "reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.anti_triviality_status",
+      "stop_reason": null,
       "terminal_verdict": "negative_discovery",
       "what_was_learned": "anti-triviality sidecar recommends DN demotion"
     },
     {
+      "audit_reason": "",
       "audit_status": "pass",
+      "claim_id": "claim:single-threshold-escape",
       "claim_verdict_pointer": null,
+      "classifier_reasons": [
+        "escaped-positive-is-not-discovery-evidence"
+      ],
+      "debt_row_pointer": null,
+      "discovery_level": "DN",
       "discovery_map_pointer": null,
-      "kind": "witness",
-      "ledger_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]",
-      "negative_id": "witness:classifier_surface_delta_zero",
-      "source": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]"
+      "evidence_pointer": "$.single_threshold_basis",
+      "failed_gate": "$.projection.escaped_positive_is_discovery_evidence",
+      "json_artifact": "runs/single_threshold_escape_witness.json",
+      "kind": "discovery_report",
+      "ledger_pointer": "runs/single_threshold_escape_witness.json:$.projection.escaped_positive_is_discovery_evidence",
+      "markdown_artifact": "runs/single_threshold_escape_witness.md",
+      "negative_id": "dn:single-threshold-escape",
+      "next_hypothesis": "replace threshold-only selection with control-matched multi-threshold evidence before any promotion attempt",
+      "not_claimed": [
+        "No threshold tuning claim.",
+        "No D5 claim.",
+        "No canonical discovery-map promotion.",
+        "No model-quality solution claim."
+      ],
+      "projection_status": "escaped-positive-captured",
+      "report": "single-threshold-escape",
+      "report_id": "single-threshold-escape",
+      "source": "runs/single_threshold_escape_witness.json:$.projection.escaped_positive_is_discovery_evidence",
+      "stop_reason": null,
+      "terminal_verdict": "negative_discovery",
+      "what_was_learned": "single-threshold escape evidence is gate failure evidence, not discovery evidence"
     },
     {
+      "audit_reason": "",
       "audit_status": "pass",
+      "claim_id": "claim:training-choice-observability",
       "claim_verdict_pointer": null,
+      "classifier_reasons": [
+        "training-choice-ledger-risk-only"
+      ],
+      "debt_row_pointer": null,
+      "discovery_level": "DN",
       "discovery_map_pointer": null,
-      "kind": "witness",
-      "ledger_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]",
-      "negative_id": "witness:matched_control_positive",
-      "source": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]"
-    },
-    {
-      "audit_status": "pass",
-      "claim_verdict_pointer": null,
-      "discovery_map_pointer": null,
-      "kind": "witness",
-      "ledger_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]",
-      "negative_id": "witness:hidden_debt_positive",
-      "source": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]"
-    },
-    {
-      "audit_status": "pass",
-      "claim_verdict_pointer": null,
-      "discovery_map_pointer": null,
-      "kind": "witness",
-      "ledger_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[3]",
-      "negative_id": "witness:cost_protocol_missing",
-      "source": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[3]"
-    },
-    {
-      "audit_status": "pass",
-      "claim_verdict_pointer": null,
-      "discovery_map_pointer": null,
-      "kind": "witness",
-      "ledger_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[4]",
-      "negative_id": "witness:scorecard_not_ready",
-      "source": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[4]"
-    },
-    {
-      "audit_status": "pass",
-      "claim_verdict_pointer": null,
-      "discovery_map_pointer": null,
-      "kind": "witness",
-      "ledger_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[5]",
-      "negative_id": "witness:forbidden_inference_column",
-      "source": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[5]"
-    },
-    {
-      "audit_status": "pass",
-      "claim_verdict_pointer": null,
-      "discovery_map_pointer": null,
-      "kind": "witness",
-      "ledger_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]",
-      "negative_id": "witness:benefit_debt_tradeoff",
-      "source": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]"
-    },
-    {
-      "audit_status": "pass",
-      "claim_verdict_pointer": null,
-      "discovery_map_pointer": null,
-      "kind": "witness",
-      "ledger_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]",
-      "negative_id": "witness:fresh_claim_downgrade",
-      "source": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]"
+      "evidence_pointer": "$.boundary_ledger",
+      "failed_gate": "$.training_choice_observability.ledger_risk_only_arm_count",
+      "json_artifact": "runs/training_choice_observability.json",
+      "kind": "discovery_report",
+      "ledger_pointer": "runs/training_choice_observability.json:$.training_choice_observability.ledger_risk_only_arm_count",
+      "markdown_artifact": "runs/training_choice_observability.md",
+      "negative_id": "dn:training-choice-observability",
+      "next_hypothesis": "separate optimizer choice from training budget under matched protocol and forbidden-feature audit",
+      "not_claimed": [
+        "no formal BEDC closure claim",
+        "no global optimizer behavior claim",
+        "no full LeJEPA conclusion",
+        "no all-model or behavior conclusion",
+        "no universal training-choice claim",
+        "no promotion claim",
+        "no total score, rank, grade, or hidden cost weight"
+      ],
+      "projection_status": "pointer-only",
+      "report": "training-choice-observability",
+      "report_id": "training-choice-observability",
+      "source": "runs/training_choice_observability.json:$.training_choice_observability.ledger_risk_only_arm_count",
+      "stop_reason": null,
+      "terminal_verdict": "negative_discovery",
+      "what_was_learned": "training choice remains ledger-risk-only rather than h-observable positive discovery"
     }
   ],
   "schema_id": "bedc-quality-lab:negative-discovery-reports",
   "source_artifacts": {
-    "source_evidence": "backend_adapter.derive_negative_discovery_rows",
-    "witnesses": "reports/canonical/discovery_negative_witnesses.json"
+    "source_evidence": "backend_adapter.derive_negative_discovery_rows"
   },
   "status": "pointer-only"
 }
