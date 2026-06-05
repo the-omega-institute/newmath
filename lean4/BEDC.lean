@@ -4663,6 +4663,7 @@ import BEDC.Derived.FractionalPartUp.TasteGate
 import BEDC.Derived.FrechetCauchyCriterionUp.TasteGate
 import BEDC.Derived.FrechetCompletionUp.TasteGate
 import BEDC.Derived.FrechetDerivativeUp.TasteGate
+import BEDC.Derived.FrechetFilterUp
 import BEDC.Derived.FrechetUrysohnUp.TasteGate
 import BEDC.Derived.FredholmAlternativeUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
@@ -8251,6 +8252,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RealRefusalBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.RealRouteBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.RegSeqRatHandoff
+import BEDC.Derived.SequentiallyCompleteMetricUp.RegSeqRatSourceRoute
 import BEDC.Derived.SequentiallyCompleteMetricUp.RegularCauchyLimitCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.RegularLimitExtraction
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
@@ -8509,6 +8511,7 @@ import BEDC.Derived.StatusDowngradeUp.TasteGate
 import BEDC.Derived.StepFunctionUp.TasteGate
 import BEDC.Derived.StepIndexedTotalHostUp
 import BEDC.Derived.StepIndexedTotalHostUp.Separation
+import BEDC.Derived.StepIndexedTotalHostUp.SiblingBoundary
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
 import BEDC.Derived.SternBrocotApproximationUp.TasteGate
 import BEDC.Derived.SternBrocotContinuedFractionBridgeUp.TasteGate
