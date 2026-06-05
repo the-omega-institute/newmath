@@ -4007,7 +4007,10 @@ import BEDC.Derived.FanfunctionalUp.BarScopeObligations
 import BEDC.Derived.FanfunctionalUp.CantorCompactnessScope
 import BEDC.Derived.FanfunctionalUp.CantorModulusLedger
 import BEDC.Derived.FanfunctionalUp.CantorPrefixModulusHandoff
+import BEDC.Derived.FanfunctionalUp.CantorPrefixNonescape
 import BEDC.Derived.FanfunctionalUp.CompactContinuityConsumer
+import BEDC.Derived.FanfunctionalUp.CompactMetricFiniteNetRoute
+import BEDC.Derived.FanfunctionalUp.CompactMetricUniformBarScope
 import BEDC.Derived.FanfunctionalUp.CompactUniformConsumerScope
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusObligations
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
@@ -4035,6 +4038,7 @@ import BEDC.Derived.FanfunctionalUp.ScopedChoiceNonescape
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
 import BEDC.Derived.FanfunctionalUp.ScopedFiniteModulusExport
 import BEDC.Derived.FanfunctionalUp.UniformModulusConsumerBoundary
+import BEDC.Derived.FanfunctionalUp.UniformModulusScope
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
@@ -8153,6 +8157,7 @@ import BEDC.Derived.SeparatedUniformSpaceUp.TasteGate
 import BEDC.Derived.SeqUp
 import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
+import BEDC.Derived.SequentialCauchyFilterUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
 import BEDC.Derived.SequentialClosureUp
@@ -8224,11 +8229,13 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.LimitModulusInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
+import BEDC.Derived.SequentiallyCompleteMetricUp.RegularCauchyLimitCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.RegularLimitExtraction
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootLimitWitness
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusLimitFactorization
+import BEDC.Derived.SequentiallyCompleteMetricUp.RootNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.SeparatedUniquenessBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceRead
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceReadback
@@ -9001,6 +9008,7 @@ import BEDC.Derived.UniformCompletionFunctorUp.ReadbackSealExactness
 import BEDC.Derived.UniformCompletionFunctorUp.ReadbackToleranceTerminalRoute
 import BEDC.Derived.UniformCompletionFunctorUp.RealSealConsumerRoute
 import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescape
+import BEDC.Derived.UniformCompletionFunctorUp.RealSealNonescapeFromDisplayedRoute
 import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatReadbackTotality
 import BEDC.Derived.UniformCompletionFunctorUp.RegSeqRatRealSourceHandoff
 import BEDC.Derived.UniformCompletionFunctorUp.RootObligationLattice
