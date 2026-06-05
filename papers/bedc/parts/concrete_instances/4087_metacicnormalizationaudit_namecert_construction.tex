@@ -95,6 +95,20 @@ The residual budget is completed by the refusal row $N$. That row records that c
 \leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditResidualBudgetObligation}
 \leanvariant{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditCarrier\_residual\_budget\_obligation}
 
+\begin{theorem}[MetaCIC normalization audit candidate-ledger locality]
+\label{thm:metacic-normalization-audit-candidate-ledger-locality}
+Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. Every strong-normalization export must keep candidate evidence $R$, closed projection $C$, finite scope $S$, application boundary $A$, and confluence refusal $N$ in the same candidate ledger before replay through $F,H,T,P,L$. No consumer may replace those rows by global strong normalization, subject reduction, confluence, quotient equality, or host evaluator evidence.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:metacic-normalization-audit-obligation-surface}. It exposes $R,C,S,A,N$ as separate rows of one accepted packet, so an SN export cannot read the finite scope while dropping the candidate evidence, closed projection, application boundary, or refusal row.
+
+Use the finite SN scope theorem \autoref{thm:metacic-normalization-audit-sn-scope} and the closed-term projection route of \autoref{thm:metacic-normalization-audit-closed-term-projection-route}. Together they place every positive SN read behind candidate evidence in $R$, projection evidence in $C$, and finite scope in $S$.
+
+Apply the residual-budget obligation \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. The budget links $R,C,S$ with the application boundary $A$ and confluence refusal $N$ before any replay row can expose the claim downstream.
+
+Finally replay through $F,H,T,P,L$. These structural rows preserve the same candidate ledger and cannot supply global strong normalization, subject reduction, confluence, quotient equality, or a host evaluator, since none of those objects appears as a carrier row.
+\end{proof}
+
 \begin{theorem}[MetaCIC normalization audit candidate-frontier refusal]
 \label{thm:metacic-normalization-audit-candidate-frontier-refusal}
 Let $Z=(R,C,S,A,N,F,H,T,P,L)$ be an accepted $\MetacicNormalizationAuditUp$ packet. Any strong-normalization export that crosses from candidate evidence to closed-term normalization must display the rows
@@ -131,6 +145,7 @@ Apply \autoref{thm:metacic-normalization-audit-residual-budget-obligation}. It t
 
 Finally use \autoref{thm:metacic-normalization-audit-candidate-frontier-refusal}. If the candidate frontier is not displayed, the packet returns only the local obligation surface. Therefore totality of the closed-term budget means total display of the finite rows above, not an evidence-free global SN theorem.
 \end{proof}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditClosedTermBudgetTotality}
 
 \begin{theorem}[MetaCIC normalization audit confluence boundary]
 \label{thm:metacic-normalization-audit-confluence-boundary}
@@ -199,6 +214,7 @@ Now inspect $N$. It does not prove confluence; it names the boundary at which th
 
 The structural rows $F,H,T,P,L$ preserve that comparison as a socket. They allow the manuscript route to carry normalization evidence up to the confluence boundary, but no row identifies the socket with full Church--Rosser, substitution compatibility, or subject reduction for arbitrary closed proofs.
 \end{proof}
+\leanchecked{BEDC.Derived.MetacicNormalizationAuditUp.MetacicNormalizationAuditConfluenceSocket}
 
 \begin{theorem}[MetaCIC normalization audit obligation pack]
 \label{thm:metacic-normalization-audit-obligation-pack}
