@@ -219,6 +219,55 @@ theorem RegularCauchyReciprocalCarrier_apartness_window
                 (RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N),
           rfl⟩
 
+theorem RegularCauchyReciprocalDenominatorApartness
+    (x : RegularCauchyReciprocalUp) :
+    ∃ Q A M W D B T E H C P N : BHist,
+      x = RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N ∧
+        regularCauchyReciprocalFields x = [Q, A, M, W, D, B, T, E, H, C, P, N] ∧
+          regularCauchyReciprocalToEventFlow x =
+            [regularCauchyReciprocalEncodeBHist Q,
+              regularCauchyReciprocalEncodeBHist A,
+              regularCauchyReciprocalEncodeBHist M,
+              regularCauchyReciprocalEncodeBHist W,
+              regularCauchyReciprocalEncodeBHist D,
+              regularCauchyReciprocalEncodeBHist B,
+              regularCauchyReciprocalEncodeBHist T,
+              regularCauchyReciprocalEncodeBHist E,
+              regularCauchyReciprocalEncodeBHist H,
+              regularCauchyReciprocalEncodeBHist C,
+              regularCauchyReciprocalEncodeBHist P,
+              regularCauchyReciprocalEncodeBHist N] ∧
+            List.Mem A (regularCauchyReciprocalFields x) ∧
+              List.Mem D (regularCauchyReciprocalFields x) ∧
+                List.Mem B (regularCauchyReciprocalFields x) ∧
+                  BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+                    regularCauchyReciprocalEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk Q A M W D B T E H C P N =>
+      exact
+        ⟨Q, A, M, W, D, B, T, E, H, C, P, N, rfl, rfl, rfl,
+          List.Mem.tail Q (List.Mem.head [M, W, D, B, T, E, H, C, P, N]),
+          List.Mem.tail Q
+            (List.Mem.tail A
+              (List.Mem.tail M
+                (List.Mem.tail W (List.Mem.head [B, T, E, H, C, P, N])))),
+          List.Mem.tail Q
+            (List.Mem.tail A
+              (List.Mem.tail M
+                (List.Mem.tail W
+                  (List.Mem.tail D (List.Mem.head [T, E, H, C, P, N]))))),
+          by
+            change
+              regularCauchyReciprocalFromEventFlow
+                  (regularCauchyReciprocalToEventFlow
+                    (RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N)) =
+                some (RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N)
+            exact
+              regularCauchyReciprocal_round_trip
+                (RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N),
+          rfl⟩
+
 theorem RegularCauchyReciprocalClassifierStability
     {x y : RegularCauchyReciprocalUp}
     (hflow :

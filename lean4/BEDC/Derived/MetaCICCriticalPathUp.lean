@@ -320,4 +320,234 @@ theorem MetaCICCriticalPathCandidateMediatedSNFrontierDischarge
   }
   exact ⟨cert, candidateUnary, frontierUnary, socketUnary, realSealPkg⟩
 
+theorem MetaCICCriticalPathKernelFrontierTotality [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName kernelRead frontierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont route localName kernelRead →
+        Cont kernelRead obstruction frontierRead →
+          PkgSig bundle frontierRead pkg →
+            SemanticNameCert
+                (fun row : BHist =>
+                  (hsame row kernelRead ∨ hsame row frontierRead ∨ hsame row obstruction ∨
+                    hsame row dischargeSocket) ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row strongNorm ∨ hsame row normalForm ∨ hsame row obstruction ∨
+                    hsame row handoff ∨ hsame row dischargeSocket ∨ hsame row route ∨
+                      hsame row kernelRead ∨ hsame row frontierRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont route localName kernelRead ∧
+                    Cont kernelRead obstruction frontierRead ∧ PkgSig bundle frontierRead pkg ∧
+                      PkgSig bundle provenance pkg)
+                hsame ∧
+              UnaryHistory kernelRead ∧ UnaryHistory frontierRead := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle Pkg SemanticNameCert hsame
+  intro packet routeLocalNameKernel kernelObstructionFrontier frontierPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, _handoffUnary,
+    dischargeSocketUnary, _transportUnary, routeUnary, _provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    provenancePkg⟩ := packet
+  have kernelUnary : UnaryHistory kernelRead :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameKernel
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed kernelUnary obstructionUnary kernelObstructionFrontier
+  have sourceKernel :
+      (fun row : BHist =>
+        (hsame row kernelRead ∨ hsame row frontierRead ∨ hsame row obstruction ∨
+          hsame row dischargeSocket) ∧ UnaryHistory row) kernelRead := by
+    exact ⟨Or.inl (hsame_refl kernelRead), kernelUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row kernelRead ∨ hsame row frontierRead ∨ hsame row obstruction ∨
+              hsame row dischargeSocket) ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row strongNorm ∨ hsame row normalForm ∨ hsame row obstruction ∨
+              hsame row handoff ∨ hsame row dischargeSocket ∨ hsame row route ∨
+                hsame row kernelRead ∨ hsame row frontierRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont route localName kernelRead ∧
+              Cont kernelRead obstruction frontierRead ∧ PkgSig bundle frontierRead pkg ∧
+                PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro kernelRead sourceKernel
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨by
+            cases source.left with
+            | inl sameKernel =>
+                exact Or.inl (hsame_trans (hsame_symm sameRows) sameKernel)
+            | inr rest =>
+                cases rest with
+                | inl sameFrontier =>
+                    exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameFrontier))
+                | inr rest =>
+                    cases rest with
+                    | inl sameObstruction =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inl
+                                (hsame_trans (hsame_symm sameRows) sameObstruction)))
+                    | inr sameSocket =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (hsame_trans (hsame_symm sameRows) sameSocket)))
+            ,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameKernel =>
+          exact
+            Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr (Or.inr (Or.inl sameKernel))))))
+      | inr rest =>
+          cases rest with
+          | inl sameFrontier =>
+              exact
+                Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr (Or.inr (Or.inr sameFrontier))))))
+          | inr rest =>
+              cases rest with
+              | inl sameObstruction =>
+                  exact Or.inr (Or.inr (Or.inl sameObstruction))
+              | inr sameSocket =>
+                  exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl sameSocket))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, routeLocalNameKernel, kernelObstructionFrontier, frontierPkg,
+          provenancePkg⟩
+  }
+  exact ⟨cert, kernelUnary, frontierUnary⟩
+
+theorem MetaCICCriticalPathDischargeSocketFrontierExhaustion [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName kernelRead socketRead frontierRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg →
+      Cont handoff obstruction socketRead →
+        Cont route localName kernelRead →
+          Cont kernelRead socketRead frontierRead →
+            PkgSig bundle frontierRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    (hsame row socketRead ∨ hsame row frontierRead ∨
+                      hsame row dischargeSocket) ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row handoff ∨ hsame row obstruction ∨
+                      hsame row dischargeSocket ∨ hsame row socketRead ∨
+                        hsame row kernelRead ∨ hsame row frontierRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont handoff obstruction socketRead ∧
+                      Cont kernelRead socketRead frontierRead ∧
+                        PkgSig bundle frontierRead pkg ∧ PkgSig bundle provenance pkg)
+                  hsame ∧
+                UnaryHistory socketRead ∧ UnaryHistory frontierRead := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig ProbeBundle Pkg SemanticNameCert hsame
+  intro packet handoffObstructionSocketRead routeLocalNameKernel kernelSocketFrontier
+    frontierPkg
+  obtain ⟨_strongNormUnary, _normalFormUnary, obstructionUnary, handoffUnary,
+    dischargeSocketUnary, _transportUnary, routeUnary, _provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    provenancePkg⟩ := packet
+  have socketUnary : UnaryHistory socketRead :=
+    unary_cont_closed handoffUnary obstructionUnary handoffObstructionSocketRead
+  have kernelUnary : UnaryHistory kernelRead :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameKernel
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed kernelUnary socketUnary kernelSocketFrontier
+  have sourceSocket :
+      (fun row : BHist =>
+        (hsame row socketRead ∨ hsame row frontierRead ∨ hsame row dischargeSocket) ∧
+          UnaryHistory row) socketRead := by
+    exact ⟨Or.inl (hsame_refl socketRead), socketUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row socketRead ∨ hsame row frontierRead ∨ hsame row dischargeSocket) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row handoff ∨ hsame row obstruction ∨ hsame row dischargeSocket ∨
+              hsame row socketRead ∨ hsame row kernelRead ∨ hsame row frontierRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont handoff obstruction socketRead ∧
+              Cont kernelRead socketRead frontierRead ∧ PkgSig bundle frontierRead pkg ∧
+                PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro socketRead sourceSocket
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨by
+            cases source.left with
+            | inl sameSocket =>
+                exact Or.inl (hsame_trans (hsame_symm sameRows) sameSocket)
+            | inr rest =>
+                cases rest with
+                | inl sameFrontier =>
+                    exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) sameFrontier))
+                | inr sameDischargeSocket =>
+                    exact
+                      Or.inr
+                        (Or.inr
+                          (hsame_trans (hsame_symm sameRows) sameDischargeSocket))
+            ,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameSocket =>
+          exact Or.inr (Or.inr (Or.inr (Or.inl sameSocket)))
+      | inr rest =>
+          cases rest with
+          | inl sameFrontier =>
+              exact
+                Or.inr
+                  (Or.inr (Or.inr (Or.inr (Or.inr sameFrontier))))
+          | inr sameDischargeSocket =>
+              exact Or.inr (Or.inr (Or.inl sameDischargeSocket))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, handoffObstructionSocketRead, kernelSocketFrontier, frontierPkg,
+          provenancePkg⟩
+  }
+  exact ⟨cert, socketUnary, frontierUnary⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp
