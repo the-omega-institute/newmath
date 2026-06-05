@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 
+from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
 
@@ -422,6 +423,47 @@ def test_attribution_capsule_projection_records_operational_and_mechanism_axes(t
     assert row["mechanism_ledger_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status"
     assert row["mechanism_closure_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status"
     assert row["audit_status"] == "valid"
+
+
+@pytest.mark.parametrize(
+    ("mutator", "expected_pointer"),
+    [
+        (
+            lambda payload: payload["mechanism_evidence"]["required_gate_pointers"].__setitem__(
+                0,
+                "$.a4_hardgates.gates.A4-HG2.missing_status",
+            ),
+            "$.a4_hardgates.gates.A4-HG2.missing_status",
+        ),
+        (
+            lambda payload: payload["mechanism_evidence"]["metric_pointers"].__setitem__(
+                "residualized_status",
+                "$.residualized_attribution.missing_status",
+            ),
+            "$.residualized_attribution.missing_status",
+        ),
+    ],
+)
+def test_attribution_capsule_audit_rejects_unresolved_mechanism_evidence_pointer(
+    tmp_path,
+    mutator,
+    expected_pointer,
+):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-attribution-capsule"]
+    payload = _minimal_payload(spec)
+    mutator(payload)
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-attribution-capsule"]
+
+    assert expected_pointer in mechanism_evidence_pointers(
+        discovery_map.project_gap_head_mechanism_evidence(payload),
+    )
+    assert discovery_map.pointer_value(payload, expected_pointer) is None
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "unresolved-mechanism-evidence-pointer"
 
 
 @pytest.mark.parametrize("report", ["gap-head-on-h", "gap-head-discovery"])

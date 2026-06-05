@@ -828,11 +828,7 @@ def _gap_head_transfer_atlas_projection(
     )
 
 
-def _attribution_capsule_levels(
-    payload: Mapping[str, Any],
-    mechanism_namecert: Mapping[str, Any] | None = None,
-) -> AttributionCapsuleLevels | None:
-    del mechanism_namecert
+def _attribution_capsule_levels(payload: Mapping[str, Any]) -> AttributionCapsuleLevels | None:
     evidence = project_gap_head_mechanism_evidence(payload)
     if evidence is None:
         return None
@@ -1046,10 +1042,10 @@ def _audit_row(
         if not consistent:
             return "invalid", reason
     if spec.name == "gap-head-attribution-capsule":
-        levels = _attribution_capsule_levels(payload, (context or {}).get(MECHANISM_NAMECERT_ARTIFACT, {}))
+        levels = _attribution_capsule_levels(payload)
         if levels is None:
             return "invalid", "attribution-capsule-level-cells-missing"
-        mechanism_evidence = project_gap_head_mechanism_evidence(payload, (context or {}).get(MECHANISM_NAMECERT_ARTIFACT, {}))
+        mechanism_evidence = project_gap_head_mechanism_evidence(payload)
         if mechanism_evidence is None:
             return "invalid", "missing-mechanism-evidence"
         unresolved = unresolved_mechanism_evidence_pointers(payload, mechanism_evidence)
@@ -1143,7 +1139,7 @@ def discovery_row(
     if evidence.d5_readiness is not None:
         row["d5_readiness"] = evidence.d5_readiness.as_dict()
     if spec.name == "gap-head-attribution-capsule":
-        levels = _attribution_capsule_levels(payload, context_payloads.get(MECHANISM_NAMECERT_ARTIFACT, {}))
+        levels = _attribution_capsule_levels(payload)
         if levels is not None:
             row.update(
                 {

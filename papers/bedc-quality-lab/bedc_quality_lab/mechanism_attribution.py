@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
+
 
 ATTRIBUTION_CAPSULE_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
 MECHANISM_EVIDENCE_POINTER = "$.mechanism_evidence"
@@ -41,9 +43,7 @@ class MechanismAttributionEvidence:
 
 def project_gap_head_mechanism_evidence(
     payload: Mapping[str, Any],
-    namecert_payload: Mapping[str, Any] | None = None,
 ) -> MechanismAttributionEvidence | None:
-    del namecert_payload
     evidence = _mapping(payload.get("mechanism_evidence"))
     if not evidence:
         return None
@@ -96,20 +96,6 @@ def unresolved_mechanism_evidence_pointers(
     evidence: MechanismAttributionEvidence,
 ) -> tuple[str, ...]:
     return tuple(pointer for pointer in mechanism_evidence_pointers(evidence) if pointer_value(payload, pointer) is None)
-
-
-def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
-    if pointer is None or not pointer.startswith("$."):
-        return None
-    cursor: Any = payload
-    for part in pointer[2:].split("."):
-        if isinstance(cursor, Mapping) and part in cursor:
-            cursor = cursor[part]
-        elif isinstance(cursor, Sequence) and not isinstance(cursor, (str, bytes, bytearray)) and part.isdigit() and int(part) < len(cursor):
-            cursor = cursor[int(part)]
-        else:
-            return None
-    return cursor
 
 
 def _mapping(value: Any) -> Mapping[str, Any]:
