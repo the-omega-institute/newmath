@@ -3277,6 +3277,7 @@ import BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate
 import BEDC.Derived.DedekindCutCompletionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
 import BEDC.Derived.DedekindCutUp.TasteGate
+import BEDC.Derived.DedekindGapLocatedCutUp.TasteGate
 import BEDC.Derived.DedekindMacNeilleCompletionUp.CutClosure
 import BEDC.Derived.DedekindMacNeilleCompletionUp.NameCertObligations
 import BEDC.Derived.DedekindMacNeilleCompletionUp.TasteGate
@@ -5518,6 +5519,7 @@ import BEDC.Derived.LowerSemicontinuousUp.NameCertBasisObligations
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationBasis
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface
 import BEDC.Derived.LowerSemicontinuousUp.NameCertScope
+import BEDC.Derived.LowerSemicontinuousUp.ObligationClosureRoute
 import BEDC.Derived.LowerSemicontinuousUp.PublicExport
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RealRegSeqRatScope
@@ -8136,6 +8138,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.CauchySequenceObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.ClassifierTransport
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompleteMetricHandoff
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
+import BEDC.Derived.SequentiallyCompleteMetricUp.TailInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
