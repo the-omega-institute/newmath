@@ -371,4 +371,82 @@ theorem ContextFreeGrammarPacket_derivation_prefix_carrier [AskSetup] [PackageSe
     ⟨startUnary, productionUnary, prefixUnary, splitUnary, prefixRouteUnary,
       startPrefixSplit, prefixTransportRoute, endpointPkg, prefixPkg⟩
 
+theorem ContextFreeGrammarPacket_pushdown_handoff [AskSetup] [PackageSetup]
+    {terminal nonterminal start production yield derivation readback transport route provenance
+      name endpoint stackRead runRead handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContextFreeGrammarPacket terminal nonterminal start production yield derivation readback
+        transport route provenance name endpoint bundle pkg ->
+      Cont start production stackRead ->
+        Cont stackRead derivation runRead ->
+          Cont runRead readback handoffRead ->
+            PkgSig bundle handoffRead pkg ->
+              SemanticNameCert
+                  (fun row : BHist =>
+                    hsame row handoffRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+                  (fun row : BHist =>
+                    hsame row start ∨ hsame row production ∨ hsame row derivation ∨
+                      hsame row readback ∨ hsame row stackRead ∨ hsame row runRead ∨
+                        hsame row handoffRead)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont start production stackRead ∧
+                      Cont stackRead derivation runRead ∧ Cont runRead readback handoffRead ∧
+                        PkgSig bundle handoffRead pkg)
+                  hsame ∧
+                UnaryHistory stackRead ∧ UnaryHistory runRead ∧
+                  UnaryHistory handoffRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont SemanticNameCert UnaryHistory
+  intro packet startProductionStack stackDerivationRun runReadbackHandoff handoffPkg
+  obtain ⟨_terminalUnary, _nonterminalUnary, startUnary, productionUnary, _yieldUnary,
+    derivationUnary, readbackUnary, _transportUnary, _routeUnary, _provenanceUnary,
+    _nameUnary, _endpointUnary, _terminalNonterminalStart, _productionYieldReadback,
+    _derivationTransportRoute, _routeProvenanceName, _nameEndpointEndpoint,
+    _endpointPkg⟩ := packet
+  have stackUnary : UnaryHistory stackRead :=
+    unary_cont_closed startUnary productionUnary startProductionStack
+  have runUnary : UnaryHistory runRead :=
+    unary_cont_closed stackUnary derivationUnary stackDerivationRun
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed runUnary readbackUnary runReadbackHandoff
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row handoffRead ∧ UnaryHistory row ∧ PkgSig bundle row pkg)
+          (fun row : BHist =>
+            hsame row start ∨ hsame row production ∨ hsame row derivation ∨
+              hsame row readback ∨ hsame row stackRead ∨ hsame row runRead ∨
+                hsame row handoffRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont start production stackRead ∧
+              Cont stackRead derivation runRead ∧ Cont runRead readback handoffRead ∧
+                PkgSig bundle handoffRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro handoffRead ⟨hsame_refl handoffRead, handoffUnary, handoffPkg⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases sameRows
+        exact source
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right.left, startProductionStack, stackDerivationRun, runReadbackHandoff,
+          handoffPkg⟩
+  }
+  exact ⟨cert, stackUnary, runUnary, handoffUnary⟩
+
 end BEDC.Derived.ContextFreeGrammarUp

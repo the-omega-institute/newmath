@@ -2744,7 +2744,6 @@ import BEDC.Derived.ContactUp
 import BEDC.Derived.ContactUp.TasteGate
 import BEDC.Derived.ContextFreeGrammarUp
 import BEDC.Derived.ContextFreeGrammarUp.PushdownHandoff
-import BEDC.Derived.ContextFreeGrammarUp.RegularLanguageInclusionCertificate
 import BEDC.Derived.ContextFreeGrammarUp.TasteGate
 import BEDC.Derived.ContextFreePumpingLemmaUp.TasteGate
 import BEDC.Derived.ContextWindowCommitmentUp.TasteGate
@@ -4056,11 +4055,11 @@ import BEDC.Derived.FastCauchySubsequenceUp.RealSealNonescapeInduction
 import BEDC.Derived.FastCauchySubsequenceUp.RealSealObligation
 import BEDC.Derived.FastCauchySubsequenceUp.RealSealSelectorBoundary
 import BEDC.Derived.FastCauchySubsequenceUp.RealUpTailHandoff
+import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatCompletionHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatRealRoute
 import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatTailReadback
 import BEDC.Derived.FastCauchySubsequenceUp.RegularReadback
 import BEDC.Derived.FastCauchySubsequenceUp.RegularReadbackObligation
-import BEDC.Derived.FastCauchySubsequenceUp.RegularSubsequenceHandoffTotality
 import BEDC.Derived.FastCauchySubsequenceUp.RootObligation
 import BEDC.Derived.FastCauchySubsequenceUp.SealBoundaryExhaustion
 import BEDC.Derived.FastCauchySubsequenceUp.SelectedWindowInduction
@@ -5464,6 +5463,7 @@ import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedSetExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedSetHandoff
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphLocatedStability
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphThresholdMonotonicity
+import BEDC.Derived.LowerSemicontinuousUp.EpigraphThresholdRefinement
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowInduction
 import BEDC.Derived.LowerSemicontinuousUp.FiniteEpigraphThresholdExhaustion
@@ -7949,7 +7949,6 @@ import BEDC.Derived.SchurMatrixSummabilityUp.TasteGate
 import BEDC.Derived.SchurOrthogonalityUp
 import BEDC.Derived.SchurOrthogonalityUp.TasteGate
 import BEDC.Derived.SchwartzFunctionUp.TasteGate
-import BEDC.Derived.SchwarzLemmaUp.TasteGate
 import BEDC.Derived.SchwarzPickDiskContractionUp.TasteGate
 import BEDC.Derived.SchwarzReflectionRouteUp.TasteGate
 import BEDC.Derived.ScienceBridgeUp.TasteGate
@@ -8015,6 +8014,8 @@ import BEDC.Derived.SeqUp.TasteGate
 import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
+import BEDC.Derived.SequentialClosureUp
+import BEDC.Derived.SequentialClosureUp.RegSeqRatLimitRoute
 import BEDC.Derived.SequentialClosureUp.SequenceLimitHandoff
 import BEDC.Derived.SequentialCompactRealUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.BaireCylinderExposure
