@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FiniteUnionBoundUp$}
+\label{ch:concrete-instances-finite-union-bound-namecert}
+\origin{human}
+
+Following Boole's inequality and elementary finite probability, the $\FiniteUnionBoundUp$ packet records finite union-bound data over displayed $\ProbSpaceUp$ event windows, not a sigma-completion or almost-sure quotient. It sits after the probability-space source of \autoref{ch:concrete-instances-probspace-namecert}, the random-variable observation surface of \autoref{ch:concrete-instances-randomvar-namecert}, and the distribution readback surface of \autoref{ch:concrete-instances-distribution-namecert}; the finite ledger is then available to the Borel--Cantelli route of \autoref{ch:concrete-instances-borel-cantelli-namecert}.
+
+\begin{definition}[FiniteUnionBound carrier]
+\label{def:finite-union-bound-carrier}
+A $\FiniteUnionBoundUp$ carrier is a finite $\BHist$ packet
+$$
+U=(\Omega,E,W,S,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the $\ProbSpaceUp$ source row naming the probability carrier from which every event probability is read.
+\item $E$ is the finite event-family row, listing the displayed event names and their membership readbacks.
+\item $W$ is the finite union-window row, recording the inspected finite subfamily and the displayed union event produced from it.
+\item $S$ is the probability-sum ledger, recording the finite sum of the probabilities of the events listed by $W$.
+\item $B$ is the bound-comparison row, recording that the probability of the displayed union event is bounded by the ledger value in $S$.
+\item $H$ records componentwise $\hsame$ transport for the probability source, event family, union window, sum ledger, bound comparison, replay, provenance, and local naming rows.
+\item $C$ records the displayed $\Cont$ replay by which downstream consumers read $\Omega,E,W,S,B$ in that order.
+\item $P$ is the $\Pkg$ provenance over $\FiniteUnionBoundUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteUnionBoundUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a completed sigma-algebra, countable union, quotient almost-sure equality, independence converse, limiting theorem, or host probability space outside the displayed finite event rows.
+\end{definition}
+
+\begin{theorem}[FiniteUnionBound NameCert obligations]
+\label{thm:finite-union-bound-namecert-obligations}
+For every accepted $\FiniteUnionBoundUp$ carrier $U=(\Omega,E,W,S,B,H,C,P,N)$, the local $\NameCert_{\FiniteUnionBoundUp}$ surface consists exactly of five finite obligation rows: carrier exposure for the displayed tuple; event-window exactness linking $E$ and $W$ to the union event read in $\Omega$; probability-sum ledger exposure through $S$; bound-comparison exposure through $B$; and transport, replay, provenance, and local naming through $H,C,P,N$. No finite union-bound obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple $U=(\Omega,E,W,S,B,H,C,P,N)$ exposes the probability source, event family, union window, sum ledger, comparison row, transport, replay, provenance, and local naming rows.
+
+Read the event-window row before the probability ledger. The window $W$ selects only entries from $E$ and names the displayed finite union event in the source $\Omega$, so the bound has a fixed finite domain.
+
+The sum and comparison rows then give the certificate surface. The row $S$ lists the finite probability sum, and $B$ compares the probability of the displayed union event with that ledger value. Transport through $H$ and replay through $C$ preserve exactly these rows, while $P,N$ record provenance and naming.
+
+Since no remaining coordinate names a sigma-completion, countable union, quotient almost-sure equality, independence converse, or limiting theorem, the five listed obligations exhaust the local certificate.
+\end{proof}
+
+\begin{theorem}[FiniteUnionBound window-sum ledger]
+\label{thm:finite-union-bound-window-sum-ledger}
+Every finite union read of an accepted $\FiniteUnionBoundUp$ packet factors through the displayed route
+$$
+\Omega,\ E,\ W,\ S,\ B.
+$$
+The event family and union window determine the inspected finite subfamily before the probability-sum ledger is available, and the bound comparison reads only that ledger. Thus a consumer cannot replace the finite event-window sum by an ambient countable union, external subadditivity oracle, or quotient event equality while preserving the packet.
+\end{theorem}
+\begin{proof}
+Start with the finite event-family row $E$ and the window row $W$. They determine the displayed union event and the finite list of event probabilities to be inspected in $\Omega$.
+
+The probability-sum ledger $S$ is then the only row that records the bound value. The comparison row $B$ reads the union-event probability and compares it with that value, so every accepted finite union read has passed through the same window-sum ledger.
+
+Finally $H,C,P,N$ transport, replay, source, and name the route without adding another probability object. Coordinate exhaustion excludes countable unions, external subadditivity, and quotient event equality from the accepted read.
+\end{proof}
+
+\begin{theorem}[FiniteUnionBound Borel--Cantelli handoff]
+\label{thm:finite-union-bound-borel-cantelli-handoff}
+Every $\BorelCantelliUp$-facing consumer that requests a finite union estimate receives the $\FiniteUnionBoundUp$ ledger before any tail-sum reasoning is exposed. The handoff supplies the probability source row $\Omega$, finite event family $E$, union window $W$, probability-sum ledger $S$, bound comparison $B$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row; it supplies no sigma-completion, countable-choice selector, almost-sure quotient equality, independence converse, or infinite limiting theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted $\FiniteUnionBoundUp$ packet and read the route of \autoref{thm:finite-union-bound-window-sum-ledger}. A Borel--Cantelli finite-window request first receives $\Omega,E,W,S,B$ as displayed rows.
+
+Only after this finite ledger is present may the downstream Borel--Cantelli packet ask for a tail-sum route. The handoff therefore separates the Boole-inequality ledger from the later tail-event accounting.
+
+Transport, replay, provenance, and naming are inherited through $H,C,P,N$. Since the handoff has no coordinate for sigma-completion, countable choice, almost-sure quotient equality, independence converse, or an infinite limiting theorem, none of those claims is exported to the Borel--Cantelli consumer.
+\end{proof}
+
+\closureat{FiniteUnionBoundUp}{seedStr}
+
+\begin{closurestatus}{\FiniteUnionBoundUp}
+  \constructivestory{A $\FiniteUnionBoundUp$ packet is generated from a probability source row, finite event-family row, finite union-window row, probability-sum ledger, bound-comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-union-bound-carrier}, \autoref{thm:finite-union-bound-namecert-obligations}, \autoref{thm:finite-union-bound-window-sum-ledger}, and \autoref{thm:finite-union-bound-borel-cantelli-handoff} seed the finite Boole-inequality ledger and its Borel--Cantelli-facing handoff over displayed probability windows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close sigma-completion, countable choice, quotient almost-sure equality, an independence converse, an infinite limiting theorem, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, event-window exactness, probability-sum ledger stability, bound-comparison exactness, Borel--Cantelli handoff, transport, replay, provenance, and local naming for BEDC.Derived.FiniteUnionBoundUp.}
+\end{closurestatus}
