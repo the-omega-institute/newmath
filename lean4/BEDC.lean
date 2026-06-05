@@ -4040,6 +4040,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.EffectiveConsumerExport
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusRegularHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorCoherence
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorObligation
+import BEDC.Derived.FastCauchySubsequenceUp.ModulusSelectorTailExtraction
 import BEDC.Derived.FastCauchySubsequenceUp.ModulusThresholdExtraction
 import BEDC.Derived.FastCauchySubsequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySubsequenceUp.PhaseRealCompletionExitRoute
@@ -4586,6 +4587,7 @@ import BEDC.Derived.FunctionalAnalysisUp
 import BEDC.Derived.FunctorUp
 import BEDC.Derived.FunctorUp.AssocEmptyResult
 import BEDC.Derived.FunctorUp.AssocReflects
+import BEDC.Derived.FunctorUp.Certificate
 import BEDC.Derived.FunctorUp.CompEmptyMiddleInversion
 import BEDC.Derived.FunctorUp.CompEndpointCycleBoundaryComponents
 import BEDC.Derived.FunctorUp.CompMiddlePrefix
@@ -6603,6 +6605,7 @@ import BEDC.Derived.PermutationUp.TasteGate
 import BEDC.Derived.PerronIntegralUp.TasteGate
 import BEDC.Derived.PersistentHomUp
 import BEDC.Derived.PhaseGovernedCertificateRouteUp.TasteGate
+import BEDC.Derived.PhaseLedgerHorocycleUp.TasteGate
 import BEDC.Derived.PhaseRealCompletionExitUp.TasteGate
 import BEDC.Derived.PhenomenologicalFrameUp.TasteGate
 import BEDC.Derived.PhenomenologyScienceInterfaceUp.TasteGate
@@ -8019,6 +8022,8 @@ import BEDC.Derived.SequentialCompactUp.RealSealConsumerBoundary
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.RealSealWindowNonescape
 import BEDC.Derived.SequentialCompactUp.RegularTailNonescape
+import BEDC.Derived.SequentialCompactUp.RootObligationSurface
+import BEDC.Derived.SequentialCompactUp.RootRealSealRefusal
 import BEDC.Derived.SequentialCompactUp.RootRegSeqRatExposure
 import BEDC.Derived.SequentialCompactUp.RootSelectedWindowRoute
 import BEDC.Derived.SequentialCompactUp.SelectorRefusal
