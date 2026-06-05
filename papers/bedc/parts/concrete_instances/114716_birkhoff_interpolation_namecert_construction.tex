@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BirkhoffInterpolationUp$}
+\label{ch:concrete-instances-birkhoff-interpolation-namecert}
+\origin{human}
+
+Following Birkhoff and de Boor, the $\BirkhoffInterpolationUp$ packet records the finite interpolation route in which only a displayed lacunary subset of derivative conditions is imposed. It sits beside the ordinary node-value route of \autoref{ch:concrete-instances-lagrange-interpolation-namecert} and the confluent jet route of \autoref{ch:concrete-instances-hermite-interpolation-namecert}; the present carrier names the mask that selects derivative orders rather than requiring every derivative level below a jet height. Its construction consumes the coefficient-list surface of \autoref{ch:concrete-instances-polynomial-namecert}, the displayed derivative surface of \autoref{ch:concrete-instances-derivative-namecert}, the finite matrix ledger of \autoref{ch:concrete-instances-matrix-namecert}, and the linear-system route of \autoref{ch:concrete-instances-linearmap-namecert}.
+
+The packet is a finite $\BHist$ ledger. It displays nodes, a derivative-order mask, the lacunary value table, a polynomial basis, a finite matrix and linear-system ledger, assembly, transport, replay, provenance, and a local $\NameCert$ row before any consumer can read a Birkhoff interpolant. It is not ordinary Lagrange interpolation, because the mask may request derivative rows; it is not confluent Hermite interpolation, because the mask need not contain every lower derivative order at each node.
+
+\begin{definition}[Birkhoff interpolation carrier]
+\label{def:birkhoff-interpolation-carrier}
+A $\BirkhoffInterpolationUp$ carrier is a finite $\BHist$ packet
+$$
+B=(X,M,V,P,A,L,S,H,C,R,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is a finite node row, with pairwise-distinctness data for the displayed nodes.
+\item $M$ is the derivative-order mask row, recording a finite set of pairs $(x_i,k)$ at which a derivative condition is requested.
+\item $V$ is the lacunary value table, assigning one scalar value to each selected pair in $M$.
+\item $P$ is the polynomial-basis row, displaying the finite $\PolynomialUp$ coefficient lists used for the unknown interpolant.
+\item $A$ is the finite matrix ledger whose entries are obtained by applying the requested $\DerivativeUp$ orders from $M$ to the basis row $P$ and evaluating at the nodes $X$.
+\item $L$ is the $\LinearMapUp$ linear-system row, recording the matrix map, right-hand side, solvability witness, and uniqueness witness when the Birkhoff pattern is poised.
+\item $S$ is the assembly row, transporting the solved coefficient vector back to a $\PolynomialUp$ coefficient list and recording the requested derivative matches against $V$.
+\item $H$ records componentwise $\hsame$ transport for node, mask, value, basis, matrix, linear-system, assembly, replay, provenance, and local-name rows.
+\item $C$ records displayed $\Cont$ replay for derivative evaluation, matrix assembly, linear-system solution, polynomial assembly, and lacunary derivative checking.
+\item $R$ is the $\Pkg$ provenance over $\BirkhoffInterpolationUp$, $\LagrangeInterpolationUp$, $\HermiteInterpolationUp$, $\PolynomialUp$, $\DerivativeUp$, $\MatrixUp$, $\LinearMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BirkhoffInterpolationUp}$ row.
+\end{enumerate}
+The carrier predicate is $\mathsf{BirkhoffInterpolationLedger}(X,M,V,P,A,L,S,H,C,R,N)$. Two accepted packets classify together exactly when the eleven displayed rows are transported by $H$ and replay through the same routes named by $C$ and $R$.
+\end{definition}
+
+\begin{theorem}[Birkhoff interpolation NameCert obligations]
+\label{thm:birkhoff-interpolation-namecert-obligations}
+For an accepted $\BirkhoffInterpolationUp$ packet $B=(X,M,V,P,A,L,S,H,C,R,N)$, the local $\NameCert_{\BirkhoffInterpolationUp}$ obligation surface consists exactly of the finite carrier and classifier rows of \autoref{def:birkhoff-interpolation-carrier}, the node row $X$, derivative-order mask $M$, lacunary value table $V$, polynomial-basis row $P$, matrix ledger $A$, linear-system row $L$, assembly and derivative-match row $S$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $R$, and the local naming row $N$. No host differentiability oracle, unstated determinant inverse, quotient polynomial equality, complete Hermite jet table, ordinary Lagrange-only table, or ambient completeness datum is exported.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:birkhoff-interpolation-carrier}. The rows $X,M,V$ supply the finite interpolation request: nodes, the selected derivative orders, and one displayed value for each selected request.
+
+The construction rows are $P,A,L,S$. The polynomial-basis row gives coefficient-list unknowns, the matrix row evaluates the selected derivative orders on those basis elements, the linear-system row records solvability and uniqueness for the displayed finite matrix, and the assembly row returns the solved coefficient vector as a polynomial satisfying the lacunary table.
+
+The structural rows $H,C,R,N$ transport, replay, source, and name only this displayed packet. Since the carrier has no further coordinate for a host derivative oracle, determinant inverse outside the matrix ledger, quotient polynomial equality, complete Hermite table, or Lagrange-only interpolation table, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Birkhoff interpolation lacunary derivative route]
+\label{thm:birkhoff-interpolation-lacunary-derivative-route}
+Every derivative-match read exported by an accepted $\BirkhoffInterpolationUp$ packet factors through the finite route
+$$
+X,M,V,P \longmapsto A \longmapsto L \longmapsto S \longmapsto N .
+$$
+The route first displays the node row and derivative-order mask, then evaluates the requested derivative orders against the polynomial basis to form a finite $\MatrixUp$ ledger, solves the displayed $\LinearMapUp$ system, assembles the polynomial, checks the selected derivative rows against the lacunary value table, and exposes the local $\NameCert_{\BirkhoffInterpolationUp}$ row. A consumer cannot replace this route with ordinary Lagrange interpolation, a full Hermite jet table, an ambient smooth-function argument, or an unstated matrix inverse.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $B=(X,M,V,P,A,L,S,H,C,R,N)$. The mask row $M$ determines exactly which derivative requests are visible, and $V$ supplies values only for those selected requests.
+
+Next inspect $P$ and $A$. The basis row is a finite $\PolynomialUp$ coefficient-list row, and $A$ is obtained by applying the displayed $\DerivativeUp$ orders from $M$ to that basis and evaluating at the nodes in $X$.
+
+Use the linear-system row $L$ and assembly row $S$. The solved finite system supplies the coefficient vector, while $S$ repacks it as a polynomial and checks precisely the derivative rows selected by $M$.
+
+Finally transport and replay through $H,C,R,N$. These rows preserve the same node, mask, value, basis, matrix, linear-system, assembly, provenance, and local name, so every exported lacunary derivative read follows the displayed finite route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BirkhoffInterpolationUp$ read that claims a Birkhoff interpolating polynomial factors through finite node rows, derivative-order mask rows, lacunary value rows, polynomial-basis rows, finite $\MatrixUp$ ledgers, $\LinearMapUp$ solution rows, assembly rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.}
+
+\independenceWitness{lagrange-interpolation, hermite-interpolation, polynomial, derivative, matrix, linearmap: $\BirkhoffInterpolationUp$ is not bijective to any listed sibling because it jointly carries finite node data, a lacunary derivative-order mask, selected derivative values, polynomial basis rows, a derivative-evaluation matrix, a linear-system ledger, assembly, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{BirkhoffInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\BirkhoffInterpolationUp}
+  \constructivestory{A $\BirkhoffInterpolationUp$ packet is generated from finite node rows, derivative-order mask rows, lacunary value rows, polynomial-basis rows, finite derivative-evaluation matrix rows, linear-system rows, assembly rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:birkhoff-interpolation-carrier}, \autoref{thm:birkhoff-interpolation-namecert-obligations}, and \autoref{thm:birkhoff-interpolation-lacunary-derivative-route} seed the finite Birkhoff interpolation carrier, local NameCert obligation surface, and lacunary derivative route over displayed nodes, masks, values, basis polynomials, matrix ledgers, linear-system rows, assembly rows, transport, replay, provenance, local naming, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, ordinary Lagrange-only interpolation, complete Hermite jet interpolation, host differentiability oracles, unstated determinant inverses, quotient polynomial equality, selected Real representatives, field-completion arguments, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, node distinctness, mask finiteness, lacunary value exposure, polynomial basis construction, derivative-evaluation matrix routing, linear-system solution rows, assembly, lacunary derivative replay, transport, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.BirkhoffInterpolationUp.}
+\end{closurestatus}

@@ -99,6 +99,45 @@ selected antiderivatives, or ambient completeness, the real-seal obligation is
 confined to the displayed BEDC rows.
 \end{proof}
 
+\begin{definition}[Calculus root public package]
+\label{def:calculus-root-public-package}
+The $\CalculusUp$ root public package of an accepted carrier is the finite packet
+$$
+\Pi_{\Calculus}=(E,R,D,L,J,H,C,P,N; C_{\mathrm{root}},D_{\mathrm{root}},I_{\mathrm{root}},L_{\mathrm{root}},R_{\mathrm{root}},Q_{\mathrm{root}},Y_{\mathrm{root}},H_{\mathrm{root}},T_{\mathrm{root}},P_{\mathrm{root}},N_{\mathrm{root}})
+$$
+obtained by reading the local-linearization rows $E,R,D,L,J,H,C,P,N$ together with the root rows $C_{\mathrm{root}},D_{\mathrm{root}},I_{\mathrm{root}},L_{\mathrm{root}},R_{\mathrm{root}},Q_{\mathrm{root}},Y_{\mathrm{root}},H_{\mathrm{root}},T_{\mathrm{root}},P_{\mathrm{root}},N_{\mathrm{root}}$ of \autoref{def:calculus-root-carrier}. Its public surface is the derivative row, Riemann finite-sum row, $\LimitUp$ row, $\ContinuousMapUp$ graph-replay row, $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readback row, terminal $\RealUp$ seal row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CalculusUp}$ naming.
+
+The package compares accepted calculus reads only through those rows. It has no coordinate for a host function space, selected antiderivative, selected derivative operator, quotient equality of functions, host limit operator, host integral functional, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Calculus root public package readiness]
+\label{thm:calculus-root-public-package-readiness}
+Every downstream $\CalculusUp$ consumer of derivative, integral, limit, continuous-map, or Real-facing data factors through the root public package of \autoref{def:calculus-root-public-package}. A derivative consumer reads the derivative rows and the shared graph, dyadic, regular-rational, Real, transport, replay, provenance, and naming rows; an integral consumer reads the Riemann finite-sum rows and the same support; a limit consumer reads the $\LimitUp$ and $\ContinuousMapUp$ rows and the same support. No downstream calculus consumer obtains a public conclusion from a row outside $\Pi_{\Calculus}$.
+\end{theorem}
+\begin{proof}
+Start with the local-linearization obligations. The derivative, integral, and limit real-seal statements above force every local read through $E,R,D,L,J,H,C,P,N$ before a public conclusion is visible.
+
+Now project the root carrier of \autoref{def:calculus-root-carrier}. Its public operation rows are $C_{\mathrm{root}},D_{\mathrm{root}},I_{\mathrm{root}},L_{\mathrm{root}},R_{\mathrm{root}},Q_{\mathrm{root}},Y_{\mathrm{root}},H_{\mathrm{root}},T_{\mathrm{root}},P_{\mathrm{root}},N_{\mathrm{root}}$.
+
+Use \autoref{thm:calculus-root-continuousmap-handoff}, \autoref{thm:calculus-root-derivative-integral-boundary}, and \autoref{thm:calculus-root-operation-ledger-exhaustion}. They place derivative, integral, and limit consumers behind the graph row, the relevant operation row, and the common regular-rational, dyadic, Real, transport, replay, provenance, and naming support.
+
+The package $\Pi_{\Calculus}$ is exactly the union of those local and root rows. Since the cited obligations exhaust the operation ledger, a downstream consumer has no remaining coordinate from which to read calculus data outside the package.
+\end{proof}
+
+\begin{theorem}[Calculus root package nonescape]
+\label{thm:calculus-root-package-nonescape}
+The $\CalculusUp$ root public package exports no host function space, selected antiderivative, selected derivative operator, quotient real equality of functions, host limit operator, host integral functional, or ambient $\RealUp$ completeness. Every public derivative, integral, limit, continuous-map, or Real-facing read remains inside the derivative, Riemann finite-sum, $\LimitUp$, $\ContinuousMapUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, transport, replay, provenance, and local naming rows of $\Pi_{\Calculus}$.
+\end{theorem}
+\begin{proof}
+Read the excluded objects against \autoref{def:calculus-root-public-package}. None is a row of $\Pi_{\Calculus}$, and the package comparison only inspects the displayed local and root rows.
+
+For derivative and integral reads, apply \autoref{thm:calculus-riemann-derivative-separation} and \autoref{thm:calculus-root-derivative-integral-boundary}. They keep derivative and Riemann finite-sum data in separate source rows and refuse a host fundamental theorem or selected antiderivative.
+
+For limit, continuous-map, and Real-facing reads, apply \autoref{thm:calculus-limit-real-seal-obligation}, \autoref{thm:calculus-root-limit-nonescape}, and \autoref{thm:calculus-root-real-seal-nonescape}. These place the read behind the continuous-map, limit, regular-rational, dyadic, and Real-seal rows before anything is public.
+
+Thus every exported calculus conclusion is obtained through the package rows. The excluded host structures remain absent, so the package cannot supply them by projection.
+\end{proof}
+
 \begin{theorem}[Calculus RegSeqRat dyadic error route]
 \label{thm:calculus-regseqrat-dyadic-error-route}
 Every $\CalculusUp$ Real-facing error estimate exposed by an accepted local-linearization carrier $\Lambda=(E,R,D,L,J,H,C,P,N)$ passes through the $\RegSeqRatUp$ readback row $R$ and the $\DyadicRatCoreUp$ tolerance ledger $D$ before the terminal $\RealUp$ seal $E$ is consumed. The route is finite packet readback and not a host analytic estimate, quotient real equality, or ambient completeness principle.
