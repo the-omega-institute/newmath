@@ -164,6 +164,84 @@ Apply \autoref{thm:bolzano-weierstrass-subsequence-handoff}. It turns the first 
 Apply \autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}. It places the Real-facing row behind the bounded monotone witness and convergence seal packets, so the nonescape obligation is a finite seal route rather than a compactness theorem or a choice-selected subsequence.
 \end{proof}
 
+\begin{definition}[Bolzano--Weierstrass selector induction budget]
+\label{def:bolzano-weierstrass-selector-induction-budget}
+The finite selector-induction budget of an accepted
+$\BolzanoWeierstrassSelectorUp$ packet $T=(B,M,Q,W,D,R,E,H,C,P,N)$ is the
+displayed four-row ledger $B,M,Q,W$: the bounded source-window row $B$, the
+monotone selector ledger $M$, the inspected-threshold cofinality row $Q$, and
+the selected $\StreamNameUp$ window row $W$. A budget step consumes one displayed
+entry of $M$, reads its bounded source window from $B$, verifies the inspected
+threshold in $Q$, and appends the admitted selected window to $W$ through
+$\MonotoneSubsequenceUp$. The budget contains no hidden subsequence object,
+least-selector functional, countable choice row, or compactness row.
+\end{definition}
+
+\begin{theorem}[Bolzano--Weierstrass selector finite monotone induction]
+\label{thm:bolzano-weierstrass-selector-finite-monotone-induction}
+For every accepted $\BolzanoWeierstrassSelectorUp$ packet
+$T=(B,M,Q,W,D,R,E,H,C,P,N)$, finite induction over the selector-induction budget
+of \autoref{def:bolzano-weierstrass-selector-induction-budget} admits each
+selected window through $\MonotoneSubsequenceUp$. The base stage exposes the
+empty selected-window family over the displayed bounded source row $B$; each
+successor stage consumes one ledger entry from $M$, checks the inspected
+threshold row $Q$, and appends exactly the corresponding $\StreamNameUp$ window
+to $W$ by displayed $\hsame$ transport and $\Cont$ replay. No stage exports a
+choice-selected subsequence, sequential compactness, quotient-stream equality,
+or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the budget rows $B,M,Q,W$ from the carrier. These rows are finite
+$\BHist$ data, so induction is over the displayed selector ledger rather than
+over an external sequence or function space.
+
+The base case reads no selector entry. It exposes the empty selected-window
+family and records that no dyadic, regular, Real-facing, or compactness row is
+available.
+
+For the successor step, consume the next displayed selector entry in $M$. The
+entry names its bounded source window in $B$, its inspected threshold in $Q$,
+and the selected $\StreamNameUp$ window that is appended to $W$ through the
+$\MonotoneSubsequenceUp$ comparison row.
+
+The transport rows $H$ and replay rows $C$ preserve the admitted window at each
+finite step. Since no carrier coordinate names a choice functional or a
+sequential compactness theorem, the induction admits exactly the selected
+windows listed in $W$.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass selector regular Cauchy cluster seal]
+\label{thm:bolzano-weierstrass-selector-regular-cauchy-cluster-seal}
+For every accepted $\BolzanoWeierstrassSelectorUp$ packet
+$T=(B,M,Q,W,D,R,E,H,C,P,N)$, the finite monotone route of
+\autoref{thm:bolzano-weierstrass-selector-finite-monotone-induction} reaches the
+cluster-facing seal only through
+$$
+B,M,Q\longmapsto W\longmapsto D\longmapsto R\longmapsto E .
+$$
+The rows $D,R,E$ are read respectively through $\DyadicRatCoreUp$,
+$\RegSeqRatUp$, and the bounded monotone convergence seal route. The resulting
+consumer receives a regular Cauchy cluster boundary for the displayed selected
+windows, not classical sequential compactness, arbitrary choice, host real
+equality, quotient-stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+First apply
+\autoref{thm:bolzano-weierstrass-selector-finite-monotone-induction}. It admits
+the selected windows in $W$ by finite induction over $B,M,Q,W$ and makes
+$\MonotoneSubsequenceUp$ the only selector surface.
+
+Next read the dyadic tolerance ledger $D$ and regular handoff row $R$. The
+carrier definition attaches each row in $D$ to a selected window in $W$, and the
+$\RegSeqRatUp$ row $R$ is available only after those dyadic rows are displayed.
+
+Finally use the bounded monotone Cauchy witness and bounded monotone convergence
+seal routes named in
+\autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}. They expose
+the Real-facing row $E$ after $W,D,R$ and do not add compactness, choice,
+quotient-stream equality, host equality, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass selector bounded-subsequence carrier]
 \label{thm:bolzano-weierstrass-selector-bounded-subsequence-carrier}
 For every accepted $\BolzanoWeierstrassSelectorUp$ packet $T=(B,M,Q,W,D,R,E,H,C,P,N)$, the bounded-subsequence carrier surface exposes bounded source windows and monotone selected windows by finite selector induction over $B,M,Q,W$ only. The induction may read the bounded window ledger $B$, the monotone selector ledger $M$, the inspected-threshold row $Q$, and the selected $\StreamNameUp$ windows $W$, but it exports no ambient subsequence object, no countable choice functional, and no sequential compactness row.
