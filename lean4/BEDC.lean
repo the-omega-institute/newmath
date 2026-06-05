@@ -2635,6 +2635,7 @@ import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
+import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceUp.TasteGate
 import BEDC.Derived.CompletionAdjointUp.TasteGate
 import BEDC.Derived.CompletionComparisonUp.TasteGate
@@ -6086,6 +6087,7 @@ import BEDC.Derived.MetricClosedBallUp.CenterTransportScope
 import BEDC.Derived.MetricClosedBallUp.TasteGate
 import BEDC.Derived.MetricClosureUp.TasteGate
 import BEDC.Derived.MetricCofinalCompletionUp.TasteGate
+import BEDC.Derived.MetricCompletionAdjunctionUp.TasteGate
 import BEDC.Derived.MetricCompletionComparisonUp.TasteGate
 import BEDC.Derived.MetricCompletionDenseEmbeddingUp.TasteGate
 import BEDC.Derived.MetricCompletionFiniteCoproductUp.TasteGate
@@ -6293,7 +6295,6 @@ import BEDC.Derived.MonotoneCauchyUp.ObligationPackage
 import BEDC.Derived.MonotoneCauchyUp.PublicTailWindowCertificate
 import BEDC.Derived.MonotoneCauchyUp.RealSealScopePackage
 import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
-import BEDC.Derived.MonotoneConvergenceRealUp.TasteGate
 import BEDC.Derived.MonotoneInverseUp.TasteGate
 import BEDC.Derived.MonotoneSequenceConvergenceUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceTheoremUp.TasteGate
@@ -8167,7 +8168,6 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyWindowObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.ClassifierTransport
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompleteMetricHandoff
 import BEDC.Derived.SequentiallyCompleteMetricUp.LateBoundCoverage
-import BEDC.Derived.SequentiallyCompleteMetricUp.LedgerNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
