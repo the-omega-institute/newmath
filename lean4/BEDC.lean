@@ -3636,6 +3636,7 @@ import BEDC.Derived.DoubleCauchyDiagonalUp.TasteGate
 import BEDC.Derived.DoubleLimitInterchangeUp.TasteGate
 import BEDC.Derived.DoublingMetricUp.TasteGate
 import BEDC.Derived.DugundjiExtensionUp.TasteGate
+import BEDC.Derived.DuhamelPrincipleUp.TasteGate
 import BEDC.Derived.DunfordFunctionalCalculusUp.TasteGate
 import BEDC.Derived.DyadicAbsoluteValueUp
 import BEDC.Derived.DyadicApproximationUp
@@ -8041,6 +8042,7 @@ import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
 import BEDC.Derived.SequentialClosureUp
+import BEDC.Derived.SequentialClosureUp.KuratowskiIdempotence
 import BEDC.Derived.SequentialClosureUp.NameCertObligationSurface
 import BEDC.Derived.SequentialClosureUp.NameCertObligations
 import BEDC.Derived.SequentialClosureUp.RegSeqRatLimitRoute
