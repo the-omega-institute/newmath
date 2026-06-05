@@ -6,6 +6,7 @@ from bedc_quality_lab.discovery_gated_nas import (
     DEFAULT_SEEDS,
     DEFAULT_SURFACES,
     DG_NAS_HARDGATES,
+    DiscoveryGatedNasProjection,
     NEGATIVE_WITNESS_MUTATIONS,
 )
 from bedc_quality_lab.backends.current_lab.projection import discovery_row, projection_payload
@@ -16,6 +17,60 @@ from scripts.run_canonical_reports import _specs_by_name
 
 def _payload():
     return runner.build_projection(generated_at="fixture-time")["summary_payload"]
+
+
+def _project_from_rows(rows):
+    base = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    return DiscoveryGatedNasProjection(
+        config=base["config"],
+        records=rows,
+        generated_at="fixture-time",
+        run_artifacts=base["run_artifacts"],
+    ).project()["summary_payload"]
+
+
+def _with_recomputed_signal(payload):
+    projection = DiscoveryGatedNasProjection(
+        config=payload["config"],
+        records=[],
+        generated_at="fixture-time",
+        run_artifacts=payload["run_artifacts"],
+    )
+    hardgates = projection.hardgate_verdicts(
+        {
+            "matched_baseline_control": payload["matched_baseline_control"],
+            "search_objective_summary": payload["search_objective_summary"],
+            "negative_witness_mutations": payload["negative_witness_mutations"],
+        }
+    )
+    failed = projection.failed_gate(hardgates)
+    return {
+        **payload,
+        "hardgate": {"status": "pass" if failed is None else "fail", "gates": hardgates, "failed_gate": failed},
+        "failed_gate": failed,
+        "discovery_map_signal": projection.discovery_map_signal(hardgates),
+    }
+
+
+def _assert_dn_projection(payload, gate):
+    spec = _specs_by_name()["discovery-gated-nas"]
+    context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
+    projected = projection_payload(spec, payload, context)
+    verdict = assign_discovery_level(projected)
+    row = discovery_row(spec, payload, context)
+    failed_pointer = f"$.hardgate.gates.{gate}.status"
+
+    assert payload["hardgate"]["status"] == "fail"
+    assert payload["hardgate"]["failed_gate"] == gate
+    assert payload["discovery_map_signal"]["level_candidate"] == "DN"
+    assert payload["discovery_map_signal"]["failed_gate"] == gate
+    assert payload["discovery_map_signal"]["failed_gate_pointer"] == failed_pointer
+    assert verdict.discovery_level == "DN"
+    assert verdict.terminal_verdict == "rejected"
+    assert row["discovery_level"] == "DN"
+    assert row["terminal_verdict"] == "rejected"
+    assert row["failed_gate"] == failed_pointer
+    assert row["audit_status"] == "valid"
 
 
 def _walk(value):
@@ -130,6 +185,102 @@ def test_candidate_with_witness_violation_fails_hg6_when_not_demoted():
 
     assert hardgates["DG-NAS-HG6"]["status"] == "fail"
     assert mutated["negative_witness_mutations"]["demoted_candidate_count"] < mutated["negative_witness_mutations"]["witness_violating_candidate_count"]
+
+
+def test_hg1_fails_closed_without_parameter_matched_baseline_rows():
+    projection = runner.build_projection(generated_at="fixture-time")
+    rows = [row for row in projection["raw_rows"] if row.get("arm") != "parameter_matched_baseline"]
+    payload = _project_from_rows(rows)
+
+    _assert_dn_projection(payload, "DG-NAS-HG1")
+
+
+def test_hg2_fails_closed_without_compute_matched_baseline_rows():
+    projection = runner.build_projection(generated_at="fixture-time")
+    rows = [row for row in projection["raw_rows"] if row.get("arm") != "compute_matched_baseline"]
+    payload = _project_from_rows(rows)
+
+    _assert_dn_projection(payload, "DG-NAS-HG2")
+
+
+def test_hg3_fails_closed_without_selected_classifier_shift():
+    projection = runner.build_projection(generated_at="fixture-time")
+    rows = [
+        {**row, "classifier_shift_count": 0, "discovery_bonus": 0.0}
+        if row.get("candidate_id") == "bounded_discovery_gate" and row.get("arm") == "candidate"
+        else row
+        for row in projection["raw_rows"]
+    ]
+    payload = _project_from_rows(rows)
+
+    _assert_dn_projection(payload, "DG-NAS-HG3")
+
+
+def test_hg4_fails_closed_without_multi_surface_robustness():
+    payload = _payload()
+    selected = {
+        **payload["search_objective_summary"]["selected_candidate"],
+        "multi_surface_robust": False,
+    }
+    mutated = {
+        **payload,
+        "search_objective_summary": {
+            **payload["search_objective_summary"],
+            "selected_candidate": selected,
+            "selected_multi_surface_robust": False,
+        },
+    }
+
+    _assert_dn_projection(_with_recomputed_signal(mutated), "DG-NAS-HG4")
+
+
+def test_hg5_fails_closed_without_mechanism_certificate():
+    payload = _payload()
+    selected = {
+        **payload["search_objective_summary"]["selected_candidate"],
+        "mechanism_certificate": False,
+    }
+    mutated = {
+        **payload,
+        "search_objective_summary": {
+            **payload["search_objective_summary"],
+            "selected_candidate": selected,
+            "selected_mechanism_certificate": False,
+        },
+    }
+
+    _assert_dn_projection(_with_recomputed_signal(mutated), "DG-NAS-HG5")
+
+
+def test_negative_dg_nas_projection_maps_failed_hardgate_to_dn_row():
+    projection = runner.build_projection(generated_at="fixture-time")
+    rows = [row for row in projection["raw_rows"] if row.get("arm") != "parameter_matched_baseline"]
+    payload = _project_from_rows(rows)
+    spec = _specs_by_name()["discovery-gated-nas"]
+    context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
+
+    projected = projection_payload(spec, payload, context)
+    row = discovery_row(spec, payload, context)
+
+    assert projected["verdict"] == "rejected"
+    assert projected["main_verdict"]["discovery_gated_nas"] == {
+        "level_candidate": "DN",
+        "status": "negative",
+    }
+    assert row["discovery_level"] == "DN"
+    assert row["terminal_verdict"] == "rejected"
+    assert row["failed_gate"] == "$.hardgate.gates.DG-NAS-HG1.status"
+    assert row["audit_status"] == "valid"
+    pointer_mismatch = {
+        **payload,
+        "discovery_map_signal": {
+            **payload["discovery_map_signal"],
+            "failed_gate_pointer": "$.hardgate.gates.DG-NAS-HG2.status",
+        },
+    }
+    mismatch_row = discovery_row(spec, pointer_mismatch, context)
+    assert mismatch_row["audit_status"] == "invalid"
+    assert mismatch_row["audit_reason"] == "dg-nas-failed_gate_pointer-mismatch"
 
 
 def test_runner_writes_pointer_resolvable_artifacts(tmp_path):

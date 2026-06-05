@@ -2,59 +2,44 @@
   "artifact_id": "bedc-quality-lab:claim-capsule",
   "capsule_subtype": "bedc.model.architecture_claim_capsule",
   "claim_id": "claim:model-discovery-suite",
-  "generated_at": "2026-06-05T00:00:00+00:00",
+  "generated_at": "2026-06-05T21:31:05.871670+00:00",
   "json_artifact": "reports/runs/model-discovery-suite/claim_capsule.json",
   "model_claim": {
     "baselines": [
       {
-        "artifact": "reports/runs/model-discovery-suite/summary.json",
-        "pointer": "$.baselines.parameter_matched"
-      },
-      {
-        "artifact": "reports/runs/model-discovery-suite/summary.json",
-        "pointer": "$.baselines.compute_matched"
-      },
-      {
-        "artifact": "reports/runs/model-discovery-suite/summary.json",
-        "pointer": "$.baselines.matched_random_structural_control"
+        "artifact": "reports/canonical/discovery-gated-nas.json",
+        "pointer": "$.matched_baseline_control"
       }
     ],
     "candidate_pointer": {
-      "artifact": "reports/runs/model-discovery-suite/summary.json",
-      "pointer": "$.model_candidates.0"
+      "artifact": "reports/canonical/discovery-gated-nas.json",
+      "pointer": "$.candidate_protocol"
     },
-    "claim": "A toy architecture candidate is evaluated only as run-local discovery-gated evidence.",
+    "claim": "The run-local model-discovery suite projects canonical discovery-gated NAS evidence by pointer.",
     "evidence_pointer": {
-      "artifact": "reports/runs/model-discovery-suite/summary.json",
-      "pointer": "$.task_grid"
+      "artifact": "reports/canonical/discovery-gated-nas.json",
+      "pointer": "$.discovery_map_signal"
     },
     "forbidden_evidence": [
       "test_label",
       "ood_label",
       "ledger_verdict"
     ],
-    "model_id": "toy-discovery-gated-transformer",
+    "model_id": "discovery-gated-nas-canonical-projection",
     "required_gates": [
-      "NM-HG1",
-      "NM-HG2",
-      "NM-HG3",
-      "NM-HG4",
-      "NM-HG5",
-      "NM-HG6",
-      "NM-HG7",
-      "NM-HG8",
-      "NM-HG9",
-      "NM-HG10",
-      "NM-HG11",
-      "NM-HG12",
-      "NM-HG13",
-      "NM-HG14"
+      "DG-NAS-HG1",
+      "DG-NAS-HG2",
+      "DG-NAS-HG3",
+      "DG-NAS-HG4",
+      "DG-NAS-HG5",
+      "DG-NAS-HG6"
     ]
   },
   "not_claimed": [
-    "real-model training",
-    "general architecture superiority",
-    "D5 promotion"
+    "run-local fact ownership",
+    "independent model candidate definition",
+    "independent hardgate verdict",
+    "independent negative witness ledger"
   ],
   "producer": "bedc_quality_lab.discovery_compiler.capsule",
   "report": "model-discovery-suite",

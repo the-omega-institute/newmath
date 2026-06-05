@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
 
 from bedc_quality_lab.backends.model_discovery import (
     CLAIM_CAPSULE_ARTIFACT,
+    DG_NAS_CANONICAL_ARTIFACT,
     RUN_ARTIFACT,
     RUN_MARKDOWN_ARTIFACT,
     ModelDiscoveryBackendEvidenceAdapter,
@@ -33,33 +34,32 @@ def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
 
 
 def _write_markdown(path: Path, payload: Mapping[str, Any]) -> None:
+    metadata = payload["projection_metadata"]
     lines = [
         "# Model discovery suite",
         "",
         f"- Schema: `{payload['schema_id']}`",
         f"- Claim capsule: `{payload['claim_capsule_ref']['artifact']}`",
         f"- Capsule subtype: `{payload['claim_capsule_ref']['capsule_subtype']}`",
-        f"- Task count: `{payload['metrics']['task_count']}`",
-        f"- Negative witness count: `{payload['metrics']['negative_witness_count']}`",
+        f"- Canonical owner: `{payload['canonical_owner']['artifact']}`",
+        f"- Canonical level candidate: `{metadata['canonical_level_candidate']}`",
+        f"- Canonical failed gate: `{metadata['canonical_failed_gate']}`",
     ]
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def build_claim_capsule(summary: Mapping[str, Any]) -> dict[str, Any]:
-    candidate = summary["model_candidates"][0]
     model_claim = {
-        "model_id": candidate["model_id"],
-        "claim": "A toy architecture candidate is evaluated only as run-local discovery-gated evidence.",
+        "model_id": "discovery-gated-nas-canonical-projection",
+        "claim": "The run-local model-discovery suite projects canonical discovery-gated NAS evidence by pointer.",
         "baselines": [
-            {"artifact": RUN_ARTIFACT, "pointer": "$.baselines.parameter_matched"},
-            {"artifact": RUN_ARTIFACT, "pointer": "$.baselines.compute_matched"},
-            {"artifact": RUN_ARTIFACT, "pointer": "$.baselines.matched_random_structural_control"},
+            {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.matched_baseline_control"},
         ],
         "forbidden_evidence": ["test_label", "ood_label", "ledger_verdict"],
-        "required_gates": [row["gate_id"] for row in summary["nm_hardgates"]],
-        "candidate_pointer": {"artifact": RUN_ARTIFACT, "pointer": "$.model_candidates.0"},
-        "evidence_pointer": {"artifact": RUN_ARTIFACT, "pointer": "$.task_grid"},
+        "required_gates": [f"DG-NAS-HG{index}" for index in range(1, 7)],
+        "candidate_pointer": {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.candidate_protocol"},
+        "evidence_pointer": {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"},
     }
     return build_architecture_claim_capsule_payload(
         generated_at=str(summary["generated_at"]),
@@ -87,8 +87,6 @@ def build_run_payload(*, generated_at: str) -> tuple[dict[str, Any], dict[str, A
         "schema_id": capsule["schema_id"],
         "capsule_subtype": capsule["capsule_subtype"],
     }
-    for row in summary["ledger_rows"]:
-        row["capsule_subtype"] = capsule["capsule_subtype"]
     if capsule["capsule_subtype"] != ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE:
         raise ValueError("architecture claim capsule subtype mismatch")
     return summary, capsule
@@ -105,12 +103,22 @@ def write_run(*, root: Path, generated_at: str) -> dict[str, Path]:
     return {"summary": summary_path, "claim_capsule": capsule_path, "markdown": markdown_path}
 
 
+def _reusable_generated_at(root: Path) -> str | None:
+    path = root / RUN_ARTIFACT
+    if not path.exists():
+        return None
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    generated_at = payload.get("generated_at") if isinstance(payload, dict) else None
+    return generated_at if isinstance(generated_at, str) and generated_at else None
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=ROOT)
-    parser.add_argument("--generated-at", default=datetime.now(timezone.utc).isoformat())
+    parser.add_argument("--generated-at")
     args = parser.parse_args()
-    paths = write_run(root=args.root, generated_at=args.generated_at)
+    generated_at = args.generated_at or _reusable_generated_at(args.root) or datetime.now(timezone.utc).isoformat()
+    paths = write_run(root=args.root, generated_at=generated_at)
     for name, path in paths.items():
         print(f"wrote {name}: {path.relative_to(args.root)}")
     return 0

@@ -1122,7 +1122,7 @@ def _discovery_gated_nas_consistency(payload: Mapping[str, Any]) -> tuple[bool, 
         return False, "dg-nas-search-objective-pointer-mismatch", "$.discovery_map_signal.search_objective_pointer"
     if signal.get("negative_witness_pointer") != "$.negative_witness_mutations":
         return False, "dg-nas-negative-witness-pointer-mismatch", "$.discovery_map_signal.negative_witness_pointer"
-    if signal.get("torch_nas_evidence_pointer") != "$.torch_nas_evidence":
+    if failed is None and signal.get("torch_nas_evidence_pointer") != "$.torch_nas_evidence":
         return False, "dg-nas-torch-pointer-mismatch", "$.discovery_map_signal.torch_nas_evidence_pointer"
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.search_objective_summary.selected_candidate"
 

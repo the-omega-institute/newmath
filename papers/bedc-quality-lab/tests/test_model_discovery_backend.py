@@ -9,9 +9,7 @@ from bedc_quality_lab.backends.model_discovery import (
     DG_NAS_CANONICAL_ARTIFACT,
     DRT_CANONICAL_ARTIFACT,
     MSN_CANONICAL_ARTIFACT,
-    NM_HARDGATE_IDS,
     RUN_ARTIFACT,
-    TASK_IDS,
     ModelDiscoveryBackendEvidenceAdapter,
     build_model_discovery_payload,
 )
@@ -27,13 +25,13 @@ from scripts import run_model_discovery_suite as runner
 
 def _model_claim() -> dict:
     return {
-        "model_id": "toy-discovery-gated-transformer",
+        "model_id": "discovery-gated-nas-canonical-projection",
         "claim": "fixture model architecture claim",
-        "baselines": ["$.baselines.parameter_matched"],
+        "baselines": [{"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.matched_baseline_control"}],
         "forbidden_evidence": ["test_label"],
-        "required_gates": ["NM-HG1", "NM-HG14"],
-        "candidate_pointer": "$.model_candidates.0",
-        "evidence_pointer": "$.task_grid",
+        "required_gates": ["DG-NAS-HG1", "DG-NAS-HG6"],
+        "candidate_pointer": {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.candidate_protocol"},
+        "evidence_pointer": {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"},
     }
 
 
@@ -94,29 +92,54 @@ def test_architecture_claim_capsule_rejects_missing_model_claim_cells():
         require_architecture_claim_capsule(payload)
 
 
-def test_model_discovery_backend_is_deterministic_toy_and_terminal_verdict_free(tmp_path):
+def test_model_discovery_backend_is_pointer_only_and_terminal_verdict_free(tmp_path):
+    from scripts import run_discovery_gated_nas as dg_nas_runner
+
+    dg_nas_projection = dg_nas_runner.build_projection(generated_at="fixture-time")
+    dg_nas_runner.write_artifacts(dg_nas_projection, root=tmp_path)
     adapter = ModelDiscoveryBackendEvidenceAdapter()
     first = adapter.compute_metrics(root=tmp_path, generated_at="fixture-time")
     second = adapter.compute_metrics(root=tmp_path, generated_at="fixture-time")
 
     assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
-    assert tuple(row["task_id"] for row in first["task_grid"]) == TASK_IDS
-    assert len(first["task_grid"]) == 8
-    assert tuple(row["gate_id"] for row in first["nm_hardgates"]) == NM_HARDGATE_IDS
+    assert first["canonical_owner"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$"}
+    assert first["projection_metadata"]["canonical_level_candidate"] == "D5-M"
+    for forbidden in ("model_candidates", "baselines", "task_grid", "nm_hardgates", "ledger_rows", "negative_witnesses"):
+        assert forbidden not in first
     assert "terminal_verdict" not in json.dumps(first, sort_keys=True)
     assert "terminal_verdict" not in adapter.backend.metrics
 
 
-def test_model_discovery_tasks_carry_control_baseline():
-    payload = build_model_discovery_payload(generated_at="fixture-time")
+def test_model_discovery_projection_metadata_points_to_dg_nas_owner(tmp_path):
+    from scripts import run_discovery_gated_nas as dg_nas_runner
 
-    assert {row["control_baseline"] for row in payload["task_grid"]} == {"parameter-matched-linear-reader"}
+    dg_nas_projection = dg_nas_runner.build_projection(generated_at="fixture-time")
+    dg_nas_runner.write_artifacts(dg_nas_projection, root=tmp_path)
+    payload = build_model_discovery_payload(root=tmp_path, generated_at="fixture-time")
+    canonical = json.loads((tmp_path / DG_NAS_CANONICAL_ARTIFACT).read_text(encoding="utf-8"))
+
+    metadata = payload["projection_metadata"]
+    assert metadata["canonical_owner"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$"}
+    assert metadata["candidate_protocol_pointer"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.candidate_protocol"}
+    assert metadata["matched_baseline_pointer"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.matched_baseline_control"}
+    assert metadata["hardgate_pointer"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.hardgate"}
+    assert metadata["negative_witness_pointer"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.negative_witness_mutations"}
+    for key in (
+        "candidate_protocol_pointer",
+        "search_objective_pointer",
+        "matched_baseline_pointer",
+        "hardgate_pointer",
+        "negative_witness_pointer",
+        "discovery_map_signal_pointer",
+    ):
+        cell = metadata[key]
+        assert pointer_value(canonical, cell["pointer"]) is not None, key
 
 
 def test_model_discovery_consumes_drt_by_pointer_only():
     adapter = ModelDiscoveryBackendEvidenceAdapter()
     source_spec = adapter.build_source_spec()
-    payload = build_model_discovery_payload(generated_at="fixture-time")
+    payload = build_model_discovery_payload(root=runner.ROOT, generated_at="fixture-time")
 
     assert source_spec["discovery_regularized_training"]["artifact"] == DRT_CANONICAL_ARTIFACT
     refs = payload["discovery_regularized_training_refs"]
@@ -130,7 +153,7 @@ def test_model_discovery_consumes_drt_by_pointer_only():
 def test_model_discovery_consumes_msn_by_pointer_only():
     adapter = ModelDiscoveryBackendEvidenceAdapter()
     source_spec = adapter.build_source_spec()
-    payload = build_model_discovery_payload(generated_at="fixture-time")
+    payload = build_model_discovery_payload(root=runner.ROOT, generated_at="fixture-time")
 
     assert source_spec["mechanism_seeking_network"]["artifact"] == MSN_CANONICAL_ARTIFACT
     refs = payload["mechanism_seeking_network_refs"]
@@ -145,7 +168,7 @@ def test_model_discovery_consumes_msn_by_pointer_only():
 def test_model_discovery_consumes_cga_by_pointer_only():
     adapter = ModelDiscoveryBackendEvidenceAdapter()
     source_spec = adapter.build_source_spec()
-    payload = build_model_discovery_payload(generated_at="fixture-time")
+    payload = build_model_discovery_payload(root=runner.ROOT, generated_at="fixture-time")
 
     assert source_spec["certificate_gated_attention"]["artifact"] == CGA_CANONICAL_ARTIFACT
     refs = payload["certificate_gated_attention_refs"]
@@ -160,7 +183,7 @@ def test_model_discovery_consumes_cga_by_pointer_only():
 def test_model_discovery_consumes_dg_nas_by_pointer_only():
     adapter = ModelDiscoveryBackendEvidenceAdapter()
     source_spec = adapter.build_source_spec()
-    payload = build_model_discovery_payload(generated_at="fixture-time")
+    payload = build_model_discovery_payload(root=runner.ROOT, generated_at="fixture-time")
 
     assert source_spec["discovery_gated_nas"]["artifact"] == DG_NAS_CANONICAL_ARTIFACT
     refs = payload["discovery_gated_nas_refs"]
@@ -172,14 +195,24 @@ def test_model_discovery_consumes_dg_nas_by_pointer_only():
     assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
 
 
-def test_model_discovery_nm_hardgate_pointers_resolve():
-    payload = build_model_discovery_payload(generated_at="fixture-time")
+def test_model_discovery_summary_pointers_resolve_against_owned_artifacts(tmp_path):
+    from scripts import run_discovery_gated_nas as dg_nas_runner
 
-    for row in payload["nm_hardgates"]:
-        assert pointer_value(payload, row["evidence_pointer"]) is not None, row["gate_id"]
+    dg_nas_projection = dg_nas_runner.build_projection(generated_at="fixture-time")
+    dg_nas_runner.write_artifacts(dg_nas_projection, root=tmp_path)
+    payload = build_model_discovery_payload(root=tmp_path, generated_at="fixture-time")
+    canonical = json.loads((tmp_path / DG_NAS_CANONICAL_ARTIFACT).read_text(encoding="utf-8"))
+
+    assert pointer_value(payload, "$.claim_capsule_ref.artifact") == CLAIM_CAPSULE_ARTIFACT
+    for cell in payload["projection_metadata"].values():
+        if isinstance(cell, dict) and cell.get("artifact") == DG_NAS_CANONICAL_ARTIFACT and cell["pointer"] != "$":
+            assert pointer_value(canonical, cell["pointer"]) is not None, cell
 
 
 def test_model_discovery_run_local_subtype_parity(tmp_path):
+    from scripts import run_discovery_gated_nas as dg_nas_runner
+
+    dg_nas_runner.write_artifacts(dg_nas_runner.build_projection(generated_at="fixture-time"), root=tmp_path)
     paths = runner.write_run(root=tmp_path, generated_at="fixture-time")
     summary = json.loads(Path(paths["summary"]).read_text(encoding="utf-8"))
     capsule = json.loads(Path(paths["claim_capsule"]).read_text(encoding="utf-8"))
@@ -189,13 +222,14 @@ def test_model_discovery_run_local_subtype_parity(tmp_path):
     assert capsule["schema_id"] == CLAIM_CAPSULE_SCHEMA_ID
     assert capsule["capsule_subtype"] == ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE
     assert summary["claim_capsule_ref"]["capsule_subtype"] == capsule["capsule_subtype"]
-    assert {row["capsule_subtype"] for row in summary["ledger_rows"]} == {capsule["capsule_subtype"]}
-    assert {row["claim_capsule_pointer"] for row in summary["ledger_rows"]} == {"$.claim_capsule_ref.artifact"}
     assert pointer_value(summary, "$.claim_capsule_ref.artifact") == CLAIM_CAPSULE_ARTIFACT
     assert require_architecture_claim_capsule(capsule).payload["claim_id"] == "claim:model-discovery-suite"
 
 
 def test_model_discovery_capsule_evidence_pointers_resolve(tmp_path):
+    from scripts import run_discovery_gated_nas as dg_nas_runner
+
+    dg_nas_runner.write_artifacts(dg_nas_runner.build_projection(generated_at="fixture-time"), root=tmp_path)
     paths = runner.write_run(root=tmp_path, generated_at="fixture-time")
     artifacts = {
         RUN_ARTIFACT: json.loads(Path(paths["summary"]).read_text(encoding="utf-8")),
@@ -203,22 +237,19 @@ def test_model_discovery_capsule_evidence_pointers_resolve(tmp_path):
     }
     capsule = artifacts[CLAIM_CAPSULE_ARTIFACT]
     summary = artifacts[RUN_ARTIFACT]
+    canonical = json.loads((tmp_path / DG_NAS_CANONICAL_ARTIFACT).read_text(encoding="utf-8"))
 
     assert pointer_value(artifacts[capsule["source"]], capsule["source_pointer"]) is not None
 
     baseline_pointers = capsule["model_claim"]["baselines"]
-    assert len(baseline_pointers) == 3
-    assert {cell["pointer"] for cell in baseline_pointers} == {
-        "$.baselines.parameter_matched",
-        "$.baselines.compute_matched",
-        "$.baselines.matched_random_structural_control",
-    }
+    assert baseline_pointers == [{"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.matched_baseline_control"}]
     for cell in baseline_pointers:
-        assert pointer_value(artifacts[cell["artifact"]], cell["pointer"]) is not None
+        assert pointer_value(canonical, cell["pointer"]) is not None
 
     for key in ("candidate_pointer", "evidence_pointer"):
         cell = capsule["model_claim"][key]
-        assert pointer_value(artifacts[cell["artifact"]], cell["pointer"]) is not None
+        assert cell["artifact"] == DG_NAS_CANONICAL_ARTIFACT
+        assert pointer_value(canonical, cell["pointer"]) is not None
 
     source_evidence = capsule["source_evidence"]
     assert pointer_value(artifacts[source_evidence["artifact"]], source_evidence["pointer"]) is not None
