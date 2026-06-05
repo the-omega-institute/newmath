@@ -38,17 +38,15 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
-- Rows: `14`
+- Rows: `16`
 
 ## Dimension mismatch debt transfer
 
 - Status: `pointer-only`
 - JSON: `reports/canonical/dimension-mismatch-debt-transfer.json`
 - Markdown: `reports/canonical/dimension-mismatch-debt-transfer.md`
-- Transfer status: `pass`
-- Base level: `D4`
-- Effective level: `DN`
-- Terminal verdict: `negative_discovery`
+- Claim pointer: `reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer`
+- Claim present: `True`
 
 ## Dimension mismatch transfer robustness
 
@@ -80,14 +78,14 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/negative_discovery_reports.json`
 - Markdown: `reports/canonical/negative_discovery_reports.md`
-- Rows: `13`
+- Rows: `7`
 - Audit: `pass`
 
 ## Claim verdicts
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `22`
+- Rows: `24`
 
 ## Claim graph
 
@@ -95,7 +93,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `66`
+- Nodes: `72`
 
 ## Claim capsule
 
@@ -110,7 +108,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witness_summary.json`
 - Markdown: `reports/canonical/discovery_negative_witness_summary.md`
-- Rows: `13`
+- Rows: `15`
 - Audit: `pass`
 
 ## Formal hardening

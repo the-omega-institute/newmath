@@ -91,7 +91,7 @@ def _payload_for_spec(spec):
             "raw_grid_record_count": 3024,
             "main_claim_status": "fixture status",
             "final_main_claim_status": "fixture status",
-            "hardgate": {"status": "pass"},
+            "hardgate": {"status": "fail" if spec.name == "gap-head-ablation" else "pass"},
             "failed_gate": None,
             "verdict": "accepted",
             "discovery_level": "D0",
@@ -1636,7 +1636,8 @@ def test_gap_head_transfer_atlas_index_matches_discovery_map_row(tmp_path, monke
     assert payload["gap_head_transfer_atlas"]["decision"] == "pass"
     assert payload["gap_head_transfer_atlas"]["discovery_level"] == atlas_row["discovery_level"]
     assert atlas_owner["terminal_verdict"] == "rejected"
-    assert claim["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert claim["claim_verdict"] == "negative_discovery"
+    assert claim["negative_report_pointer"] == atlas_row["negative_report_pointer"]
 
 
 def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_path, monkeypatch):
@@ -1905,6 +1906,7 @@ def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, 
         path = root / canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT
         path.parent.mkdir(parents=True, exist_ok=True)
         payload = {
+            "control_protocol": {"control_arm": "matched_random_gap_head"},
             "dimension_mismatch_debt_transfer": {
                 "status": "pass",
                 "base_level": "D4",
@@ -1915,7 +1917,30 @@ def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, 
                 "hypothesis": "fixture hypothesis",
                 "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status" if require_anti_triviality else None,
                 "what_was_learned": "fixture learned",
-            }
+            },
+            "hardgate_evidence": {
+                "HG-B3": {
+                    "learned_auroc": {
+                        "ci95_half_width": 0.01,
+                        "ci95_high": 0.83,
+                        "ci95_low": 0.81,
+                        "mean": 0.82,
+                        "n": 10,
+                        "std": 0.01,
+                    },
+                    "matched_random_auroc": {
+                        "ci95_half_width": 0.01,
+                        "ci95_high": 0.49,
+                        "ci95_low": 0.42,
+                        "mean": 0.46,
+                        "n": 10,
+                        "std": 0.01,
+                    },
+                    "matched_random_positive": False,
+                    "status": "pass",
+                }
+            },
+            "not_claimed": ["fixture boundary"],
         }
         path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
         return payload
@@ -1930,7 +1955,11 @@ def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, 
     monkeypatch.setitem(
         sys.modules,
         "scripts.run_dimension_mismatch_debt_transfer",
-        types.SimpleNamespace(write_dimension_mismatch_debt_transfer=write_transfer),
+        types.SimpleNamespace(
+            JSON_ARTIFACT=canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
+            REPORT_ARTIFACT=canonical.DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT,
+            write_dimension_mismatch_debt_transfer=write_transfer,
+        ),
     )
     monkeypatch.setitem(
         sys.modules,

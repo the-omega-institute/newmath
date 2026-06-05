@@ -10,7 +10,7 @@
     "D4": 1,
     "D5-M": 0,
     "D5-O": 2,
-    "DN": 5,
+    "DN": 7,
     "DR": 0
   },
   "manifest_audit": {
@@ -24,7 +24,7 @@
     ]
   },
   "markdown_artifact": "reports/canonical/discovery_map.md",
-  "row_count": 14,
+  "row_count": 16,
   "rows": [
     {
       "audit_reason": "",
@@ -279,7 +279,6 @@
     {
       "audit_reason": "",
       "audit_status": "valid",
-      "base_level": "D4",
       "discovery_level": "DN",
       "evidence_pointer": "$.dimension_mismatch_debt_transfer.effective_level",
       "json_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
@@ -287,6 +286,28 @@
       "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
       "projection_status": "projected",
       "report": "dimension-mismatch-debt-transfer"
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "discovery_level": "DN",
+      "evidence_pointer": "$.single_threshold_basis",
+      "json_artifact": "runs/single_threshold_escape_witness.json",
+      "markdown_artifact": "runs/single_threshold_escape_witness.md",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5]",
+      "projection_status": "escaped-positive-captured",
+      "report": "single-threshold-escape"
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "discovery_level": "DN",
+      "evidence_pointer": "$.boundary_ledger",
+      "json_artifact": "runs/training_choice_observability.json",
+      "markdown_artifact": "runs/training_choice_observability.md",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6]",
+      "projection_status": "pointer-only",
+      "report": "training-choice-observability"
     }
   ],
   "schema_id": "bedc-quality-lab:canonical-discovery-map"

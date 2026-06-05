@@ -228,6 +228,16 @@ def _base_dependency_for_row(row: Mapping[str, Any], discovery_by_report: Mappin
     return f"projected:{report}"
 
 
+def _claim_verdict_source_candidates(index: int, row: Mapping[str, Any]) -> list[str]:
+    candidates = [
+        str(row.get("negative_report_pointer") or ""),
+        str(row.get("ledger_pointer") or ""),
+        str(row.get("source") or ""),
+        f"{CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[{index}]",
+    ]
+    return [candidate for candidate in candidates if candidate]
+
+
 def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) -> dict[str, Any]:
     rows = load_claim_verdict_rows(root)
     discovery_rows = _discovery_rows(root)
@@ -302,7 +312,7 @@ def build_claim_graph_payload(*, root: Path, generated_at: str | None = None) ->
             revocation_id = _revocation_node_id(terminal_id)
             source_pointer = _first_resolving_pointer(
                 root,
-                [str(row.get("ledger_pointer") or ""), str(row.get("source") or ""), f"{CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[{index}]"],
+                _claim_verdict_source_candidates(index, row),
             )
             revocation_nodes.append(
                 ClaimGraphNode(

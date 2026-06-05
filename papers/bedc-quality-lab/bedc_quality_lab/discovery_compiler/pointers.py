@@ -38,10 +38,10 @@ def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
 
 
 def split_artifact_pointer(cell: str) -> tuple[str, str] | None:
-    if ":$." not in cell:
+    if ":$" not in cell:
         return None
     artifact, pointer = cell.split(":", 1)
-    if not artifact or not pointer.startswith("$."):
+    if not artifact or not pointer.startswith("$"):
         return None
     return artifact, pointer
 
@@ -58,6 +58,8 @@ def resolve_artifact_pointer(root: Path, cell: str) -> Any:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
         return None
+    if pointer == "$":
+        return payload
     return pointer_value(payload, pointer) if isinstance(payload, Mapping) else None
 
 

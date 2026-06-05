@@ -20,10 +20,18 @@ ALLOWED_KEYS = {
     "scorecard_ready",
     "formal_hardening_ready",
 }
+DN_ALLOWED_KEYS = {
+    "claim_id",
+    "claim_graph_node_id",
+    "claim_verdict",
+    "reason",
+    "negative_report_pointer",
+}
 VERDICT_NAMES = {
     "accepted_positive_discovery",
     "demoted_audit_tradeoff",
     "ledger_only_hardening_not_ready",
+    "negative_discovery",
     "rejected_hidden_debt",
     "rejected_scope_laundering",
 }
@@ -152,6 +160,11 @@ def _scorecard_hash(root):
 
 
 def _assert_provenance(row, root, *, scorecard_ready=True, formal_hardening_ready=True):
+    if row["claim_verdict"] == "negative_discovery":
+        assert set(row) == DN_ALLOWED_KEYS
+        assert row["claim_graph_node_id"] == demo.terminal_node_id_for_claim_id(row["claim_id"])
+        assert row["negative_report_pointer"]
+        return
     assert set(row) == ALLOWED_KEYS
     assert row["claim_graph_node_id"] == demo.terminal_node_id_for_claim_id(row["claim_id"])
     assert row["claim_graph_node_id"].startswith("terminal:")
@@ -256,6 +269,7 @@ def test_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
     witnesses = [
         {"kind": "hidden_debt_positive", "terminal_verdict": "demoted", "terminal_reason": "audit-improvement-tradeoff", "discovery_level": "DR", "gate_basis": {"new_status": "audit-improvement-tradeoff"}},
         {"kind": "fresh_claim_downgrade", "terminal_verdict": "demoted", "terminal_reason": "audit-improvement-tradeoff", "discovery_level": "DR", "gate_basis": {"new_status": "audit-improvement-tradeoff"}},
+        {"kind": "cost_protocol_missing", "terminal_verdict": "rejected", "terminal_reason": "cost-protocol-missing", "discovery_level": "DN", "gate_basis": {}},
         {"kind": "forbidden_inference_column", "terminal_verdict": "rejected", "terminal_reason": "overclaim", "discovery_level": "DN", "gate_basis": {"forbidden_claim_term_hits": [FORBIDDEN_POSITIVE_CLAIM_TERMS[0]]}},
     ]
     _fixture_root(tmp_path, monkeypatch, rows, specs, witnesses)
@@ -413,8 +427,9 @@ def test_constraint_lagrangian_dn_reason_preserves_evidence_label(tmp_path, monk
     _assert_provenance(verdict, tmp_path)
     assert verdict["claim_id"] == "claim:certificate-guided-training"
     assert verdict["reason"] == "discovery-level-DN:constraint_lagrangian"
-    assert verdict["source"] == "reports/canonical/certificate-guided-training.json:$.arm_protocol.compat_roles.after"
-    assert verdict["ledger_pointer"] == "reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict"
+    assert verdict["negative_report_pointer"] == (
+        "reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict"
+    )
 
 
 @pytest.mark.parametrize("audit_status", ["invalid", None])
@@ -557,11 +572,7 @@ def test_noncanonical_dimension_mismatch_discovery_row_emits_negative_claim_verd
     _assert_provenance(verdict, tmp_path)
     assert verdict["claim_verdict"] == "negative_discovery"
     assert verdict["reason"] == "discovery-level-DN"
-    assert verdict["source"] == (
-        "reports/canonical/dimension-mismatch-debt-transfer.json:"
-        "$.dimension_mismatch_debt_transfer.effective_level"
-    )
-    assert verdict["ledger_pointer"] == (
+    assert verdict["negative_report_pointer"] == (
         "reports/canonical/dimension-mismatch-debt-transfer.json:"
         "$.dimension_mismatch_debt_transfer.anti_triviality_status"
     )
@@ -584,7 +595,7 @@ def test_noncanonical_dimension_mismatch_dn_ignores_positive_scorecard_gate(tmp_
     assert verdict["claim_verdict"] == "negative_discovery"
     assert verdict["reason"] == "discovery-level-DN"
     _assert_provenance(verdict, tmp_path, scorecard_ready=False)
-    assert verdict["ledger_pointer"].endswith("$.dimension_mismatch_debt_transfer.anti_triviality_status")
+    assert verdict["negative_report_pointer"].endswith("$.dimension_mismatch_debt_transfer.anti_triviality_status")
 
 
 def test_noncanonical_dimension_mismatch_dn_requires_valid_discovery_map_audit(tmp_path, monkeypatch):

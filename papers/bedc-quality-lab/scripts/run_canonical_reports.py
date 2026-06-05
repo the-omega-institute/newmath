@@ -831,6 +831,21 @@ def _run_producer(spec: CanonicalReportSpec) -> None:
         module.main()
 
 
+def _compile_discovery_compat(compile_discovery, *, root: Path, generated_at: str, adapter: Any, require_required_negative_reports: bool) -> Any:
+    kwargs = {
+        "root": root,
+        "generated_at": generated_at,
+        "adapter": adapter,
+    }
+    try:
+        signature = inspect.signature(compile_discovery)
+    except (TypeError, ValueError):
+        return compile_discovery(**kwargs)
+    if "require_required_negative_reports" in signature.parameters:
+        kwargs["require_required_negative_reports"] = require_required_negative_reports
+    return compile_discovery(**kwargs)
+
+
 def _validate_json(path: Path, required_keys: Sequence[str]) -> dict[str, Any]:
     if not path.exists():
         return {"status": "fail", "missing_keys": list(required_keys), "error": "missing json artifact"}
@@ -1410,12 +1425,8 @@ def _dimension_mismatch_transfer_index_section() -> dict[str, Any]:
         "artifact_id": DIMENSION_MISMATCH_TRANSFER_ARTIFACT_ID,
         "json_artifact": DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
         "markdown_artifact": DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT,
-        "transfer_status": transfer.get("status") if isinstance(transfer, dict) else "missing",
-        "base_level": transfer.get("base_level") if isinstance(transfer, dict) else "missing",
-        "effective_level": transfer.get("effective_level") if isinstance(transfer, dict) else "missing",
-        "discovery_level": transfer.get("discovery_level") if isinstance(transfer, dict) else "missing",
-        "terminal_verdict": transfer.get("terminal_verdict") if isinstance(transfer, dict) else "missing",
-        "scope": transfer.get("scope") if isinstance(transfer, dict) else "missing",
+        "claim_pointer": f"{DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT}:$.dimension_mismatch_debt_transfer",
+        "claim_present": isinstance(transfer, dict),
     }
 
 
@@ -1850,10 +1861,8 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Status: `{payload['dimension_mismatch_debt_transfer']['status']}`",
             f"- JSON: `{payload['dimension_mismatch_debt_transfer']['json_artifact']}`",
             f"- Markdown: `{payload['dimension_mismatch_debt_transfer']['markdown_artifact']}`",
-            f"- Transfer status: `{payload['dimension_mismatch_debt_transfer']['transfer_status']}`",
-            f"- Base level: `{payload['dimension_mismatch_debt_transfer']['base_level']}`",
-            f"- Effective level: `{payload['dimension_mismatch_debt_transfer']['effective_level']}`",
-            f"- Terminal verdict: `{payload['dimension_mismatch_debt_transfer']['terminal_verdict']}`",
+            f"- Claim pointer: `{payload['dimension_mismatch_debt_transfer']['claim_pointer']}`",
+            f"- Claim present: `{payload['dimension_mismatch_debt_transfer']['claim_present']}`",
             "",
             "## Dimension mismatch transfer robustness",
             "",
@@ -2077,14 +2086,27 @@ def run_reports(
     _write_json_atomic(_artifact_path(QUALITY_SCORECARD_JSON_ARTIFACT), scorecard)
     _write_text_atomic(_artifact_path(QUALITY_SCORECARD_MARKDOWN_ARTIFACT), _render_quality_scorecard_markdown(scorecard))
     write_gap_head_mechanism_namecert(root=ROOT, generated_at=timestamp)
-    compile_discovery(root=ROOT, generated_at=timestamp, adapter=CurrentLabBackendEvidenceAdapter())
+    require_full_negative_reports = only is None
+    _compile_discovery_compat(
+        compile_discovery,
+        root=ROOT,
+        generated_at=timestamp,
+        adapter=CurrentLabBackendEvidenceAdapter(),
+        require_required_negative_reports=require_full_negative_reports,
+    )
     _write_json_atomic(_artifact_path(CLAIM_CAPSULE_JSON_ARTIFACT), _build_claim_capsule(timestamp))
     from scripts.run_dimension_mismatch_transfer_robustness import write_dimension_mismatch_transfer_robustness
     from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
 
     write_dimension_mismatch_transfer_robustness(root=ROOT, generated_at=timestamp)
     write_gap_head_mechanism_namecert(root=ROOT, generated_at=timestamp)
-    compile_discovery(root=ROOT, generated_at=timestamp, adapter=CurrentLabBackendEvidenceAdapter())
+    _compile_discovery_compat(
+        compile_discovery,
+        root=ROOT,
+        generated_at=timestamp,
+        adapter=CurrentLabBackendEvidenceAdapter(),
+        require_required_negative_reports=require_full_negative_reports,
+    )
     claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
     if only is None:
         write_claim_graph(root=ROOT, generated_at=timestamp)

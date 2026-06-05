@@ -57,7 +57,13 @@ def test_summary_covers_all_dn_discovery_map_rows():
     assert payload["audit_status"] == "pass"
     assert payload["dn_discovery_map_row_count"] == len(dn_rows)
     assert len(dn_summary) == len(dn_rows)
-    assert {row["negative_id"] for row in dn_summary} == {f"dn:{row['report']}" for row in dn_rows}
+    expected_ids = {
+        "dn:dimension-mismatch-scale-leakage"
+        if row["report"] == "dimension-mismatch-debt-transfer"
+        else f"dn:{row['report']}"
+        for row in dn_rows
+    }
+    assert {row["negative_id"] for row in dn_summary} == expected_ids
     for row in dn_summary:
         assert row["negative_verdict"] == "negative_discovery"
         assert row["reason"] == "discovery-level-DN"
@@ -66,7 +72,7 @@ def test_summary_covers_all_dn_discovery_map_rows():
         assert row["discovery_map_pointer"].startswith("reports/canonical/discovery_map.json:$.rows[")
         assert row["discovery_map_pointer"].endswith(".negative_report_pointer")
         assert row["witness_pointer"] is None
-        assert row["claim_verdict_pointer"] is None
+        assert row["claim_verdict_pointer"].startswith("reports/canonical/claim_verdicts.jsonl:")
         assert row["audit_status"] == "pass"
 
 

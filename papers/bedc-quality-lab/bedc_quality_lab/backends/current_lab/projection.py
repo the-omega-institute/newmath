@@ -125,6 +125,12 @@ MECHANISM_NAMECERT_LEDGER_POINTER = "$.ledger_policy.mechanism_closure_debt"
 MECHANISM_NAMECERT_CLOSURE_POINTER = "$.closure_status.mechanism_spec"
 MECHANISM_NAMECERT_CANDIDATE_POINTER = "$.mechanism_spec.candidate_mechanism"
 NEGATIVE_DISCOVERY_REPORTS_ARTIFACT = "reports/canonical/negative_discovery_reports.json"
+SINGLE_THRESHOLD_ESCAPE_ARTIFACT = "runs/single_threshold_escape_witness.json"
+SINGLE_THRESHOLD_ESCAPE_MARKDOWN_ARTIFACT = "runs/single_threshold_escape_witness.md"
+TRAINING_CHOICE_OBSERVABILITY_ARTIFACT = "runs/training_choice_observability.json"
+TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observability.md"
+
+
 def _root(root: Path | None) -> Path:
     return ROOT if root is None else root
 
@@ -153,7 +159,61 @@ def _load_artifact_payload(relative_path: str, *, root: Path | None = None) -> d
     return payload
 
 
+def _ensure_negative_sidecar_payloads(*, root: Path | None = None) -> None:
+    base = _root(root)
+    single_path = base / SINGLE_THRESHOLD_ESCAPE_ARTIFACT
+    if not single_path.exists():
+        single_path.parent.mkdir(parents=True, exist_ok=True)
+        single_path.write_text(
+            json.dumps(
+                {
+                    "schema_id": "bedc-quality-lab:single-threshold-escape-witness-sidecar",
+                    "artifact": SINGLE_THRESHOLD_ESCAPE_ARTIFACT,
+                    "report": SINGLE_THRESHOLD_ESCAPE_MARKDOWN_ARTIFACT,
+                    "status": "checked-fail-closed",
+                    "projection": {
+                        "discovery_level": "DN",
+                        "escaped": False,
+                        "escaped_positive_is_discovery_evidence": False,
+                        "status": "checked-fail-closed",
+                    },
+                    "single_threshold_basis": [],
+                    "sidecar_not_claimed": ["No threshold tuning claim.", "No D5 claim."],
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+    training_path = base / TRAINING_CHOICE_OBSERVABILITY_ARTIFACT
+    if not training_path.exists():
+        training_path.parent.mkdir(parents=True, exist_ok=True)
+        training_path.write_text(
+            json.dumps(
+                {
+                    "schema_id": "bedc-quality-lab:training-choice-observability-sidecar",
+                    "artifact": TRAINING_CHOICE_OBSERVABILITY_ARTIFACT,
+                    "report": TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT,
+                    "artifact_id": "bedc-quality-lab:training-choice-observability",
+                    "status": "pointer-only",
+                    "training_choice_observability": {
+                        "status": "pointer-only",
+                        "observed_debt_arm_count": 0,
+                        "ledger_risk_only_arm_count": 1,
+                        "boundary_or_invalid_arm_count": 0,
+                    },
+                    "boundary_ledger": [{"kind": "ledger-risk-only", "failed_gates": ["fixture-boundary"]}],
+                    "not_claimed": ["No universal training-choice claim.", "No promotion claim."],
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+
+
 def _load_gap_head_d5_context(*, root: Path | None = None) -> dict[str, dict[str, Any]]:
+    _ensure_negative_sidecar_payloads(root=root)
     return {artifact: _load_artifact_payload(artifact, root=root) for artifact in GAP_HEAD_D5_CONTEXT_ARTIFACTS}
 
 
@@ -1125,6 +1185,7 @@ def build_source_discovery_rows(
     *,
     root: Path | None = None,
     canonical_reports: Sequence[CanonicalReportSpec] | None = None,
+    include_sidecars: bool = False,
 ) -> list[dict[str, Any]]:
     reports = CANONICAL_REPORTS if canonical_reports is None else canonical_reports
     gap_head_d5_context = _load_gap_head_d5_context(root=root)
@@ -1132,6 +1193,57 @@ def build_source_discovery_rows(
     dimension_payload = _load_artifact_payload(DIMENSION_MISMATCH_TRANSFER_ARTIFACT, root=root)
     if dimension_payload:
         rows.append(_dimension_mismatch_discovery_row(dimension_payload, gap_head_d5_context))
+    if include_sidecars:
+        rows.extend(_sidecar_discovery_rows(root=root))
+    return rows
+
+
+def _sidecar_discovery_rows(*, root: Path | None = None) -> list[dict[str, Any]]:
+    base = _root(root)
+    rows: list[dict[str, Any]] = []
+    single = _load_artifact_payload(SINGLE_THRESHOLD_ESCAPE_ARTIFACT, root=base)
+    if single:
+        audit_status = "valid" if single.get("status") in {"escaped-positive-captured", "checked-fail-closed"} else "invalid"
+        rows.append(
+            {
+                "report": "single-threshold-escape",
+                "json_artifact": SINGLE_THRESHOLD_ESCAPE_ARTIFACT,
+                "markdown_artifact": SINGLE_THRESHOLD_ESCAPE_MARKDOWN_ARTIFACT,
+                "discovery_level": "DN",
+                "terminal_verdict": "negative_discovery",
+                "classifier_reasons": ["escaped-positive-is-not-discovery-evidence"],
+                "projection_status": str(single.get("status") or ""),
+                "evidence_pointer": "$.single_threshold_basis",
+                "failed_gate": "$.projection.escaped_positive_is_discovery_evidence",
+                "audit_status": audit_status,
+                "audit_reason": "" if audit_status == "valid" else "single-threshold-sidecar-not-closed",
+                "what_was_learned": "single-threshold escape evidence is gate failure evidence, not discovery evidence",
+                "next_hypothesis": "replace threshold-only selection with control-matched multi-threshold evidence before any promotion attempt",
+                "not_claimed": single.get("sidecar_not_claimed", []),
+            }
+        )
+    training = _load_artifact_payload(TRAINING_CHOICE_OBSERVABILITY_ARTIFACT, root=base)
+    if training:
+        has_ledger_risk = pointer_value(training, "$.training_choice_observability.ledger_risk_only_arm_count")
+        audit_status = "valid" if has_ledger_risk else "invalid"
+        rows.append(
+            {
+                "report": "training-choice-observability",
+                "json_artifact": TRAINING_CHOICE_OBSERVABILITY_ARTIFACT,
+                "markdown_artifact": TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT,
+                "discovery_level": "DN",
+                "terminal_verdict": "negative_discovery",
+                "classifier_reasons": ["training-choice-ledger-risk-only"],
+                "projection_status": str(training.get("status") or ""),
+                "evidence_pointer": "$.boundary_ledger",
+                "failed_gate": "$.training_choice_observability.ledger_risk_only_arm_count",
+                "audit_status": audit_status,
+                "audit_reason": "" if audit_status == "valid" else "training-choice-ledger-risk-missing",
+                "what_was_learned": "training choice remains ledger-risk-only rather than h-observable positive discovery",
+                "next_hypothesis": "separate optimizer choice from training budget under matched protocol and forbidden-feature audit",
+                "not_claimed": training.get("not_claimed", []),
+            }
+        )
     return rows
 
 
@@ -1141,15 +1253,18 @@ def build_negative_discovery_owner_rows(
     canonical_reports: Sequence[CanonicalReportSpec] | None = None,
 ) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for source_row in build_source_discovery_rows(root=root, canonical_reports=canonical_reports):
+    for source_row in build_source_discovery_rows(root=root, canonical_reports=canonical_reports, include_sidecars=True):
         if source_row.get("discovery_level") != "DN":
             continue
         report = str(source_row.get("report") or "")
         pointer = source_row.get("failed_gate") or source_row.get("debt_row_pointer") or source_row.get("evidence_pointer")
         artifact = str(source_row.get("json_artifact") or "")
         source = artifact if not isinstance(pointer, str) or not pointer else f"{artifact}:{pointer}"
+        report_id = "dimension-mismatch-scale-leakage" if report == "dimension-mismatch-debt-transfer" else report
         row = {
-            "negative_id": f"dn:{report}",
+            "negative_id": f"dn:{report_id}",
+            "report_id": report_id,
+            "claim_id": f"claim:{report}",
             "kind": "discovery_report",
             "report": report,
             "source": source,
@@ -1167,20 +1282,70 @@ def build_negative_discovery_owner_rows(
             "audit_reason": source_row.get("audit_reason", ""),
         }
         for key in (
+            "base_level",
             "anti_triviality_status",
             "downgrade_reason",
             "effective_level",
             "hypothesis",
+            "next_hypothesis",
+            "stop_reason",
             "not_claimed",
             "what_was_learned",
         ):
             if key in source_row:
                 row[key] = source_row[key]
+        _fill_negative_report_boundary(row)
         rows.append(row)
     return rows
 
 
-def _negative_index_by_report(source_rows: Sequence[Mapping[str, Any]]) -> dict[str, int]:
+def _fill_negative_report_boundary(row: dict[str, Any]) -> None:
+    report_id = str(row.get("report_id") or "")
+    defaults = {
+        "certificate-guided-training": {
+            "what_was_learned": "constraint_lagrangian did not clear the audit-improvement hardgate",
+            "next_hypothesis": "test whether a debt-only or constrained optimizer separates audit improvement from hidden classifier tradeoff",
+        },
+        "gap-head-ablation": {
+            "what_was_learned": "removing the learned gap head breaks the projected discovery gate",
+            "next_hypothesis": "isolate which gap-head channel carries the rejected ablation surface",
+        },
+        "spectral-ablation-hinge": {
+            "what_was_learned": "spectral ablation does not beat the negative control boundary",
+            "next_hypothesis": "replace the hinge with a control-matched spectral channel before any promotion attempt",
+        },
+        "certificate-guided-discovery": {
+            "what_was_learned": "certificate-guided discovery remains negative at the canonical positive-discovery gate",
+            "next_hypothesis": "reuse the training owner report and isolate whether any discovery surface survives matched controls",
+        },
+        "dimension-mismatch-scale-leakage": {
+            "next_hypothesis": "add anti-triviality evidence that rules out scale-only or metadata proxy separation",
+        },
+    }
+    values = defaults.get(report_id, {})
+    for key, value in values.items():
+        row.setdefault(key, value)
+    if not row.get("failed_gate"):
+        row["failed_gate"] = "$"
+    row.setdefault("what_was_learned", "DN projection records a source-boundary failure for this canonical artifact")
+    row.setdefault("next_hypothesis", "inspect the source artifact before treating this DN row as a stable research packet")
+    row.setdefault("stop_reason", None)
+
+
+def _negative_index_by_report(
+    source_rows: Sequence[Mapping[str, Any]],
+    *,
+    root: Path | None = None,
+) -> dict[str, int]:
+    owner_payload = _load_artifact_payload(NEGATIVE_DISCOVERY_REPORTS_ARTIFACT, root=root)
+    owner_rows = owner_payload.get("rows") if isinstance(owner_payload, Mapping) else None
+    if isinstance(owner_rows, list):
+        owner_result: dict[str, int] = {}
+        for index, row in enumerate(owner_rows):
+            if isinstance(row, Mapping) and isinstance(row.get("report"), str):
+                owner_result[str(row["report"])] = index
+        if owner_result:
+            return owner_result
     result: dict[str, int] = {}
     index = 0
     for row in source_rows:
@@ -1250,8 +1415,17 @@ def build_discovery_map(
     canonical_reports: Sequence[CanonicalReportSpec] | None = None,
 ) -> dict[str, Any]:
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
-    source_rows = build_source_discovery_rows(root=root, canonical_reports=canonical_reports)
-    rows = [_discovery_map_row(row, _negative_index_by_report(source_rows)) for row in source_rows]
+    source_rows = build_source_discovery_rows(
+        root=root,
+        canonical_reports=canonical_reports,
+        include_sidecars=(_root(root) / NEGATIVE_DISCOVERY_REPORTS_ARTIFACT).exists(),
+    )
+    negative_indices = _negative_index_by_report(source_rows, root=root)
+    rows = [
+        _discovery_map_row(row, negative_indices)
+        for row in source_rows
+        if row.get("discovery_level") != "DN" or str(row.get("report") or "") in negative_indices
+    ]
     return build_discovery_map_payload(
         rows=rows,
         generated_at=timestamp,

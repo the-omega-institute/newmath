@@ -64,11 +64,21 @@ class FakeAdapter:
 
     def derive_negative_discovery_rows(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
         self.calls.append("negative")
+        required = (
+            "certificate-guided-training",
+            "gap-head-ablation",
+            "spectral-ablation-hinge",
+            "dimension-mismatch-scale-leakage",
+            "single-threshold-escape",
+            "training-choice-observability",
+        )
         return [
             {
-                "negative_id": "dn:fixture-report",
+                "negative_id": f"dn:{report_id}",
+                "report_id": report_id,
                 "kind": "discovery_report",
-                "report": "fixture-report",
+                "report": "fixture-report" if report_id != "dimension-mismatch-scale-leakage" else "dimension-mismatch-debt-transfer",
+                "claim_id": "claim:fixture-report",
                 "source": "reports/canonical/fixture.json:$.failed",
                 "json_artifact": "reports/canonical/fixture.json",
                 "markdown_artifact": "reports/canonical/fixture.md",
@@ -79,10 +89,15 @@ class FakeAdapter:
                 "projection_status": "projected",
                 "evidence_pointer": "$.failed",
                 "failed_gate": "$.failed",
+                "base_level": "D4" if report_id == "dimension-mismatch-scale-leakage" else None,
+                "effective_level": "DN" if report_id == "dimension-mismatch-scale-leakage" else None,
+                "what_was_learned": "fixture learned",
+                "next_hypothesis": "fixture next hypothesis",
                 "debt_row_pointer": None,
                 "audit_status": "pass",
                 "audit_reason": "",
             }
+            for report_id in required
         ]
 
     def project_discovery_level(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
@@ -184,4 +199,5 @@ def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):
 
     assert adapter.calls == ["negative", "map"]
     assert result["negative_discovery_reports"]["rows"][0]["terminal_verdict"] == "negative_discovery"
+    assert result["negative_discovery_reports"]["row_count"] == 6
     assert result["discovery_map"]["rows"][0]["negative_report_pointer"] == f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]"
