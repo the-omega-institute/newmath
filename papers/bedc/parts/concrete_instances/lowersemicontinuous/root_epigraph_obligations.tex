@@ -196,6 +196,46 @@ The exclusions are coordinate exhaustion. Since the carrier contains no open-cov
 \end{proof}
 \leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRootEpigraphCarrierScope}
 
+\begin{theorem}[LowerSemicontinuous root epigraph coverage]
+\label{thm:lowersemicontinuous-root-epigraph-coverage}
+Every accepted lower-bound threshold of a $\LowerSemicontinuousUp$ root epigraph packet is covered by the displayed route
+$$
+W,R,E
+$$
+before any $\LocatedRealUp$ or $\RealUp$-facing consumer reads it. The finite window row $W$, regular rational readback $R$, and epigraph ledger $E$ therefore exhaust threshold coverage before the comparison, transport, replay, provenance, and local NameCert rows are consumed.
+\end{theorem}
+\begin{proof}
+Start with the root epigraph carrier of \autoref{thm:lowersemicontinuous-root-epigraph-carrier}. It displays the scheduled finite window, regular rational value row, and lower-real epigraph ledger before the comparison endpoint.
+
+Apply the regular readback handoff of \autoref{thm:lowersemicontinuous-root-regular-readback-handoff}. A threshold can reach a located or Real-facing consumer only after the $W,R,E$ route has already attached the scheduled value to its epigraph witness.
+
+Finally use the root epigraph carrier scope of \autoref{thm:lower-semicontinuous-root-epigraph-carrier-scope}. The remaining rows $O,H,C,P,N$ preserve and name the covered threshold; they do not create a hidden threshold outside the displayed finite window.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous root located comparison]
+\label{thm:lowersemicontinuous-root-located-comparison}
+The comparison row $O$ of an accepted $\LowerSemicontinuousUp$ root epigraph packet compares $\LowerRealUp$, $\UpperRealUp$, and $\LocatedRealUp$ endpoints only after the epigraph ledger $E$ has been displayed from the scheduled $W,R$ readback. Thus located comparison is downstream of finite epigraph evidence, not a host order comparison, trichotomy principle, selected infimum, or quotient real equality.
+\end{theorem}
+\begin{proof}
+Project the rows of \autoref{thm:lowersemicontinuous-root-epigraph-carrier}. The row order places $W$ and $R$ before $E$, and places $O$ after the displayed epigraph ledger.
+
+Use \autoref{thm:lowersemicontinuous-root-regular-readback-handoff}. It keeps every $\RegSeqRatUp$ readback attached to the same lower-bound witness before $O$ may compare the lower, upper, and located endpoints.
+
+The scope theorem \autoref{thm:lower-semicontinuous-root-epigraph-carrier-scope} supplies the boundary. Since host order, trichotomy, selected infimum, and quotient equality have no coordinate in the carrier, the comparison row can only read the displayed epigraph ledger.
+\end{proof}
+
+\begin{theorem}[LowerSemicontinuous root Real seal refusal]
+\label{thm:lowersemicontinuous-root-real-seal-refusal}
+The terminal $\RealUp$ seal of a $\LowerSemicontinuousUp$ root epigraph packet exports no semantic liminf operator, selected infimum, host topology, quotient equality, countable-choice schedule, or ambient completeness theorem. It seals only the displayed $W,R,E,O,H,C,P,N$ route supplied by the finite epigraph carrier.
+\end{theorem}
+\begin{proof}
+Begin with the Real seal boundary of \autoref{thm:lowersemicontinuous-root-real-seal-boundary}. It places the terminal seal after the finite epigraph window, comparison row, transport, replay, provenance, and local naming rows.
+
+Apply root epigraph coverage and located comparison above. Coverage accounts for every accepted lower-bound threshold through $W,R,E$, while the comparison row $O$ reads lower, upper, and located endpoints only after that ledger is displayed.
+
+Finally use \autoref{thm:lower-semicontinuous-root-epigraph-carrier-scope}. The refused liminf, selected infimum, topology, quotient equality, choice, and completeness objects have no carrier coordinate, so the terminal seal cannot export them.
+\end{proof}
+
 \begin{theorem}[LowerSemicontinuous epigraph threshold refinement]
 \label{thm:lowersemicontinuous-epigraph-threshold-refinement}
 Let two displayed $\RealUp$ threshold rows of an accepted $\LowerSemicontinuousUp$ root epigraph packet be ordered before the terminal seal is consumed. The refined row reaches every $\LowerRealUp$, $\UpperRealUp$, $\LocatedRealUp$, $\LocatedSetUp$, and $\RealUp$ consumer through the same
