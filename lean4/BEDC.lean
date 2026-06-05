@@ -1200,6 +1200,7 @@ import BEDC.Derived.CantorSetUp.TasteGate
 import BEDC.Derived.CantorSetUp.TernaryPrefixClassifier
 import BEDC.Derived.CantorSetUp.TernaryPrefixDensity
 import BEDC.Derived.CantorSetUp.TriadicWindowStability
+import BEDC.Derived.CantorSpaceCompactnessUp.TasteGate
 import BEDC.Derived.CantorSpaceUp
 import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorTernarySetUp.TasteGate
@@ -1945,6 +1946,7 @@ import BEDC.Derived.CauchySequenceSpaceUp.ObservationBudgetFactorization
 import BEDC.Derived.CauchySequenceSpaceUp.QuotientRefusalRoute
 import BEDC.Derived.CauchySequenceSpaceUp.RealCompletionExactBoundaryTerminalPullback
 import BEDC.Derived.CauchySequenceSpaceUp.RealObservationBudgetFactorization
+import BEDC.Derived.CauchySequenceSpaceUp.SharedWindowDeterminacy
 import BEDC.Derived.CauchySequenceSpaceUp.StdBridge
 import BEDC.Derived.CauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp.TerminalPullbackExactness
@@ -3963,6 +3965,7 @@ import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.BarScopeObligations
+import BEDC.Derived.FanfunctionalUp.CantorCompactnessScope
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
@@ -5474,6 +5477,7 @@ import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowInduction
 import BEDC.Derived.LowerSemicontinuousUp.FiniteEpigraphThresholdExhaustion
 import BEDC.Derived.LowerSemicontinuousUp.KernelScope
+import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphFilterStability
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransport
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransportInduction
 import BEDC.Derived.LowerSemicontinuousUp.LocatedReadbackCompatibility
@@ -5626,6 +5630,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionConsumerRoute
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedConversionSocketBudget
 import BEDC.Derived.MetaCICCriticalPathUp.BoundedNormalizationCandidateLedger
+import BEDC.Derived.MetaCICCriticalPathUp.BridgeBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDeciderExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeBudgetRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateDischargeFrontier
@@ -5733,6 +5738,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeGate
 import BEDC.Derived.MetaCICCriticalPathUp.L10CandidateDischargeOrder
 import BEDC.Derived.MetaCICCriticalPathUp.L10ConsumerReadinessLocality
 import BEDC.Derived.MetaCICCriticalPathUp.L10DependencyBudget
+import BEDC.Derived.MetaCICCriticalPathUp.L10DischargeDependencyBridge
 import BEDC.Derived.MetaCICCriticalPathUp.L10EntryBudgetSynchronization
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.L10ExitScopeSeal
