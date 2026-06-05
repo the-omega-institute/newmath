@@ -1,4 +1,4 @@
-import BEDC.Derived.ClosedtermsubstitutionboundaryUp.RouteDeterminacy
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RouteDeterminacy
 
 namespace BEDC.Derived.ClosedtermsubstitutionboundaryUp
 
