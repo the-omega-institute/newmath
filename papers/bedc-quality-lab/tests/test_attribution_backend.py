@@ -18,6 +18,8 @@ EXPECTED_METRICS = (
     "mechanism_evidence_candidate",
     "mechanism_evidence_failed_gate",
     "mechanism_evidence_ledger_debt",
+    "mechanism_evidence_head_patch_status",
+    "mechanism_evidence_head_patch_delta",
 )
 EXPECTED_LEDGER_ROWS = (
     "source/source-coverage",
@@ -58,18 +60,28 @@ def fake_capsule():
             "residualized_significant": True,
             "control_clear": True,
             "score_margin_sufficient": False,
+            "head_patch_status": "pass",
+            "head_patch_delta": -0.08,
             "required_gate_pointers": [
                 "$.a4_hardgates.gates.A4-HG2.status",
                 "$.a4_hardgates.gates.A4-HG3.status",
+                "$.a4_hardgates.gates.head_causal_patch.status",
                 "$.a4_hardgates.gates.A4-HG5.status",
             ],
             "metric_pointers": {
                 "residualized_status": "$.residualized_attribution.status",
                 "score_margin_channel_classification": "$.score_margin_causal_evidence.channel_classification",
+                "head_patch_status": "$.head_channel_patch_evidence.gate_status",
+                "head_patch_delta": "$.head_channel_patch_evidence.null_head.ci_summaries.AUROC_after_minus_before.mean",
             },
             "ledger_debt_pointer": "$.ledger_debt.0.status",
             "closure_pointer": "$.mechanism_evidence.mechanism_status",
-            "source_issue": 747,
+            "source_issue": 750,
+            "source_issues": [747, 750],
+        },
+        "head_channel_patch_evidence": {
+            "gate_status": "pass",
+            "null_head": {"ci_summaries": {"AUROC_after_minus_before": {"mean": -0.08}}},
         },
         "ledger_debt": [{"debt_id": "gap-head-mechanism-evidence-closure", "status": "open"}],
         "residualized_attribution": {"status": "pass"},
@@ -203,6 +215,8 @@ def test_compute_metrics_delegates_to_capsule_builder(monkeypatch, tmp_path):
     assert payload["metrics"]["mechanism_evidence_candidate"] == "unresolved"
     assert payload["metrics"]["mechanism_evidence_failed_gate"] == "A4-HG5"
     assert payload["metrics"]["mechanism_evidence_ledger_debt"] == "open"
+    assert payload["metrics"]["mechanism_evidence_head_patch_status"] == "pass"
+    assert payload["metrics"]["mechanism_evidence_head_patch_delta"] == -0.08
     assert set(payload["metric_pointers"]) == set(GapHeadAttributionBackendEvidenceAdapter.backend.metrics)
     assert "terminal_verdict" not in payload
 
@@ -237,6 +251,8 @@ def test_backend_pointer_surfaces_resolve_in_adapter_projection(monkeypatch, tmp
         "metric_pointers.mechanism_evidence_candidate",
         "metric_pointers.mechanism_evidence_failed_gate",
         "metric_pointers.mechanism_evidence_ledger_debt",
+        "metric_pointers.mechanism_evidence_head_patch_status",
+        "metric_pointers.mechanism_evidence_head_patch_delta",
         "control_pointer.matched_random",
         "control_pointer.h_random_rotation",
         "control_pointer.h_random_projection_lowdim",

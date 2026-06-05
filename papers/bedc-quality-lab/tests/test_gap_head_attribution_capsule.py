@@ -190,7 +190,8 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
     hardgates = runner._a1_hardgates(aggregate)
     residualized = _residualized_fixture(aggregate)
     score_margin = _score_margin_fixture("not_score_margin_sufficient")
-    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    head_patch = _head_patch_fixture()
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, head_patch)
     case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
     d5_m = runner._d5_m(hardgates, a4_hardgates)
     source_artifacts = {
@@ -200,11 +201,11 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
         "cost_protocol": {"status": "recorded", "unit": "fixture"},
     }
     d5_o = runner._d5_o(aggregate)
-    mechanism_evidence = runner._mechanism_evidence(d5_o, d5_m, case, a4_hardgates, residualized, score_margin)
+    mechanism_evidence = runner._mechanism_evidence(d5_o, d5_m, case, a4_hardgates, residualized, score_margin, head_patch)
     return {
         "schema_id": runner.SCHEMA_ID,
         "source_issue": 692,
-        "source_issues": [692, 747],
+        "source_issues": [692, 747, 750],
         "artifact_id": runner.ARTIFACT_ID,
         "run_id": "a1-fixture",
         "generated_at": "2026-01-02T03:04:05+00:00",
@@ -217,6 +218,7 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
         "hardgates": hardgates,
         "residualized_attribution": residualized,
         "score_margin_causal_evidence": score_margin,
+        "head_channel_patch_evidence": head_patch,
         "a4_hardgates": a4_hardgates,
         "claim_capsule_hardgates": {"CC-HG6": {"name": "CC-HG6", "status": "unchecked"}},
         "cost_protocol_pointer": pointer,
@@ -294,6 +296,58 @@ def _score_margin_fixture(classification="not_score_margin_sufficient", *, statu
     }
 
 
+def _head_patch_fixture(*, status="pass", gate_status="pass", auroc_delta=-0.08, uer_delta=0.04):
+    ci_summaries = {
+        "null_head": {
+            "AUROC_after_minus_before": {"mean": auroc_delta, "ci95_low": auroc_delta, "ci95_high": auroc_delta},
+            "UER_after_minus_before": {"mean": uer_delta, "ci95_low": uer_delta, "ci95_high": uer_delta},
+            "UER_reduction_after_minus_before": {"mean": -uer_delta, "ci95_low": -uer_delta, "ci95_high": -uer_delta},
+        },
+        "permute_head_rows": {
+            "AUROC_after_minus_before": {"mean": auroc_delta - 0.01, "ci95_low": auroc_delta - 0.01, "ci95_high": auroc_delta - 0.01},
+            "UER_after_minus_before": {"mean": uer_delta, "ci95_low": uer_delta, "ci95_high": uer_delta},
+            "UER_reduction_after_minus_before": {"mean": -uer_delta, "ci95_low": -uer_delta, "ci95_high": -uer_delta},
+        },
+    }
+    audit = {
+        "touched_column_audit": {
+            "status": "pass",
+            "allowed_roots": ["h"],
+            "touched_roots": ["h"],
+            "touched_columns": ["h:0", "h:1"],
+            "unchanged_non_h_columns": True,
+            "train_features_unchanged": True,
+            "eval_features_changed": True,
+        }
+    }
+    return {
+        "status": status,
+        "gate_status": gate_status,
+        "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence",
+        "deterministic_salts": {
+            "null_head": None,
+            "permute_head_rows": runner.HEAD_PATCH_PERMUTE_SALT,
+        },
+        "null_head": {"per_seed_before_after_metrics": [{"seed": 1, "audit": audit}], "ci_summaries": ci_summaries["null_head"]},
+        "permute_head_rows": {"per_seed_before_after_metrics": [{"seed": 1, "audit": audit}], "ci_summaries": ci_summaries["permute_head_rows"]},
+        "paired_deltas": [{"seed": 1, "same_seed": True, "same_full_arm_fit_path": True, "same_metric_set": True}],
+        "protocol_checks": {
+            "present": True,
+            "deterministic": True,
+            "finite": True,
+            "seed_paired": True,
+            "column_audited": True,
+            "eval_only_patch": True,
+        },
+        "gate_criterion": "both head patches have AUROC delta CI-high < -0.02 and UER delta CI-low >= 0.0",
+        "gate_evidence": {
+            "auroc_drop": gate_status == "pass",
+            "uer_not_improved": True,
+        },
+        "ci_summaries": ci_summaries,
+    }
+
+
 def test_arm_registry_order_and_private_spec_shape():
     assert runner.ARM_NAMES == EXPECTED_ARMS
     assert [spec.name for spec in runner.attribution_arm_specs()] == list(EXPECTED_ARMS)
@@ -363,6 +417,41 @@ def test_seeded_rotation_and_projection_are_deterministic():
     assert proj_a.shape == (3, 1)
 
 
+def test_head_patch_eval_features_are_deterministic_and_audited():
+    surface = {
+        "feature_columns": ["h:0", "h:1", "score:a", "margin:a", "transition_delta:a", "quality:q"],
+        "features": np.array(
+            [
+                [1.0, 3.0, 0.1, 0.9, 0.0, 1.0],
+                [2.0, 5.0, 0.2, 0.7, 0.1, 1.0],
+                [3.0, 7.0, 0.3, 0.8, 0.0, 1.0],
+                [4.0, 9.0, 0.4, 0.4, 0.1, 1.0],
+                [5.0, 11.0, 0.5, 0.6, 0.0, 1.0],
+            ],
+            dtype=np.float64,
+        ),
+        "train_idx": np.array([0, 1], dtype=np.int64),
+        "eval_idx": np.array([2, 3, 4], dtype=np.int64),
+    }
+
+    null_features, null_audit = runner._head_patched_eval_features(surface, seed=17, mode="null_head")
+    permuted_a, permutation_audit = runner._head_patched_eval_features(surface, seed=17, mode="permute_head_rows")
+    permuted_b, repeat_audit = runner._head_patched_eval_features(surface, seed=17, mode="permute_head_rows")
+
+    np.testing.assert_allclose(null_features[surface["eval_idx"], :2], 0.0)
+    np.testing.assert_allclose(null_features[surface["train_idx"]], surface["features"][surface["train_idx"]])
+    np.testing.assert_allclose(permuted_a, permuted_b)
+    assert permutation_audit == repeat_audit
+    for audit in (null_audit, permutation_audit):
+        touched = audit["touched_column_audit"]
+        assert touched["status"] == "pass"
+        assert touched["touched_roots"] == ["h"]
+        assert touched["touched_columns"] == ["h:0", "h:1"]
+        assert touched["train_features_unchanged"] is True
+        assert touched["eval_features_changed"] is True
+        assert touched["unchanged_non_h_columns"] is True
+
+
 def test_residualization_guards_are_finite_deterministic_and_remove_score_margin_correlation():
     surface = {
         "feature_columns": ["h:0", "h:1", "score:a", "margin:a", "transition_delta:a", "quality:q"],
@@ -395,7 +484,7 @@ def test_a4_case_c_is_only_d5_m_candidate():
     hardgates = runner._a1_hardgates(aggregate)
     residualized = _residualized_fixture(aggregate)
     score_margin = _score_margin_fixture("not_score_margin_sufficient")
-    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, _head_patch_fixture())
     case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
 
     assert hardgates["status"] == "pass"
@@ -410,7 +499,7 @@ def test_case_b_score_margin_sufficiency_blocks_d5_m_even_when_residualized_full
     hardgates = runner._a1_hardgates(aggregate)
     residualized = _residualized_fixture(aggregate)
     score_margin = _score_margin_fixture("score_margin_sufficient")
-    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, _head_patch_fixture())
     case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
 
     assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
@@ -425,7 +514,7 @@ def test_case_a_residualized_collapse_blocks_d5_m():
     hardgates = runner._a1_hardgates(aggregate)
     residualized = _residualized_fixture(aggregate)
     score_margin = _score_margin_fixture("not_score_margin_sufficient")
-    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, _head_patch_fixture())
     case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
 
     assert a4_hardgates["gates"]["A4-HG2"]["status"] == "fail"
@@ -433,9 +522,9 @@ def test_case_a_residualized_collapse_blocks_d5_m():
     assert runner._d5_m(hardgates, a4_hardgates)["passed"] is False
 
 
-def _assert_a4_gate_blocks_d5_m(aggregate, residualized, score_margin, failed_gate):
+def _assert_a4_gate_blocks_d5_m(aggregate, residualized, score_margin, failed_gate, head_patch=None):
     hardgates = runner._a1_hardgates(aggregate)
-    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, _head_patch_fixture() if head_patch is None else head_patch)
     d5_m = runner._d5_m(hardgates, a4_hardgates)
 
     assert hardgates["gates"]["A1-HG6"]["status"] == "pass"
@@ -482,6 +571,28 @@ def test_a4_hg4_score_margin_status_failure_blocks_d5_m():
     assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
     assert a4_hardgates["gates"]["A4-HG3"]["status"] == "pass"
     assert d5_m["failed_gate"] == "A4-HG4"
+
+
+def test_head_causal_patch_failure_blocks_d5_m():
+    aggregate = _aggregate()
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("not_score_margin_sufficient")
+    head_patch = _head_patch_fixture(gate_status="fail", auroc_delta=-0.005)
+
+    a4_hardgates, d5_m = _assert_a4_gate_blocks_d5_m(
+        aggregate,
+        residualized,
+        score_margin,
+        "head_causal_patch",
+        head_patch=head_patch,
+    )
+
+    assert a4_hardgates["gates"]["A4-HG1"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG3"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG4"]["status"] == "pass"
+    assert a4_hardgates["gates"]["A4-HG5"]["status"] == "fail"
+    assert d5_m["failed_gate"] == "head_causal_patch"
 
 
 def test_a4_hg4_unknown_channel_classification_blocks_d5_m():
@@ -543,7 +654,7 @@ def test_a4_hg4_protocol_check_cell_failure_blocks_d5_m(cell, missing):
 def test_a4_hg5_channel_classification_paths(classification, expected_hg5):
     aggregate = _aggregate()
     hardgates = runner._a1_hardgates(aggregate)
-    a4_hardgates = runner._a4_hardgates(aggregate, _residualized_fixture(aggregate), _score_margin_fixture(classification))
+    a4_hardgates = runner._a4_hardgates(aggregate, _residualized_fixture(aggregate), _score_margin_fixture(classification), _head_patch_fixture())
 
     assert a4_hardgates["gates"]["A4-HG1"]["status"] == "pass"
     assert a4_hardgates["gates"]["A4-HG2"]["status"] == "pass"
@@ -569,15 +680,16 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     hardgates = runner._a1_hardgates(aggregate)
     residualized = _residualized_fixture(aggregate)
     score_margin = _score_margin_fixture("score_margin_sufficient")
-    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin)
+    head_patch = _head_patch_fixture()
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, head_patch)
     d5_m = runner._d5_m(hardgates, a4_hardgates)
     case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
     d5_o = runner._d5_o(aggregate)
-    mechanism_evidence = runner._mechanism_evidence(d5_o, d5_m, case, a4_hardgates, residualized, score_margin)
+    mechanism_evidence = runner._mechanism_evidence(d5_o, d5_m, case, a4_hardgates, residualized, score_margin, head_patch)
     capsule = {
         "schema_id": runner.SCHEMA_ID,
         "source_issue": 692,
-        "source_issues": [692, 747],
+        "source_issues": [692, 747, 750],
         "artifact_id": runner.ARTIFACT_ID,
         "run_id": "fixture",
         "d5_o": d5_o,
@@ -589,6 +701,7 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
         "hardgates": hardgates,
         "residualized_attribution": residualized,
         "score_margin_causal_evidence": score_margin,
+        "head_channel_patch_evidence": head_patch,
         "a4_hardgates": a4_hardgates,
         "claim_capsule_hardgates": {},
         "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
@@ -614,7 +727,7 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
 
     assert capsule["schema_id"] == "bedc.quality.claim_capsule"
     assert capsule["source_issue"] == 692
-    assert capsule["source_issues"] == [692, 747]
+    assert capsule["source_issues"] == [692, 747, 750]
     assert capsule["d5_o"]["status"] == "ready"
     assert capsule["d5_m"]["status"] == "blocked"
     assert capsule["mechanism_evidence"]["base_level"] == "D5-O"
@@ -623,6 +736,7 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     assert capsule["mechanism_evidence"]["required_gate_pointers"] == [
         "$.a4_hardgates.gates.A4-HG2.status",
         "$.a4_hardgates.gates.A4-HG3.status",
+        "$.a4_hardgates.gates.head_causal_patch.status",
         "$.a4_hardgates.gates.A4-HG5.status",
     ]
     assert set(capsule["mechanism_evidence"]["metric_pointers"]) >= {
@@ -630,7 +744,12 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
         "score_margin_channel_classification",
         "shuffle_score_margin_delta",
         "replacement_control_delta",
+        "head_patch_status",
+        "head_patch_delta",
     }
+    assert capsule["mechanism_evidence"]["head_patch_status"] == "pass"
+    assert capsule["mechanism_evidence"]["source_issue"] == 750
+    assert capsule["mechanism_evidence"]["source_issues"] == [747, 750]
     assert set(capsule["not_implemented"]) == {"nonlinear_residualization", "full_causal_replacement_scope"}
     assert capsule["ledger_debt"]
     assert all(row["status"] == "pass" for row in capsule["claim_capsule_hardgates"].values())
