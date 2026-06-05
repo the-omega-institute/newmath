@@ -712,6 +712,20 @@ Next apply \autoref{thm:metacic-critical-path-residual-substitution-normalizatio
 Finally apply \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-discharge}. Its hypothesis is exactly the consumed candidate-mediated ledger named in the statement, so the L10 four-object exit certificate can be read only after that ledger has discharged the local SN handoff. The Real- or Completion-facing consumer therefore receives a routed residual certificate, not an independent closed MetaCIC metatheorem.
 \end{proof}
 
+\begin{theorem}[MetaCIC critical-path L10 discharge dependency bridge]
+\label{thm:metacic-critical-path-l10-discharge-dependency-bridge}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, any L10 four-object exit certificate read from the packet must consume the same candidate-mediated SN discharge row, residual substitution row, subject-reduction obstruction row $O$, normalization endpoint $N$, and decidability boundary in $U$ before any $\RealUp$ or $\CompletionUp$ consumer reads it. The bridge records only this dependency order; it does not claim full subject reduction, Church--Rosser, beta-conversion decidability, strong normalization, or closed consistency.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-discharge}. Its conditional discharge row is local to the same packet and is available only after the obstruction row, normalization route, decidability boundary, normal endpoint, and residual rows have already been consumed.
+
+Next apply \autoref{thm:metacic-critical-path-residual-substitution-normalization-frontier}. Residual substitution and normalization share the same finite frontier through $U$, $S \to N$, $O,D,H,C,P,L$, so the L10 exit cannot read residual substitution as a detached subject-reduction theorem.
+
+Use \autoref{thm:metacic-critical-path-residual-confluence-budget-bridge} to keep confluence-facing and SN-facing reads on the shared finite budget ledger. Then apply \autoref{thm:metacic-critical-path-l10-residual-route}; it routes every L10 four-object exit certificate through that residual ledger before Real- or Completion-facing consumers can inspect it.
+
+Therefore the exit certificate consumes the same discharge, residual, obstruction, endpoint, and decidability rows in the same packet. The consumer receives a dependency bridge for the L10 route, not any of the blocked global MetaCIC conclusions.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/public_tail_bridge}
 
 \input{parts/concrete_instances/metaciccriticalpath/frontier_rank_surface}
