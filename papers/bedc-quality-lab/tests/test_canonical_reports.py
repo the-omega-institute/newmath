@@ -606,6 +606,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "certificate-guided-training",
         "certificate-guided-discovery",
         "sigreg-training-proxy",
+        "lejepa-theorem-ledger",
         "spectral-ablation-hinge",
     ]
     assert "certificate-guided-arms" not in names
@@ -977,6 +978,7 @@ def test_hg_p_core_rows_are_exact_and_auxiliary_rows_cannot_substitute():
 
     assert core == HG_P_CORE
     assert "nongaussian-distribution-sweep" in auxiliary
+    assert "lejepa-theorem-ledger" in auxiliary
     assert "spectral-ablation-hinge" in auxiliary
     assert not HG_P_CORE.intersection(auxiliary)
 
@@ -2279,13 +2281,18 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.arm_protocol",
                 },
                 {
+                    "report": "lejepa-theorem-ledger",
+                    "artifact": "reports/canonical/lejepa_theorem_ledger.json",
+                    "pointer": "$.scope",
+                },
+                {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 13,
-            "denominator": 13,
+            "numerator": 14,
+            "denominator": 14,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -2351,13 +2358,18 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {
+                    "report": "lejepa-theorem-ledger",
+                    "artifact": "reports/canonical/lejepa_theorem_ledger.json",
+                    "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 13,
-            "denominator": 13,
+            "numerator": 14,
+            "denominator": 14,
         },
         "HardeningCoverage": {
             "value": 1.0,

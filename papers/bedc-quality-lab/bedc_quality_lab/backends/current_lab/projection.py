@@ -929,6 +929,12 @@ def _projection_overlay_and_evidence(
             projection_status="two-axis-recorded",
             evidence_pointer=spec.positive_claim_pointer,
         )
+    elif spec.name == "lejepa-theorem-ledger":
+        overlay, evidence = {}, ProjectionEvidence(
+            projection_status="theorem-ledger-recorded",
+            evidence_pointer="$.theorem_rows",
+            debt_row_pointer="$.main_verdict.deltas.debt_delta",
+        )
     else:
         overlay, evidence = {}, ProjectionEvidence(projection_status="source-insufficient")
     return overlay, evidence
