@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FrechetFilterUp
@@ -25,7 +26,7 @@ def frechetFilterDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (frechetFilterDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (frechetFilterDecodeBHist tail)
 
-private theorem FrechetFilterTasteGate_single_carrier_alignment_decode :
+private theorem frechetFilter_decode_encode :
     ∀ h : BHist, frechetFilterDecodeBHist (frechetFilterEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -66,7 +67,7 @@ def frechetFilterFromEventFlow (ef : EventFlow) : Option FrechetFilterUp :=
       (frechetFilterDecodeBHist (frechetFilterEventAtDefault 10 ef))
       (frechetFilterDecodeBHist (frechetFilterEventAtDefault 11 ef)))
 
-private theorem FrechetFilterTasteGate_single_carrier_alignment_round_trip :
+private theorem frechetFilter_round_trip :
     ∀ x : FrechetFilterUp,
       frechetFilterFromEventFlow (frechetFilterToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -89,21 +90,14 @@ private theorem FrechetFilterTasteGate_single_carrier_alignment_round_trip :
             (frechetFilterDecodeBHist (frechetFilterEncodeBHist P))
             (frechetFilterDecodeBHist (frechetFilterEncodeBHist N))) =
           some (FrechetFilterUp.mk U T S M B Q R A H C P N)
-      rw [FrechetFilterTasteGate_single_carrier_alignment_decode U,
-        FrechetFilterTasteGate_single_carrier_alignment_decode T,
-        FrechetFilterTasteGate_single_carrier_alignment_decode S,
-        FrechetFilterTasteGate_single_carrier_alignment_decode M,
-        FrechetFilterTasteGate_single_carrier_alignment_decode B,
-        FrechetFilterTasteGate_single_carrier_alignment_decode Q,
-        FrechetFilterTasteGate_single_carrier_alignment_decode R,
-        FrechetFilterTasteGate_single_carrier_alignment_decode A,
-        FrechetFilterTasteGate_single_carrier_alignment_decode H,
-        FrechetFilterTasteGate_single_carrier_alignment_decode C,
-        FrechetFilterTasteGate_single_carrier_alignment_decode P,
-        FrechetFilterTasteGate_single_carrier_alignment_decode N]
+      rw [frechetFilter_decode_encode U, frechetFilter_decode_encode T,
+        frechetFilter_decode_encode S, frechetFilter_decode_encode M,
+        frechetFilter_decode_encode B, frechetFilter_decode_encode Q,
+        frechetFilter_decode_encode R, frechetFilter_decode_encode A,
+        frechetFilter_decode_encode H, frechetFilter_decode_encode C,
+        frechetFilter_decode_encode P, frechetFilter_decode_encode N]
 
-private theorem FrechetFilterTasteGate_single_carrier_alignment_injective
-    {x y : FrechetFilterUp} :
+private theorem frechetFilterToEventFlow_injective {x y : FrechetFilterUp} :
     frechetFilterToEventFlow x = frechetFilterToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -112,10 +106,10 @@ private theorem FrechetFilterTasteGate_single_carrier_alignment_injective
         frechetFilterFromEventFlow (frechetFilterToEventFlow y) :=
     congrArg frechetFilterFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (FrechetFilterTasteGate_single_carrier_alignment_round_trip x).symm
-      (Eq.trans hread (FrechetFilterTasteGate_single_carrier_alignment_round_trip y)))
+    (Eq.trans (frechetFilter_round_trip x).symm
+      (Eq.trans hread (frechetFilter_round_trip y)))
 
-private theorem FrechetFilterTasteGate_single_carrier_alignment_fields :
+private theorem frechetFilter_fields_faithful :
     ∀ x y : FrechetFilterUp, frechetFilterFields x = frechetFilterFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
@@ -136,25 +130,23 @@ instance frechetFilterChapterTasteGate : ChapterTasteGate FrechetFilterUp where
   round_trip := by
     intro x
     change frechetFilterFromEventFlow (frechetFilterToEventFlow x) = some x
-    exact FrechetFilterTasteGate_single_carrier_alignment_round_trip x
+    exact frechetFilter_round_trip x
   layer_separation := by
     intro x y hxy heq
-    exact hxy (FrechetFilterTasteGate_single_carrier_alignment_injective heq)
+    exact hxy (frechetFilterToEventFlow_injective heq)
 
 instance frechetFilterFieldFaithful : FieldFaithful FrechetFilterUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := frechetFilterFields
-  field_faithful := FrechetFilterTasteGate_single_carrier_alignment_fields
+  field_faithful := frechetFilter_fields_faithful
 
-instance frechetFilterNontrivial : Nontrivial FrechetFilterUp where
+instance frechetFilterNontrivial : BEDC.Meta.TasteGate.Nontrivial FrechetFilterUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
     ⟨FrechetFilterUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty,
-      FrechetFilterUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty,
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      FrechetFilterUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
       by
         intro h
         cases h⟩
@@ -162,19 +154,5 @@ instance frechetFilterNontrivial : Nontrivial FrechetFilterUp where
 def taste_gate : ChapterTasteGate FrechetFilterUp :=
   -- BEDC touchpoint anchor: BHist BMark
   frechetFilterChapterTasteGate
-
-theorem FrechetFilterTasteGate_single_carrier_alignment :
-    (∀ h : BHist, frechetFilterDecodeBHist (frechetFilterEncodeBHist h) = h) ∧
-      (∀ x : FrechetFilterUp,
-        frechetFilterFromEventFlow (frechetFilterToEventFlow x) = some x) ∧
-        (∀ x y : FrechetFilterUp,
-          frechetFilterToEventFlow x = frechetFilterToEventFlow y → x = y) ∧
-          frechetFilterEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark FieldFaithful Nontrivial
-  exact
-    ⟨FrechetFilterTasteGate_single_carrier_alignment_decode,
-      FrechetFilterTasteGate_single_carrier_alignment_round_trip,
-      (fun _ _ heq => FrechetFilterTasteGate_single_carrier_alignment_injective heq),
-      rfl⟩
 
 end BEDC.Derived.FrechetFilterUp
