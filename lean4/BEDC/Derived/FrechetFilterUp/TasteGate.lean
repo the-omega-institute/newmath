@@ -114,9 +114,9 @@ private theorem frechetFilter_fields_faithful :
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk U₁ T₁ S₁ M₁ B₁ Q₁ R₁ A₁ H₁ C₁ P₁ N₁ =>
+  | mk U1 T1 S1 M1 B1 Q1 R1 A1 H1 C1 P1 N1 =>
       cases y with
-      | mk U₂ T₂ S₂ M₂ B₂ Q₂ R₂ A₂ H₂ C₂ P₂ N₂ =>
+      | mk U2 T2 S2 M2 B2 Q2 R2 A2 H2 C2 P2 N2 =>
           cases hfields
           rfl
 
