@@ -268,4 +268,91 @@ theorem SequentialClosureClosedSetFixpoint [AskSetup] [PackageSetup]
   }
   exact ⟨cert, closedUnary, windowUnary, handoffUnary, sealUnary, namedUnary⟩
 
+theorem SequentialClosureNonescapeScope [AskSetup] [PackageSetup]
+    {T M S Q L U W R A H C P N topologyRead locatedRead windowRead sealRead named :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SequentialClosureCarrier T M S Q L U W R A H C P N bundle pkg ->
+      Cont T M topologyRead ->
+        Cont S Q locatedRead ->
+          Cont W R windowRead ->
+            Cont windowRead A sealRead ->
+              Cont sealRead N named ->
+                PkgSig bundle named pkg ->
+                  SemanticNameCert
+                    (fun row : BHist => hsame row named ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row T ∨ hsame row M ∨ hsame row S ∨ hsame row Q ∨
+                        hsame row L ∨ hsame row U ∨ hsame row W ∨ hsame row R ∨
+                          hsame row A ∨ hsame row named)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont T M topologyRead ∧
+                        Cont S Q locatedRead ∧ Cont W R windowRead ∧
+                          Cont windowRead A sealRead ∧ PkgSig bundle named pkg)
+                    hsame ∧ UnaryHistory topologyRead ∧ UnaryHistory locatedRead ∧
+                      UnaryHistory windowRead ∧ UnaryHistory sealRead ∧
+                        UnaryHistory named := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier topologyRoute locatedRoute windowRoute sealRoute namedRoute namedPkg
+  obtain ⟨topologySourceUnary, metricUnary, locatedSourceUnary, sequenceUnary,
+    _limitUnary, _testUnary, windowUnaryBase, regSeqUnary, realSealUnary,
+    _transportUnary, _continuationUnary, _provenanceUnary, nameUnary,
+    _provenancePkg, _namePkg⟩ := carrier
+  have topologyUnary : UnaryHistory topologyRead :=
+    unary_cont_closed topologySourceUnary metricUnary topologyRoute
+  have locatedUnary : UnaryHistory locatedRead :=
+    unary_cont_closed locatedSourceUnary sequenceUnary locatedRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed windowUnaryBase regSeqUnary windowRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowUnary realSealUnary sealRoute
+  have namedUnary : UnaryHistory named :=
+    unary_cont_closed sealUnary nameUnary namedRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row named ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row T ∨ hsame row M ∨ hsame row S ∨ hsame row Q ∨ hsame row L ∨
+            hsame row U ∨ hsame row W ∨ hsame row R ∨ hsame row A ∨
+              hsame row named)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont T M topologyRead ∧ Cont S Q locatedRead ∧
+            Cont W R windowRead ∧ Cont windowRead A sealRead ∧
+              PkgSig bundle named pkg)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro named ⟨hsame_refl named, namedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr source.left))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, topologyRoute, locatedRoute, windowRoute, sealRoute, namedPkg⟩
+  }
+  exact ⟨cert, topologyUnary, locatedUnary, windowUnary, sealUnary, namedUnary⟩
+
 end BEDC.Derived.SequentialClosureUp
