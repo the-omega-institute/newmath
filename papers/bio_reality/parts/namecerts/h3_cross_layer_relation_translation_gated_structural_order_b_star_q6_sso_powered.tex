@@ -1,0 +1,44 @@
+\origin{ai}
+\subsection{Translation-Gated Structural-Order Readback for $B^*_{Q6}$ Residual Coordinates}
+\label{sec:bioreality-q6-translation-gated-structural-order}
+
+\paragraph{Finite carrier.}
+This record concerns a finite surface whose rows are encoded proteins and whose columns are the nine $B^*_{Q6}$ residual coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f3_{stress}$.  The coordinate source is the imported $q$-vector table from the powered translation-survival computation, and the present run has experiment identifier $ac05b5047c28$.  Each protein row carries codon-derived residual coordinates, amino-acid-composition controls, a length control, $GC3$, an $M$-density baseline on the union support of the nine projected vectors, and an attached AlphaFold mean pLDDT readout.  The pLDDT variable is used only as predicted structure confidence on the interval $0..100$; it is not treated as an experimental folding measurement, a physical-stability assay, a localization assay, a function assay, or a phenotype assay.
+
+\paragraph{Controlled residual form.}
+For an organism $o$, let $Y_o$ denote the protein-level mean pLDDT vector and let $Q_o$ be the matrix with the nine $B^*_{Q6}$ residual coordinates.  The control matrix $Z_o$ contains an intercept, $\log(cds\_len\_nt)$, the twenty amino-acid composition proportions $A,C,D,E,F,G,H,I,K,L,M,N,P,Q,R,S,T,V,W,Y$, real-codon-count $GC3$, and the $M$-density baseline.  The statistic reported here is the residual association of $Q_o$ with $Y_o$ after projecting away $Z_o$:
+$$
+\begin{aligned}
+X_o^{\perp} &= (I-P_{Z_o})Q_o,\\
+Y_o^{\perp} &= (I-P_{Z_o})Y_o,\\
+R^2_{SO}(o) &= 1-\frac{\|Y_o^{\perp}-P_{X_o^{\perp}}Y_o^{\perp}\|^2}{\|Y_o^{\perp}\|^2}.
+\end{aligned}
+$$
+The positivity threshold for a coordinate-level structural-order survival entry is $10^{-12}$.  This threshold records finite residual detectability only; it does not convert a cross-sectional association into a causal chain.
+
+\paragraph{Rank and row support.}
+The powered design is nondegenerate in both organisms.  For \textit{Escherichia coli} K-12 MG1655, $3739$ coding-sequence rows join to the codon table, $3736$ matched proteins are used, $3736$ proteins have the pLDDT readout, and the join hit rate is $0.999198$.  The control matrix has $24$ columns, including $20$ amino-acid composition controls; its rank is $23$.  After residualizing against $Z$, the residual degrees of freedom are $3713$, the residualized coordinate rank is $9$, the explained energy is $4178.935925251874$, and the residual response energy is $136607.52873622958$.  For \textit{Saccharomyces cerevisiae}, $5815$ coding-sequence rows join to the codon table, $5804$ matched proteins are used, $5804$ proteins have the pLDDT readout, and the join hit rate is $0.998108$.  The control matrix again has $24$ columns with $20$ amino-acid composition controls and rank $23$; the residual degrees of freedom are $5781$, the residualized coordinate rank is $9$, the explained energy is $44421.14342043593$, and the residual response energy is $620506.1490869389$.  In both organisms the recorded degeneracy threshold is $0.999999$, and the nine-coordinate residual design is rank-sufficient.
+
+\paragraph{Observed finite association.}
+The structural-order-confidence readback is positive in both organisms after the stated controls.  In \textit{E. coli} K-12 MG1655 the controlled pLDDT association has
+$$
+\begin{aligned}
+R^2_{SO} &= 0.03059081709413562,\\
+\#\{\hbox{surviving coordinates}\} &= 9.
+\end{aligned}
+$$
+The interpretation attached to this row is modest finite association: the result remains cross-sectional and non-causal.  In \textit{S. cerevisiae} the corresponding association has
+$$
+\begin{aligned}
+R^2_{SO} &= 0.0715885627979685,\\
+\#\{\hbox{surviving coordinates}\} &= 9.
+\end{aligned}
+$$
+This is likewise a finite association with predicted confidence only.  The two organisms therefore supply a bounded positive readback for $B^*_{Q6}$ residual coordinates against AlphaFold mean pLDDT after length, amino-acid composition, $GC3$, and $M$-density controls.
+
+\paragraph{Gate interpretation.}
+The biological claim is deliberately narrower than the notation suggests.  A coordinate $q_i$ is allowed to approach a structural-order question only through a same-coordinate chain in which $q_i$ first survives an organism-matched translation readout $T_j$ under the declared controls, and only afterward is a structural-order readout tested conditional on $T_j$ and protein-abundance baseline.  The present finite computation attaches pLDDT predicted-confidence rows and reports the controlled residual association with those rows.  It does not by itself prove that a measured translation readout has survived, and it does not establish that translation mediates the pLDDT association.  If a separate translation contact gives no positive same-coordinate $q_i \to T_j$ entry, then the translation-gated structural-order entry is null for that coordinate even when a direct codon-residual-to-pLDDT association is numerically positive.
+
+\paragraph{Local scope rule.}
+No translation realization, ribosome mechanism, folding process, physical admissibility, protein function, phenotype, or universal biological law follows from this chapter alone.  AlphaFold mean pLDDT is a predicted-confidence readout, not experimental structural order and not protein function.  Positive values of $R^2_{SO}$ do not imply causality, do not identify folding kinetics, do not measure abundance, do not establish localization, and do not license promotion from amino-acid composition because amino-acid composition is already included in $Z$.  A claim at any of those higher layers would require its own matched contact and its own controlled statistic.  The finite conclusion here is only that, in the two reported organisms and under the stated controls, the nine $B^*_{Q6}$ residual coordinates retain a nonzero association with mean pLDDT predicted confidence, with row support and rank diagnostics sufficient for the reported residual calculation.
