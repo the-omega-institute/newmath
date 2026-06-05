@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaCICDecidableTypingFrontierUp
@@ -11,165 +12,124 @@ open BEDC.Meta.TasteGate
 
 inductive MetaCICDecidableTypingFrontierUp : Type where
   | mk
-      (inferType checkSame structuralEq boundedNormal refusal transport replay provenance
-        localName : BHist) : MetaCICDecidableTypingFrontierUp
+      (infer same structural bounded refusal transport replay provenance name : BHist) :
+      MetaCICDecidableTypingFrontierUp
   deriving DecidableEq
 
-def metacicDecidableTypingFrontierEncodeBHist :
-    BHist → RawEvent
+def metacicDecidableTypingFrontierEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | BHist.Empty => []
-  | BHist.e0 h =>
-      BMark.b0 ::
-        metacicDecidableTypingFrontierEncodeBHist h
-  | BHist.e1 h =>
-      BMark.b1 ::
-        metacicDecidableTypingFrontierEncodeBHist h
+  | BHist.e0 h => BMark.b0 :: metacicDecidableTypingFrontierEncodeBHist h
+  | BHist.e1 h => BMark.b1 :: metacicDecidableTypingFrontierEncodeBHist h
 
-def metacicDecidableTypingFrontierDecodeBHist :
-    RawEvent → BHist
+def metacicDecidableTypingFrontierDecodeBHist : RawEvent → BHist
   -- BEDC touchpoint anchor: BHist BMark
   | [] => BHist.Empty
-  | BMark.b0 :: tail =>
-      BHist.e0
-        (metacicDecidableTypingFrontierDecodeBHist tail)
-  | BMark.b1 :: tail =>
-      BHist.e1
-        (metacicDecidableTypingFrontierDecodeBHist tail)
+  | BMark.b0 :: tail => BHist.e0 (metacicDecidableTypingFrontierDecodeBHist tail)
+  | BMark.b1 :: tail => BHist.e1 (metacicDecidableTypingFrontierDecodeBHist tail)
 
-private theorem metacicDecidableTypingFrontier_decode_encode_bhist :
+private theorem MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEncodeBHist h) =
-        h := by
+        (metacicDecidableTypingFrontierEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty =>
-      rfl
-  | e0 h ih =>
-      exact congrArg BHist.e0 ih
-  | e1 h ih =>
-      exact congrArg BHist.e1 ih
+  | Empty => rfl
+  | e0 h ih => exact congrArg BHist.e0 ih
+  | e1 h ih => exact congrArg BHist.e1 ih
 
 def metacicDecidableTypingFrontierFields :
     MetaCICDecidableTypingFrontierUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | MetaCICDecidableTypingFrontierUp.mk inferType checkSame structuralEq boundedNormal
-      refusal transport replay provenance localName =>
-      [inferType, checkSame, structuralEq, boundedNormal, refusal, transport, replay,
-        provenance, localName]
+  | MetaCICDecidableTypingFrontierUp.mk infer same structural bounded refusal transport
+      replay provenance name =>
+      [infer, same, structural, bounded, refusal, transport, replay, provenance, name]
 
 def metacicDecidableTypingFrontierToEventFlow :
     MetaCICDecidableTypingFrontierUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x =>
-      (metacicDecidableTypingFrontierFields x).map
-        metacicDecidableTypingFrontierEncodeBHist
+  | x => (metacicDecidableTypingFrontierFields x).map
+      metacicDecidableTypingFrontierEncodeBHist
 
-private def metacicDecidableTypingFrontierEventAt :
+private def metacicDecidableTypingFrontierEventAtDefault :
     Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
   | Nat.succ index, _event :: rest =>
-      metacicDecidableTypingFrontierEventAt index rest
+      metacicDecidableTypingFrontierEventAtDefault index rest
 
-def metacicDecidableTypingFrontierFromEventFlow :
-    EventFlow → Option MetaCICDecidableTypingFrontierUp :=
+def metacicDecidableTypingFrontierFromEventFlow
+    (ef : EventFlow) : Option MetaCICDecidableTypingFrontierUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (MetaCICDecidableTypingFrontierUp.mk
-        (metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEventAt 0 ef))
-        (metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEventAt 1 ef))
-        (metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEventAt 2 ef))
-        (metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEventAt 3 ef))
-        (metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEventAt 4 ef))
-        (metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEventAt 5 ef))
-        (metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEventAt 6 ef))
-        (metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEventAt 7 ef))
-        (metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEventAt 8 ef)))
+  some
+    (MetaCICDecidableTypingFrontierUp.mk
+      (metacicDecidableTypingFrontierDecodeBHist
+        (metacicDecidableTypingFrontierEventAtDefault 0 ef))
+      (metacicDecidableTypingFrontierDecodeBHist
+        (metacicDecidableTypingFrontierEventAtDefault 1 ef))
+      (metacicDecidableTypingFrontierDecodeBHist
+        (metacicDecidableTypingFrontierEventAtDefault 2 ef))
+      (metacicDecidableTypingFrontierDecodeBHist
+        (metacicDecidableTypingFrontierEventAtDefault 3 ef))
+      (metacicDecidableTypingFrontierDecodeBHist
+        (metacicDecidableTypingFrontierEventAtDefault 4 ef))
+      (metacicDecidableTypingFrontierDecodeBHist
+        (metacicDecidableTypingFrontierEventAtDefault 5 ef))
+      (metacicDecidableTypingFrontierDecodeBHist
+        (metacicDecidableTypingFrontierEventAtDefault 6 ef))
+      (metacicDecidableTypingFrontierDecodeBHist
+        (metacicDecidableTypingFrontierEventAtDefault 7 ef))
+      (metacicDecidableTypingFrontierDecodeBHist
+        (metacicDecidableTypingFrontierEventAtDefault 8 ef)))
 
-private theorem metacicDecidableTypingFrontier_round_trip :
-    ∀ x : MetaCICDecidableTypingFrontierUp,
-      metacicDecidableTypingFrontierFromEventFlow
-          (metacicDecidableTypingFrontierToEventFlow x) =
-        some x := by
+private theorem MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_round_trip
+    (x : MetaCICDecidableTypingFrontierUp) :
+    metacicDecidableTypingFrontierFromEventFlow
+      (metacicDecidableTypingFrontierToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
-  | mk inferType checkSame structuralEq boundedNormal refusal transport replay provenance
-      localName =>
+  | mk infer same structural bounded refusal transport replay provenance name =>
       change
         some
           (MetaCICDecidableTypingFrontierUp.mk
             (metacicDecidableTypingFrontierDecodeBHist
-              (metacicDecidableTypingFrontierEncodeBHist
-                inferType))
+              (metacicDecidableTypingFrontierEncodeBHist infer))
             (metacicDecidableTypingFrontierDecodeBHist
-              (metacicDecidableTypingFrontierEncodeBHist
-                checkSame))
+              (metacicDecidableTypingFrontierEncodeBHist same))
             (metacicDecidableTypingFrontierDecodeBHist
-              (metacicDecidableTypingFrontierEncodeBHist
-                structuralEq))
+              (metacicDecidableTypingFrontierEncodeBHist structural))
             (metacicDecidableTypingFrontierDecodeBHist
-              (metacicDecidableTypingFrontierEncodeBHist
-                boundedNormal))
+              (metacicDecidableTypingFrontierEncodeBHist bounded))
             (metacicDecidableTypingFrontierDecodeBHist
-              (metacicDecidableTypingFrontierEncodeBHist
-                refusal))
+              (metacicDecidableTypingFrontierEncodeBHist refusal))
             (metacicDecidableTypingFrontierDecodeBHist
-              (metacicDecidableTypingFrontierEncodeBHist
-                transport))
+              (metacicDecidableTypingFrontierEncodeBHist transport))
             (metacicDecidableTypingFrontierDecodeBHist
-              (metacicDecidableTypingFrontierEncodeBHist
-                replay))
+              (metacicDecidableTypingFrontierEncodeBHist replay))
             (metacicDecidableTypingFrontierDecodeBHist
-              (metacicDecidableTypingFrontierEncodeBHist
-                provenance))
+              (metacicDecidableTypingFrontierEncodeBHist provenance))
             (metacicDecidableTypingFrontierDecodeBHist
-              (metacicDecidableTypingFrontierEncodeBHist
-                localName))) =
+              (metacicDecidableTypingFrontierEncodeBHist name))) =
           some
-            (MetaCICDecidableTypingFrontierUp.mk inferType checkSame structuralEq
-              boundedNormal refusal transport replay provenance localName)
-      rw [
-        metacicDecidableTypingFrontier_decode_encode_bhist
-          inferType,
-        metacicDecidableTypingFrontier_decode_encode_bhist
-          checkSame,
-        metacicDecidableTypingFrontier_decode_encode_bhist
-          structuralEq,
-        metacicDecidableTypingFrontier_decode_encode_bhist
-          boundedNormal,
-        metacicDecidableTypingFrontier_decode_encode_bhist
-          refusal,
-        metacicDecidableTypingFrontier_decode_encode_bhist
-          transport,
-        metacicDecidableTypingFrontier_decode_encode_bhist
-          replay,
-        metacicDecidableTypingFrontier_decode_encode_bhist
-          provenance,
-        metacicDecidableTypingFrontier_decode_encode_bhist
-          localName]
+            (MetaCICDecidableTypingFrontierUp.mk infer same structural bounded refusal
+              transport replay provenance name)
+      rw [MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode infer,
+        MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode same,
+        MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode structural,
+        MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode bounded,
+        MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode refusal,
+        MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode transport,
+        MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode replay,
+        MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode provenance,
+        MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode name]
 
-private theorem
-    metacicDecidableTypingFrontierToEventFlow_injective
+private theorem MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_injective
     {x y : MetaCICDecidableTypingFrontierUp} :
     metacicDecidableTypingFrontierToEventFlow x =
-        metacicDecidableTypingFrontierToEventFlow y →
-      x = y := by
+      metacicDecidableTypingFrontierToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
@@ -180,24 +140,20 @@ private theorem
     congrArg metacicDecidableTypingFrontierFromEventFlow heq
   exact Option.some.inj
     (Eq.trans
-      (metacicDecidableTypingFrontier_round_trip x).symm
+      (MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread
-        (metacicDecidableTypingFrontier_round_trip y)))
+        (MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_round_trip y)))
 
-private theorem
-    metacicDecidableTypingFrontierFields_faithful :
+private theorem MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_fields :
     ∀ x y : MetaCICDecidableTypingFrontierUp,
       metacicDecidableTypingFrontierFields x =
-        metacicDecidableTypingFrontierFields y →
-      x = y := by
+        metacicDecidableTypingFrontierFields y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
-  | mk inferType₁ checkSame₁ structuralEq₁ boundedNormal₁ refusal₁ transport₁ replay₁
-      provenance₁ localName₁ =>
+  | mk infer₁ same₁ structural₁ bounded₁ refusal₁ transport₁ replay₁ provenance₁ name₁ =>
       cases y with
-      | mk inferType₂ checkSame₂ structuralEq₂ boundedNormal₂ refusal₂ transport₂ replay₂
-          provenance₂ localName₂ =>
+      | mk infer₂ same₂ structural₂ bounded₂ refusal₂ transport₂ replay₂ provenance₂ name₂ =>
           cases hfields
           rfl
 
@@ -205,8 +161,7 @@ instance metacicDecidableTypingFrontierBHistCarrier :
     BHistCarrier MetaCICDecidableTypingFrontierUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := metacicDecidableTypingFrontierToEventFlow
-  fromEventFlow :=
-    metacicDecidableTypingFrontierFromEventFlow
+  fromEventFlow := metacicDecidableTypingFrontierFromEventFlow
 
 instance metacicDecidableTypingFrontierChapterTasteGate :
     ChapterTasteGate MetaCICDecidableTypingFrontierUp where
@@ -215,120 +170,58 @@ instance metacicDecidableTypingFrontierChapterTasteGate :
     intro x
     change
       metacicDecidableTypingFrontierFromEventFlow
-          (metacicDecidableTypingFrontierToEventFlow x) =
-        some x
-    exact metacicDecidableTypingFrontier_round_trip x
+        (metacicDecidableTypingFrontierToEventFlow x) = some x
+    exact MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy
-      (metacicDecidableTypingFrontierToEventFlow_injective
-        heq)
+      (MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_injective heq)
 
 instance metacicDecidableTypingFrontierFieldFaithful :
     FieldFaithful MetaCICDecidableTypingFrontierUp where
   -- BEDC touchpoint anchor: BHist BMark
   fields := metacicDecidableTypingFrontierFields
   field_faithful :=
-    metacicDecidableTypingFrontierFields_faithful
+    MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_fields
 
 instance metacicDecidableTypingFrontierNontrivial :
-    Nontrivial MetaCICDecidableTypingFrontierUp where
+    BEDC.Meta.TasteGate.Nontrivial MetaCICDecidableTypingFrontierUp where
   -- BEDC touchpoint anchor: BHist BMark
   witness_pair :=
-    ⟨MetaCICDecidableTypingFrontierUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+    ⟨MetaCICDecidableTypingFrontierUp.mk BHist.Empty BHist.Empty BHist.Empty
         BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      MetaCICDecidableTypingFrontierUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      MetaCICDecidableTypingFrontierUp.mk (BHist.e0 BHist.Empty) BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty,
       by
         intro h
         cases h⟩
 
+def MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_taste_gate :
+    ChapterTasteGate MetaCICDecidableTypingFrontierUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  metacicDecidableTypingFrontierChapterTasteGate
+
 theorem MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       metacicDecidableTypingFrontierDecodeBHist
-          (metacicDecidableTypingFrontierEncodeBHist h) =
-        h) ∧
+        (metacicDecidableTypingFrontierEncodeBHist h) = h) ∧
       (∀ x : MetaCICDecidableTypingFrontierUp,
         metacicDecidableTypingFrontierFromEventFlow
-            (metacicDecidableTypingFrontierToEventFlow x) =
-          some x) ∧
+          (metacicDecidableTypingFrontierToEventFlow x) = some x) ∧
         (∀ x y : MetaCICDecidableTypingFrontierUp,
           metacicDecidableTypingFrontierToEventFlow x =
-              metacicDecidableTypingFrontierToEventFlow y →
-            x = y) ∧
-          metacicDecidableTypingFrontierEncodeBHist
-            BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
-  have hdecode :
-      ∀ h : BHist,
-        metacicDecidableTypingFrontierDecodeBHist
-            (metacicDecidableTypingFrontierEncodeBHist h) =
-          h := by
-    intro h
-    induction h with
-    | Empty =>
-        rfl
-    | e0 h ih =>
-        exact congrArg BHist.e0 ih
-    | e1 h ih =>
-        exact congrArg BHist.e1 ih
-  have hround :
-      ∀ x : MetaCICDecidableTypingFrontierUp,
-        metacicDecidableTypingFrontierFromEventFlow
-            (metacicDecidableTypingFrontierToEventFlow x) =
-          some x := by
-    intro x
-    cases x with
-    | mk inferType checkSame structuralEq boundedNormal refusal transport replay provenance
-        localName =>
-        change
-          some
-            (MetaCICDecidableTypingFrontierUp.mk
-              (metacicDecidableTypingFrontierDecodeBHist
-                (metacicDecidableTypingFrontierEncodeBHist
-                  inferType))
-              (metacicDecidableTypingFrontierDecodeBHist
-                (metacicDecidableTypingFrontierEncodeBHist
-                  checkSame))
-              (metacicDecidableTypingFrontierDecodeBHist
-                (metacicDecidableTypingFrontierEncodeBHist
-                  structuralEq))
-              (metacicDecidableTypingFrontierDecodeBHist
-                (metacicDecidableTypingFrontierEncodeBHist
-                  boundedNormal))
-              (metacicDecidableTypingFrontierDecodeBHist
-                (metacicDecidableTypingFrontierEncodeBHist
-                  refusal))
-              (metacicDecidableTypingFrontierDecodeBHist
-                (metacicDecidableTypingFrontierEncodeBHist
-                  transport))
-              (metacicDecidableTypingFrontierDecodeBHist
-                (metacicDecidableTypingFrontierEncodeBHist
-                  replay))
-              (metacicDecidableTypingFrontierDecodeBHist
-                (metacicDecidableTypingFrontierEncodeBHist
-                  provenance))
-              (metacicDecidableTypingFrontierDecodeBHist
-                (metacicDecidableTypingFrontierEncodeBHist
-                  localName))) =
-            some
-              (MetaCICDecidableTypingFrontierUp.mk inferType checkSame structuralEq
-                boundedNormal refusal transport replay provenance localName)
-        rw [hdecode inferType, hdecode checkSame, hdecode structuralEq, hdecode boundedNormal,
-          hdecode refusal, hdecode transport, hdecode replay, hdecode provenance, hdecode localName]
-  have hinj :
-      ∀ x y : MetaCICDecidableTypingFrontierUp,
-        metacicDecidableTypingFrontierToEventFlow x =
-            metacicDecidableTypingFrontierToEventFlow y →
-          x = y := by
-    intro x y heq
-    have hread :
-        metacicDecidableTypingFrontierFromEventFlow
-            (metacicDecidableTypingFrontierToEventFlow x) =
-          metacicDecidableTypingFrontierFromEventFlow
-            (metacicDecidableTypingFrontierToEventFlow y) :=
-      congrArg metacicDecidableTypingFrontierFromEventFlow heq
-    exact Option.some.inj (Eq.trans (hround x).symm (Eq.trans hread (hround y)))
-  exact ⟨hdecode, hround, hinj, rfl⟩
+            metacicDecidableTypingFrontierToEventFlow y → x = y) ∧
+          metacicDecidableTypingFrontierEncodeBHist BHist.Empty =
+            ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · exact MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_decode_encode
+  · constructor
+    · exact MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_round_trip
+    · constructor
+      · intro x y heq
+        exact MetaCICDecidableTypingFrontierTasteGate_single_carrier_alignment_injective heq
+      · rfl
 
 end BEDC.Derived.MetaCICDecidableTypingFrontierUp
