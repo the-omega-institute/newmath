@@ -47,6 +47,18 @@ DOMAIN_PROFILE = SCRIPT_DIR / "dna_to_protein_ladder.json"
 PIPELINE_CONFIG = SCRIPT_DIR / "pipeline_config.json"
 FRONTIER_MIN_CYCLES_BETWEEN_PROPOSALS = 6
 FRONTIER_NEW_CONJECTURE_QUIET_CYCLES = 3
+BIOLOGICAL_LAYER_ORDER = [
+    "code_read",
+    "codon_usage_topology",
+    "orf_eligibility",
+    "translation_realization",
+    "structural_order",
+    "physical_admissibility",
+    "function_realization",
+    "system_phenotype",
+    "cross_layer_relation",
+]
+BIOLOGICAL_LAYER_INDEX = {layer: idx for idx, layer in enumerate(BIOLOGICAL_LAYER_ORDER)}
 
 
 def now_iso() -> str:
@@ -89,6 +101,130 @@ def _load_domain_profile() -> dict[str, Any]:
     except (OSError, json.JSONDecodeError):
         return {}
     return data if isinstance(data, dict) else {}
+
+
+def _quality_lab_exports_path(store: BioRealityStore) -> Path:
+    return Path(store.paths.root) / "registries" / "quality_lab_exports.json"
+
+
+def _quality_layer_name(value: Any) -> str:
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, dict):
+        for key in ("layer", "claimed_layer", "can_test", "contact_layer"):
+            layer = value.get(key)
+            if isinstance(layer, str) and layer.strip():
+                return layer.strip()
+    return ""
+
+
+def _quality_layers(values: Any) -> list[str]:
+    if isinstance(values, list):
+        layers = [_quality_layer_name(item) for item in values]
+    else:
+        layers = [_quality_layer_name(values)]
+    return [layer for layer in layers if layer in BIOLOGICAL_LAYER_INDEX]
+
+
+def _quality_target_key(target: dict[str, Any]) -> tuple[str, str]:
+    return (str(target.get("packet_id") or ""), str(target.get("target_kind") or ""))
+
+
+def _consume_quality_lab_export_for_hardening(store: BioRealityStore) -> dict[str, int]:
+    export_path = _quality_lab_exports_path(store)
+    if not export_path.exists():
+        return {"quality_export_consumed": 0, "hardening_targets_written": 0}
+    try:
+        data = json.loads(export_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"quality_export_consumed": 0, "hardening_targets_written": 0}
+    exports = data.get("exports") if isinstance(data, dict) else []
+    if not isinstance(exports, list):
+        return {"quality_export_consumed": 0, "hardening_targets_written": 0}
+
+    existing = read_jsonl(store.paths.hardening_targets)
+    seen = {_quality_target_key(target) for target in existing}
+    new_targets: list[dict[str, Any]] = []
+    written_keys: set[tuple[str, str]] = set()
+
+    for packet in exports:
+        if not isinstance(packet, dict):
+            continue
+        packet_id = str(packet.get("packet_id") or packet.get("claim_id") or "")
+        if not packet_id:
+            continue
+        claimed_layer = _quality_layer_name(packet.get("claimed_layer"))
+        claimed_index = BIOLOGICAL_LAYER_INDEX.get(claimed_layer)
+
+        source_spec = packet.get("source_spec") if isinstance(packet.get("source_spec"), dict) else {}
+        can_test_layers = _quality_layers(source_spec.get("can_test"))
+        can_test_indices = [BIOLOGICAL_LAYER_INDEX[layer] for layer in can_test_layers]
+        if claimed_index is not None and can_test_indices and claimed_index > max(can_test_indices):
+            max_can_test = BIOLOGICAL_LAYER_ORDER[max(can_test_indices)]
+            target = {
+                "target_kind": "gate_hardening",
+                "reason": "claimed layer exceeds reality contact scope",
+                "suggested_gate": "require_layer_matched_reality_contact",
+                "packet_id": packet_id,
+                "claimed_layer": claimed_layer,
+                "max_can_test": max_can_test,
+            }
+            key = _quality_target_key(target)
+            if key not in seen and key not in written_keys:
+                new_targets.append(target)
+                written_keys.add(key)
+
+        not_claimed_layers = set(_quality_layers(packet.get("not_claimed")))
+        if claimed_index is not None:
+            missing_layers = [
+                layer
+                for layer in BIOLOGICAL_LAYER_ORDER[claimed_index + 1:]
+                if layer not in not_claimed_layers
+            ]
+            if missing_layers:
+                target = {
+                    "target_kind": "writeback_hardening",
+                    "reason": "paper artifact lacks not_claimed boundary for higher biological layer",
+                    "suggested_gate": "require_not_claimed_for_uncontacted_layers",
+                    "packet_id": packet_id,
+                    "missing_not_claimed_layers": missing_layers,
+                }
+                key = _quality_target_key(target)
+                if key not in seen and key not in written_keys:
+                    new_targets.append(target)
+                    written_keys.add(key)
+
+        ledger_rows = packet.get("ledger_rows")
+        if isinstance(ledger_rows, list):
+            for row in ledger_rows:
+                if not isinstance(row, dict) or str(row.get("status") or "") not in {"open", "partial"}:
+                    continue
+                target = {
+                    "target_kind": "ledger_followup",
+                    "reason": str(row.get("residue") or ""),
+                    "packet_id": packet_id,
+                    "ledger_kind": str(row.get("kind") or ""),
+                    "severity": str(row.get("severity") or ""),
+                }
+                key = _quality_target_key(target)
+                if key not in seen and key not in written_keys:
+                    new_targets.append(target)
+                    written_keys.add(key)
+
+        classifier_spec = packet.get("classifier_spec") if isinstance(packet.get("classifier_spec"), dict) else {}
+        if classifier_spec.get("blocked_overclaim") is True:
+            target = {
+                "target_kind": "overclaim_review",
+                "reason": "gate blocked an overclaim",
+                "packet_id": packet_id,
+            }
+            key = _quality_target_key(target)
+            if key not in seen and key not in written_keys:
+                new_targets.append(target)
+                written_keys.add(key)
+
+    append_jsonl(store.paths.hardening_targets, new_targets)
+    return {"quality_export_consumed": len([item for item in exports if isinstance(item, dict)]), "hardening_targets_written": len(new_targets)}
 
 
 def run_vision_lane(store: BioRealityStore) -> dict[str, Any]:
@@ -2002,7 +2138,17 @@ def run_agent_lane(store: BioRealityStore, *, execute_codex: bool = True, max_di
 
 
 def run_quality_lane(store: BioRealityStore) -> dict[str, Any]:
-    return agent_bus.run_quality_lane(store)
+    summary = agent_bus.run_quality_lane(store)
+    # 每 cycle 先重新编译 durable quality export (从当前 gate-passed/review-ready packet),
+    # 再让 bio-Q 消费它产 hardening targets. 编译失败不阻断 bio-Q.
+    try:
+        import quality_lab_export
+        rebuilt = quality_lab_export.main([])
+        summary["quality_export_rebuilt"] = (rebuilt == 0)
+    except Exception as exc:
+        summary["quality_export_error"] = str(exc)[:200]
+    summary.update(_consume_quality_lab_export_for_hardening(store))
+    return summary
 
 
 def run_assimilation_lane(paths: BioRealityPaths) -> dict[str, Any]:
@@ -4224,7 +4370,7 @@ def _write_namecert_proposals(
                 except OSError:
                     existing = ""
                 if existing and not _is_stub_namecert(existing):
-                    _append_writeback_log(store, "kept_existing_rich_on_codex_fail", {"claim_id": claim_id, "slug": slug, "codex_ok": codex_ok, "hygiene_issues": hygiene_issues[:3]})
+                    # codex 失败/hygiene 不过, 但已部署是 rich → 保留, 不被 stub 覆盖.
                     slugs.append(slug)
                     continue
             if hygiene_issues:
