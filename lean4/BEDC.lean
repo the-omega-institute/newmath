@@ -4033,6 +4033,7 @@ import BEDC.Derived.FanfunctionalUp.CompactContinuityConsumer
 import BEDC.Derived.FanfunctionalUp.CompactMetricFiniteNetRoute
 import BEDC.Derived.FanfunctionalUp.CompactMetricUniformBarScope
 import BEDC.Derived.FanfunctionalUp.CompactUniformConsumerScope
+import BEDC.Derived.FanfunctionalUp.FanTheoremUniformDepth
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusObligations
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
@@ -4057,6 +4058,7 @@ import BEDC.Derived.FanfunctionalUp.RootUnblockWitnessWindowTotality
 import BEDC.Derived.FanfunctionalUp.RootUniformContinuityConsumer
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusObligation
+import BEDC.Derived.FanfunctionalUp.RootUniformModulusReadback
 import BEDC.Derived.FanfunctionalUp.RootWindowObligations
 import BEDC.Derived.FanfunctionalUp.ScopedChoiceNonescape
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
@@ -4368,6 +4370,7 @@ import BEDC.Derived.FiniteChoiceUp.TasteGate
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverRefinementUp.TasteGate
 import BEDC.Derived.FiniteDimensionalCompactnessUp.TasteGate
+import BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
 import BEDC.Derived.FiniteDyadicRefinementBudgetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonNetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonWitnessUp.TasteGate
