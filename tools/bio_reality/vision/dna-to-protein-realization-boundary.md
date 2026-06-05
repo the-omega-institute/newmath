@@ -244,3 +244,27 @@ Locked next experiments:
      scope: modeled-tAI, 3 organisms, underpowered. This upgrades coupling -> survival.
   2. S^{QP} + M^{QTP}: blocked on matched proteomics (PAXdb / PRIDE) + organism-
      matched ribo-seq; return needs_data with the precise missing contact.
+
+### Correction 2026-06-05 (empirical): S^{QT} is ALSO rank-degenerate at 3 organisms
+
+A built S^{QT} experiment (residualize B*_Q6 against Z = AA-composition/GC3/
+length/M-density, compute R2_QT + per-entry S_ij vs modeled-tAI) returned an
+ALL-1.0 matrix (R2_QT = 1.0, every entry 1.0). Reason: with n=3 organisms,
+centering leaves ~1-2 DOF in the row space; a 9-coordinate residual subspace
+projected onto that trivially explains everything. This is a rank-saturation
+artifact, NOT survival. Honest status: needs_data, not passed.
+
+So the earlier framing ("S^{QT} is the computable part now") is WRONG. The
+distinction is between coupling and survival:
+  - A^{QT} (coupling, NO controls/rank): computable now -> 81/81 above threshold. Done.
+  - S^{QT} (survival, WITH controls): needs n >> p. At n=3 it is rank-degenerate.
+    Powered S^{QT} needs >=40 organisms' full tRNA gene-copy + codon usage.
+
+Corrected frontier: ALL THREE matrices need data acquisition.
+  S^{QT}: fetch >=40 organisms' tRNA gene-copy (GtRNAdb has hundreds) + codon
+          usage (Kazusa / CoCoPUTs). Then survival becomes powered.
+  S^{QP}, M^{QTP}: also need matched proteomics (PAXdb/PRIDE) + organism-matched
+          ribo-seq.
+The real next step is a multi-organism data campaign, NOT more experiments on
+n=3. Building survival on n=3 only yields vacuous all-1.0; reporting it as
+passed would be over-claiming and is refused.
