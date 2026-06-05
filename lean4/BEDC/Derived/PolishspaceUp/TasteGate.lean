@@ -137,4 +137,27 @@ theorem PolishSpaceTasteGate_single_carrier_alignment :
       (fun _ _ heq => PolishSpaceTasteGate_single_carrier_alignment_toEventFlow_injective heq),
       rfl⟩
 
+theorem PolishSpaceRegSeqRatRealReadbackScope (x : PolishSpaceUp) :
+    ∃ M K D S R W H C G N : BHist,
+      x = PolishSpaceUp.mk M K D S R W H C G N ∧
+        polishSpaceToEventFlow x =
+          [polishSpaceEncodeBHist M,
+            polishSpaceEncodeBHist K,
+            polishSpaceEncodeBHist D,
+            polishSpaceEncodeBHist S,
+            polishSpaceEncodeBHist R,
+            polishSpaceEncodeBHist W,
+            polishSpaceEncodeBHist H,
+            polishSpaceEncodeBHist C,
+            polishSpaceEncodeBHist G,
+            polishSpaceEncodeBHist N] ∧
+          polishSpaceFromEventFlow (polishSpaceToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk M K D S R W H C G N =>
+      exact
+        ⟨M, K, D, S, R, W, H, C, G, N, rfl, rfl,
+          PolishSpaceTasteGate_single_carrier_alignment_round_trip
+            (PolishSpaceUp.mk M K D S R W H C G N)⟩
+
 end BEDC.Derived.PolishSpaceUp
