@@ -3342,6 +3342,7 @@ import BEDC.Derived.DiagonallimitcompatibilityUp.BridgeSupportMinimality
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSealHandoffDeterminacy
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorBridgeMeetExactness
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorNonescape
+import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorRoute
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSelectorRouteMeet
 import BEDC.Derived.DiagonallimitcompatibilityUp.BudgetSourceReadbackTotality
 import BEDC.Derived.DiagonallimitcompatibilityUp.CauchyFunctorSelectorAdmissionLock
@@ -3978,6 +3979,7 @@ import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RootFiniteBarDepth
 import BEDC.Derived.FanfunctionalUp.RootUnblockCantorPrefix
+import BEDC.Derived.FanfunctionalUp.RootUnblockCompactRoute
 import BEDC.Derived.FanfunctionalUp.RootUnblockFanDepth
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
 import BEDC.Derived.FanfunctionalUp.RootWindowObligations
