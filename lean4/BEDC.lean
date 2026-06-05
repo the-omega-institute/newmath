@@ -4043,6 +4043,7 @@ import BEDC.Derived.FanfunctionalUp.NameCertObligations
 import BEDC.Derived.FanfunctionalUp.ObligationPrecedence
 import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RealRegSeqRatScope
+import BEDC.Derived.FanfunctionalUp.RootBarDepthExactness
 import BEDC.Derived.FanfunctionalUp.RootCantorCompactModulus
 import BEDC.Derived.FanfunctionalUp.RootCantorWindowHandoff
 import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
@@ -4050,6 +4051,7 @@ import BEDC.Derived.FanfunctionalUp.RootChoiceFreeNonescape
 import BEDC.Derived.FanfunctionalUp.RootFiniteBarDepth
 import BEDC.Derived.FanfunctionalUp.RootFiniteDepthExhaustion
 import BEDC.Derived.FanfunctionalUp.RootModulusWindowCoverage
+import BEDC.Derived.FanfunctionalUp.RootNamecertAcceptance
 import BEDC.Derived.FanfunctionalUp.RootSchemaLedger
 import BEDC.Derived.FanfunctionalUp.RootUnblockCantorPrefix
 import BEDC.Derived.FanfunctionalUp.RootUnblockCompactRoute
@@ -7545,6 +7547,7 @@ import BEDC.Derived.RealWindowSynchronizerUp.BudgetPullback
 import BEDC.Derived.RealWindowSynchronizerUp.Nonescape
 import BEDC.Derived.RealWindowSynchronizerUp.StdBridge
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
+import BEDC.Derived.Real_modulus_of_convergenceUp
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.Nonescape
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.SiblingIndependence
 import BEDC.Derived.RealityConstrainedApproximationTowerUp.TasteGate
