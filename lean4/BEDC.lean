@@ -5881,6 +5881,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.NormalFormPublicNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormReadbackBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.NormalFormRouteCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationBudgetNonescape
+import BEDC.Derived.MetaCICCriticalPathUp.NormalizationConsumerHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationFrontierFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationObstructionRouteCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationObstructionSourceOrder
@@ -5897,6 +5898,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealConsumerMinimality
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyBudget
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealDependencyDiamond
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealExitRefusalBoundary
+import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealNormalFormHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockAdmission
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockCompleteness
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealRootUnblockSoundness
@@ -8252,6 +8254,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.MetricCompletionConsumerAdmission
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RealRefusalBoundary
+import BEDC.Derived.SequentiallyCompleteMetricUp.RealRouteBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.RegSeqRatHandoff
 import BEDC.Derived.SequentiallyCompleteMetricUp.RegularCauchyLimitCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.RegularLimitExtraction
@@ -8689,6 +8692,7 @@ import BEDC.Derived.TensorProductUp
 import BEDC.Derived.TermStratumChoiceClosureUp.TasteGate
 import BEDC.Derived.TerminationRefusalBoundaryUp.TasteGate
 import BEDC.Derived.TernaryExpansionUp.TasteGate
+import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
 import BEDC.Derived.TheorySelfClassifierUp.TasteGate
 import BEDC.Derived.TheoryTransitionCertificateUp.ConservativePreservation
