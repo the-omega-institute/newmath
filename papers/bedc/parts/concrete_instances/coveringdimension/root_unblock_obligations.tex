@@ -121,3 +121,42 @@ Now restrict the downstream consumer to the nerve route. The $\SimplicialComplex
 
 Therefore the handoff is finite and constructive. It is a consumer route from the displayed CoveringDimension ledger to the displayed simplicial-complex packet, not a separate compactness or dimension principle.
 \end{proof}
+
+\begin{definition}[CoveringDimension finite-refinement carrier]
+\label{def:covering-dimension-finite-refinement-carrier}
+A root finite-refinement carrier for $\CoveringDimensionUp$ is the accepted packet
+$$
+D=(K,E,C,R,O,L,S,M,A,G,H,T,P,N)
+$$
+whose visible rows extend the root cover ledger by finite downstream handoff data. The rows $K$ and $E$ are the $\CompactMetricUp$ and $\MetricUp$ source rows; $C$ is the finite cover row; $R$ records refinement membership; $O$ is the finite order-bound row; $L$ is the $\CompactCoverLebesgueLedgerUp$ support row; $S$ is the $\SimplicialComplexUp$ nerve handoff row; $M$ is the $\MetricCompletionUp$ consumer row; $A,G$ are the $\RealSeparabilityUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ scale windows grouped as finite rational and dyadic data; and $H,T,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CoveringDimensionUp}$ row.
+
+The carrier admits only finite cover rows, finite refinement memberships, finite order bounds, finite scale windows, and local naming rows. It has no coordinate for arbitrary open-cover compactness, selected refinements, a host dimension predicate, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[CoveringDimension finite-refinement NameCert obligations]
+\label{thm:covering-dimension-finite-refinement-namecert-obligations}
+For every accepted finite-refinement carrier $D=(K,E,C,R,O,L,S,M,A,G,H,T,P,N)$, the local $\NameCert_{\CoveringDimensionUp}$ root obligation surface first exposes $\CompactMetricUp$, $\MetricUp$, finite cover rows, refinement membership, $\CompactCoverLebesgueLedgerUp$, $\RealSeparabilityUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any order-bound export is available. The certificate surface is exactly this finite packet and does not import arbitrary open-cover compactness, selected refinement, host dimension data, or ambient completion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:covering-dimension-finite-refinement-carrier}. The rows $K,E,C,R,O,L$ are the finite cover, refinement, order, and Lebesgue-ledger rows already isolated by \autoref{thm:covering-dimension-root-obligation-surface}.
+
+Next read the scale and completion-facing rows. By \autoref{thm:coveringdimension-root-real-separability-completion-route}, $\RealSeparabilityUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\MetricCompletionUp$ consume the displayed finite prefix rather than replacing it by a separate completeness or separability theorem.
+
+Finally use the structural rows $H,T,P,N$. They transport, replay, source, and name the same finite packet, so every root obligation remains inside the displayed carrier.
+\end{proof}
+
+\begin{theorem}[CoveringDimension finite-order handoff]
+\label{thm:covering-dimension-finite-order-handoff}
+If an accepted $\CoveringDimensionUp$ finite-refinement packet exports an order bound to $\SimplicialComplexUp$ or $\MetricCompletionUp$, the export must pass through
+$$
+\CompactMetricUp,\MetricUp,C,R,O,\CompactCoverLebesgueLedgerUp,\RealSeparabilityUp,\RegSeqRatUp,\DyadicRatCoreUp,H,T,P,N .
+$$
+The $\SimplicialComplexUp$ consumer receives only the finite nerve and incidence data determined by $C,R,O,L$, and the $\MetricCompletionUp$ consumer receives only the finite scale and rational or dyadic tolerance windows attached to the same packet. Neither handoff receives arbitrary open-cover compactness, selected refinement, a host dimension predicate, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:covering-dimension-finite-refinement-namecert-obligations}. It fixes the finite cover, refinement, order, scale, transport, replay, provenance, and naming rows before any order-bound export is visible.
+
+For the simplicial route, apply \autoref{thm:covering-dimension-simplicial-nerve-handoff}. The nerve receives finite cover incidences and the finite order ledger, not selected vertices or a host realization theorem.
+
+For the completion route, apply \autoref{thm:coveringdimension-root-real-separability-completion-route}. The completion-facing packet receives the same finite order bound together with rational and dyadic scale windows. Thus both downstream consumers read the finite order handoff from the displayed carrier and cannot escape to arbitrary compactness, selected refinement, host dimension, or ambient completeness.
+\end{proof}
