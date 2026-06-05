@@ -137,6 +137,13 @@ private theorem rationalIntervalSubdivision_round_trip :
         rationalIntervalSubdivisionDecode_encode_bhist provenance,
         rationalIntervalSubdivisionDecode_encode_bhist name]
 
+theorem RationalIntervalSubdivisionTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : RationalIntervalSubdivisionUp,
+      rationalIntervalSubdivisionFromEventFlow
+        (rationalIntervalSubdivisionToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  exact rationalIntervalSubdivision_round_trip
+
 private theorem rationalIntervalSubdivisionToEventFlow_injective
     {x y : RationalIntervalSubdivisionUp} :
     rationalIntervalSubdivisionToEventFlow x = rationalIntervalSubdivisionToEventFlow y →
@@ -169,6 +176,47 @@ instance rationalIntervalSubdivisionChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (rationalIntervalSubdivisionToEventFlow_injective heq)
+
+def rationalIntervalSubdivisionFields : RationalIntervalSubdivisionUp → List BHist
+  -- BEDC touchpoint anchor: BHist BMark
+  | RationalIntervalSubdivisionUp.mk source endpoints mesh width window handoff transport replay
+      provenance name =>
+      [source, endpoints, mesh, width, window, handoff, transport, replay, provenance, name]
+
+instance rationalIntervalSubdivisionFieldFaithful :
+    FieldFaithful RationalIntervalSubdivisionUp where
+  -- BEDC touchpoint anchor: BHist BMark FieldFaithful
+  fields := rationalIntervalSubdivisionFields
+  field_faithful := by
+    intro x y h
+    cases x with
+    | mk source₁ endpoints₁ mesh₁ width₁ window₁ handoff₁ transport₁ replay₁ provenance₁
+        name₁ =>
+      cases y with
+      | mk source₂ endpoints₂ mesh₂ width₂ window₂ handoff₂ transport₂ replay₂ provenance₂
+          name₂ =>
+        simp only [rationalIntervalSubdivisionFields] at h
+        injection h with hSource tailSource
+        injection tailSource with hEndpoints tailEndpoints
+        injection tailEndpoints with hMesh tailMesh
+        injection tailMesh with hWidth tailWidth
+        injection tailWidth with hWindow tailWindow
+        injection tailWindow with hHandoff tailHandoff
+        injection tailHandoff with hTransport tailTransport
+        injection tailTransport with hReplay tailReplay
+        injection tailReplay with hProvenance tailProvenance
+        injection tailProvenance with hName _tailName
+        subst hSource
+        subst hEndpoints
+        subst hMesh
+        subst hWidth
+        subst hWindow
+        subst hHandoff
+        subst hTransport
+        subst hReplay
+        subst hProvenance
+        subst hName
+        rfl
 
 theorem RationalIntervalSubdivisionTasteGate_single_carrier_alignment :
     (∀ h : BHist,
