@@ -132,7 +132,7 @@ def test_summary_rows_are_pointer_only_and_key_allowlisted():
             if key in {"ledger_pointer", "discovery_map_pointer", "witness_pointer", "claim_verdict_pointer"}:
                 continue
             text = str(value).lower()
-        assert not any(term in text for term in FORBIDDEN_POSITIVE_TERMS)
+            assert not any(term in text for term in FORBIDDEN_POSITIVE_TERMS)
 
 
 def test_finite_gate_consumes_negative_summary_row_pointers():

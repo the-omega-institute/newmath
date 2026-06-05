@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.verdict import POSITIVE_DISCOVERY, synthesize_certification_verdict
 from tools import quality_discovery_adversarial_generator as adversarial_generator
@@ -39,10 +40,6 @@ ACTIVE_KINDS = (
 DEFERRED_KINDS = (
     "single_threshold_positive_only",
     "metadata_leakage_detector",
-)
-FINITE_GATE_NOT_CLAIMED = (
-    "finite gate checks finite evidence-set structure, not model-result correctness",
-    "finite gate does not own negative witness report facts",
 )
 ESCAPE_LEVELS = {"D4", "D5-O", "D5-M"}
 NON_ESCAPE_TERMINAL_VERDICTS = {"rejected", "demoted", "ledger-only", "accepted"}
@@ -125,33 +122,15 @@ def _source_pointer(kind: str, claim_rows: list[Mapping[str, Any]]) -> str:
     return "reports/canonical/discovery_negative_witnesses.json:$.witnesses"
 
 
-def _finite_gate(source_pointer: str) -> dict[str, Any]:
-    return {
-        "status": "pass",
-        "hardgates": {
-            "FG-HG1": {"status": "pass", "reason": "positive evidence pointers are finite and unique"},
-            "FG-HG2": {"status": "pass", "reason": "negative summary ids and row pointers are finite"},
-            "FG-HG3": {"status": "pass", "reason": "revocation pointers are finite with explicit overlap status"},
-            "FG-HG4": {"status": "pass", "reason": "finite projection is materialized and sorted deterministically"},
-        },
-        "counts": {
-            "positive": 1,
-            "negative": 0,
-            "revocation": 0,
-        },
-        "pointers": {
-            "positive": [source_pointer],
-            "negative": [],
-            "revocation": [],
-        },
-        "overlaps": {
-            "status": "disjoint",
-            "positive_negative": [],
-            "positive_revocation": [],
-            "negative_revocation": [],
-        },
-        "not_claimed": list(FINITE_GATE_NOT_CLAIMED),
-    }
+def _positive_discovery_map(source_pointer: str) -> dict[str, Any]:
+    artifact, separator, pointer = source_pointer.partition(":")
+    row: dict[str, Any] = {"discovery_level": "D0"}
+    if separator and pointer.startswith("$."):
+        row["json_artifact"] = artifact
+        row["evidence_pointer"] = pointer
+    else:
+        row["evidence_pointer"] = source_pointer
+    return {"rows": [row]}
 
 
 def _static_witness_audit() -> dict[str, Any]:
@@ -204,7 +183,13 @@ def pseudo_candidates(root: Path) -> list[PseudoCandidate]:
         certificate, evidence = _base_candidate()
         mutate(certificate, evidence)
         source_pointer = _source_pointer(kind, claim_rows)
-        evidence["finite_gate"] = _finite_gate(source_pointer)
+        evidence["finite_gate"] = project_finite_discovery_gate(
+            {
+                "discovery_map": _positive_discovery_map(source_pointer),
+                "negative_witness_summary": {"audit_status": "pass", "row_count": 0, "rows": []},
+                "revocations": [],
+            }
+        )
         digest_source = {
             "kind": kind,
             "source_pointer": source_pointer,
