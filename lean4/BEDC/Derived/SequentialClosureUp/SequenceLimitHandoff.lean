@@ -23,7 +23,7 @@ def SequentialClosureCarrier [AskSetup] [PackageSetup]
   UnaryHistory T ∧ UnaryHistory M ∧ UnaryHistory S ∧ UnaryHistory Q ∧
     UnaryHistory L ∧ UnaryHistory U ∧ UnaryHistory W ∧ UnaryHistory R ∧
       UnaryHistory A ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
-        UnaryHistory N ∧ PkgSig bundle P pkg
+        UnaryHistory N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
 
 theorem SequentialClosureSequenceLimitHandoff [AskSetup] [PackageSetup]
     {T M S Q L U W R A H C P N limitRead windowRead sealRead named : BHist}
@@ -51,7 +51,7 @@ theorem SequentialClosureSequenceLimitHandoff [AskSetup] [PackageSetup]
   intro carrier limitRoute windowRoute sealRoute namedRoute namedPkg
   obtain ⟨_topologyUnary, _metricUnary, _subsetUnary, _sourceUnary, limitUnaryBase,
     ledgerUnary, windowUnaryBase, _regSeqUnary, sealUnaryBase, _transportUnary,
-    _continuationUnary, pUnary, nUnary, pPkg⟩ := carrier
+    _continuationUnary, pUnary, nUnary, pPkg, _nPkg⟩ := carrier
   have limitUnary : UnaryHistory limitRead :=
     unary_cont_closed limitUnaryBase ledgerUnary limitRoute
   have windowUnary : UnaryHistory windowRead :=
