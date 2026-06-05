@@ -221,6 +221,43 @@ theorem ProductMetricCarrier_distance_ledger_triangle_route [AskSetup] [PackageS
     ⟨distanceUnary, transportUnary, triangleReadUnary, transportRow, triangleRoute,
       provenancePkg⟩
 
+theorem ProductMetricCarrier_distance_ledger_scope [AskSetup] [PackageSetup]
+    {left right leftDistance rightDistance product distance transport route provenance localCert
+      componentRead scopedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ProductMetricCarrier left right leftDistance rightDistance product distance transport route
+        provenance localCert bundle pkg ->
+      Cont leftDistance rightDistance componentRead ->
+        Cont product componentRead scopedRead ->
+          PkgSig bundle scopedRead pkg ->
+            UnaryHistory leftDistance ∧ UnaryHistory rightDistance ∧
+              UnaryHistory componentRead ∧ UnaryHistory scopedRead ∧
+                hsame distance componentRead ∧ hsame transport scopedRead ∧
+                  Cont leftDistance rightDistance distance ∧
+                    Cont leftDistance rightDistance componentRead ∧
+                      Cont product componentRead scopedRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle scopedRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont UnaryHistory
+  intro carrier componentReadRow scopedReadRow scopedReadPkg
+  obtain ⟨leftUnary, rightUnary, leftDistanceUnary, rightDistanceUnary, _localCertUnary,
+    productRow, distanceRow, transportRow, _routeRow, provenancePkg, _nameCert⟩ := carrier
+  have productUnary : UnaryHistory product :=
+    unary_cont_closed leftUnary rightUnary productRow
+  have componentReadUnary : UnaryHistory componentRead :=
+    unary_cont_closed leftDistanceUnary rightDistanceUnary componentReadRow
+  have scopedReadUnary : UnaryHistory scopedRead :=
+    unary_cont_closed productUnary componentReadUnary scopedReadRow
+  have sameDistanceComponentRead : hsame distance componentRead :=
+    cont_respects_hsame (hsame_refl leftDistance) (hsame_refl rightDistance) distanceRow
+      componentReadRow
+  have sameTransportScopedRead : hsame transport scopedRead :=
+    cont_respects_hsame (hsame_refl product) sameDistanceComponentRead transportRow
+      scopedReadRow
+  exact
+    ⟨leftDistanceUnary, rightDistanceUnary, componentReadUnary, scopedReadUnary,
+      sameDistanceComponentRead, sameTransportScopedRead, distanceRow, componentReadRow,
+      scopedReadRow, provenancePkg, scopedReadPkg⟩
+
 theorem ProductMetricCarrier_metricspace_obligation_package [AskSetup] [PackageSetup]
     {left right leftDistance rightDistance product distance transport route provenance localCert
       leftRead rightRead triangleRead : BHist}
