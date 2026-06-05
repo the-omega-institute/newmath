@@ -195,6 +195,68 @@ Use \autoref{thm:totally-bounded-completion-finite-net-completion-obligations}. 
 The non-escape conclusion follows from \autoref{thm:totally-bounded-completion-no-escape}. The excluded objects have no carrier coordinate and no provenance row, so the uniformly continuous extension read is exactly the listed route.
 \end{proof}
 
+\begin{definition}[TotallyBoundedCompletion route surface]
+\label{def:totally-bounded-completion-route-surface}
+The $\TotallyBoundedCompletionUp$ route surface of an accepted carrier
+$K=(X,T,N,F,E,C,S,U,H,P,L)$ is the displayed BEDC route
+$$
+X,T,N \longmapsto F \longmapsto E \longmapsto C \longmapsto S,U \longmapsto H,P,L .
+$$
+It is admissible exactly when the source metric row $X$, the total-bounded finite-net ledger $T$, and the net-refinement row $N$ are consumed before the $\CauchyFilterBasisUp$ row $F$; $F$ is consumed before the $\CompletionEmbeddingUp$ row $E$; $E$ is consumed before the $\ConstructiveMetricCompletionUp$ row $C$; $C$ is consumed before separated comparison $S$ or uniformly continuous extension handoff $U$; and $H,P,L$ only transport, source, and name that displayed route. No other row order is an admissible $\TotallyBoundedCompletionUp$ route surface.
+\end{definition}
+
+\begin{theorem}[TotallyBoundedCompletion route coverage]
+\label{thm:totally-bounded-completion-route-coverage}
+Every accepted $\TotallyBoundedCompletionUp$ packet displays exactly the route surface of \autoref{def:totally-bounded-completion-route-surface}. In particular, every accepted packet has the route
+$$
+X,T,N \longmapsto F \longmapsto E \longmapsto C \longmapsto S,U \longmapsto H,P,L
+$$
+and has no second completion-facing route through open-cover compactness, quotient representatives, selected limit points, countable choice, or detached $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Open the carrier of \autoref{def:totally-bounded-completion-carrier}. Its visible coordinates are precisely $X,T,N,F,E,C,S,U,H,P,L$, and the classifier exports only componentwise transport through those coordinates.
+
+The NameCert obligations of \autoref{thm:totally-bounded-completion-namecert-obligations} make the same list exhaustive. Finite-net persistence reads $T,N$; basis and embedding replay reads $F,E,C$; separated and extension handoff reads $S,U$; and the remaining rows $H,P,L$ transport, source, and name the same packet.
+
+The route displayed in \autoref{thm:totally-bounded-completion-net-handoff} is therefore not merely one possible consumer path. Together with the ledger non-escape statement of \autoref{thm:totally-bounded-completion-no-escape}, it is the whole completion-facing surface, and the excluded completion principles have no carrier row from which a second route could be read.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion total-bounded input admission]
+\label{thm:totally-bounded-completion-total-bounded-input-admission}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the total-bounded finite-net rows $T,N$ are consumed before any Cauchy-filter, embedding, constructive-completion, separated-equality, or uniformly continuous extension read is admitted. Thus no read of $F,E,C,S,$ or $U$ can supply the finite-net input that the route surface requires from $T,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission gives the ordered coordinates of $K$ by \autoref{def:totally-bounded-completion-carrier}. The rows $T$ and $N$ are the only rows that record finite centers, membership constructors, distance witnesses, rational bounds, and tolerance refinement.
+
+Apply the finite-net persistence clause of \autoref{thm:totally-bounded-completion-namecert-obligations}. It requires each completion-facing tolerance request to inspect the displayed $\TotallyBoundedUp$ ledger and its refinement row before a completion read is formed.
+
+The handoff theorem \autoref{thm:totally-bounded-completion-net-handoff} then transports that input through $F,E,C$ and only afterward reaches $S$ or $U$. Since \autoref{thm:totally-bounded-completion-no-escape} excludes external compactness and selected-limit rows, none of $F,E,C,S,$ or $U$ can replace the total-bounded input supplied by $T,N$.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion completion route exactness]
+\label{thm:totally-bounded-completion-completion-route-exactness}
+For every accepted $\TotallyBoundedCompletionUp$ packet, the only completion-facing route rows are the $\CauchyFilterBasisUp$ row $F$, the $\CompletionEmbeddingUp$ row $E$, and the $\ConstructiveMetricCompletionUp$ route $C$. All separated comparison, uniformly continuous extension, transport, provenance, and local naming reads are downstream of $F,E,C$ and do not form another completion route.
+\end{theorem}
+\begin{proof}
+Project an accepted packet through \autoref{def:totally-bounded-completion-carrier}. The rows named as completion-facing are exactly $F,E,C$: $F$ forms the Cauchy-filter basis, $E$ supplies the dense embedding boundary, and $C$ records the constructive completion route.
+
+The basis and embedding replay clause of \autoref{thm:totally-bounded-completion-namecert-obligations} admits completion reads only by passing through those three rows. The displayed route of \autoref{thm:totally-bounded-completion-net-handoff} places $S,U,H,P,L$ strictly after them.
+
+It remains to exclude hidden completion rows. The ledger non-escape theorem \autoref{thm:totally-bounded-completion-no-escape} says that exported completion reads stay inside the finite ledger $X,T,N,F,E,C,S,U,H,P,L$, and no coordinate outside $F,E,C$ is typed as a Cauchy-filter, embedding, or constructive-completion route. Hence $F,E,C$ are exact.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion extension consumer boundary]
+\label{thm:totally-bounded-completion-extension-consumer-boundary}
+Every $\UniformContinuousExtensionUp$ consumer of an accepted $\TotallyBoundedCompletionUp$ packet must enter through the displayed finite-net and completion route surface of \autoref{def:totally-bounded-completion-route-surface}. Such a consumer cannot bypass $T,N,F,E,C$ by reading only separated equality, transport, provenance, local naming, quotient completion, selected limits, countable choice, or open-cover compactness.
+\end{theorem}
+\begin{proof}
+Start from the extension coordinate. By \autoref{thm:totally-bounded-completion-extension-handoff}, a uniformly continuous extension consumer receives the displayed route $X,T,N,F,E,C,S,U,H,P,L$.
+
+The total-bounded input admission theorem above forces $T,N$ to be read before the extension consumer reaches completion-facing rows. The completion route exactness theorem above then identifies $F,E,C$ as the only completion-facing rows between those finite-net inputs and the downstream separated or extension reads.
+
+Finally apply the ledger non-escape theorem \autoref{thm:totally-bounded-completion-no-escape}. Since quotient completion, selected limits, countable choice, and open-cover compactness have no coordinate in the packet, and since $S,H,P,L$ only compare, transport, source, and name the already displayed route, the extension consumer has no bypass around $T,N,F,E,C$.
+\end{proof}
+
 \begin{closurestatus}{\TotallyBoundedCompletionUp}
   \theoryclosure{\seedClosure}
   \scopeclosed{\autoref{def:totally-bounded-completion-carrier}, \autoref{thm:totally-bounded-completion-namecert-obligations}, \autoref{thm:totally-bounded-completion-net-handoff}, and \autoref{thm:totally-bounded-completion-no-escape} seed the finite route from explicit total-bounded net ledgers through constructive completion.}
