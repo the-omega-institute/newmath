@@ -4210,28 +4210,54 @@ def _write_namecert_proposals(
             repo_root,
             writer_config,
         )
+        deployed = namecerts_dir / f"{slug}.tex"
+        codex_ok = bool(codex_text)
         text = codex_text if codex_text else _render_namecert_proposal(markdown_path, slug)
         hygiene_issues = bedc_writeback_gates.check_chapter_hygiene(text, require_origin_ai=True)
-        if hygiene_issues:
-            # Both codex and template-fallback failed the chapter hygiene gate.
-            # Replace with a minimal pending stub that keeps LaTeX compiling
-            # without shipping template-residue or literal-\n garbage.
-            issues_text = ", ".join(issue for issue in hygiene_issues)[:400]
-            text = (
-                f"\\subsection{{NameCert: {_tex_escape(claim_id)}}}\n"
-                f"\\label{{sec:namecert-{slug}}}\n"
-                f"\\origin{{ai}}\n\n"
-                f"This BioReality namecert is awaiting codex re-authoring. "
-                f"Most recent attempt failed the chapter hygiene gate; "
-                f"issues recorded: {_tex_escape(issues_text)}. "
-                f"The committed registry record at "
-                f"\\path{{tools/bio\\_reality/registries/claims.json}} still tracks the "
-                f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
-            )
+        # 本 cycle codex 失败 / hygiene 不过 → 本应退回 stub. 但**绝不用 stub 覆盖已部署的好
+        # rich 章节** (否则 namecert 在 stub↔rich 间每 cycle 抖动 = 质量退化 + churn 主因).
+        # 仅在没有已部署好内容时才落 stub.
+        if not codex_ok or hygiene_issues:
+            if deployed.exists():
+                try:
+                    existing = deployed.read_text(encoding="utf-8")
+                except OSError:
+                    existing = ""
+                if existing and not _is_stub_namecert(existing):
+                    _append_writeback_log(store, "kept_existing_rich_on_codex_fail", {"claim_id": claim_id, "slug": slug, "codex_ok": codex_ok, "hygiene_issues": hygiene_issues[:3]})
+                    slugs.append(slug)
+                    continue
+            if hygiene_issues:
+                issues_text = ", ".join(issue for issue in hygiene_issues)[:400]
+                text = (
+                    f"\\subsection{{NameCert: {_tex_escape(claim_id)}}}\n"
+                    f"\\label{{sec:namecert-{slug}}}\n"
+                    f"\\origin{{ai}}\n\n"
+                    f"This BioReality namecert is awaiting codex re-authoring. "
+                    f"Most recent attempt failed the chapter hygiene gate; "
+                    f"issues recorded: {_tex_escape(issues_text)}. "
+                    f"The committed registry record at "
+                    f"\\path{{tools/bio\\_reality/registries/claims.json}} still tracks the "
+                    f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
+                )
         text = _sanitize_textmode_underscores(text)
-        (namecerts_dir / f"{slug}.tex").write_text(text, encoding="utf-8")
+        deployed.write_text(text, encoding="utf-8")
         slugs.append(slug)
     return slugs
+
+
+def _is_stub_namecert(text: str) -> bool:
+    """判定一个 namecert .tex 是否是 stub / 占位 (非好的 rich 章节). 用于 bio-W
+    在 codex 失败时决定是否保留已部署内容: 已部署是 rich → 保留, 不被 stub 覆盖."""
+    if not text or not text.strip():
+        return True
+    markers = ("awaiting codex re-authoring", "review status: draft", "Proposed slug", "Proposed by bio-namer")
+    if any(m in text for m in markers):
+        return True
+    # rich 章节通常 >= 30 行且含数学/正文环境; 过短视为 stub
+    if text.count("\n") < 24:
+        return True
+    return False
 
 
 def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
