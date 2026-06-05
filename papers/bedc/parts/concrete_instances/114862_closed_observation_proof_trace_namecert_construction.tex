@@ -4,6 +4,8 @@
 
 The $\ClosedObservationProofTraceUp$ packet realizes the finite-observation branch of \autoref{ch:visions-strong-normalization-vs-turing-completeness} as a MetaCIC-facing NameCert object. It records a proof trace only when finite observation rows, termination rows, transport, replay, provenance, local naming, refusal rows, kernel-acceptance rows, and proof-trace rows are displayed together. The packet is not a quotient of proof terms, not a host equality of derivations, not an erasure theorem, and not a divergent computation hidden behind a proof record.
 
+The proof-trace row consumes the finite evaluator of \autoref{ch:concrete-instances-finitetraceevaluator-namecert} and the kernel acceptance boundary of \autoref{ch:concrete-instances-kernel-acceptance-boundary-namecert} before it is replayed. The finite evaluator supplies the closed observation and totality surface, while the kernel acceptance boundary supplies the accepted proof-record row; no closurestatus or TasteGate promotion is made at this dependency handoff.
+
 \begin{definition}[Closed observation proof-trace carrier]
 \label{def:closed-observation-proof-trace-carrier}
 A $\ClosedObservationProofTraceUp$ carrier is a finite $\BHist$ packet
