@@ -1542,6 +1542,7 @@ import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyLocatedRealEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyLocatednessUp.TasteGate
 import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
+import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
@@ -2213,6 +2214,7 @@ import BEDC.Derived.ChoiceFreeDiagonalSelectorUp.TasteGate
 import BEDC.Derived.ChoiceFreeLimitScheduleUp
 import BEDC.Derived.ChoiceFreeRegularCauchyModulusUp.TasteGate
 import BEDC.Derived.ChoiceRecipeLedgerUp
+import BEDC.Derived.ChoiceRecipeLedgerUp.MaturePackage
 import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetSimplexUp.TasteGate
@@ -2714,6 +2716,7 @@ import BEDC.Derived.CompressionDescentAuditUp.RouteSoundness
 import BEDC.Derived.CompressionDescentAuditUp.TasteGate
 import BEDC.Derived.CompressionLedgerFunctorUp.TasteGate
 import BEDC.Derived.ComputableRealUp
+import BEDC.Derived.ComputableUniformContinuityUp.TasteGate
 import BEDC.Derived.ComputableUp
 import BEDC.Derived.ConcaveModulusUp.NameCertObligations
 import BEDC.Derived.ConcaveModulusUp.SubadditiveHandoff
@@ -3997,6 +4000,7 @@ import BEDC.Derived.FanfunctionalUp.NameCertObligations
 import BEDC.Derived.FanfunctionalUp.ObligationPrecedence
 import BEDC.Derived.FanfunctionalUp.PrefixWindowCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RealRegSeqRatScope
+import BEDC.Derived.FanfunctionalUp.RootCantorWindowHandoff
 import BEDC.Derived.FanfunctionalUp.RootCarrierAdmission
 import BEDC.Derived.FanfunctionalUp.RootFiniteBarDepth
 import BEDC.Derived.FanfunctionalUp.RootSchemaLedger
@@ -4004,6 +4008,7 @@ import BEDC.Derived.FanfunctionalUp.RootUnblockCantorPrefix
 import BEDC.Derived.FanfunctionalUp.RootUnblockCompactRoute
 import BEDC.Derived.FanfunctionalUp.RootUnblockFanDepth
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
+import BEDC.Derived.FanfunctionalUp.RootUniformModulusObligation
 import BEDC.Derived.FanfunctionalUp.RootWindowObligations
 import BEDC.Derived.FanfunctionalUp.ScopedChoiceNonescape
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
@@ -6046,6 +6051,7 @@ import BEDC.Derived.MetacicConfluenceAuditWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidabilityWitnessUp.TasteGate
 import BEDC.Derived.MetacicDecidableAuditPacketUp.TasteGate
 import BEDC.Derived.MetacicNormalizationAuditUp
+import BEDC.Derived.MetacicNormalizationAuditUp.CandidateBoundaryRoute
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierExtension
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateFrontierRefusal
 import BEDC.Derived.MetacicNormalizationAuditUp.CandidateLedgerLocality
@@ -6054,6 +6060,8 @@ import BEDC.Derived.MetacicNormalizationAuditUp.CandidateRoutePack
 import BEDC.Derived.MetacicNormalizationAuditUp.ClosedTermBudgetTotality
 import BEDC.Derived.MetacicNormalizationAuditUp.ConfluenceSocket
 import BEDC.Derived.MetacicNormalizationAuditUp.NormalizationAuditCandidateBoundary
+import BEDC.Derived.MetacicNormalizationAuditUp.ObligationPack
+import BEDC.Derived.MetacicNormalizationAuditUp.PublicRouteExport
 import BEDC.Derived.MetacicNormalizationAuditUp.TasteGate
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.RouteBoundary
 import BEDC.Derived.MetacicNormalizationConfluenceBridgeUp.TasteGate
@@ -6285,6 +6293,7 @@ import BEDC.Derived.MonotoneCauchyUp.ObligationPackage
 import BEDC.Derived.MonotoneCauchyUp.PublicTailWindowCertificate
 import BEDC.Derived.MonotoneCauchyUp.RealSealScopePackage
 import BEDC.Derived.MonotoneCauchyUp.ScopedTailWindowPackage
+import BEDC.Derived.MonotoneConvergenceRealUp.TasteGate
 import BEDC.Derived.MonotoneInverseUp.TasteGate
 import BEDC.Derived.MonotoneSequenceConvergenceUp.TasteGate
 import BEDC.Derived.MonotoneSubsequenceTheoremUp.TasteGate
@@ -8158,6 +8167,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyWindowObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.ClassifierTransport
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompleteMetricHandoff
 import BEDC.Derived.SequentiallyCompleteMetricUp.LateBoundCoverage
+import BEDC.Derived.SequentiallyCompleteMetricUp.LedgerNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
