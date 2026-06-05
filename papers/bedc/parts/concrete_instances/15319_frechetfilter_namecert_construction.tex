@@ -101,6 +101,49 @@ The continuation row $C$ replays the request through the unary threshold and the
 Since $H$ transports the same coordinates and $P,N$ name no additional source, the packet exports only the displayed cofinite-tail source boundary. Quotient filter equality, countable-choice selection, selected limits, and ambient completion are outside the carrier.
 \end{proof}
 
+\begin{theorem}[FrechetFilter Cauchy-filter export]
+\label{thm:frechet-filter-cauchy-filter-export}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Every exported $\CauchyFilterUp$ read factors through
+$$
+U,T,S,M,B,Q,H,C,P,N .
+$$
+The export is therefore a displayed cofinite-tail Cauchy-filter source rather than quotient filter equality, countable-choice tail selection, a selected limit, or an ambient completion object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frechet-filter-carrier}. The CauchyFilter handoff row $Q$ is present only after the unary threshold, cofinite tail-neighborhood, StreamName schedule, Metric tolerance, and FilterBase meet rows have been displayed.
+
+Apply the NameCert obligations of \autoref{thm:frechet-filter-namecert-obligations}. They identify $Q$ as the sole convergence-consumer handoff and require ledger refusal for quotient filter equality, selected limits, countable-choice selectors, and ambient completion.
+
+Finally replay the tail route through \autoref{thm:frechet-filter-tail-neighborhood-handoff} and the common-tail refinement of \autoref{thm:frechet-filter-tail-common-refinement}. The exported read remains anchored in the same finite cofinite-tail surface, with $H,C,P,N$ supplying transport, replay, provenance, and local naming.
+\end{proof}
+
+\begin{theorem}[FrechetFilter RegSeqRat tail readback]
+\label{thm:frechet-filter-regseqrat-tail-readback}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Every $\RegSeqRatUp$ readback row exported by $F$ is downstream of the cofinite tail threshold $U$, the cofinite tail-neighborhood row $T$, the schedule row $S$, and the FilterBase meet row $B$. No readback consumer can inspect $R$ as an independent regular rational stream.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The row $R$ is not a source coordinate; it is the readback row attached to the displayed stream windows and tail budgets.
+
+Use tail-neighborhood handoff to force each stream window through $U$ and $T$ before $S$ is visible. Then use common-tail refinement to show that simultaneous tail requests are compared by a displayed common threshold and by the FilterBase meet row $B$.
+
+The NameCert obligations place readback and seal order after the convergence-consumer handoff. Hence the $\RegSeqRatUp$ consumer receives only a tail-indexed readback row, not an independent stream selector or a completed real endpoint.
+\end{proof}
+
+\begin{theorem}[FrechetFilter completion nonescape]
+\label{thm:frechet-filter-completion-nonescape}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. The packet exports no quotient filter equality, selected limit, countable-choice tail selector, $\RealUp$ completeness, or ambient completion. Every completion-facing read must pass through the displayed route
+$$
+U,T,S,M,B,Q,R,A,H,C,P,N .
+$$
+\end{theorem}
+\begin{proof}
+Start with the ledger refusal clause in \autoref{thm:frechet-filter-namecert-obligations}. It excludes quotient filter equality, selected limits, countable-choice selectors, and ambient completion from the local NameCert surface.
+
+Attach the Cauchy-filter export theorem above. It forces any completion-facing request to receive its Cauchy source through $U,T,S,M,B,Q,H,C,P,N$ rather than through an external filter object.
+
+Finally apply the Real and completion consumer route of \autoref{thm:frechet-filter-real-completion-consumer-route}. The route reaches $A$ only after $Q$ and $R$ have been consumed, so the Real-facing seal is a finite read boundary and not a proof of $\RealUp$ completeness.
+\end{proof}
+
 \begin{theorem}[FrechetFilter Real and completion consumer route]
 \label{thm:frechet-filter-real-completion-consumer-route}
 Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Every Real or completion-facing consumer of the Frechet filter route factors through
