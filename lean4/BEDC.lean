@@ -3742,6 +3742,7 @@ import BEDC.Derived.DyadicIntervalArithmeticUp.EnclosureSoundness
 import BEDC.Derived.DyadicIntervalArithmeticUp.NameCertObligations
 import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalBasisUp.TasteGate
+import BEDC.Derived.DyadicIntervalCoverUp.BishopIntervalCompactRoute
 import BEDC.Derived.DyadicIntervalCoverUp.CellRefinementExhaustion
 import BEDC.Derived.DyadicIntervalCoverUp.EndpointComparisonTotality
 import BEDC.Derived.DyadicIntervalCoverUp.FiniteSubcoverLedger
@@ -4644,6 +4645,7 @@ import BEDC.Derived.FredholmAlternativeUp.TasteGate
 import BEDC.Derived.FreeMonoidUp
 import BEDC.Derived.FreeMonoidUp.TasteGate
 import BEDC.Derived.FreeWillInscriptionCommitmentUp.TasteGate
+import BEDC.Derived.FubiniFiniteRectangleUp.TasteGate
 import BEDC.Derived.FuelBoundedPartialTraceUp.TasteGate
 import BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate
 import BEDC.Derived.FullAxisRealRefusalUp.TasteGate
@@ -8196,6 +8198,8 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.CauchyWindowObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.ClassifierTransport
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompleteMetricHandoff
 import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionConsumerRoute
+import BEDC.Derived.SequentiallyCompleteMetricUp.CompletionRouteExhaustion
+import BEDC.Derived.SequentiallyCompleteMetricUp.DisplayedLimitUniqueness
 import BEDC.Derived.SequentiallyCompleteMetricUp.LateBoundCoverage
 import BEDC.Derived.SequentiallyCompleteMetricUp.LedgerNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitLedgerCoverage
@@ -8206,6 +8210,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootLimitWitness
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusCoverage
+import BEDC.Derived.SequentiallyCompleteMetricUp.RootModulusLimitFactorization
 import BEDC.Derived.SequentiallyCompleteMetricUp.SeparatedUniquenessBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstSubsequenceRead
 import BEDC.Derived.SequentiallyCompleteMetricUp.SourceFirstTailRead
