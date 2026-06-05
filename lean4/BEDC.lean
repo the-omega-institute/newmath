@@ -2322,6 +2322,7 @@ import BEDC.Derived.ClosedSubstitutionSealUp.TasteGate
 import BEDC.Derived.ClosedSubstrateQuadrantUp.TasteGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditBoundaryFactorization
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRouteCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.AuditRouteTotality
@@ -2357,6 +2358,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NameCertThresholdPackage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NamecertSourceLock
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.NormalizationFrontierHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.ObligationRouteTriad
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OperationRowDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerLandingSurface
@@ -2377,6 +2379,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerAuditFactorizat
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootConsumerCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueBridgeDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDepthValueLock
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootDownstreamCoverage
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootLedgerReadiness
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootNamecertHandoff
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootOperationExportLock
@@ -7988,6 +7991,7 @@ import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
 import BEDC.Derived.SequentialCompactRealUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.BaireCylinderExposure
+import BEDC.Derived.SequentialCompactUp.BaireRealWindowAdmission
 import BEDC.Derived.SequentialCompactUp.BaireRegSeqRatExhaustion
 import BEDC.Derived.SequentialCompactUp.ClusterCarrierStability
 import BEDC.Derived.SequentialCompactUp.CompactMetricHandoff
@@ -7998,6 +8002,7 @@ import BEDC.Derived.SequentialCompactUp.RealSealConsumerBoundary
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.RealSealWindowNonescape
 import BEDC.Derived.SequentialCompactUp.RegularTailNonescape
+import BEDC.Derived.SequentialCompactUp.RootSelectedWindowRoute
 import BEDC.Derived.SequentialCompactUp.SelectorRefusal
 import BEDC.Derived.SequentialCompactUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.WindowExtractionScope
