@@ -139,6 +139,42 @@ Apply \autoref{thm:totally-bounded-completion-namecert-obligations}. The separat
 Use \autoref{thm:totally-bounded-completion-net-handoff} to read the complete route. Since the extension handoff occurs after $X,T,N,F,E,C,S$, and $H,P,L$ only transport, source, and name the same packet, the extension read cannot bypass any displayed row in the listed ledger.
 \end{proof}
 
+\begin{theorem}[TotallyBoundedCompletion root finite-net ledger]
+\label{thm:totally-bounded-completion-root-net-ledger}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the root finite-net ledger exposed to completion consumers is exactly the pair $T,N$. The row $T$ records the $\TotallyBoundedUp$ centers, membership constructors, distance witnesses, and rational bounds for each displayed positive tolerance, while $N$ records permitted refinement between such displayed ledgers. No root consumer may replace $T,N$ by an open cover, a host finite subset, a selected subnet, or a compactness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:totally-bounded-completion-carrier}. The only rows typed as total-bounded finite-net data are $T$ and $N$.
+
+Use the route surface of \autoref{def:totally-bounded-completion-route-surface}. Its first completion-facing segment is $X,T,N$, so every later completion row must inherit the finite-net ledger from the same pair.
+
+The non-escape theorem then excludes replacement data. Since open covers, host finite subsets, selected subnets, and compactness witnesses have no carrier coordinate, the root ledger remains exactly $T,N$.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion root completion handoff]
+\label{thm:totally-bounded-completion-root-completion-handoff}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, every completion-facing handoff forced by the root ledger factors through $F,E,C,S$ in that order after $T,N$ have been displayed. The $\CauchyFilterBasisUp$ row $F$ consumes the finite-net rows, the $\CompletionEmbeddingUp$ row $E$ inserts source observations, the $\ConstructiveMetricCompletionUp$ route $C$ records the constructive completion read, and the separated comparison row $S$ is available only after that route.
+\end{theorem}
+\begin{proof}
+Start with the root finite-net ledger theorem above. It identifies $T,N$ as the input that any completion consumer must read.
+
+Apply \autoref{thm:totally-bounded-completion-completion-route-exactness}. The only completion-facing rows are $F,E,C$, and the separated comparison row is downstream of those rows.
+
+Finally use \autoref{thm:totally-bounded-completion-route-coverage}. It makes the route exhaustive, so the handoff from the finite-net ledger to separated completion comparison must pass through $F,E,C,S$ in the displayed order.
+\end{proof}
+
+\begin{theorem}[TotallyBoundedCompletion root extension nonescape]
+\label{thm:totally-bounded-completion-root-extension-nonescape}
+For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, the downstream rows $U,H,P,L$ export only the uniformly continuous extension handoff, componentwise transport, provenance, and local naming for the already displayed route. They export no quotient completion, selected limits, countable choice, open-cover compactness, ambient $\RealUp$ completeness, or second completion route.
+\end{theorem}
+\begin{proof}
+Read $U,H,P,L$ from the carrier. These rows occur after $X,T,N,F,E,C,S$ in the displayed route and therefore have no independent source of completion data.
+
+Use the extension consumer boundary \autoref{thm:totally-bounded-completion-extension-consumer-boundary}. It requires uniformly continuous consumers to enter through $T,N,F,E,C$ before they can read $U$.
+
+The ledger non-escape theorem \autoref{thm:totally-bounded-completion-no-escape} supplies the final exclusion. Quotient completion, selected limits, countable choice, open-cover compactness, ambient Real completeness, and a second completion route have no coordinate in $U,H,P,L$ and cannot be exported from them.
+\end{proof}
+
 \begin{theorem}[TotallyBoundedCompletion ledger non-escape]
 \label{thm:totally-bounded-completion-no-escape}
 For every accepted $\TotallyBoundedCompletionUp$ packet $K=(X,T,N,F,E,C,S,U,H,P,L)$, every exported completion read remains inside the finite ledger
