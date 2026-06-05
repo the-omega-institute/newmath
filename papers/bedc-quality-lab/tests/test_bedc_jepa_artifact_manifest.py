@@ -23,6 +23,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
         == "python scripts/build_vjepa2_ac_native_boundary.py"
     )
     assert (
+        manifest["commands"]["latent_claim_certificate"]
+        == "python scripts/run_bedc_latent_claim_certificate.py"
+    )
+    assert (
         manifest["commands"]["import_public_minigrid_benchmark_metrics"]
         == "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>"
     )
@@ -56,12 +60,29 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     )
     assert manifest["commands"]["external_run_kit"] == "python scripts/build_bedc_jepa_external_run_kit.py"
     assert manifest["commands"]["review_bundle"] == "python scripts/build_bedc_jepa_review_bundle.py"
+    assert (
+        manifest["commands"]["quality_backend_candidate"]
+        == "python scripts/build_bedc_jepa_quality_backend_candidate.py"
+    )
     assert manifest["commands"]["readiness"] == "python scripts/build_bedc_jepa_readiness.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
     assert manifest["readiness"] == "reports/bedc_jepa_readiness.json"
     assert manifest["external_run_kit"] == "reports/bedc_jepa_external_run_kit.json"
     assert manifest["review_bundle"] == "reports/bedc_jepa_review_bundle.json"
+    assert manifest["quality_backend_candidate"] == "reports/bedc_jepa_quality_backend_candidate.json"
+    assert (
+        manifest["latent_claim_certificates"]["certificates"]
+        == "reports/bedc_latent_claim_certificates.json"
+    )
+    assert (
+        manifest["latent_claim_certificates"]["conformal_gap_sweep"]
+        == "reports/bedc_conformal_gap_sweep.json"
+    )
+    assert (
+        manifest["latent_claim_certificates"]["claim_boundary_audit"]
+        == "reports/bedc_claim_boundary_audit.json"
+    )
     assert manifest["public_baselines"]["jepa_comparison"] == "reports/bedc_jepa_public_baseline_comparison.json"
     assert (
         manifest["public_baselines"]["jepa_ac_native_boundary"]

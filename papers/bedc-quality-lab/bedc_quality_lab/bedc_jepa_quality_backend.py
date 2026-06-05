@@ -185,6 +185,9 @@ def build_quality_backend_candidate() -> dict[str, Any]:
             "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
             "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
+            "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
+            "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
+            "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
         },
         "forbidden_surfaces": [
             "model runner execution",

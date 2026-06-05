@@ -23,17 +23,23 @@
     "python scripts/build_bedc_jepa_artifact_manifest.py",
     "python scripts/build_bedc_jepa_readiness.py",
     "python scripts/build_bedc_jepa_review_bundle.py",
-    "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py",
+    "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+    "python scripts/run_bedc_latent_claim_certificate.py",
+    "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
     "pdflatex -interaction=nonstopmode -halt-on-error main.tex"
   ],
   "required_artifacts": {
     "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
+    "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+    "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
     "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
+    "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
     "native_minigrid": "reports/bedc_jepa_public_native_minigrid_benchmark.json",
     "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
+    "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
     "readiness": "reports/bedc_jepa_readiness.json"
   },
   "schema_id": "bedc-jepa-review-bundle",
-  "source_commit_at_build": "caab88fe2d5e3d67a4bf597e45fa661195f8dc99",
+  "source_commit_at_build": "5f6661ed5e8f4b0898adfebb800717ca39fd84f2",
   "status": "review_ready"
 }

@@ -66,6 +66,10 @@ def build_review_bundle() -> dict[str, Any]:
             "native_minigrid_seed_sweep": "reports/bedc_jepa_public_native_minigrid_seed_sweep.json",
             "cuda_adapter_comparison": "reports/bedc_jepa_public_cuda_adapter_comparison.json",
             "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
+            "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
+            "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
+            "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
+            "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
         },
         "reproduction_commands": [
             "python scripts/run_public_minigrid_native_benchmark.py",
@@ -74,7 +78,9 @@ def build_review_bundle() -> dict[str, Any]:
             "python scripts/build_bedc_jepa_artifact_manifest.py",
             "python scripts/build_bedc_jepa_readiness.py",
             "python scripts/build_bedc_jepa_review_bundle.py",
-            "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py",
+            "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+            "python scripts/run_bedc_latent_claim_certificate.py",
+            "python -m pytest -q tests/test_public_jepa_baselines.py tests/test_public_minigrid_native_benchmark.py tests/test_bedc_jepa_readiness.py tests/test_bedc_jepa_external_run_kit.py tests/test_bedc_jepa_artifact_manifest.py tests/test_bedc_jepa_review_bundle.py tests/test_bedc_jepa_quality_backend.py tests/test_latent_claim_certificate.py",
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
         ],
         "checks": {

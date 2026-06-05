@@ -74,6 +74,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "public_minigrid_native_benchmark": "python scripts/run_public_minigrid_native_benchmark.py",
             "public_minigrid_native_seed_sweep": "python scripts/run_public_minigrid_native_seed_sweep.py",
             "vjepa2_ac_native_boundary": "python scripts/build_vjepa2_ac_native_boundary.py",
+            "latent_claim_certificate": "python scripts/run_bedc_latent_claim_certificate.py",
             "export_public_minigrid_benchmark_result": "python scripts/export_public_minigrid_benchmark_result.py",
             "import_public_minigrid_benchmark_metrics": "python scripts/import_public_minigrid_benchmark_metrics.py <minigrid-result.json>",
             "public_jepa_baseline_registry": "python scripts/build_public_jepa_baseline_registry.py",
@@ -84,6 +85,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "import_public_jepa_baseline_metrics": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
             "external_run_kit": "python scripts/build_bedc_jepa_external_run_kit.py",
             "review_bundle": "python scripts/build_bedc_jepa_review_bundle.py",
+            "quality_backend_candidate": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
             "readiness": "python scripts/build_bedc_jepa_readiness.py",
             "test": "python -m pytest -q",
             "paper": "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
@@ -127,6 +129,12 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         "readiness": "reports/bedc_jepa_readiness.json",
         "external_run_kit": "reports/bedc_jepa_external_run_kit.json",
         "review_bundle": "reports/bedc_jepa_review_bundle.json",
+        "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
+        "latent_claim_certificates": {
+            "certificates": "reports/bedc_latent_claim_certificates.json",
+            "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
+            "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+        },
         "public_baselines": {
             "jepa_ac_native_boundary": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
             "jepa_ac_giant_adapter": "reports/bedc_jepa_public_ac_giant_adapter.json",

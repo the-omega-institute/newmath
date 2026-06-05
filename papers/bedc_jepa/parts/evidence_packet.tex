@@ -27,7 +27,11 @@ $$
 \text{V-JEPA2-AC native boundary} & \texttt{bedc\_jepa\_vjepa2\_ac\_native\_boundary.json},\\
 \text{Evidence audit} & \texttt{bedc\_jepa\_readiness.json},\\
 \text{Reproduction commands} & \texttt{bedc\_jepa\_external\_run\_kit.json},\\
-\text{Review artifact set} & \texttt{bedc\_jepa\_review\_bundle.json}.
+\text{Review artifact set} & \texttt{bedc\_jepa\_review\_bundle.json},\\
+\text{Quality backend candidate} & \texttt{bedc\_jepa\_quality\_backend\_candidate.json},\\
+\text{Latent claim certificates} & \texttt{bedc\_latent\_claim\_certificates.json},\\
+\text{Conformal gap sweep} & \texttt{bedc\_conformal\_gap\_sweep.json},\\
+\text{Claim boundary audit} & \texttt{bedc\_claim\_boundary\_audit.json}.
 \end{array}
 $$
 The JSON artifacts are lab-local evidence boundaries.  They are not Python
@@ -151,3 +155,34 @@ record is the executed checkpoint artifact for the selected V-JEPA 2-AC
 candidate.  The native V-JEPA2-AC boundary record states that no native or
 near-native V-JEPA2-AC rollout or latent prediction protocol has been run on
 the MiniGrid stream.
+
+\paragraph{Quality-backend projection.}
+The quality-backend candidate is a non-canonical projection of the same
+BEDC-JEPA evidence records into a backend-style quality interface.  It exposes
+the world-state contract, the S0/S1/S2/S3 readback pattern, selected metric
+cells, and ledger rows for source, classifier, stability, generalization, and
+mechanism debt.  Its forbidden surfaces explicitly exclude model-runner
+execution, canonical writer execution, terminal verdict projection, and raw
+benchmark regeneration.  Thus the candidate is an audit projection over the
+declared evidence boundary, not a new experiment, not a canonical BEDC backend,
+and not a claim of global model quality.
+
+\paragraph{Latent Claim Certificate Protocol.}
+The latent-claim certificate artifacts add a fail-closed interpretation layer
+over frozen carriers.  Given a carrier $H(o)=z$, an operational predicate, a
+declared source split, and a test surface, the protocol fits a shallow
+distinction readout and forms split-conformal prediction sets at fixed
+$\alpha$.  A claim is emitted only when the conformal set is a singleton.  A
+non-singleton set is recorded as a gap; an absent source split or missing test
+surface is recorded as source debt rather than converted into a claim.
+
+The current certificate artifact applies this rule to the native MiniGrid
+feature carrier for the declared DoorKey readback predicate, and records
+source gaps for operational names whose required source traces are not present
+in the current evidence record: \texttt{has\_key},
+\texttt{door\_open\_or\_unlocked}, and
+\texttt{goal\_reachable\_with\_current\_state}.  The conformal audit therefore
+does not assert that every latent distinction is interpretable.  It asserts
+only that each candidate distinction ends in one of two states: a certified
+singleton operational claim under the declared risk level, or an explicit
+gap ledger entry with coverage, source, or stability debt.

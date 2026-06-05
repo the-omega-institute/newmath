@@ -31,6 +31,14 @@ def test_external_run_kit_records_result_schemas_and_gate_conditions():
     assert kit["readiness_command"] == "python scripts/build_bedc_jepa_readiness.py"
     assert kit["review_bundle_command"] == "python scripts/build_bedc_jepa_review_bundle.py"
     assert (
+        kit["quality_backend_candidate_command"]
+        == "python scripts/build_bedc_jepa_quality_backend_candidate.py"
+    )
+    assert (
+        kit["latent_claim_certificate_command"]
+        == "python scripts/run_bedc_latent_claim_certificate.py"
+    )
+    assert (
         minigrid["export_command"]
         == "python scripts/export_public_minigrid_benchmark_result.py"
     )

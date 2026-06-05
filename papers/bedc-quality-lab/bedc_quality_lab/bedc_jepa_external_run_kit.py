@@ -57,6 +57,8 @@ def build_external_run_kit() -> dict[str, Any]:
         },
         "readiness_command": "python scripts/build_bedc_jepa_readiness.py",
         "review_bundle_command": "python scripts/build_bedc_jepa_review_bundle.py",
+        "quality_backend_candidate_command": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+        "latent_claim_certificate_command": "python scripts/run_bedc_latent_claim_certificate.py",
         "verification_commands": [
             "python -m pytest -q",
             "pdflatex -interaction=nonstopmode -halt-on-error main.tex",

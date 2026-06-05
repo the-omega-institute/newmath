@@ -8,7 +8,7 @@ from bedc_quality_lab.bedc_jepa_quality_backend import (
 )
 
 
-def test_quality_backend_candidate_exposes_loning_adapter_contract():
+def test_quality_backend_candidate_exposes_bounded_adapter_contract():
     packet = build_quality_backend_candidate()
 
     assert packet["schema_id"] == SCHEMA_ID
@@ -71,3 +71,6 @@ def test_quality_backend_artifacts_are_existing_report_pointers():
     assert packet["artifacts"]["readiness"] == "reports/bedc_jepa_readiness.json"
     assert packet["artifacts"]["review_bundle"] == "reports/bedc_jepa_review_bundle.json"
     assert packet["artifacts"]["native_minigrid"] == "reports/bedc_jepa_public_native_minigrid_benchmark.json"
+    assert packet["artifacts"]["latent_claim_certificates"] == "reports/bedc_latent_claim_certificates.json"
+    assert packet["artifacts"]["conformal_gap_sweep"] == "reports/bedc_conformal_gap_sweep.json"
+    assert packet["artifacts"]["claim_boundary_audit"] == "reports/bedc_claim_boundary_audit.json"
