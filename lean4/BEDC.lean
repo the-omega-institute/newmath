@@ -1974,6 +1974,7 @@ import BEDC.Derived.CauchySequenceSpaceUp.TerminalPullbackExactness
 import BEDC.Derived.CauchySequenceSpaceUp.UniformCriterionConsumption
 import BEDC.Derived.CauchySequenceSpaceUp.WindowFactorization
 import BEDC.Derived.CauchySequenceTailFilterCompletionUp
+import BEDC.Derived.CauchySequenceTailFilterCompletionUp.TasteGate
 import BEDC.Derived.CauchySequenceTailFilterUp.NameCertObligations
 import BEDC.Derived.CauchySequenceTailFilterUp.TasteGate
 import BEDC.Derived.CauchySeriesCriterionUp.TasteGate
@@ -2916,6 +2917,7 @@ import BEDC.Derived.ContinuationTraceNormalFormUp
 import BEDC.Derived.ContinuationTraceNormalFormUp.TasteGate
 import BEDC.Derived.ContinuationTraceUp
 import BEDC.Derived.ContinuedFractionConvergentsUp.TasteGate
+import BEDC.Derived.ContinuedFractionRealUp
 import BEDC.Derived.ContinuedFractionUp
 import BEDC.Derived.ContinuedFractionUp.TasteGate
 import BEDC.Derived.ContinuityCarrierNameCertUp
@@ -6781,6 +6783,7 @@ import BEDC.Derived.PadicUp
 import BEDC.Derived.PadicUp.AppendCommutation
 import BEDC.Derived.PadicUp.AppendUnitLeft
 import BEDC.Derived.PadicUp.EmptyAlignment
+import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
@@ -7965,6 +7968,8 @@ import BEDC.Derived.RegularCauchyTailFusionUp.SharedThresholdExhaustion
 import BEDC.Derived.RegularCauchyTailFusionUp.TasteGate
 import BEDC.Derived.RegularCauchyTailMeetUp
 import BEDC.Derived.RegularCauchyTailMeetUp.DyadicAbsoluteValueHandoff
+import BEDC.Derived.RegularCauchyTailMeetUp.DyadicEndpointMeet
+import BEDC.Derived.RegularCauchyTailMeetUp.NameCertObligations
 import BEDC.Derived.RegularCauchyTailMeetUp.SharedThresholdCofinality
 import BEDC.Derived.RegularCauchyTailModulusReuseUp.TasteGate
 import BEDC.Derived.RegularCauchyTailModulusUp.TasteGate
@@ -9179,6 +9184,7 @@ import BEDC.Derived.UniformModulusUp.TasteGate
 import BEDC.Derived.UniformPartitionUp.TasteGate
 import BEDC.Derived.UniformReflectionKernelUp.TasteGate
 import BEDC.Derived.UniformSequentialContinuityUp.TasteGate
+import BEDC.Derived.UniformSequentialLimitUp.TasteGate
 import BEDC.Derived.UniformSpaceCompletionUp.TasteGate
 import BEDC.Derived.UniformSpaceUp
 import BEDC.Derived.UniformlyCauchySequenceUp.TasteGate

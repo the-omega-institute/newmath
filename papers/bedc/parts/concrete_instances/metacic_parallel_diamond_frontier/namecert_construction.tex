@@ -395,6 +395,34 @@ Use residual pasting, \autoref{thm:metacic-parallel-diamond-frontier-residual-pa
 Finally read the structural rows $H,T,G,N$. They transport, replay, source, and name the displayed packet, but they do not contain a carrier slot for discharging substitution or erasing the obstruction row. Thus substitution cannot escape the displayed residual boundary into any stronger confluence endpoint.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual-substitution route]
+\label{thm:metacic-parallel-diamond-residual-substitution-route}
+Every candidate-mediated local join read from an accepted $\MetaCICParallelDiamondFrontierUp$ carrier $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ must expose the residual-substitution premise row $P$, critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, closed-checker seal row $S$, closed-normal fragment row $C$, bounded-check row $B$, obstruction row $O$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any parallel-diamond frontier handoff is consumed. The route is conditional on the displayed premise and cannot be read as residual-substitution compatibility, full Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-parallel-diamond-frontier-carrier}. The rows $P,K,J,R,S,C,B,O,H,T,G,N$ are the full consumer-visible packet, with $P$ retaining the residual-substitution premise and $O$ retaining the refused endpoints.
+
+Apply the candidate-mediated residual route of \autoref{thm:metacic-parallel-diamond-frontier-candidate-mediated-residual-route}. It allows the two local reductions named by $K$ to meet only through the displayed candidate row $J$ and residual-frontier row $R$, under the retained premise $P$.
+
+Next use substitution nonescape, \autoref{thm:metacic-parallel-diamond-frontier-substitution-nonescape}. The closed checker row, closed-normal row, bounded-check row, transport, replay, provenance, and local naming cannot discharge substitution or remove the obstruction row.
+
+Thus the route exposes exactly the residual-substitution premise, critical-pair, candidate-join, residual-frontier, closed-checker, closed-normal, bounded-check, obstruction, and structural rows stated above. Since neither $P$ nor $O$ disappears, the handoff remains a conditional frontier and not any refused confluence, typing, equality, quotient, or kernel endpoint.
+\end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond normalization-frontier handoff]
+\label{thm:metacic-parallel-diamond-normalization-frontier-handoff}
+Any normalization consumer that reads the $\MetaCICParallelDiamondFrontierUp$ packet may use only the conditional frontier exposed by \autoref{thm:metacic-parallel-diamond-residual-substitution-route}. It may inspect the retained residual-substitution premise, critical-pair row, candidate-join row, residual-frontier row, closed-checker row, closed-normal fragment row, bounded-check row, obstruction row, transport, replay, provenance, and local naming. It may not consume the packet as full Church--Rosser, subject reduction, evaluator equality, quotient equality of terms, kernel consistency, or a completed residual-substitution theorem.
+\end{theorem}
+\begin{proof}
+Begin with the residual-substitution route theorem. It fixes the normalization-facing read to the displayed finite spine $P,K,J,R,S,C,B,O,H,T,G,N$ and keeps the obstruction row visible.
+
+Use the typed-window local-join scope of \autoref{thm:metacic-parallel-diamond-frontier-local-join-scope}. A normalization consumer may read local joins only under that typed-window surface, so it cannot erase the residual-frontier or closed-checker conditions.
+
+Apply residual pasting and substitution nonescape, \autoref{thm:metacic-parallel-diamond-frontier-residual-pasting} and \autoref{thm:metacic-parallel-diamond-frontier-substitution-nonescape}. These theorems keep pasted residual reads under $P$ and prevent structural rows from retyping the handoff as a discharged substitution result.
+
+Consequently the normalization consumer receives only the conditional frontier. The listed stronger endpoints require separate certificates and are not carried by the accepted $\MetaCICParallelDiamondFrontierUp$ packet.
+\end{proof}
+
 The Lean follow-up supplies $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ TasteGate instances in \texttt{lean4/BEDC/Derived/MetaCICParallelDiamondFrontierUp/TasteGate.lean} by exhibiting distinct accepted and refused frontier packets and by matching on the rows $P,K,J,R,S,C,B,O,H,T,G,N$.
 
 \closureat{MetaCICParallelDiamondFrontierUp}{seedStr}
