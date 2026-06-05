@@ -7330,6 +7330,7 @@ import BEDC.Derived.RealMetricUp.TasteGate
 import BEDC.Derived.RealMinMaxUp.TasteGate
 import BEDC.Derived.RealModulusCriterionUp.TasteGate
 import BEDC.Derived.RealModulusExtractionUp.TasteGate
+import BEDC.Derived.RealModulusFusionUp
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
@@ -7937,6 +7938,7 @@ import BEDC.Derived.RegularCauchySumUp.TasteGate
 import BEDC.Derived.RegularCauchySumUp.ZeroSourceConsumerRoute
 import BEDC.Derived.RegularCauchySumUp.ZeroSourceIdentityBoundary
 import BEDC.Derived.RegularCauchySwapBisimulationUp.TasteGate
+import BEDC.Derived.RegularCauchyTailAgreementUp
 import BEDC.Derived.RegularCauchyTailBallUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBoundUp.TasteGate
 import BEDC.Derived.RegularCauchyTailBudgetUp.TasteGate
