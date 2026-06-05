@@ -816,6 +816,7 @@ import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletenessUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletionUp.TasteGate
+import BEDC.Derived.BishopLocatedUniformConvergenceUp.TasteGate
 import BEDC.Derived.BishopMetricSpaceUp.TasteGate
 import BEDC.Derived.BishopModulusProductClosureUp.TasteGate
 import BEDC.Derived.BishopModulusRealUp.TasteGate
@@ -2292,6 +2293,7 @@ import BEDC.Derived.ClosedConsistencyAssemblyUp.TasteGate
 import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
 import BEDC.Derived.ClosedIntervalApproximationUp.TasteGate
+import BEDC.Derived.ClosedIntervalBisectionUp.TasteGate
 import BEDC.Derived.ClosedIntervalCauchyCompletionUp.TasteGate
 import BEDC.Derived.ClosedIntervalCauchyCriterionUp.TasteGate
 import BEDC.Derived.ClosedIntervalCompactNetUp.TasteGate
@@ -3957,6 +3959,7 @@ import BEDC.Derived.FanfunctionalUp.NameCertObligations
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusHandoff
 import BEDC.Derived.FanfunctionalUp.ScopedChoiceNonescape
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
+import BEDC.Derived.FanfunctionalUp.ScopedFiniteModulusExport
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
@@ -4013,6 +4016,7 @@ import BEDC.Derived.FastCauchySequenceUp.NameCertObligations
 import BEDC.Derived.FastCauchySequenceUp.TasteGate
 import BEDC.Derived.FastCauchySubsequenceUp.ChoiceFreeCompletionWindow
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalFastRateScope
+import BEDC.Derived.FastCauchySubsequenceUp.CofinalModulusConsumption
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalReadbackNonescape
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalRegSeqRatCoverage
 import BEDC.Derived.FastCauchySubsequenceUp.CofinalSelectorStrictGrowth
@@ -4427,6 +4431,7 @@ import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditHandoff
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.AuditNonclosure
 import BEDC.Derived.FiniteObservationResidueBoundaryUp.TasteGate
 import BEDC.Derived.FiniteOrthonormalBasisUp.TasteGate
+import BEDC.Derived.FiniteOscillationPartitionUp.TasteGate
 import BEDC.Derived.FiniteOscillationRadiusLedgerUp.TasteGate
 import BEDC.Derived.FinitePartitionMeshUp.TasteGate
 import BEDC.Derived.FinitePhaseSamplingUp
@@ -7565,6 +7570,7 @@ import BEDC.Derived.RegularCauchyHausdorffReflectionUp.RepresentativeIndependenc
 import BEDC.Derived.RegularCauchyHausdorffReflectionUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleaveUp
 import BEDC.Derived.RegularCauchyInterleavingStabilityUp
+import BEDC.Derived.RegularCauchyInterleavingStabilityUp.TasteGate
 import BEDC.Derived.RegularCauchyInterleavingUp
 import BEDC.Derived.RegularCauchyInterleavingUp.BridgeReadbackScope
 import BEDC.Derived.RegularCauchyInterleavingUp.CompletionSelectorNonescape
