@@ -28,6 +28,42 @@ The classifier compares accepted packets only through $E,B,D,L,M,Q,G,R,H,C,P,N$.
 \end{definition}
 \leanchecked{BEDC.Derived.ImplicitFunctionUp.ImplicitFunctionTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Implicit function root equation carrier]
+\label{thm:implicit-function-root-equation-carrier}
+Every accepted $\ImplicitFunctionUp$ root packet must display the equation row, base point row, derivative row, linear map row, matrix row, Picard row, graph row, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ImplicitFunctionUp}$ row. No root-equation consumer may read a local solution window before those rows are all visible in the same finite $\BHist$ packet.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:implicit-function-carrier}. The carrier inventory is exactly $E,B,D,L,M,Q,G,R,H,C,P,N$, so the displayed equation, base point, derivative, linear approximation, matrix ledger, Picard route, graph window, Real seal, transport, replay, provenance, and local name are the only rows available.
+
+A root-equation read must therefore open $E$ and $B$ before any analytic route is interpreted. The rows $D,L,M,Q,G$ then expose the derivative, linearization, component ledger, contraction route, and graph window in carrier order.
+
+The terminal rows $R,H,C,P,N$ seal, transport, replay, source, and name that same route. Since the carrier contains no second equation row or detached solution object, no local solution window can be consumed before the displayed rows have been read.
+\end{proof}
+
+\begin{theorem}[Implicit function linearization Picard route]
+\label{thm:implicit-function-linearization-picard-route}
+The local graph route of an accepted $\ImplicitFunctionUp$ packet can be consumed only after the $\DerivativeUp$, $\LinearMapUp$, $\MatrixUp$, $\CompleteMetricUp$, and $\PicardContractionUp$ rows are visible through $D,L,M,Q$ and the completeness boundary named by the Picard row. Thus the graph row $G$ is a contraction-route endpoint, not a host differentiability theorem or selected solution germ.
+\end{theorem}
+\begin{proof}
+Read the linearization rows from the carrier. The derivative row $D$ supplies the equation source data, the linear-map row $L$ supplies the invertible approximation, and the matrix row $M$ supplies the finite component ledger for the same approximation and inverse witness.
+
+The Picard row $Q$ is the only fixed-point coordinate in the packet. It names the complete-metric boundary and the contraction budget before any graph endpoint is exported.
+
+The graph row $G$ is downstream of $D,L,M,Q$. Consequently a consumer of the local graph must pass through the displayed derivative, linear map, matrix, complete-metric, and Picard rows, and cannot extract host differentiability or a selected germ from an absent carrier coordinate.
+\end{proof}
+
+\begin{theorem}[Implicit function local graph seal handoff]
+\label{thm:implicit-function-local-graph-seal-handoff}
+The $\RealUp$ seal $R$ of an accepted $\ImplicitFunctionUp$ packet is a boundary for the displayed graph window $G$. It exports the equation, base point, derivative, linearization, matrix ledger, Picard route, graph window, transport, replay, provenance, and local name, but exports no host differentiability, selected solution germ, quotient function space, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply the root equation carrier theorem above to expose the finite packet rows. The Real seal $R$ is listed after the equation, base point, derivative, linearization, matrix, Picard, and graph-window rows.
+
+Use the linearization Picard route theorem. It places $G$ downstream of the derivative, linear map, matrix, complete-metric, and Picard data, so the seal reads only the displayed contraction endpoint.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name the sealed graph window. The excluded host differentiability, selected germ, quotient function space, and ambient completeness principles have no coordinate in \autoref{def:implicit-function-carrier}, so the seal cannot export them.
+\end{proof}
+
 \begin{theorem}[Implicit function NameCert obligations]\label{thm:implicit-function-namecert-obligations}
 For every accepted $\ImplicitFunctionUp$ carrier
 $$
