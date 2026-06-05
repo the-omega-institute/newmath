@@ -139,6 +139,42 @@ Now refine the carrier read through \autoref{def:lawless-sequence-finite-window-
 Apply \autoref{thm:lawless-sequence-streamname-choice-window}. Since each observed choice window factors through $I,W,B,H,C,P,N$, a Real consumer cannot bypass the finite prefix packet to obtain quotient stream equality, a host sequence, or a countable-choice schedule.
 \end{proof}
 
+\begin{theorem}[Lawless sequence prefix-induction obligation]
+\label{thm:lawless-sequence-prefix-induction-obligation}
+Every accepted prefix read of a $\LawlessSequenceUp$ carrier $L=(W,B,I,H,C,P,N)$ is obtained by finite induction over the $\NatUp$ index row $I$. The base read exposes the displayed empty prefix when it is present in $W$; each step extends the current displayed request by one index move in $I$, reads the corresponding $\StreamNameUp$ window from $W$, and then reads the attached $\BoolUp$ digit row from $B$. No accepted prefix read is supplied by a host infinite sequence or by a countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lawless-sequence-carrier}. The only index row available to a prefix consumer is $I$, so every request starts from the displayed finite prefix ledger.
+
+Induct over the finite row $I$. The base case reads the empty displayed prefix and stops if no digit row is attached. The step case consumes one displayed successor request, reads the matching window from $W$, and attaches only the visible digit row in $B$.
+
+Finally replay through $H,C,P,N$. These structural rows transport and name the same finite read, and none contains a coordinate for unseen future values or a choice schedule.
+\end{proof}
+
+\begin{theorem}[Lawless sequence Baire-window stability]
+\label{thm:lawless-sequence-baire-window-stability}
+For accepted $\LawlessSequenceUp$ carriers, every $\BaireSpaceUp$ prefix window read from $W$ remains stable under componentwise $\hsame$ transport and displayed $\Cont$ replay. If two accepted reads agree on $I,W,B$ by the transport row $H$, then the replay row $C$ returns the same finite Baire window and the same visible Bool digit rows, with no appeal to quotient stream equality or an ambient total sequence.
+\end{theorem}
+\begin{proof}
+Begin with two accepted window reads and project their $I,W,B$ rows. Componentwise $\hsame$ in $H$ compares only displayed prefix indices, displayed StreamName windows, and displayed Bool digit rows.
+
+Use the replay row $C$. The route from an index request to a Baire-facing prefix window is the displayed route already named by \autoref{thm:lawless-sequence-streamname-window-obligation}; it does not pass through a completed stream.
+
+Repack the transported read with $P$ and $N$. Since the carrier has no coordinate for quotient stream equality or host total sequence data, stability is exactly the finite Baire-window stability stated above.
+\end{proof}
+
+\begin{theorem}[Lawless sequence countable-name boundary]
+\label{thm:lawless-sequence-countable-name-boundary}
+Every countable-name consumer of an accepted $\LawlessSequenceUp$ carrier receives only the rows $W,B,I,H,C,P,N$. The consumer may inspect displayed finite StreamName windows, Bool digit rows, Nat prefix indices, componentwise transport, continuation replay, provenance, and local naming, but it receives no countable-choice schedule, no host infinite sequence, no quotient stream equality, and no $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:lawless-sequence-carrier}. Its classifier compares accepted packets only through $W,B,I,H,C,P,N$.
+
+Apply the prefix-induction obligation and Baire-window stability above. They force every countable-name request through finite indices, finite windows, visible digits, and displayed replay.
+
+Thus a countable-name consumer can only receive the seven displayed rows. Any request for a countable-choice schedule, a host infinite sequence, quotient stream equality, or real completeness leaves the accepted packet.
+\end{proof}
+
 \closureat{LawlessSequenceUp}{seedStr}
 
 \begin{closurestatus}{\LawlessSequenceUp}
