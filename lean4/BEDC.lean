@@ -4673,7 +4673,6 @@ import BEDC.Derived.FrechetDerivativeUp.TasteGate
 import BEDC.Derived.FrechetFilterUp
 import BEDC.Derived.FrechetFilterUp.CarrierAdmissionObligation
 import BEDC.Derived.FrechetFilterUp.CofinalTailStabilityObligation
-import BEDC.Derived.FrechetFilterUp.NameCertObligations
 import BEDC.Derived.FrechetFilterUp.TasteGate
 import BEDC.Derived.FrechetUrysohnUp.TasteGate
 import BEDC.Derived.FredholmAlternativeUp.TasteGate
@@ -6534,6 +6533,7 @@ import BEDC.Derived.ObjectKnowledgeCertificateUp.TasteGate
 import BEDC.Derived.ObjectivityRefutationBoundaryUp.SiblingIndependence
 import BEDC.Derived.ObjectivityRefutationBoundaryUp.TasteGate
 import BEDC.Derived.ObservableCauchySealUp.TasteGate
+import BEDC.Derived.ObservableDiameterDecayUp.ObservableDiameterDecayTasteGate
 import BEDC.Derived.ObservableOpenFilterUp
 import BEDC.Derived.ObservableUp
 import BEDC.Derived.ObservableUp.ExpectationInterface
@@ -7624,6 +7624,7 @@ import BEDC.Derived.ReflectiveInquiryUp.LedgeredRoleCorrespondence
 import BEDC.Derived.ReflectiveInquiryUp.Nonescape
 import BEDC.Derived.ReflectiveInquiryUp.TasteGate
 import BEDC.Derived.ReflectiveStabilityUp.TasteGate
+import BEDC.Derived.RefusalRegistryUp.RefusalRegistryNonescape
 import BEDC.Derived.RefusalRegistryUp.TasteGate
 import BEDC.Derived.RefutationBoundaryUp
 import BEDC.Derived.RefutationBoundaryUp.TasteGate
@@ -8263,7 +8264,6 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.LimitModulusInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitNonescape
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitReadbackPackage
 import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
-import BEDC.Derived.SequentiallyCompleteMetricUp.LimitUniquenessBoundary
 import BEDC.Derived.SequentiallyCompleteMetricUp.MetricCompletionConsumerAdmission
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RealRefusalBoundary
