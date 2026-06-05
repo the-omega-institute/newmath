@@ -4058,6 +4058,7 @@ import BEDC.Derived.FastCauchySubsequenceUp.RealSealNonescapeInduction
 import BEDC.Derived.FastCauchySubsequenceUp.RealSealObligation
 import BEDC.Derived.FastCauchySubsequenceUp.RealSealSelectorBoundary
 import BEDC.Derived.FastCauchySubsequenceUp.RealUpTailHandoff
+import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatCompletionHandoff
 import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatRealRoute
 import BEDC.Derived.FastCauchySubsequenceUp.RegSeqRatTailReadback
 import BEDC.Derived.FastCauchySubsequenceUp.RegularReadback
@@ -8019,7 +8020,10 @@ import BEDC.Derived.SequenceFilterBridgeUp.TasteGate
 import BEDC.Derived.SequentialCauchyRegularizationUp.TasteGate
 import BEDC.Derived.SequentialCauchySelectorUp.TasteGate
 import BEDC.Derived.SequentialClosureUp
+import BEDC.Derived.SequentialClosureUp.NameCertObligations
+import BEDC.Derived.SequentialClosureUp.RegSeqRatLimitRoute
 import BEDC.Derived.SequentialClosureUp.SequenceLimitHandoff
+import BEDC.Derived.SequentialClosureUp.TasteGate
 import BEDC.Derived.SequentialCompactRealUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.BaireCylinderExposure
 import BEDC.Derived.SequentialCompactUp.BaireRealWindowAdmission
