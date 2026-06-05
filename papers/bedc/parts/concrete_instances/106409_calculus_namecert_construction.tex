@@ -169,6 +169,30 @@ For integral reads, use \autoref{thm:calculus-integral-finite-sum-obligation} an
 For limit reads, use \autoref{thm:calculus-continuous-limit-carrier-budget}, \autoref{thm:calculus-continuousmap-limit-route}, and \autoref{thm:calculus-root-limit-nonescape}. These force the continuous-map and limit windows to remain inside the displayed BEDC route.
 \end{proof}
 
+\begin{theorem}[Calculus root-unblock limit window scope]
+\label{thm:calculus-root-unblock-limit-window-scope}
+Every $\CalculusUp$ limit consumer that exports a $\RealUp$-facing conclusion must expose the $\LimitUp$ window row, the $\ContinuousMapUp$ graph-replay row, the $\RegSeqRatUp$ readback row, the $\DyadicRatCoreUp$ tolerance ledger, the terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CalculusUp}$ naming before the conclusion is public. The consumer cannot replace those rows by a host limit operator, quotient real equality, selected function-space theorem, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:calculus-carrier}. The limit route is $L$, the continuous-map route is $C$, the regular-rational readback is $Q$, the terminal real boundary is $R$, and the structural rows are $H,T,P,N$.
+
+Use \autoref{thm:calculus-source-window-obligation} to require the finite source window before any public read. For a limit-shaped consumer, \autoref{thm:calculus-continuous-limit-carrier-budget} and \autoref{thm:calculus-continuousmap-limit-route} identify the required $\LimitUp$ and $\ContinuousMapUp$ rows.
+
+Finally apply \autoref{thm:calculus-root-limit-nonescape} and \autoref{thm:calculus-root-real-seal-nonescape}. They keep the read behind the regular-rational, dyadic, transport, replay, provenance, naming, and Real-seal rows. Since the excluded host objects are absent from the carrier, the listed rows form the full limit-window scope.
+\end{proof}
+
+\begin{theorem}[Calculus root-unblock finite-sum handoff]
+\label{thm:calculus-root-unblock-finite-sum-handoff}
+Every $\CalculusUp$ integral consumer that exports a $\RealUp$-facing conclusion must pass through the $\RiemannIntegralUp$ finite-sum row, the $\RegSeqRatUp$ regular-rational readback row, the $\DyadicRatCoreUp$ tolerance ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local $\NameCert_{\CalculusUp}$ naming, and the terminal $\RealUp$ seal before the conclusion is public. The consumer cannot bypass the finite-sum row by selecting an antiderivative, a host integration functional, quotient equality of functions, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:calculus-carrier}. The integral source is $I$, the common regular-rational readback is $Q$, the terminal Real boundary is $R$, and the transport, replay, provenance, and naming rows are $H,T,P,N$.
+
+Apply \autoref{thm:calculus-source-window-obligation} and \autoref{thm:calculus-integral-finite-sum-obligation}. Together they force the partition, tagged finite sum, endpoint handoff, regular-rational readback, dyadic tolerance data, and structural rows to be displayed before any Real-facing integral read is exported.
+
+The handoff is separated from derivative data by \autoref{thm:calculus-root-derivative-integral-boundary}. The Real seal is then controlled by \autoref{thm:calculus-root-integral-regseqrat-handoff} and \autoref{thm:calculus-root-real-seal-nonescape}, so the public conclusion remains a finite-sum-to-regular-rational-to-Real route.
+\end{proof}
+
 \begin{theorem}[Calculus local operation nonescape]
 \label{thm:calculus-local-operation-nonescape}
 Every public $\CalculusUp$ local operation read is confined to the displayed $\BHist$ rows for source graph data or finite sums, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CalculusUp}$ naming. No derivative, integral, or limit conclusion may replace those rows by a host function space, host limit operator, quotient equality of functions, selected derivative operator, selected antiderivative, or ambient Real completeness theorem.
