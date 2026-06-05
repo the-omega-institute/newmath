@@ -1539,6 +1539,7 @@ import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
 import BEDC.Derived.CauchyLocatedRealEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyLocatednessUp.TasteGate
 import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
+import BEDC.Derived.CauchyMeshRefinementUp.TasteGate
 import BEDC.Derived.CauchyMetastabilityUp.TasteGate
 import BEDC.Derived.CauchyModulusChoiceUp
 import BEDC.Derived.CauchyModulusChoiceUp.TasteGate
@@ -2122,6 +2123,7 @@ import BEDC.Derived.CausalContinuitySocketUp.TasteGate
 import BEDC.Derived.CausalInterventionUp
 import BEDC.Derived.CausalInterventionUp.TasteGate
 import BEDC.Derived.CayleyHamiltonUp.TasteGate
+import BEDC.Derived.CayleyTheoremUp.TasteGate
 import BEDC.Derived.CellularAutomatonUp.TasteGate
 import BEDC.Derived.CellularBoundaryConditionUp.CarrierSemanticNameCert
 import BEDC.Derived.CellularBoundaryConditionUp.NonescapeBoundary
@@ -5524,6 +5526,7 @@ import BEDC.Derived.LowerSemicontinuousUp.NameCertBasisObligations
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationBasis
 import BEDC.Derived.LowerSemicontinuousUp.NameCertObligationSurface
 import BEDC.Derived.LowerSemicontinuousUp.NameCertScope
+import BEDC.Derived.LowerSemicontinuousUp.ObligationClosureRoute
 import BEDC.Derived.LowerSemicontinuousUp.PublicExport
 import BEDC.Derived.LowerSemicontinuousUp.RealHandoff
 import BEDC.Derived.LowerSemicontinuousUp.RealRegSeqRatScope
@@ -8149,6 +8152,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.LimitStabilityObligation
 import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.Derived.SequentiallyCompleteMetricUp.RootCauchyLimitExistence
 import BEDC.Derived.SequentiallyCompleteMetricUp.SeparatedUniquenessBoundary
+import BEDC.Derived.SequentiallyCompleteMetricUp.TailInduction
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
