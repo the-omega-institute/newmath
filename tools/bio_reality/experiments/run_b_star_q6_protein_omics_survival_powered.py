@@ -25,6 +25,9 @@ ORGANISMS = [
     "escherichia_coli_k12_mg1655",
     "mycobacterium_smegmatis_str_mc2_155",
     "saccharomyces_cerevisiae",
+    "homo_sapiens",
+    "danio_rerio",
+    "gallus_gallus",
 ]
 MIN_ORGANISMS = 2
 MIN_PROTEINS_PER_ORGANISM = 500
