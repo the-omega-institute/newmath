@@ -1945,6 +1945,7 @@ import BEDC.Derived.CauchySequenceSpaceUp.ObservationBudgetFactorization
 import BEDC.Derived.CauchySequenceSpaceUp.QuotientRefusalRoute
 import BEDC.Derived.CauchySequenceSpaceUp.RealCompletionExactBoundaryTerminalPullback
 import BEDC.Derived.CauchySequenceSpaceUp.RealObservationBudgetFactorization
+import BEDC.Derived.CauchySequenceSpaceUp.SharedWindowDeterminacy
 import BEDC.Derived.CauchySequenceSpaceUp.StdBridge
 import BEDC.Derived.CauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.CauchySequenceSpaceUp.TerminalPullbackExactness
@@ -3963,6 +3964,7 @@ import BEDC.Derived.FanSpaceUp.TasteGate
 import BEDC.Derived.FanTheoremUp
 import BEDC.Derived.FanTheoremUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.BarScopeObligations
+import BEDC.Derived.FanfunctionalUp.CantorCompactnessScope
 import BEDC.Derived.FanfunctionalUp.FiniteBarModulusScope
 import BEDC.Derived.FanfunctionalUp.LocalObligationSurface
 import BEDC.Derived.FanfunctionalUp.NameCertObligations
@@ -5474,6 +5476,7 @@ import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowExactness
 import BEDC.Derived.LowerSemicontinuousUp.EpigraphWindowInduction
 import BEDC.Derived.LowerSemicontinuousUp.FiniteEpigraphThresholdExhaustion
 import BEDC.Derived.LowerSemicontinuousUp.KernelScope
+import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphFilterStability
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransport
 import BEDC.Derived.LowerSemicontinuousUp.LocatedEpigraphTransportInduction
 import BEDC.Derived.LowerSemicontinuousUp.LocatedReadbackCompatibility
@@ -8035,12 +8038,14 @@ import BEDC.Derived.SequentialCompactUp.BaireRegSeqRatExhaustion
 import BEDC.Derived.SequentialCompactUp.ClusterCarrierStability
 import BEDC.Derived.SequentialCompactUp.CompactMetricConsumerScope
 import BEDC.Derived.SequentialCompactUp.CompactMetricHandoff
+import BEDC.Derived.SequentialCompactUp.CompactMetricRootSurface
 import BEDC.Derived.SequentialCompactUp.CylinderMonotoneWindow
 import BEDC.Derived.SequentialCompactUp.FiniteSubsequenceObligation
 import BEDC.Derived.SequentialCompactUp.ObligationReadiness
 import BEDC.Derived.SequentialCompactUp.RealSealConsumerBoundary
 import BEDC.Derived.SequentialCompactUp.RealSealNonescape
 import BEDC.Derived.SequentialCompactUp.RealSealWindowNonescape
+import BEDC.Derived.SequentialCompactUp.RegSeqRatClusterHandoff
 import BEDC.Derived.SequentialCompactUp.RegularTailNonescape
 import BEDC.Derived.SequentialCompactUp.RootObligationSurface
 import BEDC.Derived.SequentialCompactUp.RootRealSealRefusal
