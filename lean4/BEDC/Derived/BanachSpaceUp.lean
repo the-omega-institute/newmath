@@ -1,4 +1,5 @@
 import BEDC.Derived.BanachSpaceUp.TasteGate
+import BEDC.Derived.BanachSpaceUp.CompletionStabilityObligation
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
