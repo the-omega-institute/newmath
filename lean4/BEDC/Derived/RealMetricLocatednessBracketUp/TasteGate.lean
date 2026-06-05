@@ -281,4 +281,81 @@ theorem RealMetricLocatednessBracketCarrier_non_escape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, equalityReadUnary, provenanceSig⟩
 
+theorem RealMetricLocatednessBracketNonEscape [AskSetup] [PackageSetup]
+    {metric located equality stream readback dyadic transport replay provenance localName metricRead
+      locatedRead equalityRead finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealMetricLocatednessBracketCarrier metric located equality stream readback dyadic transport replay
+        provenance localName bundle pkg →
+      Cont stream readback metricRead →
+        Cont metricRead dyadic locatedRead →
+          Cont locatedRead equality equalityRead →
+            Cont equalityRead replay finalRead →
+              PkgSig bundle finalRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row finalRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row metric ∨ hsame row located ∨ hsame row equality ∨
+                        hsame row stream ∨ hsame row readback ∨ hsame row dyadic ∨
+                          hsame row finalRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ PkgSig bundle finalRead pkg ∧
+                        PkgSig bundle provenance pkg)
+                    hsame ∧
+                  UnaryHistory metricRead ∧ UnaryHistory locatedRead ∧
+                    UnaryHistory equalityRead ∧ UnaryHistory finalRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig SemanticNameCert hsame
+  intro carrier streamReadbackMetric metricDyadicLocated locatedEqualityRead
+    equalityReplayFinal finalPkg
+  obtain ⟨_metricUnary, _locatedUnary, equalityUnary, streamUnary, readbackUnary,
+    dyadicUnary, _transportUnary, replayUnary, _provenanceUnary, _localNameUnary,
+    provenanceSig, _localNameSig⟩ := carrier
+  have metricReadUnary : UnaryHistory metricRead :=
+    unary_cont_closed streamUnary readbackUnary streamReadbackMetric
+  have locatedReadUnary : UnaryHistory locatedRead :=
+    unary_cont_closed metricReadUnary dyadicUnary metricDyadicLocated
+  have equalityReadUnary : UnaryHistory equalityRead :=
+    unary_cont_closed locatedReadUnary equalityUnary locatedEqualityRead
+  have finalReadUnary : UnaryHistory finalRead :=
+    unary_cont_closed equalityReadUnary replayUnary equalityReplayFinal
+  have sourceFinal :
+      (fun row : BHist => hsame row finalRead ∧ UnaryHistory row) finalRead := by
+    exact ⟨hsame_refl finalRead, finalReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row finalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row metric ∨ hsame row located ∨ hsame row equality ∨
+              hsame row stream ∨ hsame row readback ∨ hsame row dyadic ∨
+                hsame row finalRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle finalRead pkg ∧
+              PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro finalRead sourceFinal
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, finalPkg, provenanceSig⟩
+  }
+  exact ⟨cert, metricReadUnary, locatedReadUnary, equalityReadUnary, finalReadUnary⟩
+
 end BEDC.Derived.RealMetricLocatednessBracketUp
