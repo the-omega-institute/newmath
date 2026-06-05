@@ -4221,6 +4221,22 @@ def _run_writeback_heal_codex(prompt: str, repo_root: Path, timeout_seconds: int
     return _parse_writeback_heal_json(completed.stdout or ""), completed.stdout or "", completed.stderr or ""
 
 
+def _bio_h_heal_content_acceptable(fixed: str, original: str) -> bool:
+    # 判定 codex heal 输出是否是可接受的真章节内容 (而非散文描述 / 大幅截断).
+    # codex 偶尔返回"我把文件修好了, 内容是 919 行…"这类 meta 描述当作 fixed_content,
+    # 直接写入会丢失整章. 退化判据: 太短 (不到原文 40% 且 < 200 字) / 无任何 TeX 结构命令 /
+    # 以 meta 句式开头.
+    f = fixed.strip()
+    if len(f) < max(200, int(len(original.strip()) * 0.4)):
+        return False
+    if not re.search(r"\\(subsection|section|paragraph|begin)\b", f):
+        return False
+    meta_starts = ("the corrected", "the complete file", "here is", "i have ", "i've ", "this file", "the file ", "below is")
+    if f.lower().startswith(meta_starts):
+        return False
+    return True
+
+
 def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
     try:
         config = _load_writeback_heal_config()
@@ -4344,8 +4360,15 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
             if parsed is None:
                 _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "codex_failed", "attempt": attempt, "stderr_tail": _tail_text(raw_stderr, 800), "stdout_tail": _tail_text(raw_stdout, 800)})
                 continue
+            fixed_content = str(parsed["fixed_content"]).rstrip() + "\n"
+            # 防御: codex heal 偶尔返回"对修复动作的散文描述"而非真章节内容 (或大幅截断),
+            # 直接写入会把整章替换成一两行 prose → 内容丢失 + 后续 build 断 + 被 bio-K commit.
+            # 拒绝退化输出, 不写盘, 留原文件让下一轮 / 其它修复路径处理.
+            if not _bio_h_heal_content_acceptable(fixed_content, content):
+                _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "rejected_degenerate_heal", "attempt": attempt, "rel_file": rel_file, "fixed_len": len(fixed_content.strip()), "orig_len": len(content.strip())})
+                continue
             try:
-                target.write_text(str(parsed["fixed_content"]).rstrip() + "\n", encoding="utf-8")
+                target.write_text(fixed_content, encoding="utf-8")
             except OSError as exc:
                 _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "unresolved", "attempt": attempt, "reason": str(exc)})
                 return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "error": str(exc)}
@@ -4355,6 +4378,11 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
                 pdf_returncode, _pdf_output = _run_writeback_make_pdf(paper_dir)
                 pdf_rebuilt = "ok" if pdf_returncode == 0 else "failed"
                 return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt}
+            # heal 没修好: 回滚到原内容, 不把 codex 的坏输出 (可能含 prose / 截断) 留在盘上被 commit.
+            try:
+                target.write_text(content, encoding="utf-8")
+            except OSError:
+                pass
             last_error = _parse_writeback_heal_error(output, paper_dir)
         _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "unresolved", "attempts": attempts})
         return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts}
@@ -4577,8 +4605,8 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     pdf_build_detail = ""
     paper_dir = paths.paper_main.parent
     if (paper_dir / "Makefile").exists():
-        try:
-            build = subprocess.run(
+        def _run_make_pdf() -> subprocess.CompletedProcess:
+            return subprocess.run(
                 ["make", "-s"],
                 cwd=paper_dir,
                 env=_tex_env(),
@@ -4588,11 +4616,23 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
                 timeout=300.0,
                 check=False,
             )
+        try:
+            build = _run_make_pdf()
+            if build.returncode != 0:
+                # 单趟 make 失败常因上一轮中断 / 并发 build 留下的 stale main.aux 等中间文件,
+                # 单趟无法自愈. 清掉 aux 类中间文件 (不删 main.pdf) 后重试一次: 内容本身干净时即成功.
+                for aux in ("main.aux", "main.out", "main.toc", "main.fls", "main.fdb_latexmk", "main.lof", "main.lot"):
+                    try:
+                        (paper_dir / aux).unlink()
+                    except OSError:
+                        pass
+                build = _run_make_pdf()
             if build.returncode == 0:
                 pdf_build_status = "ok"
             else:
                 pdf_build_status = "failed"
-                pdf_build_detail = ((build.stderr or build.stdout) or "")[-400:]
+                # 捕获 stdout (真 LaTeX 错误) 而非仅 make wrapper stderr, 便于后续诊断.
+                pdf_build_detail = ((build.stdout or "") + "\n" + (build.stderr or ""))[-600:]
         except (OSError, subprocess.TimeoutExpired) as exc:
             pdf_build_status = "error"
             pdf_build_detail = str(exc)[-400:]

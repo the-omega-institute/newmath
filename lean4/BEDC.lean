@@ -8198,6 +8198,7 @@ import BEDC.Derived.SequentialCompactUp.RootRealSealRefusal
 import BEDC.Derived.SequentialCompactUp.RootRegSeqRatExposure
 import BEDC.Derived.SequentialCompactUp.RootSelectedWindowRoute
 import BEDC.Derived.SequentialCompactUp.SelectorRefusal
+import BEDC.Derived.SequentialCompactUp.StreamNameSubsequenceRoute
 import BEDC.Derived.SequentialCompactUp.TasteGate
 import BEDC.Derived.SequentialCompactUp.WindowExtractionScope
 import BEDC.Derived.SequentialCompactnessUp.BolzanoWeierstrassWindow
