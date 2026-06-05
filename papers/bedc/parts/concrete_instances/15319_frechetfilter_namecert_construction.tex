@@ -160,6 +160,46 @@ Replay $C$ along the displayed route. The request consumes $U$ and $T$, inspects
 Only after those rows have been consumed can the seal row $A$ be reached. Componentwise transport by $H$ and provenance through $P,N$ preserve the same dependency order, so the packet supplies a finite consumer route rather than Real completeness, quotient filter equality, selected limits, countable choice, or ambient completion.
 \end{proof}
 
+\begin{theorem}[FrechetFilter FilterBase meet obligation]
+\label{thm:frechet-filter-filterbase-meet-obligation}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Every pair of cofinite tail requests accepted by $F$ must be compared through the displayed $\FilterBaseUp$ meet row $B$ before any $\StreamNameUp$ schedule row or $\MetricUp$ tolerance row is consumed. The meet row is therefore a finite cofinite-tail obligation, not a consequence of stream inspection or metric convergence.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frechet-filter-carrier}. The rows $U,T$ expose the unary threshold and cofinite tail-neighborhood surface, while $B$ is the only coordinate that packages common-tail meets.
+
+Apply the tail-neighborhood handoff of \autoref{thm:frechet-filter-tail-neighborhood-handoff}. It places $S$ and $M$ downstream of $U,T$ and records that stream windows and metric tolerances may be read only after the finite tail surface is visible.
+
+Use the common-tail refinement of \autoref{thm:frechet-filter-tail-common-refinement}. The displayed common threshold is read through the same cofinite-tail row, so the meet obligation belongs to $B$ before any schedule or metric consumer can inspect later rows.
+\end{proof}
+
+\begin{theorem}[FrechetFilter sequential-completion handoff]
+\label{thm:frechet-filter-sequential-completion-handoff}
+Let $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$ be an accepted $\FrechetFilterUp$ carrier. Every $\SequentiallyCompleteMetricUp$ consumer of $F$ receives only the rows
+$$
+U,T,S,M,B,Q,R,A,H,C,P,N .
+$$
+In particular the handoff exports a displayed cofinite-tail source, regular rational readback, Real-facing seal, transport, replay, provenance, and local naming, but no selected limit and no ambient completion witness.
+\end{theorem}
+\begin{proof}
+Begin with the Cauchy-source boundary of \autoref{thm:frechet-filter-cauchy-source-boundary}. It sends any convergence-facing request through $U,T,S,M,B$ before the Cauchy-filter handoff row $Q$ is visible.
+
+Next apply \autoref{thm:frechet-filter-real-completion-consumer-route}. The Real and completion-facing route reaches the readback row $R$ and the seal row $A$ only after the Cauchy-filter handoff has been consumed.
+
+Finally use \autoref{thm:frechet-filter-completion-nonescape}. Since the carrier has no coordinate for a selected limit or ambient completion object, a sequential-completion consumer receives only the displayed finite rows named in the statement.
+\end{proof}
+
+\begin{theorem}[FrechetFilter tail-ledger refusal]
+\label{thm:frechet-filter-tail-ledger-refusal}
+For every accepted $\FrechetFilterUp$ carrier $F=(U,T,S,M,B,Q,R,A,H,C,P,N)$, the local tail ledger refuses quotient filter equality, countable-choice tail selection, selected limits, ambient completion, and $\RealUp$ completeness. Each refused conclusion is absent because it is not one of the carrier coordinates $U,T,S,M,B,Q,R,A,H,C,P,N$ and is not produced by the displayed handoff theorems.
+\end{theorem}
+\begin{proof}
+Project the carrier definition and the NameCert obligations. The carrier contains threshold, tail-neighborhood, schedule, metric, filter-base, Cauchy-filter, readback, seal, transport, replay, provenance, and local naming rows; the obligation list explicitly records the ledger refusal.
+
+Use the Cauchy-source boundary and sequential-completion handoff above. Both routes preserve the same finite row order and never introduce quotient filter equality, a countable-choice selector, or a selected limit.
+
+Finally apply \autoref{thm:frechet-filter-real-completion-consumer-route}. The Real-facing seal is downstream of the finite readback route, so it is not a proof of $\RealUp$ completeness and cannot be inflated into ambient completion.
+\end{proof}
+
 \begin{closurestatus}{\FrechetFilterUp}
   \constructivestory{A $\FrechetFilterUp$ packet is generated from unary thresholds, cofinite tail neighborhoods, StreamName schedule rows, Metric tolerance rows, FilterBase meet rows, CauchyFilter handoff rows, RegSeqRat readback, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
