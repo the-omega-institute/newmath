@@ -28,18 +28,13 @@ DN_ALLOWED_KEYS = {
     "negative_report_pointer",
 }
 VERDICT_NAMES = {
+    "raw_operational_evidence_pass",
+    "projected_discovery_required",
+    "projected_positive_discovery",
     "accepted_positive_discovery",
-    "demoted_audit_tradeoff",
-    "ledger_only_hardening_not_ready",
+    "mechanism_not_closed",
     "negative_discovery",
-    "rejected_hidden_debt",
-    "rejected_scope_laundering",
-}
-DOWNGRADE_VERDICTS = {
-    "demoted_audit_tradeoff",
-    "ledger_only_hardening_not_ready",
-    "rejected_hidden_debt",
-    "rejected_scope_laundering",
+    "revoked_discovery",
 }
 
 
@@ -160,7 +155,7 @@ def _scorecard_hash(root):
 
 
 def _assert_provenance(row, root, *, scorecard_ready=True, formal_hardening_ready=True):
-    if row["claim_verdict"] == "negative_discovery":
+    if set(row) == DN_ALLOWED_KEYS:
         assert set(row) == DN_ALLOWED_KEYS
         assert row["claim_graph_node_id"] == demo.terminal_node_id_for_claim_id(row["claim_id"])
         assert row["negative_report_pointer"]
@@ -263,8 +258,11 @@ def test_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
         _discovery_row("d2", "reports/canonical/d2.json", "D2"),
         _discovery_row("dn", "reports/canonical/dn.json", "DN"),
         _discovery_row("d0", "reports/canonical/d0.json", "D0"),
+        _discovery_row("projected-d4", "reports/canonical/projected-d4.json", "D4"),
+        _discovery_row("d5o", "reports/canonical/d5o.json", "D5-O"),
     ]
-    rows[-2]["failed_gate"] = "$.cost.hidden_debt"
+    next(row for row in rows if row["report"] == "dn")["failed_gate"] = "$.cost.hidden_debt"
+    next(row for row in rows if row["report"] == "d5o")["terminal_verdict"] = "mechanism_not_closed"
     specs = tuple(_spec(row["report"], row["json_artifact"]) for row in rows)
     witnesses = [
         {"kind": "hidden_debt_positive", "terminal_verdict": "demoted", "terminal_reason": "audit-improvement-tradeoff", "discovery_level": "DR", "gate_basis": {"new_status": "audit-improvement-tradeoff"}},
@@ -273,12 +271,16 @@ def test_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
         {"kind": "forbidden_inference_column", "terminal_verdict": "rejected", "terminal_reason": "overclaim", "discovery_level": "DN", "gate_basis": {"forbidden_claim_term_hits": [FORBIDDEN_POSITIVE_CLAIM_TERMS[0]]}},
     ]
     _fixture_root(tmp_path, monkeypatch, rows, specs, witnesses)
+    projected_path = tmp_path / "reports/canonical/projected-d4.json"
+    projected_payload = json.loads(projected_path.read_text(encoding="utf-8"))
+    projected_payload["matched_random_control"]["control_verdict"]["positive"] = True
+    _write_json(projected_path, projected_payload)
 
     verdicts = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
 
     assert {row["claim_verdict"] for row in verdicts} == VERDICT_NAMES
     by_claim = {row["claim_id"]: row for row in verdicts}
-    assert by_claim["claim:d0"]["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert by_claim["claim:d0"]["claim_verdict"] == "projected_discovery_required"
     assert by_claim["claim:d0"]["reason"] == "discovery-level-D0"
     assert by_claim["claim:d0"]["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[5].discovery_level"
     assert all(row["claim_graph_node_id"].startswith("terminal:") for row in verdicts)
@@ -317,7 +319,7 @@ def test_jsonl_row_schema_reason_and_downgrade_pointers(tmp_path, monkeypatch):
         assert row["reason"]
         assert "schema_id" not in row
         assert "SCHEMA_ID" not in row
-        if row["claim_verdict"] in DOWNGRADE_VERDICTS:
+        if set(row) == ALLOWED_KEYS:
             assert row["ledger_pointer"]
 
 
@@ -332,7 +334,7 @@ def test_forbidden_overclaim_preempts_positive_acceptance_and_uses_claim_terms(t
 
     verdicts = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
 
-    assert verdicts[0]["claim_verdict"] == "rejected_scope_laundering"
+    assert verdicts[0]["claim_verdict"] == "negative_discovery"
     assert verdicts[0]["reason"] == "forbidden-overclaim"
     assert verdicts[0]["ledger_pointer"] == "reports/canonical/d4.json:$.positive"
 
@@ -344,7 +346,7 @@ def test_missing_cost_protocol_and_not_ready_scorecard_fail_closed(tmp_path, mon
     (tmp_path / "configs/default_cost_protocol.yaml").unlink()
 
     cost_verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
-    assert cost_verdict["claim_verdict"] == "rejected_hidden_debt"
+    assert cost_verdict["claim_verdict"] == "negative_discovery"
     assert cost_verdict["reason"] == "cost-protocol-unavailable"
 
     (tmp_path / "configs/default_cost_protocol.yaml").write_text(
@@ -354,7 +356,7 @@ def test_missing_cost_protocol_and_not_ready_scorecard_fail_closed(tmp_path, mon
     _write_json(tmp_path / "reports/canonical/quality-scorecard.json", _scorecard(status="not-ready"))
     scorecard_verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
     _assert_provenance(scorecard_verdict, tmp_path, scorecard_ready=False)
-    assert scorecard_verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert scorecard_verdict["claim_verdict"] == "projected_discovery_required"
     assert scorecard_verdict["reason"] == "scorecard-not-ready"
     assert scorecard_verdict["ledger_pointer"].startswith("reports/canonical/quality-scorecard.json:$.rows")
 
@@ -373,12 +375,12 @@ def test_hardening_coverage_not_ready_uses_dependency_pointer(tmp_path, monkeypa
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     _assert_provenance(verdict, tmp_path, scorecard_ready=False)
-    assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
     assert verdict["reason"] == "scorecard-not-ready"
     assert verdict["ledger_pointer"] == f"reports/canonical/quality-scorecard.json:$.rows[{hardening_index}]"
 
 
-def test_positive_discovery_gate_failure_routes_to_ledger_only_hardening_not_ready(tmp_path, monkeypatch):
+def test_positive_discovery_gate_failure_routes_raw_operational_case_to_raw_pass(tmp_path, monkeypatch):
     rows = [_discovery_row("gap-head-on-h", "reports/canonical/gap-head-on-h.json", "D5-O")]
     rows[0]["control_pointer"] = "$.matched_random_control.control_verdict.positive"
     specs = (
@@ -397,13 +399,36 @@ def test_positive_discovery_gate_failure_routes_to_ledger_only_hardening_not_rea
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:gap-head-on-h"
-    assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert verdict["claim_verdict"] == "raw_operational_evidence_pass"
     assert verdict["reason"] == "positive-discovery-gate-failed"
     assert verdict["source"] == "reports/canonical/gap-head-on-h.json:$.positive_discovery"
     assert verdict["ledger_pointer"] == (
         "reports/canonical/gap-head-on-h.json:"
         "$.matched_random_control.control_verdict.positive"
     )
+
+
+def test_positive_discovery_gate_failure_routes_projected_positive_case_to_projected_positive(tmp_path, monkeypatch):
+    rows = [_discovery_row("projected-d4", "reports/canonical/projected-d4.json", "D4")]
+    rows[0]["control_pointer"] = "$.matched_random_control.control_verdict.positive"
+    specs = (
+        _spec(
+            "projected-d4",
+            "reports/canonical/projected-d4.json",
+            control="$.matched_random_control.control_verdict.positive",
+        ),
+    )
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/projected-d4.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload["matched_random_control"]["control_verdict"]["positive"] = True
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:projected-d4"
+    assert verdict["claim_verdict"] == "projected_positive_discovery"
+    assert verdict["reason"] == "positive-discovery-gate-failed"
 
 
 def test_constraint_lagrangian_dn_reason_preserves_evidence_label(tmp_path, monkeypatch):
@@ -445,7 +470,7 @@ def test_positive_discovery_requires_valid_discovery_map_audit(tmp_path, monkeyp
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:gap-head-discovery"
-    assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
     assert verdict["reason"] == "discovery-map-audit-not-valid"
     assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].audit_status"
 
@@ -477,7 +502,7 @@ def test_demoted_terminal_positive_discovery_fails_closed_with_ledger_pointer(tm
 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
-    assert verdict["claim_verdict"] == "demoted_audit_tradeoff"
+    assert verdict["claim_verdict"] == "revoked_discovery"
     assert verdict["reason"] == "audit-improvement-tradeoff"
     assert verdict["ledger_pointer"] == "reports/canonical/d4.json:$.cost"
 
@@ -494,7 +519,7 @@ def test_formal_hardening_readiness_is_row_provenance(tmp_path, monkeypatch):
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     _assert_provenance(verdict, tmp_path, formal_hardening_ready=False)
-    assert verdict["claim_verdict"] == "demoted_audit_tradeoff"
+    assert verdict["claim_verdict"] == "raw_operational_evidence_pass"
 
 
 def test_gap_head_transfer_atlas_d5_o_routes_as_positive_level(tmp_path, monkeypatch):
@@ -506,7 +531,7 @@ def test_gap_head_transfer_atlas_d5_o_routes_as_positive_level(tmp_path, monkeyp
             pointer="$.multi_surface_d5_o.decision",
         )
     ]
-    rows[0]["terminal_verdict"] = "pass"
+    rows[0]["terminal_verdict"] = "mechanism_not_closed"
     rows[0]["control_pointer"] = "$.config.control_arm"
     specs = (
         _spec(
@@ -535,6 +560,7 @@ def test_gap_head_transfer_atlas_d5_o_routes_as_positive_level(tmp_path, monkeyp
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:gap-head-transfer-atlas"
+    assert verdict["claim_verdict"] == "mechanism_not_closed"
     assert verdict["reason"] != "unsupported-discovery-level"
 
 
@@ -549,7 +575,7 @@ def test_scope_laundering_cell_rejects_with_real_pointer(tmp_path, monkeypatch):
 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
-    assert verdict["claim_verdict"] == "rejected_scope_laundering"
+    assert verdict["claim_verdict"] == "negative_discovery"
     assert verdict["reason"] == "scope-discipline-failed"
     assert verdict["ledger_pointer"] == "reports/canonical/gap-head-discovery.json:$.laundering_modes"
 
@@ -610,7 +636,7 @@ def test_noncanonical_dimension_mismatch_dn_requires_valid_discovery_map_audit(t
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:dimension-mismatch-debt-transfer"
-    assert verdict["claim_verdict"] == "ledger_only_hardening_not_ready"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
     assert verdict["reason"] == "discovery-map-audit-not-valid"
     assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].audit_status"
 
@@ -641,7 +667,7 @@ def test_noncanonical_dimension_mismatch_forbidden_claim_rejects_with_pointer(tm
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:dimension-mismatch-debt-transfer"
-    assert verdict["claim_verdict"] == "rejected_scope_laundering"
+    assert verdict["claim_verdict"] == "negative_discovery"
     assert verdict["reason"] == "forbidden-overclaim"
     assert verdict["ledger_pointer"] == (
         "reports/canonical/dimension-mismatch-debt-transfer.json:"

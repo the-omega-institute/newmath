@@ -70,7 +70,7 @@ def _fixture_root(tmp_path: Path) -> Path:
                     "json_artifact": "reports/canonical/gap-head-transfer-atlas.json",
                     "markdown_artifact": "reports/canonical/gap-head-transfer-atlas.md",
                     "discovery_level": "D5-O",
-                    "terminal_verdict": "ledger_only_hardening_not_ready",
+                    "terminal_verdict": "projected_discovery_required",
                     "classifier_reasons": ["fixture"],
                     "projection_status": "projected",
                     "evidence_pointer": "$.multi_surface_d5_o",
@@ -100,8 +100,8 @@ def _fixture_root(tmp_path: Path) -> Path:
     )
     rows = [
         _row("claim:gap-head-discovery", "accepted_positive_discovery"),
-        _row("claim:gap-head-transfer-atlas", "ledger_only_hardening_not_ready"),
-        _row("claim:witness:hidden_debt_positive", "demoted_audit_tradeoff"),
+        _row("claim:gap-head-transfer-atlas", "projected_discovery_required"),
+        _row("claim:witness:hidden_debt_positive", "revoked_discovery"),
     ]
     rows[1]["source"] = "reports/canonical/gap-head-transfer-atlas.json:$.multi_surface_d5_o"
     rows[1]["ledger_pointer"] = "reports/canonical/discovery_map.json:$.rows[1].discovery_level"
