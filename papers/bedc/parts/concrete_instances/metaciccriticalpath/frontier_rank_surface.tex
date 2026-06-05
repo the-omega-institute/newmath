@@ -98,6 +98,7 @@ Finally invoke consumer exactness from \autoref{thm:metacic-critical-path-fronti
 \label{thm:metacic-critical-path-downstream-unblock-surface}
 Every downstream unblock read of an accepted $\MetaCICCriticalPathUp$ frontier-rank packet $Q=(O,R,D,B,C,P,N)$ must pass through the dependency-ready row $R$, obstruction ledger $B$, replay route $C$, package provenance $P$, and local $\NameCert_{\MetaCICCriticalPathUp}$ row $N$. The read may also inspect the open node $O$ and downstream rank $D$, but it cannot bypass $R,B,C,P,N$ by appealing to scheduler state, host graph reachability, a hidden edge, or an exported theorem outside the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathDownstreamUnblockSurface}
 \begin{proof}
 Project the read to the displayed frontier-rank carrier. The dependency-ready row $R$, obstruction ledger $B$, replay route $C$, provenance row $P$, and local name $N$ are all coordinates of the same finite packet $Q$.
 
@@ -112,6 +113,7 @@ Finally apply \autoref{thm:metacic-critical-path-frontier-rank-consumer-exactnes
 \label{thm:metacic-critical-path-audit-frontier-factorization}
 Every audit-frontier read of an accepted frontier-rank packet $Q=(O,R,D,B,C,P,N)$ factors through the displayed open-node row, dependency-ready row, downstream rank, obstruction ledger, replay route, package provenance, and local NameCert row. The factorization has no scheduler state, host graph reachability, hidden dependency edge, or theorem export outside the displayed packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathAuditFrontierFactorization}
 \begin{proof}
 Read the frontier through \autoref{def:metacic-critical-path-frontier-rank-carrier}. The audit-facing packet is finite and names only $O,R,D,B,C,P,N$.
 
