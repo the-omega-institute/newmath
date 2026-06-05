@@ -719,6 +719,8 @@ import BEDC.Derived.BanachSpaceUp.CauchyWindowScope
 import BEDC.Derived.BanachSpaceUp.CompletionConsumerScope
 import BEDC.Derived.BanachSpaceUp.LinearCompletionNonescape
 import BEDC.Derived.BanachSpaceUp.NormCompletionLedgerObligation
+import BEDC.Derived.BanachSpaceUp.NormedCauchyLedger
+import BEDC.Derived.BanachSpaceUp.SeparatedCompletionBoundary
 import BEDC.Derived.BanachSpaceUp.SeparatedNameCertObligation
 import BEDC.Derived.BanachSpaceUp.TasteGate
 import BEDC.Derived.BanachSteinhausUp.TasteGate
@@ -1146,6 +1148,7 @@ import BEDC.Derived.BoundedVariationUp.RealDependencyScope
 import BEDC.Derived.BoundedVariationUp.RefinementLedgerScope
 import BEDC.Derived.BoundedVariationUp.TasteGate
 import BEDC.Derived.BousfieldLocalizationUp
+import BEDC.Derived.BoxDimensionUp.TasteGate
 import BEDC.Derived.BraidGroupUp
 import BEDC.Derived.BranchObstructionUp.TasteGate
 import BEDC.Derived.BrouwerBarInductionUp.TasteGate
@@ -4087,6 +4090,7 @@ import BEDC.Derived.FanfunctionalUp.RootWindowObligations
 import BEDC.Derived.FanfunctionalUp.ScopedChoiceNonescape
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
 import BEDC.Derived.FanfunctionalUp.ScopedFiniteModulusExport
+import BEDC.Derived.FanfunctionalUp.UniformModulusCompactConsumer
 import BEDC.Derived.FanfunctionalUp.UniformModulusConsumerBoundary
 import BEDC.Derived.FanfunctionalUp.UniformModulusScope
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
@@ -6952,6 +6956,7 @@ import BEDC.Derived.PolishspaceUp.NameCertLedgerTransport
 import BEDC.Derived.PolishspaceUp.NameCertObligations
 import BEDC.Derived.PolishspaceUp.ObservationLedgerConsumerExactness
 import BEDC.Derived.PolishspaceUp.ObservationLedgerExhaustion
+import BEDC.Derived.PolishspaceUp.RealCompletionConsumerBoundary
 import BEDC.Derived.PolishspaceUp.RealCompletionReadbackNonescape
 import BEDC.Derived.PolishspaceUp.RealRegseqratNonescape
 import BEDC.Derived.PolishspaceUp.RegSeqRatRealHandoff
