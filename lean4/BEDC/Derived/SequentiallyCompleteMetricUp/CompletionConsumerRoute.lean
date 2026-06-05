@@ -1,4 +1,4 @@
-import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
+import BEDC.Derived.SequentiallyCompleteMetricUp.NameCertObligations
 import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
@@ -362,5 +362,87 @@ theorem SequentiallyCompleteMetricRootCompletionConsumerInterface [AskSetup] [Pa
             replayRoute, completionRoute, provenancePkg, namePkg⟩
     }
   · exact completionUnary
+
+theorem SequentiallyCompleteMetricCompletionConsumerFactorization [AskSetup] [PackageSetup]
+    {X S M L D H C P N sequenceRead modulusRead limitRead distanceRead
+      completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SequentiallyCompleteMetricCarrier X S M L D H C P N bundle pkg ->
+      Cont X S sequenceRead ->
+        Cont sequenceRead M modulusRead ->
+          Cont modulusRead L limitRead ->
+            Cont limitRead D distanceRead ->
+              Cont distanceRead N completionRead ->
+                PkgSig bundle P pkg ->
+                  PkgSig bundle completionRead pkg ->
+                    SemanticNameCert
+                        (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row X ∨ hsame row S ∨ hsame row M ∨ hsame row L ∨
+                            hsame row D ∨ hsame row completionRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont X S sequenceRead ∧
+                            Cont sequenceRead M modulusRead ∧ Cont modulusRead L limitRead ∧
+                              Cont limitRead D distanceRead ∧
+                                Cont distanceRead N completionRead ∧
+                                  PkgSig bundle P pkg ∧ PkgSig bundle completionRead pkg)
+                        hsame ∧
+                      UnaryHistory completionRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier sequenceRoute modulusRoute limitRoute distanceRoute completionRoute
+    provenancePkg completionPkg
+  obtain ⟨xUnary, sUnary, mUnary, lUnary, dUnary, _hUnary, _cUnary, _pUnary, nUnary,
+    _carrierSequenceRoute, _carrierLedgerRoute, _transportName, _carrierProvenancePkg⟩ :=
+      carrier
+  have sequenceUnary : UnaryHistory sequenceRead :=
+    unary_cont_closed xUnary sUnary sequenceRoute
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed sequenceUnary mUnary modulusRoute
+  have limitUnary : UnaryHistory limitRead :=
+    unary_cont_closed modulusUnary lUnary limitRoute
+  have distanceUnary : UnaryHistory distanceRead :=
+    unary_cont_closed limitUnary dUnary distanceRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed distanceUnary nUnary completionRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row completionRead ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row X ∨ hsame row S ∨ hsame row M ∨ hsame row L ∨ hsame row D ∨
+            hsame row completionRead)
+        (fun row : BHist =>
+          UnaryHistory row ∧ Cont X S sequenceRead ∧ Cont sequenceRead M modulusRead ∧
+            Cont modulusRead L limitRead ∧ Cont limitRead D distanceRead ∧
+              Cont distanceRead N completionRead ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle completionRead pkg)
+        hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro completionRead ⟨hsame_refl completionRead, completionUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr sourceRow.left))))
+    ledger_sound := by
+      intro _row sourceRow
+      exact
+        ⟨sourceRow.right, sequenceRoute, modulusRoute, limitRoute, distanceRoute,
+          completionRoute, provenancePkg, completionPkg⟩
+  }
+  exact ⟨cert, completionUnary⟩
 
 end BEDC.Derived.SequentiallyCompleteMetricUp
