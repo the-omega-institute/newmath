@@ -89,6 +89,15 @@
 - Rows: `8`
 - Audit: `pass`
 
+## Negative witness mutation ledger
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/negative_witness_mutation_ledger.json`
+- Markdown: `reports/canonical/negative_witness_mutation_ledger.md`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+- Rows: `8`
+- Audit: `pass`
+
 ## Claim verdicts
 
 - Status: `pointer-only`
