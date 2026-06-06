@@ -10,6 +10,23 @@ from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
 
 
+TARGET_COVERAGE_CELLS = {
+    ("discovery-gated-transformer", "model-discovery-suite"),
+    ("ledger-aware-transformer", "discovery-map-signal"),
+    ("certificate-gated-attention", "discovery-map-signal"),
+    ("discovery-regularized-training", "discovery-map-signal"),
+    ("mechanism-seeking-network", "discovery-map-signal"),
+    ("discovery-gated-nas", "discovery-map-signal"),
+    ("gap-head-attribution-capsule", "d5-o"),
+    ("gap-head-attribution-capsule", "mechanism"),
+    ("sigreg-mini-grid", "discovery-map-signal"),
+    ("lejepa-theorem-ledger", "theorem-ledger"),
+    ("dimension-mismatch-debt-transfer", "negative-owner"),
+    ("certificate-guided-training", "negative-owner"),
+    ("lejepa-mini-grid", "run-local-negative-witness"),
+}
+
+
 def _write_payload(root: Path, spec, payload):
     path = root / spec.json_artifact
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -39,6 +56,26 @@ def _minimal_payload(spec):
         return payload
     if spec.name == "ledger-aware-transformer":
         return lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    if spec.name == "certificate-gated-attention":
+        payload.update({
+            "discovery_map_signal": {
+                "control_pointer": "$.matched_random_control",
+                "evidence_pointer": "$.certificate_gate_summary.gated_vs_plain_valid",
+                "failed_gate": None,
+                "failed_gate_pointer": None,
+                "level_candidate": "D4",
+                "reason": "certificate-gate-positive",
+                "status": "d4-candidate",
+            },
+            "hardgate": {
+                "failed_gate": None,
+                "gates": {f"CGA-HG{index}": {"status": "pass"} for index in range(1, 6)},
+                "status": "pass",
+            },
+            "certificate_gate_summary": {"gated_vs_plain_valid": True},
+            "matched_random_control": {"control_positive_discovery": False},
+        })
+        return payload
     if spec.name == "discovery-regularized-training":
         payload.update({
             "discovery_map_signal": {
@@ -67,6 +104,49 @@ def _minimal_payload(spec):
             "matched_random_control": {"control_positive_discovery": False},
         })
         return payload
+    if spec.name == "mechanism-seeking-network":
+        payload.update({
+            "discovery_map_signal": {
+                "control_pointer": "$.matched_random_control",
+                "evidence_pointer": "$.mechanism_gate_summary",
+                "failed_gate": None,
+                "failed_gate_pointer": None,
+                "level_candidate": "D4",
+                "mechanism_evidence_pointer": "$.mechanism_gate_summary",
+                "reason": "mechanism-gate-positive",
+                "status": "d4-candidate",
+            },
+            "hardgate": {"failed_gate": None, "gates": {"MSN-HG1": {"status": "pass"}}, "status": "pass"},
+            "mechanism_gate_summary": {"accepted": True},
+            "matched_random_control": {"control_positive_discovery": False},
+            "forbidden_claim_term_audit": {"status": "pass"},
+        })
+        return payload
+    if spec.name == "discovery-gated-nas":
+        payload.update({
+            "discovery_map_signal": {
+                "control_pointer": "$.matched_baseline_control",
+                "evidence_pointer": "$.search_objective_summary.selected_candidate",
+                "failed_gate": None,
+                "failed_gate_pointer": None,
+                "level_candidate": "D5-M",
+                "negative_witness_pointer": "$.negative_witness_mutations",
+                "reason": "discovery-gated-search-positive",
+                "search_objective_pointer": "$.search_objective_summary",
+                "status": "d5-m-candidate",
+                "torch_nas_evidence_pointer": "$.torch_nas_evidence",
+            },
+            "hardgate": {
+                "failed_gate": None,
+                "gates": {f"DG-NAS-HG{index}": {"status": "pass"} for index in range(1, 7)},
+                "status": "pass",
+            },
+            "matched_baseline_control": {"control_positive_discovery": False},
+            "negative_witness_mutations": {"rows": []},
+            "search_objective_summary": {"selected_candidate": {"candidate_id": "fixture-candidate"}},
+            "torch_nas_evidence": {"status": "available"},
+        })
+        return payload
     if spec.name == "gap-head-transfer-atlas":
         payload.update({
             "config": {"control_arm": "matched_random_gap_head"},
@@ -85,7 +165,18 @@ def _minimal_payload(spec):
             "deltas": {"after_minus_before": {"debt_delta": -0.25}},
             "arm_protocol": {"compat_roles": {"after": "constraint_lagrangian"}},
             "claim_gate": {"audit_improvement_tradeoff": True},
-            "claim_capsule": {"terminal_verdict": "DN(audit-improvement-tradeoff)"},
+            "hardgate": {"failed_gate": "audit-improvement-tradeoff", "status": "failed"},
+            "claim_capsule": {
+                "run_local": {
+                    "negative_witness": [
+                        {
+                            "artifact": "reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+                            "pointer": "$.run_local.negative_witness[0]",
+                        }
+                    ]
+                },
+                "terminal_verdict": "DN(audit-improvement-tradeoff)",
+            },
         })
         return payload
     if spec.name == "certificate-guided-discovery":
@@ -143,6 +234,33 @@ def _minimal_payload(spec):
             "score_margin_causal_evidence": {"channel_classification": "score_margin_sufficient"},
         })
         return payload
+    if spec.name == "sigreg-mini-grid":
+        payload.update({
+            "c3_hardgates": {
+                "C3-HG1": {"status": "pass"},
+                "C3-HG2": {"status": "pass"},
+                "C3-HG3": {"status": "pass"},
+                "C3-HG4": {"status": "pass"},
+            },
+            "discovery_map_signal": {
+                "evidence_pointer": "$.trend_summary.expected_trend",
+                "failed_gate": None,
+                "failed_gate_pointer": None,
+                "level_candidate": "D2",
+                "reason": "expected-trend",
+                "status": "d2-candidate",
+            },
+            "hardgate": {"failed_gate": None, "status": "pass"},
+            "trend_summary": {"expected_trend": True},
+        })
+        return payload
+    if spec.name == "lejepa-theorem-ledger":
+        payload.update({
+            "claim_gate": {"status": "pass"},
+            "result": {"status": "pass"},
+            "theorem_rows": [{"theorem": "fixture-theorem", "status": "pass"}],
+        })
+        return payload
     return payload
 
 
@@ -150,6 +268,8 @@ def _write_all_payloads(root: Path):
     for spec in canonical.CANONICAL_REPORTS:
         _write_payload(root, spec, _minimal_payload(spec))
     _write_dimension_mismatch_gap_witness_fixture(root)
+    _write_model_discovery_suite_fixture(root)
+    _write_lejepa_mini_grid_fixture(root)
     _write_json_artifact(root, discovery_map.QUALITY_SCORECARD_ARTIFACT, _scorecard_payload())
     _write_json_artifact(
         root,
@@ -171,6 +291,30 @@ def _write_all_payloads(root: Path):
                 "full_vs_score_plus_margin": "not separated",
                 "a1_failed_gate": "A1-HG3",
             },
+        },
+    )
+
+
+def _write_coverage_payloads(root: Path):
+    _write_all_payloads(root)
+    _write_json_artifact(
+        root,
+        discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
+        _dimension_mismatch_payload(status="pass"),
+    )
+    owner_rows = discovery_map.build_negative_discovery_owner_rows(root=root)
+    _write_json_artifact(
+        root,
+        discovery_map.NEGATIVE_DISCOVERY_REPORTS_ARTIFACT,
+        {
+            "schema_id": "bedc-quality-lab:negative-discovery-reports",
+            "artifact_id": "bedc-quality-lab:negative-discovery-reports",
+            "generated_at": "fixture-time",
+            "json_artifact": discovery_map.NEGATIVE_DISCOVERY_REPORTS_ARTIFACT,
+            "markdown_artifact": "reports/canonical/negative_discovery_reports.md",
+            "status": "pointer-only",
+            "row_count": len(owner_rows),
+            "rows": owner_rows,
         },
     )
 
@@ -203,6 +347,57 @@ def _write_dimension_mismatch_gap_witness_fixture(root: Path):
                     }
                 },
             }
+        },
+    )
+
+
+def _write_model_discovery_suite_fixture(root: Path):
+    _write_json_artifact(
+        root,
+        "reports/runs/model-discovery-suite/summary.json",
+        {
+            "projection_metadata": {
+                "canonical_status": "d5-m-candidate",
+                "canonical_level_candidate": "D5-M",
+                "discovery_map_signal_pointer": {
+                    "artifact": "reports/runs/model-discovery-suite/summary.json",
+                    "pointer": "$.projection_metadata.canonical_status",
+                },
+                "hardgate_pointer": {
+                    "artifact": "reports/runs/model-discovery-suite/summary.json",
+                    "pointer": "$.hardgate.status",
+                },
+            },
+            "hardgate": {"status": "pass"},
+        },
+    )
+
+
+def _write_lejepa_mini_grid_fixture(root: Path):
+    _write_json_artifact(
+        root,
+        "reports/runs/lejepa-mini-grid/claim_capsule.json",
+        {
+            "failed_gate": "D2-HG2",
+            "hardgates": {"D2-HG2": {"status": "fail"}},
+            "run_local": {
+                "negative_witness": [
+                    {
+                        "bedc_gap_field": "lambda_rho_trend_gap",
+                        "demotion_rule": "demote_to_DN_on_D2_HG2_failure",
+                        "evidence_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.hardgates.D2-HG2",
+                        "regression_test": (
+                            "tests/test_lejepa_mini_grid.py::"
+                            "test_lejepa_run_local_negative_witness_records_d2_hg2_failure"
+                        ),
+                        "source_artifact": "reports/runs/lejepa-mini-grid/claim_capsule.json",
+                        "source_pointer": "$.failed_gate",
+                        "status": "fail",
+                        "witness_id": "lejepa-mini-grid:lambda-rho-trend-hardgate-failure",
+                    }
+                ],
+                "negative_witness_hardgates": {"status": "pass"},
+            },
         },
     )
 
@@ -347,6 +542,10 @@ def _dimension_mismatch_payload(*, status="pass", anti_triviality_status="scale_
             "scope": "encoder_dim grid against producer reference latent dimension",
             "base_level": "D4",
             "anti_triviality_status": anti_triviality_status,
+            "anti_triviality_evidence": {
+                "artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+                "status_pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+            },
             "anti_triviality_projection": "no_level_change_signal_detected"
             if anti_triviality_status == "anti_triviality_passed"
             else "demote_to_DN_or_D1",
@@ -454,6 +653,22 @@ def _coverage_cell(payload, model_id, surface_id):
     )
 
 
+def _source_payload(root: Path, cell):
+    return _read_json_artifact(root, cell["source_artifact"])
+
+
+def _artifact_pointer_value(root: Path, pointer: str):
+    artifact, local_pointer = pointer.split(":", 1)
+    return discovery_map.pointer_value(_read_json_artifact(root, artifact), local_pointer)
+
+
+def _payload_pointer_value(payload, pointer: str):
+    artifact, local_pointer = pointer.split(":", 1)
+    if artifact == "reports/canonical/discovery_map.json":
+        return discovery_map.pointer_value(payload, local_pointer)
+    raise AssertionError(f"unsupported payload pointer artifact: {artifact}")
+
+
 def _contains_key(payload, key):
     if isinstance(payload, dict):
         return key in payload or any(_contains_key(value, key) for value in payload.values())
@@ -463,7 +678,7 @@ def _contains_key(payload, key):
 
 
 def test_discovery_map_coverage_matrix_has_single_owner(tmp_path):
-    _write_all_payloads(tmp_path)
+    _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
@@ -474,14 +689,30 @@ def test_discovery_map_coverage_matrix_has_single_owner(tmp_path):
     assert all(spec.name != "bedc.model.discovery_coverage" for spec in canonical.CANONICAL_REPORTS)
 
 
+def test_discovery_map_coverage_matrix_matches_target_set(tmp_path):
+    _write_coverage_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    cells = payload["coverage_matrix"]["cells"]
+
+    assert {(cell["model_id"], cell["surface_id"]) for cell in cells} == TARGET_COVERAGE_CELLS
+    assert len(cells) == 13
+    assert {model["model_id"] for model in payload["coverage_matrix"]["models"]} == {
+        source.model_id for source in discovery_map.DISCOVERY_COVERAGE_SOURCES
+    }
+    assert {surface["surface_id"] for surface in payload["coverage_matrix"]["surfaces"]} == {
+        source.surface_id for source in discovery_map.DISCOVERY_COVERAGE_SOURCES
+    }
+
+
 def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
-    _write_all_payloads(tmp_path)
+    _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     drt = _coverage_cell(payload, "discovery-regularized-training", "discovery-map-signal")
     lat = _coverage_cell(payload, "ledger-aware-transformer", "discovery-map-signal")
-    drt_source = _read_json_artifact(tmp_path, drt["source_artifact"])
-    lat_source = _read_json_artifact(tmp_path, lat["source_artifact"])
+    drt_source = _source_payload(tmp_path, drt)
+    lat_source = _source_payload(tmp_path, lat)
 
     assert drt["status_pointer"] == "$.discovery_map_signal.level_candidate"
     assert drt["coverage_level"] == "D4"
@@ -504,11 +735,10 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
 
 
 def test_discovery_map_coverage_matrix_projects_gap_head_axes(tmp_path):
-    _write_all_payloads(tmp_path)
+    _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     operational = _coverage_cell(payload, "gap-head-attribution-capsule", "d5-o")
-    mechanism = _coverage_cell(payload, "gap-head-attribution-capsule", "d5-m")
     blockage = _coverage_cell(payload, "gap-head-attribution-capsule", "mechanism")
     capsule = _read_json_artifact(tmp_path, "reports/canonical/gap_head_attribution_capsule.json")
 
@@ -516,18 +746,45 @@ def test_discovery_map_coverage_matrix_projects_gap_head_axes(tmp_path):
     assert operational["coverage_level"] == "D5-O"
     assert operational["pointer_status"] == "resolved"
     assert discovery_map.pointer_value(capsule, operational["status_pointer"]) == "ready"
-    assert mechanism["status_pointer"] == "$.d5_m.status"
-    assert mechanism["coverage_level"] == "blocked"
-    assert mechanism["hardgate_pointer"] == "$.d5_m.failed_gate"
-    assert discovery_map.pointer_value(capsule, mechanism["hardgate_pointer"]) == "A1-HG3"
     assert blockage["status_pointer"] == "$.mechanism_evidence.mechanism_status"
     assert blockage["coverage_level"] == "blocked"
     assert blockage["hardgate_pointer"] == "$.mechanism_evidence.failed_gate"
     assert discovery_map.pointer_value(capsule, blockage["hardgate_pointer"]) == "A1-HG3"
 
 
+def test_discovery_map_coverage_matrix_resolves_target_pointers(tmp_path):
+    _write_coverage_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+
+    for cell in payload["coverage_matrix"]["cells"]:
+        source_payload = _source_payload(tmp_path, cell)
+        assert discovery_map.pointer_value(source_payload, cell["status_pointer"]) is not None
+        assert discovery_map.pointer_value(source_payload, cell["evidence_pointer"]) is not None
+        if cell["hardgate_pointer"] is not None:
+            assert discovery_map.pointer_value(source_payload, cell["hardgate_pointer"]) is not None
+        if cell["pointer_status"] == "resolved":
+            assert _payload_pointer_value(payload, cell["discovery_map_row_pointer"]) is not None
+            if "negative_owner_pointer" in cell:
+                assert _artifact_pointer_value(tmp_path, cell["negative_owner_pointer"]) is not None
+
+
+def test_discovery_map_coverage_matrix_dgt_present_but_unresolved_without_row(tmp_path):
+    _write_coverage_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    cell = _coverage_cell(payload, "discovery-gated-transformer", "model-discovery-suite")
+
+    assert cell["coverage_level"] == "unknown"
+    assert cell["pointer_status"] == "unresolved"
+    assert cell["discovery_map_row_pointer"] is None
+    source_payload = _source_payload(tmp_path, cell)
+    assert discovery_map.pointer_value(source_payload, cell["status_pointer"]) == "d5-m-candidate"
+    assert discovery_map.pointer_value(source_payload, cell["evidence_pointer"]) is not None
+
+
 def test_discovery_map_coverage_matrix_dangling_pointer_unknown(tmp_path):
-    _write_all_payloads(tmp_path)
+    _write_coverage_payloads(tmp_path)
     original = discovery_map.DISCOVERY_COVERAGE_SOURCES
     mutated = tuple(
         discovery_map.DiscoveryCoverageSource(
@@ -538,6 +795,7 @@ def test_discovery_map_coverage_matrix_dangling_pointer_unknown(tmp_path):
             evidence_pointer=source.evidence_pointer,
             hardgate_pointer=source.hardgate_pointer,
             level_pointer=source.level_pointer,
+            negative_owner_pointer=source.negative_owner_pointer,
         )
         for source in original
     )
@@ -553,11 +811,92 @@ def test_discovery_map_coverage_matrix_dangling_pointer_unknown(tmp_path):
 
 
 def test_discovery_map_coverage_matrix_has_no_terminal_verdict_key(tmp_path):
-    _write_all_payloads(tmp_path)
+    _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
     assert not _contains_key(payload["coverage_matrix"], "terminal_verdict")
+    for fact_key in discovery_map.DN_FACT_KEYS:
+        assert not _contains_key(payload["coverage_matrix"], fact_key)
+
+
+def test_discovery_map_coverage_matrix_dn_cells_are_pointer_only(tmp_path):
+    _write_coverage_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    dimension = _coverage_cell(payload, "dimension-mismatch-debt-transfer", "negative-owner")
+    certificate = _coverage_cell(payload, "certificate-guided-training", "negative-owner")
+    lejepa = _coverage_cell(payload, "lejepa-mini-grid", "run-local-negative-witness")
+
+    assert dimension["coverage_level"] == "DN"
+    assert dimension["negative_owner_pointer"] == "reports/canonical/negative_discovery_reports.json:$.rows[4]"
+    assert certificate["coverage_level"] == "DN"
+    assert certificate["negative_owner_pointer"] == "reports/canonical/negative_discovery_reports.json:$.rows[1]"
+    assert lejepa["coverage_level"] == "unknown"
+    assert lejepa["pointer_status"] == "unresolved"
+    assert lejepa["discovery_map_row_pointer"] is None
+    assert lejepa["negative_owner_pointer"] == (
+        "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness[0]"
+    )
+    for cell in (dimension, certificate, lejepa):
+        assert _artifact_pointer_value(tmp_path, cell["negative_owner_pointer"]) is not None
+        for key in discovery_map.DN_FACT_KEYS | {"terminal_verdict"}:
+            assert key not in cell
+
+
+def test_discovery_map_payload_rejects_non_pointer_only_coverage_matrix():
+    cell = {
+        "model_id": "fixture",
+        "surface_id": "negative-owner",
+        "coverage_level": "DN",
+        "pointer_status": "resolved",
+        "source_artifact": "reports/canonical/fixture.json",
+        "status_pointer": "$.status",
+        "evidence_pointer": "$.evidence",
+        "hardgate_pointer": "$.hardgate",
+        "discovery_map_row_pointer": "reports/canonical/discovery_map.json:$.rows[0]",
+        "negative_owner_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
+    }
+    row = {
+        "report": "positive-fixture",
+        "json_artifact": "reports/canonical/positive.json",
+        "markdown_artifact": "reports/canonical/positive.md",
+        "discovery_level": "D4",
+        "terminal_verdict": "",
+        "projection_status": "projected",
+        "evidence_pointer": "$.positive",
+        "audit_status": "valid",
+        "audit_reason": "",
+    }
+
+    with pytest.raises(ValueError, match="status must be pointer-only"):
+        discovery_map.build_discovery_map_payload(
+            rows=[row],
+            generated_at="fixture-time",
+            coverage_matrix={"status": "materialized", "models": [], "surfaces": [], "cells": [cell]},
+        )
+    with pytest.raises(ValueError, match="copies owner facts"):
+        discovery_map.build_discovery_map_payload(
+            rows=[row],
+            generated_at="fixture-time",
+            coverage_matrix={
+                "status": "pointer-only",
+                "models": [],
+                "surfaces": [],
+                "cells": [{**cell, "owner": {"terminal_verdict": "negative_discovery"}}],
+            },
+        )
+    with pytest.raises(ValueError, match="negative_owner_pointer"):
+        discovery_map.build_discovery_map_payload(
+            rows=[row],
+            generated_at="fixture-time",
+            coverage_matrix={
+                "status": "pointer-only",
+                "models": [],
+                "surfaces": [],
+                "cells": [{**cell, "negative_owner_pointer": "$.rows[0]"}],
+            },
+        )
 
 
 def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
