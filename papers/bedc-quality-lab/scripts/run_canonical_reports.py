@@ -64,6 +64,10 @@ NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT = "reports/canonical/negative_wit
 NEGATIVE_WITNESS_MUTATION_LEDGER_MARKDOWN_ARTIFACT = "reports/canonical/negative_witness_mutation_ledger.md"
 NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID = "bedc-quality-lab:negative-witness-mutation-ledger"
 NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID = "bedc-quality-lab:negative-witness-mutation-ledger"
+NEW_MODEL_HARDGATES_JSON_ARTIFACT = "reports/canonical/new_model_hardgates.json"
+NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT = "reports/canonical/new_model_hardgates.md"
+NEW_MODEL_HARDGATES_ARTIFACT_ID = "bedc-quality-lab:new-model-hardgates"
+NEW_MODEL_HARDGATES_SCHEMA_ID = "bedc-quality-lab:new-model-hardgate-registry"
 FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
 FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
 FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
@@ -2076,6 +2080,213 @@ def _negative_witness_mutation_ledger_index_section() -> dict[str, Any]:
     }
 
 
+def _new_model_hardgate_specs() -> tuple[Mapping[str, str], ...]:
+    rows = (
+        ("NEW-MODEL-HG1", "semantic model_id is present, unique, and not satisfied by report_id"),
+        ("NEW-MODEL-HG2", "complete architecture specification pointer"),
+        ("NEW-MODEL-HG3", "complete training objective specification pointer"),
+        ("NEW-MODEL-HG4", "ClaimCapsule pointer"),
+        ("NEW-MODEL-HG5", "EvidenceEnvelope pointer"),
+        ("NEW-MODEL-HG6", "CostProtocol pointer"),
+        ("NEW-MODEL-HG7", "parameter-matched baseline pointer"),
+        ("NEW-MODEL-HG8", "compute-matched baseline pointer"),
+        ("NEW-MODEL-HG9", "matched-random structural control pointer"),
+        ("NEW-MODEL-HG10", "at least three OOD or stress surface pointers"),
+        ("NEW-MODEL-HG11", "learned UER reduction over matched-random pointer"),
+        ("NEW-MODEL-HG12", "FalseLedgerRate non-regression pointer"),
+        ("NEW-MODEL-HG13", "nondecreasing benefit pointer"),
+        ("NEW-MODEL-HG14", "decreasing debt pointer"),
+        ("NEW-MODEL-HG15", "quality_q confidence-interval low endpoint above zero pointer"),
+        ("NEW-MODEL-HG16", "positive classifier_shift_count pointer"),
+        ("NEW-MODEL-HG17", "no forbidden inference evidence pointer"),
+        ("NEW-MODEL-HG18", "negative-witness sweep pass pointer"),
+        ("NEW-MODEL-HG19", "MechanismNameCertCandidate at least partial pointer"),
+        (
+            "NEW-MODEL-HG20",
+            "not_claimed pointer excludes global architecture superiority, production superiority, and full closure claims",
+        ),
+    )
+    return tuple({"gate_id": gate_id, "requirement": requirement} for gate_id, requirement in rows)
+
+
+def _new_model_hardgates_payload(generated_at: str | None = None) -> dict[str, Any]:
+    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    gates = {
+        spec["gate_id"]: {
+            "gate_id": spec["gate_id"],
+            "requirement": spec["requirement"],
+            "owner_pointer": f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.gates.{spec['gate_id']}",
+            "candidate_required_pointer_template": f"$.hardgates.{spec['gate_id']}",
+            "candidate_status_pointer_template": f"$.hardgates.{spec['gate_id']}.status",
+            "candidate_evidence_pointer_template": f"$.hardgates.{spec['gate_id']}.evidence_pointer",
+            "candidate_not_claimed_pointer_template": f"$.hardgates.{spec['gate_id']}.not_claimed_pointer",
+        }
+        for spec in _new_model_hardgate_specs()
+    }
+    payload = {
+        "schema_id": NEW_MODEL_HARDGATES_SCHEMA_ID,
+        "artifact_id": NEW_MODEL_HARDGATES_ARTIFACT_ID,
+        "generated_at": timestamp,
+        "status": "pointer-only",
+        "producer": "scripts/run_canonical_reports.py",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "owner_pointer": f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$",
+        "candidate_contract": {
+            "model_id": {
+                "required": True,
+                "semantic": True,
+                "pointer_template": "$.model_id",
+            },
+            "report_identity_policy": "report_id is producer identity and cannot satisfy semantic model_id",
+            "model_id_report_id_equality": "reject",
+            "gate_status_pointer_templates": {
+                gate_id: row["candidate_status_pointer_template"] for gate_id, row in gates.items()
+            },
+            "gate_evidence_pointer_templates": {
+                gate_id: row["candidate_evidence_pointer_template"] for gate_id, row in gates.items()
+            },
+            "gate_not_claimed_pointer_templates": {
+                gate_id: row["candidate_not_claimed_pointer_template"] for gate_id, row in gates.items()
+            },
+        },
+        "gates": gates,
+        "not_claimed": [
+            "This registry does not evaluate any model candidate.",
+            "This registry excludes global architecture superiority claims.",
+            "This registry excludes production superiority claims.",
+            "This registry excludes full closure claims.",
+        ],
+    }
+    _validate_new_model_hardgates_payload(payload)
+    return payload
+
+
+def _validate_new_model_hardgates_payload(payload: Mapping[str, Any]) -> None:
+    forbidden_keys = {
+        "terminal_verdict",
+        "metrics",
+        "raw_metrics",
+        "raw_metrics_artifact",
+        "candidate_metrics",
+        "candidate_results",
+        "candidate_measurements",
+        "candidate_evidence",
+        "candidate_evidence_body",
+        "evidence_body",
+        "baseline_metrics",
+        "baseline_results",
+        "measured_baseline",
+        "measured_baseline_body",
+    }
+
+    def walk(value: Any, path: str) -> None:
+        if isinstance(value, Mapping):
+            for key, cell in value.items():
+                if key in forbidden_keys or key.endswith("_body"):
+                    raise ValueError(f"new_model_hardgates payload contains forbidden key at {path}.{key}")
+                walk(cell, f"{path}.{key}")
+        elif isinstance(value, list):
+            for index, cell in enumerate(value):
+                walk(cell, f"{path}[{index}]")
+        elif isinstance(value, str):
+            lowered = value.lower()
+            if ".refactor-loop/host.env" in value or "terminal_verdict" in value:
+                raise ValueError(f"new_model_hardgates payload contains forbidden value at {path}")
+            if "candidate evidence body" in lowered or "raw metrics body" in lowered or "measured baseline body" in lowered:
+                raise ValueError(f"new_model_hardgates payload contains forbidden body text at {path}")
+
+    walk(payload, "$")
+    contract = payload.get("candidate_contract")
+    if not isinstance(contract, Mapping):
+        raise ValueError("new_model_hardgates payload requires candidate_contract")
+    model_id = contract.get("model_id")
+    if not isinstance(model_id, Mapping):
+        raise ValueError("candidate_contract requires semantic model_id")
+    if model_id.get("pointer_template") != "$.model_id" or model_id.get("required") is not True:
+        raise ValueError("candidate_contract model_id must be required at $.model_id")
+    if contract.get("semantic_identity_field") == "report_id" or contract.get("model_id") == "report_id":
+        raise ValueError("candidate_contract rejects report_id as semantic model_id")
+    if contract.get("model_id_report_id_equality") != "reject":
+        raise ValueError("candidate_contract must reject model_id == report_id")
+    gates = payload.get("gates")
+    if not isinstance(gates, Mapping):
+        raise ValueError("new_model_hardgates payload requires gates")
+    expected_ids = [f"NEW-MODEL-HG{index}" for index in range(1, 21)]
+    if list(gates) != expected_ids:
+        raise ValueError("new_model_hardgates payload must contain NEW-MODEL-HG1..20 in order")
+    required_fields = {
+        "gate_id",
+        "requirement",
+        "owner_pointer",
+        "candidate_required_pointer_template",
+        "candidate_status_pointer_template",
+        "candidate_evidence_pointer_template",
+        "candidate_not_claimed_pointer_template",
+    }
+    for gate_id, row in gates.items():
+        if not isinstance(row, Mapping) or set(row) != required_fields:
+            raise ValueError(f"new_model_hardgates gate row has invalid fields: {gate_id}")
+        if row["gate_id"] != gate_id:
+            raise ValueError(f"new_model_hardgates gate row id mismatch: {gate_id}")
+        if row["owner_pointer"] != f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.gates.{gate_id}":
+            raise ValueError(f"new_model_hardgates gate row owner pointer mismatch: {gate_id}")
+        if row["candidate_required_pointer_template"] != f"$.hardgates.{gate_id}":
+            raise ValueError(f"new_model_hardgates gate row required pointer mismatch: {gate_id}")
+        if row["candidate_status_pointer_template"] != f"$.hardgates.{gate_id}.status":
+            raise ValueError(f"new_model_hardgates gate row status pointer mismatch: {gate_id}")
+        if row["candidate_evidence_pointer_template"] != f"$.hardgates.{gate_id}.evidence_pointer":
+            raise ValueError(f"new_model_hardgates gate row evidence pointer mismatch: {gate_id}")
+        if row["candidate_not_claimed_pointer_template"] != f"$.hardgates.{gate_id}.not_claimed_pointer":
+            raise ValueError(f"new_model_hardgates gate row not-claimed pointer mismatch: {gate_id}")
+
+
+def _render_new_model_hardgates_markdown(payload: Mapping[str, Any]) -> str:
+    _validate_new_model_hardgates_payload(payload)
+    lines = [
+        "# New Model Hardgates",
+        "",
+        f"- Generated at: `{payload['generated_at']}`",
+        f"- Artifact: `{payload['artifact_id']}`",
+        f"- Schema: `{payload['schema_id']}`",
+        f"- Status: `{payload['status']}`",
+        f"- Owner pointer: `{payload['owner_pointer']}`",
+        "",
+        "| gate | owner pointer | candidate required | candidate status | candidate evidence | candidate not-claimed |",
+        "| --- | --- | --- | --- | --- | --- |",
+    ]
+    gates = payload.get("gates", {})
+    if isinstance(gates, Mapping):
+        for row in gates.values():
+            if not isinstance(row, Mapping):
+                continue
+            lines.append(
+                "| "
+                f"`{row.get('gate_id', '')}` | "
+                f"`{row.get('owner_pointer', '')}` | "
+                f"`{row.get('candidate_required_pointer_template', '')}` | "
+                f"`{row.get('candidate_status_pointer_template', '')}` | "
+                f"`{row.get('candidate_evidence_pointer_template', '')}` | "
+                f"`{row.get('candidate_not_claimed_pointer_template', '')}` |"
+            )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def _new_model_hardgates_index_section(generated_at: str | None = None) -> dict[str, Any]:
+    payload = _new_model_hardgates_payload(generated_at=generated_at)
+    return {
+        "status": "pointer-only",
+        "artifact_id": NEW_MODEL_HARDGATES_ARTIFACT_ID,
+        "json_artifact": NEW_MODEL_HARDGATES_JSON_ARTIFACT,
+        "markdown_artifact": NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT,
+        "schema_id": payload["schema_id"],
+        "status_pointer": f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.status",
+        "gate_count": len(payload["gates"]),
+        "gates_pointer": f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.gates",
+        "candidate_contract_pointer": f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.candidate_contract",
+    }
+
+
 def _formal_hardening_index_section(generated_at: str | None = None) -> dict[str, Any]:
     payload = _build_formal_hardening_payload(generated_at=generated_at)
     return {
@@ -2314,6 +2525,7 @@ def _index(
         "negative_witnesses": _negative_witnesses_index_section(),
         "negative_discovery_reports": _negative_discovery_reports_index_section(generated_at=timestamp),
         "negative_witness_mutation_ledger": _negative_witness_mutation_ledger_index_section(),
+        "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
@@ -2437,6 +2649,17 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Canonical role: `{payload['negative_witness_mutation_ledger']['canonical_role']}`",
             f"- Rows: `{payload['negative_witness_mutation_ledger']['row_count']}`",
             f"- Audit: `{payload['negative_witness_mutation_ledger']['audit_status']}`",
+            "",
+            "## New model hardgates",
+            "",
+            f"- Status: `{payload['new_model_hardgates']['status']}`",
+            f"- JSON: `{payload['new_model_hardgates']['json_artifact']}`",
+            f"- Markdown: `{payload['new_model_hardgates']['markdown_artifact']}`",
+            f"- Schema: `{payload['new_model_hardgates']['schema_id']}`",
+            f"- Status pointer: `{payload['new_model_hardgates']['status_pointer']}`",
+            f"- Gates pointer: `{payload['new_model_hardgates']['gates_pointer']}`",
+            f"- Gate count: `{payload['new_model_hardgates']['gate_count']}`",
+            f"- Candidate contract: `{payload['new_model_hardgates']['candidate_contract_pointer']}`",
             "",
             "## Claim verdicts",
             "",
@@ -2666,6 +2889,12 @@ def run_reports(
     _write_text_atomic(
         _artifact_path(NEGATIVE_WITNESS_MUTATION_LEDGER_MARKDOWN_ARTIFACT),
         _render_negative_witness_mutation_ledger_markdown(mutation_ledger),
+    )
+    new_model_hardgates = _new_model_hardgates_payload(generated_at=timestamp)
+    _write_json_atomic(_artifact_path(NEW_MODEL_HARDGATES_JSON_ARTIFACT), new_model_hardgates)
+    _write_text_atomic(
+        _artifact_path(NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT),
+        _render_new_model_hardgates_markdown(new_model_hardgates),
     )
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)

@@ -1334,6 +1334,133 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     assert "Honest boundary" in markdown
 
 
+def test_new_model_hardgates_sidecar_written_and_indexed(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    real_index = canonical._index
+    real_render_index_markdown = canonical._render_index_markdown
+    _patch_lightweight_run_reports(monkeypatch)
+    monkeypatch.setattr(canonical, "_index", real_index)
+    monkeypatch.setattr(canonical, "_render_index_markdown", real_render_index_markdown)
+    monkeypatch.setattr(
+        canonical,
+        "_build_claim_capsule",
+        lambda generated_at: {
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "status": "complete",
+            "effective_level": "DN",
+            "terminal_verdict": "negative_discovery",
+        },
+    )
+    monkeypatch.setattr(
+        canonical,
+        "_build_formal_hardening_payload",
+        lambda generated_at=None: {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
+    )
+    monkeypatch.setattr(canonical, "_run_producer", lambda _spec: None)
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    sidecar = json.loads((tmp_path / canonical.NEW_MODEL_HARDGATES_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    markdown = (tmp_path / canonical.NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT).read_text(encoding="utf-8")
+    section = payload["new_model_hardgates"]
+
+    assert "new_model_hardgates" not in {spec.name for spec in canonical.CANONICAL_REPORTS}
+    assert sidecar["schema_id"] == canonical.NEW_MODEL_HARDGATES_SCHEMA_ID
+    assert sidecar["artifact_id"] == canonical.NEW_MODEL_HARDGATES_ARTIFACT_ID
+    assert sidecar["status"] == "pointer-only"
+    assert section == {
+        "status": "pointer-only",
+        "artifact_id": canonical.NEW_MODEL_HARDGATES_ARTIFACT_ID,
+        "json_artifact": canonical.NEW_MODEL_HARDGATES_JSON_ARTIFACT,
+        "markdown_artifact": canonical.NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT,
+        "schema_id": canonical.NEW_MODEL_HARDGATES_SCHEMA_ID,
+        "status_pointer": "reports/canonical/new_model_hardgates.json:$.status",
+        "gate_count": 20,
+        "gates_pointer": "reports/canonical/new_model_hardgates.json:$.gates",
+        "candidate_contract_pointer": "reports/canonical/new_model_hardgates.json:$.candidate_contract",
+    }
+    assert "candidate metrics" not in markdown.lower()
+    assert "terminal_verdict" not in markdown
+    assert "NEW-MODEL-HG20" not in json.dumps(section)
+    assert "requirement" not in section
+    from bedc_quality_lab.backends.current_lab import projection
+
+    assert (
+        canonical.NEW_MODEL_HARDGATES_JSON_ARTIFACT
+        not in projection._manifest_audit(root=tmp_path, canonical_reports=canonical.CANONICAL_REPORTS)[
+            "unregistered_json_artifacts"
+        ]
+    )
+
+
+def test_new_model_hardgates_exact_gate_contract():
+    payload = canonical._new_model_hardgates_payload(generated_at="2030-01-01T00:00:00+00:00")
+    gates = payload["gates"]
+    required_fields = {
+        "gate_id",
+        "requirement",
+        "owner_pointer",
+        "candidate_required_pointer_template",
+        "candidate_status_pointer_template",
+        "candidate_evidence_pointer_template",
+        "candidate_not_claimed_pointer_template",
+    }
+
+    assert list(gates) == [f"NEW-MODEL-HG{index}" for index in range(1, 21)]
+    for gate_id, row in gates.items():
+        assert set(row) == required_fields
+        assert row["gate_id"] == gate_id
+        assert row["owner_pointer"] == f"reports/canonical/new_model_hardgates.json:$.gates.{gate_id}"
+        assert row["candidate_required_pointer_template"] == f"$.hardgates.{gate_id}"
+        assert row["candidate_status_pointer_template"] == f"$.hardgates.{gate_id}.status"
+        assert row["candidate_evidence_pointer_template"] == f"$.hardgates.{gate_id}.evidence_pointer"
+        assert row["candidate_not_claimed_pointer_template"] == f"$.hardgates.{gate_id}.not_claimed_pointer"
+    boundary_text = " ".join(payload["not_claimed"]).lower()
+    hg20_text = gates["NEW-MODEL-HG20"]["requirement"].lower()
+    for phrase in ("global architecture superiority", "production superiority", "full closure"):
+        assert phrase in boundary_text
+        assert phrase in hg20_text
+
+
+def test_new_model_hardgates_model_id_contract_rejects_report_identity():
+    payload = canonical._new_model_hardgates_payload(generated_at="2030-01-01T00:00:00+00:00")
+
+    missing = json.loads(json.dumps(payload))
+    del missing["candidate_contract"]["model_id"]
+    with pytest.raises(ValueError, match="semantic model_id"):
+        canonical._validate_new_model_hardgates_payload(missing)
+
+    report_identity = json.loads(json.dumps(payload))
+    report_identity["candidate_contract"]["semantic_identity_field"] = "report_id"
+    with pytest.raises(ValueError, match="report_id"):
+        canonical._validate_new_model_hardgates_payload(report_identity)
+
+    weak_equality_policy = json.loads(json.dumps(payload))
+    weak_equality_policy["candidate_contract"]["model_id_report_id_equality"] = "allow"
+    with pytest.raises(ValueError, match="model_id == report_id"):
+        canonical._validate_new_model_hardgates_payload(weak_equality_policy)
+
+
+def test_new_model_hardgates_pointer_only_forbidden_body_fields():
+    payload = canonical._new_model_hardgates_payload(generated_at="2030-01-01T00:00:00+00:00")
+    section = canonical._new_model_hardgates_index_section(generated_at="2030-01-01T00:00:00+00:00")
+
+    for mutate in (
+        lambda item: item.update({"terminal_verdict": "pass"}),
+        lambda item: item["candidate_contract"].update({"raw_metrics": {"UER": 0.1}}),
+        lambda item: item["gates"]["NEW-MODEL-HG11"].update({"candidate_evidence_body": {"rows": []}}),
+        lambda item: item["gates"]["NEW-MODEL-HG7"].update({"measured_baseline": {"loss": 0.2}}),
+        lambda item: item["not_claimed"].append(".refactor-loop/host.env"),
+    ):
+        mutated = json.loads(json.dumps(payload))
+        mutate(mutated)
+        with pytest.raises(ValueError):
+            canonical._validate_new_model_hardgates_payload(mutated)
+    lowered_index = json.dumps(section).lower()
+    for forbidden in ("terminal_verdict", "raw_metrics", "candidate_evidence_body", ".refactor-loop/host.env"):
+        assert forbidden not in lowered_index
+
+
 def test_hg_p_forbidden_claim_terms_are_absent_from_positive_claim_cells():
     reports = [
         {
