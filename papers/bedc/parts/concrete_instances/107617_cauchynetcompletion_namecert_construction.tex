@@ -111,6 +111,33 @@ Since the excluded objects have no carrier coordinate, none of them can replace 
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyNetCompletionUp.CauchyNetCompletionDirectedWindowTerminality}
 
+\begin{theorem}[CauchyNetCompletion directed-window cofinal restriction]
+\label{thm:cauchy-net-completion-directed-window-cofinal-restriction}
+Let $K=(D,W,Q,M,U,S,R,A,H,C,P,N)$ be an accepted $\CauchyNetCompletionUp$ carrier. Replace the directed substrate row $D$ by a displayed cofinal restricted substrate
+$$
+D_{\mathrm{cof}}\hookrightarrow D
+$$
+and replace $W$ by its restricted $\CauchyNetUp$ directed-window row $W_{\mathrm{cof}}$, provided $W_{\mathrm{cof}}$ still carries the common-upper witnesses used by $W$ for completion-boundary requests. Then the completion-facing route
+$$
+D,W,Q,M,U,S,R,A,H,C,P,N
+$$
+is preserved as the restricted route
+$$
+D_{\mathrm{cof}},W_{\mathrm{cof}},Q,M,U,S,R,A,H,C,P,N .
+$$
+In particular, the restricted packet exports no selected limit, quotient net, countable-choice selector, host equality of completion points, ambient completion object, or $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-net-completion-carrier}. The directed substrate row $D$ and directed-window row $W$ are the only source rows before the completion-boundary request $Q$ is read.
+
+Use directed-window terminality, \autoref{thm:cauchy-net-completion-directed-window-terminality}. It makes $D,W$ terminal for every completion-facing read. A cofinal restricted substrate with the same common-upper witnesses supplies the same terminal source position through $D_{\mathrm{cof}},W_{\mathrm{cof}}$.
+
+Now apply the Moore--Smith handoff theorem, \autoref{thm:cauchy-net-completion-moore-smith-handoff}. The completion route still passes from the directed source through $Q$ to the Moore--Smith, metric, uniform, and separated rows $M,U,S$, then to the regular readback and Real seal rows $R,A$.
+
+The structural rows are unchanged. Componentwise transport $H$, displayed replay $C$, provenance $P$, and local naming $N$ preserve the same restricted route, while the carrier has no coordinate for selected limits, quotient nets, countable choice, host equality, ambient completion, or $\RealUp$ completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.CauchyNetCompletionUp.CauchyNetCompletionDirectedWindowCofinalRestriction}
+
 \begin{theorem}[CauchyNetCompletion separated-comparison exhaustion]
 \label{thm:cauchy-net-completion-separated-comparison-exhaustion}
 For an accepted $\CauchyNetCompletionUp$ carrier $K=(D,W,Q,M,U,S,R,A,H,C,P,N)$, every comparison between two displayed completion-boundary reads is exhausted by the separated row $S$. The comparison may use $H,C,P,N$ to preserve, replay, source, and name the row, but it exports no quotient-net equality, host equality, ambient completion equality, selected limit, countable-choice schedule, or $\RealUp$ completeness principle.
@@ -145,6 +172,7 @@ Thus a uniform consumer that bypasses $U$ or replaces $D,W,Q$ by any excluded co
 \label{thm:cauchy-net-completion-root-filter-admission}
 Every root completion consumer of an accepted $\CauchyNetCompletionUp$ carrier $K=(D,W,Q,M,U,S,R,A,H,C,P,N)$ must admit the directed substrate $D$, retained directed-window row $W$, and completion-boundary request $Q$ before Moore--Smith, metric, uniform, separated, readback, or Real-seal rows are inspected. No root consumer may replace $D,W,Q$ by a selected limit, quotient net, countable-choice selector, host completion equality, ambient completion object, or $\RealUp$ completeness row.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyNetCompletionUp.CauchyNetCompletionRootFilterAdmission}
 \begin{proof}
 Project the carrier of \autoref{def:cauchy-net-completion-carrier}. The first three root rows are exactly $D,W,Q$, and the Moore--Smith, uniform, separated, readback, and Real-seal rows occur only downstream.
 
@@ -183,6 +211,7 @@ Use the choice-free limit boundary of \autoref{thm:cauchy-net-completion-choice-
 
 The carrier contains no selected-limit, quotient-net, countable-choice, host-equality, ambient-completion, or $\RealUp$-completeness coordinate. Therefore the root Real seal cannot export any of those objects.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyNetCompletionUp.CauchyNetCompletionRootSealNonescape}
 
 \falsifiablePrediction{If a directed-net completion consumer reads a boundary without first displaying the $\CauchyNetUp$ directed-window row and the Moore--Smith, metric, or uniform handoff row it consumes, it is not a $\CauchyNetCompletionUp$ packet.}
 

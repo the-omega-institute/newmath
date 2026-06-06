@@ -294,5 +294,23 @@ Finally read the completion lock together with the exhausted source surface. Axi
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierAxiomBoundary}
 
+\begin{theorem}[MetaCIC candidate-mediated SN route]
+\label{thm:metacic-criticalpath-candidate-mediated-sn-route}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any candidate-mediated strong-normalization read that exports a normalization-frontier conclusion must pass through the displayed $\CandidateMediatedSNUp$ row, the $\CandidateSNConfluenceBoundaryUp$ boundary row, the $\FiniteObservationConfluenceUp$ finite-confluence row, the $\MetaCICCriticalPairLedgerUp$ critical-pair ledger, and the $\SubjectReductionDischargeSocketUp$ discharge row before the conclusion is visible. The route may export only that normalization-frontier boundary; it does not assert strong normalization for all MetaCIC terms, closed subject reduction, global confluence, beta-conversion decidability, quotient term equality, selected limits, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted critical-path packet. The candidate-mediated read starts in the finite rows $S,N,O,U,D,H,C,P,L$, with $O$ and $D$ kept visible as obstruction and discharge-socket data.
+
+Use the existing frontier obligations: \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback}, and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-handoff-totality}. They force the candidate-mediated SN evidence through the named finite frontier before any handoff row is consumed.
+
+Next compose the confluence-facing route. The $\CandidateSNConfluenceBoundaryUp$ row and $\FiniteObservationConfluenceUp$ row are read only as finite observation boundaries, while the $\MetaCICCriticalPairLedgerUp$ row accounts for the displayed critical-pair surface.
+
+Finally route the remaining boundary through $\SubjectReductionDischargeSocketUp$. The discharge row is a socket, not a proof of closed subject reduction, so the resulting conclusion is only a normalization-frontier export over the displayed candidate-mediated route.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/candidate_frontier_socket_coproduct}
 \input{parts/concrete_instances/metaciccriticalpath/candidate_mediated_sn_residual_route}
