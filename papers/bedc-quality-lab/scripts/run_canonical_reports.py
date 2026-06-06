@@ -2842,7 +2842,7 @@ def _gap_head_mechanism_namecert_index_section() -> dict[str, Any]:
         "ledger_policy_pointer": "$.ledger_policy.mechanism_closure_debt",
         "closure_status_pointer": "$.closure_status.mechanism_spec",
         "candidate_mechanism": _pointer_value(payload, "$.mechanism_spec.candidate_mechanism") or "missing",
-        "mechanism_closure_debt": _pointer_value(payload, "$.ledger_policy.mechanism_closure_debt") or "missing",
+        "mechanism_closure_debt_status": _pointer_value(payload, "$.ledger_policy.mechanism_closure_debt.status") or "missing",
         "mechanism_spec_closure": _pointer_value(payload, "$.closure_status.mechanism_spec") or "missing",
         "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
     }
@@ -3246,6 +3246,8 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Ledger policy pointer: `{payload['gap_head_mechanism_namecert']['ledger_policy_pointer']}`",
             f"- Closure status pointer: `{payload['gap_head_mechanism_namecert']['closure_status_pointer']}`",
             f"- Candidate mechanism: `{payload['gap_head_mechanism_namecert']['candidate_mechanism']}`",
+            f"- Mechanism closure debt status: `{payload['gap_head_mechanism_namecert']['mechanism_closure_debt_status']}`",
+            f"- Mechanism spec closure: `{payload['gap_head_mechanism_namecert']['mechanism_spec_closure']}`",
             f"- Canonical role: `{payload['gap_head_mechanism_namecert']['canonical_role']}`",
             "",
             "## Release manifest sidecar",

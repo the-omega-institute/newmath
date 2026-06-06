@@ -9,10 +9,18 @@
   "artifact_id": "bedc-quality-lab:gap-head-mechanism-namecert",
   "audit": {
     "d5_m_ready": false,
+    "mechanism_closure_debt_status": "present",
     "missing_required_pointers": [],
     "required_pointers": {
       "$.closure_status.mechanism_spec": "partial",
-      "$.ledger_policy.mechanism_closure_debt": "open",
+      "$.ledger_policy.mechanism_closure_debt": {
+        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
+        "source_status": "open",
+        "status": "present"
+      },
+      "$.ledger_policy.mechanism_closure_debt.source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
+      "$.ledger_policy.mechanism_closure_debt.source_status": "open",
+      "$.ledger_policy.mechanism_closure_debt.status": "present",
       "$.mechanism_spec.candidate_mechanism": "unresolved",
       "$.mechanism_spec.full_vs_score_plus_margin": "separated"
     },
@@ -46,9 +54,13 @@
       "A4-HG5"
     ],
     "closure_pointer": "$.closure_status.mechanism_spec",
-    "d5_m_ready_policy": "requires closed ledger_policy.mechanism_closure_debt and closed closure_status.mechanism_spec",
+    "d5_m_ready_policy": "requires ledger_policy.mechanism_closure_debt.status == \"negative\" and closure_status.mechanism_spec == \"closed\"",
     "ledger_pointer": "$.ledger_policy.mechanism_closure_debt",
-    "mechanism_closure_debt": "open"
+    "mechanism_closure_debt": {
+      "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
+      "source_status": "open",
+      "status": "present"
+    }
   },
   "markdown_artifact": "reports/gap_head_mechanism_namecert.md",
   "mechanism_spec": {

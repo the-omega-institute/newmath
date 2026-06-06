@@ -6,6 +6,7 @@ from bedc_quality_lab.mechanism_namecert_candidate import (
     MechanismNameCertCandidate,
     audit_mechanism_namecert_candidate,
     closure_status_rows,
+    validate_mechanism_namecert_candidate,
 )
 
 
@@ -110,7 +111,16 @@ def test_probe_margin_channel_blocks_mechanism_closure():
     assert candidate.mechanism_spec["candidate_mechanism"] == "probe-margin-channel"
     assert candidate.mechanism_spec["full_vs_score_plus_margin"] == "not separated"
     assert candidate.closure_status["mechanism_spec"] == "partial"
-    assert candidate.ledger_policy["mechanism_closure_debt"] == "open"
+    assert candidate.ledger_policy["mechanism_closure_debt"] == {
+        "status": "present",
+        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
+        "source_status": "open",
+    }
+    assert candidate.ledger_policy["d5_m_ready_policy"] == (
+        'requires ledger_policy.mechanism_closure_debt.status == "negative" '
+        'and closure_status.mechanism_spec == "closed"'
+    )
+    assert "closed ledger_policy.mechanism_closure_debt" not in candidate.ledger_policy["d5_m_ready_policy"]
     assert audit_mechanism_namecert_candidate(candidate.to_dict())["d5_m_ready"] is False
 
 
@@ -121,7 +131,12 @@ def test_closed_d5_m_requires_closed_ledger_and_closed_mechanism_spec():
     rows = {row["field"]: row for row in closure_status_rows(candidate)}
 
     assert candidate.closure_status["mechanism_spec"] == "closed"
-    assert candidate.ledger_policy["mechanism_closure_debt"] == "closed"
+    assert candidate.ledger_policy["mechanism_closure_debt"]["status"] == "negative"
+    assert candidate.ledger_policy["mechanism_closure_debt"]["source_status"] == "closed"
+    assert candidate.ledger_policy["d5_m_ready_policy"] == (
+        'requires ledger_policy.mechanism_closure_debt.status == "negative" '
+        'and closure_status.mechanism_spec == "closed"'
+    )
     assert rows["mechanism_spec"]["status"] == "closed"
     assert audit_mechanism_namecert_candidate(candidate.to_dict())["d5_m_ready"] is True
 
@@ -136,5 +151,26 @@ def test_a1_only_d5_m_evidence_cannot_close_without_a4_hg5():
     assert candidate.mechanism_spec["a1_d5_m_passed"] is False
     assert candidate.mechanism_spec["a4_d5_m_passed"] is False
     assert candidate.closure_status["mechanism_spec"] == "partial"
-    assert candidate.ledger_policy["mechanism_closure_debt"] == "open"
+    assert candidate.ledger_policy["mechanism_closure_debt"]["status"] == "present-but-fail-closed"
+    assert candidate.ledger_policy["mechanism_closure_debt"]["source_status"] == "missing"
     assert "A4-HG5" in candidate.ledger_policy["blocking_cells"]
+
+
+def test_mechanism_closure_debt_rejects_forbidden_recursive_keys():
+    payload = MechanismNameCertCandidate.from_gap_head_sources(a1_capsule=_a1_capsule()).to_dict()
+    payload["ledger_policy"]["mechanism_closure_debt"]["candidate_evidence_body"] = {"status": "open"}
+
+    try:
+        validate_mechanism_namecert_candidate(payload)
+    except ValueError as exc:
+        assert "candidate_evidence_body" in str(exc)
+    else:
+        raise AssertionError("forbidden body key was accepted")
+
+
+def test_mechanism_closure_debt_slot_has_exact_keys():
+    payload = MechanismNameCertCandidate.from_gap_head_sources(a1_capsule=_a1_capsule()).to_dict()
+    slot = payload["ledger_policy"]["mechanism_closure_debt"]
+
+    assert set(slot) == {"status", "source_pointer", "source_status"}
+    validate_mechanism_namecert_candidate(payload)
