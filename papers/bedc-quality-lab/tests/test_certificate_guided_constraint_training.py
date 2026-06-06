@@ -578,7 +578,19 @@ def test_committed_claim_capsule_sidecar_matches_canonical_embedding():
     canonical_payload = json.loads((runner.ROOT / canonical_artifact).read_text(encoding="utf-8"))
     sidecar_payload = json.loads((runner.ROOT / canonical_payload["claim_capsule"]["artifact"]).read_text(encoding="utf-8"))
 
-    assert canonical_payload["claim_capsule"] == sidecar_payload
+    assert canonical_payload["claim_capsule"] == runner._public_claim_capsule_projection(sidecar_payload)
+    negative_witness_pointer = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+    assert negative_witness_pointer == {
+        "artifact": "reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+        "pointer": "$.run_local.negative_witness[0]",
+    }
+    assert negative_witness_pointer["artifact"] == canonical_payload["claim_capsule"]["artifact"]
+    pointed_payload = json.loads((runner.ROOT / negative_witness_pointer["artifact"]).read_text(encoding="utf-8"))
+    row = _pointer_value(pointed_payload, negative_witness_pointer["pointer"])
+    assert set(row) == set(runner.NEGATIVE_WITNESS_KEYS)
+    assert row["witness_id"] == "certificate-guided-constraint-training:audit-improvement-tradeoff"
+    assert row["bedc_gap_field"] == "Positive information gap"
+    assert row["demotion_rule"] == "audit-improvement-tradeoff"
 
 
 def test_committed_claim_capsule_source_evidence_pointers_resolve():
