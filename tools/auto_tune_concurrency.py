@@ -185,12 +185,23 @@ def compute_target(cp_data: dict) -> dict:
     }
 
 
-def run_critical_path() -> dict:
-    res = subprocess.run(
-        ["python3", str(CRITICAL_PATH)],
-        capture_output=True, text=True, check=True,
-    )
-    return json.loads(res.stdout)
+def run_critical_path() -> dict | None:
+    try:
+        res = subprocess.run(
+            ["python3", str(CRITICAL_PATH)],
+            capture_output=True, text=True, check=True,
+        )
+    except subprocess.CalledProcessError as exc:
+        rc = exc.returncode
+        stderr_tail = (exc.stderr or "").strip().splitlines()[-3:]
+        detail = " | ".join(stderr_tail) if stderr_tail else "no stderr"
+        print(f"critical_path: failed rc={rc}; keeping existing config; {detail}", file=sys.stderr)
+        return None
+    try:
+        return json.loads(res.stdout)
+    except json.JSONDecodeError as exc:
+        print(f"critical_path: invalid JSON ({exc}); keeping existing config", file=sys.stderr)
+        return None
 
 
 def read_system_metrics() -> dict:
@@ -422,6 +433,8 @@ def main() -> int:
     print(metric_summary, file=sys.stderr)
 
     cp_data = run_critical_path()
+    if cp_data is None:
+        return 0
     target = compute_target(cp_data)
     signals = target.pop("_signals")
     pressure_notes = apply_pressure_adjustments(target, metrics)
