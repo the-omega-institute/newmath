@@ -922,6 +922,66 @@ def _rollup_branch_stale(rollup_branch: str, source_branch: str,
     )
 
 
+def _no_commits_between_error(output: str) -> bool:
+    return "no commits between" in output.lower()
+
+
+def _remote_branch_points_at(branch: str, sha: str) -> bool:
+    branch_sha = _origin_sha(branch)
+    return branch_sha is not None and branch_sha == sha
+
+
+def _has_open_pr_for_head(branch: str, target_branch: str) -> bool | None:
+    try:
+        res = run(["gh", "pr", "list",
+                   "--base", target_branch,
+                   "--head", branch,
+                   "--state", "open",
+                   "--json", "number",
+                   "--limit", "1"],
+                  capture=True, check=False)
+        if res.returncode != 0:
+            print(f"[sync] rollup: warning: gh pr list by head failed: "
+                  f"{((res.stdout or '') + (res.stderr or '')).strip()[:300]}",
+                  file=sys.stderr)
+            return None
+        import json as _json
+        rows = _json.loads(res.stdout or "[]")
+    except Exception as exc:
+        print(f"[sync] rollup: warning: could not inspect PRs by head: {exc}",
+              file=sys.stderr)
+        return None
+    return bool(rows)
+
+
+def _delete_managed_rollup_branch_if_no_pr(rollup_branch: str,
+                                           target_branch: str) -> None:
+    if not _gh_available():
+        print(f"[sync] rollup: warning: gh CLI missing; cannot confirm "
+              f"whether {rollup_branch} has an open PR before no-op cleanup",
+              file=sys.stderr)
+        return
+    target_sha = _origin_sha(target_branch)
+    if target_sha is None:
+        return
+    if not has_remote_branch(rollup_branch):
+        return
+    if not _remote_branch_points_at(rollup_branch, target_sha):
+        return
+    open_pr = _has_open_pr_for_head(rollup_branch, target_branch)
+    if open_pr is None or open_pr:
+        return
+    with acquire_main_checkout_lock(timeout=120):
+        delete = git("push", "origin", "--delete", rollup_branch,
+                     check=False, capture=True)
+    if delete.returncode == 0:
+        print(f"[sync] rollup: deleted no-op managed branch {rollup_branch}")
+    else:
+        out = ((delete.stdout or "") + (delete.stderr or "")).strip()[:300]
+        print(f"[sync] rollup: warning: could not delete no-op branch "
+              f"{rollup_branch}: {out}", file=sys.stderr)
+
+
 def _remove_rollup_worktree(candidate: RollupCandidate | None) -> None:
     if not candidate:
         return
@@ -1065,6 +1125,11 @@ def _create_rollup_pr(rollup_branch: str, source_branch: str,
                 check=False, capture=True)
             res = run(cmd, capture=True, check=False)
     if res.returncode != 0:
+        if _no_commits_between_error((res.stdout or "") + (res.stderr or "")):
+            print(f"[sync] rollup: no-op; GitHub reports no commits between "
+                  f"{target_branch} and {rollup_branch}")
+            _delete_managed_rollup_branch_if_no_pr(rollup_branch, target_branch)
+            return True
         print(f"[sync] rollup: gh pr create failed: "
               f"{((res.stdout or '') + (res.stderr or '')).strip()[:500]}",
               file=sys.stderr)
@@ -1098,12 +1163,26 @@ def sync_rollup_pr(source_branch: str, target_branch: str,
     if not has_remote_branch(target_branch):
         print(f"[sync] rollup: origin/{target_branch} missing", file=sys.stderr)
         return False
+    target_sha = _origin_sha(target_branch)
+    if target_sha is None:
+        print(f"[sync] rollup: could not resolve origin/{target_branch}", file=sys.stderr)
+        return False
+    if _merge_base_contains(f"origin/{source_branch}", f"origin/{target_branch}"):
+        print(f"[sync] rollup: no-op; origin/{source_branch} is already "
+              f"included in origin/{target_branch} at {target_sha[:12]}")
+        if not no_push:
+            _delete_managed_rollup_branch_if_no_pr(rollup_branch, target_branch)
+        return True
 
     if no_push:
         candidate = _build_rollup_candidate(source_branch, target_branch)
         if candidate is None:
             return False
         try:
+            if candidate.sha == target_sha:
+                print(f"[sync] rollup: no-op; candidate HEAD equals "
+                      f"origin/{target_branch} at {target_sha[:12]}")
+                return True
             print(f"[sync] rollup: no-push candidate {candidate.sha[:12]} constructed")
             return True
         finally:
@@ -1124,6 +1203,11 @@ def sync_rollup_pr(source_branch: str, target_branch: str,
     if candidate is None:
         return False
     try:
+        if candidate.sha == target_sha:
+            print(f"[sync] rollup: no-op; candidate HEAD equals "
+                  f"origin/{target_branch} at {target_sha[:12]}")
+            _delete_managed_rollup_branch_if_no_pr(rollup_branch, target_branch)
+            return True
         if not _push_rollup_candidate(candidate, rollup_branch):
             return False
     finally:
