@@ -6,7 +6,7 @@
 - Target classifier: `gap-head-on-h`
 - Candidate mechanism: `unresolved`
 - Full vs score plus margin: `separated`
-- Mechanism closure debt: `present`
+- Mechanism closure debt status: `present`
 - Mechanism closure debt source: `reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status`
 - Mechanism spec closure: `partial`
 - Mechanism ledger pointer: `$.ledger_policy.mechanism_closure_debt`

@@ -54,7 +54,7 @@
       "A4-HG5"
     ],
     "closure_pointer": "$.closure_status.mechanism_spec",
-    "d5_m_ready_policy": "requires closed ledger_policy.mechanism_closure_debt and closed closure_status.mechanism_spec",
+    "d5_m_ready_policy": "requires ledger_policy.mechanism_closure_debt.status == \"negative\" and closure_status.mechanism_spec == \"closed\"",
     "ledger_pointer": "$.ledger_policy.mechanism_closure_debt",
     "mechanism_closure_debt": {
       "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",

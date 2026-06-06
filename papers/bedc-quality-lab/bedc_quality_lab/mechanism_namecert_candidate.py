@@ -238,7 +238,7 @@ def render_mechanism_namecert_markdown(payload: Mapping[str, Any]) -> str:
         f"- Target classifier: `{_mapping(payload.get('target_classifier')).get('name', 'missing')}`",
         f"- Candidate mechanism: `{_mapping(payload.get('mechanism_spec')).get('candidate_mechanism', 'missing')}`",
         f"- Full vs score plus margin: `{_mapping(payload.get('mechanism_spec')).get('full_vs_score_plus_margin', 'missing')}`",
-        f"- Mechanism closure debt: `{debt_slot.get('status', 'missing')}`",
+        f"- Mechanism closure debt status: `{debt_slot.get('status', 'missing')}`",
         f"- Mechanism closure debt source: `{debt_slot.get('source_pointer', 'missing')}`",
         f"- Mechanism spec closure: `{_mapping(payload.get('closure_status')).get('mechanism_spec', 'missing')}`",
         "- Mechanism ledger pointer: `$.ledger_policy.mechanism_closure_debt`",
@@ -409,7 +409,7 @@ def _ledger_policy(
         blockers.append("mechanism_spec")
     return {
         "mechanism_closure_debt": debt,
-        "d5_m_ready_policy": "requires closed ledger_policy.mechanism_closure_debt and closed closure_status.mechanism_spec",
+        "d5_m_ready_policy": 'requires ledger_policy.mechanism_closure_debt.status == "negative" and closure_status.mechanism_spec == "closed"',
         "blocking_cells": blockers,
         "ledger_pointer": "$.ledger_policy.mechanism_closure_debt",
         "closure_pointer": "$.closure_status.mechanism_spec",

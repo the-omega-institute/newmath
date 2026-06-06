@@ -1058,7 +1058,9 @@ def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, 
     assert section["ledger_policy_pointer"] == "$.ledger_policy.mechanism_closure_debt"
     assert section["closure_status_pointer"] == "$.closure_status.mechanism_spec"
     assert section["candidate_mechanism"] == "probe-margin-channel"
-    assert payload["gap_head_mechanism_namecert"]["mechanism_closure_debt"] == "present"
+    assert payload["gap_head_mechanism_namecert"]["mechanism_closure_debt_status"] == "present"
+    assert "mechanism_closure_debt" not in payload["gap_head_mechanism_namecert"]
+    assert "Mechanism closure debt status" in markdown
     absent_key = "gap_head_mechanism_" + "attribution"
     assert absent_key not in payload
     assert "Gap-head mechanism NameCert candidate" in markdown

@@ -119,6 +119,8 @@ def test_markdown_renders_from_json_payload(tmp_path):
     assert "Gap-Head MechanismNameCert Candidate" in markdown
     assert payload["name"] in markdown
     assert "$.closure_status.mechanism_spec" in markdown
+    assert "Mechanism closure debt status" in markdown
+    assert "Mechanism closure debt: `" not in markdown
 
 
 def test_write_round_trip_preserves_mechanism_debt_slot(tmp_path):
@@ -130,3 +132,8 @@ def test_write_round_trip_preserves_mechanism_debt_slot(tmp_path):
     assert set(written["ledger_policy"]["mechanism_closure_debt"]) == {"status", "source_pointer", "source_status"}
     assert written["ledger_policy"]["mechanism_closure_debt"] == payload["ledger_policy"]["mechanism_closure_debt"]
     assert written["ledger_policy"]["mechanism_closure_debt"]["source_pointer"].endswith(":$.ledger_debt.0.status")
+    assert written["ledger_policy"]["d5_m_ready_policy"] == (
+        'requires ledger_policy.mechanism_closure_debt.status == "negative" '
+        'and closure_status.mechanism_spec == "closed"'
+    )
+    assert "closed ledger_policy.mechanism_closure_debt" not in written["ledger_policy"]["d5_m_ready_policy"]

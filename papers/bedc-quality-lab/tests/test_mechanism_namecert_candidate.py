@@ -116,6 +116,11 @@ def test_probe_margin_channel_blocks_mechanism_closure():
         "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
         "source_status": "open",
     }
+    assert candidate.ledger_policy["d5_m_ready_policy"] == (
+        'requires ledger_policy.mechanism_closure_debt.status == "negative" '
+        'and closure_status.mechanism_spec == "closed"'
+    )
+    assert "closed ledger_policy.mechanism_closure_debt" not in candidate.ledger_policy["d5_m_ready_policy"]
     assert audit_mechanism_namecert_candidate(candidate.to_dict())["d5_m_ready"] is False
 
 
@@ -128,6 +133,10 @@ def test_closed_d5_m_requires_closed_ledger_and_closed_mechanism_spec():
     assert candidate.closure_status["mechanism_spec"] == "closed"
     assert candidate.ledger_policy["mechanism_closure_debt"]["status"] == "negative"
     assert candidate.ledger_policy["mechanism_closure_debt"]["source_status"] == "closed"
+    assert candidate.ledger_policy["d5_m_ready_policy"] == (
+        'requires ledger_policy.mechanism_closure_debt.status == "negative" '
+        'and closure_status.mechanism_spec == "closed"'
+    )
     assert rows["mechanism_spec"]["status"] == "closed"
     assert audit_mechanism_namecert_candidate(candidate.to_dict())["d5_m_ready"] is True
 

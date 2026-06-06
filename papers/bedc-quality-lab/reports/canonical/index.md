@@ -188,6 +188,8 @@
 - Ledger policy pointer: `$.ledger_policy.mechanism_closure_debt`
 - Closure status pointer: `$.closure_status.mechanism_spec`
 - Candidate mechanism: `unresolved`
+- Mechanism closure debt status: `present`
+- Mechanism spec closure: `partial`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 
 ## Release manifest sidecar
