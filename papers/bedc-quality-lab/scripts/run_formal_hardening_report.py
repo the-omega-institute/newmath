@@ -24,6 +24,12 @@ from bedc_quality_lab.ledger import LedgerRowKey, ledger_gap, recorded_rows, req
 FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
 FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
 FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
+CLAIM_CAPSULE_SCHEMA_ID = "bedc.quality.claim_capsule"
+RUN_LOCAL_DIR = Path("reports") / "runs" / "formal-hardening-closure"
+RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT = str(RUN_LOCAL_DIR / "claim_capsule.json")
+RUN_LOCAL_RAW_METRICS_ARTIFACT = str(RUN_LOCAL_DIR / "raw_metrics.jsonl")
+RUN_LOCAL_SUMMARY_ARTIFACT = str(RUN_LOCAL_DIR / "summary.json")
+RUN_LOCAL_REPORT_ARTIFACT = str(RUN_LOCAL_DIR / "report.md")
 
 
 @dataclass(frozen=True)
@@ -44,6 +50,17 @@ class EvidencePointerResult:
     resolved: bool
     kind: str
     reason: str | None = None
+
+
+@dataclass(frozen=True)
+class RunLocalProjectionContract:
+    projection_kind: str
+    source_artifact: str
+    source_pointer: str
+    ready_pointer: str
+    ledger_pointer: str
+    artifact_bundle: Mapping[str, str]
+    evidence_refs: tuple[Mapping[str, str], ...]
 
 
 _ITEMS: tuple[_HardeningItem, ...] = (
@@ -114,10 +131,16 @@ def _truthy_evidence(value: Any) -> bool:
 
 
 def _resolve_jsonpath(payload: Any, jsonpath: str) -> Any:
+    if jsonpath == "$":
+        return payload
     if not jsonpath.startswith("$."):
         raise ValueError("unsupported jsonpath")
     cursor = payload
     for raw_part in jsonpath[2:].split("."):
+        if isinstance(cursor, list) and raw_part.isdigit():
+            index = int(raw_part)
+            cursor = cursor[index]
+            continue
         match = _JSONPATH_PART.fullmatch(raw_part)
         if match is None:
             raise ValueError("unsupported jsonpath part")
@@ -194,6 +217,18 @@ def _resolve_evidence_pointer(pointer: str | None, *, root: Path) -> EvidencePoi
     if "://" in pointer:
         return EvidencePointerResult(False, "invalid", "unsupported pointer scheme")
     return _resolve_json_evidence_pointer(pointer, root=root)
+
+
+def _pointer_value(payload: Mapping[str, Any], pointer: str) -> Any:
+    try:
+        return _resolve_jsonpath(payload, pointer)
+    except Exception:
+        return None
+
+
+def _require_pointer(payload: Mapping[str, Any], pointer: str) -> None:
+    if _pointer_value(payload, pointer) is None:
+        raise ValueError(f"unresolved formal hardening source pointer: {pointer}")
 
 
 def _entry_for_item(item: _HardeningItem, *, root: Path) -> LedgerRowKey | None:
@@ -321,6 +356,132 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _run_local_contract(payload: Mapping[str, Any]) -> RunLocalProjectionContract:
+    evidence_refs: list[Mapping[str, str]] = []
+    for index, row in enumerate(payload["verification_ledger"]):
+        evidence_refs.append(
+            {
+                "item_id": str(row["item_id"]),
+                "artifact": FORMAL_HARDENING_JSON_ARTIFACT,
+                "source_artifact": FORMAL_HARDENING_JSON_ARTIFACT,
+                "source_pointer": f"$.verification_ledger.{index}",
+            }
+        )
+    contract = RunLocalProjectionContract(
+        projection_kind="formal_hardening_run_local",
+        source_artifact=FORMAL_HARDENING_JSON_ARTIFACT,
+        source_pointer="$.artifact_id",
+        ready_pointer="$.ready",
+        ledger_pointer="$.verification_ledger",
+        artifact_bundle={
+            "claim_capsule": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+            "raw_metrics": RUN_LOCAL_RAW_METRICS_ARTIFACT,
+            "summary": RUN_LOCAL_SUMMARY_ARTIFACT,
+            "report": RUN_LOCAL_REPORT_ARTIFACT,
+        },
+        evidence_refs=tuple(evidence_refs),
+    )
+    _require_pointer(payload, contract.source_pointer)
+    _require_pointer(payload, contract.ready_pointer)
+    _require_pointer(payload, contract.ledger_pointer)
+    for row in contract.evidence_refs:
+        _require_pointer(payload, row["source_pointer"])
+    return contract
+
+
+def _run_local_contract_payload(contract: RunLocalProjectionContract) -> dict[str, Any]:
+    return {
+        "projection_kind": contract.projection_kind,
+        "artifact": contract.source_artifact,
+        "source_artifact": contract.source_artifact,
+        "source_pointer": contract.source_pointer,
+        "ready_pointer": contract.ready_pointer,
+        "ledger_pointer": contract.ledger_pointer,
+        "artifact_bundle": dict(contract.artifact_bundle),
+        "evidence_refs": [dict(row) for row in contract.evidence_refs],
+    }
+
+
+def _run_local_claim_capsule(payload: Mapping[str, Any]) -> dict[str, Any]:
+    contract = _run_local_contract(payload)
+    return {
+        "schema_id": CLAIM_CAPSULE_SCHEMA_ID,
+        "artifact_id": "bedc-quality-lab:formal-hardening-claim-capsule",
+        "json_artifact": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+        "generated_at": payload["generated_at"],
+        "producer": "scripts/run_formal_hardening_report.py",
+        "claim_id": "formal-hardening-closure",
+        "report": RUN_LOCAL_REPORT_ARTIFACT,
+        "source": FORMAL_HARDENING_JSON_ARTIFACT,
+        "source_pointer": "$.artifact_id",
+        "status": "complete" if payload["ready"] is True else "incomplete",
+        "run_local": _run_local_contract_payload(contract),
+        "not_claimed": [
+            "The run-local bundle does not create a separate readiness lifecycle.",
+            "The run-local bundle does not certify BEDC closure.",
+        ],
+    }
+
+
+def _run_local_raw_metrics(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ...]:
+    contract = _run_local_contract(payload)
+    rows = []
+    for row in contract.evidence_refs:
+        rows.append(
+            {
+                "metric": str(row["item_id"]),
+                "source_artifact": contract.source_artifact,
+                "source_pointer": str(row["source_pointer"]),
+            }
+        )
+    return tuple(rows)
+
+
+def _run_local_summary(payload: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "artifact_id": "bedc-quality-lab:formal-hardening-run-summary",
+        "generated_at": payload["generated_at"],
+        "producer": "scripts/run_formal_hardening_report.py",
+        "claim_capsule_ref": {
+            "artifact": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+            "pointer": "$.run_local",
+        },
+        "artifact_bundle": {
+            "claim_capsule": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+            "raw_metrics": RUN_LOCAL_RAW_METRICS_ARTIFACT,
+            "summary": RUN_LOCAL_SUMMARY_ARTIFACT,
+            "report": RUN_LOCAL_REPORT_ARTIFACT,
+        },
+        "status": payload["status"],
+        "ready": payload["ready"],
+        "coverage": dict(payload["coverage"]),
+    }
+
+
+def _run_local_markdown(payload: Mapping[str, Any]) -> str:
+    return "\n".join(
+        [
+            "# Formal Hardening Claim Capsule",
+            "",
+            f"- Source artifact: `{FORMAL_HARDENING_JSON_ARTIFACT}`",
+            "- Source pointer: `$.artifact_id`",
+            "- Claim capsule pointer: `reports/runs/formal-hardening-closure/claim_capsule.json:$.run_local`",
+            f"- Ready pointer: `$.ready`",
+            f"- Ledger pointer: `$.verification_ledger`",
+            f"- Status: `{payload['status']}`",
+            f"- Coverage: `{payload['recorded']}/{payload['required']}`",
+            "",
+        ]
+    )
+
+
+def _write_jsonl_atomic(path: Path, rows: tuple[Mapping[str, Any], ...]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows), encoding="utf-8")
+    tmp.replace(path)
+
+
 def _write_json_atomic(path: Path, payload: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
@@ -344,6 +505,10 @@ def write_formal_hardening_report(
     payload = build_formal_hardening_report(root=base, generated_at=generated_at)
     _write_json_atomic(base / FORMAL_HARDENING_JSON_ARTIFACT, payload)
     _write_text_atomic(base / FORMAL_HARDENING_MARKDOWN_ARTIFACT, render_markdown(payload))
+    _write_json_atomic(base / RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT, _run_local_claim_capsule(payload))
+    _write_jsonl_atomic(base / RUN_LOCAL_RAW_METRICS_ARTIFACT, _run_local_raw_metrics(payload))
+    _write_json_atomic(base / RUN_LOCAL_SUMMARY_ARTIFACT, _run_local_summary(payload))
+    _write_text_atomic(base / RUN_LOCAL_REPORT_ARTIFACT, _run_local_markdown(payload))
     return payload
 
 
