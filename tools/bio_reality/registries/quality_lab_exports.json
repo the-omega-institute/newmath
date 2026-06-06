@@ -628,7 +628,7 @@
         "replication_status": "not_claimed"
       },
       "metrics": {
-        "finite_row_count": 49,
+        "finite_row_count": 50,
         "has_reality_contact": true,
         "has_probe_contact_mismatch_chain": true
       },
@@ -928,6 +928,14 @@
           "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap",
           "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.n3-rank-degenerate.translation-survival-refusal.operator-review-rank-saturation-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
         }
       ],
       "not_claimed": [
@@ -992,34 +1000,35 @@
           "q6.translation-conditioned.physical-admissibility-boundary.operator-review-physical-contact-gap",
           "q6.translation-conditioned.post-translational-state.operator-review-state-contact-gap",
           "q6.translation-conditioned.protein-stability-boundary.operator-review-stability-contact-gap",
-          "q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap"
+          "q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap",
+          "q6.n3-rank-degenerate.translation-survival-refusal.operator-review-rank-saturation-boundary"
         ],
         "gate_result_ref": "conjecture:q6.direct-protein-omics-survival.with-translation-boundary.cross-layer"
       }
     },
     {
-      "packet_id": "q6.rank-powered.translation-conditioned.protein-mediation.cross-layer",
-      "claim_id": "h0.M.equals.WNR.CUN",
+      "packet_id": "q6.n3-rank-degenerate.translation-survival-refusal.cross-layer",
+      "claim_id": "h3.codon_usage_topology.residual_basis.q6_topology_after_aa_quotient",
       "claimed_layer": "cross_layer_relation",
       "export_status": "review_ready",
       "source_spec": {
         "reality_contacts": [
           "codon-usage-per-organism",
+          "trna-gene-copy-numbers",
           "tai-or-stai-weights",
           "ribosome-profiling-translation-efficiency",
           "matched-proteomics-protein-abundance",
-          "matched-mrna-abundance-control",
-          "trna-gene-copy-numbers"
+          "matched-mrna-abundance-control"
         ],
         "can_test": [
           "translation_realization",
           "cross_layer_relation",
           "codon usage distribution",
+          "tRNA-Leu gene-copy spectrum",
           "codon adaptation weight readback",
           "B*_Q6 residual coordinate survival on translation efficiency under amino-acid composition + GC3 + length + M-density baseline controls",
           "downstream mediation chain Q_i -> T_j (translation readout) -> P_k (protein abundance) once both translation and protein contacts are attached",
-          "isolation of translation-layer signal from transcription-layer signal via TE residual",
-          "tRNA-Leu gene-copy spectrum"
+          "isolation of translation-layer signal from transcription-layer signal via TE residual"
         ],
         "cannot_test": [
           "folded structure",
@@ -1036,12 +1045,10 @@
       },
       "pattern_spec": {
         "internal_surfaces": [
-          "coordinate",
           "rank",
           "relation"
         ],
         "probe_refs": [
-          "residual-basis.m-only-local-optimum-insufficiency",
           "residual-basis.translation-readout-boundary.no-promotion",
           "b-star-q6-survival-matrix-break-condition"
         ]
@@ -1357,28 +1364,35 @@
           "severity": "missing_context",
           "evidence_pointer": "mismatch:q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap",
           "owner": "tools.bio_reality.quality_lab_export"
+        },
+        {
+          "kind": "boundary",
+          "residue": "mismatch-open:blocked_null:missing_context",
+          "status": "open",
+          "severity": "missing_context",
+          "evidence_pointer": "mismatch:q6.n3-rank-degenerate.translation-survival-refusal.operator-review-rank-saturation-boundary",
+          "owner": "tools.bio_reality.quality_lab_export"
         }
       ],
       "not_claimed": [
-        "Do not infer folded structural order, molecular function, system phenotype, or evolutionary directionality from q_i -> P_k association without a positive measured translation-readout mediation step q_i -> T_j -> P_k.",
-        "Do not report rank-degenerate n=3 survival as evidence; any all-1.0 matrix at insufficient organism count is a null boundary artifact, not survival.",
-        "Do not treat direct protein-omics survival S^QP as a mechanism claim unless conditioning on the measured translation readout T_j removes or reduces the q_i -> P_k signal."
+        "Do not interpret an all-1.0 controlled S^{QT} matrix at n=3 as translation-realization survival.",
+        "Do not promote modeled-tAI coupling into ribosome-occupancy survival, protein-abundance mediation, structural order, function realization, or phenotype.",
+        "Do not bypass the translation-readout survival gate before any downstream protein, structure, function, physical-admissibility, or system-phenotype claim."
       ],
       "artifacts": {
-        "bedc_module": "papers/bedc/parts/concrete_instances/14104_bioreality_q_six_translation_mediation_abundance_ledger_namecert_construction.tex",
-        "bio_paper": "papers/bio_reality/parts/namecerts/h3_cross_layer_relation_translation_mediated_protein_abundance_b_star_q6_mqtp_powered.tex"
+        "bedc_module": "papers/bedc/parts/concrete_instances/14112_bioreality_q_six_powered_modeled_tai_survival_namecert_construction.tex",
+        "bio_paper": "papers/bio_reality/parts/namecerts/h3_codon_usage_topology_residual_basis_q6_topology_after_aa_quotient.tex"
       },
       "fact_owner": {
         "contact_refs": [
           "codon-usage-per-organism",
+          "trna-gene-copy-numbers",
           "tai-or-stai-weights",
           "ribosome-profiling-translation-efficiency",
           "matched-proteomics-protein-abundance",
-          "matched-mrna-abundance-control",
-          "trna-gene-copy-numbers"
+          "matched-mrna-abundance-control"
         ],
         "probe_refs": [
-          "residual-basis.m-only-local-optimum-insufficiency",
           "residual-basis.translation-readout-boundary.no-promotion",
           "b-star-q6-survival-matrix-break-condition"
         ],
@@ -1421,9 +1435,10 @@
           "q6.translation-conditioned.physical-admissibility-boundary.operator-review-physical-contact-gap",
           "q6.translation-conditioned.post-translational-state.operator-review-state-contact-gap",
           "q6.translation-conditioned.protein-stability-boundary.operator-review-stability-contact-gap",
-          "q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap"
+          "q6.translation-conditioned.protein-localization-boundary.operator-review-localization-contact-gap",
+          "q6.n3-rank-degenerate.translation-survival-refusal.operator-review-rank-saturation-boundary"
         ],
-        "gate_result_ref": "conjecture:q6.rank-powered.translation-conditioned.protein-mediation.cross-layer"
+        "gate_result_ref": "conjecture:q6.n3-rank-degenerate.translation-survival-refusal.cross-layer"
       }
     }
   ]
