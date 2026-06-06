@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\CauchyApproximationModulusUp$}
+\label{ch:concrete-instances-cauchy-approximation-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyApproximationModulusUp$ packet records the finite modulus surface that tells a constructive Cauchy approximation route which tail window answers a requested dyadic tolerance. It sits between the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies downstream Real and Completion consumers with explicit request-to-tail data only; it does not identify quotient streams, choose a limit representative, use host real equality, or invoke ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy approximation modulus carrier]\label{def:cauchy-approximation-modulus-carrier}
+A $\CauchyApproximationModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(Q,D,W,R,S,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the requested dyadic tolerance row.
+\item $D$ is the $\DyadicRatCoreUp$ comparison ledger that reads the tolerance as a finite rational budget.
+\item $W$ is the $\StreamNameUp$ tail-window row naming the first finite observation window accepted for that budget.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed window and dyadic budget.
+\item $S$ is the $\RealUp$ seal row, available only after $Q,D,W,R$ have been exposed.
+\item $T$ records componentwise $\hsame$ transport for tolerance, dyadic ledger, tail window, regular readback, seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $D,W,R,S,T$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyApproximationModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyApproximationModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,D,W,R,S,T,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, selected limits, host real equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy approximation modulus NameCert obligations]\label{thm:cauchy-approximation-modulus-namecert-obligations}
+For every accepted $\CauchyApproximationModulusUp$ carrier $M=(Q,D,W,R,S,T,C,P,N)$, the local $\NameCert_{\CauchyApproximationModulusUp}$ surface consists exactly of carrier admission for the displayed rows, dyadic tolerance exactness, tail-window exactness, regular readback handoff, Real seal nonescape, componentwise transport, continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-approximation-modulus-carrier}. The tolerance row $Q$ is read first, and the dyadic ledger $D$ is the only row allowed to translate that request into a finite rational comparison budget.
+
+The tail-window row $W$ then supplies the finite $\StreamNameUp$ observations used by the request. The regular readback row $R$ and the terminal seal row $S$ are downstream of that displayed window, so the route cannot skip directly to a host real value or selected limit.
+
+The structural rows $T,C,P,N$ transport, replay, source, and name the same finite packet. Since no other coordinate is available, the local certificate has exactly the stated obligations and no quotient, choice, trichotomy, or ambient-completeness row.
+\end{proof}
+
+\begin{theorem}[Cauchy approximation modulus window stability]\label{thm:cauchy-approximation-modulus-window-stability}
+Let $M=(Q,D,W,R,S,T,C,P,N)$ be an accepted $\CauchyApproximationModulusUp$ packet. Any transported read of the same dyadic tolerance must return through the displayed $\hsame$ row $T$ to the same tail-window, regular-readback, and Real-seal route. Thus downstream regular-Cauchy and $\RealUp$ consumers receive a stable finite window basis for that tolerance, not a quotient stream equality or host completeness claim.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. A tolerance read exposes $Q$, and the dyadic comparison budget is fixed by $D$ before any stream window can be used.
+
+Transported reads move componentwise through $T$. The continuation row $C$ replays the route from $Q$ through $D,W,R,S$, so the consumer returns to the same displayed tail window and regular readback before seeing the terminal seal.
+
+The packet has no coordinate for a second stream representative, a selected limit, a host equality proof, or a completeness theorem. Stability is therefore the stability of the finite displayed window route itself.
+\end{proof}
+
+\falsifiablePrediction{Every $\CauchyApproximationModulusUp$ read used by a Real or Completion consumer factors through one displayed dyadic tolerance, one DyadicRatCore comparison budget, one StreamName tail-window row, one RegSeqRat readback row, one RealUp seal row, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\CauchyApproximationModulusUp$ is not bijective to any listed sibling because it jointly carries a tolerance request, dyadic comparison budget, accepted tail window, regular readback, terminal Real seal, transport, replay, provenance, and local naming in one modulus packet.}
+
+\closureat{CauchyApproximationModulusUp}{seedStr}
+
+\begin{closurestatus}{\CauchyApproximationModulusUp}
+  \constructivestory{A $\CauchyApproximationModulusUp$ packet is generated from a dyadic tolerance request, DyadicRatCore comparison budget, StreamName tail window, RegSeqRat readback, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-approximation-modulus-carrier}, \autoref{thm:cauchy-approximation-modulus-namecert-obligations}, and \autoref{thm:cauchy-approximation-modulus-window-stability} seed the finite request-to-tail modulus route for the L10 Real and Completion spine.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, selected limits, host real equality, countable choice, trichotomy, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exactness, tail-window exactness, regular readback handoff, Real seal nonescape, componentwise transport, replay, provenance, and local naming for BEDC.Derived.CauchyApproximationModulusUp.}
+\end{closurestatus}
