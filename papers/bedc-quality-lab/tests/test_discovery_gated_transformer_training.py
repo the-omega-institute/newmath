@@ -1,11 +1,15 @@
+import copy
 import json
 from pathlib import Path
+
+import pytest
 
 from bedc_quality_lab.discovery_compiler.pointers import is_resolvable_artifact_pointer, pointer_value
 from bedc_quality_lab.discovery_gated_transformer_training import (
     ARMS,
     CONTROL_FAMILIES,
     TRAINING_REPLAY_ARTIFACT,
+    _digest,
     evaluate_training_hardgates,
     public_training_replay_ref,
 )
@@ -16,6 +20,69 @@ def _write_payload(tmp_path: Path) -> dict:
     payload = runner.build_payload(generated_at="2030-01-01T00:00:00+00:00")
     runner.write_artifacts(payload, root=tmp_path)
     return json.loads((tmp_path / payload["run_artifacts"]["training_replay"]).read_text(encoding="utf-8"))
+
+
+def _fresh_payload() -> dict:
+    return runner.build_payload(generated_at="2030-01-01T00:00:00+00:00")
+
+
+def _refresh_replay_digest(payload: dict) -> None:
+    payload["replay_digest"] = _digest(
+        {
+            "config": payload["config"],
+            "records": payload["records"],
+            "compute_ledger": payload["compute_ledger"],
+        }
+    )
+
+
+def _with_bad_replay_digest(payload: dict) -> None:
+    payload["replay_digest"] = "0" * 64
+
+
+def _with_unresolved_ledger_pointer(payload: dict) -> None:
+    payload["compute_ledger"]["rows"][0]["raw_metric_pointer"] = "$.records[999]"
+    _refresh_replay_digest(payload)
+
+
+def _with_unresolved_record_pointer(payload: dict) -> None:
+    payload["records"][0]["config_pointer"] = "$.config.arm_configs.missing"
+    _refresh_replay_digest(payload)
+
+
+def _with_wrong_matched_random_family(payload: dict) -> None:
+    for row in payload["records"]:
+        if row["arm_id"] == "dgt_matched_random":
+            row["control_family"] = "loss_ablation"
+            break
+    _refresh_replay_digest(payload)
+
+
+def _with_non_improving_uer(payload: dict) -> None:
+    means = payload["summary"]["metric_means"]
+    means["dgt_full"]["uer"] = means["task_only"]["uer"]
+
+
+def _with_worse_false_ledger_rate(payload: dict) -> None:
+    means = payload["summary"]["metric_means"]
+    means["dgt_full"]["false_ledger_rate"] = means["task_only"]["false_ledger_rate"] + 0.01
+
+
+def _with_non_improving_benefit(payload: dict) -> None:
+    means = payload["summary"]["metric_means"]
+    means["dgt_full"]["benefit"] = means["task_only"]["benefit"] - 0.01
+
+
+def _with_zero_classifier_shift(payload: dict) -> None:
+    payload["summary"]["metric_means"]["dgt_full"]["classifier_shift"] = 0.0
+
+
+def _with_missing_sidecar_pointer(payload: dict) -> None:
+    payload["sidecar_pointers"]["claim_capsule"] = {"artifact": payload["run_artifacts"]["claim_capsule"]}
+
+
+def _with_forbidden_terminal_key(payload: dict) -> None:
+    payload["terminal_verdict"] = "positive"
 
 
 def _walk_forbidden(value, forbidden):
@@ -48,6 +115,33 @@ def test_exact_nine_arm_grid_and_committed_json_round_trip(tmp_path):
     assert {row["arm_id"] for row in payload["records"]} == set(ARMS)
     assert len(payload["records"]) == len(ARMS) * len(payload["config"]["seeds"])
     assert evaluate_training_hardgates(payload) == payload["hardgates"]
+
+
+@pytest.mark.parametrize(
+    ("gate_id", "mutate"),
+    [
+        ("TRAIN-HG1", _with_bad_replay_digest),
+        ("TRAIN-HG2", _with_unresolved_ledger_pointer),
+        ("TRAIN-HG3", _with_unresolved_record_pointer),
+        ("TRAIN-HG4", _with_wrong_matched_random_family),
+        ("TRAIN-HG5", _with_non_improving_uer),
+        ("TRAIN-HG6", _with_worse_false_ledger_rate),
+        ("TRAIN-HG7", _with_non_improving_benefit),
+        ("TRAIN-HG8", _with_zero_classifier_shift),
+        ("TRAIN-HG9", _with_missing_sidecar_pointer),
+        ("TRAIN-HG10", _with_forbidden_terminal_key),
+    ],
+)
+def test_train_hardgates_fail_closed_for_negative_fixtures(gate_id, mutate):
+    payload = copy.deepcopy(_fresh_payload())
+    mutate(payload)
+
+    hardgates = evaluate_training_hardgates(payload)
+
+    assert hardgates[gate_id]["status"] == "fail"
+    assert gate_id in [name for name, row in hardgates.items() if row["status"] == "fail"]
+    if gate_id != "TRAIN-HG1":
+        assert hardgates["TRAIN-HG1"]["status"] == "pass"
 
 
 def test_compute_ledger_has_one_row_per_arm_seed_and_resolving_pointers(tmp_path):
