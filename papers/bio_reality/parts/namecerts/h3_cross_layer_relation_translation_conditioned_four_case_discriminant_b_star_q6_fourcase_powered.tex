@@ -1,0 +1,48 @@
+\origin{ai}
+
+\subsection{Translation-conditioned four-case discriminant for $B^*_{Q6}$ residual coordinates}
+\label{sec:biorality-q6-translation-conditioned-four-case-discriminant}
+
+\paragraph{Finite cell system.}
+The finite record for this claim is a matched matrix system whose rows are coding sequences or proteins and whose columns are $B^*_{Q6}$ synonymous residual coordinates $q_i$, a translation-layer readout $T$, and a protein-omics readout $P$.  The translation readout used here is the per-protein mean modeled tAI,
+$$
+\begin{aligned}
+T &= \frac{\sum_{c} n_c w_c}{\sum_{c} n_c},
+\end{aligned}
+$$
+where $n_c$ is the codon count and $w_c$ is the organism-scoped tAI weight computed from GtRNAdb all-tRNA gene-copy counts with dos Reis wobble weights.  The protein readout is $P=\log_{10}(\mathrm{abundance\_ppm})$ from measured PAXdb protein abundance joined to real CDS codon counts.  The finite rows comprise $3739$ joined CDS/protein rows for \emph{Escherichia coli} K-12 MG1655, using the \emph{E. coli} tRNA organism route, and $5815$ joined rows for \emph{Saccharomyces cerevisiae}.  In both organisms the residual-coordinate block has $9$ $q$-coordinates.
+
+\paragraph{Controlled residualization.}
+The statistic is not a raw codon-to-protein association.  Before the four-case call is read, the $q_i$ coordinates are residualized against a control matrix $Z$ carrying amino-acid-composition, organism-scoped sequence, GC3, CDS-length, M-density, mRNA, and simpler-baseline controls.  The supplied finite row audit gives $24$ control columns and effective control rank $23$ in both organisms.  After these controls, the \emph{E. coli} panel has $3716$ residual degrees of freedom, while the yeast panel has $5792$ residual degrees of freedom.  The residual coordinate block remains rank-powered: for both $T$ and $P$, $\operatorname{rank}(\widetilde X)=9$ in both organisms, matching the $9$ residual coordinates.  Thus the case assignment is not being made on a rank-saturated three-row surface or an all-$1.0$ degeneracy.
+
+\paragraph{Four controlled surfaces.}
+For each coordinate cell, the discriminant compares the controlled survival of $q_i$ against translation, the controlled survival of $q_i$ against protein abundance, and the attenuation of the direct $q_i\to P$ association after conditioning on $T$.  The four signs are interpreted locally as follows:
+$$
+\begin{aligned}
+\mathrm{A} &: S^{QT}\leq 0\ \text{and}\ S^{QP}\leq 0,\\
+\mathrm{B} &: S^{QT}>0\ \text{and}\ S^{QP}\leq 0,\\
+\mathrm{C} &: S^{QT}\leq 0\ \text{and}\ S^{QP}>0,\\
+\mathrm{D} &: S^{QT}>0\ \text{and}\ S^{QP}>0\ \text{with direct}\ q_i\to P\ \text{reduced after conditioning on}\ T.
+\end{aligned}
+$$
+Case A is compression against both readouts.  Case B is translation-level irreducibility without propagation to the measured protein readout.  Case C is a protein-omics residual that is not mediated by the measured translation readout.  Case D is the bounded propagation call: the translation readout survives, the protein readout survives, and the direct protein association is reduced when $T$ is included.
+
+\paragraph{Finite-row outcome.}
+The powered classification threshold is $10^{-12}$.  In \emph{E. coli}, all $9$ coordinates are classified, with no unclassified coordinates.  The case counts are $0$ in A, $0$ in B, $0$ in C, and $7$ in D, with $2$ positive-positive cells that do not pass the mediation-drop condition.  The controlled explained energy of $X$ on $T$ is $0.256128714706293$, and the controlled explained energy of $X$ on $P$ is $432.89050065533684$.  The residual energy of $T$ is $0.4728468725814029$, and the residual energy of $P$ is $4020.333671802061$.  The aggregate controlled coefficients of determination are
+$$
+\begin{aligned}
+R^2_{QT} &= 0.5416736993691318,\\
+R^2_{QP} &= 0.10767526677985896.
+\end{aligned}
+$$
+In yeast, all $9$ coordinates are classified, again with no unclassified coordinates.  The case counts are $0$ in A, $0$ in B, $0$ in C, and $9$ in D, with $0$ positive-positive cells outside the mediation-drop condition.  The controlled explained energy of $X$ on $T$ is $5.671703404506426$, and the controlled explained energy of $X$ on $P$ is $882.6526210803958$.  The residual energy of $T$ is $6.90537888244409$, and the residual energy of $P$ is $2958.1865890925337$.  The aggregate controlled coefficients of determination are
+$$
+\begin{aligned}
+R^2_{QT} &= 0.8213457220900503,\\
+R^2_{QP} &= 0.29837624994140827.
+\end{aligned}
+$$
+The finite-row readback is therefore a strong case-D-dominated classification on the supplied modeled-tAI and measured-abundance panel: $7$ of $9$ classified coordinates in \emph{E. coli} and $9$ of $9$ classified coordinates in yeast satisfy the translation-conditioned propagation criterion.
+
+\paragraph{Interpretation kept within the measured layer.}
+The result is a four-case controlled discriminant over modeled translation adaptation and measured steady-state protein abundance.  It does not by itself show ribosome occupancy, translation dynamics, causality, folding, physical admissibility, molecular function, system phenotype, perturbation rescue, or a universal biological law.  The $T$ readout is modeled tAI rather than ribosome profiling, and the joined CDS/protein-abundance rows are cross-sectional.  Protein abundance is also not separated here from turnover, localization, post-translational modification, folding state, pathway context, or mRNA-linked regulation except through the declared controls.  Consequently, case C must remain a direct protein-omics predictive residual not mediated by the measured $T$, and case D must be read only as translation-conditioned attenuation in this finite matrix.  Any claim about measured ribosome movement, folding, physical feasibility, biochemical function, organismal phenotype, mechanism, or general biological law would require a separate layer-matched contact and its own controlled statistic.
