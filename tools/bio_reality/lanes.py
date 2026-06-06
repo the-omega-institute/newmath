@@ -4427,11 +4427,29 @@ def _sanitize_textmode_underscores(text: str) -> str:
     # 先修 JSON double-escape 残留: codex 偶尔把 chapter_content 的换行/制表写成字面
     # `\n` / `\t` (backslash-n, JSON 里多转义一层) 而非真字符 → LaTeX 报
     # "Undefined control sequence \n" 致命 build 断 (flaky: 取决于该轮 render 是否带残留).
-    # 还原: 前面不是反斜杠 (排除 \\ 续行) 且后面不接**小写**字母. 真 LaTeX 命令 (\newcommand/
-    # \nu/\node/\times/\tau ...) 首字母后皆小写, 故 \n / \t 后接小写时保留; 而 JSON 残留的
-    # 字面 \nThis / \nThe / \tFoo (换行/制表后接大写词或非字母) 还原为换行/空格.
-    text = re.sub(r"(?<!\\)\\n(?![a-z])", "\n", text)
-    text = re.sub(r"(?<!\\)\\t(?![a-z])", " ", text)
+    # 还原 JSON 双转义残留的字面 \n / \t (codex 偶尔把换行/制表多转义一层 → \nq / \nThis /
+    # \begin{aligned}\nq / \\\n 等 → 'Undefined control sequence \n' 致命断). 纯大小写启发式
+    # 无法区分真命令 \nu 与残留 \nq, 故用白名单: 先占位保护真续行 \\ 与已知 \n*/\t* 命令,
+    # 再把剩余的 \n/\t 一律还原为换行/空格, 最后恢复占位.
+    _protect = ["\\\\"] + ["\\" + cmd for cmd in (
+        "newcommand", "newenvironment", "newtheorem", "newline", "newpage", "noindent", "nonumber",
+        "normalsize", "nabla", "nleftarrow", "nrightarrow", "nexists", "notin", "nsubseteq", "nsupseteq",
+        "nparallel", "nmid", "ngeq", "nleq", "neq", "nu", "ne", "not",
+        "textbf", "textit", "textrm", "textsf", "texttt", "textsc", "textnormal", "text", "times",
+        "tfrac", "thinspace", "tilde", "tanh", "tan", "theta", "triangleq", "triangleleft",
+        "triangleright", "triangle", "top", "tt", "to", "tau",
+    )]
+    _protect.sort(key=len, reverse=True)  # 长命令优先 (\newcommand 先于 \ne)
+    _phmap = {}
+    for i, tok in enumerate(_protect):
+        ph = f"\x00P{i}\x00"
+        if tok in text:
+            text = text.replace(tok, ph)
+            _phmap[ph] = tok
+    text = re.sub(r"\\n", "\n", text)
+    text = re.sub(r"\\t", " ", text)
+    for ph, tok in _phmap.items():
+        text = text.replace(ph, tok)
 
     def _fix_text_region(s: str) -> str:
         # text region (在 $...$ / label 命令保护区之外). 两步:
