@@ -910,6 +910,107 @@ def _discovery_gated_nas_projection(
     )
 
 
+def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    hardgates = pointer_value(payload, "$.hardgate.gates")
+    failed_gate = pointer_value(payload, "$.hardgate.failed_gate")
+    if not isinstance(signal, Mapping):
+        return False, "missing-lat-discovery-map-signal", "$.discovery_map_signal"
+    if not isinstance(hardgates, Mapping) or not hardgates:
+        return False, "missing-lat-hardgates", "$.hardgate.gates"
+    failed = next(
+        (
+            name
+            for name in ("LAT-HG1", "LAT-HG2", "LAT-HG3", "LAT-HG4", "LAT-HG5", "LAT-HG6")
+            if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
+        ),
+        None,
+    )
+    if failed != failed_gate:
+        return False, "lat-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
+    expected = {
+        "status": "d4-candidate" if failed is None else "negative",
+        "level_candidate": "D4" if failed is None else "DN",
+        "reason": "lat-hardgates-pass" if failed is None else "hardgate-failed",
+        "failed_gate": failed,
+        "failed_gate_pointer": None if failed is None else f"$.hardgate.gates.{failed}.status",
+    }
+    for key, expected_value in expected.items():
+        if signal.get(key) != expected_value:
+            pointer = signal.get("failed_gate_pointer")
+            return False, f"lat-{key}-mismatch", pointer if isinstance(pointer, str) else "$.discovery_map_signal"
+    for key in (
+        "evidence_pointer",
+        "control_pointer",
+        "scorecard_pointer",
+        "torch_training_evidence_pointer",
+    ):
+        pointer = signal.get(key)
+        if not isinstance(pointer, str):
+            return False, f"lat-missing-{key.replace('_', '-')}", "$.discovery_map_signal"
+        if pointer_value(payload, pointer) is None:
+            return False, f"lat-dangling-{key.replace('_', '-')}", pointer
+    if pointer_value(payload, "$.claim_capsule_ref.capsule") is None:
+        return False, "lat-claim-capsule-pointer-dangling", "$.claim_capsule_ref.pointer"
+    if pointer_value(payload, "$.forbidden_claim_term_audit.status") != "pass":
+        return False, "lat-forbidden-claim-term-audit-failed", "$.forbidden_claim_term_audit.status"
+    if pointer_value(payload, "$.torch_training_evidence.protocol") is None:
+        return False, "lat-torch-protocol-missing", "$.torch_training_evidence.protocol"
+    return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.aggregate_metrics.uer_reduction"
+
+
+def _ledger_aware_transformer_projection(
+    payload: Mapping[str, Any],
+    context: Mapping[str, Mapping[str, Any]] | None = None,
+) -> tuple[dict[str, Any], ProjectionEvidence]:
+    consistent, _reason, failed_pointer = _ledger_aware_transformer_consistency(payload)
+    signal = pointer_value(payload, "$.discovery_map_signal")
+    if not isinstance(signal, Mapping):
+        return {"verdict": "rejected"}, ProjectionEvidence(
+            projection_status="projected",
+            failed_gate="$.discovery_map_signal",
+        )
+    if consistent and signal.get("level_candidate") == "D4" and signal.get("status") == "d4-candidate":
+        return {
+            "positive_discovery": True,
+            "net_positive_signal": True,
+            "main_verdict": {
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "structural_discovery": True,
+                "ledger_aware_transformer": {
+                    "level_candidate": "D4",
+                    "status": "d4-candidate",
+                    "evidence_pointer": signal.get("evidence_pointer"),
+                    "torch_training_evidence_pointer": signal.get("torch_training_evidence_pointer"),
+                },
+            },
+            "evidence_basis": {
+                "ledger_aware_transformer": True,
+                "control_positive_discovery": False,
+                "net_positive_signal": True,
+                "scorecard_ready": _scorecard_ready({} if context is None else context),
+            },
+        }, ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer=signal.get("evidence_pointer") if isinstance(signal.get("evidence_pointer"), str) else None,
+            control_pointer=signal.get("control_pointer") if isinstance(signal.get("control_pointer"), str) else None,
+            scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
+        )
+    return {
+        "verdict": "rejected",
+        "main_verdict": {
+            "ledger_aware_transformer": {
+                "level_candidate": "DN",
+                "status": "negative",
+            },
+        },
+    }, ProjectionEvidence(
+        projection_status="projected",
+        failed_gate=failed_pointer,
+    )
+
+
 def _sigreg_failed_gate_pointer(payload: Mapping[str, Any]) -> str:
     failed_gate = pointer_value(payload, "$.failed_gate")
     if isinstance(failed_gate, str) and failed_gate:
@@ -1437,6 +1538,8 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _certificate_gated_attention_projection(payload, context)
     elif spec.name == "discovery-gated-nas":
         overlay, evidence = _discovery_gated_nas_projection(payload, context)
+    elif spec.name == "ledger-aware-transformer":
+        overlay, evidence = _ledger_aware_transformer_projection(payload, context)
     elif spec.name == "gap-head-ablation":
         overlay, evidence = _gap_head_ablation_projection(payload)
     elif spec.name == "gap-head-transfer-atlas":
@@ -1610,6 +1713,10 @@ def _audit_row(
             return "invalid", reason
     if spec.name == "discovery-gated-nas":
         consistent, reason, _failed_pointer = _discovery_gated_nas_consistency(payload)
+        if not consistent:
+            return "invalid", reason
+    if spec.name == "ledger-aware-transformer":
+        consistent, reason, _failed_pointer = _ledger_aware_transformer_consistency(payload)
         if not consistent:
             return "invalid", reason
     if spec.name == "gap-head-attribution-capsule":

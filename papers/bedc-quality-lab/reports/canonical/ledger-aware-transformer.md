@@ -6,7 +6,20 @@
 - OOD surface count: `3`
 - UER reduction: `0.180555`
 - False alarm delta: `-0.1875`
+- Discovery signal: `D4`
+- Failed gate: `None`
 - Claim capsule pointer: `$.claim_capsule_ref.capsule`
+
+## Hardgates
+
+| gate | status | pointer |
+| --- | --- | --- |
+| `LAT-HG1` | `pass` | `$.records` |
+| `LAT-HG2` | `pass` | `$.ledger.rows` |
+| `LAT-HG3` | `pass` | `$.aggregate_metrics.uer_reduction` |
+| `LAT-HG4` | `pass` | `$.matched_random_control.control_positive_discovery` |
+| `LAT-HG5` | `pass` | `$.forbidden_claim_term_audit.status` |
+| `LAT-HG6` | `pass` | `$.torch_training_evidence.protocol` |
 
 ## Records
 
@@ -22,3 +35,5 @@
 - Cost pointer: `$.source_artifacts.cost_protocol`
 - Positive claim pointer: `$.positive_claim`
 - Control pointer: `$.control_protocol`
+- Discovery signal pointer: `$.discovery_map_signal`
+- Torch evidence pointer: `$.torch_training_evidence`

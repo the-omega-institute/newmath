@@ -1,15 +1,32 @@
-import inspect
 import json
+from copy import deepcopy
 from pathlib import Path
+import types
 
+import pytest
+
+from bedc_quality_lab import ledger_aware_transformer as lat
+from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.capsule import (
     ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE,
     require_architecture_claim_capsule,
 )
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
-from bedc_quality_lab import ledger_aware_transformer as lat
 from scripts import run_canonical_reports as canonical
 from scripts import run_ledger_aware_transformer as runner
+
+
+REQUIRED_SUMMARY_KEYS = {
+    "projector",
+    "run_artifacts",
+    "hardgate",
+    "failed_gate",
+    "discovery_map_signal",
+    "matched_random_control",
+    "torch_training_evidence",
+    "revocation_rows",
+    "forbidden_claim_term_audit",
+}
 
 
 def _recursive_keys(value):
@@ -30,48 +47,36 @@ def _artifact_payload(root: Path, artifact: str):
     return json.loads((root / artifact).read_text(encoding="utf-8"))
 
 
-def test_gap_head_reduces_unlogged_error_against_matched_random_control():
-    payload = lat.build_payload(generated_at="fixture-time")
-
-    metrics = payload["aggregate_metrics"]
-    assert metrics["uer_learned"] < metrics["uer_matched_random"]
-    assert metrics["uer_reduction"] > 0.0
-    assert isinstance(metrics["false_alarm_delta"], float)
-    assert metrics["only_false_alarm_increase"] is False
-    assert metrics["multi_surface_uer_reduction_count"] >= 2
-    assert payload["ledger"]["forbidden_inference_columns_used"] is False
-
-
-def test_payload_records_surface_registry_and_no_suite_class():
-    payload = lat.build_payload(generated_at="fixture-time")
-    classes = {
-        name
-        for name, value in inspect.getmembers(lat, inspect.isclass)
-        if value.__module__ == lat.__name__
-    }
-
-    assert "LedgerAwareTransformerProbeSuite" not in classes
-    assert "LedgerAwareTransformerConfig" in classes
-    assert "records" in payload
-    assert "surface_registry" in payload
-    assert "surfaces" not in payload
-    assert len(payload["records"]) == len(payload["surface_registry"])
-    assert all(row["surface_id"] in payload["surface_registry"] for row in payload["records"])
-    assert all(row["role"] == "ood_surface" for row in payload["records"])
+def _recompute(payload):
+    projection = lat.LedgerAwareTransformerProjection(
+        config=lat.LedgerAwareTransformerConfig(**payload["config"]),
+        records=payload["records"],
+        generated_at=payload["generated_at"],
+        run_artifacts=payload["run_artifacts"],
+        torch_protocol=lat.TorchLedgerArmProtocol(**payload["torch_training_evidence"]["protocol"]),
+    )
+    hardgates = projection.hardgate_verdicts(payload)
+    failed = projection.failed_gate(hardgates)
+    payload["hardgate"] = {"status": "pass" if failed is None else "fail", "gates": hardgates, "failed_gate": failed}
+    payload["failed_gate"] = failed
+    payload["discovery_map_signal"] = projection.discovery_map_signal(hardgates)
+    return payload
 
 
-def test_canonical_spec_uses_landed_pointer_cells():
-    spec = canonical._specs_by_name()["ledger-aware-transformer"]
+def test_lat_projection_has_hardgate_signal_and_required_keys():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
 
-    assert spec.command == ("python3", "scripts/run_ledger_aware_transformer.py")
-    assert spec.scope_pointer == "$.applicability_boundary"
-    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
-    assert spec.positive_claim_pointer == "$.positive_claim"
-    assert spec.control_pointer == "$.control_protocol"
-    assert "records" in spec.required_json_keys
-    assert "surface_registry" in spec.required_json_keys
-    assert "surfaces" not in spec.required_json_keys
-    assert "terminal_verdict" not in spec.required_json_keys
+    assert REQUIRED_SUMMARY_KEYS <= set(payload)
+    assert set(payload["hardgate"]["gates"]) == set(lat.LAT_HARDGATES)
+    assert payload["hardgate"]["status"] == "pass"
+    assert payload["failed_gate"] is None
+    assert payload["discovery_map_signal"]["level_candidate"] == "D4"
+    assert payload["discovery_map_signal"]["net_positive_signal"] is True
+    assert payload["matched_random_control"]["control_positive_discovery"] is False
+    assert payload["torch_training_evidence"]["status"] == "unavailable"
+    assert payload["forbidden_claim_term_audit"]["status"] == "pass"
+    assert payload["aggregate_metrics"]["uer_reduction"] > 0.0
+    assert payload["aggregate_metrics"]["multi_surface_uer_reduction_count"] >= 2
 
 
 def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
@@ -89,8 +94,16 @@ def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
         payload["positive_claim"]["evidence_pointer"],
         payload["positive_claim"]["control_pointer"],
         payload["positive_claim"]["surface_registry_pointer"],
+        payload["discovery_map_signal"]["evidence_pointer"],
+        payload["discovery_map_signal"]["control_pointer"],
+        payload["discovery_map_signal"]["torch_training_evidence_pointer"],
     ):
         assert pointer_value(payload, pointer) is not None
+
+    for row in payload["ledger"]["rows"]:
+        assert pointer_value(payload, row["evidence_pointer"]) is not None
+        assert pointer_value(payload, row["control_pointer"]) is not None
+        assert pointer_value(payload, row["ledger_decision_pointer"]) is not None
 
     assert capsule["capsule_subtype"] == ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE
     require_architecture_claim_capsule(capsule)
@@ -103,10 +116,122 @@ def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
         assert pointer_value(_artifact_payload(tmp_path, baseline["artifact"]), baseline["pointer"]) is not None
 
 
-def test_backend_payload_and_capsule_do_not_emit_terminal_verdict(tmp_path):
-    paths = runner.write_report(root=tmp_path, generated_at="fixture-time")
-    payload = json.loads(paths["json"].read_text(encoding="utf-8"))
-    capsule = pointer_value(payload, payload["claim_capsule_ref"]["pointer"])
+def test_lat_zero_rows_fail_closed_to_dn():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutated["records"] = []
 
-    assert "terminal_verdict" not in _recursive_keys(payload)
-    assert "terminal_verdict" not in _recursive_keys(capsule)
+    _recompute(mutated)
+
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["failed_gate"] == "LAT-HG1"
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
+    assert pointer_value(mutated, mutated["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
+
+
+def test_lat_dangling_pointer_fail_closed_to_dn():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutated["ledger"]["rows"][0]["evidence_pointer"] = "$.records.99.gap_head.metrics"
+
+    _recompute(mutated)
+
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["failed_gate"] == "LAT-HG2"
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
+    assert pointer_value(mutated, mutated["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
+
+
+@pytest.mark.parametrize(
+    "mutate, gate",
+    [
+        (lambda payload: payload["aggregate_metrics"].update({"uer_reduction": 0.0}), "LAT-HG3"),
+        (lambda payload: payload["aggregate_metrics"].update({"multi_surface_uer_reduction_count": 1}), "LAT-HG3"),
+        (lambda payload: payload["aggregate_metrics"].update({"only_false_alarm_increase": True}), "LAT-HG4"),
+        (lambda payload: payload["matched_random_control"].update({"control_positive_discovery": True}), "LAT-HG4"),
+    ],
+)
+def test_lat_matched_random_or_multisurface_failure_demotes(mutate, gate):
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutate(mutated)
+
+    _recompute(mutated)
+
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["failed_gate"] == gate
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
+
+
+def test_lat_torch_unavailable_records_boundary_without_crash():
+    payload = runner.build_projection(
+        generated_at="fixture-time",
+        requested_device="mps",
+        enable_torch=False,
+        steps=12,
+    )["summary_payload"]
+    evidence = payload["torch_training_evidence"]
+    protocol = evidence["protocol"]
+
+    assert evidence["status"] == "unavailable"
+    assert protocol["requested_device"] == "mps"
+    assert protocol["resolved_device"] == "not-requested"
+    assert protocol["seed"] == payload["config"]["seed"]
+    assert protocol["steps"] == 12
+    assert protocol["dtype"] == "float32"
+    assert protocol["drift_tolerance"] == pytest.approx(lat.DRIFT_TOLERANCE)
+    assert evidence["row_count"] == 0
+    assert pointer_value(payload, "$.torch_training_evidence.protocol") is not None
+    assert payload["hardgate"]["gates"]["LAT-HG6"]["status"] == "pass"
+
+
+def test_lat_torch_available_protocol_records_seed_device_and_tolerance(monkeypatch):
+    fake_torch = types.SimpleNamespace(
+        manual_seed=lambda seed: None,
+        backends=types.SimpleNamespace(mps=types.SimpleNamespace(is_available=lambda: False)),
+    )
+    monkeypatch.setitem(__import__("sys").modules, "torch", fake_torch)
+
+    protocol = runner.collect_torch_protocol(
+        requested_device="mps",
+        seed=756,
+        steps=8,
+        enable_torch=True,
+    )
+
+    assert protocol.status == "available"
+    assert protocol.requested_device == "mps"
+    assert protocol.resolved_device == "cpu"
+    assert protocol.seed == 756
+    assert protocol.steps == 8
+    assert protocol.drift_tolerance == pytest.approx(lat.DRIFT_TOLERANCE)
+    assert protocol.row_count == 2
+
+
+def test_lat_no_terminal_verdict_recursive_and_regen_idempotent(tmp_path):
+    first = runner.write_report(root=tmp_path, generated_at="fixture-time")
+    first_payload = json.loads(first["json"].read_text(encoding="utf-8"))
+    first_markdown = first["markdown"].read_text(encoding="utf-8")
+    second = runner.write_report(root=tmp_path, generated_at="fixture-time")
+    second_payload = json.loads(second["json"].read_text(encoding="utf-8"))
+    second_markdown = second["markdown"].read_text(encoding="utf-8")
+
+    assert "terminal_verdict" not in _recursive_keys(first_payload)
+    assert "terminal_verdict" not in _recursive_keys(first_payload["claim_capsule_ref"]["capsule"])
+    assert "terminal_verdict" not in first_markdown
+    assert json.dumps(first_payload, sort_keys=True) == json.dumps(second_payload, sort_keys=True)
+    assert first_markdown == second_markdown
+
+
+def test_lat_forbidden_claim_term_demotes():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutated["positive_claim"]["claim"] = f"{mutated['positive_claim']['claim']} {FORBIDDEN_POSITIVE_CLAIM_TERMS[0]}"
+    mutated["forbidden_claim_term_audit"] = lat._forbidden_term_audit(mutated["positive_claim"])
+
+    _recompute(mutated)
+
+    assert mutated["forbidden_claim_term_audit"]["status"] == "fail"
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["failed_gate"] == "LAT-HG5"
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"

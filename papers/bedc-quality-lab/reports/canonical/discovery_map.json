@@ -3,11 +3,11 @@
   "generated_at": "2026-06-05T07:13:11.713087+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
-    "D0": 4,
+    "D0": 3,
     "D1": 4,
     "D2": 1,
     "D3": 0,
-    "D4": 4,
+    "D4": 5,
     "D5-M": 1,
     "D5-O": 2,
     "DN": 8,
@@ -154,14 +154,21 @@
       "audit_reason": "",
       "audit_status": "valid",
       "classifier_reasons": [
-        "no classifier shift or debt improvement"
+        "positive_terminal=true",
+        "classifier_shift=true",
+        "net_positive_signal=true",
+        "control_negative=true",
+        "scorecard_ready=true",
+        "robustness_ready=false"
       ],
-      "discovery_level": "D0",
-      "evidence_pointer": null,
+      "control_pointer": "$.matched_random_control",
+      "discovery_level": "D4",
+      "evidence_pointer": "$.aggregate_metrics.uer_reduction",
       "json_artifact": "reports/canonical/ledger-aware-transformer.json",
       "markdown_artifact": "reports/canonical/ledger-aware-transformer.md",
-      "projection_status": "source-insufficient",
+      "projection_status": "projected",
       "report": "ledger-aware-transformer",
+      "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
       "terminal_verdict": ""
     },
     {
