@@ -98,6 +98,17 @@
 - Rows: `8`
 - Audit: `pass`
 
+## New model hardgates
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/new_model_hardgates.json`
+- Markdown: `reports/canonical/new_model_hardgates.md`
+- Schema: `bedc-quality-lab:new-model-hardgate-registry`
+- Status pointer: `reports/canonical/new_model_hardgates.json:$.status`
+- Gates pointer: `reports/canonical/new_model_hardgates.json:$.gates`
+- Gate count: `20`
+- Candidate contract: `reports/canonical/new_model_hardgates.json:$.candidate_contract`
+
 ## Claim verdicts
 
 - Status: `pointer-only`
