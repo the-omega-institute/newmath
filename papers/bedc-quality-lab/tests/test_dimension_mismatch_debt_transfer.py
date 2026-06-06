@@ -451,3 +451,129 @@ def test_dimension_mismatch_run_artifacts_use_versionless_schema_and_names(monke
     assert "v2" not in text.lower()
     assert "controlled-geometry" in path_text
     assert ".refactor-loop/host.env" not in text
+
+
+def test_negative_witness_rows_live_under_run_local_owner(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+
+    transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+    artifacts = _generated_run_artifacts(tmp_path)
+    claim_capsule = _read_json(artifacts["claim_capsule"])
+    canonical_json = _read_json(tmp_path / transfer.JSON_ARTIFACT)
+    summary = _read_json(artifacts["summary"])
+    raw_metrics = _read_jsonl(artifacts["raw_metrics"])
+
+    assert list(claim_capsule["run_local"]).count("negative_witness") == 1
+    assert claim_capsule["run_local"]["negative_witness"]
+    assert "negative_witness" not in canonical_json
+    assert "negative_witness" not in summary
+    assert all("bedc_gap_field" not in row for row in raw_metrics)
+    assert summary["negative_witness_ref"] == {
+        "artifact": transfer.RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+        "pointer": "$.run_local.negative_witness",
+    }
+
+
+def test_scale_leakage_sidecar_maps_to_first_negative_witness(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+
+    payload = transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+    claim_capsule = _read_json(_generated_run_artifacts(tmp_path)["claim_capsule"])
+    row = claim_capsule["run_local"]["negative_witness"][0]
+
+    assert row["witness_id"] == "scale_leakage_witness"
+    assert row["bedc_gap_field"] == "representation_scale_leakage"
+    assert row["demotion_rule"] == "demote_to_DN_or_D1"
+    assert row["source_artifact"] == transfer.ANTI_TRIVIALITY_ARTIFACT
+    assert row["source_pointer"] == "$.status"
+    assert pointer_value(_read_json(tmp_path / transfer.ANTI_TRIVIALITY_ARTIFACT), row["source_pointer"]) == "scale_leakage_detected"
+    assert row == transfer.build_run_local_contract(payload, tmp_path)["negative_witness"][0]
+
+
+def test_negative_witness_regression_test_pointer_resolves(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+
+    transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+    claim_capsule = _read_json(_generated_run_artifacts(tmp_path)["claim_capsule"])
+    run_local = claim_capsule["run_local"]
+
+    for row in run_local["negative_witness"]:
+        assert row["demotion_rule"]
+        assert pointer_value(claim_capsule, row["regression_test"]) is not None
+        assert transfer.resolve_artifact_pointer(tmp_path, row["evidence_pointer"]) is not None
+    assert run_local["negative_witness_hardgates"]["NW-HG2"]["status"] == "pass"
+    assert run_local["negative_witness_hardgates"]["NW-HG2"]["valid_coverage_count"] == len(run_local["negative_witness"])
+
+
+def test_negative_witness_dangling_regression_pointer_fails_closed(tmp_path):
+    _sidecar(tmp_path)
+    payload = {
+        "dimension_mismatch_debt_transfer": {
+            "anti_triviality_projection": "demote_to_DN_or_D1",
+        }
+    }
+    rows = tuple(
+        transfer.NegativeWitnessRow(
+            **{
+                **row.to_record(),
+                "regression_test": "$.run_local.test_artifact.regression_tests.missing_nodeid",
+            }
+        )
+        for row in transfer.build_negative_witness_rows(payload, tmp_path)
+    )
+
+    hardgates = transfer.negative_witness_hardgates(rows, tmp_path)
+
+    assert hardgates["NW-HG2"]["status"] == "fail"
+    assert hardgates["NW-HG2"]["valid_coverage_count"] == 0
+    assert hardgates["NW-HG2"]["regression_test_resolves"]["scale_leakage_witness"] is False
+
+
+def test_negative_witness_fields_do_not_emit_terminal_verdict(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+
+    transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+    claim_capsule = _read_json(_generated_run_artifacts(tmp_path)["claim_capsule"])
+    payload = {
+        "negative_witness": claim_capsule["run_local"]["negative_witness"],
+        "negative_witness_hardgates": claim_capsule["run_local"]["negative_witness_hardgates"],
+    }
+
+    assert "terminal_verdict" not in set(_recursive_keys(payload))
+
+
+def test_negative_witness_schema_is_versionless(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+
+    transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+    artifacts = _generated_run_artifacts(tmp_path)
+    claim_capsule = _read_json(artifacts["claim_capsule"])
+    text = json.dumps(
+        {
+            "negative_witness": claim_capsule["run_local"]["negative_witness"],
+            "negative_witness_hardgates": claim_capsule["run_local"]["negative_witness_hardgates"],
+            "summary": _read_json(artifacts["summary"]),
+        },
+        sort_keys=True,
+    )
+
+    assert "v2" not in text.lower()
+    assert "issue" not in text.lower()
+    assert "786" not in text
+    assert ".refactor-loop/host.env" not in text
+    assert "discovery_negative_witnesses.json" not in text
