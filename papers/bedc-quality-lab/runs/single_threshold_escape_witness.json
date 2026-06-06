@@ -5,8 +5,8 @@
   "escape_semantics": "escaped positive is gate failure evidence, not discovery evidence",
   "escaped_rows": [
     {
-      "discovery_level": "D4",
-      "kind": "single_threshold_positive_only",
+      "discovery_level": "DN",
+      "kind": "single_threshold_escape_witness",
       "positive_signal": {
         "ci95_low": 0.7996948122113381,
         "comparison": "> 0.5",
@@ -17,7 +17,7 @@
       "terminal_verdict": "positive-discovery"
     }
   ],
-  "generated_at": "2026-06-04T02:17:58.122581+00:00",
+  "generated_at": "2026-06-06T22:00:04.362887+00:00",
   "hardgates": {
     "HG-STEW-1": {
       "failures": [],
@@ -36,20 +36,18 @@
     "HG-STEW-3": {
       "criterion": "positive-discovery or D4/D5 is captured as gate failure evidence",
       "projection": {
-        "discovery_level": "D4",
+        "discovery_level": "DN",
         "discovery_reasons": [
-          "positive_discovery=true",
-          "robustness evidence absent"
+          "classifier_shift=false",
+          "net_positive_signal=false",
+          "control_negative=false",
+          "scorecard_ready=false"
         ],
         "escaped": true,
         "escaped_positive_is_discovery_evidence": false,
         "status": "escaped-positive-captured",
         "terminal_verdict": "positive-discovery"
       },
-      "status": "pass"
-    },
-    "HG-STEW-4": {
-      "source_pointer": "reports/canonical/discovery_gate_escape_registry.json:$.deferred_kinds[kind=single_threshold_positive_only]",
       "status": "pass"
     },
     "HG-STEW-5": {
@@ -74,10 +72,12 @@
     "No inference-time use of z, z_pair, gap_label, prediction_error, or eval_gap_labels."
   ],
   "projection": {
-    "discovery_level": "D4",
+    "discovery_level": "DN",
     "discovery_reasons": [
-      "positive_discovery=true",
-      "robustness evidence absent"
+      "classifier_shift=false",
+      "net_positive_signal=false",
+      "control_negative=false",
+      "scorecard_ready=false"
     ],
     "escaped": true,
     "escaped_positive_is_discovery_evidence": false,
@@ -86,7 +86,6 @@
   },
   "report": "runs/single_threshold_escape_witness.md",
   "revoke_conditions": [
-    "deferred registry row is removed or changes kind",
     "threshold policy changes so single-threshold readiness is unavailable or actively covered",
     "control baseline pointer is missing",
     "forbidden claim term or score field appears in claim-bearing fields"
@@ -112,13 +111,11 @@
   ],
   "source_artifacts": {
     "claim_terms": "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS",
-    "deferred_registry": "reports/canonical/discovery_gate_escape_registry.json",
     "projector": "bedc_quality_lab.research_discovery.assign_discovery_level",
     "threshold_frontier": "reports/canonical/gap-head-threshold-frontier.json"
   },
   "source_pointers": {
     "control_baseline": "reports/canonical/gap-head-threshold-frontier.json:$.threshold_summary.control_baseline",
-    "deferred_kind": "reports/canonical/discovery_gate_escape_registry.json:$.deferred_kinds[kind=single_threshold_positive_only]",
     "hardgate_checks": "reports/canonical/gap-head-threshold-frontier.json:$.hardgate.checks",
     "hardgate_policy": "reports/canonical/gap-head-threshold-frontier.json:$.hardgate.policy",
     "not_claimed": "reports/canonical/gap-head-threshold-frontier.json:$.applicability_boundary.not_claimed",

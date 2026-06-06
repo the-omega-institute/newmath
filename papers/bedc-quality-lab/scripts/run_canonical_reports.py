@@ -23,6 +23,7 @@ if str(ROOT) not in sys.path:
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value as _bracket_pointer_value
+from bedc_quality_lab.discovery_compiler.map import validate_discovery_map_payload
 from scripts.literature_ledger import validate_literature_ledger
 
 CANONICAL_DIR = ROOT / "reports" / "canonical"
@@ -3320,6 +3321,12 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     tmp.replace(path)
 
 
+def _validate_committed_discovery_map_round_trip() -> None:
+    path = _artifact_path(DISCOVERY_MAP_JSON_ARTIFACT)
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    validate_discovery_map_payload(payload, root=ROOT)
+
+
 def _write_text_atomic(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
@@ -3387,6 +3394,7 @@ def run_reports(
         adapter=CurrentLabBackendEvidenceAdapter(),
         require_required_negative_reports=require_full_negative_reports,
     )
+    _validate_committed_discovery_map_round_trip()
     _write_json_atomic(_artifact_path(CLAIM_CAPSULE_JSON_ARTIFACT), _build_claim_capsule(timestamp))
     from scripts.run_dimension_mismatch_transfer_robustness import write_dimension_mismatch_transfer_robustness
     from scripts.run_discovery_negative_witness_summary import write_discovery_negative_witness_summary
@@ -3400,6 +3408,7 @@ def run_reports(
         adapter=CurrentLabBackendEvidenceAdapter(),
         require_required_negative_reports=require_full_negative_reports,
     )
+    _validate_committed_discovery_map_round_trip()
     claim_verdict_rows = write_claim_verdicts(root=ROOT, generated_at=timestamp)
     if only is None:
         write_claim_graph(root=ROOT, generated_at=timestamp)

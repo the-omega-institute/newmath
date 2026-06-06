@@ -13,19 +13,11 @@ def _threshold_payload():
     return json.loads((ROOT / stew.THRESHOLD_ARTIFACT).read_text(encoding="utf-8"))
 
 
-def _registry_payload():
-    return json.loads((ROOT / stew.REGISTRY_ARTIFACT).read_text(encoding="utf-8"))
-
-
-def _write_sources(tmp_path, threshold=None, registry=None):
+def _write_sources(tmp_path, threshold=None):
     threshold = _threshold_payload() if threshold is None else threshold
-    registry = _registry_payload() if registry is None else registry
     threshold_path = tmp_path / stew.THRESHOLD_ARTIFACT
-    registry_path = tmp_path / stew.REGISTRY_ARTIFACT
     threshold_path.parent.mkdir(parents=True, exist_ok=True)
-    registry_path.parent.mkdir(parents=True, exist_ok=True)
     threshold_path.write_text(json.dumps(threshold), encoding="utf-8")
-    registry_path.write_text(json.dumps(registry), encoding="utf-8")
 
 
 def test_hg_stew_1_source_integrity_requires_curve_and_hardgate_pointers():
@@ -99,19 +91,6 @@ def test_hg_stew_3_positive_projection_is_captured_and_negative_is_fail_closed(m
     assert closed["escaped"] is False
 
 
-def test_hg_stew_4_missing_deferred_registry_row_is_stale_source_boundary(tmp_path):
-    registry = _registry_payload()
-    registry["deferred_kinds"] = [
-        row for row in registry["deferred_kinds"] if row["kind"] != stew.DEFERRED_KIND
-    ]
-    _write_sources(tmp_path, registry=registry)
-
-    payload = stew.build_sidecar(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
-
-    assert payload["status"] == "stale-source-boundary"
-    assert "HG-STEW-4" not in payload["hardgates"]
-
-
 def test_build_sidecar_source_integrity_failure_reports_public_status(tmp_path):
     threshold = _threshold_payload()
     threshold.pop("threshold_curve")
@@ -122,7 +101,6 @@ def test_build_sidecar_source_integrity_failure_reports_public_status(tmp_path):
     assert payload["status"] == "source-integrity-failed"
     assert payload["hardgates"]["HG-STEW-1"]["status"] == "fail"
     assert "missing $.threshold_curve" in payload["hardgates"]["HG-STEW-1"]["failures"]
-    assert payload["hardgates"]["HG-STEW-4"]["status"] == "pass"
     assert "HG-STEW-2" not in payload["hardgates"]
 
 
@@ -221,13 +199,6 @@ def test_cli_main_writes_artifacts_and_returns_status_contract(tmp_path):
     assert json.loads(json_path.read_text(encoding="utf-8"))["status"] == "escaped-positive-captured"
     assert "status: `escaped-positive-captured`" in md_path.read_text(encoding="utf-8")
 
-    registry = _registry_payload()
-    registry["deferred_kinds"] = [
-        row for row in registry["deferred_kinds"] if row["kind"] != stew.DEFERRED_KIND
-    ]
-    stale_root = tmp_path / "stale"
-    _write_sources(stale_root, registry=registry)
-
     source_failure = _threshold_payload()
     source_failure.pop("threshold_curve")
     source_root = tmp_path / "source"
@@ -240,7 +211,6 @@ def test_cli_main_writes_artifacts_and_returns_status_contract(tmp_path):
     _write_sources(construction_root, threshold=construction_failure)
 
     failure_cases = [
-        (stale_root, "stale-source-boundary"),
         (source_root, "source-integrity-failed"),
         (construction_root, "construction-failed"),
     ]

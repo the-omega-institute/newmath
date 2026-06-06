@@ -29,7 +29,7 @@ def _model_claim() -> dict:
         "claim": "fixture model architecture claim",
         "baselines": [{"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.matched_baseline_control"}],
         "forbidden_evidence": ["test_label"],
-        "required_gates": ["DG-NAS-HG1", "DG-NAS-HG6"],
+        "required_gates": ["DG-NAS-HG1", "DG-NAS-HG6", "DG-NAS-HG7"],
         "candidate_pointer": {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.candidate_protocol"},
         "evidence_pointer": {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"},
     }
@@ -124,7 +124,8 @@ def test_model_discovery_backend_is_pointer_only_and_terminal_verdict_free(tmp_p
 
     assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
     assert first["canonical_owner"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$"}
-    assert first["projection_metadata"]["canonical_level_candidate"] == "D5-M"
+    assert first["projection_metadata"]["canonical_level_candidate"] == "DN"
+    assert first["projection_metadata"]["canonical_failed_gate"] == "DG-NAS-HG7"
     for forbidden in ("model_candidates", "baselines", "task_grid", "nm_hardgates", "ledger_rows", "negative_witnesses"):
         assert forbidden not in first
     assert "terminal_verdict" not in json.dumps(first, sort_keys=True)

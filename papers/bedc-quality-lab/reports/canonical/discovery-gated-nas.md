@@ -2,7 +2,7 @@
 
 - run_id: `discovery-gated-nas`
 - schema_id: `bedc-quality-lab:discovery-gated-nas`
-- discovery map signal: `d5-m-candidate`
+- discovery map signal: `negative`
 - selected candidate: `bounded_discovery_gate`
 - search score: `1.105907`
 - claim capsule: `reports/runs/discovery-gated-nas/claim_capsule.json`
@@ -15,6 +15,7 @@
 - `DG-NAS-HG4`: `pass`
 - `DG-NAS-HG5`: `pass`
 - `DG-NAS-HG6`: `pass`
+- `DG-NAS-HG7`: `fail`
 
 ## Negative Witness Mutations
 

@@ -30,7 +30,7 @@ def _checked_in_demotions():
     return json.loads(DEMOTIONS_PATH.read_text(encoding="utf-8"))
 
 
-def test_checked_in_registry_is_pointer_only_and_declares_two_active_kinds():
+def test_checked_in_registry_is_pointer_only_and_declares_active_kinds():
     payload = _checked_in_registry()
 
     assert payload["artifact_id"] == "bedc-quality-lab:discovery-gate-escape-registry"
@@ -41,7 +41,6 @@ def test_checked_in_registry_is_pointer_only_and_declares_two_active_kinds():
         "scale_only_overclaim",
     ]
     assert [row["kind"] for row in payload["deferred_kinds"]] == [
-        "single_threshold_positive_only",
         "metadata_leakage_detector",
     ]
     assert payload["capacity"] == {
