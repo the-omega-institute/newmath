@@ -1,49 +1,46 @@
+\subsection{B-star-Q6 residual coupling against translation-layer readouts}
+\label{sec:bioreality-b-star-q6-residual-coupling-translation-readouts}
 \origin{ai}
-\subsection{B-star-Q6 residual survival matrix for translation readouts}
-\label{sec:b-star-q6-residual-survival-matrix-translation-readouts}
 
-\paragraph{Record.}
-This record isolates a finite matrix question for the nine synonymous-residual coordinates of $B^*_{Q6}$.  The coordinate list used in the computation is
+\paragraph{Object of the finite row.}
+The record concerns a nine-coordinate residual panel extracted after imposing the amino-acid quotient on codon-count space. The coordinates are
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and the $f_3$ stress coordinate. The ambient codon-count space has $61$ codon columns before synonymous residualization. The intended survival matrix has shape $9 \times K$, where the columns are translation-relevant readouts such as tAI, stAI, ribosome occupancy, translation efficiency, or protein abundance when those rows are identifier-matched and controlled. For a residual coordinate $q_i$ and a readout $r_j$, the readout weight is first projected to its synonymous component $\ell_j^{\perp}$, and the finite-row coupling is computed on residual count covariance as
 $$
 \begin{aligned}
-Q=\{&\mathrm{K\_AAA},\mathrm{Arg\_AGR},\mathrm{Ile\_AUA},\mathrm{Leu\_CUN\_vs\_UUR},\mathrm{Leu\_UUA\_vs\_UUG},\\
-&\mathrm{Ser\_UCR\_vs\_AGY},\mathrm{Ser\_UCA\_vs\_UCG},\mathrm{Thr\_ACR\_vs\_ACY},\mathrm{f3\_stress}\}.
+A_{ij} &= q_i^{T}\Sigma \ell_j^{\perp}.
 \end{aligned}
 $$
-The intended matrix has entries $S_{ij}=S_{q_i}(r_j\mid Z)$, where $q_i\in Q$, $r_j$ is a translation-facing readout, and $Z$ contains amino-acid composition, organism context, $\mathrm{GC3}$, coding-sequence length, and the simpler $M$-density baseline.  The readback demanded by this record is not merely a raw covariance sign.  For each pair $(q_i,r_j)$ one first forms the synonymous projection of the readout weight, denoted $\ell_j^\perp$, then computes a residual covariance coupling
-$$
-\begin{aligned}
-A_{ij}=q_i^{T}\Sigma \ell_j^\perp,
-\end{aligned}
-$$
-and only after the declared controls are removed may one report a survival score such as partial $R^2$ or a description-length improvement.  Thus a nonzero $A_{ij}$ is a contact with the residual geometry, while a positive $S_{ij}$ is the stronger controlled survival statement.
+The survival entry $S_{ij}$ is stricter: it is the controlled partial-$R^2$ or description-length improvement left after amino-acid composition, organism context, GC3, CDS length, and the simpler $M$-density baseline have already been included.
 
-\paragraph{Finite coupling contact.}
-The finite proxy run used a $61$-codon count space and loaded three organism rows: $\mathrm{homo\_sapiens}$, $\mathrm{saccharomyces\_cerevisiae}$, and $\mathrm{escherichia\_coli\_k12}$.  The proxy readout was the tRNA-Leu CUN-versus-UUR log-copy spectrum, not a measured ribosome, protein, or direct elongation readout.  Under the declared break rule, the proxy row would have been null if all nine coordinates had $|A_{ij}|<0.01$.  This break condition was not met: all nine entries were nonzero at the proxy level, and the largest absolute coupling was
+\paragraph{Proxy coupling contact.}
+The finite coupling run with identifier $4a783972e74b$ loaded three organism-level rows: $Homo\ sapiens$, $Saccharomyces\ cerevisiae$, and $Escherichia\ coli$ K-12. Its readout was not a measured ribosome or protein row; it was the tRNA-Leu $CUN$-versus-$UUR$ log-copy spectrum. Against that proxy, all nine residual coordinates were computed, and the break condition was declared to be null if every coordinate satisfied $|A_{ij}| < 0.01$. The observed result did not meet the break condition: the nonzero-entry count was $9$, the threshold was $0.01$, and the maximum absolute coupling was
 $$
 \begin{aligned}
-\max_{i,j}|A_{ij}|=1882464.1106377328.
+\max_{i,j}|A_{ij}| &= 1882464.1106377328.
 \end{aligned}
 $$
-This establishes that the chosen Leu-copy proxy is not orthogonal to the nine-coordinate residual panel in the finite three-organism table.  It does not by itself establish $S_{ij}>0$, since the proxy run did not attach ribosome profiling, observed translation efficiency, stAI, or protein abundance rows with the full control set $Z$.
+This is a finite-row codon-usage topology result. It shows that the nine-coordinate residual panel is not numerically invisible to the stated tRNA-copy proxy under the synonymous projection used in the run. It does not by itself establish a positive survival entry $S_{ij}$, because no ribosome-profiling, stAI, tAI, TE, or protein-abundance measurement was paired with the full control set in this three-organism proxy row.
 
-\paragraph{Modeled translation-weight survival surface.}
-A separate rank-powered run used modeled per-codon tAI weights derived from GtRNAdb anticodon copy counts and dos Reis wobble weights.  This run loaded $40$ organism rows and computed a $9\times 9$ modeled translation-readout matrix using the same nine $B^*_{Q6}$ residual coordinates.  The residualized control design had $24$ control columns, rank $23$, and residual degrees of freedom $17$ after removing $Z$.  The residual coordinate design had rank $9$, so the modeled tAI surface was not the degenerate $n=3$ all-fit surface.  The reported total modeled translation fit was
+\paragraph{Leucine gate row.}
+The same three-organism contact family also contains a focused $Leu_{CUN/UUR}$ gate run with identifier $675fdddb3187$. The reported Pearson value was $1.0$, and the amino-acid-controlled partial Pearson value was also $1.0$ at $n=3$. The organism-level log-ratio signs were not uniform:
 $$
 \begin{aligned}
-R^2_{QT}=0.9003849000036579,
+(1.3514980212896148,\,-0.24869078488829677,\,1.0086640520051702),
 \end{aligned}
 $$
-with positive entries evaluated against the threshold $10^{-12}$.  This is a bounded modeled-translation survival result: it supports a $Q\to T$ matrix for codon-adaptation weights under the stated controls, while still remaining distinct from measured ribosome occupancy, measured elongation speed, proteomics, folding, molecular activity, or phenotype.
+with corresponding signs $(1,-1,1)$. This row is therefore best read as a finite contact showing that the $CUN/UUR$ leucine residual can couple to the tRNA-Leu copy-ratio readout in a small organism panel, while the direction is context-sensitive rather than universal. The $n=3$ perfect correlations are not population estimates and are not promoted to a general biological law.
 
-\paragraph{Leu gate sanity check.}
-The CUN/UUR Leu contact was also checked on the three-organism table.  The partial Pearson statistic against the tRNA-Leu copy ratio was $1.0$ with $n=3$, and the ordinary Pearson value was also $1.0$.  The logged organism-level ratios were
+\paragraph{Modeled translation-weight survival row.}
+A stronger but still bounded modeled-readout run is recorded under identifier $09209aa516a0$. This run used $40$ organisms and computed modeled per-codon tAI readouts from GtRNAdb anticodon copy counts and dos Reis wobble weights, then projected those readouts onto the same nine $B^*_{Q6}$ synonymous-residual coordinates. The readout matrix had $9$ columns, matching the nine residual coordinates, and the reported survival surface had shape $9 \times 9$. The control matrix had $24$ columns and rank $23$, leaving residual degrees of freedom $17$ after control residualization. The residual design for the $Q$ coordinates had rank $9$, and the run reported
 $$
 \begin{aligned}
-(1.3514980212896148,\;-0.24869078488829677,\;1.0086640520051702),
+R^2_{QT} &= 0.9003849000036579.
 \end{aligned}
 $$
-with signs $(1,-1,1)$.  The sign pattern is therefore not uniform across organisms.  This row is useful as a finite contact check, but the sample size and sign reversal prevent reading it as a stable cross-organism direction law.
+The positive partial-$R^2$ threshold used for entries was $10^{-12}$, and the degeneracy guard was $0.999999$; the observed $R^2_{QT}$ is below that guard. Thus this modeled row supplies a powered finite matrix for translation-weight survival under the declared controls, but only for modeled tAI derived from tRNA gene-copy and wobble-weight annotations. It is not measured ribosome occupancy, not measured elongation speed, not proteomics, and not a protein-folding or function assay.
 
 \paragraph{Local verdict.}
-The current evidence supports two bounded statements.  First, the nine $B^*_{Q6}$ residual coordinates have nonzero finite proxy coupling to the tRNA-Leu CUN-versus-UUR log-copy spectrum in the three-organism table, with maximum absolute coupling $1882464.1106377328$ and threshold $0.01$.  Second, the powered $40$-organism modeled tAI run produces a nondegenerate $9\times 9$ controlled modeled-translation matrix with $R^2_{QT}=0.9003849000036579$, rank-$23$ controls, and $17$ residual degrees of freedom.  These facts justify recording the survival-matrix program as active at the codon-adaptation and modeled-translation boundary.  They do not justify promoting the proxy contact to observed ribosome-mediated translation, nor do they justify protein abundance, folded structure, physical admissibility, biological function, mechanism, phenotype, or universal law.  Any such statement requires its own matched contact and its own controlled statistic.
+The finite evidence supports the following bounded statement. After the amino-acid quotient is imposed, the nine $B^*_{Q6}$ residual coordinates retain nontrivial contact with translation-adjacent readouts: the three-organism proxy coupling matrix has all nine entries nonzero above the $0.01$ coupling break threshold, the focused leucine gate has a partial Pearson value of $1.0$ at $n=3$ with nonuniform organism signs, and the $40$-organism modeled tAI panel has a controlled $9 \times 9$ survival surface with $R^2_{QT}=0.9003849000036579$ and residual degrees of freedom $17$. The scientific content is therefore a controlled, finite-row survival-and-coupling record for codon-usage residual geometry at the modeled translation-weight boundary.
+
+\paragraph{Boundary of interpretation.}
+No translation mechanism follows from codon usage and tRNA gene-copy tables alone. No ribosome-mediated translation realization follows unless a measured ribo-seq, TE, stAI, tAI, or equivalent translation contact is attached and analyzed with the stated controls. No protein abundance, folded structure, physical admissibility, biological function, pathway mechanism, phenotype, or universal biological law follows from any positive $A_{ij}$ value, from the $n=3$ leucine gate, or from the modeled tAI survival surface. A positive coupling $A_{ij}$ is not the same object as a positive survival score $S_{ij}$; the latter requires explicit controlled partial-$R^2$ or description-length estimation after amino-acid composition, organism context, GC3, length, and the $M$-density baseline have already been accounted for.
