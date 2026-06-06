@@ -142,7 +142,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/gap_head_attribution_capsule.json`
 - Markdown: `reports/canonical/gap_head_attribution_capsule.md`
-- Run id: `a1-20260605T130531Z`
+- Run id: `a1-canonical`
 - D5-O: `ready`
 - D5-M: `blocked`
 - Mechanism case: `unresolved`

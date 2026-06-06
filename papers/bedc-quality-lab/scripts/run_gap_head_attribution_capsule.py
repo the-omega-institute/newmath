@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from scripts.experiment_stats import metric_stats
 from scripts import run_gap_ledger_head_on_h as source
 from scripts.run_gap_ledger_head_on_h import (
@@ -64,6 +65,22 @@ FORBIDDEN_COLUMNS = (
     "prediction_error",
     "eval_gap_labels",
     "config_metadata",
+)
+NEGATIVE_WITNESS_OWNER_POINTER = "$.run_local.negative_witness[0]"
+NEGATIVE_WITNESS_KEYS = (
+    "witness_id",
+    "source_artifact",
+    "source_pointer",
+    "bedc_gap_field",
+    "demotion_rule",
+    "regression_test",
+    "evidence_pointer",
+    "status",
+    "reason",
+)
+NEGATIVE_WITNESS_REGRESSION_TEST = (
+    "tests/test_gap_head_attribution_capsule.py::"
+    "test_a1_canonical_run_local_negative_witness_records_a1_hg3_failure"
 )
 
 
@@ -1460,15 +1477,11 @@ def _revocation_ledger(hardgates: Mapping[str, Any], generated_at: str, d5_m: Ma
 
 
 def _resolve_payload_pointer(payload: Mapping[str, Any], pointer: str | None) -> Any:
+    if pointer == "$":
+        return payload
     if pointer is None or not pointer.startswith("$."):
         return None
-    cursor: Any = payload
-    for part in pointer[2:].split("."):
-        if isinstance(cursor, Mapping) and part in cursor:
-            cursor = cursor[part]
-        else:
-            return None
-    return cursor
+    return pointer_value(payload, pointer)
 
 
 def _cost_protocol_pointer_resolves(capsule: Mapping[str, Any]) -> bool:
@@ -1490,6 +1503,168 @@ def _claim_capsule_hardgates(capsule: Mapping[str, Any]) -> dict[str, Any]:
         name: {"name": name, "status": "pass" if passed else "fail"}
         for name, passed in gates.items()
     }
+
+
+def _negative_witness_owner_ref(run_id: str) -> dict[str, str]:
+    return {
+        "artifact": f"{RUNS_DIR}/{run_id}/claim_capsule.json",
+        "pointer": NEGATIVE_WITNESS_OWNER_POINTER,
+    }
+
+
+def _a1_negative_witness_row(capsule_artifact: str, *, status: str = "fail", reason: str | None = None) -> dict[str, Any]:
+    return {
+        "witness_id": "a1-canonical:score-plus-margin-attribution-hardgate-failure",
+        "source_artifact": capsule_artifact,
+        "source_pointer": "$.failed_gate",
+        "bedc_gap_field": "score_plus_margin_attribution_gap",
+        "demotion_rule": "demote_to_DN_on_A1_HG3_failure",
+        "regression_test": NEGATIVE_WITNESS_REGRESSION_TEST,
+        "evidence_pointer": f"{capsule_artifact}:$.hardgates.gates.A1-HG3",
+        "status": status,
+        "reason": reason
+        or "A1-HG3 records that full AUROC CI-low does not exceed the score_plus_margin AUROC CI-high control.",
+    }
+
+
+def _source_payload_for_artifact(capsule: Mapping[str, Any], artifact: str, capsule_artifact: str) -> Mapping[str, Any] | None:
+    if artifact == capsule_artifact:
+        return capsule
+    path = ROOT / artifact
+    if not path.exists():
+        return None
+    try:
+        loaded = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    return loaded if isinstance(loaded, Mapping) else None
+
+
+def _artifact_pointer_value(capsule: Mapping[str, Any], artifact_pointer: str, capsule_artifact: str) -> Any:
+    if ":$" not in artifact_pointer:
+        return None
+    artifact, pointer = artifact_pointer.split(":", 1)
+    source_payload = _source_payload_for_artifact(capsule, artifact, capsule_artifact)
+    if source_payload is None:
+        return None
+    return _resolve_payload_pointer(source_payload, pointer)
+
+
+def _regression_test_resolves(nodeid: str) -> bool:
+    if "::" not in nodeid:
+        return False
+    test_file, test_name = nodeid.split("::", 1)
+    path = ROOT / test_file
+    return path.exists() and f"def {test_name}" in path.read_text(encoding="utf-8")
+
+
+def _a1_negative_witness_pointer_status(capsule: Mapping[str, Any], row: Mapping[str, Any]) -> tuple[str, dict[str, Any]]:
+    capsule_artifact = str(row.get("source_artifact", ""))
+    source_payload = _source_payload_for_artifact(capsule, capsule_artifact, capsule_artifact)
+    source_value = None if source_payload is None else _resolve_payload_pointer(source_payload, str(row.get("source_pointer", "")))
+    evidence_value = _artifact_pointer_value(capsule, str(row.get("evidence_pointer", "")), capsule_artifact)
+    regression_resolved = _regression_test_resolves(str(row.get("regression_test", "")))
+    checks = {
+        "source_artifact": capsule_artifact,
+        "source_pointer": row.get("source_pointer"),
+        "source_pointer_resolved": source_value is not None,
+        "source_pointer_value": source_value,
+        "evidence_pointer": row.get("evidence_pointer"),
+        "evidence_pointer_resolved": evidence_value is not None,
+        "regression_test": row.get("regression_test"),
+        "regression_test_resolved": regression_resolved,
+    }
+    missing = []
+    if source_payload is None:
+        missing.append(f"unresolved artifact {capsule_artifact}")
+    if source_value is None:
+        missing.append(f"unresolved pointer {capsule_artifact}:{row.get('source_pointer')}")
+    if evidence_value is None:
+        missing.append(f"unresolved pointer {row.get('evidence_pointer')}")
+    if not regression_resolved:
+        missing.append(f"unresolved regression test {row.get('regression_test')}")
+    return "; ".join(missing), checks
+
+
+def _a1_negative_witness_hardgates(capsule: Mapping[str, Any], row: Mapping[str, Any], checks: Mapping[str, Any]) -> dict[str, Any]:
+    capsule_artifact = str(row.get("source_artifact", ""))
+    source_ok = checks.get("source_pointer_resolved") is True and checks.get("source_pointer_value") == "A1-HG3"
+    evidence = _artifact_pointer_value(capsule, str(row.get("evidence_pointer", "")), capsule_artifact)
+    evidence_ok = (
+        isinstance(evidence, Mapping)
+        and evidence.get("status") == "fail"
+        and evidence.get("criterion") == "full AUROC CI-low > score_plus_margin AUROC CI-high"
+        and float(evidence.get("evidence", {}).get("full_ci_low", math.nan))
+        < float(evidence.get("evidence", {}).get("score_plus_margin_ci_high", math.nan))
+    )
+    row_shape_ok = isinstance(row, Mapping) and set(row) == set(NEGATIVE_WITNESS_KEYS)
+    negative_witness = capsule.get("run_local", {}).get("negative_witness") if isinstance(capsule.get("run_local"), Mapping) else None
+    list_shape_ok = isinstance(negative_witness, list) and len(negative_witness) == 1
+    gates = {
+        "NW-HG1": {
+            "status": "pass" if row_shape_ok and list_shape_ok else "fail",
+            "evidence_pointer": "$.run_local.negative_witness.0",
+            "row_shape_ok": row_shape_ok,
+            "list_shape_ok": list_shape_ok,
+        },
+        "NW-HG2": {
+            "status": "pass" if source_ok and checks.get("regression_test_resolved") is True else "fail",
+            "evidence_pointer": row.get("source_pointer"),
+            "source_pointer_resolved": checks.get("source_pointer_resolved"),
+            "source_pointer_value": checks.get("source_pointer_value"),
+            "regression_test_resolved": checks.get("regression_test_resolved"),
+        },
+        "NW-HG3": {
+            "status": "pass" if evidence_ok else "fail",
+            "evidence_pointer": row.get("evidence_pointer"),
+            "evidence_pointer_resolved": checks.get("evidence_pointer_resolved"),
+        },
+        "NW-HG4": {
+            "status": "pass" if row.get("status") == "fail" else "fail",
+            "evidence_pointer": "$.run_local.negative_witness.0.status",
+            "expected_status": "fail",
+            "observed_status": row.get("status"),
+        },
+    }
+    failed = [name for name, gate in gates.items() if gate["status"] != "pass"]
+    return {
+        "status": "pass" if not failed else "fail",
+        "failed_gates": failed,
+        "gates": gates,
+    }
+
+
+def _a1_negative_witness_run_local(capsule: Mapping[str, Any], *, run_id: str) -> dict[str, Any]:
+    capsule_artifact = f"{RUNS_DIR}/{run_id}/claim_capsule.json"
+    row = _a1_negative_witness_row(capsule_artifact)
+    reason, checks = _a1_negative_witness_pointer_status(capsule, row)
+    if reason:
+        row = _a1_negative_witness_row(capsule_artifact, status="blocked", reason=reason)
+    run_local = {"negative_witness": [row]}
+    probe = {**dict(capsule), "run_local": run_local}
+    run_local["negative_witness_hardgates"] = _a1_negative_witness_hardgates(probe, row, checks)
+    return run_local
+
+
+def _attach_run_local_negative_witness(capsule: Mapping[str, Any], *, run_id: str) -> dict[str, Any]:
+    finalized = dict(capsule)
+    if run_id != "a1-canonical":
+        return finalized
+    finalized["run_local"] = _a1_negative_witness_run_local(finalized, run_id=run_id)
+    return finalized
+
+
+def _public_negative_witness_projection(payload: Mapping[str, Any], *, run_id: str) -> dict[str, Any]:
+    projected = dict(payload)
+    if run_id != "a1-canonical":
+        return projected
+    if "run_local" in projected:
+        run_local = dict(projected["run_local"]) if isinstance(projected["run_local"], Mapping) else {}
+        run_local["negative_witness"] = [_negative_witness_owner_ref(run_id)]
+        projected["run_local"] = run_local
+    else:
+        projected["negative_witness"] = [_negative_witness_owner_ref(run_id)]
+    return projected
 
 
 def _source_artifacts(config: GapHeadRunConfig, run_dir: Path) -> dict[str, Any]:
@@ -1678,6 +1853,7 @@ def _write_text(path: Path, text: str) -> None:
 
 
 def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bool = True) -> None:
+    run_id = str(payload["run_id"])
     claim_capsule = {key: payload[key] for key in (
         "schema_id",
         "source_issue",
@@ -1709,6 +1885,7 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
         "source_artifacts",
     )}
     claim_capsule["claim_capsule_hardgates"] = _claim_capsule_hardgates(claim_capsule)
+    claim_capsule = _attach_run_local_negative_witness(claim_capsule, run_id=run_id)
     _write_json(run_dir / "claim_capsule.json", claim_capsule)
     raw_path = run_dir / "raw_metrics.jsonl"
     raw_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1750,6 +1927,7 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
         "scope",
     )}
     summary["claim_capsule_hardgates"] = _claim_capsule_hardgates(summary)
+    summary = _public_negative_witness_projection(summary, run_id=run_id)
     _write_json(run_dir / "summary.json", summary)
     _write_text(run_dir / "report.md", _render_report(payload))
     if canonical:
@@ -1758,7 +1936,19 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
 
 
 def _new_run_id() -> str:
-    return f"a1-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}"
+    return "a1-canonical"
+
+
+def _reusable_generated_at(run_id: str) -> str | None:
+    summary_path = ROOT / RUNS_DIR / run_id / "summary.json"
+    if not summary_path.exists():
+        return None
+    try:
+        payload = json.loads(summary_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    generated_at = payload.get("generated_at") if isinstance(payload, Mapping) else None
+    return generated_at if isinstance(generated_at, str) and generated_at else None
 
 
 def _active_config(run_id: str) -> GapHeadRunConfig:
@@ -1788,7 +1978,7 @@ def build_gap_head_attribution_capsule(
         ROOT = Path(root)
         source.ROOT = ROOT
     active_run_id = _new_run_id() if run_id is None else run_id
-    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    timestamp = generated_at if generated_at is not None else _reusable_generated_at(active_run_id) or datetime.now(timezone.utc).isoformat()
     active_config = _active_config(active_run_id) if config is None else config
     run_dir = ROOT / RUNS_DIR / active_run_id
     records = _records(active_config)

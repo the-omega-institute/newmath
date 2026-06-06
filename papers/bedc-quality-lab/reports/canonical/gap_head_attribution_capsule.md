@@ -1,7 +1,7 @@
 # Gap-Head Attribution Capsule
 
-- Generated at: `2026-06-05T13:05:31.245390+00:00`
-- Run id: `a1-20260605T130531Z`
+- Generated at: `2026-06-06T15:19:08.204708+00:00`
+- Run id: `a1-canonical`
 - Artifact id: `gap_head_attribution_capsule`
 - D5-O: `ready`
 - D5-M: `blocked`
