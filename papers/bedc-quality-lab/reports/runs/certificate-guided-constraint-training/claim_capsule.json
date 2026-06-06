@@ -1,5 +1,112 @@
 {
   "artifact": "reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+  "c2_frontier": {
+    "axis_spec": {
+      "axes": {
+        "alpha": "UER upper bound",
+        "beta": "Quality benefit lower bound",
+        "gamma": "Quality debt upper bound",
+        "quality_q": "QualityQ delta against same-seed baseline"
+      },
+      "producer": "scripts/run_certificate_guided_constraint_training.py",
+      "projection_owner": "certificate-guided-constraint-training",
+      "run_id": "certificate-guided-constraint-training",
+      "schema_id": "bedc.quality.claim_capsule",
+      "source_artifact": "reports/canonical/certificate-guided-training.json",
+      "source_pointers": {
+        "c1_hardgate": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.hardgate"
+        },
+        "claim_gate": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.claim_gate"
+        },
+        "grid_summary": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.grid_summary"
+        },
+        "raw_grid_record_count": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.raw_grid_record_count"
+        }
+      }
+    },
+    "follow_up_training_replay": {
+      "evidence": {
+        "grid_summary_record_count_pointer": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.grid_summary.record_count"
+        },
+        "payload_raw_grid_record_count_pointer": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.raw_grid_record_count"
+        },
+        "payload_raw_metrics_record_count_pointer": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "pointer": "$.raw_metrics_record_count"
+        },
+        "raw_grid_record_count": 27216,
+        "raw_metrics_record_count": 56
+      },
+      "mode": "same-owner-replay",
+      "not_claimed": "follow-up replay is a source-evidence pointer set, not a terminal verdict",
+      "producer": "scripts/run_certificate_guided_constraint_training.py",
+      "run_artifacts": {
+        "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
+        "grid_summary_artifact": "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl",
+        "raw_metrics_artifact": "reports/runs/certificate-guided-constraint-training/raw_metrics.jsonl"
+      },
+      "source_artifact": "reports/canonical/certificate-guided-training.json"
+    },
+    "hardgates": {
+      "failed_gates": [],
+      "gates": {
+        "C2-HG1": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "evidence_pointer": "$.c2_frontier.frontier_summary.feasible_non_positive_count",
+          "feasible_non_positive_count": 2592,
+          "first_witness_pointer": "$.c2_frontier.feasible_non_positive_witness",
+          "status": "pass"
+        },
+        "C2-HG2": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "evidence_pointer": "$.c2_frontier.axis_spec.source_pointers",
+          "resolved_source_pointer_count": 4,
+          "resolved_source_pointers": {
+            "c1_hardgate": true,
+            "claim_gate": true,
+            "grid_summary": true,
+            "raw_grid_record_count": true
+          },
+          "source_pointer_count": 4,
+          "status": "pass"
+        },
+        "C2-HG3": {
+          "artifact": "reports/canonical/certificate-guided-training.json",
+          "evidence_pointer": "$.c2_frontier.follow_up_training_replay.evidence",
+          "replay_counts_match": true,
+          "resolved_replay_pointers": {
+            "grid_summary_record_count": true,
+            "raw_grid_record_count": true,
+            "raw_metrics_record_count": true
+          },
+          "status": "pass"
+        }
+      },
+      "status": "passed"
+    },
+    "issue_alias": {
+      "aliases": [
+        "certificate_constraint_frontier_v2",
+        "certificate_constraint_frontier.schema.v1"
+      ],
+      "canonical_owner": "certificate-guided-constraint-training",
+      "kind": "issue-alias-provenance",
+      "production_use": false,
+      "source_ref": "gh-issue-698"
+    }
+  },
   "claim_gate": {
     "audit_improvement_tradeoff": true,
     "benefit_nondecreasing": false,
@@ -17,7 +124,7 @@
     "required_ci95_low_gt_zero": true
   },
   "failed_gate": "audit-improvement-tradeoff",
-  "generated_at": "2026-06-05T15:15:13.423215+00:00",
+  "generated_at": "2026-06-06T07:35:58.631082+00:00",
   "hardgate": {
     "basis": {
       "baseline_arm": "baseline",
@@ -138,6 +245,7 @@
   "schema_id": "bedc.quality.claim_capsule",
   "source_evidence": {
     "arm_count": 7,
+    "c2_frontier_pointer": "$.c2_frontier",
     "claim_gate_pointer": "$.claim_gate",
     "grid_metrics_artifact": "reports/runs/certificate-guided-constraint-training/grid_metrics.jsonl",
     "grid_record_schema": "seed-aggregated",

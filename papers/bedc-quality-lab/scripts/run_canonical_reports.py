@@ -501,6 +501,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "arm_summaries",
             "claim_gate",
             "hardgate",
+            "c2_frontier",
             "failed_gate",
             "verdict",
             "discovery_level",
