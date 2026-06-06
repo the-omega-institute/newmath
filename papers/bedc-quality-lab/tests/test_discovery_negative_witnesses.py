@@ -241,7 +241,7 @@ def test_pointer_glue_is_pointer_only_and_not_in_canonical_reports():
         "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
         "expected_kind_count": 8,
         "schema_role": "bedc-gap-witness-ledger",
-        "required_fields": list(generator.REQUIRED_GAP_FIELDS),
+        "witness_rows_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses",
     }
     assert "discovery_negative_witnesses.json" not in {
         Path(spec.json_artifact).name for spec in canonical.CANONICAL_REPORTS

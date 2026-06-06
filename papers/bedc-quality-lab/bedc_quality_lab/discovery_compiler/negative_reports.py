@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from .pointers import resolve_artifact_pointer
+from .pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 
 
 SCHEMA_ID = "bedc-quality-lab:negative-discovery-reports"
@@ -21,12 +22,20 @@ SUMMARY_JSON_ARTIFACT = "reports/canonical/discovery_negative_witness_summary.js
 SUMMARY_MARKDOWN_ARTIFACT = "reports/canonical/discovery_negative_witness_summary.md"
 DISCOVERY_MAP_ARTIFACT = "reports/canonical/discovery_map.json"
 CLAIM_VERDICTS_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
+DIMENSION_MISMATCH_REPORT_ID = "dimension-mismatch-scale-leakage"
+DIMENSION_MISMATCH_GAP_WITNESS_POINTER = (
+    "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json:"
+    "$.run_local.negative_witness[0]"
+)
+DIMENSION_MISMATCH_REGRESSION_NODEID = (
+    "tests/test_dimension_mismatch_debt_transfer.py::test_scale_leakage_sidecar_maps_to_first_negative_witness"
+)
 REQUIRED_NEGATIVE_REPORT_IDS = frozenset(
     {
         "certificate-guided-training",
         "gap-head-ablation",
         "spectral-ablation-hinge",
-        "dimension-mismatch-scale-leakage",
+        DIMENSION_MISMATCH_REPORT_ID,
         "single-threshold-escape",
         "training-choice-observability",
         "gap-head-mechanism-blockage",
@@ -63,8 +72,80 @@ OWNER_FACT_KEYS = frozenset(
         "claim_verdict_pointer",
         "audit_status",
         "audit_reason",
+        "bedc_gap_mapping",
     }
 )
+
+BEDC_GAP_MAPPING_KEYS = (
+    "source_witness_pointer",
+    "bedc_gap_field",
+    "demotion_rule",
+    "regression_test",
+)
+
+
+@dataclass(frozen=True)
+class BedcGapMapping:
+    source_witness_pointer: str
+    bedc_gap_field: str
+    demotion_rule: str
+    regression_test: str
+
+    @classmethod
+    def from_witness_pointer(cls, root: Path, pointer: str) -> "BedcGapMapping":
+        witness = resolve_artifact_pointer(root, pointer)
+        if not isinstance(witness, Mapping):
+            raise ValueError(f"BEDC gap mapping witness pointer does not resolve: {pointer}")
+        values = {
+            key: witness.get(key)
+            for key in ("bedc_gap_field", "demotion_rule", "regression_test")
+        }
+        missing = [key for key, value in values.items() if not isinstance(value, str) or not value]
+        if missing:
+            raise ValueError(f"BEDC gap mapping witness missing cells: {', '.join(missing)}")
+        regression_nodeid = _resolve_witness_local_pointer(root, pointer, str(values["regression_test"]))
+        if regression_nodeid != DIMENSION_MISMATCH_REGRESSION_NODEID:
+            raise ValueError("BEDC gap mapping regression test pointer does not resolve to the expected nodeid")
+        return cls(
+            source_witness_pointer=pointer,
+            bedc_gap_field=str(values["bedc_gap_field"]),
+            demotion_rule=str(values["demotion_rule"]),
+            regression_test=str(values["regression_test"]),
+        )
+
+    def as_owner_cell(self) -> dict[str, str]:
+        return {
+            "source_witness_pointer": self.source_witness_pointer,
+            "bedc_gap_field": self.bedc_gap_field,
+            "demotion_rule": self.demotion_rule,
+            "regression_test": self.regression_test,
+        }
+
+    @classmethod
+    def validate_owner_cell(cls, root: Path, owner_row: Mapping[str, Any]) -> None:
+        cell = owner_row.get("bedc_gap_mapping")
+        if not isinstance(cell, Mapping):
+            raise ValueError("dimension mismatch DN report requires bedc_gap_mapping")
+        if set(cell) != set(BEDC_GAP_MAPPING_KEYS):
+            raise ValueError("dimension mismatch bedc_gap_mapping has unsupported shape")
+        pointer = cell.get("source_witness_pointer")
+        if not isinstance(pointer, str) or not pointer:
+            raise ValueError("dimension mismatch bedc_gap_mapping requires source_witness_pointer")
+        expected = cls.from_witness_pointer(root, pointer).as_owner_cell()
+        actual = {key: cell.get(key) for key in BEDC_GAP_MAPPING_KEYS}
+        if actual != expected:
+            raise ValueError("dimension mismatch bedc_gap_mapping does not match source witness")
+
+
+def _resolve_witness_local_pointer(root: Path, witness_pointer: str, pointer: str) -> Any:
+    if not pointer.startswith("$."):
+        return resolve_artifact_pointer(root, pointer) if ":$" in pointer else pointer
+    split = split_artifact_pointer(witness_pointer)
+    if split is None:
+        return None
+    artifact, _ = split
+    payload = _load_json(root, artifact)
+    return pointer_value(payload, pointer)
 
 
 def _timestamp(generated_at: str | None) -> str:
@@ -149,7 +230,7 @@ def validate_negative_report_row(root: Path, row: Mapping[str, Any]) -> dict[str
             raise ValueError(f"negative discovery report row missing {key}: {report_id}")
     if not (_is_nonempty(item.get("next_hypothesis")) or _is_nonempty(item.get("stop_reason"))):
         raise ValueError(f"negative discovery report row needs next_hypothesis or stop_reason: {report_id}")
-    if report_id == "dimension-mismatch-scale-leakage":
+    if report_id == DIMENSION_MISMATCH_REPORT_ID:
         if item.get("report") != "dimension-mismatch-debt-transfer":
             raise ValueError("dimension mismatch DN report must keep source report identity")
         if item.get("base_level") != "D4":
@@ -158,6 +239,7 @@ def validate_negative_report_row(root: Path, row: Mapping[str, Any]) -> dict[str
             raise ValueError("dimension mismatch scale leakage DN report requires effective_level DN")
         if item.get("anti_triviality_status") == "scale_leakage_detected" and item.get("effective_level") == "D4":
             raise ValueError("scale leakage cannot leave effective_level at D4")
+        BedcGapMapping.validate_owner_cell(root, item)
     failed_gate = item.get("failed_gate")
     artifact = str(item.get("json_artifact") or "")
     if isinstance(failed_gate, str) and failed_gate.startswith("$."):

@@ -1,8 +1,17 @@
 import json
 from pathlib import Path
 
-from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer, resolve_artifact_pointer
-from bedc_quality_lab.discovery_compiler.negative_reports import REQUIRED_NEGATIVE_REPORT_IDS
+import pytest
+
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value, split_artifact_pointer, resolve_artifact_pointer
+from bedc_quality_lab.discovery_compiler.negative_reports import (
+    BedcGapMapping,
+    DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
+    DIMENSION_MISMATCH_REGRESSION_NODEID,
+    DIMENSION_MISMATCH_REPORT_ID,
+    REQUIRED_NEGATIVE_REPORT_IDS,
+    validate_negative_report_row,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,6 +35,23 @@ def _pointer_cells(value):
     elif isinstance(value, list):
         for cell in value:
             yield from _pointer_cells(cell)
+
+
+def _recursive_values(value):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            yield key
+            yield from _recursive_values(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _recursive_values(item)
+    else:
+        yield value
+
+
+def _dimension_mismatch_owner():
+    reports = _load_json("reports/canonical/negative_discovery_reports.json")
+    return next(row for row in reports["rows"] if row["report_id"] == DIMENSION_MISMATCH_REPORT_ID)
 
 
 def test_discovery_map_pointer_cells_resolve_against_canonical_artifacts():
@@ -90,6 +116,67 @@ def test_negative_discovery_reports_are_canonical_owner_for_required_dn_ids():
     assert dimension["base_level"] == "D4"
     assert dimension["effective_level"] == "DN"
     assert dimension["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+    assert set(dimension["bedc_gap_mapping"]) == {
+        "source_witness_pointer",
+        "bedc_gap_field",
+        "demotion_rule",
+        "regression_test",
+    }
+
+
+def test_dimension_mismatch_bedc_gap_mapping_owner_cell_matches_source_witness():
+    owner = _dimension_mismatch_owner()
+    cell = owner["bedc_gap_mapping"]
+    witness = resolve_artifact_pointer(ROOT, DIMENSION_MISMATCH_GAP_WITNESS_POINTER)
+    capsule_artifact = DIMENSION_MISMATCH_GAP_WITNESS_POINTER.split(":", 1)[0]
+    capsule = _load_json(capsule_artifact)
+
+    assert cell == BedcGapMapping.from_witness_pointer(
+        ROOT,
+        DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
+    ).as_owner_cell()
+    assert cell == {
+        "source_witness_pointer": DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
+        "bedc_gap_field": witness["bedc_gap_field"],
+        "demotion_rule": witness["demotion_rule"],
+        "regression_test": witness["regression_test"],
+    }
+    assert pointer_value(capsule, cell["regression_test"]) == DIMENSION_MISMATCH_REGRESSION_NODEID
+
+
+def test_dimension_mismatch_owner_source_evidence_and_demotion_cells_stay_bound_to_source_artifact():
+    owner = _dimension_mismatch_owner()
+    source_payload = _load_json(owner["json_artifact"])
+
+    assert resolve_artifact_pointer(ROOT, owner["source"]) == "scale_leakage_detected"
+    assert pointer_value(source_payload, owner["failed_gate"]) == "scale_leakage_detected"
+    assert pointer_value(source_payload, owner["evidence_pointer"]) == "DN"
+    assert owner["downgrade_reason"] == "scale_only_or_metadata_proxy_sufficient"
+
+
+def test_dimension_mismatch_bedc_gap_mapping_validator_fails_closed():
+    owner = _dimension_mismatch_owner()
+
+    missing = dict(owner)
+    missing.pop("bedc_gap_mapping")
+    with pytest.raises(ValueError, match="requires bedc_gap_mapping"):
+        validate_negative_report_row(ROOT, missing)
+
+    dangling = dict(owner)
+    dangling["bedc_gap_mapping"] = {
+        **owner["bedc_gap_mapping"],
+        "source_witness_pointer": (
+            "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json:"
+            "$.run_local.negative_witness[99]"
+        ),
+    }
+    with pytest.raises(ValueError, match="witness pointer does not resolve"):
+        validate_negative_report_row(ROOT, dangling)
+
+    drifted = dict(owner)
+    drifted["bedc_gap_mapping"] = {**owner["bedc_gap_mapping"], "bedc_gap_field": "other"}
+    with pytest.raises(ValueError, match="does not match source witness"):
+        validate_negative_report_row(ROOT, drifted)
 
 
 def test_dn_verdict_rows_are_pointer_only_and_resolve_to_canonical_owner():
@@ -110,6 +197,30 @@ def test_dn_verdict_rows_are_pointer_only_and_resolve_to_canonical_owner():
             "negative_report_pointer",
         }
         assert resolve_artifact_pointer(ROOT, row["negative_report_pointer"]) is not None
+
+
+def test_dimension_mismatch_public_surfaces_do_not_copy_bedc_gap_mapping_cells():
+    forbidden = {
+        "bedc_gap_mapping",
+        "bedc_gap_field",
+        "demotion_rule",
+        "regression_test",
+        DIMENSION_MISMATCH_REGRESSION_NODEID,
+    }
+    surfaces = [
+        _load_json("reports/canonical/discovery_map.json"),
+        _load_json("reports/canonical/discovery_negative_witness_summary.json"),
+        _load_json("reports/canonical/index.json"),
+        [
+            json.loads(line)
+            for line in (ROOT / "reports/canonical/claim_verdicts.jsonl").read_text(encoding="utf-8").splitlines()
+            if line
+        ],
+    ]
+
+    for surface in surfaces:
+        values = {str(value) for value in _recursive_values(surface)}
+        assert not (forbidden & values)
 
 
 def test_negative_discovery_artifacts_are_written_only_by_core():

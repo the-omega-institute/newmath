@@ -9,7 +9,11 @@ from bedc_quality_lab.discovery_compiler.backend import BackendEvidenceAdapter, 
 from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule, build_claim_capsule_payload
 from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
 from bedc_quality_lab.discovery_compiler.map import DiscoveryMapRow, build_discovery_map_payload
-from bedc_quality_lab.discovery_compiler.negative_reports import JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT
+from bedc_quality_lab.discovery_compiler.negative_reports import (
+    BedcGapMapping,
+    DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
+    JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT,
+)
 from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
 
 
@@ -80,7 +84,7 @@ class FakeAdapter:
                 "report_id": report_id,
                 "kind": "discovery_report",
                 "report": "fixture-report" if report_id != "dimension-mismatch-scale-leakage" else "dimension-mismatch-debt-transfer",
-                "claim_id": "claim:fixture-report",
+                "claim_id": "claim:fixture-report" if report_id != "dimension-mismatch-scale-leakage" else "claim:dimension-mismatch-debt-transfer",
                 "source": "reports/canonical/fixture.json:$.failed",
                 "json_artifact": "reports/canonical/fixture.json",
                 "markdown_artifact": "reports/canonical/fixture.md",
@@ -98,6 +102,16 @@ class FakeAdapter:
                 "debt_row_pointer": None,
                 "audit_status": "pass",
                 "audit_reason": "",
+                **(
+                    {
+                        "bedc_gap_mapping": BedcGapMapping.from_witness_pointer(
+                            root,
+                            DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
+                        ).as_owner_cell()
+                    }
+                    if report_id == "dimension-mismatch-scale-leakage"
+                    else {}
+                ),
             }
             for report_id in required
         ]
@@ -115,6 +129,33 @@ def _write_fixture_sources(root: Path) -> None:
         encoding="utf-8",
     )
     (canonical / "claim_verdicts.jsonl").write_text("", encoding="utf-8")
+    path = root / "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {
+                "run_local": {
+                    "negative_witness": [
+                        {
+                            "bedc_gap_field": "representation_scale_leakage",
+                            "demotion_rule": "demote_to_DN_or_D1",
+                            "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                        }
+                    ],
+                    "test_artifact": {
+                        "regression_tests": {
+                            "scale_leakage_witness": (
+                                "tests/test_dimension_mismatch_debt_transfer.py::"
+                                "test_scale_leakage_sidecar_maps_to_first_negative_witness"
+                            )
+                        }
+                    },
+                }
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def test_backend_contract_and_current_lab_adapter_metadata():
