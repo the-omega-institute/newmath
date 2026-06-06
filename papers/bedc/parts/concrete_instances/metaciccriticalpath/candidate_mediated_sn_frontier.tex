@@ -312,5 +312,30 @@ Next compose the confluence-facing route. The $\CandidateSNConfluenceBoundaryUp$
 Finally route the remaining boundary through $\SubjectReductionDischargeSocketUp$. The discharge row is a socket, not a proof of closed subject reduction, so the resulting conclusion is only a normalization-frontier export over the displayed candidate-mediated route.
 \end{proof}
 
+\begin{theorem}[MetaCIC candidate frontier normal-form witness extraction]
+\label{thm:metacic-candidate-frontier-normal-form-witness-extraction}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. If a candidate-mediated strong-normalization read exposes a normal-form witness at the confluence-decidability boundary, then the witness is readable only through the displayed $\CandidateMediatedSNUp$ row, the $\CandidateSNConfluenceBoundaryUp$ row, the $\FiniteObservationConfluenceUp$ row, the $\MetaCICCriticalPairLedgerUp$ row, the $\SubjectReductionDischargeSocketUp$ row, and the L10 source faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp .
+$$
+The extraction boundary does not assert global strong normalization, closed subject reduction, global confluence, beta-conversion decidability, quotient term equality, selected limits, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated SN route of \autoref{thm:metacic-criticalpath-candidate-mediated-sn-route}. It places every exported normalization-frontier conclusion behind the candidate-mediated SN row, confluence-boundary row, finite-observation confluence row, critical-pair ledger, and subject-reduction discharge socket.
+
+Next read the L10 source boundary from \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-handoff-totality}. These results force the same handoff to expose $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ before the witness is passed to any confluence-facing or decidability-facing consumer.
+
+Use discharge coverage and source exhaustion, \autoref{thm:metacic-critical-path-candidate-frontier-discharge-coverage} and \autoref{thm:metacic-critical-path-candidate-frontier-source-exhaustion}. They exhaust the available witness route by the displayed candidate rows, visible obstruction and socket rows, and the four L10 source faces.
+
+Finally apply the axiom boundary of \autoref{thm:metacic-critical-path-candidate-frontier-axiom-frontier}. The refused global normalization, closed subject-reduction, confluence, beta-decidability, quotient-equality, selected-limit, and Real-completeness claims are not rows in the extracted witness surface, so the normal-form witness remains candidate-mediated boundary data.
+\end{proof}
+
 \input{parts/concrete_instances/metaciccriticalpath/candidate_frontier_socket_coproduct}
 \input{parts/concrete_instances/metaciccriticalpath/candidate_mediated_sn_residual_route}

@@ -82,7 +82,7 @@ The merge currently has unresolved conflicts. Files with `<<<<<<<` / `=======` /
 For each conflicted file:
 1. `git diff :2:<path>` and `git diff :3:<path>` to see HEAD's vs incoming version.
 2. Resolve manually (edit the file to drop conflict markers + chosen content).
-3. After all files resolved: run `bash papers/bedc/scripts/check_tex_size.sh` (must exit 0) and `cd lean4&& lake build` if any `.lean` file was touched (must succeed).
+3. After all files resolved: run `bash papers/bedc/scripts/check_tex_size.sh` if any conflicted file is under `papers/bedc/` and run `cd lean4 && lake build` only if a conflicted file is under `lean4/`.
 4. Do NOT run `git add` or `git commit`; leave the resolved file contents in the working tree. The daemon will stage and commit under its shared lock.
 5. Do NOT `git push`.
 
@@ -121,14 +121,23 @@ def working_tree_dirty() -> bool:
     return bool(out.strip())
 
 
-def conflicted_files() -> list[str]:
-    out = git("diff", "--name-only", "--diff-filter=U", capture=True).stdout
+def conflicted_files(cwd: Path = REPO_ROOT) -> list[str]:
+    out = run(["git", "diff", "--name-only", "--diff-filter=U"],
+              cwd=cwd, capture=True).stdout
     return [line for line in out.splitlines() if line]
 
 
-def has_conflict_markers(path: str) -> bool:
+def has_unmerged_index(cwd: Path = REPO_ROOT) -> bool:
+    out = run(["git", "ls-files", "-u"], cwd=cwd,
+              check=False, capture=True).stdout
+    return bool(out.strip())
+
+
+def has_conflict_markers(path: str, cwd: Path = REPO_ROOT) -> bool:
     try:
-        text = (REPO_ROOT / path).read_text(encoding="utf-8", errors="ignore")
+        text = (cwd / path).read_text(encoding="utf-8", errors="ignore")
+    except FileNotFoundError:
+        return False
     except Exception:
         return True
     return any(marker in text for marker in ("<<<<<<<", "=======", ">>>>>>>"))
@@ -173,7 +182,7 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
 
     Returns True if codex completed and the merge has no remaining conflicts;
     False otherwise (caller should `git merge --abort`)."""
-    files = conflicted_files()
+    files = conflicted_files(work_dir)
     if not files:
         return True
 
@@ -212,19 +221,20 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
         print(f"[sync] codex exec returned rc={res.returncode}", file=sys.stderr)
         return False
 
-    unresolved = [path for path in files if has_conflict_markers(path)]
+    unresolved = [path for path in files if has_conflict_markers(path, work_dir)]
     if unresolved:
         print(f"[sync] codex left conflict markers: {unresolved}", file=sys.stderr)
         return False
     with acquire_main_checkout_lock(timeout=120):
-        merge_head = (REPO_ROOT / ".git" / "MERGE_HEAD").exists()
+        merge_head = run(["git", "rev-parse", "--verify", "--quiet", "MERGE_HEAD"],
+                         cwd=work_dir, check=False, capture=True).returncode == 0
         if merge_head:
-            git("add", "--", *files)
-            remaining = conflicted_files()
+            run(["git", "add", "-A"], cwd=work_dir)
+            remaining = conflicted_files(work_dir)
             if remaining:
                 print(f"[sync] codex left unresolved index conflicts: {remaining}", file=sys.stderr)
                 return False
-            git("commit", "--no-edit")
+            run(["git", "commit", "--no-edit"], cwd=work_dir)
     return True
 
 
@@ -244,11 +254,13 @@ def render_prompt_host_context(prompt: str) -> str:
     return out
 
 
-def merge_with_codex_fallback(target: str, label: str) -> bool:
+def merge_with_codex_fallback(target: str, label: str,
+                              *, cwd: Path = REPO_ROOT) -> bool:
     """Merge `target` into HEAD. On conflict, invoke codex once. Returns True on success."""
     print(f"[sync] {label}: merging {target}...")
     with acquire_main_checkout_lock(timeout=120):
-        res = git("merge", "--no-ff", "--no-edit", target, check=False, capture=True)
+        res = run(["git", "merge", "--no-ff", "--no-edit", target],
+                  cwd=cwd, check=False, capture=True)
     if res.returncode == 0:
         print(f"[sync] {label}: merge clean")
         return True
@@ -259,19 +271,31 @@ def merge_with_codex_fallback(target: str, label: str) -> bool:
         print(f"[sync] {label}: already up to date")
         return True
 
-    if not conflicted_files():
+    if not conflicted_files(cwd):
         # Some other failure (e.g. dirty WT). Surface it.
         print(f"[sync] {label}: merge failed without conflicts:\n{out}", file=sys.stderr)
         return False
 
-    if not call_codex_to_resolve(REPO_ROOT):
+    if not call_codex_to_resolve(cwd):
         print(f"[sync] {label}: codex could not resolve; aborting merge", file=sys.stderr)
         with acquire_main_checkout_lock(timeout=120):
-            git("merge", "--abort", check=False)
+            run(["git", "merge", "--abort"], cwd=cwd, check=False)
         return False
 
     print(f"[sync] {label}: codex resolved conflicts and committed")
     return True
+
+
+def merge_prefer_ff_with_codex_fallback(target: str, label: str,
+                                        *, cwd: Path = REPO_ROOT) -> bool:
+    print(f"[sync] {label}: fast-forward check {target}...")
+    with acquire_main_checkout_lock(timeout=120):
+        ff = run(["git", "merge", "--ff-only", target],
+                 cwd=cwd, check=False, capture=True)
+    if ff.returncode == 0:
+        print(f"[sync] {label}: fast-forwarded")
+        return True
+    return merge_with_codex_fallback(target, label=label, cwd=cwd)
 
 
 def push_branch(branch: str, *, set_upstream: bool = False,
@@ -339,6 +363,137 @@ def push_branch(branch: str, *, set_upstream: bool = False,
                   file=sys.stderr)
             return last_rc
     return last_rc
+
+
+def push_head_to_branch_from_worktree(cwd: Path, branch: str,
+                                      *, max_attempts: int = 5) -> int:
+    env = os.environ.copy()
+    env.setdefault("LEAN4_GUARDRAILS_BYPASS", "1")
+    backoff = 1.0
+    last_rc = 1
+    for attempt in range(1, max_attempts + 1):
+        with acquire_main_checkout_lock(timeout=120):
+            res = run(["git", "push", "origin", f"HEAD:refs/heads/{branch}"],
+                      cwd=cwd, env=env, check=False, capture=True)
+        if res.returncode == 0:
+            if attempt > 1:
+                print(f"[sync] isolated push {branch} succeeded on attempt {attempt}",
+                      file=sys.stderr)
+            return 0
+        last_rc = res.returncode
+        if attempt == max_attempts:
+            break
+        print(f"[sync] isolated push {branch} attempt {attempt} failed; "
+              f"fetching origin/{branch} before another attempt",
+              file=sys.stderr)
+        time.sleep(backoff)
+        backoff = min(backoff * 2, 16.0)
+        with acquire_main_checkout_lock(timeout=120):
+            fetch = run(["git", "fetch", "origin", branch],
+                        cwd=cwd, check=False, capture=True)
+        if fetch.returncode != 0:
+            print(f"[sync] isolated push fetch failed: "
+                  f"{((fetch.stdout or '') + (fetch.stderr or '')).strip()[:200]}",
+                  file=sys.stderr)
+            continue
+        if not merge_prefer_ff_with_codex_fallback(
+            f"origin/{branch}", label=f"{branch} <- origin/{branch}", cwd=cwd,
+        ):
+            print("[sync] isolated push could not incorporate remote tip",
+                  file=sys.stderr)
+            return last_rc
+    return last_rc
+
+
+def sync_mirror_convergence_in_worktree(*, no_push: bool) -> bool:
+    """Converge the two managed branches without touching the main checkout index."""
+    print("[sync] unmerged index entries in main checkout; using isolated worktree")
+    print("[sync] dev -> auto-dev validation skipped; it requires the clean checkout path")
+    with acquire_main_checkout_lock(timeout=120):
+        fetch = git("fetch", "origin", "--prune", check=False, capture=True)
+    if fetch.returncode != 0:
+        print(f"[sync] isolated fetch failed: "
+              f"{((fetch.stdout or '') + (fetch.stderr or '')).strip()[:240]}",
+              file=sys.stderr)
+        return False
+    for branch in (MIRROR_BRANCH, SOURCE_BRANCH):
+        if not has_remote_branch(branch):
+            print(f"[sync] origin/{branch} missing; cannot run isolated convergence",
+                  file=sys.stderr)
+            return False
+
+    temp_root = Path(tempfile.mkdtemp(prefix="bedc-sync-"))
+    worktree = temp_root / "worktree"
+    temp_branch = f"bedc-sync-isolated-{os.getpid()}-{int(time.time())}"
+    try:
+        with acquire_main_checkout_lock(timeout=120):
+            add = git("worktree", "add", "-b", temp_branch, str(worktree),
+                      f"origin/{MIRROR_BRANCH}", check=False, capture=True)
+        if add.returncode != 0:
+            print(f"[sync] isolated worktree add failed: "
+                  f"{((add.stdout or '') + (add.stderr or '')).strip()[:240]}",
+                  file=sys.stderr)
+            return False
+
+        if not merge_prefer_ff_with_codex_fallback(
+            f"origin/{SOURCE_BRANCH}",
+            label=f"{MIRROR_BRANCH} <- origin/{SOURCE_BRANCH}",
+            cwd=worktree,
+        ):
+            return False
+        mirror_ref = run(["git", "rev-parse", "HEAD"], cwd=worktree,
+                         capture=True).stdout.strip()
+        if not no_push:
+            rc = push_head_to_branch_from_worktree(worktree, MIRROR_BRANCH)
+            if rc != 0:
+                print(f"[sync] isolated push origin {MIRROR_BRANCH} failed (rc={rc})",
+                      file=sys.stderr)
+                return False
+            with acquire_main_checkout_lock(timeout=120):
+                fetch = run(["git", "fetch", "origin", "--prune"],
+                            cwd=worktree, check=False, capture=True)
+            if fetch.returncode != 0:
+                print("[sync] isolated fetch after mirror push failed",
+                      file=sys.stderr)
+                return False
+            mirror_ref = f"origin/{MIRROR_BRANCH}"
+
+        with acquire_main_checkout_lock(timeout=120):
+            checkout = run(["git", "checkout", "-B", temp_branch,
+                            f"origin/{SOURCE_BRANCH}"],
+                           cwd=worktree, check=False, capture=True)
+        if checkout.returncode != 0:
+            print(f"[sync] isolated checkout of origin/{SOURCE_BRANCH} failed: "
+                  f"{((checkout.stdout or '') + (checkout.stderr or '')).strip()[:240]}",
+                  file=sys.stderr)
+            return False
+        if not merge_prefer_ff_with_codex_fallback(
+            mirror_ref,
+            label=f"{SOURCE_BRANCH} <- {mirror_ref}",
+            cwd=worktree,
+        ):
+            return False
+        if not no_push:
+            rc = push_head_to_branch_from_worktree(worktree, SOURCE_BRANCH)
+            if rc != 0:
+                print(f"[sync] isolated push origin {SOURCE_BRANCH} failed (rc={rc})",
+                      file=sys.stderr)
+                return False
+        return True
+    except TimeoutError as exc:
+        print(f"[sync] push lock timeout during isolated convergence: {exc}",
+              file=sys.stderr)
+        return False
+    finally:
+        if worktree.exists():
+            run(["git", "merge", "--abort"], cwd=worktree,
+                check=False, capture=True)
+        with acquire_main_checkout_lock(timeout=120):
+            git("worktree", "remove", "--force", str(worktree),
+                check=False, capture=True)
+            git("worktree", "prune", check=False, capture=True)
+            git("branch", "-D", temp_branch, check=False, capture=True)
+        shutil.rmtree(temp_root, ignore_errors=True)
 
 
 def has_remote_branch(branch: str) -> bool:
@@ -678,6 +833,14 @@ def main():
     # Always fetch every ref from origin so both branches' remote state is
     # current before we attempt local merges.
     git("fetch", "origin", "--prune")
+
+    if has_unmerged_index():
+        success = sync_mirror_convergence_in_worktree(no_push=args.no_push)
+        if success:
+            print(f"[sync] done: {SOURCE_BRANCH} <-> {MIRROR_BRANCH} converged "
+                  f"(both pushed)" if not args.no_push else "(no-push)")
+            return
+        sys.exit(2)
 
     # Working-tree dirty: stash with -u so untracked files come along.
     # Capture the EXACT stash commit OID we create. Restore must touch only

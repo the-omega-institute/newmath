@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyBallBasisUp$}
+\label{ch:concrete-instances-regular-cauchy-ball-basis-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyBallBasisUp$ packet records the finite tail-ball basis used to inspect a regular Cauchy name before it is handed to a Real-completion seal. It combines the dyadic radius rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal boundary of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite basis of tail thresholds and dyadic balls; it is not a quotient completion, a selected limit, a host metric completeness theorem, or an ambient $\RealUp$ completeness assertion.
+
+\begin{definition}[Regular Cauchy ball basis carrier]\label{def:regular-cauchy-ball-basis-carrier}
+A $\RegularCauchyBallBasisUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,D,O,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the finite tail-threshold row naming the indices after which the regular Cauchy read is inspected.
+\item $D$ is the $\DyadicRatCoreUp$ ball-radius ledger attached to those thresholds.
+\item $O$ is the $\StreamNameUp$ observation-window row opened for the threshold and radius data.
+\item $R$ is the $\RegSeqRatUp$ regular readback row obtained from $T,D,O$.
+\item $S$ is the $\RealUp$ seal row reached only after the displayed tail-ball basis has been read.
+\item $H$ records componentwise $\hsame$ transport for thresholds, dyadic balls, observation windows, regular readbacks, seals, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tail request through $T,D,O,R,S,H$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyBallBasisUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyBallBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,D,O,R,S,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, selected representatives, host metric completeness, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy ball basis NameCert obligations]\label{thm:regular-cauchy-ball-basis-namecert-obligations}
+For every accepted $\RegularCauchyBallBasisUp$ carrier $B=(T,D,O,R,S,H,C,P,N)$, the local $\NameCert_{\RegularCauchyBallBasisUp}$ surface consists exactly of carrier admission, threshold exactness, dyadic ball exactness, finite observation-window exposure, regular readback handoff, Real seal nonescape, componentwise transport, continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-ball-basis-carrier}. The threshold row $T$ names the tail being inspected, and the dyadic ledger $D$ names the finite ball radius attached to that tail.
+
+The observation row $O$ opens only the finite $\StreamNameUp$ windows demanded by $T$ and $D$. The regular readback $R$ and terminal seal $S$ remain downstream of those windows.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same packet. Since the classifier has no coordinate beyond these rows, the local NameCert surface has exactly the stated obligations and no quotient, selected-limit, choice, metric-completeness, or ambient-completeness row.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy ball basis tail extraction]\label{thm:regular-cauchy-ball-basis-tail-extraction}
+Every downstream Real-completeness consumer of an accepted $\RegularCauchyBallBasisUp$ carrier extracts its finite tail-ball basis through the route
+$$
+T,D,O \longmapsto R,S \longmapsto H,C,P,N .
+$$
+The extracted basis supplies tail thresholds, dyadic balls, finite stream windows, regular readback, and a terminal Real seal, but it supplies no quotient completion, selected representative, host metric limit, countable-choice schedule, or ambient $\RealUp$ completeness proof.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only rows that can serve as a basis are the threshold row $T$, the dyadic ball ledger $D$, and the finite observation row $O$.
+
+The regular readback $R$ consumes that finite basis before the terminal seal $S$ is visible. Componentwise transport and replay through $H$ and $C$ return the consumer to the same threshold, ball, window, readback, and seal rows.
+
+The provenance and local naming rows $P,N$ name exactly that route. Because the carrier contains no quotient, selected representative, host metric limit, choice schedule, or ambient completeness coordinate, the extracted object is the displayed finite basis and nothing stronger.
+\end{proof}
+
+\falsifiablePrediction{Every $\RegularCauchyBallBasisUp$ Real-completeness read factors through finite tail thresholds, a DyadicRatCore ball-radius ledger, StreamName observation windows, RegSeqRat readback, a RealUp seal row, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\RegularCauchyBallBasisUp$ is not bijective to any listed sibling because it jointly carries tail thresholds, dyadic ball radii, finite observation windows, regular readback, a terminal Real seal, transport, replay, provenance, and local naming as one basis packet.}
+
+\closureat{RegularCauchyBallBasisUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyBallBasisUp}
+  \constructivestory{A $\RegularCauchyBallBasisUp$ packet is generated from finite tail thresholds, a DyadicRatCore ball-radius ledger, StreamName observation windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-ball-basis-carrier}, \autoref{thm:regular-cauchy-ball-basis-namecert-obligations}, and \autoref{thm:regular-cauchy-ball-basis-tail-extraction} seed the finite tail-ball basis consumed by Real-completeness routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, selected limits, host metric completeness, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, threshold exactness, dyadic ball exactness, finite observation-window exposure, regular readback handoff, Real seal nonescape, componentwise transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyBallBasisUp.}
+\end{closurestatus}
