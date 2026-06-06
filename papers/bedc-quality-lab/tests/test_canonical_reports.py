@@ -10,7 +10,7 @@ from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
-from bedc_quality_lab.discovery_compiler.pointers import pointer_value
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value, split_artifact_pointer
 
 
 HG_P_CORE = {
@@ -1703,6 +1703,33 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
             "unregistered_json_artifacts"
         ]
     )
+
+
+def test_discovery_gated_transformer_slot_artifact_pointers_resolve_when_present():
+    root = Path(__file__).resolve().parents[1]
+    owner_path = root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT
+    owner = json.loads(owner_path.read_text(encoding="utf-8"))
+    missing = []
+
+    for gate_id, row in owner["dgt_hardgate_slots"].items():
+        if not isinstance(row, dict):
+            continue
+        for pointer_key, pointer_cell in row.items():
+            if not pointer_key.endswith("_pointer") or not isinstance(pointer_cell, str):
+                continue
+            split = split_artifact_pointer(pointer_cell)
+            if split is None:
+                continue
+            artifact, pointer = split
+            artifact_path = root / artifact
+            if not artifact_path.exists():
+                continue
+            artifact_payload = json.loads(artifact_path.read_text(encoding="utf-8"))
+            resolved = artifact_payload if pointer == "$" else pointer_value(artifact_payload, pointer)
+            if resolved is None:
+                missing.append(f"{gate_id}.{pointer_key} -> {pointer_cell}")
+
+    assert missing == []
 
 
 def test_hg_p_forbidden_claim_terms_are_absent_from_positive_claim_cells():
