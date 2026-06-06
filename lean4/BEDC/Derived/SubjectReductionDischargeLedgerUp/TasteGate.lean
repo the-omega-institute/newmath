@@ -292,4 +292,43 @@ theorem SubjectReductionDischargeLedgerTasteGate_single_carrier_alignment :
         exact subjectReductionDischargeLedgerToEventFlow_injective heq
       · rfl
 
+theorem SubjectReductionDischargeLedgerFieldFaithfulSurface
+    (x : SubjectReductionDischargeLedgerUp) :
+    ∃ beta appArg lambdaDomain piDomain route transport replay provenance name : BHist,
+      x = SubjectReductionDischargeLedgerUp.mk beta appArg lambdaDomain piDomain route
+          transport replay provenance name ∧
+        subjectReductionDischargeLedgerToEventFlow x =
+          [[BMark.b0],
+            subjectReductionDischargeLedgerEncodeBHist beta,
+            [BMark.b1, BMark.b0],
+            subjectReductionDischargeLedgerEncodeBHist appArg,
+            [BMark.b1, BMark.b1, BMark.b0],
+            subjectReductionDischargeLedgerEncodeBHist lambdaDomain,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            subjectReductionDischargeLedgerEncodeBHist piDomain,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            subjectReductionDischargeLedgerEncodeBHist route,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+            subjectReductionDischargeLedgerEncodeBHist transport,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b0],
+            subjectReductionDischargeLedgerEncodeBHist replay,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b0],
+            subjectReductionDischargeLedgerEncodeBHist provenance,
+            [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+              BMark.b1, BMark.b1, BMark.b0],
+            subjectReductionDischargeLedgerEncodeBHist name] ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk beta appArg lambdaDomain piDomain route transport replay provenance name =>
+      exact
+        ⟨beta, appArg, lambdaDomain, piDomain, route, transport, replay, provenance, name,
+          rfl, rfl,
+          ChapterTasteGate.round_trip
+            (X := SubjectReductionDischargeLedgerUp)
+            (SubjectReductionDischargeLedgerUp.mk beta appArg lambdaDomain piDomain route
+              transport replay provenance name)⟩
+
 end BEDC.Derived.SubjectReductionDischargeLedgerUp
