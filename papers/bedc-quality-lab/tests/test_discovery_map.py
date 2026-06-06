@@ -10,23 +10,6 @@ from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
 
 
-TARGET_COVERAGE_CELLS = {
-    ("discovery-gated-transformer", "model-discovery-suite"),
-    ("ledger-aware-transformer", "discovery-map-signal"),
-    ("certificate-gated-attention", "discovery-map-signal"),
-    ("discovery-regularized-training", "discovery-map-signal"),
-    ("mechanism-seeking-network", "discovery-map-signal"),
-    ("discovery-gated-nas", "discovery-map-signal"),
-    ("gap-head-attribution-capsule", "d5-o"),
-    ("gap-head-attribution-capsule", "mechanism"),
-    ("sigreg-mini-grid", "discovery-map-signal"),
-    ("lejepa-theorem-ledger", "theorem-ledger"),
-    ("dimension-mismatch-debt-transfer", "negative-owner"),
-    ("certificate-guided-training", "negative-owner"),
-    ("lejepa-mini-grid", "run-local-negative-witness"),
-}
-
-
 def _write_payload(root: Path, spec, payload):
     path = root / spec.json_artifact
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -645,16 +628,12 @@ def _row_by_report(payload):
     return {row["report"]: row for row in payload["rows"]}
 
 
-def _coverage_cell(payload, model_id, surface_id):
+def _coverage_cell(payload, target):
     return next(
         cell
         for cell in payload["coverage_matrix"]["cells"]
-        if cell["model_id"] == model_id and cell["surface_id"] == surface_id
+        if cell["target"] == target
     )
-
-
-def _source_payload(root: Path, cell):
-    return _read_json_artifact(root, cell["source_artifact"])
 
 
 def _artifact_pointer_value(root: Path, pointer: str):
@@ -694,62 +673,52 @@ def test_discovery_map_coverage_matrix_matches_target_set(tmp_path):
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     cells = payload["coverage_matrix"]["cells"]
+    targets = {row["report"] for row in payload["rows"]}
 
-    assert {(cell["model_id"], cell["surface_id"]) for cell in cells} == TARGET_COVERAGE_CELLS
-    assert len(cells) == 13
-    assert {model["model_id"] for model in payload["coverage_matrix"]["models"]} == {
-        source.model_id for source in discovery_map.DISCOVERY_COVERAGE_SOURCES
-    }
-    assert {surface["surface_id"] for surface in payload["coverage_matrix"]["surfaces"]} == {
-        source.surface_id for source in discovery_map.DISCOVERY_COVERAGE_SOURCES
-    }
+    assert {cell["target"] for cell in cells} == targets
+    assert len(cells) == payload["row_count"]
+    assert all(set(cell) == {"target", "owner_pointer", "slot_state"} for cell in cells)
+    assert payload["coverage_matrix"]["overall_state"] == "present"
 
 
 def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
-    drt = _coverage_cell(payload, "discovery-regularized-training", "discovery-map-signal")
-    lat = _coverage_cell(payload, "ledger-aware-transformer", "discovery-map-signal")
-    drt_source = _source_payload(tmp_path, drt)
-    lat_source = _source_payload(tmp_path, lat)
+    drt = _coverage_cell(payload, "discovery-regularized-training")
+    lat = _coverage_cell(payload, "ledger-aware-transformer")
 
-    assert drt["status_pointer"] == "$.discovery_map_signal.level_candidate"
-    assert drt["coverage_level"] == "D4"
-    assert drt["pointer_status"] == "resolved"
-    assert drt["evidence_pointer"] == "$.torch_training_evidence"
-    assert discovery_map.pointer_value(drt_source, drt["status_pointer"]) == "D4"
-    assert discovery_map.pointer_value(drt_source, drt["evidence_pointer"]) is not None
+    assert drt == {
+        "target": "discovery-regularized-training",
+        "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence",
+        "slot_state": "present",
+    }
+    assert _artifact_pointer_value(tmp_path, drt["owner_pointer"]) is not None
     assert "metric" not in drt
     assert "aggregate_score" not in drt
     assert "classifier_reasons" not in drt
     assert "training_rows" not in drt
 
-    assert lat["status_pointer"] == "$.discovery_map_signal.level_candidate"
-    assert lat["hardgate_pointer"] == "$.discovery_map_signal.net_positive_signal"
-    assert lat["coverage_level"] == "D4"
-    assert lat["pointer_status"] == "resolved"
-    assert lat["evidence_pointer"] == "$.aggregate_metrics.uer_reduction"
-    assert discovery_map.pointer_value(lat_source, lat["status_pointer"]) == "D4"
-    assert discovery_map.pointer_value(lat_source, lat["evidence_pointer"]) is not None
+    assert lat == {
+        "target": "ledger-aware-transformer",
+        "owner_pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_reduction",
+        "slot_state": "present",
+    }
+    assert _artifact_pointer_value(tmp_path, lat["owner_pointer"]) is not None
 
 
 def test_discovery_map_coverage_matrix_projects_gap_head_axes(tmp_path):
     _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
-    operational = _coverage_cell(payload, "gap-head-attribution-capsule", "d5-o")
-    blockage = _coverage_cell(payload, "gap-head-attribution-capsule", "mechanism")
-    capsule = _read_json_artifact(tmp_path, "reports/canonical/gap_head_attribution_capsule.json")
+    capsule = _coverage_cell(payload, "gap-head-attribution-capsule")
 
-    assert operational["status_pointer"] == "$.d5_o.status"
-    assert operational["coverage_level"] == "D5-O"
-    assert operational["pointer_status"] == "resolved"
-    assert discovery_map.pointer_value(capsule, operational["status_pointer"]) == "ready"
-    assert blockage["status_pointer"] == "$.mechanism_evidence.mechanism_status"
-    assert blockage["coverage_level"] == "blocked"
-    assert blockage["hardgate_pointer"] == "$.mechanism_evidence.failed_gate"
-    assert discovery_map.pointer_value(capsule, blockage["hardgate_pointer"]) == "A1-HG3"
+    assert capsule == {
+        "target": "gap-head-attribution-capsule",
+        "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
+        "slot_state": "present",
+    }
+    assert _artifact_pointer_value(tmp_path, capsule["owner_pointer"]) is not None
 
 
 def test_discovery_map_coverage_matrix_resolves_target_pointers(tmp_path):
@@ -758,56 +727,49 @@ def test_discovery_map_coverage_matrix_resolves_target_pointers(tmp_path):
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
     for cell in payload["coverage_matrix"]["cells"]:
-        source_payload = _source_payload(tmp_path, cell)
-        assert discovery_map.pointer_value(source_payload, cell["status_pointer"]) is not None
-        assert discovery_map.pointer_value(source_payload, cell["evidence_pointer"]) is not None
-        if cell["hardgate_pointer"] is not None:
-            assert discovery_map.pointer_value(source_payload, cell["hardgate_pointer"]) is not None
-        if cell["pointer_status"] == "resolved":
-            assert _payload_pointer_value(payload, cell["discovery_map_row_pointer"]) is not None
-            if "negative_owner_pointer" in cell:
-                assert _artifact_pointer_value(tmp_path, cell["negative_owner_pointer"]) is not None
+        if cell["owner_pointer"].startswith("reports/canonical/discovery_map.json:"):
+            assert _payload_pointer_value(payload, cell["owner_pointer"]) is not None
+        else:
+            assert _artifact_pointer_value(tmp_path, cell["owner_pointer"]) is not None
 
 
-def test_discovery_map_coverage_matrix_dgt_present_but_unresolved_without_row(tmp_path):
+def test_discovery_map_coverage_matrix_omits_non_discovery_suite_target(tmp_path):
     _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
-    cell = _coverage_cell(payload, "discovery-gated-transformer", "model-discovery-suite")
 
-    assert cell["coverage_level"] == "unknown"
-    assert cell["pointer_status"] == "unresolved"
-    assert cell["discovery_map_row_pointer"] is None
-    source_payload = _source_payload(tmp_path, cell)
-    assert discovery_map.pointer_value(source_payload, cell["status_pointer"]) == "d5-m-candidate"
-    assert discovery_map.pointer_value(source_payload, cell["evidence_pointer"]) is not None
+    assert "discovery-gated-transformer" not in {cell["target"] for cell in payload["coverage_matrix"]["cells"]}
 
 
-def test_discovery_map_coverage_matrix_dangling_pointer_unknown(tmp_path):
-    _write_coverage_payloads(tmp_path)
-    original = discovery_map.DISCOVERY_COVERAGE_SOURCES
-    mutated = tuple(
-        discovery_map.DiscoveryCoverageSource(
-            model_id=source.model_id,
-            surface_id=source.surface_id,
-            source_artifact=source.source_artifact,
-            status_pointer="$.discovery_map_signal.missing_level" if source.model_id == "discovery-regularized-training" else source.status_pointer,
-            evidence_pointer=source.evidence_pointer,
-            hardgate_pointer=source.hardgate_pointer,
-            level_pointer=source.level_pointer,
-            negative_owner_pointer=source.negative_owner_pointer,
-        )
-        for source in original
+def test_discovery_map_coverage_matrix_dangling_pointer_fails_closed(tmp_path):
+    row = {
+        "report": "dangling-target",
+        "json_artifact": "reports/canonical/dangling.json",
+        "markdown_artifact": "reports/canonical/dangling.md",
+        "discovery_level": "D1",
+        "projection_status": "projected",
+        "evidence_pointer": "$.missing",
+        "audit_status": "valid",
+        "audit_reason": "",
+    }
+    payload = discovery_map.build_discovery_map_payload(
+        rows=[row],
+        generated_at="fixture-time",
+        coverage_matrix={
+            "status": "pointer-only",
+            "overall_state": "present-but-fail-closed",
+            "cells": [
+                {
+                    "target": "dangling-target",
+                    "owner_pointer": "reports/canonical/dangling.json:$.missing",
+                    "slot_state": "present-but-fail-closed",
+                }
+            ],
+        },
+        root=tmp_path,
     )
-    discovery_map.DISCOVERY_COVERAGE_SOURCES = mutated
-    try:
-        payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
-    finally:
-        discovery_map.DISCOVERY_COVERAGE_SOURCES = original
 
-    cell = _coverage_cell(payload, "discovery-regularized-training", "discovery-map-signal")
-    assert cell["coverage_level"] == "unknown"
-    assert cell["pointer_status"] == "unresolved"
+    assert payload["coverage_matrix"]["overall_state"] == "present-but-fail-closed"
 
 
 def test_discovery_map_coverage_matrix_has_no_terminal_verdict_key(tmp_path):
@@ -824,38 +786,25 @@ def test_discovery_map_coverage_matrix_dn_cells_are_pointer_only(tmp_path):
     _write_coverage_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
-    dimension = _coverage_cell(payload, "dimension-mismatch-debt-transfer", "negative-owner")
-    certificate = _coverage_cell(payload, "certificate-guided-training", "negative-owner")
-    lejepa = _coverage_cell(payload, "lejepa-mini-grid", "run-local-negative-witness")
+    dimension = _coverage_cell(payload, "dimension-mismatch-debt-transfer")
+    certificate = _coverage_cell(payload, "certificate-guided-training")
+    rows = _row_by_report(payload)
 
-    assert dimension["coverage_level"] == "DN"
-    assert dimension["negative_owner_pointer"] == "reports/canonical/negative_discovery_reports.json:$.rows[4]"
-    assert certificate["coverage_level"] == "DN"
-    assert certificate["negative_owner_pointer"] == "reports/canonical/negative_discovery_reports.json:$.rows[1]"
-    assert lejepa["coverage_level"] == "unknown"
-    assert lejepa["pointer_status"] == "unresolved"
-    assert lejepa["discovery_map_row_pointer"] is None
-    assert lejepa["negative_owner_pointer"] == (
-        "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness[0]"
-    )
-    for cell in (dimension, certificate, lejepa):
-        assert _artifact_pointer_value(tmp_path, cell["negative_owner_pointer"]) is not None
+    assert dimension["slot_state"] == "negative"
+    assert dimension["owner_pointer"] == rows["dimension-mismatch-debt-transfer"]["negative_report_pointer"]
+    assert certificate["slot_state"] == "negative"
+    assert certificate["owner_pointer"] == rows["certificate-guided-training"]["negative_report_pointer"]
+    for cell in (dimension, certificate):
+        assert _artifact_pointer_value(tmp_path, cell["owner_pointer"]) is not None
         for key in discovery_map.DN_FACT_KEYS | {"terminal_verdict"}:
             assert key not in cell
 
 
 def test_discovery_map_payload_rejects_non_pointer_only_coverage_matrix():
     cell = {
-        "model_id": "fixture",
-        "surface_id": "negative-owner",
-        "coverage_level": "DN",
-        "pointer_status": "resolved",
-        "source_artifact": "reports/canonical/fixture.json",
-        "status_pointer": "$.status",
-        "evidence_pointer": "$.evidence",
-        "hardgate_pointer": "$.hardgate",
-        "discovery_map_row_pointer": "reports/canonical/discovery_map.json:$.rows[0]",
-        "negative_owner_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
+        "target": "positive-fixture",
+        "owner_pointer": "reports/canonical/positive.json:$.positive",
+        "slot_state": "present",
     }
     row = {
         "report": "positive-fixture",
@@ -873,7 +822,7 @@ def test_discovery_map_payload_rejects_non_pointer_only_coverage_matrix():
         discovery_map.build_discovery_map_payload(
             rows=[row],
             generated_at="fixture-time",
-            coverage_matrix={"status": "materialized", "models": [], "surfaces": [], "cells": [cell]},
+            coverage_matrix={"status": "materialized", "overall_state": "present", "cells": [cell]},
         )
     with pytest.raises(ValueError, match="copies owner facts"):
         discovery_map.build_discovery_map_payload(
@@ -881,19 +830,17 @@ def test_discovery_map_payload_rejects_non_pointer_only_coverage_matrix():
             generated_at="fixture-time",
             coverage_matrix={
                 "status": "pointer-only",
-                "models": [],
-                "surfaces": [],
+                "overall_state": "present",
                 "cells": [{**cell, "owner": {"terminal_verdict": "negative_discovery"}}],
             },
         )
-    with pytest.raises(ValueError, match="negative_owner_pointer"):
+    with pytest.raises(ValueError, match="schema mismatch"):
         discovery_map.build_discovery_map_payload(
             rows=[row],
             generated_at="fixture-time",
             coverage_matrix={
                 "status": "pointer-only",
-                "models": [],
-                "surfaces": [],
+                "overall_state": "present",
                 "cells": [{**cell, "negative_owner_pointer": "$.rows[0]"}],
             },
         )
