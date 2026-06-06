@@ -60,6 +60,7 @@ NEGATIVE_WITNESS_REGRESSION_TEST = (
     "tests/test_certificate_guided_constraint_training.py::"
     "test_c1_run_local_negative_witness_records_audit_improvement_tradeoff"
 )
+NEGATIVE_WITNESS_OWNER_POINTER = "$.run_local.negative_witness[0]"
 SEEDS = (18, 25, 36, 44, 57, 63, 72, 89)
 RHO = 0.82
 SAMPLE_COUNT = 160
@@ -658,6 +659,24 @@ def _negative_witness_run_local(payload: dict[str, Any]) -> dict[str, Any]:
     probe = {**payload, "claim_capsule": {"run_local": run_local}}
     run_local["negative_witness_hardgates"] = _negative_witness_hardgates(probe, row, checks)
     return run_local
+
+
+def _negative_witness_owner_ref(run_id: str) -> dict[str, str]:
+    return {
+        "artifact": _capsule_path(run_id),
+        "pointer": NEGATIVE_WITNESS_OWNER_POINTER,
+    }
+
+
+def _public_claim_capsule_projection(capsule: dict[str, Any]) -> dict[str, Any]:
+    projected = dict(capsule)
+    run_local = projected.get("run_local")
+    if not isinstance(run_local, dict):
+        return projected
+    projected_run_local = dict(run_local)
+    projected_run_local["negative_witness"] = [_negative_witness_owner_ref(str(capsule["run_id"]))]
+    projected["run_local"] = projected_run_local
+    return projected
 
 
 def _grid_summary_records(grid_records: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -1342,7 +1361,6 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training", generate
         not_claimed=payload["not_claimed"],
         run_local=run_local,
     )
-    payload["claim_capsule"]["run_local"] = run_local
     payload["claim_capsule"]["c2_frontier"] = {
         "axis_spec": payload["c2_frontier"]["axis_spec"],
         "hardgates": payload["c2_frontier"]["hardgates"],
@@ -1430,7 +1448,10 @@ def _write_payload(payload: dict[str, Any]) -> None:
 
 
 def _public_payload(payload: dict[str, Any]) -> dict[str, Any]:
-    return {key: value for key, value in payload.items() if not key.startswith("_")}
+    public = {key: value for key, value in payload.items() if not key.startswith("_")}
+    if isinstance(public.get("claim_capsule"), dict):
+        public["claim_capsule"] = _public_claim_capsule_projection(public["claim_capsule"])
+    return public
 
 
 def _canonical_json(payload: dict[str, Any]) -> str:

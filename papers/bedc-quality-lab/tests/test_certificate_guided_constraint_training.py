@@ -131,6 +131,19 @@ def _recursive_key_present(value, key):
     return False
 
 
+def _assert_negative_witness_pointer_only(
+    value,
+    *,
+    artifact="reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+):
+    assert value == {
+        "artifact": artifact,
+        "pointer": "$.run_local.negative_witness[0]",
+    }
+    assert set(value) == {"artifact", "pointer"}
+    assert not {"witness_id", "bedc_gap_field", "demotion_rule"} & set(value)
+
+
 def _claim_gate_for_single_failed_gate(failed_name):
     claim_gate = {
         "positive_quality_improvement": True,
@@ -218,7 +231,12 @@ def test_c1_producer_runs_seven_arm_grid_and_writes_capsule(monkeypatch, tmp_pat
     assert loaded["arm_protocol"]["main_pair"] == ["baseline", "constraint_lagrangian"]
     assert loaded["arm_protocol"]["control_pair"] == ["baseline", "matched_random_debt"]
     assert loaded["claim_capsule"]["schema_id"] == "bedc.quality.claim_capsule"
-    assert capsule == loaded["claim_capsule"]
+    _assert_negative_witness_pointer_only(
+        loaded["claim_capsule"]["run_local"]["negative_witness"][0],
+        artifact="reports/runs/fixture-c1/claim_capsule.json",
+    )
+    assert set(capsule["run_local"]["negative_witness"][0]) == set(runner.NEGATIVE_WITNESS_KEYS)
+    assert _pointer_value(capsule, loaded["claim_capsule"]["run_local"]["negative_witness"][0]["pointer"]) == capsule["run_local"]["negative_witness"][0]
     assert set(capsule["prior_observation"]) == {
         "source_evidence_pointer",
         "hardgate_pointer",
@@ -248,7 +266,14 @@ def test_c1_capsule_write_is_stable_across_repeated_writes(monkeypatch, tmp_path
     canonical_payload = json.loads((tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8"))
     sidecar_payload = json.loads((tmp_path / canonical_payload["claim_capsule"]["artifact"]).read_text(encoding="utf-8"))
 
-    assert canonical_payload["claim_capsule"] == sidecar_payload
+    assert canonical_payload["claim_capsule"] == runner._public_claim_capsule_projection(sidecar_payload)
+    assert canonical_payload["claim_capsule"]["run_local"]["negative_witness"] == [
+        {
+            "artifact": "reports/runs/fixture-c1/claim_capsule.json",
+            "pointer": "$.run_local.negative_witness[0]",
+        }
+    ]
+    assert set(sidecar_payload["run_local"]["negative_witness"][0]) == set(runner.NEGATIVE_WITNESS_KEYS)
 
 
 def test_c1_regeneration_reuses_existing_generated_at(monkeypatch, tmp_path):
@@ -342,21 +367,45 @@ def test_c1_run_local_negative_witness_hardgates_pass_for_resolved_payload(monke
 def test_c1_run_local_negative_witness_source_pointer_resolves():
     canonical_artifact = "reports/canonical/certificate-guided-training.json"
     canonical_payload = json.loads((runner.ROOT / canonical_artifact).read_text(encoding="utf-8"))
-    row = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+    row_ref = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+    row_owner = json.loads((runner.ROOT / row_ref["artifact"]).read_text(encoding="utf-8"))
+    row = _pointer_value(row_owner, row_ref["pointer"])
 
+    _assert_negative_witness_pointer_only(row_ref)
     assert row["source_artifact"] == canonical_artifact
     assert _pointer_value(canonical_payload, row["source_pointer"]) == "audit-improvement-tradeoff"
 
 
 def test_c1_run_local_negative_witness_evidence_pointer_resolves():
     canonical_payload = json.loads((runner.ROOT / "reports/canonical/certificate-guided-training.json").read_text(encoding="utf-8"))
-    row = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+    row_ref = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+    row_owner = json.loads((runner.ROOT / row_ref["artifact"]).read_text(encoding="utf-8"))
+    row = _pointer_value(row_owner, row_ref["pointer"])
     evidence = _artifact_pointer_value(runner.ROOT, row["evidence_pointer"])
 
+    _assert_negative_witness_pointer_only(row_ref)
     assert evidence["status"] == "fail"
     assert evidence["failed_gate"] == "audit-improvement-tradeoff"
     assert evidence["debt_delta"] < 0
     assert evidence["benefit_delta"] < 0
+
+
+def test_c1_public_surfaces_point_to_run_local_negative_witness_owner():
+    for artifact in (
+        "reports/canonical/certificate-guided-training.json",
+        "reports/certificate_guided_training.json",
+    ):
+        payload = json.loads((runner.ROOT / artifact).read_text(encoding="utf-8"))
+        row_ref = payload["claim_capsule"]["run_local"]["negative_witness"][0]
+        owner = json.loads((runner.ROOT / row_ref["artifact"]).read_text(encoding="utf-8"))
+        row = _pointer_value(owner, row_ref["pointer"])
+
+        _assert_negative_witness_pointer_only(row_ref)
+        assert set(row) == set(runner.NEGATIVE_WITNESS_KEYS)
+        assert row["witness_id"] == "certificate-guided-constraint-training:audit-improvement-tradeoff"
+        assert row["bedc_gap_field"] == "Positive information gap"
+        assert row["demotion_rule"] == "audit-improvement-tradeoff"
+        assert _pointer_value(owner, "$.run_local.negative_witness[0]") == row
 
 
 def test_c1_run_local_negative_witness_regression_test_collects():
