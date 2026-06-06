@@ -28,6 +28,9 @@ from bedc_quality_lab.discovery_regularized_training import (
     QUALITY_PROMOTION_ARMS as DRT_QUALITY_PROMOTION_ARMS,
     quality_artifact_pointer as _drt_quality_artifact_pointer,
 )
+from bedc_quality_lab.discovery_gated_transformer_training import (
+    TRAINING_REPLAY_ARTIFACT as DGT_TRAINING_REPLAY_ARTIFACT,
+)
 from scripts.literature_ledger import validate_literature_ledger
 
 CANONICAL_DIR = ROOT / "reports" / "canonical"
@@ -79,6 +82,7 @@ DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT = "reports/canonical/discovery_gated_t
 DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery_gated_transformer.md"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
 DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
+DGT_TRAINING_HARDGATES_POINTER = f"{DGT_TRAINING_REPLAY_ARTIFACT}:$.hardgates"
 FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
 FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
 FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
@@ -2756,10 +2760,17 @@ def _build_discovery_gated_transformer_payload(generated_at: str | None = None) 
             "pointer_state": "present-but-fail-closed",
         },
         "dgt_hardgate_slots": _dgt_hardgate_slots(),
+        "training_replay_ref": {
+            "artifact": DGT_TRAINING_REPLAY_ARTIFACT,
+            "pointer": "$",
+            "hardgates_pointer": DGT_TRAINING_HARDGATES_POINTER,
+            "slot_state": "present-but-fail-closed",
+        },
         "public_index_pointers": {
             "model_id": "$.model_id",
             "component_descriptors": "$.component_descriptors",
             "dgt_hardgate_slots": "$.dgt_hardgate_slots",
+            "training_replay_ref": "$.training_replay_ref",
             "not_claimed": "$.not_claimed",
             "downstream_scope": "$.downstream_scope",
         },
@@ -2837,6 +2848,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "component_descriptors",
         "new_model_hardgates_registry",
         "dgt_hardgate_slots",
+        "training_replay_ref",
         "public_index_pointers",
         "not_claimed",
         "downstream_scope",
@@ -2908,11 +2920,20 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
             raise ValueError(f"discovery_gated_transformer slot registry pointer invalid: {gate_id}")
     if slots["overall_state"] != "present-but-fail-closed":
         raise ValueError("discovery_gated_transformer overall_state invalid")
+    training_ref = payload["training_replay_ref"]
+    if training_ref != {
+        "artifact": DGT_TRAINING_REPLAY_ARTIFACT,
+        "pointer": "$",
+        "hardgates_pointer": DGT_TRAINING_HARDGATES_POINTER,
+        "slot_state": "present-but-fail-closed",
+    }:
+        raise ValueError("discovery_gated_transformer training replay ref invalid")
     public_pointers = payload["public_index_pointers"]
     expected_public_pointers = {
         "model_id": "$.model_id",
         "component_descriptors": "$.component_descriptors",
         "dgt_hardgate_slots": "$.dgt_hardgate_slots",
+        "training_replay_ref": "$.training_replay_ref",
         "not_claimed": "$.not_claimed",
         "downstream_scope": "$.downstream_scope",
     }
@@ -2987,6 +3008,8 @@ def _render_discovery_gated_transformer_markdown(payload: Mapping[str, Any]) -> 
         [
             "",
             f"- Overall state: `{slots['overall_state']}`",
+            f"- Training replay: `{payload['training_replay_ref']['artifact']}:{payload['training_replay_ref']['pointer']}`",
+            f"- Training hardgates: `{payload['training_replay_ref']['hardgates_pointer']}`",
             f"- Downstream scope: `{payload['public_index_pointers']['downstream_scope']}`",
             "",
         ]
@@ -3006,6 +3029,8 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "component_descriptors_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_descriptors",
         "hardgate_slots_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots",
         "overall_state_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.overall_state",
+        "training_replay_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.training_replay_ref",
+        "training_hardgates_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.training_replay_ref.hardgates_pointer",
         "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
         "downstream_scope_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.downstream_scope",
         "dgt_hardgate_slot_pointers": {
@@ -3659,6 +3684,10 @@ def run_reports(
         _artifact_path(NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT),
         _render_new_model_hardgates_markdown(new_model_hardgates),
     )
+    from scripts.run_discovery_gated_transformer_training import build_payload as build_dgt_training_payload
+    from scripts.run_discovery_gated_transformer_training import write_artifacts as write_dgt_training_artifacts
+
+    write_dgt_training_artifacts(build_dgt_training_payload(generated_at=timestamp), root=ROOT)
     discovery_gated_transformer = _build_discovery_gated_transformer_payload(generated_at=timestamp)
     _write_json_atomic(_artifact_path(DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT), discovery_gated_transformer)
     _write_text_atomic(

@@ -36,4 +36,6 @@
 | `DGT-HG12` | `$.component_descriptors.output_bundle` | `$.downstream_scope` | `None` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG20` | `present-but-fail-closed` | `missing-terminal-claim-pointer` |
 
 - Overall state: `present-but-fail-closed`
+- Training replay: `reports/runs/discovery_gated_transformer/training-replay/training_replay/training_replay.json:$`
+- Training hardgates: `reports/runs/discovery_gated_transformer/training-replay/training_replay/training_replay.json:$.hardgates`
 - Downstream scope: `$.downstream_scope`

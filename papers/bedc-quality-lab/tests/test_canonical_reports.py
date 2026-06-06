@@ -1646,6 +1646,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "component_descriptors",
         "new_model_hardgates_registry",
         "dgt_hardgate_slots",
+        "training_replay_ref",
         "public_index_pointers",
         "not_claimed",
         "downstream_scope",
@@ -1679,6 +1680,12 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "discovery_map": "out-of-scope-follow-up",
         "claim_verdicts": "out-of-scope-follow-up",
         "claim_graph": "out-of-scope-follow-up",
+    }
+    assert payload["training_replay_ref"] == {
+        "artifact": canonical.DGT_TRAINING_REPLAY_ARTIFACT,
+        "pointer": "$",
+        "hardgates_pointer": canonical.DGT_TRAINING_HARDGATES_POINTER,
+        "slot_state": "present-but-fail-closed",
     }
 
 
@@ -1737,6 +1744,8 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "component_descriptors_pointer",
         "hardgate_slots_pointer",
         "overall_state_pointer",
+        "training_replay_ref_pointer",
+        "training_hardgates_pointer",
         "not_claimed_pointer",
         "downstream_scope_pointer",
         "dgt_hardgate_slot_pointers",
@@ -1751,6 +1760,12 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     )
     assert section["overall_state_pointer"] == (
         "reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.overall_state"
+    )
+    assert section["training_replay_ref_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.training_replay_ref"
+    )
+    assert section["training_hardgates_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.training_replay_ref.hardgates_pointer"
     )
     assert section["dgt_hardgate_slot_pointers"] == {
         f"DGT-HG{index}": f"reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.DGT-HG{index}"
@@ -1849,6 +1864,8 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
         section["component_descriptors_pointer"],
         section["hardgate_slots_pointer"],
         section["overall_state_pointer"],
+        section["training_replay_ref_pointer"],
+        section["training_hardgates_pointer"],
         section["not_claimed_pointer"],
         section["downstream_scope_pointer"],
         *section["dgt_hardgate_slot_pointers"].values(),
