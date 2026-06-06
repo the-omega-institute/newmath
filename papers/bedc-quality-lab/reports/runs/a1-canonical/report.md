@@ -1,11 +1,11 @@
 # Gap-Head Attribution Capsule
 
-- Generated at: `2026-06-04T13:39:39+00:00`
+- Generated at: `2026-06-06T15:19:08.204708+00:00`
 - Run id: `a1-canonical`
 - Artifact id: `gap_head_attribution_capsule`
 - D5-O: `ready`
 - D5-M: `blocked`
-- Mechanism case: `Case 2`
+- Mechanism case: `Case C`
 - Failed gate: `A1-HG3`
 
 ## Arms
@@ -33,6 +33,8 @@
 | `full_without_margin` | 0.805031 +/- 0.046021 (95% CI +/- 0.016469) | 0.368116 +/- 0.083572 (95% CI +/- 0.029906) | `ablation` | `diagnostic` |
 | `full_without_transition` | 0.826162 +/- 0.049520 (95% CI +/- 0.017720) | 0.388406 +/- 0.087056 (95% CI +/- 0.031153) | `ablation` | `A1-HG5-ablation` |
 | `full_without_quality_scalars` | 0.815589 +/- 0.044417 (95% CI +/- 0.015894) | 0.380870 +/- 0.085639 (95% CI +/- 0.030646) | `ablation` | `diagnostic` |
+| `full_residualized_against_score_margin` | 0.800806 +/- 0.051129 (95% CI +/- 0.018296) | 0.366667 +/- 0.087288 (95% CI +/- 0.031236) | `residualized_attribution` | `A4-HG2-primary` |
+| `full_without_score_and_margin` | 0.649792 +/- 0.057584 (95% CI +/- 0.020606) | 0.306667 +/- 0.086684 (95% CI +/- 0.031020) | `residualized_attribution` | `A4-HG3-primary` |
 | `matched_random` | 0.493183 +/- 0.096779 (95% CI +/- 0.034632) | 0.242899 +/- 0.099825 (95% CI +/- 0.035722) | `negative_control` | `A1-HG1-control` |
 
 ## A1 Hardgates
@@ -45,6 +47,17 @@
 | `A1-HG4` | `pass` |
 | `A1-HG5` | `pass` |
 | `A1-HG6` | `fail` |
+
+## A4 Hardgates
+
+| gate | status |
+| --- | --- |
+| `A4-HG1` | `pass` |
+| `A4-HG2` | `pass` |
+| `A4-HG3` | `pass` |
+| `A4-HG4` | `pass` |
+| `head_causal_patch` | `pass` |
+| `A4-HG5` | `fail` |
 
 ## Claim Capsule Hardgates
 

@@ -36,6 +36,29 @@ EXPECTED_ARMS = (
     "full_without_score_and_margin",
     "matched_random",
 )
+A1_CANONICAL_HG3 = {
+    "criterion": "full AUROC CI-low > score_plus_margin AUROC CI-high",
+    "evidence": {
+        "full_ci_low": 0.7996948122113381,
+        "score_plus_margin_ci_high": 0.8454823105481024,
+    },
+    "name": "A1-HG3",
+    "status": "fail",
+}
+A1_CANONICAL_NEGATIVE_WITNESS_ROW = {
+    "witness_id": "a1-canonical:score-plus-margin-attribution-hardgate-failure",
+    "source_artifact": "reports/runs/a1-canonical/claim_capsule.json",
+    "source_pointer": "$.failed_gate",
+    "bedc_gap_field": "score_plus_margin_attribution_gap",
+    "demotion_rule": "demote_to_DN_on_A1_HG3_failure",
+    "regression_test": (
+        "tests/test_gap_head_attribution_capsule.py::"
+        "test_a1_canonical_run_local_negative_witness_records_a1_hg3_failure"
+    ),
+    "evidence_pointer": "reports/runs/a1-canonical/claim_capsule.json:$.hardgates.gates.A1-HG3",
+    "status": "fail",
+    "reason": "A1-HG3 records that full AUROC CI-low does not exceed the score_plus_margin AUROC CI-high control.",
+}
 
 
 def _stat(value):
@@ -106,6 +129,14 @@ def _resolve_pointer(payload, pointer):
 
 def _pointer_resolves(payload, pointer):
     return pointer_value(payload, pointer) is not None
+
+
+def _contains_key(payload, forbidden):
+    if isinstance(payload, dict):
+        return forbidden in payload or any(_contains_key(value, forbidden) for value in payload.values())
+    if isinstance(payload, list):
+        return any(_contains_key(value, forbidden) for value in payload)
+    return False
 
 
 def _node_at_path(payload, path):
@@ -227,6 +258,52 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
         "aggregate": aggregate,
         "records": [{"arm": arm, "fixture": True} for arm in runner.ARM_NAMES],
         "scope": {"not_claimed": list(runner.NOT_CLAIMED)},
+    }
+
+
+def _a1_canonical_negative_witness_payload():
+    payload = _artifact_payload()
+    payload["run_id"] = "a1-canonical"
+    payload["failed_gate"] = "A1-HG3"
+    payload["d5_m"] = {**payload["d5_m"], "status": "blocked", "passed": False, "failed_gate": "A1-HG3"}
+    payload["hardgates"] = {
+        **payload["hardgates"],
+        "status": "fail",
+        "failed_gate": "A1-HG3",
+        "gates": {
+            **payload["hardgates"]["gates"],
+            "A1-HG3": dict(A1_CANONICAL_HG3),
+        },
+    }
+    return payload
+
+
+def _write_a1_canonical_negative_witness_artifacts(tmp_path, *, canonical=False):
+    payload = _a1_canonical_negative_witness_payload()
+    run_dir = tmp_path / "reports/runs/a1-canonical"
+    old_root = runner.ROOT
+    try:
+        if canonical:
+            runner.ROOT = tmp_path
+            test_file = tmp_path / "tests/test_gap_head_attribution_capsule.py"
+            test_file.parent.mkdir(parents=True, exist_ok=True)
+            test_file.write_text(
+                "def test_a1_canonical_run_local_negative_witness_records_a1_hg3_failure():\n"
+                "    pass\n",
+                encoding="utf-8",
+            )
+        runner._write_artifacts(payload, run_dir, canonical=canonical)
+    finally:
+        runner.ROOT = old_root
+    return {
+        "claim_capsule": json.loads((run_dir / "claim_capsule.json").read_text(encoding="utf-8")),
+        "summary": json.loads((run_dir / "summary.json").read_text(encoding="utf-8")),
+        "report": (run_dir / "report.md").read_text(encoding="utf-8"),
+        "canonical": (
+            json.loads((tmp_path / runner.CANONICAL_JSON_ARTIFACT).read_text(encoding="utf-8"))
+            if canonical
+            else None
+        ),
     }
 
 
@@ -822,6 +899,91 @@ def test_write_artifacts_emits_summary_with_resolvable_cost_pointer_state(tmp_pa
     assert resolves is (expected_status == "pass")
     assert summary["claim_capsule_hardgates"]["CC-HG6"]["status"] == expected_status
     assert summary["claim_capsule_hardgates"]["CC-HG6"]["status"] == ("pass" if resolves else "fail")
+
+
+def test_a1_canonical_run_local_negative_witness_records_a1_hg3_failure(tmp_path):
+    artifacts = _write_a1_canonical_negative_witness_artifacts(tmp_path)
+    capsule = artifacts["claim_capsule"]
+
+    assert capsule["run_local"]["negative_witness"][0] == A1_CANONICAL_NEGATIVE_WITNESS_ROW
+
+
+def test_a1_canonical_run_local_negative_witness_source_pointer_resolves(tmp_path):
+    artifacts = _write_a1_canonical_negative_witness_artifacts(tmp_path)
+    capsule = artifacts["claim_capsule"]
+    row = capsule["run_local"]["negative_witness"][0]
+
+    assert row["source_artifact"] == "reports/runs/a1-canonical/claim_capsule.json"
+    assert pointer_value(capsule, row["source_pointer"]) == "A1-HG3"
+
+
+def test_a1_canonical_run_local_negative_witness_evidence_pointer_resolves(tmp_path):
+    artifacts = _write_a1_canonical_negative_witness_artifacts(tmp_path)
+    capsule = artifacts["claim_capsule"]
+    row = capsule["run_local"]["negative_witness"][0]
+    artifact, pointer = row["evidence_pointer"].split(":", 1)
+    evidence = pointer_value(capsule, pointer)
+
+    assert artifact == row["source_artifact"]
+    assert evidence == capsule["hardgates"]["gates"]["A1-HG3"]
+    assert evidence["status"] == "fail"
+    assert evidence["evidence"]["full_ci_low"] < evidence["evidence"]["score_plus_margin_ci_high"]
+
+
+def test_a1_canonical_run_local_negative_witness_row_shape_singleton(tmp_path):
+    artifacts = _write_a1_canonical_negative_witness_artifacts(tmp_path)
+    negative_witness = artifacts["claim_capsule"]["run_local"]["negative_witness"]
+
+    assert isinstance(negative_witness, list)
+    assert len(negative_witness) == 1
+    assert set(negative_witness[0]) == set(runner.NEGATIVE_WITNESS_KEYS)
+
+
+def test_a1_canonical_public_surfaces_point_to_run_local_negative_witness_owner(tmp_path):
+    artifacts = _write_a1_canonical_negative_witness_artifacts(tmp_path, canonical=True)
+    owner_ref = {
+        "artifact": "reports/runs/a1-canonical/claim_capsule.json",
+        "pointer": "$.run_local.negative_witness[0]",
+    }
+
+    assert artifacts["summary"]["negative_witness"] == [owner_ref]
+    assert artifacts["canonical"]["negative_witness"] == [owner_ref]
+    assert artifacts["summary"]["negative_witness"][0] == owner_ref
+    assert set(artifacts["summary"]["negative_witness"][0]) == {"artifact", "pointer"}
+    assert set(artifacts["canonical"]["negative_witness"][0]) == {"artifact", "pointer"}
+    assert "witness_id" not in json.dumps(artifacts["summary"]["negative_witness"], sort_keys=True)
+    assert "witness_id" not in json.dumps(artifacts["canonical"]["negative_witness"], sort_keys=True)
+    assert "score-plus-margin-attribution-hardgate-failure" not in artifacts["report"]
+
+
+def test_a1_canonical_run_local_negative_witness_fail_closed_keeps_blocked_row(tmp_path):
+    payload = _a1_canonical_negative_witness_payload()
+    payload["hardgates"]["gates"].pop("A1-HG3")
+    run_dir = tmp_path / "reports/runs/a1-canonical"
+
+    runner._write_artifacts(payload, run_dir, canonical=False)
+
+    capsule = json.loads((run_dir / "claim_capsule.json").read_text(encoding="utf-8"))
+    row = capsule["run_local"]["negative_witness"][0]
+    gates = capsule["run_local"]["negative_witness_hardgates"]["gates"]
+
+    assert row["status"] == "blocked"
+    assert row["witness_id"] == A1_CANONICAL_NEGATIVE_WITNESS_ROW["witness_id"]
+    assert set(row) == set(runner.NEGATIVE_WITNESS_KEYS)
+    assert gates["NW-HG3"]["status"] == "fail"
+
+
+def test_a1_canonical_run_local_negative_witness_no_terminal_verdict_leakage(tmp_path):
+    artifacts = _write_a1_canonical_negative_witness_artifacts(tmp_path)
+    run_local = artifacts["claim_capsule"]["run_local"]
+
+    assert not _contains_key(
+        {
+            "negative_witness": run_local["negative_witness"],
+            "negative_witness_hardgates": run_local["negative_witness_hardgates"],
+        },
+        "terminal_verdict",
+    )
 
 
 def test_write_artifacts_emits_all_local_pointers_resolvable_in_persisted_json(tmp_path):
