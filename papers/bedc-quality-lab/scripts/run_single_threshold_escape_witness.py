@@ -23,9 +23,7 @@ LOCAL_SCHEMA_ID = "bedc-quality-lab:single-threshold-escape-witness-sidecar"
 JSON_ARTIFACT = "runs/single_threshold_escape_witness.json"
 MARKDOWN_ARTIFACT = "runs/single_threshold_escape_witness.md"
 THRESHOLD_ARTIFACT = "reports/canonical/gap-head-threshold-frontier.json"
-REGISTRY_ARTIFACT = "reports/canonical/discovery_gate_escape_registry.json"
 CANONICAL_ROLE = "sidecar-not-in-CANONICAL_REPORTS"
-DEFERRED_KIND = "single_threshold_positive_only"
 POSITIVE_RULE = "AUROC.ci95_low > 0.5"
 ESCAPE_LEVELS = {"D4", "D5-O", "D5-M"}
 FORBIDDEN_CLAIM_KEYS = {"score", "total_score", "rank", "grade", "hidden_cost", "hidden_cost_weight", "hidden-cost"}
@@ -35,7 +33,6 @@ POINTERS = {
     "hardgate_policy": f"{THRESHOLD_ARTIFACT}:$.hardgate.policy",
     "control_baseline": f"{THRESHOLD_ARTIFACT}:$.threshold_summary.control_baseline",
     "not_claimed": f"{THRESHOLD_ARTIFACT}:$.applicability_boundary.not_claimed",
-    "deferred_kind": f"{REGISTRY_ARTIFACT}:$.deferred_kinds[kind=single_threshold_positive_only]",
 }
 
 
@@ -76,11 +73,6 @@ def validate_source_integrity(threshold_payload: Mapping[str, Any]) -> tuple[boo
     if not isinstance(_at(threshold_payload, "hardgate", "policy"), Mapping):
         failures.append("missing $.hardgate.policy")
     return not failures, failures
-
-
-def deferred_kind_present(registry_payload: Mapping[str, Any]) -> bool:
-    rows = _at(registry_payload, "deferred_kinds")
-    return isinstance(rows, list) and any(isinstance(row, Mapping) and row.get("kind") == DEFERRED_KIND for row in rows)
 
 
 def _auroc_ci_low(cell: Mapping[str, Any]) -> float | None:
@@ -200,7 +192,7 @@ def _escaped_row(pseudo: Mapping[str, Any], projection: Mapping[str, Any]) -> li
         return []
     basis = pseudo["single_threshold_basis"][0]
     return [{
-        "kind": DEFERRED_KIND,
+        "kind": "single_threshold_escape_witness",
         "source_pointer": basis["source_pointer"],
         "positive_signal": basis["positive_signal"],
         "terminal_verdict": projection["terminal_verdict"],
@@ -212,13 +204,9 @@ def _escaped_row(pseudo: Mapping[str, Any], projection: Mapping[str, Any]) -> li
 def build_sidecar(*, root: Path | None = None, generated_at: str | None = None) -> dict[str, Any]:
     base = root or ROOT
     threshold_payload = _load(base / THRESHOLD_ARTIFACT)
-    registry_payload = _load(base / REGISTRY_ARTIFACT)
     hardgates: dict[str, dict[str, Any]] = {}
     source_ok, source_failures = validate_source_integrity(threshold_payload)
     hardgates["HG-STEW-1"] = _gate(source_ok, source_pointers=[POINTERS[key] for key in ("threshold_curve", "hardgate_checks", "hardgate_policy")], failures=source_failures)
-    if not deferred_kind_present(registry_payload):
-        return _base(generated_at, hardgates, "stale-source-boundary")
-    hardgates["HG-STEW-4"] = {"status": "pass", "source_pointer": POINTERS["deferred_kind"]}
     if not source_ok:
         return _base(generated_at, hardgates, "source-integrity-failed")
 
@@ -239,7 +227,6 @@ def build_sidecar(*, root: Path | None = None, generated_at: str | None = None) 
         {
             "source_artifacts": {
                 "threshold_frontier": THRESHOLD_ARTIFACT,
-                "deferred_registry": REGISTRY_ARTIFACT,
                 "projector": "bedc_quality_lab.research_discovery.assign_discovery_level",
                 "claim_terms": "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS",
             },
@@ -250,7 +237,7 @@ def build_sidecar(*, root: Path | None = None, generated_at: str | None = None) 
             "escaped_rows": _escaped_row(pseudo, projection),
             "not_claimed": list(_at(threshold_payload, "applicability_boundary", "not_claimed") or []),
             "sidecar_not_claimed": ["No threshold tuning claim.", "No D5 claim.", "No canonical discovery-map promotion.", "No model-quality solution claim."],
-            "revoke_conditions": ["deferred registry row is absent or changes kind", "threshold policy changes so single-threshold readiness is unavailable or actively covered", "control baseline pointer is missing", "forbidden claim term or score field appears in claim-bearing fields"],
+            "revoke_conditions": ["threshold policy changes so single-threshold readiness is unavailable or actively covered", "control baseline pointer is missing", "forbidden claim term or score field appears in claim-bearing fields"],
         }
     )
     return payload

@@ -38,7 +38,6 @@ ACTIVE_KINDS = (
     "scale_only_overclaim",
 )
 DEFERRED_KINDS = (
-    "single_threshold_positive_only",
     "metadata_leakage_detector",
 )
 ESCAPE_LEVELS = {"D4", "D5-O", "D5-M"}
@@ -343,11 +342,6 @@ def build_escape_registry(
         "escape_semantics": "escaped positive is gate failure evidence, not discovery evidence",
         "active_kinds": list(ACTIVE_KINDS),
         "deferred_kinds": [
-            {
-                "kind": "single_threshold_positive_only",
-                "status": "deferred",
-                "rationale": "awaits an independent single-threshold gate surface",
-            },
             {
                 "kind": "metadata_leakage_detector",
                 "status": "deferred",
