@@ -3,6 +3,8 @@ import json
 import pytest
 
 from bedc_quality_lab import claim_terms
+from bedc_quality_lab.discovery_compiler import capsule
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from scripts import run_formal_hardening_report as formal_hardening
 
 
@@ -268,3 +270,84 @@ def test_write_formal_hardening_report_writes_json_and_markdown(tmp_path):
     assert markdown_path.exists()
     assert json.loads(json_path.read_text(encoding="utf-8")) == payload
     assert "finite-ledger-coverage" in markdown_path.read_text(encoding="utf-8")
+
+
+def _generated_run_artifacts(root):
+    run_dir = root / "reports" / "runs" / "formal-hardening-closure"
+    return {
+        "claim_capsule": run_dir / "claim_capsule.json",
+        "raw_metrics": run_dir / "raw_metrics.jsonl",
+        "summary": run_dir / "summary.json",
+        "report": run_dir / "report.md",
+    }
+
+
+def _read_json(path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _read_jsonl(path):
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
+
+
+def _recursive_keys(value):
+    yield from _walk_keys(value)
+
+
+def test_formal_hardening_claim_capsule_schema_contract(tmp_path):
+    formal_hardening.write_formal_hardening_report(root=tmp_path, generated_at="fixture-time")
+    artifacts = _generated_run_artifacts(tmp_path)
+    claim_capsule = _read_json(artifacts["claim_capsule"])
+    raw_metrics = _read_jsonl(artifacts["raw_metrics"])
+    summary = _read_json(artifacts["summary"])
+    report = artifacts["report"].read_text(encoding="utf-8")
+
+    assert claim_capsule["schema_id"] == "bedc.quality.claim_capsule"
+    assert claim_capsule["run_local"]
+    for payload in (claim_capsule, raw_metrics, summary):
+        assert "issue_schema_alias" not in set(_recursive_keys(payload))
+    assert "issue_schema_alias" not in report
+
+
+def test_formal_hardening_run_local_refs_resolve(tmp_path):
+    formal_hardening.write_formal_hardening_report(root=tmp_path, generated_at="fixture-time")
+    artifacts = _generated_run_artifacts(tmp_path)
+    canonical = _read_json(tmp_path / "reports" / "canonical" / "formal_hardening.json")
+    claim_capsule = _read_json(artifacts["claim_capsule"])
+    raw_metrics = _read_jsonl(artifacts["raw_metrics"])
+    run_local = claim_capsule["run_local"]
+
+    assert run_local["source_artifact"] == "reports/canonical/formal_hardening.json"
+    for pointer in (run_local["source_pointer"], run_local["ready_pointer"], run_local["ledger_pointer"]):
+        assert pointer_value(canonical, pointer) is not None
+    for row in raw_metrics:
+        assert row["source_artifact"] == "reports/canonical/formal_hardening.json"
+        assert pointer_value(canonical, row["source_pointer"]) is not None
+
+
+def test_formal_hardening_summary_points_to_capsule_contract(tmp_path):
+    formal_hardening.write_formal_hardening_report(root=tmp_path, generated_at="fixture-time")
+    summary = _read_json(_generated_run_artifacts(tmp_path)["summary"])
+
+    assert summary["claim_capsule_ref"] == {
+        "artifact": "reports/runs/formal-hardening-closure/claim_capsule.json",
+        "pointer": "$.run_local",
+    }
+    assert "run_local" not in summary
+
+
+def test_formal_hardening_does_not_expand_capsule_schema_validator():
+    assert capsule.CLAIM_CAPSULE_SCHEMA_ID == "bedc.quality.claim_capsule"
+    assert capsule.CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID == "bedc.quality.claim_capsule.run_local"
+
+    with pytest.raises(ValueError, match="claim capsule schema_id is invalid"):
+        capsule.normalize_claim_capsule_schema_id(
+            {
+                "schema_id": "bedc.quality.claim_capsule.formal_hardening",
+                "claim_id": "fixture",
+                "report": "reports/runs/fixture/report.md",
+                "source": "reports/canonical/formal_hardening.json",
+                "source_pointer": "$.ready",
+                "status": "complete",
+            }
+        )
