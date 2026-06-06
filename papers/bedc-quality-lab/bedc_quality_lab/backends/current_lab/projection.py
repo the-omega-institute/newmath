@@ -2408,6 +2408,7 @@ def _manifest_audit(
         NEGATIVE_WITNESSES_ARTIFACT,
         "reports/canonical/negative_witness_mutation_ledger.json",
         "reports/canonical/new_model_hardgates.json",
+        "reports/canonical/discovery_gated_transformer.json",
         "reports/canonical/discovery_negative_witness_summary.json",
         "reports/canonical/claim_capsule.json",
         "reports/canonical/claim_graph.json",

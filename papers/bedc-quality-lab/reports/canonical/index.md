@@ -109,6 +109,19 @@
 - Gate count: `20`
 - Candidate contract: `reports/canonical/new_model_hardgates.json:$.candidate_contract`
 
+## Discovery-Gated Transformer
+
+- Status: `present-but-fail-closed`
+- JSON: `reports/canonical/discovery_gated_transformer.json`
+- Markdown: `reports/canonical/discovery_gated_transformer.md`
+- Schema: `bedc-quality-lab:discovery-gated-transformer`
+- Model id: `reports/canonical/discovery_gated_transformer.json:$.model_id`
+- Components: `reports/canonical/discovery_gated_transformer.json:$.component_descriptors`
+- Hardgate slots: `reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots`
+- Overall state: `reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.overall_state`
+- Not claimed: `reports/canonical/discovery_gated_transformer.json:$.not_claimed`
+- Downstream scope: `reports/canonical/discovery_gated_transformer.json:$.downstream_scope`
+
 ## Claim verdicts
 
 - Status: `pointer-only`

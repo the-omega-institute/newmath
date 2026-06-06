@@ -1,0 +1,235 @@
+{
+  "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+  "canonical_owner": {
+    "json_artifact": "reports/canonical/discovery_gated_transformer.json",
+    "markdown_artifact": "reports/canonical/discovery_gated_transformer.md",
+    "owner_pointer": "reports/canonical/discovery_gated_transformer.json:$"
+  },
+  "component_descriptors": {
+    "audit": {
+      "evidence_pointer": "reports/canonical/negative_discovery_reports.json:$.rows",
+      "owner_pointer": "reports/canonical/negative_discovery_reports.json:$",
+      "pointer_state": "present-but-fail-closed",
+      "role": "audit boundary and negative-witness controls"
+    },
+    "backbone": {
+      "evidence_pointer": "reports/canonical/ledger-aware-transformer.json:$.run_artifacts",
+      "owner_pointer": "reports/canonical/ledger-aware-transformer.json:$",
+      "pointer_state": "present-but-fail-closed",
+      "role": "base sequence backbone"
+    },
+    "certificate_gated_attention": {
+      "evidence_pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
+      "owner_pointer": "reports/canonical/certificate-gated-attention.json:$",
+      "pointer_state": "present-but-fail-closed",
+      "role": "certificate-gated attention component"
+    },
+    "discovery_regularized_training": {
+      "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence",
+      "owner_pointer": "reports/canonical/discovery-regularized-training.json:$",
+      "pointer_state": "present-but-fail-closed",
+      "role": "discovery-regularized training objective"
+    },
+    "gap_ledger_route_mechanism_scope_heads": {
+      "evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
+      "owner_pointer": "reports/canonical/gap_head_attribution_capsule.json:$",
+      "pointer_state": "present-but-fail-closed",
+      "role": "gap, ledger, route certificate, mechanism-probe, and scope-seal heads"
+    },
+    "output_bundle": {
+      "evidence_pointer": "reports/canonical/discovery_gated_transformer.json:$.downstream_scope",
+      "owner_pointer": "reports/canonical/discovery_gated_transformer.json:$.public_index_pointers",
+      "pointer_state": "present-but-fail-closed",
+      "role": "model output bundle boundary"
+    }
+  },
+  "dgt_hardgate_slots": {
+    "DGT-HG1": {
+      "ablation_pointer": null,
+      "component_pointer": "$.component_descriptors.backbone",
+      "control_pointer": "reports/canonical/ledger-aware-transformer.json:$.control_protocol",
+      "evidence_pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_reduction",
+      "failure_mode": "missing-evidence-pointer",
+      "gate_id": "DGT-HG1",
+      "gate_label": "UER base baseline",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG11",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "UER evidence against base baseline",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG10": {
+      "ablation_pointer": "reports/canonical/gap-head-ablation.json:$.hardgate",
+      "component_pointer": "$.component_descriptors.gap_ledger_route_mechanism_scope_heads",
+      "control_pointer": "reports/canonical/gap-head-ablation.json:$.control_protocol",
+      "evidence_pointer": "reports/canonical/gap-head-ablation.json:$.factor_attribution",
+      "failure_mode": "missing-ablation-pointer",
+      "gate_id": "DGT-HG10",
+      "gate_label": "gap ledger head ablation",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG19",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "gap, ledger, and head ablation lowers the corresponding signal",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG11": {
+      "ablation_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates",
+      "component_pointer": "$.component_descriptors.gap_ledger_route_mechanism_scope_heads",
+      "control_pointer": "reports/gap_head_mechanism_namecert.json:$.source_spec.scope_seal",
+      "evidence_pointer": "reports/gap_head_mechanism_namecert.json:$.mechanism_spec",
+      "failure_mode": "missing-ablation-pointer",
+      "gate_id": "DGT-HG11",
+      "gate_label": "mechanism probe and scope seal ablation",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG19",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "mechanism-probe and scope-seal ablation lowers the corresponding signal",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG12": {
+      "ablation_pointer": null,
+      "component_pointer": "$.component_descriptors.output_bundle",
+      "control_pointer": null,
+      "evidence_pointer": "$.downstream_scope",
+      "failure_mode": "missing-terminal-claim-pointer",
+      "gate_id": "DGT-HG12",
+      "gate_label": "boundary and terminal exposure",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG20",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "boundary excludes broad superiority claims and terminal claim exposure remains downstream",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG2": {
+      "ablation_pointer": null,
+      "component_pointer": "$.component_descriptors.backbone",
+      "control_pointer": "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control",
+      "evidence_pointer": "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control.parameter_matched",
+      "failure_mode": "missing-control-pointer",
+      "gate_id": "DGT-HG2",
+      "gate_label": "UER parameter-matched baseline",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG7",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "UER evidence against a parameter-matched baseline",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG3": {
+      "ablation_pointer": null,
+      "component_pointer": "$.component_descriptors.backbone",
+      "control_pointer": "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control",
+      "evidence_pointer": "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control.compute_matched",
+      "failure_mode": "missing-control-pointer",
+      "gate_id": "DGT-HG3",
+      "gate_label": "UER compute-matched baseline",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG8",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "UER evidence against a compute-matched baseline",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG4": {
+      "ablation_pointer": null,
+      "component_pointer": "$.component_descriptors.backbone",
+      "control_pointer": "reports/canonical/ledger-aware-transformer.json:$.matched_random_control",
+      "evidence_pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_reduction",
+      "failure_mode": "missing-control-pointer",
+      "gate_id": "DGT-HG4",
+      "gate_label": "UER matched-random baseline",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG9",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "UER evidence against a matched-random structural control",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG5": {
+      "ablation_pointer": null,
+      "component_pointer": "$.component_descriptors.audit",
+      "control_pointer": "reports/canonical/ledger-aware-transformer.json:$.matched_random_control",
+      "evidence_pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.only_false_alarm_increase",
+      "failure_mode": "missing-evidence-pointer",
+      "gate_id": "DGT-HG5",
+      "gate_label": "FalseLedgerRate non-worsening",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG12",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "FalseLedgerRate does not worsen under the candidate route",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG6": {
+      "ablation_pointer": null,
+      "component_pointer": "$.component_descriptors.audit",
+      "control_pointer": null,
+      "evidence_pointer": "reports/canonical/discovery-gated-nas.json:$.search_objective_summary.selected_candidate.classifier_shift_count",
+      "failure_mode": "missing-control-pointer",
+      "gate_id": "DGT-HG6",
+      "gate_label": "classifier shift count",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG16",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "classifier shift count is positive on the declared surface",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG7": {
+      "ablation_pointer": null,
+      "component_pointer": "$.component_descriptors.audit",
+      "control_pointer": "reports/canonical/gap_head_transfer_atlas.json:$.config.control_arm",
+      "evidence_pointer": "reports/canonical/gap_head_transfer_atlas.json:$.multi_surface_d5_o",
+      "failure_mode": "missing-surface-pointer",
+      "gate_id": "DGT-HG7",
+      "gate_label": "OOD and stress surfaces",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG10",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "at least three OOD or stress surface pointers are present",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG8": {
+      "ablation_pointer": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal",
+      "component_pointer": "$.component_descriptors.certificate_gated_attention",
+      "control_pointer": "reports/canonical/certificate-gated-attention.json:$.matched_random_control",
+      "evidence_pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
+      "failure_mode": "missing-ablation-pointer",
+      "gate_id": "DGT-HG8",
+      "gate_label": "certificate-gated attention ablation",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG19",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "certificate-gated attention ablation lowers the corresponding signal",
+      "slot_state": "present-but-fail-closed"
+    },
+    "DGT-HG9": {
+      "ablation_pointer": "reports/canonical/discovery-regularized-training.json:$.training_loop_trace",
+      "component_pointer": "$.component_descriptors.discovery_regularized_training",
+      "control_pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+      "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence",
+      "failure_mode": "missing-ablation-pointer",
+      "gate_id": "DGT-HG9",
+      "gate_label": "DRT ablation",
+      "new_model_hardgate_pointer": "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG19",
+      "not_claimed_pointer": "$.not_claimed",
+      "requirement_summary": "discovery-regularized training ablation lowers the corresponding signal",
+      "slot_state": "present-but-fail-closed"
+    },
+    "overall_state": "present-but-fail-closed"
+  },
+  "downstream_scope": {
+    "claim_graph": "out-of-scope-follow-up",
+    "claim_verdicts": "out-of-scope-follow-up",
+    "discovery_map": "out-of-scope-follow-up"
+  },
+  "generated_at": "2026-06-05T07:13:11.713087+00:00",
+  "model_id": "discovery_gated_transformer",
+  "new_model_hardgates_registry": {
+    "artifact_id": "bedc-quality-lab:new-model-hardgates",
+    "candidate_contract_pointer": "reports/canonical/new_model_hardgates.json:$.candidate_contract",
+    "gates_pointer": "reports/canonical/new_model_hardgates.json:$.gates",
+    "pointer_state": "present-but-fail-closed",
+    "schema_id": "bedc-quality-lab:new-model-hardgate-registry"
+  },
+  "not_claimed": [
+    "This owner does not claim broad architecture superiority.",
+    "This owner does not claim production superiority.",
+    "This owner does not claim full closure.",
+    "This owner does not publish candidate measurement bodies."
+  ],
+  "producer": "scripts/run_canonical_reports.py",
+  "public_index_pointers": {
+    "component_descriptors": "$.component_descriptors",
+    "dgt_hardgate_slots": "$.dgt_hardgate_slots",
+    "downstream_scope": "$.downstream_scope",
+    "model_id": "$.model_id",
+    "not_claimed": "$.not_claimed"
+  },
+  "schema_id": "bedc-quality-lab:discovery-gated-transformer",
+  "status": "present-but-fail-closed"
+}
