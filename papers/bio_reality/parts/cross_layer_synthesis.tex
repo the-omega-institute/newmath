@@ -1,0 +1,80 @@
+\section{Cross-Layer Synthesis: Attenuation of the $B^*_{Q6}$ Signal}
+\origin{ai}
+
+\subsection{Claim at the Cross-Layer Boundary}
+
+\paragraph{Question.}
+The six powered cross-layer contacts ask how far the amino-acid-residual codon-usage coordinates $B^*_{Q6}$ remain visible after the readout moves away from codon usage itself.  The objects are per-protein within-organism regressions and organism-indexed summaries, not a causal intervention and not a ribosome-profiling assay.  The common question is whether a residual codon coordinate that survives the amino-acid quotient can still explain translation, abundance, structural order, or essentiality once the appropriate controls have already been imposed.
+
+\paragraph{Synthesis.}
+The supported conclusion is an attenuation gradient.  The $B^*_{Q6}$ signal is strong at the translation-readout layer, moderate and positive at the measured protein-abundance layer, weak at the structural-order layer, and essentially null at the essentiality layer after abundance is controlled.  At the abundance layer, the translation-mediation and discriminant rows indicate that the main path is codon to translation to abundance, not a clean direct codon to abundance channel.  The mediation strength is organism-idiosyncratic, so the result should not be read as a eukaryote versus prokaryote separation.
+
+\subsection{Six Powered Contacts}
+
+\paragraph{Summary table.}
+The following display records only the powered values used by this synthesis:
+$$
+\begin{aligned}
+S^{QT}:&\ \mathrm{modeled\mbox{-}tAI};\\
+&40\ \mathrm{organism},\ R^2_{QT}=0.90,\ \mathrm{powered\ nondegenerate},\ 9/9\ \mathrm{survive};\\
+S^{QP}:&\ \mathrm{measured\ PAXdb\ abundance};\\
+&6\ \mathrm{organism},\ R^2_{QP}=0.032\mbox{--}0.298,\ \mathrm{positive\ nondegenerate},\ \mathrm{yeast}=0.298;\\
+M^{QTP}:&\ \mathrm{translation\ mediation};\\
+&6\ \mathrm{organism},\ \mathrm{mediated\ fraction}=0.08\mbox{--}0.95;\\
+&\mathrm{yeast}=0.95,\ E.\ coli=0.61,\ M.\ smegmatis=0.08;\\
+S^{SO}:&\ \mathrm{AlphaFold\ mean\ pLDDT};\\
+&\mathrm{weak},\ R^2_{SO}=0.031\ \mathrm{in}\ E.\ coli,\ R^2_{SO}=0.072\ \mathrm{in\ yeast};\\
+S^{FE}:&\ \mathrm{binary\ essentiality};\\
+&\mathrm{essentially\ null},\ R^2_{FE}<0.01;\\
+&0.0033\ \mathrm{in\ yeast},\ 0.0097\ \mathrm{in}\ E.\ coli;\\
+\mathrm{discriminant}:&\ S^{QT}/S^{QP}/M^{QTP};\\
+&\mathrm{case\ D\ dominates},\ \mathrm{yeast}\ 9/9,\ E.\ coli\ 7/9;\\
+&\mathrm{two}\ E.\ coli\ \mathrm{coordinates\ occupy\ the\ fifth\ case}.
+\end{aligned}
+$$
+The abundance row is controlled for amino-acid composition, length, GC3, and $M$-density.  The structural-order row is controlled for amino-acid composition.  The essentiality row is controlled for amino-acid composition and abundance.
+
+\paragraph{Translation survival.}
+The translation-readout contact $S^{QT}$ is the strongest member of the panel.  Across $40$ organisms, the modeled-tAI regression has $R^2_{QT}=0.90$, is powered and nondegenerate, and all $9$ residual coordinates survive.  This is a translation-facing modeled-tAI result.  It is not a ribo-seq measurement, does not observe ribosome occupancy, and does not by itself establish a biochemical mechanism.
+
+\paragraph{Protein abundance survival.}
+The $S^{QP}$ contact is weaker than $S^{QT}$ but still positive.  The measured PAXdb abundance analysis is per-protein inside each organism and covers $6$ organisms: $E.\ coli$, $M.\ smegmatis$, yeast, human, danio, and gallus.  The cross-organism range is $R^2_{QP}=0.032$--$0.298$, with yeast strongest at $0.298$.  The signal remains positive and nondegenerate after controlling amino-acid composition, length, GC3, and $M$-density.  This supports a moderate abundance-layer survival statement, not a claim that codon residuals determine protein abundance.
+
+\paragraph{Translation mediation.}
+The mediation contact $M^{QTP}$ explains why the abundance signal should be read mainly through translation.  Across the same $6$ organisms, the mediated fraction ranges from $0.08$ to $0.95$: yeast is $0.95$, $E.\ coli$ is $0.61$, and $M.\ smegmatis$ is $0.08$.  The pattern is organism-idiosyncratic.  There is no clean eukaryote/prokaryote domain separation, because yeast is high while the remaining eukaryote organisms are lower than $E.\ coli$.  Thus the admissible statement is translation mediation in a heterogeneous panel, not a domain-level law.
+
+\paragraph{Structural order and essentiality.}
+The structural-order contact $S^{SO}$ is weak.  With AlphaFold mean pLDDT as the structural-order readout and amino-acid composition controlled, the recorded values are $R^2_{SO}=0.031$ in $E.\ coli$ and $R^2_{SO}=0.072$ in yeast.  The essentiality contact $S^{FE}$ is weaker still: with binary essentiality as readout and amino-acid composition plus abundance controlled, the result is essentially null, with $R^2_{FE}<0.01$, specifically $0.0033$ in yeast and $0.0097$ in $E.\ coli$.  After expression is controlled, the codon residuals have no beyond-expression predictive power for essentiality in these rows.
+
+\subsection{Attenuation Gradient}
+
+\paragraph{Layer ordering.}
+The powered rows give a consistent loss of explanatory information as the biological readout moves upward from translation toward organismal function:
+$$
+\begin{aligned}
+\mathrm{translation\ readout} &:\ R^2_{QT}=0.90,\ 9/9\ \mathrm{coordinates\ survive},\\
+\mathrm{abundance} &:\ R^2_{QP}=0.032\mbox{--}0.298,\ \mathrm{positive\ but\ moderate},\\
+\mathrm{structural\ order} &:\ R^2_{SO}=0.031\mbox{--}0.072,\ \mathrm{weak},\\
+\mathrm{essentiality} &:\ R^2_{FE}<0.01,\ \mathrm{essentially\ null\ after\ abundance\ control}.
+\end{aligned}
+$$
+This is the main cross-layer synthesis: $B^*_{Q6}$ codon-usage residuals carry less explainable information as the readout rises from translation to abundance, then to structural order, and finally to essentiality or function.  The gradient is empirical and bounded by the listed contacts.  It should not be promoted into a general principle that every functional layer must erase codon-usage information.
+
+\paragraph{Interpretation of abundance.}
+Abundance occupies the middle of the gradient.  It is not null, because the $S^{QP}$ values are positive and nondegenerate across the $6$ organism panel.  It is also not a direct high-layer realization of codon topology, because the mediation row shows that much of the abundance association travels through the translation readout.  The clean statement is therefore: codon residuals can remain visible in measured protein abundance, but the main powered route in this panel is codon to translation to abundance.
+
+\subsection{Discriminant Reading}
+
+\paragraph{From four cases to five.}
+The combined $S^{QT}/S^{QP}/M^{QTP}$ discriminant separates translation survival, abundance survival, and mediation.  The dominant abundance route is case D, the mediated case: yeast has $9/9$ coordinates in this pattern and $E.\ coli$ has $7/9$.  This supports the conclusion that the codon-to-abundance association mainly passes through translation mediation.
+
+\paragraph{Fifth case.}
+The data also refine the original four-quadrant vision into five cases.  In $E.\ coli$, two coordinates have $S^{QT}>0$ and $S^{QP}>0$ but do not enter the mediated class.  These two coordinates form the fifth case: a direct non-translation abundance association under the discriminant, not evidence for a general mechanism.  They are important because they prevent the synthesis from collapsing every positive abundance signal into mediation, while the dominance of case D prevents the fifth case from becoming the main conclusion.
+
+\subsection{Boundary Conditions}
+
+\paragraph{Measurement boundary.}
+Every statement here is bounded by the contact type.  The translation row uses modeled-tAI, not ribo-seq.  The abundance row uses measured PAXdb abundance, but remains cross-sectional and per-protein within organism.  The structural-order row uses AlphaFold mean pLDDT, not an experimental folding assay.  The essentiality row is a binary essentiality readout controlled for expression.  None of these rows is a causal perturbation, and none establishes phenotype, molecular mechanism, or functional realization.
+
+\paragraph{Claim boundary.}
+The chapter therefore claims attenuation and mediated abundance association only at the level of the powered cross-layer summaries.  Weak signals remain weak, null rows remain null, and the fifth case remains a minority discriminant class.  The admissible conclusion is that $B^*_{Q6}$ codon-usage residuals show strong modeled translation survival, moderate measured abundance survival mainly through translation mediation, weak structural-order survival, and essentially no beyond-expression essentiality survival in the recorded contacts.
