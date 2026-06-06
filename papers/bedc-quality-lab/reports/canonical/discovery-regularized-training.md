@@ -17,8 +17,8 @@
 ## Device Protocol
 
 - requested: `auto`
-- resolved: `not-requested`
-- status: `unavailable`
+- resolved: `mps`
+- status: `available`
 
 ## Not Claimed
 

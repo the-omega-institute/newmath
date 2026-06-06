@@ -251,6 +251,8 @@ class DiscoveryRegularizedTrainingProjection:
             "arm_protocol": summaries["arm_protocol"],
             "device_protocol": summaries["device_protocol"],
             "torch_training_evidence": summaries["torch_training_evidence"],
+            "negative_witness_mutations": summaries["negative_witness_mutations"],
+            "training_loop_trace": summaries["training_loop_trace"],
             "matched_random_control": summaries["matched_random_control"],
             "hardgate": {
                 "status": _status(failed_gate is None),
@@ -279,7 +281,7 @@ class DiscoveryRegularizedTrainingProjection:
         }
 
     def failed_gate(self, hardgates: Mapping[str, Mapping[str, Any]]) -> str | None:
-        for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5"):
+        for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5", "DRT-HG6"):
             row = hardgates.get(name)
             if not isinstance(row, Mapping) or row.get("status") != "pass":
                 return name
@@ -292,6 +294,34 @@ class DiscoveryRegularizedTrainingProjection:
         matched = summaries["matched_random_control"]
         task_only = summaries["surface_registry"]["task_accuracy_only"]
         torch_evidence = summaries["torch_training_evidence"]
+        torch_delta = torch_evidence.get("classifier_surface_delta", {})
+        protocols = torch_evidence.get("protocols", [])
+        expected_torch_rows = torch_evidence.get("expected_row_count")
+        torch_protocol_valid = (
+            isinstance(protocols, Sequence)
+            and bool(protocols)
+            and len(protocols) == torch_evidence.get("row_count") == expected_torch_rows
+            and all(
+                isinstance(protocol, Mapping)
+                and isinstance(protocol.get("seed"), int)
+                and isinstance(protocol.get("steps"), int)
+                and protocol.get("steps", 0) > 0
+                and isinstance(protocol.get("dtype"), str)
+                and bool(protocol.get("dtype"))
+                and isinstance(protocol.get("requested_device"), str)
+                and isinstance(protocol.get("resolved_device"), str)
+                and isinstance(protocol.get("drift_tolerance"), (int, float))
+                and protocol.get("status") == "available"
+                for protocol in protocols
+            )
+        )
+        torch_signal_positive = (
+            torch_evidence.get("status") == "available"
+            and torch_protocol_valid
+            and isinstance(torch_delta.get("drt_minus_matched_random_classifier_shift_count"), (int, float))
+            and float(torch_delta["drt_minus_matched_random_classifier_shift_count"]) > 0.0
+            and torch_delta.get("net_positive_signal") is True
+        )
         return {
             "DRT-HG1": {
                 "status": _status(bool(constraint["debt_down"] and constraint["benefit_nondecreasing"])),
@@ -321,9 +351,13 @@ class DiscoveryRegularizedTrainingProjection:
                 "evidence_pointer": "$.surface_registry.task_accuracy_only",
             },
             "DRT-HG6": {
-                "status": _status(torch_evidence["status"] in {"available", "unavailable"}),
-                "evidence": "Optional PyTorch arm is bounded and recorded without controlling the deterministic anchor.",
+                "status": _status(torch_signal_positive),
+                "evidence": "Bounded PyTorch training evidence must be available, protocol-complete, and positive against matched-random control.",
                 "evidence_pointer": "$.torch_training_evidence",
+                "expected_row_count": expected_torch_rows,
+                "row_count": torch_evidence.get("row_count"),
+                "protocol_count": len(protocols) if isinstance(protocols, Sequence) else 0,
+                "classifier_surface_delta": dict(torch_delta) if isinstance(torch_delta, Mapping) else {},
             },
         }
 
@@ -345,7 +379,7 @@ class DiscoveryRegularizedTrainingProjection:
             "status": "d4-candidate",
             "level_candidate": "D4",
             "reason": "matched-control-positive",
-            "evidence_pointer": "$.surface_registry.classifier_shift",
+            "evidence_pointer": "$.torch_training_evidence",
             "control_pointer": "$.matched_random_control",
             "surface_registry_pointer": "$.surface_registry",
             "torch_training_evidence_pointer": "$.torch_training_evidence",
@@ -441,6 +475,13 @@ class DiscoveryRegularizedTrainingProjection:
         lambda_summary = self._lambda_summary(deterministic_rows, lambdas)
         torch_rows = [row for row in self.records if row.get("backend") == "torch-training-arm"]
         protocols = self._torch_protocols(torch_rows)
+        torch_by_arm = self._arm_summary(torch_rows, TORCH_ARMS)
+        torch_drt = torch_by_arm.get("drt", {})
+        torch_matched = torch_by_arm.get("matched_random", {})
+        torch_drt_shift = torch_drt.get("classifier_shift_count_mean")
+        torch_matched_shift = torch_matched.get("classifier_shift_count_mean")
+        expected_torch_rows = len(TORCH_LAMBDAS) * len(TORCH_RHOS) * len(TORCH_SEEDS) * len(TORCH_ARMS)
+        torch_net_positive = sum(1 for row in torch_rows if row.get("arm") == "drt" and row.get("net_positive_signal") is True) > 0
         resolved_devices = sorted({protocol.resolved_device for protocol in protocols}) or [str(config.get("resolved_device", "not-requested"))]
         torch_status = "available" if torch_rows else str(config.get("torch_status", "unavailable"))
         device_protocol = {
@@ -510,7 +551,7 @@ class DiscoveryRegularizedTrainingProjection:
                 },
                 "torch_training": {
                     "primary": False,
-                    "bounded_optional": True,
+                    "required_hardgate": True,
                     "evidence_pointer": "$.torch_training_evidence",
                 },
             },
@@ -518,8 +559,40 @@ class DiscoveryRegularizedTrainingProjection:
             "torch_training_evidence": {
                 "status": torch_status,
                 "row_count": len(torch_rows),
+                "expected_row_count": expected_torch_rows,
                 "protocols": [asdict(protocol) for protocol in protocols],
+                "classifier_surface_delta": {
+                    "source_arm": "drt",
+                    "control_arm": "matched_random",
+                    "drt_classifier_shift_count_mean": torch_drt_shift,
+                    "matched_random_classifier_shift_count_mean": torch_matched_shift,
+                    "drt_minus_matched_random_classifier_shift_count": (
+                        None
+                        if torch_drt_shift is None or torch_matched_shift is None
+                        else round(float(torch_drt_shift) - float(torch_matched_shift), 6)
+                    ),
+                    "net_positive_signal": torch_net_positive,
+                },
                 "evidence_pointer": "$.records.raw_rows_pointer",
+            },
+            "negative_witness_mutations": {
+                "status": "armed",
+                "source_arm": "drt",
+                "mutation_arm": "matched_random",
+                "retrain_rows_pointer": "$.torch_training_evidence",
+                "failed_gate_pointer": "$.hardgate.status",
+                "claim_capsule_pointer": "$.claim_capsule_ref",
+            },
+            "training_loop_trace": {
+                "status": torch_status,
+                "source_arm": "drt",
+                "mutation_arm": "matched_random",
+                "row_count": len(torch_rows),
+                "expected_row_count": expected_torch_rows,
+                "retrain_rows_pointer": "$.torch_training_evidence",
+                "raw_rows_pointer": "$.records.raw_rows_pointer",
+                "failed_gate_pointer": "$.hardgate.status",
+                "claim_capsule_pointer": "$.claim_capsule_ref",
             },
             "matched_random_control": {
                 "drt_certificate_loss_mean": drt_cert,

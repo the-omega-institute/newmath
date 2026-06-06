@@ -80,6 +80,10 @@ def build_model_discovery_payload(*, root: Path, generated_at: str) -> dict[str,
                 "artifact": DRT_CANONICAL_ARTIFACT,
                 "pointer": "$.torch_training_evidence",
             },
+            "negative_witness_mutations": {
+                "artifact": DRT_CANONICAL_ARTIFACT,
+                "pointer": "$.negative_witness_mutations",
+            },
             "theorem_ledger": {
                 "artifact": LEJEPA_THEOREM_LEDGER_ARTIFACT,
                 "pointer": "$.theorem_rows",
@@ -182,6 +186,7 @@ class ModelDiscoveryBackendEvidenceAdapter:
                     "$.discovery_map_signal",
                     "$.surface_registry",
                     "$.torch_training_evidence",
+                    "$.negative_witness_mutations",
                     "$.discovery_map_signal.theorem_ledger_ref",
                 ),
             },
