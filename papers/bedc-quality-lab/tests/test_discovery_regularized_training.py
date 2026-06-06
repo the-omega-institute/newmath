@@ -195,6 +195,75 @@ def test_torch_available_fixture_promotes_d4_and_records_payload_sections(monkey
     assert "terminal_verdict" not in json.dumps(summary, sort_keys=True)
 
 
+def test_real_torch_training_records_protocol_and_classifier_surface_delta():
+    pytest.importorskip("torch")
+    rows, status, resolved_device, abi = runner.collect_torch_records(
+        requested_device="cpu",
+        steps=2,
+        enabled=True,
+        discovery_lambdas=(0.001,),
+        rhos=(0.7,),
+        seeds=(11,),
+        arms=("drt", "matched_random"),
+    )
+
+    assert status == "available"
+    assert resolved_device == "cpu"
+    assert abi["torch"] != "fixture"
+    assert len(rows) == 2
+    assert {row["arm"] for row in rows} == {"drt", "matched_random"}
+
+    by_arm = {row["arm"]: row for row in rows}
+    drt = by_arm["drt"]
+    matched = by_arm["matched_random"]
+    for row in rows:
+        assert row["backend"] == "torch-training-arm"
+        assert row["seed"] == 11
+        assert row["steps"] == 2
+        assert row["dtype"] == "float32"
+        assert row["resolved_device"] == "cpu"
+        assert row["torch_protocol"] == {
+            "requested_device": "cpu",
+            "resolved_device": "cpu",
+            "seed": 11,
+            "steps": 2,
+            "dtype": "float32",
+            "drift_tolerance": DRIFT_TOLERANCE,
+            "status": "available",
+        }
+    assert drt["classifier_shift_count"] == 1
+    assert matched["classifier_shift_count"] == 0
+    assert drt["net_positive_signal"] is True
+    assert matched["net_positive_signal"] is False
+    assert drt["delta_quality_ci_low"] > 0.0
+    assert matched["delta_quality_ci_low"] < 0.0
+    assert drt["certificate_loss"] < drt["matched_random_certificate_loss"]
+
+    summary = _project(
+        rows,
+        requested_device="cpu",
+        resolved_device=resolved_device,
+        torch_status=status,
+        steps=2,
+        dependency_abi=abi,
+    )["summary_payload"]
+    evidence = summary["torch_training_evidence"]
+    assert evidence["status"] == "available"
+    assert evidence["row_count"] == 2
+    assert evidence["expected_row_count"] == 16
+    assert evidence["classifier_surface_delta"] == {
+        "source_arm": "drt",
+        "control_arm": "matched_random",
+        "drt_classifier_shift_count_mean": 1.0,
+        "matched_random_classifier_shift_count_mean": 0.0,
+        "drt_minus_matched_random_classifier_shift_count": 1.0,
+        "net_positive_signal": True,
+    }
+    assert summary["hardgate"]["gates"]["DRT-HG6"]["status"] == "fail"
+    assert summary["hardgate"]["gates"]["DRT-HG6"]["row_count"] == 2
+    assert summary["hardgate"]["gates"]["DRT-HG6"]["protocol_count"] == 2
+
+
 def test_seed_idempotence_and_quantized_tolerance():
     first = runner.deterministic_record(0.001, 0.9, "spiral", 11, "drt")
     second = runner.deterministic_record(0.001, 0.9, "spiral", 11, "drt")
