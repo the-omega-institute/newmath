@@ -1,75 +1,83 @@
-\chapter{BioReality Q-Six Translation-Mediation Abundance Ledger NameCert}
+\chapter{A Concrete Naming Certificate for $\BioRealityQSixTranslationMediationAbundanceLedgerUp$}
 \label{ch:concrete-instances-bioreality_q_six_translation_mediation_abundance_ledger-namecert}
 \origin{ai}
 
-The \BioRealityQSixTranslationMediationAbundanceLedgerUp{} packet records a cross-layer statistical decomposition in which a nine-coordinate $B^\ast_{Q6}$ codon-residual readout is compared with protein abundance before and after conditioning on a modeled per-protein translation-adaptation scalar.  The claim is not that translation has been perturbed, rescued, or mechanistically isolated.  The claim is that the finite ledger contains enough matched CDS, tRNA-copy, modeled tAI, control, and abundance data to certify a powered mediation-style association decomposition for the named organisms.
+The $\BioRealityQSixTranslationMediationAbundanceLedgerUp$ carrier records a cross-layer statistical decomposition between per-protein B$^*_{Q6}$ codon residual coordinates and measured protein abundance after conditioning on a modeled translation-adaptation readout.  Its scope is deliberately narrow: it certifies the finite ledger rows, the residualized regression ranks, and the reported mediation fractions for three organism-matched CDS/protein-abundance panels.  It does not certify a perturbational translation mechanism.
 
-\begin{definition}[BioReality $Q6$ translation-mediation abundance ledger]
+\begin{definition}[Q6 translation-mediation abundance ledger]
 \label{def:bioreality-q-six-translation-mediation-abundance-ledger}
-A \BioRealityQSixTranslationMediationAbundanceLedgerUp{} is the finite certificate whose rows are real matched CDS/protein-abundance records, whose exposure block is the imported $B^\ast_{Q6}$ codon-residual coordinate vector, whose mediator is modeled per-protein mean tAI, and whose response is log protein abundance.  Its coordinate list is
-$$
-\begin{gathered}
-K_{AAA},\ Arg_{AGR},\ Ile_{AUA},\ Leu_{CUN\,vs\,UUR},\ Leu_{UUA\,vs\,UUG},\ Ser_{UCR\,vs\,AGY},\\
-Ser_{UCA\,vs\,UCG},\ Thr_{ACR\,vs\,ACY},\ f3_{stress}.
-\end{gathered}
-$$
-The mediator $T$ is the per-protein mean modeled tAI,
-$$
-\begin{aligned}
-T_i = \frac{\sum_c n_{ic} w_c}{\sum_c n_{ic}},
-\end{aligned}
-$$
-where $n_{ic}$ is the CDS codon count for protein $i$ and $w_c$ is the tAI codon weight computed from all-tRNA copy counts and dos Reis wobble weights.  The response $Y_i$ is $\log_{10}$ abundance ppm from measured protein abundance joined to real CDS codon counts.
+A Q6 translation-mediation abundance ledger is a finite certificate with the following fields.
+\begin{enumerate}
+  \item A declared layer tag $\mathrm{cross\_layer\_relation}$ and a conjecture tag $\mathrm{q6.translation\mbox{-}mediated.protein\mbox{-}abundance.cross\mbox{-}layer}$.
+  \item A nine-coordinate B$^*_{Q6}$ residual vector $X_Q$ with coordinate names
+  $$
+  \begin{gathered}
+  K\_AAA,\ Arg\_AGR,\ Ile\_AUA,\ Leu\_CUN\_vs\_UUR,\ Leu\_UUA\_vs\_UUG,\\
+  Ser\_UCR\_vs\_AGY,\ Ser\_UCA\_vs\_UCG,\ Thr\_ACR\_vs\_ACY,\ f3\_stress.
+  \end{gathered}
+  $$
+  \item A protein abundance readout $Y$, defined as $\log_{10}(\mathrm{abundance\_ppm})$ from measured protein abundance joined to real CDS codon counts.
+  \item A translation readout $T$, defined as the per-protein mean modeled tAI
+  $$
+  \begin{aligned}
+  T &= \frac{\sum_{c} \mathrm{codon\_count}(c)\,\mathrm{tAI\_weight}(c)}{\sum_{c} \mathrm{codon\_count}(c)},
+  \end{aligned}
+  $$
+  using all-tRNA copy counts and dos Reis wobble weights.
+  \item For each organism panel, a control-residualized linear audit of $Y$, $T$, $X_Q$, and the joint design $(X_Q,T)$ after the same control block $Z$.
+  \item For each organism panel, a scalar mediation decomposition
+  $$
+  \begin{aligned}
+  M^{QTP} &= \frac{c-c'}{c},
+  \end{aligned}
+  $$
+  where $c$ is the total B$^*_{Q6}$ residual association with protein abundance and $c'$ is the direct B$^*_{Q6}$ residual association after conditioning on modeled tAI.
+\end{enumerate}
 \end{definition}
 
-\begin{definition}[Residualized cross-layer design]
-\label{def:bioreality-q-six-residualized-cross-layer-design}
-For each organism, let $X$ denote the nine-column $B^\ast_{Q6}$ residual matrix, $T$ the modeled tAI scalar column, $Y$ the log-abundance response, and $Z$ the control matrix.  The ledger residualizes $X$, $T$, and $Y$ against $Z$ and then compares the explained energies of $X$, $T$, and the joint block $(X,T)$ on the residualized response.  The recorded control block has $24$ control columns and residualized control rank $23$ in each organism.
+\begin{definition}[Certified organism panels]
+\label{def:bioreality-q-six-translation-mediation-organism-panels}
+The ledger contains exactly three organism panels.  The Escherichia coli K-12 MG1655 panel joins $3739$ CDS/protein rows and uses $90$ all-tRNA copy counts, with one zero raw weight filled by a geometric mean.  The Mycobacterium smegmatis str. MC2 155 panel joins $4129$ CDS/protein rows and uses $49$ all-tRNA copy counts, with one zero raw weight filled by a geometric mean.  The Saccharomyces cerevisiae panel joins $5815$ CDS/protein rows and uses $275$ all-tRNA copy counts, with no zero raw weight filled by a geometric mean.
 \end{definition}
 
-\begin{theorem}[Powered rank certificate]
-\label{thm:bioreality-q-six-powered-rank-certificate}
-The \BioRealityQSixTranslationMediationAbundanceLedgerUp{} carrier has nondegenerate residualized designs for the three certified organisms.  In each case the residualized $X$ block has rank $9$, the residualized $T$ block has rank $1$, the joint residualized $(X,T)$ block has rank $10$, and the mediated fraction lies in the unit interval.
+\begin{definition}[Control-residualized powered-rank witness]
+\label{def:bioreality-q-six-translation-mediation-powered-rank-witness}
+For each certified organism panel, the powered-rank witness is the tuple consisting of the residual degrees of freedom after $Z$, the ranks of $Z$, $X_Q$, $T$, and $(X_Q,T)$ after residualization, the residual energies of $Y$ and $T$, and the explained-energy audits for the total, conditioned, and joint fits.  The witness is certified when the following panel-specific data are present.
+\begin{enumerate}
+  \item Escherichia coli K-12 MG1655: $\operatorname{rank}(Z)=23$, $\operatorname{rank}(X_Q)=9$, $\operatorname{rank}(T)=1$, $\operatorname{rank}(X_Q,T)=10$, residual degrees of freedom $3716$, $Y$ residual energy $4020.333671802061$, and $T$ residual energy $0.4728468725814029$.
+  \item Mycobacterium smegmatis str. MC2 155: $\operatorname{rank}(Z)=23$, $\operatorname{rank}(X_Q)=9$, $\operatorname{rank}(T)=1$, $\operatorname{rank}(X_Q,T)=10$, residual degrees of freedom $4106$, $Y$ residual energy $5729.194538214237$, and $T$ residual energy $0.041191576348982066$.
+  \item Saccharomyces cerevisiae: $\operatorname{rank}(Z)=23$, $\operatorname{rank}(X_Q)=9$, $\operatorname{rank}(T)=1$, $\operatorname{rank}(X_Q,T)=10$, residual degrees of freedom $5792$, $Y$ residual energy $2958.1865890925337$, and $T$ residual energy $6.90537888244409$.
+\end{enumerate}
+In all three panels the control column count is $24$, the nondegeneracy threshold is $0.999999$, the Q-coordinate count is $9$, the powered-rank-sufficient flag is true, and the reported $M^{QTP}$ fraction lies in the unit interval.
+\end{definition}
+
+\begin{theorem}[Certified Q6 translation-mediation abundance ledger]
+\label{thm:bioreality-q-six-translation-mediation-abundance-ledger}
+The $\BioRealityQSixTranslationMediationAbundanceLedgerUp$ carrier certifies the following finite cross-layer relation: the per-protein B$^*_{Q6}$ residual association with measured protein abundance is decomposed by conditioning on modeled per-protein tAI in three matched CDS/protein-abundance panels, with a joint nine-dimensional $X_Q$ mediation scalar and per-coordinate decomposition audit.
 \end{theorem}
 
 \begin{proof}
-The certificate records the ranks and interval checks as finite numerical witnesses.  For \textit{Escherichia coli} K-12 MG1655, the joined table has $3739$ proteins, residual degrees of freedom $3716$, $\operatorname{rank}(X)=9$, $\operatorname{rank}(T)=1$, and $\operatorname{rank}(X,T)=10$.  For \textit{Mycobacterium smegmatis} str. MC2 155, the joined table has $4129$ proteins, residual degrees of freedom $4106$, and the same $9,1,10$ rank pattern.  For \textit{Saccharomyces cerevisiae}, the joined table has $5815$ proteins, residual degrees of freedom $5792$, and again the same $9,1,10$ rank pattern.  The ledger also records the degenerate-$R^2$ threshold $0.999999$ and marks powered rank sufficiency as true for all three organisms.  These are finite table entries, so the rank certificate is a direct NameCert witness rather than an asymptotic claim.
+The certificate is finite.  The layer tag is $\mathrm{cross\_layer\_relation}$, and the decomposition uses the nine named B$^*_{Q6}$ residual coordinates listed in Definition~\ref{def:bioreality-q-six-translation-mediation-abundance-ledger}.  Each organism panel supplies matched rows, a tRNA-copy source for modeled tAI, a protein abundance readout, and a control-residualized powered-rank witness.
+
+For Escherichia coli K-12 MG1655, the total B$^*_{Q6}$ residual association is $c=0.10767526677985896$, the direct association after conditioning on modeled tAI is $c'=0.04167869969498872$, and the indirect difference is $0.06599656708487024$.  The certified mediation fraction is therefore $M^{QTP}=0.612922252793667$, which is in the unit interval.  The powered-rank audit also records $X_Q$ explained energy on $Y$ equal to $432.89050065533684$, $T$ explained energy on $Y$ equal to $582.5912438239341$, and $T$ improvement given $X_Q$ equal to $317.26302294928666$.
+
+For Mycobacterium smegmatis str. MC2 155, the total B$^*_{Q6}$ residual association is $c=0.03209009170649934$, the direct association after conditioning on modeled tAI is $c'=0.029395293228368185$, and the indirect difference is $0.0026947984781311544$.  The certified mediation fraction is $M^{QTP}=0.08397602919861291$, which is in the unit interval.  The powered-rank audit records $X_Q$ explained energy on $Y$ equal to $183.85037813566998$, $T$ explained energy on $Y$ equal to $15.813547327443837$, and $T$ improvement given $X_Q$ equal to $0.37452260494680445$.
+
+For Saccharomyces cerevisiae, the total B$^*_{Q6}$ residual association is $c=0.29837624994140827$, the direct association after conditioning on modeled tAI is $c'=0.0151709093608293$, and the indirect difference is $0.28320534058057895$.  The certified mediation fraction is $M^{QTP}=0.9491551041216973$, which is in the unit interval.  The powered-rank audit records $X_Q$ explained energy on $Y$ equal to $882.6526210803958$, $T$ explained energy on $Y$ equal to $941.8858618613751$, and $T$ improvement given $X_Q$ equal to $104.11162139652299$.
+
+These three finite rows, together with the common rank pattern $\operatorname{rank}(X_Q)=9$, $\operatorname{rank}(T)=1$, and $\operatorname{rank}(X_Q,T)=10$, establish exactly the ledger claim: a statistical mediation decomposition of the B$^*_{Q6}$ residual-to-protein-abundance association through modeled tAI conditioning.  No step upgrades this decomposition into a causal effect, ribosome-profiling readout, synonymous-edit perturbation, rescue experiment, or mechanism-realization claim.
 \end{proof}
 
-\begin{theorem}[Translation-mediated abundance decomposition]
-\label{thm:bioreality-q-six-translation-mediated-abundance-decomposition}
-Conditioning on the modeled tAI scalar decomposes the $B^\ast_{Q6}$ residual to protein-abundance association into direct and indirect statistical components for each certified organism.  The mediated fractions are positive and remain in $[0,1]$:
-$$
-\begin{aligned}
-M^{QTP}_{Ecoli} &= 0.612922252793667,\\
-M^{QTP}_{Msmeg} &= 0.08397602919861291,\\
-M^{QTP}_{Scer} &= 0.9491551041216973.
-\end{aligned}
-$$
-The decomposition is statistical only: it does not promote a causal effect, a translation mechanism, or a perturbation claim.
-\end{theorem}
+\falsifiablePrediction{Across the three certified panels, recomputing the same control-residualized design with the same nine $B^*_{Q6}$ coordinates and modeled tAI readout must recover $M^{QTP}=0.612922252793667$ for Escherichia coli K-12 MG1655, $M^{QTP}=0.08397602919861291$ for Mycobacterium smegmatis str. MC2 155, and $M^{QTP}=0.9491551041216973$ for Saccharomyces cerevisiae, with all three fractions inside $[0,1]$.}
 
-\begin{proof}
-The ledger supplies the total and direct residualized association energies as explicit finite values.  For \textit{E. coli}, the total $Q\to P$ value is $0.10767526677985896$, the direct value after conditioning on $T$ is $0.04167869969498872$, and the indirect difference is $0.06599656708487024$, giving the recorded fraction $0.612922252793667$.  For \textit{M. smegmatis}, the corresponding values are $0.03209009170649934$, $0.029395293228368185$, and $0.0026947984781311544$, giving $0.08397602919861291$.  For \textit{S. cerevisiae}, they are $0.29837624994140827$, $0.0151709093608293$, and $0.28320534058057895$, giving $0.9491551041216973$.
-
-The same ledger records residualized energy checks for the cross-layer design: in \textit{E. coli}, $X$ explains $432.89050065533684$ units on $Y$ and $T$ explains $582.5912438239341$ units on $Y$; in \textit{M. smegmatis}, the corresponding values are $183.85037813566998$ and $15.813547327443837$; in \textit{S. cerevisiae}, they are $882.6526210803958$ and $941.8858618613751$.  These values certify that the decomposition was computed from organism-specific residualized tables rather than from a symbolic template.
-\end{proof}
-
-\begin{definition}[tAI source and finite biological readout]
-\label{def:bioreality-q-six-tai-source-readout}
-The tAI readout is modeled from GtRNAdb all-tRNA copy counts and wobble weights.  The recorded all-tRNA copy totals are $90$ for \textit{E. coli}, $49$ for \textit{M. smegmatis}, and $275$ for \textit{S. cerevisiae}.  Zero raw codon weights are filled by the geometric mean once in \textit{E. coli}, once in \textit{M. smegmatis}, and zero times in \textit{S. cerevisiae}.  Thus the mediator is a finite modeled covariate tied to CDS codon counts and tRNA-copy data, not a ribosome-profiling measurement.
-\end{definition}
-
-\falsifiablePrediction{If the same organism-specific joined CDS/protein-abundance tables are recomputed with the stated nine $B^\ast_{Q6}$ coordinates, the stated control block, and the modeled tAI scalar $T$, then the residualized ranks must reproduce the $9,1,10$ pattern and the mediated fractions must remain $0.612922252793667$, $0.08397602919861291$, and $0.9491551041216973$ for the three certified organisms up to the ledger's numerical tolerance.}
-
-\independenceWitness{The witness is independent of any causal translation claim: it uses measured protein abundance joined to real CDS codon counts, modeled tAI from tRNA gene-copy counts and wobble weights, and residualized linear-energy comparisons.  Removing the mechanistic reading leaves the finite association decomposition intact, while replacing the modeled $T$ column or changing the joined rows would be a distinct certificate rather than the same \BioRealityQSixTranslationMediationAbundanceLedgerUp{} witness.}
+\independenceWitness{The NameCert remains independent of causal translation claims because $M^{QTP}$ is only a statistical mediation decomposition.  The modeled tAI readout comes from all-tRNA copy counts and dos Reis wobble weights, not ribosome profiling; conditioning on modeled tAI in cross-sectional matched CDS/protein-abundance rows does not isolate mRNA abundance, protein turnover, localization, post-translational modification, folding, or pathway context.}
 
 \begin{closurestatus}{\BioRealityQSixTranslationMediationAbundanceLedgerUp}
-  \constructivestory{The carrier is a finite ledger over three joined organism tables, nine imported $B^\ast_{Q6}$ residual coordinates, modeled per-protein tAI, residualized controls, and explicit mediation-energy witnesses.}
+  \constructivestory{Finite matched CDS/protein-abundance rows, nine named $B^*_{Q6}$ residual coordinates, modeled per-protein tAI, and three panel-specific control-residualized mediation audits form the constructive certificate.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{Closed for the stated cross-layer statistical decomposition from $B^\ast_{Q6}$ residuals through modeled tAI to protein abundance on the three certified organism tables.}
+  \scopeclosed{Closed only for the three certified organism panels, the nine listed Q6 coordinates, the specified $Y$ and $T$ readouts, the stated control-residualized ranks, and the reported $M^{QTP}$ fractions.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{No causal effect, ribosome-profiling readout, synonymous-edit mechanism, perturbation rescue, mRNA-abundance isolation, protein-turnover isolation, localization isolation, PTM isolation, folding isolation, or pathway-context isolation is claimed.}
-  \upgradepath{A stronger certificate would require an external bridge that separates translation from abundance confounders and validates perturbational or mechanistic predictions rather than only residualized cross-sectional decomposition.}
+  \notclaimed{No causal effect, ribosome-profiling measurement, synonymous-edit perturbation, rescue experiment, translation-mechanism realization, or isolation from mRNA abundance and protein-level confounders is claimed.}
+  \upgradepath{A stronger status would require an explicit bridge object for the data-generation script, machine-checkable table hashes, and an independently encoded verifier for the residualized regression and mediation arithmetic.}
 \end{closurestatus}
