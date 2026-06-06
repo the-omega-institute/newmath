@@ -1575,6 +1575,7 @@ import BEDC.Derived.CauchyLimitSealUp.StreamNameSynchronizerPullback
 import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
+import BEDC.Derived.CauchyLocatedApartnessUp.LocatorApartnessHandoff
 import BEDC.Derived.CauchyLocatedApartnessUp.TasteGate
 import BEDC.Derived.CauchyLocatedRealEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyLocatednessUp.TasteGate
@@ -2488,6 +2489,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstituteClosedTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionBudgetTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionFreeVariableNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionLedgerExhaustion
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionOrderExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.TasteGateAlignment
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.BridgeRoute
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.MatureRoute
@@ -8151,6 +8153,7 @@ import BEDC.Derived.RiemannIntegralUp.DarbouxStepScope
 import BEDC.Derived.RiemannIntegralUp.PublicTaggedMeshCertificate
 import BEDC.Derived.RiemannIntegralUp.RegSeqRatHandoffTotality
 import BEDC.Derived.RiemannIntegralUp.TasteGate
+import BEDC.Derived.RiemannLebesgueLemmaUp.OscillatoryHandoff
 import BEDC.Derived.RiemannLebesgueLemmaUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannRearrangementUp.TasteGate
