@@ -458,6 +458,24 @@ For the successor window, use the same ledger clause together with \autoref{thm:
 The induction is confined by \autoref{thm:parseval-root-fourier-integral-energy-exhaustion}. Since each step remains inside the displayed carrier route, the induction cannot produce countable summation, Hilbert completeness, quotient coefficient equality, or host function equality.
 \end{proof}
 
+\begin{theorem}[Parseval root energy decomposition]
+\label{thm:parseval-root-energy-decomposition}
+Every accepted $\ParsevalUp$ root energy read decomposes into the Fourier coefficient window $F$, the $\SOneUp$ source row $S$, the $\InnerProductUp$ pairing row $I$, the $\IntegralUp$ energy row $E$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\RealUp$ seal $L$, and the support rows $H,C,P,N$ of \autoref{def:parseval-carrier}. The decomposition exports only this displayed route
+$$
+F,S,I,E,R,D,L,H,C,P,N .
+$$
+It exports no Plancherel theorem, Fourier inversion theorem, Hilbert completion, quotient coefficient equality, or infinite summation.
+\end{theorem}
+\begin{proof}
+Start with the finite partial-sum induction of \autoref{thm:parseval-finite-partial-sum-induction}. It keeps coefficient-energy inspection inside the finite Fourier window row $F$ and transports each base or successor inspection through the same structural rows.
+
+Next use the finite coefficient ledger and coefficient-integral handoff, \autoref{thm:parseval-root-finite-coefficient-ledger} and \autoref{thm:parseval-coefficient-integral-handoff}. These attach $F$ to the source row $S$, require the pairing row $I$, and route the comparison to the integral-energy row $E$ before any energy read reaches the terminal seal.
+
+Apply the dyadic tolerance ledger and Real seal nonescape, \autoref{thm:parseval-dyadic-tolerance-ledger} and \autoref{thm:parseval-root-real-energy-nonescape}. They force regular readback and numerical tolerance through $R,D$ and keep $L$ as a finite energy seal rather than a completed analytic endpoint.
+
+Finally read root Fourier-integral exhaustion from \autoref{thm:parseval-root-fourier-integral-energy-exhaustion}. The support rows $H,C,P,N$ transport, replay, source, and name the same displayed decomposition, and no carrier coordinate remains for Plancherel, inversion, Hilbert completion, quotient coefficient equality, or infinite summation.
+\end{proof}
+
 \begin{theorem}[Parseval Real $L^2$ boundary refusal]
 \label{thm:parseval-real-l2-boundary-refusal}
 Every Real-facing $\ParsevalUp$ read that is later used as an $L^2$ energy boundary remains confined to the displayed carrier route through $\FourierUp$, $\SOneUp$, $\InnerProductUp$, $\IntegralUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$. The packet exports only the finite Real seal $L$ over $F,S,I,E,R,D,H,C,P,N$ and refuses ambient $L^2$ completeness, host function equality, quotient coefficient spaces, infinite coefficient summation, Plancherel, and Fourier inversion.
