@@ -555,7 +555,7 @@ def _origin_sync_push_lock():
     except Exception as exc:
         logger.warning(f"[origin-sync] push-lock import failed: {exc}; using process lock only")
         return nullcontext()
-    return _pl("codex-auto-dev", timeout=120)
+    return _pl(BASE_BRANCH, timeout=600)
 
 
 def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
@@ -1227,15 +1227,26 @@ def _sync_base_via_worktree(*, model: Optional[str] = None) -> bool:
         new_tip = run_cmd(["git", "rev-parse", "HEAD"], cwd=wt_path, timeout=30)
         if new_tip.returncode != 0:
             return False
-        update = run_cmd(
-            ["git", "update-ref", f"refs/heads/{BASE_BRANCH}", new_tip.stdout.strip(), base_tip],
-            cwd=REPO_ROOT,
-            timeout=30,
-        )
-        if update.returncode != 0:
-            logger.error(f"_sync_local_with_origin: cannot update {BASE_BRANCH}: {(update.stderr or '')[-300:]}")
+        try:
+            with _origin_sync_push_lock(), _git_lock:
+                run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=300)
+                current_base = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT, timeout=30)
+                if current_base.returncode != 0:
+                    return False
+                if current_base.stdout.strip() != base_tip:
+                    return _base_contains_origin()
+                update = run_cmd(
+                    ["git", "update-ref", f"refs/heads/{BASE_BRANCH}", new_tip.stdout.strip(), base_tip],
+                    cwd=REPO_ROOT,
+                    timeout=30,
+                )
+                if update.returncode != 0:
+                    logger.error(f"_sync_local_with_origin: cannot update {BASE_BRANCH}: {(update.stderr or '')[-300:]}")
+                    return False
+                return _base_contains_origin()
+        except TimeoutError as exc:
+            logger.warning(f"_sync_local_with_origin: push lock timeout during final ref update: {exc}")
             return False
-        return _base_contains_origin()
     finally:
         if added:
             run_cmd(["git", "worktree", "remove", "--force", str(wt_path)],
@@ -1253,23 +1264,21 @@ def _sync_local_with_origin(*, model: Optional[str] = None) -> bool:
     origin's content; False only when that cannot be achieved.
     """
     try:
-        push_lock_cm = _origin_sync_push_lock()
-        with push_lock_cm:
-            with _git_lock:
-                run_cmd(["git", "fetch", "origin", BASE_BRANCH],
-                        cwd=REPO_ROOT, timeout=300)
-                if _base_contains_origin():
-                    return True
-                ff = run_cmd(["git", "fetch", "origin", f"{BASE_BRANCH}:{BASE_BRANCH}"],
-                             cwd=REPO_ROOT, timeout=120)
-                if ff.returncode == 0:
-                    return _base_contains_origin()
-                if _ff_base_ref_to_origin():
-                    return _base_contains_origin()
-                return _sync_base_via_worktree(model=model)
+        with _origin_sync_push_lock(), _git_lock:
+            run_cmd(["git", "fetch", "origin", BASE_BRANCH],
+                    cwd=REPO_ROOT, timeout=300)
+            if _base_contains_origin():
+                return True
+            ff = run_cmd(["git", "fetch", "origin", f"{BASE_BRANCH}:{BASE_BRANCH}"],
+                         cwd=REPO_ROOT, timeout=120)
+            if ff.returncode == 0:
+                return _base_contains_origin()
+            if _ff_base_ref_to_origin():
+                return _base_contains_origin()
     except TimeoutError as exc:
         logger.warning(f"_sync_local_with_origin: push lock timeout; skipping sync: {exc}")
         return False
+    return _sync_base_via_worktree(model=model)
 
 
 def request_recovery(wt: WorktreeInfo) -> None:
@@ -1557,7 +1566,7 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
     for attempt in range(1, MAX_PUSH_ATTEMPTS + 1):
         if _pl is not None:
             try:
-                push_lock_cm = _pl(BASE_BRANCH, timeout=120)
+                push_lock_cm = _pl(BASE_BRANCH, timeout=600)
             except Exception as exc:
                 logger.warning(
                     f"[P{wt.round_number}] push-lock acquire failed attempt {attempt}: {exc}"
@@ -1638,13 +1647,13 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
         )
         time.sleep(backoff)
 
+        if not _sync_local_with_origin(model=model):
+            logger.error(
+                f"[P{wt.round_number}] retry could not sync local "
+                f"{BASE_BRANCH} with origin/{BASE_BRANCH}"
+            )
+            return False
         with _git_lock:
-            if not _sync_local_with_origin(model=model):
-                logger.error(
-                    f"[P{wt.round_number}] retry could not sync local "
-                    f"{BASE_BRANCH} with origin/{BASE_BRANCH}"
-                )
-                return False
             new_base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT).stdout.strip()
         if new_base_sha != captured_base_sha:
             merge = run_cmd(
