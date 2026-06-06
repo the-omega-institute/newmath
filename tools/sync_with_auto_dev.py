@@ -82,7 +82,7 @@ The merge currently has unresolved conflicts. Files with `<<<<<<<` / `=======` /
 For each conflicted file:
 1. `git diff :2:<path>` and `git diff :3:<path>` to see HEAD's vs incoming version.
 2. Resolve manually (edit the file to drop conflict markers + chosen content).
-3. After all files resolved: run `bash papers/bedc/scripts/check_tex_size.sh` (must exit 0) and `cd lean4&& lake build` if any `.lean` file was touched (must succeed).
+3. After all files resolved: run `bash papers/bedc/scripts/check_tex_size.sh` if any conflicted file is under `papers/bedc/` and run `cd lean4 && lake build` only if a conflicted file is under `lean4/`.
 4. Do NOT run `git add` or `git commit`; leave the resolved file contents in the working tree. The daemon will stage and commit under its shared lock.
 5. Do NOT `git push`.
 
@@ -136,6 +136,8 @@ def has_unmerged_index(cwd: Path = REPO_ROOT) -> bool:
 def has_conflict_markers(path: str, cwd: Path = REPO_ROOT) -> bool:
     try:
         text = (cwd / path).read_text(encoding="utf-8", errors="ignore")
+    except FileNotFoundError:
+        return False
     except Exception:
         return True
     return any(marker in text for marker in ("<<<<<<<", "=======", ">>>>>>>"))
@@ -227,7 +229,7 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
         merge_head = run(["git", "rev-parse", "--verify", "--quiet", "MERGE_HEAD"],
                          cwd=work_dir, check=False, capture=True).returncode == 0
         if merge_head:
-            run(["git", "add", "--", *files], cwd=work_dir)
+            run(["git", "add", "-A"], cwd=work_dir)
             remaining = conflicted_files(work_dir)
             if remaining:
                 print(f"[sync] codex left unresolved index conflicts: {remaining}", file=sys.stderr)

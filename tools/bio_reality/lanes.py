@@ -3305,6 +3305,8 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         "BioReality records biological conjecture deepening under explicit provenance boundaries. "
         "External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.",
         "",
+        r"\input{parts/cross_layer_synthesis}",
+        "",
         r"\input{parts/codon_window_reality_boundary}",
         "",
     ]
@@ -4427,11 +4429,29 @@ def _sanitize_textmode_underscores(text: str) -> str:
     # 先修 JSON double-escape 残留: codex 偶尔把 chapter_content 的换行/制表写成字面
     # `\n` / `\t` (backslash-n, JSON 里多转义一层) 而非真字符 → LaTeX 报
     # "Undefined control sequence \n" 致命 build 断 (flaky: 取决于该轮 render 是否带残留).
-    # 还原: 前面不是反斜杠 (排除 \\ 续行) 且后面不接**小写**字母. 真 LaTeX 命令 (\newcommand/
-    # \nu/\node/\times/\tau ...) 首字母后皆小写, 故 \n / \t 后接小写时保留; 而 JSON 残留的
-    # 字面 \nThis / \nThe / \tFoo (换行/制表后接大写词或非字母) 还原为换行/空格.
-    text = re.sub(r"(?<!\\)\\n(?![a-z])", "\n", text)
-    text = re.sub(r"(?<!\\)\\t(?![a-z])", " ", text)
+    # 还原 JSON 双转义残留的字面 \n / \t (codex 偶尔把换行/制表多转义一层 → \nq / \nThis /
+    # \begin{aligned}\nq / \\\n 等 → 'Undefined control sequence \n' 致命断). 纯大小写启发式
+    # 无法区分真命令 \nu 与残留 \nq, 故用白名单: 先占位保护真续行 \\ 与已知 \n*/\t* 命令,
+    # 再把剩余的 \n/\t 一律还原为换行/空格, 最后恢复占位.
+    _protect = ["\\\\"] + ["\\" + cmd for cmd in (
+        "newcommand", "newenvironment", "newtheorem", "newline", "newpage", "noindent", "nonumber",
+        "normalsize", "nabla", "nleftarrow", "nrightarrow", "nexists", "notin", "nsubseteq", "nsupseteq",
+        "nparallel", "nmid", "ngeq", "nleq", "neq", "nu", "ne", "not",
+        "textbf", "textit", "textrm", "textsf", "texttt", "textsc", "textnormal", "text", "times",
+        "tfrac", "thinspace", "tilde", "tanh", "tan", "theta", "triangleq", "triangleleft",
+        "triangleright", "triangle", "top", "tt", "to", "tau",
+    )]
+    _protect.sort(key=len, reverse=True)  # 长命令优先 (\newcommand 先于 \ne)
+    _phmap = {}
+    for i, tok in enumerate(_protect):
+        ph = f"\x00P{i}\x00"
+        if tok in text:
+            text = text.replace(tok, ph)
+            _phmap[ph] = tok
+    text = re.sub(r"\\n", "\n", text)
+    text = re.sub(r"\\t", " ", text)
+    for ph, tok in _phmap.items():
+        text = text.replace(ph, tok)
 
     def _fix_text_region(s: str) -> str:
         # text region (在 $...$ / label 命令保护区之外). 两步:
@@ -4543,12 +4563,32 @@ def _write_namecert_proposals(
                     f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
                 )
         text = _sanitize_textmode_underscores(text)
+        # cosmetic-skip: 已部署 rich 且本次重渲染**科学数值完全一致**(只改措辞/记法, 如
+        # $K\_AAA$↔$K_{AAA}$ 或 prose 重写) → 保留已部署不重写. 消除 namecert cosmetic churn
+        # (codex 周期性重渲染产生记法/prose 抖动但数值不变 → 每轮 git diff + bio-K commit 噪声).
+        # 数值真变(实验更新)时 number-set 不同 → 正常写入. stub/hygiene 失败不走此路.
+        if codex_ok and not hygiene_issues and deployed.exists():
+            try:
+                _existing_rich = deployed.read_text(encoding="utf-8")
+            except OSError:
+                _existing_rich = ""
+            if (_existing_rich and not _is_stub_namecert(_existing_rich)
+                    and _namecert_science_numbers(text) == _namecert_science_numbers(_existing_rich)):
+                _write_namecert_cache(cache_path, content_key)
+                slugs.append(slug)
+                continue
         deployed.write_text(text, encoding="utf-8")
         # 仅在 codex 真产出干净 rich 章节时记缓存键; stub 写出不记 (下 cycle 仍重试 codex).
         if codex_ok and not hygiene_issues:
             _write_namecert_cache(cache_path, content_key)
         slugs.append(slug)
     return slugs
+
+
+def _namecert_science_numbers(text: str) -> list[str]:
+    """提取章节内所有数值 token (排序), 用于判断重渲染是否仅 cosmetic (措辞/记法变) 而非科学变化.
+    数值一致 = 同科学内容; 不同 = 真更新. 坐标名里的固定小数字 (Q6/f3) 两侧都在, 不影响判定."""
+    return sorted(re.findall(r"\d+\.\d+|\d+", text))
 
 
 def _is_stub_namecert(text: str) -> bool:

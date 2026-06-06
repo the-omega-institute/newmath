@@ -1113,6 +1113,9 @@ def _codex_resolve_post_rebase_audit(
     wt_path: Path,
     audit_msg: str,
     *,
+    round_number: int | None = None,
+    worker_id: str | None = None,
+    commit_prefix: str | None = None,
     model: Optional[str] = None,
     timeout: int = 1200,
 ) -> bool:
@@ -1126,6 +1129,10 @@ def _codex_resolve_post_rebase_audit(
     """
     prompt = _load_prompt("post_rebase_audit_resolve").format(
         audit_msg=audit_msg,
+        round_number=round_number if round_number is not None else "unknown",
+        worker_id=worker_id or "paper-revise-recovery",
+        worker_holder=worker_id or "paper-revise-recovery",
+        commit_prefix=commit_prefix or "paper-revise-recovery:",
     )
     codex_exec(prompt, work_dir=wt_path, timeout_seconds=timeout, model=model)
     return True
@@ -1518,7 +1525,14 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
         )
         for ln in audit_msg.splitlines()[-20:]:
             logger.warning(f"  audit: {ln}")
-        if not _codex_resolve_post_rebase_audit(wt.path, audit_msg, model=model):
+        if not _codex_resolve_post_rebase_audit(
+            wt.path,
+            audit_msg,
+            round_number=wt.round_number,
+            worker_id=wt.branch,
+            commit_prefix=wt.commit_prefix,
+            model=model,
+        ):
             logger.error(
                 f"[P{wt.round_number}] Could not resolve post-merge "
                 "audit failure; refusing to merge"
