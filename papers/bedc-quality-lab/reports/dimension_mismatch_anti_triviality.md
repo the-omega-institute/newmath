@@ -33,4 +33,5 @@
 - `$.arms[*]` lists only sidecar-local arm evidence.
 - `$.positive_predicate` is the only status-driving positivity rule.
 - `$.hardgate_evidence` records HG-B1-AT1..6.
+- `$.controlled_geometry_hardgates` records B2-HG1..5.
 - `$.mechanism_status` and `$.d5m_status` remain `not_claimed`.

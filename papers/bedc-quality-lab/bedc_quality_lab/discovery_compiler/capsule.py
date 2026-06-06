@@ -98,6 +98,7 @@ def build_claim_capsule_payload(
     claim: Mapping[str, Any] | None,
     not_claimed: Sequence[str] = (),
     finite_gate: Mapping[str, Any] | None = None,
+    run_local: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     base = {
         "schema_id": CLAIM_CAPSULE_SCHEMA_ID,
@@ -159,6 +160,8 @@ def build_claim_capsule_payload(
             "not_claimed": copied_not_claimed,
             "pointer_count_parity": parity,
         }
+    if run_local is not None:
+        payload["run_local"] = dict(run_local)
     ClaimCapsule.from_payload(payload)
     return payload
 

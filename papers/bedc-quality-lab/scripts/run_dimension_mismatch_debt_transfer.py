@@ -28,6 +28,11 @@ from scripts import run_observed_debt_sweep as observed_debt
 JSON_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.json"
 REPORT_ARTIFACT = "reports/canonical/dimension-mismatch-debt-transfer.md"
 ANTI_TRIVIALITY_ARTIFACT = "reports/dimension_mismatch_anti_triviality.json"
+RUN_LOCAL_DIR = "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry"
+RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT = f"{RUN_LOCAL_DIR}/claim_capsule.json"
+RUN_LOCAL_RAW_METRICS_ARTIFACT = f"{RUN_LOCAL_DIR}/raw_metrics.jsonl"
+RUN_LOCAL_SUMMARY_ARTIFACT = f"{RUN_LOCAL_DIR}/summary.json"
+RUN_LOCAL_REPORT_ARTIFACT = f"{RUN_LOCAL_DIR}/report.md"
 ARTIFACT_ID = "bedc-quality-lab:dimension-mismatch-debt-transfer"
 TRANSFER_STATUS_POINTER = "$.dimension_mismatch_debt_transfer.status"
 EFFECTIVE_LEVEL_POINTER = "$.dimension_mismatch_debt_transfer.effective_level"
@@ -586,6 +591,7 @@ def _sidecar_gate(root: Path, *, required: bool) -> dict[str, Any]:
             else "metadata_proxy_sufficient",
             "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
             "reason": "anti-triviality sidecar recommends DN demotion",
+            "controlled_geometry": _sidecar_controlled_geometry(payload),
         }
     if sidecar_status == "anti_triviality_passed" and projection == "no_level_change_signal_detected":
         return {
@@ -597,6 +603,7 @@ def _sidecar_gate(root: Path, *, required: bool) -> dict[str, Any]:
             "downgrade_reason": None,
             "failed_gate": None,
             "reason": "anti-triviality sidecar does not recommend demotion",
+            "controlled_geometry": _sidecar_controlled_geometry(payload),
         }
     return {
         "status": "defer",
@@ -607,6 +614,18 @@ def _sidecar_gate(root: Path, *, required: bool) -> dict[str, Any]:
         "downgrade_reason": None,
         "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
         "reason": "anti-triviality sidecar status and recommended projection are not foldable",
+        "controlled_geometry": _sidecar_controlled_geometry(payload),
+    }
+
+
+def _sidecar_controlled_geometry(payload: Mapping[str, Any]) -> dict[str, Any]:
+    evidence_refs = payload.get("controlled_geometry", {}).get("evidence_refs") if isinstance(payload.get("controlled_geometry"), Mapping) else None
+    return {
+        "artifact": ANTI_TRIVIALITY_ARTIFACT,
+        "controlled_geometry_pointer": "$.controlled_geometry",
+        "hardgates_pointer": "$.controlled_geometry_hardgates",
+        "pointer_contract_pointer": "$.controlled_geometry_pointer_contract",
+        "evidence_refs": [dict(row) for row in evidence_refs] if isinstance(evidence_refs, list) else [],
     }
 
 
@@ -726,6 +745,12 @@ def build_payload(
                 "artifact": ANTI_TRIVIALITY_ARTIFACT,
                 "status_pointer": "$.status",
                 "recommended_projection_pointer": "$.recommended_projection",
+                "controlled_geometry_pointer": "$.controlled_geometry",
+                "controlled_geometry_hardgates_pointer": "$.controlled_geometry_hardgates",
+                "controlled_geometry_pointer_contract_pointer": "$.controlled_geometry_pointer_contract",
+                "controlled_geometry": dict(sidecar.get("controlled_geometry", {}))
+                if isinstance(sidecar.get("controlled_geometry"), Mapping)
+                else {},
             },
         },
         "metrics": {
@@ -826,6 +851,143 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _run_local_artifact_bundle() -> dict[str, str]:
+    return {
+        "claim_capsule": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+        "raw_metrics": RUN_LOCAL_RAW_METRICS_ARTIFACT,
+        "summary": RUN_LOCAL_SUMMARY_ARTIFACT,
+        "report": RUN_LOCAL_REPORT_ARTIFACT,
+    }
+
+
+def build_run_local_contract(payload: Mapping[str, Any]) -> dict[str, Any]:
+    transfer = payload["dimension_mismatch_debt_transfer"]
+    anti = transfer["anti_triviality_evidence"]
+    sidecar_refs = anti.get("controlled_geometry", {}).get("evidence_refs")
+    evidence_refs = [
+        {
+            "evidence_id": "canonical-claim",
+            "artifact": JSON_ARTIFACT,
+            "source_artifact": JSON_ARTIFACT,
+            "source_pointer": "$.dimension_mismatch_debt_transfer",
+        },
+        {
+            "evidence_id": "boundary-ledger",
+            "artifact": JSON_ARTIFACT,
+            "source_artifact": JSON_ARTIFACT,
+            "source_pointer": "$.boundary_ledger",
+        },
+    ]
+    if isinstance(sidecar_refs, list):
+        evidence_refs.extend(dict(row) for row in sidecar_refs)
+    return {
+        "projection_kind": "dimension_mismatch_debt_transfer_run_local",
+        "source_artifact": JSON_ARTIFACT,
+        "source_pointer": "$.dimension_mismatch_debt_transfer",
+        "controlled_geometry_artifact": ANTI_TRIVIALITY_ARTIFACT,
+        "controlled_geometry_pointer": "$.controlled_geometry",
+        "artifact_bundle": _run_local_artifact_bundle(),
+        "evidence_refs": evidence_refs,
+        "owner": "claim:dimension-mismatch-debt-transfer",
+    }
+
+
+def build_run_local_claim_capsule(payload: Mapping[str, Any]) -> dict[str, Any]:
+    transfer = payload["dimension_mismatch_debt_transfer"]
+    return {
+        "schema_id": "bedc.quality.claim_capsule",
+        "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer-claim-capsule",
+        "json_artifact": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+        "generated_at": payload["generated_at"],
+        "producer": "scripts/run_dimension_mismatch_debt_transfer.py",
+        "claim_id": "claim:dimension-mismatch-debt-transfer",
+        "report": RUN_LOCAL_REPORT_ARTIFACT,
+        "source": JSON_ARTIFACT,
+        "source_pointer": "$.dimension_mismatch_debt_transfer",
+        "status": "complete" if transfer["status"] == "pass" else "incomplete",
+        "base_level": transfer["base_level"],
+        "anti_triviality_status": transfer["anti_triviality_status"],
+        "effective_level": transfer["effective_level"],
+        "downgrade_reason": transfer["downgrade_reason"],
+        "terminal_verdict": transfer["terminal_verdict"],
+        "hypothesis": transfer["hypothesis"],
+        "failed_gate": transfer["failed_gate"],
+        "what_was_learned": transfer["what_was_learned"],
+        "run_local": build_run_local_contract(payload),
+        "not_claimed": list(payload["not_claimed"]),
+    }
+
+
+def build_run_local_raw_metrics(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ...]:
+    contract = build_run_local_contract(payload)
+    rows = []
+    for row in contract["evidence_refs"]:
+        rows.append(
+            {
+                "metric": str(row["evidence_id"]),
+                "source_artifact": str(row["source_artifact"]),
+                "source_pointer": str(row["source_pointer"]),
+            }
+        )
+    return tuple(rows)
+
+
+def build_run_local_summary(payload: Mapping[str, Any]) -> dict[str, Any]:
+    transfer = payload["dimension_mismatch_debt_transfer"]
+    return {
+        "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer-run-summary",
+        "generated_at": payload["generated_at"],
+        "producer": "scripts/run_dimension_mismatch_debt_transfer.py",
+        "claim_capsule_ref": {
+            "artifact": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+            "pointer": "$.run_local",
+        },
+        "artifact_bundle": _run_local_artifact_bundle(),
+        "status": transfer["status"],
+        "effective_level": transfer["effective_level"],
+        "anti_triviality_status": transfer["anti_triviality_status"],
+    }
+
+
+def render_run_local_markdown(payload: Mapping[str, Any]) -> str:
+    transfer = payload["dimension_mismatch_debt_transfer"]
+    return "\n".join(
+        [
+            "# Dimension-Mismatch Debt Transfer Claim Capsule",
+            "",
+            f"- Source artifact: `{JSON_ARTIFACT}`",
+            "- Source pointer: `$.dimension_mismatch_debt_transfer`",
+            f"- Controlled geometry artifact: `{ANTI_TRIVIALITY_ARTIFACT}`",
+            "- Controlled geometry pointer: `$.controlled_geometry`",
+            f"- Claim capsule pointer: `{RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT}:$.run_local`",
+            f"- Status: `{transfer['status']}`",
+            f"- Effective level: `{transfer['effective_level']}`",
+            "",
+        ]
+    )
+
+
+def _write_json_atomic(path: Path, payload: Mapping[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    tmp.replace(path)
+
+
+def _write_jsonl_atomic(path: Path, rows: Sequence[Mapping[str, Any]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text("".join(json.dumps(row, sort_keys=True) + "\n" for row in rows), encoding="utf-8")
+    tmp.replace(path)
+
+
+def _write_text_atomic(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(path)
+
+
 def write_dimension_mismatch_debt_transfer(
     *,
     root: Path = ROOT,
@@ -835,9 +997,12 @@ def write_dimension_mismatch_debt_transfer(
     payload = build_payload(root=root, generated_at=generated_at, require_anti_triviality=require_anti_triviality)
     json_path = root / JSON_ARTIFACT
     report_path = root / REPORT_ARTIFACT
-    json_path.parent.mkdir(parents=True, exist_ok=True)
-    json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    report_path.write_text(render_markdown(payload), encoding="utf-8")
+    _write_json_atomic(json_path, payload)
+    _write_text_atomic(report_path, render_markdown(payload))
+    _write_json_atomic(root / RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT, build_run_local_claim_capsule(payload))
+    _write_jsonl_atomic(root / RUN_LOCAL_RAW_METRICS_ARTIFACT, build_run_local_raw_metrics(payload))
+    _write_json_atomic(root / RUN_LOCAL_SUMMARY_ARTIFACT, build_run_local_summary(payload))
+    _write_text_atomic(root / RUN_LOCAL_REPORT_ARTIFACT, render_run_local_markdown(payload))
     return payload
 
 

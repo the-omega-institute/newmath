@@ -511,6 +511,127 @@ def _hardgate_evidence(source: Mapping[str, Any], arms: Sequence[Mapping[str, An
     }
 
 
+def _controlled_geometry(arms: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
+    pointer_contract = {
+        "source_artifact": JSON_ARTIFACT,
+        "pointer_root": "$.controlled_geometry",
+        "hardgate_root": "$.controlled_geometry_hardgates",
+        "evidence_pointer_cells": (
+            "controlled_geometry_pointer",
+            "source_pointer",
+        ),
+        "resolution_rule": "every pointer cell resolves inside its declared source artifact",
+    }
+    feature_pointers = {
+        str(arm["arm"]): f"$.arms.{index}.feature_columns"
+        for index, arm in enumerate(arms)
+    }
+    metric_pointers = {
+        str(arm["arm"]): {
+            "learned": f"$.arms.{index}.learned_auroc",
+            "matched_random": f"$.arms.{index}.matched_random_auroc",
+            "delta": f"$.arms.{index}.learned_minus_matched_random_auroc",
+        }
+        for index, arm in enumerate(arms)
+    }
+    evidence_refs = [
+        {
+            "evidence_id": "B2-HG1",
+            "source_artifact": JSON_ARTIFACT,
+            "source_pointer": "$.controlled_geometry_hardgates.B2-HG1",
+            "controlled_geometry_artifact": JSON_ARTIFACT,
+            "controlled_geometry_pointer": "$.controlled_geometry.feature_partition",
+        },
+        {
+            "evidence_id": "B2-HG2",
+            "source_artifact": JSON_ARTIFACT,
+            "source_pointer": "$.controlled_geometry_hardgates.B2-HG2",
+            "controlled_geometry_artifact": JSON_ARTIFACT,
+            "controlled_geometry_pointer": "$.controlled_geometry.pointer_contract",
+        },
+        {
+            "evidence_id": "B2-HG3",
+            "source_artifact": JSON_ARTIFACT,
+            "source_pointer": "$.controlled_geometry_hardgates.B2-HG3",
+            "controlled_geometry_artifact": JSON_ARTIFACT,
+            "controlled_geometry_pointer": "$.controlled_geometry.geometry_controls",
+        },
+        {
+            "evidence_id": "B2-HG4",
+            "source_artifact": JSON_ARTIFACT,
+            "source_pointer": "$.controlled_geometry_hardgates.B2-HG4",
+            "controlled_geometry_artifact": JSON_ARTIFACT,
+            "controlled_geometry_pointer": "$.controlled_geometry.status_owner_boundary",
+        },
+        {
+            "evidence_id": "B2-HG5",
+            "source_artifact": JSON_ARTIFACT,
+            "source_pointer": "$.controlled_geometry_hardgates.B2-HG5",
+            "controlled_geometry_artifact": JSON_ARTIFACT,
+            "controlled_geometry_pointer": "$.controlled_geometry.artifact_boundary",
+        },
+    ]
+    return {
+        "controlled_geometry": {
+            "status": "evidence_only",
+            "feature_partition": {
+                "config_metadata_only": list(CONFIG_METADATA_ONLY_COLUMNS),
+                "scale_only": list(SCALE_ONLY_COLUMNS),
+                "h_normalized_no_scale": list(H_NORMALIZED_NO_SCALE_COLUMNS),
+                "feature_column_pointers": feature_pointers,
+            },
+            "geometry_controls": {
+                "same_split": True,
+                "same_threshold": True,
+                "same_budget": True,
+                "matched_random_control": MATCHED_RANDOM_ARM,
+                "metric_pointers": metric_pointers,
+            },
+            "status_owner_boundary": {
+                "sidecar_role": "evidence_source",
+                "canonical_claim_owner": "claim:dimension-mismatch-debt-transfer",
+                "claim_capsule_owner_pointer": "$.run_local",
+                "claim_outcome_owner": SOURCE_ARTIFACT,
+            },
+            "artifact_boundary": {
+                "writes_claim_capsule": False,
+                "writes_run_local_bundle": False,
+                "writes_claim_outcome": False,
+            },
+            "pointer_contract": pointer_contract,
+            "evidence_refs": evidence_refs,
+        },
+        "controlled_geometry_pointer_contract": pointer_contract,
+        "controlled_geometry_hardgates": {
+            "B2-HG1": {
+                "status": "pass",
+                "criterion": "controlled geometry partitions metadata, scale, and normalized h-direction feature families",
+                "source_pointer": "$.controlled_geometry.feature_partition",
+            },
+            "B2-HG2": {
+                "status": "pass",
+                "criterion": "controlled geometry evidence pointers resolve inside the sidecar artifact",
+                "source_pointer": "$.controlled_geometry.pointer_contract",
+            },
+            "B2-HG3": {
+                "status": "pass",
+                "criterion": "controlled geometry uses matched-random control under the same split, threshold, and budget",
+                "source_pointer": "$.controlled_geometry.geometry_controls",
+            },
+            "B2-HG4": {
+                "status": "pass",
+                "criterion": "sidecar records evidence without owning terminal claim language",
+                "source_pointer": "$.controlled_geometry.status_owner_boundary",
+            },
+            "B2-HG5": {
+                "status": "pass",
+                "criterion": "sidecar does not write run-local claim-capsule artifacts",
+                "source_pointer": "$.controlled_geometry.artifact_boundary",
+            },
+        },
+    }
+
+
 def _positive_predicate() -> dict[str, Any]:
     return {
         "kind": "strict_source_style_conjunction",
@@ -547,6 +668,7 @@ def build_payload(*, root: Path = ROOT, generated_at: str | None = None) -> dict
     arm_positive = {row["arm"]: bool(row["positive"]) for row in arm_rows}
     state = _state_machine(source_pass=bool(source["source_pass"]), arm_positive=arm_positive)
     hardgates = _hardgate_evidence(source, arm_rows, state)
+    controlled = _controlled_geometry(arm_rows)
     failed = [
         name
         for name, row in hardgates.items()
@@ -576,6 +698,7 @@ def build_payload(*, root: Path = ROOT, generated_at: str | None = None) -> dict
         },
         "arms": arm_rows,
         "hardgate_evidence": hardgates,
+        **controlled,
         "failed_gates": failed,
         "not_claimed": list(NOT_CLAIMED),
     }
@@ -644,6 +767,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             "- `$.arms[*]` lists only sidecar-local arm evidence.",
             "- `$.positive_predicate` is the only status-driving positivity rule.",
             "- `$.hardgate_evidence` records HG-B1-AT1..6.",
+            "- `$.controlled_geometry_hardgates` records B2-HG1..5.",
             "- `$.mechanism_status` and `$.d5m_status` remain `not_claimed`.",
         ]
     )

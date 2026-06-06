@@ -5,6 +5,7 @@ import numpy as np
 import pytest
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from scripts import run_canonical_reports as canonical
 from scripts import run_dimension_mismatch_debt_transfer as transfer
 
@@ -95,9 +96,65 @@ def _sidecar(root: Path, *, status: str = "scale_leakage_detected", projection: 
     path = root / transfer.ANTI_TRIVIALITY_ARTIFACT
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        json.dumps({"status": status, "recommended_projection": projection}) + "\n",
+        json.dumps(
+            {
+                "status": status,
+                "recommended_projection": projection,
+                "controlled_geometry": {
+                    "evidence_refs": [
+                        {
+                            "evidence_id": "B2-HG1",
+                            "source_artifact": transfer.ANTI_TRIVIALITY_ARTIFACT,
+                            "source_pointer": "$.controlled_geometry_hardgates.B2-HG1",
+                            "controlled_geometry_artifact": transfer.ANTI_TRIVIALITY_ARTIFACT,
+                            "controlled_geometry_pointer": "$.controlled_geometry.feature_partition",
+                        }
+                    ],
+                    "feature_partition": {"fixture": ["h_l2_mean"]},
+                },
+                "controlled_geometry_hardgates": {
+                    "B2-HG1": {
+                        "status": "pass",
+                        "source_pointer": "$.controlled_geometry.feature_partition",
+                    }
+                },
+                "controlled_geometry_pointer_contract": {
+                    "source_artifact": transfer.ANTI_TRIVIALITY_ARTIFACT,
+                    "pointer_root": "$.controlled_geometry",
+                },
+            }
+        )
+        + "\n",
         encoding="utf-8",
     )
+
+
+def _read_json(path: Path):
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _read_jsonl(path: Path):
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def _recursive_keys(value):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            yield key
+            yield from _recursive_keys(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _recursive_keys(item)
+
+
+def _generated_run_artifacts(root: Path) -> dict[str, Path]:
+    base = root / transfer.RUN_LOCAL_DIR
+    return {
+        "claim_capsule": base / "claim_capsule.json",
+        "raw_metrics": base / "raw_metrics.jsonl",
+        "summary": base / "summary.json",
+        "report": base / "report.md",
+    }
 
 
 def test_assert_feature_matrix_contract_accepts_exact_h_only_allowlist():
@@ -320,3 +377,77 @@ def test_write_payload_keeps_pointer_artifact(tmp_path, monkeypatch):
     assert written["artifact_id"] == transfer.ARTIFACT_ID
     assert written["status"] == "pointer-only"
     assert "raw_h" not in markdown
+
+
+def test_dimension_mismatch_run_local_bundle_owned_by_debt_transfer_capsule_run_local(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+
+    payload = transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+    artifacts = _generated_run_artifacts(tmp_path)
+    claim_capsule = _read_json(artifacts["claim_capsule"])
+    raw_metrics = _read_jsonl(artifacts["raw_metrics"])
+    summary = _read_json(artifacts["summary"])
+
+    assert set(artifacts) == {"claim_capsule", "raw_metrics", "summary", "report"}
+    assert all(path.exists() for path in artifacts.values())
+    assert claim_capsule["schema_id"] == "bedc.quality.claim_capsule"
+    assert claim_capsule["claim_id"] == "claim:dimension-mismatch-debt-transfer"
+    assert claim_capsule["run_local"]["owner"] == "claim:dimension-mismatch-debt-transfer"
+    assert claim_capsule["run_local"] == transfer.build_run_local_contract(payload)
+    assert claim_capsule["run_local"]["artifact_bundle"] == {
+        "claim_capsule": transfer.RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+        "raw_metrics": transfer.RUN_LOCAL_RAW_METRICS_ARTIFACT,
+        "summary": transfer.RUN_LOCAL_SUMMARY_ARTIFACT,
+        "report": transfer.RUN_LOCAL_REPORT_ARTIFACT,
+    }
+    assert summary["claim_capsule_ref"] == {
+        "artifact": transfer.RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+        "pointer": "$.run_local",
+    }
+    assert "run_local" not in summary
+    assert {row["metric"] for row in raw_metrics} >= {"canonical-claim", "boundary-ledger", "B2-HG1"}
+
+
+def test_dimension_mismatch_summary_points_to_capsule_run_local_contract(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+
+    payload = transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+    artifacts = _generated_run_artifacts(tmp_path)
+    summary = _read_json(artifacts["summary"])
+    claim_capsule = _read_json(artifacts["claim_capsule"])
+
+    assert claim_capsule["run_local"] == transfer.build_run_local_contract(payload)
+    assert summary["claim_capsule_ref"]["pointer"] == "$.run_local"
+    assert pointer_value(claim_capsule, summary["claim_capsule_ref"]["pointer"]) == claim_capsule["run_local"]
+
+
+def test_dimension_mismatch_run_artifacts_use_versionless_schema_and_names(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+
+    transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+    artifacts = _generated_run_artifacts(tmp_path)
+    payloads = [
+        _read_json(artifacts["claim_capsule"]),
+        _read_json(artifacts["summary"]),
+        *_read_jsonl(artifacts["raw_metrics"]),
+    ]
+    text = "\n".join(json.dumps(payload, sort_keys=True) for payload in payloads)
+    text += artifacts["report"].read_text(encoding="utf-8")
+    path_text = "\n".join(str(path.relative_to(tmp_path)) for path in artifacts.values())
+
+    assert _read_json(artifacts["claim_capsule"])["schema_id"] == "bedc.quality.claim_capsule"
+    assert ".v1" not in text
+    assert "issue-696" not in text
+    assert "696" not in path_text
+    assert "v2" not in text.lower()
+    assert "controlled-geometry" in path_text
+    assert ".refactor-loop/host.env" not in text

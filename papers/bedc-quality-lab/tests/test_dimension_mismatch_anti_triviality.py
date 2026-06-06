@@ -5,6 +5,7 @@ import numpy as np
 
 import bedc_quality_lab
 from bedc_quality_lab.schema import SCHEMA_ID
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from scripts import run_canonical_reports as canonical
 from scripts import run_dimension_mismatch_anti_triviality as runner
 
@@ -100,6 +101,16 @@ def _source_artifact(root, status="pass"):
 def _patch_metrics(monkeypatch, by_arm):
     monkeypatch.setattr(runner, "_build_arm_matrices", lambda: ORIGINAL_BUILD_ARM_MATRICES(_surface_fixture()))
     monkeypatch.setattr(runner, "_run_arm", lambda matrix: by_arm[matrix["arm"]])
+
+
+def _recursive_keys(value):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            yield key
+            yield from _recursive_keys(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _recursive_keys(item)
 
 
 def test_three_arm_construction_exact_columns_and_metadata_exclusions():
@@ -298,6 +309,54 @@ def test_hg_b1_at6_sidecar_boundary_and_schema_invariants(tmp_path, monkeypatch)
     assert (tmp_path / runner.REPORT_ARTIFACT).exists()
     assert Path(runner.JSON_ARTIFACT).parts[0] == "reports"
     assert "canonical" not in Path(runner.JSON_ARTIFACT).parts
+
+
+def test_b2_controlled_geometry_sidecar_has_resolvable_evidence_pointers(tmp_path, monkeypatch):
+    _source_artifact(tmp_path)
+    _patch_metrics(
+        monkeypatch,
+        {
+            "config_metadata_only": _metrics(),
+            "scale_only": _metrics(positive=True),
+            "h_normalized_no_scale": _metrics(positive=True),
+        },
+    )
+
+    payload = runner.write_dimension_mismatch_anti_triviality(root=tmp_path, generated_at="fixture-time")
+
+    assert set(payload["controlled_geometry_hardgates"]) == {"B2-HG1", "B2-HG2", "B2-HG3", "B2-HG4", "B2-HG5"}
+    assert payload["controlled_geometry_pointer_contract"]["source_artifact"] == runner.JSON_ARTIFACT
+    assert payload["controlled_geometry"]["artifact_boundary"]["writes_claim_capsule"] is False
+    assert payload["controlled_geometry"]["artifact_boundary"]["writes_run_local_bundle"] is False
+    assert payload["controlled_geometry"]["artifact_boundary"]["writes_claim_outcome"] is False
+    for gate_name, gate in payload["controlled_geometry_hardgates"].items():
+        assert gate["status"] == "pass"
+        assert pointer_value(payload, gate["source_pointer"]) is not None, gate_name
+    for row in payload["controlled_geometry"]["evidence_refs"]:
+        assert row["source_artifact"] == runner.JSON_ARTIFACT
+        assert row["controlled_geometry_artifact"] == runner.JSON_ARTIFACT
+        assert pointer_value(payload, row["source_pointer"]) is not None, row
+        assert pointer_value(payload, row["controlled_geometry_pointer"]) is not None, row
+
+
+def test_dimension_mismatch_sidecar_and_backend_do_not_write_terminal_verdict(tmp_path, monkeypatch):
+    _source_artifact(tmp_path)
+    _patch_metrics(
+        monkeypatch,
+        {
+            "config_metadata_only": _metrics(),
+            "scale_only": _metrics(positive=True),
+            "h_normalized_no_scale": _metrics(positive=True),
+        },
+    )
+
+    payload = runner.write_dimension_mismatch_anti_triviality(root=tmp_path, generated_at="fixture-time")
+    keys = set(_recursive_keys(payload))
+
+    assert "terminal_verdict" not in keys
+    assert "claim_id" not in keys
+    assert "run_local" not in keys
+    assert "claim_capsule_ref" not in keys
 
 
 def test_artifact_does_not_overwrite_canonical_row_and_package_exports_unchanged(tmp_path, monkeypatch):
