@@ -2841,7 +2841,7 @@ def _gap_head_mechanism_namecert_index_section() -> dict[str, Any]:
         "ledger_policy_pointer": "$.ledger_policy.mechanism_closure_debt",
         "closure_status_pointer": "$.closure_status.mechanism_spec",
         "candidate_mechanism": _pointer_value(payload, "$.mechanism_spec.candidate_mechanism") or "missing",
-        "mechanism_closure_debt": _pointer_value(payload, "$.ledger_policy.mechanism_closure_debt") or "missing",
+        "mechanism_closure_debt": _pointer_value(payload, "$.ledger_policy.mechanism_closure_debt.status") or "missing",
         "mechanism_spec_closure": _pointer_value(payload, "$.closure_status.mechanism_spec") or "missing",
         "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
     }

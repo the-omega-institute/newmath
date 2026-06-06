@@ -178,6 +178,8 @@ ATTRIBUTION_CAPSULE_OPERATIONAL_POINTER = "$.d5_o"
 ATTRIBUTION_CAPSULE_MECHANISM_POINTER = MECHANISM_EVIDENCE_POINTER
 ATTRIBUTION_CAPSULE_MECHANISM_CASE_POINTER = "$.mechanism_evidence.candidate_mechanism"
 MECHANISM_NAMECERT_LEDGER_POINTER = "$.ledger_policy.mechanism_closure_debt"
+MECHANISM_NAMECERT_DEBT_STATUS_POINTER = "$.ledger_policy.mechanism_closure_debt.status"
+MECHANISM_NAMECERT_DEBT_SOURCE_POINTER = "$.ledger_policy.mechanism_closure_debt.source_pointer"
 MECHANISM_NAMECERT_CLOSURE_POINTER = "$.closure_status.mechanism_spec"
 MECHANISM_NAMECERT_CANDIDATE_POINTER = "$.mechanism_spec.candidate_mechanism"
 NEGATIVE_DISCOVERY_REPORTS_ARTIFACT = "reports/canonical/negative_discovery_reports.json"
@@ -634,13 +636,13 @@ def _gap_head_on_h_projection(
         if ledger.all_pass:
             overlay["acceptance_gates"] = {"status": "pass"}
             overlay["final_status"] = "pass"
-            ledger_debt = pointer_value(mechanism_namecert, MECHANISM_NAMECERT_LEDGER_POINTER)
+            ledger_debt = pointer_value(mechanism_namecert, MECHANISM_NAMECERT_DEBT_STATUS_POINTER)
             closure = pointer_value(mechanism_namecert, MECHANISM_NAMECERT_CLOSURE_POINTER)
             candidate = pointer_value(mechanism_namecert, MECHANISM_NAMECERT_CANDIDATE_POINTER)
             overlay["mechanism_attribution"] = {
-                "all_pass": ledger_debt == "closed" and closure == "closed",
-                "status": "ready" if ledger_debt == "closed" and closure == "closed" else "blocked",
-                "failed_gate": None if ledger_debt == "closed" and closure == "closed" else MECHANISM_NAMECERT_LEDGER_POINTER,
+                "all_pass": ledger_debt == "negative" and closure == "closed",
+                "status": "ready" if ledger_debt == "negative" and closure == "closed" else "blocked",
+                "failed_gate": None if ledger_debt == "negative" and closure == "closed" else MECHANISM_NAMECERT_DEBT_STATUS_POINTER,
                 "channel": candidate,
             }
             overlay["source_pointers"] = {
@@ -2084,24 +2086,12 @@ def _sidecar_discovery_rows(*, root: Path | None = None) -> list[dict[str, Any]]
 
 
 def _gap_head_mechanism_blockage_rows(*, root: Path) -> list[dict[str, Any]]:
-    capsule = _load_artifact_payload(ATTRIBUTION_CAPSULE_ARTIFACT, root=root)
     sidecar = _load_artifact_payload(MECHANISM_NAMECERT_ARTIFACT, root=root)
-    evidence = project_gap_head_mechanism_evidence(capsule)
-    if evidence is None:
+    debt_status = pointer_value(sidecar, MECHANISM_NAMECERT_DEBT_STATUS_POINTER)
+    if debt_status not in {"present", "present-but-fail-closed"}:
         return []
-    if (
-        evidence.base_status != "ready"
-        or evidence.mechanism_status != "blocked"
-        or pointer_value(sidecar, MECHANISM_NAMECERT_LEDGER_POINTER) != "open"
-        or unresolved_mechanism_evidence_pointers(capsule, evidence)
-    ):
-        return []
-    pointers = (
-        MECHANISM_EVIDENCE_POINTER,
-        "$.mechanism_evidence.failed_gate",
-        evidence.ledger_debt_pointer,
-    )
-    if any(pointer_value(capsule, pointer) is None for pointer in pointers):
+    source_pointer = pointer_value(sidecar, MECHANISM_NAMECERT_DEBT_SOURCE_POINTER)
+    if not isinstance(source_pointer, str):
         return []
     not_claimed = pointer_value(sidecar, "$.source_spec.scope_seal.not_claimed")
     if not isinstance(not_claimed, list):
@@ -2109,17 +2099,17 @@ def _gap_head_mechanism_blockage_rows(*, root: Path) -> list[dict[str, Any]]:
     return [
         {
             "report": "gap-head-mechanism-blockage",
-            "json_artifact": ATTRIBUTION_CAPSULE_ARTIFACT,
-            "markdown_artifact": "reports/canonical/gap_head_attribution_capsule.md",
+            "json_artifact": MECHANISM_NAMECERT_ARTIFACT,
+            "markdown_artifact": "reports/gap_head_mechanism_namecert.md",
             "discovery_level": "DN",
             "terminal_verdict": "negative_discovery",
             "classifier_reasons": ["gap-head-mechanism-blocked"],
             "projection_status": "mechanism-blockage-projected",
-            "evidence_pointer": MECHANISM_EVIDENCE_POINTER,
-            "failed_gate": "$.mechanism_evidence.failed_gate",
-            "debt_row_pointer": evidence.ledger_debt_pointer,
-            "audit_status": "valid",
-            "audit_reason": "",
+            "evidence_pointer": MECHANISM_NAMECERT_DEBT_SOURCE_POINTER,
+            "failed_gate": MECHANISM_NAMECERT_DEBT_STATUS_POINTER,
+            "debt_row_pointer": MECHANISM_NAMECERT_DEBT_STATUS_POINTER,
+            "audit_status": "valid" if debt_status == "present" else "fail-closed",
+            "audit_reason": "" if debt_status == "present" else "mechanism-closure-debt-source-unresolved",
             "what_was_learned": "gap-head operational readiness is present while D5-M remains blocked by the mechanism evidence",
             "next_hypothesis": "separate score and margin evidence from a closed mechanism proof before any D5-M promotion",
             "not_claimed": not_claimed,
@@ -2158,7 +2148,7 @@ def build_negative_discovery_owner_rows(
             "evidence_pointer": source_row.get("evidence_pointer"),
             "failed_gate": source_row.get("failed_gate"),
             "debt_row_pointer": source_row.get("debt_row_pointer"),
-            "audit_status": "pass" if source_row.get("audit_status") == "valid" else "fail",
+            "audit_status": _negative_owner_audit_status(source_row.get("audit_status")),
             "audit_reason": source_row.get("audit_reason", ""),
         }
         for key in (
@@ -2182,6 +2172,14 @@ def build_negative_discovery_owner_rows(
         _fill_negative_report_boundary(row)
         rows.append(row)
     return rows
+
+
+def _negative_owner_audit_status(status: Any) -> str:
+    if status == "valid":
+        return "pass"
+    if status == "fail-closed":
+        return "fail-closed"
+    return "fail"
 
 
 def _fill_negative_report_boundary(row: dict[str, Any]) -> None:

@@ -492,7 +492,13 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
                         ]
                     }
                 },
-                "ledger_policy": {"mechanism_closure_debt": "open"},
+                "ledger_policy": {
+                    "mechanism_closure_debt": {
+                        "status": "present",
+                        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
+                        "source_status": "open",
+                    }
+                },
                 "closure_status": {"mechanism_spec": "partial"},
                 "mechanism_spec": {
                     "candidate_mechanism": "probe-margin-channel",
@@ -1026,7 +1032,13 @@ def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, 
             {
                 "artifact_id": canonical.GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID,
                 "mechanism_spec": {"candidate_mechanism": "probe-margin-channel"},
-                "ledger_policy": {"mechanism_closure_debt": "open"},
+                "ledger_policy": {
+                    "mechanism_closure_debt": {
+                        "status": "present",
+                        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
+                        "source_status": "open",
+                    }
+                },
                 "closure_status": {"mechanism_spec": "partial"},
             }
         ),
@@ -1046,7 +1058,7 @@ def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, 
     assert section["ledger_policy_pointer"] == "$.ledger_policy.mechanism_closure_debt"
     assert section["closure_status_pointer"] == "$.closure_status.mechanism_spec"
     assert section["candidate_mechanism"] == "probe-margin-channel"
-    assert payload["gap_head_mechanism_namecert"]["mechanism_closure_debt"] == "open"
+    assert payload["gap_head_mechanism_namecert"]["mechanism_closure_debt"] == "present"
     absent_key = "gap_head_mechanism_" + "attribution"
     assert absent_key not in payload
     assert "Gap-head mechanism NameCert candidate" in markdown
@@ -3340,7 +3352,7 @@ def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     assert claim_row["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
     assert capsule["d5_o"]["status"] == row["base_status"] == "ready"
     assert row["base_level"] == "D5-O"
-    assert sidecar["ledger_policy"]["mechanism_closure_debt"] == "open"
+    assert sidecar["ledger_policy"]["mechanism_closure_debt"]["status"] == "present"
     assert sidecar["closure_status"]["mechanism_spec"] == "partial"
     assert row["mechanism_status"] == "blocked"
     assert row["mechanism_level"] == "blocked"
@@ -3357,7 +3369,7 @@ def test_gap_head_mechanism_blockage_negative_owner_is_pointer_linked():
     discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
     claim_rows = _read_committed_claim_verdicts()
     claim_graph = json.loads((canonical.ROOT / "reports/canonical/claim_graph.json").read_text(encoding="utf-8"))
-    capsule = json.loads((canonical.ROOT / "reports/canonical/gap_head_attribution_capsule.json").read_text(encoding="utf-8"))
+    sidecar = json.loads((canonical.ROOT / "reports/gap_head_mechanism_namecert.json").read_text(encoding="utf-8"))
 
     owner_index, owner = next(
         (index, row)
@@ -3373,17 +3385,17 @@ def test_gap_head_mechanism_blockage_negative_owner_is_pointer_linked():
     graph_nodes = {row["node_id"]: row for row in claim_graph["nodes"]}
 
     assert owner["negative_id"] == "dn:gap-head-mechanism-blockage"
-    assert owner["json_artifact"] == "reports/canonical/gap_head_attribution_capsule.json"
-    assert owner["failed_gate"] == "$.mechanism_evidence.failed_gate"
-    assert owner["evidence_pointer"] == "$.mechanism_evidence"
-    assert owner["debt_row_pointer"] == "$.ledger_debt.0.status"
-    assert owner["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.failed_gate"
-    assert capsule["mechanism_evidence"]["failed_gate"] == "A1-HG3"
+    assert owner["json_artifact"] == "reports/gap_head_mechanism_namecert.json"
+    assert owner["failed_gate"] == "$.ledger_policy.mechanism_closure_debt.status"
+    assert owner["evidence_pointer"] == "$.ledger_policy.mechanism_closure_debt.source_pointer"
+    assert owner["debt_row_pointer"] == "$.ledger_policy.mechanism_closure_debt.status"
+    assert owner["source"] == "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt.status"
+    assert sidecar["ledger_policy"]["mechanism_closure_debt"]["status"] == "present"
     assert discovery_row["negative_report_pointer"] == f"reports/canonical/negative_discovery_reports.json:$.rows[{owner_index}]"
     assert claim_row["negative_report_pointer"] == discovery_row["negative_report_pointer"]
     assert claim_row["claim_verdict"] == "negative_discovery"
     assert graph_nodes["raw:gap-head-mechanism-blockage"]["source_pointer"] == (
-        "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
+        "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt.source_pointer"
     )
     assert graph_nodes["projected:gap-head-mechanism-blockage"]["source_pointer"] == (
         f"reports/canonical/discovery_map.json:$.rows[{discovery_index}]"

@@ -19,6 +19,7 @@ from bedc_quality_lab.mechanism_namecert_candidate import (
     MechanismNameCertCandidate,
     audit_mechanism_namecert_candidate,
     render_mechanism_namecert_markdown,
+    validate_mechanism_namecert_candidate,
 )
 from scripts import run_gap_head_attribution_capsule as a1
 
@@ -84,6 +85,7 @@ def build_gap_head_mechanism_namecert(
         }
     )
     payload["audit"] = audit_mechanism_namecert_candidate(payload)
+    validate_mechanism_namecert_candidate(payload, root=active_root)
     return payload
 
 
@@ -98,6 +100,10 @@ def write_gap_head_mechanism_namecert(
     report_path = active_root / REPORT_ARTIFACT
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    written = json.loads(json_path.read_text(encoding="utf-8"))
+    if not isinstance(written, dict):
+        raise ValueError("mechanism namecert JSON round-trip did not produce an object")
+    validate_mechanism_namecert_candidate(written, root=active_root)
     report_path.write_text(render_mechanism_namecert_markdown(payload), encoding="utf-8")
     return payload
 
