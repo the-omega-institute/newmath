@@ -812,7 +812,7 @@ _origin_sync_stop = threading.Event()
 
 
 def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
-    """Background ticker: rebase local base onto origin/<base> when remote
+    """Background ticker: converge local base with origin/<base> when remote
     is ahead.
 
     Prevents push race storms when an external commit lands on the remote.
@@ -840,79 +840,15 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
                 continue
             logger.info(
                 f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
-                f"ahead — merging into local"
+                f"ahead — syncing local base ref"
             )
-            with _git_lock:
-                r3 = subprocess.run(
-                    ["git", "pull", "--no-rebase", "--no-edit", "--autostash",
-                     "origin", base_branch],
-                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
+            if _sync_local_with_origin(model=None):
+                logger.info(f"[origin-sync] local {base_branch} converged with origin/{base_branch}")
+            else:
+                logger.warning(
+                    f"[origin-sync] local {base_branch} did not converge with "
+                    f"origin/{base_branch}; leaving main checkout untouched"
                 )
-                if r3.returncode == 0:
-                    logger.info(f"[origin-sync] merged origin/{base_branch} into local")
-                else:
-                    logger.warning(
-                        f"[origin-sync] merge failed (returncode={r3.returncode}); "
-                        f"stderr={(r3.stderr or '').strip()[:200]}"
-                    )
-                    # Abort any in-flight merge / leftover rebase to leave the
-                    # main repo clean — otherwise worker pushes hit
-                    # "merge in progress" / "rebase in progress" forever.
-                    if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
-                        logger.warning("[origin-sync] mid-merge detected, aborting")
-                        subprocess.run(
-                            ["git", "merge", "--abort"],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                        )
-                    rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
-                    rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
-                    if rebase_merge.exists() or rebase_apply.exists():
-                        logger.warning("[origin-sync] stale mid-rebase detected, aborting")
-                        subprocess.run(
-                            ["git", "rebase", "--abort"],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                        )
-                    # Best-effort autostash pop (safe no-op if nothing stashed).
-                    subprocess.run(
-                        ["git", "stash", "pop"],
-                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                    )
-                    # Verify clean state after recovery.
-                    rs = subprocess.run(
-                        ["git", "status", "--porcelain"],
-                        cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                    )
-                    if (rs.stdout or "").strip():
-                        logger.warning(
-                            "[origin-sync] main repo NOT CLEAN after auto recovery — "
-                            "delegating to codex"
-                        )
-                        try:
-                            prompt = (
-                                _load_prompt("origin_sync_recover")
-                                .replace("<REPO_ROOT>", str(REPO_ROOT))
-                                .replace("<BASE_BRANCH>", base_branch)
-                                .replace("<STATUS_OUTPUT>", (rs.stdout or "").strip()[:2000] or "(empty)")
-                                .replace("<REBASE_STDERR>", (r3.stderr or "").strip()[:2000] or "(empty)")
-                            )
-                            codex_exec(
-                                prompt,
-                                work_dir=REPO_ROOT,
-                                timeout_seconds=600,
-                            )
-                            rs2 = subprocess.run(
-                                ["git", "status", "--porcelain"],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                            )
-                            if (rs2.stdout or "").strip():
-                                logger.error(
-                                    f"[origin-sync] codex recovery FAILED, repo still not clean: "
-                                    f"{(rs2.stdout or '').strip()[:300]} — manual fix needed"
-                                )
-                            else:
-                                logger.info("[origin-sync] codex recovery succeeded; repo clean")
-                        except Exception as exc:
-                            logger.error(f"[origin-sync] codex recovery raised: {exc}")
         except Exception as exc:
             logger.warning(f"[origin-sync] error: {exc}")
 

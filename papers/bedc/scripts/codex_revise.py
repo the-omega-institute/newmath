@@ -559,7 +559,7 @@ def _origin_sync_push_lock():
 
 
 def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
-    """Background ticker: rebase local base onto origin/<base> when remote
+    """Background ticker: converge local base with origin/<base> when remote
     is ahead.
 
     Prevents push race storms when an external commit lands on the remote.
@@ -587,132 +587,15 @@ def origin_sync_loop(base_branch: str, interval: int = 60) -> None:
                 continue
             logger.info(
                 f"[origin-sync] origin/{base_branch} is {ahead} commit(s) "
-                f"ahead — merging into local"
+                f"ahead — syncing local base ref"
             )
-            r3 = None
-            recovery_prompt = None
-            try:
-                push_lock_cm = _origin_sync_push_lock()
-                with push_lock_cm:
-                    with _git_lock:
-                        stash_oid = None
-                        dirty = subprocess.run(
-                            ["git", "status", "--porcelain"],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                        ).stdout.strip()
-                        if dirty:
-                            st = subprocess.run(
-                                ["git", "stash", "push", "-u", "-m", f"origin-sync-{os.getpid()}"],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                            )
-                            if st.returncode != 0:
-                                logger.warning(
-                                    f"[origin-sync] stash push failed; skipping sync: "
-                                    f"{(st.stderr or '').strip()[:200]}"
-                                )
-                                continue
-                            sr = subprocess.run(
-                                ["git", "rev-parse", "--verify", "--quiet", "stash@{0}"],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                            )
-                            stash_oid = (sr.stdout or "").strip() or None
-
-                        r3 = subprocess.run(
-                            ["git", "pull", "--no-rebase", "--no-edit",
-                             "origin", base_branch],
-                            cwd=REPO_ROOT, capture_output=True, text=True, timeout=120,
-                        )
-                        if r3.returncode != 0:
-                            logger.warning(
-                                f"[origin-sync] merge failed (returncode={r3.returncode}); "
-                                f"stderr={(r3.stderr or '').strip()[:200]}"
-                            )
-                            if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
-                                logger.warning("[origin-sync] mid-merge detected, aborting")
-                                subprocess.run(
-                                    ["git", "merge", "--abort"],
-                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                                )
-                            rebase_merge = REPO_ROOT / ".git" / "rebase-merge"
-                            rebase_apply = REPO_ROOT / ".git" / "rebase-apply"
-                            if rebase_merge.exists() or rebase_apply.exists():
-                                logger.warning("[origin-sync] stale mid-rebase detected, aborting")
-                                subprocess.run(
-                                    ["git", "rebase", "--abort"],
-                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                                )
-
-                        if stash_oid:
-                            ap = subprocess.run(
-                                ["git", "stash", "apply", stash_oid],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                            )
-                            if ap.returncode == 0:
-                                subprocess.run(
-                                    ["git", "stash", "drop", stash_oid],
-                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                                )
-                            else:
-                                subprocess.run(
-                                    ["git", "reset", "--hard", "HEAD"],
-                                    cwd=REPO_ROOT, capture_output=True, text=True, timeout=30,
-                                )
-                                logger.warning(
-                                    f"[origin-sync] autostash {stash_oid[:12]} re-apply "
-                                    "conflicted; reset tracked, kept stash for GC"
-                                )
-
-                        if r3.returncode == 0:
-                            logger.info(f"[origin-sync] merged origin/{base_branch} into local")
-                        else:
-                            rs = subprocess.run(
-                                ["git", "status", "--porcelain"],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                            )
-                            status_output = (rs.stdout or "").strip()
-                            if status_output:
-                                logger.warning(
-                                    "[origin-sync] main repo NOT CLEAN after auto recovery — "
-                                    "delegating to codex"
-                                )
-                                recovery_prompt = (
-                                    _load_prompt("origin_sync_recover")
-                                    .replace("<REPO_ROOT>", str(REPO_ROOT))
-                                    .replace("<BASE_BRANCH>", base_branch)
-                                    .replace("<STATUS_OUTPUT>", status_output[:2000] or "(empty)")
-                                    .replace("<REBASE_STDERR>", (r3.stderr or "").strip()[:2000] or "(empty)")
-                                )
-            except TimeoutError as exc:
-                logger.warning(f"[origin-sync] push lock timeout; skipping sync: {exc}")
-                continue
-
-            if recovery_prompt:
-                try:
-                    codex_exec(
-                        recovery_prompt,
-                        work_dir=REPO_ROOT,
-                        timeout_seconds=600,
-                    )
-                except Exception as exc:
-                    logger.error(f"[origin-sync] codex recovery raised: {exc}")
-                    continue
-                try:
-                    push_lock_cm = _origin_sync_push_lock()
-                    with push_lock_cm:
-                        with _git_lock:
-                            rs2 = subprocess.run(
-                                ["git", "status", "--porcelain"],
-                                cwd=REPO_ROOT, capture_output=True, text=True, timeout=10,
-                            )
-                    if (rs2.stdout or "").strip():
-                        logger.error(
-                            f"[origin-sync] codex recovery FAILED, repo still not clean: "
-                            f"{(rs2.stdout or '').strip()[:300]} — manual fix needed"
-                        )
-                    else:
-                        logger.info("[origin-sync] codex recovery succeeded; repo clean")
-                except TimeoutError as exc:
-                    logger.warning(f"[origin-sync] push lock timeout after codex recovery: {exc}")
+            if _sync_local_with_origin(model=None):
+                logger.info(f"[origin-sync] local {base_branch} converged with origin/{base_branch}")
+            else:
+                logger.warning(
+                    f"[origin-sync] local {base_branch} did not converge with "
+                    f"origin/{base_branch}; leaving main checkout untouched"
+                )
         except Exception as exc:
             logger.warning(f"[origin-sync] error: {exc}")
 
