@@ -1593,17 +1593,22 @@ def merge_worktree_to_base(wt: WorktreeInfo, *, model: Optional[str] = None) -> 
         time.sleep(backoff)
 
         with _git_lock:
-            run_cmd(["git", "fetch", "origin", BASE_BRANCH], cwd=REPO_ROOT, timeout=60)
-            new_base_sha = run_cmd(["git", "rev-parse", f"origin/{BASE_BRANCH}"], cwd=REPO_ROOT).stdout.strip()
-            if new_base_sha != captured_base_sha:
-                merge = run_cmd(["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH], cwd=wt.path, timeout=180)
-                if merge.returncode != 0:
-                    logger.warning(f"[R{wt.round_number}] retry merge conflict, invoking codex")
-                    resolved = _codex_resolve_conflicts(wt.path, model=model)
-                    if not resolved:
-                        run_cmd(["git", "merge", "--abort"], cwd=wt.path)
-                        return False
-                captured_base_sha = new_base_sha
+            if not _sync_local_with_origin(model=model):
+                logger.error(
+                    f"[R{wt.round_number}] retry could not sync local "
+                    f"{BASE_BRANCH} with origin/{BASE_BRANCH}"
+                )
+                return False
+            new_base_sha = run_cmd(["git", "rev-parse", BASE_BRANCH], cwd=REPO_ROOT).stdout.strip()
+        if new_base_sha != captured_base_sha:
+            merge = run_cmd(["git", "merge", "--no-ff", "--no-edit", BASE_BRANCH], cwd=wt.path, timeout=180)
+            if merge.returncode != 0:
+                logger.warning(f"[R{wt.round_number}] retry merge conflict, invoking codex")
+                resolved = _codex_resolve_conflicts(wt.path, model=model)
+                if not resolved:
+                    run_cmd(["git", "merge", "--abort"], cwd=wt.path)
+                    return False
+            captured_base_sha = new_base_sha
 
     return False
 
