@@ -1004,7 +1004,27 @@ def _c2_frontier(
     return frontier
 
 
-def _payload(*, run_id: str = "certificate-guided-constraint-training") -> dict[str, Any]:
+def _reusable_generated_at(run_id: str) -> str | None:
+    candidates = (
+        ROOT / _capsule_path(run_id),
+        ROOT / JSON_ARTIFACT,
+    )
+    for path in candidates:
+        if not path.exists():
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(payload, dict):
+            continue
+        generated_at = payload.get("generated_at")
+        if isinstance(generated_at, str) and generated_at:
+            return generated_at
+    return None
+
+
+def _payload(*, run_id: str = "certificate-guided-constraint-training", generated_at: str | None = None) -> dict[str, Any]:
     protocol = load_cost_protocol()
     required_rows = REQUIRED_DEBT_ROWS | SCOPED_DEBT_ROWS
     protocol.validate_required_rows(required_rows)
@@ -1039,11 +1059,11 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training") -> dict[
     hardgate = _hardgate(records, paired_ci, claim_gate)
     failed_gate = hardgate["failed_gate"]
     verdict = _terminal_verdict(hardgate)
-    generated_at = datetime.now(timezone.utc).isoformat()
+    timestamp = generated_at or datetime.now(timezone.utc).isoformat()
     payload: dict[str, Any] = {
         "artifact": JSON_ARTIFACT,
         "report": REPORT_ARTIFACT,
-        "generated_at": generated_at,
+        "generated_at": timestamp,
         "run_id": run_id,
         "cost_protocol": _cost_protocol_payload(protocol),
         "source_artifacts": {
@@ -1158,7 +1178,7 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training") -> dict[
     )
     payload["claim_capsule"] = build_claim_capsule(
         run_id=run_id,
-        generated_at=generated_at,
+        generated_at=timestamp,
         producer=PRODUCER,
         report_artifact=JSON_ARTIFACT,
         capsule_artifact=_capsule_path(run_id),
@@ -1293,7 +1313,7 @@ def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", default="certificate-guided-constraint-training")
     args = parser.parse_args(argv)
-    payload = _payload(run_id=args.run_id)
+    payload = _payload(run_id=args.run_id, generated_at=_reusable_generated_at(args.run_id))
     _write_payload(payload)
     print(f"wrote {JSON_ARTIFACT}")
     print(f"wrote {REPORT_ARTIFACT}")
