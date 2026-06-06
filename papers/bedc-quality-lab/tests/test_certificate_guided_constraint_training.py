@@ -85,6 +85,19 @@ def _pointer_value(payload, pointer):
     cursor = payload
     assert pointer.startswith("$.")
     for part in pointer[2:].split("."):
+        while "[" in part and part.endswith("]"):
+            key, bracket = part.split("[", 1)
+            if key:
+                assert isinstance(cursor, dict)
+                assert key in cursor
+                cursor = cursor[key]
+            index_text = bracket[:-1]
+            assert index_text.isdigit()
+            assert isinstance(cursor, list)
+            cursor = cursor[int(index_text)]
+            part = ""
+        if not part:
+            continue
         if isinstance(cursor, dict):
             assert part in cursor
             cursor = cursor[part]
@@ -101,6 +114,34 @@ def _assert_artifact_pointer_resolves(root, payload, artifact_pointer):
     assert path.exists()
     pointed_payload = json.loads(path.read_text(encoding="utf-8"))
     assert _pointer_value(pointed_payload, pointer) is not None
+
+
+def _artifact_pointer_value(root, artifact_pointer):
+    artifact, pointer = artifact_pointer.split(":", 1)
+    path = root / artifact
+    assert path.exists()
+    return _pointer_value(json.loads(path.read_text(encoding="utf-8")), pointer)
+
+
+def _recursive_key_present(value, key):
+    if isinstance(value, dict):
+        return key in value or any(_recursive_key_present(child, key) for child in value.values())
+    if isinstance(value, list):
+        return any(_recursive_key_present(child, key) for child in value)
+    return False
+
+
+def _assert_negative_witness_pointer_only(
+    value,
+    *,
+    artifact="reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+):
+    assert value == {
+        "artifact": artifact,
+        "pointer": "$.run_local.negative_witness[0]",
+    }
+    assert set(value) == {"artifact", "pointer"}
+    assert not {"witness_id", "bedc_gap_field", "demotion_rule"} & set(value)
 
 
 def _claim_gate_for_single_failed_gate(failed_name):
@@ -190,7 +231,12 @@ def test_c1_producer_runs_seven_arm_grid_and_writes_capsule(monkeypatch, tmp_pat
     assert loaded["arm_protocol"]["main_pair"] == ["baseline", "constraint_lagrangian"]
     assert loaded["arm_protocol"]["control_pair"] == ["baseline", "matched_random_debt"]
     assert loaded["claim_capsule"]["schema_id"] == "bedc.quality.claim_capsule"
-    assert capsule == loaded["claim_capsule"]
+    _assert_negative_witness_pointer_only(
+        loaded["claim_capsule"]["run_local"]["negative_witness"][0],
+        artifact="reports/runs/fixture-c1/claim_capsule.json",
+    )
+    assert set(capsule["run_local"]["negative_witness"][0]) == set(runner.NEGATIVE_WITNESS_KEYS)
+    assert _pointer_value(capsule, loaded["claim_capsule"]["run_local"]["negative_witness"][0]["pointer"]) == capsule["run_local"]["negative_witness"][0]
     assert set(capsule["prior_observation"]) == {
         "source_evidence_pointer",
         "hardgate_pointer",
@@ -220,7 +266,14 @@ def test_c1_capsule_write_is_stable_across_repeated_writes(monkeypatch, tmp_path
     canonical_payload = json.loads((tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8"))
     sidecar_payload = json.loads((tmp_path / canonical_payload["claim_capsule"]["artifact"]).read_text(encoding="utf-8"))
 
-    assert canonical_payload["claim_capsule"] == sidecar_payload
+    assert canonical_payload["claim_capsule"] == runner._public_claim_capsule_projection(sidecar_payload)
+    assert canonical_payload["claim_capsule"]["run_local"]["negative_witness"] == [
+        {
+            "artifact": "reports/runs/fixture-c1/claim_capsule.json",
+            "pointer": "$.run_local.negative_witness[0]",
+        }
+    ]
+    assert set(sidecar_payload["run_local"]["negative_witness"][0]) == set(runner.NEGATIVE_WITNESS_KEYS)
 
 
 def test_c1_regeneration_reuses_existing_generated_at(monkeypatch, tmp_path):
@@ -259,6 +312,150 @@ def test_c1_hardgates_record_tradeoff_dn_and_control(monkeypatch, tmp_path):
     assert payload["result"]["status"] == "negative"
     assert payload["claim_capsule"]["failed_gate"] == "audit-improvement-tradeoff"
     assert "what_was_learned" in payload["claim_capsule"]
+
+
+def test_c1_run_local_negative_witness_records_audit_improvement_tradeoff(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+
+    assert payload["claim_capsule"]["run_local"]["negative_witness"][0] == {
+        "witness_id": "certificate-guided-constraint-training:audit-improvement-tradeoff",
+        "source_artifact": "reports/canonical/certificate-guided-training.json",
+        "source_pointer": "$.hardgate.gates.C1-HG1.failed_gate",
+        "bedc_gap_field": "Positive information gap",
+        "demotion_rule": "audit-improvement-tradeoff",
+        "regression_test": "tests/test_certificate_guided_constraint_training.py::test_c1_run_local_negative_witness_records_audit_improvement_tradeoff",
+        "evidence_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1",
+        "status": "fail",
+        "reason": "C1-HG1 records audit-improvement-tradeoff as the first failed certificate-guided constraint training hardgate",
+    }
+
+
+def test_c1_run_local_negative_witness_hardgates_pass_for_resolved_payload(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    run_local = payload["claim_capsule"]["run_local"]
+    row = run_local["negative_witness"][0]
+    hardgates = run_local["negative_witness_hardgates"]
+    gates = hardgates["gates"]
+
+    assert hardgates["status"] == "pass"
+    assert hardgates["failed_gates"] == []
+    assert set(gates) == {"NW-HG1", "NW-HG2", "NW-HG3", "NW-HG4"}
+    assert all(gate["status"] == "pass" for gate in gates.values())
+
+    assert gates["NW-HG1"]["evidence_pointer"] == "$.run_local.negative_witness.0"
+    assert gates["NW-HG1"]["row_shape_ok"] is True
+    assert gates["NW-HG1"]["list_shape_ok"] is True
+    assert list(row) == list(runner.NEGATIVE_WITNESS_KEYS)
+
+    assert gates["NW-HG2"]["evidence_pointer"] == runner.NEGATIVE_WITNESS_SOURCE_POINTER
+    assert gates["NW-HG2"]["source_pointer_resolved"] is True
+    assert gates["NW-HG2"]["source_pointer_value"] == "audit-improvement-tradeoff"
+
+    evidence = runner._artifact_pointer_value(payload, runner.NEGATIVE_WITNESS_EVIDENCE_POINTER)
+    assert gates["NW-HG3"]["evidence_pointer"] == runner.NEGATIVE_WITNESS_EVIDENCE_POINTER
+    assert gates["NW-HG3"]["evidence_pointer_resolved"] is True
+    assert evidence["status"] == "fail"
+    assert evidence["failed_gate"] == "audit-improvement-tradeoff"
+    assert evidence["debt_delta"] < 0
+    assert evidence["benefit_delta"] < 0
+
+    assert gates["NW-HG4"]["evidence_pointer"] == "$.run_local.negative_witness.0.status"
+    assert gates["NW-HG4"]["expected_status"] == "fail"
+    assert gates["NW-HG4"]["observed_status"] == "fail"
+
+
+def test_c1_run_local_negative_witness_source_pointer_resolves():
+    canonical_artifact = "reports/canonical/certificate-guided-training.json"
+    canonical_payload = json.loads((runner.ROOT / canonical_artifact).read_text(encoding="utf-8"))
+    row_ref = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+    row_owner = json.loads((runner.ROOT / row_ref["artifact"]).read_text(encoding="utf-8"))
+    row = _pointer_value(row_owner, row_ref["pointer"])
+
+    _assert_negative_witness_pointer_only(row_ref)
+    assert row["source_artifact"] == canonical_artifact
+    assert _pointer_value(canonical_payload, row["source_pointer"]) == "audit-improvement-tradeoff"
+
+
+def test_c1_run_local_negative_witness_evidence_pointer_resolves():
+    canonical_payload = json.loads((runner.ROOT / "reports/canonical/certificate-guided-training.json").read_text(encoding="utf-8"))
+    row_ref = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+    row_owner = json.loads((runner.ROOT / row_ref["artifact"]).read_text(encoding="utf-8"))
+    row = _pointer_value(row_owner, row_ref["pointer"])
+    evidence = _artifact_pointer_value(runner.ROOT, row["evidence_pointer"])
+
+    _assert_negative_witness_pointer_only(row_ref)
+    assert evidence["status"] == "fail"
+    assert evidence["failed_gate"] == "audit-improvement-tradeoff"
+    assert evidence["debt_delta"] < 0
+    assert evidence["benefit_delta"] < 0
+
+
+def test_c1_public_surfaces_point_to_run_local_negative_witness_owner():
+    for artifact in (
+        "reports/canonical/certificate-guided-training.json",
+        "reports/certificate_guided_training.json",
+    ):
+        payload = json.loads((runner.ROOT / artifact).read_text(encoding="utf-8"))
+        row_ref = payload["claim_capsule"]["run_local"]["negative_witness"][0]
+        owner = json.loads((runner.ROOT / row_ref["artifact"]).read_text(encoding="utf-8"))
+        row = _pointer_value(owner, row_ref["pointer"])
+
+        _assert_negative_witness_pointer_only(row_ref)
+        assert set(row) == set(runner.NEGATIVE_WITNESS_KEYS)
+        assert row["witness_id"] == "certificate-guided-constraint-training:audit-improvement-tradeoff"
+        assert row["bedc_gap_field"] == "Positive information gap"
+        assert row["demotion_rule"] == "audit-improvement-tradeoff"
+        assert _pointer_value(owner, "$.run_local.negative_witness[0]") == row
+
+
+def test_c1_run_local_negative_witness_regression_test_collects():
+    import subprocess
+    import sys
+
+    nodeid = (
+        "tests/test_certificate_guided_constraint_training.py::"
+        "test_c1_run_local_negative_witness_records_audit_improvement_tradeoff"
+    )
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "--collect-only", "-q", nodeid],
+        cwd=runner.ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0
+    assert nodeid in result.stdout
+
+
+def test_c1_run_local_negative_witness_fail_closed_pointer_contract(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    monkeypatch.setattr(runner, "NEGATIVE_WITNESS_SOURCE_POINTER", "$.hardgate.gates.C1-HG1.missing_cell")
+
+    run_local = runner._negative_witness_run_local(payload)
+    row = run_local["negative_witness"][0]
+
+    assert list(row) == list(runner.NEGATIVE_WITNESS_KEYS)
+    assert row["status"] == "blocked"
+    assert "unresolved pointer reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1.missing_cell" in row["reason"]
+    assert run_local["negative_witness_hardgates"]["status"] == "fail"
+
+
+def test_c1_run_local_negative_witness_no_terminal_verdict_leakage(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    run_local = payload["claim_capsule"]["run_local"]
+
+    assert not _recursive_key_present(run_local["negative_witness"], "terminal_verdict")
+    assert not _recursive_key_present(run_local["negative_witness_hardgates"], "terminal_verdict")
+
+
+def test_c1_run_local_negative_witness_list_shape_only(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    negative_witness = payload["claim_capsule"]["run_local"]["negative_witness"]
+
+    assert isinstance(negative_witness, list)
+    assert isinstance(_pointer_value(payload, "$.claim_capsule.run_local.negative_witness[0]"), dict)
+    assert not isinstance(negative_witness, dict)
 
 
 def test_c2_frontier_reports_feasible_non_positive_cells(monkeypatch, tmp_path):
@@ -381,7 +578,19 @@ def test_committed_claim_capsule_sidecar_matches_canonical_embedding():
     canonical_payload = json.loads((runner.ROOT / canonical_artifact).read_text(encoding="utf-8"))
     sidecar_payload = json.loads((runner.ROOT / canonical_payload["claim_capsule"]["artifact"]).read_text(encoding="utf-8"))
 
-    assert canonical_payload["claim_capsule"] == sidecar_payload
+    assert canonical_payload["claim_capsule"] == runner._public_claim_capsule_projection(sidecar_payload)
+    negative_witness_pointer = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+    assert negative_witness_pointer == {
+        "artifact": "reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+        "pointer": "$.run_local.negative_witness[0]",
+    }
+    assert negative_witness_pointer["artifact"] == canonical_payload["claim_capsule"]["artifact"]
+    pointed_payload = json.loads((runner.ROOT / negative_witness_pointer["artifact"]).read_text(encoding="utf-8"))
+    row = _pointer_value(pointed_payload, negative_witness_pointer["pointer"])
+    assert set(row) == set(runner.NEGATIVE_WITNESS_KEYS)
+    assert row["witness_id"] == "certificate-guided-constraint-training:audit-improvement-tradeoff"
+    assert row["bedc_gap_field"] == "Positive information gap"
+    assert row["demotion_rule"] == "audit-improvement-tradeoff"
 
 
 def test_committed_claim_capsule_source_evidence_pointers_resolve():

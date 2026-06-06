@@ -685,6 +685,43 @@
     "report_artifact": "reports/certificate_guided_training.json",
     "revocable": true,
     "run_id": "certificate-guided-constraint-training",
+    "run_local": {
+      "negative_witness": [
+        {
+          "artifact": "reports/runs/certificate-guided-constraint-training/claim_capsule.json",
+          "pointer": "$.run_local.negative_witness[0]"
+        }
+      ],
+      "negative_witness_hardgates": {
+        "failed_gates": [],
+        "gates": {
+          "NW-HG1": {
+            "evidence_pointer": "$.run_local.negative_witness.0",
+            "list_shape_ok": true,
+            "row_shape_ok": true,
+            "status": "pass"
+          },
+          "NW-HG2": {
+            "evidence_pointer": "$.hardgate.gates.C1-HG1.failed_gate",
+            "source_pointer_resolved": true,
+            "source_pointer_value": "audit-improvement-tradeoff",
+            "status": "pass"
+          },
+          "NW-HG3": {
+            "evidence_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1",
+            "evidence_pointer_resolved": true,
+            "status": "pass"
+          },
+          "NW-HG4": {
+            "evidence_pointer": "$.run_local.negative_witness.0.status",
+            "expected_status": "fail",
+            "observed_status": "fail",
+            "status": "pass"
+          }
+        },
+        "status": "pass"
+      }
+    },
     "schema_id": "bedc.quality.claim_capsule",
     "source_evidence": {
       "arm_count": 7,

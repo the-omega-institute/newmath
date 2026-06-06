@@ -42,6 +42,25 @@ GRID_METRICS_ARTIFACT = "reports/runs/certificate-guided-constraint-training/gri
 GRID_SUMMARY_ARTIFACT = "reports/runs/certificate-guided-constraint-training/grid_summary.jsonl"
 PRODUCER = "scripts/run_certificate_guided_constraint_training.py"
 CAPSULE_SCHEMA_ID = "bedc.quality.claim_capsule"
+NEGATIVE_WITNESS_KEYS = (
+    "witness_id",
+    "source_artifact",
+    "source_pointer",
+    "bedc_gap_field",
+    "demotion_rule",
+    "regression_test",
+    "evidence_pointer",
+    "status",
+    "reason",
+)
+NEGATIVE_WITNESS_SOURCE_ARTIFACT = "reports/canonical/certificate-guided-training.json"
+NEGATIVE_WITNESS_SOURCE_POINTER = "$.hardgate.gates.C1-HG1.failed_gate"
+NEGATIVE_WITNESS_EVIDENCE_POINTER = "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1"
+NEGATIVE_WITNESS_REGRESSION_TEST = (
+    "tests/test_certificate_guided_constraint_training.py::"
+    "test_c1_run_local_negative_witness_records_audit_improvement_tradeoff"
+)
+NEGATIVE_WITNESS_OWNER_POINTER = "$.run_local.negative_witness[0]"
 SEEDS = (18, 25, 36, 44, 57, 63, 72, 89)
 RHO = 0.82
 SAMPLE_COUNT = 160
@@ -496,6 +515,22 @@ def _pointer_value(payload: dict[str, Any], pointer: str) -> Any:
         return None
     cursor: Any = payload
     for part in pointer[2:].split("."):
+        while "[" in part and part.endswith("]"):
+            key, bracket = part.split("[", 1)
+            if key:
+                if not isinstance(cursor, dict) or key not in cursor:
+                    return None
+                cursor = cursor[key]
+            index_text = bracket[:-1]
+            if not index_text.isdigit() or not isinstance(cursor, list):
+                return None
+            index = int(index_text)
+            if index >= len(cursor):
+                return None
+            cursor = cursor[index]
+            part = ""
+        if not part:
+            continue
         if isinstance(cursor, dict):
             if part not in cursor:
                 return None
@@ -509,6 +544,139 @@ def _pointer_value(payload: dict[str, Any], pointer: str) -> Any:
             continue
         return None
     return cursor
+
+
+def _negative_witness_row(status: str = "fail", reason: str | None = None) -> dict[str, Any]:
+    return {
+        "witness_id": "certificate-guided-constraint-training:audit-improvement-tradeoff",
+        "source_artifact": NEGATIVE_WITNESS_SOURCE_ARTIFACT,
+        "source_pointer": NEGATIVE_WITNESS_SOURCE_POINTER,
+        "bedc_gap_field": "Positive information gap",
+        "demotion_rule": "audit-improvement-tradeoff",
+        "regression_test": NEGATIVE_WITNESS_REGRESSION_TEST,
+        "evidence_pointer": NEGATIVE_WITNESS_EVIDENCE_POINTER,
+        "status": status,
+        "reason": reason
+        or "C1-HG1 records audit-improvement-tradeoff as the first failed certificate-guided constraint training hardgate",
+    }
+
+
+def _source_payload_for_artifact(payload: dict[str, Any], artifact: str) -> dict[str, Any] | None:
+    if artifact in {payload.get("artifact"), JSON_ARTIFACT, NEGATIVE_WITNESS_SOURCE_ARTIFACT}:
+        return payload
+    path = ROOT / artifact
+    if not path.exists():
+        return None
+    try:
+        loaded = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    return loaded if isinstance(loaded, dict) else None
+
+
+def _artifact_pointer_value(payload: dict[str, Any], artifact_pointer: str) -> Any:
+    if ":$" not in artifact_pointer:
+        return None
+    artifact, pointer = artifact_pointer.split(":", 1)
+    source = _source_payload_for_artifact(payload, artifact)
+    if source is None:
+        return None
+    return _pointer_value(source, pointer)
+
+
+def _negative_witness_pointer_status(payload: dict[str, Any]) -> tuple[str, dict[str, Any]]:
+    row = _negative_witness_row()
+    source_payload = _source_payload_for_artifact(payload, row["source_artifact"])
+    source_value = None if source_payload is None else _pointer_value(source_payload, row["source_pointer"])
+    evidence_value = _artifact_pointer_value(payload, row["evidence_pointer"])
+    checks = {
+        "source_artifact": row["source_artifact"],
+        "source_pointer": row["source_pointer"],
+        "source_pointer_resolved": source_value is not None,
+        "source_pointer_value": source_value,
+        "evidence_pointer": row["evidence_pointer"],
+        "evidence_pointer_resolved": evidence_value is not None,
+    }
+    missing = []
+    if source_payload is None:
+        missing.append(f"unresolved artifact {row['source_artifact']}")
+    if source_value is None:
+        missing.append(f"unresolved pointer {row['source_artifact']}:{row['source_pointer']}")
+    if evidence_value is None:
+        missing.append(f"unresolved pointer {row['evidence_pointer']}")
+    return "; ".join(missing), checks
+
+
+def _negative_witness_hardgates(payload: dict[str, Any], row: dict[str, Any], checks: dict[str, Any]) -> dict[str, Any]:
+    evidence = _artifact_pointer_value(payload, row["evidence_pointer"])
+    source_ok = checks["source_pointer_resolved"] and checks["source_pointer_value"] == "audit-improvement-tradeoff"
+    evidence_ok = (
+        isinstance(evidence, dict)
+        and evidence.get("status") == "fail"
+        and evidence.get("failed_gate") == "audit-improvement-tradeoff"
+        and float(evidence.get("debt_delta", 0.0)) < 0.0
+        and float(evidence.get("benefit_delta", 0.0)) < 0.0
+    )
+    row_shape_ok = isinstance(row, dict) and len(row) == len(NEGATIVE_WITNESS_KEYS) and set(row) == set(NEGATIVE_WITNESS_KEYS)
+    list_shape_ok = isinstance(payload.get("claim_capsule", {}).get("run_local", {}).get("negative_witness"), list)
+    gates = {
+        "NW-HG1": {
+            "status": "pass" if row_shape_ok and list_shape_ok else "fail",
+            "evidence_pointer": "$.run_local.negative_witness.0",
+            "row_shape_ok": row_shape_ok,
+            "list_shape_ok": list_shape_ok,
+        },
+        "NW-HG2": {
+            "status": "pass" if source_ok else "fail",
+            "evidence_pointer": row["source_pointer"],
+            "source_pointer_resolved": checks["source_pointer_resolved"],
+            "source_pointer_value": checks["source_pointer_value"],
+        },
+        "NW-HG3": {
+            "status": "pass" if evidence_ok else "fail",
+            "evidence_pointer": row["evidence_pointer"],
+            "evidence_pointer_resolved": checks["evidence_pointer_resolved"],
+        },
+        "NW-HG4": {
+            "status": "pass" if row["status"] == "fail" else "fail",
+            "evidence_pointer": "$.run_local.negative_witness.0.status",
+            "expected_status": "fail",
+            "observed_status": row["status"],
+        },
+    }
+    failed = [name for name, gate in gates.items() if gate["status"] != "pass"]
+    return {
+        "status": "pass" if not failed else "fail",
+        "failed_gates": failed,
+        "gates": gates,
+    }
+
+
+def _negative_witness_run_local(payload: dict[str, Any]) -> dict[str, Any]:
+    reason, checks = _negative_witness_pointer_status(payload)
+    row = _negative_witness_row() if not reason else _negative_witness_row(status="blocked", reason=reason)
+    run_local = {"negative_witness": [row]}
+    probe = {**payload, "claim_capsule": {"run_local": run_local}}
+    run_local["negative_witness_hardgates"] = _negative_witness_hardgates(probe, row, checks)
+    return run_local
+
+
+def _negative_witness_owner_ref(run_id: str) -> dict[str, str]:
+    return {
+        "artifact": _capsule_path(run_id),
+        "pointer": NEGATIVE_WITNESS_OWNER_POINTER,
+    }
+
+
+def _public_claim_capsule_projection(capsule: dict[str, Any]) -> dict[str, Any]:
+    projected = dict(capsule)
+    run_local = projected.get("run_local")
+    if not isinstance(run_local, dict):
+        return projected
+    projected_run_local = dict(run_local)
+    projected_run_local["negative_witness"] = [_negative_witness_owner_ref(str(capsule["run_id"]))]
+    projected["run_local"] = projected_run_local
+    return projected
 
 
 def _grid_summary_records(grid_records: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -1176,6 +1344,7 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training", generate
         if failed_gate
         else "constraint_lagrangian cleared every C1 hardgate"
     )
+    run_local = _negative_witness_run_local(payload)
     payload["claim_capsule"] = build_claim_capsule(
         run_id=run_id,
         generated_at=timestamp,
@@ -1190,6 +1359,7 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training", generate
         source_evidence=_source_evidence(payload),
         prior_observation=_prior_observation(payload["artifact"]),
         not_claimed=payload["not_claimed"],
+        run_local=run_local,
     )
     payload["claim_capsule"]["c2_frontier"] = {
         "axis_spec": payload["c2_frontier"]["axis_spec"],
@@ -1278,7 +1448,10 @@ def _write_payload(payload: dict[str, Any]) -> None:
 
 
 def _public_payload(payload: dict[str, Any]) -> dict[str, Any]:
-    return {key: value for key, value in payload.items() if not key.startswith("_")}
+    public = {key: value for key, value in payload.items() if not key.startswith("_")}
+    if isinstance(public.get("claim_capsule"), dict):
+        public["claim_capsule"] = _public_claim_capsule_projection(public["claim_capsule"])
+    return public
 
 
 def _canonical_json(payload: dict[str, Any]) -> str:

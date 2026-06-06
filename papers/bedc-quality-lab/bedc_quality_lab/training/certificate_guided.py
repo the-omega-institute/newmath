@@ -241,6 +241,7 @@ def build_claim_capsule(
     source_evidence: Mapping[str, Any],
     prior_observation: Mapping[str, Any] | None,
     not_claimed: Iterable[str],
+    run_local: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     source_evidence_payload = dict(source_evidence)
     if source_evidence_payload.get("prior_observation_pointer") == "$.prior_observation":
@@ -262,6 +263,8 @@ def build_claim_capsule(
         "not_claimed": list(not_claimed),
         "revocable": True,
     }
+    if run_local is not None:
+        capsule["run_local"] = dict(run_local)
     if terminal_verdict.startswith("DN") or failed_gate is not None:
         if not capsule["failed_gate"]:
             raise ValueError("DN claim capsule requires failed_gate")
