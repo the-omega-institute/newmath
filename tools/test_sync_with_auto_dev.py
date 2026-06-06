@@ -10,6 +10,13 @@ from unittest import mock
 REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
+class Result:
+    def __init__(self, returncode: int = 0, stdout: str = "", stderr: str = "") -> None:
+        self.returncode = returncode
+        self.stdout = stdout
+        self.stderr = stderr
+
+
 def load_sync_module():
     path = REPO_ROOT / "tools" / "sync_with_auto_dev.py"
     spec = importlib.util.spec_from_file_location("sync_with_auto_dev_test_module", path)
@@ -88,6 +95,89 @@ class SyncDevCatchupPrTests(unittest.TestCase):
 
         self.assertEqual(closed_numbers, [17])
         self.assertEqual(deleted_branches, ["auto-dev-sync-20260603-0501"])
+
+
+class RollupPrTests(unittest.TestCase):
+    def test_source_in_target_is_noop_without_pr_creation(self) -> None:
+        module = load_sync_module()
+        target_sha = "12837a0ec5abcdef"
+
+        with mock.patch.object(module, "git", return_value=Result()) as git:
+            with mock.patch.object(module, "has_remote_branch", return_value=True):
+                with mock.patch.object(module, "_origin_sha", return_value=target_sha):
+                    with mock.patch.object(module, "_merge_base_contains", return_value=True):
+                        with mock.patch.object(module, "_delete_managed_rollup_branch_if_no_pr") as cleanup:
+                            with mock.patch.object(module, "_open_rollup_pr") as open_pr:
+                                with mock.patch.object(module, "_build_rollup_candidate") as build:
+                                    ok = module.sync_rollup_pr(
+                                        "codex-auto-dev",
+                                        "dev",
+                                        "rollup-codex-auto-dev-to-dev",
+                                        no_push=False,
+                                    )
+
+        self.assertTrue(ok)
+        git.assert_called_once_with("fetch", "origin", "--prune")
+        cleanup.assert_called_once_with(
+            "rollup-codex-auto-dev-to-dev",
+            "dev",
+        )
+        open_pr.assert_not_called()
+        build.assert_not_called()
+
+    def test_no_push_candidate_equal_to_target_is_noop(self) -> None:
+        module = load_sync_module()
+        target_sha = "12837a0ec5abcdef"
+        candidate = module.RollupCandidate(
+            Path("/tmp/bedc-rollup-test-worktree"),
+            Path("/tmp/bedc-rollup-test-root"),
+            "rollup-scratch-test",
+            target_sha,
+        )
+
+        with mock.patch.object(module, "git", return_value=Result()):
+            with mock.patch.object(module, "has_remote_branch", return_value=True):
+                with mock.patch.object(module, "_origin_sha", return_value=target_sha):
+                    with mock.patch.object(module, "_merge_base_contains", return_value=False):
+                        with mock.patch.object(module, "_build_rollup_candidate", return_value=candidate):
+                            with mock.patch.object(module, "_remove_rollup_worktree") as remove:
+                                ok = module.sync_rollup_pr(
+                                    "codex-auto-dev",
+                                    "dev",
+                                    "rollup-codex-auto-dev-to-dev",
+                                    no_push=True,
+                                )
+
+        self.assertTrue(ok)
+        remove.assert_called_once_with(candidate)
+
+    def test_no_commits_between_pr_create_is_noop_success(self) -> None:
+        module = load_sync_module()
+
+        def fake_run(cmd, **kwargs):
+            if cmd[:4] == ["gh", "pr", "create", "--base"]:
+                return Result(
+                    returncode=1,
+                    stderr=(
+                        "GraphQL: No commits between dev and "
+                        "rollup-codex-auto-dev-to-dev (createPullRequest)"
+                    ),
+                )
+            raise AssertionError(f"unexpected command: {cmd}")
+
+        with mock.patch.object(module, "run", side_effect=fake_run):
+            with mock.patch.object(module, "_delete_managed_rollup_branch_if_no_pr") as cleanup:
+                ok = module._create_rollup_pr(
+                    "rollup-codex-auto-dev-to-dev",
+                    "codex-auto-dev",
+                    "dev",
+                )
+
+        self.assertTrue(ok)
+        cleanup.assert_called_once_with(
+            "rollup-codex-auto-dev-to-dev",
+            "dev",
+        )
 
 
 if __name__ == "__main__":
