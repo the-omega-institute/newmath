@@ -836,6 +836,7 @@ import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletenessUp.TasteGate
+import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
 import BEDC.Derived.BishopLocatedRealCompletenessUp.TasteGate
@@ -4432,6 +4433,7 @@ import BEDC.Derived.FiniteChoiceWindowUp.TasteGate
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverRefinementUp.TasteGate
 import BEDC.Derived.FiniteDimensionalCompactnessUp.TasteGate
+import BEDC.Derived.FiniteDimensionalHahnBanachSeparationUp.TasteGate
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.NameCertObligations
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
 import BEDC.Derived.FiniteDyadicRefinementBudgetUp.TasteGate
@@ -6943,6 +6945,7 @@ import BEDC.Derived.PicardFixedPointModulusUp.TasteGate
 import BEDC.Derived.PicardIterationUp.TasteGate
 import BEDC.Derived.PicardLindelofLocalFlowUp.TasteGate
 import BEDC.Derived.PicardLindelofUp.TasteGate
+import BEDC.Derived.PiecewiseLinearApproximationUp.TasteGate
 import BEDC.Derived.PinGroupUp
 import BEDC.Derived.PinGroupUp.CliffordConjugationLedger
 import BEDC.Derived.PinGroupUp.ReflectionExtension
