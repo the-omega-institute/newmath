@@ -2348,47 +2348,35 @@ Refinement pressure: Seek the next reality boundary by attaching same-organism a
 No verified facts attached yet.
 
 \origin{ai}
-\subsection{Q6 residual survival against matched ribosome-profiling translation efficiency}
+
+\subsection{Q6 Ribosome-Profiling Translation-Efficiency Contact}
 \label{subsec:q6-ribosome-te-survival-with-mrna-control-cross-layer}
 
 \paragraph{Finite carrier.}
-The record indexed by \texttt{q6.ribosome-te-survival.with-mrna-control.cross-layer} tests whether a finite family of $B^*_{Q6}$ synonymous residual coordinates remains visible at the measured translation-efficiency layer after sequence-level and transcript-level controls have already been removed.  The carrier is a CDS-by-residual-coordinate table joined to organism-matched ribosome-profiling translation-efficiency readouts.  The response is $\log_{10}(\mathrm{TE})$, with $\mathrm{TE}=\mathrm{RPF}/\mathrm{mRNA}$ in the local ribosome-profiling source files, so the paired mRNA abundance term is not an optional biological gloss: it is part of the readout definition and also prevents a transcript-abundance signal from being mistaken for a translation-layer association.
+This record concerns the finite table obtained by crossing nine $B^*_{Q6}$ synonymous residual coordinates with organism-matched ribosome-profiling translation-efficiency readouts.  The coordinate side is the supplied residual list
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\,vs\,UUR}$, $Leu_{UUA\,vs\,UUG}$, $Ser_{UCR\,vs\,AGY}$, $Ser_{UCA\,vs\,UCG}$, $Thr_{ACR\,vs\,ACY}$, and $f3_{stress}$.
+The readout side is $\log_{10}(TE)$, with $TE$ defined in the local source rows as ribosome footprint divided by matched mRNA abundance.  Thus the measured response is already normalized by a same-condition transcript contact, and the regression still carries explicit controls for amino-acid composition, organism identity where relevant, GC3, coding-sequence length, and M-density.  The finite question is not whether Q6 geometry is biologically important in general, but whether this residual coordinate block retains positive controlled explanatory energy for measured ribosome-profiling TE after those controls have been removed.
 
-The residual-coordinate basis has nine entries:
-$K\_AAA$, $Arg\_AGR$, $Ile\_AUA$, $Leu\_CUN\_vs\_UUR$, $Leu\_UUA\_vs\_UUG$, $Ser\_UCR\_vs\_AGY$, $Ser\_UCA\_vs\_UCG$, $Thr\_ACR\_vs\_ACY$, and $f3\_stress$.  Each entry is read only after amino-acid composition, organism identity, $GC3$, CDS length, $M$-density, and matched mRNA information have been accounted for.  Thus a positive row is an association between a codon-residual coordinate and measured ribosome-profiling TE under controls; it is not a claim about elongation mechanism, mature protein amount, folding, physical admissibility, phenotype, biological function, or a universal codon law.
+\paragraph{Rank and row audit.}
+All four organism panels are powered in the finite-rank sense recorded here: the residualized Q block has rank $9$ in each organism, with $24$ control columns and control rank $23$ at tolerance $10^{-10}$.  The degenerate-fit cutoff is $0.999999$, so all-1.0 or rank-saturated fits would be rejected rather than promoted.  The row counts and join rates are organism-specific.  In \emph{Danio rerio}, $14410$ CDS rows are joined, $13140$ genes are used, and the ribosome-TE join hit rate is $0.9118667591950035$; after controls the residual degrees of freedom are $13117$.  In \emph{Escherichia coli} K12 MG1655, $3739$ CDS rows are joined, $3415$ genes are used, the hit rate is $0.9133458143888741$, and the residual degrees of freedom are $3392$.  In \emph{Homo sapiens}, $19053$ CDS rows are joined, $11554$ genes are used, the hit rate is $0.6064136881331024$, and the residual degrees of freedom are $11531$.  In \emph{Saccharomyces cerevisiae}, $5815$ CDS rows are joined, $5128$ genes are used, the hit rate is $0.8818572656921754$, and the residual degrees of freedom are $5105$.
 
-\paragraph{Controlled design matrix.}
-For each organism the control block has $24$ columns and numerical rank $23$ at tolerance $10^{-10}$.  After projecting away that block, the residualized $Q6$ coordinate block has rank $9$, matching the nine listed coordinates.  The rank screen therefore does not classify these panels as saturated or too small.  The finite rank and residual-energy data are:
+\paragraph{Controlled survival values.}
+The supplied powered run reports positive measured-TE residual survival in all four organism panels, using positivity threshold $10^{-12}$ for partial $R^2$.  The measured $R^2_{QT}$ values are $0.04034217614654355$ for \emph{Danio rerio}, $0.009394266754822262$ for \emph{Escherichia coli} K12 MG1655, $0.018837911344127926$ for \emph{Homo sapiens}, and $0.13681931343730436$ for \emph{Saccharomyces cerevisiae}.  The surviving-coordinate count is $9$ in each case, matching the full residual-coordinate count.  The corresponding residual-response energies after the control projection are $3588.378859021949$, $919.4854026798789$, $2052.594706241978$, and $753.5781168800304$, respectively; the Q-block explained energies are $144.76301201119642$, $8.637891149939946$, $38.66659710161269$, and $103.10404057290246$.  Equivalently, the finite calculation has the following organism-level form:
 $$
 \begin{aligned}
-\textit{E. coli K12 MG1655}:&\quad \operatorname{rank}(Z)=23,\ \operatorname{rank}(\widetilde X)=9,\ df=3392,\ E_y=919.4854026798789,\ E_Q=8.637891149939946,\\
-\textit{H. sapiens}:&\quad \operatorname{rank}(Z)=23,\ \operatorname{rank}(\widetilde X)=9,\ df=11531,\ E_y=2052.594706241978,\ E_Q=38.66659710161269,\\
-\textit{S. cerevisiae}:&\quad \operatorname{rank}(Z)=23,\ \operatorname{rank}(\widetilde X)=9,\ df=5105,\ E_y=753.5781168800304,\ E_Q=103.10404057290246.
+R^2_{QT}(\textit{D. rerio}) &= 0.04034217614654355,\\
+R^2_{QT}(\textit{E. coli K12}) &= 0.009394266754822262,\\
+R^2_{QT}(\textit{H. sapiens}) &= 0.018837911344127926,\\
+R^2_{QT}(\textit{S. cerevisiae}) &= 0.13681931343730436.
 \end{aligned}
 $$
-The degeneracy threshold used by the run is $R^2=0.999999$, and the positive partial-$R^2$ threshold is $10^{-12}$.  On these finite rows, all three organisms pass the rank-sufficiency test before any survival interpretation is considered.
+These values support the limited survival statement: the nine-coordinate Q6 residual block is not compressed away by the stated controls in this measured TE contact.
 
-\paragraph{Joined measured-TE rows.}
-The measured TE contact is not a species-level summary alone; it is a per-CDS join between coding-sequence coordinates and ribosome-profiling TE rows.  The join sizes are materially different across organisms.  For \textit{E. coli K12 MG1655}, $3739$ CDS rows are reported as joined, $3415$ genes are used, and the join hit rate is $0.9133458143888741$.  For \textit{H. sapiens}, $19053$ CDS rows are reported as joined, $11554$ genes are used, and the hit rate is $0.6064136881331024$.  For \textit{S. cerevisiae}, $5815$ CDS rows are reported as joined, $5128$ genes are used, and the hit rate is $0.8818572656921754$.  These unequal hit rates matter because the human panel is substantially more filtered at the join step than the bacterial and yeast panels; the chapter therefore treats the three organism rows as separate contacts rather than as one pooled biological law.
+\paragraph{Boundary of interpretation.}
+The conclusion is deliberately narrow.  Positive controlled association with measured TE does not by itself establish translation mechanism, elongation speed, mature protein abundance, folded structure, physical admissibility, organism-independent directionality, phenotype, or biological function.  It also does not identify a causal role for any individual coordinate.  The readout is condition-specific, cross-sectional, and drawn from one or a small number of ribosome-profiling studies per organism.  Agreement or disagreement with modeled tAI-style quantities would be only a coordinate-pattern comparison unless a separate contact supplies the relevant measurement.  If a future panel has no positive controlled $S^{QT}$ entries, loses Q-rank after control residualization, collapses into a degenerate fit, or contains too few nonredundant rows, this record should be read as needs-data or null for that contact rather than as survival.
 
-\paragraph{Measured survival result.}
-After residualization against the control block, the measured TE partial-$R^2$ values are positive in all three organism rows:
-$$
-\begin{aligned}
-R^2_{QT,\mathrm{meas}}(\textit{E. coli K12 MG1655}) &= 0.009394266754822262,\\
-R^2_{QT,\mathrm{meas}}(\textit{H. sapiens}) &= 0.018837911344127926,\\
-R^2_{QT,\mathrm{meas}}(\textit{S. cerevisiae}) &= 0.13681931343730436.
-\end{aligned}
-$$
-The corresponding surviving-coordinate count is $9$ in \textit{E. coli K12 MG1655}, $9$ in \textit{H. sapiens}, and $9$ in \textit{S. cerevisiae}.  Since the coordinate block also has residualized rank $9$ in each organism, this is not an all-$1.0$ saturated fit and not an $n=3$ convenience panel.  The strongest finite-row signal in this table is the yeast measured-TE row, where the partial-$R^2$ is $0.13681931343730436$ after the same control scheme.  The bacterial and human rows are smaller but still positive under the declared threshold.
-
-\paragraph{Local interpretation.}
-The fact recorded by \texttt{h3.cross\_layer\_relation.ribosome\_te\_survival.b\_star\_q6\_measured\_te\_powered} supports a narrow cross-layer statement: the nine-dimensional $B^*_{Q6}$ residual coordinate block is not fully erased when passing from codon-residual geometry to measured ribosome-profiling TE under the stated controls.  In this sense the coordinate block survives the controlled TE readout in the finite rows tested here.  The support is conditional on the actual per-organism joins, the rank-sufficiency screen, the matched mRNA normalization, and the amino-acid-composition controls.
-
-The same table also fixes the negative boundary.  These rows do not show protein abundance, protein structure, protein function, phenotype, physical admissibility, or a causal translation mechanism.  They do not show that the direction or magnitude of the association is universal across organisms, conditions, tissues, protocols, or growth states.  Agreement or disagreement with any modeled tAI or stAI coordinate can only be treated as a pattern comparison at the coordinate level; it is not causal validation and it is not causal falsification.  If a future panel has $S^{QT}\leq 0$ for every controlled coordinate, or if its residualized design is rank-degenerate, the correct classification for that panel is failure to promote the residual coordinate into measured TE, or else a need for more data, not biological irrelevance of $Q6$ itself.
-
-\paragraph{Verdict for this finite row set.}
-For the three measured panels in the current table, the chapter records a ready cross-layer association claim.  The controlled coordinate block has rank $9$ in each organism, the residual degrees of freedom are $3392$, $11531$, and $5105$, the TE joins contribute $3415$, $11554$, and $5128$ used genes, and every measured $R^2_{QT,\mathrm{meas}}$ value is positive above $10^{-12}$.  The scientifically admissible conclusion is therefore that $B^*_{Q6}$ residual coordinates remain detectable against matched ribosome-profiling TE in these finite organism-specific contacts after the named controls.  No further biological layer is promoted by this test.
+\paragraph{Finite verdict.}
+For the supplied finite rows, the Q6 residual coordinate block passes the translation-efficiency contact at the association level.  The promotion is only from codon-topology residual to measured ribosome-profiling TE association under matched mRNA and sequence-composition controls.  No translation realization, folding realization, physical admissibility, function claim, mechanistic claim, or universal biological law follows from this chapter unless another finite contact is added at that layer.
 
 \subsection{q6.three-matrix.translation-first.protein-readout.cross-layer}
 
