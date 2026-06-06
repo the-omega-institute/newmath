@@ -1942,7 +1942,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         experiment_id = str(claim.get("experiment_id") or "")
         experiment = experiment_by_id.get(experiment_id)
         if status not in {"open", "needs_rerun"}:
-            if status in {"failed", "error"} and experiment is not None and _experiment_changed_since_last_history(claim, experiment, repo_root, store.paths.experiments_registry):
+            if status in {"failed", "error", "passed"} and experiment is not None and _experiment_changed_since_last_history(claim, experiment, repo_root, store.paths.experiments_registry):
                 claim["status"] = "needs_rerun"
                 status = "needs_rerun"
                 history = claim.setdefault("history", [])
