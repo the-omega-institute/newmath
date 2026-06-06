@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 from pathlib import Path
 import sys
@@ -23,6 +24,7 @@ from bedc_quality_lab.lejepa_mini_grid import (
     LeJEPAMiniGridProjection,
     default_grid,
 )
+from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID, CLAIM_CAPSULE_SCHEMA_ID
 from scripts import run_gaussian_ou_lejepa
 from scripts.run_sigreg_gaussianity_reproduction import GuardThresholds, SlicedCFGaussianityProbe
 
@@ -31,6 +33,21 @@ DEFAULT_RUN_ID = "lejepa-mini-grid"
 DEFAULT_SAMPLE_COUNT = 384
 DEFAULT_DIRECTIONS = 16
 DEFAULT_FREQUENCIES = (0.5, 1.0, 1.5, 2.0)
+NEGATIVE_WITNESS_OWNER_POINTER = "$.run_local.negative_witness[0]"
+NEGATIVE_WITNESS_KEYS = (
+    "witness_id",
+    "source_artifact",
+    "source_pointer",
+    "bedc_gap_field",
+    "demotion_rule",
+    "regression_test",
+    "evidence_pointer",
+    "status",
+    "reason",
+)
+NEGATIVE_WITNESS_REGRESSION_TEST = (
+    "tests/test_lejepa_mini_grid.py::test_lejepa_run_local_negative_witness_records_d2_hg2_failure"
+)
 MIXING_ALIASES = {
     "spiral": "spiral",
     "parabolic": "parabolic_shear",
@@ -46,6 +63,161 @@ def _artifact_map(run_id: str) -> dict[str, str]:
         "raw_metrics": f"{run_dir}/raw_metrics.jsonl",
         "report": f"{run_dir}/report.md",
     }
+
+
+class LeJEPAMiniGridNegativeWitnessFinalization:
+    @staticmethod
+    def negative_witness_owner_ref(run_id: str) -> dict[str, str]:
+        return {
+            "artifact": _artifact_map(run_id)["claim_capsule"],
+            "pointer": NEGATIVE_WITNESS_OWNER_POINTER,
+        }
+
+    @staticmethod
+    def build_lejepa_run_local_negative_witness(capsule_artifact: str) -> dict[str, Any]:
+        return {
+            "witness_id": "lejepa-mini-grid:lambda-rho-trend-hardgate-failure",
+            "source_artifact": capsule_artifact,
+            "source_pointer": "$.failed_gate",
+            "bedc_gap_field": "lambda_rho_trend_gap",
+            "demotion_rule": "demote_to_DN_on_D2_HG2_failure",
+            "regression_test": NEGATIVE_WITNESS_REGRESSION_TEST,
+            "evidence_pointer": f"{capsule_artifact}:$.hardgates.D2-HG2",
+            "status": "fail",
+            "reason": "D2-HG2 records failed lambda/rho trend evidence for the LeJEPA mini-grid claim capsule.",
+        }
+
+    @staticmethod
+    def resolve_claim_capsule_pointer(payload: Mapping[str, Any], pointer: str) -> Any:
+        if pointer == "$":
+            return payload
+        if not pointer.startswith("$."):
+            return None
+        cursor: Any = payload
+        for raw_part in pointer[2:].split("."):
+            part = raw_part
+            while part:
+                key, bracket, tail = part.partition("[")
+                if key:
+                    if not isinstance(cursor, Mapping) or key not in cursor:
+                        return None
+                    cursor = cursor[key]
+                if not bracket:
+                    break
+                index_text, close, rest = tail.partition("]")
+                if not close or not index_text.isdecimal() or not isinstance(cursor, list):
+                    return None
+                index = int(index_text)
+                if index >= len(cursor):
+                    return None
+                cursor = cursor[index]
+                part = rest
+        return cursor
+
+    @staticmethod
+    def validate_lejepa_run_local_negative_witness(row: Mapping[str, Any], capsule_payload: Mapping[str, Any]) -> bool:
+        if set(row) != set(NEGATIVE_WITNESS_KEYS):
+            return False
+        capsule_artifact = str(row.get("source_artifact", ""))
+        if not capsule_artifact:
+            return False
+        source_value = LeJEPAMiniGridNegativeWitnessFinalization.resolve_claim_capsule_pointer(
+            capsule_payload,
+            str(row.get("source_pointer", "")),
+        )
+        evidence_value = None
+        evidence_pointer = str(row.get("evidence_pointer", ""))
+        if evidence_pointer.startswith(f"{capsule_artifact}:$"):
+            _, pointer = evidence_pointer.split(":", 1)
+            evidence_value = LeJEPAMiniGridNegativeWitnessFinalization.resolve_claim_capsule_pointer(capsule_payload, pointer)
+        regression_test = str(row.get("regression_test", ""))
+        regression_resolved = False
+        if "::" in regression_test:
+            test_file, test_name = regression_test.split("::", 1)
+            test_path = ROOT / test_file
+            regression_resolved = test_path.exists() and f"def {test_name}" in test_path.read_text(encoding="utf-8")
+        return (
+            source_value == "D2-HG2"
+            and isinstance(evidence_value, Mapping)
+            and evidence_value.get("status") == "fail"
+            and evidence_value.get("lambda_collapse_rate_increasing") is False
+            and evidence_value.get("lambda_quality_q_decreasing") is False
+            and evidence_value.get("rho_linear_identifiability_r2_increasing") is False
+            and regression_resolved
+        )
+
+    @staticmethod
+    def finalize_negative_witness_projection(projection: Mapping[str, Any], *, run_id: str) -> dict[str, Any]:
+        finalized = copy.deepcopy(dict(projection))
+        summary = dict(finalized["summary_payload"])
+        capsule = dict(finalized["claim_capsule_payload"])
+        artifacts = dict(summary["run_artifacts"])
+        capsule_artifact = str(artifacts["claim_capsule"])
+        row = LeJEPAMiniGridNegativeWitnessFinalization.build_lejepa_run_local_negative_witness(capsule_artifact)
+        if not LeJEPAMiniGridNegativeWitnessFinalization.validate_lejepa_run_local_negative_witness(row, capsule):
+            row = {
+                **row,
+                "status": "blocked",
+                "reason": "LeJEPA negative witness source, evidence, or regression pointer is not foldable.",
+            }
+        hardgates = {
+            "NW-HG1": {
+                "status": "pass" if set(row) == set(NEGATIVE_WITNESS_KEYS) else "fail",
+                "evidence_pointer": "$.run_local.negative_witness.0",
+            },
+            "NW-HG2": {
+                "status": "pass" if row["status"] == "fail" else "fail",
+                "evidence_pointer": row["source_pointer"],
+            },
+            "NW-HG3": {
+                "status": "pass" if row["status"] == "fail" else "fail",
+                "evidence_pointer": row["evidence_pointer"],
+            },
+        }
+        failed = [name for name, gate in hardgates.items() if gate["status"] != "pass"]
+        capsule["schema_id"] = CLAIM_CAPSULE_SCHEMA_ID
+        if capsule.get("schema_id") != CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID:
+            capsule["run_local_schema_id"] = CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
+        capsule["run_local"] = {
+            "negative_witness": [row],
+            "negative_witness_hardgates": {
+                "status": "pass" if not failed else "fail",
+                "failed_gates": failed,
+                "gates": hardgates,
+            },
+        }
+        owner_ref = LeJEPAMiniGridNegativeWitnessFinalization.negative_witness_owner_ref(run_id)
+        summary["claim_capsule"] = {
+            "artifact": capsule_artifact,
+            "pointer": "$",
+        }
+        summary["negative_witness"] = [owner_ref]
+        result = summary.get("result")
+        if isinstance(result, dict):
+            summary["result"] = {key: value for key, value in result.items() if key != "terminal_verdict"}
+        finalized["summary_payload"] = summary
+        finalized["claim_capsule_payload"] = capsule
+        return finalized
+
+
+def negative_witness_owner_ref(run_id: str) -> dict[str, str]:
+    return LeJEPAMiniGridNegativeWitnessFinalization.negative_witness_owner_ref(run_id)
+
+
+def build_lejepa_run_local_negative_witness(capsule_artifact: str) -> dict[str, Any]:
+    return LeJEPAMiniGridNegativeWitnessFinalization.build_lejepa_run_local_negative_witness(capsule_artifact)
+
+
+def resolve_claim_capsule_pointer(payload: Mapping[str, Any], pointer: str) -> Any:
+    return LeJEPAMiniGridNegativeWitnessFinalization.resolve_claim_capsule_pointer(payload, pointer)
+
+
+def validate_lejepa_run_local_negative_witness(row: Mapping[str, Any], capsule_payload: Mapping[str, Any]) -> bool:
+    return LeJEPAMiniGridNegativeWitnessFinalization.validate_lejepa_run_local_negative_witness(row, capsule_payload)
+
+
+def finalize_negative_witness_projection(projection: Mapping[str, Any], *, run_id: str) -> dict[str, Any]:
+    return LeJEPAMiniGridNegativeWitnessFinalization.finalize_negative_witness_projection(projection, run_id=run_id)
 
 
 def _collapse_rate(envelope: Any) -> float:
@@ -199,16 +371,21 @@ def build_projection(
         "use_torch": bool(use_torch),
         "full_lejepa_claim": bool(full_lejepa_claim),
     }
-    return LeJEPAMiniGridProjection(
+    projection = LeJEPAMiniGridProjection(
         config=config,
         records=records,
         generated_at=timestamp,
         run_artifacts=artifacts,
     ).project()
+    return finalize_negative_witness_projection(projection, run_id=run_id)
 
 
 def write_artifacts(projection: Mapping[str, Any], *, root: Path) -> None:
     summary = dict(projection["summary_payload"])
+    capsule_payload = dict(projection["claim_capsule_payload"])
+    negative_witness = capsule_payload.get("run_local", {}).get("negative_witness")
+    if capsule_payload.get("schema_id") != CLAIM_CAPSULE_SCHEMA_ID or not isinstance(negative_witness, list) or len(negative_witness) != 1:
+        raise ValueError("LeJEPA mini-grid projection is not finalized")
     artifacts = summary["run_artifacts"]
     paths = {
         "summary": root / artifacts["summary"],
@@ -219,7 +396,7 @@ def write_artifacts(projection: Mapping[str, Any], *, root: Path) -> None:
     for path in paths.values():
         path.parent.mkdir(parents=True, exist_ok=True)
     paths["summary"].write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    paths["claim_capsule"].write_text(json.dumps(projection["claim_capsule_payload"], indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    paths["claim_capsule"].write_text(json.dumps(capsule_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     paths["raw_metrics"].write_text(
         "".join(json.dumps(record, sort_keys=True) + "\n" for record in projection["raw_rows"]),
         encoding="utf-8",

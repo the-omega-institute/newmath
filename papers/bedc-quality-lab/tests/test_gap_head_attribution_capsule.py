@@ -98,8 +98,19 @@ def _aggregate(**overrides):
 
 def _resolve_pointer(payload, pointer):
     node = payload
-    for part in pointer[2:].split("."):
-        node = node[int(part)] if isinstance(node, list) else node[part]
+    for raw_part in pointer[2:].split("."):
+        part = raw_part
+        while part:
+            key, bracket, tail = part.partition("[")
+            if key:
+                node = node[int(key)] if isinstance(node, list) else node[key]
+            if not bracket:
+                break
+            index, close, rest = tail.partition("]")
+            if not close:
+                raise KeyError(pointer)
+            node = node[int(index)]
+            part = rest
     return node
 
 
@@ -107,16 +118,30 @@ def _pointer_resolves(payload, pointer):
     if not isinstance(pointer, str) or not pointer.startswith("$."):
         return False
     node = payload
-    for part in pointer[2:].split("."):
-        if isinstance(node, list):
+    for raw_part in pointer[2:].split("."):
+        part = raw_part
+        while part:
+            key, bracket, tail = part.partition("[")
+            if key:
+                if isinstance(node, list):
+                    try:
+                        node = node[int(key)]
+                    except (ValueError, IndexError):
+                        return False
+                elif isinstance(node, dict) and key in node:
+                    node = node[key]
+                else:
+                    return False
+            if not bracket:
+                break
+            index, close, rest = tail.partition("]")
+            if not close or not isinstance(node, list):
+                return False
             try:
-                node = node[int(part)]
+                node = node[int(index)]
             except (ValueError, IndexError):
                 return False
-        elif isinstance(node, dict) and part in node:
-            node = node[part]
-        else:
-            return False
+            part = rest
     return True
 
 
@@ -124,8 +149,19 @@ def _node_at_path(payload, path):
     if path == "$":
         return payload
     node = payload
-    for part in path[2:].split("."):
-        node = node[int(part)] if isinstance(node, list) else node[part]
+    for raw_part in path[2:].split("."):
+        part = raw_part
+        while part:
+            key, bracket, tail = part.partition("[")
+            if key:
+                node = node[int(key)] if isinstance(node, list) else node[key]
+            if not bracket:
+                break
+            index, close, rest = tail.partition("]")
+            if not close:
+                raise KeyError(path)
+            node = node[int(index)]
+            part = rest
     return node
 
 
