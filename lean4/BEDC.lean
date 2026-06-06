@@ -719,6 +719,7 @@ import BEDC.Derived.BanachOperatorGraphNormUp.TasteGate
 import BEDC.Derived.BanachSpaceUp
 import BEDC.Derived.BanachSpaceUp.CauchyCompletionHandoff
 import BEDC.Derived.BanachSpaceUp.CauchyWindowScope
+import BEDC.Derived.BanachSpaceUp.CompleteMetricReduction
 import BEDC.Derived.BanachSpaceUp.CompletionConsumerScope
 import BEDC.Derived.BanachSpaceUp.CompletionObligationSurface
 import BEDC.Derived.BanachSpaceUp.CompletionStabilityObligation
@@ -731,6 +732,7 @@ import BEDC.Derived.BanachSpaceUp.NormedCauchyLedger
 import BEDC.Derived.BanachSpaceUp.SeparatedCompletionBoundary
 import BEDC.Derived.BanachSpaceUp.SeparatedNameCertObligation
 import BEDC.Derived.BanachSpaceUp.TasteGate
+import BEDC.Derived.BanachSpaceUp.VectorOperationTransportObligation
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
@@ -1573,6 +1575,7 @@ import BEDC.Derived.CauchyLimitSealUp.StreamNameSynchronizerPullback
 import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
+import BEDC.Derived.CauchyLocatedApartnessUp.TasteGate
 import BEDC.Derived.CauchyLocatedRealEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyLocatednessUp.TasteGate
 import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
@@ -3805,6 +3808,7 @@ import BEDC.Derived.DyadicIntervalArithmeticUp.TasteGate
 import BEDC.Derived.DyadicIntervalBasisUp.TasteGate
 import BEDC.Derived.DyadicIntervalCoverUp.BishopIntervalCompactRoute
 import BEDC.Derived.DyadicIntervalCoverUp.CellRefinementExhaustion
+import BEDC.Derived.DyadicIntervalCoverUp.CompactUniformWindowRoute
 import BEDC.Derived.DyadicIntervalCoverUp.EndpointComparisonTotality
 import BEDC.Derived.DyadicIntervalCoverUp.FiniteSubcoverLedger
 import BEDC.Derived.DyadicIntervalCoverUp.L10WindowObligations
@@ -4107,6 +4111,7 @@ import BEDC.Derived.FanfunctionalUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.UniformModulusCompactConsumer
 import BEDC.Derived.FanfunctionalUp.UniformModulusConsumerBoundary
 import BEDC.Derived.FanfunctionalUp.UniformModulusScope
+import BEDC.Derived.FanfunctionalUp.UniformmodulusConsumerScope
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
@@ -6959,6 +6964,7 @@ import BEDC.Derived.PolishspaceUp.CompletionObservationTriad
 import BEDC.Derived.PolishspaceUp.CompletionScheduleStability
 import BEDC.Derived.PolishspaceUp.DenseCompletionLedgerRefusal
 import BEDC.Derived.PolishspaceUp.DenseScheduleRootObligation
+import BEDC.Derived.PolishspaceUp.DenseScheduleTransportObligation
 import BEDC.Derived.PolishspaceUp.EffectivePresentationHandoff
 import BEDC.Derived.PolishspaceUp.EffectiveRepresentationHandoff
 import BEDC.Derived.PolishspaceUp.EffectiveRepresentedSourceBoundary
@@ -8145,6 +8151,7 @@ import BEDC.Derived.RiemannIntegralUp.DarbouxStepScope
 import BEDC.Derived.RiemannIntegralUp.PublicTaggedMeshCertificate
 import BEDC.Derived.RiemannIntegralUp.RegSeqRatHandoffTotality
 import BEDC.Derived.RiemannIntegralUp.TasteGate
+import BEDC.Derived.RiemannLebesgueLemmaUp.TasteGate
 import BEDC.Derived.RiemannRearrangementUp
 import BEDC.Derived.RiemannRearrangementUp.TasteGate
 import BEDC.Derived.RiemannStieltjesIntegrationPartsUp.TasteGate

@@ -80,9 +80,9 @@ theorem PolishSpaceStreamRealizationObligation [AskSetup] [PackageSetup]
       exact
         Or.inr
           (Or.inr
-            (Or.inr
               (Or.inr
                 (Or.inr
+                  (Or.inr
                   (Or.inr source.left)))))
     ledger_sound := by
       intro _row source
