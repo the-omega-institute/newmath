@@ -1869,44 +1869,64 @@ def _write_claims_document(path: Path, document: dict[str, Any]) -> None:
     path.write_text(json.dumps(document, indent=2, ensure_ascii=False, sort_keys=False) + "\n", encoding="utf-8")
 
 
+def _experiment_script_sha(experiment: dict[str, Any], repo_root: Path) -> str | None:
+    """Content fingerprint of an experiment: the script bytes plus its acceptance
+    spec. Used to detect a genuine experiment change. Content-based on purpose —
+    file mtimes are reset by every git checkout/merge and the registry file is
+    rewritten each cycle, so an mtime comparison would re-fire on every restart
+    and every sync regardless of whether the experiment actually changed."""
+    script_path = experiment.get("script_path")
+    if not isinstance(script_path, str) or not script_path:
+        return None
+    try:
+        data = (repo_root / script_path).read_bytes()
+    except OSError:
+        return None
+    h = hashlib.sha256()
+    h.update(data)
+    h.update(b"\x00")
+    h.update(json.dumps(experiment.get("acceptance"), sort_keys=True, ensure_ascii=True).encode("utf-8"))
+    return h.hexdigest()[:16]
+
+
+def _backfill_script_sha(claim: dict[str, Any], experiment: dict[str, Any], repo_root: Path) -> None:
+    """Stamp the current script fingerprint onto a passed/failed claim's latest
+    history entry when it lacks one, so a later genuine change is detectable.
+    Does not trigger a re-run; the claims document is persisted by the lane."""
+    history = claim.get("history")
+    if not isinstance(history, list) or not history:
+        return
+    last = history[-1] if isinstance(history[-1], dict) else None
+    if not isinstance(last, dict) or last.get("script_sha"):
+        return
+    sha = _experiment_script_sha(experiment, repo_root)
+    if sha:
+        last["script_sha"] = sha
+
+
 def _experiment_changed_since_last_history(
     claim: dict[str, Any],
     experiment: dict[str, Any],
     repo_root: Path,
     experiments_registry: Path,
 ) -> bool:
-    """Return True if the experiment script or its registry entry has been
-    modified after the most recent claim.history timestamp. Used to promote
-    a failed/error claim back to needs_rerun when bio-planner reshapes the
-    experiment."""
-    from datetime import datetime
+    """Return True only when the experiment's content fingerprint differs from
+    the one stamped on the claim's latest history entry. A missing stored
+    fingerprint returns False (no baseline yet — the lane backfills it without a
+    re-run), so this never fires on restart/sync noise, only on real changes."""
     history = claim.get("history")
     if not isinstance(history, list) or not history:
         return False
     last = history[-1] if isinstance(history[-1], dict) else None
-    if not last:
+    if not isinstance(last, dict):
         return False
-    last_ts_text = str(last.get("ts") or "")
-    if not last_ts_text:
+    stored = last.get("script_sha")
+    if not stored:
         return False
-    try:
-        last_ts = datetime.fromisoformat(last_ts_text).timestamp()
-    except ValueError:
+    current = _experiment_script_sha(experiment, repo_root)
+    if current is None:
         return False
-    script_path = experiment.get("script_path")
-    candidates: list[Path] = []
-    if isinstance(script_path, str) and script_path:
-        candidates.append(repo_root / script_path)
-    if experiments_registry.exists():
-        candidates.append(experiments_registry)
-    for path in candidates:
-        try:
-            mtime = path.stat().st_mtime
-        except OSError:
-            continue
-        if mtime > last_ts + 0.5:
-            return True
-    return False
+    return str(stored) != str(current)
 
 
 def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
@@ -1961,6 +1981,8 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                 if isinstance(history, list):
                     history.append(_history_entry("needs_rerun", "freshly materialized, no prior experiment_run - kicking off"))
             else:
+                if status in {"failed", "error", "passed"} and experiment is not None:
+                    _backfill_script_sha(claim, experiment, repo_root)
                 continue
         if experiment is None:
             continue
@@ -2032,6 +2054,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                     "experiment result",
                     experiment_run_id=result["experiment_run_id"],
                     checks=_check_summary(result.get("checks")),
+                    script_sha=_experiment_script_sha(experiment, repo_root),
                 )
             )
 
