@@ -90,6 +90,20 @@ By \autoref{thm:banach-space-namecert-obligations}, the rows $Q,S,R,E$ are part 
 Apply \autoref{thm:banach-space-cauchy-completion-handoff}. The stable route remains $V,N,M,Q,S,R,E,Z,H,C,P,L$, so completion stability is a preservation obligation on the displayed handoff rather than a hidden completeness principle.
 \end{proof}
 
+\begin{theorem}[Banach space norm-completion induction route]
+\label{thm:banach-space-norm-completion-induction-route}
+Every accepted $\BanachSpaceUp$ completion induction read factors in order through the $\VecSpaceUp$ row $V$, $\NormUp$ row $N$, induced metric row $M$, Cauchy ledger $Q$, $\MetricCompletionUp$ handoff $S$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $E$, $\SeparatedCompletionUp$ comparison row $Z$, and the structural rows $H,C,P,L$. The induction route is a finite NameCert read over the carrier of \autoref{def:banach-space-carrier}; it cannot replace those rows by quotient completion equality, selected limits, host vector equality, countable choice, Hahn--Banach data, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier $B=(V,N,M,Q,S,R,E,Z,H,C,P,L)$. The vector and norm rows are the only source of linear and norm data, and the induced metric row $M$ is displayed before any Cauchy or completion request is available.
+
+Apply the NameCert obligations of \autoref{thm:banach-space-namecert-obligations}. They place $Q,S,R,E,Z$ in the same local certificate surface as $V,N,M$ and keep the structural rows $H,C,P,L$ downstream of the analytic route.
+
+Use the Cauchy-completion handoff of \autoref{thm:banach-space-cauchy-completion-handoff}. It forces every completion-facing consumer through the Cauchy ledger, completion handoff, rational readback, Real seal, and separated comparison rows before local naming.
+
+Finally apply the completion stability obligation. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the same route, so induction over completion reads remains inside $V,N,M,Q,S,R,E,Z,H,C,P,L$ rather than escaping to an excluded completeness principle.
+\end{proof}
+
 \begin{theorem}[Banach space separated-completion boundary]
 \label{thm:banach-space-separated-completion-boundary}
 Every equality-facing consumer of an accepted $\BanachSpaceUp$ packet must pass through the $\SeparatedCompletionUp$ row $Z$ after the displayed completion route and before local naming. Such consumers cannot use host vector equality, quotient completion classes, selected limits, countable choice, trichotomy, Hahn--Banach, or ambient $\RealUp$ completeness as a replacement for $Z$.
@@ -205,6 +219,7 @@ V,N \longmapsto M \longmapsto Q,S \longmapsto R,E \longmapsto Z .
 $$
 Here $V$ supplies the $\VecSpaceUp$ carrier, $N$ supplies the $\NormUp$ row, $M$ is the induced $\MetricUp$ comparison row, $Q,S$ are the Cauchy-window and completion-handoff rows, $R,E$ are the $\RegSeqRatUp$ and $\RealUp$ tolerance seals, and $Z$ is the $\SeparatedCompletionUp$ comparison boundary. The reduction has no coordinate for a host $\CompleteMetricUp$ object, quotient completion equality, selected limit, countable choice, or ambient $\RealUp$ completeness.
 \end{definition}
+\leandef{BEDC.Derived.BanachSpaceUp.BanachSpaceCompleteMetricReduction}
 
 \begin{theorem}[Banach space linear Cauchy seal]
 \label{thm:banach-space-linear-cauchy-seal}
