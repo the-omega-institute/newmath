@@ -1,51 +1,80 @@
-\chapter{BioReality Q-Six Leave-One-Codon Boundary NameCert Construction}
+\chapter{BioReality Q Six Leave-One-Codon Boundary NameCert Construction}
 \label{ch:concrete-instances-bioreality_q_six_leave_one_codon_boundary-namecert}
-\origin{ai}
+\origin{human}
 
-The $\BioRealityQSixLeaveOneCodonBoundaryUp$ packet records a finite BioReality boundary claim for the leave-one-codon-out probe family at the Q-six scale.  The carrier is not a biological universality statement: it is a bounded NameCert for the claim identifier $\mathsf{h1.leave.one.codon.out}$, with all numerical content restricted to the recorded witness table.  In that table the anchor count is $0$, the boundary count is $5$, the predictable count is $8$, and the high-coverage closure count is $8$.  The recovery rate is exactly $1.0$, and the recorded value above the recovery threshold is also exactly $1.0$.
+The carrier BioRealityQSixLeaveOneCodonBoundary records the finite boundary packet for the claim h1.leave.one.codon.out.  The packet is intentionally narrow: it does not assert a universal genetic-code theorem, and it does not infer unseen codon-level effects.  It only packages the measured leave-one-codon boundary shape witnessed by the given finite data.
 
-\falsifiablePrediction{The packet predicts that any rerun admitted as the same bounded Q-six leave-one-codon-out witness must preserve the finite boundary profile $\mathrm{anchor\_count}=0$, $\mathrm{boundary\_count}=5$, $\mathrm{predictable\_count}=8$, and $\mathrm{closure\_coverage\_high}=8$ under the same carrier interpretation.  A rerun with a positive anchor count, a boundary count other than $5$, or a recovery rate below $1.0$ is a falsifying boundary witness for this NameCert packet.}
-
-\independenceWitness{The independence witness is the empty anchor side together with the nonempty boundary side: $\mathrm{anchor\_count}=0$ while $\mathrm{boundary\_count}=5$.  This separates the boundary claim from any argument that derives the packet merely from anchored codon coverage.  The recovery certificates are carried by the eight predictable entries and the eight high-coverage closure entries, not by anchor mass.}
-
-\begin{definition}[Q-six leave-one-codon boundary carrier]
-A $\BioRealityQSixLeaveOneCodonBoundaryUp$ carrier is a finite record consisting of a claim tag, an anchor count, a boundary count, a predictable count, a high-coverage closure count, a recovery rate, and a recovery-threshold flag.  The carrier is admitted for the present packet exactly when these fields satisfy
+\begin{definition}[BioReality Q-six leave-one-codon boundary carrier]
+\label{def:bioreality-q-six-leave-one-codon-boundary-carrier}
+A BioRealityQSixLeaveOneCodonBoundary carrier is a finite NameCert packet with six numerical coordinates:
 $$
 \begin{aligned}
-\mathrm{claim} &= \mathsf{h1.leave.one.codon.out},\\
-\mathrm{anchor\_count} &= 0,\\
-\mathrm{boundary\_count} &= 5,\\
-\mathrm{predictable\_count} &= 8,\\
-\mathrm{closure\_coverage\_high} &= 8,\\
-\mathrm{recovery\_rate} &= 1.0,\\
-\mathrm{recovery\_rate\_above\_threshold} &= 1.0.
+A &= 0,\\
+B &= 5,\\
+H &= 8,\\
+P &= 8,\\
+R &= 1.0,\\
+T &= 1.0.
 \end{aligned}
 $$
-The definition is intentionally finite: it does not infer unlisted codon behavior, unrecorded anchors, or a probability model beyond the displayed fields.
+Here $A$ is the anchor count, $B$ is the boundary count, $H$ is the high-coverage closure count, $P$ is the predictable count, $R$ is the recovery rate, and $T$ is the above-threshold recovery rate.
 \end{definition}
 
-\begin{lemma}[Boundary profile separates from anchors]
-For the admitted $\BioRealityQSixLeaveOneCodonBoundaryUp$ carrier, the boundary side is nonempty while the anchor side is empty.
-\end{lemma}
+The decisive feature of the packet is the contrast between no anchors and a nonempty boundary.  The anchor coordinate is exactly $0$, while the boundary coordinate is exactly $5$.  Thus the certificate is not a seed-anchor claim: its content is a five-point boundary observation under leave-one-codon removal.
 
-\begin{proof}
-The carrier equations give $\mathrm{anchor\_count}=0$ and $\mathrm{boundary\_count}=5$.  Since $5$ is nonzero, the boundary side is nonempty, while the anchor side is empty by the displayed anchor equation.
-\end{proof}
+\begin{definition}[Leave-one-codon boundary profile]
+\label{def:leave-one-codon-boundary-profile}
+The leave-one-codon boundary profile of BioRealityQSixLeaveOneCodonBoundary is the ordered tuple
+$$
+\begin{gathered}
+(\text{anchor count},\text{boundary count},\text{high closure coverage},\text{predictable count},\text{recovery rate},\text{threshold recovery})\\
+= (0,5,8,8,1.0,1.0).
+\end{gathered}
+$$
+A profile is boundary-realized when its boundary count is positive and its recovery rate is total.  BioRealityQSixLeaveOneCodonBoundary is boundary-realized because $5>0$ and $1.0=1$.
+\end{definition}
 
-\begin{theorem}[Finite recovery closure for the Q-six boundary packet]
-The admitted $\BioRealityQSixLeaveOneCodonBoundaryUp$ carrier closes the finite recovery boundary for $\mathsf{h1.leave.one.codon.out}$ at the recorded threshold.
+The two eight-count coordinates play different roles.  The high-coverage closure count is $8$, which records the size of the closure side of the packet.  The predictable count is also $8$, which records that the predictable side reaches the same finite size.  The equality $H=P=8$ is the internal balance condition used by this NameCert chapter; it is not converted into a claim about any codon not present in the packet.
+
+\begin{theorem}[Finite boundary witness]
+\label{thm:bioreality-q-six-leave-one-codon-boundary-witness}
+BioRealityQSixLeaveOneCodonBoundary carries a finite leave-one-codon boundary witness with no anchors, five boundary points, eight high-coverage closure points, eight predictable points, and total recovery.
 \end{theorem}
 
 \begin{proof}
-The closure claim has only the finite fields displayed in the carrier definition.  The predictable count is $8$, and the high-coverage closure count is also $8$, so every recorded predictable entry is accounted for by the high-coverage closure side of the packet.  The recovery rate is $1.0$, and the recovery-threshold flag is $1.0$, hence the recorded recovery condition is met at the threshold tracked by the carrier.  The theorem asserts no extension beyond these finite fields.
+The carrier data are the six displayed coordinates
+$$
+\begin{aligned}
+A &= 0, & B &= 5, & H &= 8,\\
+P &= 8, & R &= 1.0, & T &= 1.0.
+\end{aligned}
+$$
+The absence of anchors follows from $A=0$.  The presence of a boundary follows from $B=5$.  The closure and prediction sizes are both eight, since $H=8$ and $P=8$.  Total recovery and above-threshold recovery follow from $R=1.0$ and $T=1.0$.  These six equalities are finite data equalities, so the NameCert packet is closed over exactly the stated witness.
 \end{proof}
 
-\begin{closurestatus}{\BioRealityQSixLeaveOneCodonBoundaryUp}
-  \constructivestory{The carrier is a finite NameCert record for $\mathsf{h1.leave.one.codon.out}$ whose boundary evidence is the displayed tuple of six recorded numerical fields.}
+The threshold coordinate is not an auxiliary decoration.  Because the recovery rate above threshold is $1.0$, the packet records that every counted recovery event lies on the accepted side of the threshold test.  The chapter therefore certifies a boundary packet whose recovery side is total both before and after the threshold filter.  It still makes no claim about which biological mechanism produced the five boundary points.
+
+\begin{theorem}[Threshold-stable recovery]
+\label{thm:bioreality-q-six-leave-one-codon-threshold-stable-recovery}
+For BioRealityQSixLeaveOneCodonBoundary, ordinary recovery and above-threshold recovery coincide at total recovery.
+\end{theorem}
+
+\begin{proof}
+The recovery rate is $R=1.0$, and the recovery rate above threshold is $T=1.0$.  Hence
+$$
+\begin{aligned}
+R=T=1.0.
+\end{aligned}
+$$
+The conclusion is only this equality of the two finite packet coordinates.  No additional threshold distribution, codon identity list, or external biological model is used.
+\end{proof}
+
+\begin{closurestatus}{BioRealityQSixLeaveOneCodonBoundary}
+  \constructivestory{The carrier is built from the six finite packet coordinates $0$, $5$, $8$, $8$, $1.0$, and $1.0$, with the boundary interpretation restricted to the measured leave-one-codon packet.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{Closed only for the bounded Q-six leave-one-codon-out carrier with anchor count $0$, boundary count $5$, predictable count $8$, high-coverage closure count $8$, recovery rate $1.0$, and recovery-threshold flag $1.0$.}
+  \scopeclosed{The chapter closes the finite NameCert reading of BioRealityQSixLeaveOneCodonBoundary as a five-boundary, zero-anchor, total-recovery packet for h1.leave.one.codon.out.}
   \formalstatus{\unformalized}
   \bridgestatus{none}
-  \notclaimed{No claim is made about unlisted codons, external biological mechanisms, statistical significance, or any rerun whose finite fields differ from the displayed carrier equations.}
-  \upgradepath{A higher closure level requires an explicit bridge from the finite carrier equations to an independently checked generator for the leave-one-codon-out witness table.}
+  \notclaimed{No codon identity list, p-value, mechanism, external biological law, or result beyond the six stated finite coordinates is claimed.}
+  \upgradepath{A stronger chapter would need explicit codon identities, threshold definition data, and a formal carrier encoding for the same finite coordinates.}
 \end{closurestatus}
