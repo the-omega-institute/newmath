@@ -3305,6 +3305,8 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         "BioReality records biological conjecture deepening under explicit provenance boundaries. "
         "External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.",
         "",
+        r"\input{parts/cross_layer_synthesis}",
+        "",
         r"\input{parts/codon_window_reality_boundary}",
         "",
     ]
