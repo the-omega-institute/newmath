@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer
 from scripts.experiment_stats import metric_stats
 from scripts import run_gap_head_observed_debt_transfer as observed_transfer
 from scripts import run_gap_ledger_head_on_h as gap_head
@@ -97,6 +98,15 @@ NOT_CLAIMED = (
     "no inference-time use of config metadata, quality-debt summary, ledger/gap status, truth labels, prediction error, or raw h/z",
     "fail status blocks any D4/D5 promotion through this boundary ledger",
 )
+NEGATIVE_WITNESS_TEST_POINTER = "$.run_local.test_artifact.regression_tests.scale_leakage_witness"
+NEGATIVE_WITNESS_TEST_ARTIFACT = {
+    "regression_tests": {
+        "scale_leakage_witness": (
+            "papers/bedc-quality-lab/tests/test_dimension_mismatch_debt_transfer.py::"
+            "test_scale_leakage_sidecar_maps_to_first_negative_witness"
+        )
+    }
+}
 
 
 @dataclass(frozen=True)
@@ -122,6 +132,32 @@ class DimensionMismatchTransferResult:
             "matched_random_auroc": dict(self.matched_random_auroc),
             "hardgates": dict(self.hardgates),
             "result_rows": [dict(row) for row in self.result_rows],
+        }
+
+
+@dataclass(frozen=True)
+class NegativeWitnessRow:
+    witness_id: str
+    source_artifact: str
+    source_pointer: str
+    bedc_gap_field: str
+    demotion_rule: str
+    regression_test: str
+    evidence_pointer: str
+    status: str
+    reason: str
+
+    def to_record(self) -> dict[str, Any]:
+        return {
+            "witness_id": self.witness_id,
+            "source_artifact": self.source_artifact,
+            "source_pointer": self.source_pointer,
+            "bedc_gap_field": self.bedc_gap_field,
+            "demotion_rule": self.demotion_rule,
+            "regression_test": self.regression_test,
+            "evidence_pointer": self.evidence_pointer,
+            "status": self.status,
+            "reason": self.reason,
         }
 
 
@@ -629,6 +665,134 @@ def _sidecar_controlled_geometry(payload: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def build_negative_witness_rows(payload: Mapping[str, Any], root: Path) -> tuple[NegativeWitnessRow, ...]:
+    transfer = payload.get("dimension_mismatch_debt_transfer")
+    if not isinstance(transfer, Mapping):
+        return ()
+    source_artifact = ANTI_TRIVIALITY_ARTIFACT
+    source_pointer = "$.status"
+    evidence_pointer = "$.controlled_geometry.feature_partition"
+    regression_test = NEGATIVE_WITNESS_TEST_POINTER
+    source_value = resolve_artifact_pointer(root, f"{source_artifact}:{source_pointer}")
+    evidence_value = resolve_artifact_pointer(root, f"{source_artifact}:{evidence_pointer}")
+    status = str(source_value) if isinstance(source_value, str) else None
+    projection = transfer.get("anti_triviality_projection")
+    active = status == "scale_leakage_detected" and projection == "demote_to_DN_or_D1"
+    source_resolved = source_value is not None
+    evidence_resolved = evidence_value is not None
+    return (
+        NegativeWitnessRow(
+            witness_id="scale_leakage_witness",
+            source_artifact=source_artifact,
+            source_pointer=source_pointer,
+            bedc_gap_field="representation_scale_leakage",
+            demotion_rule="demote_to_DN_or_D1",
+            regression_test=regression_test,
+            evidence_pointer=f"{source_artifact}:{evidence_pointer}",
+            status="valid" if active and source_resolved and evidence_resolved else "blocked",
+            reason="scale-only anti-triviality evidence demotes the debt-transfer claim"
+            if active and source_resolved and evidence_resolved
+            else "scale leakage witness source or evidence pointer is not foldable",
+        ),
+    )
+
+
+def negative_witness_hardgates(rows: Sequence[NegativeWitnessRow], root: Path) -> dict[str, Any]:
+    row_records = [row.to_record() for row in rows]
+    required_fields = (
+        "witness_id",
+        "source_artifact",
+        "source_pointer",
+        "bedc_gap_field",
+        "demotion_rule",
+        "regression_test",
+        "evidence_pointer",
+        "status",
+        "reason",
+    )
+    rows_well_formed = bool(row_records) and all(
+        all(record.get(field) not in (None, "") for field in required_fields)
+        for record in row_records
+    )
+    source_resolutions = {
+        row.witness_id: resolve_artifact_pointer(root, f"{row.source_artifact}:{row.source_pointer}") is not None
+        for row in rows
+    }
+    regression_source = {"run_local": {"test_artifact": NEGATIVE_WITNESS_TEST_ARTIFACT}}
+    regression_resolutions = {
+        row.witness_id: (
+            pointer_value(regression_source, row.regression_test) is not None
+            if row.regression_test.startswith("$.")
+            else resolve_artifact_pointer(root, row.regression_test) is not None
+        )
+        for row in rows
+    }
+    evidence_resolutions = {
+        row.witness_id: resolve_artifact_pointer(root, row.evidence_pointer) is not None
+        for row in rows
+    }
+    valid_coverage_count = sum(
+        1
+        for row in rows
+        if row.status == "valid"
+        and bool(source_resolutions.get(row.witness_id))
+        and bool(regression_resolutions.get(row.witness_id))
+        and bool(evidence_resolutions.get(row.witness_id))
+    )
+    no_terminal_verdict = "terminal_verdict" not in {
+        key
+        for record in row_records
+        for key in _recursive_keys(record)
+    }
+    return {
+        "NW-HG1": {
+            "status": "pass" if rows_well_formed else "fail",
+            "criterion": "negative witness rows use the required local projection fields",
+            "row_count": len(row_records),
+            "required_fields": list(required_fields),
+            "reason": "all negative witness rows are well formed"
+            if rows_well_formed
+            else "negative witness row set is empty or missing required fields",
+        },
+        "NW-HG2": {
+            "status": "pass"
+            if row_records
+            and all(source_resolutions.values())
+            and all(regression_resolutions.values())
+            and all(evidence_resolutions.values())
+            else "fail",
+            "criterion": "source, evidence, and regression-test pointers resolve inside declared artifacts",
+            "source_resolves": source_resolutions,
+            "regression_test_resolves": regression_resolutions,
+            "evidence_resolves": evidence_resolutions,
+            "valid_coverage_count": valid_coverage_count,
+            "reason": "all negative witness pointers resolve"
+            if row_records
+            and all(source_resolutions.values())
+            and all(regression_resolutions.values())
+            and all(evidence_resolutions.values())
+            else "one or more negative witness pointers are dangling",
+        },
+        "NW-HG3": {
+            "status": "pass" if no_terminal_verdict else "fail",
+            "criterion": "negative witness projection emits evidence fields only",
+            "reason": "negative witness rows do not emit terminal verdict fields"
+            if no_terminal_verdict
+            else "negative witness rows emitted terminal verdict fields",
+        },
+    }
+
+
+def _recursive_keys(value: Any):
+    if isinstance(value, Mapping):
+        for key, item in value.items():
+            yield key
+            yield from _recursive_keys(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _recursive_keys(item)
+
+
 def build_payload(
     *,
     root: Path = ROOT,
@@ -860,10 +1024,11 @@ def _run_local_artifact_bundle() -> dict[str, str]:
     }
 
 
-def build_run_local_contract(payload: Mapping[str, Any]) -> dict[str, Any]:
+def build_run_local_contract(payload: Mapping[str, Any], root: Path = ROOT) -> dict[str, Any]:
     transfer = payload["dimension_mismatch_debt_transfer"]
     anti = transfer["anti_triviality_evidence"]
     sidecar_refs = anti.get("controlled_geometry", {}).get("evidence_refs")
+    negative_witness_rows = build_negative_witness_rows(payload, root)
     evidence_refs = [
         {
             "evidence_id": "canonical-claim",
@@ -880,6 +1045,7 @@ def build_run_local_contract(payload: Mapping[str, Any]) -> dict[str, Any]:
     ]
     if isinstance(sidecar_refs, list):
         evidence_refs.extend(dict(row) for row in sidecar_refs)
+    negative_witness = [row.to_record() for row in negative_witness_rows]
     return {
         "projection_kind": "dimension_mismatch_debt_transfer_run_local",
         "source_artifact": JSON_ARTIFACT,
@@ -888,11 +1054,14 @@ def build_run_local_contract(payload: Mapping[str, Any]) -> dict[str, Any]:
         "controlled_geometry_pointer": "$.controlled_geometry",
         "artifact_bundle": _run_local_artifact_bundle(),
         "evidence_refs": evidence_refs,
+        "negative_witness": negative_witness,
+        "negative_witness_hardgates": negative_witness_hardgates(negative_witness_rows, root),
+        "test_artifact": NEGATIVE_WITNESS_TEST_ARTIFACT,
         "owner": "claim:dimension-mismatch-debt-transfer",
     }
 
 
-def build_run_local_claim_capsule(payload: Mapping[str, Any]) -> dict[str, Any]:
+def build_run_local_claim_capsule(payload: Mapping[str, Any], root: Path = ROOT) -> dict[str, Any]:
     transfer = payload["dimension_mismatch_debt_transfer"]
     return {
         "schema_id": "bedc.quality.claim_capsule",
@@ -913,13 +1082,13 @@ def build_run_local_claim_capsule(payload: Mapping[str, Any]) -> dict[str, Any]:
         "hypothesis": transfer["hypothesis"],
         "failed_gate": transfer["failed_gate"],
         "what_was_learned": transfer["what_was_learned"],
-        "run_local": build_run_local_contract(payload),
+        "run_local": build_run_local_contract(payload, root),
         "not_claimed": list(payload["not_claimed"]),
     }
 
 
-def build_run_local_raw_metrics(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ...]:
-    contract = build_run_local_contract(payload)
+def build_run_local_raw_metrics(payload: Mapping[str, Any], root: Path = ROOT) -> tuple[dict[str, Any], ...]:
+    contract = build_run_local_contract(payload, root)
     rows = []
     for row in contract["evidence_refs"]:
         rows.append(
@@ -929,11 +1098,18 @@ def build_run_local_raw_metrics(payload: Mapping[str, Any]) -> tuple[dict[str, A
                 "source_pointer": str(row["source_pointer"]),
             }
         )
+    for index, row in enumerate(contract["negative_witness"]):
+        rows.append(
+            {
+                "metric": str(row["witness_id"]),
+                "source_artifact": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+                "source_pointer": f"$.run_local.negative_witness[{index}]",
+            }
+        )
     return tuple(rows)
 
 
 def build_run_local_summary(payload: Mapping[str, Any]) -> dict[str, Any]:
-    transfer = payload["dimension_mismatch_debt_transfer"]
     return {
         "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer-run-summary",
         "generated_at": payload["generated_at"],
@@ -943,27 +1119,46 @@ def build_run_local_summary(payload: Mapping[str, Any]) -> dict[str, Any]:
             "pointer": "$.run_local",
         },
         "artifact_bundle": _run_local_artifact_bundle(),
-        "status": transfer["status"],
-        "effective_level": transfer["effective_level"],
-        "anti_triviality_status": transfer["anti_triviality_status"],
+        "negative_witness_ref": {
+            "artifact": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+            "pointer": "$.run_local.negative_witness",
+        },
+        "negative_witness_hardgates_ref": {
+            "artifact": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+            "pointer": "$.run_local.negative_witness_hardgates",
+        },
     }
 
 
-def render_run_local_markdown(payload: Mapping[str, Any]) -> str:
+def render_run_local_markdown(payload: Mapping[str, Any], root: Path = ROOT) -> str:
     transfer = payload["dimension_mismatch_debt_transfer"]
+    rows = build_negative_witness_rows(payload, root)
+    lines = [
+        "# Dimension-Mismatch Debt Transfer Claim Capsule",
+        "",
+        f"- Source artifact: `{JSON_ARTIFACT}`",
+        "- Source pointer: `$.dimension_mismatch_debt_transfer`",
+        f"- Controlled geometry artifact: `{ANTI_TRIVIALITY_ARTIFACT}`",
+        "- Controlled geometry pointer: `$.controlled_geometry`",
+        f"- Claim capsule pointer: `{RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT}:$.run_local`",
+        f"- Status: `{transfer['status']}`",
+        f"- Effective level: `{transfer['effective_level']}`",
+        "",
+        "## Negative Witness Pointers",
+        "",
+        "| witness | owner pointer | source pointer | regression pointer |",
+        "| --- | --- | --- | --- |",
+    ]
+    for index, row in enumerate(rows):
+        lines.append(
+            f"| `{row.witness_id}` | "
+            f"`$.run_local.negative_witness[{index}]` | "
+            f"`{row.source_artifact}:{row.source_pointer}` | "
+            f"`{row.regression_test}` |"
+        )
+    lines.append("")
     return "\n".join(
-        [
-            "# Dimension-Mismatch Debt Transfer Claim Capsule",
-            "",
-            f"- Source artifact: `{JSON_ARTIFACT}`",
-            "- Source pointer: `$.dimension_mismatch_debt_transfer`",
-            f"- Controlled geometry artifact: `{ANTI_TRIVIALITY_ARTIFACT}`",
-            "- Controlled geometry pointer: `$.controlled_geometry`",
-            f"- Claim capsule pointer: `{RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT}:$.run_local`",
-            f"- Status: `{transfer['status']}`",
-            f"- Effective level: `{transfer['effective_level']}`",
-            "",
-        ]
+        lines
     )
 
 
@@ -999,10 +1194,10 @@ def write_dimension_mismatch_debt_transfer(
     report_path = root / REPORT_ARTIFACT
     _write_json_atomic(json_path, payload)
     _write_text_atomic(report_path, render_markdown(payload))
-    _write_json_atomic(root / RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT, build_run_local_claim_capsule(payload))
-    _write_jsonl_atomic(root / RUN_LOCAL_RAW_METRICS_ARTIFACT, build_run_local_raw_metrics(payload))
+    _write_json_atomic(root / RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT, build_run_local_claim_capsule(payload, root))
+    _write_jsonl_atomic(root / RUN_LOCAL_RAW_METRICS_ARTIFACT, build_run_local_raw_metrics(payload, root))
     _write_json_atomic(root / RUN_LOCAL_SUMMARY_ARTIFACT, build_run_local_summary(payload))
-    _write_text_atomic(root / RUN_LOCAL_REPORT_ARTIFACT, render_run_local_markdown(payload))
+    _write_text_atomic(root / RUN_LOCAL_REPORT_ARTIFACT, render_run_local_markdown(payload, root))
     return payload
 
 

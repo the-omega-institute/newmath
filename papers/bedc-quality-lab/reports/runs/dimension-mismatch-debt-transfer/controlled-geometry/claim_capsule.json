@@ -85,10 +85,67 @@
         "source_pointer": "$.controlled_geometry_hardgates.B2-HG5"
       }
     ],
+    "negative_witness": [
+      {
+        "bedc_gap_field": "representation_scale_leakage",
+        "demotion_rule": "demote_to_DN_or_D1",
+        "evidence_pointer": "reports/dimension_mismatch_anti_triviality.json:$.controlled_geometry.feature_partition",
+        "reason": "scale-only anti-triviality evidence demotes the debt-transfer claim",
+        "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "source_pointer": "$.status",
+        "status": "valid",
+        "witness_id": "scale_leakage_witness"
+      }
+    ],
+    "negative_witness_hardgates": {
+      "NW-HG1": {
+        "criterion": "negative witness rows use the required local projection fields",
+        "reason": "all negative witness rows are well formed",
+        "required_fields": [
+          "witness_id",
+          "source_artifact",
+          "source_pointer",
+          "bedc_gap_field",
+          "demotion_rule",
+          "regression_test",
+          "evidence_pointer",
+          "status",
+          "reason"
+        ],
+        "row_count": 1,
+        "status": "pass"
+      },
+      "NW-HG2": {
+        "criterion": "source, evidence, and regression-test pointers resolve inside declared artifacts",
+        "evidence_resolves": {
+          "scale_leakage_witness": true
+        },
+        "reason": "all negative witness pointers resolve",
+        "regression_test_resolves": {
+          "scale_leakage_witness": true
+        },
+        "source_resolves": {
+          "scale_leakage_witness": true
+        },
+        "status": "pass",
+        "valid_coverage_count": 1
+      },
+      "NW-HG3": {
+        "criterion": "negative witness projection emits evidence fields only",
+        "reason": "negative witness rows do not emit terminal verdict fields",
+        "status": "pass"
+      }
+    },
     "owner": "claim:dimension-mismatch-debt-transfer",
     "projection_kind": "dimension_mismatch_debt_transfer_run_local",
     "source_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
-    "source_pointer": "$.dimension_mismatch_debt_transfer"
+    "source_pointer": "$.dimension_mismatch_debt_transfer",
+    "test_artifact": {
+      "regression_tests": {
+        "scale_leakage_witness": "papers/bedc-quality-lab/tests/test_dimension_mismatch_debt_transfer.py::test_scale_leakage_sidecar_maps_to_first_negative_witness"
+      }
+    }
   },
   "schema_id": "bedc.quality.claim_capsule",
   "source": "reports/canonical/dimension-mismatch-debt-transfer.json",

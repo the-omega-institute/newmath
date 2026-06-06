@@ -79,10 +79,23 @@
         "source_pointer": "$.controlled_geometry_hardgates.B2-HG5"
       }
     ],
+    "negative_witness": {
+      "artifact": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+      "pointer": "$.run_local.negative_witness"
+    },
+    "negative_witness_hardgates": {
+      "artifact": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+      "pointer": "$.run_local.negative_witness_hardgates"
+    },
     "owner": "claim:dimension-mismatch-debt-transfer",
     "projection_kind": "dimension_mismatch_debt_transfer_run_local",
     "source_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
-    "source_pointer": "$.dimension_mismatch_debt_transfer"
+    "source_pointer": "$.dimension_mismatch_debt_transfer",
+    "test_artifact": {
+      "regression_tests": {
+        "scale_leakage_witness": "papers/bedc-quality-lab/tests/test_dimension_mismatch_debt_transfer.py::test_scale_leakage_sidecar_maps_to_first_negative_witness"
+      }
+    }
   },
   "schema_id": "bedc.quality.claim_capsule",
   "source": "reports/canonical/dimension-mismatch-debt-transfer.json",
