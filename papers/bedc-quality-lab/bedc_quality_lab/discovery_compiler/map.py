@@ -5,6 +5,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer
+
 
 DISCOVERY_MAP_SCHEMA_ID = "bedc-quality-lab:canonical-discovery-map"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
@@ -101,6 +103,99 @@ def validate_rows(rows: Sequence[Mapping[str, Any]]) -> list[DiscoveryMapRow]:
     return [DiscoveryMapRow.from_mapping(row) for row in rows]
 
 
+def _recursive_forbidden_keys(payload: Any, forbidden: frozenset[str]) -> list[str]:
+    found: set[str] = set()
+    if isinstance(payload, Mapping):
+        found.update(str(key) for key in payload if key in forbidden)
+        for value in payload.values():
+            found.update(_recursive_forbidden_keys(value, forbidden))
+    elif isinstance(payload, list):
+        for value in payload:
+            found.update(_recursive_forbidden_keys(value, forbidden))
+    return sorted(found)
+
+
+def _validate_negative_owner_pointer(pointer: Any) -> str | None:
+    if pointer is None:
+        return None
+    if not isinstance(pointer, str):
+        raise ValueError("coverage_matrix negative_owner_pointer must be a string or null")
+    split = split_artifact_pointer(pointer)
+    if split is None:
+        raise ValueError("coverage_matrix negative_owner_pointer must be artifact-qualified")
+    artifact, local_pointer = split
+    if artifact == "reports/canonical/negative_discovery_reports.json":
+        if not local_pointer.startswith("$.rows["):
+            raise ValueError("coverage_matrix negative_owner_pointer must point to a negative owner row")
+        return pointer
+    if artifact.startswith("reports/runs/") and ".negative_witness[" in local_pointer:
+        return pointer
+    if artifact.startswith("reports/runs/") and ".negative_witness." in local_pointer:
+        return pointer
+    raise ValueError("coverage_matrix negative_owner_pointer must point to a negative owner row or run-local negative witness")
+
+
+def _validate_coverage_cell(cell: Mapping[str, Any]) -> dict[str, Any]:
+    required = (
+        "model_id",
+        "surface_id",
+        "coverage_level",
+        "pointer_status",
+        "source_artifact",
+        "status_pointer",
+        "evidence_pointer",
+        "hardgate_pointer",
+        "discovery_map_row_pointer",
+    )
+    missing = [key for key in required if key not in cell]
+    if missing:
+        raise ValueError(f"coverage_matrix cell missing required keys: {', '.join(missing)}")
+    copied = _recursive_forbidden_keys(cell, DN_FACT_KEYS | {"terminal_verdict"})
+    if copied:
+        raise ValueError(f"coverage_matrix cell copies owner facts: {', '.join(copied)}")
+    for key in ("model_id", "surface_id", "coverage_level", "pointer_status", "source_artifact", "status_pointer", "evidence_pointer"):
+        if not isinstance(cell.get(key), str):
+            raise ValueError(f"coverage_matrix cell {key} must be a string")
+    for key in ("hardgate_pointer", "discovery_map_row_pointer"):
+        if cell.get(key) is not None and not isinstance(cell.get(key), str):
+            raise ValueError(f"coverage_matrix cell {key} must be a string or null")
+    if str(cell["pointer_status"]) not in {"resolved", "unresolved"}:
+        raise ValueError("coverage_matrix cell pointer_status must be resolved or unresolved")
+    payload = dict(cell)
+    if "negative_owner_pointer" in payload:
+        payload["negative_owner_pointer"] = _validate_negative_owner_pointer(payload["negative_owner_pointer"])
+    return payload
+
+
+def validate_coverage_matrix(coverage_matrix: Mapping[str, Any]) -> dict[str, Any]:
+    if coverage_matrix.get("status") != "pointer-only":
+        raise ValueError("coverage_matrix status must be pointer-only")
+    copied = _recursive_forbidden_keys(coverage_matrix, DN_FACT_KEYS | {"terminal_verdict"})
+    if copied:
+        raise ValueError(f"coverage_matrix copies owner facts: {', '.join(copied)}")
+    cells = coverage_matrix.get("cells")
+    models = coverage_matrix.get("models")
+    surfaces = coverage_matrix.get("surfaces")
+    if not isinstance(cells, list):
+        raise ValueError("coverage_matrix cells must be a list")
+    if not isinstance(models, list):
+        raise ValueError("coverage_matrix models must be a list")
+    if not isinstance(surfaces, list):
+        raise ValueError("coverage_matrix surfaces must be a list")
+    payload = dict(coverage_matrix)
+    payload["cells"] = [
+        _validate_coverage_cell(cell)
+        if isinstance(cell, Mapping)
+        else (_raise_coverage_cell_type())
+        for cell in cells
+    ]
+    return payload
+
+
+def _raise_coverage_cell_type() -> dict[str, Any]:
+    raise ValueError("coverage_matrix cells must be objects")
+
+
 def build_discovery_map_payload(
     *,
     rows: Sequence[Mapping[str, Any]],
@@ -121,5 +216,5 @@ def build_discovery_map_payload(
         "rows": validated,
     }
     if coverage_matrix is not None:
-        payload["coverage_matrix"] = dict(coverage_matrix)
+        payload["coverage_matrix"] = validate_coverage_matrix(coverage_matrix)
     return payload
