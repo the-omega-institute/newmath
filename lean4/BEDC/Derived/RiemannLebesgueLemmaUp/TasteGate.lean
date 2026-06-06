@@ -150,6 +150,18 @@ private theorem riemannLebesgueLemmaToEventFlow_injective
     (Eq.trans (riemannLebesgueLemma_round_trip x).symm
       (Eq.trans hread (riemannLebesgueLemma_round_trip y)))
 
+private theorem RiemannLebesgueLemmaTasteGate_single_carrier_alignment_fields :
+    ∀ x y : RiemannLebesgueLemmaUp,
+      riemannLebesgueLemmaFields x = riemannLebesgueLemmaFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk F1 S1 I1 W1 T1 A1 Q1 E1 H1 C1 P1 N1 =>
+      cases y with
+      | mk F2 S2 I2 W2 T2 A2 Q2 E2 H2 C2 P2 N2 =>
+          cases hfields
+          rfl
+
 instance riemannLebesgueLemmaBHistCarrier : BHistCarrier RiemannLebesgueLemmaUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := riemannLebesgueLemmaToEventFlow
@@ -165,6 +177,24 @@ instance riemannLebesgueLemmaChapterTasteGate :
   layer_separation := by
     intro x y hxy heq
     exact hxy (riemannLebesgueLemmaToEventFlow_injective heq)
+
+instance riemannLebesgueLemmaFieldFaithful : FieldFaithful RiemannLebesgueLemmaUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := riemannLebesgueLemmaFields
+  field_faithful := RiemannLebesgueLemmaTasteGate_single_carrier_alignment_fields
+
+instance riemannLebesgueLemmaNontrivial : Nontrivial RiemannLebesgueLemmaUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨RiemannLebesgueLemmaUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      RiemannLebesgueLemmaUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
 
 theorem RiemannLebesgueLemmaTasteGate_single_carrier_alignment :
     (∀ h : BHist,

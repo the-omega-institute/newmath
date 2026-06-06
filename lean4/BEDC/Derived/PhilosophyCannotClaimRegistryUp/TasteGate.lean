@@ -360,4 +360,37 @@ theorem PhilosophyCannotClaimRegistryNameCertObligations
               exact sourceRow
           }⟩
 
+theorem PhilosophyCannotClaimRegistryNonescape
+    (x : PhilosophyCannotClaimRegistryUp) :
+    ∃ C S E U B H K P N : BHist,
+      x = PhilosophyCannotClaimRegistryUp.mk C S E U B H K P N ∧
+        philosophyCannotClaimRegistryFields x = [C, S, E, U, B, H, K, P, N] ∧
+          List.Mem C (philosophyCannotClaimRegistryFields x) ∧
+            List.Mem S (philosophyCannotClaimRegistryFields x) ∧
+              List.Mem E (philosophyCannotClaimRegistryFields x) ∧
+                List.Mem U (philosophyCannotClaimRegistryFields x) ∧
+                  List.Mem B (philosophyCannotClaimRegistryFields x) ∧
+                    Cont BHist.Empty C C ∧
+                      Cont BHist.Empty S S ∧
+                        Cont BHist.Empty B B ∧
+                          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) =
+                            some x := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk C S E U B H K P N =>
+      exact
+        ⟨C, S, E, U, B, H, K, P, N, rfl, rfl,
+          List.Mem.head _,
+          List.Mem.tail _ (List.Mem.head _),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.head _)))),
+          cont_left_unit C,
+          cont_left_unit S,
+          cont_left_unit B,
+          ChapterTasteGate.round_trip
+            (X := PhilosophyCannotClaimRegistryUp)
+            (PhilosophyCannotClaimRegistryUp.mk C S E U B H K P N)⟩
+
 end BEDC.Derived.PhilosophyCannotClaimRegistryUp
