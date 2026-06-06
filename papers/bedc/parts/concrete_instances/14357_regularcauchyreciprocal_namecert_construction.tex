@@ -107,10 +107,23 @@ Apply \autoref{thm:regular-cauchy-reciprocal-apartness-window}. It states that $
 Finally read \autoref{thm:regular-cauchy-reciprocal-readback-route}. The route from $Q$ to $T$ passes through $A,M,W,D,B$ in that order, and therefore $D$ and $B$ are reciprocal rows only when the inspected regular tail has the displayed positive lower bound supplied by $A$.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy reciprocal nonzero-denominator window]
+\label{thm:regular-cauchy-reciprocal-nonzero-denominator-window}
+Any accepted $\RegularCauchyReciprocalUp$ packet whose dyadic inverse budget is read must expose a nonzero-denominator window consisting of the $\RegSeqRatUp$ source row $Q$, apartness row $A$, finite modulus row $M$, $\StreamNameUp$ window $W$, and $\DyadicRatCoreUp$ row $D$. Without all five rows the packet has not reached the $\CauchyInverseBudgetUp$ row $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ from \autoref{def:regular-cauchy-reciprocal-carrier}. The only source, apartness, modulus, window, and dyadic rows available to the reciprocal budget are $Q,A,M,W,D$.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}. It places the positive lower-bound display in $A$ before the dyadic reciprocal row $D$ and budget row $B$ can be consumed.
+
+Then apply \autoref{thm:regular-cauchy-reciprocal-readback-route}. The route to the reciprocal readback passes through $Q,A,M,W,D,B$, so a consumer that omits any one of $Q,A,M,W,D$ remains before the $\CauchyInverseBudgetUp$ row rather than at the dyadic inverse budget.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy reciprocal tail stability]
 \label{thm:regular-cauchy-reciprocal-tail-stability}
 Let $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ be an accepted $\RegularCauchyReciprocalUp$ carrier. If a later inspected $\StreamNameUp$ window preserves the $\RegSeqRatUp$ source row $Q$ together with the apartness row $A$, modulus row $M$, finite window row $W$, and dyadic reciprocal row $D$, then the same reciprocal readback row $T$ and terminal $\RealUp$ seal row $E$ transport through $H,C,P,N$. Thus shifting to a later tail window cannot change the reciprocal readback unless it changes one of $A,M,W,D$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalTailStability}
 \begin{proof}
 Use \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}. A later window that preserves $A,M,W,D$ keeps the same displayed positive lower-bound and dyadic reciprocal data for the inspected regular tail.
 
