@@ -727,6 +727,7 @@ import BEDC.Derived.BanachSpaceUp.LinearCauchySeal
 import BEDC.Derived.BanachSpaceUp.LinearCompletionNonescape
 import BEDC.Derived.BanachSpaceUp.NameCertFrontier
 import BEDC.Derived.BanachSpaceUp.NameCertObligations
+import BEDC.Derived.BanachSpaceUp.NormCompletionInductionRoute
 import BEDC.Derived.BanachSpaceUp.NormCompletionLedgerObligation
 import BEDC.Derived.BanachSpaceUp.NormedCauchyLedger
 import BEDC.Derived.BanachSpaceUp.SeparatedCompletionBoundary
@@ -6822,6 +6823,7 @@ import BEDC.Derived.OrderUp.TasteGate
 import BEDC.Derived.OresmeHarmonicDivergenceUp.TasteGate
 import BEDC.Derived.OrthogonalPolynomialUp.TasteGate
 import BEDC.Derived.OrthogonalProjectionTheoremUp.TasteGate
+import BEDC.Derived.OscillationFunctionUp.TasteGate
 import BEDC.Derived.OscillationModulusUp.TasteGate
 import BEDC.Derived.OsgoodCriterionUp.TasteGate
 import BEDC.Derived.OsgoodModulusUp.TasteGate
