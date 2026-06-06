@@ -2216,8 +2216,8 @@ def _validate_new_model_hardgates_payload(payload: Mapping[str, Any]) -> None:
     if not isinstance(gates, Mapping):
         raise ValueError("new_model_hardgates payload requires gates")
     expected_ids = [f"NEW-MODEL-HG{index}" for index in range(1, 21)]
-    if list(gates) != expected_ids:
-        raise ValueError("new_model_hardgates payload must contain NEW-MODEL-HG1..20 in order")
+    if set(gates) != set(expected_ids):
+        raise ValueError("new_model_hardgates payload must contain NEW-MODEL-HG1..20")
     required_fields = {
         "gate_id",
         "requirement",
@@ -2260,7 +2260,8 @@ def _render_new_model_hardgates_markdown(payload: Mapping[str, Any]) -> str:
     ]
     gates = payload.get("gates", {})
     if isinstance(gates, Mapping):
-        for row in gates.values():
+        for gate_id in [f"NEW-MODEL-HG{index}" for index in range(1, 21)]:
+            row = gates.get(gate_id)
             if not isinstance(row, Mapping):
                 continue
             lines.append(
@@ -2651,7 +2652,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     if not isinstance(slots, Mapping):
         raise ValueError("discovery_gated_transformer slots invalid")
     expected_slot_ids = [f"DGT-HG{index}" for index in range(1, 13)]
-    if list(slots) != expected_slot_ids + ["overall_state"]:
+    if set(slots) != set(expected_slot_ids) | {"overall_state"}:
         raise ValueError("discovery_gated_transformer slots must contain DGT-HG1..12 plus overall_state")
     slot_fields = {
         "gate_id",
@@ -2716,7 +2717,15 @@ def _render_discovery_gated_transformer_markdown(payload: Mapping[str, Any]) -> 
         "| component | owner pointer | evidence pointer | pointer state |",
         "| --- | --- | --- | --- |",
     ]
-    for key, row in payload["component_descriptors"].items():
+    for key in (
+        "backbone",
+        "certificate_gated_attention",
+        "gap_ledger_route_mechanism_scope_heads",
+        "discovery_regularized_training",
+        "audit",
+        "output_bundle",
+    ):
+        row = payload["component_descriptors"][key]
         lines.append(
             "| "
             f"`{key}` | "

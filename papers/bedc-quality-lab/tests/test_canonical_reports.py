@@ -1705,6 +1705,37 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
     )
 
 
+def test_discovery_gated_transformer_written_json_round_trips_validator(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    real_index = canonical._index
+    real_render_index_markdown = canonical._render_index_markdown
+    _patch_lightweight_run_reports(monkeypatch)
+    monkeypatch.setattr(canonical, "_index", real_index)
+    monkeypatch.setattr(canonical, "_render_index_markdown", real_render_index_markdown)
+    monkeypatch.setattr(
+        canonical,
+        "_build_claim_capsule",
+        lambda generated_at: {
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "status": "complete",
+            "effective_level": "DN",
+            "terminal_verdict": "negative_discovery",
+        },
+    )
+    monkeypatch.setattr(
+        canonical,
+        "_build_formal_hardening_payload",
+        lambda generated_at=None: {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
+    )
+    monkeypatch.setattr(canonical, "_run_producer", lambda _spec: None)
+
+    canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    canonical._validate_discovery_gated_transformer_payload(owner)
+
+
 def test_discovery_gated_transformer_slot_artifact_pointers_resolve_when_present():
     root = Path(__file__).resolve().parents[1]
     owner_path = root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT
