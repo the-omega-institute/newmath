@@ -106,9 +106,10 @@ def build_discovery_map_payload(
     rows: Sequence[Mapping[str, Any]],
     generated_at: str,
     manifest_audit: Mapping[str, Any] | None = None,
+    coverage_matrix: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     validated = [row.as_dict() for row in validate_rows(rows)]
-    return {
+    payload = {
         "schema_id": DISCOVERY_MAP_SCHEMA_ID,
         "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,
         "generated_at": generated_at,
@@ -119,3 +120,6 @@ def build_discovery_map_payload(
         "manifest_audit": dict(manifest_audit or {"unregistered_json_artifacts": []}),
         "rows": validated,
     }
+    if coverage_matrix is not None:
+        payload["coverage_matrix"] = dict(coverage_matrix)
+    return payload

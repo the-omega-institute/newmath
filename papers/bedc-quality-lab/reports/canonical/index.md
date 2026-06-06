@@ -45,6 +45,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
+- Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
 - Rows: `24`
 
 ## Dimension mismatch debt transfer

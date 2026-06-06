@@ -99,6 +99,47 @@ class GapHeadD5ReadinessLedger:
         }
 
 
+@dataclass(frozen=True)
+class DiscoveryCoverageSource:
+    model_id: str
+    surface_id: str
+    source_artifact: str
+    status_pointer: str
+    evidence_pointer: str
+    hardgate_pointer: str | None = None
+    level_pointer: str | None = None
+
+    @property
+    def source_pointer(self) -> str:
+        return f"{self.source_artifact}:{self.status_pointer}"
+
+
+@dataclass(frozen=True)
+class DiscoveryCoverageCell:
+    model_id: str
+    surface_id: str
+    coverage_level: str
+    pointer_status: str
+    source_artifact: str
+    status_pointer: str
+    evidence_pointer: str
+    hardgate_pointer: str | None
+    discovery_map_row_pointer: str | None
+
+    def as_dict(self) -> dict[str, Any]:
+        return {
+            "model_id": self.model_id,
+            "surface_id": self.surface_id,
+            "coverage_level": self.coverage_level,
+            "pointer_status": self.pointer_status,
+            "source_artifact": self.source_artifact,
+            "status_pointer": self.status_pointer,
+            "evidence_pointer": self.evidence_pointer,
+            "hardgate_pointer": self.hardgate_pointer,
+            "discovery_map_row_pointer": self.discovery_map_row_pointer,
+        }
+
+
 GAP_HEAD_ROBUSTNESS_ARTIFACT = "reports/canonical/gap-head-robustness-sweep.json"
 QUALITY_SCORECARD_ARTIFACT = "reports/canonical/quality-scorecard.json"
 QUALITY_SCORECARD_ROWS_POINTER = "$.rows"
@@ -134,6 +175,53 @@ SINGLE_THRESHOLD_ESCAPE_ARTIFACT = "runs/single_threshold_escape_witness.json"
 SINGLE_THRESHOLD_ESCAPE_MARKDOWN_ARTIFACT = "runs/single_threshold_escape_witness.md"
 TRAINING_CHOICE_OBSERVABILITY_ARTIFACT = "runs/training_choice_observability.json"
 TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observability.md"
+DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
+LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
+DISCOVERY_COVERAGE_SOURCES = (
+    DiscoveryCoverageSource(
+        model_id="discovery-regularized-training",
+        surface_id="discovery-map-signal",
+        source_artifact=DISCOVERY_REGULARIZED_TRAINING_ARTIFACT,
+        status_pointer="$.discovery_map_signal.level_candidate",
+        evidence_pointer="$.discovery_map_signal.evidence_pointer",
+        hardgate_pointer="$.hardgate.status",
+    ),
+    DiscoveryCoverageSource(
+        model_id="ledger-aware-transformer",
+        surface_id="discovery-map-signal",
+        source_artifact=LEDGER_AWARE_TRANSFORMER_ARTIFACT,
+        status_pointer="$.discovery_map_signal.level_candidate",
+        evidence_pointer="$.discovery_map_signal.evidence_pointer",
+        hardgate_pointer="$.discovery_map_signal.net_positive_signal",
+    ),
+    DiscoveryCoverageSource(
+        model_id="gap-head-attribution-capsule",
+        surface_id="d5-o",
+        source_artifact=ATTRIBUTION_CAPSULE_ARTIFACT,
+        status_pointer="$.d5_o.status",
+        evidence_pointer="$.d5_o",
+        hardgate_pointer="$.d5_o.status",
+        level_pointer="$.mechanism_evidence.base_level",
+    ),
+    DiscoveryCoverageSource(
+        model_id="gap-head-attribution-capsule",
+        surface_id="d5-m",
+        source_artifact=ATTRIBUTION_CAPSULE_ARTIFACT,
+        status_pointer="$.d5_m.status",
+        evidence_pointer="$.d5_m",
+        hardgate_pointer="$.d5_m.failed_gate",
+        level_pointer="$.mechanism_evidence.mechanism_level",
+    ),
+    DiscoveryCoverageSource(
+        model_id="gap-head-attribution-capsule",
+        surface_id="mechanism",
+        source_artifact=ATTRIBUTION_CAPSULE_ARTIFACT,
+        status_pointer="$.mechanism_evidence.mechanism_status",
+        evidence_pointer="$.mechanism_evidence",
+        hardgate_pointer="$.mechanism_evidence.failed_gate",
+        level_pointer="$.mechanism_evidence.mechanism_level",
+    ),
+)
 
 
 def _root(root: Path | None) -> Path:
@@ -2075,6 +2163,92 @@ def _discovery_map_row(source_row: Mapping[str, Any], negative_indices: Mapping[
     } | {"negative_report_pointer": pointer}
 
 
+def _coverage_discovery_row_pointers(rows: Sequence[Mapping[str, Any]]) -> dict[str, str]:
+    return {
+        str(row["report"]): f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[{index}]"
+        for index, row in enumerate(rows)
+        if isinstance(row.get("report"), str)
+    }
+
+
+def _coverage_models() -> list[dict[str, str]]:
+    seen: dict[str, str] = {}
+    for source in DISCOVERY_COVERAGE_SOURCES:
+        seen.setdefault(source.model_id, source.source_pointer)
+    return [
+        {"model_id": model_id, "source_pointer": source_pointer}
+        for model_id, source_pointer in sorted(seen.items())
+    ]
+
+
+def _coverage_surfaces() -> list[dict[str, str]]:
+    seen: dict[str, str] = {}
+    for source in DISCOVERY_COVERAGE_SOURCES:
+        seen.setdefault(source.surface_id, source.source_pointer)
+    return [
+        {"surface_id": surface_id, "source_pointer": source_pointer}
+        for surface_id, source_pointer in sorted(seen.items())
+    ]
+
+
+def _coverage_level_from_status(source: DiscoveryCoverageSource, payload: Mapping[str, Any], status: Any) -> str:
+    level = pointer_value(payload, source.level_pointer)
+    if isinstance(level, str) and level:
+        return level
+    if isinstance(status, str) and status:
+        return status
+    return "unknown"
+
+
+def _coverage_evidence_pointer(source: DiscoveryCoverageSource, payload: Mapping[str, Any]) -> str | None:
+    pointer_cell = pointer_value(payload, source.evidence_pointer)
+    if isinstance(pointer_cell, str) and pointer_cell.startswith("$."):
+        return pointer_cell if pointer_value(payload, pointer_cell) is not None else None
+    return source.evidence_pointer if pointer_cell is not None else None
+
+
+def _coverage_cell(
+    source: DiscoveryCoverageSource,
+    *,
+    root: Path | None,
+    row_pointers: Mapping[str, str],
+) -> DiscoveryCoverageCell:
+    payload = _load_artifact_payload(source.source_artifact, root=root)
+    status = pointer_value(payload, source.status_pointer)
+    evidence_pointer = _coverage_evidence_pointer(source, payload) if payload else None
+    hardgate_resolved = source.hardgate_pointer is None or pointer_value(payload, source.hardgate_pointer) is not None
+    row_pointer = row_pointers.get(source.model_id)
+    resolved = status is not None and evidence_pointer is not None and hardgate_resolved and row_pointer is not None
+    return DiscoveryCoverageCell(
+        model_id=source.model_id,
+        surface_id=source.surface_id,
+        coverage_level=_coverage_level_from_status(source, payload, status) if resolved else "unknown",
+        pointer_status="resolved" if resolved else "unresolved",
+        source_artifact=source.source_artifact,
+        status_pointer=source.status_pointer,
+        evidence_pointer=evidence_pointer or source.evidence_pointer,
+        hardgate_pointer=source.hardgate_pointer,
+        discovery_map_row_pointer=row_pointer,
+    )
+
+
+def _build_coverage_matrix(
+    *,
+    rows: Sequence[Mapping[str, Any]],
+    root: Path | None = None,
+) -> dict[str, Any]:
+    row_pointers = _coverage_discovery_row_pointers(rows)
+    return {
+        "status": "pointer-only",
+        "models": _coverage_models(),
+        "surfaces": _coverage_surfaces(),
+        "cells": [
+            _coverage_cell(source, root=root, row_pointers=row_pointers).as_dict()
+            for source in DISCOVERY_COVERAGE_SOURCES
+        ],
+    }
+
+
 def _manifest_audit(
     *,
     root: Path | None = None,
@@ -2133,6 +2307,7 @@ def build_discovery_map(
         rows=rows,
         generated_at=timestamp,
         manifest_audit=_manifest_audit(root=root, canonical_reports=canonical_reports),
+        coverage_matrix=_build_coverage_matrix(rows=rows, root=root),
     )
 
 
@@ -2255,6 +2430,33 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
                     f"`{name}`: `{criterion['status']}` "
                     f"({criterion['artifact']}:{criterion['pointer']}) "
                     f"{criterion['reason']}"
+                )
+    coverage = payload.get("coverage_matrix")
+    if isinstance(coverage, Mapping):
+        lines.extend(
+            [
+                "",
+                "## Coverage matrix",
+                "",
+                f"- Status: `{coverage.get('status', '')}`",
+                "",
+                "| model | surface | level | pointer status | status pointer | evidence pointer |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+        cells = coverage.get("cells")
+        if isinstance(cells, list):
+            for cell in cells:
+                if not isinstance(cell, Mapping):
+                    continue
+                lines.append(
+                    "| "
+                    f"`{cell.get('model_id', '')}` | "
+                    f"`{cell.get('surface_id', '')}` | "
+                    f"`{cell.get('coverage_level', '')}` | "
+                    f"`{cell.get('pointer_status', '')}` | "
+                    f"`{cell.get('source_artifact', '')}:{cell.get('status_pointer', '')}` | "
+                    f"`{cell.get('source_artifact', '')}:{cell.get('evidence_pointer', '')}` |"
                 )
     lines.append("")
     return "\n".join(lines)

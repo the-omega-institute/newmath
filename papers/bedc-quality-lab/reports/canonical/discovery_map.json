@@ -1,5 +1,97 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-map",
+  "coverage_matrix": {
+    "cells": [
+      {
+        "coverage_level": "D4",
+        "discovery_map_row_pointer": "reports/canonical/discovery_map.json:$.rows[15]",
+        "evidence_pointer": "$.torch_training_evidence",
+        "hardgate_pointer": "$.hardgate.status",
+        "model_id": "discovery-regularized-training",
+        "pointer_status": "resolved",
+        "source_artifact": "reports/canonical/discovery-regularized-training.json",
+        "status_pointer": "$.discovery_map_signal.level_candidate",
+        "surface_id": "discovery-map-signal"
+      },
+      {
+        "coverage_level": "D4",
+        "discovery_map_row_pointer": "reports/canonical/discovery_map.json:$.rows[5]",
+        "evidence_pointer": "$.aggregate_metrics.uer_reduction",
+        "hardgate_pointer": "$.discovery_map_signal.net_positive_signal",
+        "model_id": "ledger-aware-transformer",
+        "pointer_status": "resolved",
+        "source_artifact": "reports/canonical/ledger-aware-transformer.json",
+        "status_pointer": "$.discovery_map_signal.level_candidate",
+        "surface_id": "discovery-map-signal"
+      },
+      {
+        "coverage_level": "D5-O",
+        "discovery_map_row_pointer": "reports/canonical/discovery_map.json:$.rows[9]",
+        "evidence_pointer": "$.d5_o",
+        "hardgate_pointer": "$.d5_o.status",
+        "model_id": "gap-head-attribution-capsule",
+        "pointer_status": "resolved",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status_pointer": "$.d5_o.status",
+        "surface_id": "d5-o"
+      },
+      {
+        "coverage_level": "blocked",
+        "discovery_map_row_pointer": "reports/canonical/discovery_map.json:$.rows[9]",
+        "evidence_pointer": "$.d5_m",
+        "hardgate_pointer": "$.d5_m.failed_gate",
+        "model_id": "gap-head-attribution-capsule",
+        "pointer_status": "resolved",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status_pointer": "$.d5_m.status",
+        "surface_id": "d5-m"
+      },
+      {
+        "coverage_level": "blocked",
+        "discovery_map_row_pointer": "reports/canonical/discovery_map.json:$.rows[9]",
+        "evidence_pointer": "$.mechanism_evidence",
+        "hardgate_pointer": "$.mechanism_evidence.failed_gate",
+        "model_id": "gap-head-attribution-capsule",
+        "pointer_status": "resolved",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status_pointer": "$.mechanism_evidence.mechanism_status",
+        "surface_id": "mechanism"
+      }
+    ],
+    "models": [
+      {
+        "model_id": "discovery-regularized-training",
+        "source_pointer": "reports/canonical/discovery-regularized-training.json:$.discovery_map_signal.level_candidate"
+      },
+      {
+        "model_id": "gap-head-attribution-capsule",
+        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_o.status"
+      },
+      {
+        "model_id": "ledger-aware-transformer",
+        "source_pointer": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.level_candidate"
+      }
+    ],
+    "status": "pointer-only",
+    "surfaces": [
+      {
+        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_m.status",
+        "surface_id": "d5-m"
+      },
+      {
+        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_o.status",
+        "surface_id": "d5-o"
+      },
+      {
+        "source_pointer": "reports/canonical/discovery-regularized-training.json:$.discovery_map_signal.level_candidate",
+        "surface_id": "discovery-map-signal"
+      },
+      {
+        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status",
+        "surface_id": "mechanism"
+      }
+    ]
+  },
   "generated_at": "2026-06-05T07:13:11.713087+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
