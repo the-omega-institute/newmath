@@ -85,6 +85,19 @@ def _pointer_value(payload, pointer):
     cursor = payload
     assert pointer.startswith("$.")
     for part in pointer[2:].split("."):
+        while "[" in part and part.endswith("]"):
+            key, bracket = part.split("[", 1)
+            if key:
+                assert isinstance(cursor, dict)
+                assert key in cursor
+                cursor = cursor[key]
+            index_text = bracket[:-1]
+            assert index_text.isdigit()
+            assert isinstance(cursor, list)
+            cursor = cursor[int(index_text)]
+            part = ""
+        if not part:
+            continue
         if isinstance(cursor, dict):
             assert part in cursor
             cursor = cursor[part]
@@ -101,6 +114,21 @@ def _assert_artifact_pointer_resolves(root, payload, artifact_pointer):
     assert path.exists()
     pointed_payload = json.loads(path.read_text(encoding="utf-8"))
     assert _pointer_value(pointed_payload, pointer) is not None
+
+
+def _artifact_pointer_value(root, artifact_pointer):
+    artifact, pointer = artifact_pointer.split(":", 1)
+    path = root / artifact
+    assert path.exists()
+    return _pointer_value(json.loads(path.read_text(encoding="utf-8")), pointer)
+
+
+def _recursive_key_present(value, key):
+    if isinstance(value, dict):
+        return key in value or any(_recursive_key_present(child, key) for child in value.values())
+    if isinstance(value, list):
+        return any(_recursive_key_present(child, key) for child in value)
+    return False
 
 
 def _claim_gate_for_single_failed_gate(failed_name):
@@ -259,6 +287,92 @@ def test_c1_hardgates_record_tradeoff_dn_and_control(monkeypatch, tmp_path):
     assert payload["result"]["status"] == "negative"
     assert payload["claim_capsule"]["failed_gate"] == "audit-improvement-tradeoff"
     assert "what_was_learned" in payload["claim_capsule"]
+
+
+def test_c1_run_local_negative_witness_records_audit_improvement_tradeoff(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+
+    assert payload["claim_capsule"]["run_local"]["negative_witness"][0] == {
+        "witness_id": "certificate-guided-constraint-training:audit-improvement-tradeoff",
+        "source_artifact": "reports/canonical/certificate-guided-training.json",
+        "source_pointer": "$.hardgate.gates.C1-HG1.failed_gate",
+        "bedc_gap_field": "Positive information gap",
+        "demotion_rule": "audit-improvement-tradeoff",
+        "regression_test": "tests/test_certificate_guided_constraint_training.py::test_c1_run_local_negative_witness_records_audit_improvement_tradeoff",
+        "evidence_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1",
+        "status": "fail",
+        "reason": "C1-HG1 records audit-improvement-tradeoff as the first failed certificate-guided constraint training hardgate",
+    }
+
+
+def test_c1_run_local_negative_witness_source_pointer_resolves():
+    canonical_artifact = "reports/canonical/certificate-guided-training.json"
+    canonical_payload = json.loads((runner.ROOT / canonical_artifact).read_text(encoding="utf-8"))
+    row = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+
+    assert row["source_artifact"] == canonical_artifact
+    assert _pointer_value(canonical_payload, row["source_pointer"]) == "audit-improvement-tradeoff"
+
+
+def test_c1_run_local_negative_witness_evidence_pointer_resolves():
+    canonical_payload = json.loads((runner.ROOT / "reports/canonical/certificate-guided-training.json").read_text(encoding="utf-8"))
+    row = canonical_payload["claim_capsule"]["run_local"]["negative_witness"][0]
+    evidence = _artifact_pointer_value(runner.ROOT, row["evidence_pointer"])
+
+    assert evidence["status"] == "fail"
+    assert evidence["failed_gate"] == "audit-improvement-tradeoff"
+    assert evidence["debt_delta"] < 0
+    assert evidence["benefit_delta"] < 0
+
+
+def test_c1_run_local_negative_witness_regression_test_collects():
+    import subprocess
+    import sys
+
+    nodeid = (
+        "tests/test_certificate_guided_constraint_training.py::"
+        "test_c1_run_local_negative_witness_records_audit_improvement_tradeoff"
+    )
+    result = subprocess.run(
+        [sys.executable, "-m", "pytest", "--collect-only", "-q", nodeid],
+        cwd=runner.ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0
+    assert nodeid in result.stdout
+
+
+def test_c1_run_local_negative_witness_fail_closed_pointer_contract(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    monkeypatch.setattr(runner, "NEGATIVE_WITNESS_SOURCE_POINTER", "$.hardgate.gates.C1-HG1.missing_cell")
+
+    run_local = runner._negative_witness_run_local(payload)
+    row = run_local["negative_witness"][0]
+
+    assert list(row) == list(runner.NEGATIVE_WITNESS_KEYS)
+    assert row["status"] == "blocked"
+    assert "unresolved pointer reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1.missing_cell" in row["reason"]
+    assert run_local["negative_witness_hardgates"]["status"] == "fail"
+
+
+def test_c1_run_local_negative_witness_no_terminal_verdict_leakage(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    run_local = payload["claim_capsule"]["run_local"]
+
+    assert not _recursive_key_present(run_local["negative_witness"], "terminal_verdict")
+    assert not _recursive_key_present(run_local["negative_witness_hardgates"], "terminal_verdict")
+
+
+def test_c1_run_local_negative_witness_list_shape_only(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    negative_witness = payload["claim_capsule"]["run_local"]["negative_witness"]
+
+    assert isinstance(negative_witness, list)
+    assert isinstance(_pointer_value(payload, "$.claim_capsule.run_local.negative_witness[0]"), dict)
+    assert not isinstance(negative_witness, dict)
 
 
 def test_c2_frontier_reports_feasible_non_positive_cells(monkeypatch, tmp_path):

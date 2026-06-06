@@ -685,6 +685,50 @@
     "report_artifact": "reports/canonical/certificate-guided-training.json",
     "revocable": true,
     "run_id": "certificate-guided-constraint-training",
+    "run_local": {
+      "negative_witness": [
+        {
+          "bedc_gap_field": "Positive information gap",
+          "demotion_rule": "audit-improvement-tradeoff",
+          "evidence_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1",
+          "reason": "C1-HG1 records audit-improvement-tradeoff as the first failed certificate-guided constraint training hardgate",
+          "regression_test": "tests/test_certificate_guided_constraint_training.py::test_c1_run_local_negative_witness_records_audit_improvement_tradeoff",
+          "source_artifact": "reports/canonical/certificate-guided-training.json",
+          "source_pointer": "$.hardgate.gates.C1-HG1.failed_gate",
+          "status": "fail",
+          "witness_id": "certificate-guided-constraint-training:audit-improvement-tradeoff"
+        }
+      ],
+      "negative_witness_hardgates": {
+        "failed_gates": [],
+        "gates": {
+          "NW-HG1": {
+            "evidence_pointer": "$.run_local.negative_witness.0",
+            "list_shape_ok": true,
+            "row_shape_ok": true,
+            "status": "pass"
+          },
+          "NW-HG2": {
+            "evidence_pointer": "$.hardgate.gates.C1-HG1.failed_gate",
+            "source_pointer_resolved": true,
+            "source_pointer_value": "audit-improvement-tradeoff",
+            "status": "pass"
+          },
+          "NW-HG3": {
+            "evidence_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1",
+            "evidence_pointer_resolved": true,
+            "status": "pass"
+          },
+          "NW-HG4": {
+            "evidence_pointer": "$.run_local.negative_witness.0.status",
+            "expected_status": "fail",
+            "observed_status": "fail",
+            "status": "pass"
+          }
+        },
+        "status": "pass"
+      }
+    },
     "schema_id": "bedc.quality.claim_capsule",
     "source_evidence": {
       "arm_count": 7,
