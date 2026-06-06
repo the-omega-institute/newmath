@@ -171,6 +171,48 @@ def test_claim_capsule_validates_required_cells():
         ClaimCapsule.from_payload({**payload, "schema_id": "wrong"})
 
 
+def test_claim_capsule_payload_preserves_run_local_contract():
+    run_local = {
+        "projection_kind": "fixture_run_local",
+        "owner": "claim:fixture",
+        "artifact_bundle": {
+            "claim_capsule": "reports/runs/fixture/claim_capsule.json",
+            "raw_metrics": "reports/runs/fixture/raw_metrics.jsonl",
+            "summary": "reports/runs/fixture/summary.json",
+            "report": "reports/runs/fixture/report.md",
+        },
+        "evidence_refs": [
+            {
+                "evidence_id": "fixture-evidence",
+                "source_artifact": "reports/canonical/fixture.json",
+                "source_pointer": "$.failed",
+            }
+        ],
+    }
+    payload = build_claim_capsule_payload(
+        generated_at="fixture-time",
+        claim_id="claim:fixture",
+        report="fixture-report",
+        source_artifact="reports/canonical/dimension-mismatch-debt-transfer.json",
+        source_pointer="$.dimension_mismatch_debt_transfer",
+        claim={
+            "base_level": "D4",
+            "anti_triviality_status": "scale_leakage_detected",
+            "effective_level": "DN",
+            "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
+            "terminal_verdict": "negative_discovery",
+            "hypothesis": "fixture hypothesis",
+            "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+            "what_was_learned": "fixture learned",
+        },
+        run_local=run_local,
+    )
+
+    capsule = ClaimCapsule.from_payload(payload)
+
+    assert capsule.payload["run_local"] == run_local
+
+
 def test_discovery_map_row_rejects_dn_fact_cells_and_accepts_pointer_only():
     row = {
         "report": "fixture-report",

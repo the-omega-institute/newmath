@@ -1808,6 +1808,17 @@ def _build_claim_capsule(generated_at: str) -> dict[str, Any]:
     transfer = _pointer_value(dimension, "$.dimension_mismatch_debt_transfer")
     if not isinstance(transfer, dict):
         transfer = None
+        run_local = None
+    else:
+        run_local = None
+        anti = transfer.get("anti_triviality_evidence")
+        if isinstance(anti, dict) and isinstance(anti.get("controlled_geometry"), dict):
+            try:
+                from scripts.run_dimension_mismatch_debt_transfer import build_run_local_contract
+
+                run_local = build_run_local_contract(dimension)
+            except (ImportError, KeyError, TypeError, ValueError):
+                run_local = None
     return build_claim_capsule_payload(
         generated_at=generated_at,
         claim_id="claim:dimension-mismatch-debt-transfer",
@@ -1825,6 +1836,7 @@ def _build_claim_capsule(generated_at: str) -> dict[str, Any]:
             "LLM behavior",
             "mechanism closure unless D5-M",
         ),
+        run_local=run_local,
     )
 
 
