@@ -103,12 +103,13 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 16  # lowered 2026-05-15 (later): push lock starvation observed —
-               # R6327 held lock 1076s for codex_resolve_conflicts (which
-               # runs INSIDE the lock). With 16+ contenders, flock unfairness
-               # starves P workers >600s → cooldown cascades. Cap at 12
-               # reduces waiter pool. Structural fix (move codex_resolve
-               # outside lock) deferred to next orchestrator restart.
+LEAN_MAX = 20  # raised 2026-06-07 (operator directive: raise concurrency).
+               # CPU idle (load5~1.6/8c), mem_avail ~5GB, swap <0.6GB — ample
+               # headroom. Prior cap 16 was for push-lock starvation (R6327
+               # held lock 1076s for codex_resolve INSIDE the lock; 16+
+               # contenders starve P workers). Watching for that cascade
+               # (3-consec-failures / PUSH_LOCK_STARVATION); roll back to 16
+               # if push-lock contention reappears. lean_lake left at 3 (mem).
 LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # 47% of R FAILs are `ff update of codex-auto-dev failed`
                # and 23% are `Merge failed —` — cross-process race between
@@ -132,9 +133,9 @@ PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
                 # making P plateau because root_unblocks=0 → paper_demand=10
                 # → clamp to 12 floor. With discovery HARD GATE active,
                 # 18 worker is the right cruising altitude.
-PAPER_MAX = 14  # lowered 2026-05-15 (later): same push-lock starvation —
-                # P workers wait >600s when R holds lock for codex_resolve.
-                # Cut from 25 → 10 reduces concurrent push contenders.
+PAPER_MAX = 18  # raised 2026-06-07 (operator directive: raise concurrency).
+                # See LEAN_MAX note: CPU/mem headroom available. Prior 14 was
+                # push-lock starvation mitigation; roll back if it recurs.
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2
