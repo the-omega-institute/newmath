@@ -2273,6 +2273,7 @@ def _manifest_audit(
         DISCOVERY_MAP_JSON_ARTIFACT,
         NEGATIVE_DISCOVERY_REPORTS_ARTIFACT,
         NEGATIVE_WITNESSES_ARTIFACT,
+        "reports/canonical/negative_witness_mutation_ledger.json",
         "reports/canonical/discovery_negative_witness_summary.json",
         "reports/canonical/claim_capsule.json",
         "reports/canonical/claim_graph.json",
