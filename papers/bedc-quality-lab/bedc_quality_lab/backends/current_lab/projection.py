@@ -1401,7 +1401,7 @@ def _discovery_gated_nas_consistency(payload: Mapping[str, Any]) -> tuple[bool, 
     failed = next(
         (
             name
-            for name in ("DG-NAS-HG1", "DG-NAS-HG2", "DG-NAS-HG3", "DG-NAS-HG4", "DG-NAS-HG5", "DG-NAS-HG6")
+            for name in ("DG-NAS-HG1", "DG-NAS-HG2", "DG-NAS-HG3", "DG-NAS-HG4", "DG-NAS-HG5", "DG-NAS-HG6", "DG-NAS-HG7")
             if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
         ),
         None,

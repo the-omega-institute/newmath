@@ -22,13 +22,13 @@
 | `sigreg-mini-grid` | `D2` | `` | `` | `projected` | `valid` | `$.trend_summary.expected_trend` |
 | `discovery-regularized-training` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
-| `discovery-gated-nas` | `D5-M` | `` | `` | `projected` | `valid` | `$.matched_baseline_control` |
+| `discovery-gated-nas` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
-| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
-| `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
-| `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
-| `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
-| `gap-head-mechanism-blockage` | `DN` | `` | `` | `mechanism-blockage-projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
+| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
+| `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
+| `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
+| `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
+| `gap-head-mechanism-blockage` | `DN` | `` | `` | `mechanism-blockage-projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[8]` |
 
 ## D5 readiness
 
@@ -51,7 +51,7 @@
 | `ledger-aware-transformer` | `discovery-map-signal` | `D4` | `resolved` | `reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.level_candidate` | `reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_reduction` |
 | `certificate-gated-attention` | `discovery-map-signal` | `D4` | `resolved` | `reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.level_candidate` | `reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_vs_plain_valid` |
 | `mechanism-seeking-network` | `discovery-map-signal` | `D4` | `resolved` | `reports/canonical/mechanism-seeking-network.json:$.discovery_map_signal.level_candidate` | `reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary` |
-| `discovery-gated-nas` | `discovery-map-signal` | `D5-M` | `resolved` | `reports/canonical/discovery-gated-nas.json:$.discovery_map_signal.level_candidate` | `reports/canonical/discovery-gated-nas.json:$.search_objective_summary.selected_candidate` |
+| `discovery-gated-nas` | `discovery-map-signal` | `DN` | `resolved` | `reports/canonical/discovery-gated-nas.json:$.discovery_map_signal.level_candidate` | `reports/canonical/discovery-gated-nas.json:$.hardgate.failed_gate` |
 | `gap-head-attribution-capsule` | `d5-o` | `D5-O` | `resolved` | `reports/canonical/gap_head_attribution_capsule.json:$.d5_o.status` | `reports/canonical/gap_head_attribution_capsule.json:$.d5_o` |
 | `gap-head-attribution-capsule` | `mechanism` | `blocked` | `resolved` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` |
 | `sigreg-mini-grid` | `discovery-map-signal` | `D2` | `resolved` | `reports/canonical/sigreg-mini-grid.json:$.discovery_map_signal.level_candidate` | `reports/canonical/sigreg-mini-grid.json:$.trend_summary.expected_trend` |

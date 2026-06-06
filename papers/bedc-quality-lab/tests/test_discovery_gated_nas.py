@@ -9,9 +9,12 @@ from bedc_quality_lab.discovery_gated_nas import (
     DEFAULT_CANDIDATES,
     DEFAULT_SEEDS,
     DEFAULT_SURFACES,
+    DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER,
+    DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER,
     DG_NAS_HARDGATES,
     DiscoveryGatedNasProjection,
     NEGATIVE_WITNESS_MUTATIONS,
+    design_search_certificate_hg7,
 )
 from bedc_quality_lab.backends.current_lab.projection import discovery_row, projection_payload
 from bedc_quality_lab.research_discovery import assign_discovery_level
@@ -23,8 +26,15 @@ def _payload():
     return runner.build_projection(generated_at="fixture-time")["summary_payload"]
 
 
+def _ready_payload():
+    return runner.build_projection(
+        generated_at="fixture-time",
+        design_search_certificate_slot_state="present",
+    )["summary_payload"]
+
+
 def _project_from_rows(rows):
-    base = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    base = _ready_payload()
     return DiscoveryGatedNasProjection(
         config=base["config"],
         records=rows,
@@ -45,6 +55,7 @@ def _with_recomputed_signal(payload):
             "matched_baseline_control": payload["matched_baseline_control"],
             "search_objective_summary": payload["search_objective_summary"],
             "negative_witness_mutations": payload["negative_witness_mutations"],
+            "candidate_protocol": payload["candidate_protocol"],
         }
     )
     failed = projection.failed_gate(hardgates)
@@ -133,7 +144,7 @@ def test_torch_boundary_and_device_fields():
 
 
 def test_hardgates_pointer_resolve_and_no_terminal_verdict():
-    payload = _payload()
+    payload = _ready_payload()
 
     assert tuple(payload["hardgate"]["gates"][gate]["status"] for gate in DG_NAS_HARDGATES) == ("pass",) * len(DG_NAS_HARDGATES)
     assert payload["hardgate"]["status"] == "pass"
@@ -154,7 +165,7 @@ def test_hardgates_pointer_resolve_and_no_terminal_verdict():
 
 
 def test_projection_maps_to_d5_m_with_ready_scorecard():
-    payload = _payload()
+    payload = _ready_payload()
     spec = _specs_by_name()["discovery-gated-nas"]
     context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
     projected = projection_payload(spec, payload, context)
@@ -168,7 +179,7 @@ def test_projection_maps_to_d5_m_with_ready_scorecard():
 
 
 def test_candidate_with_witness_violation_fails_hg6_when_not_demoted():
-    projection = runner.build_projection(generated_at="fixture-time")
+    projection = runner.build_projection(generated_at="fixture-time", design_search_certificate_slot_state="present")
     payload = projection["summary_payload"]
     broken = {
         **payload["negative_witness_mutations"],
@@ -192,7 +203,7 @@ def test_candidate_with_witness_violation_fails_hg6_when_not_demoted():
 
 
 def test_hg1_fails_closed_without_parameter_matched_baseline_rows():
-    projection = runner.build_projection(generated_at="fixture-time")
+    projection = runner.build_projection(generated_at="fixture-time", design_search_certificate_slot_state="present")
     rows = [row for row in projection["raw_rows"] if row.get("arm") != "parameter_matched_baseline"]
     payload = _project_from_rows(rows)
 
@@ -200,7 +211,7 @@ def test_hg1_fails_closed_without_parameter_matched_baseline_rows():
 
 
 def test_hg2_fails_closed_without_compute_matched_baseline_rows():
-    projection = runner.build_projection(generated_at="fixture-time")
+    projection = runner.build_projection(generated_at="fixture-time", design_search_certificate_slot_state="present")
     rows = [row for row in projection["raw_rows"] if row.get("arm") != "compute_matched_baseline"]
     payload = _project_from_rows(rows)
 
@@ -208,7 +219,7 @@ def test_hg2_fails_closed_without_compute_matched_baseline_rows():
 
 
 def test_hg3_fails_closed_without_selected_classifier_shift():
-    projection = runner.build_projection(generated_at="fixture-time")
+    projection = runner.build_projection(generated_at="fixture-time", design_search_certificate_slot_state="present")
     rows = [
         {**row, "classifier_shift_count": 0, "discovery_bonus": 0.0}
         if row.get("candidate_id") == "bounded_discovery_gate" and row.get("arm") == "candidate"
@@ -221,7 +232,7 @@ def test_hg3_fails_closed_without_selected_classifier_shift():
 
 
 def test_hg4_fails_closed_without_multi_surface_robustness():
-    payload = _payload()
+    payload = _ready_payload()
     selected = {
         **payload["search_objective_summary"]["selected_candidate"],
         "multi_surface_robust": False,
@@ -239,7 +250,7 @@ def test_hg4_fails_closed_without_multi_surface_robustness():
 
 
 def test_hg5_fails_closed_without_mechanism_certificate():
-    payload = _payload()
+    payload = _ready_payload()
     selected = {
         **payload["search_objective_summary"]["selected_candidate"],
         "mechanism_certificate": False,
@@ -280,7 +291,7 @@ def test_forbidden_positive_claim_term_demotes_to_dn(monkeypatch):
         },
     )
 
-    projected = runner.build_projection(generated_at="fixture-time")
+    projected = runner.build_projection(generated_at="fixture-time", design_search_certificate_slot_state="present")
     payload = projected["summary_payload"]
 
     assert payload["claim_capsule_status"] == "failed"
@@ -296,7 +307,7 @@ def test_forbidden_positive_claim_term_demotes_to_dn(monkeypatch):
 
 
 def test_negative_dg_nas_projection_maps_failed_hardgate_to_dn_row():
-    projection = runner.build_projection(generated_at="fixture-time")
+    projection = runner.build_projection(generated_at="fixture-time", design_search_certificate_slot_state="present")
     rows = [row for row in projection["raw_rows"] if row.get("arm") != "parameter_matched_baseline"]
     payload = _project_from_rows(rows)
     spec = _specs_by_name()["discovery-gated-nas"]
@@ -330,7 +341,68 @@ def test_runner_writes_pointer_resolvable_artifacts(tmp_path):
     projection = runner.build_projection(generated_at="fixture-time")
     runner.write_artifacts(projection, root=tmp_path)
     payload = json.loads((tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8"))
+    rewritten = json.loads(json.dumps(payload))
 
     assert payload["source_artifacts"]["raw_rows"] == payload["run_artifacts"]["raw_metrics"]
     assert (tmp_path / payload["run_artifacts"]["raw_metrics"]).exists()
+    assert set(rewritten) == set(payload)
+    assert rewritten["candidate_protocol"]["design_search_certificate"] == payload["candidate_protocol"]["design_search_certificate"]
     assert pointer_value(payload, "$.search_objective_summary.selected_candidate") is not None
+    assert payload["candidate_protocol"]["design_search_certificate"] == {
+        "owner_pointer": DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER,
+        "slot_state": "present-but-fail-closed",
+    }
+    assert pointer_value(payload, DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER) == payload["candidate_protocol"]["design_search_certificate"]
+    assert payload["hardgate"]["gates"]["DG-NAS-HG7"]["status"] == "fail"
+
+
+@pytest.mark.parametrize(
+    ("slot_state", "expected_status"),
+    [
+        ("present", "pass"),
+        ("present-but-fail-closed", "fail"),
+        ("negative", "fail"),
+    ],
+)
+def test_design_search_certificate_slot_state_drives_hg7(slot_state, expected_status):
+    payload = runner.build_projection(
+        generated_at="fixture-time",
+        design_search_certificate_slot_state=slot_state,
+    )["summary_payload"]
+
+    assert payload["candidate_protocol"]["design_search_certificate"]["slot_state"] == slot_state
+    assert payload["hardgate"]["gates"]["DG-NAS-HG7"]["status"] == expected_status
+    assert payload["hardgate"]["gates"]["DG-NAS-HG7"]["slot_state"] == slot_state
+
+
+def test_design_search_certificate_fails_closed_when_pointer_dangles():
+    payload = runner.build_projection(
+        generated_at="fixture-time",
+        design_search_certificate_slot_state="present",
+        design_search_certificate_owner_pointer="reports/canonical/discovery-gated-nas.json:$.missing_certificate",
+    )["summary_payload"]
+
+    gate = payload["hardgate"]["gates"]["DG-NAS-HG7"]
+    assert gate["status"] == "fail"
+    assert gate["slot_state"] == "present-but-fail-closed"
+    assert payload["hardgate"]["failed_gate"] == "DG-NAS-HG7"
+    assert payload["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.DG-NAS-HG7.status"
+
+
+def test_design_search_certificate_hg7_normalizes_malformed_slot():
+    payload = {"candidate_protocol": {"design_search_certificate": {"slot_state": "present"}}}
+    gate = design_search_certificate_hg7(payload)
+
+    assert gate["status"] == "fail"
+    assert gate["slot_state"] == "present-but-fail-closed"
+
+
+def test_recursive_forbidden_key_validator_rejects_nested_terminal_verdict(monkeypatch):
+    monkeypatch.setattr(
+        dgn,
+        "_revocation_rows",
+        lambda failed_gate: [{"nested": {"terminal_verdict": "forbidden"}, "failed_gate": failed_gate}],
+    )
+
+    with pytest.raises(ValueError, match="forbidden keys"):
+        runner.build_projection(generated_at="fixture-time")

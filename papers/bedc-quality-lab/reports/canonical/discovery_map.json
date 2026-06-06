@@ -58,9 +58,9 @@
         "surface_id": "discovery-map-signal"
       },
       {
-        "coverage_level": "D5-M",
+        "coverage_level": "DN",
         "discovery_map_row_pointer": "reports/canonical/discovery_map.json:$.rows[17]",
-        "evidence_pointer": "$.search_objective_summary.selected_candidate",
+        "evidence_pointer": "$.hardgate.failed_gate",
         "hardgate_pointer": "$.hardgate.status",
         "model_id": "discovery-gated-nas",
         "pointer_status": "resolved",
@@ -239,9 +239,9 @@
     "D2": 1,
     "D3": 0,
     "D4": 5,
-    "D5-M": 1,
+    "D5-M": 0,
     "D5-O": 2,
-    "DN": 8,
+    "DN": 9,
     "DR": 0
   },
   "manifest_audit": {
@@ -598,24 +598,13 @@
     {
       "audit_reason": "",
       "audit_status": "valid",
-      "classifier_reasons": [
-        "positive_terminal=true",
-        "classifier_shift=true",
-        "net_positive_signal=true",
-        "control_negative=true",
-        "scorecard_ready=true",
-        "robustness_ready=true",
-        "mechanism_ready=true"
-      ],
-      "control_pointer": "$.matched_baseline_control",
-      "discovery_level": "D5-M",
-      "evidence_pointer": "$.search_objective_summary.selected_candidate",
+      "discovery_level": "DN",
+      "evidence_pointer": null,
       "json_artifact": "reports/canonical/discovery-gated-nas.json",
       "markdown_artifact": "reports/canonical/discovery-gated-nas.md",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[3]",
       "projection_status": "projected",
-      "report": "discovery-gated-nas",
-      "scorecard_pointer": "reports/canonical/quality-scorecard.json:$.rows",
-      "terminal_verdict": ""
+      "report": "discovery-gated-nas"
     },
     {
       "audit_reason": "",
@@ -638,7 +627,7 @@
       "evidence_pointer": null,
       "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
       "markdown_artifact": "reports/canonical/spectral-ablation-hinge.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[3]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
       "projection_status": "projected",
       "report": "spectral-ablation-hinge"
     },
@@ -649,7 +638,7 @@
       "evidence_pointer": "$.dimension_mismatch_debt_transfer.effective_level",
       "json_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
       "markdown_artifact": "reports/canonical/dimension-mismatch-debt-transfer.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5]",
       "projection_status": "projected",
       "report": "dimension-mismatch-debt-transfer"
     },
@@ -660,7 +649,7 @@
       "evidence_pointer": "$.single_threshold_basis",
       "json_artifact": "runs/single_threshold_escape_witness.json",
       "markdown_artifact": "runs/single_threshold_escape_witness.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6]",
       "projection_status": "escaped-positive-captured",
       "report": "single-threshold-escape"
     },
@@ -671,7 +660,7 @@
       "evidence_pointer": "$.boundary_ledger",
       "json_artifact": "runs/training_choice_observability.json",
       "markdown_artifact": "runs/training_choice_observability.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[7]",
       "projection_status": "pointer-only",
       "report": "training-choice-observability"
     },
@@ -682,7 +671,7 @@
       "evidence_pointer": "$.mechanism_evidence",
       "json_artifact": "reports/canonical/gap_head_attribution_capsule.json",
       "markdown_artifact": "reports/canonical/gap_head_attribution_capsule.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[7]",
+      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[8]",
       "projection_status": "mechanism-blockage-projected",
       "report": "gap-head-mechanism-blockage"
     }

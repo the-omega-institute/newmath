@@ -30,7 +30,12 @@ DEFAULT_ARMS = ("candidate", "parameter_matched_baseline", "compute_matched_base
 TORCH_CANDIDATES = ("control_separated_route", "multi_surface_mechanism_packet")
 TORCH_SEEDS = (19, 31)
 DRIFT_TOLERANCE = 1.0e-5
-DG_NAS_HARDGATES = tuple(f"DG-NAS-HG{index}" for index in range(1, 7))
+DG_NAS_HARDGATES = tuple(f"DG-NAS-HG{index}" for index in range(1, 8))
+DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER = "$.candidate_protocol.design_search_certificate"
+DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER = (
+    "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate"
+)
+DESIGN_SEARCH_CERTIFICATE_SLOT_STATES = frozenset({"present", "present-but-fail-closed", "negative"})
 FORBIDDEN_SUMMARY_ALIASES = (
     "terminal_verdict",
     "standalone_verdict",
@@ -123,6 +128,68 @@ def _has_recursive_key(value: Any, key: str) -> bool:
     if isinstance(value, (list, tuple)):
         return any(_has_recursive_key(item, key) for item in value)
     return False
+
+
+def _recursive_forbidden_keys(value: Any, forbidden: frozenset[str]) -> set[str]:
+    found: set[str] = set()
+    if isinstance(value, Mapping):
+        for key, item in value.items():
+            if isinstance(key, str) and key in forbidden:
+                found.add(key)
+            found.update(_recursive_forbidden_keys(item, forbidden))
+    elif isinstance(value, (list, tuple)):
+        for item in value:
+            found.update(_recursive_forbidden_keys(item, forbidden))
+    return found
+
+
+def _pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
+    if pointer is None or not pointer.startswith("$."):
+        return None
+    cursor: Any = payload
+    for part in pointer[2:].split("."):
+        if isinstance(cursor, Mapping) and part in cursor:
+            cursor = cursor[part]
+        else:
+            return None
+    return cursor
+
+
+def _artifact_pointer_resolves_to_slot(payload: Mapping[str, Any], pointer: str | None) -> bool:
+    if pointer == DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER:
+        return _pointer_value(payload, DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER) is not None
+    if isinstance(pointer, str) and pointer.startswith("$"):
+        return _pointer_value(payload, pointer) is not None
+    return False
+
+
+def _normalize_design_search_certificate_slot(payload: Mapping[str, Any], slot: Any) -> dict[str, str]:
+    fallback = {
+        "owner_pointer": DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER,
+        "slot_state": "present-but-fail-closed",
+    }
+    if not isinstance(slot, Mapping):
+        return fallback
+    owner_pointer = slot.get("owner_pointer")
+    slot_state = slot.get("slot_state")
+    if not isinstance(owner_pointer, str) or not owner_pointer:
+        return fallback
+    if slot_state not in DESIGN_SEARCH_CERTIFICATE_SLOT_STATES:
+        return {"owner_pointer": owner_pointer, "slot_state": "present-but-fail-closed"}
+    if not _artifact_pointer_resolves_to_slot(payload, owner_pointer):
+        return {"owner_pointer": owner_pointer, "slot_state": "present-but-fail-closed"}
+    return {"owner_pointer": owner_pointer, "slot_state": str(slot_state)}
+
+
+def design_search_certificate_hg7(payload: Mapping[str, Any]) -> dict[str, Any]:
+    slot = _normalize_design_search_certificate_slot(payload, _pointer_value(payload, DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER))
+    return {
+        "status": _status(slot["slot_state"] == "present"),
+        "evidence": "HG7 replay readiness requires the design-search certificate pointer slot to be present.",
+        "evidence_pointer": DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER,
+        "slot_state": slot["slot_state"],
+        "owner_pointer": slot["owner_pointer"],
+    }
 
 
 def _without_pointer_fields(value: Any) -> Any:
@@ -268,6 +335,12 @@ class DiscoveryGatedNasProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "forbidden_claim_term_audit": capsule["forbidden_claim_term_audit"],
         }
+        forbidden_keys = _recursive_forbidden_keys(summary, frozenset({"terminal_verdict", "standalone_verdict", "private_row_carrier"}))
+        forbidden_keys.update(
+            _recursive_forbidden_keys(capsule, frozenset({"terminal_verdict", "standalone_verdict", "private_row_carrier"}))
+        )
+        if forbidden_keys:
+            raise ValueError(f"discovery-gated NAS summary emitted forbidden keys: {sorted(forbidden_keys)}")
         if any(alias in summary for alias in FORBIDDEN_SUMMARY_ALIASES):
             raise ValueError("discovery-gated NAS summary emitted a forbidden alias")
         if _has_recursive_key(summary, "terminal_verdict") or _has_recursive_key(capsule, "terminal_verdict"):
@@ -290,6 +363,7 @@ class DiscoveryGatedNasProjection:
         baseline = summaries["matched_baseline_control"]
         objective = summaries["search_objective_summary"]
         mutations = summaries["negative_witness_mutations"]
+        payload = {"candidate_protocol": summaries["candidate_protocol"]}
         return {
             "DG-NAS-HG1": {
                 "status": _status(bool(baseline["parameter_matched_present"])),
@@ -321,6 +395,7 @@ class DiscoveryGatedNasProjection:
                 "evidence": "Any witness violation must demote the candidate.",
                 "evidence_pointer": "$.negative_witness_mutations",
             },
+            "DG-NAS-HG7": design_search_certificate_hg7(payload),
         }
 
     def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -542,6 +617,20 @@ class DiscoveryGatedNasProjection:
                     "bounded_optional": True,
                     "evidence_pointer": "$.torch_nas_evidence",
                 },
+                "design_search_certificate": {
+                    "owner_pointer": str(
+                        config.get(
+                            "design_search_certificate_owner_pointer",
+                            DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER,
+                        )
+                    ),
+                    "slot_state": str(
+                        config.get(
+                            "design_search_certificate_slot_state",
+                            "present-but-fail-closed",
+                        )
+                    ),
+                },
             },
             "device_protocol": {
                 "requested_device": str(config.get("requested_device", "auto")),
@@ -630,11 +719,15 @@ __all__ = [
     "DEFAULT_SURFACES",
     "DG_NAS_HARDGATES",
     "DRIFT_TOLERANCE",
+    "DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER",
+    "DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER",
+    "DESIGN_SEARCH_CERTIFICATE_SLOT_STATES",
     "DiscoveryGatedNasProjection",
     "NEGATIVE_WITNESS_MUTATIONS",
     "SCHEMA_ID",
     "TORCH_CANDIDATES",
     "TORCH_SEEDS",
     "TorchNasArmProtocol",
+    "design_search_certificate_hg7",
     "default_grid",
 ]

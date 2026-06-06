@@ -86,7 +86,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/negative_discovery_reports.json`
 - Markdown: `reports/canonical/negative_discovery_reports.md`
-- Rows: `8`
+- Rows: `9`
 - Audit: `pass`
 
 ## Negative witness mutation ledger
@@ -149,7 +149,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witness_summary.json`
 - Markdown: `reports/canonical/discovery_negative_witness_summary.md`
-- Rows: `16`
+- Rows: `17`
 - Audit: `pass`
 
 ## Formal hardening

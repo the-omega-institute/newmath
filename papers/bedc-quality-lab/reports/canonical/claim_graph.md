@@ -40,11 +40,11 @@
 | `projected:discovery-regularized-training` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[15]` | `raw:discovery-regularized-training` |
 | `raw:mechanism-seeking-network` | `raw_evidence` | `reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary` |  |
 | `projected:mechanism-seeking-network` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[16]` | `raw:mechanism-seeking-network` |
-| `raw:discovery-gated-nas` | `raw_evidence` | `reports/canonical/discovery-gated-nas.json:$.search_objective_summary.selected_candidate` |  |
+| `raw:discovery-gated-nas` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |  |
 | `projected:discovery-gated-nas` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[17]` | `raw:discovery-gated-nas` |
 | `raw:lejepa-theorem-ledger` | `raw_evidence` | `reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows` |  |
 | `projected:lejepa-theorem-ledger` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[18]` | `raw:lejepa-theorem-ledger` |
-| `raw:spectral-ablation-hinge` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |  |
+| `raw:spectral-ablation-hinge` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |  |
 | `projected:spectral-ablation-hinge` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[19]` | `raw:spectral-ablation-hinge` |
 | `raw:dimension-mismatch-debt-transfer` | `raw_evidence` | `reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.effective_level` |  |
 | `projected:dimension-mismatch-debt-transfer` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[20]` | `raw:dimension-mismatch-debt-transfer` |
