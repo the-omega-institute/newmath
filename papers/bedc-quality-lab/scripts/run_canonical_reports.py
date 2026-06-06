@@ -1814,9 +1814,20 @@ def _build_claim_capsule(generated_at: str) -> dict[str, Any]:
         anti = transfer.get("anti_triviality_evidence")
         if isinstance(anti, dict) and isinstance(anti.get("controlled_geometry"), dict):
             try:
-                from scripts.run_dimension_mismatch_debt_transfer import build_run_local_contract
+                from scripts.run_dimension_mismatch_debt_transfer import (
+                    RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+                    build_run_local_contract,
+                )
 
                 run_local = build_run_local_contract(dimension)
+                run_local["negative_witness"] = {
+                    "artifact": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+                    "pointer": "$.run_local.negative_witness",
+                }
+                run_local["negative_witness_hardgates"] = {
+                    "artifact": RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT,
+                    "pointer": "$.run_local.negative_witness_hardgates",
+                }
             except (ImportError, KeyError, TypeError, ValueError):
                 run_local = None
     return build_claim_capsule_payload(

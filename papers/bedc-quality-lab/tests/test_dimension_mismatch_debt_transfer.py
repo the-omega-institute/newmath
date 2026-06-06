@@ -411,6 +411,24 @@ def test_dimension_mismatch_run_local_bundle_owned_by_debt_transfer_capsule_run_
     assert {row["metric"] for row in raw_metrics} >= {"canonical-claim", "boundary-ledger", "B2-HG1"}
 
 
+def test_dimension_mismatch_producer_rewrite_is_stable_with_fixed_timestamp(monkeypatch, tmp_path):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path)
+
+    transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+    artifacts = _generated_run_artifacts(tmp_path)
+    first = {name: path.read_bytes() for name, path in artifacts.items()}
+    first_capsule = _read_json(artifacts["claim_capsule"])
+    assert first_capsule["run_local"]["negative_witness"]
+    assert first_capsule["run_local"]["negative_witness_hardgates"]
+
+    transfer.write_dimension_mismatch_debt_transfer(root=tmp_path, generated_at="fixture-time")
+
+    assert {name: path.read_bytes() for name, path in artifacts.items()} == first
+
+
 def test_dimension_mismatch_summary_points_to_capsule_run_local_contract(monkeypatch, tmp_path):
     _patch_matrix(monkeypatch)
     monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})

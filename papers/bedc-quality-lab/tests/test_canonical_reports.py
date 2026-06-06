@@ -2372,6 +2372,27 @@ def test_canonical_claim_capsule_includes_dimension_mismatch_run_local_contract(
         assert pointer_value(source, row["source_pointer"]) is not None
 
 
+def test_canonical_claim_capsule_points_to_negative_witness_owner():
+    capsule = canonical._build_claim_capsule("fixture-time")
+    run_local = capsule["run_local"]
+    owner_ref = {
+        "artifact": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+        "pointer": "$.run_local.negative_witness",
+    }
+    hardgate_ref = {
+        "artifact": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+        "pointer": "$.run_local.negative_witness_hardgates",
+    }
+    owner = json.loads((canonical.ROOT / owner_ref["artifact"]).read_text(encoding="utf-8"))
+
+    assert run_local["negative_witness"] == owner_ref
+    assert run_local["negative_witness_hardgates"] == hardgate_ref
+    assert pointer_value(owner, owner_ref["pointer"]) is not None
+    assert pointer_value(owner, hardgate_ref["pointer"]) is not None
+    assert isinstance(pointer_value(owner, owner_ref["pointer"]), list)
+    assert isinstance(pointer_value(owner, hardgate_ref["pointer"]), dict)
+
+
 def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
     old_root = canonical.ROOT
     old_dir = canonical.CANONICAL_DIR
