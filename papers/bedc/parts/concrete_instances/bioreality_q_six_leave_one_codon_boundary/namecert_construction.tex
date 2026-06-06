@@ -1,84 +1,69 @@
 \chapter{BioReality Q-Six Leave-One-Codon Boundary NameCert Construction}
 \label{ch:concrete-instances-bioreality_q_six_leave_one_codon_boundary-namecert}
-\origin{human}
+\origin{ai}
 
-The BioRealityQSixLeaveOneCodonBoundary packet records a finite leave-one-codon boundary observation for the claim h1.leave.one.codon.out. Its role is deliberately narrow. It stores the displayed boundary counts, closure-coverage count, predictable-count reading, and recovery readings as finite NameCert coordinates; it does not turn those readings into a universal genetic-code theorem, a hidden codon-effect table, or a biological mechanism.
-
-\begin{definition}[BioReality Q-six leave-one-codon boundary carrier]
-\label{def:bioreality-q-six-leave-one-codon-boundary-carrier}
-A BioRealityQSixLeaveOneCodonBoundary carrier is a finite packet
-$$
-\begin{aligned}
-B=(A,D,H,P,R,T)
-\end{aligned}
-$$
-whose public coordinates are fixed by
-$$
-\begin{aligned}
-A&=0, & D&=5, & H&=8,\\
-P&=8, & R&=1.0, & T&=1.0.
-\end{aligned}
-$$
-Here $A$ is the anchor-count row, $D$ is the boundary-count row, $H$ is the high-coverage closure row, $P$ is the predictable-count row, $R$ is the recovery-rate row, and $T$ is the above-threshold recovery-rate row.
-\end{definition}
-
-The packet is therefore not an anchor certificate. The anchor side is empty because $A=0$, while the boundary side is nonempty because $D=5$. The NameCert content is the five-boundary-point observation under leave-one-codon removal, together with the two eight-count rows and the two total-recovery rows. Nothing in the carrier records a codon identity list, a p-value, or a generator that extrapolates beyond these six displayed coordinates.
-
-\begin{definition}[Leave-one-codon boundary profile]
-\label{def:bioreality-q-six-leave-one-codon-boundary-profile}
-The boundary profile of a BioRealityQSixLeaveOneCodonBoundary packet is the ordered tuple
+The BioReality Q-six leave-one-codon boundary packet certifies a finite boundary phenomenon for the claim family \texttt{h1.leave.one.codon.out}. The carrier named \texttt{BioRealityQSixLeaveOneCodonBoundary} records a closed observation in which the leave-one-codon probe has no anchor rows, has five boundary rows, and still preserves a full recovery reading on the measured recovery axis. This is not a generic biological plausibility assertion: the packet is pinned to the numerical shape
 $$
 \begin{gathered}
-(\text{anchor count},\text{boundary count},\text{high closure coverage},\text{predictable count},\text{recovery rate},\text{threshold recovery})\\
-=(0,5,8,8,1.0,1.0).
+A=0,\qquad B=5,\qquad P=8,\\
+C_{\mathrm{high}}=8,\qquad R=1.0,\qquad R_{\mathrm{threshold}}=1.0.
 \end{gathered}
 $$
-It is boundary-realized when the boundary count is positive and the recovery coordinate is total. The displayed packet is boundary-realized because $5>0$ and $1.0=1$.
+Here $A$ is the anchor count, $B$ is the boundary count, $P$ is the predictable count, $C_{\mathrm{high}}$ is the high closure coverage count, $R$ is the observed recovery rate, and $R_{\mathrm{threshold}}$ is the threshold-side recovery certificate. The NameCert content therefore asserts a boundary certificate rather than an anchor certificate: the observed anchor side is empty, while the boundary side contains five certified rows.
+
+\falsifiablePrediction{Repeating the same leave-one-codon boundary extraction on the certified carrier must again return $A=0$, $B=5$, $P=8$, $C_{\mathrm{high}}=8$, and recovery values $R=1.0$ and $R_{\mathrm{threshold}}=1.0$. Any nonzero anchor count, any boundary count other than five, or any recovery rate below $1.0$ falsifies this packet as stated.}
+
+\independenceWitness{The packet separates the boundary claim from an anchor-backed explanation: the certified anchor count is $0$ while the certified boundary count is $5$. Thus the recovery reading is witnessed without importing an anchor row, and the high closure coverage count $8$ is recorded as a finite coverage fact rather than as evidence for an omitted anchor population.}
+
+\begin{definition}[Leave-one-codon boundary carrier]
+A \emph{BioReality Q-six leave-one-codon boundary carrier} is a finite certificate tuple
+$$
+\begin{aligned}
+\mathcal{B}=(A,B,P,C_{\mathrm{high}},R,R_{\mathrm{threshold}})
+\end{aligned}
+$$
+with the certified values
+$$
+\begin{aligned}
+A&=0, & B&=5, & P&=8,\\
+C_{\mathrm{high}}&=8, & R&=1.0, & R_{\mathrm{threshold}}&=1.0.
+\end{aligned}
+$$
+The carrier is read as a finite NameCert boundary witness for the leave-one-codon claim: no anchor row is present, five boundary rows are present, eight predictable rows are present, and all eight high-coverage rows remain inside the certified closure account.
 \end{definition}
 
-The two eight-count readings are separate rows. The high-coverage closure coordinate is $8$, and the predictable-count coordinate is also $8$. The equality $H=P=8$ is an internal finite-balance reading of this packet. It is not a statement that every possible codon deletion has been inspected, nor a statement that a missing codon name can be recovered from the packet.
-
-\begin{theorem}[Finite leave-one-codon boundary witness]
-\label{thm:bioreality-q-six-leave-one-codon-boundary-witness}
-Every accepted BioRealityQSixLeaveOneCodonBoundary carrier displays no anchors, five boundary points, eight high-coverage closure points, eight predictable points, total recovery, and total above-threshold recovery.
+\begin{theorem}[Boundary without anchor support]
+For the BioReality Q-six leave-one-codon boundary carrier, the boundary side is nonempty while the anchor side is empty.
 \end{theorem}
 
 \begin{proof}
-Project the carrier of \autoref{def:bioreality-q-six-leave-one-codon-boundary-carrier}. Its six public coordinates are
-$$
-\begin{aligned}
-A&=0, & D&=5, & H&=8,\\
-P&=8, & R&=1.0, & T&=1.0.
-\end{aligned}
-$$
-The absence of anchors is exactly $A=0$. The boundary is nonempty and has size five because $D=5$. The closure-coverage and predictable rows have the common finite size eight because $H=8$ and $P=8$. The recovery side is total before and after the threshold filter because $R=1.0$ and $T=1.0$. These are coordinate equalities inside the finite packet, so the witness is exactly the stated finite NameCert surface.
+By the carrier definition, $A=0$ and $B=5$. Since $5$ is nonzero, the boundary side is nonempty. Since the anchor count is exactly $0$, no anchor row is present. These two equalities establish the asserted separation.
 \end{proof}
 
-\begin{theorem}[Threshold-stable recovery row]
-\label{thm:bioreality-q-six-leave-one-codon-threshold-stable-recovery}
-For BioRealityQSixLeaveOneCodonBoundary, the recovery-rate row and the above-threshold recovery-rate row coincide at total recovery.
+\begin{theorem}[Full recovery is recorded on the certified boundary packet]
+The carrier records full recovery on both the observed recovery coordinate and the threshold-side recovery coordinate.
 \end{theorem}
 
 \begin{proof}
-The carrier includes the two recovery coordinates $R$ and $T$. By definition of the displayed packet,
-$$
-\begin{aligned}
-R=T=1.0.
-\end{aligned}
-$$
-The conclusion is only this equality of finite packet rows. No threshold distribution, p-value, codon identity list, or external biological model is introduced.
+The defining tuple contains $R=1.0$ and $R_{\mathrm{threshold}}=1.0$. Hence the recovery reading and the threshold-side recovery certificate are both full in the finite record.
 \end{proof}
 
-\falsifiablePrediction{A BioRealityQSixLeaveOneCodonBoundary packet that exposes a positive anchor count, a boundary count other than $5$, a high-coverage closure count other than $8$, a predictable count other than $8$, or a recovery coordinate below $1.0$ refutes this carrier surface.}
+\begin{theorem}[Predictable rows match high closure coverage]
+The predictable count and the high closure coverage count agree on the carrier.
+\end{theorem}
 
-\independenceWitness{anchor row, boundary row, closure-coverage row, predictable-count row, recovery row, threshold-recovery row: BioRealityQSixLeaveOneCodonBoundary is not reducible to any one of these rows because the certificate jointly records $0$ anchors, $5$ boundary points, two finite $8$-count readings, and the two total recovery readings $1.0$ and $1.0$.}
+\begin{proof}
+The carrier definition gives $P=8$ and $C_{\mathrm{high}}=8$. Therefore $P=C_{\mathrm{high}}$, so the predictable rows match the high closure coverage rows in the certified finite account.
+\end{proof}
+
+The certified shape is intentionally asymmetric. The packet does not claim that anchors are missing because of biological impossibility, sampling design, or codon-level causal structure. It only records that this NameCert instance has anchor count $0$ and boundary count $5$ under the certified extraction. The equal recovery values $R=1.0$ and $R_{\mathrm{threshold}}=1.0$ are therefore part of the boundary certificate itself, not a license to infer an unobserved anchor mechanism.
 
 \begin{closurestatus}{BioRealityQSixLeaveOneCodonBoundary}
-  \constructivestory{A BioRealityQSixLeaveOneCodonBoundary packet is generated from six finite rows: anchor count $0$, boundary count $5$, high-coverage closure count $8$, predictable count $8$, recovery rate $1.0$, and above-threshold recovery rate $1.0$, with componentwise packet comparison, displayed replay, provenance, and local naming restricted to those rows.}
+  \constructivestory{The chapter constructs a finite boundary NameCert carrier from the certified tuple with anchor count $0$, boundary count $5$, predictable count $8$, high closure coverage $8$, recovery rate $1.0$, and threshold-side recovery rate $1.0$.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{This chapter closes the finite NameCert reading of BioRealityQSixLeaveOneCodonBoundary as a zero-anchor, five-boundary, eight-coverage, eight-predictable, total-recovery packet for h1.leave.one.codon.out.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{Closed only for the finite leave-one-codon boundary certificate encoded by the displayed six-coordinate carrier.}
+  \formalstatus{\unformalized}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim a codon identity list, a p-value, a biological mechanism, a universal genetic-code law, a hidden threshold distribution, Lean verification, or a bridge-checked external model.}
-  \upgradepath{Obligation closure requires a formal carrier for the six displayed coordinates, checked componentwise transport, checked replay and provenance rows, and explicit external data if codon identities, threshold semantics, or statistical significance are to be claimed.}
+  \notclaimed{No codon list, p-value, causal biological mechanism, external replication claim, or Lean-side theorem is asserted here.}
+  \upgradepath{A stronger closure level would require a separately supplied codon-level table, an explicit bridge from the extraction protocol to the carrier fields, and a formal proof target for the finite certificate.}
 \end{closurestatus}
