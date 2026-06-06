@@ -223,6 +223,22 @@ def test_c1_capsule_write_is_stable_across_repeated_writes(monkeypatch, tmp_path
     assert canonical_payload["claim_capsule"] == sidecar_payload
 
 
+def test_c1_regeneration_reuses_existing_generated_at(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+    capsule_path = tmp_path / runner._capsule_path("fixture-c1")
+    canonical_path = tmp_path / runner.JSON_ARTIFACT
+    capsule_path.parent.mkdir(parents=True, exist_ok=True)
+    canonical_path.parent.mkdir(parents=True, exist_ok=True)
+    capsule_path.write_text(json.dumps({"generated_at": "2035-01-02T03:04:05+00:00"}) + "\n", encoding="utf-8")
+    canonical_path.write_text(json.dumps({"generated_at": "2030-01-02T03:04:05+00:00"}) + "\n", encoding="utf-8")
+
+    assert runner._reusable_generated_at("fixture-c1") == "2035-01-02T03:04:05+00:00"
+
+    capsule_path.unlink()
+
+    assert runner._reusable_generated_at("fixture-c1") == "2030-01-02T03:04:05+00:00"
+
+
 def test_c1_hardgates_record_tradeoff_dn_and_control(monkeypatch, tmp_path):
     payload = _patched_payload(monkeypatch, tmp_path)
     gates = payload["hardgate"]["gates"]

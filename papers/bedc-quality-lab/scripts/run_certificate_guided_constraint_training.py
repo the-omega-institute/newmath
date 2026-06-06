@@ -903,7 +903,7 @@ def _c2_witness(constraint_rows: list[dict[str, Any]]) -> dict[str, Any] | None:
     return None
 
 
-def _c2_follow_up_training_replay(payload: dict[str, Any], marked_grid_records: list[dict[str, Any]], records: list[dict[str, Any]]) -> dict[str, Any]:
+def _c2_follow_up_training_replay(marked_grid_records: list[dict[str, Any]], records: list[dict[str, Any]]) -> dict[str, Any]:
     return {
         "mode": "same-owner-replay",
         "producer": PRODUCER,
@@ -997,7 +997,7 @@ def _c2_frontier(
         "grid_summary_record_count": len(grid_records),
         "frontier_summary": _c2_frontier_summary(constraint_rows),
         "feasible_non_positive_witness": _c2_witness(constraint_rows),
-        "follow_up_training_replay": _c2_follow_up_training_replay(payload, marked_grid_records, records),
+        "follow_up_training_replay": _c2_follow_up_training_replay(marked_grid_records, records),
         "issue_alias": _issue_alias_metadata(),
     }
     frontier["hardgates"] = _c2_hardgates(payload, frontier)
