@@ -1,0 +1,28 @@
+\origin{ai}
+\subsection{Measured ribosome-profiling translation-efficiency survival of $B^{*}_{Q6}$ residual coordinates}
+\label{subsec:biorality-q6-ribosome-te-survival-measured-powered}
+
+\paragraph{Finite carrier and readout.}
+This record tests a finite table whose rows are coding sequences joined to organism-matched ribosome-profiling translation-efficiency measurements.  The residual-coordinate side consists of the nine $B^{*}_{Q6}$ coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN\_vs\_UUR}$, $Leu_{UUA\_vs\_UUG}$, $Ser_{UCR\_vs\_AGY}$, $Ser_{UCA\_vs\_UCG}$, $Thr_{ACR\_vs\_ACY}$, and $f3\_stress$.  The measured response is $\log_{10}(TE)$, with $TE$ read in the source rows as ribosome footprint divided by matched mRNA abundance.  Thus the response is already normalized by the paired transcript measurement, and the test keeps the mRNA pairing inside the bounded translation-efficiency contact rather than treating transcript abundance as an independent downstream outcome.
+
+\paragraph{Controlled survival statistic.}
+For each organism, the design residualizes the measured $TE$ response and the nine residual coordinates against the declared covariate block $Z$: amino-acid composition, GC3, CDS length, $M$-density, organism matching, and the matched mRNA boundary required for the ribosome-efficiency readout.  Survival is admitted only when the residualized $B^{*}_{Q6}$ block keeps nonzero rank and improves the controlled measured-TE fit above the positive threshold $10^{-12}$.  The statistic reported here is the controlled measured-TE partial coefficient of determination, denoted $R^{2}_{QT,meas}$:
+$$
+\begin{aligned}
+R^{2}_{QT,meas}(\textit{E. coli K12 MG1655}) &= 0.009394266754822262,\\
+R^{2}_{QT,meas}(\textit{S. cerevisiae}) &= 0.13681931343730436.
+\end{aligned}
+$$
+Both values are positive under the stated threshold, so this finite row set supports measured translation-efficiency association for this contact.  No $p$-value, likelihood-ratio list, $\lambda$ list, or module-classification table is present in the supplied finite row, so those quantities are not reported.
+
+\paragraph{Rank and row sufficiency.}
+The bacterial fit uses $3415$ genes with measured $TE$ out of $3739$ joined CDS rows, giving a ribosome-TE join hit rate of $0.9133458143888741$.  Its residualized control block has $24$ control columns, $rank(Z)=23$, $rank(\widetilde X)=9$, $3392$ residual degrees of freedom after $Z$, residual response energy $919.4854026798789$, and explained energy $8.637891149939946$.  The design is marked rank sufficient under tolerance $10^{-10}$ and degeneracy cutoff $0.999999$.
+
+The yeast fit uses $5128$ genes with measured $TE$ out of $5815$ joined CDS rows, giving a ribosome-TE join hit rate of $0.8818572656921754$.  Its corresponding control diagnostics are $24$ control columns, $rank(Z)=23$, $rank(\widetilde X)=9$, $5105$ residual degrees of freedom after $Z$, residual response energy $753.5781168800304$, and explained energy $103.10404057290246$.  It is also rank sufficient under tolerance $10^{-10}$ and degeneracy cutoff $0.999999$.  These diagnostics rule out the small-panel and rank-saturated refusal case for the two reported organisms: the nine-coordinate block remains visible after the controls, and the fits are not all-$1.0$ artifacts.
+
+\paragraph{Survival call.}
+The measured contact therefore carries a bounded positive call: all nine tested residual coordinates survive as a jointly tested $B^{*}_{Q6}$ block against measured ribosome-profiling $TE$ in both organisms under the declared control design.  The finite statement is not that each coordinate is a universal causal driver; it is that the residual-coordinate block retains controlled predictive energy for the measured $\log_{10}(TE)$ readout in these organism-matched tables.  The run identifier for the finite computation is $3d9bb1cb48ae$, and the verification timestamp attached to the row is $2026$-$06$-$06T14{:}17{:}23{+}00{:}00$.
+
+\paragraph{Local non-promotion boundary.}
+This chapter does not infer protein abundance, folded structure, physical admissibility, molecular function, phenotype, mechanism, elongation speed, or a universal biological law from the measured $TE$ association.  The ribosome-profiling contact is condition-specific, cross-sectional, and taken from one or a small number of source studies.  Agreement or disagreement with modeled adaptation weights would be coordinate-pattern evidence only, not causal validation and not causal falsification.  Any claim about actual translation mechanism, protein output, structure, admissibility, function, phenotype, or universality must be supplied by a separate layer-matched measurement and its own controlled statistic.
