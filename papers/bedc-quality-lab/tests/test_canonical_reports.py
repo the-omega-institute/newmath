@@ -308,6 +308,49 @@ def _payload_for_spec(spec):
                 },
             }
         )
+    if spec.name == "discovery-regularized-training":
+        payload.update(
+            {
+                "torch_training_evidence": {
+                    "status": "available",
+                    "row_count": 16,
+                    "expected_row_count": 16,
+                    "protocols": [
+                        {
+                            "requested_device": "auto",
+                            "resolved_device": "cpu",
+                            "seed": 11,
+                            "steps": 12,
+                            "dtype": "float32",
+                            "drift_tolerance": 0.0001,
+                            "status": "available",
+                            "evidence_pointer": "$.records.raw_rows_pointer",
+                        }
+                    ],
+                    "classifier_surface_delta": {
+                        "source_arm": "drt",
+                        "control_arm": "matched_random",
+                        "drt_minus_matched_random_classifier_shift_count": 1.0,
+                        "net_positive_signal": True,
+                    },
+                    "evidence_pointer": "$.records.raw_rows_pointer",
+                },
+                "negative_witness_mutations": {
+                    "source_arm": "drt",
+                    "mutation_arm": "matched_random",
+                    "retrain_rows_pointer": "$.torch_training_evidence",
+                    "failed_gate_pointer": "$.hardgate.status",
+                    "claim_capsule_pointer": "$.claim_capsule_ref",
+                },
+                "training_loop_trace": {
+                    "source_arm": "drt",
+                    "mutation_arm": "matched_random",
+                    "retrain_rows_pointer": "$.torch_training_evidence",
+                    "failed_gate_pointer": "$.hardgate.status",
+                    "claim_capsule_pointer": "$.claim_capsule_ref",
+                },
+            }
+        )
     if spec.name == "certificate-gated-attention":
         payload.update(
             {

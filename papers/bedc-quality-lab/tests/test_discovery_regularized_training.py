@@ -39,6 +39,8 @@ REQUIRED_SUMMARY_KEYS = {
     "arm_protocol",
     "device_protocol",
     "torch_training_evidence",
+    "negative_witness_mutations",
+    "training_loop_trace",
     "matched_random_control",
     "hardgate",
     "failed_gate",
@@ -76,10 +78,38 @@ def _project(records=None, **config):
     }
     return DiscoveryRegularizedTrainingProjection(
         config=full_config,
-        records=runner.collect_deterministic_records() if records is None else records,
+        records=[*runner.collect_deterministic_records(), *_torch_fixture_records()] if records is None else records,
         generated_at="fixture-time",
         run_artifacts=artifacts,
     ).project()
+
+
+def _torch_fixture_records():
+    rows = []
+    for discovery_lambda in (0.001, 0.005):
+        for rho in (0.7, 0.9):
+            for seed in (11, 23):
+                for arm in ("drt", "matched_random"):
+                    row = runner.deterministic_record(discovery_lambda, rho, "spiral", seed, arm)
+                    row.update(
+                        {
+                            "backend": "torch-training-arm",
+                            "resolved_device": "cpu",
+                            "steps": 12,
+                            "dtype": "float32",
+                            "torch_protocol": {
+                                "requested_device": "mps",
+                                "resolved_device": "cpu",
+                                "seed": seed,
+                                "steps": 12,
+                                "dtype": "float32",
+                                "drift_tolerance": DRIFT_TOLERANCE,
+                                "status": "available",
+                            },
+                        }
+                    )
+                    rows.append(row)
+    return rows
 
 
 def _recursive_keys(value):
@@ -129,7 +159,7 @@ def test_deterministic_replay_and_required_keys():
     assert first["summary_payload"]["run_artifacts"]["raw_metrics"] == first["summary_payload"]["records"]["raw_rows_pointer"]
 
 
-def test_torch_unavailable_boundary_records_device_without_breaking_anchor():
+def test_torch_unavailable_boundary_records_device_and_fails_hg6_to_dn():
     summary = runner.build_projection(generated_at="fixture-time", requested_device="mps", enable_torch=False)["summary_payload"]
 
     assert summary["device_protocol"]["requested_device"] == "mps"
@@ -137,22 +167,32 @@ def test_torch_unavailable_boundary_records_device_without_breaking_anchor():
     assert summary["device_protocol"]["drift_tolerance"] == pytest.approx(1.0e-4)
     assert summary["torch_training_evidence"]["status"] == "unavailable"
     assert summary["torch_training_evidence"]["row_count"] == 0
-    assert summary["hardgate"]["status"] == "pass"
+    assert summary["hardgate"]["status"] == "fail"
+    assert summary["hardgate"]["failed_gate"] == "DRT-HG6"
+    assert summary["discovery_map_signal"]["level_candidate"] == "DN"
 
 
-def test_torch_arm_protocol_records_mps_or_cpu_fields(monkeypatch):
-    monkeypatch.setattr(runner, "_resolve_torch_device", lambda requested_device: ("available", "mps" if requested_device == "mps" else "cpu", {"torch": "fixture"}))
-    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps", enable_torch=True)["summary_payload"]
+def test_torch_available_fixture_promotes_d4_and_records_payload_sections(monkeypatch):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
 
     assert summary["torch_training_evidence"]["status"] == "available"
     assert summary["torch_training_evidence"]["row_count"] == 16
+    assert summary["torch_training_evidence"]["expected_row_count"] == 16
     assert summary["device_protocol"]["requested_device"] == "mps"
-    assert summary["device_protocol"]["resolved_device"] == "mps"
+    assert summary["device_protocol"]["resolved_device"] == "cpu"
     protocol = summary["torch_training_evidence"]["protocols"][0]
     assert set(protocol) == set(TorchTrainingArmProtocol.__dataclass_fields__)
     assert protocol["requested_device"] == "mps"
-    assert protocol["resolved_device"] == "mps"
+    assert protocol["resolved_device"] == "cpu"
     assert protocol["drift_tolerance"] == pytest.approx(1.0e-4)
+    assert summary["hardgate"]["gates"]["DRT-HG6"]["status"] == "pass"
+    assert summary["hardgate"]["failed_gate"] is None
+    assert summary["discovery_map_signal"]["level_candidate"] == "D4"
+    assert summary["discovery_map_signal"]["evidence_pointer"] == "$.torch_training_evidence"
+    assert summary["training_loop_trace"]["retrain_rows_pointer"] == "$.torch_training_evidence"
+    assert summary["negative_witness_mutations"]["failed_gate_pointer"] == "$.hardgate.status"
+    assert "terminal_verdict" not in json.dumps(summary, sort_keys=True)
 
 
 def test_seed_idempotence_and_quantized_tolerance():
@@ -257,6 +297,27 @@ def test_current_lab_projection_and_pointer_resolvability():
     assert discovery_map.pointer_value(failed, failed_row["failed_gate"]) == "fail"
 
 
+def test_zero_row_and_dangling_torch_evidence_demote_to_dn():
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    zero_row = runner.build_projection(generated_at="fixture-time", enable_torch=False)["summary_payload"]
+    zero_projected = discovery_map.projection_payload(spec, zero_row)
+    assert zero_projected["main_verdict"]["discovery_regularized_training"]["level_candidate"] == "DN"
+    assert zero_projected["main_verdict"]["discovery_regularized_training"]["status"] == "negative"
+
+    dangling = _project()["summary_payload"]
+    dangling["torch_training_evidence"]["protocols"] = []
+    dangling["hardgate"]["gates"]["DRT-HG6"]["status"] = "pass"
+    dangling["hardgate"]["status"] = "pass"
+    dangling["hardgate"]["failed_gate"] = None
+    dangling["discovery_map_signal"]["status"] = "d4-candidate"
+    dangling["discovery_map_signal"]["level_candidate"] = "D4"
+    dangling["discovery_map_signal"]["failed_gate"] = None
+    dangling["discovery_map_signal"]["failed_gate_pointer"] = None
+    projected = discovery_map.projection_payload(spec, dangling)
+    assert projected["main_verdict"]["discovery_regularized_training"]["level_candidate"] == "DN"
+    assert projected["main_verdict"]["discovery_regularized_training"]["status"] == "negative"
+
+
 def test_recursive_no_terminal_verdict_and_pointer_fields_resolve(tmp_path):
     projection = runner.build_projection(run_id="fixture-canonical", generated_at="fixture-time")
     runner.write_artifacts(projection, root=tmp_path)
@@ -280,9 +341,12 @@ def test_canonical_spec_uses_committed_config_and_source_artifacts():
     spec = canonical._specs_by_name()["discovery-regularized-training"]
 
     assert spec.command == ("python3", "scripts/run_discovery_regularized_training.py")
+    assert "--cold" not in spec.command
     assert spec.json_artifact == runner.JSON_ARTIFACT
     assert "terminal_verdict" not in spec.required_json_keys
     assert "schema_id" in spec.required_json_keys
+    assert "negative_witness_mutations" in spec.required_json_keys
+    assert "training_loop_trace" in spec.required_json_keys
     summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
     assert ".refactor-loop/host.env" not in json.dumps(summary["source_artifacts"], sort_keys=True)
     assert "bedc_quality_lab/discovery_regularized_training.py" in summary["source_artifacts"]["producer_sources"]

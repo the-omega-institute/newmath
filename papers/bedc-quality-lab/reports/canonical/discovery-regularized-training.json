@@ -12,9 +12,9 @@
       "replayable": true
     },
     "torch_training": {
-      "bounded_optional": true,
       "evidence_pointer": "$.torch_training_evidence",
-      "primary": false
+      "primary": false,
+      "required_hardgate": true
     }
   },
   "artifact_id": "bedc-quality-lab:discovery-regularized-training",
@@ -28,7 +28,7 @@
       "matched_random"
     ],
     "dependency_abi": {
-      "torch": "not-requested"
+      "torch": "2.7.0"
     },
     "discovery_lambdas": [
       0.0,
@@ -44,7 +44,7 @@
       "realnvp"
     ],
     "requested_device": "auto",
-    "resolved_device": "not-requested",
+    "resolved_device": "mps",
     "rhos": [
       0.5,
       0.7,
@@ -58,7 +58,7 @@
       37
     ],
     "steps": 12,
-    "torch_status": "unavailable"
+    "torch_status": "available"
   },
   "constraint_summary": {
     "benefit_nondecreasing": true,
@@ -68,17 +68,17 @@
   },
   "device_protocol": {
     "dependency_abi": {
-      "torch": "not-requested"
+      "torch": "2.7.0"
     },
     "drift_tolerance": 0.0001,
     "evidence_pointer": "$.torch_training_evidence",
     "requested_device": "auto",
-    "resolved_device": "not-requested",
-    "status": "unavailable"
+    "resolved_device": "mps",
+    "status": "available"
   },
   "discovery_map_signal": {
     "control_pointer": "$.matched_random_control",
-    "evidence_pointer": "$.surface_registry.classifier_shift",
+    "evidence_pointer": "$.torch_training_evidence",
     "failed_gate": null,
     "failed_gate_pointer": null,
     "level_candidate": "D4",
@@ -108,7 +108,7 @@
     "record_count": 720,
     "rho_count": 4,
     "seed_count": 3,
-    "torch_record_count": 0
+    "torch_record_count": 16
   },
   "hardgate": {
     "failed_gate": null,
@@ -141,8 +141,19 @@
         "status": "pass"
       },
       "DRT-HG6": {
-        "evidence": "Optional PyTorch arm is bounded and recorded without controlling the deterministic anchor.",
+        "classifier_surface_delta": {
+          "control_arm": "matched_random",
+          "drt_classifier_shift_count_mean": 1.0,
+          "drt_minus_matched_random_classifier_shift_count": 1.0,
+          "matched_random_classifier_shift_count_mean": 0.0,
+          "net_positive_signal": true,
+          "source_arm": "drt"
+        },
+        "evidence": "Bounded PyTorch training evidence must be available, protocol-complete, and positive against matched-random control.",
         "evidence_pointer": "$.torch_training_evidence",
+        "expected_row_count": 16,
+        "protocol_count": 16,
+        "row_count": 16,
         "status": "pass"
       }
     },
@@ -204,6 +215,14 @@
     "evidence_pointer": "$.surface_registry.quality.by_arm",
     "matched_random_certificate_loss_mean": 0.3282
   },
+  "negative_witness_mutations": {
+    "claim_capsule_pointer": "$.claim_capsule_ref",
+    "failed_gate_pointer": "$.hardgate.status",
+    "mutation_arm": "matched_random",
+    "retrain_rows_pointer": "$.torch_training_evidence",
+    "source_arm": "drt",
+    "status": "armed"
+  },
   "not_claimed": [
     "full model training",
     "global architecture superiority",
@@ -236,7 +255,7 @@
       "decimals": 6,
       "drift_tolerance": 0.0001
     },
-    "torch_evidence_rows": 0
+    "torch_evidence_rows": 16
   },
   "revocation_rows": [
     {
@@ -331,10 +350,191 @@
     }
   },
   "torch_training_evidence": {
+    "classifier_surface_delta": {
+      "control_arm": "matched_random",
+      "drt_classifier_shift_count_mean": 1.0,
+      "drt_minus_matched_random_classifier_shift_count": 1.0,
+      "matched_random_classifier_shift_count_mean": 0.0,
+      "net_positive_signal": true,
+      "source_arm": "drt"
+    },
     "evidence_pointer": "$.records.raw_rows_pointer",
-    "protocols": [],
-    "row_count": 0,
-    "status": "unavailable"
+    "expected_row_count": 16,
+    "protocols": [
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 11,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 11,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 23,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 23,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 11,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 11,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 23,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 23,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 11,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 11,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 23,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 23,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 11,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 11,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 23,
+        "status": "available",
+        "steps": 12
+      },
+      {
+        "drift_tolerance": 0.0001,
+        "dtype": "float32",
+        "evidence_pointer": "$.records.raw_rows_pointer",
+        "requested_device": "auto",
+        "resolved_device": "mps",
+        "seed": 23,
+        "status": "available",
+        "steps": 12
+      }
+    ],
+    "row_count": 16,
+    "status": "available"
+  },
+  "training_loop_trace": {
+    "claim_capsule_pointer": "$.claim_capsule_ref",
+    "expected_row_count": 16,
+    "failed_gate_pointer": "$.hardgate.status",
+    "mutation_arm": "matched_random",
+    "raw_rows_pointer": "$.records.raw_rows_pointer",
+    "retrain_rows_pointer": "$.torch_training_evidence",
+    "row_count": 16,
+    "source_arm": "drt",
+    "status": "available"
   },
   "what_was_learned": "The deterministic anchor records debt reduction, benefit preservation, classifier shift, and matched-random certificate separation."
 }

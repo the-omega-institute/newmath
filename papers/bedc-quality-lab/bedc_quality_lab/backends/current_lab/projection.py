@@ -704,7 +704,7 @@ def _discovery_regularized_training_projection(
                 "discovery_regularized_training": {
                     "level_candidate": "D4",
                     "status": "d4-candidate",
-                    "evidence_pointer": "$.surface_registry.classifier_shift",
+                    "evidence_pointer": "$.torch_training_evidence",
                     "torch_training_evidence_pointer": "$.torch_training_evidence",
                 },
             },
@@ -716,7 +716,7 @@ def _discovery_regularized_training_projection(
             },
         }, ProjectionEvidence(
             projection_status="projected",
-            evidence_pointer="$.surface_registry.classifier_shift",
+            evidence_pointer="$.torch_training_evidence",
             control_pointer="$.matched_random_control",
             scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
         )
@@ -978,11 +978,25 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
     failed = next(
         (
             name
-            for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5")
+            for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5", "DRT-HG6")
             if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
         ),
         None,
     )
+    torch_evidence = pointer_value(payload, "$.torch_training_evidence")
+    if failed is None:
+        if not isinstance(torch_evidence, Mapping):
+            failed = "DRT-HG6"
+        elif torch_evidence.get("status") != "available":
+            failed = "DRT-HG6"
+        elif not isinstance(torch_evidence.get("row_count"), int) or int(torch_evidence["row_count"]) <= 0:
+            failed = "DRT-HG6"
+        elif torch_evidence.get("row_count") != torch_evidence.get("expected_row_count"):
+            failed = "DRT-HG6"
+        elif pointer_value(payload, "$.torch_training_evidence.protocols.0") is None:
+            failed = "DRT-HG6"
+        elif pointer_value(payload, "$.records.raw_rows_pointer") is None:
+            failed = "DRT-HG6"
     if failed is None:
         expected = {
             "status": "d4-candidate",
@@ -1007,7 +1021,9 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
         return False, "drt-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
     if signal.get("torch_training_evidence_pointer") != "$.torch_training_evidence":
         return False, "drt-torch-pointer-mismatch", "$.discovery_map_signal.torch_training_evidence_pointer"
-    return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.surface_registry.classifier_shift"
+    if pointer_value(payload, "$.discovery_map_signal.torch_training_evidence_pointer") is None:
+        return False, "drt-torch-pointer-dangling", "$.discovery_map_signal.torch_training_evidence_pointer"
+    return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.torch_training_evidence"
 
 
 def _mechanism_seeking_network_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:

@@ -213,7 +213,10 @@ def test_model_discovery_consumes_drt_by_pointer_only():
     assert refs["discovery_map_signal"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"}
     assert refs["surface_registry"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
     assert refs["torch_training_evidence"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.torch_training_evidence"}
+    assert refs["negative_witness_mutations"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.negative_witness_mutations"}
     assert "quality_q" not in refs
+    assert "classifier_surface_delta" not in refs
+    assert "hardgate" not in refs
     assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
 
 
