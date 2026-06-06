@@ -136,6 +136,8 @@ def has_unmerged_index(cwd: Path = REPO_ROOT) -> bool:
 def has_conflict_markers(path: str, cwd: Path = REPO_ROOT) -> bool:
     try:
         text = (cwd / path).read_text(encoding="utf-8", errors="ignore")
+    except FileNotFoundError:
+        return False
     except Exception:
         return True
     return any(marker in text for marker in ("<<<<<<<", "=======", ">>>>>>>"))
@@ -227,7 +229,7 @@ def call_codex_to_resolve(work_dir: Path, timeout: int = 1800) -> bool:
         merge_head = run(["git", "rev-parse", "--verify", "--quiet", "MERGE_HEAD"],
                          cwd=work_dir, check=False, capture=True).returncode == 0
         if merge_head:
-            run(["git", "add", "--", *files], cwd=work_dir)
+            run(["git", "add", "-A"], cwd=work_dir)
             remaining = conflicted_files(work_dir)
             if remaining:
                 print(f"[sync] codex left unresolved index conflicts: {remaining}", file=sys.stderr)
