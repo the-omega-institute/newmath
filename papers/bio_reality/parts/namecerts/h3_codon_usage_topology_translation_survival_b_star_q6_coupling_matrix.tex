@@ -1,56 +1,57 @@
+\subsection{Residual codon coordinates against translation readouts}\label{subsec:b-star-q6-translation-survival-matrix}
 \origin{ai}
 
-\subsection{A finite coupling matrix for residual codon coordinates and translation readouts}
-\label{sec:b-star-q6-coupling-matrix}
-
-\paragraph{Object of measurement.}
-The record studied here is a finite matrix of residual codon-usage coordinates against translation-adjacent readouts.  The coordinate side consists of the nine synonymous residual directions
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and the third-position stress coordinate $f_3$.  These coordinates are evaluated after the amino-acid quotient has been imposed, so the statistic is not allowed to recover trivial amino-acid composition.  The intended survival score is denoted $S_{ij}$, where $q_i$ is one of the nine residual coordinates and $r_j$ is a translation-related readout such as tAI, stAI, ribosome occupancy, translation efficiency, or protein abundance.  In the fully observed form, the control family is
+\paragraph{Finite object.}
+The object under test is a finite matrix of residual codon-coordinate scores. Its row set consists of the nine $B^{\ast}_{Q6}$ synonymous residual coordinates
 $$
 \begin{aligned}
-Z = (&\text{amino-acid composition},\ \text{organism context},\ GC3,\ \text{coding length},\\
-&\text{and the simpler codon-density baseline}).
+q_i \in \{&\mathrm{Arg\_AGR},\ \mathrm{Ile\_AUA},\ \mathrm{K\_AAA},\ \mathrm{Leu\_CUN\_vs\_UUR},\ \mathrm{Leu\_UUA\_vs\_UUG},\\
+&\mathrm{Ser\_UCA\_vs\_UCG},\ \mathrm{Ser\_UCR\_vs\_AGY},\ \mathrm{Thr\_ACR\_vs\_ACY},\ \mathrm{f3\_stress}\}.
 \end{aligned}
 $$
-A positive entry means that a residual coordinate improves the controlled description of a readout after the declared controls and baseline have already been applied.  It does not mean that the coordinate is a cause of translation, a protein-output mechanism, or a functional law.
-
-\paragraph{Finite coupling row.}
-The directly verified coupling run used experiment id $4a783972e74b$.  It worked in a $61$-codon count space and loaded three organism rows: $Homo\ sapiens$, $Saccharomyces\ cerevisiae$, and $Escherichia\ coli$ K12.  The readout in that run was not ribosome profiling, tAI, stAI, or proteomics.  It was a proxy spectrum, namely the tRNA-Leu $CUN$-versus-$UUR$ log-copy readout.  The computed matrix reported all nine residual coordinates as nonzero against this proxy contact, with
+These coordinates live after quotienting by amino-acid identity: a count vector is not read as an amino-acid composition signal, but through the remaining synonymous degrees of freedom. The intended survival matrix has entries $S_{ij}=S_{q_i}(r_j\mid Z)$, where $r_j$ ranges over bounded translation-related readouts and where the control set $Z$ contains amino-acid composition, organism context, GC3, CDS length, and the simpler codon-density baseline. The accompanying coupling statistic is
 $$
 \begin{aligned}
-\max_{i,j} |A_{ij}| &= 1882464.1106377328,\\
-\#\{(i,j): |A_{ij}| > 0.01\} &= 9,\\
-\text{coupling threshold} &= 0.01.
+A_{ij}=q_i^{T}\Sigma \ell_j^{\perp},
 \end{aligned}
 $$
-The registered null condition for that proxy run was that all nine coordinates have $|A_{ij}| < 0.01$.  Since the maximum absolute coupling was far above threshold and all nine entries were nonzero, that null condition was not met.  This supports the narrow claim that the residual-coordinate basis is not numerically silent on the tRNA-Leu proxy spectrum in the three-row table.
+with $\ell_j^{\perp}$ denoting the readout direction after projection away from the declared controls. A positive coupling entry is only a geometric contact with the readout direction; it is not itself a survival score unless the controlled partial-$R^2$ or description-length statistic is computed.
+
+\paragraph{Three-organism proxy coupling row.}
+The finite proxy computation used codon-count space of size $61$ and loaded three organisms: \texttt{homo\_sapiens}, \texttt{saccharomyces\_cerevisiae}, and \texttt{escherichia\_coli\_k12}. The proxy readout was the tRNA-Leu CUN-versus-UUR log-copy spectrum, not ribosome profiling, not stAI measured against elongation, and not protein abundance. With coupling threshold $0.01$, the recorded break condition was that all nine rows should have $|A_{ij}|<0.01$ against that proxy readout. The break condition was not met: the matrix had $9$ nonzero entries above the stated threshold and maximum absolute coupling
+$$
+\begin{aligned}
+\max_{i,j}|A_{ij}|=1882464.1106377328.
+\end{aligned}
+$$
+Thus the proxy row says that the nine residual coordinates are not numerically orthogonal to the organism-level tRNA-Leu copy-ratio spectrum in this finite table. It does not say that any coordinate has survived a measured translation-efficiency, ribosome-occupancy, or protein-abundance test.
+
+\paragraph{Leucine gate check.}
+The associated CUN/UUR Leu contact also used the same three organisms. The reported Pearson correlation was $1.0$, and the amino-acid-controlled partial Pearson value was also $1.0$ with $n=3$. The organism-level log-ratio row was
+$$
+\begin{aligned}
+(1.3514980212896148,\ -0.24869078488829677,\ 1.0086640520051702),
+\end{aligned}
+$$
+with sign pattern
+$$
+\begin{aligned}
+(+1,\ -1,\ +1).
+\end{aligned}
+$$
+The sign is therefore explicitly non-uniform across organisms. The $n=3$ perfect correlation is a finite-row contact, not a population estimate, and its sign should not be treated as a universal direction of codon usage or tRNA-copy association.
 
 \paragraph{Modeled translation-readout survival.}
-A separate modeled-tAI run, experiment id $09209aa516a0$, evaluated a rank-powered $S^{QT}$ surface rather than a measured ribosome or protein-output surface.  It used $40$ organism rows and the same nine residual coordinates.  The modeled readout matrix also had nine columns, one for each residual coordinate after projection through codon adaptation weights derived from tRNA gene-copy counts and wobble weights.  The control design had $24$ control columns with rank $23$, leaving $17$ residual degrees of freedom after control residualization.  The residual coordinate design had rank $9$.  The resulting modeled translation surface had shape $9 \times 9$ and
+A separate rank-powered modeled-tAI computation enlarged the organism panel to $40$ organisms and used the same nine residual coordinates as both coordinate rows and modeled readout columns. The readout was modeled per-codon tAI from GtRNAdb anticodon copy counts and dos Reis wobble weights, projected onto the same synonymous-residual coordinate family. The controlled design residualized $24$ control columns, with $\mathrm{rank}(Z)=23$ and residual degrees of freedom $17$. The powered design had $\mathrm{rank}(\widetilde X)=9$, and the computed $S^{QT}$ surface had matrix shape $9\times 9$. Its aggregate modeled translation-readout score was
 $$
 \begin{aligned}
-R^2_{QT} &= 0.9003849000036579,\\
-\operatorname{rank}(Z) &= 23,\\
-\operatorname{rank}(\widetilde X) &= 9,\\
-\text{residual degrees of freedom} &= 17,\\
-\text{positive-entry threshold} &= 10^{-12}.
+R^2_{QT}=0.9003849000036579,
 \end{aligned}
 $$
-This is evidence for a controlled modeled-readout association in the declared residual coordinate system.  Its status is weaker than a direct ribosome-profiling or proteomics contact: modeled tAI is computed from tRNA gene-copy annotations and adaptation weights, so it is not itself ribosome occupancy, elongation speed, mature protein abundance, folded structure, or biological function.
+with positive-entry threshold $10^{-12}$ and degeneracy threshold $0.999999$. Since $0.9003849000036579<0.999999$, this run is not recorded as a rank-saturated all-one surface. It is evidence for a bounded modeled codon-adaptation readout under the stated controls, while remaining short of measured ribosome occupancy, measured elongation speed, and protein output.
 
-\paragraph{Leucine gate row.}
-The cross-organism Leu gate run, experiment id $675fdddb3187$, also used the three organism rows $Homo\ sapiens$, $Saccharomyces\ cerevisiae$, and $Escherichia\ coli$ K12.  For the $CUN/UUR$ leucine contrast, the finite-row Pearson statistic and the controlled partial Pearson statistic were both reported as $1.0$ with $n=3$:
-$$
-\begin{aligned}
-r &= 1.0,\\
-r_{\mathrm{partial}} &= 1.0,\\
-n &= 3.
-\end{aligned}
-$$
-The organism-level log-ratio signs were not uniform.  The recorded log ratios were $1.3514980212896148$, $-0.24869078488829677$, and $1.0086640520051702$, with signs $+1,-1,+1$.  Thus the row is useful as a finite contact showing that the leucine residual contrast can be read against tRNA-Leu copy ratios, but it is not a population estimate and it is not a universal directionality statement.
-
-\paragraph{Interpretation.}
-The coupling matrix and the modeled-tAI surface jointly indicate that the nine-coordinate residual basis has nontrivial translation-adjacent numerical contacts after the amino-acid quotient is made explicit.  The strongest verified finite numbers are the proxy-coupling maximum $1882464.1106377328$, the nine above-threshold proxy entries, and the modeled $R^2_{QT}=0.9003849000036579$ on a $40$-organism design with $17$ residual degrees of freedom.  These facts justify retaining the conjectural survival matrix as an active BioReality object: the coordinate family is not absorbed by amino-acid composition alone, and it is not numerically erased by the declared control geometry in the modeled-tAI contact.
+\paragraph{Readback.}
+The finite record therefore separates three statements. First, the proxy coupling matrix over three organisms is non-null at threshold $0.01$, with all nine residual rows producing nonzero proxy couplings and maximum absolute entry $1882464.1106377328$. Second, the CUN/UUR Leu subcontact has a perfect three-row partial correlation but a non-uniform sign pattern, so it supports only a small finite association check. Third, the forty-organism modeled-tAI panel gives a non-degenerate controlled modeled-readout surface with $R^2_{QT}=0.9003849000036579$ after the declared residualization. These facts support a chapter-level claim that $B^{\ast}_{Q6}$ residual codon geometry has finite contact with translation-adaptation readouts after amino-acid quotienting and context controls. They do not, by themselves, establish a measured ribosome-mediated translation mechanism.
 
 \paragraph{Local boundary.}
-The result remains bounded by its contacts.  The three-organism proxy run is a codon-count and tRNA-copy statistic, not a direct ribosome measurement.  The modeled-tAI run is a computed adaptation-weight readout, not ribosome occupancy, translation efficiency measured by ribosome profiling, or protein abundance.  No statement in this section implies translation realization beyond the attached readout class, and no statement implies protein folding, physical admissibility, molecular function, pathway mechanism, phenotype, or a universal biological law.  Those conclusions require separate matched measurements and their own controlled statistics.  In particular, a nonzero coupling $A_{ij}$ is not promoted to a positive survival score $S_{ij}$ unless the readout is present and the $Z$-controlled partial-$R^2$ or description-length improvement is explicitly computed.
+No stronger biological conclusion is licensed by this chapter alone. The proxy tRNA-copy row does not measure tRNA abundance, tRNA charging, ribosome occupancy, translation efficiency, or protein abundance. The modeled-tAI row is a bounded modeled translation-adaptation readout, not ribo-seq, proteomics, folded structure, physical admissibility, biochemical function, pathway activity, phenotype, or a universal biological law. A claim about measured translation, folding, physical admissibility, function, mechanism, or universality requires its own layer-matched contact and its own controlled statistic. In particular, a positive $A_{ij}$ entry is not promoted to a positive $S_{ij}$ entry unless the corresponding $Z$-controlled partial-$R^2$ or description-length-improvement calculation is present for that readout.
