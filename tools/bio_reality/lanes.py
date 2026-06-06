@@ -4651,6 +4651,7 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         "Its statements separate curated biological reality contacts from internal coordinate, closure, spectrum, and relation readings.",
         "",
     ]
+    seen_mismatch_ids: set[str] = set()
     for conjecture in conjectures:
         linked_contacts, linked_probes, linked_mismatches = _linked_records_for_conjecture(
             conjecture,
@@ -4658,6 +4659,19 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
             probes_by_id,
             mismatches_by_probe,
         )
+        # A mismatch (reality-boundary gap) is shared across every conjecture whose
+        # probes reference it, so without this guard each gap is re-listed once per
+        # conjecture section and the chapter bloats quadratically. Render each unique
+        # mismatch only in the first conjecture section that links it.
+        deduped_mismatches = []
+        for _m in linked_mismatches:
+            _mid = str(_m.get("mismatch_id") or "")
+            if _mid and _mid in seen_mismatch_ids:
+                continue
+            if _mid:
+                seen_mismatch_ids.add(_mid)
+            deduped_mismatches.append(_m)
+        linked_mismatches = deduped_mismatches
         verified_facts = _all_verified_facts(conjecture)
         conjecture_id = str(conjecture.get("conjecture_id") or "unnamed")
         codex_text = _codex_written_content(
