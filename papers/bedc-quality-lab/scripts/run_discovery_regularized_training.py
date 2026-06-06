@@ -166,20 +166,7 @@ def _resolve_torch_device(requested_device: str) -> tuple[str, str, dict[str, An
     return "available", resolved, {"torch": str(version)}
 
 
-def _torch_training_record(
-    torch: Any,
-    *,
-    discovery_lambda: float,
-    rho: float,
-    seed: int,
-    arm: str,
-    requested_device: str,
-    resolved_device: str,
-    steps: int,
-) -> dict[str, Any]:
-    torch.manual_seed(int(seed))
-    device = torch.device(resolved_device)
-    dtype = torch.float32
+def _torch_training_problem(torch: Any, *, device: Any, dtype: Any) -> tuple[Any, Any, Any]:
     x = torch.tensor(
         [
             [-1.0, -0.8],
@@ -195,6 +182,11 @@ def _torch_training_record(
         device=device,
     )
     y = torch.tensor([0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0], dtype=dtype, device=device)
+    target_surface = torch.tensor([0.38, 0.42], dtype=dtype, device=device)
+    return x, y, target_surface
+
+
+def _torch_training_parameters(torch: Any, *, seed: int, rho: float, device: Any, dtype: Any) -> tuple[Any, Any]:
     w = torch.tensor(
         [0.11 + 0.001 * int(seed), -0.07 + 0.05 * float(rho)],
         dtype=dtype,
@@ -202,13 +194,31 @@ def _torch_training_record(
         requires_grad=True,
     )
     b = torch.tensor(0.0, dtype=dtype, device=device, requires_grad=True)
-    target_surface = torch.tensor([0.38, 0.42], dtype=dtype, device=device)
+    return w, b
+
+
+def _torch_regularizer(torch: Any, *, w: Any, target_surface: Any, arm: str) -> Any:
+    certificate_loss = torch.mean((w - target_surface) ** 2)
+    random_surface_loss = torch.mean((w + target_surface) ** 2)
+    return certificate_loss if arm == "drt" else random_surface_loss
+
+
+def _run_torch_gradient_steps(
+    torch: Any,
+    *,
+    x: Any,
+    y: Any,
+    w: Any,
+    b: Any,
+    target_surface: Any,
+    discovery_lambda: float,
+    arm: str,
+    steps: int,
+) -> None:
     for _ in range(int(steps)):
         logits = x.matmul(w) + b
         task_loss = torch.nn.functional.binary_cross_entropy_with_logits(logits, y)
-        certificate_loss = torch.mean((w - target_surface) ** 2)
-        random_surface_loss = torch.mean((w + target_surface) ** 2)
-        regularizer = certificate_loss if arm == "drt" else random_surface_loss
+        regularizer = _torch_regularizer(torch, w=w, target_surface=target_surface, arm=arm)
         loss = task_loss + float(discovery_lambda) * regularizer
         loss.backward()
         with torch.no_grad():
@@ -216,6 +226,20 @@ def _torch_training_record(
             b -= 0.18 * b.grad
             w.grad.zero_()
             b.grad.zero_()
+
+
+def _torch_training_metrics(
+    torch: Any,
+    *,
+    x: Any,
+    y: Any,
+    w: Any,
+    b: Any,
+    target_surface: Any,
+    dtype: Any,
+    rho: float,
+    arm: str,
+) -> dict[str, Any]:
     with torch.no_grad():
         logits = x.matmul(w) + b
         predicted = (torch.sigmoid(logits) >= 0.5).to(dtype)
@@ -228,12 +252,6 @@ def _torch_training_record(
         classifier_shift = 1 if arm == "drt" and surface_alignment > 0.0 else 0
         matched_loss = certificate_loss_value + (0.055 if arm == "drt" else 0.0)
         return {
-            "backend": "torch-training-arm",
-            "discovery_lambda": float(discovery_lambda),
-            "rho": float(rho),
-            "mixing": "spiral",
-            "seed": int(seed),
-            "arm": str(arm),
             "task_accuracy": round(task_accuracy, 6),
             "quality_q": round(quality, 6),
             "debt_q": round(debt, 6),
@@ -243,19 +261,76 @@ def _torch_training_record(
             "classifier_shift_count": classifier_shift,
             "delta_quality_ci_low": round(0.006 + 0.002 * float(rho) if arm == "drt" else -0.002, 6),
             "net_positive_signal": arm == "drt" and classifier_shift > 0,
-            "resolved_device": resolved_device,
-            "steps": int(steps),
-            "dtype": TORCH_DTYPE,
-            "torch_protocol": {
-                "requested_device": requested_device,
-                "resolved_device": resolved_device,
-                "seed": int(seed),
-                "steps": int(steps),
-                "dtype": TORCH_DTYPE,
-                "drift_tolerance": DRIFT_TOLERANCE,
-                "status": "available",
-            },
         }
+
+
+def _torch_protocol_payload(*, requested_device: str, resolved_device: str, seed: int, steps: int) -> dict[str, Any]:
+    return {
+        "requested_device": requested_device,
+        "resolved_device": resolved_device,
+        "seed": int(seed),
+        "steps": int(steps),
+        "dtype": TORCH_DTYPE,
+        "drift_tolerance": DRIFT_TOLERANCE,
+        "status": "available",
+    }
+
+
+def _torch_training_record(
+    torch: Any,
+    *,
+    discovery_lambda: float,
+    rho: float,
+    seed: int,
+    arm: str,
+    requested_device: str,
+    resolved_device: str,
+    steps: int,
+) -> dict[str, Any]:
+    torch.manual_seed(int(seed))
+    device = torch.device(resolved_device)
+    dtype = torch.float32
+    x, y, target_surface = _torch_training_problem(torch, device=device, dtype=dtype)
+    w, b = _torch_training_parameters(torch, seed=seed, rho=rho, device=device, dtype=dtype)
+    _run_torch_gradient_steps(
+        torch,
+        x=x,
+        y=y,
+        w=w,
+        b=b,
+        target_surface=target_surface,
+        discovery_lambda=discovery_lambda,
+        arm=arm,
+        steps=steps,
+    )
+    return {
+        "backend": "torch-training-arm",
+        "discovery_lambda": float(discovery_lambda),
+        "rho": float(rho),
+        "mixing": "spiral",
+        "seed": int(seed),
+        "arm": str(arm),
+        **_torch_training_metrics(
+            torch,
+            x=x,
+            y=y,
+            w=w,
+            b=b,
+            target_surface=target_surface,
+            dtype=dtype,
+            rho=rho,
+            arm=arm,
+        ),
+        "resolved_device": resolved_device,
+        "steps": int(steps),
+        "dtype": TORCH_DTYPE,
+        "torch_protocol": _torch_protocol_payload(
+            requested_device=requested_device,
+            resolved_device=resolved_device,
+            seed=seed,
+            steps=steps,
+        ),
+    }
 
 
 def collect_torch_records(
@@ -413,7 +488,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
     parser.add_argument("--generated-at", default=None)
     parser.add_argument("--requested-device", default=DEFAULT_REQUESTED_DEVICE)
-    parser.add_argument("--enable-torch", action="store_true")
     parser.add_argument("--disable-torch", action="store_true")
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
     parser.add_argument("--discovery-lambdas", type=_parse_float_list, default=DEFAULT_DISCOVERY_LAMBDAS)
