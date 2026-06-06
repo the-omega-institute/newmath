@@ -102,8 +102,7 @@ NEGATIVE_WITNESS_TEST_POINTER = "$.run_local.test_artifact.regression_tests.scal
 NEGATIVE_WITNESS_TEST_ARTIFACT = {
     "regression_tests": {
         "scale_leakage_witness": (
-            "papers/bedc-quality-lab/tests/test_dimension_mismatch_debt_transfer.py::"
-            "test_scale_leakage_sidecar_maps_to_first_negative_witness"
+            "tests/test_dimension_mismatch_debt_transfer.py::test_scale_leakage_sidecar_maps_to_first_negative_witness"
         )
     }
 }

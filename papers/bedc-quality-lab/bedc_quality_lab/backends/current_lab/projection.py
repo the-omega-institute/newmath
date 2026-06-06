@@ -22,6 +22,11 @@ from bedc_quality_lab.discovery_compiler.map import (
     DISCOVERY_LEVELS,
     build_discovery_map_payload,
 )
+from bedc_quality_lab.discovery_compiler.negative_reports import (
+    BedcGapMapping,
+    DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
+    DIMENSION_MISMATCH_REPORT_ID,
+)
 from bedc_quality_lab.mechanism_attribution import (
     MECHANISM_EVIDENCE_POINTER,
     project_gap_head_mechanism_evidence,
@@ -2051,7 +2056,7 @@ def build_negative_discovery_owner_rows(
         pointer = source_row.get("failed_gate") or source_row.get("debt_row_pointer") or source_row.get("evidence_pointer")
         artifact = str(source_row.get("json_artifact") or "")
         source = artifact if not isinstance(pointer, str) or not pointer else f"{artifact}:{pointer}"
-        report_id = "dimension-mismatch-scale-leakage" if report == "dimension-mismatch-debt-transfer" else report
+        report_id = DIMENSION_MISMATCH_REPORT_ID if report == "dimension-mismatch-debt-transfer" else report
         row = {
             "negative_id": f"dn:{report_id}",
             "report_id": report_id,
@@ -2085,6 +2090,11 @@ def build_negative_discovery_owner_rows(
         ):
             if key in source_row:
                 row[key] = source_row[key]
+        if report_id == DIMENSION_MISMATCH_REPORT_ID:
+            row["bedc_gap_mapping"] = BedcGapMapping.from_witness_pointer(
+                _root(root),
+                DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
+            ).as_owner_cell()
         _fill_negative_report_boundary(row)
         rows.append(row)
     return rows
@@ -2109,7 +2119,7 @@ def _fill_negative_report_boundary(row: dict[str, Any]) -> None:
             "what_was_learned": "certificate-guided discovery remains negative at the canonical positive-discovery gate",
             "next_hypothesis": "reuse the training owner report and isolate whether any discovery surface survives matched controls",
         },
-        "dimension-mismatch-scale-leakage": {
+        DIMENSION_MISMATCH_REPORT_ID: {
             "next_hypothesis": "add anti-triviality evidence that rules out scale-only or metadata proxy separation",
         },
     }

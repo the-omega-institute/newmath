@@ -522,6 +522,7 @@ def _set_canonical_tmp_root(monkeypatch, tmp_path):
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
     _write_release_pointer_fixture(tmp_path)
+    _write_dimension_mismatch_gap_witness_fixture(tmp_path)
 
 
 def _write_release_pointer_fixture(root):
@@ -540,6 +541,36 @@ def _write_release_pointer_fixture(root):
         encoding="utf-8",
     )
     (root / "VERSION").write_text("0.0.1\n", encoding="utf-8")
+
+
+def _write_dimension_mismatch_gap_witness_fixture(root):
+    path = root / "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            {
+                "run_local": {
+                    "negative_witness": [
+                        {
+                            "bedc_gap_field": "representation_scale_leakage",
+                            "demotion_rule": "demote_to_DN_or_D1",
+                            "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                        }
+                    ],
+                    "test_artifact": {
+                        "regression_tests": {
+                            "scale_leakage_witness": (
+                                "tests/test_dimension_mismatch_debt_transfer.py::"
+                                "test_scale_leakage_sidecar_maps_to_first_negative_witness"
+                            )
+                        }
+                    },
+                }
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def _write_lab_report_import_fixture(root, spec):
@@ -1209,6 +1240,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_dimension_mismatch_gap_witness_fixture(tmp_path)
     for spec in canonical.CANONICAL_REPORTS:
         json_path = canonical._artifact_path(spec.json_artifact)
         json_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1265,13 +1297,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
         "expected_kind_count": 8,
         "schema_role": "bedc-gap-witness-ledger",
-        "required_fields": [
-            "bedc_gap_field",
-            "violated_principle",
-            "required_ledger_row",
-            "demotion",
-            "regression_test",
-        ],
+        "witness_rows_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses",
     }
     assert payload["claim_verdicts"]["status"] == "pointer-only"
     assert payload["claim_verdicts"]["artifact_id"] == "bedc-quality-lab:claim-verdicts"
@@ -1808,6 +1834,7 @@ def test_quality_scorecard_is_generated_by_canonical_runner(tmp_path, monkeypatc
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
     _write_release_pointer_fixture(tmp_path)
+    _write_dimension_mismatch_gap_witness_fixture(tmp_path)
 
     def fake_run_producer(spec):
         json_path = canonical._artifact_path(spec.json_artifact)
@@ -2227,6 +2254,7 @@ def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, 
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
     _write_release_pointer_fixture(tmp_path)
+    _write_dimension_mismatch_gap_witness_fixture(tmp_path)
 
     def fake_run_producer(spec):
         json_path = canonical._artifact_path(spec.json_artifact)

@@ -45,13 +45,6 @@ DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_ARTIFACT_ID = "bedc-quality-lab:dimension
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
 NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
-NEGATIVE_WITNESSES_REQUIRED_FIELDS = (
-    "bedc_gap_field",
-    "violated_principle",
-    "required_ledger_row",
-    "demotion",
-    "regression_test",
-)
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
 CLAIM_GRAPH_JSON_ARTIFACT = "reports/canonical/claim_graph.json"
@@ -1753,7 +1746,7 @@ def _negative_witnesses_index_section() -> dict[str, Any]:
         "json_artifact": NEGATIVE_WITNESSES_JSON_ARTIFACT,
         "expected_kind_count": NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT,
         "schema_role": "bedc-gap-witness-ledger",
-        "required_fields": list(NEGATIVE_WITNESSES_REQUIRED_FIELDS),
+        "witness_rows_pointer": f"{NEGATIVE_WITNESSES_JSON_ARTIFACT}:$.witnesses",
     }
 
 

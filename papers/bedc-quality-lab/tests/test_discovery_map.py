@@ -149,6 +149,7 @@ def _minimal_payload(spec):
 def _write_all_payloads(root: Path):
     for spec in canonical.CANONICAL_REPORTS:
         _write_payload(root, spec, _minimal_payload(spec))
+    _write_dimension_mismatch_gap_witness_fixture(root)
     _write_json_artifact(root, discovery_map.QUALITY_SCORECARD_ARTIFACT, _scorecard_payload())
     _write_json_artifact(
         root,
@@ -178,6 +179,32 @@ def _write_json_artifact(root: Path, artifact: str, payload):
     path = root / artifact
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+
+
+def _write_dimension_mismatch_gap_witness_fixture(root: Path):
+    _write_json_artifact(
+        root,
+        "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+        {
+            "run_local": {
+                "negative_witness": [
+                    {
+                        "bedc_gap_field": "representation_scale_leakage",
+                        "demotion_rule": "demote_to_DN_or_D1",
+                        "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                    }
+                ],
+                "test_artifact": {
+                    "regression_tests": {
+                        "scale_leakage_witness": (
+                            "tests/test_dimension_mismatch_debt_transfer.py::"
+                            "test_scale_leakage_sidecar_maps_to_first_negative_witness"
+                        )
+                    }
+                },
+            }
+        },
+    )
 
 
 def _write_release_pointer_fixture(root: Path):
