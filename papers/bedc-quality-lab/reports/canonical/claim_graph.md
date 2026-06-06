@@ -16,7 +16,7 @@
 | `projected:gap-head-discovery` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[3]` | `raw:gap-head-discovery` |
 | `raw:gap-head-ablation` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[0]` |  |
 | `projected:gap-head-ablation` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[4]` | `raw:gap-head-ablation` |
-| `raw:ledger-aware-transformer` | `raw_evidence` | `reports/canonical/ledger-aware-transformer.json:$` |  |
+| `raw:ledger-aware-transformer` | `raw_evidence` | `reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_reduction` |  |
 | `projected:ledger-aware-transformer` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[5]` | `raw:ledger-aware-transformer` |
 | `raw:certificate-gated-attention` | `raw_evidence` | `reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_vs_plain_valid` |  |
 | `projected:certificate-gated-attention` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[6]` | `raw:certificate-gated-attention` |

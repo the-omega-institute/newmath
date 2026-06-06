@@ -794,6 +794,29 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         assert spec.positive_claim_pointer.startswith("$.")
 
 
+def test_ledger_aware_transformer_required_surface_is_signal_owner():
+    spec = canonical._specs_by_name()["ledger-aware-transformer"]
+
+    assert spec.command == ("python3", "scripts/run_ledger_aware_transformer.py")
+    assert spec.scope_pointer == "$.applicability_boundary"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.positive_claim_pointer == "$.positive_claim"
+    assert spec.control_pointer == "$.control_protocol"
+    assert {
+        "projector",
+        "run_artifacts",
+        "hardgate",
+        "failed_gate",
+        "discovery_map_signal",
+        "matched_random_control",
+        "torch_training_evidence",
+        "revocation_rows",
+        "forbidden_claim_term_audit",
+    }.issubset(set(spec.required_json_keys))
+    assert "terminal_verdict" not in spec.required_json_keys
+    assert "surfaces" not in spec.required_json_keys
+
+
 def test_committed_canonical_bundle_covers_every_registered_report():
     index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
     discovery_payload = json.loads((canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))

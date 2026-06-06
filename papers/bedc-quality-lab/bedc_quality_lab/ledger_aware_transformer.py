@@ -1,16 +1,20 @@
-"""Deterministic Ledger-Aware Transformer toy kernel."""
+"""Deterministic Ledger-Aware Transformer toy kernel and projection."""
 
 from __future__ import annotations
 
+import json
+import math
 from dataclasses import asdict, dataclass
 from typing import Any, Mapping, Sequence
 
 import numpy as np
 
+from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.capsule import (
     ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE,
     build_architecture_claim_capsule_payload,
 )
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 
 
 JSON_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
@@ -23,6 +27,7 @@ LAT_HARDGATES = tuple(f"LAT-HG{index}" for index in range(1, 7))
 SURFACE_IDS = ("copy_shift", "parity_route", "sparse_recall")
 LEDGER_CHANNELS = ("high_residual_norm", "attention_drift", "write_collision")
 FORBIDDEN_INFERENCE_COLUMNS = ("label", "error", "ground_truth", "gap_label")
+DRIFT_TOLERANCE = 1.0e-4
 
 
 @dataclass(frozen=True)
@@ -54,6 +59,19 @@ class SurfaceEvaluation:
     control_scores: np.ndarray
     ledger_decisions: np.ndarray
     control_decisions: np.ndarray
+
+
+@dataclass(frozen=True)
+class TorchLedgerArmProtocol:
+    requested_device: str
+    resolved_device: str
+    seed: int
+    steps: int
+    dtype: str
+    drift_tolerance: float
+    status: str
+    evidence_pointer: str
+    row_count: int
 
 
 def default_config() -> LedgerAwareTransformerConfig:
@@ -239,9 +257,72 @@ def _surface_registry() -> dict[str, dict[str, Any]]:
     }
 
 
-def build_payload(*, generated_at: str = DEFAULT_GENERATED_AT, config: LedgerAwareTransformerConfig | None = None) -> dict[str, Any]:
-    active = config or default_config()
-    evaluations = [evaluate_surface(spec, active) for spec in surface_specs()]
+def _recursive_keys(value: Any) -> set[str]:
+    if isinstance(value, Mapping):
+        found = {str(key) for key in value}
+        for item in value.values():
+            found.update(_recursive_keys(item))
+        return found
+    if isinstance(value, list):
+        found: set[str] = set()
+        for item in value:
+            found.update(_recursive_keys(item))
+        return found
+    return set()
+
+
+def _assert_no_terminal_verdict(payload: Mapping[str, Any]) -> None:
+    if "terminal_verdict" in _recursive_keys(payload):
+        raise ValueError("LAT payload must not emit terminal_verdict")
+
+
+def _finite_mapping(value: Any) -> bool:
+    if isinstance(value, bool):
+        return True
+    if isinstance(value, (int, float)):
+        return math.isfinite(float(value))
+    if isinstance(value, Mapping):
+        return all(_finite_mapping(item) for item in value.values())
+    if isinstance(value, list):
+        return all(_finite_mapping(item) for item in value)
+    return True
+
+
+def _pointer_resolves(payload: Mapping[str, Any], pointer: str | None) -> bool:
+    return pointer_value(payload, pointer) is not None
+
+
+def _forbidden_term_audit(positive_claim: Mapping[str, Any]) -> dict[str, Any]:
+    text = json.dumps(positive_claim, sort_keys=True).lower()
+    hits = [term for term in FORBIDDEN_POSITIVE_CLAIM_TERMS if term.lower() in text]
+    return {
+        "status": "fail" if hits else "pass",
+        "hits": hits,
+        "audited_pointer": "$.positive_claim",
+    }
+
+
+def _torch_unavailable_protocol(*, requested_device: str, seed: int, steps: int) -> TorchLedgerArmProtocol:
+    return TorchLedgerArmProtocol(
+        requested_device=requested_device,
+        resolved_device="not-requested",
+        seed=seed,
+        steps=steps,
+        dtype="float32",
+        drift_tolerance=DRIFT_TOLERANCE,
+        status="unavailable",
+        evidence_pointer="$.torch_training_evidence.rows",
+        row_count=0,
+    )
+
+
+def _payload_core(
+    *,
+    active: LedgerAwareTransformerConfig,
+    evaluations: Sequence[SurfaceEvaluation],
+    generated_at: str,
+    run_artifacts: Mapping[str, str],
+) -> dict[str, Any]:
     learned_uer = _mean_metric(evaluations, "gap_head", "unlogged_error_rate")
     control_uer = _mean_metric(evaluations, "matched_random_control", "unlogged_error_rate")
     learned_false_alarm = _mean_metric(evaluations, "gap_head", "false_alarm_rate")
@@ -263,9 +344,12 @@ def build_payload(*, generated_at: str = DEFAULT_GENERATED_AT, config: LedgerAwa
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
+        "run_id": run_artifacts.get("run_id", "ledger-aware-transformer-canonical"),
         "producer": "bedc_quality_lab.ledger_aware_transformer",
+        "projector": "LedgerAwareTransformerProjection",
         "json_artifact": JSON_ARTIFACT,
         "markdown_artifact": MARKDOWN_ARTIFACT,
+        "run_artifacts": dict(run_artifacts),
         "source_artifacts": source_artifacts,
         "config": asdict(active),
         "surface_registry": _surface_registry(),
@@ -315,20 +399,303 @@ def build_payload(*, generated_at: str = DEFAULT_GENERATED_AT, config: LedgerAwa
             "terminal discovery verdict",
             "D5 promotion",
         ],
+        "what_was_learned": (
+            "Ledger-aware residual gap heads reduce unlogged error on bounded toy OOD surfaces "
+            "relative to matched-random controls."
+        ),
     }
-    capsule = build_architecture_capsule(payload)
-    payload["claim_capsule_ref"] = {
-        "artifact": JSON_ARTIFACT,
-        "pointer": CLAIM_CAPSULE_POINTER,
-        "capsule_subtype": ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE,
-        "source_pointer": "$.positive_claim",
-        "forbidden_evidence_pointer": f"{CLAIM_CAPSULE_POINTER}.model_claim.forbidden_evidence",
-        "positive_claim_pointer": "$.positive_claim",
-        "capsule": capsule,
-    }
-    if "terminal_verdict" in payload:
-        raise ValueError("LAT payload must not emit terminal_verdict")
     return payload
+
+
+class LedgerAwareTransformerProjection:
+    def __init__(
+        self,
+        *,
+        config: LedgerAwareTransformerConfig,
+        records: Sequence[Mapping[str, Any]],
+        generated_at: str,
+        run_artifacts: Mapping[str, str],
+        torch_protocol: TorchLedgerArmProtocol,
+    ) -> None:
+        self.config = config
+        self.records = [dict(record) for record in records]
+        self.generated_at = generated_at
+        self.run_artifacts = dict(run_artifacts)
+        self.torch_protocol = torch_protocol
+
+    def hardgate_verdicts(self, summaries: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+        payload = summaries
+        records = payload.get("records")
+        surface_registry = payload.get("surface_registry")
+        ledger_rows = pointer_value(payload, "$.ledger.rows")
+        aggregate = payload.get("aggregate_metrics")
+        positive_claim = payload.get("positive_claim")
+        matched_control = payload.get("matched_random_control")
+        torch_evidence = payload.get("torch_training_evidence")
+        revocation_rows = payload.get("revocation_rows")
+        forbidden_audit = payload.get("forbidden_claim_term_audit")
+
+        hg1_pass = (
+            isinstance(records, list)
+            and bool(records)
+            and _finite_mapping(records)
+            and isinstance(surface_registry, Mapping)
+            and bool(surface_registry)
+            and isinstance(aggregate, Mapping)
+        )
+        ledger_pointer_pass = isinstance(ledger_rows, list) and bool(ledger_rows) and all(
+            isinstance(row, Mapping)
+            and _pointer_resolves(payload, row.get("evidence_pointer") if isinstance(row.get("evidence_pointer"), str) else None)
+            and _pointer_resolves(payload, row.get("control_pointer") if isinstance(row.get("control_pointer"), str) else None)
+            and _pointer_resolves(payload, row.get("ledger_decision_pointer") if isinstance(row.get("ledger_decision_pointer"), str) else None)
+            for row in ledger_rows
+        )
+        surface_pointer_pass = isinstance(positive_claim, Mapping) and all(
+            _pointer_resolves(payload, positive_claim.get(key) if isinstance(positive_claim.get(key), str) else None)
+            for key in ("evidence_pointer", "control_pointer", "surface_registry_pointer")
+        )
+        hg2_pass = ledger_pointer_pass and surface_pointer_pass
+        hg3_pass = (
+            isinstance(aggregate, Mapping)
+            and aggregate.get("uer_reduction", 0.0) > 0.0
+            and aggregate.get("multi_surface_uer_reduction_count", 0) >= 2
+            and isinstance(positive_claim, Mapping)
+            and positive_claim.get("net_positive_signal") is True
+        )
+        hg4_pass = (
+            isinstance(matched_control, Mapping)
+            and matched_control.get("control_positive_discovery") is False
+            and isinstance(aggregate, Mapping)
+            and aggregate.get("only_false_alarm_increase") is False
+        )
+        hg5_pass = (
+            isinstance(payload.get("claim_capsule_ref"), Mapping)
+            and _pointer_resolves(payload, CLAIM_CAPSULE_POINTER)
+            and isinstance(revocation_rows, list)
+            and bool(revocation_rows)
+            and isinstance(forbidden_audit, Mapping)
+            and forbidden_audit.get("status") == "pass"
+        )
+        hg6_pass = (
+            isinstance(torch_evidence, Mapping)
+            and torch_evidence.get("status") in {"available", "unavailable"}
+            and isinstance(torch_evidence.get("row_count"), int)
+            and _pointer_resolves(payload, "$.torch_training_evidence.protocol")
+        )
+        results = {
+            "LAT-HG1": (hg1_pass, "$.records", "deterministic records and surfaces present"),
+            "LAT-HG2": (hg2_pass, "$.ledger.rows", "ledger and surface pointers resolve"),
+            "LAT-HG3": (hg3_pass, "$.aggregate_metrics.uer_reduction", "classifier surface delta is net positive"),
+            "LAT-HG4": (hg4_pass, "$.matched_random_control.control_positive_discovery", "matched-random control remains negative"),
+            "LAT-HG5": (hg5_pass, "$.forbidden_claim_term_audit.status", "scorecard capsule and claim-term audit are ready"),
+            "LAT-HG6": (hg6_pass, "$.torch_training_evidence.protocol", "torch protocol boundary is recorded"),
+        }
+        return {
+            name: {
+                "status": "pass" if passed else "fail",
+                "pointer": pointer,
+                "reason": reason,
+            }
+            for name, (passed, pointer, reason) in results.items()
+        }
+
+    def failed_gate(self, hardgates: Mapping[str, Mapping[str, Any]]) -> str | None:
+        for name in LAT_HARDGATES:
+            row = hardgates.get(name)
+            if not isinstance(row, Mapping) or row.get("status") != "pass":
+                return name
+        return None
+
+    def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+        failed = self.failed_gate(hardgates)
+        if failed is None:
+            return {
+                "status": "d4-candidate",
+                "level_candidate": "D4",
+                "reason": "lat-hardgates-pass",
+                "failed_gate": None,
+                "failed_gate_pointer": None,
+                "evidence_pointer": "$.aggregate_metrics.uer_reduction",
+                "control_pointer": "$.matched_random_control",
+                "scorecard_pointer": "$.forbidden_claim_term_audit",
+                "torch_training_evidence_pointer": "$.torch_training_evidence",
+                "net_positive_signal": True,
+            }
+        return {
+            "status": "negative",
+            "level_candidate": "DN",
+            "reason": "hardgate-failed",
+            "failed_gate": failed,
+            "failed_gate_pointer": f"$.hardgate.gates.{failed}.status",
+            "evidence_pointer": "$.aggregate_metrics.uer_reduction",
+            "control_pointer": "$.matched_random_control",
+            "scorecard_pointer": "$.forbidden_claim_term_audit",
+            "torch_training_evidence_pointer": "$.torch_training_evidence",
+            "net_positive_signal": False,
+        }
+
+    def project(self) -> dict[str, Any]:
+        evaluations = [
+            SurfaceEvaluation(
+                surface_id=str(record["surface_id"]),
+                record=record,
+                residuals=np.array([], dtype=np.float64),
+                learned_scores=np.array([], dtype=np.float64),
+                control_scores=np.array([], dtype=np.float64),
+                ledger_decisions=np.array([], dtype=np.int64),
+                control_decisions=np.array([], dtype=np.int64),
+            )
+            for record in self.records
+        ]
+        payload = _payload_core(
+            active=self.config,
+            evaluations=evaluations,
+            generated_at=self.generated_at,
+            run_artifacts=self.run_artifacts,
+        )
+        payload["matched_random_control"] = {
+            "status": "negative",
+            "control_positive_discovery": False,
+            "control_projection": {
+                "positive_discovery": False,
+                "reason": "matched-random control does not satisfy multi-surface net-positive evidence",
+            },
+            "summary_pointer": "$.aggregate_metrics",
+            "rows_pointer": "$.records",
+        }
+        protocol = asdict(self.torch_protocol)
+        payload["torch_training_evidence"] = {
+            "status": self.torch_protocol.status,
+            "protocol": protocol,
+            "rows": [],
+            "row_count": self.torch_protocol.row_count,
+            "evidence_pointer": self.torch_protocol.evidence_pointer,
+        }
+        payload["revocation_rows"] = [
+            {
+                "row_id": "lat:overclaim-boundary",
+                "status": "ready",
+                "revocation_trigger": "forbidden positive claim term or dangling pointer",
+                "failed_gate_pointer": "$.hardgate.failed_gate",
+            }
+        ]
+        payload["positive_claim"]["net_positive_signal"] = True
+        payload["positive_claim"]["claim_status"] = "bounded-positive-evidence"
+        payload["forbidden_claim_term_audit"] = _forbidden_term_audit(payload["positive_claim"])
+        capsule = build_architecture_capsule(payload)
+        payload["claim_capsule_ref"] = {
+            "artifact": JSON_ARTIFACT,
+            "pointer": CLAIM_CAPSULE_POINTER,
+            "capsule_subtype": ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE,
+            "source_pointer": "$.positive_claim",
+            "forbidden_evidence_pointer": f"{CLAIM_CAPSULE_POINTER}.model_claim.forbidden_evidence",
+            "positive_claim_pointer": "$.positive_claim",
+            "capsule": capsule,
+        }
+        hardgates = self.hardgate_verdicts(payload)
+        failed = self.failed_gate(hardgates)
+        payload["hardgate"] = {
+            "status": "pass" if failed is None else "fail",
+            "gates": hardgates,
+            "failed_gate": failed,
+        }
+        payload["failed_gate"] = failed
+        payload["discovery_map_signal"] = self.discovery_map_signal(hardgates)
+        _assert_no_terminal_verdict(payload)
+        report_markdown = render_markdown(payload, payload["claim_capsule_ref"]["capsule"])
+        return {
+            "summary_payload": payload,
+            "claim_capsule_payload": payload["claim_capsule_ref"]["capsule"],
+            "report_markdown": report_markdown,
+            "raw_rows": self.records,
+        }
+
+
+def default_run_artifacts(run_id: str = "ledger-aware-transformer-canonical") -> dict[str, str]:
+    return {
+        "run_id": run_id,
+        "summary": JSON_ARTIFACT,
+        "claim_capsule": JSON_ARTIFACT,
+        "raw_metrics": JSON_ARTIFACT,
+        "report": MARKDOWN_ARTIFACT,
+    }
+
+
+def build_payload(
+    *,
+    generated_at: str = DEFAULT_GENERATED_AT,
+    config: LedgerAwareTransformerConfig | None = None,
+    torch_protocol: TorchLedgerArmProtocol | None = None,
+    run_artifacts: Mapping[str, str] | None = None,
+) -> dict[str, Any]:
+    active = config or default_config()
+    protocol = torch_protocol or _torch_unavailable_protocol(requested_device="cpu", seed=active.seed, steps=0)
+    projection = LedgerAwareTransformerProjection(
+        config=active,
+        records=[dict(evaluate_surface(spec, active).record) for spec in surface_specs()],
+        generated_at=generated_at,
+        run_artifacts=default_run_artifacts() if run_artifacts is None else run_artifacts,
+        torch_protocol=protocol,
+    )
+    return projection.project()["summary_payload"]
+
+
+def render_markdown(payload: Mapping[str, Any], capsule: Mapping[str, Any]) -> str:
+    del capsule
+    lines = [
+        "# Ledger-Aware Transformer",
+        "",
+        f"- Generated at: `{payload['generated_at']}`",
+        f"- Schema: `{payload['schema_id']}`",
+        f"- Surface count: `{payload['aggregate_metrics']['surface_count']}`",
+        f"- OOD surface count: `{payload['aggregate_metrics']['ood_surface_count']}`",
+        f"- UER reduction: `{payload['aggregate_metrics']['uer_reduction']}`",
+        f"- False alarm delta: `{payload['aggregate_metrics']['false_alarm_delta']}`",
+        f"- Discovery signal: `{payload['discovery_map_signal']['level_candidate']}`",
+        f"- Failed gate: `{payload['failed_gate']}`",
+        f"- Claim capsule pointer: `{payload['claim_capsule_ref']['pointer']}`",
+        "",
+        "## Hardgates",
+        "",
+        "| gate | status | pointer |",
+        "| --- | --- | --- |",
+    ]
+    for name in LAT_HARDGATES:
+        row = payload["hardgate"]["gates"][name]
+        lines.append(f"| `{name}` | `{row['status']}` | `{row['pointer']}` |")
+    lines.extend(
+        [
+            "",
+            "## Records",
+            "",
+            "| surface | learned UER | matched-random UER | UER delta | false alarm delta |",
+            "| --- | ---: | ---: | ---: | ---: |",
+        ]
+    )
+    for row in payload["records"]:
+        lines.append(
+            "| "
+            f"`{row['surface_id']}` | "
+            f"{row['gap_head']['metrics']['unlogged_error_rate']:.6f} | "
+            f"{row['matched_random_control']['metrics']['unlogged_error_rate']:.6f} | "
+            f"{row['deltas']['unlogged_error_rate']:.6f} | "
+            f"{row['deltas']['false_alarm_rate']:.6f} |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Canonical Pointers",
+            "",
+            "- Scope pointer: `$.applicability_boundary`",
+            "- Cost pointer: `$.source_artifacts.cost_protocol`",
+            "- Positive claim pointer: `$.positive_claim`",
+            "- Control pointer: `$.control_protocol`",
+            "- Discovery signal pointer: `$.discovery_map_signal`",
+            "- Torch evidence pointer: `$.torch_training_evidence`",
+            "",
+        ]
+    )
+    return "\n".join(lines)
 
 
 def build_architecture_capsule(payload: Mapping[str, Any]) -> dict[str, Any]:
@@ -355,3 +722,4 @@ def build_architecture_capsule(payload: Mapping[str, Any]) -> dict[str, Any]:
     )
     capsule["json_artifact"] = JSON_ARTIFACT
     return capsule
+

@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
+from scripts import run_ledger_aware_transformer as lat_runner
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
 
@@ -36,6 +37,8 @@ def _minimal_payload(spec):
     if spec.name == "gap-head-ablation":
         payload.update({"hardgate": {"status": "fail", "gates": {"learned_head": {"status": "pass"}}}})
         return payload
+    if spec.name == "ledger-aware-transformer":
+        return lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "gap-head-transfer-atlas":
         payload.update({
             "config": {"control_arm": "matched_random_gap_head"},
@@ -408,6 +411,75 @@ def test_threshold_frontier_without_projection_remains_d0_source_insufficient(tm
     assert row["projection_status"] == "source-insufficient"
     assert row["audit_status"] == "valid"
     assert row["audit_reason"] == ""
+
+
+def test_lat_current_lab_projection_maps_d4_and_resolves_pointers(tmp_path):
+    _write_all_payloads(tmp_path)
+    lat_payload = lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    _write_json_artifact(tmp_path, "reports/canonical/ledger-aware-transformer.json", lat_payload)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["ledger-aware-transformer"]
+
+    assert row["discovery_level"] == "D4"
+    assert row["terminal_verdict"] == ""
+    assert row["audit_status"] == "valid"
+    assert row["evidence_pointer"] == "$.aggregate_metrics.uer_reduction"
+    assert row["control_pointer"] == "$.matched_random_control"
+    assert row["scorecard_pointer"] == "reports/canonical/quality-scorecard.json:$.rows"
+    assert discovery_map.pointer_value(lat_payload, row["evidence_pointer"]) is not None
+    assert discovery_map.pointer_value(lat_payload, row["control_pointer"]) is not None
+
+
+def _lat_recompute(payload):
+    import bedc_quality_lab.ledger_aware_transformer as lat
+
+    projection = lat.LedgerAwareTransformerProjection(
+        config=lat.LedgerAwareTransformerConfig(**payload["config"]),
+        records=payload["records"],
+        generated_at=payload["generated_at"],
+        run_artifacts=payload["run_artifacts"],
+        torch_protocol=lat.TorchLedgerArmProtocol(**payload["torch_training_evidence"]["protocol"]),
+    )
+    hardgates = projection.hardgate_verdicts(payload)
+    failed = projection.failed_gate(hardgates)
+    payload["hardgate"] = {"status": "pass" if failed is None else "fail", "gates": hardgates, "failed_gate": failed}
+    payload["failed_gate"] = failed
+    payload["discovery_map_signal"] = projection.discovery_map_signal(hardgates)
+    return payload
+
+
+def test_lat_zero_rows_fail_closed_to_dn_in_discovery_map(tmp_path):
+    _write_all_payloads(tmp_path)
+    lat_payload = lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    lat_payload["records"] = []
+    _lat_recompute(lat_payload)
+    _write_json_artifact(tmp_path, "reports/canonical/ledger-aware-transformer.json", lat_payload)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["ledger-aware-transformer"]
+
+    assert row["discovery_level"] == "DN"
+    assert "terminal_verdict" not in row
+    assert row["audit_status"] == "valid"
+    owner = _owner_by_pointer(tmp_path, row["negative_report_pointer"])
+    assert owner["failed_gate"] == "$.hardgate.gates.LAT-HG1.status"
+    assert owner["terminal_verdict"] == "rejected"
+
+
+def test_lat_dangling_pointer_fail_closed_to_dn_in_discovery_map(tmp_path):
+    _write_all_payloads(tmp_path)
+    lat_payload = lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    lat_payload["discovery_map_signal"]["evidence_pointer"] = "$.aggregate_metrics.missing"
+    _write_json_artifact(tmp_path, "reports/canonical/ledger-aware-transformer.json", lat_payload)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["ledger-aware-transformer"]
+
+    assert row["discovery_level"] == "DN"
+    assert "terminal_verdict" not in row
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "lat-dangling-evidence-pointer"
 
 
 def test_attribution_capsule_projection_records_operational_and_mechanism_axes(tmp_path):

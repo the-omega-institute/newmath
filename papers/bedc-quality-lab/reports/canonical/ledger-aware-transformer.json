@@ -104,7 +104,61 @@
     "control_pointer": "$.records.0.matched_random_control",
     "matching": "same residual features, same train/eval split, shuffled ledger targets"
   },
+  "discovery_map_signal": {
+    "control_pointer": "$.matched_random_control",
+    "evidence_pointer": "$.aggregate_metrics.uer_reduction",
+    "failed_gate": null,
+    "failed_gate_pointer": null,
+    "level_candidate": "D4",
+    "net_positive_signal": true,
+    "reason": "lat-hardgates-pass",
+    "scorecard_pointer": "$.forbidden_claim_term_audit",
+    "status": "d4-candidate",
+    "torch_training_evidence_pointer": "$.torch_training_evidence"
+  },
+  "failed_gate": null,
+  "forbidden_claim_term_audit": {
+    "audited_pointer": "$.positive_claim",
+    "hits": [],
+    "status": "pass"
+  },
   "generated_at": "2026-06-05T15:14:26.399733+00:00",
+  "hardgate": {
+    "failed_gate": null,
+    "gates": {
+      "LAT-HG1": {
+        "pointer": "$.records",
+        "reason": "deterministic records and surfaces present",
+        "status": "pass"
+      },
+      "LAT-HG2": {
+        "pointer": "$.ledger.rows",
+        "reason": "ledger and surface pointers resolve",
+        "status": "pass"
+      },
+      "LAT-HG3": {
+        "pointer": "$.aggregate_metrics.uer_reduction",
+        "reason": "classifier surface delta is net positive",
+        "status": "pass"
+      },
+      "LAT-HG4": {
+        "pointer": "$.matched_random_control.control_positive_discovery",
+        "reason": "matched-random control remains negative",
+        "status": "pass"
+      },
+      "LAT-HG5": {
+        "pointer": "$.forbidden_claim_term_audit.status",
+        "reason": "scorecard capsule and claim-term audit are ready",
+        "status": "pass"
+      },
+      "LAT-HG6": {
+        "pointer": "$.torch_training_evidence.protocol",
+        "reason": "torch protocol boundary is recorded",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
   "json_artifact": "reports/canonical/ledger-aware-transformer.json",
   "ledger": {
     "forbidden_inference_columns_used": false,
@@ -137,6 +191,16 @@
     ]
   },
   "markdown_artifact": "reports/canonical/ledger-aware-transformer.md",
+  "matched_random_control": {
+    "control_positive_discovery": false,
+    "control_projection": {
+      "positive_discovery": false,
+      "reason": "matched-random control does not satisfy multi-surface net-positive evidence"
+    },
+    "rows_pointer": "$.records",
+    "status": "negative",
+    "summary_pointer": "$.aggregate_metrics"
+  },
   "not_claimed": [
     "real-model training",
     "general architecture superiority",
@@ -145,12 +209,15 @@
   ],
   "positive_claim": {
     "claim": "residual gap heads reduce unlogged error relative to matched-random gap heads on multiple OOD toy surfaces",
+    "claim_status": "bounded-positive-evidence",
     "control_pointer": "$.control_protocol",
     "evidence_pointer": "$.aggregate_metrics.uer_reduction",
+    "net_positive_signal": true,
     "status": "evidence-recorded",
     "surface_registry_pointer": "$.surface_registry"
   },
   "producer": "bedc_quality_lab.ledger_aware_transformer",
+  "projector": "LedgerAwareTransformerProjection",
   "records": [
     {
       "deltas": {
@@ -264,6 +331,22 @@
       "surface_id": "sparse_recall"
     }
   ],
+  "revocation_rows": [
+    {
+      "failed_gate_pointer": "$.hardgate.failed_gate",
+      "revocation_trigger": "forbidden positive claim term or dangling pointer",
+      "row_id": "lat:overclaim-boundary",
+      "status": "ready"
+    }
+  ],
+  "run_artifacts": {
+    "claim_capsule": "reports/canonical/ledger-aware-transformer.json",
+    "raw_metrics": "reports/canonical/ledger-aware-transformer.json",
+    "report": "reports/canonical/ledger-aware-transformer.md",
+    "run_id": "ledger-aware-transformer-canonical",
+    "summary": "reports/canonical/ledger-aware-transformer.json"
+  },
+  "run_id": "ledger-aware-transformer-canonical",
   "schema_id": "bedc.model.ledger_aware_transformer",
   "source_artifacts": {
     "cost_protocol": {
@@ -296,5 +379,23 @@
       "surface_id": "sparse_recall",
       "title": "recall head under sparse key reuse"
     }
-  }
+  },
+  "torch_training_evidence": {
+    "evidence_pointer": "$.torch_training_evidence.rows",
+    "protocol": {
+      "drift_tolerance": 0.0001,
+      "dtype": "float32",
+      "evidence_pointer": "$.torch_training_evidence.rows",
+      "requested_device": "cpu",
+      "resolved_device": "not-requested",
+      "row_count": 0,
+      "seed": 756,
+      "status": "unavailable",
+      "steps": 0
+    },
+    "row_count": 0,
+    "rows": [],
+    "status": "unavailable"
+  },
+  "what_was_learned": "Ledger-aware residual gap heads reduce unlogged error on bounded toy OOD surfaces relative to matched-random controls."
 }
