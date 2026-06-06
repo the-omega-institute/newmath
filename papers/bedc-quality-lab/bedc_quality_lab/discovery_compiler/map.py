@@ -137,11 +137,7 @@ def _validate_negative_owner_pointer(pointer: Any) -> str:
         if not local_pointer.startswith("$.rows["):
             raise ValueError("coverage_matrix negative_owner_pointer must point to a negative owner row")
         return pointer
-    if artifact.startswith("reports/runs/") and ".negative_witness[" in local_pointer:
-        return pointer
-    if artifact.startswith("reports/runs/") and ".negative_witness." in local_pointer:
-        return pointer
-    raise ValueError("coverage_matrix negative_owner_pointer must point to a negative owner row or run-local negative witness")
+    raise ValueError("coverage_matrix negative_owner_pointer must point to a negative owner row")
 
 
 def _discovery_targets(rows: Sequence[Mapping[str, Any]]) -> dict[str, Mapping[str, Any]]:
