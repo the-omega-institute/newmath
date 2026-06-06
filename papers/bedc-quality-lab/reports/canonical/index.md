@@ -109,6 +109,15 @@
 - Gate count: `20`
 - Candidate contract: `reports/canonical/new_model_hardgates.json:$.candidate_contract`
 
+## Discovery-Regularized Training Quality Boundary
+
+- Status: `present-but-fail-closed`
+- JSON: `reports/canonical/discovery-regularized-training.json`
+- Markdown: `reports/canonical/discovery-regularized-training.md`
+- Owner: `reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary`
+- Hardgate: `reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.hardgate`
+- Arm comparisons: `reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons`
+
 ## Discovery-Gated Transformer
 
 - Status: `present-but-fail-closed`
@@ -188,8 +197,6 @@
 - Ledger policy pointer: `$.ledger_policy.mechanism_closure_debt`
 - Closure status pointer: `$.closure_status.mechanism_spec`
 - Candidate mechanism: `unresolved`
-- Mechanism closure debt status: `present`
-- Mechanism spec closure: `partial`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
 
 ## Release manifest sidecar

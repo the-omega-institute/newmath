@@ -24,6 +24,10 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value as _bracket_pointer_value
 from bedc_quality_lab.discovery_compiler.map import validate_discovery_map_payload
+from bedc_quality_lab.discovery_regularized_training import (
+    QUALITY_PROMOTION_ARMS as DRT_QUALITY_PROMOTION_ARMS,
+    quality_artifact_pointer as _drt_quality_artifact_pointer,
+)
 from scripts.literature_ledger import validate_literature_ledger
 
 CANONICAL_DIR = ROOT / "reports" / "canonical"
@@ -69,6 +73,8 @@ NEW_MODEL_HARDGATES_JSON_ARTIFACT = "reports/canonical/new_model_hardgates.json"
 NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT = "reports/canonical/new_model_hardgates.md"
 NEW_MODEL_HARDGATES_ARTIFACT_ID = "bedc-quality-lab:new-model-hardgates"
 NEW_MODEL_HARDGATES_SCHEMA_ID = "bedc-quality-lab:new-model-hardgate-registry"
+DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
+DISCOVERY_REGULARIZED_TRAINING_MARKDOWN_ARTIFACT = "reports/canonical/discovery-regularized-training.md"
 DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT = "reports/canonical/discovery_gated_transformer.json"
 DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery_gated_transformer.md"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
@@ -640,8 +646,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
     CanonicalReportSpec(
         name="discovery-regularized-training",
         command=("python3", "scripts/run_discovery_regularized_training.py"),
-        json_artifact="reports/canonical/discovery-regularized-training.json",
-        markdown_artifact="reports/canonical/discovery-regularized-training.md",
+        json_artifact=DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
+        markdown_artifact=DISCOVERY_REGULARIZED_TRAINING_MARKDOWN_ARTIFACT,
         required_json_keys=(
             "schema_id",
             "artifact_id",
@@ -663,6 +669,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "negative_witness_mutations",
             "training_loop_trace",
             "matched_random_control",
+            "quality_promotion_boundary",
             "hardgate",
             "failed_gate",
             "discovery_map_signal",
@@ -2293,6 +2300,225 @@ def _new_model_hardgates_index_section(generated_at: str | None = None) -> dict[
     }
 
 
+def _drt_pointer_value(payload: Mapping[str, Any], artifact_pointer: str) -> Any:
+    prefix = f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:"
+    if not artifact_pointer.startswith(prefix):
+        return None
+    pointer = artifact_pointer[len(prefix) :]
+    if pointer == "$":
+        return payload
+    return _bracket_pointer_value(payload, pointer)
+
+
+def _as_finite_number(value: Any) -> float | None:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    return float(value)
+
+
+def _rounded_number(value: float | None) -> float | None:
+    return None if value is None else round(float(value), 6)
+
+
+def _validate_discovery_regularized_training_quality_promotion_boundary(payload: Mapping[str, Any]) -> None:
+    boundary = payload.get("quality_promotion_boundary")
+    if not isinstance(boundary, Mapping):
+        raise ValueError("discovery_regularized_training quality_promotion_boundary must be an object")
+    forbidden_keys = {
+        "terminal_verdict",
+        "metrics",
+        "raw_metrics",
+        "candidate_metrics",
+        "candidate_results",
+        "candidate_measurements",
+        "candidate_evidence",
+        "candidate_evidence_body",
+        "evidence_body",
+        "claim_capsule_body",
+        "measurement_body",
+        "host.env",
+        "host_env",
+        "host_environment",
+    }
+
+    def walk(value: Any, path: str) -> None:
+        if isinstance(value, Mapping):
+            for key, cell in value.items():
+                if key in forbidden_keys or key.endswith("_body"):
+                    raise ValueError(f"quality_promotion_boundary contains forbidden key at {path}.{key}")
+                walk(cell, f"{path}.{key}")
+        elif isinstance(value, list):
+            for index, cell in enumerate(value):
+                walk(cell, f"{path}[{index}]")
+        elif isinstance(value, str):
+            lowered = value.lower()
+            for forbidden in ("terminal_verdict", "candidate evidence body", "host.env"):
+                if forbidden in lowered:
+                    raise ValueError(f"quality_promotion_boundary contains forbidden value at {path}")
+
+    walk(boundary, "$.quality_promotion_boundary")
+    expected_top_level = {
+        "slot_state",
+        "owner_pointer",
+        "source_artifact",
+        "quality_metric",
+        "replay_dimension_pointers",
+        "task_only_quality_q_pointer",
+        "hardgate",
+        "arm_quality_order",
+        "arm_comparisons",
+    }
+    if set(boundary) != expected_top_level:
+        raise ValueError("quality_promotion_boundary has invalid top-level fields")
+    if boundary["slot_state"] != "present-but-fail-closed":
+        raise ValueError("quality_promotion_boundary slot_state must be present-but-fail-closed")
+    if boundary["owner_pointer"] != _drt_quality_artifact_pointer("$.quality_promotion_boundary"):
+        raise ValueError("quality_promotion_boundary owner pointer mismatch")
+    if boundary["source_artifact"] != DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT:
+        raise ValueError("quality_promotion_boundary source artifact mismatch")
+    if boundary["quality_metric"] != "quality_q":
+        raise ValueError("quality_promotion_boundary metric mismatch")
+    replay_pointers = boundary["replay_dimension_pointers"]
+    expected_replay_dimensions = {"steps", "seeds", "mixings", "rho", "lambda"}
+    if not isinstance(replay_pointers, Mapping) or set(replay_pointers) != expected_replay_dimensions:
+        raise ValueError("quality_promotion_boundary replay dimensions mismatch")
+    for key, pointer in replay_pointers.items():
+        if _drt_pointer_value(payload, str(pointer)) is None:
+            raise ValueError(f"quality_promotion_boundary replay pointer does not resolve: {key}")
+    task_quality = _as_finite_number(_drt_pointer_value(payload, str(boundary["task_only_quality_q_pointer"])))
+    hardgate = boundary["hardgate"]
+    hardgate_fields = {
+        "gate_id",
+        "slot_state",
+        "requirement",
+        "evidence_pointer",
+        "task_only_quality_q",
+        "drt_quality_q_ci_low",
+        "drt_minus_task_only_quality_q_ci_low",
+        "promotion_gate",
+        "fail_closed_when",
+    }
+    if not isinstance(hardgate, Mapping) or set(hardgate) != hardgate_fields:
+        raise ValueError("quality_promotion_boundary hardgate fields invalid")
+    if hardgate["gate_id"] != "DRT-HG2":
+        raise ValueError("quality_promotion_boundary hardgate id mismatch")
+    if hardgate["slot_state"] != "present-but-fail-closed":
+        raise ValueError("quality_promotion_boundary hardgate slot_state invalid")
+    if hardgate["fail_closed_when"] != "drt_quality_q_ci_low <= task_only_quality_q":
+        raise ValueError("quality_promotion_boundary fail-closed condition mismatch")
+    delta = _as_finite_number(_drt_pointer_value(payload, str(hardgate["evidence_pointer"])))
+    expected_drt_ci_low = task_quality + delta if task_quality is not None and delta is not None else None
+    expected_margin = None if expected_drt_ci_low is None or task_quality is None else expected_drt_ci_low - task_quality
+    if hardgate["task_only_quality_q"] != _rounded_number(task_quality):
+        raise ValueError("quality_promotion_boundary task_only quality mismatch")
+    if hardgate["drt_quality_q_ci_low"] != _rounded_number(expected_drt_ci_low):
+        raise ValueError("quality_promotion_boundary DRT CI-low mismatch")
+    if hardgate["drt_minus_task_only_quality_q_ci_low"] != _rounded_number(expected_margin):
+        raise ValueError("quality_promotion_boundary DRT margin mismatch")
+    expected_gate = (
+        "clears-boundary"
+        if expected_drt_ci_low is not None and task_quality is not None and expected_drt_ci_low > task_quality
+        else "fail-closed"
+    )
+    if hardgate["promotion_gate"] != expected_gate:
+        raise ValueError("quality_promotion_boundary DRT-HG2 fail-closed semantics mismatch")
+    if list(boundary["arm_quality_order"]) != list(DRT_QUALITY_PROMOTION_ARMS):
+        raise ValueError("quality_promotion_boundary arm render order mismatch")
+    arm_comparisons = boundary["arm_comparisons"]
+    if not isinstance(arm_comparisons, Mapping) or set(arm_comparisons) != set(DRT_QUALITY_PROMOTION_ARMS):
+        raise ValueError("quality_promotion_boundary arm coverage mismatch")
+    arm_fields = {
+        "render_order",
+        "arm",
+        "source_arm",
+        "slot_state",
+        "evidence_pointer",
+        "quality_q_pointer",
+        "quality_q_ci_low_pointer",
+        "quality_q",
+        "quality_q_ci_low",
+        "task_only_quality_q",
+        "comparison_to_task_only",
+        "promotion_gate",
+    }
+    for order, arm in enumerate(DRT_QUALITY_PROMOTION_ARMS, start=1):
+        row = arm_comparisons[arm]
+        if not isinstance(row, Mapping) or set(row) != arm_fields:
+            raise ValueError(f"quality_promotion_boundary arm row fields invalid: {arm}")
+        if row["render_order"] != order or row["arm"] != arm:
+            raise ValueError(f"quality_promotion_boundary arm row identity invalid: {arm}")
+        if row["slot_state"] != "present-but-fail-closed":
+            raise ValueError(f"quality_promotion_boundary arm row state invalid: {arm}")
+        for pointer_key in ("evidence_pointer", "quality_q_pointer", "quality_q_ci_low_pointer"):
+            if _drt_pointer_value(payload, str(row[pointer_key])) is None:
+                raise ValueError(f"quality_promotion_boundary pointer does not resolve: {arm}.{pointer_key}")
+        if row["task_only_quality_q"] != _rounded_number(task_quality):
+            raise ValueError(f"quality_promotion_boundary arm task_only quality mismatch: {arm}")
+    drt_row = arm_comparisons["DRT"]
+    if drt_row["quality_q_ci_low"] != hardgate["drt_quality_q_ci_low"]:
+        raise ValueError("quality_promotion_boundary DRT row CI-low must match hardgate")
+    if drt_row["promotion_gate"] != hardgate["promotion_gate"]:
+        raise ValueError("quality_promotion_boundary DRT row gate must match hardgate")
+
+
+def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any]) -> None:
+    _validate_discovery_regularized_training_quality_promotion_boundary(payload)
+
+
+def _discovery_regularized_training_quality_boundary_index_section(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:
+    fallback = {
+        "status": "present-but-fail-closed",
+        "json_artifact": DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
+        "markdown_artifact": DISCOVERY_REGULARIZED_TRAINING_MARKDOWN_ARTIFACT,
+        "owner_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary"),
+        "hardgate_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary.hardgate"),
+        "arm_comparisons_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary.arm_comparisons"),
+        "replay_dimension_pointers": {
+            "steps": _drt_quality_artifact_pointer("$.config.steps"),
+            "seeds": _drt_quality_artifact_pointer("$.config.seeds"),
+            "mixings": _drt_quality_artifact_pointer("$.config.mixings"),
+            "rho": _drt_quality_artifact_pointer("$.config.rhos"),
+            "lambda": _drt_quality_artifact_pointer("$.config.discovery_lambdas"),
+        },
+        "ordered_arm_comparison_pointers": [
+            {
+                "order": index,
+                "arm": arm,
+                "pointer": _drt_quality_artifact_pointer(f"$.quality_promotion_boundary.arm_comparisons.{arm}"),
+            }
+            for index, arm in enumerate(DRT_QUALITY_PROMOTION_ARMS, start=1)
+        ],
+    }
+    if payload is None:
+        path = _artifact_path(DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT)
+        if not path.exists():
+            return fallback
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, Mapping):
+        raise ValueError("discovery_regularized_training index source must be an object")
+    if not isinstance(payload.get("config"), Mapping):
+        return fallback
+    _validate_discovery_regularized_training_payload(payload)
+    boundary = payload["quality_promotion_boundary"]
+    return {
+        "status": boundary["slot_state"],
+        "json_artifact": DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
+        "markdown_artifact": DISCOVERY_REGULARIZED_TRAINING_MARKDOWN_ARTIFACT,
+        "owner_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary"),
+        "hardgate_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary.hardgate"),
+        "arm_comparisons_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary.arm_comparisons"),
+        "replay_dimension_pointers": dict(boundary["replay_dimension_pointers"]),
+        "ordered_arm_comparison_pointers": [
+            {
+                "order": index,
+                "arm": arm,
+                "pointer": _drt_quality_artifact_pointer(f"$.quality_promotion_boundary.arm_comparisons.{arm}"),
+            }
+            for index, arm in enumerate(DRT_QUALITY_PROMOTION_ARMS, start=1)
+        ],
+    }
+
+
 def _dgt_component_descriptors() -> dict[str, Any]:
     rows = (
         (
@@ -2842,7 +3068,7 @@ def _gap_head_mechanism_namecert_index_section() -> dict[str, Any]:
         "ledger_policy_pointer": "$.ledger_policy.mechanism_closure_debt",
         "closure_status_pointer": "$.closure_status.mechanism_spec",
         "candidate_mechanism": _pointer_value(payload, "$.mechanism_spec.candidate_mechanism") or "missing",
-        "mechanism_closure_debt_status": _pointer_value(payload, "$.ledger_policy.mechanism_closure_debt.status") or "missing",
+        "mechanism_closure_debt": _pointer_value(payload, "$.ledger_policy.mechanism_closure_debt") or "missing",
         "mechanism_spec_closure": _pointer_value(payload, "$.closure_status.mechanism_spec") or "missing",
         "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
     }
@@ -3031,6 +3257,7 @@ def _index(
         "negative_discovery_reports": _negative_discovery_reports_index_section(generated_at=timestamp),
         "negative_witness_mutation_ledger": _negative_witness_mutation_ledger_index_section(),
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
+        "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
         "discovery_gated_transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
@@ -3167,6 +3394,15 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Gate count: `{payload['new_model_hardgates']['gate_count']}`",
             f"- Candidate contract: `{payload['new_model_hardgates']['candidate_contract_pointer']}`",
             "",
+            "## Discovery-Regularized Training Quality Boundary",
+            "",
+            f"- Status: `{payload['discovery_regularized_training_quality']['status']}`",
+            f"- JSON: `{payload['discovery_regularized_training_quality']['json_artifact']}`",
+            f"- Markdown: `{payload['discovery_regularized_training_quality']['markdown_artifact']}`",
+            f"- Owner: `{payload['discovery_regularized_training_quality']['owner_pointer']}`",
+            f"- Hardgate: `{payload['discovery_regularized_training_quality']['hardgate_pointer']}`",
+            f"- Arm comparisons: `{payload['discovery_regularized_training_quality']['arm_comparisons_pointer']}`",
+            "",
             "## Discovery-Gated Transformer",
             "",
             f"- Status: `{payload['discovery_gated_transformer']['status']}`",
@@ -3246,8 +3482,6 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Ledger policy pointer: `{payload['gap_head_mechanism_namecert']['ledger_policy_pointer']}`",
             f"- Closure status pointer: `{payload['gap_head_mechanism_namecert']['closure_status_pointer']}`",
             f"- Candidate mechanism: `{payload['gap_head_mechanism_namecert']['candidate_mechanism']}`",
-            f"- Mechanism closure debt status: `{payload['gap_head_mechanism_namecert']['mechanism_closure_debt_status']}`",
-            f"- Mechanism spec closure: `{payload['gap_head_mechanism_namecert']['mechanism_spec_closure']}`",
             f"- Canonical role: `{payload['gap_head_mechanism_namecert']['canonical_role']}`",
             "",
             "## Release manifest sidecar",

@@ -42,6 +42,7 @@ REQUIRED_SUMMARY_KEYS = {
     "negative_witness_mutations",
     "training_loop_trace",
     "matched_random_control",
+    "quality_promotion_boundary",
     "hardgate",
     "failed_gate",
     "discovery_map_signal",
@@ -404,6 +405,11 @@ def test_recursive_no_terminal_verdict_and_pointer_fields_resolve(tmp_path):
     assert dangling == []
     assert summary["claim_capsule_ref"] == summary["run_artifacts"]["claim_capsule"]
     assert summary["not_claimed"] == capsule["not_claimed"]
+    assert capsule["result_snapshot"]["quality_promotion_boundary"] == summary["quality_promotion_boundary"]
+    assert (
+        capsule["result_snapshot"]["quality_promotion_boundary"]["owner_pointer"]
+        == "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary"
+    )
 
 
 def test_canonical_spec_uses_committed_config_and_source_artifacts():

@@ -52,7 +52,7 @@
 | `projected:single-threshold-escape` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[21]` | `raw:single-threshold-escape` |
 | `raw:training-choice-observability` | `raw_evidence` | `runs/training_choice_observability.json:$.boundary_ledger` |  |
 | `projected:training-choice-observability` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[22]` | `raw:training-choice-observability` |
-| `raw:gap-head-mechanism-blockage` | `raw_evidence` | `reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt.source_pointer` |  |
+| `raw:gap-head-mechanism-blockage` | `raw_evidence` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` |  |
 | `projected:gap-head-mechanism-blockage` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[23]` | `raw:gap-head-mechanism-blockage` |
 | `negative-witness:classifier_surface_delta_zero` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]` |  |
 | `negative-witness:matched_control_positive` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]` |  |

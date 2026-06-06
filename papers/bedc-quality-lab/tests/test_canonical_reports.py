@@ -10,6 +10,7 @@ from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
+from scripts import run_discovery_regularized_training as runner
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, split_artifact_pointer
 
@@ -320,6 +321,40 @@ def _payload_for_spec(spec):
     if spec.name == "discovery-regularized-training":
         payload.update(
             {
+                "config": {
+                    "steps": 12,
+                    "seeds": [11, 23, 37],
+                    "mixings": ["spiral", "parabolic", "realnvp"],
+                    "rhos": [0.5, 0.7, 0.9, 0.95],
+                    "discovery_lambdas": [0.0, 0.0001, 0.001, 0.005, 0.01],
+                    "arms": ["task_only", "sigreg", "drt", "matched_random"],
+                },
+                "records": {
+                    "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+                    "deterministic_anchor_rows": 720,
+                    "torch_evidence_rows": 16,
+                },
+                "surface_registry": {
+                    "quality": {
+                        "source": "deterministic-anchor",
+                        "metric": "quality_q",
+                        "by_arm": {
+                            "task_only": {"quality_q_mean": 0.58},
+                            "sigreg": {"quality_q_mean": 0.60},
+                            "drt": {"quality_q_mean": 0.64},
+                            "matched_random": {"quality_q_mean": 0.59},
+                        },
+                    },
+                    "task_accuracy_only": {"task_accuracy_only_rejected": True, "promoted_row_count": 0},
+                },
+                "lambda_summary": {
+                    "best_positive": {
+                        "discovery_lambda": "0.01",
+                        "quality_q_mean": 0.62,
+                        "delta_quality_ci_low_mean": 0.003,
+                    },
+                    "ordered_discovery_lambdas": [0.0, 0.0001, 0.001, 0.005, 0.01],
+                },
                 "torch_training_evidence": {
                     "status": "available",
                     "row_count": 16,
@@ -360,6 +395,7 @@ def _payload_for_spec(spec):
                 },
             }
         )
+        payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
     if spec.name == "certificate-gated-attention":
         payload.update(
             {
@@ -483,7 +519,11 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
         json_path = canonical_module._artifact_path(spec.json_artifact)
         md_path = canonical_module._artifact_path(spec.markdown_artifact)
         json_path.parent.mkdir(parents=True, exist_ok=True)
-        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        payload = _payload_for_spec(spec)
+        if spec.name == "discovery-regularized-training":
+            payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
+            canonical_module._validate_discovery_regularized_training_payload(payload)
+        json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
     sidecar_path = tmp_path / canonical_module.GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT
     sidecar_path.parent.mkdir(parents=True, exist_ok=True)
@@ -500,13 +540,7 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
                         ]
                     }
                 },
-                "ledger_policy": {
-                    "mechanism_closure_debt": {
-                        "status": "present",
-                        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
-                        "source_status": "open",
-                    }
-                },
+                "ledger_policy": {"mechanism_closure_debt": "open"},
                 "closure_status": {"mechanism_spec": "partial"},
                 "mechanism_spec": {
                     "candidate_mechanism": "probe-margin-channel",
@@ -1153,13 +1187,7 @@ def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, 
             {
                 "artifact_id": canonical.GAP_HEAD_MECHANISM_NAMECERT_ARTIFACT_ID,
                 "mechanism_spec": {"candidate_mechanism": "probe-margin-channel"},
-                "ledger_policy": {
-                    "mechanism_closure_debt": {
-                        "status": "present",
-                        "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
-                        "source_status": "open",
-                    }
-                },
+                "ledger_policy": {"mechanism_closure_debt": "open"},
                 "closure_status": {"mechanism_spec": "partial"},
             }
         ),
@@ -1179,9 +1207,7 @@ def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, 
     assert section["ledger_policy_pointer"] == "$.ledger_policy.mechanism_closure_debt"
     assert section["closure_status_pointer"] == "$.closure_status.mechanism_spec"
     assert section["candidate_mechanism"] == "probe-margin-channel"
-    assert payload["gap_head_mechanism_namecert"]["mechanism_closure_debt_status"] == "present"
-    assert "mechanism_closure_debt" not in payload["gap_head_mechanism_namecert"]
-    assert "Mechanism closure debt status" in markdown
+    assert payload["gap_head_mechanism_namecert"]["mechanism_closure_debt"] == "open"
     absent_key = "gap_head_mechanism_" + "attribution"
     assert absent_key not in payload
     assert "Gap-head mechanism NameCert candidate" in markdown
@@ -1896,6 +1922,133 @@ def test_discovery_gated_transformer_slot_artifact_pointers_resolve_when_present
                 missing.append(f"{gate_id}.{pointer_key} -> {pointer_cell}")
 
     assert missing == []
+
+
+def test_discovery_regularized_training_quality_boundary_schema_and_semantics():
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
+
+    canonical._validate_discovery_regularized_training_payload(payload)
+    boundary = payload["quality_promotion_boundary"]
+    hardgate = boundary["hardgate"]
+
+    assert set(boundary) == {
+        "slot_state",
+        "owner_pointer",
+        "source_artifact",
+        "quality_metric",
+        "replay_dimension_pointers",
+        "task_only_quality_q_pointer",
+        "hardgate",
+        "arm_quality_order",
+        "arm_comparisons",
+    }
+    assert boundary["slot_state"] == "present-but-fail-closed"
+    assert set(boundary["replay_dimension_pointers"]) == {"steps", "seeds", "mixings", "rho", "lambda"}
+    assert set(boundary["arm_comparisons"]) == set(canonical.DRT_QUALITY_PROMOTION_ARMS)
+    assert boundary["arm_quality_order"] == list(canonical.DRT_QUALITY_PROMOTION_ARMS)
+    assert hardgate["gate_id"] == "DRT-HG2"
+    assert hardgate["slot_state"] == "present-but-fail-closed"
+    assert hardgate["fail_closed_when"] == "drt_quality_q_ci_low <= task_only_quality_q"
+    assert hardgate["promotion_gate"] == "clears-boundary"
+    assert hardgate["drt_quality_q_ci_low"] > hardgate["task_only_quality_q"]
+    assert boundary["arm_comparisons"]["DRT"]["promotion_gate"] == hardgate["promotion_gate"]
+    assert boundary["arm_comparisons"]["old_certificate_guided"]["promotion_gate"] == "fail-closed"
+
+
+def test_discovery_regularized_training_quality_boundary_fails_closed_when_drt_ci_low_not_above_task_only():
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    payload["lambda_summary"]["best_positive"]["delta_quality_ci_low_mean"] = 0.0
+    payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
+
+    canonical._validate_discovery_regularized_training_payload(payload)
+    hardgate = payload["quality_promotion_boundary"]["hardgate"]
+
+    assert hardgate["drt_quality_q_ci_low"] == hardgate["task_only_quality_q"]
+    assert hardgate["promotion_gate"] == "fail-closed"
+    assert payload["quality_promotion_boundary"]["arm_comparisons"]["DRT"]["comparison_to_task_only"] == (
+        "not-above-task-only-fail-closed"
+    )
+
+
+def test_discovery_regularized_training_quality_boundary_rejects_forbidden_body_fields():
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
+
+    for mutate in (
+        lambda item: item["quality_promotion_boundary"].update({"terminal_verdict": "accepted"}),
+        lambda item: item["quality_promotion_boundary"]["arm_comparisons"]["DRT"].update(
+            {"metrics": {"quality_q": 1.0}}
+        ),
+        lambda item: item["quality_promotion_boundary"]["arm_comparisons"]["DRT"].update({"host.env": {}}),
+        lambda item: item["quality_promotion_boundary"]["hardgate"].update(
+            {"candidate_evidence_body": {"rows": []}}
+        ),
+    ):
+        mutated = json.loads(json.dumps(payload))
+        mutate(mutated)
+        with pytest.raises(ValueError):
+            canonical._validate_discovery_regularized_training_payload(mutated)
+
+
+def test_discovery_regularized_training_quality_boundary_pointers_resolve_when_present():
+    root = Path(__file__).resolve().parents[1]
+    owner_path = root / canonical.DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT
+    owner = json.loads(owner_path.read_text(encoding="utf-8"))
+    canonical._validate_discovery_regularized_training_payload(owner)
+    boundary = owner["quality_promotion_boundary"]
+    pointers = [
+        boundary["owner_pointer"],
+        boundary["task_only_quality_q_pointer"],
+        boundary["hardgate"]["evidence_pointer"],
+        *boundary["replay_dimension_pointers"].values(),
+    ]
+    for row in boundary["arm_comparisons"].values():
+        pointers.extend([row["evidence_pointer"], row["quality_q_pointer"], row["quality_q_ci_low_pointer"]])
+
+    unresolved = [pointer for pointer in pointers if _resolve_artifact_pointer(root, pointer) is None]
+
+    assert unresolved == []
+
+
+def test_discovery_regularized_training_quality_boundary_index_is_pointer_only():
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+    payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
+    section = canonical._discovery_regularized_training_quality_boundary_index_section(payload)
+
+    assert set(section) == {
+        "status",
+        "json_artifact",
+        "markdown_artifact",
+        "owner_pointer",
+        "hardgate_pointer",
+        "arm_comparisons_pointer",
+        "replay_dimension_pointers",
+        "ordered_arm_comparison_pointers",
+    }
+    assert section["status"] == "present-but-fail-closed"
+    assert section["owner_pointer"] == (
+        "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary"
+    )
+    assert [row["arm"] for row in section["ordered_arm_comparison_pointers"]] == list(
+        canonical.DRT_QUALITY_PROMOTION_ARMS
+    )
+    lowered = json.dumps(section, sort_keys=True).lower()
+    for forbidden in ("terminal_verdict", "metrics", "candidate_evidence_body", "host.env"):
+        assert forbidden not in lowered
+
+
+def test_discovery_regularized_training_producer_json_round_trips_validator(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    json_path = canonical._artifact_path(spec.json_artifact)
+    md_path = canonical._artifact_path(spec.markdown_artifact)
+    projection = runner.build_projection(generated_at="fixture-time")
+    runner.write_artifacts(projection, root=tmp_path)
+    owner = json.loads(json_path.read_text(encoding="utf-8"))
+
+    canonical._validate_discovery_regularized_training_payload(owner)
+    assert "Quality Promotion Boundary" in md_path.read_text(encoding="utf-8")
 
 
 def test_hg_p_forbidden_claim_terms_are_absent_from_positive_claim_cells():
@@ -3475,7 +3628,7 @@ def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     assert claim_row["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
     assert capsule["d5_o"]["status"] == row["base_status"] == "ready"
     assert row["base_level"] == "D5-O"
-    assert sidecar["ledger_policy"]["mechanism_closure_debt"]["status"] == "present"
+    assert sidecar["ledger_policy"]["mechanism_closure_debt"] == "open"
     assert sidecar["closure_status"]["mechanism_spec"] == "partial"
     assert row["mechanism_status"] == "blocked"
     assert row["mechanism_level"] == "blocked"
@@ -3492,7 +3645,7 @@ def test_gap_head_mechanism_blockage_negative_owner_is_pointer_linked():
     discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
     claim_rows = _read_committed_claim_verdicts()
     claim_graph = json.loads((canonical.ROOT / "reports/canonical/claim_graph.json").read_text(encoding="utf-8"))
-    sidecar = json.loads((canonical.ROOT / "reports/gap_head_mechanism_namecert.json").read_text(encoding="utf-8"))
+    capsule = json.loads((canonical.ROOT / "reports/canonical/gap_head_attribution_capsule.json").read_text(encoding="utf-8"))
 
     owner_index, owner = next(
         (index, row)
@@ -3508,17 +3661,17 @@ def test_gap_head_mechanism_blockage_negative_owner_is_pointer_linked():
     graph_nodes = {row["node_id"]: row for row in claim_graph["nodes"]}
 
     assert owner["negative_id"] == "dn:gap-head-mechanism-blockage"
-    assert owner["json_artifact"] == "reports/gap_head_mechanism_namecert.json"
-    assert owner["failed_gate"] == "$.ledger_policy.mechanism_closure_debt.status"
-    assert owner["evidence_pointer"] == "$.ledger_policy.mechanism_closure_debt.source_pointer"
-    assert owner["debt_row_pointer"] == "$.ledger_policy.mechanism_closure_debt.status"
-    assert owner["source"] == "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt.status"
-    assert sidecar["ledger_policy"]["mechanism_closure_debt"]["status"] == "present"
+    assert owner["json_artifact"] == "reports/canonical/gap_head_attribution_capsule.json"
+    assert owner["failed_gate"] == "$.mechanism_evidence.failed_gate"
+    assert owner["evidence_pointer"] == "$.mechanism_evidence"
+    assert owner["debt_row_pointer"] == "$.ledger_debt.0.status"
+    assert owner["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.failed_gate"
+    assert capsule["mechanism_evidence"]["failed_gate"] == "A1-HG3"
     assert discovery_row["negative_report_pointer"] == f"reports/canonical/negative_discovery_reports.json:$.rows[{owner_index}]"
     assert claim_row["negative_report_pointer"] == discovery_row["negative_report_pointer"]
     assert claim_row["claim_verdict"] == "negative_discovery"
     assert graph_nodes["raw:gap-head-mechanism-blockage"]["source_pointer"] == (
-        "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt.source_pointer"
+        "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
     )
     assert graph_nodes["projected:gap-head-mechanism-blockage"]["source_pointer"] == (
         f"reports/canonical/discovery_map.json:$.rows[{discovery_index}]"

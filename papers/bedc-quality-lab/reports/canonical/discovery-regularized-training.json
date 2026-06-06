@@ -121,8 +121,8 @@
         "status": "pass"
       },
       "DRT-HG2": {
-        "evidence": "Quality lower confidence delta is positive while benefit is nondecreasing.",
-        "evidence_pointer": "$.lambda_summary.best_positive",
+        "evidence": "Quality promotion boundary clears DRT over task-only while benefit is nondecreasing.",
+        "evidence_pointer": "$.quality_promotion_boundary.hardgate",
         "status": "pass"
       },
       "DRT-HG3": {
@@ -237,6 +237,110 @@
   },
   "producer": "scripts/run_discovery_regularized_training.py",
   "projector": "bedc_quality_lab.discovery_regularized_training.DiscoveryRegularizedTrainingProjection",
+  "quality_promotion_boundary": {
+    "arm_comparisons": {
+      "DRT": {
+        "arm": "DRT",
+        "comparison_to_task_only": "above-task-only",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt",
+        "promotion_gate": "clears-boundary",
+        "quality_q": 0.641767,
+        "quality_q_ci_low": 0.585267,
+        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.lambda_summary.best_positive.delta_quality_ci_low_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean",
+        "render_order": 3,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": "drt",
+        "task_only_quality_q": 0.581767
+      },
+      "SIGReg": {
+        "arm": "SIGReg",
+        "comparison_to_task_only": "above-task-only",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg",
+        "promotion_gate": "comparison-only",
+        "quality_q": 0.599767,
+        "quality_q_ci_low": 0.599767,
+        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg.quality_q_mean",
+        "render_order": 2,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": "sigreg",
+        "task_only_quality_q": 0.581767
+      },
+      "matched_random_DRT": {
+        "arm": "matched_random_DRT",
+        "comparison_to_task_only": "above-task-only",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random",
+        "promotion_gate": "comparison-only",
+        "quality_q": 0.595767,
+        "quality_q_ci_low": 0.595767,
+        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "render_order": 4,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": "matched_random",
+        "task_only_quality_q": 0.581767
+      },
+      "old_certificate_guided": {
+        "arm": "old_certificate_guided",
+        "comparison_to_task_only": "missing-evidence-fail-closed",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.config.arms",
+        "promotion_gate": "fail-closed",
+        "quality_q": null,
+        "quality_q_ci_low": null,
+        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.config.arms",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.config.arms",
+        "render_order": 5,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": null,
+        "task_only_quality_q": 0.581767
+      },
+      "task_only": {
+        "arm": "task_only",
+        "comparison_to_task_only": "task-only-reference",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only",
+        "promotion_gate": "reference",
+        "quality_q": 0.581767,
+        "quality_q_ci_low": 0.581767,
+        "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean",
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean",
+        "render_order": 1,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": "task_only",
+        "task_only_quality_q": 0.581767
+      }
+    },
+    "arm_quality_order": [
+      "task_only",
+      "SIGReg",
+      "DRT",
+      "matched_random_DRT",
+      "old_certificate_guided"
+    ],
+    "hardgate": {
+      "drt_minus_task_only_quality_q_ci_low": 0.0035,
+      "drt_quality_q_ci_low": 0.585267,
+      "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.lambda_summary.best_positive.delta_quality_ci_low_mean",
+      "fail_closed_when": "drt_quality_q_ci_low <= task_only_quality_q",
+      "gate_id": "DRT-HG2",
+      "promotion_gate": "clears-boundary",
+      "requirement": "DRT quality_q CI-low must be strictly above task_only quality_q.",
+      "slot_state": "present-but-fail-closed",
+      "task_only_quality_q": 0.581767
+    },
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary",
+    "quality_metric": "quality_q",
+    "replay_dimension_pointers": {
+      "lambda": "reports/canonical/discovery-regularized-training.json:$.config.discovery_lambdas",
+      "mixings": "reports/canonical/discovery-regularized-training.json:$.config.mixings",
+      "rho": "reports/canonical/discovery-regularized-training.json:$.config.rhos",
+      "seeds": "reports/canonical/discovery-regularized-training.json:$.config.seeds",
+      "steps": "reports/canonical/discovery-regularized-training.json:$.config.steps"
+    },
+    "slot_state": "present-but-fail-closed",
+    "source_artifact": "reports/canonical/discovery-regularized-training.json",
+    "task_only_quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean"
+  },
   "records": {
     "deterministic_anchor_rows": 720,
     "metric_keys": [

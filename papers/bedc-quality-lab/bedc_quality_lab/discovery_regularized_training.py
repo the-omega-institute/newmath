@@ -10,6 +10,7 @@ import statistics
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 
 
 SCHEMA_ID = "bedc-quality-lab:discovery-regularized-training"
@@ -53,6 +54,14 @@ POSITIVE_CLAIM = {
     "text": "Discovery-regularized training records a bounded lab-local positive signal under deterministic replay and matched-random controls.",
     "scope": "canonical deterministic anchor with bounded optional PyTorch evidence",
 }
+JSON_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
+QUALITY_PROMOTION_ARMS = (
+    "task_only",
+    "SIGReg",
+    "DRT",
+    "matched_random_DRT",
+    "old_certificate_guided",
+)
 
 
 @dataclass(frozen=True)
@@ -86,6 +95,126 @@ def default_grid() -> tuple[dict[str, Any], ...]:
 
 def _status(value: bool) -> str:
     return "pass" if value else "fail"
+
+
+def quality_artifact_pointer(pointer: str) -> str:
+    return f"{JSON_ARTIFACT}:{pointer}"
+
+
+def _quality_pointer_value(payload: Mapping[str, Any], artifact_pointer: str) -> Any:
+    prefix = f"{JSON_ARTIFACT}:"
+    if not artifact_pointer.startswith(prefix):
+        return None
+    pointer = artifact_pointer[len(prefix) :]
+    if pointer == "$":
+        return payload
+    return pointer_value(payload, pointer)
+
+
+def _as_finite_number(value: Any) -> float | None:
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    return float(value)
+
+
+def _rounded_number(value: float | None) -> float | None:
+    return None if value is None else round(float(value), 6)
+
+
+def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
+    task_pointer = quality_artifact_pointer("$.surface_registry.quality.by_arm.task_only.quality_q_mean")
+    task_quality = _as_finite_number(_quality_pointer_value(payload, task_pointer))
+    drt_delta_pointer = quality_artifact_pointer("$.lambda_summary.best_positive.delta_quality_ci_low_mean")
+    drt_delta = _as_finite_number(_quality_pointer_value(payload, drt_delta_pointer))
+    drt_ci_low = task_quality + drt_delta if task_quality is not None and drt_delta is not None else None
+    hardgate_state = (
+        "clears-boundary"
+        if drt_ci_low is not None and task_quality is not None and drt_ci_low > task_quality
+        else "fail-closed"
+    )
+    arm_sources = {
+        "task_only": "task_only",
+        "SIGReg": "sigreg",
+        "DRT": "drt",
+        "matched_random_DRT": "matched_random",
+        "old_certificate_guided": None,
+    }
+    arm_comparisons: dict[str, dict[str, Any]] = {}
+    for order, arm in enumerate(QUALITY_PROMOTION_ARMS, start=1):
+        source_arm = arm_sources[arm]
+        if source_arm is None:
+            evidence_pointer = quality_artifact_pointer("$.config.arms")
+            quality_pointer = evidence_pointer
+            arm_quality = None
+            ci_low_pointer = evidence_pointer
+            ci_low = None
+            comparison = "missing-evidence-fail-closed"
+        else:
+            evidence_pointer = quality_artifact_pointer(f"$.surface_registry.quality.by_arm.{source_arm}")
+            quality_pointer = quality_artifact_pointer(
+                f"$.surface_registry.quality.by_arm.{source_arm}.quality_q_mean"
+            )
+            arm_quality = _as_finite_number(_quality_pointer_value(payload, quality_pointer))
+            if arm == "DRT":
+                ci_low_pointer = drt_delta_pointer
+                ci_low = drt_ci_low
+            else:
+                ci_low_pointer = quality_pointer
+                ci_low = arm_quality
+            if ci_low is None or task_quality is None:
+                comparison = "missing-evidence-fail-closed"
+            elif arm == "task_only":
+                comparison = "task-only-reference"
+            elif ci_low > task_quality:
+                comparison = "above-task-only"
+            else:
+                comparison = "not-above-task-only-fail-closed"
+        arm_comparisons[arm] = {
+            "render_order": order,
+            "arm": arm,
+            "source_arm": source_arm,
+            "slot_state": "present-but-fail-closed",
+            "evidence_pointer": evidence_pointer,
+            "quality_q_pointer": quality_pointer,
+            "quality_q_ci_low_pointer": ci_low_pointer,
+            "quality_q": _rounded_number(arm_quality),
+            "quality_q_ci_low": _rounded_number(ci_low),
+            "task_only_quality_q": _rounded_number(task_quality),
+            "comparison_to_task_only": comparison,
+            "promotion_gate": "fail-closed" if comparison.endswith("fail-closed") else "reference"
+            if arm == "task_only"
+            else "comparison-only",
+        }
+    arm_comparisons["DRT"]["promotion_gate"] = hardgate_state
+    return {
+        "slot_state": "present-but-fail-closed",
+        "owner_pointer": quality_artifact_pointer("$.quality_promotion_boundary"),
+        "source_artifact": JSON_ARTIFACT,
+        "quality_metric": "quality_q",
+        "replay_dimension_pointers": {
+            "steps": quality_artifact_pointer("$.config.steps"),
+            "seeds": quality_artifact_pointer("$.config.seeds"),
+            "mixings": quality_artifact_pointer("$.config.mixings"),
+            "rho": quality_artifact_pointer("$.config.rhos"),
+            "lambda": quality_artifact_pointer("$.config.discovery_lambdas"),
+        },
+        "task_only_quality_q_pointer": task_pointer,
+        "hardgate": {
+            "gate_id": "DRT-HG2",
+            "slot_state": "present-but-fail-closed",
+            "requirement": "DRT quality_q CI-low must be strictly above task_only quality_q.",
+            "evidence_pointer": drt_delta_pointer,
+            "task_only_quality_q": _rounded_number(task_quality),
+            "drt_quality_q_ci_low": _rounded_number(drt_ci_low),
+            "drt_minus_task_only_quality_q_ci_low": _rounded_number(
+                None if drt_ci_low is None or task_quality is None else drt_ci_low - task_quality
+            ),
+            "promotion_gate": hardgate_state,
+            "fail_closed_when": "drt_quality_q_ci_low <= task_only_quality_q",
+        },
+        "arm_quality_order": list(QUALITY_PROMOTION_ARMS),
+        "arm_comparisons": arm_comparisons,
+    }
 
 
 def _finite_float(value: Any) -> float | None:
@@ -193,7 +322,14 @@ class DiscoveryRegularizedTrainingProjection:
 
     def project(self) -> dict[str, Any]:
         summaries = self._summaries()
-        hardgates = self.hardgate_verdicts(summaries)
+        boundary = quality_promotion_boundary(
+            {
+                "config": dict(self.config),
+                "surface_registry": summaries["surface_registry"],
+                "lambda_summary": summaries["lambda_summary"],
+            }
+        )
+        hardgates = self.hardgate_verdicts(summaries, boundary)
         failed_gate = self.failed_gate(hardgates)
         signal = self.discovery_map_signal(hardgates)
         positive_claim = {
@@ -205,6 +341,7 @@ class DiscoveryRegularizedTrainingProjection:
             summaries=summaries,
             signal=signal,
             positive_claim=positive_claim,
+            quality_boundary=boundary,
         )
         if capsule["forbidden_claim_term_audit"]["status"] != "pass":
             failed_gate = failed_gate or "forbidden-positive-claim-term"
@@ -254,6 +391,7 @@ class DiscoveryRegularizedTrainingProjection:
             "negative_witness_mutations": summaries["negative_witness_mutations"],
             "training_loop_trace": summaries["training_loop_trace"],
             "matched_random_control": summaries["matched_random_control"],
+            "quality_promotion_boundary": boundary,
             "hardgate": {
                 "status": _status(failed_gate is None),
                 "gates": hardgates,
@@ -287,7 +425,11 @@ class DiscoveryRegularizedTrainingProjection:
                 return name
         return None
 
-    def hardgate_verdicts(self, summaries: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    def hardgate_verdicts(
+        self,
+        summaries: Mapping[str, Any],
+        quality_boundary: Mapping[str, Any] | None = None,
+    ) -> dict[str, dict[str, Any]]:
         constraint = summaries["constraint_summary"]
         lambda_summary = summaries["lambda_summary"]
         classifier = summaries["surface_registry"]["classifier_shift"]
@@ -322,6 +464,18 @@ class DiscoveryRegularizedTrainingProjection:
             and float(torch_delta["drt_minus_matched_random_classifier_shift_count"]) > 0.0
             and torch_delta.get("net_positive_signal") is True
         )
+        boundary = quality_boundary or quality_promotion_boundary(
+            {
+                "config": dict(self.config),
+                "surface_registry": summaries["surface_registry"],
+                "lambda_summary": summaries["lambda_summary"],
+            }
+        )
+        boundary_gate = boundary.get("hardgate") if isinstance(boundary, Mapping) else {}
+        quality_clears_boundary = (
+            isinstance(boundary_gate, Mapping)
+            and boundary_gate.get("promotion_gate") == "clears-boundary"
+        )
         return {
             "DRT-HG1": {
                 "status": _status(bool(constraint["debt_down"] and constraint["benefit_nondecreasing"])),
@@ -331,9 +485,9 @@ class DiscoveryRegularizedTrainingProjection:
                 "benefit_delta": constraint["drt_minus_task_only_benefit_q"],
             },
             "DRT-HG2": {
-                "status": _status(bool(lambda_summary["delta_quality_ci_low_positive"] and lambda_summary["benefit_nondecreasing"])),
-                "evidence": "Quality lower confidence delta is positive while benefit is nondecreasing.",
-                "evidence_pointer": "$.lambda_summary.best_positive",
+                "status": _status(bool(quality_clears_boundary and lambda_summary["benefit_nondecreasing"])),
+                "evidence": "Quality promotion boundary clears DRT over task-only while benefit is nondecreasing.",
+                "evidence_pointer": "$.quality_promotion_boundary.hardgate",
             },
             "DRT-HG3": {
                 "status": _status(bool(classifier["classifier_shift_positive"] and classifier["net_positive_signal"])),
@@ -395,6 +549,7 @@ class DiscoveryRegularizedTrainingProjection:
         summaries: Mapping[str, Any],
         signal: Mapping[str, Any],
         positive_claim: Mapping[str, Any],
+        quality_boundary: Mapping[str, Any],
     ) -> dict[str, Any]:
         failed = self.failed_gate(hardgates)
         accepted = failed is None
@@ -424,6 +579,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "lambda_summary": summaries["lambda_summary"],
                 "constraint_summary": summaries["constraint_summary"],
                 "matched_random_control": _without_pointer_fields(summaries["matched_random_control"]),
+                "quality_promotion_boundary": dict(quality_boundary),
             },
             "revocation": {
                 "status": "revocable",
@@ -450,6 +606,36 @@ class DiscoveryRegularizedTrainingProjection:
         ]
         for gate, row in payload["hardgate"]["gates"].items():
             lines.append(f"- `{gate}`: `{row['status']}`")
+        boundary = payload["quality_promotion_boundary"]
+        boundary_gate = boundary["hardgate"]
+        lines.extend(
+            [
+                "",
+                "## Quality Promotion Boundary",
+                "",
+                f"- Owner pointer: `{boundary['owner_pointer']}`",
+                f"- Slot state: `{boundary['slot_state']}`",
+                f"- DRT-HG2 gate: `{boundary_gate['promotion_gate']}`",
+                f"- Task-only quality_q: `{boundary_gate['task_only_quality_q']}`",
+                f"- DRT quality_q CI-low: `{boundary_gate['drt_quality_q_ci_low']}`",
+                f"- DRT minus task-only CI-low: `{boundary_gate['drt_minus_task_only_quality_q_ci_low']}`",
+                "",
+                "| order | arm | quality_q | quality_q CI-low | comparison | gate | evidence |",
+                "| --- | --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+        for arm in boundary["arm_quality_order"]:
+            row = boundary["arm_comparisons"][arm]
+            lines.append(
+                "| "
+                f"{row['render_order']} | "
+                f"`{arm}` | "
+                f"`{row['quality_q']}` | "
+                f"`{row['quality_q_ci_low']}` | "
+                f"`{row['comparison_to_task_only']}` | "
+                f"`{row['promotion_gate']}` | "
+                f"`{row['evidence_pointer']}` |"
+            )
         lines.extend(["", "## Device Protocol", ""])
         lines.append(f"- requested: `{payload['device_protocol']['requested_device']}`")
         lines.append(f"- resolved: `{payload['device_protocol']['resolved_device']}`")
@@ -696,4 +882,7 @@ __all__ = [
     "SCHEMA_ID",
     "TorchTrainingArmProtocol",
     "default_grid",
+    "quality_promotion_boundary",
+    "quality_artifact_pointer",
+    "QUALITY_PROMOTION_ARMS",
 ]
