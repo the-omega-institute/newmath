@@ -61,7 +61,7 @@ Let $K=(I,B,S,R,E,H,C,P,N)$ be an accepted $\NestedDyadicCauchyUp$ carrier. Ever
 $$
 I\longmapsto B\longmapsto S\longmapsto R\longmapsto H,C,P,N .
 $$
-The route reads a finite nested dyadic interval prefix, a shrinking-width budget, and the scheduled endpoint observations before it exports the regular rational Cauchy row.
+The route reads a finite nested dyadic interval prefix, a shrinking-width budget, and the scheduled endpoint observations before it exports the regular rational Cauchy row. Any $\BishopRegularCauchyCompletionUp$ consumer of the same packet must therefore read the route through $I,B,S,R$ before its completion-facing tail modulus, common-tail window, and terminal Real seal rows are available, as in \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}.
 \end{theorem}
 \begin{proof}
 Start with the displayed interval prefix $I$. Its rows give the only endpoint data available to a regular rational consumer, and the refinement relation keeps later prefix rows inside earlier rows.
@@ -71,6 +71,8 @@ Use the budget row $B$ to answer a displayed Cauchy tolerance request. The selec
 The schedule row $S$ then fixes which interval endpoints or midpoint observations are opened. The handoff row $R$ is obtained by reading those scheduled observations under the budget discipline and repacking them as the regular rational Cauchy surface.
 
 The rows $H,C,P,N$ transport, replay, source, and name that handoff. Since the carrier has no additional tail selector or quotient coordinate, every RegSeqRat read factors through the displayed route.
+
+Apply the Bishop regular Cauchy completion carrier route of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. Its $E,S,R,D,W,H,C,P,N$ rows cannot be opened for this packet until the NestedDyadicCauchy handoff has supplied the finite interval prefix $I$, dyadic width budget $B$, StreamName schedule $S$, and RegSeqRat row $R$. Thus the completion consumer adds no quotient stream equality, selected limit, countable choice, host real equality, or ambient Real completeness beyond the displayed finite handoff.
 \end{proof}
 
 \begin{theorem}[Nested dyadic Cauchy tail gluing]

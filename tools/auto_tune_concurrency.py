@@ -83,7 +83,7 @@ LOG_DIRS = [
 #
 # ============================================================
 # Caps pinned by user directive:
-#   LEAN_MAX = 20 (2026-05-11)
+#   LEAN_MAX = 16 (2026-05-11)
 #   PAPER_MAX = 25 (2026-05-12, raised from 20)
 #
 # Floors:
@@ -103,13 +103,13 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 20  # raised 2026-06-07 (operator directive: raise concurrency).
-               # CPU idle (load5~1.6/8c), mem_avail ~5GB, swap <0.6GB — ample
-               # headroom. Prior cap 16 was for push-lock starvation (R6327
-               # held lock 1076s for codex_resolve INSIDE the lock; 16+
-               # contenders starve P workers). Watching for that cascade
-               # (3-consec-failures / PUSH_LOCK_STARVATION); roll back to 16
-               # if push-lock contention reappears. lean_lake left at 3 (mem).
+LEAN_MAX = 16  # reverted 2026-06-07 to pre-session proven-good (was raised to
+               # 20 per operator directive, but on this 8-core box the raise +
+               # double-restart produced a synchronized 34-worker cold-start
+               # cohort → load plateau ~50, .lake seeding 44min, then a merge-
+               # push thundering herd (ff-fail 0→5, R13737 push attempt 6).
+               # 16/14 is the last config proven to produce steady merges here.
+               # Stage-2 single-writer broker would let this go higher safely.
 LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # 47% of R FAILs are `ff update of codex-auto-dev failed`
                # and 23% are `Merge failed —` — cross-process race between
@@ -133,7 +133,7 @@ PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
                 # making P plateau because root_unblocks=0 → paper_demand=10
                 # → clamp to 12 floor. With discovery HARD GATE active,
                 # 18 worker is the right cruising altitude.
-PAPER_MAX = 18  # raised 2026-06-07 (operator directive: raise concurrency).
+PAPER_MAX = 14  # raised 2026-06-07 (operator directive: raise concurrency).
                 # See LEAN_MAX note: CPU/mem headroom available. Prior 14 was
                 # push-lock starvation mitigation; roll back if it recurs.
 
