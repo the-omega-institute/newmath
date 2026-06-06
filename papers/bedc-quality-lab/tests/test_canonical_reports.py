@@ -459,6 +459,14 @@ def _walk_keys(value):
             yield from _walk_keys(cell)
 
 
+def _resolve_artifact_pointer(root, artifact_pointer):
+    artifact, pointer = artifact_pointer.split(":", 1)
+    payload = json.loads((root / artifact).read_text(encoding="utf-8"))
+    if pointer == "$":
+        return payload
+    return pointer_value(payload, pointer)
+
+
 def _write_payloads_for_all_specs(canonical_module, tmp_path):
     canonical_module.ROOT = tmp_path
     canonical_module.CANONICAL_DIR = tmp_path / "reports" / "canonical"
@@ -1459,6 +1467,242 @@ def test_new_model_hardgates_pointer_only_forbidden_body_fields():
     lowered_index = json.dumps(section).lower()
     for forbidden in ("terminal_verdict", "raw_metrics", "candidate_evidence_body", ".refactor-loop/host.env"):
         assert forbidden not in lowered_index
+
+
+def test_discovery_gated_transformer_owner_schema_and_model_id():
+    payload = canonical._build_discovery_gated_transformer_payload(
+        generated_at="2030-01-01T00:00:00+00:00"
+    )
+
+    assert set(payload) == {
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "status",
+        "producer",
+        "model_id",
+        "canonical_owner",
+        "component_descriptors",
+        "new_model_hardgates_registry",
+        "dgt_hardgate_slots",
+        "public_index_pointers",
+        "not_claimed",
+        "downstream_scope",
+    }
+    assert payload["schema_id"] == canonical.DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID
+    assert payload["artifact_id"] == canonical.DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID
+    assert payload["status"] == "present-but-fail-closed"
+    assert payload["producer"] == "scripts/run_canonical_reports.py"
+    assert payload["model_id"] == "discovery_gated_transformer"
+    assert payload["canonical_owner"] == {
+        "json_artifact": canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+        "markdown_artifact": canonical.DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT,
+        "owner_pointer": "reports/canonical/discovery_gated_transformer.json:$",
+    }
+    assert set(payload["component_descriptors"]) == {
+        "backbone",
+        "certificate_gated_attention",
+        "gap_ledger_route_mechanism_scope_heads",
+        "discovery_regularized_training",
+        "audit",
+        "output_bundle",
+    }
+    assert payload["new_model_hardgates_registry"] == {
+        "artifact_id": canonical.NEW_MODEL_HARDGATES_ARTIFACT_ID,
+        "schema_id": canonical.NEW_MODEL_HARDGATES_SCHEMA_ID,
+        "candidate_contract_pointer": "reports/canonical/new_model_hardgates.json:$.candidate_contract",
+        "gates_pointer": "reports/canonical/new_model_hardgates.json:$.gates",
+        "pointer_state": "present-but-fail-closed",
+    }
+    assert payload["downstream_scope"] == {
+        "discovery_map": "out-of-scope-follow-up",
+        "claim_verdicts": "out-of-scope-follow-up",
+        "claim_graph": "out-of-scope-follow-up",
+    }
+
+
+def test_discovery_gated_transformer_hardgate_slots_are_present_fail_closed():
+    payload = canonical._build_discovery_gated_transformer_payload(
+        generated_at="2030-01-01T00:00:00+00:00"
+    )
+    slots = payload["dgt_hardgate_slots"]
+    expected_ids = [f"DGT-HG{index}" for index in range(1, 13)]
+    required_fields = {
+        "gate_id",
+        "gate_label",
+        "slot_state",
+        "requirement_summary",
+        "component_pointer",
+        "evidence_pointer",
+        "control_pointer",
+        "ablation_pointer",
+        "new_model_hardgate_pointer",
+        "not_claimed_pointer",
+        "failure_mode",
+    }
+
+    assert list(slots) == expected_ids + ["overall_state"]
+    for gate_id in expected_ids:
+        row = slots[gate_id]
+        assert set(row) == required_fields
+        assert row["gate_id"] == gate_id
+        assert row["slot_state"] == "present-but-fail-closed"
+        assert row["not_claimed_pointer"] == "$.not_claimed"
+        assert row["failure_mode"]
+        assert row["new_model_hardgate_pointer"].startswith(
+            "reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG"
+        )
+    assert slots["overall_state"] == "present-but-fail-closed"
+    assert slots["overall_state"] == (
+        "present-but-fail-closed"
+        if any(slots[gate_id]["slot_state"] == "present-but-fail-closed" for gate_id in expected_ids)
+        else "ready"
+    )
+
+
+def test_discovery_gated_transformer_index_is_pointer_only():
+    owner = canonical._build_discovery_gated_transformer_payload(
+        generated_at="2030-01-01T00:00:00+00:00"
+    )
+    section = canonical._discovery_gated_transformer_index_section(owner)
+
+    assert set(section) == {
+        "status",
+        "artifact_id",
+        "schema_id",
+        "json_artifact",
+        "markdown_artifact",
+        "model_id_pointer",
+        "component_descriptors_pointer",
+        "hardgate_slots_pointer",
+        "overall_state_pointer",
+        "not_claimed_pointer",
+        "downstream_scope_pointer",
+        "dgt_hardgate_slot_pointers",
+    }
+    assert section["status"] == "present-but-fail-closed"
+    assert section["model_id_pointer"] == "reports/canonical/discovery_gated_transformer.json:$.model_id"
+    assert section["component_descriptors_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.component_descriptors"
+    )
+    assert section["hardgate_slots_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots"
+    )
+    assert section["overall_state_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.overall_state"
+    )
+    assert section["dgt_hardgate_slot_pointers"] == {
+        f"DGT-HG{index}": f"reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.DGT-HG{index}"
+        for index in range(1, 13)
+    }
+    lowered = json.dumps(section, sort_keys=True).lower()
+    for forbidden in (
+        "requirement_summary",
+        "component_pointer",
+        "evidence_pointer",
+        "control_pointer",
+        "ablation_pointer",
+        "failure_mode",
+        "terminal_verdict",
+        "raw_metrics",
+        "candidate_evidence_body",
+    ):
+        assert forbidden not in lowered
+
+
+def test_discovery_gated_transformer_forbidden_surfaces_absent():
+    payload = canonical._build_discovery_gated_transformer_payload(
+        generated_at="2030-01-01T00:00:00+00:00"
+    )
+    section = canonical._discovery_gated_transformer_index_section(payload)
+    markdown = canonical._render_discovery_gated_transformer_markdown(payload)
+    serialized = json.dumps({"owner": payload, "index": section}, sort_keys=True)
+
+    for forbidden in (
+        ".refactor-loop",
+        "DGT-v0",
+        "issue-800",
+        "issue #800",
+        "route-a",
+        "route-b",
+        "route-c",
+        "run_discovery_gated_transformer",
+        "discovery_gated_transformer_sidecar",
+        "terminal_verdict",
+        "raw_metrics",
+        "candidate_evidence_body",
+        "global superiority",
+    ):
+        assert forbidden.lower() not in serialized.lower()
+        assert forbidden.lower() not in markdown.lower()
+
+    for mutate in (
+        lambda item: item.update({"terminal_verdict": "accepted"}),
+        lambda item: item["dgt_hardgate_slots"]["DGT-HG1"].update({"raw_metrics": {"UER": 0.1}}),
+        lambda item: item["component_descriptors"]["backbone"].update({"evidence_body": {"rows": []}}),
+        lambda item: item["not_claimed"].append(".refactor-loop directive"),
+        lambda item: item["not_claimed"].append("DGT-v0 roadmap"),
+        lambda item: item["not_claimed"].append("global superiority claim"),
+    ):
+        mutated = json.loads(json.dumps(payload))
+        mutate(mutated)
+        with pytest.raises(ValueError):
+            canonical._validate_discovery_gated_transformer_payload(mutated)
+
+
+def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    real_index = canonical._index
+    real_render_index_markdown = canonical._render_index_markdown
+    _patch_lightweight_run_reports(monkeypatch)
+    monkeypatch.setattr(canonical, "_index", real_index)
+    monkeypatch.setattr(canonical, "_render_index_markdown", real_render_index_markdown)
+    monkeypatch.setattr(
+        canonical,
+        "_build_claim_capsule",
+        lambda generated_at: {
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "status": "complete",
+            "effective_level": "DN",
+            "terminal_verdict": "negative_discovery",
+        },
+    )
+    monkeypatch.setattr(
+        canonical,
+        "_build_formal_hardening_payload",
+        lambda generated_at=None: {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
+    )
+    monkeypatch.setattr(canonical, "_run_producer", lambda _spec: None)
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    markdown = (tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT).read_text(encoding="utf-8")
+    section = payload["discovery_gated_transformer"]
+
+    assert "discovery_gated_transformer" not in {spec.name for spec in canonical.CANONICAL_REPORTS}
+    assert owner["status"] == "present-but-fail-closed"
+    assert "terminal_verdict" not in markdown
+    pointers = [
+        section["model_id_pointer"],
+        section["component_descriptors_pointer"],
+        section["hardgate_slots_pointer"],
+        section["overall_state_pointer"],
+        section["not_claimed_pointer"],
+        section["downstream_scope_pointer"],
+        *section["dgt_hardgate_slot_pointers"].values(),
+    ]
+    for artifact_pointer in pointers:
+        assert artifact_pointer.startswith(canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":")
+        assert _resolve_artifact_pointer(tmp_path, artifact_pointer) is not None
+    from bedc_quality_lab.backends.current_lab import projection
+
+    assert (
+        canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT
+        not in projection._manifest_audit(root=tmp_path, canonical_reports=canonical.CANONICAL_REPORTS)[
+            "unregistered_json_artifacts"
+        ]
+    )
 
 
 def test_hg_p_forbidden_claim_terms_are_absent_from_positive_claim_cells():

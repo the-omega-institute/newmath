@@ -68,6 +68,10 @@ NEW_MODEL_HARDGATES_JSON_ARTIFACT = "reports/canonical/new_model_hardgates.json"
 NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT = "reports/canonical/new_model_hardgates.md"
 NEW_MODEL_HARDGATES_ARTIFACT_ID = "bedc-quality-lab:new-model-hardgates"
 NEW_MODEL_HARDGATES_SCHEMA_ID = "bedc-quality-lab:new-model-hardgate-registry"
+DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT = "reports/canonical/discovery_gated_transformer.json"
+DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery_gated_transformer.md"
+DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
+DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
 FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
 FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
 FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
@@ -2287,6 +2291,496 @@ def _new_model_hardgates_index_section(generated_at: str | None = None) -> dict[
     }
 
 
+def _dgt_component_descriptors() -> dict[str, Any]:
+    rows = (
+        (
+            "backbone",
+            "base sequence backbone",
+            "reports/canonical/ledger-aware-transformer.json:$",
+            "reports/canonical/ledger-aware-transformer.json:$.run_artifacts",
+        ),
+        (
+            "certificate_gated_attention",
+            "certificate-gated attention component",
+            "reports/canonical/certificate-gated-attention.json:$",
+            "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
+        ),
+        (
+            "gap_ledger_route_mechanism_scope_heads",
+            "gap, ledger, route certificate, mechanism-probe, and scope-seal heads",
+            "reports/canonical/gap_head_attribution_capsule.json:$",
+            "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
+        ),
+        (
+            "discovery_regularized_training",
+            "discovery-regularized training objective",
+            "reports/canonical/discovery-regularized-training.json:$",
+            "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence",
+        ),
+        (
+            "audit",
+            "audit boundary and negative-witness controls",
+            "reports/canonical/negative_discovery_reports.json:$",
+            "reports/canonical/negative_discovery_reports.json:$.rows",
+        ),
+        (
+            "output_bundle",
+            "model output bundle boundary",
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.public_index_pointers",
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.downstream_scope",
+        ),
+    )
+    return {
+        key: {
+            "role": role,
+            "owner_pointer": owner_pointer,
+            "evidence_pointer": evidence_pointer,
+            "pointer_state": "present-but-fail-closed",
+        }
+        for key, role, owner_pointer, evidence_pointer in rows
+    }
+
+
+def _dgt_hardgate_slots() -> dict[str, Any]:
+    specs = (
+        (
+            "DGT-HG1",
+            "UER base baseline",
+            "UER evidence against base baseline",
+            "$.component_descriptors.backbone",
+            "reports/canonical/ledger-aware-transformer.json:$.metrics.UER",
+            "reports/canonical/ledger-aware-transformer.json:$.control_protocol",
+            None,
+            "NEW-MODEL-HG11",
+            "missing-evidence-pointer",
+        ),
+        (
+            "DGT-HG2",
+            "UER parameter-matched baseline",
+            "UER evidence against a parameter-matched baseline",
+            "$.component_descriptors.backbone",
+            "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control.parameter_matched",
+            "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control",
+            None,
+            "NEW-MODEL-HG7",
+            "missing-control-pointer",
+        ),
+        (
+            "DGT-HG3",
+            "UER compute-matched baseline",
+            "UER evidence against a compute-matched baseline",
+            "$.component_descriptors.backbone",
+            "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control.compute_matched",
+            "reports/canonical/discovery-gated-nas.json:$.matched_baseline_control",
+            None,
+            "NEW-MODEL-HG8",
+            "missing-control-pointer",
+        ),
+        (
+            "DGT-HG4",
+            "UER matched-random baseline",
+            "UER evidence against a matched-random structural control",
+            "$.component_descriptors.backbone",
+            "reports/canonical/ledger-aware-transformer.json:$.metrics.UER",
+            "reports/canonical/ledger-aware-transformer.json:$.matched_random_control",
+            None,
+            "NEW-MODEL-HG9",
+            "missing-control-pointer",
+        ),
+        (
+            "DGT-HG5",
+            "FalseLedgerRate non-worsening",
+            "FalseLedgerRate does not worsen under the candidate route",
+            "$.component_descriptors.audit",
+            "reports/canonical/ledger-aware-transformer.json:$.metrics.FalseLedgerRate",
+            "reports/canonical/ledger-aware-transformer.json:$.matched_random_control",
+            None,
+            "NEW-MODEL-HG12",
+            "missing-evidence-pointer",
+        ),
+        (
+            "DGT-HG6",
+            "classifier shift count",
+            "classifier shift count is positive on the declared surface",
+            "$.component_descriptors.audit",
+            "reports/canonical/discovery-gated-nas.json:$.search_objective_summary.selected_candidate.classifier_shift_count",
+            None,
+            None,
+            "NEW-MODEL-HG16",
+            "missing-control-pointer",
+        ),
+        (
+            "DGT-HG7",
+            "OOD and stress surfaces",
+            "at least three OOD or stress surface pointers are present",
+            "$.component_descriptors.audit",
+            "reports/canonical/gap_head_transfer_atlas.json:$.multi_surface_d5_o",
+            "reports/canonical/gap_head_transfer_atlas.json:$.config.control_arm",
+            None,
+            "NEW-MODEL-HG10",
+            "missing-surface-pointer",
+        ),
+        (
+            "DGT-HG8",
+            "certificate-gated attention ablation",
+            "certificate-gated attention ablation lowers the corresponding signal",
+            "$.component_descriptors.certificate_gated_attention",
+            "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
+            "reports/canonical/certificate-gated-attention.json:$.matched_random_control",
+            "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal",
+            "NEW-MODEL-HG19",
+            "missing-ablation-pointer",
+        ),
+        (
+            "DGT-HG9",
+            "DRT ablation",
+            "discovery-regularized training ablation lowers the corresponding signal",
+            "$.component_descriptors.discovery_regularized_training",
+            "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence",
+            "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+            "reports/canonical/discovery-regularized-training.json:$.training_loop_trace",
+            "NEW-MODEL-HG19",
+            "missing-ablation-pointer",
+        ),
+        (
+            "DGT-HG10",
+            "gap ledger head ablation",
+            "gap, ledger, and head ablation lowers the corresponding signal",
+            "$.component_descriptors.gap_ledger_route_mechanism_scope_heads",
+            "reports/canonical/gap-head-ablation.json:$.factor_attribution",
+            "reports/canonical/gap-head-ablation.json:$.control_protocol",
+            "reports/canonical/gap-head-ablation.json:$.hardgate",
+            "NEW-MODEL-HG19",
+            "missing-ablation-pointer",
+        ),
+        (
+            "DGT-HG11",
+            "mechanism probe and scope seal ablation",
+            "mechanism-probe and scope-seal ablation lowers the corresponding signal",
+            "$.component_descriptors.gap_ledger_route_mechanism_scope_heads",
+            "reports/canonical/gap_head_mechanism_namecert.json:$.mechanism_spec",
+            "reports/canonical/gap_head_mechanism_namecert.json:$.source_spec.scope_seal",
+            "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates",
+            "NEW-MODEL-HG19",
+            "missing-ablation-pointer",
+        ),
+        (
+            "DGT-HG12",
+            "boundary and terminal exposure",
+            "boundary excludes broad superiority claims and terminal claim exposure remains downstream",
+            "$.component_descriptors.output_bundle",
+            "$.downstream_scope",
+            None,
+            None,
+            "NEW-MODEL-HG20",
+            "missing-terminal-claim-pointer",
+        ),
+    )
+    slots = {}
+    for (
+        gate_id,
+        gate_label,
+        requirement_summary,
+        component_pointer,
+        evidence_pointer,
+        control_pointer,
+        ablation_pointer,
+        registry_gate,
+        failure_mode,
+    ) in specs:
+        slots[gate_id] = {
+            "gate_id": gate_id,
+            "gate_label": gate_label,
+            "slot_state": "present-but-fail-closed",
+            "requirement_summary": requirement_summary,
+            "component_pointer": component_pointer,
+            "evidence_pointer": evidence_pointer,
+            "control_pointer": control_pointer,
+            "ablation_pointer": ablation_pointer,
+            "new_model_hardgate_pointer": f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.gates.{registry_gate}",
+            "not_claimed_pointer": "$.not_claimed",
+            "failure_mode": failure_mode,
+        }
+    slots["overall_state"] = "present-but-fail-closed"
+    return slots
+
+
+def _build_discovery_gated_transformer_payload(generated_at: str | None = None) -> dict[str, Any]:
+    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    payload = {
+        "schema_id": DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID,
+        "artifact_id": DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID,
+        "generated_at": timestamp,
+        "status": "present-but-fail-closed",
+        "producer": "scripts/run_canonical_reports.py",
+        "model_id": "discovery_gated_transformer",
+        "canonical_owner": {
+            "json_artifact": DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+            "markdown_artifact": DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT,
+            "owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$",
+        },
+        "component_descriptors": _dgt_component_descriptors(),
+        "new_model_hardgates_registry": {
+            "artifact_id": NEW_MODEL_HARDGATES_ARTIFACT_ID,
+            "schema_id": NEW_MODEL_HARDGATES_SCHEMA_ID,
+            "candidate_contract_pointer": f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.candidate_contract",
+            "gates_pointer": f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.gates",
+            "pointer_state": "present-but-fail-closed",
+        },
+        "dgt_hardgate_slots": _dgt_hardgate_slots(),
+        "public_index_pointers": {
+            "model_id": "$.model_id",
+            "component_descriptors": "$.component_descriptors",
+            "dgt_hardgate_slots": "$.dgt_hardgate_slots",
+            "not_claimed": "$.not_claimed",
+            "downstream_scope": "$.downstream_scope",
+        },
+        "not_claimed": [
+            "This owner does not claim broad architecture superiority.",
+            "This owner does not claim production superiority.",
+            "This owner does not claim full closure.",
+            "This owner does not publish candidate measurement bodies.",
+        ],
+        "downstream_scope": {
+            "discovery_map": "out-of-scope-follow-up",
+            "claim_verdicts": "out-of-scope-follow-up",
+            "claim_graph": "out-of-scope-follow-up",
+        },
+    }
+    _validate_discovery_gated_transformer_payload(payload)
+    return payload
+
+
+def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) -> None:
+    forbidden_keys = {
+        "terminal_verdict",
+        "metrics",
+        "raw_metrics",
+        "raw_metrics_artifact",
+        "candidate_metrics",
+        "candidate_results",
+        "candidate_measurements",
+        "candidate_evidence",
+        "candidate_evidence_body",
+        "evidence_body",
+        "claim_capsule_body",
+        "measurement_body",
+        "terminal_claim_row",
+    }
+    forbidden_strings = (
+        ".refactor-loop",
+        "DGT-v0",
+        "issue-",
+        "issue #",
+        "route-a",
+        "route-b",
+        "route-c",
+        "run_discovery_gated_transformer",
+        "discovery_gated_transformer_sidecar",
+        "terminal_verdict",
+        "raw metric",
+        "global superiority",
+    )
+
+    def walk(value: Any, path: str) -> None:
+        if isinstance(value, Mapping):
+            for key, cell in value.items():
+                if key in forbidden_keys or key.endswith("_body"):
+                    raise ValueError(f"discovery_gated_transformer payload contains forbidden key at {path}.{key}")
+                walk(cell, f"{path}.{key}")
+        elif isinstance(value, list):
+            for index, cell in enumerate(value):
+                walk(cell, f"{path}[{index}]")
+        elif isinstance(value, str):
+            lowered = value.lower()
+            for forbidden in forbidden_strings:
+                if forbidden.lower() in lowered:
+                    raise ValueError(f"discovery_gated_transformer payload contains forbidden value at {path}")
+
+    walk(payload, "$")
+    expected_top_level = {
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "status",
+        "producer",
+        "model_id",
+        "canonical_owner",
+        "component_descriptors",
+        "new_model_hardgates_registry",
+        "dgt_hardgate_slots",
+        "public_index_pointers",
+        "not_claimed",
+        "downstream_scope",
+    }
+    if set(payload) != expected_top_level:
+        raise ValueError("discovery_gated_transformer payload has invalid top-level fields")
+    if payload["schema_id"] != DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID:
+        raise ValueError("discovery_gated_transformer schema_id mismatch")
+    if payload["artifact_id"] != DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID:
+        raise ValueError("discovery_gated_transformer artifact_id mismatch")
+    if payload["status"] != "present-but-fail-closed":
+        raise ValueError("discovery_gated_transformer status must be present-but-fail-closed")
+    if payload["model_id"] != "discovery_gated_transformer":
+        raise ValueError("discovery_gated_transformer model_id mismatch")
+    components = payload["component_descriptors"]
+    expected_components = {
+        "backbone",
+        "certificate_gated_attention",
+        "gap_ledger_route_mechanism_scope_heads",
+        "discovery_regularized_training",
+        "audit",
+        "output_bundle",
+    }
+    if not isinstance(components, Mapping) or set(components) != expected_components:
+        raise ValueError("discovery_gated_transformer component descriptors mismatch")
+    component_fields = {"role", "owner_pointer", "evidence_pointer", "pointer_state"}
+    for key, row in components.items():
+        if not isinstance(row, Mapping) or set(row) != component_fields:
+            raise ValueError(f"discovery_gated_transformer component row invalid: {key}")
+        if row["pointer_state"] != "present-but-fail-closed":
+            raise ValueError(f"discovery_gated_transformer component state invalid: {key}")
+    registry = payload["new_model_hardgates_registry"]
+    if not isinstance(registry, Mapping):
+        raise ValueError("discovery_gated_transformer registry row invalid")
+    if registry.get("candidate_contract_pointer") != f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.candidate_contract":
+        raise ValueError("discovery_gated_transformer registry candidate contract pointer mismatch")
+    if registry.get("gates_pointer") != f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.gates":
+        raise ValueError("discovery_gated_transformer registry gates pointer mismatch")
+    slots = payload["dgt_hardgate_slots"]
+    if not isinstance(slots, Mapping):
+        raise ValueError("discovery_gated_transformer slots invalid")
+    expected_slot_ids = [f"DGT-HG{index}" for index in range(1, 13)]
+    if list(slots) != expected_slot_ids + ["overall_state"]:
+        raise ValueError("discovery_gated_transformer slots must contain DGT-HG1..12 plus overall_state")
+    slot_fields = {
+        "gate_id",
+        "gate_label",
+        "slot_state",
+        "requirement_summary",
+        "component_pointer",
+        "evidence_pointer",
+        "control_pointer",
+        "ablation_pointer",
+        "new_model_hardgate_pointer",
+        "not_claimed_pointer",
+        "failure_mode",
+    }
+    for gate_id in expected_slot_ids:
+        row = slots[gate_id]
+        if not isinstance(row, Mapping) or set(row) != slot_fields:
+            raise ValueError(f"discovery_gated_transformer slot fields invalid: {gate_id}")
+        if row["gate_id"] != gate_id:
+            raise ValueError(f"discovery_gated_transformer slot id mismatch: {gate_id}")
+        if row["slot_state"] != "present-but-fail-closed":
+            raise ValueError(f"discovery_gated_transformer slot state invalid: {gate_id}")
+        if row["not_claimed_pointer"] != "$.not_claimed":
+            raise ValueError(f"discovery_gated_transformer slot not-claimed pointer invalid: {gate_id}")
+        if not str(row["new_model_hardgate_pointer"]).startswith(f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.gates.NEW-MODEL-HG"):
+            raise ValueError(f"discovery_gated_transformer slot registry pointer invalid: {gate_id}")
+    if slots["overall_state"] != "present-but-fail-closed":
+        raise ValueError("discovery_gated_transformer overall_state invalid")
+    public_pointers = payload["public_index_pointers"]
+    expected_public_pointers = {
+        "model_id": "$.model_id",
+        "component_descriptors": "$.component_descriptors",
+        "dgt_hardgate_slots": "$.dgt_hardgate_slots",
+        "not_claimed": "$.not_claimed",
+        "downstream_scope": "$.downstream_scope",
+    }
+    if public_pointers != expected_public_pointers:
+        raise ValueError("discovery_gated_transformer public pointers mismatch")
+    downstream_scope = payload["downstream_scope"]
+    if downstream_scope != {
+        "discovery_map": "out-of-scope-follow-up",
+        "claim_verdicts": "out-of-scope-follow-up",
+        "claim_graph": "out-of-scope-follow-up",
+    }:
+        raise ValueError("discovery_gated_transformer downstream scope mismatch")
+
+
+def _render_discovery_gated_transformer_markdown(payload: Mapping[str, Any]) -> str:
+    _validate_discovery_gated_transformer_payload(payload)
+    lines = [
+        "# Discovery-Gated Transformer",
+        "",
+        f"- Generated at: `{payload['generated_at']}`",
+        f"- Artifact: `{payload['artifact_id']}`",
+        f"- Schema: `{payload['schema_id']}`",
+        f"- Status: `{payload['status']}`",
+        f"- Model id: `{payload['model_id']}`",
+        f"- Owner pointer: `{payload['canonical_owner']['owner_pointer']}`",
+        "",
+        "## Components",
+        "",
+        "| component | owner pointer | evidence pointer | pointer state |",
+        "| --- | --- | --- | --- |",
+    ]
+    for key, row in payload["component_descriptors"].items():
+        lines.append(
+            "| "
+            f"`{key}` | "
+            f"`{row['owner_pointer']}` | "
+            f"`{row['evidence_pointer']}` | "
+            f"`{row['pointer_state']}` |"
+        )
+    lines.extend(
+        [
+            "",
+            "## DGT Hardgate Slots",
+            "",
+            "| gate | component | evidence | control | ablation | registry | state | failure mode |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- |",
+        ]
+    )
+    slots = payload["dgt_hardgate_slots"]
+    for gate_id in [f"DGT-HG{index}" for index in range(1, 13)]:
+        row = slots[gate_id]
+        lines.append(
+            "| "
+            f"`{gate_id}` | "
+            f"`{row['component_pointer']}` | "
+            f"`{row['evidence_pointer']}` | "
+            f"`{row['control_pointer']}` | "
+            f"`{row['ablation_pointer']}` | "
+            f"`{row['new_model_hardgate_pointer']}` | "
+            f"`{row['slot_state']}` | "
+            f"`{row['failure_mode']}` |"
+        )
+    lines.extend(
+        [
+            "",
+            f"- Overall state: `{slots['overall_state']}`",
+            f"- Downstream scope: `{payload['public_index_pointers']['downstream_scope']}`",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> dict[str, Any]:
+    _validate_discovery_gated_transformer_payload(payload)
+    return {
+        "status": payload["status"],
+        "artifact_id": DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID,
+        "schema_id": DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID,
+        "json_artifact": DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+        "markdown_artifact": DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT,
+        "model_id_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.model_id",
+        "component_descriptors_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_descriptors",
+        "hardgate_slots_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots",
+        "overall_state_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.overall_state",
+        "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
+        "downstream_scope_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.downstream_scope",
+        "dgt_hardgate_slot_pointers": {
+            f"DGT-HG{index}": (
+                f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.DGT-HG{index}"
+            )
+            for index in range(1, 13)
+        },
+    }
+
+
 def _formal_hardening_index_section(generated_at: str | None = None) -> dict[str, Any]:
     payload = _build_formal_hardening_payload(generated_at=generated_at)
     return {
@@ -2505,6 +2999,7 @@ def _index(
     reports = list(results)
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     discovery_map_payload = _discovery_map_payload(generated_at=timestamp)
+    discovery_gated_transformer_payload = _build_discovery_gated_transformer_payload(generated_at=timestamp)
     return {
         "schema_id": INDEX_SCHEMA_ID,
         "generated_at": timestamp,
@@ -2526,6 +3021,7 @@ def _index(
         "negative_discovery_reports": _negative_discovery_reports_index_section(generated_at=timestamp),
         "negative_witness_mutation_ledger": _negative_witness_mutation_ledger_index_section(),
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
+        "discovery_gated_transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
@@ -2660,6 +3156,19 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Gates pointer: `{payload['new_model_hardgates']['gates_pointer']}`",
             f"- Gate count: `{payload['new_model_hardgates']['gate_count']}`",
             f"- Candidate contract: `{payload['new_model_hardgates']['candidate_contract_pointer']}`",
+            "",
+            "## Discovery-Gated Transformer",
+            "",
+            f"- Status: `{payload['discovery_gated_transformer']['status']}`",
+            f"- JSON: `{payload['discovery_gated_transformer']['json_artifact']}`",
+            f"- Markdown: `{payload['discovery_gated_transformer']['markdown_artifact']}`",
+            f"- Schema: `{payload['discovery_gated_transformer']['schema_id']}`",
+            f"- Model id: `{payload['discovery_gated_transformer']['model_id_pointer']}`",
+            f"- Components: `{payload['discovery_gated_transformer']['component_descriptors_pointer']}`",
+            f"- Hardgate slots: `{payload['discovery_gated_transformer']['hardgate_slots_pointer']}`",
+            f"- Overall state: `{payload['discovery_gated_transformer']['overall_state_pointer']}`",
+            f"- Not claimed: `{payload['discovery_gated_transformer']['not_claimed_pointer']}`",
+            f"- Downstream scope: `{payload['discovery_gated_transformer']['downstream_scope_pointer']}`",
             "",
             "## Claim verdicts",
             "",
@@ -2895,6 +3404,12 @@ def run_reports(
     _write_text_atomic(
         _artifact_path(NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT),
         _render_new_model_hardgates_markdown(new_model_hardgates),
+    )
+    discovery_gated_transformer = _build_discovery_gated_transformer_payload(generated_at=timestamp)
+    _write_json_atomic(_artifact_path(DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT), discovery_gated_transformer)
+    _write_text_atomic(
+        _artifact_path(DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT),
+        _render_discovery_gated_transformer_markdown(discovery_gated_transformer),
     )
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)
