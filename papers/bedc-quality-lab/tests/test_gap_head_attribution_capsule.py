@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from scripts.experiment_stats import metric_stats
 from scripts import run_gap_head_attribution_capsule as runner
 from scripts import run_canonical_reports as canonical
@@ -97,72 +98,23 @@ def _aggregate(**overrides):
 
 
 def _resolve_pointer(payload, pointer):
-    node = payload
-    for raw_part in pointer[2:].split("."):
-        part = raw_part
-        while part:
-            key, bracket, tail = part.partition("[")
-            if key:
-                node = node[int(key)] if isinstance(node, list) else node[key]
-            if not bracket:
-                break
-            index, close, rest = tail.partition("]")
-            if not close:
-                raise KeyError(pointer)
-            node = node[int(index)]
-            part = rest
-    return node
+    value = pointer_value(payload, pointer)
+    if value is None:
+        raise KeyError(pointer)
+    return value
 
 
 def _pointer_resolves(payload, pointer):
-    if not isinstance(pointer, str) or not pointer.startswith("$."):
-        return False
-    node = payload
-    for raw_part in pointer[2:].split("."):
-        part = raw_part
-        while part:
-            key, bracket, tail = part.partition("[")
-            if key:
-                if isinstance(node, list):
-                    try:
-                        node = node[int(key)]
-                    except (ValueError, IndexError):
-                        return False
-                elif isinstance(node, dict) and key in node:
-                    node = node[key]
-                else:
-                    return False
-            if not bracket:
-                break
-            index, close, rest = tail.partition("]")
-            if not close or not isinstance(node, list):
-                return False
-            try:
-                node = node[int(index)]
-            except (ValueError, IndexError):
-                return False
-            part = rest
-    return True
+    return pointer_value(payload, pointer) is not None
 
 
 def _node_at_path(payload, path):
     if path == "$":
         return payload
-    node = payload
-    for raw_part in path[2:].split("."):
-        part = raw_part
-        while part:
-            key, bracket, tail = part.partition("[")
-            if key:
-                node = node[int(key)] if isinstance(node, list) else node[key]
-            if not bracket:
-                break
-            index, close, rest = tail.partition("]")
-            if not close:
-                raise KeyError(path)
-            node = node[int(index)]
-            part = rest
-    return node
+    value = pointer_value(payload, path)
+    if value is None:
+        raise KeyError(path)
+    return value
 
 
 def _lab_root_for_artifact(artifact):
