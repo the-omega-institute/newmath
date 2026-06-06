@@ -20,6 +20,19 @@ from scripts import run_canonical_reports as canonical
 from scripts import run_lejepa_mini_grid as runner
 
 
+NEGATIVE_WITNESS_ROW = {
+    "witness_id": "lejepa-mini-grid:lambda-rho-trend-hardgate-failure",
+    "source_artifact": "reports/runs/lejepa-mini-grid/claim_capsule.json",
+    "source_pointer": "$.failed_gate",
+    "bedc_gap_field": "lambda_rho_trend_gap",
+    "demotion_rule": "demote_to_DN_on_D2_HG2_failure",
+    "regression_test": "tests/test_lejepa_mini_grid.py::test_lejepa_run_local_negative_witness_records_d2_hg2_failure",
+    "evidence_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.hardgates.D2-HG2",
+    "status": "fail",
+    "reason": "D2-HG2 records failed lambda/rho trend evidence for the LeJEPA mini-grid claim capsule.",
+}
+
+
 def _metric_record(alignment_lambda: float, rho: float, mixing: str, seed: int) -> dict[str, float | int | str]:
     lambda_rank = DEFAULT_ALIGNMENT_LAMBDAS.index(float(alignment_lambda))
     rho_rank = DEFAULT_RHOS.index(float(rho))
@@ -79,6 +92,26 @@ def _fake_single_arm(**kwargs):
         str(kwargs["mixing"]),
         int(kwargs["seed"]),
     )
+
+
+def _contains_key(value, key: str) -> bool:
+    if isinstance(value, dict):
+        return key in value or any(_contains_key(item, key) for item in value.values())
+    if isinstance(value, list):
+        return any(_contains_key(item, key) for item in value)
+    return False
+
+
+def _negative_projection(monkeypatch, run_id: str = "lejepa-mini-grid"):
+    def fake_single_arm(**kwargs):
+        row = _fake_single_arm(**kwargs)
+        row["quality_q"] = 0.50
+        row["linear_identifiability_r2"] = 0.20
+        row["collapse_rate"] = 0.30
+        return row
+
+    monkeypatch.setattr(runner, "run_single_arm", fake_single_arm)
+    return runner.build_projection(run_id=run_id, generated_at="fixture-time")
 
 
 def test_run_single_arm_forwards_backend_arguments_and_derives_probe_metrics(monkeypatch):
@@ -188,7 +221,17 @@ def test_default_grid_enumerates_300_cells_and_writes_four_run_artifacts(monkeyp
     assert written == ["claim_capsule.json", "raw_metrics.jsonl", "report.md", "summary.json"]
     summary = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
     capsule_payload = json.loads((run_dir / "claim_capsule.json").read_text(encoding="utf-8"))
-    assert summary["claim_capsule"] == capsule_payload
+    assert summary["claim_capsule"] == {
+        "artifact": "reports/runs/fixture-grid/claim_capsule.json",
+        "pointer": "$",
+    }
+    assert summary["negative_witness"] == [
+        {
+            "artifact": "reports/runs/fixture-grid/claim_capsule.json",
+            "pointer": "$.run_local.negative_witness[0]",
+        }
+    ]
+    assert capsule_payload["run_local"]["negative_witness"][0]["source_artifact"] == "reports/runs/fixture-grid/claim_capsule.json"
     assert len((run_dir / "raw_metrics.jsonl").read_text(encoding="utf-8").splitlines()) == 300
 
 
@@ -277,3 +320,89 @@ def test_thin_script_can_run_with_monkeypatched_single_arm_runner(monkeypatch, t
     assert (run_dir / "raw_metrics.jsonl").exists()
     assert (run_dir / "report.md").exists()
     assert len((run_dir / "raw_metrics.jsonl").read_text(encoding="utf-8").splitlines()) == 300
+
+
+def test_lejepa_run_local_negative_witness_records_d2_hg2_failure(monkeypatch):
+    projection = _negative_projection(monkeypatch)
+    capsule_payload = projection["claim_capsule_payload"]
+
+    assert capsule_payload["schema_id"] == "bedc.quality.claim_capsule"
+    assert capsule_payload["run_local"]["negative_witness"][0] == NEGATIVE_WITNESS_ROW
+
+
+def test_lejepa_run_local_negative_witness_source_pointer_resolves(monkeypatch):
+    projection = _negative_projection(monkeypatch)
+    capsule_payload = projection["claim_capsule_payload"]
+    row = capsule_payload["run_local"]["negative_witness"][0]
+
+    assert runner.resolve_claim_capsule_pointer(capsule_payload, row["source_pointer"]) == "D2-HG2"
+
+
+def test_lejepa_run_local_negative_witness_evidence_pointer_resolves(monkeypatch):
+    projection = _negative_projection(monkeypatch)
+    capsule_payload = projection["claim_capsule_payload"]
+    row = capsule_payload["run_local"]["negative_witness"][0]
+    artifact, pointer = row["evidence_pointer"].split(":", 1)
+    evidence = runner.resolve_claim_capsule_pointer(capsule_payload, pointer)
+
+    assert artifact == row["source_artifact"]
+    assert evidence == capsule_payload["hardgates"]["D2-HG2"]
+    assert row["status"] == "fail"
+    assert evidence["lambda_collapse_rate_increasing"] is False
+    assert evidence["lambda_quality_q_decreasing"] is False
+    assert evidence["rho_linear_identifiability_r2_increasing"] is False
+
+
+def test_lejepa_run_local_negative_witness_row_shape_is_singleton_list(monkeypatch):
+    projection = _negative_projection(monkeypatch)
+    negative_witness = projection["claim_capsule_payload"]["run_local"]["negative_witness"]
+
+    assert isinstance(negative_witness, list)
+    assert len(negative_witness) == 1
+    assert set(negative_witness[0]) == set(runner.NEGATIVE_WITNESS_KEYS)
+
+
+def test_lejepa_public_surfaces_point_to_run_local_negative_witness_owner(monkeypatch, tmp_path):
+    projection = _negative_projection(monkeypatch)
+    runner.write_artifacts(projection, root=tmp_path)
+    run_dir = tmp_path / "reports/runs/lejepa-mini-grid"
+    summary = json.loads((run_dir / "summary.json").read_text(encoding="utf-8"))
+    capsule_payload = json.loads((run_dir / "claim_capsule.json").read_text(encoding="utf-8"))
+    report = (run_dir / "report.md").read_text(encoding="utf-8")
+    owner_ref = {
+        "artifact": "reports/runs/lejepa-mini-grid/claim_capsule.json",
+        "pointer": "$.run_local.negative_witness[0]",
+    }
+
+    assert summary["negative_witness"] == [owner_ref]
+    assert summary["claim_capsule"] == {"artifact": owner_ref["artifact"], "pointer": "$"}
+    assert owner_ref["pointer"] not in json.dumps(capsule_payload["run_local"]["negative_witness"][0], sort_keys=True)
+    assert "negative_witness" not in report
+    assert "lambda-rho-trend-hardgate-failure" not in json.dumps(summary, sort_keys=True)
+
+
+def test_lejepa_run_local_negative_witness_fail_closed_keeps_blocked_row(monkeypatch):
+    projection = _negative_projection(monkeypatch)
+    capsule_payload = projection["claim_capsule_payload"]
+    capsule_payload["hardgates"]["D2-HG2"]["status"] = "pass"
+    finalized = runner.finalize_negative_witness_projection(
+        {**projection, "claim_capsule_payload": capsule_payload},
+        run_id="lejepa-mini-grid",
+    )
+    row = finalized["claim_capsule_payload"]["run_local"]["negative_witness"][0]
+
+    assert row["status"] == "blocked"
+    assert row["witness_id"] == NEGATIVE_WITNESS_ROW["witness_id"]
+    assert set(row) == set(runner.NEGATIVE_WITNESS_KEYS)
+
+
+def test_lejepa_run_local_negative_witness_no_terminal_verdict_leakage(monkeypatch):
+    projection = _negative_projection(monkeypatch)
+    capsule_payload = projection["claim_capsule_payload"]
+    summary = projection["summary_payload"]
+    nw_block = {
+        "summary_negative_witness": summary["negative_witness"],
+        "capsule_run_local": capsule_payload["run_local"],
+    }
+
+    assert not _contains_key(nw_block, "terminal_verdict")

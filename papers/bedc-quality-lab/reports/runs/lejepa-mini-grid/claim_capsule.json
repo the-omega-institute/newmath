@@ -250,7 +250,41 @@
     "status": "revocable"
   },
   "run_id": "lejepa-mini-grid",
-  "schema_id": "bedc.quality.claim_capsule.run_local",
+  "run_local": {
+    "negative_witness": [
+      {
+        "bedc_gap_field": "lambda_rho_trend_gap",
+        "demotion_rule": "demote_to_DN_on_D2_HG2_failure",
+        "evidence_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.hardgates.D2-HG2",
+        "reason": "D2-HG2 records failed lambda/rho trend evidence for the LeJEPA mini-grid claim capsule.",
+        "regression_test": "tests/test_lejepa_mini_grid.py::test_lejepa_run_local_negative_witness_records_d2_hg2_failure",
+        "source_artifact": "reports/runs/lejepa-mini-grid/claim_capsule.json",
+        "source_pointer": "$.failed_gate",
+        "status": "fail",
+        "witness_id": "lejepa-mini-grid:lambda-rho-trend-hardgate-failure"
+      }
+    ],
+    "negative_witness_hardgates": {
+      "failed_gates": [],
+      "gates": {
+        "NW-HG1": {
+          "evidence_pointer": "$.run_local.negative_witness.0",
+          "status": "pass"
+        },
+        "NW-HG2": {
+          "evidence_pointer": "$.failed_gate",
+          "status": "pass"
+        },
+        "NW-HG3": {
+          "evidence_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.hardgates.D2-HG2",
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    }
+  },
+  "run_local_schema_id": "bedc.quality.claim_capsule.run_local",
+  "schema_id": "bedc.quality.claim_capsule",
   "source_artifacts": {
     "cost_protocol": "configs/default_cost_protocol.yaml",
     "raw_metrics": "reports/runs/lejepa-mini-grid/raw_metrics.jsonl",

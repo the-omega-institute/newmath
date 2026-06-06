@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from scripts.experiment_stats import metric_stats
 from scripts import run_gap_head_attribution_capsule as runner
 from scripts import run_canonical_reports as canonical
@@ -97,36 +98,23 @@ def _aggregate(**overrides):
 
 
 def _resolve_pointer(payload, pointer):
-    node = payload
-    for part in pointer[2:].split("."):
-        node = node[int(part)] if isinstance(node, list) else node[part]
-    return node
+    value = pointer_value(payload, pointer)
+    if value is None:
+        raise KeyError(pointer)
+    return value
 
 
 def _pointer_resolves(payload, pointer):
-    if not isinstance(pointer, str) or not pointer.startswith("$."):
-        return False
-    node = payload
-    for part in pointer[2:].split("."):
-        if isinstance(node, list):
-            try:
-                node = node[int(part)]
-            except (ValueError, IndexError):
-                return False
-        elif isinstance(node, dict) and part in node:
-            node = node[part]
-        else:
-            return False
-    return True
+    return pointer_value(payload, pointer) is not None
 
 
 def _node_at_path(payload, path):
     if path == "$":
         return payload
-    node = payload
-    for part in path[2:].split("."):
-        node = node[int(part)] if isinstance(node, list) else node[part]
-    return node
+    value = pointer_value(payload, path)
+    if value is None:
+        raise KeyError(path)
+    return value
 
 
 def _lab_root_for_artifact(artifact):
