@@ -10,6 +10,7 @@ from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
+from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, split_artifact_pointer
 
 
@@ -896,6 +897,119 @@ def test_committed_canonical_bundle_matches_generation_chain():
     assert index_payload == generated_index
     assert discovery_payload == generated_discovery
     assert claim_rows == generated_claims
+
+
+def test_committed_discovery_map_coverage_matrix_is_full_target_set_and_round_trips():
+    path = canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    reloaded = json.loads(json.dumps(payload))
+
+    validate_discovery_map_payload(reloaded, root=canonical.ROOT)
+
+    targets = {row["report"] for row in payload["rows"]}
+    cells = payload["coverage_matrix"]["cells"]
+    assert {cell["target"] for cell in cells} == targets
+    assert all(set(cell) == {"target", "owner_pointer", "slot_state"} for cell in cells)
+    assert {cell["slot_state"] for cell in cells} <= {"present", "present-but-fail-closed", "negative"}
+    assert payload["coverage_matrix"]["overall_state"] == "present"
+
+
+def test_coverage_matrix_owner_pointers_resolve_and_negative_cells_point_to_negative_owner():
+    payload = json.loads((canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    rows = {row["report"]: row for row in payload["rows"]}
+
+    for cell in payload["coverage_matrix"]["cells"]:
+        value = _resolve_artifact_pointer(canonical.ROOT, cell["owner_pointer"])
+        assert value is not None
+        row = rows[cell["target"]]
+        if row["discovery_level"] == "DN":
+            assert cell["slot_state"] == "negative"
+            assert cell["owner_pointer"] == row["negative_report_pointer"]
+        else:
+            assert cell["slot_state"] == "present"
+
+
+def test_coverage_matrix_validator_rejects_forbidden_keys_and_target_set_drift():
+    rows = [
+        {"report": "alpha", "json_artifact": "reports/canonical/alpha.json", "discovery_level": "D1"},
+        {"report": "beta", "json_artifact": "reports/canonical/beta.json", "discovery_level": "D1"},
+    ]
+    coverage = {
+        "status": "pointer-only",
+        "overall_state": "present",
+        "cells": [
+            {"target": "alpha", "owner_pointer": "reports/canonical/alpha.json:$", "slot_state": "present"},
+        ],
+    }
+    with pytest.raises(ValueError, match="target set mismatch"):
+        validate_coverage_matrix(coverage, rows=rows)
+
+    forbidden = {
+        "status": "pointer-only",
+        "overall_state": "present",
+        "cells": [
+            {
+                "target": "alpha",
+                "owner_pointer": "reports/canonical/alpha.json:$",
+                "slot_state": "present",
+                "terminal_verdict": "pass",
+            },
+            {"target": "beta", "owner_pointer": "reports/canonical/beta.json:$", "slot_state": "present"},
+        ],
+    }
+    with pytest.raises(ValueError, match="schema mismatch|copies owner facts"):
+        validate_coverage_matrix(forbidden, rows=rows)
+
+
+def test_coverage_matrix_slot_state_triad_and_hg_p_fail_closed_semantics(tmp_path):
+    root = tmp_path
+    (root / "reports" / "canonical").mkdir(parents=True)
+    (root / "reports" / "canonical" / "present.json").write_text(json.dumps({"ok": True}) + "\n", encoding="utf-8")
+    (root / "reports" / "canonical" / "negative_discovery_reports.json").write_text(
+        json.dumps({"rows": [{"report": "negative-target"}]}) + "\n",
+        encoding="utf-8",
+    )
+    rows = [
+        {
+            "report": "present-target",
+            "json_artifact": "reports/canonical/present.json",
+            "discovery_level": "D1",
+        },
+        {
+            "report": "closed-target",
+            "json_artifact": "reports/canonical/missing.json",
+            "discovery_level": "D1",
+        },
+        {
+            "report": "negative-target",
+            "json_artifact": "reports/canonical/negative-source.json",
+            "discovery_level": "DN",
+            "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
+        },
+    ]
+    coverage = {
+        "status": "pointer-only",
+        "overall_state": "present-but-fail-closed",
+        "cells": [
+            {"target": "present-target", "owner_pointer": "reports/canonical/present.json:$", "slot_state": "present"},
+            {
+                "target": "closed-target",
+                "owner_pointer": "reports/canonical/missing.json:$",
+                "slot_state": "present-but-fail-closed",
+            },
+            {
+                "target": "negative-target",
+                "owner_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
+                "slot_state": "negative",
+            },
+        ],
+    }
+    assert validate_coverage_matrix(coverage, rows=rows, root=root)["overall_state"] == "present-but-fail-closed"
+
+    promoted = dict(coverage)
+    promoted["overall_state"] = "present"
+    with pytest.raises(ValueError, match="overall_state"):
+        validate_coverage_matrix(promoted, rows=rows, root=root)
 
 
 def test_gap_head_manifest_rows_are_canonical_and_keyed():
