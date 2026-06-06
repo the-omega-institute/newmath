@@ -470,6 +470,7 @@ GRID_BOOLEAN_FIELDS = (
     "ParetoDominance",
 )
 C1_HARDGATE_ORDER = ("C1-HG1", "C1-HG2", "C1-HG3", "C1-HG4", "C1-HG5")
+C2_HARDGATE_ORDER = ("C2-HG1", "C2-HG2", "C2-HG3")
 
 
 def _compact_metric_stats(values: Iterable[float]) -> dict[str, float | int]:
@@ -488,6 +489,26 @@ def _stable_float(value: float) -> float:
     if abs(value) < 1e-12:
         return 0.0
     return float(f"{value:.10g}")
+
+
+def _pointer_value(payload: dict[str, Any], pointer: str) -> Any:
+    if not pointer.startswith("$."):
+        return None
+    cursor: Any = payload
+    for part in pointer[2:].split("."):
+        if isinstance(cursor, dict):
+            if part not in cursor:
+                return None
+            cursor = cursor[part]
+            continue
+        if isinstance(cursor, list) and part.isdigit():
+            index = int(part)
+            if index >= len(cursor):
+                return None
+            cursor = cursor[index]
+            continue
+        return None
+    return cursor
 
 
 def _grid_summary_records(grid_records: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -747,6 +768,7 @@ def _source_evidence(payload: dict[str, Any]) -> dict[str, Any]:
         "claim_gate_pointer": "$.claim_gate",
         "main_delta_pointer": "$.hardgate.basis.main_delta",
         "matched_random_control_pointer": "$.hardgate.basis.control_delta",
+        "c2_frontier_pointer": "$.c2_frontier",
         "prior_observation_pointer": "$.claim_capsule.prior_observation",
     }
 
@@ -795,7 +817,214 @@ def _grid_summary_payload(grid_records: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def _payload(*, run_id: str = "certificate-guided-constraint-training") -> dict[str, Any]:
+def _issue_alias_metadata() -> dict[str, Any]:
+    return {
+        "kind": "issue-alias-provenance",
+        "source_ref": "gh-issue-698",
+        "aliases": [
+            "certificate_constraint_frontier_v2",
+            "certificate_constraint_frontier.schema.v1",
+        ],
+        "production_use": False,
+        "canonical_owner": "certificate-guided-constraint-training",
+    }
+
+
+def _c2_axis_spec() -> dict[str, Any]:
+    return {
+        "projection_owner": "certificate-guided-constraint-training",
+        "schema_id": CAPSULE_SCHEMA_ID,
+        "run_id": "certificate-guided-constraint-training",
+        "producer": PRODUCER,
+        "source_artifact": JSON_ARTIFACT,
+        "source_pointers": {
+            "grid_summary": {"artifact": JSON_ARTIFACT, "pointer": "$.grid_summary"},
+            "raw_grid_record_count": {"artifact": JSON_ARTIFACT, "pointer": "$.raw_grid_record_count"},
+            "claim_gate": {"artifact": JSON_ARTIFACT, "pointer": "$.claim_gate"},
+            "c1_hardgate": {"artifact": JSON_ARTIFACT, "pointer": "$.hardgate"},
+        },
+        "axes": {
+            "alpha": "UER upper bound",
+            "beta": "Quality benefit lower bound",
+            "gamma": "Quality debt upper bound",
+            "quality_q": "QualityQ delta against same-seed baseline",
+        },
+    }
+
+
+def _c2_constraint_rows(
+    marked_grid_records: list[dict[str, Any]],
+    grid_records: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    summary_ids = {str(row["summary_id"]) for row in grid_records}
+    rows = []
+    for row in marked_grid_records:
+        positive_quality_win = bool(row["feasible"] and row["delta_quality_q"] > 0.0 and row["delta_benefit"] >= 0.0)
+        summary_id = f"{row['grid_id']}:{row['arm']}"
+        rows.append(
+            {
+                "grid_id": row["grid_id"],
+                "seed": int(row["seed"]),
+                "arm": row["arm"],
+                "alpha": _stable_float(row["alpha"]),
+                "beta": _stable_float(row["beta"]),
+                "gamma": _stable_float(row["gamma"]),
+                "feasible": bool(row["feasible"]),
+                "positive_quality_win": positive_quality_win,
+                "quality_q": _stable_float(row["quality_q"]),
+                "delta_quality_q": _stable_float(row["delta_quality_q"]),
+                "delta_benefit": _stable_float(row["delta_benefit"]),
+                "delta_debt": _stable_float(row["delta_debt"]),
+                "task_loss": _stable_float(row["task_loss"]),
+                "summary_pointer": GRID_SUMMARY_ARTIFACT,
+                "summary_found": summary_id in summary_ids,
+            }
+        )
+    return rows
+
+
+def _c2_frontier_summary(constraint_rows: list[dict[str, Any]]) -> dict[str, Any]:
+    feasible = [row for row in constraint_rows if row["feasible"]]
+    feasible_non_positive = [row for row in feasible if not row["positive_quality_win"]]
+    positive_quality = [row for row in constraint_rows if row["positive_quality_win"]]
+    return {
+        "constraint_row_count": len(constraint_rows),
+        "feasible_count": len(feasible),
+        "feasible_non_positive_count": len(feasible_non_positive),
+        "positive_quality_win_count": len(positive_quality),
+        "first_feasible_non_positive_pointer": "$.c2_frontier.feasible_non_positive_witness" if feasible_non_positive else None,
+    }
+
+
+def _c2_witness(constraint_rows: list[dict[str, Any]]) -> dict[str, Any] | None:
+    for row in constraint_rows:
+        if row["feasible"] and not row["positive_quality_win"]:
+            return dict(row)
+    return None
+
+
+def _c2_follow_up_training_replay(marked_grid_records: list[dict[str, Any]], records: list[dict[str, Any]]) -> dict[str, Any]:
+    return {
+        "mode": "same-owner-replay",
+        "producer": PRODUCER,
+        "source_artifact": JSON_ARTIFACT,
+        "run_artifacts": {
+            "raw_metrics_artifact": RAW_METRICS_ARTIFACT,
+            "grid_metrics_artifact": GRID_METRICS_ARTIFACT,
+            "grid_summary_artifact": GRID_SUMMARY_ARTIFACT,
+        },
+        "evidence": {
+            "raw_metrics_record_count": len(records),
+            "raw_grid_record_count": len(marked_grid_records),
+            "payload_raw_metrics_record_count_pointer": {"artifact": JSON_ARTIFACT, "pointer": "$.raw_metrics_record_count"},
+            "payload_raw_grid_record_count_pointer": {"artifact": JSON_ARTIFACT, "pointer": "$.raw_grid_record_count"},
+            "grid_summary_record_count_pointer": {"artifact": JSON_ARTIFACT, "pointer": "$.grid_summary.record_count"},
+        },
+        "not_claimed": "follow-up replay is a source-evidence pointer set, not a terminal verdict",
+    }
+
+
+def _c2_hardgates(payload: dict[str, Any], c2_frontier: dict[str, Any]) -> dict[str, Any]:
+    axis_pointers = {
+        name: pointer["pointer"]
+        for name, pointer in c2_frontier["axis_spec"]["source_pointers"].items()
+        if isinstance(pointer, dict) and isinstance(pointer.get("pointer"), str)
+    }
+    resolved_axis_pointers = {
+        name: _pointer_value(payload, pointer) is not None
+        for name, pointer in axis_pointers.items()
+    }
+    replay = c2_frontier["follow_up_training_replay"]["evidence"]
+    replay_pointers = {
+        "raw_metrics_record_count": replay["payload_raw_metrics_record_count_pointer"]["pointer"],
+        "raw_grid_record_count": replay["payload_raw_grid_record_count_pointer"]["pointer"],
+        "grid_summary_record_count": replay["grid_summary_record_count_pointer"]["pointer"],
+    }
+    resolved_replay_pointers = {
+        name: _pointer_value(payload, pointer) is not None
+        for name, pointer in replay_pointers.items()
+    }
+    replay_counts_match = (
+        replay["raw_metrics_record_count"] == _pointer_value(payload, replay["payload_raw_metrics_record_count_pointer"]["pointer"])
+        and replay["raw_grid_record_count"] == _pointer_value(payload, replay["payload_raw_grid_record_count_pointer"]["pointer"])
+        and c2_frontier["grid_summary_record_count"] == _pointer_value(payload, replay["grid_summary_record_count_pointer"]["pointer"])
+    )
+    gates = {
+        "C2-HG1": {
+            "artifact": JSON_ARTIFACT,
+            "status": "pass" if c2_frontier["frontier_summary"]["feasible_non_positive_count"] > 0 else "fail",
+            "evidence_pointer": "$.c2_frontier.frontier_summary.feasible_non_positive_count",
+            "feasible_non_positive_count": c2_frontier["frontier_summary"]["feasible_non_positive_count"],
+            "first_witness_pointer": "$.c2_frontier.feasible_non_positive_witness",
+        },
+        "C2-HG2": {
+            "artifact": JSON_ARTIFACT,
+            "status": "pass" if all(resolved_axis_pointers.values()) else "fail",
+            "evidence_pointer": "$.c2_frontier.axis_spec.source_pointers",
+            "source_pointer_count": len(axis_pointers),
+            "resolved_source_pointer_count": sum(int(value) for value in resolved_axis_pointers.values()),
+            "resolved_source_pointers": resolved_axis_pointers,
+        },
+        "C2-HG3": {
+            "artifact": JSON_ARTIFACT,
+            "status": "pass" if all(resolved_replay_pointers.values()) and replay_counts_match else "fail",
+            "evidence_pointer": "$.c2_frontier.follow_up_training_replay.evidence",
+            "replay_counts_match": bool(replay_counts_match),
+            "resolved_replay_pointers": resolved_replay_pointers,
+        },
+    }
+    failed_gates = [
+        {"gate": name, "failed_gate": f"{name.lower()}-evidence-missing"}
+        for name in C2_HARDGATE_ORDER
+        if gates[name]["status"] != "pass"
+    ]
+    return {
+        "status": "passed" if not failed_gates else "failed",
+        "failed_gates": failed_gates,
+        "gates": gates,
+    }
+
+
+def _c2_frontier(
+    payload: dict[str, Any],
+    marked_grid_records: list[dict[str, Any]],
+    grid_records: list[dict[str, Any]],
+    records: list[dict[str, Any]],
+) -> dict[str, Any]:
+    constraint_rows = _c2_constraint_rows(marked_grid_records, grid_records)
+    frontier = {
+        "axis_spec": _c2_axis_spec(),
+        "grid_summary_record_count": len(grid_records),
+        "frontier_summary": _c2_frontier_summary(constraint_rows),
+        "feasible_non_positive_witness": _c2_witness(constraint_rows),
+        "follow_up_training_replay": _c2_follow_up_training_replay(marked_grid_records, records),
+        "issue_alias": _issue_alias_metadata(),
+    }
+    frontier["hardgates"] = _c2_hardgates(payload, frontier)
+    return frontier
+
+
+def _reusable_generated_at(run_id: str) -> str | None:
+    candidates = (
+        ROOT / _capsule_path(run_id),
+        ROOT / JSON_ARTIFACT,
+    )
+    for path in candidates:
+        if not path.exists():
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(payload, dict):
+            continue
+        generated_at = payload.get("generated_at")
+        if isinstance(generated_at, str) and generated_at:
+            return generated_at
+    return None
+
+
+def _payload(*, run_id: str = "certificate-guided-constraint-training", generated_at: str | None = None) -> dict[str, Any]:
     protocol = load_cost_protocol()
     required_rows = REQUIRED_DEBT_ROWS | SCOPED_DEBT_ROWS
     protocol.validate_required_rows(required_rows)
@@ -830,11 +1059,11 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training") -> dict[
     hardgate = _hardgate(records, paired_ci, claim_gate)
     failed_gate = hardgate["failed_gate"]
     verdict = _terminal_verdict(hardgate)
-    generated_at = datetime.now(timezone.utc).isoformat()
+    timestamp = generated_at or datetime.now(timezone.utc).isoformat()
     payload: dict[str, Any] = {
         "artifact": JSON_ARTIFACT,
         "report": REPORT_ARTIFACT,
-        "generated_at": generated_at,
+        "generated_at": timestamp,
         "run_id": run_id,
         "cost_protocol": _cost_protocol_payload(protocol),
         "source_artifacts": {
@@ -941,6 +1170,7 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training") -> dict[
         "_raw_grid_records": marked_grid_records,
     }
     payload["result"] = _result(records, hardgate)
+    payload["c2_frontier"] = _c2_frontier(payload, marked_grid_records, grid_records, records)
     what_was_learned = (
         f"constraint_lagrangian did not clear {failed_gate}"
         if failed_gate
@@ -948,7 +1178,7 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training") -> dict[
     )
     payload["claim_capsule"] = build_claim_capsule(
         run_id=run_id,
-        generated_at=generated_at,
+        generated_at=timestamp,
         producer=PRODUCER,
         report_artifact=JSON_ARTIFACT,
         capsule_artifact=_capsule_path(run_id),
@@ -961,6 +1191,12 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training") -> dict[
         prior_observation=_prior_observation(payload["artifact"]),
         not_claimed=payload["not_claimed"],
     )
+    payload["claim_capsule"]["c2_frontier"] = {
+        "axis_spec": payload["c2_frontier"]["axis_spec"],
+        "hardgates": payload["c2_frontier"]["hardgates"],
+        "follow_up_training_replay": payload["c2_frontier"]["follow_up_training_replay"],
+        "issue_alias": payload["c2_frontier"]["issue_alias"],
+    }
     return payload
 
 
@@ -1077,7 +1313,7 @@ def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", default="certificate-guided-constraint-training")
     args = parser.parse_args(argv)
-    payload = _payload(run_id=args.run_id)
+    payload = _payload(run_id=args.run_id, generated_at=_reusable_generated_at(args.run_id))
     _write_payload(payload)
     print(f"wrote {JSON_ARTIFACT}")
     print(f"wrote {REPORT_ARTIFACT}")

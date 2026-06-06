@@ -1515,6 +1515,34 @@ def test_run_spec_force_path_runs_producer_for_existing_artifacts(tmp_path, monk
 
     assert calls == ["mixing-family-sweep"]
     assert result["producer_status"] == "completed"
+    assert result["duration_seconds"] == 0.0
+
+
+def test_run_spec_completed_fingerprint_miss_reports_zero_duration(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    calls = []
+
+    def producer(called):
+        calls.append(called.name)
+        json_path = canonical._artifact_path(called.json_artifact)
+        md_path = canonical._artifact_path(called.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(called)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_fingerprint_matches", lambda _spec: (False, "input-fingerprint"))
+    monkeypatch.setattr(canonical, "_write_fingerprint_sidecar", lambda _spec, generated_at=None: {})
+    monkeypatch.setattr(canonical, "_run_producer", producer)
+
+    result = canonical._run_spec(spec)
+
+    assert calls == ["mixing-family-sweep"]
+    assert result["producer_status"] == "completed"
+    assert result["fingerprint_status"] == "written"
+    assert result["fingerprint_reason"] == "input-fingerprint"
+    assert result["duration_seconds"] == 0.0
 
 
 def test_literature_ledger_status_follows_validator_not_path_existence(tmp_path, monkeypatch):

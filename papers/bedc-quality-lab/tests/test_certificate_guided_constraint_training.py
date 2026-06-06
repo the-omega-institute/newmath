@@ -85,9 +85,13 @@ def _pointer_value(payload, pointer):
     cursor = payload
     assert pointer.startswith("$.")
     for part in pointer[2:].split("."):
-        assert isinstance(cursor, dict)
-        assert part in cursor
-        cursor = cursor[part]
+        if isinstance(cursor, dict):
+            assert part in cursor
+            cursor = cursor[part]
+            continue
+        assert isinstance(cursor, list)
+        assert part.isdigit()
+        cursor = cursor[int(part)]
     return cursor
 
 
@@ -201,6 +205,10 @@ def test_c1_producer_runs_seven_arm_grid_and_writes_capsule(monkeypatch, tmp_pat
     for key, value in capsule["prior_observation"].items():
         if key.endswith("_pointer"):
             _assert_artifact_pointer_resolves(tmp_path, loaded, value)
+    assert loaded["c2_frontier"]["axis_spec"]["projection_owner"] == "certificate-guided-constraint-training"
+    assert capsule["c2_frontier"]["axis_spec"] == loaded["c2_frontier"]["axis_spec"]
+    assert capsule["c2_frontier"]["hardgates"] == loaded["c2_frontier"]["hardgates"]
+    assert capsule["c2_frontier"]["follow_up_training_replay"] == loaded["c2_frontier"]["follow_up_training_replay"]
 
 
 def test_c1_capsule_write_is_stable_across_repeated_writes(monkeypatch, tmp_path):
@@ -213,6 +221,22 @@ def test_c1_capsule_write_is_stable_across_repeated_writes(monkeypatch, tmp_path
     sidecar_payload = json.loads((tmp_path / canonical_payload["claim_capsule"]["artifact"]).read_text(encoding="utf-8"))
 
     assert canonical_payload["claim_capsule"] == sidecar_payload
+
+
+def test_c1_regeneration_reuses_existing_generated_at(monkeypatch, tmp_path):
+    monkeypatch.setattr(runner, "ROOT", tmp_path)
+    capsule_path = tmp_path / runner._capsule_path("fixture-c1")
+    canonical_path = tmp_path / runner.JSON_ARTIFACT
+    capsule_path.parent.mkdir(parents=True, exist_ok=True)
+    canonical_path.parent.mkdir(parents=True, exist_ok=True)
+    capsule_path.write_text(json.dumps({"generated_at": "2035-01-02T03:04:05+00:00"}) + "\n", encoding="utf-8")
+    canonical_path.write_text(json.dumps({"generated_at": "2030-01-02T03:04:05+00:00"}) + "\n", encoding="utf-8")
+
+    assert runner._reusable_generated_at("fixture-c1") == "2035-01-02T03:04:05+00:00"
+
+    capsule_path.unlink()
+
+    assert runner._reusable_generated_at("fixture-c1") == "2030-01-02T03:04:05+00:00"
 
 
 def test_c1_hardgates_record_tradeoff_dn_and_control(monkeypatch, tmp_path):
@@ -235,6 +259,71 @@ def test_c1_hardgates_record_tradeoff_dn_and_control(monkeypatch, tmp_path):
     assert payload["result"]["status"] == "negative"
     assert payload["claim_capsule"]["failed_gate"] == "audit-improvement-tradeoff"
     assert "what_was_learned" in payload["claim_capsule"]
+
+
+def test_c2_frontier_reports_feasible_non_positive_cells(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    frontier = payload["c2_frontier"]
+    gate = frontier["hardgates"]["gates"]["C2-HG1"]
+
+    assert gate["status"] == "pass"
+    assert gate["feasible_non_positive_count"] > 0
+    witness = _pointer_value(payload, gate["first_witness_pointer"])
+    assert witness["feasible"] is True
+    assert witness["positive_quality_win"] is False
+    assert witness["delta_quality_q"] <= 0.0 or witness["delta_benefit"] < 0.0
+
+
+def test_c2_frontier_axis_hardgate_reads_resolvable_source_evidence(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    gate = payload["c2_frontier"]["hardgates"]["gates"]["C2-HG2"]
+
+    assert gate["status"] == "pass"
+    assert gate["source_pointer_count"] == gate["resolved_source_pointer_count"]
+    for source in payload["c2_frontier"]["axis_spec"]["source_pointers"].values():
+        assert source["artifact"] == runner.JSON_ARTIFACT
+        assert _pointer_value(payload, source["pointer"]) is not None
+
+
+def test_c2_frontier_replay_hardgate_reads_counts_and_pointers(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    gate = payload["c2_frontier"]["hardgates"]["gates"]["C2-HG3"]
+    replay = payload["c2_frontier"]["follow_up_training_replay"]["evidence"]
+
+    assert gate["status"] == "pass"
+    assert gate["replay_counts_match"] is True
+    assert replay["raw_metrics_record_count"] == _pointer_value(payload, replay["payload_raw_metrics_record_count_pointer"]["pointer"])
+    assert replay["raw_grid_record_count"] == _pointer_value(payload, replay["payload_raw_grid_record_count_pointer"]["pointer"])
+    assert payload["c2_frontier"]["grid_summary_record_count"] == _pointer_value(payload, replay["grid_summary_record_count_pointer"]["pointer"])
+
+
+def test_c2_alias_metadata_is_non_production(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    capsule = payload["claim_capsule"]
+    alias = capsule["c2_frontier"]["issue_alias"]
+    production_text = json.dumps(
+        {
+            "schema_id": capsule["schema_id"],
+            "run_id": capsule["run_id"],
+            "producer": capsule["producer"],
+            "artifact": capsule["artifact"],
+            "report_artifact": capsule["report_artifact"],
+            "canonical_owner": payload["c2_frontier"]["axis_spec"]["projection_owner"],
+            "source_artifacts": payload["source_artifacts"],
+        },
+        sort_keys=True,
+    )
+
+    assert alias["production_use"] is False
+    assert alias["aliases"] == [
+        "certificate_constraint_frontier_v2",
+        "certificate_constraint_frontier.schema.v1",
+    ]
+    assert capsule["schema_id"] == "bedc.quality.claim_capsule"
+    assert capsule["run_id"] == "fixture-c1"
+    assert capsule["producer"] == "scripts/run_certificate_guided_constraint_training.py"
+    assert "v2" not in production_text
+    assert ".v1" not in production_text
 
 
 @pytest.mark.parametrize(
@@ -273,9 +362,18 @@ def test_canonical_pointer_uses_c1_producer_and_compact_summary_keys():
     assert "records" not in spec.required_json_keys
     assert "grid_records" not in spec.required_json_keys
     assert "claim_capsule" in spec.required_json_keys
+    assert "c2_frontier" in spec.required_json_keys
     assert "certificate-constraint-frontier" not in names
     assert f"reports/{'certificate'}_{'constraint'}_{'frontier'}.json" not in artifacts
     assert bedc_quality_lab.__all__ == ["QualityEvidenceEnvelope"]
+
+
+def test_certificate_constraint_frontier_sidecars_are_absent():
+    spec_names = {row.name for row in canonical.CANONICAL_REPORTS}
+
+    assert "certificate-constraint-frontier" not in spec_names
+    assert not (runner.ROOT / "reports/certificate_constraint_frontier.json").exists()
+    assert not (runner.ROOT / "reports/certificate_constraint_frontier.md").exists()
 
 
 def test_committed_claim_capsule_sidecar_matches_canonical_embedding():

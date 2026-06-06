@@ -1,6 +1,6 @@
 # Certificate-Guided Constraint Training
 
-- Generated at: `2026-06-04T15:42:14.733636+00:00`
+- Generated at: `2026-06-06T07:35:58.631082+00:00`
 - Run id: `certificate-guided-constraint-training`
 - Producer: `scripts/run_certificate_guided_constraint_training.py`
 - Objective: `min L_task subject to UER <= alpha, Benefit >= beta, Debt <= gamma`

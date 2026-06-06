@@ -14,7 +14,6 @@ import inspect
 import json
 from pathlib import Path
 import sys
-import time
 from typing import Any, Literal, Mapping, Sequence
 
 
@@ -501,6 +500,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "arm_summaries",
             "claim_gate",
             "hardgate",
+            "c2_frontier",
             "failed_gate",
             "verdict",
             "discovery_level",
@@ -2032,7 +2032,6 @@ def _run_spec(
 ) -> dict[str, Any]:
     if reuse_existing is not None:
         mode = "verify" if reuse_existing else "cold"
-    start = time.perf_counter()
     error = None
     producer_status = "skipped"
     fingerprint_status = "unchecked"
@@ -2068,7 +2067,6 @@ def _run_spec(
                 _write_fingerprint_sidecar(spec, generated_at=generated_at)
     except Exception as exc:  # pragma: no cover - kept for CLI fail-closed behavior
         error = str(exc)
-    duration = time.perf_counter() - start
     validation = _artifact_validation(spec)
     discipline = _discipline(spec)
     if error is not None:
@@ -2085,7 +2083,7 @@ def _run_spec(
         "bundle_role": spec.bundle_role,
         "discipline": discipline,
         "status": status,
-        "duration_seconds": 0.0 if producer_status == "skipped" else float(f"{duration:.3f}"),
+        "duration_seconds": 0.0,
         "estimated_seconds": spec.estimated_seconds,
         "producer_status": producer_status if error is None else "error",
         "fingerprint_sidecar": _relative(_fingerprint_path(spec)),
