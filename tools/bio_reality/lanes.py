@@ -4563,12 +4563,32 @@ def _write_namecert_proposals(
                     f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
                 )
         text = _sanitize_textmode_underscores(text)
+        # cosmetic-skip: 已部署 rich 且本次重渲染**科学数值完全一致**(只改措辞/记法, 如
+        # $K\_AAA$↔$K_{AAA}$ 或 prose 重写) → 保留已部署不重写. 消除 namecert cosmetic churn
+        # (codex 周期性重渲染产生记法/prose 抖动但数值不变 → 每轮 git diff + bio-K commit 噪声).
+        # 数值真变(实验更新)时 number-set 不同 → 正常写入. stub/hygiene 失败不走此路.
+        if codex_ok and not hygiene_issues and deployed.exists():
+            try:
+                _existing_rich = deployed.read_text(encoding="utf-8")
+            except OSError:
+                _existing_rich = ""
+            if (_existing_rich and not _is_stub_namecert(_existing_rich)
+                    and _namecert_science_numbers(text) == _namecert_science_numbers(_existing_rich)):
+                _write_namecert_cache(cache_path, content_key)
+                slugs.append(slug)
+                continue
         deployed.write_text(text, encoding="utf-8")
         # 仅在 codex 真产出干净 rich 章节时记缓存键; stub 写出不记 (下 cycle 仍重试 codex).
         if codex_ok and not hygiene_issues:
             _write_namecert_cache(cache_path, content_key)
         slugs.append(slug)
     return slugs
+
+
+def _namecert_science_numbers(text: str) -> list[str]:
+    """提取章节内所有数值 token (排序), 用于判断重渲染是否仅 cosmetic (措辞/记法变) 而非科学变化.
+    数值一致 = 同科学内容; 不同 = 真更新. 坐标名里的固定小数字 (Q6/f3) 两侧都在, 不影响判定."""
+    return sorted(re.findall(r"\d+\.\d+|\d+", text))
 
 
 def _is_stub_namecert(text: str) -> bool:
