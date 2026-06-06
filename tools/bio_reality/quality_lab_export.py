@@ -430,7 +430,7 @@ def artifact_paths(claim_id: str, conjecture: dict[str, Any]) -> dict[str, str]:
     bio_paths = sorted((REPO_ROOT / "papers" / "bio_reality" / "parts").glob("**/*.tex"))
     bedc_paths = sorted((REPO_ROOT / "papers" / "bedc" / "parts" / "concrete_instances").glob("*bioreality*.tex"))
     bio_fallback = "papers/bio_reality/parts/codon_window_reality_boundary.tex"
-    bedc_fallback = "papers/bedc/parts/concrete_instances/14104_bioreality_q_six_leave_one_codon_boundary_namecert_construction.tex"
+    bedc_fallback = "papers/bedc/parts/concrete_instances/14104_bioreality_namecert_construction.tex"
     return {
         "bedc_module": best_artifact(bedc_paths, candidates, bedc_fallback),
         "bio_paper": best_artifact(bio_paths, candidates, bio_fallback),
