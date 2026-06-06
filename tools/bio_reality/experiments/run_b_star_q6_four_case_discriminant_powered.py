@@ -220,7 +220,7 @@ def main() -> None:
                 }
 
             case_counts = summarize_case_counts(coordinate_rows)
-            organism_classified = all(row["case"] in {"A", "B", "C", "D"} for row in coordinate_rows.values())
+            organism_classified = all(row["case"] in {"A", "B", "C", "D", "positive_positive_without_mediation_drop"} for row in coordinate_rows.values())
             data_actual[organism] = {
                 "cds_organism": organism,
                 "trna_organism": trna_organism,
@@ -248,7 +248,7 @@ def main() -> None:
                 "unclassified_coordinates": [
                     q_name
                     for q_name, row in coordinate_rows.items()
-                    if row["case"] not in {"A", "B", "C", "D"}
+                    if row["case"] not in {"A", "B", "C", "D", "positive_positive_without_mediation_drop"}
                 ],
                 "rank_diagnostics": {
                     "rank_Z": rank_z,
