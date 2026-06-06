@@ -1,32 +1,28 @@
 #!/usr/bin/env python3
-"""Three-branch sync between `dev` (external upstream), `auto-dev`
-(stable mirror) and `codex-auto-dev` (pipeline integration). Run
-periodically by the sync daemon (every 600s by default) so the three
-branches converge.
+"""Managed rollup PR from a source branch into a target branch.
 
-Flow:
-  1. fetch origin (all branches)
-  2. on `auto-dev`: merge `origin/dev` (NEW — pulls external user /
-     supervisor commits into the mirror; codex resolves on conflict)
-  3. on `codex-auto-dev`: merge `origin/auto-dev` (now contains dev's
-     content); codex resolves on conflict
-  4. on `auto-dev` (again): merge `codex-auto-dev` (mirror pipeline
-     output); codex resolves on conflict
-  5. push all three branches that received commits
-  6. checkout back to the branch the user started on
+Default flow:
+  1. fetch origin
+  2. create an isolated worktree from `origin/dev`
+  3. merge `origin/codex-auto-dev` with `git merge --no-ff --no-edit`
+  4. resolve conflicts through codex when needed
+  5. regenerate `lean4/BEDC.lean`
+  6. push a managed rollup branch and maintain one PR into the target branch
 
-Both merges use `git merge --no-ff --no-edit` (no rebase). On conflict,
-codex is invoked inside the worktree with a generic resolve prompt;
-codex is expected to resolve, `git add`, and `git commit --no-edit`. If
-codex cannot resolve, the merge is aborted and the script exits non-zero.
-
-Working-tree dirty state is stashed (`git stash -u`) and restored after
-the sync completes, including across the branch switches.
+The source and target branches are configurable. The default is
+`codex-auto-dev -> dev`, with host overrides through `BEDC_PIPELINE_BRANCH`
+and `BEDC_ROLLUP_TARGET_BRANCH`. The script never rebases target/source
+branches and only force-updates the managed rollup branch with lease.
+Use `--no-push` to construct and validate the candidate locally without
+pushing or touching GitHub PR state.
 """
 
 from __future__ import annotations
 
 import argparse
+import contextlib
+import errno
+import fcntl
 import os
 import re
 import shutil
@@ -34,6 +30,7 @@ import subprocess
 import sys
 import time
 import tempfile
+from dataclasses import dataclass
 from pathlib import Path
 
 from host_context import host_path, host_value
@@ -52,12 +49,12 @@ def _mirror_branch_default() -> str:
 
 
 def _upstream_branch_default() -> str:
-    return host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", default="dev")
+    return host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH", default="dev")
 
 
 SOURCE_BRANCH = host_value(REPO_ROOT, "BEDC_PIPELINE_BRANCH", default="codex-auto-dev")
 MIRROR_BRANCH = host_value(REPO_ROOT, "BEDC_MIRROR_BRANCH", default="auto-dev")
-UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_UPSTREAM_BRANCH", default="dev")
+UPSTREAM_BRANCH = host_value(REPO_ROOT, "BEDC_ROLLUP_TARGET_BRANCH", default="dev")
 CODEX_PATH = host_value(REPO_ROOT, "BEDC_CODEX_PATH") or shutil.which("codex") or "codex"
 VALIDATION_WORKTREE = host_path(
     REPO_ROOT,
@@ -107,9 +104,55 @@ def git(*args, **kwargs):
 
 
 def acquire_main_checkout_lock(timeout: int = 120):
-    from repo_push_lock import acquire_push_lock  # tools/ is on sys.path
+    """Acquire the shared branch lock from any linked worktree shape."""
+    return _acquire_git_common_lock(SOURCE_BRANCH, timeout=timeout)
 
-    return acquire_push_lock(SOURCE_BRANCH, timeout=timeout)
+
+@contextlib.contextmanager
+def _acquire_git_common_lock(branch: str, *, timeout: float | None = None):
+    res = run(["git", "rev-parse", "--git-common-dir"],
+              cwd=REPO_ROOT, capture=True, check=False)
+    if res.returncode == 0 and res.stdout.strip():
+        git_common = Path(res.stdout.strip())
+        if not git_common.is_absolute():
+            git_common = (REPO_ROOT / git_common).resolve()
+    else:
+        git_common = (REPO_ROOT / ".git").resolve()
+    safe_branch = branch.replace("/", "__")
+    path = git_common / f"{safe_branch}.push.lock"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd = os.open(str(path), os.O_RDWR | os.O_CREAT, 0o644)
+    try:
+        deadline = None if timeout is None else time.monotonic() + timeout
+        while True:
+            try:
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except OSError as exc:
+                if exc.errno not in (errno.EWOULDBLOCK, errno.EAGAIN):
+                    raise
+                if timeout == 0:
+                    raise BlockingIOError(
+                        f"push lock for branch {branch!r} held by another process; "
+                        f"lockfile {path}"
+                    ) from exc
+                if deadline is not None and time.monotonic() >= deadline:
+                    raise TimeoutError(
+                        f"push lock for branch {branch!r} held for more than "
+                        f"{timeout}s by another process"
+                    ) from exc
+                time.sleep(0.5)
+        try:
+            os.ftruncate(fd, 0)
+            os.write(fd, f"pid={os.getpid()} held_at={int(time.time())}\n".encode())
+            yield path
+        finally:
+            try:
+                fcntl.flock(fd, fcntl.LOCK_UN)
+            except OSError:
+                pass
+    finally:
+        os.close(fd)
 
 
 def current_branch() -> str:
@@ -145,20 +188,52 @@ def has_conflict_markers(path: str, cwd: Path = REPO_ROOT) -> bool:
 
 def write_locked_git_wrapper(wrapper_dir: Path) -> dict[str, str]:
     real_git = shutil.which("git") or "/usr/bin/git"
-    tools_path = str(REPO_ROOT / "tools")
     wrapper = wrapper_dir / "git"
     wrapper.write_text(
         "#!/usr/bin/env python3\n"
+        "import errno\n"
+        "import fcntl\n"
         "import os\n"
         "import subprocess\n"
         "import sys\n"
-        f"sys.path.insert(0, {tools_path!r})\n"
-        "from repo_push_lock import acquire_push_lock\n"
+        "import time\n"
+        "from contextlib import contextmanager\n"
+        "from pathlib import Path\n"
         f"REAL_GIT = {real_git!r}\n"
         f"BRANCH = {SOURCE_BRANCH!r}\n"
         "WRITE_CMDS = {'add', 'commit', 'reset', 'checkout', 'merge', 'pull', 'stash', 'push'}\n"
         "argv = sys.argv[1:]\n"
         "cmd = argv[0] if argv else ''\n"
+        "@contextmanager\n"
+        "def acquire_push_lock(branch, timeout=120):\n"
+        "    res = subprocess.run([REAL_GIT, 'rev-parse', '--git-common-dir'],\n"
+        "                         capture_output=True, text=True)\n"
+        "    git_common = Path(res.stdout.strip()) if res.returncode == 0 and res.stdout.strip() else Path('.git')\n"
+        "    if not git_common.is_absolute():\n"
+        "        git_common = (Path.cwd() / git_common).resolve()\n"
+        "    path = git_common / f\"{branch.replace('/', '__')}.push.lock\"\n"
+        "    path.parent.mkdir(parents=True, exist_ok=True)\n"
+        "    fd = os.open(str(path), os.O_RDWR | os.O_CREAT, 0o644)\n"
+        "    try:\n"
+        "        deadline = time.monotonic() + timeout if timeout is not None else None\n"
+        "        while True:\n"
+        "            try:\n"
+        "                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)\n"
+        "                break\n"
+        "            except OSError as exc:\n"
+        "                if exc.errno not in (errno.EWOULDBLOCK, errno.EAGAIN):\n"
+        "                    raise\n"
+        "                if deadline is not None and time.monotonic() >= deadline:\n"
+        "                    raise TimeoutError(f'push lock for branch {branch!r} timed out; lockfile {path}') from exc\n"
+        "                time.sleep(0.5)\n"
+        "        try:\n"
+        "            os.ftruncate(fd, 0)\n"
+        "            os.write(fd, f'pid={os.getpid()} held_at={int(time.time())}\\n'.encode())\n"
+        "            yield path\n"
+        "        finally:\n"
+        "            fcntl.flock(fd, fcntl.LOCK_UN)\n"
+        "    finally:\n"
+        "        os.close(fd)\n"
         "def run_git():\n"
         "    return subprocess.call([REAL_GIT, *argv])\n"
         "try:\n"
@@ -811,148 +886,285 @@ def _restore_autostash(stash_oid: str | None) -> None:
               file=sys.stderr)
 
 
+@dataclass
+class RollupCandidate:
+    worktree: Path
+    temp_root: Path
+    temp_branch: str
+    sha: str
+
+
+def _branch_slug(branch: str) -> str:
+    slug = branch.strip().removeprefix("origin/")
+    slug = re.sub(r"[^A-Za-z0-9._-]+", "-", slug)
+    slug = re.sub(r"-+", "-", slug).strip("-._")
+    return slug.lower() or "branch"
+
+
+def _rollup_branch_name(source: str, target: str) -> str:
+    return f"rollup-{_branch_slug(source)}-to-{_branch_slug(target)}"
+
+
+def _merge_base_contains(ancestor: str, descendant: str, *, cwd: Path = REPO_ROOT) -> bool:
+    res = run(["git", "merge-base", "--is-ancestor", ancestor, descendant],
+              cwd=cwd, check=False, capture=True)
+    return res.returncode == 0
+
+
+def _rollup_branch_stale(rollup_branch: str, source_branch: str,
+                         target_branch: str) -> bool:
+    if not has_remote_branch(rollup_branch):
+        return True
+    rollup_ref = f"origin/{rollup_branch}"
+    return not (
+        _merge_base_contains(f"origin/{source_branch}", rollup_ref)
+        and _merge_base_contains(f"origin/{target_branch}", rollup_ref)
+    )
+
+
+def _remove_rollup_worktree(candidate: RollupCandidate | None) -> None:
+    if not candidate:
+        return
+    if candidate.worktree.exists():
+        run(["git", "merge", "--abort"], cwd=candidate.worktree,
+            check=False, capture=True)
+    with acquire_main_checkout_lock(timeout=120):
+        git("worktree", "remove", "--force", str(candidate.worktree),
+            check=False, capture=True)
+        git("worktree", "prune", check=False, capture=True)
+        git("branch", "-D", candidate.temp_branch, check=False, capture=True)
+    shutil.rmtree(candidate.temp_root, ignore_errors=True)
+
+
+def _build_rollup_candidate(source_branch: str, target_branch: str) -> RollupCandidate | None:
+    temp_root = Path(tempfile.mkdtemp(prefix="bedc-rollup-"))
+    worktree = temp_root / "worktree"
+    temp_branch = f"rollup-scratch-{_branch_slug(source_branch)}-to-{_branch_slug(target_branch)}-{os.getpid()}"
+    try:
+        with acquire_main_checkout_lock(timeout=120):
+            add = git("worktree", "add", "-b", temp_branch, str(worktree),
+                      f"origin/{target_branch}", check=False, capture=True)
+        if add.returncode != 0:
+            print(f"[sync] rollup: worktree add failed: "
+                  f"{((add.stdout or '') + (add.stderr or '')).strip()[:400]}",
+                  file=sys.stderr)
+            shutil.rmtree(temp_root, ignore_errors=True)
+            return None
+
+        print(f"[sync] rollup: merging origin/{source_branch} into origin/{target_branch}")
+        merge = run(["git", "merge", "--no-ff", "--no-edit", f"origin/{source_branch}"],
+                    cwd=worktree, check=False, capture=True)
+        if merge.returncode != 0:
+            out = (merge.stdout or "") + (merge.stderr or "")
+            if conflicted_files(worktree):
+                print("[sync] rollup: merge conflicted; invoking codex resolver")
+                if not call_codex_to_resolve(worktree):
+                    print("[sync] rollup: codex could not resolve merge",
+                          file=sys.stderr)
+                    run(["git", "merge", "--abort"], cwd=worktree,
+                        check=False, capture=True)
+                    _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
+                    return None
+            elif "Already up to date" in out or "already up to date" in out:
+                print("[sync] rollup: source already included in target")
+            else:
+                print(f"[sync] rollup: merge failed without conflicts: "
+                      f"{out.strip()[:400]}", file=sys.stderr)
+                _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
+                return None
+
+        _regen_manifest(worktree)
+        dirty = run(["git", "status", "--porcelain"], cwd=worktree,
+                    check=False, capture=True)
+        if (dirty.stdout or "").strip():
+            print(f"[sync] rollup: candidate worktree dirty after merge: "
+                  f"{dirty.stdout.strip()[:400]}", file=sys.stderr)
+            _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
+            return None
+
+        sha = run(["git", "rev-parse", "HEAD"], cwd=worktree,
+                  capture=True).stdout.strip()
+        print(f"[sync] rollup: candidate ready at {sha[:12]}")
+        return RollupCandidate(worktree, temp_root, temp_branch, sha)
+    except Exception:
+        _remove_rollup_worktree(RollupCandidate(worktree, temp_root, temp_branch, ""))
+        raise
+
+
+def _push_rollup_candidate(candidate: RollupCandidate, rollup_branch: str) -> bool:
+    env = os.environ.copy()
+    env.setdefault("LEAN4_GUARDRAILS_BYPASS", "1")
+    with acquire_main_checkout_lock(timeout=120):
+        run(["git", "fetch", "origin", rollup_branch],
+            cwd=candidate.worktree, env=env, check=False, capture=True)
+        push = run(["git", "push", "origin",
+                    f"--force-with-lease=refs/heads/{rollup_branch}",
+                    f"HEAD:refs/heads/{rollup_branch}"],
+                   cwd=candidate.worktree, env=env, check=False, capture=True)
+    if push.returncode != 0:
+        print(f"[sync] rollup: push {rollup_branch} failed: "
+              f"{((push.stdout or '') + (push.stderr or '')).strip()[:500]}",
+              file=sys.stderr)
+        return False
+    print(f"[sync] rollup: pushed {rollup_branch} at {candidate.sha[:12]}")
+    return True
+
+
+def _open_rollup_pr(rollup_branch: str, source_branch: str,
+                    target_branch: str) -> dict | None:
+    if not _gh_available():
+        print("[sync] rollup: gh CLI missing; skipping PR management")
+        return None
+    try:
+        res = run(["gh", "pr", "list",
+                   "--base", target_branch,
+                   "--state", "open",
+                   "--label", PR_LABEL,
+                   "--json", "number,headRefName,headRefOid,mergeable,statusCheckRollup,title,createdAt",
+                   "--limit", "100"],
+                  capture=True, check=False)
+        if res.returncode != 0:
+            print(f"[sync] rollup: gh pr list failed: "
+                  f"{((res.stdout or '') + (res.stderr or '')).strip()[:300]}",
+                  file=sys.stderr)
+            return None
+        import json as _json
+        rows = _json.loads(res.stdout or "[]")
+    except Exception as exc:
+        print(f"[sync] rollup: could not inspect PRs: {exc}", file=sys.stderr)
+        return None
+    for pr in rows if isinstance(rows, list) else []:
+        if pr.get("headRefName") == rollup_branch:
+            return pr
+    return None
+
+
+def _create_rollup_pr(rollup_branch: str, source_branch: str,
+                      target_branch: str) -> bool:
+    title = f"Roll up {source_branch} to {target_branch}"
+    body = (
+        f"Managed rollup PR from `{source_branch}` to `{target_branch}`.\n\n"
+        f"`tools/sync_with_auto_dev.py` updates `{rollup_branch}` from "
+        f"`origin/{target_branch}` plus a merge of `origin/{source_branch}`. "
+        f"The PR is merged automatically once checks are green and GitHub "
+        f"reports it mergeable."
+    )
+    cmd = ["gh", "pr", "create",
+           "--base", target_branch,
+           "--head", rollup_branch,
+           "--title", title,
+           "--body", body,
+           "--label", PR_LABEL]
+    res = run(cmd, capture=True, check=False)
+    if res.returncode != 0:
+        err = (res.stdout or "") + (res.stderr or "")
+        if "label" in err.lower() and "not found" in err.lower():
+            run(["gh", "label", "create", PR_LABEL,
+                 "--description", "Automated branch rollup PR",
+                 "--color", "0E8A16"],
+                check=False, capture=True)
+            res = run(cmd, capture=True, check=False)
+    if res.returncode != 0:
+        print(f"[sync] rollup: gh pr create failed: "
+              f"{((res.stdout or '') + (res.stderr or '')).strip()[:500]}",
+              file=sys.stderr)
+        return False
+    print(f"[sync] rollup: opened PR from {rollup_branch} to {target_branch}")
+    return True
+
+
+def _merge_rollup_pr(pr: dict, rollup_branch: str, target_branch: str) -> bool:
+    number = pr["number"]
+    print(f"[sync] rollup: PR #{number} is green and mergeable; merging into {target_branch}")
+    res = run(["gh", "pr", "merge", str(number),
+               "--merge", "--delete-branch"],
+              capture=True, check=False)
+    if res.returncode != 0:
+        print(f"[sync] rollup: gh pr merge failed: "
+              f"{((res.stdout or '') + (res.stderr or '')).strip()[:500]}",
+              file=sys.stderr)
+        return False
+    print(f"[sync] rollup: merged PR #{number}; deleted {rollup_branch}")
+    return True
+
+
+def sync_rollup_pr(source_branch: str, target_branch: str,
+                   rollup_branch: str, *, no_push: bool) -> bool:
+    print(f"[sync] rollup: source={source_branch} target={target_branch} branch={rollup_branch}")
+    git("fetch", "origin", "--prune")
+    if not has_remote_branch(source_branch):
+        print(f"[sync] rollup: origin/{source_branch} missing", file=sys.stderr)
+        return False
+    if not has_remote_branch(target_branch):
+        print(f"[sync] rollup: origin/{target_branch} missing", file=sys.stderr)
+        return False
+
+    if no_push:
+        candidate = _build_rollup_candidate(source_branch, target_branch)
+        if candidate is None:
+            return False
+        try:
+            print(f"[sync] rollup: no-push candidate {candidate.sha[:12]} constructed")
+            return True
+        finally:
+            _remove_rollup_worktree(candidate)
+
+    pr = _open_rollup_pr(rollup_branch, source_branch, target_branch)
+    if pr is not None and _all_checks_green(pr):
+        return _merge_rollup_pr(pr, rollup_branch, target_branch)
+
+    needs_update = pr is None or _rollup_branch_stale(
+        rollup_branch, source_branch, target_branch,
+    )
+    if not needs_update:
+        print(f"[sync] rollup: PR #{pr['number']} is not green; keeping current candidate")
+        return True
+
+    candidate = _build_rollup_candidate(source_branch, target_branch)
+    if candidate is None:
+        return False
+    try:
+        if not _push_rollup_candidate(candidate, rollup_branch):
+            return False
+    finally:
+        _remove_rollup_worktree(candidate)
+
+    pr = _open_rollup_pr(rollup_branch, source_branch, target_branch)
+    if pr is None:
+        return _create_rollup_pr(rollup_branch, source_branch, target_branch)
+    print(f"[sync] rollup: updated PR #{pr['number']} on {rollup_branch}")
+    return True
+
+
 def main():
-    global SOURCE_BRANCH, MIRROR_BRANCH, UPSTREAM_BRANCH
+    global SOURCE_BRANCH, MIRROR_BRANCH, UPSTREAM_BRANCH, PR_BRANCH
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--no-push", action="store_true",
-                        help="Skip the two pushes to origin (still does the merges locally)")
+                        help="Construct and validate the rollup candidate locally; do not push or manage PRs")
     parser.add_argument("--source-branch", default=None,
-                        help="Pipeline integration branch (default: host BEDC_PIPELINE_BRANCH)")
-    parser.add_argument("--mirror-branch", default=None,
-                        help="Stable mirror branch (default: host BEDC_MIRROR_BRANCH)")
+                        help="Source branch to roll up (default: host BEDC_PIPELINE_BRANCH or codex-auto-dev)")
+    parser.add_argument("--target-branch", default=None,
+                        help="Target branch / PR base (default: host BEDC_ROLLUP_TARGET_BRANCH or dev)")
     parser.add_argument("--upstream-branch", default=None,
-                        help="Review base branch (default: host BEDC_UPSTREAM_BRANCH)")
+                        help="Alias for --target-branch kept for compatibility")
+    parser.add_argument("--mirror-branch", default=None,
+                        help="Compatibility option; ignored by the rollup flow")
+    parser.add_argument("--rollup-branch", default=None,
+                        help="Managed PR branch name (default: rollup-<source>-to-<target>)")
     args = parser.parse_args()
+
     SOURCE_BRANCH = args.source_branch if args.source_branch is not None else _source_branch_default()
-    MIRROR_BRANCH = args.mirror_branch if args.mirror_branch is not None else _mirror_branch_default()
-    UPSTREAM_BRANCH = args.upstream_branch if args.upstream_branch is not None else _upstream_branch_default()
+    target_arg = args.target_branch if args.target_branch is not None else args.upstream_branch
+    UPSTREAM_BRANCH = target_arg if target_arg is not None else _upstream_branch_default()
+    if args.mirror_branch is not None:
+        MIRROR_BRANCH = args.mirror_branch
+    PR_BRANCH = args.rollup_branch or _rollup_branch_name(SOURCE_BRANCH, UPSTREAM_BRANCH)
 
-    original = current_branch()
-
-    # Always fetch every ref from origin so both branches' remote state is
-    # current before we attempt local merges.
-    git("fetch", "origin", "--prune")
-
-    if has_unmerged_index():
-        success = sync_mirror_convergence_in_worktree(no_push=args.no_push)
-        if success:
-            print(f"[sync] done: {SOURCE_BRANCH} <-> {MIRROR_BRANCH} converged "
-                  f"(both pushed)" if not args.no_push else "(no-push)")
-            return
+    ok = sync_rollup_pr(SOURCE_BRANCH, UPSTREAM_BRANCH, PR_BRANCH,
+                        no_push=args.no_push)
+    if not ok:
         sys.exit(2)
-
-    # Working-tree dirty: stash with -u so untracked files come along.
-    # Capture the EXACT stash commit OID we create. Restore must touch only
-    # THIS stash, never `stash@{0}` — the git stash stack is shared across
-    # all worktrees, so a bare `git stash pop` can pop a sibling worker's or
-    # another daemon's stash (the `recovered-non-R4851-...-from-stash-pop`
-    # stash on the stack is hard evidence this happened).
-    stashed = False
-    stash_oid = None
-    if working_tree_dirty():
-        print("[sync] working tree dirty; stashing with -u")
-        try:
-            with acquire_main_checkout_lock(timeout=120):
-                push_res = run(["git", "stash", "push", "-u", "-m",
-                                f"sync_with_auto_dev autostash {os.getpid()}"],
-                               check=False, capture=True)
-                if push_res.returncode != 0:
-                    # A dirty tree that `git stash push -u` still refuses
-                    # (rc!=0) must NOT crash the whole sync via the raising
-                    # `git()` wrapper. A single crash here strands the main
-                    # checkout on whatever branch a prior partial tick left it
-                    # (observed: stuck on auto-dev, which makes auto_heal skip
-                    # every cycle with `not on codex-auto-dev`). Skip this tick
-                    # cleanly; the tree is untouched for the next tick.
-                    out = ((push_res.stdout or "") + (push_res.stderr or ""))[-200:]
-                    print(f"[sync] stash push failed (rc={push_res.returncode}); "
-                          f"skipping this tick without crashing: {out}",
-                          file=sys.stderr)
-                    return
-                res = git("rev-parse", "--verify", "--quiet", "stash@{0}",
-                          check=False, capture=True)
-        except TimeoutError as exc:
-            print(f"[sync] push lock timeout while stashing dirty tree: {exc}",
-                  file=sys.stderr)
-            return
-        stash_oid = res.stdout.strip() if res.returncode == 0 else None
-        stashed = True
-
-    success = True
-    try:
-        # Step 1 (mirror, runs FIRST): auto-dev <- codex-auto-dev
-        # The cheap, must-always-run mirror that keeps the stable branch
-        # tracking pipeline output. Its content is already gated per round,
-        # so it merges in seconds. Run it BEFORE the expensive external-dev
-        # validation below so a slow/timing-out dev merge can never starve
-        # it (observed 2026-05-29: auto-dev fell 768 commits / ~12h behind
-        # because the 1800s dev-validation lake build timed out every tick
-        # and the old Step-0-first ordering gated the mirror behind it).
-        if not sync_one_direction(MIRROR_BRANCH, SOURCE_BRANCH,
-                                  no_push=args.no_push):
-            success = False
-            return
-
-        # Step 2: codex-auto-dev <- auto-dev
-        # Pull auto-dev (which carries any external dev content merged in by
-        # a prior tick's Step 3) into the pipeline integration branch so
-        # codex workers see it on next round dispatch.
-        if not sync_one_direction(SOURCE_BRANCH, f"origin/{MIRROR_BRANCH}",
-                                  no_push=args.no_push):
-            success = False
-            return
-
-        # Step 3 (external upstream, runs LAST): auto-dev <- origin/dev
-        # Pull external user / supervisor commits from `dev` into the stable
-        # mirror. Gated by a scratch-worktree lake build that commonly times
-        # out (1800s) under pipeline load. Run LAST and treat failure as
-        # NON-FATAL: the mirror above already converged this tick, so a
-        # timeout here only delays external dev content by one tick — it
-        # never starves auto-dev. dev content reaches the pipeline on the
-        # next tick whose validation passes (Step 2). Only bail if the
-        # failed dev merge left the main checkout dirty (in-checkout merge
-        # conflict that needs careful handling).
-        if has_remote_branch(UPSTREAM_BRANCH):
-            if not sync_dev_to_auto_dev_validated(no_push=args.no_push):
-                if working_tree_dirty():
-                    print("[sync] dev -> auto-dev failed AND working tree "
-                          "dirty; bailing this tick for safety")
-                    success = False
-                    return
-                print("[sync] dev -> auto-dev validation failed (likely "
-                      "lake-build timeout); mirror already converged this "
-                      "tick, external dev content waits for next passing tick")
-        else:
-            print(f"[sync] origin/{UPSTREAM_BRANCH} missing; skipping dev → auto-dev step")
-    finally:
-        # Always switch back to the branch the user started on.
-        if original != current_branch():
-            print(f"[sync] switching back to {original}")
-            try:
-                with acquire_main_checkout_lock(timeout=120):
-                    git("checkout", original, check=False)
-            except TimeoutError as exc:
-                print(f"[sync] push lock timeout while switching back to {original}: {exc}",
-                      file=sys.stderr)
-        if stashed:
-            _restore_autostash(stash_oid)
-
-    if success:
-        print(f"[sync] done: {SOURCE_BRANCH} <-> {MIRROR_BRANCH} converged "
-              f"(both pushed)" if not args.no_push else "(no-push)")
-    else:
-        sys.exit(2)
-
-    # Step 4: dev catch-up PR.
-    # When dev lags auto-dev by ≥1 day (or has diverged history),
-    # maintain one fixed branch from origin/auto-dev, open a PR targeting dev,
-    # and auto-merge once CI is green.
-    if success and not args.no_push:
-        try:
-            sync_dev_catchup_pr()
-        except Exception as exc:
-            print(f"[sync] dev catch-up step failed (non-fatal): {exc}")
 
 
 PR_LABEL = "auto-dev-sync"
