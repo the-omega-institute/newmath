@@ -731,6 +731,7 @@ import BEDC.Derived.BanachSpaceUp.NormedCauchyLedger
 import BEDC.Derived.BanachSpaceUp.SeparatedCompletionBoundary
 import BEDC.Derived.BanachSpaceUp.SeparatedNameCertObligation
 import BEDC.Derived.BanachSpaceUp.TasteGate
+import BEDC.Derived.BanachSpaceUp.VectorOperationTransportObligation
 import BEDC.Derived.BanachSteinhausUp.TasteGate
 import BEDC.Derived.BanachUp
 import BEDC.Derived.BanachUp.IdentityUnits
@@ -1573,6 +1574,8 @@ import BEDC.Derived.CauchyLimitSealUp.StreamNameSynchronizerPullback
 import BEDC.Derived.CauchyLimitSealUp.SynchronizerFiniteWindow
 import BEDC.Derived.CauchyLimitSealUp.TailBudgetMeet
 import BEDC.Derived.CauchyLimitWitnessLedgerUp.TasteGate
+import BEDC.Derived.CauchyLocatedApartnessUp.LocatorApartnessHandoff
+import BEDC.Derived.CauchyLocatedApartnessUp.TasteGate
 import BEDC.Derived.CauchyLocatedRealEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyLocatednessUp.TasteGate
 import BEDC.Derived.CauchyMajorantSeriesUp.TasteGate
@@ -2485,6 +2488,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstituteClosedTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionBudgetTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionFreeVariableNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionLedgerExhaustion
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.SubstitutionOrderExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.TasteGateAlignment
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.BridgeRoute
 import BEDC.Derived.ClosedTermSubstitutionCompilerUp.MatureRoute
@@ -4107,6 +4111,7 @@ import BEDC.Derived.FanfunctionalUp.TasteGate
 import BEDC.Derived.FanfunctionalUp.UniformModulusCompactConsumer
 import BEDC.Derived.FanfunctionalUp.UniformModulusConsumerBoundary
 import BEDC.Derived.FanfunctionalUp.UniformModulusScope
+import BEDC.Derived.FanfunctionalUp.UniformmodulusConsumerScope
 import BEDC.Derived.FareySequenceUp.AdjacencyDensity
 import BEDC.Derived.FareySequenceUp.AdjacencyObligation
 import BEDC.Derived.FareySequenceUp.AdjacentDyadicWindow
