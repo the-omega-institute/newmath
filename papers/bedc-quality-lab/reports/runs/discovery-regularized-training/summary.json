@@ -112,7 +112,7 @@
         "status": "pass"
       },
       "DRT-HG2": {
-        "evidence": "Quality lower confidence delta is positive while benefit is nondecreasing.",
+        "evidence": "Quality promotion boundary clears DRT over task-only while benefit is nondecreasing.",
         "status": "pass"
       },
       "DRT-HG3": {
@@ -219,6 +219,92 @@
   },
   "producer": "scripts/run_discovery_regularized_training.py",
   "projector": "bedc_quality_lab.discovery_regularized_training.DiscoveryRegularizedTrainingProjection",
+  "quality_promotion_boundary": {
+    "arm_comparisons": {
+      "DRT": {
+        "arm": "DRT",
+        "comparison_to_task_only": "above-task-only",
+        "promotion_gate": "clears-boundary",
+        "quality_q": 0.641767,
+        "quality_q_ci_low": 0.585267,
+        "render_order": 3,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": "drt",
+        "task_only_quality_q": 0.581767
+      },
+      "SIGReg": {
+        "arm": "SIGReg",
+        "comparison_to_task_only": "above-task-only",
+        "promotion_gate": "comparison-only",
+        "quality_q": 0.599767,
+        "quality_q_ci_low": 0.599767,
+        "render_order": 2,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": "sigreg",
+        "task_only_quality_q": 0.581767
+      },
+      "matched_random_DRT": {
+        "arm": "matched_random_DRT",
+        "comparison_to_task_only": "above-task-only",
+        "promotion_gate": "comparison-only",
+        "quality_q": 0.595767,
+        "quality_q_ci_low": 0.595767,
+        "render_order": 4,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": "matched_random",
+        "task_only_quality_q": 0.581767
+      },
+      "old_certificate_guided": {
+        "arm": "old_certificate_guided",
+        "comparison_to_task_only": "missing-evidence-fail-closed",
+        "promotion_gate": "fail-closed",
+        "quality_q": null,
+        "quality_q_ci_low": null,
+        "render_order": 5,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": null,
+        "task_only_quality_q": 0.581767
+      },
+      "task_only": {
+        "arm": "task_only",
+        "comparison_to_task_only": "task-only-reference",
+        "promotion_gate": "reference",
+        "quality_q": 0.581767,
+        "quality_q_ci_low": 0.581767,
+        "render_order": 1,
+        "slot_state": "present-but-fail-closed",
+        "source_arm": "task_only",
+        "task_only_quality_q": 0.581767
+      }
+    },
+    "arm_quality_order": [
+      "task_only",
+      "SIGReg",
+      "DRT",
+      "matched_random_DRT",
+      "old_certificate_guided"
+    ],
+    "hardgate": {
+      "drt_minus_task_only_quality_q_ci_low": 0.0035,
+      "drt_quality_q_ci_low": 0.585267,
+      "fail_closed_when": "drt_quality_q_ci_low <= task_only_quality_q",
+      "gate_id": "DRT-HG2",
+      "promotion_gate": "clears-boundary",
+      "requirement": "DRT quality_q CI-low must be strictly above task_only quality_q.",
+      "slot_state": "present-but-fail-closed",
+      "task_only_quality_q": 0.581767
+    },
+    "quality_metric": "quality_q",
+    "replay_dimension_pointers": {
+      "lambda": "reports/canonical/discovery-regularized-training.json:$.config.discovery_lambdas",
+      "mixings": "reports/canonical/discovery-regularized-training.json:$.config.mixings",
+      "rho": "reports/canonical/discovery-regularized-training.json:$.config.rhos",
+      "seeds": "reports/canonical/discovery-regularized-training.json:$.config.seeds",
+      "steps": "reports/canonical/discovery-regularized-training.json:$.config.steps"
+    },
+    "slot_state": "present-but-fail-closed",
+    "source_artifact": "reports/canonical/discovery-regularized-training.json"
+  },
   "records": {
     "deterministic_anchor_rows": 720,
     "metric_keys": [

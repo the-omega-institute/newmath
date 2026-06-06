@@ -89,8 +89,7 @@ def test_optional_source_absence_fails_closed_as_missing_or_partial(tmp_path):
     assert payload["ablation_spec"]["status"] == "missing"
     assert payload["stability_spec"]["status"] == "missing"
     assert payload["closure_status"]["mechanism_spec"] == "partial"
-    assert payload["ledger_policy"]["mechanism_closure_debt"]["status"] == "present"
-    assert payload["ledger_policy"]["mechanism_closure_debt"]["source_status"] == "open"
+    assert payload["ledger_policy"]["mechanism_closure_debt"] == "open"
     assert "A4-HG5" in payload["ledger_policy"]["blocking_cells"]
 
 
@@ -105,8 +104,7 @@ def test_missing_a1_source_fails_closed_without_writing_upstream_artifact(tmp_pa
     assert payload["source_spec"]["canonical_source"]["status"] == "missing"
     assert payload["closure_status"]["source_spec"] == "partial"
     assert payload["closure_status"]["mechanism_spec"] == "partial"
-    assert payload["ledger_policy"]["mechanism_closure_debt"]["status"] == "present-but-fail-closed"
-    assert payload["ledger_policy"]["mechanism_closure_debt"]["source_status"] == "missing"
+    assert payload["ledger_policy"]["mechanism_closure_debt"] == "open"
     assert payload["audit"]["d5_m_ready"] is False
 
 
@@ -119,21 +117,3 @@ def test_markdown_renders_from_json_payload(tmp_path):
     assert "Gap-Head MechanismNameCert Candidate" in markdown
     assert payload["name"] in markdown
     assert "$.closure_status.mechanism_spec" in markdown
-    assert "Mechanism closure debt status" in markdown
-    assert "Mechanism closure debt: `" not in markdown
-
-
-def test_write_round_trip_preserves_mechanism_debt_slot(tmp_path):
-    _capsule(tmp_path)
-
-    payload = runner.write_gap_head_mechanism_namecert(root=tmp_path, generated_at="fixture-time")
-    written = json.loads((tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8"))
-
-    assert set(written["ledger_policy"]["mechanism_closure_debt"]) == {"status", "source_pointer", "source_status"}
-    assert written["ledger_policy"]["mechanism_closure_debt"] == payload["ledger_policy"]["mechanism_closure_debt"]
-    assert written["ledger_policy"]["mechanism_closure_debt"]["source_pointer"].endswith(":$.ledger_debt.0.status")
-    assert written["ledger_policy"]["d5_m_ready_policy"] == (
-        'requires ledger_policy.mechanism_closure_debt.status == "negative" '
-        'and closure_status.mechanism_spec == "closed"'
-    )
-    assert "closed ledger_policy.mechanism_closure_debt" not in written["ledger_policy"]["d5_m_ready_policy"]

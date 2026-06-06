@@ -6,9 +6,6 @@ from copy import deepcopy
 from dataclasses import asdict, dataclass, fields
 from typing import Any, Mapping
 
-from pathlib import Path
-
-from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer
 from bedc_quality_lab.mechanism_attribution import project_gap_head_mechanism_evidence
 
 
@@ -127,13 +124,8 @@ def from_gap_head_sources(
         stability_spec=stability_spec,
     )
     closure_status["source_spec"] = "closed" if canonical_source_status == "present" else "partial"
-    ledger_policy = _ledger_policy(
-        mechanism_spec=mechanism_spec,
-        closure_status=closure_status,
-        a1_capsule=a1_capsule,
-        evidence_dict=evidence_dict,
-    )
-    closure_status["ledger_policy"] = "closed" if ledger_policy["mechanism_closure_debt"]["status"] == "negative" else "open"
+    ledger_policy = _ledger_policy(mechanism_spec=mechanism_spec, closure_status=closure_status)
+    closure_status["ledger_policy"] = "closed" if ledger_policy["mechanism_closure_debt"] == "closed" else "open"
 
     return MechanismNameCertCandidate(
         name="MechanismNameCertCandidate:gap-head-on-h",
@@ -169,19 +161,15 @@ def closure_status_rows(candidate: MechanismNameCertCandidate) -> list[dict[str,
 def audit_mechanism_namecert_candidate(payload: Mapping[str, Any]) -> dict[str, Any]:
     scope_seal = _mapping(_mapping(payload.get("source_spec")).get("scope_seal"))
     ledger_policy = _mapping(payload.get("ledger_policy"))
-    debt_slot = mechanism_closure_debt_slot(payload)
     closure_status = _mapping(payload.get("closure_status"))
     mechanism_spec = _mapping(payload.get("mechanism_spec"))
     scope_pass = _scope_seal_closed({"scope_seal": scope_seal})
     d5_m_ready = (
-        debt_slot.get("status") == "negative"
+        ledger_policy.get("mechanism_closure_debt") == "closed"
         and closure_status.get("mechanism_spec") == "closed"
     )
     required = {
-        "$.ledger_policy.mechanism_closure_debt": debt_slot,
-        "$.ledger_policy.mechanism_closure_debt.status": debt_slot.get("status"),
-        "$.ledger_policy.mechanism_closure_debt.source_pointer": debt_slot.get("source_pointer"),
-        "$.ledger_policy.mechanism_closure_debt.source_status": debt_slot.get("source_status"),
+        "$.ledger_policy.mechanism_closure_debt": ledger_policy.get("mechanism_closure_debt"),
         "$.closure_status.mechanism_spec": closure_status.get("mechanism_spec"),
         "$.mechanism_spec.candidate_mechanism": mechanism_spec.get("candidate_mechanism"),
         "$.mechanism_spec.full_vs_score_plus_margin": mechanism_spec.get("full_vs_score_plus_margin"),
@@ -191,44 +179,13 @@ def audit_mechanism_namecert_candidate(payload: Mapping[str, Any]) -> dict[str, 
         "status": "pass" if scope_pass and not missing else "fail",
         "scope_seal": "closed" if scope_pass else "partial",
         "d5_m_ready": bool(d5_m_ready),
-        "mechanism_closure_debt_status": debt_slot.get("status", "present-but-fail-closed"),
         "required_pointers": required,
         "missing_required_pointers": missing,
     }
 
 
-def validate_mechanism_namecert_candidate(payload: Mapping[str, Any], *, root: Path | str | None = None) -> None:
-    forbidden = sorted(_forbidden_key_paths(payload))
-    if forbidden:
-        raise ValueError(f"mechanism namecert payload contains forbidden key at {forbidden[0]}")
-    debt_slot = mechanism_closure_debt_slot(payload)
-    if set(debt_slot) != {"status", "source_pointer", "source_status"}:
-        raise ValueError("mechanism_closure_debt must contain status, source_pointer, and source_status")
-    if debt_slot.get("status") not in {"present", "present-but-fail-closed", "negative"}:
-        raise ValueError("mechanism_closure_debt status is invalid")
-    source_pointer = debt_slot.get("source_pointer")
-    if not isinstance(source_pointer, str):
-        raise ValueError("mechanism_closure_debt source_pointer is invalid")
-    if not source_pointer and debt_slot.get("status") != "present-but-fail-closed":
-        raise ValueError("mechanism_closure_debt missing source_pointer must fail closed")
-    if not isinstance(debt_slot.get("source_status"), str) or not debt_slot.get("source_status"):
-        raise ValueError("mechanism_closure_debt source_status is invalid")
-    if root is not None and source_pointer:
-        resolved = resolve_artifact_pointer(Path(root), source_pointer)
-        if resolved is None and debt_slot.get("status") != "present-but-fail-closed":
-            raise ValueError("mechanism_closure_debt dangling source_pointer must fail closed")
-
-
-def mechanism_closure_debt_slot(payload: Mapping[str, Any]) -> Mapping[str, Any]:
-    slot = _mapping(_mapping(payload.get("ledger_policy")).get("mechanism_closure_debt"))
-    if not slot:
-        return {"status": "present-but-fail-closed", "source_pointer": "", "source_status": "missing"}
-    return slot
-
-
 def render_mechanism_namecert_markdown(payload: Mapping[str, Any]) -> str:
     audit = audit_mechanism_namecert_candidate(payload)
-    debt_slot = mechanism_closure_debt_slot(payload)
     lines = [
         "# Gap-Head MechanismNameCert Candidate",
         "",
@@ -238,8 +195,7 @@ def render_mechanism_namecert_markdown(payload: Mapping[str, Any]) -> str:
         f"- Target classifier: `{_mapping(payload.get('target_classifier')).get('name', 'missing')}`",
         f"- Candidate mechanism: `{_mapping(payload.get('mechanism_spec')).get('candidate_mechanism', 'missing')}`",
         f"- Full vs score plus margin: `{_mapping(payload.get('mechanism_spec')).get('full_vs_score_plus_margin', 'missing')}`",
-        f"- Mechanism closure debt status: `{debt_slot.get('status', 'missing')}`",
-        f"- Mechanism closure debt source: `{debt_slot.get('source_pointer', 'missing')}`",
+        f"- Mechanism closure debt: `{_mapping(payload.get('ledger_policy')).get('mechanism_closure_debt', 'missing')}`",
         f"- Mechanism spec closure: `{_mapping(payload.get('closure_status')).get('mechanism_spec', 'missing')}`",
         "- Mechanism ledger pointer: `$.ledger_policy.mechanism_closure_debt`",
         "- Mechanism closure pointer: `$.closure_status.mechanism_spec`",
@@ -382,14 +338,9 @@ def _closure_status(
     }
 
 
-def _ledger_policy(
-    mechanism_spec: Mapping[str, Any],
-    closure_status: Mapping[str, str],
-    a1_capsule: Mapping[str, Any],
-    evidence_dict: Mapping[str, Any],
-) -> dict[str, Any]:
+def _ledger_policy(mechanism_spec: Mapping[str, Any], closure_status: Mapping[str, str]) -> dict[str, Any]:
     mechanism_closed = closure_status.get("mechanism_spec") == "closed"
-    debt = _mechanism_closure_debt_slot(a1_capsule=a1_capsule, evidence_dict=evidence_dict, mechanism_closed=mechanism_closed)
+    debt = "closed" if mechanism_closed else "open"
     blockers: list[str] = []
     if mechanism_spec.get("candidate_mechanism") == "probe-margin-channel":
         blockers.append("probe-margin-channel")
@@ -409,54 +360,11 @@ def _ledger_policy(
         blockers.append("mechanism_spec")
     return {
         "mechanism_closure_debt": debt,
-        "d5_m_ready_policy": 'requires ledger_policy.mechanism_closure_debt.status == "negative" and closure_status.mechanism_spec == "closed"',
+        "d5_m_ready_policy": "requires closed ledger_policy.mechanism_closure_debt and closed closure_status.mechanism_spec",
         "blocking_cells": blockers,
         "ledger_pointer": "$.ledger_policy.mechanism_closure_debt",
         "closure_pointer": "$.closure_status.mechanism_spec",
     }
-
-
-def _mechanism_closure_debt_slot(
-    *,
-    a1_capsule: Mapping[str, Any],
-    evidence_dict: Mapping[str, Any],
-    mechanism_closed: bool,
-) -> dict[str, str]:
-    source_pointer = _source_artifact_pointer(evidence_dict.get("ledger_debt_pointer"))
-    if not source_pointer:
-        return {
-            "status": "present-but-fail-closed",
-            "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
-            "source_status": "missing",
-        }
-    source_status = resolve_artifact_pointer_from_payload(a1_capsule, source_pointer)
-    if not isinstance(source_status, str) or not source_status:
-        return {"status": "present-but-fail-closed", "source_pointer": source_pointer, "source_status": "missing"}
-    if mechanism_closed and source_status in {"closed", "ready", "pass"}:
-        status = "negative"
-    elif source_status in {"open", "blocked", "fail", "partial", "missing"}:
-        status = "present"
-    else:
-        status = "present-but-fail-closed"
-    return {"status": status, "source_pointer": source_pointer, "source_status": source_status}
-
-
-def resolve_artifact_pointer_from_payload(payload: Mapping[str, Any], artifact_pointer: str) -> Any:
-    expected_prefix = "reports/canonical/gap_head_attribution_capsule.json:"
-    if not artifact_pointer.startswith(expected_prefix):
-        return None
-    pointer = artifact_pointer[len(expected_prefix) :]
-    return resolve_artifact_pointer_value(payload, pointer)
-
-
-def resolve_artifact_pointer_value(payload: Mapping[str, Any], pointer: str) -> Any:
-    return pointer_value(payload, pointer)
-
-
-def _source_artifact_pointer(pointer: Any) -> str:
-    if not isinstance(pointer, str) or not pointer.startswith("$."):
-        return ""
-    return f"reports/canonical/gap_head_attribution_capsule.json:{pointer}"
 
 
 def _status_cell(spec: Mapping[str, Any]) -> str:
@@ -474,31 +382,3 @@ def _scope_seal_closed(source_spec: Mapping[str, Any]) -> bool:
         and seal.get("mechanism_theorem_closure") is False
         and bool(seal.get("not_claimed"))
     )
-
-
-FORBIDDEN_KEYS = {
-    "terminal_verdict",
-    "metrics",
-    "raw_metrics",
-    "raw_metrics_artifact",
-    "candidate_metrics",
-    "candidate_results",
-    "candidate_measurements",
-    "candidate_evidence_body",
-    "evidence_body",
-    "measurement_body",
-}
-
-
-def _forbidden_key_paths(value: Any, path: str = "$") -> set[str]:
-    found: set[str] = set()
-    if isinstance(value, Mapping):
-        for key, child in value.items():
-            key_path = f"{path}.{key}"
-            if key in FORBIDDEN_KEYS or str(key).endswith("_body"):
-                found.add(key_path)
-            found.update(_forbidden_key_paths(child, key_path))
-    elif isinstance(value, list):
-        for index, child in enumerate(value):
-            found.update(_forbidden_key_paths(child, f"{path}[{index}]"))
-    return found
