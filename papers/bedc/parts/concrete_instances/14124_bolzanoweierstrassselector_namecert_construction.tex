@@ -188,6 +188,20 @@ Run finite window induction over $M$ and $Q$. Each induction step consumes one d
 The readback and seal obligations are then projected from $R,E,P,N$. Since these rows are attached after the selected windows and contain no coordinate for compactness, countable choice, quotient equality, host equality, or ambient completeness, the finite-subsequence obligations stop at the displayed packet boundary.
 \end{proof}
 
+\begin{theorem}[Bolzano--Weierstrass selector root window]
+\label{thm:bolzano-weierstrass-selector-root-window}
+For every accepted $\BolzanoWeierstrassSelectorUp$ packet $T=(B,M,Q,W,D,R,E,H,C,P,N)$, every root selected-window read must expose the bounded source windows $B$, monotone selector ledger $M$, cofinal row $Q$, $\StreamNameUp$ row $W$, $\DyadicRatCoreUp$ row $D$, $\RegSeqRatUp$ row $R$, $\RealUp$ seal row $E$, and the structural rows $H,C,P,N$. The read factors through $\MonotoneSubsequenceUp$, $\BoundedMonotoneCauchyWitnessUp$, $\BoundedMonotoneConvergenceSealUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$, and it exports no full Bolzano--Weierstrass theorem, sequential compactness, choice-selected subsequence, quotient stream, host real equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the subsequence handoff of \autoref{thm:bolzano-weierstrass-subsequence-handoff}. It routes the root selector surface from $B,M,Q$ to $W,D,R$ through the finite monotone subsequence packet and the stream, dyadic, and regular rational rows.
+
+Next use the finite-subsequence obligations of \autoref{thm:bolzanoweierstrassselector-finite-subsequence-obligations}. They require the same bounded source, selector, cofinal, selected-window, readback, seal, and structural rows to be displayed before any finite selected-window read is exported.
+
+Now apply the bounded-monotone route of \autoref{thm:bolzano-weierstrass-selector-bounded-monotone-route}. It places the Real seal behind $\BoundedMonotoneCauchyWitnessUp$ and $\BoundedMonotoneConvergenceSealUp$, so the root read remains a finite induction-style handoff rather than a compactness principle.
+
+Finally use the nonescape theorem \autoref{thm:bolzano-weierstrass-selector-nonescape}. Since the carrier has no row for full Bolzano--Weierstrass, sequential compactness, choice-selected subsequences, quotient streams, host real equality, or ambient $\RealUp$ completeness, the root window exports only the displayed finite route.
+\end{proof}
+
 \begin{theorem}[Bolzano--Weierstrass selector RegSeqRat readback nonescape]
 \label{thm:bolzanoweierstrassselector-regseqrat-readback-nonescape}
 For every accepted $\BolzanoWeierstrassSelectorUp$ $\BHist$ packet $T=(B,M,Q,W,D,R,E,H,C,P,N)$, any $\RegSeqRatUp$ readback from the selected windows must pass through the finite route
