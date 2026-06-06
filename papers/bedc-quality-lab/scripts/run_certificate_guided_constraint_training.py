@@ -1342,7 +1342,7 @@ def _payload(*, run_id: str = "certificate-guided-constraint-training", generate
         not_claimed=payload["not_claimed"],
         run_local=run_local,
     )
-    payload["claim_capsule"]["run_local"] = _negative_witness_run_local(payload)
+    payload["claim_capsule"]["run_local"] = run_local
     payload["claim_capsule"]["c2_frontier"] = {
         "axis_spec": payload["c2_frontier"]["axis_spec"],
         "hardgates": payload["c2_frontier"]["hardgates"],

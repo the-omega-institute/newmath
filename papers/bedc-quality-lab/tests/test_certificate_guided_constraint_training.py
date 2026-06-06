@@ -305,6 +305,40 @@ def test_c1_run_local_negative_witness_records_audit_improvement_tradeoff(monkey
     }
 
 
+def test_c1_run_local_negative_witness_hardgates_pass_for_resolved_payload(monkeypatch, tmp_path):
+    payload = _patched_payload(monkeypatch, tmp_path)
+    run_local = payload["claim_capsule"]["run_local"]
+    row = run_local["negative_witness"][0]
+    hardgates = run_local["negative_witness_hardgates"]
+    gates = hardgates["gates"]
+
+    assert hardgates["status"] == "pass"
+    assert hardgates["failed_gates"] == []
+    assert set(gates) == {"NW-HG1", "NW-HG2", "NW-HG3", "NW-HG4"}
+    assert all(gate["status"] == "pass" for gate in gates.values())
+
+    assert gates["NW-HG1"]["evidence_pointer"] == "$.run_local.negative_witness.0"
+    assert gates["NW-HG1"]["row_shape_ok"] is True
+    assert gates["NW-HG1"]["list_shape_ok"] is True
+    assert list(row) == list(runner.NEGATIVE_WITNESS_KEYS)
+
+    assert gates["NW-HG2"]["evidence_pointer"] == runner.NEGATIVE_WITNESS_SOURCE_POINTER
+    assert gates["NW-HG2"]["source_pointer_resolved"] is True
+    assert gates["NW-HG2"]["source_pointer_value"] == "audit-improvement-tradeoff"
+
+    evidence = runner._artifact_pointer_value(payload, runner.NEGATIVE_WITNESS_EVIDENCE_POINTER)
+    assert gates["NW-HG3"]["evidence_pointer"] == runner.NEGATIVE_WITNESS_EVIDENCE_POINTER
+    assert gates["NW-HG3"]["evidence_pointer_resolved"] is True
+    assert evidence["status"] == "fail"
+    assert evidence["failed_gate"] == "audit-improvement-tradeoff"
+    assert evidence["debt_delta"] < 0
+    assert evidence["benefit_delta"] < 0
+
+    assert gates["NW-HG4"]["evidence_pointer"] == "$.run_local.negative_witness.0.status"
+    assert gates["NW-HG4"]["expected_status"] == "fail"
+    assert gates["NW-HG4"]["observed_status"] == "fail"
+
+
 def test_c1_run_local_negative_witness_source_pointer_resolves():
     canonical_artifact = "reports/canonical/certificate-guided-training.json"
     canonical_payload = json.loads((runner.ROOT / canonical_artifact).read_text(encoding="utf-8"))
