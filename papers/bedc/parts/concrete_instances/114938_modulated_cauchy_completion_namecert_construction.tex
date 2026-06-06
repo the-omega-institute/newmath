@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\ModulatedCauchyCompletionUp$}
+\label{ch:concrete-instances-modulated-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\ModulatedCauchyCompletionUp$ packet records the finite modulus-bearing completion route by which regular rational observations become a Real-facing seal. It sits beside the stream window packet of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the explicit modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The chapter isolates the finite rows a completion consumer may inspect before any completed object is claimed.
+
+\begin{definition}[Modulated Cauchy completion carrier]
+\label{def:modulated-cauchy-completion-carrier}
+A $\ModulatedCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,M,W,D,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ stream row whose finite requests are the only observations admitted by the packet.
+\item $M$ is the $\CauchyModulusUp$ row; for each displayed precision request it names the finite threshold after which the source stream must be read.
+\item $W$ is the finite window ledger pairing each request with the threshold supplied by $M$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row attached to the same window ledger.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $S,W,D$ after the thresholded window has been displayed.
+\item $E$ is the $\RealUp$ seal row exposed only after the source stream, modulus, window, dyadic tolerance, and regular readback rows have been consumed.
+\item $H$ records componentwise $\hsame$ transport for $S,M,W,D,R,E$ and for the structural rows.
+\item $C$ records displayed $\Cont$ replay from source requests to modulus thresholds, from thresholds to windows, from windows to dyadic tolerances, from tolerances to regular readback, and from readback to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\ModulatedCauchyCompletionUp$, $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulatedCauchyCompletionUp}$ row.
+\end{enumerate}
+The carrier exports only this finite modulus-controlled completion surface. It contains no quotient-completion coordinate, selected limit, countable-choice scheduler, host real equality, or ambient completeness row for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Modulated Cauchy completion NameCert obligations]
+\label{thm:modulated-cauchy-completion-namecert-obligations}
+For every accepted $\ModulatedCauchyCompletionUp$ carrier $T=(S,M,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\ModulatedCauchyCompletionUp}$ surface consists exactly of five obligations:
+\begin{enumerate}
+\item carrier admission exposes precisely the rows $S,M,W,D,R,E,H,C,P,N$ before a completion-facing read is exported;
+\item modulus coverage requires every displayed precision request in $W$ to be served by a threshold row in $M$ over the same source stream $S$;
+\item regular-window readback factors each admitted read through $\StreamNameUp$, $\CauchyModulusUp$, $\DyadicRatCoreUp$, and $\RegSeqRatUp$ before the Real seal is visible;
+\item Real-seal nonescape makes $E$ downstream of $S,M,W,D,R$ and excludes quotient completions, selected limits, countable choice, host real equality, and ambient $\RealUp$ completeness;
+\item provenance and transport require $H,C,P,N$ to preserve the same displayed route under $\hsame$ transport, $\Cont$ replay, package sourcing, and local naming.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:modulated-cauchy-completion-carrier}. The packet lists exactly the source stream, modulus, window ledger, dyadic tolerance row, regular readback, Real seal, and structural rows as its public surface.
+
+For modulus coverage, inspect $M$ and $W$ together. Each window row is admitted only with the threshold supplied by the displayed $\CauchyModulusUp$ row, so no precision request can be served by an external schedule or by countable choice.
+
+The regular-window readback then reads $S,W,D,R$ in order. The sibling chapters \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-cauchymodulus-namecert}, \autoref{ch:concrete-instances-dyadicratcore-namecert}, and \autoref{ch:concrete-instances-regseqrat-namecert} provide the stream, modulus, dyadic, and regular rational surfaces named by the carrier.
+
+Finally the seal row $E$ is downstream of that finite route, and $H,C,P,N$ only transport, replay, source, and name the same packet. Since the carrier has no quotient, selected-limit, choice, host-equality, or ambient-completeness coordinate, a Real-facing consumer receives only the displayed $\RealUp$ seal boundary.
+\end{proof}
+
+\closureat{ModulatedCauchyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\ModulatedCauchyCompletionUp}
+  \constructivestory{A $\ModulatedCauchyCompletionUp$ packet is generated from a source StreamName row, an explicit CauchyModulus threshold row, finite window rows, DyadicRatCore tolerances, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulated-cauchy-completion-carrier} and \autoref{thm:modulated-cauchy-completion-namecert-obligations} seed the finite modulus-controlled completion route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, countable choice, full RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus coverage, regular-window readback, Real-seal nonescape, and transport-provenance preservation for BEDC.Derived.ModulatedCauchyCompletionUp.}
+\end{closurestatus}
