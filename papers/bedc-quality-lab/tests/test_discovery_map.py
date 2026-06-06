@@ -39,6 +39,34 @@ def _minimal_payload(spec):
         return payload
     if spec.name == "ledger-aware-transformer":
         return lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    if spec.name == "discovery-regularized-training":
+        payload.update({
+            "discovery_map_signal": {
+                "control_pointer": "$.matched_random_control",
+                "evidence_pointer": "$.torch_training_evidence",
+                "failed_gate": None,
+                "failed_gate_pointer": None,
+                "level_candidate": "D4",
+                "reason": "matched-control-positive",
+                "status": "d4-candidate",
+                "torch_training_evidence_pointer": "$.torch_training_evidence",
+            },
+            "hardgate": {
+                "failed_gate": None,
+                "gates": {f"DRT-HG{index}": {"status": "pass"} for index in range(1, 7)},
+                "status": "pass",
+            },
+            "failed_gate": None,
+            "torch_training_evidence": {
+                "expected_row_count": 1,
+                "protocols": [{"status": "complete"}],
+                "row_count": 1,
+                "status": "available",
+            },
+            "records": {"raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"},
+            "matched_random_control": {"control_positive_discovery": False},
+        })
+        return payload
     if spec.name == "gap-head-transfer-atlas":
         payload.update({
             "config": {"control_arm": "matched_random_gap_head"},
@@ -389,6 +417,120 @@ def _add_gate_breaking_witness(payload):
 
 def _row_by_report(payload):
     return {row["report"]: row for row in payload["rows"]}
+
+
+def _coverage_cell(payload, model_id, surface_id):
+    return next(
+        cell
+        for cell in payload["coverage_matrix"]["cells"]
+        if cell["model_id"] == model_id and cell["surface_id"] == surface_id
+    )
+
+
+def _contains_key(payload, key):
+    if isinstance(payload, dict):
+        return key in payload or any(_contains_key(value, key) for value in payload.values())
+    if isinstance(payload, list):
+        return any(_contains_key(value, key) for value in payload)
+    return False
+
+
+def test_discovery_map_coverage_matrix_has_single_owner(tmp_path):
+    _write_all_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+
+    assert payload["coverage_matrix"]["status"] == "pointer-only"
+    assert not (tmp_path / "reports" / "canonical" / "discovery_coverage.json").exists()
+    assert all(spec.name != "discovery_coverage" for spec in canonical.CANONICAL_REPORTS)
+    assert all(spec.name != "discovery-coverage" for spec in canonical.CANONICAL_REPORTS)
+    assert all(spec.name != "bedc.model.discovery_coverage" for spec in canonical.CANONICAL_REPORTS)
+
+
+def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
+    _write_all_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    drt = _coverage_cell(payload, "discovery-regularized-training", "discovery-map-signal")
+    lat = _coverage_cell(payload, "ledger-aware-transformer", "discovery-map-signal")
+    drt_source = _read_json_artifact(tmp_path, drt["source_artifact"])
+    lat_source = _read_json_artifact(tmp_path, lat["source_artifact"])
+
+    assert drt["status_pointer"] == "$.discovery_map_signal.level_candidate"
+    assert drt["coverage_level"] == "D4"
+    assert drt["pointer_status"] == "resolved"
+    assert drt["evidence_pointer"] == "$.torch_training_evidence"
+    assert discovery_map.pointer_value(drt_source, drt["status_pointer"]) == "D4"
+    assert discovery_map.pointer_value(drt_source, drt["evidence_pointer"]) is not None
+    assert "metric" not in drt
+    assert "aggregate_score" not in drt
+    assert "classifier_reasons" not in drt
+    assert "training_rows" not in drt
+
+    assert lat["status_pointer"] == "$.discovery_map_signal.level_candidate"
+    assert lat["hardgate_pointer"] == "$.discovery_map_signal.net_positive_signal"
+    assert lat["coverage_level"] == "D4"
+    assert lat["pointer_status"] == "resolved"
+    assert lat["evidence_pointer"] == "$.aggregate_metrics.uer_reduction"
+    assert discovery_map.pointer_value(lat_source, lat["status_pointer"]) == "D4"
+    assert discovery_map.pointer_value(lat_source, lat["evidence_pointer"]) is not None
+
+
+def test_discovery_map_coverage_matrix_projects_gap_head_axes(tmp_path):
+    _write_all_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    operational = _coverage_cell(payload, "gap-head-attribution-capsule", "d5-o")
+    mechanism = _coverage_cell(payload, "gap-head-attribution-capsule", "d5-m")
+    blockage = _coverage_cell(payload, "gap-head-attribution-capsule", "mechanism")
+    capsule = _read_json_artifact(tmp_path, "reports/canonical/gap_head_attribution_capsule.json")
+
+    assert operational["status_pointer"] == "$.d5_o.status"
+    assert operational["coverage_level"] == "D5-O"
+    assert operational["pointer_status"] == "resolved"
+    assert discovery_map.pointer_value(capsule, operational["status_pointer"]) == "ready"
+    assert mechanism["status_pointer"] == "$.d5_m.status"
+    assert mechanism["coverage_level"] == "blocked"
+    assert mechanism["hardgate_pointer"] == "$.d5_m.failed_gate"
+    assert discovery_map.pointer_value(capsule, mechanism["hardgate_pointer"]) == "A1-HG3"
+    assert blockage["status_pointer"] == "$.mechanism_evidence.mechanism_status"
+    assert blockage["coverage_level"] == "blocked"
+    assert blockage["hardgate_pointer"] == "$.mechanism_evidence.failed_gate"
+    assert discovery_map.pointer_value(capsule, blockage["hardgate_pointer"]) == "A1-HG3"
+
+
+def test_discovery_map_coverage_matrix_dangling_pointer_unknown(tmp_path):
+    _write_all_payloads(tmp_path)
+    original = discovery_map.DISCOVERY_COVERAGE_SOURCES
+    mutated = tuple(
+        discovery_map.DiscoveryCoverageSource(
+            model_id=source.model_id,
+            surface_id=source.surface_id,
+            source_artifact=source.source_artifact,
+            status_pointer="$.discovery_map_signal.missing_level" if source.model_id == "discovery-regularized-training" else source.status_pointer,
+            evidence_pointer=source.evidence_pointer,
+            hardgate_pointer=source.hardgate_pointer,
+            level_pointer=source.level_pointer,
+        )
+        for source in original
+    )
+    discovery_map.DISCOVERY_COVERAGE_SOURCES = mutated
+    try:
+        payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    finally:
+        discovery_map.DISCOVERY_COVERAGE_SOURCES = original
+
+    cell = _coverage_cell(payload, "discovery-regularized-training", "discovery-map-signal")
+    assert cell["coverage_level"] == "unknown"
+    assert cell["pointer_status"] == "unresolved"
+
+
+def test_discovery_map_coverage_matrix_has_no_terminal_verdict_key(tmp_path):
+    _write_all_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+
+    assert not _contains_key(payload["coverage_matrix"], "terminal_verdict")
 
 
 def test_discovery_map_has_one_row_per_canonical_report(tmp_path):

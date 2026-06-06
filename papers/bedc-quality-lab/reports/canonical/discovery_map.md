@@ -39,3 +39,15 @@
 - `seed_expansion`: `pass` (reports/canonical/gap-head-robustness-sweep.json:$.A3_seed_expansion.final_verdict) A3 seed expansion has robust_positive final verdict under final_status=pass.
 - `adversarial`: `pass` (reports/canonical/discovery_negative_witnesses.json:$.witnesses) The eight adversarial witness kinds do not break the discovery gate.
 - `observed_debt_transfer`: `pass` (reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status) Observed-debt transfer metric for gap-head-on-h passes.
+
+## Coverage matrix
+
+- Status: `pointer-only`
+
+| model | surface | level | pointer status | status pointer | evidence pointer |
+| --- | --- | --- | --- | --- | --- |
+| `discovery-regularized-training` | `discovery-map-signal` | `D4` | `resolved` | `reports/canonical/discovery-regularized-training.json:$.discovery_map_signal.level_candidate` | `reports/canonical/discovery-regularized-training.json:$.torch_training_evidence` |
+| `ledger-aware-transformer` | `discovery-map-signal` | `D4` | `resolved` | `reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.level_candidate` | `reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_reduction` |
+| `gap-head-attribution-capsule` | `d5-o` | `D5-O` | `resolved` | `reports/canonical/gap_head_attribution_capsule.json:$.d5_o.status` | `reports/canonical/gap_head_attribution_capsule.json:$.d5_o` |
+| `gap-head-attribution-capsule` | `d5-m` | `blocked` | `resolved` | `reports/canonical/gap_head_attribution_capsule.json:$.d5_m.status` | `reports/canonical/gap_head_attribution_capsule.json:$.d5_m` |
+| `gap-head-attribution-capsule` | `mechanism` | `blocked` | `resolved` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` |
