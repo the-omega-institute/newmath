@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\SkorokhodTopologyUp$}
+\label{ch:concrete-instances-skorokhod-topology-namecert}
+\origin{human}
+
+Following Skorokhod and Billingsley on the topology of cadlag path spaces, the $\SkorokhodTopologyUp$ packet records the finite naming surface used to compare right-continuous paths with left limits by displayed time-change, window, and real-name data. It sits after the cadlag path carrier of \autoref{ch:concrete-instances-cadlag-real-function-namecert}, the metric interface of \autoref{ch:concrete-instances-metric-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The certificate gives stochastic-process consumers a path-space topology route without importing selected path limits, host path equality, quotient-by-time-change equality, Borel measure construction, compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Skorokhod topology carrier]
+\label{def:skorokhod-topology-carrier}
+A $\SkorokhodTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+T=(K,M,S,R,D,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CadlagRealFunctionUp$ source row naming the path packet whose right-continuity and left-limit windows are already displayed.
+\item $M$ is the $\MetricUp$ comparison row used only as a finite tolerance interface on path-window observations.
+\item $S$ is the $\StreamNameUp$ observation schedule for domain windows, jump-neighborhood windows, and time-change probes.
+\item $R$ is the $\RegSeqRatUp$ readback row for rational observations along the displayed schedule.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger controlling mesh size, time-change displacement, path-window error, and real-name readback precision.
+\item $L$ is the Skorokhod-lag row. It records finite monotone time-change probes and their mesh/tolerance obligations, not a selected homeomorphism of the host interval.
+\item $E$ is the terminal $\RealUp$ seal row exposed only after the cadlag source, metric comparison row, observation schedule, rational readback, dyadic tolerance ledger, and lag row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the cadlag source, metric comparison, schedule, readback, tolerance, lag, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a path-topology request through $K,M,S,R,D,L,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\SkorokhodTopologyUp$, $\CadlagRealFunctionUp$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SkorokhodTopologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,M,S,R,D,L,E,H,C,P,N$. It has no coordinate for host path equality, quotient path equality, selected time changes, selected limits, Borel sigma-algebras, compactness, tightness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Skorokhod topology NameCert obligations]
+\label{thm:skorokhod-topology-namecert-obligations}
+For every accepted $\SkorokhodTopologyUp$ carrier $T=(K,M,S,R,D,L,E,H,C,P,N)$, the local $\NameCert_{\SkorokhodTopologyUp}$ surface consists exactly of carrier admission, cadlag-source admission through $K$, metric comparison admission through $M$, finite observation schedule exposure through $S$, regular rational readback through $R$, dyadic tolerance control through $D$, finite Skorokhod-lag obligation through $L$, terminal real-seal ordering through $E$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, local naming through $N$, and ledger refusal for host path equality, quotient path equality, selected time changes, selected limits, measure-theoretic structure, compactness, tightness, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are $K,M,S,R,D,L,E$, and the structural rows are $H,C,P,N$.
+
+The cadlag source $K$ supplies right-continuity and left-limit window obligations from \autoref{ch:concrete-instances-cadlag-real-function-namecert}. The metric comparison row $M$, stream schedule $S$, rational readback $R$, and dyadic ledger $D$ provide the finite data on which a topology consumer may compare path-window observations.
+
+The lag row $L$ is downstream of those data. It records finite time-change probes and their tolerance obligations, while the terminal seal $E$ is reached only after the displayed route has passed through $K,M,S,R,D,L$.
+
+Componentwise transport, replay, provenance, and local naming preserve the same packet. Since no coordinate stores selected time changes, quotient path equality, measure-theoretic structure, compactness, tightness, or ambient real completeness, the NameCert obligations are exactly the listed finite rows.
+\end{proof}
+
+\begin{theorem}[Skorokhod topology cadlag modulus handoff]
+\label{thm:skorokhod-topology-cadlag-modulus-handoff}
+Every path-topology consumer of an accepted $\SkorokhodTopologyUp$ packet must first read the $\CadlagRealFunctionUp$ source row, then the $\MetricUp$ comparison row, the $\StreamNameUp$ schedule, the $\RegSeqRatUp$ readback row, and the $\DyadicRatCoreUp$ tolerance ledger before it can consume the Skorokhod-lag row and the terminal $\RealUp$ seal. Thus the handoff is a finite cadlag-modulus route rather than a host equality of paths, a quotient equality under time changes, a selected limiting path, a measure-theoretic compactness theorem, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Let $T=(K,M,S,R,D,L,E,H,C,P,N)$ be accepted. A path-topology request reaches the cadlag source row $K$ before any comparison row is available, so the request begins with displayed right-continuity and left-limit windows.
+
+Next the request reads $M,S,R,D$. These rows give the metric tolerance interface, finite observation schedule, regular rational readback, and dyadic precision ledger needed to state a finite comparison between path windows.
+
+Only then may the request consume the lag row $L$ and the terminal seal $E$. The lag row records time-change probes as displayed finite obligations, while the seal row remains downstream of cadlag, metric, schedule, readback, and tolerance data.
+
+Transport through $H$ and replay through $C$ preserve the same route, and $P,N$ package and name it. The excluded host equality, quotient equality, selected-limit, measure-theoretic, compactness, and completeness conclusions have no carrier row to read.
+\end{proof}
+
+\closureat{SkorokhodTopologyUp}{seedStr}
+
+\begin{closurestatus}{\SkorokhodTopologyUp}
+  \constructivestory{A $\SkorokhodTopologyUp$ packet is generated from a CadlagRealFunction source row, Metric comparison row, StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, finite Skorokhod-lag row, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:skorokhod-topology-carrier}, \autoref{thm:skorokhod-topology-namecert-obligations}, and \autoref{thm:skorokhod-topology-cadlag-modulus-handoff} seed the finite cadlag path-topology route over displayed time-change probes and terminal Real-facing seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host path equality, quotient path equality, selected time changes, selected limits, Borel measure construction, compactness, tightness, Lean verification, bridge checking, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, cadlag-source admission, metric comparison admission, stream-window exposure, rational readback, dyadic tolerance control, Skorokhod-lag obligations, transport, replay, provenance, and local naming for BEDC.Derived.SkorokhodTopologyUp.}
+\end{closurestatus}

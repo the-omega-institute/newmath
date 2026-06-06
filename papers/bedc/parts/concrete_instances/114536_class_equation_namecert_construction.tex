@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\ClassEquationUp$}
+\label{ch:concrete-instances-class-equation-namecert}
+\origin{human}
+
+Following Artin, the class equation records the conjugacy-orbit decomposition of a finite group as the sum of the center and the noncentral conjugacy classes. The $\ClassEquationUp$ packet consumes the finite group rows of \autoref{ch:concrete-instances-group-namecert}, the orbit-stabilizer handoff of \autoref{ch:concrete-instances-orbit-stabilizer-namecert}, the orbit-counting ledger of \autoref{ch:concrete-instances-burnside-orbit-count-namecert}, and the Sylow-facing subgroup route of \autoref{ch:concrete-instances-sylow-namecert}. It names only the displayed conjugation action, center row, noncentral orbit ledger, stabilizer-index accounting, and finite counting read; it does not import a host quotient by conjugacy, selected representatives, a full subgroup lattice, or a character table.
+
+\begin{definition}[ClassEquation carrier]
+\label{def:class-equation-carrier}
+A $\ClassEquationUp$ carrier is a finite $\BHist$ packet
+$$
+E=(G,Z,A,O,S,L,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $G$ is the consumed finite $\NameCert_{\GroupUp}$ row, including multiplication, unit, inverse, finite support, and componentwise group transport.
+\item $Z$ is the displayed center row, read as the finite list of group endpoints whose conjugation action is fixed by every visible group row.
+\item $A$ is the conjugation-action row of $G$ on its displayed finite support.
+\item $O$ is the finite noncentral conjugacy-orbit ledger, with each retained orbit read through the action row $A$.
+\item $S$ is the stabilizer-index ledger supplied by the orbit-stabilizer route; it records the centralizer-style stabilizer row and the finite orbit-size read for each noncentral orbit.
+\item $L$ is the class-equation counting row, displaying the center-orbit split
+$$
+\begin{aligned}
+\mathsf{groupSize}(G) =
+\mathsf{centerSize}(Z) + \mathsf{noncentralOrbitSum}(O,S).
+\end{aligned}
+$$
+\item $H$ records componentwise $\hsame$ transport for $G,Z,A,O,S,L$.
+\item $C$ records displayed $\Cont$ replay from group rows through conjugation, center exposure, orbit-stabilizer accounting, and the final counting row.
+\item $P$ is the $\Pkg$ provenance over $\ClassEquationUp$, $\GroupUp$, $\OrbitStabilizerUp$, $\BurnsideOrbitCountUp$, $\SylowUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClassEquationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host conjugacy quotient, selected class representatives, quotient subgroup equality, character-theoretic class functions, or an ambient finite-group structure theorem.
+\end{definition}
+
+\begin{theorem}[ClassEquation NameCert obligations]
+\label{thm:class-equation-namecert-obligations}
+For every accepted $\ClassEquationUp$ carrier $E=(G,Z,A,O,S,L,H,C,P,N)$, the local $\NameCert_{\ClassEquationUp}$ surface consists of five finite rows: carrier admission for the displayed group, center, conjugation-action, orbit, stabilizer-index, counting, transport, replay, provenance, and naming data; classifier stability under componentwise $\hsame$ for those same rows; center-orbit split exactness for the fixed conjugation rows and the noncentral orbit ledger; orbit-stabilizer ledger replay through \autoref{ch:concrete-instances-orbit-stabilizer-namecert}; and nonescape, requiring every class-equation consumer to factor through $G,Z,A,O,S,L,H,C,P,N$ without receiving a host conjugacy quotient, selected representative, subgroup lattice, character table, or ambient finite-group classification.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of \autoref{def:class-equation-carrier}. The group row $G$, center row $Z$, conjugation action $A$, noncentral orbit ledger $O$, stabilizer-index ledger $S$, and counting row $L$ are all finite $\BHist$ data.
+
+Classifier stability is componentwise. The group coordinate is compared by the finite $\GroupUp$ classifier, the center and action rows are transported by the same $\hsame$ ledger, and the orbit, stabilizer, and counting rows are replayed through $H$ and $C$.
+
+The center-orbit split is read before the final counting row. Fixed conjugation rows enter through $Z$, while noncentral rows enter through $O$ and then through the orbit-stabilizer ledger $S$; the resulting finite sum is exactly the displayed row $L$.
+
+The orbit-stabilizer dependency is the sibling route of \autoref{ch:concrete-instances-orbit-stabilizer-namecert}, and the finite orbit accounting is compatible with the orbit-counting surface of \autoref{ch:concrete-instances-burnside-orbit-count-namecert}. Thus Sylow-style consumers may cite the class-equation row only through the displayed group and subgroup-facing ledgers.
+
+Nonescape follows from the packet inventory. Since no coordinate contains a host conjugacy quotient, selected representative, subgroup lattice, character table, or ambient classification theorem, no accepted consumer read can extract one from $\ClassEquationUp$.
+\end{proof}
+
+\closureat{ClassEquationUp}{seedStr}
+
+\begin{closurestatus}{\ClassEquationUp}
+  \constructivestory{A $\ClassEquationUp$ packet is generated from a finite GroupUp row, a displayed center row, a conjugation-action row, a noncentral orbit ledger, an orbit-stabilizer index ledger, a class-equation counting row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:class-equation-carrier} and \autoref{thm:class-equation-namecert-obligations} seed the finite class-equation packet over displayed $\GroupUp$, $\OrbitStabilizerUp$, $\BurnsideOrbitCountUp$, and $\SylowUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, a host conjugacy quotient, selected class representatives, subgroup-lattice classification, character-table computation, or ambient finite-group classification.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, center-orbit split exactness, orbit-stabilizer ledger replay, and nonescape for BEDC.Derived.ClassEquationUp.}
+\end{closurestatus}

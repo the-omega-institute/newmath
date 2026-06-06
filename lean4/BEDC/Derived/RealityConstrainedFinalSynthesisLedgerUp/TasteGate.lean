@@ -1,5 +1,7 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
@@ -262,3 +264,123 @@ theorem RealityConstrainedFinalSynthesisLedgerTasteGate_single_carrier_alignment
         · rfl
 
 end BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp.TasteGate
+
+namespace BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp
+
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+
+theorem RealityConstrainedFinalSynthesisLedger_model_selection_handoff
+    (x : TasteGate.RealityConstrainedFinalSynthesisLedgerUp) :
+    ∃ T R M F B O S H C P N : BHist,
+      x =
+          TasteGate.RealityConstrainedFinalSynthesisLedgerUp.mk T R M F B O S H C P N ∧
+        TasteGate.realityConstrainedFinalSynthesisLedgerFields x =
+          [T, R, M, F, B, O, S, H, C, P, N] ∧
+          Cont B O (append B O) ∧
+            Cont B S (append B S) ∧
+              Cont T B (append T B) ∧
+                Cont F B (append F B) ∧
+                  hsame H H ∧
+                    hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk T R M F B O S H C P N =>
+      exact
+        ⟨T, R, M, F, B, O, S, H, C, P, N, rfl, rfl, cont_intro rfl,
+          cont_intro rfl, cont_intro rfl, cont_intro rfl, hsame_refl H, hsame_refl N⟩
+
+theorem RealityConstrainedFinalSynthesisLedger_sibling_independence
+    (x : TasteGate.RealityConstrainedFinalSynthesisLedgerUp) :
+    ∃ T R M F B O S H C P N : BHist,
+      x = TasteGate.RealityConstrainedFinalSynthesisLedgerUp.mk T R M F B O S H C P N ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row N)
+          (fun row : BHist =>
+            hsame row T ∨ hsame row R ∨ hsame row M ∨ hsame row F ∨ hsame row B ∨
+              hsame row O ∨ hsame row S ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N)
+          (fun row : BHist =>
+            hsame row N ∧ Cont T M (append T M) ∧ Cont R F (append R F) ∧
+              Cont B S (append B S))
+          hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  cases x with
+  | mk T R M F B O S H C P N =>
+      let cert :
+          SemanticNameCert
+            (fun row : BHist => hsame row N)
+            (fun row : BHist =>
+              hsame row T ∨ hsame row R ∨ hsame row M ∨ hsame row F ∨ hsame row B ∨
+                hsame row O ∨ hsame row S ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                  hsame row N)
+            (fun row : BHist =>
+              hsame row N ∧ Cont T M (append T M) ∧ Cont R F (append R F) ∧
+                Cont B S (append B S))
+            hsame := {
+        core := {
+          carrier_inhabited := Exists.intro N (hsame_refl N)
+          equiv_refl := by
+            intro row _source
+            exact hsame_refl row
+          equiv_symm := by
+            intro _row _other sameRows
+            exact hsame_symm sameRows
+          equiv_trans := by
+            intro _row _middle _other sameLeft sameRight
+            exact hsame_trans sameLeft sameRight
+          carrier_respects_equiv := by
+            intro _row _other sameRows source
+            exact hsame_trans (hsame_symm sameRows) source
+        }
+        pattern_sound := by
+          intro _row source
+          exact
+            Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr source)))))))))
+        ledger_sound := by
+          intro _row source
+          exact ⟨source, cont_intro rfl, cont_intro rfl, cont_intro rfl⟩
+      }
+      exact ⟨T, R, M, F, B, O, S, H, C, P, N, rfl, cert⟩
+
+theorem RealityConstrainedFinalSynthesis_obligation_route_closure
+    (T R M F B O S H C P N : BHist) :
+    let x := TasteGate.RealityConstrainedFinalSynthesisLedgerUp.mk T R M F B O S H C P N
+    TasteGate.realityConstrainedFinalSynthesisLedgerFields x =
+        [T, R, M, F, B, O, S, H, C, P, N] ∧
+      Cont T R (append T R) ∧
+        Cont R M (append R M) ∧
+          Cont M F (append M F) ∧
+            Cont F B (append F B) ∧
+              Cont B O (append B O) ∧
+                Cont O S (append O S) ∧
+                  Cont S H (append S H) ∧
+                    Cont H C (append H C) ∧
+                      Cont C P (append C P) ∧
+                        Cont P N (append P N) ∧
+                          hsame (append P N) (append P N) := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  constructor
+  · rfl
+  · exact
+      ⟨cont_intro rfl,
+        ⟨cont_intro rfl,
+          ⟨cont_intro rfl,
+            ⟨cont_intro rfl,
+              ⟨cont_intro rfl,
+                ⟨cont_intro rfl,
+                  ⟨cont_intro rfl,
+                    ⟨cont_intro rfl,
+                      ⟨cont_intro rfl, ⟨cont_intro rfl, hsame_refl (append P N)⟩⟩⟩⟩⟩⟩⟩⟩⟩⟩
+
+end BEDC.Derived.RealityConstrainedFinalSynthesisLedgerUp

@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CofinalCauchySubnetUp$}
+\label{ch:concrete-instances-cofinal-cauchy-subnet-namecert}
+\origin{human}
+
+Following Moore--Smith and Kelley, the $\CofinalCauchySubnetUp$ packet records the finite NameCert surface for a Cauchy subnet route whose reindexing data are cofinal in the source directed tail order. It sits after the Moore--Smith net carrier of \autoref{ch:concrete-instances-moore-smith-net-namecert}, the Cauchy-net surface of \autoref{ch:concrete-instances-cauchynet-namecert}, the convergence handoff of \autoref{ch:concrete-instances-netconvergence-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet is an L10 Real and Completion carrier: it names the cofinal-tail evidence needed by completion-facing consumers without choosing a global subnet, quotienting nets, adding countable choice, importing ambient compactness, identifying host values, or asserting completeness of $\RealUp$.
+
+\begin{definition}[Cofinal Cauchy subnet carrier]
+\label{def:cofinal-cauchy-subnet-carrier}
+A $\CofinalCauchySubnetUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(I,J,\phi,M,A,T,K,N,S,R,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the source directed-index row inherited from the accepted $\MooreSmithNetUp$ surface.
+\item $J$ is the subnet directed-index row, carrying only the finite subnet vertices and comparisons inspected by the packet.
+\item $\phi$ is the monotone reindexing row from $J$ to $I$.
+\item $M$ is the $\MooreSmithNetUp$ source-net row, exposing finite source values and tail requests.
+\item $A$ is the $\CauchyNetUp$ common-window row on the source net.
+\item $T$ is the cofinal-tail ledger: for each displayed source-tail request, it gives a displayed subnet tail whose image under $\phi$ lies inside that source tail.
+\item $K$ is the Cauchy-subnet compatibility row, recording that the subnet observations read through $J,\phi,M,T$ inherit the displayed Cauchy windows in $A$.
+\item $N$ is the $\NetConvergenceUp$ consumer row, available only after the cofinal and Cauchy-subnet rows have been displayed.
+\item $S$ is the $\StreamNameUp$ finite observation-window row for the accepted subnet route.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those finite windows.
+\item $E$ is the terminal $\RealUp$ seal row, read only after $I,J,\phi,M,A,T,K,N,S,R$ are displayed.
+\item $H$ records componentwise $\hsame$ transport for the directed, net, Cauchy, cofinal, convergence, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the same finite cofinal Cauchy subnet route.
+\item $P$ is the $\Pkg$ provenance over $\CofinalCauchySubnetUp$, $\MooreSmithNetUp$, $\CauchyNetUp$, $\NetConvergenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\CofinalCauchySubnetUp}$ row.
+\end{enumerate}
+The carrier exports only these displayed rows. It has no coordinate for selected subnets, quotient-net equality, countable choice, ambient compactness, host equality, or $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cofinal Cauchy subnet NameCert obligations]
+\label{thm:cofinal-cauchy-subnet-namecert-obligations}
+For an accepted $\CofinalCauchySubnetUp$ carrier $Q=(I,J,\phi,M,A,T,K,N,S,R,E,H,C,P,L)$, the local $\NameCert_{\CofinalCauchySubnetUp}$ surface consists exactly of carrier admission, source directed-index exposure, subnet directed-index exposure, monotone reindexing exposure, Moore--Smith source-net exposure, Cauchy common-window exposure, cofinal-tail coverage, Cauchy-subnet compatibility, NetConvergence handoff, StreamName scheduling, RegSeqRat readback, terminal Real seal exposure, componentwise transport, displayed route replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the finite packet of \autoref{def:cofinal-cauchy-subnet-carrier}. The source and subnet directed rows are $I,J,\phi$, while $M$ exposes the finite Moore--Smith source-net observations.
+
+The Cauchy and cofinal rows are $A,T,K$. The row $A$ stores the common-window Cauchy evidence, $T$ answers each displayed source-tail request by a subnet tail, and $K$ records that the subnet observations inherit the displayed Cauchy window along that cofinal route.
+
+The convergence and Real-facing rows are then $N,S,R,E$. A $\NetConvergenceUp$ consumer reads only after the cofinal Cauchy-subnet route is present, and a $\RealUp$ consumer reaches the terminal seal only after the finite StreamName and RegSeqRat rows have been displayed.
+
+Finally $H,C,P,L$ transport, replay, source, and name exactly the same route. Since no further coordinate is present, the listed rows exhaust the local NameCert obligations and leave no place for the excluded selection, quotient, choice, compactness, host-equality, or completeness principles.
+\end{proof}
+
+\begin{theorem}[Cofinal-tail stability]
+\label{thm:cofinal-cauchy-subnet-cofinal-tail-stability}
+Every completion-facing read from an accepted $\CofinalCauchySubnetUp$ packet factors through the finite cofinal-tail route
+$$
+I,J,\phi,M,A \longmapsto T,K \longmapsto N,S,R,E .
+$$
+Thus replacing a displayed source-tail request by a later displayed source tail changes only the finite witness chosen inside $T$; the downstream Cauchy-subnet compatibility row, NetConvergence handoff, StreamName windows, RegSeqRat readback, and terminal Real seal remain attached to the same carrier route.
+\end{theorem}
+\begin{proof}
+Begin with the carrier inventory of \autoref{def:cofinal-cauchy-subnet-carrier}. The only row that answers source-tail requests by subnet data is $T$, and $T$ is read after the directed and source-net rows $I,J,\phi,M$.
+
+The Cauchy evidence is not recomputed downstream. The row $K$ reads the common-window evidence in $A$ through the same cofinal ledger $T$, so a later displayed source tail only asks $T$ for a later displayed subnet-tail witness.
+
+The rows $N,S,R,E$ are downstream of $T,K$. Therefore convergence-facing and Real-facing consumers preserve the same cofinal Cauchy subnet route after any displayed tail refinement.
+
+The structural rows $H,C,P,L$ transport, replay, source, and name that route without adding a selected subnet, quotient-net equality, countable-choice coordinate, compactness principle, host equality, or completeness claim for $\RealUp$.
+\end{proof}
+
+\falsifiablePrediction{If a completion-facing consumer reads the $\RealUp$ seal of a purported $\CofinalCauchySubnetUp$ packet before displaying the cofinal-tail ledger $T$ and the Cauchy-subnet compatibility row $K$, it is not reading the carrier of \autoref{def:cofinal-cauchy-subnet-carrier}.}
+
+\independenceWitness{moore-smith-net, cauchynet, netconvergence, streamname, regseqrat, real: $\CofinalCauchySubnetUp$ is not bijective to any listed sibling because it jointly carries source and subnet directed rows, monotone reindexing, source Cauchy evidence, cofinal-tail coverage, convergence handoff, finite observation windows, regular readback, terminal real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{CofinalCauchySubnetUp}{seedStr}
+
+\begin{closurestatus}{\CofinalCauchySubnetUp}
+  \constructivestory{A $\CofinalCauchySubnetUp$ packet is generated from source and subnet directed-index rows, a monotone reindexing row, a MooreSmithNet source row, CauchyNet common-window evidence, a cofinal-tail ledger, Cauchy-subnet compatibility, a NetConvergence handoff, StreamName windows, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-cauchy-subnet-carrier}, \autoref{thm:cofinal-cauchy-subnet-namecert-obligations}, and \autoref{thm:cofinal-cauchy-subnet-cofinal-tail-stability} seed the finite cofinal Cauchy subnet carrier for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected subnets, quotient-net equality, countable choice, ambient compactness, host equality, $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source and subnet directed-index exposure, monotone reindexing exposure, Cauchy-window inheritance, cofinal-tail coverage, convergence handoff, finite readback, terminal seal ordering, transport preservation, replay stability, provenance exhaustion, and local naming for BEDC.Derived.CofinalCauchySubnetUp.}
+\end{closurestatus}

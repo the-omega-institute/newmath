@@ -61,6 +61,22 @@ The stream and regular-rational rows $S,R$ then expose the finite window and rea
 The located-interval bisection and Bolzano consumers can read $L_0,U_0,I$ only through the structural rows $H,C,P,N$. Therefore the route factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and cannot pass through host intervals, quotient reals, trichotomy, countable choice, or ambient real completeness.
 \end{proof}
 
+\begin{theorem}[Rational interval locator dyadic tolerance route]
+\label{thm:rational-interval-locator-dyadic-tolerance-route}
+Every tolerance request for an accepted $\RationalIntervalLocatorUp$ carrier first reads the $\DyadicRatCoreUp$ tolerance ledger through \autoref{ch:concrete-instances-dyadicratcore-namecert}. It then passes through the $\StreamNameUp$ window row, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal before exposing the rational interval bracket $L_0,U_0,I$ to a located-interval consumer.
+\end{theorem}
+\begin{proof}
+Let
+$$
+L=(L_0,U_0,I,T,S,R,A,H,C,P,N)
+$$
+be an accepted carrier. Project the tolerance row $T$ and provenance row $P$. These rows identify the requested precision as a dyadic rational tolerance supplied by the $\DyadicRatCoreUp$ ledger rather than by host interval arithmetic.
+
+Next project $S,R,A$. The StreamName window $S$ opens the finite observations for the displayed tolerance, the RegSeqRat row $R$ replays those observations as regular rational data, and the Real seal $A$ receives only that finite readback route.
+
+Finally apply \autoref{thm:rational-interval-locator-real-readback}. It already factors every Real-facing read through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, so the rational bracket rows $L_0,U_0,I$ are exposed only after the dyadic tolerance route has been displayed.
+\end{proof}
+
 \closureat{RationalIntervalLocatorUp}{obligationStr}
 
 \begin{closurestatus}{\RationalIntervalLocatorUp}

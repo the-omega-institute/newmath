@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyDiagonalExchangeUp$}
+\label{ch:concrete-instances-regular-cauchy-diagonal-exchange-namecert}
+\origin{ai}
+
+The $\RegularCauchyDiagonalExchangeUp$ packet realizes the diagonal-limit branch of \autoref{sec:real-completeness-regular-cauchy} as one finite exchange certificate. It sits beside the StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the DyadicRatCore tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the RegSeqRat readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names paired diagonal-window choices, tail-meet compatibility, real-seal congruence, transport, continuation, provenance, and local naming without introducing quotient streams, selected limits, countable choice, or ambient Real completeness.
+
+\begin{definition}[Regular Cauchy diagonal-exchange carrier]
+\label{def:regular-cauchy-diagonal-exchange-carrier}
+A $\RegularCauchyDiagonalExchangeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,D,R,Q,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row containing the two inspected diagonal windows.
+\item $D$ is the $\DyadicRatCoreUp$ row recording the paired tolerance budgets and the comparison scale.
+\item $R$ and $Q$ are the two $\RegSeqRatUp$ readback rows attached to the diagonal windows.
+\item $T$ is the regular-cauchy tail-meet row that synchronizes the two windows before the exchange is accepted.
+\item $L$ is the terminal $\RealUp$ seal row, available only after $S,D,R,Q,T$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the window, tolerance, readback, tail-meet, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from an exchange request through $S,D,R,Q,T,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyDiagonalExchangeUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyDiagonalExchangeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,R,Q,T,L,H,C,P,N$.
+\end{definition}
+\leandef{BEDC.Derived.RegularCauchyDiagonalExchangeUp}
+\leanchecked{BEDC.Derived.RegularCauchyDiagonalExchangeUp.RegularCauchyDiagonalExchangeTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy diagonal-exchange NameCert obligations]
+\label{thm:regular-cauchy-diagonal-exchange-namecert-obligations}
+For every accepted $\RegularCauchyDiagonalExchangeUp$ carrier $E=(S,D,R,Q,T,L,H,C,P,N)$, the local $\NameCert_{\RegularCauchyDiagonalExchangeUp}$ surface consists exactly of carrier admission for StreamName windows, DyadicRatCore tolerances, paired RegSeqRat readbacks, the regular-cauchy tail-meet row, the terminal Real seal, componentwise transport, continuation replay, provenance, and local naming. No accepted exchange may expose the Real seal before the rows
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert
+$$
+are visible in the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-diagonal-exchange-carrier}. The diagonal-window row $S$, tolerance row $D$, readback rows $R,Q$, tail-meet row $T$, and Real seal row $L$ are the only analytic coordinates.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite exchange. Since the classifier has no additional coordinate, quotient streams, selected limits, countable-choice schedules, and ambient completeness cannot be read from the packet.
+
+Therefore every accepted Real-seal read is downstream of the displayed StreamName, DyadicRatCore, RegSeqRat, Real, transport, continuation, provenance, and naming rows.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy diagonal-window exchange]
+\label{thm:regular-cauchy-diagonal-window-exchange}
+Every accepted $\RegularCauchyDiagonalExchangeUp$ packet turns a paired diagonal-window read into a Real-facing seal only through the finite route
+$$
+S,D,R,Q \longmapsto T \longmapsto L \longmapsto H,C,P,N .
+$$
+The route records diagonal-limit compatibility and regular-cauchy tail-meet synchronization before the Real seal is exposed, and it exports no quotient-stream equality or selected limit.
+\end{theorem}
+\begin{proof}
+Begin with the two windows carried by $S$. The tolerance row $D$ fixes the dyadic scale at which the windows are compared, while $R$ and $Q$ read the corresponding regular rational data.
+
+The tail-meet row $T$ is then consumed before $L$ is visible. It is the packet-local synchronization witness for diagonal-limit compatibility, so the exchange is not a detached choice of a subsequence or a selected limit.
+
+Finally $H,C,P,N$ keep the accepted route inside the same finite packet. The Real seal is therefore a terminal row of the exchange certificate rather than a proof of quotient-stream equality or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyDiagonalExchangeUp$ exchange read exposes $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before a $\RealUp$ seal can be read.}
+
+\independenceWitness{regularcauchysequence, diagonal-limit-compatibility, regular-cauchy-tail-meet, real-seal-congruence: $\RegularCauchyDiagonalExchangeUp$ is not bijective to any listed sibling because it jointly carries paired diagonal windows, dyadic tolerances, paired regular readbacks, tail-meet synchronization, Real-seal congruence, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyDiagonalExchangeUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyDiagonalExchangeUp}
+  \constructivestory{A $\RegularCauchyDiagonalExchangeUp$ packet is generated from paired StreamName diagonal windows, DyadicRatCore tolerance budgets, paired RegSeqRat readbacks, a regular-cauchy tail-meet row, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-diagonal-exchange-carrier}, \autoref{thm:regular-cauchy-diagonal-exchange-namecert-obligations}, and \autoref{thm:regular-cauchy-diagonal-window-exchange} seed the finite exchange route from paired diagonal windows to a Real seal.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyDiagonalExchangeUp.RegularCauchyDiagonalExchangeTasteGate\_single\_carrier\_alignment}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-stream equality, selected limits, countable-choice schedules, ambient Real completeness, or bridge checking.}
+  \upgradepath{Axiom-clean closure requires the same diagonal-exchange TasteGate target to pass the transitive axiom-purity audit.}
+\end{closurestatus}

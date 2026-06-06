@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\CartesianClosedCategoryUp$}
+\label{ch:concrete-instances-cartesian-closed-category-namecert}
+\origin{human}
+
+Following Mac Lane's account of categories with finite products and exponentials and the Lambek--Scott use of cartesian closed categories as categorical logic, the $\CartesianClosedCategoryUp$ packet records the finite BEDC surface on which products, terminal objects, evaluation maps, and currying are named before any ambient category universe, host function space, quotient morphism equality, global internal language, topos classifier, or set-theoretic semantics is public. It sits between the category carrier of \autoref{ch:concrete-instances-category-namecert}, the functorial transport surface of \autoref{ch:concrete-instances-functor-namecert}, the product packet of \autoref{ch:concrete-instances-prod-namecert}, the tensor discipline of \autoref{ch:concrete-instances-monoidalcat-namecert}, and the topos boundary of \autoref{ch:concrete-instances-topos-namecert}.
+
+\begin{definition}[Cartesian closed category carrier]
+\label{def:cartesian-closed-category-carrier}
+A $\CartesianClosedCategoryUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,F,T,P,X,E,V,U,H,R,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the accepted $\CategoryUp$ row naming the object carrier, hom-carrier, identity, composition, associativity, and unit laws.
+\item $F$ is the $\FunctorUp$ transport row for product and exponential reindexing along displayed morphism rows.
+\item $T$ is the terminal-object row, storing the displayed terminal object and its unique map rows through the classifier of $C$.
+\item $P$ is the binary-product row, read through $\ProductUp$ and carrying projections, pairing, product stability, and product classifier transport.
+\item $X$ is the exponential-object row, assigning to each displayed pair $A,B$ an object $B^A$ inside the same $\CategoryUp$ carrier.
+\item $E$ is the evaluation row, storing each displayed evaluation morphism $B^A \times A \to B$ through the product row $P$ and the hom-carrier row of $C$.
+\item $V$ is the currying row. It records the finite bijective read between maps $Z \times A \to B$ and maps $Z \to B^A$ as classifier-compatible hom rows, not as host function equality.
+\item $U$ is the product-exponential stability row, carrying componentwise stability of $T,P,X,E,V$ under $\hsame$ transport in $C$.
+\item $H$ records componentwise $\hsame$ transport for $C,F,T,P,X,E,V,U$ and the support rows.
+\item $R$ records displayed $\Cont$ replay for terminal, product, exponential, evaluation, currying, and stability reads.
+\item $G$ is the $\Pkg$ provenance over $\CartesianClosedCategoryUp$, $\CategoryUp$, $\FunctorUp$, $\ProductUp$, $\MonoidalCatUp$, $\ToposUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CartesianClosedCategoryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an ambient category of all objects, host exponential functions, quotient morphism equality, global internal language, subobject classifier, set semantics, or topos structure.
+\end{definition}
+
+\begin{theorem}[Cartesian closed category NameCert obligations]
+\label{thm:cartesian-closed-category-namecert-obligations}
+For every accepted $\CartesianClosedCategoryUp$ carrier
+$$
+K=(C,F,T,P,X,E,V,U,H,R,G,N),
+$$
+the local $\NameCert_{\CartesianClosedCategoryUp}$ surface consists exactly of carrier admission for the displayed rows, category source compatibility through $C$, functorial transport through $F$, terminal-object exactness through $T$, product exactness through $P$, exponential-object admission through $X$, evaluation readback through $E$, currying readback through $V$, product-exponential stability through $U$, componentwise transport through $H$, displayed replay through $R$, package provenance through $G$, and local naming through $N$.
+
+Every cartesian-closed-category consumer must read the same rows before using evaluation or currying. It receives no ambient object universe, no host function-space equality, no quotient morphism equality, no global internal language, no subobject classifier, no set-theoretic semantics, and no $\ToposUp$ structure.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The packet displays exactly $C,F,T,P,X,E,V,U,H,R,G,N$, so carrier admission supplies only those rows.
+
+Read the categorical source first. The row $C$ gives the visible object and morphism surface, while $F$ transports the product and exponential rows along displayed morphisms without adding a second category carrier.
+
+Read the cartesian structure next. The terminal row $T$ and product row $P$ provide the finite cartesian spine; the exponential row $X$ is attached to the same source, not to an ambient universe of objects.
+
+The evaluation and currying rows are downstream of that spine. The row $E$ reads $B^A \times A \to B$ through $P$ and the hom-carrier of $C$, and $V$ records the classifier-compatible transpose route. The stability and support rows $U,H,R,G,N$ preserve the same finite packet under transport, replay, provenance, and local naming. Since the carrier has no coordinate for the refused objects, the listed rows exhaust the local obligations.
+\end{proof}
+
+\begin{theorem}[Cartesian closed category evaluation-currying stability]
+\label{thm:cartesian-closed-category-evaluation-currying-stability}
+Let $K=(C,F,T,P,X,E,V,U,H,R,G,N)$ be an accepted $\CartesianClosedCategoryUp$ carrier. Any componentwise $\hsame$ transport recorded by $H$ preserves the product row $P$, exponential row $X$, evaluation row $E$, and currying row $V$ before a downstream consumer may use a transpose. Thus the evaluation-currying route
+$$
+C,F,T,P,X \longmapsto E,V \longmapsto U,H,R,G,N
+$$
+is stable under the displayed classifier of the carrier and cannot be replaced by host function equality, quotient morphism equality, or an external internal-language semantics.
+\end{theorem}
+\begin{proof}
+Project the product and exponential rows from \autoref{def:cartesian-closed-category-carrier}. The rows $P$ and $X$ are displayed over the same $\CategoryUp$ row $C$ and transported only by the functorial and classifier rows $F$ and $H$.
+
+Read evaluation before currying. The evaluation row $E$ uses the product row $P$ to type $B^A \times A$ and the hom-carrier row of $C$ to type the morphism into $B$.
+
+Read the currying row $V$ next. It records the finite transpose route between displayed hom rows and is guarded by the stability row $U$, so componentwise transport must preserve the source product, target exponential, evaluation morphism, and transposed morphism together.
+
+Finally replay the support rows. The $\Cont$ route $R$, provenance $G$, and local naming row $N$ carry the same transported packet. Because no row stores host functions, quotient morphism classes, or external semantics, the stable route is exactly the displayed evaluation-currying surface.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\CartesianClosedCategoryUp$ read that uses evaluation or currying while bypassing the displayed $\CategoryUp$, $\FunctorUp$, $\ProductUp$, terminal-object, exponential-object, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows refutes the carrier of \autoref{def:cartesian-closed-category-carrier}.}
+
+\independenceWitness{category, functor, product, monoidalcat, topos: $\CartesianClosedCategoryUp$ is not bijective to any listed sibling because it binds terminal objects, binary products, exponentials, evaluation, currying, product-exponential stability, transport, replay, provenance, and local naming as one finite certificate while refusing subobject classifiers and ambient internal-language semantics.}
+
+\closureat{CartesianClosedCategoryUp}{seedStr}
+
+\begin{closurestatus}{\CartesianClosedCategoryUp}
+  \constructivestory{A $\CartesianClosedCategoryUp$ packet is generated from Category, Functor, Product, terminal-object, exponential-object, evaluation, currying, product-exponential stability, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cartesian-closed-category-carrier}, \autoref{thm:cartesian-closed-category-namecert-obligations}, and \autoref{thm:cartesian-closed-category-evaluation-currying-stability} seed the finite cartesian closed category carrier and its evaluation-currying stability route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close an ambient category universe, host function-space equality, quotient morphism equality, global internal language, subobject classifier, set-theoretic semantics, $\ToposUp$ structure, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, category source compatibility, functorial transport, terminal-object exactness, product exactness, exponential-object admission, evaluation readback, currying readback, stability, transport, replay, provenance, and local naming for BEDC.Derived.CartesianClosedCategoryUp.}
+\end{closurestatus}

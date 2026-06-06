@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\DyadicMidpointRefinementUp$}
+\label{ch:concrete-instances-dyadic-midpoint-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive interval refinement, the $\DyadicMidpointRefinementUp$ packet records the finite radius-halving step that turns a displayed dyadic interval into the retained dyadic subinterval used by regular rational and real-name consumers. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the midpoint row of \autoref{ch:concrete-instances-dyadicmidpoint-namecert}, the finite schedule discipline of \autoref{ch:concrete-instances-dyadic-bisection-schedule-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite midpoint refinement only; it does not assert interval completeness, trichotomy, quotient endpoint equality, or a selected limit.
+
+\begin{definition}[Dyadic midpoint refinement carrier]
+\label{def:dyadic-midpoint-refinement-carrier}
+A $\DyadicMidpointRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+R=(E,M,B,W,Q,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $E$ is the pair of dyadic endpoint rows read through $\DyadicRatCoreUp$, including the displayed radius and its halved successor.
+\item $M$ is the $\DyadicMidpointUp$ common-denominator midpoint row for the same endpoint window.
+\item $B$ is the retained-side row naming which endpoint is replaced by the midpoint in the finite refinement step.
+\item $W$ is the $\StreamNameUp$ finite-window row through which downstream consumers inspect the retained endpoints.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $A$ is the terminal $\RealUp$ seal row consumed only after $W$ and $Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the endpoint, midpoint, branch, window, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a refinement request through $E,M,B,W,Q,A$.
+\item $P$ is the $\Pkg$ provenance over $\DyadicMidpointRefinementUp$, $\DyadicRatCoreUp$, $\DyadicMidpointUp$, $\DyadicBisectionScheduleUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicMidpointRefinementUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a completed nested-interval point, quotient endpoint equality, trichotomy, selected branch limit, or ambient $\RealUp$ completeness theorem.
+\end{definition}
+
+\begin{theorem}[Dyadic midpoint refinement NameCert obligations]
+\label{thm:dyadic-midpoint-refinement-namecert-obligations}
+For every accepted $\DyadicMidpointRefinementUp$ carrier $R=(E,M,B,W,Q,A,H,C,P,N)$, the local $\NameCert_{\DyadicMidpointRefinementUp}$ surface consists exactly of carrier admission, endpoint exposure through $\DyadicRatCoreUp$, midpoint exposure through $\DyadicMidpointUp$, retained-side exposure, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ readback, terminal $\RealUp$ seal ordering, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-midpoint-refinement-carrier}. The endpoint rows $E$, midpoint row $M$, retained-side row $B$, windows $W$, readback row $Q$, seal row $A$, and structural rows $H,C,P,N$ are the only admitted coordinates.
+
+Endpoint exposure is supplied by the $\DyadicRatCoreUp$ rows in $E$, while midpoint exposure is supplied by the $\DyadicMidpointUp$ row $M$. The retained-side row $B$ records the finite replacement of one endpoint by the displayed midpoint, so the refinement step has no hidden real-valued selector.
+
+The downstream read is forced through $W,Q,A$. StreamName windows expose the finite endpoint observations, RegSeqRat readback translates those observations into regular rational rows, and the Real seal is consumed only after both are visible. Transport, replay, provenance, and local naming preserve exactly this finite route, so no completeness, trichotomy, quotient, or selected-limit row can be exported.
+\end{proof}
+
+\begin{theorem}[Dyadic midpoint refinement radius halving]
+\label{thm:dyadic-midpoint-refinement-radius-halving}
+Let $R=(E,M,B,W,Q,A,H,C,P,N)$ be an accepted $\DyadicMidpointRefinementUp$ carrier. Every Real- or Completion-facing consumer of the retained dyadic subinterval must read the original dyadic endpoint radius and the halved successor inside the same $\DyadicRatCoreUp$ endpoint ledger $E$, then consume the $\DyadicMidpointUp$ row $M$, the retained-side row $B$, the finite $\StreamNameUp$ windows $W$, the $\RegSeqRatUp$ readback $Q$, and only then the $\RealUp$ seal $A$.
+\end{theorem}
+\begin{proof}
+Begin with the endpoint ledger. The radius and its halved successor are both rows of $E$, so a consumer cannot replace the displayed halving step by host interval arithmetic or by a detached real-radius comparison.
+
+Read the midpoint and retained side next. The common-denominator midpoint row $M$ supplies the only midpoint used by the refinement, and $B$ records the finite endpoint replacement that keeps the retained subinterval inside the same dyadic packet.
+
+Finally route the retained endpoints through $W,Q,A$. The finite StreamName windows expose the observed endpoint rows, RegSeqRat readback supplies the regular rational data, and the Real seal is downstream of that readback. Thus the radius-halving route reaches Real and Completion consumers only as displayed finite NameCert data, not as completeness, trichotomy, quotient equality, or selected-limit evidence.
+\end{proof}
+
+\falsifiablePrediction{A Real or Completion consumer that reads a retained dyadic subinterval without the $\DyadicRatCoreUp$ halving row, the $\DyadicMidpointUp$ midpoint row, the $\StreamNameUp$ windows, or the $\RegSeqRatUp$ readback row cannot claim a $\DyadicMidpointRefinementUp$ handoff to a $\RealUp$ seal.}
+
+\independenceWitness{dyadicratcore, dyadicmidpoint, dyadic-bisection-schedule, streamname, regseqrat, real: $\DyadicMidpointRefinementUp$ is not bijective to any listed sibling because it jointly carries endpoint-radius halving, a displayed midpoint calculation, a retained-side row, finite windows, regular readback, terminal sealing, transport, replay, provenance, and local naming.}
+
+\closureat{DyadicMidpointRefinementUp}{seedStr}
+
+\begin{closurestatus}{\DyadicMidpointRefinementUp}
+  \constructivestory{A $\DyadicMidpointRefinementUp$ packet is generated from dyadic endpoint rows, a displayed midpoint row, a retained-side row, finite StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-midpoint-refinement-carrier}, \autoref{thm:dyadic-midpoint-refinement-namecert-obligations}, and \autoref{thm:dyadic-midpoint-refinement-radius-halving} seed the finite midpoint-refinement surface from dyadic radius halving to Real-facing readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, interval completeness, trichotomy, quotient endpoint equality, selected limits, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, midpoint exactness, radius-halving exactness, StreamName window exposure, RegSeqRat readback, Real-seal nonescape, transport, replay, provenance, and local NameCert field faithfulness for $\DyadicMidpointRefinementUp$.}
+\end{closurestatus}

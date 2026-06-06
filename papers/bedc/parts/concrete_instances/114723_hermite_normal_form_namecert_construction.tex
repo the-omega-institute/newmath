@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\HermiteNormalFormUp$}
+\label{ch:concrete-instances-hermite-normal-form-namecert}
+\origin{human}
+
+Following Hermite and the constructive integer-matrix normal-form tradition, the $\HermiteNormalFormUp$ packet records the finite row-reduction certificate by which an integer matrix is read as a triangular Hermite row. It consumes the integer arithmetic surface of \autoref{ch:concrete-instances-int-namecert}, the matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the finite module-row discipline of \autoref{ch:concrete-instances-module-namecert}, and the Smith sibling comparison row of \autoref{ch:concrete-instances-smith-normal-form-namecert}. The chapter names a row-reduction certificate and its triangular readback; it does not claim a selected column basis, quotient-module classification, a host Euclidean algorithm, or equality outside displayed integer row operations.
+
+\begin{definition}[Hermite normal form carrier]
+\label{def:hermite-normal-form-carrier}
+A $\HermiteNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+H=(M,U,T,P,D,R,S,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MatrixUp$ source row, recording the finite integer matrix entries, row and column bounds, and the integer-entry provenance inherited from $\IntUp$.
+\item $U$ is the unimodular row-operation ledger. It lists row swaps, sign changes, and displayed integer row additions, together with the inverse-operation rows that certify unimodular replay.
+\item $T$ is the triangular Hermite row, exposing the terminal row-echelon shape, pivot columns, zero-below-pivot witnesses, and bounded residue entries above each pivot.
+\item $P$ is the pivot divisibility row, recording the displayed divisibility and residue constraints that make the pivot data a Hermite readback rather than an arbitrary triangular matrix.
+\item $D$ is the $\SmithNormalFormUp$ comparison row, carrying the sibling diagonal-divisibility read used only to compare invariant factors and not to replace the row-reduction trace.
+\item $R$ records componentwise $\hsame$ transport for source entries, row-operation ledgers, triangular readback, pivot divisibility, Smith comparison, continuation rows, provenance, and local naming.
+\item $S$ records displayed $\Cont$ replay from source matrix inspection through unimodular row playback, triangular readback, pivot-divisibility checking, Smith sibling comparison, and local naming.
+\item $C$ is the $\Pkg$ provenance over $\HermiteNormalFormUp$, $\MatrixUp$, $\IntUp$, $\ModuleUp$, $\SmithNormalFormUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $Q$ is the nonescape row, recording that no hidden column operations, selected quotient basis, ambient Euclidean-domain theorem, or external normal-form uniqueness claim is exported by the packet.
+\item $N$ is the local $\NameCert_{\HermiteNormalFormUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for unrecorded row operations, column reduction, quotient-module equality, selected bases, host algorithmic termination, or matrix equality outside the displayed integer row-operation ledger.
+\end{definition}
+
+\begin{theorem}[Hermite normal form NameCert obligations]
+\label{thm:hermite-normal-form-namecert-obligations}
+For every accepted $\HermiteNormalFormUp$ carrier $H=(M,U,T,P,D,R,S,C,Q,N)$, the local $\NameCert_{\HermiteNormalFormUp}$ surface consists exactly of carrier admission, row-operation exactness, triangular readback, pivot divisibility, Smith sibling compatibility, componentwise transport, displayed continuation replay, provenance, and nonescape through the local naming row.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. Carrier admission exposes exactly $M,U,T,P,D,R,S,C,Q,N$, so every accepted Hermite readback begins with the displayed matrix source and the displayed integer row-operation ledger.
+
+Row-operation exactness is forced by $U$. Each row swap, sign change, or integer row addition names its source row, target row, coefficient data, and inverse row, so the triangular row $T$ can be read only after the ledger has replayed those operations.
+
+The pivot obligations are then visible in $P$. These rows record the divisibility and residue constraints attached to the pivot columns, while the Smith sibling row $D$ supplies only a comparison route for invariant-factor compatibility.
+
+Finally $R,S,C,Q,N$ transport, replay, source, bound, and name the same finite packet. Because $Q$ refuses hidden column operations, quotient-module equality, selected bases, and external normal-form uniqueness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hermite normal form row-reduction readback]
+\label{thm:hermite-normal-form-row-reduction-readback}
+For every accepted $\HermiteNormalFormUp$ carrier $H=(M,U,T,P,D,R,S,C,Q,N)$, any exported triangular readback factors through the route
+$$
+\MatrixUp,\IntUp \longmapsto \ModuleUp \longmapsto \SmithNormalFormUp \longmapsto T .
+$$
+Thus the consumer sees the source integer matrix, finite module row discipline, Smith sibling comparison, and only then the triangular Hermite row exposed by $T$.
+\end{theorem}
+\begin{proof}
+Open the source row $M$. Its entries and finite bounds are supplied through $\MatrixUp$ and $\IntUp$, so the row-operation ledger $U$ has no independent arithmetic source.
+
+The finite module discipline is read before the normal-form comparison. It fixes which row operations are admitted as module-row transformations and keeps the replay inside displayed integer rows.
+
+The Smith sibling row $D$ is then available only as a compatibility read for invariant-factor data. It does not replace the Hermite row ledger or introduce column operations.
+
+Consequently the triangular row $T$ is exposed only after the source matrix, integer entries, module-row discipline, and Smith comparison have been read. The nonescape row $Q$ blocks any shorter route through host equality or an ambient normal-form theorem.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HermiteNormalFormUp$ triangular read factors through one $\MatrixUp$ source row, one $\IntUp$ entry row, one unimodular row-operation ledger, one triangular readback row, one pivot-divisibility row, one $\SmithNormalFormUp$ comparison row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{matrix, int, module, smithnormalform: $\HermiteNormalFormUp$ is not bijective to any listed sibling because it jointly carries unimodular row playback, triangular Hermite readback, pivot divisibility, Smith comparison, and nonescape as one finite NameCert packet.}
+
+\closureat{HermiteNormalFormUp}{seedStr}
+
+\begin{closurestatus}{\HermiteNormalFormUp}
+  \constructivestory{A $\HermiteNormalFormUp$ packet is generated from a finite MatrixUp source row over IntUp entries, a unimodular row-operation ledger, a triangular Hermite row, a pivot-divisibility row, a SmithNormalFormUp comparison row, componentwise hsame transport, Cont replay, Pkg provenance, nonescape, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hermite-normal-form-carrier}, \autoref{thm:hermite-normal-form-namecert-obligations}, and \autoref{thm:hermite-normal-form-row-reduction-readback} seed the finite Hermite normal form certificate surface over displayed integer matrix, module-row, and Smith comparison rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected column bases, quotient-module classification, host Euclidean algorithms, hidden column operations, ambient normal-form uniqueness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, row-operation exactness, triangular readback, pivot divisibility, Smith sibling compatibility, transport, replay, provenance, and nonescape for BEDC.Derived.HermiteNormalFormUp.}
+\end{closurestatus}

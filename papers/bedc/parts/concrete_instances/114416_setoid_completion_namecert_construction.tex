@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\SetoidCompletionUp$}
+\label{ch:concrete-instances-setoid-completion-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive completion and Kelley-style uniform completion discipline, the $\SetoidCompletionUp$ packet separates completion data from the equality classifier of \autoref{ch:concrete-instances-cauchy-equivalence-setoid-namecert}. The classifier supplied by $\CauchyEquivalenceSetoidUp$ tells when two regular Cauchy names agree; the present packet records the completion-facing carrier, handoff, and naming surface that consumes $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, the $\DyadicRatCoreUp$ tolerance ledger, the terminal $\RealUp$ seal, and the local $\NameCert$ row without collapsing the construction into quotient membership.
+
+\begin{definition}[SetoidCompletion carrier]
+\label{def:setoid-completion-carrier}
+A $\SetoidCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,D,Q,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window row that lists the observation windows available to a completion request.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare successive readbacks and requested precisions.
+\item $Q$ is the $\CauchyEquivalenceSetoidUp$ classifier row, consumed as displayed comparison data rather than as quotient equality.
+\item $A$ is the completion-assembly row. It records admissible regular Cauchy handoff data over $S,R,D,Q$ before the terminal real-name seal is inspected.
+\item $E$ is the $\RealUp$ seal-boundary row reached by the assembled regular name.
+\item $H$ records componentwise $\hsame$ transport for $S,R,D,Q,A,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a completion-facing request through the same rows.
+\item $P$ is the $\Pkg$ provenance over $\SetoidCompletionUp$, $\CauchyEquivalenceSetoidUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SetoidCompletionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient objects, selected representatives, selected limits, countable choice, ambient real completeness, host set extensionality, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[SetoidCompletion NameCert obligations]
+\label{thm:setoid-completion-namecert-obligations}
+For every accepted $\SetoidCompletionUp$ carrier $K=(S,R,D,Q,A,E,H,C,P,N)$, the local $\NameCert_{\SetoidCompletionUp}$ surface is exhausted by the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the stream-window row, regular-rational readback row, dyadic tolerance ledger, setoid classifier row, completion-assembly row, Real seal row, transport, replay, provenance, and local naming;
+\item window exactness, requiring every completion-facing observation to be one of the displayed windows in $S$;
+\item readback exactness, requiring every rational value consumed by the completion route to pass through $R$;
+\item tolerance exactness, requiring every comparison request to be discharged by an entry of $D$ before the classifier row $Q$ is read;
+\item setoid-compatibility exactness, requiring $Q$ to be consumed as the displayed $\CauchyEquivalenceSetoidUp$ row and not as quotient equality;
+\item assembly exactness, requiring the completion handoff row $A$ to be built only from $S,R,D,Q$ before the $\RealUp$ seal row $E$ is exposed;
+\item componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No local certificate obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:setoid-completion-carrier}. The projection exposes the finite stream windows, regular-rational readback, dyadic tolerance ledger, setoid classifier row, completion-assembly row, Real seal boundary, and structural tail.
+
+Read the NameCert row $N$ against those projections. Window, readback, tolerance, classifier, and assembly exactness are separate rows, so the completion route cannot hide a quotient object or a selected representative inside the classifier.
+
+Finally replay the route through $H,C,P,N$. Componentwise transport and Cont replay preserve the displayed packet, while provenance records the same sibling anchors. Since no carrier coordinate stores selected limits, countable choice, ambient completeness, or host set extensionality, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[SetoidCompletion regular Cauchy handoff]
+\label{thm:setoid-completion-regular-cauchy-handoff}
+Every completion-facing read of an accepted $\SetoidCompletionUp$ carrier factors through the displayed regular Cauchy handoff
+$$
+S,R,D,Q,A \longmapsto E,H,C,P,N .
+$$
+Thus the $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\CauchyEquivalenceSetoidUp$ classifier, and completion-assembly row are visible before any $\RealUp$ seal is consumed. The handoff is not a quotient completion, a selected Cauchy representative, a chosen limit, a countable-choice schedule, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the carrier projection. A completion request first reads $S,R,D$ as the finite observation, readback, and tolerance rows available to the regular Cauchy name.
+
+Next consume the classifier row $Q$ through the $\CauchyEquivalenceSetoidUp$ interface. The row supplies setoid-compatible comparison data, but it does not replace the displayed regular name by quotient equality or by a selected representative.
+
+The assembly row $A$ then packages the regular Cauchy handoff before the Real seal row $E$ is inspected. Transport, replay, provenance, and local naming are supplied by $H,C,P,N$, so downstream completion consumers receive the same displayed route rather than an ambient completeness witness or a choice of limits.
+\end{proof}
+
+\closureat{SetoidCompletionUp}{seedStr}
+
+\begin{closurestatus}{\SetoidCompletionUp}
+  \constructivestory{A $\SetoidCompletionUp$ packet is generated from StreamName finite windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a CauchyEquivalenceSetoid classifier row, a completion-assembly row, a Real seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:setoid-completion-carrier}, \autoref{thm:setoid-completion-namecert-obligations}, and \autoref{thm:setoid-completion-regular-cauchy-handoff} seed the non-quotient completion carrier for the L10 Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, setoid-compatible classifier consumption, regular Cauchy handoff exactness, componentwise transport, replay, provenance, and local naming for BEDC.Derived.SetoidCompletionUp.}
+\end{closurestatus}

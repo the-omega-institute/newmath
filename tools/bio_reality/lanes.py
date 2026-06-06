@@ -23,6 +23,7 @@ try:
     import agent_bus
     import bedc_writeback_gates
     import bio_reality_loop
+    import deepening_gates
     import oracle_consultation
     from experiments import runner as experiment_runner
     import signal_assimilator
@@ -33,6 +34,7 @@ except ModuleNotFoundError:  # pragma: no cover
     import agent_bus
     import bedc_writeback_gates
     import bio_reality_loop
+    import deepening_gates
     import oracle_consultation
     from experiments import runner as experiment_runner
     import signal_assimilator
@@ -43,6 +45,20 @@ except ModuleNotFoundError:  # pragma: no cover
 SCRIPT_DIR = Path(__file__).resolve().parent
 DOMAIN_PROFILE = SCRIPT_DIR / "dna_to_protein_ladder.json"
 PIPELINE_CONFIG = SCRIPT_DIR / "pipeline_config.json"
+FRONTIER_MIN_CYCLES_BETWEEN_PROPOSALS = 6
+FRONTIER_NEW_CONJECTURE_QUIET_CYCLES = 3
+BIOLOGICAL_LAYER_ORDER = [
+    "code_read",
+    "codon_usage_topology",
+    "orf_eligibility",
+    "translation_realization",
+    "structural_order",
+    "physical_admissibility",
+    "function_realization",
+    "system_phenotype",
+    "cross_layer_relation",
+]
+BIOLOGICAL_LAYER_INDEX = {layer: idx for idx, layer in enumerate(BIOLOGICAL_LAYER_ORDER)}
 
 
 def now_iso() -> str:
@@ -85,6 +101,130 @@ def _load_domain_profile() -> dict[str, Any]:
     except (OSError, json.JSONDecodeError):
         return {}
     return data if isinstance(data, dict) else {}
+
+
+def _quality_lab_exports_path(store: BioRealityStore) -> Path:
+    return Path(store.paths.root) / "registries" / "quality_lab_exports.json"
+
+
+def _quality_layer_name(value: Any) -> str:
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, dict):
+        for key in ("layer", "claimed_layer", "can_test", "contact_layer"):
+            layer = value.get(key)
+            if isinstance(layer, str) and layer.strip():
+                return layer.strip()
+    return ""
+
+
+def _quality_layers(values: Any) -> list[str]:
+    if isinstance(values, list):
+        layers = [_quality_layer_name(item) for item in values]
+    else:
+        layers = [_quality_layer_name(values)]
+    return [layer for layer in layers if layer in BIOLOGICAL_LAYER_INDEX]
+
+
+def _quality_target_key(target: dict[str, Any]) -> tuple[str, str]:
+    return (str(target.get("packet_id") or ""), str(target.get("target_kind") or ""))
+
+
+def _consume_quality_lab_export_for_hardening(store: BioRealityStore) -> dict[str, int]:
+    export_path = _quality_lab_exports_path(store)
+    if not export_path.exists():
+        return {"quality_export_consumed": 0, "hardening_targets_written": 0}
+    try:
+        data = json.loads(export_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"quality_export_consumed": 0, "hardening_targets_written": 0}
+    exports = data.get("exports") if isinstance(data, dict) else []
+    if not isinstance(exports, list):
+        return {"quality_export_consumed": 0, "hardening_targets_written": 0}
+
+    existing = read_jsonl(store.paths.hardening_targets)
+    seen = {_quality_target_key(target) for target in existing}
+    new_targets: list[dict[str, Any]] = []
+    written_keys: set[tuple[str, str]] = set()
+
+    for packet in exports:
+        if not isinstance(packet, dict):
+            continue
+        packet_id = str(packet.get("packet_id") or packet.get("claim_id") or "")
+        if not packet_id:
+            continue
+        claimed_layer = _quality_layer_name(packet.get("claimed_layer"))
+        claimed_index = BIOLOGICAL_LAYER_INDEX.get(claimed_layer)
+
+        source_spec = packet.get("source_spec") if isinstance(packet.get("source_spec"), dict) else {}
+        can_test_layers = _quality_layers(source_spec.get("can_test"))
+        can_test_indices = [BIOLOGICAL_LAYER_INDEX[layer] for layer in can_test_layers]
+        if claimed_index is not None and can_test_indices and claimed_index > max(can_test_indices):
+            max_can_test = BIOLOGICAL_LAYER_ORDER[max(can_test_indices)]
+            target = {
+                "target_kind": "gate_hardening",
+                "reason": "claimed layer exceeds reality contact scope",
+                "suggested_gate": "require_layer_matched_reality_contact",
+                "packet_id": packet_id,
+                "claimed_layer": claimed_layer,
+                "max_can_test": max_can_test,
+            }
+            key = _quality_target_key(target)
+            if key not in seen and key not in written_keys:
+                new_targets.append(target)
+                written_keys.add(key)
+
+        not_claimed_layers = set(_quality_layers(packet.get("not_claimed")))
+        if claimed_index is not None:
+            missing_layers = [
+                layer
+                for layer in BIOLOGICAL_LAYER_ORDER[claimed_index + 1:]
+                if layer not in not_claimed_layers
+            ]
+            if missing_layers:
+                target = {
+                    "target_kind": "writeback_hardening",
+                    "reason": "paper artifact lacks not_claimed boundary for higher biological layer",
+                    "suggested_gate": "require_not_claimed_for_uncontacted_layers",
+                    "packet_id": packet_id,
+                    "missing_not_claimed_layers": missing_layers,
+                }
+                key = _quality_target_key(target)
+                if key not in seen and key not in written_keys:
+                    new_targets.append(target)
+                    written_keys.add(key)
+
+        ledger_rows = packet.get("ledger_rows")
+        if isinstance(ledger_rows, list):
+            for row in ledger_rows:
+                if not isinstance(row, dict) or str(row.get("status") or "") not in {"open", "partial"}:
+                    continue
+                target = {
+                    "target_kind": "ledger_followup",
+                    "reason": str(row.get("residue") or ""),
+                    "packet_id": packet_id,
+                    "ledger_kind": str(row.get("kind") or ""),
+                    "severity": str(row.get("severity") or ""),
+                }
+                key = _quality_target_key(target)
+                if key not in seen and key not in written_keys:
+                    new_targets.append(target)
+                    written_keys.add(key)
+
+        classifier_spec = packet.get("classifier_spec") if isinstance(packet.get("classifier_spec"), dict) else {}
+        if classifier_spec.get("blocked_overclaim") is True:
+            target = {
+                "target_kind": "overclaim_review",
+                "reason": "gate blocked an overclaim",
+                "packet_id": packet_id,
+            }
+            key = _quality_target_key(target)
+            if key not in seen and key not in written_keys:
+                new_targets.append(target)
+                written_keys.add(key)
+
+    append_jsonl(store.paths.hardening_targets, new_targets)
+    return {"quality_export_consumed": len([item for item in exports if isinstance(item, dict)]), "hardening_targets_written": len(new_targets)}
 
 
 def run_vision_lane(store: BioRealityStore) -> dict[str, Any]:
@@ -1238,6 +1378,320 @@ def _maybe_run_bio_plan_oracle(
     return {"oracle_consultations": 1, "oracle_turns_total": _turn_count(result), "oracle_skipped_reason": "", "oracle_resumed": bool(existing_conv_id)}
 
 
+def _append_frontier_log(store: BioRealityStore, event: str, details: dict[str, Any]) -> None:
+    path = store.paths.root / "state" / "frontier_materialize.log"
+    record = {"ts": now_iso(), "event": event, "details": details}
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+    except OSError:
+        return
+
+
+def _claim_status_counts(claims: list[dict[str, Any]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for claim in claims:
+        status = str(claim.get("status") or "open")
+        counts[status] = counts.get(status, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _frontier_queue_exhaustion_reason(claims: list[dict[str, Any]], new_event_count: int) -> str:
+    if not claims:
+        return "no_claims"
+    if new_event_count:
+        return "plan_events_opened_this_cycle"
+    terminal_statuses = {"passed", "needs_data", "needs_external", "failed"}
+    counts = _claim_status_counts(claims)
+    pending = {status: count for status, count in counts.items() if status not in terminal_statuses}
+    if pending:
+        return "executable_pending:" + ",".join(f"{status}={pending[status]}" for status in sorted(pending))
+    return ""
+
+
+def _frontier_vision_excerpt(store: BioRealityStore, limit: int = 10000) -> str:
+    path = store.paths.vision_dir / "dna-to-protein-realization-boundary.md"
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    addendum = text.find("## Addendum")
+    excerpt = text[addendum:] if addendum >= 0 else text
+    return excerpt[-limit:]
+
+
+def _frontier_prompt(
+    vision_excerpt: str,
+    conjectures: list[dict[str, Any]],
+    contacts: list[dict[str, Any]],
+    probes: list[dict[str, Any]],
+    claims: list[dict[str, Any]],
+) -> str:
+    layer_order = [
+        "code_read",
+        "codon_usage_topology",
+        "orf_eligibility",
+        "translation_realization",
+        "structural_order",
+        "physical_admissibility",
+        "function_realization",
+        "system_phenotype",
+        "cross_layer_relation",
+    ]
+    layers = [layer for layer in layer_order if layer in deepening_gates.LAYERS]
+    if len(layers) != len(deepening_gates.LAYERS):
+        layers = sorted(deepening_gates.LAYERS)
+    existing = [
+        {
+            "conjecture_id": str(item.get("conjecture_id") or ""),
+            "claimed_layer": str(item.get("claimed_layer") or ""),
+            "biological_object": str(item.get("biological_object") or "")[:180],
+        }
+        for item in conjectures
+        if isinstance(item, dict)
+    ]
+    contact_summaries = [
+        {
+            "contact_id": str(item.get("contact_id") or ""),
+            "source_kind": str(item.get("source_kind") or ""),
+            "can_test": item.get("can_test") if isinstance(item.get("can_test"), list) else [],
+        }
+        for item in contacts
+        if isinstance(item, dict)
+    ]
+    probe_summaries = [
+        {
+            "probe_id": str(item.get("probe_id") or ""),
+            "probe_kind": str(item.get("probe_kind") or ""),
+            "test_statement": str(item.get("test_statement") or "")[:180],
+        }
+        for item in probes
+        if isinstance(item, dict)
+    ]
+    claim_summaries = [
+        {
+            "claim_id": str(item.get("claim_id") or ""),
+            "status": str(item.get("status") or ""),
+            "statement": str(item.get("statement") or "")[:180],
+        }
+        for item in claims
+        if isinstance(item, dict)
+    ]
+    return "\n".join(
+        [
+            "You are proposing exactly one gated BioReality frontier conjecture.",
+            "Output only one JSON object. Do not wrap it in Markdown. Do not include prose outside JSON.",
+            "",
+            "Scientific discipline:",
+            "- Do not invent evidence, contacts, probes, claim links, or verification.",
+            "- Use only existing contact_id and probe_id values if you reference reality_contact_refs or probe_refs.",
+            "- If no existing contact/probe can support the layer, still output the best candidate with empty refs; the deterministic gate may reject it.",
+            "- The conjecture must be the next uncovered cross-layer decomposition from the vision, not a duplicate of existing conjecture_id values.",
+            "- It must not skip the mandatory translation-readout step toward structure, function, or phenotype.",
+            "",
+            "ID syntax:",
+            deepening_gates.ID_PATTERN,
+            "",
+            "Layer ontology from deepening_gates.LAYERS, low to high where applicable:",
+            json.dumps(layers, ensure_ascii=False),
+            "",
+            "Required JSON schema keys:",
+            json.dumps(
+                {
+                    "conjecture_id": "lowercase dotted/kebab id matching ID_PATTERN",
+                    "informal_statement": "nonempty bounded statement",
+                    "biological_object": "nonempty object under study",
+                    "claimed_layer": "one value from the layer ontology",
+                    "bedc_minimal_form": {
+                        "carrier": "nonempty finite carrier/readout surface",
+                        "distinctions": ["at least one distinction"],
+                        "internal_structure": ["coordinate|closure|spectrum|trigger|rank|homology|relation|none"],
+                        "readback": "nonempty readback boundary",
+                    },
+                    "evidence_basis": ["external_reality|bedc_coordinate|bedc_closure|bedc_spectrum|derived_probe|mismatch_ledger|mechanism_bridge"],
+                    "reality_contact_refs": ["existing contact_id only"],
+                    "probe_refs": ["existing probe_id only"],
+                    "forbidden_claims": ["at least one explicit layer-crossing refusal"],
+                    "null_reason": "empty string or specific null boundary",
+                    "linked_claim_ids": ["existing claim_id only, or empty"],
+                    "last_verified_at": "empty string because this is only a proposal",
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+            ),
+            "",
+            "Vision excerpt:",
+            vision_excerpt or "VISION FILE MISSING",
+            "",
+            "Existing conjectures to avoid:",
+            _compact_json(existing, limit=5000),
+            "",
+            "Existing reality contacts available for refs:",
+            _compact_json(contact_summaries, limit=4000),
+            "",
+            "Existing probes available for refs:",
+            _compact_json(probe_summaries, limit=4000),
+            "",
+            "Existing claims available for linked_claim_ids:",
+            _compact_json(claim_summaries, limit=4000),
+        ]
+    )
+
+
+def _parse_frontier_conjecture_json(stdout: str) -> dict[str, Any] | None:
+    parsed = _extract_json_object_from_text(_extract_codex_event_text(stdout))
+    return parsed if isinstance(parsed, dict) else None
+
+
+def _run_frontier_codex(prompt: str, repo_root: Path, timeout_seconds: int = 240) -> tuple[dict[str, Any] | None, str, str]:
+    prompt_path = ""
+    try:
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", delete=False) as handle:
+            handle.write(prompt)
+            prompt_path = handle.name
+        with Path(prompt_path).open("r", encoding="utf-8") as stdin:
+            completed = subprocess.run(
+                [
+                    "codex",
+                    "exec",
+                    "--dangerously-bypass-approvals-and-sandbox",
+                    "--json",
+                    "-C",
+                    str(repo_root),
+                ],
+                stdin=stdin,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                timeout=timeout_seconds,
+                check=False,
+            )
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        return None, "", f"subprocess_error: {exc}"
+    finally:
+        if prompt_path:
+            try:
+                Path(prompt_path).unlink()
+            except OSError:
+                pass
+    if completed.returncode != 0:
+        return None, completed.stdout or "", completed.stderr or ""
+    return _parse_frontier_conjecture_json(completed.stdout or ""), completed.stdout or "", completed.stderr or ""
+
+
+def _validate_frontier_conjecture(store: BioRealityStore, record: dict[str, Any]) -> list[str]:
+    contacts = store.load_contacts()
+    probes = store.load_probes()
+    contact_by_id = {
+        str(contact.get("contact_id") or ""): contact
+        for contact in contacts
+        if isinstance(contact, dict) and contact.get("contact_id")
+    }
+    probe_ids = {
+        str(probe.get("probe_id") or "")
+        for probe in probes
+        if isinstance(probe, dict) and probe.get("probe_id")
+    }
+    return deepening_gates.validate_conjecture(record, contact_by_id, probe_ids)
+
+
+def _maybe_propose_frontier_conjecture(
+    store: BioRealityStore,
+    claims: list[dict[str, Any]],
+    *,
+    new_event_count: int,
+) -> dict[str, Any]:
+    state = _read_oracle_state(store)
+    lane_state = state.get("bio-Plan") if isinstance(state.get("bio-Plan"), dict) else {}
+    cycle = int(lane_state.get("cycle") or 0)
+    if cycle <= 0:
+        cycle = 1
+        lane_state["cycle"] = cycle
+    conjectures = store.load_conjectures()
+    conjecture_count = len(conjectures)
+    previous_count = lane_state.get("last_frontier_conjecture_count")
+    try:
+        previous_count_int = int(previous_count)
+    except (TypeError, ValueError):
+        previous_count_int = conjecture_count
+    if conjecture_count > previous_count_int:
+        lane_state["last_frontier_new_conjecture_cycle"] = cycle
+    lane_state["last_frontier_conjecture_count"] = conjecture_count
+
+    def finish(reason: str, proposed: int = 0) -> dict[str, Any]:
+        lane_state["last_frontier_reason"] = reason
+        state["bio-Plan"] = lane_state
+        _write_oracle_state(store, state)
+        return {"frontier_proposed": proposed, "frontier_reason": reason}
+
+    exhaustion_reason = _frontier_queue_exhaustion_reason(claims, new_event_count)
+    if exhaustion_reason:
+        return finish(exhaustion_reason)
+
+    last_new_cycle = int(lane_state.get("last_frontier_new_conjecture_cycle") or 0)
+    if last_new_cycle > 0 and cycle - last_new_cycle < FRONTIER_NEW_CONJECTURE_QUIET_CYCLES:
+        return finish(f"recent_conjecture:cycle_delta={cycle - last_new_cycle}")
+    last_proposed_cycle = int(lane_state.get("last_frontier_proposed_cycle") or 0)
+    if last_proposed_cycle > 0 and cycle - last_proposed_cycle < FRONTIER_MIN_CYCLES_BETWEEN_PROPOSALS:
+        return finish(f"rate_limited:cycle_delta={cycle - last_proposed_cycle}")
+
+    vision_excerpt = _frontier_vision_excerpt(store)
+    if not vision_excerpt:
+        _append_frontier_log(store, "frontier_skipped", {"reason": "vision_missing"})
+        return finish("vision_missing")
+
+    repo_root = _repo_root_from_store(store)
+    contacts = store.load_contacts()
+    probes = store.load_probes()
+    prompt = _frontier_prompt(vision_excerpt, conjectures, contacts, probes, claims)
+    parsed, raw_stdout, raw_stderr = _run_frontier_codex(prompt, repo_root, timeout_seconds=240)
+    if parsed is None:
+        _append_frontier_log(
+            store,
+            "frontier_discarded",
+            {
+                "reason": "codex_unparseable",
+                "stdout_tail": _tail_text(raw_stdout, 800),
+                "stderr_tail": _tail_text(raw_stderr, 800),
+            },
+        )
+        return finish("codex_unparseable")
+
+    parsed.setdefault("linked_claim_ids", [])
+    parsed.setdefault("last_verified_at", "")
+    existing_ids = {
+        str(item.get("conjecture_id") or "")
+        for item in conjectures
+        if isinstance(item, dict) and item.get("conjecture_id")
+    }
+    conjecture_id = str(parsed.get("conjecture_id") or "")
+    if conjecture_id in existing_ids:
+        _append_frontier_log(store, "frontier_discarded", {"reason": "duplicate_conjecture_id", "conjecture_id": conjecture_id})
+        return finish(f"duplicate_conjecture_id:{conjecture_id}")
+
+    issues = _validate_frontier_conjecture(store, parsed)
+    if issues:
+        _append_frontier_log(
+            store,
+            "frontier_discarded",
+            {
+                "reason": "gate_rejected",
+                "conjecture_id": conjecture_id,
+                "issues": issues,
+                "candidate": parsed,
+            },
+        )
+        return finish("gate_rejected:" + "; ".join(issues[:3]))
+
+    append_jsonl(store.paths.conjectures, [parsed])
+    lane_state["last_frontier_proposed_cycle"] = cycle
+    lane_state["last_frontier_new_conjecture_cycle"] = cycle
+    lane_state["last_frontier_conjecture_count"] = conjecture_count + 1
+    _append_frontier_log(store, "frontier_appended", {"conjecture_id": conjecture_id, "claimed_layer": parsed.get("claimed_layer")})
+    return finish(f"appended:{conjecture_id}", proposed=1)
+
+
 def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
     """Detect phase-advance and stuck-claim signals, emit events for bio-R."""
     claims_document = _load_claims_document(store.paths.claims_registry)
@@ -1343,12 +1797,14 @@ def run_plan_lane(store: BioRealityStore) -> dict[str, Any]:
     merged = agent_bus._dedup(existing_events + new_events, "event_id")
     store.write_events(merged)
     oracle_summary = _maybe_run_bio_plan_oracle(store, claims, phases_passed, trigger_event)
+    frontier_summary = _maybe_propose_frontier_conjecture(store, claims, new_event_count=len(new_events))
     return {
         "lane": "bio-Plan",
         "phase_advance_events": phase_advance_events,
         "stuck_redesign_events": stuck_redesign_events,
         "phases_passed": phases_passed,
         **oracle_summary,
+        **frontier_summary,
     }
 
 
@@ -1682,7 +2138,17 @@ def run_agent_lane(store: BioRealityStore, *, execute_codex: bool = True, max_di
 
 
 def run_quality_lane(store: BioRealityStore) -> dict[str, Any]:
-    return agent_bus.run_quality_lane(store)
+    summary = agent_bus.run_quality_lane(store)
+    # 每 cycle 先重新编译 durable quality export (从当前 gate-passed/review-ready packet),
+    # 再让 bio-Q 消费它产 hardening targets. 编译失败不阻断 bio-Q.
+    try:
+        import quality_lab_export
+        rebuilt = quality_lab_export.main([])
+        summary["quality_export_rebuilt"] = (rebuilt == 0)
+    except Exception as exc:
+        summary["quality_export_error"] = str(exc)[:200]
+    summary.update(_consume_quality_lab_export_for_hardening(store))
+    return summary
 
 
 def run_assimilation_lane(paths: BioRealityPaths) -> dict[str, Any]:
@@ -2073,13 +2539,32 @@ def _bios_codex_resolve_merge(
     if not conflict_files:
         return False, {"reason": "no_conflict_files"}
     sig = hashlib.sha256(("|".join([upstream_sha] + sorted(conflict_files))).encode("utf-8")).hexdigest()[:16]
-    if _bios_resolve_recent_count(store, sig, recurring_window) >= recurring_threshold:
-        _bios_resolve_record(store, {"signature": sig, "action": "recurring_skip", "files_count": len(conflict_files)})
-        return False, {"reason": "recurring_skip", "signature": sig, "files_count": len(conflict_files)}
+    take_theirs_bedc = bool(cfg.get("papers_bedc_take_theirs") or False)
+    take_ours_bioreality = bool(cfg.get("papers_bio_reality_take_ours", True))
+
+    def _conflict_side(rel: str) -> str | None:
+        # 按域定权威方向:
+        #  - papers/bedc/ 是 Loning 域 → auto-dev 权威 → 取 theirs.
+        #  - papers/bio_reality/parts/ 是我方域 → 我方 daemon 生成的 rich 内容权威;
+        #    auto-dev 上是更旧的 bio-namer draft stub, 取 theirs 会把 rich 章节降级成
+        #    stub → rich↔stub 每 cycle ping-pong churn. 故取 OURS, 保我方内容.
+        #    registries (claims.json/experiments.json) 不在 parts/ 下, 不受影响.
+        if take_theirs_bedc and rel.startswith("papers/bedc/"):
+            return "theirs"
+        if take_ours_bioreality and rel.startswith("papers/bio_reality/parts/"):
+            return "ours"
+        return None
+
+    # recurring_skip 只对需 codex 解决的内容冲突限流 (避免反复烧 codex). 若所有冲突文件
+    # 都能用确定性 checkout --ours/--theirs 解决, 跳过限流: 确定、无 codex 成本、重复安全;
+    # 否则 churn 反复造同一冲突会让 behind 无界增长.
+    if not all(_conflict_side(f) for f in conflict_files):
+        if _bios_resolve_recent_count(store, sig, recurring_window) >= recurring_threshold:
+            _bios_resolve_record(store, {"signature": sig, "action": "recurring_skip", "files_count": len(conflict_files)})
+            return False, {"reason": "recurring_skip", "signature": sig, "files_count": len(conflict_files)}
     selected = conflict_files[:max_files]
     resolved_paths: list[str] = []
     failures: list[dict[str, Any]] = []
-    take_theirs_bedc = bool(cfg.get("papers_bedc_take_theirs") or False)
     for rel_path in selected:
         target = repo_root / rel_path
         try:
@@ -2088,14 +2573,19 @@ def _bios_codex_resolve_merge(
         except (ValueError, OSError):
             failures.append({"path": rel_path, "reason": "path_outside_repo"})
             continue
-        if take_theirs_bedc and rel_path.startswith("papers/bedc/"):
+        side = _conflict_side(rel_path)
+        if side:
             try:
-                co = _run_command(repo_root, ["git", "checkout", "--theirs", "--", rel_path], timeout=30.0)
+                co = _run_command(repo_root, ["git", "checkout", f"--{side}", "--", rel_path], timeout=30.0)
                 if co.returncode != 0:
-                    failures.append({"path": rel_path, "reason": "checkout_theirs_failed", "stderr": (co.stderr or "")[-200:]})
+                    failures.append({"path": rel_path, "reason": f"checkout_{side}_failed", "stderr": (co.stderr or "")[-200:]})
+                    continue
+                add = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
+                if add.returncode != 0:
+                    failures.append({"path": rel_path, "reason": "git_add_failed", "stderr": (add.stderr or "")[-200:]})
                     continue
             except (OSError, subprocess.TimeoutExpired) as exc:
-                failures.append({"path": rel_path, "reason": "checkout_theirs_exception", "error": str(exc)})
+                failures.append({"path": rel_path, "reason": f"checkout_{side}_exception", "error": str(exc)})
                 continue
             resolved_paths.append(rel_path)
             continue
@@ -2242,6 +2732,18 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
     merge_sha = ""
     if behind_before_sync > 0:
         merge_attempted = True
+        # bio-S 时工作树常带 runtime drift + daemon 生成的 untracked 草稿 (尤其 papers/bedc
+        # dispatch). auto-dev 常带与之重名的 tracked 新文件 → git merge 因 "untracked working
+        # tree files would be overwritten" / "local changes would be overwritten" 被拒 → 无
+        # conflict marker → codex_resolve 找不到冲突文件 → 误判 conflict_aborted, behind 无界涨.
+        # --autostash 只 stash tracked, 挡不住 untracked blocker; 用 stash --include-untracked
+        # 把 tracked drift + untracked 草稿都挪开, merge (+ codex_resolve) 后再 pop 还原.
+        pre_merge_stashed = False
+        try:
+            st = _run_command(repo_root, ["git", "stash", "push", "--include-untracked", "-m", "bio-S pre-merge"], timeout=120.0)
+            pre_merge_stashed = st.returncode == 0 and "No local changes" not in (st.stdout or "")
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            _append_sync_log(store, "pre_merge_stash_failed", {"error": str(exc)})
         try:
             merge = _run_command(repo_root, ["git", "merge", "--no-ff", "-m", f"Sync auto-dev {upstream_sha[:12]}", compare_ref], timeout=300.0)
         except (OSError, subprocess.TimeoutExpired) as exc:
@@ -2284,6 +2786,14 @@ def run_sync_lane(store: BioRealityStore) -> dict[str, Any]:
                     if abort.returncode != 0:
                         abort_detail = (abort.stderr or abort.stdout or "git merge --abort failed").strip()
                         _append_sync_log(store, "merge_abort_failed", {"returncode": abort.returncode, "detail": abort_detail[-2000:]})
+        if pre_merge_stashed:
+            try:
+                pop = _run_command(repo_root, ["git", "stash", "pop"], timeout=120.0)
+                if pop.returncode != 0:
+                    # pop 冲突: drift 留在 stash (下个 cycle daemon 会重生成), 不阻断 sync.
+                    _append_sync_log(store, "pre_merge_stash_pop_conflict", {"detail": (pop.stderr or pop.stdout or "")[-500:]})
+            except (OSError, subprocess.TimeoutExpired) as exc:
+                _append_sync_log(store, "pre_merge_stash_pop_failed", {"error": str(exc)})
 
     new_state = dict(state)
     new_state.update(
@@ -2776,6 +3286,9 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"\providecommand{\hsame}{\equiv_h}",
         r"\providecommand{\Cont}{\mathrm{Cont}}",
         r"\providecommand{\Pkg}{\mathrm{Pkg}}",
+        r"% article 类无 \chapter: codex 偶尔在 namecert/conjecture 写 \chapter → "
+        r"Undefined control sequence 致命 build 断. 降级为 \section 兜底, 不让结构命令断 build.",
+        r"\providecommand{\chapter}[1]{\section{#1}}",
         r"\newtheorem{definition}{Definition}[section]",
         r"\newtheorem{theorem}[definition]{Theorem}",
         r"\newtheorem{lemma}[definition]{Lemma}",
@@ -2791,6 +3304,8 @@ def _render_paper_main(paths: BioRealityPaths, namecert_slugs: list[str]) -> str
         r"\section{Scope}",
         "BioReality records biological conjecture deepening under explicit provenance boundaries. "
         "External curated biology is recorded as reality input; newmath and BEDC-style structure is recorded as internal derivation; every cross-layer biological claim remains blocked until a separate reality contact supports that layer.",
+        "",
+        r"\input{parts/cross_layer_synthesis}",
         "",
         r"\input{parts/codon_window_reality_boundary}",
         "",
@@ -3110,6 +3625,31 @@ def _bio_w_cache_paths(repo_root: Path, log_dir: str | Path, task_id: str) -> tu
     return base / f"{task_id}.input.sha256", base / f"{task_id}.cached_chapter.tex"
 
 
+_VOLATILE_TS_RE = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:[+-]\d{2}:\d{2}|Z)?")
+# 剥掉 "# Corrective feedback\n...\n" 段 (到下一个 "# " 段或文末). corrective feedback 是
+# 上一轮 gate/hygiene 的 retry 提示, 每 cycle 重派生 → 让 prompt 含/不含 feedback 的 canonical
+# 不同 → cache 永远 miss → codex 反复重生成 (rich→rich reword churn). 剥掉它后, attempt-1
+# (无 feedback) 与 attempt-2 (带 feedback) 同 canonical → 命中缓存, 章节稳定, 不再每 cycle 重写.
+_CORRECTIVE_FEEDBACK_RE = re.compile(r"(?m)^# Corrective feedback\n(?:(?!^# )[^\n]*\n)*")
+# experiment_run_id 是 per-run provenance (含运行时间戳的 hash), 确定性实验每 cycle 重跑都
+# 产生新值. 它不是科学内容 (R 集合 / p 值 / λ 不变), 却随每 cycle 变 → 让 prompt canonical
+# 每 cycle 不同 → bio-W cache 永远 miss → 章节每 cycle 重渲染 + codex 偶失败回退 thin 模板 →
+# rich↔thin 抖动. 把 run-id 值中性化, 让 cache key 只反映科学事实.
+_VOLATILE_RUNID_RE = re.compile(r'("(?:experiment_run_id|run_id|experiment_run_ids)"\s*:\s*)"[0-9a-fA-F]{6,}"')
+_VOLATILE_RUNID_LIST_RE = re.compile(r'("experiment_run_ids"\s*:\s*)\[[^\]]*\]')
+
+
+def _canonical_prompt_for_hash(prompt: str) -> str:
+    # Cache key 只反映科学内容, 不反映每-cycle 刷新的心跳时间戳 (last_verified_at)、corrective
+    # feedback 段 (上轮 retry 提示) 与 experiment_run_id (per-run provenance). 否则 hash 每 cycle
+    # 变 → cache 永远 miss → codex 把语义相同章节反复重写 (churn): 烧 token + 无意义 commit +
+    # PDF 噪声. 科学数值 (R/p/λ) 保留, 实验数值真变时仍正常触发重生成.
+    prompt = _CORRECTIVE_FEEDBACK_RE.sub("", prompt)
+    prompt = _VOLATILE_RUNID_LIST_RE.sub(r"\1[]", prompt)
+    prompt = _VOLATILE_RUNID_RE.sub(r'\1"<runid>"', prompt)
+    return _VOLATILE_TS_RE.sub("<ts>", prompt)
+
+
 def _bio_w_cached_render(
     repo_root: Path,
     log_dir: str | Path,
@@ -3127,7 +3667,7 @@ def _bio_w_cached_render(
         stored_hash = hash_path.read_text(encoding="utf-8").strip()
     except OSError:
         return None
-    current_hash = hashlib.sha256(prompt.encode("utf-8")).hexdigest()
+    current_hash = hashlib.sha256(_canonical_prompt_for_hash(prompt).encode("utf-8")).hexdigest()
     if stored_hash != current_hash:
         return None
     try:
@@ -3154,7 +3694,13 @@ def _bio_w_persist_cache(
     prompt: str,
     parsed: dict[str, Any] | None,
 ) -> None:
-    if not isinstance(parsed, dict) or parsed.get("verdict") != "ready":
+    # 持久化任何非空章节, 不限 verdict=ready. 关键 churn 修复: cross-layer conjecture
+    # (S^QP / translation_survival 等) 的 conjecture-级数据较薄, codex 常返回
+    # verdict=needs_more_data; 若只缓存 ready, 这些章节的 hash 永不持久 → 每 cycle
+    # 重渲染 (相同 prompt 反复出非确定 prose, 偶尔丢 spectral 细节) → 持续 churn.
+    # 缓存后: 同 prompt (科学不变) 命中不重渲染, 数据真变才重渲染. needs_more_data 的
+    # 自评不影响章节内容本身被部署 (run_writeback 用非空 codex_text).
+    if not isinstance(parsed, dict) or parsed.get("verdict") in (None, "skip"):
         return
     chapter_text = str(parsed.get("chapter_content") or "")
     if not chapter_text.strip():
@@ -3162,8 +3708,72 @@ def _bio_w_persist_cache(
     hash_path, chapter_path = _bio_w_cache_paths(repo_root, log_dir, task_id)
     try:
         hash_path.parent.mkdir(parents=True, exist_ok=True)
-        hash_path.write_text(hashlib.sha256(prompt.encode("utf-8")).hexdigest(), encoding="utf-8")
+        hash_path.write_text(hashlib.sha256(_canonical_prompt_for_hash(prompt).encode("utf-8")).hexdigest(), encoding="utf-8")
         chapter_path.write_text(chapter_text, encoding="utf-8")
+    except OSError:
+        return
+
+
+def _bio_w_cached_chapter(repo_root: Path, log_dir: str | Path, conjecture_id: str) -> str:
+    # 取某 conjecture 上次成功渲染的 rich 章节 (若有). 用于 codex 本 cycle 失败时, 拒绝用
+    # thin 模板回退覆盖已有 rich 内容 (rich→thin 降级/抖动的防线).
+    task_id = _safe_task_id(f"conjecture-{conjecture_id}")
+    _, chapter_path = _bio_w_cache_paths(repo_root, log_dir, task_id)
+    try:
+        text = chapter_path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    return text if text.strip() else ""
+
+
+def _namecert_cache_path(repo_root: Path, log_dir: str | Path, slug: str) -> Path:
+    base = Path(log_dir)
+    if not base.is_absolute():
+        base = repo_root / base
+    return base / f"namecert_{slug}.input.sha256"
+
+
+def _namecert_content_key(
+    claim_id: str,
+    slug: str,
+    verified_facts: dict[str, Any],
+    conjecture: dict[str, Any],
+    linked_contacts: Any,
+    linked_probes: Any,
+    linked_mismatches: Any,
+) -> str:
+    # 只反映科学输入 (claim / verified facts / conjecture / contacts / probes / mismatches),
+    # 不反映每-cycle 刷新的心跳时间戳. 这是 namecert reword churn 的根因修复: namecert 渲染
+    # 此前每 cycle 无条件重跑 codex → 语义相同章节被反复重新措辞. facts 不变 + 已部署 rich
+    # → 跳过 codex, 章节稳定.
+    payload = json.dumps(
+        {
+            "claim_id": claim_id,
+            "slug": slug,
+            "verified_facts": verified_facts,
+            "conjecture": conjecture,
+            "linked_contacts": linked_contacts,
+            "linked_probes": linked_probes,
+            "linked_mismatches": linked_mismatches,
+        },
+        sort_keys=True,
+        ensure_ascii=False,
+        default=str,
+    )
+    return hashlib.sha256(_canonical_prompt_for_hash(payload).encode("utf-8")).hexdigest()
+
+
+def _read_namecert_cache(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8").strip()
+    except OSError:
+        return ""
+
+
+def _write_namecert_cache(path: Path, content_key: str) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content_key, encoding="utf-8")
     except OSError:
         return
 
@@ -3436,6 +4046,11 @@ def _codex_written_content(
         if codex_result is None:
             corrective_feedback = ["codex invocation failed or returned unparsable output"]
             continue
+        # 缓存命中的章节在首次渲染时已通过 gate; 它返回 used_fact_ids=["cached"] (长度1),
+        # 会被 min_used_fact_ids 等 gate 误判失败 → 触发 corrective retry → 绕过缓存重渲染
+        # → 每 cycle churn. 命中缓存直接返回, 不重复 gate (这是 codon_window churn 的真根因).
+        if codex_result.get("cache_hit"):
+            return str(codex_result.get("chapter_content") or "")
         issues = _codex_chapter_gate_issues(codex_result, verified_facts, claim_id, writer_config)
         if not issues:
             return str(codex_result.get("chapter_content") or "")
@@ -3622,6 +4237,22 @@ def _run_writeback_heal_codex(prompt: str, repo_root: Path, timeout_seconds: int
     return _parse_writeback_heal_json(completed.stdout or ""), completed.stdout or "", completed.stderr or ""
 
 
+def _bio_h_heal_content_acceptable(fixed: str, original: str) -> bool:
+    # 判定 codex heal 输出是否是可接受的真章节内容 (而非散文描述 / 大幅截断).
+    # codex 偶尔返回"我把文件修好了, 内容是 919 行…"这类 meta 描述当作 fixed_content,
+    # 直接写入会丢失整章. 退化判据: 太短 (不到原文 40% 且 < 200 字) / 无任何 TeX 结构命令 /
+    # 以 meta 句式开头.
+    f = fixed.strip()
+    if len(f) < max(200, int(len(original.strip()) * 0.4)):
+        return False
+    if not re.search(r"\\(subsection|section|paragraph|begin)\b", f):
+        return False
+    meta_starts = ("the corrected", "the complete file", "here is", "i have ", "i've ", "this file", "the file ", "below is")
+    if f.lower().startswith(meta_starts):
+        return False
+    return True
+
+
 def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
     try:
         config = _load_writeback_heal_config()
@@ -3726,16 +4357,7 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
             #   2. 反引号-单引号文本引用 `..._..' 内部的 _ (路径 / 标识符 token)
             # 两处都只在 text-mode span 内把 raw _ → \_, 不动 math mode 或已转义.
             if last_error.get("category") == "missing_dollar":
-                def _escape_texttt_underscores(match: "re.Match[str]") -> str:
-                    inner = match.group(1)
-                    fixed_inner = re.sub(r"(?<!\\)_", r"\\_", inner)
-                    return r"\texttt{" + fixed_inner + "}"
-                def _escape_backtick_quote_underscores(match: "re.Match[str]") -> str:
-                    inner = match.group(1)
-                    fixed_inner = re.sub(r"(?<!\\)_", r"\\_", inner)
-                    return "`" + fixed_inner + "'"
-                prefixed_content = re.sub(r"\\texttt\{([^{}]*)\}", _escape_texttt_underscores, content)
-                prefixed_content = re.sub(r"`([^`']*)'", _escape_backtick_quote_underscores, prefixed_content)
+                prefixed_content = _sanitize_textmode_underscores(content)
                 if prefixed_content != content:
                     try:
                         target.write_text(prefixed_content, encoding="utf-8")
@@ -3754,8 +4376,15 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
             if parsed is None:
                 _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "codex_failed", "attempt": attempt, "stderr_tail": _tail_text(raw_stderr, 800), "stdout_tail": _tail_text(raw_stdout, 800)})
                 continue
+            fixed_content = str(parsed["fixed_content"]).rstrip() + "\n"
+            # 防御: codex heal 偶尔返回"对修复动作的散文描述"而非真章节内容 (或大幅截断),
+            # 直接写入会把整章替换成一两行 prose → 内容丢失 + 后续 build 断 + 被 bio-K commit.
+            # 拒绝退化输出, 不写盘, 留原文件让下一轮 / 其它修复路径处理.
+            if not _bio_h_heal_content_acceptable(fixed_content, content):
+                _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "rejected_degenerate_heal", "attempt": attempt, "rel_file": rel_file, "fixed_len": len(fixed_content.strip()), "orig_len": len(content.strip())})
+                continue
             try:
-                target.write_text(str(parsed["fixed_content"]).rstrip() + "\n", encoding="utf-8")
+                target.write_text(fixed_content, encoding="utf-8")
             except OSError as exc:
                 _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "unresolved", "attempt": attempt, "reason": str(exc)})
                 return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "error": str(exc)}
@@ -3765,11 +4394,83 @@ def run_writeback_heal_lane(store: BioRealityStore) -> dict[str, Any]:
                 pdf_returncode, _pdf_output = _run_writeback_make_pdf(paper_dir)
                 pdf_rebuilt = "ok" if pdf_returncode == 0 else "failed"
                 return {"lane": "bio-H", "status": "healed", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts, "pdf_rebuilt": pdf_rebuilt}
+            # heal 没修好: 回滚到原内容, 不把 codex 的坏输出 (可能含 prose / 截断) 留在盘上被 commit.
+            try:
+                target.write_text(content, encoding="utf-8")
+            except OSError:
+                pass
             last_error = _parse_writeback_heal_error(output, paper_dir)
         _append_writeback_heal_record(store, {"signature": last_error["signature"], "action": "unresolved", "attempts": attempts})
         return {"lane": "bio-H", "status": "unresolved", "signature": last_error["signature"], "category": last_error["category"], "attempts": attempts}
     except Exception as exc:
         return {"lane": "bio-H", "status": "error", "error": str(exc)}
+
+
+_SANITIZE_PROTECT_RE = re.compile(
+    r"\$\$.*?\$\$"                          # display math
+    r"|\$[^$]*\$"                           # inline math
+    r"|\\(?:label|ref|autoref|eqref|cref|Cref|pageref|nameref|input|include|cite|citep|citet|citeauthor|url|href|hyperref|bibliography)\b\s*(?:\[[^\]]*\])?\{[^{}]*\}",
+    re.S,
+)
+
+
+def _sanitize_textmode_underscores(text: str) -> str:
+    """Deterministically escape every raw `_` in text mode before deploy.
+
+    codex 写出的 namecert/spine 非确定性地在正文留裸 `_` (NC_000913 / orf_eligibility /
+    \\texttt{a_b} / 反引号引用 等) → LaTeX text mode 报 "Missing $ inserted" 致命.
+    在 write 时一律 normalize, 让 build 不因此断 (bio-H 不必再 heal, 也避免多文件
+    破坏耗尽 heal budget). 转义 prose / texttt / 反引号里的 raw `_`, 但**跳过**:
+      - math ($...$ / $$...$$) 里的合法下标 `_`;
+      - label 族命令参数 (\\label/\\ref/\\input/\\cite/\\url ... 里的 `_` 是字面 key,
+        转义会破坏 \\ref 匹配 / 路径).
+    已转义的 `\\_` 不重复处理.
+    """
+    # 先修 JSON double-escape 残留: codex 偶尔把 chapter_content 的换行/制表写成字面
+    # `\n` / `\t` (backslash-n, JSON 里多转义一层) 而非真字符 → LaTeX 报
+    # "Undefined control sequence \n" 致命 build 断 (flaky: 取决于该轮 render 是否带残留).
+    # 还原 JSON 双转义残留的字面 \n / \t (codex 偶尔把换行/制表多转义一层 → \nq / \nThis /
+    # \begin{aligned}\nq / \\\n 等 → 'Undefined control sequence \n' 致命断). 纯大小写启发式
+    # 无法区分真命令 \nu 与残留 \nq, 故用白名单: 先占位保护真续行 \\ 与已知 \n*/\t* 命令,
+    # 再把剩余的 \n/\t 一律还原为换行/空格, 最后恢复占位.
+    _protect = ["\\\\"] + ["\\" + cmd for cmd in (
+        "newcommand", "newenvironment", "newtheorem", "newline", "newpage", "noindent", "nonumber",
+        "normalsize", "nabla", "nleftarrow", "nrightarrow", "nexists", "notin", "nsubseteq", "nsupseteq",
+        "nparallel", "nmid", "ngeq", "nleq", "neq", "nu", "ne", "not",
+        "textbf", "textit", "textrm", "textsf", "texttt", "textsc", "textnormal", "text", "times",
+        "tfrac", "thinspace", "tilde", "tanh", "tan", "theta", "triangleq", "triangleleft",
+        "triangleright", "triangle", "top", "tt", "to", "tau",
+    )]
+    _protect.sort(key=len, reverse=True)  # 长命令优先 (\newcommand 先于 \ne)
+    _phmap = {}
+    for i, tok in enumerate(_protect):
+        ph = f"\x00P{i}\x00"
+        if tok in text:
+            text = text.replace(tok, ph)
+            _phmap[ph] = tok
+    text = re.sub(r"\\n", "\n", text)
+    text = re.sub(r"\\t", " ", text)
+    for ph, tok in _phmap.items():
+        text = text.replace(ph, tok)
+
+    def _fix_text_region(s: str) -> str:
+        # text region (在 $...$ / label 命令保护区之外). 两步:
+        # 1) 转义裸 `_` (NC_000913 / orf_eligibility 等) → \_, 防 "Missing $ inserted".
+        s = re.sub(r"(?<!\\)_", r"\\_", s)
+        # 2) codex 偶尔把数学写成裸 \mathrm{...\setminus...} 留在 prose → 'allowed only in
+        #    math mode' / 'Missing $' 致命 build 断. 把这类裸数学字体宏整体包进 $...$,
+        #    让里面的 \setminus 等数学命令合法 (mode-agnostic 单独不够, 因内部还有数学符号).
+        s = re.sub(r"\\(math(?:rm|sf|bf|it|bb|cal|frak|scr))\{([^{}$]*)\}", lambda mm: "$" + mm.group(0) + "$", s)
+        return s
+
+    out: list[str] = []
+    last = 0
+    for m in _SANITIZE_PROTECT_RE.finditer(text):
+        out.append(_fix_text_region(text[last:m.start()]))
+        out.append(m.group(0))  # 受保护区: 原样保留
+        last = m.end()
+    out.append(_fix_text_region(text[last:]))
+    return "".join(out)
 
 
 def _write_namecert_proposals(
@@ -3806,6 +4507,22 @@ def _write_namecert_proposals(
             mismatches_by_probe,
         )
         verified_facts = _verified_facts_for_claim(conjecture, claim_id)
+        deployed = namecerts_dir / f"{slug}.tex"
+        content_key = _namecert_content_key(
+            claim_id, slug, verified_facts, conjecture,
+            linked_contacts, linked_probes, linked_mismatches,
+        )
+        cache_path = _namecert_cache_path(repo_root, writer_config["log_dir"], slug)
+        # 科学输入未变 + 已部署 rich → 跳过 codex 重渲染. 这消除 namecert reword churn 的根因
+        # (此前每 cycle 无条件重跑 codex, 把语义相同章节反复重新措辞).
+        if deployed.exists() and _read_namecert_cache(cache_path) == content_key:
+            try:
+                cached_existing = deployed.read_text(encoding="utf-8")
+            except OSError:
+                cached_existing = ""
+            if cached_existing and not _is_stub_namecert(cached_existing):
+                slugs.append(slug)
+                continue
         codex_text = _codex_written_content(
             render_namecert_with_codex,
             (claim_id, slug, verified_facts, conjecture, linked_contacts, linked_probes, linked_mismatches),
@@ -3814,27 +4531,78 @@ def _write_namecert_proposals(
             repo_root,
             writer_config,
         )
+        codex_ok = bool(codex_text)
         text = codex_text if codex_text else _render_namecert_proposal(markdown_path, slug)
         hygiene_issues = bedc_writeback_gates.check_chapter_hygiene(text, require_origin_ai=True)
-        if hygiene_issues:
-            # Both codex and template-fallback failed the chapter hygiene gate.
-            # Replace with a minimal pending stub that keeps LaTeX compiling
-            # without shipping template-residue or literal-\n garbage.
-            issues_text = ", ".join(issue for issue in hygiene_issues)[:400]
-            text = (
-                f"\\subsection{{NameCert: {_tex_escape(claim_id)}}}\n"
-                f"\\label{{sec:namecert-{slug}}}\n"
-                f"\\origin{{ai}}\n\n"
-                f"This BioReality namecert is awaiting codex re-authoring. "
-                f"Most recent attempt failed the chapter hygiene gate; "
-                f"issues recorded: {_tex_escape(issues_text)}. "
-                f"The committed registry record at "
-                f"\\path{{tools/bio\\_reality/registries/claims.json}} still tracks the "
-                f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
-            )
-        (namecerts_dir / f"{slug}.tex").write_text(text, encoding="utf-8")
+        # 本 cycle codex 失败 / hygiene 不过 → 本应退回 stub. 但**绝不用 stub 覆盖已部署的好
+        # rich 章节** (否则 namecert 在 stub↔rich 间每 cycle 抖动 = 质量退化 + churn 主因).
+        # 仅在没有已部署好内容时才落 stub.
+        if not codex_ok or hygiene_issues:
+            if deployed.exists():
+                try:
+                    existing = deployed.read_text(encoding="utf-8")
+                except OSError:
+                    existing = ""
+                if existing and not _is_stub_namecert(existing):
+                    # codex 失败/hygiene 不过, 但已部署是 rich → 保留, 不被 stub 覆盖.
+                    # 记缓存键, 让后续 cycle 在 facts 不变时直接跳过 codex (不再每轮重试).
+                    _write_namecert_cache(cache_path, content_key)
+                    slugs.append(slug)
+                    continue
+            if hygiene_issues:
+                issues_text = ", ".join(issue for issue in hygiene_issues)[:400]
+                text = (
+                    f"\\subsection{{NameCert: {_tex_escape(claim_id)}}}\n"
+                    f"\\label{{sec:namecert-{slug}}}\n"
+                    f"\\origin{{ai}}\n\n"
+                    f"This BioReality namecert is awaiting codex re-authoring. "
+                    f"Most recent attempt failed the chapter hygiene gate; "
+                    f"issues recorded: {_tex_escape(issues_text)}. "
+                    f"The committed registry record at "
+                    f"\\path{{tools/bio\\_reality/registries/claims.json}} still tracks the "
+                    f"underlying claim {_tex_escape(claim_id)} and its experiment runs.\n"
+                )
+        text = _sanitize_textmode_underscores(text)
+        # cosmetic-skip: 已部署 rich 且本次重渲染**科学数值完全一致**(只改措辞/记法, 如
+        # $K\_AAA$↔$K_{AAA}$ 或 prose 重写) → 保留已部署不重写. 消除 namecert cosmetic churn
+        # (codex 周期性重渲染产生记法/prose 抖动但数值不变 → 每轮 git diff + bio-K commit 噪声).
+        # 数值真变(实验更新)时 number-set 不同 → 正常写入. stub/hygiene 失败不走此路.
+        if codex_ok and not hygiene_issues and deployed.exists():
+            try:
+                _existing_rich = deployed.read_text(encoding="utf-8")
+            except OSError:
+                _existing_rich = ""
+            if (_existing_rich and not _is_stub_namecert(_existing_rich)
+                    and _namecert_science_numbers(text) == _namecert_science_numbers(_existing_rich)):
+                _write_namecert_cache(cache_path, content_key)
+                slugs.append(slug)
+                continue
+        deployed.write_text(text, encoding="utf-8")
+        # 仅在 codex 真产出干净 rich 章节时记缓存键; stub 写出不记 (下 cycle 仍重试 codex).
+        if codex_ok and not hygiene_issues:
+            _write_namecert_cache(cache_path, content_key)
         slugs.append(slug)
     return slugs
+
+
+def _namecert_science_numbers(text: str) -> list[str]:
+    """提取章节内所有数值 token (排序), 用于判断重渲染是否仅 cosmetic (措辞/记法变) 而非科学变化.
+    数值一致 = 同科学内容; 不同 = 真更新. 坐标名里的固定小数字 (Q6/f3) 两侧都在, 不影响判定."""
+    return sorted(re.findall(r"\d+\.\d+|\d+", text))
+
+
+def _is_stub_namecert(text: str) -> bool:
+    """判定一个 namecert .tex 是否是 stub / 占位 (非好的 rich 章节). 用于 bio-W
+    在 codex 失败时决定是否保留已部署内容: 已部署是 rich → 保留, 不被 stub 覆盖."""
+    if not text or not text.strip():
+        return True
+    markers = ("awaiting codex re-authoring", "review status: draft", "Proposed slug", "Proposed by bio-namer")
+    if any(m in text for m in markers):
+        return True
+    # rich 章节通常 >= 30 行且含数学/正文环境; 过短视为 stub
+    if text.count("\n") < 24:
+        return True
+    return False
 
 
 def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
@@ -3880,14 +4648,19 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         if codex_text:
             part_lines.extend([codex_text.rstrip(), ""])
         else:
-            part_lines.extend(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe))
+            # codex 本 cycle 失败: 优先复用上次缓存的 rich 章节, 不让 thin 模板覆盖 (防 rich→thin 降级).
+            cached_rich = _bio_w_cached_chapter(repo_root, str(writer_config["log_dir"]), conjecture_id)
+            if cached_rich:
+                part_lines.extend([cached_rich.rstrip(), ""])
+            else:
+                part_lines.extend(_render_conjecture_section(conjecture, contacts_by_id, probes_by_id, mismatches_by_probe))
     if not conjectures:
         part_lines.extend(["No conjecture has passed the BioReality gates.", ""])
 
     paths = store.paths
     paths.paper_main.parent.mkdir(parents=True, exist_ok=True)
     paths.paper_part.parent.mkdir(parents=True, exist_ok=True)
-    paths.paper_part.write_text("\n".join(part_lines), encoding="utf-8")
+    paths.paper_part.write_text(_sanitize_textmode_underscores("\n".join(part_lines)), encoding="utf-8")
     namecert_slugs = _write_namecert_proposals(
         paths,
         conjectures,
@@ -3905,8 +4678,8 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     pdf_build_detail = ""
     paper_dir = paths.paper_main.parent
     if (paper_dir / "Makefile").exists():
-        try:
-            build = subprocess.run(
+        def _run_make_pdf() -> subprocess.CompletedProcess:
+            return subprocess.run(
                 ["make", "-s"],
                 cwd=paper_dir,
                 env=_tex_env(),
@@ -3916,11 +4689,23 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
                 timeout=300.0,
                 check=False,
             )
+        try:
+            build = _run_make_pdf()
+            if build.returncode != 0:
+                # 单趟 make 失败常因上一轮中断 / 并发 build 留下的 stale main.aux 等中间文件,
+                # 单趟无法自愈. 清掉 aux 类中间文件 (不删 main.pdf) 后重试一次: 内容本身干净时即成功.
+                for aux in ("main.aux", "main.out", "main.toc", "main.fls", "main.fdb_latexmk", "main.lof", "main.lot"):
+                    try:
+                        (paper_dir / aux).unlink()
+                    except OSError:
+                        pass
+                build = _run_make_pdf()
             if build.returncode == 0:
                 pdf_build_status = "ok"
             else:
                 pdf_build_status = "failed"
-                pdf_build_detail = ((build.stderr or build.stdout) or "")[-400:]
+                # 捕获 stdout (真 LaTeX 错误) 而非仅 make wrapper stderr, 便于后续诊断.
+                pdf_build_detail = ((build.stdout or "") + "\n" + (build.stderr or ""))[-600:]
         except (OSError, subprocess.TimeoutExpired) as exc:
             pdf_build_status = "error"
             pdf_build_detail = str(exc)[-400:]
@@ -4422,6 +5207,41 @@ def _ensure_aggregator_line(aggregator: Path, subdir_slug: str) -> None:
     aggregator.write_text(text, encoding="utf-8")
 
 
+_BEDC_UP_MACRO_RE = re.compile(r"\\([A-Z][A-Za-z0-9]*Up)\b")
+
+
+def _register_bedc_chapter_macros_atomic(hub_text: str, spine_text: str, repo_root: Path) -> list[str]:
+    """扫描章里引用的 \\<Name>Up 记号, 把 preamble 里缺失的按约定补 \\providecommand,
+    与章写入同一工作树 (同 commit), 消除"宏未定义"窗口. providecommand 对已定义宏是 no-op,
+    安全幂等. 约定: \\<Name>Up → \\mathsf{<Name>}^{\\uparrow} (与 late_tail 现有 1500+ 行一致)."""
+    preamble = repo_root / "papers" / "bedc" / "preamble_chapter_macros_late_tail.tex"
+    if not preamble.exists():
+        return []
+    referenced = set(_BEDC_UP_MACRO_RE.findall(hub_text)) | set(_BEDC_UP_MACRO_RE.findall(spine_text))
+    if not referenced:
+        return []
+    try:
+        existing = preamble.read_text(encoding="utf-8")
+    except OSError:
+        return []
+    added: list[str] = []
+    new_lines: list[str] = []
+    for macro in sorted(referenced):
+        if (r"\providecommand{\%s}" % macro) in existing or (r"\newcommand{\%s}" % macro) in existing or (r"\def\%s" % macro) in existing:
+            continue
+        inner = macro[:-2]  # 去掉末尾 "Up"
+        new_lines.append(r"\providecommand{\%s}{\mathsf{%s}^{\uparrow}}" % (macro, inner))
+        added.append(macro)
+    if not new_lines:
+        return []
+    try:
+        body = existing if existing.endswith("\n") else existing + "\n"
+        preamble.write_text(body + "\n".join(new_lines) + "\n", encoding="utf-8")
+    except OSError:
+        return []
+    return added
+
+
 def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
     try:
         config = _load_bedc_writeback_config()
@@ -4585,6 +5405,12 @@ def run_bedc_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         spine_path.parent.mkdir(parents=True, exist_ok=True)
         hub_path.write_text(hub_text, encoding="utf-8")
         spine_path.write_text(spine_text, encoding="utf-8")
+        # 原子地注册章里引用的 \<Name>Up 记号: 写章与宏定义进同一工作树 (→ 同 commit),
+        # 否则 BEDC preamble 缺该宏 → "Undefined control sequence" → BEDC PDF/CI 红 →
+        # auto_heal 事后救火打地鼠. 这是从根源消除"宏未定义"窗口.
+        registered = _register_bedc_chapter_macros_atomic(hub_text, spine_text, repo_root)
+        if registered:
+            _append_bedc_writeback_log(store, "macros_registered", {"claim_id": claim_id, "macros": registered})
         _ensure_aggregator_line(aggregator, subdir_slug)
         written += 1
         _append_bedc_writeback_log(

@@ -97,4 +97,89 @@ theorem PolishspaceCompleteSeparableObligationSurface [AskSetup] [PackageSetup]
   }
   exact ⟨cert, completionUnary, denseUnary, observationUnary⟩
 
+theorem PolishSpaceStreamNameDensityScope [AskSetup] [PackageSetup]
+    {metric complete separable stream readback ledger transport route provenance localName denseRead
+      streamWindow observationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory metric →
+      UnaryHistory separable →
+        UnaryHistory stream →
+          UnaryHistory readback →
+            UnaryHistory ledger →
+              UnaryHistory transport →
+                Cont metric separable denseRead →
+                  Cont denseRead stream streamWindow →
+                    Cont streamWindow readback observationRead →
+                      Cont ledger transport route →
+                        PkgSig bundle provenance pkg →
+                          PkgSig bundle localName pkg →
+                            SemanticNameCert
+                                (fun row : BHist => hsame row observationRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row metric ∨ hsame row separable ∨ hsame row stream ∨
+                                    hsame row readback ∨ hsame row denseRead ∨
+                                      hsame row streamWindow ∨ hsame row observationRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ Cont metric separable denseRead ∧
+                                    Cont denseRead stream streamWindow ∧
+                                      Cont streamWindow readback observationRead ∧
+                                        PkgSig bundle provenance pkg ∧
+                                          PkgSig bundle localName pkg)
+                                hsame ∧
+                              UnaryHistory denseRead ∧ UnaryHistory streamWindow ∧
+                                UnaryHistory observationRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro metricUnary separableUnary streamUnary readbackUnary _ledgerUnary _transportUnary
+    metricSeparableDense denseStreamWindow windowReadbackObservation _ledgerTransportRoute
+    provenancePkg localNamePkg
+  have denseUnary : UnaryHistory denseRead :=
+    unary_cont_closed metricUnary separableUnary metricSeparableDense
+  have windowUnary : UnaryHistory streamWindow :=
+    unary_cont_closed denseUnary streamUnary denseStreamWindow
+  have observationUnary : UnaryHistory observationRead :=
+    unary_cont_closed windowUnary readbackUnary windowReadbackObservation
+  have sourceObservation :
+      (fun row : BHist => hsame row observationRead ∧ UnaryHistory row) observationRead := by
+    exact ⟨hsame_refl observationRead, observationUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row observationRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row metric ∨ hsame row separable ∨ hsame row stream ∨
+              hsame row readback ∨ hsame row denseRead ∨ hsame row streamWindow ∨
+                hsame row observationRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont metric separable denseRead ∧
+              Cont denseRead stream streamWindow ∧
+                Cont streamWindow readback observationRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro observationRead sourceObservation
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, metricSeparableDense, denseStreamWindow,
+          windowReadbackObservation, provenancePkg, localNamePkg⟩
+  }
+  exact ⟨cert, denseUnary, windowUnary, observationUnary⟩
+
 end BEDC.Derived.PolishspaceUp

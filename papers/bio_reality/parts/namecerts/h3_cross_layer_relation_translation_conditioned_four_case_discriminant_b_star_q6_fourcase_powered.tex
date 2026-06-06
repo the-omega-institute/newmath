@@ -1,0 +1,34 @@
+\subsection{Translation-conditioned four-case separation for the $B^*_{Q6}$ residual coordinates}
+\label{sec:biorality-q6-translation-conditioned-four-case}
+\origin{ai}
+
+\paragraph{Finite carrier.}
+This record uses a finite matched matrix whose rows are coding-sequence/protein entries and whose columns are the residual $B^*_{Q6}$ coordinates $q_i$, a translation readout $T$, and a protein-omics readout $P$.  The translation readout is the per-protein mean modeled tAI,
+$\sum_c \operatorname{codon\_count}(c)\operatorname{tAI\_weight}(c)/\sum_c \operatorname{codon\_count}(c)$, using GtRNAdb all-tRNA copy counts with dos Reis wobble weights.  The protein readout is measured PAXdb $\log_{10}(\operatorname{abundance\_ppm})$ joined to real CDS codon counts.  The finite panel contains two organism-scoped blocks: \emph{Escherichia coli} K12 MG1655 has $3739$ joined CDS/protein rows and $3739$ proteins used, with the tRNA organism recorded as \emph{Escherichia coli}; \emph{Saccharomyces cerevisiae} has $5815$ joined rows and $5815$ proteins used, with its own tRNA organism.  In both blocks the $B^*_{Q6}$ coordinate count is $9$.
+
+\paragraph{Controlled residualization and rank gate.}
+The discriminant is evaluated only after residualizing against the declared control family: amino-acid composition, organism scope, GC3, CDS length, M-density, mRNA-related control where available, and simpler codon baselines.  In the finite run $d74f9f0e39cf$, each organism block used $24$ control columns with control rank $23$.  The residual degrees of freedom were $3716$ for \emph{E. coli} and $5792$ for yeast.  The rank check is non-vacuous in both readout directions: for \emph{E. coli}, $\operatorname{rank}(\widetilde X_T)=9$ and $\operatorname{rank}(\widetilde X_P)=9$; for yeast, $\operatorname{rank}(\widetilde X_T)=9$ and $\operatorname{rank}(\widetilde X_P)=9$.  The recorded degeneracy threshold is $0.999999$, and both organism blocks are marked powered-rank sufficient.  Thus the four-case call is not the rank-saturated $n=3$ all-$1.0$ boundary; it is a finite-row, rank-powered classification over matched rows.
+
+\paragraph{Readout energy and aggregate $R^2$ values.}
+The residual translation energy and protein-energy scales are highly different across readouts and organisms, so the signs used below should be read as controlled survival/readout signs rather than as common-scale effect sizes.  For \emph{E. coli}, the translation residual energy is $0.4728468725814029$, the protein residual energy is $4020.333671802061$, the $B^*_{Q6}$ coordinates explain $0.256128714706293$ energy on $T$, and they explain $432.89050065533684$ energy on $P$.  The aggregate controlled coefficients are $R^2_{QT}=0.5416736993691318$ and $R^2_{QP}=0.10767526677985896$ over $9$ coordinates.  For yeast, the translation residual energy is $6.90537888244409$, the protein residual energy is $2958.1865890925337$, the explained energy is $5.671703404506426$ on $T$ and $882.6526210803958$ on $P$, with $R^2_{QT}=0.8213457220900503$ and $R^2_{QP}=0.29837624994140827$ over the same $9$ coordinates.
+
+\paragraph{Four-case discriminant.}
+For each matched coordinate/readout cell, let $S^{QT}$ denote the controlled survival sign for $q_i$ against the translation readout, let $S^{QP}$ denote the controlled survival sign for $q_i$ against the protein-omics readout, and let $M^{QTP}$ record whether conditioning on $T$ reduces the direct $q_i$ to $P$ association.  The classification threshold is $10^{-12}$.  The four cases are local to this measured table:
+$$
+\begin{aligned}
+A &: S^{QT}\le 0 \text{ and } S^{QP}\le 0, \\
+B &: S^{QT}>0 \text{ and } S^{QP}\le 0, \\
+C &: S^{QT}\le 0 \text{ and } S^{QP}>0, \\
+D &: S^{QT}>0 \text{ and } S^{QP}>0 \text{ with the direct } q_i\to P \text{ term reduced after conditioning on } T.
+\end{aligned}
+$$
+Case $A$ is compression away from both readouts.  Case $B$ is translation-level irreducibility without a surviving protein-omics propagation call.  Case $C$ is protein-omics prediction not mediated by the measured translation readout.  Case $D$ is the translation-conditioned propagation pattern: the coordinate survives into $T$, survives into $P$, and the direct $q_i\to P$ term is reduced when $T$ is placed in the conditioning set.
+
+\paragraph{Finite classification result.}
+Both organism blocks were classified with no unclassified coordinates.  In \emph{E. coli}, the case counts are $A=0$, $B=0$, $C=0$, $D=7$, with $2$ positive-positive coordinates that do not satisfy the mediation-drop condition.  In yeast, the counts are $A=0$, $B=0$, $C=0$, $D=9$, with $0$ positive-positive coordinates lacking the mediation drop.  Therefore the observed finite-row result is not merely a direct $Q$ to $P$ association.  It separates the protein-omics signal by first asking whether the same residual coordinate survives into the translation readout, and then asking whether the protein association is attenuated when that translation readout is included.
+
+\paragraph{Local interpretation.}
+The result supports a bounded cross-layer discriminant for this finite matched panel: $B^*_{Q6}$ residual coordinates can be sorted into explicit $A/B/C/D$ cells after the declared controls and rank checks.  The strongest observed pattern is case $D$, especially in yeast where all $9$ coordinates satisfy the translation-conditioned propagation criterion.  In \emph{E. coli}, $7$ coordinates satisfy the same criterion, while $2$ coordinates remain positive-positive without the required attenuation and therefore are not counted as case $D$.  This distinction is essential: a positive $q_i\to P$ readout is not enough to claim translation-mediated propagation unless the $q_i\to T$ step survives and conditioning on $T$ reduces the direct protein association.
+
+\paragraph{Boundary of the claim.}
+The classification is a controlled finite-matrix readback, not a causal mechanism.  The modeled tAI readout is not ribosome profiling, and the joined rows are cross-sectional.  Protein abundance is not isolated from mRNA abundance, turnover, localization, post-translational modification, folding state, or pathway context.  Consequently, this chapter does not infer folded structure, physical admissibility, molecular function, phenotype, perturbation rescue, or a universal biological law.  Those conclusions would require additional layer-specific measurements and their own controlled statistics.  Case $C$, when it occurs in any later panel, must remain a protein-omics residual not mediated by the measured $T$; it is not a translation mechanism by itself.

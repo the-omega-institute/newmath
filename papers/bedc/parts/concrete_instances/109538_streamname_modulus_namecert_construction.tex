@@ -70,6 +70,32 @@ $S$, then to $D$, then to $R$. The rows $P$ and $N$ only source and name this
 finite route; they do not add an external tail or equality proof.
 \end{proof}
 
+\begin{theorem}[Stream-name modulus monotone reindex stability]
+\label{thm:streamname-modulus-monotone-reindex-stability}
+Let $U=(S,D,R,E,W,H,C,P,N)$ be an accepted $\StreamNameModulusUp$ carrier. If a
+later finite-window request is transported through the modulus ledger $W$, then
+the transported request preserves the same $\StreamNameUp$ point certificate,
+the same $\RegSeqRatUp$ handoff row, and the same downstream $\RealUp$ seal
+route before any consumer may read a Real-facing conclusion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:streamname-modulus-carrier}. The rows
+$S,D,R,E,W$ display the source point certificate, dyadic readback,
+regular-rational handoff, Real seal request, and modulus ledger for every
+accepted precision request.
+
+Apply \autoref{thm:streamname-modulus-pointwise-stability}. A transported
+later request may move along the ledger $W$, but the corresponding stream
+position, dyadic readback, and regular-rational handoff remain attached to the
+same componentwise transport and replay rows.
+
+Finally apply \autoref{thm:streamname-modulus-regseqrat-readiness}. The later
+finite-window request reaches the RegSeqRat handoff only through
+$S,D,W,H,C,P,N$, and the Real seal row $E$ is read only after that handoff.
+Thus monotone reindexing cannot detach a tail selector from the displayed
+StreamName point certificate or from the Real-facing route.
+\end{proof}
+
 \begin{theorem}[Stream-name modulus RegSeqRat readiness]
 \label{thm:streamname-modulus-regseqrat-readiness}
 An accepted $\StreamNameModulusUp$ packet can be consumed by a

@@ -57,6 +57,7 @@ Componentwise transport through $H$ and route replay through $C$ preserve the sa
 \input{parts/concrete_instances/metaciccriticalpath/route_obligation_rows}
 \input{parts/concrete_instances/metaciccriticalpath/downstream_readiness}
 \input{parts/concrete_instances/metaciccriticalpath/root_socket_unblock}
+\input{parts/concrete_instances/metaciccriticalpath/subject_reduction_socket_budget}
 
 \closureat{MetaCICCriticalPathUp}{obligationStr}[BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathL10FourObjectExitCertificate]
 
@@ -105,6 +106,19 @@ The subject-reduction side is bounded by \autoref{thm:metacic-critical-path-obst
 It remains only to check exhaustion. The carrier definition supplies no tenth coordinate for closed subject reduction, no coordinate for full closed consistency, no global beta-conversion decision procedure, and no quotient over MetaCIC terms. Hence every local $\NameCert_{\MetaCICCriticalPathUp}$ obligation is one of the displayed row obligations above, and the two excluded theorem exports remain outside the packet.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_namecert\_obligation\_surface}
+
+\begin{theorem}[MetaCIC typed candidate-frontier bridge]
+\label{thm:metacic-critical-path-typed-candidate-frontier-bridge}
+Every typed candidate-frontier read of an accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$ must expose the closed-strong-normalization row $S$, conditional confluence and bounded decidability handoff row $U$, subject-reduction obstruction row $O$, discharge socket $D$, transport row $H$, replay row $C$, provenance row $P$, and local $\NameCert$ row $L$ before any consistency-facing consumer may use the normal-form row $N$. The bridge records those rows as a frontier surface and does not claim closed subject reduction.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathTypedCandidateFrontierBridge}
+\begin{proof}
+Use the consistency handoff. \autoref{thm:metacic-critical-path-consistency-handoff} permits a consumer to move from $S$ to $N$ only through the displayed route rows and keeps the discharge socket $D$ separate.
+
+Use the obstruction boundary next. \autoref{thm:metacic-critical-path-obstruction-boundary} keeps $O$ visible under the handoff row $U$ and prevents $D$ from becoming a filled subject-reduction theorem.
+
+Finally apply the NameCert obligation surface. \autoref{thm:metacic-critical-path-namecert-obligation-surface} lists exactly the carrier, $S,N,O,U,D,H,C,P,L$ obligations, so a typed candidate-frontier read must display the stated rows before a consistency-facing use of $N$.
+\end{proof}
 
 \begin{theorem}[MetaCIC critical-path transport row stability]
 \label{thm:metacic-critical-path-transport-row-stability}
@@ -179,6 +193,8 @@ Finally apply the obligation surface, transport row stability, local naming exha
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_discharge\_socket\_coverage}
 
+\input{parts/concrete_instances/metaciccriticalpath/subject_reduction_socket_separation}
+
 \begin{theorem}[MetaCIC critical-path socket route totality]
 \label{thm:metacic-critical-path-socket-route-totality}
 Any accepted $\MetaCICCriticalPathUp$ consumer route that mentions the
@@ -202,6 +218,19 @@ the socket-facing consumer to retain $S,N,O,U,D,H,C,P,L$ as the displayed row
 inventory, so no hidden closed subject-reduction theorem is imported.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathPacket\_socket\_route\_totality}
+
+\begin{theorem}[MetaCIC critical-path subject-reduction socket factorization]
+\label{thm:metacic-critical-path-subject-reduction-socket-factorization}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, any route attempting to use the discharge socket $D$ must factor through the displayed rows $S,N,O,U,D,H,C,P,L$. Along that route the obstruction row $O$ remains visible, and $D$ remains a socket unless a separate subject-reduction certificate row is displayed by the consumer.
+\end{theorem}
+\begin{proof}
+Start with a socket-facing route. The consistency handoff and obstruction boundary, \autoref{thm:metacic-critical-path-consistency-handoff} and \autoref{thm:metacic-critical-path-obstruction-boundary}, route any consistency read through the visible packet while keeping $O$ present.
+
+Now use discharge-socket nonescape, \autoref{thm:metacic-critical-path-discharge-socket-nonescape}. It prevents the displayed packet rows from filling $D$ by themselves, so the only admissible way to discharge the socket is to show a separate subject-reduction certificate row.
+
+Finally apply socket route totality, \autoref{thm:metacic-critical-path-socket-route-totality}. Any route that mentions $D$ must retain $S,N,O,U,D,H,C,P,L$ as its visible row inventory. Hence the attempted discharge factors through the displayed packet and cannot hide $O$ or turn $D$ into a closed subject-reduction theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathSubjectReductionSocketFactorization}
 
 \begin{theorem}[MetaCIC critical-path obstruction-ledger exhaustion]
 \label{thm:metacic-critical-path-obstruction-ledger-exhaustion}
@@ -420,6 +449,7 @@ F=(K,R,B,Q),
 $$
 where $K$ is the accepted carrier of \autoref{def:metacic-critical-path-packet}, $R=(S,N,O,U,D,H,C,P,L)$ is the visible route inventory, $B=D$ is the blocked subject-reduction socket, and $Q$ is the downstream consumer query that asks for either a consistency-facing read or a subject-reduction-facing read of the packet.
 \end{definition}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathFrontierSliceConsumerCertificate}
 
 \begin{theorem}[MetaCIC critical-path frontier coverage]
 \label{thm:metacic-critical-path-frontier-coverage}
@@ -513,6 +543,7 @@ Q=(O,R,D,B,C,P,N)
 $$
 whose rows are an open-node row $O$, a dependency-ready row $R$, a downstream-rank row $D$, an obstruction ledger $B$, a replay route $C$, package provenance $P$, and a local $\NameCert_{\MetaCICCriticalPathUp}$ row $N$. The open-node row names the still-visible frontier node, the dependency-ready row records which cited packet rows are already available, the downstream-rank row records the finite consumer rank, the obstruction ledger records the subject-reduction socket and blocked theorem exports, the replay route stores the $\Cont$ paths used by scheduler-facing consumers, and the provenance row ties the read to the public packet of \autoref{def:metacic-critical-path-packet}.
 \end{definition}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathFrontierRankReplayClosure}
 
 \begin{theorem}[MetaCIC critical-path open-node exhaustion]
 \label{thm:metacic-critical-path-open-node-exhaustion}
@@ -552,6 +583,7 @@ Open-node exhaustion shows that every accepted open-node read factors through th
 Therefore the Lean-facing obligation is coordinatewise exact. A formal target with precisely these rows verifies the same paper surface, while any extra scheduling coordinate would certify a different object.
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathLeanHandoffSurface}
+\leanvariant{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathFrontierRank\_lean\_handoff\_surface}
 
 \begin{theorem}[MetaCIC critical-path discharge-socket locality]
 \label{thm:metacic-critical-path-discharge-socket-locality}
@@ -684,6 +716,7 @@ Finally use \autoref{thm:metacic-critical-path-residual-confluence-budget-bridge
 \label{thm:metacic-critical-path-candidate-mediated-sn-conditional-discharge}
 Let $K=(S,N,O,U,D,H,C,P,L)$ be an accepted $\MetaCICCriticalPathUp$ packet. If the candidate-mediated SN row attached to $K$ has consumed the subject-reduction obstruction row $O$, the normalization audit route $S \to N$, the decidability boundary contained in $U$, the normal false exclusion endpoint $N$, and the residual substitution rows mediated by $U$, then $K$ discharges the local SN handoff condition for the public critical-path route. This discharge is only the local handoff condition named by the packet; it does not claim full closed SN, full Church--Rosser, global beta-conversion decidability, closed subject reduction, or full closed consistency.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedSNConditionalDischarge}
 \begin{proof}
 Project the packet carrier. The displayed rows $S,N,O,U,D,H,C,P,L$ keep the normalization route, normal-form endpoint, subject-reduction obstruction, substitution-confluence-decidability handoff, discharge socket, transport, replay, provenance, and local naming visible.
 
@@ -692,6 +725,36 @@ Use the obstruction and consistency handoff theorems first. They route normaliza
 Next compose the public provenance and frontier results. The public provenance rows name only the cited obstruction, normalization audit, decidability boundary, and normal false exclusion packets, while the candidate-mediated frontier theorems route candidate SN, residual substitution, confluence, and bounded checking through the same finite ledger.
 
 The stated hypothesis says that this finite candidate-mediated ledger has already consumed the listed obstruction, audit, boundary, endpoint, and residual rows. Therefore the local SN handoff condition for the public critical-path route is discharged, but no theorem outside that local handoff is exported.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 residual route]
+\label{thm:metacic-critical-path-l10-residual-route}
+Let $K=(S,N,O,U,D,H,C,P,L)$ be an accepted $\MetaCICCriticalPathUp$ packet. If the candidate-mediated SN row attached to $K$ consumes the subject-reduction obstruction row $O$, the normalization route $S \to N$, the decidability boundary in $U$, the normal-false endpoint $N$, and the residual rows mediated by $U$, then every L10 four-object exit certificate read from $K$ must route through the same finite residual ledger before any $\RealUp$- or $\CompletionUp$-facing consumer can read it. The visible exit route is the shared packet surface $O,U,D,H,C,P,L$ together with the normalization endpoint $N$; it exports no closed subject reduction, no full strong normalization theorem, no global Church--Rosser theorem, no beta-conversion decision procedure, and no closed consistency theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathL10ResidualRoute}
+\begin{proof}
+Start with the public provenance route. The public rows identify the obstruction, normalization audit, decidability boundary, normal-false endpoint, residual substitution, replay, provenance, and local naming data as rows of the same accepted packet, so an L10 exit certificate cannot detach them into an external theorem export.
+
+Use \autoref{thm:metacic-critical-path-residual-confluence-budget-bridge}. It keeps residual-confluence reads on the finite budget ledger and prevents a confluence-facing consumer from bypassing $O,D,H,C,P,L$.
+
+Next apply \autoref{thm:metacic-critical-path-residual-substitution-normalization-frontier}. Residual substitution and normalization share the same frontier: the route through $U$ and the route $S \to N$ must keep the obstruction row, discharge socket, transport, replay, provenance, and naming rows visible.
+
+Finally apply \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-discharge}. Its hypothesis is exactly the consumed candidate-mediated ledger named in the statement, so the L10 four-object exit certificate can be read only after that ledger has discharged the local SN handoff. The Real- or Completion-facing consumer therefore receives a routed residual certificate, not an independent closed MetaCIC metatheorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC critical-path L10 discharge dependency bridge]
+\label{thm:metacic-critical-path-l10-discharge-dependency-bridge}
+For every accepted $\MetaCICCriticalPathUp$ carrier $K=(S,N,O,U,D,H,C,P,L)$, any L10 four-object exit certificate read from the packet must consume the same candidate-mediated SN discharge row, residual substitution row, subject-reduction obstruction row $O$, normalization endpoint $N$, and decidability boundary in $U$ before any $\RealUp$ or $\CompletionUp$ consumer reads it. The bridge records only this dependency order; it does not claim full subject reduction, Church--Rosser, beta-conversion decidability, strong normalization, or closed consistency.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathL10DischargeDependencyBridge}
+\begin{proof}
+Begin with \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-discharge}. Its conditional discharge row is local to the same packet and is available only after the obstruction row, normalization route, decidability boundary, normal endpoint, and residual rows have already been consumed.
+
+Next apply \autoref{thm:metacic-critical-path-residual-substitution-normalization-frontier}. Residual substitution and normalization share the same finite frontier through $U$, $S \to N$, $O,D,H,C,P,L$, so the L10 exit cannot read residual substitution as a detached subject-reduction theorem.
+
+Use \autoref{thm:metacic-critical-path-residual-confluence-budget-bridge} to keep confluence-facing and SN-facing reads on the shared finite budget ledger. Then apply \autoref{thm:metacic-critical-path-l10-residual-route}; it routes every L10 four-object exit certificate through that residual ledger before Real- or Completion-facing consumers can inspect it.
+
+Therefore the exit certificate consumes the same discharge, residual, obstruction, endpoint, and decidability rows in the same packet. The consumer receives a dependency bridge for the L10 route, not any of the blocked global MetaCIC conclusions.
 \end{proof}
 
 \input{parts/concrete_instances/metaciccriticalpath/public_tail_bridge}

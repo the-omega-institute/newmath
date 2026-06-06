@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\LocatedSequentialCompletenessUp$}
+\label{ch:concrete-instances-located-sequential-completeness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, located sequential completeness is read from regular sequence data with a displayed modulus, not from a quotient stream or a selected ambient limit. The $\LocatedSequentialCompletenessUp$ packet records the standard constructive route by which a modulus-controlled sequence supplies finite windows, regular-rational readback, and a Real-facing seal. It sits over the regular sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, the Real certificate of \autoref{ch:concrete-instances-real-namecert}, and the completion criterion of \autoref{ch:concrete-instances-bishop-completion-criterion-namecert}.
+
+\begin{definition}[Located sequential completeness carrier]
+\label{def:located-sequential-completeness-carrier}
+A $\LocatedSequentialCompletenessUp$ carrier is a finite $\BHist$ packet
+$$
+S=(A,M,W,R,E,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the sequence source row. It names the admitted sequence observations and exposes no host stream equality.
+\item $M$ is the located Cauchy modulus row, recording the finite tolerance requests and the index bounds that answer them.
+\item $W$ is the $\StreamNameUp$ finite-window row, listing the inspected sequence windows and their observation schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row, packaging the rational regularity comparisons obtained from $M$ and $W$.
+\item $E$ is the $\RealUp$ seal row, opened only after the regular-rational readback has been displayed.
+\item $U$ is the uniqueness ledger. It records that two accepted reads with the same modulus, finite windows, regular readback, and Real seal compare through the same displayed rows.
+\item $H$ stores componentwise $\hsame$ transport for the source, modulus, StreamName windows, RegSeqRat readback, Real seal, uniqueness ledger, replay, provenance, and local naming rows.
+\item $C$ stores $\Cont$ replay from source observations to modulus requests, from modulus requests to finite windows, from windows to regular-rational readback, and from readback to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\LocatedSequentialCompletenessUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedSequentialCompletenessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,M,W,R,E,U,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, host equality of Real names, ambient completeness, or an unbounded choice schedule.
+\end{definition}
+
+\begin{theorem}[Located sequential completeness NameCert obligations]
+\label{thm:located-sequential-completeness-namecert-obligations}
+For every accepted $\LocatedSequentialCompletenessUp$ carrier $S=(A,M,W,R,E,U,H,C,P,N)$, the local $\NameCert_{\LocatedSequentialCompletenessUp}$ surface consists exactly of sequence-source admission, located Cauchy modulus visibility, StreamName finite-window coverage, RegSeqRat readback, Real seal handoff, uniqueness-ledger stability, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A completion or Real-facing consumer must read those rows before it consumes the sequential-completeness output.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-sequential-completeness-carrier}. The source, modulus, finite-window, regular-rational, Real-seal, uniqueness, transport, replay, provenance, and naming rows are the visible inventory.
+
+The modulus and window obligations are read together. The located Cauchy modulus supplies finite bounds for positive tolerance requests, while the StreamName row records exactly which finite observations are inspected under those bounds.
+
+The RegSeqRat and Real-facing obligations are downstream. The row $R$ packages the regular rational comparisons produced by the modulus and windows, and $E$ seals the compatible readback as a $\RealUp$ name only after $R$ has appeared.
+
+Finally $U,H,C,P,N$ stabilize, transport, replay, source, and name the same route. Since the carrier has no coordinate for quotient stream equality, selected limits, host equality, ambient completeness, or choice schedules, the listed obligations exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located sequential completeness RegSeqRat handoff]
+\label{thm:located-sequential-completeness-regseqrat-handoff}
+Every accepted $\LocatedSequentialCompletenessUp$ packet hands a modulus-controlled sequence to Real-facing consumers through the route
+$$
+A\longmapsto M\longmapsto W\longmapsto R\longmapsto E .
+$$
+Thus the consumer reads the sequence source, located Cauchy modulus, StreamName finite windows, $\RegSeqRatUp$ readback, and $\RealUp$ seal before any completion criterion or Real seal is public.
+\end{theorem}
+\begin{proof}
+Start from the source row $A$. It provides only the admitted sequence observations, so no consumer can begin with a host stream or quotient class.
+
+Use the modulus row $M$ and finite-window row $W$. A positive tolerance request is answered by a displayed index bound and by the finite StreamName observations inspected under that bound.
+
+Read the regular-rational row $R$ next. The $\RegSeqRatUp$ handoff packages the rational comparison windows supplied by $M$ and $W$, and the Real seal $E$ is downstream of that readback.
+
+The structural rows $H,C,P,N$ preserve this route for completion and Real-facing consumers. Therefore the handoff exports the displayed finite route rather than a selected limit, quotient stream equality, host equality, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[Located sequential completeness uniqueness ledger]
+\label{thm:located-sequential-completeness-uniqueness-ledger}
+If two accepted $\LocatedSequentialCompletenessUp$ packets display the same sequence source, located Cauchy modulus, StreamName finite windows, RegSeqRat readback, and Real seal rows, then their public completion read is compared only through the uniqueness ledger $U$ and the structural rows $H,C,P,N$. The comparison does not use host equality of streams or selected limit witnesses.
+\end{theorem}
+\begin{proof}
+Read the equality premise row by row. Agreement of $A,M,W,R,E$ fixes the admitted observations, the tolerance-to-index bounds, the finite observation windows, the regular-rational comparisons, and the Real-facing seal.
+
+The uniqueness ledger $U$ records that no further coordinate is available for public comparison. Componentwise $\hsame$ transport in $H$ and displayed replay in $C$ keep the same rows attached to both packets.
+
+Provenance and local naming through $P,N$ then identify the comparison as a NameCert read over the displayed route. Since neither packet contains a host stream equality row, selected limit row, or ambient completeness row, the uniqueness comparison cannot appeal to those objects.
+\end{proof}
+
+\closureat{LocatedSequentialCompletenessUp}{seedStr}
+
+\begin{closurestatus}{\LocatedSequentialCompletenessUp}
+  \constructivestory{A $\LocatedSequentialCompletenessUp$ packet is generated from sequence-source observations, a located Cauchy modulus, StreamName finite windows, RegSeqRat readback, a Real seal, a uniqueness ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-sequential-completeness-carrier}, \autoref{thm:located-sequential-completeness-namecert-obligations}, \autoref{thm:located-sequential-completeness-regseqrat-handoff}, and \autoref{thm:located-sequential-completeness-uniqueness-ledger} seed the finite located sequential-completeness route from modulus-controlled sequence reads to RegSeqRat and Real-facing seals.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, host equality of Real names, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, located modulus visibility, StreamName finite-window coverage, RegSeqRat readback, Real seal handoff, uniqueness stability, transport, replay, provenance, and local naming for BEDC.Derived.LocatedSequentialCompletenessUp.}
+\end{closurestatus}

@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\BourbakiWittUp$}
+\label{ch:concrete-instances-bourbaki-witt-namecert}
+\origin{human}
+
+Following Bourbaki and Witt, the $\BourbakiWittUp$ packet records the constructive order-theoretic fixed-point route for a progressive monotone self-map on a displayed chain-complete poset source. It sits after the separated order carrier of \autoref{ch:concrete-instances-poset-namecert}, the certified-family bound surface of \autoref{ch:concrete-instances-complete-lattice-namecert}, and the complete-lattice monotone fixed-row route of \autoref{ch:concrete-instances-tarski-fixed-point-namecert}. The packet names only finite chain rows, displayed upper-bound witnesses, approximation ledgers, transport, replay, provenance, and local naming; it does not assert Zorn's lemma, full choice, unrestricted chain completeness, quotient order equality, or an ambient maximal-chain theorem.
+
+\begin{definition}[Bourbaki-Witt carrier]
+\label{def:bourbaki-witt-carrier}
+A $\BourbakiWittUp$ carrier is a finite $\BHist$ packet
+$$
+B=(O,F,G,U,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\PosetUp$ source row equipped with the displayed chain-completeness boundary accepted by this packet.
+\item $F$ is the progressive monotone self-map row, recording both monotonicity and the displayed comparison $x \leq F(x)$ for carried elements.
+\item $G$ is the finite chain ledger, listing the inspected chain windows and their inherited $\PosetUp$ comparison rows.
+\item $U$ is the displayed chain-bound witness row assigning an upper-bound name to each inspected chain window.
+\item $A$ is the finite approximation ledger, recording the iterated or successor-stage rows used by a fixed-point consumer before the bound row is read.
+\item $H$ records componentwise $\hsame$ transport for $O,F,G,U,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from the poset source and progressive monotone map through chain windows, upper-bound witnesses, approximation rows, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\BourbakiWittUp$, $\PosetUp$, $\CompleteLatticeUp$, $\TarskiFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BourbakiWittUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,F,G,U,A,H,C,P,N$. It has no coordinate for a choice-selected maximal chain, Zorn principle, unrestricted chain completeness, quotient order equality, host ordinal recursion, or ambient lattice semantics.
+\end{definition}
+
+\begin{theorem}[Bourbaki-Witt NameCert obligations]
+\label{thm:bourbaki-witt-namecert-obligations}
+For every accepted $\BourbakiWittUp$ carrier $B=(O,F,G,U,A,H,C,P,N)$, the local $\NameCert_{\BourbakiWittUp}$ surface consists exactly of carrier admission for the chain-complete $\PosetUp$ source row, progressive monotone map exposure through $F$, chain-window exposure through $G$, displayed chain-bound witnesses through $U$, finite approximation coverage through $A$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bourbaki-witt-carrier}. The displayed rows are exactly $O,F,G,U,A,H,C,P,N$, so every local obligation must be read from one of those rows.
+
+Read the order-theoretic rows first. The source row $O$ supplies the separated partial-order carrier and the displayed chain-completeness boundary, while $F$ supplies the progressive monotone self-map row consumed by the fixed-point route.
+
+The chain rows $G,U,A$ then account for the constructive content. Each inspected chain window is named before its upper-bound witness is used, and each approximation step is recorded before a consumer may read a fixed-row handoff.
+
+Finally use $H,C,P,N$ to transport, replay, source, and name the same route. Since no carrier coordinate stores a maximal-chain selector, Zorn principle, unrestricted chain-completeness theorem, quotient order equality, host ordinal recursion, or ambient complete-lattice semantics, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bourbaki-Witt chain handoff]
+\label{thm:bourbaki-witt-chain-handoff}
+Every fixed-point consumer of an accepted $\BourbakiWittUp$ packet must read the route
+$$
+\PosetUp(O),F,G,U,A,H,C,P,N
+$$
+before it may use the exported fixed-row surface. The route hands finite chain windows and their displayed upper-bound witnesses to $\CompleteLatticeUp$ and $\TarskiFixedPointUp$ consumers without selecting a maximal chain, invoking Zorn's lemma, asserting full choice, or claiming unrestricted chain completeness outside the displayed source row.
+\end{theorem}
+\begin{proof}
+Start from the $\PosetUp$ source row. It supplies the only order comparison surface visible to the packet, and the chain-completeness boundary is read as part of that displayed source rather than as an ambient theorem.
+
+Apply the progressive monotone map row. The row $F$ records both monotonicity over the carried order and the progressive comparison used to extend each inspected approximation window.
+
+Use the chain ledger and bound rows next. The row $G$ names the finite chain windows, $U$ supplies their displayed upper-bound witnesses, and $A$ records the approximation ledger that a fixed-point consumer may replay.
+
+The handoff to $\CompleteLatticeUp$ or $\TarskiFixedPointUp$ is therefore mediated by $H,C,P,N$. Transport and replay preserve the same finite rows, while provenance and local naming prevent the endpoint from importing Zorn, full choice, unrestricted chain completeness, quotient order equality, or a detached maximal-chain construction.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BourbakiWittUp$ fixed-row read factors through a chain-complete Poset source row, progressive monotone map row, finite chain ledger, displayed chain-bound witness row, finite approximation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{poset, complete-lattice, tarski-fixed-point: $\BourbakiWittUp$ is not bijective to any listed sibling because it jointly carries progressive monotone map data, finite chain windows, displayed chain-bound witnesses, approximation rows, transport, replay, provenance, and local naming without a maximal-chain selector.}
+
+\closureat{BourbakiWittUp}{seedStr}
+
+\begin{closurestatus}{\BourbakiWittUp}
+  \constructivestory{A $\BourbakiWittUp$ packet is generated from a chain-complete Poset source row, progressive monotone map row, finite chain ledger, displayed upper-bound witnesses, finite approximation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bourbaki-witt-carrier}, \autoref{thm:bourbaki-witt-namecert-obligations}, and \autoref{thm:bourbaki-witt-chain-handoff} seed the finite chain-complete fixed-point route between Poset, CompleteLattice, and TarskiFixedPoint consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Zorn's lemma, full choice, unrestricted chain completeness, quotient order equality, host ordinal recursion, selected maximal chains, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, progressive monotone exactness, chain-window coverage, displayed upper-bound witnesses, approximation ledger stability, transport, replay, provenance, and local naming for BEDC.Derived.BourbakiWittUp.}
+\end{closurestatus}

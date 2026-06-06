@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\RegularSequenceComparisonUp$}
+\label{ch:concrete-instances-regular-sequence-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularSequenceComparisonUp$ packet records the finite comparison surface for two regular rational stream windows. It sits between the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence packet of \autoref{ch:concrete-instances-regseqrat-namecert}, the displayed real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the Cauchy naming surface of \autoref{ch:concrete-instances-cauchy-namecert}. The packet compares only displayed windows and tolerances; it is not a Dedekind cut, quotient real equality, selected limit, trichotomy principle, countable-choice schedule, or ambient completeness theorem for $\RealUp$.
+
+\begin{definition}[Regular sequence comparison carrier]
+\label{def:regular-sequence-comparison-carrier}
+A $\RegularSequenceComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S_0,S_1,Q_0,Q_1,D,T,M,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S_0,S_1$ are $\StreamNameUp$ finite-window rows for the two regular rational streams being compared.
+\item $Q_0,Q_1$ are $\RegSeqRatUp$ readback rows attached to the two displayed windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ladder, displayed as finite dyadic stages
+$$
+\delta_0 \geq \delta_1 \geq \cdots \geq \delta_k
+$$
+together with the endpoint and difference comparisons consumed at each inspected stage.
+\item $T$ is the termwise comparison ledger pairing the visible $Q_0$ and $Q_1$ entries at the dyadic stages listed by $D$.
+\item $M$ is the modulus-window row recording which finite StreamName windows are required before a requested dyadic tolerance may be read.
+\item $E$ is the terminal $\RealUp$ seal row, exposed only after $S_0,S_1,Q_0,Q_1,D,T,M$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for both windows, both regular-rational readbacks, the dyadic tolerance ladder, the comparison ledger, the modulus-window row, the Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a comparison request to the two windows, their regular readbacks, the dyadic ladder, the comparison ledger, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularSequenceComparisonUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularSequenceComparisonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S_0,S_1,Q_0,Q_1,D,T,M,E,H,C,P,N$. It has no coordinate for Dedekind cuts, quotient real equality, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular sequence comparison NameCert obligations]
+\label{thm:regular-sequence-comparison-namecert-obligations}
+For every accepted $\RegularSequenceComparisonUp$ carrier $R=(S_0,S_1,Q_0,Q_1,D,T,M,E,H,C,P,N)$, the local $\NameCert_{\RegularSequenceComparisonUp}$ surface consists exactly of carrier admission for the two $\StreamNameUp$ windows, the two $\RegSeqRatUp$ readbacks, the finite $\DyadicRatCoreUp$ tolerance ladder, the termwise comparison ledger, the modulus-window row, the terminal $\RealUp$ seal, componentwise transport, displayed replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-sequence-comparison-carrier}. The two windows $S_0,S_1$, the two regular-rational readbacks $Q_0,Q_1$, and the dyadic ladder $D$ are the only source rows visible to the comparison.
+
+Read the comparison through $T$ and $M$. The ledger $T$ pairs only entries already exposed by the two readback rows, while $M$ records the finite windows required for the requested tolerance.
+
+Finally transport and replay the same rows through $H$ and $C$, and source them through $P,N$. Since the carrier has no further coordinate, the listed rows exhaust the local NameCert obligations and leave quotient equality, selected limits, countable choice, trichotomy, and Real completeness outside the packet.
+\end{proof}
+
+\begin{theorem}[Regular sequence comparison RegSeqRat handoff]
+\label{thm:regular-sequence-comparison-regseqrat-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularSequenceComparisonUp$ packet receives comparison data only through the finite route
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp
+$$
+as displayed by $S_0,S_1,Q_0,Q_1,D,T,M,E,H,C,P,N$. The handoff therefore supplies a finite regular-sequence comparison window, not a quotient equality of real names, selected limit, Dedekind-cut comparison, trichotomy decision, countable-choice schedule, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet and project its two $\StreamNameUp$ rows. The consumer cannot read a regular rational comparison until both finite windows $S_0,S_1$ have been displayed.
+
+Next read $Q_0,Q_1$ and the dyadic tolerance ladder $D$. The $\RegSeqRatUp$ rows expose only finite regular-rational readbacks, and $D$ records the finite tolerance stages at which those readbacks are compared.
+
+The comparison ledger $T$ and modulus-window row $M$ then expose the requested finite comparison. The terminal row $E$ is a displayed $\RealUp$ seal for this route only; it is not a completeness assertion.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Thus any RegSeqRat or Real-facing consumer receives the finite comparison route and no hidden quotient equality, selected limit, Dedekind cut, trichotomy decision, countable-choice schedule, or ambient Real completeness.
+\end{proof}
+
+\closureat{RegularSequenceComparisonUp}{seedStr}
+
+\begin{closurestatus}{\RegularSequenceComparisonUp}
+  \constructivestory{A $\RegularSequenceComparisonUp$ packet is generated from two StreamName windows, two RegSeqRat readback rows, a DyadicRatCore tolerance ladder, a termwise comparison ledger, a modulus-window row, a RealUp seal, transport, replay, provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-sequence-comparison-carrier}, \autoref{thm:regular-sequence-comparison-namecert-obligations}, and \autoref{thm:regular-sequence-comparison-regseqrat-handoff} seed the finite regular-sequence comparison route through displayed StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerances, and a RealUp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Dedekind cuts, quotient real equality, selected limits, trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic ladder exposure, RegSeqRat handoff, Real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularSequenceComparisonUp.}
+\end{closurestatus}

@@ -56,14 +56,18 @@ The package row $P$ and continuation row $C$ replay the sibling dependencies on 
 
 \begin{theorem}[DiagonalLimitBudget obligation surface]
 \label{thm:diagonal-limit-budget-obligation-surface}
-The local $\NameCert_{\DiagonalLimitBudgetUp}$ surface consists exactly of carrier admission for $B$, diagonal request exposure through $D$, modulus-budget exposure through $M$, selected $\StreamNameUp$ and $\RegSeqRat$ window exposure through $W$, $\DyadicRatCoreUp$ tolerance and readback exposure through $Q$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+The local $\NameCert_{\DiagonalLimitBudgetUp}$ surface consists exactly of carrier admission for $B$, diagonal request exposure through $D$, modulus-budget exposure through $M$, selected $\StreamNameUp$ and $\RegSeqRat$ window exposure through $W$, $\DyadicRatCoreUp$ tolerance and readback exposure through $Q$, $\RealUp$ seal exposure through $E$, componentwise $\hsame$ classifier transport through $H$, displayed $\Cont$ classifier replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. The same displayed $D,M$ request determines the same $W,Q$ readback surface, and the seal row $E$ is readable only along the displayed $M,W,Q$ budget route.
 \end{theorem}
 \begin{proof}
 Carrier admission is projection from the displayed tuple. The request, budget, selected window, dyadic ledger, seal, transport, continuation, provenance, and naming rows are all explicit coordinates.
 
 The selector-facing side is exhausted by $D,M,W$: the request asks for a diagonal index, the budget row records the modulus value, and the selected window names the finite $\StreamNameUp$ and $\RegSeqRat$ read. The observation-facing side is exhausted by $Q,E$: the dyadic ledger records the tolerance and readback, and the seal row records the RealUp endpoint reached by that ledger.
 
-The structural side is exhausted by $H,C,P,N$. These rows preserve and replay the displayed packet, so the obligation surface contains no hidden classifier, no quotient stream equality, no host real equality, and no ambient completeness premise.
+Classifier transport is carried by the structural rows. The componentwise $\hsame$ row $H$ transports the displayed coordinates $D,M,W,Q,E,C,P,N$, while the $\Cont$ row $C$ replays the index request, budget row, selected window, dyadic ledger, seal row, provenance, and local naming row. Thus the classifier visible to a consumer is the classifier of the displayed packet, not a hidden external classifier.
+
+Selected-window determinacy is the finite readback part of the same projection. Since $W$ and $Q$ are coordinates of $B$ attached to the displayed request and budget rows, two accepted reads of the same $D,M$ surface in this packet expose the same selected-window and dyadic-readback rows. By \autoref{thm:diagonal-limit-budget-nonescape}, there is no second modulus row, second selected window, or external limit witness from which a different $W,Q$ readback could be recovered.
+
+Seal-budget exactness follows from the seal handoff. By \autoref{thm:diagonal-limit-budget-seal-handoff}, the seal row $E$ is exported only together with the same $M,W,Q,H,C,P,N$ rows. Therefore $E$ is readable precisely as the displayed budgeted seal route, and the obligation surface contains no hidden classifier, no quotient stream equality, no host real equality, and no ambient completeness premise.
 \end{proof}
 
 \begin{theorem}[DiagonalLimitBudget independence witness]

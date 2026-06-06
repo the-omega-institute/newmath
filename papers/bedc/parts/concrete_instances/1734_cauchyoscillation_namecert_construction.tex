@@ -611,6 +611,7 @@ O_{\mathrm{ulim}}=(W,M,Q,T,H,C,P,N).
 $$
 It consists of the $\StreamNameUp$ or $\RegSeqRatUp$ finite tail-window row $W$, the threshold row $M$, the $\DyadicRatCoreUp$ tolerance row $Q$, the oscillation ledger $T$, and the transport, replay, provenance, and local naming rows. The $\RealUp$ seal row $S$ remains downstream of this subpacket and is not a selected limit.
 \end{definition}
+\leandef{BEDC.Derived.CauchyOscillationUp.CauchyOscillationUniformLimitSource}
 
 \begin{theorem}[CauchyOscillation uniform-limit tail handoff]
 \label{thm:cauchy-oscillation-uniform-limit-tail-handoff}
@@ -636,11 +637,13 @@ Apply the dyadic-tail Real-seal route and completion-frontier obligation, \autor
 
 Use Real-seal uniqueness boundary, \autoref{thm:cauchy-oscillation-real-seal-uniqueness-boundary}. Since the packet supplies only the displayed seal route and no second seal or host equality proof, the listed source chain exhausts the completion-facing surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCompletionSourceExhaustion}
 
 \begin{theorem}[CauchyOscillation RegSeqRat uniform-threshold preservation]
 \label{thm:cauchy-oscillation-regseqrat-uniform-threshold}
 Under componentwise $\hsame$ transport and displayed $\Cont$ replay, the $\RegSeqRatUp$ or $\StreamNameUp$ tail-window row $W$ preserves the uniform threshold row $M$ together with the dyadic tolerance row $Q$ and oscillation ledger $T$. A transported $\UniformLimitUp$ or $\UniformCauchyCriterionUp$ consumer therefore reads the same finite threshold packet $W,M,Q,T,H,C,P,N$ before any $\RealUp$ seal handoff.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationRegSeqRatUniformThreshold}
 \begin{proof}
 Begin with modulus-threshold exactness and modulus-tail monotonicity, \autoref{thm:cauchy-oscillation-modulus-threshold-exactness} and \autoref{thm:cauchy-oscillation-modulus-tail-monotonicity}. They tie $M$ to the displayed tail route $W,Q,T$ and prevent a detached threshold schedule from supplying the comparison.
 
@@ -674,6 +677,7 @@ W,M,Q,T,S,H,C,P,N
 $$
 whose rows expose the tail window, modulus threshold, dyadic tolerance, oscillation ledger, Real seal, componentwise transport, displayed replay, provenance, and local NameCert obligations. The package is consumed by $\UniformCauchyCriterionUp$, $\UniformLimitUp$, $\RegSeqRatUp$, and $\RealUp$ readers only through those displayed rows and exports no quotient stream, selected limit, host equality, countable choice, or ambient completeness datum.
 \end{theorem}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationCarrier\_audit\_clean\_obligation\_package}
 \begin{proof}
 Start with the NameCert obligations of \autoref{thm:cauchy-oscillation-namecert-obligations}. They project the accepted carrier into the visible rows $W,M,Q,T,S,H,C,P,N$ and identify carrier admission, exactness, transport, replay, provenance, and local naming as the whole certificate surface.
 
@@ -701,6 +705,7 @@ Use ledger transport and RegSeqRat uniform-threshold preservation, \autoref{thm:
 
 The seal-handoff factorization theorem \autoref{thm:cauchy-oscillation-seal-handoff-factorization} keeps $S$ after this subpacket. Therefore the audit package is exactly $W,M,Q,T,H,C,P,N$ before any Real seal is public.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationTailWindowAuditPackage}
 
 \begin{theorem}[CauchyOscillation Real completion audit handoff]
 \label{thm:cauchy-oscillation-real-completion-audit-handoff}
@@ -715,6 +720,7 @@ Apply Real seal nonescape and seal-handoff factorization, \autoref{thm:cauchy-os
 
 Finally invoke completion-frontier public readiness, \autoref{thm:cauchy-oscillation-completion-frontier-public-readiness}. The public completion surface is exactly the displayed audit route plus the downstream seal, so no excluded host or quotient object is exported.
 \end{proof}
+\leanchecked{BEDC.Derived.CauchyOscillationUp.CauchyOscillationRealCompletionAuditHandoff}
 
 \begin{theorem}[CauchyOscillation common tail-window classifier]
 \label{thm:cauchy-oscillation-common-tail-window-classifier}

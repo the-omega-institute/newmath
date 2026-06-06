@@ -1,0 +1,90 @@
+\chapter{A Concrete Naming Certificate for $\FastCauchyAccelerationSelectorUp$}
+\label{ch:concrete-instances-fast-cauchy-acceleration-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\FastCauchyAccelerationSelectorUp$ packet records the finite selector surface that accelerates an ordinary regular Cauchy tail ledger into a fast Cauchy budget schedule. It sits between the selected-tail packet of \autoref{ch:concrete-instances-reg-cauchy-tail-sel-namecert}, the fast-subsequence route of \autoref{ch:concrete-instances-fastcauchysubsequence-namecert}, the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name row of \autoref{ch:concrete-instances-real-namecert}.
+
+The selector is finite: it names requested precision budgets, inspected tail windows, dyadic tolerances, regular-rational reads, and a fast-subsequence handoff. It does not add countable choice, quotient stream equality, a host real equality, a selected limit, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Fast Cauchy acceleration selector carrier]
+\label{def:fast-cauchy-acceleration-selector-carrier}
+A $\FastCauchyAccelerationSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+A=(T,F,D,S,R,E,B,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $T$ is an accepted $\RegularCauchyTailSelectorUp$ packet that supplies the ordinary selected-tail witness for the inspected source;
+\item $F$ is the $\FastCauchySubsequenceUp$ handoff row that records the accelerated tail schedule consumed by fast Cauchy readers;
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger translating each fast budget into the dyadic comparison checked on the selected tail;
+\item $S$ is the $\StreamNameUp$ finite-window row whose inspected windows are shared by the ordinary selector and the accelerated schedule;
+\item $R$ is the $\RegSeqRatUp$ readback row reached only after the selected tail and dyadic budget rows are displayed;
+\item $E$ is the terminal $\RealUp$ seal row available only through $T,F,D,S,R$;
+\item $B$ is the finite acceleration-budget schedule, listing the displayed precision request, selected tail index, and fast-budget target for each inspected row;
+\item $H$ stores componentwise $\hsame$ transports for the selector, fast-subsequence, dyadic, stream, readback, seal, budget, provenance, and local naming rows;
+\item $C$ stores the displayed $\Cont$ routes by which completion-facing consumers may read the packet;
+\item $P$ is the $\Pkg$ provenance over $\FastCauchyAccelerationSelectorUp$, $\RegularCauchyTailSelectorUp$, $\FastCauchySubsequenceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FastCauchyAccelerationSelectorUp}$ row.
+\end{enumerate}
+No coordinate of $A$ is a quotient of streams, a choice function on all precisions, a host-level real equality, a selected limit value, or a real-completeness theorem.
+\end{definition}
+
+\begin{theorem}[Fast Cauchy acceleration selector NameCert obligations]
+\label{thm:fast-cauchy-acceleration-selector-obligations}
+The carrier of \autoref{def:fast-cauchy-acceleration-selector-carrier} satisfies the local $\NameCert_{\FastCauchyAccelerationSelectorUp}$ obligation surface. Its obligations are exactly:
+\begin{enumerate}
+\item carrier admission for $A=(T,F,D,S,R,E,B,H,C,P,N)$;
+\item ordinary-tail admission, requiring $T$ to be read as an accepted $\RegularCauchyTailSelectorUp$ packet before any fast schedule is consumed;
+\item fast-schedule admission, requiring $F$ and $B$ to expose the accelerated tail budget through $\FastCauchySubsequenceUp$;
+\item dyadic budget exactness, requiring each budget entry in $B$ to be checked through $D$ against the same finite $\StreamNameUp$ windows in $S$;
+\item regular-readback exactness, requiring $R$ to be reached only after $T,F,D,S,B$ have been displayed;
+\item real-seal non-escape, requiring $E$ to expose only the finite acceleration route and no quotient stream, chosen limit, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is the displayed finite $\BHist$ tuple. Each coordinate is either a named sibling packet, a finite budget row, transport data, a displayed continuation route, package provenance, or the local naming row.
+
+The ordinary-tail and fast-schedule obligations are read in sequence. First $T$ supplies the selected-tail witness from $\RegularCauchyTailSelectorUp$; then $F$ and $B$ record the accelerated schedule consumed by $\FastCauchySubsequenceUp$.
+
+Dyadic budget exactness follows by inspecting $D$ and $S$ together. Each budget in $B$ is attached to a visible dyadic tolerance and to the same finite stream window that the ordinary selector inspected.
+
+For regular readback, $R$ is downstream of $T,F,D,S,B$. Since the carrier has no alternate readback coordinate, every $\RegSeqRatUp$ consumer of the accelerated schedule must pass through those rows.
+
+Finally $E$ is reached only through the displayed route. The carrier lists no quotient stream, host equality, chosen limit, countable-choice selector, or ambient completeness coordinate, so the local $\NameCert$ surface is exhausted by the finite acceleration packet.
+\end{proof}
+
+\begin{theorem}[Fast Cauchy acceleration selector window readback]
+\label{thm:fast-cauchy-acceleration-selector-window-readback}
+Every accepted $\FastCauchyAccelerationSelectorUp$ packet exposes the finite completion-facing route
+$$
+\RegularCauchyTailSelectorUp
+\longmapsto
+\FastCauchySubsequenceUp
+\longmapsto
+\DyadicRatCoreUp,\StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+In the carrier notation $A=(T,F,D,S,R,E,B,H,C,P,N)$, a completion consumer may read only the selected-tail row $T$, the accelerated schedule $F,B$, the dyadic tolerance ledger $D$, the shared stream window $S$, the regular-rational readback $R$, the real seal $E$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:fast-cauchy-acceleration-selector-obligations}. They force the ordinary selected tail $T$ to be displayed before the accelerated schedule $F,B$ is read.
+
+Next read the dyadic and stream rows. The budget exactness clause attaches each accelerated request to $D$ and $S$, so the fast schedule cannot bypass the inspected source window or replace the dyadic tolerance ledger.
+
+Then consume the regular-rational and real-seal rows. The regular-readback obligation places $R$ after $T,F,D,S,B$, and the real-seal non-escape obligation places $E$ after the same finite route.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only this packet. Therefore the readback route exports the displayed finite acceleration selector and no quotient stream equality, hidden limit selector, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{closurestatus}{\FastCauchyAccelerationSelectorUp}
+  \constructivestory{A $\FastCauchyAccelerationSelectorUp$ packet is generated from an accepted regular Cauchy tail selector, a fast-subsequence handoff, dyadic budget rows, shared stream windows, regular-rational readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed chapter names the finite carrier, ordinary tail-selector dependency, fast-subsequence schedule, dyadic budget, stream-window, regular-readback, and real-seal rows for a Bishop-style Cauchy acceleration selector.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, standard bridge checking, quotient stream equality, countable choice, host real equality, selected limits, or ambient $\RealUp$ completeness.}
+  \upgradepath{Formalization should encode the finite carrier and prove the local NameCert obligation surface from the displayed selector rows.}
+\end{closurestatus}

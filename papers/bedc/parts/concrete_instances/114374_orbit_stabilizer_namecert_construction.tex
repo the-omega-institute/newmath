@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\OrbitStabilizerUp$}
+\label{ch:concrete-instances-orbit-stabilizer-namecert}
+\origin{human}
+
+Following Burnside and Rotman, the $\OrbitStabilizerUp$ packet records the finite group-action theorem surface as BEDC NameCert data. It sits over the group source of \autoref{ch:concrete-instances-group-namecert}, the subgroup carrier of \autoref{ch:concrete-instances-subgroup-namecert}, the Sylow action consumer of \autoref{ch:concrete-instances-sylow-namecert}, and the orbit-counting ledger of \autoref{ch:concrete-instances-burnside-orbit-count-namecert}. The packet names a displayed orbit, stabilizer, and finite fiber-cardinality handoff without importing quotient orbit sets, host subgroup equality, or an ambient action category.
+
+\begin{definition}[Orbit-stabilizer carrier]
+\label{def:orbit-stabilizer-carrier}
+An $\OrbitStabilizerUp$ carrier is a finite $\BHist$ packet
+$$
+T=(G,X,A,O,S,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the $\GroupUp$ source row, exposing the carried finite group operation, unit, inverse, and associativity data read from \autoref{ch:concrete-instances-group-namecert}.
+\item $X$ is the acted carrier row, exposing the finite carrier being acted on together with the row classifier used by orbit reads.
+\item $A$ is the action row, displaying the unit-action and multiplication-action laws as finite replay data over $G$ and $X$.
+\item $O$ is the orbit row for a displayed point $x\in X$, recording the finite list of action outputs $g\cdot x$ together with duplicate control under the local classifier.
+\item $S$ is the stabilizer-subgroup row, recording the carried subgroup of $G$ whose elements fix $x$ and reading its closure through \autoref{ch:concrete-instances-subgroup-namecert}.
+\item $F$ is the finite fiber-cardinality ledger. It records that the action map $g\mapsto g\cdot x$ has exactly the stabilizer fibers named by $S$, so the group-cardinality row factors through the orbit row and stabilizer row before any count is exported.
+\item $H$ records componentwise $\hsame$ transport for the group, acted carrier, action, orbit, stabilizer, fiber-cardinality, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite action route from $\GroupUp$ and $X$ through $A,O,S,F$ into $\OrbitStabilizerUp$.
+\item $P$ is the $\Pkg$ provenance over $\GroupUp$, $\SubgroupUp$, finite action rows, orbit rows, stabilizer rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\OrbitStabilizerUp}$ row.
+\end{enumerate}
+The carrier predicate admits exactly these ten rows. It has no coordinate for quotient orbit sets, host coset representatives, ambient subgroup equality, selected transversal data, or a complete finite-group classification.
+\end{definition}
+
+\begin{theorem}[Orbit-stabilizer NameCert obligations]
+\label{thm:orbit-stabilizer-namecert-obligations}
+For an accepted $\OrbitStabilizerUp$ carrier
+$$
+T=(G,X,A,O,S,F,H,C,P,N),
+$$
+the local $\NameCert_{\OrbitStabilizerUp}$ surface consists exactly of carrier admission for the displayed $\GroupUp$ source, acted carrier, action row, orbit row, stabilizer-subgroup row, finite fiber-cardinality ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Project the accepted packet onto its ten rows. The group, acted carrier, action, orbit, stabilizer, and fiber-cardinality data are displayed before the local name can be read.
+
+The stabilizer row is read as subgroup data over the same group row $G$, so it cannot be replaced by a host subgroup equality claim. The orbit row is read through the action row $A$, so it cannot be replaced by a quotient-orbit object.
+
+Finally, $H,C,P,N$ transport, replay, source, and name only the displayed rows. Since no excluded object has a carrier coordinate, no local NameCert obligation can depend on quotient orbit sets, selected transversals, or ambient finite-group classification.
+\end{proof}
+
+\begin{theorem}[Orbit-stabilizer fiber-cardinality handoff]
+\label{thm:orbit-stabilizer-fiber-cardinality-handoff}
+Let $T=(G,X,A,O,S,F,H,C,P,N)$ be an accepted $\OrbitStabilizerUp$ carrier. Every cardinality read of the orbit-stabilizer route factors through the finite ledger $F$ after the orbit row $O$ and stabilizer row $S$ have both been displayed. Consequently a Sylow-style or Burnside-style consumer may cite the cardinality handoff only as a finite fiber ledger over the action row, not as a host quotient or selected coset enumeration.
+\end{theorem}
+\begin{proof}
+Read the action map from $A$ and the displayed point from the acted carrier row $X$. The orbit row $O$ lists the action outputs, while the stabilizer row $S$ records exactly the group elements fixing the point.
+
+The ledger $F$ is then the only row where fibers of the action map are counted. It compares a fiber with the stabilizer row before an orbit-cardinality handoff is exported.
+
+Transport through $H$ and replay through $C$ preserve that row order. Thus the downstream count seen by \autoref{ch:concrete-instances-sylow-namecert} or \autoref{ch:concrete-instances-burnside-orbit-count-namecert} remains a finite BEDC ledger, not a quotient orbit set or selected transversal.
+\end{proof}
+
+\begin{theorem}[Orbit-stabilizer action nonescape]
+\label{thm:orbit-stabilizer-action-nonescape}
+Every consumer of an accepted $\OrbitStabilizerUp$ carrier factors through
+$$
+\GroupUp,\SubgroupUp,X,A,O,S,F,H,C,P,N .
+$$
+The packet exports a finite group action, a displayed orbit, a stabilizer subgroup row, and a fiber-cardinality ledger, but it exports no quotient orbit carrier, no host subgroup equality, no selected coset representatives, and no ambient classification theorem for finite groups.
+\end{theorem}
+\begin{proof}
+Any accepted read starts by projecting the finite tuple. The action row is the only place where the group acts on the carried set, and the orbit and stabilizer rows are the only endpoints of that action read.
+
+The fiber-cardinality ledger $F$ is a displayed handoff from the action map to the orbit and stabilizer rows. It is not a quotient construction and it does not choose representatives.
+
+The remaining rows $H,C,P,N$ preserve and name the same finite surface. Therefore every downstream consumer must stay inside the displayed group-action data, while quotient orbit carriers, host subgroup equality, selected representatives, and finite-group classification remain outside the packet.
+\end{proof}
+
+\closureat{OrbitStabilizerUp}{seedStr}
+
+\begin{closurestatus}{\OrbitStabilizerUp}
+  \constructivestory{An $\OrbitStabilizerUp$ packet is generated from a displayed finite GroupUp row, an acted carrier, an action row, an orbit row, a stabilizer-subgroup row, a finite fiber-cardinality ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:orbit-stabilizer-carrier}, \autoref{thm:orbit-stabilizer-namecert-obligations}, \autoref{thm:orbit-stabilizer-fiber-cardinality-handoff}, and \autoref{thm:orbit-stabilizer-action-nonescape} seed the finite group-action theorem carrier over orbit, stabilizer, and fiber-cardinality rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient orbit sets, selected coset representatives, ambient subgroup equality, finite-group classification, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, action replay, stabilizer-subgroup exposure, finite fiber-cardinality handoff, transport, provenance, and action non-escape for BEDC.Derived.OrbitStabilizerUp.}
+\end{closurestatus}

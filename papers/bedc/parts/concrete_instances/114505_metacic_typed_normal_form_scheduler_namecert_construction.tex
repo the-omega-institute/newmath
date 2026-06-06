@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICTypedNormalFormSchedulerUp$}
+\label{ch:concrete-instances-metacic-typed-normal-form-scheduler-namecert}
+\origin{ai}
+
+The $\MetaCICTypedNormalFormSchedulerUp$ packet realizes the normalization remaining question of \autoref{sec:metacic-open-problems-normalization} as finite scheduler-state data for closed typed terms with candidate gates and endpoint seals. It sits beside the frontier carrier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the bounded normal equality checker of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the closed type checker seal of \autoref{ch:concrete-instances-closed-type-checker-seal-namecert}, the candidate normalization router of \autoref{ch:concrete-instances-metacic-candidate-normalization-router-namecert}, and the candidate normalization witness of \autoref{ch:concrete-instances-metacic-candidate-normalization-witness-namecert}. The packet names scheduler-budget, candidate-gate, endpoint-seal, obstruction, transport, replay, provenance, and local naming rows; it is not an evidence-free strong-normalization theorem, unrestricted evaluator, quotient syntax equality, host reduction oracle, or closed consistency principle.
+
+\begin{definition}[MetaCIC typed normal-form scheduler carrier]
+\label{def:metacic-typed-normal-form-scheduler-carrier}
+A $\MetaCICTypedNormalFormSchedulerUp$ carrier is a finite $\BHist$ packet
+$$
+S=(T,G,B,N,E,O,R,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the sealed closed typed term row, read through the closed type checker surface.
+\item $G$ is the candidate-gate row, recording which candidate interface admits the term for scheduler inspection.
+\item $B$ is the scheduler-budget row, storing finite fuel, phase, residual, and replay-window accounting for the normalization attempt.
+\item $N$ is the typed normal-form row, recording the endpoint syntax together with the type seal under which it is read.
+\item $E$ is the endpoint-seal row consumed by bounded normal equality and normal-endpoint budget consumers.
+\item $O$ is the obstruction row, retaining missing candidate gates, budget exhaustion, blocked residuals, failed endpoint seals, and failed typed replay as visible scheduler boundaries.
+\item $R$ is the router handoff row, tying the scheduler to the candidate normalization router and candidate normalization witness surfaces.
+\item $H$ records componentwise $\hsame$ transport for the closed typed term, candidate gate, scheduler budget, typed endpoint, endpoint seal, obstruction, router handoff, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a normalization request through $T,G,B,N,E,O,R,H$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICTypedNormalFormSchedulerUp$, $\MetaCICNormalizationFrontierUp$, $\BoundedNormalEqualityCheckerUp$, $\ClosedTypeCheckerSealUp$, $\MetaCICCandidateNormalizationRouterUp$, $\MetaCICCandidateNormalizationWitnessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetaCICTypedNormalFormSchedulerUp}$ row.
+\end{enumerate}
+The classifier compares accepted scheduler packets only through $T,G,B,N,E,O,R,H,C,P,L$. It has no coordinate for global strong normalization, unrestricted subject reduction, quotient syntax equality, hidden evaluator state, host reduction oracles, or completed closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC typed normal-form scheduler obligations]
+\label{thm:metacic-typed-normal-form-scheduler-obligations}
+For every accepted $\MetaCICTypedNormalFormSchedulerUp$ carrier
+$$
+S=(T,G,B,N,E,O,R,H,C,P,L),
+$$
+the local $\NameCert_{\MetaCICTypedNormalFormSchedulerUp}$ obligations are exactly carrier admission, closed typed-term seal exposure, candidate-gate visibility, scheduler-budget totality for accepted requests, typed normal endpoint sealing, obstruction exactness, candidate-router handoff, candidate-witness compatibility, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-typed-normal-form-scheduler-carrier}. The accepted packet displays exactly the closed typed term, candidate gate, scheduler budget, typed endpoint, endpoint seal, obstruction, router handoff, transport, replay, provenance, and local naming rows.
+
+The gate and budget rows $G,B$ are consumed before any endpoint is public. Thus a scheduler read cannot reach $N$ or $E$ without exposing the candidate interface that admits the term and the finite scheduler accounting that bounds the attempt.
+
+The obstruction row $O$ remains visible for missing gates, exhausted budget, blocked residuals, failed endpoint seals, and failed typed replay. The router row $R$ then hands only the displayed finite endpoint or obstruction data to the candidate router and candidate witness surfaces.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same route. Since no carrier coordinate supplies global strong normalization, unrestricted subject reduction, quotient syntax equality, hidden evaluator state, host reduction oracles, or closed consistency, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC typed normal-form scheduler nonescape]
+\label{thm:metacic-typed-normal-form-scheduler-nonescape}
+Every public normalization-frontier consumer of an accepted $\MetaCICTypedNormalFormSchedulerUp$ packet factors through
+$$
+\ClosedTypeCheckerSealUp \longmapsto G,B \longmapsto N,E \longmapsto O,R \longmapsto H,C,P,L .
+$$
+The consumer receives a sealed closed typed term, candidate-gate verdict, finite scheduler budget, typed normal endpoint or visible obstruction, router handoff, transport, replay, provenance, and local naming. It receives no hidden scheduler state, evaluator oracle, quotient syntax equality, evidence-free normalization theorem, unrestricted subject reduction, or completed closed consistency.
+\end{theorem}
+\begin{proof}
+Start with the closed typed term row $T$. The only scheduler route from this row to endpoint data passes through the candidate gate $G$ and finite budget row $B$.
+
+Apply \autoref{thm:metacic-typed-normal-form-scheduler-obligations}. It makes typed endpoint sealing, obstruction exactness, candidate-router handoff, and candidate-witness compatibility obligations of the same finite packet.
+
+The structural rows $H,C,P,L$ preserve the displayed route when the scheduler packet is consumed by the normalization frontier, bounded equality checker, router, or candidate witness. Because hidden scheduler state, evaluator oracles, quotient syntax equality, evidence-free normalization, unrestricted subject reduction, and closed consistency are not carrier coordinates, none can be exported by the local name.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\MetaCICTypedNormalFormSchedulerUp$ read that exposes typed endpoint data without first displaying the sealed closed typed term, candidate gate, finite scheduler budget, obstruction row, router handoff, transport, replay, provenance, and local naming is outside the carrier surface.}
+
+\independenceWitness{metacicnormalizationfrontier, boundednormalequalitychecker, closed-type-checker-seal, metacic-candidate-normalization-router, metacic-candidate-normalization-witness: no listed sibling is bijective with $\MetaCICTypedNormalFormSchedulerUp$ because this packet jointly carries sealed closed typed terms, candidate gates, scheduler budgets, typed endpoint seals, obstruction rows, router handoff, transport, replay, provenance, and local $\NameCert$ rows.}
+
+Lean TasteGate work for $\MetaCICTypedNormalFormSchedulerUp$ must include $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances so the candidate gate, scheduler budget, endpoint seal, obstruction, router handoff, replay, provenance, and local naming rows remain distinguishable.
+
+\closureat{MetaCICTypedNormalFormSchedulerUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICTypedNormalFormSchedulerUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-typed-normal-form-scheduler-carrier}, \autoref{thm:metacic-typed-normal-form-scheduler-obligations}, and \autoref{thm:metacic-typed-normal-form-scheduler-nonescape} seed the finite typed normal-form scheduler route through closed typed terms, candidate gates, scheduler budgets, typed endpoints, obstruction, router handoff, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close global strong normalization, unrestricted subject reduction, quotient syntax equality, hidden evaluator state, host reduction oracles, completed closed consistency, Lean proof obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed type seal exposure, candidate-gate visibility, scheduler-budget totality, typed endpoint sealing, obstruction exactness, router handoff, candidate-witness compatibility, Nontrivial and FieldFaithful instances, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICTypedNormalFormSchedulerUp.}
+  \constructivestory{A $\MetaCICTypedNormalFormSchedulerUp$ packet is generated from a sealed closed typed term, candidate-gate row, finite scheduler budget, typed normal endpoint, endpoint seal, obstruction row, router handoff, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+\end{closurestatus}

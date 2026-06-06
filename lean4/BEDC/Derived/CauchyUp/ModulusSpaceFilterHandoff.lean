@@ -40,7 +40,7 @@ theorem CauchyModulusSpaceFilterHandoff [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert hsame
   intro carrier scheduleRoute windowRoute toleranceRoute readbackRoute sealRoute
     structuralRoute namingRoute filterRoute provenancePkg namePkg filterPkg
-  obtain ⟨tailCert, _scheduleUnary, _windowUnary, _toleranceUnary, _readbackUnary,
+  obtain ⟨_tailCert, _scheduleUnary, _windowUnary, _toleranceUnary, _readbackUnary,
     sealUnary, structuralUnary, _namedUnary⟩ :=
       CauchyModulusSpaceTailComposition (bundle := bundle) (pkg := pkg) carrier
         scheduleRoute windowRoute toleranceRoute readbackRoute sealRoute structuralRoute

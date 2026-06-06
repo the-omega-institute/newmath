@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\CompactIntervalFiniteCoverRefinementUp$}
+\label{ch:concrete-instances-compact-interval-finite-cover-refinement-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CompactIntervalFiniteCoverRefinementUp$ packet records the finite cover-refinement surface available for a displayed closed bounded interval once the cover has already been reduced to dyadic mesh rows and finite comparison rows. It sits after the closed bounded interval source of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the finite positive-radius route of \autoref{ch:concrete-instances-finite-lebesgue-number-namecert}, the finite comparison packet of \autoref{ch:concrete-instances-finite-cover-refinement-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite interval cover route only; it is not open-cover compactness, a selected subcover theorem, quotient equality of real names, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Compact interval finite cover-refinement carrier]
+\label{def:compact-interval-finite-cover-refinement-carrier}
+A $\CompactIntervalFiniteCoverRefinementUp$ carrier is a finite $\BHist$ packet
+$$
+K=(I,C,M,L,R,O,S,D,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\ClosedBoundedIntervalUp$ source row, carrying endpoint order, rational containment, dyadic containment, finite windows, regular readback, and the terminal $\RealUp$ seal boundary;
+\item $C$ is the finite interval-cover row, listing displayed interval cover members and their local containment witnesses over $I$;
+\item $M$ is the dyadic mesh row, recording the finite subdivision cells inspected by the cover comparison;
+\item $L$ is the $\FiniteLebesgueNumberUp$ positive-radius row attached to the displayed cover and mesh route;
+\item $R$ is the $\FiniteCoverRefinementUp$ comparison row, pairing each retained mesh cell or refined cover member with its displayed parent cover row;
+\item $O$ is the finite refinement-order row, recording the inspection order for retained cells, parent cover members, and overlap checks;
+\item $S$ is the $\StreamNameUp$ window row used to inspect endpoint names, mesh cells, cover witnesses, and retained members;
+\item $D$ is the $\DyadicRatCoreUp$ observation row for mesh endpoints, radius comparisons, and containment inequalities;
+\item $E$ is the terminal $\RealUp$ seal row reached only after $I,C,M,L,R,O,S,D$ have been displayed;
+\item $H$ records componentwise $\hsame$ transport for the interval, cover, mesh, radius, refinement, order, window, dyadic, and seal rows;
+\item $T$ records displayed $\Cont$ replay for interval containment, mesh inspection, finite radius reads, refinement comparison, and Real-facing seal reads;
+\item $P$ is the $\Pkg$ provenance over $\CompactIntervalFiniteCoverRefinementUp$, $\ClosedBoundedIntervalUp$, $\FiniteLebesgueNumberUp$, $\FiniteCoverRefinementUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\CompactIntervalFiniteCoverRefinementUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary open covers, host finite-subcover choice, quotient real equality, countable choice, selected Lebesgue numbers outside the displayed finite row, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Compact interval finite cover-refinement obligations]
+\label{thm:compact-interval-finite-cover-refinement-obligations}
+For the carrier of \autoref{def:compact-interval-finite-cover-refinement-carrier}, the local $\NameCert_{\CompactIntervalFiniteCoverRefinementUp}$ surface consists exactly of carrier admission for $K=(I,C,M,L,R,O,S,D,E,H,T,P,N)$, closed-interval source admission through $I$, finite cover admission through $C$, dyadic mesh admission through $M$, finite Lebesgue-number admission through $L$, finite refinement comparison through $R$, refinement-order admission through $O$, stream-window and dyadic readback through $S,D$, Real seal non-escape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $T$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier row by row. The interval source is $I$, the cover data is $C$, the mesh is $M$, the radius row is $L$, and the refinement comparison is $R$ with order ledger $O$.
+
+The finite interval cover is inspected only after the closed bounded interval row has displayed its endpoint and containment data. The mesh row $M$ refines that same source interval, so every retained cover member is checked inside the interval packet rather than inside a host set of reals.
+
+The radius and refinement rows are then read together. The finite Lebesgue-number row $L$ supplies the visible positive-radius ledger, while $R$ and $O$ record how the retained mesh cells refine the displayed cover rows.
+
+Finally $S,D,E,H,T,P,N$ provide window inspection, dyadic arithmetic, the terminal Real seal, transport, replay, provenance, and local naming. Since no excluded compactness, selection, quotient, choice, or completeness coordinate occurs in the carrier, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Compact interval finite cover-refinement route]
+\label{thm:compact-interval-finite-cover-refinement-route}
+Every Real-facing or compact-interval consumer of an accepted $\CompactIntervalFiniteCoverRefinementUp$ packet must read the finite route
+$$
+\ClosedBoundedIntervalUp \longmapsto C,M \longmapsto \FiniteLebesgueNumberUp,\FiniteCoverRefinementUp \longmapsto S,D,E \longmapsto H,T,P,N .
+$$
+Thus the consumer receives finite interval cover rows, dyadic mesh rows, finite refinement order, and the $\RealUp$ seal boundary before it may use the packet as compact-interval cover-refinement data. The route exports no open-cover compactness theorem, choice-selected subcover, quotient equality, countable choice, selected external Lebesgue number, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the closed interval source. The consumer first reads $I$, so endpoint order, rational containment, dyadic containment, finite windows, regular readback, and the terminal Real boundary are already visible before cover data is opened.
+
+Next inspect the cover and mesh rows $C,M$. Induction over the finite mesh rows checks each displayed cell against the finite cover row and records the retained member before any order count is consumed.
+
+The positive-radius and refinement rows are then composed. The row $L$ supplies the finite radius ledger, and $R,O$ project each retained mesh or refined cover member back to its displayed parent cover row in finite order.
+
+The terminal rows $S,D,E,H,T,P,N$ keep the same route visible to Real-facing consumers. They seal the displayed finite route without adding arbitrary open covers, selected subcovers, quotient real equality, countable choice, external radius selection, or ambient Real completeness.
+\end{proof}
+
+\closureat{CompactIntervalFiniteCoverRefinementUp}{seedStr}
+
+\begin{closurestatus}{\CompactIntervalFiniteCoverRefinementUp}
+  \constructivestory{A $\CompactIntervalFiniteCoverRefinementUp$ packet is generated from a ClosedBoundedIntervalUp source row, finite interval-cover rows, dyadic mesh rows, a FiniteLebesgueNumberUp radius row, a FiniteCoverRefinementUp comparison row, a finite refinement-order ledger, StreamName windows, DyadicRatCore observations, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-interval-finite-cover-refinement-carrier}, \autoref{thm:compact-interval-finite-cover-refinement-obligations}, and \autoref{thm:compact-interval-finite-cover-refinement-route} seed the finite compact-interval cover-refinement route over displayed interval, mesh, radius, refinement, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected subcovers, quotient real equality, countable choice, external Lebesgue-number selection, or ambient $\RealUp$ completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite interval-cover admission, dyadic mesh stability, finite radius/refinement compatibility, refinement-order transport, and Real seal non-escape.}
+\end{closurestatus}

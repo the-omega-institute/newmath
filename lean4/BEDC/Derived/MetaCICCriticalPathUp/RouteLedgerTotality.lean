@@ -91,4 +91,72 @@ theorem MetaCICCriticalPathFrontierSlice_route_ledger_totality [AskSetup] [Packa
       exact ⟨source.right, provenancePkg, queryPkg⟩
   }
 
+theorem MetaCICCriticalPathFrontierSliceConsumerCertificate [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName query queryRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathFrontierSlice strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName query bundle pkg →
+      Cont route dischargeSocket queryRead →
+        PkgSig bundle queryRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row queryRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row strongNorm ∨ hsame row normalForm ∨ hsame row obstruction ∨
+                  hsame row handoff ∨ hsame row dischargeSocket ∨ hsame row route ∨
+                    hsame row queryRead)
+              (fun row : BHist =>
+                hsame row queryRead ∧ PkgSig bundle provenance pkg ∧
+                  PkgSig bundle queryRead pkg)
+              hsame ∧
+            UnaryHistory queryRead ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg ProbeBundle SemanticNameCert hsame UnaryHistory
+  intro slice routeSocketQuery queryReadPkg
+  obtain ⟨packet, _queryUnary, _queryPkg⟩ := slice
+  obtain ⟨_strongNormUnary, _normalFormUnary, _obstructionUnary, _handoffUnary,
+    dischargeSocketUnary, _transportUnary, routeUnary, _provenanceUnary, _localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    provenancePkg⟩ := packet
+  have queryReadUnary : UnaryHistory queryRead :=
+    unary_cont_closed routeUnary dischargeSocketUnary routeSocketQuery
+  have queryReadSource :
+      (fun row : BHist => hsame row queryRead ∧ UnaryHistory row) queryRead := by
+    exact ⟨hsame_refl queryRead, queryReadUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row queryRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row strongNorm ∨ hsame row normalForm ∨ hsame row obstruction ∨
+              hsame row handoff ∨ hsame row dischargeSocket ∨ hsame row route ∨
+                hsame row queryRead)
+          (fun row : BHist =>
+            hsame row queryRead ∧ PkgSig bundle provenance pkg ∧
+              PkgSig bundle queryRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro queryRead queryReadSource
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, provenancePkg, queryReadPkg⟩
+  }
+  exact ⟨cert, queryReadUnary, provenancePkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp

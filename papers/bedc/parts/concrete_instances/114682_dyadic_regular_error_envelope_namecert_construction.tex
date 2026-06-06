@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\DyadicRegularErrorEnvelopeUp$}
+\label{ch:concrete-instances-dyadic-regular-error-envelope-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicRegularErrorEnvelopeUp$ packet records the finite error-envelope rows used when dyadic estimates are opened, regular Cauchy tails are compared, and a $\RealUp$ seal is read without appealing to quotient stream equality, selected limits, or ambient completeness. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the displayed tail-estimate surface of \autoref{ch:concrete-instances-cauchy-estimate-namecert}, and the split-budget packet of \autoref{ch:concrete-instances-dyadic-error-budget-namecert}. The packet gives Real-and-Completion consumers a named finite envelope carrier between local dyadic bounds and regular Cauchy tail reads.
+
+\begin{definition}[Dyadic regular error-envelope carrier]
+\label{def:dyadic-regular-error-envelope-carrier}
+A $\DyadicRegularErrorEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(Q,B,W_0,W_1,D_0,D_1,D_\Delta,R_0,R_1,T,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the requested regular tail tolerance presented by the downstream Real-or-completion consumer.
+\item $B$ is the $\DyadicErrorBudgetUp$ row that splits the visible dyadic slack for the two regular reads.
+\item $W_0$ and $W_1$ are the $\StreamNameUp$ finite-window rows opened before the two approximants are inspected.
+\item $D_0$ and $D_1$ are the $\DyadicRatCoreUp$ endpoint-error rows read from those windows.
+\item $D_\Delta$ is the $\DyadicRatCoreUp$ comparison row recording the displayed dyadic envelope between the two endpoint-error rows and $Q$.
+\item $R_0$ and $R_1$ are the $\RegSeqRatUp$ readback rows attached to the two finite windows.
+\item $T$ is the $\CauchyEstimateUp$ tail-estimate row saying that the same envelope controls the regular Cauchy tail request.
+\item $A$ is the $\RealUp$ seal row reached only after the dyadic envelope, regular readback, and tail-estimate rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the request, budget, windows, dyadic rows, regular readbacks, tail estimate, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the request through the budget, windows, dyadic envelope, regular readbacks, tail estimate, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRegularErrorEnvelopeUp$, $\DyadicErrorBudgetUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyEstimateUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicRegularErrorEnvelopeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, host real equality, selected limits, countable choice, trichotomy, detached completion evidence, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.DyadicRegularErrorEnvelopeUp}
+
+\begin{theorem}[Dyadic regular error-envelope stability]
+\label{thm:dyadic-regular-error-envelope-stability}
+For every accepted $\DyadicRegularErrorEnvelopeUp$ carrier $E=(Q,B,W_0,W_1,D_0,D_1,D_\Delta,R_0,R_1,T,A,H,C,P,N)$, any refinement of the two finite windows that preserves the displayed budget row $B$, dyadic endpoint rows $D_0,D_1$, envelope row $D_\Delta$, regular readbacks $R_0,R_1$, and tail-estimate row $T$ preserves the same error-envelope route under $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-regular-error-envelope-carrier}. The only analytic coordinates are the request, budget, two windows, three dyadic rows, two regular readbacks, tail estimate, and Real seal.
+
+Window refinement can therefore be read only through $W_0,W_1$ and their attached rows $R_0,R_1$. The dyadic comparison still passes through $D_0,D_1,D_\Delta$ against the same request $Q$ and budget row $B$.
+
+The row $T$ records that this displayed dyadic envelope is the tail-estimate surface consumed by the regular Cauchy route. The structural rows $H,C,P,N$ transport, replay, source, and name that same route, so no hidden selector, quotient equality, or completion principle can change the envelope while the packet remains accepted.
+\end{proof}
+
+\begin{theorem}[Dyadic regular error-envelope Real readback]
+\label{thm:dyadic-regular-error-envelope-real-readback}
+Every $\RealUp$ or completion-facing read of an accepted $\DyadicRegularErrorEnvelopeUp$ packet must factor through
+$$
+Q,B \longmapsto W_0,W_1 \longmapsto D_0,D_1,D_\Delta \longmapsto R_0,R_1,T \longmapsto A,H,C,P,N .
+$$
+Thus the Real seal is downstream of the displayed dyadic budget, finite windows, regular readbacks, and Cauchy-estimate envelope; it is not a quotient-real equality, selected limit, countable-choice, or ambient-completeness export.
+\end{theorem}
+\begin{proof}
+Read the request and budget rows first. The carrier gives the downstream tolerance $Q$ exactly one displayed dyadic budget row $B$, so the slack available to the Real-facing read is finite before any stream data is inspected.
+
+Next open the two finite windows and their dyadic rows. The rows $W_0,W_1,D_0,D_1,D_\Delta$ expose the endpoint errors and the comparison envelope, while $R_0,R_1$ attach the regular-rational readbacks required by the Cauchy tail route.
+
+Finally $T$ feeds the displayed envelope to the Cauchy-estimate surface and $A$ seals the result as a Real-facing row. Transport, replay, provenance, and local naming preserve the same finite route, and the carrier contains no coordinate from which a stronger Real or completion principle could be exported.
+\end{proof}
+
+\closureat{DyadicRegularErrorEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\DyadicRegularErrorEnvelopeUp}
+  \constructivestory{A $\DyadicRegularErrorEnvelopeUp$ packet is generated from a regular tail request, one DyadicErrorBudget split, two StreamName windows, three DyadicRatCore envelope rows, two RegSeqRat readbacks, one CauchyEstimate tail row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-regular-error-envelope-carrier}, \autoref{thm:dyadic-regular-error-envelope-stability}, and \autoref{thm:dyadic-regular-error-envelope-real-readback} seed the finite dyadic envelope route between displayed error budgets, regular Cauchy readbacks, Cauchy-estimate tails, and Real sealing.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.DyadicRegularErrorEnvelopeUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, host real equality, selected limits, countable choice, trichotomy, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, envelope stability, regular readback, Cauchy-estimate handoff, Real-seal compatibility, transport, replay, provenance, and local naming for BEDC.Derived.DyadicRegularErrorEnvelopeUp.}
+\end{closurestatus}
