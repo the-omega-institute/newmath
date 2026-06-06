@@ -37,3 +37,17 @@ Finally use the product-projection dependency route in \autoref{ch:concrete-inst
 
 The assembled pair contains only the displayed product packet, synchronized windows, dyadic budget, finite index rows, projection route, and regular-rational handoffs. No host product coordinate, selected representative, quotient stream equality, trichotomy, or ambient completeness row is introduced.
 \end{proof}
+
+\begin{theorem}[Regular Cauchy finite product coordinate gluing]
+\label{thm:regular-cauchy-finite-product-coordinate-gluing}
+Let a finite family of coordinate reads share the same $\StreamNameUp$ window family, the same $\DyadicRatCoreUp$ product-budget ledger, and finite index rows naming their coordinate slots. If each read is accepted through the product-projection dependency route of \autoref{ch:concrete-instances-regular-cauchy-product-projection-namecert} and remains $\RegSeqRatUp$-compatible under the coordinate stability boundary, then the family glues into one accepted $\RegularCauchyFiniteProductUp$ packet whose projections recover the original coordinate reads. The glued packet exports only the displayed windows, dyadic product-budget ledger, finite index rows, projection routes, and regular-rational handoffs; it introduces no host product, quotient equality, trichotomy, selected component representative, or ambient completeness datum.
+\end{theorem}
+\begin{proof}
+Induct over the finite index rows. The empty family is the displayed empty finite-product packet, whose window family, product-budget ledger, and projection route contain no hidden host product data.
+
+For the step, assume the already indexed coordinate reads have been glued into an accepted finite-product packet. Add the next coordinate read using the same $\StreamNameUp$ windows and the same $\DyadicRatCoreUp$ product-budget ledger.
+
+Apply coordinate stability from \autoref{thm:regular-cauchy-finite-product-coordinate-stability} to keep the new read on the displayed regular-rational route. Then apply coordinate pairing from \autoref{thm:regular-cauchy-finite-product-coordinate-pairing} to attach the new coordinate to the already glued packet through the shared projection dependency route.
+
+The induction preserves the finite index ledger at each step, so every projection of the resulting packet recovers the coordinate read placed at that index. Since each step uses only the displayed windows, dyadic budget, finite index rows, projection route, and $\RegSeqRatUp$ handoff, the glued packet gains no host product, quotient stream equality, trichotomy, selected component representative, or ambient completeness row.
+\end{proof}

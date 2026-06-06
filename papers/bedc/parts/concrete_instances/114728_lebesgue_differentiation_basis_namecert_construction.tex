@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\LebesgueDifferentiationBasisUp$}
+\label{ch:concrete-instances-lebesgue-differentiation-basis-namecert}
+\origin{human}
+
+Following Lebesgue, Vitali, Besicovitch, and Bishop--Bridges constructive measure theory, the $\LebesgueDifferentiationBasisUp$ packet names the finite basis-and-covering interface that a later differentiation theorem may consume before any almost-everywhere conclusion is read. It sits between the Vitali selection surface of \autoref{ch:concrete-instances-vitali-cover-namecert}, the finite-cover ledger of \autoref{ch:concrete-instances-finite-vitali-cover-namecert}, the bounded-overlap boundary of \autoref{ch:concrete-instances-besicovitch-covering-namecert}, the measurable local-average rows of \autoref{ch:concrete-instances-measure-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal real-name rows of \autoref{ch:concrete-instances-real-namecert}, and the theorem packet of \autoref{ch:concrete-instances-lebesgue-differentiation-namecert}. The packet records basis admission and finite cover handoff only; it does not assert measure completion, an almost-everywhere quotient, countable-choice selectors, or selected representatives of functions.
+
+\begin{definition}[Lebesgue differentiation basis carrier]
+\label{def:lebesgue-differentiation-basis-carrier}
+A $\LebesgueDifferentiationBasisUp$ carrier is a finite $\BHist$ packet
+$$
+B=(B_0,V,E,M,A,D,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B_0$ is the basis-row ledger, naming the displayed balls or intervals, their centers, their radii, and the local nesting requests used by the differentiation basis.
+\item $V$ is the $\VitaliCoverUp$ and $\FiniteVitaliCoverUp$ selection row, recording finite subfamily requests, disjointness tests, and cover-cell membership.
+\item $E$ is the $\BesicovitchCoveringUp$ finite-overlap row, recording bounded multiplicity for the same displayed basis cells.
+\item $M$ is the $\MeasureUp$ local-measure row inspected by basis cells and finite selections.
+\item $A$ records local-average rows for the displayed cells, without choosing a host function representative outside the packet.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used for radius, overlap, measure, average, and exceptional-budget comparisons.
+\item $R$ is the $\RealUp$ seal row for local measure values, average values, and displayed error budgets.
+\item $H$ records componentwise $\hsame$ transport for basis cells, Vitali rows, Besicovitch rows, measure rows, averages, tolerances, real seals, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the route from basis-cell requests through $B_0,V,E,M,A,D,R$.
+\item $P$ is the $\Pkg$ provenance over $\LebesgueDifferentiationBasisUp$, $\VitaliCoverUp$, $\FiniteVitaliCoverUp$, $\BesicovitchCoveringUp$, $\MeasureUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LebesgueDifferentiationBasisUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $B_0,V,E,M,A,D,R,H,C,P,N$. It has no coordinate for a completed measure algebra, an almost-everywhere quotient, a countable basis selector, a selected function representative, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Lebesgue differentiation basis NameCert obligations]
+\label{thm:lebesgue-differentiation-basis-namecert-obligations}
+For every accepted $\LebesgueDifferentiationBasisUp$ carrier
+$$
+B=(B_0,V,E,M,A,D,R,H,C,P,N),
+$$
+the local $\NameCert_{\LebesgueDifferentiationBasisUp}$ surface consists exactly of basis-cell admission, Vitali finite-selection rows, Besicovitch finite-overlap rows, Measure local-average rows, DyadicRatCore tolerance rows, Real seals, componentwise transport, displayed continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lebesgue-differentiation-basis-carrier}. The displayed rows $B_0,V,E,M,A,D,R,H,C,P,N$ are the whole certificate surface.
+
+The basis and covering rows are read first. The basis ledger $B_0$ exposes only displayed balls or intervals, while $V$ routes every finite selection through the $\VitaliCoverUp$ and $\FiniteVitaliCoverUp$ surfaces named by \autoref{ch:concrete-instances-vitali-cover-namecert}.
+
+The overlap and averaging rows then attach the basis to measure-facing consumers. The Besicovitch row $E$ bounds finite multiplicity, and $M,A,D,R$ provide the local-measure, local-average, dyadic-tolerance, and real-seal reads.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since no further row is present, the NameCert obligations export no measure completion, almost-everywhere quotient, countable-choice selector, selected function representative, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Lebesgue differentiation basis finite-cover handoff]
+\label{thm:lebesgue-differentiation-basis-finite-cover-handoff}
+Every basis read accepted by a $\LebesgueDifferentiationBasisUp$ packet factors through the route
+$$
+\VitaliCoverUp,\ \FiniteVitaliCoverUp,\ \BesicovitchCoveringUp,\ \MeasureUp,\ \DyadicRatCoreUp,\ \RealUp
+\longmapsto
+\LebesgueDifferentiationBasisUp
+$$
+before it is offered to the theorem-level $\LebesgueDifferentiationUp$ packet of \autoref{ch:concrete-instances-lebesgue-differentiation-namecert}. The handoff exports finite basis admission, finite selection, finite overlap, local measure, local average, tolerance, seal, transport, replay, provenance, and naming rows only.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $B=(B_0,V,E,M,A,D,R,H,C,P,N)$. A theorem-level differentiation consumer can inspect basis cells only through the displayed basis ledger $B_0$.
+
+The covering handoff is forced through $V$ and $E$. The Vitali rows supply finite candidate selection and finite cover-cell exposure, while the Besicovitch row supplies the bounded-overlap comparison needed before local averages are consumed.
+
+The measure-facing read is then forced through $M,A,D,R$. These rows expose local measure values, local averages, dyadic tolerances, and real seals for the same finite cells; they do not choose null-set representatives or complete the measure space.
+
+The structural rows $H,C,P,N$ carry this route into the $\LebesgueDifferentiationUp$ consumer. Thus the handoff stays finite and cannot insert an almost-everywhere quotient, countable-choice selector, selected function representative, measure completion, or ambient real-completeness row.
+\end{proof}
+
+\closureat{LebesgueDifferentiationBasisUp}{seedStr}
+
+\begin{closurestatus}{\LebesgueDifferentiationBasisUp}
+  \constructivestory{A $\LebesgueDifferentiationBasisUp$ packet is generated from basis-cell rows, Vitali and finite-Vitali selection rows, Besicovitch finite-overlap rows, Measure local-average rows, DyadicRatCore tolerance rows, Real seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lebesgue-differentiation-basis-carrier}, \autoref{thm:lebesgue-differentiation-basis-namecert-obligations}, and \autoref{thm:lebesgue-differentiation-basis-finite-cover-handoff} seed the finite differentiation-basis route for later Lebesgue differentiation consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim almost-everywhere quotient equality, measure completion, countable-choice basis selectors, selected function representatives, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Vitali selection routing, Besicovitch finite-overlap routing, Measure local-average routing, dyadic tolerance sealing, Real nonescape, transport, replay, provenance, and local naming for BEDC.Derived.LebesgueDifferentiationBasisUp.}
+\end{closurestatus}

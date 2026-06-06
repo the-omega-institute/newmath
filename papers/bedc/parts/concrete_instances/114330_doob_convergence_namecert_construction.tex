@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\DoobConvergenceUp$}
+\label{ch:concrete-instances-doob-convergence-namecert}
+\origin{human}
+
+Following Doob, the $\DoobConvergenceUp$ packet names the finite convergence-readout surface that sits beside the martingale convergence packet of \autoref{ch:concrete-instances-martingale-convergence-namecert}. It consumes the probability, random-variable, conditional-expectation, martingale, stopping-time, optional-stopping, upcrossing, Doob-upcrossing, martingale-convergence, rational, and real certificates of \autoref{ch:concrete-instances-probspace-namecert}, \autoref{ch:concrete-instances-randomvar-namecert}, \autoref{ch:concrete-instances-condexp-namecert}, \autoref{ch:concrete-instances-martingale-namecert}, \autoref{ch:concrete-instances-stoppingtime-namecert}, \autoref{ch:concrete-instances-optionalstopping-namecert}, \autoref{ch:concrete-instances-upcrossing-namecert}, \autoref{ch:concrete-instances-doob-upcrossing-namecert}, \autoref{ch:concrete-instances-martingale-convergence-namecert}, \autoref{ch:concrete-instances-rat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet records the bounded finite NameCert obligations needed to read a convergence-admission row; it does not introduce measure completion, almost-sure quotient equality, unbounded stopping choice, or a completed limiting-event carrier.
+
+\begin{definition}[Doob convergence carrier]
+\label{def:doob-convergence-carrier}
+A $\DoobConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+D=(\Omega,X,E,M,T,O,U,B,A,Q,R,L,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Omega$ is the consumed $\ProbSpaceUp$ row.
+\item $X$ is the $\RandomVarUp$ endpoint-family row for the displayed martingale window.
+\item $E$ is the $\CondExpUp$ successor-face row used by the martingale law.
+\item $M$ is the finite $\MartingaleUp$ adapted-sequence packet.
+\item $T$ is the $\StoppingTimeUp$ bounded index row.
+\item $O$ is the $\OptionalStoppingUp$ stopped-window row.
+\item $U$ is the $\UpcrossingUp$ crossing-count ledger.
+\item $B$ is the $\DoobUpcrossingUp$ bound row consumed by the convergence readout.
+\item $A$ is the $\MartingaleConvergenceUp$ finite convergence-admission row.
+\item $Q$ is the $\RatUp$ rational tolerance ledger used to read finite windows.
+\item $R$ is the $\RealUp$ boundary and bounded-window row.
+\item $L$ is the Doob convergence readout ledger recording which finite endpoint windows, rational tolerances, real bounds, upcrossing rows, and admission rows may be inspected together.
+\item $W$ records the local source alignment among $\ProbSpaceUp$, $\RandomVarUp$, $\CondExpUp$, $\MartingaleUp$, $\StoppingTimeUp$, $\OptionalStoppingUp$, $\UpcrossingUp$, $\DoobUpcrossingUp$, $\MartingaleConvergenceUp$, $\RatUp$, and $\RealUp$.
+\item $H$ records componentwise $\hsame$ transport for all displayed rows.
+\item $C$ records the displayed $\Cont$ routes from finite endpoint windows through bounded stopping, upcrossing, Doob-bound, martingale-convergence, rational, real-boundary, and convergence-readout rows.
+\item $P$ is the $\Pkg$ provenance over the displayed rows, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DoobConvergenceUp}$ row.
+\end{enumerate}
+The carrier is exactly this finite packet. It has no coordinate for measure completion, almost-sure quotient classes, unbounded stopping-time selection, pathwise limiting events, Brownian specialization, or an ambient convergence theorem.
+\end{definition}
+
+\begin{theorem}[Doob convergence NameCert obligations]
+\label{thm:doob-convergence-namecert-obligations}
+For the carrier of \autoref{def:doob-convergence-carrier}, the local $\NameCert_{\DoobConvergenceUp}$ surface consists exactly of carrier admission for
+$$
+\Omega,X,E,M,T,O,U,B,A,Q,R,L,W,H,C,P,N,
+$$
+probability and endpoint exposure through $\Omega,X,E,M$, bounded stopping exposure through $T,O$, upcrossing and Doob-bound exposure through $U,B$, martingale-convergence admission through $A$, rational and real readback through $Q,R$, convergence-readout exactness through $L$, source alignment through $W$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:doob-convergence-carrier}. Its rows list the consumed probability, random-variable, conditional-expectation, martingale, stopping-time, optional-stopping, upcrossing, Doob-upcrossing, martingale-convergence, rational, real, readout, source-alignment, transport, replay, provenance, and naming data.
+
+The martingale-facing rows are $\Omega,X,E,M,T,O$. They are consumed only as finite probability, endpoint, conditional-expectation, martingale, and bounded stopped-window packets.
+
+The crossing-facing rows are $U,B,A$. The upcrossing row and Doob-bound row must be displayed before the martingale-convergence admission row can be read, matching the sibling route through \autoref{ch:concrete-instances-martingale-convergence-namecert}.
+
+The readback rows are $Q,R,L,W,H,C,P,N$. They record rational tolerance, real boundary, finite convergence readout, source alignment, componentwise transport, replay, provenance, and local naming. Since no remaining coordinate names measure completion, almost-sure quotient equality, unbounded stopping choice, or a limiting-event carrier, the NameCert obligations are exactly the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Doob convergence bounded readout nonescape]
+\label{thm:doob-convergence-bounded-readout-nonescape}
+Every accepted $\DoobConvergenceUp$ carrier reads a convergence-facing row only through the finite handoff from $\MartingaleConvergenceUp$: bounded stopped windows, lower and upper $\RealUp$ boundary rows, $\RatUp$ tolerance rows, consumed $\UpcrossingUp$ and $\DoobUpcrossingUp$ ledgers, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. A consumer that replaces this route by measure completion, almost-sure quotient equality, unbounded stopping choice, or an ambient limiting event leaves the accepted packet.
+\end{theorem}
+\begin{proof}
+Open the accepted packet and project $A,L,Q,R,U,B$. The convergence-admission row $A$ is read only together with the readout ledger $L$, rational tolerance row $Q$, real boundary row $R$, crossing-count row $U$, and Doob-bound row $B$.
+
+Use \autoref{thm:martingale-convergence-namecert-obligations} and \autoref{thm:martingale-convergence-finite-cauchy-admission}. They identify the martingale-convergence handoff as a finite bounded-window route over stopping, upcrossing, rational-readback, and real-boundary rows, not as an ambient limiting theorem.
+
+Finally apply \autoref{thm:doob-convergence-namecert-obligations}. It adds the local source-alignment, transport, replay, provenance, and naming rows $W,H,C,P,N$ and confirms that the $\DoobConvergenceUp$ carrier has no coordinate for measure completion, almost-sure quotient equality, unbounded stopping choice, or a limiting-event carrier.
+\end{proof}
+
+\closureat{DoobConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\DoobConvergenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:doob-convergence-carrier}, \autoref{thm:doob-convergence-namecert-obligations}, and \autoref{thm:doob-convergence-bounded-readout-nonescape} seed the finite Doob convergence packet over probability, random-variable, conditional-expectation, martingale, bounded stopping, upcrossing, Doob-bound, martingale-convergence, rational, real, transport, replay, provenance, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, almost-sure quotient equality, unbounded stopping choice, completed limiting-event carriers, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite handoff exactness, bounded readout nonescape, and local NameCert accountability for BEDC.Derived.DoobConvergenceUp.}
+  \constructivestory{A $\DoobConvergenceUp$ packet is generated from probability, random-variable, conditional-expectation, martingale, stopping-time, optional-stopping, upcrossing, Doob-upcrossing, martingale-convergence, rational, real-boundary, transport, continuation, provenance, and local NameCert rows.}
+\end{closurestatus}

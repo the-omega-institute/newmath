@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\CauchyMergeUp$}
+\label{ch:concrete-instances-cauchy-merge-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\CauchyMergeUp$ packet records the finite merge route used when two regular Cauchy source names must be compared or combined through a common tail schedule. It sits beside the StreamName windows of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, the DyadicRatCore tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the reindexing discipline of \autoref{ch:concrete-instances-cauchy-reindexing-namecert}. The packet gives the L10 regular-Cauchy merge route one finite naming surface; it does not form quotient streams, choose a limiting real, invoke countable choice, or appeal to ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy merge carrier]
+\label{def:cauchy-merge-carrier}
+A $\CauchyMergeUp$ carrier is a finite $\BHist$ packet
+$$
+M=(R_0,R_1,W_0,W_1,D,S,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R_0$ and $R_1$ are the two $\RegSeqRatUp$ regular-Cauchy source rows presented to the merge request.
+\item $W_0$ and $W_1$ are the two $\StreamNameUp$ finite-window rows through which the sources are read.
+\item $D$ is the shared $\DyadicRatCoreUp$ tolerance ledger, recording the common precision scale, the two source budgets, and the merged tail budget.
+\item $S$ is the finite merge-schedule row. It names the alternating or cofinal inspection order used to serve both source rows from the shared ledger.
+\item $A$ is the $\CauchyReindexingUp$ alignment row, showing that the schedule reads each source through a permitted tail reindexing route.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $R_0,R_1,W_0,W_1,D,S,A$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for the source, window, ledger, schedule, alignment, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a merge request through $R_0,R_1,W_0,W_1,D,S,A,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyMergeUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyReindexingUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyMergeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R_0,R_1,W_0,W_1,D,S,A,E,H,C,P,N$. It has no coordinate for quotient-stream equality, a selected representative, a host limit, countable-choice data, host real equality, or ambient completeness.
+\end{definition}
+\leandef{BEDC.Derived.CauchyMergeUp}
+
+\begin{theorem}[Cauchy merge NameCert obligations]
+\label{thm:cauchy-merge-namecert-obligations}
+For every accepted $\CauchyMergeUp$ carrier
+$$
+M=(R_0,R_1,W_0,W_1,D,S,A,E,H,C,P,N),
+$$
+the local $\NameCert_{\CauchyMergeUp}$ surface consists exactly of carrier admission for the two regular-Cauchy source rows, two StreamName window rows, the shared dyadic tolerance ledger, the finite merge schedule, the Cauchy reindexing alignment row, the terminal Real seal, componentwise transport, continuation replay, provenance, and local naming. No local obligation may read a quotient stream, chosen representative, selected host limit, countable-choice selector, host real equality proof, or ambient $\RealUp$ completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are exactly $R_0,R_1,W_0,W_1,D,S,A,E$, and the structural rows are exactly $H,C,P,N$.
+
+Carrier admission exposes the two regular-Cauchy sources only through their displayed StreamName windows. The shared DyadicRatCore ledger fixes the common tolerance scale, while the schedule row $S$ supplies the finite order in which both source tails are inspected.
+
+The alignment row $A$ is the only route through which the schedule may reindex either source. Hence the terminal Real seal $E$ is downstream of displayed regular-Cauchy readback, finite windows, a shared dyadic ledger, and permitted reindexing.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no additional row is present, quotient streams, selected representatives, host limits, countable choice, host equality, and ambient completeness cannot become local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy merge tail-equivalence route]
+\label{thm:cauchy-merge-tail-equivalence-route}
+Every accepted $\CauchyMergeUp$ packet turns the two regular-Cauchy sources into a Real-facing merge seal only through the finite route
+$$
+R_0,R_1 \longmapsto W_0,W_1 \longmapsto D \longmapsto S \longmapsto A \longmapsto E \longmapsto H,C,P,N .
+$$
+If two merge consumers display the same two source rows, the same two window rows, the same dyadic ledger, the same merge schedule, and the same reindexing alignment row, then their tail-equivalence comparison is exhausted by this route and does not use quotient-stream equality or a selected limiting real.
+\end{theorem}
+\begin{proof}
+Start from the two source rows $R_0$ and $R_1$. The window rows $W_0$ and $W_1$ specify the finite observations actually opened by the merge request, and the shared ledger $D$ gives a single tolerance scale for both observations.
+
+The schedule row $S$ then determines how the two tails are interleaved or cofinally inspected. The alignment row $A$ checks that each scheduled read is a Cauchy reindexing read, so the comparison cannot leave the displayed tail route.
+
+Finally the Real seal $E$ and the structural rows $H,C,P,N$ repack the same finite route for downstream consumers. Equality of the displayed merge data therefore supplies tail-equivalence at the certificate boundary without adding quotient streams, chosen representatives, selected limits, countable choice, host real equality, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyMergeUp$ merge read exposes two $\RegSeqRatUp$ source rows, two $\StreamNameUp$ window rows, a shared $\DyadicRatCoreUp$ ledger, a finite merge schedule, a $\CauchyReindexingUp$ alignment row, a $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and a $\NameCert$ row before any Real-facing seal can be consumed.}
+
+\independenceWitness{regularcauchymerge, cauchy-reindexing, real-completion-tail-route: $\CauchyMergeUp$ is not bijective to its listed siblings because it jointly carries two regular-Cauchy sources, two finite window rows, one shared dyadic tolerance ledger, one merge schedule, one reindexing alignment row, one Real seal, transport, replay, provenance, and local naming.}
+
+\closureat{CauchyMergeUp}{seedStr}
+
+\begin{closurestatus}{\CauchyMergeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-merge-carrier}, \autoref{thm:cauchy-merge-namecert-obligations}, and \autoref{thm:cauchy-merge-tail-equivalence-route} seed the finite L10 route for merging two regular-Cauchy names through shared windows, a common dyadic ledger, a schedule, reindexing alignment, and a Real seal.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.CauchyMergeUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-stream equality, selected representatives, selected limits, countable choice, host real equality, ambient Real completeness, theorem checking, axiom-clean closure, or bridge checking.}
+  \upgradepath{Theorem-checked closure requires checked carrier admission, classifier stability, hsame and Cont-compatible schedule transport, reindexing alignment exactness, and no-quotient/no-choice nonescape for BEDC.Derived.CauchyMergeUp.}
+  \constructivestory{A $\CauchyMergeUp$ packet is generated from two $\RegSeqRatUp$ source rows, two $\StreamNameUp$ finite-window rows, one shared $\DyadicRatCoreUp$ tolerance ledger, a finite merge schedule, a $\CauchyReindexingUp$ alignment row, a terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

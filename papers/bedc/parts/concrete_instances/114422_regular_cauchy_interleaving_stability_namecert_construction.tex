@@ -1,0 +1,68 @@
+\chapter{RegularCauchyInterleavingStability NameCert Construction}
+\label{ch:concrete-instances-regular-cauchy-interleaving-stability-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\RegularCauchyInterleavingStabilityUp$ packet isolates the finite stability surface for interleaved regular Cauchy names. It reads the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream schedules of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the interleaving carrier of \autoref{ch:concrete-instances-regularcauchyinterleaving-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a named stability certificate between selected even--odd windows and the shared modulus ledger; it does not identify quotient reals, choose host limits, or invoke ambient completeness.
+
+\begin{definition}[Regular Cauchy interleaving stability carrier]
+\label{def:regular-cauchy-interleaving-stability-carrier}
+A $\RegularCauchyInterleavingStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+T=(A,B,S_A,S_B,\sigma,M,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two accepted $\RegSeqRatUp$ source rows whose finite regular Cauchy windows are interleaved.
+\item $S_A$ and $S_B$ are the selected $\StreamNameUp$ schedules for the even and odd sides.
+\item $\sigma$ is the alternating selector row inherited from the $\RegularCauchyInterleavingUp$ carrier.
+\item $M$ is the shared $\DyadicRatCoreUp$ modulus ledger, carrying the matched dyadic budgets for selected even and odd requests.
+\item $W$ records the selected even and odd $\RegSeqRatUp$ windows after the schedules and shared modulus have been displayed.
+\item $E$ is the $\RealUp$ seal row exposed only after $A,B,S_A,S_B,\sigma,M,W$ have been read.
+\item $H$ records componentwise $\hsame$ transport for the source rows, schedules, selector, shared modulus ledger, selected windows, Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay of the same finite route.
+\item $P$ records the $\Pkg$ provenance over $\RegularCauchyInterleavingStabilityUp$, $\RegularCauchyInterleavingUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyInterleavingStabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B,S_A,S_B,\sigma,M,W,E,H,C,P,N$. It has no coordinate for quotient-real equality, selected host limits, ambient completeness, or bridge checking.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingStabilityUp.RegularCauchyInterleavingStabilityTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy interleaving stability obligations]
+\label{thm:regular-cauchy-interleaving-stability-obligations}
+For every accepted $\RegularCauchyInterleavingStabilityUp$ carrier
+$$
+T=(A,B,S_A,S_B,\sigma,M,W,E,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyInterleavingStabilityUp}$ surface is exhausted by five obligations:
+\begin{enumerate}
+\item carrier admission: the accepted object is exactly the displayed packet $A,B,S_A,S_B,\sigma,M,W,E,H,C,P,N$;
+\item selected-window stability: the even and odd rows in $W$ are read from $A$ and $B$ through $S_A,S_B,\sigma$ without changing the selected finite regular Cauchy windows;
+\item shared-modulus exactness: every selected even or odd request uses the corresponding component of the single dyadic ledger $M$;
+\item componentwise transport: $H$ carries $\hsame$ transport for each displayed row and $C$ replays the same finite route through $\Cont$;
+\item Real seal nonescape: $E$ exports no quotient real, selected host limit, ambient completeness principle, or bridge-checked schema beyond the displayed rows.
+\end{enumerate}
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingStabilityUp.RegularCauchyInterleavingStabilityCarrier\_obligations}
+
+\begin{theorem}[Regular Cauchy interleaving stability classifier]
+\label{thm:regular-cauchy-interleaving-stability-classifier}
+Accepted $\RegularCauchyInterleavingStabilityUp$ packets classify together exactly when the selected $\RegSeqRatUp$ windows and shared modulus rows transport componentwise through the displayed $\hsame$ and $\Cont$ routes. Equivalently, the classifier sees the same two source rows $A,B$, the same schedules $S_A,S_B$, the same alternating selector $\sigma$, the same shared dyadic ledger $M$, the same selected-window row $W$, and the same Real seal boundary $E$ up to the displayed transport, replay, provenance, and local naming rows $H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyInterleavingStabilityUp.RegularCauchyInterleavingStabilityClassifier}
+
+\falsifiablePrediction{An accepted $\RegularCauchyInterleavingStabilityUp$ packet is refuted if a Real or Completion consumer reaches the seal row $E$ without first displaying the even and odd $\RegSeqRatUp$ source rows, the two $\StreamNameUp$ schedules, the alternating selector, the shared $\DyadicRatCoreUp$ modulus ledger, the selected-window row, transport, replay, provenance, and local naming.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, regularcauchyinterleaving, real: none alone is bijective with $\RegularCauchyInterleavingStabilityUp$ because the packet jointly binds two regular rational sources, two selected schedules, one alternating selector, one shared dyadic modulus ledger, selected even and odd windows, one Real seal, componentwise transport, replay, provenance, and local NameCert data.}
+
+\closureat{RegularCauchyInterleavingStabilityUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyInterleavingStabilityUp}
+  \constructivestory{A $\RegularCauchyInterleavingStabilityUp$ packet is generated from two RegSeqRat source rows, two StreamName schedules, an alternating selector, a shared DyadicRatCore modulus ledger, selected even and odd windows, a Real seal row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-interleaving-stability-carrier}, \autoref{thm:regular-cauchy-interleaving-stability-obligations}, and \autoref{thm:regular-cauchy-interleaving-stability-classifier} seed the finite stability certificate for interleaved regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.RegularCauchyInterleavingStabilityUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient reals, selected host limits, ambient completeness, or bridge checking.}
+  \upgradepath{Scoped closure requires checked carrier admission, selected-window stability, shared-modulus exactness, componentwise transport, Real seal nonescape, and classifier transport for BEDC.Derived.RegularCauchyInterleavingStabilityUp.}
+\end{closurestatus}

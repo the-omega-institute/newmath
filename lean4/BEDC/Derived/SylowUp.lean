@@ -141,4 +141,20 @@ theorem SylowCarrier_conjugacy_transport [AskSetup] [PackageSetup]
   exact
     ⟨sameTransport, transportUnary, transportUnary', transportRoute, transportRoute'⟩
 
+theorem SylowCarrier_prime_power_coverage [AskSetup] [PackageSetup]
+    {groupRow subgroupRow primeRow exponentRow coverageRow actionRow transportRow consumerRow
+      hsameRow provenance localCert : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SylowCarrier groupRow subgroupRow primeRow exponentRow coverageRow actionRow transportRow
+        consumerRow hsameRow provenance localCert bundle pkg →
+      UnaryHistory primeRow ∧ UnaryHistory exponentRow ∧ UnaryHistory coverageRow ∧
+        Cont groupRow subgroupRow coverageRow ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨_groupUnary, _subgroupUnary, primeUnary, exponentUnary, coverageUnary,
+    _actionUnary, _transportUnary, _consumerUnary, _hsameUnary, _provenanceUnary,
+    _localCertUnary, coverageRoute, _transportRoute, _consumerRoute,
+    _sameConsumerProvenance, _sameHsameProvenance, provenancePkg, _localCertPkg⟩ := carrier
+  exact ⟨primeUnary, exponentUnary, coverageUnary, coverageRoute, provenancePkg⟩
+
 end BEDC.Derived.SylowUp

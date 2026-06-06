@@ -2095,35 +2095,18 @@ def heal_ci_failure(failure: dict) -> str | None:
         return None
     run(["git", "clean", "-fd"], check=False, capture=True, timeout=60)
 
-    # Reproduce guard on MIRROR_BRANCH. CI heal intentionally acts on the
-    # branch that runs CI. A clean local suite can still mean the log points at
-    # a legacy / non-blocking defect, so the prompt remains log-driven instead
-    # of treating a clean reproduction check as proof that no fix is needed.
-    if not unfixable:
-        repro_ok, _repro_err = verify_local_ci()
-        if repro_ok:
-            noisy_red, defects = _ci_failure_is_noisy_red(log_tail)
-            if noisy_red:
-                _mark_ci_seen(run_id)
-                print(
-                    f"[heal] run {run_id} is noisy-red (log-named defect(s) "
-                    "absent from current tree); skipping",
-                    file=sys.stderr,
-                    flush=True,
-                )
-                return None
-            if defects:
-                print(
-                    f"[heal] CI run {run_id} does not reproduce on current "
-                    f"{MIRROR_BRANCH}, but log-named defect still exists; "
-                    "continuing with log-guided heal",
-                    file=sys.stderr,
-                    flush=True,
-                )
-            else:
-                print(f"[heal] CI run {run_id} does not reproduce on current "
-                      f"{MIRROR_BRANCH}; continuing with log-guided heal",
-                      file=sys.stderr, flush=True)
+    # Operator directive 2026-06-05: do NOT judge/skip a real CI failure by the
+    # fragile "noisy-red" log-string match. That heuristic extracted a benign
+    # Reference-undefined fragment as the "defect", found it absent, and skipped
+    # 6+ consecutive RED runs whose real cause (a `\mathsf`-in-text-mode fatal in
+    # a concrete-instance chapter) it never looked at. On any real `failure`
+    # conclusion, always dispatch codex with the log and let it fix toward green
+    # (the `unfixable` TeX-capacity branch above already falls through here with
+    # its capacity_hint). The only backstops against thrashing a genuinely
+    # stuck run are the per-run attempt-cap (_ci_mark_failed_attempt) and the
+    # recurring-fix-loop guard below; verify_then_push still verifies the fix
+    # before pushing, so a no-op heal (defect already fixed on current BASE)
+    # commits nothing and ships nothing.
     # Best-effort job guess: first line matching `<job>\t<step>\t...`.
     job_guess = "?"
     for line in log_tail.splitlines()[:5]:

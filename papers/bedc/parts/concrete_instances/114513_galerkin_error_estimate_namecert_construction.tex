@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\GalerkinErrorEstimateUp$}
+\label{ch:concrete-instances-galerkin-error-estimate-namecert}
+\origin{human}
+
+Following Cea and standard Galerkin finite-element error analysis, the $\GalerkinErrorEstimateUp$ packet records the constructive best-approximation surface exposed after a coercive variational problem has been projected onto a displayed finite trial space. It sits over the residual certificate of \autoref{ch:concrete-instances-galerkin-projection-namecert}, the variational solution row of \autoref{ch:concrete-instances-lax-milgram-namecert}, the Hilbert comparison surface of \autoref{ch:concrete-instances-hilbert-namecert}, the bounded-operator action row of \autoref{ch:concrete-instances-boundedlinearoperator-namecert}, the norm ledger of \autoref{ch:concrete-instances-norm-namecert}, and the scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives downstream finite-element and PDE consumers a finite error-estimate route without importing quotient function spaces, selected minimizers, host projection theorems, or choice.
+
+\begin{definition}[Galerkin error estimate carrier]
+\label{def:galerkin-error-estimate-carrier}
+A $\GalerkinErrorEstimateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(V,a,l,u,u_h,e,c,C,H,R,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite trial-space row, naming the accepted trial basis, finite coefficient windows, and admissible comparison tests.
+\item $a$ is the coercive bilinear-form row, read through the bounded operator and Hilbert surfaces with displayed continuity and coercivity evidence.
+\item $l$ is the load row, naming the bounded functional data consumed by the variational problem.
+\item $u$ is the exact variational row supplied through the $\LaxMilgramUp$ handoff and exposed only by its displayed equation against admitted tests.
+\item $u_h$ is the Galerkin row supplied through the $\GalerkinProjectionUp$ residual-orthogonality surface on the displayed trial space.
+\item $e$ is the error row recording the comparison between $u$ and $u_h$ in the displayed norm ledger.
+\item $c$ and $C$ are the coercivity and continuity constants as finite scalar rows, with no selected optimizer or ambient real-number oracle.
+\item $H$ is the best-approximation comparison row. It records that each displayed trial competitor is compared through the same norm and bilinear-form rows before the scalar estimate is read.
+\item $R$ is the $\RealUp$ bound row, reached only after the residual orthogonality, variational equation, coercivity, continuity, and comparison rows have been displayed.
+\item $T$ records componentwise $\hsame$ transport for trial-space, bilinear-form, load, exact-solution, Galerkin, error, constant, comparison, scalar-bound, replay, provenance, and local naming rows.
+\item $P$ is the $\Pkg$ provenance over $\GalerkinErrorEstimateUp$, $\GalerkinProjectionUp$, $\LaxMilgramUp$, $\HilbertUp$, $\BoundedLinearOperatorUp$, $\NormUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GalerkinErrorEstimateUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,a,l,u,u_h,e,c,C,H,R,T,P,N$. It has no coordinate for a quotient function space, selected minimizer, host Hilbert projection theorem, ambient best-approximation theorem, countable choice, or $\RealUp$ completeness principle.
+\end{definition}
+
+\begin{theorem}[Galerkin error estimate NameCert obligations]
+\label{thm:galerkin-error-estimate-namecert-obligations}
+For every accepted $\GalerkinErrorEstimateUp$ carrier
+$$
+G=(V,a,l,u,u_h,e,c,C,H,R,T,P,N),
+$$
+the local $\NameCert_{\GalerkinErrorEstimateUp}$ surface consists exactly of carrier admission, classifier locality over the displayed rows, residual orthogonality through $u_h$, coercivity and continuity through $c,C$, best-approximation comparison through $H$, scalar-bound readback through $R$, componentwise transport through $T$, replay through the displayed finite route, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:galerkin-error-estimate-carrier}. The trial space, bilinear form, load, exact variational row, Galerkin row, error row, constants, comparison row, scalar bound, transport, provenance, and local name are the visible inventory.
+
+The residual-orthogonality obligation is read from the Galerkin row $u_h$ and the finite trial row $V$. The exact variational obligation is read from $u$ through the Lax-Milgram handoff, so the two analytic inputs remain separate before the error row is formed.
+
+Coercivity and continuity are then read from $c,C$ as displayed scalar rows. The comparison row $H$ uses those constants to compare the error with each displayed trial competitor, and $R$ records the resulting $\RealUp$ bound only after that route is visible.
+
+Finally $T,P,N$ transport, source, and name the same finite surface. Since no carrier coordinate stores a quotient space, selected minimizer, host projection theorem, choice schedule, or ambient real-completeness datum, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Galerkin best-approximation route]
+\label{thm:galerkin-error-estimate-best-approximation-route}
+Every public $\GalerkinErrorEstimateUp$ error-estimate read factors through the $\GalerkinProjectionUp$ residual row and the $\LaxMilgramUp$ variational row before it reads the $\RealUp$ scalar bound. In carrier terms, the public route is
+$$
+V,a,l,u,u_h,e,c,C,H \longmapsto R \longmapsto T,P,N .
+$$
+The route exposes residual orthogonality, the exact variational equation, coercivity, continuity, and finite best-approximation comparison before any scalar estimate is consumed, with no quotient function space, selected minimizer, host Hilbert projection theorem, or choice principle.
+\end{theorem}
+\begin{proof}
+Start with a public error-estimate consumer. The consumer cannot inspect the scalar bound row $R$ directly, because the carrier places the trial-space, bilinear-form, load, exact variational, Galerkin, error, constant, and comparison rows before it.
+
+Use the Galerkin projection sibling for the discrete side. The row $u_h$ is available only together with the finite trial space $V$ and the residual-orthogonality surface supplied by \autoref{ch:concrete-instances-galerkin-projection-namecert}.
+
+Use the Lax-Milgram sibling for the exact side. The row $u$ is read through the variational equation and bounded functional route of \autoref{ch:concrete-instances-lax-milgram-namecert}, while $a,l,c,C$ keep the bilinear, load, coercivity, and continuity data visible.
+
+The comparison row $H$ then forms the best-approximation route against displayed trial competitors, and the scalar row $R$ seals that route as a $\RealUp$ bound. Transport, provenance, and naming through $T,P,N$ preserve the same finite path, so the refused quotient, minimizer, host projection, and choice objects are not exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\GalerkinErrorEstimateUp$ read displays the finite trial space, bilinear-form row, load row, LaxMilgram exact variational row, GalerkinProjection residual row, error row, coercivity and continuity constants, best-approximation comparison, RealUp scalar bound, componentwise transport, provenance, and local NameCert row before an error-estimate consumer reads the bound.}
+
+\independenceWitness{galerkin-projection, lax-milgram, hilbert, boundedlinearoperator, norm, real: $\GalerkinErrorEstimateUp$ is not bijective to any listed sibling because it binds residual orthogonality, variational exactness, coercivity, continuity, best-approximation comparison, and scalar error bound into one finite certificate surface.}
+
+\leanstmt{BEDC.Derived.GalerkinErrorEstimateUp}
+
+\closureat{GalerkinErrorEstimateUp}{seedStr}
+
+\begin{closurestatus}{\GalerkinErrorEstimateUp}
+  \constructivestory{A $\GalerkinErrorEstimateUp$ packet is generated from finite trial-space rows, bilinear-form rows, load rows, exact variational rows, Galerkin residual rows, error rows, coercivity and continuity constants, best-approximation comparison rows, RealUp scalar bounds, componentwise transport, replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:galerkin-error-estimate-carrier}, \autoref{thm:galerkin-error-estimate-namecert-obligations}, and \autoref{thm:galerkin-error-estimate-best-approximation-route} seed the constructive Galerkin best-approximation error route over projection, variational, Hilbert, bounded-operator, norm, and real rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.GalerkinErrorEstimateUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient function spaces, selected minimizers, host Hilbert projection theorems, choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, residual orthogonality, coercivity and continuity rows, best-approximation comparison, scalar-bound readback, transport, replay, provenance, and local naming for BEDC.Derived.GalerkinErrorEstimateUp.}
+\end{closurestatus}

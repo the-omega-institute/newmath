@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\CofinalMonotoneSubsequenceUp$}
+\label{ch:concrete-instances-cofinal-monotone-subsequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CofinalMonotoneSubsequenceUp$ packet records the finite route by which bounded real-sequence data, a monotone direction, and a cofinal index schedule are presented before a Real or Completion consumer asks for subsequence extraction. It reads the bounded source of \autoref{ch:concrete-instances-bounded-monotone-subsequence-namecert}, the cofinal index witness of \autoref{ch:concrete-instances-cofinalsubsequence-namecert}, the monotone selected-window surface of \autoref{ch:concrete-instances-monotone-subsequence-namecert}, the finite observation discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies a finite extraction ledger for Bolzano--Weierstrass selector and compact interval subsequence routes without selecting an infinite host subsequence, quotienting stream representatives, adding countable choice, or asserting ambient $\RealUp$ completeness.
+
+\begin{definition}[Cofinal monotone subsequence carrier]
+\label{def:cofinal-monotone-subsequence-carrier}
+A $\CofinalMonotoneSubsequenceUp$ carrier is a finite $\BHist$ packet
+$$
+M=(B,D,I,C,W,R,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded real-sequence source row, read from the accepted $\BoundedMonotoneSubsequenceUp$ surface.
+\item $D$ is the monotone direction row, recording whether the inspected windows are increasing or decreasing and storing only displayed comparison data.
+\item $I$ is the cofinal index schedule, read through $\CofinalSubsequenceUp$ and exposing finite threshold-to-index witnesses.
+\item $C$ is the finite window row, naming the inspected source windows and selected subsequence windows used by the extraction request.
+\item $W$ is the monotone-window ledger, read through $\MonotoneSubsequenceUp$ and tied to the bounded source row and cofinal schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained after $B,D,I,C,W$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row, available only after the regular-rational readback has been exposed.
+\item $H$ records componentwise $\hsame$ transport for the bounded source, direction, cofinal schedule, finite windows, monotone ledger, readback, Real seal, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay of the same bounded cofinal monotone route.
+\item $P$ is the $\Pkg$ provenance over $\CofinalMonotoneSubsequenceUp$, $\BoundedMonotoneSubsequenceUp$, $\CofinalSubsequenceUp$, $\MonotoneSubsequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CofinalMonotoneSubsequenceUp}$ row.
+\end{enumerate}
+The carrier exports only these rows. It has no coordinate for a selected infinite subsequence, quotient stream equality, host trichotomy, countable choice, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cofinal monotone subsequence extraction ledger]
+\label{thm:cofinal-monotone-subsequence-extraction-ledger}
+For every accepted $\CofinalMonotoneSubsequenceUp$ carrier $M=(B,D,I,C,W,R,E,H,T,P,N)$, every extraction-facing read must first display the bounded source row $B$, the direction row $D$, the cofinal index schedule $I$, the finite windows $C$, and the monotone-window ledger $W$. The schedule $I$ answers each inspected source threshold by a later selected window, while $D$ and $W$ record the monotone comparisons for that displayed window. No consumer can enlarge this finite ledger into a selected infinite subsequence, quotient stream representative, countable-choice functional, or ambient compactness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cofinal-monotone-subsequence-carrier}. The only source row is $B$, the only direction row is $D$, and the only cofinal schedule row is $I$.
+
+The finite windows are then read through $C$ and $W$. The row $C$ records which source and selected windows are inspected, while $W$ supplies the monotone comparisons inside those windows and keeps them tied to the direction row.
+
+The structural rows $H,T,P,N$ preserve and replay this route without adding another selector coordinate. Since the carrier has no selected infinite subsequence, quotient stream representative, countable-choice functional, or compactness row, the extraction ledger is exhausted by the displayed finite data.
+\end{proof}
+
+\begin{theorem}[Cofinal monotone subsequence Real readback]
+\label{thm:cofinal-monotone-subsequence-real-readback}
+Every $\RealUp$-facing read from an accepted $\CofinalMonotoneSubsequenceUp$ packet factors through
+$$
+B,D,I,C,W \longmapsto R \longmapsto E
+$$
+together with $H,T,P,N$. Thus Bolzano--Weierstrass selector and compact interval subsequence consumers may reuse the bounded source, cofinal schedule, monotone-window ledger, regular-rational readback, and terminal Real seal, but they receive no independent completeness theorem, selected limit, quotient real equality, host subsequence selector, or countable-choice principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:cofinal-monotone-subsequence-extraction-ledger}. It places the bounded source, direction, cofinal schedule, finite windows, and monotone ledger before any readback row can be consumed.
+
+The regular-rational readback row $R$ is downstream of that extraction ledger, and the terminal Real seal $E$ is downstream of $R$. Therefore a Real-facing consumer sees only the displayed route from finite windows to regular-rational readback and then to the Real seal.
+
+Transport, replay, provenance, and local naming preserve the same packet. The excluded rows are absent from the carrier, so the readback cannot become a completeness principle, selected limit, quotient equality, host subsequence selector, or countable-choice rule.
+\end{proof}
+
+\falsifiablePrediction{Any Bolzano--Weierstrass selector or compact interval subsequence consumer that reads the $\RealUp$ seal of a purported $\CofinalMonotoneSubsequenceUp$ packet before displaying $B,D,I,C,W$ is not reading the carrier of \autoref{def:cofinal-monotone-subsequence-carrier}.}
+
+\independenceWitness{bounded-monotone-subsequence, cofinalsubsequence, monotonesubsequence, streamname, regseqrat, real: $\CofinalMonotoneSubsequenceUp$ is not bijective to any listed sibling because it jointly carries a bounded source row, a monotone direction row, a cofinal index schedule, finite selected windows, a monotone-window ledger, regular readback, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{CofinalMonotoneSubsequenceUp}{seedStr}
+
+\begin{closurestatus}{\CofinalMonotoneSubsequenceUp}
+  \constructivestory{A $\CofinalMonotoneSubsequenceUp$ packet is generated from bounded real-sequence data, a monotone direction row, a cofinal index schedule, finite selected windows, a monotone-window ledger, RegSeqRat readback, a Real seal, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-monotone-subsequence-carrier}, \autoref{thm:cofinal-monotone-subsequence-extraction-ledger}, and \autoref{thm:cofinal-monotone-subsequence-real-readback} seed the finite cofinal monotone subsequence route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected infinite subsequences, quotient stream equality, host trichotomy, countable choice, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-source exposure, cofinal schedule coverage, monotone-window extraction, regular-rational readback, terminal seal ordering, transport preservation, replay stability, provenance exhaustion, and local naming for BEDC.Derived.CofinalMonotoneSubsequenceUp.}
+\end{closurestatus}

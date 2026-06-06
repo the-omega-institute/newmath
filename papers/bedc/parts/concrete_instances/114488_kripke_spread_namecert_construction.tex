@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\KripkeSpreadUp$}
+\label{ch:concrete-instances-kripke-spread-namecert}
+\origin{human}
+
+Following Kripke on intuitionistic models and Brouwer on spreads, the $\KripkeSpreadUp$ packet records finite spread inspection along the L10 countable-name route. It sits beside the binary prefix surface of \autoref{ch:concrete-instances-cantorspace-namecert}, the finite-bar discipline of \autoref{ch:concrete-instances-fantheorem-namecert}, the finite branching carrier of \autoref{ch:concrete-instances-finitely-branching-tree-namecert}, and the countable-name consumers of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}. The packet exposes only finite nodes, finite successor ledgers, prefix persistence, and readback windows; it is not weak Koenig path selection, countable choice, quotient stream equality, or completed Real data.
+
+\begin{definition}[Kripke spread carrier]
+\label{def:kripke-spread-carrier}
+A $\KripkeSpreadUp$ carrier is a finite $\BHist$ packet
+$$
+K=(W,N,B,A,S,Q,O,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite world-prefix ledger, listing the inspected nodes and their prefix order.
+\item $N$ is the decidable node-admission row, recording which displayed prefixes belong to the spread.
+\item $B$ is the finite branching row, recording the displayed successor family for each inspected node.
+\item $A$ is the persistence row, requiring every displayed successor to retain the admitted prefix data of its predecessors.
+\item $S$ is the $\StreamNameUp$ finite-window schedule through which countable-name reads inspect the spread.
+\item $Q$ is the $\RegSeqRatUp$ readback row available only after the finite StreamName windows have been displayed.
+\item $O$ is the refusal row excluding weak Koenig path selection, countable choice, quotient stream equality, unbounded branch search, and completed $\RealUp$ closure.
+\item $H$ records componentwise $\hsame$ transport for worlds, node admission, finite branching, persistence, StreamName windows, RegSeqRat readback, refusal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a finite spread-inspection request through $W,N,B,A,S,Q,O,H,P,L$.
+\item $P$ is the $\Pkg$ provenance over $\KripkeSpreadUp$, $\CantorSpaceUp$, $\FanTheoremUp$, $\FinitelyBranchingTreeUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\KripkeSpreadUp}$ row.
+\end{enumerate}
+The carrier predicate asserts exactly that these finite rows form one spread-inspection packet. It has no coordinate for a selected infinite branch, a total path functional, countable choice, quotient stream equality, ambient compactness, or completed real closure.
+\end{definition}
+
+\begin{theorem}[Kripke spread NameCert obligations]
+\label{thm:kripke-spread-namecert-obligations}
+For every accepted $\KripkeSpreadUp$ carrier $K=(W,N,B,A,S,Q,O,H,C,P,L)$, the local $\NameCert_{\KripkeSpreadUp}$ surface consists exactly of carrier admission for the finite world-prefix ledger, node-admission row, finite branching row, persistence row, StreamName window schedule, RegSeqRat readback row, refusal row, componentwise transport, displayed replay, provenance, and local naming. Every L10 countable-name consumer must read the finite route
+$$
+W,N,B,A,S,Q,O,H,C,P,L
+$$
+before extracting StreamName or RegSeqRat data, and no obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kripke-spread-carrier}. The displayed finite coordinates are precisely $W,N,B,A,S,Q,O,H,C,P,L$.
+
+The world, admission, branching, and persistence rows give the spread-inspection content. They record inspected prefixes, admitted nodes, displayed successors, and predecessor retention without creating an infinite path.
+
+The StreamName and RegSeqRat rows are downstream. A countable-name consumer first opens the finite window schedule $S$, then reads the regular-rational row $Q$ attached to that window.
+
+Finally $O,H,C,P,L$ keep the refusal boundary, transport, replay, provenance, and local name attached to the same packet. Since the carrier has no further coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Kripke spread prefix non-escape]
+\label{thm:kripke-spread-prefix-nonescape}
+Every accepted $\KripkeSpreadUp$ consumer that inspects StreamName or RegSeqRat data must remain inside the finite route
+$$
+W,N,B,A,S,Q,O,H,C,P,L .
+$$
+The consumer may reuse finite Cantor-space prefix observations, finite FanTheorem bar data, finite branching-tree rows, StreamName windows, and RegSeqRat readback data, but it receives no weak Koenig path selector, no countable-choice functional, no quotient stream equality, no unbounded branch search, and no completed $\RealUp$ closure.
+\end{theorem}
+\begin{proof}
+Begin with a StreamName or RegSeqRat read of an accepted carrier. The carrier exposes countable-name data only through the finite window row $S$ and the readback row $Q$.
+
+The prefix rows $W,N,B,A$ remain visible before that read. They supply admitted nodes and displayed successors as finite inspection data, not as a completed branch through the spread.
+
+The refusal row $O$ is part of the same packet. It blocks any reinterpretation of the finite route as weak Koenig path selection, countable choice, quotient stream equality, unbounded branch search, or completed real closure.
+
+Transport, replay, provenance, and local naming through $H,C,P,L$ preserve that boundary. Thus every consumer stays inside the finite prefix route and none of the excluded principles is exported.
+\end{proof}
+
+\falsifiablePrediction{A $\KripkeSpreadUp$ consumer that extracts a weak Koenig path selector, countable-choice functional, quotient stream equality, unbounded branch search, or completed $\RealUp$ closure without first reading $W,N,B,A,S,Q,O,H,C,P,L$ refutes the carrier surface.}
+
+\independenceWitness{cantorspace, fantheorem, finitely-branching-tree, streamname, regseqrat: $\KripkeSpreadUp$ is not bijective to any listed sibling because it jointly carries finite world-prefix inspection, node admission, finite branching, persistence, StreamName windows, RegSeqRat readback, refusal, transport, replay, provenance, and local naming while refusing selected branches and completed real data.}
+
+\closureat{KripkeSpreadUp}{seedStr}
+
+\begin{closurestatus}{\KripkeSpreadUp}
+  \constructivestory{A $\KripkeSpreadUp$ packet is generated from finite world-prefix rows, node admission, finite branching, persistence, StreamName windows, RegSeqRat readback, an explicit refusal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kripke-spread-carrier}, \autoref{thm:kripke-spread-namecert-obligations}, and \autoref{thm:kripke-spread-prefix-nonescape} seed the finite spread-inspection boundary for L10 StreamName and RegSeqRat consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close weak Koenig path selection, selected infinite branches, countable choice, quotient stream equality, unbounded branch search, completed $\RealUp$ closure, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, node-admission exactness, finite branching coverage, prefix persistence, StreamName window handoff, RegSeqRat readback, transport, replay, provenance, and non-escape for BEDC.Derived.KripkeSpreadUp.}
+\end{closurestatus}

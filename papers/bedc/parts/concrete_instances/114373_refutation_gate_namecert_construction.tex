@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RefutationGateUp$}
+\label{ch:concrete-instances-refutation-gate-namecert}
+\origin{ai}
+
+The $\RefutationGateUp$ packet realizes finite pseudotheory refusal as a concrete NameCert carrier. It reads audit-map rows, claimed discovery rows, structural collision rows, classifier-bit rows, axiom-dependency rows, certificate-debt rows, and taste-boundary rows, then exposes only finite refusal classes rather than a positive admission oracle.
+
+The packet is the finite refusal surface consumed before a pseudotheory or cannot-claim export is read. The pseudotheory refusal packet of \autoref{ch:concrete-instances-pseudotheory-refutation-gate-namecert} and the checked-target export block of \autoref{ch:concrete-instances-cannot-claim-export-gate-namecert} consume the row-local refusal classes recorded here: $\RefutationGateUp$ supplies the claim, collision, classifier, axiom-dependency, certificate-debt, and taste-boundary classes, while those sibling packets read the same classes in pseudotheory and export-grade contexts.
+
+\falsifiablePrediction{An accepted $\RefutationGateUp$ packet is refuted if it classifies a claim as admissible merely because no synonym, classifier-neutral, axiom-dependency, or unpaid-certificate failure row has fired.}
+
+\independenceWitness{axiomdependencymap, auditgateboundary, auditmapfamily, groundcompilerauditmap: no listed sibling is bijective to $\RefutationGateUp$ because this packet binds claim rows, structural-DNA collision rows, classifier-bit refusal rows, axiom-dependency refusal rows, unpaid-certificate rows, taste-boundary rows, transport, replay, provenance, and local NameCert data in one carrier.}
+
+\begin{definition}[RefutationGate carrier]
+\label{def:refutation-gate-carrier}
+A $\RefutationGateUp$ carrier is a finite $\BHist$ packet
+$$
+R=(Q,S,B,A,D,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the claim row naming the asserted discovery or theorem-facing packet under audit.
+\item $S$ is the structural-DNA collision row, recording synonym or reconstruction evidence against the asserted novelty of $Q$.
+\item $B$ is the classifier-bit row, recording classifier-neutral, smoke, or unsupported disagreement evidence.
+\item $A$ is the axiom-dependency row, recording source-token axiom use or forbidden transitive kernel dependency.
+\item $D$ is the certificate-debt row, recording missing semantic NameCert, ledger membership, scope seal, or row evidence.
+\item $T$ is the taste-boundary row, recording that taste-sensitive stability is an admission boundary and not the complement of finite refusal.
+\item $H$ records componentwise $\hsame$ transport for claim, refusal, taste-boundary, continuation, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from $Q$ through $S,B,A,D,T$ into the public refusal class.
+\item $P$ is the $\Pkg$ provenance over $\RefutationGateUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RefutationGateUp}$ row.
+\end{enumerate}
+The carrier exports finite refusal classes only. It contains no positive discovery oracle, no hidden taste evaluator, and no permission to infer admission from the absence of displayed failures.
+\end{definition}
+
+\begin{theorem}[RefutationGate NameCert obligations]
+\label{thm:refutation-gate-namecert-obligations}
+For every accepted $\RefutationGateUp$ carrier $R=(Q,S,B,A,D,T,H,C,P,N)$, the local $\NameCert_{\RefutationGateUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the claim, structural collision, classifier-bit, axiom-dependency, certificate-debt, taste-boundary, transport, replay, provenance, and naming rows;
+\item refusal coverage, requiring every public refusal class to be read from one of $S,B,A,D$ or from the taste-boundary row $T$;
+\item non-admission boundary, requiring the packet to distinguish finite refusal from positive taste admission;
+\item transport stability, requiring $H$ and $C$ to preserve the same refusal class under accepted source transport;
+\item no-hidden-oracle boundary, excluding global discovery certification, host taste judgment, and unledgered proof repair as packet fields.
+\end{enumerate}
+No local obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:refutation-gate-carrier}. The visible rows are exactly $Q,S,B,A,D,T,H,C,P,N$.
+
+Refusal coverage is a case split over the displayed refusal rows. Structural collision reads from $S$, classifier-bit failure reads from $B$, forbidden axiom dependency reads from $A$, and unpaid certificate data reads from $D$.
+
+The taste-boundary row $T$ supplies the remaining distinction. It says that stability and value admission are not computed by negating the finite refusal classes, so the packet cannot export a positive discovery judgment merely because $S,B,A,D$ are silent.
+
+Finally, $H,C,P,N$ transport, replay, source, and name this same finite route. Since no coordinate contains a positive admission oracle or a hidden proof repair mechanism, such data remain outside the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[RefutationGate finite refusal routing]
+\label{thm:refutation-gate-finite-refusal-routing}
+Let $R=(Q,S,B,A,D,T,H,C,P,N)$ be an accepted $\RefutationGateUp$ carrier. Every refusal exported by $R$ factors through the displayed route
+$$
+Q \longmapsto S,B,A,D,T \longmapsto C,P,N .
+$$
+A downstream audit consumer may read a refusal class only from these rows, and may not replace the taste-boundary row by a positive admission rule.
+\end{theorem}
+\begin{proof}
+Start with a downstream audit request. The claim under audit is the single row $Q$.
+
+The continuation route then exposes the finite refusal family $S,B,A,D$ together with the taste-boundary row $T$. These rows determine whether the packet reports structural collision, classifier-bit failure, axiom dependency, certificate debt, or taste-boundary non-admission.
+
+The structural rows $C,P,N$ export the selected class, and $H$ preserves it under accepted transport. Because the route never leaves the displayed packet, no consumer can smuggle in an external positive-discovery oracle.
+\end{proof}
+
+The Lean TasteGate development for this packet must provide explicit $\mathsf{Nontrivial}\ \RefutationGateUp$ and $\mathsf{FieldFaithful}\ \RefutationGateUp$ instances. Nontriviality separates a claim with a displayed refusal row from the empty audit surface, and field faithfulness requires the classifier to preserve $Q,S,B,A,D,T,H,C,P,N$ as distinct fields before any checked carrier-alignment theorem can certify the gate.
+
+\closureat{RefutationGateUp}{seedStr}
+
+\begin{closurestatus}{\RefutationGateUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:refutation-gate-carrier}, \autoref{thm:refutation-gate-namecert-obligations}, and \autoref{thm:refutation-gate-finite-refusal-routing} seed the finite pseudotheory refusal gate over displayed claim, collision, classifier, axiom-dependency, certificate-debt, and taste-boundary rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close positive discovery certification, host taste judgment, proof repair, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, refusal coverage, non-admission boundary, transport stability, no-hidden-oracle boundary, and TasteGate field faithfulness for BEDC.Derived.RefutationGateUp.}
+  \constructivestory{A $\RefutationGateUp$ packet is generated from one claim row, finite refusal ledgers, a taste-boundary row, componentwise transport, replay, provenance, and local NameCert naming.}
+\end{closurestatus}

@@ -1,0 +1,38 @@
+\begin{definition}[CoveringDimension finite cover order carrier]
+\label{def:coveringdimension-finite-cover-order-carrier}
+For an accepted $\CoveringDimensionUp$ packet, the finite-cover order carrier is the displayed subpacket
+$$
+O_{\mathrm{fin}}=(K,E,M,R,Q,S,A,H,T,P,N)
+$$
+where $K$ is the $\CompactMetricUp$ source row, $E$ is the $\FiniteEpsilonNetUp$ cover support, $M$ is the $\MetricUp$ distance-read ledger, $R$ records $\RegSeqRatUp$ comparison rows, $Q$ records the terminal $\RealUp$ seal rows used by cover tests, $S$ is the finite $\SimplicialComplexUp$ nerve row, and $A$ is the finite order table assigning each displayed cover row its overlap count. The rows $H,T,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local NameCert data.
+
+The carrier admits only displayed finite cover rows and their order table. It has no coordinate for arbitrary open-cover compactness, ambient dimension theory, or choice-selected refinements.
+\end{definition}
+
+\begin{theorem}[CoveringDimension finite cover order refinement]
+\label{thm:coveringdimension-finite-cover-order-refinement}
+Every refinement read from $O_{\mathrm{fin}}=(K,E,M,R,Q,S,A,H,T,P,N)$ must preserve the displayed order table $A$. A refined cover member is accepted only when its parent cover row is named by $E$, its metric containment test is read through $M,R,Q$, and its nerve incidence is replayed through $S$ before the order count is exported.
+\end{theorem}
+\begin{proof}
+Begin with the finite epsilon-net support $E$. It lists the only cover rows available to a refinement consumer, so a refined member must name a parent in that finite table.
+
+The containment test is then read through the metric ledger $M$ and the regular rational and Real seal rows $R,Q$. These rows can compare displayed radii and distances, but they cannot select a new cover outside the finite support.
+
+Finally replay the incidence row through the simplicial nerve $S$ and consult the order table $A$. Since every step is indexed by the displayed finite cover rows, the refinement preserves the order carrier and exposes no host dimension theorem or choice-selected refinement.
+\end{proof}
+
+\begin{theorem}[CoveringDimension finite cover order non-escape]
+\label{thm:coveringdimension-finite-cover-order-nonescape}
+Every downstream order-bound consumer of $O_{\mathrm{fin}}=(K,E,M,R,Q,S,A,H,T,P,N)$ remains inside the finite route
+$$
+\CompactMetricUp,\FiniteEpsilonNetUp,\MetricUp,\RegSeqRatUp,\RealUp,\SimplicialComplexUp.
+$$
+The consumer may replay displayed cover rows, metric comparisons, Real seal checks, nerve incidence, transport, provenance, and local naming, but it cannot invoke arbitrary open-cover compactness, ambient dimension theory, or choice-selected refinements.
+\end{theorem}
+\begin{proof}
+Project the consumer request to the rows of $O_{\mathrm{fin}}$. The only source of cover data is $E$ over the compact metric row $K$, and the only numerical tests are the metric, regular rational, and Real seal rows $M,R,Q$.
+
+The nerve row $S$ and order table $A$ are downstream of those finite tests. They can replay incidence and count overlaps over displayed rows, but they do not introduce a second cover source.
+
+The structural rows $H,T,P,N$ preserve the same route under transport, replay, provenance, and naming. Because the carrier lacks coordinates for open-cover compactness, host dimension theory, and choice-selected refinement, the order-bound read cannot escape the finite carrier.
+\end{proof}

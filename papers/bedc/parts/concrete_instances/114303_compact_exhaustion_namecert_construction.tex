@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CompactExhaustionUp$}
+\label{ch:concrete-instances-compact-exhaustion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a compact exhaustion is read constructively as displayed finite exhaustion data: each public request exposes a prefix of compact metric windows, finite epsilon-net witnesses, and the metric and real rows that make those windows usable. The $\CompactExhaustionUp$ packet sits between the compact metric witness of \autoref{ch:concrete-instances-compactmetric-namecert}, the finite net interface of \autoref{ch:concrete-instances-finite-epsilon-net-namecert}, the completion boundary of \autoref{ch:concrete-instances-completemetric-namecert}, the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It gives later compactness, completion, and continuous-image chapters a finite compact-exhaustion dependency without importing open-cover compactness or a choice-selected cover family.
+
+\begin{definition}[CompactExhaustion carrier]
+\label{def:compact-exhaustion-carrier}
+A $\CompactExhaustionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(X,K,F,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the ambient $\MetricUp$ source row, including the point classifier, distance observations, and finite history entries inspected by the exhaustion prefix.
+\item $K$ is the $\CompactMetricUp$ window row. Its displayed entries $K_0,\ldots,K_m$ are the compact windows currently exposed to downstream consumers.
+\item $F$ is the $\FiniteEpsilonNetUp$ row attached to the displayed windows. For each requested positive real or rational tolerance already visible in the packet, $F$ records the finite net witnesses used inside the matching compact metric window.
+\item $M$ is the $\CompleteMetricUp$ compatibility row, read only as a handoff boundary for consumers that need completion-facing metric data over the same windows.
+\item $R$ is the $\RealUp$ tolerance and radius seal row. It records the finite real-name data used by the epsilon-net requests and by any radius comparison attached to the compact windows.
+\item $H$ records componentwise $\hsame$ transport for $X,K,F,M,R,C,P,N$ and for the local classifier row.
+\item $C$ records displayed $\Cont$ replay from an exhaustion-prefix request through the metric source, compact metric window, finite-net witness, completion handoff, real seal, transport, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\CompactExhaustionUp$, $\CompactMetricUp$, $\FiniteEpsilonNetUp$, $\CompleteMetricUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactExhaustionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $X,K,F,M,R,H,C,P,N$. It has no coordinate for open-cover compactness, a selected cover family, a completed countable exhaustion, quotient equality of window schedules, or ambient real completeness beyond the displayed $\RealUp$ seal.
+\end{definition}
+
+\begin{theorem}[CompactExhaustion NameCert obligations]
+\label{thm:compact-exhaustion-namecert-obligations}
+For every accepted $\CompactExhaustionUp$ carrier $E=(X,K,F,M,R,H,C,P,N)$, the local $\NameCert_{\CompactExhaustionUp}$ surface consists exactly of carrier admission, ambient metric compatibility, compact-window admission, finite-net tolerance readback, completion-facing handoff, real-seal accountability, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the rows $X,K,F,M,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-exhaustion-carrier}. The analytic rows are exactly the ambient metric source, compact metric windows, finite epsilon-net witnesses, completion handoff row, and real tolerance seal.
+
+The compact-window and finite-net obligations are ordered by the displayed prefix. A consumer first reads the metric source $X$, then a compact window from $K$, then the corresponding finite-net witness in $F$, and only then the completion or real-facing rows $M,R$.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier contains no open-cover, selected-cover, completed-exhaustion, quotient-schedule, or ambient-completeness coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[CompactExhaustion finite-net induction]
+\label{thm:compact-exhaustion-finite-net-induction}
+Every finite-prefix consumer of an accepted $\CompactExhaustionUp$ packet can inspect the exhaustion by induction over the displayed compact-window list
+$$
+K_0,\ldots,K_m .
+$$
+At each stage the consumer receives the same route
+$$
+X\longmapsto K_i\longmapsto F_i\longmapsto R_i\longmapsto M\longmapsto H,C,P,N ,
+$$
+where $F_i$ is the finite epsilon-net witness row and $R_i$ is the real tolerance seal attached to the $i$th window. The induction exports no open-cover compactness, choice-selected subcover, hidden window after $m$, quotient equality of exhaustion schedules, or completed countable family.
+\end{theorem}
+\begin{proof}
+Start with the displayed prefix. The carrier exposes only finitely many compact-window entries, so ordinary finite induction over $K_0,\ldots,K_m$ is available inside the packet.
+
+At the base stage, the consumer reads $X$, the first compact metric window, its finite epsilon-net witness, and the matching real tolerance seal. The rows $M,H,C,P,N$ are then attached as completion handoff, transport, replay, provenance, and local naming.
+
+At the successor stage, the same projection is repeated for the next displayed window. No constructor reveals an undisplayed window or a selected cover; the induction step is only a replay of the next finite row already present in $K$ and $F$.
+
+Thus the public exhaustion read is finite-prefix induction through $X,K,F,R,M,H,C,P,N$. Anything requiring a completed countable exhaustion, open-cover compactness, or choice-selected cover data must be supplied by a different packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CompactExhaustionUp$ consumer of a finite exhaustion prefix reads the ambient $\MetricUp$ row, a displayed $\CompactMetricUp$ window, its $\FiniteEpsilonNetUp$ witness, the $\RealUp$ tolerance seal, the $\CompleteMetricUp$ handoff row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before using compact-exhaustion data.}
+
+\independenceWitness{compactmetric, finiteepsilonnet, completemetric, metric, real: $\CompactExhaustionUp$ is not bijective to any listed sibling because it jointly carries displayed compact-window prefixes, finite epsilon-net rows, completion-facing handoff data, real tolerance seals, transport, replay, provenance, and local naming in one finite packet.}
+
+\closureat{CompactExhaustionUp}{seedStr}
+
+\begin{closurestatus}{\CompactExhaustionUp}
+  \constructivestory{A $\CompactExhaustionUp$ packet is generated from an ambient Metric row, displayed CompactMetric windows, FiniteEpsilonNet witnesses, a CompleteMetric handoff row, Real tolerance seals, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-exhaustion-carrier}, \autoref{thm:compact-exhaustion-namecert-obligations}, and \autoref{thm:compact-exhaustion-finite-net-induction} seed the finite compact-exhaustion interface over compact metric windows and finite epsilon-net witnesses.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, selected finite subcovers, completed countable exhaustions, quotient equality of exhaustion schedules, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, ambient metric compatibility, compact-window admission, finite-net tolerance readback, completion-facing handoff, real-seal accountability, transport stability, provenance, and local naming for BEDC.Derived.CompactExhaustionUp.}
+\end{closurestatus}

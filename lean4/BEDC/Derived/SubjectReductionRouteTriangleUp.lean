@@ -113,6 +113,104 @@ theorem SubjectReductionRouteTriangle_obstruction_boundary [AskSetup] [PackageSe
   }
   exact ⟨cert, endpointUnary, obstructionReadUnary, endpointTransport⟩
 
+theorem SubjectReductionRouteTriangle_namecert_obligations [AskSetup] [PackageSetup]
+    {B S F E O L H C P N endpointRead obstructionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubjectReductionRouteTriangleCarrier B S F E O L H C P N bundle pkg →
+      Cont B C endpointRead →
+        Cont O C obstructionRead →
+          PkgSig bundle endpointRead pkg →
+            PkgSig bundle obstructionRead pkg →
+              SemanticNameCert
+                  (fun row : BHist =>
+                    (hsame row B ∨ hsame row E ∨ hsame row O ∨ hsame row L) ∧
+                      UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row B ∨ hsame row E ∨ hsame row O ∨ hsame row L ∨
+                      hsame row endpointRead ∨ hsame row obstructionRead)
+                  (fun _row : BHist =>
+                    Cont B C endpointRead ∧ Cont O C obstructionRead ∧
+                      PkgSig bundle P pkg)
+                  hsame ∧
+                UnaryHistory endpointRead ∧ UnaryHistory obstructionRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier endpointRoute obstructionRoute _endpointPkg _obstructionPkg
+  obtain ⟨bundleUnary, _setupUnary, _conversionUnary, endpointUnary, obstructionUnary,
+    _ledgerUnary, _transportUnary, componentUnary, _provenanceUnary, _nameUnary,
+    _bundleEndpointRoute, _obstructionLedgerRoute, _endpointTransport, carrierPkg⟩ :=
+    carrier
+  have endpointReadUnary : UnaryHistory endpointRead :=
+    unary_cont_closed bundleUnary componentUnary endpointRoute
+  have obstructionReadUnary : UnaryHistory obstructionRead :=
+    unary_cont_closed obstructionUnary componentUnary obstructionRoute
+  have sourceB :
+      (fun row : BHist =>
+        (hsame row B ∨ hsame row E ∨ hsame row O ∨ hsame row L) ∧
+          UnaryHistory row) B := by
+    exact ⟨Or.inl (hsame_refl B), bundleUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row B ∨ hsame row E ∨ hsame row O ∨ hsame row L) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row E ∨ hsame row O ∨ hsame row L ∨
+              hsame row endpointRead ∨ hsame row obstructionRead)
+          (fun _row : BHist =>
+            Cont B C endpointRead ∧ Cont O C obstructionRead ∧ PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro B sourceB
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        have sameOtherRow : hsame _other _row := hsame_symm sameRows
+        have transported :
+            hsame _other B ∨ hsame _other E ∨ hsame _other O ∨ hsame _other L := by
+          cases source.left with
+          | inl sameB =>
+              exact Or.inl (hsame_trans sameOtherRow sameB)
+          | inr rest =>
+              cases rest with
+              | inl sameE =>
+                  exact Or.inr (Or.inl (hsame_trans sameOtherRow sameE))
+              | inr rest =>
+                  cases rest with
+                  | inl sameO =>
+                      exact Or.inr (Or.inr (Or.inl (hsame_trans sameOtherRow sameO)))
+                  | inr sameL =>
+                      exact Or.inr (Or.inr (Or.inr (hsame_trans sameOtherRow sameL)))
+        exact ⟨transported, unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      cases source.left with
+      | inl sameB =>
+          exact Or.inl sameB
+      | inr rest =>
+          cases rest with
+          | inl sameE =>
+              exact Or.inr (Or.inl sameE)
+          | inr rest =>
+              cases rest with
+              | inl sameO =>
+                  exact Or.inr (Or.inr (Or.inl sameO))
+              | inr sameL =>
+                  exact Or.inr (Or.inr (Or.inr (Or.inl sameL)))
+    ledger_sound := by
+      intro _row _source
+      exact ⟨endpointRoute, obstructionRoute, carrierPkg⟩
+  }
+  exact ⟨cert, endpointReadUnary, obstructionReadUnary⟩
+
 inductive SubjectReductionRouteTriangleUp : Type where
   | mk (B E O L H C P N : BHist) : SubjectReductionRouteTriangleUp
   deriving DecidableEq

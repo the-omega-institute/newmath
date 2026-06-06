@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\DyadicOrderTopologyUp$}
+\label{ch:concrete-instances-dyadic-order-topology-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the order topology of the dyadic rationals is read through located rational intervals and common dyadic refinements. The $\DyadicOrderTopologyUp$ packet sits over the dyadic arithmetic source of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the rational comparison source of \autoref{ch:concrete-instances-rat-namecert}, and the order interface of \autoref{ch:concrete-instances-order-namecert}; it presents its interval-window and basis-refinement rows to the metric route of \autoref{ch:concrete-instances-metric-namecert} and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite order-topology surface needed before $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ consumers read the first licensed infinite real name.
+
+\begin{definition}[DyadicOrderTopology carrier]
+\label{def:dyadic-order-topology-carrier}
+A $\DyadicOrderTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+T=(D,O,I,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ source row, including dyadic endpoints, common denominators, comparison budgets, and refinement witnesses.
+\item $O$ is the order row over the same dyadic source, recording the rational comparison and endpoint-order data inherited from $\RatUp$ and $\OrderUp$.
+\item $I$ is a finite interval-window row, listing located rational intervals with dyadic endpoints and the membership comparisons used by the topology basis.
+\item $B$ is the basis-refinement row, recording finite common dyadic refinements of overlapping interval windows.
+\item $H$ records componentwise $\hsame$ transport for $D,O,I,B,C,P,N$.
+\item $C$ records the displayed $\Cont$ replay from dyadic endpoints through order comparison, interval-window inspection, basis refinement, and consumer handoff.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRatCoreUp$, $\RatUp$, $\OrderUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicOrderTopologyUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only by these displayed rows. It has no coordinate for trichotomy beyond the displayed order row, arbitrary Dedekind cuts, quotient stream equality, selected limits, ambient real completeness, or host topological equality.
+\end{definition}
+\leanstmt{BEDC.Derived.DyadicOrderTopologyUp}
+
+\begin{theorem}[DyadicOrderTopology basis stability]
+\label{thm:dyadic-order-topology-basis-stability}
+For an accepted $\DyadicOrderTopologyUp$ carrier $T=(D,O,I,B,H,C,P,N)$, every pair of interval-window reads that overlap through the displayed order row admits a common dyadic refinement read through $B$. The refinement preserves the same $\DyadicRatCoreUp$ source row $D$, the same $\RatUp$ and $\OrderUp$ comparison data in $O$, and the same transport, replay, provenance, and local NameCert rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier onto $D,O,I,B,H,C,P,N$. The interval-window row $I$ contains only finite dyadic endpoint data, and the order row $O$ supplies the displayed comparisons used to test overlap.
+
+Use common dyadic refinement. Given two displayed interval windows over the same source row, refine their endpoints to a common dyadic denominator and read the resulting subwindow through $B$. The comparison data remain those of $O$, because the refinement is a dyadic re-expression of the same rational interval order.
+
+Finally transport and replay the refined row through $H$ and $C$. Provenance and local naming are unchanged, so the common refinement remains inside the same $\DyadicOrderTopologyUp$ packet and exports no selected real point, quotient stream equality, or ambient completeness principle.
+\end{proof}
+
+\begin{theorem}[DyadicOrderTopology located interval window]
+\label{thm:dyadic-order-topology-located-interval-window}
+Every $\MetricUp$, $\RegSeqRatUp$, or $\RealUp$ consumer of an accepted $\DyadicOrderTopologyUp$ carrier must read a located interval window through
+$$
+D \longrightarrow O \longrightarrow I \longrightarrow B \longrightarrow H,C,P,N .
+$$
+The consumer may use the finite dyadic basis refinement as a topology source surface, but it receives no arbitrary open-set enumeration, no quotient equality of real names, no selected limit, no trichotomy outside $O$, and no ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Begin with the carrier rows. The dyadic source $D$ and order row $O$ are upstream of every interval-window row, so a consumer cannot inspect $I$ without first displaying the dyadic endpoint and rational comparison data.
+
+Apply basis stability. Any overlap or shrinking request is handled by a common dyadic refinement in $B$, still over the same $D$ and $O$ rows.
+
+The structural rows $H,C,P,N$ then carry the finite route to metric, regular-sequence, and real-name consumers. Since the carrier contains no row for arbitrary open-set enumeration, quotient real-name equality, selected limits, external trichotomy, or ambient real completeness, those objects cannot be exported by the located interval window.
+\end{proof}
+
+\closureat{DyadicOrderTopologyUp}{seedStr}
+
+\begin{closurestatus}{\DyadicOrderTopologyUp}
+  \constructivestory{A $\DyadicOrderTopologyUp$ packet is generated from DyadicRatCore endpoint data, rational order comparisons, located interval windows, common dyadic basis refinements, componentwise transport, continuation replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-order-topology-carrier}, \autoref{thm:dyadic-order-topology-basis-stability}, and \autoref{thm:dyadic-order-topology-located-interval-window} seed the finite dyadic order-topology interface over displayed dyadic endpoint, rational order, interval-window, and basis-refinement rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.DyadicOrderTopologyUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim checked carrier obligations, arbitrary open-set enumeration, quotient equality of real names, selected limits, trichotomy outside the displayed order row, ambient RealUp completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, order-row stability, interval-window readback, common dyadic basis refinement, metric consumer handoff, real-seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicOrderTopologyUp.}
+\end{closurestatus}

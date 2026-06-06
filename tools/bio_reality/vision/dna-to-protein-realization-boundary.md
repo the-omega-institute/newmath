@@ -194,3 +194,77 @@ Discipline reminders:
     more organisms before any directionality is read as general.
   Each survival matrix entry must report break_condition + AA-composition
     control + simpler-baseline ablation; otherwise it is parameter fitting.
+
+## Addendum 2026-06-05: three-matrix decomposition is the locked next step
+
+B*_Q6 has moved from code-read residual basis to translation-facing coupling:
+the modeled-tAI bounded-contact matrix is non-empty (81/81 entries above
+threshold 0.01 across E. coli K12, H. sapiens, S. cerevisiae; max abs score
+3,801,961.031607896, computed from GtRNAdb gene-copy counts + dos Reis wobble
+s-values over the 61-sense-codon space). This is modeled-tAI bounded contact,
+NOT powered ribosome-profiling survival and NOT protein-abundance mediation.
+
+The next BEDC step is NOT more geometry. It is to compute three matrices that
+separate prediction from mechanism, via readout survival (no gates):
+
+  readout r_k = pi_k(s_infty), s_infty the minimal compiled state from DNA/context.
+  S_Q(r | Z) = J_0(r | Z) - J_Q(r | Z, Q),  J = L + lambda*DL.
+  S_Q > 0  => Q is a BEDC-irreducible distinction for readout r (given controls Z).
+
+  S^{QT}_ij = S_{q_i}(T_j | Z_T)   translation-readout survival (T = modeled tAI / stAI / ribo-occupancy)
+  S^{QP}_ik = S_{q_i}(P_k | Z_P)   direct protein-omics survival (P = abundance / PTM / localization / stability)
+  M^{QTP}_ijk                      mediation strength q_i -> T_j -> P_k
+
+Linear core (residualize with controls Z = AA-composition, organism, GC3, length,
+M-density, mRNA, ...; P_Z = projection onto Z):
+  Xtil = (I-P_Z) X_Q ;  Ytil_T = (I-P_Z) Y_T ;  Ytil_P = (I-P_Z) Y_P
+  R2_QT = ||P_Xtil Ytil_T||_F^2 / ||Ytil_T||_F^2     (translation survival)
+  R2_QP = ||P_Xtil Ytil_P||_F^2 / ||Ytil_P||_F^2     (pure-omics direct survival)
+  M_QTP = ||P_{hatY_T} P_Xtil Ytil_P||_F^2 / ||P_Xtil Ytil_P||_F^2   (how much Q->P is absorbed by Q->T)
+
+Four-case discriminant per (q_i, T_j, P_k):
+  A: S^QT<=0, S^QP<=0  -> q_i compressed away on both.
+  B: S^QT>0,  S^QP<=0  -> translation-level irreducible, not propagated to that P readout.
+  C: S^QT<=0, S^QP>0   -> protein-omics predictive residual, NOT via measured translation
+                         (unmeasured T, or mRNA/selection/confound, or non-translation path).
+  D: S^QT>0,  S^QP>0, and conditioning on T_j drops direct q_i->P_k -> supports q_i->T_j->P_k.
+
+"Pure omics" route = R2_QP: proves B*_Q6 is an irreducible DNA-to-protein-omics
+predictive coordinate, but NEVER mechanism by itself. Mechanism needs the mediator T.
+Both routes are different BEDC layers; neither replaces the other.
+
+Status now: A^{QT} (coupling) non-empty (proxy 9/9, modeled-tAI 81/81). But
+S^{QT}, S^{QP}, M^{QTP} are all NOT yet computed. With 3 organisms any S^{QT}
+is honestly underpowered (powered survival explicitly withheld until >=40
+matched species). S^{QP}/M^{QTP} need matched proteomics (not present -> needs_data).
+
+Locked next experiments:
+  1. S^{QT} translation-survival matrix: residualize B*_Q6 against Z, compute
+     R2_QT / per-entry S_ij against the modeled-tAI readout already built. Honest
+     scope: modeled-tAI, 3 organisms, underpowered. This upgrades coupling -> survival.
+  2. S^{QP} + M^{QTP}: blocked on matched proteomics (PAXdb / PRIDE) + organism-
+     matched ribo-seq; return needs_data with the precise missing contact.
+
+### Correction 2026-06-05 (empirical): S^{QT} is ALSO rank-degenerate at 3 organisms
+
+A built S^{QT} experiment (residualize B*_Q6 against Z = AA-composition/GC3/
+length/M-density, compute R2_QT + per-entry S_ij vs modeled-tAI) returned an
+ALL-1.0 matrix (R2_QT = 1.0, every entry 1.0). Reason: with n=3 organisms,
+centering leaves ~1-2 DOF in the row space; a 9-coordinate residual subspace
+projected onto that trivially explains everything. This is a rank-saturation
+artifact, NOT survival. Honest status: needs_data, not passed.
+
+So the earlier framing ("S^{QT} is the computable part now") is WRONG. The
+distinction is between coupling and survival:
+  - A^{QT} (coupling, NO controls/rank): computable now -> 81/81 above threshold. Done.
+  - S^{QT} (survival, WITH controls): needs n >> p. At n=3 it is rank-degenerate.
+    Powered S^{QT} needs >=40 organisms' full tRNA gene-copy + codon usage.
+
+Corrected frontier: ALL THREE matrices need data acquisition.
+  S^{QT}: fetch >=40 organisms' tRNA gene-copy (GtRNAdb has hundreds) + codon
+          usage (Kazusa / CoCoPUTs). Then survival becomes powered.
+  S^{QP}, M^{QTP}: also need matched proteomics (PAXdb/PRIDE) + organism-matched
+          ribo-seq.
+The real next step is a multi-organism data campaign, NOT more experiments on
+n=3. Building survival on n=3 only yields vacuous all-1.0; reporting it as
+passed would be over-claiming and is refused.

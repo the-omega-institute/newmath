@@ -51,6 +51,26 @@ The regularity rows are stationary. The same dyadic tolerance comparison that wi
 Therefore the accepted regularity row transports from $R$ to $R'$. The argument uses only displayed point, schedule, regularity, transport, replay, provenance, and local naming rows, so it adds no quotient stream equality or host real equality.
 \end{proof}
 
+\begin{theorem}[ConstantRegSeqRat Real-seal nonescape]
+\label{thm:constant-regseqrat-real-seal-nonescape}
+For every accepted $\ConstantRegSeqRatUp$ carrier $C=(D,S,R,H,K,P,N)$, any $\RealUp$-facing constant-embedding read must consume the displayed route
+$$
+D,S,R,H,K,P,N
+$$
+before the terminal $\RealUp$ seal is available. Thus the read passes through the $\DyadicRatCoreUp$ point row, the $\StreamNameUp$ constant schedule, the stationary $\RegSeqRatUp$ regularity row, pointwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ConstantRegSeqRatUp}$ support.
+
+The terminal seal exposes no quotient stream equality, selected limit, host real equality, arbitrary Cauchy-name existence, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constant-regseqrat-carrier}. The only public source rows are the displayed dyadic point row $D$, constant schedule row $S$, stationary regularity row $R$, transport row $H$, replay row $K$, provenance row $P$, and local naming row $N$.
+
+Apply \autoref{thm:constant-regseqrat-namecert-obligations}. It identifies these rows as the full local $\NameCert$ obligation surface, so a Real-facing constant embedding cannot read a hidden representative or a second completion coordinate.
+
+Use \autoref{thm:constant-regseqrat-regularity-stability} for the stationary regularity step. The constant schedule transports each finite window through the same dyadic point row and the same regularity ledger, preserving the ordered route into the terminal seal.
+
+Therefore every accepted Real-facing read consumes $D,S,R,H,K,P,N$ before the $\RealUp$ seal is available. Since no accepted coordinate records quotient stream equality, selected limits, host equality, arbitrary Cauchy-name existence, or ambient completeness, none of those objects is exposed by the seal.
+\end{proof}
+
 \falsifiablePrediction{Every accepted $\ConstantRegSeqRatUp$ read must expose a DyadicRatCore point row, a StreamName constant schedule, a stationary RegSeqRat regularity row, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any Real-facing constant embedding may consume it.}
 
 \independenceWitness{dyadicratcore, streamname, regseqrat, real: none is bijective with $\ConstantRegSeqRatUp$ because this packet jointly carries a dyadic point, a constant StreamName schedule, stationary RegSeqRat regularity, transport, replay, provenance, and local naming for the same constant-name construction.}

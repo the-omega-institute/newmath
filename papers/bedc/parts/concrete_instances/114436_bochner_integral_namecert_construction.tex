@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\BochnerIntegralUp$}
+\label{ch:concrete-instances-bochner-integral-namecert}
+\origin{human}
+
+Following Bochner and Dunford--Schwartz, the $\BochnerIntegralUp$ packet records vector-valued integration as finite BEDC NameCert data over displayed measurable simple-function approximants and Banach norm Cauchy tails. It sits after the measure carrier of \autoref{ch:concrete-instances-measure-namecert}, the simple-function approximation surface of \autoref{ch:concrete-instances-simple-function-approximation-namecert}, the measurable-function rows of \autoref{ch:concrete-instances-measurable-function-namecert}, the public integral row of \autoref{ch:concrete-instances-integral-namecert}, and the Banach endpoint carrier of \autoref{ch:concrete-instances-banach-namecert}. The packet names the finite route by which a vector-valued integral readback is accepted; it does not import a host almost-everywhere quotient, a completed measure algebra, a selected representative, countable choice, or a global completeness theorem beyond the displayed Banach row.
+
+\begin{definition}[Bochner integral carrier]
+\label{def:bochner-integral-carrier}
+A $\BochnerIntegralUp$ carrier is a finite $\BHist$ packet
+$$
+J=(M,X,Y,F,A,R,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MeasureUp$ source row, including the measurable-event carrier, finite value ledger, null-boundary rows, and measure-facing classifier.
+\item $X$ is the measurable source-domain row recording the displayed domain carrier, measurable preimage tests, and source classifier rows consumed from $\MeasurableFunctionUp$.
+\item $Y$ is the target $\BanachUp$ row, including the carried vector endpoints, norm metric, addition and scalar rows, and visible completion ledger.
+\item $F$ is the displayed vector-valued measurable-function row over $X$ and $Y$.
+\item $A$ is the $\SimpleFunctionApproximationUp$ row recording simple vector-valued approximants, measurable fibres, finite range data, and pointwise approximation windows.
+\item $R$ is the simple-integral readback row, reducing each approximant to finitely many scalar measure values and Banach vector sums before any limit is read.
+\item $Q$ is the Banach norm Cauchy-tail ledger for the simple-integral sequence, including the precision requests, tail bounds, and norm comparisons used by consumers.
+\item $H$ records componentwise $\hsame$ transport for $M,X,Y,F,A,R,Q$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,X,Y,F\longmapsto A\longmapsto R\longmapsto Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BochnerIntegralUp$, $\MeasureUp$, $\MeasurableFunctionUp$, $\SimpleFunctionApproximationUp$, $\IntegralUp$, $\BanachUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BochnerIntegralUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed measure row, measurable source row, Banach target row, measurable-function row, simple-function approximants, finite simple-integral readbacks, Banach Cauchy-tail ledger, transport, replay, provenance, and local naming row.
+\end{definition}
+
+\begin{theorem}[Bochner integral NameCert obligations]
+\label{thm:bochner-integral-namecert-obligations}
+For every accepted $\BochnerIntegralUp$ carrier
+$$
+J=(M,X,Y,F,A,R,Q,H,C,P,N),
+$$
+the local $\NameCert_{\BochnerIntegralUp}$ surface consists exactly of carrier admission, measurable source preservation, Banach target preservation, simple-function approximation stability, simple-integral readback exactness, Banach norm Cauchy-tail visibility, componentwise classifier transport, displayed continuation replay, provenance, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bochner-integral-carrier}. The analytic rows visible to the certificate are the measure row $M$, measurable source row $X$, Banach target row $Y$, measurable-function row $F$, approximation row $A$, simple-integral row $R$, and Cauchy-tail ledger $Q$.
+
+Measurable source preservation follows through $M,X,F$. Every preimage or fibre read is tied to the displayed measurable source rows and the measure carrier; no host sigma-algebra completion or almost-everywhere quotient is introduced.
+
+Approximation and readback preservation follow through $A$ and $R$. The simple-function approximants have finite range and measurable fibre rows, and each simple integral is read as finitely many measure values and Banach vector sums before the tail ledger is consulted.
+
+The limit-facing obligation is only the Banach norm Cauchy-tail row $Q$. It records the precision requests and norm comparisons needed for consumers to read the integral endpoint through $Y$, while $H,C,P,N$ transport, replay, source, and name exactly those displayed rows.
+\end{proof}
+
+\begin{theorem}[Bochner integral simple-function limit route]
+\label{thm:bochner-integral-simple-function-limit-route}
+Every $\BochnerIntegralUp$ consumer reads the vector-valued integral through the finite route
+$$
+\MeasureUp,\MeasurableFunctionUp,\BanachUp\longmapsto \SimpleFunctionApproximationUp\longmapsto \IntegralUp\longmapsto \BochnerIntegralUp .
+$$
+For a carrier $J=(M,X,Y,F,A,R,Q,H,C,P,N)$, the consumer must inspect the simple approximants in $A$, the finite simple-integral readbacks in $R$, and the Banach norm Cauchy-tail ledger $Q$ before any integral endpoint is named. The route is a NameCert-level limit readback, not a quotient class of functions, a selected representative, or a choice-based convergence theorem.
+\end{theorem}
+\begin{proof}
+Start with the measurable-function row $F$ over the measure and source rows $M,X$ and the target Banach row $Y$. These rows place the integrand inside the displayed measurable and normed carrier data already available to downstream consumers.
+
+Use the simple-function approximation row $A$. It supplies finite-range approximants with measurable fibre rows, so each approximant can be reduced by $R$ to finitely many scalar measure values and Banach vector sums.
+
+The passage from approximants to the integral endpoint is then read only through $Q$. Its norm Cauchy-tail entries bind precision requests to Banach norm comparisons in $Y$, and the structural rows $H,C,P,N$ preserve that same finite route under transport, replay, provenance, and local naming.
+\end{proof}
+
+\closureat{BochnerIntegralUp}{seedStr}
+
+\begin{closurestatus}{\BochnerIntegralUp}
+  \constructivestory{A $\BochnerIntegralUp$ packet is generated from displayed measure, measurable-function, Banach, simple-function approximation, simple-integral readback, Banach norm tail, transport, continuation, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bochner-integral-carrier}, \autoref{thm:bochner-integral-namecert-obligations}, and \autoref{thm:bochner-integral-simple-function-limit-route} seed the vector-valued integration NameCert surface through simple approximants and Banach norm Cauchy tails.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host almost-everywhere quotient equality, measure completion, selected representatives, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires Lean carrier encoding and checked simple-approximant, simple-integral, and Banach-tail obligations for BEDC.Derived.BochnerIntegralUp.}
+\end{closurestatus}

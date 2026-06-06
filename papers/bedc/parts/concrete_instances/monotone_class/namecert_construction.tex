@@ -52,6 +52,20 @@ Pass through the two closure rows. Increasing requests are handled by $U$, decre
 Replay the route through $H,C,P,N$. These rows transport, replay, source, and name the same finite certificate. Therefore a downstream consumer receives exactly the generated closure route stated above and no completed sigma-algebra, pi-lambda theorem, measure-extension theorem, selected chain, or quotient subset equality.
 \end{proof}
 
+\begin{theorem}[MonotoneClass generator induction boundary]
+\label{thm:monotone-class-generator-induction-boundary}
+Every accepted $\MonotoneClassUp$ consumer reaches generated closure only by finite induction over the displayed generator row $G$, increasing-union row $U$, decreasing-intersection row $I$, measurable-event row $A$, transport row $H$, replay row $C$, provenance row $P$, and local name row $N$. The induction boundary cannot be replaced by a host pi-lambda theorem, selected countable chain, measure extension, completed sigma-algebra, or quotient subset equality.
+\end{theorem}
+\begin{proof}
+Unfold the carrier $M=(G,U,I,A,H,C,P,N)$ from \autoref{def:monotone-class-carrier}. The only initial cases available to a consumer are displayed generator requests in $G$, and each request is a finite BEDC row rather than a host subset family.
+
+For the induction steps, use the closure route of \autoref{thm:monotone-class-generated-closure-route}. Increasing-union steps are read through $U$, decreasing-intersection steps through $I$, and measurable-event admission through $A$; each step keeps the same displayed generator family attached.
+
+Apply the NameCert obligations of \autoref{thm:monotone-class-namecert-obligations}. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ are required before the generated closure can be consumed downstream.
+
+Since the carrier has no coordinate for a pi-lambda theorem, selected countable chain, measure extension, completed sigma-algebra, or quotient equality of subsets, no consumer can substitute one of those host objects for the finite induction route.
+\end{proof}
+
 \begin{closurestatus}{\MonotoneClassUp}
   \constructivestory{A $\MonotoneClassUp$ packet is generated from displayed set generators, increasing-union rows, decreasing-intersection rows, measurable-event admission, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}

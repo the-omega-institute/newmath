@@ -1,0 +1,85 @@
+\begin{theorem}[FanFunctional local obligation surface]
+\label{thm:fanfunctional-obligation-closure-scope}
+For the carrier
+$$
+\Phi=(C,F,\varepsilon,B,D,W,M,H,K,P,N)
+$$
+of \autoref{def:fan-functional-carrier-surface}, the rows
+$C,F,\varepsilon,B,D,W,M,H,K,P,N$ jointly form the complete local obligation
+surface for $\FanFunctionalUp$. Carrier admission is read from the displayed
+$\BHist$ packet, classifier stability is read from the Cantor-prefix and
+finite-fan rows, and the remaining public obligations are exactly bar-depth
+exactness, witness-window coverage, uniform-modulus handoff, and nonescape.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier. The coordinates $C,F,\varepsilon,B,D,W,M$
+name the finite Cantor-prefix, finite fan, tolerance, branch-window,
+bar-depth, witness-window, and modulus rows.
+
+The structural coordinates $H,K,P,N$ then close the local reading surface:
+$H$ supplies componentwise $\hsame$ transport, $K$ supplies displayed $\Cont$
+replay, $P$ records package provenance, and $N$ records the local NameCert
+name. No further carrier coordinate is available to the chapter.
+\end{proof}
+\leanchecked{BEDC.Derived.FanfunctionalUp.FanFunctionalLocalObligationSurface}
+
+\begin{theorem}[FanFunctional bar-depth and witness-window precedence]
+\label{thm:fanfunctional-obligation-bar-depth-coverage}
+Every $\FanFunctionalUp$ obligation read consumes the finite bar-depth row $D$
+and the witness-window row $W$ before any modulus row $M$ is exported to a
+$\UniformModulusUp$, $\UniformContinuityUp$, or $\CompactMetricUp$ consumer.
+Thus finite bar-depth exactness and witness-window coverage are prerequisites
+for modulus consumption, not consequences of an already accepted modulus.
+\end{theorem}
+\begin{proof}
+Read the finite rows in carrier order. The branch window $B$ is cut from the
+Cantor-prefix row $C$ by the finite fan row $F$, and $D$ certifies the displayed
+bar depth over that finite window.
+
+Only after this depth row is fixed can $W$ attach the pointwise tolerance
+witnesses that feed the modulus row $M$. Consequently a consumer of $M$ sees
+the already displayed $D,W$ surface and cannot use the modulus row to choose or
+repair the preceding bar-depth and witness-window data.
+\end{proof}
+\leanchecked{BEDC.Derived.FanfunctionalUp.FanFunctionalBarDepthWitnessWindowPrecedence}
+
+\begin{theorem}[FanFunctional modulus handoff and nonescape]
+\label{thm:fanfunctional-obligation-modulus-nonescape}
+The uniform-modulus handoff $M,H,K,P,N$ of
+\autoref{def:fan-functional-carrier-surface} and
+\autoref{thm:fan-functional-namecert-obligations} excludes host functionals,
+selected branches, open-cover compactness, countable choice, and Real
+completeness from the $\FanFunctionalUp$ public surface. Every accepted read
+factors through the finite carrier rows, componentwise transport, displayed
+continuation replay, package provenance, and the local NameCert row.
+\end{theorem}
+\begin{proof}
+The handoff row $M$ is produced from the finite windows $B,D,W$ and is
+transported only by the displayed structural rows $H,K,P,N$.
+
+Since the carrier contains no coordinate for a host functional
+$2^{\NatUp}\to\RealUp$, selected branch, open-cover compactness proof,
+countable-choice schedule, or $\RealUp$ completeness witness, there is no
+projection through which such data can enter a public read. Nonescape is
+therefore a finite-coordinate statement about the displayed carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.FanfunctionalUp.FanFunctionalModulusHandoffNonescape}
+
+\begin{theorem}[FanFunctional Real and RegSeqRat scope]
+\label{thm:fanfunctional-real-regseqrat-scope}
+Every $\FanFunctionalUp$ modulus read consumed by a $\RealUp$ or $\RegSeqRatUp$ route must first pass through $\CantorSpaceUp$ finite prefixes, $\FanTheoremUp$ decidable finite-bar depth, $\CompactMetricUp$ finite-net data, $\UniformContinuityUp$ local tolerance rows, and the extracted $\UniformModulusUp$ row. The exported route contains no host function space, selected branch, open-cover compactness, countable choice, or Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier surface of \autoref{def:fan-functional-carrier-surface}. The visible route begins with the finite Cantor-prefix row $C$, the finite fan row $F$, the tolerance row $\varepsilon$, the branch-window row $B$, the bar-depth row $D$, the witness-window row $W$, and the extracted modulus row $M$.
+
+Apply the local obligation surface of \autoref{thm:fanfunctional-obligation-closure-scope}. It fixes carrier admission and classifier stability before any downstream consumer can read a modulus value.
+
+Now use the bar-depth coverage theorem and the modulus nonescape theorem. The row order is
+$$
+C,F,\varepsilon,B,D,W,M,H,K,P,N .
+$$
+Thus a Real or regular-rational consumer receives a finite modulus route through Cantor prefixes, decidable fan depth, compact-metric finite nets, uniform-continuity tolerance rows, and the extracted UniformModulus row.
+
+Because no carrier coordinate stores a host function space, selected branch, open-cover compactness proof, countable-choice schedule, or $\RealUp$ completeness witness, those objects cannot be exported by the scoped consumer route.
+\end{proof}
+\leanchecked{BEDC.Derived.FanfunctionalUp.FanFunctionalRealRegSeqRatScope}

@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\SobolevMorreyEmbeddingUp$}
+\label{ch:concrete-instances-sobolev-morrey-embedding-namecert}
+\origin{human}
+
+Following Morrey and Evans on Sobolev embeddings, the $\SobolevMorreyEmbeddingUp$ packet records the finite BEDC surface by which a displayed Sobolev-energy row yields a Morrey modulus row when the exponent and dimension rows certify the supercritical inequality. It sits after the $\SobolevUp$ carrier of \autoref{ch:concrete-instances-sobolev-namecert}, the $\MorreySpaceUp$ target surface of \autoref{ch:concrete-instances-morrey-space-namecert}, the scalar readback of \autoref{ch:concrete-instances-real-namecert}, the regular rational tolerance route of \autoref{ch:concrete-instances-regseqrat-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, and the compact consumer surface of \autoref{ch:concrete-instances-compactmetric-namecert}. The packet names only displayed rows: Sobolev energy, exponent inequality, local ball windows, rational modulus readback, transport, provenance, and local $\NameCert$ data.
+
+\begin{definition}[Sobolev--Morrey embedding carrier]
+\label{def:sobolev-morrey-embedding-carrier}
+A $\SobolevMorreyEmbeddingUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,Q,B,M,R,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the $\SobolevUp$ source row, recording the displayed function, weak derivative budget, exponent row, and domain window.
+\item $Q$ is the supercritical exponent row, recording the dimension comparison and the rational witness for the Morrey exponent gap.
+\item $B$ is the local ball-window row, recording the finite metric balls on which oscillation estimates are requested.
+\item $M$ is the $\MorreySpaceUp$ modulus row, recording the candidate Hölder-Morrey control produced from $S,Q,B$.
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ readback row for rational tolerances, energy bounds, and endpoint scalar values.
+\item $H$ stores componentwise $\hsame$ transport for $S,Q,B,M,R,P,N$.
+\item $C$ stores the displayed $\Cont$ routes from the Sobolev-energy row and exponent row to the Morrey modulus row.
+\item $P$ is the $\Pkg$ provenance over $\SobolevUp$, $\MorreySpaceUp$, $\MetricUp$, $\RegSeqRatUp$, $\RealUp$, $\CompactMetricUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SobolevMorreyEmbeddingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host-selected representative, quotient equality of functions, open-cover compactness, a global differentiability theorem, or an ambient real-completeness principle.
+\end{definition}
+
+\begin{theorem}[Sobolev--Morrey modulus obligation]
+\label{thm:sobolev-morrey-embedding-modulus-obligation}
+For every accepted $\SobolevMorreyEmbeddingUp$ carrier $E=(S,Q,B,M,R,H,C,P,N)$, a consumer may read the Morrey modulus row $M$ only after reading the Sobolev-energy row $S$, the supercritical exponent row $Q$, the local ball-window row $B$, and the rational scalar readback row $R$. Agreement on $H,C,P,N$ preserves those rows but cannot synthesize a Morrey modulus without the displayed $S,Q,B,R$ data.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{def:sobolev-morrey-embedding-carrier}. The definition lists $M$ as a row produced from the displayed Sobolev energy, exponent gap, ball windows, and rational scalar readback rather than from a hidden host theorem.
+
+The route row $C$ records the finite passage from $S,Q,B,R$ to $M$. Componentwise transport through $H$ and package provenance through $P$ preserve the same displayed rows, so the read of $M$ remains tied to the visible energy and exponent obligations.
+
+Since the carrier has no coordinate for a selected representative, quotient equality of functions, or ambient completeness, no structural row can fill the missing analytic input. Thus every accepted modulus read must consume the displayed $S,Q,B,R$ rows first.
+\end{proof}
+
+\begin{theorem}[Sobolev--Morrey compact consumer surface]
+\label{thm:sobolev-morrey-embedding-compact-consumer}
+Every $\CompactMetricUp$-facing consumer of an accepted $\SobolevMorreyEmbeddingUp$ packet must read the same finite route
+$$
+S,Q,B,M,R,H,C,P,N
+$$
+before using the Morrey modulus as a compact-family control. The consumer may transport the modulus through $\hsame$ and replay the displayed $\Cont$ route, but it cannot import Rellich--Kondrachov compactness, choose a subsequence, or identify functions by host quotient equality.
+\end{theorem}
+\begin{proof}
+Begin with the modulus obligation of \autoref{thm:sobolev-morrey-embedding-modulus-obligation}. It forces the Morrey control row $M$ to be read together with the Sobolev source, exponent gap, ball windows, and rational scalar readback.
+
+The compact consumer then reads $M$ only as a modulus row compatible with the $\MetricUp$ and $\CompactMetricUp$ sibling surfaces. The transport and replay rows $H,C$ preserve this finite route; they do not add subsequence selection or open-cover compactness.
+
+The absence clauses in the carrier definition rule out host quotient equality and selected representatives. Hence the compact-facing use is a finite modulus-consumer surface, not a compactness theorem or a hidden Rellich--Kondrachov conclusion.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SobolevMorreyEmbeddingUp$ packet cannot export a Morrey modulus row unless the Sobolev-energy row, exponent-gap witness, local ball-window row, and rational scalar readback row are all displayed in the same carrier.}
+
+\independenceWitness{sobolev, morrey-space, real, regseqrat, metric, compactmetric: $\SobolevMorreyEmbeddingUp$ joins the energy, exponent-gap, local-window, and modulus-consumer rows; the sibling packets do not by themselves expose the full embedding handoff surface.}
+
+\closureat{SobolevMorreyEmbeddingUp}{seedStr}
+
+\begin{closurestatus}{\SobolevMorreyEmbeddingUp}
+  \constructivestory{A $\SobolevMorreyEmbeddingUp$ packet is generated from Sobolev-energy, supercritical exponent, local ball-window, Morrey modulus, rational readback, hsame transport, continuation, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sobolev-morrey-embedding-carrier}, \autoref{thm:sobolev-morrey-embedding-modulus-obligation}, and \autoref{thm:sobolev-morrey-embedding-compact-consumer} bind the seed carrier and its compact-consumer handoff surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove the analytic Sobolev--Morrey inequality, Rellich--Kondrachov compactness, Lean verification, or a standard bridge.}
+  \upgradepath{Scoped closure requires a checked obligation surface for the exponent-gap row, local ball-window row, and Morrey modulus readback route.}
+\end{closurestatus}

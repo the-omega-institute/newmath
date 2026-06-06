@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyCompletenessUp$}
+\label{ch:concrete-instances-regular-cauchy-completeness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, regular Cauchy completeness is read as a finite handoff from regular rational sequences to displayed real names: a dyadic tolerance request opens only finitely many observations, the regularity row supplies the tail discipline, and the terminal real-name seal records the accepted landing name. The $\RegularCauchyCompletenessUp$ packet places that handoff over the dyadic tolerance surface of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the real-name seal of \autoref{ch:concrete-instances-real-namecert}. It is a NameCert object for the RegSeqRat-to-Real boundary; it does not assert quotient completion, selected representatives, countable choice, host real equality, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Regular Cauchy completeness carrier]
+\label{def:regular-cauchy-completeness-carrier}
+A $\RegularCauchyCompletenessUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(D,S,R,M,L,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger for the requested precision and the dyadic comparisons inspected by the handoff.
+\item $S$ is the $\StreamNameUp$ finite-window row exposing the rational observations used at that precision.
+\item $R$ is the $\RegSeqRatUp$ regularity row read from $S$ and $D$ before any real-facing seal is visible.
+\item $M$ is the regular tail modulus row assigning each displayed dyadic tolerance a finite tail threshold.
+\item $L$ is the terminal $\RealUp$ seal row offered as the real-name landing of the regular sequence.
+\item $W$ is the witness ledger recording that every late window governed by $M$ reaches $L$ within the displayed dyadic tolerance.
+\item $H$ records componentwise $\hsame$ transport for $D,S,R,M,L,W,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a Real or Completion tolerance request through $D,M,S,R,W$ and then to the seal $L$.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyCompletenessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyCompletenessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,M,L,W,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable-choice schedules, host real equality, real trichotomy, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy completeness NameCert obligations]
+\label{thm:regular-cauchy-completeness-namecert-obligations}
+For an accepted $\RegularCauchyCompletenessUp$ carrier $Q=(D,S,R,M,L,W,H,C,P,N)$, the local $\NameCert_{\RegularCauchyCompletenessUp}$ surface consists exactly of carrier admission for the displayed dyadic, stream, regular-rational, modulus, seal, witness, transport, replay, provenance, and local naming rows; classifier stability under componentwise $\hsame$ transport; modulus coverage for every dyadic tolerance request; witness exactness tying the late $\RegSeqRatUp$ windows to the terminal $\RealUp$ seal; and ledger non-escape for quotient completion, selected representatives, countable choice, host real equality, trichotomy, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:regular-cauchy-completeness-carrier}. The packet exposes precisely the dyadic tolerance row, finite stream windows, regularity row, tail modulus, terminal seal, witness ledger, and the structural rows $H,C,P,N$.
+
+Classifier stability is componentwise. The transport row $H$ can move only the displayed coordinates $D,S,R,M,L,W,C,P,N$, and the replay row $C$ repeats the same ordered route from tolerance request to seal.
+
+Modulus coverage and witness exactness are read in order. A dyadic tolerance request first fixes $D$, then the tail threshold $M$, then the finite windows $S$, the regular readback $R$, and the witness ledger $W$ before $L$ can be consumed.
+
+The non-escape clause follows from the absence of any further coordinate. Since the carrier contains no quotient, selected representative, choice schedule, host equality, trichotomy, or ambient completeness row, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy completeness RegSeqRat handoff]
+\label{thm:regular-cauchy-completeness-regseqrat-handoff}
+Every Real-facing consumer of an accepted $\RegularCauchyCompletenessUp$ packet must read the finite route
+$$
+D,M,S,R,W \longmapsto L
+$$
+before the terminal $\RealUp$ seal is available. Thus the handoff from $\RegSeqRatUp$ to $\RealUp$ is carried by displayed dyadic tolerances, stream windows, regular tail data, and a witness ledger, not by quotienting Cauchy streams or choosing a host limit.
+\end{theorem}
+\begin{proof}
+Begin with the tolerance request. The dyadic ledger $D$ fixes the precision, and the regular tail modulus $M$ gives the finite threshold attached to that precision.
+
+Read the finite observations next. The $\StreamNameUp$ row $S$ exposes only the inspected windows, and the $\RegSeqRatUp$ row $R$ records their regular rational discipline under the same dyadic budget.
+
+The witness ledger $W$ is then the only row that relates late windows to the terminal seal $L$. Hence the Real-facing read reaches $L$ through the displayed finite route and has no access to quotient streams, selected limits, or host real equality.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy completeness Real-seal nonescape]
+\label{thm:regular-cauchy-completeness-real-seal}
+For every accepted $\RegularCauchyCompletenessUp$ carrier $Q=(D,S,R,M,L,W,H,C,P,N)$, the terminal $\RealUp$ seal $L$ exports only the displayed RegSeqRat-to-Real handoff rows
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \BHist,\ \hsame,\ \Cont,\ \Pkg,\ \NameCert .
+$$
+Any consumer asking for quotient completion, a selected representative, countable choice, host real equality, real trichotomy, or a theorem that $\RealUp$ is complete is returned to $D,S,R,M,L,W,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The Real seal is a displayed row $L$, and the only route to it passes through the dyadic tolerance ledger, finite windows, regularity row, tail modulus, and witness ledger.
+
+Apply \autoref{thm:regular-cauchy-completeness-namecert-obligations}. The local NameCert surface requires every accepted read to preserve the same rows under componentwise transport and displayed continuation replay.
+
+Apply \autoref{thm:regular-cauchy-completeness-regseqrat-handoff}. The RegSeqRat-to-Real boundary is therefore a finite handoff, so the excluded quotient, choice, host-equality, trichotomy, and ambient-completeness objects cannot be exported by the seal.
+\end{proof}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\RegularCauchyCompletenessUp$ is not bijective to any listed sibling because it jointly carries dyadic tolerance requests, StreamName finite windows, RegSeqRat regularity, a tail modulus, a terminal Real seal, a witness ledger, transport, replay, provenance, and local naming in one RegSeqRat-to-Real handoff packet.}
+
+\closureat{RegularCauchyCompletenessUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyCompletenessUp}
+  \constructivestory{A $\RegularCauchyCompletenessUp$ packet is generated from dyadic tolerance rows, StreamName finite windows, RegSeqRat regularity rows, regular tail moduli, terminal Real seals, witness ledgers, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-completeness-carrier}, \autoref{thm:regular-cauchy-completeness-namecert-obligations}, \autoref{thm:regular-cauchy-completeness-regseqrat-handoff}, and \autoref{thm:regular-cauchy-completeness-real-seal} seed the finite RegSeqRat-to-Real completeness handoff over displayed dyadic, stream, regular-rational, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected representatives, countable choice, host real equality, real trichotomy, bridge checking, Lean verification, or ambient completeness of $\RealUp$.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for BEDC.Derived.RegularCauchyCompletenessUp.}
+\end{closurestatus}

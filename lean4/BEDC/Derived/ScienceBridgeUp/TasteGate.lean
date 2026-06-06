@@ -1,11 +1,20 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ScienceBridgeUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -280,6 +289,105 @@ theorem ScienceBridgeTasteGate_single_carrier_alignment :
       · intro x y heq
         exact ScienceBridgeTasteGate_single_carrier_alignment_injective heq
       · rfl
+
+theorem ScienceBridgeAxisSeparation [AskSetup] [PackageSetup]
+    {R O A T B G F H C P N objectRead auditRead truthRead bridgeRead gapRead failureRead
+      namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ScienceBridgeUp.mk R O A T B G F H C P N =
+        ScienceBridgeUp.mk R O A T B G F H C P N →
+      UnaryHistory R →
+        UnaryHistory O →
+          UnaryHistory A →
+            UnaryHistory T →
+              UnaryHistory B →
+                UnaryHistory G →
+                  UnaryHistory F →
+                    UnaryHistory C →
+                      UnaryHistory N →
+                        Cont R O objectRead →
+                          Cont objectRead A auditRead →
+                            Cont auditRead T truthRead →
+                              Cont truthRead B bridgeRead →
+                                Cont bridgeRead G gapRead →
+                                  Cont gapRead F failureRead →
+                                    Cont failureRead C namedRead →
+                                      PkgSig bundle P pkg →
+                                        PkgSig bundle N pkg →
+                                          SemanticNameCert
+                                              (fun row : BHist =>
+                                                hsame row failureRead ∧ UnaryHistory row)
+                                              (fun row : BHist =>
+                                                hsame row O ∨ hsame row A ∨ hsame row T ∨
+                                                  hsame row B ∨ hsame row G ∨ hsame row F ∨
+                                                    hsame row failureRead)
+                                              (fun row : BHist =>
+                                                UnaryHistory row ∧ Cont bridgeRead G gapRead ∧
+                                                  Cont gapRead F failureRead ∧
+                                                    PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                                              hsame ∧
+                                            UnaryHistory objectRead ∧ UnaryHistory auditRead ∧
+                                              UnaryHistory truthRead ∧
+                                                UnaryHistory bridgeRead ∧ UnaryHistory gapRead ∧
+                                                  UnaryHistory failureRead ∧
+                                                    UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro _carrierExact unaryR unaryO unaryA unaryT unaryB unaryG unaryF unaryC _unaryN
+    routeObject routeAudit routeTruth routeBridge routeGap routeFailure routeNamed pkgP pkgN
+  have objectUnary : UnaryHistory objectRead :=
+    unary_cont_closed unaryR unaryO routeObject
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed objectUnary unaryA routeAudit
+  have truthUnary : UnaryHistory truthRead :=
+    unary_cont_closed auditUnary unaryT routeTruth
+  have bridgeUnary : UnaryHistory bridgeRead :=
+    unary_cont_closed truthUnary unaryB routeBridge
+  have gapUnary : UnaryHistory gapRead :=
+    unary_cont_closed bridgeUnary unaryG routeGap
+  have failureUnary : UnaryHistory failureRead :=
+    unary_cont_closed gapUnary unaryF routeFailure
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed failureUnary unaryC routeNamed
+  have sourceFailure :
+      (fun row : BHist => hsame row failureRead ∧ UnaryHistory row) failureRead :=
+    ⟨hsame_refl failureRead, failureUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row failureRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row O ∨ hsame row A ∨ hsame row T ∨ hsame row B ∨ hsame row G ∨
+              hsame row F ∨ hsame row failureRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont bridgeRead G gapRead ∧ Cont gapRead F failureRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro failureRead sourceFailure
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, routeGap, routeFailure, pkgP, pkgN⟩
+  }
+  exact
+    ⟨cert, objectUnary, auditUnary, truthUnary, bridgeUnary, gapUnary, failureUnary,
+      namedUnary⟩
 
 namespace TasteGate
 

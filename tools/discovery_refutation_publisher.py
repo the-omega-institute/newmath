@@ -9,14 +9,11 @@ positive discovery assertion.
 from __future__ import annotations
 
 import argparse
-import contextlib
-import fcntl
 import json
 import os
 import shutil
 import subprocess
 import sys
-import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -46,7 +43,6 @@ PUBLISH_WORKTREE = host_path(
 )
 LOG_DIR = REPO_ROOT / "tools" / "logs"
 LOG_PATH = LOG_DIR / "discovery_refutation_publisher.log"
-PID_LOCK_PATH = Path("/tmp/.bedc_refutation_publisher.pid")
 DEFAULT_INTERVAL = 21600
 COMMAND_TIMEOUT = 1800
 GIT_TIMEOUT = 180
@@ -63,27 +59,6 @@ def append_log(message: str) -> None:
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     with LOG_PATH.open("a", encoding="utf-8") as fh:
         fh.write(f"{now_iso()} {message}\n")
-
-
-@contextlib.contextmanager
-def pid_lock():
-    pid_fd = os.open(PID_LOCK_PATH, os.O_RDWR | os.O_CREAT, 0o644)
-    try:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except BlockingIOError:
-            sys.stderr.write(f"discovery refutation publisher already running ({PID_LOCK_PATH})\n")
-            sys.exit(1)
-        os.ftruncate(pid_fd, 0)
-        os.write(pid_fd, f"{os.getpid()}\n".encode())
-        os.fsync(pid_fd)
-        yield
-    finally:
-        try:
-            fcntl.flock(pid_fd, fcntl.LOCK_UN)
-        except Exception:
-            pass
-        os.close(pid_fd)
 
 
 def run_cmd(
@@ -566,14 +541,10 @@ def main() -> int:
     parser.add_argument("--once", action="store_true", help="Run one publish cycle and exit")
     parser.add_argument("--no-push", action="store_true", help="Commit in the publish worktree but do not push")
     args = parser.parse_args()
-    with pid_lock():
-        if args.once:
-            return 0 if run_once(no_push=args.no_push) else 1
-        interval = interval_seconds()
-        append_log(f"[refutation] daemon start interval={interval}s")
-        while True:
-            run_once(no_push=False)
-            time.sleep(interval)
+    if args.once:
+        return 0 if run_once(no_push=args.no_push) else 1
+    sys.stderr.write("discovery refutation publisher loop moved to tools/discovery_pipeline_daemon.py; use --once for debugging\n")
+    return 2
 
 
 if __name__ == "__main__":

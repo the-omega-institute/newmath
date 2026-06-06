@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\BishopRegularCompletionReflectorUp$}
+\label{ch:concrete-instances-bishop-regular-completion-reflector-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopRegularCompletionReflectorUp$ packet records the Bishop regular completion reflector as finite BEDC naming data over explicit rational approximants. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the RegSeqRat reflector route of \autoref{ch:concrete-instances-regular-cauchy-completion-reflector-namecert}. The packet names only the finite reflector surface visible to Bishop regular-name consumers; it does not identify quotient completions, select limits, compare host real values, use countable choice, assert ambient completeness of $\RealUp$, or provide Lean verification or bridge data.
+
+\begin{definition}[BishopRegularCompletionReflector carrier]
+\label{def:bishop-regular-completion-reflector-carrier}
+A $\BishopRegularCompletionReflectorUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,S,R,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used for every regular precision request and every comparison of inspected rational windows.
+\item $S$ is the $\StreamNameUp$ finite-window row exposing the currently inspected approximants of the Bishop regular name.
+\item $R$ is the $\RegSeqRatUp$ readback row, certifying that the displayed windows satisfy the regular rational discipline required before completion is requested.
+\item $E$ is the $\RealUp$ seal row reached from $D,S,R$ through the displayed completion surface rather than through a quotient of streams.
+\item $F$ is the reflector row, recording that any completion-facing consumer must read the dyadic ledger, stream windows, regular readback, and real seal in that order.
+\item $H$ records componentwise $\hsame$ transport for dyadic tolerances, stream windows, regular readbacks, real seals, reflector rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a regular-name precision request through
+$$
+D,S \longmapsto R \longmapsto E \longmapsto F \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BishopRegularCompletionReflectorUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRegularCompletionReflectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,E,F,H,C,P,N$. It has no coordinate for quotient completion equality, selected limit representatives, host equality of real values, countable choice, ambient $\RealUp$ completeness, Lean verification, or standard bridge checking.
+\end{definition}
+
+\begin{theorem}[BishopRegularCompletionReflector NameCert obligations]
+\label{thm:bishop-regular-completion-reflector-namecert-obligations}
+For every accepted $\BishopRegularCompletionReflectorUp$ carrier
+$$
+B=(D,S,R,E,F,H,C,P,N),
+$$
+the local $\NameCert_{\BishopRegularCompletionReflectorUp}$ surface consists exactly of carrier admission for dyadic tolerance ledgers, finite stream windows, regular rational readback, real-name sealing, reflector routing, transport, replay, provenance, and local naming; source exposure requiring every completion-facing read to inspect $D,S$ before $R$; reflector discipline requiring $E$ and $F$ to be read only through the same $D,S,R$ route; and nonescape excluding quotient completion, selected limits, host equality, countable choice, ambient $\RealUp$ completeness, Lean verification, and standard bridge checking.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its displayed coordinates are exactly $D,S,R,E,F,H,C,P,N$, so carrier admission, transport, replay, provenance, and local naming are read from those rows.
+
+The source side begins with $D$ and $S$. The dyadic ledger fixes the tolerances used by each regular request, while the stream-window row specifies the finite approximants available for the current read.
+
+The regular readback row $R$ is downstream of those source rows. A completion-facing consumer therefore obtains a regular rational name only after the dyadic and stream data have been displayed.
+
+The seal and reflector rows are $E$ and $F$. Both are indexed by the same $D,S,R$ route, so the carrier cannot replace them by a quotient completion, a selected limit, or a host-level equality witness.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same finite packet. Since no other coordinate is present, the listed rows exhaust the local NameCert surface and the refused principles have no export path.
+\end{proof}
+
+\closureat{BishopRegularCompletionReflectorUp}{seedStr}
+
+\begin{closurestatus}{\BishopRegularCompletionReflectorUp}
+  \constructivestory{A $\BishopRegularCompletionReflectorUp$ packet is generated from DyadicRatCore tolerance rows, StreamName finite windows, RegSeqRat readback, a RealUp seal, a reflector route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-regular-completion-reflector-carrier} and \autoref{thm:bishop-regular-completion-reflector-namecert-obligations} seed the Bishop regular completion reflector packet over dyadic tolerances, finite windows, regular rational readback, and a Real-facing seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion, selected limits, host equality, countable choice, ambient $\RealUp$ completeness, Lean verification, or standard bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance coverage, StreamName window exposure, RegSeqRat readback, Real seal preservation, reflector routing, transport, replay, provenance, and local naming for BEDC.Derived.BishopRegularCompletionReflectorUp.}
+\end{closurestatus}

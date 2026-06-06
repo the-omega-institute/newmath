@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\SmithVolterraCantorUp$}
+\label{ch:concrete-instances-smith-volterra-cantor-namecert}
+\origin{human}
+
+Following Smith and Volterra, the $\SmithVolterraCantorUp$ packet names the finite-prefix interval-removal presentation of a closed nowhere-dense set with positive remaining length. It is routed through the Cantor-style classifier of \autoref{ch:concrete-instances-cantor-function-namecert}, the located closed interval rows of \autoref{ch:concrete-instances-located-real-interval-namecert}, and the dyadic schedule discipline of \autoref{ch:concrete-instances-dyadic-interval-nesting-namecert}. The packet records only the finite stage data needed by constructive consumers: no Lebesgue measure completion, arbitrary open-cover compactness, or ambient $\RealUp$ completeness row is present.
+
+\begin{definition}[Smith-Volterra-Cantor carrier]
+\label{def:smith-volterra-cantor-carrier}
+A $\SmithVolterraCantorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,R,D,L,C,G,T,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the initial located interval row, naming the ambient closed interval as a $\LocatedRealIntervalUp$ packet.
+\item $R$ is the finite removal ledger, listing a bounded family of middle intervals already removed at the inspected stage.
+\item $D$ is the dyadic schedule row, requiring every listed endpoint and every inspected gap width to be read through the same $\DyadicIntervalNestingUp$ schedule.
+\item $L$ is the located closed-set row, recording finite separation evidence for points outside the surviving interval family.
+\item $C$ is the Cantor classifier row, distinguishing survivor, removed-gap, and boundary reads without changing the dyadic schedule.
+\item $G$ is the finite gap-order row, recording disjointness and endpoint order for the removed intervals visible at the stage.
+\item $T$ records componentwise $\hsame$ transport for the interval, schedule, classifier, located-set, and gap rows.
+\item $H$ records displayed $\Cont$ replay from a consumer read to the same finite interval-removal route.
+\item $P$ is the $\Pkg$ provenance over $\BHist$, located interval rows, dyadic schedule rows, classifier rows, transport, replay, and local naming.
+\item $N$ is the local $\NameCert_{\SmithVolterraCantorUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for completed Lebesgue measure, countable complement enumeration, arbitrary open-cover compactness, or an ambient completeness proof for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Smith-Volterra-Cantor NameCert obligations]
+\label{thm:smith-volterra-cantor-namecert-obligations}
+For an accepted $\SmithVolterraCantorUp$ carrier
+$$
+S=(I,R,D,L,C,G,T,H,P,N),
+$$
+the local $\NameCert_{\SmithVolterraCantorUp}$ surface consists exactly of carrier admission for the initial located interval, finite removal ledger, dyadic schedule, located closed-set row, survivor classifier, gap-order ledger, componentwise transport, displayed replay, package provenance, and local naming. Any consumer of the packet must read those rows on the same finite route before using the Smith-Volterra-Cantor name.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Rows $I,R,D,L,C,G$ are the only mathematical data rows, so carrier admission exposes the located interval, removed intervals, dyadic schedule, located closed-set evidence, classifier, and finite gap order before the local name is read.
+
+Transport and replay are row-local. The $\hsame$ row $T$ preserves the interval-removal ledger componentwise, while $H$ replays a consumer read to the same displayed route rather than to a completed complement or measure object.
+
+Finally $P$ and $N$ provide provenance and local naming. Since the carrier has no measure-completion, arbitrary compactness, countable-choice, or ambient completeness coordinate, the NameCert obligations are exhausted by the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Smith-Volterra-Cantor located interval nonescape]
+\label{thm:smith-volterra-cantor-located-interval-nonescape}
+Every accepted $\SmithVolterraCantorUp$ consumer that reads survivor membership, removed-gap membership, boundary membership, or local closed-set separation must keep the initial $\LocatedRealIntervalUp$ row, the $\DyadicIntervalNestingUp$ schedule row, the finite removal ledger, and the classifier row on the same route
+$$
+S=(I,R,D,L,C,G,T,H,P,N).
+$$
+The read cannot replace finite located interval evidence by Lebesgue measure completion, arbitrary open-cover compactness, selected complement enumeration, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the located interval row $I$ and the dyadic schedule row $D$. They determine the inspected endpoints and finite stage widths before any survivor or gap classifier can be read.
+
+Next attach the finite removal ledger $R$ and the gap-order row $G$. These rows record exactly the removed middle intervals visible at the stage and keep disjointness and boundary order inside the same dyadic route.
+
+The classifier row $C$ and located closed-set row $L$ then expose only survivor, removed-gap, boundary, and finite separation reads. Transport through $T$ and replay through $H$ preserve those rows, while $P,N$ name the local packet. A consumer seeking measure completion, arbitrary compactness, selected complement enumeration, or Real completeness would need a coordinate absent from $S$.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SmithVolterraCantorUp$ read reaches a finite removal ledger row and a dyadic schedule row before it exports survivor, removed-gap, boundary, or located closed-set data.}
+
+\independenceWitness{cantorfunction, locatedrealinterval, dyadicintervalnesting: none is bijective to $\SmithVolterraCantorUp$ because this packet jointly carries a positive-length interval-removal schedule, finite gap ledger, survivor classifier, located closed-set row, transport, replay, provenance, and local NameCert row.}
+
+\closureat{SmithVolterraCantorUp}{seedStr}
+
+\begin{closurestatus}{\SmithVolterraCantorUp}
+  \constructivestory{A $\SmithVolterraCantorUp$ packet is generated from a located initial interval, finite interval-removal ledger, dyadic endpoint schedule, located closed-set evidence, survivor classifier, finite gap-order ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:smith-volterra-cantor-carrier}, \autoref{thm:smith-volterra-cantor-namecert-obligations}, and \autoref{thm:smith-volterra-cantor-located-interval-nonescape} seed the finite interval-removal NameCert packet for the Smith-Volterra-Cantor construction.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lebesgue measure completion, arbitrary open-cover compactness, selected complement enumeration, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite removal-ledger exposure, located closed-set separation, classifier stability, transport, replay, provenance, and local naming for BEDC.Derived.SmithVolterraCantorUp.}
+\end{closurestatus}

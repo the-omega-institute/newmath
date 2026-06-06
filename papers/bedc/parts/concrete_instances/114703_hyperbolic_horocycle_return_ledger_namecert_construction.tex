@@ -1,0 +1,75 @@
+\chapter{Hyperbolic Horocycle Return Ledger NameCert Construction}
+\label{ch:concrete-instances-hyperbolic-horocycle-return-ledger-namecert}
+\origin{human}
+
+Following the classical horocycle and geodesic-flow tradition of Hedlund, Hopf, and Anosov, the $\HyperbolicHorocycleReturnLedgerUp$ packet records a finite return ledger for a boundary-anchored horocycle read. It sits after the horocycle carrier of \autoref{ch:concrete-instances-hyperbolic-horocycle-namecert}, the Busemann-boundary rows of \autoref{ch:concrete-instances-hyperbolic-busemann-boundary-namecert}, the Busemann-cocycle route of \autoref{ch:concrete-instances-hyperbolic-busemann-cocycle-namecert}, the visual-metric read of \autoref{ch:concrete-instances-hyperbolic-visual-metric-namecert}, the geodesic-flow packet of \autoref{ch:concrete-instances-hyperbolic-geodesic-flow-namecert}, and the boundary-transport row of \autoref{ch:concrete-instances-hyperbolic-boundary-transport-namecert}. The packet names finite return bookkeeping for boundary, Busemann, visual-metric, horosphere-flow, and transport rows; it is not a global recurrence theorem, an invariant measure construction, a quotient boundary flow, or a selected complete orbit.
+
+\begin{definition}[Hyperbolic horocycle-return ledger carrier]
+\label{def:hyperbolic-horocycle-return-ledger-carrier}
+A $\HyperbolicHorocycleReturnLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(Q,B,K,V,F,T,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\HyperbolicHorocycleUp$ source row naming the boundary-tangent horocycle read.
+\item $B$ is the $\HyperbolicBusemannBoundaryUp$ boundary-height row attached to the same ideal endpoint.
+\item $K$ is the $\HyperbolicBusemannCocycleUp$ comparison row recording finite Busemann displacement between the departure and return windows.
+\item $V$ is the $\HyperbolicVisualMetricUp$ visual-metric row read along the same boundary anchor.
+\item $F$ is the $\HyperbolicGeodesicFlowUp$ horosphere-flow row, displaying the finite flow segment inspected by the return request.
+\item $T$ is the $\HyperbolicBoundaryTransportUp$ row preserving the boundary anchor and transported visual-metric read.
+\item $R$ is the return ledger row. It records the departure window, return window, Busemann displacement, visual-metric comparison, and horocycle source row as one finite packet.
+\item $A$ is the nonescape row, refusing any read that turns the finite return ledger into a global recurrence theorem, invariant measure, quotient boundary flow, selected complete orbit, or physical observer trajectory.
+\item $H$ records componentwise $\hsame$ transport for horocycle, Busemann boundary, Busemann cocycle, visual metric, geodesic flow, boundary transport, return ledger, refusal, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the horocycle source, boundary height, cocycle comparison, visual-metric read, flow segment, boundary transport, return ledger, refusal, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\HyperbolicHorocycleReturnLedgerUp$, $\HyperbolicHorocycleUp$, $\HyperbolicBusemannBoundaryUp$, $\HyperbolicBusemannCocycleUp$, $\HyperbolicVisualMetricUp$, $\HyperbolicGeodesicFlowUp$, $\HyperbolicBoundaryTransportUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HyperbolicHorocycleReturnLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,B,K,V,F,T,R,A,H,C,P,N$. It has no coordinate for global recurrence, invariant measures, quotient boundary-flow equality, selected complete orbits, physical observer motion, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Hyperbolic horocycle-return transport nonescape]
+\label{thm:hyperbolic-horocycle-return-ledger-transport-nonescape}
+For every accepted $\HyperbolicHorocycleReturnLedgerUp$ carrier $L=(Q,B,K,V,F,T,R,A,H,C,P,N)$, any transported return read must preserve the displayed boundary anchor, Busemann displacement, visual-metric row, horocycle source, and finite geodesic-flow segment before the return ledger $R$ can be consumed. A consumer receives the route
+$$
+Q\longmapsto B\longmapsto K\longmapsto V\longmapsto F\longmapsto T\longmapsto R
+$$
+together with $A,H,C,P,N$, and receives no global recurrence theorem, invariant measure, quotient boundary-flow equality, selected complete orbit, or physical observer trajectory.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:hyperbolic-horocycle-return-ledger-carrier}. Rows $Q,B,K,V,F,T$ are the visible geometric inputs to the return ledger.
+
+The Busemann rows control the boundary-height comparison. Row $B$ fixes the boundary-height read, and row $K$ records the finite displacement between the departure and return windows. The visual-metric row $V$ and boundary-transport row $T$ keep the same boundary anchor visible through the read.
+
+The flow row $F$ supplies only the inspected finite geodesic-flow segment. The return ledger $R$ packages this segment with the horocycle source and Busemann displacement, so it cannot add a selected complete orbit or a global recurrence assertion.
+
+Finally, $A,H,C,P,N$ refuse excluded routes and transport the displayed packet. Since none of the excluded objects has a carrier coordinate, transported return reads remain inside the finite NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hyperbolic horocycle-return ledger obligation surface]
+\label{thm:hyperbolic-horocycle-return-ledger-obligations}
+The local $\NameCert_{\HyperbolicHorocycleReturnLedgerUp}$ surface consists exactly of horocycle source admission, Busemann-boundary admission, Busemann-cocycle displacement comparison, visual-metric readback, finite geodesic-flow segment admission, boundary-transport preservation, return-ledger exactness, nonescape refusal, componentwise transport, displayed replay, package provenance, and local naming. No obligation is stored outside $Q,B,K,V,F,T,R,A,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory in \autoref{def:hyperbolic-horocycle-return-ledger-carrier}. Each listed obligation is the admission or preservation condition for one displayed row.
+
+Apply \autoref{thm:hyperbolic-horocycle-return-ledger-transport-nonescape}. It prevents the return ledger from being consumed before the horocycle, boundary, Busemann, visual-metric, flow, and transport rows have been displayed.
+
+The structural rows $H,C,P,N$ only transport, replay, source, and name that same route. Therefore the local NameCert surface is exhausted by the stated rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HyperbolicHorocycleReturnLedgerUp$ read must expose horocycle source rows, Busemann-boundary rows, Busemann-cocycle displacement rows, visual-metric rows, finite geodesic-flow rows, boundary-transport rows, a return ledger, nonescape refusal, hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+
+\independenceWitness{hyperbolic-horocycle, hyperbolic-busemann-boundary, hyperbolic-busemann-cocycle, hyperbolic-visual-metric, hyperbolic-geodesic-flow, hyperbolic-boundary-transport: $\HyperbolicHorocycleReturnLedgerUp$ is not bijective to any listed sibling because it jointly stores the return window, Busemann displacement, visual-metric comparison, finite flow segment, boundary transport, refusal, transport, replay, provenance, and local naming.}
+
+\closureat{HyperbolicHorocycleReturnLedgerUp}{seedStr}
+
+\begin{closurestatus}{\HyperbolicHorocycleReturnLedgerUp}
+  \constructivestory{A $\HyperbolicHorocycleReturnLedgerUp$ packet is generated from HyperbolicHorocycle source rows, HyperbolicBusemannBoundary height rows, HyperbolicBusemannCocycle displacement rows, HyperbolicVisualMetric readback, HyperbolicGeodesicFlow finite segments, HyperbolicBoundaryTransport preservation, a return ledger, nonescape refusal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hyperbolic-horocycle-return-ledger-carrier}, \autoref{thm:hyperbolic-horocycle-return-ledger-transport-nonescape}, and \autoref{thm:hyperbolic-horocycle-return-ledger-obligations} seed the finite horocycle-return ledger over boundary, Busemann, visual-metric, horosphere-flow, transport, refusal, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global recurrence, invariant measures, quotient boundary-flow equality, selected complete orbits, physical observer motion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Busemann displacement comparison, visual-metric readback, finite flow-segment admission, boundary-transport preservation, return-ledger exactness, nonescape refusal, transport, replay, provenance, and local naming for $\HyperbolicHorocycleReturnLedgerUp$.}
+\end{closurestatus}

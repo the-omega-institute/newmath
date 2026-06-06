@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\ClosedParallelSubstitutionBudgetUp$}
+\label{ch:concrete-instances-closed-parallel-substitution-budget-namecert}
+\origin{ai}
+
+The $\ClosedParallelSubstitutionBudgetUp$ packet realizes the substitution-compatibility boundary isolated by \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It sits beside the compiler-facing closed substitution route of \autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert}, the primitive closed-substitution boundary of \autoref{ch:concrete-instances-closed-substitution-boundary-namecert}, the confluence audit packet of \autoref{ch:concrete-instances-metacic-confluence-audit-packet-namecert}, the closed parallel diamond premise ledger of \autoref{ch:concrete-instances-closed-parallel-diamond-premise-ledger-namecert}, and the substitution-sensitive confluence boundary of \autoref{ch:concrete-instances-metacic-confluence-substitution-boundary-namecert}. The packet records the finite budget rows that must be visible before a closed parallel-diamond handoff can consume substitution compatibility; it does not claim full closed Church--Rosser, unrestricted open substitution commutation, subject reduction, evaluator soundness, quotient equality, or kernel consistency.
+
+\begin{definition}[Closed parallel substitution budget carrier]
+\label{def:closed-parallel-substitution-budget-carrier}
+A $\ClosedParallelSubstitutionBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,U,L,S,D,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed source and target term-window row, recording only closed MetaCIC terms inspected by the budget.
+\item $U$ is the closed substitution compiler row, read through $\ClosedTermSubstitutionCompilerUp$ and carrying the checked closed shift and substitution slices available to the packet.
+\item $L$ is the primitive closed-substitution boundary row, read through $\ClosedSubstitutionBoundaryUp$ and retaining the source-closedness, value-closedness, shift, and substitute rows.
+\item $S$ is the substitution-budget ledger, listing the finite residual-substitution compatibility checks required by the closed parallel branch under inspection.
+\item $D$ is the closed parallel diamond premise row, read through $\ClosedParallelDiamondPremiseLedgerUp$ and not promoted to a full diamond theorem.
+\item $J$ is the confluence-audit handoff row, reading $\MetaCICConfluenceAuditPacketUp$ and $\MetaCICConfluenceSubstitutionBoundaryUp$ as boundary packets for the same finite budget.
+\item $H$ records componentwise $\hsame$ transport for $T,U,L,S,D,J$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from closed term windows to compiler rows, boundary rows, substitution-budget rows, premise-ledger rows, and confluence-audit handoff rows.
+\item $P$ is the $\Pkg$ provenance over $\ClosedParallelSubstitutionBudgetUp$, $\ClosedTermSubstitutionCompilerUp$, $\ClosedSubstitutionBoundaryUp$, $\MetaCICConfluenceAuditPacketUp$, $\ClosedParallelDiamondPremiseLedgerUp$, $\MetaCICConfluenceSubstitutionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ClosedParallelSubstitutionBudgetUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for full closed Church--Rosser, unrestricted open-term substitution commutation, subject reduction, evaluator soundness, quotient conversion equality, kernel consistency, or a hidden parallel-diamond theorem.
+\end{definition}
+
+\begin{theorem}[Closed parallel substitution budget obligations]
+\label{thm:closed-parallel-substitution-budget-obligations}
+For the carrier of \autoref{def:closed-parallel-substitution-budget-carrier}, the local $\NameCert_{\ClosedParallelSubstitutionBudgetUp}$ surface consists exactly of carrier admission, closed term-window visibility, closed compiler handoff, primitive closed-substitution boundary exposure, finite residual-substitution budget listing, closed parallel diamond premise retention, confluence-audit handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the tuple $B=(T,U,L,S,D,J,H,C,P,N)$. The closed term windows, compiler row, primitive boundary row, substitution-budget ledger, premise ledger, and confluence-audit handoff are all displayed in one finite packet.
+
+The substitution budget is read before the diamond handoff. The compiler row $U$ and primitive boundary row $L$ expose the closed substitution material, and the ledger $S$ records the finite residual-substitution checks that are available to the inspected closed parallel branch.
+
+The premise row $D$ remains a premise row. It may be handed to confluence-audit consumers through $J$, transported through $H$, replayed through $C$, sourced by $P$, and named by $N$, but those structural rows do not create full closed Church--Rosser, open substitution commutation, subject reduction, evaluator soundness, quotient equality, kernel consistency, or a hidden diamond theorem.
+\end{proof}
+
+\begin{theorem}[Closed parallel substitution budget diamond handoff]
+\label{thm:closed-parallel-substitution-budget-diamond-handoff}
+Every accepted $\ClosedParallelSubstitutionBudgetUp$ read that reaches a closed parallel-diamond or closed-star-confluence consumer factors through the finite route
+$$
+T,U,L,S,D,J,H,C,P,N .
+$$
+The substitution-budget ledger $S$ must be visible before the closed parallel diamond premise row $D$ is consumed, and the confluence-audit handoff $J$ may cite only the displayed budget and boundary rows. The handoff exports no full closed Church--Rosser theorem, unrestricted substitution compatibility, subject-reduction theorem, evaluator soundness, quotient conversion equality, kernel consistency, or hidden confluence oracle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:closed-parallel-substitution-budget-obligations}. They place the closed term windows, closed substitution compiler row, primitive boundary row, substitution-budget ledger, and closed parallel diamond premise in a single displayed packet.
+
+Next consume the budget. The row $S$ is the only place where residual-substitution compatibility checks are listed, so a diamond-facing consumer cannot bypass $S$ on the way to $D$.
+
+Finally route the handoff through $J,H,C,P,N$. The confluence audit packet and substitution-boundary packet are read as boundary packets for the same displayed budget. Since the excluded confluence, substitution, typing, evaluator, quotient, and kernel-correctness objects have no carrier coordinate, the handoff remains a finite premise-budget route.
+\end{proof}
+
+\falsifiablePrediction{A purported $\ClosedParallelSubstitutionBudgetUp$ consumer that exports a closed parallel diamond or closed Church--Rosser result without displaying $T,U,L,S,D,J$ is not reading the carrier of \autoref{def:closed-parallel-substitution-budget-carrier}.}
+
+\independenceWitness{closedtermsubstitutioncompiler, closedsubstitutionboundary, metacicconfluenceauditpacket, closedparalleldiamondpremiseledger, metacicconfluencesubstitutionboundary: no listed sibling jointly carries closed term windows, compiler slices, primitive closed-substitution rows, finite residual-substitution budget, closed parallel diamond premise retention, confluence-audit handoff, transport, replay, provenance, and local naming.}
+
+\closureat{ClosedParallelSubstitutionBudgetUp}{seedStr}
+
+\begin{closurestatus}{\ClosedParallelSubstitutionBudgetUp}
+  \constructivestory{A $\ClosedParallelSubstitutionBudgetUp$ packet is generated from closed term-window rows, closed substitution compiler rows, primitive closed-substitution boundary rows, finite residual-substitution budget rows, closed parallel diamond premise rows, confluence-audit handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:closed-parallel-substitution-budget-carrier}, \autoref{thm:closed-parallel-substitution-budget-obligations}, and \autoref{thm:closed-parallel-substitution-budget-diamond-handoff} seed the finite substitution-budget route for closed parallel-diamond and confluence-audit consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full closed Church--Rosser, unrestricted substitution compatibility, subject reduction, evaluator soundness, quotient conversion equality, kernel consistency, Lean verification, bridge checking, or a hidden confluence theorem.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed compiler handoff, primitive boundary exposure, finite budget listing, premise retention, confluence-audit handoff, transport preservation, replay stability, provenance exhaustion, and local naming for BEDC.Derived.ClosedParallelSubstitutionBudgetUp.}
+\end{closurestatus}

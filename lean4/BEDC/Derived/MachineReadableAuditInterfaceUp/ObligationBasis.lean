@@ -254,4 +254,55 @@ theorem MachineReadableAuditInterface_sibling_independence [AskSetup] [PackageSe
   }
   exact ⟨cert, SUnary, CUnary, EUnary, RUnary, FUnary, reportUnary⟩
 
+theorem MachineReadableAuditInterface_carrier_semantic_name_certificate
+    [AskSetup] [PackageSetup] {S C E R F H K P N : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MachineReadableAuditInterfaceCarrier S C E R F H K P N bundle pkg →
+      SemanticNameCert
+        (fun row : BHist => hsame row N ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row S ∨ hsame row C ∨ hsame row E ∨ hsame row R ∨ hsame row F ∨
+            hsame row H ∨ hsame row K ∨ hsame row P ∨ hsame row N)
+        (fun row : BHist =>
+          UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+        hsame := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory hsame SemanticNameCert
+  intro carrier
+  obtain ⟨_SUnary, _CUnary, _EUnary, _RUnary, _FUnary, _HUnary, _KUnary, _PUnary,
+    NUnary, _schemaCarrierRoute, _reportCarrierRoute, _replayCarrierRoute,
+    carrierPkg, namePkg⟩ := carrier
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro N ⟨hsame_refl N, NUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, carrierPkg, namePkg⟩
+  }
+
 end BEDC.Derived.MachineReadableAuditInterfaceUp

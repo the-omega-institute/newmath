@@ -1,0 +1,95 @@
+\chapter{A Concrete Naming Certificate for $\CauchyRegularExtractionUp$}
+\label{ch:concrete-instances-cauchy-regular-extraction-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CauchyRegularExtractionUp$ packet records the finite route by which ordinary Cauchy evidence is read as a regular rational sequence before a $\RealUp$ consumer sees a terminal seal. It sits over the Cauchy evidence surface of \autoref{ch:concrete-instances-cauchy-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet makes the extraction route explicit without quotient equality of Cauchy streams, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy regular extraction carrier]
+\label{def:cauchy-regular-extraction-carrier}
+A $\CauchyRegularExtractionUp$ carrier is a finite $\BHist$ packet
+$$
+X=(C,D,W,R,E,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the ordinary $\CauchyUp$ evidence row, carrying the displayed Cauchy comparisons and the source history being regularized.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying the dyadic radii, comparison cells, slack rows, and endpoint observations used by the extraction.
+\item $W$ is the $\StreamNameUp$ finite-window row opened by the source Cauchy evidence and by each downstream precision request.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and dyadic tolerance data.
+\item $E$ is the extraction witness row, recording that the Cauchy comparisons, dyadic tolerances, and finite windows determine the displayed regular rational readback.
+\item $H$ records componentwise $\hsame$ transport for the Cauchy evidence, dyadic ledger, windows, regular readback, extraction witness, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay of the extraction route
+$$
+C,D,W \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\CauchyRegularExtractionUp$, $\CauchyUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyRegularExtractionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $C,D,W,R,E,H,T,P,N$. It has no coordinate for quotient equality of Cauchy streams, a selected limit, countable-choice schedules, host real equality, a hidden completion operator, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.CauchyRegularExtractionUp}
+
+\begin{theorem}[Cauchy regular extraction NameCert obligations]
+\label{thm:cauchy-regular-extraction-namecert-obligations}
+For every accepted $\CauchyRegularExtractionUp$ carrier
+$$
+X=(C,D,W,R,E,H,T,P,N),
+$$
+the local $\NameCert_{\CauchyRegularExtractionUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the Cauchy evidence row, DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, extraction witness, componentwise transport, continuation replay, provenance, and local naming rows;
+\item Cauchy-to-window exactness, requiring every read of ordinary Cauchy evidence to pass through the displayed finite windows $W$ and dyadic tolerance data $D$;
+\item regular readback exactness, requiring $R$ to read only the displayed $C,D,W$ data and not an unbounded stream representative or quotient class;
+\item extraction-witness stability, requiring $E$ to bind the same Cauchy evidence, tolerance ledger, windows, and regular readback under the displayed transports;
+\item downstream nonescape, requiring every $\RealUp$ or completion-facing consumer to receive only $C,D,W,R,E,H,T,P,N$ and no selected limit, quotient equality, countable choice, host real equality, hidden completion operator, or ambient completeness claim.
+\end{enumerate}
+No $\CauchyRegularExtractionUp$ NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:cauchy-regular-extraction-carrier}. The accepted packet displays exactly the ordinary Cauchy evidence, dyadic tolerance ledger, finite windows, regular readback, extraction witness, transport, replay, provenance, and local naming rows.
+
+Cauchy-to-window exactness is read from $C,D,W$. The Cauchy evidence is visible only through the finite comparisons and tolerance cells recorded in the packet, so no consumer can inspect a hidden stream representative.
+
+Regular readback exactness is the role of $R$. Since $R$ is downstream of the displayed windows and dyadic ledger, it records the regular rational sequence as certificate data rather than as a quotient or selected limit.
+
+The extraction witness $E$ binds the same rows under the componentwise transport $H$ and replay $T$. Thus the NameCert surface is stable under the displayed $\hsame$ and $\Cont$ data.
+
+Finally, $P$ and $N$ source and name the same finite route. The excluded objects are absent from every accepted packet, so the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy regular extraction RegSeqRat readback]
+\label{thm:cauchy-regular-extraction-regseqrat-readback}
+Let
+$$
+X=(C,D,W,R,E,H,T,P,N)
+$$
+be an accepted $\CauchyRegularExtractionUp$ carrier. Every regular rational read exported by $X$ factors through the finite route
+$$
+C,D,W \longmapsto R \longmapsto E \longmapsto H,T,P,N .
+$$
+Consequently a downstream $\RegSeqRatUp$, $\RealUp$, or completion-facing consumer receives a displayed Cauchy evidence row, DyadicRatCore tolerance ledger, StreamName window row, RegSeqRat readback, extraction witness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ data, and receives no quotient stream equality, selected limit, countable choice, host real equality, hidden completion operator, or ambient $\RealUp$ completeness credential.
+\end{theorem}
+\begin{proof}
+Begin with a regular rational read of an accepted packet. Projection exposes the ordered carrier rows $C,D,W,R,E,H,T,P,N$.
+
+The read starts at the ordinary Cauchy evidence row $C$. The dyadic tolerance ledger $D$ and finite windows $W$ are the only displayed observations available to the extraction route.
+
+The regular rational sequence is then read from $R$. Because $R$ is downstream of $C,D,W$, it cannot be replaced by quotient equality of streams, countable choice, or a selected limit.
+
+The witness row $E$ records that the same displayed observations determine the readback. The structural rows $H,T,P,N$ transport, replay, source, and name that route.
+
+Therefore every downstream read factors through the displayed packet and exports only the listed finite data.
+\end{proof}
+
+\closureat{CauchyRegularExtractionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyRegularExtractionUp}
+  \constructivestory{A $\CauchyRegularExtractionUp$ packet is generated from ordinary Cauchy evidence, a DyadicRatCore tolerance ledger, StreamName windows, RegSeqRat readback, an extraction witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-regular-extraction-carrier}, \autoref{thm:cauchy-regular-extraction-namecert-obligations}, and \autoref{thm:cauchy-regular-extraction-regseqrat-readback} seed the finite route from ordinary Cauchy evidence through dyadic tolerances and StreamName windows to RegSeqRat readback.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.CauchyRegularExtractionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of Cauchy streams, selected limits, countable choice, host real equality, hidden completion operators, ambient $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Cauchy-to-window exactness, regular readback exactness, extraction-witness stability, and downstream nonescape for BEDC.Derived.CauchyRegularExtractionUp.}
+\end{closurestatus}

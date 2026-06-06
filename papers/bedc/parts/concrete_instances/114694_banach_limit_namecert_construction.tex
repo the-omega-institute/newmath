@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\BanachLimitUp$}
+\label{ch:concrete-instances-banach-limit-namecert}
+\origin{human}
+
+Following Banach and the classical theory of invariant means, the $\BanachLimitUp$ packet records a displayed shift-invariant positive extension row for bounded scalar sequences as finite NameCert data. It factors the Banach-internal limit surface of \autoref{ch:concrete-instances-banach-namecert} through the regular real-name route of \autoref{ch:concrete-instances-real-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only the finite carrier, norm-bound, positivity, shift, normalization, Real-seal, transport, replay, provenance, and local naming rows; it does not claim Hahn--Banach existence, ultrafilters, choice, quotient sequence equality, or ambient dual-space completeness.
+
+\begin{definition}[Banach limit carrier]
+\label{def:banach-limit-carrier}
+A $\BanachLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(B,A,N,P,S,U,E,H,C,Q,K)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded-sequence input row, naming the finite scalar sequence windows and the bound request that a consumer is allowed to inspect.
+\item $A$ is the $\BanachUp$ or Banach-space ambient row whose scalar and norm surface is already displayed by \autoref{ch:concrete-instances-banach-namecert}.
+\item $N$ is the norm-bound ledger, recording that the value row is read only through the displayed bound of the bounded input sequence.
+\item $P$ is the positivity ledger, recording that pointwise nonnegative inspected windows are sent to a nonnegative displayed $\RealUp$ value row.
+\item $S$ is the shift-invariance row, comparing the original bounded sequence window with the one-step shifted window through the same local packet.
+\item $U$ is the normalization row for the constant-one sequence, binding the displayed value to the terminal real-name seal for $1$.
+\item $E$ is the $\RealUp$ seal row reached after the $\StreamNameUp$ and $\RegSeqRatUp$ readbacks for the inspected scalar windows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $B,A,N,P,S,U,E$.
+\item $C$ records displayed $\Cont$ replay from bounded-sequence requests through norm-bound, positivity, shift, normalization, stream-window, regular-rational, and real-seal rows.
+\item $Q$ is the $\Pkg$ provenance over $\BanachLimitUp$, $\BanachUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $K$ is the local $\NameCert_{\BanachLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a Hahn--Banach extension theorem, an ultrafilter, a choice-selected invariant mean, quotient equality of bounded sequences, a host dual-space element, or ambient completeness of a dual carrier.
+\end{definition}
+
+\begin{theorem}[Banach limit NameCert obligations]
+\label{thm:banach-limit-namecert-obligations}
+For every accepted $\BanachLimitUp$ carrier
+$$
+L=(B,A,N,P,S,U,E,H,C,Q,K),
+$$
+the local $\NameCert_{\BanachLimitUp}$ surface consists exactly of carrier admission for the bounded-sequence input row, Banach ambient row, norm-bound ledger, positivity ledger, shift-invariance row, normalization row, Real-seal row, componentwise transport, displayed replay, provenance, and local naming. The packet also records that positivity, shift invariance, and normalization are read only through the displayed finite rows $P,S,U$ after the $\StreamNameUp$ and $\RegSeqRatUp$ windows feeding $E$ have been exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:banach-limit-carrier}. The tuple $B,A,N,P,S,U,E,H,C,Q,K$ is the whole accepted packet, so the bounded-sequence source, Banach ambient row, norm-bound ledger, positivity ledger, shift row, normalization row, Real seal, transport, replay, provenance, and local naming are the only available certificate fields.
+
+The scalar readback is forced through $E$. That row is downstream of the finite $\StreamNameUp$ windows and $\RegSeqRatUp$ readback named in the carrier, so a consumer cannot replace the displayed real-name route by host real equality, quotient sequence equality, or an anonymous dual-space functional.
+
+The functional constraints are likewise local. Positivity is read through $P$, shift invariance through $S$, and normalization through $U$; each row is transported by $H$ and replayed by $C$ inside the same packet. Since $Q$ and $K$ source and name only these rows, no Hahn--Banach theorem, ultrafilter, choice selector, or ambient dual-space completeness claim is exported.
+\end{proof}
+
+\begin{theorem}[Banach limit shift-invariant boundary]
+\label{thm:banach-limit-shift-invariant-boundary}
+Every shift-invariant read of an accepted $\BanachLimitUp$ carrier factors through the displayed route
+$$
+\mathsf{bounded\ sequence},\ \BanachUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+and through the rows $B,A,S,E,H,C,Q,K$ of \autoref{def:banach-limit-carrier}. The conclusion is only that the named packet compares the original and shifted bounded-sequence windows through its local shift row; it is not an existence theorem for Banach limits and not a route to Hahn--Banach, ultrafilters, selected invariant means, quotient sequence equality, host equality, or ambient dual-space completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:banach-limit-namecert-obligations}. They expose the bounded-sequence input $B$, the Banach ambient row $A$, and the Real-facing readback route before the shift row can be consumed.
+
+Read the shift row $S$ through the displayed continuation $C$. The continuation keeps the original and shifted sequence windows inside the same $\StreamNameUp$ and $\RegSeqRatUp$ observation route before the value row reaches the $\RealUp$ seal $E$.
+
+Transport through $H$ preserves the same rows, and provenance and local naming through $Q,K$ keep the comparison attached to the packet. Therefore the shift-invariant boundary is exactly the finite row $S$ over the displayed source windows. The excluded existence, ultrafilter, choice, quotient, host-equality, and dual-completeness claims have no carrier coordinate from which they could be read.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BanachLimitUp$ consumer must expose the bounded-sequence row, Banach ambient row, norm-bound ledger, positivity row, shift row, normalization row, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, $\RealUp$ seal, componentwise transport, replay, provenance, and local $\NameCert$ row before any invariant-mean read is public.}
+
+\independenceWitness{banach, real, streamname, regseqrat: $\BanachLimitUp$ is not bijective to any listed sibling because it jointly binds bounded-sequence input, Banach ambient data, norm-bound control, positivity, shift invariance, normalization, Real sealing, transport, replay, provenance, and local naming into one finite packet.}
+
+\closureat{BanachLimitUp}{seedStr}
+
+\begin{closurestatus}{\BanachLimitUp}
+  \constructivestory{A $\BanachLimitUp$ packet is generated from bounded-sequence windows, a Banach ambient row, norm-bound, positivity, shift-invariance, normalization, StreamName, RegSeqRat, and Real-seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-limit-carrier}, \autoref{thm:banach-limit-namecert-obligations}, and \autoref{thm:banach-limit-shift-invariant-boundary} seed the finite Banach-limit packet over bounded-sequence, Banach, StreamName, RegSeqRat, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Hahn--Banach existence, ultrafilters, choice, quotient sequence equality, ambient dual-space completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, norm-bound exactness, positivity preservation, shift-row stability, normalization readback, Real-seal discipline, transport, replay, provenance, and local naming for BEDC.Derived.BanachLimitUp.}
+\end{closurestatus}

@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\MackeyDecompositionUp$}
+\label{ch:concrete-instances-mackey-decomposition-namecert}
+\origin{human}
+
+Following Mackey's subgroup theorem, Serre's finite-group representation theory, and the induction--restriction calculus in Fulton--Harris, the $\MackeyDecompositionUp$ packet records the double-coset decomposition row that compares restricting an induced representation with the finite sum of conjugated subgroup inductions. It consumes the group and subgroup sources of \autoref{ch:concrete-instances-group-namecert} and \autoref{ch:concrete-instances-subgroup-namecert}, the representation rows of \autoref{ch:concrete-instances-inducedrep-namecert}, \autoref{ch:concrete-instances-charactertheory-namecert}, and \autoref{ch:concrete-instances-representationring-namecert}, the vector-space endpoint of \autoref{ch:concrete-instances-vecspace-namecert}, the Frobenius comparison of \autoref{ch:concrete-instances-frobenius-reciprocity-namecert}, and the orthogonality ledger of \autoref{ch:concrete-instances-schurorthogonality-namecert}. The packet names only finite source rows, double-coset representatives, conjugation transport, induced summand rows, character-pairing checks, replay, provenance, and local naming; it does not import a host representation category, quotient double-coset space, semisimplicity theorem, or completed character table.
+
+\begin{definition}[MackeyDecomposition carrier]
+\label{def:mackey-decomposition-carrier}
+A $\MackeyDecompositionUp$ carrier is a finite $\BHist$ packet
+$$
+\mathcal{M}=(G,H,R,I,C,F,S,D,L,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the consumed $\GroupUp$ certificate row for the finite group endpoint.
+\item $H$ is the consumed $\SubgroupUp$ row, including the subgroup inclusion read used by restriction.
+\item $R$ is the $\RepresentationRingUp$ ledger row that records addition of induced summands.
+\item $I$ is the $\InducedRepUp$ induction--restriction row for the source representation.
+\item $C$ is the $\CharacterTheoryUp$ character-pairing row used to audit the displayed decomposition.
+\item $F$ is the $\FrobeniusReciprocityUp$ comparison row binding induction and restriction.
+\item $S$ is the $\SchurOrthogonalityUp$ row that checks the finite character-pairing ledger for the summands.
+\item $D$ is the double-coset representative ledger, listing only displayed representatives and their subgroup-intersection rows.
+\item $L$ is the summand ledger for the induced representations attached to those representatives.
+\item $T$ transports the displayed subgroup-intersection and summand rows componentwise by $\hsame$ and displayed $\Cont$ replay.
+\item $P$ is the $\Pkg$ provenance over $\MackeyDecompositionUp$, $\GroupUp$, $\SubgroupUp$, $\InducedRepUp$, $\CharacterTheoryUp$, $\RepresentationRingUp$, $\VecSpaceUp$, $\FrobeniusReciprocityUp$, $\SchurOrthogonalityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MackeyDecompositionUp}$ row.
+\end{enumerate}
+The carrier exports only this finite double-coset ledger. It contains no host quotient of $H\backslash G/K$, no ambient representation category, no selected basis of an induced module, and no completed class-function algebra.
+\end{definition}
+\leanstmt{BEDC.Derived.MackeyDecompositionUp}
+
+\begin{theorem}[MackeyDecomposition NameCert obligations]
+\label{thm:mackey-decomposition-namecert-obligations}
+For every accepted $\MackeyDecompositionUp$ carrier $\mathcal{M}=(G,H,R,I,C,F,S,D,L,T,P,N)$, the local $\NameCert_{\MackeyDecompositionUp}$ surface consists exactly of the following finite rows:
+\begin{enumerate}
+\item carrier admission for the displayed group, subgroup, representation-ring, induced-representation, character-theory, Frobenius, Schur, double-coset, summand, transport, provenance, and naming rows;
+\item double-coset admission, requiring every representative read in $D$ to expose its $\GroupUp$ and $\SubgroupUp$ source rows before any summand in $L$ is consumed;
+\item induced-summand exactness, requiring every summand row in $L$ to factor through the $\InducedRepUp$ row $I$, the representation-ring row $R$, and the vector-space endpoint named in $P$;
+\item character-pairing audit, requiring the $\CharacterTheoryUp$, $\FrobeniusReciprocityUp$, and $\SchurOrthogonalityUp$ rows $C,F,S$ to inspect only the displayed summands and double-coset representatives;
+\item non-escape, excluding host double-coset quotients, complete representation categories, semisimplicity decompositions, character-table computation, and selected bases.
+\end{enumerate}
+No local obligation is stored outside $\mathcal{M}$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:mackey-decomposition-carrier}. The displayed coordinates are precisely the consumed source rows $G,H,R,I,C,F,S$, the double-coset and summand rows $D,L$, and the structural rows $T,P,N$.
+
+The double-coset ledger is finite by construction of the packet. Each representative read is tied to the group and subgroup rows before the corresponding summand can be inspected, so the summand exactness clause is a projection through $I,R$ and the vector-space source named by $P$.
+
+The character audit reads only the displayed summands. The rows $C,F,S$ compare character pairings, induction--restriction, and orthogonality along the visible ledger, while $T$ transports and replays the same finite route.
+
+Since no coordinate stores a quotient double-coset carrier, host representation category, semisimplicity decomposition, character table, or selected basis, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MackeyDecomposition double-coset ledger]
+\label{thm:mackey-decomposition-double-coset-ledger}
+Every decomposition read exported by an accepted $\MackeyDecompositionUp$ packet factors through the finite route
+$$
+\GroupUp,\SubgroupUp \longmapsto D \longmapsto L \longmapsto \InducedRepUp,\RepresentationRingUp,\CharacterTheoryUp,\FrobeniusReciprocityUp,\SchurOrthogonalityUp \longmapsto T,P,N .
+$$
+Thus a downstream consumer may read the Mackey decomposition only as a displayed double-coset representative ledger and its induced summand ledger. It cannot replace those rows by a host quotient $H\backslash G/K$, an ambient representation category, a selected module basis, a semisimplicity theorem, or a character table.
+\end{theorem}
+\begin{proof}
+Begin with a decomposition request. The source rows available to it are the group row $G$ and subgroup row $H$, and the only double-coset coordinate is the displayed finite ledger $D$.
+
+The summands are downstream from $D$. Each entry of $L$ is read only after the corresponding representative and subgroup-intersection data have appeared, and the induced-representation and representation-ring rows $I,R$ consume exactly those displayed entries.
+
+The character-facing checks do not enlarge the route. The rows $C,F,S$ audit the same summands by character pairing, Frobenius reciprocity, and Schur orthogonality, while $T,P,N$ replay, source, and name the packet.
+
+Therefore every exported decomposition read remains inside the finite ledger route stated above, with no host quotient, ambient category, selected basis, semisimplicity theorem, or character-table computation.
+\end{proof}
+
+\closureat{MackeyDecompositionUp}{seedStr}
+
+\begin{closurestatus}{\MackeyDecompositionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:mackey-decomposition-carrier}, \autoref{thm:mackey-decomposition-namecert-obligations}, and \autoref{thm:mackey-decomposition-double-coset-ledger} seed the finite Mackey double-coset decomposition packet over displayed group, subgroup, induced-representation, character-theory, representation-ring, vector-space, Frobenius reciprocity, and Schur orthogonality rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.MackeyDecompositionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean theorem verification, bridge checking, host double-coset quotients, complete representation categories, semisimplicity, selected bases, or character-table computation.}
+  \upgradepath{Obligation closure requires carrier admission, double-coset admission, induced-summand exactness, character-pairing audit, transport stability, provenance exhaustion, and local naming for the displayed packet.}
+  \constructivestory{A $\MackeyDecompositionUp$ packet is generated from displayed group and subgroup rows, representation-ring and induced-representation rows, character-theory, Frobenius reciprocity, and Schur orthogonality rows, a finite double-coset representative ledger, an induced summand ledger, componentwise transport and replay, provenance, and local NameCert evidence.}
+\end{closurestatus}

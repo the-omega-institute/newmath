@@ -28,6 +28,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for host topological closure, arbitrary subsequence choice, quotient stream equality, open-cover compactness, ambient $\RealUp$ completeness, or a detached $\SequentialContinuityUp$ theorem.
 \end{definition}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[SequentialClosure NameCert obligations]
 \label{thm:sequential-closure-namecert-obligations}
@@ -42,6 +43,7 @@ For every accepted $\SequentialClosureUp$ carrier $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)
 \end{enumerate}
 No NameCert obligation is stored outside those rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:sequential-closure-carrier}. The projection exposes exactly the topology row, metric row, subset or located-set row, sequence source, candidate limit, test ledger, finite StreamName windows, RegSeqRat handoff, Real seal, and structural rows $H,C,P,N$.
 
@@ -53,6 +55,7 @@ The limit-row handoff is downstream of those windows. The RegSeqRat row $R$ tran
 
 Finally, componentwise transport by $H$ preserves every displayed coordinate, while $P$ and $N$ package only that finite route. Since host topological closure, arbitrary subsequence choice, quotient stream equality, open-cover compactness, and detached Real completeness have no carrier row, no continuation edge, and no provenance entry, the listed obligations exhaust the local NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureNameCert\_obligation\_surface}
 
 \begin{theorem}[SequentialClosure sequence-limit handoff]
 \label{thm:sequential-closure-sequence-limit-handoff}
@@ -62,6 +65,7 @@ T,M,S,Q,L \longmapsto U,W \longmapsto R,A \longmapsto H,C,P,N .
 $$
 Thus the consumer receives closure evidence only through the displayed sequence windows, the RegSeqRat handoff, the Real seal, the topology and metric tests, and the local NameCert rows; no host closure operator, arbitrary sequence selection, quotient stream equality, compactness principle, or $\RealUp$ completeness theorem is exported by the packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureSequenceLimitHandoff}
 \begin{proof}
 Start with a closure consumer of the candidate limit row $L$. Carrier admission gives access to $L$ only together with the common topology row $T$, metric row $M$, subset or located-set row $S$, and sequence source row $Q$.
 
@@ -72,14 +76,234 @@ The metric side of the request then factors through $R$ and $A$. The RegSeqRat h
 Transport, provenance, and local naming through $H,P,N$ preserve the same dependency order. This proves the stated factorization and leaves no available row from which a consumer could extract host closure, arbitrary sequence selection, quotient stream equality, compactness, or detached completeness.
 \end{proof}
 
-\closureat{SequentialClosureUp}{seedStr}
+\begin{theorem}[SequentialClosure RegSeqRat limit route]
+\label{thm:sequential-closure-regseqrat-limit-route}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. Any metric-side closure read of the candidate limit row $L$ must expose the finite window ledger $W$, translate the requested tolerance through the $\RegSeqRatUp$ handoff row $R$, and seal the resulting distance comparison through the $\RealUp$ row $A$. Thus the packet exports a sequence-limit route only as displayed RegSeqRat/Real data downstream of $T,M,S,Q,L,U,W$.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureRegSeqRatLimitRoute}
+\begin{proof}
+Project the packet carrier. The rows $T,M,S,Q,L$ name the ambient topology, ambient metric, source row, sequence source, and candidate limit, while $U$ records the neighbourhood and metric requests that a closure consumer may ask.
+
+The metric request cannot bypass the finite windows. The continuation row $C$ first exposes the StreamName windows $W$, so the inspected sequence entries and index budgets remain visible before any distance comparison is read.
+
+The handoff then passes through $R$ and $A$. The row $R$ records the regular rational readback for the displayed tolerance, and the row $A$ seals the corresponding Real comparison. Transport by $H$ and packaging by $P,N$ preserve this order, so no detached Real completeness or host limit principle is exported.
+\end{proof}
+
+\begin{theorem}[SequentialClosure LocatedSet stability]
+\label{thm:sequential-closure-located-set-stability}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet whose source row $S$ is read as a $\LocatedSetUp$ surface. If a second packet is componentwise $\hsame$ to $K$ on $T,M,S,Q,L,U,W,R,A,C,P,N$, then admitted sequence entries, located-set membership reads, RegSeqRat handoffs, and Real seals are transported through the same $S$ row. The stability claim is only this finite LocatedSet-preserving replay.
+\end{theorem}
+\begin{proof}
+Start from the componentwise $\hsame$ data recorded by $H$. It identifies the topology and metric rows, the located-set source row $S$, the displayed sequence row $Q$, the candidate limit row $L$, and the test and window ledgers $U,W$.
+
+Membership stability is read before the limit handoff. Each accepted sequence entry is admitted through the same located-set source surface $S$, and the transported packet can only replay those displayed entries because no arbitrary subsequence or external closure row appears in the carrier.
+
+Finally transport the metric side through $R$ and $A$. The RegSeqRat and Real rows are downstream of the same located-set and sequence windows, so the transported closure read preserves located-set admission while adding no compactness, quotient stream equality, or detached completeness assertion.
+\end{proof}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureLocatedSetStability}
+
+\begin{theorem}[SequentialClosure topology handoff]
+\label{thm:sequential-closure-topology-handoff}
+For an accepted $\SequentialClosureUp$ packet $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, every topology-facing closure consumer receives the candidate limit row through the finite handoff
+$$
+T,M,S,Q,L,U,W,R,A,H,C,P,N .
+$$
+Neighbourhood requests are answered through $U$ over the common topology row $T$, metric requests are answered through $M$ and then $R,A$, and the exported closure evidence is repacked by the local $\NameCert_{\SequentialClosureUp}$ row $N$ without a host closure operator.
+\end{theorem}
+\begin{proof}
+Begin with a topology-facing request around the candidate limit $L$. The carrier admits $L$ only beside the ambient topology row $T$, metric row $M$, source row $S$, and displayed sequence row $Q$.
+
+The request ledger $U$ determines how the consumer may proceed. A purely neighbourhood-facing read stays over $T,S,Q,L,U,W$, while a metric-facing read also consumes the distance comparison route through $M,R,A$.
+
+The final packaging is local. Transport by $H$, replay by $C$, provenance by $P$, and naming by $N$ repack the same finite rows as $\NameCert_{\SequentialClosureUp}$ evidence. Since the packet has no coordinate for host topological closure, compactness, arbitrary sequence selection, or $\RealUp$ completeness, the topology and metric handoff exports only the displayed closure route.
+\end{proof}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureTopologyHandoff}
+
+\begin{theorem}[SequentialClosure root sequence carrier]
+\label{thm:sequential-closure-root-sequence-carrier}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. A sequence-closure carrier read is available only after the packet displays the $\LocatedSetUp$ or subset source row $S$, the $\MetricUp$ row $M$, the $\StreamNameUp$ row $Q$, the $\RegSeqRatUp$ row $R$, the $\RealUp$ seal $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\SequentialClosureUp}$ row $N$ in the same finite $\BHist$ carrier.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureRootSequenceCarrier}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-closure-carrier}. The sequence row $Q$ is not a detached stream; it is read beside the source row $S$, metric row $M$, test ledger $U$, window ledger $W$, handoff row $R$, and Real seal $A$.
+
+Use \autoref{thm:sequential-closure-namecert-obligations} to identify the local NameCert obligations and \autoref{thm:sequential-closure-sequence-limit-handoff} to force every closure consumer through the displayed sequence-limit route. The RegSeqRat limit route of \autoref{thm:sequential-closure-regseqrat-limit-route} supplies the rational readback boundary for metric requests.
+
+The located-set stability theorem \autoref{thm:sequential-closure-located-set-stability} keeps source membership and admitted sequence entries over the same $S$ row, while \autoref{thm:sequential-closure-topology-handoff} repacks the topology-facing read through $H,C,P,N$. Hence the carrier read is available only with the listed finite $\BHist$ rows displayed.
+\end{proof}
+
+\begin{theorem}[SequentialClosure root limit ledger]
+\label{thm:sequential-closure-root-limit-ledger}
+For an accepted $\SequentialClosureUp$ packet $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, the limit witness ledger is finite: all accepted reads of the candidate limit row $L$ pass through $U,W,R,A,H,C,P,N$. The packet refuses selected subsequences, quotient stream equality, countable choice, and ambient $\RealUp$ completeness as limit-witness sources.
+\end{theorem}
+\begin{proof}
+The finite ledger is visible in the carrier definition: requests are stored in $U$, inspected sequence windows in $W$, rational readback in $R$, Real comparison in $A$, and structural packaging in $H,C,P,N$.
+
+Apply \autoref{thm:sequential-closure-sequence-limit-handoff} for the dependency order from $T,M,S,Q,L$ to $U,W,R,A$ and then to $H,C,P,N$. Apply \autoref{thm:sequential-closure-regseqrat-limit-route} for the metric side of the same ledger.
+
+The refusal clauses are forced by absence of carrier coordinates. Neither selected subsequences nor quotient stream equality appear in $Q$ or $W$, countable choice has no row in $U$ or $C$, and ambient $\RealUp$ completeness is not part of the seal $A$. The NameCert obligations of \autoref{thm:sequential-closure-namecert-obligations} therefore close only the displayed finite ledger.
+\end{proof}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureRootLimitLedger}
+
+\begin{theorem}[SequentialClosure root topology transport]
+\label{thm:sequential-closure-root-topology-transport}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. Any topology-facing transport of the closure read preserves the same sequence-limit rows $T,M,S,Q,L,U,W,R,A$ under componentwise $\hsame$ and displayed $\Cont$ replay, and then repackages the transported read through $P,N$.
+\end{theorem}
+\begin{proof}
+Start with the componentwise $\hsame$ row $H$. By \autoref{thm:sequential-closure-located-set-stability}, transport preserves the source row $S$, admitted sequence entries, RegSeqRat handoffs, and Real seals along the same displayed coordinates.
+
+Replay is controlled by $C$. The handoff theorem \autoref{thm:sequential-closure-sequence-limit-handoff} keeps the sequence-limit route over $T,M,S,Q,L,U,W,R,A$, and the topology handoff theorem \autoref{thm:sequential-closure-topology-handoff} states that neighbourhood-facing consumers receive no host closure operator.
+
+Finally $P$ and $N$ repackage the transported rows as the local NameCert surface described in \autoref{thm:sequential-closure-namecert-obligations}. Thus topology transport preserves the same finite sequence-limit ledger rather than creating a second closure witness.
+\end{proof}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureRootTopologyTransport}
+
+\begin{theorem}[SequentialClosure Kuratowski idempotence]
+\label{thm:sequentialclosure-kuratowski-idempotence}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. A second sequential-closure read whose source row is the closure output of $K$ contracts to the same displayed limit ledger whenever its witnesses are expressed by $\StreamNameUp$ windows over $Q$, $\RegSeqRatUp$ tail data through $R$, and $\RealUp$ equality seals through $A$. The contraction is an idempotence obligation for the finite packet only: it does not assert an ambient Kuratowski closure operator on all subsets of the host space.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureKuratowskiIdempotence}
+\begin{proof}
+Read the first closure packet through \autoref{thm:sequential-closure-root-limit-ledger}. The candidate limit row is exported only after the finite test ledger $U$, StreamName windows $W$, RegSeqRat handoff $R$, and Real seal $A$ have been displayed.
+
+For the second read, inspect its source witness. If a sequence entry points to a prior closure output, replay that output by the same rows $T,M,S,Q,L,U,W,R,A$ rather than introducing a new host closure coordinate.
+
+The contraction is then componentwise. Transport through $H$ identifies the topology, located-source, sequence, handoff, and Real-seal rows, while $C,P,N$ repack the same witness as a single $\SequentialClosureUp$ certificate. Since every step is a finite replay of displayed windows, idempotence holds only inside this BEDC carrier surface.
+\end{proof}
+
+\begin{theorem}[SequentialClosure closed-set fixpoint]
+\label{thm:sequentialclosure-closed-set-fixpoint}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet, and suppose the $\LocatedSetUp$ source row $S$ carries a displayed sequential closedness witness: every $\StreamNameUp$ sequence over $S$ with $\RegSeqRatUp$ tail data and $\RealUp$ equality seal has its candidate limit admitted back through $S$. Then the closure output named by $K$ is fixed by $S$ under the same located-set transport. This is a NameCert fixpoint for the displayed closedness witness, not a choice-based closed-set theorem.
+\end{theorem}
+\begin{proof}
+Start with the located source row $S$. The closedness witness is read as finite data over $S$, not as a detached predicate on an ambient topology.
+
+Apply the sequence-limit handoff of \autoref{thm:sequential-closure-sequence-limit-handoff}. The closure read presents exactly the sequence source, StreamName windows, RegSeqRat handoff, and Real seal required by the displayed closedness witness.
+
+Now replay the witness back into $S$. LocatedSet transport preserves the admitted membership row, and componentwise $\hsame$ transport by $H$ keeps the topology and metric rows fixed. Therefore the closure output is repacked as an $S$-admitted point by $C,P,N$, with no appeal to countable choice or host closedness.
+\end{proof}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureClosedSetFixpoint}
+
+\begin{theorem}[SequentialClosure topology sequence-filter handoff]
+\label{thm:sequentialclosure-topology-sequence-filter-handoff}
+For an accepted $\SequentialClosureUp$ packet $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, every topology-facing neighbourhood request around $L$ that is also read as a finite sequence-filter request factors through the same route
+$$
+T,S,Q,U,W,R,A,H,C,P,N.
+$$
+The $\TopologyUp$ request supplies the neighbourhood row, $\StreamNameUp$ supplies the inspected tail windows, $\RegSeqRatUp$ and $\RealUp$ seal the metric comparison, and $\LocatedSetUp$ transport keeps the source membership boundary visible.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureTopologySequenceFilterHandoff}
+\begin{proof}
+Begin with a neighbourhood request from the topology row $T$. The topology handoff of \autoref{thm:sequential-closure-topology-handoff} forces the request through the displayed source, sequence, test, and window ledgers rather than through a host closure operator.
+
+Read the same request as a sequence-filter witness by naming the finite StreamName windows in $W$. Each tail inspection remains tied to the source row $S$, so located-set membership is transported before the metric side is sealed.
+
+Finally consume $R$ and $A$. The RegSeqRat row records the rational tail budget and the Real row seals the comparison at the candidate limit. The structural rows $H,C,P,N$ then package the topology and sequence-filter views as the same finite handoff.
+\end{proof}
+
+\begin{theorem}[SequentialClosure obligation closure surface]
+\label{thm:sequentialclosure-obligation-closure-surface}
+For every accepted $\SequentialClosureUp$ carrier $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, the obligation surface is the finite list consisting of carrier admission, neighbourhood-test stability, sequence-window coverage, limit-row handoff, componentwise transport, continuation replay, package provenance, local naming, and nonescape from host closure, selected subsequences, quotient stream equality, open-cover compactness, and ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureObligationClosureSurface}
+\begin{proof}
+Project the carrier and apply \autoref{thm:sequential-closure-namecert-obligations}. That theorem lists the local NameCert obligations over exactly the rows $T,M,S,Q,L,U,W,R,A,H,C,P,N$.
+
+Use \autoref{thm:sequential-closure-root-sequence-carrier} to bind the carrier admission side to the displayed source, metric, sequence, RegSeqRat, Real, transport, replay, provenance, and local naming rows. Use \autoref{thm:sequential-closure-root-limit-ledger} to bind the limit side to $U,W,R,A,H,C,P,N$.
+
+The remaining exclusions are read from the same absence-of-coordinate argument used in \autoref{thm:sequential-closure-sequence-limit-handoff}. Since no host closure, selected subsequence, quotient stream equality, compactness, or ambient completeness row appears in the packet, the displayed finite list exhausts the obligation surface.
+\end{proof}
+
+\begin{theorem}[SequentialClosure neighbourhood-test stability]
+\label{thm:sequentialclosure-neighbourhood-test-stability}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. Every neighbourhood request around the candidate limit row $L$ is stable under componentwise $\hsame$ transport only when the transported packet preserves the same topology row $T$, metric row $M$, source row $S$, sequence row $Q$, test ledger $U$, and downstream window-handoff rows $W,R,A$.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureNeighbourhoodTestStability}
+\begin{proof}
+Start with a neighbourhood request around $L$. By \autoref{thm:sequential-closure-topology-handoff}, the request is answered through $U$ over the common topology row $T$, with metric-facing reads continuing through $M,R,A$.
+
+Transport is controlled by $H$. The located-set stability theorem \autoref{thm:sequential-closure-located-set-stability} keeps source membership and admitted sequence entries over the same $S$ row, and \autoref{thm:sequential-closure-root-topology-transport} preserves the same sequence-limit rows under componentwise $\hsame$ and displayed replay.
+
+Thus a transported neighbourhood test remains stable exactly when the packet preserves $T,M,S,Q,U,W,R,A$ and repackages them through $H,C,P,N$. No separate neighbourhood oracle or host closure coordinate is available.
+\end{proof}
+
+\begin{theorem}[SequentialClosure sequence-window coverage]
+\label{thm:sequentialclosure-sequence-window-coverage}
+For an accepted $\SequentialClosureUp$ packet $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, every closure read of $L$ exposes the finite $\StreamNameUp$ window ledger $W$ before any $\RegSeqRatUp$ handoff or $\RealUp$ seal is consumed. The coverage obligation is only this displayed finite window coverage over $Q$ and $U$.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureSequenceWindowCoverage}
+\begin{proof}
+Read the closure consumer through \autoref{thm:sequential-closure-sequence-limit-handoff}. The consumer factors from $T,M,S,Q,L$ to $U,W$ before reaching $R,A$ and the structural rows.
+
+Apply \autoref{thm:sequential-closure-root-sequence-carrier}. It makes the sequence source row $Q$ available only with the source row $S$, metric row $M$, test ledger $U$, and finite window ledger $W$ in the same carrier.
+
+Finally use \autoref{thm:sequentialclosure-topology-sequence-filter-handoff}. The topology-facing sequence-filter read names the same finite windows and then passes through $R,A,H,C,P,N$. Hence every accepted closure read covers the inspected windows explicitly, without selected subsequences or quotient stream equality.
+\end{proof}
+
+\begin{theorem}[SequentialClosure limit-row handoff]
+\label{thm:sequentialclosure-limit-row-handoff}
+Let $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$ be an accepted $\SequentialClosureUp$ packet. The candidate limit row $L$ may be exported to a closure consumer only through the route
+$$
+T,M,S,Q,L \longmapsto U,W \longmapsto R,A \longmapsto H,C,P,N .
+$$
+In particular, the limit row is handed off through the displayed neighbourhood tests, finite sequence windows, $\RegSeqRatUp$ readback, and $\RealUp$ seal, not through host topological closure or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureLimitRowHandoff}
+\begin{proof}
+Begin with the candidate limit row. The sequence-limit handoff theorem \autoref{thm:sequential-closure-sequence-limit-handoff} gives the displayed route from $T,M,S,Q,L$ through $U,W,R,A$ and then through $H,C,P,N$.
+
+On the metric side, apply \autoref{thm:sequential-closure-regseqrat-limit-route}. It requires the finite window ledger $W$, the regular-rational handoff $R$, and the Real seal $A$ before a distance conclusion is exported.
+
+The root limit ledger theorem \autoref{thm:sequential-closure-root-limit-ledger} excludes selected subsequences, quotient stream equality, countable choice, and ambient $\RealUp$ completeness as limit-witness sources. Therefore the only available handoff for $L$ is the displayed finite route.
+\end{proof}
+
+\begin{theorem}[SequentialClosure kernel scope surface]
+\label{thm:sequentialclosure-kernel-scope-surface}
+For an accepted $\SequentialClosureUp$ carrier $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, the scoped BEDC kernel surface is exactly the displayed packet over $\TopologyUp$, $\MetricUp$, $\LocatedSetUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and the local $\NameCert_{\SequentialClosureUp}$ rows. Every topology or metric closure read must compose the existing sequence-limit handoff, neighbourhood-test stability, sequence-window coverage, and limit-row handoff rows before it can be presented to a downstream consumer.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureKernelScopeSurface}
+\begin{proof}
+Project the carrier. The rows $T,M,S,Q,L,U,W,R,A,H,C,P,N$ name the topology, metric, located source, displayed sequence, candidate limit, test ledger, finite windows, rational readback, Real seal, transport, replay, provenance, and local NameCert coordinates.
+
+Compose the already displayed handoffs in dependency order. The sequence-limit handoff of \autoref{thm:sequential-closure-sequence-limit-handoff} keeps every closure read on $T,M,S,Q,L,U,W,R,A,H,C,P,N$, while \autoref{thm:sequentialclosure-neighbourhood-test-stability} fixes the topology and metric request rows.
+
+The final scope is supplied by \autoref{thm:sequentialclosure-sequence-window-coverage} and \autoref{thm:sequentialclosure-limit-row-handoff}. Finite StreamName windows precede the RegSeqRat readback, and the Real seal follows that readback. Thus the kernel surface is scoped to the listed BEDC rows rather than to host closure or detached completeness.
+\end{proof}
+
+\begin{theorem}[SequentialClosure carrier admission scope]
+\label{thm:sequentialclosure-carrier-admission-scope}
+Carrier admission for $\SequentialClosureUp$ admits a closure packet only when the same finite $\BHist$ row displays the $\TopologyUp$ source $T$, $\MetricUp$ source $M$, $\LocatedSetUp$ or subset row $S$, $\StreamNameUp$ sequence row $Q$ and windows $W$, $\RegSeqRatUp$ readback $R$, $\RealUp$ seal $A$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\SequentialClosureUp}$ row $N$. Admission does not create a second carrier for an ambient closure operator or for a detached limit theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureCarrierAdmissionScope}
+\begin{proof}
+Start from \autoref{def:sequential-closure-carrier}. Its displayed tuple contains one topology row, one metric row, one source row, one sequence source, one candidate limit, one test ledger, one finite window ledger, one RegSeqRat handoff, one Real seal, and the structural rows.
+
+Use \autoref{thm:sequential-closure-root-sequence-carrier} for the carrier side. It binds the sequence row to the LocatedSet or subset source, the metric row, StreamName windows, RegSeqRat handoff, Real seal, transport, replay, provenance, and local naming rows in the same packet.
+
+Use \autoref{thm:sequential-closure-root-limit-ledger} for the limit side. The candidate limit row is admitted only through $U,W,R,A,H,C,P,N$, so the carrier has no place to store host closure, arbitrary selection, quotient stream equality, or an independent completeness proof.
+\end{proof}
+
+\begin{theorem}[SequentialClosure nonescape scope]
+\label{thm:sequentialclosure-nonescape-scope}
+For every accepted $\SequentialClosureUp$ carrier $K=(T,M,S,Q,L,U,W,R,A,H,C,P,N)$, a downstream $\TopologyUp$, $\MetricUp$, $\LocatedSetUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer can read closure evidence only through $T,M,S,Q,L,U,W,R,A,H,C,P,N$ and the local $\NameCert_{\SequentialClosureUp}$ row. The packet exports no host topological closure, selected subsequence, quotient stream equality, open-cover compactness, countable choice, detached $\RealUp$ completeness, or additional bridge row.
+\end{theorem}
+\leanchecked{BEDC.Derived.SequentialClosureUp.SequentialClosureNonescapeScope}
+\begin{proof}
+Read the consumer route through \autoref{thm:sequentialclosure-kernel-scope-surface}. Topology and metric requests are scoped to $T,M,U$, located-source requests to $S,Q$, sequence windows to $W$, and metric limit reads to $R,A$.
+
+Apply \autoref{thm:sequentialclosure-carrier-admission-scope}. Since all accepted carrier data lives in the same $\BHist$ tuple and is transported only by $H$ and replayed only by $C$, a consumer cannot introduce a second closure source while preserving the local NameCert.
+
+The exclusions follow from \autoref{thm:sequential-closure-namecert-obligations} and \autoref{thm:sequential-closure-sequence-limit-handoff}. The absent claims have no carrier coordinate, no continuation edge, no provenance entry, and no NameCert row, so they cannot escape through the scoped kernel packet.
+\end{proof}
+
+\closureat{SequentialClosureUp}{obligationStr}
 
 \begin{closurestatus}{\SequentialClosureUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:sequential-closure-carrier}, \autoref{thm:sequential-closure-namecert-obligations}, and \autoref{thm:sequential-closure-sequence-limit-handoff} seed the finite certified route from displayed sequence-limit data to topology and metric closure consumers.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:sequential-closure-carrier}, \autoref{thm:sequential-closure-namecert-obligations}, \autoref{thm:sequential-closure-sequence-limit-handoff}, \autoref{thm:sequentialclosure-obligation-closure-surface}, \autoref{thm:sequentialclosure-neighbourhood-test-stability}, \autoref{thm:sequentialclosure-sequence-window-coverage}, \autoref{thm:sequentialclosure-limit-row-handoff}, \autoref{thm:sequentialclosure-kernel-scope-surface}, \autoref{thm:sequentialclosure-carrier-admission-scope}, and \autoref{thm:sequentialclosure-nonescape-scope} enumerate the finite obligation surface from displayed sequence-limit data to topology and metric closure consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host topological closure, arbitrary sequence selection, general sequential compactness, quotient stream equality, $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, neighbourhood-test stability, sequence-window coverage, limit-row handoff, classifier transport, and non-escape for the same packet.}
+  \upgradepath{Scoped closure requires formal carrier admission, classifier transport, nonescape, and checked bridge data for the same packet.}
   \constructivestory{A $\SequentialClosureUp$ packet is generated from ambient TopologyUp and MetricUp rows, a subset or LocatedSet row, a sequence source, a candidate limit row, a neighbourhood and metric test ledger, finite StreamName windows, a RegSeqRat handoff, a RealUp seal, componentwise transport, continuation replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

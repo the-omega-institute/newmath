@@ -89,4 +89,87 @@ theorem MetaCICCriticalPathL10StatusBridgeObligation [AskSetup] [PackageSetup]
   }
   exact ⟨cert, statusReadUnary, provenancePkgInput⟩
 
+theorem MetaCICCriticalPathRealCompletionPublicSocket [AskSetup] [PackageSetup]
+    {strongNorm normalForm obstruction handoff dischargeSocket transport route provenance
+      localName dyadicBudget streamSchedule regReadback realSeal statusRead
+      publicSocket : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICCriticalPathPacket strongNorm normalForm obstruction handoff dischargeSocket
+        transport route provenance localName bundle pkg ->
+      Cont route localName dyadicBudget ->
+        Cont dyadicBudget route streamSchedule ->
+          Cont streamSchedule normalForm regReadback ->
+            Cont regReadback provenance realSeal ->
+              Cont realSeal localName statusRead ->
+                Cont statusRead dischargeSocket publicSocket ->
+                  PkgSig bundle statusRead pkg ->
+                    PkgSig bundle publicSocket pkg ->
+                      SemanticNameCert
+                          (fun row : BHist => hsame row publicSocket ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row dyadicBudget ∨ hsame row streamSchedule ∨
+                              hsame row regReadback ∨ hsame row realSeal ∨
+                                hsame row statusRead ∨ hsame row publicSocket)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont statusRead dischargeSocket publicSocket ∧
+                              PkgSig bundle publicSocket pkg)
+                          hsame ∧
+                        UnaryHistory publicSocket ∧ PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro packet routeLocalNameBudget budgetRouteSchedule scheduleNormalFormReadback
+    readbackProvenanceSeal sealLocalNameStatus statusDischargePublic _statusPkg publicPkg
+  obtain ⟨_strongNormUnary, normalFormUnary, _obstructionUnary, _handoffUnary,
+    dischargeSocketUnary, _transportUnary, routeUnary, provenanceUnary, localNameUnary,
+    _strongNormNormalFormRoute, _handoffObstructionSocket, _transportLocalName,
+    provenancePkg⟩ := packet
+  have dyadicBudgetUnary : UnaryHistory dyadicBudget :=
+    unary_cont_closed routeUnary localNameUnary routeLocalNameBudget
+  have streamScheduleUnary : UnaryHistory streamSchedule :=
+    unary_cont_closed dyadicBudgetUnary routeUnary budgetRouteSchedule
+  have regReadbackUnary : UnaryHistory regReadback :=
+    unary_cont_closed streamScheduleUnary normalFormUnary scheduleNormalFormReadback
+  have realSealUnary : UnaryHistory realSeal :=
+    unary_cont_closed regReadbackUnary provenanceUnary readbackProvenanceSeal
+  have statusReadUnary : UnaryHistory statusRead :=
+    unary_cont_closed realSealUnary localNameUnary sealLocalNameStatus
+  have publicSocketUnary : UnaryHistory publicSocket :=
+    unary_cont_closed statusReadUnary dischargeSocketUnary statusDischargePublic
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicSocket ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row dyadicBudget ∨ hsame row streamSchedule ∨
+              hsame row regReadback ∨ hsame row realSeal ∨ hsame row statusRead ∨
+                hsame row publicSocket)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont statusRead dischargeSocket publicSocket ∧
+              PkgSig bundle publicSocket pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicSocket ⟨hsame_refl publicSocket, publicSocketUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, statusDischargePublic, publicPkg⟩
+  }
+  exact ⟨cert, publicSocketUnary, provenancePkg⟩
+
 end BEDC.Derived.MetaCICCriticalPathUp

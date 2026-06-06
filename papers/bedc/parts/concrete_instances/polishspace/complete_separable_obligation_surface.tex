@@ -1,0 +1,92 @@
+\begin{theorem}[Polish-space complete-separable obligation surface]
+\label{thm:polish-space-complete-separable-obligation-surface}
+For every accepted $\PolishSpaceUp$ carrier
+$$
+P=(M,K,D,S,R,W,H,C,G,N),
+$$
+the complete-separable obligation surface consists exactly of the common $\MetricSpaceUp$ source row $M$, the $\CompleteMetricUp$ handoff $K$, the $\SeparableMetricUp$ dense schedule $D$, the shared $\StreamNameUp$ and $\RegSeqRatUp$ readback rows $S,R$, the observation ledger $W$, componentwise transport $H$, displayed replay $C$, provenance $G$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier described in the PolishSpace spine. The rows $M,K,D$ are the only complete and separable coordinates, and both are attached to the same metric source.
+
+Use the NameCert-obligation theorem already attached to $\PolishSpaceUp$. It places $S,R,W$ as the finite readback route for complete and dense requests, so no consumer can split the complete metric from the separable schedule.
+
+Finally attach $H,C,G,N$. Transport, replay, provenance, and local naming preserve the same packet, giving precisely the complete-separable surface carried by $P=(M,K,D,S,R,W,H,C,G,N)$.
+\end{proof}
+
+\begin{theorem}[Polish-space StreamName density scope]
+\label{thm:polish-space-streamname-density-scope}
+For every accepted $\PolishSpaceUp$ carrier
+$$
+P=(M,K,D,S,R,W,H,C,G,N),
+$$
+the density scope read through $\StreamNameUp$ is the route $D,S,R,W,H,C,G,N$ over the common metric row $M$. It reads dense schedules as displayed stream windows, not as a host enumeration, selected dense subset, countable-choice schedule, or quotient point equality.
+\end{theorem}
+\begin{proof}
+Start from \autoref{thm:polish-space-complete-separable-obligation-surface}. It identifies $D$ as the dense schedule and places it over the shared metric row $M$.
+
+Read the density request through $S,R,W$. The StreamName row supplies finite windows, the RegSeqRat row supplies rational readback, and the observation ledger records the route used by the dense schedule.
+
+The structural rows $H,C,G,N$ only preserve and name this route. Since the accepted carrier has no host enumeration or selected dense-subset coordinate, the density scope remains the displayed StreamName route.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceStreamNameDensityScope}
+
+\begin{theorem}[Polish-space RegSeqRat real readback scope]
+\label{thm:polish-space-regseqrat-real-readback-scope}
+For every accepted $\PolishSpaceUp$ carrier
+$$
+P=(M,K,D,S,R,W,H,C,G,N),
+$$
+every real-facing completion or density readback must pass through the $\RegSeqRatUp$ row $R$ after the shared stream row $S$ and before the structural rows $H,C,G,N$. The readback scope is therefore finite and carrier-local; it does not export ambient $\RealUp$ completeness, selected limits, quotient completion equality, or a separate real-name source.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:polish-space-complete-separable-obligation-surface} to place complete and separable data over $M,K,D,S,R,W$. The readback row $R$ is part of that same surface, not an external real object.
+
+Apply \autoref{thm:polish-space-streamname-density-scope} to the dense side. The stream row $S$ supplies the inspected windows, and $R$ is the rational readback consumed from those windows.
+
+The remaining rows $H,C,G,N$ transport, replay, source, and name the packet. Therefore every real-facing read remains inside $P=(M,K,D,S,R,W,H,C,G,N)$ and cannot reach ambient completeness, selected limits, quotient completion equality, or a separate real-name source.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishSpaceUp.PolishSpaceRegSeqRatRealReadbackScope}
+
+\begin{theorem}[Polish-space complete-separable window exhaustion]
+\label{thm:polishspace-complete-separable-window-exhaustion}
+For every accepted $\PolishSpaceUp$ carrier
+$$
+P=(M,K,D,S,R,W,H,C,G,N),
+$$
+complete-separable reads are exhausted by the shared window $M,K,D,S,R,W$. A consumer may preserve and name that window through $H,C,G,N$, but it receives no selected dense subset, host enumeration, quotient completion equality, ambient $\RealUp$ completeness, selected limit, or separate real-name source.
+\end{theorem}
+\begin{proof}
+Start from the complete-separable obligation surface of \autoref{thm:polish-space-complete-separable-obligation-surface}. It places the common metric source $M$, the complete handoff $K$, and the separable dense schedule $D$ inside one carrier.
+
+Use the StreamName density scope, \autoref{thm:polish-space-streamname-density-scope}. The dense side is read through $S,R,W$ as finite stream windows with rational readback and an observation ledger.
+
+The structural rows $H,C,G,N$ preserve, replay, source, and name this same window. Since the carrier has no separate coordinate for the excluded objects, the complete-separable read is exhausted by $M,K,D,S,R,W$.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceCompleteSeparableWindowExhaustion}
+
+\begin{theorem}[Polish-space effective represented source boundary]
+\label{thm:polishspace-effective-represented-source-boundary}
+For every accepted $\PolishSpaceUp$ carrier $P=(M,K,D,S,R,W,H,C,G,N)$, the effective represented source boundary is the common metric row $M$ together with the displayed StreamName and RegSeqRat route $S,R,W$. It is not a host enumeration, a selected dense subset, a quotient-completion equality, or a separate representation source outside the carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier through \autoref{thm:polish-space-complete-separable-obligation-surface}. The complete row $K$ and dense row $D$ are both attached to the same metric source $M$.
+
+Apply \autoref{thm:polish-space-streamname-density-scope}. Effective access to the dense side is carried by the StreamName row $S$, the RegSeqRat row $R$, and the observation ledger $W$.
+
+The rows $H,C,G,N$ do not create another represented source. They only preserve and name the displayed route, so any consumer that asks for host enumeration, a chosen dense subset, quotient equality, or an external representation leaves the accepted packet.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceEffectiveRepresentedSourceBoundary}
+
+\begin{theorem}[Polish-space real readback nonescape]
+\label{thm:polishspace-real-regseqrat-readback-nonescape}
+For every accepted $\PolishSpaceUp$ carrier $P=(M,K,D,S,R,W,H,C,G,N)$, any real-facing readback from the complete-separable surface must pass through $S,R,W$ and then through $H,C,G,N$. It cannot escape to ambient $\RealUp$ completeness, a selected limit, quotient completion equality, host enumeration, a selected dense subset, or a separate real-name source.
+\end{theorem}
+\begin{proof}
+Use the RegSeqRat real readback scope of \autoref{thm:polish-space-regseqrat-real-readback-scope}. The readback row $R$ is reached after the shared stream row $S$ and before the structural rows.
+
+Combine this with \autoref{thm:polishspace-complete-separable-window-exhaustion}. The complete and separable data remain in the same window $M,K,D,S,R,W$, so real-facing access is not a separate source.
+
+Finally read the structural rows $H,C,G,N$. They transport, replay, source, and name the finite carrier-local route, and the carrier has no coordinate for the excluded real or completion objects.
+\end{proof}
+\leanchecked{BEDC.Derived.PolishspaceUp.PolishSpaceRealRegSeqRatReadbackNonescape}

@@ -29,8 +29,8 @@ theorem EquicontinuityRootCompactSourceAdmission [AskSetup] [PackageSetup]
   intro carrier unaryM unaryN compactRoute namedRoute namedPkg
   obtain ⟨radiusUnary, handoffUnary, _radiusRoute, _handoffRoute, _pkgP, _pkgN⟩ :=
     EquicontinuityCarrier_shared_radius_stability carrier
-  obtain ⟨unaryK, unaryF, unaryRho, _unaryR, radiusRoute, handoffRoute, pkgP, pkgN⟩ :=
-    carrier
+  obtain ⟨unaryK, unaryF, unaryRho, _unaryR, _carrierUnaryN, radiusRoute, handoffRoute,
+    pkgP, pkgN⟩ := carrier
   have compactUnary : UnaryHistory compactRead :=
     unary_cont_closed handoffUnary unaryM compactRoute
   have namedUnary : UnaryHistory namedRead :=

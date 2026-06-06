@@ -66,6 +66,7 @@ read only as source histories, epigraph windows, $\StreamNameUp$ schedules,
 $\RegSeqRatUp$ value rows, located $\RealUp$ handoff data, $\hsame$ transport,
 $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
 \end{definition}
+\leandef{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousBHistCarrierRow}
 
 \begin{theorem}[LowerSemicontinuous kernel-source obligations]
 \label{thm:lowersemicontinuous-kernel-source-obligations}
@@ -81,6 +82,7 @@ window, reads the $\RegSeqRatUp$ value row, passes the located $\RealUp$
 handoff, and uses $\hsame$ and $\Cont$ only to preserve the displayed packet;
 the final $\Pkg$ and $\NameCert$ rows source and name that finite route.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousKernelSource\_obligations}
 
 \begin{theorem}[LowerSemicontinuous NameCert scope]
 \label{thm:lowersemicontinuous-namecert-scope}
@@ -97,6 +99,7 @@ Apply the carrier definition and the kernel-source obligations above. The
 $\NameCert$ row certifies only the listed finite route; parameter equivalence
 or host analytic structure would require an additional carrier coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousNameCertScope}
 
 \begin{theorem}[LowerSemicontinuous NameCert obligation surface]
 \label{thm:lower-semicontinuous-namecert-obligation-surface}
@@ -151,6 +154,7 @@ Finally, $P$ and $N$ package those rows as the local certificate. Since the
 carrier has no coordinate for the excluded principles, no consumer can obtain
 them from the $\LowerSemicontinuousUp$ NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousNameCertObligationSurface}
 
 \begin{theorem}[LowerSemicontinuous epigraph window exactness]
 \label{thm:lowersemicontinuous-epigraph-window-exactness}
@@ -179,6 +183,7 @@ The route is therefore $W,R,E$ inside the same $\BHist$ packet. Since the
 carrier contains no coordinate for the excluded host principles, the epigraph
 read cannot detach from that route.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousEpigraphWindowExactness}
 
 \begin{theorem}[LowerSemicontinuous located epigraph transport]
 \label{thm:lower-semicontinuous-located-epigraph-transport}
@@ -204,6 +209,7 @@ Transport and replay are componentwise. The row $H$ moves $E$ and $O$ by
 $\hsame$, and $C$ replays the same finite inspection route, so the transported
 read is still the displayed $W,R,E,O$ route.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousLocatedEpigraphTransport}
 
 \begin{theorem}[LowerSemicontinuous epigraph located stability]
 \label{thm:lower-semicontinuous-epigraph-located-stability}
@@ -214,6 +220,7 @@ Use \autoref{thm:lowersemicontinuous-epigraph-window-exactness} to place the rea
 
 The NameCert obligation surface records only finite windows, regular readback, located comparison rows, componentwise transport, replay, provenance, and local naming. None of these coordinates stores the excluded host principles, so the transported row remains a located lower-real epigraph row.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousEpigraphLocatedStability}
 
 \begin{theorem}[LowerSemicontinuous regular readback nonescape]
 \label{thm:lower-semicontinuous-regular-readback-nonescape}
@@ -227,6 +234,7 @@ row, located comparison rows, transport, replay, provenance, and local naming;
 it has no coordinate for host liminf, quotient equality, selected limits,
 countable choice, compactness, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRegularReadbackNonescape}
 \begin{proof}
 The scheduled window row $W$ fixes the inspected source window, and the
 regular-rational row $R$ supplies the displayed value readback. By
@@ -253,6 +261,7 @@ finite lower-semicontinuity certificate rather than host topology, semantic
 liminf data, quotient real equality, selected representatives, countable
 choice, compactness, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRealSealBoundary}
 \begin{proof}
 Use the NameCert obligation surface of
 \autoref{thm:lower-semicontinuous-namecert-obligation-surface}. It requires
@@ -287,6 +296,7 @@ The output cannot bypass $O$ by invoking host real equality, selected endpoint
 representatives, semantic limits, countable choice, open-cover compactness, or
 completeness of $\RealUp$.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousLocatedReadbackCompatibility}
 \begin{proof}
 Start with a real-facing consumer of $L$. The source, graph, schedule,
 readback, and epigraph coordinates are displayed as $X,F,W,R,E$, but none of
@@ -315,6 +325,7 @@ compactness, or ambient completeness. Every transported lower-semicontinuity
 read is therefore the same finite carrier route with the same local
 $\NameCert_{\LowerSemicontinuousUp}$ row.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousTransportReplayExactness}
 \begin{proof}
 Read the transport and replay ledgers from the carrier. The $H$ row records
 componentwise $\hsame$ only for the displayed coordinates, while $C$ records
@@ -346,6 +357,8 @@ operator, quotient real equality, selected limits, countable choice, or
 ambient completeness. Epigraph and comparison rows are finite carrier data
 rather than host-theoretic evidence.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousNameCertBasisObligations}
+\leanvariant{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousNameCertObligationBasis}
 \begin{proof}
 Project the carrier in \autoref{def:lower-semicontinuous-carrier}. The only
 epigraph data available to a consumer is the finite ledger $E$, and the only
@@ -420,6 +433,7 @@ $\LowerSemicontinuousUp$ handoff. Since the carrier has no coordinate for the
 excluded host principles, the $\UpperRealUp$ consumer receives only the
 finite comparison surface stated above.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousUpperRealHandoff}
 
 \begin{theorem}[Lower-real epigraph route]
 \label{thm:lower-semicontinuous-lowerreal-epigraph-route}
@@ -455,6 +469,7 @@ Since the excluded host principles are absent from the route and absent from
 the carrier coordinates, the lower-real epigraph handoff exposes only the
 finite BEDC rows stated above.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousLowerRealEpigraphRoute}
 
 \begin{theorem}[LowerSemicontinuous located readback stability]
 \label{thm:lower-semicontinuous-located-readback-stability}
@@ -467,6 +482,7 @@ through the same scheduled window in $W$, the same regular rational readback in
 $R$, and the located endpoint ledger in $O$ before the terminal real-seal route
 is available.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousLocatedReadbackStability}
 \begin{proof}
 Project the carrier rows from \autoref{def:lower-semicontinuous-carrier}. The
 only accepted lower-bound comparisons are the finite epigraph rows in $E$, and
@@ -484,7 +500,7 @@ same scheduled inspection for every Real-facing consumer.
 \end{proof}
 
 \begin{theorem}[LowerSemicontinuous Real seal nonescape]
-\label{thm:lower-semicontinuous-real-seal-nonescape}
+\label{thm:lower-semicontinuous-real-seal-window-nonescape}
 An accepted $\LowerSemicontinuousUp$ packet exports $\RealUp$-facing data only
 through the displayed rows
 $$
@@ -495,6 +511,7 @@ operator, quotient real equality, a selected limit, countable choice,
 open-cover compactness, or ambient completeness as a route to the terminal
 real seal.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRealSealNonescape}
 \begin{proof}
 Read the export surface from \autoref{def:lower-semicontinuous-carrier}. The
 terminal real-facing route is represented by epigraph rows, scheduled windows,
@@ -524,6 +541,7 @@ $\RealUp$-facing consumer. The handoff supplies finite epigraph data only; it
 does not supply a host pointwise limit, quotient equality of functions, a
 selected approximating sequence, or semantic topology.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousBaireOneSourceHandoff}
 \begin{proof}
 Project the carrier from \autoref{def:lower-semicontinuous-carrier}. The only
 map-facing coordinate is $F$, and it is tied to the scheduled windows $W$ and
@@ -534,7 +552,7 @@ epigraph-window exactness and located readback clauses force the
 $\BaireOneFunctionUp$ source handoff through $E,W,R,O$ rather than through an
 ambient pointwise-limit predicate.
 
-Finally use \autoref{thm:lower-semicontinuous-real-seal-nonescape}. The
+Finally use \autoref{thm:lower-semicontinuous-real-seal-window-nonescape}. The
 structural rows $H,C,P,N$ replay and name the same finite route before the
 $\RealUp$ seal is visible, so no selected approximating sequence, quotient
 function equality, or host topology is exported.
@@ -561,11 +579,12 @@ epigraph ledger $E$ and comparison ledger $O$ downstream of the schedule and
 readback rows, and upstream of any real-facing seal.
 
 Now apply \autoref{thm:lower-semicontinuous-located-readback-stability} and
-\autoref{thm:lower-semicontinuous-real-seal-nonescape}. Transport and replay
+\autoref{thm:lower-semicontinuous-real-seal-window-nonescape}. Transport and replay
 preserve the same route, while the seal theorem excludes liminf semantics,
 quotient equality, selected limits, countable choice, and ambient completeness
 from the $\RegSeqRatUp$ and $\RealUp$ scope.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRealRegSeqRatScope}
 
 \begin{theorem}[LowerSemicontinuous epigraph-ledger refusal]
 \label{thm:lower-semicontinuous-epigraph-ledger-refusal}
@@ -591,6 +610,7 @@ theorems above. They identify the only visible source and seal routes with
 $E,W,R,O,H,C,P,N$, so any route omitting one of those rows has no accepted
 NameCert read.
 \end{proof}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousEpigraphLedgerRefusal}
 
 \begin{definition}[LowerSemicontinuous root carrier]
 \label{def:lowersemicontinuous-root-carrier}
@@ -609,6 +629,7 @@ it receives no separate topology carrier, semantic liminf operation, quotient
 real equality, selected limit, countable choice, open-cover compactness, or
 ambient completeness principle.
 \end{definition}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRootCarrier\_rows\_exposed}
 
 \begin{theorem}[LowerSemicontinuous real handoff]
 \label{thm:lowersemicontinuous-real-handoff}
@@ -638,7 +659,7 @@ transport, replay, provenance, and local naming.
 
 Finally apply
 \autoref{thm:lower-semicontinuous-located-readback-stability} and
-\autoref{thm:lower-semicontinuous-real-seal-nonescape}. They keep the located
+\autoref{thm:lower-semicontinuous-real-seal-window-nonescape}. They keep the located
 readback before the terminal real seal and exclude every host route not present
 in the finite packet.
 \end{proof}
@@ -652,6 +673,7 @@ available witness is a finite lower-bound row transported through the
 $\LowerRealUp$ and $\LocatedRealUp$ comparison ledgers and replayed by the same
 continuation route.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousOpenSublevelRoute}
 \begin{proof}
 Start with a sublevel or open-window consumer of the root packet. By
 \autoref{def:lowersemicontinuous-root-carrier}, the packet has no coordinate
@@ -681,6 +703,7 @@ L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N),
 $$
 every finite epigraph inspection window is generated by induction over the displayed $\BHist$ rows $W,R,E,O,H,C,P,N$. The base window reads the source row $X$ and graph row $F$ before exposing one scheduled stream window, and each successor window extends only by a $\StreamNameUp$ schedule row, a $\RegSeqRatUp$ value row, an epigraph row in $E$, and the comparison data in $O$. No induction step may replace this route by host topology, semantic liminf data, quotient real equality, countable choice, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousEpigraphWindowInduction}
 \begin{proof}
 Start with the root carrier of \autoref{def:lowersemicontinuous-root-carrier}. The available rows are exactly $X,F,E,W,R,O,H,C,P,N$, so the induction base can expose only the source row, graph row, and one scheduled finite window.
 
@@ -699,6 +722,7 @@ L_{\mathrm{root}}=(X,F,E,W,R,O,H,C,P,N)
 $$
 be an accepted $\LowerSemicontinuousUp$ root packet. Transporting a finite lower-bound row through the $\LocatedRealUp$ and $\LowerRealUp$ comparison ledgers is an induction over the same $\BHist$ route: each step first reads the stream schedule $W$, then the regular rational value row $R$, then the lower-bound witness in $E$, and finally the located comparison data in $O$. The transported row remains a displayed epigraph row and never becomes parameter-equivalence transport, quotient real equality, semantic topology, or ambient $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousLocatedEpigraphTransportInduction}
 \begin{proof}
 Read the located comparison ledger from \autoref{def:lowersemicontinuous-root-carrier}. The row $O$ is the only coordinate carrying lower-real, upper-real, located-real, and real-seal comparison data.
 
@@ -717,6 +741,7 @@ X,F,W,R,E,O,H,C,P,N .
 $$
 In particular, the terminal Real seal can be reached only after the $\StreamNameUp$ schedule, $\RegSeqRatUp$ readback, lower-real epigraph row, and located comparison ledger have been displayed. It exports no hidden Baire-one pointwise limit, quotient real equality, selected approximating sequence, countable choice, open-cover compactness, or ambient Real completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.LowerSemicontinuousUp.LowerSemicontinuousRealSealWindowExhaustion}
 \begin{proof}
 Begin with \autoref{thm:lowersemicontinuous-real-handoff}. It states that every Real-facing read factors through the displayed $\StreamNameUp$, $\RegSeqRatUp$, $\LowerRealUp$, $\LocatedRealUp$, and $\RealUp$ rows.
 
@@ -724,9 +749,10 @@ Use the epigraph window induction above to inspect the finite schedule. Each win
 
 Next apply the located transport induction. It keeps lower-bound rows in the comparison ledger $O$ and rules out parameter-equivalence transport, quotient real equality, and semantic topology as alternate exits.
 
-Finally use \autoref{thm:lower-semicontinuous-real-seal-nonescape}. The terminal seal is exhausted by the displayed route, so the absent pointwise-limit, selection, compactness, and completeness principles are not exported by the root packet.
+Finally use \autoref{thm:lower-semicontinuous-real-seal-window-nonescape}. The terminal seal is exhausted by the displayed route, so the absent pointwise-limit, selection, compactness, and completeness principles are not exported by the root packet.
 \end{proof}
 
+\input{parts/concrete_instances/lowersemicontinuous/epigraph_public_export.tex}
 \input{parts/concrete_instances/lowersemicontinuous/closed_superlevel_tail}
 \input{parts/concrete_instances/lowersemicontinuous/root_epigraph_obligations.tex}
 \input{parts/concrete_instances/lowersemicontinuous/root_unblock_obligations.tex}
