@@ -121,8 +121,14 @@ def _minimal_payload(spec):
             },
             "hardgate": {
                 "failed_gate": None,
-                "gates": {f"DG-NAS-HG{index}": {"status": "pass"} for index in range(1, 7)},
+                "gates": {f"DG-NAS-HG{index}": {"status": "pass"} for index in range(1, 8)},
                 "status": "pass",
+            },
+            "candidate_protocol": {
+                "design_search_certificate": {
+                    "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
+                    "slot_state": "present",
+                },
             },
             "matched_baseline_control": {"control_positive_discovery": False},
             "negative_witness_mutations": {"rows": []},

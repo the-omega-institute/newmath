@@ -1,6 +1,9 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-gated-nas",
   "candidate_protocol": {
+    "design_search_certificate": {
+      "slot_state": "present-but-fail-closed"
+    },
     "deterministic_anchor": {
       "candidate_count": 6,
       "primary": true,
@@ -13,7 +16,7 @@
     }
   },
   "claim_capsule_ref": "reports/runs/discovery-gated-nas/claim_capsule.json",
-  "claim_capsule_status": "d5-m-candidate",
+  "claim_capsule_status": "failed",
   "config": {
     "arms": [
       "candidate",
@@ -31,6 +34,7 @@
     "dependency_abi": {
       "torch": "not-requested"
     },
+    "design_search_certificate_slot_state": "present-but-fail-closed",
     "drift_tolerance": 1e-05,
     "lambda_compute": 0.001,
     "lambda_discovery": 0.42,
@@ -61,13 +65,13 @@
     "status": "unavailable"
   },
   "discovery_map_signal": {
-    "failed_gate": null,
-    "level_candidate": "D5-M",
-    "reason": "discovery-gated-search-positive",
-    "status": "d5-m-candidate",
+    "failed_gate": "DG-NAS-HG7",
+    "level_candidate": "DN",
+    "reason": "hardgate-failed",
+    "status": "negative",
     "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows"
   },
-  "failed_gate": null,
+  "failed_gate": "DG-NAS-HG7",
   "forbidden_claim_term_audit": {
     "forbidden_positive_claim_terms": [
       "full-lejepa",
@@ -89,7 +93,7 @@
     "torch_record_count": 0
   },
   "hardgate": {
-    "failed_gate": null,
+    "failed_gate": "DG-NAS-HG7",
     "gates": {
       "DG-NAS-HG1": {
         "evidence": "Parameter-matched baseline is required.",
@@ -114,9 +118,14 @@
       "DG-NAS-HG6": {
         "evidence": "Any witness violation must demote the candidate.",
         "status": "pass"
+      },
+      "DG-NAS-HG7": {
+        "evidence": "HG7 replay readiness requires the design-search certificate pointer slot to be present.",
+        "slot_state": "present-but-fail-closed",
+        "status": "fail"
       }
     },
-    "status": "pass"
+    "status": "fail"
   },
   "matched_baseline_control": {
     "compute_matched": {
@@ -172,7 +181,7 @@
     "standalone verdict ownership"
   ],
   "positive_claim": {
-    "level_candidate": "D5-M",
+    "level_candidate": "DN",
     "scope": "deterministic anchor candidate enumeration with bounded optional PyTorch evidence",
     "text": "Discovery-gated NAS records bounded lab-local architecture search evidence where discovery gates, cost controls, and negative witnesses determine candidate selection."
   },
@@ -209,7 +218,7 @@
       "status": "armed"
     },
     {
-      "active": true,
+      "active": false,
       "condition": "revoke if the optional PyTorch arm is promoted over the deterministic anchor",
       "status": "armed"
     }
@@ -357,5 +366,5 @@
     "row_count": 0,
     "status": "unavailable"
   },
-  "what_was_learned": "The deterministic anchor selects a discovery-gated candidate only after matched baselines and negative-witness demotions are recorded."
+  "what_was_learned": "The deterministic anchor records a failed DG-NAS hardgate without promoting a positive claim."
 }

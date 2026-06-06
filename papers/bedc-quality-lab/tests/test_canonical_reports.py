@@ -288,7 +288,13 @@ def _payload_for_spec(spec):
                     "demoted_candidate_count": 3,
                     "selected_candidate_has_violation": False,
                 },
-                "candidate_protocol": {"deterministic_anchor": {"primary": True}},
+                "candidate_protocol": {
+                    "deterministic_anchor": {"primary": True},
+                    "design_search_certificate": {
+                        "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
+                        "slot_state": "present",
+                    },
+                },
                 "device_protocol": {"requested_device": "auto", "resolved_device": "not-requested"},
                 "torch_nas_evidence": {"status": "unavailable", "row_count": 0},
                 "matched_baseline_control": {
@@ -304,6 +310,7 @@ def _payload_for_spec(spec):
                     "reason": "discovery-gated-search-positive",
                     "failed_gate": None,
                     "failed_gate_pointer": None,
+                    "candidate_protocol_pointer": "$.candidate_protocol",
                     "search_objective_pointer": "$.search_objective_summary",
                     "negative_witness_pointer": "$.negative_witness_mutations",
                     "torch_nas_evidence_pointer": "$.torch_nas_evidence",

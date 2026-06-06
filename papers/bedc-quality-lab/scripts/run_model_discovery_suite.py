@@ -57,7 +57,7 @@ def build_claim_capsule(summary: Mapping[str, Any]) -> dict[str, Any]:
             {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.matched_baseline_control"},
         ],
         "forbidden_evidence": ["test_label", "ood_label", "ledger_verdict"],
-        "required_gates": [f"DG-NAS-HG{index}" for index in range(1, 7)],
+        "required_gates": [f"DG-NAS-HG{index}" for index in range(1, 8)],
         "candidate_pointer": {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.candidate_protocol"},
         "evidence_pointer": {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"},
     }

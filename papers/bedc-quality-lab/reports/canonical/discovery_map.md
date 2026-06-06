@@ -22,13 +22,13 @@
 | `sigreg-mini-grid` | `D2` | `` | `` | `projected` | `valid` | `$.trend_summary.expected_trend` |
 | `discovery-regularized-training` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
-| `discovery-gated-nas` | `D5-M` | `` | `` | `projected` | `valid` | `$.matched_baseline_control` |
+| `discovery-gated-nas` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
-| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
-| `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
-| `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
-| `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
-| `gap-head-mechanism-blockage` | `DN` | `` | `` | `mechanism-blockage-projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
+| `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
+| `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
+| `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
+| `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
+| `gap-head-mechanism-blockage` | `DN` | `` | `` | `mechanism-blockage-projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[8]` |
 
 ## D5 readiness
 
@@ -51,13 +51,13 @@
 | `certificate-gated-attention` | `reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_vs_plain_valid` | `present` |
 | `certificate-guided-discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[2]` | `negative` |
 | `certificate-guided-training` | `reports/canonical/negative_discovery_reports.json:$.rows[1]` | `negative` |
-| `dimension-mismatch-debt-transfer` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` | `negative` |
-| `discovery-gated-nas` | `reports/canonical/discovery-gated-nas.json:$.search_objective_summary.selected_candidate` | `present` |
+| `dimension-mismatch-debt-transfer` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` | `negative` |
+| `discovery-gated-nas` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` | `negative` |
 | `discovery-regularized-training` | `reports/canonical/discovery-regularized-training.json:$.torch_training_evidence` | `present` |
 | `gap-head-ablation` | `reports/canonical/negative_discovery_reports.json:$.rows[0]` | `negative` |
 | `gap-head-attribution-capsule` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` | `present` |
 | `gap-head-discovery` | `reports/canonical/gap-head-discovery.json:$.positive_discovery` | `present` |
-| `gap-head-mechanism-blockage` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` | `negative` |
+| `gap-head-mechanism-blockage` | `reports/canonical/negative_discovery_reports.json:$.rows[8]` | `negative` |
 | `gap-head-on-h` | `reports/canonical/gap-head-on-h.json:$.treatment_verdict.positive` | `present` |
 | `gap-head-threshold-frontier` | `reports/canonical/discovery_map.json:$.rows[7]` | `present` |
 | `gap-head-transfer-atlas` | `reports/canonical/gap_head_transfer_atlas.json:$.multi_surface_d5_o.decision` | `present` |
@@ -68,6 +68,6 @@
 | `nongaussian-distribution-sweep` | `reports/canonical/nongaussian-distribution-sweep.json:$.negative_result_ledger` | `present` |
 | `sigreg-mini-grid` | `reports/canonical/sigreg-mini-grid.json:$.trend_summary.expected_trend` | `present` |
 | `sigreg-training-proxy` | `reports/canonical/sigreg-training-proxy.json:$.d1_evidence.debt_delta` | `present` |
-| `single-threshold-escape` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` | `negative` |
-| `spectral-ablation-hinge` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` | `negative` |
-| `training-choice-observability` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` | `negative` |
+| `single-threshold-escape` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` | `negative` |
+| `spectral-ablation-hinge` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` | `negative` |
+| `training-choice-observability` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` | `negative` |

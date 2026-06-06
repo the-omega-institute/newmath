@@ -19,6 +19,7 @@ from bedc_quality_lab.discovery_gated_nas import (
     DEFAULT_CANDIDATES,
     DEFAULT_SEEDS,
     DEFAULT_SURFACES,
+    DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER,
     DRIFT_TOLERANCE,
     NEGATIVE_WITNESS_MUTATIONS,
     TORCH_CANDIDATES,
@@ -65,6 +66,8 @@ def deterministic_record(
     lambda_discovery: float = DEFAULT_LAMBDA_DISCOVERY,
     lambda_compute: float = DEFAULT_LAMBDA_COMPUTE,
     lambda_witness: float = DEFAULT_LAMBDA_WITNESS,
+    design_search_certificate_slot_state: str = "present-but-fail-closed",
+    design_search_certificate_owner_pointer: str = DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER,
 ) -> dict[str, Any]:
     candidate_rank = _rank(candidate_id, candidates)
     surface_rank = _rank(surface_id, surfaces)
@@ -252,6 +255,8 @@ def build_projection(
     lambda_discovery: float = DEFAULT_LAMBDA_DISCOVERY,
     lambda_compute: float = DEFAULT_LAMBDA_COMPUTE,
     lambda_witness: float = DEFAULT_LAMBDA_WITNESS,
+    design_search_certificate_slot_state: str = "present-but-fail-closed",
+    design_search_certificate_owner_pointer: str = DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER,
 ) -> dict[str, Any]:
     deterministic = collect_deterministic_records(
         candidates=candidates,
@@ -286,6 +291,8 @@ def build_projection(
         "steps": int(steps),
         "drift_tolerance": DRIFT_TOLERANCE,
         "dependency_abi": abi,
+        "design_search_certificate_slot_state": str(design_search_certificate_slot_state),
+        "design_search_certificate_owner_pointer": str(design_search_certificate_owner_pointer),
     }
     return DiscoveryGatedNasProjection(
         config=config,

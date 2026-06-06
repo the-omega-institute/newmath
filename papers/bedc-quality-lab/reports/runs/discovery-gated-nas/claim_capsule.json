@@ -1,7 +1,7 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-gated-nas:claim-capsule",
-  "claim_status": "d5-m-candidate",
-  "failed_gate": null,
+  "claim_status": "failed",
+  "failed_gate": "DG-NAS-HG7",
   "forbidden_claim_term_audit": {
     "forbidden_positive_claim_terms": [
       "full-lejepa",
@@ -37,6 +37,11 @@
     "DG-NAS-HG6": {
       "evidence": "Any witness violation must demote the candidate.",
       "status": "pass"
+    },
+    "DG-NAS-HG7": {
+      "evidence": "HG7 replay readiness requires the design-search certificate pointer slot to be present.",
+      "slot_state": "present-but-fail-closed",
+      "status": "fail"
     }
   },
   "not_claimed": [
@@ -47,17 +52,17 @@
     "standalone verdict ownership"
   ],
   "positive_claim": {
-    "level_candidate": "D5-M",
+    "level_candidate": "DN",
     "scope": "deterministic anchor candidate enumeration with bounded optional PyTorch evidence",
     "text": "Discovery-gated NAS records bounded lab-local architecture search evidence where discovery gates, cost controls, and negative witnesses determine candidate selection."
   },
   "producer": "bedc_quality_lab.discovery_gated_nas.DiscoveryGatedNasProjection",
   "result_snapshot": {
     "discovery_map_signal": {
-      "failed_gate": null,
-      "level_candidate": "D5-M",
-      "reason": "discovery-gated-search-positive",
-      "status": "d5-m-candidate",
+      "failed_gate": "DG-NAS-HG7",
+      "level_candidate": "DN",
+      "reason": "hardgate-failed",
+      "status": "negative",
       "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows"
     },
     "matched_baseline_control": {
@@ -225,7 +230,7 @@
         "status": "armed"
       },
       {
-        "active": true,
+        "active": false,
         "condition": "revoke if the optional PyTorch arm is promoted over the deterministic anchor",
         "status": "armed"
       }
@@ -239,5 +244,5 @@
     "raw_rows": "reports/runs/discovery-gated-nas/raw_metrics.jsonl",
     "summary": "reports/runs/discovery-gated-nas/summary.json"
   },
-  "what_was_learned": "The deterministic anchor selects a discovery-gated candidate only after matched baselines and negative-witness demotions are recorded."
+  "what_was_learned": "The deterministic anchor records a failed DG-NAS hardgate without promoting a positive claim."
 }
