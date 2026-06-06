@@ -10,6 +10,7 @@ from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 
 
 HG_P_CORE = {
@@ -2322,6 +2323,25 @@ def test_claim_capsule_missing_required_cells_is_incomplete_not_synthetic_dn(tmp
     assert capsule["status"] == "incomplete"
     assert "effective_level" in capsule["missing_cells"]
     assert "terminal_verdict" in capsule["missing_cells"]
+
+
+def test_canonical_claim_capsule_includes_dimension_mismatch_run_local_contract():
+    capsule = canonical._build_claim_capsule("fixture-time")
+    run_local = capsule["run_local"]
+
+    assert capsule["json_artifact"] == "reports/canonical/claim_capsule.json"
+    assert run_local["owner"] == "claim:dimension-mismatch-debt-transfer"
+    assert run_local["artifact_bundle"] == {
+        "claim_capsule": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+        "raw_metrics": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/raw_metrics.jsonl",
+        "summary": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/summary.json",
+        "report": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/report.md",
+    }
+    b2_refs = [row for row in run_local["evidence_refs"] if str(row.get("evidence_id", "")).startswith("B2-HG")]
+    assert [row["evidence_id"] for row in b2_refs] == ["B2-HG1", "B2-HG2", "B2-HG3", "B2-HG4", "B2-HG5"]
+    for row in b2_refs:
+        source = json.loads((canonical.ROOT / row["source_artifact"]).read_text(encoding="utf-8"))
+        assert pointer_value(source, row["source_pointer"]) is not None
 
 
 def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
