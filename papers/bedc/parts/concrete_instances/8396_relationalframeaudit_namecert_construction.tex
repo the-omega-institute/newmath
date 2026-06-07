@@ -58,6 +58,22 @@ Finally $H,C,P,N$ only transport, replay, package, and name the same rows. Thus 
 \end{proof}
 \leanchecked{BEDC.Derived.RelationalFrameAuditUp.RelationalFrameAuditTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[RelationalFrameAudit obligation totality]
+\label{thm:relational-frame-audit-obligation-totality}
+Any accepted $\RelationalFrameAuditUp$ consumer must expose exactly the finite obligation surface
+$$
+M,A,B,Q,S,D,L,F,H,C,P,N
+$$
+of \autoref{def:relational-frame-audit-carrier}. Thus the consumer displays the $\MultiHistConfigUp$ row $M$, the two observer slots $A,B$, the frame request $Q$, the observer-symmetry audit $S$, the $\CrossHistCausalUp$ route $D$, the $\MaxCausalRateUp$ bound $L$, the $\NoGlobalSyncBoundaryUp$ refusal verdict $F$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local $\NameCert_{\RelationalFrameAuditUp}$ row $N$. No accepted consumer may replace one of these rows by a global frame, shared clock, selected synchronization map, host Lorentz chart, metric tensor, detached comparison, or source-equivalence transport.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:relational-frame-audit-carrier}. The tuple $R=(M,A,B,Q,S,D,L,F,H,C,P,N)$ is the complete displayed inventory for an accepted frame-audit packet.
+
+Apply \autoref{thm:relational-frame-audit-namecert-obligations}. Its NameCert surface reads the same configuration row, two observer slots, request row, symmetry audit, causal route, maximum-rate boundary, refusal verdict, transport, replay, provenance, and local naming rows.
+
+It remains to exclude extra exits. The carrier contains no coordinate for a global frame, shared clock, selected synchronization map, Lorentz chart, metric tensor, detached comparison, or source-equivalence transport. Hence every accepted consumer exposes exactly the listed finite rows and nothing outside their projection.
+\end{proof}
+
 \begin{theorem}[LayeredRelationCert NameCert obligation surface]
 \label{thm:layeredrelationcert-namecert-obligation-surface}
 For the carrier $\Lambda_R$ of \autoref{def:layeredrelationcert-carrier}, the local $\NameCert_{\RelationalFrameAuditUp}$ surface consists of five finite rows:

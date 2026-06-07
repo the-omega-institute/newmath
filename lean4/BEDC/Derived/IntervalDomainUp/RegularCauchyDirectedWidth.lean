@@ -8,7 +8,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 
-theorem IntervalDomainRegularCauchyDirectedWidth
+theorem IntervalDomainRegularCauchyDirectedWidthNamedReadCertificate
     {L R N W Q E H C P A dyadic earlierWidth laterWidth streamRead regseqRead
       sealRead namedRead : BHist} :
     UnaryHistory L ->
