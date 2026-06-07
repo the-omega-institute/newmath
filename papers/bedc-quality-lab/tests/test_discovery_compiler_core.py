@@ -10,11 +10,10 @@ from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule, build_clai
 from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
 from bedc_quality_lab.discovery_compiler.map import DiscoveryMapRow, build_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.negative_reports import (
-    BedcGapMapping,
-    DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
     JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT,
 )
 from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
+from scripts import run_dimension_mismatch_debt_transfer as transfer
 
 
 class FakeAdapter:
@@ -85,17 +84,32 @@ class FakeAdapter:
                 "kind": "discovery_report",
                 "report": "fixture-report" if report_id != "dimension-mismatch-scale-leakage" else "dimension-mismatch-debt-transfer",
                 "claim_id": "claim:fixture-report" if report_id != "dimension-mismatch-scale-leakage" else "claim:dimension-mismatch-debt-transfer",
-                "source": "reports/canonical/fixture.json:$.failed",
-                "json_artifact": "reports/canonical/fixture.json",
-                "markdown_artifact": "reports/canonical/fixture.md",
-                "ledger_pointer": "reports/canonical/fixture.json:$.failed",
+                "source": "reports/canonical/fixture.json:$.failed"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else f"{transfer.JSON_ARTIFACT}:$.dimension_mismatch_debt_transfer.anti_triviality_status",
+                "json_artifact": "reports/canonical/fixture.json"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else transfer.JSON_ARTIFACT,
+                "markdown_artifact": "reports/canonical/fixture.md"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else transfer.REPORT_ARTIFACT,
+                "ledger_pointer": "reports/canonical/fixture.json:$.failed"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else f"{transfer.JSON_ARTIFACT}:$.dimension_mismatch_debt_transfer.anti_triviality_status",
                 "discovery_level": "DN",
                 "terminal_verdict": "negative_discovery",
-                "classifier_reasons": ["fixture"],
+                "classifier_reasons": ["fixture", "verdict=rejected"]
+                if report_id == "dimension-mismatch-scale-leakage"
+                else ["fixture"],
                 "projection_status": "projected",
                 "evidence_pointer": "$.failed",
-                "failed_gate": "$.failed",
+                "failed_gate": "$.failed"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else "$.dimension_mismatch_debt_transfer.anti_triviality_status",
                 "base_level": "D4" if report_id == "dimension-mismatch-scale-leakage" else None,
+                "anti_triviality_status": "scale_leakage_detected"
+                if report_id == "dimension-mismatch-scale-leakage"
+                else None,
                 "effective_level": "DN" if report_id == "dimension-mismatch-scale-leakage" else None,
                 "what_was_learned": "fixture learned",
                 "next_hypothesis": "fixture next hypothesis",
@@ -104,10 +118,7 @@ class FakeAdapter:
                 "audit_reason": "",
                 **(
                     {
-                        "bedc_gap_mapping": BedcGapMapping.from_witness_pointer(
-                            root,
-                            DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
-                        ).as_owner_cell()
+                        "bedc_gap_mapping": transfer.scale_leakage_bedc_gap_mapping(root)
                     }
                     if report_id == "dimension-mismatch-scale-leakage"
                     else {}
@@ -124,6 +135,17 @@ def _write_fixture_sources(root: Path) -> None:
     canonical = root / "reports" / "canonical"
     canonical.mkdir(parents=True, exist_ok=True)
     (canonical / "fixture.json").write_text(json.dumps({"failed": True}) + "\n", encoding="utf-8")
+    (canonical / "dimension-mismatch-debt-transfer.json").write_text(
+        json.dumps(
+            {
+                "dimension_mismatch_debt_transfer": {
+                    "anti_triviality_status": "scale_leakage_detected",
+                }
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     (canonical / "discovery_negative_witnesses.json").write_text(
         json.dumps({"status": "pointer-only", "expected_kind_count": 0, "witnesses": []}) + "\n",
         encoding="utf-8",
@@ -137,9 +159,13 @@ def _write_fixture_sources(root: Path) -> None:
                 "run_local": {
                     "negative_witness": [
                         {
+                            "witness_id": "scale_leakage_witness",
+                            "source_artifact": transfer.ANTI_TRIVIALITY_ARTIFACT,
+                            "source_pointer": "$.status",
                             "bedc_gap_field": "representation_scale_leakage",
                             "demotion_rule": "demote_to_DN_or_D1",
                             "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                            "status": "valid",
                         }
                     ],
                     "test_artifact": {
@@ -156,6 +182,9 @@ def _write_fixture_sources(root: Path) -> None:
         + "\n",
         encoding="utf-8",
     )
+    anti_triviality = root / transfer.ANTI_TRIVIALITY_ARTIFACT
+    anti_triviality.parent.mkdir(parents=True, exist_ok=True)
+    anti_triviality.write_text(json.dumps({"status": "scale_leakage_detected"}) + "\n", encoding="utf-8")
 
 
 def test_backend_contract_and_current_lab_adapter_metadata():

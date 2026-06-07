@@ -64,10 +64,10 @@
 
 ## Dimension mismatch transfer robustness
 
-- Status: `fail`
+- Status: `pass`
 - JSON: `reports/canonical/dimension-mismatch-transfer-robustness.json`
 - Markdown: `reports/canonical/dimension-mismatch-transfer-robustness.md`
-- Audit status: `fail`
+- Audit status: `pass`
 
 ## Quality baseline pointers
 

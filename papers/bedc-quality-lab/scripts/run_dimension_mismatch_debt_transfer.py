@@ -99,6 +99,7 @@ NOT_CLAIMED = (
     "fail status blocks any D4/D5 promotion through this boundary ledger",
 )
 NEGATIVE_WITNESS_TEST_POINTER = "$.run_local.test_artifact.regression_tests.scale_leakage_witness"
+SCALE_LEAKAGE_WITNESS_POINTER = f"{RUN_LOCAL_CLAIM_CAPSULE_ARTIFACT}:$.run_local.negative_witness[0]"
 NEGATIVE_WITNESS_TEST_ARTIFACT = {
     "regression_tests": {
         "scale_leakage_witness": (
@@ -106,6 +107,12 @@ NEGATIVE_WITNESS_TEST_ARTIFACT = {
         )
     }
 }
+BEDC_GAP_MAPPING_KEYS = (
+    "witness_pointer",
+    "bedc_gap_field",
+    "demotion_rule",
+    "regression_test",
+)
 
 
 @dataclass(frozen=True)
@@ -780,6 +787,22 @@ def negative_witness_hardgates(rows: Sequence[NegativeWitnessRow], root: Path) -
             else "negative witness rows emitted terminal verdict fields",
         },
     }
+
+
+def scale_leakage_bedc_gap_mapping(root: Path = ROOT) -> dict[str, str]:
+    witness = resolve_artifact_pointer(root, SCALE_LEAKAGE_WITNESS_POINTER)
+    if not isinstance(witness, Mapping):
+        raise ValueError(f"scale leakage witness pointer does not resolve: {SCALE_LEAKAGE_WITNESS_POINTER}")
+    cell = {
+        "witness_pointer": SCALE_LEAKAGE_WITNESS_POINTER,
+        "bedc_gap_field": witness.get("bedc_gap_field"),
+        "demotion_rule": witness.get("demotion_rule"),
+        "regression_test": witness.get("regression_test"),
+    }
+    missing = [key for key in BEDC_GAP_MAPPING_KEYS if not isinstance(cell.get(key), str) or not cell[key]]
+    if missing:
+        raise ValueError(f"scale leakage BEDC gap mapping missing cells: {', '.join(missing)}")
+    return {key: str(cell[key]) for key in BEDC_GAP_MAPPING_KEYS}
 
 
 def _recursive_keys(value: Any):

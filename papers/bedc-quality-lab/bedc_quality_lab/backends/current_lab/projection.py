@@ -27,7 +27,6 @@ from bedc_quality_lab.discovery_compiler.map import (
     validate_discovery_map_payload,
 )
 from bedc_quality_lab.discovery_compiler.negative_reports import (
-    BedcGapMapping,
     DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
     DIMENSION_MISMATCH_REPORT_ID,
 )
@@ -2332,10 +2331,9 @@ def build_negative_discovery_owner_rows(
             if key in source_row:
                 row[key] = source_row[key]
         if report_id == DIMENSION_MISMATCH_REPORT_ID:
-            row["bedc_gap_mapping"] = BedcGapMapping.from_witness_pointer(
-                _root(root),
-                DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
-            ).as_owner_cell()
+            from scripts import run_dimension_mismatch_debt_transfer as dimension_transfer
+
+            row["bedc_gap_mapping"] = dimension_transfer.scale_leakage_bedc_gap_mapping(_root(root))
         _fill_negative_report_boundary(row)
         rows.append(row)
     return rows

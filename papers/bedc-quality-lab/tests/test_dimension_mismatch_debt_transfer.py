@@ -510,6 +510,16 @@ def test_scale_leakage_sidecar_maps_to_first_negative_witness(monkeypatch, tmp_p
     assert row["demotion_rule"] == "demote_to_DN_or_D1"
     assert row["source_artifact"] == transfer.ANTI_TRIVIALITY_ARTIFACT
     assert row["source_pointer"] == "$.status"
+    assert transfer.SCALE_LEAKAGE_WITNESS_POINTER == (
+        "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json:"
+        "$.run_local.negative_witness[0]"
+    )
+    assert transfer.scale_leakage_bedc_gap_mapping(tmp_path) == {
+        "witness_pointer": transfer.SCALE_LEAKAGE_WITNESS_POINTER,
+        "bedc_gap_field": "representation_scale_leakage",
+        "demotion_rule": "demote_to_DN_or_D1",
+        "regression_test": row["regression_test"],
+    }
     assert pointer_value(_read_json(tmp_path / transfer.ANTI_TRIVIALITY_ARTIFACT), row["source_pointer"]) == "scale_leakage_detected"
     assert row == transfer.build_run_local_contract(payload, tmp_path)["negative_witness"][0]
 
