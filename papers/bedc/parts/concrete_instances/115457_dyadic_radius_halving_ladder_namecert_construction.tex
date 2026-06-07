@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\DyadicRadiusHalvingLadderUp$}
+\label{ch:concrete-instances-dyadic-radius-halving-ladder-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy estimates over dyadic rational scales, the $\DyadicRadiusHalvingLadderUp$ packet records the finite radius ladder used by the L10 Real and Completion route. It sits between the dyadic arithmetic rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite-window naming discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet supplies monotone $2^{-n}$ radii as displayed NameCert data; it does not import completed real algebra, quotient-name equality, countable choice, selected limits, or an ambient completeness theorem.
+
+\begin{definition}[Dyadic radius halving ladder carrier]
+\label{def:dyadic-radius-halving-ladder-carrier}
+A $\DyadicRadiusHalvingLadderUp$ carrier is a finite $\BHist$ packet
+$$
+D=(Z,R,W,S,M,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $Z$ is the $\DyadicRatCoreUp$ unit-radius row naming the initial scale $2^{0}$ and its positive dyadic certificate.
+\item $R$ is the finite radius-list row, displaying the entries $r_i=2^{-i}$ for every inspected index in the current request.
+\item $W$ is the $\StreamNameUp$ window row that records exactly which indices of the ladder are inspected.
+\item $S$ is the successor-halving row, certifying $r_{i+1}+r_{i+1}=r_i$ on every displayed adjacent pair.
+\item $M$ is the monotonicity row, recording $r_{i+1}\le r_i$ and the stronger scale comparison $r_{i+k}\le r_i$ whenever both indices are in the displayed window.
+\item $E$ is the $\RegSeqRatUp$ error-budget row consumed by regular Cauchy estimates and by the terminal $\RealUp$ seal.
+\item $H$ records componentwise $\hsame$ transport for unit scale, finite radius rows, stream windows, halving, monotonicity, error-budget, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a precision request to a finite stream window, dyadic radius lookup, halving comparison, monotone-scale read, and regular Cauchy budget handoff.
+\item $P$ is the $\Pkg$ provenance over $\DyadicRadiusHalvingLadderUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, unary-history window material, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicRadiusHalvingLadderUp}$ row.
+\end{enumerate}
+The classifier compares packets only through the displayed rows $Z,R,W,S,M,E,H,C,P,N$. It has no coordinate for a host exponential function, selected real limit, quotient real equality, countable choice, ambient real algebra, or completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Dyadic radius monotone scale]
+\label{thm:dyadic-radius-halving-ladder-monotone-scale}
+Let $D=(Z,R,W,S,M,E,H,C,P,N)$ be an accepted $\DyadicRadiusHalvingLadderUp$ carrier. Every radius comparison exported to a $\RegSeqRatUp$ or $\RealUp$ consumer factors through the same finite window $W$, the same displayed dyadic radius row $R$, and the same successor-halving row $S$. In particular the consumed scale is monotone on the displayed request:
+$$
+r_{j}\le r_i
+$$
+whenever $i\le j$ and both indices are visible in $W$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-radius-halving-ladder-carrier}. The only scale coordinates are the unit row $Z$, finite radius row $R$, stream window $W$, successor-halving row $S$, and monotonicity row $M$.
+
+Read the adjacent comparisons first. The row $S$ gives the displayed equality $r_{i+1}+r_{i+1}=r_i$ for every adjacent pair in $W$, and positivity is inherited from the $\DyadicRatCoreUp$ row $Z$ and the radius-list row $R$.
+
+Now iterate inside the finite window. The monotonicity row $M$ records the finite transitive closure of those adjacent comparisons for the same displayed indices, so a later radius can be consumed only as a smaller or equal dyadic budget.
+
+Finally transport the result through $H,C,P,N$. These rows replay and name the same ladder before $E$ is read by $\RegSeqRatUp$ or $\RealUp$, and they add no host exponential, selected limit, quotient equality, countable-choice row, real algebra, or completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Dyadic radius refinement handoff]
+\label{thm:dyadic-radius-halving-ladder-refinement}
+Every accepted $\DyadicRadiusHalvingLadderUp$ packet supplies a refinement route from a requested finite stream window to a regular Cauchy error budget:
+$$
+\StreamNameUp,\ \DyadicRatCoreUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The consumer first displays the window $W$, then reads the dyadic radii $R$ and adjacent-halving row $S$, then consumes the monotone-scale row $M$, and only then reaches the regular Cauchy budget row $E$ and any terminal Real-facing seal.
+\end{theorem}
+\begin{proof}
+Start with a precision request. The continuation row $C$ routes that request to the finite $\StreamNameUp$ window $W$ before any radius value is inspected.
+
+Within that window, the dyadic rows are explicit. The radius row $R$ lists the inspected $2^{-i}$ entries and $S$ records the halving relation between adjacent displayed entries, so the route stays inside $\DyadicRatCoreUp$ arithmetic.
+
+Apply \autoref{thm:dyadic-radius-halving-ladder-monotone-scale}. The monotone row $M$ is the only bridge from the finite dyadic ladder to the regular Cauchy error ledger, and it is already attached to the same window and radius rows.
+
+The handoff row $E$ can therefore be consumed by $\RegSeqRatUp$ and $\RealUp$ only after the finite ladder has been displayed. Provenance and local naming through $P,N$ preserve this dependency and exclude a host exponential function, quotient-name equality, selected limit, countable choice, ambient real algebra, or completeness theorem.
+\end{proof}
+
+\begin{theorem}[Dyadic radius NameCert obligation surface]
+\label{thm:dyadic-radius-halving-ladder-namecert-obligations}
+For the carrier of \autoref{def:dyadic-radius-halving-ladder-carrier}, the local $\NameCert_{\DyadicRadiusHalvingLadderUp}$ surface consists of exactly five rows:
+\begin{enumerate}
+\item carrier admission for the displayed packet $D=(Z,R,W,S,M,E,H,C,P,N)$;
+\item classifier locality for the $\DyadicRatCoreUp$ unit scale, finite radius list, and $\StreamNameUp$ inspected window;
+\item stability through componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$;
+\item exactness through the successor-halving row $S$, monotone-scale row $M$, and regular Cauchy budget row $E$;
+\item ledger control through $\Pkg$ provenance $P$ and the local naming row $N$.
+\end{enumerate}
+No NameCert obligation may replace these rows by a host exponential map, selected real limit, quotient stream equality, arbitrary trichotomy, countable choice, ambient real algebra, or completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Carrier admission projects $Z,R,W,S,M,E,H,C,P,N$ from \autoref{def:dyadic-radius-halving-ladder-carrier}. No radius, window, halving, monotonicity, error-budget, transport, replay, provenance, or naming row is implicit.
+
+Classifier locality reads only the dyadic unit scale, finite radius list, and inspected stream window. This prevents the ladder from ranging over an unbounded host sequence or an external exponential function.
+
+Stability and exactness are supplied by the displayed structural rows. The $\hsame$ and $\Cont$ rows preserve the same finite packet, while $S,M,E$ state the halving, monotone-scale, and regular-budget facts consumed downstream.
+
+The package and naming rows close the ledger. Since every exported read must pass through $P$ and $N$, the certificate surface is exhausted by the five listed rows.
+\end{proof}
+
+\falsifiablePrediction{A regular Cauchy or Real-facing consumer refutes the DyadicRadiusHalvingLadderUp carrier if it reads a $2^{-n}$ budget without displaying the finite StreamNameUp window, DyadicRatCoreUp radius row, adjacent-halving row, monotone-scale row, regular Cauchy budget row, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, and unaryhistory-window material: none is bijective to $\DyadicRadiusHalvingLadderUp$ because only this packet binds unit dyadic scale, finite radius list, inspected stream window, successor halving, monotone refinement, regular Cauchy budget, transport, replay, provenance, and local naming as one NameCert surface.}
+
+\closureat{DyadicRadiusHalvingLadderUp}{seedStr}
+
+\begin{closurestatus}{\DyadicRadiusHalvingLadderUp}
+  \constructivestory{A $\DyadicRadiusHalvingLadderUp$ packet is generated from a DyadicRatCore unit-radius row, finite dyadic radius rows, a StreamName inspected window, successor-halving rows, monotone-scale rows, a RegSeqRat error-budget handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-radius-halving-ladder-carrier}, \autoref{thm:dyadic-radius-halving-ladder-monotone-scale}, \autoref{thm:dyadic-radius-halving-ladder-refinement}, and \autoref{thm:dyadic-radius-halving-ladder-namecert-obligations} seed the finite dyadic radius ladder required by regular Cauchy and Real-completion estimates.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host exponentiation, selected limits, quotient real equality, arbitrary trichotomy, countable choice, ambient real algebra, completeness of RealUp, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic radius exactness, stream-window locality, successor-halving exactness, monotone-scale refinement, RegSeqRat handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicRadiusHalvingLadderUp.}
+\end{closurestatus}
