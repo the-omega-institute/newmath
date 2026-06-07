@@ -4,6 +4,10 @@ from pathlib import Path
 
 import pytest
 
+from bedc_quality_lab.discovery_regularized_training import (
+    default_drt_training_extension_spec,
+    project_drt_training_extension,
+)
 from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_ledger_aware_transformer as lat_runner
 from scripts import run_canonical_reports as canonical
@@ -16,9 +20,9 @@ def _write_payload(root: Path, spec, payload):
         payload = dict(payload)
         payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
         payload.update(
-            runner.project_drt_training_extension(
+            project_drt_training_extension(
                 [],
-                runner.default_drt_training_extension_spec(),
+                default_drt_training_extension_spec(),
                 {"raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"},
                 payload,
             )

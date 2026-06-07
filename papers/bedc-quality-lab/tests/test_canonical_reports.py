@@ -7,6 +7,10 @@ import types
 
 import pytest
 
+from bedc_quality_lab.discovery_regularized_training import (
+    default_drt_training_extension_spec,
+    project_drt_training_extension,
+)
 from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
@@ -436,9 +440,9 @@ def _payload_for_spec(spec):
             }
         )
         payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
-        extension_sections = runner.project_drt_training_extension(
+        extension_sections = project_drt_training_extension(
             [],
-            runner.default_drt_training_extension_spec(),
+            default_drt_training_extension_spec(),
             {"raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"},
             payload,
         )

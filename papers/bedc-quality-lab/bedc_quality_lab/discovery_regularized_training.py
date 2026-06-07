@@ -184,9 +184,12 @@ def default_drt_training_extension_spec() -> DrtTrainingExtensionSpec:
     )
 
 
-def drt_extension_forbidden_key_audit(value: Any) -> dict[str, Any]:
+def drt_extension_forbidden_key_audit(
+    value: Any,
+    forbidden_keys: Sequence[str] = DRT_EXTENSION_FORBIDDEN_PATTERNS,
+) -> dict[str, Any]:
     hits: list[dict[str, str]] = []
-    forbidden = tuple(pattern.lower() for pattern in DRT_EXTENSION_FORBIDDEN_PATTERNS)
+    forbidden = tuple(pattern.lower() for pattern in forbidden_keys)
 
     def walk(cell: Any, path: str) -> None:
         if isinstance(cell, Mapping):
@@ -209,7 +212,7 @@ def drt_extension_forbidden_key_audit(value: Any) -> dict[str, Any]:
     walk(value, "$")
     return {
         "status": _status(not hits),
-        "audited_pattern_count": len(DRT_EXTENSION_FORBIDDEN_PATTERNS),
+        "audited_pattern_count": len(forbidden),
         "hit_count": len(hits),
         "hits": hits,
     }
@@ -331,11 +334,6 @@ def project_drt_training_extension(
         }
         for term in spec.loss_terms
     }
-    rows_by_arm = {
-        str(row.get("arm")): row
-        for row in records
-        if isinstance(row, Mapping) and row.get("backend") == "deterministic-anchor"
-    }
     ablation_rows = []
     full_quality = _as_finite_number(
         _quality_pointer_value(owner_payload, quality_artifact_pointer("$.surface_registry.quality.by_arm.drt.quality_q_mean"))
@@ -396,7 +394,8 @@ def project_drt_training_extension(
                 "loss_terms_enabled_pointer": quality_artifact_pointer("$.records.extension_metrics.loss_terms_enabled"),
                 "comparison_family_pointer": quality_artifact_pointer("$.records.extension_metrics.comparison_family"),
             },
-        }
+        },
+        spec.forbidden_keys,
     )
     gates = {
         "DRT-EXT-HG1_required_pointer_resolution": {

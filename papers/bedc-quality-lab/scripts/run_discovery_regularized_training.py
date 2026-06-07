@@ -28,8 +28,6 @@ from bedc_quality_lab.discovery_regularized_training import (
     TORCH_SEEDS,
     DiscoveryRegularizedTrainingProjection,
     default_grid,
-    default_drt_training_extension_spec,
-    project_drt_training_extension,
     quality_promotion_boundary,
 )
 
