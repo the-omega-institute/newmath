@@ -29,6 +29,15 @@ def _write_fixture(root: Path, *, cases=None, omit_metrics=()):
     }
 
 
+def _with_decision(cases, case_id: str, decision: str):
+    mutated = copy.deepcopy(cases)
+    for row in mutated:
+        if row["case_id"] == case_id:
+            row["decision"] = decision
+            return mutated
+    raise AssertionError(f"{case_id} not found")
+
+
 def test_schema_has_three_label_classes_and_owned_denominators(tmp_path):
     payload = _write_fixture(tmp_path)
     cases = payload["cases"]
@@ -72,6 +81,54 @@ def test_hardgate_requires_unsafe_false_negative_and_over_refusal_metric_cells(t
     missing = backend.build_artifacts(root=tmp_path, omit_metrics=("over_refusal",))
     assert missing["summary"]["hardgates"]["TS-HG3"]["status"] == "fail"
     assert missing["summary"]["safety_claim_gate"]["claim_status"] == "not_claimed"
+
+
+def test_nonzero_unsafe_false_negative_downgrades_positive_claim(tmp_path):
+    payload = _write_fixture(tmp_path)
+    cases = _with_decision(payload["cases"], "toy-safety-disallowed-001", "allow")
+    artifacts = _write_fixture(tmp_path, cases=cases)
+    raw_metrics = artifacts["metrics"]
+    summary = artifacts["summary"]
+    gate = summary["safety_claim_gate"]
+    cell = raw_metrics["metrics"]["unsafe_false_negative"]
+
+    assert cell["count"] == 1
+    assert raw_metrics["metrics"]["over_refusal"]["count"] == 0
+    assert raw_metrics["metrics"]["ambiguous_unlogged_error"]["count"] == 0
+    assert set(raw_metrics["metrics"]) == set(backend.METRICS)
+    assert set(cell) == {"count", "denominator", "rate", "source_case_pointer"}
+    assert backend.resolve_pointer(tmp_path, f"{backend.RAW_METRICS_ARTIFACT}:$.metrics.unsafe_false_negative") == cell
+    assert backend.resolve_pointer(tmp_path, cell["source_case_pointer"])["label"] == "disallowed"
+    assert all(summary["hardgates"][gate_name]["status"] == "pass" for gate_name in backend.HARDGATES)
+    assert gate["required_metric_cells_present"] is True
+    assert gate["zero_required_error_counts"] is False
+    assert gate["status"] == "fail"
+    assert gate["claim_status"] == "not_claimed"
+    assert artifacts["capsule"]["claim_status"] == "not_claimed"
+
+
+def test_nonzero_over_refusal_downgrades_positive_claim(tmp_path):
+    payload = _write_fixture(tmp_path)
+    cases = _with_decision(payload["cases"], "toy-safety-allowed-001", "refuse")
+    artifacts = _write_fixture(tmp_path, cases=cases)
+    raw_metrics = artifacts["metrics"]
+    summary = artifacts["summary"]
+    gate = summary["safety_claim_gate"]
+    cell = raw_metrics["metrics"]["over_refusal"]
+
+    assert cell["count"] == 1
+    assert raw_metrics["metrics"]["unsafe_false_negative"]["count"] == 0
+    assert raw_metrics["metrics"]["ambiguous_unlogged_error"]["count"] == 0
+    assert set(raw_metrics["metrics"]) == set(backend.METRICS)
+    assert set(cell) == {"count", "denominator", "rate", "source_case_pointer"}
+    assert backend.resolve_pointer(tmp_path, f"{backend.RAW_METRICS_ARTIFACT}:$.metrics.over_refusal") == cell
+    assert backend.resolve_pointer(tmp_path, cell["source_case_pointer"])["label"] == "allowed"
+    assert all(summary["hardgates"][gate_name]["status"] == "pass" for gate_name in backend.HARDGATES)
+    assert gate["required_metric_cells_present"] is True
+    assert gate["zero_required_error_counts"] is False
+    assert gate["status"] == "fail"
+    assert gate["claim_status"] == "not_claimed"
+    assert artifacts["capsule"]["claim_status"] == "not_claimed"
 
 
 def test_ambiguous_unlogged_error_is_counted_and_pointer_resolves(tmp_path):
