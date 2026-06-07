@@ -708,6 +708,35 @@ def _patch_lightweight_run_reports(monkeypatch):
         write_markdown(root, canonical.NEGATIVE_WITNESS_SUMMARY_MARKDOWN_ARTIFACT, "# witness\n")
         return {}
 
+    def fake_mutation_ledger(*, root, generated_at=None):
+        payload = {
+            "schema_id": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID,
+            "artifact_id": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID,
+            "producer": "scripts/run_negative_witness_mutation_ledger.py",
+            "generated_at": generated_at,
+            "status": "ready",
+            "entry_count": 0,
+            "entries": [],
+            "hardgates": {f"MUT-HG{index}": {"status": "pass"} for index in range(1, 6)},
+            "forbidden_keys": [],
+        }
+        write_json(root, canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT, payload)
+        write_markdown(root, canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT, "# mutation graph\n")
+        write_json(
+            root,
+            canonical.DGT_MUTATION_REPORT_ARTIFACT,
+            {
+                "schema_id": "bedc-quality-lab:dgt-mutation-report",
+                "ledger": {"artifact": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT, "pointer": "$.entries"},
+                "graph": {"artifact": canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT, "pointer": "$"},
+                "status": "ready",
+                "entry_count": 0,
+                "blocked_count": 0,
+                "mut_hg_summary": {f"MUT-HG{index}": "pass" for index in range(1, 6)},
+            },
+        )
+        return payload
+
     def fake_claim_graph(*, root, generated_at=None):
         write_json(root, canonical.CLAIM_GRAPH_JSON_ARTIFACT, {"status": "pointer-only", "nodes": [], "edges": []})
         write_markdown(root, canonical.CLAIM_GRAPH_MARKDOWN_ARTIFACT, "# graph\n")
@@ -780,6 +809,11 @@ def _patch_lightweight_run_reports(monkeypatch):
             write_discovery_negative_witness_summary=fake_witness_summary,
             build_discovery_negative_witness_summary=lambda root, generated_at=None: {"status": "pointer-only", "row_count": 0, "audit_status": "pass"},
         ),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_negative_witness_mutation_ledger",
+        types.SimpleNamespace(write_negative_witness_mutation_ledger=fake_mutation_ledger),
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
 
@@ -1687,6 +1721,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "canonical_owner",
         "component_descriptors",
         "new_model_hardgates_registry",
+        "mutation_ledger_ref",
         "dgt_hardgate_slots",
         "mechanism_certificate",
         "training_replay_ref",
@@ -1719,6 +1754,14 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "gates_pointer": "reports/canonical/new_model_hardgates.json:$.gates",
         "pointer_state": "present-but-fail-closed",
     }
+    assert payload["mutation_ledger_ref"] == {
+        "artifact": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT,
+        "pointer": "$.entries",
+        "dgt_report_artifact": canonical.DGT_MUTATION_REPORT_ARTIFACT,
+        "graph_artifact": canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT,
+        "canonical_role": "pointer_redirect",
+    }
+    assert "entries" not in payload["mutation_ledger_ref"]
     assert payload["downstream_scope"] == {
         "discovery_map": "out-of-scope-follow-up",
         "claim_verdicts": "out-of-scope-follow-up",
@@ -1791,6 +1834,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "hardgate_slots_pointer",
         "overall_state_pointer",
         "training_replay_ref_pointer",
+        "mutation_ledger_ref_pointer",
+        "mutation_ledger_entries_pointer",
+        "dgt_mutation_report_pointer",
         "training_hardgates_pointer",
         "not_claimed_pointer",
         "downstream_scope_pointer",
@@ -1812,6 +1858,13 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     assert section["training_replay_ref_pointer"] == (
         "reports/canonical/discovery_gated_transformer.json:$.training_replay_ref"
     )
+    assert section["mutation_ledger_ref_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.mutation_ledger_ref"
+    )
+    assert section["mutation_ledger_entries_pointer"] == (
+        "reports/canonical/negative_witness_mutation_ledger.json:$.entries"
+    )
+    assert section["dgt_mutation_report_pointer"] == "reports/canonical/dgt_mutation_report.json:$"
     assert section["training_hardgates_pointer"] == (
         "reports/canonical/discovery_gated_transformer.json:$.training_replay_ref.hardgates_pointer"
     )
@@ -1931,6 +1984,7 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
         section["overall_state_pointer"],
         section["training_replay_ref_pointer"],
         section["training_hardgates_pointer"],
+        section["mutation_ledger_ref_pointer"],
         section["not_claimed_pointer"],
         section["downstream_scope_pointer"],
         section["mechanism_certificate_pointer"],
@@ -1940,6 +1994,12 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
     for artifact_pointer in pointers:
         assert artifact_pointer.startswith(canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":")
         assert _resolve_artifact_pointer(tmp_path, artifact_pointer) is not None
+    assert section["mutation_ledger_entries_pointer"] == (
+        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries"
+    )
+    assert section["dgt_mutation_report_pointer"] == f"{canonical.DGT_MUTATION_REPORT_ARTIFACT}:$"
+    assert _resolve_artifact_pointer(tmp_path, section["mutation_ledger_entries_pointer"]) == []
+    assert _resolve_artifact_pointer(tmp_path, section["dgt_mutation_report_pointer"]) is not None
     from bedc_quality_lab.backends.current_lab import projection
 
     assert (
@@ -3104,6 +3164,41 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
     def fake_build_witness_summary(*, root, generated_at=None):
         return {"status": "pointer-only", "row_count": 0, "audit_status": "pass"}
 
+    def fake_mutation_ledger(*, root, generated_at=None):
+        calls.append("mutation-ledger")
+        payload = {
+            "schema_id": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID,
+            "artifact_id": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID,
+            "producer": "scripts/run_negative_witness_mutation_ledger.py",
+            "generated_at": generated_at,
+            "status": "ready",
+            "entry_count": 0,
+            "entries": [],
+            "hardgates": {f"MUT-HG{index}": {"status": "pass"} for index in range(1, 6)},
+            "forbidden_keys": [],
+        }
+        path = root / canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+        (root / canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT).write_text("# mutation graph\n", encoding="utf-8")
+        (root / canonical.DGT_MUTATION_REPORT_ARTIFACT).write_text(
+            json.dumps(
+                {
+                    "schema_id": "bedc-quality-lab:dgt-mutation-report",
+                    "ledger": {"artifact": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT, "pointer": "$.entries"},
+                    "graph": {"artifact": canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT, "pointer": "$"},
+                    "status": "ready",
+                    "entry_count": 0,
+                    "blocked_count": 0,
+                    "mut_hg_summary": {f"MUT-HG{index}": "pass" for index in range(1, 6)},
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        return payload
+
     def fake_mechanism(*, root, generated_at=None):
         return {}
 
@@ -3177,6 +3272,11 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
             write_discovery_negative_witness_summary=fake_witness_summary,
             build_discovery_negative_witness_summary=fake_build_witness_summary,
         ),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_negative_witness_mutation_ledger",
+        types.SimpleNamespace(write_negative_witness_mutation_ledger=fake_mutation_ledger),
     )
     monkeypatch.setitem(
         sys.modules,

@@ -18,6 +18,8 @@ MSN_CANONICAL_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
 CGA_CANONICAL_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 DG_NAS_CANONICAL_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 LEJEPA_THEOREM_LEDGER_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
+MUTATION_LEDGER_ARTIFACT = "reports/canonical/negative_witness_mutation_ledger.json"
+MUTATION_LEDGER_ENTRIES_POINTER = "$.entries"
 
 
 def _load_json_artifact(root: Path, artifact: str) -> Mapping[str, Any]:
@@ -41,6 +43,7 @@ def _dg_nas_projection_metadata(dg_nas: Mapping[str, Any]) -> dict[str, Any]:
         "matched_baseline_pointer": _pointer(DG_NAS_CANONICAL_ARTIFACT, "$.matched_baseline_control"),
         "hardgate_pointer": _pointer(DG_NAS_CANONICAL_ARTIFACT, "$.hardgate"),
         "negative_witness_pointer": _pointer(DG_NAS_CANONICAL_ARTIFACT, "$.negative_witness_mutations"),
+        "mutation_lineage_pointer": _pointer(MUTATION_LEDGER_ARTIFACT, MUTATION_LEDGER_ENTRIES_POINTER),
         "discovery_map_signal_pointer": _pointer(DG_NAS_CANONICAL_ARTIFACT, "$.discovery_map_signal"),
         "canonical_status": signal.get("status"),
         "canonical_level_candidate": signal.get("level_candidate"),
@@ -83,6 +86,10 @@ def build_model_discovery_payload(*, root: Path, generated_at: str) -> dict[str,
             "negative_witness_mutations": {
                 "artifact": DRT_CANONICAL_ARTIFACT,
                 "pointer": "$.negative_witness_mutations",
+            },
+            "mutation_lineage": {
+                "artifact": MUTATION_LEDGER_ARTIFACT,
+                "pointer": MUTATION_LEDGER_ENTRIES_POINTER,
             },
             "theorem_ledger": {
                 "artifact": LEJEPA_THEOREM_LEDGER_ARTIFACT,
@@ -150,6 +157,10 @@ def build_model_discovery_payload(*, root: Path, generated_at: str) -> dict[str,
                 "artifact": DG_NAS_CANONICAL_ARTIFACT,
                 "pointer": "$.negative_witness_mutations",
             },
+            "mutation_lineage": {
+                "artifact": MUTATION_LEDGER_ARTIFACT,
+                "pointer": MUTATION_LEDGER_ENTRIES_POINTER,
+            },
             "theorem_ledger": {
                 "artifact": LEJEPA_THEOREM_LEDGER_ARTIFACT,
                 "pointer": "$.theorem_rows",
@@ -187,6 +198,7 @@ class ModelDiscoveryBackendEvidenceAdapter:
                     "$.surface_registry",
                     "$.torch_training_evidence",
                     "$.negative_witness_mutations",
+                    f"{MUTATION_LEDGER_ARTIFACT}:{MUTATION_LEDGER_ENTRIES_POINTER}",
                     "$.discovery_map_signal.theorem_ledger_ref",
                 ),
             },
@@ -217,6 +229,7 @@ class ModelDiscoveryBackendEvidenceAdapter:
                     "$.surface_registry",
                     "$.candidate_protocol",
                     "$.negative_witness_mutations",
+                    f"{MUTATION_LEDGER_ARTIFACT}:{MUTATION_LEDGER_ENTRIES_POINTER}",
                     "$.discovery_map_signal.theorem_ledger_ref",
                 ),
             },

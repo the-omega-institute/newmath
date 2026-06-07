@@ -8,6 +8,8 @@ from bedc_quality_lab.backends.model_discovery import (
     CLAIM_CAPSULE_ARTIFACT,
     DG_NAS_CANONICAL_ARTIFACT,
     DRT_CANONICAL_ARTIFACT,
+    MUTATION_LEDGER_ARTIFACT,
+    MUTATION_LEDGER_ENTRIES_POINTER,
     MSN_CANONICAL_ARTIFACT,
     RUN_ARTIFACT,
     ModelDiscoveryBackendEvidenceAdapter,
@@ -146,6 +148,10 @@ def test_model_discovery_projection_metadata_points_to_dg_nas_owner(tmp_path):
     assert metadata["matched_baseline_pointer"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.matched_baseline_control"}
     assert metadata["hardgate_pointer"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.hardgate"}
     assert metadata["negative_witness_pointer"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.negative_witness_mutations"}
+    assert metadata["mutation_lineage_pointer"] == {
+        "artifact": MUTATION_LEDGER_ARTIFACT,
+        "pointer": MUTATION_LEDGER_ENTRIES_POINTER,
+    }
     for key in (
         "candidate_protocol_pointer",
         "search_objective_pointer",
@@ -215,6 +221,7 @@ def test_model_discovery_consumes_drt_by_pointer_only():
     assert refs["surface_registry"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
     assert refs["torch_training_evidence"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.torch_training_evidence"}
     assert refs["negative_witness_mutations"] == {"artifact": DRT_CANONICAL_ARTIFACT, "pointer": "$.negative_witness_mutations"}
+    assert refs["mutation_lineage"] == {"artifact": MUTATION_LEDGER_ARTIFACT, "pointer": MUTATION_LEDGER_ENTRIES_POINTER}
     assert "quality_q" not in refs
     assert "classifier_surface_delta" not in refs
     assert "hardgate" not in refs
@@ -262,8 +269,31 @@ def test_model_discovery_consumes_dg_nas_by_pointer_only():
     assert refs["surface_registry"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
     assert refs["candidate_protocol"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.candidate_protocol"}
     assert refs["negative_witness_mutations"] == {"artifact": DG_NAS_CANONICAL_ARTIFACT, "pointer": "$.negative_witness_mutations"}
+    assert refs["mutation_lineage"] == {"artifact": MUTATION_LEDGER_ARTIFACT, "pointer": MUTATION_LEDGER_ENTRIES_POINTER}
     assert "search_score" not in refs
     assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
+
+
+def test_model_discovery_cross_report_mutation_lineage_redirects_to_ledger():
+    payload = build_model_discovery_payload(root=runner.ROOT, generated_at="fixture-time")
+    serialized = json.dumps(payload, sort_keys=True)
+
+    assert payload["projection_metadata"]["mutation_lineage_pointer"] == {
+        "artifact": MUTATION_LEDGER_ARTIFACT,
+        "pointer": MUTATION_LEDGER_ENTRIES_POINTER,
+    }
+    assert payload["discovery_regularized_training_refs"]["mutation_lineage"] == {
+        "artifact": MUTATION_LEDGER_ARTIFACT,
+        "pointer": MUTATION_LEDGER_ENTRIES_POINTER,
+    }
+    assert payload["discovery_gated_nas_refs"]["mutation_lineage"] == {
+        "artifact": MUTATION_LEDGER_ARTIFACT,
+        "pointer": MUTATION_LEDGER_ENTRIES_POINTER,
+    }
+    assert "mutation_id" not in serialized
+    assert "source_pointer" not in serialized
+    assert "target_module" not in serialized
+    assert "terminal_verdict" not in serialized
 
 
 def test_model_discovery_summary_pointers_resolve_against_owned_artifacts(tmp_path):
