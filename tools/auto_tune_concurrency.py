@@ -103,12 +103,11 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 16  # reverted 2026-06-07 to pre-session proven-good (was raised to
-               # 20 per operator directive, but on this 8-core box the raise +
-               # double-restart produced a synchronized 34-worker cold-start
-               # cohort → load plateau ~50, .lake seeding 44min, then a merge-
-               # push thundering herd (ff-fail 0→5, R13737 push attempt 6).
-               # 16/14 is the last config proven to produce steady merges here.
+LEAN_MAX = 8  # 2026-06-07: dropped 20->16->8 over the session. On this 8-core
+               # box even 12/14 (autotune-settled under 16/14) drove load ~70 →
+               # bedc_ci.py audit timeouts (600s), ff-push herd (8 retries), and
+               # target saturation → repeating cooldowns. 8/6 is the box's
+               # sustainable point (skill cooldown-remedy: drop lean to 8).
                # Stage-2 single-writer broker would let this go higher safely.
 LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # 47% of R FAILs are `ff update of codex-auto-dev failed`
@@ -133,9 +132,8 @@ PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
                 # making P plateau because root_unblocks=0 → paper_demand=10
                 # → clamp to 12 floor. With discovery HARD GATE active,
                 # 18 worker is the right cruising altitude.
-PAPER_MAX = 14  # raised 2026-06-07 (operator directive: raise concurrency).
-                # See LEAN_MAX note: CPU/mem headroom available. Prior 14 was
-                # push-lock starvation mitigation; roll back if it recurs.
+PAPER_MAX = 6  # 2026-06-07: dropped to PAPER_MIN floor — see LEAN_MAX note;
+                # 8/6 is what this 8-core box sustains without audit timeouts.
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2
