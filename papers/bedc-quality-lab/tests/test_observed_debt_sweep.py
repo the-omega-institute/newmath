@@ -275,6 +275,22 @@ def test_c_hg5_rejects_c4_global_claim_and_full_planning_wording():
     assert "markdown:full planning closure" in hardgate["C-HG5"]["violations"]
 
 
+def test_c_hg5_rejects_c4_cell_missing_claim_boundary():
+    cell = {
+        "axis": "C4",
+        "axis_value": True,
+        "records": [],
+        "effect": {"effect_reported": True, "significant": True},
+        "verdict": {"verdict": "observed-debt", "global_claim_flag": False},
+        "skipped": False,
+    }
+
+    hardgate = runner._hardgate_evidence([cell])
+
+    assert hardgate["C-HG5"]["status"] == "fail"
+    assert "C4:True:claim_boundary" in hardgate["C-HG5"]["violations"]
+
+
 def test_c4_disabled_records_skipped_reason(monkeypatch):
     patch_lightweight_records(monkeypatch)
     monkeypatch.setattr(runner, "_planning_axis_available", lambda: (False, "planning missing"))
