@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from pathlib import Path
 import sys
@@ -27,7 +26,6 @@ PRODUCER = "scripts/run_discovery_gated_transformer.py"
 MODEL_ID = "discovery_gated_transformer"
 CANONICAL_JSON_ARTIFACT = "reports/canonical/discovery_gated_transformer.json"
 CANONICAL_MARKDOWN_ARTIFACT = "reports/canonical/discovery_gated_transformer.md"
-CANONICAL_FINGERPRINT_ARTIFACT = "reports/canonical/discovery_gated_transformer.fingerprint.json"
 NEW_MODEL_HARDGATES_ARTIFACT = "reports/canonical/new_model_hardgates.json"
 RUN_ROOT = "reports/runs/discovery_gated_transformer"
 CLAIM_CAPSULE_ARTIFACT = f"{RUN_ROOT}/claim_capsule.json"
@@ -41,10 +39,6 @@ GATE_IDS = tuple(f"NEW-MODEL-HG{index}" for index in range(1, 21))
 
 def _canonical_json(value: Any) -> str:
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
-
-
-def _digest(value: Any) -> str:
-    return hashlib.sha256(_canonical_json(value).encode("utf-8")).hexdigest()
 
 
 def _write_json(path: Path, payload: Any) -> None:
@@ -362,6 +356,79 @@ def validate_dgt_new_model_gates(sidecar: Mapping[str, Any], candidate: Mapping[
     return {"status": "pass" if overall else "fail", "gate_rows": rows}
 
 
+def _canonical_owner_refs() -> dict[str, Any]:
+    return {
+        "json_artifact": CANONICAL_JSON_ARTIFACT,
+        "markdown_artifact": CANONICAL_MARKDOWN_ARTIFACT,
+        "owner_pointer": f"{CANONICAL_JSON_ARTIFACT}:$",
+    }
+
+
+def _hardgate_contract_ref() -> dict[str, Any]:
+    return {
+        "artifact": NEW_MODEL_HARDGATES_ARTIFACT,
+        "pointer": "$.gates",
+        "artifact_pointer": f"{NEW_MODEL_HARDGATES_ARTIFACT}:$.gates",
+    }
+
+
+def _training_evidence_refs(summary: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "raw_metrics_pointer": f"{SUMMARY_ARTIFACT}:$.raw_metrics_artifact",
+        "summary_pointer": f"{SUMMARY_ARTIFACT}:$",
+        "evidence_envelope_pointer": f"{SUMMARY_ARTIFACT}:$.evidence_envelope",
+        "cost_protocol_pointer": f"{SUMMARY_ARTIFACT}:$.compute.cost_protocol",
+        "loss_decrease": {
+            "initial_pointer": f"{SUMMARY_ARTIFACT}:$.training_loss.initial",
+            "final_pointer": f"{SUMMARY_ARTIFACT}:$.training_loss.final",
+            "decrease_pointer": f"{SUMMARY_ARTIFACT}:$.training_loss.decrease",
+            "decreased": summary["training_loss"]["decrease"] > 0,
+        },
+        "false_ledger_rate": {"status": "non_regression", "evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas"},
+        "benefit_signal": {"status": "nondecreasing", "evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas"},
+    }
+
+
+def _baseline_refs() -> dict[str, Any]:
+    return {
+        "parameter_control": {"evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas"},
+        "compute_control": {"evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas"},
+        "matched_random": {"evidence_pointer": f"{SUMMARY_ARTIFACT}:$.random_controls"},
+    }
+
+
+def _surface_accuracy(summary: Mapping[str, Any], field: str) -> dict[str, Any]:
+    return {surface: summary["surface_deltas"][surface][field] for surface in SURFACES}
+
+
+def _classifier_surface_delta(summary: Mapping[str, Any]) -> dict[str, Any]:
+    candidate_accuracy = _surface_accuracy(summary, "candidate_accuracy")
+    baseline_accuracy = _surface_accuracy(summary, "best_baseline_accuracy")
+    return {
+        "surface_count": len(SURFACES),
+        "candidate_accuracy": candidate_accuracy,
+        "best_baseline_accuracy": baseline_accuracy,
+        "positive_surface_count": sum(candidate_accuracy[surface] > baseline_accuracy[surface] for surface in SURFACES),
+    }
+
+
+def _net_positive_signal(summary: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "status": "positive",
+        "quality_q_ci_low": 0.031,
+        "candidate_loss_beats_best_baseline_on_all_surfaces": all(
+            summary["surface_deltas"][surface]["candidate_loss"]
+            < summary["surface_deltas"][surface]["best_baseline_loss"]
+            for surface in SURFACES
+        ),
+        "evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas",
+    }
+
+
+def _status_from_hardgates(hardgates: Mapping[str, Mapping[str, Any]]) -> str:
+    return "prototype-candidate" if all(row["status"] == "pass" for row in hardgates.values()) else "demoted-candidate"
+
+
 def build_payload(
     *,
     generated_at: str = GENERATED_AT,
@@ -372,72 +439,21 @@ def build_payload(
     claim_capsule = _claim_capsule_payload(generated_at)
     audit = _forbidden_claim_term_audit(claim_capsule)
     hardgates = _candidate_hardgates(summary, audit)
-    candidate_accuracy = {
-        surface: summary["surface_deltas"][surface]["candidate_accuracy"]
-        for surface in SURFACES
-    }
-    baseline_accuracy = {
-        surface: summary["surface_deltas"][surface]["best_baseline_accuracy"]
-        for surface in SURFACES
-    }
     payload: dict[str, Any] = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
         "generated_at": generated_at,
         "producer": PRODUCER,
         "model_id": MODEL_ID,
-        "canonical_owner": {
-            "json_artifact": CANONICAL_JSON_ARTIFACT,
-            "markdown_artifact": CANONICAL_MARKDOWN_ARTIFACT,
-            "owner_pointer": f"{CANONICAL_JSON_ARTIFACT}:$",
-        },
-        "hardgate_contract_ref": {
-            "artifact": NEW_MODEL_HARDGATES_ARTIFACT,
-            "pointer": "$.gates",
-            "artifact_pointer": f"{NEW_MODEL_HARDGATES_ARTIFACT}:$.gates",
-        },
+        "canonical_owner": _canonical_owner_refs(),
+        "hardgate_contract_ref": _hardgate_contract_ref(),
         "sequence_task_grid": _sequence_grid(),
-        "training_evidence": {
-            "raw_metrics_pointer": f"{SUMMARY_ARTIFACT}:$.raw_metrics_artifact",
-            "summary_pointer": f"{SUMMARY_ARTIFACT}:$",
-            "evidence_envelope_pointer": f"{SUMMARY_ARTIFACT}:$.evidence_envelope",
-            "cost_protocol_pointer": f"{SUMMARY_ARTIFACT}:$.compute.cost_protocol",
-            "loss_decrease": {
-                "initial_pointer": f"{SUMMARY_ARTIFACT}:$.training_loss.initial",
-                "final_pointer": f"{SUMMARY_ARTIFACT}:$.training_loss.final",
-                "decrease_pointer": f"{SUMMARY_ARTIFACT}:$.training_loss.decrease",
-                "decreased": summary["training_loss"]["decrease"] > 0,
-            },
-            "false_ledger_rate": {"status": "non_regression", "evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas"},
-            "benefit_signal": {"status": "nondecreasing", "evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas"},
-        },
-        "baselines": {
-            "parameter_control": {"evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas"},
-            "compute_control": {"evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas"},
-            "matched_random": {"evidence_pointer": f"{SUMMARY_ARTIFACT}:$.random_controls"},
-        },
-        "classifier_surface_delta": {
-            "surface_count": len(SURFACES),
-            "candidate_accuracy": candidate_accuracy,
-            "best_baseline_accuracy": baseline_accuracy,
-            "positive_surface_count": sum(
-                candidate_accuracy[surface] > baseline_accuracy[surface] for surface in SURFACES
-            ),
-        },
-        "net_positive_signal": {
-            "status": "positive",
-            "quality_q_ci_low": 0.031,
-            "candidate_loss_beats_best_baseline_on_all_surfaces": all(
-                summary["surface_deltas"][surface]["candidate_loss"]
-                < summary["surface_deltas"][surface]["best_baseline_loss"]
-                for surface in SURFACES
-            ),
-            "evidence_pointer": f"{SUMMARY_ARTIFACT}:$.surface_deltas",
-        },
+        "training_evidence": _training_evidence_refs(summary),
+        "baselines": _baseline_refs(),
+        "classifier_surface_delta": _classifier_surface_delta(summary),
+        "net_positive_signal": _net_positive_signal(summary),
         "hardgate_instances": hardgates,
-        "prototype_status": "prototype-candidate"
-        if all(row["status"] == "pass" for row in hardgates.values())
-        else "demoted-candidate",
+        "prototype_status": _status_from_hardgates(hardgates),
         "discovery_map_signal": {
             "status": "candidate-local-positive",
             "level_candidate": "D4",

@@ -67,12 +67,17 @@ def test_dgt_validator_resolves_all_gate_pointers(tmp_path):
             ),
             "not_claimed_pointer_resolves",
         ),
+        (
+            lambda sidecar, payload: payload["hardgate_instances"]["NEW-MODEL-HG11"].update({"status": "ready"}),
+            "status",
+        ),
     ],
     ids=[
         "missing_sidecar_row",
         "missing_candidate_instance",
         "unresolved_evidence_pointer",
         "unresolved_not_claimed_pointer",
+        "invalid_status_demotes",
     ],
 )
 def test_dgt_new_model_gate_validation_fails_closed(mutate, expected_field):
@@ -83,7 +88,10 @@ def test_dgt_new_model_gate_validation_fails_closed(mutate, expected_field):
     row = validation["gate_rows"]["NEW-MODEL-HG11"]
 
     assert validation["status"] == "fail"
-    assert row[expected_field] is False
+    if expected_field == "status":
+        assert row["status"] == "fail"
+    else:
+        assert row[expected_field] is False
 
 
 def test_dgt_negative_witness_and_forbidden_audit_demote():

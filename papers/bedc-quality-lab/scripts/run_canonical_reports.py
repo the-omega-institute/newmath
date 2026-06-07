@@ -2026,10 +2026,6 @@ def _build_new_model_hardgates_payload(generated_at: str | None = None) -> dict[
     return payload
 
 
-def _new_model_hardgates_payload(generated_at: str | None = None) -> dict[str, Any]:
-    return _build_new_model_hardgates_payload(generated_at=generated_at)
-
-
 def _validate_new_model_hardgates_payload(payload: Mapping[str, Any]) -> None:
     forbidden_keys = {
         "terminal_verdict",
@@ -3962,7 +3958,7 @@ def run_reports(
     from scripts.run_negative_witness_mutation_ledger import write_negative_witness_mutation_ledger
 
     write_negative_witness_mutation_ledger(root=ROOT, generated_at=timestamp)
-    new_model_hardgates = _new_model_hardgates_payload(generated_at=timestamp)
+    new_model_hardgates = _build_new_model_hardgates_payload(generated_at=timestamp)
     _write_json_atomic(_artifact_path(NEW_MODEL_HARDGATES_JSON_ARTIFACT), new_model_hardgates)
     _write_text_atomic(
         _artifact_path(NEW_MODEL_HARDGATES_MARKDOWN_ARTIFACT),
