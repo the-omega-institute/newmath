@@ -4,6 +4,13 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
+    GAP_HEAD_ABLATION_ARTIFACT,
+    GAP_HEAD_ROBUSTNESS_ARTIFACT,
+    NEGATIVE_WITNESSES_ARTIFACT,
+    OBSERVED_DEBT_ARTIFACT,
+    GapHeadOperationalReadinessPolicy,
+)
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from scripts.experiment_stats import metric_stats
 from scripts import run_gap_head_attribution_capsule as runner
@@ -66,6 +73,62 @@ A1_CANONICAL_NEGATIVE_WITNESS_ROW = {
 
 def _stat(value):
     return metric_stats([float(value)] * 4)
+
+
+def _auroc_cell(*, mean, ci95_low, ci95_high):
+    return {
+        "ci95_half_width": 0.01,
+        "ci95_high": ci95_high,
+        "ci95_low": ci95_low,
+        "mean": mean,
+        "n": 10,
+        "std": 0.01,
+    }
+
+
+def _readiness_context(*, ablation_status="pass"):
+    return {
+        GAP_HEAD_ROBUSTNESS_ARTIFACT: {
+            "final_status": "pass",
+            "A1_threshold_sweep": {"treatment_verdict": {"positive": True}},
+            "A3_seed_expansion": {"final_verdict": "robust_positive"},
+        },
+        GAP_HEAD_ABLATION_ARTIFACT: {"hardgate": {"status": ablation_status}},
+        NEGATIVE_WITNESSES_ARTIFACT: {
+            "status": "pointer-only",
+            "expected_kind_count": 8,
+            "witnesses": [
+                {"kind": f"witness-{index}", "terminal_verdict": "rejected", "discovery_level": "DN"}
+                for index in range(8)
+            ],
+        },
+        OBSERVED_DEBT_ARTIFACT: {
+            "gap_head_on_h_observed_debt_transfer": {"status": "pass"},
+            "surfaces": [
+                {
+                    "control_verdict": {"positive": False},
+                    "hardgates": {
+                        "HG-A1": {
+                            "learned_auroc": _auroc_cell(mean=0.82, ci95_low=0.81, ci95_high=0.83),
+                            "matched_random_auroc": _auroc_cell(mean=0.46, ci95_low=0.42, ci95_high=0.49),
+                        }
+                    },
+                }
+            ],
+            "not_claimed": ["no claim outside the listed observed-debt transfer surfaces"],
+        },
+    }
+
+
+def _readiness_ledger(*, ablation_status="pass"):
+    return GapHeadOperationalReadinessPolicy().criteria(_readiness_context(ablation_status=ablation_status))
+
+
+def _write_readiness_context(root: Path, *, ablation_status="pass"):
+    for artifact, payload in _readiness_context(ablation_status=ablation_status).items():
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
 
 
 def _row(auroc, reduction):
@@ -201,6 +264,10 @@ def _pointer_target_payload(artifact, doc, pointer_path):
             readiness = row["d5_readiness"][parts[4]]
             return json.loads((root / readiness["artifact"]).read_text(encoding="utf-8"))
         return json.loads((root / row["json_artifact"]).read_text(encoding="utf-8"))
+    if pointer_path.startswith("$.d5_o.readiness.") and pointer_path.endswith(".pointer"):
+        parts = pointer_path.split(".")
+        readiness = doc["d5_o"]["readiness"][parts[3]]
+        return json.loads((root / readiness["artifact"]).read_text(encoding="utf-8"))
     if artifact.name == "index.json" and pointer_path.startswith("$.reports."):
         report = doc["reports"][int(pointer_path.split(".")[2])]
         return json.loads((root / report["json_artifact"]).read_text(encoding="utf-8"))
@@ -228,7 +295,7 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
         "generation_script": "scripts/run_gap_head_attribution_capsule.py",
         "cost_protocol": {"status": "recorded", "unit": "fixture"},
     }
-    d5_o = runner._d5_o(aggregate)
+    d5_o = runner._d5_o(aggregate, _readiness_ledger())
     mechanism_evidence = runner._mechanism_evidence(d5_o, d5_m, case, a4_hardgates, residualized, score_margin, head_patch)
     return {
         "schema_id": runner.SCHEMA_ID,
@@ -1045,7 +1112,7 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     e_hardgates = runner._e_hardgates(aggregate, residualized_claim)
     d5_m = runner._d5_m(hardgates, a4_hardgates)
     case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
-    d5_o = runner._d5_o(aggregate)
+    d5_o = runner._d5_o(aggregate, _readiness_ledger())
     mechanism_evidence = runner._mechanism_evidence(d5_o, d5_m, case, a4_hardgates, residualized, score_margin, head_patch)
     capsule = {
         "schema_id": runner.SCHEMA_ID,
@@ -1129,6 +1196,49 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     assert capsule["forbidden_column_audit"]["status"] == "pass"
     assert set(runner.NOT_CLAIMED).issubset(set(capsule["scope"]["not_claimed"]))
     assert capsule["revocation_ledger"][0]["failed_gate"] == "A4-HG5"
+
+
+def test_gap_head_attribution_d5_o_blocks_on_ablation_fail():
+    aggregate = _aggregate()
+    d5_o = runner._d5_o(aggregate, _readiness_ledger(ablation_status="fail"))
+
+    assert d5_o["status"] == "blocked"
+    assert "ablation" in d5_o["failed_checks"]
+    assert d5_o["criterion_pointers"]["ablation"] == "reports/canonical/gap-head-ablation.json:$.hardgate.status"
+    assert d5_o["readiness"]["ablation"]["status"] == "failed"
+
+
+def test_gap_head_attribution_d5_o_ready_on_all_pass():
+    aggregate = _aggregate()
+    d5_o = runner._d5_o(aggregate, _readiness_ledger())
+
+    assert d5_o["status"] == "ready"
+    assert d5_o["failed_checks"] == []
+
+
+def test_gap_head_attribution_mechanism_evidence_does_not_claim_base_level_when_blocked():
+    aggregate = _aggregate()
+    hardgates = runner._a1_hardgates(aggregate)
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("score_margin_sufficient")
+    head_patch = _head_patch_fixture()
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, head_patch)
+    d5_m = runner._d5_m(hardgates, a4_hardgates)
+    case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
+    d5_o = runner._d5_o(aggregate, _readiness_ledger(ablation_status="fail"))
+
+    mechanism_evidence = runner._mechanism_evidence(
+        d5_o,
+        d5_m,
+        case,
+        a4_hardgates,
+        residualized,
+        score_margin,
+        head_patch,
+    )
+
+    assert mechanism_evidence["base_status"] == "blocked"
+    assert mechanism_evidence["base_level"] == "blocked"
 
 
 @pytest.mark.parametrize(
@@ -1327,6 +1437,8 @@ def test_write_artifacts_emits_all_local_pointers_resolvable_in_persisted_json(t
 
     try:
         runner.ROOT = tmp_path
+        _write_readiness_context(tmp_path)
+        _write_readiness_context(_lab_root_for_artifact(run_dir / "claim_capsule.json"))
         runner._write_artifacts(payload, run_dir, canonical=True)
     finally:
         runner.ROOT = old_root
@@ -1340,7 +1452,11 @@ def test_write_artifacts_emits_all_local_pointers_resolvable_in_persisted_json(t
         doc = json.loads(artifact.read_text(encoding="utf-8"))
         pointers = _collect_pointers(doc)
         assert pointers
-        dangling = [(path, pointer) for path, pointer in pointers if not _pointer_resolves(doc, pointer)]
+        dangling = []
+        for pointer_path, pointer in pointers:
+            target = _pointer_target_payload(artifact, doc, pointer_path)
+            if not _pointer_resolves(target, pointer):
+                dangling.append((pointer_path, pointer))
         assert dangling == []
         assert all(
             pointer.startswith("$.control_evidence.")

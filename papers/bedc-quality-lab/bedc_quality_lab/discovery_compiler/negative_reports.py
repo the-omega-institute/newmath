@@ -38,7 +38,6 @@ REQUIRED_NEGATIVE_REPORT_IDS = frozenset(
         DIMENSION_MISMATCH_REPORT_ID,
         "single-threshold-escape",
         "training-choice-observability",
-        "gap-head-mechanism-blockage",
     }
 )
 OWNER_FACT_KEYS = frozenset(

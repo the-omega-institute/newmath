@@ -44,8 +44,8 @@ SELECTED_WORKED_CASE_SENTENCE = (
     "`gap-head-on-h` is the selected positive worked case for this report frame; "
     "positive-discovery classification is read from "
     "`reports/canonical/discovery_map.json:$.rows[*]`, so this section does not "
-    "claim uniqueness among positive rows. Its current D5-candidate status is "
-    "scoped to observed-debt transfer surfaces."
+    "claim uniqueness among positive rows. Its current operational level is D4, "
+    "with D5-O readiness blocked by the ablation hardgate."
 )
 CANONICAL_JSON_RE = re.compile(r"^reports/canonical/[^`\s]+\.json$")
 CANONICAL_JSON_WITH_POINTER_RE = re.compile(r"^(reports/canonical/[^`\s]+\.json):(\$.*)$")
