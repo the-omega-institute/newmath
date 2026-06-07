@@ -55,9 +55,9 @@ class LatSurfaceSuite:
         SurfaceSpec("delayed_recall", "delayed recall under temporal key reuse", "ood-delayed-recall", 11, "high_residual_norm"),
         SurfaceSpec("compositional_rules", "compositional rule transfer under parity recombination", "ood-compositional-rules", 23, "attention_drift"),
         SurfaceSpec("synthetic_tool_use", "synthetic tool-use trace with latent write collisions", "ood-synthetic-tool-use", 37, "write_collision"),
-        SurfaceSpec("counterfactual_binding", "counterfactual binding under shifted slot identity", "ood-counterfactual-binding", 41, "high_residual_norm"),
-        SurfaceSpec("hierarchical_planning", "hierarchical planning trace with delayed subgoal joins", "ood-hierarchical-planning", 53, "attention_drift"),
-        SurfaceSpec("adversarial_negation", "adversarial negation under rule inversion", "ood-adversarial-negation", 67, "write_collision"),
+        SurfaceSpec("toy_safety_boundary", "toy safety boundary under refusal ambiguity", "ood-toy-safety-boundary", 41, "high_residual_norm"),
+        SurfaceSpec("toy_planning", "toy planning trace with delayed subgoal joins", "ood-toy-planning", 53, "attention_drift"),
+        SurfaceSpec("compression_preservation", "compression preservation under lossy route pressure", "ood-compression-preservation", 67, "write_collision"),
     )
 
     def surface_specs(self) -> tuple[SurfaceSpec, ...]:
@@ -187,11 +187,11 @@ def _ledger_event(residuals: np.ndarray, spec: SurfaceSpec) -> np.ndarray:
         score = -0.35 * primary + secondary + 0.25 * tertiary
     elif spec.surface_id == "synthetic_tool_use":
         score = 0.25 * primary - 0.4 * secondary + tertiary
-    elif spec.surface_id == "counterfactual_binding":
+    elif spec.surface_id == "toy_safety_boundary":
         score = 0.58 * np.roll(primary, 1) + 0.36 * secondary - 0.18 * tertiary
-    elif spec.surface_id == "hierarchical_planning":
+    elif spec.surface_id == "toy_planning":
         score = np.maximum(primary, secondary) + 0.22 * tertiary - 0.14 * quaternary
-    elif spec.surface_id == "adversarial_negation":
+    elif spec.surface_id == "compression_preservation":
         score = -0.42 * primary + 0.3 * np.abs(secondary) + 0.68 * quaternary
     else:
         raise ValueError(f"unknown LAT surface_id: {spec.surface_id}")
@@ -207,11 +207,11 @@ def _prediction_error(residuals: np.ndarray, ledger_event: np.ndarray, spec: Sur
         event_load = 0.44 * ledger_event + 0.05 * (residuals[:, 4] < 0.0)
     elif spec.surface_id == "synthetic_tool_use":
         event_load = 0.5 * ledger_event + 0.03 * (residuals[:, 5] > 0.0)
-    elif spec.surface_id == "counterfactual_binding":
+    elif spec.surface_id == "toy_safety_boundary":
         event_load = 0.18 + 0.01 * (residuals[:, -1] < 0.0)
-    elif spec.surface_id == "hierarchical_planning":
+    elif spec.surface_id == "toy_planning":
         event_load = 0.18 + 0.01 * (residuals[:, -3] > residuals[:, 0])
-    elif spec.surface_id == "adversarial_negation":
+    elif spec.surface_id == "compression_preservation":
         event_load = 0.18 + 0.01 * (residuals[:, 3] < residuals[:, -2])
     else:
         raise ValueError(f"unknown LAT surface_id: {spec.surface_id}")

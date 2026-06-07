@@ -199,25 +199,25 @@
         "control_pointer": "$.records.3.matched_random_control.metrics",
         "evidence_pointer": "$.records.3.gap_head.metrics",
         "ledger_decision_pointer": "$.records.3.gap_head",
-        "row_id": "lat:counterfactual_binding:ledger-policy",
+        "row_id": "lat:toy_safety_boundary:ledger-policy",
         "status": "recorded",
-        "surface_id": "counterfactual_binding"
+        "surface_id": "toy_safety_boundary"
       },
       {
         "control_pointer": "$.records.4.matched_random_control.metrics",
         "evidence_pointer": "$.records.4.gap_head.metrics",
         "ledger_decision_pointer": "$.records.4.gap_head",
-        "row_id": "lat:hierarchical_planning:ledger-policy",
+        "row_id": "lat:toy_planning:ledger-policy",
         "status": "recorded",
-        "surface_id": "hierarchical_planning"
+        "surface_id": "toy_planning"
       },
       {
         "control_pointer": "$.records.5.matched_random_control.metrics",
         "evidence_pointer": "$.records.5.gap_head.metrics",
         "ledger_decision_pointer": "$.records.5.gap_head",
-        "row_id": "lat:adversarial_negation:ledger-policy",
+        "row_id": "lat:compression_preservation:ledger-policy",
         "status": "recorded",
-        "surface_id": "adversarial_negation"
+        "surface_id": "compression_preservation"
       }
     ]
   },
@@ -387,7 +387,7 @@
         },
         "uses_forbidden_columns": false
       },
-      "ood_kind": "ood-counterfactual-binding",
+      "ood_kind": "ood-toy-safety-boundary",
       "residual_pointer": "$.records.3.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -396,7 +396,7 @@
       },
       "role": "ood_surface",
       "sample_count": 48,
-      "surface_id": "counterfactual_binding"
+      "surface_id": "toy_safety_boundary"
     },
     {
       "deltas": {
@@ -424,7 +424,7 @@
         },
         "uses_forbidden_columns": false
       },
-      "ood_kind": "ood-hierarchical-planning",
+      "ood_kind": "ood-toy-planning",
       "residual_pointer": "$.records.4.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -433,7 +433,7 @@
       },
       "role": "ood_surface",
       "sample_count": 48,
-      "surface_id": "hierarchical_planning"
+      "surface_id": "toy_planning"
     },
     {
       "deltas": {
@@ -461,7 +461,7 @@
         },
         "uses_forbidden_columns": false
       },
-      "ood_kind": "ood-adversarial-negation",
+      "ood_kind": "ood-compression-preservation",
       "residual_pointer": "$.records.5.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -470,7 +470,7 @@
       },
       "role": "ood_surface",
       "sample_count": 48,
-      "surface_id": "adversarial_negation"
+      "surface_id": "compression_preservation"
     }
   ],
   "revocation_rows": [
@@ -521,23 +521,17 @@
     "producer_script": "scripts/run_ledger_aware_transformer.py"
   },
   "surface_registry": {
-    "adversarial_negation": {
-      "ledger_channel": "write_collision",
-      "ood_kind": "ood-adversarial-negation",
-      "surface_id": "adversarial_negation",
-      "title": "adversarial negation under rule inversion"
-    },
     "compositional_rules": {
       "ledger_channel": "attention_drift",
       "ood_kind": "ood-compositional-rules",
       "surface_id": "compositional_rules",
       "title": "compositional rule transfer under parity recombination"
     },
-    "counterfactual_binding": {
-      "ledger_channel": "high_residual_norm",
-      "ood_kind": "ood-counterfactual-binding",
-      "surface_id": "counterfactual_binding",
-      "title": "counterfactual binding under shifted slot identity"
+    "compression_preservation": {
+      "ledger_channel": "write_collision",
+      "ood_kind": "ood-compression-preservation",
+      "surface_id": "compression_preservation",
+      "title": "compression preservation under lossy route pressure"
     },
     "delayed_recall": {
       "ledger_channel": "high_residual_norm",
@@ -545,17 +539,23 @@
       "surface_id": "delayed_recall",
       "title": "delayed recall under temporal key reuse"
     },
-    "hierarchical_planning": {
-      "ledger_channel": "attention_drift",
-      "ood_kind": "ood-hierarchical-planning",
-      "surface_id": "hierarchical_planning",
-      "title": "hierarchical planning trace with delayed subgoal joins"
-    },
     "synthetic_tool_use": {
       "ledger_channel": "write_collision",
       "ood_kind": "ood-synthetic-tool-use",
       "surface_id": "synthetic_tool_use",
       "title": "synthetic tool-use trace with latent write collisions"
+    },
+    "toy_planning": {
+      "ledger_channel": "attention_drift",
+      "ood_kind": "ood-toy-planning",
+      "surface_id": "toy_planning",
+      "title": "toy planning trace with delayed subgoal joins"
+    },
+    "toy_safety_boundary": {
+      "ledger_channel": "high_residual_norm",
+      "ood_kind": "ood-toy-safety-boundary",
+      "surface_id": "toy_safety_boundary",
+      "title": "toy safety boundary under refusal ambiguity"
     }
   },
   "torch_training_evidence": {

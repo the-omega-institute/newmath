@@ -29,9 +29,9 @@
 | `delayed_recall` | 0.020833 | 0.083333 | 0.062500 | -0.229167 |
 | `compositional_rules` | 0.000000 | 0.291667 | 0.291667 | -0.145833 |
 | `synthetic_tool_use` | 0.020833 | 0.208333 | 0.187500 | -0.187500 |
-| `counterfactual_binding` | 0.000000 | 0.000000 | 0.000000 | 0.000000 |
-| `hierarchical_planning` | 0.000000 | 0.000000 | 0.000000 | 0.312500 |
-| `adversarial_negation` | 0.000000 | 0.000000 | 0.000000 | 0.041667 |
+| `toy_safety_boundary` | 0.000000 | 0.000000 | 0.000000 | 0.000000 |
+| `toy_planning` | 0.000000 | 0.000000 | 0.000000 | 0.312500 |
+| `compression_preservation` | 0.000000 | 0.000000 | 0.000000 | 0.041667 |
 
 ## Canonical Pointers
 

@@ -35,9 +35,9 @@ EXPECTED_SURFACE_IDS = (
     "delayed_recall",
     "compositional_rules",
     "synthetic_tool_use",
-    "counterfactual_binding",
-    "hierarchical_planning",
-    "adversarial_negation",
+    "toy_safety_boundary",
+    "toy_planning",
+    "compression_preservation",
 )
 
 
@@ -79,6 +79,7 @@ def _recompute(payload):
 def test_lat_projection_has_hardgate_signal_and_required_keys():
     payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
 
+    suite_ids = tuple(spec.surface_id for spec in lat.LatSurfaceSuite().surface_specs())
     assert REQUIRED_SUMMARY_KEYS <= set(payload)
     assert set(payload["hardgate"]["gates"]) == set(lat.LAT_HARDGATES)
     assert "LAT-HG7" in payload["hardgate"]["gates"]
@@ -92,6 +93,9 @@ def test_lat_projection_has_hardgate_signal_and_required_keys():
     assert payload["forbidden_claim_term_audit"]["status"] == "pass"
     assert payload["aggregate_metrics"]["uer_reduction"] > 0.0
     assert payload["aggregate_metrics"]["multi_surface_uer_reduction_count"] == 3
+    assert suite_ids == EXPECTED_SURFACE_IDS
+    assert len(suite_ids) == 6
+    assert len(set(suite_ids)) == 6
     assert tuple(row["surface_id"] for row in payload["records"]) == EXPECTED_SURFACE_IDS
     assert tuple(payload["surface_registry"]) == EXPECTED_SURFACE_IDS
     assert tuple(spec.surface_id for spec in lat.surface_specs()) == EXPECTED_SURFACE_IDS
