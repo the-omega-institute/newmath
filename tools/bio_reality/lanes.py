@@ -2450,7 +2450,7 @@ def _bios_codex_resolve_prompt(rel_path: str, conflicted_content: str, upstream_
     return "\n".join([
         "You are resolving a single git merge conflict in the BioReality / BEDC repository.",
         "Local branch: feat/bio-reality-deepening (BioReality research direction).",
-        f"Merging upstream commit {upstream_sha[:12]} from origin/auto-dev (Loning's main automation branch).",
+        f"Merging upstream commit {upstream_sha[:12]} from origin/dev (the shared integration branch all pipelines roll up into).",
         "",
         "Project invariants (must hold for resolution to be correct):",
         "- working language Chinese; Python stdlib only; pdflatex single-pass with halt-on-error",
@@ -3213,6 +3213,129 @@ def run_merge_back_lane(store: BioRealityStore) -> dict[str, Any]:
     except OSError:
         pass
     return {"lane": "bio-M", "pushed": True, "upstream": upstream, "commits_pushed": feat_only}
+
+
+def _pr_all_green(pr: dict[str, Any]) -> bool:
+    """Mergeable PR with every status check green. Mirrors the green-gate in
+    tools/sync_with_auto_dev.py before it auto-merges a catch-up PR."""
+    if pr.get("mergeable") != "MERGEABLE":
+        return False
+    checks = pr.get("statusCheckRollup") or []
+    if not checks:
+        return False
+    for check in checks:
+        verdict = (str(check.get("conclusion") or "") or str(check.get("state") or "")).upper()
+        if verdict not in ("SUCCESS", "NEUTRAL", "SKIPPED"):
+            return False
+    return True
+
+
+def _write_dev_rollup_state(path: Path) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"last_run_ts": time.time()}) + "\n", encoding="utf-8")
+    except OSError:
+        pass
+
+
+def run_dev_rollup_lane(store: BioRealityStore) -> dict[str, Any]:
+    """Maintain one managed PR rolling feat/bio-reality-deepening up to dev.
+
+    Modeled on the catch-up PR in tools/sync_with_auto_dev.py (Loning's
+    pipeline): a single idempotent labeled PR (head=feat, base=dev) that
+    auto-merges once CI is green (when enabled). GATED on dev already being an
+    ancestor of feat, so we never open a PR that would revert dev's newer
+    non-bio_reality files; bio-S (syncing from dev) brings feat current first.
+    """
+    try:
+        config = _load_keep_lane_config()
+    except (OSError, json.JSONDecodeError) as exc:
+        return {"lane": "bio-D", "error": f"config_error: {exc}"}
+    rollup = config.get("dev_rollup") if isinstance(config.get("dev_rollup"), dict) else {}
+    if not rollup.get("enabled", False):
+        return {"lane": "bio-D", "skipped": "disabled"}
+    if not _network_available():
+        return {"lane": "bio-D", "skipped": "offline"}
+
+    repo_root = store.paths.root.parent.parent
+    remote = str(config.get("remote") or "origin")
+    head = str(rollup.get("head_branch") or config.get("branch") or "feat/bio-reality-deepening")
+    base = str(rollup.get("base_branch") or "dev")
+    label = str(rollup.get("label") or "bio-reality-dev-rollup")
+    auto_merge = bool(rollup.get("auto_merge_when_green", False))
+    min_seconds = float(rollup.get("min_seconds_between") or 600)
+
+    state_path = store.paths.keep_lane_state.parent / "dev_rollup_state.json"
+    try:
+        last_ts = float(json.loads(state_path.read_text(encoding="utf-8")).get("last_run_ts") or 0.0)
+    except (OSError, json.JSONDecodeError, ValueError, TypeError):
+        last_ts = 0.0
+    if time.time() - last_ts < min_seconds:
+        return {"lane": "bio-D", "skipped": "throttled"}
+
+    if _run_command(repo_root, ["gh", "--version"]).returncode != 0:
+        return {"lane": "bio-D", "skipped": "gh_unavailable"}
+
+    fetch = _run_command(repo_root, ["git", "fetch", remote, base, head], timeout=120.0)
+    if fetch.returncode != 0:
+        return {"lane": "bio-D", "error": "fetch_failed", "stderr": (fetch.stderr or "")[-300:]}
+
+    def _count(rng: str) -> int:
+        res = _run_command(repo_root, ["git", "rev-list", "--count", rng])
+        try:
+            return int((res.stdout or "0").strip())
+        except ValueError:
+            return -1
+
+    ahead = _count(f"{remote}/{base}..{remote}/{head}")
+    behind = _count(f"{remote}/{head}..{remote}/{base}")
+    if ahead <= 0:
+        _write_dev_rollup_state(state_path)
+        return {"lane": "bio-D", "skipped": "nothing_to_roll_up", "ahead": ahead}
+
+    contains = _run_command(repo_root, ["git", "merge-base", "--is-ancestor", f"{remote}/{base}", f"{remote}/{head}"])
+    if contains.returncode != 0:
+        _write_dev_rollup_state(state_path)
+        return {"lane": "bio-D", "skipped": "feat_behind_dev", "ahead": ahead, "behind": behind,
+                "note": "waiting for bio-S to bring feat current with dev"}
+
+    listing = _run_command(repo_root, ["gh", "pr", "list", "--head", head, "--base", base,
+                                       "--label", label, "--state", "open",
+                                       "--json", "number,statusCheckRollup,mergeable,title", "--limit", "20"])
+    try:
+        prs = json.loads(listing.stdout or "[]")
+    except json.JSONDecodeError:
+        prs = []
+
+    if prs:
+        pr = prs[0]
+        number = pr.get("number")
+        green = _pr_all_green(pr)
+        if auto_merge and green:
+            merge = _run_command(repo_root, ["gh", "pr", "merge", str(number), "--merge"], timeout=120.0)
+            _write_dev_rollup_state(state_path)
+            if merge.returncode == 0:
+                return {"lane": "bio-D", "merged": number, "ahead": ahead}
+            return {"lane": "bio-D", "pr": number, "merge_failed": (merge.stderr or "")[-300:]}
+        _write_dev_rollup_state(state_path)
+        return {"lane": "bio-D", "pr": number, "tracking": True, "ahead": ahead, "green": green, "auto_merge": auto_merge}
+
+    body = (f"Managed rollup PR from `{head}` to `{base}`, maintained by the BioReality "
+            f"daemon bio-D lane (modeled on tools/sync_with_auto_dev.py). Carries the "
+            f"BioReality cross-layer codon-reality work as a clean delta over `{base}`.")
+    title = f"BioReality rollup: {head} -> {base}"
+    cmd = ["gh", "pr", "create", "--base", base, "--head", head, "--title", title, "--body", body, "--label", label]
+    create = _run_command(repo_root, cmd, timeout=120.0)
+    if create.returncode != 0:
+        err = (create.stdout or "") + (create.stderr or "")
+        if "label" in err.lower() and "not found" in err.lower():
+            _run_command(repo_root, ["gh", "label", "create", label, "--description", "BioReality feat->dev rollup", "--color", "1D76DB"])
+            create = _run_command(repo_root, cmd, timeout=120.0)
+        if create.returncode != 0:
+            _write_dev_rollup_state(state_path)
+            return {"lane": "bio-D", "error": "pr_create_failed", "stderr": (create.stderr or "")[-300:]}
+    _write_dev_rollup_state(state_path)
+    return {"lane": "bio-D", "created": True, "ahead": ahead, "head": head, "base": base}
 
 
 def _tex_escape(value: Any) -> str:
