@@ -509,6 +509,29 @@ def _pointer_resolves(payload: Mapping[str, Any], pointer: str | None) -> bool:
     return pointer_value(payload, pointer) is not None
 
 
+def _positive_number(value: Any) -> bool:
+    if isinstance(value, bool):
+        return False
+    if not isinstance(value, (int, float)):
+        return False
+    number = float(value)
+    return math.isfinite(number) and number > 0.0
+
+
+def _surface_reduction_requirement_met(comparison: Mapping[str, Any]) -> bool:
+    surface_count = comparison.get("surface_reduction_count")
+    required_count = comparison.get("required_surface_reduction_count")
+    if isinstance(surface_count, bool) or isinstance(required_count, bool):
+        return False
+    if not isinstance(surface_count, int) or not isinstance(required_count, int):
+        return False
+    return surface_count >= required_count
+
+
+def _parameter_matched_candidate_beats_baseline(comparison: Mapping[str, Any]) -> bool:
+    return _positive_number(comparison.get("uer_reduction")) and _surface_reduction_requirement_met(comparison)
+
+
 def _forbidden_term_audit(positive_claim: Mapping[str, Any]) -> dict[str, Any]:
     text = json.dumps(positive_claim, sort_keys=True).lower()
     hits = [term for term in FORBIDDEN_POSITIVE_CLAIM_TERMS if term.lower() in text]
@@ -717,6 +740,18 @@ class LedgerAwareTransformerProjection:
             pm_protocol.get(key) is False
             for key in ("uses_ledger", "uses_gap", "uses_cert", "uses_forbidden_columns")
         )
+        pm_candidate_beats = (
+            _parameter_matched_candidate_beats_baseline(pm_comparison)
+            if isinstance(pm_comparison, Mapping)
+            else False
+        )
+        pm_cost_pass = isinstance(pm_cost_match, Mapping) and pm_cost_match.get("all_match") is True
+        pm_retained_verdicts_match = (
+            isinstance(parameter_matched, Mapping)
+            and isinstance(pm_comparison, Mapping)
+            and parameter_matched.get("status") == ("pass" if pm_candidate_beats and pm_cost_pass else "fail")
+            and pm_comparison.get("candidate_beats_baseline") is pm_candidate_beats
+        )
         pm_records_pointer_pass = (
             isinstance(parameter_matched, Mapping)
             and parameter_matched.get("records_pointer") == "$.records"
@@ -737,7 +772,6 @@ class LedgerAwareTransformerProjection:
         )
         hg7_pass = (
             isinstance(parameter_matched, Mapping)
-            and parameter_matched.get("status") == "pass"
             and isinstance(pm_protocol, Mapping)
             and isinstance(pm_comparison, Mapping)
             and isinstance(pm_cost_match, Mapping)
@@ -746,9 +780,10 @@ class LedgerAwareTransformerProjection:
             and pm_protocol.get("cost_pointer") == "$.parameter_matched_baseline.cost_match"
             and pm_comparison.get("lat_uer_pointer") == "$.aggregate_metrics.uer_learned"
             and pm_comparison.get("required_surface_reduction_count") == REQUIRED_PARAMETER_MATCHED_SURFACE_REDUCTION_COUNT
-            and pm_comparison.get("candidate_beats_baseline") is True
+            and pm_candidate_beats
+            and pm_retained_verdicts_match
             and pm_comparison.get("evidence_pointer") == "$.parameter_matched_baseline.comparison"
-            and pm_cost_match.get("all_match") is True
+            and pm_cost_pass
             and pm_forbidden_channels_clear
             and pm_records_pointer_pass
             and pm_record_rows_pass
@@ -767,7 +802,7 @@ class LedgerAwareTransformerProjection:
             "LAT-HG6": (hg6_pass, "$.torch_training_evidence.protocol", "torch protocol boundary is recorded"),
             "LAT-HG7": (
                 hg7_pass,
-                "$.parameter_matched_baseline.status",
+                "$.parameter_matched_baseline.comparison",
                 "parameter-matched baseline is cost-matched and channel-clean",
             ),
         }

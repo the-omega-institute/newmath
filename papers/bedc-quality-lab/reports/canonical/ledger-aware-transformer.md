@@ -20,7 +20,7 @@
 | `LAT-HG4` | `pass` | `$.matched_random_control.control_positive_discovery` |
 | `LAT-HG5` | `pass` | `$.forbidden_claim_term_audit.status` |
 | `LAT-HG6` | `pass` | `$.torch_training_evidence.protocol` |
-| `LAT-HG7` | `pass` | `$.parameter_matched_baseline.status` |
+| `LAT-HG7` | `pass` | `$.parameter_matched_baseline.comparison` |
 
 ## Records
 

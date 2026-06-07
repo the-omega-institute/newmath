@@ -115,7 +115,7 @@ def test_lat_projection_has_hardgate_signal_and_required_keys():
         "aggregate_pointer": "$.aggregate_metrics.multi_surface_uer_reduction_count",
         "gate_pointer": "$.hardgate.gates.LAT-HG7.status",
     }
-    assert payload["hardgate"]["gates"]["LAT-HG7"]["status"] == payload["parameter_matched_baseline"]["status"]
+    assert payload["hardgate"]["gates"]["LAT-HG7"]["pointer"] == "$.parameter_matched_baseline.comparison"
 
 
 def test_lat_parameter_matched_baseline_is_recorded_and_cost_matched():
@@ -308,6 +308,28 @@ def test_lat_parameter_matched_failure_demotes_to_dn():
     assert mutated["failed_gate"] == "LAT-HG7"
     assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
     assert pointer_value(mutated, mutated["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
+
+
+@pytest.mark.parametrize(
+    "comparison_patch",
+    [
+        {"uer_reduction": 0.0},
+        {"surface_reduction_count": lat.REQUIRED_PARAMETER_MATCHED_SURFACE_REDUCTION_COUNT - 1},
+    ],
+)
+def test_lat_parameter_matched_stale_numeric_facts_demote_to_dn(comparison_patch):
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutated["parameter_matched_baseline"]["status"] = "pass"
+    mutated["parameter_matched_baseline"]["comparison"]["candidate_beats_baseline"] = True
+    mutated["parameter_matched_baseline"]["comparison"].update(comparison_patch)
+
+    _recompute(mutated)
+
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["hardgate"]["gates"]["LAT-HG7"]["status"] == "fail"
+    assert mutated["failed_gate"] == "LAT-HG7"
+    assert mutated["discovery_map_signal"]["level_candidate"] != "D5-O"
 
 
 def test_lat_parameter_matched_forbidden_channel_demotes_to_dn():
