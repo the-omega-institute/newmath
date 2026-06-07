@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\CompactClosedMapUp$}
+\label{ch:concrete-instances-compact-closed-map-namecert}
+\origin{human}
+
+Following Bourbaki and Bishop--Bridges constructive topology, the $\CompactClosedMapUp$ packet records the compact-to-Hausdorff closed-map consequence as finite-net image data rather than as an open-cover compactness theorem. It reads compact source rows from \autoref{ch:concrete-instances-compact-namecert}, metric and Hausdorff separation rows from \autoref{ch:concrete-instances-metric-space-namecert} and \autoref{ch:concrete-instances-hausdorff-metric-namecert}, continuous-map and uniform-modulus rows from \autoref{ch:concrete-instances-continuousmap-namecert} and \autoref{ch:concrete-instances-uniformmodulus-namecert}, and Real tolerance rows from \autoref{ch:concrete-instances-real-namecert}. The constructive reading is a finite-net image schedule: every closed-image read is obtained by replaying displayed compact finite nets, continuity/modulus rows, Hausdorff separation rows, and closed-domain subpacket rows.
+
+\begin{definition}[Compact closed-map carrier]
+\label{def:compact-closed-map-carrier}
+A $\CompactClosedMapUp$ carrier is a finite $\BHist$ packet
+$$
+M=(K,F,H,D,I,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the compact source row, carrying the finite-net and refinement schedules of the accepted $\CompactUp$ packet.
+\item $F$ is the continuous graph and modulus row: it records the $\ContinuousMapUp$ graph samples and the $\UniformModulusUp$ tolerance responses used to transport source finite nets to image finite nets.
+\item $H$ is the Hausdorff separation row over the target metric surface, naming the finite separation witnesses that distinguish an image point from a point outside the transported image packet.
+\item $D$ is the closed-domain subpacket row, displaying the closed source subpacket whose image is being read.
+\item $I$ is the image row, recording the finite transported image samples, their Real-valued tolerance budgets, and the target-side membership classifier for the closed-image packet.
+\item $T$ is the componentwise $\hsame$ transport row for $K,F,H,D,I$.
+\item $C$ is the displayed $\Cont$ replay route for the same compact finite-net image schedule.
+\item $P$ is the $\Pkg$ provenance over $\CompactClosedMapUp$, $\CompactUp$, $\MetricSpaceUp$, $\HausdorffMetricUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactClosedMapUp}$ row.
+\end{enumerate}
+The carrier exports no open-cover compactness principle, host topology, quotient equality of points or images, selected finite subcover, countable-choice selector, or ambient completeness row.
+\end{definition}
+
+\begin{theorem}[Compact closed-map NameCert obligations]
+\label{thm:compact-closed-map-namecert-obligations}
+For an accepted $\CompactClosedMapUp$ carrier $M=(K,F,H,D,I,T,C,P,N)$, the local $\NameCert_{\CompactClosedMapUp}$ surface consists exactly of carrier admission for compact finite-net data, continuous graph and uniform-modulus rows, Hausdorff separation rows, closed-domain subpacket data, finite image rows, componentwise transport, displayed replay, provenance, and local naming. Any consumer that asks for open-cover compactness, a host-topology closed-set theorem, quotient equality, selected subcovers, choice, or ambient completeness is outside the accepted packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-closed-map-carrier}. The analytic rows are precisely $K,F,H,D,I$, and the structural rows are $T,C,P,N$.
+
+The compact row supplies finite-net data, the continuous and modulus row transports those data to image samples, the Hausdorff row separates target points by displayed metric witnesses, and the closed-domain row restricts the source packet before the image row is read.
+
+Finally attach transport, replay, provenance, and local naming. Since the carrier inventory has no row for open covers, host topology, quotient equality, selected subcovers, countable choice, or ambient completeness, the NameCert obligations are exhausted by the displayed finite rows.
+\end{proof}
+
+\begin{theorem}[Compact closed-map finite-net image]
+\label{thm:compact-closed-map-finite-net-image}
+Every image read exported by an accepted $\CompactClosedMapUp$ carrier factors through the finite route
+$$
+K,F,D \longmapsto I \longmapsto T,C,P,N .
+$$
+The row $K$ supplies compact finite nets, $F$ supplies continuous graph and $\UniformModulusUp$ tolerance control, $D$ supplies the closed-domain subpacket, and $I$ records the transported finite image rows with $\RealUp$ tolerance budgets. The export is not an open-cover compactness argument, a selected subcover, a quotient image, or a host-topological closure operation.
+\end{theorem}
+\begin{proof}
+Start with the compact source row $K$. A finite image read cannot inspect the target image before the displayed compact finite-net schedule is available.
+
+Next read $F$ and $D$. The continuous graph and modulus data say how source finite-net samples are transported, while the closed-domain subpacket says which source rows are permitted to contribute to the image.
+
+The row $I$ then records the transported image samples and Real tolerance budgets. The structural rows $T,C,P,N$ preserve and name the same finite route, so no open-cover proof, selected subcover, quotient image, or host closure operation can enter.
+\end{proof}
+
+\begin{theorem}[Compact closed-map Hausdorff separation]
+\label{thm:compact-closed-map-hausdorff-separation}
+For an accepted $\CompactClosedMapUp$ carrier $M=(K,F,H,D,I,T,C,P,N)$, every target-side separation read used to certify closedness of the image must expose the Hausdorff row $H$ after the compact finite-net, continuous-modulus, closed-domain, and image rows have been displayed. The separation is therefore a finite $\HausdorffMetricUp$ witness over the transported image packet, not host topological separation, quotient equality, excluded middle over target membership, or a choice-selected nearest point.
+\end{theorem}
+\begin{proof}
+Project the target-side rows. The image packet is displayed through $I$, and the only row carrying separation data is $H$.
+
+Use the finite-net image route of \autoref{thm:compact-closed-map-finite-net-image}. It exposes $K,F,D,I$ before any downstream consumer may read target closedness.
+
+Now read $H$ as a Hausdorff-metric separation row over the already transported image packet. Transport, replay, provenance, and local naming keep the same displayed witnesses, so the read cannot be replaced by host topological separation, quotient equality, excluded middle, or a choice-selected nearest point.
+\end{proof}
+
+\begin{theorem}[Compact closed-map public export]
+\label{thm:compact-closed-map-public-export}
+Every public consumer of an accepted $\CompactClosedMapUp$ packet receives only the compact finite-net source row $K$, continuous graph and uniform-modulus row $F$, Hausdorff separation row $H$, closed-domain row $D$, finite image row $I$, and support rows $T,C,P,N$. The public route may be consumed by later compact-uniform, inverse-continuity, or Real-facing packets as a closed-image carrier, but it does not export open-cover compactness, a host topology, quotient equality, a selected finite subcover, choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:compact-closed-map-namecert-obligations}. They list the full carrier surface and exclude all rows outside $K,F,H,D,I,T,C,P,N$.
+
+Apply the finite-net image theorem and the Hausdorff separation theorem. Together they identify the public closed-image route as compact finite-net transport followed by target-side Hausdorff separation over the displayed image packet.
+
+The downstream consumer therefore receives a reusable closed-image carrier, not a host theorem. Since all public data are projected from the same finite rows, no open-cover compactness, host topology, quotient equality, selected subcover, choice, or ambient completeness can be exported.
+\end{proof}
+
+\begin{closurestatus}{\CompactClosedMapUp}
+  \constructivestory{A $\CompactClosedMapUp$ packet is generated from compact finite-net rows, continuous graph and uniform-modulus rows, Hausdorff target separation rows, closed-domain subpacket rows, finite image rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed scope names the compact-to-Hausdorff closed-image carrier and its finite-net image, Hausdorff separation, public export, transport, replay, provenance, and local naming obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim open-cover compactness, host topological closedness, quotient equality, selected finite subcovers, countable choice, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-net image exactness, Hausdorff separation, public export, transport, replay, provenance, and local naming for BEDC.Derived.CompactClosedMapUp.}
+\end{closurestatus}

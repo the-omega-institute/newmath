@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\MetacicClosedBetaTraceEnvelopeUp$}
+\label{ch:concrete-instances-metacic-closed-beta-trace-envelope-namecert}
+\origin{ai}
+
+The $\MetacicClosedBetaTraceEnvelopeUp$ packet realizes the ClosurePreservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} as finite beta-chain, substitution, and ClosedAt replay data. It sits beside the closed beta path of \autoref{ch:concrete-instances-closedbetapath-namecert}, the MetaCIC closure trace of \autoref{ch:concrete-instances-metacicclosuretrace-namecert}, the closed-term substitution compiler of \autoref{ch:concrete-instances-closedtermsubstitutioncompiler-namecert}, and the kernel acceptance trace of \autoref{ch:concrete-instances-kernelacceptancetrace-namecert}. The carrier is not a subject-reduction theorem: it records closedness preservation along an accepted beta-star route before any typed transport claim is allowed.
+
+\begin{definition}[MetaCIC closed beta trace-envelope carrier]
+\label{def:metacic-closed-beta-trace-envelope-carrier}
+A $\MetacicClosedBetaTraceEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,T,B,S_b,K,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source closed term row, including the displayed ClosedAt boundary.
+\item $T$ is the target term row reached by the accepted beta-star route.
+\item $B$ is the finite beta-chain row, listing the one-step beta moves and congruence positions used by the route.
+\item $S_b$ is the substitution replay row used by beta-redex contractions.
+\item $K$ is the ClosedAt preservation row for the source, every intermediate beta-chain node, and the target.
+\item $R$ records the replay order of shift, variable-substitution, full-substitution, beta-step, and beta-star closedness witnesses.
+\item $A$ is the kernel-acceptance trace row saying that the displayed replay is the accepted audit route.
+\item $H$ records componentwise $\hsame$ transport for source, target, beta-chain, substitution, closedness, replay, acceptance, route, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the same closed beta trace route.
+\item $P$ is the $\Pkg$ provenance over $\MetacicClosedBetaTraceEnvelopeUp$, MetaCIC closure trace, closed-term substitution compiler, TasteGate audit trace, kernel acceptance trace, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetacicClosedBetaTraceEnvelopeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for subject reduction, typed conversion, dependent codomain transport, hidden beta normalization, quotienting of traces, or acceptance outside the displayed kernel route.
+\end{definition}
+\leanstmt{BEDC.Derived.MetacicClosedBetaTraceEnvelopeUp}
+
+\begin{theorem}[MetaCIC closed beta trace-envelope preservation]
+\label{thm:metacic-closed-beta-trace-envelope-preservation}
+For every accepted $\MetacicClosedBetaTraceEnvelopeUp$ carrier $E=(S,T,B,S_b,K,R,A,H,C,P,N)$, the target row $T$ is read as closed only by replaying the displayed beta-star route $B$, the substitution replay row $S_b$, the ClosedAt chain $K$, and the witness order $R$. The result cannot be obtained from an unrecorded subject-reduction step, typed conversion rule, hidden normalization oracle, or quotient trace identity.
+\end{theorem}
+\begin{proof}
+Project the carrier. The source and target rows are connected by the finite beta-chain row $B$, and beta-redex contractions can read substitution data only through $S_b$.
+
+The closedness claim is then the row $K$ replayed in the order $R$. It follows the shift, variable-substitution, full-substitution, beta-step, and beta-star preservation witnesses named in the audit map, without inspecting typing judgments.
+
+Finally $A,H,C,P,N$ accept, transport, replay, source, and name the same finite route. Since the carrier omits typed conversion, dependent codomain transport, hidden normalization, and quotient trace identity, the accepted envelope preserves only the displayed closedness route.
+\end{proof}
+
+\begin{theorem}[MetaCIC closed beta trace-envelope vision handoff]
+\label{thm:metacic-closed-beta-trace-envelope-vision-handoff}
+The $\MetacicClosedBetaTraceEnvelopeUp$ packet hands \autoref{ch:metacic-closure-preservation-audit-map} to concrete NameCert consumers by packaging beta-star route data, substitution replay, ClosedAt preservation rows, kernel acceptance, transport, displayed continuation replay, provenance, and local naming as one finite carrier. A later Lean-facing gate may require `TasteGate.lean' to provide Nontrivial $\MetacicClosedBetaTraceEnvelopeUp$ and FieldFaithful $\MetacicClosedBetaTraceEnvelopeUp$, but the paper carrier already fixes the finite rows those gates must inspect.
+\end{theorem}
+\begin{proof}
+Use \autoref{def:metacic-closed-beta-trace-envelope-carrier}. Its rows name the source, target, beta-chain, substitution replay, ClosedAt replay, acceptance trace, transport, route, provenance, and local certificate explicitly.
+
+The handoff is finite because every audit row is a displayed $\BHist$ coordinate. Downstream TasteGate obligations can test nontriviality and field faithfulness against those rows, while any typed subject-reduction claim must land in a separate packet with its own dependent transport data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetacicClosedBetaTraceEnvelopeUp$ packet replays a beta-star closedness preservation route through displayed beta-chain, substitution, ClosedAt, and kernel-acceptance rows; an accepted packet whose target closedness cannot be replayed from those rows refutes this chapter.}
+
+\independenceWitness{metacicclosuretrace, closedtermsubstitutioncompiler, tastegateaudittrace, kernelacceptancetrace: the closed beta trace envelope carries a source-target beta-chain row, a substitution replay row, a ClosedAt chain row, and a kernel-acceptance row simultaneously, while each named sibling omits at least one of those rows, so no row-preserving bijection can identify the carriers.}
+
+\closureat{MetacicClosedBetaTraceEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\MetacicClosedBetaTraceEnvelopeUp}
+  \constructivestory{A $\MetacicClosedBetaTraceEnvelopeUp$ packet is generated from source and target closed-term rows, a beta-chain row, substitution replay, ClosedAt preservation replay, kernel acceptance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-closed-beta-trace-envelope-carrier}, \autoref{thm:metacic-closed-beta-trace-envelope-preservation}, and \autoref{thm:metacic-closed-beta-trace-envelope-vision-handoff} seed the finite closed beta trace envelope over beta-star, substitution, ClosedAt replay, and kernel acceptance rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.MetacicClosedBetaTraceEnvelopeUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close subject reduction, typed conversion, dependent codomain transport, hidden normalization, quotient trace identity, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked beta-chain replay, substitution replay, ClosedAt preservation, kernel acceptance, transport, route replay, provenance, local naming, and TasteGate nontriviality and field-faithfulness obligations for BEDC.Derived.MetacicClosedBetaTraceEnvelopeUp.}
+\end{closurestatus}

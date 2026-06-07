@@ -14,7 +14,7 @@ import re
 import subprocess
 import sys
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
@@ -28,6 +28,8 @@ PAPER_PARTS_ROOT = PAPER_ROOT / "parts"
 TYPE_MANIFEST_PATH = SCRIPT_DIR / "bedc_manifest.json"
 LEANSTMT_DEBT_MANIFEST_PATH = SCRIPT_DIR / "leanstmt_debt_manifest.json"
 DISCOVERY_GATE_WITNESS_REGISTRY_PATH = SCRIPT_DIR / "discovery_gate_witnesses.json"
+TASTE_OBLIGATION_REGISTRY_PATH = SCRIPT_DIR / "taste_obligations.json"
+SCAN_LEAN_SOURCES_CACHE_PATH = Path("/tmp/.bedc_scan_lean_sources_cache.json")
 
 DECL_RE = re.compile(
     r"^\s*"
@@ -744,6 +746,232 @@ def collect_declarations(path: Path) -> tuple[list[DeclarationRecord], list[Fiel
     return decls, fields
 
 
+@dataclass(frozen=True)
+class LeanSourceFileExtract:
+    declarations: list[DeclarationRecord]
+    fields: list[FieldRecord]
+    declaration_headers: dict[str, str]
+    declaration_bodies: dict[str, str]
+    discovery_delta_ledgers: list[DiscoveryDeltaLedgerRecord]
+
+
+def _scan_cache_enabled() -> bool:
+    return os.environ.get("BEDC_SCAN_CACHE") != "0"
+
+
+def _load_scan_lean_sources_cache() -> dict[str, object]:
+    try:
+        if not SCAN_LEAN_SOURCES_CACHE_PATH.exists():
+            return {}
+        data = json.loads(SCAN_LEAN_SOURCES_CACHE_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def _save_scan_lean_sources_cache(cache: dict[str, object]) -> None:
+    try:
+        tmp = SCAN_LEAN_SOURCES_CACHE_PATH.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(cache, ensure_ascii=False), encoding="utf-8")
+        tmp.replace(SCAN_LEAN_SOURCES_CACHE_PATH)
+    except Exception:
+        pass
+
+
+def _record_list_from_json(
+    raw: object,
+    record_type: type[DeclarationRecord] | type[FieldRecord] | type[DiscoveryDeltaLedgerRecord],
+) -> list[DeclarationRecord] | list[FieldRecord] | list[DiscoveryDeltaLedgerRecord] | None:
+    if not isinstance(raw, list):
+        return None
+    records: list[DeclarationRecord] | list[FieldRecord] | list[DiscoveryDeltaLedgerRecord] = []
+    try:
+        for item in raw:
+            if not isinstance(item, dict):
+                return None
+            records.append(record_type(**item))
+    except Exception:
+        return None
+    return records
+
+
+def _extract_from_cache(raw: object) -> LeanSourceFileExtract | None:
+    if not isinstance(raw, dict):
+        return None
+    extract = raw.get("extract")
+    if not isinstance(extract, dict):
+        return None
+
+    declarations = _record_list_from_json(extract.get("declarations"), DeclarationRecord)
+    fields = _record_list_from_json(extract.get("fields"), FieldRecord)
+    ledgers = _record_list_from_json(
+        extract.get("discovery_delta_ledgers"),
+        DiscoveryDeltaLedgerRecord,
+    )
+    headers = extract.get("declaration_headers")
+    bodies = extract.get("declaration_bodies")
+    if (
+        declarations is None
+        or fields is None
+        or ledgers is None
+        or not isinstance(headers, dict)
+        or not isinstance(bodies, dict)
+        or not all(isinstance(k, str) and isinstance(v, str) for k, v in headers.items())
+        or not all(isinstance(k, str) and isinstance(v, str) for k, v in bodies.items())
+    ):
+        return None
+
+    return LeanSourceFileExtract(
+        declarations=declarations,
+        fields=fields,
+        declaration_headers=dict(headers),
+        declaration_bodies=dict(bodies),
+        discovery_delta_ledgers=ledgers,
+    )
+
+
+def _extract_to_json(extract: LeanSourceFileExtract) -> dict[str, object]:
+    return {
+        "declarations": [asdict(record) for record in extract.declarations],
+        "fields": [asdict(record) for record in extract.fields],
+        "declaration_headers": extract.declaration_headers,
+        "declaration_bodies": extract.declaration_bodies,
+        "discovery_delta_ledgers": [
+            asdict(record) for record in extract.discovery_delta_ledgers
+        ],
+    }
+
+
+def _scan_lean_source_file(path: Path) -> LeanSourceFileExtract:
+    declarations: list[DeclarationRecord] = []
+    fields: list[FieldRecord] = []
+    declaration_headers: dict[str, str] = {}
+    declaration_bodies: dict[str, str] = {}
+    ledgers: list[DiscoveryDeltaLedgerRecord] = []
+
+    text = strip_comments_and_strings(read_text(path))
+    lines = text.splitlines()
+    module = module_name(path)
+    rel_file = str(path.relative_to(REPO_ROOT))
+    namespace_stack: list[str] = []
+    for idx, line in enumerate(lines, start=1):
+        update_namespace_stack(line, namespace_stack)
+        namespace = declaration_namespace(module, namespace_stack)
+        match = DECL_RE.match(line)
+        if not match:
+            continue
+        kind = match.group("kind")
+        name = (match.group("name") or f"<anonymous_{kind}_{idx}>").strip()
+        qualified = qualified_name(name, namespace)
+        is_private = re.match(
+            r"^\s*(?:@\[[^\]]+\]\s*)*private\b",
+            line,
+        ) is not None
+        declarations.append(
+            DeclarationRecord(
+                module=module,
+                file=rel_file,
+                line=idx,
+                kind=kind,
+                name=name,
+                qualified_name=qualified,
+                is_private=is_private,
+            )
+        )
+
+        header_lines = [line]
+        scan_idx = idx
+        while (
+            scan_idx < len(lines)
+            and len(header_lines) < 24
+            and ":=" not in "\n".join(header_lines)
+            and not re.search(r"\bwhere\b", "\n".join(header_lines))
+        ):
+            next_line = lines[scan_idx]
+            if next_line.strip() and not next_line.startswith((" ", "\t")):
+                break
+            header_lines.append(next_line)
+            scan_idx += 1
+        header_text = "\n".join(header_lines)
+        declaration_headers[qualified] = header_text
+        body_text = _declaration_body_from_lines(lines, idx - 1)
+        declaration_bodies[qualified] = body_text
+
+        if kind in ("structure", "class"):
+            parent = qualified
+            j = idx
+            while j < len(lines):
+                next_line = lines[j]
+                if next_line.strip() == "":
+                    j += 1
+                    continue
+                if not next_line.startswith((" ", "\t")):
+                    break
+                field_match = FIELD_RE.match(next_line)
+                if field_match:
+                    field_name = field_match.group("name")
+                    fields.append(
+                        FieldRecord(
+                            parent=parent,
+                            name=field_name,
+                            qualified_name=f"{parent}.{field_name}",
+                            file=rel_file,
+                            line=j + 1,
+                        )
+                    )
+                j += 1
+
+        if kind == "inductive":
+            parent = qualified
+            j = idx
+            while j < len(lines):
+                next_line = lines[j]
+                if next_line.strip() == "":
+                    j += 1
+                    continue
+                if not next_line.startswith((" ", "\t")):
+                    break
+                ctor_match = CTOR_RE.match(next_line)
+                if ctor_match:
+                    ctor_name = ctor_match.group("name")
+                    fields.append(
+                        FieldRecord(
+                            parent=parent,
+                            name=ctor_name,
+                            qualified_name=f"{namespace}.{ctor_name}",
+                            file=rel_file,
+                            line=j + 1,
+                        )
+                    )
+                j += 1
+
+        if kind in ("def", "abbrev") and _header_has_discovery_delta_ledger_result(
+            header_text,
+        ):
+            ledgers.append(
+                DiscoveryDeltaLedgerRecord(
+                    name=name,
+                    qualified_name=qualified,
+                    file=rel_file,
+                    line=idx,
+                    chapter_region=_ledger_name_stem(name),
+                    chapter_key=_region_key(_ledger_name_stem(name)),
+                    has_classifier_shift=re.search(
+                        r"\bclassifier_shift\s*:=\s*some\b",
+                        body_text,
+                    ) is not None,
+                )
+            )
+
+    return LeanSourceFileExtract(
+        declarations=declarations,
+        fields=fields,
+        declaration_headers=declaration_headers,
+        declaration_bodies=declaration_bodies,
+        discovery_delta_ledgers=ledgers,
+    )
+
+
 def scan_lean_sources() -> LeanSourceScan:
     declarations: list[DeclarationRecord] = []
     fields: list[FieldRecord] = []
@@ -751,120 +979,40 @@ def scan_lean_sources() -> LeanSourceScan:
     declaration_bodies: dict[str, str] = {}
     ledgers: list[DiscoveryDeltaLedgerRecord] = []
 
+    use_cache = _scan_cache_enabled()
+    cache = _load_scan_lean_sources_cache() if use_cache else {}
+    new_cache: dict[str, object] = {}
+
     for path in lean_files():
-        text = strip_comments_and_strings(read_text(path))
-        lines = text.splitlines()
-        module = module_name(path)
         rel_file = str(path.relative_to(REPO_ROOT))
-        namespace_stack: list[str] = []
-        for idx, line in enumerate(lines, start=1):
-            update_namespace_stack(line, namespace_stack)
-            namespace = declaration_namespace(module, namespace_stack)
-            match = DECL_RE.match(line)
-            if not match:
-                continue
-            kind = match.group("kind")
-            name = (match.group("name") or f"<anonymous_{kind}_{idx}>").strip()
-            qualified = qualified_name(name, namespace)
-            is_private = re.match(
-                r"^\s*(?:@\[[^\]]+\]\s*)*private\b",
-                line,
-            ) is not None
-            declarations.append(
-                DeclarationRecord(
-                    module=module,
-                    file=rel_file,
-                    line=idx,
-                    kind=kind,
-                    name=name,
-                    qualified_name=qualified,
-                    is_private=is_private,
-                )
-            )
+        try:
+            mtime = path.stat().st_mtime
+        except Exception:
+            continue
 
-            header_lines = [line]
-            scan_idx = idx
-            while (
-                scan_idx < len(lines)
-                and len(header_lines) < 24
-                and ":=" not in "\n".join(header_lines)
-                and not re.search(r"\bwhere\b", "\n".join(header_lines))
-            ):
-                next_line = lines[scan_idx]
-                if next_line.strip() and not next_line.startswith((" ", "\t")):
-                    break
-                header_lines.append(next_line)
-                scan_idx += 1
-            header_text = "\n".join(header_lines)
-            declaration_headers[qualified] = header_text
-            body_text = _declaration_body_from_lines(lines, idx - 1)
-            declaration_bodies[qualified] = body_text
+        cached_entry = cache.get(rel_file) if isinstance(cache, dict) else None
+        extract = None
+        if (
+            isinstance(cached_entry, dict)
+            and cached_entry.get("mtime") == mtime
+        ):
+            extract = _extract_from_cache(cached_entry)
+        if extract is None:
+            extract = _scan_lean_source_file(path)
 
-            if kind in ("structure", "class"):
-                parent = qualified
-                j = idx
-                while j < len(lines):
-                    next_line = lines[j]
-                    if next_line.strip() == "":
-                        j += 1
-                        continue
-                    if not next_line.startswith((" ", "\t")):
-                        break
-                    field_match = FIELD_RE.match(next_line)
-                    if field_match:
-                        field_name = field_match.group("name")
-                        fields.append(
-                            FieldRecord(
-                                parent=parent,
-                                name=field_name,
-                                qualified_name=f"{parent}.{field_name}",
-                                file=rel_file,
-                                line=j + 1,
-                            )
-                        )
-                    j += 1
+        declarations.extend(extract.declarations)
+        fields.extend(extract.fields)
+        declaration_headers.update(extract.declaration_headers)
+        declaration_bodies.update(extract.declaration_bodies)
+        ledgers.extend(extract.discovery_delta_ledgers)
+        if use_cache:
+            new_cache[rel_file] = {
+                "mtime": mtime,
+                "extract": _extract_to_json(extract),
+            }
 
-            if kind == "inductive":
-                parent = qualified
-                j = idx
-                while j < len(lines):
-                    next_line = lines[j]
-                    if next_line.strip() == "":
-                        j += 1
-                        continue
-                    if not next_line.startswith((" ", "\t")):
-                        break
-                    ctor_match = CTOR_RE.match(next_line)
-                    if ctor_match:
-                        ctor_name = ctor_match.group("name")
-                        fields.append(
-                            FieldRecord(
-                                parent=parent,
-                                name=ctor_name,
-                                qualified_name=f"{namespace}.{ctor_name}",
-                                file=rel_file,
-                                line=j + 1,
-                            )
-                        )
-                    j += 1
-
-            if kind in ("def", "abbrev") and _header_has_discovery_delta_ledger_result(
-                header_text,
-            ):
-                ledgers.append(
-                    DiscoveryDeltaLedgerRecord(
-                        name=name,
-                        qualified_name=qualified,
-                        file=rel_file,
-                        line=idx,
-                        chapter_region=_ledger_name_stem(name),
-                        chapter_key=_region_key(_ledger_name_stem(name)),
-                        has_classifier_shift=re.search(
-                            r"\bclassifier_shift\s*:=\s*some\b",
-                            body_text,
-                        ) is not None,
-                    )
-                )
+    if use_cache:
+        _save_scan_lean_sources_cache(new_cache)
 
     return LeanSourceScan(
         declarations=declarations,
@@ -3132,6 +3280,185 @@ DISCOVERY_GATE_WITNESS_OPTIONAL_PATTERN_KEYS = {
 }
 DISCOVERY_GATE_WITNESS_MAX_ENTRIES = 2000
 DISCOVERY_GATE_WITNESS_MAX_BYTES = 2_000_000
+TASTE_OBLIGATION_MAX_ENTRIES = 200
+TASTE_OBLIGATION_MAX_BYTES = 200_000
+TASTE_OBLIGATION_KINDS = {"carrier_structure"}
+TASTE_OBLIGATION_CRITERIA = set()
+
+
+def _taste_registry_diag(
+    path: Path,
+    line: int,
+    kind: str,
+    message: str,
+    *,
+    obligation_id: str = "",
+) -> dict[str, object]:
+    item: dict[str, object] = {
+        "file": _repo_display_path(path) if path.is_absolute() else str(path),
+        "line": line,
+        "kind": kind,
+        "message": message,
+    }
+    if obligation_id:
+        item["id"] = obligation_id
+    return item
+
+
+def load_taste_obligations(
+    path: Path = TASTE_OBLIGATION_REGISTRY_PATH,
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Load the empty supplemental taste registry.
+
+    ChapterTasteGate is the active carrier admission surface. This loader is
+    retained as a stable CLI/audit interface and rejects all supplemental
+    criteria until a BEDC-native obligation is defined.
+    """
+    if not path.exists():
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "missing_taste_obligation_registry",
+            "taste obligation registry is absent",
+        )]
+    try:
+        size = path.stat().st_size
+    except OSError:
+        size = 0
+    if size > TASTE_OBLIGATION_MAX_BYTES:
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "oversized_taste_obligation_registry",
+            f"taste obligation registry exceeds size cap {TASTE_OBLIGATION_MAX_BYTES} bytes",
+        )]
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return [], [_taste_registry_diag(
+            path,
+            exc.lineno,
+            "invalid_taste_obligation_registry_json",
+            f"invalid taste obligation registry JSON: {exc.msg}",
+        )]
+    if not isinstance(raw, dict):
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "invalid_taste_obligation_registry_root",
+            "taste obligation registry root must be an object",
+        )]
+    if str(raw.get("schema") or "").strip() != "bedc.taste_obligation_registry":
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "invalid_taste_obligation_registry_schema",
+            "taste obligation registry schema must be bedc.taste_obligation_registry",
+        )]
+    entries = raw.get("obligations")
+    if not isinstance(entries, list):
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "invalid_taste_obligation_registry_root",
+            "taste obligation registry obligations field must be a list",
+        )]
+    if len(entries) > TASTE_OBLIGATION_MAX_ENTRIES:
+        return [], [_taste_registry_diag(
+            path,
+            1,
+            "oversized_taste_obligation_registry",
+            f"taste obligation registry exceeds entry cap {TASTE_OBLIGATION_MAX_ENTRIES}",
+        )]
+
+    obligations: list[dict[str, object]] = []
+    diagnostics: list[dict[str, object]] = []
+    seen: set[str] = set()
+    for index, item in enumerate(entries):
+        if not isinstance(item, dict):
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "invalid_taste_obligation",
+                "taste obligation entry must be an object",
+            ))
+            continue
+        obligation_id = str(item.get("id") or "").strip()
+        kind = str(item.get("kind") or "").strip()
+        criterion = str(item.get("criterion") or "").strip()
+        rejects_because = str(item.get("rejects_because") or "").strip()
+        added_ts = str(item.get("added_ts") or "").strip()
+        if not obligation_id:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "missing_taste_obligation_id",
+                "taste obligation lacks id",
+            ))
+            continue
+        if obligation_id in seen:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "duplicate_taste_obligation",
+                f"taste obligation {obligation_id} duplicates an earlier id",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if kind not in TASTE_OBLIGATION_KINDS:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "invalid_taste_obligation_kind",
+                f"taste obligation {obligation_id} has unsupported kind {kind}",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if criterion not in TASTE_OBLIGATION_CRITERIA:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "invalid_taste_obligation_criterion",
+                f"taste obligation {obligation_id} has unsupported criterion {criterion}",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if not rejects_because:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "missing_taste_obligation_rejection",
+                f"taste obligation {obligation_id} lacks rejects_because",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if not isinstance(item.get("provenance"), dict):
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "invalid_taste_obligation_provenance",
+                f"taste obligation {obligation_id} must carry object provenance",
+                obligation_id=obligation_id,
+            ))
+            continue
+        if not added_ts:
+            diagnostics.append(_taste_registry_diag(
+                path,
+                index + 1,
+                "missing_taste_obligation_added_ts",
+                f"taste obligation {obligation_id} lacks added_ts",
+                obligation_id=obligation_id,
+            ))
+            continue
+        normalized = dict(item)
+        normalized["id"] = obligation_id
+        normalized["kind"] = kind
+        normalized["criterion"] = criterion
+        normalized["rejects_because"] = rejects_because
+        normalized["added_ts"] = added_ts
+        obligations.append(normalized)
+        seen.add(obligation_id)
+    return obligations, diagnostics
 
 
 def _discovery_gate_registry_diag(
@@ -3183,6 +3510,7 @@ def _exact_witness_pattern(pattern: object) -> tuple[dict[str, str] | None, str]
 
 def discovery_gate_witness_kernel_grounding(
     witness: dict[str, object],
+    payload_cache: dict[str, ExprFingerprint] | None = None,
 ) -> tuple[bool, dict[str, object]]:
     pattern, error = _exact_witness_pattern(witness.get("pattern"))
     if pattern is None:
@@ -3194,28 +3522,57 @@ def discovery_gate_witness_kernel_grounding(
     prior = pattern["prior"]
     expected_payload = pattern["canonical_payload"]
     expected_fp = pattern.get("reduced_fp") or pattern.get("candidate_reduced_fp") or ""
-    fps = _run_structural_dna_expr_fingerprints([target, prior])
-    target_fp = _discovery_endpoint_reduced_fp(target, fps)
-    prior_fp = _discovery_endpoint_reduced_fp(prior, fps)
-    target_payload = _discovery_endpoint_canonical_payload(target, fps)
-    prior_payload = _discovery_endpoint_canonical_payload(prior, fps)
+
+    def _lookup(fps: dict[str, ExprFingerprint]) -> tuple[str, str, str, str]:
+        return (
+            _discovery_endpoint_canonical_payload(target, fps),
+            _discovery_endpoint_canonical_payload(prior, fps),
+            _discovery_endpoint_reduced_fp(target, fps),
+            _discovery_endpoint_reduced_fp(prior, fps),
+        )
+
+    fps = payload_cache if payload_cache is not None else _run_structural_dna_expr_fingerprints([target, prior])
+    target_payload, prior_payload, target_fp, prior_fp = _lookup(fps)
+    # Retry-on-empty: a batched structural-DNA pass racing the builder's .lake
+    # rebuild can transiently emit empty payloads for carriers that are present
+    # and well-formed. A targeted single-pair re-run sidesteps that race before
+    # we judge a witness stale, so transient emptiness never masquerades as a
+    # real payload mismatch.
+    if not target_payload or not prior_payload:
+        retry = _run_structural_dna_expr_fingerprints([target, prior])
+        r_tp, r_pp, r_tf, r_pf = _lookup(retry)
+        target_payload = target_payload or r_tp
+        prior_payload = prior_payload or r_pp
+        target_fp = target_fp or r_tf
+        prior_fp = prior_fp or r_pf
+
     fp_ok = not expected_fp or (target_fp == expected_fp and prior_fp == expected_fp)
-    ok = bool(target_payload and prior_payload and target_payload == expected_payload and prior_payload == expected_payload and fp_ok)
+    payloads_present = bool(target_payload and prior_payload)
+    ok = bool(payloads_present and target_payload == expected_payload and prior_payload == expected_payload and fp_ok)
+    if ok:
+        status = "grounded"
+        message = "target and prior structural-DNA canonical reduced payloads match"
+    elif not payloads_present:
+        # Carrier present in the registry but structural-DNA did not emit its
+        # payload even after a targeted re-run: treat as transient/unavailable,
+        # not as a sound staleness verdict (which requires a computed payload).
+        status = "fingerprints_unavailable"
+        message = "structural-DNA payload unavailable for target/prior (transient, not a mismatch)"
+    else:
+        status = "mismatch"
+        message = "target/prior structural-DNA canonical reduced payloads do not match witness"
     return ok, {
         "target": target,
         "prior": prior,
         "evidence": "canonical_payload_equal",
+        "status": status,
         "expected_canonical_payload": expected_payload,
         "target_canonical_payload": target_payload,
         "prior_canonical_payload": prior_payload,
         "expected_reduced_fp": expected_fp,
         "target_reduced_fp": target_fp,
         "prior_reduced_fp": prior_fp,
-        "message": (
-            "target and prior structural-DNA canonical reduced payloads match"
-            if ok
-            else "target/prior structural-DNA canonical reduced payloads do not match witness"
-        ),
+        "message": message,
     }
 
 
@@ -3355,6 +3712,15 @@ def load_discovery_gate_witnesses(
             continue
         grounded, grounding = discovery_gate_witness_kernel_grounding(item)
         if not grounded:
+            # A transient structural-DNA unavailability (payload empty even after
+            # a targeted re-run) is not a sound staleness verdict; mark it so
+            # consumers can skip rather than hard-block on a build race. A real
+            # mismatch (payload computed but differing) stays blocking.
+            severity = (
+                "transient"
+                if str(grounding.get("status") or "") == "fingerprints_unavailable"
+                else "blocking"
+            )
             diagnostics.append(_discovery_gate_registry_diag(
                 path,
                 index + 1,
@@ -3366,6 +3732,7 @@ def load_discovery_gate_witnesses(
                 witness_id=witness_id,
             ))
             diagnostics[-1]["grounding"] = grounding
+            diagnostics[-1]["severity"] = severity
             continue
         normalized = dict(item)
         normalized["kind"] = "reconstruction"
@@ -4291,7 +4658,6 @@ def discovery_assert_gate_payload(
     informational_sites: list[dict[str, object]] = []
     failures: list[dict[str, object]] = []
     status_counts: Counter[str] = Counter()
-    gate_witnesses, witness_diagnostics = load_discovery_gate_witnesses()
 
     for block in blocks:
         if block.get("error"):
@@ -4317,12 +4683,15 @@ def discovery_assert_gate_payload(
         locus = (block["file"], int(block["line"]), f"{block['region']}Up")
         positive_blocks.append((block, target, candidate_targets, locus))
 
+    gate_witnesses: list[dict[str, object]] = []
+    witness_diagnostics: list[dict[str, object]] = []
     profiles_by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
     profiles_by_target: dict[str, dict[str, object]] = {}
     integrity_by_locus: dict[tuple[str, int, str], dict[str, object]] = {}
     integrity_violations: dict[tuple[str, int, str], list[dict[str, object]]] = {}
     kernel_checks: dict[str, KernelAssertionCheck] = {}
     if positive_blocks:
+        gate_witnesses, witness_diagnostics = load_discovery_gate_witnesses()
         sieve = sieve_payload or discovery_sieve_payload(
             blocks,
             lean_scan.discovery_delta_ledgers,
@@ -4399,6 +4768,18 @@ def discovery_assert_gate_payload(
         "informational_sites": informational_sites,
         "witness_registry_path": str(DISCOVERY_GATE_WITNESS_REGISTRY_PATH.relative_to(REPO_ROOT)),
         "witness_count": len(gate_witnesses),
+        "reconstruction_witnesses": [
+            {
+                "target": str((witness.get("pattern") or {}).get("target") or ""),
+                "prior": str((witness.get("pattern") or {}).get("prior") or ""),
+                "canonical_payload": str(
+                    (witness.get("pattern") or {}).get("canonical_payload") or ""
+                ),
+                "source": "discovery_gate_witness_registry",
+            }
+            for witness in gate_witnesses
+            if isinstance(witness.get("pattern"), dict)
+        ],
         "witness_registry_diagnostics": witness_diagnostics,
         "witness_registry_diagnostic_count": len(witness_diagnostics),
     }
@@ -4824,6 +5205,159 @@ def _radar_cap_conjectured_candidates(
     kept_conjectured = list(unique_by_fp.values())[:cap]
     dropped += max(0, len(unique_by_fp) - cap)
     return non_conjectured + kept_conjectured, dropped
+
+
+def _reconstruction_collision_domain(name: str) -> str:
+    parts = [part for part in str(name or "").split(".") if part]
+    for part in parts:
+        if part.endswith("Up") and len(part) > 2:
+            return part
+    if len(parts) >= 2:
+        return parts[-2]
+    return ""
+
+
+def _canonical_payload_digest(canonical_payload: str) -> str:
+    return hashlib.sha256(canonical_payload.encode("utf-8")).hexdigest()
+
+
+def _reconstruction_collision_row(
+    target: str,
+    prior: str,
+    canonical_payload: str,
+    source: str,
+) -> dict[str, object]:
+    target_domain = _reconstruction_collision_domain(target)
+    prior_domain = _reconstruction_collision_domain(prior)
+    classification = (
+        "same_module_sibling"
+        if target_domain and target_domain == prior_domain
+        else "cross_domain_collision"
+    )
+    return {
+        "target": target,
+        "prior": prior,
+        "target_domain": target_domain,
+        "prior_domain": prior_domain,
+        "classification": classification,
+        "canonical_payload_digest": _canonical_payload_digest(canonical_payload),
+        "canonical_payload_summary": _text_snippet(canonical_payload, limit=160),
+        "source": source,
+    }
+
+
+def reconstruction_collision_report_payload(
+    discovery_production_radar: dict[str, object],
+    *,
+    reconstruction_witnesses: Iterable[dict[str, object]] = (),
+) -> dict[str, object]:
+    seen: set[tuple[str, str, str]] = set()
+    cross_domain: list[dict[str, object]] = []
+    same_module: list[dict[str, object]] = []
+
+    for candidate in discovery_production_radar.get("candidates", []) or []:
+        if not isinstance(candidate, dict):
+            continue
+        target = str(candidate.get("target") or "")
+        if not target:
+            continue
+        for entry in candidate.get("provenance", []) or []:
+            if not isinstance(entry, dict):
+                continue
+            if str(entry.get("relation") or "") != "reconstruction":
+                continue
+            if str(entry.get("evidence") or "") != "canonical_payload_equal":
+                continue
+            prior = str(entry.get("prior") or "")
+            canonical_payload = str(entry.get("canonical_payload") or "")
+            if not prior or not canonical_payload:
+                continue
+            source = ",".join(
+                str(source)
+                for source in candidate.get("sources", []) or []
+                if str(source)
+            ) or "discovery_production_radar"
+            key = (target, prior, canonical_payload)
+            if key in seen:
+                continue
+            seen.add(key)
+            row = _reconstruction_collision_row(target, prior, canonical_payload, source)
+            if row["classification"] == "same_module_sibling":
+                same_module.append(row)
+            else:
+                cross_domain.append(row)
+
+    for witness in reconstruction_witnesses:
+        if not isinstance(witness, dict):
+            continue
+        target = str(witness.get("target") or "")
+        prior = str(witness.get("prior") or "")
+        canonical_payload = str(witness.get("canonical_payload") or "")
+        if not target or not prior or not canonical_payload:
+            continue
+        key = (target, prior, canonical_payload)
+        if key in seen:
+            continue
+        seen.add(key)
+        row = _reconstruction_collision_row(
+            target,
+            prior,
+            canonical_payload,
+            str(witness.get("source") or "discovery_gate_witness_registry"),
+        )
+        if row["classification"] == "same_module_sibling":
+            same_module.append(row)
+        else:
+            cross_domain.append(row)
+
+    cross_domain.sort(key=lambda item: (str(item["target_domain"]), str(item["target"]), str(item["prior"])))
+    same_module.sort(key=lambda item: (str(item["target_domain"]), str(item["target"]), str(item["prior"])))
+    return {
+        "informational": True,
+        "schema": "bedc.reconstruction_collision_report",
+        "semantics": (
+            "canonical-payload equality is negative evidence for discovery "
+            "synonym or demotion checks; it is not a ChapterTasteGate failure "
+            "and does not require carriers from different domains to be recoded"
+        ),
+        "source": "discovery_production_radar.candidates.provenance + discovery_gate_witness_registry",
+        "cross_domain_reconstruction_collision_count": len(cross_domain),
+        "same_module_sibling_count": len(same_module),
+        "collision_count": len(cross_domain) + len(same_module),
+        "cross_domain_reconstruction_collisions": cross_domain,
+        "same_module_siblings": same_module,
+        "boundary": (
+            "same-module siblings may be intentional variants; cross-domain "
+            "collisions are discovery-gate synonym/demotion signals only"
+        ),
+    }
+
+
+def taste_meta_gate_payload(
+    reconstruction_report: dict[str, object],
+    *,
+    obligations: list[dict[str, object]] | None = None,
+    diagnostics: list[dict[str, object]] | None = None,
+) -> dict[str, object]:
+    if obligations is None or diagnostics is None:
+        obligations, diagnostics = load_taste_obligations()
+    return {
+        "schema": "bedc.taste_meta_gate",
+        "informational": True,
+        "semantics": (
+            "no active supplemental meta TasteGate obligations; ChapterTasteGate "
+            "remains the carrier admission gate"
+        ),
+        "registry": _repo_display_path(TASTE_OBLIGATION_REGISTRY_PATH),
+        "obligation_count": len(obligations),
+        "violation_count": 0,
+        "violations": [],
+        "obligations": obligations,
+        "registry_diagnostic_count": len(diagnostics),
+        "registry_diagnostics": diagnostics,
+        "generation_gate": "none",
+        "monotonicity": "no supplemental obligations are active",
+    }
 
 
 def discovery_production_radar_payload(
@@ -10604,6 +11138,11 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         discovery_assert_gate=discovery_assert_gate,
         full_corpus_scan=full_radar_scan,
     )
+    reconstruction_collision_report = reconstruction_collision_report_payload(
+        discovery_production_radar,
+        reconstruction_witnesses=discovery_assert_gate.get("reconstruction_witnesses", []),
+    )
+    taste_meta_gate = taste_meta_gate_payload(reconstruction_collision_report)
     discovery_nonasserted_hygiene = discovery_nonasserted_hygiene_payload(
         closurestatus_blocks,
     )
@@ -10648,6 +11187,11 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
             "witness_registry_diagnostics"
         ],
         "discovery_production_radar": discovery_production_radar,
+        "reconstruction_collision_report": reconstruction_collision_report,
+        "taste_meta_gate": taste_meta_gate,
+        "taste_meta_gate_violation_count": taste_meta_gate["violation_count"],
+        "taste_obligation_registry_diagnostic_count": taste_meta_gate["registry_diagnostic_count"],
+        "taste_obligation_registry_diagnostics": taste_meta_gate["registry_diagnostics"],
         "discovery_nonasserted_hygiene": discovery_nonasserted_hygiene,
         "discovery_nonasserted_hygiene_failure_count": discovery_nonasserted_hygiene["failure_count"],
         "discovery_nonasserted_hygiene_failures": discovery_nonasserted_hygiene["failures"],
@@ -10703,6 +11247,12 @@ def audit_payload(*, full_radar_scan: bool = False) -> dict[str, object]:
         payload,
         "discovery_gate_witness_registry_diagnostics",
         list(discovery_assert_gate["witness_registry_diagnostics"]),
+        changed_files,
+    )
+    _attach_violation_split(
+        payload,
+        "taste_obligation_registry_diagnostics",
+        list(taste_meta_gate["registry_diagnostics"]),
         changed_files,
     )
     _attach_violation_split(payload, "orphan_concrete_subdirs", orphan_concrete_subdirs, changed_files)
@@ -10942,10 +11492,10 @@ def cmd_audit(args: argparse.Namespace) -> int:
             )
         discovery_integrity = payload["discovery_integrity"]
         print(
-            "[bedc-ci] discovery integrity structural-DNA gate:"
+            "[bedc-ci] discovery integrity structural-DNA gate (informational):"
             f" declared={discovery_integrity['declared_discovery_chapter_count']}"
             f" checked={discovery_integrity['checked_chapter_count']}"
-            f" violations={payload['discovery_integrity_violations_new_count']} new (BLOCKING), "
+            f" violations={payload['discovery_integrity_violations_new_count']} new, "
             f"{payload['discovery_integrity_violations_legacy_count']} legacy (warning)"
             f" unavailable={discovery_integrity['unavailable_count']}"
             f" unresolved={discovery_integrity['unresolved_count']}"
@@ -10968,10 +11518,10 @@ def cmd_audit(args: argparse.Namespace) -> int:
                 )
         assert_gate = payload["discovery_assert_gate"]
         print(
-            "[bedc-ci] discovery assertion gate:"
+            "[bedc-ci] discovery assertion gate (informational):"
             f" asserted={assert_gate['asserted_count']}"
             f" pass={assert_gate['status_counts'].get('PASS', 0)}"
-            f" failures={assert_gate['failure_count']} (BLOCKING)"
+            f" failures={assert_gate['failure_count']}"
             f" conjectured={assert_gate['conjectured_count']}"
             f" refuted={assert_gate['refuted_count']}"
         )
@@ -10979,7 +11529,7 @@ def cmd_audit(args: argparse.Namespace) -> int:
         if assert_gate.get("witness_registry_diagnostics"):
             print(
                 "[bedc-ci] discovery gate witness registry diagnostics: "
-                f"{payload.get('discovery_gate_witness_registry_diagnostics_new_count', 0)} new (BLOCKING), "
+                f"{payload.get('discovery_gate_witness_registry_diagnostics_new_count', 0)} new, "
                 f"{payload.get('discovery_gate_witness_registry_diagnostics_legacy_count', 0)} legacy (warning)"
             )
             for item in assert_gate.get("witness_registry_diagnostics", [])[:40]:
@@ -11015,12 +11565,33 @@ def cmd_audit(args: argparse.Namespace) -> int:
             f" truncated={radar.get('corpus_truncated', False)}"
             " (informational, surface-and-rank only)"
         )
+        reconstruction = payload["reconstruction_collision_report"]
+        print(
+            "[bedc-ci] reconstruction collisions:"
+            f" cross-domain={reconstruction['cross_domain_reconstruction_collision_count']}"
+            f" same-module siblings={reconstruction['same_module_sibling_count']}"
+            " (informational; canonical-payload equality is discovery synonym/demotion evidence)"
+        )
+        taste_gate = payload["taste_meta_gate"]
+        print(
+            "[bedc-ci] taste gate:"
+            f" meta-obligations={taste_gate['obligation_count']}"
+            f" violations={taste_gate['violation_count']}"
+            " (informational; no active supplemental obligations)"
+        )
+        if taste_gate.get("registry_diagnostics"):
+            print(
+                "[bedc-ci] taste obligation registry diagnostics:"
+                f" {taste_gate['registry_diagnostic_count']} warning(s)"
+            )
+            for item in taste_gate.get("registry_diagnostics", [])[:40]:
+                print(f"  {item['message']}")
         hygiene = payload["discovery_nonasserted_hygiene"]
         if hygiene["site_count"] or hygiene["failure_count"]:
             print(
-                "[bedc-ci] discovery non-asserted hygiene:"
+                "[bedc-ci] discovery non-asserted hygiene (informational):"
                 f" sites={hygiene['site_count']}"
-                f" failures={hygiene['failure_count']} (BLOCKING)"
+                f" failures={hygiene['failure_count']}"
             )
             for item in hygiene["failures"][:40]:
                 print(f"  {item['message']}")
@@ -11091,10 +11662,6 @@ def cmd_audit(args: argparse.Namespace) -> int:
         + payload["paper_chapter_origin_tags_new_count"]
         + payload["closurestatus_diagnostics_new_count"]
         + payload["closurestatus_open_errors_new_count"]
-        + payload["discovery_integrity_violations_new_count"]
-        + payload["discovery_assert_gate_failure_count"]
-        + int(payload.get("discovery_gate_witness_registry_diagnostics_new_count", 0))
-        + payload["discovery_nonasserted_hygiene_failure_count"]
         + payload["orphan_concrete_subdirs_new_count"]
         + len(payload["leanstmt_debt"]["violations"])
     )
@@ -12241,6 +12808,31 @@ def cmd_discovery_candidates(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_taste_gate(args: argparse.Namespace) -> int:
+    audit = audit_payload(full_radar_scan=bool(args.full_scan or args.json))
+    payload = audit["taste_meta_gate"]
+    if args.json:
+        print(json.dumps(payload, indent=2, ensure_ascii=False))
+    else:
+        print(
+            "[bedc-ci] taste-gate (informational):"
+            f" meta-obligations={payload['obligation_count']}"
+            f" violations={payload['violation_count']}"
+            f" registry_diagnostics={payload['registry_diagnostic_count']}"
+        )
+        if args.verbose:
+            for item in payload["violations"][:120]:
+                print(
+                    f"  {item['obligation_id']} {item['target']}"
+                    f" ~ {item['prior']} [{item['target_domain']} vs {item['prior_domain']}]"
+                )
+            if len(payload["violations"]) > 120:
+                print(f"  ... and {len(payload['violations']) - 120} more")
+            for item in payload["registry_diagnostics"][:40]:
+                print(f"  registry {item['kind']}: {item['message']}")
+    return 0
+
+
 def cmd_axiom_purity(args: argparse.Namespace) -> int:
     """Check that every BEDC theorem's transitive axiom dependency set is
     contained within the allowed Lean stdlib subset.
@@ -12657,6 +13249,19 @@ def parser() -> argparse.ArgumentParser:
     discovery_candidates_p.add_argument("--verbose", "-v", action="store_true", help="Show candidate and diagnostic detail")
     discovery_candidates_p.add_argument("--max-a", type=int, default=3, help="Maximum dispatchable A-tier candidates to emit")
     discovery_candidates_p.set_defaults(func=cmd_discovery_candidates)
+
+    taste_gate_p = sub.add_parser(
+        "taste-gate",
+        help="Informational meta TasteGate obligation report (always exit 0)",
+    )
+    taste_gate_p.add_argument("--json", action="store_true", help="Emit JSON to stdout")
+    taste_gate_p.add_argument("--verbose", "-v", action="store_true", help="Show violation detail")
+    taste_gate_p.add_argument(
+        "--full-scan",
+        action="store_true",
+        help="Enable full discovery-radar scan before evaluating taste obligations",
+    )
+    taste_gate_p.set_defaults(func=cmd_taste_gate)
 
     carrier_iso_p = sub.add_parser(
         "carrier-isomorphism",

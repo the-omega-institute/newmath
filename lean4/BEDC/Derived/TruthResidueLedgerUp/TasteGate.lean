@@ -1,11 +1,17 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.TruthResidueLedgerUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -208,5 +214,110 @@ theorem TruthResidueLedgerTasteGate_single_carrier_alignment :
             ⟨⟨truthResidueLedgerChapterTasteGate⟩,
               ⟨⟨truthResidueLedgerFieldFaithful⟩,
                 ⟨truthResidueLedgerNontrivial⟩⟩⟩⟩⟩⟩⟩
+
+theorem TruthResidueLedger_falsifiable_boundary
+    (x : TruthResidueLedgerUp) :
+    ∃ O I B P F G H C Q N : BHist,
+      x = TruthResidueLedgerUp.mk O I B P F G H C Q N ∧
+        truthResidueLedgerFields x = [O, I, B, P, F, G, H, C, Q, N] ∧
+          Cont B P (append B P) ∧
+            Cont I F (append I F) ∧
+              Cont P N (append P N) ∧
+                Cont F N (append F N) ∧
+                  hsame G G := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk O I B P F G H C Q N =>
+      exact
+        ⟨O, I, B, P, F, G, H, C, Q, N, rfl, rfl, cont_intro rfl,
+          cont_intro rfl, cont_intro rfl, cont_intro rfl, hsame_refl G⟩
+
+theorem TruthResidueLedger_field_coverage (x : TruthResidueLedgerUp) :
+    ∃ O I B P F G H C Q N : BHist,
+      x = TruthResidueLedgerUp.mk O I B P F G H C Q N ∧
+        truthResidueLedgerFields x = [O, I, B, P, F, G, H, C, Q, N] ∧
+          Cont O I (append O I) ∧
+            Cont B P (append B P) ∧
+              Cont P F (append P F) ∧
+                Cont F G (append F G) ∧
+                  hsame H H ∧ hsame C C ∧ hsame Q Q ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk O I B P F G H C Q N =>
+      exact
+        ⟨O, I, B, P, F, G, H, C, Q, N, rfl, rfl, cont_intro rfl,
+          cont_intro rfl, cont_intro rfl, cont_intro rfl, hsame_refl H,
+          hsame_refl C, hsame_refl Q, hsame_refl N⟩
+
+theorem TruthResidueLedger_namecert_obligations
+    {O I B P F G H C Q N obsRead invariantRead bridgeRead predictionRead
+      falsificationRead nonfinalRead : BHist} :
+    truthResidueLedgerFields (TruthResidueLedgerUp.mk O I B P F G H C Q N) =
+        [O, I, B, P, F, G, H, C, Q, N] →
+      UnaryHistory O →
+        UnaryHistory I →
+          UnaryHistory B →
+            UnaryHistory P →
+              UnaryHistory F →
+                UnaryHistory G →
+                  UnaryHistory N →
+                    Cont O I obsRead →
+                      Cont obsRead B invariantRead →
+                        Cont invariantRead P bridgeRead →
+                          Cont bridgeRead F predictionRead →
+                            Cont predictionRead G falsificationRead →
+                              Cont falsificationRead N nonfinalRead →
+                                SemanticNameCert
+                                  (fun row : BHist => hsame row nonfinalRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row O ∨ hsame row I ∨ hsame row B ∨
+                                      hsame row P ∨ hsame row F ∨ hsame row G ∨
+                                        hsame row H ∨ hsame row C ∨ hsame row Q ∨
+                                          hsame row N ∨ hsame row nonfinalRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ Cont O I obsRead ∧
+                                      Cont obsRead B invariantRead ∧
+                                        Cont invariantRead P bridgeRead ∧
+                                          Cont bridgeRead F predictionRead ∧
+                                            Cont predictionRead G falsificationRead ∧
+                                              Cont falsificationRead N nonfinalRead)
+                                  hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory NameCert
+  intro _fields uO uI uB uP uF uG uN cOI cObsB cInvP cBridgeF cPredG cFalsN
+  have uObs : UnaryHistory obsRead :=
+    unary_cont_closed uO uI cOI
+  have uInvariant : UnaryHistory invariantRead :=
+    unary_cont_closed uObs uB cObsB
+  have uBridge : UnaryHistory bridgeRead :=
+    unary_cont_closed uInvariant uP cInvP
+  have uPrediction : UnaryHistory predictionRead :=
+    unary_cont_closed uBridge uF cBridgeF
+  have uFalsification : UnaryHistory falsificationRead :=
+    unary_cont_closed uPrediction uG cPredG
+  have uNonfinal : UnaryHistory nonfinalRead :=
+    unary_cont_closed uFalsification uN cFalsN
+  constructor
+  · constructor
+    · exact ⟨nonfinalRead, ⟨hsame_refl nonfinalRead, uNonfinal⟩⟩
+    · intro row source
+      exact hsame_refl row
+    · intro row col same
+      exact hsame_symm same
+    · intro row col next sameRow sameNext
+      exact hsame_trans sameRow sameNext
+    · intro row col same source
+      cases same
+      exact source
+  · intro row source
+    exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+      (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))))))
+  · intro row source
+    exact
+      ⟨source.right,
+        ⟨cOI,
+          ⟨cObsB,
+            ⟨cInvP,
+              ⟨cBridgeF,
+                ⟨cPredG, cFalsN⟩⟩⟩⟩⟩⟩
 
 end BEDC.Derived.TruthResidueLedgerUp

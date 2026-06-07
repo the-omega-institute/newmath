@@ -1,6 +1,9 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
@@ -251,7 +254,134 @@ end BEDC.Derived.ModelSelectionBoundaryUp.TasteGate
 
 namespace BEDC.Derived.ModelSelectionBoundaryUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+
 def taste_gate :=
   TasteGate.taste_gate
+
+def ModelSelectionBoundaryObligationCarrier [AskSetup] [PackageSetup]
+    (candidateFamily observedSignature fitLedger defeatSurface auditRoute alignment transport
+      provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  UnaryHistory candidateFamily ∧ UnaryHistory observedSignature ∧ UnaryHistory fitLedger ∧
+    UnaryHistory defeatSurface ∧ UnaryHistory auditRoute ∧ UnaryHistory alignment ∧
+      UnaryHistory transport ∧ UnaryHistory provenance ∧ UnaryHistory localName ∧
+        Cont candidateFamily observedSignature fitLedger ∧
+          Cont fitLedger defeatSurface auditRoute ∧
+            Cont auditRoute alignment transport ∧ PkgSig bundle provenance pkg
+
+theorem ModelSelectionBoundaryObligationCarrier_surface [AskSetup] [PackageSetup]
+    {candidateFamily observedSignature fitLedger defeatSurface auditRoute alignment transport
+      provenance localName obligationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ModelSelectionBoundaryObligationCarrier candidateFamily observedSignature fitLedger
+        defeatSurface auditRoute alignment transport provenance localName bundle pkg →
+      Cont transport localName obligationRead →
+        PkgSig bundle obligationRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row fitLedger ∨ hsame row defeatSurface ∨ hsame row auditRoute ∨
+                  hsame row alignment ∨ hsame row transport ∨ hsame row obligationRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont fitLedger defeatSurface auditRoute ∧
+                  Cont auditRoute alignment transport ∧ PkgSig bundle provenance pkg ∧
+                    PkgSig bundle obligationRead pkg)
+              hsame ∧
+            PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier transportLocalObligation obligationPkg
+  obtain ⟨_candidateUnary, _observedUnary, _fitUnary, _defeatUnary, _auditUnary,
+    _alignmentUnary, transportUnary, _provenanceUnary, localNameUnary,
+    _candidateObservedFit, fitDefeatAudit, auditAlignmentTransport, provenancePkg⟩ :=
+    carrier
+  have obligationUnary : UnaryHistory obligationRead :=
+    unary_cont_closed transportUnary localNameUnary transportLocalObligation
+  have sourceObligation :
+      (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row) obligationRead := by
+    exact ⟨hsame_refl obligationRead, obligationUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row obligationRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row fitLedger ∨ hsame row defeatSurface ∨ hsame row auditRoute ∨
+              hsame row alignment ∨ hsame row transport ∨ hsame row obligationRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont fitLedger defeatSurface auditRoute ∧
+              Cont auditRoute alignment transport ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle obligationRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro obligationRead sourceObligation
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, fitDefeatAudit, auditAlignmentTransport, provenancePkg,
+          obligationPkg⟩
+  }
+  exact ⟨cert, provenancePkg⟩
+
+theorem ModelSelectionBoundaryAuditScope [AskSetup] [PackageSetup]
+    (x : TasteGate.ModelSelectionBoundaryUp) :
+    (∀ h : BHist, Cont h BHist.Empty h) ∧
+      (Pkg = Pkg) ∧
+        ∃ M S F D L T P N : BHist,
+          x = TasteGate.ModelSelectionBoundaryUp.mk M S F D L T P N ∧
+            TasteGate.modelSelectionBoundaryFromEventFlow
+                (TasteGate.modelSelectionBoundaryToEventFlow x) =
+              some x := by
+  -- BEDC touchpoint anchor: BHist Cont Pkg
+  constructor
+  · intro h
+    exact cont_intro rfl
+  · constructor
+    · rfl
+    · cases x with
+      | mk M S F D L T P N =>
+          exact
+            ⟨M, S, F, D, L, T, P, N, rfl,
+              TasteGate.ModelSelectionBoundaryTasteGate_single_carrier_alignment.left
+                (TasteGate.ModelSelectionBoundaryUp.mk M S F D L T P N)⟩
+
+theorem ModelSelectionBoundary_namecert_obligations
+    (x : TasteGate.ModelSelectionBoundaryUp) :
+    ∃ M S F D L T P N : BHist,
+      x = TasteGate.ModelSelectionBoundaryUp.mk M S F D L T P N ∧
+        TasteGate.modelSelectionBoundaryFields x = [M, S, F, D, L, T, P, N] ∧
+          Cont F D (append F D) ∧
+            Cont D L (append D L) ∧
+              Cont M T (append M T) ∧
+                hsame P P ∧
+                  hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk M S F D L T P N =>
+      exact
+        ⟨M, S, F, D, L, T, P, N, rfl, rfl, cont_intro rfl, cont_intro rfl,
+          cont_intro rfl, hsame_refl P, hsame_refl N⟩
 
 end BEDC.Derived.ModelSelectionBoundaryUp

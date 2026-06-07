@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\CompactFiniteModulusGluingUp$}
+\label{ch:concrete-instances-compact-finite-modulus-gluing-namecert}
+\origin{human}
+
+Following Bishop--Bridges and the constructive Heine--Cantor argument, the $\CompactFiniteModulusGluingUp$ packet packages the finite $\mathsf{ProbeBundle}$ route from compact coverage and pointwise continuity to a tolerance-only uniform modulus. It realizes the compact-uniform-continuity carrier of \autoref{ch:visions-compact-uniform-continuity} as concrete NameCert data: compact finite-net rows, continuous-map pointwise-modulus rows, $\RatUp$ lower-bound folds, metric triangle estimates, and the $\UniformModulusUp$ handoff all remain visible in one finite carrier.
+The packet consumes the concrete $\CompactMetricUp$ finite-net carrier of \autoref{ch:concrete-instances-compactmetric-namecert}, the $\ContinuousMapUp$ pointwise-modulus carrier of \autoref{ch:concrete-instances-continuousmap-namecert}, the $\RatUp$ lower-bound fold arithmetic of \autoref{ch:concrete-instances-rat-namecert}, the $\MetricSpaceUp$ triangle rows of \autoref{ch:concrete-instances-metric-namecert}, and the $\UniformModulusUp$ handoff of \autoref{ch:concrete-instances-uniformmodulus-namecert}.
+
+\begin{definition}[CompactFiniteModulusGluing carrier]
+\label{def:compact-finite-modulus-gluing-carrier}
+A $\CompactFiniteModulusGluingUp$ carrier is a finite $\BHist$ packet
+$$
+G=(K,C,B,R,L,T,U,H,E,P,N)
+$$
+with these rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ finite-net row, including the finite $\mathsf{ProbeBundle}$ and coverage witnesses.
+\item $C$ is the $\ContinuousMapUp$ pointwise-modulus row over the same metric source.
+\item $B$ is the bundled probe row carrying centers, local radii, and local modulus certificates.
+\item $R$ is the $\RatUp$ positive-radius comparison row.
+\item $L$ is the finite lower-bound fold over the bundled rational radii.
+\item $T$ is the metric-triangle transport row that moves estimates from centers to arbitrary points.
+\item $U$ is the $\UniformModulusUp$ handoff row from tolerance histories to precision histories.
+\item $H,E,P,N$ are componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CompactFiniteModulusGluingUp}$ row.
+\end{enumerate}
+The carrier has no external finite-subcover selector, no global choice of centers, no host compactness theorem, no classical least positive radius, no function-space quotient equality, and no ambient Real-completeness coordinate.
+\end{definition}
+
+\begin{theorem}[CompactFiniteModulusGluing NameCert obligations]
+\label{thm:compact-finite-modulus-gluing-namecert-obligations}
+For every accepted $\CompactFiniteModulusGluingUp$ carrier $G=(K,C,B,R,L,T,U,H,E,P,N)$, the local $\NameCert_{\CompactFiniteModulusGluingUp}$ consists exactly of carrier admission for those rows, finite ProbeBundle coverage through $K,B$, pointwise-modulus admission through $C$, positive rational comparison through $R$, finite lower-bound fold stability through $L$, metric-triangle transport through $T$, uniform-modulus handoff through $U$, structural transport and replay through $H,E$, provenance through $P$, and refusal of external selectors, host compactness, classical minima, quotient function equality, and ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier. Coverage and probe membership are stored only in $K,B$, while pointwise continuity data is stored only in $C$.
+
+The rational comparison and finite fold rows $R,L$ provide the displayed lower bound over the bundle. The triangle row $T$ is then the only route from center estimates to arbitrary source points, and $U$ receives the resulting tolerance-only precision history.
+
+Transport, replay, provenance, and naming preserve that finite route without adding host selectors or quotient function equality. The refused objects are not coordinates of $G$, so no NameCert clause can export them.
+\end{proof}
+
+\begin{theorem}[Compact finite gluing uniform-modulus route]
+\label{thm:compact-finite-modulus-gluing-uniform-modulus-route}
+Every $\UniformModulusUp$ read exported by an accepted $\CompactFiniteModulusGluingUp$ carrier factors through
+$$
+\CompactMetricUp(K),\ \ContinuousMapUp(C),\ \mathsf{ProbeBundle}(B),\ \RatUp(R),\ L,T,U,H,E,P,N .
+$$
+The exported precision history is produced by a finite rational lower-bound fold over bundled pointwise-modulus radii, followed by metric-triangle transport, and not by an external modulus selector or a host Heine--Cantor theorem.
+\end{theorem}
+\begin{proof}
+Start with the finite-net row $K$ and the bundled row $B$. They provide the only displayed centers and coverage witnesses available to the carrier.
+
+Read the pointwise-modulus row $C$ at each bundled center. The positive rational comparisons in $R$ and the finite fold $L$ produce one lower-bound history below all bundled local radii.
+
+Finally use the metric-triangle row $T$ to transport local estimates from the chosen center to an arbitrary pair of nearby source points, and hand the resulting precision history to $U$. Because the whole route has passed through finite carrier rows, it does not expose external selection, classical minima, quotient equality, host compactness, or ambient Real completeness.
+\end{proof}
+
+\closureat{CompactFiniteModulusGluingUp}{seedStr}
+
+\begin{closurestatus}{\CompactFiniteModulusGluingUp}
+  \constructivestory{A $\CompactFiniteModulusGluingUp$ packet is generated from compact finite-net rows, continuous-map pointwise moduli, bundled probe data, rational positive-radius comparison, finite lower-bound folds, metric-triangle transport, uniform-modulus handoff, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-finite-modulus-gluing-carrier} and \autoref{thm:compact-finite-modulus-gluing-namecert-obligations} seed the finite ProbeBundle gluing surface for compact-uniform-continuity consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, host compactness, external finite-subcover selection, classical least-radius selection, quotient function equality, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite ProbeBundle coverage, pointwise-modulus admission, rational fold stability, metric-triangle transport, uniform-modulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.CompactFiniteModulusGluingUp.}
+\end{closurestatus}

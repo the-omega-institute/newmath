@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\PhysicalInductionGateUp$}
+\label{ch:concrete-instances-physical-induction-gate-namecert}
+\origin{ai}
+
+The $\PhysicalInductionGateUp$ packet realizes the physical-induction certificate of \autoref{sec:physical-induction-open-continuation} as finite NameCert data. It sits after the reality-facing audit surfaces of \autoref{ch:concrete-instances-physical-namecert-audit-namecert}, the open-fit rows of \autoref{ch:concrete-instances-reality-constrained-open-fit-namecert}, the continuation countermodel boundary of \autoref{ch:concrete-instances-continuationcountermodel-namecert}, and the failure-surface sibling of \autoref{ch:concrete-instances-realityconstrainedfailuresurface-namecert}. The packet names when a finite fit may be reused over a displayed continuation class, and it refuses any inference that has no finite stability basis or no falsifiable defeat surface.
+
+\begin{definition}[PhysicalInductionGate carrier]
+\label{def:physical-induction-gate-carrier}
+A $\PhysicalInductionGateUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,O,M,\Pi,F,Cn,B,Y,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source finite observation history row, including the prefix $H_n$ and the observation classifier used by the fitted model.
+\item $O$ is the open continuation row. It names the admissible continuation class inspected by the packet and exposes only finite continuation requests.
+\item $M$ is the displayed model-signature row read from the fitted model over the same finite history.
+\item $\Pi$ is the probe-bundle and comparison row governing which signatures are compared.
+\item $F$ is the finite-fit certificate row for the current prefix.
+\item $Cn$ is the continuation-stability row. It records the local stability basis licensing reuse over the displayed continuation class.
+\item $B$ is the failure-surface row. It records the observations or continuation refinements that would separate model-generated and observed signatures.
+\item $Y$ is the predictive-descent row, requiring the prediction operation to descend through the classifier named by $\Pi$ before reuse is public.
+\item $H$ records componentwise $\hsame$ transport for $S,O,M,\Pi,F,Cn,B,Y,R,P,N$.
+\item $R$ records displayed $\Cont$ replay from a finite fit through continuation request, stability basis, failure-surface test, descent check, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\PhysicalInductionGateUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, together with the reality-facing siblings named above.
+\item $N$ is the local $\NameCert_{\PhysicalInductionGateUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $S,O,M,\Pi,F,Cn,B,Y,H,R,P,N$. It has no coordinate for a completed future observation carrier, universal physical necessity, a final-fit oracle, hidden continuation choice, or predictive reuse without a displayed failure surface.
+\end{definition}
+
+\begin{theorem}[PhysicalInductionGate NameCert obligations]
+\label{thm:physical-induction-gate-namecert-obligations}
+For every accepted $\PhysicalInductionGateUp$ carrier $G=(S,O,M,\Pi,F,Cn,B,Y,H,R,P,N)$, the local $\NameCert_{\PhysicalInductionGateUp}$ surface consists exactly of source-prefix admission, continuation-class admission, model-signature readback, probe-comparison compatibility, finite-fit certification, continuation-stability display, failure-surface display, predictive-descent display, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the rows $S,O,M,\Pi,F,Cn,B,Y,H,R,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.PhysicalInductionGateUp.PhysicalInductionGateNameCertObligations}
+\begin{proof}
+Project the carrier of \autoref{def:physical-induction-gate-carrier}. The reality-facing rows are exactly the finite source prefix, continuation class, model signature, probe comparison, finite-fit certificate, stability basis, failure surface, and predictive-descent row.
+
+The obligation order follows the physical-induction certificate. A reuse read first displays the finite fit $F$ over $S,M,\Pi$, then displays the continuation class $O$, then reads the stability basis $Cn$, and only then exposes the failure-surface row $B$ and descent row $Y$.
+
+The structural rows $H,R,P,N$ keep that route stable under transport, continuation replay, provenance, and local naming. Since the carrier has no completed future, final oracle, hidden continuation selector, or failure-free law row, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[PhysicalInductionGate failure surface]
+\label{thm:physical-induction-gate-failure-surface}
+Every accepted $\PhysicalInductionGateUp$ prediction read must expose a finite failure-surface row before it can use continuation stability:
+$$
+S\longmapsto O\longmapsto M\longmapsto \Pi\longmapsto F\longmapsto Cn\longmapsto B\longmapsto Y\longmapsto H,R,P,N .
+$$
+If the row $B$ is absent, or if $B$ is detached from the same continuation class $O$ and probe comparison $\Pi$, the packet exports no licensed physical-induction gate.
+\end{theorem}
+\begin{proof}
+Start with \autoref{def:physical-induction-gate-carrier}. The only route from finite fit to prediction reuse passes through the displayed continuation class, stability basis, failure-surface row, and predictive-descent row.
+
+Apply \autoref{thm:physical-induction-gate-namecert-obligations}. It makes failure-surface display a local NameCert obligation, not an optional annotation. A consumer therefore cannot consume $Cn$ as a lawlike stability basis unless it also consumes $B$ over the same $O$ and $\Pi$.
+
+The rows $H,R,P,N$ preserve this route under transport, replay, provenance, and naming. Hence a read with no $B$ row, or with a failure surface over a different continuation class or classifier, remains outside $\PhysicalInductionGateUp$.
+\end{proof}
+
+\falsifiablePrediction{A physical-induction consumer that claims predictive reuse while omitting the finite source prefix, continuation class, model-signature row, probe-comparison row, finite-fit certificate, continuation-stability basis, failure-surface row, predictive-descent row, transport, replay, provenance, or local NameCert refutes the $\PhysicalInductionGateUp$ packet.}
+
+\independenceWitness{physicalnamecertaudit, reality-constrained-open-fit, continuationcountermodel, reality-constrained-failure-surface: no listed sibling is bijective with $\PhysicalInductionGateUp$ because this packet jointly carries finite fit, continuation stability, failure-surface accountability, predictive descent, transport, replay, provenance, and local naming as one reuse gate.}
+
+Future TasteGate work for this chapter must provide explicit $\mathsf{Nontrivial}\ \PhysicalInductionGateUp$ and $\mathsf{FieldFaithful}\ \PhysicalInductionGateUp$ instances preserving $S,O,M,\Pi,F,Cn,B,Y,H,R,P,N$ before any checked carrier-alignment theorem may serve as the public gate.
+
+\closureat{PhysicalInductionGateUp}{seedStr}
+
+\begin{closurestatus}{\PhysicalInductionGateUp}
+  \constructivestory{A $\PhysicalInductionGateUp$ packet is generated from a finite source observation prefix, displayed continuation class, model signature, probe-comparison row, finite-fit certificate, continuation-stability basis, failure-surface row, predictive-descent row, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:physical-induction-gate-carrier}, \autoref{thm:physical-induction-gate-namecert-obligations}, and \autoref{thm:physical-induction-gate-failure-surface} seed the finite continuation-stability and failure-surface gate for physical induction certificates.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close universal physical necessity, completed future observation carriers, failure-free law certificates, hidden continuation choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-prefix admission, continuation-class admission, finite-fit certification, continuation-stability display, failure-surface display, predictive descent, transport, replay, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.PhysicalInductionGateUp.}
+\end{closurestatus}

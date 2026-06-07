@@ -61,12 +61,48 @@ The stream and regular-rational rows $S,R$ then expose the finite window and rea
 The located-interval bisection and Bolzano consumers can read $L_0,U_0,I$ only through the structural rows $H,C,P,N$. Therefore the route factors through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, and cannot pass through host intervals, quotient reals, trichotomy, countable choice, or ambient real completeness.
 \end{proof}
 
+\begin{theorem}[Rational interval locator dyadic tolerance route]
+\label{thm:rational-interval-locator-dyadic-tolerance-route}
+Every tolerance request for an accepted $\RationalIntervalLocatorUp$ carrier first reads the $\DyadicRatCoreUp$ tolerance ledger through \autoref{ch:concrete-instances-dyadicratcore-namecert}. It then passes through the $\StreamNameUp$ window row, the $\RegSeqRatUp$ readback row, and the $\RealUp$ seal before exposing the rational interval bracket $L_0,U_0,I$ to a located-interval consumer.
+\end{theorem}
+\begin{proof}
+Let
+$$
+L=(L_0,U_0,I,T,S,R,A,H,C,P,N)
+$$
+be an accepted carrier. Project the tolerance row $T$ and provenance row $P$. These rows identify the requested precision as a dyadic rational tolerance supplied by the $\DyadicRatCoreUp$ ledger rather than by host interval arithmetic.
+
+Next project $S,R,A$. The StreamName window $S$ opens the finite observations for the displayed tolerance, the RegSeqRat row $R$ replays those observations as regular rational data, and the Real seal $A$ receives only that finite readback route.
+
+Finally apply \autoref{thm:rational-interval-locator-real-readback}. It already factors every Real-facing read through $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, so the rational bracket rows $L_0,U_0,I$ are exposed only after the dyadic tolerance route has been displayed.
+\end{proof}
+
+\begin{theorem}[Rational interval locator Real-seal lattice]
+\label{thm:rational-interval-locator-real-seal-lattice}
+Every Real-facing locator read of an accepted $\RationalIntervalLocatorUp$ carrier
+$$
+L=(L_0,U_0,I,T,S,R,A,H,C,P,N)
+$$
+factors through the finite lattice
+$$
+\DyadicRatCoreUp\longmapsto \StreamNameUp\longmapsto \RegSeqRatUp\longmapsto \RealUp
+$$
+before exposing $L_0,U_0,I$ to located-interval and real-separability consumers. The lattice exposes only dyadic tolerance, finite stream windows, regular rational readback, and the terminal Real seal; it refuses host intervals, trichotomy, quotient reals, countable choice, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing locator read and project the accepted carrier. The tolerance row $T$ and provenance row $P$ attach the requested precision to the $\DyadicRatCoreUp$ route, so no host interval object is available before the dyadic ledger is read.
+
+Apply \autoref{thm:rational-interval-locator-dyadic-tolerance-route}. The dyadic request opens the $\StreamNameUp$ window row $S$, then the $\RegSeqRatUp$ readback row $R$, and only then the terminal $\RealUp$ seal row $A$.
+
+Apply \autoref{thm:rational-interval-locator-real-readback}. That theorem exposes the rational bracket rows $L_0,U_0,I$ only after the same route has been displayed. The structural rows $H,C,P,N$ preserve the route for located-interval and real-separability consumers, and the carrier contains no coordinate for trichotomy, quotient reals, countable choice, selected limits, or ambient $\RealUp$ completeness.
+\end{proof}
+
 \closureat{RationalIntervalLocatorUp}{obligationStr}
 
 \begin{closurestatus}{\RationalIntervalLocatorUp}
   \constructivestory{A $\RationalIntervalLocatorUp$ packet is generated from rational lower-bound and upper-bound rows, interval inclusion, tolerance requests, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:rational-interval-locator-carrier}, \autoref{thm:rational-interval-locator-namecert-obligations}, and \autoref{thm:rational-interval-locator-real-readback} seed the finite rational interval locator route for Real-facing readback.}
+  \scopeclosed{\autoref{def:rational-interval-locator-carrier}, \autoref{thm:rational-interval-locator-namecert-obligations}, \autoref{thm:rational-interval-locator-real-readback}, and \autoref{thm:rational-interval-locator-real-seal-lattice} seed the finite rational interval locator route for Real-facing readback.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host interval arithmetic, quotient-real equality, trichotomy, countable choice, ambient RealUp completeness, Lean verification, or bridge checking.}

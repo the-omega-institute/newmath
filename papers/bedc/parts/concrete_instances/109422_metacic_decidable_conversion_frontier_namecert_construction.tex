@@ -63,6 +63,34 @@ The local checker row $Q$ is interpreted under the obstruction row $O$. Thus a p
 Transport and replay through $H$ and $C$, with provenance and naming through $P$ and $L$, preserve that boundary. No sibling route adds arbitrary-fuel completeness, evaluator equality, quotient syntax equality, subject reduction, confluence, or kernel consistency to the carrier.
 \end{proof}
 
+\begin{theorem}[MetaCIC decidable conversion frontier bounded search]
+\label{thm:metacic-decidable-conversion-frontier-bounded-search}
+Every positive conversion-frontier read exported by an accepted $\MetaCICDecidableConversionFrontierUp$ carrier factors through the displayed finite fuel budget in $Q$, the bounded normalizer surface in $N$, the $\Term.eq$ comparison encoded by the bounded equality-checker row, the $\BoundedNormalConversionBridgeUp$ row $B$, and the $\NormalFormConsistencySealUp$ row $S$. The read is therefore a finite search certificate, not an unrestricted conversion theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-decidable-conversion-frontier-carrier}. The only local row that can report a positive comparison is $Q$, and that row stores the compared normal forms, finite fuel budget, and Boolean equality output.
+
+Apply the NameCert obligations of \autoref{thm:metacic-decidable-conversion-frontier-namecert-obligations}. They force every conversion-facing read to expose the decidability boundary, normalization frontier, bounded bridge, normal-form seal, critical-path row, checker row, and obstruction row together.
+
+Use the bounded route theorem \autoref{thm:metacic-decidable-conversion-frontier-bounded-route}. It places the positive read behind $D,N,B,S,K$ and then behind $Q$, so the equality output is interpreted only through bounded normalization, $\Term.eq$ comparison, the bridge row, and the consistency seal.
+
+The obstruction row $O$ remains part of the same packet. Since unrestricted closed beta-conversion, arbitrary-fuel completeness, evaluator equality, quotient syntax equality, subject reduction, confluence, and kernel consistency are not carrier coordinates, a positive bounded read cannot be promoted to any of them.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable conversion frontier refusal]
+\label{thm:metacic-decidable-conversion-frontier-refusal}
+The same $\MetaCICDecidableConversionFrontierUp$ carrier refuses unrestricted closed beta-conversion, arbitrary-fuel completeness, evaluator equality, quotient syntax equality, subject reduction, confluence, and kernel consistency. Any consumer claiming one of those endpoints must supply data outside the displayed rows $D,N,B,S,K,Q,O,H,C,P,L$.
+\end{theorem}
+\begin{proof}
+Read the obstruction row $O$ from \autoref{def:metacic-decidable-conversion-frontier-carrier}. It explicitly names unrestricted closed-term beta-conversion, arbitrary-fuel completeness, evaluator equality, quotient syntax equality, and kernel consistency as excluded endpoints, while the classifier also omits subject reduction and confluence.
+
+Apply \autoref{thm:metacic-decidable-conversion-frontier-bounded-search}. A positive conversion-frontier read is only a bounded search certificate passing through finite fuel, bounded normalization, checker comparison, bridge, and seal rows.
+
+Now use \autoref{thm:metacic-decidable-conversion-frontier-bounded-route}. The route preserves obstruction retention through $O$ and structural replay through $H,C,P,L$, so no later consumer can erase the finite-search boundary inside this packet.
+
+Thus the refused endpoints require additional carriers or theorems not present here. The local NameCert surface exports a bounded decidability frontier only.
+\end{proof}
+
 \closureat{MetaCICDecidableConversionFrontierUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICDecidableConversionFrontierUp}

@@ -13,3 +13,33 @@ Now take the common finite tail window given by the shifted window and its halve
 
 Finally read the downstream $\RealUp$ seal through the same four-object route. Since the carrier rows have been exhausted by $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and local naming, no quotient stream equality, selected limit, host real equality, metric-completeness datum, completion point, countable-choice schedule, or ambient completeness coordinate remains available.
 \end{proof}
+
+\begin{theorem}[RegSeqRat tail-shift halving fusion is choice-free]
+\label{thm:regseqrat-tail-shift-halving-fusion-choice-free}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let a finite displayed family of tail-shift rows and tail-halving rows be indexed over the same $\StreamNameUp$ schedule and $\DyadicRatCoreUp$ tolerance ledger. Iterating \autoref{thm:regseqrat-tail-halving-shift-fusion} over the family yields one finite common window with the same $\RegSeqRatUp$ readback and the same downstream $\RealUp$ seal.
+
+The finite-family route preserves the four-object path through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. It does not select a limiting tail, invoke quotient stream equality, use host real equality, ask for countable choice, expose a completion point, or assume ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Induct over the displayed finite family. In the empty case, the original accepted packet supplies the common window, readback, and Real seal through its StreamName schedule, DyadicRatCore tolerance ledger, RegSeqRat rows, transport, replay, provenance, and local naming data.
+
+For the successor step, apply \autoref{thm:regseqrat-tail-halving-shift-fusion} to the current common window and the next displayed pair of tail-shift and tail-halving rows. The theorem fuses that pair into a finite tail window whose StreamName schedule, DyadicRatCore tolerance ledger, RegSeqRat readback, and Real seal are the same public read.
+
+Repack the successor window as the induction invariant. The same four-object route is preserved because each step reads only $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.
+
+Thus the finite family has one common window without selecting a limiting tail. Since every step is finite and row-local, no quotient stream equality, host real equality, countable-choice schedule, completion point, or ambient Real completeness coordinate is introduced.
+\end{proof}
+
+\begin{theorem}[RegSeqRat tail-halving classifier fusion]
+\label{thm:regseqrat-tail-halving-classifier-fusion}
+Let $P$ be an accepted $\RegSeqRatUp$ packet, and let a finite family of tail-shift and tail-halving rows share the same $\StreamNameUp$ schedule and $\DyadicRatCoreUp$ tolerance ledger. Then the resulting $\RegSeqRatUp$ classifier read is the same shared-window selector surface, and the family reaches one terminal $\RealUp$ seal.
+
+The classifier route is the finite L10 route through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$. It does not introduce quotient stream equality, a selected limit, metric completeness, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regseqrat-tail-shift-halving-fusion-choice-free} to the displayed finite family. It gives one common finite window with the shared StreamName schedule, DyadicRatCore tolerance ledger, RegSeqRat readback, and downstream Real seal.
+
+Use the shared-window selector determinacy route for the same accepted packet. Since all rows are indexed over the same schedule and tolerance ledger, the classifier can read only the shared-window selector surface already exposed by the fused family.
+
+Finally apply tail-shift regularity to keep the RegSeqRat row on the same regular-rational carrier. The terminal $\RealUp$ seal is reached through that finite route, and no quotient stream equality, selected limit, metric-completeness datum, or ambient Real completeness coordinate is introduced.
+\end{proof}

@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\AdamsBashforthFiniteStepUp$}
+\label{ch:concrete-instances-adams-bashforth-finite-step-namecert}
+\origin{human}
+
+Following Adams and Bashforth's finite multistep method tradition, the $\AdamsBashforthFiniteStepUp$ packet records an explicit ODE step whose update is read from a bounded previous-step window and a finite table of displayed derivative samples. It sits after the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the real readback surface of \autoref{ch:concrete-instances-real-namecert}, the regular rational tolerance route of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-name replay route of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the one-step explicit Euler packet of \autoref{ch:concrete-instances-euler-method-finite-step-namecert}. The certificate names a finite linear multistep update; it does not assert host solution existence, convergence of a mesh family, or completeness of an ambient real line.
+
+\begin{definition}[Adams-Bashforth finite-step carrier]
+\label{def:adams-bashforth-finite-step-carrier}
+An $\AdamsBashforthFiniteStepUp$ carrier is a finite $\BHist$ packet
+$$
+A=(O,B,W,F,S,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ source row, naming the local time-state cell, vector-field request, step index, and finite mesh window.
+\item $B$ is the dyadic coefficient table row, listing the Adams--Bashforth weights consumed by the displayed order and no coefficient outside that finite table.
+\item $W$ is the previous-step window row, recording the ordered finite list of already named time-state entries used by the multistep update.
+\item $F$ is the derivative-sample row, pairing each entry of $W$ with the displayed $\OdeUp$ vector-field read and its $\StreamNameUp$ replay name.
+\item $S$ is the explicit step-update row, reading the next state as the previous endpoint plus the dyadic weighted sum of the derivative samples.
+\item $L$ is the local truncation and error ledger, recording only the visible residual budget, mesh-width budget, and $\RegSeqRatUp$ tolerance readback attached to this one update.
+\item $H$ records componentwise $\hsame$ transport for the ODE source, coefficient table, previous-step window, derivative samples, update row, error ledger, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+O,B,W,F,L \longmapsto S \longmapsto H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\AdamsBashforthFiniteStepUp$, $\OdeUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\EulerMethodFiniteStepUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AdamsBashforthFiniteStepUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows and their displayed transports. It has no coordinate for a host solution curve, selected limiting path, quotient equality of functions, a global ODE existence theorem, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Adams-Bashforth finite-step error ledger]
+\label{thm:adams-bashforth-finite-step-error-ledger}
+For every accepted $\AdamsBashforthFiniteStepUp$ carrier $A=(O,B,W,F,S,L,H,C,P,N)$, the visible step update consumes only the ODE source row, the dyadic coefficient table, the previous-step window, the derivative-sample rows, and the local truncation and error ledger displayed in $O,B,W,F,S,L$. Its exported certificate is exactly the transported and replayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ route through $H,C,P,N$. It exports no global ODE existence theorem, host function equality, selected limit, quotient path equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:adams-bashforth-finite-step-carrier}. The only numerical rows are $O,B,W,F,S,L$: the ODE source, dyadic coefficient table, previous-step window, derivative samples, explicit update, and local error ledger.
+
+The update row $S$ is not a host function. It is a displayed read from the previous endpoint in $W$, the finite coefficient table $B$, the derivative samples $F$, and the local tolerance data in $L$. Thus every arithmetic or error request is already tied to a finite row before a downstream consumer sees the update.
+
+Finally transport and replay through $H,C,P,N$. These rows preserve the same finite packet as BEDC data, so they cannot add a global existence theorem, a host equality proof, a selected limiting path, quotient path equality, or a completeness argument absent from the carrier.
+\end{proof}
+\leanstmt{BEDC.Derived.AdamsBashforthFiniteStepUp}
+
+\closureat{AdamsBashforthFiniteStepUp}{seedStr}
+
+\begin{closurestatus}{\AdamsBashforthFiniteStepUp}
+  \constructivestory{An $\AdamsBashforthFiniteStepUp$ packet is generated from an Ode source row, a dyadic coefficient table, a previous-step window, derivative-sample rows, an explicit update row, a local truncation and error ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:adams-bashforth-finite-step-carrier} and \autoref{thm:adams-bashforth-finite-step-error-ledger} seed the finite Adams--Bashforth update route over ODE, Real, RegSeqRat, StreamName, DyadicRatCore, Euler finite-step, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global ODE existence, mesh-family convergence, host function equality, selected limits, quotient path equality, ambient Real completeness, theorem checking, axiom cleanliness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, coefficient-table visibility, previous-window coverage, derivative-sample readback, explicit update exposure, local error-ledger stability, transport, replay, provenance, and local naming for BEDC.Derived.AdamsBashforthFiniteStepUp.}
+\end{closurestatus}

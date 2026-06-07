@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RungeKuttaFiniteStepUp$}
+\label{ch:concrete-instances-runge-kutta-finite-step-namecert}
+\origin{human}
+
+Following Runge and Kutta on finite-stage ordinary differential equation methods and Bishop--Bridges constructive real analysis, the $\RungeKuttaFiniteStepUp$ packet records the finite stage data needed to inspect one displayed ODE step. It sits beside the ODE carrier of \autoref{ch:concrete-instances-ode-namecert}, the Picard--Lindelof finite-approximation discipline of \autoref{ch:concrete-instances-picard-lindelof-namecert}, the dyadic arithmetic rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names finite stage equations over displayed data; it does not assert host ODE existence, selected global solutions, quotient equality of names, or completeness of $\RealUp$.
+
+\begin{definition}[Runge--Kutta finite-step carrier]
+\label{def:runge-kutta-finite-step-carrier}
+A $\RungeKuttaFiniteStepUp$ carrier is a finite $\BHist$ packet
+$$
+K=(O,F,A,S,D,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the displayed ODE row read from \autoref{ch:concrete-instances-ode-namecert}, including the state, time, and right-hand-side interface inspected by the step.
+\item $F$ is the finite stage-function row naming the stage evaluation scheme used by the Runge--Kutta tableau.
+\item $A$ is the tableau row containing the finitely many stage coefficients, weights, and nodes.
+\item $S$ is the dyadic step-size row read through \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+\item $D$ is the dyadic arithmetic ledger for coefficient products, stage update terms, and final weighted sums.
+\item $W$ is the finite $\StreamNameUp$ window opened for the source state, time, and stage arguments.
+\item $R$ is the $\RegSeqRatUp$ readback row naming the computed step as regular rational data.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the ODE, stage, tableau, dyadic, window, and readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the ODE row, stage row, tableau row, step-size row, dyadic ledger, stream window, readback row, Real seal, replay, provenance, and local name.
+\item $C$ records the displayed $\Cont$ replay for finite stage evaluation, dyadic accumulation, stream-window inspection, regular readback, and Real seal handoff.
+\item $P$ is the $\Pkg$ provenance over the ODE, Picard--Lindelof, dyadic, stream, regular rational, Real, transport, replay, and NameCert rows.
+\item $N$ is the local $\NameCert_{\RungeKuttaFiniteStepUp}$ row.
+\end{enumerate}
+The local classifier compares accepted carriers only through the rows $O,F,A,S,D,W,R,E,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Runge--Kutta finite-step NameCert obligations]
+\label{thm:runge-kutta-finite-step-namecert-obligations}
+For the carrier of \autoref{def:runge-kutta-finite-step-carrier}, the local $\NameCert_{\RungeKuttaFiniteStepUp}$ obligation surface consists exactly of ODE-row exposure through $O$, finite stage-function exposure through $F$, tableau exposure through $A$, dyadic step-size exposure through $S$, dyadic arithmetic through $D$, finite $\StreamNameUp$ window exposure through $W$, $\RegSeqRatUp$ readback through $R$, terminal $\RealUp$ sealing through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier $K=(O,F,A,S,D,W,R,E,H,C,P,N)$. The analytic rows are displayed before the structural rows, and the classifier reads no coordinate outside this finite list.
+
+Use the ODE and Picard--Lindelof neighbor chapters only as source rows for a displayed finite step. The stage-function and tableau rows record a finite evaluation scheme, while $S,D,W$ provide the dyadic and stream-window data needed to compute the inspected step.
+
+The readback and seal rows are downstream of those finite rows. Since $H,C,P,N$ transport, replay, source, and name the same packet, they do not add a host existence theorem, selected solution, quotient equality, or Real completeness principle.
+\end{proof}
+
+\begin{theorem}[Runge--Kutta finite-step RegSeqRat handoff]
+\label{thm:runge-kutta-finite-step-regseqrat-handoff}
+Every accepted $\RungeKuttaFiniteStepUp$ carrier that exposes the readback row $R$ must first display the ODE row $O$, stage-function row $F$, tableau row $A$, dyadic step-size row $S$, dyadic arithmetic ledger $D$, and finite $\StreamNameUp$ window $W$. Thus the $\RegSeqRatUp$ handoff is a finite step readback over displayed stage data, not a selected solution operator.
+\end{theorem}
+\begin{proof}
+Read the carrier definition. The row $R$ is the first regular rational output row, and it is placed after the ODE, stage, tableau, dyadic, and stream-window rows.
+
+The dyadic ledger $D$ is where coefficient products, stage update terms, and weighted sums are displayed. The stream window $W$ supplies the finite source data read by those dyadic calculations.
+
+Therefore a consumer cannot read $R$ as a free-standing regular rational name. It is available only as the handoff of the finite Runge--Kutta stage calculation over $O,F,A,S,D,W$.
+\end{proof}
+
+\begin{theorem}[Runge--Kutta finite-step Real-seal nonescape]
+\label{thm:runge-kutta-finite-step-real-seal-nonescape}
+The terminal $\RealUp$ seal row $E$ of an accepted $\RungeKuttaFiniteStepUp$ carrier cannot be reread as an ambient ODE solution, a selected flow map, quotient equality of solution names, or completeness of $\RealUp$. Any route to $E$ still factors through the displayed rows $O,F,A,S,D,W,R$.
+\end{theorem}
+\begin{proof}
+Project the carrier. The seal row $E$ is terminal for one finite-step packet and is reached only after the readback row $R$.
+
+Apply the RegSeqRat handoff theorem. It forces $R$ to factor through the ODE, stage, tableau, dyadic step-size, dyadic arithmetic, and stream-window rows before any Real-facing seal is exposed.
+
+The structural rows $H,C,P,N$ preserve that route under componentwise transport and replay. They do not contain data for a global solution, a selected flow, quotient equality, or a completeness principle, so the seal cannot escape the finite-step boundary.
+\end{proof}
+
+\falsifiablePrediction{A $\RungeKuttaFiniteStepUp$ consumer that reaches $R$ or $E$ without displaying the ODE row, finite stage-function row, tableau row, dyadic step-size row, dyadic arithmetic ledger, and finite $\StreamNameUp$ window refutes the carrier surface.}
+
+\independenceWitness{ode, picard-lindelof, dyadicratcore, streamname, regseqrat, real: no listed sibling supplies the whole packet $K=(O,F,A,S,D,W,R,E,H,C,P,N)$, because this chapter binds finite ODE stage data, a Runge--Kutta tableau, dyadic step arithmetic, stream windows, regular rational readback, Real sealing, transport, replay, provenance, and local naming in one NameCert surface.}
+
+\begin{closurestatus}{\RungeKuttaFiniteStepUp}
+  \constructivestory{A $\RungeKuttaFiniteStepUp$ packet is generated from a displayed ODE row, finite stage-function row, tableau row, dyadic step-size row, dyadic arithmetic ledger, finite stream window, regular rational readback, Real seal, componentwise transport, continuation replay, package provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:runge-kutta-finite-step-carrier}, \autoref{thm:runge-kutta-finite-step-namecert-obligations}, \autoref{thm:runge-kutta-finite-step-regseqrat-handoff}, and \autoref{thm:runge-kutta-finite-step-real-seal-nonescape} seed the finite-stage ODE computation packet over ODE, Picard--Lindelof, DyadicRatCore, StreamName, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host ODE existence, selected global solutions, quotient equality of names, ambient Real completeness, or a Lean theorem.}
+  \upgradepath{A formal route can encode the twelve-row carrier and prove the NameCert-obligation, RegSeqRat-handoff, and Real-seal nonescape theorems.}
+\end{closurestatus}

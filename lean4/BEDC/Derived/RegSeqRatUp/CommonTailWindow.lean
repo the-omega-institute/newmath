@@ -72,4 +72,48 @@ theorem RegSeqRatCommonTailUnionClassifierDeterminacy [AskSetup] [PackageSetup]
     hsame_trans sameRegularity0 (hsame_symm sameRegularity0)
   exact ⟨classifierRead, commonWindowUnary, classifierSealRoute, certPkg⟩
 
+theorem RegSeqRatCommonTailWindowTerminality [AskSetup] [PackageSetup]
+    {source tail0 tail1 commonWindow endpoint radius regularity classifier0 classifier1
+      classifierCommon realSeal transport route provenance cert terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegSeqRatCommonTailWindowPacket source tail0 tail1 commonWindow endpoint radius regularity
+        classifier0 classifier1 classifierCommon realSeal transport route provenance cert
+        bundle pkg ->
+      Cont realSeal cert terminalRead ->
+        PkgSig bundle terminalRead pkg ->
+          UnaryHistory source ∧
+            UnaryHistory tail0 ∧
+              UnaryHistory tail1 ∧
+                UnaryHistory commonWindow ∧
+                  UnaryHistory endpoint ∧
+                    UnaryHistory radius ∧
+                      UnaryHistory regularity ∧
+                        UnaryHistory realSeal ∧
+                          UnaryHistory terminalRead ∧
+                            Cont commonWindow realSeal transport ∧
+                              Cont classifierCommon realSeal route ∧
+                                Cont realSeal cert terminalRead ∧
+                                  PkgSig bundle cert pkg ∧
+                                    PkgSig bundle terminalRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro packet terminalRoute terminalPkg
+  rcases packet with
+    ⟨carrier0, carrier1, _classifierFrom0, _classifierFrom1, commonWindowUnary,
+      realSealUnary, _transportUnary, _routeUnary, certUnary, _sameClassifier0,
+      _sameClassifier1, commonWindowTransport, classifierSealRoute, certPkg⟩
+  rcases carrier0 with
+    ⟨sourceUnary, tail0Unary, endpointUnary, radiusUnary, regularityUnary,
+      _provenanceUnary, _classifier0Unary, _sourceTailEndpoint, _endpointRadiusRegularity,
+      _regularityProvenanceClassifier0, _classifier0Pkg⟩
+  rcases carrier1 with
+    ⟨_sourceUnary1, tail1Unary, _endpointUnary1, _radiusUnary1, _regularityUnary1,
+      _provenanceUnary1, _classifier1Unary, _sourceTailEndpoint1,
+      _endpointRadiusRegularity1, _regularityProvenanceClassifier1, _classifier1Pkg⟩
+  have terminalUnary : UnaryHistory terminalRead :=
+    unary_cont_closed realSealUnary certUnary terminalRoute
+  exact
+    ⟨sourceUnary, tail0Unary, tail1Unary, commonWindowUnary, endpointUnary, radiusUnary,
+      regularityUnary, realSealUnary, terminalUnary, commonWindowTransport,
+      classifierSealRoute, terminalRoute, certPkg, terminalPkg⟩
+
 end BEDC.Derived.RegSeqRatUp

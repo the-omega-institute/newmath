@@ -1,0 +1,52 @@
+\begin{definition}[CoveringDimension root cover carrier]
+\label{def:coveringdimension-root-cover-carrier}
+For an accepted $\CoveringDimensionUp$ carrier
+$$
+D=(K,E,C,R,O,L,H,T,P,N),
+$$
+the root cover-dimension carrier is the finite subpacket
+$$
+D_{\mathrm{root}}=(K,E,C,R,O,S,V,H,T,P,N)
+$$
+where $K$ exposes the $\CompactMetricUp$ source and its $\MetricUp$ distance observations, $E$ exposes the $\FiniteEpsilonNetUp$ refinement witnesses, $C$ exposes finite open-cover rows, $R$ exposes containment rows for the refinement of $C$, $O$ exposes the order-count ledger, $S$ exposes the $\RealSeparabilityUp$ density rows used when covers are sampled through rational or dyadic windows, and $V$ exposes the $\SimplicialComplexUp$ nerve rows attached to the finite refined cover. The structural rows $H,T,P,N$ transport, replay, source, and name exactly these finite rows.
+\end{definition}
+
+\begin{theorem}[CoveringDimension root cover NameCert obligations]
+\label{thm:coveringdimension-root-cover-namecert-obligations}
+For every accepted $\CoveringDimensionUp$ carrier $D=(K,E,C,R,O,L,H,T,P,N)$, the local root cover-dimension obligations consist exactly of finite open-cover admission through $C$, compact metric finite-net admission through $K,E$, metric distance observation through the $\MetricUp$ part of $K$, refinement containment through $R$, density-window compatibility through $\RealSeparabilityUp$, nerve-row compatibility through $\SimplicialComplexUp$, order counting through $O$, and structural transport through $H,T,P,N$. No root cover-dimension read may bypass these rows by using arbitrary open-cover compactness, a selected dense subfamily, a host refinement theorem, or an external simplicial nerve construction.
+\end{theorem}
+\begin{proof}
+Project the root carrier of \autoref{def:coveringdimension-root-cover-carrier}. The finite open-cover rows are the displayed entries in $C$, and their only compact source is the compact metric row $K$ together with the finite epsilon-net row $E$.
+
+The metric observations are therefore local to $K,E,C,R$. Distance comparisons can inspect the $\MetricUp$ part of $K$, but they cannot introduce a second metric space, a host open-cover theorem, or a detached refinement.
+
+Density and nerve reads remain downstream. The $\RealSeparabilityUp$ windows sample the same finite cover route before $O$ is consumed, and the $\SimplicialComplexUp$ nerve rows are attached only to the displayed refined cover.
+
+Finally $H,T,P,N$ preserve and name the same finite data. Since the carrier has no coordinate for arbitrary open-cover compactness, selected dense subfamilies, host refinements, or external nerve construction, projection and route exhaustion give the stated root obligations.
+\end{proof}
+
+\begin{theorem}[CoveringDimension compact-net refinement handoff]
+\label{thm:coveringdimension-compact-net-refinement-handoff}
+Every compact-net refinement read exported by an accepted $\CoveringDimensionUp$ packet factors through
+$$
+\CompactMetricUp,\ \MetricUp
+\longrightarrow
+\FiniteEpsilonNetUp
+\longrightarrow
+C,R,O
+\longrightarrow
+\RealSeparabilityUp,\ \SimplicialComplexUp
+\longrightarrow
+H,T,P,N .
+$$
+The handoff gives downstream cover-dimension consumers finite open-cover rows, metric distance observations, compact finite-net refinements, density windows, nerve rows, order counts, transport, replay, provenance, and local naming, and it gives no ambient compactness theorem, selected dense sequence, external refinement oracle, or host nerve construction.
+\end{theorem}
+\begin{proof}
+Begin with the compact-net entry. The rows $K$ and $E$ expose the compact metric source, metric observations, finite $\mathsf{ProbeBundle}$ centers, and tolerance-indexed coverage witnesses before any finite cover row is read.
+
+Next read $C,R,O$. The cover row $C$ supplies finite open-cover entries, the refinement row $R$ records containment into those entries, and the order row $O$ counts only refined rows already visible through $R$.
+
+The downstream consumers then inspect only attached finite rows. $\RealSeparabilityUp$ contributes density windows for the same cover samples, while $\SimplicialComplexUp$ contributes nerve rows for the same refined finite cover.
+
+The rows $H,T,P,N$ transport, replay, source, and name the route. Thus the compact-net refinement handoff is exhausted by the displayed chain and cannot export arbitrary open-cover compactness, selected dense sequences, external refinement oracles, or host nerve constructions.
+\end{proof}

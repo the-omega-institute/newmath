@@ -1,0 +1,113 @@
+\chapter{Pseudotheory Refutation Gate Map}
+\label{ch:pseudotheory-refutation-gate-map}
+\origin{ai}
+
+This chapter records the present audit surface for pseudotheory refusal.  It is
+not a carrier design and not a witness schema.  Its purpose is to say where
+each refutable failure mode is checked, which checks block assertions, and why
+taste-sensitive stability remains outside automatic demotion.
+
+\section{Coverage table}
+\label{sec:pseudotheory-refutation-coverage-table}
+
+\begin{center}
+\begin{tabular}{p{0.16\linewidth}p{0.28\linewidth}p{0.18\linewidth}p{0.30\linewidth}}
+\textbf{Class} & \textbf{Gate surface} & \textbf{Status} & \textbf{Code evidence} \\
+(a) synonym or reconstruction &
+Discovery integrity, structural-DNA payload equality, and the
+\texttt{discovery\_gate\_witnesses.json} registry. &
+Mechanical for asserted discovery. &
+\texttt{bedc\_ci.py:9181--9430} computes structural-DNA relations and emits
+\texttt{structural\_reconstruction\_discovery\_claim}; \texttt{bedc\_ci.py:3432--3599}
+loads only kernel-grounded reconstruction witnesses; \texttt{bedc\_ci.py:4464--4480}
+turns a witness hit into a failing \texttt{W} gate. \\
+(b) padding or classifier-neutral surface &
+Classifier-bit demotion through the assertion gate and mechanical opt-out
+audit. &
+Mechanical for asserted discovery; survey rows are informational. &
+\texttt{bedc\_ci.py:4300--4357} fails asserted \texttt{positiveDiscovery} when
+nontrivial classifier evidence is absent; \texttt{bedc\_ci.py:4362--4385} fails
+when disagreement support is not checked; \texttt{bedc\_ci.py:4401--4424}
+rejects smoke or duplicate-like evidence.  \texttt{bedc\_ci.py:10623--10631}
+requires a concrete invariant when the opt-out reason is classifier unchanged. \\
+(c) axiom-crossing carrier or theorem &
+Lean kernel axiom scan and source-token axiom scan. &
+Mechanical. &
+\texttt{bedc\_ci.py:4205--4259} fails asserted discovery targets with axiom,
+sorry, or forbidden transitive dependencies.  \texttt{bedc\_ci.py:12691--12919}
+runs \texttt{\#print axioms} over public BEDC theorems and exits nonzero on
+forbidden dependencies. \\
+(d) stability break needing taste &
+\texttt{ChapterTasteGate} admission and human judgment over value and stability. &
+Human-only; not an automatic demotion class. &
+\texttt{TasteGate.lean:45--67} defines the carrier display and readback
+obligations; \texttt{TasteGate.lean:81--98} derives conservativity and
+no-hidden-input.  The paper account at
+\texttt{parts/visions/meta\_foundations/theory\_stability\_taste\_gate.tex:13--19} states why AI-proposed
+chapters need taste admission. \\
+(e) unpaid discovery &
+Semantic naming, row, ledger, cost, debt, and scope-seal obligations for
+\texttt{PositiveDiscovery}. &
+Mechanical for asserted discovery; broad ledger surveys remain informational. &
+\texttt{DiscoveryCertificate.lean:126--156} requires before/after certified
+states, row evidence, classifier shift, debt, ledger membership, and scope seal.
+\texttt{bedc\_ci.py:2774--2824} makes the paper-side \texttt{positiveDiscovery}
+fields blocking.  \texttt{bedc\_ci.py:10741--10847} reports wider ledger gaps as
+informational survey output. \\
+\end{tabular}
+\end{center}
+
+\section{Stateful and stateless refusal}
+\label{sec:pseudotheory-refutation-stateful-stateless}
+
+Only reconstruction needs a persistent witness.  A reconstruction refusal
+compares a candidate against the corpus: the evidence is not contained in the
+candidate alone, because the refutation is equality of its structural-DNA
+payload with a prior payload.  The registry therefore stores the target, prior,
+canonical payload, and grounding status.  The loader accepts the row only after
+an independent structural-DNA grounding check, so the witness is a cache of a
+corpus relation, not an extra theory object.
+
+Padding, axiom-crossing, and unpaid discovery are stateless refusals.  Padding
+is recomputed from the claimed classifier shift and its checked disagreement
+support.  Axiom-crossing is recomputed from source text and kernel axiom
+dependencies.  Unpaid discovery is recomputed from the claim's own
+\texttt{PositiveDiscovery} fields: semantic naming certificate, row evidence,
+ledger membership, debt, and scope seal.  Persisting these as another witness
+family would duplicate the existing gate surface without adding soundness.
+
+\section{Prime asymmetry}
+\label{sec:pseudotheory-refutation-prime-asymmetry}
+
+BEDC can automatically refute some claims because a refutation may be a finite
+counter-reading: same structural payload as a prior, no classifier shift,
+forbidden axiom dependency, or missing certificate data.  The opposite judgment
+is different.  Saying that a chapter is worth admitting to the horizon is not
+only the absence of these finite failures; it is a taste judgment about
+stability, usefulness, and fit with the surrounding theory.
+
+This is the prime asymmetry.  Composite-like failures may be found by an audit
+gate.  A positive value judgment is not created by the complement of those
+failures.  \texttt{ChapterTasteGate} supplies the carrier display/readback
+discipline, but it does not replace human admission of taste-sensitive
+stability.
+
+\section{Carrier-repair boundary}
+\label{sec:pseudotheory-refutation-carrier-repair-boundary}
+
+The refutation map is apophatic.  It says why a claim may not be asserted as
+discovery.  It does not say that the carrier must be replaced by a different
+carrier, and it does not turn every refusal into a constructive repair recipe.
+That boundary is essential: synonymy is evidence for demotion, not evidence
+that the target and prior must be recoded into different domains; padding is
+absence of paid classifier shift, not an invitation to alter the carrier until
+the score improves; taste-sensitive stability is an admission judgment, not an
+automatic rewrite target.
+
+Thus the design rejects cataphatic carrier repair as the foundation of
+pseudotheory refusal.  The gates remain refusal surfaces: structural-DNA
+collision, classifier-bit failure, axiom dependency, unpaid certificate data,
+and human-only taste admission.
+
+\concretizedIn{ch:concrete-instances-refutation-gate-namecert}{Finite pseudotheory refusal classes are realized as a $\RefutationGateUp$ NameCert packet.}
+\concretizedIn{ch:concrete-instances-pseudotheory-refutation-gate-namecert}{The pseudotheory-specific refusal gate is realized as finite structural-DNA, classifier-shift, axiom-scan, and certificate-debt NameCert data.}

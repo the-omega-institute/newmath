@@ -33,8 +33,23 @@ LAYERS = {
     "system_phenotype",
     "cross_layer_relation",
 }
+LAYER_ORDER = [
+    "code_read",
+    "codon_usage_topology",
+    "orf_eligibility",
+    "translation_realization",
+    "structural_order",
+    "physical_admissibility",
+    "function_realization",
+    "system_phenotype",
+    "cross_layer_relation",
+]
+LAYER_RANK = {layer: index for index, layer in enumerate(LAYER_ORDER)}
+OVERCLAIM_GATES_ENABLED = True
+PROXY_OBJECTIVE_EVIDENCE_BASIS = {"internal_structure", "derived_probe"}
 EVIDENCE_BASIS = {
     "external_reality",
+    "internal_structure",
     "bedc_coordinate",
     "bedc_closure",
     "bedc_spectrum",
@@ -147,6 +162,38 @@ MECHANISM_WORDS = {
     "biochemical mechanism",
     "evolutionary necessity",
 }
+MECHANISM_STRONG_WORDS = {
+    "mechanism",
+    "mechanistic",
+    "causal",
+    "causes",
+    "caused by",
+    "realization",
+    "realizes",
+    "realise",
+    "realises",
+    "executes",
+    "execution",
+    "function realization",
+    "biological function",
+    "protein function",
+    "functional role",
+    "physical admissibility",
+    "physical admissib",
+    "folding mechanism",
+    "translation mechanism",
+    "biochemical mechanism",
+}
+MECHANISM_NEGATION_WORDS = {
+    "not",
+    "no",
+    "cannot",
+    "can't",
+    "does not",
+    "doesn't",
+    "do not",
+    "don't",
+}
 TOTAL_BIOLOGY_WORDS = {
     "full biology",
     "all biology",
@@ -237,6 +284,30 @@ def _has_any(text: str, needles: set[str]) -> bool:
 
 def _normalize_layer_text(value: Any) -> str:
     return str(value).lower().strip().replace("_", " ")
+
+
+def _layer_in_scope(layer: str, scope: str) -> bool:
+    normalized_layer = _normalize_layer_text(layer)
+    normalized_scope = _normalize_layer_text(scope)
+    return normalized_layer == normalized_scope or normalized_layer in normalized_scope
+
+
+def _highest_can_test_layer(can_test: list[str]) -> str | None:
+    covered = [
+        layer
+        for layer in LAYER_ORDER
+        if any(_layer_in_scope(layer, item) for item in can_test)
+    ]
+    return covered[-1] if covered else None
+
+
+def _has_positive_mechanism_language(text: Any) -> bool:
+    if not isinstance(text, str):
+        return False
+    lowered = text.lower()
+    if any(re.search(rf"\b{re.escape(negation)}\b", lowered) for negation in MECHANISM_NEGATION_WORDS):
+        return False
+    return any(word in lowered for word in MECHANISM_STRONG_WORDS)
 
 
 def validate_contact(record: dict[str, Any]) -> list[str]:
@@ -438,6 +509,40 @@ def validate_conjecture(
             )
         elif not layer_in_can_test and not layer_in_cannot_test:
             issues.append(f"claimed_layer {claimed_layer} is not addressed by any attached reality contact")
+        max_can_test = _highest_can_test_layer(can_test)
+        claimed_layer_rank = LAYER_RANK.get(str(claimed_layer))
+        max_can_test_rank = LAYER_RANK.get(str(max_can_test)) if max_can_test is not None else None
+        if (
+            OVERCLAIM_GATES_ENABLED
+            and claimed_layer_rank is not None
+            and max_can_test_rank is not None
+            and claimed_layer_rank > max_can_test_rank
+            and evidence & PROXY_OBJECTIVE_EVIDENCE_BASIS
+        ):
+            basis = ", ".join(sorted(evidence & PROXY_OBJECTIVE_EVIDENCE_BASIS))
+            issues.append(
+                f"proxy_objective_separation: proxy/internal evidence ({basis}) cannot support claimed_layer "
+                f"{claimed_layer} above reality-contact can_test {max_can_test}"
+            )
+        if (
+            OVERCLAIM_GATES_ENABLED
+            and claimed_layer_rank is not None
+            and _has_positive_mechanism_language(record.get("informal_statement"))
+            and not layer_in_can_test
+        ):
+            issues.append(
+                "mechanism_closure_requires_separate_contact: mechanism/realization wording requires "
+                f"a layer-matched reality contact whose can_test includes {claimed_layer}"
+            )
+    elif (
+        OVERCLAIM_GATES_ENABLED
+        and record.get("claimed_layer") in LAYERS
+        and _has_positive_mechanism_language(record.get("informal_statement"))
+    ):
+        issues.append(
+            "mechanism_closure_requires_separate_contact: mechanism/realization wording requires "
+            f"a layer-matched reality contact whose can_test includes {record.get('claimed_layer')}"
+        )
     if _has_any(text, MECHANISM_WORDS) and "mechanism_bridge" not in evidence:
         issues.append("mechanism language requires mechanism_bridge evidence")
     if _has_any(text, TOTAL_BIOLOGY_WORDS):
@@ -527,6 +632,18 @@ def self_test() -> int:
         "known_noise_or_bias": "fixture only",
         "can_test": ["translation_realization", "cross_layer_relation"],
         "cannot_test": ["global biological law"],
+        "null_reason": "",
+    }
+    function_contact = {
+        "contact_id": "function.assay.fixture",
+        "source_kind": "functional_assay",
+        "source_ref": "fixture function assay",
+        "source_snapshot": "fixture",
+        "observed_fact": "A functional assay fixture records a bounded function-layer readback.",
+        "resolution": "function assay readback",
+        "known_noise_or_bias": "fixture only",
+        "can_test": ["function_realization"],
+        "cannot_test": ["system phenotype", "global biological law"],
         "null_reason": "",
     }
     conjecture = {
@@ -677,6 +794,57 @@ def self_test() -> int:
         "forbidden_claims": ["The perturbation readback is not a global biological law."],
         "null_reason": "",
     }
+    proxy_objective_overclaim = {
+        "conjecture_id": "proxy.objective.overclaim",
+        "biological_object": "gene product",
+        "informal_statement": "The internal coordinate is presented as a function-layer packet.",
+        "bedc_minimal_form": {
+            "carrier": "annotated sequence",
+            "distinctions": ["label"],
+            "readback": "sequence annotation",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "function_realization",
+        "evidence_basis": ["external_reality", "internal_structure"],
+        "reality_contact_refs": ["ncbi.standard.code"],
+        "probe_refs": [],
+        "forbidden_claims": ["The code table alone does not establish biological function."],
+        "null_reason": "",
+    }
+    mechanism_without_contact = {
+        "conjecture_id": "mechanism.contact.missing",
+        "biological_object": "translation packet",
+        "informal_statement": "The coordinate realizes translation in the packet.",
+        "bedc_minimal_form": {
+            "carrier": "codon window",
+            "distinctions": ["window boundary"],
+            "readback": "window enumeration",
+            "internal_structure": ["coordinate"],
+        },
+        "claimed_layer": "translation_realization",
+        "evidence_basis": ["bedc_coordinate"],
+        "reality_contact_refs": [],
+        "probe_refs": [],
+        "forbidden_claims": ["Coordinate evidence alone is not a translation mechanism."],
+        "null_reason": "",
+    }
+    mechanism_layer_matched = {
+        "conjecture_id": "mechanism.layer.matched",
+        "biological_object": "functional assay packet",
+        "informal_statement": "The assay realizes bounded biological function for the packet.",
+        "bedc_minimal_form": {
+            "carrier": "assay readback",
+            "distinctions": ["activity label"],
+            "readback": "functional assay readback",
+            "internal_structure": ["none"],
+        },
+        "claimed_layer": "function_realization",
+        "evidence_basis": ["external_reality", "mechanism_bridge"],
+        "reality_contact_refs": ["function.assay.fixture"],
+        "probe_refs": [],
+        "forbidden_claims": ["The assay does not establish system phenotype."],
+        "null_reason": "",
+    }
     results = gate_all(
         [
             conjecture,
@@ -687,8 +855,11 @@ def self_test() -> int:
             mixed_none_structure,
             cross_layer_code_only,
             cross_layer_perturbed,
+            proxy_objective_overclaim,
+            mechanism_without_contact,
+            mechanism_layer_matched,
         ],
-        [contact, perturbation_contact],
+        [contact, perturbation_contact, function_contact],
         [b3_probe],
         [],
     )
@@ -1502,6 +1673,21 @@ def self_test() -> int:
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
     if by_id["cross.layer.perturbed"]["gate_status"] != "gate_passed":
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["proxy.objective.overclaim"]["gate_status"] != "gate_blocked" or not any(
+        issue.startswith("proxy_objective_separation:")
+        for issue in by_id["proxy.objective.overclaim"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["mechanism.contact.missing"]["gate_status"] != "gate_blocked" or not any(
+        issue.startswith("mechanism_closure_requires_separate_contact:")
+        for issue in by_id["mechanism.contact.missing"]["issues"]
+    ):
+        print(json.dumps(results, indent=2), file=sys.stderr)
+        return 1
+    if by_id["mechanism.layer.matched"]["gate_status"] != "gate_passed":
         print(json.dumps(results, indent=2), file=sys.stderr)
         return 1
     print("[bio-reality-gates] self-test ok")

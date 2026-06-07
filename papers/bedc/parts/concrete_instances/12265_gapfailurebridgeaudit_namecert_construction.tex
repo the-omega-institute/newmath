@@ -70,6 +70,22 @@ The standard-bridge row $B$ supplies bridge fields, and the no-host-leak row $L$
 Finally use the audit-route, transport, replay, provenance, and local naming rows $A,H,C,P,N$. They can preserve the displayed packet, but they cannot manufacture a missing typed gap or failure branch. Therefore a bridge-writing attempt without $T$ or $F$ has no bridge-checked export through $\GapFailureBridgeAuditUp$.
 \end{proof}
 
+\begin{theorem}[Gap-failure-bridge audit public surface]
+\label{thm:gap-failure-bridge-audit-public-surface}
+The public audit surface of an accepted $\GapFailureBridgeAuditUp$ packet is exactly
+$$
+T,F,B,L,X,A,H,C,P,N.
+$$
+It exposes bridge status, theory closure, formal verification, and failure blocking as separate audit coordinates over the same typed gap, failure branch, bridge row, no-host-leak row, audit route, transport, replay, provenance, and local naming data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gap-failure-bridge-audit-carrier}. Its displayed coordinates are precisely the typed gap row $T$, failure-certificate row $F$, bridge row $B$, no-host-leak row $L$, axis-separation row $X$, audit route $A$, transport $H$, replay $C$, provenance $P$, and local name $N$.
+
+Apply \autoref{thm:gap-failure-bridge-audit-axis-separation}. The row $X$ prevents bridge status, theory closure, formal verification, and failure blocking from being read as the same coordinate.
+
+Use \autoref{thm:gap-failure-bridge-audit-nonescape}. Every accepted bridge-audit read factors through the displayed tuple, so the public audit surface has no hidden row beyond $T,F,B,L,X,A,H,C,P,N$.
+\end{proof}
+
 \falsifiablePrediction{An accepted bridge audit packet that omits either the typed gap row or the failure-certificate row cannot export a bridge-checked reading.}
 
 \independenceWitness{certificateauditgate, claimregistrylayer, standardbridgeauditpacket, hostprimitiveleakage, effective-replacement-ledger: none is bijective because the packet stores gap report, failure branch, bridge preservation, no-host-leak, and axis-separation rows together.}
@@ -78,11 +94,12 @@ The Lean site \texttt{lean4/BEDC/Derived/GapFailureBridgeAuditUp/TasteGate.lean}
 
 \closureat{GapFailureBridgeAuditUp}{seedStr}
 \closureat{GapFailureBridgeAuditUp}{obligationStr}
+\closureat{GapFailureBridgeAuditUp}{publicStr}
 
 \begin{closurestatus}{\GapFailureBridgeAuditUp}
   \constructivestory{A $\GapFailureBridgeAuditUp$ packet is generated from a typed gap report, a failure branch, a bridge row, no-host-leak evidence, axis separation, audit routing, transport, replay, provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:gap-failure-bridge-audit-carrier}, \autoref{thm:gap-failure-bridge-audit-namecert-obligations}, \autoref{thm:gap-failure-bridge-audit-axis-separation}, and \autoref{thm:gap-failure-bridge-audit-nonescape} bind the carrier, NameCert obligations, axis-separation row, non-escape boundary, TasteGate row, and sibling audit route for typed gaps, failure branches, bridge rows, no-host-leak rows, transport, replay, provenance, and local naming.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:gap-failure-bridge-audit-carrier}, \autoref{thm:gap-failure-bridge-audit-namecert-obligations}, \autoref{thm:gap-failure-bridge-audit-axis-separation}, \autoref{thm:gap-failure-bridge-audit-nonescape}, and \autoref{thm:gap-failure-bridge-audit-public-surface} bind the public audit surface for typed gaps, failure branches, bridge rows, no-host-leak rows, axis separation, audit routing, transport, replay, provenance, and local naming.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

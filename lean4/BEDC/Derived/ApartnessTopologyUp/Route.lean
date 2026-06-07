@@ -49,4 +49,30 @@ theorem ApartnessTopologyCarrier_namecert_obligation_surface
   · intro _row source
     exact source
 
+theorem ApartnessTopologyCarrier_neighborhood_apartness_transport
+    {G O T M S W R Q D E H C P N generated topologyRead membershipRead : BHist} :
+    ApartnessTopologyCarrier G O T M S W R Q D E H C P N →
+      Cont G O generated →
+        Cont generated T topologyRead →
+          Cont topologyRead S membershipRead →
+            hsame generated E →
+              UnaryHistory generated ∧ UnaryHistory topologyRead ∧
+                UnaryHistory membershipRead ∧ Cont G O generated ∧
+                  Cont generated T topologyRead ∧ Cont topologyRead S membershipRead ∧
+                    hsame generated E := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro carrier gapRoute topologyRoute membershipRoute sameGenerated
+  obtain ⟨gUnary, oUnary, tUnary, _mUnary, sUnary, _wUnary, _rUnary, _qUnary,
+    _dUnary, _eUnary, _hUnary, _cUnary, _pUnary, _nUnary, _carrierGapRoute,
+      _carrierTopologyRoute, _carrierMembershipRoute⟩ := carrier
+  have generatedUnary : UnaryHistory generated :=
+    unary_cont_closed gUnary oUnary gapRoute
+  have topologyUnary : UnaryHistory topologyRead :=
+    unary_cont_closed generatedUnary tUnary topologyRoute
+  have membershipUnary : UnaryHistory membershipRead :=
+    unary_cont_closed topologyUnary sUnary membershipRoute
+  exact
+    ⟨generatedUnary, topologyUnary, membershipUnary, gapRoute, topologyRoute,
+      membershipRoute, sameGenerated⟩
+
 end BEDC.Derived.ApartnessTopologyUp

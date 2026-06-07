@@ -80,4 +80,65 @@ theorem AnalyticContinuationOperationCarrier_namecert_obligations
         (And.intro p.transport_names_output outputRoute)
   }
 
+theorem AnalyticContinuationOperation_domain_overlap_boundary
+    (p : AnalyticContinuationOperationCarrier) :
+    SemanticNameCert
+        (fun row : BHist =>
+          hsame row p.overlap ∧ Cont p.domainLeft p.inputLeft p.overlap ∧
+            Cont p.operation p.overlap p.output)
+        (fun row : BHist =>
+          hsame row p.domainLeft ∨ hsame row p.domainRight ∨ hsame row p.inputLeft ∨
+            hsame row p.inputRight ∨ hsame row p.overlap ∨ hsame row p.operation ∨
+              hsame row p.output)
+        (fun row : BHist =>
+          hsame row p.overlap ∧ hsame p.transport p.output ∧ hsame p.name p.overlap ∧
+            hsame p.name p.output)
+        hsame ∧
+      Cont p.domainLeft p.inputLeft p.overlap ∧ Cont p.operation p.overlap p.output := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  have sourceOverlap :
+      (fun row : BHist =>
+        hsame row p.overlap ∧ Cont p.domainLeft p.inputLeft p.overlap ∧
+          Cont p.operation p.overlap p.output) p.overlap := by
+    exact ⟨hsame_refl p.overlap, p.domain_input_overlap, p.operation_overlap_output⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row p.overlap ∧ Cont p.domainLeft p.inputLeft p.overlap ∧
+              Cont p.operation p.overlap p.output)
+          (fun row : BHist =>
+            hsame row p.domainLeft ∨ hsame row p.domainRight ∨ hsame row p.inputLeft ∨
+              hsame row p.inputRight ∨ hsame row p.overlap ∨ hsame row p.operation ∨
+                hsame row p.output)
+          (fun row : BHist =>
+            hsame row p.overlap ∧ hsame p.transport p.output ∧ hsame p.name p.overlap ∧
+              hsame p.name p.output)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro p.overlap sourceOverlap
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.left, p.transport_names_output, p.name_names_overlap,
+          p.name_names_output⟩
+  }
+  exact ⟨cert, p.domain_input_overlap, p.operation_overlap_output⟩
+
 end BEDC.Derived.AnalyticContinuationOperationUp

@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\OpenDenseSequenceUp$}
+\label{ch:concrete-instances-open-dense-sequence-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and the Troelstra--van Dalen treatment of spread arguments, the $\OpenDenseSequenceUp$ packet records the finite input carrier for a sequence of open dense constraints before a Baire or completion consumer reads it. It sits between the $\CompleteMetricUp$ surface of \autoref{ch:concrete-instances-completemetric-namecert}, the finite-prefix $\BaireSpaceUp$ carrier of \autoref{ch:concrete-instances-bairespace-namecert}, the complete-metric Baire route of \autoref{ch:concrete-instances-baire-category-complete-metric-namecert}, the $\StreamNameUp$ window discipline of \autoref{ch:concrete-instances-streamname-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the displayed open-dense sequence as finite BEDC input data for complete-metric and Real/Completion consumers; it is not countable choice, a selected generic point, open-cover compactness, quotient stream equality, or ambient completeness.
+
+\begin{definition}[Open dense sequence carrier]
+\label{def:open-dense-sequence-carrier}
+An $\OpenDenseSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+O=(X,S,D,W,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\CompleteMetricUp$ or $\BaireSpaceUp$ source row in which the open-dense constraints are read.
+\item $S$ is the $\StreamNameUp$ schedule naming the inspected finite prefix of the constraint sequence.
+\item $D$ is the dense-open ledger row, recording for each visible index that the requested basic neighbourhood has a displayed refinement inside the corresponding open row.
+\item $W$ is the finite window row of indices and neighbourhood refinements consumed by the downstream Baire or completion route.
+\item $R$ is the $\RealUp$ or completion-facing readback row reached after the finite window is replayed.
+\item $H$ records componentwise $\hsame$ transport for source, schedule, dense-open ledger, window, readback, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from the source row through $S,D,W,R$.
+\item $P$ is the $\Pkg$ provenance over $\OpenDenseSequenceUp$, $\CompleteMetricUp$, $\BaireSpaceUp$, $\BaireCategoryCompleteMetricUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OpenDenseSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $X,S,D,W,R,H,C,P,N$. It has no coordinate for countable choice, a selected generic point, open-cover compactness, quotient stream equality, or ambient completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.OpenDenseSequenceUp}
+
+\begin{theorem}[Open dense sequence NameCert obligations]
+\label{thm:open-dense-sequence-namecert-obligations}
+For every accepted $\OpenDenseSequenceUp$ carrier
+$$
+O=(X,S,D,W,R,H,C,P,N),
+$$
+the local $\NameCert_{\OpenDenseSequenceUp}$ surface consists exactly of carrier admission, source-row stability, finite sequence-window stability, dense-open ledger stability, completion-facing readback, componentwise transport, displayed replay, provenance, and ledger non-escape through $X,S,D,W,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:open-dense-sequence-carrier}. The source, schedule, dense-open ledger, finite window, readback, transport, replay, provenance, and naming rows are finite $\BHist$ coordinates.
+
+The NameCert clauses are componentwise. Source-row stability is read through the sibling complete-metric and Baire-space surfaces, finite sequence-window stability is read through the $\StreamNameUp$ row, and completion-facing readback is routed through the displayed Real or completion seal before any downstream consumer can use the packet.
+
+Coordinate exhaustion gives non-escape. Since the carrier contains only $X,S,D,W,R,H,C,P,N$, it cannot provide countable choice, a selected generic point, open-cover compactness, quotient stream equality, or ambient completeness.
+\end{proof}
+
+\begin{closurestatus}{\OpenDenseSequenceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:open-dense-sequence-carrier} and \autoref{thm:open-dense-sequence-namecert-obligations} seed the finite open-dense sequence input carrier for complete-metric, Baire, StreamName, and Real/Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close countable choice, selected generic points, open-cover compactness, quotient stream equality, ambient completeness, or bridge checking.}
+  \upgradepath{The next step is obligationClosure: carrier admission, source-row stability, finite sequence-window stability, dense-open ledger stability, completion-facing readback, transport, replay, provenance, and non-escape must be discharged as local rows.}
+  \constructivestory{An $\OpenDenseSequenceUp$ packet is generated from a complete-metric or Baire source row, a finite StreamName schedule, dense-open ledger rows, a visible window of refinements, Real or completion-facing readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+\end{closurestatus}

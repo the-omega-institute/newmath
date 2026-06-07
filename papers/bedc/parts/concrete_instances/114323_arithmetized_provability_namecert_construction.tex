@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ArithmetizedProvabilityUp$}
+\label{ch:concrete-instances-arithmetized-provability-namecert}
+\origin{human}
+
+Following G\"odel's arithmetization of syntax and Kleene's treatment of primitive recursive proof predicates, the $\ArithmetizedProvabilityUp$ packet records the finite BEDC surface by which formula codes, proof codes, derivation checks, substitution rows, and diagonal-code rows may be read without importing a host truth predicate. It sits after the unary arithmetic carrier of \autoref{ch:concrete-instances-nat-namecert}, the formula-code interface of \autoref{ch:concrete-instances-firstorder-namecert}, the bounded derivation-check surface of \autoref{ch:concrete-instances-computable-namecert}, and the open-meta-loop boundary of \autoref{ch:concrete-instances-groundloopboundary-namecert}. The chapter names the proof-predicate dependency consumed by reflection-limit work; it does not assert the incompleteness theorem, a semantic truth definition, consistency of an ambient theory, proof completeness, or a global model-theoretic interpretation.
+
+\begin{definition}[Arithmetized provability carrier]
+\label{def:arithmetized-provability-carrier}
+An $\ArithmetizedProvabilityUp$ carrier is a finite $\BHist$ packet
+$$
+A=(N,F,D,S,G,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the $\NatUp$ numeral-code row, carrying unary natural-number names for symbols, formula indices, proof-line indices, and finite proof-code lengths.
+\item $F$ is the $\FirstOrderUp$ formula-code row, displaying symbol codes, variable rows, term rows, formula constructors, and the well-formed formula classifier used by the proof predicate.
+\item $D$ is the $\ComputableUp$ derivation-check row, recording the bounded primitive-recursive inspection of a finite proof-code list against the displayed rule and axiom-code table.
+\item $S$ is the substitution row, recording capture-aware replacement of numeral codes into formula-code slots and the finite compatibility ledger for free-variable bookkeeping.
+\item $G$ is the diagonal-code row, displaying the self-application code produced from $F$ and $S$ while keeping the resulting formula code inside object syntax.
+\item $H$ records componentwise $\hsame$ transport for numeral codes, formula codes, derivation checks, substitution rows, diagonal rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a provability request through $N,F,D,S,G$ and then through the structural rows $H,P,L$.
+\item $P$ is the $\Pkg$ provenance over $\ArithmetizedProvabilityUp$, $\NatUp$, $\FirstOrderUp$, $\ComputableUp$, $\GroundLoopBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\ArithmetizedProvabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. No coordinate stores a host truth predicate, semantic satisfaction relation, completeness theorem, consistency proof for the represented theory, or unbounded meta-level proof search.
+\end{definition}
+
+\begin{theorem}[ArithmetizedProvability NameCert obligations]
+\label{thm:arithmetized-provability-namecert-obligations}
+For every accepted $\ArithmetizedProvabilityUp$ carrier $A=(N,F,D,S,G,H,C,P,L)$, the local $\NameCert_{\ArithmetizedProvabilityUp}$ surface consists exactly of carrier admission; numeral-code visibility; formula-code exactness for the displayed first-order constructors; proof-code induction over the finite derivation rows inspected by $D$; substitution stability for the rows in $S$; diagonal-code stability for $G$; derivation-check replay through $C$; componentwise transport through $H$; provenance through $P$; local naming through $L$; and non-escape for host truth, semantic completeness, ambient consistency, and unbounded meta-level proof search.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:arithmetized-provability-carrier}. The finite $\BHist$ packet exposes exactly $N,F,D,S,G,H,C,P,L$, so carrier admission and local naming have no hidden coordinate beyond the displayed rows.
+
+Read the syntactic substrate through $N$ and $F$. The numeral-code row gives the finite natural-number codes used by the packet, and the formula-code row gives the first-order constructors and well-formedness classifier that those numbers index.
+
+Read the proof predicate through $D$. Its accepted rows are finite derivation-check rows, so the proof-code obligation is induction over the displayed proof-line list rather than a semantic appeal to truth or completeness.
+
+Read substitution and diagonalization through $S$ and $G$. The substitution row records the capture-aware replacement ledger, and the diagonal-code row records only the object-level self-application code produced from that ledger.
+
+Finally $H,C,P,L$ transport, replay, source, and name this same finite route. Since no coordinate stores a host truth predicate, semantic satisfaction relation, completeness theorem, ambient consistency proof, or unbounded proof search, those objects cannot be projected from the local certificate.
+\end{proof}
+
+\begin{theorem}[ArithmetizedProvability finite proof-code induction]
+\label{thm:arithmetized-provability-finite-proof-code-induction}
+Every accepted $\ArithmetizedProvabilityUp$ proof-code read is generated by induction over the displayed finite derivation rows in $D$ and is then transported only through
+$$
+N,F,D,S,G,H,C,P,L .
+$$
+The read may certify that a displayed code is accepted by the finite derivation checker for a displayed formula code. It cannot import host truth, semantic completeness, an ambient consistency theorem, or a meta-level assertion that the represented formula is true.
+\end{theorem}
+\begin{proof}
+Begin with the derivation-check row $D$. A proof-code read is accepted only when the finite list of proof lines passes the displayed rule and axiom-code checks, so the generating argument proceeds by induction over that finite list.
+
+At the base row, the checker reads an initial displayed axiom-code or hypothesis-code entry through $N$ and $F$. The entry remains a syntactic formula-code row.
+
+At each successor row, the checker reads only the earlier displayed lines named by the finite indices in $N$ and the rule-shape data in $F$. The row added at that step is therefore produced by the same finite derivation-check surface, not by an external semantic oracle.
+
+Substitution and diagonal rows are handled after the syntactic check. The row $S$ records the capture-aware substitution budget, while $G$ records the diagonal code that remains inside the formula-code surface.
+
+The structural rows $H,C,P,L$ then transport, replay, source, and name the result. Because no later row adds truth, completeness, consistency, or unbounded proof search, the accepted proof-code read is exhausted by the finite induction route stated above.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ArithmetizedProvabilityUp$ consumer first displays Nat, FirstOrder, Computable, GroundLoopBoundary, BHist, hsame, Cont, Pkg, and local NameCert rows before it may read the arithmetized proof predicate.}
+
+\independenceWitness{nat, firstorder, computable, groundloopboundary: no listed sibling is bijective to $\ArithmetizedProvabilityUp$ because only this packet jointly binds numeral codes, formula codes, derivation-check rows, substitution rows, diagonal-code rows, componentwise transport, replay, provenance, and local naming while refusing host truth and semantic completeness.}
+
+\closureat{ArithmetizedProvabilityUp}{seedStr}
+
+\begin{closurestatus}{\ArithmetizedProvabilityUp}
+  \constructivestory{An $\ArithmetizedProvabilityUp$ packet is generated from NatUp numeral codes, FirstOrderUp formula codes, ComputableUp finite derivation-check rows, substitution and diagonal-code rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:arithmetized-provability-carrier}, \autoref{thm:arithmetized-provability-namecert-obligations}, and \autoref{thm:arithmetized-provability-finite-proof-code-induction} seed the finite proof-predicate surface consumed by reflection-limit and incompleteness-boundary work.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close G\"odel incompleteness, Tarski truth undefinability, semantic completeness, ambient consistency, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, formula-code exactness, proof-code induction, substitution stability, derivation-check replay, truth-predicate non-escape, provenance, replay, and local naming for BEDC.Derived.ArithmetizedProvabilityUp.}
+\end{closurestatus}

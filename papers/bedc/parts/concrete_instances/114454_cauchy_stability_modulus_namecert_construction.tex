@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\CauchyStabilityModulusUp$}
+\label{ch:concrete-instances-cauchy-stability-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy moduli, the $\CauchyStabilityModulusUp$ packet records the finite tolerance-window object that lets Real and completion consumers reuse one displayed Cauchy stability route. It sits over the Cauchy evidence surface of \autoref{ch:concrete-instances-cauchy-namecert}, the finite observation spine of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite stability modulus; it is not quotient equality of Cauchy streams, a selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Cauchy stability modulus carrier]
+\label{def:cauchy-stability-modulus-carrier}
+A $\CauchyStabilityModulusUp$ carrier is a finite $\BHist$ packet
+$$
+S=(C,D,R,W,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the Cauchy source row, carrying the finite comparison data and the source history whose stability is being read.
+\item $D$ is the dyadic tolerance row, recording the displayed tolerance request and any smaller tolerance admitted by the same packet.
+\item $R$ is the $\RegSeqRatUp$ finite-window row that turns the Cauchy comparison into regular rational readback at the requested tolerance.
+\item $W$ is the $\StreamNameUp$ observation row naming the finite stream windows inspected by $R$.
+\item $H$ records componentwise $\hsame$ transport for the Cauchy source, dyadic tolerance, regular window, stream observation, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay from the tolerance request through Cauchy comparison, finite stream windows, and regular rational readback.
+\item $P$ is the $\Pkg$ provenance over $\CauchyStabilityModulusUp$, $\CauchyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyStabilityModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $C,D,R,W,H,T,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, hidden completion operators, or ambient $\RealUp$ completeness.
+\end{definition}
+\leandef{BEDC.Derived.CauchyStabilityModulusUp}
+
+\begin{theorem}[Cauchy stability modulus NameCert obligations]
+\label{thm:cauchy-stability-modulus-namecert-obligations}
+For every accepted $\CauchyStabilityModulusUp$ carrier
+$$
+S=(C,D,R,W,H,T,P,N),
+$$
+the local $\NameCert_{\CauchyStabilityModulusUp}$ surface consists exactly of carrier admission, Cauchy source exposure, dyadic tolerance admission, $\RegSeqRatUp$ finite-window readback, $\StreamNameUp$ observation replay, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and ledger refusal for quotient stream equality, selected limits, countable choice, host real equality, hidden completion operators, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-stability-modulus-carrier}. The accepted packet exposes exactly the Cauchy source row, dyadic tolerance row, regular rational finite-window row, stream observation row, transport, replay, provenance, and local naming.
+
+The classifier reads tolerance data only through $D$. The Cauchy source row $C$ supplies the comparison evidence, while $R$ and $W$ record the finite regular-rational and stream-window observations made at that tolerance.
+
+The rows $H$ and $T$ preserve the same route under transport and replay. Provenance and local naming are then supplied by $P$ and $N$.
+
+Since the carrier has no additional coordinate, no accepted read can import quotient stream equality, selected limits, countable choice, host real equality, hidden completion operators, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Cauchy stability modulus finite-window stability]
+\label{thm:cauchy-stability-modulus-finite-window-stability}
+Let $S=(C,D,R,W,H,T,P,N)$ be an accepted $\CauchyStabilityModulusUp$ carrier. If $D'$ is a displayed dyadic tolerance row obtained by shrinking the tolerance named by $D$, and the same Cauchy source row $C$ supplies the comparison witnesses needed for $D'$ through the transported finite windows $R,W,H$, then the packet accepts the corresponding finite-window Cauchy stability read. The accepted read remains inside $C,D',R,W,H,T,P,N$ and exports no quotient stream equality, selected limit, countable choice, host real equality, hidden completion operator, or ambient $\RealUp$ completeness claim.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier and replace only the dyadic tolerance row by the displayed smaller row $D'$. The source Cauchy row $C$ is unchanged, so the comparison witnesses still come from the same finite packet.
+
+The rows $R$ and $W$ are read at the transported finite windows. Componentwise $\hsame$ transport in $H$ keeps the regular rational readback and stream observations attached to the same Cauchy source while the tolerance is refined.
+
+The replay row $T$ then repeats the tolerance-to-window route for $D'$. Provenance and local naming through $P,N$ identify this as the same $\CauchyStabilityModulusUp$ certificate surface.
+
+Thus shrinking a displayed dyadic tolerance preserves accepted finite-window stability, and all excluded completion or quotient data remain outside the carrier.
+\end{proof}
+
+\closureat{CauchyStabilityModulusUp}{seedStr}
+
+\begin{closurestatus}{\CauchyStabilityModulusUp}
+  \constructivestory{A $\CauchyStabilityModulusUp$ packet is generated from Cauchy source rows, dyadic tolerance rows, RegSeqRat finite-window rows, StreamName observation rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-stability-modulus-carrier}, \autoref{thm:cauchy-stability-modulus-namecert-obligations}, and \autoref{thm:cauchy-stability-modulus-finite-window-stability} seed the finite tolerance-window stability route for Cauchy, RegSeqRat, StreamName, and Real consumers.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.CauchyStabilityModulusUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of Cauchy streams, selected limits, countable choice, host real equality, hidden completion operators, ambient $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, tolerance-shrink stability, replay exactness, provenance, and ledger nonescape for BEDC.Derived.CauchyStabilityModulusUp.}
+\end{closurestatus}

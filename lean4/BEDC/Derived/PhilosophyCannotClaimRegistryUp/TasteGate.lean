@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.PhilosophyCannotClaimRegistryUp
@@ -8,6 +9,7 @@ namespace BEDC.Derived.PhilosophyCannotClaimRegistryUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -308,5 +310,87 @@ theorem PhilosophyCannotClaimRegistryTasteGate_single_carrier_alignment :
     ⟨philosophyCannotClaimRegistryDecode_encode_bhist,
       philosophyCannotClaimRegistry_round_trip,
       (fun _ _ heq => philosophyCannotClaimRegistryToEventFlow_injective heq), rfl⟩
+
+theorem PhilosophyCannotClaimRegistryNameCertObligations
+    (x : PhilosophyCannotClaimRegistryUp) :
+    ∃ C S E U B H K P N : BHist,
+      x = PhilosophyCannotClaimRegistryUp.mk C S E U B H K P N ∧
+        SemanticNameCert
+          (fun row : BHist => hsame row N)
+          (fun row : BHist =>
+            hsame row C ∨ hsame row S ∨ hsame row E ∨ hsame row U ∨
+              hsame row B ∨ hsame row H ∨ hsame row K ∨ hsame row P ∨
+                hsame row N)
+          (fun row : BHist => hsame row N)
+          hsame := by
+  -- BEDC touchpoint anchor: BHist hsame SemanticNameCert NameCert
+  cases x with
+  | mk C S E U B H K P N =>
+      exact
+        ⟨C, S, E, U, B, H, K, P, N, rfl,
+          {
+            core := {
+              carrier_inhabited := Exists.intro N (hsame_refl N)
+              equiv_refl := by
+                intro row _source
+                exact hsame_refl row
+              equiv_symm := by
+                intro _row _other sameRows
+                exact hsame_symm sameRows
+              equiv_trans := by
+                intro _row _middle _other sameLeft sameRight
+                exact hsame_trans sameLeft sameRight
+              carrier_respects_equiv := by
+                intro _row _other sameRows sourceRow
+                exact hsame_trans (hsame_symm sameRows) sourceRow
+            }
+            pattern_sound := by
+              intro _row sourceRow
+              exact
+                Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr sourceRow)))))))
+            ledger_sound := by
+              intro _row sourceRow
+              exact sourceRow
+          }⟩
+
+theorem PhilosophyCannotClaimRegistryNonescape
+    (x : PhilosophyCannotClaimRegistryUp) :
+    ∃ C S E U B H K P N : BHist,
+      x = PhilosophyCannotClaimRegistryUp.mk C S E U B H K P N ∧
+        philosophyCannotClaimRegistryFields x = [C, S, E, U, B, H, K, P, N] ∧
+          List.Mem C (philosophyCannotClaimRegistryFields x) ∧
+            List.Mem S (philosophyCannotClaimRegistryFields x) ∧
+              List.Mem E (philosophyCannotClaimRegistryFields x) ∧
+                List.Mem U (philosophyCannotClaimRegistryFields x) ∧
+                  List.Mem B (philosophyCannotClaimRegistryFields x) ∧
+                    Cont BHist.Empty C C ∧
+                      Cont BHist.Empty S S ∧
+                        Cont BHist.Empty B B ∧
+                          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) =
+                            some x := by
+  -- BEDC touchpoint anchor: BHist BMark Cont
+  cases x with
+  | mk C S E U B H K P N =>
+      exact
+        ⟨C, S, E, U, B, H, K, P, N, rfl, rfl,
+          List.Mem.head _,
+          List.Mem.tail _ (List.Mem.head _),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _)),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _ (List.Mem.head _))),
+          List.Mem.tail _ (List.Mem.tail _ (List.Mem.tail _
+            (List.Mem.tail _ (List.Mem.head _)))),
+          cont_left_unit C,
+          cont_left_unit S,
+          cont_left_unit B,
+          ChapterTasteGate.round_trip
+            (X := PhilosophyCannotClaimRegistryUp)
+            (PhilosophyCannotClaimRegistryUp.mk C S E U B H K P N)⟩
 
 end BEDC.Derived.PhilosophyCannotClaimRegistryUp

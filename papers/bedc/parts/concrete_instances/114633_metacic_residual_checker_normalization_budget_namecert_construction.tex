@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualCheckerNormalizationBudgetUp$}
+\label{ch:concrete-instances-metacic-residual-checker-normalization-budget-namecert}
+\origin{ai}
+
+The $\MetaCICResidualCheckerNormalizationBudgetUp$ packet realizes the normalization audit map of \autoref{ch:metacic-normalization-audit-map} as finite checker, fuel, obstruction, transport, replay, provenance, and local naming rows for candidate-mediated strong normalization. It sits beside the frontier carrier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the candidate-mediated SN route of \autoref{ch:concrete-instances-candidate-mediated-sn-namecert}, the finite confluence window of \autoref{ch:concrete-instances-finite-window-confluence-namecert}, the candidate diamond budget of \autoref{ch:concrete-instances-metacic-candidate-diamond-budget-namecert}, and the typed normal-form scheduler of \autoref{ch:concrete-instances-metacic-typed-normal-form-scheduler-namecert}. The packet is a residual-checker budget surface; it is not an unconditional normalization theorem, residual confluence theorem, subject-reduction theorem, evaluator oracle, quotient syntax equality, or closed consistency proof.
+
+\begin{definition}[MetaCIC residual-checker normalization budget carrier]
+\label{def:metacic-residual-checker-normalization-budget-carrier}
+A $\MetaCICResidualCheckerNormalizationBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,A,S,F,R,J,O,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the sealed closed typed term row inspected by the normalization audit.
+\item $A$ is the candidate-mediated strong-normalization evidence row, including candidate membership, closed-candidate evidence, Pi adequacy, application adequacy, and no-infinite-reduction projections.
+\item $S$ is the residual checker row, recording the finite residual windows, local residual-substitution checks, and confluence-boundary verdicts consumed before a normal endpoint is trusted.
+\item $F$ is the fuel row, storing the finite normalization budget, residual-checker budget, and replay-window budget for the current audit request.
+\item $R$ is the route row from candidate-mediated SN evidence to residual-checker inspection.
+\item $J$ is the finite join or refusal row, retaining local joins when the checker sees them and explicit obstruction data when it does not.
+\item $O$ is the obstruction row for missing candidate evidence, fuel exhaustion, failed residual substitution, failed local join, failed closedness transport, and failed endpoint seal.
+\item $X$ is the export row that exposes only the budgeted normalization result or its displayed obstruction.
+\item $H$ records componentwise $\hsame$ transport for the closed term, candidate evidence, residual checker, fuel, route, join/refusal row, obstruction, export row, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from an audit request through $T,A,S,F,R,J,O,H$ to $X$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICResidualCheckerNormalizationBudgetUp$, $\MetaCICNormalizationFrontierUp$, $\CandidateMediatedSNUp$, $\FiniteWindowConfluenceUp$, $\MetaCICCandidateDiamondBudgetUp$, $\MetaCICTypedNormalFormSchedulerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICResidualCheckerNormalizationBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,A,S,F,R,J,O,X,H,C,P,N$. It has no coordinate for evidence-free global SN, unrestricted residual confluence, subject-reduction transport, quotient syntax equality, hidden evaluator state, host reduction oracles, or closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual-checker normalization budget obligations]
+\label{thm:metacic-residual-checker-normalization-budget-obligations}
+For every accepted $\MetaCICResidualCheckerNormalizationBudgetUp$ carrier
+$$
+B=(T,A,S,F,R,J,O,X,H,C,P,N),
+$$
+the local $\NameCert_{\MetaCICResidualCheckerNormalizationBudgetUp}$ obligations are exactly carrier admission, sealed closed-term exposure, candidate-mediated SN evidence exposure, residual-checker window exposure, fuel-budget exactness, candidate-to-checker route replay, finite join or refusal exactness, obstruction retention, budgeted export nonescape, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-checker-normalization-budget-carrier}. The accepted packet exposes exactly the closed term, candidate evidence, residual checker, fuel budget, route, join/refusal row, obstruction, export, transport, replay, provenance, and local naming rows.
+
+The normalization side is $T,A,F,R$. A public read must display the sealed closed term, the candidate-mediated SN evidence, the finite fuel, and the route that carries that evidence to the checker.
+
+The residual side is $S,J,O$. The checker sees only finite residual windows; it exports local joins when they are present and keeps failed residual substitution, failed local joins, failed closedness transport, and failed endpoint seals as visible obstruction rows.
+
+Finally $X,H,C,P,N$ export and preserve the same budgeted route. Since no carrier coordinate supplies evidence-free global SN, unrestricted residual confluence, subject-reduction transport, quotient syntax equality, hidden evaluator state, host reduction oracles, or closed consistency, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC residual-checker budget boundary]
+\label{thm:metacic-residual-checker-normalization-budget-boundary}
+Every accepted $\MetaCICResidualCheckerNormalizationBudgetUp$ consumer factors through
+$$
+\MetaCICNormalizationFrontierUp
+\longmapsto
+\CandidateMediatedSNUp
+\longmapsto
+\FiniteWindowConfluenceUp
+\longmapsto
+\MetaCICCandidateDiamondBudgetUp
+\longmapsto
+\MetaCICTypedNormalFormSchedulerUp
+$$
+before it may read a budgeted normalization export. The export row $X$ contains a finite normal endpoint only when the candidate evidence, fuel row, residual-checker row, join/refusal row, obstruction row, transport, replay, provenance, and local name are all displayed; otherwise it contains the displayed obstruction.
+\end{theorem}
+\begin{proof}
+Start with the frontier row and the closed typed term $T$. The candidate row $A$ supplies the only SN evidence that the packet accepts, and the fuel row $F$ records the finite budget attached to that evidence.
+
+Replay $R$ sends this candidate route to the residual checker $S$. The checker can only consume finite windows, so the join/refusal row $J$ either displays the relevant local join data or records why the route stops at the residual boundary.
+
+The obstruction row $O$ is retained in the export row $X$ whenever candidate evidence, fuel, residual substitution, local joining, closedness transport, or endpoint sealing fails. Transport and replay through $H,C,P,N$ keep the same finite packet attached to the local name, so the excluded global SN, residual confluence, subject reduction, quotient syntax, evaluator, oracle, and consistency claims cannot be exported.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICResidualCheckerNormalizationBudgetUp$ read that exposes a budgeted normalization endpoint while omitting the sealed closed term, candidate-mediated SN evidence, residual checker, fuel, route replay, join/refusal row, obstruction row, hsame transport, Cont replay, Pkg provenance, or local NameCert row refutes the packet.}
+
+\independenceWitness{metacicnormalizationaudit, metacic-confluence-residual-checker, metacicnormalizationfrontier, candidate-mediated-sn: $\MetaCICResidualCheckerNormalizationBudgetUp$ is not bijective with any listed sibling because it jointly carries candidate-mediated SN evidence, residual-checker windows, finite fuel, local join or refusal rows, obstruction rows, transport, replay, provenance, and local naming in one budgeted normalization surface.}
+
+Lean \texttt{TasteGate.lean} for $\MetaCICResidualCheckerNormalizationBudgetUp$ must later include $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances so the candidate, checker, fuel, route, join/refusal, obstruction, export, replay, provenance, and local naming rows remain distinguishable.
+
+\closureat{MetaCICResidualCheckerNormalizationBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualCheckerNormalizationBudgetUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-checker-normalization-budget-carrier}, \autoref{thm:metacic-residual-checker-normalization-budget-obligations}, and \autoref{thm:metacic-residual-checker-normalization-budget-boundary} seed the finite residual-checker normalization budget route through closed terms, candidate evidence, checker windows, fuel, obstruction, transport, replay, provenance, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close evidence-free global SN, unrestricted residual confluence, subject-reduction transport, quotient syntax equality, hidden evaluator state, host reduction oracles, closed consistency, Lean proof obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sealed closed-term exposure, candidate-mediated SN exposure, residual-checker window exposure, fuel exactness, route replay, join/refusal exactness, obstruction retention, export nonescape, Nontrivial and FieldFaithful instances, transport, replay, provenance, and local naming for BEDC.Derived.MetaCICResidualCheckerNormalizationBudgetUp.}
+  \constructivestory{A $\MetaCICResidualCheckerNormalizationBudgetUp$ packet is generated from a sealed closed term, candidate-mediated SN evidence, residual-checker windows, finite fuel, route replay, join or refusal rows, obstruction rows, export rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

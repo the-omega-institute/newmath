@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\BaireSpaceCompletenessUp$}
+\label{ch:concrete-instances-baire-space-completeness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis and Oxtoby's Baire-space presentation, the $\BaireSpaceCompletenessUp$ packet records the usual complete ultrametric structure on Baire space as finite NameCert rows. It reads finite prefix-cylinder data from $\BaireSpaceUp$ in \autoref{ch:concrete-instances-bairespace-namecert}, routes Cauchy-thread convergence through $\CompleteMetricUp$, exposes windows through $\StreamNameUp$, reads rational tolerances through $\RegSeqRatUp$, and seals endpoint distances only through $\RealUp$. The downstream complete-metric Baire surface of \autoref{ch:concrete-instances-complete-metric-baire-surface-namecert} can therefore consume a direct Baire-space completeness object instead of an implicit host completeness assertion.
+
+\begin{definition}[BaireSpaceCompleteness carrier]
+\label{def:baire-space-completeness-carrier}
+A $\BaireSpaceCompletenessUp$ carrier is a finite $\BHist$ packet
+$$
+C=(B,K,S,R,E,H,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $B$ is the $\BaireSpaceUp$ prefix-cylinder row, including the displayed stream schedule, finite prefix windows, prefix classifier, and local cylinder transport.
+\item $K$ is the $\CompleteMetricUp$ Cauchy-thread row for the usual ultrametric in which the distance between two streams is bounded by the first displayed prefix disagreement.
+\item $S$ is the $\StreamNameUp$ window row through which finite observations of the Cauchy thread and its limit stream are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row for dyadic tolerances and prefix-length bounds used by the ultrametric estimates.
+\item $E$ is the terminal $\RealUp$ seal for endpoint distances, reached only after $B,K,S,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for prefix cylinders, Cauchy-thread rows, stream windows, rational readback, and real endpoint seals.
+\item $P$ is the $\Pkg$ provenance over $\BaireSpaceUp$, $\CompleteMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BaireSpaceCompletenessUp}$ row naming the displayed completeness packet.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a choice-selected branch, host sequence equality, quotient completion, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[BaireSpaceCompleteness NameCert obligations]
+\label{thm:baire-space-completeness-namecert-obligations}
+For every accepted $\BaireSpaceCompletenessUp$ carrier $C=(B,K,S,R,E,H,P,N)$, the local $\NameCert_{\BaireSpaceCompletenessUp}$ surface consists exactly of the prefix-cylinder admission row, the $\CompleteMetricUp$ Cauchy-thread route, the $\StreamNameUp$ finite observation windows, the $\RegSeqRatUp$ dyadic tolerance readback, the $\RealUp$ endpoint-distance seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:baire-space-completeness-carrier}. The Baire-space row $B$ supplies only finite prefix-cylinder data, while $K$ records the Cauchy-thread service for the ultrametric route.
+
+The observation rows are then forced by $S$ and $R$. A consumer reads finite stream windows through $\StreamNameUp$ and reads dyadic tolerance bounds through $\RegSeqRatUp$ before it can inspect any endpoint distance.
+
+Finally the endpoint seal is the row $E$, and the structural rows $H,P,N$ only transport, source, and name the displayed route. Since none of these coordinates contains a branch selector, host equality, quotient completion, open-cover compactness, or ambient $\RealUp$ completeness, no such obligation is exported.
+\end{proof}
+
+\begin{theorem}[BaireSpaceCompleteness Cauchy-thread route]
+\label{thm:baire-space-completeness-cauchy-thread-route}
+Let $C=(B,K,S,R,E,H,P,N)$ be an accepted $\BaireSpaceCompletenessUp$ packet. Every Cauchy thread in the usual Baire-space ultrametric is read through the finite prefix-cylinder row of $B$, the $\CompleteMetricUp$ route $K$, the $\StreamNameUp$ windows $S$, and the $\RegSeqRatUp$ tolerance readback $R$ before its endpoint distance is sealed through $E$. The route is transported, replayed, sourced, and named only by $H,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the prefix-cylinder surface of \autoref{ch:concrete-instances-bairespace-namecert}. It exposes finite stream prefixes and their cylinder classifier before any completed stream or host topology is available.
+
+Apply the complete-metric route through $K$. A Cauchy-thread request is therefore routed through the displayed $\CompleteMetricUp$ service rather than through a quotient completion or selected limit operation.
+
+The finite observations are read through $S$ and the dyadic tolerance bounds through $R$. Only after those rows are displayed does the endpoint-distance row $E$ seal the resulting real-valued estimate. The transport, replay, provenance, and local naming rows preserve this order, matching the downstream complete-metric Baire surface of \autoref{ch:concrete-instances-complete-metric-baire-surface-namecert}.
+\end{proof}
+
+\begin{closurestatus}{\BaireSpaceCompletenessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:baire-space-completeness-carrier}, \autoref{thm:baire-space-completeness-namecert-obligations}, and \autoref{thm:baire-space-completeness-cauchy-thread-route} seed the finite NameCert route for the usual complete ultrametric on Baire space.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host sequence equality, quotient completion, choice-selected branches, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-cylinder projection, Cauchy-thread convergence routing, finite observation readback, rational tolerance readback, endpoint-distance sealing, and ledger nonescape for BEDC.Derived.BaireSpaceCompletenessUp.}
+  \constructivestory{A $\BaireSpaceCompletenessUp$ packet is generated from BaireSpace prefix cylinders, a CompleteMetric Cauchy-thread row, StreamName finite windows, RegSeqRat tolerance readback, a RealUp endpoint seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

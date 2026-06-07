@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCandidateDiamondBudgetUp$}
+\label{ch:concrete-instances-metacic-candidate-diamond-budget-namecert}
+\origin{ai}
+
+The $\MetaCICCandidateDiamondBudgetUp$ packet realizes the normalization/confluence audit boundary of \autoref{ch:metacic-normalization-audit-map} as finite NameCert data. It sits between the candidate-mediated normalization route of \autoref{ch:concrete-instances-metacic-normalization-audit-packet-namecert}, the candidate-set normalization packet of \autoref{ch:concrete-instances-metacic-candidate-set-normalization-namecert}, the confluence diamond ledger of \autoref{ch:concrete-instances-metacic-confluence-diamond-ledger-namecert}, and the closed parallel diamond premise ledger of \autoref{ch:concrete-instances-closed-parallel-diamond-premise-ledger-namecert}. The packet names a local diamond budget guarded by displayed candidate evidence; it is not global closed confluence, not evidence-free normalization, and not a closed Church--Rosser theorem.
+
+\falsifiablePrediction{A packet without a displayed candidate row and local diamond-budget row is rejected even if it carries a closed-normal row.}
+
+\independenceWitness{metacicnormalizationaudit, metacic-confluence-audit-packet, metacic-candidate-set-normalization, closed-parallel-diamond-premise-ledger, metacic-confluence-diamond-ledger: $\MetaCICCandidateDiamondBudgetUp$ is not bijective to any listed sibling because it jointly carries candidate evidence, closed-candidate evidence, candidate-set normalization, local peak data, local join-budget data, confluence-boundary refusal, transport, replay, provenance, and local naming.}
+
+\begin{definition}[MetaCIC candidate diamond budget carrier]
+\label{def:metacic-candidate-diamond-budget-carrier}
+A $\MetaCICCandidateDiamondBudgetUp$ carrier is a finite $\BHist$ packet
+$$
+B=(T,K,L,S,P,J,D,F,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed term window whose normalization or confluence-facing read is being inspected.
+\item $K$ is the candidate-evidence row, carrying the displayed $\mathsf{Candidate}$ witness for $T$.
+\item $L$ is the closed-candidate evidence row, binding closedness of the term and type to the same candidate-mediated route.
+\item $S$ is the candidate-set row, exposing candidate-set membership and the finite candidate-set normalization surface.
+\item $P$ is the local peak row, recording the finite redex pair or bounded reduction peak inspected inside the candidate-mediated window.
+\item $J$ is the local join-budget row, recording the finite candidate join, bounded checker budget, and common-reduct ledger for $P$.
+\item $D$ is the confluence-boundary refusal row. It records that the local budget $J$ is not a global closed-confluence theorem and cannot discharge the residual-substitution or closed parallel diamond premises by itself.
+\item $F$ is the closed-normal row, consumed only after $K,L,S,P,J,D$ have all been displayed.
+\item $H$ stores componentwise $\hsame$ transport for the closed typed term, candidate, closed-candidate, candidate-set, local peak, join-budget, refusal, closed-normal, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a normalization-window or confluence-boundary request through $T,K,L,S,P,J,D,F$.
+\item $G$ is the $\Pkg$ provenance over $\MetaCICCandidateDiamondBudgetUp$, \autoref{ch:metacic-normalization-audit-map}, \autoref{ch:metacic-confluence-audit-map}, $\MetaCICNormalizationAuditPacketUp$, $\CandidateSetNormalizationUp$, $\MetaCICConfluenceDiamondLedgerUp$, $\ClosedParallelDiamondPremiseLedgerUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetaCICCandidateDiamondBudgetUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $T,K,L,S,P,J,D,F,H,C,G,N$. It has no coordinate for evidence-free strong normalization, global closed confluence, a discharged residual-substitution theorem, arbitrary closed parallel diamond, quotient syntax equality, or host confluence oracle.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate diamond budget NameCert obligations]
+\label{thm:metacic-candidate-diamond-budget-obligations}
+For every accepted $\MetaCICCandidateDiamondBudgetUp$ carrier $B=(T,K,L,S,P,J,D,F,H,C,G,N)$, the local $\NameCert_{\MetaCICCandidateDiamondBudgetUp}$ surface consists exactly of carrier admission, closed typed term admission, candidate evidence admission, closed-candidate evidence admission, candidate-set normalization exposure, local peak exposure, local join-budget accounting, confluence-boundary refusal, closed-normal downstream ordering, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+
+The future Lean TasteGate for this packet must supply both a Nontrivial instance, separating an accepted displayed budget from an empty carrier, and a FieldFaithful instance, asserting that the classifier reads each field $T,K,L,S,P,J,D,F,H,C,G,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-diamond-budget-carrier}. The projection exposes the closed typed term window, candidate row, closed-candidate row, candidate-set row, local peak row, join-budget row, refusal row, closed-normal row, and the structural rows.
+
+The candidate rows are read before any normalization or confluence-facing budget. The candidate row $K$, closed-candidate row $L$, and candidate-set row $S$ keep the strong-normalization route inside the candidate-mediated interface described by \autoref{ch:metacic-normalization-audit-map}.
+
+The local peak and join-budget rows then bind the confluence-facing part. The row $P$ records only the inspected finite peak, while $J$ records only the bounded local join and checker budget attached to that peak.
+
+The refusal row $D$ remains visible before the closed-normal row $F$. It prevents the local join budget from being read as global closed confluence, residual-substitution discharge, or an arbitrary closed parallel diamond.
+
+Finally, $H,C,G,N$ transport, replay, source, and name the same finite route. Nontrivial and FieldFaithful TasteGate evidence would assert that accepted packets carry genuine budget data and that no displayed field is ignored by the classifier.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate diamond budget nonescape]
+\label{thm:metacic-candidate-diamond-budget-nonescape}
+Every normalization-window, confluence-boundary, or closed-normal consumer of an accepted $\MetaCICCandidateDiamondBudgetUp$ carrier must first expose the finite route
+$$
+T\longmapsto K\longmapsto L\longmapsto S\longmapsto P\longmapsto J\longmapsto D\longmapsto F\longmapsto H,C,G,N .
+$$
+The packet exports candidate-mediated normalization evidence and a local diamond budget only through that route. It exports no evidence-free strong-normalization theorem, no global closed-confluence theorem, no residual-substitution discharge, no arbitrary closed parallel diamond, no quotient syntax equality, and no host confluence oracle.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. Its only confluence-facing rows are the local peak row $P$, the local join-budget row $J$, and the refusal row $D$.
+
+Apply \autoref{thm:metacic-candidate-diamond-budget-obligations}. The obligations order candidate evidence before the local budget and keep the closed-normal row downstream of the confluence-boundary refusal.
+
+The structural rows preserve that order. Transport through $H$, replay through $C$, provenance through $G$, and local naming through $N$ cannot add a global confluence endpoint or erase the candidate evidence.
+
+Thus any consumer that reads the budget must keep $T,K,L,S,P,J,D,F,H,C,G,N$ visible and cannot escape into evidence-free normalization, residual-substitution discharge, arbitrary closed diamond, quotient syntax equality, or host confluence.
+\end{proof}
+
+\closureat{MetaCICCandidateDiamondBudgetUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCandidateDiamondBudgetUp}
+  \constructivestory{A $\MetaCICCandidateDiamondBudgetUp$ packet is generated from a closed typed term window, candidate evidence, closed-candidate evidence, candidate-set rows, local peak rows, local join-budget rows, confluence-boundary refusal, closed-normal rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-candidate-diamond-budget-carrier}, \autoref{thm:metacic-candidate-diamond-budget-obligations}, and \autoref{thm:metacic-candidate-diamond-budget-nonescape} seed the finite candidate-mediated local diamond-budget boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close evidence-free strong normalization, global closed confluence, residual-substitution discharge, arbitrary closed parallel diamond, quotient syntax equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate evidence admission, closed-candidate admission, candidate-set exposure, local peak exposure, local join-budget accounting, confluence-boundary refusal, nonescape, Nontrivial TasteGate evidence, and FieldFaithful TasteGate evidence for BEDC.Derived.MetaCICCandidateDiamondBudgetUp.}
+\end{closurestatus}

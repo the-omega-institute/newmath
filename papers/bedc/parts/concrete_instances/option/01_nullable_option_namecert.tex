@@ -43,6 +43,18 @@ the checked nullable-envelope definition displayed here.
 \end{definition}
 \leandef{BEDC.Derived.OptionUp.OptionHistoryCarrier}
 
+\begin{theorem}[Option Bool tag sibling route]
+\label{thm:option-bool-tag-sibling-route}
+The constructor-tagged $\OptionUp$ interface reads its absent/present tag through the finite $\BoolUp$ tag discipline of \autoref{ch:concrete-instances-bool-namecert} before applying the nullable envelope bridge. The checked nullable envelope remains empty-or-source history data: its rows are the $\hsame(h,\emp)$ absent branch, the source branch $S(h)$, endpoint $\hsame$ transport, and the local envelope classifier, not an additional Boolean coordinate.
+\end{theorem}
+\begin{proof}
+Project the source specification of \autoref{def:option-source-specification}. It separates the typed and constructor-tagged option interface from the checked nullable-history carrier $\mathsf{OptionHistoryCarrier}_S(h)\equiv\hsame(h,\emp)\lor S(h)$.
+
+Read the constructor-tagged interface first. Its absent and present alternatives require a finite tag row, and that sibling row is supplied by the $\BoolUp$ discipline of \autoref{ch:concrete-instances-bool-namecert}. The tag is consumed before any descent to the nullable envelope.
+
+Finally apply the nullable bridge boundary named in the same source specification. The bridge may translate a visible absent/present read into empty-or-source history evidence, but the checked nullable envelope still records only the envelope witness and its $\hsame$ transport. Thus the Bool sibling route classifies the tagged presentation without becoming a new nullable-envelope coordinate.
+\end{proof}
+
 \begin{theorem}[Option history carrier transport]
 \label{thm:option-history-carrier-hsame-transport}
 If $h$ and $k$ are internally history-same, membership of $h$ in

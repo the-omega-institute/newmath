@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\GrothendieckTopologyUp$}
+\label{ch:concrete-instances-grothendieck-topology-namecert}
+\origin{human}
+
+Following Grothendieck's SGA 4 site formalism, the $\GrothendieckTopologyUp$ packet records a coverage sieve system on a certified category as finite BEDC rows. It sits after the category and functorial source surfaces of \autoref{ch:concrete-instances-category-namecert} and \autoref{ch:concrete-instances-functor-namecert}, before the restriction interface of \autoref{ch:concrete-instances-presheaf-namecert} and the gluing interface of \autoref{ch:concrete-instances-sheaf-namecert}. The packet names maximal sieves, pullback-stable covering sieves, and local transitivity; it does not export a topos, a host powerset of arrows, an external saturation operator, a selected sheafification, or quotient equality of covering families.
+
+\begin{definition}[Grothendieck topology carrier]
+\label{def:grothendieck-topology-carrier}
+A $\GrothendieckTopologyUp$ carrier is a finite $\BHist$ packet
+$$
+J=(C,S,M,P,T,H,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the source $\CategoryUp$ row, carrying objects, hom rows, identity arrows, composition rows, and their classifier laws.
+\item $S$ is the sieve-family row, assigning to each displayed object $U$ a finite ledger of sieves on $U$ whose membership is read as arrows into $U$ and is closed under precomposition in $C$.
+\item $M$ is the maximal-sieve row, recording that the sieve containing every displayed arrow into $U$ is a covering sieve at $U$.
+\item $P$ is the pullback-stability row: for every covering sieve $R$ on $U$ and every displayed arrow $f:V\to U$, the pulled-back sieve
+$$
+f^{\ast}R=\{g:W\to V \mid f\circ g\in R\}
+$$
+is a covering sieve on $V$.
+\item $T$ is the transitivity row: if $R$ covers $U$ and $Q$ is a sieve on $U$ whose pullback along every displayed member of $R$ covers the corresponding domain, then $Q$ covers $U$.
+\item $H$ records componentwise $\hsame$ transport for category rows, sieve membership rows, maximal rows, pullback rows, transitivity rows, replay rows, provenance rows, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a site request through $C,S,M,P,T$.
+\item $Q$ is the $\Pkg$ provenance over $\GrothendieckTopologyUp$, $\CategoryUp$, $\FunctorUp$, $\PreSheafUp$, $\SheafUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GrothendieckTopologyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $C,S,M,P,T,H,R,Q,N$. It has no coordinate for host arrow powersets, quotient sieves, selected sheafification, topos objects, global choice of covers, or bridge credentials.
+\end{definition}
+
+\begin{theorem}[Grothendieck topology NameCert obligations]
+\label{thm:grothendieck-topology-namecert-obligations}
+For every accepted $\GrothendieckTopologyUp$ carrier $J=(C,S,M,P,T,H,R,Q,N)$, the local $\NameCert_{\GrothendieckTopologyUp}$ surface consists exactly of carrier admission for the displayed nine-row packet; category-source exposure through $C$; sieve-family exposure through $S$; maximal-sieve coverage through $M$; pullback stability through $P$; transitivity and local character through $T$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $R$; provenance through $Q$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:grothendieck-topology-carrier}. The site data are exactly $C,S,M,P,T$, and the structural rows are exactly $H,R,Q,N$.
+
+The category row is read first. It supplies the object and hom rows on which sieve membership is meaningful, together with identities and composition so precomposition and pullback sieves are internal BEDC rows.
+
+The coverage rows are then forced in their traditional order. The maximal row covers each object, the pullback row transports any covering sieve along a displayed arrow, and the transitivity row performs the local-character test using only the displayed pullback covers.
+
+Finally, $H,R,Q,N$ transport, replay, source, and name the same finite packet. Since no excluded coordinate is present in the carrier, host arrow powersets, quotient sieves, selected sheafification, topos objects, global cover choice, and bridge credentials are not local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Grothendieck topology sieve pullback stability]
+\label{thm:grothendieck-topology-sieve-pullback-stability}
+Let $J=(C,S,M,P,T,H,R,Q,N)$ be an accepted $\GrothendieckTopologyUp$ packet. If $R_U$ is a covering sieve on a displayed object $U$ and $f:V\to U$ is a displayed arrow of the $\CategoryUp$ row $C$, then the pulled-back sieve
+$$
+f^{\ast}R_U=\{g:W\to V \mid f\circ g\in R_U\}
+$$
+is a covering sieve on $V$ in the same packet. The read of this cover factors through $C,S,P,H,R,Q,N$ and does not use host equality of arrows, a quotient of sieves, or a selected replacement cover.
+\end{theorem}
+\begin{proof}
+Expose the accepted carrier and read the category row $C$. The source, target, and composition fields of $C$ make the displayed expression $f\circ g$ a certified arrow into $U$ whenever $g$ is a displayed arrow into $V$.
+
+Use the sieve-family row $S$ to read membership of $R_U$ as a finite BEDC predicate on arrows into $U$. The pullback row $P$ is exactly the coverage clause that maps this displayed covering sieve and displayed arrow $f$ to a covering sieve on $V$.
+
+Transport and replay do not change the coverage decision. The rows $H,R,Q,N$ keep the pulled-back sieve attached to the same packet, provenance, and local naming surface, so no host arrow equality, quotient sieve, or selected replacement cover is inserted.
+\end{proof}
+
+\begin{theorem}[Grothendieck topology nonescape]
+\label{thm:grothendieck-topology-nonescape}
+Every $\PreSheafUp$ or $\SheafUp$ consumer of an accepted $\GrothendieckTopologyUp$ packet reads coverage only through the finite route
+$$
+\CategoryUp \longmapsto \FunctorUp \longmapsto \PreSheafUp \longmapsto \SheafUp
+$$
+together with the displayed rows $C,S,M,P,T,H,R,Q,N$. No consumer can obtain a topos object, a host powerset of arrows, a quotient of covering families, a global choice of covers, an external sheafification, or a bridge credential from the packet.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:grothendieck-topology-namecert-obligations}. It exhausts the site-facing data through the category row, sieve-family row, maximal row, pullback-stability row, and transitivity row.
+
+A presheaf consumer can only inspect the certified source category and restriction-facing sieve rows. The functorial source is therefore the displayed $\CategoryUp$ and $\FunctorUp$ corridor, not an ambient category of all arrows.
+
+A sheaf consumer adds locality and gluing over the displayed covering sieves. The pullback-stability theorem \autoref{thm:grothendieck-topology-sieve-pullback-stability} keeps every restricted cover inside the same finite packet, and the transitivity row supplies the local-character closure used by the gluing surface.
+
+The structural rows $H,R,Q,N$ transport, replay, source, and name only those displayed rows. Because the carrier has no excluded coordinate, none of the stated external objects can escape from the packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\GrothendieckTopologyUp$ consumer that treats a pulled-back covering sieve as available without displaying the source $\CategoryUp$ row, the sieve-family row, and the pullback-stability row refutes the carrier surface.}
+
+\independenceWitness{category, functor, presheaf, sheaf: no listed sibling supplies the whole site packet $J=(C,S,M,P,T,H,R,Q,N)$, because the siblings contribute category, functor, restriction, or gluing rows while this chapter binds maximal covers, sieve pullback stability, and local transitivity into one Grothendieck topology NameCert.}
+
+\closureat{GrothendieckTopologyUp}{seedStr}
+
+\begin{closurestatus}{\GrothendieckTopologyUp}
+  \constructivestory{A $\GrothendieckTopologyUp$ packet is generated from a CategoryUp source row, sieve-family rows, maximal-sieve cover rows, pullback-stability rows, transitivity and local-character rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:grothendieck-topology-carrier}, \autoref{thm:grothendieck-topology-namecert-obligations}, \autoref{thm:grothendieck-topology-sieve-pullback-stability}, and \autoref{thm:grothendieck-topology-nonescape} seed the finite site route over CategoryUp, FunctorUp, PreSheafUp, and SheafUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close topos objects, host arrow powersets, quotient sieves, global choice of covers, external sheafification, Lean theorem coverage, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, sieve-family exposure, maximal-sieve coverage, pullback-stability exactness, transitivity exactness, presheaf and sheaf consumer nonescape, transport, replay, provenance, and local naming for BEDC.Derived.GrothendieckTopologyUp.}
+\end{closurestatus}

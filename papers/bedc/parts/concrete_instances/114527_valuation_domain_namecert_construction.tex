@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\ValuationDomainUp$}
+\label{ch:concrete-instances-valuation-domain-namecert}
+\origin{human}
+
+Following Bourbaki and Zariski--Samuel, the $\ValuationDomainUp$ packet records the traditional valuation-domain surface as finite naming data over a ring whose fraction-field comparisons are routed through displayed ideal comparability and local-field boundary rows. It sits after the ring carrier of \autoref{ch:concrete-instances-ring-namecert}, the field boundary of \autoref{ch:concrete-instances-field-namecert}, the ideal lattice of \autoref{ch:concrete-instances-ideal-namecert}, and the local-field handoff of \autoref{ch:concrete-instances-localfield-namecert}. The packet names the valuation-domain read; it does not export a selected valuation map, total host order on a fraction field, Krull dimension theorem, Noetherianity, principal-ideal generation, or ambient algebraic closure.
+
+\begin{definition}[Valuation domain carrier]
+\label{def:valuation-domain-carrier}
+A $\ValuationDomainUp$ carrier is a finite $\BHist$ packet
+$$
+V=(R,F,I,L,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the source $\RingUp$ row, including the multiplication, addition, zero, one, and ring classifier rows used by ideal-facing consumers.
+\item $F$ is the $\FieldUp$ fraction-field boundary row naming which field read receives the embedded ring data.
+\item $I$ is the $\IdealUp$ comparability row. It records the displayed principal-fraction ideal tests by which any two nonzero fraction reads are compared through containment before the valuation-domain claim is visible.
+\item $L$ is the $\LocalFieldUp$ handoff row, recording the local valuation-facing boundary available to downstream local-field and completion consumers.
+\item $Q$ is the fraction-field nonescape row. It states that a consumer may read divisibility or inverse comparison only through $R,F,I,L$ and not through an ambient selected valuation function.
+\item $H$ records componentwise $\hsame$ transport for the ring, fraction-field, ideal-comparability, local-field, fraction-boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+R,F,I \longmapsto L \longmapsto Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ValuationDomainUp$, $\RingUp$, $\FieldUp$, $\IdealUp$, $\LocalFieldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ValuationDomainUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,F,I,L,Q,H,C,P,N$. It has no coordinate for a chosen value group, a selected valuation map, quotient fraction equality outside the displayed field boundary, Noetherianity, principal generation, or ambient algebraic closure.
+\end{definition}
+
+\begin{theorem}[Valuation domain NameCert obligations]
+\label{thm:valuation-domain-namecert-obligations}
+For every accepted $\ValuationDomainUp$ carrier $V=(R,F,I,L,Q,H,C,P,N)$, the local $\NameCert_{\ValuationDomainUp}$ surface consists exactly of ring-source admission, fraction-field boundary exposure, ideal-chain comparability, local-field handoff visibility, fraction-field nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any consumer that reads a valuation-domain claim must pass through those rows before it may compare fraction-field representatives or ideal containment data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:valuation-domain-carrier}. The source rows $R,F,I,L,Q$ display the ring carrier, fraction-field boundary, ideal-comparability ledger, local-field handoff, and fraction-field nonescape row before any valuation-domain read is available.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name exactly the same finite route. Since the carrier has no coordinate for a chosen value group, selected valuation map, Noetherianity, principal generation, or ambient algebraic closure, none of those objects can be exported by the local certificate.
+\end{proof}
+
+\begin{theorem}[Valuation domain ideal-chain route]
+\label{thm:valuation-domain-ideal-chain-route}
+Every ideal-facing read exported by an accepted $\ValuationDomainUp$ carrier $V=(R,F,I,L,Q,H,C,P,N)$ factors through the displayed comparability route
+$$
+\RingUp \longmapsto \FieldUp \longmapsto \IdealUp
+$$
+before a fraction-field comparison is visible. The route records containment comparison for the principal-fraction ideal rows named by $I$ and refuses any detached host-order, value-group, or selected-valuation read.
+\end{theorem}
+\begin{proof}
+Start with the ring row $R$ and the fraction-field boundary $F$. These rows fix the source multiplication and the field read in which fraction representatives are inspected.
+
+The ideal-chain row $I$ is the only comparability surface in the carrier. Thus a consumer compares fraction reads by opening the displayed $\IdealUp$ containment data after $R$ and $F$, not by appealing to a host value group or an unnamed total order.
+
+The nonescape row $Q$ and the structural rows $H,C,P,N$ preserve that route under transport and replay. Therefore the ideal-facing read remains a finite NameCert route through Ring, Field, Ideal, local handoff, and local naming rows.
+\end{proof}
+
+\begin{theorem}[Valuation domain local-field handoff]
+\label{thm:valuation-domain-localfield-handoff}
+Every $\LocalFieldUp$ consumer of an accepted $\ValuationDomainUp$ packet reads the local valuation-facing boundary only after the source ring, fraction-field boundary, and ideal-chain comparability rows have been displayed. The handoff route is
+$$
+\ValuationDomainUp \longmapsto \RingUp \longmapsto \FieldUp \longmapsto \IdealUp \longmapsto \LocalFieldUp .
+$$
+It exports no complete local field, residue-field construction, chosen uniformizer, discrete valuation, or completion theorem beyond the displayed $L$ row.
+\end{theorem}
+\begin{proof}
+Read $L$ as a downstream row of the accepted carrier. The carrier places $L$ after the ring row $R$, the fraction-field boundary $F$, and the ideal-comparability row $I$.
+
+A local-field consumer therefore receives only the displayed valuation-facing handoff. The packet does not contain a residue-field construction, selected uniformizer, discrete valuation, completion theorem, or host local-field equality, so those data cannot be exported by the $\ValuationDomainUp$ NameCert.
+\end{proof}
+
+\begin{theorem}[Valuation domain fraction-field boundary]
+\label{thm:valuation-domain-fraction-field-boundary}
+Every fraction-field read of an accepted $\ValuationDomainUp$ carrier remains bounded by the displayed route
+$$
+R,F,I,L,Q .
+$$
+In particular, inverse comparison and divisibility information are visible only through the source $\RingUp$ row, the $\FieldUp$ boundary, the $\IdealUp$ comparability ledger, the $\LocalFieldUp$ handoff, and the nonescape row $Q$.
+\end{theorem}
+\begin{proof}
+Project the fraction-field boundary row $F$ and the nonescape row $Q$. The row $F$ names the field in which fractions are read, while $Q$ records that later consumers may use only the comparisons already routed through $R,F,I,L$.
+
+Thus inverse comparison and divisibility information remain inside the displayed NameCert packet. There is no row for an ambient field quotient beyond $F$, a selected valuation map, a chosen value group, or algebraic closure, so the local classifier cannot export such data.
+\end{proof}
+
+\closureat{ValuationDomainUp}{seedStr}
+
+\begin{closurestatus}{\ValuationDomainUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:valuation-domain-carrier}, \autoref{thm:valuation-domain-namecert-obligations}, \autoref{thm:valuation-domain-ideal-chain-route}, \autoref{thm:valuation-domain-localfield-handoff}, and \autoref{thm:valuation-domain-fraction-field-boundary} seed the valuation-domain route through Ring, Field, Ideal, LocalField, fraction-boundary, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.ValuationDomainUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected valuation maps, chosen value groups, discrete valuation data, Noetherianity, principal generation, residue-field construction, completion, algebraic closure, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, fraction-field boundary exposure, ideal-chain comparability, local-field handoff, fraction-field nonescape, transport, replay, provenance, and local naming for BEDC.Derived.ValuationDomainUp.}
+  \constructivestory{A $\ValuationDomainUp$ packet is generated from a RingUp source, a FieldUp fraction-field boundary, an IdealUp comparability row, a LocalFieldUp handoff row, a fraction-field nonescape row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

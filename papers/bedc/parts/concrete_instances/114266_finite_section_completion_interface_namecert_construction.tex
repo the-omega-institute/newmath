@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSectionCompletionInterfaceUp$}
+\label{ch:concrete-instances-finite-section-completion-interface-namecert}
+\origin{human}
+
+Following Bishop and Bridges' finite approximation discipline for constructive completions, the $\FiniteSectionCompletionInterfaceUp$ packet records the finite request-section boundary at which a dyadic endpoint and tolerance row, a stream-name section, a regular rational readback, and a terminal Real seal can be cited together. It refines the four-face completion surface of \autoref{ch:concrete-instances-cauchy-real-completion-interface-namecert} by making the section pullback explicit over \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. The packet is a finite NameCert interface for L10 completion consumers; it is not a quotient-stream construction, a selected limit, a countable-choice principle, host real equality, ambient $\RealUp$ completeness, or a checked bridge.
+
+\begin{definition}[Finite section completion interface carrier]
+\label{def:finite-section-completion-interface-carrier}
+A $\FiniteSectionCompletionInterfaceUp$ carrier is a finite $\BHist$ packet
+$$
+I=(D,S,R,B,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ endpoint and tolerance row, recording the finite dyadic endpoint cells, scale bounds, and slack conversions inspected by the section.
+\item $S$ is the finite request-section row over $\StreamNameUp$, listing the requested stream windows and the section coordinates through which a completion consumer reads them.
+\item $R$ is the $\RegSeqRatUp$ readback row, exposing the regular rational data obtained from the section after the dyadic tolerance row and stream windows have been displayed.
+\item $B$ is the terminal $\RealUp$ seal row, recording only the finite seal-facing boundary reached after $D,S,R$.
+\item $Q$ is the section pullback and exactness row, requiring the requested stream section, dyadic tolerance cells, regular rational readback, and terminal seal row to agree componentwise on every displayed finite request.
+\item $H$ records componentwise $\hsame$ transport for dyadic, section, readback, seal, exactness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite completion request through $D,S,R,B,Q,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteSectionCompletionInterfaceUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\CauchyRealCompletionInterfaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteSectionCompletionInterfaceUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $D,S,R,B,Q,H,C,P,N$. It has no coordinate for quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Finite section completion interface NameCert obligations]
+\label{thm:finite-section-completion-interface-namecert-obligations}
+For every accepted $\FiniteSectionCompletionInterfaceUp$ carrier
+$$
+I=(D,S,R,B,Q,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteSectionCompletionInterfaceUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the displayed finite $\BHist$ packet of \autoref{def:finite-section-completion-interface-carrier};
+\item finite section coverage, requiring each requested $\StreamNameUp$ window in $S$ to be read against the displayed dyadic endpoint and tolerance row $D$;
+\item $\RegSeqRatUp$ handoff, requiring the regular rational readback $R$ to be exposed only through the already displayed $D,S$ section route and the exactness row $Q$;
+\item $\RealUp$ seal nonescape, requiring the terminal seal row $B$ to be consumed only after $D,S,R,Q$ and refusing quotient stream equality, selected limits, countable choice, host real equality, and ambient completeness;
+\item structural transport, replay, provenance, and local naming through $H,C,P,N$, with no additional completion, quotient, choice, or bridge coordinate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-section-completion-interface-carrier}. The accepted packet displays exactly the dyadic endpoint and tolerance row, finite request-section row, regular rational readback row, terminal Real seal row, section exactness row, and structural rows.
+
+Finite coverage is rowwise. A completion request first reads $D$ and $S$; only then can $Q$ certify that the selected finite section agrees with the requested dyadic tolerance cells and stream windows.
+
+The handoff to $R$ and the seal read $B$ are downstream of that exactness row. Since the carrier has no quotient-stream, selected-limit, choice, host-equality, ambient-completeness, or bridge coordinate, the terminal seal cannot escape the displayed finite section route.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same packet. These structural rows preserve the finite route through $D,S,R,B,Q$ and add no further completion principle.
+\end{proof}
+
+\closureat{FiniteSectionCompletionInterfaceUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSectionCompletionInterfaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-section-completion-interface-carrier} and \autoref{thm:finite-section-completion-interface-namecert-obligations} seed the finite section interface among dyadic endpoint and tolerance rows, StreamName request sections, RegSeqRat readback, Real seal rows, pullback exactness, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires a Lean carrier and checked NameCert obligations for BEDC.Derived.FiniteSectionCompletionInterfaceUp.}
+  \constructivestory{A $\FiniteSectionCompletionInterfaceUp$ packet is generated from a dyadic endpoint and tolerance row, a finite StreamName request-section row, a RegSeqRat readback row, a terminal Real seal row, a section pullback and exactness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

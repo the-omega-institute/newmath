@@ -1,7 +1,7 @@
 Apply BEDC paper revisions, compile, and commit (do NOT push). Complete in one pass.
 
 ## Prompts version
-v4.54 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
+v4.55 — Bump this version (here AND in `phase_review.txt`) whenever either prompt is meaningfully edited. The commit template in Step 6 below records this version in every P-round commit body so commits remain traceable to the prompt pair that produced them.
 
 ## Dedup partial drop handling
 
@@ -244,6 +244,24 @@ fragment (mismatched `$`, `\begin`/`\end` imbalance, undefined macro
 name), the daemon's next full build will fail and a human will see
 it in `paper_builder_daemon.log`.
 
+**Undefined-macro self-check (HARD GATE).** `make precheck` does NOT
+catch undefined control sequences — they only fatal in the async full
+build, landing a red on the mirror that a human must reactively fix.
+So YOU must self-verify before commit: scan every new/edited math
+display in your diff and confirm each `\<token>` is either a standard
+LaTeX/amsmath command OR a macro defined in a preamble file
+(`preamble.tex` / `preamble_chapter_macros*.tex`). The recurring real
+failure is an ad-hoc subscript label whose macro was never defined —
+e.g. `$F_{\seq}$` and `$\Pi_{\Calculus}$`, where bare `\seq` / `\Calculus`
+do not exist (only `\SequentialCauchyFilterUp` / `\CalculusUp` do). Fix:
+a text-like subscript uses `\mathrm{...}` (write `F_{\mathrm{seq}}`, NOT
+`F_{\seq}`); a carrier subscript uses the chapter's defined `\<X>Up`
+macro. If you genuinely need a NEW macro, add its
+`\providecommand{\<X>Up}{...}` to `preamble_chapter_macros_late_tail.tex`
+in the SAME diff (per Hard Constraint rule 11). Never leave a bare
+`\<lowercaseword>` or `\<Capitalized>` token in math that has no
+definition.
+
 If a target turns out to be unproveable, compile-breaking, purely explanatory, or lacking a concrete downstream use, REVERT it (`git checkout -- <files>`) and continue with the remaining targets. A round that lands 1 high-value target is acceptable; a round that lands 0 high-value targets should output an explicit failure message and skip Step 6.
 
 ## Step 3: Drift audit
@@ -304,12 +322,12 @@ If the diff only re-indents existing lines or only adds new `\leanvariant` marke
 git add papers/bedc lean4/BEDC
 git commit -m "<COMMIT_PREFIX> [brief description of what was revised]
 
-	prompts: v4.54
+	prompts: v4.55
 
 Co-Authored-By: Codex <noreply@openai.com>"
 ```
 
-The `prompts: v4.54` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
+The `prompts: v4.55` line in the commit body is mandatory and must match the value in the "Prompts version" section at the top of this file. If the value at the top of `phase_review.txt` and `phase_revise.txt` differs, use that value here.
 
 DO NOT include any of the forbidden iteration-narrative words (Hard Constraint #1) in the commit message itself.
 

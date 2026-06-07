@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\HankelOperatorUp$}
+\label{ch:concrete-instances-hankel-operator-namecert}
+\origin{human}
+
+Following Hankel's moment-matrix tradition and the operator-theoretic reading of anti-diagonal kernels, the $\HankelOperatorUp$ packet records the finite BEDC surface that a moment or kernel consumer may inspect before any infinite Hankel operator is named. It sits between the moment-window rows of \autoref{ch:concrete-instances-moment-problem-namecert} and \autoref{ch:concrete-instances-hausdorff-moment-problem-namecert}, the finite matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the inner-product readback of \autoref{ch:concrete-instances-innerproduct-namecert}, the scalar seal of \autoref{ch:concrete-instances-real-namecert}, and the collision-kernel shadow boundary of \autoref{ch:concrete-instances-collisionkernel-namecert}. The certificate names only displayed moment rows, finite index windows, anti-diagonal matrix rows, shift rows, boundedness ledgers, transport, replay, provenance, and local naming.
+
+\begin{definition}[Hankel operator carrier]
+\label{def:hankel-operator-carrier}
+A $\HankelOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+K=(M,I,A,S,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the finite moment-row ledger, read from a displayed $\MomentProblemUp$ or $\HausdorffMomentProblemUp$ window and sealed through $\RealUp$ scalar rows;
+\item $I$ is the finite index-window row, listing exactly which source and target indices are visible to the packet;
+\item $A$ is the anti-diagonal $\MatrixUp$ row whose entry at the displayed pair $(i,j)$ is read from the moment row indexed by $i+j$ when that index is present in $I$;
+\item $S$ is the finite shift row, recording the visible source-window and target-window shift by which a Hankel-shadow consumer reuses $A$;
+\item $B$ is the boundedness ledger, containing only displayed finite norm, inner-product, or tolerance rows from $\InnerProductUp$ and $\RealUp$;
+\item $H$ records componentwise $\hsame$ transport for moment rows, index windows, anti-diagonal matrix rows, shift rows, boundedness rows, replay, provenance, and the local naming row;
+\item $C$ records displayed $\Cont$ replay from a moment-window request through $I,A,S,B,H$ before any downstream read sees the packet;
+\item $P$ is the $\Pkg$ provenance over $\HankelOperatorUp$, $\MomentProblemUp$, $\HausdorffMomentProblemUp$, $\CollisionKernelUp$, $\MatrixUp$, $\InnerProductUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\HankelOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,I,A,S,B,H,C,P,N$. It has no coordinate for an infinite matrix, ambient bounded operator, representing measure, spectral theorem, selected domain completion, or host Hilbert-space equality.
+\end{definition}
+
+\begin{theorem}[Hankel operator NameCert obligations]
+\label{thm:hankel-operator-namecert-obligations}
+For every accepted $\HankelOperatorUp$ carrier $K=(M,I,A,S,B,H,C,P,N)$, the local $\NameCert_{\HankelOperatorUp}$ surface consists exactly of these finite obligations:
+\begin{enumerate}
+\item carrier admission for the moment rows, finite index window, anti-diagonal matrix row, shift row, boundedness ledger, transport, replay, provenance, and local name;
+\item moment-window exactness, requiring every entry of $A$ to be read from $M$ using an index named by $I$;
+\item anti-diagonal exactness, requiring the displayed $\MatrixUp$ row to depend only on the visible sum index $i+j$;
+\item shift-moment stability, requiring the row $S$ to transport moment-window reads without adding an unlisted source or target index;
+\item boundedness nonescape, requiring $B$ to expose only finite inner-product, norm, or tolerance rows and no ambient bounded-operator theorem;
+\item componentwise transport, displayed replay, package provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+No Hankel obligation is stored outside this finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hankel-operator-carrier}. The visible rows are exactly $M,I,A,S,B,H,C,P,N$.
+
+Moment-window exactness and anti-diagonal exactness read $M,I,A$ together. The matrix row is admitted only when each displayed entry uses a visible moment row at the displayed sum index.
+
+Shift-moment stability is the row $S$. It reuses the same finite index and moment data under the displayed source-target shift, while $H$ and $C$ transport and replay only those rows.
+
+The boundedness and nonescape clauses follow from $B,P,N$. The provenance row names the moment, collision-kernel, matrix, inner-product, and real scalar sources, and the local naming row contains no coordinate for an infinite operator, spectral object, representing measure, selected completion, or host Hilbert-space equality.
+\end{proof}
+
+\begin{theorem}[Hankel operator shift-moment route]
+\label{thm:hankel-operator-shift-moment-route}
+Every shift-moment read of an accepted $\HankelOperatorUp$ packet factors through the finite moment ledger $M$, the index-window row $I$, the anti-diagonal matrix row $A$, the shift row $S$, the boundedness ledger $B$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\HankelOperatorUp}$ row. Thus the read is a positive finite carrier for the Hankel-shadow routes used by $\MomentProblemUp$, $\HausdorffMomentProblemUp$, and $\CollisionKernelUp$, not an infinite Hankel operator.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:hankel-operator-namecert-obligations}. They force a shift-moment consumer to expose $M,I,A,S$ before any Hankel-shadow read is exported.
+
+Use the moment-window exactness and anti-diagonal exactness clauses. A requested shifted entry is read from the same finite moment ledger by the visible sum-index rule, and no unlisted index can be manufactured by the carrier.
+
+Next consume the boundedness ledger and structural rows. The row $B$ supplies only displayed finite inner-product, norm, or tolerance evidence, while $H,C,P,N$ transport, replay, source, and name the same finite packet.
+
+Consequently the route supplies the positive finite carrier requested by the moment and collision-kernel chapters. Since the carrier lacks an infinite matrix, ambient bounded-operator theorem, spectral row, representing measure, selected completion, or host equality, the shift-moment read stops at the displayed finite Hankel surface.
+\end{proof}
+\leanstmt{BEDC.Derived.HankelOperatorUp}
+
+\falsifiablePrediction{An accepted $\HankelOperatorUp$ read is refuted if a Hankel-shadow consumer reaches an anti-diagonal or shift-moment conclusion without first displaying the moment ledger, finite index window, anti-diagonal matrix row, shift row, boundedness ledger, transport row, replay row, provenance row, and local naming row.}
+
+\independenceWitness{moment-problem, Hausdorff moment problem, collision kernel, matrix, inner product, real scalar: $\HankelOperatorUp$ is not bijective to any listed sibling because it jointly carries moment rows, finite index windows, anti-diagonal matrix data, shift-moment rows, boundedness ledgers, transport, replay, provenance, and local NameCert data.}
+
+\closureat{HankelOperatorUp}{seedStr}
+
+\begin{closurestatus}{\HankelOperatorUp}
+  \constructivestory{A $\HankelOperatorUp$ packet is generated from finite moment rows, finite index windows, anti-diagonal matrix rows, shift rows, boundedness ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hankel-operator-carrier}, \autoref{thm:hankel-operator-namecert-obligations}, and \autoref{thm:hankel-operator-shift-moment-route} seed the finite Hankel carrier consumed by moment-window, collision-kernel, matrix, inner-product, and real scalar rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, standard bridge checking, infinite Hankel operators, ambient bounded-operator theory, spectral data, representing measures, selected domain completions, or host Hilbert-space equality.}
+  \upgradepath{Obligation closure requires checked carrier admission, moment-window exactness, anti-diagonal exactness, shift-moment stability, boundedness nonescape, transport, replay, provenance, and local naming for BEDC.Derived.HankelOperatorUp.}
+\end{closurestatus}

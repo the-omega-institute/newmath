@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\FilterLimitCriterionUp$}
+\label{ch:concrete-instances-filter-limit-criterion-namecert}
+\origin{human}
+
+Following Kelley and Bourbaki on filter convergence, the $\FilterLimitCriterionUp$ packet records the finite criterion surface that lets a completion-facing consumer recognize when a displayed Cauchy filter and a displayed convergence filter name the same limit route. It sits after the filter-base carrier of \autoref{ch:concrete-instances-filterbase-namecert}, the Cauchy-filter row of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the convergence-filter row of \autoref{ch:concrete-instances-convergence-filter-namecert}, the finite-window schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a criterion object without quotient filters, selected limits, countable choice, host filter equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Filter limit criterion carrier]\label{def:filter-limit-criterion-carrier}
+A $\FilterLimitCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(F,Nb,Cy,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the $\FilterBaseUp$ row, carrying finite base tokens, finite-intersection discipline, refinement witnesses, and event rows.
+\item $Nb$ is the neighbourhood-eventuality row inherited from the $\ConvergenceFilterUp$ surface, recording which displayed neighbourhood tokens are eventually met by the base.
+\item $Cy$ is the $\CauchyFilterUp$ criterion row, recording the finite pairwise closeness checks and Cauchy-facing event refinements on the same base.
+\item $W$ is the $\StreamNameUp$ finite-window row read by completion-facing consumers when the filter criterion is sampled.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those displayed windows.
+\item $E$ is the terminal $\RealUp$ seal row reached only after the filter-base, neighbourhood, Cauchy, window, and readback rows have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the filter-base row, neighbourhood-eventuality row, Cauchy row, StreamName windows, RegSeqRat readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from finite filter events through neighbourhood eventuality, Cauchy closeness, windows, readback, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\FilterLimitCriterionUp$, $\FilterBaseUp$, $\CauchyFilterUp$, $\ConvergenceFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FilterLimitCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $F,Nb,Cy,W,R,E,H,C,P,N$. It has no coordinate for quotient filters, selected limits, host equality of filters or neighbourhood systems, countable-choice schedules, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Filter limit criterion NameCert obligations]\label{thm:filter-limit-criterion-namecert-obligations}
+For every accepted $\FilterLimitCriterionUp$ carrier $K=(F,Nb,Cy,W,R,E,H,C,P,N)$, the local $\NameCert_{\FilterLimitCriterionUp}$ surface consists exactly of filter-base exposure through $F$, neighbourhood-eventuality exposure through $Nb$, Cauchy-filter criterion exposure through $Cy$, StreamName window exposure through $W$, RegSeqRat readback through $R$, Real sealing through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:filter-limit-criterion-carrier}. The accepted packet exposes exactly the rows $F,Nb,Cy,W,R,E,H,C,P,N$.
+
+The filter-facing rows come first. Row $F$ supplies finite base data, $Nb$ records neighbourhood eventuality for the displayed convergence route, and $Cy$ records the Cauchy-facing closeness checks on that same base.
+
+The completion-facing rows are downstream. Consumers read finite windows through $W$, regular rational readback through $R$, and the terminal Real seal through $E$ only after the filter-base, neighbourhood, and Cauchy rows have been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since quotient filters, selected limits, host filter equality, host neighbourhood equality, countable choice, host real equality, and ambient Real completeness are absent from the classifier, the listed rows exhaust the local NameCert surface.
+\end{proof}
+\leanstmt{BEDC.Derived.FilterLimitCriterionUp}
+
+\begin{theorem}[Filter limit criterion Cauchy-filter handoff]\label{thm:filter-limit-criterion-cauchy-filter-handoff}
+Every completion-facing read exported by an accepted $\FilterLimitCriterionUp$ carrier factors through the displayed $\FilterBaseUp$ row $F$, the neighbourhood-eventuality row $Nb$, the $\CauchyFilterUp$ criterion row $Cy$, the $\StreamNameUp$ row $W$, the $\RegSeqRatUp$ row $R$, and the terminal $\RealUp$ seal row $E$ in that order. The handoff remains a finite criterion route from Cauchy-filter data to convergence-filter data and not a quotient-filter, selected-limit, countable-choice, or ambient-completeness construction.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:filter-limit-criterion-namecert-obligations}. They force every accepted consumer to expose $F,Nb,Cy,W,R,E$ before any structural row can name a completion-facing read.
+
+The shared base row is the only source for event data. Its finite refinement and intersection witnesses are read before $Nb$ may certify eventual membership of displayed neighbourhood tokens and before $Cy$ may certify the Cauchy-facing closeness checks.
+
+The completion route is then fixed by the L10 readback rows. StreamName windows are exposed through $W$, regular rational readback through $R$, and the Real-facing endpoint is sealed through $E$.
+
+Rows $H,C,P,N$ keep the Cauchy-filter and convergence-filter readings on the same finite packet. Thus the criterion handoff is stable for completion consumers while excluding quotient filters, selected limits, choice schedules, host equality, and ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FilterLimitCriterionUp$ completion-facing read exposes a FilterBaseUp row, a neighbourhood-eventuality row, a CauchyFilterUp criterion row, StreamNameUp windows, RegSeqRatUp readback, a terminal RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row before it can serve a Real or Completion consumer.}
+
+\independenceWitness{filterbase, cauchyfilter, convergencefilter, streamname, regseqrat, real: none is bijective with $\FilterLimitCriterionUp$ because this packet jointly carries the finite filter-base route, neighbourhood-eventuality checks, Cauchy-filter criterion rows, finite windows, readback, Real seal, transport, replay, provenance, and local naming rows.}
+
+\closureat{FilterLimitCriterionUp}{seedStr}
+
+\begin{closurestatus}{\FilterLimitCriterionUp}
+  \constructivestory{A $\FilterLimitCriterionUp$ packet is generated from a FilterBase row, a neighbourhood-eventuality row, a CauchyFilter criterion row, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:filter-limit-criterion-carrier}, \autoref{thm:filter-limit-criterion-namecert-obligations}, and \autoref{thm:filter-limit-criterion-cauchy-filter-handoff} seed the finite filter-limit criterion route over $\FilterBaseUp$, $\CauchyFilterUp$, $\ConvergenceFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\MetricUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.FilterLimitCriterionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filter equality, selected limits, countable choice, host equality of filters or neighbourhood systems, host real equality, ambient $\RealUp$ completeness, theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, filter-base exposure, neighbourhood eventuality, Cauchy-filter criterion exposure, StreamNameUp window exposure, RegSeqRatUp readback, RealUp seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.FilterLimitCriterionUp.}
+\end{closurestatus}

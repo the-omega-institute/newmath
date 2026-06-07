@@ -80,6 +80,24 @@ Use \autoref{thm:normalization-candidate-socket-candidate-erasure-refusal}. It s
 The adequacy rows $A$ and $B$ remain route data for candidate-mediated App and Pi reads, and $I$ remains downstream of the same candidate evidence. Therefore the sibling route to \autoref{ch:concrete-instances-metacic-diamond-residual-budget-namecert} is available only after $K,D,E,A,B,I,F$ are visible in the socket.
 \end{proof}
 
+\begin{theorem}[Normalization candidate socket forward dependency]
+\label{thm:normalization-candidate-socket-forward-dependency}
+Every forward discharge consumer of an accepted $\NormalizationCandidateSocketUp$ carrier
+$$
+S=(M,K,D,E,A,B,I,F,H,C,P,N)
+$$
+must expose the candidate rows $K,D,E$, the adequacy rows $A,B$, the no-infinite-reduction row $I$, the frontier row $F$, and then the forward-socket ledger of \autoref{ch:concrete-instances-forward-socket-ledger-namecert} before exporting a downstream socket read. The forward ledger is therefore downstream of visible candidate evidence, not a replacement for reducibility, closed-candidate, candidate-set, App adequacy, Pi adequacy, or frontier rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:normalization-candidate-socket-carrier}. The forward discharge consumer can inspect only the displayed rows $M,K,D,E,A,B,I,F,H,C,P,N$.
+
+Use \autoref{thm:normalization-candidate-socket-boundary}. It places any strong-normalization or no-infinite-reduction export downstream of the candidate rows $K,D,E$ and keeps App and Pi adequacy in the rows $A,B$.
+
+Use \autoref{thm:normalization-candidate-socket-candidate-erasure-refusal}. If the consumer deletes $K,D,E$ while keeping the closed term window $M$, the route reaches the frontier refusal $F$ and cannot export $I$.
+
+Only after $K,D,E,A,B,I,F$ are visible may the consumer cite \autoref{ch:concrete-instances-forward-socket-ledger-namecert}. The forward-socket ledger records the downstream socket read, while $H,C,P,N$ transport, replay, source, and name the same candidate-mediated packet.
+\end{proof}
+
 \falsifiablePrediction{Any consumer missing candidate, closed-candidate, or candidate-set rows in a $\NormalizationCandidateSocketUp$ packet cannot export closed-term strong normalization from that packet.}
 
 \independenceWitness{metaciccriticalpath, metacicnormalizationfrontier, metacicconfluenceauditpacket, normalformconsistencyseal: $\NormalizationCandidateSocketUp$ is not bijective to any listed sibling because it jointly carries candidate, closed-candidate, candidate-set, App adequacy, Pi adequacy, no-infinite-reduction, frontier, transport, replay, provenance, and local naming rows.}

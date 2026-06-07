@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\RegularExpressionUp$}
+\label{ch:concrete-instances-regular-expression-namecert}
+\origin{human}
+
+Following Hopcroft--Ullman and Sipser, the $\RegularExpressionUp$ packet records the finite syntax side of regular-language presentation as BEDC NameCert data. It sits beside the accepted-word surface of \autoref{ch:concrete-instances-regularlanguage-namecert}, the displayed finite control of \autoref{ch:concrete-instances-finite-automaton-namecert}, the canonical deterministic consumer of \autoref{ch:concrete-instances-minimal-dfa-namecert}, and the grammar boundary in \autoref{ch:concrete-instances-contextfreegrammar-namecert}. The packet names empty, literal, union, concatenation, and Kleene-star ledgers before any consumer may read a host regular-expression oracle, a language quotient, or an unrestricted grammar.
+
+\begin{definition}[RegularExpression carrier]
+\label{def:regular-expression-carrier}
+A $\RegularExpressionUp$ carrier is a finite $\BHist$ packet
+$$
+R=(\Sigma,E,L,U,C,K,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Sigma$ is the finite alphabet row.
+\item $E$ is the empty-language and empty-word syntax row, distinguishing the two nullary constructors as finite tags.
+\item $L$ is the literal-row ledger, naming each alphabet symbol used by a literal syntax leaf.
+\item $U$ is the union ledger, recording the two displayed subexpressions joined by each union constructor.
+\item $C$ is the concatenation ledger, recording the ordered pair of displayed subexpressions joined by each product constructor.
+\item $K$ is the Kleene-star ledger, recording the single displayed subexpression whose finite iteration surface is being named.
+\item $H$ records componentwise $\hsame$ transport for alphabet, empty, literal, union, concatenation, star, automaton handoff, replay, provenance, and local naming rows.
+\item $T$ records displayed $\Cont$ replay through the finite syntax tree and through the Thompson-style finite-automaton handoff route.
+\item $P$ is the $\Pkg$ provenance over $\RegularExpressionUp$, $\RegularLanguageUp$, $\FiniteAutomatonUp$, $\MinimalDfaUp$, $\ContextFreeGrammarUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularExpressionUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $\Sigma,E,L,U,C,K,H,T,P,N$. It has no coordinate for a host equivalence test on regular expressions, an infinite language quotient, a nondeterministic branch selector, or a context-free grammar derivation tree.
+\end{definition}
+\leanstmt{BEDC.Derived.RegularExpressionUp}
+
+\begin{theorem}[RegularExpression NameCert obligations]
+\label{thm:regular-expression-namecert-obligations}
+For every accepted $\RegularExpressionUp$ carrier
+$$
+R=(\Sigma,E,L,U,C,K,H,T,P,N),
+$$
+the local $\NameCert_{\RegularExpressionUp}$ surface consists exactly of finite alphabet exposure, empty-constructor exposure, literal-symbol exposure, union ledger replay, concatenation ledger replay, Kleene-star ledger replay, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. A consumer may project the displayed syntax rows and their replay ledgers, but it obtains no host regular-expression equivalence oracle, language quotient, hidden automaton state, or unrestricted grammar production surface.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-expression-carrier}. The rows $\Sigma,E,L$ expose the alphabet, nullary syntax constructors, and literal leaves before any compound syntax can be read.
+
+The union, concatenation, and Kleene-star constructors are then read through $U,C,K$. Each row stores only finite pointers to displayed subexpressions, so the syntax ledger closes by structural descent through the displayed tree.
+
+The rows $H,T,P,N$ transport, replay, source, and name the same packet. Since the carrier has no further coordinate, the listed rows exhaust the local NameCert obligations and leave host equivalence, language quotienting, hidden automata, and context-free derivation data outside the packet.
+\end{proof}
+
+\begin{theorem}[RegularExpression Kleene automaton handoff]
+\label{thm:regular-expression-kleene-automaton-handoff}
+Every $\RegularLanguageUp$, $\FiniteAutomatonUp$, or $\MinimalDfaUp$ consumer that reads the Kleene construction from an accepted $\RegularExpressionUp$ packet first reads the displayed alphabet row, empty and literal rows, union ledger, concatenation ledger, Kleene-star ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row. The handoff to the finite-automaton siblings exports only a finite syntax-to-automaton construction route, while the $\ContextFreeGrammarUp$ sibling may read only the regular-expression syntax boundary as a proper sub-surface of grammar syntax.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $R=(\Sigma,E,L,U,C,K,H,T,P,N)$. Structural replay over the displayed syntax tree reads empty and literal leaves from $E,L$, then reads union and concatenation nodes from $U,C$.
+
+For a Kleene-star node, the row $K$ supplies the single displayed subexpression whose finite iteration route is being handed to the automaton construction. The $\Cont$ row $T$ records the finite replay path used by the finite-automaton consumer; it does not choose an external nondeterministic branch outside the displayed construction data.
+
+The regular-language and minimal-DFA consumers may subsequently read the resulting finite presentation through their own chapters. This route does not prove arbitrary regular-expression equivalence, does not identify host language quotients, and does not turn the packet into a context-free derivation system.
+\end{proof}
+
+\closureat{RegularExpressionUp}{seedStr}
+
+\begin{closurestatus}{\RegularExpressionUp}
+  \constructivestory{A $\RegularExpressionUp$ packet is generated from a finite alphabet row, empty and literal syntax rows, union, concatenation, and Kleene-star ledgers, componentwise hsame transport, displayed continuation replay, package provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-expression-carrier}, \autoref{thm:regular-expression-namecert-obligations}, and \autoref{thm:regular-expression-kleene-automaton-handoff} seed the finite syntax-side certificate for RegularLanguageUp, FiniteAutomatonUp, MinimalDfaUp, and ContextFreeGrammarUp consumers.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.RegularExpressionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close regular-expression equivalence, host language quotients, nondeterministic branch selection, grammar derivation completeness, theorem-checked Lean obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, constructor-ledger replay, Kleene-star automaton handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularExpressionUp.}
+\end{closurestatus}

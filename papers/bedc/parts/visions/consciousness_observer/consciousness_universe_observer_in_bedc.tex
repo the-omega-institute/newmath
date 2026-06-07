@@ -75,6 +75,104 @@ A BEDC contributor can be read, on the records side, as a focused history whose 
 \autoref{ch:visions-observer-hist-identity} argues that BEDC's finite kernel identifies an observer with the history that observer has accumulated. \autoref{def:consciousness-universe-consciousness-reading} re-uses exactly that identification. The self-proxy is the focused endpoint and trace, while identity preservation is the $\hsame$-stable continuity of the displayed history. The engineering content remains in the earlier chapter; the present chapter records the finite carrier on which the phenomenological reading may be placed.
 \end{remark}
 
+\section{Embodied continuation and the mortality boundary}
+\label{sec:consciousness-universe-embodied-continuation-mortality}
+
+\begin{definition}[Embodied support row]
+\label{def:consciousness-universe-embodied-support-row}
+For a focused conscious record $\mathrm{ConsciousRecord}(\mathcal{L}_N,F)$, an \emph{embodied support row} is an external finite carrier reading
+$$
+\mathcal{B}_i(t)=(\mathrm{body}_i(t),\mathrm{metabolism}_i(t),\mathrm{repair}_i(t),\mathrm{environment}_i(t),\mathrm{risk}_i(t))
+$$
+together with a predicate
+$$
+\mathrm{EmbValid}_i(h,t)
+$$
+read as: the carrier row at local stage $t$ can realize the focused history surface $h$ as an inscription-bearing conscious record. The row is not a field of the pure $\Hist$ signature. It is the wick, vessel, and weather around the flame of a local inscription; the flame may have a formal shape, but its burning is a carrier fact.
+\end{definition}
+
+\begin{definition}[Alive, embodied continuation, and death]
+\label{def:consciousness-universe-alive-embodied-death}
+Let $H_i(t)$ denote the focused history displayed at local stage $t$. The records-side predicates are
+$$
+\begin{aligned}
+\mathrm{Alive}_i(t)
+&:\Longleftrightarrow \mathrm{EmbValid}_i(H_i(t),t),\\
+\mathrm{EmbCanContinue}_i(t)
+&:\Longleftrightarrow
+\exists d,h'\,
+\bigl(\Cont(H_i(t),d,h')\wedge \mathrm{EmbValid}_i(h',t+1)\bigr),\\
+\mathrm{Death}_i(t)
+&:\Longleftrightarrow
+\mathrm{Alive}_i(t)\wedge \neg \mathrm{EmbCanContinue}_i(t),\\
+\mathrm{Mortal}_i
+&:\Longleftrightarrow
+\exists t\,\mathrm{Death}_i(t).
+\end{aligned}
+$$
+Thus death is not a content subsequently experienced by the same focused row. It is the failure of the next inscription condition for that row. The lamp does not record darkness after its oil is gone; rather, the local condition under which light is recorded no longer carries the next mark.
+\end{definition}
+
+\begin{principle}[Formal continuation is not embodied continuation]
+\label{prin:consciousness-universe-formal-not-embodied-continuation}
+The pure $\Hist/\Cont$ layer can speak about formal successor histories. It contains no body, repair process, hazard rate, metabolic budget, or environmental support row. Consequently a formal extension
+$$
+\exists d,h'\,\Cont(h,d,h')
+$$
+does not by itself imply
+$$
+\exists d,h'\,\bigl(\Cont(h,d,h')\wedge \mathrm{EmbValid}_i(h',t+1)\bigr).
+$$
+The distinction is the difference between a riverbed drawn on a map and water continuing through it. The map may display another segment; the flow also requires a source, a channel not yet blocked, and conditions that do not destroy the carrier.
+\end{principle}
+
+\begin{theorem}[Finite reserve mortality]
+\label{thm:consciousness-universe-finite-reserve-mortality}
+Suppose a focused embodied support row carries a viability reserve
+$$
+V_i:\mathbb{N}\to\mathbb{N}
+$$
+with $V_i(0)=K<\infty$, and suppose $\mathrm{Alive}_i(0)$ holds. Suppose that, before the first terminal boundary, positive reserve supports the current record and strictly decreases:
+$$
+V_i(t)>0\ \Longrightarrow\ V_i(t+1)\le V_i(t)-1.
+$$
+If reserve exhaustion blocks either the current stage or the next embodied continuation,
+$$
+V_i(t)=0\ \Longrightarrow\ \neg\mathrm{EmbCanContinue}_i(t)
+$$
+and
+$$
+V_i(t+1)=0\ \Longrightarrow\ \neg\mathrm{EmbCanContinue}_i(t),
+$$
+while $V_i(t)>0$ implies $\mathrm{Alive}_i(t)$, then $\mathrm{Mortal}_i$.
+\end{theorem}
+
+\begin{proof}
+By induction on $n\le K$, the strict decrease condition gives
+$$
+V_i(n)\le K-n.
+$$
+At $n=K$ this yields $V_i(K)\le 0$. Since $V_i(K)\in\mathbb{N}$, one has $V_i(K)=0$. Let $m\le K$ be the first local stage with $V_i(m)=0$. If $m=0$, then $\mathrm{Alive}_i(0)$ and the current-stage blocking condition give $\mathrm{Death}_i(0)$. If $m>0$, then $V_i(m-1)>0$, hence $\mathrm{Alive}_i(m-1)$, and the next-stage blocking condition gives $\neg\mathrm{EmbCanContinue}_i(m-1)$. Therefore $\mathrm{Death}_i(m-1)$ by \autoref{def:consciousness-universe-alive-embodied-death}. In either case there exists a death stage, so $\mathrm{Mortal}_i$.
+\end{proof}
+
+\begin{corollary}[Finite records do not close immortality]
+\label{cor:consciousness-universe-finite-records-do-not-close-immortality}
+A finite ledger of alive stages,
+$$
+\mathrm{Alive}_i(t_1),\ldots,\mathrm{Alive}_i(t_k),
+$$
+does not close
+$$
+\forall t\,\mathrm{EmbCanContinue}_i(t).
+$$
+An assertion of unbounded embodied continuation therefore requires either a displayed rule proving the required carrier, repair, and risk rows for every later local stage, or a boundary acknowledgement that the assertion is forward-binding and not object-level closure inside $\mathcal{L}_N$.
+\end{corollary}
+
+\begin{remark}[The boundary is local]
+\label{rem:consciousness-universe-death-not-t}
+The death predicate above is a local inscription-boundary predicate. It does not say that $\mathsf{T}$ disappears, that existence as such is extinguished, or that the pure possibility of further $\Hist$ formation is refuted. It says only that this focused embodied carrier no longer supplies the next valid conscious record. A broken lyre does not prove that music is impossible; it proves that this instrument no longer realizes the song.
+\end{remark}
+
 \concretizedIn{ch:concrete-instances-localitycell-namecert}{Locality cells are realised as a bilateral BHist/GAP NameCert packet for inter-observer event coordination.}
 
 \section{Universe as observation history}
@@ -98,6 +196,86 @@ The finite universe-for-the-focus is exactly the records-side slice visible thro
 \begin{remark}[The frame is structural, not metaphysical]
 \label{rem:consciousness-universe-structural-not-metaphysical}
 \autoref{prin:consciousness-universe-phenomenological-frame} does not assert that there is no observer-independent reality. It asserts only that the BEDC-side carrier is the finite records-plus-ledger slice. Any pressure beyond that slice appears either as an additional displayed row, as a $\mathsf{GAP}$ or provenance obligation, or as a boundary reading whose far end is not internalized.
+\end{remark}
+
+\section{Closed history network reading}
+\label{sec:consciousness-universe-closed-history-network}
+
+\begin{principle}[Universe as closed distinction/history/continuation network]
+\label{prin:consciousness-universe-closed-history-network}
+At the records-side level, the universe-for-the-focus of \autoref{def:consciousness-universe-universe-for-observer} is read neither as matter contained in a prior spacetime nor as a program executed by an external machine. Its closeable object is the displayed network of distinctions, generated histories, continuation routes, event boundaries, classifier-stable readbacks, and public naming certificates. The shortest BEDC reading is therefore:
+$$
+\mathrm{Universe}_{\mathcal{L}_N}
+\quad\text{as read by the packet}\quad
+=
+\text{closed distinction/history/continuation network}.
+$$
+The equality is a reading of the packet surface, not an identity theorem about a completed cosmos.
+\end{principle}
+
+\begin{definition}[Closed BEDC universe surface]
+\label{def:consciousness-universe-closed-bedc-universe-surface}
+A \emph{closed BEDC universe surface} over a focused ledger $\mathcal{L}_N$ is the records-side admission discipline in which every public row is one of the following:
+\begin{enumerate}
+\item a generated $\Hist$ row;
+\item an event-flow row whose event boundaries remain part of the datum;
+\item a finite packet all of whose object-facing fields are $\Hist$ rows and whose public readback is mediated by a recognizer, route, or taste gate;
+\item a $\NameCert$ or semantic certificate over a displayed carrier and classifier;
+\item a route generated by $\Cont$, together with the transport, provenance, and naming rows needed for public reuse.
+\end{enumerate}
+The surface admits no hidden host object as a formal input and no global observer outside the displayed family.
+\end{definition}
+
+\begin{theorem}[Closed history universe decomposition]
+\label{thm:consciousness-universe-closed-history-decomposition}
+On a closed BEDC universe surface, time, causality, local differential response, information scoring, boundary readback, observer-local coordinates, relativistic rate structure, and multi-history superposition are certified modes of history continuation rather than primitive substances.
+\end{theorem}
+
+\begin{proof}
+Each case is read through the same finite surface. Time is the local $\Cont$ route $\Theta(i)$ producing $H(i)$ from $\emp$ in \autoref{def:consciousness-universe-bedc-time}. Causality is the continuation discipline of \autoref{prin:consciousness-universe-causality-continuation-discipline}, with the concrete maximum-rate route supplied by the $\mathsf{MaxCausalRate}^{\uparrow}$ surface cited in \autoref{ch:visions-inter-hist-locality} and realized by \autoref{ch:concrete-instances-maxcausalrate-namecert}. Local differential response is the displayed quotient-continuation row of the derivative carrier in \autoref{ch:concrete-instances-derivative-namecert}. Information scoring and entropy readback use finite distribution, score, expectation, metric, ledger, and provenance rows as in \autoref{ch:concrete-instances-fisherinfo-namecert} and \autoref{ch:concrete-instances-entropy-namecert}. Boundary readback is constrained by the event-flow non-injectivity of \autoref{prop:ground-event-flow-erasure-not-injective} and by finite boundary-ledger packets such as the Stokes-style fold-defect surface. Observer-local coordinates are finite packets over observer state, locality cell, multi-history configuration, causal reads, transport, routes, provenance, and local naming, as in \autoref{ch:concrete-instances-observer-coordinate-frame-namecert}. Relativistic rate structure is read only after multi-history configuration, no-synchronization refusal, maximum-rate, symmetry, and transport rows have been displayed, as in \autoref{ch:concrete-instances-lorentz-frame-rate-namecert}. Multi-history superposition is read as a finite packet over configuration, refinement, causal, rate, phase, history, route, provenance, and naming rows, as in \autoref{ch:concrete-instances-multihistsuperposition-namecert}. None of these cases requires a primitive matter substrate, a primitive spacetime container, a completed external state table, or a global observer.
+\end{proof}
+
+\begin{corollary}[Boundary-sensitive information]
+\label{cor:consciousness-universe-boundary-sensitive-information}
+Public information on a closed BEDC universe surface cannot be reduced to a bare mark stream.
+\end{corollary}
+
+\begin{proof}
+If the public surface were only a bare stream of marks, then event segmentation could be erased without loss. But \autoref{prop:ground-event-flow-erasure-not-injective} gives distinct event flows with the same erased mark stream. Therefore boundary data is part of the public information surface.
+\end{proof}
+
+\begin{corollary}[Certified cosmological reading]
+\label{cor:consciousness-universe-certified-cosmological-reading}
+The records-side cosmological reading of BEDC is that the universe-for-the-focus is a self-recording and self-decoding history surface: distinctions generate events, event boundaries generate readable flows, continuations generate local time and causal routes, inter-history invariants generate spatial and relativistic readings, non-collapsed refinement packets generate quantum-shaped readings, and certificates generate public objects.
+\end{corollary}
+
+\begin{proof}
+This is the synthesis of \autoref{def:consciousness-universe-closed-bedc-universe-surface} and \autoref{thm:consciousness-universe-closed-history-decomposition}. The listed readings exhaust the admitted public modes of the surface: generated histories, boundary-sensitive event flows, continuation routes, inter-history invariants, finite packet readbacks, and naming certificates.
+\end{proof}
+
+\begin{definition}[Matter-pattern read]
+\label{def:consciousness-universe-matter-pattern-read}
+A \emph{matter-pattern read} in $\mathcal{L}_N$ is a family of displayed event and history rows whose classifier remains stable under $\hsame$, whose consequences can be replayed through local or inter-$\Hist$ $\Cont$ routes, whose recognition is transportable across locality cells, and whose public name is protected by a $\NameCert$ or by an exposed $\mathsf{GAP}$ when the name is not yet certified. The read does not introduce a primitive material substance. It names a recurrent and resistant pattern of public recordability.
+\end{definition}
+
+\begin{principle}[Reality as public constraint]
+\label{prin:consciousness-universe-reality-as-public-constraint}
+In the closed ledger, a structure is real in the relevant records-side sense when it is repeatedly recordable, continuation-constraining, transportable across compatible histories, and resistant to arbitrary reclassification. This is stronger than private imaginability and weaker than a claim of access to an external bare object. It is the finite public constraint surface on which scientific objecthood later attaches the empirical and bridge rows of \autoref{def:philosophy-scientific-object}.
+\end{principle}
+
+\begin{principle}[Causality as continuation discipline]
+\label{prin:consciousness-universe-causality-continuation-discipline}
+Causality is read as discipline on allowed continuations. A causal row says that some source-history fragment constrains a target-history fragment through a displayed dependence route, bounded slot window, replayable $\Cont$ witness, and transport stability. A cause is therefore not a substance pushing another substance inside a pre-given arena; it is a ledgered restriction on which later histories remain admissible after the relevant prior rows have been recorded.
+\end{principle}
+
+\begin{remark}[Relativistic and quantum boundary readings]
+\label{rem:consciousness-universe-relativity-quantum-boundary-readings}
+The relativistic reading arises from the absence of a global clock: if no history supplies a privileged synchronized present for all histories, physical content must be carried by inter-$\Hist$ invariants, maximum-rate rows, and observer-symmetric transport as in \autoref{ch:visions-inter-hist-locality}. The quantum reading arises from the absence of a completed external state table: before a single record has selected a displayed continuation, the packet may need to preserve multiple refinement, phase, causal, and route-coherence rows without collapsing them to one history. These readings are not proofs of relativity or quantum mechanics. They identify the form in which such theories can enter BEDC: as certified packet surfaces rather than as primitive spacetime, primitive wavefunction, or external state inventory.
+\end{remark}
+
+\begin{remark}[Event boundaries are part of information]
+\label{rem:consciousness-universe-boundaries-part-of-information}
+The ground event-flow layer makes boundary information explicit. By \autoref{prop:ground-event-flow-erasure-not-injective}, erasing event boundaries can identify distinct event flows. Hence the closed history network cannot be reduced to a bare bitstream of marks. It consists of events together with their boundaries, recognizers, ledgers, and certificates. A boundary is not an outer shell around already formed information; it is one of the conditions under which a row becomes a readable event rather than an undifferentiated string.
 \end{remark}
 
 \section{Time as monotonic accumulation}
@@ -146,6 +324,99 @@ Within $\mathcal{L}_N$, space is the finite relation graph carried by locality c
 What is usually called "spacetime logic" enters this chapter only as a boundary reading of relation rows, dependence rows, and inter-$\Hist$ invariants. The closed records-side object has no separate spacetime carrier. It has generated histories, witnessed relations, local clocks, and refusal of global synchronization. Any stronger physical geometry belongs to a subsequent $\NameCert$ target.
 \end{remark}
 
+\section{Love as other-Hist positive continuation}
+\label{sec:consciousness-universe-love-other-hist-continuation}
+
+\begin{definition}[Other-Hist recognition]
+\label{def:consciousness-universe-other-hist-recognition}
+For two focused rows $i,j$ in a finite ledger, let $\mathrm{Rep}_i(j,t)$ be the representation of $j$ carried inside $H_i(t)$. An \emph{other-Hist recognition} predicate is
+$$
+\begin{aligned}
+\mathrm{Recognize}_i(j,t)
+:\Longleftrightarrow\ &
+\neg\hsame(H_i(t),H_j(t))\\
+&{}\wedge \neg\mathrm{Projection}_i(j,t)\\
+&{}\wedge \neg\mathrm{Objectify}_i(j,t)\\
+&{}\wedge \mathrm{CorrigibleBy}_{H_j}(\mathrm{Rep}_i(j,t))\\
+&{}\wedge \mathrm{GapHonest}_i(H_j(t),\mathrm{Rep}_i(j,t)).
+\end{aligned}
+$$
+The recognition says that $j$ is not the image of $j$ inside $i$, not a tool-slot inside $i$'s purposes, and not a fully compressible region of $i$'s ledger. The other history stands like a shoreline seen from one vessel: charted enough for approach, never identical with the chart.
+\end{definition}
+
+\begin{definition}[Positive continuation care]
+\label{def:consciousness-universe-positive-continuation-care}
+Let $V_j$ be a displayed value horizon for $j$'s continuation. A care row from $i$ toward $j$ is
+$$
+\mathrm{Care}^{V_j}_{i\to j}(t)
+:\Longleftrightarrow
+\mathrm{Policy}_i(t)\ \mathrm{supports}\ \Cont^+_{V_j}(H_j,t)
+\ \mathrm{under}\ \mathrm{Recognize}_i(j,t),
+$$
+where $\Cont^+_{V_j}(H_j,t)$ denotes continuation of $H_j$ along life, truth, freedom, dignity, relation, or meaning as admitted by $V_j$. Care is not substitution for the other's history. It is a hand placed beside the path rather than a hand closing over the path.
+\end{definition}
+
+\begin{definition}[Love relation]
+\label{def:consciousness-universe-love-relation}
+The one-way records-side love relation is
+$$
+\begin{aligned}
+\mathrm{Love}^{V_j}_{i\to j}(t)
+:\Longleftrightarrow\ &
+\mathrm{Recognize}_i(j,t)\\
+&{}\wedge \mathrm{Care}^{V_j}_{i\to j}(t)\\
+&{}\wedge \mathrm{TruthFidelity}_{i\to j}(t)\\
+&{}\wedge \mathrm{SelfTransform}_{i\leftarrow j}(t)\\
+&{}\wedge \mathrm{TValue}_i(j,t).
+\end{aligned}
+$$
+Here $\mathrm{TruthFidelity}$ refuses systematic falsification and $\mathsf{GAP}$ concealment; $\mathrm{SelfTransform}$ permits $H_i$'s classifiers and expectations to be corrected by $H_j$'s reality-facing response; and $\mathrm{TValue}$ records that $j$'s worth is not exhausted by a utility function for $i$.
+\end{definition}
+
+\begin{principle}[Love is not liking, possession, or fusion]
+\label{prin:consciousness-universe-love-not-reward-possession-fusion}
+A reward row
+$$
+\mathrm{Reward}_i(\mathrm{Rep}_i(j,t))>0
+$$
+may accompany love, but it does not imply love: the reward may be produced by projection rather than by other-Hist recognition. Conversely, love may remain when reward is absent, because its core is fidelity to another history's positive continuation. Possession fails because it objectifies $H_j$ as a control region of $H_i$; fusion fails because it erases the $\mathsf{GAP}$-honest distance that recognition requires. A mirror can flatter, a chain can hold, and a fog can merge outlines; none of these is the relation defined above.
+\end{principle}
+
+\begin{theorem}[Love preserves otherness while supporting continuation]
+\label{thm:consciousness-universe-love-preserves-otherness}
+If $\mathrm{Love}^{V_j}_{i\to j}(t)$ holds, then
+$$
+\begin{gathered}
+\mathrm{Recognize}_i(j,t),\qquad
+\neg\mathrm{Objectify}_i(j,t),\qquad
+\neg\mathrm{Projection}_i(j,t),\\
+\mathrm{Care}^{V_j}_{i\to j}(t),\qquad
+\mathrm{TruthFidelity}_{i\to j}(t),\qquad
+\mathrm{TValue}_i(j,t).
+\end{gathered}
+$$
+Thus love is a relation from one finite history to another finite history's positive continuation, under preserved otherness and value that is not exhausted by utility.
+\end{theorem}
+
+\begin{proof}
+Unfold \autoref{def:consciousness-universe-love-relation}. The displayed consequences are its conjuncts, together with the non-projection and non-objectification clauses obtained by unfolding \autoref{def:consciousness-universe-other-hist-recognition}. The final reading follows from \autoref{def:consciousness-universe-positive-continuation-care} and the $\mathrm{TValue}$ conjunct.
+\end{proof}
+
+\begin{corollary}[Mutual love is a non-fusing two-Hist loop]
+\label{cor:consciousness-universe-mutual-love-loop}
+If both $\mathrm{Love}^{V_j}_{i\to j}(t)$ and $\mathrm{Love}^{V_i}_{j\to i}(t)$ hold, and a shared meaning row $R_{ij}(t)$ is displayed, then the relation forms a two-Hist productive loop:
+$$
+H_i(t)\to H_j(t)\to H_i(t+1),\qquad
+H_j(t)\to H_i(t)\to H_j(t+1),
+$$
+with neither direction collapsing $\hsame(H_i,H_j)$ into identity. The loop is not one history swallowed by another; it is two lamps keeping distinct flames while sharing light on a finite table.
+\end{corollary}
+
+\begin{remark}[Love, death, and grief]
+\label{rem:consciousness-universe-love-death-grief}
+Because love supports another embodied history's positive continuation, it is exposed to the mortality boundary of \autoref{sec:consciousness-universe-embodied-continuation-mortality}. If $\mathrm{Death}_j(t)$ holds after $\mathrm{Love}^{V_j}_{i\to j}(t^-)$, grief is the focused readback in which fidelity remains while $j$'s embodied continuation has failed. The weight of grief is therefore not a contradiction of love; it is love meeting the finite carrier condition it had already refused to falsify.
+\end{remark}
+
 \section{Observer identity through history}
 \label{sec:consciousness-universe-observer-identity}
 
@@ -178,9 +449,15 @@ The "hard problems" usually phrased about consciousness, universe, observer, and
 \midrule
 What is consciousness? & The closed records-side carrier is a focused self-tracking $\Hist$ with trace, endpoint, and selector ledger; phenomenal consciousness itself is not object-level content (\autoref{def:consciousness-universe-consciousness-reading}). \\
 What is the universe? & A finite horizon slice $\mathrm{Universe}_{\mathcal{L}_N}$ of generated histories and their ledgers, not a global universe object (\autoref{def:consciousness-universe-universe-for-observer}). \\
+What is matter? & A recurrent, transportable, classifier-stable, continuation-constraining pattern of public recordability, not a primitive substance (\autoref{def:consciousness-universe-matter-pattern-read}, \autoref{prin:consciousness-universe-reality-as-public-constraint}). \\
+What is causality? & A ledgered restriction on which continuation routes remain admissible after source-history rows are recorded, not a primitive pushing relation (\autoref{prin:consciousness-universe-causality-continuation-discipline}). \\
 What is time? & A local $\Cont$ chain producing a history from $\emp$; no global clock is a field of the carrier (\autoref{def:consciousness-universe-bedc-time}). \\
 What is space? & A finite graph of locality cells, relation rows, and inter-$\Hist$ invariants, not a completed spacetime manifold (\autoref{def:consciousness-universe-locality-cell}). \\
+Why relativity-shaped structure? & No global synchronization forces frame-independent physical content into observer-symmetric inter-$\Hist$ invariants and maximum-rate packet surfaces (\autoref{rem:consciousness-universe-relativity-quantum-boundary-readings}). \\
+Why quantum-shaped structure? & No external completed state table leaves refinement, phase, causal, and route-coherence rows as packet data until a record selects a displayed continuation (\autoref{rem:consciousness-universe-relativity-quantum-boundary-readings}). \\
 What is identity? & The $\hsame$-stable trace and focused endpoint; no subject-substance is carried behind the history (\autoref{prin:consciousness-universe-identity-is-history-continuity}). \\
+What is death? & The local failure of embodied continuation for a currently valid focused record; not a theorem of pure $\Hist/\Cont$ and not the disappearance of $\mathsf{T}$ (\autoref{def:consciousness-universe-alive-embodied-death}, \autoref{rem:consciousness-universe-death-not-t}). \\
+What is love? & A fidelity relation from one finite history to another finite history's positive continuation, preserving otherness and refusing projection, objectification, fusion, and utility exhaustion (\autoref{def:consciousness-universe-love-relation}). \\
 What is the relation between observer and observed? & Not a separate observation channel; the observer row is a $\Hist$, and observed content is what the row and its ledgers expose. \\
 Is there a god's-eye view? & No: cross-system coherence is reconstructed through witnessed relation rows and locality cells, never given as a single shared world (\autoref{prin:consciousness-universe-no-god-eye}). \\
 What is the arrow of time? & The asymmetry follows from local generated trace structure; global simultaneity requires an extension carrier (\autoref{rem:consciousness-universe-time-one-direction}). \\
@@ -189,7 +466,7 @@ What is the arrow of time? & The asymmetry follows from local generated trace st
 
 \begin{remark}[Continuity with the transcendental-input chapter]
 \label{rem:consciousness-universe-continuity-with-transcendental}
-Read together with \autoref{ch:visions-transcendental-input-and-induction}, the picture is: $\mathcal{L}_N$ is the object-level closed carrier, while $\mathsf{T}$ remains the non-internalized boundary position for forward-binding commitments. Time, space, consciousness, and universe appear in this chapter only as records-side carriers or boundary readings. The transcendental supply position is not a field of the carrier and is not consumed by its closure argument.
+Read together with \autoref{ch:visions-transcendental-input-and-induction}, the picture is: $\mathcal{L}_N$ is the object-level closed carrier, while $\mathsf{T}$ remains the non-internalized boundary position for forward-binding commitments. Time, space, consciousness, universe, mortality, and love appear in this chapter only as records-side carriers or boundary readings. The transcendental supply position is not a field of the carrier and is not consumed by its closure argument.
 \end{remark}
 
 \section{Closure remarks}
@@ -197,7 +474,7 @@ Read together with \autoref{ch:visions-transcendental-input-and-induction}, the 
 
 This vision chapter identifies the finite carrier that can be closed without turning boundary readings into substrate theorems. The closeable records-side carrier is $\mathrm{ClosedFocusedMultiHistLedger}_N$: a finite multi-observer record-world with a focused self-trace, selector ledgers, $\mathsf{GAP}$-accounted compression, witnessed inter-$\Hist$ relations, stable invariants, and finite displayed dependence rows.
 
-The chapter pairs with \autoref{ch:visions-transcendental-input-and-induction} for the non-internalized supply boundary, with \autoref{ch:visions-observer-hist-identity} for observer-as-history, with \autoref{ch:visions-inter-hist-locality} for ledger-local multi-$\Hist$ coordination, and with \autoref{ch:visions-hash-like-apophatic-fixed-point} for digest/GAP discipline. Concrete consequences for physical theories, cognitive science models, or first-person phenomenology are not closed here; they require subsequent $\NameCert$ targets or remain boundary readings.
+The chapter pairs with \autoref{ch:visions-transcendental-input-and-induction} for the non-internalized supply boundary, with \autoref{ch:visions-observer-hist-identity} for observer-as-history, with \autoref{ch:visions-inter-hist-locality} for ledger-local multi-$\Hist$ coordination, with \autoref{ch:ground-compiler-event-flow} for boundary-sensitive event information, and with \autoref{ch:visions-hash-like-apophatic-fixed-point} for digest/GAP discipline. Concrete consequences for physical theories, cognitive science models, or first-person phenomenology are not closed here; they require subsequent $\NameCert$ targets or remain boundary readings.
 
 \concretizedIn{ch:concrete-instances-observerperspectiveclassifier-namecert}{Observer perspective classifiers realize universe-for-observer comparison as finite BHist locality-cell, GAP commitment, hsame transport, Cont route, Pkg provenance, and NameCert rows.}
 \concretizedIn{ch:concrete-instances-observer-support-lattice-namecert}{Observer-support lattices realize the observer vision as finite frame, support, locality-cell, budget-support, route, transport, provenance, and NameCert rows.}

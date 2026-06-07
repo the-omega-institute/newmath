@@ -1,0 +1,97 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICCandidateNormalizationWitnessUp$}
+\label{ch:concrete-instances-metacic-candidate-normalization-witness-namecert}
+\origin{ai}
+
+The $\MetaCICCandidateNormalizationWitnessUp$ packet realizes the normalization frontier of \autoref{sec:metacic-open-problems-normalization} as finite candidate evidence rather than as an evidence-free closed-term theorem. It sits beside the frontier carrier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, the bounded comparison route of \autoref{ch:concrete-instances-bounded-normal-equality-checker-namecert}, the sealed closed type checker of \autoref{ch:concrete-instances-closed-type-checker-seal-namecert}, the candidate projection boundary of \autoref{ch:concrete-instances-metacic-candidate-closed-projection-boundary-namecert}, and the candidate router of \autoref{ch:concrete-instances-metacic-candidate-normalization-router-namecert}. The packet names a local witness surface from a closed typed term to candidate evidence, normal endpoint data, obstruction rows, transport, replay, provenance, and local naming; it does not assert global strong normalization, unrestricted subject reduction, evaluator equality, quotient syntax equality, or closed consistency.
+
+\begin{definition}[MetaCIC candidate normalization witness carrier]
+\label{def:metacic-candidate-normalization-witness-carrier}
+A $\MetaCICCandidateNormalizationWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(T,A,K,N,E,O,D,B,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed typed term row, recording the sealed empty-context typing evidence read from the closed-type-checker surface.
+\item $A$ is the candidate anchor row, naming the candidate family, closed-candidate wrapper, or finite candidate-set membership used by the witness.
+\item $K$ is the candidate-evidence row, storing the actual membership, reducibility, or adequacy datum attached to $T$.
+\item $N$ is the normal endpoint row, recording the bounded normal form or no-infinite-reduction endpoint reached from $K$.
+\item $E$ is the endpoint comparison row consumed by bounded normal-equality checkers.
+\item $O$ is the obstruction row, retaining any missing candidate, missing closedness, blocked residual, or failed endpoint comparison as a visible boundary.
+\item $D$ is the transport domain row, tying the witness to the candidate closed-projection boundary.
+\item $B$ is the bounded checker handoff row, exposing only finite comparison data to downstream deciders.
+\item $H$ records componentwise $\hsame$ transport for closed typed terms, candidate anchors, candidate evidence, endpoints, comparisons, obstructions, domain rows, bounded handoffs, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a MetaCIC normalization request through $T,A,K,N,E,O,D,B,H$.
+\item $P$ is the $\Pkg$ provenance over $\MetaCICCandidateNormalizationWitnessUp$, $\MetaCICNormalizationFrontierUp$, $\BoundedNormalEqualityCheckerUp$, $\ClosedTypeCheckerSealUp$, $\MetaCICCandidateClosedProjectionBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\MetaCICCandidateNormalizationWitnessUp}$ row.
+\end{enumerate}
+The classifier compares accepted witnesses only through these rows. It has no coordinate for evidence-free normalization of arbitrary closed terms, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, or completed closed consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC candidate normalization witness obligations]
+\label{thm:metacic-candidate-normalization-witness-obligations}
+For every accepted $\MetaCICCandidateNormalizationWitnessUp$ carrier
+$$
+W=(T,A,K,N,E,O,D,B,H,C,P,L),
+$$
+the local $\NameCert_{\MetaCICCandidateNormalizationWitnessUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the closed typed term, candidate anchor, candidate evidence, normal endpoint, endpoint comparison, obstruction, transport domain, bounded checker handoff, transport, replay, provenance, and local naming rows;
+\item candidate visibility, requiring every normal endpoint read to inspect $A,K$ before $N$ is consumed;
+\item closed-type seal discipline, requiring $T$ and $D$ to be displayed before candidate evidence is projected as a closed-term witness;
+\item bounded equality handoff, requiring $E,B$ to expose only finite endpoint comparison data to checker consumers;
+\item obstruction exactness, requiring $O$ to retain missing candidate, missing closedness, blocked residual, and failed endpoint comparison boundaries rather than discharging them;
+\item componentwise transport, displayed replay, package provenance, and local naming through $H,C,P,L$.
+\end{enumerate}
+No witness obligation is stored outside $T,A,K,N,E,O,D,B,H,C,P,L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-witness-carrier}. The accepted packet exposes exactly the closed typed term, candidate anchor, candidate evidence, normal endpoint, endpoint comparison, obstruction, projection boundary, bounded checker handoff, and structural rows.
+
+Candidate visibility is read through $A,K,N$. A normal endpoint is public only after the candidate anchor and candidate-evidence rows have been displayed.
+
+Closed-type and projection discipline is read through $T,D$. These rows keep the witness attached to the sealed closed term and to the candidate closed-projection boundary before any endpoint comparison is offered.
+
+The bounded comparison stage is $E,B$, with $O$ retaining the negative boundary. Thus a checker receives finite endpoint comparison data and a visible obstruction row, not an evidence-free normalization theorem.
+
+Finally $H,C,P,L$ transport, replay, source, and name the same route. Since no carrier coordinate supplies global strong normalization, unrestricted subject reduction, full confluence, quotient syntax equality, evaluator soundness, or closed consistency, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC candidate normalization witness handoff]
+\label{thm:metacic-candidate-normalization-witness-handoff}
+Every public normalization-frontier consumer of an accepted $\MetaCICCandidateNormalizationWitnessUp$ carrier factors through
+$$
+T \longmapsto A,K \longmapsto N,E \longmapsto O,D,B \longmapsto H,C,P,L .
+$$
+The consumer receives a sealed closed typed term, candidate evidence, normal endpoint data, bounded endpoint comparison, retained obstruction, candidate projection boundary, bounded checker handoff, transport, replay, provenance, and local naming. It receives no normalization theorem for arbitrary closed typed terms without candidate evidence.
+\end{theorem}
+\begin{proof}
+Start from the closed typed term row $T$. The only route from this row to a normal endpoint is through the candidate anchor and evidence rows $A,K$.
+
+The endpoint and checker stage is $N,E,B$. It exports only bounded normal endpoint and comparison data, and the projection boundary row $D$ keeps that export attached to the candidate-mediated closed-term surface.
+
+The obstruction row $O$ remains visible for missing candidate evidence, failed closedness, blocked residual obligations, or failed endpoint comparison. Therefore the handoff does not collapse into an unconditional strong-normalization theorem.
+
+The structural rows $H,C,P,L$ preserve and name the same finite witness. Because no excluded global endpoint has a carrier coordinate, every public consumer factors through the displayed route.
+\end{proof}
+
+\falsifiablePrediction{Any $\MetaCICCandidateNormalizationWitnessUp$ read that reaches normal endpoint data or bounded endpoint comparison without exposing the closed typed term, candidate anchor, candidate evidence, projection boundary, bounded checker handoff, obstruction, transport, replay, provenance, and local naming rows is outside the carrier surface.}
+
+\independenceWitness{metacicnormalizationfrontier, boundednormalequalitychecker, closed-type-checker-seal, metacic-candidate-closed-projection-boundary: no listed sibling is bijective with $\MetaCICCandidateNormalizationWitnessUp$ because this packet jointly carries closed typed term data, candidate evidence, normal endpoint data, bounded endpoint comparison, obstruction, projection boundary, bounded checker handoff, transport, replay, provenance, and local $\NameCert$ rows.}
+
+Lean follow-up should provide $\mathsf{Nontrivial}$ and $\mathsf{FieldFaithful}$ instances in the $\MetaCICCandidateNormalizationWitnessUp$ TasteGate file so the closed-term, candidate, endpoint, obstruction, and checker rows are audited as distinct fields.
+
+\leanstmt{BEDC.Derived.MetaCICCandidateNormalizationWitnessUp}
+
+\closureat{MetaCICCandidateNormalizationWitnessUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICCandidateNormalizationWitnessUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-candidate-normalization-witness-carrier}, \autoref{thm:metacic-candidate-normalization-witness-obligations}, and \autoref{thm:metacic-candidate-normalization-witness-handoff} seed the finite candidate-witness route from sealed closed terms through candidate evidence, normal endpoints, bounded comparison, obstruction, projection boundary, checker handoff, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.MetaCICCandidateNormalizationWitnessUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close evidence-free strong normalization, unrestricted subject reduction, global confluence, quotient syntax equality, host evaluator soundness, completed closed consistency, Lean proof obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, candidate visibility, closed-type seal discipline, bounded equality handoff, obstruction exactness, transport stability, replay, provenance, local naming, Nontrivial, and FieldFaithful instances for BEDC.Derived.MetaCICCandidateNormalizationWitnessUp.}
+  \constructivestory{A $\MetaCICCandidateNormalizationWitnessUp$ packet is generated from a sealed closed typed term row, candidate anchor, candidate evidence, normal endpoint, endpoint comparison, obstruction, projection boundary row, bounded checker handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

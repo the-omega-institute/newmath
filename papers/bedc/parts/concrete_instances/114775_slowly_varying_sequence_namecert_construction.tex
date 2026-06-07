@@ -1,0 +1,53 @@
+\chapter{A Concrete Naming Certificate for $\SlowlyVaryingSequenceUp$}
+\label{ch:concrete-instances-slowly-varying-sequence-namecert}
+\origin{human}
+
+Following Karamata and Hardy, the $\SlowlyVaryingSequenceUp$ packet records the constructive finite-window surface of a positive sequence whose rescaled tails remain asymptotically unchanged. It sits beside the regular sequence readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the asymptotic comparison surface of \autoref{ch:concrete-instances-asymptotic-equivalence-namecert}. The packet names only displayed finite tail evidence; it does not assert a uniform Tauberian theorem, selected subsequence, quotient class of sequences, choice principle, or ambient completeness.
+
+\begin{definition}[SlowlyVaryingSequence carrier]
+\label{def:slowly-varying-sequence-carrier}
+A $\SlowlyVaryingSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,R,D,E,A,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ row whose finite windows expose the inspected tail entries of the sequence.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows, so every inspected value has a regular rational source.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare rescaled tail windows.
+\item $E$ is the terminal $\RealUp$ seal for the displayed values read from $S,R,D$.
+\item $A$ is the $\AsymptoticEquivalenceUp$ row comparing the original tail and each displayed rescaled tail through finite windows.
+\item $W$ is the finite rescaling-window ledger. It records the inspected scale, the starting tail bound, the stream window, the regular readback, the dyadic tolerance, and the accepted asymptotic-equivalence row for that scale.
+\item $H$ stores componentwise $\hsame$ transport for stream windows, regular readback, dyadic tolerances, Real seals, asymptotic-equivalence rows, window ledgers, replay rows, provenance rows, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from a slowly-varying request through $S,R,D,E,A,W,H$.
+\item $P$ is the $\Pkg$ provenance over $\SlowlyVaryingSequenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\AsymptoticEquivalenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SlowlyVaryingSequenceUp}$ row.
+\end{enumerate}
+The carrier contains no quotient sequence equality, selected asymptotic class representative, countable-choice tail selector, global convergence claim, or ambient Real completeness coordinate.
+\end{definition}
+
+\begin{theorem}[SlowlyVaryingSequence NameCert obligations]
+\label{thm:slowly-varying-sequence-namecert-obligations}
+For every accepted $\SlowlyVaryingSequenceUp$ carrier $L=(S,R,D,E,A,W,H,C,P,N)$, the local $\NameCert_{\SlowlyVaryingSequenceUp}$ surface consists exactly of carrier admission for those rows, finite-window exposure through $S$, regular rational readback through $R$, dyadic tolerance accounting through $D$, Real sealing through $E$, asymptotic-equivalence routing through $A$, rescaling-window exactness through $W$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:slowly-varying-sequence-carrier}. The stream, regular rational, dyadic tolerance, Real seal, asymptotic comparison, rescaling ledger, transport, replay, provenance, and local naming rows are all displayed coordinates of the finite packet.
+
+The finite-window obligation is read through $S,R,D,E$. A consumer first opens a StreamName window, then reads the regular rational values and dyadic tolerances attached to that window, and only then receives the Real seal for the inspected values.
+
+The slowly-varying obligation is read through $A$ and $W$. Each rescaling request names its inspected scale and tail bound, and the window ledger records the exact asymptotic-equivalence row used for that request.
+
+Componentwise transport and displayed replay preserve the same row order through $H$ and $C$, while $P$ and $N$ name only this finite surface. Since the carrier has no quotient sequence equality, selected representative, choice selector, global convergence coordinate, or ambient completeness coordinate, the local NameCert obligations are exhausted by the displayed rows.
+\end{proof}
+
+\closureat{SlowlyVaryingSequenceUp}{seedStr}
+
+\begin{closurestatus}{\SlowlyVaryingSequenceUp}
+  \constructivestory{A $\SlowlyVaryingSequenceUp$ packet is generated from StreamName windows, RegSeqRat readback, DyadicRatCore tolerances, a Real seal, AsymptoticEquivalence rows, a finite rescaling-window ledger, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:slowly-varying-sequence-carrier} and \autoref{thm:slowly-varying-sequence-namecert-obligations} seed the finite slowly-varying sequence certificate over StreamName, RegSeqRat, DyadicRatCore, Real, and AsymptoticEquivalence rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a Tauberian theorem, quotient sequence equality, selected representatives, countable-choice tail selection, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window exposure, regular rational readback, dyadic tolerance accounting, Real sealing, asymptotic-equivalence routing, and rescaling-window exactness for BEDC.Derived.SlowlyVaryingSequenceUp.}
+\end{closurestatus}

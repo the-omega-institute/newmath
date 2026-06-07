@@ -1,13 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteMultiHistPacketUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -455,5 +465,80 @@ theorem FiniteMultiHistPacketUp_subpacket_restriction
                     (List.mem_cons_of_mem _
                       (List.mem_cons_of_mem _
                         (List.mem_cons_of_mem _ List.mem_cons_self))))))))
+
+theorem FiniteMultiHistPacketCrossHistForwardRoute [AskSetup] [PackageSetup]
+    {family ledger pairwise route boundary provenance localName crossInput causalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory family ->
+      UnaryHistory ledger ->
+        UnaryHistory pairwise ->
+          UnaryHistory route ->
+            UnaryHistory boundary ->
+              UnaryHistory provenance ->
+                UnaryHistory localName ->
+                  Cont family ledger crossInput ->
+                    Cont crossInput pairwise causalRead ->
+                      PkgSig bundle provenance pkg ->
+                        PkgSig bundle localName pkg ->
+                          SemanticNameCert
+                              (fun row : BHist => hsame row causalRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row family ∨ hsame row ledger ∨ hsame row pairwise ∨
+                                  hsame row route ∨ hsame row boundary ∨
+                                    hsame row provenance ∨ hsame row localName ∨
+                                      hsame row crossInput ∨ hsame row causalRead)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ Cont family ledger crossInput ∧
+                                  Cont crossInput pairwise causalRead ∧
+                                    PkgSig bundle provenance pkg ∧
+                                      PkgSig bundle localName pkg)
+                              hsame ∧
+                            UnaryHistory crossInput ∧ UnaryHistory causalRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro familyUnary ledgerUnary pairwiseUnary _routeUnary _boundaryUnary _provenanceUnary
+    _localNameUnary familyRoute causalRoute provenancePkg namePkg
+  have crossInputUnary : UnaryHistory crossInput :=
+    unary_cont_closed familyUnary ledgerUnary familyRoute
+  have causalReadUnary : UnaryHistory causalRead :=
+    unary_cont_closed crossInputUnary pairwiseUnary causalRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row causalRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row family ∨ hsame row ledger ∨ hsame row pairwise ∨ hsame row route ∨
+              hsame row boundary ∨ hsame row provenance ∨ hsame row localName ∨
+                hsame row crossInput ∨ hsame row causalRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont family ledger crossInput ∧
+              Cont crossInput pairwise causalRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro causalRead ⟨hsame_refl causalRead, causalReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, familyRoute, causalRoute, provenancePkg, namePkg⟩
+  }
+  exact ⟨cert, crossInputUnary, causalReadUnary⟩
 
 end BEDC.Derived.FiniteMultiHistPacketUp

@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\SignedDigitRealExpansionUp$}
+\label{ch:concrete-instances-signed-digit-real-expansion-namecert}
+\origin{human}
+
+Following Bishop and Bridges and the signed-digit representation tradition in constructive analysis, the $\SignedDigitRealExpansionUp$ packet records a real name as finite signed-digit prefix windows with dyadic error control. It sits beside the finite bisection route of \autoref{ch:concrete-instances-signed-digit-interval-bisection-namecert}, the dyadic endpoint ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives Real and Completion consumers a non-quotient signed-digit route from finite prefixes to regular Cauchy data; it does not select an infinite expansion, quotient streams, invoke countable choice, use trichotomy, or assert ambient Real completeness.
+
+\begin{definition}[Signed digit real expansion carrier]
+\label{def:signed-digit-real-expansion-carrier}
+A $\SignedDigitRealExpansionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(S,W,D,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the signed-digit alphabet row, admitting only the digits $-1,0,1$ and the finite prefix words already opened by the consumer.
+\item $W$ is the $\StreamNameUp$ window row, recording which signed-digit prefixes are visible at the current inspection depth.
+\item $D$ is the $\DyadicRatCoreUp$ value-and-radius ledger attached to each visible prefix.
+\item $Q$ is the $\RegSeqRatUp$ handoff row, reading the dyadic prefix ledger as a regular rational Cauchy name.
+\item $R$ is the terminal $\RealUp$ seal row, exposed only after the signed-digit prefix, window, dyadic, and regular-readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for prefix words, windows, dyadic ledgers, regular readback, the Real seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a prefix request through finite signed-digit windows, dyadic normalization, regular readback, and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\SignedDigitRealExpansionUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SignedDigitRealExpansionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,W,D,Q,R,H,C,P,N$. It has no coordinate for quotient stream equality, a selected infinite signed-digit representative, countable choice, real trichotomy, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Signed digit real expansion prefix stability]
+\label{thm:signed-digit-real-expansion-prefix-stability}
+For every accepted $\SignedDigitRealExpansionUp$ carrier $E=(S,W,D,Q,R,H,C,P,N)$, extending the visible signed-digit prefix by one admitted digit preserves the same Real-facing route only when the enlarged prefix remains in $S$, the window row $W$ records the enlarged inspection depth, and the dyadic ledger $D$ records the refined value-and-radius row. The extension is then transported through $Q,R,H,C,P,N$ and exports no chosen infinite expansion or quotient equality of streams.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:signed-digit-real-expansion-carrier}. Prefix data live in $S$, and visible inspection depth lives in $W$, so a prefix extension cannot be read unless both rows display the enlarged finite word and its window.
+
+Use the dyadic ledger row $D$. It supplies the normalized dyadic value and radius for the enlarged prefix before any regular rational readback is available.
+
+Finally read through $Q,R,H,C,P,N$. Regular readback and the Real seal preserve the same finite prefix route, while transport, replay, provenance, and local naming add no row for an infinite representative, quotient stream equality, countable choice, trichotomy, host real equality, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Signed digit real expansion RegSeqRat handoff]
+\label{thm:signed-digit-real-expansion-regseqrat-handoff}
+Every Real-facing consumer of an accepted $\SignedDigitRealExpansionUp$ packet must pass from finite signed-digit prefixes through the $\DyadicRatCoreUp$ ledger $D$ to the $\RegSeqRatUp$ row $Q$ before the $\RealUp$ seal $R$ is consumed. Thus the signed-digit expansion route hands off to regular Cauchy data as the finite BEDC row family
+$$
+S,W,D,Q,R,H,C,P,N .
+$$
+It is not a quotient construction of real numbers, not a selected stream representative, not a countable-choice principle, and not an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the finite prefix and window rows $S,W$. They record only the signed digits and the finite inspection depths currently visible to the consumer.
+
+Apply the dyadic ledger $D$. Each prefix is read as a dyadic value with an explicit radius, so the next consumer receives toleranced rational data rather than a host real value.
+
+The handoff to $Q$ packages those dyadic rows as a $\RegSeqRatUp$ readback. Only after this regular rational row is displayed may the terminal seal $R$ be consumed.
+
+The structural rows $H,C,P,N$ preserve the same route. Since the carrier has no coordinate for quotient streams, selected infinite representatives, countable choice, trichotomy, host real equality, or ambient completeness, the handoff remains a finite signed-digit-to-regular-Cauchy route.
+\end{proof}
+
+\closureat{SignedDigitRealExpansionUp}{seedStr}
+
+\begin{closurestatus}{\SignedDigitRealExpansionUp}
+  \constructivestory{A $\SignedDigitRealExpansionUp$ packet is generated from signed-digit alphabet rows, finite StreamName prefix windows, DyadicRatCore value-and-radius rows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-digit-real-expansion-carrier}, \autoref{thm:signed-digit-real-expansion-prefix-stability}, and \autoref{thm:signed-digit-real-expansion-regseqrat-handoff} seed the finite signed-digit prefix route from window inspection to regular Cauchy Real-seal data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, quotient stream equality, selected infinite signed-digit representatives, countable choice, trichotomy, host real equality, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix-window stability, dyadic value-and-radius exactness, RegSeqRat handoff, RealUp seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.SignedDigitRealExpansionUp.}
+\end{closurestatus}

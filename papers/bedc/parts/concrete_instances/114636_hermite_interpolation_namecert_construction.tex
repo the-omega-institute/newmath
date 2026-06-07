@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\HermiteInterpolationUp$}
+\label{ch:concrete-instances-hermite-interpolation-namecert}
+\origin{human}
+
+Following Hermite interpolation, the $\HermiteInterpolationUp$ packet records the finite route from displayed nodes, values, and derivative jets to a polynomial whose formal derivatives match those displayed jets at the same nodes. It refines the node-and-value surface of \autoref{ch:concrete-instances-lagrange-interpolation-namecert}, consumes the coefficient-list carrier of \autoref{ch:concrete-instances-polynomial-namecert}, and routes Real-facing reads through \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-dyadicratcore-namecert}. It is also separate from the orthogonal-family recurrence packet of \autoref{ch:concrete-instances-hermite-polynomial-namecert}: the present certificate names interpolation jets, not the Hermite polynomial family.
+
+The BEDC carrier is finite. It stores the node list, the per-node jet-height list, the displayed derivative values, the confluent basis construction, the assembled polynomial, the matching and uniqueness checks, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row. Every consumer must see those rows before reading a Hermite interpolant as a Real-facing polynomial approximation or calculus datum.
+
+\begin{definition}[Hermite interpolation carrier]
+\label{def:hermite-interpolation-carrier}
+A $\HermiteInterpolationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,J,V,D,L,E,U,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $X$ is a nonempty finite node row, with pairwise-distinctness data for the displayed nodes.
+\item $J$ is the jet-height row, assigning each node a finite number of formal derivative levels to be matched.
+\item $V$ is the displayed jet-value table, recording one scalar value for every pair $(x_i,k)$ with $0\leq k<J_i$.
+\item $D$ is the denominator and confluent-limit ledger, routing the nonzero node differences and repeated-node derivative factors through $\RegSeqRatUp$, $\DyadicRatCoreUp$, and the terminal $\RealUp$ seal.
+\item $L$ is the Lagrange spine row imported from $\LagrangeInterpolationUp$, recording the ordinary node basis before the confluent jet rows are attached.
+\item $E$ is the confluent basis row, displaying the finite $\PolynomialUp$ coefficient lists whose formal derivatives realize the Kronecker jet pattern on $X$.
+\item $U$ is the assembly, jet-matching, and degree-bounded uniqueness row for the finite sum of displayed jet values times the basis polynomials.
+\item $H$ records componentwise $\hsame$ transport for node, jet-height, jet-value, denominator, Lagrange-spine, basis, assembly, replay, provenance, and local-name rows.
+\item $C$ records the displayed $\Cont$ routes that replay denominator formation, confluent basis construction, polynomial differentiation, jet evaluation, and uniqueness comparison from the same finite packet.
+\item $P$ is the $\Pkg$ provenance over $\HermiteInterpolationUp$, $\PolynomialUp$, $\LagrangeInterpolationUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HermiteInterpolationUp}$ row.
+\end{enumerate}
+The carrier predicate is
+$\mathsf{HermiteInterpolationLedger}(X,J,V,D,L,E,U,H,C,P,N)$. Two accepted packets classify together exactly when the eleven displayed rows are transported by $H$ and replay through the same routes named by $C$ and $P$.
+\end{definition}
+
+\begin{theorem}[Hermite interpolation NameCert obligations]
+\label{thm:hermite-interpolation-namecert-obligations}
+For an accepted $\HermiteInterpolationUp$ packet $K=(X,J,V,D,L,E,U,H,C,P,N)$, the local $\NameCert_{\HermiteInterpolationUp}$ obligation surface consists exactly of the finite carrier and classifier rows of \autoref{def:hermite-interpolation-carrier}, the node and jet-height rows $X,J$, the jet-value table $V$, the denominator and confluent-limit ledger $D$, the Lagrange spine row $L$, the confluent $\PolynomialUp$ basis rows $E$, the assembly and uniqueness row $U$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and the local naming row $N$. No host differentiability oracle, quotient polynomial equality, infinite jet family, selected Real representative, or ambient completeness datum is exported.
+\end{theorem}
+\begin{proof}
+Read the carrier of \autoref{def:hermite-interpolation-carrier}. The rows $X,J,V$ supply the finite interpolation table: nodes, the number of derivatives requested at each node, and the displayed values for those derivative levels.
+
+The construction rows are $D,L,E,U$. The denominator ledger $D$ supplies the finite nonzero and confluent data, $L$ supplies the ordinary Lagrange spine, $E$ displays the polynomial coefficient lists for the confluent basis, and $U$ assembles the interpolant and records the degree-bounded comparison.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name only the displayed packet. Since the carrier has no additional coordinate for a host derivative operation, selected Real representative, quotient equality, or completion argument, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Hermite interpolation jet matching]
+\label{thm:hermite-interpolation-jet-matching}
+Every jet-matching read exported by an accepted $\HermiteInterpolationUp$ packet factors through the finite route
+$$
+X,J,V,D \longmapsto L \longmapsto E \longmapsto U \longmapsto N .
+$$
+The route first verifies the distinct node row and the finite jet-height schedule, then builds the confluent basis from the Lagrange spine inside $\PolynomialUp$, evaluates the required formal derivatives at the displayed nodes, assembles the interpolating polynomial, and exposes the local $\NameCert_{\HermiteInterpolationUp}$ row. A consumer cannot bypass this route by appealing to ambient smooth functions, an external divided-difference table, quotient polynomial equality, or a Real-completion selector.
+\end{theorem}
+\begin{proof}
+Start with an accepted packet $K=(X,J,V,D,L,E,U,H,C,P,N)$. The rows $X$ and $J$ determine a finite set of jet positions, and $V$ supplies exactly one displayed value for each such position.
+
+Next inspect $D$ and $L$. The denominator and confluent-limit ledger makes repeated-node factors explicit, while the Lagrange spine supplies the ordinary interpolation basis from which the confluent basis is built.
+
+Now use $E$ and $U$. The row $E$ records the finite polynomial coefficient lists whose formal derivatives have the required Kronecker jet pattern, and $U$ forms the finite linear combination using the displayed jet values. The same row records the degree-bounded uniqueness comparison, so a second accepted polynomial with the same jet table has the same displayed coefficient-list read.
+
+Finally transport and replay through $H,C,P,N$. These rows preserve the same node, jet, denominator, basis, assembly, provenance, and local name. Thus every exported jet-matching read follows the displayed finite route and has no coordinate from which an ambient analytic or completion argument could be read.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HermiteInterpolationUp$ read that claims a Hermite interpolating polynomial factors through finite node rows, jet-height rows, jet-value rows, denominator and confluent-limit ledgers, a $\LagrangeInterpolationUp$ spine, normalized $\PolynomialUp$ basis rows, assembly and uniqueness rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.}
+
+\independenceWitness{polynomial, lagrange-interpolation, hermite-polynomial, real, regseqrat, dyadicratcore: $\HermiteInterpolationUp$ is not bijective to any listed sibling because it jointly carries finite node rows, finite jet schedules, displayed derivative values, confluent denominator data, a Lagrange spine, confluent polynomial basis rows, jet-matching assembly, uniqueness, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{HermiteInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\HermiteInterpolationUp}
+  \constructivestory{A $\HermiteInterpolationUp$ packet is generated from finite node rows, finite jet-height rows, displayed jet-value rows, denominator and confluent-limit ledgers, a Lagrange interpolation spine, normalized polynomial basis rows, jet-matching assembly rows, uniqueness rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hermite-interpolation-carrier}, \autoref{thm:hermite-interpolation-namecert-obligations}, and \autoref{thm:hermite-interpolation-jet-matching} seed the finite Hermite interpolation carrier, local NameCert obligation surface, and polynomial jet-matching route over displayed nodes, jet schedules, jet values, denominators, confluent basis polynomials, assembly rows, uniqueness rows, transport, replay, provenance, local naming, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Lean verification, bridge checking, ambient smooth-function interpolation, quotient polynomial equality, infinite jet families, selected Real representatives, analytic divided-difference tables, host differentiability oracles, field-completion arguments, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, node distinctness, jet-height finiteness, denominator and confluent-limit routing, Lagrange-spine exposure, confluent basis construction, jet evaluation replay, assembly, uniqueness-row replay, transport, provenance, local naming, and TasteGate field faithfulness for BEDC.Derived.HermiteInterpolationUp.}
+\end{closurestatus}

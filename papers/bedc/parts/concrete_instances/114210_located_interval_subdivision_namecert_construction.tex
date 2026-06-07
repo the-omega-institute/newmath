@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\LocatedIntervalSubdivisionUp$}
+\label{ch:concrete-instances-located-interval-subdivision-namecert}
+\origin{human}
+
+Following Bishop and Bridges, a located interval subdivision is a finite mesh of interval cells whose endpoints are read through located real names and whose rational and dyadic windows remain visible at every handoff. The $\LocatedIntervalSubdivisionUp$ packet sits after the located interval carrier of \autoref{ch:concrete-instances-locatedinterval-namecert} and the rational subdivision carrier of \autoref{ch:concrete-instances-rational-interval-subdivision-namecert}. It supplies compact-interval, finite-net, and uniform-modulus consumers with a displayed subdivision route through $\LocatedIntervalUp$, $\RationalIntervalSubdivisionUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, without importing open-cover compactness, choice-selected subdivisions, quotient real equality, or ambient completeness.
+
+\begin{definition}[Located interval subdivision carrier]
+\label{def:located-interval-subdivision-carrier}
+A $\LocatedIntervalSubdivisionUp$ carrier is a finite $\BHist$ packet
+$$
+S=(L,R,D,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the source $\LocatedIntervalUp$ row, exposing the lower and upper located endpoint names, rational containment ledger, dyadic refinement rows, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, and terminal $\RealUp$ seals.
+\item $R$ is the finite $\RationalIntervalSubdivisionUp$ row obtained from a rational cell of $L$.
+\item $D$ is the componentwise $\DyadicIntervalUp$ mesh ledger, recording the dyadic cells refining the rational subdivision windows.
+\item $W$ is the located endpoint-window row. It attaches the lower and upper located real endpoint windows of $L$ to the subdivision cells named by $R$ and $D$.
+\item $Q$ is the $\StreamNameUp$ and $\RegSeqRatUp$ readback row for the finite mesh, retaining the stream windows and regular rational comparisons used by each inspected endpoint.
+\item $E$ is the $\RealUp$ seal row reached only after $L,R,D,W,Q$ have all been displayed.
+\item $H$ records componentwise $\hsame$ transport for the located interval row, rational subdivision row, dyadic mesh, endpoint windows, stream and regular-rational readbacks, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a subdivision request through located endpoint inspection, rational subdivision admission, dyadic cell refinement, stream-window readback, regular-rational comparison, and real-seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\LocatedIntervalSubdivisionUp$, $\LocatedIntervalUp$, $\RationalIntervalSubdivisionUp$, $\DyadicIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LocatedIntervalSubdivisionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,R,D,W,Q,E,H,C,P,N$. It has no coordinate for an open-cover compactness proof, an infinite family of cover refinements, a choice-selected subdivision, quotient real equality, selected endpoint representatives, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located interval subdivision NameCert obligations]
+\label{thm:located-interval-subdivision-namecert-obligations}
+For every accepted $\LocatedIntervalSubdivisionUp$ carrier $S=(L,R,D,W,Q,E,H,C,P,N)$, the local $\NameCert_{\LocatedIntervalSubdivisionUp}$ surface consists exactly of source located-interval exposure through $L$, rational subdivision admission through $R$, dyadic mesh compatibility through $D$, located endpoint-window stability through $W$, stream and regular-rational readback through $Q$, $\RealUp$ seal handoff through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:located-interval-subdivision-carrier}. The accepted packet exposes one located interval row, one rational subdivision row, one dyadic mesh ledger, one endpoint-window row, one stream and regular-rational readback row, one real seal, and the structural rows.
+
+The located interval row is read first. It supplies the endpoint names, rational containment cell, dyadic refinements, stream windows, regular-rational readbacks, and real seals already certified by $\LocatedIntervalUp$.
+
+The subdivision data are finite. The row $R$ lists the rational cells, while $D$ refines those cells by dyadic interval rows. The endpoint-window row $W$ ties each cell back to the lower and upper located real windows of $L$.
+
+Finally $Q,E,H,C,P,N$ expose the readback, seal, transport, replay, provenance, and local naming route. Since no carrier coordinate names an open cover, an infinite refinement family, a chosen subdivision, quotient real equality, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Located interval subdivision dyadic mesh handoff]
+\label{thm:located-interval-subdivision-dyadic-mesh-handoff}
+Every finite-net, compact-interval, or uniform-modulus consumer of an accepted $\LocatedIntervalSubdivisionUp$ packet must factor through the displayed route
+$$
+\LocatedIntervalUp \longmapsto \RationalIntervalSubdivisionUp \longmapsto \DyadicIntervalUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Concretely, the consumer first reads the source located interval row $L$, then the rational subdivision row $R$, then the dyadic mesh ledger $D$, then the located endpoint windows $W$, then the stream and regular-rational readbacks $Q$, and only then the real seal $E$, with transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the source located interval. By \autoref{def:located-interval-subdivision-carrier}, every accepted subdivision read must expose $L$ before any mesh cell is consumed.
+
+Attach the rational subdivision row. It gives a finite ordered rational cell family, and the dyadic mesh row $D$ refines those cells componentwise through $\DyadicIntervalUp$ rather than through an unbounded refinement choice.
+
+Now read the endpoint windows and rational readbacks. The row $W$ keeps the subdivision cells tied to the located endpoint windows of $L$, while $Q$ records the $\StreamNameUp$ and $\RegSeqRatUp$ data needed before a $\RealUp$ seal is visible.
+
+The final handoff is the row $E$. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route. Thus a consumer that reaches a finite-net, compact-interval, or uniform-modulus read without displaying the stated chain is outside the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocatedIntervalSubdivisionUp$ consumer that reaches a finite-net, compact-interval, or uniform-modulus handoff must first expose the source $\LocatedIntervalUp$ row, $\RationalIntervalSubdivisionUp$ subdivision row, $\DyadicIntervalUp$ mesh ledger, $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+
+\independenceWitness{locatedinterval, rational-interval-subdivision, dyadicinterval, streamname, regseqrat, real: $\LocatedIntervalSubdivisionUp$ is not bijective to any listed sibling because it jointly carries a located interval source, a finite rational subdivision, a dyadic mesh ledger, located endpoint windows, stream and regular-rational readbacks, a real seal, transport, replay, provenance, and local naming.}
+
+\closureat{LocatedIntervalSubdivisionUp}{seedStr}
+
+\begin{closurestatus}{\LocatedIntervalSubdivisionUp}
+  \constructivestory{A $\LocatedIntervalSubdivisionUp$ packet is generated from a LocatedInterval source row, a RationalIntervalSubdivision finite cell row, a DyadicInterval mesh ledger, located endpoint windows, StreamName and RegSeqRat readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:located-interval-subdivision-carrier}, \autoref{thm:located-interval-subdivision-namecert-obligations}, and \autoref{thm:located-interval-subdivision-dyadic-mesh-handoff} seed the finite located subdivision route from located interval rows through rational and dyadic mesh data to stream, regular-rational, and real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, open-cover compactness, infinite refinement choice, choice-selected subdivisions, quotient real equality, selected endpoint representatives, finite-net compactness, or ambient completeness.}
+  \upgradepath{Obligation closure requires checked source located-interval exposure, rational subdivision admission, dyadic mesh compatibility, located endpoint-window stability, stream and regular-rational readback, RealUp seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.LocatedIntervalSubdivisionUp.}
+\end{closurestatus}
