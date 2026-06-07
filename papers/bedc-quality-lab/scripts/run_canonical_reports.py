@@ -703,6 +703,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "matched_random_control",
             "quality_promotion_boundary",
             "mechanism_ablation",
+            "training_mechanism_cert",
             "loss_family",
             "component_ablation",
             "training_method_comparison",
@@ -2550,11 +2551,85 @@ def _validate_discovery_regularized_training_mechanism_ablation(payload: Mapping
         raise ValueError("discovery_regularized_training DRT-HG7 status mismatch")
 
 
+def _validate_discovery_regularized_training_mechanism_cert(payload: Mapping[str, Any]) -> None:
+    cert = payload.get("training_mechanism_cert")
+    if not isinstance(cert, Mapping):
+        raise ValueError("discovery_regularized_training training_mechanism_cert must be an object")
+    expected_fields = {
+        "schema_id",
+        "status",
+        "owner_pointer",
+        "hardgate_pointer",
+        "status_pointer",
+        "required_pointers",
+        "mechanism_ablation_status_pointer",
+        "torch_delta_pointer",
+        "matched_control_pointer",
+        "ledger_pointer",
+        "negative_witness_pointer",
+        "all_required_pointers_resolve",
+        "mechanism_ablation_status",
+        "torch_positive",
+        "ledger_complete",
+    }
+    if set(cert) != expected_fields:
+        raise ValueError("discovery_regularized_training training_mechanism_cert fields invalid")
+    if cert["schema_id"] != "bedc-quality-lab:discovery-regularized-training:training-mechanism-cert":
+        raise ValueError("discovery_regularized_training training_mechanism_cert schema mismatch")
+    if cert["owner_pointer"] != _drt_quality_artifact_pointer("$.training_mechanism_cert"):
+        raise ValueError("discovery_regularized_training training_mechanism_cert owner pointer mismatch")
+    if cert["hardgate_pointer"] != _drt_quality_artifact_pointer("$.hardgate.gates.DRT-HG8"):
+        raise ValueError("discovery_regularized_training training_mechanism_cert hardgate pointer mismatch")
+    required = cert.get("required_pointers")
+    if not isinstance(required, list) or not required:
+        raise ValueError("discovery_regularized_training training_mechanism_cert required pointers missing")
+    all_resolve = True
+    for row in required:
+        if not isinstance(row, Mapping) or set(row) != {"pointer", "status"}:
+            raise ValueError("discovery_regularized_training training_mechanism_cert pointer row invalid")
+        resolves = _drt_pointer_value(payload, str(row["pointer"])) is not None
+        if row["status"] != ("pass" if resolves else "fail"):
+            raise ValueError("discovery_regularized_training training_mechanism_cert pointer status mismatch")
+        all_resolve = all_resolve and resolves
+    pointer_fields = (
+        "status_pointer",
+        "mechanism_ablation_status_pointer",
+        "torch_delta_pointer",
+        "matched_control_pointer",
+        "ledger_pointer",
+        "negative_witness_pointer",
+    )
+    for key in pointer_fields:
+        if _drt_pointer_value(payload, str(cert[key])) is None:
+            raise ValueError(f"discovery_regularized_training training_mechanism_cert pointer does not resolve: {key}")
+    expected_status = (
+        "pass"
+        if cert.get("mechanism_ablation_status") == "pass"
+        and cert.get("torch_positive") is True
+        and cert.get("ledger_complete") is True
+        and all_resolve
+        else "fail"
+    )
+    if cert["all_required_pointers_resolve"] is not all_resolve:
+        raise ValueError("discovery_regularized_training training_mechanism_cert resolution mismatch")
+    if cert["status"] != expected_status:
+        raise ValueError("discovery_regularized_training training_mechanism_cert status mismatch")
+    gates = payload.get("hardgate", {}).get("gates", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
+    hg8 = gates.get("DRT-HG8") if isinstance(gates, Mapping) else None
+    if not isinstance(hg8, Mapping):
+        raise ValueError("discovery_regularized_training DRT-HG8 missing")
+    if hg8.get("evidence_pointer") != "$.training_mechanism_cert":
+        raise ValueError("discovery_regularized_training DRT-HG8 evidence pointer mismatch")
+    if hg8.get("status") != expected_status:
+        raise ValueError("discovery_regularized_training DRT-HG8 status mismatch")
+
+
 def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any]) -> None:
     _validate_discovery_regularized_training_quality_promotion_boundary(payload)
     _validate_discovery_regularized_training_extension(payload)
     _validate_discovery_regularized_training_compute_ledger(payload)
     _validate_discovery_regularized_training_mechanism_ablation(payload)
+    _validate_discovery_regularized_training_mechanism_cert(payload)
 
 
 def _discovery_regularized_training_quality_boundary_index_section(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:
@@ -2637,7 +2712,7 @@ def _dgt_component_descriptors() -> dict[str, Any]:
             "discovery_regularized_training",
             "discovery-regularized training objective",
             "reports/canonical/discovery-regularized-training.json:$",
-            "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence",
+            "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert",
         ),
         (
             "audit",
@@ -2758,7 +2833,7 @@ def _dgt_hardgate_slots() -> dict[str, Any]:
             "DRT ablation",
             "discovery-regularized training ablation lowers the corresponding signal",
             "$.component_descriptors.discovery_regularized_training",
-            "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence",
+            "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert",
             "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
             "reports/canonical/discovery-regularized-training.json:$.training_loop_trace",
             "NEW-MODEL-HG19",
@@ -3488,7 +3563,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "canonical_owner_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$",
             "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.DGT-HG9",
             "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.overall_state",
-            "mechanism_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.torch_training_evidence",
+            "mechanism_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.training_mechanism_cert",
             "debt_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.hardgate",
             "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
             "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
