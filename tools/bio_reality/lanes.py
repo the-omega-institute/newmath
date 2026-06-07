@@ -3240,13 +3240,18 @@ def _write_dev_rollup_state(path: Path) -> None:
 
 
 def run_dev_rollup_lane(store: BioRealityStore) -> dict[str, Any]:
-    """Maintain one managed PR rolling feat/bio-reality-deepening up to dev.
+    """Delegate the feat->dev rollup to Loning's managed-rollup script
+    tools/sync_with_auto_dev.py with source = our integration branch.
 
-    Modeled on the catch-up PR in tools/sync_with_auto_dev.py (Loning's
-    pipeline): a single idempotent labeled PR (head=feat, base=dev) that
-    auto-merges once CI is green (when enabled). GATED on dev already being an
-    ancestor of feat, so we never open a PR that would revert dev's newer
-    non-bio_reality files; bio-S (syncing from dev) brings feat current first.
+    The script builds an isolated worktree from origin/dev, merges our source
+    branch in (codex-resolving conflicts, regenerating lean4/BEDC.lean), pushes
+    a SEPARATE managed branch ``rollup-{source}-to-{target}``, maintains one PR
+    into the target, and auto-merges that PR once its checks are green and
+    GitHub reports it mergeable. We never PR the integration branch itself —
+    that collides with the auto-sync back-merge loop; bio-S handles the reverse
+    dev->feat sync. This makes the rollup branch distinct from the development
+    branch and reuses Loning's robust merge/conflict/regen machinery instead of
+    a hand-rolled PR.
     """
     try:
         config = _load_keep_lane_config()
@@ -3259,11 +3264,8 @@ def run_dev_rollup_lane(store: BioRealityStore) -> dict[str, Any]:
         return {"lane": "bio-D", "skipped": "offline"}
 
     repo_root = store.paths.root.parent.parent
-    remote = str(config.get("remote") or "origin")
-    head = str(rollup.get("head_branch") or config.get("branch") or "feat/bio-reality-deepening")
-    base = str(rollup.get("base_branch") or "dev")
-    label = str(rollup.get("label") or "bio-reality-dev-rollup")
-    auto_merge = bool(rollup.get("auto_merge_when_green", False))
+    source = str(rollup.get("head_branch") or config.get("branch") or "feat/bio-reality-deepening")
+    target = str(rollup.get("base_branch") or "dev")
     min_seconds = float(rollup.get("min_seconds_between") or 600)
 
     state_path = store.paths.keep_lane_state.parent / "dev_rollup_state.json"
@@ -3274,80 +3276,27 @@ def run_dev_rollup_lane(store: BioRealityStore) -> dict[str, Any]:
     if time.time() - last_ts < min_seconds:
         return {"lane": "bio-D", "skipped": "throttled"}
 
+    script = repo_root / "tools" / "sync_with_auto_dev.py"
+    if not script.exists():
+        return {"lane": "bio-D", "error": "sync_script_missing", "path": str(script)}
     if _run_command(repo_root, ["gh", "--version"]).returncode != 0:
         return {"lane": "bio-D", "skipped": "gh_unavailable"}
 
-    fetch = _run_command(repo_root, ["git", "fetch", remote, base, head], timeout=120.0)
-    if fetch.returncode != 0:
-        return {"lane": "bio-D", "error": "fetch_failed", "stderr": (fetch.stderr or "")[-300:]}
-
-    def _count(rng: str) -> int:
-        res = _run_command(repo_root, ["git", "rev-list", "--count", rng])
-        try:
-            return int((res.stdout or "0").strip())
-        except ValueError:
-            return -1
-
-    ahead = _count(f"{remote}/{base}..{remote}/{head}")
-    behind = _count(f"{remote}/{head}..{remote}/{base}")
-    if ahead <= 0:
-        _write_dev_rollup_state(state_path)
-        return {"lane": "bio-D", "skipped": "nothing_to_roll_up", "ahead": ahead}
-
-    # Cleanliness gate. The strict dev⊆feat (ancestor) test never holds while
-    # dev advances continuously, so it permanently blocked the PR. What matters
-    # is the PR's REAL content: the three-dot delta base...head. Require its
-    # non-bio_reality footprint to stay small so we never open a PR that reverts
-    # dev's shared files; bio-S keeps feat's shared files current. feat may
-    # legitimately trail dev by a few commits — GitHub merges those in, and
-    # auto-merge only fires when the PR is green + mergeable.
-    delta = _run_command(repo_root, ["git", "diff", "--name-only", f"{remote}/{base}...{remote}/{head}"])
-    delta_files = [p for p in (delta.stdout or "").splitlines() if p.strip()]
-    nonbio = [p for p in delta_files if "bio_reality" not in p and "bioreality" not in p]
-    max_nonbio = int(rollup.get("max_nonbio_delta_files") or 12)
-    if len(nonbio) > max_nonbio:
-        _write_dev_rollup_state(state_path)
-        return {"lane": "bio-D", "skipped": "delta_not_clean", "ahead": ahead, "behind": behind,
-                "nonbio_files": len(nonbio), "max": max_nonbio,
-                "note": "three-dot delta carries too many non-bio_reality files; waiting for bio-S to bring shared files current"}
-
-    listing = _run_command(repo_root, ["gh", "pr", "list", "--head", head, "--base", base,
-                                       "--label", label, "--state", "open",
-                                       "--json", "number,statusCheckRollup,mergeable,title", "--limit", "20"])
-    try:
-        prs = json.loads(listing.stdout or "[]")
-    except json.JSONDecodeError:
-        prs = []
-
-    if prs:
-        pr = prs[0]
-        number = pr.get("number")
-        green = _pr_all_green(pr)
-        if auto_merge and green:
-            merge = _run_command(repo_root, ["gh", "pr", "merge", str(number), "--merge"], timeout=120.0)
-            _write_dev_rollup_state(state_path)
-            if merge.returncode == 0:
-                return {"lane": "bio-D", "merged": number, "ahead": ahead}
-            return {"lane": "bio-D", "pr": number, "merge_failed": (merge.stderr or "")[-300:]}
-        _write_dev_rollup_state(state_path)
-        return {"lane": "bio-D", "pr": number, "tracking": True, "ahead": ahead, "green": green, "auto_merge": auto_merge}
-
-    body = (f"Managed rollup PR from `{head}` to `{base}`, maintained by the BioReality "
-            f"daemon bio-D lane (modeled on tools/sync_with_auto_dev.py). Carries the "
-            f"BioReality cross-layer codon-reality work as a clean delta over `{base}`.")
-    title = f"BioReality rollup: {head} -> {base}"
-    cmd = ["gh", "pr", "create", "--base", base, "--head", head, "--title", title, "--body", body, "--label", label]
-    create = _run_command(repo_root, cmd, timeout=120.0)
-    if create.returncode != 0:
-        err = (create.stdout or "") + (create.stderr or "")
-        if "label" in err.lower() and "not found" in err.lower():
-            _run_command(repo_root, ["gh", "label", "create", label, "--description", "BioReality feat->dev rollup", "--color", "1D76DB"])
-            create = _run_command(repo_root, cmd, timeout=120.0)
-        if create.returncode != 0:
-            _write_dev_rollup_state(state_path)
-            return {"lane": "bio-D", "error": "pr_create_failed", "stderr": (create.stderr or "")[-300:]}
+    result = _run_command(
+        repo_root,
+        ["python3", str(script), "--source-branch", source, "--target-branch", target],
+        timeout=1800.0,
+    )
     _write_dev_rollup_state(state_path)
-    return {"lane": "bio-D", "created": True, "ahead": ahead, "head": head, "base": base}
+    out = (result.stdout or "") + (result.stderr or "")
+    rollup_lines = [ln for ln in out.splitlines() if "[sync] rollup" in ln]
+    tail = (rollup_lines or out.splitlines())[-4:]
+    if result.returncode != 0:
+        return {"lane": "bio-D", "error": "sync_failed", "source": source, "target": target, "tail": tail}
+    merged = any(("merging into" in ln) or ("green and mergeable" in ln) for ln in rollup_lines)
+    return {"lane": "bio-D", "ran_sync": True, "source": source, "target": target,
+            "rollup_branch": f"rollup-{source.replace('/', '-')}-to-{target.replace('/', '-')}",
+            "merged": merged, "tail": tail}
 
 
 def _tex_escape(value: Any) -> str:

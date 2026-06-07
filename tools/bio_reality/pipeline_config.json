@@ -218,9 +218,8 @@
       "enabled": true,
       "head_branch": "feat/bio-reality-deepening",
       "base_branch": "dev",
-      "label": "bio-reality-dev-rollup",
-      "auto_merge_when_green": false,
-      "min_seconds_between": 600
+      "min_seconds_between": 600,
+      "comment": "bio-D delegates to tools/sync_with_auto_dev.py --source-branch <head> --target-branch <base>. The script builds the separate managed branch rollup-<head>-to-<base>, maintains one PR, and auto-merges it once checks are green + mergeable. We never PR the integration branch directly; bio-S handles the reverse dev->feat back-merge."
     }
   },
   "bedc_writeback": {
