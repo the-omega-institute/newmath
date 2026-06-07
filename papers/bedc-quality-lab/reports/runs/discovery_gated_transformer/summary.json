@@ -1,0 +1,98 @@
+{
+  "compute": {
+    "arms": [
+      "candidate",
+      "parameter_control",
+      "compute_control",
+      "matched_random"
+    ],
+    "cost_protocol": "bounded local CPU replay",
+    "optimizer": "deterministic numpy logistic gradient descent",
+    "train_steps": 40
+  },
+  "evidence_envelope": {
+    "pointer": "$.surface_deltas",
+    "raw_metrics_artifact": "reports/runs/discovery_gated_transformer/raw_metrics.jsonl",
+    "summary_pointer": "reports/runs/discovery_gated_transformer/summary.json:$.surface_deltas"
+  },
+  "model_id": "discovery_gated_transformer",
+  "negative_witnesses": [
+    {
+      "evidence_pointer": "reports/runs/discovery_gated_transformer/summary.json:$.negative_witnesses[0]",
+      "reason": "label permutation breaks the edge-gate evidence route",
+      "status": "demoted",
+      "witness_id": "permuted-edge-labels"
+    },
+    {
+      "evidence_pointer": "reports/runs/discovery_gated_transformer/summary.json:$.forbidden_claim_term_audit",
+      "reason": "claim surface is bounded before promotion",
+      "status": "demoted",
+      "witness_id": "forbidden-claim-term-scan"
+    }
+  ],
+  "parameter_count": 6,
+  "random_controls": {
+    "numpy_seed": 0,
+    "random_arm": "matched_random"
+  },
+  "raw_metrics_artifact": "reports/runs/discovery_gated_transformer/raw_metrics.jsonl",
+  "schema_id": "bedc-quality-lab:dgt-run-summary",
+  "splits": {
+    "id_length_6": {
+      "count": 64,
+      "label_balance": 0.5,
+      "length": 6
+    },
+    "ood_length_10": {
+      "count": 256,
+      "label_balance": 0.5,
+      "length": 10
+    },
+    "ood_length_8": {
+      "count": 256,
+      "label_balance": 0.5,
+      "length": 8
+    },
+    "stress_repeat_edge": {
+      "count": 128,
+      "label_balance": 0.5,
+      "length": 9
+    },
+    "train": {
+      "count": 64,
+      "label_balance": 0.5,
+      "length": 6
+    }
+  },
+  "surface_deltas": {
+    "id_length_6": {
+      "best_baseline_accuracy": 0.5,
+      "best_baseline_loss": 0.693147,
+      "candidate_accuracy": 1.0,
+      "candidate_loss": 0.03204
+    },
+    "ood_length_10": {
+      "best_baseline_accuracy": 0.5,
+      "best_baseline_loss": 0.693147,
+      "candidate_accuracy": 1.0,
+      "candidate_loss": 0.03204
+    },
+    "ood_length_8": {
+      "best_baseline_accuracy": 0.5,
+      "best_baseline_loss": 0.693147,
+      "candidate_accuracy": 1.0,
+      "candidate_loss": 0.03204
+    },
+    "stress_repeat_edge": {
+      "best_baseline_accuracy": 0.5,
+      "best_baseline_loss": 0.693147,
+      "candidate_accuracy": 1.0,
+      "candidate_loss": 0.03204
+    }
+  },
+  "training_loss": {
+    "decrease": 0.661107,
+    "final": 0.03204,
+    "initial": 0.693147
+  }
+}

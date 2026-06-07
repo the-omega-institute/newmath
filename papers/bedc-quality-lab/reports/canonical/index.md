@@ -128,11 +128,11 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/new_model_hardgates.json`
 - Markdown: `reports/canonical/new_model_hardgates.md`
-- Schema: `bedc-quality-lab:new-model-hardgate-registry`
-- Status pointer: `reports/canonical/new_model_hardgates.json:$.status`
+- Schema: `bedc-quality-lab:new-model-hardgates`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+- Gate ids pointer: `reports/canonical/new_model_hardgates.json:$.gate_ids`
 - Gates pointer: `reports/canonical/new_model_hardgates.json:$.gates`
 - Gate count: `20`
-- Candidate contract: `reports/canonical/new_model_hardgates.json:$.candidate_contract`
 
 ## Discovery-Regularized Training Quality Boundary
 
@@ -145,16 +145,18 @@
 
 ## Discovery-Gated Transformer
 
-- Status: `present-but-fail-closed`
+- Status: `prototype-candidate`
 - JSON: `reports/canonical/discovery_gated_transformer.json`
 - Markdown: `reports/canonical/discovery_gated_transformer.md`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Model id: `reports/canonical/discovery_gated_transformer.json:$.model_id`
-- Components: `reports/canonical/discovery_gated_transformer.json:$.component_descriptors`
-- Hardgate slots: `reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots`
-- Overall state: `reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.overall_state`
+- Hardgate contract: `reports/canonical/discovery_gated_transformer.json:$.hardgate_contract_ref`
+- Task grid: `reports/canonical/discovery_gated_transformer.json:$.sequence_task_grid`
+- Training evidence: `reports/canonical/discovery_gated_transformer.json:$.training_evidence`
+- Hardgate instances: `reports/canonical/discovery_gated_transformer.json:$.hardgate_instances`
+- Prototype status: `reports/canonical/discovery_gated_transformer.json:$.prototype_status`
 - Not claimed: `reports/canonical/discovery_gated_transformer.json:$.not_claimed`
-- Downstream scope: `reports/canonical/discovery_gated_transformer.json:$.downstream_scope`
+- Discovery map signal: `reports/canonical/discovery_gated_transformer.json:$.discovery_map_signal`
 
 ## Model Design Suite
 

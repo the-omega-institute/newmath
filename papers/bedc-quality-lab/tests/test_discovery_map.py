@@ -660,9 +660,10 @@ def _write_coverage_payloads(root: Path):
         root,
         discovery_map.DISCOVERY_GATED_TRANSFORMER_ARTIFACT,
         {
-            "status": "present-but-fail-closed",
-            "mechanism_certificate": {"status": "present"},
-            "dgt_hardgate_slots": {"overall_state": "present-but-fail-closed"},
+            "prototype_status": "prototype-candidate",
+            "discovery_map_signal": {"level_candidate": "D4"},
+            "hardgate_instances": {"NEW-MODEL-HG1": {"status": "pass"}},
+            "revocation_rows": [{"status": "demoted"}],
             "not_claimed": ["no broad architecture superiority claim"],
         },
     )

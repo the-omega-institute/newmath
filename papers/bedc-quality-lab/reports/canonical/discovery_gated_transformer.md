@@ -1,56 +1,46 @@
 # Discovery-Gated Transformer
 
 - Generated at: `2026-06-07T00:00:00+00:00`
-- Artifact: `bedc-quality-lab:discovery-gated-transformer`
-- Schema: `bedc-quality-lab:discovery-gated-transformer`
-- Status: `present-but-fail-closed`
 - Model id: `discovery_gated_transformer`
-- Owner pointer: `reports/canonical/discovery_gated_transformer.json:$`
+- Prototype status: `prototype-candidate`
+- Hardgate contract: `reports/canonical/new_model_hardgates.json:$.gates`
+- Claim capsule: `reports/runs/discovery_gated_transformer/claim_capsule.json:$`
 
-## Components
+## Sequence Task
 
-| component | owner pointer | evidence pointer | pointer state |
+- Task: `edge_agreement_sequence`
+- Train split: `reports/runs/discovery_gated_transformer/summary.json:$.splits.train`
+
+## Surface Delta
+
+| surface | candidate accuracy | best baseline accuracy |
+| --- | --- | --- |
+| `id_length_6` | `1.0` | `0.5` |
+| `ood_length_8` | `1.0` | `0.5` |
+| `ood_length_10` | `1.0` | `0.5` |
+| `stress_repeat_edge` | `1.0` | `0.5` |
+
+## Hardgate Instances
+
+| gate | status | evidence | contract |
 | --- | --- | --- | --- |
-| `backbone` | `reports/canonical/ledger-aware-transformer.json:$` | `reports/canonical/ledger-aware-transformer.json:$.run_artifacts` | `present-but-fail-closed` |
-| `certificate_gated_attention` | `reports/canonical/certificate-gated-attention.json:$` | `reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary` | `present-but-fail-closed` |
-| `gap_ledger_route_mechanism_scope_heads` | `reports/canonical/gap_head_attribution_capsule.json:$` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` | `present-but-fail-closed` |
-| `discovery_regularized_training` | `reports/canonical/discovery-regularized-training.json:$` | `reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert` | `present-but-fail-closed` |
-| `audit` | `reports/canonical/negative_discovery_reports.json:$` | `reports/canonical/negative_discovery_reports.json:$.rows` | `present-but-fail-closed` |
-| `output_bundle` | `reports/canonical/discovery_gated_transformer.json:$.public_index_pointers` | `reports/canonical/discovery_gated_transformer.json:$.downstream_scope` | `present-but-fail-closed` |
-
-## DGT Hardgate Slots
-
-| gate | component | evidence | control | ablation | registry | state | failure mode |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `DGT-HG1` | `$.component_descriptors.backbone` | `reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_reduction` | `reports/canonical/ledger-aware-transformer.json:$.control_protocol` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG11` | `present-but-fail-closed` | `missing-evidence-pointer` |
-| `DGT-HG2` | `$.component_descriptors.backbone` | `reports/canonical/discovery-gated-nas.json:$.matched_baseline_control.parameter_matched` | `reports/canonical/discovery-gated-nas.json:$.matched_baseline_control` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG7` | `present-but-fail-closed` | `missing-control-pointer` |
-| `DGT-HG3` | `$.component_descriptors.backbone` | `reports/canonical/discovery-gated-nas.json:$.matched_baseline_control.compute_matched` | `reports/canonical/discovery-gated-nas.json:$.matched_baseline_control` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG8` | `present-but-fail-closed` | `missing-control-pointer` |
-| `DGT-HG4` | `$.component_descriptors.backbone` | `reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_reduction` | `reports/canonical/ledger-aware-transformer.json:$.matched_random_control` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG9` | `present-but-fail-closed` | `missing-control-pointer` |
-| `DGT-HG5` | `$.component_descriptors.audit` | `reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.only_false_alarm_increase` | `reports/canonical/ledger-aware-transformer.json:$.matched_random_control` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG12` | `present-but-fail-closed` | `missing-evidence-pointer` |
-| `DGT-HG6` | `$.component_descriptors.audit` | `reports/canonical/discovery-gated-nas.json:$.search_objective_summary.selected_candidate.classifier_shift_count` | `None` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG16` | `present-but-fail-closed` | `missing-control-pointer` |
-| `DGT-HG7` | `$.component_descriptors.audit` | `reports/canonical/gap_head_transfer_atlas.json:$.multi_surface_d5_o` | `reports/canonical/gap_head_transfer_atlas.json:$.config.control_arm` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG10` | `present-but-fail-closed` | `missing-surface-pointer` |
-| `DGT-HG8` | `$.component_descriptors.certificate_gated_attention` | `reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary` | `reports/canonical/certificate-gated-attention.json:$.matched_random_control` | `reports/canonical/certificate-gated-attention.json:$.discovery_map_signal` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG19` | `present-but-fail-closed` | `missing-ablation-pointer` |
-| `DGT-HG9` | `$.component_descriptors.discovery_regularized_training` | `reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert` | `reports/canonical/discovery-regularized-training.json:$.matched_random_control` | `reports/canonical/discovery-regularized-training.json:$.training_loop_trace` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG19` | `present-but-fail-closed` | `missing-ablation-pointer` |
-| `DGT-HG10` | `$.component_descriptors.gap_ledger_route_mechanism_scope_heads` | `reports/canonical/gap-head-ablation.json:$.factor_attribution` | `reports/canonical/gap-head-ablation.json:$.control_protocol` | `reports/canonical/gap-head-ablation.json:$.hardgate` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG19` | `present-but-fail-closed` | `missing-ablation-pointer` |
-| `DGT-HG11` | `$.component_descriptors.gap_ledger_route_mechanism_scope_heads` | `reports/gap_head_mechanism_namecert.json:$.mechanism_spec` | `reports/gap_head_mechanism_namecert.json:$.source_spec.scope_seal` | `reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG19` | `present-but-fail-closed` | `missing-ablation-pointer` |
-| `DGT-HG12` | `$.component_descriptors.output_bundle` | `$.downstream_scope` | `None` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG20` | `present-but-fail-closed` | `missing-terminal-claim-pointer` |
-
-- Overall state: `present-but-fail-closed`
-
-## Mechanism Certificate
-
-| gate | state | evidence pointer | pointer state | scope | not claimed |
-| --- | --- | --- | --- | --- | --- |
-| `DGT-MECH-HG1` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
-| `DGT-MECH-HG2` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.evidence_pointers.interventions` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
-| `DGT-MECH-HG3` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.evidence_pointers.component_ablations` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
-| `DGT-MECH-HG4` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.evidence_pointers.shortcut_exclusion` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
-| `DGT-MECH-HG5` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
-| `DGT-MECH-HG6` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.certificate_scope` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
-
-- Mechanism certificate: `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate`
-- Mechanism overall state: `present-but-fail-closed`
-- Mutation ledger: `reports/canonical/negative_witness_mutation_ledger.json:$.entries`
-- Training replay: `reports/runs/discovery_gated_transformer/training-replay/training_replay/training_replay.json:$`
-- Training hardgates: `reports/runs/discovery_gated_transformer/training-replay/training_replay/training_replay.json:$.hardgates`
-- Downstream scope: `$.downstream_scope`
+| `NEW-MODEL-HG1` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.model_id` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG1` |
+| `NEW-MODEL-HG2` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.sequence_task_grid` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG2` |
+| `NEW-MODEL-HG3` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.training_evidence` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG3` |
+| `NEW-MODEL-HG4` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.claim_capsule_ref` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG4` |
+| `NEW-MODEL-HG5` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.training_evidence.evidence_envelope_pointer` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG5` |
+| `NEW-MODEL-HG6` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.training_evidence.cost_protocol_pointer` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG6` |
+| `NEW-MODEL-HG7` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.baselines.parameter_control` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG7` |
+| `NEW-MODEL-HG8` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.baselines.compute_control` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG8` |
+| `NEW-MODEL-HG9` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.baselines.matched_random` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG9` |
+| `NEW-MODEL-HG10` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.sequence_task_grid.eval` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG10` |
+| `NEW-MODEL-HG11` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.net_positive_signal` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG11` |
+| `NEW-MODEL-HG12` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.training_evidence.false_ledger_rate` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG12` |
+| `NEW-MODEL-HG13` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.training_evidence.benefit_signal` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG13` |
+| `NEW-MODEL-HG14` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.training_evidence.loss_decrease` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG14` |
+| `NEW-MODEL-HG15` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.net_positive_signal.quality_q_ci_low` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG15` |
+| `NEW-MODEL-HG16` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.classifier_surface_delta` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG16` |
+| `NEW-MODEL-HG17` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.forbidden_claim_term_audit` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG17` |
+| `NEW-MODEL-HG18` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.revocation_rows` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG18` |
+| `NEW-MODEL-HG19` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.discovery_map_signal` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG19` |
+| `NEW-MODEL-HG20` | `pass` | `reports/canonical/discovery_gated_transformer.json:$.not_claimed` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG20` |
