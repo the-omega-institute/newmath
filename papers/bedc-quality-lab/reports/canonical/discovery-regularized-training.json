@@ -1,4 +1,26 @@
 {
+  "anti_triviality_failed_gate": null,
+  "anti_triviality_gate_evidence": {
+    "forbidden_column": {
+      "pointer": "$.forbidden_claim_term_audit.status",
+      "status": "pass"
+    },
+    "matched_random": {
+      "pointer": "$.matched_random_control",
+      "status": "pass"
+    },
+    "metadata_only": {
+      "pointer": "$.surface_registry.task_accuracy_only",
+      "status": "pass"
+    },
+    "scale_only": {
+      "pointer": "$.quality_promotion_boundary.hardgate",
+      "status": "pass"
+    }
+  },
+  "anti_triviality_policy": "positive_requires_all_four_controls",
+  "anti_triviality_recommended_level": "D5-M",
+  "anti_triviality_status": "pass",
   "arm_protocol": {
     "deterministic_anchor": {
       "arms": [
@@ -18,6 +40,46 @@
     }
   },
   "artifact_id": "bedc-quality-lab:discovery-regularized-training",
+  "certificate_guided_dn_preservation": {
+    "boundary_verdict": "preserve-sibling-dn-evidence",
+    "comparison_permission": "DRT may compare while preserving certificate-guided DN evidence as sibling artifacts.",
+    "discovery_map_refs": [
+      {
+        "expected_discovery_level": "DN",
+        "pointer": "reports/canonical/discovery_map.json:$.rows[?report=certificate-guided-training].discovery_level",
+        "status": "expected"
+      },
+      {
+        "expected_discovery_level": "DN",
+        "pointer": "reports/canonical/discovery_map.json:$.rows[?report=certificate-guided-discovery].discovery_level",
+        "status": "expected"
+      }
+    ],
+    "forbidden_actions": [
+      "cover",
+      "replace",
+      "delete"
+    ],
+    "not_claimed": "Certificate-guided artifacts remain independent sibling evidence.",
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.certificate_guided_dn_preservation",
+    "required_refs": [
+      {
+        "artifact": "reports/canonical/certificate-guided-training.json",
+        "artifact_status": "present",
+        "expected_discovery_level": "DN",
+        "role": "sibling-dn-evidence"
+      },
+      {
+        "artifact": "reports/canonical/certificate-guided-discovery.json",
+        "artifact_status": "present",
+        "expected_discovery_level": "DN",
+        "role": "sibling-dn-evidence"
+      }
+    ],
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:certificate-guided-dn-preservation",
+    "status": "pass",
+    "terminal_status_isolated": true
+  },
   "claim_capsule_ref": "reports/runs/discovery-regularized-training/claim_capsule.json",
   "claim_capsule_status": "d5-m-candidate",
   "component_ablation": {
@@ -345,6 +407,15 @@
         "status": "pass"
       },
       "DRT-HG7": {
+        "evidence": "DRT may compare against certificate-guided baselines only while preserving their sibling DN evidence and isolating terminal verdict semantics.",
+        "evidence_pointer": "$.certificate_guided_dn_preservation",
+        "expected_dn_status": true,
+        "forbidden_actions_absent": true,
+        "required_refs_present": true,
+        "status": "pass",
+        "terminal_status_isolated": true
+      },
+      "DRT-HG8": {
         "comparison_pointers_resolve": true,
         "evidence": "The deterministic mechanism ablation must preserve all six owner-local arms, resolved comparison pointers, full DRT separation, a positive full mechanism signal, and no net-positive ablation parity.",
         "evidence_pointer": "$.mechanism_ablation",
@@ -354,7 +425,7 @@
         "required_arms_present": true,
         "status": "pass"
       },
-      "DRT-HG8": {
+      "DRT-HG9": {
         "all_required_pointers_resolve": true,
         "evidence": "D5-M promotion requires the DRT-local training mechanism certificate to pass with all owner-local pointers resolved.",
         "evidence_pointer": "$.training_mechanism_cert",
@@ -917,7 +988,9 @@
       "bedc_quality_lab/discovery_regularized_training.py",
       "scripts/run_discovery_regularized_training.py"
     ],
-    "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"
+    "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+    "reports/canonical/certificate-guided-discovery.json": "present",
+    "reports/canonical/certificate-guided-training.json": "present"
   },
   "surface_registry": {
     "classifier_shift": {
@@ -1166,7 +1239,7 @@
   },
   "training_mechanism_cert": {
     "all_required_pointers_resolve": true,
-    "hardgate_pointer": "reports/canonical/discovery-regularized-training.json:$.hardgate.gates.DRT-HG8",
+    "hardgate_pointer": "reports/canonical/discovery-regularized-training.json:$.hardgate.gates.DRT-HG9",
     "ledger_complete": true,
     "ledger_pointer": "reports/canonical/discovery-regularized-training.json:$.compute_ledger",
     "matched_control_pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",

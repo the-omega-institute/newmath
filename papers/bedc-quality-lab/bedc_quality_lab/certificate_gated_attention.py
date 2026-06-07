@@ -9,6 +9,7 @@ import math
 import statistics
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
@@ -152,6 +153,16 @@ def _revocation_rows(failed_gate: str | None) -> list[dict[str, Any]]:
             "active": failed_gate is None,
         },
     ]
+
+
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.route_patch_protocol.entropy_only_control",
+        metadata_only_pointer="$.gate_protocol",
+        matched_random_pointer="$.matched_random_control",
+        forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+    )
 
 
 def _route_patch_protocol(
@@ -360,6 +371,8 @@ class CertificateGatedAttentionProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "forbidden_claim_term_audit": capsule["forbidden_claim_term_audit"],
         }
+        if signal["level_candidate"] == "D4" and failed_gate is None:
+            summary.update(_anti_triviality_contract("D4"))
         if any(alias in summary for alias in FORBIDDEN_SUMMARY_ALIASES):
             raise ValueError("certificate-gated attention summary emitted a forbidden alias")
         if _has_recursive_key(summary, "terminal_verdict") or _has_recursive_key(capsule, "terminal_verdict"):

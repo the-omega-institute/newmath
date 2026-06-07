@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:claim-graph",
-  "generated_at": "2026-06-07T20:57:07.067409+00:00",
+  "generated_at": "2026-06-07T23:05:25.838721+00:00",
   "hardgates": {
     "CG-HG1": {
       "criterion": "accepted_positive_discovery terminals trace to raw_evidence through projected_discovery",
@@ -63,6 +63,7 @@
         "terminal:lejepa-theorem-ledger",
         "terminal:observed-debt-sweep",
         "terminal:spectral-ablation-hinge",
+        "terminal:model-comparison",
         "terminal:causal-patch-suite",
         "terminal:dimension-mismatch-debt-transfer",
         "terminal:single-threshold-escape",
@@ -74,16 +75,17 @@
         "terminal:witness:scorecard_not_ready",
         "terminal:witness:forbidden_inference_column",
         "terminal:witness:benefit_debt_tradeoff",
-        "terminal:witness:fresh_claim_downgrade"
+        "terminal:witness:fresh_claim_downgrade",
+        "terminal:witness:synthetic_leakage_injection"
       ]
     },
     "CG-HG5": {
       "criterion": "all node source_pointer values resolve",
-      "source_pointer_count": 98,
+      "source_pointer_count": 103,
       "status": "pass"
     }
   },
-  "node_count": 98,
+  "node_count": 103,
   "nodes": [
     {
       "depends_on": [],
@@ -528,6 +530,26 @@
     {
       "depends_on": [],
       "discovery_level": null,
+      "node_id": "raw:model-comparison",
+      "node_type": "raw_evidence",
+      "not_claimed": [],
+      "source_pointer": "reports/canonical/model-comparison.json:$",
+      "terminal_verdict": null
+    },
+    {
+      "depends_on": [
+        "raw:model-comparison"
+      ],
+      "discovery_level": "D0",
+      "node_id": "projected:model-comparison",
+      "node_type": "projected_discovery",
+      "not_claimed": [],
+      "source_pointer": "reports/canonical/discovery_map.json:$.rows[22]",
+      "terminal_verdict": null
+    },
+    {
+      "depends_on": [],
+      "discovery_level": null,
       "node_id": "raw:causal-patch-suite",
       "node_type": "raw_evidence",
       "not_claimed": [],
@@ -542,7 +564,7 @@
       "node_id": "projected:causal-patch-suite",
       "node_type": "projected_discovery",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/discovery_map.json:$.rows[22]",
+      "source_pointer": "reports/canonical/discovery_map.json:$.rows[23]",
       "terminal_verdict": null
     },
     {
@@ -562,7 +584,7 @@
       "node_id": "projected:dimension-mismatch-debt-transfer",
       "node_type": "projected_discovery",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/discovery_map.json:$.rows[23]",
+      "source_pointer": "reports/canonical/discovery_map.json:$.rows[24]",
       "terminal_verdict": null
     },
     {
@@ -582,7 +604,7 @@
       "node_id": "projected:single-threshold-escape",
       "node_type": "projected_discovery",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/discovery_map.json:$.rows[24]",
+      "source_pointer": "reports/canonical/discovery_map.json:$.rows[25]",
       "terminal_verdict": null
     },
     {
@@ -602,7 +624,7 @@
       "node_id": "projected:training-choice-observability",
       "node_type": "projected_discovery",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/discovery_map.json:$.rows[25]",
+      "source_pointer": "reports/canonical/discovery_map.json:$.rows[26]",
       "terminal_verdict": null
     },
     {
@@ -676,6 +698,15 @@
       "not_claimed": [],
       "source_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]",
       "terminal_verdict": "demoted"
+    },
+    {
+      "depends_on": [],
+      "discovery_level": "DN",
+      "node_id": "negative-witness:synthetic_leakage_injection",
+      "node_type": "negative_witness",
+      "not_claimed": [],
+      "source_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[8]",
+      "terminal_verdict": "rejected"
     },
     {
       "depends_on": [
@@ -965,13 +996,24 @@
     },
     {
       "depends_on": [
+        "projected:model-comparison"
+      ],
+      "discovery_level": null,
+      "node_id": "terminal:model-comparison",
+      "node_type": "terminal_claim",
+      "not_claimed": [],
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[22]",
+      "terminal_verdict": "projected_discovery_required"
+    },
+    {
+      "depends_on": [
         "projected:causal-patch-suite"
       ],
       "discovery_level": null,
       "node_id": "terminal:causal-patch-suite",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[22]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[23]",
       "terminal_verdict": "projected_discovery_required"
     },
     {
@@ -982,7 +1024,7 @@
       "node_id": "terminal:dimension-mismatch-debt-transfer",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[23]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[24]",
       "terminal_verdict": "negative_discovery"
     },
     {
@@ -993,7 +1035,7 @@
       "node_id": "terminal:single-threshold-escape",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[24]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
       "terminal_verdict": "negative_discovery"
     },
     {
@@ -1004,7 +1046,7 @@
       "node_id": "terminal:training-choice-observability",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[25]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[26]",
       "terminal_verdict": "negative_discovery"
     },
     {
@@ -1015,7 +1057,7 @@
       "node_id": "terminal:witness:classifier_surface_delta_zero",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[26]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[27]",
       "terminal_verdict": "negative_discovery"
     },
     {
@@ -1026,7 +1068,7 @@
       "node_id": "terminal:witness:matched_control_positive",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[27]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[28]",
       "terminal_verdict": "negative_discovery"
     },
     {
@@ -1037,7 +1079,7 @@
       "node_id": "terminal:witness:hidden_debt_positive",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[28]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[29]",
       "terminal_verdict": "revoked_discovery"
     },
     {
@@ -1048,7 +1090,7 @@
       "node_id": "terminal:witness:cost_protocol_missing",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[29]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[30]",
       "terminal_verdict": "negative_discovery"
     },
     {
@@ -1059,7 +1101,7 @@
       "node_id": "terminal:witness:scorecard_not_ready",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[30]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[31]",
       "terminal_verdict": "projected_discovery_required"
     },
     {
@@ -1070,7 +1112,7 @@
       "node_id": "terminal:witness:forbidden_inference_column",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[31]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[32]",
       "terminal_verdict": "negative_discovery"
     },
     {
@@ -1081,7 +1123,7 @@
       "node_id": "terminal:witness:benefit_debt_tradeoff",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[32]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[33]",
       "terminal_verdict": "revoked_discovery"
     },
     {
@@ -1092,8 +1134,19 @@
       "node_id": "terminal:witness:fresh_claim_downgrade",
       "node_type": "terminal_claim",
       "not_claimed": [],
-      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[33]",
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[34]",
       "terminal_verdict": "revoked_discovery"
+    },
+    {
+      "depends_on": [
+        "negative-witness:synthetic_leakage_injection"
+      ],
+      "discovery_level": null,
+      "node_id": "terminal:witness:synthetic_leakage_injection",
+      "node_type": "terminal_claim",
+      "not_claimed": [],
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[35]",
+      "terminal_verdict": "negative_discovery"
     }
   ],
   "schema_id": "bedc-quality-lab:claim-graph",

@@ -22,6 +22,7 @@ SUMMARY_JSON_ARTIFACT = "reports/canonical/discovery_negative_witness_summary.js
 SUMMARY_MARKDOWN_ARTIFACT = "reports/canonical/discovery_negative_witness_summary.md"
 DISCOVERY_MAP_ARTIFACT = "reports/canonical/discovery_map.json"
 CLAIM_VERDICTS_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
+POSITIVE_BASE_LEVELS = frozenset({"D4", "D5-O", "D5-M"})
 DIMENSION_MISMATCH_REPORT_ID = "dimension-mismatch-scale-leakage"
 DIMENSION_MISMATCH_GAP_WITNESS_POINTER = (
     "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json:"
@@ -61,6 +62,10 @@ OWNER_FACT_KEYS = frozenset(
         "failed_gate",
         "debt_row_pointer",
         "anti_triviality_status",
+        "anti_triviality_policy",
+        "anti_triviality_recommended_level",
+        "anti_triviality_failed_gate",
+        "anti_triviality_gate_evidence",
         "downgrade_reason",
         "hypothesis",
         "what_was_learned",
@@ -286,10 +291,44 @@ def validate_negative_report_row(root: Path, row: Mapping[str, Any]) -> dict[str
         pointer = str(item.get("ledger_pointer") or item.get("source") or "")
     if not pointer or resolve_artifact_pointer(root, pointer) is None:
         raise ValueError(f"negative discovery report failed_gate pointer does not resolve: {report_id}")
+    if _is_anti_triviality_failure(item):
+        _validate_anti_triviality_negative_boundary(root, item, pointer)
     if set(item) - OWNER_FACT_KEYS:
         extra = ", ".join(sorted(set(item) - OWNER_FACT_KEYS))
         raise ValueError(f"negative discovery report row has unsupported keys: {extra}")
     return item
+
+
+def _is_anti_triviality_failure(item: Mapping[str, Any]) -> bool:
+    failed_gate = item.get("failed_gate")
+    if isinstance(failed_gate, str) and "anti_triviality" in failed_gate:
+        return True
+    if item.get("anti_triviality_status") not in (None, "pass", "anti_triviality_passed"):
+        return True
+    if item.get("downgrade_reason") in {
+        "scale_only_or_metadata_proxy_sufficient",
+        "metadata_proxy_sufficient",
+        "anti_triviality_failed",
+    }:
+        return True
+    return False
+
+
+def _validate_anti_triviality_negative_boundary(
+    root: Path,
+    item: Mapping[str, Any],
+    resolved_failed_gate_pointer: str,
+) -> None:
+    failed_gate = item.get("failed_gate")
+    if not isinstance(failed_gate, str) or "anti_triviality" not in failed_gate:
+        raise ValueError("anti-triviality DN report requires owner-local anti-triviality failed_gate")
+    if item.get("base_level") not in POSITIVE_BASE_LEVELS:
+        raise ValueError("anti-triviality DN report with positive base requires base_level")
+    artifact = str(item.get("json_artifact") or "")
+    if not resolved_failed_gate_pointer.startswith(f"{artifact}:"):
+        raise ValueError("anti-triviality DN failed_gate must resolve inside the owner artifact")
+    if resolve_artifact_pointer(root, resolved_failed_gate_pointer) in (None, "pass", "anti_triviality_passed"):
+        raise ValueError("anti-triviality DN failed_gate does not resolve to a failing owner-local field")
 
 
 def validate_negative_discovery_reports(

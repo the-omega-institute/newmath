@@ -8,7 +8,12 @@ from bedc_quality_lab.backends.current_lab.adapter import CurrentLabBackendEvide
 from bedc_quality_lab.discovery_compiler.backend import BackendEvidenceAdapter, TheoryBackend
 from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule, build_claim_capsule_payload
 from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
-from bedc_quality_lab.discovery_compiler.map import DiscoveryMapRow, build_discovery_map_payload
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
+from bedc_quality_lab.discovery_compiler.map import (
+    DiscoveryMapRow,
+    build_discovery_map_payload,
+    owner_anti_triviality_check,
+)
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT,
 )
@@ -321,6 +326,89 @@ def test_build_discovery_map_payload_validates_rows():
 
     assert payload["row_count"] == 1
     assert payload["level_counts"]["D4"] == 1
+
+
+def _positive_owner_payload(contract=None):
+    payload = {
+        "positive": True,
+        "metadata": {"owner": "fixture"},
+        "control": {"positive": False},
+        "forbidden": {"status": "pass"},
+    }
+    payload.update(
+        contract
+        if contract is not None
+        else {"anti_triviality_status": "pass"}
+        | owner_local_anti_triviality_contract(
+            recommended_level="D5-O",
+            scale_only_pointer="$.positive",
+            metadata_only_pointer="$.metadata",
+            matched_random_pointer="$.control.positive",
+            forbidden_column_pointer="$.forbidden.status",
+        )
+    )
+    return payload
+
+
+def _write_positive_owner(root: Path, payload: Mapping[str, Any]) -> None:
+    path = root / "reports" / "canonical" / "positive.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+
+
+def _positive_row():
+    return {
+        "report": "positive-fixture",
+        "json_artifact": "reports/canonical/positive.json",
+        "markdown_artifact": "reports/canonical/positive.md",
+        "discovery_level": "D5-O",
+        "terminal_verdict": "",
+        "projection_status": "projected",
+        "evidence_pointer": "$.positive",
+        "audit_status": "valid",
+        "audit_reason": "",
+    }
+
+
+def test_owner_anti_triviality_check_requires_four_resolvable_owner_gates(tmp_path):
+    _write_positive_owner(tmp_path, _positive_owner_payload())
+
+    ok, reason = owner_anti_triviality_check(
+        tmp_path,
+        "reports/canonical/positive.json:$.positive",
+        accepted_level="D5-O",
+    )
+    payload = build_discovery_map_payload(rows=[_positive_row()], generated_at="fixture-time", root=tmp_path)
+
+    assert ok is True
+    assert reason == ""
+    assert payload["rows"][0]["discovery_level"] == "D5-O"
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda payload: payload["anti_triviality_gate_evidence"].pop("metadata_only"),
+        lambda payload: payload.update({"anti_triviality_policy": "fixture-policy"}),
+        lambda payload: payload.update({"anti_triviality_recommended_level": "D4"}),
+        lambda payload: payload["anti_triviality_gate_evidence"]["scale_only"].update({"pointer": "$.missing"}),
+    ],
+)
+def test_positive_row_rejects_malformed_owner_anti_triviality_contract(tmp_path, mutate):
+    payload = _positive_owner_payload()
+    mutate(payload)
+    _write_positive_owner(tmp_path, payload)
+
+    ok, reason = owner_anti_triviality_check(
+        tmp_path,
+        "reports/canonical/positive.json:$.positive",
+        accepted_level="D5-O",
+    )
+
+    assert ok is False
+    assert reason == "anti-triviality-owner-contract-not-pass"
+    with pytest.raises(ValueError, match="positive discovery map row lacks owner anti-triviality support"):
+        build_discovery_map_payload(rows=[_positive_row()], generated_at="fixture-time", root=tmp_path)
 
 
 def _proposal_fixture():

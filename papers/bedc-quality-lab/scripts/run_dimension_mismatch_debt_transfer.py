@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer
 from scripts.experiment_stats import metric_stats
 from scripts import run_gap_head_observed_debt_transfer as observed_transfer
@@ -760,6 +761,24 @@ def _sidecar_controlled_geometry(root: Path, payload: Mapping[str, Any]) -> dict
     }
 
 
+def _sidecar_anti_triviality_contract(sidecar: Mapping[str, Any], effective_level: str) -> dict[str, Any]:
+    status = "pass" if sidecar.get("sidecar_status") == "anti_triviality_passed" else "fail"
+    if sidecar.get("status") == "defer":
+        status = "defer"
+    failed_gate = sidecar.get("failed_gate")
+    if status == "pass":
+        failed_gate = None
+    return owner_local_anti_triviality_contract(
+        recommended_level=effective_level,
+        scale_only_pointer="$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        metadata_only_pointer="$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        matched_random_pointer="$.control_protocol",
+        forbidden_column_pointer="$.representation_boundary.actual_model_input_columns",
+        status=status,
+        failed_gate=failed_gate,
+    )
+
+
 def build_negative_witness_rows(payload: Mapping[str, Any], root: Path) -> tuple[NegativeWitnessRow, ...]:
     transfer = payload.get("dimension_mismatch_debt_transfer")
     if not isinstance(transfer, Mapping):
@@ -932,6 +951,7 @@ def build_payload(
     effective_level = str(sidecar["effective_level"]) if status == "pass" else source_level
     terminal_verdict = str(sidecar["terminal_verdict"])
     downgrade_reason = sidecar["downgrade_reason"]
+    anti_triviality_contract = _sidecar_anti_triviality_contract(sidecar, effective_level)
     return {
         "artifact_id": ARTIFACT_ID,
         "artifact": JSON_ARTIFACT,
@@ -1027,6 +1047,7 @@ def build_payload(
                 if isinstance(sidecar.get("controlled_geometry"), Mapping)
                 else {},
             },
+            **anti_triviality_contract,
         },
         "metrics": {
             "by_arm": {
