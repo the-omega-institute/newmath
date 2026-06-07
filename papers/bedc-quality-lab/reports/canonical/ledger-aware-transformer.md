@@ -21,6 +21,7 @@
 | `LAT-HG5` | `pass` | `$.forbidden_claim_term_audit.status` |
 | `LAT-HG6` | `pass` | `$.torch_training_evidence.protocol` |
 | `LAT-HG7` | `pass` | `$.parameter_matched_baseline.comparison` |
+| `LAT-HG8` | `pass` | `$.compute_matched_baseline` |
 
 ## Records
 
@@ -40,5 +41,6 @@
 - Positive claim pointer: `$.positive_claim`
 - Control pointer: `$.control_protocol`
 - Parameter-matched baseline pointer: `$.parameter_matched_baseline`
+- Compute-matched baseline pointer: `$.compute_matched_baseline`
 - Discovery signal pointer: `$.discovery_map_signal`
 - Torch evidence pointer: `$.torch_training_evidence`

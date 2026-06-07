@@ -1201,9 +1201,14 @@ def test_lat_current_lab_projection_maps_d5_o_and_resolves_pointers(tmp_path):
     assert discovery_map.pointer_value(lat_payload, row["evidence_pointer"]) is not None
     assert discovery_map.pointer_value(lat_payload, row["control_pointer"]) is not None
     assert lat_payload["discovery_map_signal"]["parameter_matched_baseline_pointer"] == "$.parameter_matched_baseline"
+    assert lat_payload["discovery_map_signal"]["compute_matched_baseline_pointer"] == "$.compute_matched_baseline"
     assert discovery_map.pointer_value(
         lat_payload,
         lat_payload["discovery_map_signal"]["parameter_matched_baseline_pointer"],
+    ) is not None
+    assert discovery_map.pointer_value(
+        lat_payload,
+        lat_payload["discovery_map_signal"]["compute_matched_baseline_pointer"],
     ) is not None
     robustness_artifact, robustness_pointer = row["robustness_pointer"].split(":", 1)
     assert robustness_artifact == "reports/canonical/ledger-aware-transformer.json"
@@ -1239,6 +1244,7 @@ def _lat_recompute(payload):
         generated_at=payload["generated_at"],
         run_artifacts=payload["run_artifacts"],
         torch_protocol=lat.TorchLedgerArmProtocol(**payload["torch_training_evidence"]["protocol"]),
+        compute_protocol=payload["compute_matched_baseline"],
     )
     payload["robustness_signal"] = lat._LAT_SURFACE_SUITE.robustness_signal(payload)
     hardgates = projection.hardgate_verdicts(payload)
@@ -1295,6 +1301,27 @@ def test_lat_discovery_map_rejects_dangling_parameter_matched_pointer(tmp_path):
     assert row["discovery_level"] == "DN"
     assert row["audit_status"] == "invalid"
     assert row["audit_reason"] == "lat-dangling-parameter-matched-baseline-pointer"
+
+
+def test_lat_compute_matched_failure_projects_dn_owner_to_hg8(tmp_path):
+    _write_all_payloads(tmp_path)
+    lat_payload = lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    lat_payload["compute_matched_baseline"]["candidate_arm"]["flops_per_step"] = (
+        lat_payload["compute_matched_baseline"]["baseline_arm"]["flops_per_step"] * 1.2
+    )
+    lat_payload["compute_matched_baseline"]["failed_metrics"] = ["flops_per_step"]
+    lat_payload["compute_matched_baseline"]["status"] = "fail"
+    _lat_recompute(lat_payload)
+    _write_json_artifact(tmp_path, "reports/canonical/ledger-aware-transformer.json", lat_payload)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["ledger-aware-transformer"]
+
+    assert lat_payload["failed_gate"] == "LAT-HG8"
+    assert row["discovery_level"] == "DN"
+    owner = _owner_by_pointer(tmp_path, row["negative_report_pointer"])
+    assert owner["failed_gate"] == "$.hardgate.gates.LAT-HG8.status"
+    assert owner["terminal_verdict"] == "rejected"
 
 
 def test_attribution_capsule_projection_records_operational_and_mechanism_axes(tmp_path):

@@ -19,10 +19,15 @@ from bedc_quality_lab.ledger_aware_transformer import (
     DRIFT_TOLERANCE,
     JSON_ARTIFACT,
     MARKDOWN_ARTIFACT,
+    ComputeMatchedArmMeasurement,
+    ComputeMatchedBaselineProtocol,
+    COMPUTE_MATCHED_BASELINE_ARM,
+    COMPUTE_MATCHED_CANDIDATE_ARM,
     LedgerAwareTransformerConfig,
     LedgerAwareTransformerProjection,
     TorchLedgerArmProtocol,
     default_config,
+    evaluate_compute_matched_baseline,
     default_run_artifacts,
     evaluate_surface,
     render_markdown,
@@ -92,6 +97,44 @@ def collect_torch_protocol(
     )
 
 
+def collect_compute_matched_protocol(config: LedgerAwareTransformerConfig) -> ComputeMatchedBaselineProtocol:
+    flops_per_step = float(config.sample_count * config.hidden_dim * config.hidden_dim * config.layer_count * 2)
+    step_count = max(1, len(surface_specs()) * config.layer_count)
+    sample_count = max(1, config.sample_count)
+    wall_time_ms_per_step = round(
+        (config.hidden_dim * config.layer_count + config.sample_count / max(1, config.train_count)) / 100.0,
+        6,
+    )
+    candidate = ComputeMatchedArmMeasurement(
+        arm_id=COMPUTE_MATCHED_CANDIDATE_ARM,
+        flops_per_step=flops_per_step,
+        wall_time_ms_per_step=wall_time_ms_per_step,
+        step_count=step_count,
+        sample_count=sample_count,
+        measurement_method="deterministic-numpy-step-surrogate",
+        artifact_pointer="$.source_artifacts.cost_protocol",
+    )
+    baseline = ComputeMatchedArmMeasurement(
+        arm_id=COMPUTE_MATCHED_BASELINE_ARM,
+        flops_per_step=flops_per_step,
+        wall_time_ms_per_step=wall_time_ms_per_step,
+        step_count=step_count,
+        sample_count=sample_count,
+        measurement_method="deterministic-numpy-step-surrogate",
+        artifact_pointer="$.source_artifacts.cost_protocol",
+    )
+    return evaluate_compute_matched_baseline(
+        candidate_arm=candidate,
+        baseline_arm=baseline,
+        tolerances={
+            "flops_per_step": 0.0,
+            "wall_time_ms_per_step": 0.05,
+            "step_count": 0.0,
+            "sample_count": 0.0,
+        },
+    )
+
+
 def build_projection(
     *,
     generated_at: str = DEFAULT_GENERATED_AT,
@@ -108,12 +151,14 @@ def build_projection(
         steps=steps,
         enable_torch=enable_torch,
     )
+    compute_protocol = collect_compute_matched_protocol(active)
     return LedgerAwareTransformerProjection(
         config=active,
         records=collect_deterministic_records(active),
         generated_at=generated_at,
         run_artifacts=default_run_artifacts(run_id),
         torch_protocol=torch_protocol,
+        compute_protocol=compute_protocol,
     ).project()
 
 

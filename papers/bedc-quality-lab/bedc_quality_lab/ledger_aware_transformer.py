@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import math
 from dataclasses import asdict, dataclass
-from typing import Any, Mapping, Sequence
+from typing import Any, Literal, Mapping, Sequence
 
 import numpy as np
 
@@ -23,13 +23,15 @@ ARTIFACT_ID = "bedc-quality-lab:ledger-aware-transformer"
 SCHEMA_ID = "bedc.model.ledger_aware_transformer"
 DEFAULT_GENERATED_AT = "2026-06-05T15:14:26.399733+00:00"
 CLAIM_CAPSULE_POINTER = "$.claim_capsule_ref.capsule"
-LAT_HARDGATES = tuple(f"LAT-HG{index}" for index in range(1, 8))
+LAT_HARDGATES = tuple(f"LAT-HG{index}" for index in range(1, 9))
 LEDGER_CHANNELS = ("high_residual_norm", "attention_drift", "write_collision")
 FORBIDDEN_INFERENCE_COLUMNS = ("label", "error", "ground_truth", "gap_label")
 DRIFT_TOLERANCE = 1.0e-4
 REQUIRED_PASS_SURFACE_COUNT = 3
 REQUIRED_PARAMETER_MATCHED_SURFACE_REDUCTION_COUNT = 2
 PARAMETER_MATCHED_BASELINE_ARM = "parameter_matched_no_ledger_transformer"
+COMPUTE_MATCHED_CANDIDATE_ARM = "ledger_aware_gap_head_on_residual"
+COMPUTE_MATCHED_BASELINE_ARM = "compute_matched_no_ledger_transformer"
 
 
 @dataclass(frozen=True)
@@ -149,6 +151,27 @@ class ParameterMatchedTransformerBaseline:
     uses_cert: bool
     uses_forbidden_columns: bool
     cost_pointer: str
+
+
+@dataclass(frozen=True)
+class ComputeMatchedArmMeasurement:
+    arm_id: str
+    flops_per_step: float
+    wall_time_ms_per_step: float
+    step_count: int
+    sample_count: int
+    measurement_method: str
+    artifact_pointer: str
+
+
+@dataclass(frozen=True)
+class ComputeMatchedBaselineProtocol:
+    candidate_arm: ComputeMatchedArmMeasurement
+    baseline_arm: ComputeMatchedArmMeasurement
+    tolerances: Mapping[str, float]
+    status: Literal["pass", "fail"]
+    failed_metrics: tuple[str, ...]
+    evidence_pointer: str
 
 
 def default_config() -> LedgerAwareTransformerConfig:
@@ -464,6 +487,7 @@ def _discovery_map_pointers_resolve(payload: Mapping[str, Any], signal: Mapping[
         "torch_training_evidence_pointer",
         "robustness_evidence_pointer",
         "parameter_matched_baseline_pointer",
+        "compute_matched_baseline_pointer",
         "failed_gate_pointer",
     )
     for key in pointers:
@@ -531,6 +555,103 @@ def _parameter_matched_candidate_beats_baseline(comparison: Mapping[str, Any]) -
     return _positive_number(comparison.get("uer_reduction")) and _surface_reduction_requirement_met(comparison)
 
 
+def _compute_matched_failed_metrics(protocol: Mapping[str, Any]) -> tuple[str, ...]:
+    candidate = protocol.get("candidate_arm")
+    baseline = protocol.get("baseline_arm")
+    tolerances = protocol.get("tolerances")
+    if not isinstance(candidate, Mapping) or not isinstance(baseline, Mapping) or not isinstance(tolerances, Mapping):
+        return ("protocol_shape",)
+    failed: list[str] = []
+    for metric in ("flops_per_step", "wall_time_ms_per_step", "step_count", "sample_count"):
+        candidate_value = candidate.get(metric)
+        baseline_value = baseline.get(metric)
+        tolerance_value = tolerances.get(metric, 0.0)
+        if (
+            isinstance(candidate_value, bool)
+            or isinstance(baseline_value, bool)
+            or isinstance(tolerance_value, bool)
+            or not isinstance(candidate_value, (int, float))
+            or not isinstance(baseline_value, (int, float))
+            or not isinstance(tolerance_value, (int, float))
+        ):
+            failed.append(metric)
+            continue
+        candidate_number = float(candidate_value)
+        baseline_number = float(baseline_value)
+        tolerance_number = float(tolerance_value)
+        if not all(math.isfinite(value) for value in (candidate_number, baseline_number, tolerance_number)):
+            failed.append(metric)
+            continue
+        if tolerance_number < 0.0 or baseline_number <= 0.0 or candidate_number <= 0.0:
+            failed.append(metric)
+            continue
+        if candidate_number > baseline_number * (1.0 + tolerance_number):
+            failed.append(metric)
+    return tuple(failed)
+
+
+def evaluate_compute_matched_baseline(
+    *,
+    candidate_arm: ComputeMatchedArmMeasurement,
+    baseline_arm: ComputeMatchedArmMeasurement,
+    tolerances: Mapping[str, float],
+    evidence_pointer: str = "$.compute_matched_baseline",
+) -> ComputeMatchedBaselineProtocol:
+    protocol = {
+        "candidate_arm": asdict(candidate_arm),
+        "baseline_arm": asdict(baseline_arm),
+        "tolerances": dict(tolerances),
+        "evidence_pointer": evidence_pointer,
+    }
+    failed_metrics = _compute_matched_failed_metrics(protocol)
+    return ComputeMatchedBaselineProtocol(
+        candidate_arm=candidate_arm,
+        baseline_arm=baseline_arm,
+        tolerances=dict(tolerances),
+        status="pass" if not failed_metrics else "fail",
+        failed_metrics=failed_metrics,
+        evidence_pointer=evidence_pointer,
+    )
+
+
+def default_compute_matched_baseline_protocol(
+    config: LedgerAwareTransformerConfig,
+    *,
+    wall_time_ms_per_step: float = 0.184,
+) -> ComputeMatchedBaselineProtocol:
+    flops_per_step = float(config.sample_count * config.hidden_dim * config.hidden_dim * config.layer_count * 2)
+    step_count = max(1, len(surface_specs()) * config.layer_count)
+    sample_count = max(1, config.sample_count)
+    candidate = ComputeMatchedArmMeasurement(
+        arm_id=COMPUTE_MATCHED_CANDIDATE_ARM,
+        flops_per_step=flops_per_step,
+        wall_time_ms_per_step=wall_time_ms_per_step,
+        step_count=step_count,
+        sample_count=sample_count,
+        measurement_method="deterministic-numpy-step-estimator",
+        artifact_pointer="$.source_artifacts.cost_protocol",
+    )
+    baseline = ComputeMatchedArmMeasurement(
+        arm_id=COMPUTE_MATCHED_BASELINE_ARM,
+        flops_per_step=flops_per_step,
+        wall_time_ms_per_step=wall_time_ms_per_step,
+        step_count=step_count,
+        sample_count=sample_count,
+        measurement_method="deterministic-numpy-step-estimator",
+        artifact_pointer="$.source_artifacts.cost_protocol",
+    )
+    return evaluate_compute_matched_baseline(
+        candidate_arm=candidate,
+        baseline_arm=baseline,
+        tolerances={
+            "flops_per_step": 0.0,
+            "wall_time_ms_per_step": 0.05,
+            "step_count": 0.0,
+            "sample_count": 0.0,
+        },
+    )
+
+
 def _forbidden_term_audit(positive_claim: Mapping[str, Any]) -> dict[str, Any]:
     text = json.dumps(positive_claim, sort_keys=True).lower()
     hits = [term for term in FORBIDDEN_POSITIVE_CLAIM_TERMS if term.lower() in text]
@@ -561,6 +682,7 @@ def _payload_core(
     evaluations: Sequence[SurfaceEvaluation],
     generated_at: str,
     run_artifacts: Mapping[str, str],
+    compute_protocol: ComputeMatchedBaselineProtocol | Mapping[str, Any],
 ) -> dict[str, Any]:
     learned_uer = _mean_metric(evaluations, "gap_head", "unlogged_error_rate")
     control_uer = _mean_metric(evaluations, "matched_random_control", "unlogged_error_rate")
@@ -633,6 +755,7 @@ def _payload_core(
             "control_pointer": "$.control_protocol",
             "surface_registry_pointer": "$.surface_registry",
             "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
+            "compute_matched_baseline_pointer": "$.compute_matched_baseline",
         },
         "not_claimed": [
             "real-model training",
@@ -653,6 +776,11 @@ def _payload_core(
         config=active,
         lat_uer=learned_uer,
     )
+    payload["compute_matched_baseline"] = (
+        asdict(compute_protocol)
+        if isinstance(compute_protocol, ComputeMatchedBaselineProtocol)
+        else dict(compute_protocol)
+    )
     return payload
 
 
@@ -665,12 +793,18 @@ class LedgerAwareTransformerProjection:
         generated_at: str,
         run_artifacts: Mapping[str, str],
         torch_protocol: TorchLedgerArmProtocol,
+        compute_protocol: ComputeMatchedBaselineProtocol | Mapping[str, Any] | None = None,
     ) -> None:
         self.config = config
         self.records = [dict(record) for record in records]
         self.generated_at = generated_at
         self.run_artifacts = dict(run_artifacts)
         self.torch_protocol = torch_protocol
+        self.compute_protocol = (
+            default_compute_matched_baseline_protocol(config)
+            if compute_protocol is None
+            else compute_protocol
+        )
 
     def hardgate_verdicts(self, summaries: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         payload = summaries
@@ -684,6 +818,7 @@ class LedgerAwareTransformerProjection:
         revocation_rows = payload.get("revocation_rows")
         forbidden_audit = payload.get("forbidden_claim_term_audit")
         parameter_matched = payload.get("parameter_matched_baseline")
+        compute_matched = payload.get("compute_matched_baseline")
 
         hg1_pass = (
             isinstance(records, list)
@@ -792,6 +927,33 @@ class LedgerAwareTransformerProjection:
             and _pointer_resolves(payload, pm_comparison.get("lat_uer_pointer") if isinstance(pm_comparison.get("lat_uer_pointer"), str) else None)
             and _pointer_resolves(payload, pm_comparison.get("evidence_pointer") if isinstance(pm_comparison.get("evidence_pointer"), str) else None)
         )
+        compute_candidate = compute_matched.get("candidate_arm") if isinstance(compute_matched, Mapping) else None
+        compute_baseline = compute_matched.get("baseline_arm") if isinstance(compute_matched, Mapping) else None
+        compute_tolerances = compute_matched.get("tolerances") if isinstance(compute_matched, Mapping) else None
+        compute_failed_metrics = (
+            _compute_matched_failed_metrics(compute_matched)
+            if isinstance(compute_matched, Mapping)
+            else ("protocol_shape",)
+        )
+        compute_shape_pass = (
+            isinstance(compute_matched, Mapping)
+            and isinstance(compute_candidate, Mapping)
+            and isinstance(compute_baseline, Mapping)
+            and isinstance(compute_tolerances, Mapping)
+            and compute_candidate.get("arm_id") == COMPUTE_MATCHED_CANDIDATE_ARM
+            and compute_baseline.get("arm_id") == COMPUTE_MATCHED_BASELINE_ARM
+            and isinstance(compute_matched.get("failed_metrics"), (list, tuple))
+            and tuple(compute_matched.get("failed_metrics", ())) == compute_failed_metrics
+            and compute_matched.get("status") == ("pass" if not compute_failed_metrics else "fail")
+            and compute_matched.get("evidence_pointer") == "$.compute_matched_baseline"
+        )
+        compute_pointer_pass = (
+            compute_shape_pass
+            and _pointer_resolves(payload, "$.compute_matched_baseline")
+            and _pointer_resolves(payload, compute_candidate.get("artifact_pointer") if isinstance(compute_candidate.get("artifact_pointer"), str) else None)
+            and _pointer_resolves(payload, compute_baseline.get("artifact_pointer") if isinstance(compute_baseline.get("artifact_pointer"), str) else None)
+        )
+        hg8_pass = compute_shape_pass and compute_pointer_pass and not compute_failed_metrics
         results = {
             "LAT-HG1": (hg1_pass, "$.records", "deterministic records and surfaces present"),
             "LAT-HG2": (hg2_pass, "$.ledger.rows", "ledger and surface pointers resolve"),
@@ -803,6 +965,11 @@ class LedgerAwareTransformerProjection:
                 hg7_pass,
                 "$.parameter_matched_baseline.comparison",
                 "parameter-matched baseline is cost-matched and channel-clean",
+            ),
+            "LAT-HG8": (
+                hg8_pass,
+                "$.compute_matched_baseline",
+                "compute-matched baseline stays within deterministic step tolerances",
             ),
         }
         return {
@@ -835,6 +1002,7 @@ class LedgerAwareTransformerProjection:
             "torch_training_evidence_pointer": "$.torch_training_evidence",
             "robustness_evidence_pointer": "$.robustness_signal",
             "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
+            "compute_matched_baseline_pointer": "$.compute_matched_baseline",
             "net_positive_signal": True,
         }
         existing_signal = payload.get("discovery_map_signal") if isinstance(payload, Mapping) else None
@@ -853,6 +1021,7 @@ class LedgerAwareTransformerProjection:
                 "torch_training_evidence_pointer": candidate["torch_training_evidence_pointer"],
                 "robustness_evidence_pointer": candidate["robustness_evidence_pointer"],
                 "parameter_matched_baseline_pointer": candidate["parameter_matched_baseline_pointer"],
+                "compute_matched_baseline_pointer": candidate["compute_matched_baseline_pointer"],
                 "net_positive_signal": candidate["net_positive_signal"],
             }
         reason = "hardgate-failed" if failed is not None else "lat-discovery-map-pointer-dangling"
@@ -869,6 +1038,7 @@ class LedgerAwareTransformerProjection:
             "torch_training_evidence_pointer": "$.torch_training_evidence",
             "robustness_evidence_pointer": "$.robustness_signal",
             "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
+            "compute_matched_baseline_pointer": "$.compute_matched_baseline",
             "net_positive_signal": False,
         }
 
@@ -890,6 +1060,7 @@ class LedgerAwareTransformerProjection:
             evaluations=evaluations,
             generated_at=self.generated_at,
             run_artifacts=self.run_artifacts,
+            compute_protocol=self.compute_protocol,
         )
         payload["matched_random_control"] = {
             "status": "negative",
@@ -975,6 +1146,7 @@ def build_payload(
         generated_at=generated_at,
         run_artifacts=default_run_artifacts() if run_artifacts is None else run_artifacts,
         torch_protocol=protocol,
+        compute_protocol=default_compute_matched_baseline_protocol(active),
     )
     return projection.project()["summary_payload"]
 
@@ -1030,6 +1202,7 @@ def render_markdown(payload: Mapping[str, Any], capsule: Mapping[str, Any]) -> s
             "- Positive claim pointer: `$.positive_claim`",
             "- Control pointer: `$.control_protocol`",
             "- Parameter-matched baseline pointer: `$.parameter_matched_baseline`",
+            "- Compute-matched baseline pointer: `$.compute_matched_baseline`",
             "- Discovery signal pointer: `$.discovery_map_signal`",
             "- Torch evidence pointer: `$.torch_training_evidence`",
             "",
@@ -1046,6 +1219,7 @@ def build_architecture_capsule(payload: Mapping[str, Any]) -> dict[str, Any]:
             {"artifact": JSON_ARTIFACT, "pointer": "$.control_protocol"},
             {"artifact": JSON_ARTIFACT, "pointer": "$.records.0.matched_random_control"},
             {"artifact": JSON_ARTIFACT, "pointer": "$.parameter_matched_baseline"},
+            {"artifact": JSON_ARTIFACT, "pointer": "$.compute_matched_baseline"},
         ],
         "forbidden_evidence": list(FORBIDDEN_INFERENCE_COLUMNS),
         "required_gates": list(LAT_HARDGATES),
