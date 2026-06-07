@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-05T07:13:11.713087+00:00`
+- Generated at: `2026-06-07T00:00:00+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -208,6 +208,14 @@
 - Release bundle status: `ready`
 - Tag status: `absent`
 - Version: `0.0.1`
+
+## Toy latent planning BEDC
+
+- Status: `pointer-only`
+- JSON: `reports/toy_latent_planning_bedc/toy_latent_planning_bedc.json`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+- Owner package: `experiments/toy_latent_planning_bedc`
+- Hardgate status pointer: `reports/toy_latent_planning_bedc/claim_capsule.json:$.u_hardgates.status`
 
 ## Release NameCert candidate
 

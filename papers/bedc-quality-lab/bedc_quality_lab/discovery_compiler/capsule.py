@@ -11,6 +11,7 @@ CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID = "bedc.quality.claim_capsule.run_local"
 CLAIM_CAPSULE_JSON_ARTIFACT = "reports/canonical/claim_capsule.json"
 CLAIM_CAPSULE_ARTIFACT_ID = "bedc-quality-lab:claim-capsule"
 ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE = "bedc.model.architecture_claim_capsule"
+TOY_LATENT_PLANNING_CLAIM_CAPSULE_SUBTYPE = "bedc.quality.toy_latent_planning"
 ARCHITECTURE_MODEL_CLAIM_REQUIRED_CELLS = (
     "model_id",
     "claim",

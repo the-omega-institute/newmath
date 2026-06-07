@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Iterable, Mapping, Sequence
 import json
 import math
@@ -10,6 +11,7 @@ import statistics
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
+from bedc_quality_lab.discovery_compiler.hardgate_contract import evaluate_u_hardgates
 
 
 SCHEMA_ID = "bedc-quality-lab:lejepa-mini-grid"
@@ -173,6 +175,9 @@ class LeJEPAMiniGridProjection:
             "level": "D2" if failed_gate is None else "DN",
         }
         capsule = self.claim_capsule_payload(hardgates=hardgates, summaries=summaries, positive_claim=positive_claim)
+        shared_u = {name: row for name, row in capsule["hardgates"].items() if name.startswith("U-HG") and name not in u_hardgates}
+        u_hardgates = {**u_hardgates, **shared_u}
+        hardgates = {**hardgates, **shared_u}
         if capsule["forbidden_claim_term_audit"]["status"] != "pass":
             failed_gate = failed_gate or "forbidden-positive-claim-term"
             hardgates["U-HG8"]["status"] = "fail"
@@ -280,8 +285,6 @@ class LeJEPAMiniGridProjection:
         d2_hardgates: Mapping[str, Mapping[str, Any]],
     ) -> dict[str, dict[str, Any]]:
         full_lejepa_claim = bool(self.config.get("full_lejepa_claim", False))
-        positive_claim = {**POSITIVE_CLAIM, "level": "D2" if all(row["status"] == "pass" for row in d2_hardgates.values()) else "DN"}
-        claim_audit = _forbidden_term_audit(positive_claim)
         non_gaussian_downgraded = summaries["mixing_summary"]["non_gaussian_broad_claim"] == "downgraded"
         return {
             "U-HG1": {
@@ -297,29 +300,27 @@ class LeJEPAMiniGridProjection:
                 "status": _status(non_gaussian_downgraded),
                 "non_gaussian_broad_claim": summaries["mixing_summary"]["non_gaussian_broad_claim"],
             },
-            "U-HG4": {
-                "status": _status(bool(self.not_claimed())),
-                "not_claimed": self.not_claimed(),
-            },
-            "U-HG5": {
-                "status": _status("summary" in self.run_artifacts and "claim_capsule" in self.run_artifacts),
-                "run_artifacts": dict(self.run_artifacts),
-            },
-            "U-HG6": {
-                "status": _status(bool(summaries["learning_fields"]["what_was_learned"])),
-                "learning_fields": summaries["learning_fields"],
-            },
-            "U-HG7": {
-                "status": _status(bool(_revocation_rows(None))),
-                "revocation_rows": _revocation_rows(None),
-            },
-            "U-HG8": {
-                "status": claim_audit["status"],
-                "evidence": "positive claim text avoids forbidden full-scope terms",
-                "forbidden_positive_claim_terms": claim_audit["forbidden_positive_claim_terms"],
-                "hits": claim_audit["hits"],
-            },
         }
+
+    def shared_u_hardgate_verdicts(self, capsule: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+        shared = evaluate_u_hardgates(
+            {
+                **dict(capsule),
+                "self_artifact": self.run_artifacts.get("claim_capsule"),
+                "evidence_pointers": [
+                    f"{self.run_artifacts.get('summary')}:$",
+                    f"{self.run_artifacts.get('claim_capsule')}:$",
+                    f"{self.run_artifacts.get('raw_metrics')}:$",
+                ],
+                "control_rows": [{"control": "d2-sigreg-local-boundary", "status": "not-required"}],
+            },
+            root=Path("."),
+            capsule_artifact=str(self.run_artifacts.get("claim_capsule")),
+            required_not_claimed=NOT_CLAIMED,
+            cost_pointer="$.source_artifacts.cost_protocol",
+            control_required=False,
+        )
+        return {name: row for name, row in shared["gates"].items() if name in {"U-HG4", "U-HG5", "U-HG6", "U-HG7", "U-HG8"}}
 
     def claim_capsule_payload(
         self,
@@ -358,7 +359,9 @@ class LeJEPAMiniGridProjection:
                 "rows": _revocation_rows(failed),
             },
         }
-        capsule["forbidden_claim_term_audit"] = _forbidden_term_audit(capsule["positive_claim"])
+        shared = self.shared_u_hardgate_verdicts(capsule)
+        capsule["hardgates"] = {**dict(hardgates), **shared}
+        capsule["forbidden_claim_term_audit"] = shared["U-HG8"]["positive_claim_audit"]
         if capsule["forbidden_claim_term_audit"]["status"] != "pass":
             capsule["claim_status"] = "failed"
             capsule["failed_gate"] = capsule["failed_gate"] or "forbidden-positive-claim-term"

@@ -302,7 +302,9 @@ def test_not_claimed_failed_gate_learning_revocation_and_forbidden_term_audit_ar
     assert summary["what_was_learned"] == "The mini-grid recorded a failed gate without promoting a positive claim."
     assert summary["revocation_rows"]
     assert summary["forbidden_claim_term_audit"]["status"] == "pass"
-    assert "mechanism-closure-unless-D5-M" in summary["forbidden_claim_term_audit"]["forbidden_positive_claim_terms"]
+    assert summary["u_hardgates"]["U-HG4"]["status"] == "pass"
+    assert summary["u_hardgates"]["U-HG8"]["status"] == "pass"
+    assert "full-lejepa" in summary["forbidden_claim_term_audit"]["forbidden_positive_claim_terms"]
     assert "mechanism-closure-unless-D5-M" not in claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS
 
 
