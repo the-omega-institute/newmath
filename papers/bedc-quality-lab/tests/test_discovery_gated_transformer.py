@@ -44,6 +44,20 @@ def test_dgt_validator_resolves_all_gate_pointers(tmp_path):
     assert resolve_artifact_pointer(tmp_path, payload["claim_capsule_ref"]["artifact"] + ":$") is not None
 
 
+@pytest.mark.parametrize("sidecar", [{}, {"gate_ids": [], "gates": {}}], ids=["missing_vocabulary", "empty_vocabulary"])
+def test_dgt_validator_empty_sidecar_fails_closed(sidecar):
+    payload = dgt.build_payload(
+        generated_at="fixture-time",
+        sidecar=canonical._build_new_model_hardgates_payload(generated_at="fixture-time"),
+    )
+
+    validation = dgt.validate_dgt_new_model_gates(sidecar, payload)
+
+    assert validation["status"] == "fail"
+    assert set(validation["gate_rows"]) == set(dgt.GATE_IDS)
+    assert {row["sidecar_pointer_resolves"] for row in validation["gate_rows"].values()} == {False}
+
+
 @pytest.mark.parametrize(
     ("mutate", "expected_field"),
     [

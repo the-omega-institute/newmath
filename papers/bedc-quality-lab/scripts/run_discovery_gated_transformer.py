@@ -316,11 +316,10 @@ def _candidate_hardgates(summary: Mapping[str, Any], audit: Mapping[str, Any]) -
 
 
 def validate_dgt_new_model_gates(sidecar: Mapping[str, Any], candidate: Mapping[str, Any]) -> dict[str, Any]:
-    gate_ids = list(sidecar.get("gate_ids", []))
     gates = sidecar.get("gates", {})
     instances = candidate.get("hardgate_instances", {})
     rows: dict[str, Any] = {}
-    for gate_id in gate_ids:
+    for gate_id in GATE_IDS:
         instance = instances.get(gate_id) if isinstance(instances, Mapping) else None
         sidecar_gate = gates.get(gate_id) if isinstance(gates, Mapping) else None
         status = instance.get("status") if isinstance(instance, Mapping) else "fail"
