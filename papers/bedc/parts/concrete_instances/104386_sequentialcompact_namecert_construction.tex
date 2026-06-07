@@ -600,14 +600,32 @@ Apply \autoref{thm:sequential-compact-root-regseqrat-exposure}. It makes $R$ the
 Use \autoref{thm:sequentialcompact-baire-real-window-admission} to keep the Baire and Real-facing route attached to $B,S,W,R,E$. Since the carrier has no row for quotient stream equality, external subsequence selection, choice, host real equality, or ambient completeness, the RegSeqRat stream scope is exactly the displayed finite-window route.
 \end{proof}
 
-\closureat{SequentialCompactUp}{seedStr}
+\begin{theorem}[SequentialCompact obligation closure]
+\label{thm:sequential-compact-obligation-closure}
+For an accepted $\SequentialCompactUp$ carrier
+$$
+Q=(K,B,S,W,R,E,H,C,P,N),
+$$
+the compact-metric row $K$, Baire row $B$, StreamName row $S$, finite selected-window row $W$, RegSeqRat row $R$, terminal Real seal row $E$, and structural rows $H,C,P,N$ together supply the full $\obligationClosure$ surface for the $\SequentialCompactUp$ packet. Every compact-metric, Baire-space, RegSeqRat, or Real-facing consumer reads a finite $\BHist$ obligation over exactly these rows, with no host sequential compactness, countable choice, quotient stream equality, open-cover compactness, external subsequence selector, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:sequential-compact-obligation-readiness}. It identifies the next obligation surface with the displayed rows $K,B,S,W,R,E,H,C,P,N$ and refuses host subsequence selectors, quotient stream equality, countable choice, open-cover compactness, and ambient Real completeness.
+
+The finite-window obligations are then exhausted by the local root and selector theorems. Apply \autoref{thm:sequentialcompact-finite-window-cluster-obligation}, \autoref{thm:sequential-compact-root-obligation-nonescape}, and \autoref{thm:sequential-compact-selector-refusal}. These keep the selected-window data inside $W$ and rule out any second selector or quotient-stream coordinate.
+
+Next read the downstream handoffs. Use \autoref{thm:sequential-compact-regseqrat-handoff-exactness}, \autoref{thm:sequential-compact-real-seal-nonescape}, \autoref{thm:sequentialcompact-root-obligation-surface}, and \autoref{thm:sequentialcompact-regseqrat-stream-scope}. They force every RegSeqRat read through $R$ and every terminal Real-facing read through $E$ after the displayed finite windows have appeared.
+
+Finally use the compact-metric and structural consumer boundaries, \autoref{thm:sequentialcompact-compactmetric-root-unblock} and \autoref{thm:sequentialcompact-compactmetric-handoff}. The rows $H,C,P,N$ transport, replay, source, and name the same finite packet, so the obligation surface is closed exactly over $K,B,S,W,R,E,H,C,P,N$.
+\end{proof}
+
+\closureat{SequentialCompactUp}{obligationStr}
 
 \begin{closurestatus}{\SequentialCompactUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:sequential-compact-carrier}, \autoref{thm:sequential-compact-namecert-obligations}, and \autoref{thm:sequential-compact-finite-subsequence-handoff} seed the finite subsequence-window boundary for compact-metric and Baire-space completion consumers.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:sequential-compact-carrier}, \autoref{thm:sequential-compact-namecert-obligations}, \autoref{thm:sequentialcompact-root-obligation-surface}, and \autoref{thm:sequential-compact-obligation-closure} close the finite subsequence-window obligation surface for compact-metric, Baire-space, RegSeqRat, and Real-facing consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host sequential compactness, countable choice, quotient stream equality, open-cover compactness, external subsequence selection, ambient Real completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, finite-window classifier exposure, subsequence-window monotonicity, RegSeqRat handoff exactness, RealUp seal nonescape, and selector-refusal proofs for BEDC.Derived.SequentialCompactUp.}
+  \upgradepath{Scoped closure requires Lean-backed carrier admission, finite-window classifier exposure, subsequence-window monotonicity, RegSeqRat handoff exactness, RealUp seal nonescape, and selector-refusal proofs for BEDC.Derived.SequentialCompactUp.}
   \constructivestory{A $\SequentialCompactUp$ packet is generated from CompactMetric source data, BaireSpace cylinder data, StreamName source windows, displayed finite subsequence windows, RegSeqRat readback, Real seal, componentwise transport, continuation replay, provenance, and a local NameCert row.}
 \end{closurestatus}
