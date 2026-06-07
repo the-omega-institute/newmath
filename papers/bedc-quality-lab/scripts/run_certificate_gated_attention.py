@@ -77,6 +77,10 @@ def deterministic_record(
         gate_multiplier = 0.82 if mode_gate else 0.62
         target_bonus = 0.02 if mode_gate else -0.02
         classifier_shift = 0
+    elif str(backbone) == "entropy_only_attention":
+        gate_multiplier = 0.68
+        target_bonus = 0.03 if str(certificate_mode) == "valid" else -0.01
+        classifier_shift = 0
     else:
         raise ValueError(f"unsupported backbone: {backbone}")
     false_mass = max(0.01, base_false * gate_multiplier)

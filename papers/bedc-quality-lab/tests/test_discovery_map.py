@@ -68,8 +68,44 @@ def _minimal_payload(spec):
         return lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "certificate-gated-attention":
         payload.update({
+            "route_patch_protocol": {
+                "valid_route_preservation": {
+                    "plain_attention_leak_mean": 0.3,
+                    "certificate_gated_attention_leak_mean": 0.1,
+                    "valid_patch_delta": 0.2,
+                    "evidence_pointer": "$.route_patch_protocol.by_surface",
+                },
+                "invalid_route_suppression": {
+                    "invalid_gate_pass_rate": 0.0,
+                    "ambiguous_gate_pass_rate": 0.0,
+                    "invalid_suppression_delta": 1.0,
+                    "evidence_pointer": "$.route_patch_protocol.by_surface",
+                },
+                "entropy_only_control": {
+                    "entropy_only_attention_leak_mean": 0.2,
+                    "entropy_only_reduction_mean": 0.1,
+                    "certificate_gate_reduction_mean": 0.2,
+                    "certificate_beats_entropy_only": True,
+                    "evidence_pointer": "$.route_patch_protocol.by_surface",
+                },
+                "classifier_shift": {
+                    "certificate_gated_shift_mean": 1.0,
+                    "entropy_only_shift_mean": 0.0,
+                    "classifier_shift_delta": 1.0,
+                },
+                "by_surface": {
+                    "fixture_surface": {
+                        "valid_patch_delta": 0.2,
+                        "invalid_suppression_delta": 1.0,
+                        "entropy_only_delta": 0.1,
+                        "classifier_shift_count_mean": 1.0,
+                    }
+                },
+                "evidence_pointer": "$.route_patch_protocol.by_surface",
+            },
             "discovery_map_signal": {
-                "control_pointer": "$.matched_random_control",
+                "control_pointer": "$.route_patch_protocol",
+                "entropy_only_control_pointer": "$.route_patch_protocol.entropy_only_control",
                 "evidence_pointer": "$.certificate_gate_summary.gated_vs_plain_valid",
                 "failed_gate": None,
                 "failed_gate_pointer": None,
@@ -79,7 +115,7 @@ def _minimal_payload(spec):
             },
             "hardgate": {
                 "failed_gate": None,
-                "gates": {f"CGA-HG{index}": {"status": "pass"} for index in range(1, 6)},
+                "gates": {f"CGA-HG{index}": {"status": "pass"} for index in range(1, 7)},
                 "status": "pass",
             },
             "certificate_gate_summary": {"gated_vs_plain_valid": True},
@@ -1535,6 +1571,31 @@ def test_positive_discovery_rows_have_resolvable_gate_pointers(tmp_path):
                     assert discovery_map.pointer_value(_read_json_artifact(tmp_path, mechanism_case_artifact), mechanism_case_pointer) is not None
                 else:
                     assert discovery_map.pointer_value(source, row["mechanism_case_pointer"]) is not None
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    (
+        lambda payload: payload.pop("route_patch_protocol"),
+        lambda payload: payload["hardgate"]["gates"].pop("CGA-HG6"),
+        lambda payload: (
+            payload.__setitem__("entropy_only_control", payload["route_patch_protocol"]["entropy_only_control"]),
+            payload["discovery_map_signal"].__setitem__("control_pointer", "$.entropy_only_control"),
+        ),
+    ),
+)
+def test_certificate_gated_attention_stale_route_payload_fails_closed(tmp_path, mutation):
+    spec = canonical._specs_by_name()["certificate-gated-attention"]
+    payload = _minimal_payload(spec)
+    mutation(payload)
+    _write_payload(tmp_path, spec, payload)
+
+    discovery = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path, canonical_reports=(spec,))
+    row = discovery["rows"][0]
+
+    assert row["discovery_level"] == "DN"
+    assert row["audit_status"] == "invalid"
+    assert row.get("control_pointer") != "$.entropy_only_control"
 
 
 @pytest.mark.parametrize(

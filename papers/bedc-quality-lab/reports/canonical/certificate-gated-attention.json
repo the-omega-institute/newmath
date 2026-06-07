@@ -4,7 +4,8 @@
       "backbones": [
         "plain_attention",
         "certificate_gated_attention",
-        "matched_random_gate"
+        "matched_random_gate",
+        "entropy_only_attention"
       ],
       "evidence_pointer": "$.records",
       "primary": true,
@@ -35,7 +36,8 @@
     "backbones": [
       "plain_attention",
       "certificate_gated_attention",
-      "matched_random_gate"
+      "matched_random_gate",
+      "entropy_only_attention"
     ],
     "certificate_modes": [
       "valid",
@@ -75,7 +77,8 @@
   },
   "discovery_map_signal": {
     "certificate_evidence_pointer": "$.certificate_gate_summary",
-    "control_pointer": "$.matched_random_control",
+    "control_pointer": "$.route_patch_protocol",
+    "entropy_only_control_pointer": "$.route_patch_protocol.entropy_only_control",
     "evidence_pointer": "$.certificate_gate_summary.gated_vs_plain_valid",
     "failed_gate": null,
     "failed_gate_pointer": null,
@@ -113,10 +116,10 @@
   },
   "generated_at": "run-local:certificate-gated-attention",
   "grid": {
-    "backbone_count": 3,
+    "backbone_count": 4,
     "certificate_mode_count": 3,
-    "expected_record_count": 108,
-    "record_count": 108,
+    "expected_record_count": 144,
+    "record_count": 144,
     "seed_count": 3,
     "surface_count": 4,
     "torch_record_count": 0
@@ -148,6 +151,11 @@
         "evidence": "Optional PyTorch arm is bounded and cannot control the deterministic anchor.",
         "evidence_pointer": "$.torch_attention_evidence",
         "status": "pass"
+      },
+      "CGA-HG6": {
+        "evidence": "Certificate-gated route reduction must exceed entropy-only shrinkage.",
+        "evidence_pointer": "$.route_patch_protocol.entropy_only_control",
+        "status": "pass"
       }
     },
     "status": "pass"
@@ -176,7 +184,7 @@
   "producer": "scripts/run_certificate_gated_attention.py",
   "projector": "bedc_quality_lab.certificate_gated_attention.CertificateGatedAttentionProjection",
   "records": {
-    "deterministic_anchor_rows": 108,
+    "deterministic_anchor_rows": 144,
     "metric_keys": [
       "certificate_gate_passed",
       "attention_leak",
@@ -208,6 +216,59 @@
       "status": "armed"
     }
   ],
+  "route_patch_protocol": {
+    "by_surface": {
+      "copy_binding": {
+        "classifier_shift_count_mean": 1.0,
+        "entropy_only_delta": 0.090313,
+        "invalid_suppression_delta": 1.0,
+        "valid_patch_delta": 0.170336
+      },
+      "negation_binding": {
+        "classifier_shift_count_mean": 1.0,
+        "entropy_only_delta": 0.084878,
+        "invalid_suppression_delta": 1.0,
+        "valid_patch_delta": 0.158132
+      },
+      "route_binding": {
+        "classifier_shift_count_mean": 1.0,
+        "entropy_only_delta": 0.087624,
+        "invalid_suppression_delta": 1.0,
+        "valid_patch_delta": 0.164231
+      },
+      "scope_binding": {
+        "classifier_shift_count_mean": 1.0,
+        "entropy_only_delta": 0.082082,
+        "invalid_suppression_delta": 1.0,
+        "valid_patch_delta": 0.152044
+      }
+    },
+    "classifier_shift": {
+      "certificate_gated_shift_mean": 1.0,
+      "classifier_shift_delta": 1.0,
+      "entropy_only_shift_mean": 0.0
+    },
+    "entropy_only_control": {
+      "certificate_beats_entropy_only": true,
+      "certificate_gate_reduction_mean": 0.161186,
+      "entropy_only_attention_leak_mean": 0.233545,
+      "entropy_only_reduction_mean": 0.086224,
+      "evidence_pointer": "$.route_patch_protocol.by_surface"
+    },
+    "evidence_pointer": "$.route_patch_protocol.by_surface",
+    "invalid_route_suppression": {
+      "ambiguous_gate_pass_rate": 0.0,
+      "evidence_pointer": "$.route_patch_protocol.by_surface",
+      "invalid_gate_pass_rate": 0.0,
+      "invalid_suppression_delta": 1.0
+    },
+    "valid_route_preservation": {
+      "certificate_gated_attention_leak_mean": 0.158583,
+      "evidence_pointer": "$.route_patch_protocol.by_surface",
+      "plain_attention_leak_mean": 0.319769,
+      "valid_patch_delta": 0.161186
+    }
+  },
   "run_artifacts": {
     "claim_capsule": "reports/runs/certificate-gated-attention/claim_capsule.json",
     "raw_metrics": "reports/runs/certificate-gated-attention/raw_metrics.jsonl",
@@ -232,6 +293,12 @@
         "classifier_shift_count_mean": 0.333333,
         "row_count": 36,
         "target_attention_mass_mean": 0.62024
+      },
+      "entropy_only_attention": {
+        "attention_leak_mean": 0.241429,
+        "classifier_shift_count_mean": 0.0,
+        "row_count": 36,
+        "target_attention_mass_mean": 0.61024
       },
       "matched_random_gate": {
         "attention_leak_mean": 0.245057,
