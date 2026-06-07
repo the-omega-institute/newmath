@@ -1602,6 +1602,7 @@ import BEDC.Derived.CauchyModulusMeetUp
 import BEDC.Derived.CauchyModulusMeetUp.StdBridge
 import BEDC.Derived.CauchyModulusMonotoneNormalizationUp.TasteGate
 import BEDC.Derived.CauchyModulusNormalFormUp.TasteGate
+import BEDC.Derived.CauchyModulusNormalizerUp.TasteGate
 import BEDC.Derived.CauchyModulusPullbackUp.TasteGate
 import BEDC.Derived.CauchyModulusRefinementUp
 import BEDC.Derived.CauchyModulusRefinementUp.BHistSourceScope
@@ -2580,6 +2581,7 @@ import BEDC.Derived.CompactDiniModulusUp
 import BEDC.Derived.CompactGraphContinuityUp.TasteGate
 import BEDC.Derived.CompactIntervalFixedPointUp.TasteGate
 import BEDC.Derived.CompactIntervalLocatorUp.TasteGate
+import BEDC.Derived.CompactIntervalMaximumUp.TasteGate
 import BEDC.Derived.CompactIntervalModulusBridgeUp.TasteGate
 import BEDC.Derived.CompactLebesgueNumberLedgerUp.TasteGate
 import BEDC.Derived.CompactLebesgueUniformHandoffUp.TasteGate
@@ -3029,6 +3031,7 @@ import BEDC.Derived.ContourIntegralSocketUp.TasteGate
 import BEDC.Derived.ContourIntegralUp
 import BEDC.Derived.ContourReversalLedgerUp.TasteGate
 import BEDC.Derived.ContourSumWindowUp.TasteGate
+import BEDC.Derived.ContractionMappingTheoremUp.TasteGate
 import BEDC.Derived.ContractionMappingUp.FixedPointTailSeal
 import BEDC.Derived.ContractionMappingUp.OrbitReadiness
 import BEDC.Derived.ContractionMappingUp.RegularCauchyModulusSurface
