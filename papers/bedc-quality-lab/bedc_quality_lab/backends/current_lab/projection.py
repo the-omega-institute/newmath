@@ -1068,26 +1068,33 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
     signal = pointer_value(payload, "$.discovery_map_signal")
     hardgates = pointer_value(payload, "$.hardgate.gates")
     failed_gate = pointer_value(payload, "$.hardgate.failed_gate")
+    robustness = pointer_value(payload, "$.robustness_signal")
     if not isinstance(signal, Mapping):
         return False, "missing-lat-discovery-map-signal", "$.discovery_map_signal"
     if not isinstance(hardgates, Mapping) or not hardgates:
         return False, "missing-lat-hardgates", "$.hardgate.gates"
+    if not isinstance(robustness, Mapping):
+        return False, "missing-lat-robustness-signal", "$.robustness_signal"
     failed = next(
         (
             name
-            for name in ("LAT-HG1", "LAT-HG2", "LAT-HG3", "LAT-HG4", "LAT-HG5", "LAT-HG6")
+            for name in ("LAT-HG1", "LAT-HG2", "LAT-HG3", "LAT-HG4", "LAT-HG5", "LAT-HG6", "LAT-HG7")
             if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
         ),
         None,
     )
     if failed != failed_gate:
         return False, "lat-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
+    hg7_status = pointer_value(payload, "$.hardgate.gates.LAT-HG7.status")
+    robustness_status = robustness.get("status")
+    robust_mismatch = hg7_status != robustness_status
+    effective_failed = failed if failed is not None else "LAT-HG7" if robust_mismatch else None
     expected = {
-        "status": "d4-candidate" if failed is None else "negative",
-        "level_candidate": "D4" if failed is None else "DN",
-        "reason": "lat-hardgates-pass" if failed is None else "hardgate-failed",
-        "failed_gate": failed,
-        "failed_gate_pointer": None if failed is None else f"$.hardgate.gates.{failed}.status",
+        "status": "d5-o-candidate" if effective_failed is None else "negative",
+        "level_candidate": "D5-O" if effective_failed is None else "DN",
+        "reason": "lat-hardgates-pass" if effective_failed is None else "hardgate-failed",
+        "failed_gate": effective_failed,
+        "failed_gate_pointer": None if effective_failed is None else f"$.hardgate.gates.{effective_failed}.status",
     }
     for key, expected_value in expected.items():
         if signal.get(key) != expected_value:
@@ -1098,19 +1105,22 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         "control_pointer",
         "scorecard_pointer",
         "torch_training_evidence_pointer",
+        "robustness_evidence_pointer",
     ):
         pointer = signal.get(key)
         if not isinstance(pointer, str):
             return False, f"lat-missing-{key.replace('_', '-')}", "$.discovery_map_signal"
         if pointer_value(payload, pointer) is None:
             return False, f"lat-dangling-{key.replace('_', '-')}", pointer
+    if signal.get("robustness_evidence_pointer") != "$.robustness_signal":
+        return False, "lat-robustness-pointer-mismatch", "$.discovery_map_signal.robustness_evidence_pointer"
     if pointer_value(payload, "$.claim_capsule_ref.capsule") is None:
         return False, "lat-claim-capsule-pointer-dangling", "$.claim_capsule_ref.pointer"
     if pointer_value(payload, "$.forbidden_claim_term_audit.status") != "pass":
         return False, "lat-forbidden-claim-term-audit-failed", "$.forbidden_claim_term_audit.status"
     if pointer_value(payload, "$.torch_training_evidence.protocol") is None:
         return False, "lat-torch-protocol-missing", "$.torch_training_evidence.protocol"
-    return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.aggregate_metrics.uer_reduction"
+    return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.robustness_signal"
 
 
 def _ledger_aware_transformer_projection(
@@ -1124,7 +1134,7 @@ def _ledger_aware_transformer_projection(
             projection_status="projected",
             failed_gate="$.discovery_map_signal",
         )
-    if consistent and signal.get("level_candidate") == "D4" and signal.get("status") == "d4-candidate":
+    if consistent and signal.get("level_candidate") == "D5-O" and signal.get("status") == "d5-o-candidate":
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
@@ -1133,16 +1143,18 @@ def _ledger_aware_transformer_projection(
                 "shift_information": 1,
                 "structural_discovery": True,
                 "ledger_aware_transformer": {
-                    "level_candidate": "D4",
-                    "status": "d4-candidate",
+                    "level_candidate": "D5-O",
+                    "status": "d5-o-candidate",
                     "evidence_pointer": signal.get("evidence_pointer"),
                     "torch_training_evidence_pointer": signal.get("torch_training_evidence_pointer"),
+                    "robustness_evidence_pointer": signal.get("robustness_evidence_pointer"),
                 },
             },
             "evidence_basis": {
                 "ledger_aware_transformer": True,
                 "control_positive_discovery": False,
                 "net_positive_signal": True,
+                "robustness_ready": True,
                 "scorecard_ready": _scorecard_ready({} if context is None else context),
             },
         }, ProjectionEvidence(
@@ -1150,6 +1162,7 @@ def _ledger_aware_transformer_projection(
             evidence_pointer=signal.get("evidence_pointer") if isinstance(signal.get("evidence_pointer"), str) else None,
             control_pointer=signal.get("control_pointer") if isinstance(signal.get("control_pointer"), str) else None,
             scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
+            robustness_pointer=f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.robustness_signal",
         )
     return {
         "verdict": "rejected",

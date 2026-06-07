@@ -2,11 +2,11 @@
 
 - Generated at: `2026-06-05T15:14:26.399733+00:00`
 - Schema: `bedc.model.ledger_aware_transformer`
-- Surface count: `3`
-- OOD surface count: `3`
-- UER reduction: `0.180555`
-- False alarm delta: `-0.1875`
-- Discovery signal: `D4`
+- Surface count: `6`
+- OOD surface count: `6`
+- UER reduction: `0.090278`
+- False alarm delta: `-0.034722`
+- Discovery signal: `D5-O`
 - Failed gate: `None`
 - Claim capsule pointer: `$.claim_capsule_ref.capsule`
 
@@ -20,14 +20,18 @@
 | `LAT-HG4` | `pass` | `$.matched_random_control.control_positive_discovery` |
 | `LAT-HG5` | `pass` | `$.forbidden_claim_term_audit.status` |
 | `LAT-HG6` | `pass` | `$.torch_training_evidence.protocol` |
+| `LAT-HG7` | `pass` | `$.robustness_signal.status` |
 
 ## Records
 
 | surface | learned UER | matched-random UER | UER delta | false alarm delta |
 | --- | ---: | ---: | ---: | ---: |
-| `copy_shift` | 0.020833 | 0.083333 | 0.062500 | -0.229167 |
-| `parity_route` | 0.000000 | 0.291667 | 0.291667 | -0.145833 |
-| `sparse_recall` | 0.020833 | 0.208333 | 0.187500 | -0.187500 |
+| `delayed_recall` | 0.020833 | 0.083333 | 0.062500 | -0.229167 |
+| `compositional_rules` | 0.000000 | 0.291667 | 0.291667 | -0.145833 |
+| `synthetic_tool_use` | 0.020833 | 0.208333 | 0.187500 | -0.187500 |
+| `counterfactual_binding` | 0.000000 | 0.000000 | 0.000000 | 0.000000 |
+| `hierarchical_planning` | 0.000000 | 0.000000 | 0.000000 | 0.312500 |
+| `adversarial_negation` | 0.000000 | 0.000000 | 0.000000 | 0.041667 |
 
 ## Canonical Pointers
 

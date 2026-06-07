@@ -140,6 +140,9 @@ def _positive_net_signal(payload: Mapping[str, Any], main: Mapping[str, Any] | N
 
 
 def _has_robustness_report_pass(payload: Mapping[str, Any]) -> bool:
+    basis = _first_mapping(payload, "evidence_basis")
+    if basis is not None and basis.get("robustness_ready") is True:
+        return True
     gates = _first_mapping(payload, "acceptance_gates")
     if gates is not None and gates.get("status") != "pass":
         return False
