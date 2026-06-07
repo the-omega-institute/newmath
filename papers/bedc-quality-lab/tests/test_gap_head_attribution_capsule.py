@@ -393,7 +393,7 @@ def _head_patch_fixture(*, status="pass", gate_status="pass", auroc_delta=-0.08,
             "eval_features_changed": True,
         }
     }
-    return {
+    evidence = {
         "status": status,
         "gate_status": gate_status,
         "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence",
@@ -411,6 +411,7 @@ def _head_patch_fixture(*, status="pass", gate_status="pass", auroc_delta=-0.08,
             "seed_paired": True,
             "column_audited": True,
             "eval_only_patch": True,
+            "required_modes_present": True,
         },
         "gate_criterion": "both head patches have AUROC delta CI-high < -0.02 and UER delta CI-low >= 0.0",
         "gate_evidence": {
@@ -419,6 +420,8 @@ def _head_patch_fixture(*, status="pass", gate_status="pass", auroc_delta=-0.08,
         },
         "ci_summaries": ci_summaries,
     }
+    evidence["causal_patch_claim"] = runner._head_patch_causal_claim(evidence)
+    return evidence
 
 
 def _residualized_claim_fixture(aggregate, *, residualized=None, score_margin=None, a4_hardgates=None):
@@ -537,6 +540,57 @@ def test_head_patch_eval_features_are_deterministic_and_audited():
         assert touched["train_features_unchanged"] is True
         assert touched["eval_features_changed"] is True
         assert touched["unchanged_non_h_columns"] is True
+
+
+def test_head_patch_touched_column_audit_fails_when_non_h_column_changes():
+    surface = {
+        "feature_columns": ["h:0", "score:a"],
+        "features": np.array(
+            [
+                [1.0, 0.1],
+                [2.0, 0.2],
+                [3.0, 0.3],
+                [4.0, 0.4],
+            ],
+            dtype=np.float64,
+        ),
+        "train_idx": np.array([0, 1], dtype=np.int64),
+        "eval_idx": np.array([2, 3], dtype=np.int64),
+    }
+    changed, audit = runner._head_patched_eval_features(surface, seed=17, mode="null_head")
+    changed[surface["eval_idx"], 1] = 0.0
+    before = surface["features"]
+    moved = np.abs(changed - before) > 1.0e-12
+    touched_columns = [
+        surface["feature_columns"][index]
+        for index, value in enumerate(np.any(moved, axis=0))
+        if value
+    ]
+    audit["touched_column_audit"].update(
+        {
+            "status": "fail",
+            "touched_roots": sorted({column.split(":", 1)[0] for column in touched_columns}),
+            "touched_columns": touched_columns,
+            "unchanged_non_h_columns": False,
+        }
+    )
+    head_patch = _head_patch_fixture()
+    for mode in runner.HEAD_PATCH_REQUIRED_MODES:
+        head_patch[mode]["per_seed_before_after_metrics"][0]["audit"] = audit
+    head_patch["protocol_checks"]["column_audited"] = False
+    head_patch["causal_patch_claim"] = runner._head_patch_causal_claim(head_patch)
+
+    aggregate = _aggregate()
+    a4_hardgates, d5_m = _assert_a4_gate_blocks_d5_m(
+        aggregate,
+        _residualized_fixture(aggregate),
+        _score_margin_fixture("not_score_margin_sufficient"),
+        "head_causal_patch",
+        head_patch=head_patch,
+    )
+
+    assert a4_hardgates["gates"]["head_causal_patch"]["evidence"]["protocol_checks"]["column_audited"] is False
+    assert d5_m["failed_gate"] == "head_causal_patch"
 
 
 def test_residualization_guards_are_finite_deterministic_and_remove_score_margin_correlation():
@@ -793,6 +847,81 @@ def test_residualized_attribution_claim_metric_pointers_resolve_after_committed_
     assert runner.validate_residualized_attribution_claim(payload) == []
     assert payload["e_hardgates"]["gates"]["E-HG2_pointer_resolution"]["status"] == "pass"
     assert payload["e_hardgates"]["gates"]["E-HG6_committed_round_trip"]["status"] == "pass"
+
+
+def test_head_channel_patch_claim_pointer_slots_resolve_after_committed_round_trip_shape():
+    head_patch = _head_patch_fixture()
+    payload = {"head_channel_patch_evidence": head_patch}
+    payload["head_channel_patch_evidence"] = runner._finalize_head_channel_patch_evidence(payload)
+    claim = payload["head_channel_patch_evidence"]["causal_patch_claim"]
+
+    assert claim["status"] == "pass"
+    assert claim["h_causal_supported"] is True
+    assert set(claim["mode_slots_present"]) == set(runner.HEAD_PATCH_REQUIRED_MODES)
+    assert all(claim["mode_slots_present"].values())
+    assert runner.validate_head_channel_patch_evidence(payload) == []
+    assert {
+        row["slot"]
+        for row in claim["pointer_slots"]
+    } == {
+        "null_head_arm",
+        "null_head_auroc_delta_ci_high",
+        "null_head_touched_column_audit",
+        "permute_head_rows_arm",
+        "permute_head_rows_auroc_delta_ci_high",
+        "permute_head_rows_touched_column_audit",
+        "paired_deltas",
+        "gate_status",
+    }
+    assert all(_artifact_pointer_resolves(payload, row["source_pointer"]) for row in claim["pointer_slots"])
+
+
+def test_head_channel_patch_required_variant_missing_fails_closed_and_blocks_d5_m():
+    aggregate = _aggregate()
+    head_patch = _head_patch_fixture()
+    head_patch.pop("permute_head_rows")
+    head_patch["protocol_checks"]["required_modes_present"] = False
+    head_patch["causal_patch_claim"] = runner._head_patch_causal_claim(head_patch)
+    payload = {"head_channel_patch_evidence": head_patch}
+    payload["head_channel_patch_evidence"] = runner._finalize_head_channel_patch_evidence(payload)
+
+    assert payload["head_channel_patch_evidence"]["gate_status"] == "fail"
+    assert payload["head_channel_patch_evidence"]["causal_patch_claim"]["h_causal_supported"] is False
+    assert runner.validate_head_channel_patch_evidence(payload)
+
+    a4_hardgates, d5_m = _assert_a4_gate_blocks_d5_m(
+        aggregate,
+        _residualized_fixture(aggregate),
+        _score_margin_fixture("not_score_margin_sufficient"),
+        "head_causal_patch",
+        head_patch=payload["head_channel_patch_evidence"],
+    )
+
+    assert a4_hardgates["gates"]["A4-HG5"]["status"] == "fail"
+    assert d5_m["failed_gate"] == "head_causal_patch"
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda claim: claim.update({"terminal_verdict": "positive"}),
+        lambda claim: claim.update({"source": ".refactor-loop/host.env"}),
+        lambda claim: claim.update({"candidate_body": {"status": "present"}}),
+        lambda claim: claim.update({"per_seed_before_after_metrics": []}),
+        lambda claim: claim["pointer_slots"][0].update({"ci_summaries": {"AUROC_after_minus_before": {"mean": -0.1}}}),
+    ],
+)
+def test_head_channel_patch_claim_forbidden_key_audit_fails_closed(mutate):
+    head_patch = _head_patch_fixture()
+    claim = runner._head_patch_causal_claim(head_patch)
+    mutate(claim)
+    head_patch["causal_patch_claim"] = claim
+    payload = {"head_channel_patch_evidence": head_patch}
+
+    failures = runner.validate_head_channel_patch_evidence(payload)
+
+    assert failures
+    assert "forbidden paths" in " ".join(failures)
 
 
 def test_e_hardgates_missing_slot_fails_closed():

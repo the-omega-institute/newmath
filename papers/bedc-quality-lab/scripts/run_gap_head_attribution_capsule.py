@@ -46,6 +46,7 @@ ROTATION_SEED_SALT = 811_747
 SCORE_MARGIN_SHUFFLE_SALT = 933_871
 SCORE_MARGIN_REPLACE_SALT = 933_887
 HEAD_PATCH_PERMUTE_SALT = 750_311
+HEAD_PATCH_REQUIRED_MODES = ("null_head", "permute_head_rows")
 EPS = 1.0e-8
 NOT_CLAIMED = (
     "global model quality",
@@ -102,6 +103,19 @@ RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_KEYS = (
 RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_TEXT = (
     "host.env",
     ".refactor-loop/host.env",
+)
+HEAD_CHANNEL_PATCH_CLAIM_FORBIDDEN_KEYS = (
+    *RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_KEYS,
+    "candidate_actual_body",
+    "per_seed_before_after_metrics",
+    "before",
+    "after",
+    "delta",
+    "ci_summaries",
+    "AUROC",
+    "UnloggedErrorRate",
+    "UER_reduction",
+    "gate_evidence",
 )
 
 
@@ -848,6 +862,195 @@ def validate_residualized_attribution_claim(payload: Mapping[str, Any]) -> list[
     return failures
 
 
+def _artifact_pointer_cell(pointer: str | None) -> tuple[str, str] | None:
+    if not isinstance(pointer, str) or ":$" not in pointer:
+        return None
+    artifact, json_pointer = pointer.split(":", 1)
+    if artifact != CANONICAL_JSON_ARTIFACT or not json_pointer.startswith("$"):
+        return None
+    return artifact, json_pointer
+
+
+def _capsule_pointer_resolves(payload: Mapping[str, Any], pointer: str | None) -> bool:
+    cell = _artifact_pointer_cell(pointer)
+    if cell is None:
+        return False
+    return _resolve_payload_pointer(payload, cell[1]) is not None
+
+
+def _head_patch_mode_present(evidence: Mapping[str, Any], mode: str) -> bool:
+    arm = evidence.get(mode)
+    if not isinstance(arm, Mapping):
+        return False
+    per_seed = arm.get("per_seed_before_after_metrics")
+    ci = arm.get("ci_summaries")
+    return isinstance(per_seed, list) and bool(per_seed) and isinstance(ci, Mapping) and bool(ci)
+
+
+def _head_patch_required_modes_ok(evidence: Mapping[str, Any]) -> bool:
+    return all(_head_patch_mode_present(evidence, mode) for mode in HEAD_PATCH_REQUIRED_MODES)
+
+
+def _head_patch_claim_pointer_slots() -> list[dict[str, str]]:
+    slots: list[dict[str, str]] = []
+    for mode in HEAD_PATCH_REQUIRED_MODES:
+        slots.extend(
+            [
+                {
+                    "slot": f"{mode}_arm",
+                    "source_pointer": _capsule_pointer(f"$.head_channel_patch_evidence.{mode}"),
+                },
+                {
+                    "slot": f"{mode}_auroc_delta_ci_high",
+                    "source_pointer": _capsule_pointer(
+                        f"$.head_channel_patch_evidence.{mode}.ci_summaries.AUROC_after_minus_before.ci95_high"
+                    ),
+                },
+                {
+                    "slot": f"{mode}_touched_column_audit",
+                    "source_pointer": _capsule_pointer(
+                        f"$.head_channel_patch_evidence.{mode}.per_seed_before_after_metrics[0].audit.touched_column_audit.status"
+                    ),
+                },
+            ]
+        )
+    slots.extend(
+        [
+            {
+                "slot": "paired_deltas",
+                "source_pointer": _capsule_pointer("$.head_channel_patch_evidence.paired_deltas"),
+            },
+            {
+                "slot": "gate_status",
+                "source_pointer": _capsule_pointer("$.head_channel_patch_evidence.gate_status"),
+            },
+        ]
+    )
+    return slots
+
+
+def _head_patch_claim_forbidden_paths(payload: Any, *, path: str = "$") -> list[str]:
+    paths: list[str] = []
+    if isinstance(payload, Mapping):
+        for key, value in payload.items():
+            key_path = f"{path}.{key}"
+            if key in HEAD_CHANNEL_PATCH_CLAIM_FORBIDDEN_KEYS:
+                paths.append(key_path)
+            paths.extend(_head_patch_claim_forbidden_paths(value, path=key_path))
+    elif isinstance(payload, list):
+        for index, value in enumerate(payload):
+            paths.extend(_head_patch_claim_forbidden_paths(value, path=f"{path}.{index}"))
+    elif isinstance(payload, str):
+        for forbidden in RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_TEXT:
+            if forbidden in payload:
+                paths.append(path)
+                break
+    return paths
+
+
+def _head_patch_causal_claim(evidence: Mapping[str, Any]) -> dict[str, Any]:
+    required_modes = _head_patch_required_modes_ok(evidence)
+    protocol = evidence.get("protocol_checks", {})
+    allowed = (
+        evidence.get("status") == "pass"
+        and evidence.get("gate_status") == "pass"
+        and required_modes
+        and isinstance(protocol, Mapping)
+        and all(protocol.get(name) is True for name in ("present", "deterministic", "finite", "seed_paired", "column_audited", "eval_only_patch"))
+    )
+    return {
+        "status": "pass" if allowed else "fail",
+        "source_artifact": CANONICAL_JSON_ARTIFACT,
+        "required_modes": list(HEAD_PATCH_REQUIRED_MODES),
+        "mode_slots_present": {
+            mode: _head_patch_mode_present(evidence, mode)
+            for mode in HEAD_PATCH_REQUIRED_MODES
+        },
+        "pointer_slots": _head_patch_claim_pointer_slots(),
+        "h_causal_supported": bool(allowed),
+        "failure_reason": None if allowed else "head-causal-patch-claim-blocked",
+    }
+
+
+def _head_patch_claim_pointers(claim: Mapping[str, Any]) -> list[str]:
+    pointers: list[str] = []
+    for slot in claim.get("pointer_slots", []):
+        if not isinstance(slot, Mapping):
+            continue
+        pointer = slot.get("source_pointer")
+        if isinstance(pointer, str):
+            pointers.append(pointer)
+    return pointers
+
+
+def validate_head_channel_patch_evidence(payload: Mapping[str, Any]) -> list[str]:
+    evidence = payload.get("head_channel_patch_evidence")
+    failures: list[str] = []
+    if not isinstance(evidence, Mapping):
+        return ["missing head_channel_patch_evidence"]
+    claim = evidence.get("causal_patch_claim")
+    if not isinstance(claim, Mapping):
+        failures.append("missing causal_patch_claim")
+    if not _head_patch_required_modes_ok(evidence):
+        failures.append("required variant arm missing")
+    protocol = evidence.get("protocol_checks")
+    if not isinstance(protocol, Mapping) or any(
+        protocol.get(name) is not True
+        for name in ("present", "deterministic", "finite", "seed_paired", "column_audited", "eval_only_patch", "required_modes_present")
+    ):
+        failures.append("protocol check failure")
+    if evidence.get("status") != "pass" or evidence.get("gate_status") != "pass":
+        failures.append("head causal patch gate failure")
+    if isinstance(claim, Mapping):
+        unresolved = [
+            pointer
+            for pointer in _head_patch_claim_pointers(claim)
+            if not _capsule_pointer_resolves(payload, pointer)
+        ]
+        if unresolved:
+            failures.append(f"unresolved pointers: {unresolved}")
+        forbidden_paths = _head_patch_claim_forbidden_paths(claim)
+        if forbidden_paths:
+            failures.append(f"forbidden paths: {forbidden_paths}")
+        if claim.get("h_causal_supported") is not True:
+            failures.append("h causal support is fail-closed")
+    return failures
+
+
+def _finalize_head_channel_patch_evidence(payload: Mapping[str, Any]) -> dict[str, Any]:
+    evidence = dict(payload["head_channel_patch_evidence"])
+    claim = _head_patch_causal_claim(evidence)
+    evidence["causal_patch_claim"] = claim
+    protocol = dict(evidence.get("protocol_checks", {}))
+    protocol["required_modes_present"] = _head_patch_required_modes_ok(evidence)
+    evidence["protocol_checks"] = protocol
+    validation_payload = {**dict(payload), "head_channel_patch_evidence": evidence}
+    failures = validate_head_channel_patch_evidence(validation_payload)
+    claim = {
+        **claim,
+        "status": "pass" if not failures else "fail",
+        "h_causal_supported": not failures,
+        "failure_reason": None if not failures else "head-causal-patch-claim-blocked",
+        "validation_failures": failures,
+    }
+    evidence["causal_patch_claim"] = claim
+    if failures:
+        evidence["status"] = "fail"
+        evidence["gate_status"] = "fail"
+        evidence["gate_evidence"] = {
+            **dict(evidence.get("gate_evidence", {})),
+            "causal_patch_claim": False,
+            "validation_failures": failures,
+        }
+    else:
+        evidence["gate_evidence"] = {
+            **dict(evidence.get("gate_evidence", {})),
+            "causal_patch_claim": True,
+            "validation_failures": [],
+        }
+    return evidence
+
+
 def _finalize_e_hardgates(payload: Mapping[str, Any]) -> dict[str, Any]:
     hardgates = dict(payload["e_hardgates"])
     gates = {name: dict(gate) for name, gate in hardgates["gates"].items()}
@@ -1096,7 +1299,7 @@ def _head_channel_patch_records(config: GapHeadRunConfig) -> list[dict[str, Any]
             "audits": {},
             "deltas": {},
         }
-        for mode in ("null_head", "permute_head_rows"):
+        for mode in HEAD_PATCH_REQUIRED_MODES:
             changed, audit = _head_patched_eval_features(surface, seed=int(seed), mode=mode)
             after = _head_patch_metrics_for_features(
                 arm=mode,
@@ -1117,7 +1320,7 @@ def _head_channel_patch_records(config: GapHeadRunConfig) -> list[dict[str, Any]
 
 def _head_channel_patch_evidence(config: GapHeadRunConfig) -> dict[str, Any]:
     records = _head_channel_patch_records(config)
-    modes = ("null_head", "permute_head_rows")
+    modes = HEAD_PATCH_REQUIRED_MODES
     finite = all(
         math.isfinite(float(record["before_metrics"]["AUROC"]["value"]))
         and all(math.isfinite(float(record["after_metrics"][mode]["AUROC"]["value"])) for mode in modes)
@@ -1125,7 +1328,8 @@ def _head_channel_patch_evidence(config: GapHeadRunConfig) -> dict[str, Any]:
     )
     audit_pass = all(record["audits"][mode]["touched_column_audit"]["status"] == "pass" for record in records for mode in modes)
     deterministic = True
-    seed_paired = all(set(record["after_metrics"]) == set(modes) for record in records)
+    required_modes_present = all(set(record["after_metrics"]) == set(modes) for record in records)
+    seed_paired = required_modes_present
     ci_summaries = {
         mode: {
             "AUROC_after_minus_before": metric_stats(record["deltas"][mode]["AUROC_after_minus_before"] for record in records),
@@ -1138,7 +1342,7 @@ def _head_channel_patch_evidence(config: GapHeadRunConfig) -> dict[str, Any]:
     uer_not_improved = all(float(ci_summaries[mode]["UER_after_minus_before"]["ci95_low"]) >= 0.0 for mode in modes)
     status = "pass" if finite and audit_pass and deterministic and seed_paired else "fail"
     gate_status = "pass" if status == "pass" and auroc_drop and uer_not_improved else "fail"
-    return {
+    evidence = {
         "status": status,
         "gate_status": gate_status,
         "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence",
@@ -1192,6 +1396,7 @@ def _head_channel_patch_evidence(config: GapHeadRunConfig) -> dict[str, Any]:
             "seed_paired": seed_paired,
             "column_audited": audit_pass,
             "eval_only_patch": audit_pass,
+            "required_modes_present": required_modes_present,
         },
         "gate_criterion": "both head patches have AUROC delta CI-high < -0.02 and UER delta CI-low >= 0.0",
         "gate_evidence": {
@@ -1200,6 +1405,8 @@ def _head_channel_patch_evidence(config: GapHeadRunConfig) -> dict[str, Any]:
         },
         "ci_summaries": ci_summaries,
     }
+    evidence["causal_patch_claim"] = _head_patch_causal_claim(evidence)
+    return evidence
 
 
 def _score_margin_intervention_records(config: GapHeadRunConfig) -> list[dict[str, Any]]:
@@ -1415,7 +1622,9 @@ def _a4_hardgates(
     head_causal_patch = (
         head_channel_patch_evidence.get("status") == "pass"
         and head_channel_patch_evidence.get("gate_status") == "pass"
-        and all(head_protocol.get(name) is True for name in ("present", "deterministic", "finite", "seed_paired", "column_audited", "eval_only_patch"))
+        and head_channel_patch_evidence.get("causal_patch_claim", {}).get("h_causal_supported") is True
+        and _head_patch_required_modes_ok(head_channel_patch_evidence)
+        and all(head_protocol.get(name) is True for name in ("present", "deterministic", "finite", "seed_paired", "column_audited", "eval_only_patch", "required_modes_present"))
     )
     shortcut_clear = _shortcut_controls_clear(aggregate)
     hg5 = (
@@ -1477,11 +1686,13 @@ def _a4_hardgates(
                 "protocol_checks": dict(head_protocol),
                 "gate_status": head_channel_patch_evidence.get("gate_status"),
                 "gate_evidence": head_channel_patch_evidence.get("gate_evidence", {}),
+                "causal_patch_claim": head_channel_patch_evidence.get("causal_patch_claim", {}),
                 "causal_objects": [
                     "$.head_channel_patch_evidence.null_head",
                     "$.head_channel_patch_evidence.permute_head_rows",
                     "$.head_channel_patch_evidence.paired_deltas",
                     "$.head_channel_patch_evidence.gate_status",
+                    "$.head_channel_patch_evidence.causal_patch_claim",
                 ],
             },
         ),
@@ -2139,9 +2350,53 @@ def _write_text(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def _finalize_claim_state(payload: Mapping[str, Any]) -> dict[str, Any]:
+    finalized = dict(payload)
+    existing_d5_m = finalized.get("d5_m", {})
+    preserve_a1_block = (
+        isinstance(existing_d5_m, Mapping)
+        and existing_d5_m.get("passed") is False
+        and isinstance(existing_d5_m.get("failed_gate"), str)
+        and str(existing_d5_m["failed_gate"]).startswith("A1-")
+    )
+    finalized["head_channel_patch_evidence"] = _finalize_head_channel_patch_evidence(finalized)
+    finalized["a4_hardgates"] = _a4_hardgates(
+        finalized["aggregate"],
+        finalized["residualized_attribution"],
+        finalized["score_margin_causal_evidence"],
+        finalized["head_channel_patch_evidence"],
+    )
+    finalized["d5_m"] = dict(existing_d5_m) if preserve_a1_block else _d5_m(finalized["hardgates"], finalized["a4_hardgates"])
+    finalized["mechanism_case"] = _mechanism_case(
+        finalized["aggregate"],
+        finalized["hardgates"],
+        finalized["a4_hardgates"],
+        finalized["score_margin_causal_evidence"],
+    )
+    finalized["mechanism_evidence"] = _mechanism_evidence(
+        finalized["d5_o"],
+        finalized["d5_m"],
+        finalized["mechanism_case"],
+        finalized["a4_hardgates"],
+        finalized["residualized_attribution"],
+        finalized["score_margin_causal_evidence"],
+        finalized["head_channel_patch_evidence"],
+    )
+    finalized["ledger_debt"] = _ledger_debt(finalized["mechanism_evidence"])
+    finalized["failed_gate"] = finalized["d5_m"]["failed_gate"]
+    finalized["what_was_learned"] = finalized["mechanism_case"]["what_was_learned"]
+    finalized["revocation_ledger"] = _revocation_ledger(
+        finalized["hardgates"],
+        str(finalized["generated_at"]),
+        finalized["d5_m"],
+    )
+    finalized["e_hardgates"] = _finalize_e_hardgates(finalized)
+    return finalized
+
+
 def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bool = True) -> None:
     run_id = str(payload["run_id"])
-    payload = {**dict(payload), "e_hardgates": _finalize_e_hardgates(payload)}
+    payload = _finalize_claim_state(payload)
     claim_capsule = {key: payload[key] for key in (
         "schema_id",
         "source_issue",
