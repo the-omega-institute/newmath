@@ -3100,6 +3100,7 @@ import BEDC.Derived.CousinLemmaUp
 import BEDC.Derived.CousinLemmaUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
+import BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRoutes
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
 import BEDC.Derived.CoveringdimensionUp.FiniteEpsilonNetCarrier
 import BEDC.Derived.CoveringdimensionUp.FiniteOrderHandoff
@@ -5121,6 +5122,7 @@ import BEDC.Derived.HomologyUp.StdBridge
 import BEDC.Derived.HomotopyUp
 import BEDC.Derived.HomotopyUp.TasteGate
 import BEDC.Derived.HopfAlgUp
+import BEDC.Derived.HopfFibrationUp
 import BEDC.Derived.HostDelegationSocketUp
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
