@@ -2645,21 +2645,18 @@ def _bios_codex_resolve_merge(
         except OSError as exc:
             failures.append({"path": rel_path, "reason": "write_failed", "error": str(exc)})
             continue
+        add_c = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
+        if add_c.returncode != 0:
+            failures.append({"path": rel_path, "reason": "codex_add_failed", "stderr": (add_c.stderr or "")[-200:]})
+            continue
         resolved_paths.append(rel_path)
     if not resolved_paths:
         _bios_resolve_record(store, {"signature": sig, "action": "no_resolution", "failures": failures, "total_conflict_files": len(conflict_files)})
         return False, {"reason": "no_resolution", "signature": sig, "failures": failures, "total_conflict_files": len(conflict_files)}
-    try:
-        # -A so paths resolved by honoring a deletion (git rm) stage as
-        # deletions; a plain `git add <deleted path>` errors and aborted the
-        # whole merge (git_add_nonzero) even though every file was resolved.
-        add = _run_command(repo_root, ["git", "add", "-A", "--"] + resolved_paths, timeout=60.0)
-    except (OSError, subprocess.TimeoutExpired) as exc:
-        _bios_resolve_record(store, {"signature": sig, "action": "git_add_failed", "error": str(exc)})
-        return False, {"reason": "git_add_failed", "error": str(exc)}
-    if add.returncode != 0:
-        _bios_resolve_record(store, {"signature": sig, "action": "git_add_nonzero", "stderr": (add.stderr or "")[-300:]})
-        return False, {"reason": "git_add_nonzero", "stderr": (add.stderr or "")[-300:]}
+    # Each resolved path is already staged in-loop (checkout+add, git rm, or
+    # codex-write+add). No bulk `git add` here: a bulk add over a path removed
+    # by `git rm` fails (pathspec no longer matches its now-deleted directory)
+    # and used to abort the whole merge even though every file was resolved.
     try:
         commit = _run_command(repo_root, ["git", "commit", "-m", f"Sync auto-dev {upstream_sha[:12]} (codex-resolved {len(resolved_paths)}/{len(conflict_files)} files)"], timeout=120.0)
     except (OSError, subprocess.TimeoutExpired) as exc:
