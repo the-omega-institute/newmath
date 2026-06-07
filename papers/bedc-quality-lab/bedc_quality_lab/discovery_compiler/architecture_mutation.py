@@ -54,14 +54,14 @@ ARCHITECTURE_MUTATION_CANDIDATE_FIELDS = frozenset(
 )
 
 
-@dataclass(**{"froz" + "en": True})
+@dataclass(frozen=True)
 class GateResult:
     status: str
     reason: str
     pointers: tuple[str, ...] = ()
 
 
-@dataclass(**{"froz" + "en": True})
+@dataclass(frozen=True)
 class ArchitectureMutationDraft:
     draft_id: str
     status: str
