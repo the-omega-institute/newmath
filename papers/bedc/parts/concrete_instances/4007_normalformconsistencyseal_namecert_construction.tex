@@ -160,6 +160,91 @@ into an internal subject-reduction proof.
 \end{proof}
 \leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealCriticalPairRoute}
 
+\begin{theorem}[Normal-form consistency seal subject-reduction socket readiness]
+\label{thm:normal-form-consistency-seal-subject-reduction-socket-readiness}
+Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted $\NormalFormConsistencySealUp$
+packet. Every preservation-facing consumer must read the socket row $X$ as a
+visible subject-reduction boundary row and cannot treat that socket as already
+discharged by the closed-normal theorem row $K$.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:normal-form-consistency-seal-carrier}. The row $X$ is separate
+from $K$, so the checked closed-normal theorem row and the subject-reduction
+socket occupy distinct coordinates.
+
+Apply \autoref{thm:normal-form-consistency-seal-obligations}. Its non-escape
+clause records the subject-reduction frontier without turning it into a closed
+subject-reduction theorem.
+
+Use \autoref{thm:normal-form-consistency-seal-subject-reduction-boundary}.
+The boundary theorem routes preservation-facing data through the sibling
+subject-reduction discharge socket, and it leaves the beta, application,
+lambda, and Pi discharge rows outside the present seal.
+
+Finally apply \autoref{thm:normal-form-consistency-seal-critical-pair-route}.
+Every critical-pair or preservation-facing read must expose $X$ with the
+finite packet route, so readiness of the socket is visible but not discharged.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal critical-pair frontier exhaustion]
+\label{thm:normal-form-consistency-seal-critical-pair-frontier-exhaustion}
+For an accepted $\NormalFormConsistencySealUp$ packet
+$S=(T,F,N,K,X,H,C,P,L)$, every critical-pair read and residual-discharge read is
+exhausted by the displayed route
+$$
+T,F,N,K,X,H,C,P,L .
+$$
+No additional evaluator equality, quotient syntax equality, hidden reduction
+schedule, or subject-reduction discharge row is exported by the seal.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:normal-form-consistency-seal-critical-pair-route}. It already
+identifies the displayed route required by critical-pair, residual-discharge,
+and preservation-facing consumers.
+
+Apply \autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. The
+closed-normal contradiction route is confined to $T,F,N,K,H,C,P,L$, while $X$
+remains the visible subject-reduction boundary citation.
+
+Apply \autoref{thm:normal-form-consistency-seal-subject-reduction-socket-readiness}.
+Since $X$ is only a socket row, a residual consumer cannot use it as a hidden
+discharge theorem.
+
+The exhaustion claim follows from the carrier shape and the obligation theorem:
+the local NameCert surface contains no coordinate beyond $T,F,N,K,X,H,C,P,L$
+from which an extra evaluator, quotient, reduction-schedule, or preservation
+row could be read.
+\end{proof}
+
+\begin{theorem}[Normal-form consistency seal MetaCIC consumer boundary]
+\label{thm:normal-form-consistency-seal-metacic-consumer-boundary}
+Every closed-normal MetaCIC consistency consumer of an accepted
+$\NormalFormConsistencySealUp$ packet may use the checked row $K$ only together
+with the displayed closed-context typing row $T$, internal false row $F$,
+beta-strong normality row $N$, and structural rows $H,C,P,L$. The consumer may
+also cite $X$ as an open subject-reduction socket, but not as a discharged
+preservation theorem.
+\end{theorem}
+\begin{proof}
+Project $T,F,N,K$ from the carrier. These rows are the closed-context typing,
+false-type, normality, and checked closed-normal theorem data consumed by the
+MetaCIC consistency read.
+
+Apply \autoref{thm:normal-form-consistency-seal-closed-normal-frontier}. It
+states that the closed-normal contradiction route is exactly
+$T,F,N,K,H,C,P,L$ and that $X$ remains outside the closed-normal endpoint.
+
+Use \autoref{thm:normal-form-consistency-seal-subject-reduction-socket-readiness}
+and \autoref{thm:normal-form-consistency-seal-critical-pair-frontier-exhaustion}.
+Together they keep the subject-reduction socket visible and exhaust every
+critical-pair or residual read by the displayed finite route.
+
+Thus a MetaCIC consumer may cite $K$ only with the closed-context and normality
+rows that the packet displays, and any preservation-facing use remains a socket
+handoff rather than a completed theorem.
+\end{proof}
+
 \begin{theorem}[Normal-form consistency seal constructor frontier]
 \label{thm:normalformconsistencyseal-constructor-frontier}
 Let $S=(T,F,N,K,X,H,C,P,L)$ be an accepted
