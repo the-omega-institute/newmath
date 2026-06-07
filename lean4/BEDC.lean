@@ -5976,6 +5976,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketInduction
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketLocality
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketTotality
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketTotalityRoute
+import BEDC.Derived.MetaCICCriticalPathUp.DownstreamConsumerReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamReadinessBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamUnblockCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamUnblockReadiness
