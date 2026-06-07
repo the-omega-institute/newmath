@@ -5859,6 +5859,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierDischargeRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierDischargeSocketCoproduct
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10BudgetLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierNormalFormWitnessExtraction
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceExhaustion
@@ -9014,6 +9015,8 @@ import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp.TerminalPrefixReadback
 import BEDC.Derived.TriebelLizorkinSpaceUp
 import BEDC.Derived.TriggerHypergraphReliabilityUp
+import BEDC.Derived.TriggerHypergraphReliabilityUp.Factorization
+import BEDC.Derived.TriggerHypergraphReliabilityUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
