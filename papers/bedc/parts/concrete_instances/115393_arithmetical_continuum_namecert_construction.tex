@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\ArithmeticalContinuumUp$}
+\label{ch:concrete-instances-arithmetical-continuum-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\ArithmeticalContinuumUp$ packet records the arithmetical continuum as the finite BEDC route from rational and dyadic arithmetic through regular Cauchy names to the Real seal. It sits over the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the dyadic ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names the displayed construction-order surface; it does not import Dedekind cuts, quotient reals, trichotomy, countable choice, selected representatives, or ambient completeness of $\RealUp$.
+
+\begin{definition}[ArithmeticalContinuum carrier]
+\label{def:arithmetical-continuum-carrier}
+An $\ArithmeticalContinuumUp$ carrier is a finite $\BHist$ packet
+$$
+A=(Q,D,S,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ arithmetic row naming the rational operations and rational comparison requests admitted by the packet.
+\item $D$ is the $\DyadicRatCoreUp$ ledger used to refine the rational requests into dyadic cells, dyadic tolerances, and dyadic comparison windows.
+\item $S$ is the $\StreamNameUp$ finite-window row through which construction-order consumers inspect the displayed arithmetic stream.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row serving the same finite stream windows.
+\item $E$ is the terminal $\RealUp$ seal row available only after the rational, dyadic, stream, and regular-readback rows have been replayed.
+\item $H$ records componentwise $\hsame$ transport for rational arithmetic, dyadic refinement, stream windows, regular readback, Real seals, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from rational requests to dyadic refinement, stream inspection, regular readback, and the terminal Real seal.
+\item $P$ is the $\Pkg$ provenance over $\ArithmeticalContinuumUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ArithmeticalContinuumUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for Dedekind cuts, quotient-real equality, trichotomy, selected representatives, countable choice, host real equality, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[ArithmeticalContinuum NameCert obligations]
+\label{thm:arithmetical-continuum-namecert-obligations}
+For every accepted $\ArithmeticalContinuumUp$ carrier $A=(Q,D,S,R,E,H,C,P,N)$, the local $\NameCert_{\ArithmeticalContinuumUp}$ surface consists exactly of carrier admission for the rational, dyadic, stream, regular-readback, Real-seal, transport, replay, provenance, and local name rows; dyadic refinement exactness for rational arithmetic requests; finite stream-window coverage before regular readback; Real-seal handoff after $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, and $\RegSeqRatUp$ have been displayed; and nonescape excluding Dedekind cuts, quotient reals, trichotomy, selected representatives, countable choice, host equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:arithmetical-continuum-carrier}. The tuple displays exactly the rational arithmetic row, dyadic refinement ledger, finite stream windows, regular rational readback, Real seal, transport, replay, provenance, and local name.
+
+Dyadic refinement exactness is read through $Q$ and $D$. Each rational arithmetic request must expose its dyadic tolerance or comparison window before the request can be consumed downstream.
+
+The construction-order read then passes through $S$ and $R$. The stream window names the finite observations, and the regular rational row supplies the readback tied to those observations before the Real seal $E$ is visible.
+
+Finally $H,C,P,N$ transport, replay, source, and name only the displayed route. Since the carrier has no Dedekind-cut, quotient-real, trichotomy, selected-representative, choice, host-equality, or completeness coordinate, none of those objects can be exported by the certificate.
+\end{proof}
+
+\begin{theorem}[ArithmeticalContinuum regular Cauchy handoff]
+\label{thm:arithmetical-continuum-regular-cauchy-handoff}
+Every $\RealUp$-facing consumer of an accepted $\ArithmeticalContinuumUp$ carrier factors through the construction-order route
+$$
+\RatUp \longmapsto \DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+$$
+using the displayed rows $Q,D,S,R,E,H,C,P,N$. The handoff may transport and replay this finite route, but it cannot claim Dedekind-cut completeness, quotient-real equality, trichotomy, a selected representative, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier of \autoref{def:arithmetical-continuum-carrier}. A Real-facing consumer has access to the terminal seal only at the row $E$.
+
+Apply \autoref{thm:arithmetical-continuum-namecert-obligations}. The obligation surface forces the consumer to expose $Q,D,S,R$ in order: rational arithmetic request, dyadic refinement, finite stream inspection, and regular rational readback.
+
+The rows $H$ and $C$ preserve that route under componentwise transport and displayed replay, while $P$ and $N$ only record provenance and local naming. Thus the handoff reaches $\RealUp$ through the displayed regular Cauchy route, with no carrier coordinate from which to read the excluded classical objects.
+\end{proof}
+
+\falsifiablePrediction{Every accepted ArithmeticalContinuumUp read exposes Rat arithmetic, DyadicRatCore refinement, StreamName windows, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming before any Real-facing consumer can inspect the packet.}
+
+\independenceWitness{rat, dyadicratcore, streamname, regseqrat, real: removing any one of these sibling routes leaves the packet unable to display the corresponding rational request, dyadic refinement, stream window, regular-rational readback, or terminal Real seal row.}
+
+\closureat{ArithmeticalContinuumUp}{seedStr}
+
+\begin{closurestatus}{\ArithmeticalContinuumUp}
+  \constructivestory{An $\ArithmeticalContinuumUp$ packet is generated from Rat arithmetic rows, DyadicRatCore refinement ledgers, StreamName finite windows, RegSeqRat readbacks, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:arithmetical-continuum-carrier}, \autoref{thm:arithmetical-continuum-namecert-obligations}, and \autoref{thm:arithmetical-continuum-regular-cauchy-handoff} seed the arithmetical-continuum route from rational and dyadic arithmetic through regular Cauchy names to the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Dedekind cuts, quotient reals, trichotomy, selected representatives, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic refinement exactness, stream-window coverage, regular rational readback, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.ArithmeticalContinuumUp.}
+\end{closurestatus}
