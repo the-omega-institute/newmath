@@ -1,0 +1,17 @@
+\begin{theorem}[MetaCIC candidate-mediated SN handoff]
+\label{thm:metacic-critical-path-candidate-sn-handoff}
+Let $K=(S,N,O,U,D,H,C,P,L)$ be an accepted $\MetaCICCriticalPathUp$ packet. If the packet displays a reducibility-candidate row $R$, a candidate-closedness row $Q$, and a beta-step replay row $B$ over the same closed typed term data, then any critical-path consumer may export only the candidate-implies-SN handoff and the beta-closedness handoff. The export is the finite route
+$$
+R,Q,B\longmapsto S,N,U,H,C,P,L .
+$$
+It is not a global strong-normalization theorem, not a confluence theorem, not beta-conversion decidability, not closed subject reduction, not quotient term equality, and not a filled discharge socket.
+\end{theorem}
+\begin{proof}
+Project the accepted packet first. The rows $S,N,O,U,D,H,C,P,L$ keep strong-normalization evidence, normal endpoints, obstruction data, the handoff row, the discharge socket, transport, replay, provenance, and local naming visible before any critical-path consumer reads the handoff.
+
+Use the reducibility row $R$ only through the candidate-implies-SN dependency represented by \texttt{BEDC.MetaCIC.Normalization.Reducibility.candidate\_implies\_sn}. This produces the displayed SN handoff into $S,N,U$ for the same term and type data; it does not assert unrestricted normalization outside the candidate row.
+
+Use the closedness and beta-step rows $Q,B$ only through the beta-closedness dependency represented by \texttt{BEDC.MetaCIC.Normalization.Reducibility.candidate\_closed\_under\_beta}. This replays the candidate row across the displayed beta step and returns to the same finite handoff surface.
+
+Finally apply the existing candidate-mediated frontier and conditional-budget boundaries, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-budget}. They keep $O$ and $D$ visible while the handoff is consumed, so the route exports only the candidate-implies-SN and beta-closedness handoffs and none of the refused global MetaCIC claims.
+\end{proof}
