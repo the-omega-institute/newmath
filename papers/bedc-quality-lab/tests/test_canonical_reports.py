@@ -901,9 +901,15 @@ def _write_dimension_mismatch_gap_witness_fixture(root):
                 "run_local": {
                     "negative_witness": [
                         {
+                            "witness_id": "scale_leakage_witness",
+                            "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+                            "source_pointer": "$.status",
                             "bedc_gap_field": "representation_scale_leakage",
                             "demotion_rule": "demote_to_DN_or_D1",
                             "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                            "evidence_pointer": "reports/dimension_mismatch_anti_triviality.json:$.controlled_geometry.feature_partition",
+                            "status": "valid",
+                            "reason": "scale-only anti-triviality evidence demotes the debt-transfer claim",
                         }
                     ],
                     "test_artifact": {
@@ -915,6 +921,20 @@ def _write_dimension_mismatch_gap_witness_fixture(root):
                         }
                     },
                 }
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    sidecar_path = root / "reports/dimension_mismatch_anti_triviality.json"
+    sidecar_path.parent.mkdir(parents=True, exist_ok=True)
+    sidecar_path.write_text(
+        json.dumps(
+            {
+                "status": "scale_leakage_detected",
+                "controlled_geometry": {
+                    "feature_partition": {"fixture": ["h_l2_mean"]},
+                },
             }
         )
         + "\n",
@@ -4093,12 +4113,26 @@ def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, 
     monkeypatch.setitem(
         sys.modules,
         "scripts.run_dimension_mismatch_debt_transfer",
-        types.SimpleNamespace(
-            JSON_ARTIFACT=canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
-            REPORT_ARTIFACT=canonical.DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT,
-            write_dimension_mismatch_debt_transfer=write_transfer,
-        ),
-    )
+            types.SimpleNamespace(
+                JSON_ARTIFACT=canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
+                REPORT_ARTIFACT=canonical.DIMENSION_MISMATCH_TRANSFER_MARKDOWN_ARTIFACT,
+                SCALE_LEAKAGE_WITNESS_POINTER=(
+                    "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json:"
+                    "$.run_local.negative_witness[0]"
+                ),
+                NEGATIVE_WITNESS_TEST_POINTER="$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                scale_leakage_bedc_gap_mapping=lambda root: {
+                    "witness_pointer": (
+                        "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json:"
+                        "$.run_local.negative_witness[0]"
+                    ),
+                    "bedc_gap_field": "representation_scale_leakage",
+                    "demotion_rule": "demote_to_DN_or_D1",
+                    "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                },
+                write_dimension_mismatch_debt_transfer=write_transfer,
+            ),
+        )
     monkeypatch.setitem(
         sys.modules,
         "scripts.run_dimension_mismatch_anti_triviality",

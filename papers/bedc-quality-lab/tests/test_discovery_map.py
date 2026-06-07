@@ -702,9 +702,15 @@ def _write_dimension_mismatch_gap_witness_fixture(root: Path):
             "run_local": {
                 "negative_witness": [
                     {
+                        "witness_id": "scale_leakage_witness",
+                        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+                        "source_pointer": "$.status",
                         "bedc_gap_field": "representation_scale_leakage",
                         "demotion_rule": "demote_to_DN_or_D1",
                         "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                        "evidence_pointer": "reports/dimension_mismatch_anti_triviality.json:$.controlled_geometry.feature_partition",
+                        "status": "valid",
+                        "reason": "scale-only anti-triviality evidence demotes the debt-transfer claim",
                     }
                 ],
                 "test_artifact": {
@@ -716,6 +722,16 @@ def _write_dimension_mismatch_gap_witness_fixture(root: Path):
                     }
                 },
             }
+        },
+    )
+    _write_json_artifact(
+        root,
+        "reports/dimension_mismatch_anti_triviality.json",
+        {
+            "status": "scale_leakage_detected",
+            "controlled_geometry": {
+                "feature_partition": {"fixture": ["h_l2_mean"]},
+            },
         },
     )
 

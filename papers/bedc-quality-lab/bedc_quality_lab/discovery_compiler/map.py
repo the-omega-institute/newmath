@@ -122,6 +122,7 @@ DN_FACT_KEYS = frozenset(
         "stop_reason",
         "not_claimed",
         "what_was_learned",
+        "bedc_gap_mapping",
     }
 )
 
