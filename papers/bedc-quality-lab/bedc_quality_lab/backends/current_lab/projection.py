@@ -58,14 +58,6 @@ DISCOVERY_MAP_SCHEMA_ID = "bedc-quality-lab:canonical-discovery-map"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
-CLAIM_SCOPE_SEAL = {
-    "status": "closed",
-    "toy": True,
-    "bounded": True,
-    "theorem": False,
-    "real_training": False,
-    "production_forbidden": True,
-}
 
 
 @dataclass(frozen=True)
@@ -1810,8 +1802,6 @@ def _with_source_audit_status(overlay: dict[str, Any], payload: Mapping[str, Any
     if overlay.get("positive_discovery") is not True:
         return overlay
     result = dict(overlay)
-    if "scope_seal" not in result and "scope_seal" not in payload:
-        result["scope_seal"] = CLAIM_SCOPE_SEAL
     audit_status = _source_audit_status(payload)
     if audit_status is None:
         return result
@@ -1896,8 +1886,6 @@ def projection_payload(
         }
     projected = dict(payload)
     projected.update(overlay)
-    if projected.get("positive_discovery") is True and "scope_seal" not in projected:
-        projected["scope_seal"] = CLAIM_SCOPE_SEAL
     return projected
 
 

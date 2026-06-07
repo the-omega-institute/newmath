@@ -12,6 +12,14 @@ CLAIM_SCOPE_SEAL_KEYS = frozenset(
     {"toy", "bounded", "theorem", "real_training", "production_forbidden"}
 )
 CLAIM_SCOPE_POSITIVE_KEYS = frozenset({"toy", "bounded", "theorem", "real_training"})
+CLOSED_CLAIM_SCOPE_SEAL = {
+    "status": "closed",
+    "toy": True,
+    "bounded": True,
+    "theorem": False,
+    "real_training": False,
+    "production_forbidden": True,
+}
 
 
 @dataclass(frozen=True)

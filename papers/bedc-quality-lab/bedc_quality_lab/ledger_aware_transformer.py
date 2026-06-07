@@ -15,6 +15,7 @@ from bedc_quality_lab.discovery_compiler.capsule import (
     build_architecture_claim_capsule_payload,
 )
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
 
 JSON_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
@@ -1088,8 +1089,10 @@ class LedgerAwareTransformerProjection:
                 "failed_gate_pointer": "$.hardgate.failed_gate",
             }
         ]
+        payload["scope_seal"] = CLOSED_CLAIM_SCOPE_SEAL
         payload["positive_claim"]["net_positive_signal"] = True
         payload["positive_claim"]["claim_status"] = "bounded-positive-evidence"
+        payload["positive_claim"]["scope_seal"] = CLOSED_CLAIM_SCOPE_SEAL
         payload["forbidden_claim_term_audit"] = _forbidden_term_audit(payload["positive_claim"])
         capsule = build_architecture_capsule(payload)
         payload["claim_capsule_ref"] = {

@@ -17,13 +17,13 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.classifier_shift import ClassifierPassage, ClassifierState, classifier_surface_delta, shift_information, structural_discovery
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey
-from bedc_quality_lab.scope import closed_claim_scope_seal
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL, closed_claim_scope_seal
 
 SOURCE_JSON_ARTIFACT = "reports/rho_identifiability_dose_response.json"
 SOURCE_REPORT_ARTIFACT = "reports/rho_identifiability_dose_response.md"
 JSON_ARTIFACT = "reports/rho_dose_response_discovery.json"
 REPORT_ARTIFACT = "reports/rho_dose_response_discovery.md"
-SCOPE_SEAL = {"status": "closed", "toy": True, "bounded": True, "theorem": False, "real_training": False, "production_forbidden": True}
+SCOPE_SEAL = CLOSED_CLAIM_SCOPE_SEAL
 CONTROL_SEED = 53520260602
 CONTROL_PERMUTATIONS = 200
 METRICS = ("linear_identifiability_r2", "approx_identifiability_proxy", "orthogonality_error", "covariance_deviation", "quality_benefit", "quality_cost", "quality_debt", "quality_q")

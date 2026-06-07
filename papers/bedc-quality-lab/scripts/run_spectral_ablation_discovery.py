@@ -23,7 +23,7 @@ from bedc_quality_lab.classifier_shift import (
 )
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey
-from bedc_quality_lab.scope import closed_claim_scope_seal
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL, closed_claim_scope_seal
 
 
 SOURCE_JSON_ARTIFACT = "reports/spectral_ablation_hinge.json"
@@ -31,7 +31,7 @@ SOURCE_REPORT_ARTIFACT = "reports/spectral_ablation_hinge.md"
 JSON_ARTIFACT = "reports/spectral_ablation_discovery.json"
 REPORT_ARTIFACT = "reports/spectral_ablation_discovery.md"
 BEFORE_ARM = "vanilla"
-SCOPE_SEAL = {"status": "closed", "toy": True, "bounded": True, "theorem": False, "real_training": False, "production_forbidden": True}
+SCOPE_SEAL = CLOSED_CLAIM_SCOPE_SEAL
 
 
 def _load_payload(path: Path | None = None) -> dict[str, Any]:

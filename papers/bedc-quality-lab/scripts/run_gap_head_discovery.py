@@ -22,13 +22,13 @@ from bedc_quality_lab.classifier_shift import (
 )
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey, ledger_complete
-from bedc_quality_lab.scope import Scope, ScopedCertificate, closed_claim_scope_seal, scope_rows
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL, Scope, ScopedCertificate, closed_claim_scope_seal, scope_rows
 
 
 SOURCE_JSON_ARTIFACT = "reports/gap_ledger_head_on_h.json"
 JSON_ARTIFACT = "reports/gap_head_discovery.json"
 REPORT_ARTIFACT = "reports/gap_head_discovery.md"
-SCOPE_SEAL = {"status": "closed", "toy": True, "bounded": True, "theorem": False, "real_training": False, "production_forbidden": True}
+SCOPE_SEAL = CLOSED_CLAIM_SCOPE_SEAL
 BEFORE_ARM = "vanilla"
 AFTER_ARM = "learned_gap_head_on_h"
 CONTROL_ARM = "matched_random_gap_head"
