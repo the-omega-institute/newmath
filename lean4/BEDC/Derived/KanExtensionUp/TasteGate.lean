@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.KanExtensionUp
+namespace BEDC.Derived.KanExtensionUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,9 +10,7 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive KanExtensionUp : Type where
-  | mk :
-      (C D E J F L eta U V H R P N : BHist) →
-        KanExtensionUp
+  | mk (C D E J F L eta U V H R P N : BHist) : KanExtensionUp
   deriving DecidableEq
 
 def kanExtensionEncodeBHist : BHist → RawEvent
@@ -27,7 +25,7 @@ def kanExtensionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (kanExtensionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (kanExtensionDecodeBHist tail)
 
-private theorem kanExtensionDecode_encode_bhist :
+private theorem kanExtensionDecode_encode :
     ∀ h : BHist, kanExtensionDecodeBHist (kanExtensionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -36,69 +34,45 @@ private theorem kanExtensionDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-private theorem kanExtension_mk_congr
-    {C C' D D' E E' J J' F F' L L' eta eta' U U' V V' H H' R R' P P' N N' :
-        BHist}
-    (hC : C' = C) (hD : D' = D) (hE : E' = E) (hJ : J' = J) (hF : F' = F)
-    (hL : L' = L) (hEta : eta' = eta) (hU : U' = U) (hV : V' = V)
-    (hH : H' = H) (hR : R' = R) (hP : P' = P) (hN : N' = N) :
-    KanExtensionUp.mk C' D' E' J' F' L' eta' U' V' H' R' P' N' =
-      KanExtensionUp.mk C D E J F L eta U V H R P N := by
+def kanExtensionFields : KanExtensionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  cases hC
-  cases hD
-  cases hE
-  cases hJ
-  cases hF
-  cases hL
-  cases hEta
-  cases hU
-  cases hV
-  cases hH
-  cases hR
-  cases hP
-  cases hN
-  rfl
+  | KanExtensionUp.mk C D E J F L eta U V H R P N =>
+      [C, D, E, J, F, L, eta, U, V, H, R, P, N]
 
 def kanExtensionToEventFlow : KanExtensionUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | KanExtensionUp.mk C D E J F L eta U V H R P N =>
-      [kanExtensionEncodeBHist C,
-        kanExtensionEncodeBHist D,
-        kanExtensionEncodeBHist E,
-        kanExtensionEncodeBHist J,
-        kanExtensionEncodeBHist F,
-        kanExtensionEncodeBHist L,
-        kanExtensionEncodeBHist eta,
-        kanExtensionEncodeBHist U,
-        kanExtensionEncodeBHist V,
-        kanExtensionEncodeBHist H,
-        kanExtensionEncodeBHist R,
-        kanExtensionEncodeBHist P,
-        kanExtensionEncodeBHist N]
+  | x => [BMark.b1, BMark.b0, BMark.b1, BMark.b1] ::
+      (kanExtensionFields x).map kanExtensionEncodeBHist
 
-def kanExtensionFromEventFlow : EventFlow → Option KanExtensionUp
+private def kanExtensionEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | C :: D :: E :: J :: F :: L :: eta :: U :: V :: H :: R :: P :: N :: [] =>
-      some
-        (KanExtensionUp.mk
-          (kanExtensionDecodeBHist C)
-          (kanExtensionDecodeBHist D)
-          (kanExtensionDecodeBHist E)
-          (kanExtensionDecodeBHist J)
-          (kanExtensionDecodeBHist F)
-          (kanExtensionDecodeBHist L)
-          (kanExtensionDecodeBHist eta)
-          (kanExtensionDecodeBHist U)
-          (kanExtensionDecodeBHist V)
-          (kanExtensionDecodeBHist H)
-          (kanExtensionDecodeBHist R)
-          (kanExtensionDecodeBHist P)
-          (kanExtensionDecodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest => kanExtensionEventAtDefault index rest
+
+def kanExtensionFromEventFlow : EventFlow → Option KanExtensionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (KanExtensionUp.mk
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 1 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 2 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 3 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 4 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 5 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 6 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 7 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 8 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 9 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 10 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 11 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 12 ef))
+        (kanExtensionDecodeBHist (kanExtensionEventAtDefault 13 ef)))
 
 private theorem kanExtension_round_trip :
-    ∀ x : KanExtensionUp, kanExtensionFromEventFlow (kanExtensionToEventFlow x) = some x := by
+    ∀ x : KanExtensionUp,
+      kanExtensionFromEventFlow (kanExtensionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -120,22 +94,19 @@ private theorem kanExtension_round_trip :
             (kanExtensionDecodeBHist (kanExtensionEncodeBHist P))
             (kanExtensionDecodeBHist (kanExtensionEncodeBHist N))) =
           some (KanExtensionUp.mk C D E J F L eta U V H R P N)
-      exact
-        congrArg some
-          (kanExtension_mk_congr
-            (kanExtensionDecode_encode_bhist C)
-            (kanExtensionDecode_encode_bhist D)
-            (kanExtensionDecode_encode_bhist E)
-            (kanExtensionDecode_encode_bhist J)
-            (kanExtensionDecode_encode_bhist F)
-            (kanExtensionDecode_encode_bhist L)
-            (kanExtensionDecode_encode_bhist eta)
-            (kanExtensionDecode_encode_bhist U)
-            (kanExtensionDecode_encode_bhist V)
-            (kanExtensionDecode_encode_bhist H)
-            (kanExtensionDecode_encode_bhist R)
-            (kanExtensionDecode_encode_bhist P)
-            (kanExtensionDecode_encode_bhist N))
+      rw [kanExtensionDecode_encode C,
+        kanExtensionDecode_encode D,
+        kanExtensionDecode_encode E,
+        kanExtensionDecode_encode J,
+        kanExtensionDecode_encode F,
+        kanExtensionDecode_encode L,
+        kanExtensionDecode_encode eta,
+        kanExtensionDecode_encode U,
+        kanExtensionDecode_encode V,
+        kanExtensionDecode_encode H,
+        kanExtensionDecode_encode R,
+        kanExtensionDecode_encode P,
+        kanExtensionDecode_encode N]
 
 private theorem kanExtensionToEventFlow_injective {x y : KanExtensionUp} :
     kanExtensionToEventFlow x = kanExtensionToEventFlow y → x = y := by
@@ -148,6 +119,17 @@ private theorem kanExtensionToEventFlow_injective {x y : KanExtensionUp} :
   exact Option.some.inj
     (Eq.trans (kanExtension_round_trip x).symm
       (Eq.trans hread (kanExtension_round_trip y)))
+
+private theorem kanExtension_field_faithful :
+    ∀ x y : KanExtensionUp, kanExtensionFields x = kanExtensionFields y → x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y hfields
+  cases x with
+  | mk C1 D1 E1 J1 F1 L1 eta1 U1 V1 H1 R1 P1 N1 =>
+      cases y with
+      | mk C2 D2 E2 J2 F2 L2 eta2 U2 V2 H2 R2 P2 N2 =>
+          cases hfields
+          rfl
 
 instance kanExtensionBHistCarrier : BHistCarrier KanExtensionUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -164,19 +146,51 @@ instance kanExtensionChapterTasteGate : ChapterTasteGate KanExtensionUp where
     intro x y hxy heq
     exact hxy (kanExtensionToEventFlow_injective heq)
 
-theorem KanExtensionTasteGate_single_carrier_alignment_decode :
-    ∀ h : BHist, kanExtensionDecodeBHist (kanExtensionEncodeBHist h) = h := by
+instance kanExtensionFieldFaithful : FieldFaithful KanExtensionUp where
   -- BEDC touchpoint anchor: BHist BMark
-  exact kanExtensionDecode_encode_bhist
+  fields := kanExtensionFields
+  field_faithful := kanExtension_field_faithful
 
-def KanExtensionTasteGate_single_carrier_alignment :
-    (∀ h : BHist, kanExtensionDecodeBHist (kanExtensionEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier KanExtensionUp) ∧
-        Nonempty (ChapterTasteGate KanExtensionUp) ∧
-          kanExtensionEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+instance kanExtensionNontrivial : Nontrivial KanExtensionUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨KanExtensionUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      KanExtensionUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        injection h with hC
+        cases hC⟩
+
+def taste_gate : ChapterTasteGate KanExtensionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  kanExtensionChapterTasteGate
+
+def taste_gate_witness : FieldFaithful KanExtensionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  kanExtensionFieldFaithful
+
+theorem KanExtensionTasteGate_single_carrier_alignment :
+    Nonempty (ChapterTasteGate KanExtensionUp) ∧
+      Nonempty (FieldFaithful KanExtensionUp) ∧
+        Nonempty (Nontrivial KanExtensionUp) ∧
+          (∀ h : BHist, kanExtensionDecodeBHist (kanExtensionEncodeBHist h) = h) ∧
+            (∀ x : KanExtensionUp,
+              kanExtensionFromEventFlow (kanExtensionToEventFlow x) = some x) ∧
+              (∀ x y : KanExtensionUp,
+                kanExtensionToEventFlow x = kanExtensionToEventFlow y → x = y) ∧
+                kanExtensionEncodeBHist BHist.Empty = ([] : RawEvent) := by
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful Nontrivial
   exact
-    ⟨kanExtensionDecode_encode_bhist,
-      ⟨⟨kanExtensionBHistCarrier⟩, ⟨kanExtensionChapterTasteGate⟩, rfl⟩⟩
+    ⟨Nonempty.intro kanExtensionChapterTasteGate,
+      Nonempty.intro kanExtensionFieldFaithful,
+      Nonempty.intro kanExtensionNontrivial,
+      kanExtensionDecode_encode,
+      kanExtension_round_trip,
+      fun _ _ heq => kanExtensionToEventFlow_injective heq,
+      rfl⟩
 
-end BEDC.Derived.KanExtensionUp
+end BEDC.Derived.KanExtensionUp.TasteGate
