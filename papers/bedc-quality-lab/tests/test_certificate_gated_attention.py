@@ -364,7 +364,7 @@ def test_current_lab_projection_and_pointer_resolvability():
                 payload.__setitem__("entropy_only_control", payload["route_patch_protocol"]["entropy_only_control"]),
                 payload["discovery_map_signal"].__setitem__("control_pointer", "$.entropy_only_control"),
             ),
-            "$.route_patch_protocol",
+            "$.discovery_map_signal.control_pointer",
         ),
         (lambda payload: payload.pop("not_claimed"), "$.not_claimed"),
         (lambda payload: payload.__setitem__("not_claimed", {"claims": []}), "$.not_claimed"),
