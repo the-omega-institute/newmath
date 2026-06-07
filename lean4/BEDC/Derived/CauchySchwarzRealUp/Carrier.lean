@@ -118,4 +118,36 @@ theorem CauchySchwarzRealCarrier_dyadic_square_handoff [AskSetup] [PackageSetup]
       squareUnary, readbackUnary, sealUnary, vectorRoute, scalarRoute, squareRoute,
       readbackRoute, sealRoute, provenancePkg, sealPkg⟩
 
+theorem CauchySchwarzRealCarrier_norm_bound_handoff [AskSetup] [PackageSetup]
+    {V X Y I A B D Q S E H T P N vectorRead scalarRead squareRead readbackRead sealRead
+      normRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchySchwarzRealCarrier V X Y I A B D Q S E H T P N bundle pkg →
+      Cont V X vectorRead →
+        Cont vectorRead I scalarRead →
+          Cont scalarRead D squareRead →
+            Cont squareRead Q readbackRead →
+              Cont readbackRead E sealRead →
+                Cont sealRead H normRead →
+                  PkgSig bundle normRead pkg →
+                    UnaryHistory normRead ∧ Cont sealRead H normRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle normRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier vectorRoute scalarRoute squareRoute readbackRoute sealRoute normRoute normPkg
+  obtain ⟨vUnary, xUnary, _yUnary, iUnary, _aUnary, _bUnary, dUnary, qUnary,
+    _sUnary, eUnary, hUnary, _tUnary, _pUnary, _nUnary, provenancePkg⟩ := carrier
+  have vectorUnary : UnaryHistory vectorRead :=
+    unary_cont_closed vUnary xUnary vectorRoute
+  have scalarUnary : UnaryHistory scalarRead :=
+    unary_cont_closed vectorUnary iUnary scalarRoute
+  have squareUnary : UnaryHistory squareRead :=
+    unary_cont_closed scalarUnary dUnary squareRoute
+  have readbackUnary : UnaryHistory readbackRead :=
+    unary_cont_closed squareUnary qUnary readbackRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed readbackUnary eUnary sealRoute
+  have normUnary : UnaryHistory normRead :=
+    unary_cont_closed sealUnary hUnary normRoute
+  exact ⟨normUnary, normRoute, provenancePkg, normPkg⟩
+
 end BEDC.Derived.CauchySchwarzRealUp
