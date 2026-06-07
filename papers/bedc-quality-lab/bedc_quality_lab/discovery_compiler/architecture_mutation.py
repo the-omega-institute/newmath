@@ -71,16 +71,6 @@ class GateResult:
 
 
 @dataclass(**{"froz" + "en": True})
-class WitnessBasisGate:
-    status: str
-    reason: str
-    pointers: tuple[str, ...]
-
-    def as_result(self) -> GateResult:
-        return GateResult(status=self.status, reason=self.reason, pointers=self.pointers)
-
-
-@dataclass(**{"froz" + "en": True})
 class ArchitectureMutationDraft:
     draft_id: str
     status: str

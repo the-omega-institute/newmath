@@ -48,6 +48,10 @@
           {
             "artifact": "reports/canonical/ledger-aware-transformer.json",
             "pointer": "$.parameter_matched_baseline"
+          },
+          {
+            "artifact": "reports/canonical/ledger-aware-transformer.json",
+            "pointer": "$.compute_matched_baseline"
           }
         ],
         "candidate_pointer": {
@@ -73,7 +77,8 @@
           "LAT-HG4",
           "LAT-HG5",
           "LAT-HG6",
-          "LAT-HG7"
+          "LAT-HG7",
+          "LAT-HG8"
         ]
       },
       "not_claimed": [
@@ -95,6 +100,35 @@
     "positive_claim_pointer": "$.positive_claim",
     "source_pointer": "$.positive_claim"
   },
+  "compute_matched_baseline": {
+    "baseline_arm": {
+      "arm_id": "compute_matched_no_ledger_transformer",
+      "artifact_pointer": "$.source_artifacts.cost_protocol",
+      "flops_per_step": 13824.0,
+      "measurement_method": "deterministic-numpy-step-surrogate",
+      "sample_count": 96,
+      "step_count": 12,
+      "wall_time_ms_per_step": 0.14
+    },
+    "candidate_arm": {
+      "arm_id": "ledger_aware_gap_head_on_residual",
+      "artifact_pointer": "$.source_artifacts.cost_protocol",
+      "flops_per_step": 13824.0,
+      "measurement_method": "deterministic-numpy-step-surrogate",
+      "sample_count": 96,
+      "step_count": 12,
+      "wall_time_ms_per_step": 0.14
+    },
+    "evidence_pointer": "$.compute_matched_baseline",
+    "failed_metrics": [],
+    "status": "pass",
+    "tolerances": {
+      "flops_per_step": 0.0,
+      "sample_count": 0.0,
+      "step_count": 0.0,
+      "wall_time_ms_per_step": 0.05
+    }
+  },
   "config": {
     "cost_unit": "toy-numpy-step",
     "hidden_dim": 6,
@@ -110,6 +144,7 @@
     "matching": "same residual features, same train/eval split, shuffled ledger targets"
   },
   "discovery_map_signal": {
+    "compute_matched_baseline_pointer": "$.compute_matched_baseline",
     "control_pointer": "$.matched_random_control",
     "evidence_pointer": "$.aggregate_metrics.uer_reduction",
     "failed_gate": null,
@@ -166,6 +201,11 @@
       "LAT-HG7": {
         "pointer": "$.parameter_matched_baseline.comparison",
         "reason": "parameter-matched baseline is cost-matched and channel-clean",
+        "status": "pass"
+      },
+      "LAT-HG8": {
+        "pointer": "$.compute_matched_baseline",
+        "reason": "compute-matched baseline stays within deterministic step tolerances",
         "status": "pass"
       }
     },
@@ -298,6 +338,7 @@
   "positive_claim": {
     "claim": "residual gap heads reduce unlogged error relative to matched-random gap heads on multiple OOD toy surfaces",
     "claim_status": "bounded-positive-evidence",
+    "compute_matched_baseline_pointer": "$.compute_matched_baseline",
     "control_pointer": "$.control_protocol",
     "evidence_pointer": "$.aggregate_metrics.uer_reduction",
     "net_positive_signal": true,

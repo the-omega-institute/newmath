@@ -61,9 +61,9 @@ def _load_preamble_macros(preamble_path: Path) -> set[str]:
     if not preamble_path.exists():
         return macros
     text = _read_with_inputs(preamble_path, root=preamble_path.parent, seen=set())
-    for m in re.finditer(r"\\(?:re)?newcommand\*?\s*\{\\([A-Za-z]+)\}", text):
+    for m in re.finditer(r"\\newcommand\{\\([A-Za-z]+)\}", text):
         macros.add(m.group(1))
-    for m in re.finditer(r"\\(?:DeclareRobustCommand|providecommand)\*?\s*\{\\([A-Za-z]+)\}", text):
+    for m in re.finditer(r"\\(?:re)?newcommand\*?\{\\([A-Za-z]+)\}", text):
         macros.add(m.group(1))
     return macros
 

@@ -3,7 +3,6 @@
 from .architecture_mutation import (
     ArchitectureMutationDraft,
     GateResult,
-    WitnessBasisGate,
     build_architecture_mutation_drafts,
     is_architecture_mutation_candidate,
     require_witness_basis,
@@ -21,7 +20,6 @@ __all__ = [
     "DiscoveryMapRow",
     "GateResult",
     "TheoryBackend",
-    "WitnessBasisGate",
     "build_architecture_mutation_drafts",
     "build_negative_discovery_reports",
     "compile_discovery",

@@ -1088,6 +1088,7 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
     failed_gate = pointer_value(payload, "$.hardgate.failed_gate")
     robustness = pointer_value(payload, "$.robustness_signal")
     parameter_matched = pointer_value(payload, "$.parameter_matched_baseline")
+    compute_matched = pointer_value(payload, "$.compute_matched_baseline")
     if not isinstance(signal, Mapping):
         return False, "missing-lat-discovery-map-signal", "$.discovery_map_signal"
     if not isinstance(hardgates, Mapping) or not hardgates:
@@ -1096,10 +1097,12 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         return False, "missing-lat-robustness-signal", "$.robustness_signal"
     if not isinstance(parameter_matched, Mapping):
         return False, "missing-lat-parameter-matched-baseline", "$.parameter_matched_baseline"
+    if not isinstance(compute_matched, Mapping):
+        return False, "missing-lat-compute-matched-baseline", "$.compute_matched_baseline"
     failed = next(
         (
             name
-            for name in ("LAT-HG1", "LAT-HG2", "LAT-HG3", "LAT-HG4", "LAT-HG5", "LAT-HG6", "LAT-HG7")
+            for name in ("LAT-HG1", "LAT-HG2", "LAT-HG3", "LAT-HG4", "LAT-HG5", "LAT-HG6", "LAT-HG7", "LAT-HG8")
             if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
         ),
         None,
@@ -1127,6 +1130,7 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         "torch_training_evidence_pointer",
         "robustness_evidence_pointer",
         "parameter_matched_baseline_pointer",
+        "compute_matched_baseline_pointer",
     ):
         pointer = signal.get(key)
         if not isinstance(pointer, str):
@@ -1139,6 +1143,10 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         return False, "lat-parameter-matched-pointer-mismatch", "$.discovery_map_signal.parameter_matched_baseline_pointer"
     if pointer_value(payload, "$.discovery_map_signal.parameter_matched_baseline_pointer") is None:
         return False, "lat-parameter-matched-pointer-dangling", "$.discovery_map_signal.parameter_matched_baseline_pointer"
+    if signal.get("compute_matched_baseline_pointer") != "$.compute_matched_baseline":
+        return False, "lat-compute-matched-pointer-mismatch", "$.discovery_map_signal.compute_matched_baseline_pointer"
+    if pointer_value(payload, "$.discovery_map_signal.compute_matched_baseline_pointer") is None:
+        return False, "lat-compute-matched-pointer-dangling", "$.discovery_map_signal.compute_matched_baseline_pointer"
     if pointer_value(payload, "$.claim_capsule_ref.capsule") is None:
         return False, "lat-claim-capsule-pointer-dangling", "$.claim_capsule_ref.pointer"
     if pointer_value(payload, "$.forbidden_claim_term_audit.status") != "pass":
@@ -2071,10 +2079,28 @@ def _audit_row(
 ) -> tuple[str, str]:
     if level not in DISCOVERY_LEVELS:
         return "invalid", "missing-discovery-level"
+    if spec.name == "gap-head-attribution-capsule":
+        levels = _attribution_capsule_levels(payload)
+        if levels is None:
+            return "invalid", "attribution-capsule-level-cells-missing"
+        mechanism_evidence = project_gap_head_mechanism_evidence(payload)
+        if mechanism_evidence is None:
+            return "invalid", "missing-mechanism-evidence"
+        unresolved = unresolved_mechanism_evidence_pointers(payload, mechanism_evidence)
+        if unresolved:
+            return "invalid", "unresolved-mechanism-evidence-pointer"
+        if levels.mechanism_level == "D5-M" and not mechanism_causal_evidence_ready(mechanism_evidence):
+            return "invalid", "mechanism-causal-evidence-not-ready"
+        if pointer_value(payload, levels.operational_pointer) is None:
+            return "invalid", "unresolved-operational-pointer"
+        if pointer_value(payload, levels.mechanism_pointer) is None:
+            return "invalid", "unresolved-mechanism-pointer"
+        if pointer_value(payload, levels.mechanism_case_pointer) is None:
+            return "invalid", "unresolved-mechanism-case-pointer"
+    spec_pointer_result = _audit_spec_pointer_cells(spec, payload)
+    if spec_pointer_result is not None:
+        return spec_pointer_result
     if spec.name == "gap-head-transfer-atlas":
-        spec_pointer_result = _audit_spec_pointer_cells(spec, payload)
-        if spec_pointer_result is not None:
-            return spec_pointer_result
         claim = pointer_value(payload, "$.multi_surface_d5_o")
         if not isinstance(claim, Mapping):
             return "invalid", "missing-atlas-claim"
@@ -2116,27 +2142,6 @@ def _audit_row(
         consistent, reason, _failed_pointer = _ledger_aware_transformer_consistency(payload)
         if not consistent:
             return "invalid", reason
-    if spec.name == "gap-head-attribution-capsule":
-        levels = _attribution_capsule_levels(payload)
-        if levels is None:
-            return "invalid", "attribution-capsule-level-cells-missing"
-        mechanism_evidence = project_gap_head_mechanism_evidence(payload)
-        if mechanism_evidence is None:
-            return "invalid", "missing-mechanism-evidence"
-        unresolved = unresolved_mechanism_evidence_pointers(payload, mechanism_evidence)
-        if unresolved:
-            return "invalid", "unresolved-mechanism-evidence-pointer"
-        if levels.mechanism_level == "D5-M" and not mechanism_causal_evidence_ready(mechanism_evidence):
-            return "invalid", "mechanism-causal-evidence-not-ready"
-        if pointer_value(payload, levels.operational_pointer) is None:
-            return "invalid", "unresolved-operational-pointer"
-        if pointer_value(payload, levels.mechanism_pointer) is None:
-            return "invalid", "unresolved-mechanism-pointer"
-        if pointer_value(payload, levels.mechanism_case_pointer) is None:
-            return "invalid", "unresolved-mechanism-case-pointer"
-    spec_pointer_result = _audit_spec_pointer_cells(spec, payload)
-    if spec_pointer_result is not None:
-        return spec_pointer_result
     if level in {"D4", "D5-O", "D5-M"}:
         pointer_result = _audit_pointer_cell(
             payload,
