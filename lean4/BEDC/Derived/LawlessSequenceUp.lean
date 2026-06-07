@@ -11,7 +11,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
-def LawlessSequenceCarrier [AskSetup] [PackageSetup]
+def lawless_sequence_stream_name_handoff_carrier [AskSetup] [PackageSetup]
     (window boolDigits natIndex transport replay provenance localName : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
@@ -27,7 +27,8 @@ def LawlessSequenceCarrier [AskSetup] [PackageSetup]
 theorem LawlessSequenceStreamNameHandoff [AskSetup] [PackageSetup]
     {window boolDigits natIndex transport replay provenance localName streamRead namedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    LawlessSequenceCarrier window boolDigits natIndex transport replay provenance localName bundle pkg →
+    lawless_sequence_stream_name_handoff_carrier
+        window boolDigits natIndex transport replay provenance localName bundle pkg →
       Cont natIndex window streamRead →
         Cont streamRead boolDigits namedRead →
           PkgSig bundle namedRead pkg →
