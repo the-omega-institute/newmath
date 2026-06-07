@@ -905,6 +905,17 @@ def _mechanism_seeking_network_projection(
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
+            "mechanism_attribution": {
+                "all_pass": pointer_value(payload, "$.d5_m_readiness.status") == "ready",
+                "status": pointer_value(payload, "$.d5_m_readiness.status"),
+                "failed_gate": pointer_value(payload, "$.d5_m_readiness.failed_gate"),
+                "channel": "distinction-module",
+            },
+            "source_pointers": {
+                "operational": "$.source_artifacts.d5_o_source",
+                "mechanism": "$.distinction_module_evidence",
+                "mechanism_case": "$.hardgate.gates.MSN-HG6",
+            },
             "main_verdict": {
                 "surface_delta_count": 1,
                 "shift_information": 1,
@@ -913,7 +924,8 @@ def _mechanism_seeking_network_projection(
                     "level_candidate": "D4",
                     "status": "d4-candidate",
                     "evidence_pointer": "$.mechanism_gate_summary",
-                    "mechanism_evidence_pointer": "$.mechanism_gate_summary.by_mechanism",
+                    "mechanism_evidence_pointer": "$.distinction_module_evidence",
+                    "d5_m_readiness_pointer": "$.d5_m_readiness",
                 },
             },
             "evidence_basis": {
@@ -1301,10 +1313,69 @@ def _mechanism_seeking_network_consistency(payload: Mapping[str, Any]) -> tuple[
     hardgate = pointer_value(payload, "$.hardgate.gates")
     failed = pointer_value(payload, "$.hardgate.failed_gate")
     forbidden_audit = pointer_value(payload, "$.forbidden_claim_term_audit.status")
+    module_evidence = pointer_value(payload, "$.distinction_module_evidence")
+    readiness = pointer_value(payload, "$.d5_m_readiness")
     if not isinstance(signal, Mapping):
         return False, "missing-msn-discovery-map-signal", "$.discovery_map_signal"
     if not isinstance(hardgate, Mapping):
         return False, "missing-msn-hardgates", "$.hardgate.gates"
+    if not isinstance(module_evidence, Mapping):
+        return False, "missing-msn-distinction-module-evidence", "$.distinction_module_evidence"
+    if not isinstance(readiness, Mapping):
+        return False, "missing-msn-d5-m-readiness", "$.d5_m_readiness"
+    if module_evidence.get("owner_pointer") != "$.distinction_module_evidence":
+        return False, "msn-distinction-owner-pointer-mismatch", "$.distinction_module_evidence.owner_pointer"
+    module_records = module_evidence.get("records")
+    if not isinstance(module_records, list) or not module_records:
+        return False, "missing-msn-distinction-module-records", "$.distinction_module_evidence.records"
+    for index, record in enumerate(module_records):
+        if not isinstance(record, Mapping):
+            return False, "invalid-msn-distinction-module-record", f"$.distinction_module_evidence.records[{index}]"
+        for field in (
+            "tensor_slice_pointer",
+            "classifier_surface_pointer",
+            "stability_score_pointer",
+            "shortcut_risk_pointer",
+            "ledger_risk_pointer",
+            "ablation_rows_pointer",
+            "patch_rows_pointer",
+        ):
+            pointer = record.get(field)
+            if not isinstance(pointer, str) or pointer_value(payload, pointer) is None:
+                return False, f"msn-distinction-{field}-dangling", f"$.distinction_module_evidence.records[{index}].{field}"
+    hg6_status = pointer_value(payload, "$.hardgate.gates.MSN-HG6.status")
+    accepted_modules = [
+        module_id
+        for module_id, row in (pointer_value(payload, "$.mechanism_gate_summary.by_mechanism") or {}).items()
+        if isinstance(row, Mapping) and row.get("accepted") is True
+    ]
+    accepted_records = [
+        record
+        for record in module_records
+        if isinstance(record, Mapping) and record.get("module_id") in accepted_modules
+    ]
+    expected_hg6 = "pass" if accepted_modules and len(accepted_records) == len(accepted_modules) and all(
+        record.get("ablation_status") == "pass"
+        and record.get("patch_status") == "pass"
+        and record.get("risk_audit_status") == "pass"
+        and record.get("audit_status") == "pass"
+        for record in accepted_records
+    ) else "fail"
+    if hg6_status != expected_hg6:
+        return False, "msn-hg6-status-mismatch", "$.hardgate.gates.MSN-HG6.status"
+    source_present = isinstance(pointer_value(payload, "$.source_artifacts.d5_o_source"), str) and bool(pointer_value(payload, "$.source_artifacts.d5_o_source"))
+    expected_readiness = "ready" if expected_hg6 == "pass" and source_present else "blocked"
+    if readiness.get("status") != expected_readiness:
+        return False, "msn-d5-m-readiness-status-mismatch", "$.d5_m_readiness.status"
+    if readiness.get("passed") is not (expected_readiness == "ready"):
+        return False, "msn-d5-m-readiness-passed-mismatch", "$.d5_m_readiness.passed"
+    if readiness.get("distinction_module_evidence_ref") != "$.distinction_module_evidence":
+        return False, "msn-d5-m-readiness-evidence-ref-mismatch", "$.d5_m_readiness.distinction_module_evidence_ref"
+    evidence_ref = pointer_value(payload, "$.d5_m_readiness.distinction_module_evidence_ref")
+    if not isinstance(evidence_ref, str) or pointer_value(payload, evidence_ref) is None:
+        return False, "msn-d5-m-readiness-evidence-ref-dangling", "$.d5_m_readiness.distinction_module_evidence_ref"
+    if expected_readiness != "ready" and signal.get("level_candidate") == "D5-M":
+        return False, "msn-d5-m-projection-without-readiness", "$.discovery_map_signal.level_candidate"
     failed_gates = [
         name
         for name, row in hardgate.items()
@@ -1334,8 +1405,10 @@ def _mechanism_seeking_network_consistency(payload: Mapping[str, Any]) -> tuple[
             return False, f"msn-{key}-mismatch", pointer if isinstance(pointer, str) else "$.discovery_map_signal"
     if pointer_value(payload, "$.hardgate.failed_gate") != expected["failed_gate"]:
         return False, "msn-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
-    if signal.get("mechanism_evidence_pointer") not in {"$.mechanism_gate_summary", "$.mechanism_gate_summary.by_mechanism"}:
+    if signal.get("mechanism_evidence_pointer") not in {"$.mechanism_gate_summary", "$.mechanism_gate_summary.by_mechanism", "$.distinction_module_evidence"}:
         return False, "msn-mechanism-pointer-mismatch", "$.discovery_map_signal.mechanism_evidence_pointer"
+    if signal.get("mechanism_evidence_pointer") == "$.distinction_module_evidence" and pointer_value(payload, "$.distinction_module_evidence") is None:
+        return False, "msn-mechanism-pointer-dangling", "$.discovery_map_signal.mechanism_evidence_pointer"
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.mechanism_gate_summary"
 
 

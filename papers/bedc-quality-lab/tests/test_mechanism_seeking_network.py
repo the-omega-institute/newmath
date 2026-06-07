@@ -11,6 +11,7 @@ from bedc_quality_lab.mechanism_seeking_network import (
     DEFAULT_SEEDS,
     DEFAULT_SHIFTS,
     DRIFT_TOLERANCE,
+    DistinctionModuleEvidence,
     MSN_HARDGATES,
     MechanismSeekingNetworkProjection,
     TorchMechanismArmProtocol,
@@ -39,9 +40,12 @@ REQUIRED_SUMMARY_KEYS = {
     "device_protocol",
     "torch_evidence",
     "matched_random_control",
+    "distinction_module_risk",
+    "distinction_module_evidence",
     "hardgate",
     "failed_gate",
     "discovery_map_signal",
+    "d5_m_readiness",
     "positive_claim",
     "claim_capsule_ref",
     "not_claimed",
@@ -182,7 +186,7 @@ def test_seed_idempotence_and_quantized_tolerance():
     assert first["mechanism_score"] != other["mechanism_score"]
 
 
-def test_msn_hg1_to_hg5_are_present_and_exercised():
+def test_msn_hg1_to_hg6_are_present_and_exercised():
     summary = _project()["summary_payload"]
 
     assert tuple(summary["hardgate"]["gates"]) == MSN_HARDGATES
@@ -203,6 +207,96 @@ def test_msn_hg1_to_hg5_are_present_and_exercised():
 
     bad_torch = _project(torch_status="broken")["summary_payload"]
     assert bad_torch["hardgate"]["gates"]["MSN-HG5"]["status"] == "fail"
+
+
+def test_distinction_module_evidence_has_one_record_per_mechanism():
+    summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    evidence = summary["distinction_module_evidence"]
+    allowed = set(DistinctionModuleEvidence.__dataclass_fields__)
+
+    assert evidence["schema_id"] == "bedc-quality-lab:mechanism-seeking-network#$.distinction_module_evidence"
+    assert evidence["owner_pointer"] == "$.distinction_module_evidence"
+    assert [row["module_id"] for row in evidence["records"]] == list(DEFAULT_MECHANISMS)
+    assert len(evidence["records"]) == 3
+    assert all(set(row) == allowed for row in evidence["records"])
+    assert "mechanism_score" not in json.dumps(evidence, sort_keys=True)
+    assert "certificate_precision" not in json.dumps(evidence, sort_keys=True)
+
+
+def test_distinction_module_evidence_pointers_resolve():
+    summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    pointer_fields = {
+        "tensor_slice_pointer",
+        "classifier_surface_pointer",
+        "stability_score_pointer",
+        "shortcut_risk_pointer",
+        "ledger_risk_pointer",
+        "ablation_rows_pointer",
+        "patch_rows_pointer",
+    }
+
+    for row in summary["distinction_module_evidence"]["records"]:
+        for field in pointer_fields:
+            assert discovery_map.pointer_value(summary, row[field]) is not None, (row["module_id"], field)
+
+
+def test_msn_hg6_blocks_without_ablation_or_patch_rows():
+    records = runner.collect_deterministic_records()
+    for row in records:
+        if row["mechanism_id"] == "copy_route" and row["arm"] == "ablated_probe":
+            row["ablation_row_id"] = None
+        if row["mechanism_id"] == "parity_gate" and row["arm"] == "mechanism_probe":
+            row["patch_row_id"] = None
+
+    summary = _project(records)["summary_payload"]
+
+    assert summary["hardgate"]["gates"]["MSN-HG6"]["status"] == "fail"
+    assert summary["failed_gate"] == "MSN-HG6"
+    assert summary["discovery_map_signal"]["level_candidate"] != "D5-M"
+    assert summary["discovery_map_signal"]["failed_gate"] == "MSN-HG6"
+
+
+def test_msn_hg6_allows_d5_m_readiness_only_after_risk_audit_passes():
+    ready = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    assert ready["hardgate"]["gates"]["MSN-HG6"]["status"] == "pass"
+    assert {row["risk_audit_status"] for row in ready["distinction_module_evidence"]["records"]} == {"pass"}
+    assert ready["d5_m_readiness"]["status"] == "ready"
+    assert ready["d5_m_readiness"]["passed"] is True
+    assert discovery_map.pointer_value(ready, ready["d5_m_readiness"]["hardgate_pointer"]) == "pass"
+    assert discovery_map.pointer_value(ready, ready["d5_m_readiness"]["d5_o_source_pointer"])
+
+    blocked = runner.build_projection(generated_at="fixture-time", d5_o_source=None)["summary_payload"]
+    assert blocked["hardgate"]["gates"]["MSN-HG6"]["status"] == "pass"
+    assert blocked["d5_m_readiness"]["status"] == "blocked"
+    assert blocked["d5_m_readiness"]["failed_gate"] == "d5_o_source"
+
+
+def test_claim_capsule_carries_module_evidence_ref_not_copy():
+    projection = runner.build_projection(generated_at="fixture-time")
+    capsule = projection["claim_capsule_payload"]
+
+    assert capsule["distinction_module_evidence_ref"] == "$.distinction_module_evidence"
+    assert capsule["distinction_module_evidence"] == {
+        "artifact": projection["summary_payload"]["run_artifacts"]["summary"],
+        "pointer": "$.distinction_module_evidence",
+    }
+    serialized = json.dumps(capsule, sort_keys=True)
+    assert "tensor_slice_id" not in serialized
+    assert "tensor_slice_pointer" not in serialized
+    assert "records" not in capsule["distinction_module_evidence"]
+
+
+def test_current_lab_rejects_stale_module_evidence_pointer():
+    spec = canonical._specs_by_name()["mechanism-seeking-network"]
+    summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    summary["distinction_module_evidence"]["records"][0]["tensor_slice_pointer"] = "$.records.tensor_slice_registry.missing"
+
+    projected = discovery_map.projection_payload(spec, summary)
+    row = discovery_map.discovery_row(spec, summary, {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}})
+
+    assert projected["main_verdict"]["mechanism_seeking_network"]["level_candidate"] == "DN"
+    assert row["discovery_level"] == "DN"
+    assert row["failed_gate"] == "$.distinction_module_evidence.records[0].tensor_slice_pointer"
 
 
 def test_current_lab_projection_and_pointer_resolvability():

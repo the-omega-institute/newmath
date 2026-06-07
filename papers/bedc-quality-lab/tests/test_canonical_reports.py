@@ -251,6 +251,52 @@ def _payload_for_spec(spec):
                 "accepted_surface_count": 2,
                 "by_mechanism": {"copy_route": {"accepted": True}, "parity_gate": {"accepted": True}},
             },
+            "distinction_module_evidence": {
+                "schema_id": "bedc-quality-lab:mechanism-seeking-network#$.distinction_module_evidence",
+                "owner_pointer": "$.distinction_module_evidence",
+                "records": [
+                    {
+                        "module_id": "copy_route",
+                        "tensor_slice_pointer": "$.records.tensor_slice_registry.copy_route",
+                        "classifier_surface_pointer": "$.surface_registry.copy_route.classifier_surface",
+                        "stability_score_pointer": "$.distinction_module_risk.copy_route.stability_score",
+                        "shortcut_risk_pointer": "$.distinction_module_risk.copy_route.shortcut_risk",
+                        "ledger_risk_pointer": "$.distinction_module_risk.copy_route.ledger_risk",
+                        "ablation_rows_pointer": "$.records.ablation_row_registry.copy_route",
+                        "patch_rows_pointer": "$.records.patch_row_registry.copy_route",
+                        "ablation_status": "pass",
+                        "patch_status": "pass",
+                        "risk_audit_status": "pass",
+                        "audit_status": "pass",
+                    },
+                    {
+                        "module_id": "parity_gate",
+                        "tensor_slice_pointer": "$.records.tensor_slice_registry.parity_gate",
+                        "classifier_surface_pointer": "$.surface_registry.parity_gate.classifier_surface",
+                        "stability_score_pointer": "$.distinction_module_risk.parity_gate.stability_score",
+                        "shortcut_risk_pointer": "$.distinction_module_risk.parity_gate.shortcut_risk",
+                        "ledger_risk_pointer": "$.distinction_module_risk.parity_gate.ledger_risk",
+                        "ablation_rows_pointer": "$.records.ablation_row_registry.parity_gate",
+                        "patch_rows_pointer": "$.records.patch_row_registry.parity_gate",
+                        "ablation_status": "pass",
+                        "patch_status": "pass",
+                        "risk_audit_status": "pass",
+                        "audit_status": "pass",
+                    },
+                ],
+            },
+            "distinction_module_risk": {
+                "copy_route": {"stability_score": 0.7, "shortcut_risk": 0.1, "ledger_risk": 0.1},
+                "parity_gate": {"stability_score": 0.7, "shortcut_risk": 0.1, "ledger_risk": 0.1},
+            },
+            "d5_m_readiness": {
+                "status": "ready",
+                "passed": True,
+                "failed_gate": None,
+                "hardgate_pointer": "$.hardgate.gates.MSN-HG6.status",
+                "distinction_module_evidence_ref": "$.distinction_module_evidence",
+                "d5_o_source_pointer": "$.source_artifacts.d5_o_source",
+            },
             "gate_protocol": {"status": "fixture", "evidence_pointer": "$.mechanism_gate_summary"},
             "torch_evidence": {"status": "unavailable", "row_count": 0},
             "claim_capsule_ref": {
@@ -1430,6 +1476,16 @@ def test_canonical_reports_manifest_includes_certificate_guided_projection():
         "main_claim_status",
     }.issubset(set(discovery.required_json_keys))
     assert discovery.bundle_role == "hg_p_core"
+
+
+def test_canonical_msn_payload_exposes_module_evidence_without_terminal_verdict():
+    spec = canonical._specs_by_name()["mechanism-seeking-network"]
+    payload = json.loads((canonical.ROOT / spec.json_artifact).read_text(encoding="utf-8"))
+
+    assert {"distinction_module_evidence", "d5_m_readiness"}.issubset(set(spec.required_json_keys))
+    assert payload["distinction_module_evidence"]["owner_pointer"] == "$.distinction_module_evidence"
+    assert payload["d5_m_readiness"]["distinction_module_evidence_ref"] == "$.distinction_module_evidence"
+    assert "terminal_verdict" not in set(_walk_keys(payload))
 
 
 def test_canonical_reports_manifest_includes_sigreg_training_proxy():
