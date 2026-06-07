@@ -2,7 +2,9 @@
 \label{ch:concrete-instances-classifier-channel-shift-ledger-namecert}
 \origin{ai}
 
-The $\ClassifierChannelShiftLedgerUp$ packet realizes the classifier-level information distinction of \autoref{ch:visions-classifier-level-information} as finite before-and-after channel data. It separates record growth from classifier shift by displaying the before classifier row, after classifier row, record-growth row, shift witness, transport, replay, provenance, and local naming in one NameCert surface. The packet is a BEDC-native ledger for classifier-channel movement, not a longer continuation trace and not a host semantic comparison.
+The $\ClassifierChannelShiftLedgerUp$ packet realizes the classifier-level information distinction of \autoref{ch:visions-classifier-level-information} as finite before-and-after channel data. It separates record growth from classifier shift by displaying the before classifier row, after classifier row, record-growth row, shift witness, transport, replay, provenance, and local naming in one NameCert surface. The classifier-shift witness row is consumed after the gap-closure boundary of \autoref{ch:concrete-instances-gapclosureboundary-namecert}, because a classifier channel only counts as moved once the source gap has a displayed closure boundary rather than mere record growth. The packet is a BEDC-native ledger for classifier-channel movement, not a longer continuation trace and not a host semantic comparison.
+
+The before and after classifier rows consume the classifier-membership surface of \autoref{ch:concrete-instances-type-checking-classifier-membership-namecert}: a channel comparison reads $B$ and $A$ only after membership has been exposed as a finite type-checking classifier row. The refusal row for record-growth-as-discovery is routed through \autoref{ch:concrete-instances-gapclosureboundary-namecert}, so the ledger distinguishes classifier-row consumption from refusal-row consumption before $W$ is allowed to witness movement.
 
 \begin{definition}[Classifier-channel shift ledger carrier]\label{def:classifier-channel-shift-ledger-carrier}
 A $\ClassifierChannelShiftLedgerUp$ carrier is a finite $\BHist$ packet
