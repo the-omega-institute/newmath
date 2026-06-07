@@ -125,6 +125,22 @@ The row $S$ supplies the observer-symmetry audit. Both directions must be visibl
 For the unsupported exit, apply \autoref{thm:relational-frame-audit-no-global-frame-refusal}. A request that does not pass through the two-Hist route has no accepted destination except $F$.
 \end{proof}
 
+\begin{theorem}[RelationalFrameAudit formal-target boundary]
+\label{thm:relational-frame-audit-formal-target-boundary}
+Any future formal target for $\RelationalFrameAuditUp$ must expose the same carrier rows
+$$
+M,A,B,Q,S,D,L,F,H,C,P,N
+$$
+together with the $\mathrm{LayeredRelationCert}$ rows of \autoref{def:layeredrelationcert-carrier} before it claims TasteGate admission, no-global-frame refusal, or observer-symmetry factorization. A target that omits either the frame-audit carrier rows or the relation-audit rows cannot be read as the Lean-facing boundary for this chapter.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:relational-frame-audit-carrier}. It fixes the frame-audit rows $M,A,B,Q,S,D,L,F,H,C,P,N$ as the finite packet visible to any target.
+
+Read the $\mathrm{LayeredRelationCert}$ obligation surface through \autoref{thm:layeredrelationcert-namecert-obligation-surface}. The source-list, layer-map, preservation, non-preservation, ledger, exactness, failure-boundary, transport, replay, provenance, and naming rows are separate relation-audit obligations rather than optional prose.
+
+Finally use no-global-frame refusal and observer-symmetry factorization, \autoref{thm:relational-frame-audit-no-global-frame-refusal} and \autoref{thm:relational-frame-audit-observer-symmetry-factorization}. Those theorems consume the displayed refusal and two-Hist route rows, so a later formal target may claim their boundary only after the same carrier and relation-audit surfaces have been exposed.
+\end{proof}
+
 \falsifiablePrediction{If a relation packet omits the not-preserved row, it cannot satisfy the RelationalFrameAuditUp export gate for same-schema language.}
 
 \independenceWitness{multihistconfig, multihistcoupling, multihistsuperposition, finite-multihist-packet: these siblings carry multi-Hist sites, couplings, superpositions, or packet rows, but none carries a two-chain layer map with preserved and not-preserved relation-audit fields, so no carrier bijection preserves the NameCert obligations.}
