@@ -2595,6 +2595,7 @@ import BEDC.Derived.CompactCauchyCoverUp.TasteGate
 import BEDC.Derived.CompactCauchyEquicontinuityUp
 import BEDC.Derived.CompactCompletionExtensionModulusUp.TasteGate
 import BEDC.Derived.CompactContinuityRadiusChoiceUp.TasteGate
+import BEDC.Derived.CompactContinuousImageTotalBoundedUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.FiniteNetRadiusExhaustion
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.UniformModulusHandoff
@@ -3117,6 +3118,7 @@ import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootObligationSurface
+import BEDC.Derived.CoveringdimensionUp.SimplicialNerveHandoff
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CritStripUp.TasteGate
@@ -6958,6 +6960,7 @@ import BEDC.Derived.ParsevalUp.RootEnergyDecomposition
 import BEDC.Derived.ParsevalUp.RootFiniteCoefficientLedger
 import BEDC.Derived.ParsevalUp.RootFourierEnergyBudget
 import BEDC.Derived.ParsevalUp.RootOrthogonalityLedger
+import BEDC.Derived.ParsevalUp.RootRealEnergySealBoundary
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
