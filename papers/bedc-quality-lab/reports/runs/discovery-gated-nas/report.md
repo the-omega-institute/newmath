@@ -15,7 +15,8 @@
 - `DG-NAS-HG4`: `pass`
 - `DG-NAS-HG5`: `pass`
 - `DG-NAS-HG6`: `pass`
-- `DG-NAS-HG7`: `fail`
+- `DG-NAS-HG7`: `pass`
+- `DG-NAS-HG8`: `fail`
 
 ## Negative Witness Mutations
 

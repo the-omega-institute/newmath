@@ -305,6 +305,7 @@ def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):
     assert result["negative_discovery_reports"]["row_count"] == 7
     assert result["discovery_map"]["rows"][0]["negative_report_pointer"] == f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]"
     assert result["finite_gate"]["status"] == "fail"
+    assert result["finite_gate"]["hardgates"]["FG-HG5"]["status"] == "pass"
     assert result["finite_gate"]["counts"]["negative"] == result["negative_witness_summary"]["row_count"]
     assert isinstance(result["finite_gate"]["pointers"]["negative"], list)
     assert "what_was_learned" not in json.dumps(result["finite_gate"], sort_keys=True)
@@ -325,6 +326,43 @@ def test_compile_discovery_finite_gate_is_materialized_and_deterministic(tmp_pat
     assert isinstance(first_gate["pointers"]["positive"], list)
     assert isinstance(first_gate["pointers"]["negative"], list)
     assert isinstance(first_gate["pointers"]["revocation"], list)
+    assert first_gate["hardgates"]["FG-HG5"]["status"] == "pass"
+
+
+def test_fg_hg5_fails_closed_on_unresolved_positive_pointer(tmp_path):
+    canonical = tmp_path / "reports" / "canonical"
+    canonical.mkdir(parents=True)
+    (canonical / "positive.json").write_text(json.dumps({"evidence": True}) + "\n", encoding="utf-8")
+    payload = {
+        "discovery_map": {
+            "rows": [
+                {
+                    "json_artifact": "reports/canonical/positive.json",
+                    "discovery_level": "D4",
+                    "evidence_pointer": "$.missing",
+                },
+            ]
+        },
+        "negative_witness_summary": {
+            "audit_status": "pass",
+            "row_count": 0,
+            "rows": [],
+        },
+        "revocation_ledger": [],
+    }
+
+    gate = project_finite_discovery_gate(payload, root=tmp_path)
+
+    assert gate["status"] == "fail"
+    assert gate["hardgates"]["FG-HG5"]["status"] == "fail"
+    assert gate["stale_pointers"] == [
+        {
+            "pointer": "reports/canonical/positive.json:$.missing",
+            "normalized_pointer": "reports/canonical/positive.json:$.missing",
+            "owner": "discovery_map.rows[0].evidence_pointer",
+            "reason": "unresolved-pointer",
+        }
+    ]
 
 
 def test_project_finite_discovery_gate_rejects_duplicate_positive_pointer():

@@ -10,6 +10,7 @@ from scripts import run_claim_verdict_demo as claim_verdicts
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_negative_witness_summary as summary
 from bedc_quality_lab.discovery_compiler.negative_reports import OWNER_FACT_KEYS
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
 
 
@@ -72,7 +73,7 @@ def test_summary_covers_all_dn_discovery_map_rows():
         assert row["discovery_map_pointer"].startswith("reports/canonical/discovery_map.json:$.rows[")
         assert row["discovery_map_pointer"].endswith(".negative_report_pointer")
         assert row["witness_pointer"] is None
-        assert row["claim_verdict_pointer"].startswith("reports/canonical/claim_verdicts.jsonl:")
+        assert row["claim_verdict_pointer"].startswith("reports/canonical/claim_verdicts.jsonl:$.lines[")
         assert row["audit_status"] == "pass"
 
 
@@ -91,7 +92,9 @@ def test_summary_covers_all_negative_witness_rows_with_compiled_verdict_pointers
     assert {row["negative_id"] for row in witness_summary} == {f"witness:{row['kind']}" for row in witnesses}
     for index, witness in enumerate(witnesses):
         row = next(item for item in witness_summary if item["negative_id"] == f"witness:{witness['kind']}")
-        line_index_text = row["claim_verdict_pointer"].removeprefix("reports/canonical/claim_verdicts.jsonl:")
+        assert row["claim_verdict_pointer"].startswith("reports/canonical/claim_verdicts.jsonl:$.lines[")
+        line_index_text = row["claim_verdict_pointer"].removeprefix("reports/canonical/claim_verdicts.jsonl:$.lines[")
+        line_index_text = line_index_text.removesuffix("]")
         assert line_index_text.isdigit()
         compiled_row = compiled[int(line_index_text)]
         assert compiled_row["claim_id"] == f"claim:witness:{witness['kind']}"
@@ -102,6 +105,11 @@ def test_summary_covers_all_negative_witness_rows_with_compiled_verdict_pointers
         assert row["witness_pointer"] == source
         assert row["discovery_map_pointer"] is None
         assert row["audit_status"] == "pass"
+
+    assert resolve_artifact_pointer(summary.ROOT, "reports/canonical/claim_verdicts.jsonl:0") == resolve_artifact_pointer(
+        summary.ROOT,
+        "reports/canonical/claim_verdicts.jsonl:$.lines[0]",
+    )
 
 
 def test_summary_rows_are_pointer_only_and_key_allowlisted():
@@ -141,7 +149,8 @@ def test_finite_gate_consumes_negative_summary_row_pointers():
         {
             "discovery_map": _load_json(summary.ROOT / summary.DISCOVERY_MAP_ARTIFACT),
             "negative_witness_summary": payload,
-        }
+        },
+        root=summary.ROOT,
     )
 
     assert gate["hardgates"]["FG-HG2"]["status"] == "pass"
@@ -164,7 +173,8 @@ def test_finite_gate_rejects_duplicate_negative_id_from_summary():
         {
             "discovery_map": _load_json(summary.ROOT / summary.DISCOVERY_MAP_ARTIFACT),
             "negative_witness_summary": duplicate,
-        }
+        },
+        root=summary.ROOT,
     )
 
     assert gate["status"] == "fail"
