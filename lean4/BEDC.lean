@@ -5261,6 +5261,8 @@ import BEDC.Derived.IntervalConnectednessUp.TasteGate
 import BEDC.Derived.IntervalDomainUp.CarrierAdmission
 import BEDC.Derived.IntervalDomainUp.CompletionApproximationScope
 import BEDC.Derived.IntervalDomainUp.DirectedRefinementCovers
+import BEDC.Derived.IntervalDomainUp.DyadicEndpointCoverage
+import BEDC.Derived.IntervalDomainUp.FiniteEndpointOrder
 import BEDC.Derived.IntervalDomainUp.NameCertObligations
 import BEDC.Derived.IntervalDomainUp.RegularCauchyWindow
 import BEDC.Derived.IntervalDomainUp.TasteGate
@@ -6897,6 +6899,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.ParsevalUp.InnerProductNameCertObligations
+import BEDC.Derived.ParsevalUp.IntegralEnergyHandoffObligation
 import BEDC.Derived.ParsevalUp.NameCertObligations
 import BEDC.Derived.ParsevalUp.RootEnergyCarrierAdmission
 import BEDC.Derived.ParsevalUp.RootFourierEnergyBudget
