@@ -836,6 +836,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "training_loop_trace",
             "matched_random_control",
             "quality_promotion_boundary",
+            "certificate_guided_dn_preservation",
             "mechanism_ablation",
             "training_mechanism_cert",
             "loss_family",
@@ -2755,13 +2756,63 @@ def _validate_discovery_regularized_training_mechanism_ablation(payload: Mapping
     if section.get("status") != expected_status:
         raise ValueError("discovery_regularized_training mechanism_ablation status mismatch")
     gates = payload.get("hardgate", {}).get("gates", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
+    hg8 = gates.get("DRT-HG8") if isinstance(gates, Mapping) else None
+    if not isinstance(hg8, Mapping):
+        raise ValueError("discovery_regularized_training DRT-HG8 missing")
+    if hg8.get("evidence_pointer") != "$.mechanism_ablation":
+        raise ValueError("discovery_regularized_training DRT-HG8 evidence pointer mismatch")
+    expected_hg8 = "pass" if section.get("status") == "pass" else "fail"
+    if hg8.get("status") != expected_hg8:
+        raise ValueError("discovery_regularized_training DRT-HG8 status mismatch")
+
+
+def _validate_discovery_regularized_training_certificate_guided_preservation(payload: Mapping[str, Any]) -> None:
+    section = payload.get("certificate_guided_dn_preservation")
+    if not isinstance(section, Mapping):
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation must be an object")
+    expected_fields = {
+        "schema_id",
+        "status",
+        "owner_pointer",
+        "boundary_verdict",
+        "comparison_permission",
+        "required_refs",
+        "discovery_map_refs",
+        "forbidden_actions",
+        "terminal_status_isolated",
+        "not_claimed",
+    }
+    if set(section) != expected_fields:
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation fields invalid")
+    if section["owner_pointer"] != _drt_quality_artifact_pointer("$.certificate_guided_dn_preservation"):
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation owner pointer mismatch")
+    required = section.get("required_refs")
+    expected_artifacts = {
+        "reports/canonical/certificate-guided-training.json",
+        "reports/canonical/certificate-guided-discovery.json",
+    }
+    if not isinstance(required, list) or {row.get("artifact") for row in required if isinstance(row, Mapping)} != expected_artifacts:
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation required refs mismatch")
+    if any(not isinstance(row, Mapping) or row.get("expected_discovery_level") != "DN" or row.get("artifact_status") != "present" for row in required):
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation expected DN mismatch")
+    map_rows = section.get("discovery_map_refs")
+    if not isinstance(map_rows, list) or len(map_rows) != 2:
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation discovery map refs mismatch")
+    if any(not isinstance(row, Mapping) or row.get("expected_discovery_level") != "DN" for row in map_rows):
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation discovery map DN mismatch")
+    if set(section.get("forbidden_actions", [])) != {"cover", "replace", "delete"}:
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation forbidden actions mismatch")
+    if section.get("terminal_status_isolated") is not True or "terminal_verdict" in json.dumps(section, sort_keys=True):
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation terminal verdict leakage")
+    if "metrics" in section:
+        raise ValueError("discovery_regularized_training certificate_guided_dn_preservation must not carry metrics")
+    gates = payload.get("hardgate", {}).get("gates", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
     hg7 = gates.get("DRT-HG7") if isinstance(gates, Mapping) else None
     if not isinstance(hg7, Mapping):
         raise ValueError("discovery_regularized_training DRT-HG7 missing")
-    if hg7.get("evidence_pointer") != "$.mechanism_ablation":
+    if hg7.get("evidence_pointer") != "$.certificate_guided_dn_preservation":
         raise ValueError("discovery_regularized_training DRT-HG7 evidence pointer mismatch")
-    expected_hg7 = "pass" if section.get("status") == "pass" else "fail"
-    if hg7.get("status") != expected_hg7:
+    if hg7.get("status") != section.get("status"):
         raise ValueError("discovery_regularized_training DRT-HG7 status mismatch")
 
 
@@ -2792,7 +2843,7 @@ def _validate_discovery_regularized_training_mechanism_cert(payload: Mapping[str
         raise ValueError("discovery_regularized_training training_mechanism_cert schema mismatch")
     if cert["owner_pointer"] != _drt_quality_artifact_pointer("$.training_mechanism_cert"):
         raise ValueError("discovery_regularized_training training_mechanism_cert owner pointer mismatch")
-    if cert["hardgate_pointer"] != _drt_quality_artifact_pointer("$.hardgate.gates.DRT-HG8"):
+    if cert["hardgate_pointer"] != _drt_quality_artifact_pointer("$.hardgate.gates.DRT-HG9"):
         raise ValueError("discovery_regularized_training training_mechanism_cert hardgate pointer mismatch")
     required = cert.get("required_pointers")
     if not isinstance(required, list) or not required:
@@ -2829,19 +2880,20 @@ def _validate_discovery_regularized_training_mechanism_cert(payload: Mapping[str
     if cert["status"] != expected_status:
         raise ValueError("discovery_regularized_training training_mechanism_cert status mismatch")
     gates = payload.get("hardgate", {}).get("gates", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
-    hg8 = gates.get("DRT-HG8") if isinstance(gates, Mapping) else None
-    if not isinstance(hg8, Mapping):
-        raise ValueError("discovery_regularized_training DRT-HG8 missing")
-    if hg8.get("evidence_pointer") != "$.training_mechanism_cert":
-        raise ValueError("discovery_regularized_training DRT-HG8 evidence pointer mismatch")
-    if hg8.get("status") != expected_status:
-        raise ValueError("discovery_regularized_training DRT-HG8 status mismatch")
+    hg9 = gates.get("DRT-HG9") if isinstance(gates, Mapping) else None
+    if not isinstance(hg9, Mapping):
+        raise ValueError("discovery_regularized_training DRT-HG9 missing")
+    if hg9.get("evidence_pointer") != "$.training_mechanism_cert":
+        raise ValueError("discovery_regularized_training DRT-HG9 evidence pointer mismatch")
+    if hg9.get("status") != expected_status:
+        raise ValueError("discovery_regularized_training DRT-HG9 status mismatch")
 
 
 def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any]) -> None:
     _validate_discovery_regularized_training_quality_promotion_boundary(payload)
     _validate_discovery_regularized_training_extension(payload)
     _validate_discovery_regularized_training_compute_ledger(payload)
+    _validate_discovery_regularized_training_certificate_guided_preservation(payload)
     _validate_discovery_regularized_training_mechanism_ablation(payload)
     _validate_discovery_regularized_training_mechanism_cert(payload)
 
