@@ -1,4 +1,5 @@
 import json
+from dataclasses import replace
 
 from bedc_quality_lab.transformer_derivative_atlas import (
     ATTENTION_ROUTE_ARTIFACT,
@@ -61,6 +62,77 @@ def test_hardgates_use_rows_and_controls_without_dgt_authority():
     assert payload["source_artifacts"]["layerwise_jet_map"] == LAYERWISE_JET_MAP_ARTIFACT
     assert payload["layerwise_derivative_rows"]["schema"] == "LayerwiseDerivativeRow"
     assert "dgt_relation" not in json.dumps(payload, sort_keys=True)
+
+
+def test_hardgates_fail_when_layer_derivative_mean_is_below_threshold():
+    rows = [
+        replace(row, derivative_estimate=0.0) if row.layer_index == 0 else row
+        for row in collect_rows(DEFAULT_CONFIG)
+    ]
+    controls = collect_margin_proxy_controls(rows)
+
+    hardgates = evaluate_layer_hardgates(rows, controls)
+
+    assert hardgates["status"] == "fail"
+    assert hardgates["by_layer"]["layer_0"]["derivative_status"] == "fail"
+    assert "layer_0" in hardgates["failed_layers"]
+
+
+def test_hardgates_fail_when_layer_controls_are_missing():
+    rows = collect_rows(DEFAULT_CONFIG)
+    controls = [
+        control
+        for control in collect_margin_proxy_controls(rows)
+        if control.layer_index != 1
+    ]
+
+    hardgates = evaluate_layer_hardgates(rows, controls)
+
+    assert hardgates["status"] == "fail"
+    assert hardgates["by_layer"]["layer_1"]["control_status"] == "fail"
+    assert "layer_1" in hardgates["failed_layers"]
+
+
+def test_hardgates_fail_when_layer_control_margins_are_below_threshold():
+    rows = collect_rows(DEFAULT_CONFIG)
+    controls = [
+        replace(control, control_margin=0.0, status="fail") if control.layer_index == 2 else control
+        for control in collect_margin_proxy_controls(rows)
+    ]
+
+    hardgates = evaluate_layer_hardgates(rows, controls)
+
+    assert hardgates["status"] == "fail"
+    assert hardgates["by_layer"]["layer_2"]["control_status"] == "fail"
+    assert "layer_2" in hardgates["failed_layers"]
+
+
+def test_payload_projects_failed_hardgates_to_evidence_status_and_failed_gate():
+    rows = [
+        replace(row, derivative_estimate=0.0) if row.layer_index == 0 else row
+        for row in collect_rows(DEFAULT_CONFIG)
+    ]
+    controls = collect_margin_proxy_controls(rows)
+    hardgates = evaluate_layer_hardgates(rows, controls)
+
+    payload = build_payload(rows, controls, hardgates, DgtDeclaration(), generated_at="fixture", config=DEFAULT_CONFIG)
+
+    assert payload["bounded_lab_evidence"]["status"] == "fail"
+    assert payload["failed_gate"] == "layer_0"
+
+    fallback_hardgates = dict(hardgates)
+    fallback_hardgates["failed_layers"] = []
+    fallback_payload = build_payload(
+        rows,
+        controls,
+        fallback_hardgates,
+        DgtDeclaration(),
+        generated_at="fixture",
+        config=DEFAULT_CONFIG,
+    )
+
+    assert fallback_payload["bounded_lab_evidence"]["status"] == "fail"
+    assert fallback_payload["failed_gate"] == "hardgates"
 
 
 def test_reports_are_derived_from_raw_row_pointers():

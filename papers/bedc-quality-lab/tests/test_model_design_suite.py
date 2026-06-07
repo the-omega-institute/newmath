@@ -212,7 +212,8 @@ def test_model_design_suite_dgt_row_uses_canonical_owner_artifact(tmp_path):
     owner = resolve_artifact_pointer(tmp_path, dgt["canonical_owner_pointer"])
 
     assert dgt["canonical_owner_pointer"] == f"{canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$"
-    assert owner["canonical_owner"]["owner_pointer"] == f"{canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$"
+    assert owner["artifact_id"] == canonical.DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID
+    assert owner["model_id"] == "discovery-gated-transformer"
 
 
 def test_model_design_suite_committed_json_round_trip_checks_slot_set(tmp_path):
@@ -267,6 +268,9 @@ def test_suite_hg2_owner_pointer_fail_closed_and_propagates(tmp_path, field, val
     payload = _payload_with_root(tmp_path)
     mutated = deepcopy(payload)
     mutated["rows"][1][field] = value
+    if field == "canonical_owner_pointer" and isinstance(value, str) and value:
+        mutated["rows"][1]["discovery_pointer"] = f"{canonical.MODEL_DESIGN_SUITE_JSON_ARTIFACT}:$.rows[0]"
+        mutated["rows"][1]["verdict_pointer"] = f"{canonical.MODEL_DESIGN_SUITE_JSON_ARTIFACT}:$.rows[0]"
     mutated["rows"][1]["hardgate_status"], mutated["rows"][1]["hardgate_reason"] = (
         canonical._model_design_suite_row_status(mutated["rows"][1], payload=mutated)
     )
