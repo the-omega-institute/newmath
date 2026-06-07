@@ -1,9 +1,8 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
-import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.IntervalCoverRefinementTreeUp
+namespace BEDC.Derived.IntervalCoverRefinementTreeUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -11,10 +10,8 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive IntervalCoverRefinementTreeUp : Type where
-  | mk
-      (rootInterval coverLedger overlapWitness refinementNode splitNode branchLeft branchRight
-        meshBound compactWitness inclusionRoute localChoice treePath terminalSeal : BHist) :
-      IntervalCoverRefinementTreeUp
+  | mk (I D R M L E W Q A H C P N : BHist) : IntervalCoverRefinementTreeUp
+  deriving DecidableEq
 
 def intervalCoverRefinementTreeEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -28,10 +25,9 @@ def intervalCoverRefinementTreeDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (intervalCoverRefinementTreeDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (intervalCoverRefinementTreeDecodeBHist tail)
 
-private theorem intervalCoverRefinementTreeDecode_encode_bhist :
+private theorem IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist,
-      intervalCoverRefinementTreeDecodeBHist
-          (intervalCoverRefinementTreeEncodeBHist h) =
+      intervalCoverRefinementTreeDecodeBHist (intervalCoverRefinementTreeEncodeBHist h) =
         h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -40,24 +36,17 @@ private theorem intervalCoverRefinementTreeDecode_encode_bhist :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def intervalCoverRefinementTreeFields :
-    IntervalCoverRefinementTreeUp → List BHist
+def intervalCoverRefinementTreeFields : IntervalCoverRefinementTreeUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | IntervalCoverRefinementTreeUp.mk rootInterval coverLedger overlapWitness
-      refinementNode splitNode branchLeft branchRight meshBound compactWitness
-      inclusionRoute localChoice treePath terminalSeal =>
-      [rootInterval, coverLedger, overlapWitness, refinementNode, splitNode, branchLeft,
-        branchRight, meshBound, compactWitness, inclusionRoute, localChoice, treePath,
-        terminalSeal]
+  | IntervalCoverRefinementTreeUp.mk I D R M L E W Q A H C P N =>
+      [I, D, R, M, L, E, W, Q, A, H, C, P, N]
 
 def intervalCoverRefinementTreeToEventFlow :
     IntervalCoverRefinementTreeUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (intervalCoverRefinementTreeFields x).map
-      intervalCoverRefinementTreeEncodeBHist
+  | x => List.map intervalCoverRefinementTreeEncodeBHist (intervalCoverRefinementTreeFields x)
 
-private def intervalCoverRefinementTreeEventAtDefault :
-    Nat → EventFlow → RawEvent
+private def intervalCoverRefinementTreeEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
   | Nat.zero, [] => []
   | Nat.zero, event :: _rest => event
@@ -97,79 +86,88 @@ def intervalCoverRefinementTreeFromEventFlow
       (intervalCoverRefinementTreeDecodeBHist
         (intervalCoverRefinementTreeEventAtDefault 12 ef)))
 
-private theorem intervalCoverRefinementTree_round_trip
-    (x : IntervalCoverRefinementTreeUp) :
-    intervalCoverRefinementTreeFromEventFlow
+private theorem IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_round_trip :
+    ∀ x : IntervalCoverRefinementTreeUp,
+      intervalCoverRefinementTreeFromEventFlow
         (intervalCoverRefinementTreeToEventFlow x) =
-      some x := by
+        some x := by
   -- BEDC touchpoint anchor: BHist BMark
+  intro x
   cases x with
-  | mk rootInterval coverLedger overlapWitness refinementNode splitNode branchLeft
-      branchRight meshBound compactWitness inclusionRoute localChoice treePath
-      terminalSeal =>
+  | mk I D R M L E W Q A H C P N =>
       change
         some
           (IntervalCoverRefinementTreeUp.mk
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist rootInterval))
+              (intervalCoverRefinementTreeEncodeBHist I))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist coverLedger))
+              (intervalCoverRefinementTreeEncodeBHist D))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist overlapWitness))
+              (intervalCoverRefinementTreeEncodeBHist R))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist refinementNode))
+              (intervalCoverRefinementTreeEncodeBHist M))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist splitNode))
+              (intervalCoverRefinementTreeEncodeBHist L))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist branchLeft))
+              (intervalCoverRefinementTreeEncodeBHist E))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist branchRight))
+              (intervalCoverRefinementTreeEncodeBHist W))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist meshBound))
+              (intervalCoverRefinementTreeEncodeBHist Q))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist compactWitness))
+              (intervalCoverRefinementTreeEncodeBHist A))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist inclusionRoute))
+              (intervalCoverRefinementTreeEncodeBHist H))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist localChoice))
+              (intervalCoverRefinementTreeEncodeBHist C))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist treePath))
+              (intervalCoverRefinementTreeEncodeBHist P))
             (intervalCoverRefinementTreeDecodeBHist
-              (intervalCoverRefinementTreeEncodeBHist terminalSeal))) =
-          some
-            (IntervalCoverRefinementTreeUp.mk rootInterval coverLedger overlapWitness
-              refinementNode splitNode branchLeft branchRight meshBound compactWitness
-              inclusionRoute localChoice treePath terminalSeal)
-      rw [intervalCoverRefinementTreeDecode_encode_bhist rootInterval,
-        intervalCoverRefinementTreeDecode_encode_bhist coverLedger,
-        intervalCoverRefinementTreeDecode_encode_bhist overlapWitness,
-        intervalCoverRefinementTreeDecode_encode_bhist refinementNode,
-        intervalCoverRefinementTreeDecode_encode_bhist splitNode,
-        intervalCoverRefinementTreeDecode_encode_bhist branchLeft,
-        intervalCoverRefinementTreeDecode_encode_bhist branchRight,
-        intervalCoverRefinementTreeDecode_encode_bhist meshBound,
-        intervalCoverRefinementTreeDecode_encode_bhist compactWitness,
-        intervalCoverRefinementTreeDecode_encode_bhist inclusionRoute,
-        intervalCoverRefinementTreeDecode_encode_bhist localChoice,
-        intervalCoverRefinementTreeDecode_encode_bhist treePath,
-        intervalCoverRefinementTreeDecode_encode_bhist terminalSeal]
+              (intervalCoverRefinementTreeEncodeBHist N))) =
+          some (IntervalCoverRefinementTreeUp.mk I D R M L E W Q A H C P N)
+      rw [IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode I,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode D,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode R,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode M,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode L,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode E,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode W,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode Q,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode A,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode H,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode C,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode P,
+        IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode N]
 
 private theorem intervalCoverRefinementTreeToEventFlow_injective
     {x y : IntervalCoverRefinementTreeUp} :
     intervalCoverRefinementTreeToEventFlow x =
       intervalCoverRefinementTreeToEventFlow y →
-        x = y := by
+      x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
   have hread :
-      intervalCoverRefinementTreeFromEventFlow
-          (intervalCoverRefinementTreeToEventFlow x) =
-        intervalCoverRefinementTreeFromEventFlow
-          (intervalCoverRefinementTreeToEventFlow y) :=
+      intervalCoverRefinementTreeFromEventFlow (intervalCoverRefinementTreeToEventFlow x) =
+        intervalCoverRefinementTreeFromEventFlow (intervalCoverRefinementTreeToEventFlow y) :=
     congrArg intervalCoverRefinementTreeFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (intervalCoverRefinementTree_round_trip x).symm
-      (Eq.trans hread (intervalCoverRefinementTree_round_trip y)))
+    (Eq.trans
+      (IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread
+        (IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_round_trip y)))
+
+private theorem intervalCoverRefinementTree_field_faithful :
+    ∀ x y : IntervalCoverRefinementTreeUp,
+      intervalCoverRefinementTreeFields x = intervalCoverRefinementTreeFields y →
+        x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x y h
+  cases x with
+  | mk I₁ D₁ R₁ M₁ L₁ E₁ W₁ Q₁ A₁ H₁ C₁ P₁ N₁ =>
+      cases y with
+      | mk I₂ D₂ R₂ M₂ L₂ E₂ W₂ Q₂ A₂ H₂ C₂ P₂ N₂ =>
+          cases h
+          rfl
 
 instance intervalCoverRefinementTreeBHistCarrier :
     BHistCarrier IntervalCoverRefinementTreeUp where
@@ -184,32 +182,52 @@ instance intervalCoverRefinementTreeChapterTasteGate :
     intro x
     change
       intervalCoverRefinementTreeFromEventFlow
-          (intervalCoverRefinementTreeToEventFlow x) =
+        (intervalCoverRefinementTreeToEventFlow x) =
         some x
-    exact intervalCoverRefinementTree_round_trip x
+    exact IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (intervalCoverRefinementTreeToEventFlow_injective heq)
 
-def intervalCoverRefinementTreeTasteGate :
-    ChapterTasteGate IntervalCoverRefinementTreeUp :=
+instance intervalCoverRefinementTreeFieldFaithful :
+    FieldFaithful IntervalCoverRefinementTreeUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := intervalCoverRefinementTreeFields
+  field_faithful := intervalCoverRefinementTree_field_faithful
+
+instance intervalCoverRefinementTreeNontrivial :
+    Nontrivial IntervalCoverRefinementTreeUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨IntervalCoverRefinementTreeUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty,
+      IntervalCoverRefinementTreeUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
+def taste_gate : ChapterTasteGate IntervalCoverRefinementTreeUp :=
   -- BEDC touchpoint anchor: BHist BMark
   intervalCoverRefinementTreeChapterTasteGate
 
 theorem IntervalCoverRefinementTreeTasteGate_single_carrier_alignment :
     (∀ h : BHist,
-      intervalCoverRefinementTreeDecodeBHist
-        (intervalCoverRefinementTreeEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier IntervalCoverRefinementTreeUp) ∧
-        Nonempty (ChapterTasteGate IntervalCoverRefinementTreeUp) ∧
+      intervalCoverRefinementTreeDecodeBHist (intervalCoverRefinementTreeEncodeBHist h) = h) ∧
+      (∀ x : IntervalCoverRefinementTreeUp,
+        intervalCoverRefinementTreeFromEventFlow (intervalCoverRefinementTreeToEventFlow x) =
+          some x) ∧
+        (∀ x y : IntervalCoverRefinementTreeUp,
+          intervalCoverRefinementTreeToEventFlow x = intervalCoverRefinementTreeToEventFlow y →
+            x = y) ∧
           intervalCoverRefinementTreeEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact intervalCoverRefinementTreeDecode_encode_bhist
-  · constructor
-    · exact ⟨intervalCoverRefinementTreeBHistCarrier⟩
-    · constructor
-      · exact ⟨intervalCoverRefinementTreeChapterTasteGate⟩
-      · rfl
+  -- BEDC touchpoint anchor: BHist BMark Empty
+  exact
+    ⟨IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_decode,
+      IntervalCoverRefinementTreeTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => intervalCoverRefinementTreeToEventFlow_injective heq),
+      rfl⟩
 
-end BEDC.Derived.IntervalCoverRefinementTreeUp
+end BEDC.Derived.IntervalCoverRefinementTreeUp.TasteGate
