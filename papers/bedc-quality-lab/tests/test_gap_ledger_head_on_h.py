@@ -21,6 +21,42 @@ def _fixture_config(**overrides):
     return runner.GapHeadRunConfig(**values)
 
 
+def _resolve_payload_pointer(payload, pointer):
+    assert pointer.startswith("$")
+    current = [payload]
+    remainder = pointer[1:]
+    while remainder:
+        assert remainder.startswith(".")
+        remainder = remainder[1:]
+        if "." in remainder:
+            token, remainder = remainder.split(".", 1)
+            remainder = "." + remainder
+        else:
+            token, remainder = remainder, ""
+        wildcard = token.endswith("[*]")
+        key = token[:-3] if wildcard else token
+        next_values = []
+        for value in current:
+            assert isinstance(value, dict), pointer
+            assert key in value, pointer
+            child = value[key]
+            if wildcard:
+                assert isinstance(child, list), pointer
+                assert child, pointer
+                next_values.extend(child)
+            else:
+                next_values.append(child)
+        current = next_values
+    assert current, pointer
+    return current
+
+
+def _assert_evidence_pointers_resolve(payload, pointer_map):
+    for pointers in pointer_map.values():
+        for pointer in pointers:
+            _resolve_payload_pointer(payload, pointer)
+
+
 def _record_fixture(monkeypatch, config=None):
     expected = config or _fixture_config()
     calls = {}
@@ -196,6 +232,29 @@ def test_custom_config_flows_into_source_payload(monkeypatch):
     assert payload["config"]["seed_grid_kind"] == "fixture_grid"
 
 
+def test_matched_random_evidence_pointers_resolve_against_payload(monkeypatch):
+    _record_fixture(monkeypatch)
+    monkeypatch.setattr(runner, "_fit_gap_head", lambda features, labels: {"heads": "fixture"})
+    monkeypatch.setattr(
+        runner,
+        "_predict_gap_head",
+        lambda heads, features: np.array([[0.9, 0.1, 0.2, 0.3], [0.1, 0.8, 0.7, 0.6]]),
+    )
+
+    record = runner._run_record(seed=123, seed_index=0, config=_fixture_config())
+    payload = runner._payload([record], _fixture_config())
+
+    _assert_evidence_pointers_resolve(
+        payload,
+        payload["control_protocol"]["evidence_pointers"],
+    )
+    for payload_record in payload["records"]:
+        _assert_evidence_pointers_resolve(
+            payload,
+            payload_record["matched_random_control"]["evidence_pointers"],
+        )
+
+
 def test_h_only_feature_builder_rejects_forbidden_columns():
     features, columns = runner._build_inference_features(
         h=np.ones((3, 2)),
@@ -332,6 +391,16 @@ def test_run_record_wires_three_arms_same_eval_error_and_no_z_leak(monkeypatch):
     assert record["matched_random_control"]["same_thresholds"] is True
     assert record["matched_random_control"]["same_budget"] is True
     assert record["matched_random_control"]["same_metric_helper"] is True
+    assert record["matched_random_control"]["parameter_match"] is True
+    assert record["matched_random_control"]["compute_match"] is True
+    assert record["matched_random_control"]["threshold_match"] is True
+    assert record["matched_random_control"]["surface_distribution_match"] is True
+    assert record["matched_random_control"]["metric_helper_match"] is True
+    assert record["matched_random_control"]["audit_status"] == "pass"
+    assert record["matched_random_control"]["failure_reasons"] == []
+    assert set(record["matched_random_control"]["evidence_pointers"]) == set(
+        runner.MATCHED_RANDOM_AUDIT_MATCH_KEYS
+    )
     vanilla = record["arms"]["vanilla"]
     posthoc = record["arms"]["posthoc_report_only"]["oracle_diagnostics"]
     learned = record["arms"]["learned_gap_head_on_h"]
@@ -424,6 +493,20 @@ def test_payload_and_markdown_share_boundary_fields():
     assert payload["forbidden_inference_columns"] == list(runner.FORBIDDEN_INFERENCE_COLUMNS)
     assert payload["forbidden_column_audit"]["status"] == "pass"
     assert payload["control_protocol"]["control_arm"] == runner.MATCHED_RANDOM_ARM
+    assert payload["control_protocol"]["parameter_match"] is True
+    assert payload["control_protocol"]["compute_match"] is True
+    assert payload["control_protocol"]["threshold_match"] is True
+    assert payload["control_protocol"]["surface_distribution_match"] is True
+    assert payload["control_protocol"]["metric_helper_match"] is True
+    assert payload["control_protocol"]["audit_status"] == "pass"
+    assert payload["control_protocol"]["failure_reasons"] == []
+    assert set(payload["control_protocol"]["evidence_pointers"]) == set(
+        runner.MATCHED_RANDOM_AUDIT_MATCH_KEYS
+    )
+    assert payload["control_protocol"]["same_train_eval_split_as_treatment"] is True
+    assert payload["control_protocol"]["same_thresholds_as_treatment"] is True
+    assert payload["control_protocol"]["same_budget_as_treatment"] is True
+    assert payload["control_protocol"]["same_metric_helper_as_treatment"] is True
     assert payload["control_verdict"]["arm"] == runner.MATCHED_RANDOM_ARM
     assert "# Gap-Ledger Head on Learned h" in report
     assert "Representation boundary: `learned_h`" in report

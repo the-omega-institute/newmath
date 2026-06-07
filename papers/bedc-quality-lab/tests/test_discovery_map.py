@@ -11,6 +11,7 @@ from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
+    certificate_guided_dn_preservation,
     default_drt_training_extension_spec,
     project_drt_training_extension,
     _training_mechanism_cert,
@@ -112,7 +113,7 @@ def _write_payload(root: Path, spec, payload):
             )
         )
         payload["training_mechanism_cert"] = _training_mechanism_cert(payload)
-        payload["hardgate"]["gates"]["DRT-HG8"]["status"] = payload["training_mechanism_cert"]["status"]
+        payload["hardgate"]["gates"]["DRT-HG9"]["status"] = payload["training_mechanism_cert"]["status"]
         payload["hardgate"]["status"] = (
             "pass"
             if all(row["status"] == "pass" for row in payload["hardgate"]["gates"].values())
@@ -137,6 +138,19 @@ def _ensure_pointer_value(payload, pointer, value):
         target[parts[-1]] = value
 
 
+def _matched_random_audit_fixture(*, audit_status: str = "invalid"):
+    return {
+        "parameter_match": True,
+        "compute_match": True,
+        "threshold_match": True,
+        "surface_distribution_match": True,
+        "metric_helper_match": True,
+        "audit_status": audit_status,
+        "failure_reasons": [] if audit_status == "pass" else ["fixture audit source absent"],
+        "evidence_pointers": ["$.control_protocol"],
+    }
+
+
 def _audit_complete_payload(spec, payload):
     payload = dict(payload)
     _ensure_pointer_value(payload, spec.scope_pointer, {"status": "fixture"})
@@ -148,6 +162,12 @@ def _audit_complete_payload(spec, payload):
         _ensure_pointer_value(payload, spec.no_control_rationale_pointer, {"status": "fixture-rationale"})
     payload["scope_seal"] = CLOSED_CLAIM_SCOPE_SEAL
     payload["audit_decision"] = {"audit_status": "pass"}
+    if spec.name == "gap-head-on-h":
+        payload["control_protocol"].update(_matched_random_audit_fixture(audit_status="pass"))
+        for record in payload["records"]:
+            record["matched_random_control"].update(_matched_random_audit_fixture(audit_status="pass"))
+    if spec.name == "gap-head-discovery":
+        payload["matched_random_control"].update(_matched_random_audit_fixture(audit_status="pass"))
     if spec.name == "gap-head-attribution-capsule":
         payload.setdefault("cost_protocol_pointer", "configs/default_cost_protocol.yaml")
         payload.setdefault("control_pointer", "$.control_evidence")
@@ -171,8 +191,9 @@ def _minimal_payload(spec):
     if spec.name == "gap-head-on-h":
         payload.update({
             "treatment_verdict": {"positive": True},
-            "control_protocol": {"same_budget_as_treatment": True},
+            "control_protocol": {"same_budget_as_treatment": True, **_matched_random_audit_fixture()},
             "control_verdict": {"positive": False},
+            "records": [{"matched_random_control": _matched_random_audit_fixture()}],
         })
         payload.update(
             {"anti_triviality_status": "pass"}
@@ -191,6 +212,7 @@ def _minimal_payload(spec):
             "matched_random_control": {
                 "control_verdict": {"positive": False},
                 "control_projection": {"positive_discovery": True},
+                **_matched_random_audit_fixture(),
             },
         })
         return payload
@@ -214,6 +236,8 @@ def _minimal_payload(spec):
             "source_artifacts": {
                 "cost_protocol": "configs/default_cost_protocol.yaml",
                 "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+                "reports/canonical/certificate-guided-training.json": "present",
+                "reports/canonical/certificate-guided-discovery.json": "present",
             },
                 "discovery_map_signal": {
                     "control_pointer": "$.matched_random_control",
@@ -232,12 +256,14 @@ def _minimal_payload(spec):
                     f"DRT-HG{index}": {
                         "status": "pass",
                         "evidence_pointer": "$.training_mechanism_cert"
-                        if index == 8
+                        if index == 9
                         else "$.mechanism_ablation"
+                        if index == 8
+                        else "$.certificate_guided_dn_preservation"
                         if index == 7
                         else "$.quality_promotion_boundary",
                     }
-                    for index in range(1, 9)
+                    for index in range(1, 10)
                 },
                 "status": "pass",
             },
@@ -349,6 +375,7 @@ def _minimal_payload(spec):
             },
             "matched_random_control": {"control_positive_discovery": False},
         })
+        payload["certificate_guided_dn_preservation"] = certificate_guided_dn_preservation(payload["source_artifacts"])
         payload["mechanism_ablation"] = _drt_mechanism_ablation_fixture()
         return payload
     if spec.name == "mechanism-seeking-network":
@@ -682,13 +709,7 @@ def _write_coverage_payloads(root: Path):
     _write_json_artifact(
         root,
         discovery_map.DISCOVERY_GATED_TRANSFORMER_ARTIFACT,
-        {
-            "prototype_status": "prototype-candidate",
-            "discovery_map_signal": {"level_candidate": "D4"},
-            "hardgate_instances": {"NEW-MODEL-HG1": {"status": "pass"}},
-            "revocation_rows": [{"status": "demoted"}],
-            "not_claimed": ["no broad architecture superiority claim"],
-        },
+        canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time"),
     )
     _write_json_artifact(
         root,
@@ -860,7 +881,7 @@ def _ablation_context_payload(*, status="fail"):
     }
 
 
-def _negative_witnesses_context_payload(*, expected_kind_count=8):
+def _negative_witnesses_context_payload(*, expected_kind_count=9):
     return {
         "status": "pointer-only",
         "expected_kind_count": expected_kind_count,
