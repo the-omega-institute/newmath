@@ -323,4 +323,89 @@ theorem BooleanAlgebraStoneDualityHandoff [AskSetup] [PackageSetup]
     }
   · exact ⟨endpointUnary, booleanSourceUnary, stoneReadUnary⟩
 
+theorem BooleanAlgebraCarrier_stone_source_lattice_determinacy [AskSetup] [PackageSetup]
+    {join meet compl zero one order transport replay provenance localName endpoint booleanSource
+      stoneRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BooleanAlgebraCarrier join meet compl zero one order transport replay provenance localName
+        bundle pkg →
+      Cont compl zero endpoint →
+        Cont endpoint one booleanSource →
+          Cont booleanSource localName stoneRead →
+            PkgSig bundle provenance pkg →
+              PkgSig bundle stoneRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row stoneRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row join ∨ hsame row meet ∨ hsame row compl ∨ hsame row zero ∨
+                        hsame row one ∨ hsame row order ∨ hsame row endpoint ∨
+                          hsame row booleanSource ∨ hsame row stoneRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont compl zero endpoint ∧
+                        Cont endpoint one booleanSource ∧
+                          Cont booleanSource localName stoneRead ∧
+                            PkgSig bundle provenance pkg ∧ PkgSig bundle stoneRead pkg)
+                    hsame ∧
+                  UnaryHistory endpoint ∧ UnaryHistory booleanSource ∧
+                    UnaryHistory stoneRead := by
+  -- BEDC touchpoint anchor: BooleanAlgebraCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrierRows complZero endpointOne booleanSourceLocalName provenancePkg stonePkg
+  obtain ⟨_joinUnary, _meetUnary, complUnary, zeroUnary, oneUnary, _orderUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, localNameUnary, _joinMeetOrder,
+    _complZeroReplay, _transportReplayProvenance, _carrierProvenancePkg,
+    _carrierLocalNamePkg⟩ := carrierRows
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed complUnary zeroUnary complZero
+  have booleanSourceUnary : UnaryHistory booleanSource :=
+    unary_cont_closed endpointUnary oneUnary endpointOne
+  have stoneReadUnary : UnaryHistory stoneRead :=
+    unary_cont_closed booleanSourceUnary localNameUnary booleanSourceLocalName
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row stoneRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row join ∨ hsame row meet ∨ hsame row compl ∨ hsame row zero ∨
+              hsame row one ∨ hsame row order ∨ hsame row endpoint ∨
+                hsame row booleanSource ∨ hsame row stoneRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont compl zero endpoint ∧ Cont endpoint one booleanSource ∧
+              Cont booleanSource localName stoneRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle stoneRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro stoneRead ⟨hsame_refl stoneRead, stoneReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, complZero, endpointOne, booleanSourceLocalName, provenancePkg,
+          stonePkg⟩
+  }
+  exact ⟨cert, endpointUnary, booleanSourceUnary, stoneReadUnary⟩
+
 end BEDC.Derived.BooleanalgebraUp

@@ -184,12 +184,30 @@ Thus the frontier for L10 countable density is exactly the displayed Metric, ind
 \end{proof}
 \leanchecked{BEDC.Derived.SeparableMetricUp.SeparableMetricCarrier\_obligation\_frontier}
 
+\begin{theorem}[Separable metric public density export]
+\label{thm:separable-metric-public-density-export}
+Every public countable-density read exported by an accepted $\SeparableMetricUp$ packet
+$$
+S=(M,A,W,T,R,E,H,C,P,N)
+$$
+factors through the displayed Metric row $M$, indexed dense-name row $A$, $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ or $\RealUp$ tolerance ledger $T$, $\RegSeqRatUp$ handoff row $R$, terminal $\RealUp$ seal $E$, and structural rows $H,C,P,N$. The export gives downstream consumers a public countable-density route, but it exports no selected dense point, quotient completion equality, open-cover compactness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:separable-metric-namecert-obligation-surface}. It identifies the accepted carrier surface as exactly $M,A,W,T,R,E,H,C,P,N$, so a public read has no coordinate outside the displayed Metric, dense-name, window, tolerance, handoff, seal, transport, replay, provenance, and local naming rows.
+
+Use \autoref{thm:separable-metric-dense-window-stability}. The indexed dense-name family can be consumed only through the finite $\StreamNameUp$ windows $W$, and matching windows with matching tolerance rows replay the same route to completion-facing and Real-facing consumers.
+
+Apply \autoref{thm:separable-metric-completion-consumer-handoff} and \autoref{thm:separable-metric-regseqrat-density-handoff}. Completion consumers receive only the displayed $A,W,T,R,E,H,C,P,N$ route, while the $\RegSeqRatUp$ density handoff remains downstream of the same dense-name family and tolerance ledger.
+
+Thus the public export is the componentwise projection of the closed countable-density frontier in \autoref{thm:separable-metric-obligation-frontier}. Since selected dense points, quotient completion equality, open-cover compactness, and ambient Real completeness are absent from that frontier, they cannot be exported.
+\end{proof}
+
 \begin{closurestatus}{\SeparableMetricUp}
   \constructivestory{A $\SeparableMetricUp$ packet is generated from a displayed MetricUp carrier, an indexed dense-name family, finite StreamName request windows, DyadicRatCore or RealUp tolerance rows, a RegSeqRat handoff, a RealUp distance seal, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:separable-metric-carrier-surface}, \autoref{thm:separable-metric-namecert-obligation-surface}, \autoref{thm:separable-metric-dense-window-stability}, \autoref{thm:separable-metric-tolerance-net-replay}, \autoref{thm:separable-metric-completion-consumer-handoff}, \autoref{thm:separable-metric-regseqrat-density-handoff}, and \autoref{thm:separable-metric-obligation-frontier} bind the displayed $\MetricUp$ carrier, indexed dense-name family, $\StreamNameUp$ request windows, $\DyadicRatCoreUp$ and $\RealUp$ tolerance ledger, $\RegSeqRatUp$ handoff, terminal $\RealUp$ seal, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows as the closed L10 countable-density scope.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:separable-metric-carrier-surface}, \autoref{thm:separable-metric-namecert-obligation-surface}, \autoref{thm:separable-metric-dense-window-stability}, \autoref{thm:separable-metric-tolerance-net-replay}, \autoref{thm:separable-metric-completion-consumer-handoff}, \autoref{thm:separable-metric-regseqrat-density-handoff}, \autoref{thm:separable-metric-obligation-frontier}, and \autoref{thm:separable-metric-public-density-export} bind the displayed $\MetricUp$ carrier, indexed dense-name family, $\StreamNameUp$ request windows, $\DyadicRatCoreUp$ and $\RealUp$ tolerance ledger, $\RegSeqRatUp$ handoff, terminal $\RealUp$ seal, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows as the public L10 countable-density export scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim selected dense points, quotient completion equality, open-cover compactness, ambient Real completeness, Lean verification, or bridge checking.}
-  \upgradepath{The next paper upgrade is a public export theorem for the same finite countable-density scope, while Lean verification remains an independent axis.}
+  \upgradepath{The next paper obligation is a bridge route from the public countable-density export to the standard bridge surface, while Lean verification remains an independent axis.}
 \end{closurestatus}
