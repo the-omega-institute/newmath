@@ -3231,21 +3231,6 @@ def run_merge_back_lane(store: BioRealityStore) -> dict[str, Any]:
     return {"lane": "bio-M", "pushed": True, "upstream": upstream, "commits_pushed": feat_only}
 
 
-def _pr_all_green(pr: dict[str, Any]) -> bool:
-    """Mergeable PR with every status check green. Mirrors the green-gate in
-    tools/sync_with_auto_dev.py before it auto-merges a catch-up PR."""
-    if pr.get("mergeable") != "MERGEABLE":
-        return False
-    checks = pr.get("statusCheckRollup") or []
-    if not checks:
-        return False
-    for check in checks:
-        verdict = (str(check.get("conclusion") or "") or str(check.get("state") or "")).upper()
-        if verdict not in ("SUCCESS", "NEUTRAL", "SKIPPED"):
-            return False
-    return True
-
-
 def _write_dev_rollup_state(path: Path) -> None:
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
