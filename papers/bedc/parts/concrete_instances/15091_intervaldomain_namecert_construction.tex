@@ -125,6 +125,20 @@ Finally use \autoref{thm:interval-domain-completion-approximation-scope}. Since 
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDyadicEndpointCoverage}
 
+\begin{theorem}[IntervalDomain rational-width monotonicity]
+\label{thm:intervaldomain-rational-width-monotonicity}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. If a displayed $\LocatedIntervalUp$ cell is refined through the $\NestedIntervalUp$ row $N$, then the $\RationalIntervalUp$ width-budget row in $R$ is monotonically tightened along the displayed $\DyadicRatCoreUp$ tolerance route before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer reads the seal. The monotonicity is a finite relation among the accepted carrier rows $L,R,N,H,C,P,A$, not a host metric-width comparison, quotient-cut equality, selected endpoint oracle, or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-domain-carrier}. The located cells are carried by $L$, the rational endpoint-order, containment, and width-budget ledger is carried by $R$, and the displayed refinement relation is carried by $N$.
+
+Use \autoref{thm:interval-domain-finite-endpoint-order} and \autoref{thm:interval-domain-dyadic-endpoint-coverage}. The first keeps endpoint order and containment inside the finite rational-interval row, while the second supplies the dyadic tolerance support needed to compare successive endpoint windows without selecting external endpoints.
+
+Now apply \autoref{thm:interval-domain-directed-refinement-covers}. A later nested cell remains inside the same finite route through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$, so the later width budget can only be read as the transported tightening of the earlier displayed budget.
+
+Consequently every stream, regular-rational, or Real-seal consumer sees the tightened rational-width row before it reads the seal. The statement records this monotone finite budget discipline and exports no host comparison or completeness principle.
+\end{proof}
+
 \begin{theorem}[IntervalDomain directed refinement covers]
 \label{thm:interval-domain-directed-refinement-covers}
 Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. Any two accepted interval-domain cells whose displayed $\RealUp$ seal readbacks overlap admit a finite directed refinement row through the existing $\LocatedIntervalUp$, $\NestedIntervalUp$, $\RationalIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces. The refinement is read only as a displayed later cell with common stream and regular-rational observations; it does not assert quotient real equality, choose a limit representative, or use ambient completeness.
