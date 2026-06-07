@@ -157,6 +157,27 @@ def test_negative_witness_mutation_runner_round_trips_committed_json(tmp_path):
     assert "residualized_h_path" not in graph
 
 
+def test_negative_witness_mutation_runner_reuses_existing_generated_at(tmp_path):
+    root = _runner_root(tmp_path)
+    sentinel = "stable-ledger-time"
+    ledger_path = root / ledger.LEDGER_JSON_ARTIFACT
+    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+    ledger_path.write_text(json.dumps({"generated_at": sentinel}, sort_keys=True) + "\n", encoding="utf-8")
+
+    payload = ledger.write_negative_witness_mutation_ledger(root=root)
+    committed = json.loads(ledger_path.read_text(encoding="utf-8"))
+    committed_text = ledger_path.read_text(encoding="utf-8")
+
+    assert payload["generated_at"] == sentinel
+    assert committed["generated_at"] == sentinel
+
+    repeated_payload = ledger.write_negative_witness_mutation_ledger(root=root)
+    repeated_text = ledger_path.read_text(encoding="utf-8")
+
+    assert repeated_payload == payload
+    assert repeated_text == committed_text
+
+
 def test_negative_witness_mutation_ledger_manifest_and_index_exposure():
     assert ledger.LEDGER_JSON_ARTIFACT not in {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
     assert ledger.DGT_REPORT_ARTIFACT not in {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
