@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\EhresmannConnectionUp$}
+\label{ch:concrete-instances-ehresmann-connection-namecert}
+\origin{human}
+
+Following Ehresmann's connection concept, the $\EhresmannConnectionUp$ packet records a finite horizontal distribution over a displayed bundle projection rather than a covariant derivative on a vector bundle. It is grounded in the bundle projection surface of \autoref{ch:concrete-instances-bundle-namecert}, the general connection packet of \autoref{ch:concrete-instances-connection-namecert}, the curvature consumer boundary of \autoref{ch:concrete-instances-curvature-namecert}, and the chart-local carrier discipline of \autoref{ch:concrete-instances-manifold-namecert}. The packet exports bundle-local horizontal lift and curvature-read rows; it does not import host smoothness, a principal-bundle action, or Riemannian metric compatibility as primitive data.
+
+\begin{definition}[Ehresmann connection carrier]
+\label{def:ehresmann-connection-carrier}
+An $\EhresmannConnectionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(B,\Pi,V,H,L,J,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BundleUp$ source row, displaying the total-space, base-space, fibre, projection, and local trivialization data visible to the packet.
+\item $\Pi$ is the bundle projection row whose fibre over each displayed base observation is available for local inspection.
+\item $V$ is the vertical-kernel row, recording the displayed kernel of the projection read at the inspected total-space observations.
+\item $H$ is the horizontal-row assignment, giving a chosen complement to $V$ in each inspected tangent window.
+\item $L$ is the lift ledger, recording how a displayed base-direction request is lifted through $H$ to a total-space direction over the same projection row.
+\item $J$ is the classifier row for projection, vertical kernel, horizontal row, lift ledger, and chart-local source data.
+\item $T$ records componentwise $\hsame$ transport for $B,\Pi,V,H,L,J$ and their dependency rows.
+\item $C$ records displayed $\Cont$ replay from a base-direction request through projection, vertical-kernel readback, horizontal selection, and lift output.
+\item $P$ is the $\Pkg$ provenance over $\EhresmannConnectionUp$, $\BundleUp$, $\ConnectionUp$, $\CurvatureUp$, $\ManifoldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EhresmannConnectionUp}$ row.
+\end{enumerate}
+The carrier therefore names the horizontal distribution and lift ledger as finite bundle-local data. It has no coordinate for a host covariant derivative, a principal connection form, a Riemannian metric, or a global smooth splitting outside the displayed packet.
+\end{definition}
+
+\begin{theorem}[Ehresmann connection NameCert obligation]
+\label{thm:ehresmann-connection-namecert-obligation}
+For an accepted $\EhresmannConnectionUp$ carrier $E=(B,\Pi,V,H,L,J,T,C,P,N)$, the local $\NameCert_{\EhresmannConnectionUp}$ surface is exhausted by carrier admission for the displayed bundle projection, vertical-kernel exposure, horizontal-row exposure, lift-ledger exposure, classifier stability under $\hsame$, displayed $\Cont$ replay, provenance, and local naming. A replacement carrier preserving these rows componentwise preserves the accepted Ehresmann-connection packet, and no hidden host connection or metric-compatibility row is added by the name.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ehresmann-connection-carrier}. The source rows $B,\Pi,V,H,L$ are the only geometric rows available to the local certificate: $B$ and $\Pi$ display the bundle projection, $V$ displays the vertical kernel, $H$ displays the horizontal complement, and $L$ displays the lift ledger.
+
+The classifier row $J$ records the admitted comparison of those rows. Componentwise transport through $T$ can therefore preserve the accepted packet only by preserving projection, vertical-kernel, horizontal-row, lift-ledger, and chart-local source data together.
+
+Replay is supplied by $C$. A base-direction request is accepted only after the projection, vertical-kernel readback, horizontal selection, and lift output have been replayed in that order.
+
+Finally $P$ and $N$ package and name the same finite route. Since no carrier coordinate names a host covariant derivative, principal connection form, Riemannian metric, or global smooth splitting, none of those objects can be exported by the local NameCert row.
+\end{proof}
+
+\begin{theorem}[Ehresmann connection curvature consumer]
+\label{thm:ehresmann-connection-curvature-consumer}
+Every $\CurvatureUp$ consumer of an accepted $\EhresmannConnectionUp$ carrier reads the horizontal distribution through finite bracket and transport rows derived from the route
+$$
+\BundleUp \longmapsto \Pi \longmapsto V \longmapsto H \longmapsto L \longmapsto T,C,P,N .
+$$
+The consumer may inspect the obstruction to horizontal lifts closing under bracket only after the bundle projection, vertical kernel, horizontal row, lift ledger, transport, replay, provenance, and local naming rows have been displayed. It receives no detached curvature tensor, host connection form, or metric-derived curvature object.
+\end{theorem}
+\begin{proof}
+Start with a curvature request. The accepted carrier supplies the horizontal row $H$ only as a complement to the displayed vertical-kernel row $V$ over the projection row $\Pi$.
+
+The bracket or transport read needed by a curvature consumer is therefore not a free-standing tensor. It is read through the lift ledger $L$ and then transported and replayed by $T$ and $C$ over the same bundle source $B$.
+
+The curvature chapter can consume such a route because \autoref{ch:concrete-instances-curvature-namecert} reads curvature through finite boundary and transport data, while \autoref{ch:concrete-instances-connection-namecert} supplies the general connection-facing boundary discipline. Here the Ehresmann packet supplies the horizontal distribution route that those consumers inspect.
+
+Since the carrier exports only $B,\Pi,V,H,L,J,T,C,P,N$, any curvature read that omits the displayed horizontal distribution, lift ledger, transport, replay, provenance, or local name leaves the accepted packet. No detached curvature tensor, host connection form, or metric-derived curvature object is present to be read.
+\end{proof}
+
+\closureat{EhresmannConnectionUp}{seedStr}
+
+\begin{closurestatus}{\EhresmannConnectionUp}
+  \constructivestory{An $\EhresmannConnectionUp$ packet is generated from a displayed bundle projection, its vertical-kernel row, a horizontal complement row, a lift ledger, classifier stability, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ehresmann-connection-carrier}, \autoref{thm:ehresmann-connection-namecert-obligation}, and \autoref{thm:ehresmann-connection-curvature-consumer} seed the finite bundle-projection, vertical-kernel, horizontal-row, lift-ledger, classifier, transport, replay, provenance, and local naming surface for Ehresmann connection packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host smoothness, principal-bundle actions, metric compatibility, detached curvature tensors, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, projection exposure, vertical-kernel exposure, horizontal-row exposure, lift-ledger exactness, classifier stability, transport, replay, provenance, and local naming for BEDC.Derived.EhresmannConnectionUp.}
+\end{closurestatus}
