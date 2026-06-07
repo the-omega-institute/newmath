@@ -322,6 +322,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "ledger",
             "matched_random_control",
             "torch_training_evidence",
+            "robustness_signal",
             "hardgate",
             "failed_gate",
             "discovery_map_signal",
@@ -692,6 +693,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "constraint_summary",
             "arm_protocol",
             "device_protocol",
+            "compute_ledger",
             "torch_training_evidence",
             "negative_witness_mutations",
             "training_loop_trace",
@@ -782,6 +784,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "source_artifacts",
             "config",
             "grid",
+            "search_space",
             "records",
             "surface_registry",
             "search_objective_summary",
@@ -802,7 +805,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
-        scope_pointer="$.grid",
+        scope_pointer="$.search_space",
         cost_pointer="$.source_artifacts.cost_protocol",
         not_claimed_pointer="$.not_claimed",
         positive_claim_pointer="$.positive_claim",
@@ -2443,12 +2446,71 @@ def _validate_discovery_regularized_training_extension(payload: Mapping[str, Any
     if hardgates.get("failed_gate_pointer") != expected_failed_pointer:
         raise ValueError("discovery_regularized_training extension failed gate pointer mismatch")
     if expected_failed_pointer is not None and _drt_pointer_value(payload, _drt_quality_artifact_pointer(expected_failed_pointer)) is None:
-        raise ValueError("discovery_regularized_training extension failed gate pointer does not resolve")
+            raise ValueError("discovery_regularized_training extension failed gate pointer does not resolve")
+
+
+def _validate_discovery_regularized_training_compute_ledger(payload: Mapping[str, Any]) -> None:
+    ledger = payload.get("compute_ledger")
+    if not isinstance(ledger, Mapping):
+        raise ValueError("discovery_regularized_training compute_ledger must be an object")
+    expected_fields = {
+        "status",
+        "backend_row_counts",
+        "device",
+        "requested_device",
+        "resolved_device",
+        "deterministic_seed_count",
+        "torch_seed_count",
+        "total_steps",
+        "wall_time_seconds_proxy",
+        "flops_proxy",
+        "energy_proxy",
+        "cost_protocol_pointer",
+        "raw_rows_pointer",
+        "protocols_pointer",
+        "missing_fields",
+        "evidence_pointer",
+    }
+    if set(ledger) != expected_fields:
+        raise ValueError("discovery_regularized_training compute_ledger fields invalid")
+    if ledger["cost_protocol_pointer"] != "$.source_artifacts.cost_protocol":
+        raise ValueError("discovery_regularized_training compute_ledger cost pointer mismatch")
+    for key in ("raw_rows_pointer", "protocols_pointer", "evidence_pointer", "cost_protocol_pointer"):
+        pointer = ledger.get(key)
+        if key == "raw_rows_pointer":
+            if not pointer:
+                raise ValueError("discovery_regularized_training compute_ledger raw rows pointer missing")
+            continue
+        if _bracket_pointer_value(payload, str(pointer)) is None:
+            raise ValueError(f"discovery_regularized_training compute_ledger pointer does not resolve: {key}")
+    if not isinstance(ledger["backend_row_counts"], Mapping):
+        raise ValueError("discovery_regularized_training compute_ledger backend counts invalid")
+    if int(ledger["backend_row_counts"].get("deterministic-anchor", 0)) <= 0:
+        raise ValueError("discovery_regularized_training compute_ledger deterministic rows missing")
+    if int(ledger["deterministic_seed_count"]) <= 0:
+        raise ValueError("discovery_regularized_training compute_ledger deterministic seeds missing")
+    if int(ledger["torch_seed_count"]) <= 0:
+        raise ValueError("discovery_regularized_training compute_ledger torch seeds missing")
+    if int(ledger["total_steps"]) <= 0 or int(ledger["flops_proxy"]) <= 0:
+        raise ValueError("discovery_regularized_training compute_ledger proxy counts missing")
+    expected_status = "complete" if list(ledger["missing_fields"]) == [] else "incomplete"
+    if ledger["status"] != expected_status:
+        raise ValueError("discovery_regularized_training compute_ledger status mismatch")
+    gates = payload.get("hardgate", {}).get("gates", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
+    hg7 = gates.get("DRT-HG7") if isinstance(gates, Mapping) else None
+    if not isinstance(hg7, Mapping):
+        raise ValueError("discovery_regularized_training DRT-HG7 missing")
+    if hg7.get("evidence_pointer") != "$.compute_ledger":
+        raise ValueError("discovery_regularized_training DRT-HG7 evidence pointer mismatch")
+    expected_hg7 = "pass" if ledger["status"] == "complete" else "fail"
+    if hg7.get("status") != expected_hg7:
+        raise ValueError("discovery_regularized_training DRT-HG7 status mismatch")
 
 
 def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any]) -> None:
     _validate_discovery_regularized_training_quality_promotion_boundary(payload)
     _validate_discovery_regularized_training_extension(payload)
+    _validate_discovery_regularized_training_compute_ledger(payload)
 
 
 def _discovery_regularized_training_quality_boundary_index_section(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:
@@ -2459,6 +2521,7 @@ def _discovery_regularized_training_quality_boundary_index_section(payload: Mapp
         "owner_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary"),
         "hardgate_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary.hardgate"),
         "arm_comparisons_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary.arm_comparisons"),
+        "compute_ledger_pointer": _drt_quality_artifact_pointer("$.compute_ledger"),
         "replay_dimension_pointers": {
             "steps": _drt_quality_artifact_pointer("$.config.steps"),
             "seeds": _drt_quality_artifact_pointer("$.config.seeds"),
@@ -2493,6 +2556,7 @@ def _discovery_regularized_training_quality_boundary_index_section(payload: Mapp
         "owner_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary"),
         "hardgate_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary.hardgate"),
         "arm_comparisons_pointer": _drt_quality_artifact_pointer("$.quality_promotion_boundary.arm_comparisons"),
+        "compute_ledger_pointer": _drt_quality_artifact_pointer("$.compute_ledger"),
         "replay_dimension_pointers": dict(boundary["replay_dimension_pointers"]),
         "ordered_arm_comparison_pointers": [
             {
@@ -3404,8 +3468,8 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "canonical_owner_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$",
             "discovery_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.discovery_map_signal",
             "verdict_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.hardgate.status",
-            "mechanism_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.candidate_protocol",
-            "debt_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.hardgate.gates.DG-NAS-HG7",
+            "mechanism_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.search_space",
+            "debt_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.hardgate.gates.DG-NAS-HG8",
             "not_claimed_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.not_claimed",
             "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[2]",
             "hardgate_status": "pass",

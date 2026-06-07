@@ -39,6 +39,7 @@ REQUIRED_SUMMARY_KEYS = {
     "constraint_summary",
     "arm_protocol",
     "device_protocol",
+    "compute_ledger",
     "torch_training_evidence",
     "negative_witness_mutations",
     "training_loop_trace",
@@ -80,6 +81,7 @@ def _project(records=None, **config):
         "torch_status": "unavailable",
         "drift_tolerance": DRIFT_TOLERANCE,
         "dependency_abi": {"torch": "fixture"},
+        "steps": 12,
         **config,
     }
     return DiscoveryRegularizedTrainingProjection(
@@ -199,6 +201,7 @@ def test_torch_available_fixture_promotes_d4_and_records_payload_sections(monkey
     assert summary["training_loop_trace"]["retrain_rows_pointer"] == "$.torch_training_evidence"
     assert summary["negative_witness_mutations"]["failed_gate_pointer"] == "$.hardgate.status"
     assert summary["drt_extension_hardgates"]["status"] == "pass"
+    assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "pass"
     assert set(summary["loss_family"]["terms"]) == {
         "discovery",
         "ledger",
@@ -210,6 +213,90 @@ def test_torch_available_fixture_promotes_d4_and_records_payload_sections(monkey
     assert len(summary["component_ablation"]["rows"]) == 7
     assert summary["training_method_comparison"]["metric_pointers"]["uer"].endswith("$.records.extension_metrics.uer_mean")
     assert "terminal_verdict" not in json.dumps(summary, sort_keys=True)
+
+
+def test_drt_compute_ledger_is_required_summary_and_hardgate_source(monkeypatch):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
+    ledger = summary["compute_ledger"]
+
+    assert "compute_ledger" in REQUIRED_SUMMARY_KEYS
+    assert ledger["status"] == "complete"
+    assert ledger["cost_protocol_pointer"] == "$.source_artifacts.cost_protocol"
+    assert ledger["deterministic_seed_count"] > 0
+    assert ledger["torch_seed_count"] > 0
+    assert ledger["flops_proxy"] > 0
+    assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "pass"
+    assert summary["hardgate"]["gates"]["DRT-HG7"]["evidence_pointer"] == "$.compute_ledger"
+
+
+def test_drt_hg7_fails_without_compute_ledger_cost_protocol_pointer():
+    projection = _project(source_artifacts={"cost_protocol": ""})
+    summary = projection["summary_payload"]
+    capsule = projection["claim_capsule_payload"]
+
+    assert summary["source_artifacts"]["cost_protocol"] == ""
+    assert summary["compute_ledger"]["status"] == "incomplete"
+    assert "cost_protocol_pointer" in summary["compute_ledger"]["missing_fields"]
+    assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "fail"
+    assert summary["failed_gate"] == "DRT-HG7"
+    assert summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert capsule["source_artifacts"]["cost_protocol"] == ""
+    assert capsule["source_artifacts"]["cost_protocol"] == summary["source_artifacts"]["cost_protocol"]
+    assert capsule["result_snapshot"]["compute_ledger"]["status"] == "incomplete"
+    assert "cost_protocol_pointer" in capsule["result_snapshot"]["compute_ledger"]["missing_fields"]
+    assert capsule["hardgates"]["DRT-HG7"]["status"] == "fail"
+    assert "configs/default_cost_protocol.yaml" not in json.dumps(capsule["source_artifacts"], sort_keys=True)
+
+
+def test_drt_hg7_fails_when_steps_or_seed_counts_are_missing():
+    zero_steps = _project(steps=0)["summary_payload"]
+
+    assert zero_steps["compute_ledger"]["status"] == "incomplete"
+    assert "steps" in zero_steps["compute_ledger"]["missing_fields"]
+    assert zero_steps["hardgate"]["gates"]["DRT-HG7"]["status"] == "fail"
+    assert zero_steps["discovery_map_signal"]["level_candidate"] == "DN"
+
+    missing_seed_records = deepcopy([*runner.collect_deterministic_records(), *_torch_fixture_records()])
+    for row in missing_seed_records:
+        if row.get("backend") == "deterministic-anchor":
+            row.pop("seed", None)
+            break
+    missing_seed = _project(missing_seed_records)["summary_payload"]
+
+    assert "deterministic_seed" in missing_seed["compute_ledger"]["missing_fields"]
+    assert missing_seed["hardgate"]["gates"]["DRT-HG7"]["status"] == "fail"
+    assert missing_seed["discovery_map_signal"]["level_candidate"] == "DN"
+
+
+def test_claim_capsule_carries_compute_ledger_snapshot_without_raw_rows():
+    capsule = _project()["claim_capsule_payload"]
+    ledger = capsule["result_snapshot"]["compute_ledger"]
+
+    assert ledger["status"] == "complete"
+    assert "raw_rows_pointer" not in ledger
+    assert "protocols_pointer" not in ledger
+    assert "evidence_pointer" not in ledger
+    assert ledger["cost_protocol_pointer"] == "$.source_artifacts.cost_protocol"
+
+
+def test_compute_ledger_is_replay_stable(monkeypatch):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    first = runner.build_projection(generated_at="fixture-time")["summary_payload"]["compute_ledger"]
+    second = runner.build_projection(generated_at="fixture-time")["summary_payload"]["compute_ledger"]
+
+    assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
+
+
+def test_compute_ledger_never_uses_refactor_loop_host_env():
+    projection = _project()
+    payload = {
+        "source_artifacts": projection["summary_payload"]["source_artifacts"],
+        "compute_ledger": projection["summary_payload"]["compute_ledger"],
+        "claim_capsule": projection["claim_capsule_payload"],
+    }
+
+    assert ".refactor-loop/host.env" not in json.dumps(payload, sort_keys=True)
 
 
 def test_real_torch_training_records_protocol_and_classifier_surface_delta():

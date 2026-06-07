@@ -351,6 +351,7 @@ def _payload_for_spec(spec):
                     "selected_candidate_has_violation": False,
                 },
                 "candidate_protocol": {
+                    "search_space_pointer": "$.search_space",
                     "deterministic_anchor": {"primary": True},
                     "design_search_certificate": {
                         "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
@@ -359,6 +360,7 @@ def _payload_for_spec(spec):
                 },
                 "device_protocol": {"requested_device": "auto", "resolved_device": "not-requested"},
                 "torch_nas_evidence": {"status": "unavailable", "row_count": 0},
+                "search_space": {"status": "closed"},
                 "matched_baseline_control": {
                     "parameter_matched_present": True,
                     "compute_matched_present": True,
@@ -373,6 +375,7 @@ def _payload_for_spec(spec):
                     "failed_gate": None,
                     "failed_gate_pointer": None,
                     "candidate_protocol_pointer": "$.candidate_protocol",
+                    "search_space_pointer": "$.search_space",
                     "search_objective_pointer": "$.search_objective_summary",
                     "negative_witness_pointer": "$.negative_witness_mutations",
                     "torch_nas_evidence_pointer": "$.torch_nas_evidence",
@@ -404,7 +407,7 @@ def _payload_for_spec(spec):
                             "negative_witness",
                         ],
                         "comparison_family": "task-sigreg-drt-matched-random",
-                        "compute_ledger_pointer": "$.device_protocol",
+                        "compute_ledger_pointer": "$.compute_ledger",
                         "debt_marker_pointer": "$.constraint_summary",
                         "uer_mean": 0.11,
                         "uer_reduction_mean": 0.09,
@@ -486,6 +489,27 @@ def _payload_for_spec(spec):
                     "drift_tolerance": 0.0001,
                     "status": "available",
                 },
+                "compute_ledger": {
+                    "status": "complete",
+                    "backend_row_counts": {
+                        "deterministic-anchor": 720,
+                        "torch-training-arm": 16,
+                    },
+                    "device": "cpu",
+                    "requested_device": "auto",
+                    "resolved_device": "cpu",
+                    "deterministic_seed_count": 3,
+                    "torch_seed_count": 2,
+                    "total_steps": 8832,
+                    "wall_time_seconds_proxy": 2.16,
+                    "flops_proxy": 36175872,
+                    "energy_proxy": 0.003618,
+                    "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
+                    "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+                    "protocols_pointer": "$.torch_training_evidence.protocols",
+                    "missing_fields": [],
+                    "evidence_pointer": "$.records",
+                },
                 "constraint_summary": {
                     "drt_minus_task_only_debt_q": -0.1,
                     "drt_minus_task_only_benefit_q": 0.02,
@@ -495,6 +519,17 @@ def _payload_for_spec(spec):
             }
         )
         payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
+        payload["hardgate"] = {
+            "status": "pass",
+            "failed_gate": None,
+            "gates": {
+                f"DRT-HG{index}": {
+                    "status": "pass",
+                    "evidence_pointer": "$.compute_ledger" if index == 7 else "$.quality_promotion_boundary",
+                }
+                for index in range(1, 8)
+            },
+        }
         extension_sections = project_drt_training_extension(
             [],
             default_drt_training_extension_spec(),
@@ -2506,12 +2541,16 @@ def test_discovery_regularized_training_quality_boundary_index_is_pointer_only()
         "owner_pointer",
         "hardgate_pointer",
         "arm_comparisons_pointer",
+        "compute_ledger_pointer",
         "replay_dimension_pointers",
         "ordered_arm_comparison_pointers",
     }
     assert section["status"] == "present-but-fail-closed"
     assert section["owner_pointer"] == (
         "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary"
+    )
+    assert section["compute_ledger_pointer"] == (
+        "reports/canonical/discovery-regularized-training.json:$.compute_ledger"
     )
     assert [row["arm"] for row in section["ordered_arm_comparison_pointers"]] == list(
         canonical.DRT_QUALITY_PROMOTION_ARMS
@@ -3903,7 +3942,7 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                 {
                     "report": "discovery-gated-nas",
                     "artifact": "reports/canonical/discovery-gated-nas.json",
-                    "pointer": "$.grid",
+                    "pointer": "$.search_space",
                 },
                 {
                     "report": "lejepa-theorem-ledger",

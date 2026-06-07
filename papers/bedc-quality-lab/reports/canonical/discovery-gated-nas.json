@@ -12,6 +12,7 @@
       "replayable": true,
       "selection_rule": "select the highest rounded search score among candidates with zero witness violations"
     },
+    "search_space_pointer": "$.search_space",
     "torch_evidence": {
       "bounded_optional": true,
       "evidence_pointer": "$.torch_nas_evidence",
@@ -72,17 +73,18 @@
   "discovery_map_signal": {
     "candidate_protocol_pointer": "$.candidate_protocol",
     "evidence_pointer": "$.hardgate.failed_gate",
-    "failed_gate": "DG-NAS-HG7",
-    "failed_gate_pointer": "$.hardgate.gates.DG-NAS-HG7.status",
+    "failed_gate": "DG-NAS-HG8",
+    "failed_gate_pointer": "$.hardgate.gates.DG-NAS-HG8.status",
     "level_candidate": "DN",
     "negative_witness_pointer": "$.negative_witness_mutations",
     "reason": "hardgate-failed",
     "search_objective_pointer": "$.search_objective_summary",
+    "search_space_pointer": "$.search_space",
     "status": "negative",
     "surface_registry_pointer": "$.surface_registry",
     "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows"
   },
-  "failed_gate": "DG-NAS-HG7",
+  "failed_gate": "DG-NAS-HG8",
   "forbidden_claim_term_audit": {
     "forbidden_positive_claim_terms": [
       "full-lejepa",
@@ -104,7 +106,7 @@
     "torch_record_count": 0
   },
   "hardgate": {
-    "failed_gate": "DG-NAS-HG7",
+    "failed_gate": "DG-NAS-HG8",
     "gates": {
       "DG-NAS-HG1": {
         "evidence": "Parameter-matched baseline is required.",
@@ -137,6 +139,11 @@
         "status": "pass"
       },
       "DG-NAS-HG7": {
+        "evidence": "D5-M requires a closed deterministic search boundary with exhaustive product coverage.",
+        "evidence_pointer": "$.search_space",
+        "status": "pass"
+      },
+      "DG-NAS-HG8": {
         "evidence": "HG7 replay readiness requires the design-search certificate pointer slot to be present.",
         "evidence_pointer": "$.candidate_protocol.design_search_certificate",
         "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
@@ -373,6 +380,45 @@
     "selected_classifier_shift_count": 9,
     "selected_mechanism_certificate": true,
     "selected_multi_surface_robust": true
+  },
+  "search_space": {
+    "arms": [
+      "candidate",
+      "parameter_matched_baseline",
+      "compute_matched_baseline"
+    ],
+    "candidates": [
+      "score_margin_shortcut",
+      "residualized_h_path",
+      "scale_invariant_norm",
+      "control_separated_route",
+      "multi_surface_mechanism_packet",
+      "bounded_discovery_gate"
+    ],
+    "evidence_pointer": "reports/runs/discovery-gated-nas/raw_metrics.jsonl",
+    "expected_record_count": 162,
+    "missing_cells": [],
+    "mode": "deterministic_anchor",
+    "observed_record_count": 162,
+    "out_of_space_rows": [],
+    "sampling_protocol": {
+      "arm_axis": "arms",
+      "candidate_axis": "candidates",
+      "mode": "exhaustive_product",
+      "seed_axis": "seeds",
+      "surface_axis": "surfaces"
+    },
+    "seeds": [
+      19,
+      31,
+      47
+    ],
+    "status": "closed",
+    "surfaces": [
+      "copy_shift",
+      "parity_route",
+      "scale_probe"
+    ]
   },
   "source_artifacts": {
     "claim_capsule": "reports/runs/discovery-gated-nas/claim_capsule.json",

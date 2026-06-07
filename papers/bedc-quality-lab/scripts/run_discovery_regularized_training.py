@@ -122,7 +122,7 @@ def deterministic_record(
         ]
         if str(arm) == "drt"
         else [],
-        "compute_ledger_pointer": "$.device_protocol",
+        "compute_ledger_pointer": "$.compute_ledger",
         "uer": uer,
         "uer_reduction": round(0.26 - uer, 6),
         "debt_marker_pointer": "$.constraint_summary",

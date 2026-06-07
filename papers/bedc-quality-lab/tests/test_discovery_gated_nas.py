@@ -56,6 +56,7 @@ def _with_recomputed_signal(payload):
             "search_objective_summary": payload["search_objective_summary"],
             "negative_witness_mutations": payload["negative_witness_mutations"],
             "candidate_protocol": payload["candidate_protocol"],
+            "search_space": payload.get("search_space"),
         }
     )
     failed = projection.failed_gate(hardgates)
@@ -156,12 +157,101 @@ def test_hardgates_pointer_resolve_and_no_terminal_verdict():
         payload["discovery_map_signal"]["control_pointer"],
         payload["discovery_map_signal"]["surface_registry_pointer"],
         payload["discovery_map_signal"]["candidate_protocol_pointer"],
+        payload["candidate_protocol"]["search_space_pointer"],
+        payload["discovery_map_signal"]["search_space_pointer"],
         payload["discovery_map_signal"]["search_objective_pointer"],
         payload["discovery_map_signal"]["negative_witness_pointer"],
         payload["discovery_map_signal"]["torch_nas_evidence_pointer"],
     ):
         assert pointer_value(payload, pointer) is not None, pointer
     assert all("terminal_verdict" not in cell for cell in _walk(payload))
+
+
+def test_search_space_boundary_is_top_level_owner_and_pointers_resolve():
+    payload = _ready_payload()
+
+    assert "search_space" in payload
+    assert payload["candidate_protocol"]["search_space_pointer"] == "$.search_space"
+    assert payload["discovery_map_signal"]["search_space_pointer"] == "$.search_space"
+    for pointer in (
+        "$.search_space",
+        payload["candidate_protocol"]["search_space_pointer"],
+        payload["discovery_map_signal"]["search_space_pointer"],
+    ):
+        assert pointer_value(payload, pointer) is payload["search_space"]
+
+
+def test_search_space_boundary_matches_exhaustive_product():
+    payload = _ready_payload()
+    search_space = payload["search_space"]
+
+    assert search_space["status"] == "closed"
+    assert search_space["candidates"] == list(DEFAULT_CANDIDATES)
+    assert search_space["surfaces"] == list(DEFAULT_SURFACES)
+    assert search_space["seeds"] == list(DEFAULT_SEEDS)
+    assert search_space["arms"] == list(dgn.DEFAULT_ARMS)
+    assert search_space["sampling_protocol"]["mode"] == "exhaustive_product"
+    assert search_space["expected_record_count"] == 162
+    assert search_space["observed_record_count"] == 162
+    assert search_space["missing_cells"] == []
+    assert search_space["out_of_space_rows"] == []
+
+
+def test_search_space_gate_fails_closed_without_search_space():
+    payload = _ready_payload()
+    mutated = {key: value for key, value in payload.items() if key != "search_space"}
+    recomputed = _with_recomputed_signal(mutated)
+
+    assert recomputed["hardgate"]["status"] == "fail"
+    assert recomputed["hardgate"]["failed_gate"] == "DG-NAS-HG7"
+    assert recomputed["discovery_map_signal"]["level_candidate"] == "DN"
+    assert recomputed["discovery_map_signal"]["failed_gate"] == "DG-NAS-HG7"
+    assert recomputed["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.DG-NAS-HG7.status"
+
+
+def test_search_space_gate_fails_closed_for_open_or_out_of_space_rows():
+    payload = _ready_payload()
+    opened = {
+        **payload,
+        "search_space": {
+            **payload["search_space"],
+            "status": "open",
+        },
+    }
+    _assert_dn_projection(_with_recomputed_signal(opened), "DG-NAS-HG7")
+
+    projection = runner.build_projection(
+        generated_at="fixture-time",
+        design_search_certificate_slot_state="present",
+        candidates=DEFAULT_CANDIDATES,
+    )
+    rows = [
+        *projection["raw_rows"],
+        {
+            **projection["raw_rows"][0],
+            "candidate_id": "declared-product-external",
+        },
+    ]
+    out_of_space = _project_from_rows(rows)
+
+    _assert_dn_projection(out_of_space, "DG-NAS-HG7")
+
+
+def test_discovery_map_signal_requires_search_space_pointer():
+    payload = _ready_payload()
+    spec = _specs_by_name()["discovery-gated-nas"]
+    context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
+    mutated = {
+        **payload,
+        "discovery_map_signal": {
+            **payload["discovery_map_signal"],
+            "search_space_pointer": "$.grid",
+        },
+    }
+    row = discovery_row(spec, mutated, context)
+
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "dg-nas-search-space-pointer-mismatch"
 
 
 def test_projection_maps_to_d5_m_with_ready_scorecard():
@@ -353,7 +443,7 @@ def test_runner_writes_pointer_resolvable_artifacts(tmp_path):
         "slot_state": "present-but-fail-closed",
     }
     assert pointer_value(payload, DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER) == payload["candidate_protocol"]["design_search_certificate"]
-    assert payload["hardgate"]["gates"]["DG-NAS-HG7"]["status"] == "fail"
+    assert payload["hardgate"]["gates"]["DG-NAS-HG8"]["status"] == "fail"
 
 
 @pytest.mark.parametrize(
@@ -364,15 +454,15 @@ def test_runner_writes_pointer_resolvable_artifacts(tmp_path):
         ("negative", "fail"),
     ],
 )
-def test_design_search_certificate_slot_state_drives_hg7(slot_state, expected_status):
+def test_design_search_certificate_slot_state_drives_hg8(slot_state, expected_status):
     payload = runner.build_projection(
         generated_at="fixture-time",
         design_search_certificate_slot_state=slot_state,
     )["summary_payload"]
 
     assert payload["candidate_protocol"]["design_search_certificate"]["slot_state"] == slot_state
-    assert payload["hardgate"]["gates"]["DG-NAS-HG7"]["status"] == expected_status
-    assert payload["hardgate"]["gates"]["DG-NAS-HG7"]["slot_state"] == slot_state
+    assert payload["hardgate"]["gates"]["DG-NAS-HG8"]["status"] == expected_status
+    assert payload["hardgate"]["gates"]["DG-NAS-HG8"]["slot_state"] == slot_state
 
 
 def test_design_search_certificate_fails_closed_when_pointer_dangles():
@@ -382,11 +472,11 @@ def test_design_search_certificate_fails_closed_when_pointer_dangles():
         design_search_certificate_owner_pointer="reports/canonical/discovery-gated-nas.json:$.missing_certificate",
     )["summary_payload"]
 
-    gate = payload["hardgate"]["gates"]["DG-NAS-HG7"]
+    gate = payload["hardgate"]["gates"]["DG-NAS-HG8"]
     assert gate["status"] == "fail"
     assert gate["slot_state"] == "present-but-fail-closed"
-    assert payload["hardgate"]["failed_gate"] == "DG-NAS-HG7"
-    assert payload["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.DG-NAS-HG7.status"
+    assert payload["hardgate"]["failed_gate"] == "DG-NAS-HG8"
+    assert payload["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.DG-NAS-HG8.status"
 
 
 def test_design_search_certificate_hg7_normalizes_malformed_slot():

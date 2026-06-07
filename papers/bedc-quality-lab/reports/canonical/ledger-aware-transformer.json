@@ -1,15 +1,15 @@
 {
   "aggregate_metrics": {
-    "false_alarm_delta": -0.1875,
-    "false_alarm_learned": 0.055556,
-    "false_alarm_matched_random": 0.243056,
+    "false_alarm_delta": -0.034722,
+    "false_alarm_learned": 0.253472,
+    "false_alarm_matched_random": 0.288194,
     "multi_surface_uer_reduction_count": 3,
     "only_false_alarm_increase": false,
-    "ood_surface_count": 3,
-    "surface_count": 3,
-    "uer_learned": 0.013889,
-    "uer_matched_random": 0.194444,
-    "uer_reduction": 0.180555
+    "ood_surface_count": 6,
+    "surface_count": 6,
+    "uer_learned": 0.006944,
+    "uer_matched_random": 0.097222,
+    "uer_reduction": 0.090278
   },
   "applicability_boundary": {
     "claimed_scope": "bounded NumPy toy residual gap-head evidence for ledger-aware transformer design",
@@ -23,7 +23,7 @@
       "real-model training",
       "general architecture superiority",
       "terminal discovery verdict",
-      "D5 promotion"
+      "D5-M mechanism closure"
     ]
   },
   "artifact_id": "bedc-quality-lab:ledger-aware-transformer",
@@ -68,14 +68,15 @@
           "LAT-HG3",
           "LAT-HG4",
           "LAT-HG5",
-          "LAT-HG6"
+          "LAT-HG6",
+          "LAT-HG7"
         ]
       },
       "not_claimed": [
         "real-model training",
         "general architecture superiority",
         "terminal discovery verdict",
-        "D5 promotion"
+        "D5-M mechanism closure"
       ],
       "producer": "bedc_quality_lab.discovery_compiler.capsule",
       "report": "ledger-aware-transformer",
@@ -109,11 +110,12 @@
     "evidence_pointer": "$.aggregate_metrics.uer_reduction",
     "failed_gate": null,
     "failed_gate_pointer": null,
-    "level_candidate": "D4",
+    "level_candidate": "D5-O",
     "net_positive_signal": true,
     "reason": "lat-hardgates-pass",
+    "robustness_evidence_pointer": "$.robustness_signal",
     "scorecard_pointer": "$.forbidden_claim_term_audit",
-    "status": "d4-candidate",
+    "status": "d5-o-candidate",
     "torch_training_evidence_pointer": "$.torch_training_evidence"
   },
   "failed_gate": null,
@@ -155,6 +157,11 @@
         "pointer": "$.torch_training_evidence.protocol",
         "reason": "torch protocol boundary is recorded",
         "status": "pass"
+      },
+      "LAT-HG7": {
+        "pointer": "$.robustness_signal.status",
+        "reason": "at least three OOD surfaces pass the LAT operational robustness threshold",
+        "status": "pass"
       }
     },
     "status": "pass"
@@ -168,25 +175,49 @@
         "control_pointer": "$.records.0.matched_random_control.metrics",
         "evidence_pointer": "$.records.0.gap_head.metrics",
         "ledger_decision_pointer": "$.records.0.gap_head",
-        "row_id": "lat:copy_shift:ledger-policy",
+        "row_id": "lat:delayed_recall:ledger-policy",
         "status": "recorded",
-        "surface_id": "copy_shift"
+        "surface_id": "delayed_recall"
       },
       {
         "control_pointer": "$.records.1.matched_random_control.metrics",
         "evidence_pointer": "$.records.1.gap_head.metrics",
         "ledger_decision_pointer": "$.records.1.gap_head",
-        "row_id": "lat:parity_route:ledger-policy",
+        "row_id": "lat:compositional_rules:ledger-policy",
         "status": "recorded",
-        "surface_id": "parity_route"
+        "surface_id": "compositional_rules"
       },
       {
         "control_pointer": "$.records.2.matched_random_control.metrics",
         "evidence_pointer": "$.records.2.gap_head.metrics",
         "ledger_decision_pointer": "$.records.2.gap_head",
-        "row_id": "lat:sparse_recall:ledger-policy",
+        "row_id": "lat:synthetic_tool_use:ledger-policy",
         "status": "recorded",
-        "surface_id": "sparse_recall"
+        "surface_id": "synthetic_tool_use"
+      },
+      {
+        "control_pointer": "$.records.3.matched_random_control.metrics",
+        "evidence_pointer": "$.records.3.gap_head.metrics",
+        "ledger_decision_pointer": "$.records.3.gap_head",
+        "row_id": "lat:toy_safety_boundary:ledger-policy",
+        "status": "recorded",
+        "surface_id": "toy_safety_boundary"
+      },
+      {
+        "control_pointer": "$.records.4.matched_random_control.metrics",
+        "evidence_pointer": "$.records.4.gap_head.metrics",
+        "ledger_decision_pointer": "$.records.4.gap_head",
+        "row_id": "lat:toy_planning:ledger-policy",
+        "status": "recorded",
+        "surface_id": "toy_planning"
+      },
+      {
+        "control_pointer": "$.records.5.matched_random_control.metrics",
+        "evidence_pointer": "$.records.5.gap_head.metrics",
+        "ledger_decision_pointer": "$.records.5.gap_head",
+        "row_id": "lat:compression_preservation:ledger-policy",
+        "status": "recorded",
+        "surface_id": "compression_preservation"
       }
     ]
   },
@@ -205,7 +236,7 @@
     "real-model training",
     "general architecture superiority",
     "terminal discovery verdict",
-    "D5 promotion"
+    "D5-M mechanism closure"
   ],
   "positive_claim": {
     "claim": "residual gap heads reduce unlogged error relative to matched-random gap heads on multiple OOD toy surfaces",
@@ -245,7 +276,7 @@
         },
         "uses_forbidden_columns": false
       },
-      "ood_kind": "ood-copy-shift",
+      "ood_kind": "ood-delayed-recall",
       "residual_pointer": "$.records.0.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -254,7 +285,7 @@
       },
       "role": "ood_surface",
       "sample_count": 48,
-      "surface_id": "copy_shift"
+      "surface_id": "delayed_recall"
     },
     {
       "deltas": {
@@ -282,7 +313,7 @@
         },
         "uses_forbidden_columns": false
       },
-      "ood_kind": "ood-parity-route",
+      "ood_kind": "ood-compositional-rules",
       "residual_pointer": "$.records.1.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -291,7 +322,7 @@
       },
       "role": "ood_surface",
       "sample_count": 48,
-      "surface_id": "parity_route"
+      "surface_id": "compositional_rules"
     },
     {
       "deltas": {
@@ -319,7 +350,7 @@
         },
         "uses_forbidden_columns": false
       },
-      "ood_kind": "ood-sparse-recall",
+      "ood_kind": "ood-synthetic-tool-use",
       "residual_pointer": "$.records.2.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -328,7 +359,118 @@
       },
       "role": "ood_surface",
       "sample_count": 48,
-      "surface_id": "sparse_recall"
+      "surface_id": "synthetic_tool_use"
+    },
+    {
+      "deltas": {
+        "false_alarm_rate": 0.0,
+        "unlogged_error_rate": 0.0
+      },
+      "gap_head": {
+        "arm": "ledger_aware_gap_head_on_residual",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.0,
+          "false_alarm_rate": 0.520833,
+          "logged_rate": 0.520833,
+          "unlogged_error_rate": 0.0
+        },
+        "uses_forbidden_columns": false
+      },
+      "ledger_channel": "high_residual_norm",
+      "matched_random_control": {
+        "arm": "matched_random_gap_head",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.0,
+          "false_alarm_rate": 0.520833,
+          "logged_rate": 0.520833,
+          "unlogged_error_rate": 0.0
+        },
+        "uses_forbidden_columns": false
+      },
+      "ood_kind": "ood-toy-safety-boundary",
+      "residual_pointer": "$.records.3.residual_summary",
+      "residual_summary": {
+        "dimension": 12,
+        "max_abs": 0.611556,
+        "mean_abs": 0.125783
+      },
+      "role": "ood_surface",
+      "sample_count": 48,
+      "surface_id": "toy_safety_boundary"
+    },
+    {
+      "deltas": {
+        "false_alarm_rate": 0.3125,
+        "unlogged_error_rate": 0.0
+      },
+      "gap_head": {
+        "arm": "ledger_aware_gap_head_on_residual",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.0,
+          "false_alarm_rate": 0.416667,
+          "logged_rate": 0.416667,
+          "unlogged_error_rate": 0.0
+        },
+        "uses_forbidden_columns": false
+      },
+      "ledger_channel": "attention_drift",
+      "matched_random_control": {
+        "arm": "matched_random_gap_head",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.0,
+          "false_alarm_rate": 0.104167,
+          "logged_rate": 0.104167,
+          "unlogged_error_rate": 0.0
+        },
+        "uses_forbidden_columns": false
+      },
+      "ood_kind": "ood-toy-planning",
+      "residual_pointer": "$.records.4.residual_summary",
+      "residual_summary": {
+        "dimension": 12,
+        "max_abs": 0.432565,
+        "mean_abs": 0.093302
+      },
+      "role": "ood_surface",
+      "sample_count": 48,
+      "surface_id": "toy_planning"
+    },
+    {
+      "deltas": {
+        "false_alarm_rate": 0.041667,
+        "unlogged_error_rate": 0.0
+      },
+      "gap_head": {
+        "arm": "ledger_aware_gap_head_on_residual",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.0,
+          "false_alarm_rate": 0.416667,
+          "logged_rate": 0.416667,
+          "unlogged_error_rate": 0.0
+        },
+        "uses_forbidden_columns": false
+      },
+      "ledger_channel": "write_collision",
+      "matched_random_control": {
+        "arm": "matched_random_gap_head",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.0,
+          "false_alarm_rate": 0.375,
+          "logged_rate": 0.375,
+          "unlogged_error_rate": 0.0
+        },
+        "uses_forbidden_columns": false
+      },
+      "ood_kind": "ood-compression-preservation",
+      "residual_pointer": "$.records.5.residual_summary",
+      "residual_summary": {
+        "dimension": 12,
+        "max_abs": 0.824024,
+        "mean_abs": 0.140884
+      },
+      "role": "ood_surface",
+      "sample_count": 48,
+      "surface_id": "compression_preservation"
     }
   ],
   "revocation_rows": [
@@ -339,6 +481,24 @@
       "status": "ready"
     }
   ],
+  "robustness_signal": {
+    "aggregate_pointer": "$.aggregate_metrics.multi_surface_uer_reduction_count",
+    "gate_pointer": "$.hardgate.gates.LAT-HG7.status",
+    "pass_surface_count": 3,
+    "pass_surface_ids": [
+      "delayed_recall",
+      "compositional_rules",
+      "synthetic_tool_use"
+    ],
+    "pass_surface_pointers": [
+      "$.records.0.deltas.unlogged_error_rate",
+      "$.records.1.deltas.unlogged_error_rate",
+      "$.records.2.deltas.unlogged_error_rate"
+    ],
+    "required_pass_surface_count": 3,
+    "status": "pass",
+    "surface_registry_pointer": "$.surface_registry"
+  },
   "run_artifacts": {
     "claim_capsule": "reports/canonical/ledger-aware-transformer.json",
     "raw_metrics": "reports/canonical/ledger-aware-transformer.json",
@@ -361,23 +521,41 @@
     "producer_script": "scripts/run_ledger_aware_transformer.py"
   },
   "surface_registry": {
-    "copy_shift": {
-      "ledger_channel": "high_residual_norm",
-      "ood_kind": "ood-copy-shift",
-      "surface_id": "copy_shift",
-      "title": "copy head under shifted token parity"
-    },
-    "parity_route": {
+    "compositional_rules": {
       "ledger_channel": "attention_drift",
-      "ood_kind": "ood-parity-route",
-      "surface_id": "parity_route",
-      "title": "route head under parity recombination"
+      "ood_kind": "ood-compositional-rules",
+      "surface_id": "compositional_rules",
+      "title": "compositional rule transfer under parity recombination"
     },
-    "sparse_recall": {
+    "compression_preservation": {
       "ledger_channel": "write_collision",
-      "ood_kind": "ood-sparse-recall",
-      "surface_id": "sparse_recall",
-      "title": "recall head under sparse key reuse"
+      "ood_kind": "ood-compression-preservation",
+      "surface_id": "compression_preservation",
+      "title": "compression preservation under lossy route pressure"
+    },
+    "delayed_recall": {
+      "ledger_channel": "high_residual_norm",
+      "ood_kind": "ood-delayed-recall",
+      "surface_id": "delayed_recall",
+      "title": "delayed recall under temporal key reuse"
+    },
+    "synthetic_tool_use": {
+      "ledger_channel": "write_collision",
+      "ood_kind": "ood-synthetic-tool-use",
+      "surface_id": "synthetic_tool_use",
+      "title": "synthetic tool-use trace with latent write collisions"
+    },
+    "toy_planning": {
+      "ledger_channel": "attention_drift",
+      "ood_kind": "ood-toy-planning",
+      "surface_id": "toy_planning",
+      "title": "toy planning trace with delayed subgoal joins"
+    },
+    "toy_safety_boundary": {
+      "ledger_channel": "high_residual_norm",
+      "ood_kind": "ood-toy-safety-boundary",
+      "surface_id": "toy_safety_boundary",
+      "title": "toy safety boundary under refusal ambiguity"
     }
   },
   "torch_training_evidence": {
