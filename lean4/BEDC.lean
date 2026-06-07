@@ -1108,6 +1108,7 @@ import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
+import BEDC.Derived.BoundedOscillationUp.TasteGate
 import BEDC.Derived.BoundedRealIntervalPartitionUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.BolzanoSourceExactness
 import BEDC.Derived.BoundedRealSequenceUp.DyadicBoundTransport
@@ -5259,6 +5260,8 @@ import BEDC.Derived.IntervalConnectednessUp.TasteGate
 import BEDC.Derived.IntervalDomainUp.CarrierAdmission
 import BEDC.Derived.IntervalDomainUp.CompletionApproximationScope
 import BEDC.Derived.IntervalDomainUp.DirectedRefinementCovers
+import BEDC.Derived.IntervalDomainUp.DyadicEndpointCoverage
+import BEDC.Derived.IntervalDomainUp.FiniteEndpointOrder
 import BEDC.Derived.IntervalDomainUp.NameCertObligations
 import BEDC.Derived.IntervalDomainUp.RegularCauchyWindow
 import BEDC.Derived.IntervalDomainUp.TasteGate
@@ -6099,6 +6102,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.SNDischargeFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketBudget
+import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketCaseExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketSeparation
