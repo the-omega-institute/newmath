@@ -120,6 +120,20 @@ Finally use the compact-metric factorization of \autoref{thm:polish-space-compac
 \end{proof}
 \leanchecked{BEDC.Derived.PolishspaceUp.PolishspaceCompleteSeparableObligationScope}
 
+\begin{theorem}[Polish-space pointwise density handoff]
+\label{thm:polishspace-complete-separable-pointwise-density-handoff}
+Let $P=(M,K,D,S,R,W,H,C,G,N)$ be an accepted $\PolishSpaceUp$ complete-separable packet whose complete metric, separable metric, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows are displayed through \autoref{ch:concrete-instances-completemetric-namecert}, \autoref{ch:concrete-instances-separablemetric-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}. Every pointwise dense-read handoff through $P$ must route through the countable-density row $D$ before any completion-facing $\RealUp$ readback is consumed.
+\end{theorem}
+\begin{proof}
+Start with the complete-separable obligation scope of \autoref{thm:polishspace-complete-separable-obligation-scope}. It places the complete-metric handoff $K$, separable dense schedule $D$, stream windows $S$, rational readback $R$, and observation ledger $W$ inside the same accepted carrier.
+
+Apply dense-window induction from \autoref{thm:polishspace-complete-separable-dense-window-induction}. A pointwise dense-read handoff advances by reading the displayed countable-density row $D$ through $\StreamNameUp$ windows and $\RegSeqRatUp$ readback, so the handoff cannot be supplied by a host enumeration or selected dense subset.
+
+Use the observation lock of \autoref{thm:polish-space-complete-separable-observation-lock}. It forces every combined complete-metric and separable read to inspect the shared ledger $W$ along the same $S,R$ route before completion-facing data are consumed.
+
+The sibling chapters \autoref{ch:concrete-instances-completemetric-namecert}, \autoref{ch:concrete-instances-separablemetric-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} therefore appear only through the displayed rows $K,D,S,R,W$. Since no coordinate of $P$ stores a separate completion source, a completion-facing $\RealUp$ readback may be consumed only after the countable-density row has been read.
+\end{proof}
+
 \begin{theorem}[Polish-space complete-separable dense-window induction]
 \label{thm:polishspace-complete-separable-dense-window-induction}
 For every accepted $\PolishSpaceUp$ carrier $P=(M,K,D,S,R,W,H,C,G,N)$, complete-separable access supports induction over displayed dense windows. The base window reads the shared $\MetricSpaceUp$ row $M$ together with the $\CompleteMetricUp$ handoff $K$. Each successor window extends the $\SeparableMetricUp$ dense schedule $D$ through the $\StreamNameUp$ row $S$ and the $\RegSeqRatUp$ readback row $R$, with $W$ recording the inspected window. The structural rows $H,C,G,N$ preserve the same packet at every step. Thus any accepted induction over the dense-window route remains inside $M,K,D,S,R,W,H,C,G,N$ and does not select a dense subset, import a host enumeration, identify a quotient completion, invoke ambient $\RealUp$ completeness, choose a limit, or introduce a separate representation source.
