@@ -1,0 +1,80 @@
+\section{Latent Claim Certificate Protocol}
+\label{sec:latent-claim-certificate}
+
+BEDC-JEPA changes the learning objective by making distinctions and gaps part
+of the learned world state.  A second question remains even when the carrier
+is fixed: what may be claimed about the contents of a frozen latent space?
+The protocol in this section answers that question in fail-closed form.  It
+does not assign semantic names to coordinates.  It tests whether a declared
+operational predicate is supported by a source split, a test surface, and a
+calibrated singleton claim.
+
+\begin{definition}[BEDC-certified latent claim]
+Let $H:\mathcal O\to\mathcal Z$ be a frozen latent carrier, let
+$p_k:\Omega\to\{0,1\}$ be an operational predicate with a declared source
+split $S_k$ and test surface $T_k$, and fix a risk level $\alpha\in(0,1)$.
+A latent-claim procedure is BEDC-certified for $p_k$ when it fits a shallow
+readout over $H(o)$ on the declared source split, forms split-conformal
+prediction sets $\Gamma_{\alpha,k}(H(o))$ on the test surface, and emits the
+claim $p_k(o)=y$ only in the singleton case
+$$
+  \Gamma_{\alpha,k}(H(o))=\{y\}.
+$$
+If the prediction set is non-singleton, the case is recorded as coverage debt.
+If the source split or test surface is absent, the candidate is recorded as
+source debt.  If the claim fails under declared perturbations or transfers, it
+is recorded as stability debt.
+\end{definition}
+
+The content of a latent carrier is therefore not a list of coordinate names.
+It is the algebra of operational predicates that survive the source, test,
+calibration, and stability gates, together with the ledger rows for predicates
+that do not survive them.
+
+\begin{proposition}[Singleton conformal claims bound unlogged error]
+Assume the split-conformal prediction sets for predicate $p_k$ satisfy
+$$
+  \Pr[
+    y_k \notin \Gamma_{\alpha,k}(H(o))
+  ]
+  \le \alpha
+$$
+on the declared exchangeable test surface.  If the latent-claim procedure
+emits a claim only when $\Gamma_{\alpha,k}(H(o))$ is a singleton, then the
+event
+$$
+  E_{\mathrm{UER},k}
+  =
+  \{
+    |\Gamma_{\alpha,k}(H(o))|=1
+    \wedge
+    \hat y_k(o)\ne y_k
+  \}
+$$
+satisfies
+$$
+  \Pr[E_{\mathrm{UER},k}]
+  \le \alpha .
+$$
+\end{proposition}
+
+\begin{proof}
+On the event $|\Gamma_{\alpha,k}(H(o))|=1$, the procedure emits the unique
+label in the conformal set.  If the emitted label is wrong, then the true label
+$y_k$ is not in that singleton set.  Hence
+$$
+  E_{\mathrm{UER},k}
+  \subseteq
+  \{
+    y_k \notin \Gamma_{\alpha,k}(H(o))
+  \}.
+$$
+The claimed bound follows from the conformal coverage assumption.
+\end{proof}
+
+This proposition is narrow by design.  It does not prove that every latent
+coordinate is interpretable, that the readout is causal, or that a missing
+source trace may be replaced by a probe score.  It only states that, within
+the declared split-conformal surface, singleton claims cannot create more
+unlogged error than the calibrated miscoverage budget.  All other candidates
+remain in the gap ledger.
