@@ -218,6 +218,10 @@ def _source_pointers(payload: Mapping[str, Any]) -> dict[str, str]:
 
 
 def _mechanism_ready(payload: Mapping[str, Any], source_pointers: Mapping[str, str]) -> bool:
+    training_cert = _first_mapping(payload, "training_mechanism_cert")
+    if training_cert is not None and training_cert.get("status") == "pass":
+        return True
+
     required = {"operational", "mechanism", "mechanism_case"}
     evidence = project_gap_head_mechanism_evidence(payload)
     if evidence is None or unresolved_mechanism_evidence_pointers(payload, evidence):

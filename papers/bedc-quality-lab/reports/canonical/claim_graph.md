@@ -36,7 +36,7 @@
 | `projected:sigreg-training-proxy` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[13]` | `raw:sigreg-training-proxy` |
 | `raw:sigreg-mini-grid` | `raw_evidence` | `reports/canonical/sigreg-mini-grid.json:$.trend_summary.expected_trend` |  |
 | `projected:sigreg-mini-grid` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[14]` | `raw:sigreg-mini-grid` |
-| `raw:discovery-regularized-training` | `raw_evidence` | `reports/canonical/discovery-regularized-training.json:$.torch_training_evidence` |  |
+| `raw:discovery-regularized-training` | `raw_evidence` | `reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert` |  |
 | `projected:discovery-regularized-training` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[15]` | `raw:discovery-regularized-training` |
 | `raw:mechanism-seeking-network` | `raw_evidence` | `reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary` |  |
 | `projected:mechanism-seeking-network` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[16]` | `raw:mechanism-seeking-network` |

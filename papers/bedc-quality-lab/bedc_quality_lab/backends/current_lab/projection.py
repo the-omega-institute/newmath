@@ -194,7 +194,7 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "canonical_owner_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$",
         "discovery_level_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.discovery_map_signal.level_candidate",
         "claim_verdict_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.discovery_map_signal.status",
-        "mechanism_certificate_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.torch_training_evidence",
+        "mechanism_certificate_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.training_mechanism_cert",
         "debt_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.quality_promotion_boundary",
         "not_claimed_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
@@ -851,7 +851,7 @@ def _discovery_regularized_training_projection(
     level = signal.get("level_candidate")
     status = signal.get("status")
     extension_failed_pointer = _drt_extension_failed_pointer(payload)
-    if extension_failed_pointer is None and consistent and level == "D4" and status == "d4-candidate":
+    if extension_failed_pointer is None and consistent and level in {"D4", "D5-M"} and status in {"d4-candidate", "d5-m-candidate"}:
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
@@ -860,21 +860,40 @@ def _discovery_regularized_training_projection(
                 "shift_information": 1,
                 "structural_discovery": True,
                 "discovery_regularized_training": {
-                    "level_candidate": "D4",
-                    "status": "d4-candidate",
-                    "evidence_pointer": "$.torch_training_evidence",
+                    "level_candidate": level,
+                    "status": status,
+                    "evidence_pointer": "$.training_mechanism_cert" if level == "D5-M" else "$.torch_training_evidence",
                     "torch_training_evidence_pointer": "$.torch_training_evidence",
+                    "training_mechanism_cert_pointer": "$.training_mechanism_cert",
                 },
             },
+            "training_mechanism_cert": pointer_value(payload, "$.training_mechanism_cert"),
+            "mechanism_attribution": {
+                "all_pass": level == "D5-M",
+                "status": "ready" if level == "D5-M" else "candidate",
+                "failed_gate": None if level == "D5-M" else "$.hardgate.gates.DRT-HG8.status",
+                "channel": "training-mechanism-cert",
+            },
+            "source_pointers": {
+                "operational": "$.torch_training_evidence",
+                "mechanism": "$.training_mechanism_cert",
+                "mechanism_case": "$.mechanism_ablation",
+            },
+            **(
+                {"acceptance_gates": {"status": "pass"}, "final_status": "pass"}
+                if level == "D5-M"
+                else {}
+            ),
             "evidence_basis": {
                 "discovery_regularized_training": True,
                 "control_positive_discovery": False,
                 "net_positive_signal": True,
                 "scorecard_ready": _scorecard_ready({} if context is None else context),
+                "audit_status": "pass",
             },
         }, ProjectionEvidence(
             projection_status="projected",
-            evidence_pointer="$.torch_training_evidence",
+            evidence_pointer="$.training_mechanism_cert" if level == "D5-M" else "$.torch_training_evidence",
             control_pointer="$.matched_random_control",
             scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
         )
@@ -1279,6 +1298,38 @@ def _drt_extension_failed_pointer(payload: Mapping[str, Any]) -> str | None:
     return pointer if isinstance(pointer, str) and pointer else "$.drt_extension_hardgates.status"
 
 
+def _drt_cert_pointers_resolve(payload: Mapping[str, Any]) -> bool:
+    cert = pointer_value(payload, "$.training_mechanism_cert")
+    if not isinstance(cert, Mapping) or cert.get("status") != "pass":
+        return False
+    required = cert.get("required_pointers")
+    if not isinstance(required, list) or not required:
+        return False
+    prefix = f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:"
+    for row in required:
+        if not isinstance(row, Mapping) or row.get("status") != "pass":
+            return False
+        cell = row.get("pointer")
+        if not isinstance(cell, str) or not cell.startswith(prefix):
+            return False
+        if pointer_value(payload, cell[len(prefix) :]) is None:
+            return False
+    for key in (
+        "status_pointer",
+        "mechanism_ablation_status_pointer",
+        "torch_delta_pointer",
+        "matched_control_pointer",
+        "ledger_pointer",
+        "negative_witness_pointer",
+    ):
+        cell = cert.get(key)
+        if not isinstance(cell, str) or not cell.startswith(prefix):
+            return False
+        if pointer_value(payload, cell[len(prefix) :]) is None:
+            return False
+    return True
+
+
 def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
     hardgates = pointer_value(payload, "$.hardgate.gates")
     signal = pointer_value(payload, "$.discovery_map_signal")
@@ -1310,8 +1361,33 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
             failed = "DRT-HG6"
     if failed is None and pointer_value(payload, "$.mechanism_ablation.status") != "pass":
         failed = "DRT-HG7"
+    cert = pointer_value(payload, "$.training_mechanism_cert")
+    cert_present = isinstance(cert, Mapping)
+    cert_ready = _drt_cert_pointers_resolve(payload)
+    promotion_gate_present = cert_present or "DRT-HG8" in hardgates
+    promotion_failed = failed is None and promotion_gate_present and not cert_ready
+    if failed is None and "DRT-HG8" in hardgates:
+        hg8 = hardgates.get("DRT-HG8")
+        if not isinstance(hg8, Mapping) or hg8.get("status") != ("pass" if cert_ready else "fail"):
+            return False, "drt-hg8-status-mismatch", "$.hardgate.gates.DRT-HG8.status"
     extension_failed_pointer = _drt_extension_failed_pointer(payload)
-    if failed is None:
+    if failed is None and cert_ready:
+        expected = {
+            "status": "d5-m-candidate",
+            "level_candidate": "D5-M",
+            "reason": "training-mechanism-certificate-positive",
+            "failed_gate": None,
+            "failed_gate_pointer": None,
+        }
+    elif promotion_failed:
+        expected = {
+            "status": "d4-candidate",
+            "level_candidate": "D4",
+            "reason": "mechanism-certificate-promotion-failed",
+            "failed_gate": "DRT-HG8",
+            "failed_gate_pointer": "$.hardgate.gates.DRT-HG8.status",
+        }
+    elif failed is None:
         expected = {
             "status": "d4-candidate",
             "level_candidate": "D4",
@@ -1337,6 +1413,11 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
         return False, "drt-torch-pointer-mismatch", "$.discovery_map_signal.torch_training_evidence_pointer"
     if pointer_value(payload, "$.discovery_map_signal.torch_training_evidence_pointer") is None:
         return False, "drt-torch-pointer-dangling", "$.discovery_map_signal.torch_training_evidence_pointer"
+    if signal.get("level_candidate") == "D5-M":
+        if signal.get("training_mechanism_cert_pointer") != "$.training_mechanism_cert":
+            return False, "drt-training-cert-pointer-mismatch", "$.discovery_map_signal.training_mechanism_cert_pointer"
+        if not cert_ready:
+            return False, "drt-d5-m-without-training-cert", "$.training_mechanism_cert.status"
     if extension_failed_pointer is not None and pointer_value(payload, extension_failed_pointer) is None:
         return False, "drt-extension-failed-gate-pointer-dangling", extension_failed_pointer
     if extension_failed_pointer is not None:

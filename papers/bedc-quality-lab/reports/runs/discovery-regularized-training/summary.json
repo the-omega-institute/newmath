@@ -17,7 +17,7 @@
   },
   "artifact_id": "bedc-quality-lab:discovery-regularized-training",
   "claim_capsule_ref": "reports/runs/discovery-regularized-training/claim_capsule.json",
-  "claim_capsule_status": "d4-candidate",
+  "claim_capsule_status": "d5-m-candidate",
   "component_ablation": {
     "rows": [
       {
@@ -180,9 +180,9 @@
   },
   "discovery_map_signal": {
     "failed_gate": null,
-    "level_candidate": "D4",
-    "reason": "matched-control-positive",
-    "status": "d4-candidate",
+    "level_candidate": "D5-M",
+    "reason": "training-mechanism-certificate-positive",
+    "status": "d5-m-candidate",
     "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows"
   },
   "drt_extension_hardgates": {
@@ -311,6 +311,11 @@
         "full_positive_mechanism_signal": true,
         "no_ablation_net_positive_parity": true,
         "required_arms_present": true,
+        "status": "pass"
+      },
+      "DRT-HG8": {
+        "all_required_pointers_resolve": true,
+        "evidence": "D5-M promotion requires the DRT-local training mechanism certificate to pass with all owner-local pointers resolved.",
         "status": "pass"
       }
     },
@@ -623,7 +628,7 @@
     "production device authority"
   ],
   "positive_claim": {
-    "level_candidate": "D4",
+    "level_candidate": "D5-M",
     "scope": "canonical deterministic anchor with bounded optional PyTorch evidence",
     "text": "Discovery-regularized training records a bounded lab-local positive signal under deterministic replay and matched-random controls."
   },
@@ -1009,6 +1014,44 @@
     "row_count": 16,
     "source_arm": "drt",
     "status": "available"
+  },
+  "training_mechanism_cert": {
+    "all_required_pointers_resolve": true,
+    "ledger_complete": true,
+    "mechanism_ablation_status": "pass",
+    "required_pointers": [
+      {
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.status",
+        "status": "pass"
+      },
+      {
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.comparisons",
+        "status": "pass"
+      },
+      {
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence.classifier_surface_delta",
+        "status": "pass"
+      },
+      {
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.training_loop_trace.retrain_rows_pointer",
+        "status": "pass"
+      },
+      {
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+        "status": "pass"
+      },
+      {
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
+        "status": "pass"
+      },
+      {
+        "pointer": "reports/canonical/discovery-regularized-training.json:$.compute_ledger",
+        "status": "pass"
+      }
+    ],
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:training-mechanism-cert",
+    "status": "pass",
+    "torch_positive": true
   },
   "training_method_comparison": {
     "metric_pointers": {

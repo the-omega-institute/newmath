@@ -11,6 +11,7 @@ from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
     default_drt_training_extension_spec,
     project_drt_training_extension,
+    _training_mechanism_cert,
 )
 from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
@@ -612,9 +613,13 @@ def _payload_for_spec(spec):
             "gates": {
                 f"DRT-HG{index}": {
                     "status": "pass",
-                    "evidence_pointer": "$.mechanism_ablation" if index == 7 else "$.quality_promotion_boundary",
+                    "evidence_pointer": "$.training_mechanism_cert"
+                    if index == 8
+                    else "$.mechanism_ablation"
+                    if index == 7
+                    else "$.quality_promotion_boundary",
                 }
-                for index in range(1, 8)
+                for index in range(1, 9)
             },
         }
         payload["mechanism_ablation"] = _drt_mechanism_ablation_fixture()
@@ -625,6 +630,13 @@ def _payload_for_spec(spec):
             payload,
         )
         payload.update(extension_sections)
+        payload["training_mechanism_cert"] = _training_mechanism_cert(payload)
+        payload["hardgate"]["gates"]["DRT-HG8"]["status"] = payload["training_mechanism_cert"]["status"]
+        payload["hardgate"]["status"] = (
+            "pass"
+            if all(row["status"] == "pass" for row in payload["hardgate"]["gates"].values())
+            else "fail"
+        )
     if spec.name == "certificate-gated-attention":
         return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "gap-head-transfer-atlas":

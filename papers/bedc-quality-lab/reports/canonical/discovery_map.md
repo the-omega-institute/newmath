@@ -20,7 +20,7 @@
 | `certificate-guided-discovery` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[2]` |
 | `sigreg-training-proxy` | `D1` | `` | `` | `projected` | `valid` | `$.d1_evidence.debt_delta` |
 | `sigreg-mini-grid` | `D2` | `` | `` | `projected` | `valid` | `$.trend_summary.expected_trend` |
-| `discovery-regularized-training` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
+| `discovery-regularized-training` | `D5-M` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `discovery-gated-nas` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
