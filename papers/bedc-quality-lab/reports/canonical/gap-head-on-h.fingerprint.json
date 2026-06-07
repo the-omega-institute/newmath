@@ -1,9 +1,9 @@
 {
   "generated_by": {
-    "generated_at": "2026-06-07T00:00:00+00:00",
+    "generated_at": "2026-06-07T18:09:29.490922+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "06702dea3f9938983fedc54f104db8e07b9bfe1a0ab4b0fe2d60d255091ba314",
+  "input_fingerprint": "c6833ac426385bc8d7b36d0c418581854368360e637b6a963e45fa350109c21b",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -42,7 +42,7 @@
       },
       {
         "path": "bedc_quality_lab/ledger.py",
-        "sha256": "750a6bc5fba663b8eb599ba43eea9e4b158c57777d95d96be4e0f1cb3ee36ad8"
+        "sha256": "2303d6d1edbb16a2e6128a8869fe9c97046c0aa28605f7d05a7c4d3ab8136069"
       },
       {
         "path": "bedc_quality_lab/metrics.py",
@@ -63,6 +63,10 @@
       {
         "path": "bedc_quality_lab/schema.py",
         "sha256": "124f80a24d9f0d04033dec66faf302e3551aa530e09d38e5f3296fe83fa06290"
+      },
+      {
+        "path": "bedc_quality_lab/scope.py",
+        "sha256": "e294e7315710fb1ebd21f993ec7d55ac8f04d2e6d9236f1b566b603e89aa0442"
       },
       {
         "path": "bedc_quality_lab/tensor_namecert_candidate.py",
@@ -86,7 +90,7 @@
       },
       {
         "path": "scripts/run_gap_ledger_head_on_h.py",
-        "sha256": "2a256119cdd2f5c30b606ca2a7cded70e02480473346421f367f976615583e7c"
+        "sha256": "dd5415fab58249e0860cdb6879920c56dda8e5a47484a6c3f9cb9881ade407cc"
       },
       {
         "path": "scripts/run_gaussian_ou_gap_ledger_head.py",
@@ -139,11 +143,28 @@
         "forbidden_column_audit",
         "config",
         "source_artifacts",
+        "scope_seal",
         "records",
         "aggregate",
         "aggregate_metrics",
         "treatment_comparison",
         "control_protocol",
+        "$.control_protocol.parameter_match",
+        "$.control_protocol.compute_match",
+        "$.control_protocol.threshold_match",
+        "$.control_protocol.surface_distribution_match",
+        "$.control_protocol.metric_helper_match",
+        "$.control_protocol.audit_status",
+        "$.control_protocol.failure_reasons",
+        "$.control_protocol.evidence_pointers",
+        "$.records[*].matched_random_control.parameter_match",
+        "$.records[*].matched_random_control.compute_match",
+        "$.records[*].matched_random_control.threshold_match",
+        "$.records[*].matched_random_control.surface_distribution_match",
+        "$.records[*].matched_random_control.metric_helper_match",
+        "$.records[*].matched_random_control.audit_status",
+        "$.records[*].matched_random_control.failure_reasons",
+        "$.records[*].matched_random_control.evidence_pointers",
         "control_verdict",
         "main_claim_status"
       ],
@@ -152,7 +173,7 @@
   },
   "json_artifact": "reports/canonical/gap-head-on-h.json",
   "markdown_artifact": "reports/canonical/gap-head-on-h.md",
-  "output_digest": "07e6afd94cf87d3e4b0fc61fc99fd99b990f92783f54ff1cb89eb43ad02914f1",
+  "output_digest": "7401da993a7e006f920ff5dc80654ba717dd32205404d728003a332b27169676",
   "producer_command": [
     "python3",
     "scripts/run_gap_ledger_head_on_h.py"

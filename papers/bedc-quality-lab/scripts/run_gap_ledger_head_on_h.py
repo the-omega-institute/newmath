@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.mixing import DEFAULT_MIXING, mix_latents
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 from bedc_quality_lab.toy_world import make_toy_batch
 from scripts.experiment_stats import metric_stats
 from scripts import run_gaussian_ou_distinction_head as distinction
@@ -880,6 +881,7 @@ def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[st
         "gap_channel_metadata": _gap_channel_metadata(),
         "source_artifacts": _source_artifacts(config),
         "applicability_boundary": _applicability_boundary(config),
+        "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
         "aggregate_metrics": aggregate,
         "treatment_comparison": aggregate["comparison"],
         "control_protocol": _control_protocol(config),

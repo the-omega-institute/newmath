@@ -135,6 +135,7 @@ def test_projection_has_source_artifacts_and_common_source():
 
     assert verdict["source_artifacts"]["source_json_artifact"] == runner.SOURCE_JSON_ARTIFACT
     assert verdict["source_artifacts"]["producer_script"] == "scripts/run_gap_ledger_head_on_h.py"
+    assert verdict["scope_seal"] == runner.SCOPE_SEAL
     assert verdict["common_source_record_count"] == 30
     assert verdict["surface_delta_count"] == 30
     assert verdict["shift_information"] == 30

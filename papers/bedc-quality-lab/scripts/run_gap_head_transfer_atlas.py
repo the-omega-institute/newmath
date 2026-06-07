@@ -20,6 +20,7 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.latent_distribution import LatentDistributionSpec
 from bedc_quality_lab.mixing import DEFAULT_MIXING, mix_latents
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 from bedc_quality_lab.toy_world import make_toy_batch
 from bedc_quality_lab.transition import TransitionKernelSpec
 from scripts import run_gap_ledger_head_on_h as producer
@@ -891,6 +892,7 @@ def build_payload(*, run_id: str, generated_at: str | None = None) -> dict[str, 
         "boundary_ledger": boundary,
         "hardgate_evidence": hardgates,
         "multi_surface_d5_o": _multi_surface_decision(hardgates),
+        "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
         "not_claimed": list(NOT_CLAIMED),
     }
     payload["forbidden_claim_term_audit"] = _forbidden_claim_term_audit(payload)
@@ -910,6 +912,7 @@ def build_summary(payload: Mapping[str, Any]) -> dict[str, Any]:
         "multi_surface_d5_o": dict(payload["multi_surface_d5_o"]),
         "hardgate_evidence": _externalize_local_pointers(payload["hardgate_evidence"]),
         "boundary_ledger": _externalize_local_pointers(payload["boundary_ledger"]),
+        "scope_seal": dict(payload["scope_seal"]),
         "not_claimed": list(payload["not_claimed"]),
     }
 

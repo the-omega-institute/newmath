@@ -10,6 +10,7 @@ from bedc_quality_lab.mechanism_attribution import (
     project_gap_head_mechanism_evidence,
     unresolved_mechanism_evidence_pointers,
 )
+from bedc_quality_lab.scope import closed_claim_scope_seal
 
 
 DiscoveryLevel = Literal["D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M", "DN", "DR"]
@@ -38,6 +39,7 @@ class DiscoveryGateBasis:
     audit_pass: bool
     robustness_ready: bool
     mechanism_ready: bool
+    scope_sealed: bool
     terminal_failed: bool
     revoked: bool
     positive_terminal: bool
@@ -133,6 +135,8 @@ def _terminal_verdict(payload: Mapping[str, Any]) -> str:
 def _positive_discovery(payload: Mapping[str, Any], main: Mapping[str, Any] | None) -> bool:
     if main is not None and main.get("positive_discovery") is True:
         return True
+    if main is not None and main.get("pre_scope_positive_discovery") is True:
+        return True
     if payload.get("positive_discovery") is True:
         return True
     treatment = _first_mapping(payload, "treatment_verdict")
@@ -217,6 +221,23 @@ def _source_pointers(payload: Mapping[str, Any]) -> dict[str, str]:
     return result
 
 
+def _scope_sealed(payload: Mapping[str, Any]) -> bool:
+    positive_claim = _first_mapping(payload, "positive_claim")
+    if positive_claim is not None and "scope_seal" in positive_claim:
+        return closed_claim_scope_seal(positive_claim.get("scope_seal"))
+    claim_capsule = _first_mapping(payload, "claim_capsule")
+    if claim_capsule is not None:
+        capsule_positive = _first_mapping(claim_capsule, "positive_claim")
+        if capsule_positive is not None and "scope_seal" in capsule_positive:
+            return closed_claim_scope_seal(capsule_positive.get("scope_seal"))
+    if "scope_seal" in payload:
+        return closed_claim_scope_seal(payload.get("scope_seal"))
+    source_spec = _first_mapping(payload, "source_spec")
+    if source_spec is not None and "scope_seal" in source_spec:
+        return closed_claim_scope_seal(source_spec.get("scope_seal"))
+    return False
+
+
 def _mechanism_ready(payload: Mapping[str, Any], source_pointers: Mapping[str, str]) -> bool:
     training_cert = _first_mapping(payload, "training_mechanism_cert")
     if training_cert is not None and training_cert.get("status") == "pass":
@@ -246,12 +267,6 @@ def _structural_discovery(main: Mapping[str, Any] | None) -> bool:
 
 
 def _control_positive(payload: Mapping[str, Any]) -> bool | None:
-    basis = _first_mapping(payload, "evidence_basis")
-    if basis is not None:
-        basis_value = _optional_bool(basis.get("control_positive_discovery"))
-        if basis_value is not None:
-            return basis_value
-
     baseline = _first_mapping(payload, "matched_random_baseline")
     if baseline is not None:
         baseline_value = _optional_bool(baseline.get("positive_discovery"))
@@ -288,7 +303,15 @@ def _control_positive(payload: Mapping[str, Any]) -> bool | None:
 
     control = _first_mapping(payload, "control_verdict")
     if control is not None:
-        return _optional_bool(control.get("positive"))
+        control_value = _optional_bool(control.get("positive"))
+        if control_value is not None:
+            return control_value
+
+    basis = _first_mapping(payload, "evidence_basis")
+    if basis is not None:
+        basis_value = _optional_bool(basis.get("control_positive_discovery"))
+        if basis_value is not None:
+            return basis_value
 
     return None
 
@@ -407,6 +430,7 @@ def _build_discovery_gate_basis(
         audit_pass=_audit_pass(payload),
         robustness_ready=_has_robustness_report_pass(payload),
         mechanism_ready=_mechanism_ready(payload, source_pointers),
+        scope_sealed=_scope_sealed(payload),
         terminal_failed=terminal_failed,
         revoked=revoked,
         positive_terminal=positive_terminal,
@@ -424,6 +448,7 @@ def _build_discovery_gate_basis(
         audit_pass=provisional.audit_pass,
         robustness_ready=provisional.robustness_ready,
         mechanism_ready=provisional.mechanism_ready,
+        scope_sealed=provisional.scope_sealed,
         terminal_failed=provisional.terminal_failed,
         revoked=provisional.revoked,
         positive_terminal=provisional.positive_terminal,
@@ -443,7 +468,7 @@ def _assign_level(
         return "DR", (reason,)
     if basis.terminal_failed:
         return "DN", (f"verdict={terminal_verdict}",)
-    d4_pass = (
+    pre_scope_d4_pass = (
         basis.positive_terminal
         and basis.classifier_shift
         and basis.positive_net
@@ -451,7 +476,10 @@ def _assign_level(
         and basis.scorecard_ready
         and basis.audit_pass
     )
-    if basis.positive_terminal and not d4_pass:
+    d4_pass = pre_scope_d4_pass and basis.scope_sealed
+    if basis.positive_terminal and pre_scope_d4_pass and not basis.scope_sealed:
+        return "D1", ("scope_seal=false",)
+    if basis.positive_terminal and not pre_scope_d4_pass:
         return "DN", basis.failed_gate_reasons
     if d4_pass and basis.robustness_ready and basis.mechanism_ready:
         return (

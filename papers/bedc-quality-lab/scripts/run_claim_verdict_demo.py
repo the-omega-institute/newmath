@@ -515,6 +515,15 @@ def _mapped_discovery_row(
         )
 
     if level in POSITIVE_LEVELS:
+        if projected_verdict.discovery_level not in POSITIVE_LEVELS:
+            return _row(
+                claim_id=claim_id,
+                claim_verdict="raw_operational_evidence_pass" if projected_verdict.discovery_level == "D1" else _positive_blocker_verdict(report, level, row, payload, projected),
+                reason=f"fresh-discovery-level-{projected_verdict.discovery_level}:{','.join(projected_verdict.reasons)}",
+                source=source,
+                ledger_pointer=_discovery_map_row_pointer(root, row),
+                scorecard_snapshot=scorecard_snapshot,
+            )
         if (
             scorecard_snapshot.scorecard_ready
             and cost_protocol_ready
