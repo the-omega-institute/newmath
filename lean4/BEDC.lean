@@ -933,6 +933,7 @@ import BEDC.Derived.BoolUp
 import BEDC.Derived.BoolUp.SemanticCertificate
 import BEDC.Derived.BoolUp.StdBridge
 import BEDC.Derived.BoolUpEndpoint
+import BEDC.Derived.BooleanalgebraUp
 import BEDC.Derived.BorelCantelliUp.TasteGate
 import BEDC.Derived.BorelFunctionUp.TasteGate
 import BEDC.Derived.BorelSetUp.TasteGate
@@ -5259,6 +5260,7 @@ import BEDC.Derived.IntervalBisectionTreeUp.TasteGate
 import BEDC.Derived.IntervalBisectionUp.TasteGate
 import BEDC.Derived.IntervalCauchyCompletenessUp.TasteGate
 import BEDC.Derived.IntervalConnectednessUp.TasteGate
+import BEDC.Derived.IntervalCoverRefinementTreeUp.TasteGate
 import BEDC.Derived.IntervalDomainUp.CarrierAdmission
 import BEDC.Derived.IntervalDomainUp.CompletionApproximationScope
 import BEDC.Derived.IntervalDomainUp.DirectedRefinementCovers
@@ -5429,6 +5431,7 @@ import BEDC.Derived.LawCertificateUp.NameCert
 import BEDC.Derived.LawCertificateUp.TasteGate
 import BEDC.Derived.LawlessSequenceUp
 import BEDC.Derived.LawlessSequenceUp.Carrier
+import BEDC.Derived.LawlessSequenceUp.ChoiceFreeCarrierObligation
 import BEDC.Derived.LawlessSequenceUp.NameCertObligations
 import BEDC.Derived.LawlessSequenceUp.TasteGate
 import BEDC.Derived.LawlikeSequenceUp.NameCertObligations
@@ -5894,6 +5897,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceLockCertificate
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSplitRoute
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateLedgerPublicBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierNormalFormDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierObstructionNonescape
@@ -6032,6 +6036,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.NormalizationFrontierFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationObstructionRouteCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationObstructionSourceOrder
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationSourceVisibility
+import BEDC.Derived.MetaCICCriticalPathUp.NormalizationTraceResidualFrontierRoute
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionLedgerExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionSocketSeparation
@@ -6900,6 +6905,7 @@ import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
+import BEDC.Derived.ParsevalUp.CoefficientIntegralHandoff
 import BEDC.Derived.ParsevalUp.InnerProductNameCertObligations
 import BEDC.Derived.ParsevalUp.IntegralEnergyHandoffObligation
 import BEDC.Derived.ParsevalUp.NameCertObligations
