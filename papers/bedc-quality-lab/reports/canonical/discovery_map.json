@@ -194,10 +194,10 @@
     "D1": 4,
     "D2": 1,
     "D3": 0,
-    "D4": 3,
+    "D4": 4,
     "D5-M": 1,
-    "D5-O": 3,
-    "DN": 9,
+    "D5-O": 2,
+    "DN": 8,
     "DR": 0
   },
   "manifest_audit": {
@@ -212,7 +212,7 @@
     ]
   },
   "markdown_artifact": "reports/canonical/discovery_map.md",
-  "row_count": 24,
+  "row_count": 23,
   "rows": [
     {
       "audit_reason": "",
@@ -255,17 +255,16 @@
         "control_negative=true",
         "scorecard_ready=true",
         "audit_pass=true",
-        "robustness_ready=true",
-        "mechanism_ready=false"
+        "robustness_ready=false"
       ],
       "control_pointer": "$.control_protocol",
       "d5_readiness": {
         "ablation": {
-          "artifact": "reports/canonical/gap-head-robustness-sweep.json",
+          "artifact": "reports/canonical/gap-head-ablation.json",
           "name": "ablation",
-          "pointer": "$.A2_feature_ablation.status",
-          "reason": "A2 feature ablation is complete under the canonical robustness final_status.",
-          "status": "pass"
+          "pointer": "$.hardgate.status",
+          "reason": "Gap-head ablation hardgate is explicit non-pass.",
+          "status": "failed"
         },
         "adversarial": {
           "artifact": "reports/canonical/discovery_negative_witnesses.json",
@@ -296,7 +295,7 @@
           "status": "pass"
         }
       },
-      "discovery_level": "D5-O",
+      "discovery_level": "D4",
       "evidence_pointer": "$.treatment_verdict.positive",
       "json_artifact": "reports/canonical/gap-head-on-h.json",
       "markdown_artifact": "reports/canonical/gap-head-on-h.md",
@@ -424,10 +423,8 @@
       "terminal_verdict": "mechanism_not_closed"
     },
     {
-      "audit_reason": "",
-      "audit_status": "valid",
-      "base_level": "D5-O",
-      "base_status": "ready",
+      "audit_reason": "attribution-capsule-level-cells-missing",
+      "audit_status": "invalid",
       "classifier_reasons": [
         "no classifier shift or debt improvement"
       ],
@@ -435,18 +432,6 @@
       "evidence_pointer": "$.mechanism_evidence",
       "json_artifact": "reports/canonical/gap_head_attribution_capsule.json",
       "markdown_artifact": "reports/canonical/gap_head_attribution_capsule.md",
-      "mechanism_case_pointer": "$.mechanism_evidence.candidate_mechanism",
-      "mechanism_channel": "unresolved",
-      "mechanism_closure_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status",
-      "mechanism_evidence_level": "patch",
-      "mechanism_evidence_level_pointer": "$.mechanism_evidence.evidence_level",
-      "mechanism_failed_gate": "A1-HG3",
-      "mechanism_ledger_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
-      "mechanism_level": "blocked",
-      "mechanism_namecert_pointer": "reports/canonical/gap_head_attribution_capsule.json",
-      "mechanism_pointer": "$.mechanism_evidence",
-      "mechanism_status": "blocked",
-      "operational_pointer": "$.d5_o",
       "projection_status": "two-axis-recorded",
       "report": "gap-head-attribution-capsule",
       "terminal_verdict": ""
@@ -632,17 +617,6 @@
       "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[7]",
       "projection_status": "pointer-only",
       "report": "training-choice-observability"
-    },
-    {
-      "audit_reason": "",
-      "audit_status": "valid",
-      "discovery_level": "DN",
-      "evidence_pointer": "$.mechanism_evidence",
-      "json_artifact": "reports/canonical/gap_head_attribution_capsule.json",
-      "markdown_artifact": "reports/canonical/gap_head_attribution_capsule.md",
-      "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[8]",
-      "projection_status": "mechanism-blockage-projected",
-      "report": "gap-head-mechanism-blockage"
     }
   ],
   "schema_id": "bedc-quality-lab:canonical-discovery-map"

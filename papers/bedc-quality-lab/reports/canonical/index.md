@@ -52,7 +52,7 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
-- Rows: `24`
+- Rows: `23`
 
 ## Dimension mismatch debt transfer
 
@@ -92,7 +92,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/negative_discovery_reports.json`
 - Markdown: `reports/canonical/negative_discovery_reports.md`
-- Rows: `9`
+- Rows: `8`
 - Audit: `pass`
 
 ## Negative witness mutation ledger
@@ -155,7 +155,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `32`
+- Rows: `31`
 
 ## Claim graph
 
@@ -163,7 +163,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `92`
+- Nodes: `89`
 
 ## Claim capsule
 
@@ -178,7 +178,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witness_summary.json`
 - Markdown: `reports/canonical/discovery_negative_witness_summary.md`
-- Rows: `17`
+- Rows: `16`
 - Audit: `pass`
 
 ## Formal hardening
@@ -205,7 +205,7 @@
 - JSON: `reports/canonical/gap_head_attribution_capsule.json`
 - Markdown: `reports/canonical/gap_head_attribution_capsule.md`
 - Run id: `a1-canonical`
-- D5-O: `ready`
+- D5-O: `blocked`
 - D5-M: `blocked`
 - Mechanism case: `unresolved`
 
