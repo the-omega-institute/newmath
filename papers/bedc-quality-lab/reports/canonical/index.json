@@ -21,13 +21,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 89,
+    "node_count": 92,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 31,
+    "row_count": 32,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -174,6 +174,13 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.claim_boundary.C4",
+        "positive_claim_pointer": "$.hardgate_evidence.C-HG5",
+        "report": "observed-debt-sweep"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": "$.negative_control_summary",
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.ledger_summary",
@@ -297,7 +304,7 @@
     "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 3,
+      "D0": 4,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -308,7 +315,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 23,
+    "row_count": 24,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -428,7 +435,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-07T18:09:29.490922+00:00",
+  "generated_at": "2026-06-07T19:43:01.695301+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -699,6 +706,7 @@
     "auxiliary_reports": [
       "nongaussian-distribution-sweep",
       "lejepa-theorem-ledger",
+      "observed-debt-sweep",
       "spectral-ablation-hinge"
     ],
     "core_reports": [
@@ -768,7 +776,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "4dc115044605175a5200d89e6630d6aa6172e2b1941b06e4a42b137217aee460",
+    "source_sidecar_digest": "55e56da0619e73b18d0708a1867afc7672afb7776a5bb69704c74d2c32f15f1e",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -2008,6 +2016,63 @@
           "main_verdict",
           "claim_gate",
           "result"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.claim_boundary.C4",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.hardgate_evidence.C-HG5",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.claim_boundary.C4",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/observed-debt-sweep.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/observed-debt-sweep.json",
+      "markdown_artifact": "reports/canonical/observed-debt-sweep.md",
+      "name": "observed-debt-sweep",
+      "producer_command": [
+        "python3",
+        "scripts/run_observed_debt_sweep.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "artifact_id",
+          "generated_at",
+          "schema_id",
+          "config",
+          "source_artifacts",
+          "baseline",
+          "cells",
+          "grid_summary",
+          "hardgate_evidence",
+          "claim_boundary",
+          "global_claim_flag",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],

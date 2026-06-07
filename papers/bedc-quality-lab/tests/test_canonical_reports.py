@@ -188,6 +188,16 @@ def _payload_for_spec(spec):
                 "forbidden_inference_columns": ["z"],
                 "representation_boundary": "learned_h",
             },
+            "claim_boundary": {
+                "C4": {
+                    "claim_surface": "observed-debt-availability-probe",
+                    "evidence_pointer": "reports/gaussian_ou_dynamics_planning.json:$.applicability_boundary",
+                    "not_claimed": [
+                        "no full world model planning claim",
+                        "no action-transition certificate",
+                    ],
+                }
+            },
             "score_terms": {"status": "fixture"},
             "matched_random_control": {
                 "status": "fixture",
@@ -314,7 +324,8 @@ def _payload_for_spec(spec):
             "surface_registry": _atlas_fixture_rows()["surface_registry"],
             "surfaces": _atlas_fixture_rows()["surfaces"],
             "boundary_ledger": _atlas_fixture_rows()["boundary_ledger"],
-            "hardgate_evidence": {"A2-HG5": {"status": "pass"}},
+            "hardgate_evidence": {"A2-HG5": {"status": "pass"}, "C-HG5": {"status": "pass"}},
+            "global_claim_flag": False,
             "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
             "prior_observation_packet": {
                 "status": "prior_observation",
@@ -1261,6 +1272,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-seeking-network",
         "discovery-gated-nas",
         "lejepa-theorem-ledger",
+        "observed-debt-sweep",
         "spectral-ablation-hinge",
     ]
     assert "certificate-guided-arms" not in names
@@ -4125,13 +4137,18 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.scope",
                 },
                 {
+                    "report": "observed-debt-sweep",
+                    "artifact": "reports/canonical/observed-debt-sweep.json",
+                    "pointer": "$.claim_boundary.C4",
+                },
+                {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 20,
-            "denominator": 20,
+            "numerator": 21,
+            "denominator": 21,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -4232,13 +4249,18 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {
+                    "report": "observed-debt-sweep",
+                    "artifact": "reports/canonical/observed-debt-sweep.json",
+                    "pointer": "$.source_artifacts",
+                },
+                {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 20,
-            "denominator": 20,
+            "numerator": 21,
+            "denominator": 21,
         },
         "HardeningCoverage": {
             "value": 1.0,
