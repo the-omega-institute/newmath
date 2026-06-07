@@ -4,9 +4,13 @@ import importlib.util
 import json
 from pathlib import Path
 
+import pytest
+
 
 LAB_ROOT = Path(__file__).resolve().parents[1]
 RUNNER_PATH = LAB_ROOT / "experiments" / "compression_preservation" / "run_compression_preservation.py"
+
+pytestmark = pytest.mark.skipif(importlib.util.find_spec("torch") is None, reason="torch is not installed")
 
 
 def _runner():
@@ -39,6 +43,8 @@ def test_compression_preservation_regen_is_byte_identical(tmp_path):
     second = runner.serialize_artifacts(runner.build_artifacts())
 
     assert {path.name: data for path, data in first.items()} == {path.name: data for path, data in second.items()}
+    source = json.loads(first[runner.JSON_ARTIFACT].decode("utf-8"))
+    assert source["run"]["device"] == "cpu"
 
     runner.write_artifacts(root=tmp_path)
     before = {path.name: path.read_bytes() for path in tmp_path.iterdir()}

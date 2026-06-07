@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import hashlib
 import json
 from copy import deepcopy
 from dataclasses import dataclass
@@ -115,10 +114,6 @@ def _set_seed() -> None:
 
 
 def _resolve_device() -> str:
-    import torch
-
-    if getattr(torch.backends, "mps", None) is not None and torch.backends.mps.is_available():
-        return "mps"
     return "cpu"
 
 
@@ -385,15 +380,6 @@ def _u_gate_payload(base_payload: Mapping[str, Any], *, deterministic_replay: bo
     u_hg2 = deterministic_replay
     u_hg3 = base_payload.get("schema_id") == SCHEMA_ID
     u_hg4 = all(term in NOT_CLAIMED for term in NOT_CLAIMED)
-    preliminary = {
-        "U-HG1": u_hg1,
-        "U-HG2": u_hg2,
-        "U-HG3": u_hg3,
-        "U-HG4": u_hg4,
-        "U-HG6": "classifier-preservation gap" in "classifier-preservation gap",
-        "U-HG7": len(REVOCATION_ROWS) == 3,
-        "U-HG8": forbidden["status"] == "pass",
-    }
     u_hg5 = True
     rows = {
         "U-HG1": _gate(
@@ -609,15 +595,6 @@ def serialize_artifacts(artifacts: Mapping[str, Any]) -> dict[Path, bytes]:
         SUMMARY_ARTIFACT: _json_dump(artifacts["summary"]).encode("utf-8"),
         REPORT_ARTIFACT: artifacts["report"].encode("utf-8"),
     }
-
-
-def artifact_digest(serialized: Mapping[Path, bytes]) -> str:
-    digest = hashlib.sha256()
-    for path in sorted(serialized, key=lambda item: item.name):
-        digest.update(path.name.encode("utf-8"))
-        digest.update(b"\0")
-        digest.update(serialized[path])
-    return digest.hexdigest()
 
 
 def write_artifacts(*, root: Path | None = None) -> dict[str, Any]:
