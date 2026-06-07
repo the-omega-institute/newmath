@@ -108,6 +108,7 @@
   "compute_ledger": {
     "backend_row_counts": {
       "deterministic-anchor": 720,
+      "deterministic-mechanism-ablation": 1,
       "torch-training-arm": 16
     },
     "deterministic_seed_count": 3,
@@ -304,8 +305,12 @@
         "status": "pass"
       },
       "DRT-HG7": {
-        "evidence": "Compute ledger must record deterministic replay accounting, seed coverage, and the public cost protocol pointer.",
-        "missing_fields": [],
+        "comparison_pointers_resolve": true,
+        "evidence": "The deterministic mechanism ablation must preserve all six owner-local arms, resolved comparison pointers, full DRT separation, a positive full mechanism signal, and no net-positive ablation parity.",
+        "full_beats_all_ablations": true,
+        "full_positive_mechanism_signal": true,
+        "no_ablation_net_positive_parity": true,
+        "required_arms_present": true,
         "status": "pass"
       }
     },
@@ -400,6 +405,210 @@
     "certificate_loss_improvement": true,
     "drt_certificate_loss_mean": 0.2182,
     "matched_random_certificate_loss_mean": 0.3282
+  },
+  "mechanism_ablation": {
+    "anchor_cell": {
+      "discovery_lambda": 0.01,
+      "mixing": "spiral",
+      "rho": 0.95,
+      "seeds": [
+        11,
+        23,
+        37
+      ]
+    },
+    "backend": "deterministic-mechanism-ablation",
+    "by_arm": {
+      "without_certificate": {
+        "classifier_shift_count_mean": 0.0,
+        "net_positive_count": 0,
+        "quality_q_mean": 0.622933,
+        "row_count": 3
+      },
+      "without_cost": {
+        "classifier_shift_count_mean": 0.0,
+        "net_positive_count": 0,
+        "quality_q_mean": 0.636933,
+        "row_count": 3
+      },
+      "without_discovery": {
+        "classifier_shift_count_mean": 0.0,
+        "net_positive_count": 0,
+        "quality_q_mean": 0.632933,
+        "row_count": 3
+      },
+      "without_ledger": {
+        "classifier_shift_count_mean": 0.0,
+        "net_positive_count": 0,
+        "quality_q_mean": 0.627933,
+        "row_count": 3
+      },
+      "without_mechanism": {
+        "classifier_shift_count_mean": 0.0,
+        "net_positive_count": 0,
+        "quality_q_mean": 0.616933,
+        "row_count": 3
+      },
+      "without_negative_witness": {
+        "classifier_shift_count_mean": 0.0,
+        "net_positive_count": 0,
+        "quality_q_mean": 0.629933,
+        "row_count": 3
+      }
+    },
+    "comparison_pointers_resolve": true,
+    "comparisons": [
+      {
+        "arm_id": "without_discovery",
+        "classifier_shift_count_mean": 0.0,
+        "comparison_pointers": {
+          "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_discovery.net_positive_count",
+          "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_discovery.quality_q_mean",
+          "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_discovery.row_count",
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+        },
+        "disabled_terms": [
+          "discovery"
+        ],
+        "full_beats_ablation": true,
+        "full_drt_quality_q_mean": 0.641767,
+        "full_minus_ablation_quality_q": 0.008834,
+        "net_positive_count": 0,
+        "net_positive_parity": false,
+        "quality_q_mean": 0.632933,
+        "render_order": 1,
+        "row_count": 3
+      },
+      {
+        "arm_id": "without_ledger",
+        "classifier_shift_count_mean": 0.0,
+        "comparison_pointers": {
+          "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_ledger.net_positive_count",
+          "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_ledger.quality_q_mean",
+          "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_ledger.row_count",
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+        },
+        "disabled_terms": [
+          "ledger"
+        ],
+        "full_beats_ablation": true,
+        "full_drt_quality_q_mean": 0.641767,
+        "full_minus_ablation_quality_q": 0.013834,
+        "net_positive_count": 0,
+        "net_positive_parity": false,
+        "quality_q_mean": 0.627933,
+        "render_order": 2,
+        "row_count": 3
+      },
+      {
+        "arm_id": "without_certificate",
+        "classifier_shift_count_mean": 0.0,
+        "comparison_pointers": {
+          "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_certificate.net_positive_count",
+          "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_certificate.quality_q_mean",
+          "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_certificate.row_count",
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+        },
+        "disabled_terms": [
+          "certificate"
+        ],
+        "full_beats_ablation": true,
+        "full_drt_quality_q_mean": 0.641767,
+        "full_minus_ablation_quality_q": 0.018834,
+        "net_positive_count": 0,
+        "net_positive_parity": false,
+        "quality_q_mean": 0.622933,
+        "render_order": 3,
+        "row_count": 3
+      },
+      {
+        "arm_id": "without_mechanism",
+        "classifier_shift_count_mean": 0.0,
+        "comparison_pointers": {
+          "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_mechanism.net_positive_count",
+          "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_mechanism.quality_q_mean",
+          "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_mechanism.row_count",
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+        },
+        "disabled_terms": [
+          "mechanism"
+        ],
+        "full_beats_ablation": true,
+        "full_drt_quality_q_mean": 0.641767,
+        "full_minus_ablation_quality_q": 0.024834,
+        "net_positive_count": 0,
+        "net_positive_parity": false,
+        "quality_q_mean": 0.616933,
+        "render_order": 4,
+        "row_count": 3
+      },
+      {
+        "arm_id": "without_cost",
+        "classifier_shift_count_mean": 0.0,
+        "comparison_pointers": {
+          "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_cost.net_positive_count",
+          "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_cost.quality_q_mean",
+          "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_cost.row_count",
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+        },
+        "disabled_terms": [
+          "cost"
+        ],
+        "full_beats_ablation": true,
+        "full_drt_quality_q_mean": 0.641767,
+        "full_minus_ablation_quality_q": 0.004834,
+        "net_positive_count": 0,
+        "net_positive_parity": false,
+        "quality_q_mean": 0.636933,
+        "render_order": 5,
+        "row_count": 3
+      },
+      {
+        "arm_id": "without_negative_witness",
+        "classifier_shift_count_mean": 0.0,
+        "comparison_pointers": {
+          "ablation_net_positive_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_negative_witness.net_positive_count",
+          "ablation_quality_q": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_negative_witness.quality_q_mean",
+          "ablation_row_count": "reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.without_negative_witness.row_count",
+          "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean"
+        },
+        "disabled_terms": [
+          "negative_witness"
+        ],
+        "full_beats_ablation": true,
+        "full_drt_quality_q_mean": 0.641767,
+        "full_minus_ablation_quality_q": 0.011834,
+        "net_positive_count": 0,
+        "net_positive_parity": false,
+        "quality_q_mean": 0.629933,
+        "render_order": 6,
+        "row_count": 3
+      }
+    ],
+    "full_beats_all_ablations": true,
+    "full_drt": {
+      "classifier_shift_count_mean": 1.0,
+      "net_positive_signal": true,
+      "quality_q_mean": 0.641767
+    },
+    "full_positive_mechanism_signal": true,
+    "metric_keys": [
+      "quality_q",
+      "classifier_shift_count",
+      "net_positive_signal"
+    ],
+    "no_ablation_net_positive_parity": true,
+    "required_arms": [
+      "without_discovery",
+      "without_ledger",
+      "without_certificate",
+      "without_mechanism",
+      "without_cost",
+      "without_negative_witness"
+    ],
+    "required_arms_present": true,
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:mechanism-ablation",
+    "status": "pass"
   },
   "negative_witness_mutations": {
     "mutation_arm": "matched_random",

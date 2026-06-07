@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab.discovery_regularized_training import (
+    MECHANISM_ABLATION_REQUIRED_ARMS,
     default_drt_training_extension_spec,
     project_drt_training_extension,
 )
@@ -21,6 +22,40 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
     "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
 }
+
+
+def _drt_mechanism_ablation_fixture():
+    return {
+        "status": "pass",
+        "backend": "deterministic-mechanism-ablation",
+        "required_arms": list(MECHANISM_ABLATION_REQUIRED_ARMS),
+        "required_arms_present": True,
+        "comparison_pointers_resolve": True,
+        "full_beats_all_ablations": True,
+        "full_positive_mechanism_signal": True,
+        "no_ablation_net_positive_parity": True,
+        "by_arm": {
+            arm: {
+                "row_count": 3,
+                "quality_q_mean": 0.60,
+                "classifier_shift_count_mean": 0.0,
+                "net_positive_count": 0,
+            }
+            for arm in MECHANISM_ABLATION_REQUIRED_ARMS
+        },
+        "comparisons": [
+            {
+                "arm_id": arm,
+                "comparison_pointers": {
+                    "full_quality_q": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean",
+                    "ablation_quality_q": f"reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.{arm}.quality_q_mean",
+                    "ablation_row_count": f"reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.{arm}.row_count",
+                    "ablation_net_positive_count": f"reports/canonical/discovery-regularized-training.json:$.mechanism_ablation.by_arm.{arm}.net_positive_count",
+                },
+            }
+            for arm in MECHANISM_ABLATION_REQUIRED_ARMS
+        ],
+    }
 
 
 def _write_payload(root: Path, spec, payload):
@@ -151,7 +186,7 @@ def _minimal_payload(spec):
                 "gates": {
                     f"DRT-HG{index}": {
                         "status": "pass",
-                        "evidence_pointer": "$.compute_ledger" if index == 7 else "$.quality_promotion_boundary",
+                        "evidence_pointer": "$.mechanism_ablation" if index == 7 else "$.quality_promotion_boundary",
                     }
                     for index in range(1, 8)
                 },
@@ -265,6 +300,7 @@ def _minimal_payload(spec):
             },
             "matched_random_control": {"control_positive_discovery": False},
         })
+        payload["mechanism_ablation"] = _drt_mechanism_ablation_fixture()
         return payload
     if spec.name == "mechanism-seeking-network":
         payload.update({

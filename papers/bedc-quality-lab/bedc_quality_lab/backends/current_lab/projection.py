@@ -1270,7 +1270,7 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
     failed = next(
         (
             name
-            for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5", "DRT-HG6")
+            for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5", "DRT-HG6", "DRT-HG7")
             if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
         ),
         None,
@@ -1289,6 +1289,8 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
             failed = "DRT-HG6"
         elif pointer_value(payload, "$.records.raw_rows_pointer") is None:
             failed = "DRT-HG6"
+    if failed is None and pointer_value(payload, "$.mechanism_ablation.status") != "pass":
+        failed = "DRT-HG7"
     extension_failed_pointer = _drt_extension_failed_pointer(payload)
     if failed is None:
         expected = {

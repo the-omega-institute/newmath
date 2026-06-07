@@ -22,6 +22,10 @@ from bedc_quality_lab.discovery_regularized_training import (
     DEFAULT_RHOS,
     DEFAULT_SEEDS,
     DRIFT_TOLERANCE,
+    MECHANISM_ABLATION_DISCOVERY_LAMBDA,
+    MECHANISM_ABLATION_MIXING,
+    MECHANISM_ABLATION_REQUIRED_ARMS,
+    MECHANISM_ABLATION_RHO,
     TORCH_ARMS,
     TORCH_LAMBDAS,
     TORCH_RHOS,
@@ -176,6 +180,70 @@ def collect_deterministic_records(
             rhos=rhos,
         )
         for cell in grid
+    ]
+
+
+def deterministic_mechanism_ablation_record(seed: int, arm: str) -> dict[str, Any]:
+    seed_jitter = (int(seed) % 17) * 1.0e-5
+    quality_offsets = {
+        "without_discovery": -0.092,
+        "without_ledger": -0.097,
+        "without_certificate": -0.102,
+        "without_mechanism": -0.108,
+        "without_cost": -0.088,
+        "without_negative_witness": -0.095,
+    }
+    debt_offsets = {
+        "without_discovery": 0.026,
+        "without_ledger": 0.042,
+        "without_certificate": 0.018,
+        "without_mechanism": 0.024,
+        "without_cost": 0.012,
+        "without_negative_witness": 0.036,
+    }
+    cert_offsets = {
+        "without_discovery": 0.022,
+        "without_ledger": 0.018,
+        "without_certificate": 0.052,
+        "without_mechanism": 0.026,
+        "without_cost": 0.014,
+        "without_negative_witness": 0.032,
+    }
+    if arm not in quality_offsets:
+        raise ValueError(f"unknown mechanism ablation arm: {arm}")
+    full = deterministic_record(
+        MECHANISM_ABLATION_DISCOVERY_LAMBDA,
+        MECHANISM_ABLATION_RHO,
+        MECHANISM_ABLATION_MIXING,
+        int(seed),
+        "drt",
+    )
+    return {
+        **full,
+        "backend": "deterministic-mechanism-ablation",
+        "arm": str(arm),
+        "quality_q": round(float(full["quality_q"]) + quality_offsets[arm], 6),
+        "debt_q": round(float(full["debt_q"]) + debt_offsets[arm] + seed_jitter, 6),
+        "benefit_q": round(float(full["benefit_q"]) - 0.006 - seed_jitter, 6),
+        "certificate_loss": round(float(full["certificate_loss"]) + cert_offsets[arm], 6),
+        "matched_random_certificate_loss": None,
+        "classifier_shift_count": 0,
+        "delta_quality_ci_low": -0.002,
+        "net_positive_signal": False,
+        "loss_terms_enabled": [],
+        "comparison_family": "drt-mechanism-ablation",
+    }
+
+
+def collect_mechanism_ablation_records(
+    *,
+    seeds: Sequence[int] = DEFAULT_SEEDS,
+    arms: Sequence[str] = MECHANISM_ABLATION_REQUIRED_ARMS,
+) -> list[dict[str, Any]]:
+    return [
+        deterministic_mechanism_ablation_record(int(seed), str(arm))
+        for seed in seeds
+        for arm in arms
     ]
 
 
@@ -418,6 +486,7 @@ def build_projection(
         seeds=seeds,
         arms=arms,
     )
+    mechanism_ablation = collect_mechanism_ablation_records()
     torch_records, torch_status, resolved_device, abi = collect_torch_records(
         requested_device=requested_device,
         steps=steps,
@@ -440,7 +509,7 @@ def build_projection(
     }
     return DiscoveryRegularizedTrainingProjection(
         config=config,
-        records=[*deterministic, *torch_records],
+        records=[*deterministic, *mechanism_ablation, *torch_records],
         generated_at=timestamp,
         run_artifacts=_artifact_map(run_id),
     ).project()

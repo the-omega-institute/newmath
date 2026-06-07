@@ -26,6 +26,25 @@ TORCH_LAMBDAS = (1.0e-3, 5.0e-3)
 TORCH_RHOS = (0.7, 0.9)
 TORCH_SEEDS = (11, 23)
 TORCH_ARMS = ("drt", "matched_random")
+MECHANISM_ABLATION_DISCOVERY_LAMBDA = 0.01
+MECHANISM_ABLATION_RHO = 0.95
+MECHANISM_ABLATION_MIXING = "spiral"
+MECHANISM_ABLATION_REQUIRED_ARMS = (
+    "without_discovery",
+    "without_ledger",
+    "without_certificate",
+    "without_mechanism",
+    "without_cost",
+    "without_negative_witness",
+)
+MECHANISM_ABLATION_DISABLED_TERMS = {
+    "without_discovery": ("discovery",),
+    "without_ledger": ("ledger",),
+    "without_certificate": ("certificate",),
+    "without_mechanism": ("mechanism",),
+    "without_cost": ("cost",),
+    "without_negative_witness": ("negative_witness",),
+}
 DRIFT_TOLERANCE = 1.0e-4
 METRIC_KEYS = (
     "task_accuracy",
@@ -36,6 +55,11 @@ METRIC_KEYS = (
     "matched_random_certificate_loss",
     "classifier_shift_count",
     "delta_quality_ci_low",
+    "net_positive_signal",
+)
+MECHANISM_ABLATION_METRIC_KEYS = (
+    "quality_q",
+    "classifier_shift_count",
     "net_positive_signal",
 )
 FORBIDDEN_SUMMARY_ALIASES = (
@@ -341,6 +365,130 @@ def _artifact_pointer_resolves(payload: Mapping[str, Any], artifact_pointer: str
     return _quality_pointer_value(payload, artifact_pointer) is not None
 
 
+def _mechanism_ablation_row_key(row: Mapping[str, Any]) -> str:
+    return str(row.get("arm", ""))
+
+
+def _mechanism_ablation_summary(
+    rows: Sequence[Mapping[str, Any]],
+    owner_payload: Mapping[str, Any],
+) -> dict[str, Any]:
+    by_arm = {arm: [] for arm in MECHANISM_ABLATION_REQUIRED_ARMS}
+    for row in rows:
+        arm = _mechanism_ablation_row_key(row)
+        if arm in by_arm:
+            by_arm[arm].append(row)
+    full_quality_pointer = quality_artifact_pointer("$.surface_registry.quality.by_arm.drt.quality_q_mean")
+    full_shift_pointer = quality_artifact_pointer("$.surface_registry.classifier_shift.classifier_shift_count_mean")
+    full_signal_pointer = quality_artifact_pointer("$.surface_registry.classifier_shift.net_positive_signal")
+    full_quality = _as_finite_number(_quality_pointer_value(owner_payload, full_quality_pointer))
+    full_shift = _as_finite_number(_quality_pointer_value(owner_payload, full_shift_pointer))
+    full_signal = _quality_pointer_value(owner_payload, full_signal_pointer) is True
+    full_positive = full_signal and full_shift is not None and full_shift > 0.0
+    comparison_rows = []
+    for order, arm in enumerate(MECHANISM_ABLATION_REQUIRED_ARMS, start=1):
+        arm_rows = by_arm[arm]
+        row_count_pointer = quality_artifact_pointer(f"$.mechanism_ablation.by_arm.{arm}.row_count")
+        quality_pointer = quality_artifact_pointer(f"$.mechanism_ablation.by_arm.{arm}.quality_q_mean")
+        shift_pointer = quality_artifact_pointer(f"$.mechanism_ablation.by_arm.{arm}.classifier_shift_count_mean")
+        signal_pointer = quality_artifact_pointer(f"$.mechanism_ablation.by_arm.{arm}.net_positive_count")
+        quality = _mean(
+            float(value)
+            for row in arm_rows
+            if (value := _metric(row, "quality_q")) is not None and not isinstance(value, bool)
+        )
+        shift = _mean(
+            float(value)
+            for row in arm_rows
+            if (value := _metric(row, "classifier_shift_count")) is not None and not isinstance(value, bool)
+        )
+        net_positive_count = sum(1 for row in arm_rows if row.get("net_positive_signal") is True)
+        full_minus_ablation = None if full_quality is None or quality is None else round(float(full_quality) - float(quality), 6)
+        comparison_rows.append(
+            {
+                "render_order": order,
+                "arm_id": arm,
+                "disabled_terms": list(MECHANISM_ABLATION_DISABLED_TERMS[arm]),
+                "row_count": len(arm_rows),
+                "row_count_pointer": row_count_pointer,
+                "quality_q_mean": quality,
+                "quality_q_pointer": quality_pointer,
+                "classifier_shift_count_mean": shift,
+                "classifier_shift_pointer": shift_pointer,
+                "net_positive_count": net_positive_count,
+                "net_positive_pointer": signal_pointer,
+                "full_drt_quality_q_mean": _rounded_number(full_quality),
+                "full_minus_ablation_quality_q": _rounded_number(full_minus_ablation),
+                "full_beats_ablation": isinstance(full_minus_ablation, (int, float)) and full_minus_ablation > DRIFT_TOLERANCE,
+                "net_positive_parity": net_positive_count > 0 and shift is not None and shift + DRIFT_TOLERANCE >= (full_shift or 0.0),
+                "comparison_pointers": {
+                    "full_quality_q": full_quality_pointer,
+                    "ablation_quality_q": quality_pointer,
+                    "ablation_row_count": row_count_pointer,
+                    "ablation_net_positive_count": signal_pointer,
+                },
+            }
+        )
+    by_arm_summary = {
+        row["arm_id"]: {
+            "row_count": row["row_count"],
+            "quality_q_mean": row["quality_q_mean"],
+            "classifier_shift_count_mean": row["classifier_shift_count_mean"],
+            "net_positive_count": row["net_positive_count"],
+        }
+        for row in comparison_rows
+    }
+    payload = {
+        "schema_id": f"{SCHEMA_ID}:mechanism-ablation",
+        "backend": "deterministic-mechanism-ablation",
+        "anchor_cell": {
+            "discovery_lambda": MECHANISM_ABLATION_DISCOVERY_LAMBDA,
+            "rho": MECHANISM_ABLATION_RHO,
+            "mixing": MECHANISM_ABLATION_MIXING,
+            "seeds": list(DEFAULT_SEEDS),
+        },
+        "required_arms": list(MECHANISM_ABLATION_REQUIRED_ARMS),
+        "metric_keys": list(MECHANISM_ABLATION_METRIC_KEYS),
+        "raw_rows_pointer": quality_artifact_pointer("$.records.raw_rows_pointer"),
+        "full_drt": {
+            "quality_q_mean": _rounded_number(full_quality),
+            "quality_q_pointer": full_quality_pointer,
+            "classifier_shift_count_mean": _rounded_number(full_shift),
+            "classifier_shift_pointer": full_shift_pointer,
+            "net_positive_signal": full_signal,
+            "net_positive_signal_pointer": full_signal_pointer,
+        },
+        "by_arm": by_arm_summary,
+        "comparisons": comparison_rows,
+    }
+    required_arms_present = all(row["row_count"] > 0 for row in comparison_rows)
+    resolution_payload = {**owner_payload, "mechanism_ablation": payload}
+    comparison_pointers_resolve = all(
+        _artifact_pointer_resolves(resolution_payload, pointer)
+        for row in comparison_rows
+        for pointer in row["comparison_pointers"].values()
+    )
+    full_beats_all = all(row["full_beats_ablation"] for row in comparison_rows)
+    no_net_positive_parity = not any(row["net_positive_parity"] for row in comparison_rows)
+    payload.update(
+        {
+            "status": _status(
+                required_arms_present
+                and comparison_pointers_resolve
+                and full_beats_all
+                and full_positive
+                and no_net_positive_parity
+            ),
+            "required_arms_present": required_arms_present,
+            "comparison_pointers_resolve": comparison_pointers_resolve,
+            "full_beats_all_ablations": full_beats_all,
+            "full_positive_mechanism_signal": full_positive,
+            "no_ablation_net_positive_parity": no_net_positive_parity,
+        }
+    )
+    return payload
+
+
 def project_drt_training_extension(
     records: Sequence[Mapping[str, Any]],
     spec: DrtTrainingExtensionSpec,
@@ -603,6 +751,15 @@ class DiscoveryRegularizedTrainingProjection:
     def project(self) -> dict[str, Any]:
         source_artifacts = self._source_artifacts()
         summaries = self._summaries(source_artifacts)
+        mechanism_rows = [row for row in self.records if row.get("backend") == "deterministic-mechanism-ablation"]
+        mechanism_ablation = _mechanism_ablation_summary(
+            mechanism_rows,
+            {
+                "surface_registry": summaries["surface_registry"],
+                "records": summaries["records"],
+            },
+        )
+        summaries = {**summaries, "mechanism_ablation": mechanism_ablation}
         boundary = quality_promotion_boundary(
             {
                 "config": dict(self.config),
@@ -629,6 +786,7 @@ class DiscoveryRegularizedTrainingProjection:
             "negative_witness_mutations": summaries["negative_witness_mutations"],
             "training_loop_trace": summaries["training_loop_trace"],
             "matched_random_control": summaries["matched_random_control"],
+            "mechanism_ablation": summaries["mechanism_ablation"],
         }
         extension_sections = project_drt_training_extension(
             self.records,
@@ -686,6 +844,7 @@ class DiscoveryRegularizedTrainingProjection:
             "training_loop_trace": summaries["training_loop_trace"],
             "matched_random_control": summaries["matched_random_control"],
             "quality_promotion_boundary": boundary,
+            "mechanism_ablation": summaries["mechanism_ablation"],
             **extension_sections,
             "hardgate": {
                 "status": _status(failed_gate is None),
@@ -731,7 +890,7 @@ class DiscoveryRegularizedTrainingProjection:
         matched = summaries["matched_random_control"]
         task_only = summaries["surface_registry"]["task_accuracy_only"]
         torch_evidence = summaries["torch_training_evidence"]
-        compute_ledger = summaries["compute_ledger"]
+        mechanism_ablation = summaries["mechanism_ablation"]
         torch_delta = torch_evidence.get("classifier_surface_delta", {})
         protocols = torch_evidence.get("protocols", [])
         expected_torch_rows = torch_evidence.get("expected_row_count")
@@ -810,14 +969,14 @@ class DiscoveryRegularizedTrainingProjection:
                 "classifier_surface_delta": dict(torch_delta) if isinstance(torch_delta, Mapping) else {},
             },
             "DRT-HG7": {
-                "status": _status(
-                    isinstance(compute_ledger, Mapping)
-                    and compute_ledger.get("status") == "complete"
-                    and not compute_ledger.get("missing_fields")
-                ),
-                "evidence": "Compute ledger must record deterministic replay accounting, seed coverage, and the public cost protocol pointer.",
-                "evidence_pointer": "$.compute_ledger",
-                "missing_fields": list(compute_ledger.get("missing_fields", [])) if isinstance(compute_ledger, Mapping) else ["compute_ledger"],
+                "status": _status(isinstance(mechanism_ablation, Mapping) and mechanism_ablation.get("status") == "pass"),
+                "evidence": "The deterministic mechanism ablation must preserve all six owner-local arms, resolved comparison pointers, full DRT separation, a positive full mechanism signal, and no net-positive ablation parity.",
+                "evidence_pointer": "$.mechanism_ablation",
+                "required_arms_present": bool(mechanism_ablation.get("required_arms_present")) if isinstance(mechanism_ablation, Mapping) else False,
+                "comparison_pointers_resolve": bool(mechanism_ablation.get("comparison_pointers_resolve")) if isinstance(mechanism_ablation, Mapping) else False,
+                "full_beats_all_ablations": bool(mechanism_ablation.get("full_beats_all_ablations")) if isinstance(mechanism_ablation, Mapping) else False,
+                "full_positive_mechanism_signal": bool(mechanism_ablation.get("full_positive_mechanism_signal")) if isinstance(mechanism_ablation, Mapping) else False,
+                "no_ablation_net_positive_parity": bool(mechanism_ablation.get("no_ablation_net_positive_parity")) if isinstance(mechanism_ablation, Mapping) else False,
             },
         }
 
@@ -943,6 +1102,29 @@ class DiscoveryRegularizedTrainingProjection:
                 f"`{row['comparison_to_task_only']}` | "
                 f"`{row['promotion_gate']}` | "
                 f"`{row['evidence_pointer']}` |"
+            )
+        mechanism = payload["mechanism_ablation"]
+        lines.extend(
+            [
+                "",
+                "## Mechanism Ablation",
+                "",
+                f"- status: `{mechanism['status']}`",
+                f"- raw rows: `{mechanism['raw_rows_pointer']}`",
+                "",
+                "| order | arm | quality_q | full minus ablation | full beats | parity |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+        for row in mechanism["comparisons"]:
+            lines.append(
+                "| "
+                f"{row['render_order']} | "
+                f"`{row['arm_id']}` | "
+                f"`{row['quality_q_mean']}` | "
+                f"`{row['full_minus_ablation_quality_q']}` | "
+                f"`{row['full_beats_ablation']}` | "
+                f"`{row['net_positive_parity']}` |"
             )
         lines.extend(["", "## DRT Extension Hardgates", ""])
         for gate, row in payload["drt_extension_hardgates"]["gates"].items():

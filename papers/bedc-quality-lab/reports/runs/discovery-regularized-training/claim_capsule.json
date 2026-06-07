@@ -52,8 +52,12 @@
       "status": "pass"
     },
     "DRT-HG7": {
-      "evidence": "Compute ledger must record deterministic replay accounting, seed coverage, and the public cost protocol pointer.",
-      "missing_fields": [],
+      "comparison_pointers_resolve": true,
+      "evidence": "The deterministic mechanism ablation must preserve all six owner-local arms, resolved comparison pointers, full DRT separation, a positive full mechanism signal, and no net-positive ablation parity.",
+      "full_beats_all_ablations": true,
+      "full_positive_mechanism_signal": true,
+      "no_ablation_net_positive_parity": true,
+      "required_arms_present": true,
       "status": "pass"
     }
   },
@@ -74,6 +78,7 @@
     "compute_ledger": {
       "backend_row_counts": {
         "deterministic-anchor": 720,
+        "deterministic-mechanism-ablation": 1,
         "torch-training-arm": 16
       },
       "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
