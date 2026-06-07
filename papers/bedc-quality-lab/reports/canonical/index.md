@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-07T18:09:29.490922+00:00`
+- Generated at: `2026-06-07T20:57:07.067409+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -32,6 +32,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `nongaussian-distribution-sweep` | `pass` | `reports/canonical/nongaussian-distribution-sweep.json` | `reports/canonical/nongaussian-distribution-sweep.md` | `reports/canonical/nongaussian-distribution-sweep.fingerprint.json` | `$.coverage_item` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.main_claim_status` | `$.negative_result_ledger` |
 | `lejepa-theorem-ledger` | `pass` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
+| `observed-debt-sweep` | `pass` | `reports/canonical/observed-debt-sweep.json` | `reports/canonical/observed-debt-sweep.md` | `reports/canonical/observed-debt-sweep.fingerprint.json` | `$.claim_boundary.C4` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate_evidence.C-HG5` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `pass` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
 
 ## Dashboard
@@ -54,7 +55,7 @@
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
 - Experiment proposals: `reports/canonical/discovery_map.json:$.experiment_proposals`
-- Rows: `24`
+- Rows: `25`
 
 ## Observed debt axis projection
 
@@ -176,7 +177,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `32`
+- Rows: `33`
 
 ## Claim graph
 
@@ -184,7 +185,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `92`
+- Nodes: `95`
 
 ## Claim capsule
 
@@ -279,7 +280,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas, discovery-gated-transformer`
-- Auxiliary reports: `nongaussian-distribution-sweep, lejepa-theorem-ledger, spectral-ablation-hinge`
+- Auxiliary reports: `nongaussian-distribution-sweep, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -308,6 +309,7 @@
 | `discovery-gated-nas` | `hg_p_core` | `$.positive_claim` | `$.matched_baseline_control` | `None` |
 | `discovery-gated-transformer` | `hg_p_core` | `$.discovery_map_signal` | `$.component_refs` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
+| `observed-debt-sweep` | `auxiliary` | `$.hardgate_evidence.C-HG5` | `None` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
 
 ## Literature ledger pointer

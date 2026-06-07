@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-07T18:09:29.490922+00:00`
-- Rows: `24`
+- Generated at: `2026-06-07T20:57:07.067409+00:00`
+- Rows: `25`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -25,6 +25,7 @@
 | `discovery-gated-nas` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
 | `discovery-gated-transformer` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
+| `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
 | `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |

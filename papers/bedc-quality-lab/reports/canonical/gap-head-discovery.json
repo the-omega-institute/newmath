@@ -88,10 +88,13 @@
     "classifier_ledger_rows": 0.3
   },
   "final_main_claim_status": "promoted",
-  "generated_at": "2026-06-07T18:07:04.377534+00:00",
+  "generated_at": "2026-06-07T20:57:10.003925+00:00",
   "laundering_modes": [],
+  "main_claim_reason": null,
   "main_claim_status": "promoted",
   "matched_random_control": {
+    "audit_status": "pass",
+    "compute_match": true,
     "control_projection": {
       "arm": "matched_random_gap_head",
       "net_information": 0.20869565217391306,
@@ -116,7 +119,35 @@
       },
       "source_positive": false
     },
-    "source_protocol": "source-json matched_random_control per record"
+    "evidence_pointers": {
+      "compute_match": [
+        "source-json $.control_protocol.compute_match",
+        "source-json $.records[*].matched_random_control.compute_match"
+      ],
+      "metric_helper_match": [
+        "source-json $.control_protocol.metric_helper_match",
+        "source-json $.records[*].matched_random_control.metric_helper_match"
+      ],
+      "parameter_match": [
+        "source-json $.control_protocol.parameter_match",
+        "source-json $.records[*].matched_random_control.parameter_match"
+      ],
+      "surface_distribution_match": [
+        "source-json $.control_protocol.surface_distribution_match",
+        "source-json $.records[*].matched_random_control.surface_distribution_match"
+      ],
+      "threshold_match": [
+        "source-json $.control_protocol.threshold_match",
+        "source-json $.records[*].matched_random_control.threshold_match"
+      ]
+    },
+    "failure_reasons": [],
+    "metric_helper_match": true,
+    "parameter_match": true,
+    "source_protocol": "source-json matched_random_control per record",
+    "surface_distribution_match": true,
+    "threshold_match": true,
+    "verified": true
   },
   "net_information": 0.34608695652173915,
   "net_positive_signal": true,

@@ -3,7 +3,7 @@
     "generated_at": "2026-06-07T20:57:07.067409+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "4e94ca8250d018952ae27fbcd86159e2491f5e77ca6a89f54896d1a775ac5459",
+  "input_fingerprint": "4873f3294f9dcbec72c9645d5e22a024f6dc2f37aceedd635e5175b50d05c0fa",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -81,20 +81,32 @@
         "sha256": "6f2b46065037df5b36a26686c7ec5b2bc1c9cb90fdeaad393a5e11940a2a38a8"
       },
       {
-        "path": "scripts/run_anisotropic_ou_sweep.py",
-        "sha256": "ccba925300709398e49eb5f89ec490c1132040b54e33c7b5bf0419f18ab02018"
+        "path": "scripts/experiment_stats.py",
+        "sha256": "baf70e1676d60b747bff592d9eee380a114cb59c3f5305d683be9a2a89d1d9ae"
+      },
+      {
+        "path": "scripts/run_gaussian_ou_distinction_head.py",
+        "sha256": "85bb4dd8decedb60652c3ad28caf45f5c2d6c19740caf3861eff9449f1afe55d"
+      },
+      {
+        "path": "scripts/run_gaussian_ou_dynamics_planning.py",
+        "sha256": "8936a2905787432c74234efba26dc6812147c4319450e340590755459370d422"
       },
       {
         "path": "scripts/run_gaussian_ou_lejepa.py",
         "sha256": "04d36e018fb1d306e0b18cb50dc9a1428b0b39b5c4c714d9e0f554cb9b4f0697"
+      },
+      {
+        "path": "scripts/run_observed_debt_sweep.py",
+        "sha256": "e26e12f1756efa6090bbe09a436dd3ddcd4d9f4f4b05f9f7ec9354c102af0ac6"
       }
     ],
-    "report_output_schema_id": "schema-unspecified",
+    "report_output_schema_id": "bedc-quality-lab:evidence-envelope",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_anisotropic_ou_sweep.py"
+        "scripts/run_observed_debt_sweep.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
@@ -102,47 +114,51 @@
     },
     "source_artifacts": [],
     "spec": {
-      "bundle_role": "hg_p_core",
+      "bundle_role": "auxiliary",
       "command": [
         "python3",
-        "scripts/run_anisotropic_ou_sweep.py"
+        "scripts/run_observed_debt_sweep.py"
       ],
       "control_pointer": null,
-      "cost_pointer": "$.source_artifacts.cost_protocol",
-      "estimated_seconds": 20,
+      "cost_pointer": "$.source_artifacts",
+      "estimated_seconds": 1,
       "forbidden_claim_terms": [
         "full-lejepa",
         "global-quality",
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
+      "json_artifact": "reports/canonical/observed-debt-sweep.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
-      "name": "anisotropic-ou-sweep",
-      "no_control_rationale_pointer": "$.config.arm",
-      "not_claimed_pointer": "$.applicability_boundary.not_claimed",
-      "positive_claim_pointer": "$.transition_debt_by_grid",
+      "markdown_artifact": "reports/canonical/observed-debt-sweep.md",
+      "name": "observed-debt-sweep",
+      "no_control_rationale_pointer": "$.claim_boundary.C4",
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.hardgate_evidence.C-HG5",
       "required_json_keys": [
+        "artifact_id",
         "generated_at",
+        "schema_id",
         "config",
         "source_artifacts",
-        "applicability_boundary",
-        "records",
-        "aggregates",
-        "transition_debt_by_grid",
-        "negative_result_summary"
+        "baseline",
+        "cells",
+        "grid_summary",
+        "hardgate_evidence",
+        "claim_boundary",
+        "global_claim_flag",
+        "not_claimed"
       ],
-      "scope_pointer": "$.applicability_boundary"
+      "scope_pointer": "$.claim_boundary.C4"
     }
   },
-  "json_artifact": "reports/canonical/anisotropic-ou-sweep.json",
-  "markdown_artifact": "reports/canonical/anisotropic-ou-sweep.md",
-  "output_digest": "fd2398b32f98ccd3ee67a27b9bf50d51a7a139df875f38aba89549c936766a79",
+  "json_artifact": "reports/canonical/observed-debt-sweep.json",
+  "markdown_artifact": "reports/canonical/observed-debt-sweep.md",
+  "output_digest": "d7edece8bd632675308ec70df4040123ef0fcf552a541fbdb91661e7d5af4fd5",
   "producer_command": [
     "python3",
-    "scripts/run_anisotropic_ou_sweep.py"
+    "scripts/run_observed_debt_sweep.py"
   ],
-  "report_name": "anisotropic-ou-sweep",
+  "report_name": "observed-debt-sweep",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

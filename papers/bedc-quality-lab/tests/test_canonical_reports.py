@@ -68,6 +68,28 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
 }
 
 
+def _matched_random_audit_fixture() -> dict[str, object]:
+    return {
+        "parameter_match": True,
+        "compute_match": True,
+        "threshold_match": True,
+        "surface_distribution_match": True,
+        "metric_helper_match": True,
+        "audit_status": "pass",
+        "failure_reasons": [],
+        "evidence_pointers": {
+            key: [f"fixture:{key}"]
+            for key in (
+                "parameter_match",
+                "compute_match",
+                "threshold_match",
+                "surface_distribution_match",
+                "metric_helper_match",
+            )
+        },
+    }
+
+
 def _dg_nas_negative_witness_mutation_rows() -> list[dict[str, object]]:
     return [
         {
@@ -183,16 +205,27 @@ def _payload_for_spec(spec):
             "coverage_item": {"status": "fixture"},
             "transition_debt_by_grid": {"cell": {"status": "fixture"}},
             "config": {"arm": "baseline-only"},
-            "control_protocol": {"status": "fixture"},
+            "control_protocol": {"status": "fixture", **_matched_random_audit_fixture()},
             "treatment_verdict": {"positive": spec.name == "gap-head-on-h"},
             "control_verdict": {"positive": False},
             "boundary_checks": {
                 "forbidden_inference_columns": ["z"],
                 "representation_boundary": "learned_h",
             },
+            "claim_boundary": {
+                "C4": {
+                    "claim_surface": "observed-debt-availability-probe",
+                    "evidence_pointer": "reports/gaussian_ou_dynamics_planning.json:$.applicability_boundary",
+                    "not_claimed": [
+                        "no full world model planning claim",
+                        "no action-transition certificate",
+                    ],
+                }
+            },
             "score_terms": {"status": "fixture"},
             "matched_random_control": {
                 "status": "fixture",
+                **_matched_random_audit_fixture(),
                 "control_verdict": {"positive": False},
                 "control_projection": {"positive_discovery": True},
             },
@@ -316,7 +349,8 @@ def _payload_for_spec(spec):
             "surface_registry": _atlas_fixture_rows()["surface_registry"],
             "surfaces": _atlas_fixture_rows()["surfaces"],
             "boundary_ledger": _atlas_fixture_rows()["boundary_ledger"],
-            "hardgate_evidence": {"A2-HG5": {"status": "pass"}},
+            "hardgate_evidence": {"A2-HG5": {"status": "pass"}, "C-HG5": {"status": "pass"}},
+            "global_claim_flag": False,
             "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
             "prior_observation_packet": {
                 "status": "prior_observation",
@@ -357,6 +391,7 @@ def _payload_for_spec(spec):
             },
             "positive_claim": {"text": "fixture D1 SIGReg training proxy", "scope": "fixture", "level": "D1"},
             "records": {
+                "matched_random_control": _matched_random_audit_fixture(),
                 "tensor_slice_registry": {
                     "copy_route": {"tensor_slice_ids": ["tensor-copy"]},
                     "parity_gate": {"tensor_slice_ids": ["tensor-parity"]},
@@ -477,6 +512,8 @@ def _payload_for_spec(spec):
             "forbidden_claim_term_audit": {"status": "pass", "hits": []},
         }
     )
+    if spec.name == "gap-head-on-h":
+        payload["records"] = [{"matched_random_control": _matched_random_audit_fixture()}]
     if spec.name == "discovery-gated-nas":
         payload.update(
             {
@@ -1259,13 +1296,14 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "certificate-guided-discovery",
         "sigreg-training-proxy",
         "sigreg-mini-grid",
-            "discovery-regularized-training",
-            "mechanism-seeking-network",
-            "discovery-gated-nas",
-            "discovery-gated-transformer",
-            "lejepa-theorem-ledger",
-            "spectral-ablation-hinge",
-        ]
+        "discovery-regularized-training",
+        "mechanism-seeking-network",
+        "discovery-gated-nas",
+        "discovery-gated-transformer",
+        "lejepa-theorem-ledger",
+        "observed-debt-sweep",
+        "spectral-ablation-hinge",
+    ]
     assert "certificate-guided-arms" not in names
     assert len(json_artifacts) == len(set(json_artifacts))
     assert len(markdown_artifacts) == len(set(markdown_artifacts))
@@ -1571,15 +1609,59 @@ def test_gap_head_manifest_rows_are_canonical_and_keyed():
         "aggregate_metrics",
         "treatment_comparison",
         "control_protocol",
+        "$.control_protocol.parameter_match",
+        "$.control_protocol.compute_match",
+        "$.control_protocol.threshold_match",
+        "$.control_protocol.surface_distribution_match",
+        "$.control_protocol.metric_helper_match",
+        "$.control_protocol.audit_status",
+        "$.control_protocol.failure_reasons",
+        "$.control_protocol.evidence_pointers",
+        "$.records[*].matched_random_control.parameter_match",
+        "$.records[*].matched_random_control.compute_match",
+        "$.records[*].matched_random_control.threshold_match",
+        "$.records[*].matched_random_control.surface_distribution_match",
+        "$.records[*].matched_random_control.metric_helper_match",
+        "$.records[*].matched_random_control.audit_status",
+        "$.records[*].matched_random_control.failure_reasons",
+        "$.records[*].matched_random_control.evidence_pointers",
         "control_verdict",
         "main_claim_status",
     }.issubset(set(on_h.required_json_keys))
     assert {
         "boundary_checks",
         "matched_random_control",
+        "$.matched_random_control.parameter_match",
+        "$.matched_random_control.compute_match",
+        "$.matched_random_control.threshold_match",
+        "$.matched_random_control.surface_distribution_match",
+        "$.matched_random_control.metric_helper_match",
+        "$.matched_random_control.audit_status",
+        "$.matched_random_control.failure_reasons",
+        "$.matched_random_control.evidence_pointers",
         "main_claim_status",
         "final_main_claim_status",
     }.issubset(set(discovery.required_json_keys))
+    assert "stronger-matched-random-controls" not in {
+        spec.name for spec in canonical.CANONICAL_REPORTS
+    }
+
+
+def test_gap_head_strengthened_control_required_paths_fail_closed(tmp_path):
+    spec = canonical._specs_by_name()["gap-head-on-h"]
+    payload = _payload_for_spec(spec)
+    json_path = tmp_path / "payload.json"
+    json_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    valid = canonical._validate_json(json_path, spec.required_json_keys)
+    assert valid["status"] == "pass"
+
+    payload["records"][0]["matched_random_control"].pop("surface_distribution_match")
+    json_path.write_text(json.dumps(payload), encoding="utf-8")
+    invalid = canonical._validate_json(json_path, spec.required_json_keys)
+
+    assert invalid["status"] == "fail"
+    assert "$.records[*].matched_random_control.surface_distribution_match" in invalid["missing_keys"]
 
 
 def test_canonical_reports_manifest_includes_gap_head_ablation():
@@ -4145,13 +4227,18 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.scope",
                 },
                 {
+                    "report": "observed-debt-sweep",
+                    "artifact": "reports/canonical/observed-debt-sweep.json",
+                    "pointer": "$.claim_boundary.C4",
+                },
+                {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 21,
-            "denominator": 21,
+            "numerator": 22,
+            "denominator": 22,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -4257,13 +4344,18 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {
+                    "report": "observed-debt-sweep",
+                    "artifact": "reports/canonical/observed-debt-sweep.json",
+                    "pointer": "$.source_artifacts",
+                },
+                {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 21,
-            "denominator": 21,
+            "numerator": 22,
+            "denominator": 22,
         },
         "HardeningCoverage": {
             "value": 1.0,
