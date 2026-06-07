@@ -30,7 +30,7 @@ DEFAULT_ARMS = ("candidate", "parameter_matched_baseline", "compute_matched_base
 TORCH_CANDIDATES = ("control_separated_route", "multi_surface_mechanism_packet")
 TORCH_SEEDS = (19, 31)
 DRIFT_TOLERANCE = 1.0e-5
-DG_NAS_HARDGATES = tuple(f"DG-NAS-HG{index}" for index in range(1, 8))
+DG_NAS_HARDGATES = tuple(f"DG-NAS-HG{index}" for index in range(1, 9))
 DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER = "$.candidate_protocol.design_search_certificate"
 DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER = (
     "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate"
@@ -79,6 +79,123 @@ class TorchNasArmProtocol:
     drift_tolerance: float
     status: str
     evidence_pointer: str
+
+
+@dataclass
+class DgNasSearchBoundary:
+    status: str
+    mode: str
+    candidates: tuple[str, ...]
+    surfaces: tuple[str, ...]
+    seeds: tuple[int, ...]
+    arms: tuple[str, ...]
+    sampling_protocol: Mapping[str, Any]
+    expected_record_count: int
+    observed_record_count: int
+    missing_cells: tuple[dict[str, Any], ...]
+    out_of_space_rows: tuple[dict[str, Any], ...]
+    evidence_pointer: str | None
+
+    @classmethod
+    def from_config_and_rows(
+        cls,
+        config: Mapping[str, Any],
+        deterministic_rows: Sequence[Mapping[str, Any]],
+        raw_rows_pointer: str | None,
+    ) -> "DgNasSearchBoundary":
+        candidates = tuple(str(value) for value in config.get("candidates", DEFAULT_CANDIDATES))
+        surfaces = tuple(str(value) for value in config.get("surfaces", DEFAULT_SURFACES))
+        seeds = tuple(int(value) for value in config.get("seeds", DEFAULT_SEEDS))
+        arms = tuple(str(value) for value in config.get("arms", DEFAULT_ARMS))
+        declared_cells = tuple(
+            {
+                "candidate_id": candidate_id,
+                "surface_id": surface_id,
+                "seed": int(seed),
+                "arm": arm,
+            }
+            for candidate_id in candidates
+            for surface_id in surfaces
+            for seed in seeds
+            for arm in arms
+        )
+        declared_keys = {
+            (cell["candidate_id"], cell["surface_id"], cell["seed"], cell["arm"])
+            for cell in declared_cells
+        }
+        observed_keys = {
+            (
+                str(row.get("candidate_id")),
+                str(row.get("surface_id")),
+                int(row.get("seed")),
+                str(row.get("arm")),
+            )
+            for row in deterministic_rows
+            if row.get("candidate_id") is not None
+            and row.get("surface_id") is not None
+            and row.get("seed") is not None
+            and row.get("arm") is not None
+        }
+        missing_cells = tuple(cell for cell in declared_cells if (cell["candidate_id"], cell["surface_id"], cell["seed"], cell["arm"]) not in observed_keys)
+        out_of_space_rows = tuple(
+            {
+                "candidate_id": str(row.get("candidate_id")),
+                "surface_id": str(row.get("surface_id")),
+                "seed": int(row.get("seed")),
+                "arm": str(row.get("arm")),
+            }
+            for row in deterministic_rows
+            if row.get("candidate_id") is not None
+            and row.get("surface_id") is not None
+            and row.get("seed") is not None
+            and row.get("arm") is not None
+            and (
+                str(row.get("candidate_id")),
+                str(row.get("surface_id")),
+                int(row.get("seed")),
+                str(row.get("arm")),
+            )
+            not in declared_keys
+        )
+        expected_record_count = len(candidates) * len(surfaces) * len(seeds) * len(arms)
+        observed_record_count = len(deterministic_rows)
+        status = "closed" if not missing_cells and not out_of_space_rows and expected_record_count == observed_record_count else "open"
+        return cls(
+            status=status,
+            mode="deterministic_anchor",
+            candidates=candidates,
+            surfaces=surfaces,
+            seeds=seeds,
+            arms=arms,
+            sampling_protocol={
+                "mode": "exhaustive_product",
+                "candidate_axis": "candidates",
+                "surface_axis": "surfaces",
+                "seed_axis": "seeds",
+                "arm_axis": "arms",
+            },
+            expected_record_count=expected_record_count,
+            observed_record_count=observed_record_count,
+            missing_cells=missing_cells,
+            out_of_space_rows=out_of_space_rows,
+            evidence_pointer=raw_rows_pointer,
+        )
+
+    def as_payload(self) -> dict[str, Any]:
+        return {
+            "status": self.status,
+            "mode": self.mode,
+            "candidates": list(self.candidates),
+            "surfaces": list(self.surfaces),
+            "seeds": list(self.seeds),
+            "arms": list(self.arms),
+            "sampling_protocol": dict(self.sampling_protocol),
+            "expected_record_count": self.expected_record_count,
+            "observed_record_count": self.observed_record_count,
+            "missing_cells": [dict(cell) for cell in self.missing_cells],
+            "out_of_space_rows": [dict(row) for row in self.out_of_space_rows],
+            "evidence_pointer": self.evidence_pointer,
+        }
 
 
 def default_grid() -> tuple[dict[str, Any], ...]:
@@ -189,6 +306,29 @@ def design_search_certificate_hg7(payload: Mapping[str, Any]) -> dict[str, Any]:
         "evidence_pointer": DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER,
         "slot_state": slot["slot_state"],
         "owner_pointer": slot["owner_pointer"],
+    }
+
+
+def search_boundary_hg7(payload: Mapping[str, Any]) -> dict[str, Any]:
+    search_space = _pointer_value(payload, "$.search_space")
+    closed = (
+        isinstance(search_space, Mapping)
+        and search_space.get("status") == "closed"
+        and search_space.get("sampling_protocol", {}).get("mode") == "exhaustive_product"
+        and isinstance(search_space.get("candidates"), list)
+        and isinstance(search_space.get("surfaces"), list)
+        and isinstance(search_space.get("seeds"), list)
+        and isinstance(search_space.get("arms"), list)
+        and search_space.get("expected_record_count")
+        == len(search_space["candidates"]) * len(search_space["surfaces"]) * len(search_space["seeds"]) * len(search_space["arms"])
+        and search_space.get("observed_record_count") == search_space.get("expected_record_count")
+        and search_space.get("missing_cells") == []
+        and search_space.get("out_of_space_rows") == []
+    )
+    return {
+        "status": _status(closed),
+        "evidence": "D5-M requires a closed deterministic search boundary with exhaustive product coverage.",
+        "evidence_pointer": "$.search_space",
     }
 
 
@@ -312,6 +452,7 @@ class DiscoveryGatedNasProjection:
             },
             "config": dict(self.config),
             "grid": summaries["grid"],
+            "search_space": summaries["search_space"],
             "records": summaries["records"],
             "surface_registry": summaries["surface_registry"],
             "search_objective_summary": summaries["search_objective_summary"],
@@ -363,7 +504,10 @@ class DiscoveryGatedNasProjection:
         baseline = summaries["matched_baseline_control"]
         objective = summaries["search_objective_summary"]
         mutations = summaries["negative_witness_mutations"]
-        payload = {"candidate_protocol": summaries["candidate_protocol"]}
+        payload = {
+            "candidate_protocol": summaries["candidate_protocol"],
+            "search_space": summaries.get("search_space"),
+        }
         return {
             "DG-NAS-HG1": {
                 "status": _status(bool(baseline["parameter_matched_present"])),
@@ -395,7 +539,8 @@ class DiscoveryGatedNasProjection:
                 "evidence": "Any witness violation must demote the candidate.",
                 "evidence_pointer": "$.negative_witness_mutations",
             },
-            "DG-NAS-HG7": design_search_certificate_hg7(payload),
+            "DG-NAS-HG7": search_boundary_hg7(payload),
+            "DG-NAS-HG8": design_search_certificate_hg7(payload),
         }
 
     def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -408,6 +553,7 @@ class DiscoveryGatedNasProjection:
                 "evidence_pointer": "$.hardgate.failed_gate",
                 "surface_registry_pointer": "$.surface_registry",
                 "candidate_protocol_pointer": "$.candidate_protocol",
+                "search_space_pointer": "$.search_space",
                 "search_objective_pointer": "$.search_objective_summary",
                 "negative_witness_pointer": "$.negative_witness_mutations",
                 "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
@@ -422,6 +568,7 @@ class DiscoveryGatedNasProjection:
             "control_pointer": "$.matched_baseline_control",
             "surface_registry_pointer": "$.surface_registry",
             "candidate_protocol_pointer": "$.candidate_protocol",
+            "search_space_pointer": "$.search_space",
             "search_objective_pointer": "$.search_objective_summary",
             "negative_witness_pointer": "$.negative_witness_mutations",
             "torch_nas_evidence_pointer": "$.torch_nas_evidence",
@@ -515,6 +662,8 @@ class DiscoveryGatedNasProjection:
         arms = [str(value) for value in config.get("arms", DEFAULT_ARMS)]
         deterministic_rows = [row for row in self.records if row.get("backend") == "deterministic-anchor"]
         torch_rows = [row for row in self.records if row.get("backend") == "torch-nas-arm"]
+        raw_rows_pointer = self.run_artifacts.get("raw_metrics")
+        search_boundary = DgNasSearchBoundary.from_config_and_rows(config, deterministic_rows, raw_rows_pointer)
         protocols = self._torch_protocols(torch_rows)
         resolved_devices = sorted({protocol.resolved_device for protocol in protocols}) or [str(config.get("resolved_device", "not-requested"))]
         torch_status = "available" if torch_rows else str(config.get("torch_status", "unavailable"))
@@ -558,8 +707,9 @@ class DiscoveryGatedNasProjection:
                 "arm_count": len(arms),
                 "torch_record_count": len(torch_rows),
             },
+            "search_space": search_boundary.as_payload(),
             "records": {
-                "raw_rows_pointer": self.run_artifacts.get("raw_metrics"),
+                "raw_rows_pointer": raw_rows_pointer,
                 "deterministic_anchor_rows": len(deterministic_rows),
                 "expected_deterministic_anchor_rows": expected,
                 "torch_evidence_rows": len(torch_rows),
@@ -605,6 +755,7 @@ class DiscoveryGatedNasProjection:
                 "evidence_pointer": "$.negative_witness_mutations.rows",
             },
             "candidate_protocol": {
+                "search_space_pointer": "$.search_space",
                 "deterministic_anchor": {
                     "primary": True,
                     "replayable": True,
@@ -722,6 +873,7 @@ __all__ = [
     "DESIGN_SEARCH_CERTIFICATE_OWNER_POINTER",
     "DESIGN_SEARCH_CERTIFICATE_SLOT_POINTER",
     "DESIGN_SEARCH_CERTIFICATE_SLOT_STATES",
+    "DgNasSearchBoundary",
     "DiscoveryGatedNasProjection",
     "NEGATIVE_WITNESS_MUTATIONS",
     "SCHEMA_ID",

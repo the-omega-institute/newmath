@@ -305,6 +305,7 @@ def _payload_for_spec(spec):
                     "selected_candidate_has_violation": False,
                 },
                 "candidate_protocol": {
+                    "search_space_pointer": "$.search_space",
                     "deterministic_anchor": {"primary": True},
                     "design_search_certificate": {
                         "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
@@ -313,6 +314,7 @@ def _payload_for_spec(spec):
                 },
                 "device_protocol": {"requested_device": "auto", "resolved_device": "not-requested"},
                 "torch_nas_evidence": {"status": "unavailable", "row_count": 0},
+                "search_space": {"status": "closed"},
                 "matched_baseline_control": {
                     "parameter_matched_present": True,
                     "compute_matched_present": True,
@@ -327,6 +329,7 @@ def _payload_for_spec(spec):
                     "failed_gate": None,
                     "failed_gate_pointer": None,
                     "candidate_protocol_pointer": "$.candidate_protocol",
+                    "search_space_pointer": "$.search_space",
                     "search_objective_pointer": "$.search_objective_summary",
                     "negative_witness_pointer": "$.negative_witness_mutations",
                     "torch_nas_evidence_pointer": "$.torch_nas_evidence",
@@ -3810,7 +3813,7 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                 {
                     "report": "discovery-gated-nas",
                     "artifact": "reports/canonical/discovery-gated-nas.json",
-                    "pointer": "$.grid",
+                    "pointer": "$.search_space",
                 },
                 {
                     "report": "lejepa-theorem-ledger",
