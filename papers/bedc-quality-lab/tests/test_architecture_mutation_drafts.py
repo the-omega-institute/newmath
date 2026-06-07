@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from bedc_quality_lab.discovery_compiler.architecture_mutation import (
     ARCHITECTURE_MUTATION_DRAFT_RUN_LOCAL_SCHEMA_ID,
     CANONICAL_ROLE,
@@ -66,6 +68,41 @@ def test_missing_or_unresolvable_witness_basis_blocks_draft(tmp_path: Path) -> N
     gate = require_witness_basis(row, root)
     assert gate.status == "fail"
     assert gate.reason == "AMB-HG1"
+
+
+@pytest.mark.parametrize(
+    "row_claim_capsule",
+    [
+        None,
+        "not-an-artifact-pointer",
+        "reports/canonical/missing_claim_capsule.json:$",
+    ],
+)
+def test_unusable_claim_capsule_blocks_draft_after_witness_basis_resolves(
+    tmp_path: Path,
+    row_claim_capsule: str | None,
+) -> None:
+    root = tmp_path
+    _write_json(root, "reports/runs/source/claim_capsule.json", {"run_local": {"negative_witness": [{"status": "blocked"}]}})
+    row = {
+        "witness_basis_pointer": "reports/runs/source/claim_capsule.json:$.run_local.negative_witness[0]",
+        "hardgate_pointer": "reports/runs/source/claim_capsule.json:$.run_local.negative_witness[0].status",
+    }
+    if row_claim_capsule is not None:
+        row["claim_capsule_pointer"] = row_claim_capsule
+
+    payload = build_architecture_mutation_drafts(root, "fixture-time", [row], {}, {})
+
+    assert payload["status"] == "blocked"
+    assert payload["queue_admissible_rows"] == []
+    assert payload["queue_admissible_count"] == 0
+    draft = payload["rows"][0]
+    assert draft["status"] == "blocked"
+    assert draft["hardgates"]["AMB-HG1"]["status"] == "pass"
+    assert draft["hardgates"]["AMB-HG2"]["status"] == "fail"
+    gate = require_witness_basis({"kind": "architecture_mutation", **row}, root)
+    assert gate.status == "fail"
+    assert gate.reason == "AMB-HG2"
 
 
 def test_draft_payload_is_pointer_only_and_rejects_copied_witness_cells(tmp_path: Path) -> None:
