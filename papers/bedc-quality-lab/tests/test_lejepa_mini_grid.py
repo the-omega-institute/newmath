@@ -300,6 +300,7 @@ def test_not_claimed_failed_gate_learning_revocation_and_forbidden_term_audit_ar
     audit = summary["forbidden_claim_term_audit"]
     shared_audit = summary["u_hardgates"]["U-HG8"]["positive_claim_audit"]
     projector_audit = summary["u_hardgates"]["U-HG8"]["projector_positive_claim_audit"]
+    capsule_u_hg8 = summary["claim_capsule"]["hardgates"]["U-HG8"]
 
     assert summary["failed_gate"] == "U-HG2"
     assert summary["not_claimed"] == summary["claim_capsule"]["not_claimed"]
@@ -313,6 +314,8 @@ def test_not_claimed_failed_gate_learning_revocation_and_forbidden_term_audit_ar
     assert "mechanism-closure-unless-D5-M" in PROJECTOR_FORBIDDEN_TERMS
     assert "mechanism-closure-unless-D5-M" in audit["forbidden_positive_claim_terms"]
     assert "mechanism-closure-unless-D5-M" in projector_audit["forbidden_positive_claim_terms"]
+    assert summary["claim_capsule"]["forbidden_claim_term_audit"] == audit
+    assert capsule_u_hg8["projector_positive_claim_audit"] == projector_audit
     assert "mechanism-closure-unless-D5-M" not in claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS
 
 
@@ -320,14 +323,18 @@ def test_projector_local_forbidden_term_hit_fails_capsule_and_u_hg8():
     projected = _project(local_mechanism_closure_claim=True)
     summary = projected["summary_payload"]
     audit = summary["forbidden_claim_term_audit"]
+    capsule_u_hg8 = summary["claim_capsule"]["hardgates"]["U-HG8"]
 
     assert audit["status"] == "fail"
     assert audit["hits"] == ["mechanism-closure-unless-D5-M"]
     assert summary["u_hardgates"]["U-HG8"]["status"] == "fail"
+    assert capsule_u_hg8["status"] == "fail"
     assert summary["u_hardgates"]["U-HG8"]["positive_claim_audit"]["status"] == "pass"
     assert summary["u_hardgates"]["U-HG8"]["projector_positive_claim_audit"]["hits"] == [
         "mechanism-closure-unless-D5-M"
     ]
+    assert summary["claim_capsule"]["forbidden_claim_term_audit"] == audit
+    assert capsule_u_hg8["projector_positive_claim_audit"]["hits"] == ["mechanism-closure-unless-D5-M"]
     assert summary["claim_capsule"]["claim_status"] == "failed"
     assert summary["failed_gate"] == "forbidden-positive-claim-term"
     assert summary["claim_capsule"]["positive_claim"]["level"] == "DN"
