@@ -5287,6 +5287,7 @@ import BEDC.Derived.IntervalDomainUp.DyadicEndpointCoverage
 import BEDC.Derived.IntervalDomainUp.FiniteEndpointOrder
 import BEDC.Derived.IntervalDomainUp.NameCertObligations
 import BEDC.Derived.IntervalDomainUp.RationalWidthMonotonicity
+import BEDC.Derived.IntervalDomainUp.RegularCauchyDirectedWidth
 import BEDC.Derived.IntervalDomainUp.RegularCauchyWindow
 import BEDC.Derived.IntervalDomainUp.TasteGate
 import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
