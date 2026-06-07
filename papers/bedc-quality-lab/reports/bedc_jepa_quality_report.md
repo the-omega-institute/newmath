@@ -38,9 +38,9 @@
 
 ## Evidence
 
-- NameCert: `experiments/bedc_jepa/reports/namecert.yaml`
-- Ledger: `experiments/bedc_jepa/reports/ledger.json`
-- Quality packet: `experiments/bedc_jepa/reports/quality_packet.json`
+- NameCert: `papers/bedc-quality-lab/reports/bedc_jepa_namecert.yaml`
+- Ledger: `papers/bedc-quality-lab/reports/bedc_jepa_gap_ledger.json`
+- Quality packet: `papers/bedc-quality-lab/reports/bedc_jepa_quality_packet.json`
 
 ## Not Claimed
 

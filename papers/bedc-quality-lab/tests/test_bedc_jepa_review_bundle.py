@@ -13,6 +13,10 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["required_artifacts"]["quality_backend_candidate"] == (
         "reports/bedc_jepa_quality_backend_candidate.json"
     )
+    assert bundle["required_artifacts"]["quality_packet"] == "reports/bedc_jepa_quality_packet.json"
+    assert bundle["required_artifacts"]["quality_namecert"] == "reports/bedc_jepa_namecert.yaml"
+    assert bundle["required_artifacts"]["quality_gap_ledger"] == "reports/bedc_jepa_gap_ledger.json"
+    assert bundle["required_artifacts"]["quality_report"] == "reports/bedc_jepa_quality_report.md"
     assert bundle["required_artifacts"]["paper_writeback_packet"] == (
         "reports/bedc_jepa_paper_writeback_packet.json"
     )
@@ -26,6 +30,8 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
         "reports/bedc_claim_boundary_audit.json"
     )
     assert "python scripts/run_public_minigrid_native_seed_sweep.py" in bundle["reproduction_commands"]
+    assert "python scripts/build_bedc_jepa_quality_packet.py" in bundle["reproduction_commands"]
+    assert "python scripts/check_bedc_jepa_quality_gate.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_backend_candidate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_bedc_latent_claim_certificate.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_paper_writeback_packet.py" in bundle["reproduction_commands"]

@@ -60,6 +60,8 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     )
     assert manifest["commands"]["external_run_kit"] == "python scripts/build_bedc_jepa_external_run_kit.py"
     assert manifest["commands"]["review_bundle"] == "python scripts/build_bedc_jepa_review_bundle.py"
+    assert manifest["commands"]["quality_packet"] == "python scripts/build_bedc_jepa_quality_packet.py"
+    assert manifest["commands"]["quality_gate"] == "python scripts/check_bedc_jepa_quality_gate.py"
     assert (
         manifest["commands"]["quality_backend_candidate"]
         == "python scripts/build_bedc_jepa_quality_backend_candidate.py"
@@ -71,6 +73,10 @@ def test_bedc_jepa_artifact_manifest_records_contact_ready_claims():
     assert manifest["commands"]["readiness"] == "python scripts/build_bedc_jepa_readiness.py"
     assert manifest["commands"]["test"] == "python -m pytest -q"
     assert manifest["objective_artifacts"]["torch"] == "reports/bedc_jepa_torch_objective.json"
+    assert manifest["objective_artifacts"]["quality_packet"] == "reports/bedc_jepa_quality_packet.json"
+    assert manifest["objective_artifacts"]["namecert"] == "reports/bedc_jepa_namecert.yaml"
+    assert manifest["objective_artifacts"]["gap_ledger"] == "reports/bedc_jepa_gap_ledger.json"
+    assert manifest["objective_artifacts"]["quality_report"] == "reports/bedc_jepa_quality_report.md"
     assert manifest["readiness"] == "reports/bedc_jepa_readiness.json"
     assert manifest["external_run_kit"] == "reports/bedc_jepa_external_run_kit.json"
     assert manifest["review_bundle"] == "reports/bedc_jepa_review_bundle.json"

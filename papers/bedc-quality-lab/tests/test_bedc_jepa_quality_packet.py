@@ -2,20 +2,26 @@ import importlib.util
 
 import pytest
 
-from experiments.bedc_jepa.certs.build_ledger import build_ledger
-from experiments.bedc_jepa.certs.build_namecert import build_namecert, render_namecert_yaml
-from experiments.bedc_jepa.metrics.quality_gate import evaluate_quality_gate
-from experiments.bedc_jepa.scripts.run_packet import build_packet
+from bedc_quality_lab.bedc_jepa_quality_packet import (
+    build_bedc_jepa_gap_ledger,
+    build_bedc_jepa_namecert,
+    build_bedc_jepa_quality_packet,
+    evaluate_bedc_jepa_quality_gate,
+    render_namecert_yaml,
+)
 
 
 def test_quality_packet_records_trained_gap_ledger_objective():
     if importlib.util.find_spec("torch") is None:
         pytest.skip("torch is not installed")
 
-    packet = build_packet()
+    packet = build_bedc_jepa_quality_packet()
 
     assert packet["schema_id"] == "bedc-jepa-quality-packet"
     assert packet["config"]["science_contract"]["progress_metric"] == "unlogged_error_rate"
+    assert packet["config"]["science_contract"]["terminal_artifact"] == (
+        "papers/bedc-quality-lab/reports/bedc_jepa_quality_packet.json"
+    )
     assert packet["quality_gate"]["decision"] == "pass"
 
     single = packet["benchmark"]["single"]
@@ -54,7 +60,7 @@ def test_quality_gate_fails_closed_on_missing_unlogged_reduction():
         },
     }
 
-    gate = evaluate_quality_gate(packet)
+    gate = evaluate_bedc_jepa_quality_gate(packet)
 
     assert gate["decision"] == "fail"
     assert gate["blocking_checks"] == ["unlogged_error_reduction_mean"]
@@ -97,8 +103,8 @@ def test_namecert_and_ledger_are_packet_projections():
         "quality_gate": {"decision": "pass"},
     }
 
-    namecert = build_namecert(packet)
-    ledger = build_ledger(packet)
+    namecert = build_bedc_jepa_namecert(packet)
+    ledger = build_bedc_jepa_gap_ledger(packet)
     yaml_text = render_namecert_yaml(namecert)
 
     assert namecert["quality"]["gate_decision"] == "pass"

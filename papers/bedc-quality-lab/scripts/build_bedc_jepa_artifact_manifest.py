@@ -85,6 +85,8 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "import_public_jepa_baseline_metrics": "python scripts/import_public_jepa_baseline_metrics.py <baseline-result.json>",
             "external_run_kit": "python scripts/build_bedc_jepa_external_run_kit.py",
             "review_bundle": "python scripts/build_bedc_jepa_review_bundle.py",
+            "quality_packet": "python scripts/build_bedc_jepa_quality_packet.py",
+            "quality_gate": "python scripts/check_bedc_jepa_quality_gate.py",
             "quality_backend_candidate": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
             "paper_writeback_packet": "python scripts/build_bedc_jepa_paper_writeback_packet.py",
             "readiness": "python scripts/build_bedc_jepa_readiness.py",
@@ -118,6 +120,10 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         },
         "objective_artifacts": {
             "torch": "reports/bedc_jepa_torch_objective.json",
+            "quality_packet": "reports/bedc_jepa_quality_packet.json",
+            "namecert": "reports/bedc_jepa_namecert.yaml",
+            "gap_ledger": "reports/bedc_jepa_gap_ledger.json",
+            "quality_report": "reports/bedc_jepa_quality_report.md",
         },
         "public_adapters": {
             "minigrid_benchmark_packet": "reports/bedc_jepa_public_minigrid_benchmark_packet.json",
