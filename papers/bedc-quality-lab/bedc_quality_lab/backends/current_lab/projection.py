@@ -967,6 +967,8 @@ def _certificate_gated_attention_projection(
                     "level_candidate": "D4",
                     "status": "d4-candidate",
                     "evidence_pointer": "$.certificate_gate_summary.gated_vs_plain_valid",
+                    "route_patch_protocol_pointer": "$.route_patch_protocol",
+                    "entropy_only_control_pointer": "$.route_patch_protocol.entropy_only_control",
                     "certificate_evidence_pointer": "$.certificate_gate_summary",
                     "torch_attention_evidence_pointer": "$.torch_attention_evidence",
                 },
@@ -980,7 +982,7 @@ def _certificate_gated_attention_projection(
         }, ProjectionEvidence(
             projection_status="projected",
             evidence_pointer="$.certificate_gate_summary.gated_vs_plain_valid",
-            control_pointer="$.matched_random_control",
+            control_pointer="$.route_patch_protocol",
             scorecard_pointer=f"{QUALITY_SCORECARD_ARTIFACT}:{QUALITY_SCORECARD_ROWS_POINTER}",
         )
     return {
@@ -1342,14 +1344,23 @@ def _mechanism_seeking_network_consistency(payload: Mapping[str, Any]) -> tuple[
 def _certificate_gated_attention_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
     hardgates = pointer_value(payload, "$.hardgate.gates")
     signal = pointer_value(payload, "$.discovery_map_signal")
+    route_patch = pointer_value(payload, "$.route_patch_protocol")
+    entropy_control = pointer_value(payload, "$.route_patch_protocol.entropy_only_control")
     if not isinstance(hardgates, Mapping) or not hardgates:
         return False, "missing-cga-hardgates", "$.hardgate.gates"
     if not isinstance(signal, Mapping):
         return False, "missing-cga-discovery-map-signal", "$.discovery_map_signal"
+    for name in ("CGA-HG1", "CGA-HG2", "CGA-HG3", "CGA-HG4", "CGA-HG5", "CGA-HG6"):
+        if name not in hardgates:
+            return False, f"missing-{name.lower()}", f"$.hardgate.gates.{name}.status"
+    if not isinstance(route_patch, Mapping):
+        return False, "missing-cga-route-patch-protocol", "$.route_patch_protocol"
+    if not isinstance(entropy_control, Mapping):
+        return False, "missing-cga-entropy-only-control", "$.route_patch_protocol.entropy_only_control"
     failed = next(
         (
             name
-            for name in ("CGA-HG1", "CGA-HG2", "CGA-HG3", "CGA-HG4", "CGA-HG5")
+            for name in ("CGA-HG1", "CGA-HG2", "CGA-HG3", "CGA-HG4", "CGA-HG5", "CGA-HG6")
             if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
         ),
         None,
@@ -1376,6 +1387,14 @@ def _certificate_gated_attention_consistency(payload: Mapping[str, Any]) -> tupl
             return False, f"cga-{key}-mismatch", pointer if isinstance(pointer, str) else "$.discovery_map_signal"
     if pointer_value(payload, "$.hardgate.failed_gate") != expected["failed_gate"]:
         return False, "cga-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
+    if expected["failed_gate"] is None and signal.get("control_pointer") != "$.route_patch_protocol":
+        return False, "cga-control-pointer-mismatch", "$.discovery_map_signal.control_pointer"
+    if expected["failed_gate"] is None and signal.get("entropy_only_control_pointer") != "$.route_patch_protocol.entropy_only_control":
+        return False, "cga-entropy-only-control-pointer-mismatch", "$.discovery_map_signal.entropy_only_control_pointer"
+    if expected["failed_gate"] is None and pointer_value(payload, "$.discovery_map_signal.control_pointer") is None:
+        return False, "cga-missing-control-pointer-cell", "$.discovery_map_signal.control_pointer"
+    if expected["failed_gate"] is None and pointer_value(payload, "$.discovery_map_signal.entropy_only_control_pointer") is None:
+        return False, "cga-missing-entropy-only-control-pointer-cell", "$.discovery_map_signal.entropy_only_control_pointer"
     if signal.get("certificate_evidence_pointer") != "$.certificate_gate_summary":
         return False, "cga-certificate-pointer-mismatch", "$.discovery_map_signal.certificate_evidence_pointer"
     if signal.get("torch_attention_evidence_pointer") != "$.torch_attention_evidence":

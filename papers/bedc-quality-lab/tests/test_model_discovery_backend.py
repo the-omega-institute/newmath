@@ -253,8 +253,14 @@ def test_model_discovery_consumes_cga_by_pointer_only():
     assert refs["discovery_map_signal"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.discovery_map_signal"}
     assert refs["surface_registry"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.surface_registry"}
     assert refs["certificate_gate_summary"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.certificate_gate_summary"}
+    assert refs["route_patch_protocol"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.route_patch_protocol"}
     assert refs["torch_attention_evidence"] == {"artifact": CGA_CANONICAL_ARTIFACT, "pointer": "$.torch_attention_evidence"}
+    assert set(refs["route_patch_protocol"]) == {"artifact", "pointer"}
     assert "attention_leak" not in refs
+    assert "valid_patch_delta" not in json.dumps(refs, sort_keys=True)
+    assert "invalid_suppression_delta" not in json.dumps(refs, sort_keys=True)
+    assert "classifier_shift_count_mean" not in json.dumps(refs, sort_keys=True)
+    assert "hardgate" not in refs
     assert "terminal_verdict" not in json.dumps(refs, sort_keys=True)
 
 

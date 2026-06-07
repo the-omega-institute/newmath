@@ -450,6 +450,41 @@ def _payload_for_spec(spec):
     if spec.name == "certificate-gated-attention":
         payload.update(
             {
+                "route_patch_protocol": {
+                    "valid_route_preservation": {
+                        "plain_attention_leak_mean": 0.3,
+                        "certificate_gated_attention_leak_mean": 0.1,
+                        "valid_patch_delta": 0.2,
+                        "evidence_pointer": "$.route_patch_protocol.by_surface",
+                    },
+                    "invalid_route_suppression": {
+                        "invalid_gate_pass_rate": 0.0,
+                        "ambiguous_gate_pass_rate": 0.0,
+                        "invalid_suppression_delta": 1.0,
+                        "evidence_pointer": "$.route_patch_protocol.by_surface",
+                    },
+                    "entropy_only_control": {
+                        "entropy_only_attention_leak_mean": 0.2,
+                        "entropy_only_reduction_mean": 0.1,
+                        "certificate_gate_reduction_mean": 0.2,
+                        "certificate_beats_entropy_only": True,
+                        "evidence_pointer": "$.route_patch_protocol.by_surface",
+                    },
+                    "classifier_shift": {
+                        "certificate_gated_shift_mean": 1.0,
+                        "entropy_only_shift_mean": 0.0,
+                        "classifier_shift_delta": 1.0,
+                    },
+                    "by_surface": {
+                        "fixture_surface": {
+                            "valid_patch_delta": 0.2,
+                            "invalid_suppression_delta": 1.0,
+                            "entropy_only_delta": 0.1,
+                            "classifier_shift_count_mean": 1.0,
+                        }
+                    },
+                    "evidence_pointer": "$.route_patch_protocol.by_surface",
+                },
                 "certificate_gate_summary": {
                     "valid_gate_pass_rate": 1.0,
                     "invalid_gate_pass_rate": 0.0,
@@ -466,6 +501,8 @@ def _payload_for_spec(spec):
                     "reason": "certificate-gate-positive",
                     "failed_gate": None,
                     "failed_gate_pointer": None,
+                    "control_pointer": "$.route_patch_protocol",
+                    "entropy_only_control_pointer": "$.route_patch_protocol.entropy_only_control",
                     "certificate_evidence_pointer": "$.certificate_gate_summary",
                     "torch_attention_evidence_pointer": "$.torch_attention_evidence",
                 },

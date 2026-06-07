@@ -4,5 +4,5 @@
 - Claim capsule: `reports/runs/model-discovery-suite/claim_capsule.json`
 - Capsule subtype: `bedc.model.architecture_claim_capsule`
 - Canonical owner: `reports/canonical/discovery-gated-nas.json`
-- Canonical level candidate: `D5-M`
-- Canonical failed gate: `None`
+- Canonical level candidate: `DN`
+- Canonical failed gate: `DG-NAS-HG7`

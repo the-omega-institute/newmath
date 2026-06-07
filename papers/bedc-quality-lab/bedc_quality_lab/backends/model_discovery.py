@@ -131,6 +131,10 @@ def build_model_discovery_payload(*, root: Path, generated_at: str) -> dict[str,
                 "artifact": CGA_CANONICAL_ARTIFACT,
                 "pointer": "$.certificate_gate_summary",
             },
+            "route_patch_protocol": {
+                "artifact": CGA_CANONICAL_ARTIFACT,
+                "pointer": "$.route_patch_protocol",
+            },
             "torch_attention_evidence": {
                 "artifact": CGA_CANONICAL_ARTIFACT,
                 "pointer": "$.torch_attention_evidence",
@@ -218,6 +222,7 @@ class ModelDiscoveryBackendEvidenceAdapter:
                     "$.discovery_map_signal",
                     "$.surface_registry",
                     "$.certificate_gate_summary",
+                    "$.route_patch_protocol",
                     "$.torch_attention_evidence",
                     "$.discovery_map_signal.theorem_ledger_ref",
                 ),

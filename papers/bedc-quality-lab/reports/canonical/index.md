@@ -13,7 +13,7 @@
 | `gap-head-discovery` | `pass` | `reports/canonical/gap-head-discovery.json` | `reports/canonical/gap-head-discovery.md` | `reports/canonical/gap-head-discovery.fingerprint.json` | `$.boundary_checks` | `$.score_terms` | `$.boundary_checks.forbidden_inference_columns` | `$.final_main_claim_status` | `$.matched_random_control` |
 | `gap-head-ablation` | `pass` | `reports/canonical/gap-head-ablation.json` | `reports/canonical/gap-head-ablation.md` | `reports/canonical/gap-head-ablation.fingerprint.json` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.not_claimed` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` |
 | `ledger-aware-transformer` | `pass` | `reports/canonical/ledger-aware-transformer.json` | `reports/canonical/ledger-aware-transformer.md` | `reports/canonical/ledger-aware-transformer.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.control_protocol` |
-| `certificate-gated-attention` | `pass` | `reports/canonical/certificate-gated-attention.json` | `reports/canonical/certificate-gated-attention.md` | `reports/canonical/certificate-gated-attention.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
+| `certificate-gated-attention` | `pass` | `reports/canonical/certificate-gated-attention.json` | `reports/canonical/certificate-gated-attention.md` | `reports/canonical/certificate-gated-attention.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.route_patch_protocol` |
 | `gap-head-threshold-frontier` | `pass` | `reports/canonical/gap-head-threshold-frontier.json` | `reports/canonical/gap-head-threshold-frontier.md` | `reports/canonical/gap-head-threshold-frontier.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.not_claimed` | `$.main_claim_status` | `$.threshold_summary.control_baseline` |
 | `gap-head-transfer-atlas` | `pass` | `reports/canonical/gap_head_transfer_atlas.json` | `reports/canonical/gap_head_transfer_atlas.md` | `reports/canonical/gap_head_transfer_atlas.fingerprint.json` | `$.not_claimed` | `$.source_artifacts.metric_helper` | `$.not_claimed` | `$.multi_surface_d5_o` | `$.config.control_arm` |
 | `gap-head-attribution-capsule` | `pass` | `reports/canonical/gap_head_attribution_capsule.json` | `reports/canonical/gap_head_attribution_capsule.md` | `reports/canonical/gap_head_attribution_capsule.fingerprint.json` | `$.scope.not_claimed` | `$.cost_protocol_pointer` | `$.scope.not_claimed` | `$.d5_m` | `$.control_pointer` |
@@ -254,7 +254,7 @@
 | `gap-head-discovery` | `hg_p_core` | `$.final_main_claim_status` | `$.matched_random_control` | `None` |
 | `gap-head-ablation` | `hg_p_core` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` | `None` |
 | `ledger-aware-transformer` | `hg_p_core` | `$.positive_claim` | `$.control_protocol` | `None` |
-| `certificate-gated-attention` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
+| `certificate-gated-attention` | `hg_p_core` | `$.positive_claim` | `$.route_patch_protocol` | `None` |
 | `gap-head-threshold-frontier` | `hg_p_core` | `$.main_claim_status` | `$.threshold_summary.control_baseline` | `None` |
 | `gap-head-transfer-atlas` | `hg_p_core` | `$.multi_surface_d5_o` | `$.config.control_arm` | `None` |
 | `gap-head-attribution-capsule` | `hg_p_core` | `$.d5_m` | `$.control_pointer` | `None` |
