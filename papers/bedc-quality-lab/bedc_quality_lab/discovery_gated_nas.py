@@ -504,6 +504,7 @@ class DiscoveryGatedNasProjection:
         baseline = summaries["matched_baseline_control"]
         objective = summaries["search_objective_summary"]
         mutations = summaries["negative_witness_mutations"]
+        matched_baseline_control_positive = baseline.get("control_positive") is True
         payload = {
             "candidate_protocol": summaries["candidate_protocol"],
             "search_space": summaries.get("search_space"),
@@ -535,9 +536,13 @@ class DiscoveryGatedNasProjection:
                 "evidence_pointer": "$.search_objective_summary.selected_candidate",
             },
             "DG-NAS-HG6": {
-                "status": _status(mutations["demoted_candidate_count"] == mutations["witness_violating_candidate_count"]),
+                "status": _status(
+                    mutations["demoted_candidate_count"] == mutations["witness_violating_candidate_count"]
+                    and not matched_baseline_control_positive
+                ),
                 "evidence": "Any witness violation must demote the candidate.",
-                "evidence_pointer": "$.negative_witness_mutations",
+                "evidence_pointer": "$.matched_baseline_control.control_positive" if matched_baseline_control_positive else "$.negative_witness_mutations",
+                "control_positive": baseline.get("control_positive"),
             },
             "DG-NAS-HG7": search_boundary_hg7(payload),
             "DG-NAS-HG8": design_search_certificate_hg7(payload),
