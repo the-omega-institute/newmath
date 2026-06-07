@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\FiniteSignedMeasureUp$}
+\label{ch:concrete-instances-finite-signed-measure-namecert}
+\origin{human}
+
+Following Hahn and standard signed-measure theory, the $\FiniteSignedMeasureUp$ packet names the finite signed event-value surface that Hahn decomposition and variation-measure consumers need before reading positive and negative mass rows. It sits after the base measure carrier of \autoref{ch:concrete-instances-measure-namecert}, the finite nonnegative event-value packet of \autoref{ch:concrete-instances-finite-measure-namecert}, the finite-partition variation ledger of \autoref{ch:concrete-instances-variation-measure-namecert}, the decomposition route of \autoref{ch:concrete-instances-hahn-decomposition-namecert}, the regular-measure handoff of \autoref{ch:concrete-instances-radon-measure-namecert}, and the terminal scalar seal of \autoref{ch:concrete-instances-real-namecert}. The packet records finite signed values, variation bounds, polarity ledgers, and their displayed transport rows.
+
+\begin{definition}[Finite signed measure carrier]
+\label{def:finite-signed-measure-carrier}
+A $\FiniteSignedMeasureUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,E,V,Pm,Nm,T,U,R,H,C,L,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\MeasureUp$ event-family row, exposing the admitted measurable events and their classifier.
+\item $E$ is the finite event ledger whose signed values are visible to the packet.
+\item $V$ is the signed event-value ledger, assigning each event in $E$ a displayed $\RealUp$ scalar value.
+\item $Pm$ is the positive-variation finite measure row, read through $\FiniteMeasureUp$ on the same event ledger.
+\item $Nm$ is the negative-variation finite measure row, also read through $\FiniteMeasureUp$ on the same event ledger.
+\item $T$ is the total-variation bound row, naming a displayed $\RealUp$ bound for $Pm+Nm$ over the admitted finite event family.
+\item $U$ is the polarity and cancellation ledger, recording how the signed value row $V$ is read as the difference of the displayed positive and negative finite-measure rows.
+\item $R$ is the regularity and scalar readback row, routing optional $\RadonMeasureUp$ requests and every terminal $\RealUp$ scalar through the same finite signed surface.
+\item $H$ records componentwise $\hsame$ transport for $S,E,V,Pm,Nm,T,U,R,C,L,Q$.
+\item $C$ records displayed $\Cont$ replay from an event request through signed value, positive variation, negative variation, total variation, polarity, and scalar readback rows.
+\item $L$ is the $\Pkg$ provenance over $\FiniteSignedMeasureUp$, $\MeasureUp$, $\FiniteMeasureUp$, $\VariationMeasureUp$, $\HahnDecompositionUp$, $\RadonMeasureUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the local $\NameCert_{\FiniteSignedMeasureUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host signed-measure equality, a completed measure algebra, quotient event equality, selected Jordan decomposition, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[FiniteSignedMeasure NameCert obligations]
+\label{thm:finite-signed-measure-namecert-obligations}
+For every accepted $\FiniteSignedMeasureUp$ carrier
+$$
+G=(S,E,V,Pm,Nm,T,U,R,H,C,L,Q),
+$$
+the local $\NameCert_{\FiniteSignedMeasureUp}$ surface consists exactly of event-family admission through $S$, finite event visibility through $E$, signed scalar values through $V$, positive and negative variation reads through $Pm$ and $Nm$, total-variation boundedness through $T$, polarity and cancellation through $U$, Radon and real readback through $R$, componentwise transport through $H$, displayed replay through $C$, provenance through $L$, and local naming through $Q$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-signed-measure-carrier}. The rows $S,E,V$ are the only event and signed-value data exposed before the variation rows appear.
+
+Read $Pm$ and $Nm$ as finite nonnegative measure rows over the same finite event ledger. The total-variation row $T$ bounds their displayed finite sum, while $U$ records the signed-value read as the difference of those two finite nonnegative rows.
+
+The readback row $R$ is the only route to optional RadonMeasure or terminal Real consumers. Transport and replay are componentwise through $H$ and $C$, so a consumer cannot replace the finite ledger by a host signed measure or by quotient event equality.
+
+Finally $L$ and $Q$ source and name the packet. Since the carrier contains no completed measure algebra, selected Jordan decomposition, countable-choice selector, host signed-measure equality, or ambient Real-completeness coordinate, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[FiniteSignedMeasure Hahn consumer route]
+\label{thm:finite-signed-measure-hahn-consumer-route}
+Every $\HahnDecompositionUp$ consumer of a finite signed measure must read an accepted $\FiniteSignedMeasureUp$ carrier through the displayed rows $S,E,V,Pm,Nm,T,U,R,H,C,L,Q$ before exposing positive-region, negative-region, or null-boundary data. The same route supplies $\VariationMeasureUp$, $\RadonMeasureUp$, and $\RealUp$ consumers with finite signed values, finite variation bounds, and scalar readback without exporting host signed-measure equality, quotient event equality, selected partitions, or ambient measure completion.
+\end{theorem}
+\begin{proof}
+Begin with the Hahn decomposition carrier. Its signed-measure input row can be supplied by a finite signed surface only after the event ledger, signed values, variation rows, total-variation bound, and polarity ledger have been displayed.
+
+Use the obligation theorem above. The rows $Pm,Nm,T,U$ expose exactly the positive-variation, negative-variation, total-variation, and cancellation data that a Hahn-facing consumer needs before it reads positive and negative regions.
+
+VariationMeasure and RadonMeasure consumers use the same packet boundary. The finite-partition variation read sees the signed value and variation rows, while the regular-measure read can pass through $R$ only after the finite signed ledger has been displayed.
+
+The remaining rows $H,C,L,Q$ transport, replay, source, and name that route. No coordinate in the carrier can yield a host signed measure, quotient equality of events, a selected measurable partition, a completed measure algebra, countable choice, or ambient Real completeness.
+\end{proof}
+
+\closureat{FiniteSignedMeasureUp}{seedStr}
+
+\begin{closurestatus}{\FiniteSignedMeasureUp}
+  \constructivestory{A $\FiniteSignedMeasureUp$ packet is generated from a MeasureUp event-family row, a finite event ledger, signed RealUp event values, positive and negative FiniteMeasureUp variation rows, total-variation bound, polarity and cancellation ledger, optional RadonMeasureUp and RealUp readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-signed-measure-carrier}, \autoref{thm:finite-signed-measure-namecert-obligations}, and \autoref{thm:finite-signed-measure-hahn-consumer-route} seed the finite signed event-value carrier consumed by HahnDecompositionUp, VariationMeasureUp, RadonMeasureUp, MeasureUp, FiniteMeasureUp, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host signed-measure equality, completed measure algebras, quotient event equality, selected Jordan or Hahn decompositions, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, signed event-value transport, positive and negative finite-measure variation reads, total-variation boundedness, polarity cancellation, Hahn consumer routing, Radon and Real readback, replay, provenance, and local naming for BEDC.Derived.FiniteSignedMeasureUp.}
+\end{closurestatus}
