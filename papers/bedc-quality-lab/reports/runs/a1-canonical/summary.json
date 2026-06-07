@@ -1963,9 +1963,56 @@
   },
   "d5_o": {
     "A1_capsule_arm_count": 24,
-    "claim": "D5-O robust operational pointer retained from canonical gap-head-on-h evidence.",
+    "claim": "D5-O operational readiness is blocked by canonical readiness criteria.",
+    "criterion_pointers": {
+      "ablation": "reports/canonical/gap-head-ablation.json:$.hardgate.status",
+      "adversarial": "reports/canonical/discovery_negative_witnesses.json:$.witnesses",
+      "observed_debt_transfer": "reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status",
+      "seed_expansion": "reports/canonical/gap-head-robustness-sweep.json:$.A3_seed_expansion.final_verdict",
+      "threshold": "reports/canonical/gap-head-robustness-sweep.json:$.A1_threshold_sweep.treatment_verdict.positive"
+    },
+    "failed_checks": [
+      "ablation"
+    ],
+    "readiness": {
+      "ablation": {
+        "artifact": "reports/canonical/gap-head-ablation.json",
+        "name": "ablation",
+        "pointer": "$.hardgate.status",
+        "reason": "Gap-head ablation hardgate is explicit non-pass.",
+        "status": "failed"
+      },
+      "adversarial": {
+        "artifact": "reports/canonical/discovery_negative_witnesses.json",
+        "name": "adversarial",
+        "pointer": "$.witnesses",
+        "reason": "The eight adversarial witness kinds do not break the discovery gate.",
+        "status": "pass"
+      },
+      "observed_debt_transfer": {
+        "artifact": "reports/canonical/gap-head-observed-debt-transfer.json",
+        "name": "observed_debt_transfer",
+        "pointer": "$.gap_head_on_h_observed_debt_transfer.status",
+        "reason": "Observed-debt transfer metric for gap-head-on-h passes.",
+        "status": "pass"
+      },
+      "seed_expansion": {
+        "artifact": "reports/canonical/gap-head-robustness-sweep.json",
+        "name": "seed_expansion",
+        "pointer": "$.A3_seed_expansion.final_verdict",
+        "reason": "A3 seed expansion has robust_positive final verdict under final_status=pass.",
+        "status": "pass"
+      },
+      "threshold": {
+        "artifact": "reports/canonical/gap-head-robustness-sweep.json",
+        "name": "threshold",
+        "pointer": "$.A1_threshold_sweep.treatment_verdict.positive",
+        "reason": "A1 threshold sweep passes under the canonical robustness final_status.",
+        "status": "pass"
+      }
+    },
     "source_pointer": "reports/canonical/gap-head-on-h.json",
-    "status": "ready"
+    "status": "blocked"
   },
   "e_hardgates": {
     "failed_gate": "E-HG4_non_score_mechanism_claim_fail_closed",
@@ -20799,8 +20846,8 @@
     "what_was_learned": "residualized attribution remains strong and score/margin is not sufficient."
   },
   "mechanism_evidence": {
-    "base_level": "D5-O",
-    "base_status": "ready",
+    "base_level": "blocked",
+    "base_status": "blocked",
     "candidate_mechanism": "unresolved",
     "closure_pointer": "$.mechanism_evidence.mechanism_status",
     "control_clear": false,

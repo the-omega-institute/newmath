@@ -4,6 +4,10 @@ from pathlib import Path
 
 import pytest
 
+from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
+    GapHeadD5Criterion,
+    GapHeadD5ReadinessLedger,
+)
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
     default_drt_training_extension_spec,
@@ -651,6 +655,7 @@ def _write_all_payloads(root: Path):
 def _write_coverage_payloads(root: Path):
     _write_all_payloads(root)
     _write_gap_head_d5_context(root, transfer_metric=True)
+    _pass_gap_head_ablation(root)
     _write_json_artifact(
         root,
         discovery_map.DISCOVERY_GATED_TRANSFORMER_ARTIFACT,
@@ -801,12 +806,17 @@ def _robustness_context_payload():
         "final_status": "pass",
         "acceptance_gates": {"status": "pass"},
         "A1_threshold_sweep": {"treatment_verdict": {"positive": True}},
-        "A2_feature_ablation": {"status": "complete"},
         "A3_seed_expansion": {"status": "complete", "final_verdict": "robust_positive"},
         "A4_distribution_transfer": {
             "status": "complete",
             "policy": "pointer_only_existing_transfer_surfaces_no_retraining",
         },
+    }
+
+
+def _ablation_context_payload(*, status="fail"):
+    return {
+        "hardgate": {"status": status},
     }
 
 
@@ -929,6 +939,7 @@ def _dimension_mismatch_payload(*, status="pass", anti_triviality_status="scale_
 
 def _write_gap_head_d5_context(root: Path, *, transfer_metric=False, witness_count=8):
     _write_json_artifact(root, discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT, _robustness_context_payload())
+    _write_json_artifact(root, discovery_map.GAP_HEAD_ABLATION_ARTIFACT, _ablation_context_payload())
     _write_json_artifact(
         root,
         discovery_map.NEGATIVE_WITNESSES_ARTIFACT,
@@ -958,6 +969,14 @@ def _rewrite_gap_head_d5_artifact(root: Path, artifact: str, mutate):
     payload = _read_json_artifact(root, artifact)
     mutate(payload)
     _write_json_artifact(root, artifact, payload)
+
+
+def _pass_gap_head_ablation(root: Path):
+    _rewrite_gap_head_d5_artifact(
+        root,
+        discovery_map.GAP_HEAD_ABLATION_ARTIFACT,
+        _set_nested(("hardgate", "status"), "pass"),
+    )
 
 
 def _without_key(key):
@@ -1643,9 +1662,9 @@ def test_positive_row_rejects_unresolved_no_control_rationale_pointer(tmp_path):
     assert reason == "unresolved-no-control-rationale-pointer"
 
 
-def test_gap_head_on_h_current_readiness_stays_d4_with_observed_debt_transfer_missing(tmp_path):
+def test_gap_head_on_h_current_readiness_stays_d4_with_ablation_failed(tmp_path):
     _write_all_payloads(tmp_path)
-    _write_gap_head_d5_context(tmp_path, transfer_metric=False)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=True)
     _write_audit_complete_payload(tmp_path, "gap-head-on-h")
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
@@ -1661,10 +1680,12 @@ def test_gap_head_on_h_current_readiness_stays_d4_with_observed_debt_transfer_mi
         "reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status"
     )
     assert row["d5_readiness"]["threshold"]["status"] == "pass"
-    assert row["d5_readiness"]["ablation"]["status"] == "pass"
+    assert row["d5_readiness"]["ablation"]["status"] == "failed"
+    assert row["d5_readiness"]["ablation"]["artifact"] == "reports/canonical/gap-head-ablation.json"
+    assert row["d5_readiness"]["ablation"]["pointer"] == "$.hardgate.status"
     assert row["d5_readiness"]["seed_expansion"]["status"] == "pass"
     assert row["d5_readiness"]["adversarial"]["status"] == "pass"
-    assert row["d5_readiness"]["observed_debt_transfer"]["status"] == "missing"
+    assert row["d5_readiness"]["observed_debt_transfer"]["status"] == "pass"
 
 
 def test_gap_head_on_h_without_audit_source_fails_closed_before_d5_o(tmp_path):
@@ -1683,6 +1704,7 @@ def test_gap_head_on_h_without_audit_source_fails_closed_before_d5_o(tmp_path):
 def test_gap_head_on_h_projects_to_d5_o_with_audit_source(tmp_path):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _pass_gap_head_ablation(tmp_path)
     _write_audit_complete_payload(tmp_path, "gap-head-on-h")
 
     discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
@@ -1839,6 +1861,7 @@ def test_gap_head_transfer_atlas_failed_claim_projects_dn(tmp_path):
 def test_gap_head_on_h_d5_readiness_rejects_malformed_transfer_artifact(tmp_path, mutate):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _pass_gap_head_ablation(tmp_path)
     _write_audit_complete_payload(tmp_path, "gap-head-on-h")
     _rewrite_gap_head_d5_artifact(tmp_path, discovery_map.OBSERVED_DEBT_ARTIFACT, mutate)
 
@@ -1873,21 +1896,21 @@ def test_gap_head_on_h_d5_readiness_rejects_malformed_transfer_artifact(tmp_path
         ),
         (
             "ablation",
-            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
-            _without_key("A2_feature_ablation"),
+            discovery_map.GAP_HEAD_ABLATION_ARTIFACT,
+            _without_key("hardgate"),
             "missing",
         ),
         (
             "ablation",
-            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
-            _set_nested(("A2_feature_ablation", "status"), "failed"),
-            "missing",
+            discovery_map.GAP_HEAD_ABLATION_ARTIFACT,
+            _set_nested(("hardgate", "status"), "failed"),
+            "failed",
         ),
         (
             "ablation",
-            discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
-            _set_nested(("A2_feature_ablation", "status"), "incomplete"),
-            "missing",
+            discovery_map.GAP_HEAD_ABLATION_ARTIFACT,
+            _set_nested(("hardgate", "status"), "incomplete"),
+            "failed",
         ),
         (
             "seed_expansion",
@@ -1899,7 +1922,7 @@ def test_gap_head_on_h_d5_readiness_rejects_malformed_transfer_artifact(tmp_path
             "seed_expansion",
             discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
             _set_nested(("A3_seed_expansion", "status"), "incomplete"),
-            "missing",
+            "pass",
         ),
         (
             "seed_expansion",
@@ -1954,6 +1977,7 @@ def test_gap_head_on_h_d5_readiness_fails_closed_per_real_criterion(
 ):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _pass_gap_head_ablation(tmp_path)
     _write_audit_complete_payload(tmp_path, "gap-head-on-h")
     _rewrite_gap_head_d5_artifact(tmp_path, artifact, mutate)
 
@@ -1961,10 +1985,14 @@ def test_gap_head_on_h_d5_readiness_fails_closed_per_real_criterion(
     row = _row_by_report(payload)["gap-head-on-h"]
 
     statuses = {name: value["status"] for name, value in row["d5_readiness"].items()}
-    assert row["discovery_level"] == "D4"
     assert row["audit_status"] == "valid"
     assert statuses[criterion] == expected_status
-    assert {name for name, status in statuses.items() if status != "pass"} == {criterion}
+    if expected_status == "pass":
+        assert row["discovery_level"] == "D5-O"
+        assert {name for name, status in statuses.items() if status != "pass"} == set()
+    else:
+        assert row["discovery_level"] == "D4"
+        assert {name for name, status in statuses.items() if status != "pass"} == {criterion}
 
 
 def test_gap_head_on_h_d5_o_claim_with_unresolved_pointer_is_invalid(monkeypatch):
@@ -1974,9 +2002,9 @@ def test_gap_head_on_h_d5_o_claim_with_unresolved_pointer_is_invalid(monkeypatch
         discovery_map.QUALITY_SCORECARD_ARTIFACT: _scorecard_payload(),
         discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT: {"final_status": "pass"},
     }
-    ledger = discovery_map.GapHeadD5ReadinessLedger(
+    ledger = GapHeadD5ReadinessLedger(
         criteria=(
-            discovery_map.GapHeadD5Criterion(
+            GapHeadD5Criterion(
                 name="threshold",
                 status="pass",
                 artifact=discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT,
@@ -2027,6 +2055,7 @@ def test_adversarial_witness_count_does_not_create_positive_discovery(tmp_path):
 def test_discovery_map_has_no_generic_d5_level(tmp_path):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _pass_gap_head_ablation(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 
@@ -2037,6 +2066,7 @@ def test_discovery_map_has_no_generic_d5_level(tmp_path):
 def test_positive_discovery_rows_have_resolvable_gate_pointers(tmp_path):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _pass_gap_head_ablation(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
 

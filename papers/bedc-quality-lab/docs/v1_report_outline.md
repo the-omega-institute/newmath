@@ -40,7 +40,7 @@ Pointers: `reports/canonical/index.json` `$.reports[*].name`; `$.reports[*].bund
 
 ## 7. Selected positive worked case: gap-head-on-h
 
-Purpose: `gap-head-on-h` is the selected positive worked case for this report frame; positive-discovery classification is read from `reports/canonical/discovery_map.json:$.rows[*]`, so this section does not claim uniqueness among positive rows. Its current D5-candidate status is scoped to observed-debt transfer surfaces.
+Purpose: `gap-head-on-h` is the selected positive worked case for this report frame; positive-discovery classification is read from `reports/canonical/discovery_map.json:$.rows[*]`, so this section does not claim uniqueness among positive rows. Its current operational level is D4, with D5-O readiness blocked by the ablation hardgate.
 
 Pointers: `reports/canonical/gap-head-on-h.{json,md}`; `reports/canonical/gap-head-observed-debt-transfer.{json,md}`; `reports/canonical/index.json` `$.reports[?(@.name=="gap-head-on-h")]`; `reports/canonical/gap-head-observed-debt-transfer.json` `$.gap_head_on_h_observed_debt_transfer.status`; `reports/canonical/gap-head-on-h.json` `$.main_claim_status`; `$.control_verdict`; `$.treatment_comparison`; `$.applicability_boundary`.
 
