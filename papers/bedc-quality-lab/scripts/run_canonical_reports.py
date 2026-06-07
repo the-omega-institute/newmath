@@ -122,17 +122,112 @@ RELEASE_NAMECERT_CANDIDATE_ARTIFACT_ID = "bedc-quality-lab:release-namecert-cand
 TOY_SAFETY_BOUNDARY_JSON_ARTIFACT = "reports/canonical/toy_safety_boundary.json"
 TOY_SAFETY_BOUNDARY_MARKDOWN_ARTIFACT = "reports/canonical/toy_safety_boundary.md"
 TOY_SAFETY_BOUNDARY_ARTIFACT_ID = "bedc-quality-lab:toy-safety-boundary"
+
+
+@dataclass(**{"froz" + "en": True})
+class ObservedDebtAxisProjectionSpec:
+    axis_id: str
+    axis_label: str
+    source_artifact: str
+    evidence_pointer: str
+    status_pointer: str
+    positive_statuses: tuple[str, ...]
+    hardgate_pointer: str | None
+    debt_row_pointer: str | None
+    not_claimed: str
+
+
 OBSERVED_DEBT_AXIS_PROJECTION_SPECS = (
-    ("latent_distribution", "Latent distribution", "reports/canonical/nongaussian-distribution-sweep.json", "$.main_claim_status", "$.main_claim_status", ("observed-debt",), "$.claim_gate", "$.records[0].latent_distribution_debt_item", "Finite latent-distribution sweep only; no global non-Gaussian failure claim is projected."),
-    ("anisotropy", "Transition anisotropy", "reports/canonical/anisotropic-ou-sweep.json", "$.transition_debt_by_grid.rho_axes_0p95_0p3", "$.transition_debt_by_grid.rho_axes_0p95_0p3.status", ("observed-debt",), None, "$.transition_debt_by_grid.rho_axes_0p95_0p3", "Transition anisotropy remains ledger evidence for this sweep, not a promoted observed-debt claim."),
-    ("dimension_mismatch", "Dimension mismatch", DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT, "$.dimension_mismatch_debt_transfer.status", "$.dimension_mismatch_debt_transfer.status", ("pass",), "$.hardgate_evidence", "$.boundary_ledger", "Dimension mismatch is bounded to the encoder-dimension transfer surface and keeps its DN boundary."),
-    ("sample_count", "Sample count", "reports/canonical/gap-head-observed-debt-transfer.json", "$.gap_head_on_h_observed_debt_transfer.status", "$.gap_head_on_h_observed_debt_transfer.status", ("pass",), "$.hardgate_evidence", "$.observed_debt_transfer_boundary", "Sample-count transfer is finite surface evidence and does not promote a global quality claim."),
-    ("optimizer", "Optimizer", "runs/training_choice_observability.json", "$.training_choice_observability.ledger_risk_only_arm_count", "$.training_choice_observability.observed_debt_arm_count", ("positive-observed-debt",), "$.training_choice_observability.arms[0].hardgates", "$.boundary_ledger[0]", "Training-choice observability is ledger-risk-only unless producer-owned observed-debt arms pass their gates."),
-    ("mixing", "Mixing family", "reports/canonical/mixing-family-sweep.json", "$.coverage_item", "$.coverage_item.debt_item.status", ("observed-debt",), None, "$.coverage_item.debt_item", "Mixing-family coverage is represented as ledger coverage and is not promoted by this projection."),
-    ("compute", "Compute budget", "runs/training_choice_observability.json", "$.source_artifacts.gap_head_metric_helper", "$.status", ("positive-observed-debt",), None, None, "Compute evidence is proxy-only in the current artifacts and remains ledger-risk-only."),
-    ("capacity", "Model capacity", "reports/canonical/discovery_gate_escape_registry.json", "$.capacity", "$.capacity.overflow_policy", ("positive-observed-debt",), None, None, "Capacity evidence is a boundary registry entry and remains ledger-risk-only."),
+    ObservedDebtAxisProjectionSpec(
+        axis_id="latent_distribution",
+        axis_label="Latent distribution",
+        source_artifact="reports/canonical/nongaussian-distribution-sweep.json",
+        evidence_pointer="$.main_claim_status",
+        status_pointer="$.main_claim_status",
+        positive_statuses=("observed-debt",),
+        hardgate_pointer="$.claim_gate",
+        debt_row_pointer="$.records[0].latent_distribution_debt_item",
+        not_claimed="Finite latent-distribution sweep only; no global non-Gaussian failure claim is projected.",
+    ),
+    ObservedDebtAxisProjectionSpec(
+        axis_id="anisotropy",
+        axis_label="Transition anisotropy",
+        source_artifact="reports/canonical/anisotropic-ou-sweep.json",
+        evidence_pointer="$.transition_debt_by_grid.rho_axes_0p95_0p3",
+        status_pointer="$.transition_debt_by_grid.rho_axes_0p95_0p3.status",
+        positive_statuses=("observed-debt",),
+        hardgate_pointer=None,
+        debt_row_pointer="$.transition_debt_by_grid.rho_axes_0p95_0p3",
+        not_claimed="Transition anisotropy remains ledger evidence for this sweep, not a promoted observed-debt claim.",
+    ),
+    ObservedDebtAxisProjectionSpec(
+        axis_id="dimension_mismatch",
+        axis_label="Dimension mismatch",
+        source_artifact=DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT,
+        evidence_pointer="$.dimension_mismatch_debt_transfer.status",
+        status_pointer="$.dimension_mismatch_debt_transfer.status",
+        positive_statuses=("pass",),
+        hardgate_pointer="$.hardgate_evidence",
+        debt_row_pointer="$.boundary_ledger",
+        not_claimed="Dimension mismatch is bounded to the encoder-dimension transfer surface and keeps its DN boundary.",
+    ),
+    ObservedDebtAxisProjectionSpec(
+        axis_id="sample_count",
+        axis_label="Sample count",
+        source_artifact="reports/canonical/gap-head-observed-debt-transfer.json",
+        evidence_pointer="$.gap_head_on_h_observed_debt_transfer.status",
+        status_pointer="$.gap_head_on_h_observed_debt_transfer.status",
+        positive_statuses=("pass",),
+        hardgate_pointer="$.hardgate_evidence",
+        debt_row_pointer="$.observed_debt_transfer_boundary",
+        not_claimed="Sample-count transfer is finite surface evidence and does not promote a global quality claim.",
+    ),
+    ObservedDebtAxisProjectionSpec(
+        axis_id="optimizer",
+        axis_label="Optimizer",
+        source_artifact="runs/training_choice_observability.json",
+        evidence_pointer="$.training_choice_observability.ledger_risk_only_arm_count",
+        status_pointer="$.training_choice_observability.observed_debt_arm_count",
+        positive_statuses=("positive-observed-debt",),
+        hardgate_pointer="$.training_choice_observability.arms[0].hardgates",
+        debt_row_pointer="$.boundary_ledger[0]",
+        not_claimed="Training-choice observability is ledger-risk-only unless producer-owned observed-debt arms pass their gates.",
+    ),
+    ObservedDebtAxisProjectionSpec(
+        axis_id="mixing",
+        axis_label="Mixing family",
+        source_artifact="reports/canonical/mixing-family-sweep.json",
+        evidence_pointer="$.coverage_item",
+        status_pointer="$.coverage_item.debt_item.status",
+        positive_statuses=("observed-debt",),
+        hardgate_pointer=None,
+        debt_row_pointer="$.coverage_item.debt_item",
+        not_claimed="Mixing-family coverage is represented as ledger coverage and is not promoted by this projection.",
+    ),
+    ObservedDebtAxisProjectionSpec(
+        axis_id="compute",
+        axis_label="Compute budget",
+        source_artifact="runs/training_choice_observability.json",
+        evidence_pointer="$.source_artifacts.gap_head_metric_helper",
+        status_pointer="$.status",
+        positive_statuses=("positive-observed-debt",),
+        hardgate_pointer=None,
+        debt_row_pointer=None,
+        not_claimed="Compute evidence is proxy-only in the current artifacts and remains ledger-risk-only.",
+    ),
+    ObservedDebtAxisProjectionSpec(
+        axis_id="capacity",
+        axis_label="Model capacity",
+        source_artifact="reports/canonical/discovery_gate_escape_registry.json",
+        evidence_pointer="$.capacity",
+        status_pointer="$.capacity.overflow_policy",
+        positive_statuses=("positive-observed-debt",),
+        hardgate_pointer=None,
+        debt_row_pointer=None,
+        not_claimed="Capacity evidence is a boundary registry entry and remains ledger-risk-only.",
+    ),
 )
-OBSERVED_DEBT_AXIS_IDS = tuple(spec[0] for spec in OBSERVED_DEBT_AXIS_PROJECTION_SPECS)
+OBSERVED_DEBT_AXIS_IDS = tuple(spec.axis_id for spec in OBSERVED_DEBT_AXIS_PROJECTION_SPECS)
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -1795,31 +1890,30 @@ def _all_gates_pass(value: Any) -> bool:
     return bool(statuses) and all(status == "pass" for status in statuses)
 
 
-def _projection_row(spec: tuple[Any, ...]) -> dict[str, Any]:
-    axis_id, axis_label, source_artifact, evidence_pointer, status_pointer, positive_statuses, hardgate_pointer, debt_row_pointer, not_claimed = spec
-    source_payload = _load_sidecar_payload(source_artifact)
-    evidence_value = _bracket_pointer_value(source_payload, evidence_pointer)
-    source_status = _bracket_pointer_value(source_payload, status_pointer)
-    hardgate_value = _bracket_pointer_value(source_payload, hardgate_pointer) if hardgate_pointer else None
-    hardgate_pass = bool(hardgate_pointer and _all_gates_pass(hardgate_value))
-    if hardgate_pointer is None and source_status in positive_statuses:
+def _projection_row(spec: ObservedDebtAxisProjectionSpec) -> dict[str, Any]:
+    source_payload = _load_sidecar_payload(spec.source_artifact)
+    evidence_value = _bracket_pointer_value(source_payload, spec.evidence_pointer)
+    source_status = _bracket_pointer_value(source_payload, spec.status_pointer)
+    hardgate_value = _bracket_pointer_value(source_payload, spec.hardgate_pointer) if spec.hardgate_pointer else None
+    hardgate_pass = bool(spec.hardgate_pointer and _all_gates_pass(hardgate_value))
+    if spec.hardgate_pointer is None and source_status in spec.positive_statuses:
         hardgate_pass = True
     global_claim = _bracket_pointer_value(source_payload, "$.global_claim_flag") is True
     classification = (
         "observed-debt"
-        if evidence_value is not None and source_status in positive_statuses and hardgate_pass and not global_claim
+        if evidence_value is not None and source_status in spec.positive_statuses and hardgate_pass and not global_claim
         else "ledger-risk-only"
     )
     return {
-        "axis_id": axis_id,
-        "axis_label": axis_label,
+        "axis_id": spec.axis_id,
+        "axis_label": spec.axis_label,
         "classification": classification,
-        "source_artifact": source_artifact,
-        "evidence_pointer": evidence_pointer,
+        "source_artifact": spec.source_artifact,
+        "evidence_pointer": spec.evidence_pointer,
         "source_status": source_status,
-        "debt_row": _bracket_pointer_value(source_payload, debt_row_pointer) if debt_row_pointer else None,
-        "hardgate_pointer": hardgate_pointer,
-        "not_claimed": not_claimed,
+        "debt_row": _bracket_pointer_value(source_payload, spec.debt_row_pointer) if spec.debt_row_pointer else None,
+        "hardgate_pointer": spec.hardgate_pointer,
+        "not_claimed": spec.not_claimed,
     }
 
 
