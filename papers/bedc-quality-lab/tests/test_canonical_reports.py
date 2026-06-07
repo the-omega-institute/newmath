@@ -2055,11 +2055,11 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "literature_ledger",
         "quality_scorecard",
         "observed_debt_axis_projection",
-            "negative_witnesses",
-            "claim_verdicts",
-            "claim_capsule",
-            "formal_hardening",
-        }.issubset(payload)
+        "negative_witnesses",
+        "claim_verdicts",
+        "claim_capsule",
+        "formal_hardening",
+    }.issubset(payload)
     assert set(payload["paper_outline"]["core_reports"]) == HG_P_CORE
     assert payload["negative_witnesses"] == {
         "status": "pointer-only",
