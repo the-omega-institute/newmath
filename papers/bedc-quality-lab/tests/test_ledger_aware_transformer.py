@@ -13,6 +13,7 @@ from bedc_quality_lab.discovery_compiler.capsule import (
     require_architecture_claim_capsule,
 )
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
+from bedc_quality_lab.backends.current_lab import projection as discovery_projection
 from scripts import run_canonical_reports as canonical
 from scripts import run_ledger_aware_transformer as runner
 
@@ -236,8 +237,40 @@ def test_lat_robustness_pointer_or_hg7_mismatch_demotes():
     assert pointer_value(refreshed, refreshed["failed_gate_pointer"]) is None
 
     mismatch = deepcopy(payload)
-    mismatch["hardgate"]["gates"]["LAT-HG7"]["status"] = "fail"
+    baseline_overlay, baseline_evidence = discovery_projection._ledger_aware_transformer_projection(payload)
+    assert baseline_overlay["main_verdict"]["ledger_aware_transformer"]["level_candidate"] == "D5-O"
+    assert baseline_evidence.failed_gate is None
+
+    mismatch["robustness_signal"]["status"] = "fail"
+    mismatch["discovery_map_signal"].update(
+        {
+            "status": "negative",
+            "level_candidate": "DN",
+            "reason": "hardgate-failed",
+            "failed_gate": "LAT-HG7",
+            "failed_gate_pointer": "$.hardgate.gates.LAT-HG7.status",
+            "net_positive_signal": False,
+        }
+    )
     assert mismatch["hardgate"]["gates"]["LAT-HG7"]["status"] != mismatch["robustness_signal"]["status"]
+
+    consistent, reason, failed_pointer = discovery_projection._ledger_aware_transformer_consistency(mismatch)
+    overlay, evidence = discovery_projection._ledger_aware_transformer_projection(mismatch)
+
+    assert consistent is True
+    assert reason == ""
+    assert failed_pointer == "$.hardgate.gates.LAT-HG7.status"
+    assert overlay == {
+        "verdict": "rejected",
+        "main_verdict": {
+            "ledger_aware_transformer": {
+                "level_candidate": "DN",
+                "status": "negative",
+            },
+        },
+    }
+    assert evidence.failed_gate == "$.hardgate.gates.LAT-HG7.status"
+    assert pointer_value(mismatch, evidence.failed_gate) == "pass"
 
 
 def test_lat_torch_unavailable_records_boundary_without_crash():
