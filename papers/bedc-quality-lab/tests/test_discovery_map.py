@@ -4,6 +4,10 @@ from pathlib import Path
 
 import pytest
 
+from bedc_quality_lab.discovery_regularized_training import (
+    default_drt_training_extension_spec,
+    project_drt_training_extension,
+)
 from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_ledger_aware_transformer as lat_runner
 from scripts import run_canonical_reports as canonical
@@ -15,6 +19,14 @@ def _write_payload(root: Path, spec, payload):
     if spec.name == "discovery-regularized-training":
         payload = dict(payload)
         payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
+        payload.update(
+            project_drt_training_extension(
+                [],
+                default_drt_training_extension_spec(),
+                {"raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"},
+                payload,
+            )
+        )
         canonical._validate_discovery_regularized_training_payload(payload)
     path = root / spec.json_artifact
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -99,12 +111,40 @@ def _minimal_payload(spec):
                 "ordered_discovery_lambdas": [0.0, 0.0001, 0.001, 0.005, 0.01],
             },
             "torch_training_evidence": {
+                "classifier_surface_delta": {
+                    "source_arm": "drt",
+                    "control_arm": "matched_random",
+                    "drt_minus_matched_random_classifier_shift_count": 1.0,
+                    "net_positive_signal": True,
+                },
                 "expected_row_count": 1,
                 "protocols": [{"status": "complete"}],
                 "row_count": 1,
                 "status": "available",
             },
-            "records": {"raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"},
+            "records": {
+                "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+                "extension_metrics": {
+                    "loss_terms_enabled": [
+                        "discovery",
+                        "ledger",
+                        "certificate",
+                        "mechanism",
+                        "cost",
+                        "negative_witness",
+                    ],
+                    "comparison_family": "task-sigreg-drt-matched-random",
+                    "compute_ledger_pointer": "$.device_protocol",
+                    "debt_marker_pointer": "$.constraint_summary",
+                    "uer_mean": 0.11,
+                    "uer_reduction_mean": 0.09,
+                    "sidecar_metric_pointers": {
+                        "raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+                        "torch_training_evidence": "$.torch_training_evidence",
+                        "matched_random_control": "$.matched_random_control",
+                    },
+                },
+            },
             "surface_registry": {
                 "quality": {
                     "source": "deterministic-anchor",
@@ -116,7 +156,35 @@ def _minimal_payload(spec):
                         "matched_random": {"quality_q_mean": 0.59},
                     },
                 },
+                "classifier_shift": {
+                    "classifier_shift_count_mean": 1.0,
+                    "classifier_shift_positive": True,
+                    "net_positive_signal": True,
+                    "net_positive_count": 1,
+                },
                 "task_accuracy_only": {"task_accuracy_only_rejected": True, "promoted_row_count": 0},
+            },
+            "constraint_summary": {
+                "drt_minus_task_only_debt_q": -0.1,
+                "drt_minus_task_only_benefit_q": 0.02,
+                "debt_down": True,
+                "benefit_nondecreasing": True,
+            },
+            "device_protocol": {
+                "requested_device": "auto",
+                "resolved_device": "cpu",
+                "drift_tolerance": 0.0001,
+                "status": "available",
+            },
+            "negative_witness_mutations": {
+                "status": "armed",
+                "source_arm": "drt",
+                "mutation_arm": "matched_random",
+            },
+            "training_loop_trace": {
+                "status": "available",
+                "source_arm": "drt",
+                "mutation_arm": "matched_random",
             },
             "matched_random_control": {"control_positive_discovery": False},
         })

@@ -26,6 +26,9 @@ from bedc_quality_lab.discovery_compiler.pointers import pointer_value as _brack
 from bedc_quality_lab.discovery_compiler.map import validate_discovery_map_payload
 from bedc_quality_lab.discovery_regularized_training import (
     QUALITY_PROMOTION_ARMS as DRT_QUALITY_PROMOTION_ARMS,
+    DRT_EXTENSION_UER_MAX,
+    DRT_EXTENSION_UER_REDUCTION_MIN,
+    drt_extension_forbidden_key_audit,
     quality_artifact_pointer as _drt_quality_artifact_pointer,
 )
 from bedc_quality_lab.discovery_gated_transformer_training import (
@@ -685,6 +688,10 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "training_loop_trace",
             "matched_random_control",
             "quality_promotion_boundary",
+            "loss_family",
+            "component_ablation",
+            "training_method_comparison",
+            "drt_extension_hardgates",
             "hardgate",
             "failed_gate",
             "discovery_map_signal",
@@ -2318,8 +2325,119 @@ def _validate_discovery_regularized_training_quality_promotion_boundary(payload:
         raise ValueError("quality_promotion_boundary DRT row gate must match hardgate")
 
 
+def _validate_discovery_regularized_training_extension(payload: Mapping[str, Any]) -> None:
+    loss_family = payload.get("loss_family")
+    component_ablation = payload.get("component_ablation")
+    comparison = payload.get("training_method_comparison")
+    hardgates = payload.get("drt_extension_hardgates")
+    if not all(isinstance(section, Mapping) for section in (loss_family, component_ablation, comparison, hardgates)):
+        raise ValueError("discovery_regularized_training extension sections must be objects")
+    audit = drt_extension_forbidden_key_audit(
+        {
+            "loss_family": loss_family,
+            "component_ablation": component_ablation,
+            "training_method_comparison": comparison,
+            "drt_extension_hardgates": hardgates,
+        }
+    )
+    if audit["status"] != "pass":
+        raise ValueError("discovery_regularized_training extension forbidden audit failed")
+    expected_loss_terms = {
+        "discovery",
+        "ledger",
+        "certificate",
+        "mechanism",
+        "cost",
+        "negative_witness",
+    }
+    if loss_family["status"] != "pointer-only":
+        raise ValueError("discovery_regularized_training loss_family status mismatch")
+    if loss_family["owner_pointer"] != _drt_quality_artifact_pointer("$.loss_family"):
+        raise ValueError("discovery_regularized_training loss_family owner pointer mismatch")
+    terms = loss_family.get("terms")
+    if not isinstance(terms, Mapping) or set(terms) != expected_loss_terms:
+        raise ValueError("discovery_regularized_training loss_family terms mismatch")
+    if _drt_pointer_value(payload, str(loss_family["loss_terms_enabled_pointer"])) is None:
+        raise ValueError("discovery_regularized_training loss_terms_enabled pointer does not resolve")
+    for term_id, row in terms.items():
+        if not isinstance(row, Mapping) or row.get("term_id") != term_id:
+            raise ValueError(f"discovery_regularized_training loss term invalid: {term_id}")
+        if _drt_pointer_value(payload, str(row.get("evidence_pointer"))) is None:
+            raise ValueError(f"discovery_regularized_training loss term pointer does not resolve: {term_id}")
+    if component_ablation["status"] != "pointer-only":
+        raise ValueError("discovery_regularized_training component_ablation status mismatch")
+    if component_ablation["owner_pointer"] != _drt_quality_artifact_pointer("$.component_ablation"):
+        raise ValueError("discovery_regularized_training component_ablation owner pointer mismatch")
+    rows = component_ablation.get("rows")
+    if not isinstance(rows, list) or len(rows) != 7:
+        raise ValueError("discovery_regularized_training component_ablation row count mismatch")
+    for row in rows:
+        if not isinstance(row, Mapping):
+            raise ValueError("discovery_regularized_training component_ablation row must be object")
+        for key in ("evidence_pointer", "quality_q_pointer"):
+            if _drt_pointer_value(payload, str(row.get(key))) is None:
+                raise ValueError(f"discovery_regularized_training component_ablation pointer does not resolve: {key}")
+    if comparison["status"] != "pointer-only":
+        raise ValueError("discovery_regularized_training training_method_comparison status mismatch")
+    expected_comparison_pointers = {
+        "comparison_family_pointer",
+        "compute_ledger_pointer",
+        "debt_marker_pointer",
+    }
+    for key in expected_comparison_pointers:
+        if _drt_pointer_value(payload, str(comparison.get(key))) is None:
+            raise ValueError(f"discovery_regularized_training comparison pointer does not resolve: {key}")
+    metric_pointers = comparison.get("metric_pointers")
+    if not isinstance(metric_pointers, Mapping) or set(metric_pointers) != {"uer", "uer_reduction", "raw_rows"}:
+        raise ValueError("discovery_regularized_training comparison metric pointers mismatch")
+    for pointer in metric_pointers.values():
+        if _drt_pointer_value(payload, str(pointer)) is None:
+            raise ValueError("discovery_regularized_training comparison metric pointer does not resolve")
+    gates = hardgates.get("gates")
+    if not isinstance(gates, Mapping):
+        raise ValueError("discovery_regularized_training extension hardgates missing gates")
+    expected_gate_order = (
+        "DRT-EXT-HG1_required_pointer_resolution",
+        "DRT-EXT-HG2_uer_threshold",
+        "DRT-EXT-HG3_component_ablation",
+        "DRT-EXT-HG4_forbidden_key_audit",
+    )
+    expected_gates = set(expected_gate_order)
+    if set(gates) != expected_gates:
+        raise ValueError("discovery_regularized_training extension hardgate set mismatch")
+    uer_gate = gates["DRT-EXT-HG2_uer_threshold"]
+    if uer_gate.get("thresholds") != {
+        "uer_max": DRT_EXTENSION_UER_MAX,
+        "uer_reduction_min": DRT_EXTENSION_UER_REDUCTION_MIN,
+    }:
+        raise ValueError("discovery_regularized_training extension UER thresholds mismatch")
+    uer = _as_finite_number(_drt_pointer_value(payload, str(uer_gate.get("uer_pointer"))))
+    reduction = _as_finite_number(_drt_pointer_value(payload, str(uer_gate.get("uer_reduction_pointer"))))
+    expected_uer_status = (
+        "pass"
+        if uer is not None
+        and reduction is not None
+        and uer <= DRT_EXTENSION_UER_MAX
+        and reduction >= DRT_EXTENSION_UER_REDUCTION_MIN
+        else "fail"
+    )
+    if uer_gate.get("status") != expected_uer_status:
+        raise ValueError("discovery_regularized_training extension UER gate mismatch")
+    expected_failed = next((gate for gate in expected_gate_order if gates[gate].get("status") != "pass"), None)
+    if hardgates.get("status") != ("pass" if expected_failed is None else "fail"):
+        raise ValueError("discovery_regularized_training extension hardgate status mismatch")
+    if hardgates.get("failed_gate") != expected_failed:
+        raise ValueError("discovery_regularized_training extension failed gate mismatch")
+    expected_failed_pointer = None if expected_failed is None else f"$.drt_extension_hardgates.gates.{expected_failed}.status"
+    if hardgates.get("failed_gate_pointer") != expected_failed_pointer:
+        raise ValueError("discovery_regularized_training extension failed gate pointer mismatch")
+    if expected_failed_pointer is not None and _drt_pointer_value(payload, _drt_quality_artifact_pointer(expected_failed_pointer)) is None:
+        raise ValueError("discovery_regularized_training extension failed gate pointer does not resolve")
+
+
 def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any]) -> None:
     _validate_discovery_regularized_training_quality_promotion_boundary(payload)
+    _validate_discovery_regularized_training_extension(payload)
 
 
 def _discovery_regularized_training_quality_boundary_index_section(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:

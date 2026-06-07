@@ -31,6 +31,13 @@
 | 4 | `matched_random_DRT` | `0.595767` | `0.595767` | `above-task-only` | `comparison-only` | `reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random` |
 | 5 | `old_certificate_guided` | `None` | `None` | `missing-evidence-fail-closed` | `fail-closed` | `reports/canonical/discovery-regularized-training.json:$.config.arms` |
 
+## DRT Extension Hardgates
+
+- `DRT-EXT-HG1_required_pointer_resolution`: `pass`
+- `DRT-EXT-HG2_uer_threshold`: `pass`
+- `DRT-EXT-HG3_component_ablation`: `pass`
+- `DRT-EXT-HG4_forbidden_key_audit`: `pass`
+
 ## Device Protocol
 
 - requested: `auto`
