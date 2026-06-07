@@ -43,6 +43,10 @@ def _fake_surface_result(spec, status="pass"):
         "surface_id": spec.surface_id,
         "label": spec.label,
         "surface_kind": spec.surface_kind,
+        "variation_axis": spec.variation_axis,
+        "evaluation_role": spec.evaluation_role,
+        "runnable_status": spec.runnable_status,
+        "counting_reason": spec.counting_reason,
         "countable_for_multi_surface_d5_o": spec.countable_for_multi_surface_d5_o,
         "sample_count": spec.sample_count,
         "seed_count": len(spec.seeds),
@@ -135,7 +139,24 @@ def test_surface_registry_has_thirteen_ordered_surfaces_and_three_arms():
     ]
     assert atlas.ARMS == ("vanilla", "learned_gap_head_on_h", "matched_random_gap_head")
     assert registry[0].countable_for_multi_surface_d5_o is False
-    assert sum(1 for spec in registry if spec.countable_for_multi_surface_d5_o) == 12
+    assert sum(1 for spec in registry if spec.countable_for_multi_surface_d5_o) == 11
+    rows = [spec.registry_row() for spec in registry]
+    assert all(
+        {"variation_axis", "evaluation_role", "runnable_status", "counting_reason"} <= set(row)
+        for row in rows
+    )
+    axes = {row["variation_axis"] for row in rows}
+    assert {
+        "sample_count",
+        "transition_kernel_anisotropy",
+        "latent_distribution",
+        "mixing_family",
+        "optimizer_training_budget",
+    } <= axes
+    optimizer = next(row for row in rows if row["label"] == "optimizer_undertraining")
+    assert optimizer["evaluation_role"] == "boundary_only"
+    assert optimizer["runnable_status"] == "not_runnable"
+    assert optimizer["countable_for_multi_surface_d5_o"] is False
 
 
 def test_surface_hardgates_cover_a2_hg1_to_hg4():
@@ -182,7 +203,7 @@ def test_payload_records_a2_hg5_to_hg7_boundary_and_prior_evidence(monkeypatch):
     payload = atlas.build_payload(run_id="fixture-run", generated_at="fixture-time")
 
     assert payload["multi_surface_d5_o"]["decision"] == "pass"
-    assert payload["multi_surface_d5_o"]["pass_surface_count"] == 10
+    assert payload["multi_surface_d5_o"]["pass_surface_count"] == 9
     assert payload["multi_surface_d5_o"]["clean_surface_counted"] is False
     assert payload["hardgate_evidence"]["A2-HG1"]["status"] == "pass"
     assert payload["hardgate_evidence"]["A2-HG2"]["status"] == "pass"
@@ -190,10 +211,15 @@ def test_payload_records_a2_hg5_to_hg7_boundary_and_prior_evidence(monkeypatch):
     assert payload["hardgate_evidence"]["A2-HG4"]["status"] == "pass"
     assert payload["hardgate_evidence"]["A2-HG5"]["status"] == "pass"
     assert "clean_gaussian_ou" not in payload["hardgate_evidence"]["A2-HG5"]["pass_surface_ids"]
+    assert "optimizer_undertraining" not in payload["hardgate_evidence"]["A2-HG5"]["pass_surface_ids"]
     assert payload["hardgate_evidence"]["A2-HG6"]["status"] == "pass"
     assert payload["hardgate_evidence"]["A2-HG7"]["status"] == "pass"
     row_by_label = {row["label"]: row for row in payload["boundary_ledger"]}
-    assert set(row_by_label) == fail_labels
+    assert set(row_by_label) == fail_labels | {"optimizer_undertraining"}
+    assert row_by_label["optimizer_undertraining"]["kind"] == "boundary_only_surface"
+    assert row_by_label["optimizer_undertraining"]["failed_gates"] == []
+    assert row_by_label["optimizer_undertraining"]["variation_axis"] == "optimizer_training_budget"
+    assert row_by_label["optimizer_undertraining"]["runnable_status"] == "not_runnable"
     assert row_by_label["laplace_latent"]["source_evidence"]["packet_pointer"] == "$.prior_observation_packet"
     assert (
         row_by_label["laplace_latent"]["source_evidence"]["observation_pointer"]
@@ -226,6 +252,19 @@ def test_hg7_detects_missing_laplace_boundary_row(monkeypatch):
     assert payload["multi_surface_d5_o"]["decision"] == "failed"
     assert payload["multi_surface_d5_o"]["discovery_level"] == "DN"
     assert set(payload["multi_surface_d5_o"]["failed_gates"]) == {"A2-HG6", "A2-HG7"}
+
+
+def test_passing_optimizer_undertraining_is_boundary_evidence_not_hg5_count(monkeypatch):
+    monkeypatch.setattr(atlas, "_surface_result", lambda spec: _fake_surface_result(spec, "pass"))
+
+    payload = atlas.build_payload(run_id="fixture-run", generated_at="fixture-time")
+
+    pass_ids = payload["multi_surface_d5_o"]["pass_surface_ids"]
+    row_by_label = {row["label"]: row for row in payload["boundary_ledger"]}
+    assert "optimizer_undertraining" not in pass_ids
+    assert payload["multi_surface_d5_o"]["pass_surface_count"] == 11
+    assert row_by_label["optimizer_undertraining"]["kind"] == "boundary_only_surface"
+    assert row_by_label["optimizer_undertraining"]["failed_gates"] == []
 
 
 def test_claim_capsule_records_prior_observation_packet_as_not_pass_evidence(monkeypatch):
@@ -305,7 +344,10 @@ def test_write_outputs_keeps_canonical_pointer_and_run_capsule(tmp_path, monkeyp
     markdown = paths["report"].read_text(encoding="utf-8")
     assert written["artifact_id"] == atlas.ARTIFACT_ID
     assert capsule["schema_id"] == atlas.CLAIM_CAPSULE_SCHEMA_ID
-    assert summary["boundary_ledger"] == written["boundary_ledger"]
+    assert [row["label"] for row in summary["boundary_ledger"]] == [
+        row["label"] for row in written["boundary_ledger"]
+    ]
+    assert summary["boundary_ledger"][0]["kind"] == written["boundary_ledger"][0]["kind"]
     assert "Hardgate evidence pointer" in markdown
     assert "learned AUROC CI-low" not in markdown
 
@@ -334,6 +376,7 @@ def test_real_surface_smoke_uses_three_arms(monkeypatch):
         surface_id="S-smoke",
         label="sample_count_smoke",
         surface_kind=atlas.OBSERVED_DEBT_SURFACE_KIND,
+        variation_axis="sample_count",
         sample_count=96,
         seeds=(11,),
         rho=0.82,

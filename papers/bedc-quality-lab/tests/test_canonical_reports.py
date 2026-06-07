@@ -65,6 +65,39 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
 }
 
 
+def _atlas_fixture_rows():
+    row = {
+        "surface_id": "S12",
+        "label": "optimizer_undertraining",
+        "surface_kind": "observed_debt",
+        "variation_axis": "optimizer_training_budget",
+        "evaluation_role": "boundary_only",
+        "runnable_status": "not_runnable",
+        "counting_reason": "optimizer-budget arm is represented as boundary evidence only",
+        "countable_for_multi_surface_d5_o": False,
+    }
+    return {
+        "surface_registry": [dict(row)],
+        "surfaces": [
+            {
+                **row,
+                "verdict": {
+                    "status": "pass",
+                    "counts_for_multi_surface_d5_o": False,
+                    "failed_gates": [],
+                },
+            }
+        ],
+        "boundary_ledger": [
+            {
+                **row,
+                "kind": "boundary_only_surface",
+                "failed_gates": [],
+            }
+        ],
+    }
+
+
 def _drt_mechanism_ablation_fixture() -> dict[str, object]:
     return {
         "status": "pass",
@@ -248,9 +281,9 @@ def _payload_for_spec(spec):
             "result": {"status": "negative" if spec.name == "certificate-guided-training" else "fixture"},
             "deltas": {"after_minus_before": {"debt_delta": -0.25}},
             "verdicts": [{"deltas": {"debt_delta": -0.25}}],
-            "surface_registry": [{"surface_id": "S0"}],
-            "surfaces": [{"surface_id": "S0"}],
-            "boundary_ledger": [],
+            "surface_registry": _atlas_fixture_rows()["surface_registry"],
+            "surfaces": _atlas_fixture_rows()["surfaces"],
+            "boundary_ledger": _atlas_fixture_rows()["boundary_ledger"],
             "hardgate_evidence": {"A2-HG5": {"status": "pass"}},
             "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
             "prior_observation_packet": {
@@ -629,6 +662,8 @@ def _payload_for_spec(spec):
         return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "gap-head-transfer-atlas":
         payload["config"] = {"control_arm": "matched_random_gap_head"}
+        payload.update(_atlas_fixture_rows())
+        payload["forbidden_claim_term_audit"] = {"status": "pass", "hits": []}
     if spec.name == "mixing-family-sweep":
         payload["coverage_item"] = {
             "canonical_families": ["a", "b", "c"],
@@ -1391,6 +1426,20 @@ def test_canonical_reports_manifest_includes_gap_head_transfer_atlas():
     assert spec.cost_pointer == "$.source_artifacts.metric_helper"
     assert spec.positive_claim_pointer == "$.multi_surface_d5_o"
     assert spec.control_pointer == "$.config.control_arm"
+
+
+def test_gap_head_transfer_atlas_generated_payload_exposes_row_classification():
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+    payload = _payload_for_spec(spec)
+
+    assert spec.positive_claim_pointer == "$.multi_surface_d5_o"
+    for row in payload["surface_registry"] + payload["surfaces"] + payload["boundary_ledger"]:
+        assert {
+            "variation_axis",
+            "evaluation_role",
+            "runnable_status",
+            "counting_reason",
+        } <= set(row)
 
 
 def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():

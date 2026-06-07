@@ -25,6 +25,39 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
 }
 
 
+def _atlas_fixture_rows():
+    row = {
+        "surface_id": "S12",
+        "label": "optimizer_undertraining",
+        "surface_kind": "observed_debt",
+        "variation_axis": "optimizer_training_budget",
+        "evaluation_role": "boundary_only",
+        "runnable_status": "not_runnable",
+        "counting_reason": "optimizer-budget arm is represented as boundary evidence only",
+        "countable_for_multi_surface_d5_o": False,
+    }
+    return {
+        "surface_registry": [dict(row)],
+        "surfaces": [
+            {
+                **row,
+                "verdict": {
+                    "status": "pass",
+                    "counts_for_multi_surface_d5_o": False,
+                    "failed_gates": [],
+                },
+            }
+        ],
+        "boundary_ledger": [
+            {
+                **row,
+                "kind": "boundary_only_surface",
+                "failed_gates": [],
+            }
+        ],
+    }
+
+
 def _drt_mechanism_ablation_fixture():
     return {
         "status": "pass",
@@ -104,6 +137,8 @@ def _audit_complete_payload(spec, payload):
         payload.setdefault("cost_protocol_pointer", "configs/default_cost_protocol.yaml")
         payload.setdefault("control_pointer", "$.control_evidence")
         payload.setdefault("control_evidence", {"status": "matched-random-negative"})
+    if spec.name == "gap-head-transfer-atlas":
+        payload.update(_atlas_fixture_rows())
     return payload
 
 
@@ -449,6 +484,7 @@ def _minimal_payload(spec):
         payload.update({
             "config": {"control_arm": "matched_random_gap_head"},
             "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
+            "forbidden_claim_term_audit": {"status": "pass", "hits": []},
             "source_artifacts": {"metric_helper": "reports/canonical/gap_head_transfer_atlas.json:$.surfaces"},
         })
         return payload
@@ -1648,7 +1684,8 @@ def test_gap_head_transfer_atlas_without_audit_source_fails_closed(tmp_path):
     assert claim["discovery_level"] == "D5-O"
     assert row["discovery_level"] == "DN"
     assert "terminal_verdict" not in row
-    assert row["audit_status"] == "valid"
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "missing-atlas-boundary-ledger"
 
 
 def test_gap_head_transfer_atlas_discovery_row_matches_canonical_claim_with_audit_source(tmp_path):
@@ -1673,6 +1710,7 @@ def test_gap_head_transfer_atlas_audit_rejects_unresolved_control_pointer(tmp_pa
     _write_all_payloads(tmp_path)
     spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
     payload = _minimal_payload(spec)
+    payload.update(_atlas_fixture_rows())
     payload["config"].pop("control_arm")
     _write_payload(tmp_path, spec, payload)
 
@@ -1683,6 +1721,42 @@ def test_gap_head_transfer_atlas_audit_rejects_unresolved_control_pointer(tmp_pa
     assert row["control_pointer"] == "$.config.control_arm"
     assert row["audit_status"] == "invalid"
     assert row["audit_reason"] == "unresolved-control-pointer"
+
+
+def test_gap_head_transfer_atlas_missing_boundary_row_fails_closed(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
+    payload["boundary_ledger"] = []
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-transfer-atlas"]
+
+    assert row["discovery_level"] == "DN"
+    assert "terminal_verdict" not in row
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "missing-atlas-boundary-ledger"
+
+
+def test_gap_head_transfer_atlas_forbidden_global_claim_term_fails_closed(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
+    payload["multi_surface_d5_o"]["not_claimed"] = ["global model quality"]
+    payload["forbidden_claim_term_audit"] = {
+        "status": "fail",
+        "hits": ["global model quality"],
+    }
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-transfer-atlas"]
+
+    assert row["discovery_level"] == "DN"
+    assert "terminal_verdict" not in row
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "atlas-forbidden-claim-term-audit-failed"
 
 
 def test_gap_head_transfer_atlas_audit_rejects_terminal_claim_mismatch(tmp_path):
@@ -1706,6 +1780,7 @@ def test_gap_head_transfer_atlas_failed_claim_projects_dn(tmp_path):
     _write_all_payloads(tmp_path)
     spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
     payload = _minimal_payload(spec)
+    payload.update(_atlas_fixture_rows())
     payload["multi_surface_d5_o"] = {
         "decision": "failed",
         "discovery_level": "DN",

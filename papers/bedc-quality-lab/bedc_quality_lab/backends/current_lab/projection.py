@@ -2104,6 +2104,11 @@ def _audit_row(
         claim = pointer_value(payload, "$.multi_surface_d5_o")
         if not isinstance(claim, Mapping):
             return "invalid", "missing-atlas-claim"
+        if pointer_value(payload, "$.forbidden_claim_term_audit.status") != "pass":
+            return "invalid", "atlas-forbidden-claim-term-audit-failed"
+        boundary_ledger = pointer_value(payload, "$.boundary_ledger")
+        if not isinstance(boundary_ledger, list) or not boundary_ledger:
+            return "invalid", "missing-atlas-boundary-ledger"
         if pointer_value(payload, "$.multi_surface_d5_o.decision") is None:
             return "invalid", "unresolved-atlas-decision"
         if pointer_value(payload, "$.multi_surface_d5_o.discovery_level") is None:
@@ -2193,6 +2198,9 @@ def discovery_row(
         if isinstance(claim, Mapping) and claim.get("discovery_level") in DISCOVERY_LEVELS:
             terminal_verdict = _atlas_claim_terminal(payload, discovery_level)
     audit_status, audit_reason = _audit_row(spec, payload, discovery_level, evidence, terminal_verdict, context_payloads)
+    if spec.name == "gap-head-transfer-atlas" and audit_status == "invalid":
+        discovery_level = "DN"
+        terminal_verdict = ""
     row: dict[str, Any] = {
         "report": spec.name,
         "json_artifact": spec.json_artifact,
