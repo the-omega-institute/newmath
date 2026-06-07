@@ -1208,6 +1208,7 @@ import BEDC.Derived.CalculusUp.RiemannDerivativeSeparation
 import BEDC.Derived.CalculusUp.RootChainRuleWindowObligation
 import BEDC.Derived.CalculusUp.RootCommonRealReadback
 import BEDC.Derived.CalculusUp.RootContinuityCompositionLedger
+import BEDC.Derived.CalculusUp.RootIntegralRegSeqRatHandoff
 import BEDC.Derived.CalculusUp.RootL10Nonescape
 import BEDC.Derived.CalculusUp.RootLimitDerivativeIntegralRoute
 import BEDC.Derived.CalculusUp.RootLocalLinearizationCauchyHandoff
@@ -1215,6 +1216,7 @@ import BEDC.Derived.CalculusUp.RootOperationLedgerExhaustion
 import BEDC.Derived.CalculusUp.RootPackageNonescape
 import BEDC.Derived.CalculusUp.RootPublicPackageReadiness
 import BEDC.Derived.CalculusUp.RootRealSealNonescape
+import BEDC.Derived.CalculusUp.RootRiemannSumRealSeal
 import BEDC.Derived.CalculusUp.RootUnblockContinuousDerivativeWindow
 import BEDC.Derived.CalculusUp.RootUnblockFiniteSumHandoff
 import BEDC.Derived.CalculusUp.RootUnblockLimitWindowScope
@@ -5298,6 +5300,7 @@ import BEDC.Derived.IntervalConnectednessUp.TasteGate
 import BEDC.Derived.IntervalCoverRefinementTreeUp.TasteGate
 import BEDC.Derived.IntervalDomainUp.CarrierAdmission
 import BEDC.Derived.IntervalDomainUp.CompletionApproximationScope
+import BEDC.Derived.IntervalDomainUp.DirectedCompletionScope
 import BEDC.Derived.IntervalDomainUp.DirectedRefinementCovers
 import BEDC.Derived.IntervalDomainUp.DirectedRefinementObligationScope
 import BEDC.Derived.IntervalDomainUp.DyadicEndpointCoverage
