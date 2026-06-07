@@ -433,6 +433,52 @@ def main() -> int:
 
     cp_data = run_critical_path()
     if cp_data is None:
+        load5 = metrics.get("load_5min", 0.0)
+        if load5 <= LOAD_HIGH:
+            return 0
+
+        try:
+            config = json.loads(CONFIG.read_text())
+        except FileNotFoundError:
+            config = {
+                "phase_b_timeout": 3600,
+                "phase_c_timeout": 6000,
+                "paper_review_timeout": 1800,
+                "paper_revise_timeout": 3600,
+            }
+
+        cur_lean = int(config.get("lean", LEAN_MAX))
+        cur_paper = int(config.get("paper", PAPER_MAX))
+        target = {
+            "lean": clamp(cur_lean // 2, LEAN_MIN, LEAN_MAX),
+            "paper": clamp(cur_paper // 2, PAPER_MIN, PAPER_MAX),
+            "lean_lake": LAKE_MIN,
+        }
+        keys = ("paper", "lean", "lean_lake")
+        diffs = []
+        for k in keys:
+            cur = config.get(k)
+            new = target[k]
+            if cur != new:
+                diffs.append(f"{k}: {cur} → {new}")
+                config[k] = new
+
+        if diffs:
+            print(
+                "critical_path-failure-under-load: "
+                f"load5={load5:.1f}>{LOAD_HIGH:.0f}; emergency concurrency cut: "
+                + ", ".join(diffs),
+                file=sys.stderr,
+            )
+            if not args.dry_run:
+                CONFIG.write_text(json.dumps(config, indent=2) + "\n")
+                print(f"wrote {CONFIG.relative_to(REPO_ROOT)}", file=sys.stderr)
+        else:
+            print(
+                "critical_path-failure-under-load: "
+                f"load5={load5:.1f}>{LOAD_HIGH:.0f}; emergency config already at floor",
+                file=sys.stderr,
+            )
         return 0
     target = compute_target(cp_data)
     signals = target.pop("_signals")
