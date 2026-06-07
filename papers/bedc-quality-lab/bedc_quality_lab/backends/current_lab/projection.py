@@ -147,12 +147,12 @@ TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observab
 DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT = "reports/canonical/discovery_gated_transformer.json"
+DISCOVERY_GATED_NAS_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 CERTIFICATE_GATED_ATTENTION_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 MECHANISM_SEEKING_NETWORK_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
-DISCOVERY_GATED_NAS_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 SIGREG_MINI_GRID_ARTIFACT = "reports/canonical/sigreg-mini-grid.json"
 LEJEPA_THEOREM_LEDGER_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
-MODEL_DISCOVERY_SUITE_ARTIFACT = "reports/runs/model-discovery-suite/summary.json"
+MODEL_DESIGN_SUITE_ARTIFACT = "reports/canonical/model_design_suite.json"
 
 DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
     {
@@ -2439,6 +2439,7 @@ def _manifest_audit(
         "reports/canonical/dgt_mutation_report.json",
         "reports/canonical/new_model_hardgates.json",
         "reports/canonical/discovery_gated_transformer.json",
+        MODEL_DESIGN_SUITE_ARTIFACT,
         "reports/canonical/discovery_negative_witness_summary.json",
         "reports/canonical/claim_capsule.json",
         "reports/canonical/claim_graph.json",

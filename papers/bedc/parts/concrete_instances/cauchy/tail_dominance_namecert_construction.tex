@@ -64,11 +64,29 @@ The regular rational handoff is exactly $R$. It is downstream of $D,I,S,W$ and u
 The structural rows $H,C,P,N$ replay and name this route without adding analytic coordinates. Hence every $\RegSeqRatUp$ or $\RealUp$ read factors through the displayed tail-dominance packet and exports none of the excluded limit, subsequence, quotient, choice, trichotomy, or completeness data.
 \end{proof}
 
+\begin{theorem}[Cauchy tail-dominance Real seal consumption]
+\label{thm:cauchy-tail-dominance-real-seal-consumption}
+Every $\RealUp$ completion-facing consumer of an accepted $\CauchyTailDominanceUp$ packet must read the tolerance row, cofinal index witness, $\StreamNameUp$ window, $\RegSeqRatUp$ readback, and tail-window ledger before the Real seal is visible. Thus the completion boundary consumes the finite tail route
+$$
+\DyadicRatCoreUp,\ \CofinalSequenceUp,\ \StreamNameUp,\ \RegSeqRatUp,\ W \longrightarrow \RealUp
+$$
+and cannot introduce selected limits, quotient stream equality, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:cauchy-tail-dominance-carrier}. The terminal Real row $E$ is downstream of the tolerance row $D$, cofinal index row $I$, stream window $S$, regular rational readback $R$, and tail-window ledger $W$.
+
+Apply \autoref{thm:cauchy-tail-dominance-namecert-obligations}. It makes those rows part of the local certificate surface, so a completion-facing consumer cannot read $E$ before it has exposed the same displayed tolerance request, dominance witness, finite window, readback, and ledger.
+
+Now use the handoff of \autoref{thm:cauchy-tail-dominance-regseqrat-handoff}. It identifies the route from $\DyadicRatCoreUp$ through $\CofinalSequenceUp$, $\StreamNameUp$, and $\RegSeqRatUp$ to the terminal Real seal.
+
+The structural rows $H,C,P,N$ preserve and name that route without adding analytic coordinates. Since the accepted carrier has no selected-limit row, no quotient stream equality row, no countable-choice row, no trichotomy row, and no ambient completeness row, the Real seal can only be consumed through the displayed finite tail boundary.
+\end{proof}
+
 \closureat{CauchyTailDominanceUp}{seedStr}
 
 \begin{closurestatus}{\CauchyTailDominanceUp}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-tail-dominance-carrier}, \autoref{thm:cauchy-tail-dominance-namecert-obligations}, and \autoref{thm:cauchy-tail-dominance-regseqrat-handoff} seed the finite tolerance-directed Cauchy tail-dominance route through StreamName, RegSeqRat, DyadicRatCore, CofinalSequence, and Real seal rows.}
+  \scopeclosed{\autoref{def:cauchy-tail-dominance-carrier}, \autoref{thm:cauchy-tail-dominance-namecert-obligations}, \autoref{thm:cauchy-tail-dominance-regseqrat-handoff}, and \autoref{thm:cauchy-tail-dominance-real-seal-consumption} seed the finite tolerance-directed Cauchy tail-dominance route through StreamName, RegSeqRat, DyadicRatCore, CofinalSequence, and Real seal rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close selected limits, selected subsequences, quotient stream equality, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}

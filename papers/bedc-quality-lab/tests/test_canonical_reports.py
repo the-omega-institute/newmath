@@ -54,10 +54,19 @@ QUALITY_SCORECARD_METRICS = {
     "HardeningCoverage",
     "OverclaimRate",
 }
+MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
+    "ledger-aware-transformer": "bedc-quality-lab:ledger-aware-transformer",
+    "certificate-gated-attention": "bedc-quality-lab:certificate-gated-attention",
+    "discovery-regularized-training": "bedc-quality-lab:discovery-regularized-training",
+    "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
+    "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
+}
 
 
 def _payload_for_spec(spec):
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
+    if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
+        payload["artifact_id"] = MODEL_DESIGN_FIXTURE_ARTIFACT_IDS[spec.name]
     payload.update(
         {
             "source_artifacts": {
