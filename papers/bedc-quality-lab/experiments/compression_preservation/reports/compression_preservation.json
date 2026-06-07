@@ -1,0 +1,181 @@
+{
+  "arms": {
+    "student_performance_distilled": {
+      "classifier_agreement": 0.0,
+      "classifier_agreement_floor": 0.95,
+      "classifier_preserved": false,
+      "compression_debt": {
+        "reason": "task performance is preserved while the independent classifier surface is not preserved",
+        "status": "critical"
+      },
+      "gap_head_agreement": 1.0,
+      "gap_head_agreement_floor": 0.95,
+      "gap_head_preserved": true,
+      "ledger_equivalence": false,
+      "ledger_equivalence_required": true,
+      "task_accuracy": 0.998047,
+      "task_accuracy_delta": 0.0,
+      "task_preserved": true,
+      "task_tolerance": 0.03
+    },
+    "teacher_performance": {
+      "classifier_accuracy": 0.998047,
+      "gap_head_accuracy": 0.996094,
+      "task_accuracy": 0.998047
+    }
+  },
+  "claim_capsule_ref": "papers/bedc-quality-lab/experiments/compression_preservation/reports/claim_capsule.json",
+  "claim_id": "compression_preservation",
+  "claim_status": "present-but-fail-closed",
+  "claimability": {
+    "quality_preserving_compression_claimable": false,
+    "required_cells": {
+      "classifier": "$.arms.student_performance_distilled.classifier_preserved",
+      "gap_head": "$.arms.student_performance_distilled.gap_head_preserved",
+      "ledger": "$.arms.student_performance_distilled.ledger_equivalence",
+      "task": "$.arms.student_performance_distilled.task_preserved"
+    }
+  },
+  "evidence_refs": {
+    "pointer_resolution": {
+      "all_required_pointers_resolve": true,
+      "checked_pointers": [
+        "$.arms.student_performance_distilled.task_preserved",
+        "$.arms.student_performance_distilled.classifier_agreement",
+        "$.claimability.quality_preserving_compression_claimable",
+        "$.evidence_refs.pointer_resolution.all_required_pointers_resolve",
+        "$.reproducibility.byte_identical",
+        "$.schema_id",
+        "$.not_claimed",
+        "$.failed_gate",
+        "$.what_was_learned",
+        "$.revocation.rows",
+        "$.forbidden_claim_term_audit.hits"
+      ]
+    },
+    "source": "papers/bedc-quality-lab/experiments/compression_preservation/reports/compression_preservation.json"
+  },
+  "failed_gate": "H2-HG2",
+  "forbidden_claim_term_audit": {
+    "forbidden_positive_claim_terms": [
+      "global model quality",
+      "full LeJEPA reproduction",
+      "full TensorNameCert",
+      "LLM behavior quality",
+      "mechanism closure",
+      "quality-preserving compression"
+    ],
+    "hits": [],
+    "status": "pass"
+  },
+  "generated_at": "deterministic-run-local",
+  "hardgates": {
+    "H2-HG1": {
+      "evidence": "task accuracy remains within teacher tolerance",
+      "evidence_pointer": "$.arms.student_performance_distilled.task_preserved",
+      "status": "pass"
+    },
+    "H2-HG2": {
+      "evidence": "independent classifier agreement is below the critical preservation floor",
+      "evidence_pointer": "$.arms.student_performance_distilled.classifier_agreement",
+      "status": "fail"
+    },
+    "H2-HG3": {
+      "evidence": "quality-preserving compression requires task, classifier, gap-head, and ledger preservation",
+      "evidence_pointer": "$.claimability.quality_preserving_compression_claimable",
+      "status": "fail"
+    },
+    "U-HG1": {
+      "evidence": "all required evidence pointers resolve to non-null JSON cells",
+      "evidence_pointer": "$.evidence_refs.pointer_resolution.all_required_pointers_resolve",
+      "status": "pass"
+    },
+    "U-HG2": {
+      "evidence": "fixed-seed producer replay is byte-identical for committed artifacts",
+      "evidence_pointer": "$.reproducibility.byte_identical",
+      "status": "pass"
+    },
+    "U-HG3": {
+      "evidence": "claim capsule uses the unversioned schema id",
+      "evidence_pointer": "$.schema_id",
+      "status": "pass"
+    },
+    "U-HG4": {
+      "evidence": "not_claimed lists the required global and mechanism boundaries",
+      "evidence_pointer": "$.not_claimed",
+      "status": "pass"
+    },
+    "U-HG5": {
+      "evidence": "any failed H2 or U row forces fail-closed claim status and failed_gate",
+      "evidence_pointer": "$.failed_gate",
+      "status": "pass"
+    },
+    "U-HG6": {
+      "evidence": "learning note names the classifier-preservation gap",
+      "evidence_pointer": "$.what_was_learned",
+      "status": "pass"
+    },
+    "U-HG7": {
+      "evidence": "revocation rows cover pointer failure, regen drift, and classifier-agreement regression",
+      "evidence_pointer": "$.revocation.rows",
+      "status": "pass"
+    },
+    "U-HG8": {
+      "evidence": "forbidden full-scope positive claim term audit has zero hits",
+      "evidence_pointer": "$.forbidden_claim_term_audit.hits",
+      "status": "pass"
+    }
+  },
+  "not_claimed": [
+    "global model quality",
+    "full LeJEPA reproduction",
+    "full TensorNameCert",
+    "LLM behavior quality",
+    "mechanism closure unless D5-M gate passes"
+  ],
+  "producer": "papers/bedc-quality-lab/experiments/compression_preservation/run_compression_preservation.py",
+  "reproducibility": {
+    "artifact_set": [
+      "papers/bedc-quality-lab/experiments/compression_preservation/reports/compression_preservation.json",
+      "papers/bedc-quality-lab/experiments/compression_preservation/reports/claim_capsule.json",
+      "papers/bedc-quality-lab/experiments/compression_preservation/reports/raw_metrics.jsonl",
+      "papers/bedc-quality-lab/experiments/compression_preservation/reports/summary.json",
+      "papers/bedc-quality-lab/experiments/compression_preservation/reports/report.md"
+    ],
+    "byte_identical": true,
+    "seed": 706031
+  },
+  "revocation": {
+    "rows": [
+      {
+        "action": "revoke compression-preservation claim capsule when any required JSON pointer does not resolve",
+        "condition": "evidence-pointer-failure"
+      },
+      {
+        "action": "revoke compression-preservation claim capsule when committed artifacts are not byte-identical on replay",
+        "condition": "fixed-seed-regen-drift"
+      },
+      {
+        "action": "revoke compression-preservation claim capsule when classifier agreement falls below the critical preservation floor",
+        "condition": "classifier-agreement-regression"
+      }
+    ]
+  },
+  "run": {
+    "device": "cpu",
+    "sample_count": 512,
+    "seed": 706031,
+    "torch_required": true,
+    "train_count": 384
+  },
+  "run_artifacts": {
+    "claim_capsule": "papers/bedc-quality-lab/experiments/compression_preservation/reports/claim_capsule.json",
+    "compression_preservation": "papers/bedc-quality-lab/experiments/compression_preservation/reports/compression_preservation.json",
+    "raw_metrics": "papers/bedc-quality-lab/experiments/compression_preservation/reports/raw_metrics.jsonl",
+    "report": "papers/bedc-quality-lab/experiments/compression_preservation/reports/report.md",
+    "summary": "papers/bedc-quality-lab/experiments/compression_preservation/reports/summary.json"
+  },
+  "schema_id": "bedc.quality.claim_capsule",
+  "status": "present-but-fail-closed",
+  "what_was_learned": "The toy compression arm preserves task performance but exposes a classifier-preservation gap, so compression debt is recorded instead of a positive quality-preservation claim."
+}
