@@ -308,6 +308,91 @@ def test_positive_discovery_with_real_robustness_report_is_d5_o():
     )
 
 
+def test_matched_baseline_control_positive_blocks_d5_payload_to_dn():
+    payload = _positive_payload(
+        acceptance_gates={"status": "pass"},
+        final_status="pass",
+        evidence_basis={
+            "scorecard_ready": True,
+            "audit_status": "valid",
+        },
+        matched_baseline_control={
+            "control_positive": True,
+            "parameter_matched": {"control_positive": False},
+            "compute_matched": {"control_positive": False},
+        },
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "DN"
+    assert verdict.control_positive is True
+    assert "control_negative=false" in verdict.reasons
+
+
+def test_matched_random_control_positive_blocks_positive_payload_to_dn():
+    payload = _positive_payload(
+        acceptance_gates={"status": "pass"},
+        final_status="pass",
+        evidence_basis={
+            "scorecard_ready": True,
+            "audit_status": "valid",
+        },
+        matched_random_control={
+            "control_positive": True,
+            "control_verdict": {"positive": False},
+            "control_projection": {"positive_discovery": False},
+        },
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "DN"
+    assert verdict.control_positive is True
+    assert "control_negative=false" in verdict.reasons
+
+
+def test_matched_baseline_parameter_control_positive_blocks_positive_payload_to_dn():
+    payload = _positive_payload(
+        acceptance_gates={"status": "pass"},
+        final_status="pass",
+        evidence_basis={
+            "scorecard_ready": True,
+            "audit_status": "valid",
+        },
+        matched_baseline_control={
+            "parameter_matched": {"control_positive": True},
+            "compute_matched": {"control_positive": False},
+        },
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "DN"
+    assert verdict.control_positive is True
+    assert "control_negative=false" in verdict.reasons
+
+
+def test_matched_baseline_compute_control_positive_blocks_positive_payload_to_dn():
+    payload = _positive_payload(
+        acceptance_gates={"status": "pass"},
+        final_status="pass",
+        evidence_basis={
+            "scorecard_ready": True,
+            "audit_status": "valid",
+        },
+        matched_baseline_control={
+            "compute_matched": {"control_positive": True},
+        },
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "DN"
+    assert verdict.control_positive is True
+    assert "control_negative=false" in verdict.reasons
+
+
 @pytest.mark.parametrize("evidence_level", ["patch", "intervention", "counterfactual"])
 def test_positive_discovery_with_causal_mechanism_attribution_is_d5_m(evidence_level):
     verdict = assign_discovery_level(_mechanism_capsule_payload(evidence_level))

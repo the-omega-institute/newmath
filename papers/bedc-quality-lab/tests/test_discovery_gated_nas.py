@@ -292,6 +292,26 @@ def test_candidate_with_witness_violation_fails_hg6_when_not_demoted():
     assert mutated["negative_witness_mutations"]["demoted_candidate_count"] < mutated["negative_witness_mutations"]["witness_violating_candidate_count"]
 
 
+def test_matched_baseline_control_positive_fails_hg6_without_d5_m_candidate():
+    payload = _ready_payload()
+    mutated = {
+        **payload,
+        "matched_baseline_control": {
+            **payload["matched_baseline_control"],
+            "control_positive": True,
+        },
+    }
+    recomputed = _with_recomputed_signal(mutated)
+
+    assert recomputed["hardgate"]["gates"]["DG-NAS-HG6"]["status"] == "fail"
+    assert recomputed["hardgate"]["gates"]["DG-NAS-HG6"]["evidence_pointer"].startswith("$.matched_baseline_control")
+    assert recomputed["hardgate"]["failed_gate"] == "DG-NAS-HG6"
+    assert recomputed["discovery_map_signal"]["level_candidate"] == "DN"
+    assert recomputed["discovery_map_signal"]["failed_gate"] == "DG-NAS-HG6"
+    assert recomputed["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.DG-NAS-HG6.status"
+    _assert_dn_projection(recomputed, "DG-NAS-HG6")
+
+
 def test_hg1_fails_closed_without_parameter_matched_baseline_rows():
     projection = runner.build_projection(generated_at="fixture-time", design_search_certificate_slot_state="present")
     rows = [row for row in projection["raw_rows"] if row.get("arm") != "parameter_matched_baseline"]

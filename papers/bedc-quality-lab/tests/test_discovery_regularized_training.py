@@ -514,6 +514,34 @@ def test_drt_hg4_matched_random_certificate_loss_improvement_demotion():
     assert summary["discovery_map_signal"]["failed_gate"] == "DRT-HG4"
 
 
+def test_drt_hg4_matched_random_control_positive_demotes_to_dn():
+    summary = _project()["summary_payload"]
+    matched = {**summary["matched_random_control"], "control_positive": True}
+    projection = DiscoveryRegularizedTrainingProjection(
+        config=summary["config"],
+        records=[],
+        generated_at="fixture-time",
+        run_artifacts=summary["run_artifacts"],
+    )
+    hardgates = projection.hardgate_verdicts(
+        {
+            "constraint_summary": summary["constraint_summary"],
+            "lambda_summary": summary["lambda_summary"],
+            "surface_registry": summary["surface_registry"],
+            "matched_random_control": matched,
+            "torch_training_evidence": summary["torch_training_evidence"],
+            "mechanism_ablation": summary["mechanism_ablation"],
+        },
+        summary["quality_promotion_boundary"],
+    )
+    signal = projection.discovery_map_signal(hardgates)
+
+    assert hardgates["DRT-HG4"]["status"] == "fail"
+    assert hardgates["DRT-HG4"]["evidence_pointer"] == "$.matched_random_control.control_positive"
+    assert signal["failed_gate"] == "DRT-HG4"
+    assert signal["level_candidate"] == "DN"
+
+
 def test_drt_hg5_rejects_task_accuracy_only_rows():
     records = _fixture_records()
     for row in records:
