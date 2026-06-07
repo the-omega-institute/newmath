@@ -295,15 +295,18 @@ def _minimal_payload(spec):
                 "negative_witness_pointer": "$.negative_witness_mutations",
                 "reason": "discovery-gated-search-positive",
                 "search_objective_pointer": "$.search_objective_summary",
+                "search_space_pointer": "$.search_space",
                 "status": "d5-m-candidate",
                 "torch_nas_evidence_pointer": "$.torch_nas_evidence",
             },
             "hardgate": {
                 "failed_gate": None,
-                "gates": {f"DG-NAS-HG{index}": {"status": "pass"} for index in range(1, 8)},
+                "gates": {f"DG-NAS-HG{index}": {"status": "pass"} for index in range(1, 9)},
                 "status": "pass",
             },
+            "search_space": {"status": "closed"},
             "candidate_protocol": {
+                "search_space_pointer": "$.search_space",
                 "design_search_certificate": {
                     "owner_pointer": "reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate",
                     "slot_state": "present",

@@ -1485,7 +1485,16 @@ def _discovery_gated_nas_consistency(payload: Mapping[str, Any]) -> tuple[bool, 
     failed = next(
         (
             name
-            for name in ("DG-NAS-HG1", "DG-NAS-HG2", "DG-NAS-HG3", "DG-NAS-HG4", "DG-NAS-HG5", "DG-NAS-HG6", "DG-NAS-HG7")
+            for name in (
+                "DG-NAS-HG1",
+                "DG-NAS-HG2",
+                "DG-NAS-HG3",
+                "DG-NAS-HG4",
+                "DG-NAS-HG5",
+                "DG-NAS-HG6",
+                "DG-NAS-HG7",
+                "DG-NAS-HG8",
+            )
             if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
         ),
         None,
@@ -1516,6 +1525,10 @@ def _discovery_gated_nas_consistency(payload: Mapping[str, Any]) -> tuple[bool, 
         return False, "dg-nas-search-objective-pointer-mismatch", "$.discovery_map_signal.search_objective_pointer"
     if signal.get("negative_witness_pointer") != "$.negative_witness_mutations":
         return False, "dg-nas-negative-witness-pointer-mismatch", "$.discovery_map_signal.negative_witness_pointer"
+    if signal.get("search_space_pointer") != "$.search_space":
+        return False, "dg-nas-search-space-pointer-mismatch", "$.discovery_map_signal.search_space_pointer"
+    if pointer_value(payload, "$.search_space") is None:
+        return False, "dg-nas-search-space-pointer-dangling", "$.search_space"
     if failed is None and signal.get("torch_nas_evidence_pointer") != "$.torch_nas_evidence":
         return False, "dg-nas-torch-pointer-mismatch", "$.discovery_map_signal.torch_nas_evidence_pointer"
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.search_objective_summary.selected_candidate"

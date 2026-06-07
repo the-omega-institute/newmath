@@ -23,7 +23,7 @@
 | `sigreg-mini-grid` | `pass` | `reports/canonical/sigreg-mini-grid.json` | `reports/canonical/sigreg-mini-grid.md` | `reports/canonical/sigreg-mini-grid.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.not_claimed` |
 | `discovery-regularized-training` | `pass` | `reports/canonical/discovery-regularized-training.json` | `reports/canonical/discovery-regularized-training.md` | `reports/canonical/discovery-regularized-training.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `pass` | `reports/canonical/mechanism-seeking-network.json` | `reports/canonical/mechanism-seeking-network.md` | `reports/canonical/mechanism-seeking-network.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
-| `discovery-gated-nas` | `pass` | `reports/canonical/discovery-gated-nas.json` | `reports/canonical/discovery-gated-nas.md` | `reports/canonical/discovery-gated-nas.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_baseline_control` |
+| `discovery-gated-nas` | `pass` | `reports/canonical/discovery-gated-nas.json` | `reports/canonical/discovery-gated-nas.md` | `reports/canonical/discovery-gated-nas.fingerprint.json` | `$.search_space` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_baseline_control` |
 
 ## Auxiliary reports
 

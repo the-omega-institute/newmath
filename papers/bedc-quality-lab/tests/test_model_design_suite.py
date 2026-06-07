@@ -146,8 +146,9 @@ def _write_suite_dependencies(root):
         {
             "artifact_id": "bedc-quality-lab:discovery-gated-nas",
             "discovery_map_signal": {"status": "available"},
-            "hardgate": {"status": "fail-closed", "gates": {"DG-NAS-HG7": {"status": "fail"}}},
-            "candidate_protocol": {"status": "available"},
+            "hardgate": {"status": "fail-closed", "gates": {"DG-NAS-HG8": {"status": "fail"}}},
+            "candidate_protocol": {"search_space_pointer": "$.search_space", "status": "available"},
+            "search_space": {"status": "closed"},
             "not_claimed": ["fixture"],
         },
     )
