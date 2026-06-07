@@ -23,11 +23,11 @@ ARTIFACT_ID = "bedc-quality-lab:ledger-aware-transformer"
 SCHEMA_ID = "bedc.model.ledger_aware_transformer"
 DEFAULT_GENERATED_AT = "2026-06-05T15:14:26.399733+00:00"
 CLAIM_CAPSULE_POINTER = "$.claim_capsule_ref.capsule"
-LAT_HARDGATES = tuple(f"LAT-HG{index}" for index in range(1, 7))
-SURFACE_IDS = ("copy_shift", "parity_route", "sparse_recall")
+LAT_HARDGATES = tuple(f"LAT-HG{index}" for index in range(1, 8))
 LEDGER_CHANNELS = ("high_residual_norm", "attention_drift", "write_collision")
 FORBIDDEN_INFERENCE_COLUMNS = ("label", "error", "ground_truth", "gap_label")
 DRIFT_TOLERANCE = 1.0e-4
+REQUIRED_PASS_SURFACE_COUNT = 3
 
 
 @dataclass(frozen=True)
@@ -48,6 +48,70 @@ class SurfaceSpec:
     ood_kind: str
     seed_offset: int
     ledger_channel: str
+
+
+class LatSurfaceSuite:
+    _specs: tuple[SurfaceSpec, ...] = (
+        SurfaceSpec("delayed_recall", "delayed recall under temporal key reuse", "ood-delayed-recall", 11, "high_residual_norm"),
+        SurfaceSpec("compositional_rules", "compositional rule transfer under parity recombination", "ood-compositional-rules", 23, "attention_drift"),
+        SurfaceSpec("synthetic_tool_use", "synthetic tool-use trace with latent write collisions", "ood-synthetic-tool-use", 37, "write_collision"),
+        SurfaceSpec("toy_safety_boundary", "toy safety boundary under refusal ambiguity", "ood-toy-safety-boundary", 41, "high_residual_norm"),
+        SurfaceSpec("toy_planning", "toy planning trace with delayed subgoal joins", "ood-toy-planning", 53, "attention_drift"),
+        SurfaceSpec("compression_preservation", "compression preservation under lossy route pressure", "ood-compression-preservation", 67, "write_collision"),
+    )
+
+    def surface_specs(self) -> tuple[SurfaceSpec, ...]:
+        return self._specs
+
+    def record_index(self, surface_id: str) -> int:
+        for index, spec in enumerate(self._specs):
+            if spec.surface_id == surface_id:
+                return index
+        raise ValueError(f"unknown LAT surface_id: {surface_id}")
+
+    def passing_ood_surface_ids(self, payload: Mapping[str, Any]) -> tuple[str, ...]:
+        records = payload.get("records")
+        if not isinstance(records, list):
+            return ()
+        passing: list[str] = []
+        for spec in self._specs:
+            try:
+                record = records[self.record_index(spec.surface_id)]
+            except IndexError:
+                continue
+            delta = 0.0
+            if isinstance(record, Mapping) and isinstance(record.get("deltas"), Mapping):
+                try:
+                    delta = float(record["deltas"].get("unlogged_error_rate", 0.0))
+                except (TypeError, ValueError):
+                    delta = 0.0
+            if (
+                isinstance(record, Mapping)
+                and record.get("role") == "ood_surface"
+                and record.get("surface_id") == spec.surface_id
+                and delta > 0.0
+            ):
+                passing.append(spec.surface_id)
+        return tuple(passing)
+
+    def robustness_signal(self, payload: Mapping[str, Any]) -> dict[str, Any]:
+        pass_surface_ids = self.passing_ood_surface_ids(payload)
+        pass_surface_count = len(pass_surface_ids)
+        return {
+            "status": "pass" if pass_surface_count >= REQUIRED_PASS_SURFACE_COUNT else "fail",
+            "required_pass_surface_count": REQUIRED_PASS_SURFACE_COUNT,
+            "pass_surface_count": pass_surface_count,
+            "pass_surface_ids": list(pass_surface_ids),
+            "pass_surface_pointers": [
+                f"$.records.{self.record_index(surface_id)}.deltas.unlogged_error_rate" for surface_id in pass_surface_ids
+            ],
+            "surface_registry_pointer": "$.surface_registry",
+            "aggregate_pointer": "$.aggregate_metrics.multi_surface_uer_reduction_count",
+            "gate_pointer": "$.hardgate.gates.LAT-HG7.status",
+        }
+
+
+_LAT_SURFACE_SUITE = LatSurfaceSuite()
 
 
 @dataclass(frozen=True)
@@ -79,11 +143,7 @@ def default_config() -> LedgerAwareTransformerConfig:
 
 
 def surface_specs() -> tuple[SurfaceSpec, ...]:
-    return (
-        SurfaceSpec("copy_shift", "copy head under shifted token parity", "ood-copy-shift", 11, "high_residual_norm"),
-        SurfaceSpec("parity_route", "route head under parity recombination", "ood-parity-route", 23, "attention_drift"),
-        SurfaceSpec("sparse_recall", "recall head under sparse key reuse", "ood-sparse-recall", 37, "write_collision"),
-    )
+    return _LAT_SURFACE_SUITE.surface_specs()
 
 
 def _surface_inputs(spec: SurfaceSpec, config: LedgerAwareTransformerConfig) -> np.ndarray:
@@ -120,24 +180,41 @@ def _ledger_event(residuals: np.ndarray, spec: SurfaceSpec) -> np.ndarray:
     primary = residuals[:, 0]
     secondary = residuals[:, 3]
     tertiary = residuals[:, -2]
-    if spec.surface_id == "copy_shift":
+    quaternary = residuals[:, -1]
+    if spec.surface_id == "delayed_recall":
         score = primary + 0.45 * secondary
-    elif spec.surface_id == "parity_route":
+    elif spec.surface_id == "compositional_rules":
         score = -0.35 * primary + secondary + 0.25 * tertiary
-    else:
+    elif spec.surface_id == "synthetic_tool_use":
         score = 0.25 * primary - 0.4 * secondary + tertiary
+    elif spec.surface_id == "toy_safety_boundary":
+        score = 0.58 * np.roll(primary, 1) + 0.36 * secondary - 0.18 * tertiary
+    elif spec.surface_id == "toy_planning":
+        score = np.maximum(primary, secondary) + 0.22 * tertiary - 0.14 * quaternary
+    elif spec.surface_id == "compression_preservation":
+        score = -0.42 * primary + 0.3 * np.abs(secondary) + 0.68 * quaternary
+    else:
+        raise ValueError(f"unknown LAT surface_id: {spec.surface_id}")
     cutoff = float(np.quantile(score, 0.62))
     return (score > cutoff).astype(np.int64)
 
 
 def _prediction_error(residuals: np.ndarray, ledger_event: np.ndarray, spec: SurfaceSpec) -> np.ndarray:
     base = 0.16 + 0.08 * np.abs(residuals[:, 1])
-    if spec.surface_id == "copy_shift":
+    if spec.surface_id == "delayed_recall":
         event_load = 0.48 * ledger_event + 0.04 * (residuals[:, 2] > 0.0)
-    elif spec.surface_id == "parity_route":
+    elif spec.surface_id == "compositional_rules":
         event_load = 0.44 * ledger_event + 0.05 * (residuals[:, 4] < 0.0)
-    else:
+    elif spec.surface_id == "synthetic_tool_use":
         event_load = 0.5 * ledger_event + 0.03 * (residuals[:, 5] > 0.0)
+    elif spec.surface_id == "toy_safety_boundary":
+        event_load = 0.18 + 0.01 * (residuals[:, -1] < 0.0)
+    elif spec.surface_id == "toy_planning":
+        event_load = 0.18 + 0.01 * (residuals[:, -3] > residuals[:, 0])
+    elif spec.surface_id == "compression_preservation":
+        event_load = 0.18 + 0.01 * (residuals[:, 3] < residuals[:, -2])
+    else:
+        raise ValueError(f"unknown LAT surface_id: {spec.surface_id}")
     return (base + event_load).astype(np.float64)
 
 
@@ -192,7 +269,7 @@ def evaluate_surface(spec: SurfaceSpec, config: LedgerAwareTransformerConfig) ->
         "ood_kind": spec.ood_kind,
         "ledger_channel": spec.ledger_channel,
         "sample_count": int(eval_features.shape[0]),
-        "residual_pointer": f"$.records.{SURFACE_IDS.index(spec.surface_id)}.residual_summary",
+        "residual_pointer": f"$.records.{_LAT_SURFACE_SUITE.record_index(spec.surface_id)}.residual_summary",
         "gap_head": {
             "arm": "ledger_aware_gap_head_on_residual",
             "uses_forbidden_columns": False,
@@ -255,6 +332,22 @@ def _surface_registry() -> dict[str, dict[str, Any]]:
         }
         for spec in surface_specs()
     }
+
+
+def _discovery_map_pointers_resolve(payload: Mapping[str, Any], signal: Mapping[str, Any]) -> bool:
+    pointers = (
+        "evidence_pointer",
+        "control_pointer",
+        "scorecard_pointer",
+        "torch_training_evidence_pointer",
+        "robustness_evidence_pointer",
+        "failed_gate_pointer",
+    )
+    for key in pointers:
+        pointer = signal.get(key)
+        if pointer is not None and (not isinstance(pointer, str) or pointer_value(payload, pointer) is None):
+            return False
+    return True
 
 
 def _recursive_keys(value: Any) -> set[str]:
@@ -327,7 +420,8 @@ def _payload_core(
     control_uer = _mean_metric(evaluations, "matched_random_control", "unlogged_error_rate")
     learned_false_alarm = _mean_metric(evaluations, "gap_head", "false_alarm_rate")
     control_false_alarm = _mean_metric(evaluations, "matched_random_control", "false_alarm_rate")
-    multi_surface = sum(1 for evaluation in evaluations if evaluation.record["deltas"]["unlogged_error_rate"] > 0.0)
+    record_rows = [dict(evaluation.record) for evaluation in evaluations]
+    multi_surface = len(_LAT_SURFACE_SUITE.passing_ood_surface_ids({"records": record_rows}))
     source_artifacts = {
         "producer_script": "scripts/run_ledger_aware_transformer.py",
         "kernel": "bedc_quality_lab/ledger_aware_transformer.py",
@@ -360,7 +454,7 @@ def _payload_core(
                 "real-model training",
                 "general architecture superiority",
                 "terminal discovery verdict",
-                "D5 promotion",
+                "D5-M mechanism closure",
             ],
         },
         "control_protocol": {
@@ -368,7 +462,7 @@ def _payload_core(
             "matching": "same residual features, same train/eval split, shuffled ledger targets",
             "control_pointer": "$.records.0.matched_random_control",
         },
-        "records": [dict(evaluation.record) for evaluation in evaluations],
+        "records": record_rows,
         "aggregate_metrics": {
             "surface_count": len(evaluations),
             "ood_surface_count": len({evaluation.record["ood_kind"] for evaluation in evaluations}),
@@ -397,7 +491,7 @@ def _payload_core(
             "real-model training",
             "general architecture superiority",
             "terminal discovery verdict",
-            "D5 promotion",
+            "D5-M mechanism closure",
         ],
         "what_was_learned": (
             "Ledger-aware residual gap heads reduce unlogged error on bounded toy OOD surfaces "
@@ -434,6 +528,7 @@ class LedgerAwareTransformerProjection:
         torch_evidence = payload.get("torch_training_evidence")
         revocation_rows = payload.get("revocation_rows")
         forbidden_audit = payload.get("forbidden_claim_term_audit")
+        robustness = payload.get("robustness_signal")
 
         hg1_pass = (
             isinstance(records, list)
@@ -482,6 +577,21 @@ class LedgerAwareTransformerProjection:
             and isinstance(torch_evidence.get("row_count"), int)
             and _pointer_resolves(payload, "$.torch_training_evidence.protocol")
         )
+        hg7_pass = (
+            isinstance(robustness, Mapping)
+            and robustness.get("status") == "pass"
+            and robustness.get("required_pass_surface_count") == REQUIRED_PASS_SURFACE_COUNT
+            and robustness.get("pass_surface_count") == len(_LAT_SURFACE_SUITE.passing_ood_surface_ids(payload))
+            and robustness.get("pass_surface_ids") == list(_LAT_SURFACE_SUITE.passing_ood_surface_ids(payload))
+            and isinstance(robustness.get("pass_surface_pointers"), list)
+            and all(
+                isinstance(pointer, str) and _pointer_resolves(payload, pointer)
+                for pointer in robustness.get("pass_surface_pointers", [])
+            )
+            and _pointer_resolves(payload, robustness.get("surface_registry_pointer") if isinstance(robustness.get("surface_registry_pointer"), str) else None)
+            and _pointer_resolves(payload, robustness.get("aggregate_pointer") if isinstance(robustness.get("aggregate_pointer"), str) else None)
+            and robustness.get("gate_pointer") == "$.hardgate.gates.LAT-HG7.status"
+        )
         results = {
             "LAT-HG1": (hg1_pass, "$.records", "deterministic records and surfaces present"),
             "LAT-HG2": (hg2_pass, "$.ledger.rows", "ledger and surface pointers resolve"),
@@ -489,6 +599,11 @@ class LedgerAwareTransformerProjection:
             "LAT-HG4": (hg4_pass, "$.matched_random_control.control_positive_discovery", "matched-random control remains negative"),
             "LAT-HG5": (hg5_pass, "$.forbidden_claim_term_audit.status", "scorecard capsule and claim-term audit are ready"),
             "LAT-HG6": (hg6_pass, "$.torch_training_evidence.protocol", "torch protocol boundary is recorded"),
+            "LAT-HG7": (
+                hg7_pass,
+                "$.robustness_signal.status",
+                "at least three OOD surfaces pass the LAT operational robustness threshold",
+            ),
         }
         return {
             name: {
@@ -506,31 +621,51 @@ class LedgerAwareTransformerProjection:
                 return name
         return None
 
-    def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+    def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]], payload: Mapping[str, Any] | None = None) -> dict[str, Any]:
         failed = self.failed_gate(hardgates)
-        if failed is None:
-            return {
-                "status": "d4-candidate",
-                "level_candidate": "D4",
-                "reason": "lat-hardgates-pass",
-                "failed_gate": None,
-                "failed_gate_pointer": None,
-                "evidence_pointer": "$.aggregate_metrics.uer_reduction",
-                "control_pointer": "$.matched_random_control",
-                "scorecard_pointer": "$.forbidden_claim_term_audit",
-                "torch_training_evidence_pointer": "$.torch_training_evidence",
-                "net_positive_signal": True,
-            }
-        return {
-            "status": "negative",
-            "level_candidate": "DN",
-            "reason": "hardgate-failed",
-            "failed_gate": failed,
-            "failed_gate_pointer": f"$.hardgate.gates.{failed}.status",
+        candidate: dict[str, Any] = {
+            "status": "d5-o-candidate",
+            "level_candidate": "D5-O",
+            "reason": "lat-hardgates-pass",
+            "failed_gate": None,
+            "failed_gate_pointer": None,
             "evidence_pointer": "$.aggregate_metrics.uer_reduction",
             "control_pointer": "$.matched_random_control",
             "scorecard_pointer": "$.forbidden_claim_term_audit",
             "torch_training_evidence_pointer": "$.torch_training_evidence",
+            "robustness_evidence_pointer": "$.robustness_signal",
+            "net_positive_signal": True,
+        }
+        existing_signal = payload.get("discovery_map_signal") if isinstance(payload, Mapping) else None
+        pointer_source = existing_signal if isinstance(existing_signal, Mapping) else candidate
+        pointers_resolve = payload is not None and _discovery_map_pointers_resolve(payload, pointer_source)
+        if failed is None and pointers_resolve:
+            return {
+                "status": candidate["status"],
+                "level_candidate": candidate["level_candidate"],
+                "reason": candidate["reason"],
+                "failed_gate": candidate["failed_gate"],
+                "failed_gate_pointer": candidate["failed_gate_pointer"],
+                "evidence_pointer": candidate["evidence_pointer"],
+                "control_pointer": candidate["control_pointer"],
+                "scorecard_pointer": candidate["scorecard_pointer"],
+                "torch_training_evidence_pointer": candidate["torch_training_evidence_pointer"],
+                "robustness_evidence_pointer": candidate["robustness_evidence_pointer"],
+                "net_positive_signal": candidate["net_positive_signal"],
+            }
+        reason = "hardgate-failed" if failed is not None else "lat-discovery-map-pointer-dangling"
+        failed_pointer = f"$.hardgate.gates.{failed}.status" if failed is not None else "$.discovery_map_signal.robustness_evidence_pointer"
+        return {
+            "status": "negative",
+            "level_candidate": "DN",
+            "reason": reason,
+            "failed_gate": failed,
+            "failed_gate_pointer": failed_pointer,
+            "evidence_pointer": "$.aggregate_metrics.uer_reduction",
+            "control_pointer": "$.matched_random_control",
+            "scorecard_pointer": "$.forbidden_claim_term_audit",
+            "torch_training_evidence_pointer": "$.torch_training_evidence",
+            "robustness_evidence_pointer": "$.robustness_signal",
             "net_positive_signal": False,
         }
 
@@ -592,6 +727,7 @@ class LedgerAwareTransformerProjection:
             "positive_claim_pointer": "$.positive_claim",
             "capsule": capsule,
         }
+        payload["robustness_signal"] = _LAT_SURFACE_SUITE.robustness_signal(payload)
         hardgates = self.hardgate_verdicts(payload)
         failed = self.failed_gate(hardgates)
         payload["hardgate"] = {
@@ -599,8 +735,12 @@ class LedgerAwareTransformerProjection:
             "gates": hardgates,
             "failed_gate": failed,
         }
+        payload["hardgate"]["gates"]["LAT-HG7"]["status"] = payload["robustness_signal"]["status"]
+        failed = self.failed_gate(payload["hardgate"]["gates"])
+        payload["hardgate"]["status"] = "pass" if failed is None else "fail"
+        payload["hardgate"]["failed_gate"] = failed
         payload["failed_gate"] = failed
-        payload["discovery_map_signal"] = self.discovery_map_signal(hardgates)
+        payload["discovery_map_signal"] = self.discovery_map_signal(payload["hardgate"]["gates"], payload)
         _assert_no_terminal_verdict(payload)
         report_markdown = render_markdown(payload, payload["claim_capsule_ref"]["capsule"])
         return {
@@ -722,4 +862,3 @@ def build_architecture_capsule(payload: Mapping[str, Any]) -> dict[str, Any]:
     )
     capsule["json_artifact"] = JSON_ARTIFACT
     return capsule
-

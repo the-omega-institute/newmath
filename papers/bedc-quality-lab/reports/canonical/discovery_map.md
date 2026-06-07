@@ -10,7 +10,7 @@
 | `gap-head-on-h` | `D5-O` | `` | `` | `projected` | `valid` | `$.control_protocol` |
 | `gap-head-discovery` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `gap-head-ablation` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[0]` |
-| `ledger-aware-transformer` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
+| `ledger-aware-transformer` | `D5-O` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `certificate-gated-attention` | `D4` | `` | `` | `projected` | `valid` | `$.route_patch_protocol` |
 | `gap-head-threshold-frontier` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `gap-head-transfer-atlas` | `D5-O` | `` | `` | `projected` | `valid` | `$.config.control_arm` |
