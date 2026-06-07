@@ -29,3 +29,19 @@ Next use the candidate-mediated strong-normalization frontier, \autoref{thm:meta
 
 Finally apply the L10 source separation theorem, \autoref{thm:metacic-critical-path-residual-diamond-l10-source-separation}. Since the four source faces stay distinct and the residual and candidate rows remain attached to $S,N,O,U,D,H,C,P,L$, the handoff cannot export any of the excluded global metatheoretic, quotient, selected-limit, or Real-completeness principles.
 \end{proof}
+
+\begin{theorem}[MetaCIC residual-diamond source determinacy]
+\label{thm:metacic-critical-path-residual-diamond-source-determinacy}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any local-confluence read that identifies the candidate-mediated strong-normalization frontier with the residual-diamond frontier must preserve $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as four distinct L10 source rows before it consumes $U$. If the read merges those source faces, reconstructs one of them only after reading $U$, or treats their separation as an external side condition, then the read is outside the accepted $\MetaCICCriticalPathUp$ packet.
+\end{theorem}
+\begin{proof}
+Apply the residual-diamond local-confluence frontier, \autoref{thm:metacic-critical-path-residual-diamond-local-confluence-frontier}. It forces any confluence-facing read to display the residual-substitution frontier, residual-budget socket, bounded checker, and the four L10 source faces before $U$ is available.
+
+Next apply the candidate-SN confluence handoff, \autoref{thm:metacic-critical-path-candidate-sn-confluence-handoff}. The candidate-mediated frontier and residual-diamond frontier are therefore consumed only as rows attached to the same displayed packet $S,N,O,U,D,H,C,P,L$.
+
+Finally use the L10 source separation theorem, \autoref{thm:metacic-critical-path-residual-diamond-l10-source-separation}. The four source faces remain separate rows throughout that shared route, so a read that merges them, rebuilds them after $U$, or places their separation outside the packet cannot be an accepted local-confluence read for $K$.
+\end{proof}
