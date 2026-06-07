@@ -118,6 +118,7 @@ Apply \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}. It places t
 
 Then apply \autoref{thm:regular-cauchy-reciprocal-readback-route}. The route to the reciprocal readback passes through $Q,A,M,W,D,B$, so a consumer that omits any one of $Q,A,M,W,D$ remains before the $\CauchyInverseBudgetUp$ row rather than at the dyadic inverse budget.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalNonzeroDenominatorWindow}
 
 \begin{theorem}[Regular Cauchy reciprocal tail stability]
 \label{thm:regular-cauchy-reciprocal-tail-stability}
@@ -130,6 +131,24 @@ Use \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}. A later windo
 Apply \autoref{thm:regular-cauchy-reciprocal-readback-route}. Since the route to $T$ passes through $Q,A,M,W,D,B$, preserving the apartness, window, and dyadic rows preserves the reciprocal readback route once the same budget row is read.
 
 Apply \autoref{thm:regular-cauchy-reciprocal-classifier-stability}. The transport row $H$ compares corresponding carrier rows componentwise, while $C,P,N$ replay, source, and name the same packet. The terminal seal $E$ is therefore transported with $T$ rather than recomputed from a new denominator condition.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy reciprocal window composition]
+\label{thm:regular-cauchy-reciprocal-window-composition}
+Let $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ be an accepted $\RegularCauchyReciprocalUp$ carrier. Suppose a later finite $\StreamNameUp$ window preserves the displayed rows $Q,A,M,W,D$ and then reads the same $\CauchyInverseBudgetUp$ row $B$. The composed finite route still reaches the same regular rational readback row $T$ and terminal $\RealUp$ seal row $E$ through
+$$
+Q\longmapsto A\longmapsto M\longmapsto W\longmapsto D\longmapsto B\longmapsto T\longmapsto E.
+$$
+Thus window composition changes neither the reciprocal readback nor the Real seal unless it changes one of the displayed source, apartness, modulus, window, dyadic, or budget rows.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}. It keeps the apartness row $A$ in front of every dyadic reciprocal and budget read, so the later window cannot compose into a reciprocal route while dropping the positive lower-bound display.
+
+Use \autoref{thm:regular-cauchy-reciprocal-nonzero-denominator-window}. The preserved rows $Q,A,M,W,D$ are exactly the nonzero-denominator window needed before the same budget row $B$ can be read.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-readback-route}. Once the same budget row is present, the route to $T$ is the displayed chain through $Q,A,M,W,D,B$, and the seal $E$ is terminal after that chain.
+
+Finally use \autoref{thm:regular-cauchy-reciprocal-tail-stability}. Since the later window preserves the source, apartness, modulus, window, and dyadic rows and reads the same budget row, the transported packet reaches the same $T$ and $E$ rather than recomputing a new reciprocal surface.
 \end{proof}
 
 \begin{theorem}[Regular Cauchy reciprocal NameCert obligations]
