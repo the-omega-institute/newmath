@@ -2616,6 +2616,7 @@ import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
+import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
 import BEDC.Derived.CompactTotallyBoundedUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityModulusUp.TasteGate
