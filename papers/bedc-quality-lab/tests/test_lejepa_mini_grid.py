@@ -14,6 +14,7 @@ from bedc_quality_lab.lejepa_mini_grid import (
     DEFAULT_RHOS,
     DEFAULT_SEEDS,
     LeJEPAMiniGridProjection,
+    PROJECTOR_FORBIDDEN_TERMS,
     default_grid,
 )
 from scripts import run_canonical_reports as canonical
@@ -296,16 +297,40 @@ def test_capsule_run_local_alias_is_semantic_and_canonical_schema_stays_unversio
 def test_not_claimed_failed_gate_learning_revocation_and_forbidden_term_audit_are_projector_owned():
     projected = _project(full_lejepa_claim=True)
     summary = projected["summary_payload"]
+    audit = summary["forbidden_claim_term_audit"]
+    shared_audit = summary["u_hardgates"]["U-HG8"]["positive_claim_audit"]
+    projector_audit = summary["u_hardgates"]["U-HG8"]["projector_positive_claim_audit"]
 
     assert summary["failed_gate"] == "U-HG2"
     assert summary["not_claimed"] == summary["claim_capsule"]["not_claimed"]
     assert summary["what_was_learned"] == "The mini-grid recorded a failed gate without promoting a positive claim."
     assert summary["revocation_rows"]
-    assert summary["forbidden_claim_term_audit"]["status"] == "pass"
+    assert audit["status"] == "pass"
     assert summary["u_hardgates"]["U-HG4"]["status"] == "pass"
     assert summary["u_hardgates"]["U-HG8"]["status"] == "pass"
-    assert "full-lejepa" in summary["forbidden_claim_term_audit"]["forbidden_positive_claim_terms"]
+    assert "full-lejepa" in audit["forbidden_positive_claim_terms"]
+    assert "full-lejepa" in shared_audit["forbidden_positive_claim_terms"]
+    assert "mechanism-closure-unless-D5-M" in PROJECTOR_FORBIDDEN_TERMS
+    assert "mechanism-closure-unless-D5-M" in audit["forbidden_positive_claim_terms"]
+    assert "mechanism-closure-unless-D5-M" in projector_audit["forbidden_positive_claim_terms"]
     assert "mechanism-closure-unless-D5-M" not in claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS
+
+
+def test_projector_local_forbidden_term_hit_fails_capsule_and_u_hg8():
+    projected = _project(local_mechanism_closure_claim=True)
+    summary = projected["summary_payload"]
+    audit = summary["forbidden_claim_term_audit"]
+
+    assert audit["status"] == "fail"
+    assert audit["hits"] == ["mechanism-closure-unless-D5-M"]
+    assert summary["u_hardgates"]["U-HG8"]["status"] == "fail"
+    assert summary["u_hardgates"]["U-HG8"]["positive_claim_audit"]["status"] == "pass"
+    assert summary["u_hardgates"]["U-HG8"]["projector_positive_claim_audit"]["hits"] == [
+        "mechanism-closure-unless-D5-M"
+    ]
+    assert summary["claim_capsule"]["claim_status"] == "failed"
+    assert summary["failed_gate"] == "forbidden-positive-claim-term"
+    assert summary["claim_capsule"]["positive_claim"]["level"] == "DN"
 
 
 def test_thin_script_can_run_with_monkeypatched_single_arm_runner(monkeypatch, tmp_path, capsys):

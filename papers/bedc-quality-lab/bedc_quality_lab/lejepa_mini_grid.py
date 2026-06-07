@@ -174,6 +174,8 @@ class LeJEPAMiniGridProjection:
             **POSITIVE_CLAIM,
             "level": "D2" if failed_gate is None else "DN",
         }
+        if bool(self.config.get("local_mechanism_closure_claim", False)):
+            positive_claim["text"] = f"{positive_claim['text']} mechanism-closure-unless-D5-M"
         capsule = self.claim_capsule_payload(hardgates=hardgates, summaries=summaries, positive_claim=positive_claim)
         shared_u = {name: row for name, row in capsule["hardgates"].items() if name.startswith("U-HG") and name not in u_hardgates}
         u_hardgates = {**u_hardgates, **shared_u}
@@ -360,8 +362,15 @@ class LeJEPAMiniGridProjection:
             },
         }
         shared = self.shared_u_hardgate_verdicts(capsule)
+        projector_forbidden_claim = _forbidden_term_audit(capsule["positive_claim"])
+        shared_u_hg8 = {**shared["U-HG8"]}
+        shared_u_hg8["projector_positive_claim_audit"] = projector_forbidden_claim
+        shared_u_hg8["status"] = _status(
+            shared_u_hg8["status"] == "pass" and projector_forbidden_claim["status"] == "pass"
+        )
+        shared = {**shared, "U-HG8": shared_u_hg8}
         capsule["hardgates"] = {**dict(hardgates), **shared}
-        capsule["forbidden_claim_term_audit"] = shared["U-HG8"]["positive_claim_audit"]
+        capsule["forbidden_claim_term_audit"] = projector_forbidden_claim
         if capsule["forbidden_claim_term_audit"]["status"] != "pass":
             capsule["claim_status"] = "failed"
             capsule["failed_gate"] = capsule["failed_gate"] or "forbidden-positive-claim-term"
