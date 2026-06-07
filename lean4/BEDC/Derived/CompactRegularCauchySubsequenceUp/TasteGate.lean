@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
+namespace BEDC.Derived.CompactRegularCauchySubsequenceUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -10,9 +10,9 @@ open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive CompactRegularCauchySubsequenceUp : Type where
-  | mk
-      (compactSource sourceWindow subsequenceLedger selectedWindow dyadicTolerance
-        rationalReadback realSeal transport replay provenance localName : BHist) :
+  | mk :
+      (compactSource sourceWindow reindexLedger selectedWindow dyadicLedger regularReadback
+        realSeal transport replay provenance name : BHist) →
       CompactRegularCauchySubsequenceUp
   deriving DecidableEq
 
@@ -31,139 +31,224 @@ def compactRegularCauchySubsequenceDecodeBHist : RawEvent → BHist
 private theorem compactRegularCauchySubsequence_decode_encode_bhist :
     ∀ h : BHist,
       compactRegularCauchySubsequenceDecodeBHist
-        (compactRegularCauchySubsequenceEncodeBHist h) = h := by
+          (compactRegularCauchySubsequenceEncodeBHist h) =
+        h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
-
-def compactRegularCauchySubsequenceFields :
-    CompactRegularCauchySubsequenceUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | CompactRegularCauchySubsequenceUp.mk compactSource sourceWindow subsequenceLedger
-      selectedWindow dyadicTolerance rationalReadback realSeal transport replay provenance
-        localName =>
-      [compactSource, sourceWindow, subsequenceLedger, selectedWindow, dyadicTolerance,
-        rationalReadback, realSeal, transport, replay, provenance, localName]
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
 def compactRegularCauchySubsequenceToEventFlow :
-    CompactRegularCauchySubsequenceUp → EventFlow :=
+    CompactRegularCauchySubsequenceUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  fun x =>
-    (compactRegularCauchySubsequenceFields x).map compactRegularCauchySubsequenceEncodeBHist
-
-private def compactRegularCauchySubsequenceEventAtDefault : Nat → EventFlow → RawEvent
-  -- BEDC touchpoint anchor: BHist BMark
-  | Nat.zero, [] => []
-  | Nat.zero, event :: _rest => event
-  | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => compactRegularCauchySubsequenceEventAtDefault index rest
+  | CompactRegularCauchySubsequenceUp.mk compactSource sourceWindow reindexLedger
+      selectedWindow dyadicLedger regularReadback realSeal transport replay provenance name =>
+      [[BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist compactSource,
+        [BMark.b1, BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist sourceWindow,
+        [BMark.b1, BMark.b1, BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist reindexLedger,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist selectedWindow,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist dyadicLedger,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist regularReadback,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist realSeal,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist transport,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist replay,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist provenance,
+        [BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1,
+          BMark.b1, BMark.b1, BMark.b1, BMark.b0],
+        compactRegularCauchySubsequenceEncodeBHist name]
 
 def compactRegularCauchySubsequenceFromEventFlow :
-    EventFlow → Option CompactRegularCauchySubsequenceUp :=
+    EventFlow → Option CompactRegularCauchySubsequenceUp
   -- BEDC touchpoint anchor: BHist BMark
-  fun ef =>
-    some
-      (CompactRegularCauchySubsequenceUp.mk
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 0 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 1 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 2 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 3 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 4 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 5 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 6 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 7 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 8 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 9 ef))
-        (compactRegularCauchySubsequenceDecodeBHist
-          (compactRegularCauchySubsequenceEventAtDefault 10 ef)))
+  | [] => none
+  | _tag0 :: rest0 =>
+      match rest0 with
+      | [] => none
+      | compactSource :: rest1 =>
+          match rest1 with
+          | [] => none
+          | _tag1 :: rest2 =>
+              match rest2 with
+              | [] => none
+              | sourceWindow :: rest3 =>
+                  match rest3 with
+                  | [] => none
+                  | _tag2 :: rest4 =>
+                      match rest4 with
+                      | [] => none
+                      | reindexLedger :: rest5 =>
+                          match rest5 with
+                          | [] => none
+                          | _tag3 :: rest6 =>
+                              match rest6 with
+                              | [] => none
+                              | selectedWindow :: rest7 =>
+                                  match rest7 with
+                                  | [] => none
+                                  | _tag4 :: rest8 =>
+                                      match rest8 with
+                                      | [] => none
+                                      | dyadicLedger :: rest9 =>
+                                          match rest9 with
+                                          | [] => none
+                                          | _tag5 :: rest10 =>
+                                              match rest10 with
+                                              | [] => none
+                                              | regularReadback :: rest11 =>
+                                                  match rest11 with
+                                                  | [] => none
+                                                  | _tag6 :: rest12 =>
+                                                      match rest12 with
+                                                      | [] => none
+                                                      | realSeal :: rest13 =>
+                                                          match rest13 with
+                                                          | [] => none
+                                                          | _tag7 :: rest14 =>
+                                                              match rest14 with
+                                                              | [] => none
+                                                              | transport :: rest15 =>
+                                                                  match rest15 with
+                                                                  | [] => none
+                                                                  | _tag8 :: rest16 =>
+                                                                      match rest16 with
+                                                                      | [] => none
+                                                                      | replay ::
+                                                                          rest17 =>
+                                                                          match rest17 with
+                                                                          | [] =>
+                                                                              none
+                                                                          | _tag9 ::
+                                                                              rest18 =>
+                                                                              match
+                                                                                rest18
+                                                                              with
+                                                                              | [] =>
+                                                                                  none
+                                                                              | provenance ::
+                                                                                  rest19 =>
+                                                                                  match
+                                                                                    rest19
+                                                                                  with
+                                                                                  | [] =>
+                                                                                      none
+                                                                                  | _tag10 ::
+                                                                                      rest20 =>
+                                                                                      match
+                                                                                        rest20
+                                                                                      with
+                                                                                      | [] =>
+                                                                                          none
+                                                                                      | name ::
+                                                                                          rest21 =>
+                                                                                          match rest21 with
+                                                                                          | [] =>
+                                                                                              some
+                                                                                                (CompactRegularCauchySubsequenceUp.mk
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist compactSource)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist sourceWindow)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist reindexLedger)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist selectedWindow)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist dyadicLedger)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist regularReadback)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist realSeal)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist transport)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist replay)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist provenance)
+                                                                                                  (compactRegularCauchySubsequenceDecodeBHist name))
+                                                                                          | _ :: _ =>
+                                                                                              none
+
+private theorem compactRegularCauchySubsequence_round_trip :
+    ∀ x : CompactRegularCauchySubsequenceUp,
+      compactRegularCauchySubsequenceFromEventFlow
+          (compactRegularCauchySubsequenceToEventFlow x) =
+        some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro x
+  cases x with
+  | mk compactSource sourceWindow reindexLedger selectedWindow dyadicLedger
+      regularReadback realSeal transport replay provenance name =>
+      change
+        some
+          (CompactRegularCauchySubsequenceUp.mk
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist compactSource))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist sourceWindow))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist reindexLedger))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist selectedWindow))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist dyadicLedger))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist regularReadback))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist realSeal))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist transport))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist replay))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist provenance))
+            (compactRegularCauchySubsequenceDecodeBHist
+              (compactRegularCauchySubsequenceEncodeBHist name))) =
+          some
+            (CompactRegularCauchySubsequenceUp.mk compactSource sourceWindow
+              reindexLedger selectedWindow dyadicLedger regularReadback realSeal transport
+              replay provenance name)
+      rw [compactRegularCauchySubsequence_decode_encode_bhist compactSource,
+        compactRegularCauchySubsequence_decode_encode_bhist sourceWindow,
+        compactRegularCauchySubsequence_decode_encode_bhist reindexLedger,
+        compactRegularCauchySubsequence_decode_encode_bhist selectedWindow,
+        compactRegularCauchySubsequence_decode_encode_bhist dyadicLedger,
+        compactRegularCauchySubsequence_decode_encode_bhist regularReadback,
+        compactRegularCauchySubsequence_decode_encode_bhist realSeal,
+        compactRegularCauchySubsequence_decode_encode_bhist transport,
+        compactRegularCauchySubsequence_decode_encode_bhist replay,
+        compactRegularCauchySubsequence_decode_encode_bhist provenance,
+        compactRegularCauchySubsequence_decode_encode_bhist name]
+
+private theorem compactRegularCauchySubsequenceToEventFlow_injective
+    {x y : CompactRegularCauchySubsequenceUp} :
+    compactRegularCauchySubsequenceToEventFlow x =
+        compactRegularCauchySubsequenceToEventFlow y →
+      x = y := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hread :
+      compactRegularCauchySubsequenceFromEventFlow
+          (compactRegularCauchySubsequenceToEventFlow x) =
+        compactRegularCauchySubsequenceFromEventFlow
+          (compactRegularCauchySubsequenceToEventFlow y) :=
+    congrArg compactRegularCauchySubsequenceFromEventFlow heq
+  exact Option.some.inj
+    (Eq.trans (compactRegularCauchySubsequence_round_trip x).symm
+      (Eq.trans hread (compactRegularCauchySubsequence_round_trip y)))
 
 instance compactRegularCauchySubsequenceBHistCarrier :
     BHistCarrier CompactRegularCauchySubsequenceUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := compactRegularCauchySubsequenceToEventFlow
   fromEventFlow := compactRegularCauchySubsequenceFromEventFlow
-
-private theorem compactRegularCauchySubsequence_round_trip :
-    ∀ x : CompactRegularCauchySubsequenceUp,
-      compactRegularCauchySubsequenceFromEventFlow
-        (compactRegularCauchySubsequenceToEventFlow x) = some x := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x
-  cases x with
-  | mk compactSource sourceWindow subsequenceLedger selectedWindow dyadicTolerance
-      rationalReadback realSeal transport replay provenance localName =>
-      change
-        some
-            (CompactRegularCauchySubsequenceUp.mk
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist compactSource))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist sourceWindow))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist subsequenceLedger))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist selectedWindow))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist dyadicTolerance))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist rationalReadback))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist realSeal))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist transport))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist replay))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist provenance))
-              (compactRegularCauchySubsequenceDecodeBHist
-                (compactRegularCauchySubsequenceEncodeBHist localName))) =
-          some
-            (CompactRegularCauchySubsequenceUp.mk compactSource sourceWindow
-              subsequenceLedger selectedWindow dyadicTolerance rationalReadback realSeal
-              transport replay provenance localName)
-      rw [compactRegularCauchySubsequence_decode_encode_bhist compactSource]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist sourceWindow]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist subsequenceLedger]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist selectedWindow]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist dyadicTolerance]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist rationalReadback]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist realSeal]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist transport]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist replay]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist provenance]
-      rw [compactRegularCauchySubsequence_decode_encode_bhist localName]
-
-private theorem compactRegularCauchySubsequenceToEventFlow_injective
-    {x y : CompactRegularCauchySubsequenceUp} :
-    compactRegularCauchySubsequenceToEventFlow x =
-      compactRegularCauchySubsequenceToEventFlow y → x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro hxy
-  have optionEq : some x = some y := by
-    calc
-      some x =
-          compactRegularCauchySubsequenceFromEventFlow
-            (compactRegularCauchySubsequenceToEventFlow x) :=
-        (compactRegularCauchySubsequence_round_trip x).symm
-      _ =
-          compactRegularCauchySubsequenceFromEventFlow
-            (compactRegularCauchySubsequenceToEventFlow y) :=
-        congrArg compactRegularCauchySubsequenceFromEventFlow hxy
-      _ = some y := compactRegularCauchySubsequence_round_trip y
-  exact Option.some.inj optionEq
 
 instance compactRegularCauchySubsequenceChapterTasteGate :
     ChapterTasteGate CompactRegularCauchySubsequenceUp where
@@ -172,27 +257,28 @@ instance compactRegularCauchySubsequenceChapterTasteGate :
     intro x
     change
       compactRegularCauchySubsequenceFromEventFlow
-        (compactRegularCauchySubsequenceToEventFlow x) = some x
+          (compactRegularCauchySubsequenceToEventFlow x) =
+        some x
     exact compactRegularCauchySubsequence_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (compactRegularCauchySubsequenceToEventFlow_injective heq)
 
 theorem CompactRegularCauchySubsequenceTasteGate_single_carrier_alignment :
-    (forall h : BHist,
+    (∀ h : BHist,
       compactRegularCauchySubsequenceDecodeBHist
-        (compactRegularCauchySubsequenceEncodeBHist h) = h) /\
-      (forall x : CompactRegularCauchySubsequenceUp,
-        compactRegularCauchySubsequenceFromEventFlow
-          (compactRegularCauchySubsequenceToEventFlow x) = some x) /\
-      (forall x y : CompactRegularCauchySubsequenceUp,
-        compactRegularCauchySubsequenceToEventFlow x =
-          compactRegularCauchySubsequenceToEventFlow y -> x = y) /\
-      compactRegularCauchySubsequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
+          (compactRegularCauchySubsequenceEncodeBHist h) =
+        h) ∧
+      Nonempty (BHistCarrier CompactRegularCauchySubsequenceUp) ∧
+        Nonempty (ChapterTasteGate CompactRegularCauchySubsequenceUp) ∧
+          compactRegularCauchySubsequenceEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
-  exact
-    ⟨compactRegularCauchySubsequence_decode_encode_bhist,
-      ⟨compactRegularCauchySubsequence_round_trip,
-        ⟨fun _ _ h => compactRegularCauchySubsequenceToEventFlow_injective h, rfl⟩⟩⟩
+  constructor
+  · exact compactRegularCauchySubsequence_decode_encode_bhist
+  · constructor
+    · exact Nonempty.intro compactRegularCauchySubsequenceBHistCarrier
+    · constructor
+      · exact Nonempty.intro compactRegularCauchySubsequenceChapterTasteGate
+      · rfl
 
-end BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
+end BEDC.Derived.CompactRegularCauchySubsequenceUp
