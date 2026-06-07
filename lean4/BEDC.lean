@@ -1554,6 +1554,7 @@ import BEDC.Derived.CauchyEstimateUp
 import BEDC.Derived.CauchyEstimateUp.TasteGate
 import BEDC.Derived.CauchyExtensionOperatorUp.TasteGate
 import BEDC.Derived.CauchyFilterBaseUp.TasteGate
+import BEDC.Derived.CauchyFilterCategoryUp
 import BEDC.Derived.CauchyFilterClusterUp.TasteGate
 import BEDC.Derived.CauchyFilterCompletionCriterionUp.TasteGate
 import BEDC.Derived.CauchyFilterConvergenceUp.TasteGate
@@ -2479,6 +2480,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.OutputNonescape
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.PrimitiveLedgerScope
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerLandingSurface
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerNonescape
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecognizerStrictLocalObstruction
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursiveReadback
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorAuditRoute
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RecursorGeneratorScopeLock
@@ -2487,6 +2489,7 @@ import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditCompilerCoherence
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditReplayTotality
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootAuditTotality
+import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootClosedDeterminacy
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootClosednessBudgetExhaustion
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootClosednessGate
 import BEDC.Derived.ClosedTermSubstitutionBoundaryUp.RootCompilerNonescape
@@ -4005,6 +4008,7 @@ import BEDC.Derived.DyadicToleranceScaleUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.TasteGate
 import BEDC.Derived.DyadicToleranceTriangleLedgerUp.WindowHandoff
 import BEDC.Derived.DyadicTotallyBoundedIntervalUp
+import BEDC.Derived.DyadicUp.ExponentShiftComposition
 import BEDC.Derived.DyadicUp.RealSealFactorization
 import BEDC.Derived.DyadicUp.TasteGate
 import BEDC.Derived.DyadicValuationUp
@@ -9492,6 +9496,7 @@ import BEDC.Derived.ViscositySolutionUp.TasteGate
 import BEDC.Derived.VitaliCoverUp.TasteGate
 import BEDC.Derived.VolterraIntegralOperatorUp.TasteGate
 import BEDC.Derived.VonneumannalgebraUp
+import BEDC.Derived.WeakCompactnessUp
 import BEDC.Derived.WeakDerivativeUp.TasteGate
 import BEDC.Derived.WeakKonigBoundaryUp.TasteGate
 import BEDC.Derived.WeakLawLargeNumbersUp.TasteGate
