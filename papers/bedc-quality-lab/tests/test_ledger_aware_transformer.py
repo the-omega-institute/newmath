@@ -113,7 +113,6 @@ def test_lat_projection_has_hardgate_signal_and_required_keys():
         ],
         "surface_registry_pointer": "$.surface_registry",
         "aggregate_pointer": "$.aggregate_metrics.multi_surface_uer_reduction_count",
-        "gate_pointer": "$.hardgate.gates.LAT-HG7.status",
     }
     assert payload["hardgate"]["gates"]["LAT-HG7"]["pointer"] == "$.parameter_matched_baseline.comparison"
 
@@ -187,7 +186,6 @@ def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
         payload["discovery_map_signal"]["parameter_matched_baseline_pointer"],
         payload["robustness_signal"]["surface_registry_pointer"],
         payload["robustness_signal"]["aggregate_pointer"],
-        payload["robustness_signal"]["gate_pointer"],
     ):
         assert pointer_value(payload, pointer) is not None
 
@@ -271,6 +269,12 @@ def test_lat_robustness_signal_failure_does_not_drive_hg7():
     assert mutated["hardgate"]["gates"]["LAT-HG7"]["status"] == "pass"
     assert mutated["failed_gate"] is None
     assert mutated["discovery_map_signal"]["level_candidate"] == "D5-O"
+
+    overlay, evidence = discovery_projection._ledger_aware_transformer_projection(mutated)
+
+    assert overlay["main_verdict"]["ledger_aware_transformer"]["level_candidate"] == "DN"
+    assert "evidence_basis" not in overlay
+    assert evidence.failed_gate == "$.robustness_signal.status"
 
 
 def test_lat_robustness_pointer_dangling_demotes():

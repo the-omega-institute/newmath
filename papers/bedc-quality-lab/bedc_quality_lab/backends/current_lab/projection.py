@@ -38,6 +38,7 @@ from bedc_quality_lab.mechanism_attribution import (
     unresolved_mechanism_evidence_pointers,
 )
 from bedc_quality_lab.research_discovery import DiscoveryLevel, assign_discovery_level
+from bedc_quality_lab.certificate_gated_attention import REQUIRED_PRODUCTION_NOT_CLAIMED
 from scripts.run_canonical_reports import CANONICAL_REPORTS, CanonicalReportSpec
 
 
@@ -1102,6 +1103,8 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
     )
     if failed != failed_gate:
         return False, "lat-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
+    if failed is None and robustness.get("status") != "pass":
+        return False, "lat-robustness-signal-failed", "$.robustness_signal.status"
     effective_failed = failed
     expected = {
         "status": "d5-o-candidate" if effective_failed is None else "negative",
@@ -1458,6 +1461,7 @@ def _certificate_gated_attention_consistency(payload: Mapping[str, Any]) -> tupl
     signal = pointer_value(payload, "$.discovery_map_signal")
     route_patch = pointer_value(payload, "$.route_patch_protocol")
     entropy_control = pointer_value(payload, "$.route_patch_protocol.entropy_only_control")
+    not_claimed = pointer_value(payload, "$.not_claimed")
     if not isinstance(hardgates, Mapping) or not hardgates:
         return False, "missing-cga-hardgates", "$.hardgate.gates"
     if not isinstance(signal, Mapping):
@@ -1469,6 +1473,12 @@ def _certificate_gated_attention_consistency(payload: Mapping[str, Any]) -> tupl
         return False, "missing-cga-route-patch-protocol", "$.route_patch_protocol"
     if not isinstance(entropy_control, Mapping):
         return False, "missing-cga-entropy-only-control", "$.route_patch_protocol.entropy_only_control"
+    if not isinstance(not_claimed, list):
+        return False, "missing-cga-not-claimed", "$.not_claimed"
+    if any(item not in not_claimed for item in REQUIRED_PRODUCTION_NOT_CLAIMED):
+        return False, "missing-cga-production-boundary", "$.not_claimed"
+    if not isinstance(hardgates["CGA-HG6"], Mapping) or hardgates["CGA-HG6"].get("evidence_pointer") != "$.not_claimed":
+        return False, "cga-production-boundary-pointer-mismatch", "$.hardgate.gates.CGA-HG6.evidence_pointer"
     failed = next(
         (
             name

@@ -116,8 +116,8 @@ def _source_pointer(kind: str, claim_rows: list[Mapping[str, Any]]) -> str:
         if kind in _ACTIVE_MUTATORS:
             for index, row in enumerate(claim_rows):
                 if row.get("claim_verdict") == "projected_discovery_required":
-                    return f"{CLAIM_VERDICTS_ARTIFACT}:{index}"
-        return f"{CLAIM_VERDICTS_ARTIFACT}:0"
+                    return f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[{index}]"
+        return f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]"
     return "reports/canonical/discovery_negative_witnesses.json:$.witnesses"
 
 
@@ -187,7 +187,8 @@ def pseudo_candidates(root: Path) -> list[PseudoCandidate]:
                 "discovery_map": _positive_discovery_map(source_pointer),
                 "negative_witness_summary": {"audit_status": "pass", "row_count": 0, "rows": []},
                 "revocations": [],
-            }
+            },
+            root=root,
         )
         digest_source = {
             "kind": kind,

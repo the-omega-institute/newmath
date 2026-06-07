@@ -109,7 +109,6 @@ class LatSurfaceSuite:
             ],
             "surface_registry_pointer": "$.surface_registry",
             "aggregate_pointer": "$.aggregate_metrics.multi_surface_uer_reduction_count",
-            "gate_pointer": "$.hardgate.gates.LAT-HG7.status",
         }
 
 
