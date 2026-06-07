@@ -10,10 +10,14 @@ from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 
 ATTRIBUTION_CAPSULE_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
 MECHANISM_EVIDENCE_POINTER = "$.mechanism_evidence"
+MECHANISM_EVIDENCE_LEVEL_POINTER = "$.mechanism_evidence.evidence_level"
+CAUSAL_EVIDENCE_LEVELS = ("observational", "ablation", "patch", "intervention", "counterfactual")
+D5_M_CAUSAL_EVIDENCE_LEVELS = ("patch", "intervention", "counterfactual")
 
 
 @dataclass(frozen=True)
 class MechanismAttributionEvidence:
+    evidence_level: str
     base_level: str
     base_status: str
     mechanism_level: str
@@ -54,17 +58,30 @@ def project_gap_head_mechanism_evidence(
     mechanism_level = evidence.get("mechanism_level")
     mechanism_status = evidence.get("mechanism_status")
     candidate = evidence.get("candidate_mechanism")
+    evidence_level = evidence.get("evidence_level")
     ledger_debt_pointer = evidence.get("ledger_debt_pointer")
     closure_pointer = evidence.get("closure_pointer")
     if not all(
         isinstance(value, str) and value
-        for value in (base_level, base_status, mechanism_level, mechanism_status, candidate, ledger_debt_pointer, closure_pointer)
+        for value in (
+            evidence_level,
+            base_level,
+            base_status,
+            mechanism_level,
+            mechanism_status,
+            candidate,
+            ledger_debt_pointer,
+            closure_pointer,
+        )
     ):
+        return None
+    if evidence_level not in CAUSAL_EVIDENCE_LEVELS:
         return None
     if not required_gate_pointers or not metric_pointers:
         return None
     source_issue = evidence.get("source_issue")
     return MechanismAttributionEvidence(
+        evidence_level=str(evidence_level),
         base_level=str(base_level),
         base_status=str(base_status),
         mechanism_level=str(mechanism_level),
@@ -84,11 +101,16 @@ def project_gap_head_mechanism_evidence(
 
 def mechanism_evidence_pointers(evidence: MechanismAttributionEvidence) -> tuple[str, ...]:
     return (
+        MECHANISM_EVIDENCE_LEVEL_POINTER,
         *evidence.required_gate_pointers,
         *tuple(evidence.metric_pointers.values()),
         evidence.ledger_debt_pointer,
         evidence.closure_pointer,
     )
+
+
+def mechanism_causal_evidence_ready(evidence: MechanismAttributionEvidence | None) -> bool:
+    return evidence is not None and evidence.evidence_level in D5_M_CAUSAL_EVIDENCE_LEVELS
 
 
 def unresolved_mechanism_evidence_pointers(

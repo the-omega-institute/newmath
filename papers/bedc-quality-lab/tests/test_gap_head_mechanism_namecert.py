@@ -26,6 +26,7 @@ def _capsule(root):
                 "residualized_attribution": {"status": "pass"},
                 "score_margin_causal_evidence": {"channel_classification": "score_margin_sufficient"},
                 "mechanism_evidence": {
+                    "evidence_level": "patch",
                     "base_level": "D5-O",
                     "base_status": "ready",
                     "mechanism_level": "blocked",

@@ -5,6 +5,12 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Literal, Mapping
 
+from bedc_quality_lab.mechanism_attribution import (
+    mechanism_causal_evidence_ready,
+    project_gap_head_mechanism_evidence,
+    unresolved_mechanism_evidence_pointers,
+)
+
 
 DiscoveryLevel = Literal["D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M", "DN", "DR"]
 
@@ -213,7 +219,14 @@ def _source_pointers(payload: Mapping[str, Any]) -> dict[str, str]:
 
 def _mechanism_ready(payload: Mapping[str, Any], source_pointers: Mapping[str, str]) -> bool:
     required = {"operational", "mechanism", "mechanism_case"}
-    return required <= set(source_pointers) and _mechanism_attribution_all_pass(payload)
+    evidence = project_gap_head_mechanism_evidence(payload)
+    if evidence is None or unresolved_mechanism_evidence_pointers(payload, evidence):
+        return False
+    return (
+        required <= set(source_pointers)
+        and _mechanism_attribution_all_pass(payload)
+        and mechanism_causal_evidence_ready(evidence)
+    )
 
 
 def _classifier_shift(main: Mapping[str, Any] | None) -> bool:

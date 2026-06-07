@@ -664,6 +664,7 @@ def _payload_for_spec(spec):
         payload["residualized_attribution"] = {"status": "pass"}
         payload["score_margin_causal_evidence"] = {"channel_classification": "score_margin_sufficient"}
         payload["mechanism_evidence"] = {
+            "evidence_level": "patch",
             "base_level": "D5-O",
             "base_status": "ready",
             "mechanism_level": "blocked",
@@ -4236,6 +4237,7 @@ def test_attribution_capsule_d5_cells_project_minimal_two_axis_discovery_map_row
                     "d5_m": {"status": "blocked", "passed": False, "failed_gate": "A1-HG3"},
                     "mechanism_case": {"status": "D5-O retained, mechanism = probe-margin-channel"},
                     "mechanism_evidence": {
+                        "evidence_level": "patch",
                         "base_level": "D5-O",
                         "base_status": "ready",
                         "mechanism_level": "blocked",

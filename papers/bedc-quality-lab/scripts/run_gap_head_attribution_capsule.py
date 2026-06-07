@@ -1865,6 +1865,7 @@ def _mechanism_evidence(
     mechanism_level = "D5-M" if d5_m.get("status") == "ready" and d5_m.get("passed") is True else "blocked"
     mechanism_status = "ready" if mechanism_level == "D5-M" else "blocked"
     return {
+        "evidence_level": "patch",
         "base_level": "D5-O",
         "base_status": str(d5_o.get("status") or "missing"),
         "mechanism_level": mechanism_level,

@@ -1079,6 +1079,7 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     assert capsule["source_issues"] == [692, 747, 750]
     assert capsule["d5_o"]["status"] == "ready"
     assert capsule["d5_m"]["status"] == "blocked"
+    assert capsule["mechanism_evidence"]["evidence_level"] == "patch"
     assert capsule["mechanism_evidence"]["base_level"] == "D5-O"
     assert capsule["mechanism_evidence"]["mechanism_level"] == "blocked"
     assert capsule["mechanism_evidence"]["candidate_mechanism"] == "probe-margin-channel"
@@ -1099,6 +1100,7 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     assert capsule["mechanism_evidence"]["head_patch_status"] == "pass"
     assert capsule["mechanism_evidence"]["source_issue"] == 750
     assert capsule["mechanism_evidence"]["source_issues"] == [747, 750]
+    assert _pointer_resolves(capsule, "$.mechanism_evidence.evidence_level")
     assert capsule["residualized_attribution_claim"]["source_artifact"] == runner.CANONICAL_JSON_ARTIFACT
     assert capsule["e_hardgates"]["gates"]["E-HG4_non_score_mechanism_claim_fail_closed"]["status"] == "fail"
     assert set(capsule["not_implemented"]) == {"nonlinear_residualization", "full_causal_replacement_scope"}
