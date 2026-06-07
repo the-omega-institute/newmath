@@ -1,48 +1,33 @@
 \origin{ai}
+\subsection{Modeled tAI survival of the $B^{\ast}_{Q6}$ synonymous residual coordinates}
+\label{sec:biorreality-b-star-q6-modeled-tai-survival}
 
-\subsection{Rank-powered modeled tAI survival for the $B^{*}_{Q6}$ residual panel}
-\label{sec:bioreality-b-star-q6-modeled-tai-survival}
+\paragraph{Finite carrier.}
+This record concerns the nine residual synonymous coordinates
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f3$-stress, evaluated against modeled codon-adaptation readouts derived from organism-scoped tRNA gene-copy information and dos Reis wobble weights.  The finite table contains $40$ organism rows, not the earlier three-organism contact surface.  The control design has $24$ control columns with $\operatorname{rank}(Z)=23$, leaving $17$ residual degrees of freedom after quotienting by the declared controls.  The fitted residual coordinate block has rank $9$, so the modeled-tAI panel is not the rank-degenerate $n=3$ case.
 
-\paragraph{Finite row and coordinate carrier.}
-This record evaluates a finite cross-organism matrix in which the nine $B^{*}_{Q6}$ synonymous-residual coordinates are tested against modeled codon-adaptation readouts derived from organism-scoped tRNA gene-copy annotations and dos Reis wobble weights.  The coordinate list is
+\paragraph{Residualized survival statistic.}
+Let $Q$ denote the $40\times 9$ matrix of residual synonymous coordinates and let $T$ denote the $40\times 9$ modeled tAI readout matrix after projection onto the same coordinate vocabulary.  The controls $Z$ include amino-acid composition, organism context, GC3, coding-sequence length, and the simpler codon-density baseline.  With $Q_{\perp Z}$ and $T_{\perp Z}$ denoting residuals after regression on $Z$, the checked finite-row statement is that the translation-readout surface is computed on the residualized design rather than read directly from raw codon counts:
 $$
 \begin{aligned}
-&K_{\mathrm{AAA}},\quad \mathrm{Arg}_{\mathrm{AGR}},\quad \mathrm{Ile}_{\mathrm{AUA}},\quad
-\mathrm{Leu}_{\mathrm{CUN}/\mathrm{UUR}},\quad \mathrm{Leu}_{\mathrm{UUA}/\mathrm{UUG}},\\
-&\mathrm{Ser}_{\mathrm{UCR}/\mathrm{AGY}},\quad \mathrm{Ser}_{\mathrm{UCA}/\mathrm{UCG}},\quad
-\mathrm{Thr}_{\mathrm{ACR}/\mathrm{ACY}},\quad f3_{\mathrm{stress}} .
+S^{QT} &= S(Q_{\perp Z},T_{\perp Z}),\\
+\operatorname{shape}(S^{QT}) &= 9\times 9,\\
+R^2_{QT} &= 0.9003849000036579.
 \end{aligned}
 $$
-The readout side has the same nine projected modeled-tAI columns, so the computed survival surface has shape $9\times 9$.  The organism panel contains $40$ rows, including human, Arabidopsis, grape, zebrafish, budding yeast, chicken, several Burkholderia and Mycobacterium rows, Escherichia coli, Xenopus, Nostoc, Anabaena, and other bacterial and eukaryotic entries.  The row is therefore not the earlier three-organism Leu gate alone; it is a powered finite panel for the modeled adaptation statistic.
+The positive-entry threshold used for the partial-$R^2$ decision is $10^{-12}$.  The recorded scalar $R^2_{QT}=0.9003849000036579$ lies below the declared degeneracy cutoff $0.999999$, so the result is reported as a powered modeled-readout survival surface rather than as a saturated fit.
 
-\paragraph{Residualization design.}
-The control block $Z$ contains amino-acid-composition, organism-context, $\mathrm{GC}3$, sequence-length, and simpler-codon-density baseline information.  In the recorded computation, $Z$ has $24$ control columns and numerical rank $23$.  After residualizing against $Z$, the remaining degrees of freedom are $17$.  The residualized $B^{*}_{Q6}$ design has rank $9$, so the nine-coordinate test is not rank-collapsed.  The reported degeneracy cutoff is $0.999999$, while the observed modeled translation-readout fit is
-$$
-\begin{aligned}
-R^{2}_{QT} = 0.9003849000036579 .
-\end{aligned}
-$$
-Thus the run is below the declared saturation boundary while still carrying a large modeled adaptation signal.  Positive entries in the $S^{QT}$ surface are judged against the stated partial-$R^{2}$ threshold $10^{-12}$; the packet records that the modeled survival matrix was computed, with $R^{2}_{QT}=0.9003849000036579$ and matrix shape $[9,9]$.
+\paragraph{Organism panel.}
+The rows include human, Arabidopsis, grape, zebrafish, budding yeast, chicken, Escherichia coli, Xenopus, multiple Burkholderia and Mycobacterium entries, Pseudomonas aeruginosa strains, Nostoc, Sinorhizobium, Ostreococcus, Debaryomyces, Yarrowia, Nocardia, Leptospira, and Anabaena entries.  The panel size is therefore $40$ organism-scoped rows, while the residual degrees of freedom after controls are $17$.  This matters because the earlier Leu $CUN/UUR$ contact used only three organisms and produced a perfect Pearson value $1.0$ with signs $(+,-,+)$ for the three log-ratio rows.  That earlier contact remains useful as a route-finding statistic, but the present modeled tAI survival statement is grounded in the larger rank-sufficient panel.
 
-\paragraph{Statistic being asserted.}
-For a coordinate $q_i$ and modeled adaptation readout $t_j$, the local statistic is the controlled contribution of $q_i$ to $t_j$ after removing $Z$.  In schematic form, with tildes denoting residuals after projection away from $Z$,
-$$
-\begin{aligned}
-\widetilde q_i &= q_i - \Pi_Z q_i,\\
-\widetilde t_j &= t_j - \Pi_Z t_j,\\
-S^{QT}_{ij} &> 0
-\end{aligned}
-$$
-means that the residual coordinate supplies positive modeled-tAI description beyond the amino-acid, organism, $\mathrm{GC}3$, length, and simpler-density controls.  Equivalently, the tested model is not fully absorbed by the controlled baseline on the modeled adaptation layer.  The run establishes this only for modeled per-codon tAI projected into the nine-coordinate synonymous-residual frame; it does not by itself assert measured elongation speed or ribosome occupancy.
+\paragraph{Relation to proxy coupling.}
+A separate proxy coupling computation found all $9$ residual coordinates nonzero against the tRNA-Leu $CUN/UUR$ log-copy spectrum, with maximum absolute coupling $1882464.1106377328$ and threshold $0.01$.  That coupling result is not itself a survival score.  In this chapter the evidential step is the residualized $S^{QT}$ computation after controls, not the raw sign or magnitude of $A_{ij}$.  Equivalently, the result says that the modeled tAI readout is not absorbed by the amino-acid, context, GC3, length, and simpler-baseline description alone on this finite panel.
 
-\paragraph{Relation to the proxy coupling row.}
-A separate finite row computed a proxy coupling matrix using three organisms, namely human, budding yeast, and Escherichia coli K-12, with a tRNA-Leu CUN-versus-UUR log-copy spectrum as the readout.  That proxy row used a break threshold $|A_{ij}|<0.01$ for all nine coordinates; the break condition was not met, because all nine entries were nonzero and the maximum absolute coupling was $1882464.1106377328$.  This supports the weaker claim that the $B^{*}_{Q6}$ coordinates are not numerically silent against that proxy spectrum.  It is not the same as the powered $S^{QT}$ statistic: proxy coupling $A_{ij}$ can motivate the survival test, but the positive modeled-tAI survival row depends on the controlled partial-$R^{2}$ computation described above.
+\paragraph{Complement readback.}
+The coordinate support computation gives a further bounded check on how modeled-tAI-complement abundance residuals sit inside the same nine-coordinate frame.  For example, the complement projection records $R^2_{QP}=0.04613529805760884$ for zebrafish, $0.10767526667768725$ for the E. coli K-12 MG1655 contact, $0.03980793595345331$ for chicken, $0.04454565117192484$ for human, $0.032090091625816136$ for Mycobacterium smegmatis, and $0.29837624987287115$ for budding yeast.  The corresponding modeled complement fractions $m$ are $0.12537127895073397$, $0.3370039961421468$, $0.05996581936972245$, $0.07910506443205445$, $0.10273279812535108$, and $0.788267804272933$.  These numbers are not causal mediation estimates; they only say that the residual complement can be expressed back in the same nine-coordinate vocabulary with finite values.
 
-\paragraph{Relation to the Leu gate and complement row.}
-The earlier Leu CUN/UUR finite contact reported a three-row partial Pearson value $1.0$ for the tRNA-Leu ratio comparison, with signs $[1,-1,1]$ across the three organisms and therefore no uniform sign law.  The present modeled-tAI row is stronger in rank and sample size because it uses $40$ organism rows and all nine $B^{*}_{Q6}$ residual coordinates.  A separate complement-projection computation also read modeled-tAI-complement abundance residuals back into the nine-coordinate frame for six organisms.  In that row the complement fractions $m$ were $0.12537127895073397$ for zebrafish, $0.3370039961421468$ for Escherichia coli K-12 MG1655, $0.05996581936972245$ for chicken, $0.07910506443205445$ for human, $0.10273279812535108$ for Mycobacterium smegmatis, and $0.788267804272933$ for budding yeast.  Those numbers show that the same residual-coordinate panel can receive downstream readback from a modeled-tAI complement calculation, but they do not turn the present survival row into a causal mediation result.
+\paragraph{Local verdict.}
+The finite claim is ready at the modeled translation-readout layer: a $9\times 9$ $S^{QT}$ surface was computed from $40$ organism rows, with $\operatorname{rank}(Z)=23$, $17$ residual degrees of freedom, $\operatorname{rank}(Q_{\perp Z})=9$, and $R^2_{QT}=0.9003849000036579$.  The chapter therefore records a positive modeled tAI survival boundary for $B^{\ast}_{Q6}$ residual geometry under the stated controls.
 
-\paragraph{Local interpretation.}
-The finite conclusion is that the nine-coordinate $B^{*}_{Q6}$ residual panel has a non-vacuous, rank-powered modeled-tAI survival surface after the declared controls.  The concrete audit values are $40$ organisms, $9$ residual coordinates, $9$ modeled-tAI readout columns, $24$ control columns, control rank $23$, residual degrees of freedom $17$, residual design rank $9$, survival matrix shape $9\times 9$, positive-entry threshold $10^{-12}$, and total modeled readout fit $R^{2}_{QT}=0.9003849000036579$.  This is a bounded translation-adaptation result: it concerns modeled tAI from tRNA gene-copy and wobble-weight data, projected through the synonymous-residual coordinate system.
-
-\paragraph{Boundary of the claim.}
-This chapter does not infer measured ribosome traffic, translation efficiency from ribosome profiling, protein abundance, folding, physical admissibility, molecular function, pathway mechanism, phenotype, or a universal biological rule.  Modeled tAI is not ribo-seq, not measured elongation speed, not ribosome occupancy, not proteomics, and not protein realization.  tRNA gene-copy counts are also not tRNA abundance or charging measurements.  Any measured translation statement would require an organism-matched ribosome or translation-efficiency contact; any protein statement would require matched proteomics; any function, structure, physical-admissibility, mechanism, phenotype, or universality statement would require its own layer-matched measurement and a separate controlled statistic.
+\paragraph{Scope boundary.}
+The readout here is modeled tAI from tRNA gene-copy counts and wobble weights.  It is not ribosome profiling, measured elongation speed, ribosome occupancy, protein abundance, protein folding, physical admissibility, molecular function, pathway mechanism, phenotype, or a universal biological law.  No measured translation, folding, physical admissibility, function, mechanism, or universality follows from this record unless a separate layer-matched contact supplies that measurement and the corresponding controlled statistic is computed.  Positive $S^{QT}$ entries are therefore bounded modeled-readout survival entries only; they do not imply $S^{QP}$ protein-output survival or $M^{QTP}$ translation-conditioned protein mediation.
