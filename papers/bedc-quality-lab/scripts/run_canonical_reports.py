@@ -3326,20 +3326,18 @@ MODEL_DESIGN_SUITE_ROW_FIELDS = set(MODEL_DESIGN_SUITE_POINTER_FIELDS) | {
     "hardgate_status",
     "hardgate_reason",
 }
-MODEL_DESIGN_SUITE_FORBIDDEN_KEYS = frozenset(
-    {
-        "terminal_verdict",
-        "metrics",
-        "raw_metrics",
-        "candidate_metrics",
-        "candidate_measurements",
-        "candidate_results",
-        "candidate_evidence",
-        "candidate_evidence_body",
-        "evidence_body",
-        "measurement_body",
-        "host",
-    }
+MODEL_DESIGN_SUITE_FORBIDDEN_KEYS = (
+    "terminal_verdict",
+    "metrics",
+    "raw_metrics",
+    "candidate_metrics",
+    "candidate_measurements",
+    "candidate_results",
+    "candidate_evidence",
+    "candidate_evidence_body",
+    "evidence_body",
+    "measurement_body",
+    "host",
 )
 MODEL_DESIGN_SUITE_HARDGATE_IDS = tuple(f"SUITE-HG{index}" for index in range(1, 6))
 
