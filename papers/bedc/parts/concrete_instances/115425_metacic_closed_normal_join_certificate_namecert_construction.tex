@@ -1,0 +1,74 @@
+\chapter{MetaCICClosedNormalJoinCertificate name certificate construction}
+\label{ch:concrete-instances-metacic-closed-normal-join-certificate-namecert}
+\origin{ai}
+
+The $\MetaCICClosedNormalJoinCertificateUp$ packet realizes the unconditional fragment of \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It consumes the normalization frontier of \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert} before exposing its local join ledger, so the closed-normal joins are routed through the sibling normalization lattice rather than floated as an isolated confluence row. It records closed-normal joins, closed sort joins, impossible closed-variable cases, atom-shape inversions, and the retained substitution-compatibility boundary without promoting those fragments to arbitrary closed Church--Rosser.
+
+\begin{definition}[MetaCIC closed-normal join carrier]
+\label{def:metacic-closed-normal-join-certificate-carrier}
+A $\MetaCICClosedNormalJoinCertificateUp$ carrier is a finite row
+$$
+J=(T,N,A,S,V,B,L,O,H,C,G,R),
+$$
+where $T$ is the closed MetaCIC term-window row, $N$ is the closed-normal source row, $A$ is the atom-shape row, $S$ is the closed sort-join row, $V$ is the impossible closed-variable row, $B$ is the named substitution-boundary row, $L$ is the local join ledger, $O$ is the obstruction-retention row, $H$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $G$ is $\Pkg$ provenance, and $R$ is the local $\NameCert_{\MetaCICClosedNormalJoinCertificateUp}$ row.
+\end{definition}
+
+\begin{theorem}[MetaCIC closed-normal join classifier]
+\label{thm:metacic-closed-normal-join-certificate-classifier}
+An accepted $\MetaCICClosedNormalJoinCertificateUp$ packet classifies exactly the checked closed-normal, closed-sort, closed-variable-impossible, and atom-shape confluence fragments named in \autoref{ch:metacic-confluence-audit-map}. It refuses any packet that drops the displayed substitution boundary $B$, replaces the local join ledger $L$ by a full $\mathrm{BetaParallelSubstitutionCompatibility}$ proof, or claims arbitrary closed Church--Rosser for $\mathrm{BetaStarStep}$ without that boundary.
+\end{theorem}
+\begin{proof}
+Read the confluence audit map. Its established section names closed normal confluence, closed sort confluence, closed variable impossibility, atom joins, and atom-shape inversions as available fragments.
+
+The conditional section names the substitution-sensitive boundary. The carrier therefore keeps $B$ as a row rather than erasing it when the local fragments $N,A,S,V,L$ are packaged.
+
+Transport, replay, provenance, and local naming preserve this separation. Thus the accepted classifier is finite and fragmentary: it is a join certificate for displayed closed-normal and atom sources, not a full closed Church--Rosser theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC closed-normal join NameCert obligations]
+\label{thm:metacic-closed-normal-join-certificate-namecert-obligations}
+For every accepted carrier $J=(T,N,A,S,V,B,L,O,H,C,G,R)$, the local $\NameCert_{\MetaCICClosedNormalJoinCertificateUp}$ row verifies the following five obligations:
+\begin{enumerate}
+\item the carrier binds closed term windows, closed-normal sources, atom-shape rows, sort joins, impossible closed-variable rows, substitution-boundary data, and local join ledgers as distinct fields;
+\item the classifier accepts the unconditional closed-normal and atom fragments while preserving the conditional full-confluence boundary named by \autoref{ch:metacic-confluence-audit-map};
+\item exactness requires $L$ to cite only joins licensed by $N,A,S,V$ and to retain $B$ whenever a consumer asks for a stronger closed-source confluence claim;
+\item the obstruction row $O$ records that arbitrary closed Church--Rosser is outside the packet until the substitution boundary is discharged;
+\item the transport, replay, provenance, and local-name rows $H,C,G,R$ preserve the same fragmentary carrier for downstream proof-obligation consumers.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closed-normal-join-certificate-carrier}. The rows are separate fields, so the substitution boundary cannot be hidden inside the local join ledger.
+
+Apply the classifier theorem. It reads the established closed-normal and atom fragments from the audit map and keeps the conditional full-confluence interface visible as $B$.
+
+The exactness, obstruction, and structural obligations follow by preserving that same row order through $O,H,C,G,R$. A consumer that claims arbitrary closed Church--Rosser without the boundary has changed the packet rather than read this certificate.
+\end{proof}
+
+\begin{theorem}[MetaCIC closed-normal join boundary retention]
+\label{thm:metacic-closed-normal-join-certificate-boundary-retention}
+Every accepted $\MetaCICClosedNormalJoinCertificateUp$ packet exports closed-normal and atom confluence data only along the route $T,N,A,S,V,B,L,O,H,C,G,R$. The packet may feed proof-obligation consumers that need the unconditional fragments, but any consumer that asks for arbitrary closed Church--Rosser must still supply the displayed substitution-compatibility boundary.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:metacic-closed-normal-join-certificate-namecert-obligations}. The local join ledger $L$ is licensed by the closed-normal, atom, sort, and impossible-variable rows, and it is paired with the boundary row $B$.
+
+The obstruction row $O$ records the non-escape condition. The structural rows then replay the same route without creating a full confluence theorem, so the stronger arbitrary closed-source claim remains conditional.
+\end{proof}
+
+\falsifiablePrediction{Any $\MetaCICClosedNormalJoinCertificateUp$ packet that claims arbitrary closed Church--Rosser for $\mathrm{BetaStarStep}$ without the displayed substitution boundary $B$ refutes this carrier.}
+
+\independenceWitness{normalformconsistencyseal, metaciccriticalpath, subject-reduction-discharge-socket, metacicconfluenceauditwitness, metacicconfluencenormalfragment: no listed sibling is bijective with $\MetaCICClosedNormalJoinCertificateUp$, because this packet jointly carries closed term windows, closed-normal joins, atom-shape rows, sort and impossible-variable fragments, the substitution boundary, the local join ledger, obstruction retention, transport, replay, provenance, and local naming.}
+
+The Lean follow-up must provide explicit $\Nontrivial\ \MetaCICClosedNormalJoinCertificateUp$ and $\FieldFaithful\ \MetaCICClosedNormalJoinCertificateUp$ TasteGate instances. Those instances must preserve $T,N,A,S,V,B,L,O,H,C,G,R$ as distinct rows before any checked carrier-alignment theorem can serve as the public TasteGate witness.
+
+\leanstmt{BEDC.Derived.MetaCICClosedNormalJoinCertificateUp.MetaCICClosedNormalJoinCertificateUp}
+
+\begin{closurestatus}{\MetaCICClosedNormalJoinCertificateUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-closed-normal-join-certificate-carrier}, \autoref{thm:metacic-closed-normal-join-certificate-classifier}, \autoref{thm:metacic-closed-normal-join-certificate-namecert-obligations}, and \autoref{thm:metacic-closed-normal-join-certificate-boundary-retention} seed the closed-normal and atom confluence fragment carrier with substitution-boundary retention.}
+  \constructivestory{A $\MetaCICClosedNormalJoinCertificateUp$ packet is generated from closed term windows, closed-normal source rows, atom-shape rows, sort-join rows, impossible closed-variable rows, a substitution-boundary row, local join ledger, obstruction-retention row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.MetaCICClosedNormalJoinCertificateUp.MetaCICClosedNormalJoinCertificateUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary closed Church--Rosser, BetaParallelSubstitutionCompatibility, BetaParallelDiamondClosed, subject reduction, or full MetaCIC confluence.}
+  \upgradepath{Obligation closure requires checked carrier admission, fragment classifier exactness, local join ledger stability, substitution-boundary retention, TasteGate nontriviality, field faithfulness, replay, provenance, and local naming for BEDC.Derived.MetaCICClosedNormalJoinCertificateUp.}
+\end{closurestatus}

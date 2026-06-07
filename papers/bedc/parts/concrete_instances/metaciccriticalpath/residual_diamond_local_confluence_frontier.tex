@@ -29,3 +29,40 @@ Next use the candidate-mediated strong-normalization frontier, \autoref{thm:meta
 
 Finally apply the L10 source separation theorem, \autoref{thm:metacic-critical-path-residual-diamond-l10-source-separation}. Since the four source faces stay distinct and the residual and candidate rows remain attached to $S,N,O,U,D,H,C,P,L$, the handoff cannot export any of the excluded global metatheoretic, quotient, selected-limit, or Real-completeness principles.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateSNConfluenceHandoff}
+
+\begin{theorem}[MetaCIC residual-diamond source determinacy]
+\label{thm:metacic-critical-path-residual-diamond-source-determinacy}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any local-confluence read that identifies the candidate-mediated strong-normalization frontier with the residual-diamond frontier must preserve $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ as four distinct L10 source rows before it consumes $U$. If the read merges those source faces, reconstructs one of them only after reading $U$, or treats their separation as an external side condition, then the read is outside the accepted $\MetaCICCriticalPathUp$ packet.
+\end{theorem}
+\begin{proof}
+Apply the residual-diamond local-confluence frontier, \autoref{thm:metacic-critical-path-residual-diamond-local-confluence-frontier}. It forces any confluence-facing read to display the residual-substitution frontier, residual-budget socket, bounded checker, and the four L10 source faces before $U$ is available.
+
+Next apply the candidate-SN confluence handoff, \autoref{thm:metacic-critical-path-candidate-sn-confluence-handoff}. The candidate-mediated frontier and residual-diamond frontier are therefore consumed only as rows attached to the same displayed packet $S,N,O,U,D,H,C,P,L$.
+
+Finally use the L10 source separation theorem, \autoref{thm:metacic-critical-path-residual-diamond-l10-source-separation}. The four source faces remain separate rows throughout that shared route, so a read that merges them, rebuilds them after $U$, or places their separation outside the packet cannot be an accepted local-confluence read for $K$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathResidualDiamondSourceDeterminacy}
+
+\begin{theorem}[MetaCIC candidate residual-diamond lock]
+\label{thm:metacic-critical-path-candidate-residual-diamond-lock}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any local-confluence read that uses both candidate-mediated strong-normalization data and residual-diamond data must keep the candidate rows, residual-budget rows, obstruction row $O$, discharge socket $D$, and the four L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ visible before $U$ is consumed. The candidate frontier may support the handoff, but it cannot fill $D$ or export closed subject reduction, global confluence, beta-decidability, quotient term equality, selected limits, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the residual-diamond local-confluence frontier, \autoref{thm:metacic-critical-path-residual-diamond-local-confluence-frontier}. It places residual substitution, the residual-budget socket, bounded checker data, and the four L10 source faces before any local-confluence consumer may read $U$.
+
+Next apply the candidate-SN confluence handoff, \autoref{thm:metacic-critical-path-candidate-sn-confluence-handoff}, and residual-diamond source determinacy, \autoref{thm:metacic-critical-path-residual-diamond-source-determinacy}. These results force the candidate-mediated and residual-diamond rows to remain attached to the same packet $S,N,O,U,D,H,C,P,L$ while preserving the four L10 faces as separate source rows.
+
+Now use candidate residual stability and frontier nonescape, \autoref{thm:metacic-critical-path-candidate-residual-stability} and \autoref{thm:metacic-critical-path-frontier-nonescape}. The candidate rows may carry the finite handoff, but they remain a displayed frontier over the same residual budget and cannot erase $O$, fill $D$, or detach the L10 source route.
+
+Finally apply subject-reduction socket separation, \autoref{thm:metacic-critical-path-subject-reduction-socket-separation}. Since $D$ is a separate socket row and no displayed candidate or residual row is a subject-reduction certificate, the local-confluence read cannot export any of the excluded global metatheoretic, quotient, selected-limit, host-equality, or Real-completeness principles.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateResidualDiamondLock}

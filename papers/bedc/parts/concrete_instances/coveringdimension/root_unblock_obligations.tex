@@ -40,6 +40,7 @@ $$
 $$
 before a dimension-bound consumer may inspect the order row. The rows $K,E,C,R,O,L,H,T,P,N$ are the complete finite cover route: $K,E$ expose compact metric and metric finite-net data, $C,R,O$ expose cover membership, refinement, and order, $L$ exposes the $\CompactCoverLebesgueLedgerUp$ support, and $H,T,P,N$ transport, replay, source, and name the same packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootCompactNetCoverRoute}
 \begin{proof}
 Start with the compactmetric non-escape obligation, \autoref{thm:coveringdimension-compactmetric-nonescape-obligation}. It keeps compactness and metric information inside the displayed finite carrier rows rather than in an ambient open-cover principle.
 
@@ -56,6 +57,7 @@ K,E,C,R,\CompactCoverLebesgueLedgerUp,O,L,H,T,P,N .
 $$
 In particular, a consumer must read the finite cover row $C$, the refinement membership row $R$, the order-bound row $O$, and the compact-cover ledger $L$ as one packet after the $\CompactMetricUp$ and $\MetricUp$ source rows have been displayed, and before any $\MetricCompletionUp$, $\RealSeparabilityUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, or $\RealUp$ completion-facing route may reuse the bound.
 \end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootRefinementOrderRoute}
 \begin{proof}
 Project the carrier coordinates. The refinement data are not a separate theorem: they are the rows $C,R,O,L$ of the accepted packet, downstream of $K,E$ and upstream of the structural rows.
 
@@ -86,6 +88,7 @@ The $\MetricCompletionUp$ and $\RealUp$ rows therefore receive only the displaye
 \label{thm:covering-dimension-root-obligation-surface}
 Every root $\CoveringDimensionUp$ consumer over an accepted packet $D=(K,E,C,R,O,L,H,T,P,N)$ must read a finite obligation surface with rows over $\CompactMetricUp$, $\MetricUp$, finite $\BHist$ covers, $\CompactCoverLebesgueLedgerUp$, $\SimplicialComplexUp$, $\RealSeparabilityUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$. The rows $H,T,P,N$ then preserve the same surface by componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming; no root consumer may replace the surface by open-cover compactness, selected refinement, host simplicial realization, or ambient separability.
 \end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionRootObligationSurface}
 \begin{proof}
 Project the accepted packet. The compactmetric and metric prefix gives $K,E$, the finite cover and refinement rows give $C,R,O$, and the Lebesgue ledger gives $L$ before any completion-facing or nerve-facing read occurs.
 
@@ -121,6 +124,7 @@ Now restrict the downstream consumer to the nerve route. The $\SimplicialComplex
 
 Therefore the handoff is finite and constructive. It is a consumer route from the displayed CoveringDimension ledger to the displayed simplicial-complex packet, not a separate compactness or dimension principle.
 \end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionSimplicialNerveHandoff}
 
 \begin{definition}[CoveringDimension finite-refinement carrier]
 \label{def:covering-dimension-finite-refinement-carrier}
@@ -132,11 +136,13 @@ whose visible rows extend the root cover ledger by finite downstream handoff dat
 
 The carrier admits only finite cover rows, finite refinement memberships, finite order bounds, finite scale windows, and local naming rows. It has no coordinate for arbitrary open-cover compactness, selected refinements, a host dimension predicate, or ambient completeness.
 \end{definition}
+\leandef{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteRefinementCarrier}
 
 \begin{theorem}[CoveringDimension finite-refinement NameCert obligations]
 \label{thm:covering-dimension-finite-refinement-namecert-obligations}
 For every accepted finite-refinement carrier $D=(K,E,C,R,O,L,S,M,A,G,H,T,P,N)$, the local $\NameCert_{\CoveringDimensionUp}$ root obligation surface first exposes $\CompactMetricUp$, $\MetricUp$, finite cover rows, refinement membership, $\CompactCoverLebesgueLedgerUp$, $\RealSeparabilityUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any order-bound export is available. The certificate surface is exactly this finite packet and does not import arbitrary open-cover compactness, selected refinement, host dimension data, or ambient completion.
 \end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteRefinementNameCertObligations}
 \begin{proof}
 Project the carrier of \autoref{def:covering-dimension-finite-refinement-carrier}. The rows $K,E,C,R,O,L$ are the finite cover, refinement, order, and Lebesgue-ledger rows already isolated by \autoref{thm:covering-dimension-root-obligation-surface}.
 
@@ -153,6 +159,7 @@ $$
 $$
 The $\SimplicialComplexUp$ consumer receives only the finite nerve and incidence data determined by $C,R,O,L$, and the $\MetricCompletionUp$ consumer receives only the finite scale and rational or dyadic tolerance windows attached to the same packet. Neither handoff receives arbitrary open-cover compactness, selected refinement, a host dimension predicate, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteOrderHandoff}
 \begin{proof}
 Start with \autoref{thm:covering-dimension-finite-refinement-namecert-obligations}. It fixes the finite cover, refinement, order, scale, transport, replay, provenance, and naming rows before any order-bound export is visible.
 
@@ -183,6 +190,7 @@ Apply the root obligation surface theorem \autoref{thm:covering-dimension-root-o
 
 Finally read the finite-refinement NameCert obligations of \autoref{thm:covering-dimension-finite-refinement-namecert-obligations}. They repack the same finite rows through $H,T,P,N$, so the admission is the displayed packet and no external theorem enters the root surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteCoverRootAdmission}
 
 \begin{theorem}[CoveringDimension finite-cover root stability]
 \label{thm:covering-dimension-finite-cover-root-stability}
@@ -195,3 +203,4 @@ Use the componentwise $\hsame$ hypotheses to transport the compactmetric, cover,
 
 Apply \autoref{thm:covering-dimension-finite-order-handoff}. Downstream $\SimplicialComplexUp$ and $\MetricCompletionUp$ consumers receive only the same finite order handoff, so the root obligation surface remains stable under the displayed transport.
 \end{proof}
+\leanchecked{BEDC.Derived.CoveringdimensionUp.CoveringDimensionFiniteCoverRootStability}

@@ -39,6 +39,20 @@ The readback rows $R_A,R_B$ and the seal row $S$ are downstream of this finite c
 \end{proof}
 \leanchecked{BEDC.Derived.RealNameClassifierUp.RealNameClassifierSource\_tolerance\_obligation}
 
+\begin{theorem}[RealNameClassifier reflexive window]
+\label{thm:realnameclassifier-reflexive-window}
+Let $C=(A,A,W,D_A,D_A,T,R_A,R_A,H,K,P,S,N)$ be an accepted $\RealNameClassifierUp$ packet whose two displayed source rows are the same $\RegularCauchyNameUp$ row and whose classifier query is read through the same $\StreamNameUp$ window. Then the $A\sim A$ read is admitted by the reflexive classifier route through the existing $\DyadicRatCoreUp$ tolerance row, the $\RegSeqRatUp$ readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the terminal $\RealUp$ seal. The route exports no quotient equality of Cauchy names, selected limit, host sequence equality, countable choice, trichotomy, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted packet. Since both source entries are the same row $A$ and both observation requests use the same window $W$, the displayed source routes agree componentwise before any classifier row is consumed.
+
+Apply the tolerance obligation of \autoref{thm:real-name-classifier-tolerance-obligation}. The classifier query must pass through $W,D_A,D_A,T$ before the regular rational readback or terminal seal can be inspected, so the reflexive read has no independent equality oracle.
+
+The two readback rows are the same $\RegSeqRatUp$ row attached to $A$. Transport by $H$ and replay by $K$ therefore preserve the displayed source, tolerance, classifier, and readback rows without changing the packet surface.
+
+Finally apply the seal boundary and ledger exhaustion, \autoref{thm:real-name-classifier-seal-boundary} and \autoref{thm:real-name-classifier-ledger-exhaustion}. The $\RealUp$ seal is reached only after the finite reflexive route has been displayed, and every consumed row is already accounted for by the carrier ledger.
+\end{proof}
+
 \begin{theorem}[RealNameClassifier common-window symmetry]
 \label{thm:real-name-classifier-common-window-symmetry}
 Let $C=(A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N)$ be an accepted $\RealNameClassifierUp$ packet. Swapping the two $\RegularCauchyNameUp$ rows $A,B$, swapping $D_A,D_B$, and swapping $R_A,R_B$ preserves the same local $\NameCert_{\RealNameClassifierUp}$ surface whenever the common $\StreamNameUp$ window $W$ and finite tolerance classifier row $T$ are unchanged. The swapped packet exports no new equality oracle, selected limit, quotient completion, or $\RealUp$ completeness principle.
@@ -55,6 +69,7 @@ Apply refinement stability and the seal boundary, \autoref{thm:real-name-classif
 \label{thm:real-name-classifier-common-window-transitivity}
 Let $C_{AB}=(A,B,W,D_A,D_B,T_{AB},R_A,R_B,H_{AB},K_{AB},P_{AB},S_{AB},N_{AB})$ and $C_{BC}=(B,C,W,D'_B,D_C,T_{BC},R'_B,R_C,H_{BC},K_{BC},P_{BC},S_{BC},N_{BC})$ be accepted $\RealNameClassifierUp$ packets. If both packets inspect $A\sim B$ and $B\sim C$ through the same common $\StreamNameUp$ window $W$, and the two middle-source rows $D_B,D'_B,R_B,R'_B$ are compatible by the displayed $\DyadicRatCoreUp$ tolerance and $\RegSeqRatUp$ readback transports, then the composed $A\sim C$ classifier read is admitted through $W$, the transported rows $D_A,D_C,R_A,R_C$, the componentwise $\hsame$ transport through $B$, and the same $\RealUp$ seal boundary. The composed read exports no quotient equality of Cauchy names, selected limits, host sequence equality, countable choice, trichotomy, or $\RealUp$ completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.RealNameClassifierUp.RealNameClassifierCommonWindowTransitivity}
 \begin{proof}
 Project the two accepted packets. The hypotheses identify their observation route as the single common window $W$, so the $A\sim B$ and $B\sim C$ classifier reads cannot use independent precision schedules.
 
@@ -63,6 +78,20 @@ Apply the tolerance obligation of \autoref{thm:real-name-classifier-tolerance-ob
 Use the displayed compatibility of $D_B,D'_B$ and $R_B,R'_B$ to transport the middle source componentwise through the two $\hsame$ rows. This composes the dyadic tolerance checks along the shared $B$ row and leaves the endpoint rows $D_A,D_C,R_A,R_C$ on the same window $W$.
 
 Finally invoke ledger exhaustion and the seal boundary, \autoref{thm:real-name-classifier-ledger-exhaustion} and \autoref{thm:real-name-classifier-seal-boundary}. They account for every row consumed by the composed classifier read and rule out any escape through quotient equality, selected limits, host equality, choice, trichotomy, or completeness.
+\end{proof}
+
+\begin{theorem}[RealNameClassifier shared-window equivalence]
+\label{thm:real-name-classifier-shared-window-equivalence}
+For accepted $\RealNameClassifierUp$ packets over the same $\StreamNameUp$ window, the tolerance obligation, common-window symmetry, and common-window transitivity assemble an equivalence-style classifier route on the displayed $\RegularCauchyNameUp$ rows. The route uses only $\RegularCauchyNameUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, the terminal $\RealUp$ seal, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows already present in the packets. It exports no quotient equality, selected limit, host sequence equality, trichotomy, countable choice, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the tolerance obligation of \autoref{thm:real-name-classifier-tolerance-obligation}. It forces every classifier read through the shared window, dyadic tolerance rows, finite classifier row, regular rational readbacks, and terminal seal before any equality-facing consumer receives the packet.
+
+Symmetry is supplied by \autoref{thm:real-name-classifier-common-window-symmetry}. Swapping the two source names changes only the displayed side order, because the same window, classifier row, readback rows, transport, replay, provenance, and local naming surface remain in place.
+
+Transitivity is supplied by \autoref{thm:real-name-classifier-common-window-transitivity}. When two adjacent accepted reads use the same window and compatible middle rows, the middle source is transported through the displayed $\hsame$ entries and the endpoint classifier read remains on that window.
+
+Finally apply the seal boundary and ledger exhaustion, \autoref{thm:real-name-classifier-seal-boundary} and \autoref{thm:real-name-classifier-ledger-exhaustion}. These theorems account for every consumed row and prevent the equivalence-style route from becoming quotient equality, selected limits, host sequence equality, trichotomy, choice, or Real completeness.
 \end{proof}
 
 \begin{theorem}[RealNameClassifier refinement stability]
