@@ -29,6 +29,8 @@ CAPSULE_METRIC_POINTERS = {
     "mechanism_evidence_ledger_debt": "$.ledger_debt.0.status",
     "mechanism_evidence_head_patch_status": "$.mechanism_evidence.head_patch_status",
     "mechanism_evidence_head_patch_delta": "$.mechanism_evidence.head_patch_delta",
+    "e_hardgates_status": "$.e_hardgates.status",
+    "residualized_non_score_mechanism_claim_allowed": "$.residualized_attribution_claim.non_score_mechanism_claim_allowed",
 }
 
 METRIC_POINTERS = {
@@ -96,6 +98,8 @@ class GapHeadAttributionBackendEvidenceAdapter:
             "mechanism_evidence_ledger_debt",
             "mechanism_evidence_head_patch_status",
             "mechanism_evidence_head_patch_delta",
+            "e_hardgates_status",
+            "residualized_non_score_mechanism_claim_allowed",
         ),
         theorem_rows=(
             {
@@ -126,6 +130,7 @@ class GapHeadAttributionBackendEvidenceAdapter:
         hardgates=(
             {"name": "A1", "pointer": "$.hardgates.A1"},
             {"name": "A4", "pointer": "$.hardgates.A4"},
+            {"name": "E", "pointer": "$.hardgates.E"},
             {"name": "claim-capsule", "pointer": "$.hardgates.claim_capsule"},
         ),
         not_claimed=(
@@ -199,6 +204,7 @@ class GapHeadAttributionBackendEvidenceAdapter:
             "hardgates": {
                 "A1": payload["hardgates"],
                 "A4": payload["a4_hardgates"],
+                "E": payload["e_hardgates"],
                 "claim_capsule": payload["claim_capsule_hardgates"],
             },
             "control_pointer": payload["control_pointer"],

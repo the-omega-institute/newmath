@@ -215,6 +215,8 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
     score_margin = _score_margin_fixture("not_score_margin_sufficient")
     head_patch = _head_patch_fixture()
     a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, head_patch)
+    residualized_claim = runner._residualized_attribution_claim(aggregate, residualized, score_margin, a4_hardgates)
+    e_hardgates = runner._e_hardgates(aggregate, residualized_claim)
     case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
     d5_m = runner._d5_m(hardgates, a4_hardgates)
     source_artifacts = {
@@ -240,6 +242,8 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
         "ledger_debt": runner._ledger_debt(mechanism_evidence),
         "hardgates": hardgates,
         "residualized_attribution": residualized,
+        "residualized_attribution_claim": residualized_claim,
+        "e_hardgates": e_hardgates,
         "score_margin_causal_evidence": score_margin,
         "head_channel_patch_evidence": head_patch,
         "a4_hardgates": a4_hardgates,
@@ -415,6 +419,20 @@ def _head_patch_fixture(*, status="pass", gate_status="pass", auroc_delta=-0.08,
         },
         "ci_summaries": ci_summaries,
     }
+
+
+def _residualized_claim_fixture(aggregate, *, residualized=None, score_margin=None, a4_hardgates=None):
+    residualized = _residualized_fixture(aggregate) if residualized is None else residualized
+    score_margin = _score_margin_fixture("not_score_margin_sufficient") if score_margin is None else score_margin
+    if a4_hardgates is None:
+        a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, _head_patch_fixture())
+    return runner._residualized_attribution_claim(aggregate, residualized, score_margin, a4_hardgates)
+
+
+def _artifact_pointer_resolves(payload, artifact_pointer):
+    artifact, pointer = artifact_pointer.split(":", 1)
+    assert artifact == runner.CANONICAL_JSON_ARTIFACT
+    return pointer_value(payload, pointer) is not None
 
 
 def test_arm_registry_order_and_private_spec_shape():
@@ -733,6 +751,104 @@ def test_a4_hg5_channel_classification_paths(classification, expected_hg5):
     assert runner._d5_m(hardgates, a4_hardgates)["passed"] is (expected_hg5 == "pass")
 
 
+def test_residualized_attribution_claim_has_exact_slot_set_and_arm_mapping():
+    aggregate = _aggregate()
+    claim = _residualized_claim_fixture(aggregate)
+
+    assert set(claim["slot_order"]) == {
+        "full",
+        "score_plus_margin",
+        "full_residualized",
+        "h_only",
+        "h_normalized",
+        "h_norm_only",
+        "full_without_score",
+        "margin",
+    }
+    assert {
+        (slot["slot"], slot["source_arm"])
+        for slot in claim["slots"]
+    } == set(runner.RESIDUALIZED_ATTRIBUTION_CLAIM_SLOTS)
+    assert dict(runner.RESIDUALIZED_ATTRIBUTION_CLAIM_SLOTS)["full_residualized"] == "full_residualized_against_score_margin"
+
+
+def test_residualized_attribution_claim_metric_pointers_resolve_after_committed_round_trip_shape():
+    aggregate = _aggregate()
+    residualized = _residualized_fixture(aggregate)
+    score_margin = _score_margin_fixture("not_score_margin_sufficient")
+    a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, _head_patch_fixture())
+    claim = runner._residualized_attribution_claim(aggregate, residualized, score_margin, a4_hardgates)
+    payload = {
+        "aggregate": aggregate,
+        "residualized_attribution": residualized,
+        "residualized_attribution_claim": claim,
+        "e_hardgates": runner._e_hardgates(aggregate, claim),
+    }
+    payload["e_hardgates"] = runner._finalize_e_hardgates(payload)
+
+    pointers = runner._residualized_claim_pointers(claim)
+
+    assert pointers
+    assert all(_artifact_pointer_resolves(payload, pointer) for pointer in pointers)
+    assert runner.validate_residualized_attribution_claim(payload) == []
+    assert payload["e_hardgates"]["gates"]["E-HG2_pointer_resolution"]["status"] == "pass"
+    assert payload["e_hardgates"]["gates"]["E-HG6_committed_round_trip"]["status"] == "pass"
+
+
+def test_e_hardgates_missing_slot_fails_closed():
+    aggregate = _aggregate()
+    claim = _residualized_claim_fixture(aggregate)
+    claim["slots"] = claim["slots"][:-1]
+
+    e_hardgates = runner._e_hardgates(aggregate, claim)
+
+    assert e_hardgates["status"] == "fail"
+    assert e_hardgates["gates"]["E-HG1_slot_set"]["status"] == "fail"
+    assert e_hardgates["gates"]["E-HG4_non_score_mechanism_claim_fail_closed"]["status"] == "fail"
+
+
+def test_e_hardgates_fail_closed_when_residualized_full_does_not_beat_matched_random():
+    aggregate = _aggregate(
+        full_residualized_against_score_margin=(0.50, 0.01),
+        matched_random=(0.60, 0.02),
+    )
+    claim = _residualized_claim_fixture(aggregate)
+    e_hardgates = runner._e_hardgates(aggregate, claim)
+
+    assert claim["non_score_mechanism_claim_allowed"] is False
+    assert e_hardgates["gates"]["E-HG3_residualized_full_vs_matched_random"]["status"] == "fail"
+    assert e_hardgates["gates"]["E-HG4_non_score_mechanism_claim_fail_closed"]["status"] == "fail"
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda claim: claim.update({"terminal_verdict": "positive"}),
+        lambda claim: claim.update({"claim_verdict": "positive"}),
+        lambda claim: claim.update({"source": ".refactor-loop/host.env"}),
+        lambda claim: claim.update({"candidate_body": {"status": "present"}}),
+        lambda claim: claim.update({"records": []}),
+        lambda claim: claim.update({"raw_payload": {"status": "present"}}),
+    ],
+)
+def test_residualized_claim_forbidden_key_audit_fails_closed(mutate):
+    aggregate = _aggregate()
+    claim = _residualized_claim_fixture(aggregate)
+    mutate(claim)
+
+    e_hardgates = runner._e_hardgates(aggregate, claim)
+
+    assert e_hardgates["gates"]["E-HG5_forbidden_key_audit"]["status"] == "fail"
+    assert runner.validate_residualized_attribution_claim(
+        {
+            "aggregate": aggregate,
+            "residualized_attribution": _residualized_fixture(aggregate),
+            "residualized_attribution_claim": claim,
+            "e_hardgates": e_hardgates,
+        }
+    )
+
+
 def test_hg5_never_claims_transition_when_full_without_transition_matches_full():
     aggregate = _aggregate(full_without_transition=(0.86, 0.40))
     hardgates = runner._a1_hardgates(aggregate)
@@ -751,6 +867,8 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     score_margin = _score_margin_fixture("score_margin_sufficient")
     head_patch = _head_patch_fixture()
     a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, head_patch)
+    residualized_claim = runner._residualized_attribution_claim(aggregate, residualized, score_margin, a4_hardgates)
+    e_hardgates = runner._e_hardgates(aggregate, residualized_claim)
     d5_m = runner._d5_m(hardgates, a4_hardgates)
     case = runner._mechanism_case(aggregate, hardgates, a4_hardgates, score_margin)
     d5_o = runner._d5_o(aggregate)
@@ -769,6 +887,8 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
         "ledger_debt": runner._ledger_debt(mechanism_evidence),
         "hardgates": hardgates,
         "residualized_attribution": residualized,
+        "residualized_attribution_claim": residualized_claim,
+        "e_hardgates": e_hardgates,
         "score_margin_causal_evidence": score_margin,
         "head_channel_patch_evidence": head_patch,
         "a4_hardgates": a4_hardgates,
@@ -819,6 +939,8 @@ def test_claim_capsule_schema_cc_hardgates_and_d5_axes():
     assert capsule["mechanism_evidence"]["head_patch_status"] == "pass"
     assert capsule["mechanism_evidence"]["source_issue"] == 750
     assert capsule["mechanism_evidence"]["source_issues"] == [747, 750]
+    assert capsule["residualized_attribution_claim"]["source_artifact"] == runner.CANONICAL_JSON_ARTIFACT
+    assert capsule["e_hardgates"]["gates"]["E-HG4_non_score_mechanism_claim_fail_closed"]["status"] == "fail"
     assert set(capsule["not_implemented"]) == {"nonlinear_residualization", "full_causal_replacement_scope"}
     assert capsule["ledger_debt"]
     assert all(row["status"] == "pass" for row in capsule["claim_capsule_hardgates"].values())

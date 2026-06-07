@@ -9,6 +9,7 @@ import pytest
 from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
+from scripts import run_gap_head_attribution_capsule as attribution_capsule
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
@@ -1165,6 +1166,8 @@ def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
         "ledger_debt",
         "hardgates",
         "residualized_attribution",
+        "residualized_attribution_claim",
+        "e_hardgates",
         "score_margin_causal_evidence",
         "a4_hardgates",
         "claim_capsule_hardgates",
@@ -1211,6 +1214,57 @@ def test_canonical_index_uses_pointer_only_mechanism_namecert_sidecar(tmp_path, 
     absent_key = "gap_head_mechanism_" + "attribution"
     assert absent_key not in payload
     assert "Gap-head mechanism NameCert candidate" in markdown
+
+
+def test_gap_head_attribution_index_exposes_residualized_e_hardgate_pointers(monkeypatch, tmp_path):
+    payload = {
+        "run_id": "fixture",
+        "source_artifacts": {"run_artifacts": {"summary": "reports/runs/a1-canonical/summary.json"}},
+        "d5_o": {"status": "ready"},
+        "d5_m": {"status": "blocked"},
+        "mechanism_evidence": {"candidate_mechanism": "unresolved"},
+        "ledger_debt": [{"status": "open"}],
+        "residualized_attribution": {"status": "pass"},
+        "residualized_attribution_claim": {"non_score_mechanism_claim_allowed": False},
+        "e_hardgates": {"status": "fail"},
+        "score_margin_causal_evidence": {"status": "pass"},
+        "a4_hardgates": {"status": "fail", "gates": {"A4-HG5": {"status": "fail"}}},
+    }
+    target = tmp_path / canonical.GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT
+    target.parent.mkdir(parents=True)
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+
+    section = canonical._gap_head_attribution_index_section()
+
+    assert section["residualized_attribution_claim_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim"
+    assert section["e_hardgates_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates"
+    assert section["e_hardgates_status_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates.status"
+    assert section["non_score_mechanism_claim_allowed_pointer"] == (
+        "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim.non_score_mechanism_claim_allowed"
+    )
+    assert section["e_hardgates_status"] == "fail"
+    assert section["non_score_mechanism_claim_allowed"] is False
+
+
+def test_committed_gap_head_attribution_residualized_claim_round_trip_validates():
+    capsule = json.loads((canonical.ROOT / "reports/canonical/gap_head_attribution_capsule.json").read_text(encoding="utf-8"))
+
+    assert "residualized-attribution" not in {item.name for item in canonical.CANONICAL_REPORTS}
+    assert set(capsule["residualized_attribution_claim"]["slot_order"]) == {
+        "full",
+        "score_plus_margin",
+        "full_residualized",
+        "h_only",
+        "h_normalized",
+        "h_norm_only",
+        "full_without_score",
+        "margin",
+    }
+    assert attribution_capsule.validate_residualized_attribution_claim(capsule) == []
+    assert capsule["e_hardgates"]["gates"]["E-HG2_pointer_resolution"]["status"] == "pass"
+    assert capsule["e_hardgates"]["gates"]["E-HG6_committed_round_trip"]["status"] == "pass"
 
 
 def test_canonical_reports_manifest_includes_distribution_sweep():

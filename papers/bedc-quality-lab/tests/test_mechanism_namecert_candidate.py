@@ -37,6 +37,8 @@ def _a1_capsule(*, candidate="probe-margin-channel", separated="not separated", 
             }
         },
         "residualized_attribution": {"status": "pass"},
+        "residualized_attribution_claim": {"non_score_mechanism_claim_allowed": a4_pass},
+        "e_hardgates": {"status": "pass" if a4_pass else "fail"},
         "score_margin_causal_evidence": {"channel_classification": classification},
     }
     payload["mechanism_evidence"] = {
@@ -109,6 +111,9 @@ def test_probe_margin_channel_blocks_mechanism_closure():
 
     assert candidate.mechanism_spec["candidate_mechanism"] == "probe-margin-channel"
     assert candidate.mechanism_spec["full_vs_score_plus_margin"] == "not separated"
+    assert candidate.mechanism_spec["residualized_attribution_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution"
+    assert candidate.mechanism_spec["residualized_attribution_claim_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim"
+    assert candidate.mechanism_spec["e_hardgates_status_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates.status"
     assert candidate.closure_status["mechanism_spec"] == "partial"
     assert candidate.ledger_policy["mechanism_closure_debt"] == "open"
     assert audit_mechanism_namecert_candidate(candidate.to_dict())["d5_m_ready"] is False
@@ -138,3 +143,15 @@ def test_a1_only_d5_m_evidence_cannot_close_without_a4_hg5():
     assert candidate.closure_status["mechanism_spec"] == "partial"
     assert candidate.ledger_policy["mechanism_closure_debt"] == "open"
     assert "A4-HG5" in candidate.ledger_policy["blocking_cells"]
+
+
+def test_missing_e_hardgates_pointer_blocks_mechanism_claim():
+    capsule = _a1_capsule(candidate="closed-attribution", separated="separated", a4_pass=True, classification="not_score_margin_sufficient")
+    capsule.pop("e_hardgates")
+
+    candidate = MechanismNameCertCandidate.from_gap_head_sources(a1_capsule=capsule)
+
+    assert candidate.mechanism_spec["e_hardgates_pointer_present"] is False
+    assert candidate.mechanism_spec["a4_pointer_present"] is False
+    assert candidate.closure_status["mechanism_spec"] == "partial"
+    assert "e_hardgates" in candidate.ledger_policy["blocking_cells"]

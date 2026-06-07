@@ -72,7 +72,15 @@ def from_gap_head_sources(
     candidate_mechanism = str(evidence_dict.get("candidate_mechanism") or "unresolved")
     full_vs_score_plus_margin = "not separated" if evidence_dict.get("score_margin_sufficient") is True else "separated"
     canonical_source_status = "present" if a1_capsule else "missing"
-    a4_pointer_present = bool(evidence is not None and evidence.required_gate_pointers and evidence.metric_pointers)
+    e_hardgates_pointer_present = _mapping(a1_capsule.get("e_hardgates")).get("status") in {"pass", "fail"}
+    residualized_claim_pointer_present = bool(_mapping(a1_capsule.get("residualized_attribution_claim")))
+    a4_pointer_present = bool(
+        evidence is not None
+        and evidence.required_gate_pointers
+        and evidence.metric_pointers
+        and e_hardgates_pointer_present
+        and residualized_claim_pointer_present
+    )
 
     target_classifier = {
         "name": "gap-head-on-h",
@@ -104,7 +112,11 @@ def from_gap_head_sources(
         "a1_d5_m_passed": evidence_dict.get("mechanism_level") == "D5-M",
         "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
         "a4_gate_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.required_gate_pointers",
-        "residualized_attribution_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.metric_pointers.residualized_status",
+        "residualized_attribution_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+        "residualized_attribution_claim_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim",
+        "e_hardgates_status_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates.status",
+        "e_hardgates_pointer_present": e_hardgates_pointer_present,
+        "residualized_claim_pointer_present": residualized_claim_pointer_present,
         "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.metric_pointers.score_margin_channel_classification",
         "a4_d5_m_passed": evidence_dict.get("mechanism_level") == "D5-M",
         "a4_pointer_present": a4_pointer_present,
@@ -356,6 +368,10 @@ def _ledger_policy(mechanism_spec: Mapping[str, Any], closure_status: Mapping[st
         for blocker in ("residualized_attribution", "score_margin_causal_evidence"):
             if blocker not in blockers:
                 blockers.append(blocker)
+    if mechanism_spec.get("e_hardgates_pointer_present") is not True:
+        blockers.append("e_hardgates")
+    if mechanism_spec.get("residualized_claim_pointer_present") is not True:
+        blockers.append("residualized_attribution_claim")
     if not mechanism_closed and not blockers:
         blockers.append("mechanism_spec")
     return {

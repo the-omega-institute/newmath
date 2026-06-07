@@ -82,6 +82,27 @@ NEGATIVE_WITNESS_REGRESSION_TEST = (
     "tests/test_gap_head_attribution_capsule.py::"
     "test_a1_canonical_run_local_negative_witness_records_a1_hg3_failure"
 )
+RESIDUALIZED_ATTRIBUTION_CLAIM_SLOTS: tuple[tuple[str, str], ...] = (
+    ("full", "full"),
+    ("score_plus_margin", "score_plus_margin"),
+    ("full_residualized", "full_residualized_against_score_margin"),
+    ("h_only", "h_only"),
+    ("h_normalized", "h_normalized_no_scale"),
+    ("h_norm_only", "h_norm_only"),
+    ("full_without_score", "full_without_score"),
+    ("margin", "margin_only"),
+)
+RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_KEYS = (
+    "terminal_verdict",
+    "claim_verdict",
+    "candidate_body",
+    "records",
+    "raw_payload",
+)
+RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_TEXT = (
+    "host.env",
+    ".refactor-loop/host.env",
+)
 
 
 FeatureBuilder = Callable[[Mapping[str, Any], "AttributionArmSpec", int], tuple[np.ndarray, list[str], dict[str, Any]]]
@@ -619,6 +640,250 @@ def _ci_beats(aggregate: Mapping[str, Any], arm: str, baseline: str, metric: str
 
 def _positive_ci(aggregate: Mapping[str, Any], arm: str, metric: str) -> bool:
     return _ci_low(aggregate, arm, metric) > 0.0
+
+
+def _artifact_pointer(artifact: str, pointer: str) -> str:
+    return f"{artifact}:{pointer}"
+
+
+def _capsule_pointer(pointer: str) -> str:
+    return _artifact_pointer(CANONICAL_JSON_ARTIFACT, pointer)
+
+
+def _resolve_artifact_pointer_in_capsule(payload: Mapping[str, Any], artifact_pointer: str) -> Any:
+    if ":$" not in artifact_pointer:
+        return None
+    artifact, pointer = artifact_pointer.split(":", 1)
+    if artifact != CANONICAL_JSON_ARTIFACT:
+        return None
+    return _resolve_payload_pointer(payload, pointer)
+
+
+def _forbidden_key_paths(payload: Any, *, path: str = "$") -> list[str]:
+    paths: list[str] = []
+    if isinstance(payload, Mapping):
+        for key, value in payload.items():
+            key_path = f"{path}.{key}"
+            if key in RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_KEYS:
+                paths.append(key_path)
+            paths.extend(_forbidden_key_paths(value, path=key_path))
+    elif isinstance(payload, list):
+        for index, value in enumerate(payload):
+            paths.extend(_forbidden_key_paths(value, path=f"{path}.{index}"))
+    elif isinstance(payload, str):
+        for forbidden in RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_TEXT:
+            if forbidden in payload:
+                paths.append(path)
+                break
+    return paths
+
+
+def _residualized_attribution_claim(
+    aggregate: Mapping[str, Any],
+    residualized_attribution: Mapping[str, Any],
+    score_margin_causal_evidence: Mapping[str, Any],
+    a4_hardgates: Mapping[str, Any],
+) -> dict[str, Any]:
+    slots = []
+    for slot, source_arm in RESIDUALIZED_ATTRIBUTION_CLAIM_SLOTS:
+        metric_pointers = {
+            metric: _capsule_pointer(f"$.aggregate.by_arm.{source_arm}.{metric}.mean")
+            for metric in ("AUROC", "UER_reduction")
+        }
+        slots.append(
+            {
+                "slot": slot,
+                "source_arm": source_arm,
+                "source_artifact": CANONICAL_JSON_ARTIFACT,
+                "metric_pointers": metric_pointers,
+                "status": "present" if source_arm in aggregate.get("by_arm", {}) else "missing",
+                "failure_reason": None if source_arm in aggregate.get("by_arm", {}) else "missing-source-arm",
+            }
+        )
+    residualized_beats_random = _ci_beats(aggregate, "full_residualized_against_score_margin", "matched_random", "AUROC")
+    residualized_positive_uer = _positive_ci(aggregate, "full_residualized_against_score_margin", "UER_reduction")
+    allowed = (
+        residualized_attribution.get("status") == "pass"
+        and residualized_beats_random
+        and residualized_positive_uer
+        and a4_hardgates.get("gates", {}).get("A4-HG5", {}).get("status") == "pass"
+        and score_margin_causal_evidence.get("channel_classification") == "not_score_margin_sufficient"
+    )
+    return {
+        "status": "pass" if allowed else "fail",
+        "pointer": _capsule_pointer("$.residualized_attribution_claim"),
+        "source_artifact": CANONICAL_JSON_ARTIFACT,
+        "slot_order": [slot for slot, _source_arm in RESIDUALIZED_ATTRIBUTION_CLAIM_SLOTS],
+        "slots": slots,
+        "metric_source_pointer": _capsule_pointer("$.residualized_attribution"),
+        "hardgate_source_pointer": _capsule_pointer("$.e_hardgates"),
+        "non_score_mechanism_claim_allowed": bool(allowed),
+        "failure_reason": None if allowed else "non-score-mechanism-claim-blocked",
+    }
+
+
+def _residualized_claim_slot_set_ok(claim: Mapping[str, Any]) -> bool:
+    slots = claim.get("slots")
+    if not isinstance(slots, list):
+        return False
+    observed = {
+        (slot.get("slot"), slot.get("source_arm"))
+        for slot in slots
+        if isinstance(slot, Mapping)
+    }
+    return observed == set(RESIDUALIZED_ATTRIBUTION_CLAIM_SLOTS)
+
+
+def _residualized_claim_pointers(claim: Mapping[str, Any]) -> list[str]:
+    pointers: list[str] = []
+    pointer = claim.get("pointer")
+    if isinstance(pointer, str):
+        pointers.append(pointer)
+    for key in ("metric_source_pointer", "hardgate_source_pointer"):
+        value = claim.get(key)
+        if isinstance(value, str):
+            pointers.append(value)
+    for slot in claim.get("slots", []):
+        if not isinstance(slot, Mapping):
+            continue
+        for value in slot.get("metric_pointers", {}).values():
+            if isinstance(value, str):
+                pointers.append(value)
+    return pointers
+
+
+def _e_hardgates(aggregate: Mapping[str, Any], claim: Mapping[str, Any]) -> dict[str, Any]:
+    slot_set = _residualized_claim_slot_set_ok(claim)
+    forbidden_paths = _forbidden_key_paths(claim)
+    residualized_beats_random = _ci_beats(aggregate, "full_residualized_against_score_margin", "matched_random", "AUROC")
+    residualized_positive_uer = _positive_ci(aggregate, "full_residualized_against_score_margin", "UER_reduction")
+    allowed = claim.get("non_score_mechanism_claim_allowed") is True and slot_set and not forbidden_paths
+    pointer_resolution_gate = _gate(
+        "E-HG2_pointer_resolution",
+        False,
+        "all residualized attribution claim artifact-qualified pointers resolve inside the attribution capsule",
+        {
+            "pointer_count": len(_residualized_claim_pointers(claim)),
+            "unresolved_pointers": [],
+            "deferred_until": "committed_round_trip",
+        },
+    )
+    gates = {
+        "E-HG1_slot_set": _gate(
+            "E-HG1_slot_set",
+            slot_set,
+            "residualized attribution claim exposes exactly the eight predeclared slots",
+            {
+                "expected_slots": [slot for slot, _source_arm in RESIDUALIZED_ATTRIBUTION_CLAIM_SLOTS],
+                "observed_slots": [slot.get("slot") for slot in claim.get("slots", []) if isinstance(slot, Mapping)],
+            },
+        ),
+        "E-HG2_pointer_resolution": pointer_resolution_gate,
+        "E-HG3_residualized_full_vs_matched_random": _gate(
+            "E-HG3_residualized_full_vs_matched_random",
+            residualized_beats_random and residualized_positive_uer,
+            "full_residualized AUROC CI-low beats matched_random AUROC CI-high and has positive UER-reduction CI",
+            {
+                "full_residualized_auroc_ci_low": _ci_low(aggregate, "full_residualized_against_score_margin", "AUROC"),
+                "matched_random_auroc_ci_high": _ci_high(aggregate, "matched_random", "AUROC"),
+                "full_residualized_uer_reduction_ci_low": _ci_low(aggregate, "full_residualized_against_score_margin", "UER_reduction"),
+            },
+        ),
+        "E-HG4_non_score_mechanism_claim_fail_closed": _gate(
+            "E-HG4_non_score_mechanism_claim_fail_closed",
+            allowed,
+            "non-score mechanism claim is allowed only when residualized_full beats matched_random and all upstream mechanism gates allow it",
+            {
+                "non_score_mechanism_claim_allowed": allowed,
+                "claim_status": claim.get("status"),
+                "failure_reason": claim.get("failure_reason"),
+            },
+        ),
+        "E-HG5_forbidden_key_audit": _gate(
+            "E-HG5_forbidden_key_audit",
+            not forbidden_paths,
+            "residualized attribution claim contains no terminal verdict, host env, raw candidate body, records, or raw payload keys",
+            {
+                "forbidden_keys": list(RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_KEYS),
+                "forbidden_text": list(RESIDUALIZED_ATTRIBUTION_CLAIM_FORBIDDEN_TEXT),
+                "forbidden_paths": forbidden_paths,
+            },
+        ),
+        "E-HG6_committed_round_trip": _gate(
+            "E-HG6_committed_round_trip",
+            False,
+            "committed JSON reload validates slot set, pointer resolution, and forbidden-key audit",
+            {"deferred_until": "committed_json_reload"},
+        ),
+    }
+    failed = [name for name, gate in gates.items() if gate["status"] != "pass"]
+    return {
+        "status": "pass" if not failed else "fail",
+        "pointer": _capsule_pointer("$.e_hardgates"),
+        "gates": gates,
+        "failed_gate": failed[0] if failed else None,
+    }
+
+
+def validate_residualized_attribution_claim(payload: Mapping[str, Any]) -> list[str]:
+    claim = payload.get("residualized_attribution_claim")
+    hardgates = payload.get("e_hardgates")
+    failures: list[str] = []
+    if not isinstance(claim, Mapping):
+        return ["missing residualized_attribution_claim"]
+    if not isinstance(hardgates, Mapping):
+        failures.append("missing e_hardgates")
+    if not _residualized_claim_slot_set_ok(claim):
+        failures.append("slot set mismatch")
+    unresolved = [
+        pointer
+        for pointer in _residualized_claim_pointers(claim)
+        if _resolve_artifact_pointer_in_capsule(payload, pointer) is None
+    ]
+    if unresolved:
+        failures.append(f"unresolved pointers: {unresolved}")
+    forbidden_paths = _forbidden_key_paths(claim)
+    if forbidden_paths:
+        failures.append(f"forbidden paths: {forbidden_paths}")
+    return failures
+
+
+def _finalize_e_hardgates(payload: Mapping[str, Any]) -> dict[str, Any]:
+    hardgates = dict(payload["e_hardgates"])
+    gates = {name: dict(gate) for name, gate in hardgates["gates"].items()}
+    failures = validate_residualized_attribution_claim(payload)
+    unresolved = []
+    claim = payload.get("residualized_attribution_claim")
+    if isinstance(claim, Mapping):
+        unresolved = [
+            pointer
+            for pointer in _residualized_claim_pointers(claim)
+            if _resolve_artifact_pointer_in_capsule(payload, pointer) is None
+        ]
+    gates["E-HG2_pointer_resolution"] = {
+        **gates["E-HG2_pointer_resolution"],
+        "status": "pass" if not unresolved else "fail",
+        "evidence": {
+            **gates["E-HG2_pointer_resolution"].get("evidence", {}),
+            "pointer_count": len(_residualized_claim_pointers(claim)) if isinstance(claim, Mapping) else 0,
+            "unresolved_pointers": unresolved,
+        },
+    }
+    gates["E-HG6_committed_round_trip"] = {
+        **gates["E-HG6_committed_round_trip"],
+        "status": "pass" if not failures else "fail",
+        "evidence": {
+            **gates["E-HG6_committed_round_trip"].get("evidence", {}),
+            "validation_failures": failures,
+        },
+    }
+    failed = [name for name, gate in gates.items() if gate["status"] != "pass"]
+    return {
+        **hardgates,
+        "status": "pass" if not failed else "fail",
+        "gates": gates,
+        "failed_gate": failed[0] if failed else None,
+    }
 
 
 def _residualized_attribution(records: Sequence[Mapping[str, Any]], aggregate: Mapping[str, Any]) -> dict[str, Any]:
@@ -1737,6 +2002,13 @@ def _build_payload(
     forbidden_audit = _forbidden_column_audit(columns_by_arm)
     d5_m = _d5_m(hardgates, a4_hardgates)
     d5_o = _d5_o(aggregate)
+    residualized_attribution_claim = _residualized_attribution_claim(
+        aggregate,
+        residualized_attribution,
+        score_margin_causal_evidence,
+        a4_hardgates,
+    )
+    e_hardgates = _e_hardgates(aggregate, residualized_attribution_claim)
     mechanism_evidence = _mechanism_evidence(
         d5_o,
         d5_m,
@@ -1762,6 +2034,8 @@ def _build_payload(
         "ledger_debt": _ledger_debt(mechanism_evidence),
         "hardgates": hardgates,
         "residualized_attribution": residualized_attribution,
+        "residualized_attribution_claim": residualized_attribution_claim,
+        "e_hardgates": e_hardgates,
         "score_margin_causal_evidence": score_margin_causal_evidence,
         "head_channel_patch_evidence": head_channel_patch_evidence,
         "a4_hardgates": a4_hardgates,
@@ -1832,6 +2106,19 @@ def _render_report(payload: Mapping[str, Any]) -> str:
     lines.extend(["", "## A4 Hardgates", "", "| gate | status |", "| --- | --- |"])
     for name, gate in payload["a4_hardgates"]["gates"].items():
         lines.append(f"| `{name}` | `{gate['status']}` |")
+    lines.extend(["", "## E Hardgates", "", "| gate | status |", "| --- | --- |"])
+    for name, gate in payload["e_hardgates"]["gates"].items():
+        lines.append(f"| `{name}` | `{gate['status']}` |")
+    lines.extend(
+        [
+            "",
+            "## Residualized Attribution Claim",
+            "",
+            f"- Pointer: `{payload['residualized_attribution_claim']['pointer']}`",
+            f"- Non-score mechanism claim allowed: `{payload['residualized_attribution_claim']['non_score_mechanism_claim_allowed']}`",
+            f"- E hardgates: `{payload['e_hardgates']['pointer']}`",
+        ]
+    )
     lines.extend(["", "## Claim Capsule Hardgates", "", "| gate | status |", "| --- | --- |"])
     for name, gate in payload["claim_capsule_hardgates"].items():
         lines.append(f"| `{name}` | `{gate['status']}` |")
@@ -1854,6 +2141,7 @@ def _write_text(path: Path, text: str) -> None:
 
 def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bool = True) -> None:
     run_id = str(payload["run_id"])
+    payload = {**dict(payload), "e_hardgates": _finalize_e_hardgates(payload)}
     claim_capsule = {key: payload[key] for key in (
         "schema_id",
         "source_issue",
@@ -1868,6 +2156,8 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
         "ledger_debt",
         "hardgates",
         "residualized_attribution",
+        "residualized_attribution_claim",
+        "e_hardgates",
         "score_margin_causal_evidence",
         "head_channel_patch_evidence",
         "a4_hardgates",
@@ -1908,6 +2198,8 @@ def _write_artifacts(payload: Mapping[str, Any], run_dir: Path, *, canonical: bo
         "ledger_debt",
         "hardgates",
         "residualized_attribution",
+        "residualized_attribution_claim",
+        "e_hardgates",
         "score_margin_causal_evidence",
         "head_channel_patch_evidence",
         "a4_hardgates",
