@@ -1,0 +1,131 @@
+\chapter{A Concrete Naming Certificate for $\PoincareDiskAutomorphismUp$}
+\label{ch:concrete-instances-poincare-disk-automorphism-namecert}
+\origin{human}
+
+Following Ahlfors and Beardon on disk automorphisms, the
+$\PoincareDiskAutomorphismUp$ packet records the finite disk-map and inverse
+rows by which a Poincare disk self-map is read as an automorphism before
+hyperbolic metric, boundary, Schwarz--Pick, or composition consumers inspect
+it. It sits after the disk metric packet of
+\autoref{ch:concrete-instances-poincare-disk-metric-namecert}, the fractional
+linear carrier of \autoref{ch:concrete-instances-mobius-transform-namecert},
+the hyperbolic metric surface of
+\autoref{ch:concrete-instances-hyperbolic-metric-namecert}, and the boundary
+transport packet of
+\autoref{ch:concrete-instances-hyperbolic-boundary-transport-namecert}. The
+certificate names only displayed disk-map, boundary-transport,
+hyperbolic-metric-preservation, inverse, composition, provenance, and
+NameCert rows; it does not import host complex analysis, a completed
+automorphism group, quotient boundary equality, or an unrecorded analytic
+classification theorem.
+
+\begin{definition}[Poincare disk automorphism carrier]
+\label{def:poincare-disk-automorphism-carrier}
+A $\PoincareDiskAutomorphismUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,M,U,V,B,K,I,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\PoincareDiskMetricUp$ disk-metric source row for the finite domain and codomain observations.
+\item $M$ is the $\MobiusTransformUp$ coefficient and disk-action row whose determinant guard and disk-local action are visible in the packet.
+\item $U$ is the disk-self-map row, recording that the displayed action sends admitted disk rows to admitted disk rows.
+\item $V$ is the $\HyperbolicMetricUp$ preservation row, exposing equality of the displayed hyperbolic metric reads only through the finite disk-metric and Real-facing rows.
+\item $B$ is the $\HyperbolicBoundaryTransportUp$ row, carrying the boundary readback induced by the same displayed disk map.
+\item $K$ is the inverse row. It displays a second disk-map packet whose two composites replay to the identity rows visible on the admitted disk observations.
+\item $I$ is the composition row, recording finite replay for composing two admitted automorphism packets before any group-style consumer may read the result.
+\item $J$ is the refusal ledger excluding host analytic continuation, completed automorphism groups, quotient boundary equality, selected global normal forms, and unrecorded Schwarz--Pick equality.
+\item $H$ records componentwise $\hsame$ transport for disk-metric, Mobius, disk-map, hyperbolic-metric, boundary-transport, inverse, composition, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a disk-map request through Mobius coefficient inspection, disk admission, metric preservation, boundary transport, inverse and composition checks, refusal, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\PoincareDiskAutomorphismUp$, $\PoincareDiskMetricUp$, $\MobiusTransformUp$, $\HyperbolicMetricUp$, $\HyperbolicBoundaryTransportUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PoincareDiskAutomorphismUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$D,M,U,V,B,K,I,J,H,C,P,N$. It has no coordinate for a host analytic
+automorphism group, quotient boundary equality, selected normal form,
+unbounded complex-analysis theorem, or off-packet inverse.
+\end{definition}
+
+\begin{theorem}[Poincare disk automorphism NameCert obligations]
+\label{thm:poincare-disk-automorphism-namecert-obligations}
+For every accepted $\PoincareDiskAutomorphismUp$ carrier
+$$
+A=(D,M,U,V,B,K,I,J,H,C,P,N),
+$$
+the local $\NameCert_{\PoincareDiskAutomorphismUp}$ surface consists exactly of
+Poincare disk metric admission through $D$, Mobius coefficient and disk-action
+admission through $M$, disk self-map admission through $U$, hyperbolic metric
+preservation through $V$, boundary transport through $B$, inverse replay
+through $K$, composition replay through $I$, refusal exposure through $J$,
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance,
+and local naming over the rows of
+\autoref{def:poincare-disk-automorphism-carrier}. No obligation row asserts a
+host automorphism group, analytic classification theorem, quotient boundary
+equality, selected normal form, or arbitrary complex-analysis principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of
+\autoref{def:poincare-disk-automorphism-carrier}. The visible map data are the
+disk-metric source $D$, the Mobius coefficient row $M$, and the disk self-map
+row $U$.
+
+The metric and boundary obligations are then read from the same displayed map.
+The row $V$ compares only finite $\HyperbolicMetricUp$ reads, while $B$ records
+the induced boundary transport without exposing a quotient boundary object.
+
+The inverse and composition rows $K,I$ are replay obligations over displayed
+disk observations. They make the automorphism surface reusable by downstream
+consumers, but they do not construct a completed automorphism group or select
+a global normal form.
+
+Finally, $J,H,C,P,N$ attach refusal, transport, replay, provenance, and local
+naming to the same finite rows. Since no carrier coordinate stores host
+complex analysis, quotient boundary equality, selected normal forms, or an
+off-packet inverse, none of those objects can become a NameCert obligation.
+\end{proof}
+
+\begin{theorem}[Poincare disk automorphism metric-boundary route]
+\label{thm:poincare-disk-automorphism-metric-boundary-route}
+Every $\HyperbolicMetricUp$-facing, $\HyperbolicBoundaryTransportUp$-facing,
+or composition-facing consumer of an accepted $\PoincareDiskAutomorphismUp$
+packet must read the finite route
+$$
+\PoincareDiskMetricUp,\ \MobiusTransformUp,\ \HyperbolicMetricUp,\ \HyperbolicBoundaryTransportUp .
+$$
+The metric-preservation row and the boundary-transport row are downstream of
+the displayed disk-map row and upstream of inverse and composition replay.
+The route exports no host automorphism group, quotient ideal-boundary
+equality, selected disk automorphism normal form, or analytic classification
+outside the packet.
+\end{theorem}
+\begin{proof}
+Start with the disk-map request. The packet first exposes the
+$\PoincareDiskMetricUp$ disk observations and the $\MobiusTransformUp$
+coefficient action, then records disk self-map admission through $U$.
+
+The hyperbolic metric and boundary rows are read next. The row $V$ can compare
+metric values only after the disk self-map is visible, and the row $B$ carries
+only the boundary transport induced by that same displayed map.
+
+The inverse and composition rows are therefore downstream replay data. Rows
+$K$ and $I$ can be consumed only after the metric-preservation and
+boundary-transport surface has been named, and the structural rows keep the
+same finite carrier under transport and provenance. Thus the consumer route
+remains internal to BEDC NameCert data rather than to host complex analysis.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\PoincareDiskAutomorphismUp$ consumer is refuted if it reads hyperbolic metric preservation, boundary transport, inverse replay, or composition replay without displaying PoincareDiskMetric, MobiusTransform, HyperbolicMetric, HyperbolicBoundaryTransport, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+
+\independenceWitness{poincare-disk-metric, mobius-transform, hyperbolic-metric, hyperbolic-boundary-transport: $\PoincareDiskAutomorphismUp$ is not bijective to any listed sibling because it jointly carries disk-map, metric-preservation, boundary-transport, inverse, composition, refusal, transport, replay, provenance, and local naming as one automorphism packet.}
+
+\closureat{PoincareDiskAutomorphismUp}{seedStr}
+
+\begin{closurestatus}{\PoincareDiskAutomorphismUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-disk-automorphism-carrier}, \autoref{thm:poincare-disk-automorphism-namecert-obligations}, and \autoref{thm:poincare-disk-automorphism-metric-boundary-route} seed the finite disk-map, Mobius, hyperbolic-metric, boundary-transport, inverse, composition, refusal, transport, replay, provenance, and local NameCert surface for $\PoincareDiskAutomorphismUp$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host complex analysis, completed automorphism groups, quotient ideal-boundary equality, selected disk automorphism normal forms, analytic classification, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked disk-map admission, Mobius coefficient transport, hyperbolic metric preservation, boundary transport, inverse replay, composition replay, refusal exposure, provenance exhaustion, and local naming for BEDC.Derived.PoincareDiskAutomorphismUp.}
+  \constructivestory{A $\PoincareDiskAutomorphismUp$ packet is generated from PoincareDiskMetric rows, MobiusTransform rows, disk self-map admission, HyperbolicMetric preservation, HyperbolicBoundaryTransport rows, inverse and composition replay, refusal data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
