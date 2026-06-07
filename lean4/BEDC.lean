@@ -1108,6 +1108,7 @@ import BEDC.Derived.BoundedNestedRealChoiceSealUp.TasteGate
 import BEDC.Derived.BoundedNormalConversionBridgeUp.TasteGate
 import BEDC.Derived.BoundedNormalEqualityCheckerUp
 import BEDC.Derived.BoundedNormalEqualityCheckerUp.TasteGate
+import BEDC.Derived.BoundedOscillationUp.TasteGate
 import BEDC.Derived.BoundedRealIntervalPartitionUp.TasteGate
 import BEDC.Derived.BoundedRealSequenceUp.BolzanoSourceExactness
 import BEDC.Derived.BoundedRealSequenceUp.DyadicBoundTransport
@@ -1185,6 +1186,7 @@ import BEDC.Derived.BusemannBoundaryUp.TasteGate
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CalculusUp.CompletionSourceEnvelopeObligations
+import BEDC.Derived.CalculusUp.CompletionSourceRealReadback
 import BEDC.Derived.CalculusUp.ContinuousMapLimitRoute
 import BEDC.Derived.CalculusUp.DerivativeContinuationObligation
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
@@ -5294,6 +5296,8 @@ import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KSpaceUp.TasteGate
 import BEDC.Derived.KakutaniFixedPointUp.TasteGate
 import BEDC.Derived.KalmanFilterUp
+import BEDC.Derived.KanExtensionUp.NamecertObligations
+import BEDC.Derived.KanExtensionUp.TasteGate
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.FormalAxisSeparation
 import BEDC.Derived.KernelAcceptanceAuditWitnessUp.PublicBridgeBoundary
@@ -6106,6 +6110,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.SNDischargeFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.SocketRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketAuditBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketBudget
+import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketCaseExhaustion
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketFactorization
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.SubjectReductionSocketSeparation
