@@ -166,6 +166,20 @@ Apply \autoref{thm:regular-cauchy-reciprocal-tail-stability}. Preserving the sou
 Finally use \autoref{thm:regular-cauchy-reciprocal-window-composition}. The composed route reaches $T$ and then $E$ only through the displayed chain $Q,A,M,W,D,B,T,E$, so the denominator apartness witness remains visible throughout the reciprocal handoff rather than becoming hidden choice data.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy reciprocal scoped denominator apartness]
+\label{thm:regular-cauchy-reciprocal-scoped-denominator-apartness}
+For every accepted $\RegularCauchyReciprocalUp$ carrier $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$, the denominator-apartness witness is scoped exactly by the $\RegSeqRatUp$ source row $Q$, apartness row $A$, finite modulus row $M$, $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, $\CauchyInverseBudgetUp$ row $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. It exports no total $\RealUp$ reciprocal, quotient stream, selected limit, or host equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-reciprocal-carrier}. The only denominator-facing rows before reciprocal readback are $Q,A,M,W,D,B$, and the only structural rows that can transport or replay them are $H,C,P,N$.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-apartness-window} and \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}. These place the apartness row $A$ before every dyadic reciprocal, budget, readback, and seal coordinate, and they make the positive lower-bound display part of carrier admission.
+
+Use \autoref{thm:regular-cauchy-reciprocal-nonzero-denominator-window} and \autoref{thm:regularcauchyreciprocal-window-denominator-stability}. The first theorem identifies $Q,A,M,W,D$ as the nonzero-denominator window required before $B$ is read, while the second preserves that witness under later finite windows.
+
+The remaining rows $H,C,P,N$ carry only componentwise transport, replay, provenance, and local naming for the same finite surface. Thus the scoped apartness witness is exactly the displayed BEDC primitive surface $Q,A,M,W,D,B,H,C,P,N$, with no exported total reciprocal on $\RealUp$, quotient stream, selected limit, or host equality.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy reciprocal Real seal handoff]
 \label{thm:regular-cauchy-reciprocal-real-seal-handoff}
 Let $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ be an accepted $\RegularCauchyReciprocalUp$ carrier. Any reciprocal consumer that is offered the terminal $\RealUp$ seal row $E$ must first be offered the $\RegSeqRatUp$ source row $Q$, apartness row $A$, modulus row $M$, finite $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, $\CauchyInverseBudgetUp$ row $B$, and reciprocal readback row $T$. Thus the handoff from finite reciprocal-read data to the L10 $\RealUp$ boundary is the displayed route
