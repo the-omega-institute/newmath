@@ -837,7 +837,6 @@ import BEDC.Derived.BishopIntervalHalvingUp.TasteGate
 import BEDC.Derived.BishopIntervalNestLimitUp.TasteGate
 import BEDC.Derived.BishopLocatedCauchyRealUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletenessUp.TasteGate
-import BEDC.Derived.BishopLocatedCompletionBoundaryUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionReflectorUp.TasteGate
 import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
@@ -3089,8 +3088,6 @@ import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
 import BEDC.Derived.CoveringdimensionUp.FiniteCoverRootAdmission
 import BEDC.Derived.CoveringdimensionUp.FiniteEpsilonNetCarrier
-import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerHandoff
-import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
@@ -5424,7 +5421,6 @@ import BEDC.Derived.LawCertificateUp.NameCert
 import BEDC.Derived.LawCertificateUp.TasteGate
 import BEDC.Derived.LawlessSequenceUp
 import BEDC.Derived.LawlessSequenceUp.Carrier
-import BEDC.Derived.LawlessSequenceUp.NameCertObligations
 import BEDC.Derived.LawlessSequenceUp.TasteGate
 import BEDC.Derived.LawlikeSequenceUp.NameCertObligations
 import BEDC.Derived.LawlikeSequenceUp.TasteGate
@@ -6894,7 +6890,6 @@ import BEDC.Derived.PainleveKuratowskiConvergenceUp.TasteGate
 import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
-import BEDC.Derived.ParsevalUp.InnerProductNameCertObligations
 import BEDC.Derived.ParsevalUp.NameCertObligations
 import BEDC.Derived.ParsevalUp.RootEnergyCarrierAdmission
 import BEDC.Derived.ParsevalUp.RootFourierEnergyBudget
