@@ -1,0 +1,89 @@
+\chapter{A Concrete Naming Certificate for $\DualBasisUp$}
+\label{ch:concrete-instances-dual-basis-namecert}
+\origin{human}
+
+Following Bourbaki and Axler, the $\DualBasisUp$ packet records the finite-dimensional dual-basis surface by displaying a finite basis, its coordinate functionals, the scalar field, the vector-space carrier, the linear-map rows, and the matrix-coordinate readback before any linear-algebra consumer can use dual coordinates. It sits over the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, the linear-map interface of \autoref{ch:concrete-instances-linearmap-namecert}, and the matrix-coordinate table of \autoref{ch:concrete-instances-matrix-namecert}. The packet is a NameCert object for finite coordinate evaluation; it is not a host algebraic dual, a choice-selected basis, a quotient of functionals, or an ambient finite-dimensionality theorem.
+
+\begin{definition}[Dual-basis carrier]
+\label{def:dual-basis-carrier}
+A $\DualBasisUp$ carrier over a displayed scalar field row $F$ and finite vector-space row $V$ is a finite $\BHist$ packet
+$$
+D=(F,V,B,\Lambda,L,M,H,C,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $F$ is the scalar $\FieldUp$ row. It supplies the carried scalar endpoints, scalar classifier, zero and one endpoints, addition, multiplication, and classifier transport used by coordinate equations.
+\item $V$ is the $\VecSpaceUp$ carrier row over $F$. It supplies vector addition, scalar action, the vector classifier, and the carried endpoint predicate for the listed basis vectors and reconstructed vectors.
+\item $B$ is the finite basis row. It records a displayed natural number $n$, carried vectors $b_i$ for $i:\mathsf{Fin}(n)$, and a finite coordinate-reconstruction ledger saying that every listed carried vector in the packet is classified with the finite sum of its displayed coordinates against the $b_i$ rows.
+\item $\Lambda$ is the coordinate-functional row. It records carried maps $\lambda_i:V\to F$ for $i:\mathsf{Fin}(n)$ and the evaluation table $\lambda_i(b_j)\sim_F \delta_{ij}$.
+\item $L$ is the $\LinearMapUp$ row for the coordinate functionals. Each $\lambda_i$ is admitted as a linear map from $V$ to the one-dimensional scalar target read through $F$, with additivity and scalar-compatibility rows displayed in the same packet.
+\item $M$ is the $\MatrixUp$ coordinate row. It records the finite table whose $(i,j)$ entry is the carried scalar comparison of $\lambda_i(b_j)$ with $\delta_{ij}$, together with coordinate-column readback for every listed vector.
+\item $H$ records componentwise $\hsame$ transport for scalar rows, vector rows, basis entries, coordinate functionals, linear-map rows, matrix-coordinate entries, and local classifiers.
+\item $C$ records displayed $\Cont$ replay from basis inspection through coordinate evaluation, linear-map admission, matrix readback, reconstruction, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\DualBasisUp$, $\FieldUp$, $\VecSpaceUp$, $\LinearMapUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DualBasisUp}$ row.
+\end{enumerate}
+The carrier exports only the displayed finite basis and its coordinate-functional table. It has no coordinate for a host algebraic dual, a choice-selected basis, quotient functionals, arbitrary linear forms outside the listed rows, or ambient finite-dimensionality.
+\end{definition}
+
+\begin{theorem}[Dual-basis NameCert obligations]
+\label{thm:dual-basis-namecert-obligations}
+For every accepted $\DualBasisUp$ carrier
+$$
+D=(F,V,B,\Lambda,L,M,H,C,P,N),
+$$
+the local $\NameCert_{\DualBasisUp}$ surface consists exactly of scalar admission through $F$, vector-space admission through $V$, finite basis admission through $B$, coordinate-functional admission through $\Lambda$, linear-map admission through $L$, matrix-coordinate readback through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:dual-basis-carrier}. The scalar row $F$ and vector-space row $V$ are displayed before the basis row is read, so every basis vector and every reconstructed vector is carried inside the same vector-space classifier.
+
+Next read the coordinate-functional row $\Lambda$ together with the $\LinearMapUp$ row $L$. The row $L$ supplies the additivity and scalar-compatibility obligations for each $\lambda_i$, while $\Lambda$ supplies the evaluations on the displayed basis vectors.
+
+Now inspect the $\MatrixUp$ row $M$. Its entries are the finite coordinate table $\lambda_i(b_j)\sim_F\delta_{ij}$, and its column readback is attached to the same basis row $B$. Thus a coordinate consumer receives the basis, the functionals, and the table as one finite packet.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly these rows. Since no carrier coordinate names a host algebraic dual, a choice-selected basis, quotient functionals, arbitrary outside linear forms, or an ambient finite-dimensionality theorem, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dual-basis coordinate readback]
+\label{thm:dual-basis-coordinate-readback}
+Every coordinate consumer accepted by a $\DualBasisUp$ packet must factor through
+$$
+F,V,B,\Lambda,L,M,H,C,P,N.
+$$
+The consumer first reads the scalar $\FieldUp$ and vector-space $\VecSpaceUp$ rows, then the finite basis row, then the $\LinearMapUp$ rows for the coordinate functionals, and then the $\MatrixUp$ coordinate table. It receives coordinate values only through the displayed evaluation table and reconstruction ledger, not through a host dual space, an arbitrary functional oracle, quotient functional equality, or a selected basis outside the packet.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:dual-basis-namecert-obligations}. It places $B,\Lambda,L,M$ after the scalar and vector-space rows and before any coordinate read is exported.
+
+For a basis vector $b_j$, the coordinate value is read from the matrix entry in $M$ that records $\lambda_i(b_j)\sim_F\delta_{ij}$. For a listed carried vector, the reconstruction ledger in $B$ supplies the displayed finite coordinate column, and the same matrix readback identifies which scalar rows are being consumed.
+
+Therefore the coordinate route is finite and packet-local. The carrier never exposes a separate algebraic dual endpoint, a selector for a basis, or a quotient of functionals, so no consumer can bypass the displayed rows.
+\end{proof}
+
+\begin{theorem}[Dual-basis nonescape]
+\label{thm:dual-basis-nonescape}
+No accepted $\DualBasisUp$ consumer can obtain a coordinate functional, coordinate matrix entry, or reconstruction coefficient without reading the scalar field row, vector-space row, finite basis row, linear-map row, matrix-coordinate row, transport row, replay row, provenance row, and local naming row displayed in \autoref{def:dual-basis-carrier}.
+\end{theorem}
+\begin{proof}
+Assume a consumer asks for coordinate data from an accepted packet. By \autoref{thm:dual-basis-namecert-obligations}, the only coordinate-functional source is $\Lambda$, the only linearity source is $L$, and the only coordinate table is $M$.
+
+The finite basis row $B$ is the support on which $\Lambda$ and $M$ are interpreted. Without $B$, the expressions $\lambda_i(b_j)$ and the reconstruction column have no row in the packet; without $F$ and $V$, their scalar and vector classifiers are not available.
+
+The structural rows $H,C,P,N$ are the only transport, replay, provenance, and naming routes. Hence any coordinate read that omits one of $F,V,B,\Lambda,L,M,H,C,P,N$ has no carrier coordinate from which to escape into host duality, arbitrary functional choice, quotient equality, or ambient finite-dimensionality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DualBasisUp$ coordinate read factors through the displayed scalar field row, vector-space row, finite basis row, coordinate-functional row, linear-map row, matrix-coordinate row, transport, replay, provenance, and local naming rows; a request that supplies only a host algebraic dual or a selected basis is rejected by this certificate.}
+
+\independenceWitness{field, vecspace, linearmap, matrix: $\DualBasisUp$ is not bijective to any listed sibling because it jointly carries scalar field data, finite vector-space basis data, coordinate functionals, linear-map obligations, matrix-coordinate readback, transport, replay, provenance, and a local NameCert row.}
+
+\closureat{DualBasisUp}{seedStr}
+
+\begin{closurestatus}{\DualBasisUp}
+  \constructivestory{A $\DualBasisUp$ packet is generated from FieldUp scalar rows, VecSpaceUp carrier rows, finite basis rows, coordinate-functional rows, LinearMapUp admission rows, MatrixUp coordinate readback rows, hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dual-basis-carrier}, \autoref{thm:dual-basis-namecert-obligations}, \autoref{thm:dual-basis-coordinate-readback}, and \autoref{thm:dual-basis-nonescape} seed the finite dual-basis coordinate surface over field, vector-space, linear-map, and matrix rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, host algebraic duals, arbitrary functional choice, quotient functional equality, selected bases outside the packet, norm equivalence, or ambient finite-dimensionality.}
+  \upgradepath{Obligation closure requires binding the displayed scalar, vector-space, finite basis, coordinate-functional, linear-map, matrix-coordinate, transport, replay, provenance, and local naming rows against their BEDC primitive scope.}
+\end{closurestatus}
