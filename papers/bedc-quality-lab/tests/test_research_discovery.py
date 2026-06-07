@@ -19,6 +19,7 @@ VALID_SCOPE_SEAL = {
     "real_training": False,
     "production_forbidden": True,
 }
+OPEN_SCOPE_SEAL = dict(VALID_SCOPE_SEAL, status="open")
 
 
 def _canonical_payload(name: str) -> dict:
@@ -337,6 +338,60 @@ def test_positive_payload_without_closed_scope_seal_caps_to_d1(scope_seal):
 
     assert verdict.discovery_level == "D1"
     assert verdict.reasons == ("scope_seal=false",)
+
+
+def test_positive_payload_accepts_claim_capsule_positive_claim_scope_seal():
+    payload = _positive_payload()
+    payload.pop("scope_seal")
+    payload["claim_capsule"] = {"positive_claim": {"scope_seal": VALID_SCOPE_SEAL}}
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D4"
+    assert verdict.reasons == (
+        "positive_terminal=true",
+        "classifier_shift=true",
+        "net_positive_signal=true",
+        "control_negative=true",
+        "scorecard_ready=true",
+        "audit_pass=true",
+        "robustness_ready=false",
+    )
+
+
+def test_positive_payload_accepts_source_spec_scope_seal():
+    payload = _positive_payload()
+    payload.pop("scope_seal")
+    payload["source_spec"] = {"scope_seal": VALID_SCOPE_SEAL}
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D4"
+    assert verdict.reasons[-1] == "robustness_ready=false"
+
+
+def test_positive_claim_scope_seal_precedes_valid_top_level_scope_seal():
+    payload = _positive_payload(
+        positive_claim={"scope_seal": OPEN_SCOPE_SEAL},
+        scope_seal=VALID_SCOPE_SEAL,
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D1"
+    assert verdict.reasons == ("scope_seal=false",)
+
+
+def test_valid_positive_claim_scope_seal_precedes_invalid_top_level_scope_seal():
+    payload = _positive_payload(
+        positive_claim={"scope_seal": VALID_SCOPE_SEAL},
+        scope_seal=OPEN_SCOPE_SEAL,
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D4"
+    assert verdict.reasons[-1] == "robustness_ready=false"
 
 
 def test_matched_baseline_control_positive_blocks_d5_payload_to_dn():
