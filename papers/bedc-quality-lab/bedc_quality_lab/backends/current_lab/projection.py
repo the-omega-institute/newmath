@@ -151,7 +151,7 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "canonical_owner_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$",
         "discovery_level_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.level_candidate",
         "claim_verdict_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.status",
-        "mechanism_certificate_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.claim_capsule_ref",
+        "mechanism_certificate_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.mechanism_certificate",
         "debt_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.ledger",
         "not_claimed_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
@@ -944,6 +944,7 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
     robustness = pointer_value(payload, "$.robustness_signal")
     parameter_matched = pointer_value(payload, "$.parameter_matched_baseline")
     compute_matched = pointer_value(payload, "$.compute_matched_baseline")
+    mechanism_certificate = pointer_value(payload, "$.mechanism_certificate")
     if not isinstance(signal, Mapping):
         return False, "missing-lat-discovery-map-signal", "$.discovery_map_signal"
     if not isinstance(hardgates, Mapping) or not hardgates:
@@ -954,6 +955,8 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         return False, "missing-lat-parameter-matched-baseline", "$.parameter_matched_baseline"
     if not isinstance(compute_matched, Mapping):
         return False, "missing-lat-compute-matched-baseline", "$.compute_matched_baseline"
+    if not isinstance(mechanism_certificate, Mapping):
+        return False, "missing-lat-mechanism-certificate", "$.mechanism_certificate"
     failed = next(
         (
             name
@@ -986,6 +989,7 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         "robustness_evidence_pointer",
         "parameter_matched_baseline_pointer",
         "compute_matched_baseline_pointer",
+        "mechanism_certificate_pointer",
     ):
         pointer = signal.get(key)
         if not isinstance(pointer, str):
@@ -1002,6 +1006,20 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         return False, "lat-compute-matched-pointer-mismatch", "$.discovery_map_signal.compute_matched_baseline_pointer"
     if pointer_value(payload, "$.discovery_map_signal.compute_matched_baseline_pointer") is None:
         return False, "lat-compute-matched-pointer-dangling", "$.discovery_map_signal.compute_matched_baseline_pointer"
+    if signal.get("mechanism_certificate_pointer") != "$.mechanism_certificate":
+        return False, "lat-mechanism-certificate-pointer-mismatch", "$.discovery_map_signal.mechanism_certificate_pointer"
+    if pointer_value(payload, "$.discovery_map_signal.mechanism_certificate_pointer") is None:
+        return False, "lat-mechanism-certificate-pointer-dangling", "$.discovery_map_signal.mechanism_certificate_pointer"
+    if failed is None and mechanism_certificate.get("status") != "pass":
+        return False, "lat-mechanism-certificate-failed", "$.mechanism_certificate.status"
+    positive_claim = pointer_value(payload, "$.positive_claim")
+    positive_claim_mechanism_pointer = (
+        positive_claim.get("mechanism_certificate_pointer")
+        if isinstance(positive_claim, Mapping)
+        else None
+    )
+    if not isinstance(positive_claim_mechanism_pointer, str) or pointer_value(payload, positive_claim_mechanism_pointer) != mechanism_certificate:
+        return False, "lat-positive-claim-mechanism-pointer-dangling", "$.positive_claim.mechanism_certificate_pointer"
     if pointer_value(payload, "$.claim_capsule_ref.capsule") is None:
         return False, "lat-claim-capsule-pointer-dangling", "$.claim_capsule_ref.pointer"
     if pointer_value(payload, "$.forbidden_claim_term_audit.status") != "pass":
@@ -1036,6 +1054,7 @@ def _ledger_aware_transformer_projection(
                     "evidence_pointer": signal.get("evidence_pointer"),
                     "torch_training_evidence_pointer": signal.get("torch_training_evidence_pointer"),
                     "robustness_evidence_pointer": signal.get("robustness_evidence_pointer"),
+                    "mechanism_certificate_pointer": signal.get("mechanism_certificate_pointer"),
                 },
             },
             "evidence_basis": {
