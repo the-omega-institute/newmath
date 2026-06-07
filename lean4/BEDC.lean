@@ -4120,6 +4120,7 @@ import BEDC.Derived.FanfunctionalUp.RootUniformModulusObligation
 import BEDC.Derived.FanfunctionalUp.RootUniformModulusReadback
 import BEDC.Derived.FanfunctionalUp.RootWindowObligations
 import BEDC.Derived.FanfunctionalUp.ScopedChoiceNonescape
+import BEDC.Derived.FanfunctionalUp.ScopedClosureRecord
 import BEDC.Derived.FanfunctionalUp.ScopedConsumerRoute
 import BEDC.Derived.FanfunctionalUp.ScopedFiniteModulusExport
 import BEDC.Derived.FanfunctionalUp.TasteGate
@@ -4922,6 +4923,7 @@ import BEDC.Derived.HaarWaveletUp.TasteGate
 import BEDC.Derived.HadamardFinitePartUp.TasteGate
 import BEDC.Derived.HadamardProductSeriesUp.TasteGate
 import BEDC.Derived.HadamardThreeCircleUp.TasteGate
+import BEDC.Derived.HahnBanachUp.TasteGate
 import BEDC.Derived.HallMarriageUp.TasteGate
 import BEDC.Derived.HaltedTmRoundTripUp.TasteGate
 import BEDC.Derived.HaltingDiagonalUp.FixedPointPackageRows
