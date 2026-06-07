@@ -87,6 +87,7 @@ def test_projection_uses_seed_metric_predicates_and_blockers():
 def test_h0_summary_pinned():
     payload = runner._verdict_payload(_payload())
     summary = payload["positive_probe_summary"]
+    assert payload["scope_seal"] == runner.SCOPE_SEAL
     assert summary["answer"] == "H0"
     assert summary["second_positive_probe_found"] is False
     assert summary["positive_families"] == []

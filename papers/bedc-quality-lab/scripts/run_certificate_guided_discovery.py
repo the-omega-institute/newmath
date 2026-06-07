@@ -140,6 +140,7 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
         "net_information": main["net_information"],
         "main_claim_status": final_main_claim_status,
         "claim_gate": fresh_projection["claim_gate"],
+        "scope_seal": payload.get("scope_seal"),
         "hardgate": hardgate,
         "failed_gate": failed_gate,
         "verdict": terminal_verdict,
