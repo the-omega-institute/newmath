@@ -4656,57 +4656,36 @@ def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
     assert row["json_artifact"] == index_row["json_artifact"]
     assert claim_row["ledger_pointer"] == f"reports/canonical/discovery_map.json:$.rows[{row_index}].discovery_level"
     assert claim_row["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
-    assert capsule["d5_o"]["status"] == row["base_status"] == "ready"
-    assert row["base_level"] == "D5-O"
+    assert capsule["d5_o"]["status"] == "blocked"
+    assert capsule["d5_o"]["failed_checks"] == ["ablation"]
+    assert "base_status" not in row
+    assert "base_level" not in row
+    assert capsule["mechanism_evidence"]["base_status"] == "blocked"
+    assert capsule["mechanism_evidence"]["base_level"] == "blocked"
     assert sidecar["ledger_policy"]["mechanism_closure_debt"] == "open"
     assert sidecar["closure_status"]["mechanism_spec"] == "partial"
-    assert row["mechanism_status"] == "blocked"
-    assert row["mechanism_level"] == "blocked"
-    assert capsule["mechanism_evidence"]["failed_gate"] == sidecar["mechanism_spec"]["a1_failed_gate"] == row["mechanism_failed_gate"]
+    assert "mechanism_status" not in row
+    assert "mechanism_level" not in row
+    assert capsule["mechanism_evidence"]["failed_gate"] == sidecar["mechanism_spec"]["a1_failed_gate"]
     assert capsule["mechanism_evidence"]["mechanism_status"] == sidecar["mechanism_spec"]["a1_mechanism_status"]
     assert sidecar["mechanism_spec"]["candidate_mechanism"] == capsule["mechanism_evidence"]["candidate_mechanism"]
-    assert row["mechanism_channel"] == sidecar["mechanism_spec"]["candidate_mechanism"]
-    assert row["mechanism_ledger_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status"
-    assert row["mechanism_closure_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status"
+    assert "mechanism_channel" not in row
+    assert "mechanism_ledger_pointer" not in row
+    assert "mechanism_closure_pointer" not in row
 
 
-def test_gap_head_mechanism_blockage_negative_owner_is_pointer_linked():
+def test_gap_head_mechanism_blockage_negative_owner_absent_when_base_readiness_blocked():
     negative_reports = json.loads((canonical.ROOT / "reports/canonical/negative_discovery_reports.json").read_text(encoding="utf-8"))
     discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
     claim_rows = _read_committed_claim_verdicts()
     claim_graph = json.loads((canonical.ROOT / "reports/canonical/claim_graph.json").read_text(encoding="utf-8"))
     capsule = json.loads((canonical.ROOT / "reports/canonical/gap_head_attribution_capsule.json").read_text(encoding="utf-8"))
 
-    owner_index, owner = next(
-        (index, row)
-        for index, row in enumerate(negative_reports["rows"])
-        if row["report_id"] == "gap-head-mechanism-blockage"
-    )
-    discovery_index, discovery_row = next(
-        (index, row)
-        for index, row in enumerate(discovery["rows"])
-        if row["report"] == "gap-head-mechanism-blockage"
-    )
-    claim_row = next(row for row in claim_rows if row["claim_id"] == "claim:gap-head-mechanism-blockage")
-    graph_nodes = {row["node_id"]: row for row in claim_graph["nodes"]}
-
-    assert owner["negative_id"] == "dn:gap-head-mechanism-blockage"
-    assert owner["json_artifact"] == "reports/canonical/gap_head_attribution_capsule.json"
-    assert owner["failed_gate"] == "$.mechanism_evidence.failed_gate"
-    assert owner["evidence_pointer"] == "$.mechanism_evidence"
-    assert owner["debt_row_pointer"] == "$.ledger_debt.0.status"
-    assert owner["source"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.failed_gate"
-    assert capsule["mechanism_evidence"]["failed_gate"] == "A1-HG3"
-    assert discovery_row["negative_report_pointer"] == f"reports/canonical/negative_discovery_reports.json:$.rows[{owner_index}]"
-    assert claim_row["negative_report_pointer"] == discovery_row["negative_report_pointer"]
-    assert claim_row["claim_verdict"] == "negative_discovery"
-    assert graph_nodes["raw:gap-head-mechanism-blockage"]["source_pointer"] == (
-        "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence"
-    )
-    assert graph_nodes["projected:gap-head-mechanism-blockage"]["source_pointer"] == (
-        f"reports/canonical/discovery_map.json:$.rows[{discovery_index}]"
-    )
-    assert graph_nodes["terminal:gap-head-mechanism-blockage"]["terminal_verdict"] == "negative_discovery"
+    assert capsule["d5_o"]["status"] == "blocked"
+    assert "gap-head-mechanism-blockage" not in {row["report_id"] for row in negative_reports["rows"]}
+    assert "gap-head-mechanism-blockage" not in {row["report"] for row in discovery["rows"]}
+    assert "claim:gap-head-mechanism-blockage" not in {row["claim_id"] for row in claim_rows}
+    assert not any("gap-head-mechanism-blockage" in row["node_id"] for row in claim_graph["nodes"])
 
 
 def test_attribution_capsule_remains_non_terminal_verdict_producer():
@@ -4717,7 +4696,7 @@ def test_attribution_capsule_remains_non_terminal_verdict_producer():
     assert "terminal_verdict" not in capsule
     assert rows["gap-head-attribution-capsule"]["discovery_level"] == "D0"
     assert rows["gap-head-attribution-capsule"]["terminal_verdict"] == ""
-    assert rows["gap-head-mechanism-blockage"]["discovery_level"] == "DN"
+    assert "gap-head-mechanism-blockage" not in rows
 
 
 def test_quality_scorecard_fails_closed_without_source_or_denominator(tmp_path):
