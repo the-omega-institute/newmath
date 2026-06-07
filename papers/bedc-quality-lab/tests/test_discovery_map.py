@@ -8,6 +8,7 @@ from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
     default_drt_training_extension_spec,
     project_drt_training_extension,
+    _training_mechanism_cert,
 )
 from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_ledger_aware_transformer as lat_runner
@@ -104,6 +105,13 @@ def _write_payload(root: Path, spec, payload):
                 payload,
             )
         )
+        payload["training_mechanism_cert"] = _training_mechanism_cert(payload)
+        payload["hardgate"]["gates"]["DRT-HG8"]["status"] = payload["training_mechanism_cert"]["status"]
+        payload["hardgate"]["status"] = (
+            "pass"
+            if all(row["status"] == "pass" for row in payload["hardgate"]["gates"].values())
+            else "fail"
+        )
         canonical._validate_discovery_regularized_training_payload(payload)
     path = root / spec.json_artifact
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -190,24 +198,29 @@ def _minimal_payload(spec):
                 "cost_protocol": "configs/default_cost_protocol.yaml",
                 "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
             },
-            "discovery_map_signal": {
-                "control_pointer": "$.matched_random_control",
-                "evidence_pointer": "$.torch_training_evidence",
-                "failed_gate": None,
-                "failed_gate_pointer": None,
-                "level_candidate": "D4",
-                "reason": "matched-control-positive",
-                "status": "d4-candidate",
-                "torch_training_evidence_pointer": "$.torch_training_evidence",
-            },
+                "discovery_map_signal": {
+                    "control_pointer": "$.matched_random_control",
+                    "evidence_pointer": "$.training_mechanism_cert",
+                    "failed_gate": None,
+                    "failed_gate_pointer": None,
+                    "level_candidate": "D5-M",
+                    "reason": "training-mechanism-certificate-positive",
+                    "status": "d5-m-candidate",
+                    "training_mechanism_cert_pointer": "$.training_mechanism_cert",
+                    "torch_training_evidence_pointer": "$.torch_training_evidence",
+                },
             "hardgate": {
                 "failed_gate": None,
                 "gates": {
                     f"DRT-HG{index}": {
                         "status": "pass",
-                        "evidence_pointer": "$.mechanism_ablation" if index == 7 else "$.quality_promotion_boundary",
+                        "evidence_pointer": "$.training_mechanism_cert"
+                        if index == 8
+                        else "$.mechanism_ablation"
+                        if index == 7
+                        else "$.quality_promotion_boundary",
                     }
-                    for index in range(1, 8)
+                    for index in range(1, 9)
                 },
                 "status": "pass",
             },
@@ -1040,7 +1053,7 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     lat = _coverage_cell(payload, "LAT")
 
     assert drt["canonical_owner_pointer"] == "reports/canonical/discovery-regularized-training.json:$"
-    assert drt["mechanism_certificate_pointer"] == "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence"
+    assert drt["mechanism_certificate_pointer"] == "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert"
     assert drt["debt_pointer"] == "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary"
     assert drt["hardgate_status"] == "pass"
     assert _artifact_pointer_value(tmp_path, drt["mechanism_certificate_pointer"]) is not None
