@@ -1212,6 +1212,7 @@ import BEDC.Derived.CalculusUp.RootL10Nonescape
 import BEDC.Derived.CalculusUp.RootLimitDerivativeIntegralRoute
 import BEDC.Derived.CalculusUp.RootLocalLinearizationCauchyHandoff
 import BEDC.Derived.CalculusUp.RootOperationLedgerExhaustion
+import BEDC.Derived.CalculusUp.RootOperationSeparation
 import BEDC.Derived.CalculusUp.RootPackageNonescape
 import BEDC.Derived.CalculusUp.RootPublicPackageReadiness
 import BEDC.Derived.CalculusUp.RootRealSealNonescape
@@ -3478,6 +3479,7 @@ import BEDC.Derived.DiagonalModulusUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.Nonescape
 import BEDC.Derived.DiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.DiagonalRegularitySealUp.WindowFactorization
+import BEDC.Derived.DiagonalSequenceUp.TasteGate
 import BEDC.Derived.DiagonalSubsequenceUp.TasteGate
 import BEDC.Derived.DiagonalTailSelectorUp
 import BEDC.Derived.DiagonallimitcompatibilityUp
