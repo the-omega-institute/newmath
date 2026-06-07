@@ -324,3 +324,48 @@ theorem RegularCauchyReciprocalTerminalSealNonTotality
                 (RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N)⟩
 
 end BEDC.Derived.RegularCauchyReciprocalUp.TasteGate
+
+namespace BEDC.Derived.RegularCauchyReciprocalUp
+
+open BEDC.FKernel.Hist
+open BEDC.FKernel.Mark
+
+theorem RegularCauchyReciprocalWindowBudgetCoverage
+    (x : TasteGate.RegularCauchyReciprocalUp) :
+    ∃ Q A M W D B T E H C P N : BHist,
+      x = TasteGate.RegularCauchyReciprocalUp.mk Q A M W D B T E H C P N ∧
+        List.Mem Q (TasteGate.regularCauchyReciprocalFields x) ∧
+          List.Mem A (TasteGate.regularCauchyReciprocalFields x) ∧
+            List.Mem M (TasteGate.regularCauchyReciprocalFields x) ∧
+              List.Mem W (TasteGate.regularCauchyReciprocalFields x) ∧
+                List.Mem D (TasteGate.regularCauchyReciprocalFields x) ∧
+                  List.Mem B (TasteGate.regularCauchyReciprocalFields x) ∧
+                    TasteGate.regularCauchyReciprocalEncodeBHist BHist.Empty =
+                      ([] : List BMark) ∧
+                      TasteGate.regularCauchyReciprocalEncodeBHist
+                          (BHist.e0 BHist.Empty) =
+                        [BMark.b0] := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk Q A M W D B T E H C P N =>
+      exact
+        ⟨Q, A, M, W, D, B, T, E, H, C, P, N, rfl,
+          List.Mem.head [A, M, W, D, B, T, E, H, C, P, N],
+          List.Mem.tail Q (List.Mem.head [M, W, D, B, T, E, H, C, P, N]),
+          List.Mem.tail Q
+            (List.Mem.tail A (List.Mem.head [W, D, B, T, E, H, C, P, N])),
+          List.Mem.tail Q
+            (List.Mem.tail A
+              (List.Mem.tail M (List.Mem.head [D, B, T, E, H, C, P, N]))),
+          List.Mem.tail Q
+            (List.Mem.tail A
+              (List.Mem.tail M
+                (List.Mem.tail W (List.Mem.head [B, T, E, H, C, P, N])))),
+          List.Mem.tail Q
+            (List.Mem.tail A
+              (List.Mem.tail M
+                (List.Mem.tail W
+                  (List.Mem.tail D (List.Mem.head [T, E, H, C, P, N]))))),
+          rfl, rfl⟩
+
+end BEDC.Derived.RegularCauchyReciprocalUp
