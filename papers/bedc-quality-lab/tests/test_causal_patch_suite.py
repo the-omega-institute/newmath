@@ -1,4 +1,5 @@
 import json
+from copy import deepcopy
 
 from scripts import run_causal_patch_suite as runner
 
@@ -26,6 +27,91 @@ def test_patch_hardgates_pass_for_local_eval_only_suite():
         if record["role"] == "after":
             assert set(record["touched_channels"]) <= set(record["allowed_touched_channels"])
         assert record["eval_only"] is True
+
+
+def _hardgates_for(payload):
+    return runner._hardgates(
+        records=payload["records"],
+        effect_summary=payload["effect_summary"],
+        matched_control_summary=payload["matched_control_summary"],
+        side_effect_ledger=payload["side_effect_ledger"],
+    )
+
+
+def _first_patch_summary(payload):
+    return next(iter(payload["effect_summary"]["by_patch"].values()))
+
+
+def test_patch_hg1_fails_closed_when_treatment_touches_non_target_channel():
+    payload = runner.build_payload(generated_at="fixture")
+    mutated = deepcopy(payload)
+    treatment = next(record for record in mutated["records"] if record["role"] == "after")
+    treatment["touched_channels"] = [*treatment["allowed_touched_channels"], "off-target-channel"]
+
+    hardgates = _hardgates_for(mutated)
+
+    assert hardgates["gates"]["PATCH-HG1"]["status"] == "fail"
+    assert hardgates["status"] == "fail"
+
+
+def test_patch_hg2_fails_closed_when_any_record_is_not_eval_only():
+    payload = runner.build_payload(generated_at="fixture")
+    mutated = deepcopy(payload)
+    mutated["records"][0]["eval_only"] = False
+
+    hardgates = _hardgates_for(mutated)
+
+    assert hardgates["gates"]["PATCH-HG2"]["status"] == "fail"
+    assert hardgates["status"] == "fail"
+
+
+def test_patch_hg3_fails_closed_when_treatment_ci_is_not_positive():
+    payload = runner.build_payload(generated_at="fixture")
+    mutated = deepcopy(payload)
+    treatment = _first_patch_summary(mutated)["treatment"][runner.PATCH_EFFECT_METRIC]
+    treatment["ci95_low"] = 0.0
+
+    hardgates = _hardgates_for(mutated)
+
+    assert hardgates["gates"]["PATCH-HG3"]["status"] == "fail"
+    assert hardgates["status"] == "fail"
+
+
+def test_patch_hg4_fails_closed_when_matched_control_ci_excludes_zero():
+    payload = runner.build_payload(generated_at="fixture")
+    mutated = deepcopy(payload)
+    control = _first_patch_summary(mutated)["matched_control"][runner.PATCH_EFFECT_METRIC]
+    control["ci95_low"] = 0.01
+    control["ci95_high"] = 0.02
+    mutated["matched_control_summary"] = runner._matched_control_summary(mutated["effect_summary"])
+
+    hardgates = _hardgates_for(mutated)
+
+    assert mutated["matched_control_summary"]["rows"][0]["ci_includes_zero"] is False
+    assert hardgates["gates"]["PATCH-HG4"]["status"] == "fail"
+    assert hardgates["status"] == "fail"
+
+
+def test_patch_hg5_fails_closed_when_side_effect_ledger_row_is_missing():
+    payload = runner.build_payload(generated_at="fixture")
+    mutated = deepcopy(payload)
+    mutated["side_effect_ledger"] = mutated["side_effect_ledger"][1:]
+
+    hardgates = _hardgates_for(mutated)
+
+    assert hardgates["gates"]["PATCH-HG5"]["status"] == "fail"
+    assert hardgates["status"] == "fail"
+
+
+def test_patch_hg5_fails_closed_when_side_effect_ledger_row_is_false():
+    payload = runner.build_payload(generated_at="fixture")
+    mutated = deepcopy(payload)
+    mutated["side_effect_ledger"][0]["ledger_row_present"] = False
+
+    hardgates = _hardgates_for(mutated)
+
+    assert hardgates["gates"]["PATCH-HG5"]["status"] == "fail"
+    assert hardgates["status"] == "fail"
 
 
 def test_treatment_quality_ci_is_positive_and_control_ci_includes_zero():

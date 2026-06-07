@@ -4,6 +4,8 @@ from pathlib import Path
 
 import pytest
 
+from scripts import run_causal_patch_suite as causal_patch_runner
+
 from bedc_quality_lab.research_discovery import (
     ResearchDiscoveryVerdict,
     assign_discovery_level,
@@ -131,6 +133,28 @@ def test_causal_patch_pass_without_classifier_surface_signal_stays_d0():
         }
     )
 
+    assert verdict.discovery_level == "D0"
+    assert verdict.reasons == ("no classifier shift or debt improvement",)
+    assert verdict.classifier_shift is False
+
+
+def test_causal_patch_hardgate_failure_stays_non_promoting_downstream():
+    payload = causal_patch_runner.build_payload(generated_at="fixture")
+    payload["records"][0]["eval_only"] = False
+    payload["hardgates"] = causal_patch_runner._hardgates(
+        records=payload["records"],
+        effect_summary=payload["effect_summary"],
+        matched_control_summary=payload["matched_control_summary"],
+        side_effect_ledger=payload["side_effect_ledger"],
+    )
+    payload["discovery_projection"] = causal_patch_runner._discovery_projection(payload["hardgates"])
+
+    verdict = assign_discovery_level(payload)
+
+    assert payload["hardgates"]["gates"]["PATCH-HG2"]["status"] == "fail"
+    assert payload["discovery_projection"]["hardgate_status"] == "fail"
+    assert payload["discovery_projection"]["positive_discovery"] is False
+    assert payload["discovery_projection"]["discovery_level_effect"] == "none"
     assert verdict.discovery_level == "D0"
     assert verdict.reasons == ("no classifier shift or debt improvement",)
     assert verdict.classifier_shift is False
