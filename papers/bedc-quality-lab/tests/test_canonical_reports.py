@@ -2486,7 +2486,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "status": "pointer-only",
         "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
         "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
-        "expected_kind_count": 8,
+        "expected_kind_count": 9,
         "schema_role": "bedc-gap-witness-ledger",
         "witness_rows_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses",
     }

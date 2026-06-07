@@ -2,7 +2,7 @@
 
 - Generated at: `2026-06-07T21:49:00.096406+00:00`
 - Status: `pointer-only`
-- Nodes: `101`
+- Nodes: `103`
 
 | node | type | source | depends on |
 | --- | --- | --- | --- |
@@ -68,6 +68,7 @@
 | `negative-witness:forbidden_inference_column` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[5]` |  |
 | `negative-witness:benefit_debt_tradeoff` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]` |  |
 | `negative-witness:fresh_claim_downgrade` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]` |  |
+| `negative-witness:synthetic_leakage_injection` | `negative_witness` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[8]` |  |
 | `revocation:witness:hidden_debt_positive` | `revocation` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]` | `negative-witness:hidden_debt_positive` |
 | `revocation:witness:benefit_debt_tradeoff` | `revocation` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]` | `negative-witness:benefit_debt_tradeoff` |
 | `revocation:witness:fresh_claim_downgrade` | `revocation` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]` | `negative-witness:fresh_claim_downgrade` |
@@ -107,6 +108,7 @@
 | `terminal:witness:forbidden_inference_column` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[32]` | `negative-witness:forbidden_inference_column` |
 | `terminal:witness:benefit_debt_tradeoff` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[33]` | `revocation:witness:benefit_debt_tradeoff` |
 | `terminal:witness:fresh_claim_downgrade` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[34]` | `revocation:witness:fresh_claim_downgrade` |
+| `terminal:witness:synthetic_leakage_injection` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[35]` | `negative-witness:synthetic_leakage_injection` |
 
 ## Hardgates
 

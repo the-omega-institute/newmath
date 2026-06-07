@@ -860,7 +860,7 @@ def _ablation_context_payload(*, status="fail"):
     }
 
 
-def _negative_witnesses_context_payload(*, expected_kind_count=8):
+def _negative_witnesses_context_payload(*, expected_kind_count=9):
     return {
         "status": "pointer-only",
         "expected_kind_count": expected_kind_count,
