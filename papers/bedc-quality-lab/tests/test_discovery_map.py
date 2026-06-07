@@ -8,6 +8,7 @@ from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
     GapHeadD5Criterion,
     GapHeadD5ReadinessLedger,
 )
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
     certificate_guided_dn_preservation,
@@ -194,6 +195,16 @@ def _minimal_payload(spec):
             "control_verdict": {"positive": False},
             "records": [{"matched_random_control": _matched_random_audit_fixture()}],
         })
+        payload.update(
+            {"anti_triviality_status": "pass"}
+            | owner_local_anti_triviality_contract(
+                recommended_level="D5-O",
+                scale_only_pointer="$.treatment_verdict.positive",
+                metadata_only_pointer="$.control_protocol",
+                matched_random_pointer="$.control_verdict.positive",
+                forbidden_column_pointer="$.boundary_no_z_audit",
+            )
+        )
         return payload
     if spec.name == "gap-head-discovery":
         payload.update({
@@ -533,6 +544,16 @@ def _minimal_payload(spec):
             "forbidden_claim_term_audit": {"status": "pass", "hits": []},
             "source_artifacts": {"metric_helper": "reports/canonical/gap_head_transfer_atlas.json:$.surfaces"},
         })
+        payload.update(
+            {"anti_triviality_status": "pass"}
+            | owner_local_anti_triviality_contract(
+                recommended_level="D5-O",
+                scale_only_pointer="$.multi_surface_d5_o.decision",
+                metadata_only_pointer="$.surface_registry",
+                matched_random_pointer="$.config.control_arm",
+                forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+            )
+        )
         return payload
     if spec.name == "spectral-ablation-hinge":
         payload.update({
@@ -925,6 +946,16 @@ def _dimension_mismatch_payload(*, status="pass", anti_triviality_status="scale_
     terminal_verdict = "source_pass" if effective_level == "D4" else "negative_discovery"
     downgrade_reason = None if effective_level == "D4" else "scale_only_or_metadata_proxy_sufficient"
     failed_gate = None if effective_level == "D4" else "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+    contract_status = "pass" if anti_triviality_status == "anti_triviality_passed" else "fail"
+    contract = owner_local_anti_triviality_contract(
+        recommended_level=effective_level,
+        scale_only_pointer="$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        metadata_only_pointer="$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        matched_random_pointer="$.control_protocol",
+        forbidden_column_pointer="$.representation_boundary.actual_model_input_columns",
+        status=contract_status,
+        failed_gate=failed_gate,
+    )
     return {
         "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
         "status": "pointer-only",
@@ -963,8 +994,10 @@ def _dimension_mismatch_payload(*, status="pass", anti_triviality_status="scale_
                 "representation-geometric debt transfer",
                 "D5 promotion",
             ],
+            **contract,
         },
         "boundary_ledger": {"d5_shortcut": False},
+        "representation_boundary": {"actual_model_input_columns": ["h_l2_mean"]},
         "hardgate_evidence": {
             "HG-B3": {
                 "learned_auroc": _learned_auroc_pass_cell(),
@@ -1787,6 +1820,117 @@ def test_positive_row_rejects_unresolved_no_control_rationale_pointer(tmp_path):
     assert reason == "unresolved-no-control-rationale-pointer"
 
 
+def _generic_anti_triviality_payload(level="D5-O"):
+    payload = {
+        "scope": {"status": "fixture"},
+        "cost": {"status": "fixture"},
+        "not_claimed": ["fixture boundary"],
+        "control": {"positive": False},
+        "scale": {"status": "pass"},
+        "metadata": {"status": "pass"},
+        "matched": {"positive": False},
+        "forbidden": {"status": "pass"},
+        "anti_triviality_status": "pass",
+    }
+    payload.update(
+        owner_local_anti_triviality_contract(
+            recommended_level=level,
+            scale_only_pointer="$.scale",
+            metadata_only_pointer="$.metadata",
+            matched_random_pointer="$.matched.positive",
+            forbidden_column_pointer="$.forbidden.status",
+        )
+    )
+    return payload
+
+
+def _generic_positive_spec(name="fixture-positive"):
+    return canonical.CanonicalReportSpec(
+        name=name,
+        command=("python3", "scripts/fixture.py"),
+        json_artifact=f"reports/canonical/{name}.json",
+        markdown_artifact=f"reports/canonical/{name}.md",
+        required_json_keys=("scope", "cost", "not_claimed"),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        control_pointer="$.control",
+        scope_pointer="$.scope",
+        cost_pointer="$.cost",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.scale",
+        no_control_rationale_pointer=None,
+    )
+
+
+def test_audit_row_accepts_generic_owner_local_anti_triviality_contract():
+    spec = _generic_positive_spec()
+    payload = _generic_anti_triviality_payload()
+
+    status, reason = discovery_map._audit_row(
+        spec,
+        payload,
+        "D5-O",
+        discovery_map.ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer="$.scale",
+            control_pointer="$.control",
+            scorecard_pointer="$.scale",
+        ),
+    )
+
+    assert status == "valid"
+    assert reason == ""
+
+
+@pytest.mark.parametrize(
+    ("mutate", "reason"),
+    [
+        (lambda payload: payload.update({"anti_triviality_status": "fail"}), "owner-anti-triviality-not-pass"),
+        (lambda payload: payload.update({"anti_triviality_policy": "fixture-policy"}), "owner-anti-triviality-policy-mismatch"),
+        (lambda payload: payload.update({"anti_triviality_recommended_level": "D4"}), "owner-anti-triviality-level-mismatch"),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"].pop("metadata_only"),
+            "missing-owner-anti-triviality-contract",
+        ),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"]["scale_only"].update({"status": "fail"}),
+            "owner-anti-triviality-scale_only-not-pass",
+        ),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"]["metadata_only"].update({"pointer": "$.missing"}),
+            "owner-anti-triviality-metadata_only-pointer-unresolved",
+        ),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"]["matched_random"].update({"status": "fail"}),
+            "owner-anti-triviality-matched_random-not-pass",
+        ),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"]["forbidden_column"].update({"status": "fail"}),
+            "owner-anti-triviality-forbidden_column-not-pass",
+        ),
+    ],
+)
+def test_audit_row_rejects_malformed_generic_owner_local_anti_triviality_contract(mutate, reason):
+    spec = _generic_positive_spec()
+    payload = _generic_anti_triviality_payload()
+    mutate(payload)
+
+    status, observed = discovery_map._audit_row(
+        spec,
+        payload,
+        "D5-O",
+        discovery_map.ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer="$.scale",
+            control_pointer="$.control",
+            scorecard_pointer="$.scale",
+        ),
+    )
+
+    assert status == "invalid"
+    assert observed == reason
+
+
 def test_gap_head_on_h_current_readiness_stays_d4_with_ablation_failed(tmp_path):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
@@ -1811,6 +1955,52 @@ def test_gap_head_on_h_current_readiness_stays_d4_with_ablation_failed(tmp_path)
     assert row["d5_readiness"]["seed_expansion"]["status"] == "pass"
     assert row["d5_readiness"]["adversarial"]["status"] == "pass"
     assert row["d5_readiness"]["observed_debt_transfer"]["status"] == "pass"
+
+
+@pytest.mark.parametrize(
+    "report",
+    ["gap-head-on-h", "gap-head-transfer-atlas", "dimension-mismatch-debt-transfer"],
+)
+def test_positive_owner_reports_use_generic_anti_triviality_contract(tmp_path, report):
+    _write_all_payloads(tmp_path)
+    if report == "gap-head-on-h":
+        _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+        _write_audit_complete_payload(tmp_path, report)
+    elif report == "gap-head-transfer-atlas":
+        spec = canonical._specs_by_name()[report]
+        payload = _audit_complete_payload(spec, _minimal_payload(spec))
+        payload["multi_surface_d5_o"] = {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 9}
+        payload.update(
+            {"anti_triviality_status": "pass"}
+            | owner_local_anti_triviality_contract(
+                recommended_level="D5-O",
+                scale_only_pointer="$.multi_surface_d5_o.decision",
+                metadata_only_pointer="$.surface_registry",
+                matched_random_pointer="$.config.control_arm",
+                forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+            )
+        )
+        _write_payload(tmp_path, spec, payload)
+    else:
+        _write_json_artifact(
+            tmp_path,
+            discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
+            _dimension_mismatch_payload(anti_triviality_status="anti_triviality_passed"),
+        )
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)[report]
+
+    assert row["audit_status"] == "valid"
+    artifact_payload = _read_json_artifact(tmp_path, row["json_artifact"])
+    owner = artifact_payload
+    if "anti_triviality_gate_evidence" not in owner:
+        owner = discovery_map.pointer_value(artifact_payload, row["evidence_pointer"].rsplit(".", 1)[0])
+    contract = owner["anti_triviality_gate_evidence"]
+    assert set(contract) == discovery_map.ANTI_TRIVIALITY_FAMILIES
+    for gate in contract.values():
+        assert gate["status"] == "pass"
+        assert discovery_map.pointer_value(artifact_payload, gate["pointer"]) is not None
 
 
 def test_gap_head_on_h_without_audit_source_fails_closed_before_d5_o(tmp_path):

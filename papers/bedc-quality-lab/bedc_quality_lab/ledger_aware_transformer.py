@@ -10,6 +10,7 @@ from typing import Any, Literal, Mapping, Sequence
 import numpy as np
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import (
     ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE,
     build_architecture_claim_capsule_payload,
@@ -1179,6 +1180,15 @@ class LedgerAwareTransformerProjection:
             for name, (passed, pointer, reason) in results.items()
         }
 
+    def _anti_triviality_contract(self, level: str) -> dict[str, Any]:
+        return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+            recommended_level=level,
+            scale_only_pointer="$.parameter_matched_baseline",
+            metadata_only_pointer="$.compute_matched_baseline",
+            matched_random_pointer="$.matched_random_control.control_positive_discovery",
+            forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+        )
+
     def failed_gate(self, hardgates: Mapping[str, Mapping[str, Any]]) -> str | None:
         for name in LAT_HARDGATES:
             row = hardgates.get(name)
@@ -1317,6 +1327,8 @@ class LedgerAwareTransformerProjection:
         }
         payload["failed_gate"] = failed
         payload["discovery_map_signal"] = self.discovery_map_signal(payload["hardgate"]["gates"], payload)
+        if payload["discovery_map_signal"]["level_candidate"] == "D5-O" and failed is None:
+            payload.update(self._anti_triviality_contract("D5-O"))
         _assert_no_terminal_verdict(payload)
         report_markdown = render_markdown(payload, payload["claim_capsule_ref"]["capsule"])
         return {

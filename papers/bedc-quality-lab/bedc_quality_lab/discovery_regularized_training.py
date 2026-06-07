@@ -9,6 +9,7 @@ import math
 import statistics
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
@@ -901,6 +902,16 @@ def _revocation_rows(failed_gate: str | None) -> list[dict[str, Any]]:
     ]
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.quality_promotion_boundary.hardgate",
+        metadata_only_pointer="$.surface_registry.task_accuracy_only",
+        matched_random_pointer="$.matched_random_control",
+        forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+    )
+
+
 @dataclass(frozen=True)
 class DiscoveryRegularizedTrainingProjection:
     config: Mapping[str, Any]
@@ -1039,6 +1050,8 @@ class DiscoveryRegularizedTrainingProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "forbidden_claim_term_audit": capsule["forbidden_claim_term_audit"],
         }
+        if signal["level_candidate"] in {"D4", "D5-M"} and failed_gate is None:
+            summary.update(_anti_triviality_contract(str(signal["level_candidate"])))
         if any(alias in summary for alias in FORBIDDEN_SUMMARY_ALIASES):
             raise ValueError("discovery-regularized training summary emitted a forbidden alias")
         if _has_recursive_key(summary, "terminal_verdict") or _has_recursive_key(capsule, "terminal_verdict"):

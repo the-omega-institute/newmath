@@ -134,6 +134,13 @@ TOY_SAFETY_BOUNDARY_ARTIFACT_ID = "bedc-quality-lab:toy-safety-boundary"
 CAUSAL_PATCH_SUITE_JSON_ARTIFACT = "reports/canonical/causal_patch_suite.json"
 CAUSAL_PATCH_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/patch_effect_summary.md"
 CAUSAL_PATCH_SUITE_ARTIFACT_ID = "bedc-quality-lab:causal-patch-suite"
+ANTI_TRIVIALITY_REQUIRED_KEYS = (
+    "anti_triviality_status",
+    "anti_triviality_gate_evidence",
+    "anti_triviality_failed_gate",
+    "anti_triviality_recommended_level",
+    "anti_triviality_policy",
+)
 
 
 @dataclass(**{"froz" + "en": True})
@@ -376,6 +383,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             ),
             "control_verdict",
             "main_claim_status",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=90,
         bundle_role="hg_p_core",
@@ -405,6 +413,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             ),
             "main_claim_status",
             "final_main_claim_status",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=5,
         bundle_role="hg_p_core",
@@ -478,6 +487,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "what_was_learned",
             "revocation_rows",
             "forbidden_claim_term_audit",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
@@ -580,6 +590,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "scope_seal",
             "not_claimed",
             "forbidden_claim_term_audit",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=180,
         bundle_role="hg_p_core",
@@ -807,6 +818,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "what_was_learned",
             "revocation_rows",
             "forbidden_claim_term_audit",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
@@ -862,6 +874,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "what_was_learned",
             "revocation_rows",
             "forbidden_claim_term_audit",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
@@ -1237,8 +1250,14 @@ def _path_digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() and path.is_file() else "missing"
 
 
+def _json_normalized(payload: Any) -> Any:
+    return json.loads(json.dumps(payload, sort_keys=True))
+
+
 def _json_digest(payload: Any) -> str:
-    return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+    return hashlib.sha256(
+        json.dumps(_json_normalized(payload), sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
 
 
 def _fingerprint_path(spec: CanonicalReportSpec) -> Path:
@@ -1386,7 +1405,7 @@ def _input_record(spec: CanonicalReportSpec) -> dict[str, Any]:
         "fingerprint_schema_id": FINGERPRINT_INPUT_SCHEMA_ID,
         "runner_fingerprint_schema_id": FINGERPRINT_SCHEMA_ID,
         "report_output_schema_id": str(schema_id or "schema-unspecified"),
-        "spec": asdict(spec),
+        "spec": _json_normalized(asdict(spec)),
         "producer_sources": [{"path": path, "sha256": _path_digest(ROOT / path)} for path in import_paths],
         "config_inputs": _config_inputs(),
         "source_artifacts": _source_artifact_inputs(spec),

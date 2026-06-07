@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.latent_distribution import LatentDistributionSpec
 from bedc_quality_lab.mixing import DEFAULT_MIXING, mix_latents
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
@@ -805,6 +806,16 @@ def _forbidden_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.hardgate_evidence.A2-HG2.status",
+        metadata_only_pointer="$.hardgate_evidence.A2-HG7.status",
+        matched_random_pointer="$.hardgate_evidence.A2-HG3.status",
+        forbidden_column_pointer="$.hardgate_evidence.A2-HG4.status",
+    )
+
+
 def _prior_observation_packet(registry: tuple[AtlasSurfaceSpec, ...]) -> dict[str, Any]:
     observations = {
         spec.label: {
@@ -896,6 +907,8 @@ def build_payload(*, run_id: str, generated_at: str | None = None) -> dict[str, 
         "not_claimed": list(NOT_CLAIMED),
     }
     payload["forbidden_claim_term_audit"] = _forbidden_claim_term_audit(payload)
+    if payload["multi_surface_d5_o"]["decision"] == "pass":
+        payload.update(_anti_triviality_contract(str(payload["multi_surface_d5_o"]["discovery_level"])))
     return payload
 
 

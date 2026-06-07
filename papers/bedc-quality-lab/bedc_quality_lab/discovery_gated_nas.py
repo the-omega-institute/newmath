@@ -9,6 +9,7 @@ import math
 import statistics
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
@@ -419,6 +420,15 @@ class DiscoveryGatedNasProjection:
     def raw_rows(self) -> list[dict[str, Any]]:
         return [dict(row) for row in self.records]
 
+    def _anti_triviality_contract(self, level: str) -> dict[str, Any]:
+        return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+            recommended_level=level,
+            scale_only_pointer="$.search_objective_summary",
+            metadata_only_pointer="$.search_space",
+            matched_random_pointer="$.matched_baseline_control",
+            forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+        )
+
     def project(self) -> dict[str, Any]:
         summaries = self._summaries()
         if summaries["surface_registry"]["forbidden_alias_audit"]["status"] != "pass":
@@ -500,6 +510,8 @@ class DiscoveryGatedNasProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "forbidden_claim_term_audit": capsule["forbidden_claim_term_audit"],
         }
+        if signal["level_candidate"] == "D5-M" and failed_gate is None:
+            summary.update(self._anti_triviality_contract("D5-M"))
         forbidden_keys = _recursive_forbidden_keys(summary, frozenset({"terminal_verdict", "standalone_verdict", "private_row_carrier"}))
         forbidden_keys.update(
             _recursive_forbidden_keys(capsule, frozenset({"terminal_verdict", "standalone_verdict", "private_row_carrier"}))

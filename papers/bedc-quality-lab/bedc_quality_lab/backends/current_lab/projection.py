@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.discovery_compiler.map import (
+    ANTI_TRIVIALITY_FAMILIES,
     COVERAGE_CELL_FIELDS,
     COVERAGE_FORBIDDEN_KEYS,
     COVERAGE_HARDGATE_IDS,
@@ -26,6 +27,7 @@ from bedc_quality_lab.discovery_compiler.map import (
     build_discovery_map_payload,
     validate_discovery_map_payload,
 )
+from bedc_quality_lab.discovery_compiler.anti_triviality import ANTI_TRIVIALITY_POLICY
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
     DIMENSION_MISMATCH_REPORT_ID,
@@ -1676,6 +1678,7 @@ def _dimension_mismatch_projection(
                     "control_positive_discovery": False,
                     "scorecard_ready": _scorecard_ready({} if context is None else context),
                 },
+                "audit_decision": {"audit_status": "pass"},
             }, ProjectionEvidence(
                 projection_status="projected",
                 evidence_pointer=DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER,
@@ -1988,6 +1991,34 @@ def _artifact_pointer_value(
     return pointer_value(context.get(artifact, {}), local_pointer)
 
 
+def _owner_local_anti_triviality_result(
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+    level: DiscoveryLevel,
+) -> tuple[str, str] | None:
+    if level not in {"D4", "D5-O", "D5-M"}:
+        return None
+    if payload.get("anti_triviality_status") not in {"pass", "anti_triviality_passed"}:
+        return "invalid", "owner-anti-triviality-not-pass"
+    if payload.get("anti_triviality_policy") != ANTI_TRIVIALITY_POLICY:
+        return "invalid", "owner-anti-triviality-policy-mismatch"
+    recommended = payload.get("anti_triviality_recommended_level")
+    positive_rank = {"D4": 0, "D5-O": 1, "D5-M": 2}
+    if recommended not in positive_rank or positive_rank[str(recommended)] < positive_rank[str(level)]:
+        return "invalid", "owner-anti-triviality-level-mismatch"
+    contract = payload.get("anti_triviality_gate_evidence")
+    if not isinstance(contract, Mapping) or set(contract) != ANTI_TRIVIALITY_FAMILIES:
+        return "invalid", "missing-owner-anti-triviality-contract"
+    for family in ANTI_TRIVIALITY_FAMILIES:
+        row = contract.get(family)
+        if not isinstance(row, Mapping) or row.get("status") != "pass":
+            return "invalid", f"owner-anti-triviality-{family}-not-pass"
+        pointer = row.get("pointer")
+        if not isinstance(pointer, str) or pointer_value(payload, pointer) is None:
+            return "invalid", f"owner-anti-triviality-{family}-pointer-unresolved"
+    return None
+
+
 def _audit_spec_pointer_cells(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> tuple[str, str] | None:
     for field in ("scope_pointer", "cost_pointer", "not_claimed_pointer"):
         pointer = getattr(spec, field)
@@ -2084,6 +2115,13 @@ def _audit_row(
         if not consistent:
             return "invalid", reason
     if level in {"D4", "D5-O", "D5-M"}:
+        if level in {"D5-O", "D5-M"} and spec.name == "gap-head-on-h":
+            reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
+            if reason is not None:
+                return "invalid", reason
+        anti_result = _owner_local_anti_triviality_result(spec, payload, level)
+        if anti_result is not None:
+            return anti_result
         pointer_result = _audit_pointer_cell(
             payload,
             evidence.control_pointer,
@@ -2097,10 +2135,6 @@ def _audit_row(
             return "invalid", "missing-scorecard-pointer"
         if _artifact_pointer_value(payload, evidence.scorecard_pointer, context_payloads) is None:
             return "invalid", "unresolved-scorecard-pointer"
-        if level in {"D5-O", "D5-M"} and spec.name == "gap-head-on-h":
-            reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
-            if reason is not None:
-                return "invalid", reason
     if level == "DN":
         pointer_result = _audit_pointer_cell(payload, evidence.failed_gate, "missing-failed-gate", "unresolved-failed-gate")
         if pointer_result is not None:
@@ -2827,6 +2861,10 @@ def _dimension_mismatch_discovery_row(
         for key in (
             "base_level",
             "anti_triviality_status",
+            "anti_triviality_policy",
+            "anti_triviality_recommended_level",
+            "anti_triviality_failed_gate",
+            "anti_triviality_gate_evidence",
             "effective_level",
             "downgrade_reason",
             "hypothesis",
