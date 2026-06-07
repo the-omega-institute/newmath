@@ -96,6 +96,7 @@ MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
 MODEL_DESIGN_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/model_design_suite.md"
 MODEL_DESIGN_SUITE_ARTIFACT_ID = "bedc-quality-lab:model-design-suite"
 MODEL_DESIGN_SUITE_SCHEMA_ID = "bedc-quality-lab:model-design-suite"
+MODEL_DISCOVERY_SUITE_SUMMARY_ARTIFACT = "reports/runs/model-discovery-suite/summary.json"
 FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
 FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
 FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
@@ -3807,6 +3808,78 @@ def _model_design_suite_index_section(payload: Mapping[str, Any]) -> dict[str, A
     }
 
 
+def _dashboard_panel_pointers() -> tuple[dict[str, str], ...]:
+    return (
+        {
+            "panel_id": "discovery-map",
+            "label": "Discovery map",
+            "artifact_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$",
+        },
+        {
+            "panel_id": "coverage-matrix",
+            "label": "Coverage matrix",
+            "artifact_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix",
+        },
+        {
+            "panel_id": "claim-graph",
+            "label": "Claim graph",
+            "artifact_pointer": f"{CLAIM_GRAPH_JSON_ARTIFACT}:$",
+        },
+        {
+            "panel_id": "scorecard",
+            "label": "Scorecard",
+            "artifact_pointer": f"{QUALITY_SCORECARD_JSON_ARTIFACT}:$",
+        },
+        {
+            "panel_id": "negative-witnesses",
+            "label": "Negative witnesses",
+            "artifact_pointer": f"{NEGATIVE_WITNESSES_JSON_ARTIFACT}:$",
+        },
+        {
+            "panel_id": "negative-witness-summary",
+            "label": "Negative witness summary",
+            "artifact_pointer": f"{NEGATIVE_WITNESS_SUMMARY_JSON_ARTIFACT}:$",
+        },
+        {
+            "panel_id": "d5-status",
+            "label": "D5 status",
+            "artifact_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_m",
+        },
+        {
+            "panel_id": "model-design-suite",
+            "label": "Model-design suite",
+            "artifact_pointer": f"{MODEL_DISCOVERY_SUITE_SUMMARY_ARTIFACT}:$",
+        },
+    )
+
+
+def _dashboard_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": "bedc-quality-lab:dashboard",
+        "canonical_role": "navigation_view_not_fact_source",
+        "source_index_artifact": "reports/canonical/index.json",
+        "panels": [dict(row) for row in _dashboard_panel_pointers()],
+    }
+
+
+def _validate_dashboard_index_section(section: Mapping[str, Any], *, root: Path) -> list[str]:
+    unresolved: list[str] = []
+    panels = section.get("panels")
+    if section.get("status") != "pointer-only":
+        unresolved.append("dashboard.status")
+    if not isinstance(panels, Sequence) or isinstance(panels, (str, bytes)):
+        return unresolved + ["dashboard.panels"]
+    for panel in panels:
+        if not isinstance(panel, Mapping):
+            unresolved.append("dashboard.panels")
+            continue
+        pointer = panel.get("artifact_pointer")
+        if not isinstance(pointer, str) or _resolve_committed_artifact_pointer(root, pointer) is None:
+            unresolved.append(str(pointer))
+    return unresolved
+
+
 def _formal_hardening_index_section(generated_at: str | None = None) -> dict[str, Any]:
     payload = _build_formal_hardening_payload(generated_at=generated_at)
     return {
@@ -4077,6 +4150,7 @@ def _index(
         "generated_at": timestamp,
         "root": INDEX_ROOT,
         "reports": reports,
+        "dashboard": _dashboard_index_section(),
         "quality_scorecard": _quality_scorecard_index_section(),
         "discovery_map": {
             "status": "pointer-only",
@@ -4155,6 +4229,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
         lines.append("")
 
     outline = payload["paper_outline"]
+    lines.extend(
+        [
+            "## Dashboard",
+            "",
+            f"- Status: `{payload['dashboard']['status']}`",
+            f"- Artifact pointer: `{payload['dashboard']['artifact_id']}`",
+            f"- Canonical role: `{payload['dashboard']['canonical_role']}`",
+            "",
+        ]
+    )
     lines.extend(
         [
             "## Quality scorecard",

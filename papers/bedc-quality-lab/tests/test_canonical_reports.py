@@ -20,7 +20,7 @@ from scripts import run_gap_head_attribution_capsule as attribution_capsule
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
-from bedc_quality_lab.discovery_compiler.pointers import pointer_value, split_artifact_pointer
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 
 
 HG_P_CORE = {
@@ -1197,6 +1197,84 @@ def test_committed_canonical_bundle_matches_generation_chain():
     assert index_payload == generated_index
     assert discovery_payload == generated_discovery
     assert claim_rows == generated_claims
+
+
+def test_canonical_index_dashboard_section_is_pointer_only():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    section = index_payload["dashboard"]
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    artifacts = {
+        path
+        for spec in canonical.CANONICAL_REPORTS
+        for path in (spec.json_artifact, spec.markdown_artifact)
+    }
+
+    assert section["status"] == "pointer-only"
+    assert section["artifact_id"] == "bedc-quality-lab:dashboard"
+    assert section["canonical_role"] == "navigation_view_not_fact_source"
+    assert section["source_index_artifact"] == "reports/canonical/index.json"
+    assert len(section["panels"]) == 8
+    assert "dashboard" not in names
+    assert not (canonical.ROOT / "reports/canonical/dashboard.json").exists()
+    assert not (canonical.ROOT / "reports/canonical/dashboard.md").exists()
+    assert "reports/canonical/dashboard.json" not in artifacts
+    assert "reports/canonical/dashboard.md" not in artifacts
+
+
+def test_canonical_index_dashboard_panel_pointers_resolve():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    panels = index_payload["dashboard"]["panels"]
+
+    assert [panel["panel_id"] for panel in panels] == [
+        "discovery-map",
+        "coverage-matrix",
+        "claim-graph",
+        "scorecard",
+        "negative-witnesses",
+        "negative-witness-summary",
+        "d5-status",
+        "model-design-suite",
+    ]
+    for panel in panels:
+        assert resolve_artifact_pointer(canonical.ROOT, panel["artifact_pointer"]) is not None
+
+
+def test_canonical_index_dashboard_rejects_cached_owner_facts():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    keys = set(_walk_keys(index_payload["dashboard"]))
+
+    assert keys.isdisjoint(
+        {
+            "rows",
+            "records",
+            "coverage_matrix",
+            "level_counts",
+            "hardgate_status",
+            "node_count",
+            "metric_count",
+            "expected_kind_count",
+            "discovery_level",
+            "terminal_verdict",
+            "scorecard_ready",
+            "claim_verdict",
+            "failed_gate",
+            "what_was_learned",
+        }
+    )
+
+
+def test_canonical_index_dashboard_missing_owner_fails_closed():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    section = json.loads(json.dumps(index_payload["dashboard"]))
+    section["panels"][0]["artifact_pointer"] = "reports/canonical/missing-dashboard-owner.json:$"
+    section["panels"][1]["artifact_pointer"] = "reports/canonical/discovery_map.json:$.missing_dashboard_panel"
+
+    unresolved = canonical._validate_dashboard_index_section(section, root=canonical.ROOT)
+
+    assert unresolved == [
+        "reports/canonical/missing-dashboard-owner.json:$",
+        "reports/canonical/discovery_map.json:$.missing_dashboard_panel",
+    ]
 
 
 def test_committed_discovery_map_coverage_matrix_is_full_target_set_and_round_trips():

@@ -33,6 +33,12 @@
 | `lejepa-theorem-ledger` | `pass` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
 | `spectral-ablation-hinge` | `pass` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
 
+## Dashboard
+
+- Status: `pointer-only`
+- Artifact pointer: `bedc-quality-lab:dashboard`
+- Canonical role: `navigation_view_not_fact_source`
+
 ## Quality scorecard
 
 - Status: `pointer-only`
