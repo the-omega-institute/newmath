@@ -151,6 +151,24 @@ Apply \autoref{thm:regular-cauchy-reciprocal-readback-route}. Once the same budg
 Finally use \autoref{thm:regular-cauchy-reciprocal-tail-stability}. Since the later window preserves the source, apartness, modulus, window, and dyadic rows and reads the same budget row, the transported packet reaches the same $T$ and $E$ rather than recomputing a new reciprocal surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy reciprocal Real seal handoff]
+\label{thm:regular-cauchy-reciprocal-real-seal-handoff}
+Let $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ be an accepted $\RegularCauchyReciprocalUp$ carrier. Any reciprocal consumer that is offered the terminal $\RealUp$ seal row $E$ must first be offered the $\RegSeqRatUp$ source row $Q$, apartness row $A$, modulus row $M$, finite $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, $\CauchyInverseBudgetUp$ row $B$, and reciprocal readback row $T$. Thus the handoff from finite reciprocal-read data to the L10 $\RealUp$ boundary is the displayed route
+$$
+Q\longmapsto A\longmapsto M\longmapsto W\longmapsto D\longmapsto B\longmapsto T\longmapsto E
+$$
+and not a direct operation from arbitrary $\RealUp$ names to reciprocals.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-reciprocal-apartness-window}. It places the apartness row $A$ before every reciprocal-facing coordinate, so a consumer cannot treat the terminal seal as available before the denominator witness is displayed.
+
+Next use \autoref{thm:regular-cauchy-reciprocal-readback-route}. The route to the readback row $T$ factors through $Q,A,M,W,D,B$, and the seal row $E$ is terminal only after that finite route has been exposed.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-denominator-apartness} and \autoref{thm:regular-cauchy-reciprocal-nonzero-denominator-window}. These identify the source, apartness, modulus, window, and dyadic rows as the nonzero-denominator surface required before the budget row $B$ can be consumed.
+
+Finally use \autoref{thm:regular-cauchy-reciprocal-tail-stability} together with \autoref{thm:regular-cauchy-reciprocal-window-composition}. Transport to later windows and composition of finite windows preserve the same $T$ and $E$ only when the displayed rows $Q,A,M,W,D,B$ are preserved. The handoff therefore exports neither a total reciprocal, quotient real equality, trichotomy, selected limit, nor ambient completeness principle; it exports only the finite route from reciprocal readback data to the terminal $\RealUp$ seal.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy reciprocal NameCert obligations]
 \label{thm:regular-cauchy-reciprocal-namecert-obligations}
 The seed $\NameCert_{\RegularCauchyReciprocalUp}$ surface consists exactly of carrier exposure for $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$, apartness-window exposure through $A$, finite-window exposure through $W$, dyadic reciprocal arithmetic through $D$, sibling budget exposure through $B$, regular readback through $T$, terminal $\RealUp$ sealing through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
