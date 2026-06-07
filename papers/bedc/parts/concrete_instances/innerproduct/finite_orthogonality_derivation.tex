@@ -10,6 +10,43 @@ Next inspect the form laws. The sesquilinear source row of \autoref{thm:innerpro
 Finally apply the orthogonality rows. The definition \autoref{def:innerproduct-orthogonality-row} names the finite classifier surface, and \autoref{thm:innerproduct-zero-left-orthogonal-row} derives the zero-left row from that surface. Transport, replay, provenance, and local naming keep the same rows attached to the accepted packet, so the result is a finite BEDC route and exports no Hilbert, Banach, spectral, or host-completeness principle.
 \end{proof}
 
+\begin{theorem}[InnerProduct finite Gram orthogonality induction]
+\label{thm:innerproduct-finite-gram-orthogonality-induction}
+For every finite $\BHist$ list of pairwise orthogonal nonzero
+$\InnerProductUp$ rows carried by an accepted packet, there is a finite Gram
+ledger whose off-diagonal entries are the displayed scalar-zero rows and whose
+diagonal entries are the displayed positive scalar rows. The construction is
+stable under componentwise $\hsame$ transport and displayed $\Cont$ replay, so
+the same ledger can be consumed by $\VecSpaceUp$ scalar-action rows,
+$\NormUp$ norm seeds, and $\HilbertUp$ completion-facing orthogonality routes
+without importing a host Gram--Schmidt theorem or an ambient Hilbert basis.
+\end{theorem}
+\begin{proof}
+Induct on the finite $\BHist$ list carrier. The empty list has the empty Gram
+ledger, and the one-row list reads its positive diagonal entry from the
+positive-definite row already exposed by the accepted $\InnerProductUp$
+packet.
+
+For the cons step, assume the tail has a Gram ledger with zero off-diagonal
+rows and positive diagonal rows. The pairwise orthogonality premise supplies
+the scalar-zero rows between the new head and every carried tail row, while
+conjugate symmetry supplies the reverse off-diagonal rows. Positive
+definiteness supplies the new diagonal row because the head is nonzero.
+
+Transport is componentwise. If the carried rows are replaced by $\hsame$
+recognized representatives, the vector endpoints, scalar endpoints, form
+values, zero rows, and positivity rows are transported by the packet rows
+already used in \autoref{thm:innerproduct-finite-orthogonality-derivation}.
+Displayed $\Cont$ replay keeps the finite ledger attached to the same
+provenance and local $\NameCert$ row.
+
+Thus the induction produces a BEDC Gram ledger and no external basis choice.
+$\VecSpaceUp$ consumers read only the retained scalar-action and additive
+rows, $\NormUp$ consumers read the norm seeds and Pythagorean rows, and
+$\HilbertUp$ consumers may use the ledger as a finite orthogonality boundary
+without receiving completeness or projection existence.
+\end{proof}
+
 \begin{theorem}[InnerProduct finite orthogonal projection derivation]
 \label{thm:innerproduct-finite-orthogonal-projection-derivation}
 For every accepted $\InnerProductUp$ packet and every displayed carried pair
