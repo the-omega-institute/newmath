@@ -44,6 +44,10 @@
           {
             "artifact": "reports/canonical/ledger-aware-transformer.json",
             "pointer": "$.records.0.matched_random_control"
+          },
+          {
+            "artifact": "reports/canonical/ledger-aware-transformer.json",
+            "pointer": "$.parameter_matched_baseline"
           }
         ],
         "candidate_pointer": {
@@ -112,6 +116,7 @@
     "failed_gate_pointer": null,
     "level_candidate": "D5-O",
     "net_positive_signal": true,
+    "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
     "reason": "lat-hardgates-pass",
     "robustness_evidence_pointer": "$.robustness_signal",
     "scorecard_pointer": "$.forbidden_claim_term_audit",
@@ -159,8 +164,8 @@
         "status": "pass"
       },
       "LAT-HG7": {
-        "pointer": "$.robustness_signal.status",
-        "reason": "at least three OOD surfaces pass the LAT operational robustness threshold",
+        "pointer": "$.parameter_matched_baseline.comparison",
+        "reason": "parameter-matched baseline is cost-matched and channel-clean",
         "status": "pass"
       }
     },
@@ -238,12 +243,65 @@
     "terminal discovery verdict",
     "D5-M mechanism closure"
   ],
+  "parameter_matched_baseline": {
+    "comparison": {
+      "baseline_uer": 0.097222,
+      "candidate_beats_baseline": true,
+      "evidence_pointer": "$.parameter_matched_baseline.comparison",
+      "lat_uer_pointer": "$.aggregate_metrics.uer_learned",
+      "required_surface_reduction_count": 2,
+      "surface_reduction_count": 3,
+      "uer_reduction": 0.090278
+    },
+    "cost_match": {
+      "all_match": true,
+      "baseline_cost_unit": "toy-numpy-step",
+      "baseline_hidden_dim": 6,
+      "baseline_layer_count": 2,
+      "baseline_parameter_count": 84,
+      "baseline_sample_count": 96,
+      "baseline_train_count": 48,
+      "candidate_cost_unit": "toy-numpy-step",
+      "candidate_hidden_dim": 6,
+      "candidate_layer_count": 2,
+      "candidate_parameter_count": 84,
+      "candidate_sample_count": 96,
+      "candidate_train_count": 48
+    },
+    "protocol": {
+      "candidate_pointer": "$.config",
+      "cost_pointer": "$.parameter_matched_baseline.cost_match",
+      "cost_unit": "toy-numpy-step",
+      "hidden_dim": 6,
+      "layer_count": 2,
+      "parameter_count": 84,
+      "records_pointer": "$.records",
+      "sample_count": 96,
+      "seed_family": "lat-deterministic-seed-756",
+      "surface_ids": [
+        "delayed_recall",
+        "compositional_rules",
+        "synthetic_tool_use",
+        "toy_safety_boundary",
+        "toy_planning",
+        "compression_preservation"
+      ],
+      "train_count": 48,
+      "uses_cert": false,
+      "uses_forbidden_columns": false,
+      "uses_gap": false,
+      "uses_ledger": false
+    },
+    "records_pointer": "$.records",
+    "status": "pass"
+  },
   "positive_claim": {
     "claim": "residual gap heads reduce unlogged error relative to matched-random gap heads on multiple OOD toy surfaces",
     "claim_status": "bounded-positive-evidence",
     "control_pointer": "$.control_protocol",
     "evidence_pointer": "$.aggregate_metrics.uer_reduction",
     "net_positive_signal": true,
+    "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
     "status": "evidence-recorded",
     "surface_registry_pointer": "$.surface_registry"
   },
@@ -277,6 +335,21 @@
         "uses_forbidden_columns": false
       },
       "ood_kind": "ood-delayed-recall",
+      "parameter_matched_baseline": {
+        "arm": "parameter_matched_no_ledger_transformer",
+        "cost_pointer": "$.parameter_matched_baseline.cost_match",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.083333,
+          "false_alarm_rate": 0.0,
+          "logged_rate": 0.0,
+          "unlogged_error_rate": 0.083333
+        },
+        "surface_id": "delayed_recall",
+        "uses_cert": false,
+        "uses_forbidden_columns": false,
+        "uses_gap": false,
+        "uses_ledger": false
+      },
       "residual_pointer": "$.records.0.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -314,6 +387,21 @@
         "uses_forbidden_columns": false
       },
       "ood_kind": "ood-compositional-rules",
+      "parameter_matched_baseline": {
+        "arm": "parameter_matched_no_ledger_transformer",
+        "cost_pointer": "$.parameter_matched_baseline.cost_match",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.291667,
+          "false_alarm_rate": 0.0,
+          "logged_rate": 0.0,
+          "unlogged_error_rate": 0.291667
+        },
+        "surface_id": "compositional_rules",
+        "uses_cert": false,
+        "uses_forbidden_columns": false,
+        "uses_gap": false,
+        "uses_ledger": false
+      },
       "residual_pointer": "$.records.1.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -351,6 +439,21 @@
         "uses_forbidden_columns": false
       },
       "ood_kind": "ood-synthetic-tool-use",
+      "parameter_matched_baseline": {
+        "arm": "parameter_matched_no_ledger_transformer",
+        "cost_pointer": "$.parameter_matched_baseline.cost_match",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.208333,
+          "false_alarm_rate": 0.0,
+          "logged_rate": 0.0,
+          "unlogged_error_rate": 0.208333
+        },
+        "surface_id": "synthetic_tool_use",
+        "uses_cert": false,
+        "uses_forbidden_columns": false,
+        "uses_gap": false,
+        "uses_ledger": false
+      },
       "residual_pointer": "$.records.2.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -388,6 +491,21 @@
         "uses_forbidden_columns": false
       },
       "ood_kind": "ood-toy-safety-boundary",
+      "parameter_matched_baseline": {
+        "arm": "parameter_matched_no_ledger_transformer",
+        "cost_pointer": "$.parameter_matched_baseline.cost_match",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.0,
+          "false_alarm_rate": 0.0,
+          "logged_rate": 0.0,
+          "unlogged_error_rate": 0.0
+        },
+        "surface_id": "toy_safety_boundary",
+        "uses_cert": false,
+        "uses_forbidden_columns": false,
+        "uses_gap": false,
+        "uses_ledger": false
+      },
       "residual_pointer": "$.records.3.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -425,6 +543,21 @@
         "uses_forbidden_columns": false
       },
       "ood_kind": "ood-toy-planning",
+      "parameter_matched_baseline": {
+        "arm": "parameter_matched_no_ledger_transformer",
+        "cost_pointer": "$.parameter_matched_baseline.cost_match",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.0,
+          "false_alarm_rate": 0.0,
+          "logged_rate": 0.0,
+          "unlogged_error_rate": 0.0
+        },
+        "surface_id": "toy_planning",
+        "uses_cert": false,
+        "uses_forbidden_columns": false,
+        "uses_gap": false,
+        "uses_ledger": false
+      },
       "residual_pointer": "$.records.4.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -462,6 +595,21 @@
         "uses_forbidden_columns": false
       },
       "ood_kind": "ood-compression-preservation",
+      "parameter_matched_baseline": {
+        "arm": "parameter_matched_no_ledger_transformer",
+        "cost_pointer": "$.parameter_matched_baseline.cost_match",
+        "metrics": {
+          "critical_unlogged_error_rate": 0.0,
+          "false_alarm_rate": 0.0,
+          "logged_rate": 0.0,
+          "unlogged_error_rate": 0.0
+        },
+        "surface_id": "compression_preservation",
+        "uses_cert": false,
+        "uses_forbidden_columns": false,
+        "uses_gap": false,
+        "uses_ledger": false
+      },
       "residual_pointer": "$.records.5.residual_summary",
       "residual_summary": {
         "dimension": 12,
@@ -483,7 +631,6 @@
   ],
   "robustness_signal": {
     "aggregate_pointer": "$.aggregate_metrics.multi_surface_uer_reduction_count",
-    "gate_pointer": "$.hardgate.gates.LAT-HG7.status",
     "pass_surface_count": 3,
     "pass_surface_ids": [
       "delayed_recall",

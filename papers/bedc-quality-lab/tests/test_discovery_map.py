@@ -1200,9 +1200,34 @@ def test_lat_current_lab_projection_maps_d5_o_and_resolves_pointers(tmp_path):
     assert row["scorecard_pointer"] == "reports/canonical/quality-scorecard.json:$.rows"
     assert discovery_map.pointer_value(lat_payload, row["evidence_pointer"]) is not None
     assert discovery_map.pointer_value(lat_payload, row["control_pointer"]) is not None
+    assert lat_payload["discovery_map_signal"]["parameter_matched_baseline_pointer"] == "$.parameter_matched_baseline"
+    assert discovery_map.pointer_value(
+        lat_payload,
+        lat_payload["discovery_map_signal"]["parameter_matched_baseline_pointer"],
+    ) is not None
     robustness_artifact, robustness_pointer = row["robustness_pointer"].split(":", 1)
     assert robustness_artifact == "reports/canonical/ledger-aware-transformer.json"
     assert discovery_map.pointer_value(lat_payload, robustness_pointer) is not None
+
+
+def test_lat_robustness_failure_does_not_project_ready_d5_o(tmp_path):
+    _write_all_payloads(tmp_path)
+    lat_payload = lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    for index in range(3):
+        lat_payload["records"][index]["deltas"]["unlogged_error_rate"] = 0.0
+    _lat_recompute(lat_payload)
+    _write_json_artifact(tmp_path, "reports/canonical/ledger-aware-transformer.json", lat_payload)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["ledger-aware-transformer"]
+
+    assert lat_payload["robustness_signal"]["status"] == "fail"
+    assert lat_payload["hardgate"]["status"] == "pass"
+    assert row["discovery_level"] == "DN"
+    assert "robustness_pointer" not in row
+    owner = _owner_by_pointer(tmp_path, row["negative_report_pointer"])
+    assert owner["failed_gate"] == "$.robustness_signal.status"
+    assert owner["terminal_verdict"] == "rejected"
 
 
 def _lat_recompute(payload):
@@ -1256,6 +1281,20 @@ def test_lat_dangling_pointer_fail_closed_to_dn_in_discovery_map(tmp_path):
     assert "terminal_verdict" not in row
     assert row["audit_status"] == "invalid"
     assert row["audit_reason"] == "lat-dangling-evidence-pointer"
+
+
+def test_lat_discovery_map_rejects_dangling_parameter_matched_pointer(tmp_path):
+    _write_all_payloads(tmp_path)
+    lat_payload = lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    lat_payload["discovery_map_signal"]["parameter_matched_baseline_pointer"] = "$.missing_parameter_matched_baseline"
+    _write_json_artifact(tmp_path, "reports/canonical/ledger-aware-transformer.json", lat_payload)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["ledger-aware-transformer"]
+
+    assert row["discovery_level"] == "DN"
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "lat-dangling-parameter-matched-baseline-pointer"
 
 
 def test_attribution_capsule_projection_records_operational_and_mechanism_axes(tmp_path):
