@@ -40,6 +40,7 @@ def test_projection_predicates_payload_and_rank_control():
     payload = runner._verdict_payload(source)
     row = payload["per_rho_verdicts"][1]
     assert "report_schema_id" not in json.dumps(payload) and "report_kind" not in json.dumps(payload)
+    assert payload["scope_seal"] == runner.SCOPE_SEAL
     assert row["surface_delta_count"] == len(delta)
     assert row["shift_information"] == shift_information(passage)
     assert row["positive_discovery"] == positive_discovery(claim)

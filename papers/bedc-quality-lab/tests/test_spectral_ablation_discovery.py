@@ -255,6 +255,7 @@ def test_runner_verdict_vocabulary_is_reachable_outcomes_only():
 def test_verdict_payload_skips_vanilla_arm():
     report = runner._verdict_payload(_payload())
 
+    assert report["scope_seal"] == runner.SCOPE_SEAL
     assert runner.BEFORE_ARM in report["arms"]
     assert runner.BEFORE_ARM not in {row["arm"] for row in report["verdicts"]}
 
