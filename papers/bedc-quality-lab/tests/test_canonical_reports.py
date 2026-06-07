@@ -9,6 +9,7 @@ import pytest
 
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
+    certificate_guided_dn_preservation,
     default_drt_training_extension_spec,
     project_drt_training_extension,
     _training_mechanism_cert,
@@ -745,14 +746,22 @@ def _payload_for_spec(spec):
                 f"DRT-HG{index}": {
                     "status": "pass",
                     "evidence_pointer": "$.training_mechanism_cert"
-                    if index == 8
+                    if index == 9
                     else "$.mechanism_ablation"
+                    if index == 8
+                    else "$.certificate_guided_dn_preservation"
                     if index == 7
                     else "$.quality_promotion_boundary",
                 }
-                for index in range(1, 9)
+                for index in range(1, 10)
             },
         }
+        payload["certificate_guided_dn_preservation"] = certificate_guided_dn_preservation(
+            {
+                "reports/canonical/certificate-guided-training.json": "present",
+                "reports/canonical/certificate-guided-discovery.json": "present",
+            }
+        )
         payload["mechanism_ablation"] = _drt_mechanism_ablation_fixture()
         extension_sections = project_drt_training_extension(
             [],
@@ -762,7 +771,7 @@ def _payload_for_spec(spec):
         )
         payload.update(extension_sections)
         payload["training_mechanism_cert"] = _training_mechanism_cert(payload)
-        payload["hardgate"]["gates"]["DRT-HG8"]["status"] = payload["training_mechanism_cert"]["status"]
+        payload["hardgate"]["gates"]["DRT-HG9"]["status"] = payload["training_mechanism_cert"]["status"]
         payload["hardgate"]["status"] = (
             "pass"
             if all(row["status"] == "pass" for row in payload["hardgate"]["gates"].values())
@@ -1337,6 +1346,8 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "causal-patch-suite",
     ]
     assert "certificate-guided-arms" not in names
+    assert "certificate-guided-training" in names
+    assert "certificate-guided-discovery" in names
     assert len(json_artifacts) == len(set(json_artifacts))
     assert len(markdown_artifacts) == len(set(markdown_artifacts))
     for spec in canonical.CANONICAL_REPORTS:
@@ -1350,6 +1361,30 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         assert spec.cost_pointer.startswith("$.")
         assert spec.not_claimed_pointer.startswith("$.")
         assert spec.positive_claim_pointer.startswith("$.")
+
+
+def test_drt_manifest_preserves_certificate_guided_sibling_specs():
+    specs = canonical._specs_by_name()
+    drt = specs["discovery-regularized-training"]
+
+    assert "certificate_guided_dn_preservation" in drt.required_json_keys
+    assert specs["certificate-guided-training"].json_artifact == "reports/canonical/certificate-guided-training.json"
+    assert specs["certificate-guided-discovery"].json_artifact == "reports/canonical/certificate-guided-discovery.json"
+    assert "certificate-guided-training" not in drt.name
+    assert "certificate-guided-discovery" not in drt.name
+    assert not any(
+        token in json.dumps(
+            {
+                "name": drt.name,
+                "command": drt.command,
+                "required_json_keys": drt.required_json_keys,
+                "scope_pointer": drt.scope_pointer,
+                "positive_claim_pointer": drt.positive_claim_pointer,
+            },
+            sort_keys=True,
+        ).lower()
+        for token in ("replace certificate-guided", "cover certificate-guided")
+    )
 
 
 def test_ledger_aware_transformer_required_surface_is_signal_owner():
