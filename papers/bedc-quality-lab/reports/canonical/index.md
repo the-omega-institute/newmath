@@ -52,6 +52,7 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
+- Experiment proposals: `reports/canonical/discovery_map.json:$.experiment_proposals`
 - Rows: `24`
 
 ## Dimension mismatch debt transfer

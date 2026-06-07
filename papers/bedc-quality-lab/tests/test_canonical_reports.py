@@ -3481,6 +3481,34 @@ def test_canonical_index_points_to_discovery_map_coverage_matrix(tmp_path, monke
     assert all(report["name"] != "discovery_coverage" for report in payload["reports"])
 
 
+def test_canonical_index_exposes_experiment_proposals_under_discovery_map_only(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_release_pointer_fixture(tmp_path)
+
+    def fake_run_producer(spec):
+        json_path = canonical._artifact_path(spec.json_artifact)
+        md_path = canonical._artifact_path(spec.markdown_artifact)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+        md_path.write_text("# fixture\n", encoding="utf-8")
+
+    monkeypatch.setattr(canonical, "_run_producer", fake_run_producer)
+
+    payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
+
+    assert payload["discovery_map"]["experiment_proposals_pointer"] == (
+        "reports/canonical/discovery_map.json:$.experiment_proposals"
+    )
+    assert payload["discovery_map"]["experiment_proposal_count"] > 0
+    assert "experiment_proposals" not in payload
+    assert "experiment_plan" not in payload
+    assert "experiment_planner" not in payload
+    assert "experiment_proposals" not in payload["reports"]
+    assert "next_hypothesis" not in json.dumps(payload["discovery_map"], sort_keys=True)
+
+
 def test_gap_head_transfer_atlas_index_matches_discovery_map_row(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")

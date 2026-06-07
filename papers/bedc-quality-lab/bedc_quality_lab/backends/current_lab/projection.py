@@ -2731,6 +2731,120 @@ def _build_coverage_matrix(
     }
 
 
+def _proposal_slug(value: str) -> str:
+    return "".join(ch.lower() if ch.isalnum() else "-" for ch in value).strip("-")
+
+
+def _local_artifact_pointer(row: Mapping[str, Any], pointer: Any) -> str | None:
+    artifact = row.get("json_artifact")
+    if isinstance(artifact, str) and isinstance(pointer, str) and pointer.startswith("$."):
+        return f"{artifact}:{pointer}"
+    return pointer if isinstance(pointer, str) and ":" in pointer else None
+
+
+def _build_experiment_proposals(
+    rows: Sequence[Mapping[str, Any]],
+    coverage_matrix: Mapping[str, Any],
+    root: Path | None,
+) -> list[dict[str, Any]]:
+    proposals: list[dict[str, Any]] = []
+    for index, row in enumerate(rows):
+        if row.get("mechanism_status") != "blocked" and row.get("mechanism_level") != "blocked":
+            continue
+        report = str(row.get("report") or f"row-{index}")
+        failed_gate_pointer = _local_artifact_pointer(row, "$.mechanism_evidence.failed_gate")
+        source_pointer = _local_artifact_pointer(row, row.get("mechanism_pointer")) or _local_artifact_pointer(row, row.get("evidence_pointer"))
+        blocked_reason_pointer = _local_artifact_pointer(row, row.get("mechanism_ledger_pointer"))
+        if source_pointer is None or failed_gate_pointer is None:
+            continue
+        proposal = {
+            "proposal_id": f"exp-d5m-{_proposal_slug(report)}",
+            "source_kind": "d5m_blocked",
+            "source_pointer": source_pointer,
+            "blocked_reason_pointer": blocked_reason_pointer,
+            "failed_gate_pointer": failed_gate_pointer,
+            "expected_failure_modes": [
+                "mechanism evidence remains open",
+                "candidate mechanism fails closed under source audit",
+            ],
+            "controls": [
+                "preserve the matched-control evidence boundary",
+                "keep mechanism proof evidence separate from operational readiness",
+            ],
+            "priority": 1000 + index,
+            "proposal_status": "proposed",
+            "audit_status": "pointer-only",
+        }
+        proposals.append({key: value for key, value in proposal.items() if value is not None})
+    for index, row in enumerate(rows):
+        if row.get("discovery_level") != "DN" or not isinstance(row.get("negative_report_pointer"), str):
+            continue
+        report = str(row.get("report") or f"row-{index}")
+        negative_report_pointer = str(row["negative_report_pointer"])
+        hypothesis_pointer = f"{negative_report_pointer}.next_hypothesis"
+        failed_gate_pointer = f"{negative_report_pointer}.failed_gate"
+        if not all(
+            _artifact_pointer_resolves(pointer, root=root)
+            for pointer in (negative_report_pointer, hypothesis_pointer, failed_gate_pointer)
+        ):
+            continue
+        proposal = {
+            "proposal_id": f"exp-dn-{_proposal_slug(report)}",
+            "source_kind": "negative_discovery",
+            "source_pointer": negative_report_pointer,
+            "negative_report_pointer": negative_report_pointer,
+            "hypothesis_pointer": hypothesis_pointer,
+            "failed_gate_pointer": failed_gate_pointer,
+            "expected_failure_modes": [
+                "source negative gate remains reproducible",
+                "candidate hypothesis fails matched-control promotion",
+            ],
+            "controls": [
+                "resolve the negative owner report before interpreting the proposal",
+                "keep learned and control arms under the canonical cost boundary",
+            ],
+            "priority": 2000 + index,
+            "proposal_status": "proposed",
+            "audit_status": "pointer-only",
+        }
+        proposals.append(proposal)
+    coverage_cells = coverage_matrix.get("cells")
+    if isinstance(coverage_cells, list):
+        for index, cell in enumerate(coverage_cells):
+            if not isinstance(cell, Mapping):
+                continue
+            component_id = str(cell.get("component_id") or f"cell-{index}")
+            coverage_cell_pointer = f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[{index}]"
+            failed_gate_pointer = coverage_cell_pointer if cell.get("hardgate_status") == "fail" else None
+            proposal = {
+                "proposal_id": f"exp-coverage-{_proposal_slug(component_id)}",
+                "source_kind": "coverage_gap",
+                "source_pointer": coverage_cell_pointer,
+                "coverage_cell_pointer": coverage_cell_pointer,
+                "failed_gate_pointer": failed_gate_pointer,
+                "expected_failure_modes": [
+                    "coverage pointer resolves but does not promote the discovery level",
+                    "coverage support remains boundary-only under complete-set audit",
+                ],
+                "controls": [
+                    "use only the coverage matrix owner pointer as source input",
+                    "preserve the canonical negative witness boundary for DN cells",
+                ],
+                "priority": 3000 + index,
+                "proposal_status": "proposed",
+                "audit_status": "pointer-only",
+            }
+            proposals.append({key: value for key, value in proposal.items() if value is not None})
+    return sorted(
+        proposals,
+        key=lambda proposal: (
+            int(proposal["priority"]),
+            str(proposal["source_pointer"]),
+            str(proposal["proposal_id"]),
+        ),
+    )
+
+
 def _manifest_audit(
     *,
     root: Path | None = None,
@@ -2790,11 +2904,13 @@ def build_discovery_map(
         for row in source_rows
         if row.get("discovery_level") != "DN" or str(row.get("report") or "") in negative_indices
     ]
+    coverage_matrix = _build_coverage_matrix(rows=rows, root=root)
     return build_discovery_map_payload(
         rows=rows,
         generated_at=timestamp,
         manifest_audit=_manifest_audit(root=root, canonical_reports=canonical_reports),
-        coverage_matrix=_build_coverage_matrix(rows=rows, root=root),
+        coverage_matrix=coverage_matrix,
+        experiment_proposals=_build_experiment_proposals(rows, coverage_matrix, _root(root)),
         root=_root(root),
         expected_coverage_component_ids=COVERAGE_COMPONENT_IDS,
     )
@@ -2967,6 +3083,28 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
                     f"`{cell.get('canonical_owner_pointer', '')}` | "
                     f"`{cell.get('hardgate_status', '')}` |"
                 )
+    proposals = payload.get("experiment_proposals")
+    if isinstance(proposals, list):
+        lines.extend(
+            [
+                "",
+                "## Experiment proposals",
+                "",
+                "| proposal id | source kind | source pointer | failed gate pointer | status |",
+                "| --- | --- | --- | --- | --- |",
+            ]
+        )
+        for proposal in proposals:
+            if not isinstance(proposal, Mapping):
+                continue
+            lines.append(
+                "| "
+                f"`{proposal.get('proposal_id', '')}` | "
+                f"`{proposal.get('source_kind', '')}` | "
+                f"`{proposal.get('source_pointer', '')}` | "
+                f"`{proposal.get('failed_gate_pointer', '')}` | "
+                f"`{proposal.get('proposal_status', '')}` |"
+            )
     lines.append("")
     return "\n".join(lines)
 

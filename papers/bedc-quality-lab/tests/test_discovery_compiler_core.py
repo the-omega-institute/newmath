@@ -294,6 +294,64 @@ def test_build_discovery_map_payload_validates_rows():
     assert payload["level_counts"]["D4"] == 1
 
 
+def _proposal_fixture():
+    return {
+        "proposal_id": "exp-fixture",
+        "source_kind": "negative_discovery",
+        "source_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]",
+        "negative_report_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]",
+        "hypothesis_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0].next_hypothesis",
+        "failed_gate_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0].failed_gate",
+        "expected_failure_modes": ["fixture failure mode"],
+        "controls": ["fixture control"],
+        "priority": 1,
+        "proposal_status": "proposed",
+        "audit_status": "pointer-only",
+    }
+
+
+def test_build_discovery_map_payload_accepts_pointer_only_experiment_proposals(tmp_path):
+    canonical = tmp_path / "reports" / "canonical"
+    canonical.mkdir(parents=True)
+    (canonical / "negative_discovery_reports.json").write_text(
+        json.dumps({"rows": [{"next_hypothesis": "fixture", "failed_gate": "$.failed"}]}) + "\n",
+        encoding="utf-8",
+    )
+
+    payload = build_discovery_map_payload(
+        rows=[],
+        generated_at="fixture-time",
+        experiment_proposals=[_proposal_fixture()],
+        root=tmp_path,
+    )
+
+    assert payload["experiment_proposals"] == [_proposal_fixture()]
+
+
+def test_experiment_proposals_fail_closed_without_controls_or_failure_modes(tmp_path):
+    canonical = tmp_path / "reports" / "canonical"
+    canonical.mkdir(parents=True)
+    (canonical / "negative_discovery_reports.json").write_text(
+        json.dumps({"rows": [{"next_hypothesis": "fixture", "failed_gate": "$.failed"}]}) + "\n",
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="expected_failure_modes"):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[{**_proposal_fixture(), "expected_failure_modes": []}],
+            root=tmp_path,
+        )
+    with pytest.raises(ValueError, match="controls"):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[{**_proposal_fixture(), "controls": []}],
+            root=tmp_path,
+        )
+
+
 def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):
     _write_fixture_sources(tmp_path)
     adapter = FakeAdapter()
