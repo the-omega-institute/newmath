@@ -83,7 +83,7 @@ LOG_DIRS = [
 #
 # ============================================================
 # Caps pinned by user directive:
-#   LEAN_MAX = 20 (2026-05-11)
+#   LEAN_MAX = 16 (2026-05-11)
 #   PAPER_MAX = 25 (2026-05-12, raised from 20)
 #
 # Floors:
@@ -103,12 +103,12 @@ LOG_DIRS = [
 # ============================================================
 LEAN_BUFFER = 0
 LEAN_MIN = 4
-LEAN_MAX = 16  # lowered 2026-05-15 (later): push lock starvation observed —
-               # R6327 held lock 1076s for codex_resolve_conflicts (which
-               # runs INSIDE the lock). With 16+ contenders, flock unfairness
-               # starves P workers >600s → cooldown cascades. Cap at 12
-               # reduces waiter pool. Structural fix (move codex_resolve
-               # outside lock) deferred to next orchestrator restart.
+LEAN_MAX = 8  # 2026-06-07: dropped 20->16->8 over the session. On this 8-core
+               # box even 12/14 (autotune-settled under 16/14) drove load ~70 →
+               # bedc_ci.py audit timeouts (600s), ff-push herd (8 retries), and
+               # target saturation → repeating cooldowns. 8/6 is the box's
+               # sustainable point (skill cooldown-remedy: drop lean to 8).
+               # Stage-2 single-writer broker would let this go higher safely.
 LEAN_MAX_OLD_8 = 8  # lowered 2026-05-14 from 20: push-race analysis showed
                # 47% of R FAILs are `ff update of codex-auto-dev failed`
                # and 23% are `Merge failed —` — cross-process race between
@@ -132,9 +132,8 @@ PAPER_MIN_OLD = 18  # raised 2026-05-12 from 12: P-side discovery channels
                 # making P plateau because root_unblocks=0 → paper_demand=10
                 # → clamp to 12 floor. With discovery HARD GATE active,
                 # 18 worker is the right cruising altitude.
-PAPER_MAX = 14  # lowered 2026-05-15 (later): same push-lock starvation —
-                # P workers wait >600s when R holds lock for codex_resolve.
-                # Cut from 25 → 10 reduces concurrent push contenders.
+PAPER_MAX = 6  # 2026-06-07: dropped to PAPER_MIN floor — see LEAN_MAX note;
+                # 8/6 is what this 8-core box sustains without audit timeouts.
 
 LAKE_DIVISOR = 5
 LAKE_MIN = 2

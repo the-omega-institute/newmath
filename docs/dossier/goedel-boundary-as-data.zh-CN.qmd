@@ -1,10 +1,10 @@
 ---
 title: "Goedel 边界作为数据"
-subtitle: "不完备性成为可测数字的两个层. MetaCIC 中 dependent-codomain 障碍. rule110 底层中 cook compile-frontier. 两者都量化"
+subtitle: "不完备性不是神秘墙, 而是边界 surface: 没有总真理证书, 没有总停机 oracle, 障碍出现处有可审计的有限 packet."
 author: "The Omega Institute"
-date: 2026-05-14
+date: 2026-06-06
 lang: zh-Hans
-description: "Goedel 第二不完备定理通常被当作一堵墙. BEDC 把它当数据看. 同一条边界在元理论层 (四条 subject-reduction 假设) 与元胞底层 (cook compile-frontier: halted TM 需要 ~64p/64t; 当前底层最大均衡 case 是 (8,8,16384), 极端单轴 case 可达 P=16 或 T=32) 各显现一次. 墙有坐标."
+description: "Goedel 不完备边界通常被当作一堵墙. BEDC 把它当数据看: truth-total reflection refusal、有限 obstruction packet, 以及 MetaCIC 和 rule110 层上的可测坐标."
 ---
 
 ```{=html}
@@ -20,6 +20,57 @@ description: "Goedel 第二不完备定理通常被当作一堵墙. BEDC 把它�
 BEDC 显式地建了其中两个位置. 一个是 MetaCIC 章节的四条 subject-reduction 假设. 一个是 rule110 底层的 cook compile-frontier. 它们是同一条边界在两个不同层的显现. 在两个层上, 边界距离当前能力都是一个小数 — 生产规则数上一个常数因子、四条具体假设、一个你可测的量.
 
 这篇是关于把那条边界当 *数据* 看, 而不是当隐喻看.
+
+## 被禁止的形状: 内部总真理证书
+
+在问这堵墙哪里可测之前, BEDC 先问: 穿过这堵墙到底意味着什么?
+
+被禁止的对象不是关于某一句话的定理. 它是一个内部 universal certificate:
+
+$$
+Ext_T(\ulcorner \varphi \urcorner) \Longleftrightarrow \varphi
+$$
+
+对系统自身结构副本中表示的每个句子 $\varphi$ 都成立.
+
+用普通话说: 系统内部含有一个被命名的 classifier, 能正确而且总地判定它自己表示出来的哪些句子为真.
+
+这正是 Tarski 禁止的动作. 一旦系统能表示自己的语法, diagonal sentence 就可以说:
+
+$$
+\delta \Longleftrightarrow \neg Ext_T(\ulcorner \delta \urcorner).
+$$
+
+如果证书说 $\delta$ 为真, $\delta$ 就说证书错. 如果证书拒绝 $\delta$, truth-totality 又会把这个拒绝变成 $\delta$ 为真. 证书坍缩.
+
+BEDC 的 two-loop 读法把这件事变成清晰的架构规则:
+
+```{=html}
+<span class="elim-mark">✗ 「系统应该认证自己的全部真理」</span>
+```
+
+不可以. ground loop 必须闭合, 因为系统需要第一个 distinction 才能启动. meta loop 必须保持开放, 因为内部总真理 classifier 会让自我描述变成不一致.
+
+## BEDC 记录什么
+
+BEDC 不擦掉这个障碍. 它记录这个障碍.
+
+边界有有限 packet:
+
+- `TruthTotalReflectionUp` 记录 sentence-code rows、attempted extension classifier、diagonal obstruction row、transport、route、provenance 和 name.
+- `TarskiTruthRefusalUp` 记录 sentence code、truth query、refusal row、diagonal pressure、ledger、transport、route、provenance 和 name.
+- `HaltingObstructionUp` 记录 finite trace rows、self-reference rows、diagonal policy、continuation routes、package provenance 和 local naming.
+- `GoedelIncompletenessUp` 记录 arithmetised provability predicate、proof-checker decoder、fixed-point row, 以及 conditional no-proof / no-refutation ledger.
+
+这些 packet 不是 oracle. 它们是 audit surface.
+
+```{=html}
+<span class="elim-mark">✗ 「障碍有了 packet, 系统就解决了障碍」</span>
+```
+
+不是. packet 是障碍落点的有限公共记录. 它让项目精确说明什么可见: sentence code、attempted classifier、diagonal row、finite trace、proof checker、provenance. 它也精确说明什么不能导出: total truth、total halting、total proof validity, 或系统自身 global consistency 的内部证明.
+
+这是 BEDC 的关键动作. 它不把 Goedel 变成口号. 它把边界变成有 ledger 的数据, 但不假装 ledger 就是被禁止的 oracle.
 
 ## 第一层: 元理论上的 dependent-codomain 障碍
 
@@ -72,7 +123,7 @@ Goedel 第二不完备结构性地说: 每个足够强的系统里, *某处* 系
 
 > 任何封闭观测系统在任何一层上主张承载普适推理, 该层在「原则能力」与「实际能力」之间都有一个有限可测距离. 这个距离是 Goedel 边界的一个面. 项目角色是暴露这个面, 而不是模糊它.
 
-在 MetaCIC, 这个面是四条假设. 在 rule110, 这个面是 (P, T, S) 差距. 在 BEDC 内核本身, 这个面是 [归纳法那篇](where-induction-comes-from.zh-CN.qmd) 的无归纳定理: 内核能验证有限见证, 验证不了全称闭合.
+在 reflection 章节, 这个面是 truth-total certificate 的拒绝. 在 halting 章节, 它是对任意 certificate-history pair 给出总 halt/diverge classifier 的拒绝. 在 MetaCIC, 这个面是四条 dependent-codomain 假设. 在 rule110, 这个面是 (P, T, S) 差距. 在 BEDC 内核本身, 这个面是 [归纳法那篇](where-induction-comes-from.zh-CN.qmd) 的无归纳定理: 内核能验证有限见证, 验证不了全称闭合.
 
 ## 「作为数据」买到了什么
 

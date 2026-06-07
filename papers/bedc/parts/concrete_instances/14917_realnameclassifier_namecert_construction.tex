@@ -39,6 +39,32 @@ The readback rows $R_A,R_B$ and the seal row $S$ are downstream of this finite c
 \end{proof}
 \leanchecked{BEDC.Derived.RealNameClassifierUp.RealNameClassifierSource\_tolerance\_obligation}
 
+\begin{theorem}[RealNameClassifier common-window symmetry]
+\label{thm:real-name-classifier-common-window-symmetry}
+Let $C=(A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N)$ be an accepted $\RealNameClassifierUp$ packet. Swapping the two $\RegularCauchyNameUp$ rows $A,B$, swapping $D_A,D_B$, and swapping $R_A,R_B$ preserves the same local $\NameCert_{\RealNameClassifierUp}$ surface whenever the common $\StreamNameUp$ window $W$ and finite tolerance classifier row $T$ are unchanged. The swapped packet exports no new equality oracle, selected limit, quotient completion, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the source packet of \autoref{def:real-name-classifier-source}. The only shared observation route for the two regular Cauchy names is the common window $W$, and the only classifier row is $T$.
+
+Use the tolerance obligation of \autoref{thm:real-name-classifier-tolerance-obligation}. It forces both source directions through $W,D_A,D_B,T$ before either readback row or the terminal seal can be consumed, so exchanging the two sides changes only the row order inside the displayed pair.
+
+Apply refinement stability and the seal boundary, \autoref{thm:real-name-classifier-refinement-stability} and \autoref{thm:real-name-classifier-seal-boundary}. Transport and replay preserve the same finite classifier surface, and the terminal seal still lacks coordinates for quotient equality, selected limits, external equality oracles, and completeness.
+\end{proof}
+
+\begin{theorem}[RealNameClassifier common-window transitivity]
+\label{thm:real-name-classifier-common-window-transitivity}
+Let $C_{AB}=(A,B,W,D_A,D_B,T_{AB},R_A,R_B,H_{AB},K_{AB},P_{AB},S_{AB},N_{AB})$ and $C_{BC}=(B,C,W,D'_B,D_C,T_{BC},R'_B,R_C,H_{BC},K_{BC},P_{BC},S_{BC},N_{BC})$ be accepted $\RealNameClassifierUp$ packets. If both packets inspect $A\sim B$ and $B\sim C$ through the same common $\StreamNameUp$ window $W$, and the two middle-source rows $D_B,D'_B,R_B,R'_B$ are compatible by the displayed $\DyadicRatCoreUp$ tolerance and $\RegSeqRatUp$ readback transports, then the composed $A\sim C$ classifier read is admitted through $W$, the transported rows $D_A,D_C,R_A,R_C$, the componentwise $\hsame$ transport through $B$, and the same $\RealUp$ seal boundary. The composed read exports no quotient equality of Cauchy names, selected limits, host sequence equality, countable choice, trichotomy, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the two accepted packets. The hypotheses identify their observation route as the single common window $W$, so the $A\sim B$ and $B\sim C$ classifier reads cannot use independent precision schedules.
+
+Apply the tolerance obligation of \autoref{thm:real-name-classifier-tolerance-obligation} to both packets. The first read exposes $W,D_A,D_B,T_{AB},R_A,R_B$ before reaching its seal, and the second read exposes $W,D'_B,D_C,T_{BC},R'_B,R_C$ before reaching its seal.
+
+Use the displayed compatibility of $D_B,D'_B$ and $R_B,R'_B$ to transport the middle source componentwise through the two $\hsame$ rows. This composes the dyadic tolerance checks along the shared $B$ row and leaves the endpoint rows $D_A,D_C,R_A,R_C$ on the same window $W$.
+
+Finally invoke ledger exhaustion and the seal boundary, \autoref{thm:real-name-classifier-ledger-exhaustion} and \autoref{thm:real-name-classifier-seal-boundary}. They account for every row consumed by the composed classifier read and rule out any escape through quotient equality, selected limits, host equality, choice, trichotomy, or completeness.
+\end{proof}
+
 \begin{theorem}[RealNameClassifier refinement stability]
 \label{thm:real-name-classifier-refinement-stability}
 Let $C=(A,B,W,D_A,D_B,T,R_A,R_B,H,K,P,S,N)$ be an accepted $\RealNameClassifierUp$ packet. If a downstream consumer refines the common window $W$ by a displayed $\StreamNameUp$ transport and replays the two dyadic rows through $H$ and $K$, then the resulting classifier read is the same local $\NameCert_{\RealNameClassifierUp}$ surface. The refinement changes only the finite observation window, not the two source names, dyadic tolerance obligation, regular rational readbacks, package provenance, or terminal seal boundary.
