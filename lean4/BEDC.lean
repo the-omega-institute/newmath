@@ -3083,6 +3083,7 @@ import BEDC.Derived.CousinLemmaUp.TasteGate
 import BEDC.Derived.CoveringSpacePathLiftingUp.TasteGate
 import BEDC.Derived.CoveringdimensionUp
 import BEDC.Derived.CoveringdimensionUp.FiniteEpsilonNetCarrier
+import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CritStripUp.TasteGate
@@ -7452,6 +7453,7 @@ import BEDC.Derived.RealModulusFusionUp
 import BEDC.Derived.RealModulusPurityBoundaryUp.NameCertObligations
 import BEDC.Derived.RealModulusPurityBoundaryUp.TasteGate
 import BEDC.Derived.RealNameClassifierUp
+import BEDC.Derived.RealNameClassifierUp.CommonWindowTransitivity
 import BEDC.Derived.RealNullSequenceUp.TasteGate
 import BEDC.Derived.RealObservationBudgetUp.NonEscape
 import BEDC.Derived.RealObservationBudgetUp.StdBridge

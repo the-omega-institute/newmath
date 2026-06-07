@@ -36,4 +36,38 @@ theorem EquicontinuityCarrier_uniform_modulus_consumer_boundary [AskSetup] [Pack
     ⟨radiusUnary, handoffUnary, modulusUnary, finiteBoundaryUnary, radiusRoute,
       handoffRoute, handoffModulus, modulusFinite, pkgP, finitePkg⟩
 
+theorem EquicontinuityCarrier_uniform_modulus_finite_boundary_chain [AskSetup] [PackageSetup]
+    {K F eps rho M T R P N radiusRead handoffRead uniformRead modulusRead finiteBoundary :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EquicontinuityCarrier K F eps rho M T R P N radiusRead handoffRead bundle pkg ->
+      UnaryHistory M ->
+        UnaryHistory T ->
+          Cont radiusRead rho uniformRead ->
+            Cont uniformRead M handoffRead ->
+              Cont handoffRead M modulusRead ->
+                Cont modulusRead T finiteBoundary ->
+                  PkgSig bundle finiteBoundary pkg ->
+                    UnaryHistory uniformRead ∧ UnaryHistory handoffRead ∧
+                      UnaryHistory modulusRead ∧ UnaryHistory finiteBoundary ∧
+                        Cont K F radiusRead ∧ Cont radiusRead rho uniformRead ∧
+                          Cont uniformRead M handoffRead ∧
+                            Cont handoffRead M modulusRead ∧
+                              Cont modulusRead T finiteBoundary ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle finiteBoundary pkg := by
+  -- BEDC touchpoint anchor: EquicontinuityCarrier BHist ProbeBundle PkgSig Cont UnaryHistory
+  intro carrier unaryM unaryT radiusUniform uniformHandoff handoffModulus modulusFinite
+    finitePkg
+  obtain ⟨uniformUnary, handoffUnary, radiusRoute, radiusUniformRoute, uniformHandoffRoute,
+    pkgP, _pkgN⟩ :=
+    EquicontinuityCarrier_uniform_modulus_handoff carrier unaryM radiusUniform uniformHandoff
+  have modulusUnary : UnaryHistory modulusRead :=
+    unary_cont_closed handoffUnary unaryM handoffModulus
+  have finiteBoundaryUnary : UnaryHistory finiteBoundary :=
+    unary_cont_closed modulusUnary unaryT modulusFinite
+  exact
+    ⟨uniformUnary, handoffUnary, modulusUnary, finiteBoundaryUnary, radiusRoute,
+      radiusUniformRoute, uniformHandoffRoute, handoffModulus, modulusFinite, pkgP,
+        finitePkg⟩
+
 end BEDC.Derived.EquicontinuityUp
