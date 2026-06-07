@@ -4045,6 +4045,7 @@ import BEDC.Derived.EpigraphUp
 import BEDC.Derived.EpigraphUp.CarrierRowTransportSurface
 import BEDC.Derived.EpigraphUp.LowerSemicontinuousHandoff
 import BEDC.Derived.EpigraphUp.TasteGate
+import BEDC.Derived.EpigraphicalLimitUp
 import BEDC.Derived.EpistemicOntologyBridgeUp.TasteGate
 import BEDC.Derived.EpistemicWitnessUp.TasteGate
 import BEDC.Derived.EpsilonDeltaLimitUp
