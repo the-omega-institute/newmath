@@ -2616,6 +2616,7 @@ import BEDC.Derived.CompactOperatorUp.FiniteRankApproximationBoundary
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
 import BEDC.Derived.CompactRealUniformModulusUp.TasteGate
+import BEDC.Derived.CompactRegularCauchySubsequenceUp.TasteGate
 import BEDC.Derived.CompactSourceTriangleEstimateUp.TasteGate
 import BEDC.Derived.CompactTotallyBoundedUp.TasteGate
 import BEDC.Derived.CompactUniformContinuityModulusUp.TasteGate
@@ -5330,6 +5331,7 @@ import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelPhaseRefusalUp.TasteGate
 import BEDC.Derived.KernelSourceChannelLedgerUp
 import BEDC.Derived.KirszbraunExtensionUp.TasteGate
+import BEDC.Derived.KleeneKreiselSpaceUp
 import BEDC.Derived.KleeneTreeUp.NameCertObligations
 import BEDC.Derived.KleeneTreeUp.PrefixInductionClosure
 import BEDC.Derived.KleeneTreeUp.RealCompletionNonescape
@@ -5861,6 +5863,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierDischargeRefusal
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierDischargeSocketCoproduct
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10BudgetLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierL10DischargeBoundary
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierNormalFormWitnessExtraction
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRealSourceLock
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierRegSeqRatHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateFrontierSourceExhaustion
@@ -6871,6 +6874,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.ParsevalUp.NameCertObligations
+import BEDC.Derived.ParsevalUp.RootEnergyCarrierAdmission
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
@@ -9016,6 +9020,8 @@ import BEDC.Derived.TrieUp.TerminalPacket
 import BEDC.Derived.TrieUp.TerminalPrefixReadback
 import BEDC.Derived.TriebelLizorkinSpaceUp
 import BEDC.Derived.TriggerHypergraphReliabilityUp
+import BEDC.Derived.TriggerHypergraphReliabilityUp.Factorization
+import BEDC.Derived.TriggerHypergraphReliabilityUp.TasteGate
 import BEDC.Derived.TrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.TruthResidueLedgerUp.TasteGate
 import BEDC.Derived.TruthTotalReflectionUp.TasteGate
