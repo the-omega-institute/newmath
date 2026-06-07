@@ -30,6 +30,7 @@ def _positive_payload(**overrides) -> dict:
         "evidence_basis": {
             "control_positive_discovery": False,
             "scorecard_ready": True,
+            "audit_status": "valid",
         },
     }
     payload.update(overrides)
@@ -48,7 +49,7 @@ def test_hg_dl_1_gap_head_discovery_report_without_scorecard_fails_closed():
     assert verdict.net_information == pytest.approx(0.34608695652173915)
     assert verdict.scorecard_ready is False
     assert verdict.control_positive is False
-    assert verdict.audit_status is None
+    assert verdict.audit_status == "pass"
     assert verdict.revocation_status is None
 
 
@@ -75,6 +76,7 @@ def test_d4_finite_gate_matrix(
         "evidence_basis": {
             "control_positive_discovery": not control_negative,
             "scorecard_ready": scorecard_ready,
+            "audit_status": "valid",
         },
     }
 
@@ -248,6 +250,7 @@ def test_positive_discovery_with_real_robustness_report_is_d5_o():
         "net_positive_signal=true",
         "control_negative=true",
         "scorecard_ready=true",
+        "audit_pass=true",
         "robustness_ready=true",
         "mechanism_ready=false",
     )
@@ -282,6 +285,7 @@ def test_positive_discovery_with_mechanism_attribution_is_d5_m():
         "net_positive_signal=true",
         "control_negative=true",
         "scorecard_ready=true",
+        "audit_pass=true",
         "robustness_ready=true",
         "mechanism_ready=true",
     )
@@ -413,3 +417,31 @@ def test_certificate_status_revoked_signal_is_dr():
     assert verdict.discovery_level == "DR"
     assert verdict.reasons == ("certificate_status.status=revoked",)
     assert verdict.revocation_status == "revoked"
+
+
+@pytest.mark.parametrize("audit_status", ["invalid", None])
+def test_positive_payload_requires_audit_pass_for_d4(audit_status):
+    payload = _positive_payload()
+    if audit_status is None:
+        payload["evidence_basis"].pop("audit_status")
+    else:
+        payload["evidence_basis"]["audit_status"] = audit_status
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "DN"
+    assert "audit_pass=false" in verdict.reasons
+    assert verdict.audit_status == audit_status
+
+
+@pytest.mark.parametrize("audit_status", ["valid", "consistent", "pass"])
+def test_positive_payload_accepts_audit_pass_vocabulary(audit_status):
+    verdict = assign_discovery_level(_positive_payload(evidence_basis={
+        "control_positive_discovery": False,
+        "scorecard_ready": True,
+        "audit_status": audit_status,
+    }))
+
+    assert verdict.discovery_level == "D4"
+    assert "audit_pass=true" in verdict.reasons
+    assert verdict.audit_status == audit_status

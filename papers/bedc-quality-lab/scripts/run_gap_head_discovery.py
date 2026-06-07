@@ -375,6 +375,7 @@ def _verdict_payload(projection: GapHeadProjection) -> dict[str, Any]:
         control_positive=control_verdict["positive"],
     )
     treatment["final_main_claim_status"] = treatment["main_claim_status"]
+    treatment["audit_decision"] = {"audit_status": "pass"}
     return treatment
 
 

@@ -700,6 +700,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "training_loop_trace",
             "matched_random_control",
             "quality_promotion_boundary",
+            "mechanism_ablation",
             "loss_family",
             "component_ablation",
             "training_method_comparison",
@@ -2497,13 +2498,52 @@ def _validate_discovery_regularized_training_compute_ledger(payload: Mapping[str
     expected_status = "complete" if list(ledger["missing_fields"]) == [] else "incomplete"
     if ledger["status"] != expected_status:
         raise ValueError("discovery_regularized_training compute_ledger status mismatch")
+
+
+def _validate_discovery_regularized_training_mechanism_ablation(payload: Mapping[str, Any]) -> None:
+    section = payload.get("mechanism_ablation")
+    if not isinstance(section, Mapping):
+        raise ValueError("discovery_regularized_training mechanism_ablation must be an object")
+    if section.get("status") not in {"pass", "fail"}:
+        raise ValueError("discovery_regularized_training mechanism_ablation status invalid")
+    if section.get("backend") != "deterministic-mechanism-ablation":
+        raise ValueError("discovery_regularized_training mechanism_ablation backend mismatch")
+    required = section.get("required_arms")
+    comparisons = section.get("comparisons")
+    by_arm = section.get("by_arm")
+    if not isinstance(required, list) or len(required) != 6:
+        raise ValueError("discovery_regularized_training mechanism_ablation required arms mismatch")
+    if not isinstance(comparisons, list) or len(comparisons) != len(required):
+        raise ValueError("discovery_regularized_training mechanism_ablation comparison rows mismatch")
+    if not isinstance(by_arm, Mapping) or set(by_arm) != set(required):
+        raise ValueError("discovery_regularized_training mechanism_ablation by_arm mismatch")
+    for row in comparisons:
+        if not isinstance(row, Mapping) or row.get("arm_id") not in required:
+            raise ValueError("discovery_regularized_training mechanism_ablation row invalid")
+        pointers = row.get("comparison_pointers")
+        if not isinstance(pointers, Mapping):
+            raise ValueError("discovery_regularized_training mechanism_ablation comparison pointers missing")
+        for pointer in pointers.values():
+            if _drt_pointer_value(payload, str(pointer)) is None:
+                raise ValueError("discovery_regularized_training mechanism_ablation pointer does not resolve")
+    expected_status = (
+        "pass"
+        if section.get("required_arms_present") is True
+        and section.get("comparison_pointers_resolve") is True
+        and section.get("full_beats_all_ablations") is True
+        and section.get("full_positive_mechanism_signal") is True
+        and section.get("no_ablation_net_positive_parity") is True
+        else "fail"
+    )
+    if section.get("status") != expected_status:
+        raise ValueError("discovery_regularized_training mechanism_ablation status mismatch")
     gates = payload.get("hardgate", {}).get("gates", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
     hg7 = gates.get("DRT-HG7") if isinstance(gates, Mapping) else None
     if not isinstance(hg7, Mapping):
         raise ValueError("discovery_regularized_training DRT-HG7 missing")
-    if hg7.get("evidence_pointer") != "$.compute_ledger":
+    if hg7.get("evidence_pointer") != "$.mechanism_ablation":
         raise ValueError("discovery_regularized_training DRT-HG7 evidence pointer mismatch")
-    expected_hg7 = "pass" if ledger["status"] == "complete" else "fail"
+    expected_hg7 = "pass" if section.get("status") == "pass" else "fail"
     if hg7.get("status") != expected_hg7:
         raise ValueError("discovery_regularized_training DRT-HG7 status mismatch")
 
@@ -2512,6 +2552,7 @@ def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any])
     _validate_discovery_regularized_training_quality_promotion_boundary(payload)
     _validate_discovery_regularized_training_extension(payload)
     _validate_discovery_regularized_training_compute_ledger(payload)
+    _validate_discovery_regularized_training_mechanism_ablation(payload)
 
 
 def _discovery_regularized_training_quality_boundary_index_section(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:

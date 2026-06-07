@@ -45,6 +45,7 @@ REQUIRED_SUMMARY_KEYS = {
     "training_loop_trace",
     "matched_random_control",
     "quality_promotion_boundary",
+    "mechanism_ablation",
     "loss_family",
     "component_ablation",
     "training_method_comparison",
@@ -86,7 +87,7 @@ def _project(records=None, **config):
     }
     return DiscoveryRegularizedTrainingProjection(
         config=full_config,
-        records=[*runner.collect_deterministic_records(), *_torch_fixture_records()] if records is None else records,
+        records=_fixture_records() if records is None else records,
         generated_at="fixture-time",
         run_artifacts=artifacts,
     ).project()
@@ -118,6 +119,14 @@ def _torch_fixture_records():
                     )
                     rows.append(row)
     return rows
+
+
+def _fixture_records():
+    return [
+        *runner.collect_deterministic_records(),
+        *runner.collect_mechanism_ablation_records(),
+        *_torch_fixture_records(),
+    ]
 
 
 def _recursive_keys(value):
@@ -202,6 +211,9 @@ def test_torch_available_fixture_promotes_d4_and_records_payload_sections(monkey
     assert summary["negative_witness_mutations"]["failed_gate_pointer"] == "$.hardgate.status"
     assert summary["drt_extension_hardgates"]["status"] == "pass"
     assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "pass"
+    assert summary["hardgate"]["gates"]["DRT-HG7"]["evidence_pointer"] == "$.mechanism_ablation"
+    assert summary["mechanism_ablation"]["status"] == "pass"
+    assert len(summary["mechanism_ablation"]["comparisons"]) == 6
     assert set(summary["loss_family"]["terms"]) == {
         "discovery",
         "ledger",
@@ -215,7 +227,7 @@ def test_torch_available_fixture_promotes_d4_and_records_payload_sections(monkey
     assert "terminal_verdict" not in json.dumps(summary, sort_keys=True)
 
 
-def test_drt_compute_ledger_is_required_summary_and_hardgate_source(monkeypatch):
+def test_drt_compute_ledger_is_required_summary(monkeypatch):
     monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
     summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
     ledger = summary["compute_ledger"]
@@ -226,11 +238,9 @@ def test_drt_compute_ledger_is_required_summary_and_hardgate_source(monkeypatch)
     assert ledger["deterministic_seed_count"] > 0
     assert ledger["torch_seed_count"] > 0
     assert ledger["flops_proxy"] > 0
-    assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "pass"
-    assert summary["hardgate"]["gates"]["DRT-HG7"]["evidence_pointer"] == "$.compute_ledger"
 
 
-def test_drt_hg7_fails_without_compute_ledger_cost_protocol_pointer():
+def test_compute_ledger_cost_protocol_pointer_is_fail_closed_in_ledger():
     projection = _project(source_artifacts={"cost_protocol": ""})
     summary = projection["summary_payload"]
     capsule = projection["claim_capsule_payload"]
@@ -238,14 +248,10 @@ def test_drt_hg7_fails_without_compute_ledger_cost_protocol_pointer():
     assert summary["source_artifacts"]["cost_protocol"] == ""
     assert summary["compute_ledger"]["status"] == "incomplete"
     assert "cost_protocol_pointer" in summary["compute_ledger"]["missing_fields"]
-    assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "fail"
-    assert summary["failed_gate"] == "DRT-HG7"
-    assert summary["discovery_map_signal"]["level_candidate"] == "DN"
     assert capsule["source_artifacts"]["cost_protocol"] == ""
     assert capsule["source_artifacts"]["cost_protocol"] == summary["source_artifacts"]["cost_protocol"]
     assert capsule["result_snapshot"]["compute_ledger"]["status"] == "incomplete"
     assert "cost_protocol_pointer" in capsule["result_snapshot"]["compute_ledger"]["missing_fields"]
-    assert capsule["hardgates"]["DRT-HG7"]["status"] == "fail"
     assert "configs/default_cost_protocol.yaml" not in json.dumps(capsule["source_artifacts"], sort_keys=True)
 
 
@@ -254,10 +260,8 @@ def test_drt_hg7_fails_when_steps_or_seed_counts_are_missing():
 
     assert zero_steps["compute_ledger"]["status"] == "incomplete"
     assert "steps" in zero_steps["compute_ledger"]["missing_fields"]
-    assert zero_steps["hardgate"]["gates"]["DRT-HG7"]["status"] == "fail"
-    assert zero_steps["discovery_map_signal"]["level_candidate"] == "DN"
 
-    missing_seed_records = deepcopy([*runner.collect_deterministic_records(), *_torch_fixture_records()])
+    missing_seed_records = deepcopy(_fixture_records())
     for row in missing_seed_records:
         if row.get("backend") == "deterministic-anchor":
             row.pop("seed", None)
@@ -265,8 +269,6 @@ def test_drt_hg7_fails_when_steps_or_seed_counts_are_missing():
     missing_seed = _project(missing_seed_records)["summary_payload"]
 
     assert "deterministic_seed" in missing_seed["compute_ledger"]["missing_fields"]
-    assert missing_seed["hardgate"]["gates"]["DRT-HG7"]["status"] == "fail"
-    assert missing_seed["discovery_map_signal"]["level_candidate"] == "DN"
 
 
 def test_claim_capsule_carries_compute_ledger_snapshot_without_raw_rows():
@@ -297,6 +299,86 @@ def test_compute_ledger_never_uses_refactor_loop_host_env():
     }
 
     assert ".refactor-loop/host.env" not in json.dumps(payload, sort_keys=True)
+
+
+def test_drt_hg7_mechanism_ablation_passes_with_required_arms_and_resolved_pointers():
+    summary = _project()["summary_payload"]
+    mechanism = summary["mechanism_ablation"]
+
+    assert set(mechanism) == {
+        "schema_id",
+        "backend",
+        "anchor_cell",
+        "required_arms",
+        "metric_keys",
+        "raw_rows_pointer",
+        "full_drt",
+        "by_arm",
+        "comparisons",
+        "status",
+        "required_arms_present",
+        "comparison_pointers_resolve",
+        "full_beats_all_ablations",
+        "full_positive_mechanism_signal",
+        "no_ablation_net_positive_parity",
+    }
+    assert mechanism["status"] == "pass"
+    assert mechanism["required_arms_present"] is True
+    assert mechanism["comparison_pointers_resolve"] is True
+    assert mechanism["full_beats_all_ablations"] is True
+    assert mechanism["full_positive_mechanism_signal"] is True
+    assert mechanism["no_ablation_net_positive_parity"] is True
+    assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "pass"
+    for row in mechanism["comparisons"]:
+        for pointer in row["comparison_pointers"].values():
+            assert discovery_map.pointer_value(summary, pointer.split(":", 1)[1]) is not None
+
+
+def test_drt_hg7_missing_mechanism_ablation_arm_demotes_to_dn():
+    records = [
+        row
+        for row in _fixture_records()
+        if row.get("backend") != "deterministic-mechanism-ablation"
+        or row.get("arm") != "without_mechanism"
+    ]
+    summary = _project(records)["summary_payload"]
+
+    assert summary["mechanism_ablation"]["status"] == "fail"
+    assert summary["mechanism_ablation"]["required_arms_present"] is False
+    assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "fail"
+    assert summary["failed_gate"] == "DRT-HG7"
+    assert summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert summary["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.DRT-HG7.status"
+
+
+def test_drt_hg7_fails_when_ablation_reaches_net_positive_parity():
+    records = _fixture_records()
+    for row in records:
+        if row.get("backend") == "deterministic-mechanism-ablation" and row.get("arm") == "without_mechanism":
+            row["quality_q"] = 0.1
+            row["classifier_shift_count"] = 1
+            row["net_positive_signal"] = True
+    summary = _project(records)["summary_payload"]
+
+    parity_row = next(row for row in summary["mechanism_ablation"]["comparisons"] if row["arm_id"] == "without_mechanism")
+    assert parity_row["net_positive_parity"] is True
+    assert summary["mechanism_ablation"]["no_ablation_net_positive_parity"] is False
+    assert summary["mechanism_ablation"]["status"] == "fail"
+    assert summary["failed_gate"] == "DRT-HG7"
+
+
+def test_drt_hg7_fails_when_ablation_beats_full_drt():
+    records = _fixture_records()
+    for row in records:
+        if row.get("backend") == "deterministic-mechanism-ablation" and row.get("arm") == "without_cost":
+            row["quality_q"] = 0.9
+    summary = _project(records)["summary_payload"]
+
+    beaten_row = next(row for row in summary["mechanism_ablation"]["comparisons"] if row["arm_id"] == "without_cost")
+    assert beaten_row["full_beats_ablation"] is False
+    assert summary["mechanism_ablation"]["full_beats_all_ablations"] is False
+    assert summary["mechanism_ablation"]["status"] == "fail"
+    assert summary["failed_gate"] == "DRT-HG7"
 
 
 def test_real_torch_training_records_protocol_and_classifier_surface_delta():
@@ -379,7 +461,7 @@ def test_seed_idempotence_and_quantized_tolerance():
 
 
 def test_drt_hg1_debt_down_benefit_down_demotes():
-    records = runner.collect_deterministic_records()
+    records = _fixture_records()
     for row in records:
         if row["arm"] == "drt":
             row["benefit_q"] = 0.1
@@ -396,7 +478,7 @@ def test_drt_hg2_requires_positive_ci_low_and_benefit_nondecreasing():
     assert summary["lambda_summary"]["benefit_nondecreasing"] is True
     assert summary["hardgate"]["gates"]["DRT-HG2"]["status"] == "pass"
 
-    records = runner.collect_deterministic_records()
+    records = _fixture_records()
     for row in records:
         if row["arm"] == "drt":
             row["delta_quality_ci_low"] = -0.001
@@ -411,7 +493,7 @@ def test_drt_hg3_classifier_shift_and_net_positive_signal():
     assert summary["surface_registry"]["classifier_shift"]["net_positive_signal"] is True
     assert summary["hardgate"]["gates"]["DRT-HG3"]["status"] == "pass"
 
-    records = runner.collect_deterministic_records()
+    records = _fixture_records()
     for row in records:
         if row["arm"] == "drt":
             row["classifier_shift_count"] = 0
@@ -421,7 +503,7 @@ def test_drt_hg3_classifier_shift_and_net_positive_signal():
 
 
 def test_drt_hg4_matched_random_certificate_loss_improvement_demotion():
-    records = runner.collect_deterministic_records()
+    records = _fixture_records()
     for row in records:
         if row["arm"] == "matched_random":
             row["certificate_loss"] = 0.01
@@ -433,7 +515,7 @@ def test_drt_hg4_matched_random_certificate_loss_improvement_demotion():
 
 
 def test_drt_hg5_rejects_task_accuracy_only_rows():
-    records = runner.collect_deterministic_records()
+    records = _fixture_records()
     for row in records:
         if row["arm"] == "task_only":
             row["net_positive_signal"] = True
@@ -458,7 +540,7 @@ def test_current_lab_projection_and_pointer_resolvability():
     assert discovery_map.pointer_value(summary, row["evidence_pointer"]) is not None
     assert discovery_map.pointer_value(summary, row["control_pointer"]) is not None
 
-    failed_records = deepcopy(runner.collect_deterministic_records())
+    failed_records = deepcopy(_fixture_records())
     for record in failed_records:
         if record["arm"] == "drt":
             record["classifier_shift_count"] = 0
@@ -511,9 +593,15 @@ def test_drt_extension_pointers_resolve_inside_existing_drt_artifact():
         summary["training_method_comparison"]["owner_pointer"],
         summary["training_method_comparison"]["metric_pointers"]["uer"],
         summary["training_method_comparison"]["metric_pointers"]["uer_reduction"],
+        f"{runner.JSON_ARTIFACT}:$.mechanism_ablation",
         *[row["evidence_pointer"] for row in summary["component_ablation"]["rows"]],
         *[row["quality_q_pointer"] for row in summary["component_ablation"]["rows"]],
         *[row["evidence_pointer"] for row in summary["loss_family"]["terms"].values()],
+        *[
+            pointer
+            for row in summary["mechanism_ablation"]["comparisons"]
+            for pointer in row["comparison_pointers"].values()
+        ],
     ]
 
     unresolved = [
@@ -595,6 +683,7 @@ def test_canonical_spec_uses_committed_config_and_source_artifacts():
     assert "component_ablation" in spec.required_json_keys
     assert "training_method_comparison" in spec.required_json_keys
     assert "drt_extension_hardgates" in spec.required_json_keys
+    assert "mechanism_ablation" in spec.required_json_keys
     summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
     assert ".refactor-loop/host.env" not in json.dumps(summary["source_artifacts"], sort_keys=True)
     assert "bedc_quality_lab/discovery_regularized_training.py" in summary["source_artifacts"]["producer_sources"]

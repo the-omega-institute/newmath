@@ -1278,7 +1278,7 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
     failed = next(
         (
             name
-            for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5", "DRT-HG6")
+            for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5", "DRT-HG6", "DRT-HG7")
             if not isinstance(hardgates.get(name), Mapping) or hardgates[name].get("status") != "pass"
         ),
         None,
@@ -1297,6 +1297,8 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
             failed = "DRT-HG6"
         elif pointer_value(payload, "$.records.raw_rows_pointer") is None:
             failed = "DRT-HG6"
+    if failed is None and pointer_value(payload, "$.mechanism_ablation.status") != "pass":
+        failed = "DRT-HG7"
     extension_failed_pointer = _drt_extension_failed_pointer(payload)
     if failed is None:
         expected = {
@@ -1834,6 +1836,52 @@ def _attribution_capsule_levels(payload: Mapping[str, Any]) -> AttributionCapsul
     return None
 
 
+def _source_audit_status(payload: Mapping[str, Any]) -> str | None:
+    audit_decision = payload.get("audit_decision")
+    if isinstance(audit_decision, Mapping) and isinstance(audit_decision.get("audit_status"), str):
+        return audit_decision["audit_status"]
+    if isinstance(payload.get("audit_status"), str):
+        return payload["audit_status"]
+    statuses: list[str] = []
+
+    def collect(value: Any, path: tuple[str, ...] = ()) -> None:
+        if isinstance(value, Mapping):
+            audit_status = value.get("audit_status")
+            if isinstance(audit_status, str):
+                statuses.append(audit_status)
+            status = value.get("status")
+            if isinstance(status, str) and path and "audit" in path[-1]:
+                statuses.append(status)
+            for key, child in value.items():
+                if isinstance(key, str):
+                    collect(child, (*path, key))
+        elif isinstance(value, list):
+            for child in value:
+                collect(child, path)
+
+    collect(payload)
+    if not statuses:
+        return None
+    for status in statuses:
+        if status not in {"valid", "consistent", "pass"}:
+            return status
+    return "pass"
+
+
+def _with_source_audit_status(overlay: dict[str, Any], payload: Mapping[str, Any]) -> dict[str, Any]:
+    if overlay.get("positive_discovery") is not True:
+        return overlay
+    audit_status = _source_audit_status(payload)
+    if audit_status is None:
+        return overlay
+    result = dict(overlay)
+    basis = result.get("evidence_basis")
+    compact_basis = dict(basis) if isinstance(basis, Mapping) else {}
+    compact_basis["audit_status"] = audit_status
+    result["evidence_basis"] = compact_basis
+    return result
+
+
 def _projection_overlay_and_evidence(
     spec: CanonicalReportSpec,
     payload: Mapping[str, Any],
@@ -1887,6 +1935,7 @@ def _projection_overlay_and_evidence(
         )
     else:
         overlay, evidence = {}, ProjectionEvidence(projection_status="source-insufficient")
+    overlay = _with_source_audit_status(overlay, payload)
     return overlay, evidence
 
 
@@ -1990,6 +2039,23 @@ def _artifact_pointer_value(
     return pointer_value(context.get(artifact, {}), local_pointer)
 
 
+def _audit_spec_pointer_cells(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> tuple[str, str] | None:
+    for field in ("scope_pointer", "cost_pointer", "not_claimed_pointer"):
+        pointer = getattr(spec, field)
+        if pointer is None:
+            return "invalid", f"missing-{field.replace('_', '-')}"
+        if pointer_value(payload, pointer) is None:
+            return "invalid", f"unresolved-{field.replace('_', '-')}"
+    if spec.control_pointer is None:
+        if spec.no_control_rationale_pointer is None:
+            return "invalid", "missing-no-control-rationale-pointer"
+        if pointer_value(payload, spec.no_control_rationale_pointer) is None:
+            return "invalid", "unresolved-no-control-rationale-pointer"
+    elif spec.no_control_rationale_pointer is not None and pointer_value(payload, spec.no_control_rationale_pointer) is None:
+        return "invalid", "unresolved-no-control-rationale-pointer"
+    return None
+
+
 def _audit_row(
     spec: CanonicalReportSpec,
     payload: Mapping[str, Any],
@@ -2000,6 +2066,9 @@ def _audit_row(
 ) -> tuple[str, str]:
     if level not in DISCOVERY_LEVELS:
         return "invalid", "missing-discovery-level"
+    spec_pointer_result = _audit_spec_pointer_cells(spec, payload)
+    if spec_pointer_result is not None:
+        return spec_pointer_result
     if spec.name == "gap-head-transfer-atlas":
         claim = pointer_value(payload, "$.multi_surface_d5_o")
         if not isinstance(claim, Mapping):

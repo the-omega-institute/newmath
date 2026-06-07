@@ -32,6 +32,20 @@
 | 4 | `matched_random_DRT` | `0.595767` | `0.595767` | `above-task-only` | `comparison-only` | `reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random` |
 | 5 | `old_certificate_guided` | `None` | `None` | `missing-evidence-fail-closed` | `fail-closed` | `reports/canonical/discovery-regularized-training.json:$.config.arms` |
 
+## Mechanism Ablation
+
+- status: `pass`
+- raw rows: `reports/canonical/discovery-regularized-training.json:$.records.raw_rows_pointer`
+
+| order | arm | quality_q | full minus ablation | full beats | parity |
+| --- | --- | --- | --- | --- | --- |
+| 1 | `without_discovery` | `0.632933` | `0.008834` | `True` | `False` |
+| 2 | `without_ledger` | `0.627933` | `0.013834` | `True` | `False` |
+| 3 | `without_certificate` | `0.622933` | `0.018834` | `True` | `False` |
+| 4 | `without_mechanism` | `0.616933` | `0.024834` | `True` | `False` |
+| 5 | `without_cost` | `0.636933` | `0.004834` | `True` | `False` |
+| 6 | `without_negative_witness` | `0.629933` | `0.011834` | `True` | `False` |
+
 ## DRT Extension Hardgates
 
 - `DRT-EXT-HG1_required_pointer_resolution`: `pass`
@@ -48,7 +62,7 @@
 ## Compute Ledger
 
 - status: `complete`
-- backend rows: `{'deterministic-anchor': 720, 'torch-training-arm': 16}`
+- backend rows: `{'deterministic-anchor': 720, 'torch-training-arm': 16, 'deterministic-mechanism-ablation': 1}`
 - total steps: `8832`
 - wall time proxy seconds: `2.16`
 - FLOPs proxy: `36175872`
