@@ -29,6 +29,7 @@ class DiscoveryGateBasis:
     positive_net: bool
     control_negative: bool
     scorecard_ready: bool
+    audit_pass: bool
     robustness_ready: bool
     mechanism_ready: bool
     terminal_failed: bool
@@ -328,6 +329,10 @@ def _audit_status(payload: Mapping[str, Any]) -> str | None:
     return None
 
 
+def _audit_pass(payload: Mapping[str, Any]) -> bool:
+    return _audit_status(payload) in {"valid", "consistent", "pass"}
+
+
 def _experiment_id(payload: Mapping[str, Any]) -> str:
     for key in ("artifact", "json_artifact"):
         value = payload.get(key)
@@ -348,6 +353,8 @@ def _d4_failed_gate_reasons(basis: DiscoveryGateBasis) -> tuple[str, ...]:
         reasons.append("control_negative=false")
     if not basis.scorecard_ready:
         reasons.append("scorecard_ready=false")
+    if not basis.audit_pass:
+        reasons.append("audit_pass=false")
     return tuple(reasons)
 
 
@@ -365,6 +372,7 @@ def _build_discovery_gate_basis(
         positive_net=_positive_net_signal(payload, main),
         control_negative=_control_positive(payload) is False,
         scorecard_ready=_scorecard_ready(payload),
+        audit_pass=_audit_pass(payload),
         robustness_ready=_has_robustness_report_pass(payload),
         mechanism_ready=_mechanism_ready(payload, source_pointers),
         terminal_failed=terminal_failed,
@@ -381,6 +389,7 @@ def _build_discovery_gate_basis(
         positive_net=provisional.positive_net,
         control_negative=provisional.control_negative,
         scorecard_ready=provisional.scorecard_ready,
+        audit_pass=provisional.audit_pass,
         robustness_ready=provisional.robustness_ready,
         mechanism_ready=provisional.mechanism_ready,
         terminal_failed=provisional.terminal_failed,
@@ -408,6 +417,7 @@ def _assign_level(
         and basis.positive_net
         and basis.control_negative
         and basis.scorecard_ready
+        and basis.audit_pass
     )
     if basis.positive_terminal and not d4_pass:
         return "DN", basis.failed_gate_reasons
@@ -420,6 +430,7 @@ def _assign_level(
                 "net_positive_signal=true",
                 "control_negative=true",
                 "scorecard_ready=true",
+                "audit_pass=true",
                 "robustness_ready=true",
                 "mechanism_ready=true",
             ),
@@ -433,6 +444,7 @@ def _assign_level(
                 "net_positive_signal=true",
                 "control_negative=true",
                 "scorecard_ready=true",
+                "audit_pass=true",
                 "robustness_ready=true",
                 "mechanism_ready=false",
             ),
@@ -446,6 +458,7 @@ def _assign_level(
                 "net_positive_signal=true",
                 "control_negative=true",
                 "scorecard_ready=true",
+                "audit_pass=true",
                 "robustness_ready=false",
             ),
         )

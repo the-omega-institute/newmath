@@ -489,7 +489,7 @@ def test_certificate_gated_attention_row_maps_existing_positive_verdict(tmp_path
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
 
 
-@pytest.mark.parametrize("audit_status", ["invalid", None])
+@pytest.mark.parametrize("audit_status", ["invalid", "pass", None])
 def test_positive_discovery_requires_valid_discovery_map_audit(tmp_path, monkeypatch, audit_status):
     rows = [_discovery_row("gap-head-discovery", "reports/canonical/gap-head-discovery.json", "D4")]
     if audit_status is None:

@@ -42,6 +42,43 @@ def _write_payload(root: Path, spec, payload):
     path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
 
 
+def _ensure_pointer_value(payload, pointer, value):
+    target = payload
+    parts = pointer[2:].split(".")
+    for part in parts[:-1]:
+        child = target.get(part)
+        if not isinstance(child, dict):
+            child = {}
+            target[part] = child
+        target = child
+    if target.get(parts[-1]) is None:
+        target[parts[-1]] = value
+
+
+def _audit_complete_payload(spec, payload):
+    payload = dict(payload)
+    _ensure_pointer_value(payload, spec.scope_pointer, {"status": "fixture"})
+    _ensure_pointer_value(payload, spec.cost_pointer, "configs/default_cost_protocol.yaml")
+    _ensure_pointer_value(payload, spec.not_claimed_pointer, ["fixture boundary"])
+    if spec.control_pointer is not None:
+        _ensure_pointer_value(payload, spec.control_pointer, {"status": "fixture-control"})
+    if spec.no_control_rationale_pointer is not None:
+        _ensure_pointer_value(payload, spec.no_control_rationale_pointer, {"status": "fixture-rationale"})
+    payload["audit_decision"] = {"audit_status": "pass"}
+    if spec.name == "gap-head-attribution-capsule":
+        payload.setdefault("cost_protocol_pointer", "configs/default_cost_protocol.yaml")
+        payload.setdefault("control_pointer", "$.control_evidence")
+        payload.setdefault("control_evidence", {"status": "matched-random-negative"})
+    return payload
+
+
+def _write_audit_complete_payload(root: Path, report: str):
+    spec = canonical._specs_by_name()[report]
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
+    _write_payload(root, spec, payload)
+    return spec, payload
+
+
 def _minimal_payload(spec):
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
@@ -376,6 +413,7 @@ def _minimal_payload(spec):
         payload.update({
             "config": {"control_arm": "matched_random_gap_head"},
             "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
+            "source_artifacts": {"metric_helper": "reports/canonical/gap_head_transfer_atlas.json:$.surfaces"},
         })
         return payload
     if spec.name == "spectral-ablation-hinge":
@@ -422,7 +460,11 @@ def _minimal_payload(spec):
         })
         return payload
     if spec.name == "mixing-family-sweep":
-        payload.update({"coverage_item": {"debt_item": {"status": "open"}}})
+        payload.update({
+            "coverage_item": {"debt_item": {"status": "open"}},
+            "applicability_boundary": {"not_claimed": ["no global positive discovery claim"]},
+            "source_artifacts": {"cost_protocol": "configs/default_cost_protocol.yaml"},
+        })
         return payload
     if spec.name == "gap-head-attribution-capsule":
         payload.update({
@@ -1158,6 +1200,7 @@ def test_lat_zero_rows_fail_closed_to_dn_in_discovery_map(tmp_path):
     assert row["discovery_level"] == "DN"
     assert "terminal_verdict" not in row
     assert row["audit_status"] == "valid"
+    assert row["audit_reason"] == ""
     owner = _owner_by_pointer(tmp_path, row["negative_report_pointer"])
     assert owner["failed_gate"] == "$.hardgate.gates.LAT-HG1.status"
     assert owner["terminal_verdict"] == "rejected"
@@ -1180,6 +1223,7 @@ def test_lat_dangling_pointer_fail_closed_to_dn_in_discovery_map(tmp_path):
 
 def test_attribution_capsule_projection_records_operational_and_mechanism_axes(tmp_path):
     _write_all_payloads(tmp_path)
+    _write_audit_complete_payload(tmp_path, "gap-head-attribution-capsule")
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(payload)["gap-head-attribution-capsule"]
@@ -1283,7 +1327,7 @@ def test_attribution_capsule_audit_rejects_unresolved_mechanism_evidence_pointer
 ):
     _write_all_payloads(tmp_path)
     spec = canonical._specs_by_name()["gap-head-attribution-capsule"]
-    payload = _minimal_payload(spec)
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
     mutator(payload)
     _write_payload(tmp_path, spec, payload)
 
@@ -1302,7 +1346,7 @@ def test_attribution_capsule_audit_rejects_unresolved_mechanism_evidence_pointer
 def test_d4_rows_have_resolvable_control_pointer(tmp_path, report):
     _write_all_payloads(tmp_path)
     spec = canonical._specs_by_name()[report]
-    payload = _minimal_payload(spec)
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
     context = discovery_map._load_gap_head_d5_context(root=tmp_path)
     projected = discovery_map.projection_payload(spec, payload, context)
     evidence = discovery_map._projection_evidence(spec, payload, context)
@@ -1316,9 +1360,76 @@ def test_d4_rows_have_resolvable_control_pointer(tmp_path, report):
     assert discovery_map.pointer_value(_read_json_artifact(tmp_path, artifact), pointer) is not None
 
 
+@pytest.mark.parametrize(
+    ("field", "expected_reason"),
+    [
+        ("scope_pointer", "unresolved-scope-pointer"),
+        ("cost_pointer", "unresolved-cost-pointer"),
+        ("not_claimed_pointer", "unresolved-not-claimed-pointer"),
+    ],
+)
+def test_positive_row_rejects_unresolved_spec_boundary_pointers(tmp_path, field, expected_reason):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["ledger-aware-transformer"]
+    payload = lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    _write_json_artifact(tmp_path, spec.json_artifact, payload)
+    broken_spec = canonical.CanonicalReportSpec(
+        **{
+            **spec.__dict__,
+            field: "$.missing.pointer",
+        }
+    )
+
+    row = discovery_map.discovery_row(
+        broken_spec,
+        payload,
+        discovery_map._load_gap_head_d5_context(root=tmp_path),
+    )
+
+    assert row["discovery_level"] == "D5-O"
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == expected_reason
+
+
+def test_positive_row_rejects_unresolved_no_control_rationale_pointer(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    payload = _minimal_payload(spec)
+    payload["positive_discovery"] = True
+    payload["net_positive_signal"] = True
+    payload["audit_decision"] = {"audit_status": "valid"}
+    payload["main_verdict"] = {
+        "surface_delta_count": 1,
+        "shift_information": 1,
+        "structural_discovery": True,
+    }
+    payload["evidence_basis"] = {
+        "control_positive_discovery": False,
+        "scorecard_ready": True,
+        "audit_status": "valid",
+    }
+    broken_spec = canonical.CanonicalReportSpec(
+        **{
+            **spec.__dict__,
+            "no_control_rationale_pointer": "$.missing.rationale",
+        }
+    )
+
+    status, reason = discovery_map._audit_row(
+        broken_spec,
+        payload,
+        "D4",
+        discovery_map.ProjectionEvidence(projection_status="projected"),
+    )
+
+    assert status == "invalid"
+    assert reason == "unresolved-no-control-rationale-pointer"
+
+
 def test_gap_head_on_h_current_readiness_stays_d4_with_observed_debt_transfer_missing(tmp_path):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=False)
+    _write_audit_complete_payload(tmp_path, "gap-head-on-h")
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(payload)["gap-head-on-h"]
@@ -1339,24 +1450,53 @@ def test_gap_head_on_h_current_readiness_stays_d4_with_observed_debt_transfer_mi
     assert row["d5_readiness"]["observed_debt_transfer"]["status"] == "missing"
 
 
-def test_gap_head_on_h_projects_to_d5_o_when_readiness_passes_without_mechanism_closure(tmp_path):
+def test_gap_head_on_h_without_audit_source_fails_closed_before_d5_o(tmp_path):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(payload)["gap-head-on-h"]
 
+    assert row["discovery_level"] == "DN"
+    assert "terminal_verdict" not in row
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "unresolved-scope-pointer"
+
+
+def test_gap_head_on_h_projects_to_d5_o_with_audit_source(tmp_path):
+    _write_all_payloads(tmp_path)
+    _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _write_audit_complete_payload(tmp_path, "gap-head-on-h")
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-on-h"]
+
     assert row["discovery_level"] == "D5-O"
     assert row["audit_status"] == "valid"
+    assert row["audit_reason"] == ""
     assert {criterion["status"] for criterion in row["d5_readiness"].values()} == {"pass"}
 
 
-def test_gap_head_transfer_atlas_discovery_row_matches_canonical_claim(tmp_path):
+def test_gap_head_transfer_atlas_without_audit_source_fails_closed(tmp_path):
     _write_all_payloads(tmp_path)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(payload)["gap-head-transfer-atlas"]
     atlas_payload = _read_json_artifact(tmp_path, "reports/canonical/gap_head_transfer_atlas.json")
+    claim = atlas_payload["multi_surface_d5_o"]
+
+    assert claim["discovery_level"] == "D5-O"
+    assert row["discovery_level"] == "DN"
+    assert "terminal_verdict" not in row
+    assert row["audit_status"] == "valid"
+
+
+def test_gap_head_transfer_atlas_discovery_row_matches_canonical_claim_with_audit_source(tmp_path):
+    _write_all_payloads(tmp_path)
+    _spec, atlas_payload = _write_audit_complete_payload(tmp_path, "gap-head-transfer-atlas")
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["gap-head-transfer-atlas"]
     claim = atlas_payload["multi_surface_d5_o"]
 
     assert row["discovery_level"] == claim["discovery_level"]
@@ -1379,7 +1519,7 @@ def test_gap_head_transfer_atlas_audit_rejects_unresolved_control_pointer(tmp_pa
     discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
     row = _row_by_report(discovery_payload)["gap-head-transfer-atlas"]
 
-    assert row["discovery_level"] == "D5-O"
+    assert row["discovery_level"] == "DN"
     assert row["control_pointer"] == "$.config.control_arm"
     assert row["audit_status"] == "invalid"
     assert row["audit_reason"] == "unresolved-control-pointer"
@@ -1388,7 +1528,7 @@ def test_gap_head_transfer_atlas_audit_rejects_unresolved_control_pointer(tmp_pa
 def test_gap_head_transfer_atlas_audit_rejects_terminal_claim_mismatch(tmp_path):
     _write_all_payloads(tmp_path)
     spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
-    payload = _minimal_payload(spec)
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
     _write_payload(tmp_path, spec, payload)
     evidence = discovery_map.ProjectionEvidence(
         projection_status="projected",
@@ -1443,6 +1583,7 @@ def test_gap_head_transfer_atlas_failed_claim_projects_dn(tmp_path):
 def test_gap_head_on_h_d5_readiness_rejects_malformed_transfer_artifact(tmp_path, mutate):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _write_audit_complete_payload(tmp_path, "gap-head-on-h")
     _rewrite_gap_head_d5_artifact(tmp_path, discovery_map.OBSERVED_DEBT_ARTIFACT, mutate)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
@@ -1557,6 +1698,7 @@ def test_gap_head_on_h_d5_readiness_fails_closed_per_real_criterion(
 ):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+    _write_audit_complete_payload(tmp_path, "gap-head-on-h")
     _rewrite_gap_head_d5_artifact(tmp_path, artifact, mutate)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
@@ -1571,7 +1713,7 @@ def test_gap_head_on_h_d5_readiness_fails_closed_per_real_criterion(
 
 def test_gap_head_on_h_d5_o_claim_with_unresolved_pointer_is_invalid(monkeypatch):
     spec = canonical._specs_by_name()["gap-head-on-h"]
-    payload = _minimal_payload(spec)
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
     context = {
         discovery_map.QUALITY_SCORECARD_ARTIFACT: _scorecard_payload(),
         discovery_map.GAP_HEAD_ROBUSTNESS_ARTIFACT: {"final_status": "pass"},
@@ -1774,7 +1916,7 @@ def test_strict_manifest_audit_marks_missing_control_invalid(tmp_path):
     row = discovery_map.discovery_row(spec, payload)
 
     assert row["discovery_level"] == "DN"
-    assert row["classifier_reasons"] == ["scorecard_ready=false"]
+    assert row["classifier_reasons"] == ["scorecard_ready=false", "audit_pass=false"]
 
     _write_all_payloads(tmp_path)
     _write_payload(tmp_path, spec, payload)
@@ -1897,6 +2039,7 @@ def test_dimension_mismatch_source_pass_keeps_canonical_d4_terminal(tmp_path):
         status="pass",
         anti_triviality_status="anti_triviality_passed",
     )
+    canonical_payload["audit_decision"] = {"audit_status": "pass"}
     _write_json_artifact(tmp_path, discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT, canonical_payload)
 
     payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
