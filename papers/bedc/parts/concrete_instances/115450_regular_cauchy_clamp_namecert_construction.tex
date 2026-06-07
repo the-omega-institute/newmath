@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyClampUp$}
+\label{ch:concrete-instances-regular-cauchy-clamp-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyClampUp$ packet records the finite regular-Cauchy route for clamping a regular rational Cauchy name between two regular rational endpoint rows before the terminal $\RealUp$ seal is inspected. It sits below the Real-facing clamp of \autoref{ch:concrete-instances-real-clamping-namecert} and reads its source surface through \autoref{ch:concrete-instances-regseqrat-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the lower-bound factorization of \autoref{ch:concrete-instances-regular-cauchy-minimum-namecert}, the upper-bound factorization of \autoref{ch:concrete-instances-regular-cauchy-maximum-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet gives completion-facing interval, oscillation, and boundedness consumers a pre-seal regular-Cauchy clamp route without host trichotomy, quotient stream equality, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy clamp carrier]
+\label{def:regular-cauchy-clamp-carrier}
+A $\RegularCauchyClampUp$ carrier is a finite $\BHist$ packet
+$$
+K=(X,L,U,W,D,M,N,R,E,H,C,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the $\RegSeqRatUp$ source row whose regular rational Cauchy readback is being clamped.
+\item $L$ and $U$ are the $\RegSeqRatUp$ endpoint rows for the displayed lower and upper bounds.
+\item $W$ is the $\StreamNameUp$ finite-window row opened at the precision requested by the clamp consumer.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance and readback ledger; it records the requested dyadic tolerance, the endpoint slack, and the comparison scale used by the two factorization rows.
+\item $M$ is the $\RegularCauchyMaximumUp$ factorization row implementing the lower projection $\max(X,L)$ on the displayed regular-Cauchy surface.
+\item $N$ is the $\RegularCauchyMinimumUp$ factorization row implementing the upper projection $\min(M,U)$ after the lower projection has been exposed.
+\item $R$ is the exported $\RegSeqRatUp$ readback row for the regular-Cauchy clamp value.
+\item $E$ is the $\RealUp$ seal row reached only after $R$ has been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, endpoints, windows, dyadic ledger, maximum row, minimum row, readback, seal, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a clamp request through $X,L,U,W,D,M,N,R,E,H,P,A$.
+\item $P$ records $\Pkg$ provenance over $\RegularCauchyClampUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyMaximumUp$, $\RegularCauchyMinimumUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $A$ is the local $\NameCert_{\RegularCauchyClampUp}$ row.
+\end{enumerate}
+The classifier reads only the displayed tuple $K=(X,L,U,W,D,M,N,R,E,H,C,P,A)$. It has no coordinate for host order trichotomy, quotient stream equality, selected limit, countable-choice schedule, ambient real completeness, Lean verification, or bridge checking.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy clamp NameCert obligations]
+\label{thm:regular-cauchy-clamp-namecert-obligations}
+For every accepted $\RegularCauchyClampUp$ carrier
+$$
+K=(X,L,U,W,D,M,N,R,E,H,C,P,A),
+$$
+the local $\NameCert_{\RegularCauchyClampUp}$ surface consists exactly of carrier admission for the source row, endpoint rows, finite-window row, dyadic tolerance ledger, maximum factorization row, minimum factorization row, exported readback row, Real seal, componentwise transport, displayed replay, provenance, and local naming. The certificate also requires factorization order: $M$ must be read as the displayed $\RegularCauchyMaximumUp$ route for $\max(X,L)$ before $N$ is read as the displayed $\RegularCauchyMinimumUp$ route for $\min(M,U)$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-clamp-carrier}. Its displayed rows are exactly the source regular-rational readback, two endpoint rows, the finite observation window, dyadic tolerance ledger, two factorization rows, exported readback, Real seal, and structural rows.
+
+The factorization order is part of the row inventory. The maximum row $M$ can inspect only $X,L,W,D$ and the structural rows available at that stage; the minimum row $N$ is downstream of $M$ and the upper endpoint row $U$.
+
+The exported readback $R$ and seal $E$ have no independent numeric source. They can therefore expose only the regular-Cauchy clamp route already displayed by $M$ and $N$, transported by $H$ and replayed by $C$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy clamp min--max factorization]
+\label{thm:regular-cauchy-clamp-min-max-factorization}
+Every accepted $\RegularCauchyClampUp$ carrier $K=(X,L,U,W,D,M,N,R,E,H,C,P,A)$ presents its clamp value through the finite route
+$$
+\begin{aligned}
+X,L,U,W,D
+&\longmapsto M=\max(X,L),\\
+M,U,D
+&\longmapsto N=\min(M,U),\\
+N
+&\longmapsto R \longmapsto E .
+\end{aligned}
+$$
+No consumer receives a direct host clamp operation, a trichotomy of the three regular Cauchy rows, quotient stream equality, a selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier and read the maximum row $M$. By \autoref{def:regular-cauchy-clamp-carrier}, this row is the only lower-projection coordinate and it factors through the displayed $\RegularCauchyMaximumUp$ route.
+
+Next read the minimum row $N$. It is downstream of $M$ and $U$, so its only upper-projection source is the displayed $\RegularCauchyMinimumUp$ route applied to the lower-projected row and the upper endpoint.
+
+Finally read $R$ and then $E$. Since the carrier has no coordinate for any excluded host or quotient object, the exported route is exactly the displayed min--max factorization.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy clamp Real seal boundary]
+\label{thm:regular-cauchy-clamp-real-seal-boundary}
+Every $\RealUp$ consumer of an accepted $\RegularCauchyClampUp$ packet must first expose the $\RegSeqRatUp$ source row $X$, endpoint rows $L,U$, finite $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\RegularCauchyMaximumUp$ row $M$, $\RegularCauchyMinimumUp$ row $N$, and exported $\RegSeqRatUp$ readback $R$. The terminal seal $E$ records only the displayed regular-Cauchy clamp boundary and cannot be used as an ambient Real-level clamp theorem.
+\end{theorem}
+\begin{proof}
+The Real seal row $E$ is downstream of the exported readback row $R$ in the carrier tuple. Thus a Real-facing consumer cannot inspect $E$ until the regular-Cauchy readback has been displayed.
+
+The readback row $R$ is downstream of the two factorization rows. Those factorization rows force the route through $\RegularCauchyMaximumUp$ and $\RegularCauchyMinimumUp$ before any Real-facing seal is available.
+
+The structural rows $H,C,P,A$ transport, replay, source, and name only that route. Hence $E$ seals the pre-seal regular-Cauchy clamp boundary and does not add host order, quotient equality, selected limits, or ambient completeness.
+\end{proof}
+
+\closureat{RegularCauchyClampUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyClampUp}
+  \constructivestory{A $\RegularCauchyClampUp$ packet is generated from one RegSeqRat source row, two RegSeqRat endpoint rows, StreamName windows, a DyadicRatCore tolerance ledger, RegularCauchyMaximum and RegularCauchyMinimum factorization rows, an exported RegSeqRat readback, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-clamp-carrier}, \autoref{thm:regular-cauchy-clamp-namecert-obligations}, \autoref{thm:regular-cauchy-clamp-min-max-factorization}, and \autoref{thm:regular-cauchy-clamp-real-seal-boundary} seed the finite regular-Cauchy clamp route below the Real-facing clamp seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close a checked Lean carrier, bridge checking, host clamp operations, trichotomy, quotient stream equality, selected limits, countable choice, chosen dense enumerations, or ambient Real completeness.}
+  \upgradepath{Obligation closure requires explicit carrier admission, window coverage, dyadic tolerance exactness, min--max factorization exactness, Real seal handoff, transport, replay, provenance, and local NameCert obligations for BEDC.Derived.RegularCauchyClampUp.}
+\end{closurestatus}
