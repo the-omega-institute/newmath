@@ -131,6 +131,17 @@
 - Not claimed: `reports/canonical/discovery_gated_transformer.json:$.not_claimed`
 - Downstream scope: `reports/canonical/discovery_gated_transformer.json:$.downstream_scope`
 
+## Model Design Suite
+
+- Status: `pass`
+- JSON: `reports/canonical/model_design_suite.json`
+- Markdown: `reports/canonical/model_design_suite.md`
+- Schema: `bedc-quality-lab:model-design-suite`
+- Owner: `reports/canonical/model_design_suite.json:$`
+- Rows: `reports/canonical/model_design_suite.json:$.rows`
+- Hardgates: `reports/canonical/model_design_suite.json:$.hardgates`
+- Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
+
 ## Claim verdicts
 
 - Status: `pointer-only`

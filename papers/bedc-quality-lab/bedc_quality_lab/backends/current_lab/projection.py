@@ -144,10 +144,9 @@ DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regulariz
 LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
 CERTIFICATE_GATED_ATTENTION_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 MECHANISM_SEEKING_NETWORK_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
-DISCOVERY_GATED_NAS_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 SIGREG_MINI_GRID_ARTIFACT = "reports/canonical/sigreg-mini-grid.json"
 LEJEPA_THEOREM_LEDGER_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
-MODEL_DISCOVERY_SUITE_ARTIFACT = "reports/runs/model-discovery-suite/summary.json"
+MODEL_DESIGN_SUITE_ARTIFACT = "reports/canonical/model_design_suite.json"
 
 
 def _root(root: Path | None) -> Path:
@@ -2188,6 +2187,7 @@ def _manifest_audit(
         "reports/canonical/negative_witness_mutation_ledger.json",
         "reports/canonical/new_model_hardgates.json",
         "reports/canonical/discovery_gated_transformer.json",
+        MODEL_DESIGN_SUITE_ARTIFACT,
         "reports/canonical/discovery_negative_witness_summary.json",
         "reports/canonical/claim_capsule.json",
         "reports/canonical/claim_graph.json",
