@@ -104,10 +104,15 @@ def test_negative_witness_mutation_graph_is_derived_from_ledger_pointers():
     graph = ledger._render_lineage_graph(payload)
 
     assert f"{ledger.LEDGER_JSON_ARTIFACT}:$.entries" in graph
-    for entry in payload["entries"]:
-        assert entry["witness_kind"] in graph
-        assert entry["target_module"] in graph
-        assert _source_cell(entry) in graph
+    assert "| child entry pointer | lineage parent cell pointer |" in graph
+    for index, entry in enumerate(payload["entries"]):
+        assert f"{ledger.LEDGER_JSON_ARTIFACT}:$.entries[{index}]`" in graph
+        assert f"{ledger.LEDGER_JSON_ARTIFACT}:$.entries[{index}].lineage_parent" in graph
+        assert entry["witness_kind"] not in graph
+        assert entry["target_module"] not in graph
+        assert _source_cell(entry) not in graph
+    assert "`ready`" not in graph
+    assert "`blocked`" not in graph
     assert "terminal_verdict" not in graph
 
 
@@ -122,6 +127,8 @@ def test_negative_witness_mutation_runner_round_trips_committed_json(tmp_path):
     assert dgt_report["ledger"] == {"artifact": ledger.LEDGER_JSON_ARTIFACT, "pointer": "$.entries"}
     assert "entries" not in dgt_report
     assert f"{ledger.LEDGER_JSON_ARTIFACT}:$.entries" in graph
+    assert "score_margin_shortcut" not in graph
+    assert "residualized_h_path" not in graph
 
 
 def test_negative_witness_mutation_ledger_manifest_and_index_exposure():

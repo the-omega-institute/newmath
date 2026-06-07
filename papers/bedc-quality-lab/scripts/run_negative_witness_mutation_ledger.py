@@ -255,26 +255,22 @@ def _render_lineage_graph(payload: Mapping[str, Any]) -> str:
     lines = [
         "# Model Mutation Lineage Graph",
         "",
-        f"- Ledger: `{LEDGER_JSON_ARTIFACT}:$.entries`",
-        f"- Status: `{payload.get('status', 'missing')}`",
-        f"- Entry count: `{payload.get('entry_count', 0)}`",
+        f"- Ledger entries: `{LEDGER_JSON_ARTIFACT}:$.entries`",
+        f"- Ledger status: `{LEDGER_JSON_ARTIFACT}:$.status`",
+        f"- Entry count: `{LEDGER_JSON_ARTIFACT}:$.entry_count`",
         "",
-        "| witness kind | target module | source pointer | lineage parent | status |",
-        "| --- | --- | --- | --- | --- |",
+        "| child entry pointer | lineage parent cell pointer |",
+        "| --- | --- |",
     ]
     entries = payload.get("entries", [])
     if isinstance(entries, list):
-        for entry in entries:
+        for index, entry in enumerate(entries):
             if not isinstance(entry, Mapping):
                 continue
-            source = f"{entry.get('source_artifact', '')}:{entry.get('source_pointer', '')}"
             lines.append(
                 "| "
-                f"`{entry.get('witness_kind', '')}` | "
-                f"`{entry.get('target_module', '')}` | "
-                f"`{source}` | "
-                f"`{entry.get('lineage_parent', '')}` | "
-                f"`{entry.get('status', '')}` |"
+                f"`{LEDGER_JSON_ARTIFACT}:$.entries[{index}]` | "
+                f"`{LEDGER_JSON_ARTIFACT}:$.entries[{index}].lineage_parent` |"
             )
     lines.append("")
     return "\n".join(lines)
