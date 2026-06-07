@@ -314,6 +314,21 @@ def test_lat_parameter_matched_failure_demotes_to_dn():
     assert pointer_value(mutated, mutated["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
 
 
+def test_lat_missing_parameter_matched_owner_projects_dn():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    del mutated["parameter_matched_baseline"]
+
+    overlay, evidence = discovery_projection._ledger_aware_transformer_projection(mutated)
+    row = discovery_projection.discovery_row(canonical._specs_by_name()["ledger-aware-transformer"], mutated)
+
+    assert overlay["main_verdict"]["ledger_aware_transformer"]["level_candidate"] == "DN"
+    assert evidence.failed_gate == "$.parameter_matched_baseline"
+    assert row["discovery_level"] == "DN"
+    assert row["failed_gate"] == "$.parameter_matched_baseline"
+    assert row["audit_reason"] == "missing-lat-parameter-matched-baseline"
+
+
 @pytest.mark.parametrize(
     "comparison_patch",
     [
