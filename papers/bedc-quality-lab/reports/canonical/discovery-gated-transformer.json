@@ -1,0 +1,325 @@
+{
+  "architecture_spec": {
+    "architecture_id": "discovery-gated-transformer",
+    "component_order": [
+      "hardgate_contract",
+      "discovery_gated_nas",
+      "discovery_map",
+      "training_replay"
+    ],
+    "evidence_policy": "pointer-only source cells",
+    "gating_protocol": "discovery hardgate before promotion",
+    "role": "bounded sequence transformer prototype"
+  },
+  "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+  "claim_capsule_ref": {
+    "artifact": "reports/runs/discovery-gated-transformer/claim_capsule.json",
+    "pointer": "$"
+  },
+  "component_refs": {
+    "discovery_gated_nas": {
+      "artifact": "reports/canonical/discovery-gated-nas.json",
+      "pointer": "$.candidate_protocol.design_search_certificate"
+    },
+    "discovery_map": {
+      "artifact": "reports/canonical/discovery_map.json",
+      "pointer": "$.coverage_matrix"
+    },
+    "hardgate_contract": {
+      "artifact": "reports/canonical/new_model_hardgates.json",
+      "pointer": "$.gates"
+    },
+    "training_replay": {
+      "artifact": "reports/canonical/discovery-gated-transformer-training.json",
+      "pointer": "$.hardgates"
+    }
+  },
+  "discovery_map_signal": {
+    "evidence": {
+      "artifact": "reports/canonical/discovery-gated-transformer.json",
+      "pointer": "$.hardgate.status"
+    },
+    "level_candidate": "D4",
+    "map_ref": {
+      "artifact": "reports/canonical/discovery_map.json",
+      "pointer": "$.coverage_matrix"
+    },
+    "status": "candidate-local-positive"
+  },
+  "evidence_envelope_ref": {
+    "artifact": "reports/runs/discovery-gated-transformer/evidence_envelope.json",
+    "pointer": "$"
+  },
+  "generated_at": "2026-06-07T21:49:00.096406+00:00",
+  "hardgate": {
+    "gate_names": [
+      "DGT-HG1",
+      "DGT-HG2",
+      "DGT-HG3",
+      "DGT-HG4",
+      "DGT-HG5",
+      "DGT-HG6",
+      "DGT-HG7",
+      "DGT-HG8",
+      "DGT-HG9",
+      "DGT-HG10",
+      "DGT-HG11",
+      "DGT-HG12",
+      "DGT-HG13",
+      "DGT-HG14",
+      "DGT-HG15",
+      "DGT-HG16",
+      "DGT-HG17",
+      "DGT-HG18",
+      "DGT-HG19",
+      "DGT-HG20"
+    ],
+    "gates": {
+      "DGT-HG1": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.schema_id"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG10": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.claim_capsule_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG11": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.evidence_envelope_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG12": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.mechanism_namecert_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG13": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.jet_certificate_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG14": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG15": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/claim_capsule.json",
+          "pointer": "$.owner_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG16": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/evidence_envelope.json",
+          "pointer": "$.component_refs"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG17": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/mechanism_namecert.json",
+          "pointer": "$.evidence_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG18": {
+        "evidence": {
+          "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+          "pointer": "$.mechanism_ref"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG19": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-nas.json",
+          "pointer": "$.candidate_protocol.design_search_certificate"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG2": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.artifact_id"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG20": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG3": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.model_id"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG4": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.architecture_spec"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG5": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.component_refs.hardgate_contract"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG6": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.component_refs.discovery_gated_nas"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG7": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.component_refs.discovery_map"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG8": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.component_refs.training_replay"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "DGT-HG9": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.discovery_map_signal"
+        },
+        "not_claimed": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "jet_certificate_ref": {
+    "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+    "pointer": "$"
+  },
+  "mechanism_namecert_ref": {
+    "artifact": "reports/runs/discovery-gated-transformer/mechanism_namecert.json",
+    "pointer": "$"
+  },
+  "model_id": "discovery-gated-transformer",
+  "not_claimed": [
+    "No global superiority or architecture superiority claim.",
+    "No production authority or deployment authority.",
+    "No universal training recipe claim.",
+    "No terminal verdict ownership."
+  ],
+  "producer": "scripts/run_discovery_gated_transformer.py",
+  "projector": "bedc_quality_lab.discovery_gated_transformer.DiscoveryGatedTransformerProjector",
+  "schema_id": "bedc-quality-lab:discovery-gated-transformer",
+  "source_artifacts": {
+    "component_refs": {
+      "artifact": "reports/canonical/discovery-gated-transformer.json",
+      "pointer": "$.component_refs"
+    }
+  }
+}

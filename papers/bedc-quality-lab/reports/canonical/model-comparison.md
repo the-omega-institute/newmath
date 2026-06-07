@@ -1,6 +1,6 @@
 # Model Comparison
 
-- Generated at: `2026-06-07T18:09:29.490922+00:00`
+- Generated at: `2026-06-07T21:49:00.096406+00:00`
 - Artifact: `bedc-quality-lab:model-comparison`
 - Schema: `bedc-quality-lab:model-comparison`
 - Status: `not_ready`
@@ -15,7 +15,7 @@
 | `certificate-gated-attention` | `ready` | `reports/canonical/certificate-gated-attention.json:$` | `12/12` |
 | `discovery-regularized-training` | `ready` | `reports/canonical/discovery-regularized-training.json:$` | `12/12` |
 | `mechanism-seeking-network` | `ready` | `reports/canonical/mechanism-seeking-network.json:$` | `12/12` |
-| `DGT candidate` | `ready` | `reports/canonical/discovery_gated_transformer.json:$` | `12/12` |
+| `DGT candidate` | `ready` | `reports/canonical/discovery-gated-transformer.json:$` | `12/12` |
 | `matched-random structural control` | `missing_source` | `None` | `0/12` |
 
 ## Hardgates

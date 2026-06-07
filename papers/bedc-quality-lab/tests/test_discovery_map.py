@@ -136,6 +136,19 @@ def _ensure_pointer_value(payload, pointer, value):
         target[parts[-1]] = value
 
 
+def _matched_random_audit_fixture(*, audit_status: str = "invalid"):
+    return {
+        "parameter_match": True,
+        "compute_match": True,
+        "threshold_match": True,
+        "surface_distribution_match": True,
+        "metric_helper_match": True,
+        "audit_status": audit_status,
+        "failure_reasons": [] if audit_status == "pass" else ["fixture audit source absent"],
+        "evidence_pointers": ["$.control_protocol"],
+    }
+
+
 def _audit_complete_payload(spec, payload):
     payload = dict(payload)
     _ensure_pointer_value(payload, spec.scope_pointer, {"status": "fixture"})
@@ -147,6 +160,12 @@ def _audit_complete_payload(spec, payload):
         _ensure_pointer_value(payload, spec.no_control_rationale_pointer, {"status": "fixture-rationale"})
     payload["scope_seal"] = CLOSED_CLAIM_SCOPE_SEAL
     payload["audit_decision"] = {"audit_status": "pass"}
+    if spec.name == "gap-head-on-h":
+        payload["control_protocol"].update(_matched_random_audit_fixture(audit_status="pass"))
+        for record in payload["records"]:
+            record["matched_random_control"].update(_matched_random_audit_fixture(audit_status="pass"))
+    if spec.name == "gap-head-discovery":
+        payload["matched_random_control"].update(_matched_random_audit_fixture(audit_status="pass"))
     if spec.name == "gap-head-attribution-capsule":
         payload.setdefault("cost_protocol_pointer", "configs/default_cost_protocol.yaml")
         payload.setdefault("control_pointer", "$.control_evidence")
@@ -170,8 +189,9 @@ def _minimal_payload(spec):
     if spec.name == "gap-head-on-h":
         payload.update({
             "treatment_verdict": {"positive": True},
-            "control_protocol": {"same_budget_as_treatment": True},
+            "control_protocol": {"same_budget_as_treatment": True, **_matched_random_audit_fixture()},
             "control_verdict": {"positive": False},
+            "records": [{"matched_random_control": _matched_random_audit_fixture()}],
         })
         return payload
     if spec.name == "gap-head-discovery":
@@ -180,6 +200,7 @@ def _minimal_payload(spec):
             "matched_random_control": {
                 "control_verdict": {"positive": False},
                 "control_projection": {"positive_discovery": True},
+                **_matched_random_audit_fixture(),
             },
         })
         return payload
@@ -661,13 +682,7 @@ def _write_coverage_payloads(root: Path):
     _write_json_artifact(
         root,
         discovery_map.DISCOVERY_GATED_TRANSFORMER_ARTIFACT,
-        {
-            "prototype_status": "prototype-candidate",
-            "discovery_map_signal": {"level_candidate": "D4"},
-            "hardgate_instances": {"NEW-MODEL-HG1": {"status": "pass"}},
-            "revocation_rows": [{"status": "demoted"}],
-            "not_claimed": ["no broad architecture superiority claim"],
-        },
+        canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time"),
     )
     _write_json_artifact(
         root,

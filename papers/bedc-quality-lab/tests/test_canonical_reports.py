@@ -42,6 +42,7 @@ HG_P_CORE = {
     "discovery-regularized-training",
     "mechanism-seeking-network",
     "discovery-gated-nas",
+    "discovery-gated-transformer",
 }
 QUALITY_SCORECARD_METRICS = {
     "CertCov",
@@ -63,7 +64,30 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "discovery-regularized-training": "bedc-quality-lab:discovery-regularized-training",
     "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
     "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
+    "discovery-gated-transformer": "bedc-quality-lab:discovery-gated-transformer",
 }
+
+
+def _matched_random_audit_fixture() -> dict[str, object]:
+    return {
+        "parameter_match": True,
+        "compute_match": True,
+        "threshold_match": True,
+        "surface_distribution_match": True,
+        "metric_helper_match": True,
+        "audit_status": "pass",
+        "failure_reasons": [],
+        "evidence_pointers": {
+            key: [f"fixture:{key}"]
+            for key in (
+                "parameter_match",
+                "compute_match",
+                "threshold_match",
+                "surface_distribution_match",
+                "metric_helper_match",
+            )
+        },
+    }
 
 
 def _dg_nas_negative_witness_mutation_rows() -> list[dict[str, object]]:
@@ -197,18 +221,43 @@ def _payload_for_spec(spec):
             "coverage_item": {"status": "fixture"},
             "transition_debt_by_grid": {"cell": {"status": "fixture"}},
             "config": {"arm": "baseline-only"},
-            "control_protocol": {"status": "fixture"},
+            "control_protocol": {"status": "fixture", **_matched_random_audit_fixture()},
             "treatment_verdict": {"positive": spec.name == "gap-head-on-h"},
             "control_verdict": {"positive": False},
             "boundary_checks": {
                 "forbidden_inference_columns": ["z"],
                 "representation_boundary": "learned_h",
             },
+            "claim_boundary": {
+                "C4": {
+                    "claim_surface": "observed-debt-availability-probe",
+                    "evidence_pointer": "reports/gaussian_ou_dynamics_planning.json:$.applicability_boundary",
+                    "not_claimed": [
+                        "no full world model planning claim",
+                        "no action-transition certificate",
+                    ],
+                }
+            },
             "score_terms": {"status": "fixture"},
+            "schema_constants": {
+                "PATCH_MATCHED_CONTROL": "same-seed non-target-channel no-op/control perturbation",
+            },
             "matched_random_control": {
                 "status": "fixture",
+                **_matched_random_audit_fixture(),
                 "control_verdict": {"positive": False},
                 "control_projection": {"positive_discovery": True},
+            },
+            "matched_control_summary": {"status": "pass"},
+            "effect_summary": {"status": "fixture"},
+            "side_effect_ledger": [{"status": "present"}],
+            "patch_registry": [{"channel": "fixture"}],
+            "causal_derivative_ledger_artifact": "reports/canonical/causal_derivative_ledger.json",
+            "discovery_projection": {
+                "status": "evidence-artifact-only",
+                "discovery_level_effect": "none",
+                "positive_discovery": False,
+                "net_positive_signal": False,
             },
             "objective": {"required_rows": ["fixture"]},
             "cost_protocol": {"name": "fixture"},
@@ -330,7 +379,8 @@ def _payload_for_spec(spec):
             "surface_registry": _atlas_fixture_rows()["surface_registry"],
             "surfaces": _atlas_fixture_rows()["surfaces"],
             "boundary_ledger": _atlas_fixture_rows()["boundary_ledger"],
-            "hardgate_evidence": {"A2-HG5": {"status": "pass"}},
+            "hardgate_evidence": {"A2-HG5": {"status": "pass"}, "C-HG5": {"status": "pass"}},
+            "global_claim_flag": False,
             "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
             "prior_observation_packet": {
                 "status": "prior_observation",
@@ -371,6 +421,7 @@ def _payload_for_spec(spec):
             },
             "positive_claim": {"text": "fixture D1 SIGReg training proxy", "scope": "fixture", "level": "D1"},
             "records": {
+                "matched_random_control": _matched_random_audit_fixture(),
                 "tensor_slice_registry": {
                     "copy_route": {"tensor_slice_ids": ["tensor-copy"]},
                     "parity_gate": {"tensor_slice_ids": ["tensor-parity"]},
@@ -491,6 +542,8 @@ def _payload_for_spec(spec):
             "forbidden_claim_term_audit": {"status": "pass", "hits": []},
         }
     )
+    if spec.name == "gap-head-on-h":
+        payload["records"] = [{"matched_random_control": _matched_random_audit_fixture()}]
     if spec.name == "discovery-gated-nas":
         payload.update(
             {
@@ -1276,9 +1329,12 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "discovery-regularized-training",
         "mechanism-seeking-network",
         "discovery-gated-nas",
+        "discovery-gated-transformer",
         "lejepa-theorem-ledger",
+        "observed-debt-sweep",
         "spectral-ablation-hinge",
         "model-comparison",
+        "causal-patch-suite",
     ]
     assert "certificate-guided-arms" not in names
     assert len(json_artifacts) == len(set(json_artifacts))
@@ -1518,7 +1574,7 @@ def test_model_comparison_ranking_key_is_claim_specific(monkeypatch):
     real_resolve = canonical._resolve_committed_artifact_pointer
 
     def missing_quality_q(root, pointer):
-        if pointer.endswith("$.training_evidence.benefit_signal"):
+        if pointer.endswith("$.hardgate.status"):
             return None
         return real_resolve(root, pointer)
 
@@ -1579,8 +1635,8 @@ def test_model_discovery_suite_removed_from_backend_exports():
 
     assert "model_discovery" not in backends.__all__
     assert not hasattr(backends, "ModelDiscoveryBackendEvidenceAdapter")
-    assert not (canonical.ROOT / "bedc_quality_lab/backends/model_discovery.py").exists()
-    assert not (canonical.ROOT / "tests/test_model_discovery_backend.py").exists()
+    assert not (canonical.ROOT / "reports/runs/model-discovery-suite/claim_capsule.json").exists()
+    assert not (canonical.ROOT / "reports/runs/model-discovery-suite/summary.json").exists()
 
 
 def test_committed_discovery_map_coverage_matrix_is_full_target_set_and_round_trips():
@@ -1700,15 +1756,59 @@ def test_gap_head_manifest_rows_are_canonical_and_keyed():
         "aggregate_metrics",
         "treatment_comparison",
         "control_protocol",
+        "$.control_protocol.parameter_match",
+        "$.control_protocol.compute_match",
+        "$.control_protocol.threshold_match",
+        "$.control_protocol.surface_distribution_match",
+        "$.control_protocol.metric_helper_match",
+        "$.control_protocol.audit_status",
+        "$.control_protocol.failure_reasons",
+        "$.control_protocol.evidence_pointers",
+        "$.records[*].matched_random_control.parameter_match",
+        "$.records[*].matched_random_control.compute_match",
+        "$.records[*].matched_random_control.threshold_match",
+        "$.records[*].matched_random_control.surface_distribution_match",
+        "$.records[*].matched_random_control.metric_helper_match",
+        "$.records[*].matched_random_control.audit_status",
+        "$.records[*].matched_random_control.failure_reasons",
+        "$.records[*].matched_random_control.evidence_pointers",
         "control_verdict",
         "main_claim_status",
     }.issubset(set(on_h.required_json_keys))
     assert {
         "boundary_checks",
         "matched_random_control",
+        "$.matched_random_control.parameter_match",
+        "$.matched_random_control.compute_match",
+        "$.matched_random_control.threshold_match",
+        "$.matched_random_control.surface_distribution_match",
+        "$.matched_random_control.metric_helper_match",
+        "$.matched_random_control.audit_status",
+        "$.matched_random_control.failure_reasons",
+        "$.matched_random_control.evidence_pointers",
         "main_claim_status",
         "final_main_claim_status",
     }.issubset(set(discovery.required_json_keys))
+    assert "stronger-matched-random-controls" not in {
+        spec.name for spec in canonical.CANONICAL_REPORTS
+    }
+
+
+def test_gap_head_strengthened_control_required_paths_fail_closed(tmp_path):
+    spec = canonical._specs_by_name()["gap-head-on-h"]
+    payload = _payload_for_spec(spec)
+    json_path = tmp_path / "payload.json"
+    json_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    valid = canonical._validate_json(json_path, spec.required_json_keys)
+    assert valid["status"] == "pass"
+
+    payload["records"][0]["matched_random_control"].pop("surface_distribution_match")
+    json_path.write_text(json.dumps(payload), encoding="utf-8")
+    invalid = canonical._validate_json(json_path, spec.required_json_keys)
+
+    assert invalid["status"] == "fail"
+    assert "$.records[*].matched_random_control.surface_distribution_match" in invalid["missing_keys"]
 
 
 def test_canonical_reports_manifest_includes_gap_head_ablation():
@@ -1989,6 +2089,43 @@ def test_canonical_reports_manifest_includes_distribution_sweep():
         "not_claimed",
     }.issubset(set(spec.required_json_keys))
     assert spec.bundle_role == "auxiliary"
+
+
+def test_canonical_reports_manifest_includes_causal_patch_suite():
+    spec = canonical._specs_by_name()["causal-patch-suite"]
+
+    assert spec.command == ("python3", "scripts/run_causal_patch_suite.py")
+    assert spec.json_artifact == "reports/canonical/causal_patch_suite.json"
+    assert spec.markdown_artifact == "reports/canonical/patch_effect_summary.md"
+    assert {
+        "schema_id",
+        "artifact_id",
+        "producer",
+        "patch_registry",
+        "schema_constants",
+        "records",
+        "effect_summary",
+        "matched_control_summary",
+        "side_effect_ledger",
+        "hardgates",
+        "causal_derivative_ledger_artifact",
+        "discovery_projection",
+        "not_claimed",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "auxiliary"
+    assert spec.scope_pointer == "$.not_claimed"
+    assert spec.cost_pointer == "$.schema_constants.PATCH_MATCHED_CONTROL"
+    assert spec.positive_claim_pointer == "$.discovery_projection"
+    assert spec.control_pointer == "$.matched_control_summary"
+
+
+def test_causal_patch_suite_fingerprint_sources_cover_runner_and_stats():
+    spec = canonical._specs_by_name()["causal-patch-suite"]
+    input_record = canonical._input_record(spec)
+    source_paths = {row["path"] for row in input_record["producer_sources"]}
+
+    assert "scripts/run_causal_patch_suite.py" in source_paths
+    assert "scripts/experiment_stats.py" in source_paths
 
 
 def test_canonical_reports_manifest_includes_mixing_and_anisotropic_sweeps():
@@ -2479,49 +2616,53 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "artifact_id",
         "generated_at",
         "producer",
+        "projector",
         "model_id",
-        "canonical_owner",
-        "hardgate_contract_ref",
-        "sequence_task_grid",
-        "training_evidence",
-        "baselines",
-        "classifier_surface_delta",
-        "net_positive_signal",
-        "hardgate_instances",
-        "prototype_status",
+        "source_artifacts",
+        "component_refs",
+        "architecture_spec",
+        "hardgate",
         "discovery_map_signal",
         "claim_capsule_ref",
+        "evidence_envelope_ref",
+        "mechanism_namecert_ref",
+        "jet_certificate_ref",
         "not_claimed",
-        "revocation_rows",
-        "forbidden_claim_term_audit",
     }
     assert payload["schema_id"] == canonical.DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID
     assert payload["artifact_id"] == canonical.DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID
     assert payload["producer"] == "scripts/run_discovery_gated_transformer.py"
-    assert payload["model_id"] == "discovery_gated_transformer"
-    assert payload["hardgate_contract_ref"]["artifact_pointer"] == (
-        "reports/canonical/new_model_hardgates.json:$.gates"
-    )
-    assert payload["sequence_task_grid"]["task_id"] == "edge_agreement_sequence"
-    assert set(payload["baselines"]) == {"parameter_control", "compute_control", "matched_random"}
+    assert payload["model_id"] == "discovery-gated-transformer"
+    assert payload["architecture_spec"]["architecture_id"] == "discovery-gated-transformer"
+    assert set(payload["component_refs"]) == {
+        "hardgate_contract",
+        "discovery_gated_nas",
+        "discovery_map",
+        "training_replay",
+    }
+    assert payload["claim_capsule_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/claim_capsule.json"
+    assert payload["evidence_envelope_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/evidence_envelope.json"
+    assert payload["mechanism_namecert_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/mechanism_namecert.json"
+    assert payload["jet_certificate_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/jet_certificate.json"
 
 
 def test_discovery_gated_transformer_hardgate_instances_are_candidate_local():
     payload = canonical._build_discovery_gated_transformer_payload(
         generated_at="2030-01-01T00:00:00+00:00"
     )
-    hardgates = payload["hardgate_instances"]
+    hardgates = payload["hardgate"]["gates"]
 
-    assert list(hardgates) == [f"NEW-MODEL-HG{index}" for index in range(1, 21)]
-    assert payload["prototype_status"] == "prototype-candidate"
+    assert list(hardgates) == [f"DGT-HG{index}" for index in range(1, 21)]
+    assert payload["hardgate"]["status"] == "pass"
     for gate_id, row in hardgates.items():
-        assert set(row) == {"status", "evidence_pointer", "not_claimed_pointer", "contract_pointer"}
+        assert set(row) == {"status", "evidence", "not_claimed"}
         assert row["status"] == "pass"
-        assert row["evidence_pointer"].startswith(canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":$")
-        assert row["not_claimed_pointer"] == (
-            canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":$.not_claimed"
-        )
-        assert row["contract_pointer"] == f"reports/canonical/new_model_hardgates.json:$.gates.{gate_id}"
+        assert set(row["evidence"]) == {"artifact", "pointer"}
+        assert set(row["not_claimed"]) == {"artifact", "pointer"}
+        assert row["not_claimed"] == {
+            "artifact": canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+            "pointer": "$.not_claimed",
+        }
 
 
 def test_discovery_gated_transformer_index_is_pointer_only():
@@ -2538,32 +2679,38 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "markdown_artifact",
         "fingerprint_artifact",
         "model_id_pointer",
-        "hardgate_contract_ref_pointer",
-        "sequence_task_grid_pointer",
-        "training_evidence_pointer",
-        "baselines_pointer",
-        "classifier_surface_delta_pointer",
-        "net_positive_signal_pointer",
-        "hardgate_instances_pointer",
-        "prototype_status_pointer",
+        "architecture_spec_pointer",
+        "component_refs_pointer",
+        "hardgate_pointer",
         "discovery_map_signal_pointer",
         "claim_capsule_ref_pointer",
+        "evidence_envelope_ref_pointer",
+        "mechanism_namecert_ref_pointer",
+        "jet_certificate_ref_pointer",
         "not_claimed_pointer",
-        "revocation_rows_pointer",
-        "forbidden_claim_term_audit_pointer",
         "hardgate_instance_pointers",
-        "hardgate_contract_gates_pointer",
     }
-    assert section["status"] == "prototype-candidate"
-    assert section["hardgate_contract_gates_pointer"] == "reports/canonical/new_model_hardgates.json:$.gates"
+    assert section["status"] == "pass"
+    assert section["json_artifact"] == "reports/canonical/discovery-gated-transformer.json"
+    assert section["markdown_artifact"] == "reports/canonical/discovery-gated-transformer.md"
     assert section["hardgate_instance_pointers"] == {
-        f"NEW-MODEL-HG{index}": (
-            f"reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG{index}"
+        f"DGT-HG{index}": (
+            f"reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG{index}"
         )
         for index in range(1, 21)
     }
     lowered = json.dumps(section, sort_keys=True).lower()
-    for forbidden in ("accuracy", "loss", "records", "raw_metrics", "terminal_verdict", "requirement"):
+    for forbidden in (
+        "accuracy",
+        "loss",
+        "records",
+        "raw_metrics",
+        "terminal_verdict",
+        "schema_id\": \"bedc-quality-lab:dgt-claim-capsule",
+        "schema_id\": \"bedc-quality-lab:dgt-evidence-envelope",
+        "schema_id\": \"bedc-quality-lab:dgt-mechanism-namecert",
+        "schema_id\": \"bedc-quality-lab:dgt-jet-certificate",
+    ):
         assert forbidden not in lowered
 
 
@@ -2580,9 +2727,9 @@ def test_discovery_gated_transformer_forbidden_surfaces_absent():
         assert forbidden.lower() not in markdown.lower()
 
     mutated = json.loads(json.dumps(payload))
-    mutated["hardgate_instances"]["NEW-MODEL-HG1"]["status"] = "fail"
-    mutated["prototype_status"] = "prototype-candidate"
-    with pytest.raises(ValueError, match="prototype status"):
+    mutated["hardgate"]["gates"]["DGT-HG1"]["status"] = "fail"
+    mutated["hardgate"]["status"] = "pass"
+    with pytest.raises(ValueError, match="hardgate status"):
         canonical._validate_discovery_gated_transformer_payload(mutated)
 
 
@@ -2615,30 +2762,32 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
     owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
     section = payload["discovery_gated_transformer"]
 
-    assert "discovery_gated_transformer" not in {spec.name for spec in canonical.CANONICAL_REPORTS}
-    assert owner["prototype_status"] == "prototype-candidate"
-    assert (tmp_path / "reports/canonical/discovery_gated_transformer.fingerprint.json").exists()
+    assert "discovery-gated-transformer" in {spec.name for spec in canonical.CANONICAL_REPORTS}
+    assert owner["hardgate"]["status"] == "pass"
+    assert (tmp_path / "reports/canonical/discovery-gated-transformer.fingerprint.json").exists()
     pointers = [
         section["model_id_pointer"],
-        section["hardgate_contract_ref_pointer"],
-        section["sequence_task_grid_pointer"],
-        section["training_evidence_pointer"],
-        section["baselines_pointer"],
-        section["classifier_surface_delta_pointer"],
-        section["net_positive_signal_pointer"],
-        section["hardgate_instances_pointer"],
-        section["prototype_status_pointer"],
+        section["architecture_spec_pointer"],
+        section["component_refs_pointer"],
+        section["hardgate_pointer"],
         section["discovery_map_signal_pointer"],
         section["claim_capsule_ref_pointer"],
+        section["evidence_envelope_ref_pointer"],
+        section["mechanism_namecert_ref_pointer"],
+        section["jet_certificate_ref_pointer"],
         section["not_claimed_pointer"],
-        section["revocation_rows_pointer"],
-        section["forbidden_claim_term_audit_pointer"],
         *section["hardgate_instance_pointers"].values(),
     ]
     for artifact_pointer in pointers:
         assert artifact_pointer.startswith(canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":")
         assert _resolve_artifact_pointer(tmp_path, artifact_pointer) is not None
-    assert _resolve_artifact_pointer(tmp_path, section["hardgate_contract_gates_pointer"]) is not None
+    for sidecar in (
+        owner["claim_capsule_ref"],
+        owner["evidence_envelope_ref"],
+        owner["mechanism_namecert_ref"],
+        owner["jet_certificate_ref"],
+    ):
+        assert _resolve_artifact_pointer(tmp_path, f"{sidecar['artifact']}:{sidecar['pointer']}") is not None
 
 
 def test_discovery_gated_transformer_written_json_round_trips_validator(tmp_path, monkeypatch):
@@ -4255,18 +4404,33 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.search_space",
                 },
                 {
+                    "report": "discovery-gated-transformer",
+                    "artifact": "reports/canonical/discovery-gated-transformer.json",
+                    "pointer": "$.not_claimed",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.scope",
+                },
+                {
+                    "report": "observed-debt-sweep",
+                    "artifact": "reports/canonical/observed-debt-sweep.json",
+                    "pointer": "$.claim_boundary.C4",
                 },
                 {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.applicability_boundary",
                 },
+                {
+                    "report": "causal-patch-suite",
+                    "artifact": "reports/canonical/causal_patch_suite.json",
+                    "pointer": "$.not_claimed",
+                },
             ],
-            "numerator": 20,
-            "denominator": 20,
+            "numerator": 23,
+            "denominator": 23,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -4362,18 +4526,33 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {
+                    "report": "discovery-gated-transformer",
+                    "artifact": "reports/canonical/discovery-gated-transformer.json",
+                    "pointer": "$.architecture_spec",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.source_artifacts.cost_protocol",
+                },
+                {
+                    "report": "observed-debt-sweep",
+                    "artifact": "reports/canonical/observed-debt-sweep.json",
+                    "pointer": "$.source_artifacts",
                 },
                 {
                     "report": "spectral-ablation-hinge",
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.source_artifacts",
                 },
+                {
+                    "report": "causal-patch-suite",
+                    "artifact": "reports/canonical/causal_patch_suite.json",
+                    "pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
+                },
             ],
-            "numerator": 20,
-            "denominator": 20,
+            "numerator": 23,
+            "denominator": 23,
         },
         "HardeningCoverage": {
             "value": 1.0,
