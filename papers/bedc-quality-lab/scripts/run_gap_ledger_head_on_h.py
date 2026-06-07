@@ -74,6 +74,18 @@ FORBIDDEN_INFERENCE_COLUMNS = (
 )
 EPS = 1.0e-12
 CONTROL_SEED_SALT = 742_193
+MATCHED_RANDOM_AUDIT_MATCH_KEYS = (
+    "parameter_match",
+    "compute_match",
+    "threshold_match",
+    "surface_distribution_match",
+    "metric_helper_match",
+)
+MATCHED_RANDOM_AUDIT_REQUIRED_KEYS = MATCHED_RANDOM_AUDIT_MATCH_KEYS + (
+    "audit_status",
+    "failure_reasons",
+    "evidence_pointers",
+)
 
 
 @dataclass(frozen=True)
@@ -432,6 +444,9 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
             "train_fraction": TRAIN_FRACTION,
             "train_count": int(len(train_idx)),
             "eval_count": int(len(eval_idx)),
+            "gap_steps": GAP_STEPS,
+            "gap_lr": GAP_LR,
+            "gap_l2": GAP_L2,
             "high_energy_threshold": float(surface["high_energy_threshold"]),
             "low_margin_threshold": float(surface["low_margin_threshold"]),
             "beta": BETA,
@@ -451,6 +466,7 @@ def _run_record(*, seed: int, seed_index: int, config: GapHeadRunConfig) -> dict
             "arm": MATCHED_RANDOM_ARM,
             "label_protocol": "seed_deterministic_per_channel_permutation",
             "seed_salt": CONTROL_SEED_SALT,
+            **_matched_random_control_audit(base_pointer="$.records[*]"),
             "same_feature_columns": True,
             "same_split": True,
             "same_thresholds": True,
@@ -624,11 +640,85 @@ def _forbidden_column_audit(columns: Sequence[str] | None = None) -> dict[str, A
     return payload
 
 
+def _matched_random_record_evidence_pointers(*, base_pointer: str) -> dict[str, list[str]]:
+    return {
+        "parameter_match": [
+            f"{base_pointer}.feature_columns",
+            f"{base_pointer}.config.gap_channels",
+        ],
+        "compute_match": [
+            f"{base_pointer}.config.gap_steps",
+            f"{base_pointer}.config.gap_lr",
+            f"{base_pointer}.config.gap_l2",
+        ],
+        "threshold_match": [
+            f"{base_pointer}.config.high_energy_threshold",
+            f"{base_pointer}.config.low_margin_threshold",
+            f"{base_pointer}.config.primary_tau",
+            f"{base_pointer}.config.primary_epsilon",
+        ],
+        "surface_distribution_match": [
+            f"{base_pointer}.split.train_indices",
+            f"{base_pointer}.split.eval_indices",
+            f"{base_pointer}.matched_random_control.randomized_gap_label_rates",
+        ],
+        "metric_helper_match": [
+            f"{base_pointer}.arms.learned_gap_head_on_h",
+            f"{base_pointer}.arms.{MATCHED_RANDOM_ARM}",
+        ],
+    }
+
+
+def _matched_random_protocol_evidence_pointers() -> dict[str, list[str]]:
+    return {
+        "parameter_match": [
+            "$.feature_columns",
+            "$.config.gap_channels",
+        ],
+        "compute_match": [
+            "$.config.gap_steps",
+            "$.config.gap_lr",
+            "$.config.gap_l2",
+        ],
+        "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.config.primary_tau",
+            "$.config.primary_epsilon",
+        ],
+        "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates",
+        ],
+        "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            f"$.records[*].arms.{MATCHED_RANDOM_ARM}",
+        ],
+    }
+
+
+def _matched_random_control_audit(*, base_pointer: str | None = None) -> dict[str, Any]:
+    matches = {key: True for key in MATCHED_RANDOM_AUDIT_MATCH_KEYS}
+    failure_reasons = [key for key, value in matches.items() if value is not True]
+    if base_pointer is None:
+        evidence_pointers = _matched_random_protocol_evidence_pointers()
+    else:
+        evidence_pointers = _matched_random_record_evidence_pointers(base_pointer=base_pointer)
+    return {
+        **matches,
+        "audit_status": "pass" if not failure_reasons else "fail",
+        "failure_reasons": failure_reasons,
+        "evidence_pointers": evidence_pointers,
+    }
+
+
 def _control_protocol(config: GapHeadRunConfig) -> dict[str, Any]:
     return {
         "control_arm": MATCHED_RANDOM_ARM,
         "label_protocol": "seed_deterministic_per_channel_permutation",
         "seed_salt": CONTROL_SEED_SALT,
+        **_matched_random_control_audit(),
         "same_feature_columns_as_treatment": True,
         "same_train_eval_split_as_treatment": True,
         "same_dimension_as_treatment": True,

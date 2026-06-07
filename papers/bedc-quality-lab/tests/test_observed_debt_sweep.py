@@ -223,6 +223,74 @@ def test_c4_enabled_has_action_transition_row(monkeypatch):
     assert all(not cell["skipped"] for cell in c4)
 
 
+def test_c4_available_remains_availability_effect_probe(monkeypatch):
+    patch_lightweight_records(monkeypatch)
+    monkeypatch.setattr(runner, "_planning_axis_available", lambda: (True, "ok"))
+
+    payload = runner.build_payload(smoke=True, generated_at="fixture-time")
+    c4 = [cell for cell in payload["cells"] if cell["axis"] == "C4"]
+
+    assert c4
+    assert payload["claim_boundary"]["C4"]["claim_surface"] == "observed-debt-availability-probe"
+    assert all(cell["effect"]["effect_reported"] is True for cell in c4)
+    assert all(cell["verdict"]["global_claim_flag"] is False for cell in c4)
+    assert all(cell["verdict"]["verdict"] in runner.C4_ALLOWED_VERDICTS for cell in c4)
+    assert "ActionTransitionCertificate" not in repr(payload)
+
+
+def test_c4_identified_cell_has_no_claim_boundary_and_pointer(monkeypatch):
+    patch_lightweight_records(monkeypatch)
+    monkeypatch.setattr(runner, "_planning_axis_available", lambda: (True, "ok"))
+
+    payload = runner.build_payload(smoke=True, generated_at="fixture-time")
+    cell = next(cell for cell in payload["cells"] if cell["axis"] == "C4" and cell["axis_value"] is True)
+
+    assert cell["claim_boundary"]["claim_surface"] == "observed-debt-availability-probe"
+    assert (
+        cell["claim_boundary"]["evidence_pointer"]
+        == "reports/gaussian_ou_dynamics_planning.json:$.applicability_boundary"
+    )
+    assert cell["claim_boundary"]["not_claimed"] == [
+        "no full world model planning claim",
+        "no action-transition certificate",
+    ]
+
+
+def test_c_hg5_rejects_c4_global_claim_and_full_planning_wording():
+    cell = {
+        "axis": "C4",
+        "axis_value": True,
+        "records": [],
+        "effect": {"effect_reported": True, "significant": True},
+        "verdict": {"verdict": "planning-certificate", "global_claim_flag": True},
+        "claim_boundary": runner.C4_CLAIM_BOUNDARY,
+        "skipped": False,
+    }
+
+    hardgate = runner._hardgate_evidence([cell], markdown_text="This claims full planning closure.")
+
+    assert hardgate["C-HG5"]["status"] == "fail"
+    assert "C4:True:global_claim_flag" in hardgate["C-HG5"]["violations"]
+    assert "C4:True:verdict" in hardgate["C-HG5"]["violations"]
+    assert "markdown:full planning closure" in hardgate["C-HG5"]["violations"]
+
+
+def test_c_hg5_rejects_c4_cell_missing_claim_boundary():
+    cell = {
+        "axis": "C4",
+        "axis_value": True,
+        "records": [],
+        "effect": {"effect_reported": True, "significant": True},
+        "verdict": {"verdict": "observed-debt", "global_claim_flag": False},
+        "skipped": False,
+    }
+
+    hardgate = runner._hardgate_evidence([cell])
+
+    assert hardgate["C-HG5"]["status"] == "fail"
+    assert "C4:True:claim_boundary" in hardgate["C-HG5"]["violations"]
+
+
 def test_c4_disabled_records_skipped_reason(monkeypatch):
     patch_lightweight_records(monkeypatch)
     monkeypatch.setattr(runner, "_planning_axis_available", lambda: (False, "planning missing"))

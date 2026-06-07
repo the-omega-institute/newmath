@@ -54,6 +54,17 @@ def test_f_hg2_rows_have_metric_list_and_nonempty_not_implemented():
     assert payload["hardgates"]["F-HG2"]["status"] == "pass"
 
 
+def test_theorem_4_keeps_planning_availability_outside_theorem_closure():
+    payload = _payload()
+    row = next(row for row in payload["theorem_rows"] if row["theorem"] == "theorem-4")
+
+    assert row["bedc_role"] == "Ledger"
+    assert row["implemented_metrics"] == []
+    assert "gaussian_ou_dynamics_planning" not in json.dumps(row)
+    assert "planning certificate" not in json.dumps(row).lower()
+    assert "theorem closure" in " ".join(row["not_implemented"])
+
+
 def test_f_hg2_fails_when_row_omits_not_implemented():
     rows = _rows()
     del rows[0]["not_implemented"]
