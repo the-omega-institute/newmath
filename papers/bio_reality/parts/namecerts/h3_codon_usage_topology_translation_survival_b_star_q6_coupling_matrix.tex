@@ -1,48 +1,36 @@
-\subsection{B-star-Q6 residual coordinates against translation readouts}\label{sec:b-star-q6-translation-survival-matrix}
+\subsection{B-star Q6 residual coupling against bounded translation readouts}\label{sec:b-star-q6-residual-coupling-translation-readouts}
 \origin{ai}
 
-\paragraph{Claim registered by the finite rows.}
-This record concerns the nine residual coordinates of $B^*_{Q6}$ after the amino-acid quotient has been imposed.  The coordinates are
-$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and the $f_3$ stress coordinate.  The intended survival object is a matrix $S_{ij}$ whose rows are these residual coordinates and whose columns are translation-related readouts such as tAI, stAI, ribosome occupancy, translation efficiency, or protein abundance when those columns are present as matched measurements.  The controls are part of the claim, not an optional adjustment: amino-acid composition, organism context, GC3, CDS length, and the simpler $M$-density baseline must be removed before a positive survival entry is reported.
+\paragraph{Question.} This record tests whether the nine synonymous-residual coordinates assigned to $B^{\ast}_{Q6}$ leave any finite trace after quotienting by amino-acid composition and ordinary sequence-context covariates. The carrier is a $9 \times K$ survival-and-coupling table whose rows are the residual coordinates $q_i$ and whose columns are translation-related readouts $r_j$. The row set is
+$K_{AAA}$, Arg $AGR$, Ile $AUA$, Leu $CUN/UUR$, Leu $UUA/UUG$, Ser $UCR/AGY$, Ser $UCA/UCG$, Thr $ACR/ACY$, and the antisymmetric $f3$ stress pair. The intended statistic separates a raw covariance coupling $A_{ij}$ from a controlled survival score $S_{ij}$: $A_{ij}$ asks whether a residual coordinate is aligned with a projected readout, while $S_{ij}$ asks whether that alignment improves prediction after the declared controls.
 
-\paragraph{Matrix statistic.}
-For a coordinate $q_i$ and a readout direction $r_j$, the admissible statistic first forms a readout residual $\ell_j^{\perp}$ after the declared controls and then measures the residual covariance coupling
-$$
-\begin{aligned}
-A_{ij} &= q_i^T \Sigma \ell_j^{\perp},\\
-S_{ij} &= S_{q_i}(r_j \mid Z),\\
-Z &= (\hbox{amino-acid composition},\hbox{ organism}, GC3,\hbox{ length},\hbox{ $M$-density baseline}).
-\end{aligned}
-$$
-The sign and magnitude of $A_{ij}$ are only a coupling readback.  A survival entry requires a separate controlled partial-$R^2$ or description-length improvement calculation for $S_{ij}$.  Thus a nonzero $A_{ij}$ may nominate a row-column pair for testing, but it does not itself certify survival.
-
-\paragraph{Observed proxy coupling row.}
-The finite proxy computation used a $61$-codon count space and loaded three organisms: $homo\_sapiens$, $saccharomyces\_cerevisiae$, and $escherichia\_coli\_k12$.  The proxy column was the tRNA-Leu $CUN$ versus $UUR$ log-copy spectrum, not measured ribosome profiling, not protein output, and not a true tAI or stAI panel.  All nine residual coordinates were computed: $Arg_{AGR}$, $Ile_{AUA}$, $K_{AAA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCA/UCG}$, $Ser_{UCR/AGY}$, $Thr_{ACR/ACY}$, and $f_3$ stress.  The break rule for that proxy row was that the packet would be null if every one of the nine $q_i$ had $|A_{ij}|<0.01$.  The rule was not met: the computation recorded $9$ nonzero entries and a maximum absolute coupling
-$$
-\begin{aligned}
+\paragraph{Finite rows used here.} The direct coupling run loaded three organisms: Homo sapiens, Saccharomyces cerevisiae, and Escherichia coli K12. It used a $61$-codon count space and computed all nine $B^{\ast}_{Q6}$ synonymous residuals. Against the available proxy readout, namely the tRNA-Leu $CUN$-versus-$UUR$ log-copy spectrum, the break condition was that all nine entries satisfy $|A_{ij}| < 0.01$. That break condition was not met. The recorded coupling table had $9$ nonzero entries above the stated threshold and a maximum absolute coupling
+$$\begin{aligned}
 \max_{i,j}|A_{ij}| &= 1882464.1106377328,\\
 \tau_A &= 0.01.
-\end{aligned}
-$$
-This is evidence that the residual-coordinate geometry has a nontrivial proxy contact with a tRNA-copy spectrum.  It is not yet a measured ribosome or protein survival matrix.
+\end{aligned}$$
+Thus the finite row is not a null coupling row. It is, however, only a proxy-contact row: the readout is a tRNA-copy spectrum, not measured ribosome occupancy, measured elongation, measured translation efficiency, or protein output.
 
-\paragraph{Modeled tAI survival panel.}
-A separate modeled tAI computation expanded the organism panel to $40$ organisms and formed a $9\times 9$ $S^{QT}$ matrix using modeled per-codon tAI derived from GtRNAdb anticodon copy counts and dos Reis wobble weights.  The nine modeled readout columns matched the nine residual coordinates: $K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and $f_3$ stress.  The control design had $24$ control columns, rank $23$, and $17$ residual degrees of freedom after $Z$-residualization.  The residual coordinate design had rank $9$.  The reported modeled translation fit was
-$$
-\begin{aligned}
+\paragraph{Modeled translation-readout panel.} A second finite computation used modeled per-codon tAI derived from tRNA gene-copy counts and dos Reis wobble weights. This run used $40$ organisms, formed a $9 \times 9$ modeled translation matrix, and residualized against a control design with $24$ control columns, rank $23$, and residual degrees of freedom $17$. The residual coordinate design had rank $9$. The recorded controlled fit was
+$$\begin{aligned}
 R^2_{QT} &= 0.9003849000036579,\\
 \operatorname{rank}(Z) &= 23,\\
 \operatorname{rank}(\widetilde X) &= 9,\\
-\operatorname{df}_{res} &= 17.
-\end{aligned}
-$$
-The degeneracy threshold for refusing the design was $0.999999$, so this modeled panel was rank-powered under the stated criterion.  The positivity threshold for a modeled partial-$R^2$ entry was $10^{-12}$.  This supports the narrower statement that $B^*_{Q6}$ residual coordinates can survive against modeled tAI-style readouts after the listed controls in a $40$-organism panel.  The result remains model-bounded because the readout is constructed from tRNA gene-copy counts and wobble weights rather than measured elongation speed, ribosome occupancy, or protein abundance.
+\operatorname{df}_{\mathrm{resid}} &= 17.
+\end{aligned}$$
+The positive-entry threshold for the modeled partial-$R^2$ surface was $10^{-12}$, and the degeneracy guard was $R^2 < 0.999999$. Since $R^2_{QT}=0.9003849000036579$, this row is not rank-saturated under that guard. The correct reading is bounded: the modeled tAI surface gives a controlled modeled translation-readout survival row for the $Q \to T$ interface, not a ribosome-profiling measurement and not protein realization.
 
-\paragraph{Leu gate finite row.}
-The CUN/UUR Leu gate supplies a smaller organism-level contact.  It used the three organisms $homo\_sapiens$, $saccharomyces\_cerevisiae$, and $escherichia\_coli\_k12$ and reported Pearson correlation $1.0$ and partial Pearson correlation $1.0$ for $n=3$ after the stated finite-row control.  The organism log-ratios were $1.3514980212896148$, $-0.24869078488829677$, and $1.0086640520051702$, with signs $+1,-1,+1$.  Therefore the sign was not uniform across organisms.  This row is useful as a contact check for the Leu coordinate, but the sample size and sign reversal prevent any population-level direction claim.
+\paragraph{Leucine gate row.} The CUN/UUR Leu gate gives an additional three-organism sanity check on directionality. The finite row recorded Pearson $1.0$ and partial Pearson $1.0$ for $n=3$, but the organism-level log ratios were $1.3514980212896148$, $-0.24869078488829677$, and $1.0086640520051702$, with signs $+,-,+$. The sign is therefore not uniform across organisms. This row supports only the existence of a finite association in the small table; it does not license a population-level direction, a universal sign, or an interpretation of tRNA gene copy as tRNA abundance or charging.
 
-\paragraph{Local boundary.}
-The chapter records three separable levels.  First, the three-organism proxy coupling row shows that the nine residual coordinates are not all zero against a tRNA-copy proxy under the declared $|A_{ij}|$ threshold.  Second, the $40$-organism modeled tAI panel gives a controlled, nondegenerate $9\times 9$ modeled $S^{QT}$ surface with $R^2_{QT}=0.9003849000036579$.  Third, direct measured translation survival remains conditional on organism- or CDS-matched ribosome profiling, translation-efficiency, stAI, or protein-abundance rows with the same controls.  No ribosome-mediated translation event, folding conclusion, physical admissibility claim, biological function, mechanism, or universal law follows from the proxy coupling, the modeled tAI matrix, the identifier routing, or the finite Leu gate unless a separate layer-matched contact supplies that observation and the corresponding controlled statistic is computed.
+\paragraph{Statistic being asserted.} The bounded mathematical statement is that the available rows separate two layers of evidence. First, the three-organism proxy coupling row shows nonzero $A_{ij}$ structure for all nine residual coordinates against the tRNA-Leu copy-spectrum proxy, with maximum absolute coupling $1882464.1106377328$ and threshold $0.01$. Second, the $40$-organism modeled tAI run supplies a non-saturated controlled $9 \times 9$ modeled translation-readout matrix with $R^2_{QT}=0.9003849000036579$ after the stated controls. In symbols, the chapter records the finite implication
+$$\begin{aligned}
+\exists i,j\; |A_{ij}| &\ge 0.01\quad \text{in the proxy coupling row},\\
+R^2_{QT} &= 0.9003849000036579 < 0.999999\quad \text{in the modeled tAI row}.
+\end{aligned}$$
+It does not assert that the proxy coupling alone is a positive $S_{ij}$ survival entry. A positive survival statement requires the declared $Z$-controlled partial-$R^2$ or description-length comparison for the relevant readout.
 
-\paragraph{Operational verdict.}
-The finite evidence is sufficient to keep the $B^*_{Q6}$ translation-survival matrix as an active BioReality record rather than a null packet.  The strongest completed support is the modeled $S^{QT}$ panel on $40$ organisms with rank $9$ residual coordinates, rank $23$ controls, $17$ residual degrees of freedom, and $R^2_{QT}=0.9003849000036579$.  The strongest measured-data limitation is that the direct ribosome-profiling, matched mRNA, and matched protein-abundance contacts are still routes for future row attachment rather than completed same-row survival estimates for this matrix.
+\paragraph{Controls and ablation boundary.} The target control set is $Z=$ amino-acid composition, organism context, GC3, coding-sequence length, and the $M$-density baseline, with simpler-codon-baseline ablation kept separate from the residual coordinates. The $40$-organism modeled row records a control rank and residual degrees of freedom, so it is informative about the controlled modeled tAI surface. The three-organism proxy row keeps the amino-acid quotient explicit through the synonymous projection, but it is not a full translation-survival matrix because measured ribosome-profiling, measured TE, or protein-abundance rows are absent from that run.
+
+\paragraph{Local no-promotion rule.} No translation mechanism follows from codon usage or tRNA-copy coupling alone. No ribosome-mediated realization follows unless an organism-matched ribosome or TE contact is attached and the controlled statistic is recomputed. No folding, structural order, physical admissibility, molecular function, pathway evidence, phenotype, mechanism, or universal biological law follows from any row in this chapter. Modeled tAI is a bounded modeled readout; tRNA gene copy is a genome-annotation count; ribosome profiling and proteomics contacts would each need their own matched rows and their own controlled estimates before any stronger layer is asserted.
+
+\paragraph{Chapter verdict.} The finite evidence is sufficient to keep the $B^{\ast}_{Q6}$ translation-readout packet alive as a bounded BioReality record. It is not a null geometry row: all nine proxy couplings survive the $0.01$ coupling threshold in the three-organism table, and the $40$-organism modeled tAI matrix is nondegenerate under the recorded rank guard. The claim remains bounded to proxy coupling and modeled translation-readout survival. Measured ribosome occupancy, measured TE, protein abundance mediation, function, structure, physical admissibility, mechanism, and universality remain outside the asserted content.
