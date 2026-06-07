@@ -21,6 +21,10 @@ def _stat(mean, low, high):
 
 def _source_payload(status="pass"):
     allowlist = list(runner.transfer.H_ONLY_REPRESENTATION_SUMMARY_COLUMNS)
+    family_pointers = {
+        family: f"$.arms[{index}]"
+        for index, family in enumerate(runner.CONTROL_FAMILY_ORDER)
+    }
     return {
         "artifact_id": runner.transfer.ARTIFACT_ID,
         "status": "pointer-only",
@@ -34,6 +38,15 @@ def _source_payload(status="pass"):
             "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
             "terminal_verdict": "negative_discovery",
             "discovery_level": "DN",
+            "anti_triviality_evidence": {
+                "controlled_geometry": {
+                    "control_family_coverage": {
+                        "status": "pass",
+                        "resolved_families": list(runner.CONTROL_FAMILY_ORDER),
+                        "family_pointers": family_pointers,
+                    }
+                }
+            },
         },
         "control_protocol": {
             "control_arm": "matched_random_gap_head",
@@ -158,10 +171,32 @@ def _write_inputs(tmp_path, source=None, discovery=None):
     source_path = tmp_path / runner.SOURCE_ARTIFACT
     discovery_path = tmp_path / runner.DISCOVERY_MAP_ARTIFACT
     negative_path = tmp_path / "reports/canonical/negative_discovery_reports.json"
+    sidecar_path = tmp_path / runner.ANTI_TRIVIALITY_ARTIFACT
     source_path.parent.mkdir(parents=True, exist_ok=True)
     source_path.write_text(json.dumps(source_payload), encoding="utf-8")
     discovery_path.write_text(json.dumps(discovery_payload), encoding="utf-8")
     negative_path.write_text(json.dumps(_negative_reports_payload()), encoding="utf-8")
+    family_pointers = {
+        family: f"$.arms[{index}]"
+        for index, family in enumerate(runner.CONTROL_FAMILY_ORDER)
+    }
+    sidecar_path.parent.mkdir(parents=True, exist_ok=True)
+    sidecar_path.write_text(
+        json.dumps(
+            {
+                "arms": [{"arm": family} for family in runner.CONTROL_FAMILY_ORDER],
+                "controlled_geometry": {
+                    "control_family_coverage": {
+                        "status": "pass",
+                        "required_families": list(runner.CONTROL_FAMILY_ORDER),
+                        "observed_families": list(runner.CONTROL_FAMILY_ORDER),
+                        "family_pointers": family_pointers,
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
 
 
 def _check(payload, name):
@@ -293,6 +328,7 @@ def test_real_pass_shape_stays_pointer_only_and_does_not_promote_d5(tmp_path):
     assert persisted["artifact_id"] == runner.ARTIFACT_ID
     assert persisted["source_pointer"] == f"{runner.SOURCE_ARTIFACT}:{runner.SOURCE_STATUS_POINTER}"
     assert all(check["verdict"] == "pass" for check in persisted["robust_control_checks"])
+    assert _check(payload, "HG-DM-R6")["verdict"] == "pass"
     assert "terminal DN downgrade" in persisted["readiness_boundary"]
     assert "not a D5 upgrade" in persisted["readiness_boundary"]
     assert "d5_readiness" not in persisted
@@ -308,6 +344,33 @@ def test_real_pass_shape_stays_pointer_only_and_does_not_promote_d5(tmp_path):
     } & set(row)
     assert "d5_readiness" not in row
     assert "score" not in json.dumps(persisted["robust_control_checks"]).lower()
+
+
+def test_hg_dm_r6_fails_when_sidecar_family_pointer_does_not_resolve(tmp_path):
+    _write_inputs(tmp_path)
+    sidecar_path = tmp_path / runner.ANTI_TRIVIALITY_ARTIFACT
+    sidecar = json.loads(sidecar_path.read_text(encoding="utf-8"))
+    sidecar["controlled_geometry"]["control_family_coverage"]["family_pointers"]["rank_proxy_diagnostic"] = "$.missing"
+    sidecar_path.write_text(json.dumps(sidecar), encoding="utf-8")
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert payload["status"] == "fail"
+    assert _check(payload, "HG-DM-R6")["verdict"] == "fail"
+    assert "HG-DM-R6" in payload["failed_or_deferred_gates"]
+
+
+def test_hg_dm_r6_fails_when_folded_source_coverage_is_inconsistent(tmp_path):
+    source = _source_payload()
+    source["dimension_mismatch_debt_transfer"]["anti_triviality_evidence"]["controlled_geometry"]["control_family_coverage"][
+        "resolved_families"
+    ] = list(runner.CONTROL_FAMILY_ORDER[:-1])
+    _write_inputs(tmp_path, source=source)
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert payload["status"] == "fail"
+    assert _check(payload, "HG-DM-R6")["verdict"] == "fail"
 
 
 def test_discovery_map_pointer_only_row_fails_when_owner_lacks_mapping(tmp_path):
