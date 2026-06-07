@@ -290,3 +290,22 @@ def test_write_scope_is_limited_to_two_sidecars(tmp_path, monkeypatch):
 
     assert writes == [hardening.REGISTRY_ARTIFACT, hardening.DEMOTIONS_ARTIFACT]
     assert len(demotions["demotions"]) == len(registry["escaped_rows"])
+
+
+def test_write_sidecars_reuses_existing_registry_timestamp(tmp_path):
+    sentinel = "2027-07-07T07:07:07+00:00"
+    registry_path = tmp_path / hardening.REGISTRY_ARTIFACT
+    registry_path.parent.mkdir(parents=True)
+    registry_path.write_text(json.dumps({"generated_at": sentinel}) + "\n", encoding="utf-8")
+
+    registry, demotions = hardening.write_sidecars(root=tmp_path)
+
+    written_registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    written_demotions = json.loads((tmp_path / hardening.DEMOTIONS_ARTIFACT).read_text(encoding="utf-8"))
+    written_files = sorted(path.relative_to(tmp_path).as_posix() for path in tmp_path.rglob("*") if path.is_file())
+
+    assert registry["generated_at"] == sentinel
+    assert demotions["generated_at"] == sentinel
+    assert written_registry["generated_at"] == sentinel
+    assert written_demotions["generated_at"] == sentinel
+    assert written_files == [hardening.DEMOTIONS_ARTIFACT, hardening.REGISTRY_ARTIFACT]
