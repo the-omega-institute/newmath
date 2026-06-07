@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BrownRepresentabilityUp$}
+\label{ch:concrete-instances-brown-representability-namecert}
+\origin{human}
+
+Following Brown's representability theorem and Neeman's triangulated-category formulation, the $\BrownRepresentabilityUp$ packet records representability as finite BEDC NameCert data for a displayed homological consumer. It sits after the category carrier of \autoref{ch:concrete-instances-category-namecert}, the functorial row of \autoref{ch:concrete-instances-functor-namecert}, the natural-transformation surface of \autoref{ch:concrete-instances-nattrans-namecert}, the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the derived-category row of \autoref{ch:concrete-instances-derivedcat-namecert}, and the triangulated-category row of \autoref{ch:concrete-instances-triangulatedcat-namecert}. The packet names a finite representability ledger for inspected homological functors; it does not assert the host Brown theorem, arbitrary coproduct exactness, selected representing objects, quotient functor equality, or ambient set-theoretic choice.
+
+\begin{definition}[Brown representability carrier]
+\label{def:brown-representability-carrier}
+A $\BrownRepresentabilityUp$ carrier is a finite $\BHist$ packet
+$$
+B=(C,T,F,N,H,D,R,L,S,P,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the source $\CategoryUp$ row carrying the inspected objects and morphisms.
+\item $T$ is the $\TriangulatedCatUp$ or $\DerivedCatUp$ structure row used by the homological consumer.
+\item $F$ is the $\FunctorUp$ row for the inspected contravariant or covariant homological functor.
+\item $N$ is the $\NatTransUp$ naturality row recording the finite naturality squares that the consumer asks to inspect.
+\item $H$ is the $\HomologyUp$ row read by the finite homology consumer.
+\item $D$ records the displayed distinguished-triangle or derived-handoff obligations that feed the inspected homological window.
+\item $R$ is the representability ledger, listing the candidate representing-object name together with the finite Hom-window comparison rows.
+\item $L$ records local exactness and coproduct-compatibility tests only for the displayed finite window.
+\item $S$ records componentwise $\hsame$ transport for the category, triangulated, functor, naturality, homology, handoff, ledger, and local-test rows.
+\item $P$ is the $\Pkg$ provenance over $\BrownRepresentabilityUp$, $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\HomologyUp$, $\DerivedCatUp$, $\TriangulatedCatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\BrownRepresentabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for a global representing object, host Hom-set equality, arbitrary coproduct preservation, quotient functor equality, selected injective resolutions, or ambient choice.
+\end{definition}
+
+\begin{theorem}[Brown representability NameCert obligations]
+\label{thm:brown-representability-namecert-obligations}
+For every accepted $\BrownRepresentabilityUp$ carrier $B=(C,T,F,N,H,D,R,L,S,P,M)$, the local $\NameCert_{\BrownRepresentabilityUp}$ surface consists exactly of carrier admission for the category row, triangulated or derived row, functor row, naturality row, homology row, distinguished-triangle handoff row, representability ledger, finite exactness and coproduct tests, componentwise transport, provenance, and local naming. A consumer may read representability obligations only from those rows and receives no host Brown theorem or selected representing object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:brown-representability-carrier}. The category, triangulated or derived, functor, naturality, homology, handoff, representability-ledger, local-test, transport, provenance, and naming rows are the only coordinates exposed by the packet.
+
+The representability ledger is therefore finite. It records a candidate object name and the Hom-window comparison rows inspected by the consumer, while $L$ stores only the local exactness and coproduct tests that have been displayed.
+
+Finally read the structural rows $S,P,M$. They transport, source, and name the same packet, so no additional row can provide a global representing object, arbitrary coproduct preservation, quotient functor equality, selected resolution data, host Hom equality, or ambient choice.
+\end{proof}
+
+\begin{theorem}[Brown representability finite homology consumer]
+\label{thm:brown-representability-finite-homology-consumer}
+Every finite homology consumer of an accepted $\BrownRepresentabilityUp$ packet must read the route
+$$
+C,T,F,N,H,D \longmapsto R,L
+$$
+before it may use the structural rows $S,P,M$. Thus the consumer receives a displayed representability ledger for the inspected homological window, not an unrestricted Brown representability theorem, a selected representing object, quotient functor equality, arbitrary coproduct exactness, or ambient category-theoretic choice.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:brown-representability-namecert-obligations}. They force every consumer to expose the category, triangulated or derived, functor, naturality, homology, and handoff rows before the representability ledger can be inspected.
+
+The finite consumer then reads $R,L$. The ledger $R$ supplies the displayed Hom-window comparison data, and $L$ supplies only the local exactness and coproduct tests attached to that window.
+
+The structural rows $S,P,M$ preserve and name this same finite route. Since the carrier contains no row for a global representing object, quotient functor equality, selected resolutions, arbitrary coproduct preservation, host Hom equality, or ambient choice, the exported consumer surface is exactly the displayed route.
+\end{proof}
+
+\closureat{BrownRepresentabilityUp}{seedStr}
+
+\begin{closurestatus}{\BrownRepresentabilityUp}
+  \constructivestory{A $\BrownRepresentabilityUp$ packet is generated from category, triangulated or derived, functor, naturality, homology, distinguished-triangle handoff, representability ledger, local exactness, transport, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:brown-representability-carrier}, \autoref{thm:brown-representability-namecert-obligations}, and \autoref{thm:brown-representability-finite-homology-consumer} seed the finite representability NameCert surface for homological consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the host Brown theorem, arbitrary coproduct exactness, selected representing objects, quotient functor equality, selected resolutions, ambient choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, functor and naturality exposure, homology handoff exactness, representability ledger readback, finite exactness tests, transport, provenance, and local naming for BEDC.Derived.BrownRepresentabilityUp.}
+\end{closurestatus}

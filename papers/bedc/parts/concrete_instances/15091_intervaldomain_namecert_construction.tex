@@ -82,6 +82,7 @@ Now apply the carrier-admission clause of \autoref{thm:interval-domain-namecert-
 
 The completion approximation scope of \autoref{thm:interval-domain-completion-approximation-scope} keeps the same row order for Real-facing consumers, so no interval-domain read can be exported from a strict subpacket or from a host interval primitive.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainCarrierAdmission}
 
 \begin{theorem}[IntervalDomain regular Cauchy window]
 \label{thm:interval-domain-regular-cauchy-window}
@@ -107,6 +108,7 @@ Apply \autoref{thm:interval-domain-namecert-obligations}. Its refinement-stabili
 
 Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The Real-facing route reads $\LocatedIntervalUp$ and $\RationalIntervalUp$ before $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$, so no consumer can bypass endpoint order through host intervals, selected endpoints, quotient cuts, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainFiniteEndpointOrder}
 
 \begin{theorem}[IntervalDomain dyadic endpoint coverage]
 \label{thm:interval-domain-dyadic-endpoint-coverage}
@@ -121,6 +123,7 @@ Now apply the endpoint-window transport clause of \autoref{thm:interval-domain-n
 
 Finally use \autoref{thm:interval-domain-completion-approximation-scope}. Since $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are downstream of $L,R,N$, every completion-facing read first sees the dyadic tolerance support carried by $R$. The statement therefore records finite endpoint-window coverage only, excluding selected endpoints, quotient cuts, host extensional equality, and ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDyadicEndpointCoverage}
 
 \begin{theorem}[IntervalDomain directed refinement covers]
 \label{thm:interval-domain-directed-refinement-covers}
