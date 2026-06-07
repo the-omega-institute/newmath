@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ArzelaAscoliSelectionUp
@@ -11,6 +12,7 @@ open BEDC.Meta.TasteGate
 
 inductive ArzelaAscoliSelectionUp : Type where
   | mk (X E B D M Q R H C P N : BHist) : ArzelaAscoliSelectionUp
+  deriving DecidableEq
 
 def arzelaAscoliSelectionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -150,5 +152,17 @@ theorem ArzelaAscoliSelectionTasteGate_single_carrier_alignment :
       ⟨arzelaAscoliSelectionBHistCarrier⟩,
       ⟨arzelaAscoliSelectionChapterTasteGate⟩,
       rfl⟩
+
+namespace TasteGate
+
+theorem ArzelaAscoliSelectionTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier ArzelaAscoliSelectionUp) ∧
+        Nonempty (ChapterTasteGate ArzelaAscoliSelectionUp) ∧
+          arzelaAscoliSelectionEncodeBHist BHist.Empty = ([] : List BMark) :=
+  BEDC.Derived.ArzelaAscoliSelectionUp.ArzelaAscoliSelectionTasteGate_single_carrier_alignment
+
+end TasteGate
 
 end BEDC.Derived.ArzelaAscoliSelectionUp
