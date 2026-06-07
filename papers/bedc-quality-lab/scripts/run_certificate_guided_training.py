@@ -39,6 +39,14 @@ RHO = 0.82
 SAMPLE_COUNT = 160
 GUIDED_SAMPLE_COUNT = 1792
 WEIGHTS = CertificateGuidedWeights(lambda_s=0.25, lambda_m=0.50, lambda_l=0.75, lambda_c=1.00)
+SCOPE_SEAL = {
+    "status": "closed",
+    "toy": True,
+    "bounded": True,
+    "theorem": False,
+    "real_training": False,
+    "production_forbidden": True,
+}
 
 
 @dataclass(frozen=True)
@@ -565,6 +573,7 @@ def _payload() -> dict[str, Any]:
         "paired_delta_ci": paired_ci,
         "arm_summaries": _arm_summaries(records),
         "claim_gate": claim_gate,
+        "scope_seal": SCOPE_SEAL,
         "hardgate": hardgate,
         "failed_gate": failed_gate,
         "verdict": verdict,

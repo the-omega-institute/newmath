@@ -17,11 +17,13 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.classifier_shift import ClassifierPassage, ClassifierState, classifier_surface_delta, shift_information, structural_discovery
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey
+from bedc_quality_lab.scope import closed_claim_scope_seal
 
 SOURCE_JSON_ARTIFACT = "reports/rho_identifiability_dose_response.json"
 SOURCE_REPORT_ARTIFACT = "reports/rho_identifiability_dose_response.md"
 JSON_ARTIFACT = "reports/rho_dose_response_discovery.json"
 REPORT_ARTIFACT = "reports/rho_dose_response_discovery.md"
+SCOPE_SEAL = {"status": "closed", "toy": True, "bounded": True, "theorem": False, "real_training": False, "production_forbidden": True}
 CONTROL_SEED = 53520260602
 CONTROL_PERMUTATIONS = 200
 METRICS = ("linear_identifiability_r2", "approx_identifiability_proxy", "orthogonality_error", "covariance_deviation", "quality_benefit", "quality_cost", "quality_debt", "quality_q")
@@ -91,7 +93,7 @@ def _rho_projection(row: dict[str, Any], baseline: dict[str, Any]) -> dict[str, 
         ledger_required_rows=ledger_rows,
         ledger_recorded_rows=ledger_rows,
         public_cost_protocol=True,
-        scope_sealed=True,
+        scope_sealed=closed_claim_scope_seal(SCOPE_SEAL),
         not_claimed_boundary=frozenset({"formal-bedc-closure", "debt-dose-generalization"}),
         benefit_modes=frozenset({"linear_identifiability_gain", "approx_identifiability_gain", "orthogonality_reduction", "covariance_reduction", "quality_benefit_gain", "quality_q_gain"}),
         reproducible_evidence=True,
@@ -168,7 +170,7 @@ def _verdict_payload(source_payload: dict[str, Any]) -> dict[str, Any]:
     doses, nets = [float(row["rho"]) for row in rows], [float(row["net_information"]) for row in rows]
     rank = {"method": "rho-level-vs-discovery-net-information", "spearman": _spearman(doses, nets), "kendall_tau": _kendall_tau(doses, nets), "pairs": [{"rho": d, "net_information": n} for d, n in zip(doses, nets, strict=True)]}
     control = _matched_random_baseline(doses, nets)
-    return {"artifact": JSON_ARTIFACT, "source_artifacts": {"source_json_artifact": SOURCE_JSON_ARTIFACT, "source_report_artifact": SOURCE_REPORT_ARTIFACT, "source_runner": "scripts/run_rho_identifiability_dose_response.py"}, "report": REPORT_ARTIFACT, "projection_script": "scripts/run_rho_dose_response_discovery.py", "generated_from": {"artifact": SOURCE_JSON_ARTIFACT, "source_runner": "scripts/run_rho_identifiability_dose_response.py", "record_count": len(source_payload.get("records", [])), "rho_count": len(levels)}, "doses": doses, "per_rho_verdicts": rows, "rank_correlation": rank, "matched_random_baseline": control, "monotonicity_conclusion": _monotonicity_conclusion(rows, rank, control), "applicability_boundary": source_payload.get("applicability_boundary", {})}
+    return {"artifact": JSON_ARTIFACT, "source_artifacts": {"source_json_artifact": SOURCE_JSON_ARTIFACT, "source_report_artifact": SOURCE_REPORT_ARTIFACT, "source_runner": "scripts/run_rho_identifiability_dose_response.py"}, "report": REPORT_ARTIFACT, "projection_script": "scripts/run_rho_dose_response_discovery.py", "generated_from": {"artifact": SOURCE_JSON_ARTIFACT, "source_runner": "scripts/run_rho_identifiability_dose_response.py", "record_count": len(source_payload.get("records", [])), "rho_count": len(levels)}, "scope_seal": SCOPE_SEAL, "doses": doses, "per_rho_verdicts": rows, "rank_correlation": rank, "matched_random_baseline": control, "monotonicity_conclusion": _monotonicity_conclusion(rows, rank, control), "applicability_boundary": source_payload.get("applicability_boundary", {})}
 
 
 def _write_payload(payload: dict[str, Any]) -> None:

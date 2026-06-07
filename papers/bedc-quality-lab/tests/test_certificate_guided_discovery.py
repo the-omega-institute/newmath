@@ -8,8 +8,19 @@ from bedc_quality_lab.research_discovery import assign_discovery_level
 from scripts import run_certificate_guided_discovery as runner
 from scripts import run_certificate_guided_training as training_runner
 
+VALID_SCOPE_SEAL = {
+    "status": "closed",
+    "toy": True,
+    "bounded": True,
+    "theorem": False,
+    "real_training": False,
+    "production_forbidden": True,
+}
+
 def _payload():
-    return training_runner._payload()
+    payload = training_runner._payload()
+    payload["scope_seal"] = VALID_SCOPE_SEAL
+    return payload
 
 def _write_payload(tmp_path, payload):
     path = tmp_path / "payload.json"
@@ -175,6 +186,37 @@ def test_compression_verdict_covers_no_surface_delta_case():
     assert row["verdict"] == "compression"
     assert report["main_claim_status"] == "mixed"
     assert "empty-classifier-surface-delta" in report["claim_gate"]["blockers"]
+
+def test_missing_scope_seal_blocks_positive_claim_projection():
+    payload = _payload()
+    payload.pop("scope_seal")
+    _open_training_gate(payload)
+    _shift_metrics_by_role(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE, 0.25)
+    payload["deltas"]["after_minus_before"]["benefit_delta"] = 5.0
+    payload["deltas"]["after_minus_before"]["cost_delta"] = 0.0
+    payload["deltas"]["after_minus_before"]["debt_delta"] = -1.0
+
+    report = runner._verdict_payload(payload)
+
+    assert report["verdicts"][0]["positive_discovery"] is False
+    assert "scope-seal-false" in report["claim_gate"]["blockers"]
+    assert report["main_claim_status"] != "positive"
+
+
+def test_invalid_scope_seal_blocks_positive_claim_projection():
+    payload = _payload()
+    payload["scope_seal"] = dict(VALID_SCOPE_SEAL, status="open")
+    _open_training_gate(payload)
+    _shift_metrics_by_role(payload, runner.BEFORE_ROLE, runner.AFTER_ROLE, 0.25)
+    payload["deltas"]["after_minus_before"]["benefit_delta"] = 5.0
+    payload["deltas"]["after_minus_before"]["cost_delta"] = 0.0
+    payload["deltas"]["after_minus_before"]["debt_delta"] = -1.0
+
+    report = runner._verdict_payload(payload)
+
+    assert report["verdicts"][0]["positive_discovery"] is False
+    assert "scope-seal-false" in report["claim_gate"]["blockers"]
+    assert report["scope_seal"]["status"] == "open"
 
 def test_predicate_positive_does_not_make_main_claim_positive_without_training_gate():
     payload = copy.deepcopy(_payload())

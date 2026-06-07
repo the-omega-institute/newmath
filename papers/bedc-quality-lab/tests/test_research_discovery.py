@@ -11,6 +11,14 @@ from bedc_quality_lab.research_discovery import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+VALID_SCOPE_SEAL = {
+    "status": "closed",
+    "toy": True,
+    "bounded": True,
+    "theorem": False,
+    "real_training": False,
+    "production_forbidden": True,
+}
 
 
 def _canonical_payload(name: str) -> dict:
@@ -32,6 +40,7 @@ def _positive_payload(**overrides) -> dict:
             "scorecard_ready": True,
             "audit_status": "valid",
         },
+        "scope_seal": VALID_SCOPE_SEAL,
     }
     payload.update(overrides)
     return payload
@@ -130,6 +139,7 @@ def test_d4_finite_gate_matrix(
             "scorecard_ready": scorecard_ready,
             "audit_status": "valid",
         },
+        "scope_seal": VALID_SCOPE_SEAL,
     }
 
     verdict = assign_discovery_level(payload)
@@ -306,6 +316,27 @@ def test_positive_discovery_with_real_robustness_report_is_d5_o():
         "robustness_ready=true",
         "mechanism_ready=false",
     )
+
+
+@pytest.mark.parametrize(
+    "scope_seal",
+    [
+        None,
+        {"status": "open", "toy": True, "bounded": True, "theorem": False, "real_training": False, "production_forbidden": True},
+        {"status": "closed", "toy": True, "bounded": True, "theorem": False, "real_training": False},
+    ],
+)
+def test_positive_payload_without_closed_scope_seal_caps_to_d1(scope_seal):
+    payload = _positive_payload()
+    if scope_seal is None:
+        payload.pop("scope_seal")
+    else:
+        payload["scope_seal"] = scope_seal
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D1"
+    assert verdict.reasons == ("scope_seal=false",)
 
 
 def test_matched_baseline_control_positive_blocks_d5_payload_to_dn():

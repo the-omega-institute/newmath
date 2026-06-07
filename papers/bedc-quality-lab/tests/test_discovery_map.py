@@ -878,6 +878,14 @@ def _dimension_mismatch_payload(*, status="pass", anti_triviality_status="scale_
     return {
         "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
         "status": "pointer-only",
+        "scope_seal": {
+            "status": "closed",
+            "toy": True,
+            "bounded": True,
+            "theorem": False,
+            "real_training": False,
+            "production_forbidden": True,
+        },
         "control_protocol": {"control_arm": "matched_random_gap_head"},
         "dimension_mismatch_debt_transfer": {
             "status": status,

@@ -16,11 +16,13 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.classifier_shift import ClassifierPassage, ClassifierState, classifier_surface_delta, shift_information, structural_discovery
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey
+from bedc_quality_lab.scope import closed_claim_scope_seal
 
 SOURCE_JSON_ARTIFACT = "reports/mixing_family_sweep.json"
 SOURCE_REPORT_ARTIFACT = "reports/mixing_family_sweep.md"
 JSON_ARTIFACT = "reports/mixing_family_discovery.json"
 REPORT_ARTIFACT = "reports/mixing_family_discovery.md"
+SCOPE_SEAL = {"status": "closed", "toy": True, "bounded": True, "theorem": False, "real_training": False, "production_forbidden": True}
 CONTROL_SEED = 53320260602
 CONTROL_PERMUTATIONS = 200
 
@@ -120,7 +122,7 @@ def _project_family(payload: dict[str, Any], target_family: str) -> dict[str, An
         ledger_required_rows=ledger_rows,
         ledger_recorded_rows=ledger_rows,
         public_cost_protocol=True,
-        scope_sealed=True,
+        scope_sealed=closed_claim_scope_seal(SCOPE_SEAL),
         not_claimed_boundary=frozenset({"formal-bedc-closure", "non-gaussian-mixing-generalization", "aggregate-surface-claim"}),
         benefit_modes=frozenset({"quality_q_signal"}),
         reproducible_evidence=True,
@@ -190,6 +192,7 @@ def _verdict_payload(source_payload: dict[str, Any]) -> dict[str, Any]:
         "report": REPORT_ARTIFACT,
         "projection_script": "scripts/run_mixing_family_discovery.py",
         "generated_from": {"artifact": SOURCE_JSON_ARTIFACT, "source_runner": "scripts/run_mixing_family_sweep.py", "record_count": len(source_payload["records"])},
+        "scope_seal": SCOPE_SEAL,
         "baseline_family": baseline,
         "verdicts": rows,
         "positive_probe_summary": _positive_probe_summary(rows),
