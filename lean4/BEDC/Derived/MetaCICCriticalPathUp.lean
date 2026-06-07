@@ -1,4 +1,5 @@
 import BEDC.Derived.MetaCICCriticalPathUp.Core
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateSNConfluenceHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationConsumerHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealNormalFormHandoff
