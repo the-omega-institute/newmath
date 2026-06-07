@@ -94,6 +94,9 @@ DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery_gat
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
 DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
 DGT_TRAINING_HARDGATES_POINTER = f"{DGT_TRAINING_REPLAY_ARTIFACT}:$.hardgates"
+TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT = "reports/canonical/transformer_derivative_atlas.json"
+TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/layerwise_jet_map.md"
+TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT = "reports/canonical/attention_route_derivative_report.json"
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
 MODEL_DESIGN_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/model_design_suite.md"
 MODEL_DESIGN_SUITE_ARTIFACT_ID = "bedc-quality-lab:model-design-suite"
@@ -931,6 +934,41 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
     ),
     CanonicalReportSpec(
+        name="transformer-derivative-atlas",
+        command=("python3", "scripts/run_transformer_derivative_atlas.py"),
+        json_artifact=TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT,
+        markdown_artifact=TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "run_id",
+            "producer",
+            "projector",
+            "source_artifacts",
+            "config",
+            "dgt_declaration",
+            "raw_intervention_rows",
+            "layerwise_derivative_rows",
+            "margin_proxy_controls",
+            "attention_routes",
+            "layer_summary",
+            "hardgates",
+            "positive_claim",
+            "scope",
+            "not_claimed",
+        ),
+        estimated_seconds=2,
+        bundle_role="auxiliary",
+        scope_pointer="$.scope",
+        cost_pointer="$.source_artifacts.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive_claim",
+        control_pointer="$.margin_proxy_controls",
+        no_control_rationale_pointer=None,
+        literature_ref_ids=("lit-lejepa-theorem-ledger",),
+    ),
+    CanonicalReportSpec(
         name="lejepa-theorem-ledger",
         command=("python3", "scripts/run_lejepa_theorem_ledger.py"),
         json_artifact="reports/canonical/lejepa_theorem_ledger.json",
@@ -989,6 +1027,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         no_control_rationale_pointer=None,
     ),
 )
+QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas"})
 
 
 def _artifact_path(relative_path: str) -> Path:
@@ -1057,6 +1096,8 @@ def _canonical_output_digest(spec: CanonicalReportSpec) -> str:
         spec.json_artifact: _path_digest(_artifact_path(spec.json_artifact)),
         spec.markdown_artifact: _path_digest(_artifact_path(spec.markdown_artifact)),
     }
+    if spec.name == "transformer-derivative-atlas":
+        parts[TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT] = _path_digest(_artifact_path(TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT))
     return _json_digest(parts)
 
 
@@ -1567,9 +1608,10 @@ def _scorecard_negative_result_count(payloads: dict[str, dict[str, Any]]) -> dic
 
 
 def _scorecard_scope_completeness(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    reports = [spec.name for spec in CANONICAL_REPORTS]
-    sources = [(spec.name, spec.scope_pointer) for spec in CANONICAL_REPORTS]
-    for spec in CANONICAL_REPORTS:
+    specs = [spec for spec in CANONICAL_REPORTS if spec.name not in QUALITY_SCORECARD_EXCLUDED_REPORTS]
+    reports = [spec.name for spec in specs]
+    sources = [(spec.name, spec.scope_pointer) for spec in specs]
+    for spec in specs:
         if _pointer_value(payloads.get(spec.name, {}), spec.scope_pointer) is None:
             return _metric_not_ready(
                 "ScopeCompleteness",
@@ -1590,16 +1632,17 @@ def _scorecard_scope_completeness(payloads: dict[str, dict[str, Any]]) -> dict[s
 
 
 def _scorecard_cost_protocol_completeness(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
-    sources = [(spec.name, spec.cost_pointer) for spec in CANONICAL_REPORTS]
-    for spec in CANONICAL_REPORTS:
+    specs = [spec for spec in CANONICAL_REPORTS if spec.name not in QUALITY_SCORECARD_EXCLUDED_REPORTS]
+    sources = [(spec.name, spec.cost_pointer) for spec in specs]
+    for spec in specs:
         if _cost_protocol_evidence(payloads.get(spec.name, {}), spec.cost_pointer) is None:
             return _metric_not_ready(
                 "CostProtocolCompleteness",
                 f"{spec.name}:{spec.cost_pointer}",
                 "missing cost pointer",
             )
-    present = len(CANONICAL_REPORTS)
-    denominator = len(CANONICAL_REPORTS)
+    present = len(specs)
+    denominator = len(specs)
     if denominator <= 0:
         return _metric_not_ready("CostProtocolCompleteness", "canonical report manifest", "missing manifest rows")
     return _metric_ready(

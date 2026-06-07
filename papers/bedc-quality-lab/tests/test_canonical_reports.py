@@ -13,6 +13,14 @@ from bedc_quality_lab.discovery_regularized_training import (
     project_drt_training_extension,
     _training_mechanism_cert,
 )
+from bedc_quality_lab.transformer_derivative_atlas import (
+    ATTENTION_ROUTE_ARTIFACT,
+    DEFAULT_CONFIG as TRANSFORMER_DERIVATIVE_ATLAS_CONFIG,
+    LAYERWISE_JET_MAP_ARTIFACT,
+    RAW_ROW_POINTER as TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER,
+    TransformerDerivativeAtlasProjection,
+    render_attention_route_report,
+)
 from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
@@ -705,6 +713,11 @@ def _payload_for_spec(spec):
         payload["config"] = {"control_arm": "matched_random_gap_head"}
         payload.update(_atlas_fixture_rows())
         payload["forbidden_claim_term_audit"] = {"status": "pass", "hits": []}
+    if spec.name == "transformer-derivative-atlas":
+        return TransformerDerivativeAtlasProjection(
+            config=TRANSFORMER_DERIVATIVE_ATLAS_CONFIG,
+            generated_at="fixture",
+        ).project()
     if spec.name == "mixing-family-sweep":
         payload["coverage_item"] = {
             "canonical_families": ["a", "b", "c"],
@@ -1260,6 +1273,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "discovery-regularized-training",
         "mechanism-seeking-network",
         "discovery-gated-nas",
+        "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
         "spectral-ablation-hinge",
     ]
@@ -1657,6 +1671,41 @@ def test_gap_head_transfer_atlas_generated_payload_exposes_row_classification():
             "runnable_status",
             "counting_reason",
         } <= set(row)
+
+
+def test_canonical_reports_manifest_includes_transformer_derivative_atlas():
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+
+    assert spec.command == ("python3", "scripts/run_transformer_derivative_atlas.py")
+    assert spec.json_artifact == canonical.TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT
+    assert spec.markdown_artifact == LAYERWISE_JET_MAP_ARTIFACT
+    assert canonical.TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT == ATTENTION_ROUTE_ARTIFACT
+    assert {
+        "dgt_declaration",
+        "raw_intervention_rows",
+        "layerwise_derivative_rows",
+        "margin_proxy_controls",
+        "attention_routes",
+        "hardgates",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "auxiliary"
+    assert spec.scope_pointer == "$.scope"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.positive_claim_pointer == "$.positive_claim"
+    assert spec.control_pointer == "$.margin_proxy_controls"
+
+
+def test_transformer_derivative_atlas_fixture_is_pointer_derived():
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+    payload = _payload_for_spec(spec)
+    route_report = render_attention_route_report(payload)
+
+    assert payload["dgt_declaration"]["produces_dgt"] is False
+    assert payload["dgt_declaration"]["discovery_map_authority"] is False
+    assert payload["layerwise_derivative_rows"]["schema"] == "LayerwiseDerivativeRow"
+    assert payload["source_artifacts"]["raw_rows"] == TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER
+    assert route_report["source_artifacts"]["raw_rows"] == TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER
+    assert "dgt_relation" not in json.dumps(payload, sort_keys=True)
 
 
 def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
