@@ -42,14 +42,14 @@ def test_hg_dl_1_gap_head_discovery_report_without_scorecard_fails_closed():
 
     assert isinstance(verdict, ResearchDiscoveryVerdict)
     assert verdict.discovery_level == "DN"
-    assert verdict.reasons == ("scorecard_ready=false", "audit_pass=false")
+    assert verdict.reasons == ("scorecard_ready=false",)
     assert verdict.experiment_id == "reports/canonical/gap-head-discovery.json"
     assert verdict.terminal_verdict == ""
     assert verdict.classifier_shift is True
     assert verdict.net_information == pytest.approx(0.34608695652173915)
     assert verdict.scorecard_ready is False
     assert verdict.control_positive is False
-    assert verdict.audit_status is None
+    assert verdict.audit_status == "pass"
     assert verdict.revocation_status is None
 
 
