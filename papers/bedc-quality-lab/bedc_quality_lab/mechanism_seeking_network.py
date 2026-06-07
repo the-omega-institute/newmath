@@ -16,7 +16,7 @@ SCHEMA_ID = "bedc-quality-lab:mechanism-seeking-network"
 ARTIFACT_ID = "bedc-quality-lab:mechanism-seeking-network"
 PRODUCER = "scripts/run_mechanism_seeking_network.py"
 PROJECTOR = "bedc_quality_lab.mechanism_seeking_network.MechanismSeekingNetworkProjection"
-DEFAULT_MECHANISMS = ("copy_route", "parity_gate", "sparse_recall")
+DEFAULT_MECHANISMS = ("copy_route", "parity_gate", "sparse_recall", "safety_boundary", "planning_route")
 DEFAULT_SEEDS = (17, 29, 43)
 DEFAULT_SHIFTS = (0.0, 0.35, 0.7)
 DEFAULT_ARMS = ("mechanism_probe", "ablated_probe", "matched_random")
@@ -43,6 +43,8 @@ NOT_CLAIMED = (
     "global architecture superiority",
     "full causal mechanism closure",
     "production device authority",
+    "deployment or global safety",
+    "real planner competence or general planning",
     "standalone terminal verdict",
 )
 POSITIVE_CLAIM = {
@@ -325,9 +327,9 @@ class MechanismSeekingNetworkProjection:
                 "evidence_pointer": "$.records",
             },
             "MSN-HG2": {
-                "status": _status(bool(mechanism["accepted"] and mechanism["accepted_surface_count"] >= 2)),
-                "evidence": "Mechanism gate must accept at least two surfaces by parseable certificate margin.",
-                "evidence_pointer": "$.mechanism_gate_summary",
+                "status": _status(bool(mechanism["accepted"] and mechanism["accepted_surface_count"] >= 3)),
+                "evidence": "Mechanism gate must accept at least three surfaces by parseable certificate margin.",
+                "evidence_pointer": "$.mechanism_gate_summary.accepted_surface_count",
             },
             "MSN-HG3": {
                 "status": _status(bool(matched["control_rejected"])),
@@ -360,7 +362,7 @@ class MechanismSeekingNetworkProjection:
                 "reason": "hardgate-failed",
                 "evidence_pointer": "$.hardgate.failed_gate",
                 "surface_registry_pointer": "$.surface_registry",
-                "mechanism_evidence_pointer": "$.mechanism_gate_summary",
+                "mechanism_evidence_pointer": "$.mechanism_gate_summary.by_mechanism",
                 "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
                 "failed_gate": failed,
                 "failed_gate_pointer": f"$.hardgate.gates.{failed}.status",
@@ -372,7 +374,7 @@ class MechanismSeekingNetworkProjection:
             "evidence_pointer": "$.mechanism_gate_summary",
             "control_pointer": "$.matched_random_control",
             "surface_registry_pointer": "$.surface_registry",
-            "mechanism_evidence_pointer": "$.distinction_module_evidence",
+            "mechanism_evidence_pointer": "$.mechanism_gate_summary.by_mechanism",
             "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
             "failed_gate": None,
             "failed_gate_pointer": None,
@@ -551,6 +553,7 @@ class MechanismSeekingNetworkProjection:
                     },
                     "evidence_pointer": f"$.mechanism_gate_summary.by_mechanism.{mechanism_id}",
                     "gate_protocol_pointer": "$.gate_protocol",
+                    "default_stance": "bounded MSN toy mechanism surface",
                 }
                 for mechanism_id in mechanisms
             }
@@ -564,7 +567,7 @@ class MechanismSeekingNetworkProjection:
             "distinction_module_risk": distinction["risk"],
             "distinction_module_evidence": distinction["evidence"],
             "mechanism_gate_summary": {
-                "accepted": accepted_surface_count >= 2,
+                "accepted": accepted_surface_count >= 3,
                 "accepted_surface_count": accepted_surface_count,
                 "gate_threshold": gate_threshold,
                 "by_mechanism": by_mechanism,

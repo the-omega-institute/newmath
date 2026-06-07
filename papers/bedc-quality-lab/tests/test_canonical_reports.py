@@ -255,10 +255,46 @@ def _payload_for_spec(spec):
                 },
             },
             "positive_claim": {"text": "fixture D1 SIGReg training proxy", "scope": "fixture", "level": "D1"},
+            "records": {
+                "tensor_slice_registry": {
+                    "copy_route": {"tensor_slice_ids": ["tensor-copy"]},
+                    "parity_gate": {"tensor_slice_ids": ["tensor-parity"]},
+                    "sparse_recall": {"tensor_slice_ids": ["tensor-sparse"]},
+                },
+                "ablation_row_registry": {
+                    "copy_route": ["ablation-copy"],
+                    "parity_gate": ["ablation-parity"],
+                    "sparse_recall": ["ablation-sparse"],
+                },
+                "patch_row_registry": {
+                    "copy_route": ["patch-copy"],
+                    "parity_gate": ["patch-parity"],
+                    "sparse_recall": ["patch-sparse"],
+                },
+            },
+            "surface_registry": {
+                "copy_route": {
+                    "classifier_surface": {"classifier_surface_id": "classifier-surface:copy_route"},
+                    "evidence_pointer": "$.mechanism_gate_summary.by_mechanism.copy_route",
+                },
+                "parity_gate": {
+                    "classifier_surface": {"classifier_surface_id": "classifier-surface:parity_gate"},
+                    "evidence_pointer": "$.mechanism_gate_summary.by_mechanism.parity_gate",
+                },
+                "sparse_recall": {
+                    "classifier_surface": {"classifier_surface_id": "classifier-surface:sparse_recall"},
+                    "evidence_pointer": "$.mechanism_gate_summary.by_mechanism.sparse_recall",
+                },
+                "forbidden_alias_audit": {"status": "pass", "forbidden_alias_count": 0},
+            },
             "mechanism_gate_summary": {
                 "accepted": True,
-                "accepted_surface_count": 2,
-                "by_mechanism": {"copy_route": {"accepted": True}, "parity_gate": {"accepted": True}},
+                "accepted_surface_count": 3,
+                "by_mechanism": {
+                    "copy_route": {"accepted": True},
+                    "parity_gate": {"accepted": True},
+                    "sparse_recall": {"accepted": True},
+                },
             },
             "distinction_module_evidence": {
                 "schema_id": "bedc-quality-lab:mechanism-seeking-network#$.distinction_module_evidence",
@@ -292,11 +328,26 @@ def _payload_for_spec(spec):
                         "risk_audit_status": "pass",
                         "audit_status": "pass",
                     },
+                    {
+                        "module_id": "sparse_recall",
+                        "tensor_slice_pointer": "$.records.tensor_slice_registry.sparse_recall",
+                        "classifier_surface_pointer": "$.surface_registry.sparse_recall.classifier_surface",
+                        "stability_score_pointer": "$.distinction_module_risk.sparse_recall.stability_score",
+                        "shortcut_risk_pointer": "$.distinction_module_risk.sparse_recall.shortcut_risk",
+                        "ledger_risk_pointer": "$.distinction_module_risk.sparse_recall.ledger_risk",
+                        "ablation_rows_pointer": "$.records.ablation_row_registry.sparse_recall",
+                        "patch_rows_pointer": "$.records.patch_row_registry.sparse_recall",
+                        "ablation_status": "pass",
+                        "patch_status": "pass",
+                        "risk_audit_status": "pass",
+                        "audit_status": "pass",
+                    },
                 ],
             },
             "distinction_module_risk": {
                 "copy_route": {"stability_score": 0.7, "shortcut_risk": 0.1, "ledger_risk": 0.1},
                 "parity_gate": {"stability_score": 0.7, "shortcut_risk": 0.1, "ledger_risk": 0.1},
+                "sparse_recall": {"stability_score": 0.7, "shortcut_risk": 0.1, "ledger_risk": 0.1},
             },
             "d5_m_readiness": {
                 "status": "ready",

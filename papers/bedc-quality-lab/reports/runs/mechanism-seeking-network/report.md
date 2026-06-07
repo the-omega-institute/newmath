@@ -18,7 +18,7 @@
 ## Mechanism Gate
 
 - accepted: `True`
-- accepted surfaces: `3`
+- accepted surfaces: `5`
 
 ## Device Protocol
 
@@ -32,4 +32,6 @@
 - global architecture superiority
 - full causal mechanism closure
 - production device authority
+- deployment or global safety
+- real planner competence or general planning
 - standalone terminal verdict
