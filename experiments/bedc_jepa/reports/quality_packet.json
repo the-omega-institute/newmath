@@ -1,0 +1,301 @@
+{
+  "benchmark": {
+    "single": {
+      "deltas": {
+        "debt_reduction": 0.09683825717787116,
+        "gap_auc_gain": 0.4992226890756303,
+        "latent_r2_delta": 0.0,
+        "outside_gap_accuracy_gain": 0.0,
+        "unlogged_error_reduction": 0.0078125
+      },
+      "objective_terms": [
+        "latent_prediction",
+        "distinction_bce",
+        "gap_bce",
+        "unlogged_error_penalty"
+      ],
+      "source": {
+        "name": "boundary-gated-ou-world",
+        "seed": 4242.0,
+        "test_count": 768.0,
+        "train_count": 1536.0,
+        "training": "torch-gradient"
+      },
+      "systems": {
+        "bedc_objective": {
+          "approx_identifiability_proxy": 0.9734180016050283,
+          "bedc_debt_score": 0.007458617822128848,
+          "certified_coverage": 0.9127604166666666,
+          "covariance_deviation": 0.07972059080075522,
+          "distinction_accuracy": 0.98828125,
+          "distinction_accuracy_outside_gap": 1.0,
+          "false_claim_rate_inside_gap": 0.014705882352941176,
+          "gap_detection_auc": 0.9992226890756303,
+          "linear_identifiability_r2": 0.9918370943719802,
+          "orthogonality_error": 0.033816075667429786,
+          "system_name": "torch-bedc-jepa-objective",
+          "unlogged_error_rate": 0.0
+        },
+        "latent_only": {
+          "approx_identifiability_proxy": 0.9734180016050283,
+          "bedc_debt_score": 0.10429687500000001,
+          "certified_coverage": 1.0,
+          "covariance_deviation": 0.07972059080075522,
+          "distinction_accuracy": 0.9921875,
+          "distinction_accuracy_outside_gap": 1.0,
+          "false_claim_rate_inside_gap": 0.0,
+          "gap_detection_auc": 0.5,
+          "linear_identifiability_r2": 0.9918370943719802,
+          "orthogonality_error": 0.033816075667429786,
+          "system_name": "torch-latent-only",
+          "unlogged_error_rate": 0.0078125
+        }
+      }
+    },
+    "sweep": {
+      "debt_reduction_ci95": 0.007292632582931253,
+      "debt_reduction_mean": 0.10288747050501545,
+      "debt_win_rate": 1.0,
+      "gap_auc_gain_ci95": 0.0004672731933748254,
+      "gap_auc_gain_mean": 0.4987624509356536,
+      "gap_auc_win_rate": 1.0,
+      "latent_r2_delta_abs_max": 0.0,
+      "latent_r2_delta_mean": 0.0,
+      "outside_gap_accuracy_gain_ci95": 0.0,
+      "outside_gap_accuracy_gain_mean": 0.0,
+      "runs": [
+        {
+          "debt_reduction": 0.09683825717787116,
+          "gap_auc_gain": 0.4992226890756303,
+          "latent_r2_delta": 0.0,
+          "outside_gap_accuracy_gain": 0.0,
+          "seed": 4242.0,
+          "unlogged_error_reduction": 0.0078125
+        },
+        {
+          "debt_reduction": 0.1096653129856255,
+          "gap_auc_gain": 0.4986402486402487,
+          "latent_r2_delta": 0.0,
+          "outside_gap_accuracy_gain": 0.0,
+          "seed": 4259.0,
+          "unlogged_error_reduction": 0.010416666666666666
+        },
+        {
+          "debt_reduction": 0.10215884135154968,
+          "gap_auc_gain": 0.4984244150910817,
+          "latent_r2_delta": 0.0,
+          "outside_gap_accuracy_gain": 0.0,
+          "seed": 4276.0,
+          "unlogged_error_reduction": 0.01171875
+        }
+      ],
+      "seed_count": 3.0,
+      "seeds": [
+        4242.0,
+        4259.0,
+        4276.0
+      ],
+      "unlogged_error_reduction_ci95": 0.0022507259417042526,
+      "unlogged_error_reduction_mean": 0.009982638888888888,
+      "unlogged_error_win_rate": 1.0
+    }
+  },
+  "config": {
+    "distinctions": [
+      "inside_operational_boundary"
+    ],
+    "gap_types": [
+      "boundary_gap",
+      "low_certification_margin",
+      "unlogged_distinction_error"
+    ],
+    "gate": {
+      "max_bedc_unlogged_error_rate": 0.001,
+      "max_latent_r2_delta_abs": 1e-08,
+      "min_debt_reduction_mean": 0.05,
+      "min_gap_auc_gain_mean": 0.2,
+      "min_unlogged_error_reduction_mean": 0.005
+    },
+    "model": {
+      "baseline": "torch-latent-only",
+      "bedc_objective": "torch-bedc-jepa-objective",
+      "objective_terms": [
+        "latent_prediction",
+        "distinction_bce",
+        "gap_bce",
+        "unlogged_error_penalty"
+      ]
+    },
+    "profile_status": "ready",
+    "schema_id": "bedc-jepa-target-profile",
+    "science_contract": {
+      "closure_status": "scoped_target",
+      "contribution_type": "construction",
+      "evidence_required": [
+        "baseline metrics",
+        "BEDC-JEPA metrics",
+        "TensorNameCert YAML",
+        "ledger JSON",
+        "quality report"
+      ],
+      "progress_metric": "unlogged_error_rate",
+      "target_lane": "frontier_lane",
+      "taste_obligations": {
+        "layer_separation_witness": "Training results, certificate projections, paper claims, and Lean hardening remain separate.",
+        "no_hidden_assumption_witness": "The scope is a boundary-gated operational toy world with declared predicates and gap labels.",
+        "novelty_witness": "The training objective includes distinction and gap prediction, not only post-hoc reporting.",
+        "reproducibility_witness": "Runs are config-driven with fixed seeds and generated evidence artifacts."
+      },
+      "terminal_artifact": "experiments/bedc_jepa/reports/quality_packet.json",
+      "verification_status": "artifact_present",
+      "verifier": "experiments/bedc_jepa/scripts/check_gate.py"
+    },
+    "slug": "bedc_jepa_tiny_world",
+    "thresholds": {
+      "distinction": 0.5,
+      "gap": 0.5
+    },
+    "title": "BEDC-JEPA Tiny World: Certifiable Distinctions and Gap Ledger World Model",
+    "world": {
+      "actions": "none",
+      "gap_width": 0.14,
+      "name": "boundary-gated-ou-world",
+      "observation": "nonlinear mixed state vector",
+      "radius": 1.0,
+      "rho": 0.84,
+      "test_count": 768,
+      "train_count": 1536
+    }
+  },
+  "ledger": {
+    "not_claimed": [
+      "The packet does not compare against an executed public JEPA implementation.",
+      "The packet does not claim open-domain semantic naming.",
+      "The packet does not verify SGD or neural-network convergence in Lean."
+    ],
+    "residue": [
+      {
+        "kind": "unlogged_error",
+        "rate": 0.0078125,
+        "status": "open",
+        "system": "latent_only"
+      },
+      {
+        "kind": "unlogged_error",
+        "rate": 0.0,
+        "status": "closed",
+        "system": "bedc_objective"
+      },
+      {
+        "certified_coverage": 0.9127604166666666,
+        "kind": "coverage_tradeoff",
+        "status": "recorded",
+        "system": "bedc_objective"
+      },
+      {
+        "kind": "latent_equivalence_boundary",
+        "latent_r2_delta_abs_max": 0.0,
+        "status": "recorded"
+      }
+    ],
+    "schema_id": "bedc-jepa-gap-ledger",
+    "scope": "boundary-gated operational toy world",
+    "thresholds": {
+      "distinction": 0.5,
+      "gap": 0.5
+    }
+  },
+  "namecert": {
+    "classifier_spec": {
+      "distinction_accuracy": 0.98828125,
+      "distinction_accuracy_outside_gap": 1.0,
+      "distinction_threshold": 0.5,
+      "gap_threshold": 0.5,
+      "relation": "same thresholded distinction vector inside declared low-gap scope"
+    },
+    "ledger_policy": {
+      "not_claimed": [
+        "real-world physics",
+        "global planning optimality",
+        "open-domain semantics",
+        "formal verification of neural training"
+      ],
+      "recorded_residue": [
+        "gap-labeled boundary cases",
+        "low-certification coverage cases",
+        "distinction errors without active gap score"
+      ]
+    },
+    "name": "BEDCJEPA_TinyWorld",
+    "pattern_spec": {
+      "distinctions": [
+        "inside_operational_boundary"
+      ],
+      "gap_types": [
+        "boundary_gap",
+        "low_certification_margin",
+        "unlogged_distinction_error"
+      ],
+      "objective_terms": [
+        "latent_prediction",
+        "distinction_bce",
+        "gap_bce",
+        "unlogged_error_penalty"
+      ]
+    },
+    "quality": {
+      "bedc_debt_score": 0.007458617822128848,
+      "gate_decision": "pass",
+      "unlogged_error_rate": 0.0,
+      "unlogged_error_reduction_mean": 0.009982638888888888
+    },
+    "schema_id": "bedc-jepa-tensor-namecert",
+    "source_spec": {
+      "model": "torch-bedc-jepa-objective",
+      "observation": "nonlinear mixed state vector",
+      "test_count": 768.0,
+      "train_scope": "boundary-gated operational toy world",
+      "world": "boundary-gated-ou-world"
+    },
+    "stab_cert": {
+      "debt_reduction_mean": 0.10288747050501545,
+      "gap_auc_gain_mean": 0.4987624509356536,
+      "latent_r2_delta_abs_max": 0.0,
+      "seed_count": 3.0
+    }
+  },
+  "quality_gate": {
+    "blocking_checks": [],
+    "checks": {
+      "bedc_unlogged_error_rate": {
+        "limit": 0.001,
+        "status": "pass",
+        "value": 0.0
+      },
+      "debt_reduction_mean": {
+        "limit": 0.05,
+        "status": "pass",
+        "value": 0.10288747050501545
+      },
+      "gap_auc_gain_mean": {
+        "limit": 0.2,
+        "status": "pass",
+        "value": 0.4987624509356536
+      },
+      "latent_r2_delta_abs": {
+        "limit": 1e-08,
+        "status": "pass",
+        "value": 0.0
+      },
+      "unlogged_error_reduction_mean": {
+        "limit": 0.005,
+        "status": "pass",
+        "value": 0.009982638888888888
+      }
+    },
+    "decision": "pass",
+    "progress_metric": "unlogged_error_rate",
+    "schema_id": "bedc-jepa-quality-gate"
+  },
+  "schema_id": "bedc-jepa-quality-packet"
+}

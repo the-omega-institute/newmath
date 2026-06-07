@@ -1,0 +1,169 @@
+\section{Boundary-Gated World}
+\label{sec:boundary-gated-world}
+
+The first executable protocol is deliberately small.  It is not a claim about
+large-scale pixel world modeling.  It is a controlled setting that separates
+latent recovery from distinction and gap learning.
+
+\paragraph{World.}
+The latent state is two-dimensional.  The continuation rule is an
+Ornstein--Uhlenbeck pair:
+$$
+  z_{t+1}=\rho z_t+\sqrt{1-\rho^2}\eta_t .
+$$
+The observation is a nonlinear shear $x_t=g(z_t)$.  The operational
+distinction is an inside/outside radial boundary:
+$$
+  d_t = \mathbf 1[\lVert z_t\rVert^2\le r^2].
+$$
+The gap ledger is a boundary band:
+$$
+  g_t = \mathbf 1[|\lVert z_t\rVert^2-r^2|\le \varepsilon].
+$$
+Thus the world has a continuous state, a discrete distinction, and an explicit
+gap surface.  The distinction is operational because crossing the boundary
+changes the inside/outside claim.  The gap is operational because near-boundary
+claims are not certified.
+
+\paragraph{Current artifact.}
+The lab script \texttt{run\_bedc\_jepa\_boundary\_world.py}, stored under
+\path{papers/bedc-quality-lab/scripts/}, generates a canonical evidence
+envelope for this protocol.  The experiment script
+\texttt{run\_bedc\_jepa\_experiment.py} then runs the four-system comparison:
+latent-only prediction, post-hoc probe, post-hoc BEDC report, and trained
+BEDC-JEPA gap readback.
+
+\paragraph{Recorded measurements.}
+The four-system experiment records:
+$$
+\begin{array}{ll}
+\texttt{S0\_unlogged\_error\_rate} & 0.091146,\\
+\texttt{S1\_unlogged\_error\_rate} & 0.080729,\\
+\texttt{S2\_unlogged\_error\_rate} & 0.035156,\\
+\texttt{S3\_unlogged\_error\_rate} & 0.013021,\\
+\texttt{S2\_gap\_detection\_auc} & 0.845039,\\
+\texttt{S3\_gap\_detection\_auc} & 0.898880,\\
+\texttt{S2\_bedc\_debt\_score} & 0.056448,\\
+\texttt{S3\_bedc\_debt\_score} & 0.037607.
+\end{array}
+$$
+
+All four systems have the same latent recovery score, $0.926199$, in this
+controlled setting.  The trained BEDC-JEPA system therefore does not win by
+hiding a worse latent model behind a better report.  It keeps the post-hoc
+probe's outside-gap distinction accuracy while improving gap AUROC, unlogged
+error, and the scope-relative debt score against the post-hoc BEDC report
+baseline.
+
+\paragraph{Gradient-trained objective.}
+The torch objective artifact trains a latent encoder and predictor, freezes
+the recovered latent carrier, and then compares a latent-only distinction
+probe with a BEDC objective that trains distinction and gap heads with an
+unlogged-error penalty.  The protocol deliberately keeps latent recovery fixed:
+both systems have linear identifiability $R^2=0.991837$, covariance deviation
+$0.079721$, and orthogonality error $0.033816$.  Under that fixed carrier, the
+BEDC objective improves gap AUROC from $0.500000$ to $0.999223$, lowers
+unlogged error from $0.007812$ to $0.000000$, and lowers debt from $0.104297$
+to $0.007459$.  Across the three-seed gradient objective sweep, the mean gap
+AUROC gain is $0.498762 \pm 0.000467$, the mean unlogged-error reduction is
+$0.009983 \pm 0.002251$, and the mean debt reduction is
+$0.102887 \pm 0.007293$.  The win rates are $100\%$ for gap AUROC,
+unlogged error, and debt, while the maximum absolute latent $R^2$ delta is
+$0.000000$.  This gradient-trained BEDC-JEPA objective artifact is still
+boundary-world scale, not a public JEPA implementation comparison.
+
+\paragraph{Seed sweep.}
+The experiment also runs a two-world seed sweep: the radial boundary world and
+a sinusoidal boundary world.  Across $16$ world-seed cells, the aggregate
+trained-minus-post-hoc gap AUROC gain is $0.021994 \pm 0.013291$, the
+post-hoc-minus-trained unlogged-error reduction is $0.022868 \pm 0.006128$,
+and the post-hoc-minus-trained debt reduction is $0.011947 \pm 0.005406$.
+The trained system beats the post-hoc baseline in $81.25\%$ of cells for gap
+AUROC, $100\%$ for unlogged error, and $81.25\%$ for debt.
+
+\paragraph{Grid-pixel learned transition.}
+A second benchmark uses $11\times 11$ pixel observations of a moving point in a
+grid world.  A latent readout is trained from pixels, and a linear
+action-conditioned transition model is trained on the learned state.  The
+one-step transition score is $R^2=0.998237$ with mean L2 error $0.021983$.
+Against the post-hoc grid report baseline, trained BEDC-JEPA improves gap
+AUROC from $0.892642$ to $0.999210$, lowers unlogged error from $0.010000$ to
+$0.001111$, and lowers debt from $0.029559$ to $0.009579$.
+The same learned transition model is used in a three-target planning sweep,
+where gap-aware planning improves risk-adjusted cost while exposing a
+short-horizon success tradeoff.
+
+\paragraph{MiniGrid-style visual planning.}
+A third visual-planning benchmark uses a MiniGrid-style one-hot image
+observation with walls, a two-room door passage, a goal region, and a hazard
+band.  A state readout is learned from the image observation, and an
+action-conditioned transition table is estimated from data.  The learned
+one-step transition accuracy is $1.000000$.  Against the post-hoc visual
+report baseline, trained BEDC-JEPA improves gap AUROC from $0.571541$ to
+$1.000000$ and lowers debt from $0.085692$ to $0.016167$.  Unlogged error is
+$0.000000$ for both systems because the goal-cell distinction is directly
+readable in this one-hot visual setting.  In a three-target, thirty-six
+trajectory planning sweep, gap-aware planning lowers high-gap state rate by
+$0.202778$, lowers unsafe-state rate by $0.072222$, and improves
+risk-adjusted planning cost by $0.313494$, while reducing raw success rate by
+$0.305556$.  This benchmark is still local, but it has the form of a public
+partial-observability grid-control task rather than a scalar latent boundary
+only.
+
+\paragraph{Object-level counterfactual intervention.}
+A fourth benchmark uses two object slots rendered as pixels.  The query is
+whether object $A$, after an action intervention, will contact object $B$.
+This supplies a Causal-JEPA-style object-level counterfactual readback rather
+than a scalar boundary only.  The trained object BEDC-JEPA system reaches
+counterfactual accuracy $0.946000$ with intervention sensitivity $0.628799$.
+Against the post-hoc object report baseline, it improves outside-gap
+distinction accuracy from $0.728553$ to $0.994878$, improves gap AUROC from
+$0.518800$ to $0.988137$, lowers unlogged error from $0.263000$ to $0.002000$,
+and lowers debt from $0.287323$ to $0.016736$.  Masking object $B$ drops the
+trained counterfactual accuracy by $0.373000$, showing that the readback uses
+the object slot rather than only action priors.
+
+Across an eight-seed object-intervention sweep, the trained system beats the
+post-hoc report in every seed for outside-gap accuracy, gap AUROC, unlogged
+error, and debt.  The mean counterfactual accuracy is $0.932750 \pm 0.012035$,
+the mean intervention sensitivity is $0.619477 \pm 0.010757$, and the mean
+object-slot masking drop is $0.383875 \pm 0.018455$.  The mean gains over the
+post-hoc report are $0.267294 \pm 0.016073$ for outside-gap accuracy,
+$0.429153 \pm 0.011258$ for gap AUROC, $0.279500 \pm 0.018394$ for unlogged
+error reduction, and $0.262087 \pm 0.013921$ for debt reduction.
+
+\paragraph{Multi-object distractor readback.}
+A fifth benchmark uses four object slots.  The operational query remains a
+counterfactual contact claim about the target pair $(A,B)$ after an
+intervention on $A$, while two additional object slots act as distractors.
+The gap ledger marks target-pair boundary cases, target-pair occlusion, and
+distractor intrusion into the target-pair ambiguity zone.  The trained
+multi-object BEDC-JEPA system reaches counterfactual accuracy $0.929167$ and
+distractor invariance $0.992408$.  Against the post-hoc multi-object report,
+it improves outside-gap distinction accuracy from $0.686111$ to $0.987500$,
+improves gap AUROC from $0.511644$ to $0.985894$, lowers unlogged error from
+$0.278333$ to $0.000000$, and lowers debt from $0.289213$ to $0.024655$.
+Masking the target object slot drops accuracy by $0.365000$, while masking
+the distractor slots drops accuracy by only $0.002500$.  This records that the
+readback is tied to the declared target distinction rather than to generic
+slot presence.
+
+Across a six-seed multi-object sweep, the trained system beats the post-hoc
+report in every seed for outside-gap accuracy, gap AUROC, unlogged error, and
+debt.  The mean counterfactual accuracy is $0.940972 \pm 0.004162$, and the
+mean distractor invariance is $0.992877 \pm 0.000202$.  The mean gains over
+the post-hoc report are $0.310598 \pm 0.013975$ for outside-gap accuracy,
+$0.497110 \pm 0.013092$ for gap AUROC, $0.277917 \pm 0.010163$ for unlogged
+error reduction, and $0.273032 \pm 0.008693$ for debt reduction.  The mean
+target-minus-distractor masking gap is $0.381528 \pm 0.009849$.
+
+The same construction is also run with six object slots: one target pair and
+four distractors.  Across a four-seed cluttered-object sweep, the trained
+system again beats the post-hoc report in every seed for outside-gap accuracy,
+gap AUROC, unlogged error, and debt.  The mean counterfactual accuracy is
+$0.946607 \pm 0.004367$, and the mean distractor invariance is
+$0.992700 \pm 0.000427$.  The mean gains over the post-hoc report are
+$0.317471 \pm 0.015747$ for outside-gap accuracy,
+$0.501613 \pm 0.017510$ for gap AUROC, $0.270000 \pm 0.004001$ for unlogged
+error reduction, and $0.260725 \pm 0.005137$ for debt reduction.  The mean
+target-minus-distractor masking gap is $0.382321 \pm 0.016490$.

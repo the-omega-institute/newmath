@@ -1,0 +1,41 @@
+{
+  "baseline_metrics": {
+    "latent_prediction_score": null,
+    "reported_benchmark_name": null,
+    "rollout_or_planning_score": null
+  },
+  "bedc_metrics_required": [
+    "gap_auc_gain_mean",
+    "unlogged_error_reduction_mean",
+    "debt_reduction_mean",
+    "latent_r2_delta_abs_max"
+  ],
+  "bedc_metrics_source": "reports/bedc_jepa_torch_objective.json",
+  "blocking_reason": "selected public baseline has not been executed in this workspace",
+  "cannot_claim": [
+    "public JEPA baseline comparison",
+    "JEPA-family checkpoint parity",
+    "public benchmark score superiority"
+  ],
+  "comparison_contract": {
+    "baseline_role": "action-conditioned latent world-model baseline",
+    "bedc_comparison_contract": [
+      "same observation/action stream",
+      "matched latent readback scope where feasible",
+      "BEDC distinction head and gap head evaluated on the same rollout cases",
+      "unlogged error, gap AUROC, certified coverage, and debt reported beside baseline scores"
+    ],
+    "expected_input_contract": [
+      "visual observations or video frames",
+      "action sequence or action token stream"
+    ],
+    "expected_output_contract": [
+      "latent rollout or predicted representation",
+      "planning or control-facing latent state"
+    ]
+  },
+  "schema_id": "bedc-jepa-public-baseline-comparison",
+  "selected_candidate_id": "vjepa2-ac",
+  "selected_repository_url": "https://github.com/facebookresearch/vjepa2",
+  "status": "missing"
+}

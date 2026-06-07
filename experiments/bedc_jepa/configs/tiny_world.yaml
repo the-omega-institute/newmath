@@ -1,0 +1,55 @@
+schema_id: bedc-jepa-target-profile
+slug: bedc_jepa_tiny_world
+title: BEDC-JEPA Tiny World: Certifiable Distinctions and Gap Ledger World Model
+profile_status: ready
+science_contract:
+  contribution_type: construction
+  target_lane: frontier_lane
+  terminal_artifact: experiments/bedc_jepa/reports/quality_packet.json
+  verifier: experiments/bedc_jepa/scripts/check_gate.py
+  progress_metric: unlogged_error_rate
+  closure_status: scoped_target
+  verification_status: artifact_present
+  evidence_required:
+    - baseline metrics
+    - BEDC-JEPA metrics
+    - TensorNameCert YAML
+    - ledger JSON
+    - quality report
+  taste_obligations:
+    novelty_witness: The training objective includes distinction and gap prediction, not only post-hoc reporting.
+    no_hidden_assumption_witness: The scope is a boundary-gated operational toy world with declared predicates and gap labels.
+    reproducibility_witness: Runs are config-driven with fixed seeds and generated evidence artifacts.
+    layer_separation_witness: Training results, certificate projections, paper claims, and Lean hardening remain separate.
+world:
+  name: boundary-gated-ou-world
+  observation: nonlinear mixed state vector
+  actions: none
+  train_count: 1536
+  test_count: 768
+  rho: 0.84
+  radius: 1.0
+  gap_width: 0.14
+model:
+  baseline: torch-latent-only
+  bedc_objective: torch-bedc-jepa-objective
+  objective_terms:
+    - latent_prediction
+    - distinction_bce
+    - gap_bce
+    - unlogged_error_penalty
+distinctions:
+  - inside_operational_boundary
+gap_types:
+  - boundary_gap
+  - low_certification_margin
+  - unlogged_distinction_error
+thresholds:
+  distinction: 0.5
+  gap: 0.5
+gate:
+  max_bedc_unlogged_error_rate: 0.001
+  min_unlogged_error_reduction_mean: 0.005
+  min_gap_auc_gain_mean: 0.2
+  min_debt_reduction_mean: 0.05
+  max_latent_r2_delta_abs: 0.00000001

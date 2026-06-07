@@ -1,0 +1,49 @@
+{
+  "artifacts": {
+    "envelope": "reports/example_envelope.json",
+    "report": "reports/quality_report.md"
+  },
+  "bedc_refs": [
+    "papers/bedc/preamble.tex:closurestatus",
+    "papers/bedc/parts/project_governance/theory_amendment_policy.tex"
+  ],
+  "classifier_spec": {
+    "name": "tiny-mlp-2-128-128-2",
+    "output_dim": 2,
+    "training": "align-cov-mean"
+  },
+  "debt_items": [
+    "distribution-debt: only Gaussian latent source is exercised",
+    "optimization-debt: tiny encoder training is not certified optimal",
+    "stability-debt: one seed is committed as the canonical artifact"
+  ],
+  "ledger_gaps": [
+    "finite-sample-only",
+    "single-mixing-family",
+    "no-global-claim"
+  ],
+  "metrics": {
+    "approx_identifiability_proxy": 0.8968342000660782,
+    "covariance_deviation": 0.4738795677429507,
+    "linear_identifiability_r2": 0.9574186157491476,
+    "orthogonality_error": 0.005397878860802283
+  },
+  "pattern_spec": {
+    "name": "latent-linear-recovery",
+    "target": "recover z from representation h by linear least squares"
+  },
+  "run_id": "gaussian-ou-lejepa-seed-23",
+  "schema_id": "bedc-quality-lab:evidence-envelope",
+  "source_spec": {
+    "latent_dim": 2,
+    "mixing": "sinusoidal-parabolic-shear",
+    "name": "gaussian-ou-toy-world",
+    "rho": 0.82,
+    "sample_count": 384
+  },
+  "stability_spec": {
+    "name": "fixed-seed-single-source",
+    "pair_process": "ornstein-uhlenbeck",
+    "seed": 23
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "ac_giant_gate": {
+    "current_gpu": "NVIDIA GeForce RTX 3050 OEM 8GB observed locally",
+    "current_torch": "CPU-only project-local torch observed locally",
+    "reason": "V-JEPA2-AC giant structure has about 1.32B parameters; full checkpoint evaluation should run in a CUDA environment, preferably RTX 4060 or better.",
+    "status": "needs_gpu"
+  },
+  "bedc_objective": {
+    "bedc_debt_score": 0.007458617822128848,
+    "gap_detection_auc": 0.9992226890756303,
+    "unlogged_error_rate": 0.0
+  },
+  "cannot_claim": [
+    "V-JEPA2-AC action-conditioned checkpoint comparison",
+    "public benchmark score superiority",
+    "large-model CUDA execution in the current CPU-only project-local environment"
+  ],
+  "deltas": {
+    "pretrained_minus_bedc_debt": 0.18670804884453787,
+    "pretrained_minus_bedc_gap_auc": -0.5325560224089636,
+    "pretrained_minus_bedc_unlogged_error": 0.1875,
+    "structure_minus_bedc_debt": 0.5717080488445377,
+    "structure_minus_bedc_unlogged_error": 0.5
+  },
+  "public_adapters": {
+    "pretrained_vitb": {
+      "candidate_id": "vjepa2-1-vit-base-384-pretrained",
+      "cannot_claim": [
+        "V-JEPA2-AC action-conditioned checkpoint comparison",
+        "public benchmark score superiority"
+      ],
+      "metrics": {
+        "bedc_debt_score": 0.1941666666666667,
+        "certified_coverage": 0.875,
+        "distinction_accuracy": 0.8125,
+        "gap_detection_auc": 0.4666666666666667,
+        "unlogged_error_rate": 0.1875
+      },
+      "model": {
+        "checkpoint_status": "loaded",
+        "checkpoint_url": "https://dl.fbaipublicfiles.com/vjepa2/vjepa2_1_vitb_dist_vitG_384.pt",
+        "hub_entry": "vjepa2_1_vit_base_384",
+        "input_contract": "rendered boundary-gated state as two-frame RGB video",
+        "model_type": "VisionTransformer",
+        "pretrained": true
+      },
+      "repository_url": "https://github.com/facebookresearch/vjepa2",
+      "sample_counts": {
+        "test": 16.0,
+        "train": 16.0
+      },
+      "schema_id": "bedc-jepa-public-structure-adapter",
+      "status": "available"
+    },
+    "structure": {
+      "candidate_id": "vjepa2-1-vit-base-384-structure",
+      "cannot_claim": [
+        "V-JEPA2-AC action-conditioned checkpoint comparison",
+        "public benchmark score superiority",
+        "checkpoint weights were not loaded"
+      ],
+      "metrics": {
+        "bedc_debt_score": 0.5791666666666666,
+        "certified_coverage": 0.875,
+        "distinction_accuracy": 0.5,
+        "gap_detection_auc": 0.6666666666666666,
+        "unlogged_error_rate": 0.5
+      },
+      "model": {
+        "checkpoint_status": "not_loaded",
+        "checkpoint_url": null,
+        "hub_entry": "vjepa2_1_vit_base_384",
+        "input_contract": "rendered boundary-gated state as two-frame RGB video",
+        "model_type": "VisionTransformer",
+        "pretrained": false
+      },
+      "repository_url": "https://github.com/facebookresearch/vjepa2",
+      "sample_counts": {
+        "test": 16.0,
+        "train": 16.0
+      },
+      "schema_id": "bedc-jepa-public-structure-adapter",
+      "status": "available"
+    }
+  },
+  "schema_id": "bedc-jepa-public-adapter-comparison",
+  "scope": "boundary-gated tiny world rendered as two-frame video",
+  "status": "executed"
+}
