@@ -42,6 +42,7 @@ HG_P_CORE = {
     "discovery-regularized-training",
     "mechanism-seeking-network",
     "discovery-gated-nas",
+    "discovery-gated-transformer",
 }
 QUALITY_SCORECARD_METRICS = {
     "CertCov",
@@ -63,6 +64,7 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "discovery-regularized-training": "bedc-quality-lab:discovery-regularized-training",
     "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
     "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
+    "discovery-gated-transformer": "bedc-quality-lab:discovery-gated-transformer",
 }
 
 
@@ -1257,12 +1259,13 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "certificate-guided-discovery",
         "sigreg-training-proxy",
         "sigreg-mini-grid",
-        "discovery-regularized-training",
-        "mechanism-seeking-network",
-        "discovery-gated-nas",
-        "lejepa-theorem-ledger",
-        "spectral-ablation-hinge",
-    ]
+            "discovery-regularized-training",
+            "mechanism-seeking-network",
+            "discovery-gated-nas",
+            "discovery-gated-transformer",
+            "lejepa-theorem-ledger",
+            "spectral-ablation-hinge",
+        ]
     assert "certificate-guided-arms" not in names
     assert len(json_artifacts) == len(set(json_artifacts))
     assert len(markdown_artifacts) == len(set(markdown_artifacts))
@@ -2344,49 +2347,53 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "artifact_id",
         "generated_at",
         "producer",
+        "projector",
         "model_id",
-        "canonical_owner",
-        "hardgate_contract_ref",
-        "sequence_task_grid",
-        "training_evidence",
-        "baselines",
-        "classifier_surface_delta",
-        "net_positive_signal",
-        "hardgate_instances",
-        "prototype_status",
+        "source_artifacts",
+        "component_refs",
+        "architecture_spec",
+        "hardgate",
         "discovery_map_signal",
         "claim_capsule_ref",
+        "evidence_envelope_ref",
+        "mechanism_namecert_ref",
+        "jet_certificate_ref",
         "not_claimed",
-        "revocation_rows",
-        "forbidden_claim_term_audit",
     }
     assert payload["schema_id"] == canonical.DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID
     assert payload["artifact_id"] == canonical.DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID
     assert payload["producer"] == "scripts/run_discovery_gated_transformer.py"
-    assert payload["model_id"] == "discovery_gated_transformer"
-    assert payload["hardgate_contract_ref"]["artifact_pointer"] == (
-        "reports/canonical/new_model_hardgates.json:$.gates"
-    )
-    assert payload["sequence_task_grid"]["task_id"] == "edge_agreement_sequence"
-    assert set(payload["baselines"]) == {"parameter_control", "compute_control", "matched_random"}
+    assert payload["model_id"] == "discovery-gated-transformer"
+    assert payload["architecture_spec"]["architecture_id"] == "discovery-gated-transformer"
+    assert set(payload["component_refs"]) == {
+        "hardgate_contract",
+        "discovery_gated_nas",
+        "discovery_map",
+        "training_replay",
+    }
+    assert payload["claim_capsule_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/claim_capsule.json"
+    assert payload["evidence_envelope_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/evidence_envelope.json"
+    assert payload["mechanism_namecert_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/mechanism_namecert.json"
+    assert payload["jet_certificate_ref"]["artifact"] == "reports/runs/discovery-gated-transformer/jet_certificate.json"
 
 
 def test_discovery_gated_transformer_hardgate_instances_are_candidate_local():
     payload = canonical._build_discovery_gated_transformer_payload(
         generated_at="2030-01-01T00:00:00+00:00"
     )
-    hardgates = payload["hardgate_instances"]
+    hardgates = payload["hardgate"]["gates"]
 
-    assert list(hardgates) == [f"NEW-MODEL-HG{index}" for index in range(1, 21)]
-    assert payload["prototype_status"] == "prototype-candidate"
+    assert list(hardgates) == [f"DGT-HG{index}" for index in range(1, 21)]
+    assert payload["hardgate"]["status"] == "pass"
     for gate_id, row in hardgates.items():
-        assert set(row) == {"status", "evidence_pointer", "not_claimed_pointer", "contract_pointer"}
+        assert set(row) == {"status", "evidence", "not_claimed"}
         assert row["status"] == "pass"
-        assert row["evidence_pointer"].startswith(canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":$")
-        assert row["not_claimed_pointer"] == (
-            canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":$.not_claimed"
-        )
-        assert row["contract_pointer"] == f"reports/canonical/new_model_hardgates.json:$.gates.{gate_id}"
+        assert set(row["evidence"]) == {"artifact", "pointer"}
+        assert set(row["not_claimed"]) == {"artifact", "pointer"}
+        assert row["not_claimed"] == {
+            "artifact": canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+            "pointer": "$.not_claimed",
+        }
 
 
 def test_discovery_gated_transformer_index_is_pointer_only():
@@ -2403,32 +2410,38 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "markdown_artifact",
         "fingerprint_artifact",
         "model_id_pointer",
-        "hardgate_contract_ref_pointer",
-        "sequence_task_grid_pointer",
-        "training_evidence_pointer",
-        "baselines_pointer",
-        "classifier_surface_delta_pointer",
-        "net_positive_signal_pointer",
-        "hardgate_instances_pointer",
-        "prototype_status_pointer",
+        "architecture_spec_pointer",
+        "component_refs_pointer",
+        "hardgate_pointer",
         "discovery_map_signal_pointer",
         "claim_capsule_ref_pointer",
+        "evidence_envelope_ref_pointer",
+        "mechanism_namecert_ref_pointer",
+        "jet_certificate_ref_pointer",
         "not_claimed_pointer",
-        "revocation_rows_pointer",
-        "forbidden_claim_term_audit_pointer",
         "hardgate_instance_pointers",
-        "hardgate_contract_gates_pointer",
     }
-    assert section["status"] == "prototype-candidate"
-    assert section["hardgate_contract_gates_pointer"] == "reports/canonical/new_model_hardgates.json:$.gates"
+    assert section["status"] == "pass"
+    assert section["json_artifact"] == "reports/canonical/discovery-gated-transformer.json"
+    assert section["markdown_artifact"] == "reports/canonical/discovery-gated-transformer.md"
     assert section["hardgate_instance_pointers"] == {
-        f"NEW-MODEL-HG{index}": (
-            f"reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG{index}"
+        f"DGT-HG{index}": (
+            f"reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG{index}"
         )
         for index in range(1, 21)
     }
     lowered = json.dumps(section, sort_keys=True).lower()
-    for forbidden in ("accuracy", "loss", "records", "raw_metrics", "terminal_verdict", "requirement"):
+    for forbidden in (
+        "accuracy",
+        "loss",
+        "records",
+        "raw_metrics",
+        "terminal_verdict",
+        "schema_id\": \"bedc-quality-lab:dgt-claim-capsule",
+        "schema_id\": \"bedc-quality-lab:dgt-evidence-envelope",
+        "schema_id\": \"bedc-quality-lab:dgt-mechanism-namecert",
+        "schema_id\": \"bedc-quality-lab:dgt-jet-certificate",
+    ):
         assert forbidden not in lowered
 
 
@@ -2445,9 +2458,9 @@ def test_discovery_gated_transformer_forbidden_surfaces_absent():
         assert forbidden.lower() not in markdown.lower()
 
     mutated = json.loads(json.dumps(payload))
-    mutated["hardgate_instances"]["NEW-MODEL-HG1"]["status"] = "fail"
-    mutated["prototype_status"] = "prototype-candidate"
-    with pytest.raises(ValueError, match="prototype status"):
+    mutated["hardgate"]["gates"]["DGT-HG1"]["status"] = "fail"
+    mutated["hardgate"]["status"] = "pass"
+    with pytest.raises(ValueError, match="hardgate status"):
         canonical._validate_discovery_gated_transformer_payload(mutated)
 
 
@@ -2480,30 +2493,32 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
     owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
     section = payload["discovery_gated_transformer"]
 
-    assert "discovery_gated_transformer" not in {spec.name for spec in canonical.CANONICAL_REPORTS}
-    assert owner["prototype_status"] == "prototype-candidate"
-    assert (tmp_path / "reports/canonical/discovery_gated_transformer.fingerprint.json").exists()
+    assert "discovery-gated-transformer" in {spec.name for spec in canonical.CANONICAL_REPORTS}
+    assert owner["hardgate"]["status"] == "pass"
+    assert (tmp_path / "reports/canonical/discovery-gated-transformer.fingerprint.json").exists()
     pointers = [
         section["model_id_pointer"],
-        section["hardgate_contract_ref_pointer"],
-        section["sequence_task_grid_pointer"],
-        section["training_evidence_pointer"],
-        section["baselines_pointer"],
-        section["classifier_surface_delta_pointer"],
-        section["net_positive_signal_pointer"],
-        section["hardgate_instances_pointer"],
-        section["prototype_status_pointer"],
+        section["architecture_spec_pointer"],
+        section["component_refs_pointer"],
+        section["hardgate_pointer"],
         section["discovery_map_signal_pointer"],
         section["claim_capsule_ref_pointer"],
+        section["evidence_envelope_ref_pointer"],
+        section["mechanism_namecert_ref_pointer"],
+        section["jet_certificate_ref_pointer"],
         section["not_claimed_pointer"],
-        section["revocation_rows_pointer"],
-        section["forbidden_claim_term_audit_pointer"],
         *section["hardgate_instance_pointers"].values(),
     ]
     for artifact_pointer in pointers:
         assert artifact_pointer.startswith(canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":")
         assert _resolve_artifact_pointer(tmp_path, artifact_pointer) is not None
-    assert _resolve_artifact_pointer(tmp_path, section["hardgate_contract_gates_pointer"]) is not None
+    for sidecar in (
+        owner["claim_capsule_ref"],
+        owner["evidence_envelope_ref"],
+        owner["mechanism_namecert_ref"],
+        owner["jet_certificate_ref"],
+    ):
+        assert _resolve_artifact_pointer(tmp_path, f"{sidecar['artifact']}:{sidecar['pointer']}") is not None
 
 
 def test_discovery_gated_transformer_written_json_round_trips_validator(tmp_path, monkeypatch):
@@ -4120,6 +4135,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.search_space",
                 },
                 {
+                    "report": "discovery-gated-transformer",
+                    "artifact": "reports/canonical/discovery-gated-transformer.json",
+                    "pointer": "$.not_claimed",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.scope",
@@ -4130,8 +4150,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.applicability_boundary",
                 },
             ],
-            "numerator": 20,
-            "denominator": 20,
+            "numerator": 21,
+            "denominator": 21,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -4227,6 +4247,11 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts.cost_protocol",
                 },
                 {
+                    "report": "discovery-gated-transformer",
+                    "artifact": "reports/canonical/discovery-gated-transformer.json",
+                    "pointer": "$.architecture_spec",
+                },
+                {
                     "report": "lejepa-theorem-ledger",
                     "artifact": "reports/canonical/lejepa_theorem_ledger.json",
                     "pointer": "$.source_artifacts.cost_protocol",
@@ -4237,8 +4262,8 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "pointer": "$.source_artifacts",
                 },
             ],
-            "numerator": 20,
-            "denominator": 20,
+            "numerator": 21,
+            "denominator": 21,
         },
         "HardeningCoverage": {
             "value": 1.0,

@@ -661,13 +661,7 @@ def _write_coverage_payloads(root: Path):
     _write_json_artifact(
         root,
         discovery_map.DISCOVERY_GATED_TRANSFORMER_ARTIFACT,
-        {
-            "prototype_status": "prototype-candidate",
-            "discovery_map_signal": {"level_candidate": "D4"},
-            "hardgate_instances": {"NEW-MODEL-HG1": {"status": "pass"}},
-            "revocation_rows": [{"status": "demoted"}],
-            "not_claimed": ["no broad architecture superiority claim"],
-        },
+        canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time"),
     )
     _write_json_artifact(
         root,
