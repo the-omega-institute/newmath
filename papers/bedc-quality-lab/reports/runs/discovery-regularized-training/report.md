@@ -13,6 +13,7 @@
 - `DRT-HG4`: `pass`
 - `DRT-HG5`: `pass`
 - `DRT-HG6`: `pass`
+- `DRT-HG7`: `pass`
 
 ## Quality Promotion Boundary
 
@@ -43,6 +44,15 @@
 - requested: `auto`
 - resolved: `mps`
 - status: `available`
+
+## Compute Ledger
+
+- status: `complete`
+- backend rows: `{'deterministic-anchor': 720, 'torch-training-arm': 16}`
+- total steps: `8832`
+- wall time proxy seconds: `2.16`
+- FLOPs proxy: `36175872`
+- cost protocol pointer: `$.source_artifacts.cost_protocol`
 
 ## Not Claimed
 

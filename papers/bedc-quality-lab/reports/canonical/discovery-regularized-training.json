@@ -96,7 +96,7 @@
         "disabled_terms": [
           "cost"
         ],
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.device_protocol",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.compute_ledger",
         "full_drt_quality_q": 0.641767,
         "pointer_state": "present",
         "quality_delta_vs_full_drt": 0.0,
@@ -121,6 +121,27 @@
       }
     ],
     "status": "pointer-only"
+  },
+  "compute_ledger": {
+    "backend_row_counts": {
+      "deterministic-anchor": 720,
+      "torch-training-arm": 16
+    },
+    "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
+    "deterministic_seed_count": 3,
+    "device": "mps",
+    "energy_proxy": 0.003618,
+    "evidence_pointer": "$.records",
+    "flops_proxy": 36175872,
+    "missing_fields": [],
+    "protocols_pointer": "$.torch_training_evidence.protocols",
+    "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+    "requested_device": "auto",
+    "resolved_device": "mps",
+    "status": "complete",
+    "torch_seed_count": 2,
+    "total_steps": 8832,
+    "wall_time_seconds_proxy": 2.16
   },
   "config": {
     "arms": [
@@ -319,6 +340,12 @@
         "protocol_count": 16,
         "row_count": 16,
         "status": "pass"
+      },
+      "DRT-HG7": {
+        "evidence": "Compute ledger must record deterministic replay accounting, seed coverage, and the public cost protocol pointer.",
+        "evidence_pointer": "$.compute_ledger",
+        "missing_fields": [],
+        "status": "pass"
       }
     },
     "status": "pass"
@@ -387,7 +414,7 @@
       },
       "cost": {
         "enabled_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.loss_terms_enabled",
-        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.device_protocol",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.compute_ledger",
         "pointer_state": "present",
         "role": "bounded replay cost accounting",
         "term_id": "cost"
@@ -558,7 +585,7 @@
     "deterministic_anchor_rows": 720,
     "extension_metrics": {
       "comparison_family": "task-sigreg-drt-matched-random",
-      "compute_ledger_pointer": "$.device_protocol",
+      "compute_ledger_pointer": "$.compute_ledger",
       "debt_marker_pointer": "$.constraint_summary",
       "loss_terms_enabled": [
         "discovery",
