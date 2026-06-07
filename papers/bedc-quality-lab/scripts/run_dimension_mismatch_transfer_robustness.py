@@ -30,6 +30,7 @@ REPORT_ARTIFACT = "reports/canonical/dimension-mismatch-transfer-robustness.md"
 ARTIFACT_ID = "bedc-quality-lab:dimension-mismatch-transfer-robustness"
 SCHEMA_ID = "bedc-quality-lab:dimension-mismatch-transfer-robustness"
 SOURCE_ARTIFACT = transfer.JSON_ARTIFACT
+ANTI_TRIVIALITY_ARTIFACT = transfer.ANTI_TRIVIALITY_ARTIFACT
 SOURCE_STATUS_POINTER = "$.dimension_mismatch_debt_transfer.status"
 SOURCE_POINTER = f"{SOURCE_ARTIFACT}:{SOURCE_STATUS_POINTER}"
 DISCOVERY_MAP_ARTIFACT = "reports/canonical/discovery_map.json"
@@ -53,6 +54,7 @@ FORBIDDEN_CLAIM_SUBSTRINGS = (
 FORBIDDEN_SCORE_KEYS = ("score", "rank", "ranking", "grade", "total_score", "overall_score")
 MALFORMED_SOURCE_REASON = "source artifact is malformed or non-object"
 MALFORMED_SOURCE_MARKER = "__malformed_source_artifact__"
+CONTROL_FAMILY_ORDER = transfer.CONTROL_FAMILY_ORDER
 
 
 def _root(root: Path | None) -> Path:
@@ -299,6 +301,71 @@ def _claim_boundary(source: Mapping[str, Any]) -> dict[str, str]:
     )
 
 
+def _control_family_pointer_coverage(source: Mapping[str, Any], *, root: Path | None = None) -> dict[str, str]:
+    evidence_pointer = f"{SOURCE_ARTIFACT}:$.dimension_mismatch_debt_transfer.anti_triviality_evidence.controlled_geometry.control_family_coverage"
+    folded = pointer_value(
+        source,
+        "$.dimension_mismatch_debt_transfer.anti_triviality_evidence.controlled_geometry.control_family_coverage",
+    )
+    if not isinstance(folded, Mapping):
+        return _check_row("HG-DM-R6", "fail", evidence_pointer, "folded control-family coverage is missing")
+    if folded.get("status") != "pass":
+        return _check_row("HG-DM-R6", "fail", evidence_pointer, "folded control-family coverage is not pass")
+    sidecar = _load_json(ANTI_TRIVIALITY_ARTIFACT, root=root)
+    coverage = pointer_value(sidecar, "$.controlled_geometry.control_family_coverage")
+    if not isinstance(coverage, Mapping):
+        return _check_row(
+            "HG-DM-R6",
+            "fail",
+            f"{ANTI_TRIVIALITY_ARTIFACT}:$.controlled_geometry.control_family_coverage",
+            "sidecar control-family coverage is missing",
+        )
+    pointers = coverage.get("family_pointers")
+    if not isinstance(pointers, Mapping):
+        return _check_row(
+            "HG-DM-R6",
+            "fail",
+            f"{ANTI_TRIVIALITY_ARTIFACT}:$.controlled_geometry.control_family_coverage.family_pointers",
+            "sidecar control-family pointer map is missing",
+        )
+    missing: list[str] = []
+    malformed: list[str] = []
+    for family in CONTROL_FAMILY_ORDER:
+        pointer = pointers.get(family)
+        value = (
+            resolve_artifact_pointer(_root(root), f"{ANTI_TRIVIALITY_ARTIFACT}:{pointer}")
+            if isinstance(pointer, str) and pointer.startswith("$.")
+            else None
+        )
+        if value is None:
+            missing.append(family)
+        elif not isinstance(value, Mapping) or value.get("arm") != family:
+            malformed.append(family)
+    unknown = sorted(set(str(key) for key in pointers) - set(CONTROL_FAMILY_ORDER))
+    folded_families = tuple(folded.get("resolved_families") or ())
+    folded_pointer_keys = set((folded.get("family_pointers") or {}).keys()) if isinstance(folded.get("family_pointers"), Mapping) else set()
+    consistent = (
+        coverage.get("status") == "pass"
+        and tuple(coverage.get("required_families") or ()) == CONTROL_FAMILY_ORDER
+        and tuple(coverage.get("observed_families") or ()) == CONTROL_FAMILY_ORDER
+        and folded_families == CONTROL_FAMILY_ORDER
+        and folded_pointer_keys == set(CONTROL_FAMILY_ORDER)
+    )
+    if missing or malformed or unknown or not consistent:
+        return _check_row(
+            "HG-DM-R6",
+            "fail",
+            evidence_pointer,
+            "six control-family pointers do not resolve consistently between folded source and sidecar",
+        )
+    return _check_row(
+        "HG-DM-R6",
+        "pass",
+        f"{ANTI_TRIVIALITY_ARTIFACT}:$.controlled_geometry.control_family_coverage.family_pointers",
+        "all six control-family pointers resolve and folded-source coverage is consistent",
+    )
+
+
 def _discovery_map_audit(discovery: Mapping[str, Any], *, root: Path | None = None) -> tuple[str, list[str], str]:
     row = _discovery_row(discovery)
     if row is None:
@@ -365,6 +432,7 @@ def build_payload(*, root: Path | None = None, generated_at: str | None = None) 
         _control_symmetry(source),
         _h_only_boundary(source),
         _claim_boundary(source),
+        _control_family_pointer_coverage(source, root=root),
     ]
     audit_status, audit_reasons, audit_pointer = _discovery_map_audit(discovery, root=root)
     failed_or_deferred = [
