@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from .map import DISCOVERY_MAP_JSON_ARTIFACT, DISCOVERY_MAP_MARKDOWN_ARTIFACT, build_discovery_map_payload
+from .pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
 
 
 POSITIVE_DISCOVERY_LEVELS = frozenset({"D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M"})
@@ -84,7 +85,134 @@ def _hardgate(status: bool, reason: str) -> dict[str, str]:
     return {"status": "pass" if status else "fail", "reason": reason}
 
 
-def project_finite_discovery_gate(payloads: Mapping[str, Any]) -> dict[str, Any]:
+def _artifact_pointer(artifact: Any, pointer: Any) -> str | None:
+    if not isinstance(pointer, str) or not pointer:
+        return None
+    if normalize_artifact_pointer(pointer) is not None:
+        return pointer
+    if isinstance(artifact, str) and artifact and pointer.startswith("$."):
+        return f"{artifact}:{pointer}"
+    return None
+
+
+def _collect_discovery_map_pointer_cells(discovery_map: Mapping[str, Any]) -> list[tuple[str, str]]:
+    cells: list[tuple[str, str]] = []
+    for index, row in enumerate(_rows(discovery_map)):
+        artifact = row.get("json_artifact")
+        keys = {
+            "evidence_pointer",
+            "negative_report_pointer",
+            "control_pointer",
+            "failed_gate",
+            "debt_row_pointer",
+            *(key for key in row if key.endswith("_pointer")),
+        }
+        for key in sorted(keys):
+            pointer = _artifact_pointer(artifact, row.get(key))
+            if pointer is not None:
+                cells.append((f"discovery_map.rows[{index}].{key}", pointer))
+    coverage = discovery_map.get("coverage_matrix")
+    coverage_cells = coverage.get("cells") if isinstance(coverage, Mapping) else None
+    if isinstance(coverage_cells, Sequence) and not isinstance(coverage_cells, (str, bytes, bytearray)):
+        for index, cell in enumerate(item for item in coverage_cells if isinstance(item, Mapping)):
+            artifact = cell.get("source_artifact")
+            keys = {
+                "source_pointer",
+                "discovery_map_row_pointer",
+                *(key for key in cell if key.endswith("_pointer")),
+            }
+            for key in sorted(keys):
+                pointer = _artifact_pointer(artifact, cell.get(key))
+                if pointer is not None:
+                    cells.append((f"discovery_map.coverage_matrix.cells[{index}].{key}", pointer))
+    return cells
+
+
+def _collect_negative_summary_pointer_cells(negative_summary: Mapping[str, Any]) -> list[tuple[str, str]]:
+    cells: list[tuple[str, str]] = []
+    for index, row in enumerate(_rows(negative_summary)):
+        for key in ("ledger_pointer", "discovery_map_pointer", "witness_pointer", "claim_verdict_pointer"):
+            value = row.get(key)
+            if isinstance(value, str) and value:
+                cells.append((f"negative_witness_summary.rows[{index}].{key}", value))
+    return cells
+
+
+def _collect_revocation_pointer_cells(payloads: Mapping[str, Any]) -> list[tuple[str, str]]:
+    cells: list[tuple[str, str]] = []
+    for owner, key in (("revocation_ledger", "revocation_ledger"), ("revocations", "revocations")):
+        for index, row in enumerate(_materialized_rows(payloads, key)):
+            for field in ("source_ref", "certificate_source_ref", "source_pointer", "ledger_pointer"):
+                value = row.get(field)
+                if isinstance(value, str) and value:
+                    cells.append((f"{owner}.rows[{index}].{field}", value))
+    return cells
+
+
+def _jsonl_pointer_value(path: Path, pointer: str) -> Any:
+    if not pointer.startswith("$.lines[") or not pointer.endswith("]"):
+        return None
+    index_text = pointer.removeprefix("$.lines[").removesuffix("]")
+    if not index_text.isdigit():
+        return None
+    rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
+    index = int(index_text)
+    return rows[index] if index < len(rows) else None
+
+
+def _pointer_failure_reason(root: Path, normalized_pointer: str) -> str | None:
+    artifact, pointer = normalized_pointer.split(":", 1)
+    path = root / artifact
+    if not path.exists():
+        return "missing-artifact"
+    if artifact.endswith(".jsonl"):
+        if not pointer.startswith("$.lines[") or not pointer.endswith("]"):
+            return "malformed"
+        try:
+            return None if _jsonl_pointer_value(path, pointer) is not None else "unresolved-pointer"
+        except json.JSONDecodeError:
+            return "json-decode"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return "json-decode"
+    if pointer == "$":
+        return None
+    if not isinstance(payload, Mapping):
+        return "unresolved-pointer"
+    return None if pointer_value(payload, pointer) is not None else "unresolved-pointer"
+
+
+def _stale_pointers(root: Path | None, cells: Sequence[tuple[str, str]]) -> list[dict[str, str]]:
+    if root is None:
+        return []
+    stale: list[dict[str, str]] = []
+    for owner, pointer in cells:
+        normalized = normalize_artifact_pointer(pointer)
+        if normalized is None:
+            stale.append(
+                {
+                    "pointer": pointer,
+                    "normalized_pointer": "",
+                    "owner": owner,
+                    "reason": "malformed",
+                }
+            )
+            continue
+        reason = _pointer_failure_reason(root, normalized)
+        if reason is not None or resolve_artifact_pointer(root, normalized) is None:
+            stale.append(
+                {
+                    "pointer": pointer,
+                    "normalized_pointer": normalized,
+                    "owner": owner,
+                    "reason": reason or "unresolved-pointer",
+                }
+            )
+    return sorted(stale, key=lambda item: (item["owner"], item["pointer"], item["normalized_pointer"]))
+
+
+def project_finite_discovery_gate(payloads: Mapping[str, Any], *, root: Path | None = None) -> dict[str, Any]:
     discovery_map = payloads.get("discovery_map")
     map_rows = _rows(discovery_map) if isinstance(discovery_map, Mapping) else []
     negative_summary = payloads.get("negative_witness_summary")
@@ -121,6 +249,14 @@ def project_finite_discovery_gate(payloads: Mapping[str, Any]) -> dict[str, Any]
     )
     negative_parity = negative_row_count == len(negative_rows)
     revocation_parity = len(revocation_pointers) == len(map_revocation_pointers) + len(ledger_revocation_pointers)
+    pointer_cells: list[tuple[str, str]] = []
+    if isinstance(discovery_map, Mapping):
+        pointer_cells.extend(_collect_discovery_map_pointer_cells(discovery_map))
+    if isinstance(negative_summary, Mapping):
+        pointer_cells.extend(_collect_negative_summary_pointer_cells(negative_summary))
+    pointer_cells.extend(_collect_revocation_pointer_cells(payloads))
+    stale_pointers = _stale_pointers(root, pointer_cells)
+    stale_status = root is not None and not stale_pointers
 
     positive_set = set(positive_pointers)
     negative_set = {cell for row in negative_pointers for cell in row[1:] if isinstance(cell, str)}
@@ -144,6 +280,7 @@ def project_finite_discovery_gate(payloads: Mapping[str, Any]) -> dict[str, Any]
         "FG-HG2": _hardgate(negative_parity and negative_unique and negative_audit_pass, "negative summary ids and row pointers are finite"),
         "FG-HG3": _hardgate(revocation_parity and revocation_unique, "revocation pointers are finite with explicit overlap status"),
         "FG-HG4": _hardgate(True, "finite projection is materialized and sorted deterministically"),
+        "FG-HG5": _hardgate(stale_status, "finite gate artifact pointers resolve under the report root"),
     }
     failures = sorted(name for name, gate in hardgates.items() if gate["status"] != "pass")
     counts = {
@@ -178,6 +315,7 @@ def project_finite_discovery_gate(payloads: Mapping[str, Any]) -> dict[str, Any]
             "status": overlap_status,
             **overlap_pairs,
         },
+        "stale_pointers": stale_pointers,
         "not_claimed": list(FINITE_GATE_NOT_CLAIMED),
     }
 

@@ -51,7 +51,8 @@ def compile_discovery(
         {
             "discovery_map": map_payload,
             "negative_witness_summary": summary_payload,
-        }
+        },
+        root=root,
     )
     return {
         "generated_at": timestamp,
