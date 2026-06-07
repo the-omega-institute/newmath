@@ -77,6 +77,22 @@ The candidate extension row $E$ then records only finite envelope comparisons. I
 Transport, replay, provenance, and local naming preserve the route through $H,C,P,N$. The completion-facing siblings \autoref{ch:concrete-instances-uniform-continuous-extension-namecert} and \autoref{ch:concrete-instances-completion-extension-uniqueness-namecert} may consume this bound certificate downstream, but the carrier itself exports no host function equality, no quotient function space, no selected infimum or supremum, no choice principle, and no ambient $\RealUp$ completeness.
 \end{proof}
 
+\begin{theorem}[McShaneExtension source-agreement envelope]
+\label{thm:mcshane-extension-source-agreement-envelope}
+Let $M=(X,A,L,D,E,S,R,K,H,C,P,N)$ be an accepted $\McShaneExtensionUp$ carrier, and let an ambient input be admitted by the displayed subcarrier row $A$. The candidate envelope row $E$ can be read as agreeing with the source Lipschitz row $L$ only through the source-agreement row $S$ and the finite route
+$$
+A,L,D,E,S\longmapsto R,K\longmapsto H,C,P,N .
+$$
+Thus source agreement for the ambient read is a restriction of the finite McShane--Whitney envelope certificate back to the source row, mediated by $S,D,R,K,H,C,P,N$, and not by host function equality, selected envelope extrema, quotient function spaces, choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier and the admission of the ambient input through $A$. The source graph and displayed Lipschitz constant are exposed only by $L$, while the candidate envelope comparisons are exposed only by $E$.
+
+Use the dyadic modulus row $D$ to put the source read and the candidate envelope read at the same displayed tolerance. The source-agreement row $S$ is then the only row that identifies the restricted envelope read with the original source read on an input admitted by $A$.
+
+Finally inspect $R,K,H,C,P,N$. The Real and Metric seal rows keep the comparison on the same finite readback route, and the transport, replay, provenance, and local naming rows preserve that route componentwise. Since no listed row stores host equality, selected extrema, quotient function-space data, choice, trichotomy, or ambient $\RealUp$ completeness, every source-agreement read is the stated restriction of the finite envelope certificate.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\McShaneExtensionUp$ consumer that reaches an ambient extension read without first reading the source $\LipschitzMapUp$ row, the $\DyadicLipschitzModulusUp$ row, the candidate extension row, and the source-agreement row refutes the carrier surface.}
 
 \independenceWitness{lipschitzmap, dyadic-lipschitz-modulus, uniform-continuous-extension, completion-extension-uniqueness: no listed sibling supplies the full twelve-row packet $M=(X,A,L,D,E,S,R,K,H,C,P,N)$, because each sibling contributes only a source bound, a dyadic tolerance route, a completion handoff, or a uniqueness boundary while this chapter binds the finite McShane--Whitney extension certificate into one local NameCert surface.}
@@ -86,7 +102,7 @@ Transport, replay, provenance, and local naming preserve the route through $H,C,
 \begin{closurestatus}{\McShaneExtensionUp}
   \constructivestory{A $\McShaneExtensionUp$ packet is generated from an ambient MetricUp row, a displayed subcarrier row, a source LipschitzMap row, a DyadicLipschitzModulus row, a candidate extension row, a source-agreement row, Real and Metric seal rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:mcshane-extension-carrier}, \autoref{thm:mcshane-extension-namecert-obligations}, and \autoref{thm:mcshane-extension-lipschitz-bound} seed the finite McShane--Whitney Lipschitz-extension certificate over displayed metric and subcarrier data.}
+  \scopeclosed{\autoref{def:mcshane-extension-carrier}, \autoref{thm:mcshane-extension-namecert-obligations}, \autoref{thm:mcshane-extension-lipschitz-bound}, and \autoref{thm:mcshane-extension-source-agreement-envelope} seed the finite McShane--Whitney Lipschitz-extension certificate over displayed metric and subcarrier data.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host function equality, quotient function spaces, selected infima or suprema, countable choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
