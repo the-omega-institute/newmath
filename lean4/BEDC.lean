@@ -1193,6 +1193,7 @@ import BEDC.Derived.CalculusUp.RootLimitDerivativeIntegralRoute
 import BEDC.Derived.CalculusUp.RootPackageNonescape
 import BEDC.Derived.CalculusUp.RootPublicPackageReadiness
 import BEDC.Derived.CalculusUp.RootRealSealNonescape
+import BEDC.Derived.CalculusUp.RootUnblockFiniteSumHandoff
 import BEDC.Derived.CalculusUp.RootUnblockLimitWindowScope
 import BEDC.Derived.CalculusUp.SourceWindowObligation
 import BEDC.Derived.CalculusUp.TasteGate
@@ -6045,6 +6046,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondCandidateMediatedHandof
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondFourFaceBudget
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondL10SourceSeparation
+import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondLocalConfluenceFrontier
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceFaceRetention
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondSourceTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ResidualDiamondTypedL10Budget
@@ -9388,6 +9390,7 @@ import BEDC.Derived.WrrStatePhaseSpaceUp.TasteGate
 import BEDC.Derived.YonedaCompletionUp.TasteGate
 import BEDC.Derived.YonedaUp
 import BEDC.Derived.YoungInequalityUp.TasteGate
+import BEDC.Derived.YoungIntegralUp.TasteGate
 import BEDC.Derived.ZCarryUp
 import BEDC.Derived.ZCarryUp.TasteGate
 import BEDC.Derived.ZeckendorfCarryNormalizationUp
