@@ -122,6 +122,28 @@ Next use the handoff and route theorems, \autoref{thm:metacic-parallel-diamond-f
 Finally apply the residual-substitution scope theorem \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}. Since the local-diamond frontier remains scoped by the residual-substitution boundary and the obstruction row is still visible, the retained handoff cannot be retyped as any of the refused confluence endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond frontier local-join ledger pullback]
+\label{thm:metacic-parallel-diamond-frontier-local-join-ledger-pullback}
+Let
+$$
+F=(P,K,J,R,S,C,B,O,H,T,G,N)
+$$
+be an accepted $\MetaCICParallelDiamondFrontierUp$ packet, and let
+$$
+L=(K,J,B,R,S,O,G_L,H_L,C_L,P_L,N_L)
+$$
+be an accepted $\MetaCICLocalJoinLedgerUp$ packet. Suppose the two packets share the same residual-substitution premise, critical-pair row, candidate-join row, bounded-check row, obstruction row, transport, replay, provenance, and local naming rows, with the frontier rows $R,S,C$ preserving the same residual-substitution scope as the ledger rows $R,S$. Then every confluence-audit consumer reads the local join through the same residual-substitution-scoped route. The pullback keeps the obstruction row visible, and it does not claim full Church--Rosser, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the frontier carrier through \autoref{def:metacic-parallel-diamond-frontier-carrier}. The accepted packet exposes $P,K,J,R,S,C,B,O,H,T,G,N$, with $P$ and $O$ retained as confluence-facing rows rather than external annotations.
+
+Read the local-join ledger through \autoref{ch:concrete-instances-metacic-local-join-ledger-namecert}. The shared rows identify the local peak, candidate join, bounded checker, residual frontier, substitution boundary, obstruction readback, transport, replay, provenance, and local naming surfaces.
+
+Apply the frontier obligations and route theorems, \autoref{thm:metacic-parallel-diamond-frontier-obligations} and \autoref{thm:metacic-parallel-diamond-frontier-route}. They force any confluence-audit consumer to expose the premise, critical-pair, candidate-join, residual-frontier, checker, bounded-check, obstruction, and structural rows before using a handoff.
+
+Finally use premise retention, \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. Since the ledger rows are shared with the frontier rows and the obstruction row is preserved on both sides, the consumer-visible local join is read through the same residual-substitution-scoped route, not through an unconditional confluence endpoint.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond typed boundary]
 \label{thm:metacic-parallel-diamond-typed-boundary}
 Any accepted $\MetaCICParallelDiamondFrontierUp$ packet whose conditional local-diamond handoff is read under a typed-window premise must retain the typed window, residual-substitution premise row $P$, critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, closed-checker row $S$, closed-normal row $C$, bounded-check row $B$, and obstruction row $O$ before the handoff is consumed. The packet may not be cited as a premise-free parallel diamond, subject reduction, full Church--Rosser theorem, evaluator equality, quotient term equality, or kernel-consistency certificate.

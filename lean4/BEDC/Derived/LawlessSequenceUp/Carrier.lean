@@ -16,7 +16,8 @@ open BEDC.FKernel.Unary
 theorem LawlessSequenceCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {window digit index transport replay provenance name digitRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    LawlessSequenceCarrier window digit index transport replay provenance name bundle pkg →
+    lawless_sequence_stream_name_handoff_carrier
+        window digit index transport replay provenance name bundle pkg →
       Cont window digit digitRead →
         PkgSig bundle digitRead pkg →
           SemanticNameCert
