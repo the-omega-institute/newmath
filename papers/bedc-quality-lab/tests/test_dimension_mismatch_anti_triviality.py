@@ -268,6 +268,58 @@ def test_hg_b1_at4_status_precedence_five_states_and_metadata_beats_scale(tmp_pa
     assert deferred["hardgate_evidence"]["HG-B1-AT4"]["precedence_order"] == list(runner.STATUS_PRECEDENCE)
 
 
+def test_random_projection_positive_status_is_computed_from_owner_runner(tmp_path, monkeypatch):
+    _source_artifact(tmp_path)
+    _patch_metrics(
+        monkeypatch,
+        {
+            "config_metadata_only": _metrics(),
+            "scale_only": _metrics(),
+            "h_normalized_no_scale": _metrics(),
+            "whitened_h_normalized_no_scale": _metrics(),
+            "deterministic_random_projection": _metrics(positive=True),
+        },
+    )
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+    arm_positive = payload["hardgate_evidence"]["HG-B1-AT4"]["arm_positive"]
+
+    assert payload["status"] == "random_projection_positive"
+    assert payload["recommended_projection"] == "defer"
+    assert arm_positive["config_metadata_only"] is False
+    assert arm_positive["scale_only"] is False
+    assert arm_positive["h_normalized_no_scale"] is False
+    assert arm_positive["whitened_h_normalized_no_scale"] is False
+    assert arm_positive["deterministic_random_projection"] is True
+    assert payload["hardgate_evidence"]["HG-B1-AT4"]["selected_status"] == "random_projection_positive"
+
+
+def test_whitening_failure_status_is_computed_from_owner_runner(tmp_path, monkeypatch):
+    _source_artifact(tmp_path)
+    _patch_metrics(
+        monkeypatch,
+        {
+            "config_metadata_only": _metrics(),
+            "scale_only": _metrics(),
+            "h_normalized_no_scale": _metrics(positive=True),
+            "whitened_h_normalized_no_scale": _metrics(),
+            "deterministic_random_projection": _metrics(),
+        },
+    )
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+    arm_positive = payload["hardgate_evidence"]["HG-B1-AT4"]["arm_positive"]
+
+    assert payload["status"] == "whitening_failure_detected"
+    assert payload["recommended_projection"] == "defer"
+    assert arm_positive["config_metadata_only"] is False
+    assert arm_positive["scale_only"] is False
+    assert arm_positive["h_normalized_no_scale"] is True
+    assert arm_positive["whitened_h_normalized_no_scale"] is False
+    assert arm_positive["deterministic_random_projection"] is False
+    assert payload["hardgate_evidence"]["HG-B1-AT4"]["selected_status"] == "whitening_failure_detected"
+
+
 def test_hg_b1_at5_strict_conjunction_only_and_wide_or_diagnostic(tmp_path, monkeypatch):
     _source_artifact(tmp_path)
     _patch_metrics(
