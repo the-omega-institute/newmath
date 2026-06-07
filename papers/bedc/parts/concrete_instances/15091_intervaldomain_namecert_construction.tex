@@ -108,6 +108,7 @@ Apply \autoref{thm:interval-domain-namecert-obligations}. Its refinement-stabili
 
 Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The Real-facing route reads $\LocatedIntervalUp$ and $\RationalIntervalUp$ before $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$, so no consumer can bypass endpoint order through host intervals, selected endpoints, quotient cuts, or ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainFiniteEndpointOrder}
 
 \begin{theorem}[IntervalDomain dyadic endpoint coverage]
 \label{thm:interval-domain-dyadic-endpoint-coverage}
@@ -122,6 +123,7 @@ Now apply the endpoint-window transport clause of \autoref{thm:interval-domain-n
 
 Finally use \autoref{thm:interval-domain-completion-approximation-scope}. Since $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are downstream of $L,R,N$, every completion-facing read first sees the dyadic tolerance support carried by $R$. The statement therefore records finite endpoint-window coverage only, excluding selected endpoints, quotient cuts, host extensional equality, and ambient completeness.
 \end{proof}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDyadicEndpointCoverage}
 
 \begin{theorem}[IntervalDomain directed refinement covers]
 \label{thm:interval-domain-directed-refinement-covers}
@@ -136,6 +138,20 @@ Replay the nested-window refinement using the directedness clause of \autoref{th
 Now read the common observation surface. The $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ readbacks $Q$ expose the shared endpoint observations, while \autoref{thm:interval-domain-regular-cauchy-window} keeps the refinement inside the regular Cauchy window route.
 
 Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The $\RealUp$ seal row $E$ is downstream of the displayed located, rational, nested, stream, and regular-rational rows, so the directed refinement covers the overlapping readback without exporting quotient real equality, selected limits, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[IntervalDomain directed-refinement obligation scope]
+\label{thm:intervaldomain-directed-refinement-obligation-scope}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. For any two overlapping interval-domain cells, the directed refinement row must cite $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ as its complete finite scope before any $\RealUp$ consumer reads the seal row $E$. The obligation exports no quotient cuts, selected limits, host equality, trichotomy, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project $D=(L,R,N,W,Q,E,H,C,P,A)$. The carrier rows place located cells in $L$, rational refinement data in $R$, directed nesting in $N$, stream windows in $W$, regular rational readbacks in $Q$, the terminal seal in $E$, and the structural transport, replay, provenance, and naming rows in $H,C,P,A$.
+
+Apply \autoref{thm:interval-domain-directed-refinement-covers}. For two overlapping cells, the common later cell is read only through the displayed route over $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.
+
+Apply \autoref{thm:interval-domain-real-seal-nonescape}. Any consumer of $E$ still factors through the finite route and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so the refinement row is the complete obligation scope before the seal is read.
+
+Since neither the carrier nor the two cited theorems supplies quotient cuts, selected limits, host equality, trichotomy, or ambient completeness, those objects remain outside the directed-refinement obligation.
 \end{proof}
 
 \begin{theorem}[IntervalDomain Real seal nonescape]
