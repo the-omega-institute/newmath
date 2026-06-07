@@ -102,6 +102,81 @@ def test_control_arm_beating_owner_fails_g1_hg3_and_capsule(tmp_path):
     assert capsule_payload["claim_status"] == "failed"
 
 
+def test_missing_one_required_control_arm_fails_g1_hg3_and_capsule(tmp_path):
+    records = [
+        _record(1, "vanilla_jepa", 0.40, 0.30, 1.20),
+        _record(1, "jepa_posthoc_probe", 0.42, 0.20, 1.10),
+        _record(1, "bedc_jepa_end_to_end", 0.60, 0.10, 0.70),
+    ]
+
+    projection = _projection(records, tmp_path)
+    summary = projection["summary_payload"]
+    capsule_payload = projection["claim_capsule_payload"]
+    control_rows = summary["g1_hardgates"]["G1-HG3"]["control_rows"]
+
+    assert summary["g1_hardgates"]["G1-HG3"]["status"] == "fail"
+    assert any(
+        row["control_arm"] == "jepa_posthoc_bedc_report"
+        and row["control_present"] is False
+        and row["control_value"] is None
+        for row in control_rows
+    )
+    assert summary["failed_gate"] == "G1-HG3"
+    assert capsule_payload["hardgates"]["G1-HG3"]["status"] == "fail"
+    assert capsule_payload["failed_gate"] == "G1-HG3"
+    assert capsule_payload["claim_status"] == "failed"
+
+
+def test_missing_all_required_control_arms_fails_g1_hg3_and_capsule(tmp_path):
+    records = [
+        _record(1, "vanilla_jepa", 0.40, 0.30, 1.20),
+        _record(1, "bedc_jepa_end_to_end", 0.60, 0.10, 0.70),
+    ]
+
+    projection = _projection(records, tmp_path)
+    summary = projection["summary_payload"]
+    capsule_payload = projection["claim_capsule_payload"]
+    control_rows = summary["g1_hardgates"]["G1-HG3"]["control_rows"]
+
+    assert summary["g1_hardgates"]["G1-HG3"]["status"] == "fail"
+    assert {row["control_arm"] for row in control_rows} == {
+        "jepa_posthoc_probe",
+        "jepa_posthoc_bedc_report",
+    }
+    assert all(row["control_present"] is False and row["control_value"] is None for row in control_rows)
+    assert summary["failed_gate"] == "G1-HG3"
+    assert capsule_payload["hardgates"]["G1-HG3"]["status"] == "fail"
+    assert capsule_payload["failed_gate"] == "G1-HG3"
+    assert capsule_payload["claim_status"] == "failed"
+
+
+def test_unparseable_required_control_value_fails_g1_hg3_and_capsule(tmp_path):
+    records = [
+        _record(1, "vanilla_jepa", 0.40, 0.30, 1.20),
+        _record(1, "jepa_posthoc_probe", "not-a-number", 0.20, 1.10),
+        _record(1, "jepa_posthoc_bedc_report", 0.45, 0.18, 1.00),
+        _record(1, "bedc_jepa_end_to_end", 0.60, 0.10, 0.70),
+    ]
+
+    projection = _projection(records, tmp_path)
+    summary = projection["summary_payload"]
+    capsule_payload = projection["claim_capsule_payload"]
+    control_rows = summary["g1_hardgates"]["G1-HG3"]["control_rows"]
+
+    assert summary["g1_hardgates"]["G1-HG3"]["status"] == "fail"
+    assert any(
+        row["control_arm"] == "jepa_posthoc_probe"
+        and row["control_present"] is True
+        and row["control_value_parseable"] is False
+        and row["control_value"] is None
+        for row in control_rows
+    )
+    assert summary["failed_gate"] == "G1-HG3"
+    assert capsule_payload["hardgates"]["G1-HG3"]["status"] == "fail"
+    assert capsule_payload["failed_gate"] == "G1-HG3"
+    assert capsule_payload["claim_status"] == "failed"
+
+
 def test_action_conditioned_transition_identification_claim_is_blocked(tmp_path):
     projection = runner.build_payload(
         records=_records(),

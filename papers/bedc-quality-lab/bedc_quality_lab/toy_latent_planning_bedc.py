@@ -44,8 +44,12 @@ def _finite(value: Any) -> float | None:
     return result if math.isfinite(result) else None
 
 
-def _mean(values: Sequence[float]) -> float | None:
-    finite = [float(value) for value in values if math.isfinite(float(value))]
+def _mean(values: Sequence[Any]) -> float | None:
+    finite = []
+    for value in values:
+        finite_value = _finite(value)
+        if finite_value is not None:
+            finite.append(finite_value)
     if not finite:
         return None
     return float(sum(finite) / len(finite))
@@ -74,11 +78,11 @@ def _arm_summary(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
     for arm, rows in sorted(_group(records, "arm").items()):
         by_arm[arm] = {
             "row_count": len(rows),
-            "success_rate_mean": _mean([float(row["safe_planning_success_rate"]) for row in rows]),
-            "unlogged_error_rate_mean": _mean([float(row["unlogged_error_rate"]) for row in rows]),
-            "collision_rate_mean": _mean([float(row["collision_rate"]) for row in rows]),
-            "mean_regret_mean": _mean([float(row["mean_planning_regret"]) for row in rows]),
-            "gap_event_rate_mean": _mean([float(row["gap_event_rate"]) for row in rows]),
+            "success_rate_mean": _mean([row.get("safe_planning_success_rate") for row in rows]),
+            "unlogged_error_rate_mean": _mean([row.get("unlogged_error_rate") for row in rows]),
+            "collision_rate_mean": _mean([row.get("collision_rate") for row in rows]),
+            "mean_regret_mean": _mean([row.get("mean_planning_regret") for row in rows]),
+            "gap_event_rate_mean": _mean([row.get("gap_event_rate") for row in rows]),
         }
     primary = by_arm.get(PRIMARY_ARM, {})
     baseline = by_arm.get(BASELINE_ARM, {})
@@ -106,17 +110,27 @@ def _arm_summary(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
 
 def _control_rows(summary: Mapping[str, Any]) -> list[dict[str, Any]]:
     by_arm = summary["by_arm"]
-    primary_success = _finite(by_arm.get(PRIMARY_ARM, {}).get("success_rate_mean")) or 0.0
+    primary_success = _finite(by_arm.get(PRIMARY_ARM, {}).get("success_rate_mean"))
     rows = []
     for arm in CONTROL_ARMS:
+        control_present = arm in by_arm
         arm_summary = by_arm.get(arm, {})
+        control_success = _finite(arm_summary.get("success_rate_mean"))
+        primary_better = (
+            primary_success is not None
+            and control_present
+            and control_success is not None
+            and primary_success > control_success
+        )
         rows.append(
             {
                 "control_arm": arm,
                 "metric": "success_rate_mean",
-                "primary_better": primary_success > float(arm_summary.get("success_rate_mean", 0.0)),
+                "control_present": control_present,
+                "control_value_parseable": control_success is not None,
+                "primary_better": primary_better,
                 "primary_value": primary_success,
-                "control_value": arm_summary.get("success_rate_mean"),
+                "control_value": control_success,
             }
         )
     return rows
@@ -142,7 +156,12 @@ def _g1_hardgates(summary: Mapping[str, Any], *, lambda_grid: Sequence[float]) -
             "primary_minus_baseline_unlogged_error": unlogged_delta,
         },
         "G1-HG3": {
-            "status": _status(all(row["primary_better"] for row in controls)),
+            "status": _status(
+                all(
+                    row["control_present"] and row["control_value_parseable"] and row["primary_better"]
+                    for row in controls
+                )
+            ),
             "evidence": "D4-D5 controls are present and do not beat the owner arm",
             "control_rows": controls,
         },
