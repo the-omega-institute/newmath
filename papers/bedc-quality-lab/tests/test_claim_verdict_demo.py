@@ -596,6 +596,54 @@ def test_gap_head_transfer_atlas_d5_o_routes_as_positive_level(tmp_path, monkeyp
     assert verdict["reason"] != "unsupported-discovery-level"
 
 
+@pytest.mark.parametrize("evidence_level", ["observational", "malformed"])
+def test_d5_o_with_noncausal_mechanism_evidence_remains_mechanism_not_closed(tmp_path, monkeypatch, evidence_level):
+    rows = [
+        _discovery_row(
+            "gap-head-attribution-capsule",
+            "reports/canonical/gap_head_attribution_capsule.json",
+            "D5-O",
+            pointer="$.mechanism_evidence",
+        )
+    ]
+    rows[0].update(
+        {
+            "mechanism_status": "ready",
+            "mechanism_evidence_level": evidence_level,
+            "mechanism_evidence_level_pointer": "$.mechanism_evidence.evidence_level",
+            "control_pointer": "$.control_evidence",
+        }
+    )
+    specs = (
+        _spec(
+            "gap-head-attribution-capsule",
+            "reports/canonical/gap_head_attribution_capsule.json",
+            cost="$.source_artifacts.cost_protocol",
+            positive="$.mechanism_evidence",
+            control="$.control_evidence",
+        ),
+    )
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/gap_head_attribution_capsule.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload.update(
+        {
+            "positive_discovery": True,
+            "net_positive_signal": True,
+            "control_evidence": {"status": "present"},
+            "mechanism_evidence": {"evidence_level": evidence_level, "status": "ready"},
+        }
+    )
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:gap-head-attribution-capsule"
+    assert verdict["claim_verdict"] == "mechanism_not_closed"
+    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
+
+
 def test_scope_laundering_cell_rejects_with_real_pointer(tmp_path, monkeypatch):
     rows = [_discovery_row("gap-head-discovery", "reports/canonical/gap-head-discovery.json", "D4")]
     specs = (_spec("gap-head-discovery", "reports/canonical/gap-head-discovery.json"),)

@@ -42,6 +42,7 @@ def _a1_capsule(*, candidate="probe-margin-channel", separated="not separated", 
         "score_margin_causal_evidence": {"channel_classification": classification},
     }
     payload["mechanism_evidence"] = {
+        "evidence_level": "patch",
         "base_level": "D5-O",
         "base_status": "ready",
         "mechanism_level": "D5-M" if mechanism_status == "ready" else "blocked",

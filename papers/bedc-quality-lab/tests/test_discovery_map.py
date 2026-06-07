@@ -430,6 +430,7 @@ def _minimal_payload(spec):
             "d5_m": {"status": "blocked", "passed": False, "failed_gate": "A1-HG3"},
             "mechanism_case": {"status": "D5-O retained, mechanism = probe-margin-channel"},
             "mechanism_evidence": {
+                "evidence_level": "patch",
                 "base_level": "D5-O",
                 "base_status": "ready",
                 "mechanism_level": "blocked",
@@ -1193,6 +1194,8 @@ def test_attribution_capsule_projection_records_operational_and_mechanism_axes(t
     assert row["mechanism_channel"] == "probe-margin-channel"
     assert row["mechanism_failed_gate"] == "A1-HG3"
     assert row["evidence_pointer"] == "$.mechanism_evidence"
+    assert row["mechanism_evidence_level"] == "patch"
+    assert row["mechanism_evidence_level_pointer"] == "$.mechanism_evidence.evidence_level"
     assert row["operational_pointer"] == "$.d5_o"
     assert row["mechanism_pointer"] == "$.mechanism_evidence"
     assert row["mechanism_case_pointer"] == "$.mechanism_evidence.candidate_mechanism"
@@ -1247,6 +1250,61 @@ def test_gap_head_mechanism_blockage_dangling_pointer_fails_closed(tmp_path):
     owners = discovery_map.build_negative_discovery_owner_rows(root=tmp_path)
 
     assert "gap-head-mechanism-blockage" not in {item["report_id"] for item in owners}
+
+
+@pytest.mark.parametrize("evidence_level", ["observational", "ablation"])
+def test_attribution_capsule_noncausal_evidence_level_blocks_d5_m_but_allows_operational_row(tmp_path, evidence_level):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-attribution-capsule"]
+    payload = _minimal_payload(spec)
+    payload["d5_m"] = {"status": "ready", "passed": True, "failed_gate": None}
+    payload["mechanism_evidence"]["mechanism_level"] = "D5-M"
+    payload["mechanism_evidence"]["mechanism_status"] = "ready"
+    payload["mechanism_evidence"]["evidence_level"] = evidence_level
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-attribution-capsule"]
+
+    assert row["mechanism_level"] == "D5-M"
+    assert row["mechanism_evidence_level"] == evidence_level
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "mechanism-causal-evidence-not-ready"
+
+
+@pytest.mark.parametrize(
+    "mutator",
+    [
+        lambda payload: payload["mechanism_evidence"].pop("evidence_level"),
+        lambda payload: payload["mechanism_evidence"].__setitem__("evidence_level", "malformed"),
+    ],
+)
+def test_attribution_capsule_absent_or_malformed_evidence_level_fails_closed(tmp_path, mutator):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-attribution-capsule"]
+    payload = _minimal_payload(spec)
+    mutator(payload)
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-attribution-capsule"]
+
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "attribution-capsule-level-cells-missing"
+
+
+def test_attribution_capsule_unresolved_evidence_level_pointer_fails_closed(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-attribution-capsule"]
+    payload = _minimal_payload(spec)
+    payload["mechanism_evidence"].pop("evidence_level")
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-attribution-capsule"]
+
+    assert discovery_map.pointer_value(payload, "$.mechanism_evidence.evidence_level") is None
+    assert row["audit_status"] == "invalid"
 
 
 def test_pointer_value_resolves_bracketed_list_index_and_fails_closed():

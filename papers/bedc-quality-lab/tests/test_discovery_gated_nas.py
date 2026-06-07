@@ -254,7 +254,7 @@ def test_discovery_map_signal_requires_search_space_pointer():
     assert row["audit_reason"] == "dg-nas-search-space-pointer-mismatch"
 
 
-def test_projection_maps_to_d5_m_with_ready_scorecard():
+def test_projection_keeps_d5_m_candidate_at_d5_o_without_attribution_capsule_surface():
     payload = _ready_payload()
     spec = _specs_by_name()["discovery-gated-nas"]
     context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
@@ -262,8 +262,8 @@ def test_projection_maps_to_d5_m_with_ready_scorecard():
     verdict = assign_discovery_level(projected)
     row = discovery_row(spec, payload, context)
 
-    assert verdict.discovery_level == "D5-M"
-    assert row["discovery_level"] == "D5-M"
+    assert verdict.discovery_level == "D5-O"
+    assert row["discovery_level"] == "D5-O"
     assert row["audit_status"] == "valid"
     assert row["control_pointer"] == "$.matched_baseline_control"
 

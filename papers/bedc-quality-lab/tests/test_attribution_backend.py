@@ -55,6 +55,7 @@ def fake_capsule():
         "d5_m": {"passed": False, "status": "blocked", "failed_gate": "A4-HG5"},
         "mechanism_case": {"status": "D5-O retained, mechanism unresolved"},
         "mechanism_evidence": {
+            "evidence_level": "patch",
             "base_level": "D5-O",
             "base_status": "ready",
             "mechanism_level": "blocked",

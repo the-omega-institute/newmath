@@ -36,6 +36,58 @@ def _positive_payload(**overrides) -> dict:
     return payload
 
 
+def _mechanism_capsule_payload(evidence_level: object = "patch", **overrides) -> dict:
+    payload = _positive_payload(
+        acceptance_gates={"status": "pass"},
+        final_status="pass",
+        mechanism_attribution={
+            "all_pass": True,
+            "status": "ready",
+            "failed_gate": None,
+            "channel": "closed-attribution",
+        },
+        source_pointers={
+            "operational": "reports/canonical/gap-head-robustness-sweep.json:$.acceptance_gates.status",
+            "mechanism": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
+            "mechanism_case": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.candidate_mechanism",
+        },
+        mechanism_evidence={
+            "evidence_level": evidence_level,
+            "base_level": "D5-O",
+            "base_status": "ready",
+            "mechanism_level": "D5-M",
+            "mechanism_status": "ready",
+            "candidate_mechanism": "closed-attribution",
+            "failed_gate": None,
+            "residualized_significant": True,
+            "control_clear": True,
+            "score_margin_sufficient": False,
+            "required_gate_pointers": [
+                "$.a4_hardgates.gates.A4-HG2.status",
+                "$.a4_hardgates.gates.A4-HG3.status",
+                "$.a4_hardgates.gates.head_causal_patch.status",
+                "$.a4_hardgates.gates.A4-HG5.status",
+            ],
+            "metric_pointers": {"head_patch_status": "$.head_channel_patch_evidence.gate_status"},
+            "ledger_debt_pointer": "$.ledger_debt.0.status",
+            "closure_pointer": "$.mechanism_evidence.mechanism_status",
+            "source_issue": 750,
+        },
+        a4_hardgates={
+            "gates": {
+                "A4-HG2": {"status": "pass"},
+                "A4-HG3": {"status": "pass"},
+                "head_causal_patch": {"status": "pass"},
+                "A4-HG5": {"status": "pass"},
+            }
+        },
+        head_channel_patch_evidence={"gate_status": "pass"},
+        ledger_debt=[{"status": "closed"}],
+    )
+    payload.update(overrides)
+    return payload
+
+
 def test_hg_dl_1_gap_head_discovery_report_without_scorecard_fails_closed():
     verdict = assign_discovery_level(_canonical_payload("gap-head-discovery.json"))
 
@@ -253,27 +305,9 @@ def test_positive_discovery_with_real_robustness_report_is_d5_o():
     )
 
 
-def test_positive_discovery_with_mechanism_attribution_is_d5_m():
-    payload = _positive_payload()
-    payload.update(
-        {
-            "acceptance_gates": {"status": "pass"},
-            "final_status": "pass",
-            "mechanism_attribution": {
-                "all_pass": True,
-                "status": "ready",
-                "failed_gate": None,
-                "channel": "closed-attribution",
-            },
-            "source_pointers": {
-                "operational": "reports/canonical/gap-head-robustness-sweep.json:$.acceptance_gates.status",
-                "mechanism": "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt",
-                "mechanism_case": "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec",
-            },
-        }
-    )
-
-    verdict = assign_discovery_level(payload)
+@pytest.mark.parametrize("evidence_level", ["patch", "intervention", "counterfactual"])
+def test_positive_discovery_with_causal_mechanism_attribution_is_d5_m(evidence_level):
+    verdict = assign_discovery_level(_mechanism_capsule_payload(evidence_level))
 
     assert verdict.discovery_level == "D5-M"
     assert verdict.reasons == (
@@ -287,24 +321,33 @@ def test_positive_discovery_with_mechanism_attribution_is_d5_m():
     )
 
 
+@pytest.mark.parametrize("evidence_level", ["observational", "ablation"])
+def test_positive_discovery_with_noncausal_mechanism_evidence_is_d5_o(evidence_level):
+    verdict = assign_discovery_level(_mechanism_capsule_payload(evidence_level))
+
+    assert verdict.discovery_level == "D5-O"
+    assert verdict.reasons[-1] == "mechanism_ready=false"
+
+
+@pytest.mark.parametrize("evidence_level", [None, "malformed"])
+def test_positive_discovery_with_malformed_mechanism_evidence_is_d5_o(evidence_level):
+    payload = _mechanism_capsule_payload(evidence_level)
+    if evidence_level is None:
+        payload["mechanism_evidence"].pop("evidence_level")
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D5-O"
+
+
 def test_probe_margin_channel_blocks_d5_m():
-    payload = _positive_payload()
-    payload.update(
-        {
-            "acceptance_gates": {"status": "pass"},
-            "final_status": "pass",
-            "mechanism_attribution": {
-                "all_pass": True,
-                "status": "ready",
-                "failed_gate": None,
-                "channel": "probe-margin-channel",
-            },
-            "source_pointers": {
-                "operational": "reports/canonical/gap-head-robustness-sweep.json:$.acceptance_gates.status",
-                "mechanism": "reports/gap_head_mechanism_namecert.json:$.ledger_policy.mechanism_closure_debt",
-                "mechanism_case": "reports/gap_head_mechanism_namecert.json:$.closure_status.mechanism_spec",
-            },
-        }
+    payload = _mechanism_capsule_payload(
+        mechanism_attribution={
+            "all_pass": True,
+            "status": "ready",
+            "failed_gate": None,
+            "channel": "probe-margin-channel",
+        },
     )
 
     verdict = assign_discovery_level(payload)
@@ -332,16 +375,8 @@ def test_revocation_overrides_positive_gate():
 
 
 def test_d5_m_requires_mechanism_source_pointers():
-    payload = _positive_payload(
-        acceptance_gates={"status": "pass"},
-        final_status="pass",
-        mechanism_attribution={
-            "all_pass": True,
-            "status": "ready",
-            "failed_gate": None,
-            "channel": "closed-attribution",
-        },
-    )
+    payload = _mechanism_capsule_payload()
+    payload.pop("source_pointers")
 
     verdict = assign_discovery_level(payload)
 

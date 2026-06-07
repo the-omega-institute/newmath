@@ -21,6 +21,7 @@ from bedc_quality_lab.claim_graph import terminal_node_id_for_claim_id
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.cost_protocol import load_cost_protocol
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.verdict import synthesize_certification_verdict
 from scripts.run_canonical_reports import CANONICAL_REPORTS, CanonicalReportSpec
@@ -236,7 +237,12 @@ def _is_mechanism_open(row: Mapping[str, Any], level: str) -> bool:
     if level != "D5-O":
         return False
     status = row.get("mechanism_status")
-    return status in {"blocked", "missing"} or row.get("terminal_verdict") == "mechanism_not_closed"
+    evidence_level = row.get("mechanism_evidence_level")
+    return (
+        status in {"blocked", "missing"}
+        or row.get("terminal_verdict") == "mechanism_not_closed"
+        or (isinstance(evidence_level, str) and evidence_level not in D5_M_CAUSAL_EVIDENCE_LEVELS)
+    )
 
 
 def _positive_blocker_verdict(

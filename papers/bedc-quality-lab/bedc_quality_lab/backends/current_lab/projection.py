@@ -33,7 +33,9 @@ from bedc_quality_lab.discovery_compiler.negative_reports import (
     DIMENSION_MISMATCH_REPORT_ID,
 )
 from bedc_quality_lab.mechanism_attribution import (
+    MECHANISM_EVIDENCE_LEVEL_POINTER,
     MECHANISM_EVIDENCE_POINTER,
+    mechanism_causal_evidence_ready,
     project_gap_head_mechanism_evidence,
     unresolved_mechanism_evidence_pointers,
 )
@@ -66,6 +68,7 @@ class ProjectionEvidence:
 
 @dataclass(frozen=True)
 class AttributionCapsuleLevels:
+    evidence_level: str
     base_level: str
     base_status: str
     mechanism_level: str
@@ -1797,6 +1800,7 @@ def _attribution_capsule_levels(payload: Mapping[str, Any]) -> AttributionCapsul
     if evidence.base_status == "ready" and mechanism_level == "blocked" and isinstance(failed_gate, str) and channel:
         return AttributionCapsuleLevels(
             base_level=evidence.base_level,
+            evidence_level=evidence.evidence_level,
             base_status=evidence.base_status,
             mechanism_level="blocked",
             mechanism_status="blocked",
@@ -1812,6 +1816,7 @@ def _attribution_capsule_levels(payload: Mapping[str, Any]) -> AttributionCapsul
     if evidence.base_status == "ready" and mechanism_level == "D5-M":
         return AttributionCapsuleLevels(
             base_level=evidence.base_level,
+            evidence_level=evidence.evidence_level,
             base_status=evidence.base_status,
             mechanism_level="D5-M",
             mechanism_status="ready",
@@ -2045,6 +2050,8 @@ def _audit_row(
         unresolved = unresolved_mechanism_evidence_pointers(payload, mechanism_evidence)
         if unresolved:
             return "invalid", "unresolved-mechanism-evidence-pointer"
+        if levels.mechanism_level == "D5-M" and not mechanism_causal_evidence_ready(mechanism_evidence):
+            return "invalid", "mechanism-causal-evidence-not-ready"
         if pointer_value(payload, levels.operational_pointer) is None:
             return "invalid", "unresolved-operational-pointer"
         if pointer_value(payload, levels.mechanism_pointer) is None:
@@ -2138,6 +2145,8 @@ def discovery_row(
             row.update(
                 {
                     "base_level": levels.base_level,
+                    "mechanism_evidence_level": levels.evidence_level,
+                    "mechanism_evidence_level_pointer": MECHANISM_EVIDENCE_LEVEL_POINTER,
                     "base_status": levels.base_status,
                     "mechanism_level": levels.mechanism_level,
                     "mechanism_status": levels.mechanism_status,
