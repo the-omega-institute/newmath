@@ -14,6 +14,14 @@ from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
 
+MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
+    "ledger-aware-transformer": "bedc-quality-lab:ledger-aware-transformer",
+    "certificate-gated-attention": "bedc-quality-lab:certificate-gated-attention",
+    "discovery-regularized-training": "bedc-quality-lab:discovery-regularized-training",
+    "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
+    "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
+}
+
 
 def _write_payload(root: Path, spec, payload):
     if spec.name == "discovery-regularized-training":
@@ -35,6 +43,8 @@ def _write_payload(root: Path, spec, payload):
 
 def _minimal_payload(spec):
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
+    if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
+        payload["artifact_id"] = MODEL_DESIGN_FIXTURE_ARTIFACT_IDS[spec.name]
     if spec.name == "gap-head-on-h":
         payload.update({
             "treatment_verdict": {"positive": True},
@@ -391,7 +401,6 @@ def _write_all_payloads(root: Path):
     for spec in canonical.CANONICAL_REPORTS:
         _write_payload(root, spec, _minimal_payload(spec))
     _write_dimension_mismatch_gap_witness_fixture(root)
-    _write_model_discovery_suite_fixture(root)
     _write_lejepa_mini_grid_fixture(root)
     _write_json_artifact(root, discovery_map.QUALITY_SCORECARD_ARTIFACT, _scorecard_payload())
     _write_json_artifact(
@@ -481,28 +490,6 @@ def _write_dimension_mismatch_gap_witness_fixture(root: Path):
                     }
                 },
             }
-        },
-    )
-
-
-def _write_model_discovery_suite_fixture(root: Path):
-    _write_json_artifact(
-        root,
-        "reports/runs/model-discovery-suite/summary.json",
-        {
-            "projection_metadata": {
-                "canonical_status": "d5-m-candidate",
-                "canonical_level_candidate": "D5-M",
-                "discovery_map_signal_pointer": {
-                    "artifact": "reports/runs/model-discovery-suite/summary.json",
-                    "pointer": "$.projection_metadata.canonical_status",
-                },
-                "hardgate_pointer": {
-                    "artifact": "reports/runs/model-discovery-suite/summary.json",
-                    "pointer": "$.hardgate.status",
-                },
-            },
-            "hardgate": {"status": "pass"},
         },
     )
 

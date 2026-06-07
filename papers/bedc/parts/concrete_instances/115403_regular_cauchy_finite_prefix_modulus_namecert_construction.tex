@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyFinitePrefixModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-finite-prefix-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyFinitePrefixModulusUp$ packet records the finite prefix-modulus data by which a regular Cauchy rational name exposes a requested real tolerance without appealing to tail choice or quotient stream equality. It sits between the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal seal handoff of \autoref{ch:concrete-instances-real-namecert}. The packet names only the finite prefix length, the displayed dyadic tolerance, the observed stream prefix, the regularity readback, the Real seal, componentwise transport, replay, provenance, and local $\NameCert$ evidence.
+
+\begin{definition}[Regular Cauchy finite prefix modulus carrier]
+\label{def:regular-cauchy-finite-prefix-modulus-carrier}
+A $\RegularCauchyFinitePrefixModulusUp$ carrier is a finite $\BHist$ packet
+$$
+M=(K,D,W,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the finite prefix length at which the requested regular Cauchy read is opened.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the dyadic radius certified for that prefix.
+\item $W$ is the $\StreamNameUp$ observation row listing exactly the stream entries inspected below $K$.
+\item $Q$ is the $\RegSeqRatUp$ regularity readback row witnessing that the observed prefix belongs to the regular rational Cauchy source.
+\item $R$ is the $\RealUp$ seal handoff row reached after the prefix, tolerance, observation, and regularity rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $K,D,W,Q,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a requested dyadic tolerance to the same prefix length, observation window, regularity readback, and seal handoff.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyFinitePrefixModulusUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyFinitePrefixModulusUp}$ evidence.
+\end{enumerate}
+The classifier compares accepted packets only through $K,D,W,Q,R,H,C,P,N$. It has no coordinate for an infinite tail selector, quotient stream equality, a chosen limit representative, countable choice, trichotomy of rationals beyond the displayed tolerance row, or an ambient Real completeness theorem.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy finite prefix modulus NameCert obligations]
+\label{thm:regular-cauchy-finite-prefix-modulus-namecert}
+For every accepted $\RegularCauchyFinitePrefixModulusUp$ carrier
+$$
+M=(K,D,W,Q,R,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyFinitePrefixModulusUp}$ surface consists exactly of finite prefix length $K$, dyadic tolerance row $D$, stream observation row $W$, regular rational readback row $Q$, Real seal handoff row $R$, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-finite-prefix-modulus-carrier}. The finite analytic rows are $K,D,W,Q,R$, and the structural rows are $H,C,P,N$.
+
+The prefix length $K$ bounds every observation made through $W$. The dyadic tolerance row $D$ fixes the requested radius, while the $\RegSeqRatUp$ readback row $Q$ states regularity for the displayed prefix before the $\RealUp$ seal row $R$ is consumed.
+
+Rows $H,C,P,N$ transport, replay, source, and name the same displayed packet. Since the carrier includes no tail selector, quotient-stream equality, chosen representative, countable-choice schedule, or ambient completeness coordinate, the listed rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy finite prefix modulus L10 handoff]
+\label{thm:regular-cauchy-finite-prefix-modulus-l10-handoff}
+Every L10 Real or completion consumer of an accepted $\RegularCauchyFinitePrefixModulusUp$ packet receives the modulus data only through the finite route
+$$
+\DyadicRatCoreUp\longmapsto\StreamNameUp\longmapsto\RegSeqRatUp\longmapsto\RealUp .
+$$
+The handoff may expose the prefix length, tolerance row, stream observations, regularity readback, and Real seal, but it exports no hidden infinite tail, quotient stream equality, selected limit, countable-choice scheduler, or host completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-finite-prefix-modulus-namecert}. The rows $K,D,W,Q,R$ place the finite prefix length, dyadic tolerance, observed stream prefix, regular rational readback, and Real seal in one packet.
+
+The structural rows $H,C,P,N$ preserve that same route under componentwise transport, replay, provenance, and local naming. A consumer therefore reaches the Real or completion handoff only after reading the displayed finite prefix-modulus data, and every refused reading would require a coordinate absent from $M$.
+\end{proof}
+
+\closureat{RegularCauchyFinitePrefixModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyFinitePrefixModulusUp}
+  \constructivestory{A $\RegularCauchyFinitePrefixModulusUp$ packet is generated from finite prefix length, DyadicRatCore tolerance, StreamName observations, RegSeqRat regularity readback, Real seal handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-finite-prefix-modulus-carrier}, \autoref{thm:regular-cauchy-finite-prefix-modulus-namecert}, and \autoref{thm:regular-cauchy-finite-prefix-modulus-l10-handoff} seed the finite prefix-modulus carrier and its L10 Real/completion handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close tail choice, quotient stream equality, selected limits, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, prefix exactness, dyadic tolerance exactness, stream observation exactness, RegSeqRat readback, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyFinitePrefixModulusUp.}
+\end{closurestatus}

@@ -21081,42 +21081,60 @@
   "run_local": {
     "negative_witness": [
       {
-        "bedc_gap_field": "score_plus_margin_attribution_gap",
-        "demotion_rule": "demote_to_DN_on_A1_HG3_failure",
-        "evidence_pointer": "reports/runs/a1-canonical/claim_capsule.json:$.hardgates.gates.A1-HG3",
-        "reason": "A1-HG3 records that full AUROC CI-low does not exceed the score_plus_margin AUROC CI-high control.",
-        "regression_test": "tests/test_gap_head_attribution_capsule.py::test_a1_canonical_run_local_negative_witness_records_a1_hg3_failure",
+        "witness_id": "a1-hg3-score-plus-margin-competitive",
         "source_artifact": "reports/runs/a1-canonical/claim_capsule.json",
-        "source_pointer": "$.failed_gate",
+        "source_pointer": "$.hardgates.gates.A1-HG3",
+        "bedc_gap_field": "d5_m.failed_gate",
+        "demotion_rule": "block D5-M while A1-HG3 fails",
+        "regression_test": "tests/test_gap_head_attribution_capsule.py::test_a1_run_local_negative_witness_records_a1_hg3_failure",
+        "evidence_pointer": "$.hardgates.gates.A1-HG3",
         "status": "fail",
-        "witness_id": "a1-canonical:score-plus-margin-attribution-hardgate-failure"
+        "reason": "A1-HG3 failed because full AUROC CI-low does not exceed the score_plus_margin AUROC CI-high control; D5-M remains blocked."
       }
     ],
     "negative_witness_hardgates": {
       "failed_gates": [],
       "gates": {
         "NW-HG1": {
-          "evidence_pointer": "$.run_local.negative_witness.0",
+          "evidence_pointer": "$.run_local.negative_witness[0]",
           "list_shape_ok": true,
+          "row_keys": [
+            "witness_id",
+            "source_artifact",
+            "source_pointer",
+            "bedc_gap_field",
+            "demotion_rule",
+            "regression_test",
+            "evidence_pointer",
+            "status",
+            "reason"
+          ],
           "row_shape_ok": true,
           "status": "pass"
         },
         "NW-HG2": {
-          "evidence_pointer": "$.failed_gate",
-          "regression_test_resolved": true,
+          "evidence_pointer": "$.hardgates.gates.A1-HG3",
+          "source_pointer_name": "A1-HG3",
           "source_pointer_resolved": true,
-          "source_pointer_value": "A1-HG3",
+          "source_pointer_status": "fail",
           "status": "pass"
         },
         "NW-HG3": {
-          "evidence_pointer": "reports/runs/a1-canonical/claim_capsule.json:$.hardgates.gates.A1-HG3",
+          "evidence_pointer": "$.hardgates.gates.A1-HG3",
+          "evidence_pointer_name": "A1-HG3",
           "evidence_pointer_resolved": true,
+          "evidence_pointer_status": "fail",
           "status": "pass"
         },
         "NW-HG4": {
-          "evidence_pointer": "$.run_local.negative_witness.0.status",
-          "expected_status": "fail",
-          "observed_status": "fail",
+          "evidence_pointer": "$.run_local.negative_witness[0].regression_test",
+          "regression_test": "tests/test_gap_head_attribution_capsule.py::test_a1_run_local_negative_witness_records_a1_hg3_failure",
+          "regression_test_resolved": true,
+          "status": "pass"
+        },
+        "NW-HG5": {
+          "evidence_pointer": "$.run_local",
+          "forbidden_key_absent": true,
           "status": "pass"
         }
       },

@@ -68,8 +68,8 @@ FORBIDDEN_COLUMNS = (
     "eval_gap_labels",
     "config_metadata",
 )
-NEGATIVE_WITNESS_OWNER_POINTER = "$.run_local.negative_witness[0]"
-NEGATIVE_WITNESS_KEYS = (
+A1_NEGATIVE_WITNESS_OWNER_POINTER = "$.run_local.negative_witness[0]"
+A1_NEGATIVE_WITNESS_KEYS = (
     "witness_id",
     "source_artifact",
     "source_pointer",
@@ -80,9 +80,9 @@ NEGATIVE_WITNESS_KEYS = (
     "status",
     "reason",
 )
-NEGATIVE_WITNESS_REGRESSION_TEST = (
+A1_NEGATIVE_WITNESS_REGRESSION_TEST = (
     "tests/test_gap_head_attribution_capsule.py::"
-    "test_a1_canonical_run_local_negative_witness_records_a1_hg3_failure"
+    "test_a1_run_local_negative_witness_records_a1_hg3_failure"
 )
 RESIDUALIZED_ATTRIBUTION_CLAIM_SLOTS: tuple[tuple[str, str], ...] = (
     ("full", "full"),
@@ -1990,25 +1990,28 @@ def _claim_capsule_hardgates(capsule: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def _negative_witness_owner_ref(run_id: str) -> dict[str, str]:
+def _a1_negative_witness_owner_ref(run_id: str) -> dict[str, str]:
     return {
         "artifact": f"{RUNS_DIR}/{run_id}/claim_capsule.json",
-        "pointer": NEGATIVE_WITNESS_OWNER_POINTER,
+        "pointer": A1_NEGATIVE_WITNESS_OWNER_POINTER,
     }
 
 
-def _a1_negative_witness_row(capsule_artifact: str, *, status: str = "fail", reason: str | None = None) -> dict[str, Any]:
+def _a1_negative_witness_row(capsule_artifact: str, capsule: Mapping[str, Any], *, status: str = "fail", reason: str | None = None) -> dict[str, Any]:
     return {
-        "witness_id": "a1-canonical:score-plus-margin-attribution-hardgate-failure",
+        "witness_id": "a1-hg3-score-plus-margin-competitive",
         "source_artifact": capsule_artifact,
-        "source_pointer": "$.failed_gate",
-        "bedc_gap_field": "score_plus_margin_attribution_gap",
-        "demotion_rule": "demote_to_DN_on_A1_HG3_failure",
-        "regression_test": NEGATIVE_WITNESS_REGRESSION_TEST,
-        "evidence_pointer": f"{capsule_artifact}:$.hardgates.gates.A1-HG3",
+        "source_pointer": "$.hardgates.gates.A1-HG3",
+        "bedc_gap_field": "d5_m.failed_gate",
+        "demotion_rule": "block D5-M while A1-HG3 fails",
+        "regression_test": A1_NEGATIVE_WITNESS_REGRESSION_TEST,
+        "evidence_pointer": "$.hardgates.gates.A1-HG3",
         "status": status,
         "reason": reason
-        or "A1-HG3 records that full AUROC CI-low does not exceed the score_plus_margin AUROC CI-high control.",
+        or (
+            "A1-HG3 failed because full AUROC CI-low does not exceed the score_plus_margin AUROC "
+            "CI-high control; D5-M remains blocked."
+        ),
     }
 
 
@@ -2026,9 +2029,13 @@ def _source_payload_for_artifact(capsule: Mapping[str, Any], artifact: str, caps
 
 
 def _artifact_pointer_value(capsule: Mapping[str, Any], artifact_pointer: str, capsule_artifact: str) -> Any:
-    if ":$" not in artifact_pointer:
+    if artifact_pointer.startswith("$."):
+        artifact = capsule_artifact
+        pointer = artifact_pointer
+    elif ":$" in artifact_pointer:
+        artifact, pointer = artifact_pointer.split(":", 1)
+    else:
         return None
-    artifact, pointer = artifact_pointer.split(":", 1)
     source_payload = _source_payload_for_artifact(capsule, artifact, capsule_artifact)
     if source_payload is None:
         return None
@@ -2054,8 +2061,12 @@ def _a1_negative_witness_pointer_status(capsule: Mapping[str, Any], row: Mapping
         "source_pointer": row.get("source_pointer"),
         "source_pointer_resolved": source_value is not None,
         "source_pointer_value": source_value,
+        "source_pointer_status": source_value.get("status") if isinstance(source_value, Mapping) else None,
+        "source_pointer_name": source_value.get("name") if isinstance(source_value, Mapping) else None,
         "evidence_pointer": row.get("evidence_pointer"),
         "evidence_pointer_resolved": evidence_value is not None,
+        "evidence_pointer_status": evidence_value.get("status") if isinstance(evidence_value, Mapping) else None,
+        "evidence_pointer_name": evidence_value.get("name") if isinstance(evidence_value, Mapping) else None,
         "regression_test": row.get("regression_test"),
         "regression_test_resolved": regression_resolved,
     }
@@ -2071,9 +2082,23 @@ def _a1_negative_witness_pointer_status(capsule: Mapping[str, Any], row: Mapping
     return "; ".join(missing), checks
 
 
-def _a1_negative_witness_hardgates(capsule: Mapping[str, Any], row: Mapping[str, Any], checks: Mapping[str, Any]) -> dict[str, Any]:
+def _contains_key_recursive(payload: Any, forbidden: str) -> bool:
+    if isinstance(payload, Mapping):
+        return forbidden in payload or any(_contains_key_recursive(value, forbidden) for value in payload.values())
+    if isinstance(payload, list):
+        return any(_contains_key_recursive(value, forbidden) for value in payload)
+    return False
+
+
+def _a1_negative_witness_hardgates(capsule: Mapping[str, Any], row: Mapping[str, Any]) -> dict[str, Any]:
     capsule_artifact = str(row.get("source_artifact", ""))
-    source_ok = checks.get("source_pointer_resolved") is True and checks.get("source_pointer_value") == "A1-HG3"
+    _, checks = _a1_negative_witness_pointer_status(capsule, row)
+    source = checks.get("source_pointer_value")
+    source_ok = (
+        checks.get("source_pointer_resolved") is True
+        and isinstance(source, Mapping)
+        and source.get("name") == "A1-HG3"
+    )
     evidence = _artifact_pointer_value(capsule, str(row.get("evidence_pointer", "")), capsule_artifact)
     evidence_ok = (
         isinstance(evidence, Mapping)
@@ -2082,33 +2107,53 @@ def _a1_negative_witness_hardgates(capsule: Mapping[str, Any], row: Mapping[str,
         and float(evidence.get("evidence", {}).get("full_ci_low", math.nan))
         < float(evidence.get("evidence", {}).get("score_plus_margin_ci_high", math.nan))
     )
-    row_shape_ok = isinstance(row, Mapping) and set(row) == set(NEGATIVE_WITNESS_KEYS)
+    row_shape_ok = isinstance(row, Mapping) and tuple(row.keys()) == A1_NEGATIVE_WITNESS_KEYS
     negative_witness = capsule.get("run_local", {}).get("negative_witness") if isinstance(capsule.get("run_local"), Mapping) else None
     list_shape_ok = isinstance(negative_witness, list) and len(negative_witness) == 1
+    regression_ok = checks.get("regression_test_resolved") is True
+    terminal_clean = not _contains_key_recursive(
+        {
+            "negative_witness": negative_witness,
+            "negative_witness_hardgates": (
+                capsule.get("run_local", {}).get("negative_witness_hardgates")
+                if isinstance(capsule.get("run_local"), Mapping)
+                else None
+            ),
+        },
+        "terminal_verdict",
+    )
     gates = {
         "NW-HG1": {
             "status": "pass" if row_shape_ok and list_shape_ok else "fail",
-            "evidence_pointer": "$.run_local.negative_witness.0",
+            "evidence_pointer": "$.run_local.negative_witness[0]",
             "row_shape_ok": row_shape_ok,
             "list_shape_ok": list_shape_ok,
+            "row_keys": list(row.keys()) if isinstance(row, Mapping) else [],
         },
         "NW-HG2": {
-            "status": "pass" if source_ok and checks.get("regression_test_resolved") is True else "fail",
+            "status": "pass" if source_ok else "fail",
             "evidence_pointer": row.get("source_pointer"),
             "source_pointer_resolved": checks.get("source_pointer_resolved"),
-            "source_pointer_value": checks.get("source_pointer_value"),
-            "regression_test_resolved": checks.get("regression_test_resolved"),
+            "source_pointer_name": checks.get("source_pointer_name"),
+            "source_pointer_status": checks.get("source_pointer_status"),
         },
         "NW-HG3": {
             "status": "pass" if evidence_ok else "fail",
             "evidence_pointer": row.get("evidence_pointer"),
             "evidence_pointer_resolved": checks.get("evidence_pointer_resolved"),
+            "evidence_pointer_name": checks.get("evidence_pointer_name"),
+            "evidence_pointer_status": checks.get("evidence_pointer_status"),
         },
         "NW-HG4": {
-            "status": "pass" if row.get("status") == "fail" else "fail",
-            "evidence_pointer": "$.run_local.negative_witness.0.status",
-            "expected_status": "fail",
-            "observed_status": row.get("status"),
+            "status": "pass" if regression_ok else "fail",
+            "evidence_pointer": "$.run_local.negative_witness[0].regression_test",
+            "regression_test": row.get("regression_test"),
+            "regression_test_resolved": regression_ok,
+        },
+        "NW-HG5": {
+            "status": "pass" if terminal_clean else "fail",
+            "evidence_pointer": "$.run_local",
+            "forbidden_key_absent": terminal_clean,
         },
     }
     failed = [name for name, gate in gates.items() if gate["status"] != "pass"]
@@ -2121,13 +2166,21 @@ def _a1_negative_witness_hardgates(capsule: Mapping[str, Any], row: Mapping[str,
 
 def _a1_negative_witness_run_local(capsule: Mapping[str, Any], *, run_id: str) -> dict[str, Any]:
     capsule_artifact = f"{RUNS_DIR}/{run_id}/claim_capsule.json"
-    row = _a1_negative_witness_row(capsule_artifact)
+    row = _a1_negative_witness_row(capsule_artifact, capsule)
     reason, checks = _a1_negative_witness_pointer_status(capsule, row)
-    if reason:
-        row = _a1_negative_witness_row(capsule_artifact, status="blocked", reason=reason)
+    expected_fail_ok = (
+        checks.get("source_pointer_name") == "A1-HG3"
+        and checks.get("source_pointer_status") == "fail"
+        and checks.get("evidence_pointer_name") == "A1-HG3"
+        and checks.get("evidence_pointer_status") == "fail"
+        and checks.get("regression_test_resolved") is True
+    )
+    if reason or not expected_fail_ok:
+        reason = reason or "A1-HG3 source and evidence pointers did not resolve to the expected failed gate."
+        row = _a1_negative_witness_row(capsule_artifact, capsule, status="blocked", reason=reason)
     run_local = {"negative_witness": [row]}
     probe = {**dict(capsule), "run_local": run_local}
-    run_local["negative_witness_hardgates"] = _a1_negative_witness_hardgates(probe, row, checks)
+    run_local["negative_witness_hardgates"] = _a1_negative_witness_hardgates(probe, row)
     return run_local
 
 
@@ -2143,12 +2196,19 @@ def _public_negative_witness_projection(payload: Mapping[str, Any], *, run_id: s
     projected = dict(payload)
     if run_id != "a1-canonical":
         return projected
+    owner_ref = _a1_negative_witness_owner_ref(run_id)
+    hardgates_ref = {
+        "artifact": f"{RUNS_DIR}/{run_id}/claim_capsule.json",
+        "pointer": "$.run_local.negative_witness_hardgates",
+    }
     if "run_local" in projected:
         run_local = dict(projected["run_local"]) if isinstance(projected["run_local"], Mapping) else {}
-        run_local["negative_witness"] = [_negative_witness_owner_ref(run_id)]
+        run_local["negative_witness"] = [owner_ref]
+        run_local["negative_witness_hardgates"] = hardgates_ref
         projected["run_local"] = run_local
     else:
-        projected["negative_witness"] = [_negative_witness_owner_ref(run_id)]
+        projected["negative_witness"] = [owner_ref]
+        projected["negative_witness_hardgates"] = hardgates_ref
     return projected
 
 
@@ -2349,9 +2409,19 @@ def _render_report(payload: Mapping[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def _stable_json_payload(payload: Any) -> Any:
+    if isinstance(payload, Mapping):
+        if tuple(payload.keys()) == A1_NEGATIVE_WITNESS_KEYS:
+            return {key: _stable_json_payload(payload[key]) for key in A1_NEGATIVE_WITNESS_KEYS}
+        return {key: _stable_json_payload(payload[key]) for key in sorted(payload)}
+    if isinstance(payload, list):
+        return [_stable_json_payload(item) for item in payload]
+    return payload
+
+
 def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_text(json.dumps(_stable_json_payload(payload), indent=2) + "\n", encoding="utf-8")
 
 
 def _write_text(path: Path, text: str) -> None:
