@@ -5121,7 +5121,6 @@ import BEDC.Derived.HomologyUp.StdBridge
 import BEDC.Derived.HomotopyUp
 import BEDC.Derived.HomotopyUp.TasteGate
 import BEDC.Derived.HopfAlgUp
-import BEDC.Derived.HopfFibrationUp
 import BEDC.Derived.HostDelegationSocketUp
 import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.TasteGate
@@ -7058,7 +7057,9 @@ import BEDC.Derived.PolishspaceUp.CompleteSeparableHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableMetricRow
 import BEDC.Derived.PolishspaceUp.CompleteSeparableNamecertObligations
 import BEDC.Derived.PolishspaceUp.CompleteSeparableNonescape
+import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationClosure
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationFrontier
+import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationScope
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRoute
