@@ -744,6 +744,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "device_protocol",
             "torch_evidence",
             "matched_random_control",
+            "distinction_module_evidence",
+            "d5_m_readiness",
             "hardgate",
             "failed_gate",
             "discovery_map_signal",

@@ -12,6 +12,8 @@
 - `MSN-HG3`: `pass`
 - `MSN-HG4`: `pass`
 - `MSN-HG5`: `pass`
+- `MSN-HG6`: `pass`
+- D5-M readiness: `ready`
 
 ## Mechanism Gate
 

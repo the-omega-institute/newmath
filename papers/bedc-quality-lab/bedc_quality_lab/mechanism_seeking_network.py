@@ -24,7 +24,7 @@ TORCH_MECHANISMS = ("copy_route", "parity_gate")
 TORCH_SEEDS = (17, 29)
 TORCH_ARMS = ("mechanism_probe", "matched_random")
 DRIFT_TOLERANCE = 1.0e-4
-MSN_HARDGATES = tuple(f"MSN-HG{index}" for index in range(1, 6))
+MSN_HARDGATES = tuple(f"MSN-HG{index}" for index in range(1, 7))
 FORBIDDEN_SUMMARY_ALIASES = (
     "terminal_verdict",
     "claim_capsule",
@@ -61,6 +61,22 @@ class TorchMechanismArmProtocol:
     drift_tolerance: float
     status: str
     evidence_pointer: str
+
+
+@dataclass(frozen=True)
+class DistinctionModuleEvidence:
+    module_id: str
+    tensor_slice_pointer: str
+    classifier_surface_pointer: str
+    stability_score_pointer: str
+    shortcut_risk_pointer: str
+    ledger_risk_pointer: str
+    ablation_rows_pointer: str
+    patch_rows_pointer: str
+    ablation_status: str
+    patch_status: str
+    risk_audit_status: str
+    audit_status: str
 
 
 def default_grid() -> tuple[dict[str, Any], ...]:
@@ -146,6 +162,10 @@ def _group_mean(rows: Sequence[Mapping[str, Any]], group_key: str, metric_key: s
     return {key: mean for key, values in grouped.items() if (mean := _mean(values)) is not None}
 
 
+def _module_rows(rows: Sequence[Mapping[str, Any]], mechanism_id: str, arm: str) -> list[Mapping[str, Any]]:
+    return [row for row in rows if row.get("mechanism_id") == mechanism_id and row.get("arm") == arm]
+
+
 def _revocation_rows(failed_gate: str | None) -> list[dict[str, Any]]:
     return [
         {
@@ -223,6 +243,7 @@ class MechanismSeekingNetworkProjection:
                 "cost_protocol": "configs/default_cost_protocol.yaml",
                 "raw_rows": self.run_artifacts.get("raw_metrics"),
                 "claim_capsule": self.run_artifacts.get("claim_capsule"),
+                "d5_o_source": self.config.get("d5_o_source"),
                 "producer_sources": [
                     "bedc_quality_lab/mechanism_seeking_network.py",
                     "scripts/run_mechanism_seeking_network.py",
@@ -237,6 +258,8 @@ class MechanismSeekingNetworkProjection:
             "device_protocol": summaries["device_protocol"],
             "torch_evidence": summaries["torch_evidence"],
             "matched_random_control": summaries["matched_random_control"],
+            "distinction_module_risk": summaries["distinction_module_risk"],
+            "distinction_module_evidence": summaries["distinction_module_evidence"],
             "hardgate": {
                 "status": _status(failed_gate is None),
                 "gates": hardgates,
@@ -244,6 +267,7 @@ class MechanismSeekingNetworkProjection:
             },
             "failed_gate": failed_gate,
             "discovery_map_signal": signal,
+            "d5_m_readiness": self.d5_m_readiness(hardgates),
             "positive_claim": positive_claim,
             "claim_capsule_ref": self.run_artifacts.get("claim_capsule"),
             "claim_capsule_status": capsule["claim_status"],
@@ -276,6 +300,24 @@ class MechanismSeekingNetworkProjection:
         registry = summaries["surface_registry"]
         torch = summaries["torch_evidence"]
         records = summaries["records"]
+        module_evidence = summaries["distinction_module_evidence"]
+        accepted_modules = [
+            module_id
+            for module_id, row in mechanism.get("by_mechanism", {}).items()
+            if isinstance(row, Mapping) and row.get("accepted") is True
+        ]
+        accepted_evidence = [
+            row
+            for row in module_evidence.get("records", [])
+            if isinstance(row, Mapping) and row.get("module_id") in accepted_modules
+        ]
+        distinction_ready = len(accepted_evidence) == len(accepted_modules) and all(
+            row.get("ablation_status") == "pass"
+            and row.get("patch_status") == "pass"
+            and row.get("risk_audit_status") == "pass"
+            and row.get("audit_status") == "pass"
+            for row in accepted_evidence
+        )
         return {
             "MSN-HG1": {
                 "status": _status(records["deterministic_anchor_rows"] == records["expected_deterministic_anchor_rows"]),
@@ -302,6 +344,11 @@ class MechanismSeekingNetworkProjection:
                 "evidence": "Optional PyTorch arm is bounded and cannot override the deterministic anchor.",
                 "evidence_pointer": "$.torch_evidence",
             },
+            "MSN-HG6": {
+                "status": _status(bool(accepted_modules) and distinction_ready),
+                "evidence": "Accepted modules must carry ablation, patch, and risk-audit evidence.",
+                "evidence_pointer": "$.distinction_module_evidence",
+            },
         }
 
     def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -325,10 +372,29 @@ class MechanismSeekingNetworkProjection:
             "evidence_pointer": "$.mechanism_gate_summary",
             "control_pointer": "$.matched_random_control",
             "surface_registry_pointer": "$.surface_registry",
-            "mechanism_evidence_pointer": "$.mechanism_gate_summary.by_mechanism",
+            "mechanism_evidence_pointer": "$.distinction_module_evidence",
             "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
             "failed_gate": None,
             "failed_gate_pointer": None,
+        }
+
+    def d5_m_readiness(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
+        hg6_pass = isinstance(hardgates.get("MSN-HG6"), Mapping) and hardgates["MSN-HG6"].get("status") == "pass"
+        d5_o_source = self.config.get("d5_o_source")
+        source_present = isinstance(d5_o_source, str) and bool(d5_o_source)
+        ready = hg6_pass and source_present
+        failed_gate = None
+        if not hg6_pass:
+            failed_gate = "MSN-HG6"
+        elif not source_present:
+            failed_gate = "d5_o_source"
+        return {
+            "status": "ready" if ready else "blocked",
+            "passed": ready,
+            "failed_gate": failed_gate,
+            "hardgate_pointer": "$.hardgate.gates.MSN-HG6.status",
+            "distinction_module_evidence_ref": "$.distinction_module_evidence",
+            "d5_o_source_pointer": "$.source_artifacts.d5_o_source",
         }
 
     def claim_capsule_payload(
@@ -353,6 +419,11 @@ class MechanismSeekingNetworkProjection:
                 "summary": self.run_artifacts.get("summary"),
                 "raw_rows": self.run_artifacts.get("raw_metrics"),
                 "cost_protocol": "configs/default_cost_protocol.yaml",
+            },
+            "distinction_module_evidence_ref": "$.distinction_module_evidence",
+            "distinction_module_evidence": {
+                "artifact": self.run_artifacts.get("summary"),
+                "pointer": "$.distinction_module_evidence",
             },
             "not_claimed": list(NOT_CLAIMED),
             "failed_gate": failed,
@@ -392,6 +463,7 @@ class MechanismSeekingNetworkProjection:
         ]
         for gate, row in payload["hardgate"]["gates"].items():
             lines.append(f"- `{gate}`: `{row['status']}`")
+        lines.append(f"- D5-M readiness: `{payload['d5_m_readiness']['status']}`")
         lines.extend(["", "## Mechanism Gate", ""])
         lines.append(f"- accepted: `{payload['mechanism_gate_summary']['accepted']}`")
         lines.append(f"- accepted surfaces: `{payload['mechanism_gate_summary']['accepted_surface_count']}`")
@@ -443,6 +515,11 @@ class MechanismSeekingNetworkProjection:
         accepted_surface_count = sum(1 for row in by_mechanism.values() if row["accepted"])
         forbidden_alias_count = sum(int(row.get("forbidden_alias_count", 0)) for row in deterministic_rows)
         gate_threshold = float(config.get("gate_threshold", 0.18))
+        distinction = self._distinction_module_evidence(
+            mechanisms=mechanisms,
+            deterministic_rows=deterministic_rows,
+            by_mechanism=by_mechanism,
+        )
         return {
             "grid": {
                 "record_count": len(deterministic_rows),
@@ -460,11 +537,18 @@ class MechanismSeekingNetworkProjection:
                 "torch_evidence_rows": len(torch_rows),
                 "metric_keys": list(METRIC_KEYS),
                 "rounding": {"decimals": 6, "drift_tolerance": float(config.get("drift_tolerance", DRIFT_TOLERANCE))},
+                "tensor_slice_registry": distinction["tensor_slice_registry"],
+                "ablation_row_registry": distinction["ablation_row_registry"],
+                "patch_row_registry": distinction["patch_row_registry"],
             },
             "surface_registry": {
                 mechanism_id: {
                     "surface_id": mechanism_id,
                     "mechanism_id": mechanism_id,
+                    "classifier_surface": {
+                        "classifier_surface_id": f"classifier-surface:{mechanism_id}",
+                        "surface_role": "distinction-module",
+                    },
                     "evidence_pointer": f"$.mechanism_gate_summary.by_mechanism.{mechanism_id}",
                     "gate_protocol_pointer": "$.gate_protocol",
                 }
@@ -477,6 +561,8 @@ class MechanismSeekingNetworkProjection:
                     "audited_alias_count": len(FORBIDDEN_SUMMARY_ALIASES),
                 }
             },
+            "distinction_module_risk": distinction["risk"],
+            "distinction_module_evidence": distinction["evidence"],
             "mechanism_gate_summary": {
                 "accepted": accepted_surface_count >= 2,
                 "accepted_surface_count": accepted_surface_count,
@@ -525,6 +611,112 @@ class MechanismSeekingNetworkProjection:
                 "ablated_score_mean": ablated_score_mean,
                 "control_rejected": isinstance(control_score_mean, (int, float)) and float(control_score_mean) < gate_threshold,
                 "evidence_pointer": "$.mechanism_gate_summary.by_arm_score_mean",
+            },
+        }
+
+    def _distinction_module_evidence(
+        self,
+        *,
+        mechanisms: Sequence[str],
+        deterministic_rows: Sequence[Mapping[str, Any]],
+        by_mechanism: Mapping[str, Mapping[str, Any]],
+    ) -> dict[str, Any]:
+        tensor_slice_registry: dict[str, dict[str, Any]] = {}
+        ablation_row_registry: dict[str, list[str]] = {}
+        patch_row_registry: dict[str, list[str]] = {}
+        risk: dict[str, dict[str, Any]] = {}
+        records: list[dict[str, Any]] = []
+        for mechanism_id in mechanisms:
+            module_rows = [row for row in deterministic_rows if row.get("mechanism_id") == mechanism_id]
+            ablation_rows = _module_rows(deterministic_rows, mechanism_id, "ablated_probe")
+            patch_rows = [
+                row
+                for row in _module_rows(deterministic_rows, mechanism_id, "mechanism_probe")
+                if isinstance(row.get("patch_row_id"), str) and row.get("gate_decision") is True
+            ]
+            tensor_slice_registry[mechanism_id] = {
+                "module_id": mechanism_id,
+                "tensor_slice_ids": sorted(
+                    str(row["tensor_slice_id"])
+                    for row in module_rows
+                    if isinstance(row.get("tensor_slice_id"), str)
+                ),
+            }
+            ablation_row_registry[mechanism_id] = sorted(
+                str(row["ablation_row_id"])
+                for row in ablation_rows
+                if isinstance(row.get("ablation_row_id"), str)
+            )
+            patch_row_registry[mechanism_id] = sorted(
+                str(row["patch_row_id"])
+                for row in patch_rows
+                if isinstance(row.get("patch_row_id"), str)
+            )
+            stability_score = _mean(
+                float(value)
+                for row in module_rows
+                if (value := _metric(row, "stability_score")) is not None and not isinstance(value, bool)
+            )
+            shortcut_risk = _mean(
+                float(value)
+                for row in module_rows
+                if (value := _metric(row, "shortcut_risk")) is not None and not isinstance(value, bool)
+            )
+            ledger_risk = _mean(
+                float(value)
+                for row in module_rows
+                if (value := _metric(row, "ledger_risk")) is not None and not isinstance(value, bool)
+            )
+            risk_status = _status(
+                isinstance(stability_score, (int, float))
+                and float(stability_score) >= 0.62
+                and isinstance(shortcut_risk, (int, float))
+                and float(shortcut_risk) <= 0.26
+                and isinstance(ledger_risk, (int, float))
+                and float(ledger_risk) <= 0.21
+            )
+            ablation_status = _status(bool(ablation_row_registry[mechanism_id]))
+            patch_status = _status(bool(patch_row_registry[mechanism_id]))
+            audit_status = _status(
+                ablation_status == "pass"
+                and patch_status == "pass"
+                and risk_status == "pass"
+                and isinstance(by_mechanism.get(mechanism_id), Mapping)
+            )
+            risk[mechanism_id] = {
+                "module_id": mechanism_id,
+                "stability_score": stability_score,
+                "shortcut_risk": shortcut_risk,
+                "ledger_risk": ledger_risk,
+                "risk_audit_status": risk_status,
+            }
+            records.append(
+                asdict(
+                    DistinctionModuleEvidence(
+                        module_id=mechanism_id,
+                        tensor_slice_pointer=f"$.records.tensor_slice_registry.{mechanism_id}",
+                        classifier_surface_pointer=f"$.surface_registry.{mechanism_id}.classifier_surface",
+                        stability_score_pointer=f"$.distinction_module_risk.{mechanism_id}.stability_score",
+                        shortcut_risk_pointer=f"$.distinction_module_risk.{mechanism_id}.shortcut_risk",
+                        ledger_risk_pointer=f"$.distinction_module_risk.{mechanism_id}.ledger_risk",
+                        ablation_rows_pointer=f"$.records.ablation_row_registry.{mechanism_id}",
+                        patch_rows_pointer=f"$.records.patch_row_registry.{mechanism_id}",
+                        ablation_status=ablation_status,
+                        patch_status=patch_status,
+                        risk_audit_status=risk_status,
+                        audit_status=audit_status,
+                    )
+                )
+            )
+        return {
+            "tensor_slice_registry": tensor_slice_registry,
+            "ablation_row_registry": ablation_row_registry,
+            "patch_row_registry": patch_row_registry,
+            "risk": risk,
+            "evidence": {
+                "schema_id": f"{SCHEMA_ID}#$.distinction_module_evidence",
+                "owner_pointer": "$.distinction_module_evidence",
+                "records": records,
             },
         }
 
