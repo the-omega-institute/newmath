@@ -101,6 +101,9 @@ RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID = "bedc-quality-lab:release-manifest-sideca
 RELEASE_NAMECERT_CANDIDATE_JSON_ARTIFACT = "reports/release_namecert_candidate.json"
 RELEASE_NAMECERT_CANDIDATE_MARKDOWN_ARTIFACT = "reports/release_namecert_candidate.md"
 RELEASE_NAMECERT_CANDIDATE_ARTIFACT_ID = "bedc-quality-lab:release-namecert-candidate"
+TOY_SAFETY_BOUNDARY_JSON_ARTIFACT = "reports/canonical/toy_safety_boundary.json"
+TOY_SAFETY_BOUNDARY_MARKDOWN_ARTIFACT = "reports/canonical/toy_safety_boundary.md"
+TOY_SAFETY_BOUNDARY_ARTIFACT_ID = "bedc-quality-lab:toy-safety-boundary"
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -3157,6 +3160,20 @@ def _release_namecert_candidate_index_section() -> dict[str, Any]:
     }
 
 
+def _toy_safety_boundary_index_section() -> dict[str, Any]:
+    payload = _load_sidecar_payload(TOY_SAFETY_BOUNDARY_JSON_ARTIFACT)
+    return {
+        "status": "pointer-only",
+        "artifact_id": payload.get("artifact_id", TOY_SAFETY_BOUNDARY_ARTIFACT_ID),
+        "json_artifact": TOY_SAFETY_BOUNDARY_JSON_ARTIFACT,
+        "markdown_artifact": TOY_SAFETY_BOUNDARY_MARKDOWN_ARTIFACT,
+        "claim_capsule_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$",
+        "hardgates_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.hardgates",
+        "positive_claim_pointer": "experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.positive_claim",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -3294,6 +3311,7 @@ def _index(
         "gap_head_mechanism_namecert": _gap_head_mechanism_namecert_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
         "release_namecert_candidate": _release_namecert_candidate_index_section(),
+        "toy_safety_boundary": _toy_safety_boundary_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -3528,6 +3546,14 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Candidate status: `{payload['release_namecert_candidate']['candidate_status']}`",
             f"- Revoke pointer: `{payload['release_namecert_candidate']['revoke_if_pointer']}`",
             "",
+            "## Toy safety boundary",
+            "",
+            f"- Status: `{payload['toy_safety_boundary']['status']}`",
+            f"- JSON: `{payload['toy_safety_boundary']['json_artifact']}`",
+            f"- Markdown: `{payload['toy_safety_boundary']['markdown_artifact']}`",
+            f"- Claim capsule: `{payload['toy_safety_boundary']['claim_capsule_pointer']}`",
+            f"- Hardgates: `{payload['toy_safety_boundary']['hardgates_pointer']}`",
+            "",
             "## Paper outline",
             "",
             f"- Status: `{outline['status']}`",
@@ -3702,6 +3728,9 @@ def run_reports(
 
     write_release_manifest_sidecar(root=ROOT, generated_at=timestamp)
     write_release_namecert_candidate(root=ROOT, generated_at=timestamp, make_check_passed=True)
+    from scripts.run_toy_safety_boundary import main as write_toy_safety_boundary
+
+    write_toy_safety_boundary([])
     payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(payload))
