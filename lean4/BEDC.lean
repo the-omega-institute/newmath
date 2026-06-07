@@ -1197,6 +1197,7 @@ import BEDC.Derived.CalculusUp.LimitRealSealObligation
 import BEDC.Derived.CalculusUp.RealSealErrorBudget
 import BEDC.Derived.CalculusUp.RegSeqRatDyadicErrorRoute
 import BEDC.Derived.CalculusUp.RiemannDerivativeSeparation
+import BEDC.Derived.CalculusUp.RootContinuityCompositionLedger
 import BEDC.Derived.CalculusUp.RootL10Nonescape
 import BEDC.Derived.CalculusUp.RootLimitDerivativeIntegralRoute
 import BEDC.Derived.CalculusUp.RootLocalLinearizationCauchyHandoff
@@ -3392,6 +3393,7 @@ import BEDC.Derived.DecimalNormalityUp.TasteGate
 import BEDC.Derived.DecimalRealUp.TasteGate
 import BEDC.Derived.DedekindCauchyComparisonUp.TasteGate
 import BEDC.Derived.DedekindCauchySandwichUp.TasteGate
+import BEDC.Derived.DedekindCompletionBoundaryUp
 import BEDC.Derived.DedekindCutCauchyBoundaryUp.TasteGate
 import BEDC.Derived.DedekindCutCompletionUp.TasteGate
 import BEDC.Derived.DedekindCutUp
@@ -6934,6 +6936,7 @@ import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.ParsevalUp.CoefficientIntegralHandoff
+import BEDC.Derived.ParsevalUp.InnerProductEnergyLedger
 import BEDC.Derived.ParsevalUp.InnerProductNameCertObligations
 import BEDC.Derived.ParsevalUp.IntegralEnergyHandoffObligation
 import BEDC.Derived.ParsevalUp.NameCertObligations
@@ -6941,6 +6944,7 @@ import BEDC.Derived.ParsevalUp.RootEnergyCarrierAdmission
 import BEDC.Derived.ParsevalUp.RootEnergyDecomposition
 import BEDC.Derived.ParsevalUp.RootFiniteCoefficientLedger
 import BEDC.Derived.ParsevalUp.RootFourierEnergyBudget
+import BEDC.Derived.ParsevalUp.RootOrthogonalityLedger
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
@@ -7099,11 +7103,13 @@ import BEDC.Derived.PolishspaceUp.RootBasisWindowExactness
 import BEDC.Derived.PolishspaceUp.RootCarrierRowsExposed
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisCarrier
 import BEDC.Derived.PolishspaceUp.RootCauchyBasisObligations
+import BEDC.Derived.PolishspaceUp.RootCompleteSeparableSchedule
 import BEDC.Derived.PolishspaceUp.RootCompleteSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.RootCompletionObligations
 import BEDC.Derived.PolishspaceUp.RootCompletionSeparabilityExhaustion
 import BEDC.Derived.PolishspaceUp.RootCompletionSeparabilityHandoff
 import BEDC.Derived.PolishspaceUp.RootCountableDenseCauchyReadback
+import BEDC.Derived.PolishspaceUp.RootEffectiveNameObligations
 import BEDC.Derived.PolishspaceUp.RootRepresentationHandoff
 import BEDC.Derived.PolishspaceUp.RootUnblockSurface
 import BEDC.Derived.PolishspaceUp.RootUnblockWindowDiscipline
