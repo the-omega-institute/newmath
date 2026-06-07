@@ -2553,12 +2553,15 @@ def _bios_codex_resolve_merge(
     if status.returncode != 0:
         return False, {"reason": "git_status_nonzero", "stderr": (status.stderr or "")[-500:]}
     conflict_files: list[str] = []
+    conflict_codes: dict[str, str] = {}
     for line in (status.stdout or "").splitlines():
         if len(line) < 4:
             continue
         code = line[:2]
         if code in {"UU", "AA", "DD", "AU", "UA", "DU", "UD"}:
-            conflict_files.append(line[3:].strip())
+            path = line[3:].strip()
+            conflict_files.append(path)
+            conflict_codes[path] = code
     if not conflict_files:
         return False, {"reason": "no_conflict_files"}
     sig = hashlib.sha256(("|".join([upstream_sha] + sorted(conflict_files))).encode("utf-8")).hexdigest()[:16]
@@ -2598,17 +2601,30 @@ def _bios_codex_resolve_merge(
             continue
         side = _conflict_side(rel_path)
         if side:
+            # modify/delete conflicts have no version on the deleting side, so
+            # `git checkout --<side>` fails ("does not have their version").
+            # UD = modified by us / deleted by them; DU = deleted by us /
+            # modified by them. When the AUTHORITATIVE side is the deleting one,
+            # honoring it means removing the file, not checking it out.
+            code = conflict_codes.get(rel_path, "")
+            side_deleted = (side == "theirs" and code == "UD") or (side == "ours" and code == "DU")
             try:
-                co = _run_command(repo_root, ["git", "checkout", f"--{side}", "--", rel_path], timeout=30.0)
-                if co.returncode != 0:
-                    failures.append({"path": rel_path, "reason": f"checkout_{side}_failed", "stderr": (co.stderr or "")[-200:]})
-                    continue
-                add = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
-                if add.returncode != 0:
-                    failures.append({"path": rel_path, "reason": "git_add_failed", "stderr": (add.stderr or "")[-200:]})
-                    continue
+                if side_deleted:
+                    rm = _run_command(repo_root, ["git", "rm", "-f", "--", rel_path], timeout=30.0)
+                    if rm.returncode != 0:
+                        failures.append({"path": rel_path, "reason": f"take_{side}_delete_failed", "stderr": (rm.stderr or "")[-200:]})
+                        continue
+                else:
+                    co = _run_command(repo_root, ["git", "checkout", f"--{side}", "--", rel_path], timeout=30.0)
+                    if co.returncode != 0:
+                        failures.append({"path": rel_path, "reason": f"checkout_{side}_failed", "stderr": (co.stderr or "")[-200:]})
+                        continue
+                    add = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
+                    if add.returncode != 0:
+                        failures.append({"path": rel_path, "reason": "git_add_failed", "stderr": (add.stderr or "")[-200:]})
+                        continue
             except (OSError, subprocess.TimeoutExpired) as exc:
-                failures.append({"path": rel_path, "reason": f"checkout_{side}_exception", "error": str(exc)})
+                failures.append({"path": rel_path, "reason": f"resolve_{side}_exception", "error": str(exc)})
                 continue
             resolved_paths.append(rel_path)
             continue
