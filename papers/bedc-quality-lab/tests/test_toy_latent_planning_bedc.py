@@ -37,14 +37,18 @@ def _records() -> list[dict]:
     ]
 
 
-def test_projector_builds_owner_local_claim_capsule_and_g1_boundaries(tmp_path):
-    projection = runner.build_payload(
-        records=_records(),
+def _projection(records: list[dict], tmp_path):
+    return runner.build_payload(
+        records=records,
         root=tmp_path,
         generated_at="fixture-time",
         config={"lambda_grid": [0.0, 1.0]},
         source_summary={"dependency": "fixture"},
     )
+
+
+def test_projector_builds_owner_local_claim_capsule_and_g1_boundaries(tmp_path):
+    projection = _projection(_records(), tmp_path)
     summary = projection["summary_payload"]
     capsule_payload = projection["claim_capsule_payload"]
 
@@ -56,6 +60,46 @@ def test_projector_builds_owner_local_claim_capsule_and_g1_boundaries(tmp_path):
     assert "action-conditioned transition identification" in capsule_payload["not_claimed"]
     assert capsule_payload["failed_gate"] == "positive-owner-claim-not-promoted"
     assert capsule_payload["u_hardgates"]["status"] == "pass"
+
+
+def test_owner_arm_not_above_vanilla_fails_g1_hg1_and_capsule(tmp_path):
+    records = [
+        _record(1, "vanilla_jepa", 0.60, 0.30, 1.20),
+        _record(1, "jepa_posthoc_probe", 0.42, 0.20, 1.10),
+        _record(1, "jepa_posthoc_bedc_report", 0.45, 0.18, 1.00),
+        _record(1, "bedc_jepa_end_to_end", 0.60, 0.10, 0.70),
+    ]
+
+    projection = _projection(records, tmp_path)
+    summary = projection["summary_payload"]
+    capsule_payload = projection["claim_capsule_payload"]
+
+    assert summary["g1_hardgates"]["G1-HG1"]["status"] == "fail"
+    assert summary["failed_gate"] == "G1-HG1"
+    assert capsule_payload["hardgates"]["G1-HG1"]["status"] == "fail"
+    assert capsule_payload["failed_gate"] == "G1-HG1"
+    assert capsule_payload["claim_status"] == "failed"
+
+
+def test_control_arm_beating_owner_fails_g1_hg3_and_capsule(tmp_path):
+    records = [
+        _record(1, "vanilla_jepa", 0.40, 0.30, 1.20),
+        _record(1, "jepa_posthoc_probe", 0.70, 0.20, 1.10),
+        _record(1, "jepa_posthoc_bedc_report", 0.45, 0.18, 1.00),
+        _record(1, "bedc_jepa_end_to_end", 0.60, 0.10, 0.70),
+    ]
+
+    projection = _projection(records, tmp_path)
+    summary = projection["summary_payload"]
+    capsule_payload = projection["claim_capsule_payload"]
+    control_rows = summary["g1_hardgates"]["G1-HG3"]["control_rows"]
+
+    assert summary["g1_hardgates"]["G1-HG3"]["status"] == "fail"
+    assert any(row["control_arm"] == "jepa_posthoc_probe" and row["primary_better"] is False for row in control_rows)
+    assert summary["failed_gate"] == "G1-HG3"
+    assert capsule_payload["hardgates"]["G1-HG3"]["status"] == "fail"
+    assert capsule_payload["failed_gate"] == "G1-HG3"
+    assert capsule_payload["claim_status"] == "failed"
 
 
 def test_action_conditioned_transition_identification_claim_is_blocked(tmp_path):

@@ -75,6 +75,45 @@ def test_contract_enforces_not_claimed_terms(tmp_path):
     assert result["gates"]["U-HG4"]["missing"] == ["full TensorNameCert"]
 
 
+def test_contract_fails_closed_for_missing_cost_pointer(tmp_path):
+    payload = {**_payload(), "cost_protocol": {}}
+
+    result = evaluate_u_hardgates(
+        payload,
+        root=tmp_path,
+        capsule_artifact="reports/runs/fixture/claim_capsule.json",
+        required_not_claimed=("full LeJEPA",),
+        cost_pointer="$.cost_protocol.artifact",
+        control_required=True,
+    )
+
+    assert result["status"] == "fail"
+    assert result["failed_gates"] == ["U-HG3"]
+    assert result["gates"]["U-HG3"]["status"] == "fail"
+    assert result["gates"]["U-HG3"]["cost_pointer"] == "$.cost_protocol.artifact"
+
+
+def test_contract_fails_closed_for_missing_required_control_rows(tmp_path):
+    payload = {**_payload(), "control_rows": []}
+
+    result = evaluate_u_hardgates(
+        payload,
+        root=tmp_path,
+        capsule_artifact="reports/runs/fixture/claim_capsule.json",
+        required_not_claimed=("full LeJEPA",),
+        cost_pointer="$.cost_protocol.artifact",
+        control_required=True,
+    )
+
+    assert result["status"] == "fail"
+    assert result["failed_gates"] == ["U-HG5"]
+    assert result["gates"]["U-HG5"] == {
+        "status": "fail",
+        "control_required": True,
+        "control_row_count": 0,
+    }
+
+
 def test_contract_forbidden_positive_claim_terms_fail(tmp_path):
     payload = {**_payload(), "positive_claim": {"text": "global-quality", "level": "DN"}}
 
@@ -89,6 +128,32 @@ def test_contract_forbidden_positive_claim_terms_fail(tmp_path):
 
     assert result["gates"]["U-HG8"]["status"] == "fail"
     assert result["gates"]["U-HG8"]["positive_claim_audit"]["hits"]
+
+
+def test_contract_forbidden_public_surface_columns_fail_closed(tmp_path):
+    forbidden_payload = {
+        "terminal_verdict": "positive",
+        "positive_claim": {"text": "fixture"},
+        "arm_aggregates": [],
+        "metrics": {},
+    }
+    payload = {**_payload(), "public_surface": forbidden_payload}
+
+    result = evaluate_u_hardgates(
+        payload,
+        root=tmp_path,
+        capsule_artifact="reports/runs/fixture/claim_capsule.json",
+        required_not_claimed=("full LeJEPA",),
+        cost_pointer="$.cost_protocol.artifact",
+        control_required=True,
+    )
+
+    audit = result["gates"]["U-HG8"]["forbidden_column_audit"]
+    assert result["status"] == "fail"
+    assert result["failed_gates"] == ["U-HG8"]
+    assert result["gates"]["U-HG8"]["status"] == "fail"
+    assert audit["status"] == "fail"
+    assert audit["hits"] == ["terminal_verdict", "positive_claim", "arm_aggregates", "metrics"]
 
 
 def test_contract_dn_requires_failed_gate_and_learning(tmp_path):
