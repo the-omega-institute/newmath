@@ -355,17 +355,30 @@ def test_current_lab_projection_and_pointer_resolvability():
 
 
 @pytest.mark.parametrize(
-    "mutation",
+    ("mutation", "failed_gate"),
     (
-        lambda payload: payload.pop("route_patch_protocol"),
-        lambda payload: payload["hardgate"]["gates"].pop("CGA-HG6"),
-        lambda payload: (
-            payload.__setitem__("entropy_only_control", payload["route_patch_protocol"]["entropy_only_control"]),
-            payload["discovery_map_signal"].__setitem__("control_pointer", "$.entropy_only_control"),
+        (lambda payload: payload.pop("route_patch_protocol"), "$.route_patch_protocol"),
+        (lambda payload: payload["hardgate"]["gates"].pop("CGA-HG6"), "$.hardgate.gates.CGA-HG6.status"),
+        (
+            lambda payload: (
+                payload.__setitem__("entropy_only_control", payload["route_patch_protocol"]["entropy_only_control"]),
+                payload["discovery_map_signal"].__setitem__("control_pointer", "$.entropy_only_control"),
+            ),
+            "$.route_patch_protocol",
+        ),
+        (lambda payload: payload.pop("not_claimed"), "$.not_claimed"),
+        (lambda payload: payload.__setitem__("not_claimed", {"claims": []}), "$.not_claimed"),
+        (
+            lambda payload: payload["not_claimed"].remove(REQUIRED_PRODUCTION_NOT_CLAIMED[0]),
+            "$.not_claimed",
+        ),
+        (
+            lambda payload: payload["hardgate"]["gates"]["CGA-HG6"].__setitem__("evidence_pointer", "$.hardgate.gates.CGA-HG6.status"),
+            "$.hardgate.gates.CGA-HG6.evidence_pointer",
         ),
     ),
 )
-def test_current_lab_cga_stale_payloads_fail_closed(mutation):
+def test_current_lab_cga_stale_payloads_fail_closed(mutation, failed_gate):
     spec = canonical._specs_by_name()["certificate-gated-attention"]
     payload = _project()["summary_payload"]
     mutation(payload)
@@ -373,9 +386,13 @@ def test_current_lab_cga_stale_payloads_fail_closed(mutation):
     projected = discovery_map.projection_payload(spec, payload)
     row = discovery_map.discovery_row(spec, payload)
 
-    assert projected["main_verdict"]["certificate_gated_attention"]["level_candidate"] == "DN"
+    assert projected["main_verdict"]["certificate_gated_attention"] == {
+        "level_candidate": "DN",
+        "status": "negative",
+    }
     assert row["discovery_level"] == "DN"
     assert row["audit_status"] == "invalid"
+    assert row["failed_gate"] == failed_gate
 
 
 def test_recursive_no_terminal_verdict_and_pointer_fields_resolve(tmp_path):
