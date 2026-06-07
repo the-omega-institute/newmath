@@ -89,11 +89,16 @@
             "$.head_channel_patch_evidence.null_head",
             "$.head_channel_patch_evidence.permute_head_rows",
             "$.head_channel_patch_evidence.paired_deltas",
-            "$.head_channel_patch_evidence.gate_status"
+            "$.head_channel_patch_evidence.gate_status",
+            "$.head_channel_patch_evidence.causal_patch_claim"
           ],
+          "causal_patch_claim_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.causal_patch_claim",
+          "causal_patch_claim_pointer_resolved": true,
           "gate_evidence": {
             "auroc_drop": true,
-            "uer_not_improved": true
+            "causal_patch_claim": true,
+            "uer_not_improved": true,
+            "validation_failures": []
           },
           "gate_status": "pass",
           "protocol_checks": {
@@ -102,6 +107,7 @@
             "eval_only_patch": true,
             "finite": true,
             "present": true,
+            "required_modes_present": true,
             "seed_paired": true
           }
         },
@@ -534,6 +540,55 @@
     "status": "fail"
   },
   "head_channel_patch_evidence": {
+    "causal_patch_claim": {
+      "failure_reason": null,
+      "h_causal_supported": true,
+      "mode_slots_present": {
+        "null_head": true,
+        "permute_head_rows": true
+      },
+      "pointer_slots": [
+        {
+          "slot": "null_head_arm",
+          "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.null_head"
+        },
+        {
+          "slot": "null_head_auroc_delta_ci_high",
+          "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.null_head.ci_summaries.AUROC_after_minus_before.ci95_high"
+        },
+        {
+          "slot": "null_head_touched_column_audit",
+          "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.null_head.per_seed_before_after_metrics[0].audit.touched_column_audit.status"
+        },
+        {
+          "slot": "permute_head_rows_arm",
+          "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.permute_head_rows"
+        },
+        {
+          "slot": "permute_head_rows_auroc_delta_ci_high",
+          "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.permute_head_rows.ci_summaries.AUROC_after_minus_before.ci95_high"
+        },
+        {
+          "slot": "permute_head_rows_touched_column_audit",
+          "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.permute_head_rows.per_seed_before_after_metrics[0].audit.touched_column_audit.status"
+        },
+        {
+          "slot": "paired_deltas",
+          "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.paired_deltas"
+        },
+        {
+          "slot": "gate_status",
+          "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.head_channel_patch_evidence.gate_status"
+        }
+      ],
+      "required_modes": [
+        "null_head",
+        "permute_head_rows"
+      ],
+      "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+      "status": "pass",
+      "validation_failures": []
+    },
     "ci_summaries": {
       "null_head": {
         "AUROC_after_minus_before": {
@@ -595,7 +650,9 @@
     "gate_criterion": "both head patches have AUROC delta CI-high < -0.02 and UER delta CI-low >= 0.0",
     "gate_evidence": {
       "auroc_drop": true,
-      "uer_not_improved": true
+      "causal_patch_claim": true,
+      "uer_not_improved": true,
+      "validation_failures": []
     },
     "gate_status": "pass",
     "null_head": {
@@ -19089,6 +19146,7 @@
       "eval_only_patch": true,
       "finite": true,
       "present": true,
+      "required_modes_present": true,
       "seed_paired": true
     },
     "status": "pass"
