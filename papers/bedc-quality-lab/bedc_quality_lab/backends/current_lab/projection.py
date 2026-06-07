@@ -27,7 +27,6 @@ from bedc_quality_lab.discovery_compiler.map import (
     validate_discovery_map_payload,
 )
 from bedc_quality_lab.discovery_compiler.negative_reports import (
-    BedcGapMapping,
     DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
     DIMENSION_MISMATCH_REPORT_ID,
 )
@@ -139,10 +138,10 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
     {
         "component_id": "DGT",
         "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$",
-        "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.status",
-        "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.status",
-        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.mechanism_certificate",
-        "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.dgt_hardgate_slots",
+        "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.level_candidate",
+        "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.prototype_status",
+        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.hardgate_instances",
+        "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.revocation_rows",
         "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
@@ -151,7 +150,7 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "canonical_owner_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$",
         "discovery_level_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.level_candidate",
         "claim_verdict_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.status",
-        "mechanism_certificate_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.claim_capsule_ref",
+        "mechanism_certificate_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.mechanism_certificate",
         "debt_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.ledger",
         "not_claimed_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
@@ -944,6 +943,7 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
     robustness = pointer_value(payload, "$.robustness_signal")
     parameter_matched = pointer_value(payload, "$.parameter_matched_baseline")
     compute_matched = pointer_value(payload, "$.compute_matched_baseline")
+    mechanism_certificate = pointer_value(payload, "$.mechanism_certificate")
     if not isinstance(signal, Mapping):
         return False, "missing-lat-discovery-map-signal", "$.discovery_map_signal"
     if not isinstance(hardgates, Mapping) or not hardgates:
@@ -954,6 +954,8 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         return False, "missing-lat-parameter-matched-baseline", "$.parameter_matched_baseline"
     if not isinstance(compute_matched, Mapping):
         return False, "missing-lat-compute-matched-baseline", "$.compute_matched_baseline"
+    if not isinstance(mechanism_certificate, Mapping):
+        return False, "missing-lat-mechanism-certificate", "$.mechanism_certificate"
     failed = next(
         (
             name
@@ -986,6 +988,7 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         "robustness_evidence_pointer",
         "parameter_matched_baseline_pointer",
         "compute_matched_baseline_pointer",
+        "mechanism_certificate_pointer",
     ):
         pointer = signal.get(key)
         if not isinstance(pointer, str):
@@ -1002,6 +1005,20 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         return False, "lat-compute-matched-pointer-mismatch", "$.discovery_map_signal.compute_matched_baseline_pointer"
     if pointer_value(payload, "$.discovery_map_signal.compute_matched_baseline_pointer") is None:
         return False, "lat-compute-matched-pointer-dangling", "$.discovery_map_signal.compute_matched_baseline_pointer"
+    if signal.get("mechanism_certificate_pointer") != "$.mechanism_certificate":
+        return False, "lat-mechanism-certificate-pointer-mismatch", "$.discovery_map_signal.mechanism_certificate_pointer"
+    if pointer_value(payload, "$.discovery_map_signal.mechanism_certificate_pointer") is None:
+        return False, "lat-mechanism-certificate-pointer-dangling", "$.discovery_map_signal.mechanism_certificate_pointer"
+    if failed is None and mechanism_certificate.get("status") != "pass":
+        return False, "lat-mechanism-certificate-failed", "$.mechanism_certificate.status"
+    positive_claim = pointer_value(payload, "$.positive_claim")
+    positive_claim_mechanism_pointer = (
+        positive_claim.get("mechanism_certificate_pointer")
+        if isinstance(positive_claim, Mapping)
+        else None
+    )
+    if not isinstance(positive_claim_mechanism_pointer, str) or pointer_value(payload, positive_claim_mechanism_pointer) != mechanism_certificate:
+        return False, "lat-positive-claim-mechanism-pointer-dangling", "$.positive_claim.mechanism_certificate_pointer"
     if pointer_value(payload, "$.claim_capsule_ref.capsule") is None:
         return False, "lat-claim-capsule-pointer-dangling", "$.claim_capsule_ref.pointer"
     if pointer_value(payload, "$.forbidden_claim_term_audit.status") != "pass":
@@ -1036,6 +1053,7 @@ def _ledger_aware_transformer_projection(
                     "evidence_pointer": signal.get("evidence_pointer"),
                     "torch_training_evidence_pointer": signal.get("torch_training_evidence_pointer"),
                     "robustness_evidence_pointer": signal.get("robustness_evidence_pointer"),
+                    "mechanism_certificate_pointer": signal.get("mechanism_certificate_pointer"),
                 },
             },
             "evidence_basis": {
@@ -2333,10 +2351,9 @@ def build_negative_discovery_owner_rows(
             if key in source_row:
                 row[key] = source_row[key]
         if report_id == DIMENSION_MISMATCH_REPORT_ID:
-            row["bedc_gap_mapping"] = BedcGapMapping.from_witness_pointer(
-                _root(root),
-                DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
-            ).as_owner_cell()
+            from scripts import run_dimension_mismatch_debt_transfer as dimension_transfer
+
+            row["bedc_gap_mapping"] = dimension_transfer.scale_leakage_bedc_gap_mapping(_root(root))
         _fill_negative_report_boundary(row)
         rows.append(row)
     return rows
@@ -2568,6 +2585,142 @@ def _build_coverage_matrix(
     }
 
 
+def _proposal_slug(value: str) -> str:
+    return "".join(ch.lower() if ch.isalnum() else "-" for ch in value).strip("-")
+
+
+def _local_artifact_pointer(row: Mapping[str, Any], pointer: Any) -> str | None:
+    artifact = row.get("json_artifact")
+    if isinstance(artifact, str) and isinstance(pointer, str) and pointer.startswith("$."):
+        return f"{artifact}:{pointer}"
+    return pointer if isinstance(pointer, str) and ":" in pointer else None
+
+
+def _build_d5m_blocked_experiment_proposals(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    proposals: list[dict[str, Any]] = []
+    for index, row in enumerate(rows):
+        if row.get("mechanism_status") != "blocked" and row.get("mechanism_level") != "blocked":
+            continue
+        report = str(row.get("report") or f"row-{index}")
+        failed_gate_pointer = _local_artifact_pointer(row, "$.mechanism_evidence.failed_gate")
+        source_pointer = _local_artifact_pointer(row, row.get("mechanism_pointer")) or _local_artifact_pointer(row, row.get("evidence_pointer"))
+        blocked_reason_pointer = _local_artifact_pointer(row, row.get("mechanism_ledger_pointer"))
+        if source_pointer is None or failed_gate_pointer is None:
+            continue
+        proposal = {
+            "proposal_id": f"exp-d5m-{_proposal_slug(report)}",
+            "source_kind": "d5m_blocked",
+            "source_pointer": source_pointer,
+            "blocked_reason_pointer": blocked_reason_pointer,
+            "failed_gate_pointer": failed_gate_pointer,
+            "expected_failure_modes": [
+                "mechanism evidence remains open",
+                "candidate mechanism fails closed under source audit",
+            ],
+            "controls": [
+                "preserve the matched-control evidence boundary",
+                "keep mechanism proof evidence separate from operational readiness",
+            ],
+            "priority": 1000 + index,
+            "proposal_status": "proposed",
+            "audit_status": "pointer-only",
+        }
+        proposals.append({key: value for key, value in proposal.items() if value is not None})
+    return proposals
+
+
+def _build_negative_discovery_experiment_proposals(
+    rows: Sequence[Mapping[str, Any]],
+    root: Path | None,
+) -> list[dict[str, Any]]:
+    proposals: list[dict[str, Any]] = []
+    for index, row in enumerate(rows):
+        if row.get("discovery_level") != "DN" or not isinstance(row.get("negative_report_pointer"), str):
+            continue
+        report = str(row.get("report") or f"row-{index}")
+        negative_report_pointer = str(row["negative_report_pointer"])
+        hypothesis_pointer = f"{negative_report_pointer}.next_hypothesis"
+        failed_gate_pointer = f"{negative_report_pointer}.failed_gate"
+        if not all(
+            _artifact_pointer_resolves(pointer, root=root)
+            for pointer in (negative_report_pointer, hypothesis_pointer, failed_gate_pointer)
+        ):
+            continue
+        proposal = {
+            "proposal_id": f"exp-dn-{_proposal_slug(report)}",
+            "source_kind": "negative_discovery",
+            "source_pointer": negative_report_pointer,
+            "negative_report_pointer": negative_report_pointer,
+            "hypothesis_pointer": hypothesis_pointer,
+            "failed_gate_pointer": failed_gate_pointer,
+            "expected_failure_modes": [
+                "source negative gate remains reproducible",
+                "candidate hypothesis fails matched-control promotion",
+            ],
+            "controls": [
+                "resolve the negative owner report before interpreting the proposal",
+                "keep learned and control arms under the canonical cost boundary",
+            ],
+            "priority": 2000 + index,
+            "proposal_status": "proposed",
+            "audit_status": "pointer-only",
+        }
+        proposals.append(proposal)
+    return proposals
+
+
+def _build_coverage_gap_experiment_proposals(coverage_matrix: Mapping[str, Any]) -> list[dict[str, Any]]:
+    proposals: list[dict[str, Any]] = []
+    coverage_cells = coverage_matrix.get("cells")
+    if isinstance(coverage_cells, list):
+        for index, cell in enumerate(coverage_cells):
+            if not isinstance(cell, Mapping):
+                continue
+            component_id = str(cell.get("component_id") or f"cell-{index}")
+            coverage_cell_pointer = f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix.cells[{index}]"
+            failed_gate_pointer = coverage_cell_pointer if cell.get("hardgate_status") == "fail" else None
+            proposal = {
+                "proposal_id": f"exp-coverage-{_proposal_slug(component_id)}",
+                "source_kind": "coverage_gap",
+                "source_pointer": coverage_cell_pointer,
+                "coverage_cell_pointer": coverage_cell_pointer,
+                "failed_gate_pointer": failed_gate_pointer,
+                "expected_failure_modes": [
+                    "coverage pointer resolves but does not promote the discovery level",
+                    "coverage support remains boundary-only under complete-set audit",
+                ],
+                "controls": [
+                    "use only the coverage matrix owner pointer as source input",
+                    "preserve the canonical negative witness boundary for DN cells",
+                ],
+                "priority": 3000 + index,
+                "proposal_status": "proposed",
+                "audit_status": "pointer-only",
+            }
+            proposals.append({key: value for key, value in proposal.items() if value is not None})
+    return proposals
+
+
+def _build_experiment_proposals(
+    rows: Sequence[Mapping[str, Any]],
+    coverage_matrix: Mapping[str, Any],
+    root: Path | None,
+) -> list[dict[str, Any]]:
+    proposals = [
+        *_build_d5m_blocked_experiment_proposals(rows),
+        *_build_negative_discovery_experiment_proposals(rows, root),
+        *_build_coverage_gap_experiment_proposals(coverage_matrix),
+    ]
+    return sorted(
+        proposals,
+        key=lambda proposal: (
+            int(proposal["priority"]),
+            str(proposal["source_pointer"]),
+            str(proposal["proposal_id"]),
+        ),
+    )
+
+
 def _manifest_audit(
     *,
     root: Path | None = None,
@@ -2627,11 +2780,13 @@ def build_discovery_map(
         for row in source_rows
         if row.get("discovery_level") != "DN" or str(row.get("report") or "") in negative_indices
     ]
+    coverage_matrix = _build_coverage_matrix(rows=rows, root=root)
     return build_discovery_map_payload(
         rows=rows,
         generated_at=timestamp,
         manifest_audit=_manifest_audit(root=root, canonical_reports=canonical_reports),
-        coverage_matrix=_build_coverage_matrix(rows=rows, root=root),
+        coverage_matrix=coverage_matrix,
+        experiment_proposals=_build_experiment_proposals(rows, coverage_matrix, _root(root)),
         root=_root(root),
         expected_coverage_component_ids=COVERAGE_COMPONENT_IDS,
     )
@@ -2804,6 +2959,28 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
                     f"`{cell.get('canonical_owner_pointer', '')}` | "
                     f"`{cell.get('hardgate_status', '')}` |"
                 )
+    proposals = payload.get("experiment_proposals")
+    if isinstance(proposals, list):
+        lines.extend(
+            [
+                "",
+                "## Experiment proposals",
+                "",
+                "| proposal id | source kind | source pointer | failed gate pointer | status |",
+                "| --- | --- | --- | --- | --- |",
+            ]
+        )
+        for proposal in proposals:
+            if not isinstance(proposal, Mapping):
+                continue
+            lines.append(
+                "| "
+                f"`{proposal.get('proposal_id', '')}` | "
+                f"`{proposal.get('source_kind', '')}` | "
+                f"`{proposal.get('source_pointer', '')}` | "
+                f"`{proposal.get('failed_gate_pointer', '')}` | "
+                f"`{proposal.get('proposal_status', '')}` |"
+            )
     lines.append("")
     return "\n".join(lines)
 

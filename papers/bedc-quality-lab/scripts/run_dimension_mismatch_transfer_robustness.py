@@ -16,6 +16,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from scripts import run_dimension_mismatch_debt_transfer as transfer
 from scripts.run_discovery_map import (
     _non_stub_not_claimed,
@@ -298,32 +299,48 @@ def _claim_boundary(source: Mapping[str, Any]) -> dict[str, str]:
     )
 
 
-def _discovery_map_audit(discovery: Mapping[str, Any]) -> tuple[str, list[str], str]:
+def _discovery_map_audit(discovery: Mapping[str, Any], *, root: Path | None = None) -> tuple[str, list[str], str]:
     row = _discovery_row(discovery)
     if row is None:
         return "defer", ["discovery_map_row_missing"], f"{DISCOVERY_MAP_ARTIFACT}:{DISCOVERY_MAP_POINTER}"
-    reasons = row.get("classifier_reasons")
     audit_reasons: list[str] = []
-    if row.get("base_level") != "D4":
-        audit_reasons.append("dimension-mismatch discovery row base level is not D4")
-    if row.get("anti_triviality_status") != "scale_leakage_detected":
-        audit_reasons.append("dimension-mismatch discovery row does not record scale leakage")
-    if row.get("effective_level") != "DN" or row.get("discovery_level") != "DN":
-        audit_reasons.append("dimension-mismatch discovery row effective level is not DN")
-    if row.get("terminal_verdict") != "negative_discovery":
-        audit_reasons.append("dimension-mismatch discovery row terminal verdict is not negative_discovery")
-    if row.get("failed_gate") != "$.dimension_mismatch_debt_transfer.anti_triviality_status":
-        audit_reasons.append("dimension-mismatch discovery row failed gate changed")
+    report_pointer = row.get("negative_report_pointer")
+    if not isinstance(report_pointer, str) or not report_pointer:
+        return (
+            "fail",
+            ["dimension-mismatch discovery row missing negative_report_pointer"],
+            f"{DISCOVERY_MAP_ARTIFACT}:{DISCOVERY_MAP_POINTER}",
+        )
+    owner = resolve_artifact_pointer(_root(root), report_pointer)
+    if not isinstance(owner, Mapping):
+        return (
+            "fail",
+            ["dimension-mismatch discovery row negative_report_pointer does not resolve"],
+            f"{DISCOVERY_MAP_ARTIFACT}:{DISCOVERY_MAP_POINTER}.negative_report_pointer",
+        )
+    reasons = owner.get("classifier_reasons")
+    if owner.get("base_level") != "D4":
+        audit_reasons.append("dimension-mismatch negative report base level is not D4")
+    if owner.get("anti_triviality_status") != "scale_leakage_detected":
+        audit_reasons.append("dimension-mismatch negative report does not record scale leakage")
+    if owner.get("effective_level") != "DN" or owner.get("discovery_level") != "DN":
+        audit_reasons.append("dimension-mismatch negative report effective level is not DN")
+    if owner.get("terminal_verdict") != "negative_discovery":
+        audit_reasons.append("dimension-mismatch negative report terminal verdict is not negative_discovery")
+    if owner.get("failed_gate") != "$.dimension_mismatch_debt_transfer.anti_triviality_status":
+        audit_reasons.append("dimension-mismatch negative report failed gate changed")
     if "d5_readiness" in row:
         audit_reasons.append("dimension-mismatch discovery row contains d5_readiness")
     if not isinstance(reasons, list) or "verdict=rejected" not in reasons:
-        audit_reasons.append("dimension-mismatch discovery row does not record rejected classifier verdict")
-    if row.get("audit_status") != "valid":
-        audit_reasons.append("dimension-mismatch discovery row audit status is not valid")
+        audit_reasons.append("dimension-mismatch negative report does not record rejected classifier verdict")
+    if owner.get("audit_status") != "pass":
+        audit_reasons.append("dimension-mismatch negative report audit status is not pass")
+    if not isinstance(owner.get("bedc_gap_mapping"), Mapping):
+        audit_reasons.append("dimension-mismatch negative report lacks bedc_gap_mapping")
     return (
         "pass" if not audit_reasons else "fail",
         audit_reasons,
-        f"{DISCOVERY_MAP_ARTIFACT}:{DISCOVERY_MAP_POINTER}",
+        report_pointer,
     )
 
 
@@ -349,7 +366,7 @@ def build_payload(*, root: Path | None = None, generated_at: str | None = None) 
         _h_only_boundary(source),
         _claim_boundary(source),
     ]
-    audit_status, audit_reasons, audit_pointer = _discovery_map_audit(discovery)
+    audit_status, audit_reasons, audit_pointer = _discovery_map_audit(discovery, root=root)
     failed_or_deferred = [
         check["check"]
         for check in checks

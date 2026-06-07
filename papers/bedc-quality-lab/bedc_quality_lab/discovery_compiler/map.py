@@ -60,6 +60,51 @@ COVERAGE_FORBIDDEN_KEYS = frozenset(
         "surface_id",
     }
 )
+EXPERIMENT_PROPOSAL_SOURCE_KINDS = frozenset({"coverage_gap", "negative_discovery", "d5m_blocked"})
+EXPERIMENT_PROPOSAL_REQUIRED_KEYS = frozenset(
+    {
+        "proposal_id",
+        "source_kind",
+        "source_pointer",
+        "expected_failure_modes",
+        "controls",
+        "priority",
+        "proposal_status",
+        "audit_status",
+    }
+)
+EXPERIMENT_PROPOSAL_OPTIONAL_POINTER_KEYS = frozenset(
+    {
+        "coverage_cell_pointer",
+        "negative_report_pointer",
+        "hypothesis_pointer",
+        "blocked_reason_pointer",
+        "failed_gate_pointer",
+    }
+)
+EXPERIMENT_PROPOSAL_ALLOWED_KEYS = (
+    EXPERIMENT_PROPOSAL_REQUIRED_KEYS | EXPERIMENT_PROPOSAL_OPTIONAL_POINTER_KEYS
+)
+EXPERIMENT_PROPOSAL_FORBIDDEN_SOURCE_FACT_KEYS = frozenset(
+    {
+        "next_hypothesis",
+        "what_was_learned",
+        "terminal_verdict",
+        "classifier_reasons",
+        "downgrade_reason",
+        "metrics",
+        "metric",
+        "raw_metrics",
+        "raw_body",
+        "raw_report_body",
+        "blocked_prose",
+        "blocked_reason",
+        "blockage_reason",
+        "owner_fact",
+        "source_payload",
+        "source_payload_fragment",
+    }
+)
 DN_FACT_KEYS = frozenset(
     {
         "report_id",
@@ -77,6 +122,7 @@ DN_FACT_KEYS = frozenset(
         "stop_reason",
         "not_claimed",
         "what_was_learned",
+        "bedc_gap_mapping",
     }
 )
 
@@ -142,12 +188,77 @@ class DiscoveryMapRow:
         return dict(self.cells)
 
 
+@dataclass(frozen=True)
+class DiscoveryExperimentProposalRow:
+    proposal_id: str
+    source_kind: str
+    source_pointer: str
+    expected_failure_modes: tuple[str, ...]
+    controls: tuple[str, ...]
+    priority: int
+    proposal_status: str
+    audit_status: str
+    coverage_cell_pointer: str | None = None
+    negative_report_pointer: str | None = None
+    hypothesis_pointer: str | None = None
+    blocked_reason_pointer: str | None = None
+    failed_gate_pointer: str | None = None
+
+    @classmethod
+    def from_mapping(
+        cls,
+        row: Mapping[str, Any],
+        *,
+        root: Path | None = None,
+    ) -> "DiscoveryExperimentProposalRow":
+        validate_experiment_proposal_row(root, row)
+        return cls(
+            proposal_id=str(row["proposal_id"]),
+            source_kind=str(row["source_kind"]),
+            source_pointer=str(row["source_pointer"]),
+            coverage_cell_pointer=_optional_string(row, "coverage_cell_pointer"),
+            negative_report_pointer=_optional_string(row, "negative_report_pointer"),
+            hypothesis_pointer=_optional_string(row, "hypothesis_pointer"),
+            blocked_reason_pointer=_optional_string(row, "blocked_reason_pointer"),
+            failed_gate_pointer=_optional_string(row, "failed_gate_pointer"),
+            expected_failure_modes=tuple(str(item) for item in row["expected_failure_modes"]),
+            controls=tuple(str(item) for item in row["controls"]),
+            priority=int(row["priority"]),
+            proposal_status=str(row["proposal_status"]),
+            audit_status=str(row["audit_status"]),
+        )
+
+    def as_dict(self) -> dict[str, Any]:
+        row: dict[str, Any] = {
+            "proposal_id": self.proposal_id,
+            "source_kind": self.source_kind,
+            "source_pointer": self.source_pointer,
+            "expected_failure_modes": list(self.expected_failure_modes),
+            "controls": list(self.controls),
+            "priority": self.priority,
+            "proposal_status": self.proposal_status,
+            "audit_status": self.audit_status,
+        }
+        for key in EXPERIMENT_PROPOSAL_OPTIONAL_POINTER_KEYS:
+            value = getattr(self, key)
+            if value is not None:
+                row[key] = value
+        return row
+
+
 def level_counts(rows: Sequence[Mapping[str, Any]]) -> dict[str, int]:
     return {level: sum(1 for row in rows if row.get("discovery_level") == level) for level in DISCOVERY_LEVELS}
 
 
 def validate_rows(rows: Sequence[Mapping[str, Any]]) -> list[DiscoveryMapRow]:
     return [DiscoveryMapRow.from_mapping(row) for row in rows]
+
+
+def _optional_string(row: Mapping[str, Any], key: str) -> str | None:
+    value = row.get(key)
+    if value is None:
+        return None
+    return str(value)
 
 
 def _recursive_forbidden_keys(payload: Any, forbidden: frozenset[str], *, path: tuple[str, ...] = ()) -> list[str]:
@@ -180,6 +291,68 @@ def _pointer_resolves(pointer: Any, *, root: Path | None) -> bool:
     if pointer.startswith("reports/canonical/discovery_map.json:"):
         return True
     return root is None or is_resolvable_artifact_pointer(root, pointer)
+
+
+def _validate_non_empty_string_list(value: Any, *, field: str) -> list[str]:
+    if not isinstance(value, list) or not value:
+        raise ValueError(f"experiment_proposals {field} must be a non-empty list")
+    result: list[str] = []
+    for item in value:
+        if not isinstance(item, str) or not item.strip():
+            raise ValueError(f"experiment_proposals {field} must contain non-empty strings")
+        result.append(item)
+    return result
+
+
+def validate_experiment_proposal_row(root: Path | None, row: Mapping[str, Any]) -> dict[str, Any]:
+    copied = _recursive_forbidden_keys(row, EXPERIMENT_PROPOSAL_FORBIDDEN_SOURCE_FACT_KEYS)
+    if copied:
+        raise ValueError(f"experiment_proposals copies source owner facts: {', '.join(copied)}")
+    missing = sorted(EXPERIMENT_PROPOSAL_REQUIRED_KEYS - set(row))
+    extra = sorted(set(row) - EXPERIMENT_PROPOSAL_ALLOWED_KEYS)
+    detail = []
+    if missing:
+        detail.append(f"missing {', '.join(missing)}")
+    if extra:
+        detail.append(f"extra {', '.join(extra)}")
+    if detail:
+        raise ValueError(f"experiment_proposals row schema mismatch: {'; '.join(detail)}")
+    source_kind = row.get("source_kind")
+    if source_kind not in EXPERIMENT_PROPOSAL_SOURCE_KINDS:
+        raise ValueError(f"unsupported experiment proposal source_kind: {source_kind}")
+    for key in ("proposal_id", "source_pointer", "proposal_status", "audit_status"):
+        if not isinstance(row.get(key), str) or not str(row[key]).strip():
+            raise ValueError(f"experiment_proposals {key} must be a non-empty string")
+    source_pointer = row["source_pointer"]
+    if not _pointer_resolves(source_pointer, root=root):
+        raise ValueError(f"experiment_proposals unresolved pointer: source_pointer={source_pointer}")
+    for key in EXPERIMENT_PROPOSAL_OPTIONAL_POINTER_KEYS:
+        pointer = row.get(key)
+        if pointer is None:
+            continue
+        if not _pointer_resolves(pointer, root=root):
+            raise ValueError(f"experiment_proposals unresolved pointer: {key}={pointer}")
+    _validate_non_empty_string_list(row.get("expected_failure_modes"), field="expected_failure_modes")
+    _validate_non_empty_string_list(row.get("controls"), field="controls")
+    priority = row.get("priority")
+    if isinstance(priority, bool) or not isinstance(priority, int):
+        raise ValueError("experiment_proposals priority must be an integer")
+    if source_kind == "negative_discovery":
+        if "negative_report_pointer" not in row or "hypothesis_pointer" not in row:
+            raise ValueError("negative_discovery experiment proposal requires negative_report_pointer and hypothesis_pointer")
+    if source_kind == "d5m_blocked" and "failed_gate_pointer" not in row:
+        raise ValueError("d5m_blocked experiment proposal requires failed_gate_pointer")
+    if source_kind == "coverage_gap" and "coverage_cell_pointer" not in row:
+        raise ValueError("coverage_gap experiment proposal requires coverage_cell_pointer")
+    return dict(row)
+
+
+def validate_experiment_proposals(root: Path | None, proposals: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    rows = [DiscoveryExperimentProposalRow.from_mapping(row, root=root).as_dict() for row in proposals]
+    proposal_ids = [row["proposal_id"] for row in rows]
+    if len(proposal_ids) != len(set(proposal_ids)):
+        raise ValueError("experiment_proposals proposal_id values must be unique")
+    return rows
 
 
 def _validate_coverage_cell(
@@ -329,6 +502,11 @@ def validate_discovery_map_payload(payload: Mapping[str, Any], *, root: Path | N
         if not isinstance(coverage_matrix, Mapping):
             raise ValueError("discovery map coverage_matrix must be an object")
         validate_coverage_matrix(coverage_matrix, rows=validated, root=root)
+    proposals = payload.get("experiment_proposals")
+    if proposals is not None:
+        if not isinstance(proposals, list):
+            raise ValueError("discovery map experiment_proposals must be a list")
+        validate_experiment_proposals(root, proposals)
     return dict(payload)
 
 
@@ -338,6 +516,7 @@ def build_discovery_map_payload(
     generated_at: str,
     manifest_audit: Mapping[str, Any] | None = None,
     coverage_matrix: Mapping[str, Any] | None = None,
+    experiment_proposals: Sequence[Mapping[str, Any]] | None = None,
     root: Path | None = None,
     expected_coverage_component_ids: frozenset[str] | None = None,
 ) -> dict[str, Any]:
@@ -360,4 +539,6 @@ def build_discovery_map_payload(
             root=root,
             expected_component_ids=expected_coverage_component_ids,
         )
+    if experiment_proposals is not None:
+        payload["experiment_proposals"] = validate_experiment_proposals(root, experiment_proposals)
     return payload

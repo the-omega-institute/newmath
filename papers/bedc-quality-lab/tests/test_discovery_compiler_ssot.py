@@ -13,6 +13,7 @@ from bedc_quality_lab.discovery_compiler.negative_reports import (
     REQUIRED_NEGATIVE_REPORT_IDS,
     validate_negative_report_row,
 )
+from bedc_quality_lab.discovery_compiler.map import build_discovery_map_payload
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -122,6 +123,7 @@ def test_discovery_map_does_not_copy_negative_report_body_cells():
         "hypothesis",
         "not_claimed",
         "what_was_learned",
+        "bedc_gap_mapping",
     }
 
     owners = {row["negative_id"]: row for row in reports["rows"]}
@@ -161,7 +163,7 @@ def test_negative_discovery_reports_are_canonical_owner_for_required_dn_ids():
     assert dimension["effective_level"] == "DN"
     assert dimension["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
     assert set(dimension["bedc_gap_mapping"]) == {
-        "source_witness_pointer",
+        "witness_pointer",
         "bedc_gap_field",
         "demotion_rule",
         "regression_test",
@@ -180,7 +182,7 @@ def test_dimension_mismatch_bedc_gap_mapping_owner_cell_matches_source_witness()
         DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
     ).as_owner_cell()
     assert cell == {
-        "source_witness_pointer": DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
+        "witness_pointer": DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
         "bedc_gap_field": witness["bedc_gap_field"],
         "demotion_rule": witness["demotion_rule"],
         "regression_test": witness["regression_test"],
@@ -209,7 +211,7 @@ def test_dimension_mismatch_bedc_gap_mapping_validator_fails_closed():
     dangling = dict(owner)
     dangling["bedc_gap_mapping"] = {
         **owner["bedc_gap_mapping"],
-        "source_witness_pointer": (
+        "witness_pointer": (
             "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json:"
             "$.run_local.negative_witness[99]"
         ),
@@ -221,6 +223,53 @@ def test_dimension_mismatch_bedc_gap_mapping_validator_fails_closed():
     drifted["bedc_gap_mapping"] = {**owner["bedc_gap_mapping"], "bedc_gap_field": "other"}
     with pytest.raises(ValueError, match="does not match source witness"):
         validate_negative_report_row(ROOT, drifted)
+
+    wrong_rule = dict(owner)
+    wrong_rule["bedc_gap_mapping"] = {**owner["bedc_gap_mapping"], "demotion_rule": "other"}
+    with pytest.raises(ValueError, match="does not match source witness"):
+        validate_negative_report_row(ROOT, wrong_rule)
+
+    wrong_regression = dict(owner)
+    wrong_regression["bedc_gap_mapping"] = {
+        **owner["bedc_gap_mapping"],
+        "regression_test": "$.run_local.test_artifact.regression_tests.missing",
+    }
+    with pytest.raises(ValueError, match="does not match source witness"):
+        validate_negative_report_row(ROOT, wrong_regression)
+
+    wrong_status = dict(owner)
+    wrong_status["failed_gate"] = "$.dimension_mismatch_debt_transfer.status"
+    with pytest.raises(ValueError, match="anti-triviality failed_gate"):
+        validate_negative_report_row(ROOT, wrong_status)
+
+
+def test_dimension_mismatch_bedc_gap_mapping_validator_rejects_wrong_source_status(tmp_path):
+    owner = dict(_dimension_mismatch_owner())
+    claim_capsule = _load_json(DIMENSION_MISMATCH_GAP_WITNESS_POINTER.split(":", 1)[0])
+    for artifact, payload in (
+        (
+            "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+            claim_capsule,
+        ),
+        (
+            "reports/dimension_mismatch_anti_triviality.json",
+            {"status": "scale_leakage_detected"},
+        ),
+        (
+            "reports/canonical/dimension-mismatch-debt-transfer.json",
+            {
+                "dimension_mismatch_debt_transfer": {
+                    "anti_triviality_status": "anti_triviality_passed",
+                }
+            },
+        ),
+    ):
+        path = tmp_path / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="source status is not scale_leakage_detected"):
+        validate_negative_report_row(tmp_path, owner)
 
 
 def test_dn_verdict_rows_are_pointer_only_and_resolve_to_canonical_owner():
@@ -305,6 +354,47 @@ def test_discovery_compiler_core_has_no_backend_terms_or_backend_imports():
         assert "run_canonical_reports" not in text
         for term in forbidden_terms:
             assert term not in text
+
+
+def test_experiment_proposals_do_not_copy_source_owner_facts(tmp_path):
+    canonical = tmp_path / "reports" / "canonical"
+    canonical.mkdir(parents=True)
+    (canonical / "negative_discovery_reports.json").write_text(
+        json.dumps({"rows": [{"next_hypothesis": "fixture", "failed_gate": "$.failed"}]}) + "\n",
+        encoding="utf-8",
+    )
+    base = {
+        "proposal_id": "exp-fixture",
+        "source_kind": "negative_discovery",
+        "source_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
+        "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
+        "hypothesis_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0].next_hypothesis",
+        "failed_gate_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0].failed_gate",
+        "expected_failure_modes": ["fixture failure mode"],
+        "controls": ["fixture control"],
+        "priority": 1,
+        "proposal_status": "proposed",
+        "audit_status": "pointer-only",
+    }
+
+    forbidden = {
+        "next_hypothesis": "fixture",
+        "what_was_learned": "fixture",
+        "terminal_verdict": "negative_discovery",
+        "classifier_reasons": ["fixture"],
+        "downgrade_reason": "fixture",
+        "metrics": {"score": 1},
+        "raw_metrics": [{"score": 1}],
+        "blocked_prose": "fixture",
+    }
+    for key, value in forbidden.items():
+        with pytest.raises(ValueError, match="copies source owner facts"):
+            build_discovery_map_payload(
+                rows=[],
+                generated_at="fixture-time",
+                experiment_proposals=[{**base, key: value}],
+                root=tmp_path,
+            )
 
 
 def test_architecture_mutation_draft_is_run_local_only_and_owned_by_compiler_module():

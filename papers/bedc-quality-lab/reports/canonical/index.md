@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-07T00:00:00+00:00`
+- Generated at: `2026-06-07T18:09:29.490922+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -52,7 +52,25 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
+- Experiment proposals: `reports/canonical/discovery_map.json:$.experiment_proposals`
 - Rows: `23`
+
+## Observed debt axis projection
+
+- Status: `pointer-only`
+- Rows: `8`
+- Classifications: `observed-debt, ledger-risk-only`
+
+| axis | classification | source | evidence | hardgate |
+| --- | --- | --- | --- | --- |
+| `latent_distribution` | `ledger-risk-only` | `reports/canonical/nongaussian-distribution-sweep.json` | `$.main_claim_status` | `$.claim_gate` |
+| `anisotropy` | `ledger-risk-only` | `reports/canonical/anisotropic-ou-sweep.json` | `$.transition_debt_by_grid.rho_axes_0p95_0p3` | `None` |
+| `dimension_mismatch` | `observed-debt` | `reports/canonical/dimension-mismatch-debt-transfer.json` | `$.dimension_mismatch_debt_transfer.status` | `$.hardgate_evidence` |
+| `sample_count` | `observed-debt` | `reports/canonical/gap-head-observed-debt-transfer.json` | `$.gap_head_on_h_observed_debt_transfer.status` | `$.hardgate_evidence` |
+| `optimizer` | `ledger-risk-only` | `runs/training_choice_observability.json` | `$.training_choice_observability.ledger_risk_only_arm_count` | `$.training_choice_observability.arms[0].hardgates` |
+| `mixing` | `ledger-risk-only` | `reports/canonical/mixing-family-sweep.json` | `$.coverage_item` | `None` |
+| `compute` | `ledger-risk-only` | `runs/training_choice_observability.json` | `$.source_artifacts.gap_head_metric_helper` | `None` |
+| `capacity` | `ledger-risk-only` | `reports/canonical/discovery_gate_escape_registry.json` | `$.capacity` | `None` |
 
 ## Dimension mismatch debt transfer
 
@@ -64,10 +82,10 @@
 
 ## Dimension mismatch transfer robustness
 
-- Status: `fail`
+- Status: `pass`
 - JSON: `reports/canonical/dimension-mismatch-transfer-robustness.json`
 - Markdown: `reports/canonical/dimension-mismatch-transfer-robustness.md`
-- Audit status: `fail`
+- Audit status: `pass`
 
 ## Quality baseline pointers
 
@@ -110,11 +128,11 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/new_model_hardgates.json`
 - Markdown: `reports/canonical/new_model_hardgates.md`
-- Schema: `bedc-quality-lab:new-model-hardgate-registry`
-- Status pointer: `reports/canonical/new_model_hardgates.json:$.status`
+- Schema: `bedc-quality-lab:new-model-hardgates`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+- Gate ids pointer: `reports/canonical/new_model_hardgates.json:$.gate_ids`
 - Gates pointer: `reports/canonical/new_model_hardgates.json:$.gates`
 - Gate count: `20`
-- Candidate contract: `reports/canonical/new_model_hardgates.json:$.candidate_contract`
 
 ## Discovery-Regularized Training Quality Boundary
 
@@ -127,16 +145,18 @@
 
 ## Discovery-Gated Transformer
 
-- Status: `present-but-fail-closed`
+- Status: `prototype-candidate`
 - JSON: `reports/canonical/discovery_gated_transformer.json`
 - Markdown: `reports/canonical/discovery_gated_transformer.md`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Model id: `reports/canonical/discovery_gated_transformer.json:$.model_id`
-- Components: `reports/canonical/discovery_gated_transformer.json:$.component_descriptors`
-- Hardgate slots: `reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots`
-- Overall state: `reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.overall_state`
+- Hardgate contract: `reports/canonical/discovery_gated_transformer.json:$.hardgate_contract_ref`
+- Task grid: `reports/canonical/discovery_gated_transformer.json:$.sequence_task_grid`
+- Training evidence: `reports/canonical/discovery_gated_transformer.json:$.training_evidence`
+- Hardgate instances: `reports/canonical/discovery_gated_transformer.json:$.hardgate_instances`
+- Prototype status: `reports/canonical/discovery_gated_transformer.json:$.prototype_status`
 - Not claimed: `reports/canonical/discovery_gated_transformer.json:$.not_claimed`
-- Downstream scope: `reports/canonical/discovery_gated_transformer.json:$.downstream_scope`
+- Discovery map signal: `reports/canonical/discovery_gated_transformer.json:$.discovery_map_signal`
 
 ## Model Design Suite
 

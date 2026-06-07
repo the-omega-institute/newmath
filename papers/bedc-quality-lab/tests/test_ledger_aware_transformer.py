@@ -27,6 +27,8 @@ REQUIRED_SUMMARY_KEYS = {
     "matched_random_control",
     "parameter_matched_baseline",
     "compute_matched_baseline",
+    "component_ablation",
+    "mechanism_certificate",
     "torch_training_evidence",
     "robustness_signal",
     "revocation_rows",
@@ -118,8 +120,39 @@ def test_lat_projection_has_hardgate_signal_and_required_keys():
         "surface_registry_pointer": "$.surface_registry",
         "aggregate_pointer": "$.aggregate_metrics.multi_surface_uer_reduction_count",
     }
-    assert payload["hardgate"]["gates"]["LAT-HG7"]["pointer"] == "$.parameter_matched_baseline.comparison"
+    assert payload["hardgate"]["gates"]["LAT-HG7"]["pointer"] == "$.mechanism_certificate"
     assert payload["hardgate"]["gates"]["LAT-HG8"]["pointer"] == "$.compute_matched_baseline"
+
+
+def test_lat_mechanism_certificate_component_rows_and_claim_eligibility():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    component_ablation = payload["component_ablation"]
+    certificate = payload["mechanism_certificate"]
+
+    assert component_ablation["status"] == "pass"
+    assert tuple(row["component_id"] for row in component_ablation["rows"]) == lat.LAT_COMPONENT_IDS
+    assert component_ablation["accepted_component_ids"] == ["ledger_head", "gap_head"]
+    assert component_ablation["rejected_component_ids"] == ["route_head"]
+    assert certificate["status"] == "pass"
+    assert certificate["accepted_component_ids"] == component_ablation["accepted_component_ids"]
+    assert certificate["claim_component_ids"] == ["ledger_head", "gap_head"]
+    assert "route_head" not in certificate["claim_component_ids"]
+    assert payload["positive_claim"]["mechanism_certificate_pointer"] == "$.mechanism_certificate"
+    assert payload["discovery_map_signal"]["mechanism_certificate_pointer"] == "$.mechanism_certificate"
+    assert pointer_value(payload, payload["positive_claim"]["mechanism_certificate_pointer"]) == certificate
+    assert pointer_value(payload, payload["discovery_map_signal"]["mechanism_certificate_pointer"]) == certificate
+    assert pointer_value(payload, certificate["component_ablation_pointer"]) == component_ablation
+    for pointer in certificate["claim_component_pointers"]:
+        row = pointer_value(payload, pointer)
+        assert row["status"] == "accepted"
+        assert row["claim_eligible"] is True
+    for pointer in certificate["accepted_component_pointers"]:
+        assert pointer_value(payload, pointer)["component_id"] in certificate["accepted_component_ids"]
+    for row in component_ablation["rows"]:
+        assert pointer_value(payload, row["full_arm_pointer"]) is not None
+        assert pointer_value(payload, row["ablation_arm_pointer"]) is not None
+        for pointer in row["source_surface_pointers"]:
+            assert pointer_value(payload, pointer) > 0.0
 
 
 def test_lat_compute_matched_baseline_defaults_pass_and_drives_hg8():
@@ -205,6 +238,7 @@ def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
         payload["discovery_map_signal"]["robustness_evidence_pointer"],
         payload["discovery_map_signal"]["parameter_matched_baseline_pointer"],
         payload["discovery_map_signal"]["compute_matched_baseline_pointer"],
+        payload["discovery_map_signal"]["mechanism_certificate_pointer"],
         payload["robustness_signal"]["surface_registry_pointer"],
         payload["robustness_signal"]["aggregate_pointer"],
     ):
@@ -245,6 +279,26 @@ def test_lat_compute_matched_flops_failure_demotes_to_dn():
     assert mutated["hardgate"]["status"] == "fail"
     assert mutated["hardgate"]["gates"]["LAT-HG8"]["status"] == "fail"
     assert mutated["failed_gate"] == "LAT-HG8"
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
+    assert pointer_value(mutated, mutated["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
+
+
+def test_lat_mechanism_certificate_failure_demotes_to_dn():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutated["component_ablation"]["by_component"]["gap_head"]["status"] = "rejected"
+    mutated["component_ablation"]["by_component"]["gap_head"]["claim_eligible"] = False
+    mutated["mechanism_certificate"]["accepted_component_ids"] = ["ledger_head"]
+    mutated["mechanism_certificate"]["claim_component_ids"] = ["ledger_head"]
+    mutated["mechanism_certificate"]["claim_component_pointers"] = ["$.component_ablation.by_component.ledger_head"]
+    mutated["mechanism_certificate"]["accepted_component_pointers"] = ["$.component_ablation.by_component.ledger_head"]
+    mutated["mechanism_certificate"]["status"] = "fail"
+
+    _recompute(mutated)
+
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["hardgate"]["gates"]["LAT-HG7"]["status"] == "fail"
+    assert mutated["failed_gate"] == "LAT-HG7"
     assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
     assert pointer_value(mutated, mutated["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
 

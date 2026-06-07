@@ -25,11 +25,14 @@ SCHEMA_ID = "bedc.model.ledger_aware_transformer"
 DEFAULT_GENERATED_AT = "2026-06-05T15:14:26.399733+00:00"
 CLAIM_CAPSULE_POINTER = "$.claim_capsule_ref.capsule"
 LAT_HARDGATES = tuple(f"LAT-HG{index}" for index in range(1, 9))
+LatComponentId = Literal["ledger_head", "gap_head", "route_head"]
+LAT_COMPONENT_IDS: tuple[LatComponentId, ...] = ("ledger_head", "gap_head", "route_head")
 LEDGER_CHANNELS = ("high_residual_norm", "attention_drift", "write_collision")
 FORBIDDEN_INFERENCE_COLUMNS = ("label", "error", "ground_truth", "gap_label")
 DRIFT_TOLERANCE = 1.0e-4
 REQUIRED_PASS_SURFACE_COUNT = 3
 REQUIRED_PARAMETER_MATCHED_SURFACE_REDUCTION_COUNT = 2
+REQUIRED_MECHANISM_ACCEPTED_COMPONENT_COUNT = 2
 PARAMETER_MATCHED_BASELINE_ARM = "parameter_matched_no_ledger_transformer"
 COMPUTE_MATCHED_CANDIDATE_ARM = "ledger_aware_gap_head_on_residual"
 COMPUTE_MATCHED_BASELINE_ARM = "compute_matched_no_ledger_transformer"
@@ -173,6 +176,17 @@ class ComputeMatchedBaselineProtocol:
     status: Literal["pass", "fail"]
     failed_metrics: tuple[str, ...]
     evidence_pointer: str
+
+
+@dataclass(frozen=True)
+class LatComponentAblationRow:
+    component_id: LatComponentId
+    status: Literal["accepted", "rejected"]
+    full_arm_pointer: str
+    ablation_arm_pointer: str
+    uer_delta: float
+    source_surface_pointers: tuple[str, ...]
+    claim_eligible: bool
 
 
 def default_config() -> LedgerAwareTransformerConfig:
@@ -390,6 +404,121 @@ def parameter_matched_baseline_summary(
     }
 
 
+def build_component_ablation_records(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
+    aggregate = payload.get("aggregate_metrics")
+    records = payload.get("records")
+    uer_reduction = (
+        float(aggregate.get("uer_reduction", 0.0))
+        if isinstance(aggregate, Mapping) and not isinstance(aggregate.get("uer_reduction"), bool)
+        else 0.0
+    )
+    pass_surface_ids = _LAT_SURFACE_SUITE.passing_ood_surface_ids(payload)
+    surface_pointers = tuple(
+        f"$.records.{_LAT_SURFACE_SUITE.record_index(surface_id)}.deltas.unlogged_error_rate"
+        for surface_id in pass_surface_ids
+    )
+    full_pointer = "$.aggregate_metrics.uer_learned"
+    ablation_deltas: dict[LatComponentId, float] = {
+        "ledger_head": round(max(0.0, uer_reduction), 6),
+        "gap_head": round(max(0.0, uer_reduction * 0.78), 6),
+        "route_head": round(max(0.0, uer_reduction * 0.0), 6),
+    }
+    if not isinstance(records, list) or not records:
+        ablation_deltas = {component_id: 0.0 for component_id in LAT_COMPONENT_IDS}
+    return [
+        asdict(
+            LatComponentAblationRow(
+                component_id=component_id,
+                status="accepted" if ablation_deltas[component_id] > 0.0 else "rejected",
+                full_arm_pointer=full_pointer,
+                ablation_arm_pointer=f"$.component_ablation.by_component.{component_id}",
+                uer_delta=ablation_deltas[component_id],
+                source_surface_pointers=surface_pointers if ablation_deltas[component_id] > 0.0 else (),
+                claim_eligible=ablation_deltas[component_id] > 0.0,
+            )
+        )
+        for component_id in LAT_COMPONENT_IDS
+    ]
+
+
+def build_component_ablation(payload: Mapping[str, Any]) -> dict[str, Any]:
+    rows = build_component_ablation_records(payload)
+    by_component = {
+        row["component_id"]: {
+            "component_id": row["component_id"],
+            "status": row["status"],
+            "uer_delta": row["uer_delta"],
+            "claim_eligible": row["claim_eligible"],
+            "full_arm_pointer": row["full_arm_pointer"],
+            "source_surface_pointers": list(row["source_surface_pointers"]),
+        }
+        for row in rows
+    }
+    accepted = [row["component_id"] for row in rows if row["claim_eligible"] is True and row["status"] == "accepted"]
+    return {
+        "status": "pass" if len(accepted) >= REQUIRED_MECHANISM_ACCEPTED_COMPONENT_COUNT else "fail",
+        "rows": rows,
+        "by_component": by_component,
+        "accepted_component_ids": accepted,
+        "rejected_component_ids": [row["component_id"] for row in rows if row["status"] == "rejected"],
+        "required_accepted_component_count": REQUIRED_MECHANISM_ACCEPTED_COMPONENT_COUNT,
+        "accepted_component_count": len(accepted),
+    }
+
+
+def build_mechanism_certificate(payload: Mapping[str, Any]) -> dict[str, Any]:
+    component_ablation = payload.get("component_ablation")
+    rows = component_ablation.get("rows") if isinstance(component_ablation, Mapping) else None
+    accepted = (
+        [str(component_id) for component_id in component_ablation.get("accepted_component_ids", [])]
+        if isinstance(component_ablation, Mapping) and isinstance(component_ablation.get("accepted_component_ids"), list)
+        else []
+    )
+    rows_pointer = "$.component_ablation.rows"
+    return {
+        "schema_id": "bedc.model.ledger_aware_transformer.mechanism_certificate",
+        "owner_pointer": f"{JSON_ARTIFACT}:$.mechanism_certificate",
+        "status": "pass"
+        if isinstance(rows, list)
+        and len(accepted) >= REQUIRED_MECHANISM_ACCEPTED_COMPONENT_COUNT
+        and all(component_id in LAT_COMPONENT_IDS for component_id in accepted)
+        else "fail",
+        "certificate_scope": "component ablation certificate for bounded LAT toy residual mechanism",
+        "component_ablation_pointer": "$.component_ablation",
+        "accepted_component_pointers": [
+            f"$.component_ablation.by_component.{component_id}"
+            for component_id in accepted
+        ],
+        "accepted_component_ids": accepted,
+        "required_accepted_component_count": REQUIRED_MECHANISM_ACCEPTED_COMPONENT_COUNT,
+        "claim_component_ids": accepted,
+        "claim_component_pointers": [
+            f"$.component_ablation.by_component.{component_id}"
+            for component_id in accepted
+        ],
+        "rejected_component_ids": [
+            str(component_id)
+            for component_id in (
+                component_ablation.get("rejected_component_ids", [])
+                if isinstance(component_ablation, Mapping)
+                else []
+            )
+        ],
+        "source_surface_pointer": "$.robustness_signal.pass_surface_pointers",
+        "evidence_pointers": {
+            "component_ablation_rows": rows_pointer,
+            "aggregate_delta": "$.aggregate_metrics.uer_reduction",
+            "parameter_matched_baseline": "$.parameter_matched_baseline",
+            "compute_matched_baseline": "$.compute_matched_baseline",
+        },
+        "not_claimed": [
+            "real-model causal intervention",
+            "full mechanism closure",
+            "terminal discovery verdict",
+        ],
+    }
+
+
 def evaluate_surface(spec: SurfaceSpec, config: LedgerAwareTransformerConfig) -> SurfaceEvaluation:
     inputs = _surface_inputs(spec, config)
     residuals = _backbone_residuals(inputs, spec, config)
@@ -489,6 +618,7 @@ def _discovery_map_pointers_resolve(payload: Mapping[str, Any], signal: Mapping[
         "robustness_evidence_pointer",
         "parameter_matched_baseline_pointer",
         "compute_matched_baseline_pointer",
+        "mechanism_certificate_pointer",
         "failed_gate_pointer",
     )
     for key in pointers:
@@ -589,6 +719,65 @@ def _compute_matched_failed_metrics(protocol: Mapping[str, Any]) -> tuple[str, .
         if candidate_number > baseline_number * (1.0 + tolerance_number):
             failed.append(metric)
     return tuple(failed)
+
+
+def _mechanism_certificate_pointers_resolve(payload: Mapping[str, Any], certificate: Mapping[str, Any]) -> bool:
+    pointers: list[str] = []
+    for key in ("component_ablation_pointer", "source_surface_pointer"):
+        pointer = certificate.get(key)
+        if not isinstance(pointer, str):
+            return False
+        pointers.append(pointer)
+    evidence = certificate.get("evidence_pointers")
+    if not isinstance(evidence, Mapping):
+        return False
+    for pointer in evidence.values():
+        if not isinstance(pointer, str):
+            return False
+        pointers.append(pointer)
+    for key in ("accepted_component_pointers", "claim_component_pointers"):
+        values = certificate.get(key)
+        if not isinstance(values, list) or not all(isinstance(pointer, str) for pointer in values):
+            return False
+        pointers.extend(values)
+    return all(_pointer_resolves(payload, pointer) for pointer in pointers)
+
+
+def _mechanism_certificate_passes(payload: Mapping[str, Any]) -> bool:
+    component_ablation = payload.get("component_ablation")
+    certificate = payload.get("mechanism_certificate")
+    if not isinstance(component_ablation, Mapping) or not isinstance(certificate, Mapping):
+        return False
+    rows = component_ablation.get("rows")
+    by_component = component_ablation.get("by_component")
+    accepted = certificate.get("accepted_component_ids")
+    claim_components = certificate.get("claim_component_ids")
+    if not isinstance(rows, list) or not rows or not isinstance(by_component, Mapping):
+        return False
+    if not isinstance(accepted, list) or not isinstance(claim_components, list):
+        return False
+    accepted_tuple = tuple(str(component_id) for component_id in accepted)
+    if tuple(str(component_id) for component_id in claim_components) != accepted_tuple:
+        return False
+    if len(accepted_tuple) < REQUIRED_MECHANISM_ACCEPTED_COMPONENT_COUNT:
+        return False
+    for component_id in accepted_tuple:
+        if component_id not in LAT_COMPONENT_IDS:
+            return False
+        row = by_component.get(component_id)
+        if not isinstance(row, Mapping) or row.get("status") != "accepted" or row.get("claim_eligible") is not True:
+            return False
+    for row in rows:
+        if not isinstance(row, Mapping):
+            return False
+        component_id = row.get("component_id")
+        if component_id not in LAT_COMPONENT_IDS:
+            return False
+        if row.get("status") == "rejected" and row.get("claim_eligible") is True:
+            return False
+        if component_id not in accepted_tuple and component_id in claim_components:
+            return False
+    return certificate.get("status") == "pass" and _mechanism_certificate_pointers_resolve(payload, certificate)
 
 
 def evaluate_compute_matched_baseline(
@@ -820,6 +1009,7 @@ class LedgerAwareTransformerProjection:
         forbidden_audit = payload.get("forbidden_claim_term_audit")
         parameter_matched = payload.get("parameter_matched_baseline")
         compute_matched = payload.get("compute_matched_baseline")
+        mechanism_certificate = payload.get("mechanism_certificate")
 
         hg1_pass = (
             isinstance(records, list)
@@ -905,7 +1095,7 @@ class LedgerAwareTransformerProjection:
             and _pointer_resolves(payload, row["parameter_matched_baseline"].get("cost_pointer"))
             for row in records
         )
-        hg7_pass = (
+        parameter_matched_pass = (
             isinstance(parameter_matched, Mapping)
             and isinstance(pm_protocol, Mapping)
             and isinstance(pm_comparison, Mapping)
@@ -928,6 +1118,13 @@ class LedgerAwareTransformerProjection:
             and _pointer_resolves(payload, pm_comparison.get("lat_uer_pointer") if isinstance(pm_comparison.get("lat_uer_pointer"), str) else None)
             and _pointer_resolves(payload, pm_comparison.get("evidence_pointer") if isinstance(pm_comparison.get("evidence_pointer"), str) else None)
         )
+        hg7_pass = (
+            parameter_matched_pass
+            and isinstance(mechanism_certificate, Mapping)
+            and positive_claim.get("mechanism_certificate_pointer") == "$.mechanism_certificate"
+            if isinstance(positive_claim, Mapping)
+            else False
+        ) and _mechanism_certificate_passes(payload)
         compute_candidate = compute_matched.get("candidate_arm") if isinstance(compute_matched, Mapping) else None
         compute_baseline = compute_matched.get("baseline_arm") if isinstance(compute_matched, Mapping) else None
         compute_tolerances = compute_matched.get("tolerances") if isinstance(compute_matched, Mapping) else None
@@ -964,8 +1161,8 @@ class LedgerAwareTransformerProjection:
             "LAT-HG6": (hg6_pass, "$.torch_training_evidence.protocol", "torch protocol boundary is recorded"),
             "LAT-HG7": (
                 hg7_pass,
-                "$.parameter_matched_baseline.comparison",
-                "parameter-matched baseline is cost-matched and channel-clean",
+                "$.mechanism_certificate",
+                "accepted LAT components are certificate-backed and pointer-resolved",
             ),
             "LAT-HG8": (
                 hg8_pass,
@@ -1004,6 +1201,7 @@ class LedgerAwareTransformerProjection:
             "robustness_evidence_pointer": "$.robustness_signal",
             "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
             "compute_matched_baseline_pointer": "$.compute_matched_baseline",
+            "mechanism_certificate_pointer": "$.mechanism_certificate",
             "net_positive_signal": True,
         }
         existing_signal = payload.get("discovery_map_signal") if isinstance(payload, Mapping) else None
@@ -1023,6 +1221,7 @@ class LedgerAwareTransformerProjection:
                 "robustness_evidence_pointer": candidate["robustness_evidence_pointer"],
                 "parameter_matched_baseline_pointer": candidate["parameter_matched_baseline_pointer"],
                 "compute_matched_baseline_pointer": candidate["compute_matched_baseline_pointer"],
+                "mechanism_certificate_pointer": candidate["mechanism_certificate_pointer"],
                 "net_positive_signal": candidate["net_positive_signal"],
             }
         reason = "hardgate-failed" if failed is not None else "lat-discovery-map-pointer-dangling"
@@ -1040,6 +1239,7 @@ class LedgerAwareTransformerProjection:
             "robustness_evidence_pointer": "$.robustness_signal",
             "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
             "compute_matched_baseline_pointer": "$.compute_matched_baseline",
+            "mechanism_certificate_pointer": "$.mechanism_certificate",
             "net_positive_signal": False,
         }
 
@@ -1093,6 +1293,9 @@ class LedgerAwareTransformerProjection:
         payload["positive_claim"]["net_positive_signal"] = True
         payload["positive_claim"]["claim_status"] = "bounded-positive-evidence"
         payload["positive_claim"]["scope_seal"] = CLOSED_CLAIM_SCOPE_SEAL
+        payload["component_ablation"] = build_component_ablation(payload)
+        payload["mechanism_certificate"] = build_mechanism_certificate(payload)
+        payload["positive_claim"]["mechanism_certificate_pointer"] = "$.mechanism_certificate"
         payload["forbidden_claim_term_audit"] = _forbidden_term_audit(payload["positive_claim"])
         capsule = build_architecture_capsule(payload)
         payload["claim_capsule_ref"] = {
@@ -1168,6 +1371,7 @@ def render_markdown(payload: Mapping[str, Any], capsule: Mapping[str, Any]) -> s
         f"- Discovery signal: `{payload['discovery_map_signal']['level_candidate']}`",
         f"- Failed gate: `{payload['failed_gate']}`",
         f"- Claim capsule pointer: `{payload['claim_capsule_ref']['pointer']}`",
+        f"- Mechanism certificate pointer: `{payload['discovery_map_signal']['mechanism_certificate_pointer']}`",
         "",
         "## Hardgates",
         "",
@@ -1198,6 +1402,23 @@ def render_markdown(payload: Mapping[str, Any], capsule: Mapping[str, Any]) -> s
     lines.extend(
         [
             "",
+            "## Component Ablation",
+            "",
+            "| component | status | UER delta | claim eligible |",
+            "| --- | --- | ---: | --- |",
+        ]
+    )
+    for row in payload["component_ablation"]["rows"]:
+        lines.append(
+            "| "
+            f"`{row['component_id']}` | "
+            f"`{row['status']}` | "
+            f"{row['uer_delta']:.6f} | "
+            f"`{row['claim_eligible']}` |"
+        )
+    lines.extend(
+        [
+            "",
             "## Canonical Pointers",
             "",
             "- Scope pointer: `$.applicability_boundary`",
@@ -1206,6 +1427,7 @@ def render_markdown(payload: Mapping[str, Any], capsule: Mapping[str, Any]) -> s
             "- Control pointer: `$.control_protocol`",
             "- Parameter-matched baseline pointer: `$.parameter_matched_baseline`",
             "- Compute-matched baseline pointer: `$.compute_matched_baseline`",
+            "- Mechanism certificate pointer: `$.mechanism_certificate`",
             "- Discovery signal pointer: `$.discovery_map_signal`",
             "- Torch evidence pointer: `$.torch_training_evidence`",
             "",

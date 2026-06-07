@@ -662,9 +662,10 @@ def _write_coverage_payloads(root: Path):
         root,
         discovery_map.DISCOVERY_GATED_TRANSFORMER_ARTIFACT,
         {
-            "status": "present-but-fail-closed",
-            "mechanism_certificate": {"status": "present"},
-            "dgt_hardgate_slots": {"overall_state": "present-but-fail-closed"},
+            "prototype_status": "prototype-candidate",
+            "discovery_map_signal": {"level_candidate": "D4"},
+            "hardgate_instances": {"NEW-MODEL-HG1": {"status": "pass"}},
+            "revocation_rows": [{"status": "demoted"}],
             "not_claimed": ["no broad architecture superiority claim"],
         },
     )
@@ -704,9 +705,15 @@ def _write_dimension_mismatch_gap_witness_fixture(root: Path):
             "run_local": {
                 "negative_witness": [
                     {
+                        "witness_id": "scale_leakage_witness",
+                        "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+                        "source_pointer": "$.status",
                         "bedc_gap_field": "representation_scale_leakage",
                         "demotion_rule": "demote_to_DN_or_D1",
                         "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                        "evidence_pointer": "reports/dimension_mismatch_anti_triviality.json:$.controlled_geometry.feature_partition",
+                        "status": "valid",
+                        "reason": "scale-only anti-triviality evidence demotes the debt-transfer claim",
                     }
                 ],
                 "test_artifact": {
@@ -718,6 +725,16 @@ def _write_dimension_mismatch_gap_witness_fixture(root: Path):
                     }
                 },
             }
+        },
+    )
+    _write_json_artifact(
+        root,
+        "reports/dimension_mismatch_anti_triviality.json",
+        {
+            "status": "scale_leakage_detected",
+            "controlled_geometry": {
+                "feature_partition": {"fixture": ["h_l2_mean"]},
+            },
         },
     )
 
@@ -1092,9 +1109,10 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     assert "training_rows" not in drt
 
     assert lat["canonical_owner_pointer"] == "reports/canonical/ledger-aware-transformer.json:$"
-    assert lat["mechanism_certificate_pointer"] == "reports/canonical/ledger-aware-transformer.json:$.claim_capsule_ref"
+    assert lat["mechanism_certificate_pointer"] == "reports/canonical/ledger-aware-transformer.json:$.mechanism_certificate"
     assert lat["hardgate_status"] == "pass"
     assert _artifact_pointer_value(tmp_path, lat["canonical_owner_pointer"]) is not None
+    assert _artifact_pointer_value(tmp_path, lat["mechanism_certificate_pointer"]) is not None
 
 
 def test_discovery_map_coverage_matrix_projects_gap_head_axes(tmp_path):
@@ -1239,6 +1257,30 @@ def test_discovery_map_payload_rejects_non_pointer_only_coverage_matrix():
         )
 
 
+def test_experiment_proposals_cover_coverage_gap_dn_and_d5m_sources(tmp_path):
+    _write_coverage_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    proposals = payload["experiment_proposals"]
+    by_kind = {}
+    for proposal in proposals:
+        by_kind.setdefault(proposal["source_kind"], []).append(proposal)
+
+    assert {"coverage_gap", "negative_discovery", "d5m_blocked"} <= set(by_kind)
+    coverage = by_kind["coverage_gap"][0]
+    dn = by_kind["negative_discovery"][0]
+    d5m = by_kind["d5m_blocked"][0]
+
+    assert coverage["coverage_cell_pointer"].startswith("reports/canonical/discovery_map.json:$.coverage_matrix.cells[")
+    assert dn["negative_report_pointer"].startswith("reports/canonical/negative_discovery_reports.json:$.rows[")
+    assert dn["hypothesis_pointer"].endswith(".next_hypothesis")
+    assert d5m["failed_gate_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.failed_gate"
+    assert all(proposal["controls"] for proposal in proposals)
+    assert all(proposal["expected_failure_modes"] for proposal in proposals)
+    assert not _contains_key(proposals, "next_hypothesis")
+    assert not _contains_key(proposals, "what_was_learned")
+
+
 def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
     _write_all_payloads(tmp_path)
 
@@ -1280,6 +1322,7 @@ def test_lat_current_lab_projection_maps_d5_o_and_resolves_pointers(tmp_path):
     assert discovery_map.pointer_value(lat_payload, row["control_pointer"]) is not None
     assert lat_payload["discovery_map_signal"]["parameter_matched_baseline_pointer"] == "$.parameter_matched_baseline"
     assert lat_payload["discovery_map_signal"]["compute_matched_baseline_pointer"] == "$.compute_matched_baseline"
+    assert lat_payload["discovery_map_signal"]["mechanism_certificate_pointer"] == "$.mechanism_certificate"
     assert discovery_map.pointer_value(
         lat_payload,
         lat_payload["discovery_map_signal"]["parameter_matched_baseline_pointer"],
@@ -1287,6 +1330,10 @@ def test_lat_current_lab_projection_maps_d5_o_and_resolves_pointers(tmp_path):
     assert discovery_map.pointer_value(
         lat_payload,
         lat_payload["discovery_map_signal"]["compute_matched_baseline_pointer"],
+    ) is not None
+    assert discovery_map.pointer_value(
+        lat_payload,
+        lat_payload["discovery_map_signal"]["mechanism_certificate_pointer"],
     ) is not None
     robustness_artifact, robustness_pointer = row["robustness_pointer"].split(":", 1)
     assert robustness_artifact == "reports/canonical/ledger-aware-transformer.json"
@@ -1399,6 +1446,44 @@ def test_lat_compute_matched_failure_projects_dn_owner_to_hg8(tmp_path):
     assert row["discovery_level"] == "DN"
     owner = _owner_by_pointer(tmp_path, row["negative_report_pointer"])
     assert owner["failed_gate"] == "$.hardgate.gates.LAT-HG8.status"
+    assert owner["terminal_verdict"] == "rejected"
+
+
+def test_lat_mechanism_certificate_pointer_keeps_single_projection_row(tmp_path):
+    _write_all_payloads(tmp_path)
+    lat_payload = lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    _write_json_artifact(tmp_path, "reports/canonical/ledger-aware-transformer.json", lat_payload)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    rows = [row for row in payload["rows"] if row["report"] == "ledger-aware-transformer"]
+    lat = _coverage_cell(payload, "LAT")
+
+    assert len(rows) == 1
+    assert rows[0]["discovery_level"] == "D5-O"
+    assert lat["mechanism_certificate_pointer"] == "reports/canonical/ledger-aware-transformer.json:$.mechanism_certificate"
+    assert _artifact_pointer_value(tmp_path, lat["mechanism_certificate_pointer"]) == lat_payload["mechanism_certificate"]
+    assert "component_ablation" not in lat
+    assert "claim_component_ids" not in lat
+
+
+def test_lat_mechanism_certificate_failure_projects_dn_owner_to_hg7(tmp_path):
+    _write_all_payloads(tmp_path)
+    lat_payload = lat_runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    lat_payload["mechanism_certificate"]["accepted_component_ids"] = ["ledger_head"]
+    lat_payload["mechanism_certificate"]["claim_component_ids"] = ["ledger_head"]
+    lat_payload["mechanism_certificate"]["claim_component_pointers"] = ["$.component_ablation.by_component.ledger_head"]
+    lat_payload["mechanism_certificate"]["accepted_component_pointers"] = ["$.component_ablation.by_component.ledger_head"]
+    lat_payload["mechanism_certificate"]["status"] = "fail"
+    _lat_recompute(lat_payload)
+    _write_json_artifact(tmp_path, "reports/canonical/ledger-aware-transformer.json", lat_payload)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)["ledger-aware-transformer"]
+
+    assert lat_payload["failed_gate"] == "LAT-HG7"
+    assert row["discovery_level"] == "DN"
+    owner = _owner_by_pointer(tmp_path, row["negative_report_pointer"])
+    assert owner["failed_gate"] == "$.hardgate.gates.LAT-HG7.status"
     assert owner["terminal_verdict"] == "rejected"
 
 

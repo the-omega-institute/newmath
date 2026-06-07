@@ -96,17 +96,11 @@ def _discovery_map_payload(level="DN", *, d5=False):
         "json_artifact": runner.SOURCE_ARTIFACT,
         "markdown_artifact": runner.transfer.REPORT_ARTIFACT,
         "discovery_level": level,
-        "base_level": "D4",
-        "anti_triviality_status": "scale_leakage_detected",
-        "effective_level": "DN",
-        "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
-        "terminal_verdict": "negative_discovery",
         "projection_status": "projected",
         "evidence_pointer": "$.dimension_mismatch_debt_transfer.effective_level",
-        "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
-        "classifier_reasons": ["verdict=rejected"],
         "audit_status": "valid",
         "audit_reason": "",
+        "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
     }
     if d5:
         row["d5_readiness"] = {"shortcut": {"status": "pass"}}
@@ -117,14 +111,57 @@ def _discovery_map_payload(level="DN", *, d5=False):
     }
 
 
+def _negative_reports_payload(*, include_mapping=True):
+    row = {
+        "negative_id": "dn:dimension-mismatch-scale-leakage",
+        "report_id": "dimension-mismatch-scale-leakage",
+        "claim_id": "claim:dimension-mismatch-debt-transfer",
+        "kind": "discovery_report",
+        "report": "dimension-mismatch-debt-transfer",
+        "source": f"{runner.SOURCE_ARTIFACT}:$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        "json_artifact": runner.SOURCE_ARTIFACT,
+        "markdown_artifact": runner.transfer.REPORT_ARTIFACT,
+        "ledger_pointer": f"{runner.SOURCE_ARTIFACT}:$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        "discovery_level": "DN",
+        "base_level": "D4",
+        "anti_triviality_status": "scale_leakage_detected",
+        "effective_level": "DN",
+        "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
+        "terminal_verdict": "negative_discovery",
+        "classifier_reasons": ["verdict=rejected"],
+        "projection_status": "projected",
+        "evidence_pointer": "$.dimension_mismatch_debt_transfer.effective_level",
+        "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        "debt_row_pointer": None,
+        "audit_status": "pass",
+        "audit_reason": "",
+        "what_was_learned": "fixture learned",
+        "next_hypothesis": "fixture next hypothesis",
+    }
+    if include_mapping:
+        row["bedc_gap_mapping"] = {
+            "witness_pointer": runner.transfer.SCALE_LEAKAGE_WITNESS_POINTER,
+            "bedc_gap_field": "representation_scale_leakage",
+            "demotion_rule": "demote_to_DN_or_D1",
+            "regression_test": runner.transfer.NEGATIVE_WITNESS_TEST_POINTER,
+        }
+    return {
+        "schema_id": "bedc-quality-lab:negative-discovery-reports",
+        "artifact_id": "bedc-quality-lab:negative-discovery-reports",
+        "rows": [row],
+    }
+
+
 def _write_inputs(tmp_path, source=None, discovery=None):
     source_payload = _source_payload() if source is None else source
     discovery_payload = _discovery_map_payload() if discovery is None else discovery
     source_path = tmp_path / runner.SOURCE_ARTIFACT
     discovery_path = tmp_path / runner.DISCOVERY_MAP_ARTIFACT
+    negative_path = tmp_path / "reports/canonical/negative_discovery_reports.json"
     source_path.parent.mkdir(parents=True, exist_ok=True)
     source_path.write_text(json.dumps(source_payload), encoding="utf-8")
     discovery_path.write_text(json.dumps(discovery_payload), encoding="utf-8")
+    negative_path.write_text(json.dumps(_negative_reports_payload()), encoding="utf-8")
 
 
 def _check(payload, name):
@@ -259,12 +296,43 @@ def test_real_pass_shape_stays_pointer_only_and_does_not_promote_d5(tmp_path):
     assert "terminal DN downgrade" in persisted["readiness_boundary"]
     assert "not a D5 upgrade" in persisted["readiness_boundary"]
     assert "d5_readiness" not in persisted
-    assert row["base_level"] == "D4"
-    assert row["effective_level"] == "DN"
     assert row["discovery_level"] == "DN"
-    assert row["failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+    assert row["negative_report_pointer"] == "reports/canonical/negative_discovery_reports.json:$.rows[0]"
+    assert not {
+        "base_level",
+        "anti_triviality_status",
+        "effective_level",
+        "terminal_verdict",
+        "failed_gate",
+        "bedc_gap_mapping",
+    } & set(row)
     assert "d5_readiness" not in row
     assert "score" not in json.dumps(persisted["robust_control_checks"]).lower()
+
+
+def test_discovery_map_pointer_only_row_fails_when_owner_lacks_mapping(tmp_path):
+    _write_inputs(tmp_path)
+    negative_path = tmp_path / "reports/canonical/negative_discovery_reports.json"
+    negative_path.write_text(json.dumps(_negative_reports_payload(include_mapping=False)), encoding="utf-8")
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert payload["status"] == "fail"
+    assert payload["audit_status"] == "fail"
+    assert "dimension-mismatch negative report lacks bedc_gap_mapping" in payload["audit_reasons"]
+
+
+def test_discovery_map_row_copying_owner_facts_fails_schema_validation():
+    from bedc_quality_lab.discovery_compiler.map import DiscoveryMapRow
+
+    row = {
+        **_discovery_map_payload()["rows"][0],
+        "base_level": "D4",
+        "bedc_gap_mapping": {},
+    }
+
+    with pytest.raises(ValueError, match="copies owner facts"):
+        DiscoveryMapRow.from_mapping(row)
 
 
 def test_discovery_map_d5_shortcut_fails_audit_without_changing_artifact(tmp_path):

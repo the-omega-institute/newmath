@@ -76,7 +76,7 @@ OWNER_FACT_KEYS = frozenset(
 )
 
 BEDC_GAP_MAPPING_KEYS = (
-    "source_witness_pointer",
+    "witness_pointer",
     "bedc_gap_field",
     "demotion_rule",
     "regression_test",
@@ -85,7 +85,7 @@ BEDC_GAP_MAPPING_KEYS = (
 
 @dataclass(frozen=True)
 class BedcGapMapping:
-    source_witness_pointer: str
+    witness_pointer: str
     bedc_gap_field: str
     demotion_rule: str
     regression_test: str
@@ -106,7 +106,7 @@ class BedcGapMapping:
         if regression_nodeid != DIMENSION_MISMATCH_REGRESSION_NODEID:
             raise ValueError("BEDC gap mapping regression test pointer does not resolve to the expected nodeid")
         return cls(
-            source_witness_pointer=pointer,
+            witness_pointer=pointer,
             bedc_gap_field=str(values["bedc_gap_field"]),
             demotion_rule=str(values["demotion_rule"]),
             regression_test=str(values["regression_test"]),
@@ -114,7 +114,7 @@ class BedcGapMapping:
 
     def as_owner_cell(self) -> dict[str, str]:
         return {
-            "source_witness_pointer": self.source_witness_pointer,
+            "witness_pointer": self.witness_pointer,
             "bedc_gap_field": self.bedc_gap_field,
             "demotion_rule": self.demotion_rule,
             "regression_test": self.regression_test,
@@ -127,13 +127,46 @@ class BedcGapMapping:
             raise ValueError("dimension mismatch DN report requires bedc_gap_mapping")
         if set(cell) != set(BEDC_GAP_MAPPING_KEYS):
             raise ValueError("dimension mismatch bedc_gap_mapping has unsupported shape")
-        pointer = cell.get("source_witness_pointer")
+        pointer = cell.get("witness_pointer")
         if not isinstance(pointer, str) or not pointer:
-            raise ValueError("dimension mismatch bedc_gap_mapping requires source_witness_pointer")
+            raise ValueError("dimension mismatch bedc_gap_mapping requires witness_pointer")
         expected = cls.from_witness_pointer(root, pointer).as_owner_cell()
         actual = {key: cell.get(key) for key in BEDC_GAP_MAPPING_KEYS}
         if actual != expected:
             raise ValueError("dimension mismatch bedc_gap_mapping does not match source witness")
+
+
+def _validate_dimension_mismatch_scale_leakage_mapping(root: Path, item: Mapping[str, Any]) -> None:
+    BedcGapMapping.validate_owner_cell(root, item)
+    mapping = item["bedc_gap_mapping"]
+    witness_pointer = mapping["witness_pointer"]
+    witness = resolve_artifact_pointer(root, witness_pointer)
+    if not isinstance(witness, Mapping):
+        raise ValueError("dimension mismatch bedc_gap_mapping witness_pointer does not resolve")
+    if witness.get("witness_id") != "scale_leakage_witness":
+        raise ValueError("dimension mismatch bedc_gap_mapping requires scale_leakage_witness")
+    if witness.get("bedc_gap_field") != "representation_scale_leakage":
+        raise ValueError("dimension mismatch bedc_gap_mapping requires representation_scale_leakage")
+    if witness.get("demotion_rule") != "demote_to_DN_or_D1":
+        raise ValueError("dimension mismatch bedc_gap_mapping requires demote_to_DN_or_D1")
+    if witness.get("status") != "valid":
+        raise ValueError("dimension mismatch bedc_gap_mapping witness status is not valid")
+    regression_test = witness.get("regression_test")
+    if not isinstance(regression_test, str) or _resolve_witness_local_pointer(root, witness_pointer, regression_test) is None:
+        raise ValueError("dimension mismatch bedc_gap_mapping regression_test does not resolve")
+    source_artifact = witness.get("source_artifact")
+    source_pointer = witness.get("source_pointer")
+    if not isinstance(source_artifact, str) or not isinstance(source_pointer, str):
+        raise ValueError("dimension mismatch bedc_gap_mapping source pointer is malformed")
+    source_value = resolve_artifact_pointer(root, f"{source_artifact}:{source_pointer}")
+    if source_value != "scale_leakage_detected":
+        raise ValueError("dimension mismatch bedc_gap_mapping source pointer is not scale_leakage_detected")
+    source_status_pointer = item.get("failed_gate")
+    json_artifact = item.get("json_artifact")
+    if not isinstance(source_status_pointer, str) or not isinstance(json_artifact, str):
+        raise ValueError("dimension mismatch DN report source status pointer is malformed")
+    if resolve_artifact_pointer(root, f"{json_artifact}:{source_status_pointer}") != "scale_leakage_detected":
+        raise ValueError("dimension mismatch DN report source status is not scale_leakage_detected")
 
 
 def _resolve_witness_local_pointer(root: Path, witness_pointer: str, pointer: str) -> Any:
@@ -236,9 +269,13 @@ def validate_negative_report_row(root: Path, row: Mapping[str, Any]) -> dict[str
             raise ValueError("dimension mismatch scale leakage DN report requires base_level D4")
         if item.get("effective_level") != "DN":
             raise ValueError("dimension mismatch scale leakage DN report requires effective_level DN")
+        if item.get("terminal_verdict") != "negative_discovery":
+            raise ValueError("dimension mismatch scale leakage DN report requires terminal_verdict negative_discovery")
+        if item.get("failed_gate") != "$.dimension_mismatch_debt_transfer.anti_triviality_status":
+            raise ValueError("dimension mismatch scale leakage DN report requires anti-triviality failed_gate")
         if item.get("anti_triviality_status") == "scale_leakage_detected" and item.get("effective_level") == "D4":
             raise ValueError("scale leakage cannot leave effective_level at D4")
-        BedcGapMapping.validate_owner_cell(root, item)
+        _validate_dimension_mismatch_scale_leakage_mapping(root, item)
     failed_gate = item.get("failed_gate")
     artifact = str(item.get("json_artifact") or "")
     if isinstance(failed_gate, str) and failed_gate.startswith("$."):

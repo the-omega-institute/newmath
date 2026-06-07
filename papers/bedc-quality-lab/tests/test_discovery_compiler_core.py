@@ -10,11 +10,10 @@ from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule, build_clai
 from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
 from bedc_quality_lab.discovery_compiler.map import DiscoveryMapRow, build_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.negative_reports import (
-    BedcGapMapping,
-    DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
     JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT,
 )
 from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
+from scripts import run_dimension_mismatch_debt_transfer as transfer
 
 
 class FakeAdapter:
@@ -85,17 +84,32 @@ class FakeAdapter:
                 "kind": "discovery_report",
                 "report": "fixture-report" if report_id != "dimension-mismatch-scale-leakage" else "dimension-mismatch-debt-transfer",
                 "claim_id": "claim:fixture-report" if report_id != "dimension-mismatch-scale-leakage" else "claim:dimension-mismatch-debt-transfer",
-                "source": "reports/canonical/fixture.json:$.failed",
-                "json_artifact": "reports/canonical/fixture.json",
-                "markdown_artifact": "reports/canonical/fixture.md",
-                "ledger_pointer": "reports/canonical/fixture.json:$.failed",
+                "source": "reports/canonical/fixture.json:$.failed"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else f"{transfer.JSON_ARTIFACT}:$.dimension_mismatch_debt_transfer.anti_triviality_status",
+                "json_artifact": "reports/canonical/fixture.json"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else transfer.JSON_ARTIFACT,
+                "markdown_artifact": "reports/canonical/fixture.md"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else transfer.REPORT_ARTIFACT,
+                "ledger_pointer": "reports/canonical/fixture.json:$.failed"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else f"{transfer.JSON_ARTIFACT}:$.dimension_mismatch_debt_transfer.anti_triviality_status",
                 "discovery_level": "DN",
                 "terminal_verdict": "negative_discovery",
-                "classifier_reasons": ["fixture"],
+                "classifier_reasons": ["fixture", "verdict=rejected"]
+                if report_id == "dimension-mismatch-scale-leakage"
+                else ["fixture"],
                 "projection_status": "projected",
                 "evidence_pointer": "$.failed",
-                "failed_gate": "$.failed",
+                "failed_gate": "$.failed"
+                if report_id != "dimension-mismatch-scale-leakage"
+                else "$.dimension_mismatch_debt_transfer.anti_triviality_status",
                 "base_level": "D4" if report_id == "dimension-mismatch-scale-leakage" else None,
+                "anti_triviality_status": "scale_leakage_detected"
+                if report_id == "dimension-mismatch-scale-leakage"
+                else None,
                 "effective_level": "DN" if report_id == "dimension-mismatch-scale-leakage" else None,
                 "what_was_learned": "fixture learned",
                 "next_hypothesis": "fixture next hypothesis",
@@ -104,10 +118,7 @@ class FakeAdapter:
                 "audit_reason": "",
                 **(
                     {
-                        "bedc_gap_mapping": BedcGapMapping.from_witness_pointer(
-                            root,
-                            DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
-                        ).as_owner_cell()
+                        "bedc_gap_mapping": transfer.scale_leakage_bedc_gap_mapping(root)
                     }
                     if report_id == "dimension-mismatch-scale-leakage"
                     else {}
@@ -124,6 +135,17 @@ def _write_fixture_sources(root: Path) -> None:
     canonical = root / "reports" / "canonical"
     canonical.mkdir(parents=True, exist_ok=True)
     (canonical / "fixture.json").write_text(json.dumps({"failed": True}) + "\n", encoding="utf-8")
+    (canonical / "dimension-mismatch-debt-transfer.json").write_text(
+        json.dumps(
+            {
+                "dimension_mismatch_debt_transfer": {
+                    "anti_triviality_status": "scale_leakage_detected",
+                }
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     (canonical / "discovery_negative_witnesses.json").write_text(
         json.dumps({"status": "pointer-only", "expected_kind_count": 0, "witnesses": []}) + "\n",
         encoding="utf-8",
@@ -137,9 +159,13 @@ def _write_fixture_sources(root: Path) -> None:
                 "run_local": {
                     "negative_witness": [
                         {
+                            "witness_id": "scale_leakage_witness",
+                            "source_artifact": transfer.ANTI_TRIVIALITY_ARTIFACT,
+                            "source_pointer": "$.status",
                             "bedc_gap_field": "representation_scale_leakage",
                             "demotion_rule": "demote_to_DN_or_D1",
                             "regression_test": "$.run_local.test_artifact.regression_tests.scale_leakage_witness",
+                            "status": "valid",
                         }
                     ],
                     "test_artifact": {
@@ -156,6 +182,9 @@ def _write_fixture_sources(root: Path) -> None:
         + "\n",
         encoding="utf-8",
     )
+    anti_triviality = root / transfer.ANTI_TRIVIALITY_ARTIFACT
+    anti_triviality.parent.mkdir(parents=True, exist_ok=True)
+    anti_triviality.write_text(json.dumps({"status": "scale_leakage_detected"}) + "\n", encoding="utf-8")
 
 
 def test_backend_contract_and_current_lab_adapter_metadata():
@@ -292,6 +321,157 @@ def test_build_discovery_map_payload_validates_rows():
 
     assert payload["row_count"] == 1
     assert payload["level_counts"]["D4"] == 1
+
+
+def _proposal_fixture():
+    return {
+        "proposal_id": "exp-fixture",
+        "source_kind": "negative_discovery",
+        "source_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]",
+        "negative_report_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]",
+        "hypothesis_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0].next_hypothesis",
+        "failed_gate_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0].failed_gate",
+        "expected_failure_modes": ["fixture failure mode"],
+        "controls": ["fixture control"],
+        "priority": 1,
+        "proposal_status": "proposed",
+        "audit_status": "pointer-only",
+    }
+
+
+def _write_proposal_pointer_sources(root: Path) -> None:
+    canonical = root / "reports" / "canonical"
+    canonical.mkdir(parents=True)
+    (canonical / "negative_discovery_reports.json").write_text(
+        json.dumps({"rows": [{"next_hypothesis": "fixture", "failed_gate": "gate"}]}) + "\n",
+        encoding="utf-8",
+    )
+    (canonical / "discovery_map.json").write_text(
+        json.dumps({"coverage_matrix": {"cells": [{"component_id": "fixture", "hardgate_status": "pass"}]}}) + "\n",
+        encoding="utf-8",
+    )
+
+
+def test_build_discovery_map_payload_accepts_pointer_only_experiment_proposals(tmp_path):
+    _write_proposal_pointer_sources(tmp_path)
+
+    payload = build_discovery_map_payload(
+        rows=[],
+        generated_at="fixture-time",
+        experiment_proposals=[_proposal_fixture()],
+        root=tmp_path,
+    )
+
+    assert payload["experiment_proposals"] == [_proposal_fixture()]
+
+
+def test_experiment_proposals_fail_closed_without_controls_or_failure_modes(tmp_path):
+    _write_proposal_pointer_sources(tmp_path)
+
+    with pytest.raises(ValueError, match="expected_failure_modes"):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[{**_proposal_fixture(), "expected_failure_modes": []}],
+            root=tmp_path,
+        )
+    with pytest.raises(ValueError, match="controls"):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[{**_proposal_fixture(), "controls": []}],
+            root=tmp_path,
+        )
+
+
+@pytest.mark.parametrize(
+    ("proposal", "message"),
+    [
+        (
+            lambda row: {key: value for key, value in row.items() if key != "proposal_status"},
+            "schema mismatch: missing proposal_status",
+        ),
+        (
+            lambda row: {**row, "owner_fact_copy": "not pointer-only"},
+            "schema mismatch: extra owner_fact_copy",
+        ),
+        (
+            lambda row: {**row, "source_kind": "external_planner"},
+            "unsupported experiment proposal source_kind",
+        ),
+        (
+            lambda row: {**row, "source_pointer": "reports/canonical/missing.json:$"},
+            "unresolved pointer: source_pointer=",
+        ),
+        (
+            lambda row: {**row, "failed_gate_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[9].failed_gate"},
+            "unresolved pointer: failed_gate_pointer=",
+        ),
+        (
+            lambda row: {**row, "priority": True},
+            "priority must be an integer",
+        ),
+        (
+            lambda row: {**row, "priority": "1"},
+            "priority must be an integer",
+        ),
+        (
+            lambda row: {key: value for key, value in row.items() if key != "negative_report_pointer"},
+            "negative_discovery experiment proposal requires negative_report_pointer and hypothesis_pointer",
+        ),
+        (
+            lambda row: {key: value for key, value in row.items() if key != "hypothesis_pointer"},
+            "negative_discovery experiment proposal requires negative_report_pointer and hypothesis_pointer",
+        ),
+        (
+            lambda row: {
+                key: value
+                for key, value in {
+                    **row,
+                    "source_kind": "d5m_blocked",
+                    "source_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0].failed_gate",
+                }.items()
+                if key not in {"negative_report_pointer", "hypothesis_pointer", "failed_gate_pointer"}
+            },
+            "d5m_blocked experiment proposal requires failed_gate_pointer",
+        ),
+        (
+            lambda row: {
+                key: value
+                for key, value in {
+                    **row,
+                    "source_kind": "coverage_gap",
+                    "source_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[0]",
+                }.items()
+                if key not in {"negative_report_pointer", "hypothesis_pointer", "coverage_cell_pointer"}
+            },
+            "coverage_gap experiment proposal requires coverage_cell_pointer",
+        ),
+    ],
+)
+def test_experiment_proposals_fail_closed_on_invalid_schema_pointers_and_identity(tmp_path, proposal, message):
+    _write_proposal_pointer_sources(tmp_path)
+
+    with pytest.raises(ValueError, match=message):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[proposal(_proposal_fixture())],
+            root=tmp_path,
+        )
+
+
+def test_experiment_proposals_fail_closed_on_duplicate_proposal_ids(tmp_path):
+    _write_proposal_pointer_sources(tmp_path)
+    second = {**_proposal_fixture(), "source_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0].failed_gate"}
+
+    with pytest.raises(ValueError, match="proposal_id values must be unique"):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[_proposal_fixture(), second],
+            root=tmp_path,
+        )
 
 
 def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):
