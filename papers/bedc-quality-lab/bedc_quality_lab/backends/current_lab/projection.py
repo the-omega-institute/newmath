@@ -2742,11 +2742,7 @@ def _local_artifact_pointer(row: Mapping[str, Any], pointer: Any) -> str | None:
     return pointer if isinstance(pointer, str) and ":" in pointer else None
 
 
-def _build_experiment_proposals(
-    rows: Sequence[Mapping[str, Any]],
-    coverage_matrix: Mapping[str, Any],
-    root: Path | None,
-) -> list[dict[str, Any]]:
+def _build_d5m_blocked_experiment_proposals(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
     proposals: list[dict[str, Any]] = []
     for index, row in enumerate(rows):
         if row.get("mechanism_status") != "blocked" and row.get("mechanism_level") != "blocked":
@@ -2776,6 +2772,14 @@ def _build_experiment_proposals(
             "audit_status": "pointer-only",
         }
         proposals.append({key: value for key, value in proposal.items() if value is not None})
+    return proposals
+
+
+def _build_negative_discovery_experiment_proposals(
+    rows: Sequence[Mapping[str, Any]],
+    root: Path | None,
+) -> list[dict[str, Any]]:
+    proposals: list[dict[str, Any]] = []
     for index, row in enumerate(rows):
         if row.get("discovery_level") != "DN" or not isinstance(row.get("negative_report_pointer"), str):
             continue
@@ -2808,6 +2812,11 @@ def _build_experiment_proposals(
             "audit_status": "pointer-only",
         }
         proposals.append(proposal)
+    return proposals
+
+
+def _build_coverage_gap_experiment_proposals(coverage_matrix: Mapping[str, Any]) -> list[dict[str, Any]]:
+    proposals: list[dict[str, Any]] = []
     coverage_cells = coverage_matrix.get("cells")
     if isinstance(coverage_cells, list):
         for index, cell in enumerate(coverage_cells):
@@ -2835,6 +2844,19 @@ def _build_experiment_proposals(
                 "audit_status": "pointer-only",
             }
             proposals.append({key: value for key, value in proposal.items() if value is not None})
+    return proposals
+
+
+def _build_experiment_proposals(
+    rows: Sequence[Mapping[str, Any]],
+    coverage_matrix: Mapping[str, Any],
+    root: Path | None,
+) -> list[dict[str, Any]]:
+    proposals = [
+        *_build_d5m_blocked_experiment_proposals(rows),
+        *_build_negative_discovery_experiment_proposals(rows, root),
+        *_build_coverage_gap_experiment_proposals(coverage_matrix),
+    ]
     return sorted(
         proposals,
         key=lambda proposal: (
