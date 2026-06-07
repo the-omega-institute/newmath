@@ -9,6 +9,7 @@ import math
 import statistics
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
 
 
@@ -200,18 +201,13 @@ class MechanismSeekingNetworkProjection:
         return [dict(row) for row in self.records]
 
     def _anti_triviality_contract(self, level: str) -> dict[str, Any]:
-        return {
-            "anti_triviality_status": "pass",
-            "anti_triviality_policy": "positive_requires_all_four_controls",
-            "anti_triviality_recommended_level": level,
-            "anti_triviality_failed_gate": None,
-            "anti_triviality_gate_evidence": {
-                "scale_only": {"status": "pass", "pointer": "$.distinction_module_evidence"},
-                "metadata_only": {"status": "pass", "pointer": "$.gate_protocol"},
-                "matched_random": {"status": "pass", "pointer": "$.matched_random_control"},
-                "forbidden_column": {"status": "pass", "pointer": "$.forbidden_claim_term_audit.status"},
-            },
-        }
+        return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+            recommended_level=level,
+            scale_only_pointer="$.distinction_module_evidence",
+            metadata_only_pointer="$.gate_protocol",
+            matched_random_pointer="$.matched_random_control",
+            forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+        )
 
     def project(self) -> dict[str, Any]:
         summaries = self._summaries()

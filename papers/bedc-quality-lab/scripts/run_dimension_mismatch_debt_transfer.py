@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer
 from scripts.experiment_stats import metric_stats
 from scripts import run_gap_head_observed_debt_transfer as observed_transfer
@@ -678,17 +679,15 @@ def _sidecar_anti_triviality_contract(sidecar: Mapping[str, Any], effective_leve
     failed_gate = sidecar.get("failed_gate")
     if status == "pass":
         failed_gate = None
-    return {
-        "anti_triviality_policy": "positive_requires_all_four_controls",
-        "anti_triviality_recommended_level": effective_level,
-        "anti_triviality_failed_gate": failed_gate,
-        "anti_triviality_gate_evidence": {
-            "scale_only": {"status": status, "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
-            "metadata_only": {"status": status, "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
-            "matched_random": {"status": status, "pointer": "$.control_protocol"},
-            "forbidden_column": {"status": status, "pointer": "$.representation_boundary.actual_model_input_columns"},
-        },
-    }
+    return owner_local_anti_triviality_contract(
+        recommended_level=effective_level,
+        scale_only_pointer="$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        metadata_only_pointer="$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        matched_random_pointer="$.control_protocol",
+        forbidden_column_pointer="$.representation_boundary.actual_model_input_columns",
+        status=status,
+        failed_gate=failed_gate,
+    )
 
 
 def build_negative_witness_rows(payload: Mapping[str, Any], root: Path) -> tuple[NegativeWitnessRow, ...]:

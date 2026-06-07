@@ -220,6 +220,15 @@ def test_build_payload_records_hardgates_and_sidecar_driven_dn(monkeypatch, tmp_
     assert payload["dimension_mismatch_debt_transfer"]["status"] == "pass"
     assert payload["dimension_mismatch_debt_transfer"]["base_level"] == "D4"
     assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_status"] == "scale_leakage_detected"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_policy"] == "positive_requires_all_four_controls"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_recommended_level"] == "DN"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_gate_evidence"] == {
+        "scale_only": {"status": "fail", "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+        "metadata_only": {"status": "fail", "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+        "matched_random": {"status": "fail", "pointer": "$.control_protocol"},
+        "forbidden_column": {"status": "fail", "pointer": "$.representation_boundary.actual_model_input_columns"},
+    }
     assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_projection"] == "demote_to_DN_or_D1"
     assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_fold_status"] == "pass"
     assert payload["dimension_mismatch_debt_transfer"]["effective_level"] == "DN"
@@ -260,6 +269,15 @@ def test_sidecar_absent_or_unfoldable_does_not_emit_terminal_dn(monkeypatch, tmp
     _sidecar(tmp_path, status="anti_triviality_passed", projection="no_level_change_signal_detected")
     passed = transfer.build_payload(root=tmp_path, generated_at="fixture-time")
     assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_status"] == "anti_triviality_passed"
+    assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_policy"] == "positive_requires_all_four_controls"
+    assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_recommended_level"] == "D4"
+    assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_failed_gate"] is None
+    assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_gate_evidence"] == {
+        "scale_only": {"status": "pass", "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+        "metadata_only": {"status": "pass", "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+        "matched_random": {"status": "pass", "pointer": "$.control_protocol"},
+        "forbidden_column": {"status": "pass", "pointer": "$.representation_boundary.actual_model_input_columns"},
+    }
     assert passed["dimension_mismatch_debt_transfer"]["effective_level"] == "D4"
     assert passed["dimension_mismatch_debt_transfer"]["terminal_verdict"] == "source_pass"
 

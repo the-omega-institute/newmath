@@ -10,6 +10,7 @@ from typing import Any, Literal, Mapping, Sequence
 import numpy as np
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import (
     ARCHITECTURE_CLAIM_CAPSULE_SUBTYPE,
     build_architecture_claim_capsule_payload,
@@ -1179,18 +1180,13 @@ class LedgerAwareTransformerProjection:
         }
 
     def _anti_triviality_contract(self, level: str) -> dict[str, Any]:
-        return {
-            "anti_triviality_status": "pass",
-            "anti_triviality_policy": "positive_requires_all_four_controls",
-            "anti_triviality_recommended_level": level,
-            "anti_triviality_failed_gate": None,
-            "anti_triviality_gate_evidence": {
-                "scale_only": {"status": "pass", "pointer": "$.parameter_matched_baseline"},
-                "metadata_only": {"status": "pass", "pointer": "$.compute_matched_baseline"},
-                "matched_random": {"status": "pass", "pointer": "$.matched_random_control.control_positive_discovery"},
-                "forbidden_column": {"status": "pass", "pointer": "$.forbidden_claim_term_audit.status"},
-            },
-        }
+        return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+            recommended_level=level,
+            scale_only_pointer="$.parameter_matched_baseline",
+            metadata_only_pointer="$.compute_matched_baseline",
+            matched_random_pointer="$.matched_random_control.control_positive_discovery",
+            forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+        )
 
     def failed_gate(self, hardgates: Mapping[str, Mapping[str, Any]]) -> str | None:
         for name in LAT_HARDGATES:

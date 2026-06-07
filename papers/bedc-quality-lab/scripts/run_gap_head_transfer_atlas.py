@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.latent_distribution import LatentDistributionSpec
 from bedc_quality_lab.mixing import DEFAULT_MIXING, mix_latents
 from bedc_quality_lab.toy_world import make_toy_batch
@@ -805,18 +806,13 @@ def _forbidden_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def _anti_triviality_contract(level: str) -> dict[str, Any]:
-    return {
-        "anti_triviality_status": "pass",
-        "anti_triviality_policy": "positive_requires_all_four_controls",
-        "anti_triviality_recommended_level": level,
-        "anti_triviality_failed_gate": None,
-        "anti_triviality_gate_evidence": {
-            "scale_only": {"status": "pass", "pointer": "$.hardgate_evidence.A2-HG2.status"},
-            "metadata_only": {"status": "pass", "pointer": "$.hardgate_evidence.A2-HG7.status"},
-            "matched_random": {"status": "pass", "pointer": "$.hardgate_evidence.A2-HG3.status"},
-            "forbidden_column": {"status": "pass", "pointer": "$.hardgate_evidence.A2-HG4.status"},
-        },
-    }
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.hardgate_evidence.A2-HG2.status",
+        metadata_only_pointer="$.hardgate_evidence.A2-HG7.status",
+        matched_random_pointer="$.hardgate_evidence.A2-HG3.status",
+        forbidden_column_pointer="$.hardgate_evidence.A2-HG4.status",
+    )
 
 
 def _prior_observation_packet(registry: tuple[AtlasSurfaceSpec, ...]) -> dict[str, Any]:

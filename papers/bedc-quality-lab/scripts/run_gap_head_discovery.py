@@ -21,6 +21,7 @@ from bedc_quality_lab.classifier_shift import (
     structural_discovery,
 )
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.ledger import LedgerRowKey, ledger_complete
 from bedc_quality_lab.scope import Scope, ScopedCertificate, scope_rows
 
@@ -349,18 +350,13 @@ def _main_claim_status(treatment: dict[str, Any], *, control_positive: bool) -> 
 
 
 def _anti_triviality_contract(level: str) -> dict[str, Any]:
-    return {
-        "anti_triviality_status": "pass",
-        "anti_triviality_policy": "positive_requires_all_four_controls",
-        "anti_triviality_recommended_level": level,
-        "anti_triviality_failed_gate": None,
-        "anti_triviality_gate_evidence": {
-            "scale_only": {"status": "pass", "pointer": "$.boundary_checks"},
-            "metadata_only": {"status": "pass", "pointer": "$.boundary_checks"},
-            "matched_random": {"status": "pass", "pointer": "$.matched_random_control.control_verdict.positive"},
-            "forbidden_column": {"status": "pass", "pointer": "$.boundary_checks.forbidden_inference_columns"},
-        },
-    }
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.boundary_checks",
+        metadata_only_pointer="$.boundary_checks",
+        matched_random_pointer="$.matched_random_control.control_verdict.positive",
+        forbidden_column_pointer="$.boundary_checks.forbidden_inference_columns",
+    )
 
 
 def _source_control_verdict(payload: dict[str, Any], control: dict[str, Any]) -> dict[str, Any]:

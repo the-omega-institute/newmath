@@ -8,9 +8,12 @@ from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.discovery_compiler.pointers import (
     is_resolvable_artifact_pointer,
-    pointer_value,
     resolve_artifact_pointer,
     split_artifact_pointer,
+)
+from bedc_quality_lab.discovery_compiler.anti_triviality import (
+    ANTI_TRIVIALITY_FAMILIES,
+    ANTI_TRIVIALITY_POLICY,
 )
 
 
@@ -21,9 +24,6 @@ DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
 DISCOVERY_LEVELS = ("D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M", "DN", "DR")
 POSITIVE_DISCOVERY_LEVELS = frozenset({"D4", "D5-O", "D5-M"})
 POSITIVE_DISCOVERY_LEVEL_RANK = {"D4": 0, "D5-O": 1, "D5-M": 2}
-ANTI_TRIVIALITY_FAMILIES = frozenset(
-    {"scale_only", "metadata_only", "matched_random", "forbidden_column"}
-)
 COVERAGE_HARDGATE_IDS = (
     "COV-HG1-owner",
     "COV-HG2-resolves",
@@ -278,6 +278,9 @@ def owner_anti_triviality_check(root: Path, owner_pointer: str, *, accepted_leve
     artifact, _pointer = split
     if isinstance(owner, Mapping) and _owner_anti_triviality_passes(root, artifact, owner, accepted_level=accepted_level):
         return True, ""
+    parent = _artifact_pointer_parent(root, owner_pointer)
+    if isinstance(parent, Mapping) and _owner_anti_triviality_passes(root, artifact, parent, accepted_level=accepted_level):
+        return True, ""
     artifact_owner = resolve_artifact_pointer(root, f"{artifact}:$")
     if isinstance(artifact_owner, Mapping) and _owner_anti_triviality_passes(
         root,
@@ -286,9 +289,22 @@ def owner_anti_triviality_check(root: Path, owner_pointer: str, *, accepted_leve
         accepted_level=accepted_level,
     ):
         return True, ""
-    if isinstance(artifact_owner, Mapping) and _owner_specific_anti_triviality_passes(artifact, artifact_owner):
-        return True, ""
     return False, "anti-triviality-owner-contract-not-pass"
+
+
+def _artifact_pointer_parent(root: Path, owner_pointer: str) -> Any:
+    split = split_artifact_pointer(owner_pointer)
+    if split is None:
+        return None
+    artifact, pointer = split
+    if pointer == "$" or not pointer.startswith("$."):
+        return None
+    parent_pointer, _sep, _leaf = pointer.rpartition(".")
+    if parent_pointer == "$":
+        return resolve_artifact_pointer(root, f"{artifact}:$")
+    if not parent_pointer.startswith("$."):
+        return None
+    return resolve_artifact_pointer(root, f"{artifact}:{parent_pointer}")
 
 
 def _validate_positive_row_anti_triviality(root: Path, row: Mapping[str, Any]) -> None:
@@ -320,7 +336,7 @@ def _owner_anti_triviality_passes(
     if accepted_level in POSITIVE_DISCOVERY_LEVELS:
         if POSITIVE_DISCOVERY_LEVEL_RANK[str(recommended)] < POSITIVE_DISCOVERY_LEVEL_RANK[accepted_level]:
             return False
-    if policy != "positive_requires_all_four_controls":
+    if policy != ANTI_TRIVIALITY_POLICY:
         return False
     if not isinstance(evidence, Mapping) or set(evidence) != ANTI_TRIVIALITY_FAMILIES:
         return False
@@ -335,38 +351,6 @@ def _owner_anti_triviality_passes(
         if resolve_artifact_pointer(root, qualified) is None:
             return False
     return True
-
-
-def _owner_specific_anti_triviality_passes(artifact: str, owner: Mapping[str, Any]) -> bool:
-    if artifact.endswith("gap-head-on-h.json"):
-        return (
-            pointer_value(owner, "$.treatment_verdict.positive") is True
-            and pointer_value(owner, "$.control_protocol") is not None
-            and pointer_value(owner, "$.control_verdict.positive") is False
-            and pointer_value(owner, "$.boundary_no_z_audit") is not None
-        )
-    if artifact.endswith("gap_head_transfer_atlas.json"):
-        return (
-            pointer_value(owner, "$.multi_surface_d5_o.decision") == "pass"
-            and pointer_value(owner, "$.surface_registry") is not None
-            and pointer_value(owner, "$.config.control_arm") is not None
-            and pointer_value(owner, "$.forbidden_claim_term_audit.status") == "pass"
-        )
-    if artifact.endswith("dimension-mismatch-debt-transfer.json"):
-        return (
-            pointer_value(owner, "$.dimension_mismatch_debt_transfer.anti_triviality_status")
-            == "anti_triviality_passed"
-            and pointer_value(owner, "$.hardgate_evidence.HG-B3.learned_auroc") is not None
-            and pointer_value(owner, "$.dimension_mismatch_debt_transfer.scope") is not None
-            and pointer_value(owner, "$.hardgate_evidence.HG-B3.matched_random_positive") is not None
-            and (
-                pointer_value(owner, "$.controlled_geometry.feature_partition") is not None
-                or pointer_value(owner, "$.dimension_mismatch_debt_transfer.anti_triviality_evidence.status_pointer")
-                == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
-            )
-        )
-    return False
-
 
 def _optional_string(row: Mapping[str, Any], key: str) -> str | None:
     value = row.get(key)

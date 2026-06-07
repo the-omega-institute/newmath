@@ -215,10 +215,16 @@ def test_hg_b1_at4_status_precedence_five_states_and_metadata_beats_scale(tmp_pa
             "h_normalized_no_scale": _metrics(positive=True),
         },
     )
-    assert runner.build_payload(root=tmp_path, generated_at="fixture-time")["status"] == "source_not_pass"
+    source_failed = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+    assert source_failed["status"] == "source_not_pass"
+    assert source_failed["hardgate_evidence"]["HG-B1-AT4"]["status"] == "fail"
+    assert source_failed["hardgate_evidence"]["HG-B1-AT4"]["fail_closed_reason"] == "selected status blocks positive anti-triviality"
 
     _source_artifact(tmp_path)
-    assert runner.build_payload(root=tmp_path, generated_at="fixture-time")["status"] == "metadata_leakage_detected"
+    metadata = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+    assert metadata["status"] == "metadata_leakage_detected"
+    assert metadata["hardgate_evidence"]["HG-B1-AT4"]["status"] == "fail"
+    assert metadata["hardgate_evidence"]["HG-B1-AT4"]["fail_closed_reason"] == "selected status blocks positive anti-triviality"
 
     _patch_metrics(
         monkeypatch,
@@ -228,7 +234,10 @@ def test_hg_b1_at4_status_precedence_five_states_and_metadata_beats_scale(tmp_pa
             "h_normalized_no_scale": _metrics(positive=True),
         },
     )
-    assert runner.build_payload(root=tmp_path, generated_at="fixture-time")["status"] == "scale_leakage_detected"
+    scale = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+    assert scale["status"] == "scale_leakage_detected"
+    assert scale["hardgate_evidence"]["HG-B1-AT4"]["status"] == "fail"
+    assert scale["hardgate_evidence"]["HG-B1-AT4"]["fail_closed_reason"] == "selected status blocks positive anti-triviality"
 
     _patch_metrics(
         monkeypatch,
@@ -238,7 +247,10 @@ def test_hg_b1_at4_status_precedence_five_states_and_metadata_beats_scale(tmp_pa
             "h_normalized_no_scale": _metrics(positive=True),
         },
     )
-    assert runner.build_payload(root=tmp_path, generated_at="fixture-time")["status"] == "anti_triviality_passed"
+    passed = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+    assert passed["status"] == "anti_triviality_passed"
+    assert passed["hardgate_evidence"]["HG-B1-AT4"]["status"] == "pass"
+    assert passed["hardgate_evidence"]["HG-B1-AT4"]["fail_closed_reason"] is None
 
     _patch_metrics(
         monkeypatch,
@@ -250,6 +262,8 @@ def test_hg_b1_at4_status_precedence_five_states_and_metadata_beats_scale(tmp_pa
     )
     deferred = runner.build_payload(root=tmp_path, generated_at="fixture-time")
     assert deferred["status"] == "defer_no_normalized_signal"
+    assert deferred["hardgate_evidence"]["HG-B1-AT4"]["status"] == "fail"
+    assert deferred["hardgate_evidence"]["HG-B1-AT4"]["fail_closed_reason"] == "selected status blocks positive anti-triviality"
     assert deferred["hardgate_evidence"]["HG-B1-AT4"]["precedence_order"] == list(runner.STATUS_PRECEDENCE)
 
 
