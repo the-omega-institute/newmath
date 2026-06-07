@@ -1192,11 +1192,36 @@ def sync_rollup_pr(source_branch: str, target_branch: str,
     if pr is not None and _all_checks_green(pr):
         return _merge_rollup_pr(pr, rollup_branch, target_branch)
 
-    needs_update = pr is None or _rollup_branch_stale(
-        rollup_branch, source_branch, target_branch,
-    )
+    # Do NOT chase the moving source branch. codex-auto-dev advances every
+    # minute; rebuilding + force-pushing the rollup candidate each time the
+    # source tip moves resets the open PR's CI before it can finish, so the PR
+    # never goes green and never merges into the target. While a pending
+    # (non-failed) PR is open, leave its checks to converge and wait for the
+    # green auto-merge. Only rebuild the candidate when:
+    #   (a) there is no managed PR yet, or
+    #   (b) the current PR's checks have terminally failed (candidate is bad
+    #       and a fresh one from newer tips might pass), or
+    #   (c) the target/base branch advanced out from under the rollup branch
+    #       (e.g. right after our own merge landed) so the PR is no longer
+    #       based on the current base.
+    # Each PR therefore carries a snapshot of source; once it merges, the next
+    # cycle opens a fresh PR that catches up the remaining source delta.
+    if pr is None:
+        needs_update = True
+    elif _pr_has_failed_check(pr):
+        print(f"[sync] rollup: PR #{pr['number']} has a failed check; "
+              f"rebuilding candidate from latest tips")
+        needs_update = True
+    elif not _merge_base_contains(f"origin/{target_branch}",
+                                  f"origin/{rollup_branch}"):
+        print(f"[sync] rollup: PR #{pr['number']} base {target_branch} "
+              f"advanced past the rollup branch; rebuilding candidate")
+        needs_update = True
+    else:
+        print(f"[sync] rollup: PR #{pr['number']} pending checks; waiting for "
+              f"green auto-merge (not rebuilding on source advance)")
+        needs_update = False
     if not needs_update:
-        print(f"[sync] rollup: PR #{pr['number']} is not green; keeping current candidate")
         return True
 
     candidate = _build_rollup_candidate(source_branch, target_branch)
