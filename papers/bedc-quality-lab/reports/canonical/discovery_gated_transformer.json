@@ -208,6 +208,120 @@
     "discovery_map": "out-of-scope-follow-up"
   },
   "generated_at": "2026-06-07T00:00:00+00:00",
+  "mechanism_certificate": {
+    "certificate_scope": "DGT mechanism nameability and evidenceability under local canonical pointer evidence only.",
+    "evidence_pointers": {
+      "component_ablations": {
+        "certificate_gated_attention": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal",
+        "discovery_regularized_training": "reports/canonical/discovery-regularized-training.json:$.training_loop_trace",
+        "gap_ledger_head": "reports/canonical/gap-head-ablation.json:$.factor_attribution",
+        "mechanism_probe": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates"
+      },
+      "interventions": {
+        "attention_cert_gate_intervention": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
+        "causal_intervention": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
+        "drt_removal": "reports/canonical/discovery-regularized-training.json:$.training_loop_trace",
+        "ledger_head_null_intervention": "reports/canonical/gap-head-ablation.json:$.hardgate",
+        "mechanism_probe_removal": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates",
+        "residualized_feature": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+        "route_intervention": "reports/canonical/gap_head_transfer_atlas.json:$.multi_surface_d5_o"
+      },
+      "shortcut_exclusion": {
+        "positive_mechanism_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
+        "residualized_feature_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+        "shortcut_exclusion_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence"
+      }
+    },
+    "mechanism_hardgate_slots": {
+      "DGT-MECH-HG1": {
+        "evidence_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate",
+        "evidence_pointer_state": "present-but-fail-closed",
+        "fail_closed_reason": "owner pointer must resolve in the committed canonical DGT JSON",
+        "gate_id": "DGT-MECH-HG1",
+        "gate_label": "owner resolvability",
+        "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed",
+        "requirement_summary": "mechanism certificate owner round-trips at its canonical owner pointer",
+        "scope_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope",
+        "slot_state": "present-but-fail-closed"
+      },
+      "DGT-MECH-HG2": {
+        "evidence_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.evidence_pointers.interventions",
+        "evidence_pointer_state": "present-but-fail-closed",
+        "fail_closed_reason": "intervention evidence remains pointer-only and bounded to local canonical artifacts",
+        "gate_id": "DGT-MECH-HG2",
+        "gate_label": "intervention evidence completeness",
+        "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed",
+        "requirement_summary": "intervention pointer set names causal, route, ledger-head, attention-gate, DRT, probe, and residualized surfaces",
+        "scope_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope",
+        "slot_state": "present-but-fail-closed"
+      },
+      "DGT-MECH-HG3": {
+        "evidence_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.evidence_pointers.component_ablations",
+        "evidence_pointer_state": "present-but-fail-closed",
+        "fail_closed_reason": "component ablation evidence remains pointer-only and bounded to local canonical artifacts",
+        "gate_id": "DGT-MECH-HG3",
+        "gate_label": "component ablation coverage",
+        "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed",
+        "requirement_summary": "component ablation pointer set covers certificate-gated attention, DRT, gap-ledger-head, and mechanism-probe surfaces",
+        "scope_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope",
+        "slot_state": "present-but-fail-closed"
+      },
+      "DGT-MECH-HG4": {
+        "evidence_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.evidence_pointers.shortcut_exclusion",
+        "evidence_pointer_state": "present-but-fail-closed",
+        "fail_closed_reason": "shortcut exclusion must not reuse the positive mechanism cell as its evidence cell",
+        "gate_id": "DGT-MECH-HG4",
+        "gate_label": "shortcut exclusion",
+        "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed",
+        "requirement_summary": "shortcut exclusion pointer is independent from the positive mechanism pointer",
+        "scope_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope",
+        "slot_state": "present-but-fail-closed"
+      },
+      "DGT-MECH-HG5": {
+        "evidence_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope",
+        "evidence_pointer_state": "present-but-fail-closed",
+        "fail_closed_reason": "scope and not-claimed cells must resolve before any later promotion",
+        "gate_id": "DGT-MECH-HG5",
+        "gate_label": "scope and not-claimed boundary",
+        "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed",
+        "requirement_summary": "scope and not-claimed cells are present under the mechanism certificate owner",
+        "scope_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope",
+        "slot_state": "present-but-fail-closed"
+      },
+      "DGT-MECH-HG6": {
+        "evidence_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.certificate_scope",
+        "evidence_pointer_state": "present-but-fail-closed",
+        "fail_closed_reason": "certificate scope must avoid terminal or broad architecture claims",
+        "gate_id": "DGT-MECH-HG6",
+        "gate_label": "bounded claim boundary",
+        "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed",
+        "requirement_summary": "certificate scope is bounded to DGT mechanism nameability and evidenceability",
+        "scope_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope",
+        "slot_state": "present-but-fail-closed"
+      }
+    },
+    "not_claimed": [
+      "No broad architecture superiority claim.",
+      "No production deployment claim.",
+      "No terminal discovery acceptance claim.",
+      "No copied evidence body."
+    ],
+    "overall_state": "present-but-fail-closed",
+    "owner_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate",
+    "public_pointers": {
+      "hardgate_slots_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.mechanism_hardgate_slots",
+      "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed",
+      "overall_state_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.overall_state",
+      "scope_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope"
+    },
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer-mechanism-certificate",
+    "scope": {
+      "bounded_to": "DGT mechanism pointer evidence and naming boundary",
+      "mechanism_owner_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate",
+      "model_owner_pointer": "reports/canonical/discovery_gated_transformer.json:$"
+    },
+    "status": "present-but-fail-closed"
+  },
   "model_id": "discovery_gated_transformer",
   "new_model_hardgates_registry": {
     "artifact_id": "bedc-quality-lab:new-model-hardgates",
@@ -227,6 +341,7 @@
     "component_descriptors": "$.component_descriptors",
     "dgt_hardgate_slots": "$.dgt_hardgate_slots",
     "downstream_scope": "$.downstream_scope",
+    "mechanism_certificate": "$.mechanism_certificate",
     "model_id": "$.model_id",
     "not_claimed": "$.not_claimed",
     "training_replay_ref": "$.training_replay_ref"
