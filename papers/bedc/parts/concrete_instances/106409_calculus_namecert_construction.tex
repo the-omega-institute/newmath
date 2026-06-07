@@ -411,6 +411,7 @@ Use \autoref{thm:calculus-derivative-continuation-obligation} for the derivative
 \label{thm:calculus-regseqrat-readback-root-obligation}
 Every real-facing value exported by an accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$ must display the $\RegSeqRatUp$ readback row $Q$ together with the $\RealUp$ boundary $R$ and the dyadic tolerance route inherited by the regular-rational readback. This readback is required before any limit, derivative, or integral read is exported from $L$, $D$, or $I$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusRegSeqRatReadbackRootObligation}
 \begin{proof}
 Begin with the carrier of \autoref{def:calculus-carrier}. The terminal real boundary is $R$, and the common rational readback row is $Q$; no other coordinate converts limit, derivative, or integral data into a real-facing value.
 
@@ -444,7 +445,6 @@ Use \autoref{thm:calculus-continuous-map-graph-replay-obligation}. It requires $
 
 Use \autoref{thm:calculus-regseqrat-readback-root-obligation}. Every real-facing export from $L,D,I$ must expose $Q$ together with $R$ and the dyadic tolerance route. Hence the Real seal is downstream of the displayed graph, limit, and readback rows rather than an ambient completeness principle.
 \end{proof}
-\leanchecked{BEDC.Derived.CalculusUp.CalculusContinuousLimitCarrierBudget}
 
 \begin{theorem}[Calculus derivative-integral source separation]
 \label{thm:calculus-derivative-integral-source-separation}
@@ -589,6 +589,7 @@ The terminal real boundary is $R$. Since no coordinate of the root carrier conta
 \label{thm:calculus-root-integral-regseqrat-handoff}
 For every accepted $\CalculusUp$ root derivative-integral carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, an integral-facing read through the $\IntegralUp$ row $I$ must first display the $\ContinuousMapUp$ row $C$, the finite-sum and endpoint handoff data in $I$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance route inherited by $Q$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and the local $\NameCert_{\CalculusUp}$ row $N$. Only after this readback may the consumer reach the $\RealUp$ boundary $R$.
 \end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusRootIntegralRegSeqRatHandoff}
 \begin{proof}
 Read the integral source row $I$ from \autoref{def:calculus-root-derivative-integral-carrier}. Its partition, tag, finite-sum, and endpoint data are displayed inside the same finite $\BHist$ packet as $C,Q,H,T,P,N$.
 

@@ -166,6 +166,20 @@ Apply \autoref{thm:regular-cauchy-reciprocal-tail-stability}. Preserving the sou
 Finally use \autoref{thm:regular-cauchy-reciprocal-window-composition}. The composed route reaches $T$ and then $E$ only through the displayed chain $Q,A,M,W,D,B,T,E$, so the denominator apartness witness remains visible throughout the reciprocal handoff rather than becoming hidden choice data.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy reciprocal located apartness window]
+\label{thm:regularcauchyreciprocal-located-apartness-window}
+Any $\RealUp$-seal or budget-facing consumer of an accepted $\RegularCauchyReciprocalUp$ carrier $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ must expose the $\RegSeqRatUp$ source row $Q$, apartness row $A$, modulus row $M$, $\StreamNameUp$ window row $W$, $\DyadicRatCoreUp$ comparison row $D$, and $\CauchyInverseBudgetUp$ budget row $B$ before reading the reciprocal readback row $T$ or terminal seal row $E$. The route exports no total reciprocal on arbitrary $\RealUp$ names, trichotomy, quotient stream equality, selected limit, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The only reciprocal-facing analytic rows before readback are the source, apartness, modulus, window, dyadic comparison, and budget rows $Q,A,M,W,D,B$.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-apartness-window}, \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}, and \autoref{thm:regular-cauchy-reciprocal-nonzero-denominator-window}. These place the located apartness display in $A$ before the dyadic comparison row and identify $Q,A,M,W,D$ as the nonzero-denominator window required before $B$ is read.
+
+Next use \autoref{thm:regular-cauchy-reciprocal-window-composition}. It preserves the same route through $Q,A,M,W,D,B,T,E$ under later finite windows, so reading $T$ cannot detach the reciprocal candidate from its displayed denominator witness.
+
+Finally apply \autoref{thm:regular-cauchy-reciprocal-real-seal-handoff}. The terminal seal $E$ is offered only after the source, apartness, modulus, window, dyadic, budget, and readback rows have been displayed. Since the carrier has no coordinate for total reciprocals, trichotomy, quotient stream equality, selected limits, or ambient completeness, those principles cannot be exported by either the budget-facing route or the Real-seal route.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy reciprocal scoped denominator apartness]
 \label{thm:regular-cauchy-reciprocal-scoped-denominator-apartness}
 For every accepted $\RegularCauchyReciprocalUp$ carrier $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$, the denominator-apartness witness is scoped exactly by the $\RegSeqRatUp$ source row $Q$, apartness row $A$, finite modulus row $M$, $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, $\CauchyInverseBudgetUp$ row $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$. It exports no total $\RealUp$ reciprocal, quotient stream, selected limit, or host equality.
@@ -204,6 +218,7 @@ Finally use \autoref{thm:regular-cauchy-reciprocal-tail-stability} together with
 \label{thm:regular-cauchy-reciprocal-namecert-obligations}
 The seed $\NameCert_{\RegularCauchyReciprocalUp}$ surface consists exactly of carrier exposure for $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$, apartness-window exposure through $A$, finite-window exposure through $W$, dyadic reciprocal arithmetic through $D$, sibling budget exposure through $B$, regular readback through $T$, terminal $\RealUp$ sealing through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyReciprocalUp.RegularCauchyReciprocalNameCertObligations}
 \begin{proof}
 Carrier exposure is \autoref{def:regular-cauchy-reciprocal-carrier}. It supplies the full row list and states that the classifier reads only those rows.
 
@@ -285,10 +300,11 @@ Finally invoke \autoref{thm:regular-cauchy-reciprocal-seal-route-conservativity}
 
 \begin{closurestatus}{\RegularCauchyReciprocalUp}
   \constructivestory{A $\RegularCauchyReciprocalUp$ packet is generated from a $\RegSeqRatUp$ source, an apartness-window row, a finite modulus row, a $\StreamNameUp$ window, a $\DyadicRatCoreUp$ ledger, a $\CauchyInverseBudgetUp$ budget row, a reciprocal readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{\autoref{def:regular-cauchy-reciprocal-carrier}, \autoref{thm:regular-cauchy-reciprocal-apartness-window}, \autoref{thm:regular-cauchy-reciprocal-readback-route}, \autoref{thm:regular-cauchy-reciprocal-classifier-stability}, \autoref{thm:regular-cauchy-reciprocal-terminal-seal-non-totality}, \autoref{thm:regular-cauchy-reciprocal-namecert-obligations}, \autoref{thm:regular-cauchy-reciprocal-window-budget-coverage}, \autoref{thm:regular-cauchy-reciprocal-readback-budget-exactness}, and \autoref{thm:regular-cauchy-reciprocal-seal-route-conservativity} bind the reciprocal NameCert obligation surface for regular Cauchy names over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyInverseBudgetUp$, and $\RealUp$.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchyReciprocalUp.RegularCauchyReciprocalScopeDependencyLock}
   \bridgestatus{none}
-  \notclaimed{This chapter does not claim a total reciprocal, trichotomy, quotient stream equality, selected limits, ambient real completeness, or a Lean theorem.}
-  \upgradepath{Scoped closure requires a formal route that encodes the twelve-row carrier and verifies the apartness-window, readback-route, budget-coverage, readback-exactness, and seal-conservativity obligations.}
+  \notclaimed{This chapter does not claim a total reciprocal, trichotomy, quotient stream equality, selected limits, ambient real completeness, or a public bridge.}
+  \upgradepath{Public exposure requires a consumer-facing reciprocal surface and bridge checking for the canonical dependency lock.}
 \end{closurestatus}
