@@ -124,6 +124,9 @@ RELEASE_NAMECERT_CANDIDATE_ARTIFACT_ID = "bedc-quality-lab:release-namecert-cand
 TOY_SAFETY_BOUNDARY_JSON_ARTIFACT = "reports/canonical/toy_safety_boundary.json"
 TOY_SAFETY_BOUNDARY_MARKDOWN_ARTIFACT = "reports/canonical/toy_safety_boundary.md"
 TOY_SAFETY_BOUNDARY_ARTIFACT_ID = "bedc-quality-lab:toy-safety-boundary"
+CAUSAL_PATCH_SUITE_JSON_ARTIFACT = "reports/canonical/causal_patch_suite.json"
+CAUSAL_PATCH_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/patch_effect_summary.md"
+CAUSAL_PATCH_SUITE_ARTIFACT_ID = "bedc-quality-lab:causal-patch-suite"
 
 
 @dataclass(**{"froz" + "en": True})
@@ -1067,6 +1070,37 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         not_claimed_pointer="$.applicability_boundary.not_claimed",
         positive_claim_pointer="$.ledger_summary",
         control_pointer="$.negative_control_summary",
+        no_control_rationale_pointer=None,
+    ),
+    CanonicalReportSpec(
+        name="causal-patch-suite",
+        command=("python3", "scripts/run_causal_patch_suite.py"),
+        json_artifact=CAUSAL_PATCH_SUITE_JSON_ARTIFACT,
+        markdown_artifact=CAUSAL_PATCH_SUITE_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "patch_registry",
+            "schema_constants",
+            "records",
+            "effect_summary",
+            "matched_control_summary",
+            "side_effect_ledger",
+            "hardgates",
+            "causal_derivative_ledger_artifact",
+            "discovery_projection",
+            "not_claimed",
+        ),
+        estimated_seconds=2,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.schema_constants.PATCH_MATCHED_CONTROL",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.discovery_projection",
+        control_pointer="$.matched_control_summary",
         no_control_rationale_pointer=None,
     ),
 )

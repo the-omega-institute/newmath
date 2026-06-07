@@ -223,11 +223,25 @@ def _payload_for_spec(spec):
                 }
             },
             "score_terms": {"status": "fixture"},
+            "schema_constants": {
+                "PATCH_MATCHED_CONTROL": "same-seed non-target-channel no-op/control perturbation",
+            },
             "matched_random_control": {
                 "status": "fixture",
                 **_matched_random_audit_fixture(),
                 "control_verdict": {"positive": False},
                 "control_projection": {"positive_discovery": True},
+            },
+            "matched_control_summary": {"status": "pass"},
+            "effect_summary": {"status": "fixture"},
+            "side_effect_ledger": [{"status": "present"}],
+            "patch_registry": [{"channel": "fixture"}],
+            "causal_derivative_ledger_artifact": "reports/canonical/causal_derivative_ledger.json",
+            "discovery_projection": {
+                "status": "evidence-artifact-only",
+                "discovery_level_effect": "none",
+                "positive_discovery": False,
+                "net_positive_signal": False,
             },
             "objective": {"required_rows": ["fixture"]},
             "cost_protocol": {"name": "fixture"},
@@ -1303,6 +1317,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "lejepa-theorem-ledger",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
+        "causal-patch-suite",
     ]
     assert "certificate-guided-arms" not in names
     assert len(json_artifacts) == len(set(json_artifacts))
@@ -1942,6 +1957,43 @@ def test_canonical_reports_manifest_includes_distribution_sweep():
         "not_claimed",
     }.issubset(set(spec.required_json_keys))
     assert spec.bundle_role == "auxiliary"
+
+
+def test_canonical_reports_manifest_includes_causal_patch_suite():
+    spec = canonical._specs_by_name()["causal-patch-suite"]
+
+    assert spec.command == ("python3", "scripts/run_causal_patch_suite.py")
+    assert spec.json_artifact == "reports/canonical/causal_patch_suite.json"
+    assert spec.markdown_artifact == "reports/canonical/patch_effect_summary.md"
+    assert {
+        "schema_id",
+        "artifact_id",
+        "producer",
+        "patch_registry",
+        "schema_constants",
+        "records",
+        "effect_summary",
+        "matched_control_summary",
+        "side_effect_ledger",
+        "hardgates",
+        "causal_derivative_ledger_artifact",
+        "discovery_projection",
+        "not_claimed",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "auxiliary"
+    assert spec.scope_pointer == "$.not_claimed"
+    assert spec.cost_pointer == "$.schema_constants.PATCH_MATCHED_CONTROL"
+    assert spec.positive_claim_pointer == "$.discovery_projection"
+    assert spec.control_pointer == "$.matched_control_summary"
+
+
+def test_causal_patch_suite_fingerprint_sources_cover_runner_and_stats():
+    spec = canonical._specs_by_name()["causal-patch-suite"]
+    input_record = canonical._input_record(spec)
+    source_paths = {row["path"] for row in input_record["producer_sources"]}
+
+    assert "scripts/run_causal_patch_suite.py" in source_paths
+    assert "scripts/experiment_stats.py" in source_paths
 
 
 def test_canonical_reports_manifest_includes_mixing_and_anisotropic_sweeps():
@@ -4236,9 +4288,14 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.applicability_boundary",
                 },
+                {
+                    "report": "causal-patch-suite",
+                    "artifact": "reports/canonical/causal_patch_suite.json",
+                    "pointer": "$.not_claimed",
+                },
             ],
-            "numerator": 22,
-            "denominator": 22,
+            "numerator": 23,
+            "denominator": 23,
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
@@ -4353,9 +4410,14 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
                     "artifact": "reports/canonical/spectral-ablation-hinge.json",
                     "pointer": "$.source_artifacts",
                 },
+                {
+                    "report": "causal-patch-suite",
+                    "artifact": "reports/canonical/causal_patch_suite.json",
+                    "pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
+                },
             ],
-            "numerator": 22,
-            "denominator": 22,
+            "numerator": 23,
+            "denominator": 23,
         },
         "HardeningCoverage": {
             "value": 1.0,

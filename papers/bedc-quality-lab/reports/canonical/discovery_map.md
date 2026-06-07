@@ -1,7 +1,7 @@
 # Discovery Map
 
 - Generated at: `2026-06-07T20:57:07.067409+00:00`
-- Rows: `25`
+- Rows: `26`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -27,6 +27,7 @@
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
+| `causal-patch-suite` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
 | `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
 | `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
