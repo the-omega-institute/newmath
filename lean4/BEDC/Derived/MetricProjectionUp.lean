@@ -215,4 +215,94 @@ theorem MetricProjectionLocatedInfimumReplayObligation [AskSetup] [PackageSetup]
       distanceInfimumUnary, windowEndpointUnary, replayReadUnary, hilbertRoute,
       distanceRoute, windowRoute, replayRoute, provenancePkg, replayPkg⟩
 
+theorem MetricProjectionCarrier_public_projection_certificate [AskSetup] [PackageSetup]
+    {H C D I W E T R P N locatedEndpoint projectionEndpoint endpointRead publicRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetricProjectionCarrier H C D I W E T R P N bundle pkg →
+      Cont D I locatedEndpoint →
+        Cont I W projectionEndpoint →
+          Cont projectionEndpoint E endpointRead →
+            Cont endpointRead N publicRead →
+              PkgSig bundle publicRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row H ∨ hsame row C ∨ hsame row D ∨ hsame row I ∨
+                        hsame row W ∨ hsame row E ∨ hsame row T ∨ hsame row R ∨
+                          hsame row P ∨ hsame row N ∨ hsame row publicRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont D I locatedEndpoint ∧
+                        Cont I W projectionEndpoint ∧
+                          Cont projectionEndpoint E endpointRead ∧
+                            Cont endpointRead N publicRead ∧
+                              PkgSig bundle publicRead pkg)
+                    hsame ∧
+                  UnaryHistory locatedEndpoint ∧ UnaryHistory projectionEndpoint ∧
+                    UnaryHistory endpointRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert
+  intro carrier locatedRoute projectionRoute endpointRoute publicRoute publicPkg
+  obtain ⟨_HUnary, _CUnary, DUnary, IUnary, WUnary, EUnary, _TUnary, _RUnary,
+    _PUnary, NUnary, _windowRoute, _distanceRoute, _provenancePkg⟩ := carrier
+  have locatedUnary : UnaryHistory locatedEndpoint :=
+    unary_cont_closed DUnary IUnary locatedRoute
+  have projectionUnary : UnaryHistory projectionEndpoint :=
+    unary_cont_closed IUnary WUnary projectionRoute
+  have endpointUnary : UnaryHistory endpointRead :=
+    unary_cont_closed projectionUnary EUnary endpointRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed endpointUnary NUnary publicRoute
+  have sourcePublic :
+      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row) publicRead := by
+    exact ⟨hsame_refl publicRead, publicUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row H ∨ hsame row C ∨ hsame row D ∨ hsame row I ∨ hsame row W ∨
+              hsame row E ∨ hsame row T ∨ hsame row R ∨ hsame row P ∨ hsame row N ∨
+                hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont D I locatedEndpoint ∧
+              Cont I W projectionEndpoint ∧ Cont projectionEndpoint E endpointRead ∧
+                Cont endpointRead N publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourcePublic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, locatedRoute, projectionRoute, endpointRoute, publicRoute,
+          publicPkg⟩
+  }
+  exact ⟨cert, locatedUnary, projectionUnary, endpointUnary, publicUnary⟩
+
 end BEDC.Derived.MetricProjectionUp
