@@ -58,6 +58,7 @@ def test_verdict_payload_fields_and_predicate_values():
     row = payload["per_dose_verdicts"][1]
     assert "report_schema_id" not in json.dumps(payload)
     assert "report_kind" not in json.dumps(payload)
+    assert payload["scope_seal"] == runner.SCOPE_SEAL
     assert row["surface_delta_count"] == len(classifier_surface_delta(projection["passage"]))
     assert row["shift_information"] == shift_information(projection["passage"])
     assert row["positive_discovery"] == positive_discovery(projection["claim"])

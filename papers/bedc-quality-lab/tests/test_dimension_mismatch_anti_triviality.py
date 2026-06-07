@@ -99,8 +99,12 @@ def _source_artifact(root, status="pass"):
 
 
 def _patch_metrics(monkeypatch, by_arm):
+    full_by_arm = {arm: _metrics() for arm in runner.ARM_ORDER}
+    full_by_arm.update(by_arm)
+    if "h_normalized_no_scale" in by_arm and "whitened_h_normalized_no_scale" not in by_arm:
+        full_by_arm["whitened_h_normalized_no_scale"] = by_arm["h_normalized_no_scale"]
     monkeypatch.setattr(runner, "_build_arm_matrices", lambda: ORIGINAL_BUILD_ARM_MATRICES(_surface_fixture()))
-    monkeypatch.setattr(runner, "_run_arm", lambda matrix: by_arm[matrix["arm"]])
+    monkeypatch.setattr(runner, "_run_arm", lambda matrix: full_by_arm[matrix["arm"]])
 
 
 def _recursive_keys(value):
@@ -113,10 +117,18 @@ def _recursive_keys(value):
             yield from _recursive_keys(item)
 
 
-def test_three_arm_construction_exact_columns_and_metadata_exclusions():
+def test_six_family_construction_exact_columns_and_metadata_exclusions():
     matrices = runner._build_arm_matrices(_surface_fixture())
 
     assert tuple(matrices) == runner.ARM_ORDER
+    assert tuple(matrices) == (
+        "config_metadata_only",
+        "scale_only",
+        "h_normalized_no_scale",
+        "whitened_h_normalized_no_scale",
+        "deterministic_random_projection",
+        "rank_proxy_diagnostic",
+    )
     assert tuple(matrices["config_metadata_only"]["feature_columns"]) == (
         "encoder_dim",
         "reference_latent_dim",
@@ -127,6 +139,9 @@ def test_three_arm_construction_exact_columns_and_metadata_exclusions():
         assert forbidden not in matrices["config_metadata_only"]["feature_columns"]
     assert tuple(matrices["scale_only"]["feature_columns"]) == runner.SCALE_ONLY_COLUMNS
     assert tuple(matrices["h_normalized_no_scale"]["feature_columns"]) == runner.H_NORMALIZED_NO_SCALE_COLUMNS
+    assert tuple(matrices["whitened_h_normalized_no_scale"]["feature_columns"]) == runner.WHITENED_H_NORMALIZED_NO_SCALE_COLUMNS
+    assert tuple(matrices["deterministic_random_projection"]["feature_columns"]) == runner.DETERMINISTIC_RANDOM_PROJECTION_COLUMNS
+    assert tuple(matrices["rank_proxy_diagnostic"]["feature_columns"]) == runner.RANK_PROXY_DIAGNOSTIC_COLUMNS
 
 
 def test_local_row_l2_direction_helper():
@@ -267,6 +282,58 @@ def test_hg_b1_at4_status_precedence_five_states_and_metadata_beats_scale(tmp_pa
     assert deferred["hardgate_evidence"]["HG-B1-AT4"]["precedence_order"] == list(runner.STATUS_PRECEDENCE)
 
 
+def test_random_projection_positive_status_is_computed_from_owner_runner(tmp_path, monkeypatch):
+    _source_artifact(tmp_path)
+    _patch_metrics(
+        monkeypatch,
+        {
+            "config_metadata_only": _metrics(),
+            "scale_only": _metrics(),
+            "h_normalized_no_scale": _metrics(),
+            "whitened_h_normalized_no_scale": _metrics(),
+            "deterministic_random_projection": _metrics(positive=True),
+        },
+    )
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+    arm_positive = payload["hardgate_evidence"]["HG-B1-AT4"]["arm_positive"]
+
+    assert payload["status"] == "random_projection_positive"
+    assert payload["recommended_projection"] == "defer"
+    assert arm_positive["config_metadata_only"] is False
+    assert arm_positive["scale_only"] is False
+    assert arm_positive["h_normalized_no_scale"] is False
+    assert arm_positive["whitened_h_normalized_no_scale"] is False
+    assert arm_positive["deterministic_random_projection"] is True
+    assert payload["hardgate_evidence"]["HG-B1-AT4"]["selected_status"] == "random_projection_positive"
+
+
+def test_whitening_failure_status_is_computed_from_owner_runner(tmp_path, monkeypatch):
+    _source_artifact(tmp_path)
+    _patch_metrics(
+        monkeypatch,
+        {
+            "config_metadata_only": _metrics(),
+            "scale_only": _metrics(),
+            "h_normalized_no_scale": _metrics(positive=True),
+            "whitened_h_normalized_no_scale": _metrics(),
+            "deterministic_random_projection": _metrics(),
+        },
+    )
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+    arm_positive = payload["hardgate_evidence"]["HG-B1-AT4"]["arm_positive"]
+
+    assert payload["status"] == "whitening_failure_detected"
+    assert payload["recommended_projection"] == "defer"
+    assert arm_positive["config_metadata_only"] is False
+    assert arm_positive["scale_only"] is False
+    assert arm_positive["h_normalized_no_scale"] is True
+    assert arm_positive["whitened_h_normalized_no_scale"] is False
+    assert arm_positive["deterministic_random_projection"] is False
+    assert payload["hardgate_evidence"]["HG-B1-AT4"]["selected_status"] == "whitening_failure_detected"
+
+
 def test_hg_b1_at5_strict_conjunction_only_and_wide_or_diagnostic(tmp_path, monkeypatch):
     _source_artifact(tmp_path)
     _patch_metrics(
@@ -289,6 +356,26 @@ def test_hg_b1_at5_strict_conjunction_only_and_wide_or_diagnostic(tmp_path, monk
     assert payload["status"] == "defer_no_normalized_signal"
     assert payload["hardgate_evidence"]["HG-B1-AT5"]["status"] == "pass"
     assert payload["positive_predicate"]["wide_or_rule"] == "diagnostic_only"
+
+
+def test_diagnostics_are_recorded_for_whitening_projection_and_rank_proxy(tmp_path, monkeypatch):
+    _source_artifact(tmp_path)
+    _patch_metrics(
+        monkeypatch,
+        {
+            "config_metadata_only": _metrics(),
+            "scale_only": _metrics(),
+            "h_normalized_no_scale": _metrics(positive=True),
+        },
+    )
+
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+    by_arm = {row["arm"]: row for row in payload["arms"]}
+
+    assert by_arm["whitened_h_normalized_no_scale"]["diagnostics"]["whitening"]["status"] == "pass"
+    assert by_arm["deterministic_random_projection"]["diagnostics"]["deterministic_random_projection"]["projection_seed"] == runner.RANDOM_PROJECTION_SEED
+    assert by_arm["deterministic_random_projection"]["diagnostics"]["deterministic_random_projection"]["projection_width"] == runner.RANDOM_PROJECTION_WIDTH
+    assert by_arm["rank_proxy_diagnostic"]["diagnostics"]["rank_proxy"]["status"] == "pass"
 
 
 def test_hg_b1_at6_sidecar_boundary_and_schema_invariants(tmp_path, monkeypatch):
@@ -338,8 +425,12 @@ def test_b2_controlled_geometry_sidecar_has_resolvable_evidence_pointers(tmp_pat
 
     payload = runner.write_dimension_mismatch_anti_triviality(root=tmp_path, generated_at="fixture-time")
 
-    assert set(payload["controlled_geometry_hardgates"]) == {"B2-HG1", "B2-HG2", "B2-HG3", "B2-HG4", "B2-HG5"}
+    assert set(payload["controlled_geometry_hardgates"]) == {"B2-HG1", "B2-HG2", "B2-HG3", "B2-HG4", "B2-HG5", "B2-HG6"}
     assert payload["controlled_geometry_pointer_contract"]["source_artifact"] == runner.JSON_ARTIFACT
+    assert payload["controlled_geometry"]["control_family_coverage"]["status"] == "pass"
+    assert payload["controlled_geometry"]["control_family_coverage"]["required_families"] == list(runner.ARM_ORDER)
+    assert payload["controlled_geometry"]["control_family_coverage"]["observed_families"] == list(runner.ARM_ORDER)
+    assert set(payload["controlled_geometry"]["control_family_coverage"]["family_pointers"]) == set(runner.ARM_ORDER)
     assert payload["controlled_geometry"]["artifact_boundary"]["writes_claim_capsule"] is False
     assert payload["controlled_geometry"]["artifact_boundary"]["writes_run_local_bundle"] is False
     assert payload["controlled_geometry"]["artifact_boundary"]["writes_claim_outcome"] is False
@@ -351,6 +442,32 @@ def test_b2_controlled_geometry_sidecar_has_resolvable_evidence_pointers(tmp_pat
         assert row["controlled_geometry_artifact"] == runner.JSON_ARTIFACT
         assert pointer_value(payload, row["source_pointer"]) is not None, row
         assert pointer_value(payload, row["controlled_geometry_pointer"]) is not None, row
+    assert [row["evidence_id"] for row in payload["controlled_geometry"]["evidence_refs"]] == list(
+        payload["controlled_geometry_hardgates"]
+    )
+    report = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
+    assert (
+        "- `$.controlled_geometry_hardgates` records "
+        f"{', '.join(payload['controlled_geometry_hardgates'])}."
+    ) in report
+
+
+def test_control_family_coverage_defers_when_a_family_is_missing(tmp_path, monkeypatch):
+    _source_artifact(tmp_path)
+    _patch_metrics(
+        monkeypatch,
+        {
+            "config_metadata_only": _metrics(),
+            "scale_only": _metrics(),
+            "h_normalized_no_scale": _metrics(positive=True),
+        },
+    )
+    payload = runner.build_payload(root=tmp_path, generated_at="fixture-time")
+
+    controlled = runner._controlled_geometry(payload["arms"][:-1])
+
+    assert controlled["controlled_geometry"]["control_family_coverage"]["status"] == "defer"
+    assert controlled["controlled_geometry_hardgates"]["B2-HG6"]["status"] == "defer"
 
 
 def test_dimension_mismatch_sidecar_and_backend_do_not_write_terminal_verdict(tmp_path, monkeypatch):

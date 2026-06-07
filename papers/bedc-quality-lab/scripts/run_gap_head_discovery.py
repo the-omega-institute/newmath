@@ -23,12 +23,13 @@ from bedc_quality_lab.classifier_shift import (
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.ledger import LedgerRowKey, ledger_complete
-from bedc_quality_lab.scope import Scope, ScopedCertificate, scope_rows
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL, Scope, ScopedCertificate, closed_claim_scope_seal, scope_rows
 
 
 SOURCE_JSON_ARTIFACT = "reports/gap_ledger_head_on_h.json"
 JSON_ARTIFACT = "reports/gap_head_discovery.json"
 REPORT_ARTIFACT = "reports/gap_head_discovery.md"
+SCOPE_SEAL = CLOSED_CLAIM_SCOPE_SEAL
 BEFORE_ARM = "vanilla"
 AFTER_ARM = "learned_gap_head_on_h"
 CONTROL_ARM = "matched_random_gap_head"
@@ -244,7 +245,7 @@ def _build_gap_head_projection(
         ledger_required_rows=ledger_rows,
         ledger_recorded_rows=rows_recorded,
         public_cost_protocol=True,
-        scope_sealed=True,
+        scope_sealed=closed_claim_scope_seal(SCOPE_SEAL),
         not_claimed_boundary=frozenset({"formal-bedc-closure", "human-math-baseline"}),
         benefit_modes=frozenset(benefit),
         omitted_debt_terms={} if omitted_debt_terms is None else omitted_debt_terms,
@@ -305,6 +306,7 @@ def _projection_verdict(projection: GapHeadProjection) -> dict[str, Any]:
         "report": REPORT_ARTIFACT,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "source_artifacts": projection.source_artifacts,
+        "scope_seal": SCOPE_SEAL,
         "common_source_record_count": len(passage.source.source_ids & passage.target.source_ids),
         "surface_delta_count": len(delta),
         "shift_information": shift_information(passage),

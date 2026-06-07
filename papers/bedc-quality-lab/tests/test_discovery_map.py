@@ -21,6 +21,7 @@ from scripts import run_certificate_gated_attention as cga_runner
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
 MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "ledger-aware-transformer": "bedc-quality-lab:ledger-aware-transformer",
@@ -145,6 +146,7 @@ def _audit_complete_payload(spec, payload):
         _ensure_pointer_value(payload, spec.control_pointer, {"status": "fixture-control"})
     if spec.no_control_rationale_pointer is not None:
         _ensure_pointer_value(payload, spec.no_control_rationale_pointer, {"status": "fixture-rationale"})
+    payload["scope_seal"] = CLOSED_CLAIM_SCOPE_SEAL
     payload["audit_decision"] = {"audit_status": "pass"}
     if spec.name == "gap-head-attribution-capsule":
         payload.setdefault("cost_protocol_pointer", "configs/default_cost_protocol.yaml")
@@ -936,6 +938,14 @@ def _dimension_mismatch_payload(*, status="pass", anti_triviality_status="scale_
     return {
         "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
         "status": "pointer-only",
+        "scope_seal": {
+            "status": "closed",
+            "toy": True,
+            "bounded": True,
+            "theorem": False,
+            "real_training": False,
+            "production_forbidden": True,
+        },
         "control_protocol": {"control_arm": "matched_random_gap_head"},
         "dimension_mismatch_debt_transfer": {
             "status": status,
@@ -1704,6 +1714,23 @@ def test_d4_rows_have_resolvable_control_pointer(tmp_path, report):
     assert discovery_map.pointer_value(payload, evidence.control_pointer) is not None
     artifact, pointer = evidence.scorecard_pointer.split(":", 1)
     assert discovery_map.pointer_value(_read_json_artifact(tmp_path, artifact), pointer) is not None
+
+
+def test_projection_payload_without_serialized_scope_seal_fails_closed(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-discovery"]
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
+    payload.pop("scope_seal", None)
+    context = discovery_map._load_gap_head_d5_context(root=tmp_path)
+
+    projected = discovery_map.projection_payload(spec, payload, context)
+    verdict = discovery_map.assign_discovery_level(projected)
+    row = discovery_map.discovery_row(spec, payload, context)
+
+    assert "scope_seal" not in projected
+    assert verdict.discovery_level == "D1"
+    assert verdict.reasons == ("scope_seal=false",)
+    assert row["discovery_level"] == "D1"
 
 
 @pytest.mark.parametrize(

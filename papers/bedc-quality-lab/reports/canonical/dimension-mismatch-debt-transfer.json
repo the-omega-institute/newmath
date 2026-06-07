@@ -55,6 +55,47 @@
       "artifact": "reports/dimension_mismatch_anti_triviality.json",
       "controlled_geometry": {
         "artifact": "reports/dimension_mismatch_anti_triviality.json",
+        "control_family_coverage": {
+          "family_pointers": {
+            "config_metadata_only": "$.arms.0",
+            "deterministic_random_projection": "$.arms.4",
+            "h_normalized_no_scale": "$.arms.2",
+            "rank_proxy_diagnostic": "$.arms.5",
+            "scale_only": "$.arms.1",
+            "whitened_h_normalized_no_scale": "$.arms.3"
+          },
+          "malformed_families": [],
+          "missing_families": [],
+          "observed_families": [
+            "config_metadata_only",
+            "scale_only",
+            "h_normalized_no_scale",
+            "whitened_h_normalized_no_scale",
+            "deterministic_random_projection",
+            "rank_proxy_diagnostic"
+          ],
+          "reason": "all six control-family pointers resolve",
+          "required_families": [
+            "config_metadata_only",
+            "scale_only",
+            "h_normalized_no_scale",
+            "whitened_h_normalized_no_scale",
+            "deterministic_random_projection",
+            "rank_proxy_diagnostic"
+          ],
+          "resolved_families": [
+            "config_metadata_only",
+            "scale_only",
+            "h_normalized_no_scale",
+            "whitened_h_normalized_no_scale",
+            "deterministic_random_projection",
+            "rank_proxy_diagnostic"
+          ],
+          "source_status": "pass",
+          "status": "pass",
+          "unknown_families": []
+        },
+        "control_family_coverage_pointer": "$.controlled_geometry.control_family_coverage",
         "controlled_geometry_pointer": "$.controlled_geometry",
         "evidence_refs": [
           {
@@ -91,6 +132,13 @@
             "evidence_id": "B2-HG5",
             "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
             "source_pointer": "$.controlled_geometry_hardgates.B2-HG5"
+          },
+          {
+            "controlled_geometry_artifact": "reports/dimension_mismatch_anti_triviality.json",
+            "controlled_geometry_pointer": "$.controlled_geometry.control_family_coverage",
+            "evidence_id": "B2-HG6",
+            "source_artifact": "reports/dimension_mismatch_anti_triviality.json",
+            "source_pointer": "$.controlled_geometry_hardgates.B2-HG6"
           }
         ],
         "hardgates_pointer": "$.controlled_geometry_hardgates",
@@ -148,7 +196,7 @@
     "total_surface_count": 1,
     "what_was_learned": "anti-triviality sidecar recommends DN demotion"
   },
-  "generated_at": "2026-06-07T00:00:00+00:00",
+  "generated_at": "2026-06-07T19:37:53.443698+00:00",
   "hardgate_evidence": {
     "HG-B1": {
       "criterion": "each result row has a non-empty reason and status code",

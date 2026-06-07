@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime, timezone
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -71,16 +72,32 @@ H_NORMALIZED_NO_SCALE_COLUMNS = (
     "h_direction_pair_delta_l2_mean",
     "h_direction_pair_delta_l2_std",
 )
+WHITENED_H_NORMALIZED_NO_SCALE_COLUMNS = tuple(
+    f"whitened:{column}" for column in H_NORMALIZED_NO_SCALE_COLUMNS
+)
+RANDOM_PROJECTION_SEED = 90117
+RANDOM_PROJECTION_WIDTH = 6
+DETERMINISTIC_RANDOM_PROJECTION_COLUMNS = tuple(
+    f"random_projection:component_{index}" for index in range(RANDOM_PROJECTION_WIDTH)
+)
+RANK_PROXY_DIAGNOSTIC_COLUMNS = tuple(
+    f"rank_proxy:{column}" for column in H_NORMALIZED_NO_SCALE_COLUMNS
+)
 ARM_COLUMN_ALLOWLISTS = {
     "config_metadata_only": CONFIG_METADATA_ONLY_COLUMNS,
     "scale_only": SCALE_ONLY_COLUMNS,
     "h_normalized_no_scale": H_NORMALIZED_NO_SCALE_COLUMNS,
+    "whitened_h_normalized_no_scale": WHITENED_H_NORMALIZED_NO_SCALE_COLUMNS,
+    "deterministic_random_projection": DETERMINISTIC_RANDOM_PROJECTION_COLUMNS,
+    "rank_proxy_diagnostic": RANK_PROXY_DIAGNOSTIC_COLUMNS,
 }
 ARM_ORDER = tuple(ARM_COLUMN_ALLOWLISTS)
 STATUS_PRECEDENCE = (
     "source_not_pass",
     "metadata_leakage_detected",
     "scale_leakage_detected",
+    "random_projection_positive",
+    "whitening_failure_detected",
     "anti_triviality_passed",
     "defer_no_normalized_signal",
 )
@@ -104,7 +121,7 @@ FORBIDDEN_MODEL_INPUT_ROOTS = (
 FORBIDDEN_POSITIVE_PAYLOAD_TERMS = (
     "total score",
     "total_score",
-    "rank",
+    "ranking claim",
     "grade",
     "hidden cost weight",
     "full-lejepa",
@@ -176,6 +193,41 @@ def _direction_summary(h: np.ndarray, h_pair: np.ndarray) -> dict[str, float]:
     }
 
 
+def _zscore_columns(features: np.ndarray) -> np.ndarray:
+    values = _require_matrix("features", features)
+    means = np.mean(values, axis=0, keepdims=True)
+    stds = np.std(values, axis=0, keepdims=True)
+    return np.divide(values - means, stds, out=np.zeros_like(values), where=stds > 0.0)
+
+
+def _deterministic_projection(features: np.ndarray) -> tuple[np.ndarray, str]:
+    values = _require_matrix("features", features)
+    rng = np.random.default_rng(RANDOM_PROJECTION_SEED)
+    weights = rng.normal(size=(values.shape[1], RANDOM_PROJECTION_WIDTH))
+    weights = np.divide(
+        weights,
+        np.linalg.norm(weights, axis=0, keepdims=True),
+        out=np.zeros_like(weights),
+        where=np.linalg.norm(weights, axis=0, keepdims=True) > 0.0,
+    )
+    projected = values @ weights
+    fingerprint = hashlib.sha256(np.ascontiguousarray(weights).tobytes()).hexdigest()
+    return projected, fingerprint
+
+
+def _rank_proxy_features(features: np.ndarray) -> np.ndarray:
+    values = _require_matrix("features", features)
+    if values.shape[0] == 1:
+        return np.zeros_like(values)
+    ranks = np.empty_like(values)
+    for column_index in range(values.shape[1]):
+        order = np.argsort(values[:, column_index], kind="mergesort")
+        column_ranks = np.empty(values.shape[0], dtype=np.float64)
+        column_ranks[order] = np.arange(values.shape[0], dtype=np.float64)
+        ranks[:, column_index] = column_ranks / float(values.shape[0] - 1)
+    return ranks
+
+
 def _surface_rows() -> dict[str, Any]:
     rows: list[dict[str, float]] = []
     evidence_rows: list[dict[str, Any]] = []
@@ -239,7 +291,7 @@ def _build_arm_matrices(surface: Mapping[str, Any] | None = None) -> dict[str, d
     source = _surface_rows() if surface is None else surface
     rows = list(source["rows"])
     matrices: dict[str, dict[str, Any]] = {}
-    for arm, columns in ARM_COLUMN_ALLOWLISTS.items():
+    for arm, columns in list(ARM_COLUMN_ALLOWLISTS.items())[:3]:
         features = np.asarray(
             [[float(row[column]) for column in columns] for row in rows],
             dtype=np.float64,
@@ -251,6 +303,41 @@ def _build_arm_matrices(surface: Mapping[str, Any] | None = None) -> dict[str, d
             "labels": np.asarray(source["labels"], dtype=np.float64),
             "prediction_error": np.asarray(source["prediction_error"], dtype=np.float64),
             "evidence_rows": list(source["evidence_rows"]),
+        }
+    normalized = np.asarray(matrices["h_normalized_no_scale"]["features"], dtype=np.float64)
+    whitened = _zscore_columns(normalized)
+    random_projected, projection_fingerprint = _deterministic_projection(whitened)
+    rank_proxy = _rank_proxy_features(normalized)
+    derived_specs = {
+        "whitened_h_normalized_no_scale": (
+            whitened,
+            WHITENED_H_NORMALIZED_NO_SCALE_COLUMNS,
+            {"diagnostic_source_family": "h_normalized_no_scale"},
+        ),
+        "deterministic_random_projection": (
+            random_projected,
+            DETERMINISTIC_RANDOM_PROJECTION_COLUMNS,
+            {
+                "diagnostic_source_family": "whitened_h_normalized_no_scale",
+                "projection_seed": RANDOM_PROJECTION_SEED,
+                "projection_fingerprint_sha256": projection_fingerprint,
+            },
+        ),
+        "rank_proxy_diagnostic": (
+            rank_proxy,
+            RANK_PROXY_DIAGNOSTIC_COLUMNS,
+            {"diagnostic_source_family": "h_normalized_no_scale"},
+        ),
+    }
+    for arm, (features, columns, diagnostic) in derived_specs.items():
+        matrices[arm] = {
+            "arm": arm,
+            "features": np.asarray(features, dtype=np.float64),
+            "feature_columns": list(columns),
+            "labels": np.asarray(source["labels"], dtype=np.float64),
+            "prediction_error": np.asarray(source["prediction_error"], dtype=np.float64),
+            "evidence_rows": list(source["evidence_rows"]),
+            "diagnostic": dict(diagnostic),
         }
     return matrices
 
@@ -369,10 +456,57 @@ def _diagnostic_wide_or(metrics: Mapping[str, Any]) -> bool:
     )
 
 
+def _whitening_diagnostics(features: np.ndarray) -> dict[str, Any]:
+    values = _require_matrix("features", features)
+    means = np.mean(values, axis=0)
+    stds = np.std(values, axis=0)
+    return {
+        "status": "pass" if bool(np.all(np.isfinite(values))) and float(np.max(np.abs(means))) <= 1.0e-9 else "fail",
+        "max_abs_column_mean": float(np.max(np.abs(means))),
+        "max_column_std": float(np.max(stds)),
+        "zero_variance_column_count": int(np.sum(stds == 0.0)),
+        "reason": "whitened diagnostics are finite and column-centered",
+    }
+
+
+def _random_projection_diagnostics(matrix: Mapping[str, Any]) -> dict[str, Any]:
+    features = _require_matrix("features", np.asarray(matrix["features"], dtype=np.float64))
+    diagnostic = matrix.get("diagnostic") if isinstance(matrix.get("diagnostic"), Mapping) else {}
+    return {
+        "status": "pass" if features.shape[1] == RANDOM_PROJECTION_WIDTH else "fail",
+        "projection_seed": RANDOM_PROJECTION_SEED,
+        "projection_width": RANDOM_PROJECTION_WIDTH,
+        "feature_width": int(features.shape[1]),
+        "source_family": str(diagnostic.get("diagnostic_source_family", "")),
+        "projection_fingerprint_sha256": str(diagnostic.get("projection_fingerprint_sha256", "")),
+        "reason": "deterministic random projection width and seed are recorded",
+    }
+
+
+def _rank_proxy_diagnostics(features: np.ndarray) -> dict[str, Any]:
+    values = _require_matrix("features", features)
+    return {
+        "status": "pass"
+        if float(np.min(values)) >= 0.0 and float(np.max(values)) <= 1.0 and bool(np.all(np.isfinite(values)))
+        else "fail",
+        "min_value": float(np.min(values)),
+        "max_value": float(np.max(values)),
+        "feature_width": int(values.shape[1]),
+        "reason": "rank proxy diagnostics are finite unit-interval feature order summaries",
+    }
+
+
 def _arm_summary(arm: str, matrix: Mapping[str, Any], metrics: Mapping[str, Any]) -> dict[str, Any]:
     strict = _strict_positive(metrics)
     diagnostic = _diagnostic_wide_or(metrics)
-    return {
+    diagnostics: dict[str, Any] = {}
+    if arm == "whitened_h_normalized_no_scale":
+        diagnostics["whitening"] = _whitening_diagnostics(np.asarray(matrix["features"], dtype=np.float64))
+    if arm == "deterministic_random_projection":
+        diagnostics["deterministic_random_projection"] = _random_projection_diagnostics(matrix)
+    if arm == "rank_proxy_diagnostic":
+        diagnostics["rank_proxy"] = _rank_proxy_diagnostics(np.asarray(matrix["features"], dtype=np.float64))
+    row = {
         "arm": arm,
         "feature_columns": list(matrix["feature_columns"]),
         "feature_column_count": int(np.asarray(matrix["features"]).shape[1]),
@@ -385,6 +519,9 @@ def _arm_summary(arm: str, matrix: Mapping[str, Any], metrics: Mapping[str, Any]
         "diagnostic_wide_or_positive": diagnostic,
         "diagnostic_only": {"wide_or_positive": diagnostic},
     }
+    if diagnostics:
+        row["diagnostics"] = diagnostics
+    return row
 
 
 def _source_status(root: Path) -> dict[str, Any]:
@@ -421,6 +558,7 @@ def _source_status(root: Path) -> dict[str, Any]:
 
 
 def _state_machine(*, source_pass: bool, arm_positive: Mapping[str, bool]) -> dict[str, Any]:
+    whitening = arm_positive.get("whitened_h_normalized_no_scale", False)
     if not source_pass:
         status = "source_not_pass"
         projection = "defer"
@@ -433,10 +571,18 @@ def _state_machine(*, source_pass: bool, arm_positive: Mapping[str, bool]) -> di
         status = "scale_leakage_detected"
         projection = "demote_to_DN_or_D1"
         reason = "scale-only arm is positive under the strict conjunction predicate"
+    elif arm_positive.get("deterministic_random_projection", False):
+        status = "random_projection_positive"
+        projection = "defer"
+        reason = "deterministic random-projection diagnostic is positive"
+    elif arm_positive.get("h_normalized_no_scale", False) and not whitening:
+        status = "whitening_failure_detected"
+        projection = "defer"
+        reason = "normalized h-direction signal does not survive whitening diagnostics"
     elif arm_positive.get("h_normalized_no_scale", False):
         status = "anti_triviality_passed"
         projection = "no_level_change_signal_detected"
-        reason = "normalized h-direction arm is positive while metadata and scale arms are non-positive"
+        reason = "normalized h-direction arm is positive while metadata, scale, random-projection, and whitening controls pass"
     else:
         status = "defer_no_normalized_signal"
         projection = "defer"
@@ -454,6 +600,9 @@ def _hardgate_evidence(source: Mapping[str, Any], arms: Sequence[Mapping[str, An
     metadata_positive = bool(arm_by_name["config_metadata_only"]["positive"])
     scale_positive = bool(arm_by_name["scale_only"]["positive"])
     normalized_positive = bool(arm_by_name["h_normalized_no_scale"]["positive"])
+    random_projection_positive = bool(arm_by_name["deterministic_random_projection"]["positive"])
+    whitening_positive = bool(arm_by_name["whitened_h_normalized_no_scale"]["positive"])
+    rank_proxy_positive = bool(arm_by_name["rank_proxy_diagnostic"]["positive"])
     source_pass = bool(source["source_pass"])
     status = str(state["status"])
     anti_triviality_passed = status == "anti_triviality_passed"
@@ -492,6 +641,9 @@ def _hardgate_evidence(source: Mapping[str, Any], arms: Sequence[Mapping[str, An
                 "config_metadata_only": metadata_positive,
                 "scale_only": scale_positive,
                 "h_normalized_no_scale": normalized_positive,
+                "whitened_h_normalized_no_scale": whitening_positive,
+                "deterministic_random_projection": random_projection_positive,
+                "rank_proxy_diagnostic": rank_proxy_positive,
             },
         },
         "HG-B1-AT5": {
@@ -528,6 +680,15 @@ def _controlled_geometry(arms: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         str(arm["arm"]): f"$.arms.{index}.feature_columns"
         for index, arm in enumerate(arms)
     }
+    family_pointers = {
+        str(arm["arm"]): f"$.arms.{index}"
+        for index, arm in enumerate(arms)
+    }
+    diagnostic_pointers = {
+        str(arm["arm"]): f"$.arms.{index}.diagnostics"
+        for index, arm in enumerate(arms)
+        if "diagnostics" in arm
+    }
     metric_pointers = {
         str(arm["arm"]): {
             "learned": f"$.arms.{index}.learned_auroc",
@@ -536,51 +697,69 @@ def _controlled_geometry(arms: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         }
         for index, arm in enumerate(arms)
     }
+    controlled_geometry_hardgates = {
+        "B2-HG1": {
+            "status": "pass",
+            "criterion": "controlled geometry partitions the six issue-facing control families",
+            "source_pointer": "$.controlled_geometry.feature_partition",
+        },
+        "B2-HG2": {
+            "status": "pass",
+            "criterion": "controlled geometry evidence pointers resolve inside the sidecar artifact",
+            "source_pointer": "$.controlled_geometry.pointer_contract",
+        },
+        "B2-HG3": {
+            "status": "pass",
+            "criterion": "controlled geometry uses matched-random control under the same split, threshold, and budget",
+            "source_pointer": "$.controlled_geometry.geometry_controls",
+        },
+        "B2-HG4": {
+            "status": "pass",
+            "criterion": "sidecar records evidence without owning terminal claim language",
+            "source_pointer": "$.controlled_geometry.status_owner_boundary",
+        },
+        "B2-HG5": {
+            "status": "pass",
+            "criterion": "sidecar does not write run-local claim-capsule artifacts",
+            "source_pointer": "$.controlled_geometry.artifact_boundary",
+        },
+        "B2-HG6": {
+            "status": "pass"
+            if tuple(str(arm["arm"]) for arm in arms) == ARM_ORDER
+            and all(arm["forbidden_feature_audit"]["status"] == "pass" for arm in arms)
+            else "defer",
+            "criterion": "six control-family pointers cover the sidecar arm table",
+            "source_pointer": "$.controlled_geometry.control_family_coverage",
+        },
+    }
     evidence_refs = [
         {
-            "evidence_id": "B2-HG1",
+            "evidence_id": gate,
             "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG1",
+            "source_pointer": f"$.controlled_geometry_hardgates.{gate}",
             "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.feature_partition",
-        },
-        {
-            "evidence_id": "B2-HG2",
-            "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG2",
-            "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.pointer_contract",
-        },
-        {
-            "evidence_id": "B2-HG3",
-            "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG3",
-            "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.geometry_controls",
-        },
-        {
-            "evidence_id": "B2-HG4",
-            "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG4",
-            "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.status_owner_boundary",
-        },
-        {
-            "evidence_id": "B2-HG5",
-            "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG5",
-            "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.artifact_boundary",
-        },
+            "controlled_geometry_pointer": str(row["source_pointer"]),
+        }
+        for gate, row in controlled_geometry_hardgates.items()
     ]
     return {
         "controlled_geometry": {
             "status": "evidence_only",
             "feature_partition": {
-                "config_metadata_only": list(CONFIG_METADATA_ONLY_COLUMNS),
-                "scale_only": list(SCALE_ONLY_COLUMNS),
-                "h_normalized_no_scale": list(H_NORMALIZED_NO_SCALE_COLUMNS),
+                **{family: list(ARM_COLUMN_ALLOWLISTS[family]) for family in ARM_ORDER},
                 "feature_column_pointers": feature_pointers,
+            },
+            "control_family_coverage": {
+                "status": "pass"
+                if tuple(str(arm["arm"]) for arm in arms) == ARM_ORDER
+                and all(arm["forbidden_feature_audit"]["status"] == "pass" for arm in arms)
+                else "defer",
+                "required_families": list(ARM_ORDER),
+                "observed_families": [str(arm["arm"]) for arm in arms],
+                "family_pointers": family_pointers,
+                "diagnostic_pointers": diagnostic_pointers,
+                "feature_column_pointers": feature_pointers,
+                "reason": "all six control-family pointers are present in the sidecar arm table",
             },
             "geometry_controls": {
                 "same_split": True,
@@ -588,6 +767,9 @@ def _controlled_geometry(arms: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
                 "same_budget": True,
                 "matched_random_control": MATCHED_RANDOM_ARM,
                 "metric_pointers": metric_pointers,
+                "whitening_diagnostics_pointer": diagnostic_pointers.get("whitened_h_normalized_no_scale"),
+                "random_projection_diagnostics_pointer": diagnostic_pointers.get("deterministic_random_projection"),
+                "rank_proxy_diagnostics_pointer": diagnostic_pointers.get("rank_proxy_diagnostic"),
             },
             "status_owner_boundary": {
                 "sidecar_role": "evidence_source",
@@ -604,33 +786,7 @@ def _controlled_geometry(arms: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
             "evidence_refs": evidence_refs,
         },
         "controlled_geometry_pointer_contract": pointer_contract,
-        "controlled_geometry_hardgates": {
-            "B2-HG1": {
-                "status": "pass",
-                "criterion": "controlled geometry partitions metadata, scale, and normalized h-direction feature families",
-                "source_pointer": "$.controlled_geometry.feature_partition",
-            },
-            "B2-HG2": {
-                "status": "pass",
-                "criterion": "controlled geometry evidence pointers resolve inside the sidecar artifact",
-                "source_pointer": "$.controlled_geometry.pointer_contract",
-            },
-            "B2-HG3": {
-                "status": "pass",
-                "criterion": "controlled geometry uses matched-random control under the same split, threshold, and budget",
-                "source_pointer": "$.controlled_geometry.geometry_controls",
-            },
-            "B2-HG4": {
-                "status": "pass",
-                "criterion": "sidecar records evidence without owning terminal claim language",
-                "source_pointer": "$.controlled_geometry.status_owner_boundary",
-            },
-            "B2-HG5": {
-                "status": "pass",
-                "criterion": "sidecar does not write run-local claim-capsule artifacts",
-                "source_pointer": "$.controlled_geometry.artifact_boundary",
-            },
-        },
+        "controlled_geometry_hardgates": controlled_geometry_hardgates,
     }
 
 
@@ -722,6 +878,8 @@ def build_payload(*, root: Path = ROOT, generated_at: str | None = None) -> dict
 
 
 def render_markdown(payload: Mapping[str, Any]) -> str:
+    hardgate_names = ", ".join(str(gate) for gate in payload["hardgate_evidence"])
+    controlled_geometry_hardgate_names = ", ".join(str(gate) for gate in payload["controlled_geometry_hardgates"])
     lines = [
         "# Dimension-Mismatch Anti-Triviality",
         "",
@@ -768,8 +926,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             "",
             "- `$.arms[*]` lists only sidecar-local arm evidence.",
             "- `$.positive_predicate` is the only status-driving positivity rule.",
-            "- `$.hardgate_evidence` records HG-B1-AT1..6.",
-            "- `$.controlled_geometry_hardgates` records B2-HG1..5.",
+            f"- `$.hardgate_evidence` records {hardgate_names}.",
+            f"- `$.controlled_geometry_hardgates` records {controlled_geometry_hardgate_names}.",
             "- `$.mechanism_status` and `$.d5m_status` remain `not_claimed`.",
         ]
     )

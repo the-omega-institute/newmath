@@ -17,11 +17,13 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.classifier_shift import ClassifierPassage, ClassifierState, classifier_surface_delta, shift_information, structural_discovery
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL, closed_claim_scope_seal
 
 SOURCE_JSON_ARTIFACT = "reports/debt_dose_response.json"
 SOURCE_REPORT_ARTIFACT = "reports/debt_dose_response_report.md"
 JSON_ARTIFACT = "reports/dose_response_discovery.json"
 REPORT_ARTIFACT = "reports/dose_response_discovery.md"
+SCOPE_SEAL = CLOSED_CLAIM_SCOPE_SEAL
 CONTROL_SEED = 53120260602
 CONTROL_PERMUTATIONS = 200
 METRICS = ("quality_q", "quality_debt", "target_score", "linear_identifiability_r2", "approx_identifiability_proxy")
@@ -73,7 +75,7 @@ def _project_level(level: dict[str, Any], baseline: dict[str, Any]) -> dict[str,
         ledger_required_rows=ledger_rows,
         ledger_recorded_rows=ledger_rows,
         public_cost_protocol=True,
-        scope_sealed=True,
+        scope_sealed=closed_claim_scope_seal(SCOPE_SEAL),
         not_claimed_boundary=frozenset({"formal-bedc-closure", "non-gaussian-dose-generalization"}),
         benefit_modes=frozenset({"quality_debt_signal", "target_residue_signal", "quality_drop_signal"}),
         reproducible_evidence=True,
@@ -136,7 +138,7 @@ def _verdict_payload(source_payload: dict[str, Any]) -> dict[str, Any]:
     doses, nets = [float(row["dose"]) for row in rows], [float(row["net_information"]) for row in rows]
     rank = {"method": "dose-level-vs-discovery-net-information", "spearman": _spearman(doses, nets), "kendall_tau": _kendall_tau(doses, nets), "pairs": [{"dose": d, "net_information": n} for d, n in zip(doses, nets, strict=True)]}
     control = _matched_random_baseline(doses, nets)
-    return {"artifact": JSON_ARTIFACT, "source_artifacts": {"source_json_artifact": SOURCE_JSON_ARTIFACT, "source_report_artifact": SOURCE_REPORT_ARTIFACT, "source_runner": "scripts/run_debt_dose_response.py"}, "report": REPORT_ARTIFACT, "projection_script": "scripts/run_dose_response_discovery.py", "generated_from": {"artifact": SOURCE_JSON_ARTIFACT, "source_runner": "scripts/run_debt_dose_response.py", "record_count": source_payload.get("aggregate", {}).get("record_count")}, "doses": doses, "per_dose_verdicts": rows, "rank_correlation": rank, "matched_random_baseline": control, "monotonicity_conclusion": _monotonicity_conclusion(rows, rank, control), "applicability_boundary": source_payload.get("applicability_boundary", {})}
+    return {"artifact": JSON_ARTIFACT, "source_artifacts": {"source_json_artifact": SOURCE_JSON_ARTIFACT, "source_report_artifact": SOURCE_REPORT_ARTIFACT, "source_runner": "scripts/run_debt_dose_response.py"}, "report": REPORT_ARTIFACT, "projection_script": "scripts/run_dose_response_discovery.py", "generated_from": {"artifact": SOURCE_JSON_ARTIFACT, "source_runner": "scripts/run_debt_dose_response.py", "record_count": source_payload.get("aggregate", {}).get("record_count")}, "scope_seal": SCOPE_SEAL, "doses": doses, "per_dose_verdicts": rows, "rank_correlation": rank, "matched_random_baseline": control, "monotonicity_conclusion": _monotonicity_conclusion(rows, rank, control), "applicability_boundary": source_payload.get("applicability_boundary", {})}
 def _write_payload(payload: dict[str, Any]) -> None:
     lines = ["# Dose-response discovery projection", "", f"- Source JSON artifact: `{payload['source_artifacts']['source_json_artifact']}`", f"- Projection script: `{payload['projection_script']}`", f"- Conclusion: `{payload['monotonicity_conclusion']['result']}`", "", "## Per-dose Verdicts", "", "| dose | net information | surface delta | shift info | net positive | positive | verdict |", "| ---: | ---: | ---: | ---: | --- | --- | --- |"]
     lines += [f"| {row['dose']:.1f} | {row['net_information']:.6f} | {row['surface_delta_count']} | {row['shift_information']} | `{str(row['net_positive_signal']).lower()}` | `{str(row['positive_discovery']).lower()}` | `{row['verdict']}` |" for row in payload["per_dose_verdicts"]]

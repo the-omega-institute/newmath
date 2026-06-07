@@ -5,7 +5,7 @@ from bedc_quality_lab.classifier_shift import ClassifierPassage, ClassifierState
 from bedc_quality_lab.hardening import HardeningBackend, HardeningProfile, fully_hardened_classifier
 from bedc_quality_lab.ledger import LedgerRowKey, ledger_complete
 from bedc_quality_lab.metrics import classifier_certificate
-from bedc_quality_lab.scope import GlobalResolutionClaim, Scope, ScopedCertificate, global_required_rows, scope_rows, scoped_resolved
+from bedc_quality_lab.scope import GlobalResolutionClaim, Scope, ScopedCertificate, closed_claim_scope_seal, global_required_rows, scope_rows, scoped_resolved
 
 
 SOURCE_IDS = frozenset({"a", "b"})
@@ -199,6 +199,21 @@ def test_philosophy_classifier_novelty_alone_not_positive_discovery_exhaustive()
     novelty_only = claim(certificate=UNCERTIFIED, passage_rows=frozenset(), claim_rows=frozenset())
     assert classifier_shift(novelty_only.passage) and not discovery.positive_discovery(novelty_only)
     assert discovery.positive_discovery(positive)
+
+
+def test_scope_seal_helper_derives_positive_discovery_scope_predicate():
+    seal = {
+        "status": "closed",
+        "toy": True,
+        "bounded": True,
+        "theorem": False,
+        "real_training": False,
+        "production_forbidden": True,
+    }
+    unsealed = dict(seal, production_forbidden=False)
+
+    assert discovery.positive_discovery(claim(scope_sealed=closed_claim_scope_seal(seal))) is True
+    assert discovery.positive_discovery(claim(scope_sealed=closed_claim_scope_seal(unsealed))) is False
 
 
 def test_philosophy_positive_information_alone_not_discovery_exhaustive():

@@ -16,6 +16,9 @@
 | `config_metadata_only` | `False` | 1.000000 | 0.593750 | 0.406250 | `True` | `encoder_dim, reference_latent_dim, abs_encoder_dim_minus_reference_dim, is_reference_encoder_dim` |
 | `scale_only` | `True` | 1.000000 | 0.576215 | 0.423785 | `True` | `h_l2_mean, h_l2_std, h_abs_mean, h_abs_max, h_abs_q25, h_abs_q50, h_abs_q75, h_pair_delta_l2_mean, h_pair_delta_l2_std` |
 | `h_normalized_no_scale` | `True` | 1.000000 | 0.528472 | 0.471528 | `True` | `h_direction_abs_mean, h_direction_abs_max, h_direction_abs_q25, h_direction_abs_q50, h_direction_abs_q75, h_pair_direction_abs_mean, h_pair_direction_abs_max, h_pair_direction_abs_q25, h_pair_direction_abs_q50, h_pair_direction_abs_q75, h_direction_pair_delta_l2_mean, h_direction_pair_delta_l2_std` |
+| `whitened_h_normalized_no_scale` | `True` | 1.000000 | 0.528472 | 0.471528 | `True` | `whitened:h_direction_abs_mean, whitened:h_direction_abs_max, whitened:h_direction_abs_q25, whitened:h_direction_abs_q50, whitened:h_direction_abs_q75, whitened:h_pair_direction_abs_mean, whitened:h_pair_direction_abs_max, whitened:h_pair_direction_abs_q25, whitened:h_pair_direction_abs_q50, whitened:h_pair_direction_abs_q75, whitened:h_direction_pair_delta_l2_mean, whitened:h_direction_pair_delta_l2_std` |
+| `deterministic_random_projection` | `True` | 1.000000 | 0.540749 | 0.459251 | `True` | `random_projection:component_0, random_projection:component_1, random_projection:component_2, random_projection:component_3, random_projection:component_4, random_projection:component_5` |
+| `rank_proxy_diagnostic` | `True` | 1.000000 | 0.637682 | 0.362318 | `True` | `rank_proxy:h_direction_abs_mean, rank_proxy:h_direction_abs_max, rank_proxy:h_direction_abs_q25, rank_proxy:h_direction_abs_q50, rank_proxy:h_direction_abs_q75, rank_proxy:h_pair_direction_abs_mean, rank_proxy:h_pair_direction_abs_max, rank_proxy:h_pair_direction_abs_q25, rank_proxy:h_pair_direction_abs_q50, rank_proxy:h_pair_direction_abs_q75, rank_proxy:h_direction_pair_delta_l2_mean, rank_proxy:h_direction_pair_delta_l2_std` |
 
 ## Hardgates
 
@@ -32,6 +35,6 @@
 
 - `$.arms[*]` lists only sidecar-local arm evidence.
 - `$.positive_predicate` is the only status-driving positivity rule.
-- `$.hardgate_evidence` records HG-B1-AT1..6.
-- `$.controlled_geometry_hardgates` records B2-HG1..5.
+- `$.hardgate_evidence` records HG-B1-AT1, HG-B1-AT2, HG-B1-AT3, HG-B1-AT4, HG-B1-AT5, HG-B1-AT6.
+- `$.controlled_geometry_hardgates` records B2-HG1, B2-HG2, B2-HG3, B2-HG4, B2-HG5, B2-HG6.
 - `$.mechanism_status` and `$.d5m_status` remain `not_claimed`.

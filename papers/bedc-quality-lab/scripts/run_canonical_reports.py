@@ -347,6 +347,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "forbidden_column_audit",
             "config",
             "source_artifacts",
+            "scope_seal",
             "records",
             "aggregate",
             "aggregate_metrics",
@@ -554,6 +555,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "boundary_ledger",
             "hardgate_evidence",
             "multi_surface_d5_o",
+            "scope_seal",
             "not_claimed",
             "forbidden_claim_term_audit",
             *ANTI_TRIVIALITY_REQUIRED_KEYS,
@@ -1055,8 +1057,14 @@ def _path_digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() and path.is_file() else "missing"
 
 
+def _json_normalized(payload: Any) -> Any:
+    return json.loads(json.dumps(payload, sort_keys=True))
+
+
 def _json_digest(payload: Any) -> str:
-    return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+    return hashlib.sha256(
+        json.dumps(_json_normalized(payload), sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
 
 
 def _fingerprint_path(spec: CanonicalReportSpec) -> Path:
@@ -1196,7 +1204,7 @@ def _input_record(spec: CanonicalReportSpec) -> dict[str, Any]:
         "fingerprint_schema_id": FINGERPRINT_INPUT_SCHEMA_ID,
         "runner_fingerprint_schema_id": FINGERPRINT_SCHEMA_ID,
         "report_output_schema_id": str(schema_id or "schema-unspecified"),
-        "spec": asdict(spec),
+        "spec": _json_normalized(asdict(spec)),
         "producer_sources": [{"path": path, "sha256": _path_digest(ROOT / path)} for path in import_paths],
         "config_inputs": _config_inputs(),
         "source_artifacts": _source_artifact_inputs(spec),

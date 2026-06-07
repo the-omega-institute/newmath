@@ -12,6 +12,7 @@ from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
 
 SCHEMA_ID = "bedc-quality-lab:discovery-regularized-training"
@@ -860,6 +861,7 @@ class DiscoveryRegularizedTrainingProjection:
         positive_claim = {
             **POSITIVE_CLAIM,
             "level_candidate": signal["level_candidate"],
+            "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
         }
         capsule = self.claim_capsule_payload(
             hardgates=hardgates,
@@ -921,6 +923,7 @@ class DiscoveryRegularizedTrainingProjection:
             },
             "failed_gate": failed_gate,
             "discovery_map_signal": signal,
+            "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
             "positive_claim": positive_claim,
             "claim_capsule_ref": self.run_artifacts.get("claim_capsule"),
             "claim_capsule_status": capsule["claim_status"],

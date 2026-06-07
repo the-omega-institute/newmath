@@ -114,6 +114,14 @@ BEDC_GAP_MAPPING_KEYS = (
     "demotion_rule",
     "regression_test",
 )
+CONTROL_FAMILY_ORDER = (
+    "config_metadata_only",
+    "scale_only",
+    "h_normalized_no_scale",
+    "whitened_h_normalized_no_scale",
+    "deterministic_random_projection",
+    "rank_proxy_diagnostic",
+)
 
 
 @dataclass(frozen=True)
@@ -622,6 +630,7 @@ def _sidecar_gate(root: Path, *, required: bool) -> dict[str, Any]:
         }
     sidecar_status = payload.get("status")
     projection = payload.get("recommended_projection")
+    controlled_geometry = _sidecar_controlled_geometry(root, payload)
     if sidecar_status in {"scale_leakage_detected", "metadata_leakage_detected"} and projection == "demote_to_DN_or_D1":
         return {
             "status": "pass",
@@ -634,9 +643,13 @@ def _sidecar_gate(root: Path, *, required: bool) -> dict[str, Any]:
             else "metadata_proxy_sufficient",
             "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
             "reason": "anti-triviality sidecar recommends DN demotion",
-            "controlled_geometry": _sidecar_controlled_geometry(payload),
+            "controlled_geometry": controlled_geometry,
         }
-    if sidecar_status == "anti_triviality_passed" and projection == "no_level_change_signal_detected":
+    if (
+        sidecar_status == "anti_triviality_passed"
+        and projection == "no_level_change_signal_detected"
+        and controlled_geometry["control_family_coverage"]["status"] == "pass"
+    ):
         return {
             "status": "pass",
             "sidecar_status": str(sidecar_status),
@@ -646,7 +659,19 @@ def _sidecar_gate(root: Path, *, required: bool) -> dict[str, Any]:
             "downgrade_reason": None,
             "failed_gate": None,
             "reason": "anti-triviality sidecar does not recommend demotion",
-            "controlled_geometry": _sidecar_controlled_geometry(payload),
+            "controlled_geometry": controlled_geometry,
+        }
+    if sidecar_status == "anti_triviality_passed" and projection == "no_level_change_signal_detected":
+        return {
+            "status": "defer",
+            "sidecar_status": str(sidecar_status),
+            "recommended_projection": str(projection),
+            "effective_level": "defer",
+            "terminal_verdict": "incomplete",
+            "downgrade_reason": None,
+            "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
+            "reason": "anti-triviality pass is missing complete six-family controlled-geometry coverage",
+            "controlled_geometry": controlled_geometry,
         }
     return {
         "status": "defer",
@@ -657,18 +682,82 @@ def _sidecar_gate(root: Path, *, required: bool) -> dict[str, Any]:
         "downgrade_reason": None,
         "failed_gate": "$.dimension_mismatch_debt_transfer.anti_triviality_status",
         "reason": "anti-triviality sidecar status and recommended projection are not foldable",
-        "controlled_geometry": _sidecar_controlled_geometry(payload),
+        "controlled_geometry": controlled_geometry,
     }
 
 
-def _sidecar_controlled_geometry(payload: Mapping[str, Any]) -> dict[str, Any]:
+def _sidecar_control_family_coverage(root: Path, payload: Mapping[str, Any]) -> dict[str, Any]:
+    coverage = payload.get("controlled_geometry", {}).get("control_family_coverage") if isinstance(payload.get("controlled_geometry"), Mapping) else None
+    if not isinstance(coverage, Mapping):
+        return {
+            "status": "defer",
+            "required_families": list(CONTROL_FAMILY_ORDER),
+            "resolved_families": [],
+            "missing_families": list(CONTROL_FAMILY_ORDER),
+            "malformed_families": [],
+            "unknown_families": [],
+            "family_pointers": {},
+            "reason": "controlled-geometry control_family_coverage is missing or malformed",
+        }
+    family_pointers = coverage.get("family_pointers")
+    required = tuple(str(item) for item in (coverage.get("required_families") or CONTROL_FAMILY_ORDER))
+    observed = tuple(str(item) for item in (coverage.get("observed_families") or ()))
+    if not isinstance(family_pointers, Mapping):
+        family_pointers = {}
+    resolved: list[str] = []
+    malformed: list[str] = []
+    for family in CONTROL_FAMILY_ORDER:
+        pointer = family_pointers.get(family)
+        value = (
+            resolve_artifact_pointer(root, f"{ANTI_TRIVIALITY_ARTIFACT}:{pointer}")
+            if isinstance(pointer, str) and pointer.startswith("$.")
+            else None
+        )
+        if not isinstance(pointer, str) or not pointer.startswith("$."):
+            malformed.append(family)
+        elif isinstance(value, Mapping) and value.get("arm") == family:
+            resolved.append(family)
+        else:
+            malformed.append(family)
+    unknown = sorted(set(observed) - set(CONTROL_FAMILY_ORDER))
+    missing = [family for family in CONTROL_FAMILY_ORDER if family not in resolved]
+    status = (
+        "pass"
+        if coverage.get("status") == "pass"
+        and required == CONTROL_FAMILY_ORDER
+        and observed == CONTROL_FAMILY_ORDER
+        and not missing
+        and not malformed
+        and not unknown
+        else "defer"
+    )
+    return {
+        "status": status,
+        "source_status": coverage.get("status") if isinstance(coverage.get("status"), str) else None,
+        "required_families": list(CONTROL_FAMILY_ORDER),
+        "observed_families": list(observed),
+        "resolved_families": resolved,
+        "missing_families": missing,
+        "malformed_families": malformed,
+        "unknown_families": unknown,
+        "family_pointers": {str(key): str(value) for key, value in family_pointers.items() if isinstance(value, str)},
+        "reason": "all six control-family pointers resolve"
+        if status == "pass"
+        else "six-family controlled-geometry coverage is incomplete",
+    }
+
+
+def _sidecar_controlled_geometry(root: Path, payload: Mapping[str, Any]) -> dict[str, Any]:
     evidence_refs = payload.get("controlled_geometry", {}).get("evidence_refs") if isinstance(payload.get("controlled_geometry"), Mapping) else None
+    coverage = _sidecar_control_family_coverage(root, payload)
     return {
         "artifact": ANTI_TRIVIALITY_ARTIFACT,
         "controlled_geometry_pointer": "$.controlled_geometry",
+        "control_family_coverage_pointer": "$.controlled_geometry.control_family_coverage",
         "hardgates_pointer": "$.controlled_geometry_hardgates",
         "pointer_contract_pointer": "$.controlled_geometry_pointer_contract",
         "evidence_refs": [dict(row) for row in evidence_refs] if isinstance(evidence_refs, list) else [],
+        "control_family_coverage": coverage,
     }
 
 

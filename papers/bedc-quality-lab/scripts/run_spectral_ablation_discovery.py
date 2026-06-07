@@ -23,6 +23,7 @@ from bedc_quality_lab.classifier_shift import (
 )
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL, closed_claim_scope_seal
 
 
 SOURCE_JSON_ARTIFACT = "reports/spectral_ablation_hinge.json"
@@ -30,6 +31,7 @@ SOURCE_REPORT_ARTIFACT = "reports/spectral_ablation_hinge.md"
 JSON_ARTIFACT = "reports/spectral_ablation_discovery.json"
 REPORT_ARTIFACT = "reports/spectral_ablation_discovery.md"
 BEFORE_ARM = "vanilla"
+SCOPE_SEAL = CLOSED_CLAIM_SCOPE_SEAL
 
 
 def _load_payload(path: Path | None = None) -> dict[str, Any]:
@@ -82,7 +84,7 @@ def _project_arm(
         ledger_required_rows=ledger_rows,
         ledger_recorded_rows=ledger_rows,
         public_cost_protocol=True,
-        scope_sealed=True,
+        scope_sealed=closed_claim_scope_seal(SCOPE_SEAL),
         not_claimed_boundary=frozenset({"formal-bedc-closure", "biological-killed-walk-coverage"}),
         benefit_modes=frozenset({"spectral_improvement"}),
         reproducible_evidence=True,
@@ -158,6 +160,7 @@ def _verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
         "projection_script": "scripts/run_spectral_ablation_discovery.py",
         "generated_from": {"artifact": SOURCE_JSON_ARTIFACT, "generated_at": payload.get("generated_at")},
         "generated_at": datetime.now(timezone.utc).isoformat(),
+        "scope_seal": SCOPE_SEAL,
         "arms": [row["name"] for row in payload["arms"]],
         "verdicts": verdicts,
         "rank_correlation": rank_correlation,
