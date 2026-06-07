@@ -2650,7 +2650,10 @@ def _bios_codex_resolve_merge(
         _bios_resolve_record(store, {"signature": sig, "action": "no_resolution", "failures": failures, "total_conflict_files": len(conflict_files)})
         return False, {"reason": "no_resolution", "signature": sig, "failures": failures, "total_conflict_files": len(conflict_files)}
     try:
-        add = _run_command(repo_root, ["git", "add", "--"] + resolved_paths, timeout=60.0)
+        # -A so paths resolved by honoring a deletion (git rm) stage as
+        # deletions; a plain `git add <deleted path>` errors and aborted the
+        # whole merge (git_add_nonzero) even though every file was resolved.
+        add = _run_command(repo_root, ["git", "add", "-A", "--"] + resolved_paths, timeout=60.0)
     except (OSError, subprocess.TimeoutExpired) as exc:
         _bios_resolve_record(store, {"signature": sig, "action": "git_add_failed", "error": str(exc)})
         return False, {"reason": "git_add_failed", "error": str(exc)}
