@@ -20,13 +20,6 @@ HARDGATES = {
     "AMB-HG3": "pointer_only_no_witness_copy",
     "AMB-HG4": "board_admission_requires_pass",
 }
-POINTER_FIELDS = (
-    "witness_basis_pointer",
-    "claim_capsule_pointer",
-    "hardgate_pointer",
-    "discovery_map_pointer",
-    "negative_witness_summary_pointer",
-)
 FORBIDDEN_COPY_KEYS = frozenset(
     {
         "anti_triviality_status",
@@ -57,8 +50,6 @@ ARCHITECTURE_MUTATION_CANDIDATE_FIELDS = frozenset(
         "architecture_mutation_draft_id",
         "architecture_mutation_draft_pointer",
         "architecture_mutation_payload",
-        "claim_capsule_pointer",
-        "witness_basis_pointer",
     }
 )
 

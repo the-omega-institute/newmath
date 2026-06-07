@@ -9,6 +9,7 @@ from bedc_quality_lab.discovery_compiler.architecture_mutation import (
     ARCHITECTURE_MUTATION_DRAFT_RUN_LOCAL_SCHEMA_ID,
     CANONICAL_ROLE,
     build_architecture_mutation_drafts,
+    is_architecture_mutation_candidate,
     require_witness_basis,
 )
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
@@ -68,6 +69,23 @@ def test_missing_or_unresolvable_witness_basis_blocks_draft(tmp_path: Path) -> N
     gate = require_witness_basis(row, root)
     assert gate.status == "fail"
     assert gate.reason == "AMB-HG1"
+
+
+def test_claim_capsule_pointer_alone_is_not_architecture_mutation_candidate() -> None:
+    assert not is_architecture_mutation_candidate(
+        {
+            "kind": "ordinary_packet",
+            "claim_capsule_pointer": "reports/canonical/claim_capsule.json:$",
+        }
+    )
+    assert not is_architecture_mutation_candidate(
+        {
+            "claim_capsule_pointer": "reports/canonical/claim_capsule.json:$",
+            "witness_basis_pointer": "reports/runs/source/claim_capsule.json:$.run_local.negative_witness[0]",
+        }
+    )
+    assert is_architecture_mutation_candidate({"kind": "architecture_mutation"})
+    assert is_architecture_mutation_candidate({"architecture_mutation_draft": {}})
 
 
 @pytest.mark.parametrize(

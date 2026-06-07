@@ -173,6 +173,27 @@ def test_architecture_mutation_candidate_without_witness_basis_stops_before_admi
     assert calls == {"judge": 0, "append": 0}
 
 
+def test_claim_capsule_pointer_only_packet_does_not_enter_witness_basis_gate(monkeypatch) -> None:
+    def fail_witness_gate(*_args, **_kwargs):
+        raise AssertionError("ordinary claim capsule packet entered WitnessBasisGate")
+
+    monkeypatch.setattr(board_spawn, "require_witness_basis", fail_witness_gate)
+
+    accepted, rejected = board_spawn._deterministic_fallback_judge(
+        [
+            _candidate(
+                kind="ordinary_packet",
+                claim_capsule_pointer="reports/canonical/claim_capsule.json:$",
+            )
+        ],
+        fit_threshold=7,
+        novelty_threshold=6,
+    )
+
+    assert len(accepted) == 1, (accepted, rejected)
+    assert rejected == []
+
+
 def test_deterministic_fallback_rejects_anti_parameter_echo() -> None:
     accepted, rejected = board_spawn._deterministic_fallback_judge(
         [
