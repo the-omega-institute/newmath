@@ -4365,7 +4365,8 @@ def test_attribution_capsule_d5_cells_project_minimal_two_axis_discovery_map_row
         canonical.INDEX_ARTIFACT = old_index
     row = {item["report"]: item for item in payload["rows"]}[spec.name]
 
-    assert row["discovery_level"] == "D0"
+    assert row["discovery_level"] == "D1"
+    assert row["classifier_reasons"]
     assert row["projection_status"] == "two-axis-recorded"
     assert row["evidence_pointer"] == "$.mechanism_evidence"
     assert row["base_level"] == "D5-O"
@@ -4380,7 +4381,7 @@ def test_attribution_capsule_d5_cells_project_minimal_two_axis_discovery_map_row
     assert row["mechanism_namecert_pointer"] == "reports/canonical/gap_head_attribution_capsule.json"
     assert row["mechanism_ledger_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status"
     assert row["mechanism_closure_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.mechanism_status"
-    assert row["audit_status"] == "valid"
+    assert row["audit_status"] == "invalid"
 
 
 def test_attribution_capsule_sidecar_and_discovery_map_levels_are_consistent():
