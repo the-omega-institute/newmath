@@ -84,9 +84,9 @@ SURFACE_ONLY_RE = re.compile(
 
 def _verification_axis_item(rel: str, labels: list[dict[str, Any]], text: str) -> bool:
     label_surface = " ".join(_label_text(rec) for rec in labels)
-    return verification_axis.has_verification_axis_surface(
-        " ".join([rel, label_surface, text[:12000]])
-    )
+    if label_surface.strip():
+        return verification_axis.has_verification_axis_surface(" ".join([rel, label_surface]))
+    return verification_axis.has_verification_axis_surface(" ".join([rel, text[:12000]]))
 
 
 def _read(rel: str) -> str:
@@ -310,6 +310,8 @@ def _candidate_for_item(item: dict[str, Any]) -> dict[str, Any] | None:
             if SURFACE_ONLY_RE.fullmatch(_clean_words(_label_text(primary)).lower().replace(" ", " ")):
                 continue
             if family == "determinacy" and EXACTNESS_ONLY_RE.search(_label_text(primary)):
+                continue
+            if family == "strict_obstruction" and "boundary" in _label_text(primary).lower():
                 continue
             support = _support_label(labels, primary)
             primary_label = _label_name(primary)

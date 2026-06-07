@@ -1966,7 +1966,7 @@ def _classify_ci_unfixable(log_tail: str) -> str | None:
 
 
 def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
-    """Query GitHub Actions for recently-failed runs on MIRROR_BRANCH only.
+    """Query GitHub Actions for recently-failed runs on pipeline branches.
 
     Returns a list of {run_id, workflow, name, created_at, branch} dicts.
     Empty if `gh` CLI is unavailable, no runs in the window failed, or any
@@ -1977,51 +1977,48 @@ def detect_ci_failures(window_minutes: int = 60) -> list[dict]:
 
     failures: list[dict] = []
     cutoff = time.time() - window_minutes * 60
-    try:
-        r = run([
-            "gh", "run", "list",
-            "--branch", MIRROR_BRANCH,
-            "--limit", "80",
-            "--json",
-            "status,conclusion,name,workflowName,databaseId,createdAt,headBranch,headSha,url",
-        ], check=False, capture=True, timeout=60)
-    except Exception:
-        return failures
-    if r.returncode != 0:
-        return failures
-    try:
-        rows = json.loads(r.stdout or "[]")
-    except Exception:
-        return failures
     import calendar as _calendar
-    for row in rows:
-        if row.get("status") != "completed":
-            continue
-        if row.get("conclusion") != "failure":
-            continue
-        head = row.get("headBranch", "") or ""
-        if head != MIRROR_BRANCH:
-            continue
-        ts = row.get("createdAt", "")
-        # GitHub Actions createdAt is UTC ISO ("YYYY-MM-DDTHH:MM:SSZ").
-        # time.mktime interprets strptime() output as LOCAL time, so a UTC
-        # timestamp would be read 8h in the past under CST/UTC+8 and dropped
-        # by the cutoff. Use calendar.timegm to parse the UTC timestamp.
+    for branch in dict.fromkeys((BASE_BRANCH, MIRROR_BRANCH)):
         try:
-            t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            r = run([
+                "gh", "run", "list",
+                "--branch", branch,
+                "--limit", "80",
+                "--json",
+                "status,conclusion,name,workflowName,databaseId,createdAt,headBranch,headSha,url",
+            ], check=False, capture=True, timeout=60)
         except Exception:
-            t = time.time()
-        if t < cutoff:
             continue
-        failures.append({
-            "run_id": int(row.get("databaseId", 0)),
-            "workflow": row.get("workflowName", "?"),
-            "name": row.get("name", "?"),
-            "created_at": ts,
-            "branch": head,
-            "head_sha": row.get("headSha", ""),
-            "url": row.get("url", ""),
-        })
+        if r.returncode != 0:
+            continue
+        try:
+            rows = json.loads(r.stdout or "[]")
+        except Exception:
+            continue
+        for row in rows:
+            if row.get("status") != "completed":
+                continue
+            if row.get("conclusion") != "failure":
+                continue
+            head = row.get("headBranch", "") or ""
+            if head != branch:
+                continue
+            ts = row.get("createdAt", "")
+            try:
+                t = _calendar.timegm(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            except Exception:
+                t = time.time()
+            if t < cutoff:
+                continue
+            failures.append({
+                "run_id": int(row.get("databaseId", 0)),
+                "workflow": row.get("workflowName", "?"),
+                "name": row.get("name", "?"),
+                "created_at": ts,
+                "branch": head,
+                "head_sha": row.get("headSha", ""),
+                "url": row.get("url", ""),
+            })
     return failures
 
 

@@ -141,6 +141,38 @@ def test_deterministic_fallback_rejects_raw_gap_scanner_source() -> None:
     assert rejected[0]["reason"].startswith("deterministic_fallback_source_requires_llm_judge")
 
 
+def test_architecture_mutation_candidate_without_witness_basis_stops_before_admission(monkeypatch) -> None:
+    calls = {"judge": 0, "append": 0}
+
+    def fail_judge(**_kwargs):
+        calls["judge"] += 1
+        raise AssertionError("architecture mutation candidate reached Codex judge")
+
+    def fail_append(_blocks):
+        calls["append"] += 1
+        raise AssertionError("architecture mutation candidate reached BOARD append")
+
+    monkeypatch.setattr(board_spawn, "_judge_candidates", fail_judge)
+    monkeypatch.setattr(board_spawn, "_atomic_append_to_board", fail_append)
+
+    result = board_spawn.spawn_from_candidates(
+        codex_candidates=[
+            _candidate(
+                kind="architecture_mutation",
+                title="Architecture mutation missing witness basis",
+                claim="Compiler-owned architecture mutation candidate must resolve a witness basis before admission.",
+            )
+        ],
+        oracle_candidates=[],
+    )
+
+    assert result.ok
+    assert result.accepted == []
+    assert result.appended_ids == []
+    assert result.rejected[0]["reason"] == "missing_witness_basis"
+    assert calls == {"judge": 0, "append": 0}
+
+
 def test_deterministic_fallback_rejects_anti_parameter_echo() -> None:
     accepted, rejected = board_spawn._deterministic_fallback_judge(
         [

@@ -2071,10 +2071,10 @@ def _audit_row(
 ) -> tuple[str, str]:
     if level not in DISCOVERY_LEVELS:
         return "invalid", "missing-discovery-level"
-    spec_pointer_result = _audit_spec_pointer_cells(spec, payload)
-    if spec_pointer_result is not None:
-        return spec_pointer_result
     if spec.name == "gap-head-transfer-atlas":
+        spec_pointer_result = _audit_spec_pointer_cells(spec, payload)
+        if spec_pointer_result is not None:
+            return spec_pointer_result
         claim = pointer_value(payload, "$.multi_surface_d5_o")
         if not isinstance(claim, Mapping):
             return "invalid", "missing-atlas-claim"
@@ -2134,6 +2134,9 @@ def _audit_row(
             return "invalid", "unresolved-mechanism-pointer"
         if pointer_value(payload, levels.mechanism_case_pointer) is None:
             return "invalid", "unresolved-mechanism-case-pointer"
+    spec_pointer_result = _audit_spec_pointer_cells(spec, payload)
+    if spec_pointer_result is not None:
+        return spec_pointer_result
     if level in {"D4", "D5-O", "D5-M"}:
         pointer_result = _audit_pointer_cell(
             payload,
