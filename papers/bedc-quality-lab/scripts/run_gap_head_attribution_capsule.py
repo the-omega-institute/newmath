@@ -18,6 +18,14 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
+    GAP_HEAD_ABLATION_ARTIFACT,
+    GAP_HEAD_ROBUSTNESS_ARTIFACT,
+    NEGATIVE_WITNESSES_ARTIFACT,
+    OBSERVED_DEBT_ARTIFACT,
+    GapHeadD5ReadinessLedger,
+    GapHeadOperationalReadinessPolicy,
+)
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from scripts.experiment_stats import metric_stats
 from scripts import run_gap_ledger_head_on_h as source
@@ -48,6 +56,12 @@ SCORE_MARGIN_REPLACE_SALT = 933_887
 HEAD_PATCH_PERMUTE_SALT = 750_311
 HEAD_PATCH_REQUIRED_MODES = ("null_head", "permute_head_rows")
 HEAD_CAUSAL_PATCH_CLAIM_JSON_PATH = "$.head_channel_patch_evidence.causal_patch_claim"
+GAP_HEAD_D5_CONTEXT_ARTIFACTS = (
+    GAP_HEAD_ROBUSTNESS_ARTIFACT,
+    GAP_HEAD_ABLATION_ARTIFACT,
+    NEGATIVE_WITNESSES_ARTIFACT,
+    OBSERVED_DEBT_ARTIFACT,
+)
 EPS = 1.0e-8
 NOT_CLAIMED = (
     "global model quality",
@@ -138,6 +152,20 @@ def _render_stats(stats: Mapping[str, Any]) -> str:
         f"{_format_float(float(stats['mean']))} +/- {_format_float(float(stats['std']))} "
         f"(95% CI +/- {_format_float(float(stats['ci95_half_width']))})"
     )
+
+
+def _load_artifact_payload(relative_path: str) -> dict[str, Any]:
+    path = ROOT / relative_path
+    if not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError(f"canonical report payload must be a JSON object: {relative_path}")
+    return payload
+
+
+def _gap_head_d5_context() -> dict[str, dict[str, Any]]:
+    return {artifact: _load_artifact_payload(artifact) for artifact in GAP_HEAD_D5_CONTEXT_ARTIFACTS}
 
 
 def _require_matrix(name: str, value: Any) -> np.ndarray:
@@ -1780,12 +1808,30 @@ def _mechanism_case(
     }
 
 
-def _d5_o(aggregate: Mapping[str, Any]) -> dict[str, Any]:
+def _d5_o(aggregate: Mapping[str, Any], ledger: GapHeadD5ReadinessLedger | None = None) -> dict[str, Any]:
+    readiness = GapHeadOperationalReadinessPolicy().criteria(_gap_head_d5_context()) if ledger is None else ledger
+    criterion_pointers = {
+        criterion.name: f"{criterion.artifact}:{criterion.pointer}" if criterion.pointer is not None else criterion.artifact
+        for criterion in readiness.criteria
+    }
+    if not readiness.all_pass:
+        return {
+            "status": "blocked",
+            "claim": "D5-O operational readiness is blocked by canonical readiness criteria.",
+            "source_pointer": "reports/canonical/gap-head-on-h.json",
+            "A1_capsule_arm_count": int(len(aggregate["arm_order"])),
+            "failed_checks": readiness.failed_checks(),
+            "criterion_pointers": criterion_pointers,
+            "readiness": readiness.as_dict(),
+        }
     return {
         "status": "ready",
         "claim": "D5-O robust operational pointer retained from canonical gap-head-on-h evidence.",
         "source_pointer": "reports/canonical/gap-head-on-h.json",
         "A1_capsule_arm_count": int(len(aggregate["arm_order"])),
+        "failed_checks": [],
+        "criterion_pointers": criterion_pointers,
+        "readiness": readiness.as_dict(),
     }
 
 
@@ -1856,9 +1902,10 @@ def _mechanism_evidence(
     classification = score_margin_causal_evidence.get("channel_classification")
     mechanism_level = "D5-M" if d5_m.get("status") == "ready" and d5_m.get("passed") is True else "blocked"
     mechanism_status = "ready" if mechanism_level == "D5-M" else "blocked"
+    base_ready = d5_o.get("status") == "ready"
     return {
         "evidence_level": "patch",
-        "base_level": "D5-O",
+        "base_level": "D5-O" if base_ready else "blocked",
         "base_status": str(d5_o.get("status") or "missing"),
         "mechanism_level": mechanism_level,
         "mechanism_status": mechanism_status,
@@ -2274,7 +2321,8 @@ def _build_payload(
     }
     forbidden_audit = _forbidden_column_audit(columns_by_arm)
     d5_m = _d5_m(hardgates, a4_hardgates)
-    d5_o = _d5_o(aggregate)
+    d5_readiness = GapHeadOperationalReadinessPolicy().criteria(_gap_head_d5_context())
+    d5_o = _d5_o(aggregate, d5_readiness)
     residualized_attribution_claim = _residualized_attribution_claim(
         aggregate,
         residualized_attribution,

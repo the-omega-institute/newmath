@@ -40,7 +40,7 @@ Pointers: `reports/canonical/index.json` `$.reports[*].name`; `reports/canonical
 
 ## 7. Selected positive worked case: gap-head-on-h
 
-`gap-head-on-h` is the selected positive worked case for this report frame; positive-discovery classification is read from `reports/canonical/discovery_map.json:$.rows[*]`, so this section does not claim uniqueness among positive rows. Its current D5-candidate status is scoped to observed-debt transfer surfaces.
+`gap-head-on-h` is the selected positive worked case for this report frame; positive-discovery classification is read from `reports/canonical/discovery_map.json:$.rows[*]`, so this section does not claim uniqueness among positive rows. Its current operational level is D4, with D5-O readiness blocked by the ablation hardgate.
 
 This navigation section follows the selected row into its canonical report payload and boundary fields. It does not summarize the discovery map or restate the complete set of positive and non-positive cells.
 
