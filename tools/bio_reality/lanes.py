@@ -3309,11 +3309,22 @@ def run_dev_rollup_lane(store: BioRealityStore) -> dict[str, Any]:
         _write_dev_rollup_state(state_path)
         return {"lane": "bio-D", "skipped": "nothing_to_roll_up", "ahead": ahead}
 
-    contains = _run_command(repo_root, ["git", "merge-base", "--is-ancestor", f"{remote}/{base}", f"{remote}/{head}"])
-    if contains.returncode != 0:
+    # Cleanliness gate. The strict dev⊆feat (ancestor) test never holds while
+    # dev advances continuously, so it permanently blocked the PR. What matters
+    # is the PR's REAL content: the three-dot delta base...head. Require its
+    # non-bio_reality footprint to stay small so we never open a PR that reverts
+    # dev's shared files; bio-S keeps feat's shared files current. feat may
+    # legitimately trail dev by a few commits — GitHub merges those in, and
+    # auto-merge only fires when the PR is green + mergeable.
+    delta = _run_command(repo_root, ["git", "diff", "--name-only", f"{remote}/{base}...{remote}/{head}"])
+    delta_files = [p for p in (delta.stdout or "").splitlines() if p.strip()]
+    nonbio = [p for p in delta_files if "bio_reality" not in p and "bioreality" not in p]
+    max_nonbio = int(rollup.get("max_nonbio_delta_files") or 12)
+    if len(nonbio) > max_nonbio:
         _write_dev_rollup_state(state_path)
-        return {"lane": "bio-D", "skipped": "feat_behind_dev", "ahead": ahead, "behind": behind,
-                "note": "waiting for bio-S to bring feat current with dev"}
+        return {"lane": "bio-D", "skipped": "delta_not_clean", "ahead": ahead, "behind": behind,
+                "nonbio_files": len(nonbio), "max": max_nonbio,
+                "note": "three-dot delta carries too many non-bio_reality files; waiting for bio-S to bring shared files current"}
 
     listing = _run_command(repo_root, ["gh", "pr", "list", "--head", head, "--base", base,
                                        "--label", label, "--state", "open",
