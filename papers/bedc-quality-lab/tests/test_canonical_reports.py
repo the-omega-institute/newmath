@@ -3886,7 +3886,8 @@ def test_canonical_claim_capsule_includes_dimension_mismatch_run_local_contract(
         "report": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/report.md",
     }
     b2_refs = [row for row in run_local["evidence_refs"] if str(row.get("evidence_id", "")).startswith("B2-HG")]
-    assert [row["evidence_id"] for row in b2_refs] == ["B2-HG1", "B2-HG2", "B2-HG3", "B2-HG4", "B2-HG5"]
+    sidecar = json.loads((canonical.ROOT / "reports/dimension_mismatch_anti_triviality.json").read_text(encoding="utf-8"))
+    assert [row["evidence_id"] for row in b2_refs] == list(sidecar["controlled_geometry_hardgates"])
     for row in b2_refs:
         source = json.loads((canonical.ROOT / row["source_artifact"]).read_text(encoding="utf-8"))
         assert pointer_value(source, row["source_pointer"]) is not None

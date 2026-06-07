@@ -695,42 +695,50 @@ def _controlled_geometry(arms: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         }
         for index, arm in enumerate(arms)
     }
+    controlled_geometry_hardgates = {
+        "B2-HG1": {
+            "status": "pass",
+            "criterion": "controlled geometry partitions the six issue-facing control families",
+            "source_pointer": "$.controlled_geometry.feature_partition",
+        },
+        "B2-HG2": {
+            "status": "pass",
+            "criterion": "controlled geometry evidence pointers resolve inside the sidecar artifact",
+            "source_pointer": "$.controlled_geometry.pointer_contract",
+        },
+        "B2-HG3": {
+            "status": "pass",
+            "criterion": "controlled geometry uses matched-random control under the same split, threshold, and budget",
+            "source_pointer": "$.controlled_geometry.geometry_controls",
+        },
+        "B2-HG4": {
+            "status": "pass",
+            "criterion": "sidecar records evidence without owning terminal claim language",
+            "source_pointer": "$.controlled_geometry.status_owner_boundary",
+        },
+        "B2-HG5": {
+            "status": "pass",
+            "criterion": "sidecar does not write run-local claim-capsule artifacts",
+            "source_pointer": "$.controlled_geometry.artifact_boundary",
+        },
+        "B2-HG6": {
+            "status": "pass"
+            if tuple(str(arm["arm"]) for arm in arms) == ARM_ORDER
+            and all(arm["forbidden_feature_audit"]["status"] == "pass" for arm in arms)
+            else "defer",
+            "criterion": "six control-family pointers cover the sidecar arm table",
+            "source_pointer": "$.controlled_geometry.control_family_coverage",
+        },
+    }
     evidence_refs = [
         {
-            "evidence_id": "B2-HG1",
+            "evidence_id": gate,
             "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG1",
+            "source_pointer": f"$.controlled_geometry_hardgates.{gate}",
             "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.feature_partition",
-        },
-        {
-            "evidence_id": "B2-HG2",
-            "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG2",
-            "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.pointer_contract",
-        },
-        {
-            "evidence_id": "B2-HG3",
-            "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG3",
-            "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.geometry_controls",
-        },
-        {
-            "evidence_id": "B2-HG4",
-            "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG4",
-            "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.status_owner_boundary",
-        },
-        {
-            "evidence_id": "B2-HG5",
-            "source_artifact": JSON_ARTIFACT,
-            "source_pointer": "$.controlled_geometry_hardgates.B2-HG5",
-            "controlled_geometry_artifact": JSON_ARTIFACT,
-            "controlled_geometry_pointer": "$.controlled_geometry.artifact_boundary",
-        },
+            "controlled_geometry_pointer": str(row["source_pointer"]),
+        }
+        for gate, row in controlled_geometry_hardgates.items()
     ]
     return {
         "controlled_geometry": {
@@ -776,41 +784,7 @@ def _controlled_geometry(arms: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
             "evidence_refs": evidence_refs,
         },
         "controlled_geometry_pointer_contract": pointer_contract,
-        "controlled_geometry_hardgates": {
-            "B2-HG1": {
-                "status": "pass",
-                "criterion": "controlled geometry partitions the six issue-facing control families",
-                "source_pointer": "$.controlled_geometry.feature_partition",
-            },
-            "B2-HG2": {
-                "status": "pass",
-                "criterion": "controlled geometry evidence pointers resolve inside the sidecar artifact",
-                "source_pointer": "$.controlled_geometry.pointer_contract",
-            },
-            "B2-HG3": {
-                "status": "pass",
-                "criterion": "controlled geometry uses matched-random control under the same split, threshold, and budget",
-                "source_pointer": "$.controlled_geometry.geometry_controls",
-            },
-            "B2-HG4": {
-                "status": "pass",
-                "criterion": "sidecar records evidence without owning terminal claim language",
-                "source_pointer": "$.controlled_geometry.status_owner_boundary",
-            },
-            "B2-HG5": {
-                "status": "pass",
-                "criterion": "sidecar does not write run-local claim-capsule artifacts",
-                "source_pointer": "$.controlled_geometry.artifact_boundary",
-            },
-            "B2-HG6": {
-                "status": "pass"
-                if tuple(str(arm["arm"]) for arm in arms) == ARM_ORDER
-                and all(arm["forbidden_feature_audit"]["status"] == "pass" for arm in arms)
-                else "defer",
-                "criterion": "six control-family pointers cover the sidecar arm table",
-                "source_pointer": "$.controlled_geometry.control_family_coverage",
-            },
-        },
+        "controlled_geometry_hardgates": controlled_geometry_hardgates,
     }
 
 
@@ -902,6 +876,8 @@ def build_payload(*, root: Path = ROOT, generated_at: str | None = None) -> dict
 
 
 def render_markdown(payload: Mapping[str, Any]) -> str:
+    hardgate_names = ", ".join(str(gate) for gate in payload["hardgate_evidence"])
+    controlled_geometry_hardgate_names = ", ".join(str(gate) for gate in payload["controlled_geometry_hardgates"])
     lines = [
         "# Dimension-Mismatch Anti-Triviality",
         "",
@@ -948,8 +924,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             "",
             "- `$.arms[*]` lists only sidecar-local arm evidence.",
             "- `$.positive_predicate` is the only status-driving positivity rule.",
-            "- `$.hardgate_evidence` records HG-B1-AT1..6.",
-            "- `$.controlled_geometry_hardgates` records B2-HG1..5.",
+            f"- `$.hardgate_evidence` records {hardgate_names}.",
+            f"- `$.controlled_geometry_hardgates` records {controlled_geometry_hardgate_names}.",
             "- `$.mechanism_status` and `$.d5m_status` remain `not_claimed`.",
         ]
     )

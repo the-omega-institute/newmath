@@ -428,6 +428,14 @@ def test_b2_controlled_geometry_sidecar_has_resolvable_evidence_pointers(tmp_pat
         assert row["controlled_geometry_artifact"] == runner.JSON_ARTIFACT
         assert pointer_value(payload, row["source_pointer"]) is not None, row
         assert pointer_value(payload, row["controlled_geometry_pointer"]) is not None, row
+    assert [row["evidence_id"] for row in payload["controlled_geometry"]["evidence_refs"]] == list(
+        payload["controlled_geometry_hardgates"]
+    )
+    report = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
+    assert (
+        "- `$.controlled_geometry_hardgates` records "
+        f"{', '.join(payload['controlled_geometry_hardgates'])}."
+    ) in report
 
 
 def test_control_family_coverage_defers_when_a_family_is_missing(tmp_path, monkeypatch):
