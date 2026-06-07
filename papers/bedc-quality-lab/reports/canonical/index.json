@@ -900,10 +900,11 @@
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
+      "error": "fingerprint sidecar mismatch for gap-head-on-h: input-fingerprint",
       "estimated_seconds": 90,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/gap-head-on-h.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "miss",
       "json_artifact": "reports/canonical/gap-head-on-h.json",
       "markdown_artifact": "reports/canonical/gap-head-on-h.md",
       "name": "gap-head-on-h",
@@ -911,8 +912,8 @@
         "python3",
         "scripts/run_gap_ledger_head_on_h.py"
       ],
-      "producer_status": "skipped",
-      "status": "pass",
+      "producer_status": "error",
+      "status": "error",
       "validation": {
         "missing_artifacts": [],
         "required_json_keys": [
@@ -928,6 +929,22 @@
           "aggregate_metrics",
           "treatment_comparison",
           "control_protocol",
+          "$.control_protocol.parameter_match",
+          "$.control_protocol.compute_match",
+          "$.control_protocol.threshold_match",
+          "$.control_protocol.surface_distribution_match",
+          "$.control_protocol.metric_helper_match",
+          "$.control_protocol.audit_status",
+          "$.control_protocol.failure_reasons",
+          "$.control_protocol.evidence_pointers",
+          "$.records[*].matched_random_control.parameter_match",
+          "$.records[*].matched_random_control.compute_match",
+          "$.records[*].matched_random_control.threshold_match",
+          "$.records[*].matched_random_control.surface_distribution_match",
+          "$.records[*].matched_random_control.metric_helper_match",
+          "$.records[*].matched_random_control.audit_status",
+          "$.records[*].matched_random_control.failure_reasons",
+          "$.records[*].matched_random_control.evidence_pointers",
           "control_verdict",
           "main_claim_status"
         ],
@@ -959,10 +976,11 @@
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
+      "error": "fingerprint sidecar mismatch for gap-head-discovery: input-fingerprint",
       "estimated_seconds": 5,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/gap-head-discovery.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "miss",
       "json_artifact": "reports/canonical/gap-head-discovery.json",
       "markdown_artifact": "reports/canonical/gap-head-discovery.md",
       "name": "gap-head-discovery",
@@ -970,8 +988,8 @@
         "python3",
         "scripts/run_gap_head_discovery.py"
       ],
-      "producer_status": "skipped",
-      "status": "pass",
+      "producer_status": "error",
+      "status": "error",
       "validation": {
         "missing_artifacts": [],
         "required_json_keys": [
@@ -982,6 +1000,14 @@
           "benefit_terms",
           "positive_discovery",
           "matched_random_control",
+          "$.matched_random_control.parameter_match",
+          "$.matched_random_control.compute_match",
+          "$.matched_random_control.threshold_match",
+          "$.matched_random_control.surface_distribution_match",
+          "$.matched_random_control.metric_helper_match",
+          "$.matched_random_control.audit_status",
+          "$.matched_random_control.failure_reasons",
+          "$.matched_random_control.evidence_pointers",
           "main_claim_status",
           "final_main_claim_status"
         ],
@@ -1333,10 +1359,11 @@
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
+      "error": "fingerprint sidecar mismatch for gap-head-attribution-capsule: input-fingerprint",
       "estimated_seconds": 120,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "input-fingerprint",
       "fingerprint_sidecar": "reports/canonical/gap_head_attribution_capsule.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "miss",
       "json_artifact": "reports/canonical/gap_head_attribution_capsule.json",
       "markdown_artifact": "reports/canonical/gap_head_attribution_capsule.md",
       "name": "gap-head-attribution-capsule",
@@ -1344,8 +1371,8 @@
         "python3",
         "scripts/run_gap_head_attribution_capsule.py"
       ],
-      "producer_status": "skipped",
-      "status": "pass",
+      "producer_status": "error",
+      "status": "error",
       "validation": {
         "missing_artifacts": [],
         "required_json_keys": [

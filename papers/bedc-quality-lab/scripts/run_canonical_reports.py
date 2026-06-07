@@ -257,6 +257,16 @@ QUALITY_SCORECARD_METRICS = (
     "HardeningCoverage",
     "OverclaimRate",
 )
+MATCHED_RANDOM_CONTROL_REQUIRED_PATHS = (
+    "$.parameter_match",
+    "$.compute_match",
+    "$.threshold_match",
+    "$.surface_distribution_match",
+    "$.metric_helper_match",
+    "$.audit_status",
+    "$.failure_reasons",
+    "$.evidence_pointers",
+)
 
 
 @dataclass(**{"froz" + "en": True})
@@ -345,6 +355,14 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "aggregate_metrics",
             "treatment_comparison",
             "control_protocol",
+            *(
+                "$.control_protocol" + path[1:]
+                for path in MATCHED_RANDOM_CONTROL_REQUIRED_PATHS
+            ),
+            *(
+                "$.records[*].matched_random_control" + path[1:]
+                for path in MATCHED_RANDOM_CONTROL_REQUIRED_PATHS
+            ),
             "control_verdict",
             "main_claim_status",
         ),
@@ -370,6 +388,10 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "benefit_terms",
             "positive_discovery",
             "matched_random_control",
+            *(
+                "$.matched_random_control" + path[1:]
+                for path in MATCHED_RANDOM_CONTROL_REQUIRED_PATHS
+            ),
             "main_claim_status",
             "final_main_claim_status",
         ),
@@ -1316,6 +1338,32 @@ def _compile_discovery_compat(compile_discovery, *, root: Path, generated_at: st
     return compile_discovery(**kwargs)
 
 
+def _required_key_present(payload: Any, key: str) -> bool:
+    if not isinstance(payload, dict):
+        return False
+    if not key.startswith("$."):
+        return key in payload
+    current_values = [payload]
+    for part in key[2:].split("."):
+        next_values: list[Any] = []
+        if part.endswith("[*]"):
+            name = part[:-3]
+            for value in current_values:
+                if not isinstance(value, dict) or name not in value:
+                    return False
+                items = value[name]
+                if not isinstance(items, list) or not items:
+                    return False
+                next_values.extend(items)
+        else:
+            for value in current_values:
+                if not isinstance(value, dict) or part not in value:
+                    return False
+                next_values.append(value[part])
+        current_values = next_values
+    return bool(current_values)
+
+
 def _validate_json(path: Path, required_keys: Sequence[str]) -> dict[str, Any]:
     if not path.exists():
         return {"status": "fail", "missing_keys": list(required_keys), "error": "missing json artifact"}
@@ -1323,7 +1371,7 @@ def _validate_json(path: Path, required_keys: Sequence[str]) -> dict[str, Any]:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
         return {"status": "fail", "missing_keys": list(required_keys), "error": str(exc)}
-    missing = [key for key in required_keys if key not in payload]
+    missing = [key for key in required_keys if not _required_key_present(payload, key)]
     return {"status": "pass" if not missing else "fail", "missing_keys": missing}
 
 

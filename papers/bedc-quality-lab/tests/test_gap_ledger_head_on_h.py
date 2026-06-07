@@ -332,6 +332,16 @@ def test_run_record_wires_three_arms_same_eval_error_and_no_z_leak(monkeypatch):
     assert record["matched_random_control"]["same_thresholds"] is True
     assert record["matched_random_control"]["same_budget"] is True
     assert record["matched_random_control"]["same_metric_helper"] is True
+    assert record["matched_random_control"]["parameter_match"] is True
+    assert record["matched_random_control"]["compute_match"] is True
+    assert record["matched_random_control"]["threshold_match"] is True
+    assert record["matched_random_control"]["surface_distribution_match"] is True
+    assert record["matched_random_control"]["metric_helper_match"] is True
+    assert record["matched_random_control"]["audit_status"] == "pass"
+    assert record["matched_random_control"]["failure_reasons"] == []
+    assert set(record["matched_random_control"]["evidence_pointers"]) == set(
+        runner.MATCHED_RANDOM_AUDIT_MATCH_KEYS
+    )
     vanilla = record["arms"]["vanilla"]
     posthoc = record["arms"]["posthoc_report_only"]["oracle_diagnostics"]
     learned = record["arms"]["learned_gap_head_on_h"]
@@ -424,6 +434,20 @@ def test_payload_and_markdown_share_boundary_fields():
     assert payload["forbidden_inference_columns"] == list(runner.FORBIDDEN_INFERENCE_COLUMNS)
     assert payload["forbidden_column_audit"]["status"] == "pass"
     assert payload["control_protocol"]["control_arm"] == runner.MATCHED_RANDOM_ARM
+    assert payload["control_protocol"]["parameter_match"] is True
+    assert payload["control_protocol"]["compute_match"] is True
+    assert payload["control_protocol"]["threshold_match"] is True
+    assert payload["control_protocol"]["surface_distribution_match"] is True
+    assert payload["control_protocol"]["metric_helper_match"] is True
+    assert payload["control_protocol"]["audit_status"] == "pass"
+    assert payload["control_protocol"]["failure_reasons"] == []
+    assert set(payload["control_protocol"]["evidence_pointers"]) == set(
+        runner.MATCHED_RANDOM_AUDIT_MATCH_KEYS
+    )
+    assert payload["control_protocol"]["same_train_eval_split_as_treatment"] is True
+    assert payload["control_protocol"]["same_thresholds_as_treatment"] is True
+    assert payload["control_protocol"]["same_budget_as_treatment"] is True
+    assert payload["control_protocol"]["same_metric_helper_as_treatment"] is True
     assert payload["control_verdict"]["arm"] == runner.MATCHED_RANDOM_ARM
     assert "# Gap-Ledger Head on Learned h" in report
     assert "Representation boundary: `learned_h`" in report

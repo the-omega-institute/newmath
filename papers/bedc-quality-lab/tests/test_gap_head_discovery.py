@@ -9,7 +9,38 @@ from scripts import run_gap_head_discovery as runner
 
 
 def _payload():
-    return runner._load_gap_head_payload()
+    payload = runner._load_gap_head_payload()
+    _mark_control_audit_verified(payload)
+    return payload
+
+
+def _verified_audit():
+    return {
+        "parameter_match": True,
+        "compute_match": True,
+        "threshold_match": True,
+        "surface_distribution_match": True,
+        "metric_helper_match": True,
+        "audit_status": "pass",
+        "failure_reasons": [],
+        "evidence_pointers": {
+            key: [f"fixture:{key}"]
+            for key in runner.MATCHED_RANDOM_AUDIT_MATCH_KEYS
+        },
+    }
+
+
+def _mark_control_audit_verified(payload):
+    payload["control_protocol"] = {
+        **payload.get("control_protocol", {}),
+        **_verified_audit(),
+    }
+    for record in payload["records"]:
+        record["matched_random_control"] = {
+            **record.get("matched_random_control", {}),
+            **_verified_audit(),
+        }
+    return payload
 
 
 def _write_payload(tmp_path, payload):
@@ -173,6 +204,51 @@ def test_control_positive_forces_unresolved_main_claim():
     assert verdict["positive_discovery"] is True
     assert verdict["matched_random_control"]["control_verdict"]["positive"] is True
     assert verdict["main_claim_status"] == "unresolved"
+    assert verdict["main_claim_reason"] == "control_positive"
+
+
+def test_control_positive_with_missing_audit_forces_unresolved_main_claim():
+    payload = copy.deepcopy(_payload())
+    payload["control_protocol"].pop("parameter_match")
+    payload["control_verdict"]["positive"] = True
+
+    projection = runner._build_gap_head_projection(payload)
+    verdict = runner._verdict_payload(projection)
+
+    assert verdict["positive_discovery"] is True
+    assert verdict["matched_random_control"]["verified"] is False
+    assert verdict["matched_random_control"]["control_verdict"]["positive"] is False
+    assert verdict["main_claim_status"] == "unresolved"
+    assert verdict["final_main_claim_status"] == "unresolved"
+    assert verdict["main_claim_reason"] == "matched_random_control_unverified"
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        lambda payload: payload.__setitem__("control_protocol", "malformed"),
+        lambda payload: payload["records"][0]["matched_random_control"].__setitem__(
+            "surface_distribution_match",
+            False,
+        ),
+        lambda payload: payload["records"][0]["matched_random_control"].__setitem__(
+            "failure_reasons",
+            ["fixture_failure"],
+        ),
+    ],
+)
+def test_malformed_or_false_control_audit_forces_unresolved_main_claim(mutate):
+    payload = copy.deepcopy(_payload())
+    mutate(payload)
+    payload["control_verdict"]["positive"] = True
+
+    projection = runner._build_gap_head_projection(payload)
+    verdict = runner._verdict_payload(projection)
+
+    assert verdict["matched_random_control"]["verified"] is False
+    assert verdict["matched_random_control"]["audit_status"] == "fail"
+    assert verdict["main_claim_status"] == "unresolved"
+    assert verdict["main_claim_reason"] == "matched_random_control_unverified"
 
 
 def test_control_non_positive_allows_treatment_promotion():
@@ -190,6 +266,7 @@ def test_control_non_positive_allows_treatment_promotion():
     assert verdict["positive_discovery"] is True
     assert verdict["matched_random_control"]["control_verdict"]["positive"] is False
     assert verdict["main_claim_status"] == "promoted"
+    assert verdict["final_main_claim_status"] == "promoted"
 
 
 def test_ledger_incomplete_is_non_discovery_reason():

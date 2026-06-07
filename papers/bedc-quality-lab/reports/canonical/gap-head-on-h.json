@@ -676,11 +676,42 @@
     "use_torch": false
   },
   "control_protocol": {
+    "audit_status": "pass",
+    "compute_match": true,
     "control_arm": "matched_random_gap_head",
+    "evidence_pointers": {
+      "compute_match": [
+        "$.control_protocol.config.gap_steps",
+        "$.control_protocol.config.gap_lr",
+        "$.control_protocol.config.gap_l2"
+      ],
+      "metric_helper_match": [
+        "$.control_protocol.arms.learned_gap_head_on_h",
+        "$.control_protocol.arms.matched_random_gap_head"
+      ],
+      "parameter_match": [
+        "$.control_protocol.feature_columns",
+        "$.control_protocol.config.gap_channels"
+      ],
+      "surface_distribution_match": [
+        "$.control_protocol.split.train_indices",
+        "$.control_protocol.split.eval_indices",
+        "$.control_protocol.matched_random_control.randomized_gap_label_rates"
+      ],
+      "threshold_match": [
+        "$.control_protocol.config.high_energy_threshold",
+        "$.control_protocol.config.low_margin_threshold",
+        "$.control_protocol.config.primary_tau",
+        "$.control_protocol.config.primary_epsilon"
+      ]
+    },
+    "failure_reasons": [],
     "gap_l2": 0.0001,
     "gap_lr": 0.14,
     "gap_steps": 500,
     "label_protocol": "seed_deterministic_per_channel_permutation",
+    "metric_helper_match": true,
+    "parameter_match": true,
     "primary_epsilon": 0.0,
     "primary_tau": 0.5,
     "same_budget_as_treatment": true,
@@ -692,6 +723,8 @@
     "sample_count": 384,
     "seed_count": 30,
     "seed_salt": 742193,
+    "surface_distribution_match": true,
+    "threshold_match": true,
     "train_fraction": 0.7
   },
   "control_verdict": {
@@ -1493,13 +1526,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.2,
           "off_target_intervention": 0.9217391304347826,
           "prediction_error": 0.4956521739130435,
           "transition_unstable": 0.5043478260869565
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2864583333333333,
           "off_target_intervention": 0.9140625,
@@ -1511,7 +1575,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -2604,13 +2670,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3391304347826087,
           "off_target_intervention": 0.9478260869565217,
           "prediction_error": 0.5391304347826087,
           "transition_unstable": 0.5826086956521739
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3203125,
           "off_target_intervention": 0.9453125,
@@ -2622,7 +2719,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -3715,13 +3814,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.34782608695652173,
           "off_target_intervention": 0.9391304347826087,
           "prediction_error": 0.4608695652173913,
           "transition_unstable": 0.5565217391304348
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3151041666666667,
           "off_target_intervention": 0.921875,
@@ -3733,7 +3863,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -4826,13 +4958,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3391304347826087,
           "off_target_intervention": 0.9478260869565217,
           "prediction_error": 0.4782608695652174,
           "transition_unstable": 0.5478260869565217
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3125,
           "off_target_intervention": 0.9192708333333334,
@@ -4844,7 +5007,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -5937,13 +6102,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3130434782608696,
           "off_target_intervention": 0.9391304347826087,
           "prediction_error": 0.5217391304347826,
           "transition_unstable": 0.4956521739130435
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3098958333333333,
           "off_target_intervention": 0.9348958333333334,
@@ -5955,7 +6151,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -7048,13 +7246,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3739130434782609,
           "off_target_intervention": 0.8956521739130435,
           "prediction_error": 0.46956521739130436,
           "transition_unstable": 0.5130434782608696
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3046875,
           "off_target_intervention": 0.9322916666666666,
@@ -7066,7 +7295,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -8159,13 +8390,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3217391304347826,
           "off_target_intervention": 0.9826086956521739,
           "prediction_error": 0.4,
           "transition_unstable": 0.5217391304347826
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3020833333333333,
           "off_target_intervention": 0.9375,
@@ -8177,7 +8439,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -9270,13 +9534,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3391304347826087,
           "off_target_intervention": 0.9652173913043478,
           "prediction_error": 0.5391304347826087,
           "transition_unstable": 0.6
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3151041666666667,
           "off_target_intervention": 0.9401041666666666,
@@ -9288,7 +9583,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -10381,13 +10678,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.28695652173913044,
           "off_target_intervention": 0.9565217391304348,
           "prediction_error": 0.5826086956521739,
           "transition_unstable": 0.5652173913043478
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2708333333333333,
           "off_target_intervention": 0.9322916666666666,
@@ -10399,7 +10727,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -11492,13 +11822,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.28695652173913044,
           "off_target_intervention": 0.9565217391304348,
           "prediction_error": 0.4956521739130435,
           "transition_unstable": 0.48695652173913045
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2890625,
           "off_target_intervention": 0.9401041666666666,
@@ -11510,7 +11871,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -12603,13 +12966,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.2782608695652174,
           "off_target_intervention": 0.9130434782608695,
           "prediction_error": 0.43478260869565216,
           "transition_unstable": 0.4608695652173913
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2916666666666667,
           "off_target_intervention": 0.921875,
@@ -12621,7 +13015,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -13714,13 +14110,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.23478260869565218,
           "off_target_intervention": 0.9391304347826087,
           "prediction_error": 0.48695652173913045,
           "transition_unstable": 0.5565217391304348
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2942708333333333,
           "off_target_intervention": 0.9114583333333334,
@@ -13732,7 +14159,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -14825,13 +15254,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.2782608695652174,
           "off_target_intervention": 0.9043478260869565,
           "prediction_error": 0.4782608695652174,
           "transition_unstable": 0.5478260869565217
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3072916666666667,
           "off_target_intervention": 0.9166666666666666,
@@ -14843,7 +15303,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -15936,13 +16398,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.33043478260869563,
           "off_target_intervention": 0.8956521739130435,
           "prediction_error": 0.5217391304347826,
           "transition_unstable": 0.5043478260869565
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3072916666666667,
           "off_target_intervention": 0.9348958333333334,
@@ -15954,7 +16447,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -17047,13 +17542,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.28695652173913044,
           "off_target_intervention": 0.9043478260869565,
           "prediction_error": 0.5652173913043478,
           "transition_unstable": 0.5739130434782609
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2838541666666667,
           "off_target_intervention": 0.9296875,
@@ -17065,7 +17591,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -18158,13 +18686,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.28695652173913044,
           "off_target_intervention": 0.9478260869565217,
           "prediction_error": 0.5391304347826087,
           "transition_unstable": 0.5217391304347826
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3072916666666667,
           "off_target_intervention": 0.9401041666666666,
@@ -18176,7 +18735,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -19269,13 +19830,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.25217391304347825,
           "off_target_intervention": 0.9565217391304348,
           "prediction_error": 0.5217391304347826,
           "transition_unstable": 0.5217391304347826
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3125,
           "off_target_intervention": 0.9296875,
@@ -19287,7 +19879,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -20380,13 +20974,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.28695652173913044,
           "off_target_intervention": 0.8869565217391304,
           "prediction_error": 0.5391304347826087,
           "transition_unstable": 0.6521739130434783
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3020833333333333,
           "off_target_intervention": 0.90625,
@@ -20398,7 +21023,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -21491,13 +22118,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3391304347826087,
           "off_target_intervention": 0.9043478260869565,
           "prediction_error": 0.4434782608695652,
           "transition_unstable": 0.5478260869565217
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3098958333333333,
           "off_target_intervention": 0.9192708333333334,
@@ -21509,7 +22167,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -22602,13 +23262,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.33043478260869563,
           "off_target_intervention": 0.9739130434782609,
           "prediction_error": 0.48695652173913045,
           "transition_unstable": 0.591304347826087
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2838541666666667,
           "off_target_intervention": 0.9557291666666666,
@@ -22620,7 +23311,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -23713,13 +24406,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.30434782608695654,
           "off_target_intervention": 0.9391304347826087,
           "prediction_error": 0.5652173913043478,
           "transition_unstable": 0.6173913043478261
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3151041666666667,
           "off_target_intervention": 0.9401041666666666,
@@ -23731,7 +24455,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -24824,13 +25550,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.2782608695652174,
           "off_target_intervention": 0.8956521739130435,
           "prediction_error": 0.48695652173913045,
           "transition_unstable": 0.5478260869565217
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3020833333333333,
           "off_target_intervention": 0.9088541666666666,
@@ -24842,7 +25599,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -25935,13 +26694,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.33043478260869563,
           "off_target_intervention": 0.9478260869565217,
           "prediction_error": 0.591304347826087,
           "transition_unstable": 0.4608695652173913
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2838541666666667,
           "off_target_intervention": 0.9505208333333334,
@@ -25953,7 +26743,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -27046,13 +27838,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.25217391304347825,
           "off_target_intervention": 0.9478260869565217,
           "prediction_error": 0.3652173913043478,
           "transition_unstable": 0.6086956521739131
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3046875,
           "off_target_intervention": 0.9296875,
@@ -27064,7 +27887,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -28157,13 +28982,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3130434782608696,
           "off_target_intervention": 0.9130434782608695,
           "prediction_error": 0.5391304347826087,
           "transition_unstable": 0.5739130434782609
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2916666666666667,
           "off_target_intervention": 0.9010416666666666,
@@ -28175,7 +29031,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -29268,13 +30126,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.20869565217391303,
           "off_target_intervention": 0.9217391304347826,
           "prediction_error": 0.5391304347826087,
           "transition_unstable": 0.48695652173913045
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.28125,
           "off_target_intervention": 0.8958333333333334,
@@ -29286,7 +30175,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -30379,13 +31270,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3217391304347826,
           "off_target_intervention": 0.9304347826086956,
           "prediction_error": 0.6347826086956522,
           "transition_unstable": 0.5478260869565217
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3177083333333333,
           "off_target_intervention": 0.9348958333333334,
@@ -30397,7 +31319,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -31490,13 +32414,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.3130434782608696,
           "off_target_intervention": 0.9130434782608695,
           "prediction_error": 0.5739130434782609,
           "transition_unstable": 0.6173913043478261
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.3020833333333333,
           "off_target_intervention": 0.9140625,
@@ -31508,7 +32463,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -32601,13 +33558,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.2782608695652174,
           "off_target_intervention": 0.8695652173913043,
           "prediction_error": 0.591304347826087,
           "transition_unstable": 0.5130434782608696
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2734375,
           "off_target_intervention": 0.8984375,
@@ -32619,7 +33607,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
@@ -33712,13 +34702,44 @@
       "inference_no_ground_truth_z": true,
       "matched_random_control": {
         "arm": "matched_random_gap_head",
+        "audit_status": "pass",
+        "compute_match": true,
         "eval_randomized_gap_label_rates": {
           "low_margin": 0.2956521739130435,
           "off_target_intervention": 0.9217391304347826,
           "prediction_error": 0.4608695652173913,
           "transition_unstable": 0.4782608695652174
         },
+        "evidence_pointers": {
+          "compute_match": [
+            "$.records[*].config.gap_steps",
+            "$.records[*].config.gap_lr",
+            "$.records[*].config.gap_l2"
+          ],
+          "metric_helper_match": [
+            "$.records[*].arms.learned_gap_head_on_h",
+            "$.records[*].arms.matched_random_gap_head"
+          ],
+          "parameter_match": [
+            "$.records[*].feature_columns",
+            "$.records[*].config.gap_channels"
+          ],
+          "surface_distribution_match": [
+            "$.records[*].split.train_indices",
+            "$.records[*].split.eval_indices",
+            "$.records[*].matched_random_control.randomized_gap_label_rates"
+          ],
+          "threshold_match": [
+            "$.records[*].config.high_energy_threshold",
+            "$.records[*].config.low_margin_threshold",
+            "$.records[*].config.primary_tau",
+            "$.records[*].config.primary_epsilon"
+          ]
+        },
+        "failure_reasons": [],
         "label_protocol": "seed_deterministic_per_channel_permutation",
+        "metric_helper_match": true,
+        "parameter_match": true,
         "randomized_gap_label_rates": {
           "low_margin": 0.2994791666666667,
           "off_target_intervention": 0.9244791666666666,
@@ -33730,7 +34751,9 @@
         "same_metric_helper": true,
         "same_split": true,
         "same_thresholds": true,
-        "seed_salt": 742193
+        "seed_salt": 742193,
+        "surface_distribution_match": true,
+        "threshold_match": true
       },
       "representation": {
         "fit_split": "train",
