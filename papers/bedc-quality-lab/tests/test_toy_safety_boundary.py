@@ -4,6 +4,9 @@ import copy
 import json
 from pathlib import Path
 
+import pytest
+
+import bedc_quality_lab.toy_safety_boundary as toy_safety_boundary
 from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.toy_safety_boundary import (
@@ -17,6 +20,8 @@ from bedc_quality_lab.toy_safety_boundary import (
     REQUIRED_GATES,
     SUMMARY_ARTIFACT,
     evaluate_fail_closed,
+    validate_artifacts,
+    write_artifacts,
 )
 from scripts.run_toy_safety_boundary import main as run_toy_safety_boundary
 
@@ -26,6 +31,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def _load_json(artifact: str):
     return json.loads((ROOT / artifact).read_text(encoding="utf-8"))
+
+
+def _write_claim_capsule(root: Path, payload: dict) -> None:
+    path = root / CLAIM_CAPSULE_ARTIFACT
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def _ref_to_cell(ref: dict[str, str]) -> str:
@@ -157,3 +167,63 @@ def test_dn_and_dr_fail_closed_require_owner_cells():
     dr["revocation"]["terminal_row"] = "DR"
     dr["revocation"]["rows"] = []
     assert evaluate_fail_closed(dr)["status"] == "fail"
+
+
+def test_validate_artifacts_rejects_invalid_hardgate_status(tmp_path):
+    artifacts = write_artifacts(tmp_path)
+    payload = copy.deepcopy(artifacts.claim_capsule)
+    payload["hardgates"]["H1-HG1"]["status"] = "warning"
+    _write_claim_capsule(tmp_path, payload)
+
+    validation = validate_artifacts(tmp_path)
+
+    assert validation["status"] == "fail"
+    assert "H1-HG1: invalid status" in validation["errors"]
+
+
+def test_validate_artifacts_rejects_unresolved_evidence_pointer(tmp_path):
+    artifacts = write_artifacts(tmp_path)
+    payload = copy.deepcopy(artifacts.claim_capsule)
+    payload["hardgates"]["H1-HG1"]["evidence_pointer"] = f"{CLAIM_CAPSULE_ARTIFACT}:$.missing"
+    _write_claim_capsule(tmp_path, payload)
+
+    validation = validate_artifacts(tmp_path)
+
+    assert validation["status"] == "fail"
+    assert "H1-HG1: evidence pointer does not resolve" in validation["errors"]
+
+
+def test_validate_artifacts_rejects_unresolved_failed_gate_pointer(tmp_path):
+    artifacts = write_artifacts(tmp_path)
+    payload = copy.deepcopy(artifacts.claim_capsule)
+    payload["hardgates"]["U-HG5"]["failed_gate_pointer"] = f"{CLAIM_CAPSULE_ARTIFACT}:$.missing"
+    _write_claim_capsule(tmp_path, payload)
+
+    validation = validate_artifacts(tmp_path)
+
+    assert validation["status"] == "fail"
+    assert "U-HG5: failed gate pointer does not resolve" in validation["errors"]
+
+
+def test_validate_artifacts_propagates_evaluate_fail_closed_errors(tmp_path):
+    artifacts = write_artifacts(tmp_path)
+    payload = copy.deepcopy(artifacts.claim_capsule)
+    payload["result_snapshot"]["net_positive_signal"] = False
+    _write_claim_capsule(tmp_path, payload)
+
+    validation = validate_artifacts(tmp_path)
+
+    assert validation["status"] == "fail"
+    assert "positive claim gate does not pass" in validation["errors"]
+
+
+def test_validate_artifacts_propagates_evaluate_fail_closed_exception(tmp_path, monkeypatch):
+    write_artifacts(tmp_path)
+
+    def raise_evaluation_error(payload):
+        raise RuntimeError("fail-closed evaluator unavailable")
+
+    monkeypatch.setattr(toy_safety_boundary, "evaluate_fail_closed", raise_evaluation_error)
+
+    with pytest.raises(RuntimeError, match="fail-closed evaluator unavailable"):
+        validate_artifacts(tmp_path)
