@@ -260,6 +260,7 @@ import BEDC.Derived.ApproximationUp
 import BEDC.Derived.ArchimedeanBracketUp.TasteGate
 import BEDC.Derived.ArchimedeanCauchyTailUp.TasteGate
 import BEDC.Derived.ArchimedeanCompletionUp.TasteGate
+import BEDC.Derived.ArchimedeanDyadicApproximationUp
 import BEDC.Derived.ArchimedeanModulusUp.NameCertObligations
 import BEDC.Derived.ArchimedeanModulusUp.TasteGate
 import BEDC.Derived.ArchimedeanOrderedFieldUp.TasteGate
@@ -1191,6 +1192,7 @@ import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
 import BEDC.Derived.CalculusUp.CompletionSourceEnvelopeObligations
 import BEDC.Derived.CalculusUp.CompletionSourceRealReadback
+import BEDC.Derived.CalculusUp.ContinuousLimitCarrierBudget
 import BEDC.Derived.CalculusUp.ContinuousMapLimitRoute
 import BEDC.Derived.CalculusUp.DerivativeContinuationObligation
 import BEDC.Derived.CalculusUp.DerivativeIntegralSourceSeparation
@@ -5294,6 +5296,7 @@ import BEDC.Derived.IntervalDomainUp.DirectedRefinementObligationScope
 import BEDC.Derived.IntervalDomainUp.DyadicEndpointCoverage
 import BEDC.Derived.IntervalDomainUp.FiniteEndpointOrder
 import BEDC.Derived.IntervalDomainUp.NameCertObligations
+import BEDC.Derived.IntervalDomainUp.RationalWidthMonotonicity
 import BEDC.Derived.IntervalDomainUp.RegularCauchyWindow
 import BEDC.Derived.IntervalDomainUp.TasteGate
 import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
@@ -5935,6 +5938,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierNormalFormDis
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierObstructionNonescape
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierSubjectReductionRowAbsence
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedFrontierSubjectReductionSocket
+import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedNormalizationBudget
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNConditionalBudget
 import BEDC.Derived.MetaCICCriticalPathUp.CandidateMediatedSNConditionalDischarge
