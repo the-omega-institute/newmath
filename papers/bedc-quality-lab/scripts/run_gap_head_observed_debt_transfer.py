@@ -89,24 +89,7 @@ def _config_for_surface(spec: TransferSurfaceSpec) -> producer.GapHeadRunConfig:
 
 
 def _forbidden_feature_audit(feature_columns: list[str]) -> dict[str, Any]:
-    try:
-        producer._assert_inference_columns(feature_columns)
-        forbidden_present: list[str] = []
-        status = "pass"
-    except ValueError:
-        forbidden = set(producer.FORBIDDEN_INFERENCE_COLUMNS)
-        forbidden_present = [
-            column
-            for column in feature_columns
-            if column in forbidden or column.split(":", 1)[0] in forbidden
-        ]
-        status = "fail"
-    return {
-        "status": status,
-        "feature_columns": list(feature_columns),
-        "forbidden_inference_columns": list(producer.FORBIDDEN_INFERENCE_COLUMNS),
-        "forbidden_present": sorted(set(forbidden_present)),
-    }
+    return producer._forbidden_column_audit(feature_columns)
 
 
 def _metric_projection(metrics: dict[str, Any]) -> dict[str, Any]:
@@ -476,8 +459,20 @@ def _write_payload(payload: Mapping[str, Any]) -> None:
     report_path.write_text(render_markdown(payload), encoding="utf-8")
 
 
+def _reusable_generated_at() -> str | None:
+    path = ROOT / JSON_ARTIFACT
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    generated_at = payload.get("generated_at") if isinstance(payload, dict) else None
+    return generated_at if isinstance(generated_at, str) and generated_at else None
+
+
 def main() -> None:
-    payload = build_payload()
+    payload = build_payload(generated_at=_reusable_generated_at())
     _write_payload(payload)
     transfer = payload["gap_head_on_h_observed_debt_transfer"]
     first_surface = payload["surfaces"][0]

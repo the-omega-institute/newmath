@@ -13,7 +13,7 @@
     "status": "pass",
     "total_surface_count": 1
   },
-  "generated_at": "2026-06-03T15:49:30.378010+00:00",
+  "generated_at": "2026-06-07T13:31:06.549325+00:00",
   "hardgate_evidence": {
     "HG-A1": {
       "criterion": "learned AUROC ci95_low > matched-random AUROC ci95_high and learned AUROC mean >= 0.75",
@@ -197,11 +197,17 @@
         "HG-A4": {
           "audit": {
             "forbidden_inference_columns": [
+              "label",
               "z",
               "z_pair",
               "gap_label",
+              "gap_labels",
               "prediction_error",
-              "eval_gap_labels"
+              "eval_label",
+              "eval_labels",
+              "eval_gap_label",
+              "eval_gap_labels",
+              "config_metadata"
             ],
             "forbidden_present": [],
             "producer_forbidden_column_audit": {
@@ -223,14 +229,21 @@
                 "quality:approx_identifiability_proxy"
               ],
               "forbidden_inference_columns": [
+                "label",
                 "z",
                 "z_pair",
                 "gap_label",
+                "gap_labels",
                 "prediction_error",
-                "eval_gap_labels"
+                "eval_label",
+                "eval_labels",
+                "eval_gap_label",
+                "eval_gap_labels",
+                "config_metadata"
               ],
               "forbidden_present": [],
-              "status": "pass"
+              "status": "pass",
+              "violations": []
             },
             "seed_feature_audit_count": 10,
             "status": "pass"
