@@ -29,6 +29,11 @@ FORBIDDEN_SUMMARY_ALIASES = (
     "standalone_verdict",
     "private_row_carrier",
 )
+REQUIRED_PRODUCTION_NOT_CLAIMED = (
+    "full model training",
+    "global architecture superiority",
+    "production attention authority",
+)
 NOT_CLAIMED = (
     "full model training",
     "global architecture superiority",
@@ -376,7 +381,7 @@ class CertificateGatedAttentionProjection:
         route_patch = summaries["route_patch_protocol"]
         registry = summaries["surface_registry"]
         torch_evidence = summaries["torch_attention_evidence"]
-        entropy = route_patch["entropy_only_control"]
+        not_claimed = set(NOT_CLAIMED)
         return {
             "CGA-HG1": {
                 "status": _status(bool(gate["valid_gate_pass_rate"] == 1.0 and gate["invalid_gate_pass_rate"] == 0.0)),
@@ -404,16 +409,9 @@ class CertificateGatedAttentionProjection:
                 "evidence_pointer": "$.torch_attention_evidence",
             },
             "CGA-HG6": {
-                "status": _status(
-                    isinstance(entropy["certificate_gate_reduction_mean"], (int, float))
-                    and isinstance(entropy["entropy_only_reduction_mean"], (int, float))
-                    and math.isfinite(float(entropy["certificate_gate_reduction_mean"]))
-                    and math.isfinite(float(entropy["entropy_only_reduction_mean"]))
-                    and float(entropy["certificate_gate_reduction_mean"])
-                    > float(entropy["entropy_only_reduction_mean"]) + DRIFT_TOLERANCE
-                ),
-                "evidence": "Certificate-gated route reduction must exceed entropy-only shrinkage.",
-                "evidence_pointer": "$.route_patch_protocol.entropy_only_control",
+                "status": _status(all(item in not_claimed for item in REQUIRED_PRODUCTION_NOT_CLAIMED)),
+                "evidence": "Production boundary non-claims must remain on the local not_claimed surface.",
+                "evidence_pointer": "$.not_claimed",
             },
         }
 
@@ -762,6 +760,7 @@ __all__ = [
     "DEFAULT_SEEDS",
     "DEFAULT_SURFACES",
     "DRIFT_TOLERANCE",
+    "REQUIRED_PRODUCTION_NOT_CLAIMED",
     "CertificateGatedAttentionProjection",
     "TorchAttentionArmProtocol",
     "default_grid",

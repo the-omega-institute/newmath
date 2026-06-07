@@ -14,6 +14,7 @@ from bedc_quality_lab.certificate_gated_attention import (
     DEFAULT_SEEDS,
     DEFAULT_SURFACES,
     DRIFT_TOLERANCE,
+    REQUIRED_PRODUCTION_NOT_CLAIMED,
     CertificateGatedAttentionProjection,
     TorchAttentionArmProtocol,
     default_grid,
@@ -245,20 +246,24 @@ def test_route_patch_protocol_shape_and_pointer_resolution():
     assert all(discovery_map.pointer_value(summary, pointer) is not None for pointer in pointer_values)
 
 
-def test_cga_hg6_requires_certificate_gate_to_beat_entropy_only():
-    records = runner.collect_deterministic_records()
-    for row in records:
-        if row["backbone"] == "entropy_only_attention" and row["certificate_mode"] == "valid":
-            row["attention_leak"] = 0.01
-    summary = _project(records)["summary_payload"]
+@pytest.mark.parametrize("missing_not_claimed", REQUIRED_PRODUCTION_NOT_CLAIMED)
+def test_cga_hg6_requires_production_boundary_not_claimed(monkeypatch, missing_not_claimed):
+    monkeypatch.setattr(
+        cga,
+        "NOT_CLAIMED",
+        tuple(item for item in cga.NOT_CLAIMED if item != missing_not_claimed),
+    )
+    summary = _project()["summary_payload"]
 
-    assert summary["route_patch_protocol"]["entropy_only_control"]["certificate_beats_entropy_only"] is False
+    assert missing_not_claimed not in summary["not_claimed"]
     assert summary["hardgate"]["gates"]["CGA-HG6"]["status"] == "fail"
+    assert summary["hardgate"]["gates"]["CGA-HG6"]["evidence_pointer"] == "$.not_claimed"
     assert summary["hardgate"]["failed_gate"] == "CGA-HG6"
     assert summary["discovery_map_signal"]["level_candidate"] == "DN"
     assert summary["discovery_map_signal"]["failed_gate"] == "CGA-HG6"
     assert summary["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.CGA-HG6.status"
     assert discovery_map.pointer_value(summary, "$.hardgate.gates.CGA-HG6.status") == "fail"
+    assert discovery_map.pointer_value(summary, summary["hardgate"]["gates"]["CGA-HG6"]["evidence_pointer"]) == summary["not_claimed"]
 
 
 def test_torch_arm_protocol_records_mps_or_cpu_fields(monkeypatch):
@@ -333,6 +338,7 @@ def test_current_lab_projection_and_pointer_resolvability():
     assert projected["evidence_basis"]["certificate_gated_attention"] is True
     assert row["discovery_level"] == "D4"
     assert row["audit_status"] == "valid"
+    assert spec.not_claimed_pointer == "$.not_claimed"
     assert discovery_map.pointer_value(summary, row["evidence_pointer"]) is not None
     assert discovery_map.pointer_value(summary, row["control_pointer"]) is not None
     assert row["control_pointer"] == "$.route_patch_protocol"

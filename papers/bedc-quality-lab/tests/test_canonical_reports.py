@@ -14,6 +14,7 @@ from bedc_quality_lab.discovery_regularized_training import (
 from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
+from scripts import run_certificate_gated_attention as cga_runner
 from scripts import run_gap_head_attribution_capsule as attribution_capsule
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
@@ -589,66 +590,7 @@ def _payload_for_spec(spec):
         )
         payload.update(extension_sections)
     if spec.name == "certificate-gated-attention":
-        payload.update(
-            {
-                "route_patch_protocol": {
-                    "valid_route_preservation": {
-                        "plain_attention_leak_mean": 0.3,
-                        "certificate_gated_attention_leak_mean": 0.1,
-                        "valid_patch_delta": 0.2,
-                        "evidence_pointer": "$.route_patch_protocol.by_surface",
-                    },
-                    "invalid_route_suppression": {
-                        "invalid_gate_pass_rate": 0.0,
-                        "ambiguous_gate_pass_rate": 0.0,
-                        "invalid_suppression_delta": 1.0,
-                        "evidence_pointer": "$.route_patch_protocol.by_surface",
-                    },
-                    "entropy_only_control": {
-                        "entropy_only_attention_leak_mean": 0.2,
-                        "entropy_only_reduction_mean": 0.1,
-                        "certificate_gate_reduction_mean": 0.2,
-                        "certificate_beats_entropy_only": True,
-                        "evidence_pointer": "$.route_patch_protocol.by_surface",
-                    },
-                    "classifier_shift": {
-                        "certificate_gated_shift_mean": 1.0,
-                        "entropy_only_shift_mean": 0.0,
-                        "classifier_shift_delta": 1.0,
-                    },
-                    "by_surface": {
-                        "fixture_surface": {
-                            "valid_patch_delta": 0.2,
-                            "invalid_suppression_delta": 1.0,
-                            "entropy_only_delta": 0.1,
-                            "classifier_shift_count_mean": 1.0,
-                        }
-                    },
-                    "evidence_pointer": "$.route_patch_protocol.by_surface",
-                },
-                "certificate_gate_summary": {
-                    "valid_gate_pass_rate": 1.0,
-                    "invalid_gate_pass_rate": 0.0,
-                    "gated_attention_leak_reduction_positive": True,
-                    "gated_vs_plain_valid": {"leak_reduction_mean": 0.1},
-                },
-                "gate_protocol": {"status": "fixture"},
-                "device_protocol": {"requested_device": "auto", "resolved_device": "not-requested"},
-                "torch_attention_evidence": {"status": "unavailable", "row_count": 0},
-                "matched_random_control": {"matched_random_gate_separation_positive": True},
-                "discovery_map_signal": {
-                    "status": "d4-candidate",
-                    "level_candidate": "D4",
-                    "reason": "certificate-gate-positive",
-                    "failed_gate": None,
-                    "failed_gate_pointer": None,
-                    "control_pointer": "$.route_patch_protocol",
-                    "entropy_only_control_pointer": "$.route_patch_protocol.entropy_only_control",
-                    "certificate_evidence_pointer": "$.certificate_gate_summary",
-                    "torch_attention_evidence_pointer": "$.torch_attention_evidence",
-                },
-            }
-        )
+        return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "gap-head-transfer-atlas":
         payload["config"] = {"control_arm": "matched_random_gap_head"}
     if spec.name == "mixing-family-sweep":
