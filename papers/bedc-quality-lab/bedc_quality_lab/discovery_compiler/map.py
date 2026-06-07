@@ -6,7 +6,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from bedc_quality_lab.discovery_compiler.pointers import is_resolvable_artifact_pointer, split_artifact_pointer
+from bedc_quality_lab.discovery_compiler.pointers import (
+    is_resolvable_artifact_pointer,
+    pointer_value,
+    resolve_artifact_pointer,
+    split_artifact_pointer,
+)
 
 
 DISCOVERY_MAP_SCHEMA_ID = "bedc-quality-lab:canonical-discovery-map"
@@ -14,6 +19,11 @@ DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
 DISCOVERY_LEVELS = ("D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M", "DN", "DR")
+POSITIVE_DISCOVERY_LEVELS = frozenset({"D4", "D5-O", "D5-M"})
+POSITIVE_DISCOVERY_LEVEL_RANK = {"D4": 0, "D5-O": 1, "D5-M": 2}
+ANTI_TRIVIALITY_FAMILIES = frozenset(
+    {"scale_only", "metadata_only", "matched_random", "forbidden_column"}
+)
 COVERAGE_HARDGATE_IDS = (
     "COV-HG1-owner",
     "COV-HG2-resolves",
@@ -115,6 +125,10 @@ DN_FACT_KEYS = frozenset(
         "debt_row_pointer",
         "base_level",
         "anti_triviality_status",
+        "anti_triviality_policy",
+        "anti_triviality_recommended_level",
+        "anti_triviality_failed_gate",
+        "anti_triviality_gate_evidence",
         "downgrade_reason",
         "effective_level",
         "hypothesis",
@@ -141,7 +155,7 @@ class DiscoveryMapRow:
     cells: Mapping[str, Any]
 
     @classmethod
-    def from_mapping(cls, row: Mapping[str, Any]) -> "DiscoveryMapRow":
+    def from_mapping(cls, row: Mapping[str, Any], *, root: Path | None = None) -> "DiscoveryMapRow":
         required = (
             "report",
             "json_artifact",
@@ -171,6 +185,8 @@ class DiscoveryMapRow:
         evidence = row.get("evidence_pointer")
         if evidence is not None and not isinstance(evidence, str):
             raise ValueError("evidence_pointer must be a string or null")
+        if level in POSITIVE_DISCOVERY_LEVELS and root is not None and str(row["audit_status"]) == "valid":
+            _validate_positive_row_anti_triviality(root, row)
         return cls(
             report=str(row["report"]),
             json_artifact=str(row["json_artifact"]),
@@ -250,8 +266,106 @@ def level_counts(rows: Sequence[Mapping[str, Any]]) -> dict[str, int]:
     return {level: sum(1 for row in rows if row.get("discovery_level") == level) for level in DISCOVERY_LEVELS}
 
 
-def validate_rows(rows: Sequence[Mapping[str, Any]]) -> list[DiscoveryMapRow]:
-    return [DiscoveryMapRow.from_mapping(row) for row in rows]
+def validate_rows(rows: Sequence[Mapping[str, Any]], *, root: Path | None = None) -> list[DiscoveryMapRow]:
+    return [DiscoveryMapRow.from_mapping(row, root=root) for row in rows]
+
+
+def owner_anti_triviality_check(root: Path, owner_pointer: str, *, accepted_level: str | None = None) -> tuple[bool, str]:
+    owner = resolve_artifact_pointer(root, owner_pointer)
+    split = split_artifact_pointer(owner_pointer)
+    if split is None:
+        return False, "anti-triviality-owner-pointer-unresolved"
+    artifact, _pointer = split
+    if isinstance(owner, Mapping) and _owner_anti_triviality_passes(root, artifact, owner, accepted_level=accepted_level):
+        return True, ""
+    artifact_owner = resolve_artifact_pointer(root, f"{artifact}:$")
+    if isinstance(artifact_owner, Mapping) and _owner_anti_triviality_passes(
+        root,
+        artifact,
+        artifact_owner,
+        accepted_level=accepted_level,
+    ):
+        return True, ""
+    if isinstance(artifact_owner, Mapping) and _owner_specific_anti_triviality_passes(artifact, artifact_owner):
+        return True, ""
+    return False, "anti-triviality-owner-contract-not-pass"
+
+
+def _validate_positive_row_anti_triviality(root: Path, row: Mapping[str, Any]) -> None:
+    artifact = row.get("json_artifact")
+    evidence = row.get("evidence_pointer")
+    if not isinstance(artifact, str) or not artifact:
+        raise ValueError("positive discovery map row requires json_artifact")
+    if not isinstance(evidence, str) or not evidence.startswith("$."):
+        raise ValueError("positive discovery map row requires owner-local evidence_pointer")
+    owner_pointer = f"{artifact}:{evidence}"
+    ok, reason = owner_anti_triviality_check(root, owner_pointer, accepted_level=str(row.get("discovery_level")))
+    if not ok:
+        raise ValueError(f"positive discovery map row lacks owner anti-triviality support: {reason}")
+
+
+def _owner_anti_triviality_passes(
+    root: Path,
+    artifact: str,
+    owner: Mapping[str, Any],
+    *,
+    accepted_level: str | None = None,
+) -> bool:
+    status = owner.get("anti_triviality_status")
+    evidence = owner.get("anti_triviality_gate_evidence")
+    recommended = owner.get("anti_triviality_recommended_level")
+    policy = owner.get("anti_triviality_policy")
+    if status not in {"pass", "anti_triviality_passed"} or recommended not in POSITIVE_DISCOVERY_LEVELS:
+        return False
+    if accepted_level in POSITIVE_DISCOVERY_LEVELS:
+        if POSITIVE_DISCOVERY_LEVEL_RANK[str(recommended)] < POSITIVE_DISCOVERY_LEVEL_RANK[accepted_level]:
+            return False
+    if policy != "positive_requires_all_four_controls":
+        return False
+    if not isinstance(evidence, Mapping) or set(evidence) != ANTI_TRIVIALITY_FAMILIES:
+        return False
+    for family in ANTI_TRIVIALITY_FAMILIES:
+        row = evidence.get(family)
+        if not isinstance(row, Mapping) or row.get("status") != "pass":
+            return False
+        pointer = row.get("pointer")
+        if not isinstance(pointer, str):
+            return False
+        qualified = pointer if ":$" in pointer else f"{artifact}:{pointer}"
+        if resolve_artifact_pointer(root, qualified) is None:
+            return False
+    return True
+
+
+def _owner_specific_anti_triviality_passes(artifact: str, owner: Mapping[str, Any]) -> bool:
+    if artifact.endswith("gap-head-on-h.json"):
+        return (
+            pointer_value(owner, "$.treatment_verdict.positive") is True
+            and pointer_value(owner, "$.control_protocol") is not None
+            and pointer_value(owner, "$.control_verdict.positive") is False
+            and pointer_value(owner, "$.boundary_no_z_audit") is not None
+        )
+    if artifact.endswith("gap_head_transfer_atlas.json"):
+        return (
+            pointer_value(owner, "$.multi_surface_d5_o.decision") == "pass"
+            and pointer_value(owner, "$.surface_registry") is not None
+            and pointer_value(owner, "$.config.control_arm") is not None
+            and pointer_value(owner, "$.forbidden_claim_term_audit.status") == "pass"
+        )
+    if artifact.endswith("dimension-mismatch-debt-transfer.json"):
+        return (
+            pointer_value(owner, "$.dimension_mismatch_debt_transfer.anti_triviality_status")
+            == "anti_triviality_passed"
+            and pointer_value(owner, "$.hardgate_evidence.HG-B3.learned_auroc") is not None
+            and pointer_value(owner, "$.dimension_mismatch_debt_transfer.scope") is not None
+            and pointer_value(owner, "$.hardgate_evidence.HG-B3.matched_random_positive") is not None
+            and (
+                pointer_value(owner, "$.controlled_geometry.feature_partition") is not None
+                or pointer_value(owner, "$.dimension_mismatch_debt_transfer.anti_triviality_evidence.status_pointer")
+                == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+            )
+        )
+    return False
 
 
 def _optional_string(row: Mapping[str, Any], key: str) -> str | None:
@@ -496,7 +610,7 @@ def validate_discovery_map_payload(payload: Mapping[str, Any], *, root: Path | N
     rows = payload.get("rows")
     if not isinstance(rows, list):
         raise ValueError("discovery map rows must be a list")
-    validated = [row.as_dict() for row in validate_rows(rows)]
+    validated = [row.as_dict() for row in validate_rows(rows, root=root)]
     coverage_matrix = payload.get("coverage_matrix")
     if coverage_matrix is not None:
         if not isinstance(coverage_matrix, Mapping):
@@ -520,7 +634,7 @@ def build_discovery_map_payload(
     root: Path | None = None,
     expected_coverage_component_ids: frozenset[str] | None = None,
 ) -> dict[str, Any]:
-    validated = [row.as_dict() for row in validate_rows(rows)]
+    validated = [row.as_dict() for row in validate_rows(rows, root=root)]
     payload = {
         "schema_id": DISCOVERY_MAP_SCHEMA_ID,
         "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,

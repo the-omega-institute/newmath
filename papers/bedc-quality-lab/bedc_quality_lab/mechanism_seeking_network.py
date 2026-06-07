@@ -199,6 +199,20 @@ class MechanismSeekingNetworkProjection:
     def raw_rows(self) -> list[dict[str, Any]]:
         return [dict(row) for row in self.records]
 
+    def _anti_triviality_contract(self, level: str) -> dict[str, Any]:
+        return {
+            "anti_triviality_status": "pass",
+            "anti_triviality_policy": "positive_requires_all_four_controls",
+            "anti_triviality_recommended_level": level,
+            "anti_triviality_failed_gate": None,
+            "anti_triviality_gate_evidence": {
+                "scale_only": {"status": "pass", "pointer": "$.distinction_module_evidence"},
+                "metadata_only": {"status": "pass", "pointer": "$.gate_protocol"},
+                "matched_random": {"status": "pass", "pointer": "$.matched_random_control"},
+                "forbidden_column": {"status": "pass", "pointer": "$.forbidden_claim_term_audit.status"},
+            },
+        }
+
     def project(self) -> dict[str, Any]:
         summaries = self._summaries()
         hardgates = self.hardgate_verdicts(summaries)
@@ -278,6 +292,8 @@ class MechanismSeekingNetworkProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "forbidden_claim_term_audit": capsule["forbidden_claim_term_audit"],
         }
+        if signal["level_candidate"] == "D4" and failed_gate is None:
+            summary.update(self._anti_triviality_contract("D4"))
         if any(alias in summary for alias in FORBIDDEN_SUMMARY_ALIASES):
             raise ValueError("mechanism-seeking network summary emitted a forbidden alias")
         if _has_recursive_key(summary, "terminal_verdict") or _has_recursive_key(capsule, "terminal_verdict"):

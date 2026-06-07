@@ -671,6 +671,26 @@ def _sidecar_controlled_geometry(payload: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _sidecar_anti_triviality_contract(sidecar: Mapping[str, Any], effective_level: str) -> dict[str, Any]:
+    status = "pass" if sidecar.get("sidecar_status") == "anti_triviality_passed" else "fail"
+    if sidecar.get("status") == "defer":
+        status = "defer"
+    failed_gate = sidecar.get("failed_gate")
+    if status == "pass":
+        failed_gate = None
+    return {
+        "anti_triviality_policy": "positive_requires_all_four_controls",
+        "anti_triviality_recommended_level": effective_level,
+        "anti_triviality_failed_gate": failed_gate,
+        "anti_triviality_gate_evidence": {
+            "scale_only": {"status": status, "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+            "metadata_only": {"status": status, "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+            "matched_random": {"status": status, "pointer": "$.control_protocol"},
+            "forbidden_column": {"status": status, "pointer": "$.representation_boundary.actual_model_input_columns"},
+        },
+    }
+
+
 def build_negative_witness_rows(payload: Mapping[str, Any], root: Path) -> tuple[NegativeWitnessRow, ...]:
     transfer = payload.get("dimension_mismatch_debt_transfer")
     if not isinstance(transfer, Mapping):
@@ -843,6 +863,7 @@ def build_payload(
     effective_level = str(sidecar["effective_level"]) if status == "pass" else source_level
     terminal_verdict = str(sidecar["terminal_verdict"])
     downgrade_reason = sidecar["downgrade_reason"]
+    anti_triviality_contract = _sidecar_anti_triviality_contract(sidecar, effective_level)
     return {
         "artifact_id": ARTIFACT_ID,
         "artifact": JSON_ARTIFACT,
@@ -938,6 +959,7 @@ def build_payload(
                 if isinstance(sidecar.get("controlled_geometry"), Mapping)
                 else {},
             },
+            **anti_triviality_contract,
         },
         "metrics": {
             "by_arm": {

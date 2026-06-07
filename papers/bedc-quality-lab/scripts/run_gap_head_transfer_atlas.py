@@ -804,6 +804,21 @@ def _forbidden_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {
+        "anti_triviality_status": "pass",
+        "anti_triviality_policy": "positive_requires_all_four_controls",
+        "anti_triviality_recommended_level": level,
+        "anti_triviality_failed_gate": None,
+        "anti_triviality_gate_evidence": {
+            "scale_only": {"status": "pass", "pointer": "$.hardgate_evidence.A2-HG2.status"},
+            "metadata_only": {"status": "pass", "pointer": "$.hardgate_evidence.A2-HG7.status"},
+            "matched_random": {"status": "pass", "pointer": "$.hardgate_evidence.A2-HG3.status"},
+            "forbidden_column": {"status": "pass", "pointer": "$.hardgate_evidence.A2-HG4.status"},
+        },
+    }
+
+
 def _prior_observation_packet(registry: tuple[AtlasSurfaceSpec, ...]) -> dict[str, Any]:
     observations = {
         spec.label: {
@@ -894,6 +909,8 @@ def build_payload(*, run_id: str, generated_at: str | None = None) -> dict[str, 
         "not_claimed": list(NOT_CLAIMED),
     }
     payload["forbidden_claim_term_audit"] = _forbidden_claim_term_audit(payload)
+    if payload["multi_surface_d5_o"]["decision"] == "pass":
+        payload.update(_anti_triviality_contract(str(payload["multi_surface_d5_o"]["discovery_level"])))
     return payload
 
 

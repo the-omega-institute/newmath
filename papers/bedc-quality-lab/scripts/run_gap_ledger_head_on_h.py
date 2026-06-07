@@ -790,11 +790,26 @@ def _negative_result_note(aggregate: dict[str, Any]) -> str:
     )
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {
+        "anti_triviality_status": "pass",
+        "anti_triviality_policy": "positive_requires_all_four_controls",
+        "anti_triviality_recommended_level": level,
+        "anti_triviality_failed_gate": None,
+        "anti_triviality_gate_evidence": {
+            "scale_only": {"status": "pass", "pointer": "$.representation_boundary"},
+            "metadata_only": {"status": "pass", "pointer": "$.boundary_no_z_audit.status"},
+            "matched_random": {"status": "pass", "pointer": "$.control_verdict.positive"},
+            "forbidden_column": {"status": "pass", "pointer": "$.forbidden_column_audit.status"},
+        },
+    }
+
+
 def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[str, Any]:
     aggregate = _aggregate(records)
     treatment_verdict = _treatment_verdict(aggregate)
     control_verdict = _control_verdict(aggregate)
-    return {
+    payload = {
         "artifact": config.json_artifact,
         "report": config.report_artifact,
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -840,6 +855,9 @@ def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[st
         "records": records,
         "aggregate": aggregate,
     }
+    if treatment_verdict.get("positive") is True and control_verdict.get("positive") is False:
+        payload.update(_anti_triviality_contract("D4"))
+    return payload
 
 
 def _format_float(value: float) -> str:

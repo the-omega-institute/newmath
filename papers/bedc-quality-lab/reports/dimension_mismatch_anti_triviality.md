@@ -24,7 +24,7 @@
 | `HG-B1-AT1` | `pass` |
 | `HG-B1-AT2` | `pass` |
 | `HG-B1-AT3` | `pass` |
-| `HG-B1-AT4` | `pass` |
+| `HG-B1-AT4` | `fail` |
 | `HG-B1-AT5` | `pass` |
 | `HG-B1-AT6` | `pass` |
 

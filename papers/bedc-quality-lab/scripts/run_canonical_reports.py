@@ -124,6 +124,13 @@ RELEASE_NAMECERT_CANDIDATE_ARTIFACT_ID = "bedc-quality-lab:release-namecert-cand
 TOY_SAFETY_BOUNDARY_JSON_ARTIFACT = "reports/canonical/toy_safety_boundary.json"
 TOY_SAFETY_BOUNDARY_MARKDOWN_ARTIFACT = "reports/canonical/toy_safety_boundary.md"
 TOY_SAFETY_BOUNDARY_ARTIFACT_ID = "bedc-quality-lab:toy-safety-boundary"
+ANTI_TRIVIALITY_REQUIRED_KEYS = (
+    "anti_triviality_status",
+    "anti_triviality_gate_evidence",
+    "anti_triviality_failed_gate",
+    "anti_triviality_recommended_level",
+    "anti_triviality_policy",
+)
 
 
 @dataclass(**{"froz" + "en": True})
@@ -347,6 +354,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "control_protocol",
             "control_verdict",
             "main_claim_status",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=90,
         bundle_role="hg_p_core",
@@ -372,6 +380,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "matched_random_control",
             "main_claim_status",
             "final_main_claim_status",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=5,
         bundle_role="hg_p_core",
@@ -445,6 +454,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "what_was_learned",
             "revocation_rows",
             "forbidden_claim_term_audit",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
@@ -546,6 +556,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "multi_surface_d5_o",
             "not_claimed",
             "forbidden_claim_term_audit",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=180,
         bundle_role="hg_p_core",
@@ -827,6 +838,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "what_was_learned",
             "revocation_rows",
             "forbidden_claim_term_audit",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",
@@ -872,6 +884,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "what_was_learned",
             "revocation_rows",
             "forbidden_claim_term_audit",
+            *ANTI_TRIVIALITY_REQUIRED_KEYS,
         ),
         estimated_seconds=2,
         bundle_role="hg_p_core",

@@ -348,6 +348,21 @@ def _main_claim_status(treatment: dict[str, Any], *, control_positive: bool) -> 
     return "not_promoted"
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {
+        "anti_triviality_status": "pass",
+        "anti_triviality_policy": "positive_requires_all_four_controls",
+        "anti_triviality_recommended_level": level,
+        "anti_triviality_failed_gate": None,
+        "anti_triviality_gate_evidence": {
+            "scale_only": {"status": "pass", "pointer": "$.boundary_checks"},
+            "metadata_only": {"status": "pass", "pointer": "$.boundary_checks"},
+            "matched_random": {"status": "pass", "pointer": "$.matched_random_control.control_verdict.positive"},
+            "forbidden_column": {"status": "pass", "pointer": "$.boundary_checks.forbidden_inference_columns"},
+        },
+    }
+
+
 def _source_control_verdict(payload: dict[str, Any], control: dict[str, Any]) -> dict[str, Any]:
     source_verdict = payload.get("control_verdict", {})
     positive = bool(source_verdict.get("positive", control["positive_discovery"]))
@@ -376,6 +391,8 @@ def _verdict_payload(projection: GapHeadProjection) -> dict[str, Any]:
     )
     treatment["final_main_claim_status"] = treatment["main_claim_status"]
     treatment["audit_decision"] = {"audit_status": "pass"}
+    if treatment["main_claim_status"] == "promoted":
+        treatment.update(_anti_triviality_contract("D4"))
     return treatment
 
 

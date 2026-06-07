@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.discovery_compiler.map import (
+    ANTI_TRIVIALITY_FAMILIES,
     COVERAGE_CELL_FIELDS,
     COVERAGE_FORBIDDEN_KEYS,
     COVERAGE_HARDGATE_IDS,
@@ -1987,6 +1988,101 @@ def _artifact_pointer_value(
     return pointer_value(context.get(artifact, {}), local_pointer)
 
 
+def _owner_local_anti_triviality_result(
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+    level: DiscoveryLevel,
+) -> tuple[str, str] | None:
+    if level not in {"D4", "D5-O", "D5-M"}:
+        return None
+    adapter_result = _owner_specific_anti_triviality_result(spec, payload, level)
+    if adapter_result is not None:
+        ok, reason = adapter_result
+        return None if ok else ("invalid", reason)
+    if payload.get("anti_triviality_status") not in {"pass", "anti_triviality_passed"}:
+        return "invalid", "owner-anti-triviality-not-pass"
+    if payload.get("anti_triviality_policy") != "positive_requires_all_four_controls":
+        return "invalid", "owner-anti-triviality-policy-mismatch"
+    recommended = payload.get("anti_triviality_recommended_level")
+    positive_rank = {"D4": 0, "D5-O": 1, "D5-M": 2}
+    if recommended not in positive_rank or positive_rank[str(recommended)] < positive_rank[str(level)]:
+        return "invalid", "owner-anti-triviality-level-mismatch"
+    contract = payload.get("anti_triviality_gate_evidence")
+    if not isinstance(contract, Mapping) or set(contract) != ANTI_TRIVIALITY_FAMILIES:
+        return "invalid", "missing-owner-anti-triviality-contract"
+    for family in ANTI_TRIVIALITY_FAMILIES:
+        row = contract.get(family)
+        if not isinstance(row, Mapping) or row.get("status") != "pass":
+            return "invalid", f"owner-anti-triviality-{family}-not-pass"
+        pointer = row.get("pointer")
+        if not isinstance(pointer, str) or pointer_value(payload, pointer) is None:
+            return "invalid", f"owner-anti-triviality-{family}-pointer-unresolved"
+    return None
+
+
+def _owner_specific_anti_triviality_result(
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+    level: DiscoveryLevel,
+) -> tuple[bool, str] | None:
+    del level
+    if spec.name == "gap-head-on-h":
+        if pointer_value(payload, "$.treatment_verdict.positive") is not True:
+            return False, "owner-anti-triviality-scale-only-not-pass"
+        if pointer_value(payload, "$.control_protocol") is None:
+            return False, "owner-anti-triviality-metadata-only-not-pass"
+        if pointer_value(payload, "$.control_verdict.positive") is not False:
+            return False, "owner-anti-triviality-matched-random-not-pass"
+        if pointer_value(payload, "$.boundary_no_z_audit") is None:
+            return False, "owner-anti-triviality-forbidden-column-not-pass"
+        return True, ""
+    if spec.name == "gap-head-transfer-atlas":
+        if pointer_value(payload, "$.multi_surface_d5_o.decision") != "pass":
+            return False, "owner-anti-triviality-scale-only-not-pass"
+        if pointer_value(payload, "$.surface_registry") is None:
+            return False, "owner-anti-triviality-metadata-only-not-pass"
+        if pointer_value(payload, "$.config.control_arm") is None:
+            return False, "owner-anti-triviality-matched-random-not-pass"
+        if pointer_value(payload, "$.forbidden_claim_term_audit.status") != "pass":
+            return False, "owner-anti-triviality-forbidden-column-not-pass"
+        return True, ""
+    if spec.name == "dimension-mismatch-debt-transfer":
+        if pointer_value(payload, "$.dimension_mismatch_debt_transfer.anti_triviality_status") != "anti_triviality_passed":
+            return False, "owner-anti-triviality-not-pass"
+        if pointer_value(payload, "$.hardgate_evidence.HG-B3.learned_auroc") is None:
+            return False, "owner-anti-triviality-scale-only-not-pass"
+        if pointer_value(payload, "$.dimension_mismatch_debt_transfer.scope") is None:
+            return False, "owner-anti-triviality-metadata-only-not-pass"
+        if pointer_value(payload, "$.hardgate_evidence.HG-B3.matched_random_positive") is None:
+            return False, "owner-anti-triviality-matched-random-not-pass"
+        if pointer_value(payload, "$.controlled_geometry.feature_partition") is None:
+            return False, "owner-anti-triviality-forbidden-column-not-pass"
+        return True, ""
+    return None
+
+
+def owner_local_anti_triviality_contract(
+    *,
+    recommended_level: str,
+    scale_only_pointer: str,
+    metadata_only_pointer: str,
+    matched_random_pointer: str,
+    forbidden_column_pointer: str,
+) -> dict[str, Any]:
+    return {
+        "anti_triviality_status": "pass",
+        "anti_triviality_policy": "positive_requires_all_four_controls",
+        "anti_triviality_recommended_level": recommended_level,
+        "anti_triviality_failed_gate": None,
+        "anti_triviality_gate_evidence": {
+            "scale_only": {"status": "pass", "pointer": scale_only_pointer},
+            "metadata_only": {"status": "pass", "pointer": metadata_only_pointer},
+            "matched_random": {"status": "pass", "pointer": matched_random_pointer},
+            "forbidden_column": {"status": "pass", "pointer": forbidden_column_pointer},
+        },
+    }
+
+
 def _audit_spec_pointer_cells(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> tuple[str, str] | None:
     for field in ("scope_pointer", "cost_pointer", "not_claimed_pointer"):
         pointer = getattr(spec, field)
@@ -2083,6 +2179,13 @@ def _audit_row(
         if not consistent:
             return "invalid", reason
     if level in {"D4", "D5-O", "D5-M"}:
+        if level in {"D5-O", "D5-M"} and spec.name == "gap-head-on-h":
+            reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
+            if reason is not None:
+                return "invalid", reason
+        anti_result = _owner_local_anti_triviality_result(spec, payload, level)
+        if anti_result is not None:
+            return anti_result
         pointer_result = _audit_pointer_cell(
             payload,
             evidence.control_pointer,
@@ -2096,10 +2199,6 @@ def _audit_row(
             return "invalid", "missing-scorecard-pointer"
         if _artifact_pointer_value(payload, evidence.scorecard_pointer, context_payloads) is None:
             return "invalid", "unresolved-scorecard-pointer"
-        if level in {"D5-O", "D5-M"} and spec.name == "gap-head-on-h":
-            reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
-            if reason is not None:
-                return "invalid", reason
     if level == "DN":
         pointer_result = _audit_pointer_cell(payload, evidence.failed_gate, "missing-failed-gate", "unresolved-failed-gate")
         if pointer_result is not None:
@@ -2824,6 +2923,10 @@ def _dimension_mismatch_discovery_row(
         for key in (
             "base_level",
             "anti_triviality_status",
+            "anti_triviality_policy",
+            "anti_triviality_recommended_level",
+            "anti_triviality_failed_gate",
+            "anti_triviality_gate_evidence",
             "effective_level",
             "downgrade_reason",
             "hypothesis",
