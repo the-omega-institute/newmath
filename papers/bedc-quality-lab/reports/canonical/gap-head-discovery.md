@@ -25,7 +25,7 @@
 - Inference no ground-truth z: `true`
 - Before arm: `vanilla`
 - After arm: `learned_gap_head_on_h`
-- Forbidden inference columns: `z, z_pair, gap_label, prediction_error, eval_gap_labels`
+- Forbidden inference columns: `label, z, z_pair, gap_label, gap_labels, prediction_error, eval_label, eval_labels, eval_gap_label, eval_gap_labels, config_metadata`
 
 ## Cost Protocol
 

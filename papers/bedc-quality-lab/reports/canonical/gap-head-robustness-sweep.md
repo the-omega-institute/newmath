@@ -1,11 +1,11 @@
 # Gap-Head Robustness Sweep
 
-- Generated at: `2026-06-03T03:46:14.402062+00:00`
+- Generated at: `2026-06-07T13:31:18.998270+00:00`
 - Artifact: `bedc-quality-lab:gap-head-robustness-sweep`
 - Final status: `pass`
 - Final claim scope: `full_feature_family_gap_classifier`
 - Claim: Gap classifiers can be learned on representations to reduce unlogged model errors.
-- Elapsed seconds: `11.507995`
+- Elapsed seconds: `12.369346`
 
 ## A-HG Gates
 
@@ -59,7 +59,7 @@
 ## A5 No-Leak Audit
 
 - Status: `pass`
-- Forbidden inference columns: `z, z_pair, gap_label, prediction_error, eval_gap_labels`
+- Forbidden inference columns: `label, z, z_pair, gap_label, gap_labels, prediction_error, eval_label, eval_labels, eval_gap_label, eval_gap_labels, config_metadata`
 
 ## Source Pointers
 

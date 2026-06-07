@@ -9,7 +9,7 @@ import json
 import math
 from pathlib import Path
 import sys
-from typing import Any
+from typing import Any, Sequence
 
 import numpy as np
 
@@ -59,11 +59,17 @@ QUALITY_COLUMNS = (
     "approx_identifiability_proxy",
 )
 FORBIDDEN_INFERENCE_COLUMNS = (
+    "label",
     "z",
     "z_pair",
     "gap_label",
+    "gap_labels",
     "prediction_error",
+    "eval_label",
+    "eval_labels",
+    "eval_gap_label",
     "eval_gap_labels",
+    "config_metadata",
 )
 EPS = 1.0e-12
 CONTROL_SEED_SALT = 742_193
@@ -126,12 +132,38 @@ def _feature_columns(h_dim: int) -> list[str]:
     return columns
 
 
-def _assert_inference_columns(columns: list[str]) -> None:
+def _forbidden_inference_column_matches(columns: Sequence[str]) -> list[dict[str, str]]:
     forbidden = set(FORBIDDEN_INFERENCE_COLUMNS)
-    for column in columns:
+    violations: list[dict[str, str]] = []
+    for raw_column in columns:
+        column = str(raw_column)
         root = column.split(":", 1)[0]
-        if root in forbidden or column in forbidden:
-            raise ValueError(f"forbidden inference column: {column}")
+        reason = ""
+        matched_root = ""
+        if column in forbidden:
+            reason = "exact"
+            matched_root = column
+        elif root in forbidden:
+            reason = "root"
+            matched_root = root
+        elif column.startswith(("config_metadata.", "config_metadata:", "config_metadata[")):
+            reason = "config_metadata-family"
+            matched_root = "config_metadata"
+        if reason:
+            violations.append(
+                {
+                    "column": column,
+                    "matched_root": matched_root,
+                    "match": reason,
+                }
+            )
+    return violations
+
+
+def _assert_inference_columns(columns: Sequence[str]) -> None:
+    violations = _forbidden_inference_column_matches(columns)
+    if violations:
+        raise ValueError(f"forbidden inference column: {violations[0]['column']}")
 
 
 def _build_inference_features(
@@ -575,15 +607,20 @@ def _boundary_no_z_audit(config: GapHeadRunConfig) -> dict[str, Any]:
     }
 
 
-def _forbidden_column_audit() -> dict[str, Any]:
-    columns = _feature_columns(2)
-    _assert_inference_columns(columns)
-    return {
-        "status": "pass",
-        "feature_columns": columns,
+def _forbidden_column_audit(columns: Sequence[str] | None = None) -> dict[str, Any]:
+    feature_columns = _feature_columns(2) if columns is None else [str(column) for column in columns]
+    violations = _forbidden_inference_column_matches(feature_columns)
+    status = "pass" if not violations else "blocked"
+    payload = {
+        "status": status,
+        "feature_columns": feature_columns,
         "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
-        "forbidden_present": [],
+        "forbidden_present": [violation["column"] for violation in violations],
+        "violations": violations,
     }
+    if violations:
+        payload["failed_gate"] = "forbidden-inference-column"
+    return payload
 
 
 def _control_protocol(config: GapHeadRunConfig) -> dict[str, Any]:
@@ -930,6 +967,18 @@ def _write_payload(payload: dict[str, Any], config: GapHeadRunConfig) -> None:
     report_path.write_text(_render_report(payload), encoding="utf-8")
 
 
+def _reusable_generated_at(config: GapHeadRunConfig) -> str | None:
+    path = ROOT / config.json_artifact
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    generated_at = payload.get("generated_at") if isinstance(payload, dict) else None
+    return generated_at if isinstance(generated_at, str) and generated_at else None
+
+
 def _active_config() -> GapHeadRunConfig:
     return GapHeadRunConfig(
         sample_count=DEFAULT_CONFIG.sample_count,
@@ -947,6 +996,7 @@ def _active_config() -> GapHeadRunConfig:
 def main() -> None:
     config = _active_config()
     payload = _payload(_records(config), config)
+    payload["generated_at"] = _reusable_generated_at(config) or payload["generated_at"]
     _write_payload(payload, config)
     print(f"wrote {config.json_artifact}")
     print(f"wrote {config.report_artifact}")

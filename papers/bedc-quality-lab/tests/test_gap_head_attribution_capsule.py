@@ -482,6 +482,8 @@ def test_feature_constructions_match_maintainer_spec():
 def test_feature_builders_reject_forbidden_columns_and_controls_use_h_only():
     assert runner._forbidden_column_audit({"full": ["h:0", "score:a"]})["status"] == "pass"
     assert runner._forbidden_column_audit({"bad": ["z"]})["status"] == "fail"
+    assert runner.FORBIDDEN_INFERENCE_COLUMNS is runner.source.FORBIDDEN_INFERENCE_COLUMNS
+    assert not hasattr(runner, "FORBIDDEN_COLUMNS")
     text = json.dumps(
         {
             spec.name: {
@@ -495,6 +497,18 @@ def test_feature_builders_reject_forbidden_columns_and_controls_use_h_only():
     assert "label" not in text
     assert "prediction_error" not in text
     assert "config_metadata" not in text
+
+
+@pytest.mark.parametrize("column", ["z", "label", "config_metadata.seed"])
+def test_forbidden_column_audit_delegates_to_source_vocabulary(column):
+    audit = runner._forbidden_column_audit({"bad": ["h:0", column]})
+
+    assert audit["status"] == "fail"
+    assert audit["forbidden_columns"] == list(runner.source.FORBIDDEN_INFERENCE_COLUMNS)
+    assert audit["forbidden_inference_columns"] == list(runner.source.FORBIDDEN_INFERENCE_COLUMNS)
+    assert audit["violations"][0]["arm"] == "bad"
+    assert audit["violations"][0]["columns"] == [column]
+    assert audit["violations"][0]["failed_gate"] == "forbidden-inference-column"
 
 
 def test_seeded_rotation_and_projection_are_deterministic():

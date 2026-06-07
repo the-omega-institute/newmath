@@ -386,24 +386,7 @@ def _surface_for_seed(*, spec: AtlasSurfaceSpec, seed: int) -> dict[str, Any]:
 
 
 def _forbidden_feature_audit(feature_columns: list[str]) -> dict[str, Any]:
-    try:
-        producer._assert_inference_columns(feature_columns)
-        forbidden_present: list[str] = []
-        status = "pass"
-    except ValueError:
-        forbidden = set(producer.FORBIDDEN_INFERENCE_COLUMNS)
-        forbidden_present = [
-            column
-            for column in feature_columns
-            if column in forbidden or column.split(":", 1)[0] in forbidden
-        ]
-        status = "fail"
-    return {
-        "status": status,
-        "feature_columns": list(feature_columns),
-        "forbidden_inference_columns": list(producer.FORBIDDEN_INFERENCE_COLUMNS),
-        "forbidden_present": sorted(set(forbidden_present)),
-    }
+    return producer._forbidden_column_audit(feature_columns)
 
 
 def _seed_summary(*, spec: AtlasSurfaceSpec, seed: int, seed_index: int) -> dict[str, Any]:
@@ -1054,12 +1037,24 @@ def write_outputs(payload: Mapping[str, Any], *, root: Path = ROOT) -> dict[str,
     }
 
 
+def _reusable_generated_at(*, root: Path = ROOT) -> str | None:
+    path = root / JSON_ARTIFACT
+    if not path.exists():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    generated_at = payload.get("generated_at") if isinstance(payload, dict) else None
+    return generated_at if isinstance(generated_at, str) and generated_at else None
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description="Run the gap-head transfer atlas.")
     parser.add_argument("--root", type=Path, default=ROOT, help="quality-lab root for artifact output")
     parser.add_argument("--run-id", default=RUN_ID_PREFIX, help="run id for reports/runs artifacts")
     args = parser.parse_args(argv)
-    payload = build_payload(run_id=args.run_id)
+    payload = build_payload(run_id=args.run_id, generated_at=_reusable_generated_at(root=args.root))
     paths = write_outputs(payload, root=args.root)
     decision = payload["multi_surface_d5_o"]
     print(f"wrote {paths['json'].relative_to(args.root)}")

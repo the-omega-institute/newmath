@@ -1,6 +1,6 @@
 # Gap-Ledger Head on Learned h
 
-- Generated at: `2026-06-05T15:14:26.333540+00:00`
+- Generated at: `2026-06-07T13:01:47.611588+00:00`
 - Representation boundary: `learned_h`
 - Inference no ground-truth z: `true`
 - Sample count: `384`
@@ -36,7 +36,7 @@
 ## Boundary
 
 - Feature columns: `h:0, h:1, score:latent_x_positive, score:latent_y_positive, score:high_energy, margin:latent_x_positive, margin:latent_y_positive, margin:high_energy, transition_delta:latent_x_positive, transition_delta:latent_y_positive, transition_delta:high_energy, quality:quality_q, quality:quality_margin, quality:linear_identifiability_r2, quality:approx_identifiability_proxy`
-- Forbidden inference columns: `z, z_pair, gap_label, prediction_error, eval_gap_labels`
+- Forbidden inference columns: `label, z, z_pair, gap_label, gap_labels, prediction_error, eval_label, eval_labels, eval_gap_label, eval_gap_labels, config_metadata`
 
 ## Gap Channels
 

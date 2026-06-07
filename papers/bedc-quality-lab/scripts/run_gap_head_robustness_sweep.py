@@ -220,15 +220,9 @@ def _family_indices(columns: list[str], family: str) -> list[int]:
 
 
 def _assert_no_forbidden_features(columns: list[str]) -> None:
-    producer._assert_inference_columns(columns)
-    forbidden = set(producer.FORBIDDEN_INFERENCE_COLUMNS)
-    present = [
-        column
-        for column in columns
-        if column in forbidden or column.split(":", 1)[0] in forbidden
-    ]
-    if present:
-        raise ValueError(f"forbidden feature columns: {present}")
+    audit = producer._forbidden_column_audit(columns)
+    if audit["status"] != "pass":
+        raise ValueError(f"forbidden inference column: {audit['forbidden_present'][0]}")
 
 
 def _ablation_record(
@@ -240,6 +234,7 @@ def _ablation_record(
 ) -> dict[str, Any]:
     indices = _family_indices(list(surface["feature_columns"]), family)
     selected_columns = [surface["feature_columns"][index] for index in indices]
+    forbidden_feature_audit = producer._forbidden_column_audit(selected_columns)
     _assert_no_forbidden_features(selected_columns)
     train_idx = surface["train_idx"]
     eval_idx = surface["eval_idx"]
@@ -276,11 +271,7 @@ def _ablation_record(
         "feature_family": family,
         "feature_roots": list(_family_roots(family)),
         "feature_column_count": int(len(selected_columns)),
-        "forbidden_feature_audit": {
-            "status": "pass",
-            "forbidden_inference_columns": list(producer.FORBIDDEN_INFERENCE_COLUMNS),
-            "forbidden_present": [],
-        },
+        "forbidden_feature_audit": forbidden_feature_audit,
         "arms": {
             "vanilla": producer._metric_projection(vanilla),
             "learned": producer._metric_projection(learned),
@@ -765,6 +756,23 @@ def _write_payload(payload: dict[str, Any]) -> None:
     report_path.write_text(_render_report(payload), encoding="utf-8")
 
 
+def _reusable_artifact_metadata() -> dict[str, Any]:
+    path = ROOT / JSON_ARTIFACT
+    if not path.exists():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    if not isinstance(payload, dict):
+        return {}
+    return {
+        key: payload[key]
+        for key in ("generated_at", "elapsed_seconds")
+        if key in payload
+    }
+
+
 def _active_config() -> producer.GapHeadRunConfig:
     return producer.GapHeadRunConfig(
         sample_count=producer.DEFAULT_CONFIG.sample_count,
@@ -780,19 +788,22 @@ def _active_config() -> producer.GapHeadRunConfig:
 
 
 def main() -> None:
-    started = time.perf_counter()
     config = _active_config()
     source_payload = producer._payload(producer._records(config), config)
     ablation = _run_ablation_sweep(config)
     stability_summary = _run_stability_sweep()
     transfer_summary = _transfer_pointer_summary()
+    artifact_metadata = _reusable_artifact_metadata()
     payload = _payload(
         source_payload=source_payload,
         ablation=ablation,
         stability_summary=stability_summary,
         transfer_summary=transfer_summary,
-        elapsed_seconds=time.perf_counter() - started,
+        elapsed_seconds=float(artifact_metadata.get("elapsed_seconds", 0.0)),
     )
+    generated_at = artifact_metadata.get("generated_at")
+    if isinstance(generated_at, str) and generated_at:
+        payload["generated_at"] = generated_at
     _write_payload(payload)
     print(f"wrote {JSON_ARTIFACT}")
     print(f"wrote {REPORT_ARTIFACT}")

@@ -140,12 +140,18 @@ def test_default_boundary_and_gap_channels():
         "transition_unstable",
         "off_target_intervention",
     )
-    assert set(runner.FORBIDDEN_INFERENCE_COLUMNS) == {
+    assert set(runner.FORBIDDEN_INFERENCE_COLUMNS) >= {
+        "label",
         "z",
         "z_pair",
         "gap_label",
+        "gap_labels",
         "prediction_error",
+        "eval_label",
+        "eval_labels",
+        "eval_gap_label",
         "eval_gap_labels",
+        "config_metadata",
     }
 
 
@@ -221,6 +227,46 @@ def test_h_only_feature_builder_rejects_forbidden_columns():
 
     with pytest.raises(ValueError, match="forbidden inference column"):
         runner._assert_inference_columns(["h:0", "z"])
+
+
+def test_forbidden_inference_column_audit_is_fail_closed_witness():
+    failed = runner._forbidden_column_audit(["h:0", "label"])
+
+    assert failed["status"] == "blocked"
+    assert failed["failed_gate"] == "forbidden-inference-column"
+    assert failed["forbidden_present"] == ["label"]
+    assert failed["violations"] == [
+        {"column": "label", "matched_root": "label", "match": "exact"}
+    ]
+
+
+@pytest.mark.parametrize("column", ["config_metadata.seed", "config_metadata:fold"])
+def test_config_metadata_family_is_forbidden(column):
+    audit = runner._forbidden_column_audit(["h:0", column])
+
+    assert audit["status"] == "blocked"
+    assert audit["failed_gate"] == "forbidden-inference-column"
+    assert audit["forbidden_present"] == [column]
+    assert audit["violations"][0]["matched_root"] == "config_metadata"
+
+
+def test_allowed_feature_roots_do_not_trigger_substring_matching():
+    columns = [
+        "h:0",
+        "score:x",
+        "margin:x",
+        "transition_delta:x",
+        "quality:x",
+        "surface_label",
+        "prediction_error_rate",
+        "z_score",
+    ]
+
+    audit = runner._forbidden_column_audit(columns)
+
+    assert audit["status"] == "pass"
+    assert audit["forbidden_present"] == []
+    assert audit["violations"] == []
 
 
 def test_surface_uses_disjoint_split_and_four_gap_channels(monkeypatch):
