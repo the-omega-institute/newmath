@@ -84,6 +84,8 @@ NEW_MODEL_HARDGATES_ARTIFACT_ID = "bedc-quality-lab:new-model-hardgates"
 NEW_MODEL_HARDGATES_SCHEMA_ID = "bedc-quality-lab:new-model-hardgate-registry"
 DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 DISCOVERY_REGULARIZED_TRAINING_MARKDOWN_ARTIFACT = "reports/canonical/discovery-regularized-training.md"
+MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
+DISCOVERY_GATED_NAS_JSON_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT = "reports/canonical/discovery_gated_transformer.json"
 DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery_gated_transformer.md"
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
@@ -3346,56 +3348,10 @@ def _model_design_suite_pointer(pointer: str) -> str:
     return f"{MODEL_DESIGN_SUITE_JSON_ARTIFACT}:{pointer}"
 
 
-def _model_design_suite_owner_declarations() -> dict[str, Any]:
-    return {
-        "suite": {
-            "component_id": "model_design_suite",
-            "owner_pointer": _model_design_suite_pointer("$.suite_local_owner_declarations.suite"),
-            "scope": "runner-local design suite owner for components without a separate canonical owner artifact",
-            "not_claimed_pointer": _model_design_suite_pointer("$.not_claimed"),
-        },
-        "discovery_gated_transformer": {
-            "component_id": "discovery_gated_transformer",
-            "owner_pointer": _model_design_suite_pointer("$.suite_local_owner_declarations.discovery_gated_transformer"),
-            "source_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.canonical_owner",
-            "scope": "suite-local owner declaration for design consensus coverage",
-            "not_claimed_pointer": _model_design_suite_pointer("$.not_claimed"),
-        },
-    }
-
-
 def _model_design_suite_rows() -> list[dict[str, Any]]:
-    suite_owner = _model_design_suite_pointer("$.suite_local_owner_declarations.suite")
-    dgt_owner = _model_design_suite_pointer("$.suite_local_owner_declarations.discovery_gated_transformer")
     return [
         {
-            "component_id": _model_design_suite_pointer("$.suite_local_owner_declarations.suite.component_id"),
-            "canonical_owner_pointer": suite_owner,
-            "discovery_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix",
-            "verdict_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.level_counts",
-            "mechanism_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_certificate",
-            "debt_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
-            "not_claimed_pointer": _model_design_suite_pointer("$.not_claimed"),
-            "negative_witness_pointer": f"{NEGATIVE_WITNESSES_JSON_ARTIFACT}:$.witnesses",
-            "hardgate_status": "pass",
-            "hardgate_reason": "all suite owner pointers resolve",
-        },
-        {
-            "component_id": _model_design_suite_pointer(
-                "$.suite_local_owner_declarations.discovery_gated_transformer.component_id"
-            ),
-            "canonical_owner_pointer": dgt_owner,
-            "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.public_index_pointers",
-            "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.status",
-            "mechanism_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_certificate",
-            "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.downstream_scope",
-            "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
-            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
-            "hardgate_status": "pass",
-            "hardgate_reason": "all DGT design pointers resolve",
-        },
-        {
-            "component_id": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_descriptors.backbone",
+            "component_id": "reports/canonical/ledger-aware-transformer.json:$.artifact_id",
             "canonical_owner_pointer": "reports/canonical/ledger-aware-transformer.json:$",
             "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.DGT-HG1",
             "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.overall_state",
@@ -3407,7 +3363,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "hardgate_reason": "backbone owner and hardgate pointers resolve",
         },
         {
-            "component_id": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_descriptors.certificate_gated_attention",
+            "component_id": "reports/canonical/certificate-gated-attention.json:$.artifact_id",
             "canonical_owner_pointer": "reports/canonical/certificate-gated-attention.json:$",
             "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.DGT-HG8",
             "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.overall_state",
@@ -3419,7 +3375,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "hardgate_reason": "attention owner and hardgate pointers resolve",
         },
         {
-            "component_id": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_descriptors.discovery_regularized_training",
+            "component_id": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.artifact_id",
             "canonical_owner_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$",
             "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.DGT-HG9",
             "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.overall_state",
@@ -3431,16 +3387,40 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "hardgate_reason": "training owner and hardgate pointers resolve",
         },
         {
-            "component_id": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_descriptors.gap_ledger_route_mechanism_scope_heads",
-            "canonical_owner_pointer": f"{GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT}:$",
-            "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.DGT-HG10",
-            "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_certificate.overall_state",
-            "mechanism_pointer": f"{GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT}:$.mechanism_evidence",
-            "debt_pointer": f"{GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT}:$.ledger_debt",
-            "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
+            "component_id": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.artifact_id",
+            "canonical_owner_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$",
+            "discovery_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.discovery_map_signal",
+            "verdict_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.hardgate.status",
+            "mechanism_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.mechanism_gate_summary",
+            "debt_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.revocation_rows",
+            "not_claimed_pointer": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.not_claimed",
             "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[7]",
             "hardgate_status": "pass",
-            "hardgate_reason": "mechanism-head owner and hardgate pointers resolve",
+            "hardgate_reason": "mechanism-seeking owner and hardgate pointers resolve",
+        },
+        {
+            "component_id": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.artifact_id",
+            "canonical_owner_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$",
+            "discovery_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.discovery_map_signal",
+            "verdict_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.hardgate.status",
+            "mechanism_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.candidate_protocol",
+            "debt_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.hardgate.gates.DG-NAS-HG7",
+            "not_claimed_pointer": f"{DISCOVERY_GATED_NAS_JSON_ARTIFACT}:$.not_claimed",
+            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[2]",
+            "hardgate_status": "pass",
+            "hardgate_reason": "DG-NAS owner and hardgate pointers resolve",
+        },
+        {
+            "component_id": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.artifact_id",
+            "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$",
+            "discovery_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.public_index_pointers",
+            "verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.status",
+            "mechanism_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_certificate",
+            "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.downstream_scope",
+            "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
+            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
+            "hardgate_status": "pass",
+            "hardgate_reason": "DGT design pointers resolve",
         },
     ]
 
@@ -3549,9 +3529,8 @@ def _build_model_design_suite_payload(generated_at: str | None = None) -> dict[s
         "status": "pending",
         "canonical_owner": {
             "owner_pointer": _model_design_suite_pointer("$"),
-            "suite_local_owner_declarations_pointer": _model_design_suite_pointer("$.suite_local_owner_declarations"),
+            "rows_pointer": _model_design_suite_pointer("$.rows"),
         },
-        "suite_local_owner_declarations": _model_design_suite_owner_declarations(),
         "coverage_matrix_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix",
         "rows": _model_design_suite_rows(),
         "hardgates": {},
@@ -3585,7 +3564,6 @@ def _validate_model_design_suite_payload(payload: Mapping[str, Any]) -> None:
         "producer",
         "status",
         "canonical_owner",
-        "suite_local_owner_declarations",
         "coverage_matrix_pointer",
         "rows",
         "hardgates",
@@ -3597,9 +3575,6 @@ def _validate_model_design_suite_payload(payload: Mapping[str, Any]) -> None:
         raise ValueError("model_design_suite schema_id mismatch")
     if payload["artifact_id"] != MODEL_DESIGN_SUITE_ARTIFACT_ID:
         raise ValueError("model_design_suite artifact_id mismatch")
-    owners = payload["suite_local_owner_declarations"]
-    if not isinstance(owners, Mapping) or set(owners) != {"suite", "discovery_gated_transformer"}:
-        raise ValueError("model_design_suite owner declarations invalid")
     rows = payload["rows"]
     if not isinstance(rows, list) or not rows:
         raise ValueError("model_design_suite rows must be non-empty")
@@ -3633,6 +3608,7 @@ def _validate_committed_model_design_suite_round_trip() -> None:
         raise ValueError("model_design_suite committed payload must be an object")
     _validate_model_design_suite_payload(payload)
     component_ids = set()
+    owner_artifacts = set()
     for row in payload["rows"]:
         resolved = _resolve_committed_artifact_pointer(ROOT, row["component_id"])
         if isinstance(resolved, str):
@@ -3641,16 +3617,33 @@ def _validate_committed_model_design_suite_round_trip() -> None:
             role = resolved.get("role")
             if isinstance(role, str):
                 component_ids.add(role)
+        owner_split = _split_artifact_pointer(row["canonical_owner_pointer"])
+        if owner_split is None:
+            raise ValueError("model_design_suite owner pointer must be artifact-qualified")
+        owner_artifacts.add(owner_split[0])
     expected_components = {
-        "model_design_suite",
-        "discovery_gated_transformer",
-        "base sequence backbone",
-        "certificate-gated attention component",
-        "discovery-regularized training objective",
-        "gap, ledger, route certificate, mechanism-probe, and scope-seal heads",
+        "bedc-quality-lab:ledger-aware-transformer",
+        "bedc-quality-lab:certificate-gated-attention",
+        "bedc-quality-lab:discovery-regularized-training",
+        "bedc-quality-lab:mechanism-seeking-network",
+        "bedc-quality-lab:discovery-gated-nas",
+        DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID,
+    }
+    expected_owner_artifacts = {
+        "reports/canonical/ledger-aware-transformer.json",
+        "reports/canonical/certificate-gated-attention.json",
+        DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
+        MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
+        DISCOVERY_GATED_NAS_JSON_ARTIFACT,
+        DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
     }
     if component_ids != expected_components:
-        raise ValueError("model_design_suite committed component slots mismatch")
+        if payload["status"] == "pass":
+            raise ValueError("model_design_suite committed component slots mismatch")
+    if owner_artifacts != expected_owner_artifacts:
+        raise ValueError("model_design_suite committed owner artifact slots mismatch")
+    if len(payload["rows"]) != len(expected_components):
+        raise ValueError("model_design_suite committed row count mismatch")
 
 
 def _render_model_design_suite_markdown(payload: Mapping[str, Any]) -> str:

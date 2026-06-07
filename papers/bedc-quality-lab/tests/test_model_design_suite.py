@@ -12,6 +12,23 @@ from bedc_quality_lab.discovery_compiler.capsule import (
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from scripts import run_canonical_reports as canonical
 
+EXPECTED_MODEL_DESIGN_COMPONENTS = {
+    "bedc-quality-lab:ledger-aware-transformer",
+    "bedc-quality-lab:certificate-gated-attention",
+    "bedc-quality-lab:discovery-regularized-training",
+    "bedc-quality-lab:mechanism-seeking-network",
+    "bedc-quality-lab:discovery-gated-nas",
+    canonical.DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID,
+}
+EXPECTED_MODEL_DESIGN_OWNER_ARTIFACTS = {
+    "reports/canonical/ledger-aware-transformer.json",
+    "reports/canonical/certificate-gated-attention.json",
+    canonical.DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
+    canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
+    canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT,
+    canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+}
+
 
 def _model_claim() -> dict:
     return {
@@ -85,6 +102,7 @@ def _write_suite_dependencies(root):
     canonical._write_json_atomic(
         root / canonical.DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
         {
+            "artifact_id": "bedc-quality-lab:discovery-regularized-training",
             "torch_training_evidence": {"status": "available"},
             "quality_promotion_boundary": {
                 "hardgate": {"status": "present-but-fail-closed"},
@@ -102,15 +120,36 @@ def _write_suite_dependencies(root):
     )
     canonical._write_json_atomic(
         root / "reports/canonical/ledger-aware-transformer.json",
-        {"run_artifacts": {"summary": "fixture"}},
+        {"artifact_id": "bedc-quality-lab:ledger-aware-transformer", "run_artifacts": {"summary": "fixture"}},
     )
     canonical._write_json_atomic(
         root / "reports/canonical/certificate-gated-attention.json",
-        {"certificate_gate_summary": {"status": "fixture"}},
+        {"artifact_id": "bedc-quality-lab:certificate-gated-attention", "certificate_gate_summary": {"status": "fixture"}},
     )
     canonical._write_json_atomic(
         root / canonical.GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT,
         {"ledger_debt": [{"status": "open"}], "mechanism_evidence": {"status": "blocked"}},
+    )
+    canonical._write_json_atomic(
+        root / canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
+        {
+            "artifact_id": "bedc-quality-lab:mechanism-seeking-network",
+            "discovery_map_signal": {"status": "available"},
+            "hardgate": {"status": "pass"},
+            "mechanism_gate_summary": {"status": "available"},
+            "revocation_rows": [{"status": "none"}],
+            "not_claimed": ["fixture"],
+        },
+    )
+    canonical._write_json_atomic(
+        root / canonical.DISCOVERY_GATED_NAS_JSON_ARTIFACT,
+        {
+            "artifact_id": "bedc-quality-lab:discovery-gated-nas",
+            "discovery_map_signal": {"status": "available"},
+            "hardgate": {"status": "fail-closed", "gates": {"DG-NAS-HG7": {"status": "fail"}}},
+            "candidate_protocol": {"status": "available"},
+            "not_claimed": ["fixture"],
+        },
     )
 
 
@@ -149,13 +188,14 @@ def test_model_design_suite_is_runner_local_pointer_only_and_resolvable(tmp_path
         if canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT in row["negative_witness_pointer"]
     } == {
         f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
+        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[2]",
         f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[3]",
         f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[6]",
         f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[7]",
     }
 
 
-def test_model_design_suite_owner_less_row_uses_suite_local_owner_declaration(tmp_path):
+def test_model_design_suite_dgt_row_uses_canonical_owner_artifact(tmp_path):
     payload = _payload_with_root(tmp_path)
 
     by_component = {
@@ -166,14 +206,11 @@ def test_model_design_suite_owner_less_row_uses_suite_local_owner_declaration(tm
         ): row
         for row in payload["rows"]
     }
-    dgt = by_component["discovery_gated_transformer"]
+    dgt = by_component[canonical.DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID]
     owner = resolve_artifact_pointer(tmp_path, dgt["canonical_owner_pointer"])
 
-    assert dgt["canonical_owner_pointer"] == (
-        f"{canonical.MODEL_DESIGN_SUITE_JSON_ARTIFACT}:"
-        "$.suite_local_owner_declarations.discovery_gated_transformer"
-    )
-    assert owner["source_owner_pointer"] == f"{canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.canonical_owner"
+    assert dgt["canonical_owner_pointer"] == f"{canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$"
+    assert owner["canonical_owner"]["owner_pointer"] == f"{canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$"
 
 
 def test_model_design_suite_committed_json_round_trip_checks_slot_set(tmp_path):
@@ -190,12 +227,14 @@ def test_model_design_suite_committed_json_round_trip_checks_slot_set(tmp_path):
         canonical.CANONICAL_DIR = original_dir
 
     components = set()
+    owner_artifacts = set()
     for row in payload["rows"]:
         resolved = resolve_artifact_pointer(tmp_path, row["component_id"])
         components.add(resolved if isinstance(resolved, str) else resolved["role"])
-    assert "model_design_suite" in components
-    assert "discovery_gated_transformer" in components
-    assert len(components) == 6
+        owner_artifacts.add(row["canonical_owner_pointer"].split(":", 1)[0])
+    assert components == EXPECTED_MODEL_DESIGN_COMPONENTS
+    assert owner_artifacts == EXPECTED_MODEL_DESIGN_OWNER_ARTIFACTS
+    assert len(payload["rows"]) == len(EXPECTED_MODEL_DESIGN_COMPONENTS)
 
 
 @pytest.mark.parametrize(
