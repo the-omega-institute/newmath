@@ -53,21 +53,32 @@ def IntervalDomainTasteGate_single_carrier_alignment_toEventFlow :
 
 def IntervalDomainTasteGate_single_carrier_alignment_fromEventFlow :
     EventFlow → Option IntervalDomainUp
-  -- BEDC touchpoint anchor: BHist BMark
-  | [L, R, N, W, Q, E, H, C, P, A] =>
-      some
-        (IntervalDomainUp.mk
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist L)
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist R)
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist N)
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist W)
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist Q)
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist E)
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist H)
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist C)
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist P)
-          (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist A))
-  | _ => none
+    -- BEDC touchpoint anchor: BHist BMark
+    := fun ef =>
+  List.casesOn ef none (fun L rest1 =>
+    List.casesOn rest1 none (fun R rest2 =>
+      List.casesOn rest2 none (fun N rest3 =>
+        List.casesOn rest3 none (fun W rest4 =>
+          List.casesOn rest4 none (fun Q rest5 =>
+            List.casesOn rest5 none (fun E rest6 =>
+              List.casesOn rest6 none (fun H rest7 =>
+                List.casesOn rest7 none (fun C rest8 =>
+                  List.casesOn rest8 none (fun P rest9 =>
+                    List.casesOn rest9 none (fun A rest10 =>
+                      List.casesOn rest10
+                        (some
+                          (IntervalDomainUp.mk
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist L)
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist R)
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist N)
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist W)
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist Q)
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist E)
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist H)
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist C)
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist P)
+                            (IntervalDomainTasteGate_single_carrier_alignment_decodeBHist A)))
+                        (fun _ _ => none)))))))))))
 
 private theorem IntervalDomainTasteGate_single_carrier_alignment_round_trip :
     ∀ x : IntervalDomainUp,
