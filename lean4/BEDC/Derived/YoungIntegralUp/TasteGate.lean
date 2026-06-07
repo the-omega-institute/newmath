@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.YoungIntegralUp.TasteGate
+namespace BEDC.Derived.YoungIntegralUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,7 +25,7 @@ def youngIntegralDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (youngIntegralDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (youngIntegralDecodeBHist tail)
 
-private theorem youngIntegral_decode_encode :
+private theorem YoungIntegralTasteGate_single_carrier_alignment_decode :
     ∀ h : BHist, youngIntegralDecodeBHist (youngIntegralEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
@@ -40,33 +40,34 @@ def youngIntegralFields : YoungIntegralUp → List BHist
 
 def youngIntegralToEventFlow : YoungIntegralUp → EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map youngIntegralEncodeBHist (youngIntegralFields x)
+  | x => (youngIntegralFields x).map youngIntegralEncodeBHist
 
-private def youngIntegralRawAt : Nat → EventFlow → RawEvent
+private def youngIntegralEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, event :: _rest => event
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => youngIntegralRawAt index rest
+  | Nat.succ index, _event :: rest => youngIntegralEventAtDefault index rest
 
-def youngIntegralFromEventFlow (flow : EventFlow) : Option YoungIntegralUp :=
+def youngIntegralFromEventFlow : EventFlow → Option YoungIntegralUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (YoungIntegralUp.mk
-      (youngIntegralDecodeBHist (youngIntegralRawAt 0 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 1 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 2 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 3 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 4 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 5 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 6 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 7 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 8 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 9 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 10 flow))
-      (youngIntegralDecodeBHist (youngIntegralRawAt 11 flow)))
+  fun ef =>
+    some
+      (YoungIntegralUp.mk
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 0 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 1 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 2 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 3 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 4 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 5 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 6 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 7 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 8 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 9 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 10 ef))
+        (youngIntegralDecodeBHist (youngIntegralEventAtDefault 11 ef)))
 
-private theorem youngIntegral_round_trip :
+private theorem YoungIntegralTasteGate_single_carrier_alignment_round_trip :
     ∀ x : YoungIntegralUp,
       youngIntegralFromEventFlow (youngIntegralToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
@@ -89,14 +90,20 @@ private theorem youngIntegral_round_trip :
             (youngIntegralDecodeBHist (youngIntegralEncodeBHist P))
             (youngIntegralDecodeBHist (youngIntegralEncodeBHist N))) =
           some (YoungIntegralUp.mk F G V C S D R E H K P N)
-      rw [youngIntegral_decode_encode F, youngIntegral_decode_encode G,
-        youngIntegral_decode_encode V, youngIntegral_decode_encode C,
-        youngIntegral_decode_encode S, youngIntegral_decode_encode D,
-        youngIntegral_decode_encode R, youngIntegral_decode_encode E,
-        youngIntegral_decode_encode H, youngIntegral_decode_encode K,
-        youngIntegral_decode_encode P, youngIntegral_decode_encode N]
+      rw [YoungIntegralTasteGate_single_carrier_alignment_decode F,
+        YoungIntegralTasteGate_single_carrier_alignment_decode G,
+        YoungIntegralTasteGate_single_carrier_alignment_decode V,
+        YoungIntegralTasteGate_single_carrier_alignment_decode C,
+        YoungIntegralTasteGate_single_carrier_alignment_decode S,
+        YoungIntegralTasteGate_single_carrier_alignment_decode D,
+        YoungIntegralTasteGate_single_carrier_alignment_decode R,
+        YoungIntegralTasteGate_single_carrier_alignment_decode E,
+        YoungIntegralTasteGate_single_carrier_alignment_decode H,
+        YoungIntegralTasteGate_single_carrier_alignment_decode K,
+        YoungIntegralTasteGate_single_carrier_alignment_decode P,
+        YoungIntegralTasteGate_single_carrier_alignment_decode N]
 
-private theorem youngIntegralToEventFlow_injective {x y : YoungIntegralUp} :
+theorem youngIntegralToEventFlow_injective {x y : YoungIntegralUp} :
     youngIntegralToEventFlow x = youngIntegralToEventFlow y → x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro heq
@@ -105,8 +112,8 @@ private theorem youngIntegralToEventFlow_injective {x y : YoungIntegralUp} :
         youngIntegralFromEventFlow (youngIntegralToEventFlow y) :=
     congrArg youngIntegralFromEventFlow heq
   exact Option.some.inj
-    (Eq.trans (youngIntegral_round_trip x).symm
-      (Eq.trans hread (youngIntegral_round_trip y)))
+    (Eq.trans (YoungIntegralTasteGate_single_carrier_alignment_round_trip x).symm
+      (Eq.trans hread (YoungIntegralTasteGate_single_carrier_alignment_round_trip y)))
 
 instance youngIntegralBHistCarrier : BHistCarrier YoungIntegralUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -118,7 +125,7 @@ instance youngIntegralChapterTasteGate : ChapterTasteGate YoungIntegralUp where
   round_trip := by
     intro x
     change youngIntegralFromEventFlow (youngIntegralToEventFlow x) = some x
-    exact youngIntegral_round_trip x
+    exact YoungIntegralTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (youngIntegralToEventFlow_injective heq)
@@ -129,16 +136,16 @@ def taste_gate : ChapterTasteGate YoungIntegralUp :=
 
 theorem YoungIntegralTasteGate_single_carrier_alignment :
     (∀ h : BHist, youngIntegralDecodeBHist (youngIntegralEncodeBHist h) = h) ∧
-      youngIntegralFields
-          (YoungIntegralUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-            BHist.Empty BHist.Empty) =
-        [BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-          BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty, BHist.Empty,
-          BHist.Empty] := by
+      Nonempty (BHistCarrier YoungIntegralUp) ∧
+        Nonempty (ChapterTasteGate YoungIntegralUp) ∧
+          youngIntegralEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   constructor
-  · exact youngIntegral_decode_encode
+  · exact YoungIntegralTasteGate_single_carrier_alignment_decode
+  constructor
+  · exact ⟨youngIntegralBHistCarrier⟩
+  constructor
+  · exact ⟨youngIntegralChapterTasteGate⟩
   · rfl
 
-end BEDC.Derived.YoungIntegralUp.TasteGate
+end BEDC.Derived.YoungIntegralUp
