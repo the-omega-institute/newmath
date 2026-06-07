@@ -302,4 +302,101 @@ theorem RelationalFrameAuditObligationTotality [AskSetup] [PackageSetup]
       provenancePkg,
       refusalReadPkg⟩
 
+theorem RelationalFrameAuditFormalTargetBoundary [AskSetup] [PackageSetup]
+    {multiHist observerA observerB request symmetry causal rate refusal transport continuation
+      provenance name sourceA sourceB layerMap preserved refused ledger exactness boundary
+      layerTransport layerContinuation layerProvenance layerName target : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RelationalFrameAuditCarrier multiHist observerA observerB request symmetry causal rate
+        refusal transport continuation provenance name bundle pkg ->
+      RelationalFrameAuditLayeredRelationCarrier sourceA sourceB layerMap preserved refused
+          ledger exactness boundary layerTransport layerContinuation layerProvenance layerName
+          bundle pkg ->
+        Cont causal rate target ->
+          Cont exactness boundary target ->
+            PkgSig bundle target pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row target ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row multiHist ∨ hsame row observerA ∨ hsame row observerB ∨
+                      hsame row request ∨ hsame row symmetry ∨ hsame row causal ∨
+                        hsame row rate ∨ hsame row refusal ∨ hsame row sourceA ∨
+                          hsame row sourceB ∨ hsame row layerMap ∨ hsame row preserved ∨
+                            hsame row refused ∨ hsame row exactness ∨
+                              hsame row boundary ∨ hsame row target)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont causal rate target ∧
+                      Cont exactness boundary target ∧ PkgSig bundle target pkg)
+                  hsame ∧
+                UnaryHistory target := by
+  -- BEDC touchpoint anchor: RelationalFrameAuditCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier layeredCarrier causalRateTarget exactnessBoundaryTarget targetPkg
+  obtain ⟨_multiHistUnary, _observerAUnary, _observerBUnary, _requestUnary,
+    _symmetryUnary, causalUnary, rateUnary, _refusalUnary, _transportUnary,
+    _continuationUnary, _provenanceUnary, _nameUnary, _multiHistRoute, _requestRoute,
+    _carrierRateRoute, _provenanceRoute, _provenancePkg, _semanticCert⟩ := carrier
+  obtain ⟨_sourceAUnary, _sourceBUnary, _layerMapUnary, _preservedUnary,
+    _refusedUnary, _ledgerUnary, exactnessUnary, boundaryUnary, _layerTransportUnary,
+    _layerContinuationUnary, _layerProvenanceUnary, _layerNameUnary, _sourceARoute,
+    _sourceBRoute, _exactnessRoute, _layerProvenanceRoute, _layerProvenancePkg⟩ :=
+    layeredCarrier
+  have targetUnary : UnaryHistory target :=
+    unary_cont_closed causalUnary rateUnary causalRateTarget
+  have targetUnaryFromLayer : UnaryHistory target :=
+    unary_cont_closed exactnessUnary boundaryUnary exactnessBoundaryTarget
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row target ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row multiHist ∨ hsame row observerA ∨ hsame row observerB ∨
+              hsame row request ∨ hsame row symmetry ∨ hsame row causal ∨ hsame row rate ∨
+                hsame row refusal ∨ hsame row sourceA ∨ hsame row sourceB ∨
+                  hsame row layerMap ∨ hsame row preserved ∨ hsame row refused ∨
+                    hsame row exactness ∨ hsame row boundary ∨ hsame row target)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont causal rate target ∧ Cont exactness boundary target ∧
+              PkgSig bundle target pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro target ⟨hsame_refl target, targetUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceData
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceData.left,
+            unary_transport sourceData.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceData
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr
+                                  (Or.inr
+                                    (Or.inr sourceData.left))))))))))))))
+    ledger_sound := by
+      intro _row sourceData
+      exact
+        ⟨sourceData.right, causalRateTarget, exactnessBoundaryTarget, targetPkg⟩
+  }
+  exact ⟨cert, targetUnaryFromLayer⟩
+
 end BEDC.Derived.RelationalFrameAuditUp
