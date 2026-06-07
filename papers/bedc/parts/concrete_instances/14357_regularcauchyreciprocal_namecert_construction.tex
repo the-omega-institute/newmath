@@ -150,6 +150,7 @@ Apply \autoref{thm:regular-cauchy-reciprocal-readback-route}. Once the same budg
 
 Finally use \autoref{thm:regular-cauchy-reciprocal-tail-stability}. Since the later window preserves the source, apartness, modulus, window, and dyadic rows and reads the same budget row, the transported packet reaches the same $T$ and $E$ rather than recomputing a new reciprocal surface.
 \end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalWindowComposition}
 
 \begin{theorem}[Regular Cauchy reciprocal Real seal handoff]
 \label{thm:regular-cauchy-reciprocal-real-seal-handoff}
@@ -181,16 +182,66 @@ The analytic route is given by \autoref{thm:regular-cauchy-reciprocal-apartness-
 The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since none of these rows contains a total reciprocal, quotient stream equality, selected limit, trichotomy decision, or ambient completeness principle, the displayed obligations exhaust the local NameCert surface.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy reciprocal window-budget coverage]
+\label{thm:regular-cauchy-reciprocal-window-budget-coverage}
+Every budget-facing read of an accepted $\RegularCauchyReciprocalUp$ carrier $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ must expose the rows
+$$
+Q\longmapsto A\longmapsto M\longmapsto W\longmapsto D\longmapsto B
+$$
+in that order before it treats the packet as carrying a reciprocal-window budget.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-reciprocal-carrier}. The budget row $B$ is displayed only after the source row $Q$, apartness row $A$, modulus row $M$, finite window row $W$, and dyadic row $D$.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-apartness-window} and \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}. These place the positive lower-bound display before any dyadic or budget read.
+
+Use \autoref{thm:regular-cauchy-reciprocal-nonzero-denominator-window}. It identifies $Q,A,M,W,D$ as the nonzero-denominator window required before the $\CauchyInverseBudgetUp$ row is reached.
+
+Finally apply \autoref{thm:regular-cauchy-reciprocal-window-composition} and \autoref{thm:regular-cauchy-reciprocal-namecert-obligations}. Composed windows preserve the same displayed budget route, and the local NameCert surface contains no alternate budget coordinate.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy reciprocal readback-budget exactness]
+\label{thm:regular-cauchy-reciprocal-readback-budget-exactness}
+For every accepted $\RegularCauchyReciprocalUp$ carrier $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$, the readback row $T$ is exactly the finite reciprocal-read route through the displayed budget row $B$. It is not a total reciprocal operation on arbitrary $\RealUp$ names, and it cannot be read without the preceding rows $Q,A,M,W,D,B$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-reciprocal-readback-route}. It factors $T$ through the displayed chain from $Q$ to $B$.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-window-budget-coverage}. Any budget-facing read must first expose $Q,A,M,W,D,B$, so $T$ has no route that bypasses the finite budget row.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-tail-stability} and \autoref{thm:regular-cauchy-reciprocal-window-composition}. Later windows and composed windows preserve the same readback only when the displayed source, apartness, modulus, window, dyadic, and budget rows are preserved.
+
+Finally use \autoref{thm:regular-cauchy-reciprocal-terminal-seal-non-totality}. Since the terminal seal is not a total reciprocal on $\RealUp$, the preceding readback row is also only the finite route named by the carrier.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy reciprocal seal-route conservativity]
+\label{thm:regular-cauchy-reciprocal-seal-route-conservativity}
+Any $\RealUp$ seal consumer of an accepted $\RegularCauchyReciprocalUp$ carrier receives only the displayed route
+$$
+Q,A,M,W,D,B,T,E,H,C,P,N .
+$$
+The seal row $E$ conservatively packages that route and adds no total reciprocal, trichotomy, quotient stream equality, selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-reciprocal-real-seal-handoff}. The terminal seal is offered only after the source, apartness, modulus, finite window, dyadic, budget, and readback rows have been displayed.
+
+Use \autoref{thm:regular-cauchy-reciprocal-readback-budget-exactness}. It fixes $T$ as the finite route through $B$, so the seal cannot detach $E$ from the reciprocal-window budget.
+
+Use \autoref{thm:regular-cauchy-reciprocal-namecert-obligations}. The remaining rows $H,C,P,N$ transport, replay, source, and name the same packet, and no additional analytic coordinate exists.
+
+The non-totality clause follows from \autoref{thm:regular-cauchy-reciprocal-terminal-seal-non-totality}. A $\RealUp$ consumer therefore receives only the displayed conservative route.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\RegularCauchyReciprocalUp$ consumer that reaches a reciprocal readback row or a $\RealUp$ seal without the displayed $\RegSeqRatUp$ source, apartness row, finite $\StreamNameUp$ window, $\DyadicRatCoreUp$ ledger, and $\CauchyInverseBudgetUp$ row refutes the carrier surface.}
 
 \independenceWitness{regseqrat, streamname, dyadicratcore, cauchyinversebudget, real: no listed sibling supplies the whole twelve-row packet $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$, because each sibling contributes only a regular source, finite window, dyadic ledger, reciprocal budget, or Real seal while this chapter binds all five analytic faces with transport, replay, provenance, and local naming.}
 
 \begin{closurestatus}{\RegularCauchyReciprocalUp}
   \constructivestory{A $\RegularCauchyReciprocalUp$ packet is generated from a $\RegSeqRatUp$ source, an apartness-window row, a finite modulus row, a $\StreamNameUp$ window, a $\DyadicRatCoreUp$ ledger, a $\CauchyInverseBudgetUp$ budget row, a reciprocal readback row, a terminal $\RealUp$ seal, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-reciprocal-carrier}, \autoref{thm:regular-cauchy-reciprocal-apartness-window}, \autoref{thm:regular-cauchy-reciprocal-readback-route}, \autoref{thm:regular-cauchy-reciprocal-classifier-stability}, \autoref{thm:regular-cauchy-reciprocal-terminal-seal-non-totality}, and \autoref{thm:regular-cauchy-reciprocal-namecert-obligations} seed the reciprocal NameCert boundary for regular Cauchy names over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyInverseBudgetUp$, and $\RealUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-reciprocal-carrier}, \autoref{thm:regular-cauchy-reciprocal-apartness-window}, \autoref{thm:regular-cauchy-reciprocal-readback-route}, \autoref{thm:regular-cauchy-reciprocal-classifier-stability}, \autoref{thm:regular-cauchy-reciprocal-terminal-seal-non-totality}, \autoref{thm:regular-cauchy-reciprocal-namecert-obligations}, \autoref{thm:regular-cauchy-reciprocal-window-budget-coverage}, \autoref{thm:regular-cauchy-reciprocal-readback-budget-exactness}, and \autoref{thm:regular-cauchy-reciprocal-seal-route-conservativity} bind the reciprocal NameCert obligation surface for regular Cauchy names over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyInverseBudgetUp$, and $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim a total reciprocal, trichotomy, quotient stream equality, selected limits, ambient real completeness, or a Lean theorem.}
-  \upgradepath{A formal route can encode the twelve-row carrier and prove the apartness-window, readback-route, and NameCert-obligation theorems.}
+  \upgradepath{Scoped closure requires a formal route that encodes the twelve-row carrier and verifies the apartness-window, readback-route, budget-coverage, readback-exactness, and seal-conservativity obligations.}
 \end{closurestatus}

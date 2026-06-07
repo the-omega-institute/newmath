@@ -532,6 +532,35 @@ theorem CoveringDimensionRefinementOrderRootUnblock [AskSetup] [PackageSetup]
     }
   · exact ⟨refinementReadUnary, rootReadUnary⟩
 
+theorem CoveringDimensionFiniteCoverRootStability [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName rootRead stableRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont cover orderBound rootRead →
+        Cont rootRead lebesgue stableRead →
+          PkgSig bundle stableRead pkg →
+            UnaryHistory compactMetric ∧ UnaryHistory cover ∧ UnaryHistory orderBound ∧
+              UnaryHistory lebesgue ∧ UnaryHistory rootRead ∧ UnaryHistory stableRead ∧
+                Cont compactMetric epsilonNet cover ∧ Cont cover refinement orderBound ∧
+                  Cont cover orderBound rootRead ∧ Cont rootRead lebesgue stableRead ∧
+                    PkgSig bundle provenance pkg ∧ PkgSig bundle stableRead pkg := by
+  -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier coverOrderRoot rootLebesgueStable stablePkg
+  obtain ⟨compactUnary, _epsilonUnary, coverUnary, _refinementUnary, orderUnary,
+    lebesgueUnary, _transportUnary, _replayUnary, _provenanceUnary, _localUnary,
+    compactEpsilonCover, coverRefinementOrder, _orderLebesgueReplay,
+    _transportReplayProvenance, provenancePkg, _localNamePkg⟩ := carrier
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed coverUnary orderUnary coverOrderRoot
+  have stableUnary : UnaryHistory stableRead :=
+    unary_cont_closed rootUnary lebesgueUnary rootLebesgueStable
+  exact
+    ⟨compactUnary, coverUnary, orderUnary, lebesgueUnary, rootUnary, stableUnary,
+      compactEpsilonCover, coverRefinementOrder, coverOrderRoot, rootLebesgueStable,
+      provenancePkg, stablePkg⟩
+
 theorem CoveringDimensionLedgerNonEscape [AskSetup] [PackageSetup]
     {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
       localName consumer : BHist}
