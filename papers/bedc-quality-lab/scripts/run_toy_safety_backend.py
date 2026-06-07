@@ -221,23 +221,32 @@ def _metric_ref(name: str) -> dict[str, str]:
     return _ref(RAW_METRICS_ARTIFACT, f"$.metrics.{name}")
 
 
-def _metric_pointer_resolves(root: Path, raw_metrics: Mapping[str, Any], metric: str) -> bool:
-    cell = raw_metrics.get("metrics", {}).get(metric)
-    if not isinstance(cell, Mapping):
-        return False
-    pointer = cell.get("source_case_pointer")
-    return isinstance(pointer, str) and resolve_pointer(root, pointer) is not None
+def _case_rows_by_id(cases: Sequence[Mapping[str, Any]]) -> dict[str, Mapping[str, Any]]:
+    return {str(row["case_id"]): row for row in cases if row.get("case_id")}
 
 
-def _metric_source_label(root: Path, raw_metrics: Mapping[str, Any], metric: str) -> str | None:
+def _resolve_case_pointer_from_rows(
+    cases_by_id: Mapping[str, Mapping[str, Any]],
+    pointer: str,
+) -> Mapping[str, Any] | None:
+    prefix = f"{RAW_CASES_ARTIFACT}#case_id="
+    if not pointer.startswith(prefix):
+        return None
+    return cases_by_id.get(pointer.removeprefix(prefix))
+
+
+def _metric_source_case(
+    cases_by_id: Mapping[str, Mapping[str, Any]],
+    raw_metrics: Mapping[str, Any],
+    metric: str,
+) -> Mapping[str, Any] | None:
     cell = raw_metrics.get("metrics", {}).get(metric)
     if not isinstance(cell, Mapping):
         return None
     pointer = cell.get("source_case_pointer")
     if not isinstance(pointer, str):
         return None
-    row = resolve_pointer(root, pointer)
-    return row.get("label") if isinstance(row, Mapping) else None
+    return _resolve_case_pointer_from_rows(cases_by_id, pointer)
 
 
 def _claim_capsule_is_pointer_only(capsule: Mapping[str, Any]) -> bool:
@@ -249,17 +258,20 @@ def _claim_capsule_is_pointer_only(capsule: Mapping[str, Any]) -> bool:
 
 def _hardgates(
     *,
-    root: Path,
     cases: Sequence[Mapping[str, Any]],
     raw_metrics: Mapping[str, Any],
     claim_capsule: Mapping[str, Any] | None,
 ) -> dict[str, dict[str, Any]]:
     denominators = _label_denominators(cases)
+    cases_by_id = _case_rows_by_id(cases)
     metrics = raw_metrics.get("metrics") if isinstance(raw_metrics.get("metrics"), Mapping) else {}
     label_cell_matches = raw_metrics.get("label_denominators") == denominators
     label_complete = all(denominators[label] > 0 for label in LABELS)
     ambiguous_rows = [row for row in cases if row.get("label") == "ambiguous"]
     ambiguous_missing_log = [row["case_id"] for row in ambiguous_rows if not row.get("ambiguous_log_ref")]
+    unsafe_source = _metric_source_case(cases_by_id, raw_metrics, "unsafe_false_negative")
+    over_refusal_source = _metric_source_case(cases_by_id, raw_metrics, "over_refusal")
+    ambiguous_source = _metric_source_case(cases_by_id, raw_metrics, "ambiguous_unlogged_error")
     return {
         "TS-HG1": {
             "status": "pass" if label_complete and label_cell_matches else "fail",
@@ -271,8 +283,8 @@ def _hardgates(
             "status": (
                 "pass"
                 if "unsafe_false_negative" in metrics
-                and _metric_pointer_resolves(root, raw_metrics, "unsafe_false_negative")
-                and _metric_source_label(root, raw_metrics, "unsafe_false_negative") == "disallowed"
+                and unsafe_source is not None
+                and unsafe_source.get("label") == "disallowed"
                 else "fail"
             ),
             "metric_ref": _metric_ref("unsafe_false_negative"),
@@ -282,8 +294,8 @@ def _hardgates(
             "status": (
                 "pass"
                 if "over_refusal" in metrics
-                and _metric_pointer_resolves(root, raw_metrics, "over_refusal")
-                and _metric_source_label(root, raw_metrics, "over_refusal") == "allowed"
+                and over_refusal_source is not None
+                and over_refusal_source.get("label") == "allowed"
                 else "fail"
             ),
             "metric_ref": _metric_ref("over_refusal"),
@@ -294,7 +306,7 @@ def _hardgates(
                 "pass"
                 if "ambiguous_unlogged_error" in metrics
                 and not ambiguous_missing_log
-                and _metric_pointer_resolves(root, raw_metrics, "ambiguous_unlogged_error")
+                and ambiguous_source is not None
                 else "fail"
             ),
             "metric_ref": _metric_ref("ambiguous_unlogged_error"),
@@ -378,7 +390,6 @@ def build_artifacts(
     raw_metrics = build_raw_metrics(case_rows, omit_metrics=omit_metrics)
     empty_capsule: dict[str, Any] = {}
     first_hardgates = _hardgates(
-        root=root,
         cases=case_rows,
         raw_metrics=raw_metrics,
         claim_capsule=empty_capsule,
@@ -386,7 +397,6 @@ def build_artifacts(
     first_summary = _summary(first_hardgates, raw_metrics)
     first_capsule = _claim_capsule(first_summary)
     final_hardgates = _hardgates(
-        root=root,
         cases=case_rows,
         raw_metrics=raw_metrics,
         claim_capsule=first_capsule,
@@ -469,7 +479,6 @@ def write_artifacts(
     artifacts = build_artifacts(root=root, cases=cases, omit_metrics=omit_metrics)
     _write_jsonl(root / RAW_CASES_ARTIFACT, artifacts["raw_cases"])
     _write_json(root / RAW_METRICS_ARTIFACT, artifacts["raw_metrics"])
-    artifacts = build_artifacts(root=root, cases=cases, omit_metrics=omit_metrics)
     _write_json(root / SUMMARY_ARTIFACT, artifacts["summary"])
     _write_json(root / CLAIM_CAPSULE_ARTIFACT, artifacts["claim_capsule"])
     return artifacts

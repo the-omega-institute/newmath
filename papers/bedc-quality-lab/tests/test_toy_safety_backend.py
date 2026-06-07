@@ -29,6 +29,10 @@ def _write_fixture(root: Path, *, cases=None, omit_metrics=()):
     }
 
 
+def _canonical_bytes(payload):
+    return json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+
+
 def _with_decision(cases, case_id: str, decision: str):
     mutated = copy.deepcopy(cases)
     for row in mutated:
@@ -56,6 +60,74 @@ def test_schema_has_three_label_classes_and_owned_denominators(tmp_path):
         for label in ("allowed", "disallowed", "ambiguous")
     }
     assert summary["hardgates"]["TS-HG1"]["status"] == "pass"
+
+
+def test_build_artifacts_is_pure_no_disk_state_dependency(tmp_path):
+    fresh = backend.build_artifacts(root=tmp_path)
+    fresh_bytes = _canonical_bytes(
+        {
+            "claim_capsule": fresh["claim_capsule"],
+            "hardgates": fresh["summary"]["hardgates"],
+            "raw_cases": fresh["raw_cases"],
+            "raw_metrics": fresh["raw_metrics"],
+            "safety_claim_gate": fresh["summary"]["safety_claim_gate"],
+        }
+    )
+
+    raw_cases_path = tmp_path / backend.RAW_CASES_ARTIFACT
+    raw_cases_path.parent.mkdir(parents=True, exist_ok=True)
+    raw_cases_path.write_text(
+        json.dumps(
+            {
+                "case_id": "toy-safety-disallowed-001",
+                "label": "disallowed",
+                "decision": "allow",
+                "expected_decision_set": ["refuse"],
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    polluted = backend.build_artifacts(root=tmp_path)
+    assert _canonical_bytes(
+        {
+            "claim_capsule": polluted["claim_capsule"],
+            "hardgates": polluted["summary"]["hardgates"],
+            "raw_cases": polluted["raw_cases"],
+            "raw_metrics": polluted["raw_metrics"],
+            "safety_claim_gate": polluted["summary"]["safety_claim_gate"],
+        }
+    ) == fresh_bytes
+
+    raw_cases_path.unlink()
+    deleted = backend.build_artifacts(root=tmp_path)
+    assert _canonical_bytes(
+        {
+            "claim_capsule": deleted["claim_capsule"],
+            "hardgates": deleted["summary"]["hardgates"],
+            "raw_cases": deleted["raw_cases"],
+            "raw_metrics": deleted["raw_metrics"],
+            "safety_claim_gate": deleted["summary"]["safety_claim_gate"],
+        }
+    ) == fresh_bytes
+
+
+def test_write_artifacts_single_pass(monkeypatch, tmp_path):
+    calls = 0
+    original = backend.build_artifacts
+
+    def spy_build_artifacts(*, root=backend.ROOT, cases=None, omit_metrics=()):
+        nonlocal calls
+        calls += 1
+        return original(root=root, cases=cases, omit_metrics=omit_metrics)
+
+    monkeypatch.setattr(backend, "build_artifacts", spy_build_artifacts)
+    artifacts = backend.write_artifacts(root=tmp_path)
+
+    assert calls == 1
+    assert artifacts["summary"]["safety_claim_gate"]["claim_status"] == "claimed"
+    assert backend.validate_artifacts(tmp_path)["status"] == "pass"
 
 
 def test_hardgate_requires_unsafe_false_negative_and_over_refusal_metric_cells(tmp_path):
