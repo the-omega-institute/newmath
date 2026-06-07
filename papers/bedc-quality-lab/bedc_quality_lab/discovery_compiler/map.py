@@ -14,6 +14,52 @@ DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
 DISCOVERY_LEVELS = ("D0", "D1", "D2", "D3", "D4", "D5-O", "D5-M", "DN", "DR")
+COVERAGE_HARDGATE_IDS = (
+    "COV-HG1-owner",
+    "COV-HG2-resolves",
+    "COV-HG3-pointer-only",
+    "COV-HG4-positive-support",
+    "COV-HG5-dn-witness",
+    "COV-HG6-complete-set",
+)
+COVERAGE_POINTER_FIELDS = (
+    "canonical_owner_pointer",
+    "discovery_level_pointer",
+    "claim_verdict_pointer",
+    "mechanism_certificate_pointer",
+    "debt_pointer",
+    "not_claimed_pointer",
+    "negative_witness_pointer",
+)
+COVERAGE_CELL_FIELDS = frozenset(
+    {
+        "component_id",
+        *COVERAGE_POINTER_FIELDS,
+        "hardgate_status",
+        "hardgate_reason",
+    }
+)
+COVERAGE_FORBIDDEN_KEYS = frozenset(
+    {
+        "terminal_verdict",
+        "terminal_verdicts",
+        "metrics",
+        "metric",
+        "candidate_rows",
+        "candidate_row",
+        "classifier_reasons",
+        "classifier_reason",
+        "raw_body",
+        "raw_report_body",
+        "raw_metrics",
+        "copied_evidence",
+        "evidence_payload",
+        "models",
+        "surfaces",
+        "model_id",
+        "surface_id",
+    }
+)
 DN_FACT_KEYS = frozenset(
     {
         "report_id",
@@ -128,85 +174,71 @@ def _validate_artifact_pointer(pointer: Any, *, field: str = "owner_pointer") ->
     return pointer
 
 
-def _validate_negative_owner_pointer(pointer: Any) -> str:
-    pointer = _validate_artifact_pointer(pointer)
-    split = split_artifact_pointer(pointer)
-    assert split is not None
-    artifact, local_pointer = split
-    if artifact == "reports/canonical/negative_discovery_reports.json":
-        if not local_pointer.startswith("$.rows["):
-            raise ValueError("coverage_matrix negative_owner_pointer must point to a negative owner row")
-        return pointer
-    raise ValueError("coverage_matrix negative_owner_pointer must point to a negative owner row")
-
-
-def _discovery_targets(rows: Sequence[Mapping[str, Any]]) -> dict[str, Mapping[str, Any]]:
-    targets: dict[str, Mapping[str, Any]] = {}
-    for row in rows:
-        target = row.get("report")
-        if not isinstance(target, str) or not target:
-            raise ValueError("discovery map row report must be a non-empty string")
-        if target in targets:
-            raise ValueError(f"duplicate discovery target: {target}")
-        targets[target] = row
-    return targets
-
-
-def _coverage_matrix_overall_state(cells: Sequence[Mapping[str, Any]]) -> str:
-    return (
-        "present-but-fail-closed"
-        if any(cell.get("slot_state") == "present-but-fail-closed" for cell in cells)
-        else "present"
-    )
+def _pointer_resolves(pointer: Any, *, root: Path | None) -> bool:
+    if not isinstance(pointer, str) or split_artifact_pointer(pointer) is None:
+        return False
+    if pointer.startswith("reports/canonical/discovery_map.json:"):
+        return True
+    return root is None or is_resolvable_artifact_pointer(root, pointer)
 
 
 def _validate_coverage_cell(
     cell: Mapping[str, Any],
     *,
-    rows_by_target: Mapping[str, Mapping[str, Any]] | None,
     root: Path | None,
 ) -> dict[str, Any]:
-    expected_keys = {"target", "owner_pointer", "slot_state"}
     keys = set(cell)
-    if keys != expected_keys:
-        missing = sorted(expected_keys - keys)
-        extra = sorted(keys - expected_keys)
+    if keys != COVERAGE_CELL_FIELDS:
+        missing = sorted(COVERAGE_CELL_FIELDS - keys)
+        extra = sorted(keys - COVERAGE_CELL_FIELDS)
         detail = []
         if missing:
             detail.append(f"missing {', '.join(missing)}")
         if extra:
             detail.append(f"extra {', '.join(extra)}")
         raise ValueError(f"coverage_matrix cell schema mismatch: {'; '.join(detail)}")
-    copied = _recursive_forbidden_keys(cell, frozenset({"terminal_verdict", "metrics"}))
-    if copied:
-        raise ValueError(f"coverage_matrix cell copies owner facts: {', '.join(copied)}")
-    target = cell.get("target")
-    if not isinstance(target, str) or not target:
-        raise ValueError("coverage_matrix cell target must be a non-empty string")
-    owner_pointer = _validate_artifact_pointer(cell.get("owner_pointer"))
-    slot_state = cell.get("slot_state")
-    if slot_state not in {"present", "present-but-fail-closed", "negative"}:
-        raise ValueError("coverage_matrix cell slot_state must be present, present-but-fail-closed, or negative")
-    if rows_by_target is not None:
-        row = rows_by_target.get(target)
-        if row is None:
-            raise ValueError(f"coverage_matrix cell target is not a discovery row: {target}")
-        if row.get("discovery_level") == "DN":
-            if slot_state != "negative":
-                raise ValueError(f"DN coverage_matrix cell must be negative: {target}")
-            if owner_pointer != row.get("negative_report_pointer"):
-                raise ValueError(f"DN coverage_matrix cell owner pointer mismatch: {target}")
-            _validate_negative_owner_pointer(owner_pointer)
-        elif slot_state == "negative":
-            raise ValueError(f"non-DN coverage_matrix cell must not be negative: {target}")
-    if root is not None:
-        resolved = is_resolvable_artifact_pointer(root, owner_pointer)
-        if slot_state in {"present", "negative"} and not resolved:
-            raise ValueError(f"coverage_matrix owner pointer does not resolve: {target}")
-        if slot_state == "present-but-fail-closed" and resolved:
-            raise ValueError(f"coverage_matrix fail-closed pointer unexpectedly resolves: {target}")
+    component_id = cell.get("component_id")
+    if not isinstance(component_id, str) or not component_id:
+        raise ValueError("coverage_matrix component_id must be a non-empty string")
+    if cell.get("hardgate_status") not in {"pass", "fail"}:
+        raise ValueError("coverage_matrix cell hardgate_status must be pass or fail")
+    if not isinstance(cell.get("hardgate_reason"), str):
+        raise ValueError("coverage_matrix cell hardgate_reason must be a string")
+    for field in COVERAGE_POINTER_FIELDS:
+        pointer = cell.get(field)
+        if pointer is not None:
+            _validate_artifact_pointer(pointer, field=field)
     payload = dict(cell)
     return payload
+
+
+def _coverage_gate_statuses(
+    cells: Sequence[Mapping[str, Any]],
+    *,
+    root: Path | None,
+    copied: Sequence[str],
+    expected_component_ids: frozenset[str] | None,
+) -> dict[str, str]:
+    observed = {cell.get("component_id") for cell in cells}
+    non_dn_cells = [cell for cell in cells if isinstance(cell.get("component_id"), str) and not str(cell["component_id"]).endswith("-DN")]
+    dn_cells = [cell for cell in cells if isinstance(cell.get("component_id"), str) and str(cell["component_id"]).endswith("-DN")]
+    statuses = {
+        "COV-HG1-owner": "pass"
+        if all(_pointer_resolves(cell.get("canonical_owner_pointer"), root=root) for cell in cells)
+        else "fail",
+        "COV-HG2-resolves": "pass"
+        if all(_pointer_resolves(cell.get(field), root=root) for cell in cells for field in COVERAGE_POINTER_FIELDS if cell.get(field) is not None)
+        else "fail",
+        "COV-HG3-pointer-only": "pass" if not copied else "fail",
+        "COV-HG4-positive-support": "pass"
+        if all(cell.get("mechanism_certificate_pointer") is not None or cell.get("debt_pointer") is not None for cell in non_dn_cells)
+        else "fail",
+        "COV-HG5-dn-witness": "pass"
+        if all(cell.get("negative_witness_pointer") is not None for cell in dn_cells)
+        else "fail",
+        "COV-HG6-complete-set": "pass" if expected_component_ids is None or observed == expected_component_ids else "fail",
+    }
+    return statuses
 
 
 def validate_coverage_matrix(
@@ -214,38 +246,72 @@ def validate_coverage_matrix(
     *,
     rows: Sequence[Mapping[str, Any]] | None = None,
     root: Path | None = None,
+    expected_component_ids: frozenset[str] | None = None,
 ) -> dict[str, Any]:
-    if coverage_matrix.get("status") != "pointer-only":
-        raise ValueError("coverage_matrix status must be pointer-only")
-    copied = _recursive_forbidden_keys(coverage_matrix, frozenset({"terminal_verdict", "metrics"}))
+    del rows
+    if coverage_matrix.get("status") not in {"pointer-only", "fail-closed"}:
+        raise ValueError("coverage_matrix status must be pointer-only or fail-closed")
+    top_keys = set(coverage_matrix)
+    expected_top_keys = {"status", "hardgates", "cells"}
+    if top_keys != expected_top_keys:
+        missing = sorted(expected_top_keys - top_keys)
+        extra = sorted(top_keys - expected_top_keys)
+        detail = []
+        if missing:
+            detail.append(f"missing {', '.join(missing)}")
+        if extra:
+            detail.append(f"extra {', '.join(extra)}")
+        raise ValueError(f"coverage_matrix top-level schema mismatch: {'; '.join(detail)}")
+    copied = _recursive_forbidden_keys(coverage_matrix, COVERAGE_FORBIDDEN_KEYS)
     if copied:
         raise ValueError(f"coverage_matrix copies owner facts: {', '.join(copied)}")
     cells = coverage_matrix.get("cells")
     if not isinstance(cells, list):
         raise ValueError("coverage_matrix cells must be a list")
-    rows_by_target = _discovery_targets(rows) if rows is not None else None
+    hardgates = coverage_matrix.get("hardgates")
+    if not isinstance(hardgates, Mapping):
+        raise ValueError("coverage_matrix hardgates must be an object")
+    if set(hardgates) != set(COVERAGE_HARDGATE_IDS):
+        raise ValueError("coverage_matrix hardgate set mismatch")
+    validated_hardgates: dict[str, dict[str, str]] = {}
+    for gate_id in COVERAGE_HARDGATE_IDS:
+        gate = hardgates.get(gate_id)
+        if not isinstance(gate, Mapping):
+            raise ValueError("coverage_matrix hardgate entries must be objects")
+        if gate.get("status") not in {"pass", "fail"}:
+            raise ValueError("coverage_matrix hardgate status must be pass or fail")
+        if not isinstance(gate.get("reason"), str):
+            raise ValueError("coverage_matrix hardgate reason must be a string")
+        validated_hardgates[gate_id] = {"status": str(gate["status"]), "reason": str(gate["reason"])}
     payload = dict(coverage_matrix)
     payload["cells"] = [
-        _validate_coverage_cell(cell, rows_by_target=rows_by_target, root=root)
+        _validate_coverage_cell(cell, root=root)
         if isinstance(cell, Mapping)
         else (_raise_coverage_cell_type())
         for cell in cells
     ]
-    if rows_by_target is not None:
-        observed = {cell["target"] for cell in payload["cells"]}
-        expected = set(rows_by_target)
-        if observed != expected:
-            missing = sorted(expected - observed)
-            extra = sorted(observed - expected)
-            detail = []
-            if missing:
-                detail.append(f"missing {', '.join(missing)}")
-            if extra:
-                detail.append(f"extra {', '.join(extra)}")
-            raise ValueError(f"coverage_matrix target set mismatch: {'; '.join(detail)}")
-    expected_state = _coverage_matrix_overall_state(payload["cells"])
-    if coverage_matrix.get("overall_state") != expected_state:
-        raise ValueError("coverage_matrix overall_state does not match cell slot states")
+    observed = {cell["component_id"] for cell in payload["cells"]}
+    if expected_component_ids is not None and observed != expected_component_ids:
+        missing = sorted(expected_component_ids - observed)
+        extra = sorted(observed - expected_component_ids)
+        detail = []
+        if missing:
+            detail.append(f"missing {', '.join(missing)}")
+        if extra:
+            detail.append(f"extra {', '.join(extra)}")
+        raise ValueError(f"coverage_matrix component set mismatch: {'; '.join(detail)}")
+    expected_gate_statuses = _coverage_gate_statuses(
+        payload["cells"],
+        root=root,
+        copied=(),
+        expected_component_ids=expected_component_ids,
+    )
+    for gate_id, status in expected_gate_statuses.items():
+        if validated_hardgates[gate_id]["status"] != status:
+            raise ValueError(f"coverage_matrix {gate_id} status mismatch")
+    expected_status = "fail-closed" if any(gate["status"] == "fail" for gate in validated_hardgates.values()) else "pointer-only"
+    if coverage_matrix.get("status") != expected_status:
+        raise ValueError("coverage_matrix status does not match hardgates")
     return payload
 
 
@@ -273,6 +339,7 @@ def build_discovery_map_payload(
     manifest_audit: Mapping[str, Any] | None = None,
     coverage_matrix: Mapping[str, Any] | None = None,
     root: Path | None = None,
+    expected_coverage_component_ids: frozenset[str] | None = None,
 ) -> dict[str, Any]:
     validated = [row.as_dict() for row in validate_rows(rows)]
     payload = {
@@ -287,5 +354,10 @@ def build_discovery_map_payload(
         "rows": validated,
     }
     if coverage_matrix is not None:
-        payload["coverage_matrix"] = validate_coverage_matrix(coverage_matrix, rows=validated, root=root)
+        payload["coverage_matrix"] = validate_coverage_matrix(
+            coverage_matrix,
+            rows=validated,
+            root=root,
+            expected_component_ids=expected_coverage_component_ids,
+        )
     return payload
