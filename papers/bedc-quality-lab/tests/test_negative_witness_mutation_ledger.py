@@ -1,4 +1,5 @@
 import json
+import shutil
 
 from bedc_quality_lab.backends.current_lab import projection
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
@@ -20,6 +21,14 @@ EXPECTED_MAPPING = {
     "mechanism_blocked": "mechanism_seeking_module",
 }
 
+RUNNER_SOURCE_ARTIFACTS = (
+    "reports/runs/a1-canonical/claim_capsule.json",
+    "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json",
+    "reports/canonical/discovery_negative_witnesses.json",
+    "runs/single_threshold_escape_witness.json",
+    "reports/canonical/gap_head_attribution_capsule.json",
+)
+
 ENTRY_KEYS = {
     "mutation_id",
     "witness_kind",
@@ -36,8 +45,18 @@ def _source_cell(entry):
     return f"{entry['source_artifact']}:{entry['source_pointer']}"
 
 
-def test_negative_witness_mutation_ledger_exact_mapping_and_schema():
-    payload = ledger._build_mutation_ledger(ROOT, "fixture-time")
+def _runner_root(tmp_path):
+    for artifact in RUNNER_SOURCE_ARTIFACTS:
+        source = ROOT / artifact
+        target = tmp_path / artifact
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+    return tmp_path
+
+
+def test_negative_witness_mutation_ledger_exact_mapping_and_schema(tmp_path):
+    root = _runner_root(tmp_path)
+    payload = ledger._build_mutation_ledger(root, "fixture-time")
     entries = payload["entries"]
 
     assert payload["schema_id"] == ledger.LEDGER_SCHEMA_ID
@@ -50,30 +69,33 @@ def test_negative_witness_mutation_ledger_exact_mapping_and_schema():
     assert {gate["status"] for gate in payload["hardgates"].values()} == {"pass"}
 
 
-def test_negative_witness_mutation_ledger_pointers_resolve():
-    payload = ledger._build_mutation_ledger(ROOT, "fixture-time")
+def test_negative_witness_mutation_ledger_pointers_resolve(tmp_path):
+    root = _runner_root(tmp_path)
+    payload = ledger._build_mutation_ledger(root, "fixture-time")
 
     for index, entry in enumerate(payload["entries"]):
-        assert ledger._resolve_artifact_pointer(ROOT, entry["source_artifact"], entry["source_pointer"]) is not None
-        assert ledger._lineage_parent_resolves(ROOT, payload, entry, index)
+        assert ledger._resolve_artifact_pointer(root, entry["source_artifact"], entry["source_pointer"]) is not None
+        assert ledger._lineage_parent_resolves(root, payload, entry, index)
         if index == 0:
             assert entry["lineage_parent"] == _source_cell(entry)
         else:
             assert entry["lineage_parent"] == f"{ledger.LEDGER_JSON_ARTIFACT}:$.entries[{index - 1}]"
 
 
-def test_negative_witness_mutation_ledger_forbidden_keys_fail_closed():
-    payload = ledger._build_mutation_ledger(ROOT, "fixture-time")
+def test_negative_witness_mutation_ledger_forbidden_keys_fail_closed(tmp_path):
+    root = _runner_root(tmp_path)
+    payload = ledger._build_mutation_ledger(root, "fixture-time")
     payload["entries"][0]["terminal_verdict"] = "accepted"
 
-    audit = ledger._audit_mutation_ledger(ROOT, payload)
+    audit = ledger._audit_mutation_ledger(root, payload)
 
     assert audit["status"] == "blocked"
     assert audit["hardgates"]["MUT-HG4"]["status"] == "fail"
     assert "$.entries[0].terminal_verdict" in audit["hardgates"]["MUT-HG4"]["hits"]
 
 
-def test_negative_witness_mutation_ledger_blocks_dangling_source(monkeypatch):
+def test_negative_witness_mutation_ledger_blocks_dangling_source(monkeypatch, tmp_path):
+    root = _runner_root(tmp_path)
     broken = {
         "witness_kind": "score_margin_shortcut",
         "source": "reports/canonical/missing-negative-owner.json:$.rows[0]",
@@ -81,7 +103,7 @@ def test_negative_witness_mutation_ledger_blocks_dangling_source(monkeypatch):
     }
     monkeypatch.setattr(ledger, "_mutation_specs", lambda: (broken,))
 
-    payload = ledger._build_mutation_ledger(ROOT, "fixture-time")
+    payload = ledger._build_mutation_ledger(root, "fixture-time")
 
     assert payload["status"] == "blocked"
     assert payload["entries"][0]["status"] == "blocked"
@@ -89,8 +111,9 @@ def test_negative_witness_mutation_ledger_blocks_dangling_source(monkeypatch):
     assert payload["hardgates"]["MUT-HG3"]["status"] == "fail"
 
 
-def test_negative_witness_mutation_dgt_report_omits_entries_and_row_bodies():
-    payload = ledger._build_mutation_ledger(ROOT, "fixture-time")
+def test_negative_witness_mutation_dgt_report_omits_entries_and_row_bodies(tmp_path):
+    root = _runner_root(tmp_path)
+    payload = ledger._build_mutation_ledger(root, "fixture-time")
     report = ledger._build_dgt_mutation_report(payload)
 
     assert report["ledger"] == {"artifact": ledger.LEDGER_JSON_ARTIFACT, "pointer": "$.entries"}
@@ -99,8 +122,9 @@ def test_negative_witness_mutation_dgt_report_omits_entries_and_row_bodies():
     assert "source_pointer" not in json.dumps(report, sort_keys=True)
 
 
-def test_negative_witness_mutation_graph_is_derived_from_ledger_pointers():
-    payload = ledger._build_mutation_ledger(ROOT, "fixture-time")
+def test_negative_witness_mutation_graph_is_derived_from_ledger_pointers(tmp_path):
+    root = _runner_root(tmp_path)
+    payload = ledger._build_mutation_ledger(root, "fixture-time")
     graph = ledger._render_lineage_graph(payload)
 
     assert f"{ledger.LEDGER_JSON_ARTIFACT}:$.entries" in graph
@@ -117,10 +141,12 @@ def test_negative_witness_mutation_graph_is_derived_from_ledger_pointers():
 
 
 def test_negative_witness_mutation_runner_round_trips_committed_json(tmp_path):
-    payload = ledger.write_negative_witness_mutation_ledger(root=ROOT, generated_at="fixture-time")
-    committed = json.loads((ROOT / ledger.LEDGER_JSON_ARTIFACT).read_text(encoding="utf-8"))
-    dgt_report = json.loads((ROOT / ledger.DGT_REPORT_ARTIFACT).read_text(encoding="utf-8"))
-    graph = (ROOT / ledger.LINEAGE_GRAPH_ARTIFACT).read_text(encoding="utf-8")
+    root = _runner_root(tmp_path)
+
+    payload = ledger.write_negative_witness_mutation_ledger(root=root, generated_at="fixture-time")
+    committed = json.loads((root / ledger.LEDGER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    dgt_report = json.loads((root / ledger.DGT_REPORT_ARTIFACT).read_text(encoding="utf-8"))
+    graph = (root / ledger.LINEAGE_GRAPH_ARTIFACT).read_text(encoding="utf-8")
 
     assert committed == payload
     assert pointer_value(committed, "$.entries[0].witness_kind") == "score_margin_shortcut"
