@@ -218,6 +218,14 @@
 - Candidate status: `ready-candidate`
 - Revoke pointer: `$.ledger_policy.revoke_if`
 
+## Toy safety boundary
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/toy_safety_boundary.json`
+- Markdown: `reports/canonical/toy_safety_boundary.md`
+- Claim capsule: `experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$`
+- Hardgates: `experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.hardgates`
+
 ## Paper outline
 
 - Status: `pointer-only`
