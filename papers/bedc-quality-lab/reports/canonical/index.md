@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-07T00:00:00+00:00`
+- Generated at: `2026-06-07T19:12:48.271826+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -103,7 +103,7 @@
 
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witnesses.json`
-- Expected kinds: `8`
+- Expected kinds: `9`
 
 ## Negative discovery reports
 
@@ -173,7 +173,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `31`
+- Rows: `32`
 
 ## Claim graph
 
@@ -181,7 +181,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `89`
+- Nodes: `91`
 
 ## Claim capsule
 
@@ -196,7 +196,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witness_summary.json`
 - Markdown: `reports/canonical/discovery_negative_witness_summary.md`
-- Rows: `16`
+- Rows: `17`
 - Audit: `pass`
 
 ## Formal hardening

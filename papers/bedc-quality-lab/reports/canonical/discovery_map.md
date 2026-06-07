@@ -1,6 +1,6 @@
 # Discovery Map
 
-- Generated at: `2026-06-07T00:00:00+00:00`
+- Generated at: `2026-06-07T19:12:48.271826+00:00`
 - Rows: `23`
 
 | report | level | base | mechanism | projection | audit | evidence |
@@ -36,7 +36,7 @@
 - `threshold`: `pass` (reports/canonical/gap-head-robustness-sweep.json:$.A1_threshold_sweep.treatment_verdict.positive) A1 threshold sweep passes under the canonical robustness final_status.
 - `ablation`: `failed` (reports/canonical/gap-head-ablation.json:$.hardgate.status) Gap-head ablation hardgate is explicit non-pass.
 - `seed_expansion`: `pass` (reports/canonical/gap-head-robustness-sweep.json:$.A3_seed_expansion.final_verdict) A3 seed expansion has robust_positive final verdict under final_status=pass.
-- `adversarial`: `pass` (reports/canonical/discovery_negative_witnesses.json:$.witnesses) The eight adversarial witness kinds do not break the discovery gate.
+- `adversarial`: `pass` (reports/canonical/discovery_negative_witnesses.json:$.witnesses) The adversarial witness kinds do not break the discovery gate.
 - `observed_debt_transfer`: `pass` (reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status) Observed-debt transfer metric for gap-head-on-h passes.
 
 ## Coverage matrix

@@ -1,9 +1,9 @@
 # Discovery Negative Witness Summary
 
-- Generated at: `2026-06-07T00:00:00+00:00`
+- Generated at: `2026-06-07T19:12:48.271826+00:00`
 - Status: `pointer-only`
 - Audit: `pass`
-- Rows: `16`
+- Rows: `17`
 
 | negative id | verdict | reason | ledger | discovery map | witness | claim verdict | audit |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -23,3 +23,4 @@
 | `witness:forbidden_inference_column` | `negative_discovery` | `forbidden-overclaim` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[5]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[5]` | `reports/canonical/claim_verdicts.jsonl:$.lines[28]` | `pass` |
 | `witness:benefit_debt_tradeoff` | `revoked_discovery` | `audit-improvement-tradeoff` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]` | `reports/canonical/claim_verdicts.jsonl:$.lines[29]` | `pass` |
 | `witness:fresh_claim_downgrade` | `revoked_discovery` | `audit-improvement-tradeoff` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[7]` | `reports/canonical/claim_verdicts.jsonl:$.lines[30]` | `pass` |
+| `witness:synthetic_leakage_injection` | `negative_discovery` | `malformed-evidence` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[8]` | `None` | `reports/canonical/discovery_negative_witnesses.json:$.witnesses[8]` | `reports/canonical/claim_verdicts.jsonl:$.lines[31]` | `pass` |
