@@ -642,6 +642,7 @@ class DiscoveryRegularizedTrainingProjection:
             signal=signal,
             positive_claim=positive_claim,
             quality_boundary=boundary,
+            source_artifacts=source_artifacts,
         )
         if capsule["forbidden_claim_term_audit"]["status"] != "pass":
             failed_gate = failed_gate or "forbidden-positive-claim-term"
@@ -855,6 +856,7 @@ class DiscoveryRegularizedTrainingProjection:
         signal: Mapping[str, Any],
         positive_claim: Mapping[str, Any],
         quality_boundary: Mapping[str, Any],
+        source_artifacts: Mapping[str, Any],
     ) -> dict[str, Any]:
         failed = self.failed_gate(hardgates)
         accepted = failed is None
@@ -869,7 +871,7 @@ class DiscoveryRegularizedTrainingProjection:
             "source_artifacts": {
                 "summary": self.run_artifacts.get("summary"),
                 "raw_rows": self.run_artifacts.get("raw_metrics"),
-                "cost_protocol": "configs/default_cost_protocol.yaml",
+                "cost_protocol": source_artifacts.get("cost_protocol"),
             },
             "not_claimed": list(NOT_CLAIMED),
             "failed_gate": failed,

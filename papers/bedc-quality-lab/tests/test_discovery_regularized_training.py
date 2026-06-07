@@ -233,12 +233,20 @@ def test_drt_compute_ledger_is_required_summary_and_hardgate_source(monkeypatch)
 def test_drt_hg7_fails_without_compute_ledger_cost_protocol_pointer():
     projection = _project(source_artifacts={"cost_protocol": ""})
     summary = projection["summary_payload"]
+    capsule = projection["claim_capsule_payload"]
 
+    assert summary["source_artifacts"]["cost_protocol"] == ""
     assert summary["compute_ledger"]["status"] == "incomplete"
     assert "cost_protocol_pointer" in summary["compute_ledger"]["missing_fields"]
     assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "fail"
     assert summary["failed_gate"] == "DRT-HG7"
     assert summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert capsule["source_artifacts"]["cost_protocol"] == ""
+    assert capsule["source_artifacts"]["cost_protocol"] == summary["source_artifacts"]["cost_protocol"]
+    assert capsule["result_snapshot"]["compute_ledger"]["status"] == "incomplete"
+    assert "cost_protocol_pointer" in capsule["result_snapshot"]["compute_ledger"]["missing_fields"]
+    assert capsule["hardgates"]["DRT-HG7"]["status"] == "fail"
+    assert "configs/default_cost_protocol.yaml" not in json.dumps(capsule["source_artifacts"], sort_keys=True)
 
 
 def test_drt_hg7_fails_when_steps_or_seed_counts_are_missing():
