@@ -200,6 +200,7 @@ read as Fourier coefficient windows, $\SOneUp$ source rows, $\InnerProductUp$ pa
 \label{thm:parseval-inner-product-namecert-obligations}
 Every consumer of the inner-product carrier route in \autoref{def:parseval-inner-product-carrier} must display all rows $F,S,I,E,R,D,L,H,C,P,N$ before it reads an energy comparison. The rows $F,S,I$ bind Fourier coefficient windows, circle-source samples, and finite pairing witnesses; the rows $E,R,D,L$ bind integral-energy observation, regular rational readback, dyadic tolerance accounting, and the terminal Real seal; the rows $H,C,P,N$ preserve, replay, source, and name the same route. The obligation does not claim Plancherel, inversion, completed Hilbert norms, quotient coefficient classes, or host function equality.
 \end{theorem}
+\leanchecked{BEDC.Derived.ParsevalUp.ParsevalInnerProductNameCertObligations}
 \begin{proof}
 Start with the carrier definition \autoref{def:parseval-carrier}. Its accepted inventory is exactly $F,S,I,E,R,D,L,H,C,P,N$, and \autoref{def:parseval-inner-product-carrier} reads no additional coordinate.
 
@@ -458,6 +459,24 @@ For the base window, read \autoref{thm:parseval-root-finite-coefficient-ledger}.
 For the successor window, use the same ledger clause together with \autoref{thm:parseval-fourier-coefficient-energy-row}. Adding one displayed coefficient extends the finite Fourier row before the pairing, integral, readback, tolerance, and Real-seal rows are replayed.
 
 The induction is confined by \autoref{thm:parseval-root-fourier-integral-energy-exhaustion}. Since each step remains inside the displayed carrier route, the induction cannot produce countable summation, Hilbert completeness, quotient coefficient equality, or host function equality.
+\end{proof}
+
+\begin{theorem}[Parseval finite energy induction readback]
+\label{thm:parseval-finite-energy-induction-readback}
+Every accepted $\ParsevalUp$ packet whose finite partial-sum induction row is consumed must expose the Fourier coefficient window, $\SOneUp$ source row, $\InnerProductUp$ pairing row, $\IntegralUp$ energy row, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, $\RealUp$ seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\ParsevalUp}$ row before the energy identity can be read. In carrier notation for $K=(F,S,I,E,R,D,L,H,C,P,N)$, the readback route is exactly
+$$
+F,S,I,E,R,D,L,H,C,P,N .
+$$
+No consumer may replace this finite induction route by Plancherel, inversion, completed Hilbert norms, quotient coefficient equality, host function equality, infinite coefficient summation, or an ambient completed norm.
+\end{theorem}
+\begin{proof}
+Start with the root energy decomposition of \autoref{thm:parseval-root-energy-decomposition}. It identifies the readable energy surface with the displayed carrier rows $F,S,I,E,R,D,L,H,C,P,N$ and refuses every analytic endpoint not present in the carrier.
+
+Next use the Fourier coefficient energy row of \autoref{thm:parseval-fourier-coefficient-energy-row}. It exposes the finite coefficient window, circle-source row, pairing row, integral-energy observations, regular readback, dyadic tolerances, and Real seal before any downstream energy comparison is exported.
+
+Now apply finite partial-sum induction, \autoref{thm:parseval-finite-partial-sum-induction}. The base and successor inspections stay inside the same finite Fourier window row and are transported only through the displayed structural rows.
+
+Finally use the Real-seal refusal boundary of \autoref{thm:parseval-real-seal-refusal-boundary}. Since the terminal seal exports only the finite comparison over the displayed rows, the consumed induction row cannot be read as Plancherel, inversion, Hilbert completion, quotient coefficient equality, host function equality, infinite summation, or completed ambient norm data.
 \end{proof}
 
 \begin{theorem}[Parseval root energy decomposition]
