@@ -152,6 +152,20 @@ Finally use \autoref{thm:regular-cauchy-reciprocal-tail-stability}. Since the la
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyReciprocalUp.TasteGate.RegularCauchyReciprocalWindowComposition}
 
+\begin{theorem}[Regular Cauchy reciprocal window denominator stability]
+\label{thm:regularcauchyreciprocal-window-denominator-stability}
+Let $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ be an accepted $\RegularCauchyReciprocalUp$ carrier. Suppose a later finite $\StreamNameUp$ window preserves the displayed rows $Q,A,M,W,D$ and reads the same $\CauchyInverseBudgetUp$ row $B$. Then the denominator apartness witness recorded by $A$ remains visible before the reciprocal readback row $T$ and the terminal $\RealUp$ seal row $E$ are consumed. In particular, the later window cannot treat $B,T,E$ as a hidden choice of denominator data.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:regular-cauchy-reciprocal-denominator-apartness}. The dyadic reciprocal row $D$ and budget row $B$ are admissible only after $A$ displays the positive lower-bound witness for the inspected regular tail.
+
+Use \autoref{thm:regular-cauchy-reciprocal-nonzero-denominator-window}. Since the later window preserves $Q,A,M,W,D$, it preserves exactly the nonzero-denominator surface that must be present before the same $\CauchyInverseBudgetUp$ row is read.
+
+Apply \autoref{thm:regular-cauchy-reciprocal-tail-stability}. Preserving the source, apartness, modulus, window, and dyadic rows transports the same readback row $T$ and terminal seal row $E$ through the carrier rows $H,C,P,N$.
+
+Finally use \autoref{thm:regular-cauchy-reciprocal-window-composition}. The composed route reaches $T$ and then $E$ only through the displayed chain $Q,A,M,W,D,B,T,E$, so the denominator apartness witness remains visible throughout the reciprocal handoff rather than becoming hidden choice data.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy reciprocal Real seal handoff]
 \label{thm:regular-cauchy-reciprocal-real-seal-handoff}
 Let $R=(Q,A,M,W,D,B,T,E,H,C,P,N)$ be an accepted $\RegularCauchyReciprocalUp$ carrier. Any reciprocal consumer that is offered the terminal $\RealUp$ seal row $E$ must first be offered the $\RegSeqRatUp$ source row $Q$, apartness row $A$, modulus row $M$, finite $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ ledger $D$, $\CauchyInverseBudgetUp$ row $B$, and reciprocal readback row $T$. Thus the handoff from finite reciprocal-read data to the L10 $\RealUp$ boundary is the displayed route
@@ -160,6 +174,7 @@ Q\longmapsto A\longmapsto M\longmapsto W\longmapsto D\longmapsto B\longmapsto T\
 $$
 and not a direct operation from arbitrary $\RealUp$ names to reciprocals.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyReciprocalUp.RegularCauchyReciprocalRealSealHandoff}
 \begin{proof}
 Apply \autoref{thm:regular-cauchy-reciprocal-apartness-window}. It places the apartness row $A$ before every reciprocal-facing coordinate, so a consumer cannot treat the terminal seal as available before the denominator witness is displayed.
 
