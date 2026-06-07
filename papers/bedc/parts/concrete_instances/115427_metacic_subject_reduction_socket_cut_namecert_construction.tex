@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICSubjectReductionSocketCutUp$}
+\label{ch:concrete-instances-metacic-subject-reduction-socket-cut-namecert}
+\origin{human}
+
+Following the standard subject-reduction proof-obligation discipline for dependent type theory, the $\MetaCICSubjectReductionSocketCutUp$ packet records the exact finite cut separating the parameterised MetaCIC subject-reduction theorem from the blocked closed theorem. It sits beside the four-row discharge socket of \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}, the obligation packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}, the trace packet of \autoref{ch:concrete-instances-metacic-subject-reduction-trace-namecert}, and the audit map of \autoref{ch:metacic-subject-reduction-obstruction}. The packet names the four discharge sockets, the parameterised theorem row, the checked obstruction row, transport, replay, provenance, and local naming; it does not close subject reduction.
+
+\begin{definition}[MetaCIC subject-reduction socket-cut carrier]
+\label{def:metacic-subject-reduction-socket-cut-carrier}
+A $\MetaCICSubjectReductionSocketCutUp$ carrier is a finite $\BHist$ packet
+$$
+S=(B,A,L,P,T,O,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the beta-substitution socket, carrying $\mathrm{BetaSubstitutionPreservation}$ for the beta-redex case.
+\item $A$ is the application-argument socket, carrying $\mathrm{AppArgTypeStable}$ for argument congruence.
+\item $L$ is the lambda-domain socket, carrying $\mathrm{LamDomainSubjectReduction}$ for lambda-domain reduction.
+\item $P$ is the Pi-domain socket, carrying $\mathrm{PiDomainSubjectReduction}$ for Pi-domain reduction.
+\item $T$ is the parameterised $\mathsf{BEDC.MetaCIC.subject\_reduction}$ row, readable only as consuming the four sockets $B,A,L,P$.
+\item $O$ is the checked obstruction row $\mathsf{BEDC.MetaCIC.closed\_consistency\_reduction\_obstruction\_not\_available}$.
+\item $H$ records componentwise $\hsame$ transport for the four sockets, the parameterised row, the obstruction row, provenance, replay, and local naming.
+\item $C$ records displayed $\Cont$ replay from socket reads to the parameterised row and from closed-theorem requests to the obstruction row.
+\item $G$ is the $\Pkg$ provenance row over MetaCIC typed reduction, $\SubjectReductionUp$, the discharge socket, the obstruction audit, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICSubjectReductionSocketCutUp}$ row.
+\end{enumerate}
+The carrier contains no unparameterised closed subject-reduction theorem, no host conversion rule, no erased derivation semantics, no quotient equality of MetaCIC terms, and no hidden normalization principle.
+\end{definition}
+
+\begin{theorem}[MetaCIC subject-reduction socket-cut obligations]
+\label{thm:metacic-subject-reduction-socket-cut-namecert-obligations}
+For an accepted $\MetaCICSubjectReductionSocketCutUp$ carrier $S=(B,A,L,P,T,O,H,C,G,N)$, the local $\NameCert_{\MetaCICSubjectReductionSocketCutUp}$ surface consists exactly of carrier admission for the four discharge sockets, parameterised-row exactness for $T$, obstruction-row exactness for $O$, componentwise transport through $H$, displayed replay through $C$, provenance through $G$, and local naming through $N$. A consumer may read $T$ only after the four sockets $B,A,L,P$ have all been displayed; a consumer asking for the closed theorem is routed to $O$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The four visible discharge sockets are $B,A,L,P$, and the only parameterised subject-reduction row is $T$.
+
+Read the socket discipline through \autoref{ch:concrete-instances-subject-reduction-discharge-socket-namecert}. That packet already separates the four inputs consumed by parameterised subject reduction from the closed obstruction boundary.
+
+Now inspect $T$ and $O$. The row $T$ records the checked parameterised theorem as a consumer of all four sockets, while $O$ records the checked obstruction described in \autoref{prin:metacic-closed-subject-reduction-not-available}. These rows are different coordinates, so the obstruction row cannot be used as a substitute proof of closed subject reduction.
+
+Finally $H,C,G,N$ transport, replay, source, and name the same cut. Since no coordinate stores host conversion, erased derivation semantics, quotient equality, global normalization, or an unparameterised closed theorem, the listed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[MetaCIC subject-reduction socket-cut non-escape]
+\label{thm:metacic-subject-reduction-socket-cut-nonescape}
+Every downstream consumer of an accepted $\MetaCICSubjectReductionSocketCutUp$ packet factors through
+$$
+B,A,L,P,T,O,H,C,G,N.
+$$
+The consumer receives the four discharge sockets, the parameterised theorem row, the checked obstruction row, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. It cannot export a closed subject-reduction theorem, host conversion, erased derivation semantics, quotient equality of MetaCIC terms, or an unrecorded MetaCIC premise.
+\end{theorem}
+\begin{proof}
+Start from the row inventory of \autoref{def:metacic-subject-reduction-socket-cut-carrier}. The packet has exactly ten displayed coordinates, so every public read is routed through $B,A,L,P,T,O,H,C,G,N$.
+
+For a parameterised subject-reduction read, apply \autoref{thm:metacic-subject-reduction-socket-cut-namecert-obligations}. The route reaches $T$ only after the beta, application-argument, lambda-domain, and Pi-domain sockets have all been exposed and transported.
+
+For a closed subject-reduction request, the same theorem routes the consumer to $O$. This row is the checked obstruction boundary, not a closed preservation proof, and its replay through $C$ records refusal rather than theorem export.
+
+The provenance row $G$ cites only the displayed MetaCIC audit and socket surfaces. With no carrier coordinate for host conversion, erased derivation semantics, quotient equality, global normalization, or hidden premises, none of those objects can be read from the packet.
+\end{proof}
+
+\closureat{MetaCICSubjectReductionSocketCutUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICSubjectReductionSocketCutUp}
+  \constructivestory{A $\MetaCICSubjectReductionSocketCutUp$ packet is generated from the four MetaCIC subject-reduction discharge sockets, the parameterised subject-reduction theorem row, the checked obstruction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-subject-reduction-socket-cut-carrier}, \autoref{thm:metacic-subject-reduction-socket-cut-namecert-obligations}, and \autoref{thm:metacic-subject-reduction-socket-cut-nonescape} seed the finite socket-cut packet separating parameterised subject reduction from the blocked closed theorem.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove beta substitution, application-argument stability, lambda-domain preservation, Pi-domain preservation, closed subject reduction, host conversion, global normalization, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-socket exposure, parameterised-row exactness, obstruction-row exactness, transport replay, provenance accounting, and non-escape for BEDC.Derived.MetaCICSubjectReductionSocketCutUp.}
+\end{closurestatus}

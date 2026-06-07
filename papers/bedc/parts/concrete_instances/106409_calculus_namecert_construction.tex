@@ -309,19 +309,7 @@ For derivative reads, apply \autoref{thm:calculus-root-unblock-continuous-deriva
 The common factorization is then exactly the one recorded by \autoref{thm:calculus-regseqrat-dyadic-error-route}, \autoref{thm:calculus-limit-real-seal-obligation}, and \autoref{thm:calculus-root-real-seal-nonescape}. The nonescape statements \autoref{thm:calculus-local-operation-nonescape} and \autoref{thm:calculus-root-package-nonescape} exclude every listed host replacement.
 \end{proof}
 
-\begin{theorem}[Calculus local operation nonescape]
-\label{thm:calculus-local-operation-nonescape}
-Every public $\CalculusUp$ local operation read is confined to the displayed $\BHist$ rows for source graph data or finite sums, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance ledger, terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert_{\CalculusUp}$ naming. No derivative, integral, or limit conclusion may replace those rows by a host function space, host limit operator, quotient equality of functions, selected derivative operator, selected antiderivative, or ambient Real completeness theorem.
-\end{theorem}
-\begin{proof}
-Read the carrier inventory from \autoref{def:calculus-carrier}. The local operations are stored only in the derivative, integral, and limit rows, and all Real-facing reads pass through the regular-rational and dyadic rows before the terminal seal is consumed.
-
-Apply \autoref{thm:calculus-root-continuousmap-handoff} to keep every operation behind its graph-and-replay row. Apply \autoref{thm:calculus-root-derivative-integral-boundary} and \autoref{thm:calculus-riemann-derivative-separation} to keep derivative and integral sources distinct.
-
-The Real-facing boundary is controlled by \autoref{thm:calculus-root-real-seal-nonescape} together with \autoref{thm:calculus-real-seal-error-budget}. The source-window requirement is exactly \autoref{thm:calculus-source-window-obligation}.
-
-Thus each operation is exported only through the displayed BEDC packet. The excluded host and quotient objects are absent from the carrier, so there is no accepted escape route outside the finite local operation surface.
-\end{proof}
+\input{parts/concrete_instances/calculus/local_operation_nonescape}
 
 \begin{definition}[Calculus carrier]
 \label{def:calculus-carrier}
@@ -462,6 +450,7 @@ Use \autoref{thm:calculus-regseqrat-readback-root-obligation}. Every real-facing
 \label{thm:calculus-derivative-integral-source-separation}
 For every accepted $\CalculusUp$ carrier $K=(R,L,C,D,I,Q,H,T,P,N)$, the derivative row $D$ and integral row $I$ remain separated even when they share the source rows $R,L,C,Q,H,T,P,N$. A derivative consumer must read local difference-quotient and remainder data from $D$, while an integral consumer must read partition, tagged-sum, and endpoint handoff data from $I$; no shared support row identifies the two sources or exports a host fundamental theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusDerivativeIntegralSourceSeparation}
 \begin{proof}
 Project \autoref{def:calculus-carrier}. The derivative source is the coordinate $D$, and the integral source is the coordinate $I$.
 
@@ -528,6 +517,7 @@ Finally read $H,T,P,N$. These rows give componentwise transport, displayed conti
 \label{thm:calculus-root-chain-rule-window-obligation}
 For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,R,Q,Y,H,T,P,N)$, a chain-rule-shaped read for composed local maps must display the outer and inner $\ContinuousMapUp$ graph windows in $C$, the two $\DerivativeUp$ difference-quotient windows in $D$, the $\LimitUp$ route $L$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance ledger $Y$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and local $\NameCert_{\CalculusUp}$ naming $N$ before the terminal $\RealUp$ boundary $R$ is consumed. The read is a finite window-composition obligation, not a host chain-rule theorem over an ambient function space.
 \end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusRootChainRuleWindowObligation}
 \begin{proof}
 Project the root carrier of \autoref{def:calculus-root-carrier}. The graph data for a composed read can only be displayed through $C$, while derivative data can only be read through $D$.
 
@@ -731,12 +721,4 @@ The structural rows $H,T,P,N$ preserve the same finite packet under $\hsame$, $\
 
 \closureat{CalculusUp}{seedStr}
 
-\begin{closurestatus}{\CalculusUp}
-  \constructivestory{A $\CalculusUp$ packet is generated from Real, Limit, ContinuousMap, Derivative, Integral, RegSeqRat, componentwise hsame, displayed Cont, Pkg, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:calculus-carrier} and \autoref{thm:calculus-namecert-obligations} seed the finite calculus root over real, limit, continuous-map, derivative, integral, regular-rational, transport, replay, provenance, and local naming rows.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close Lean verification, bridge checking, a host function space, global differentiability, an ambient integration operator, quotient function equality, or real completeness beyond the displayed Real row.}
-  \upgradepath{Obligation closure requires checked carrier admission, limit readback, continuous-map replay, derivative quotient routing, integral finite-sum handoff, regular-rational readback, transport, replay, provenance, and local naming for BEDC.Derived.CalculusUp.}
-\end{closurestatus}
+\input{parts/concrete_instances/calculus/closure_status.tex}
