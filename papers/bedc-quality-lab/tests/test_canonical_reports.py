@@ -1646,6 +1646,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "component_descriptors",
         "new_model_hardgates_registry",
         "dgt_hardgate_slots",
+        "mechanism_certificate",
         "training_replay_ref",
         "public_index_pointers",
         "not_claimed",
@@ -1687,6 +1688,9 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "hardgates_pointer": canonical.DGT_TRAINING_HARDGATES_POINTER,
         "slot_state": "present-but-fail-closed",
     }
+    assert payload["mechanism_certificate"]["owner_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate"
+    )
 
 
 def test_discovery_gated_transformer_hardgate_slots_are_present_fail_closed():
@@ -1749,6 +1753,8 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "not_claimed_pointer",
         "downstream_scope_pointer",
         "dgt_hardgate_slot_pointers",
+        "mechanism_certificate_pointer",
+        "mechanism_hardgate_slot_pointers",
     }
     assert section["status"] == "present-but-fail-closed"
     assert section["model_id_pointer"] == "reports/canonical/discovery_gated_transformer.json:$.model_id"
@@ -1771,6 +1777,16 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         f"DGT-HG{index}": f"reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.DGT-HG{index}"
         for index in range(1, 13)
     }
+    assert section["mechanism_certificate_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate"
+    )
+    assert section["mechanism_hardgate_slot_pointers"] == {
+        f"DGT-MECH-HG{index}": (
+            f"reports/canonical/discovery_gated_transformer.json:"
+            f"$.mechanism_certificate.mechanism_hardgate_slots.DGT-MECH-HG{index}"
+        )
+        for index in range(1, 7)
+    }
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in (
         "requirement_summary",
@@ -1779,6 +1795,8 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "control_pointer",
         "ablation_pointer",
         "failure_mode",
+        "evidence_pointers",
+        "certificate_scope",
         "terminal_verdict",
         "raw_metrics",
         "candidate_evidence_body",
@@ -1808,6 +1826,7 @@ def test_discovery_gated_transformer_forbidden_surfaces_absent():
         "raw_metrics",
         "candidate_evidence_body",
         "global superiority",
+        "D5-M",
     ):
         assert forbidden.lower() not in serialized.lower()
         assert forbidden.lower() not in markdown.lower()
@@ -1819,9 +1838,13 @@ def test_discovery_gated_transformer_forbidden_surfaces_absent():
         lambda item: item["not_claimed"].append(".refactor-loop directive"),
         lambda item: item["not_claimed"].append("DGT-v0 roadmap"),
         lambda item: item["not_claimed"].append("global superiority claim"),
+        lambda item: item["mechanism_certificate"].update({"terminal_verdict": "accepted"}),
+        lambda item: item["mechanism_certificate"]["certificate_scope"].__add__(" D5-M promotion"),
     ):
         mutated = json.loads(json.dumps(payload))
-        mutate(mutated)
+        result = mutate(mutated)
+        if isinstance(result, str):
+            mutated["mechanism_certificate"]["certificate_scope"] = result
         with pytest.raises(ValueError):
             canonical._validate_discovery_gated_transformer_payload(mutated)
 
@@ -1868,7 +1891,9 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
         section["training_hardgates_pointer"],
         section["not_claimed_pointer"],
         section["downstream_scope_pointer"],
+        section["mechanism_certificate_pointer"],
         *section["dgt_hardgate_slot_pointers"].values(),
+        *section["mechanism_hardgate_slot_pointers"].values(),
     ]
     for artifact_pointer in pointers:
         assert artifact_pointer.startswith(canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":")
@@ -1912,6 +1937,193 @@ def test_discovery_gated_transformer_written_json_round_trips_validator(tmp_path
     owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
 
     canonical._validate_discovery_gated_transformer_payload(owner)
+
+
+def test_discovery_gated_transformer_mechanism_certificate_owner_path():
+    root = Path(__file__).resolve().parents[1]
+    owner = json.loads((root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    certificate = owner["mechanism_certificate"]
+    section = index["discovery_gated_transformer"]
+
+    assert certificate["schema_id"] == canonical.DGT_MECHANISM_CERTIFICATE_SCHEMA_ID
+    assert certificate["owner_pointer"] == "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate"
+    assert section["mechanism_certificate_pointer"] == certificate["owner_pointer"]
+    assert not list(root.glob("**/*discovery_gated_transformer_mechanism*"))
+    assert "dgt_mechanism_namecert" not in json.dumps(index, sort_keys=True).lower()
+
+
+def test_dgt_mechanism_slots_exact_set_and_round_trip():
+    root = Path(__file__).resolve().parents[1]
+    owner = json.loads((root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    canonical._validate_discovery_gated_transformer_payload(owner)
+    certificate = owner["mechanism_certificate"]
+    slots = certificate["mechanism_hardgate_slots"]
+
+    assert set(slots) == {f"DGT-MECH-HG{index}" for index in range(1, 7)}
+    assert certificate["status"] == "present-but-fail-closed"
+    assert certificate["overall_state"] == "present-but-fail-closed"
+    for gate_id, row in slots.items():
+        assert row["gate_id"] == gate_id
+        assert row["slot_state"] == "present-but-fail-closed"
+        assert row["evidence_pointer_state"] in {
+            "resolves",
+            "missing-artifact",
+            "missing-pointer",
+            "present-but-fail-closed",
+        }
+
+
+def test_dgt_mechanism_public_index_is_pointer_only():
+    owner = canonical._build_discovery_gated_transformer_payload(generated_at="2030-01-01T00:00:00+00:00")
+    section = canonical._discovery_gated_transformer_index_section(owner)
+    mechanism_keys = {key for key in section if key.startswith("mechanism")}
+
+    assert mechanism_keys == {"mechanism_certificate_pointer", "mechanism_hardgate_slot_pointers"}
+    assert section["mechanism_certificate_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate"
+    )
+    assert set(section["mechanism_hardgate_slot_pointers"]) == {f"DGT-MECH-HG{index}" for index in range(1, 7)}
+    mechanism_surface = {
+        "mechanism_certificate_pointer": section["mechanism_certificate_pointer"],
+        "mechanism_hardgate_slot_pointers": section["mechanism_hardgate_slot_pointers"],
+    }
+    lowered = json.dumps(mechanism_surface, sort_keys=True).lower()
+    for forbidden in (
+        "evidence_pointers",
+        "requirement_summary",
+        "fail_closed_reason",
+        "certificate_scope",
+        "not_claimed",
+        "terminal_verdict",
+        "global superiority",
+        "copied evidence body",
+    ):
+        assert forbidden not in lowered
+
+
+def test_dgt_mechanism_required_pointers_resolve_or_fail_closed():
+    root = Path(__file__).resolve().parents[1]
+    owner = json.loads((root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    certificate = owner["mechanism_certificate"]
+    failures = []
+
+    for gate_id, row in certificate["mechanism_hardgate_slots"].items():
+        for key in ("evidence_pointer", "scope_pointer", "not_claimed_pointer"):
+            pointer_cell = row[key]
+            split = split_artifact_pointer(pointer_cell)
+            assert split is not None
+            artifact, pointer = split
+            artifact_path = root / artifact
+            resolved = None
+            if artifact_path.exists():
+                payload = json.loads(artifact_path.read_text(encoding="utf-8"))
+                resolved = payload if pointer == "$" else pointer_value(payload, pointer)
+            if resolved is None:
+                if row["slot_state"] != "present-but-fail-closed" or not row["fail_closed_reason"]:
+                    failures.append(f"{gate_id}.{key} -> {pointer_cell}")
+            else:
+                assert row["slot_state"] == "present-but-fail-closed"
+
+    assert failures == []
+
+
+def test_dgt_mechanism_shortcut_exclusion_pointer_is_independent():
+    root = Path(__file__).resolve().parents[1]
+    owner = json.loads((root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    canonical._validate_discovery_gated_transformer_payload(owner)
+
+    mutated = json.loads(json.dumps(owner))
+    shortcut = mutated["mechanism_certificate"]["evidence_pointers"]["shortcut_exclusion"]
+    shortcut["shortcut_exclusion_pointer"] = shortcut["positive_mechanism_pointer"]
+
+    with pytest.raises(ValueError, match="shortcut pointer reuses positive mechanism pointer"):
+        canonical._validate_discovery_gated_transformer_payload(mutated)
+
+
+def test_dgt_mechanism_forbidden_surfaces_absent():
+    root = Path(__file__).resolve().parents[1]
+    forbidden_paths = []
+    for path in root.rglob("*"):
+        rel = path.relative_to(root).as_posix()
+        lowered = rel.lower()
+        if any(
+            token in lowered
+            for token in (
+                "discovery_gated_transformer_mechanism",
+                "run_discovery_gated_transformer_mechanism_namecert.py",
+                "dgt_mechanism_namecert.json",
+            )
+        ):
+            forbidden_paths.append(rel)
+    assert forbidden_paths == []
+
+    owner = json.loads((root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    mechanism_surface = {
+        "owner": owner["mechanism_certificate"],
+        "index": {
+            "mechanism_certificate_pointer": index["discovery_gated_transformer"]["mechanism_certificate_pointer"],
+            "mechanism_hardgate_slot_pointers": index["discovery_gated_transformer"][
+                "mechanism_hardgate_slot_pointers"
+            ],
+        },
+    }
+    lowered = json.dumps(mechanism_surface, sort_keys=True).lower()
+    for forbidden in (
+        ".refactor-loop",
+        "/users/auric",
+        "issue-802",
+        "issue #802",
+        "route-a",
+        "route-b",
+        "route-c",
+        "roadmap",
+        "dgt-v0",
+        "terminal_verdict",
+        "backend verdict",
+        "claimverdicts",
+    ):
+        assert forbidden not in lowered
+
+
+def test_dgt_mechanism_regen_is_idempotent(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    real_index = canonical._index
+    real_render_index_markdown = canonical._render_index_markdown
+    _patch_lightweight_run_reports(monkeypatch)
+    monkeypatch.setattr(canonical, "_index", real_index)
+    monkeypatch.setattr(canonical, "_render_index_markdown", real_render_index_markdown)
+    monkeypatch.setattr(
+        canonical,
+        "_build_claim_capsule",
+        lambda generated_at: {
+            "claim_id": "claim:dimension-mismatch-debt-transfer",
+            "status": "complete",
+            "effective_level": "DN",
+            "terminal_verdict": "negative_discovery",
+        },
+    )
+    monkeypatch.setattr(
+        canonical,
+        "_build_formal_hardening_payload",
+        lambda generated_at=None: {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
+    )
+    monkeypatch.setattr(canonical, "_run_producer", lambda _spec: None)
+
+    canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    first_owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    first_index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+    second_owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    second_index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+
+    assert first_owner == second_owner
+    assert first_index["discovery_gated_transformer"] == second_index["discovery_gated_transformer"]
+    assert set(second_owner["mechanism_certificate"]["mechanism_hardgate_slots"]) == {
+        f"DGT-MECH-HG{index}" for index in range(1, 7)
+    }
 
 
 def test_discovery_gated_transformer_slot_artifact_pointers_resolve_when_present():

@@ -36,6 +36,20 @@
 | `DGT-HG12` | `$.component_descriptors.output_bundle` | `$.downstream_scope` | `None` | `None` | `reports/canonical/new_model_hardgates.json:$.gates.NEW-MODEL-HG20` | `present-but-fail-closed` | `missing-terminal-claim-pointer` |
 
 - Overall state: `present-but-fail-closed`
+
+## Mechanism Certificate
+
+| gate | state | evidence pointer | pointer state | scope | not claimed |
+| --- | --- | --- | --- | --- | --- |
+| `DGT-MECH-HG1` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
+| `DGT-MECH-HG2` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.evidence_pointers.interventions` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
+| `DGT-MECH-HG3` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.evidence_pointers.component_ablations` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
+| `DGT-MECH-HG4` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.evidence_pointers.shortcut_exclusion` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
+| `DGT-MECH-HG5` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
+| `DGT-MECH-HG6` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.certificate_scope` | `present-but-fail-closed` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope` | `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed` |
+
+- Mechanism certificate: `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate`
+- Mechanism overall state: `present-but-fail-closed`
 - Training replay: `reports/runs/discovery_gated_transformer/training-replay/training_replay/training_replay.json:$`
 - Training hardgates: `reports/runs/discovery_gated_transformer/training-replay/training_replay/training_replay.json:$.hardgates`
 - Downstream scope: `$.downstream_scope`
