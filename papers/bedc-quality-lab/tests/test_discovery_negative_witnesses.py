@@ -88,6 +88,7 @@ def test_each_witness_has_bedc_gap_contract():
     witnesses = payload["witnesses"]
 
     assert set(EXPECTED_GAP_FIELDS) == set(generator.EXPECTED_KINDS)
+    assert canonical.NEGATIVE_WITNESSES_REQUIRED_FIELDS == generator.REQUIRED_GAP_FIELDS
     assert {row["kind"]: row["bedc_gap_field"] for row in witnesses} == EXPECTED_GAP_FIELDS
     for row in witnesses:
         contract = generator.WITNESS_GAP_CONTRACTS[row["kind"]]
@@ -129,8 +130,8 @@ def test_gap_witness_demotions_match_gate_replay(decisions_by_kind):
         projected = assign_discovery_level(decision)
         assert row["terminal_verdict"] == decision["verdict"]
         assert row["discovery_level"] == projected.discovery_level
-        assert row["demotion"] == _expected_demotion(row)
-        assert row["demotion"] == generator.WITNESS_GAP_CONTRACTS[kind].demotion
+        assert row["demotion_rule"] == _expected_demotion(row)
+        assert row["demotion_rule"] == generator.WITNESS_GAP_CONTRACTS[kind].demotion_rule
         assert projected.discovery_level not in POSITIVE_DISCOVERY_LEVELS
 
 
@@ -146,7 +147,7 @@ def test_cost_protocol_missing_and_scorecard_not_ready_never_reach_positive_leve
 
 def test_gap_witness_regression_pointers_resolve_to_behavior_tests():
     payload = _checked_in_payload()
-    nodeids = [row["regression_test"] for row in payload["witnesses"]]
+    nodeids = [row["regression_test_pointer"] for row in payload["witnesses"]]
 
     assert len(nodeids) == len(set(nodeids))
     for nodeid in nodeids:

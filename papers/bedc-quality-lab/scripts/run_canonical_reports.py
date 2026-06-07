@@ -59,6 +59,13 @@ DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_ARTIFACT_ID = "bedc-quality-lab:dimension
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
 NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
+NEGATIVE_WITNESSES_REQUIRED_FIELDS = (
+    "bedc_gap_field",
+    "violated_principle",
+    "required_ledger_row",
+    "demotion_rule",
+    "regression_test_pointer",
+)
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
 CLAIM_GRAPH_JSON_ARTIFACT = "reports/canonical/claim_graph.json"

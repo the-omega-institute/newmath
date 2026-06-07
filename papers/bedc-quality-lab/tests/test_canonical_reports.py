@@ -2017,6 +2017,13 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "schema_role": "bedc-gap-witness-ledger",
         "witness_rows_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses",
     }
+    assert canonical.NEGATIVE_WITNESSES_REQUIRED_FIELDS == (
+        "bedc_gap_field",
+        "violated_principle",
+        "required_ledger_row",
+        "demotion_rule",
+        "regression_test_pointer",
+    )
     assert payload["claim_verdicts"]["status"] == "pointer-only"
     assert payload["claim_verdicts"]["artifact_id"] == "bedc-quality-lab:claim-verdicts"
     assert payload["claim_verdicts"]["jsonl_artifact"] == "reports/canonical/claim_verdicts.jsonl"
