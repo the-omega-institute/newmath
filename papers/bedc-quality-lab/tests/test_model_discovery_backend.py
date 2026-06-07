@@ -1,5 +1,7 @@
 import json
 
+import pytest
+
 from bedc_quality_lab.backends import model_discovery
 
 
@@ -28,3 +30,19 @@ def test_dgt_projection_metadata_excludes_copied_measurements():
     ):
         assert forbidden not in serialized
     model_discovery.assert_pointer_only(metadata)
+
+
+def test_dgt_refs_reject_copied_measurement_field():
+    refs = model_discovery.discovery_gated_transformer_refs()
+    refs["accuracy"] = "reports/canonical/discovery_gated_transformer.json:$.classifier_surface_delta"
+
+    with pytest.raises(ValueError, match="copied field"):
+        model_discovery.assert_pointer_only(refs)
+
+
+def test_dgt_refs_reject_raw_positive_claim_prose():
+    refs = model_discovery.discovery_gated_transformer_refs()
+    refs["claim_text_pointer"] = "raw positive claim prose copied into the backend refs"
+
+    with pytest.raises(ValueError, match="raw positive claim prose"):
+        model_discovery.assert_pointer_only(refs)

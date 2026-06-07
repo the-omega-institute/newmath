@@ -1,8 +1,16 @@
 import json
 
+import pytest
+
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_gated_transformer as dgt
+
+
+def _validation_fixture():
+    sidecar = canonical._build_new_model_hardgates_payload(generated_at="fixture-time")
+    payload = dgt.build_payload(generated_at="fixture-time", sidecar=sidecar)
+    return json.loads(json.dumps(sidecar)), json.loads(json.dumps(payload))
 
 
 def test_dgt_replay_is_deterministic_and_loss_decreases():
@@ -34,6 +42,48 @@ def test_dgt_validator_resolves_all_gate_pointers(tmp_path):
     dgt.write_artifacts(payload, root=tmp_path)
     canonical._write_json_atomic(tmp_path / dgt.CANONICAL_JSON_ARTIFACT, payload)
     assert resolve_artifact_pointer(tmp_path, payload["claim_capsule_ref"]["artifact"] + ":$") is not None
+
+
+@pytest.mark.parametrize(
+    ("mutate", "expected_field"),
+    [
+        (
+            lambda sidecar, payload: sidecar["gates"].pop("NEW-MODEL-HG11"),
+            "sidecar_pointer_resolves",
+        ),
+        (
+            lambda sidecar, payload: payload["hardgate_instances"].pop("NEW-MODEL-HG11"),
+            "candidate_pointer_resolves",
+        ),
+        (
+            lambda sidecar, payload: payload["hardgate_instances"]["NEW-MODEL-HG11"].update(
+                {"evidence_pointer": f"{dgt.CANONICAL_JSON_ARTIFACT}:$.missing_evidence_cell"}
+            ),
+            "evidence_pointer_resolves",
+        ),
+        (
+            lambda sidecar, payload: payload["hardgate_instances"]["NEW-MODEL-HG11"].update(
+                {"not_claimed_pointer": f"{dgt.CANONICAL_JSON_ARTIFACT}:$.missing_not_claimed_cell"}
+            ),
+            "not_claimed_pointer_resolves",
+        ),
+    ],
+    ids=[
+        "missing_sidecar_row",
+        "missing_candidate_instance",
+        "unresolved_evidence_pointer",
+        "unresolved_not_claimed_pointer",
+    ],
+)
+def test_dgt_new_model_gate_validation_fails_closed(mutate, expected_field):
+    sidecar, payload = _validation_fixture()
+    mutate(sidecar, payload)
+
+    validation = dgt.validate_dgt_new_model_gates(sidecar, payload)
+    row = validation["gate_rows"]["NEW-MODEL-HG11"]
+
+    assert validation["status"] == "fail"
+    assert row[expected_field] is False
 
 
 def test_dgt_negative_witness_and_forbidden_audit_demote():
