@@ -140,6 +140,18 @@ Next use the handoff and route theorems, \autoref{thm:metacic-parallel-diamond-f
 Finally apply the residual-substitution scope theorem \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope}. Since the local-diamond frontier remains scoped by the residual-substitution boundary and the obstruction row is still visible, the retained handoff cannot be retyped as any of the refused confluence endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond closed-normal join socket]
+\label{thm:metacic-parallel-diamond-frontier-closed-normal-join-socket}
+Any closed-normal join socket consumed by a MetaCIC confluence audit must expose the residual-substitution premise row $P$, critical-pair row $K$, candidate-join row $J$, residual-frontier row $R$, closed-checker seal $S$, closed-normal fragment $C$, bounded-check row $B$, obstruction row $O$, componentwise $\hsame$ support row $H$, displayed $\Cont$ replay row $T$, $\Pkg$ provenance row $G$, and local $\NameCert$ row $N$ before any local join is read. The socket retains the residual-substitution premise and obstruction boundary; it does not claim residual-substitution compatibility or full closed Church--Rosser.
+\end{theorem}
+\begin{proof}
+Start with the obligations and handoff theorems, \autoref{thm:metacic-parallel-diamond-frontier-obligations} and \autoref{thm:metacic-parallel-diamond-frontier-handoff}. They list $P,K,J,R,S,C,B,O,H,T,G,N$ as the confluence-facing packet and require the handoff to stay inside those rows.
+
+Use the route and local-diamond theorems, \autoref{thm:metacic-parallel-diamond-frontier-route} and \autoref{thm:metacic-local-diamond-frontier}. These force any local join to pass through the critical-pair, candidate-join, residual-frontier, closed-checker, closed-normal, bounded-check, obstruction, and structural rows before a confluence audit reads it.
+
+Finally apply residual-substitution scope and premise retention, \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-scope} and \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The premise row $P$ remains visible throughout the closed-normal socket, and $O$ keeps the refused endpoints outside the handoff.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond frontier local-join ledger pullback]
 \label{thm:metacic-parallel-diamond-frontier-local-join-ledger-pullback}
 Let
