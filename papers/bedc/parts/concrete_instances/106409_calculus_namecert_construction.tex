@@ -515,6 +515,7 @@ Finally read $H,T,P,N$. These rows give componentwise transport, displayed conti
 \label{thm:calculus-root-chain-rule-window-obligation}
 For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,R,Q,Y,H,T,P,N)$, a chain-rule-shaped read for composed local maps must display the outer and inner $\ContinuousMapUp$ graph windows in $C$, the two $\DerivativeUp$ difference-quotient windows in $D$, the $\LimitUp$ route $L$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance ledger $Y$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, and local $\NameCert_{\CalculusUp}$ naming $N$ before the terminal $\RealUp$ boundary $R$ is consumed. The read is a finite window-composition obligation, not a host chain-rule theorem over an ambient function space.
 \end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusRootChainRuleWindowObligation}
 \begin{proof}
 Project the root carrier of \autoref{def:calculus-root-carrier}. The graph data for a composed read can only be displayed through $C$, while derivative data can only be read through $D$.
 
@@ -777,12 +778,4 @@ Use \autoref{thm:calculus-root-continuousmap-handoff} and \autoref{thm:calculus-
 
 \closureat{CalculusUp}{seedStr}
 
-\begin{closurestatus}{\CalculusUp}
-  \constructivestory{A $\CalculusUp$ packet is generated from Real, Limit, ContinuousMap, Derivative, Integral, RegSeqRat, componentwise hsame, displayed Cont, Pkg, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:calculus-carrier} and \autoref{thm:calculus-namecert-obligations} seed the finite calculus root over real, limit, continuous-map, derivative, integral, regular-rational, transport, replay, provenance, and local naming rows.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \notclaimed{This chapter does not close Lean verification, bridge checking, a host function space, global differentiability, an ambient integration operator, quotient function equality, or real completeness beyond the displayed Real row.}
-  \upgradepath{Obligation closure requires checked carrier admission, limit readback, continuous-map replay, derivative quotient routing, integral finite-sum handoff, regular-rational readback, transport, replay, provenance, and local naming for BEDC.Derived.CalculusUp.}
-\end{closurestatus}
+\input{parts/concrete_instances/calculus/closure_status.tex}
