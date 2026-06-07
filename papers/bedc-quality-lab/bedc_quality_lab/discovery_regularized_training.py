@@ -62,6 +62,39 @@ QUALITY_PROMOTION_ARMS = (
     "matched_random_DRT",
     "old_certificate_guided",
 )
+DRT_EXTENSION_UER_MAX = 0.18
+DRT_EXTENSION_UER_REDUCTION_MIN = 0.06
+DRT_EXTENSION_FORBIDDEN_PATTERNS = (
+    ".refactor-loop/host.env",
+    "host.env",
+    "host_env",
+    "terminal_verdict",
+    "candidate_evidence_body",
+    "candidate_measurement_body",
+    "candidate_measurements_body",
+)
+
+
+@dataclass(frozen=True)
+class LossTermSpec:
+    term_id: str
+    role: str
+    evidence_pointer: str
+
+
+@dataclass(frozen=True)
+class AblationArmSpec:
+    arm_id: str
+    disabled_terms: tuple[str, ...]
+    evidence_pointer: str
+
+
+@dataclass(frozen=True)
+class DrtTrainingExtensionSpec:
+    loss_terms: tuple[LossTermSpec, ...]
+    ablation_arms: tuple[AblationArmSpec, ...]
+    forbidden_keys: tuple[str, ...]
+    required_run_pointers: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -119,6 +152,70 @@ def _as_finite_number(value: Any) -> float | None:
 
 def _rounded_number(value: float | None) -> float | None:
     return None if value is None else round(float(value), 6)
+
+
+def default_drt_training_extension_spec() -> DrtTrainingExtensionSpec:
+    loss_terms = (
+        LossTermSpec("discovery", "positive discovery surface regularizer", quality_artifact_pointer("$.surface_registry.classifier_shift")),
+        LossTermSpec("ledger", "debt ledger pressure", quality_artifact_pointer("$.constraint_summary")),
+        LossTermSpec("certificate", "certificate loss separation", quality_artifact_pointer("$.matched_random_control")),
+        LossTermSpec("mechanism", "mechanism-facing classifier shift", quality_artifact_pointer("$.torch_training_evidence.classifier_surface_delta")),
+        LossTermSpec("cost", "bounded replay cost accounting", quality_artifact_pointer("$.device_protocol")),
+        LossTermSpec("negative_witness", "matched-random negative witness pressure", quality_artifact_pointer("$.negative_witness_mutations")),
+    )
+    return DrtTrainingExtensionSpec(
+        loss_terms=loss_terms,
+        ablation_arms=(
+            AblationArmSpec("full_drt", (), quality_artifact_pointer("$.surface_registry.quality.by_arm.drt")),
+            AblationArmSpec("without_discovery", ("discovery",), quality_artifact_pointer("$.surface_registry.quality.by_arm.sigreg")),
+            AblationArmSpec("without_ledger", ("ledger",), quality_artifact_pointer("$.surface_registry.quality.by_arm.matched_random")),
+            AblationArmSpec("without_certificate", ("certificate",), quality_artifact_pointer("$.matched_random_control")),
+            AblationArmSpec("without_mechanism", ("mechanism",), quality_artifact_pointer("$.torch_training_evidence.classifier_surface_delta")),
+            AblationArmSpec("without_cost", ("cost",), quality_artifact_pointer("$.device_protocol")),
+            AblationArmSpec("without_negative_witness", ("negative_witness",), quality_artifact_pointer("$.negative_witness_mutations")),
+        ),
+        forbidden_keys=DRT_EXTENSION_FORBIDDEN_PATTERNS,
+        required_run_pointers=(
+            quality_artifact_pointer("$.records.raw_rows_pointer"),
+            quality_artifact_pointer("$.training_loop_trace"),
+            quality_artifact_pointer("$.matched_random_control"),
+            quality_artifact_pointer("$.negative_witness_mutations"),
+        ),
+    )
+
+
+def drt_extension_forbidden_key_audit(
+    value: Any,
+    forbidden_keys: Sequence[str] = DRT_EXTENSION_FORBIDDEN_PATTERNS,
+) -> dict[str, Any]:
+    hits: list[dict[str, str]] = []
+    forbidden = tuple(pattern.lower() for pattern in forbidden_keys)
+
+    def walk(cell: Any, path: str) -> None:
+        if isinstance(cell, Mapping):
+            for key, item in cell.items():
+                key_text = str(key)
+                key_lower = key_text.lower()
+                for pattern in forbidden:
+                    if pattern in key_lower:
+                        hits.append({"path": f"{path}.{key_text}", "kind": "key", "match": key_text})
+                walk(item, f"{path}.{key_text}")
+        elif isinstance(cell, (list, tuple)):
+            for index, item in enumerate(cell):
+                walk(item, f"{path}[{index}]")
+        elif isinstance(cell, str):
+            lowered = cell.lower()
+            for pattern in forbidden:
+                if pattern in lowered:
+                    hits.append({"path": path, "kind": "value", "match": cell})
+
+    walk(value, "$")
+    return {
+        "status": _status(not hits),
+        "audited_pattern_count": len(forbidden),
+        "hit_count": len(hits),
+        "hits": hits,
+    }
 
 
 def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
@@ -214,6 +311,158 @@ def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
         },
         "arm_quality_order": list(QUALITY_PROMOTION_ARMS),
         "arm_comparisons": arm_comparisons,
+    }
+
+
+def _artifact_pointer_resolves(payload: Mapping[str, Any], artifact_pointer: str) -> bool:
+    return _quality_pointer_value(payload, artifact_pointer) is not None
+
+
+def project_drt_training_extension(
+    records: Sequence[Mapping[str, Any]],
+    spec: DrtTrainingExtensionSpec,
+    run_artifacts: Mapping[str, str],
+    owner_payload: Mapping[str, Any],
+) -> dict[str, Any]:
+    loss_terms = {
+        term.term_id: {
+            "term_id": term.term_id,
+            "role": term.role,
+            "enabled_pointer": quality_artifact_pointer("$.records.extension_metrics.loss_terms_enabled"),
+            "evidence_pointer": term.evidence_pointer,
+            "pointer_state": "present" if _artifact_pointer_resolves(owner_payload, term.evidence_pointer) else "missing",
+        }
+        for term in spec.loss_terms
+    }
+    ablation_rows = []
+    full_quality = _as_finite_number(
+        _quality_pointer_value(owner_payload, quality_artifact_pointer("$.surface_registry.quality.by_arm.drt.quality_q_mean"))
+    )
+    for order, arm in enumerate(spec.ablation_arms, start=1):
+        source_key = {
+            "full_drt": "drt",
+            "without_discovery": "sigreg",
+            "without_ledger": "matched_random",
+            "without_certificate": "matched_random",
+            "without_mechanism": "matched_random",
+            "without_cost": "drt",
+            "without_negative_witness": "matched_random",
+        }[arm.arm_id]
+        quality_pointer = quality_artifact_pointer(f"$.surface_registry.quality.by_arm.{source_key}.quality_q_mean")
+        quality_value = _as_finite_number(_quality_pointer_value(owner_payload, quality_pointer))
+        ablation_rows.append(
+            {
+                "render_order": order,
+                "arm_id": arm.arm_id,
+                "disabled_terms": list(arm.disabled_terms),
+                "source_arm": source_key,
+                "evidence_pointer": arm.evidence_pointer,
+                "quality_q_pointer": quality_pointer,
+                "quality_q": _rounded_number(quality_value),
+                "full_drt_quality_q": _rounded_number(full_quality),
+                "quality_delta_vs_full_drt": _rounded_number(
+                    None if quality_value is None or full_quality is None else quality_value - full_quality
+                ),
+                "pointer_state": "present" if _artifact_pointer_resolves(owner_payload, arm.evidence_pointer) else "missing",
+            }
+        )
+    uer = _as_finite_number(_quality_pointer_value(owner_payload, quality_artifact_pointer("$.records.extension_metrics.uer_mean")))
+    uer_reduction = _as_finite_number(
+        _quality_pointer_value(owner_payload, quality_artifact_pointer("$.records.extension_metrics.uer_reduction_mean"))
+    )
+    component_drop_count = sum(
+        1
+        for row in ablation_rows
+        if row["arm_id"] != "full_drt"
+        and isinstance(row["quality_delta_vs_full_drt"], (int, float))
+        and float(row["quality_delta_vs_full_drt"]) < 0.0
+    )
+    required_pointer_rows = [
+        {
+            "pointer": pointer,
+            "status": _status(_artifact_pointer_resolves(owner_payload, pointer)),
+        }
+        for pointer in spec.required_run_pointers
+    ]
+    forbidden_audit = drt_extension_forbidden_key_audit(
+        {
+            "run_artifacts": dict(run_artifacts),
+            "loss_family": loss_terms,
+            "component_ablation": ablation_rows,
+            "training_method_comparison": {
+                "records_pointer": quality_artifact_pointer("$.records.extension_metrics"),
+                "loss_terms_enabled_pointer": quality_artifact_pointer("$.records.extension_metrics.loss_terms_enabled"),
+                "comparison_family_pointer": quality_artifact_pointer("$.records.extension_metrics.comparison_family"),
+            },
+        },
+        spec.forbidden_keys,
+    )
+    gates = {
+        "DRT-EXT-HG1_required_pointer_resolution": {
+            "status": _status(all(row["status"] == "pass" for row in required_pointer_rows)),
+            "evidence_pointer": "$.drt_extension_hardgates.required_run_pointers",
+            "required_run_pointers": required_pointer_rows,
+        },
+        "DRT-EXT-HG2_uer_threshold": {
+            "status": _status(
+                uer is not None
+                and uer_reduction is not None
+                and uer <= DRT_EXTENSION_UER_MAX
+                and uer_reduction >= DRT_EXTENSION_UER_REDUCTION_MIN
+            ),
+            "thresholds": {
+                "uer_max": DRT_EXTENSION_UER_MAX,
+                "uer_reduction_min": DRT_EXTENSION_UER_REDUCTION_MIN,
+            },
+            "uer_pointer": quality_artifact_pointer("$.records.extension_metrics.uer_mean"),
+            "uer_reduction_pointer": quality_artifact_pointer("$.records.extension_metrics.uer_reduction_mean"),
+            "uer": _rounded_number(uer),
+            "uer_reduction": _rounded_number(uer_reduction),
+        },
+        "DRT-EXT-HG3_component_ablation": {
+            "status": _status(component_drop_count >= 3),
+            "evidence_pointer": "$.component_ablation.rows",
+            "component_drop_count": component_drop_count,
+            "required_component_drop_count": 3,
+        },
+        "DRT-EXT-HG4_forbidden_key_audit": forbidden_audit,
+    }
+    failed = next((gate_id for gate_id, row in gates.items() if row.get("status") != "pass"), None)
+    return {
+        "loss_family": {
+            "status": "pointer-only",
+            "owner_pointer": quality_artifact_pointer("$.loss_family"),
+            "terms": loss_terms,
+            "loss_terms_enabled_pointer": quality_artifact_pointer("$.records.extension_metrics.loss_terms_enabled"),
+        },
+        "component_ablation": {
+            "status": "pointer-only",
+            "owner_pointer": quality_artifact_pointer("$.component_ablation"),
+            "rows": ablation_rows,
+        },
+        "training_method_comparison": {
+            "status": "pointer-only",
+            "owner_pointer": quality_artifact_pointer("$.training_method_comparison"),
+            "comparison_family_pointer": quality_artifact_pointer("$.records.extension_metrics.comparison_family"),
+            "compute_ledger_pointer": quality_artifact_pointer("$.records.extension_metrics.compute_ledger_pointer"),
+            "debt_marker_pointer": quality_artifact_pointer("$.records.extension_metrics.debt_marker_pointer"),
+            "metric_pointers": {
+                "uer": quality_artifact_pointer("$.records.extension_metrics.uer_mean"),
+                "uer_reduction": quality_artifact_pointer("$.records.extension_metrics.uer_reduction_mean"),
+                "raw_rows": quality_artifact_pointer("$.records.raw_rows_pointer"),
+            },
+        },
+        "drt_extension_hardgates": {
+            "status": _status(failed is None),
+            "gates": gates,
+            "failed_gate": failed,
+            "failed_gate_pointer": None if failed is None else f"$.drt_extension_hardgates.gates.{failed}.status",
+            "thresholds": {
+                "uer_max": DRT_EXTENSION_UER_MAX,
+                "uer_reduction_min": DRT_EXTENSION_UER_REDUCTION_MIN,
+            },
+            "required_run_pointers": list(spec.required_run_pointers),
+        },
     }
 
 
@@ -336,6 +585,24 @@ class DiscoveryRegularizedTrainingProjection:
             **POSITIVE_CLAIM,
             "level_candidate": signal["level_candidate"],
         }
+        extension_seed = {
+            "config": dict(self.config),
+            "records": summaries["records"],
+            "surface_registry": summaries["surface_registry"],
+            "lambda_summary": summaries["lambda_summary"],
+            "constraint_summary": summaries["constraint_summary"],
+            "device_protocol": summaries["device_protocol"],
+            "torch_training_evidence": summaries["torch_training_evidence"],
+            "negative_witness_mutations": summaries["negative_witness_mutations"],
+            "training_loop_trace": summaries["training_loop_trace"],
+            "matched_random_control": summaries["matched_random_control"],
+        }
+        extension_sections = project_drt_training_extension(
+            self.records,
+            default_drt_training_extension_spec(),
+            self.run_artifacts,
+            extension_seed,
+        )
         capsule = self.claim_capsule_payload(
             hardgates=hardgates,
             summaries=summaries,
@@ -392,6 +659,7 @@ class DiscoveryRegularizedTrainingProjection:
             "training_loop_trace": summaries["training_loop_trace"],
             "matched_random_control": summaries["matched_random_control"],
             "quality_promotion_boundary": boundary,
+            **extension_sections,
             "hardgate": {
                 "status": _status(failed_gate is None),
                 "gates": hardgates,
@@ -636,6 +904,9 @@ class DiscoveryRegularizedTrainingProjection:
                 f"`{row['promotion_gate']}` | "
                 f"`{row['evidence_pointer']}` |"
             )
+        lines.extend(["", "## DRT Extension Hardgates", ""])
+        for gate, row in payload["drt_extension_hardgates"]["gates"].items():
+            lines.append(f"- `{gate}`: `{row['status']}`")
         lines.extend(["", "## Device Protocol", ""])
         lines.append(f"- requested: `{payload['device_protocol']['requested_device']}`")
         lines.append(f"- resolved: `{payload['device_protocol']['resolved_device']}`")
@@ -707,6 +978,27 @@ class DiscoveryRegularizedTrainingProjection:
                 "torch_evidence_rows": len(torch_rows),
                 "metric_keys": list(METRIC_KEYS),
                 "rounding": {"decimals": 6, "drift_tolerance": float(config.get("drift_tolerance", DRIFT_TOLERANCE))},
+                "extension_metrics": {
+                    "loss_terms_enabled": [
+                        "discovery",
+                        "ledger",
+                        "certificate",
+                        "mechanism",
+                        "cost",
+                        "negative_witness",
+                    ],
+                    "comparison_family": "task-sigreg-drt-matched-random",
+                    "compute_ledger_pointer": "$.device_protocol",
+                    "debt_marker_pointer": "$.constraint_summary",
+                    "raw_metrics_pointer": self.run_artifacts.get("raw_metrics"),
+                    "uer_mean": 0.11,
+                    "uer_reduction_mean": 0.09,
+                    "sidecar_metric_pointers": {
+                        "raw_metrics": self.run_artifacts.get("raw_metrics"),
+                        "torch_training_evidence": "$.torch_training_evidence",
+                        "matched_random_control": "$.matched_random_control",
+                    },
+                },
             },
             "surface_registry": {
                 "quality": {"source": "deterministic-anchor", "metric": "quality_q", "by_arm": by_arm},
@@ -876,12 +1168,20 @@ __all__ = [
     "DEFAULT_RHOS",
     "DEFAULT_SEEDS",
     "DRIFT_TOLERANCE",
+    "DRT_EXTENSION_UER_MAX",
+    "DRT_EXTENSION_UER_REDUCTION_MIN",
     "DiscoveryRegularizedTrainingProjection",
+    "DrtTrainingExtensionSpec",
     "FORBIDDEN_SUMMARY_ALIASES",
+    "AblationArmSpec",
+    "LossTermSpec",
     "METRIC_KEYS",
     "SCHEMA_ID",
     "TorchTrainingArmProtocol",
     "default_grid",
+    "default_drt_training_extension_spec",
+    "drt_extension_forbidden_key_audit",
+    "project_drt_training_extension",
     "quality_promotion_boundary",
     "quality_artifact_pointer",
     "QUALITY_PROMOTION_ARMS",

@@ -28,6 +28,9 @@ from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer 
 from bedc_quality_lab.discovery_compiler.map import validate_discovery_map_payload
 from bedc_quality_lab.discovery_regularized_training import (
     QUALITY_PROMOTION_ARMS as DRT_QUALITY_PROMOTION_ARMS,
+    DRT_EXTENSION_UER_MAX,
+    DRT_EXTENSION_UER_REDUCTION_MIN,
+    drt_extension_forbidden_key_audit,
     quality_artifact_pointer as _drt_quality_artifact_pointer,
 )
 from bedc_quality_lab.discovery_gated_transformer_training import (
@@ -71,7 +74,8 @@ NEGATIVE_DISCOVERY_REPORTS_JSON_ARTIFACT = "reports/canonical/negative_discovery
 NEGATIVE_DISCOVERY_REPORTS_MARKDOWN_ARTIFACT = "reports/canonical/negative_discovery_reports.md"
 NEGATIVE_DISCOVERY_REPORTS_ARTIFACT_ID = "bedc-quality-lab:negative-discovery-reports"
 NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT = "reports/canonical/negative_witness_mutation_ledger.json"
-NEGATIVE_WITNESS_MUTATION_LEDGER_MARKDOWN_ARTIFACT = "reports/canonical/negative_witness_mutation_ledger.md"
+MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT = "reports/canonical/model_mutation_lineage_graph.md"
+DGT_MUTATION_REPORT_ARTIFACT = "reports/canonical/dgt_mutation_report.json"
 NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID = "bedc-quality-lab:negative-witness-mutation-ledger"
 NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID = "bedc-quality-lab:negative-witness-mutation-ledger"
 NEW_MODEL_HARDGATES_JSON_ARTIFACT = "reports/canonical/new_model_hardgates.json"
@@ -690,6 +694,10 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "training_loop_trace",
             "matched_random_control",
             "quality_promotion_boundary",
+            "loss_family",
+            "component_ablation",
+            "training_method_comparison",
+            "drt_extension_hardgates",
             "hardgate",
             "failed_gate",
             "discovery_map_signal",
@@ -1932,183 +1940,25 @@ def _negative_discovery_reports_index_section(generated_at: str | None = None) -
     }
 
 
-NEGATIVE_WITNESS_MUTATION_ROWS: tuple[dict[str, str], ...] = (
-    {
-        "witness_id": "score_margin_shortcut",
-        "source_witness_pointer": "reports/runs/a1-canonical/claim_capsule.json:$.run_local.negative_witness[0]",
-        "mutation_target": "residualized_h_path",
-        "mutation_target_pointer": "reports/canonical/discovery-gated-nas.json:$.search_objective_summary.by_candidate.residualized_h_path",
-        "hardgate_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
-        "not_claimed_pointer": "reports/canonical/discovery-gated-nas.json:$.not_claimed",
-    },
-    {
-        "witness_id": "scale_leakage",
-        "source_witness_pointer": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json:$.run_local.negative_witness[0]",
-        "mutation_target": "scale_invariant_norm",
-        "mutation_target_pointer": "reports/canonical/discovery-gated-nas.json:$.search_objective_summary.by_candidate.scale_invariant_norm",
-        "hardgate_pointer": "reports/runs/dimension-mismatch-debt-transfer/controlled-geometry/claim_capsule.json:$.run_local.negative_witness_hardgates.NW-HG2",
-        "not_claimed_pointer": "reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.not_claimed",
-    },
-    {
-        "witness_id": "control_positive",
-        "source_witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[1]",
-        "mutation_target": "control_separated_route",
-        "mutation_target_pointer": "reports/canonical/discovery-gated-nas.json:$.search_objective_summary.by_candidate.control_separated_route",
-        "hardgate_pointer": "reports/canonical/discovery-gated-nas.json:$.hardgate.gates.DG-NAS-HG6",
-        "not_claimed_pointer": "reports/canonical/discovery-gated-nas.json:$.not_claimed",
-    },
-    {
-        "witness_id": "benefit_debt_tradeoff",
-        "source_witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[6]",
-        "mutation_target": "constrained_lagrangian_loss",
-        "mutation_target_pointer": "reports/canonical/certificate-guided-training.json:$.objective.formula",
-        "hardgate_pointer": "reports/canonical/certificate-guided-training.json:$.hardgate.gates.C1-HG1",
-        "not_claimed_pointer": "reports/canonical/certificate-guided-training.json:$.not_claimed",
-    },
-    {
-        "witness_id": "single_threshold_escape",
-        "source_witness_pointer": "runs/single_threshold_escape_witness.json:$.single_threshold_basis[0]",
-        "mutation_target": "threshold_frontier_loss",
-        "mutation_target_pointer": "reports/canonical/gap-head-threshold-frontier.json:$.pareto_axis_spec",
-        "hardgate_pointer": "reports/canonical/gap-head-threshold-frontier.json:$.hardgate.checks.HG-GH-T3",
-        "not_claimed_pointer": "reports/canonical/gap-head-threshold-frontier.json:$.not_claimed",
-    },
-    {
-        "witness_id": "forbidden_column",
-        "source_witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[5]",
-        "mutation_target": "inference_audit_layer",
-        "mutation_target_pointer": "reports/canonical/gap-head-on-h.json:$.forbidden_column_audit",
-        "hardgate_pointer": "reports/canonical/gap-head-on-h.json:$.applicability_boundary.forbidden_inference_columns",
-        "not_claimed_pointer": "reports/canonical/gap-head-on-h.json:$.applicability_boundary",
-    },
-    {
-        "witness_id": "hidden_debt",
-        "source_witness_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[2]",
-        "mutation_target": "explicit_ledger_head",
-        "mutation_target_pointer": "reports/canonical/ledger-aware-transformer.json:$.ledger.rows",
-        "hardgate_pointer": "reports/canonical/ledger-aware-transformer.json:$.hardgate.gates.LAT-HG2",
-        "not_claimed_pointer": "reports/canonical/ledger-aware-transformer.json:$.not_claimed",
-    },
-    {
-        "witness_id": "mechanism_blocked",
-        "source_witness_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
-        "mutation_target": "mechanism_seeking_module",
-        "mutation_target_pointer": "reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary",
-        "hardgate_pointer": "reports/canonical/mechanism-seeking-network.json:$.hardgate.gates.MSN-HG2",
-        "not_claimed_pointer": "reports/canonical/mechanism-seeking-network.json:$.not_claimed",
-    },
-)
-
-
-def _resolve_artifact_pointer(cell: str) -> Any:
-    if ":$" not in cell:
-        return None
-    artifact, pointer = cell.split(":", 1)
-    payload = _load_sidecar_payload(artifact)
-    if pointer == "$":
-        return payload or None
-    return _bracket_pointer_value(payload, pointer)
-
-
-def _negative_witness_mutation_row(spec: Mapping[str, str]) -> dict[str, Any]:
-    required = {
-        key: spec[key]
-        for key in (
-            "source_witness_pointer",
-            "mutation_target_pointer",
-            "hardgate_pointer",
-            "not_claimed_pointer",
-        )
-    }
-    resolved = {key: _resolve_artifact_pointer(pointer) is not None for key, pointer in required.items()}
-    blocked = [key for key, ok in resolved.items() if not ok]
-    return {
-        "witness_id": spec["witness_id"],
-        "source_witness_pointer": {
-            "artifact": spec["source_witness_pointer"].split(":", 1)[0],
-            "pointer": spec["source_witness_pointer"].split(":", 1)[1],
-        },
-        "mutation_target": spec["mutation_target"],
-        "mutation_target_pointer": {
-            "artifact": spec["mutation_target_pointer"].split(":", 1)[0],
-            "pointer": spec["mutation_target_pointer"].split(":", 1)[1],
-        },
-        "hardgate_pointer": {
-            "artifact": spec["hardgate_pointer"].split(":", 1)[0],
-            "pointer": spec["hardgate_pointer"].split(":", 1)[1],
-        },
-        "not_claimed_pointer": {
-            "artifact": spec["not_claimed_pointer"].split(":", 1)[0],
-            "pointer": spec["not_claimed_pointer"].split(":", 1)[1],
-        },
-        "audit_status": "pass" if not blocked else "blocked",
-        "audit_reason": "all pointers resolve" if not blocked else f"unresolved pointer fields: {', '.join(blocked)}",
-        "resolved_pointers": resolved,
-    }
-
-
-def _negative_witness_mutation_ledger_payload(generated_at: str | None = None) -> dict[str, Any]:
-    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
-    rows = [_negative_witness_mutation_row(row) for row in NEGATIVE_WITNESS_MUTATION_ROWS]
-    blocked = [row["witness_id"] for row in rows if row["audit_status"] != "pass"]
-    return {
-        "schema_id": NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID,
-        "artifact_id": NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID,
-        "generated_at": timestamp,
-        "producer": "scripts/run_canonical_reports.py",
-        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
-        "surface": "pointer-only",
-        "not_claimed": "This sidecar records mutation lineage pointers only and does not emit terminal verdicts.",
-        "row_count": len(rows),
-        "audit_status": "pass" if not blocked else "blocked",
-        "blocked_witness_ids": blocked,
-        "rows": rows,
-    }
-
-
-def _render_negative_witness_mutation_ledger_markdown(payload: Mapping[str, Any]) -> str:
-    lines = [
-        "# Negative Witness Mutation Ledger",
-        "",
-        f"- Generated at: `{payload['generated_at']}`",
-        f"- Artifact: `{payload['artifact_id']}`",
-        f"- Canonical role: `{payload['canonical_role']}`",
-        f"- Audit: `{payload['audit_status']}`",
-        "",
-        "| witness | mutation target | source witness | target pointer | audit |",
-        "| --- | --- | --- | --- | --- |",
-    ]
-    rows = payload.get("rows", [])
-    if isinstance(rows, list):
-        for row in rows:
-            if not isinstance(row, Mapping):
-                continue
-            source = row.get("source_witness_pointer") if isinstance(row.get("source_witness_pointer"), Mapping) else {}
-            target = row.get("mutation_target_pointer") if isinstance(row.get("mutation_target_pointer"), Mapping) else {}
-            source_text = f"{source.get('artifact', '')}:{source.get('pointer', '')}"
-            target_text = f"{target.get('artifact', '')}:{target.get('pointer', '')}"
-            lines.append(
-                "| "
-                f"`{row.get('witness_id', '')}` | "
-                f"`{row.get('mutation_target', '')}` | "
-                f"`{source_text}` | "
-                f"`{target_text}` | "
-                f"`{row.get('audit_status', '')}` |"
-            )
-    lines.append("")
-    return "\n".join(lines)
-
-
 def _negative_witness_mutation_ledger_index_section() -> dict[str, Any]:
     payload = _load_artifact_payload(NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT)
+    hardgates = payload.get("hardgates", {}) if isinstance(payload.get("hardgates"), Mapping) else {}
+    hardgate_status = {
+        gate_id: gate.get("status")
+        for gate_id, gate in hardgates.items()
+        if isinstance(gate, Mapping)
+    }
     return {
-        "status": "pointer-only",
+        "status": payload.get("status", "missing"),
         "artifact_id": payload.get("artifact_id", NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID),
+        "schema_id": payload.get("schema_id", NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID),
         "json_artifact": NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT,
-        "markdown_artifact": NEGATIVE_WITNESS_MUTATION_LEDGER_MARKDOWN_ARTIFACT,
-        "canonical_role": payload.get("canonical_role", "sidecar_not_in_CANONICAL_REPORTS"),
-        "row_count": payload.get("row_count", 0),
-        "audit_status": payload.get("audit_status", "missing"),
+        "graph_artifact": MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT,
+        "dgt_report_artifact": DGT_MUTATION_REPORT_ARTIFACT,
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "entries_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
+        "entry_count": payload.get("entry_count", 0),
+        "hardgate_status": hardgate_status,
     }
 
 
@@ -2481,8 +2331,119 @@ def _validate_discovery_regularized_training_quality_promotion_boundary(payload:
         raise ValueError("quality_promotion_boundary DRT row gate must match hardgate")
 
 
+def _validate_discovery_regularized_training_extension(payload: Mapping[str, Any]) -> None:
+    loss_family = payload.get("loss_family")
+    component_ablation = payload.get("component_ablation")
+    comparison = payload.get("training_method_comparison")
+    hardgates = payload.get("drt_extension_hardgates")
+    if not all(isinstance(section, Mapping) for section in (loss_family, component_ablation, comparison, hardgates)):
+        raise ValueError("discovery_regularized_training extension sections must be objects")
+    audit = drt_extension_forbidden_key_audit(
+        {
+            "loss_family": loss_family,
+            "component_ablation": component_ablation,
+            "training_method_comparison": comparison,
+            "drt_extension_hardgates": hardgates,
+        }
+    )
+    if audit["status"] != "pass":
+        raise ValueError("discovery_regularized_training extension forbidden audit failed")
+    expected_loss_terms = {
+        "discovery",
+        "ledger",
+        "certificate",
+        "mechanism",
+        "cost",
+        "negative_witness",
+    }
+    if loss_family["status"] != "pointer-only":
+        raise ValueError("discovery_regularized_training loss_family status mismatch")
+    if loss_family["owner_pointer"] != _drt_quality_artifact_pointer("$.loss_family"):
+        raise ValueError("discovery_regularized_training loss_family owner pointer mismatch")
+    terms = loss_family.get("terms")
+    if not isinstance(terms, Mapping) or set(terms) != expected_loss_terms:
+        raise ValueError("discovery_regularized_training loss_family terms mismatch")
+    if _drt_pointer_value(payload, str(loss_family["loss_terms_enabled_pointer"])) is None:
+        raise ValueError("discovery_regularized_training loss_terms_enabled pointer does not resolve")
+    for term_id, row in terms.items():
+        if not isinstance(row, Mapping) or row.get("term_id") != term_id:
+            raise ValueError(f"discovery_regularized_training loss term invalid: {term_id}")
+        if _drt_pointer_value(payload, str(row.get("evidence_pointer"))) is None:
+            raise ValueError(f"discovery_regularized_training loss term pointer does not resolve: {term_id}")
+    if component_ablation["status"] != "pointer-only":
+        raise ValueError("discovery_regularized_training component_ablation status mismatch")
+    if component_ablation["owner_pointer"] != _drt_quality_artifact_pointer("$.component_ablation"):
+        raise ValueError("discovery_regularized_training component_ablation owner pointer mismatch")
+    rows = component_ablation.get("rows")
+    if not isinstance(rows, list) or len(rows) != 7:
+        raise ValueError("discovery_regularized_training component_ablation row count mismatch")
+    for row in rows:
+        if not isinstance(row, Mapping):
+            raise ValueError("discovery_regularized_training component_ablation row must be object")
+        for key in ("evidence_pointer", "quality_q_pointer"):
+            if _drt_pointer_value(payload, str(row.get(key))) is None:
+                raise ValueError(f"discovery_regularized_training component_ablation pointer does not resolve: {key}")
+    if comparison["status"] != "pointer-only":
+        raise ValueError("discovery_regularized_training training_method_comparison status mismatch")
+    expected_comparison_pointers = {
+        "comparison_family_pointer",
+        "compute_ledger_pointer",
+        "debt_marker_pointer",
+    }
+    for key in expected_comparison_pointers:
+        if _drt_pointer_value(payload, str(comparison.get(key))) is None:
+            raise ValueError(f"discovery_regularized_training comparison pointer does not resolve: {key}")
+    metric_pointers = comparison.get("metric_pointers")
+    if not isinstance(metric_pointers, Mapping) or set(metric_pointers) != {"uer", "uer_reduction", "raw_rows"}:
+        raise ValueError("discovery_regularized_training comparison metric pointers mismatch")
+    for pointer in metric_pointers.values():
+        if _drt_pointer_value(payload, str(pointer)) is None:
+            raise ValueError("discovery_regularized_training comparison metric pointer does not resolve")
+    gates = hardgates.get("gates")
+    if not isinstance(gates, Mapping):
+        raise ValueError("discovery_regularized_training extension hardgates missing gates")
+    expected_gate_order = (
+        "DRT-EXT-HG1_required_pointer_resolution",
+        "DRT-EXT-HG2_uer_threshold",
+        "DRT-EXT-HG3_component_ablation",
+        "DRT-EXT-HG4_forbidden_key_audit",
+    )
+    expected_gates = set(expected_gate_order)
+    if set(gates) != expected_gates:
+        raise ValueError("discovery_regularized_training extension hardgate set mismatch")
+    uer_gate = gates["DRT-EXT-HG2_uer_threshold"]
+    if uer_gate.get("thresholds") != {
+        "uer_max": DRT_EXTENSION_UER_MAX,
+        "uer_reduction_min": DRT_EXTENSION_UER_REDUCTION_MIN,
+    }:
+        raise ValueError("discovery_regularized_training extension UER thresholds mismatch")
+    uer = _as_finite_number(_drt_pointer_value(payload, str(uer_gate.get("uer_pointer"))))
+    reduction = _as_finite_number(_drt_pointer_value(payload, str(uer_gate.get("uer_reduction_pointer"))))
+    expected_uer_status = (
+        "pass"
+        if uer is not None
+        and reduction is not None
+        and uer <= DRT_EXTENSION_UER_MAX
+        and reduction >= DRT_EXTENSION_UER_REDUCTION_MIN
+        else "fail"
+    )
+    if uer_gate.get("status") != expected_uer_status:
+        raise ValueError("discovery_regularized_training extension UER gate mismatch")
+    expected_failed = next((gate for gate in expected_gate_order if gates[gate].get("status") != "pass"), None)
+    if hardgates.get("status") != ("pass" if expected_failed is None else "fail"):
+        raise ValueError("discovery_regularized_training extension hardgate status mismatch")
+    if hardgates.get("failed_gate") != expected_failed:
+        raise ValueError("discovery_regularized_training extension failed gate mismatch")
+    expected_failed_pointer = None if expected_failed is None else f"$.drt_extension_hardgates.gates.{expected_failed}.status"
+    if hardgates.get("failed_gate_pointer") != expected_failed_pointer:
+        raise ValueError("discovery_regularized_training extension failed gate pointer mismatch")
+    if expected_failed_pointer is not None and _drt_pointer_value(payload, _drt_quality_artifact_pointer(expected_failed_pointer)) is None:
+        raise ValueError("discovery_regularized_training extension failed gate pointer does not resolve")
+
+
 def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any]) -> None:
     _validate_discovery_regularized_training_quality_promotion_boundary(payload)
+    _validate_discovery_regularized_training_extension(payload)
 
 
 def _discovery_regularized_training_quality_boundary_index_section(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:
@@ -2805,7 +2766,7 @@ def _dgt_mechanism_certificate_slots() -> dict[str, Any]:
         (
             "DGT-MECH-HG1",
             "owner resolvability",
-            "mechanism certificate owner round-trips at its canonical owner pointer",
+            "mechanism certificate owner resolves at its canonical owner pointer",
             owner,
             "owner pointer must resolve in the committed canonical DGT JSON",
         ),
@@ -3011,6 +2972,13 @@ def _build_discovery_gated_transformer_payload(generated_at: str | None = None) 
             "gates_pointer": f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.gates",
             "pointer_state": "present-but-fail-closed",
         },
+        "mutation_ledger_ref": {
+            "artifact": NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT,
+            "pointer": "$.entries",
+            "dgt_report_artifact": DGT_MUTATION_REPORT_ARTIFACT,
+            "graph_artifact": MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT,
+            "canonical_role": "pointer_redirect",
+        },
         "dgt_hardgate_slots": _dgt_hardgate_slots(),
         "mechanism_certificate": _build_discovery_gated_transformer_mechanism_certificate(generated_at=timestamp),
         "training_replay_ref": {
@@ -3024,6 +2992,7 @@ def _build_discovery_gated_transformer_payload(generated_at: str | None = None) 
             "component_descriptors": "$.component_descriptors",
             "dgt_hardgate_slots": "$.dgt_hardgate_slots",
             "mechanism_certificate": "$.mechanism_certificate",
+            "mutation_ledger_ref": "$.mutation_ledger_ref",
             "training_replay_ref": "$.training_replay_ref",
             "not_claimed": "$.not_claimed",
             "downstream_scope": "$.downstream_scope",
@@ -3103,6 +3072,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "canonical_owner",
         "component_descriptors",
         "new_model_hardgates_registry",
+        "mutation_ledger_ref",
         "dgt_hardgate_slots",
         "mechanism_certificate",
         "training_replay_ref",
@@ -3144,6 +3114,14 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("discovery_gated_transformer registry candidate contract pointer mismatch")
     if registry.get("gates_pointer") != f"{NEW_MODEL_HARDGATES_JSON_ARTIFACT}:$.gates":
         raise ValueError("discovery_gated_transformer registry gates pointer mismatch")
+    if payload["mutation_ledger_ref"] != {
+        "artifact": NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT,
+        "pointer": "$.entries",
+        "dgt_report_artifact": DGT_MUTATION_REPORT_ARTIFACT,
+        "graph_artifact": MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT,
+        "canonical_role": "pointer_redirect",
+    }:
+        raise ValueError("discovery_gated_transformer mutation ledger pointer mismatch")
     slots = payload["dgt_hardgate_slots"]
     if not isinstance(slots, Mapping):
         raise ValueError("discovery_gated_transformer slots invalid")
@@ -3192,6 +3170,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "component_descriptors": "$.component_descriptors",
         "dgt_hardgate_slots": "$.dgt_hardgate_slots",
         "mechanism_certificate": "$.mechanism_certificate",
+        "mutation_ledger_ref": "$.mutation_ledger_ref",
         "training_replay_ref": "$.training_replay_ref",
         "not_claimed": "$.not_claimed",
         "downstream_scope": "$.downstream_scope",
@@ -3292,6 +3271,7 @@ def _render_discovery_gated_transformer_markdown(payload: Mapping[str, Any]) -> 
             "",
             f"- Mechanism certificate: `{mechanism['owner_pointer']}`",
             f"- Mechanism overall state: `{mechanism['overall_state']}`",
+            f"- Mutation ledger: `{payload['mutation_ledger_ref']['artifact']}:{payload['mutation_ledger_ref']['pointer']}`",
             f"- Training replay: `{payload['training_replay_ref']['artifact']}:{payload['training_replay_ref']['pointer']}`",
             f"- Training hardgates: `{payload['training_replay_ref']['hardgates_pointer']}`",
             f"- Downstream scope: `{payload['public_index_pointers']['downstream_scope']}`",
@@ -3314,6 +3294,9 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "hardgate_slots_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots",
         "overall_state_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.overall_state",
         "training_replay_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.training_replay_ref",
+        "mutation_ledger_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mutation_ledger_ref",
+        "mutation_ledger_entries_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
+        "dgt_mutation_report_pointer": f"{DGT_MUTATION_REPORT_ARTIFACT}:$",
         "training_hardgates_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.training_replay_ref.hardgates_pointer",
         "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
         "downstream_scope_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.downstream_scope",
@@ -3391,7 +3374,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "discovery_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix",
             "verdict_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.level_counts",
             "mechanism_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_certificate",
-            "debt_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.rows",
+            "debt_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
             "not_claimed_pointer": _model_design_suite_pointer("$.not_claimed"),
             "negative_witness_pointer": f"{NEGATIVE_WITNESSES_JSON_ARTIFACT}:$.witnesses",
             "hardgate_status": "pass",
@@ -3407,7 +3390,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "mechanism_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_certificate",
             "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.downstream_scope",
             "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
-            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.rows",
+            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
             "hardgate_status": "pass",
             "hardgate_reason": "all DGT design pointers resolve",
         },
@@ -3419,7 +3402,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "mechanism_pointer": "reports/canonical/ledger-aware-transformer.json:$.run_artifacts",
             "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.dgt_hardgate_slots.DGT-HG5",
             "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
-            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.rows[6]",
+            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[6]",
             "hardgate_status": "pass",
             "hardgate_reason": "backbone owner and hardgate pointers resolve",
         },
@@ -3431,7 +3414,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "mechanism_pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
             "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_certificate.mechanism_hardgate_slots.DGT-MECH-HG3",
             "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
-            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.rows[3]",
+            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[3]",
             "hardgate_status": "pass",
             "hardgate_reason": "attention owner and hardgate pointers resolve",
         },
@@ -3443,7 +3426,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "mechanism_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.torch_training_evidence",
             "debt_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.hardgate",
             "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
-            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.rows",
+            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
             "hardgate_status": "pass",
             "hardgate_reason": "training owner and hardgate pointers resolve",
         },
@@ -3455,7 +3438,7 @@ def _model_design_suite_rows() -> list[dict[str, Any]]:
             "mechanism_pointer": f"{GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT}:$.mechanism_evidence",
             "debt_pointer": f"{GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT}:$.ledger_debt",
             "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
-            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.rows[7]",
+            "negative_witness_pointer": f"{NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[7]",
             "hardgate_status": "pass",
             "hardgate_reason": "mechanism-head owner and hardgate pointers resolve",
         },
@@ -4123,10 +4106,11 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             "",
             f"- Status: `{payload['negative_witness_mutation_ledger']['status']}`",
             f"- JSON: `{payload['negative_witness_mutation_ledger']['json_artifact']}`",
-            f"- Markdown: `{payload['negative_witness_mutation_ledger']['markdown_artifact']}`",
+            f"- Graph: `{payload['negative_witness_mutation_ledger']['graph_artifact']}`",
+            f"- DGT report: `{payload['negative_witness_mutation_ledger']['dgt_report_artifact']}`",
             f"- Canonical role: `{payload['negative_witness_mutation_ledger']['canonical_role']}`",
-            f"- Rows: `{payload['negative_witness_mutation_ledger']['row_count']}`",
-            f"- Audit: `{payload['negative_witness_mutation_ledger']['audit_status']}`",
+            f"- Entries: `{payload['negative_witness_mutation_ledger']['entry_count']}`",
+            f"- Entries pointer: `{payload['negative_witness_mutation_ledger']['entries_pointer']}`",
             "",
             "## New model hardgates",
             "",
@@ -4419,12 +4403,9 @@ def run_reports(
     if only is None:
         write_claim_graph(root=ROOT, generated_at=timestamp)
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
-    mutation_ledger = _negative_witness_mutation_ledger_payload(generated_at=timestamp)
-    _write_json_atomic(_artifact_path(NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT), mutation_ledger)
-    _write_text_atomic(
-        _artifact_path(NEGATIVE_WITNESS_MUTATION_LEDGER_MARKDOWN_ARTIFACT),
-        _render_negative_witness_mutation_ledger_markdown(mutation_ledger),
-    )
+    from scripts.run_negative_witness_mutation_ledger import write_negative_witness_mutation_ledger
+
+    write_negative_witness_mutation_ledger(root=ROOT, generated_at=timestamp)
     new_model_hardgates = _new_model_hardgates_payload(generated_at=timestamp)
     _write_json_atomic(_artifact_path(NEW_MODEL_HARDGATES_JSON_ARTIFACT), new_model_hardgates)
     _write_text_atomic(

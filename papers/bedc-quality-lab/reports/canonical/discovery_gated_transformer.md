@@ -50,6 +50,7 @@
 
 - Mechanism certificate: `reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate`
 - Mechanism overall state: `present-but-fail-closed`
+- Mutation ledger: `reports/canonical/negative_witness_mutation_ledger.json:$.entries`
 - Training replay: `reports/runs/discovery_gated_transformer/training-replay/training_replay/training_replay.json:$`
 - Training hardgates: `reports/runs/discovery_gated_transformer/training-replay/training_replay/training_replay.json:$.hardgates`
 - Downstream scope: `$.downstream_scope`

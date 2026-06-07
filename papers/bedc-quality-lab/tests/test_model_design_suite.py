@@ -98,7 +98,7 @@ def _write_suite_dependencies(root):
     canonical._write_json_atomic(root / canonical.NEGATIVE_WITNESSES_JSON_ARTIFACT, {"witnesses": [{"kind": "fixture"}]})
     canonical._write_json_atomic(
         root / canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT,
-        {"rows": [{"witness_id": f"w{index}"} for index in range(8)]},
+        {"entries": [{"mutation_id": f"m{index}"} for index in range(8)]},
     )
     canonical._write_json_atomic(
         root / "reports/canonical/ledger-aware-transformer.json",
@@ -143,6 +143,16 @@ def test_model_design_suite_is_runner_local_pointer_only_and_resolvable(tmp_path
     for row in payload["rows"]:
         for field in canonical.MODEL_DESIGN_SUITE_POINTER_FIELDS:
             assert resolve_artifact_pointer(tmp_path, row[field]) is not None, (field, row[field])
+    assert {
+        row["negative_witness_pointer"]
+        for row in payload["rows"]
+        if canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT in row["negative_witness_pointer"]
+    } == {
+        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries",
+        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[3]",
+        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[6]",
+        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries[7]",
+    }
 
 
 def test_model_design_suite_owner_less_row_uses_suite_local_owner_declaration(tmp_path):

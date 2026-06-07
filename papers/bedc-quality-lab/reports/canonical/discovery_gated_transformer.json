@@ -240,7 +240,7 @@
         "gate_id": "DGT-MECH-HG1",
         "gate_label": "owner resolvability",
         "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.not_claimed",
-        "requirement_summary": "mechanism certificate owner round-trips at its canonical owner pointer",
+        "requirement_summary": "mechanism certificate owner resolves at its canonical owner pointer",
         "scope_pointer": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.scope",
         "slot_state": "present-but-fail-closed"
       },
@@ -323,6 +323,13 @@
     "status": "present-but-fail-closed"
   },
   "model_id": "discovery_gated_transformer",
+  "mutation_ledger_ref": {
+    "artifact": "reports/canonical/negative_witness_mutation_ledger.json",
+    "canonical_role": "pointer_redirect",
+    "dgt_report_artifact": "reports/canonical/dgt_mutation_report.json",
+    "graph_artifact": "reports/canonical/model_mutation_lineage_graph.md",
+    "pointer": "$.entries"
+  },
   "new_model_hardgates_registry": {
     "artifact_id": "bedc-quality-lab:new-model-hardgates",
     "candidate_contract_pointer": "reports/canonical/new_model_hardgates.json:$.candidate_contract",
@@ -343,6 +350,7 @@
     "downstream_scope": "$.downstream_scope",
     "mechanism_certificate": "$.mechanism_certificate",
     "model_id": "$.model_id",
+    "mutation_ledger_ref": "$.mutation_ledger_ref",
     "not_claimed": "$.not_claimed",
     "training_replay_ref": "$.training_replay_ref"
   },

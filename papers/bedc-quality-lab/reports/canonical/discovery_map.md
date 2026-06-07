@@ -43,31 +43,28 @@
 ## Coverage matrix
 
 - Status: `pointer-only`
-- Overall state: `present`
 
-| target | owner pointer | slot state |
+| hardgate | status | reason |
 | --- | --- | --- |
-| `anisotropic-ou-sweep` | `reports/canonical/anisotropic-ou-sweep.json:$.transition_debt_by_grid` | `present` |
-| `certificate-gated-attention` | `reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_vs_plain_valid` | `present` |
-| `certificate-guided-discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[2]` | `negative` |
-| `certificate-guided-training` | `reports/canonical/negative_discovery_reports.json:$.rows[1]` | `negative` |
-| `dimension-mismatch-debt-transfer` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` | `negative` |
-| `discovery-gated-nas` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` | `negative` |
-| `discovery-regularized-training` | `reports/canonical/discovery-regularized-training.json:$.torch_training_evidence` | `present` |
-| `gap-head-ablation` | `reports/canonical/negative_discovery_reports.json:$.rows[0]` | `negative` |
-| `gap-head-attribution-capsule` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` | `present` |
-| `gap-head-discovery` | `reports/canonical/gap-head-discovery.json:$.positive_discovery` | `present` |
-| `gap-head-mechanism-blockage` | `reports/canonical/negative_discovery_reports.json:$.rows[8]` | `negative` |
-| `gap-head-on-h` | `reports/canonical/gap-head-on-h.json:$.treatment_verdict.positive` | `present` |
-| `gap-head-threshold-frontier` | `reports/canonical/discovery_map.json:$.rows[7]` | `present` |
-| `gap-head-transfer-atlas` | `reports/canonical/gap_head_transfer_atlas.json:$.multi_surface_d5_o.decision` | `present` |
-| `ledger-aware-transformer` | `reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_reduction` | `present` |
-| `lejepa-theorem-ledger` | `reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows` | `present` |
-| `mechanism-seeking-network` | `reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary` | `present` |
-| `mixing-family-sweep` | `reports/canonical/mixing-family-sweep.json:$.coverage_item.debt_item` | `present` |
-| `nongaussian-distribution-sweep` | `reports/canonical/nongaussian-distribution-sweep.json:$.negative_result_ledger` | `present` |
-| `sigreg-mini-grid` | `reports/canonical/sigreg-mini-grid.json:$.trend_summary.expected_trend` | `present` |
-| `sigreg-training-proxy` | `reports/canonical/sigreg-training-proxy.json:$.d1_evidence.debt_delta` | `present` |
-| `single-threshold-escape` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` | `negative` |
-| `spectral-ablation-hinge` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` | `negative` |
-| `training-choice-observability` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` | `negative` |
+| `COV-HG1-owner` | `pass` | every cell has a resolvable canonical owner pointer |
+| `COV-HG2-resolves` | `pass` | every non-null coverage pointer resolves |
+| `COV-HG3-pointer-only` | `pass` | coverage matrix contains only pointer fields and gate summaries |
+| `COV-HG4-positive-support` | `pass` | positive and model-design cells point to mechanism support or debt |
+| `COV-HG5-dn-witness` | `pass` | DN cells point to canonical negative witnesses |
+| `COV-HG6-complete-set` | `pass` | coverage cells match the required component set |
+
+| group | component | owner pointer | hardgate |
+| --- | --- | --- | --- |
+| `positive` | `CGA` | `reports/canonical/certificate-gated-attention.json:$` | `pass` |
+| `positive` | `DG-NAS` | `reports/canonical/discovery-gated-nas.json:$` | `pass` |
+| `positive` | `DGT` | `reports/canonical/discovery_gated_transformer.json:$` | `pass` |
+| `positive` | `DRT` | `reports/canonical/discovery-regularized-training.json:$` | `pass` |
+| `positive` | `LAT` | `reports/canonical/ledger-aware-transformer.json:$` | `pass` |
+| `negative` | `LeJEPA-mini-grid-DN` | `reports/runs/lejepa-mini-grid/claim_capsule.json:$` | `pass` |
+| `positive` | `MSN` | `reports/canonical/mechanism-seeking-network.json:$` | `pass` |
+| `negative` | `certificate-guided-DN` | `reports/canonical/negative_discovery_reports.json:$.rows[1]` | `pass` |
+| `negative` | `dimension-mismatch-DN` | `reports/canonical/dimension-mismatch-debt-transfer.json:$` | `pass` |
+| `positive` | `gap-head-mech` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` | `pass` |
+| `positive` | `gap-head-op` | `reports/canonical/gap-head-robustness-sweep.json:$.acceptance_gates.status` | `pass` |
+| `positive` | `lejepa-theorem-ledger` | `reports/canonical/lejepa_theorem_ledger.json:$` | `pass` |
+| `positive` | `sigreg-mini-grid` | `reports/canonical/sigreg-mini-grid.json:$` | `pass` |

@@ -1,11 +1,16 @@
 import json
 import os
 from pathlib import Path
+import re
 import sys
 import types
 
 import pytest
 
+from bedc_quality_lab.discovery_regularized_training import (
+    default_drt_training_extension_spec,
+    project_drt_training_extension,
+)
 from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
@@ -334,6 +339,26 @@ def _payload_for_spec(spec):
                     "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
                     "deterministic_anchor_rows": 720,
                     "torch_evidence_rows": 16,
+                    "extension_metrics": {
+                        "loss_terms_enabled": [
+                            "discovery",
+                            "ledger",
+                            "certificate",
+                            "mechanism",
+                            "cost",
+                            "negative_witness",
+                        ],
+                        "comparison_family": "task-sigreg-drt-matched-random",
+                        "compute_ledger_pointer": "$.device_protocol",
+                        "debt_marker_pointer": "$.constraint_summary",
+                        "uer_mean": 0.11,
+                        "uer_reduction_mean": 0.09,
+                        "sidecar_metric_pointers": {
+                            "raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+                            "torch_training_evidence": "$.torch_training_evidence",
+                            "matched_random_control": "$.matched_random_control",
+                        },
+                    },
                 },
                 "surface_registry": {
                     "quality": {
@@ -347,6 +372,12 @@ def _payload_for_spec(spec):
                         },
                     },
                     "task_accuracy_only": {"task_accuracy_only_rejected": True, "promoted_row_count": 0},
+                    "classifier_shift": {
+                        "classifier_shift_count_mean": 1.0,
+                        "classifier_shift_positive": True,
+                        "net_positive_signal": True,
+                        "net_positive_count": 1,
+                    },
                 },
                 "lambda_summary": {
                     "best_positive": {
@@ -394,9 +425,28 @@ def _payload_for_spec(spec):
                     "failed_gate_pointer": "$.hardgate.status",
                     "claim_capsule_pointer": "$.claim_capsule_ref",
                 },
+                "device_protocol": {
+                    "requested_device": "auto",
+                    "resolved_device": "cpu",
+                    "drift_tolerance": 0.0001,
+                    "status": "available",
+                },
+                "constraint_summary": {
+                    "drt_minus_task_only_debt_q": -0.1,
+                    "drt_minus_task_only_benefit_q": 0.02,
+                    "debt_down": True,
+                    "benefit_nondecreasing": True,
+                },
             }
         )
         payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
+        extension_sections = project_drt_training_extension(
+            [],
+            default_drt_training_extension_spec(),
+            {"raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"},
+            payload,
+        )
+        payload.update(extension_sections)
     if spec.name == "certificate-gated-attention":
         payload.update(
             {
@@ -708,6 +758,35 @@ def _patch_lightweight_run_reports(monkeypatch):
         write_markdown(root, canonical.NEGATIVE_WITNESS_SUMMARY_MARKDOWN_ARTIFACT, "# witness\n")
         return {}
 
+    def fake_mutation_ledger(*, root, generated_at=None):
+        payload = {
+            "schema_id": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID,
+            "artifact_id": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID,
+            "producer": "scripts/run_negative_witness_mutation_ledger.py",
+            "generated_at": generated_at,
+            "status": "ready",
+            "entry_count": 0,
+            "entries": [],
+            "hardgates": {f"MUT-HG{index}": {"status": "pass"} for index in range(1, 6)},
+            "forbidden_keys": [],
+        }
+        write_json(root, canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT, payload)
+        write_markdown(root, canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT, "# mutation graph\n")
+        write_json(
+            root,
+            canonical.DGT_MUTATION_REPORT_ARTIFACT,
+            {
+                "schema_id": "bedc-quality-lab:dgt-mutation-report",
+                "ledger": {"artifact": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT, "pointer": "$.entries"},
+                "graph": {"artifact": canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT, "pointer": "$"},
+                "status": "ready",
+                "entry_count": 0,
+                "blocked_count": 0,
+                "mut_hg_summary": {f"MUT-HG{index}": "pass" for index in range(1, 6)},
+            },
+        )
+        return payload
+
     def fake_claim_graph(*, root, generated_at=None):
         write_json(root, canonical.CLAIM_GRAPH_JSON_ARTIFACT, {"status": "pointer-only", "nodes": [], "edges": []})
         write_markdown(root, canonical.CLAIM_GRAPH_MARKDOWN_ARTIFACT, "# graph\n")
@@ -780,6 +859,11 @@ def _patch_lightweight_run_reports(monkeypatch):
             write_discovery_negative_witness_summary=fake_witness_summary,
             build_discovery_negative_witness_summary=lambda root, generated_at=None: {"status": "pointer-only", "row_count": 0, "audit_status": "pass"},
         ),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_negative_witness_mutation_ledger",
+        types.SimpleNamespace(write_negative_witness_mutation_ledger=fake_mutation_ledger),
     )
     monkeypatch.setitem(sys.modules, "scripts.release_manifest_sidecar", types.SimpleNamespace(write_release_manifest_sidecar=fake_release))
 
@@ -947,110 +1031,98 @@ def test_committed_discovery_map_coverage_matrix_is_full_target_set_and_round_tr
 
     validate_discovery_map_payload(reloaded, root=canonical.ROOT)
 
-    targets = {row["report"] for row in payload["rows"]}
     cells = payload["coverage_matrix"]["cells"]
-    assert {cell["target"] for cell in cells} == targets
-    assert all(set(cell) == {"target", "owner_pointer", "slot_state"} for cell in cells)
-    assert {cell["slot_state"] for cell in cells} <= {"present", "present-but-fail-closed", "negative"}
-    assert payload["coverage_matrix"]["overall_state"] == "present"
+    assert set(payload["coverage_matrix"]) == {"status", "hardgates", "cells"}
+    assert {cell["component_id"] for cell in cells} == discovery_map.COVERAGE_COMPONENT_IDS
+    assert all(set(cell) == discovery_map.COVERAGE_CELL_FIELDS for cell in cells)
+    assert payload["coverage_matrix"]["status"] == "pointer-only"
+    assert {gate["status"] for gate in payload["coverage_matrix"]["hardgates"].values()} == {"pass"}
+    assert "models" not in payload["coverage_matrix"]
+    assert "surfaces" not in payload["coverage_matrix"]
 
 
-def test_coverage_matrix_owner_pointers_resolve_and_negative_cells_point_to_negative_owner():
+def test_coverage_matrix_pointers_resolve_and_dn_cells_point_to_negative_witness():
     payload = json.loads((canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
-    rows = {row["report"]: row for row in payload["rows"]}
 
     for cell in payload["coverage_matrix"]["cells"]:
-        value = _resolve_artifact_pointer(canonical.ROOT, cell["owner_pointer"])
-        assert value is not None
-        row = rows[cell["target"]]
-        if row["discovery_level"] == "DN":
-            assert cell["slot_state"] == "negative"
-            assert cell["owner_pointer"] == row["negative_report_pointer"]
+        for field in discovery_map.COVERAGE_POINTER_FIELDS:
+            pointer = cell[field]
+            if pointer is not None:
+                assert _resolve_artifact_pointer(canonical.ROOT, pointer) is not None
+        if cell["component_id"].endswith("-DN"):
+            assert cell["negative_witness_pointer"] is not None
         else:
-            assert cell["slot_state"] == "present"
+            assert cell["mechanism_certificate_pointer"] is not None or cell["debt_pointer"] is not None
 
 
-def test_coverage_matrix_validator_rejects_forbidden_keys_and_target_set_drift():
-    rows = [
-        {"report": "alpha", "json_artifact": "reports/canonical/alpha.json", "discovery_level": "D1"},
-        {"report": "beta", "json_artifact": "reports/canonical/beta.json", "discovery_level": "D1"},
-    ]
-    coverage = {
-        "status": "pointer-only",
-        "overall_state": "present",
-        "cells": [
-            {"target": "alpha", "owner_pointer": "reports/canonical/alpha.json:$", "slot_state": "present"},
-        ],
-    }
-    with pytest.raises(ValueError, match="target set mismatch"):
-        validate_coverage_matrix(coverage, rows=rows)
+def _coverage_fixture():
+    return discovery_map._build_coverage_matrix(rows=[], root=canonical.ROOT)
 
-    forbidden = {
-        "status": "pointer-only",
-        "overall_state": "present",
-        "cells": [
-            {
-                "target": "alpha",
-                "owner_pointer": "reports/canonical/alpha.json:$",
-                "slot_state": "present",
-                "terminal_verdict": "pass",
-            },
-            {"target": "beta", "owner_pointer": "reports/canonical/beta.json:$", "slot_state": "present"},
-        ],
-    }
+
+def test_coverage_matrix_validator_rejects_forbidden_keys_and_component_set_drift():
+    coverage = _coverage_fixture()
+    coverage["cells"] = coverage["cells"][:-1]
+    coverage["hardgates"] = discovery_map._coverage_hardgate_rows(coverage["cells"], root=canonical.ROOT)
+    coverage["status"] = "fail-closed"
+    with pytest.raises(ValueError, match="component set mismatch"):
+        validate_coverage_matrix(coverage, root=canonical.ROOT, expected_component_ids=discovery_map.COVERAGE_COMPONENT_IDS)
+
+    forbidden = _coverage_fixture()
+    forbidden["cells"][0]["classifier_reasons"] = ["copied"]
     with pytest.raises(ValueError, match="schema mismatch|copies owner facts"):
-        validate_coverage_matrix(forbidden, rows=rows)
+        validate_coverage_matrix(forbidden, root=canonical.ROOT)
 
 
-def test_coverage_matrix_slot_state_triad_and_hg_p_fail_closed_semantics(tmp_path):
-    root = tmp_path
-    (root / "reports" / "canonical").mkdir(parents=True)
-    (root / "reports" / "canonical" / "present.json").write_text(json.dumps({"ok": True}) + "\n", encoding="utf-8")
-    (root / "reports" / "canonical" / "negative_discovery_reports.json").write_text(
-        json.dumps({"rows": [{"report": "negative-target"}]}) + "\n",
-        encoding="utf-8",
-    )
-    rows = [
-        {
-            "report": "present-target",
-            "json_artifact": "reports/canonical/present.json",
-            "discovery_level": "D1",
-        },
-        {
-            "report": "closed-target",
-            "json_artifact": "reports/canonical/missing.json",
-            "discovery_level": "D1",
-        },
-        {
-            "report": "negative-target",
-            "json_artifact": "reports/canonical/negative-source.json",
-            "discovery_level": "DN",
-            "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
-        },
-    ]
-    coverage = {
-        "status": "pointer-only",
-        "overall_state": "present-but-fail-closed",
-        "cells": [
-            {"target": "present-target", "owner_pointer": "reports/canonical/present.json:$", "slot_state": "present"},
-            {
-                "target": "closed-target",
-                "owner_pointer": "reports/canonical/missing.json:$",
-                "slot_state": "present-but-fail-closed",
-            },
-            {
-                "target": "negative-target",
-                "owner_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
-                "slot_state": "negative",
-            },
-        ],
-    }
-    assert validate_coverage_matrix(coverage, rows=rows, root=root)["overall_state"] == "present-but-fail-closed"
+def test_coverage_matrix_cov_hg_fail_closed_semantics():
+    base = _coverage_fixture()
 
-    promoted = dict(coverage)
-    promoted["overall_state"] = "present"
-    with pytest.raises(ValueError, match="overall_state"):
-        validate_coverage_matrix(promoted, rows=rows, root=root)
+    owner_missing = json.loads(json.dumps(base))
+    owner_missing["cells"][0]["canonical_owner_pointer"] = None
+    owner_missing["hardgates"] = discovery_map._coverage_hardgate_rows(owner_missing["cells"], root=canonical.ROOT)
+    owner_missing["cells"][0]["hardgate_status"] = "fail"
+    owner_missing["cells"][0]["hardgate_reason"] = "COV-HG1-owner"
+    owner_missing["status"] = "fail-closed"
+    validated = validate_coverage_matrix(owner_missing, root=canonical.ROOT)
+    assert validated["hardgates"]["COV-HG1-owner"]["status"] == "fail"
+
+    dangling = json.loads(json.dumps(base))
+    dangling["cells"][1]["claim_verdict_pointer"] = "reports/canonical/missing.json:$.missing"
+    dangling["hardgates"] = discovery_map._coverage_hardgate_rows(dangling["cells"], root=canonical.ROOT)
+    dangling["cells"][1]["hardgate_status"] = "fail"
+    dangling["cells"][1]["hardgate_reason"] = "claim_verdict_pointer-unresolved"
+    dangling["status"] = "fail-closed"
+    validated = validate_coverage_matrix(dangling, root=canonical.ROOT)
+    assert validated["hardgates"]["COV-HG2-resolves"]["status"] == "fail"
+
+    positive_support = json.loads(json.dumps(base))
+    positive = next(cell for cell in positive_support["cells"] if not cell["component_id"].endswith("-DN"))
+    positive["mechanism_certificate_pointer"] = None
+    positive["debt_pointer"] = None
+    positive_support["hardgates"] = discovery_map._coverage_hardgate_rows(positive_support["cells"], root=canonical.ROOT)
+    positive["hardgate_status"] = "fail"
+    positive["hardgate_reason"] = "COV-HG4-positive-support"
+    positive_support["status"] = "fail-closed"
+    validated = validate_coverage_matrix(positive_support, root=canonical.ROOT)
+    assert validated["hardgates"]["COV-HG4-positive-support"]["status"] == "fail"
+
+    dn_witness = json.loads(json.dumps(base))
+    dn = next(cell for cell in dn_witness["cells"] if cell["component_id"].endswith("-DN"))
+    dn["negative_witness_pointer"] = None
+    dn_witness["hardgates"] = discovery_map._coverage_hardgate_rows(dn_witness["cells"], root=canonical.ROOT)
+    dn["hardgate_status"] = "fail"
+    dn["hardgate_reason"] = "COV-HG5-dn-witness"
+    dn_witness["status"] = "fail-closed"
+    validated = validate_coverage_matrix(dn_witness, root=canonical.ROOT)
+    assert validated["hardgates"]["COV-HG5-dn-witness"]["status"] == "fail"
+
+    complete_set = json.loads(json.dumps(base))
+    complete_set["cells"][0]["component_id"] = "extra-component"
+    complete_set["hardgates"] = discovery_map._coverage_hardgate_rows(complete_set["cells"], root=canonical.ROOT)
+    complete_set["cells"][0]["hardgate_status"] = "fail"
+    complete_set["cells"][0]["hardgate_reason"] = "COV-HG6-complete-set"
+    complete_set["status"] = "fail-closed"
+    with pytest.raises(ValueError, match="component set mismatch"):
+        validate_coverage_matrix(complete_set, root=canonical.ROOT, expected_component_ids=discovery_map.COVERAGE_COMPONENT_IDS)
 
 
 def test_gap_head_manifest_rows_are_canonical_and_keyed():
@@ -1699,6 +1771,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "canonical_owner",
         "component_descriptors",
         "new_model_hardgates_registry",
+        "mutation_ledger_ref",
         "dgt_hardgate_slots",
         "mechanism_certificate",
         "training_replay_ref",
@@ -1731,6 +1804,14 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "gates_pointer": "reports/canonical/new_model_hardgates.json:$.gates",
         "pointer_state": "present-but-fail-closed",
     }
+    assert payload["mutation_ledger_ref"] == {
+        "artifact": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT,
+        "pointer": "$.entries",
+        "dgt_report_artifact": canonical.DGT_MUTATION_REPORT_ARTIFACT,
+        "graph_artifact": canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT,
+        "canonical_role": "pointer_redirect",
+    }
+    assert "entries" not in payload["mutation_ledger_ref"]
     assert payload["downstream_scope"] == {
         "discovery_map": "out-of-scope-follow-up",
         "claim_verdicts": "out-of-scope-follow-up",
@@ -1803,6 +1884,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "hardgate_slots_pointer",
         "overall_state_pointer",
         "training_replay_ref_pointer",
+        "mutation_ledger_ref_pointer",
+        "mutation_ledger_entries_pointer",
+        "dgt_mutation_report_pointer",
         "training_hardgates_pointer",
         "not_claimed_pointer",
         "downstream_scope_pointer",
@@ -1824,6 +1908,13 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     assert section["training_replay_ref_pointer"] == (
         "reports/canonical/discovery_gated_transformer.json:$.training_replay_ref"
     )
+    assert section["mutation_ledger_ref_pointer"] == (
+        "reports/canonical/discovery_gated_transformer.json:$.mutation_ledger_ref"
+    )
+    assert section["mutation_ledger_entries_pointer"] == (
+        "reports/canonical/negative_witness_mutation_ledger.json:$.entries"
+    )
+    assert section["dgt_mutation_report_pointer"] == "reports/canonical/dgt_mutation_report.json:$"
     assert section["training_hardgates_pointer"] == (
         "reports/canonical/discovery_gated_transformer.json:$.training_replay_ref.hardgates_pointer"
     )
@@ -1943,6 +2034,7 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
         section["overall_state_pointer"],
         section["training_replay_ref_pointer"],
         section["training_hardgates_pointer"],
+        section["mutation_ledger_ref_pointer"],
         section["not_claimed_pointer"],
         section["downstream_scope_pointer"],
         section["mechanism_certificate_pointer"],
@@ -1952,6 +2044,12 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
     for artifact_pointer in pointers:
         assert artifact_pointer.startswith(canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT + ":")
         assert _resolve_artifact_pointer(tmp_path, artifact_pointer) is not None
+    assert section["mutation_ledger_entries_pointer"] == (
+        f"{canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT}:$.entries"
+    )
+    assert section["dgt_mutation_report_pointer"] == f"{canonical.DGT_MUTATION_REPORT_ARTIFACT}:$"
+    assert _resolve_artifact_pointer(tmp_path, section["mutation_ledger_entries_pointer"]) == []
+    assert _resolve_artifact_pointer(tmp_path, section["dgt_mutation_report_pointer"]) is not None
     from bedc_quality_lab.backends.current_lab import projection
 
     assert (
@@ -2319,6 +2417,40 @@ def test_discovery_regularized_training_quality_boundary_index_is_pointer_only()
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in ("terminal_verdict", "metrics", "candidate_evidence_body", "host.env"):
         assert forbidden not in lowered
+
+
+def test_drt_canonical_spec_has_no_companion_artifacts():
+    names = [spec.name for spec in canonical.CANONICAL_REPORTS]
+    drt_names = [name for name in names if "discovery-regularized-training" in name]
+
+    assert drt_names == ["discovery-regularized-training"]
+    forbidden_names = {
+        "discovery-regularized-training-loss-ablation",
+        "discovery-regularized-training-component-ablation",
+        "discovery-regularized-training-method-comparison",
+    }
+    assert forbidden_names.isdisjoint(names)
+    assert all(re.search(r"\bdrt[-_]?v\d+\b", name) is None for name in names)
+
+
+def test_discovery_regularized_training_regen_idempotent_with_extension_sections(tmp_path):
+    first_projection = runner.build_projection(generated_at="fixture-time")
+    runner.write_artifacts(first_projection, root=tmp_path)
+    first_json = (tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8")
+    first_md = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
+
+    second_projection = runner.build_projection(generated_at="fixture-time")
+    runner.write_artifacts(second_projection, root=tmp_path)
+    second_json = (tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8")
+    second_md = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
+    payload = json.loads(second_json)
+
+    assert first_json == second_json
+    assert first_md == second_md
+    assert payload["loss_family"]["status"] == "pointer-only"
+    assert payload["component_ablation"]["status"] == "pointer-only"
+    assert payload["training_method_comparison"]["status"] == "pointer-only"
+    assert payload["drt_extension_hardgates"]["status"] == "pass"
 
 
 def test_discovery_regularized_training_producer_json_round_trips_validator(tmp_path, monkeypatch):
@@ -2913,6 +3045,11 @@ def test_canonical_index_points_to_discovery_map_coverage_matrix(tmp_path, monke
 
     assert payload["discovery_map"]["coverage_matrix_pointer"] == "reports/canonical/discovery_map.json:$.coverage_matrix"
     assert "discovery_coverage" not in payload
+    assert "coverage_matrix" not in payload["discovery_map"]
+    assert "cells" not in payload["discovery_map"]
+    assert "hardgates" not in payload["discovery_map"]
+    assert "models" not in payload["discovery_map"]
+    assert "surfaces" not in payload["discovery_map"]
     assert not (canonical.CANONICAL_DIR / "discovery_coverage.json").exists()
     assert all(report["name"] != "discovery_coverage" for report in payload["reports"])
 
@@ -3111,6 +3248,41 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
     def fake_build_witness_summary(*, root, generated_at=None):
         return {"status": "pointer-only", "row_count": 0, "audit_status": "pass"}
 
+    def fake_mutation_ledger(*, root, generated_at=None):
+        calls.append("mutation-ledger")
+        payload = {
+            "schema_id": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_SCHEMA_ID,
+            "artifact_id": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_ARTIFACT_ID,
+            "producer": "scripts/run_negative_witness_mutation_ledger.py",
+            "generated_at": generated_at,
+            "status": "ready",
+            "entry_count": 0,
+            "entries": [],
+            "hardgates": {f"MUT-HG{index}": {"status": "pass"} for index in range(1, 6)},
+            "forbidden_keys": [],
+        }
+        path = root / canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+        (root / canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT).write_text("# mutation graph\n", encoding="utf-8")
+        (root / canonical.DGT_MUTATION_REPORT_ARTIFACT).write_text(
+            json.dumps(
+                {
+                    "schema_id": "bedc-quality-lab:dgt-mutation-report",
+                    "ledger": {"artifact": canonical.NEGATIVE_WITNESS_MUTATION_LEDGER_JSON_ARTIFACT, "pointer": "$.entries"},
+                    "graph": {"artifact": canonical.MODEL_MUTATION_LINEAGE_GRAPH_ARTIFACT, "pointer": "$"},
+                    "status": "ready",
+                    "entry_count": 0,
+                    "blocked_count": 0,
+                    "mut_hg_summary": {f"MUT-HG{index}": "pass" for index in range(1, 6)},
+                },
+                sort_keys=True,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        return payload
+
     def fake_mechanism(*, root, generated_at=None):
         return {}
 
@@ -3184,6 +3356,11 @@ def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(t
             write_discovery_negative_witness_summary=fake_witness_summary,
             build_discovery_negative_witness_summary=fake_build_witness_summary,
         ),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_negative_witness_mutation_ledger",
+        types.SimpleNamespace(write_negative_witness_mutation_ledger=fake_mutation_ledger),
     )
     monkeypatch.setitem(
         sys.modules,

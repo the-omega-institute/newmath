@@ -18,6 +18,10 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.discovery_compiler.map import (
+    COVERAGE_CELL_FIELDS,
+    COVERAGE_FORBIDDEN_KEYS,
+    COVERAGE_HARDGATE_IDS,
+    COVERAGE_POINTER_FIELDS,
     DN_FACT_KEYS,
     DISCOVERY_LEVELS,
     build_discovery_map_payload,
@@ -142,11 +146,147 @@ TRAINING_CHOICE_OBSERVABILITY_ARTIFACT = "runs/training_choice_observability.jso
 TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observability.md"
 DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
+DISCOVERY_GATED_TRANSFORMER_ARTIFACT = "reports/canonical/discovery_gated_transformer.json"
+DISCOVERY_GATED_NAS_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 CERTIFICATE_GATED_ATTENTION_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 MECHANISM_SEEKING_NETWORK_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
 SIGREG_MINI_GRID_ARTIFACT = "reports/canonical/sigreg-mini-grid.json"
 LEJEPA_THEOREM_LEDGER_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
 MODEL_DESIGN_SUITE_ARTIFACT = "reports/canonical/model_design_suite.json"
+
+DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
+    {
+        "component_id": "DGT",
+        "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$",
+        "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.status",
+        "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.status",
+        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.mechanism_certificate",
+        "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.dgt_hardgate_slots",
+        "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "LAT",
+        "canonical_owner_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$",
+        "discovery_level_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.level_candidate",
+        "claim_verdict_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.status",
+        "mechanism_certificate_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.claim_capsule_ref",
+        "debt_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.ledger",
+        "not_claimed_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "CGA",
+        "canonical_owner_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$",
+        "discovery_level_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.discovery_map_signal.level_candidate",
+        "claim_verdict_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.discovery_map_signal.status",
+        "mechanism_certificate_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.certificate_gate_summary",
+        "debt_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.revocation_rows",
+        "not_claimed_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "DRT",
+        "canonical_owner_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$",
+        "discovery_level_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.discovery_map_signal.level_candidate",
+        "claim_verdict_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.discovery_map_signal.status",
+        "mechanism_certificate_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.torch_training_evidence",
+        "debt_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.quality_promotion_boundary",
+        "not_claimed_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "MSN",
+        "canonical_owner_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$",
+        "discovery_level_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.discovery_map_signal.level_candidate",
+        "claim_verdict_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.discovery_map_signal.status",
+        "mechanism_certificate_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.mechanism_gate_summary",
+        "debt_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.revocation_rows",
+        "not_claimed_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "DG-NAS",
+        "canonical_owner_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$",
+        "discovery_level_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.discovery_map_signal.level_candidate",
+        "claim_verdict_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.discovery_map_signal.status",
+        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.candidate_protocol",
+        "debt_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.hardgate.gates.DG-NAS-HG7",
+        "not_claimed_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "gap-head-op",
+        "canonical_owner_pointer": f"{GAP_HEAD_ROBUSTNESS_ARTIFACT}:$.acceptance_gates.status",
+        "discovery_level_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[2].discovery_level",
+        "claim_verdict_pointer": f"{GAP_HEAD_ROBUSTNESS_ARTIFACT}:$.final_status",
+        "mechanism_certificate_pointer": f"{GAP_HEAD_ROBUSTNESS_ARTIFACT}:$.A1_threshold_sweep",
+        "debt_pointer": f"{OBSERVED_DEBT_ARTIFACT}:{GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER}",
+        "not_claimed_pointer": f"{OBSERVED_DEBT_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "gap-head-mech",
+        "canonical_owner_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence",
+        "discovery_level_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.d5_m.status",
+        "claim_verdict_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence.mechanism_status",
+        "mechanism_certificate_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence",
+        "debt_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.ledger_debt",
+        "not_claimed_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.scope_seal.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "sigreg-mini-grid",
+        "canonical_owner_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$",
+        "discovery_level_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.discovery_map_signal.level_candidate",
+        "claim_verdict_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.discovery_map_signal.status",
+        "mechanism_certificate_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.trend_summary",
+        "debt_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.tradeoff_ledger",
+        "not_claimed_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "lejepa-theorem-ledger",
+        "canonical_owner_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$",
+        "discovery_level_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.result.status",
+        "claim_verdict_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.claim_gate.status",
+        "mechanism_certificate_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.theorem_rows",
+        "debt_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.backend_ledger_rows",
+        "not_claimed_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": None,
+    },
+    {
+        "component_id": "dimension-mismatch-DN",
+        "canonical_owner_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:$",
+        "discovery_level_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:{DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER}",
+        "claim_verdict_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:$.dimension_mismatch_debt_transfer.terminal_verdict",
+        "mechanism_certificate_pointer": None,
+        "debt_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:{DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER}",
+        "not_claimed_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
+    },
+    {
+        "component_id": "certificate-guided-DN",
+        "canonical_owner_pointer": f"{NEGATIVE_DISCOVERY_REPORTS_ARTIFACT}:$.rows[1]",
+        "discovery_level_pointer": f"{NEGATIVE_DISCOVERY_REPORTS_ARTIFACT}:$.rows[1].discovery_level",
+        "claim_verdict_pointer": f"{NEGATIVE_DISCOVERY_REPORTS_ARTIFACT}:$.rows[1].terminal_verdict",
+        "mechanism_certificate_pointer": None,
+        "debt_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.certificate_gate_summary",
+        "not_claimed_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.not_claimed",
+        "negative_witness_pointer": f"{NEGATIVE_DISCOVERY_REPORTS_ARTIFACT}:$.rows[1]",
+    },
+    {
+        "component_id": "LeJEPA-mini-grid-DN",
+        "canonical_owner_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$",
+        "discovery_level_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.claim_status",
+        "claim_verdict_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.failed_gate",
+        "mechanism_certificate_pointer": None,
+        "debt_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.theorem_rows",
+        "not_claimed_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.not_claimed",
+        "negative_witness_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness[0]",
+    },
+)
+COVERAGE_COMPONENT_IDS = frozenset(str(row["component_id"]) for row in DISCOVERY_COVERAGE_SOURCES)
 
 
 def _root(root: Path | None) -> Path:
@@ -706,7 +846,8 @@ def _discovery_regularized_training_projection(
         )
     level = signal.get("level_candidate")
     status = signal.get("status")
-    if consistent and level == "D4" and status == "d4-candidate":
+    extension_failed_pointer = _drt_extension_failed_pointer(payload)
+    if extension_failed_pointer is None and consistent and level == "D4" and status == "d4-candidate":
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
@@ -743,7 +884,7 @@ def _discovery_regularized_training_projection(
         },
     }, ProjectionEvidence(
         projection_status="projected",
-        failed_gate=failed_pointer,
+        failed_gate=extension_failed_pointer or failed_pointer,
     )
 
 
@@ -1082,6 +1223,16 @@ def _sigreg_mini_grid_consistency(payload: Mapping[str, Any]) -> tuple[bool, str
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.hardgate.status"
 
 
+def _drt_extension_failed_pointer(payload: Mapping[str, Any]) -> str | None:
+    hardgates = pointer_value(payload, "$.drt_extension_hardgates")
+    if not isinstance(hardgates, Mapping):
+        return "$.drt_extension_hardgates"
+    if hardgates.get("status") == "pass":
+        return None
+    pointer = hardgates.get("failed_gate_pointer")
+    return pointer if isinstance(pointer, str) and pointer else "$.drt_extension_hardgates.status"
+
+
 def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
     hardgates = pointer_value(payload, "$.hardgate.gates")
     signal = pointer_value(payload, "$.discovery_map_signal")
@@ -1111,6 +1262,7 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
             failed = "DRT-HG6"
         elif pointer_value(payload, "$.records.raw_rows_pointer") is None:
             failed = "DRT-HG6"
+    extension_failed_pointer = _drt_extension_failed_pointer(payload)
     if failed is None:
         expected = {
             "status": "d4-candidate",
@@ -1137,6 +1289,10 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
         return False, "drt-torch-pointer-mismatch", "$.discovery_map_signal.torch_training_evidence_pointer"
     if pointer_value(payload, "$.discovery_map_signal.torch_training_evidence_pointer") is None:
         return False, "drt-torch-pointer-dangling", "$.discovery_map_signal.torch_training_evidence_pointer"
+    if extension_failed_pointer is not None and pointer_value(payload, extension_failed_pointer) is None:
+        return False, "drt-extension-failed-gate-pointer-dangling", extension_failed_pointer
+    if extension_failed_pointer is not None:
+        return True, "", extension_failed_pointer
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.torch_training_evidence"
 
 
@@ -2093,14 +2249,6 @@ def _discovery_map_row(source_row: Mapping[str, Any], negative_indices: Mapping[
     } | {"negative_report_pointer": pointer}
 
 
-def _coverage_discovery_row_pointers(rows: Sequence[Mapping[str, Any]]) -> dict[str, str]:
-    return {
-        str(row["report"]): f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[{index}]"
-        for index, row in enumerate(rows)
-        if isinstance(row.get("report"), str)
-    }
-
-
 def _artifact_pointer_resolves(pointer: str, *, root: Path | None = None) -> bool:
     split = pointer.split(":", 1)
     if len(split) != 2:
@@ -2114,34 +2262,118 @@ def _artifact_pointer_resolves(pointer: str, *, root: Path | None = None) -> boo
     return pointer_value(payload, local_pointer) is not None
 
 
-def _row_owner_pointer(row: Mapping[str, Any], *, row_pointer: str) -> str:
-    if row.get("discovery_level") == "DN":
-        pointer = row.get("negative_report_pointer")
-        return pointer if isinstance(pointer, str) else f"{NEGATIVE_DISCOVERY_REPORTS_ARTIFACT}:$.missing"
-    artifact = row.get("json_artifact")
-    local_pointer = row.get("evidence_pointer") or row.get("control_pointer") or row.get("debt_row_pointer")
-    if isinstance(artifact, str) and isinstance(local_pointer, str):
-        return f"{artifact}:{local_pointer}"
-    return row_pointer
+def _coverage_source_with_row_pointers(
+    source: Mapping[str, str | None],
+    *,
+    rows: Sequence[Mapping[str, Any]],
+) -> dict[str, str | None]:
+    cell = dict(source)
+    report_indices = {str(row.get("report")): index for index, row in enumerate(rows) if isinstance(row.get("report"), str)}
+    if source.get("component_id") == "gap-head-op" and "gap-head-on-h" in report_indices:
+        cell["discovery_level_pointer"] = f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[{report_indices['gap-head-on-h']}].discovery_level"
+    return cell
 
 
-def _coverage_cell(row: Mapping[str, Any], *, row_pointer: str, root: Path | None = None) -> dict[str, str]:
-    target = str(row.get("report") or "")
-    owner_pointer = _row_owner_pointer(row, row_pointer=row_pointer)
-    if row.get("discovery_level") == "DN":
-        slot_state = "negative"
-    else:
-        resolves_after_write = owner_pointer.startswith(f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[")
-        slot_state = (
-            "present"
-            if resolves_after_write or _artifact_pointer_resolves(owner_pointer, root=root)
-            else "present-but-fail-closed"
-        )
-    return {
-        "target": target,
-        "owner_pointer": owner_pointer,
-        "slot_state": slot_state,
+def _coverage_pointer_resolves(pointer: str | None, *, root: Path | None = None) -> bool:
+    if pointer is None:
+        return False
+    if pointer.startswith(f"{DISCOVERY_MAP_JSON_ARTIFACT}:"):
+        return True
+    return _artifact_pointer_resolves(pointer, root=root)
+
+
+def _coverage_forbidden_keys(payload: Any, *, path: tuple[str, ...] = ()) -> list[str]:
+    found: set[str] = set()
+    if isinstance(payload, Mapping):
+        for key, value in payload.items():
+            key_text = str(key)
+            child_path = path + (key_text,)
+            if key_text in COVERAGE_FORBIDDEN_KEYS:
+                found.add(".".join(child_path))
+            found.update(_coverage_forbidden_keys(value, path=child_path))
+    elif isinstance(payload, list):
+        for index, value in enumerate(payload):
+            found.update(_coverage_forbidden_keys(value, path=path + (f"[{index}]",)))
+    return sorted(found)
+
+
+def _coverage_hardgate_rows(cells: Sequence[Mapping[str, Any]], *, root: Path | None = None) -> dict[str, dict[str, str]]:
+    copied = _coverage_forbidden_keys({"cells": list(cells)})
+    observed = {cell.get("component_id") for cell in cells}
+    non_dn_cells = [
+        cell
+        for cell in cells
+        if isinstance(cell.get("component_id"), str) and not str(cell["component_id"]).endswith("-DN")
+    ]
+    dn_cells = [
+        cell
+        for cell in cells
+        if isinstance(cell.get("component_id"), str) and str(cell["component_id"]).endswith("-DN")
+    ]
+    gates = {
+        "COV-HG1-owner": (
+            all(_coverage_pointer_resolves(cell.get("canonical_owner_pointer"), root=root) for cell in cells),
+            "every cell has a resolvable canonical owner pointer",
+        ),
+        "COV-HG2-resolves": (
+            all(
+                _coverage_pointer_resolves(cell.get(field), root=root)
+                for cell in cells
+                for field in COVERAGE_POINTER_FIELDS
+                if cell.get(field) is not None
+            ),
+            "every non-null coverage pointer resolves",
+        ),
+        "COV-HG3-pointer-only": (
+            not copied,
+            "coverage matrix contains only pointer fields and gate summaries",
+        ),
+        "COV-HG4-positive-support": (
+            all(cell.get("mechanism_certificate_pointer") is not None or cell.get("debt_pointer") is not None for cell in non_dn_cells),
+            "positive and model-design cells point to mechanism support or debt",
+        ),
+        "COV-HG5-dn-witness": (
+            all(cell.get("negative_witness_pointer") is not None for cell in dn_cells),
+            "DN cells point to canonical negative witnesses",
+        ),
+        "COV-HG6-complete-set": (
+            observed == COVERAGE_COMPONENT_IDS,
+            "coverage cells match the required component set",
+        ),
     }
+    return {
+        gate_id: {
+            "status": "pass" if passed else "fail",
+            "reason": reason if passed else f"{reason}; fail-closed",
+        }
+        for gate_id, (passed, reason) in gates.items()
+    }
+
+
+def _coverage_cell(
+    source: Mapping[str, str | None],
+    *,
+    hardgates: Mapping[str, Mapping[str, str]],
+    root: Path | None = None,
+) -> dict[str, str | None]:
+    del hardgates
+    cell = {field: source.get(field) for field in COVERAGE_CELL_FIELDS if field not in {"hardgate_status", "hardgate_reason"}}
+    failed_reasons: list[str] = []
+    if not _coverage_pointer_resolves(cell.get("canonical_owner_pointer"), root=root):
+        failed_reasons.append("COV-HG1-owner")
+    for field in COVERAGE_POINTER_FIELDS:
+        pointer = cell.get(field)
+        if pointer is not None and not _coverage_pointer_resolves(pointer, root=root):
+            failed_reasons.append(f"{field}-unresolved")
+    component_id = str(cell.get("component_id", ""))
+    if component_id.endswith("-DN"):
+        if cell.get("negative_witness_pointer") is None:
+            failed_reasons.append("COV-HG5-dn-witness")
+    elif cell.get("mechanism_certificate_pointer") is None and cell.get("debt_pointer") is None:
+        failed_reasons.append("COV-HG4-positive-support")
+    cell["hardgate_status"] = "fail" if failed_reasons else "pass"
+    cell["hardgate_reason"] = "pass" if not failed_reasons else "; ".join(sorted(set(failed_reasons)))
+    return cell
 
 
 def _build_coverage_matrix(
@@ -2149,24 +2381,24 @@ def _build_coverage_matrix(
     rows: Sequence[Mapping[str, Any]],
     root: Path | None = None,
 ) -> dict[str, Any]:
-    row_pointers = _coverage_discovery_row_pointers(rows)
-    cells = sorted(
-        (
-            _coverage_cell(row, row_pointer=row_pointers[str(row["report"])], root=root)
-            for row in rows
-            if isinstance(row.get("report"), str)
-        ),
-        key=lambda cell: cell["target"],
-    )
-    overall_state = (
-        "present-but-fail-closed"
-        if any(cell["slot_state"] == "present-but-fail-closed" for cell in cells)
-        else "present"
-    )
+    source_cells = [
+        _coverage_source_with_row_pointers(source, rows=rows)
+        for source in DISCOVERY_COVERAGE_SOURCES
+    ]
+    hardgates = _coverage_hardgate_rows(source_cells, root=root)
+    cells = [
+        _coverage_cell(source, hardgates=hardgates, root=root)
+        for source in source_cells
+    ]
+    hardgates = _coverage_hardgate_rows(cells, root=root)
+    cells = [
+        _coverage_cell(source, hardgates=hardgates, root=root)
+        for source in source_cells
+    ]
     return {
-        "status": "pointer-only",
-        "overall_state": overall_state,
-        "cells": cells,
+        "status": "fail-closed" if any(gate["status"] == "fail" for gate in hardgates.values()) else "pointer-only",
+        "hardgates": hardgates,
+        "cells": sorted(cells, key=lambda cell: str(cell["component_id"])),
     }
 
 
@@ -2185,6 +2417,7 @@ def _manifest_audit(
         NEGATIVE_DISCOVERY_REPORTS_ARTIFACT,
         NEGATIVE_WITNESSES_ARTIFACT,
         "reports/canonical/negative_witness_mutation_ledger.json",
+        "reports/canonical/dgt_mutation_report.json",
         "reports/canonical/new_model_hardgates.json",
         "reports/canonical/discovery_gated_transformer.json",
         MODEL_DESIGN_SUITE_ARTIFACT,
@@ -2233,6 +2466,8 @@ def build_discovery_map(
         generated_at=timestamp,
         manifest_audit=_manifest_audit(root=root, canonical_reports=canonical_reports),
         coverage_matrix=_build_coverage_matrix(rows=rows, root=root),
+        root=_root(root),
+        expected_coverage_component_ids=COVERAGE_COMPONENT_IDS,
     )
 
 
@@ -2364,24 +2599,44 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
                 "## Coverage matrix",
                 "",
                 f"- Status: `{coverage.get('status', '')}`",
-                f"- Overall state: `{coverage.get('overall_state', '')}`",
                 "",
-                "| target | owner pointer | slot state |",
+                "| hardgate | status | reason |",
                 "| --- | --- | --- |",
+            ]
+        )
+        hardgates = coverage.get("hardgates")
+        if isinstance(hardgates, Mapping):
+            for gate_id in COVERAGE_HARDGATE_IDS:
+                gate = hardgates.get(gate_id)
+                if isinstance(gate, Mapping):
+                    lines.append(
+                        "| "
+                        f"`{gate_id}` | "
+                        f"`{gate.get('status', '')}` | "
+                        f"{gate.get('reason', '')} |"
+                    )
+        lines.extend(
+            [
+                "",
+                "| group | component | owner pointer | hardgate |",
+                "| --- | --- | --- | --- |",
             ]
         )
         cells = coverage.get("cells")
         if isinstance(cells, list):
             sorted_cells = sorted(
                 (cell for cell in cells if isinstance(cell, Mapping)),
-                key=lambda cell: str(cell.get("target", "")),
+                key=lambda cell: str(cell.get("component_id", "")),
             )
             for cell in sorted_cells:
+                component_id = str(cell.get("component_id", ""))
+                group = "negative" if component_id.endswith("-DN") else "positive"
                 lines.append(
                     "| "
-                    f"`{cell.get('target', '')}` | "
-                    f"`{cell.get('owner_pointer', '')}` | "
-                    f"`{cell.get('slot_state', '')}` |"
+                    f"`{group}` | "
+                    f"`{component_id}` | "
+                    f"`{cell.get('canonical_owner_pointer', '')}` | "
+                    f"`{cell.get('hardgate_status', '')}` |"
                 )
     lines.append("")
     return "\n".join(lines)
