@@ -105,6 +105,9 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
     def merge_back_to_upstream() -> dict[str, object]:
         return lanes.run_merge_back_lane(store)
 
+    def dev_rollup() -> dict[str, object]:
+        return lanes.run_dev_rollup_lane(store)
+
     return NestedLoopRunner(
         [
             LoopUnit("bio_O_oracle_server_ensure", oracle_server_ensure),
@@ -124,6 +127,7 @@ def build_runner(paths: BioRealityPaths, *, execute_codex: bool = True, max_disp
             LoopUnit("bio_A_assimilate_signals", assimilate_signals),
             LoopUnit("bio_K_keep_and_push", keep_and_push),
             LoopUnit("bio_M_merge_back_to_upstream", merge_back_to_upstream),
+            LoopUnit("bio_D_dev_rollup", dev_rollup),
         ],
         LoopState(STATE_DIR / "loop_state.json"),
     )

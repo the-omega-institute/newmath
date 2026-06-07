@@ -1,0 +1,40 @@
+\origin{ai}
+
+\subsection{Powered complement support for the $B^{*}_{Q6}$ residual panel}
+\label{sec:biorReality-q6-complement-support-powered}
+
+\paragraph{Question.}
+The record tested here asks whether the nine synonymous-residual coordinates of $B^{*}_{Q6}$ leave a measurable remainder after a modeled translation readout has already been removed from the protein-abundance component explained by those coordinates.  The coordinates are
+$K_{AAA}$, $Arg_{AGR}$, $Ile_{AUA}$, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, $Ser_{UCA/UCG}$, $Thr_{ACR/ACY}$, and an $f3$ stress coordinate.  For each organism, the computation forms residualized coordinate rows $Q_e$, a modeled tAI readout $T_e$, and a protein-abundance readout $P_e$ after the declared control block $Z$.  The reported object is not a direct survival matrix $S_{ij}$ against ribosome profiling.  It is the complementary component $P_{Q,\perp T}$: the part of the $Q_e$-explained abundance component that is not aligned with the modeled translation readout $T_e$.  This remainder is then read back into the nine $B^{*}_{Q6}$ coordinates as a vector $a_{\perp}$.
+
+\paragraph{Finite rows and controls.}
+The powered complement computation used six organism rows with same-organism or declared paired tRNA contexts.  The joined protein counts were $19053$ for human, $5815$ for yeast, $3739$ for \emph{E. coli} K-12 MG1655, $14410$ for zebrafish, $12418$ for chicken, and $4129$ for \emph{Mycobacterium smegmatis}.  In every row the control matrix had $24$ columns and rank $23$.  Thus the finite-row statement is not a naked codon-composition comparison; it is a residual projection after amino-acid composition, organism-level context within the constructed panel, GC3, CDS length, and the simpler baseline encoded in the control block.
+
+\paragraph{Complement magnitudes.}
+The observed complement projection is finite and nonzero in all six organisms.  The numerical readback is
+$$
+\begin{aligned}
+R^2_{QP}(\mathrm{human}) &= 0.04454565117192484, & m(\mathrm{human}) &= 0.07910506443205445, & d(\mathrm{human}) &= 0.9208949355679455,\\
+R^2_{QP}(\mathrm{yeast}) &= 0.29837624987287115, & m(\mathrm{yeast}) &= 0.788267804272933, & d(\mathrm{yeast}) &= 0.21173219572706703,\\
+R^2_{QP}(\mathrm{E. coli}) &= 0.10767526667768725, & m(\mathrm{E. coli}) &= 0.3370039961421468, & d(\mathrm{E. coli}) &= 0.6629960038578532,\\
+R^2_{QP}(\mathrm{zebrafish}) &= 0.04613529805760884, & m(\mathrm{zebrafish}) &= 0.12537127895073397, & d(\mathrm{zebrafish}) &= 0.874628721049266,\\
+R^2_{QP}(\mathrm{chicken}) &= 0.03980793595345331, & m(\mathrm{chicken}) &= 0.05996581936972245, & d(\mathrm{chicken}) &= 0.9400341806302775,\\
+R^2_{QP}(\mathrm{M. smegmatis}) &= 0.032090091625816136, & m(\mathrm{M. smegmatis}) &= 0.10273279812535108, & d(\mathrm{M. smegmatis}) &= 0.8972672018746489.
+\end{aligned}
+$$
+Here $m$ is the complement-projection mediated fraction reported by this computation, while $d$ is the remaining direct fraction inside the same projection decomposition.  The strongest complement fraction is yeast, with $m=0.788267804272933$ and $R^2_{QP}=0.29837624987287115$.  The weakest complement fraction is chicken, with $m=0.05996581936972245$ and $R^2_{QP}=0.03980793595345331$.  The squared norms of $P_{Q,\perp T}$ were also finite: $1262.22376787716$ in human, $186.88597748267532$ in yeast, $287.00467177017856$ in \emph{E. coli}, $1005.3614101653925$ in zebrafish, $695.5324705841906$ in chicken, and $164.9629139386272$ in \emph{M. smegmatis}.
+
+\paragraph{Coordinate support.}
+The coordinate support is not concentrated in a single universal residual.  Human support is dominated by $Arg_{AGR}$, $Ile_{AUA}$, $Ser_{UCA/UCG}$, $K_{AAA}$, and $f3$ stress.  Yeast support is dominated by $Ser_{UCR/AGY}$, $Leu_{CUN/UUR}$, $Ser_{UCA/UCG}$, $Arg_{AGR}$, $Thr_{ACR/ACY}$, and $f3$ stress.  The \emph{E. coli} row is led by $Thr_{ACR/ACY}$, $Arg_{AGR}$, $Ile_{AUA}$, and $f3$ stress.  Zebrafish is led by $f3$ stress, $Arg_{AGR}$, $Ile_{AUA}$, $K_{AAA}$, and $Leu_{UUA/UUG}$.  Chicken is led by $Arg_{AGR}$, $Leu_{CUN/UUR}$, $Ile_{AUA}$, $Leu_{UUA/UUG}$, $Ser_{UCR/AGY}$, and $K_{AAA}$.  \emph{M. smegmatis} is led by $K_{AAA}$, $f3$ stress, $Leu_{CUN/UUR}$, $Leu_{UUA/UUG}$, and $Ser_{UCA/UCG}$.  In each organism the absolute support fractions sum to $1$ up to floating-point rounding; the \emph{E. coli} row reports $1.0000000000000002$.
+
+\paragraph{Relation to the powered modeled-readout statistic.}
+The complement result sits downstream of a separate modeled-tAI computation on $40$ organisms.  That powered modeled-readout panel used the same nine $B^{*}_{Q6}$ residual coordinates, had $rank(Z)=23$, residual degrees of freedom $17$, $rank(\widetilde X)=9$, and reported $R^2_{QT}=0.9003849000036579$ for the modeled per-codon tAI readout.  This supplies a nondegenerate modeled-readout background for asking what remains in the abundance projection after the modeled tAI component is removed.  It does not convert the complement row into measured ribosome occupancy or measured translation efficiency.
+
+\paragraph{Proxy contacts and finite-row warnings.}
+A smaller three-organism codon/tRNA proxy contact computed all nine residual coordinates and found a nonzero coupling matrix with $9$ entries above the threshold and maximum absolute coupling $1882464.1106377328$ against a tRNA-Leu CUN-versus-UUR log-copy spectrum.  The Leu CUN/UUR gate in the same three-organism setting reported partial Pearson $1.0$ with log-ratio signs $1,-1,1$, so even that perfect finite-row coefficient carried sign reversal across organisms.  These proxy rows motivate the complement calculation but do not replace the controlled survival score $S_{ij}$, and they do not supply a population-level direction.
+
+\paragraph{Interpretation.}
+The six-organism complement record supports the narrow statement that, after the stated residualization, the modeled-tAI-complement part of the $Q$-explained abundance component is finite and has identifiable support in the nine $B^{*}_{Q6}$ coordinates.  The row is strongest in yeast by the reported $m$ value, moderate in \emph{E. coli}, and smaller in the vertebrate and mycobacterial rows.  The coordinate identities vary by organism, which is exactly why the result should be read as a finite controlled projection rather than as a universal codon law.
+
+\paragraph{Local boundary.}
+No measured ribosome-mediated translation claim follows from this computation by itself: $T$ is modeled tAI, not a ribosome-profiling or TE measurement.  No folding, structural order, physical admissibility, molecular function, causal mechanism, protein-interaction claim, localization claim, phenotype claim, or universal biological law follows from the complement projection.  A claim at any one of those layers requires its own matched contact and its own statistic.  In particular, a positive $a_{\perp}$ coordinate only identifies where the modeled-tAI-complement abundance residual lands inside the nine-coordinate residual basis; it is not a mechanism and it is not a direct $S_{ij}>0$ survival entry against measured translation readouts.
