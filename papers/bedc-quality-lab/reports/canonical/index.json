@@ -21,13 +21,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 95,
+    "node_count": 98,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 33,
+    "row_count": 34,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -166,6 +166,13 @@
         "report": "discovery-gated-nas"
       },
       {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.component_refs",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.discovery_map_signal",
+        "report": "discovery-gated-transformer"
+      },
+      {
         "bundle_role": "auxiliary",
         "control_pointer": null,
         "no_control_rationale_pointer": "$.scope",
@@ -260,49 +267,44 @@
     "status": "pass"
   },
   "discovery_gated_transformer": {
+    "architecture_spec_pointer": "reports/canonical/discovery-gated-transformer.json:$.architecture_spec",
     "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
-    "baselines_pointer": "reports/canonical/discovery_gated_transformer.json:$.baselines",
-    "claim_capsule_ref_pointer": "reports/canonical/discovery_gated_transformer.json:$.claim_capsule_ref",
-    "classifier_surface_delta_pointer": "reports/canonical/discovery_gated_transformer.json:$.classifier_surface_delta",
-    "discovery_map_signal_pointer": "reports/canonical/discovery_gated_transformer.json:$.discovery_map_signal",
-    "fingerprint_artifact": "reports/canonical/discovery_gated_transformer.fingerprint.json",
-    "forbidden_claim_term_audit_pointer": "reports/canonical/discovery_gated_transformer.json:$.forbidden_claim_term_audit",
-    "hardgate_contract_gates_pointer": "reports/canonical/new_model_hardgates.json:$.gates",
-    "hardgate_contract_ref_pointer": "reports/canonical/discovery_gated_transformer.json:$.hardgate_contract_ref",
+    "claim_capsule_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref",
+    "component_refs_pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs",
+    "discovery_map_signal_pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
+    "evidence_envelope_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
+    "fingerprint_artifact": "reports/canonical/discovery-gated-transformer.fingerprint.json",
     "hardgate_instance_pointers": {
-      "NEW-MODEL-HG1": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG1",
-      "NEW-MODEL-HG10": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG10",
-      "NEW-MODEL-HG11": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG11",
-      "NEW-MODEL-HG12": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG12",
-      "NEW-MODEL-HG13": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG13",
-      "NEW-MODEL-HG14": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG14",
-      "NEW-MODEL-HG15": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG15",
-      "NEW-MODEL-HG16": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG16",
-      "NEW-MODEL-HG17": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG17",
-      "NEW-MODEL-HG18": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG18",
-      "NEW-MODEL-HG19": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG19",
-      "NEW-MODEL-HG2": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG2",
-      "NEW-MODEL-HG20": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG20",
-      "NEW-MODEL-HG3": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG3",
-      "NEW-MODEL-HG4": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG4",
-      "NEW-MODEL-HG5": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG5",
-      "NEW-MODEL-HG6": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG6",
-      "NEW-MODEL-HG7": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG7",
-      "NEW-MODEL-HG8": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG8",
-      "NEW-MODEL-HG9": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances.NEW-MODEL-HG9"
+      "DGT-HG1": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG1",
+      "DGT-HG10": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG10",
+      "DGT-HG11": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG11",
+      "DGT-HG12": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG12",
+      "DGT-HG13": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG13",
+      "DGT-HG14": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG14",
+      "DGT-HG15": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG15",
+      "DGT-HG16": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG16",
+      "DGT-HG17": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG17",
+      "DGT-HG18": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG18",
+      "DGT-HG19": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG19",
+      "DGT-HG2": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG2",
+      "DGT-HG20": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG20",
+      "DGT-HG3": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG3",
+      "DGT-HG4": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG4",
+      "DGT-HG5": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG5",
+      "DGT-HG6": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG6",
+      "DGT-HG7": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG7",
+      "DGT-HG8": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG8",
+      "DGT-HG9": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG9"
     },
-    "hardgate_instances_pointer": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances",
-    "json_artifact": "reports/canonical/discovery_gated_transformer.json",
-    "markdown_artifact": "reports/canonical/discovery_gated_transformer.md",
-    "model_id_pointer": "reports/canonical/discovery_gated_transformer.json:$.model_id",
-    "net_positive_signal_pointer": "reports/canonical/discovery_gated_transformer.json:$.net_positive_signal",
-    "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.not_claimed",
-    "prototype_status_pointer": "reports/canonical/discovery_gated_transformer.json:$.prototype_status",
-    "revocation_rows_pointer": "reports/canonical/discovery_gated_transformer.json:$.revocation_rows",
+    "hardgate_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate",
+    "jet_certificate_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref",
+    "json_artifact": "reports/canonical/discovery-gated-transformer.json",
+    "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
+    "mechanism_namecert_ref_pointer": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+    "model_id_pointer": "reports/canonical/discovery-gated-transformer.json:$.model_id",
+    "not_claimed_pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
     "schema_id": "bedc-quality-lab:discovery-gated-transformer",
-    "sequence_task_grid_pointer": "reports/canonical/discovery_gated_transformer.json:$.sequence_task_grid",
-    "status": "prototype-candidate",
-    "training_evidence_pointer": "reports/canonical/discovery_gated_transformer.json:$.training_evidence"
+    "status": "pass"
   },
   "discovery_map": {
     "artifact_id": "bedc-quality-lab:discovery-map",
@@ -311,7 +313,7 @@
     "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 5,
+      "D0": 6,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -322,7 +324,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 25,
+    "row_count": 26,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -442,7 +444,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-07T19:43:01.695301+00:00",
+  "generated_at": "2026-06-07T20:57:07.067409+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -734,7 +736,8 @@
       "sigreg-mini-grid",
       "discovery-regularized-training",
       "mechanism-seeking-network",
-      "discovery-gated-nas"
+      "discovery-gated-nas",
+      "discovery-gated-transformer"
     ],
     "sections": [
       "experiment bench scope",
@@ -784,7 +787,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "55e56da0619e73b18d0708a1867afc7672afb7776a5bb69704c74d2c32f15f1e",
+    "source_sidecar_digest": "5c615ec5912d3a636b708da63365e7590c21b32e3e30e45adaf20bc632d1719f",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -1985,6 +1988,67 @@
           "what_was_learned",
           "revocation_rows",
           "forbidden_claim_term_audit"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.component_refs",
+        "control_status": "present",
+        "cost_pointer": "$.architecture_spec",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [
+          "lit-lejepa-theorem-ledger"
+        ],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.discovery_map_signal",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/discovery-gated-transformer.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/discovery-gated-transformer.json",
+      "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
+      "name": "discovery-gated-transformer",
+      "producer_command": [
+        "python3",
+        "scripts/run_discovery_gated_transformer.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "source_artifacts",
+          "model_id",
+          "architecture_spec",
+          "component_refs",
+          "hardgate",
+          "discovery_map_signal",
+          "claim_capsule_ref",
+          "evidence_envelope_ref",
+          "mechanism_namecert_ref",
+          "jet_certificate_ref",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],
