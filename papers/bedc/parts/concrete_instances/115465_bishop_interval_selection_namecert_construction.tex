@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalSelectionUp$}
+\label{ch:concrete-instances-bishop-interval-selection-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopIntervalSelectionUp$ packet records the finite interval-selection surface by which a Real and Completion consumer may pass from displayed closed bounded intervals to a bisection-driven real-name handoff. It sits after the closed interval carrier of \autoref{ch:concrete-instances-closedboundedinterval-namecert}, the located bisection route of \autoref{ch:concrete-instances-located-interval-bisection-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name certificate of \autoref{ch:concrete-instances-real-namecert}. The packet names the constructive choice of a displayed interval branch at finite precision; it does not select a host point, invoke countable choice, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop interval-selection carrier]
+\label{def:bishop-interval-selection-carrier}
+A $\BishopIntervalSelectionUp$ carrier is a finite $\BHist$ packet
+$$
+I=(B,L,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\ClosedBoundedIntervalUp$ source row, recording the left endpoint, right endpoint, and boundedness ledger available to the selection request.
+\item $L$ is the $\LocatedIntervalBisectionUp$ branch row, recording the finite bisection decisions and located side tests already accepted by the packet.
+\item $Q$ is the rational tolerance row, naming the requested precision and the side condition that the displayed interval length is within that request.
+\item $R$ is the $\RegSeqRatUp$ readback row for the finite sequence of selected interval endpoints.
+\item $E$ is the terminal $\RealUp$ seal row reached only after $B,L,Q,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for interval endpoints, bisection rows, tolerances, regular readbacks, real seals, replay data, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from interval requests through bisection, rational tolerance, regular readback, and real sealing.
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalSelectionUp$, $\ClosedBoundedIntervalUp$, $\LocatedIntervalBisectionUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BishopIntervalSelectionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,L,Q,R,E,H,C,P,N$. It has no coordinate for a selected real point, host interval compactness, quotient real equality, countable-choice branch schedule, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Bishop interval-selection NameCert obligations]
+\label{thm:bishop-interval-selection-namecert-obligations}
+For every accepted $\BishopIntervalSelectionUp$ carrier $I=(B,L,Q,R,E,H,C,P,N)$, the local $\NameCert_{\BishopIntervalSelectionUp}$ surface consists exactly of carrier admission, closed bounded interval exposure, located bisection branch exposure, tolerance coverage, regular rational readback, terminal real sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-interval-selection-carrier}. The analytic rows are $B,L,Q,R,E$, and they are ordered from displayed closed interval data to located bisection, tolerance, regular readback, and real sealing.
+
+Use the sibling interval chapters. \autoref{ch:concrete-instances-closedboundedinterval-namecert} supplies the closed bounded interval row, and \autoref{ch:concrete-instances-located-interval-bisection-namecert} supplies the finite branch row whose side tests are already displayed.
+
+Now read the completion-facing rows. The $\RegSeqRatUp$ and $\RealUp$ chapters, \autoref{ch:concrete-instances-regseqrat-namecert} and \autoref{ch:concrete-instances-real-namecert}, are reached only through $R$ and $E$ after the tolerance row $Q$ has been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since no excluded coordinate is present, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Bishop interval-selection nested interval handoff]
+\label{thm:bishop-interval-selection-nested-interval-handoff}
+Every completion-facing read of an accepted $\BishopIntervalSelectionUp$ carrier must read the $\ClosedBoundedIntervalUp$ source row $B$, the $\LocatedIntervalBisectionUp$ branch row $L$, the tolerance row $Q$, and the $\RegSeqRatUp$ readback row $R$ before it consumes the terminal $\RealUp$ seal row $E$. Thus nested interval data enter the Real and Completion chain as a displayed finite handoff, not as a hidden point selector.
+\end{theorem}
+\begin{proof}
+Start with the carrier row order in \autoref{def:bishop-interval-selection-carrier}. The interval source and bisection branch are the only rows that can determine which closed subinterval is selected at a finite stage.
+
+Apply \autoref{thm:bishop-interval-selection-namecert-obligations}. It requires tolerance coverage and regular rational readback to be part of the same local certificate before the real seal is available.
+
+The structural rows $H,C,P,N$ preserve that route without adding a branch selector. Therefore a consumer that reaches $E$ has already consumed the displayed rows $B,L,Q,R$, and a consumer that bypasses those rows leaves the accepted $\BishopIntervalSelectionUp$ packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted BishopIntervalSelectionUp completion-facing read displays a ClosedBoundedIntervalUp source row, a LocatedIntervalBisectionUp branch row, tolerance coverage, RegSeqRatUp readback, RealUp sealing, transport, replay, provenance, and local NameCert naming.}
+
+\independenceWitness{closedboundedinterval, located-interval-bisection, regseqrat, real: $\BishopIntervalSelectionUp$ is not bijective to any listed sibling because it jointly carries a closed interval source, located branch decisions, tolerance coverage, regular readback, terminal real sealing, transport, replay, provenance, and local naming rows.}
+
+\closureat{BishopIntervalSelectionUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalSelectionUp}
+  \constructivestory{A $\BishopIntervalSelectionUp$ packet is generated from closed bounded interval rows, located bisection rows, tolerance rows, regular rational readback, real sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-selection-carrier}, \autoref{thm:bishop-interval-selection-namecert-obligations}, and \autoref{thm:bishop-interval-selection-nested-interval-handoff} seed the finite interval-selection handoff for the Real and Completion route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host point selection, countable choice, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval exposure, bisection branch exposure, tolerance coverage, regular readback, real sealing, transport, replay, provenance, and local naming for BEDC.Derived.BishopIntervalSelectionUp.}
+\end{closurestatus}
