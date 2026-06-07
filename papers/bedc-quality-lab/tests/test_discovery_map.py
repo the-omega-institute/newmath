@@ -132,6 +132,10 @@ def _minimal_payload(spec):
                 "discovery_lambdas": [0.0, 0.0001, 0.001, 0.005, 0.01],
                 "arms": ["task_only", "sigreg", "drt", "matched_random"],
             },
+            "source_artifacts": {
+                "cost_protocol": "configs/default_cost_protocol.yaml",
+                "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+            },
             "discovery_map_signal": {
                 "control_pointer": "$.matched_random_control",
                 "evidence_pointer": "$.torch_training_evidence",
@@ -144,7 +148,13 @@ def _minimal_payload(spec):
             },
             "hardgate": {
                 "failed_gate": None,
-                "gates": {f"DRT-HG{index}": {"status": "pass"} for index in range(1, 7)},
+                "gates": {
+                    f"DRT-HG{index}": {
+                        "status": "pass",
+                        "evidence_pointer": "$.compute_ledger" if index == 7 else "$.quality_promotion_boundary",
+                    }
+                    for index in range(1, 8)
+                },
                 "status": "pass",
             },
             "failed_gate": None,
@@ -180,7 +190,7 @@ def _minimal_payload(spec):
                         "negative_witness",
                     ],
                     "comparison_family": "task-sigreg-drt-matched-random",
-                    "compute_ledger_pointer": "$.device_protocol",
+                    "compute_ledger_pointer": "$.compute_ledger",
                     "debt_marker_pointer": "$.constraint_summary",
                     "uer_mean": 0.11,
                     "uer_reduction_mean": 0.09,
@@ -221,6 +231,27 @@ def _minimal_payload(spec):
                 "resolved_device": "cpu",
                 "drift_tolerance": 0.0001,
                 "status": "available",
+            },
+            "compute_ledger": {
+                "status": "complete",
+                "backend_row_counts": {
+                    "deterministic-anchor": 720,
+                    "torch-training-arm": 16,
+                },
+                "device": "cpu",
+                "requested_device": "auto",
+                "resolved_device": "cpu",
+                "deterministic_seed_count": 3,
+                "torch_seed_count": 2,
+                "total_steps": 8832,
+                "wall_time_seconds_proxy": 2.16,
+                "flops_proxy": 36175872,
+                "energy_proxy": 0.003618,
+                "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
+                "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+                "protocols_pointer": "$.torch_training_evidence.protocols",
+                "missing_fields": [],
+                "evidence_pointer": "$.records",
             },
             "negative_witness_mutations": {
                 "status": "armed",

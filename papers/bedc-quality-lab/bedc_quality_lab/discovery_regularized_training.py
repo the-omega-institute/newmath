@@ -73,6 +73,9 @@ DRT_EXTENSION_FORBIDDEN_PATTERNS = (
     "candidate_measurement_body",
     "candidate_measurements_body",
 )
+FIXED_CELL_SECONDS_PROXY = 0.00025
+FLOPS_PER_STEP_PROXY = 4096
+ENERGY_PER_FLOP_PROXY = 1.0e-10
 
 
 @dataclass(frozen=True)
@@ -106,6 +109,26 @@ class TorchTrainingArmProtocol:
     dtype: str
     drift_tolerance: float
     status: str
+    evidence_pointer: str
+
+
+@dataclass(frozen=True)
+class ComputeLedger:
+    status: str
+    backend_row_counts: dict[str, int]
+    device: str
+    requested_device: str
+    resolved_device: str
+    deterministic_seed_count: int
+    torch_seed_count: int
+    total_steps: int
+    wall_time_seconds_proxy: float
+    flops_proxy: int
+    energy_proxy: float
+    cost_protocol_pointer: str
+    raw_rows_pointer: str | None
+    protocols_pointer: str
+    missing_fields: list[str]
     evidence_pointer: str
 
 
@@ -160,7 +183,7 @@ def default_drt_training_extension_spec() -> DrtTrainingExtensionSpec:
         LossTermSpec("ledger", "debt ledger pressure", quality_artifact_pointer("$.constraint_summary")),
         LossTermSpec("certificate", "certificate loss separation", quality_artifact_pointer("$.matched_random_control")),
         LossTermSpec("mechanism", "mechanism-facing classifier shift", quality_artifact_pointer("$.torch_training_evidence.classifier_surface_delta")),
-        LossTermSpec("cost", "bounded replay cost accounting", quality_artifact_pointer("$.device_protocol")),
+        LossTermSpec("cost", "bounded replay cost accounting", quality_artifact_pointer("$.compute_ledger")),
         LossTermSpec("negative_witness", "matched-random negative witness pressure", quality_artifact_pointer("$.negative_witness_mutations")),
     )
     return DrtTrainingExtensionSpec(
@@ -171,7 +194,7 @@ def default_drt_training_extension_spec() -> DrtTrainingExtensionSpec:
             AblationArmSpec("without_ledger", ("ledger",), quality_artifact_pointer("$.surface_registry.quality.by_arm.matched_random")),
             AblationArmSpec("without_certificate", ("certificate",), quality_artifact_pointer("$.matched_random_control")),
             AblationArmSpec("without_mechanism", ("mechanism",), quality_artifact_pointer("$.torch_training_evidence.classifier_surface_delta")),
-            AblationArmSpec("without_cost", ("cost",), quality_artifact_pointer("$.device_protocol")),
+            AblationArmSpec("without_cost", ("cost",), quality_artifact_pointer("$.compute_ledger")),
             AblationArmSpec("without_negative_witness", ("negative_witness",), quality_artifact_pointer("$.negative_witness_mutations")),
         ),
         forbidden_keys=DRT_EXTENSION_FORBIDDEN_PATTERNS,
@@ -528,6 +551,14 @@ def _without_pointer_fields(value: Any) -> Any:
     return value
 
 
+def _claim_capsule_compute_ledger_snapshot(value: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        key: item
+        for key, item in value.items()
+        if key not in {"raw_rows_pointer", "protocols_pointer", "evidence_pointer"}
+    }
+
+
 def _forbidden_term_audit(value: Any) -> dict[str, Any]:
     text = json.dumps(value, sort_keys=True).lower().replace(" ", "-")
     hits = [term for term in FORBIDDEN_POSITIVE_CLAIM_TERMS if term.lower() in text]
@@ -570,7 +601,8 @@ class DiscoveryRegularizedTrainingProjection:
         return [dict(row) for row in self.records]
 
     def project(self) -> dict[str, Any]:
-        summaries = self._summaries()
+        source_artifacts = self._source_artifacts()
+        summaries = self._summaries(source_artifacts)
         boundary = quality_promotion_boundary(
             {
                 "config": dict(self.config),
@@ -592,6 +624,7 @@ class DiscoveryRegularizedTrainingProjection:
             "lambda_summary": summaries["lambda_summary"],
             "constraint_summary": summaries["constraint_summary"],
             "device_protocol": summaries["device_protocol"],
+            "compute_ledger": summaries["compute_ledger"],
             "torch_training_evidence": summaries["torch_training_evidence"],
             "negative_witness_mutations": summaries["negative_witness_mutations"],
             "training_loop_trace": summaries["training_loop_trace"],
@@ -609,6 +642,7 @@ class DiscoveryRegularizedTrainingProjection:
             signal=signal,
             positive_claim=positive_claim,
             quality_boundary=boundary,
+            source_artifacts=source_artifacts,
         )
         if capsule["forbidden_claim_term_audit"]["status"] != "pass":
             failed_gate = failed_gate or "forbidden-positive-claim-term"
@@ -637,15 +671,7 @@ class DiscoveryRegularizedTrainingProjection:
             "producer": PRODUCER,
             "projector": PROJECTOR,
             "run_artifacts": dict(self.run_artifacts),
-            "source_artifacts": {
-                "cost_protocol": "configs/default_cost_protocol.yaml",
-                "raw_rows": self.run_artifacts.get("raw_metrics"),
-                "claim_capsule": self.run_artifacts.get("claim_capsule"),
-                "producer_sources": [
-                    "bedc_quality_lab/discovery_regularized_training.py",
-                    "scripts/run_discovery_regularized_training.py",
-                ],
-            },
+            "source_artifacts": source_artifacts,
             "config": dict(self.config),
             "grid": summaries["grid"],
             "records": summaries["records"],
@@ -654,6 +680,7 @@ class DiscoveryRegularizedTrainingProjection:
             "constraint_summary": summaries["constraint_summary"],
             "arm_protocol": summaries["arm_protocol"],
             "device_protocol": summaries["device_protocol"],
+            "compute_ledger": summaries["compute_ledger"],
             "torch_training_evidence": summaries["torch_training_evidence"],
             "negative_witness_mutations": summaries["negative_witness_mutations"],
             "training_loop_trace": summaries["training_loop_trace"],
@@ -687,7 +714,7 @@ class DiscoveryRegularizedTrainingProjection:
         }
 
     def failed_gate(self, hardgates: Mapping[str, Mapping[str, Any]]) -> str | None:
-        for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5", "DRT-HG6"):
+        for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5", "DRT-HG6", "DRT-HG7"):
             row = hardgates.get(name)
             if not isinstance(row, Mapping) or row.get("status") != "pass":
                 return name
@@ -704,6 +731,7 @@ class DiscoveryRegularizedTrainingProjection:
         matched = summaries["matched_random_control"]
         task_only = summaries["surface_registry"]["task_accuracy_only"]
         torch_evidence = summaries["torch_training_evidence"]
+        compute_ledger = summaries["compute_ledger"]
         torch_delta = torch_evidence.get("classifier_surface_delta", {})
         protocols = torch_evidence.get("protocols", [])
         expected_torch_rows = torch_evidence.get("expected_row_count")
@@ -781,6 +809,16 @@ class DiscoveryRegularizedTrainingProjection:
                 "protocol_count": len(protocols) if isinstance(protocols, Sequence) else 0,
                 "classifier_surface_delta": dict(torch_delta) if isinstance(torch_delta, Mapping) else {},
             },
+            "DRT-HG7": {
+                "status": _status(
+                    isinstance(compute_ledger, Mapping)
+                    and compute_ledger.get("status") == "complete"
+                    and not compute_ledger.get("missing_fields")
+                ),
+                "evidence": "Compute ledger must record deterministic replay accounting, seed coverage, and the public cost protocol pointer.",
+                "evidence_pointer": "$.compute_ledger",
+                "missing_fields": list(compute_ledger.get("missing_fields", [])) if isinstance(compute_ledger, Mapping) else ["compute_ledger"],
+            },
         }
 
     def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -818,6 +856,7 @@ class DiscoveryRegularizedTrainingProjection:
         signal: Mapping[str, Any],
         positive_claim: Mapping[str, Any],
         quality_boundary: Mapping[str, Any],
+        source_artifacts: Mapping[str, Any],
     ) -> dict[str, Any]:
         failed = self.failed_gate(hardgates)
         accepted = failed is None
@@ -832,7 +871,7 @@ class DiscoveryRegularizedTrainingProjection:
             "source_artifacts": {
                 "summary": self.run_artifacts.get("summary"),
                 "raw_rows": self.run_artifacts.get("raw_metrics"),
-                "cost_protocol": "configs/default_cost_protocol.yaml",
+                "cost_protocol": source_artifacts.get("cost_protocol"),
             },
             "not_claimed": list(NOT_CLAIMED),
             "failed_gate": failed,
@@ -847,6 +886,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "lambda_summary": summaries["lambda_summary"],
                 "constraint_summary": summaries["constraint_summary"],
                 "matched_random_control": _without_pointer_fields(summaries["matched_random_control"]),
+                "compute_ledger": _claim_capsule_compute_ledger_snapshot(summaries["compute_ledger"]),
                 "quality_promotion_boundary": dict(quality_boundary),
             },
             "revocation": {
@@ -911,12 +951,36 @@ class DiscoveryRegularizedTrainingProjection:
         lines.append(f"- requested: `{payload['device_protocol']['requested_device']}`")
         lines.append(f"- resolved: `{payload['device_protocol']['resolved_device']}`")
         lines.append(f"- status: `{payload['torch_training_evidence']['status']}`")
+        ledger = payload["compute_ledger"]
+        lines.extend(["", "## Compute Ledger", ""])
+        lines.append(f"- status: `{ledger['status']}`")
+        lines.append(f"- backend rows: `{ledger['backend_row_counts']}`")
+        lines.append(f"- total steps: `{ledger['total_steps']}`")
+        lines.append(f"- wall time proxy seconds: `{ledger['wall_time_seconds_proxy']}`")
+        lines.append(f"- FLOPs proxy: `{ledger['flops_proxy']}`")
+        lines.append(f"- cost protocol pointer: `{ledger['cost_protocol_pointer']}`")
         lines.extend(["", "## Not Claimed", ""])
         lines.extend(f"- {item}" for item in payload["not_claimed"])
         lines.append("")
         return "\n".join(lines)
 
-    def _summaries(self) -> dict[str, Any]:
+    def _source_artifacts(self) -> dict[str, Any]:
+        configured = self.config.get("source_artifacts")
+        if isinstance(configured, Mapping):
+            cost_protocol = str(configured.get("cost_protocol", ""))
+        else:
+            cost_protocol = "configs/default_cost_protocol.yaml"
+        return {
+            "cost_protocol": cost_protocol,
+            "raw_rows": self.run_artifacts.get("raw_metrics"),
+            "claim_capsule": self.run_artifacts.get("claim_capsule"),
+            "producer_sources": [
+                "bedc_quality_lab/discovery_regularized_training.py",
+                "scripts/run_discovery_regularized_training.py",
+            ],
+        }
+
+    def _summaries(self, source_artifacts: Mapping[str, Any]) -> dict[str, Any]:
         config = dict(self.config)
         lambdas = [float(value) for value in config.get("discovery_lambdas", DEFAULT_DISCOVERY_LAMBDAS)]
         rhos = [float(value) for value in config.get("rhos", DEFAULT_RHOS)]
@@ -949,6 +1013,13 @@ class DiscoveryRegularizedTrainingProjection:
             "status": torch_status,
             "evidence_pointer": "$.torch_training_evidence",
         }
+        compute_ledger = self._compute_ledger(
+            deterministic_rows=deterministic_rows,
+            torch_rows=torch_rows,
+            protocols=protocols,
+            device_protocol=device_protocol,
+            source_artifacts=source_artifacts,
+        )
         drt_debt = drt.get("debt_q_mean")
         task_debt = task_only.get("debt_q_mean")
         drt_benefit = drt.get("benefit_q_mean")
@@ -988,7 +1059,7 @@ class DiscoveryRegularizedTrainingProjection:
                         "negative_witness",
                     ],
                     "comparison_family": "task-sigreg-drt-matched-random",
-                    "compute_ledger_pointer": "$.device_protocol",
+                    "compute_ledger_pointer": "$.compute_ledger",
                     "debt_marker_pointer": "$.constraint_summary",
                     "raw_metrics_pointer": self.run_artifacts.get("raw_metrics"),
                     "uer_mean": 0.11,
@@ -1034,6 +1105,7 @@ class DiscoveryRegularizedTrainingProjection:
                 },
             },
             "device_protocol": device_protocol,
+            "compute_ledger": asdict(compute_ledger),
             "torch_training_evidence": {
                 "status": torch_status,
                 "row_count": len(torch_rows),
@@ -1159,6 +1231,68 @@ class DiscoveryRegularizedTrainingProjection:
                 )
         return protocols
 
+    def _compute_ledger(
+        self,
+        *,
+        deterministic_rows: Sequence[Mapping[str, Any]],
+        torch_rows: Sequence[Mapping[str, Any]],
+        protocols: Sequence[TorchTrainingArmProtocol],
+        device_protocol: Mapping[str, Any],
+        source_artifacts: Mapping[str, Any],
+    ) -> ComputeLedger:
+        steps = int(self.config.get("steps", 0))
+        backend_counts: dict[str, int] = {
+            "deterministic-anchor": len(deterministic_rows),
+            "torch-training-arm": len(torch_rows),
+        }
+        for row in self.records:
+            backend = str(row.get("backend", "unknown"))
+            if backend not in backend_counts:
+                backend_counts[backend] = backend_counts.get(backend, 0) + 1
+        deterministic_seed_values = {int(row["seed"]) for row in deterministic_rows if isinstance(row.get("seed"), int)}
+        torch_seed_values = {int(row["seed"]) for row in torch_rows if isinstance(row.get("seed"), int)}
+        deterministic_step_count = len(deterministic_rows) * max(steps, 0)
+        torch_step_count = sum(max(int(protocol.steps), 0) for protocol in protocols)
+        total_steps = deterministic_step_count + torch_step_count
+        flops_proxy = int(total_steps * FLOPS_PER_STEP_PROXY)
+        raw_rows_pointer = self.run_artifacts.get("raw_metrics")
+        cost_protocol_pointer = "$.source_artifacts.cost_protocol" if source_artifacts.get("cost_protocol") else ""
+        missing_fields: list[str] = []
+        if steps <= 0:
+            missing_fields.append("steps")
+        if not deterministic_rows:
+            missing_fields.append("deterministic_rows")
+        if any(not isinstance(row.get("seed"), int) for row in deterministic_rows):
+            missing_fields.append("deterministic_seed")
+        if not deterministic_seed_values:
+            missing_fields.append("deterministic_seed_count")
+        if torch_rows and any(not isinstance(row.get("seed"), int) for row in torch_rows):
+            missing_fields.append("torch_seed")
+        if not torch_seed_values:
+            missing_fields.append("torch_seed_count")
+        if not cost_protocol_pointer:
+            missing_fields.append("cost_protocol_pointer")
+        if not raw_rows_pointer:
+            missing_fields.append("raw_rows_pointer")
+        return ComputeLedger(
+            status="complete" if not missing_fields else "incomplete",
+            backend_row_counts=backend_counts,
+            device=str(device_protocol.get("resolved_device", "not-requested")),
+            requested_device=str(device_protocol.get("requested_device", "auto")),
+            resolved_device=str(device_protocol.get("resolved_device", "not-requested")),
+            deterministic_seed_count=len(deterministic_seed_values),
+            torch_seed_count=len(torch_seed_values),
+            total_steps=total_steps,
+            wall_time_seconds_proxy=round(len(deterministic_rows) * max(steps, 0) * FIXED_CELL_SECONDS_PROXY, 6),
+            flops_proxy=flops_proxy,
+            energy_proxy=round(flops_proxy * ENERGY_PER_FLOP_PROXY, 6),
+            cost_protocol_pointer=cost_protocol_pointer,
+            raw_rows_pointer=raw_rows_pointer,
+            protocols_pointer="$.torch_training_evidence.protocols",
+            missing_fields=missing_fields,
+            evidence_pointer="$.records",
+        )
+
 
 __all__ = [
     "ARTIFACT_ID",
@@ -1170,6 +1304,10 @@ __all__ = [
     "DRIFT_TOLERANCE",
     "DRT_EXTENSION_UER_MAX",
     "DRT_EXTENSION_UER_REDUCTION_MIN",
+    "ENERGY_PER_FLOP_PROXY",
+    "FIXED_CELL_SECONDS_PROXY",
+    "FLOPS_PER_STEP_PROXY",
+    "ComputeLedger",
     "DiscoveryRegularizedTrainingProjection",
     "DrtTrainingExtensionSpec",
     "FORBIDDEN_SUMMARY_ALIASES",
