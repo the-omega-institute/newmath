@@ -86,6 +86,31 @@ def test_performance_preserved_classifier_lost_records_compression_debt():
     assert student["compression_debt"]["status"] == "critical"
 
 
+def test_replay_drift_fails_closed_on_u_hg2(monkeypatch):
+    runner = _runner()
+    h2_clean_payload = runner._candidate_payload()
+    student = h2_clean_payload["arms"]["student_performance_distilled"]
+    student["classifier_preserved"] = True
+    student["classifier_agreement"] = student["classifier_agreement_floor"]
+    student["gap_head_preserved"] = True
+    student["gap_head_agreement"] = student["gap_head_agreement_floor"]
+    student["ledger_equivalence"] = True
+    h2_clean_payload["claimability"]["quality_preserving_compression_claimable"] = True
+    h2_clean_payload["hardgates"] = runner._h2_gates(h2_clean_payload)
+    monkeypatch.setattr(runner, "_candidate_payload", lambda: h2_clean_payload)
+
+    payload = runner.build_artifacts(deterministic_replay=False)["compression_preservation"]
+
+    assert payload["hardgates"]["H2-HG1"]["status"] == "pass"
+    assert payload["hardgates"]["H2-HG2"]["status"] == "pass"
+    assert payload["hardgates"]["H2-HG3"]["status"] == "pass"
+    assert payload["hardgates"]["U-HG2"]["status"] == "fail"
+    assert payload["reproducibility"]["byte_identical"] is False
+    assert payload["claim_status"] == "present-but-fail-closed"
+    assert payload["claim_status"] != "claimable"
+    assert payload["failed_gate"] == "U-HG2"
+
+
 def test_quality_preserving_claim_requires_classifier_gap_head_and_ledger_equivalence():
     runner = _runner()
     payload = runner.build_artifacts()["compression_preservation"]
