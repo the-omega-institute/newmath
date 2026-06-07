@@ -117,7 +117,7 @@
       },
       "DG-NAS-HG6": {
         "control_positive": false,
-        "evidence": "Any witness violation must demote the candidate.",
+        "evidence": "Any witness violation must demote the candidate and carry row-local mutation coverage.",
         "status": "pass"
       },
       "DG-NAS-HG7": {
@@ -158,21 +158,24 @@
         "mutation_rule": "add residualized h path",
         "source_candidate": "score_margin_shortcut",
         "source_candidate_demoted": true,
-        "witness_kind": "score_margin_shortcut"
+        "witness_kind": "score_margin_shortcut",
+        "witness_ref": "score_margin_shortcut"
       },
       {
         "mutation_candidate": "scale_invariant_norm",
         "mutation_rule": "add scale-invariant norm",
         "source_candidate": "residualized_h_path",
         "source_candidate_demoted": true,
-        "witness_kind": "scale_leakage"
+        "witness_kind": "scale_leakage",
+        "witness_ref": "scale_leakage"
       },
       {
         "mutation_candidate": "control_separated_route",
         "mutation_rule": "add stronger control separation",
         "source_candidate": "scale_invariant_norm",
         "source_candidate_demoted": true,
-        "witness_kind": "control_positive"
+        "witness_kind": "control_positive",
+        "witness_ref": "control_positive"
       }
     ],
     "selected_candidate_has_violation": false,

@@ -332,6 +332,27 @@ def search_boundary_hg7(payload: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _negative_witness_rows_cover_mutations(mutations: Mapping[str, Any]) -> bool:
+    mutation_map = mutations.get("mutation_map")
+    rows = mutations.get("rows")
+    if not isinstance(mutation_map, Mapping) or not isinstance(rows, list):
+        return False
+    if {str(key): str(value) for key, value in mutation_map.items()} != dict(NEGATIVE_WITNESS_MUTATIONS):
+        return False
+    rows_by_kind = {row.get("witness_kind"): row for row in rows if isinstance(row, Mapping)}
+    if set(rows_by_kind) != set(NEGATIVE_WITNESS_MUTATIONS):
+        return False
+    for witness_kind, mutation_candidate in NEGATIVE_WITNESS_MUTATIONS.items():
+        row = rows_by_kind[witness_kind]
+        if row.get("witness_ref") != witness_kind:
+            return False
+        if row.get("mutation_candidate") != mutation_candidate:
+            return False
+        if row.get("mutation_pointer") != f"$.search_objective_summary.by_candidate.{mutation_candidate}":
+            return False
+    return True
+
+
 def _without_pointer_fields(value: Any) -> Any:
     if isinstance(value, Mapping):
         return {
@@ -538,9 +559,10 @@ class DiscoveryGatedNasProjection:
             "DG-NAS-HG6": {
                 "status": _status(
                     mutations["demoted_candidate_count"] == mutations["witness_violating_candidate_count"]
+                    and _negative_witness_rows_cover_mutations(mutations)
                     and not matched_baseline_control_positive
                 ),
-                "evidence": "Any witness violation must demote the candidate.",
+                "evidence": "Any witness violation must demote the candidate and carry row-local mutation coverage.",
                 "evidence_pointer": "$.matched_baseline_control.control_positive" if matched_baseline_control_positive else "$.negative_witness_mutations",
                 "control_positive": baseline.get("control_positive"),
             },
@@ -833,6 +855,7 @@ class DiscoveryGatedNasProjection:
             rows.append(
                 {
                     "witness_kind": witness_kind,
+                    "witness_ref": witness_kind,
                     "source_candidate": source_candidate,
                     "mutation_candidate": mutation_candidate,
                     "source_candidate_demoted": bool(source and source["witness_violation_count"] > 0),

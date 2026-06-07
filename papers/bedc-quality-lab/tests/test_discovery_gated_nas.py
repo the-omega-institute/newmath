@@ -124,9 +124,14 @@ def test_search_objective_calculation_is_quantized():
 def test_negative_witness_mutations_and_demotions():
     payload = _payload()
     rows = payload["negative_witness_mutations"]["rows"]
+    mutation_map = payload["negative_witness_mutations"]["mutation_map"]
 
     assert payload["negative_witness_mutations"]["mutation_map"] == NEGATIVE_WITNESS_MUTATIONS
     assert {row["witness_kind"] for row in rows} == set(NEGATIVE_WITNESS_MUTATIONS)
+    for row in rows:
+        assert row["witness_ref"] == row["witness_kind"]
+        assert row["mutation_candidate"] == mutation_map[row["witness_kind"]]
+        assert row["mutation_pointer"] == f"$.search_objective_summary.by_candidate.{row['mutation_candidate']}"
     assert all(row["source_candidate_demoted"] is True for row in rows)
     assert payload["negative_witness_mutations"]["demoted_candidate_count"] == payload["negative_witness_mutations"]["witness_violating_candidate_count"]
     assert payload["negative_witness_mutations"]["selected_candidate_has_violation"] is False
@@ -290,6 +295,34 @@ def test_candidate_with_witness_violation_fails_hg6_when_not_demoted():
 
     assert hardgates["DG-NAS-HG6"]["status"] == "fail"
     assert mutated["negative_witness_mutations"]["demoted_candidate_count"] < mutated["negative_witness_mutations"]["witness_violating_candidate_count"]
+
+
+def test_hg6_fails_when_negative_witness_row_lacks_direct_witness_ref():
+    payload = _ready_payload()
+    projection = DiscoveryGatedNasProjection(
+        config=payload["config"],
+        records=[],
+        generated_at="fixture-time",
+        run_artifacts=payload["run_artifacts"],
+    )
+    rows = payload["negative_witness_mutations"]["rows"]
+    missing_ref = {
+        **payload,
+        "negative_witness_mutations": {
+            **payload["negative_witness_mutations"],
+            "rows": [{key: value for key, value in rows[0].items() if key != "witness_ref"}, *rows[1:]],
+        },
+    }
+    wrong_ref = {
+        **payload,
+        "negative_witness_mutations": {
+            **payload["negative_witness_mutations"],
+            "rows": [{**rows[0], "witness_ref": rows[1]["witness_kind"]}, *rows[1:]],
+        },
+    }
+
+    assert projection.hardgate_verdicts(missing_ref)["DG-NAS-HG6"]["status"] == "fail"
+    assert projection.hardgate_verdicts(wrong_ref)["DG-NAS-HG6"]["status"] == "fail"
 
 
 def test_matched_baseline_control_positive_fails_hg6_without_d5_m_candidate():
