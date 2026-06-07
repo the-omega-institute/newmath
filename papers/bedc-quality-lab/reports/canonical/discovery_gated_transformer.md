@@ -1,6 +1,6 @@
 # Discovery-Gated Transformer
 
-- Generated at: `2026-06-07T00:00:00+00:00`
+- Generated at: `2026-06-07T18:27:05.176658+00:00`
 - Model id: `discovery_gated_transformer`
 - Prototype status: `prototype-candidate`
 - Hardgate contract: `reports/canonical/new_model_hardgates.json:$.gates`

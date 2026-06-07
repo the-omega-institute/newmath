@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-07T00:00:00+00:00`
+- Generated at: `2026-06-07T18:27:05.176658+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -24,6 +24,7 @@
 | `discovery-regularized-training` | `pass` | `reports/canonical/discovery-regularized-training.json` | `reports/canonical/discovery-regularized-training.md` | `reports/canonical/discovery-regularized-training.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `pass` | `reports/canonical/mechanism-seeking-network.json` | `reports/canonical/mechanism-seeking-network.md` | `reports/canonical/mechanism-seeking-network.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_control` |
 | `discovery-gated-nas` | `pass` | `reports/canonical/discovery-gated-nas.json` | `reports/canonical/discovery-gated-nas.md` | `reports/canonical/discovery-gated-nas.fingerprint.json` | `$.search_space` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_baseline_control` |
+| `order-k-benchmark` | `pass` | `reports/canonical/order-k-benchmark.json` | `reports/canonical/order-k-benchmark.md` | `reports/canonical/order-k-benchmark.fingerprint.json` | `$.task_specs` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.matched_random_controls` |
 
 ## Auxiliary reports
 
@@ -53,7 +54,7 @@
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
 - Experiment proposals: `reports/canonical/discovery_map.json:$.experiment_proposals`
-- Rows: `23`
+- Rows: `24`
 
 ## Observed debt axis projection
 
@@ -173,7 +174,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `31`
+- Rows: `32`
 
 ## Claim graph
 
@@ -181,7 +182,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `89`
+- Nodes: `92`
 
 ## Claim capsule
 
@@ -275,7 +276,7 @@
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas, order-k-benchmark`
 - Auxiliary reports: `nongaussian-distribution-sweep, lejepa-theorem-ledger, spectral-ablation-hinge`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -303,6 +304,7 @@
 | `discovery-regularized-training` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
 | `mechanism-seeking-network` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
 | `discovery-gated-nas` | `hg_p_core` | `$.positive_claim` | `$.matched_baseline_control` | `None` |
+| `order-k-benchmark` | `hg_p_core` | `$.positive_claim` | `$.matched_random_controls` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
 

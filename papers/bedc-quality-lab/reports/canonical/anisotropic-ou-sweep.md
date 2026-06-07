@@ -1,6 +1,6 @@
 # Anisotropic Gaussian-OU transition-isotropy sweep
 
-- Generated at: `2026-06-05T15:14:23.917129+00:00`
+- Generated at: `2026-06-07T18:27:05.939811+00:00`
 - Seed count: `20`
 - Sample count: `384`
 - Applicability boundary: `Gaussian latent + anisotropic transition`

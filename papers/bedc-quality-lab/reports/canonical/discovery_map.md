@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-07T00:00:00+00:00`
-- Rows: `23`
+- Generated at: `2026-06-07T18:27:05.176658+00:00`
+- Rows: `24`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -23,6 +23,7 @@
 | `discovery-regularized-training` | `D5-M` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `discovery-gated-nas` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
+| `order-k-benchmark` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |

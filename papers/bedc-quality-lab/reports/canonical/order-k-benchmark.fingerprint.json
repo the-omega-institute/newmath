@@ -3,7 +3,7 @@
     "generated_at": "2026-06-07T18:27:05.176658+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "efa5d8a34df06bab41c9a8f46970b69067a207b581cee49f354d0a472a8b1df5",
+  "input_fingerprint": "5b2ed9c97f1f2668b2eb9ec252fbad4b19980d4231c645e1c4b9473e40647e1f",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -25,20 +25,24 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
-        "path": "scripts/experiment_stats.py",
-        "sha256": "baf70e1676d60b747bff592d9eee380a114cb59c3f5305d683be9a2a89d1d9ae"
+        "path": "bedc_quality_lab/claim_terms.py",
+        "sha256": "838e8f3ef822e929c63aa811f80d86f6451478a0468626544babf43dc7b52af5"
       },
       {
-        "path": "scripts/run_gap_head_threshold_sweep.py",
-        "sha256": "246de4bc7a70d4f44ad254fecec38dd82e40472105a25bb24d87e3efcdca8cea"
+        "path": "bedc_quality_lab/order_k_benchmark.py",
+        "sha256": "29d56b74b416fb220c8241d2d805024eedf03e3e7b74af010a2ee2ce62a9980c"
+      },
+      {
+        "path": "scripts/run_order_k_benchmark.py",
+        "sha256": "e033bbbcb84d2121b288305e9438ab2548171dc314da040a271ee48752eda0ca"
       }
     ],
-    "report_output_schema_id": "schema-unspecified",
+    "report_output_schema_id": "bedc-quality-lab:order-k-benchmark",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_gap_head_threshold_sweep.py"
+        "scripts/run_order_k_benchmark.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
@@ -49,48 +53,52 @@
       "bundle_role": "hg_p_core",
       "command": [
         "python3",
-        "scripts/run_gap_head_threshold_sweep.py"
+        "scripts/run_order_k_benchmark.py"
       ],
-      "control_pointer": "$.threshold_summary.control_baseline",
-      "cost_pointer": "$.source_artifacts",
-      "estimated_seconds": 120,
+      "control_pointer": "$.matched_random_controls",
+      "cost_pointer": "$.source_artifacts.cost_protocol",
+      "estimated_seconds": 2,
       "forbidden_claim_terms": [
         "full-lejepa",
         "global-quality",
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
+      "json_artifact": "reports/canonical/order-k-benchmark.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
-      "name": "gap-head-threshold-frontier",
+      "markdown_artifact": "reports/canonical/order-k-benchmark.md",
+      "name": "order-k-benchmark",
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.main_claim_status",
+      "positive_claim_pointer": "$.positive_claim",
       "required_json_keys": [
+        "schema_id",
+        "artifact_id",
         "generated_at",
-        "config",
         "source_artifacts",
-        "applicability_boundary",
-        "threshold_curve",
-        "threshold_summary",
-        "pareto_axis_spec",
-        "pareto_frontier",
+        "task_specs",
+        "order_rows",
+        "minimal_order_summary",
+        "surface_required_order_ledger",
+        "surface_required_order_ledger_ref",
         "hardgate",
-        "readiness",
-        "main_claim_status",
-        "not_claimed"
+        "discovery_map_signal",
+        "matched_random_controls",
+        "ood_stability",
+        "not_claimed",
+        "positive_claim",
+        "forbidden_claim_term_audit"
       ],
-      "scope_pointer": "$.applicability_boundary"
+      "scope_pointer": "$.task_specs"
     }
   },
-  "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
-  "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
-  "output_digest": "2d3d175adc9f23f43c54313a28ab60f7027a9c439054a5f76f2220f99ef2b915",
+  "json_artifact": "reports/canonical/order-k-benchmark.json",
+  "markdown_artifact": "reports/canonical/order-k-benchmark.md",
+  "output_digest": "ed0310ada017921845bba99abfa67a3383f99311fe3f1ecade7757ea0507240c",
   "producer_command": [
     "python3",
-    "scripts/run_gap_head_threshold_sweep.py"
+    "scripts/run_order_k_benchmark.py"
   ],
-  "report_name": "gap-head-threshold-frontier",
+  "report_name": "order-k-benchmark",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }
