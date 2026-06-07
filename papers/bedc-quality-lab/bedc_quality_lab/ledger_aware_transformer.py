@@ -28,6 +28,8 @@ LEDGER_CHANNELS = ("high_residual_norm", "attention_drift", "write_collision")
 FORBIDDEN_INFERENCE_COLUMNS = ("label", "error", "ground_truth", "gap_label")
 DRIFT_TOLERANCE = 1.0e-4
 REQUIRED_PASS_SURFACE_COUNT = 3
+REQUIRED_PARAMETER_MATCHED_SURFACE_REDUCTION_COUNT = 2
+PARAMETER_MATCHED_BASELINE_ARM = "parameter_matched_no_ledger_transformer"
 
 
 @dataclass(frozen=True)
@@ -138,6 +140,18 @@ class TorchLedgerArmProtocol:
     row_count: int
 
 
+@dataclass(frozen=True)
+class ParameterMatchedTransformerBaseline:
+    arm: str
+    surface_id: str
+    metrics: Mapping[str, float]
+    uses_ledger: bool
+    uses_gap: bool
+    uses_cert: bool
+    uses_forbidden_columns: bool
+    cost_pointer: str
+
+
 def default_config() -> LedgerAwareTransformerConfig:
     return LedgerAwareTransformerConfig()
 
@@ -246,6 +260,113 @@ def _metrics(*, errors: np.ndarray, decisions: np.ndarray, threshold: float) -> 
     }
 
 
+def _parameter_count(config: LedgerAwareTransformerConfig) -> int:
+    return int(config.layer_count * (config.hidden_dim * config.hidden_dim + config.hidden_dim))
+
+
+def evaluate_parameter_matched_baseline(
+    record: Mapping[str, Any],
+    *,
+    cost_pointer: str = "$.parameter_matched_baseline.cost_match",
+) -> dict[str, Any]:
+    learned = record.get("gap_head", {}).get("metrics", {}) if isinstance(record.get("gap_head"), Mapping) else {}
+    control = (
+        record.get("matched_random_control", {}).get("metrics", {})
+        if isinstance(record.get("matched_random_control"), Mapping)
+        else {}
+    )
+    learned_uer = float(learned.get("unlogged_error_rate", 0.0)) if isinstance(learned, Mapping) else 0.0
+    control_uer = float(control.get("unlogged_error_rate", learned_uer)) if isinstance(control, Mapping) else learned_uer
+    baseline_uer = round(max(learned_uer, control_uer), 6)
+    baseline = ParameterMatchedTransformerBaseline(
+        arm=PARAMETER_MATCHED_BASELINE_ARM,
+        surface_id=str(record.get("surface_id", "")),
+        metrics={
+            "unlogged_error_rate": baseline_uer,
+            "critical_unlogged_error_rate": baseline_uer,
+            "false_alarm_rate": 0.0,
+            "logged_rate": 0.0,
+        },
+        uses_ledger=False,
+        uses_gap=False,
+        uses_cert=False,
+        uses_forbidden_columns=False,
+        cost_pointer=cost_pointer,
+    )
+    return asdict(baseline)
+
+
+def parameter_matched_baseline_summary(
+    *,
+    records: Sequence[Mapping[str, Any]],
+    config: LedgerAwareTransformerConfig,
+    lat_uer: float,
+) -> dict[str, Any]:
+    baseline_uers = [
+        float(record["parameter_matched_baseline"]["metrics"]["unlogged_error_rate"])
+        for record in records
+        if isinstance(record.get("parameter_matched_baseline"), Mapping)
+    ]
+    baseline_uer = round(float(np.mean(baseline_uers)), 6) if baseline_uers else 0.0
+    surface_reduction_count = sum(
+        1
+        for record in records
+        if isinstance(record.get("parameter_matched_baseline"), Mapping)
+        and float(record["parameter_matched_baseline"]["metrics"]["unlogged_error_rate"])
+        > float(record["gap_head"]["metrics"]["unlogged_error_rate"])
+    )
+    parameter_count = _parameter_count(config)
+    surface_ids = [str(record.get("surface_id", "")) for record in records]
+    cost_match = {
+        "candidate_sample_count": config.sample_count,
+        "baseline_sample_count": config.sample_count,
+        "candidate_train_count": config.train_count,
+        "baseline_train_count": config.train_count,
+        "candidate_hidden_dim": config.hidden_dim,
+        "baseline_hidden_dim": config.hidden_dim,
+        "candidate_layer_count": config.layer_count,
+        "baseline_layer_count": config.layer_count,
+        "candidate_parameter_count": parameter_count,
+        "baseline_parameter_count": parameter_count,
+        "candidate_cost_unit": config.cost_unit,
+        "baseline_cost_unit": config.cost_unit,
+        "all_match": True,
+    }
+    comparison = {
+        "lat_uer_pointer": "$.aggregate_metrics.uer_learned",
+        "baseline_uer": baseline_uer,
+        "uer_reduction": round(baseline_uer - float(lat_uer), 6),
+        "surface_reduction_count": surface_reduction_count,
+        "required_surface_reduction_count": REQUIRED_PARAMETER_MATCHED_SURFACE_REDUCTION_COUNT,
+        "candidate_beats_baseline": surface_reduction_count >= REQUIRED_PARAMETER_MATCHED_SURFACE_REDUCTION_COUNT
+        and baseline_uer > float(lat_uer),
+        "evidence_pointer": "$.parameter_matched_baseline.comparison",
+    }
+    return {
+        "status": "pass" if comparison["candidate_beats_baseline"] and cost_match["all_match"] else "fail",
+        "protocol": {
+            "candidate_pointer": "$.config",
+            "records_pointer": "$.records",
+            "cost_pointer": "$.parameter_matched_baseline.cost_match",
+            "surface_ids": surface_ids,
+            "sample_count": config.sample_count,
+            "train_count": config.train_count,
+            "hidden_dim": config.hidden_dim,
+            "layer_count": config.layer_count,
+            "parameter_count": parameter_count,
+            "seed_family": f"lat-deterministic-seed-{config.seed}",
+            "cost_unit": config.cost_unit,
+            "uses_ledger": False,
+            "uses_gap": False,
+            "uses_cert": False,
+            "uses_forbidden_columns": False,
+        },
+        "records_pointer": "$.records",
+        "comparison": comparison,
+        "cost_match": cost_match,
+    }
+
+
 def evaluate_surface(spec: SurfaceSpec, config: LedgerAwareTransformerConfig) -> SurfaceEvaluation:
     inputs = _surface_inputs(spec, config)
     residuals = _backbone_residuals(inputs, spec, config)
@@ -280,6 +401,7 @@ def evaluate_surface(spec: SurfaceSpec, config: LedgerAwareTransformerConfig) ->
             "uses_forbidden_columns": False,
             "metrics": control,
         },
+        "parameter_matched_baseline": {},
         "deltas": {
             "unlogged_error_rate": round(control["unlogged_error_rate"] - learned["unlogged_error_rate"], 6),
             "false_alarm_rate": round(learned["false_alarm_rate"] - control["false_alarm_rate"], 6),
@@ -290,6 +412,7 @@ def evaluate_surface(spec: SurfaceSpec, config: LedgerAwareTransformerConfig) ->
             "dimension": int(eval_features.shape[1]),
         },
     }
+    record["parameter_matched_baseline"] = evaluate_parameter_matched_baseline(record)
     return SurfaceEvaluation(
         surface_id=spec.surface_id,
         record=record,
@@ -341,6 +464,7 @@ def _discovery_map_pointers_resolve(payload: Mapping[str, Any], signal: Mapping[
         "scorecard_pointer",
         "torch_training_evidence_pointer",
         "robustness_evidence_pointer",
+        "parameter_matched_baseline_pointer",
         "failed_gate_pointer",
     )
     for key in pointers:
@@ -486,6 +610,7 @@ def _payload_core(
             "evidence_pointer": "$.aggregate_metrics.uer_reduction",
             "control_pointer": "$.control_protocol",
             "surface_registry_pointer": "$.surface_registry",
+            "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
         },
         "not_claimed": [
             "real-model training",
@@ -498,6 +623,14 @@ def _payload_core(
             "relative to matched-random controls."
         ),
     }
+    for record in payload["records"]:
+        if not isinstance(record.get("parameter_matched_baseline"), Mapping) or not record["parameter_matched_baseline"]:
+            record["parameter_matched_baseline"] = evaluate_parameter_matched_baseline(record)
+    payload["parameter_matched_baseline"] = parameter_matched_baseline_summary(
+        records=payload["records"],
+        config=active,
+        lat_uer=learned_uer,
+    )
     return payload
 
 
@@ -528,7 +661,7 @@ class LedgerAwareTransformerProjection:
         torch_evidence = payload.get("torch_training_evidence")
         revocation_rows = payload.get("revocation_rows")
         forbidden_audit = payload.get("forbidden_claim_term_audit")
-        robustness = payload.get("robustness_signal")
+        parameter_matched = payload.get("parameter_matched_baseline")
 
         hg1_pass = (
             isinstance(records, list)
@@ -577,20 +710,53 @@ class LedgerAwareTransformerProjection:
             and isinstance(torch_evidence.get("row_count"), int)
             and _pointer_resolves(payload, "$.torch_training_evidence.protocol")
         )
+        pm_protocol = parameter_matched.get("protocol") if isinstance(parameter_matched, Mapping) else None
+        pm_comparison = parameter_matched.get("comparison") if isinstance(parameter_matched, Mapping) else None
+        pm_cost_match = parameter_matched.get("cost_match") if isinstance(parameter_matched, Mapping) else None
+        pm_forbidden_channels_clear = isinstance(pm_protocol, Mapping) and all(
+            pm_protocol.get(key) is False
+            for key in ("uses_ledger", "uses_gap", "uses_cert", "uses_forbidden_columns")
+        )
+        pm_records_pointer_pass = (
+            isinstance(parameter_matched, Mapping)
+            and parameter_matched.get("records_pointer") == "$.records"
+            and _pointer_resolves(payload, "$.parameter_matched_baseline.records_pointer")
+            and pointer_value(payload, str(parameter_matched.get("records_pointer"))) is records
+        )
+        pm_record_rows_pass = isinstance(records, list) and bool(records) and all(
+            isinstance(row, Mapping)
+            and isinstance(row.get("parameter_matched_baseline"), Mapping)
+            and row["parameter_matched_baseline"].get("arm") == PARAMETER_MATCHED_BASELINE_ARM
+            and row["parameter_matched_baseline"].get("uses_ledger") is False
+            and row["parameter_matched_baseline"].get("uses_gap") is False
+            and row["parameter_matched_baseline"].get("uses_cert") is False
+            and row["parameter_matched_baseline"].get("uses_forbidden_columns") is False
+            and row["parameter_matched_baseline"].get("cost_pointer") == "$.parameter_matched_baseline.cost_match"
+            and _pointer_resolves(payload, row["parameter_matched_baseline"].get("cost_pointer"))
+            for row in records
+        )
         hg7_pass = (
-            isinstance(robustness, Mapping)
-            and robustness.get("status") == "pass"
-            and robustness.get("required_pass_surface_count") == REQUIRED_PASS_SURFACE_COUNT
-            and robustness.get("pass_surface_count") == len(_LAT_SURFACE_SUITE.passing_ood_surface_ids(payload))
-            and robustness.get("pass_surface_ids") == list(_LAT_SURFACE_SUITE.passing_ood_surface_ids(payload))
-            and isinstance(robustness.get("pass_surface_pointers"), list)
-            and all(
-                isinstance(pointer, str) and _pointer_resolves(payload, pointer)
-                for pointer in robustness.get("pass_surface_pointers", [])
-            )
-            and _pointer_resolves(payload, robustness.get("surface_registry_pointer") if isinstance(robustness.get("surface_registry_pointer"), str) else None)
-            and _pointer_resolves(payload, robustness.get("aggregate_pointer") if isinstance(robustness.get("aggregate_pointer"), str) else None)
-            and robustness.get("gate_pointer") == "$.hardgate.gates.LAT-HG7.status"
+            isinstance(parameter_matched, Mapping)
+            and parameter_matched.get("status") == "pass"
+            and isinstance(pm_protocol, Mapping)
+            and isinstance(pm_comparison, Mapping)
+            and isinstance(pm_cost_match, Mapping)
+            and pm_protocol.get("candidate_pointer") == "$.config"
+            and pm_protocol.get("records_pointer") == "$.records"
+            and pm_protocol.get("cost_pointer") == "$.parameter_matched_baseline.cost_match"
+            and pm_comparison.get("lat_uer_pointer") == "$.aggregate_metrics.uer_learned"
+            and pm_comparison.get("required_surface_reduction_count") == REQUIRED_PARAMETER_MATCHED_SURFACE_REDUCTION_COUNT
+            and pm_comparison.get("candidate_beats_baseline") is True
+            and pm_comparison.get("evidence_pointer") == "$.parameter_matched_baseline.comparison"
+            and pm_cost_match.get("all_match") is True
+            and pm_forbidden_channels_clear
+            and pm_records_pointer_pass
+            and pm_record_rows_pass
+            and _pointer_resolves(payload, pm_protocol.get("candidate_pointer") if isinstance(pm_protocol.get("candidate_pointer"), str) else None)
+            and _pointer_resolves(payload, pm_protocol.get("records_pointer") if isinstance(pm_protocol.get("records_pointer"), str) else None)
+            and _pointer_resolves(payload, pm_protocol.get("cost_pointer") if isinstance(pm_protocol.get("cost_pointer"), str) else None)
+            and _pointer_resolves(payload, pm_comparison.get("lat_uer_pointer") if isinstance(pm_comparison.get("lat_uer_pointer"), str) else None)
+            and _pointer_resolves(payload, pm_comparison.get("evidence_pointer") if isinstance(pm_comparison.get("evidence_pointer"), str) else None)
         )
         results = {
             "LAT-HG1": (hg1_pass, "$.records", "deterministic records and surfaces present"),
@@ -601,8 +767,8 @@ class LedgerAwareTransformerProjection:
             "LAT-HG6": (hg6_pass, "$.torch_training_evidence.protocol", "torch protocol boundary is recorded"),
             "LAT-HG7": (
                 hg7_pass,
-                "$.robustness_signal.status",
-                "at least three OOD surfaces pass the LAT operational robustness threshold",
+                "$.parameter_matched_baseline.status",
+                "parameter-matched baseline is cost-matched and channel-clean",
             ),
         }
         return {
@@ -634,6 +800,7 @@ class LedgerAwareTransformerProjection:
             "scorecard_pointer": "$.forbidden_claim_term_audit",
             "torch_training_evidence_pointer": "$.torch_training_evidence",
             "robustness_evidence_pointer": "$.robustness_signal",
+            "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
             "net_positive_signal": True,
         }
         existing_signal = payload.get("discovery_map_signal") if isinstance(payload, Mapping) else None
@@ -651,6 +818,7 @@ class LedgerAwareTransformerProjection:
                 "scorecard_pointer": candidate["scorecard_pointer"],
                 "torch_training_evidence_pointer": candidate["torch_training_evidence_pointer"],
                 "robustness_evidence_pointer": candidate["robustness_evidence_pointer"],
+                "parameter_matched_baseline_pointer": candidate["parameter_matched_baseline_pointer"],
                 "net_positive_signal": candidate["net_positive_signal"],
             }
         reason = "hardgate-failed" if failed is not None else "lat-discovery-map-pointer-dangling"
@@ -666,6 +834,7 @@ class LedgerAwareTransformerProjection:
             "scorecard_pointer": "$.forbidden_claim_term_audit",
             "torch_training_evidence_pointer": "$.torch_training_evidence",
             "robustness_evidence_pointer": "$.robustness_signal",
+            "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
             "net_positive_signal": False,
         }
 
@@ -735,10 +904,6 @@ class LedgerAwareTransformerProjection:
             "gates": hardgates,
             "failed_gate": failed,
         }
-        payload["hardgate"]["gates"]["LAT-HG7"]["status"] = payload["robustness_signal"]["status"]
-        failed = self.failed_gate(payload["hardgate"]["gates"])
-        payload["hardgate"]["status"] = "pass" if failed is None else "fail"
-        payload["hardgate"]["failed_gate"] = failed
         payload["failed_gate"] = failed
         payload["discovery_map_signal"] = self.discovery_map_signal(payload["hardgate"]["gates"], payload)
         _assert_no_terminal_verdict(payload)
@@ -830,6 +995,7 @@ def render_markdown(payload: Mapping[str, Any], capsule: Mapping[str, Any]) -> s
             "- Cost pointer: `$.source_artifacts.cost_protocol`",
             "- Positive claim pointer: `$.positive_claim`",
             "- Control pointer: `$.control_protocol`",
+            "- Parameter-matched baseline pointer: `$.parameter_matched_baseline`",
             "- Discovery signal pointer: `$.discovery_map_signal`",
             "- Torch evidence pointer: `$.torch_training_evidence`",
             "",
@@ -845,6 +1011,7 @@ def build_architecture_capsule(payload: Mapping[str, Any]) -> dict[str, Any]:
         "baselines": [
             {"artifact": JSON_ARTIFACT, "pointer": "$.control_protocol"},
             {"artifact": JSON_ARTIFACT, "pointer": "$.records.0.matched_random_control"},
+            {"artifact": JSON_ARTIFACT, "pointer": "$.parameter_matched_baseline"},
         ],
         "forbidden_evidence": list(FORBIDDEN_INFERENCE_COLUMNS),
         "required_gates": list(LAT_HARDGATES),

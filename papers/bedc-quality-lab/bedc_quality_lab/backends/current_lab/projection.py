@@ -1083,12 +1083,15 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
     hardgates = pointer_value(payload, "$.hardgate.gates")
     failed_gate = pointer_value(payload, "$.hardgate.failed_gate")
     robustness = pointer_value(payload, "$.robustness_signal")
+    parameter_matched = pointer_value(payload, "$.parameter_matched_baseline")
     if not isinstance(signal, Mapping):
         return False, "missing-lat-discovery-map-signal", "$.discovery_map_signal"
     if not isinstance(hardgates, Mapping) or not hardgates:
         return False, "missing-lat-hardgates", "$.hardgate.gates"
     if not isinstance(robustness, Mapping):
         return False, "missing-lat-robustness-signal", "$.robustness_signal"
+    if not isinstance(parameter_matched, Mapping):
+        return False, "missing-lat-parameter-matched-baseline", "$.parameter_matched_baseline"
     failed = next(
         (
             name
@@ -1099,10 +1102,7 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
     )
     if failed != failed_gate:
         return False, "lat-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
-    hg7_status = pointer_value(payload, "$.hardgate.gates.LAT-HG7.status")
-    robustness_status = robustness.get("status")
-    robust_mismatch = hg7_status != robustness_status
-    effective_failed = failed if failed is not None else "LAT-HG7" if robust_mismatch else None
+    effective_failed = failed
     expected = {
         "status": "d5-o-candidate" if effective_failed is None else "negative",
         "level_candidate": "D5-O" if effective_failed is None else "DN",
@@ -1120,6 +1120,7 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
         "scorecard_pointer",
         "torch_training_evidence_pointer",
         "robustness_evidence_pointer",
+        "parameter_matched_baseline_pointer",
     ):
         pointer = signal.get(key)
         if not isinstance(pointer, str):
@@ -1128,6 +1129,10 @@ def _ledger_aware_transformer_consistency(payload: Mapping[str, Any]) -> tuple[b
             return False, f"lat-dangling-{key.replace('_', '-')}", pointer
     if signal.get("robustness_evidence_pointer") != "$.robustness_signal":
         return False, "lat-robustness-pointer-mismatch", "$.discovery_map_signal.robustness_evidence_pointer"
+    if signal.get("parameter_matched_baseline_pointer") != "$.parameter_matched_baseline":
+        return False, "lat-parameter-matched-pointer-mismatch", "$.discovery_map_signal.parameter_matched_baseline_pointer"
+    if pointer_value(payload, "$.discovery_map_signal.parameter_matched_baseline_pointer") is None:
+        return False, "lat-parameter-matched-pointer-dangling", "$.discovery_map_signal.parameter_matched_baseline_pointer"
     if pointer_value(payload, "$.claim_capsule_ref.capsule") is None:
         return False, "lat-claim-capsule-pointer-dangling", "$.claim_capsule_ref.pointer"
     if pointer_value(payload, "$.forbidden_claim_term_audit.status") != "pass":

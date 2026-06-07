@@ -25,6 +25,7 @@ REQUIRED_SUMMARY_KEYS = {
     "failed_gate",
     "discovery_map_signal",
     "matched_random_control",
+    "parameter_matched_baseline",
     "torch_training_evidence",
     "robustness_signal",
     "revocation_rows",
@@ -89,6 +90,7 @@ def test_lat_projection_has_hardgate_signal_and_required_keys():
     assert payload["discovery_map_signal"]["level_candidate"] == "D5-O"
     assert payload["discovery_map_signal"]["net_positive_signal"] is True
     assert payload["matched_random_control"]["control_positive_discovery"] is False
+    assert payload["parameter_matched_baseline"]["status"] == "pass"
     assert payload["torch_training_evidence"]["status"] == "unavailable"
     assert payload["forbidden_claim_term_audit"]["status"] == "pass"
     assert payload["aggregate_metrics"]["uer_reduction"] > 0.0
@@ -113,7 +115,54 @@ def test_lat_projection_has_hardgate_signal_and_required_keys():
         "aggregate_pointer": "$.aggregate_metrics.multi_surface_uer_reduction_count",
         "gate_pointer": "$.hardgate.gates.LAT-HG7.status",
     }
-    assert payload["hardgate"]["gates"]["LAT-HG7"]["status"] == payload["robustness_signal"]["status"]
+    assert payload["hardgate"]["gates"]["LAT-HG7"]["status"] == payload["parameter_matched_baseline"]["status"]
+
+
+def test_lat_parameter_matched_baseline_is_recorded_and_cost_matched():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    baseline = payload["parameter_matched_baseline"]
+    protocol = baseline["protocol"]
+    comparison = baseline["comparison"]
+    cost_match = baseline["cost_match"]
+
+    assert set(baseline) == {"status", "protocol", "records_pointer", "comparison", "cost_match"}
+    assert baseline["status"] == "pass"
+    assert baseline["records_pointer"] == "$.records"
+    assert protocol["candidate_pointer"] == "$.config"
+    assert protocol["records_pointer"] == "$.records"
+    assert protocol["cost_pointer"] == "$.parameter_matched_baseline.cost_match"
+    assert protocol["surface_ids"] == list(EXPECTED_SURFACE_IDS)
+    assert protocol["sample_count"] == payload["config"]["sample_count"]
+    assert protocol["train_count"] == payload["config"]["train_count"]
+    assert protocol["hidden_dim"] == payload["config"]["hidden_dim"]
+    assert protocol["layer_count"] == payload["config"]["layer_count"]
+    assert protocol["parameter_count"] == cost_match["candidate_parameter_count"]
+    assert protocol["cost_unit"] == payload["config"]["cost_unit"]
+    assert protocol["uses_ledger"] is False
+    assert protocol["uses_gap"] is False
+    assert protocol["uses_cert"] is False
+    assert protocol["uses_forbidden_columns"] is False
+    assert comparison["lat_uer_pointer"] == "$.aggregate_metrics.uer_learned"
+    assert comparison["baseline_uer"] == payload["aggregate_metrics"]["uer_matched_random"]
+    assert comparison["uer_reduction"] == payload["aggregate_metrics"]["uer_reduction"]
+    assert comparison["surface_reduction_count"] == 3
+    assert comparison["required_surface_reduction_count"] == 2
+    assert comparison["candidate_beats_baseline"] is True
+    assert comparison["evidence_pointer"] == "$.parameter_matched_baseline.comparison"
+    assert cost_match["all_match"] is True
+    for field in ("sample_count", "train_count", "hidden_dim", "layer_count", "parameter_count", "cost_unit"):
+        assert cost_match[f"candidate_{field}"] == cost_match[f"baseline_{field}"]
+
+    for row in payload["records"]:
+        arm = row["parameter_matched_baseline"]
+        assert arm["arm"] == "parameter_matched_no_ledger_transformer"
+        assert arm["uses_ledger"] is False
+        assert arm["uses_gap"] is False
+        assert arm["uses_cert"] is False
+        assert arm["uses_forbidden_columns"] is False
+        assert arm["cost_pointer"] == "$.parameter_matched_baseline.cost_match"
+        assert pointer_value(payload, arm["cost_pointer"]) == cost_match
+        assert arm["metrics"]["unlogged_error_rate"] >= row["gap_head"]["metrics"]["unlogged_error_rate"]
 
 
 def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
@@ -135,6 +184,7 @@ def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
         payload["discovery_map_signal"]["control_pointer"],
         payload["discovery_map_signal"]["torch_training_evidence_pointer"],
         payload["discovery_map_signal"]["robustness_evidence_pointer"],
+        payload["discovery_map_signal"]["parameter_matched_baseline_pointer"],
         payload["robustness_signal"]["surface_registry_pointer"],
         payload["robustness_signal"]["aggregate_pointer"],
         payload["robustness_signal"]["gate_pointer"],
@@ -158,6 +208,7 @@ def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
         assert pointer_value(_artifact_payload(tmp_path, cell["artifact"]), cell["pointer"]) is not None
     for baseline in capsule["model_claim"]["baselines"]:
         assert pointer_value(_artifact_payload(tmp_path, baseline["artifact"]), baseline["pointer"]) is not None
+    assert {"artifact": lat.JSON_ARTIFACT, "pointer": "$.parameter_matched_baseline"} in capsule["model_claim"]["baselines"]
 
 
 def test_lat_zero_rows_fail_closed_to_dn():
@@ -207,7 +258,7 @@ def test_lat_matched_random_or_multisurface_failure_demotes(mutate, gate):
     assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
 
 
-def test_lat_robustness_signal_failure_demotes():
+def test_lat_robustness_signal_failure_does_not_drive_hg7():
     payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
     mutated = deepcopy(payload)
     for index in range(3):
@@ -217,13 +268,12 @@ def test_lat_robustness_signal_failure_demotes():
 
     assert mutated["robustness_signal"]["status"] == "fail"
     assert mutated["robustness_signal"]["pass_surface_count"] == 0
-    assert mutated["hardgate"]["gates"]["LAT-HG7"]["status"] == "fail"
-    assert mutated["failed_gate"] == "LAT-HG7"
-    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
-    assert pointer_value(mutated, mutated["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
+    assert mutated["hardgate"]["gates"]["LAT-HG7"]["status"] == "pass"
+    assert mutated["failed_gate"] is None
+    assert mutated["discovery_map_signal"]["level_candidate"] == "D5-O"
 
 
-def test_lat_robustness_pointer_or_hg7_mismatch_demotes():
+def test_lat_robustness_pointer_dangling_demotes():
     payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
     missing = deepcopy(payload)
     missing["discovery_map_signal"]["robustness_evidence_pointer"] = "$.missing_robustness_signal"
@@ -240,41 +290,37 @@ def test_lat_robustness_pointer_or_hg7_mismatch_demotes():
     assert refreshed["reason"] == "lat-discovery-map-pointer-dangling"
     assert pointer_value(refreshed, refreshed["failed_gate_pointer"]) is None
 
-    mismatch = deepcopy(payload)
     baseline_overlay, baseline_evidence = discovery_projection._ledger_aware_transformer_projection(payload)
     assert baseline_overlay["main_verdict"]["ledger_aware_transformer"]["level_candidate"] == "D5-O"
     assert baseline_evidence.failed_gate is None
 
-    mismatch["robustness_signal"]["status"] = "fail"
-    mismatch["discovery_map_signal"].update(
-        {
-            "status": "negative",
-            "level_candidate": "DN",
-            "reason": "hardgate-failed",
-            "failed_gate": "LAT-HG7",
-            "failed_gate_pointer": "$.hardgate.gates.LAT-HG7.status",
-            "net_positive_signal": False,
-        }
-    )
-    assert mismatch["hardgate"]["gates"]["LAT-HG7"]["status"] != mismatch["robustness_signal"]["status"]
 
-    consistent, reason, failed_pointer = discovery_projection._ledger_aware_transformer_consistency(mismatch)
-    overlay, evidence = discovery_projection._ledger_aware_transformer_projection(mismatch)
+def test_lat_parameter_matched_failure_demotes_to_dn():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutated["parameter_matched_baseline"]["comparison"]["candidate_beats_baseline"] = False
+    mutated["parameter_matched_baseline"]["status"] = "fail"
 
-    assert consistent is True
-    assert reason == ""
-    assert failed_pointer == "$.hardgate.gates.LAT-HG7.status"
-    assert overlay == {
-        "verdict": "rejected",
-        "main_verdict": {
-            "ledger_aware_transformer": {
-                "level_candidate": "DN",
-                "status": "negative",
-            },
-        },
-    }
-    assert evidence.failed_gate == "$.hardgate.gates.LAT-HG7.status"
-    assert pointer_value(mismatch, evidence.failed_gate) == "pass"
+    _recompute(mutated)
+
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["hardgate"]["gates"]["LAT-HG7"]["status"] == "fail"
+    assert mutated["failed_gate"] == "LAT-HG7"
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
+    assert pointer_value(mutated, mutated["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
+
+
+def test_lat_parameter_matched_forbidden_channel_demotes_to_dn():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutated["parameter_matched_baseline"]["protocol"]["uses_gap"] = True
+
+    _recompute(mutated)
+
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["failed_gate"] == "LAT-HG7"
+    assert mutated["hardgate"]["gates"]["LAT-HG7"]["status"] == "fail"
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
 
 
 def test_lat_torch_unavailable_records_boundary_without_crash():

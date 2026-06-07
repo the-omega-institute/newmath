@@ -1160,12 +1160,30 @@ def test_ledger_aware_transformer_required_surface_is_signal_owner():
         "failed_gate",
         "discovery_map_signal",
         "matched_random_control",
+        "parameter_matched_baseline",
         "torch_training_evidence",
         "revocation_rows",
         "forbidden_claim_term_audit",
     }.issubset(set(spec.required_json_keys))
     assert "terminal_verdict" not in spec.required_json_keys
     assert "surfaces" not in spec.required_json_keys
+
+
+def test_lat_canonical_report_requires_parameter_matched_baseline():
+    spec = canonical._specs_by_name()["ledger-aware-transformer"]
+    payload = json.loads((canonical.ROOT / spec.json_artifact).read_text(encoding="utf-8"))
+
+    assert "parameter_matched_baseline" in spec.required_json_keys
+    assert payload["parameter_matched_baseline"]["status"] == "pass"
+    assert payload["positive_claim"]["parameter_matched_baseline_pointer"] == "$.parameter_matched_baseline"
+    assert payload["discovery_map_signal"]["parameter_matched_baseline_pointer"] == "$.parameter_matched_baseline"
+    assert pointer_value(payload, payload["positive_claim"]["parameter_matched_baseline_pointer"]) is not None
+    assert pointer_value(payload, payload["discovery_map_signal"]["parameter_matched_baseline_pointer"]) is not None
+    assert {"artifact": spec.json_artifact, "pointer": "$.parameter_matched_baseline"} in payload["claim_capsule_ref"]["capsule"]["model_claim"]["baselines"]
+    for row in payload["records"]:
+        assert row["parameter_matched_baseline"]["arm"] == "parameter_matched_no_ledger_transformer"
+        assert row["parameter_matched_baseline"]["uses_forbidden_columns"] is False
+        assert pointer_value(payload, row["parameter_matched_baseline"]["cost_pointer"]) is not None
 
 
 def test_committed_canonical_bundle_covers_every_registered_report():

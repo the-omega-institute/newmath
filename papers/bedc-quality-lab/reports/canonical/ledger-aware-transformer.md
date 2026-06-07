@@ -20,7 +20,7 @@
 | `LAT-HG4` | `pass` | `$.matched_random_control.control_positive_discovery` |
 | `LAT-HG5` | `pass` | `$.forbidden_claim_term_audit.status` |
 | `LAT-HG6` | `pass` | `$.torch_training_evidence.protocol` |
-| `LAT-HG7` | `pass` | `$.robustness_signal.status` |
+| `LAT-HG7` | `pass` | `$.parameter_matched_baseline.status` |
 
 ## Records
 
@@ -39,5 +39,6 @@
 - Cost pointer: `$.source_artifacts.cost_protocol`
 - Positive claim pointer: `$.positive_claim`
 - Control pointer: `$.control_protocol`
+- Parameter-matched baseline pointer: `$.parameter_matched_baseline`
 - Discovery signal pointer: `$.discovery_map_signal`
 - Torch evidence pointer: `$.torch_training_evidence`
