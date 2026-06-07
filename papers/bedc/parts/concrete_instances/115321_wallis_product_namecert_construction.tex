@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\WallisProductUp$}
+\label{ch:concrete-instances-wallis-product-namecert}
+\origin{human}
+
+From Wallis' finite product bounds, the $\WallisProductUp$ packet records the constructive route by which rational numerator and denominator ledgers, finite product rows, and terminal real-name comparisons are displayed before any Real or Completion consumer reads the classical Wallis product. It sits beside the rational source of \autoref{ch:concrete-instances-rat-namecert}, the product constructor of \autoref{ch:concrete-instances-prod-namecert}, the finite product boundary of \autoref{ch:concrete-instances-cauchyproduct-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the Wallis product as finite BEDC data; it does not import infinite products, analytic limits, host real equality, quotient streams, or choice.
+
+\begin{definition}[WallisProduct carrier]
+\label{def:wallis-product-carrier}
+A $\WallisProductUp$ carrier is a finite $\BHist$ packet
+$$
+W=(Q,A,B,L,R,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ arithmetic source row, exposing only rational numerators, rational denominators, positivity checks for the displayed denominators, and the rational comparison histories needed by the finite bounds.
+\item $A$ is the numerator ledger, recording the finite row of factors $2k\cdot 2k$ inspected by the current Wallis stage.
+\item $B$ is the denominator ledger, recording the finite row of factors $(2k-1)(2k+1)$ paired with $A$ and licensed by $Q$.
+\item $L$ is the left rational bound row and $R$ is the right rational bound row, each computed from the same finite numerator and denominator ledgers.
+\item $S$ is the $\ProdUp$ finite-product row that binds $A,B,L,R$ into one displayed product-stage packet.
+\item $E$ is the terminal $\RealUp$ comparison row reached only after the rational ledgers and the finite-product row have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the rational source, numerator ledger, denominator ledger, left and right bounds, product row, terminal Real comparison, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a Wallis-stage request through $Q,A,B,L,R,S,E,H$.
+\item $P$ is the $\Pkg$ provenance over $\WallisProductUp$, $\RatUp$, $\ProdUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\WallisProductUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven rows and their displayed route. It has no coordinate for an infinite product value, analytic convergence proof, host real equality, quotient real representative, selected limit, or countable-choice schedule.
+\end{definition}
+
+\begin{theorem}[WallisProduct NameCert obligations]
+\label{thm:wallis-product-namecert-obligations}
+For every accepted $\WallisProductUp$ carrier $W=(Q,A,B,L,R,S,E,H,C,P,N)$, the local $\NameCert_{\WallisProductUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the rational source row, numerator ledger, denominator ledger, left and right bound rows, finite-product row, terminal Real comparison row, transport row, replay row, provenance row, and local naming row;
+\item denominator visibility, requiring every denominator factor recorded in $B$ to be read through the displayed $\RatUp$ positivity and nonzero-denominator histories in $Q$;
+\item product-stage exactness, requiring $S$ to consume precisely the numerator and denominator ledgers $A,B$ and to export only the left and right rational bound rows $L,R$ for that stage;
+\item componentwise transport, requiring every comparison between accepted Wallis packets to move $Q,A,B,L,R,S,E$ through displayed $\hsame$ rows and not through host rational or host real equality;
+\item displayed replay, requiring each Real-facing request to replay the finite route through $C$ before the terminal $\RealUp$ comparison row $E$ is visible;
+\item provenance and local naming, requiring $P,N$ to source and name only the displayed rows and to export no infinite-product, analytic-limit, quotient-stream, selected-limit, or choice coordinate.
+\end{enumerate}
+No WallisProduct obligation is stored outside these finite rows.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its arithmetic rows are exactly the rational source $Q$, the numerator ledger $A$, the denominator ledger $B$, the bound rows $L,R$, the product row $S$, and the terminal Real comparison row $E$.
+
+Denominator visibility is componentwise. Each denominator factor in $B$ is accepted only through the rational row $Q$, so the carrier never asks a host division operation or an ambient positivity oracle to certify the product stage.
+
+The product-stage obligation is then read from $S$. The row $S$ binds the same numerator and denominator ledgers to the left and right rational bounds, and the terminal row $E$ is downstream of that finite product packet.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since none of the displayed rows stores an infinite product value, analytic limit, host real equality, quotient stream, selected limit, or choice schedule, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[WallisProduct finite-bound route]
+\label{thm:wallis-product-finite-bound-route}
+Every Real or Completion consumer of an accepted $\WallisProductUp$ packet reads the Wallis product only through the finite route
+$$
+\RatUp \longmapsto (A,B) \longmapsto \ProdUp \longmapsto (L,R) \longmapsto \RealUp .
+$$
+The consumer receives rational numerator and denominator ledgers, denominator-validity histories, a finite product-stage row, left and right rational bounds, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row. It receives no infinite product object, analytic convergence limit, host real equality, quotient stream, selected limit, countable-choice schedule, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:wallis-product-carrier}. The only arithmetic source is $Q$, and the only product-stage data are the displayed ledgers $A,B$ together with the finite product row $S$ and the bound rows $L,R$.
+
+The terminal comparison row $E$ is available only after those rows have been read. Thus a Real or Completion consumer must pass through the rational ledgers, product-stage packet, and rational bounds before it can inspect the terminal $\RealUp$ comparison.
+
+The structural rows preserve the same finite route. The $\hsame$ row transports components, the $\Cont$ row replays the consumer request, and the $\Pkg$ and $\NameCert$ rows source and name the packet. Since the carrier has no coordinate for an infinite product, analytic limit, host equality, quotient stream, selected limit, choice schedule, or Real completeness, none of those principles can enter the consumer route.
+\end{proof}
+
+\falsifiablePrediction{Every $\WallisProductUp$ consumer read factors through one RatUp arithmetic source row, one finite numerator ledger, one finite denominator ledger, left and right rational bound rows, one ProdUp finite-product row, one terminal RealUp comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert.}
+
+\independenceWitness{rat, prod, cauchyproduct, real: $\WallisProductUp$ is not bijective to any listed sibling because it jointly carries Wallis-stage numerator and denominator ledgers, rational denominator-validity histories, finite product-stage bounds, terminal Real comparison, transport, replay, provenance, and local naming.}
+
+\closureat{WallisProductUp}{seedStr}
+
+\begin{closurestatus}{\WallisProductUp}
+  \constructivestory{A $\WallisProductUp$ packet is generated from a RatUp arithmetic source row, finite numerator and denominator ledgers, left and right rational bound rows, a ProdUp finite-product row, a terminal RealUp comparison row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:wallis-product-carrier}, \autoref{thm:wallis-product-namecert-obligations}, and \autoref{thm:wallis-product-finite-bound-route} seed the finite-product Wallis route used by Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite products, analytic convergence, host real equality, quotient streams, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, denominator visibility, product-stage exactness, componentwise transport, displayed replay, provenance exhaustion, and local naming for BEDC.Derived.WallisProductUp.}
+\end{closurestatus}
