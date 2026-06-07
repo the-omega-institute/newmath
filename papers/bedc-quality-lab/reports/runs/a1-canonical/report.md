@@ -3,7 +3,7 @@
 - Generated at: `2026-06-06T15:19:08.204708+00:00`
 - Run id: `a1-canonical`
 - Artifact id: `gap_head_attribution_capsule`
-- D5-O: `ready`
+- D5-O: `blocked`
 - D5-M: `blocked`
 - Mechanism case: `Case C`
 - Failed gate: `A1-HG3`
