@@ -48,6 +48,14 @@ def test_hardgates_use_rows_and_controls_without_dgt_authority():
     assert hardgates["status"] == "pass"
     assert payload["dgt_declaration"]["produces_dgt"] is False
     assert payload["dgt_declaration"]["discovery_map_authority"] is False
+    assert payload["dgt_declaration"]["claim_graph_authority"] is False
+    assert payload["dgt_declaration"]["non_authoritative_admission"] is True
+    assert payload["hardgate"]["status"] == "pass"
+    assert payload["failed_gate"] is None
+    assert payload["discovery_map_admission"]["admitted"] is False
+    assert payload["mechanism_claim_allowed"]["allowed"] is False
+    assert payload["bounded_lab_evidence"]["raw_row_pointer"] == RAW_ROW_POINTER
+    assert payload["forbidden_claim_term_audit"]["status"] == "pass"
     assert payload["source_artifacts"]["raw_rows"] == RAW_ROW_POINTER
     assert payload["source_artifacts"]["attention_route_report"] == ATTENTION_ROUTE_ARTIFACT
     assert payload["source_artifacts"]["layerwise_jet_map"] == LAYERWISE_JET_MAP_ARTIFACT
@@ -77,6 +85,9 @@ def test_runner_writes_three_canonical_artifacts(tmp_path):
     assert atlas.exists()
     assert route.exists()
     assert jet_map.exists()
-    assert json.loads(atlas.read_text(encoding="utf-8"))["hardgates"]["status"] == "pass"
+    atlas_payload = json.loads(atlas.read_text(encoding="utf-8"))
+    assert atlas_payload["mechanism_claim_allowed"]["allowed"] is False
+    assert atlas_payload["discovery_map_admission"]["admitted"] is False
+    assert atlas_payload["hardgates"]["status"] == "pass"
     assert json.loads(route.read_text(encoding="utf-8"))["source_artifacts"]["raw_rows"] == RAW_ROW_POINTER
     assert "# Layerwise Jet Map" in jet_map.read_text(encoding="utf-8")

@@ -1,6 +1,6 @@
 # Claim Graph
 
-- Generated at: `2026-06-07T19:53:02.077417+00:00`
+- Generated at: `2026-06-07T19:43:01.695301+00:00`
 - Status: `pointer-only`
 - Nodes: `92`
 
@@ -42,10 +42,10 @@
 | `projected:mechanism-seeking-network` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[16]` | `raw:mechanism-seeking-network` |
 | `raw:discovery-gated-nas` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |  |
 | `projected:discovery-gated-nas` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[17]` | `raw:discovery-gated-nas` |
-| `raw:transformer-derivative-atlas` | `raw_evidence` | `reports/canonical/transformer_derivative_atlas.json:$` |  |
-| `projected:transformer-derivative-atlas` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[18]` | `raw:transformer-derivative-atlas` |
 | `raw:lejepa-theorem-ledger` | `raw_evidence` | `reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows` |  |
-| `projected:lejepa-theorem-ledger` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[19]` | `raw:lejepa-theorem-ledger` |
+| `projected:lejepa-theorem-ledger` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[18]` | `raw:lejepa-theorem-ledger` |
+| `raw:observed-debt-sweep` | `raw_evidence` | `reports/canonical/observed-debt-sweep.json:$` |  |
+| `projected:observed-debt-sweep` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[19]` | `raw:observed-debt-sweep` |
 | `raw:spectral-ablation-hinge` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |  |
 | `projected:spectral-ablation-hinge` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[20]` | `raw:spectral-ablation-hinge` |
 | `raw:dimension-mismatch-debt-transfer` | `raw_evidence` | `reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.effective_level` |  |
@@ -84,8 +84,8 @@
 | `terminal:discovery-regularized-training` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[15]` | `projected:discovery-regularized-training` |
 | `terminal:mechanism-seeking-network` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[16]` | `projected:mechanism-seeking-network` |
 | `terminal:discovery-gated-nas` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[17]` | `projected:discovery-gated-nas` |
-| `terminal:transformer-derivative-atlas` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[18]` | `projected:transformer-derivative-atlas` |
-| `terminal:lejepa-theorem-ledger` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[19]` | `projected:lejepa-theorem-ledger` |
+| `terminal:lejepa-theorem-ledger` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[18]` | `projected:lejepa-theorem-ledger` |
+| `terminal:observed-debt-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[19]` | `projected:observed-debt-sweep` |
 | `terminal:spectral-ablation-hinge` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[20]` | `projected:spectral-ablation-hinge` |
 | `terminal:dimension-mismatch-debt-transfer` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | `projected:dimension-mismatch-debt-transfer` |
 | `terminal:single-threshold-escape` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | `projected:single-threshold-escape` |

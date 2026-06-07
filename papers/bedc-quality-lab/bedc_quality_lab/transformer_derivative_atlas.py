@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+import json
 from typing import Any, Mapping, Sequence
 
 
@@ -72,10 +73,13 @@ class DgtDeclaration:
     subject_pointer: str = DGT_SUBJECT_POINTER
     produces_dgt: bool = False
     discovery_map_authority: bool = False
+    claim_graph_authority: bool = False
+    non_authoritative_admission: bool = True
     admission_scope: str = "derivative atlas uses DGT only as a declared subject for local analysis"
     not_claimed: tuple[str, ...] = (
         "not a DGT producer",
         "not a discovery-map authority",
+        "not a claim-graph authority",
         "not mechanism closure",
         "not global transformer behavior",
     )
@@ -265,6 +269,33 @@ def _layer_summary(rows: Sequence[LayerwiseDerivativeRow]) -> dict[str, Any]:
     }
 
 
+def _failed_gate(hardgates: Mapping[str, Any]) -> str | None:
+    failed_layers = hardgates.get("failed_layers")
+    if isinstance(failed_layers, Sequence) and not isinstance(failed_layers, (str, bytes)):
+        for layer_id in failed_layers:
+            if isinstance(layer_id, str) and layer_id:
+                return layer_id
+    return None if hardgates.get("status") == "pass" else "hardgates"
+
+
+def _forbidden_claim_term_audit(value: Any) -> dict[str, Any]:
+    forbidden_terms = (
+        "discovery",
+        "mechanism closure",
+        "global transformer behavior",
+        "discovery map authority",
+        "claim graph authority",
+    )
+    text = json.dumps(value, sort_keys=True).lower() if isinstance(value, (dict, list, tuple)) else str(value).lower()
+    hits = [term for term in forbidden_terms if term in text]
+    return {
+        "status": "pass" if not hits else "fail",
+        "forbidden_terms": list(forbidden_terms),
+        "hits": hits,
+        "audited_pointer": "$.mechanism_claim_allowed",
+    }
+
+
 def build_payload(
     rows: Sequence[LayerwiseDerivativeRow],
     controls: Sequence[MarginProxyControlRow],
@@ -279,6 +310,14 @@ def build_payload(
     row_payloads = [row.to_payload() for row in rows]
     control_payloads = [control.to_payload() for control in controls]
     status = "pass" if hardgates.get("status") == "pass" else "fail"
+    declaration_payload = declaration.to_payload()
+    mechanism_claim_allowed = {
+        "allowed": False,
+        "status": "blocked",
+        "reason": "atlas is bounded lab evidence and carries no mechanism admission",
+        "evidence_pointer": "$.bounded_lab_evidence",
+    }
+    forbidden_audit = _forbidden_claim_term_audit(mechanism_claim_allowed)
     return {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,
@@ -294,7 +333,26 @@ def build_payload(
             "cost_protocol": "configs/default_cost_protocol.yaml",
         },
         "config": config_payload,
-        "dgt_declaration": declaration.to_payload(),
+        "dgt_declaration": declaration_payload,
+        "hardgate": dict(hardgates),
+        "failed_gate": _failed_gate(hardgates),
+        "discovery_map_admission": {
+            "admitted": False,
+            "status": "non-authoritative",
+            "reason": "report-local derivative rows are not discovery-map facts",
+            "subject_pointer": DGT_SUBJECT_POINTER,
+            "authority_pointer": "$.dgt_declaration.discovery_map_authority",
+        },
+        "mechanism_claim_allowed": mechanism_claim_allowed,
+        "bounded_lab_evidence": {
+            "status": status,
+            "scope": "finite deterministic layer-wise derivative atlas",
+            "raw_row_pointer": RAW_ROW_POINTER,
+            "row_count": len(row_payloads),
+            "control_pointer": "$.margin_proxy_controls",
+            "hardgate_pointer": "$.hardgate",
+        },
+        "forbidden_claim_term_audit": forbidden_audit,
         "raw_intervention_rows": row_payloads,
         "layerwise_derivative_rows": {
             "schema": "LayerwiseDerivativeRow",
@@ -309,18 +367,11 @@ def build_payload(
         "attention_routes": _attention_routes(rows),
         "layer_summary": _layer_summary(rows),
         "hardgates": dict(hardgates),
-        "positive_claim": {
-            "status": status,
-            "claim": "layer-wise derivative atlas passes local structural controls" if status == "pass" else "no promoted positive claim",
-            "scope": "bounded deterministic transformer derivative atlas",
-            "evidence_pointer": "$.hardgates",
-            "raw_row_pointer": RAW_ROW_POINTER,
-        },
         "scope": {
             "claimed_scope": "finite deterministic layer-wise derivative atlas",
-            "not_claimed": declaration.to_payload()["not_claimed"],
+            "not_claimed": declaration_payload["not_claimed"],
         },
-        "not_claimed": declaration.to_payload()["not_claimed"],
+        "not_claimed": declaration_payload["not_claimed"],
     }
 
 

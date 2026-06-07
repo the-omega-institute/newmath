@@ -15,5 +15,6 @@
 
 - not a DGT producer
 - not a discovery-map authority
+- not a claim-graph authority
 - not mechanism closure
 - not global transformer behavior

@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:claim-graph",
-  "generated_at": "2026-06-07T19:53:02.077417+00:00",
+  "generated_at": "2026-06-07T19:43:01.695301+00:00",
   "hardgates": {
     "CG-HG1": {
       "criterion": "accepted_positive_discovery terminals trace to raw_evidence through projected_discovery",
@@ -59,8 +59,8 @@
         "terminal:discovery-regularized-training",
         "terminal:mechanism-seeking-network",
         "terminal:discovery-gated-nas",
-        "terminal:transformer-derivative-atlas",
         "terminal:lejepa-theorem-ledger",
+        "terminal:observed-debt-sweep",
         "terminal:spectral-ablation-hinge",
         "terminal:dimension-mismatch-debt-transfer",
         "terminal:single-threshold-escape",
@@ -446,26 +446,6 @@
     {
       "depends_on": [],
       "discovery_level": null,
-      "node_id": "raw:transformer-derivative-atlas",
-      "node_type": "raw_evidence",
-      "not_claimed": [],
-      "source_pointer": "reports/canonical/transformer_derivative_atlas.json:$",
-      "terminal_verdict": null
-    },
-    {
-      "depends_on": [
-        "raw:transformer-derivative-atlas"
-      ],
-      "discovery_level": "D0",
-      "node_id": "projected:transformer-derivative-atlas",
-      "node_type": "projected_discovery",
-      "not_claimed": [],
-      "source_pointer": "reports/canonical/discovery_map.json:$.rows[18]",
-      "terminal_verdict": null
-    },
-    {
-      "depends_on": [],
-      "discovery_level": null,
       "node_id": "raw:lejepa-theorem-ledger",
       "node_type": "raw_evidence",
       "not_claimed": [],
@@ -478,6 +458,26 @@
       ],
       "discovery_level": "D0",
       "node_id": "projected:lejepa-theorem-ledger",
+      "node_type": "projected_discovery",
+      "not_claimed": [],
+      "source_pointer": "reports/canonical/discovery_map.json:$.rows[18]",
+      "terminal_verdict": null
+    },
+    {
+      "depends_on": [],
+      "discovery_level": null,
+      "node_id": "raw:observed-debt-sweep",
+      "node_type": "raw_evidence",
+      "not_claimed": [],
+      "source_pointer": "reports/canonical/observed-debt-sweep.json:$",
+      "terminal_verdict": null
+    },
+    {
+      "depends_on": [
+        "raw:observed-debt-sweep"
+      ],
+      "discovery_level": "D0",
+      "node_id": "projected:observed-debt-sweep",
       "node_type": "projected_discovery",
       "not_claimed": [],
       "source_pointer": "reports/canonical/discovery_map.json:$.rows[19]",
@@ -879,10 +879,10 @@
     },
     {
       "depends_on": [
-        "projected:transformer-derivative-atlas"
+        "projected:lejepa-theorem-ledger"
       ],
       "discovery_level": null,
-      "node_id": "terminal:transformer-derivative-atlas",
+      "node_id": "terminal:lejepa-theorem-ledger",
       "node_type": "terminal_claim",
       "not_claimed": [],
       "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[18]",
@@ -890,10 +890,10 @@
     },
     {
       "depends_on": [
-        "projected:lejepa-theorem-ledger"
+        "projected:observed-debt-sweep"
       ],
       "discovery_level": null,
-      "node_id": "terminal:lejepa-theorem-ledger",
+      "node_id": "terminal:observed-debt-sweep",
       "node_type": "terminal_claim",
       "not_claimed": [],
       "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[19]",
