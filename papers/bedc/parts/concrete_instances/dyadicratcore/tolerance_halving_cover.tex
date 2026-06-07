@@ -168,3 +168,23 @@ The two consumer faces are then routed through the existing handoffs. Use \autor
 
 Finally apply \autoref{thm:dyadicratcore-common-exponent-transport}. It keeps every tolerance comparison in the displayed common-exponent ledger, so the terminal budget is one finite BEDC object rather than a selected limiting tolerance. The construction therefore refuses host rational order, quotient stream equality, selected limits, countable choice, host real equality, ambient Real completeness, and completion coordinates.
 \end{proof}
+
+\begin{theorem}[DyadicRatCore terminal halving-cover exhaustion]
+\label{thm:dyadicratcore-terminal-halving-cover-exhaustion}
+Every terminal four-face L10 tolerance read using $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ factors through the selection-free terminal halving-cover budget of \autoref{thm:dyadicratcore-terminal-halving-cover-selection-free}. No such consumer can introduce a separate tolerance source, host rational order, quotient stream equality, selected limit, countable choice, host $\RealUp$ equality, or ambient $\RealUp$ completeness.
+
+The exhaustion route is the finite ledger
+$$
+\DyadicRatCoreUp \longrightarrow \StreamNameUp,\ \RegSeqRatUp,\ \RealUp
+$$
+together with the common-exponent transport and the two halving-cover handoffs. The terminal read therefore sees only the displayed dyadic budget, its common-exponent comparisons, the finite-window consumer face, the regular rational consumer face, and the downstream Real seal.
+\end{theorem}
+\begin{proof}
+Start with a terminal four-face tolerance read. Apply \autoref{thm:dyadicratcore-terminal-halving-cover-selection-free} to obtain one displayed terminal budget through which the finite-window and regularity consumers factor.
+
+Use \autoref{thm:dyadicratcore-common-exponent-transport} on that budget. It keeps every comparison in the same common-exponent ledger, so the terminal row is not replaced by host rational order or by an independent tolerance source.
+
+Route the consumer faces through the two handoff theorems. The StreamName face uses \autoref{thm:dyadicratcore-halving-cover-streamname-handoff}, and the RegSeqRat face uses \autoref{thm:dyadicratcore-halving-cover-regseqrat-handoff}; the Real-facing read is downstream of those finite tolerance rows and cannot bypass them.
+
+The accepted packet has no row for quotient stream equality, selected limits, countable choice, host Real equality, or ambient completeness. Hence every terminal four-face L10 read exhausts the available tolerance data at the selection-free halving-cover budget.
+\end{proof}
