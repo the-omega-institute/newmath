@@ -707,7 +707,8 @@ def _discovery_regularized_training_projection(
         )
     level = signal.get("level_candidate")
     status = signal.get("status")
-    if consistent and level == "D4" and status == "d4-candidate":
+    extension_failed_pointer = _drt_extension_failed_pointer(payload)
+    if extension_failed_pointer is None and consistent and level == "D4" and status == "d4-candidate":
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
@@ -744,7 +745,7 @@ def _discovery_regularized_training_projection(
         },
     }, ProjectionEvidence(
         projection_status="projected",
-        failed_gate=failed_pointer,
+        failed_gate=extension_failed_pointer or failed_pointer,
     )
 
 
@@ -1083,6 +1084,16 @@ def _sigreg_mini_grid_consistency(payload: Mapping[str, Any]) -> tuple[bool, str
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.hardgate.status"
 
 
+def _drt_extension_failed_pointer(payload: Mapping[str, Any]) -> str | None:
+    hardgates = pointer_value(payload, "$.drt_extension_hardgates")
+    if not isinstance(hardgates, Mapping):
+        return "$.drt_extension_hardgates"
+    if hardgates.get("status") == "pass":
+        return None
+    pointer = hardgates.get("failed_gate_pointer")
+    return pointer if isinstance(pointer, str) and pointer else "$.drt_extension_hardgates.status"
+
+
 def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
     hardgates = pointer_value(payload, "$.hardgate.gates")
     signal = pointer_value(payload, "$.discovery_map_signal")
@@ -1112,6 +1123,7 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
             failed = "DRT-HG6"
         elif pointer_value(payload, "$.records.raw_rows_pointer") is None:
             failed = "DRT-HG6"
+    extension_failed_pointer = _drt_extension_failed_pointer(payload)
     if failed is None:
         expected = {
             "status": "d4-candidate",
@@ -1138,6 +1150,10 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
         return False, "drt-torch-pointer-mismatch", "$.discovery_map_signal.torch_training_evidence_pointer"
     if pointer_value(payload, "$.discovery_map_signal.torch_training_evidence_pointer") is None:
         return False, "drt-torch-pointer-dangling", "$.discovery_map_signal.torch_training_evidence_pointer"
+    if extension_failed_pointer is not None and pointer_value(payload, extension_failed_pointer) is None:
+        return False, "drt-extension-failed-gate-pointer-dangling", extension_failed_pointer
+    if extension_failed_pointer is not None:
+        return True, "", extension_failed_pointer
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.torch_training_evidence"
 
 

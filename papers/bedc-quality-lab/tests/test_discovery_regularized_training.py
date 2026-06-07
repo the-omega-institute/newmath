@@ -15,6 +15,7 @@ from bedc_quality_lab.discovery_regularized_training import (
     DiscoveryRegularizedTrainingProjection,
     TorchTrainingArmProtocol,
     default_grid,
+    drt_extension_forbidden_key_audit,
 )
 from scripts import run_canonical_reports as canonical
 from scripts import run_discovery_map as discovery_map
@@ -43,6 +44,10 @@ REQUIRED_SUMMARY_KEYS = {
     "training_loop_trace",
     "matched_random_control",
     "quality_promotion_boundary",
+    "loss_family",
+    "component_ablation",
+    "training_method_comparison",
+    "drt_extension_hardgates",
     "hardgate",
     "failed_gate",
     "discovery_map_signal",
@@ -193,6 +198,17 @@ def test_torch_available_fixture_promotes_d4_and_records_payload_sections(monkey
     assert summary["discovery_map_signal"]["evidence_pointer"] == "$.torch_training_evidence"
     assert summary["training_loop_trace"]["retrain_rows_pointer"] == "$.torch_training_evidence"
     assert summary["negative_witness_mutations"]["failed_gate_pointer"] == "$.hardgate.status"
+    assert summary["drt_extension_hardgates"]["status"] == "pass"
+    assert set(summary["loss_family"]["terms"]) == {
+        "discovery",
+        "ledger",
+        "certificate",
+        "mechanism",
+        "cost",
+        "negative_witness",
+    }
+    assert len(summary["component_ablation"]["rows"]) == 7
+    assert summary["training_method_comparison"]["metric_pointers"]["uer"].endswith("$.records.extension_metrics.uer_mean")
     assert "terminal_verdict" not in json.dumps(summary, sort_keys=True)
 
 
@@ -367,6 +383,72 @@ def test_current_lab_projection_and_pointer_resolvability():
     assert discovery_map.pointer_value(failed, failed_row["failed_gate"]) == "fail"
 
 
+def test_drt_extension_forbidden_key_audit_rejects_host_env_and_terminal_verdict():
+    audit = drt_extension_forbidden_key_audit(
+        {
+            "nested": {
+                "host.env": "blocked",
+                "value": ".refactor-loop/host.env",
+                "cells": [{"terminal_verdict": "accepted"}],
+            }
+        }
+    )
+
+    assert audit["status"] == "fail"
+    assert audit["hit_count"] >= 3
+
+
+def test_drt_extension_hardgate_fail_demotes_discovery_map_row():
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    summary = _project()["summary_payload"]
+    gate_id = "DRT-EXT-HG2_uer_threshold"
+    summary["drt_extension_hardgates"]["gates"][gate_id]["status"] = "fail"
+    summary["drt_extension_hardgates"]["status"] = "fail"
+    summary["drt_extension_hardgates"]["failed_gate"] = gate_id
+    summary["drt_extension_hardgates"]["failed_gate_pointer"] = f"$.drt_extension_hardgates.gates.{gate_id}.status"
+
+    row = discovery_map.discovery_row(spec, summary)
+    projected = discovery_map.projection_payload(spec, summary)
+
+    assert row["discovery_level"] == "DN"
+    assert row["failed_gate"] == f"$.drt_extension_hardgates.gates.{gate_id}.status"
+    assert discovery_map.pointer_value(summary, row["failed_gate"]) == "fail"
+    assert projected["main_verdict"]["discovery_regularized_training"]["level_candidate"] == "DN"
+
+
+def test_drt_extension_pointers_resolve_inside_existing_drt_artifact():
+    summary = _project()["summary_payload"]
+    pointers = [
+        summary["loss_family"]["owner_pointer"],
+        summary["component_ablation"]["owner_pointer"],
+        summary["training_method_comparison"]["owner_pointer"],
+        summary["training_method_comparison"]["metric_pointers"]["uer"],
+        summary["training_method_comparison"]["metric_pointers"]["uer_reduction"],
+        *[row["evidence_pointer"] for row in summary["component_ablation"]["rows"]],
+        *[row["quality_q_pointer"] for row in summary["component_ablation"]["rows"]],
+        *[row["evidence_pointer"] for row in summary["loss_family"]["terms"].values()],
+    ]
+
+    unresolved = [
+        pointer
+        for pointer in pointers
+        if pointer.startswith("reports/canonical/discovery-regularized-training.json:")
+        and discovery_map.pointer_value(summary, pointer.split(":", 1)[1]) is None
+    ]
+
+    assert unresolved == []
+
+
+def test_drt_extension_does_not_override_certificate_guided_dn_owner():
+    training = canonical._specs_by_name()["certificate-guided-training"]
+    discovery = canonical._specs_by_name()["certificate-guided-discovery"]
+
+    assert training.json_artifact == "reports/canonical/certificate-guided-training.json"
+    assert discovery.json_artifact == "reports/canonical/certificate-guided-discovery.json"
+    assert training.name == "certificate-guided-training"
+    assert discovery.name == "certificate-guided-discovery"
+
+
 def test_zero_row_and_dangling_torch_evidence_demote_to_dn():
     spec = canonical._specs_by_name()["discovery-regularized-training"]
     zero_row = runner.build_projection(generated_at="fixture-time", enable_torch=False)["summary_payload"]
@@ -422,6 +504,10 @@ def test_canonical_spec_uses_committed_config_and_source_artifacts():
     assert "schema_id" in spec.required_json_keys
     assert "negative_witness_mutations" in spec.required_json_keys
     assert "training_loop_trace" in spec.required_json_keys
+    assert "loss_family" in spec.required_json_keys
+    assert "component_ablation" in spec.required_json_keys
+    assert "training_method_comparison" in spec.required_json_keys
+    assert "drt_extension_hardgates" in spec.required_json_keys
     summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
     assert ".refactor-loop/host.env" not in json.dumps(summary["source_artifacts"], sort_keys=True)
     assert "bedc_quality_lab/discovery_regularized_training.py" in summary["source_artifacts"]["producer_sources"]

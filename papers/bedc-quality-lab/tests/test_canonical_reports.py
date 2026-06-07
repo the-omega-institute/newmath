@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+import re
 import sys
 import types
 
@@ -334,6 +335,26 @@ def _payload_for_spec(spec):
                     "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
                     "deterministic_anchor_rows": 720,
                     "torch_evidence_rows": 16,
+                    "extension_metrics": {
+                        "loss_terms_enabled": [
+                            "discovery",
+                            "ledger",
+                            "certificate",
+                            "mechanism",
+                            "cost",
+                            "negative_witness",
+                        ],
+                        "comparison_family": "task-sigreg-drt-matched-random",
+                        "compute_ledger_pointer": "$.device_protocol",
+                        "debt_marker_pointer": "$.constraint_summary",
+                        "uer_mean": 0.11,
+                        "uer_reduction_mean": 0.09,
+                        "sidecar_metric_pointers": {
+                            "raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+                            "torch_training_evidence": "$.torch_training_evidence",
+                            "matched_random_control": "$.matched_random_control",
+                        },
+                    },
                 },
                 "surface_registry": {
                     "quality": {
@@ -347,6 +368,12 @@ def _payload_for_spec(spec):
                         },
                     },
                     "task_accuracy_only": {"task_accuracy_only_rejected": True, "promoted_row_count": 0},
+                    "classifier_shift": {
+                        "classifier_shift_count_mean": 1.0,
+                        "classifier_shift_positive": True,
+                        "net_positive_signal": True,
+                        "net_positive_count": 1,
+                    },
                 },
                 "lambda_summary": {
                     "best_positive": {
@@ -394,9 +421,28 @@ def _payload_for_spec(spec):
                     "failed_gate_pointer": "$.hardgate.status",
                     "claim_capsule_pointer": "$.claim_capsule_ref",
                 },
+                "device_protocol": {
+                    "requested_device": "auto",
+                    "resolved_device": "cpu",
+                    "drift_tolerance": 0.0001,
+                    "status": "available",
+                },
+                "constraint_summary": {
+                    "drt_minus_task_only_debt_q": -0.1,
+                    "drt_minus_task_only_benefit_q": 0.02,
+                    "debt_down": True,
+                    "benefit_nondecreasing": True,
+                },
             }
         )
         payload["quality_promotion_boundary"] = runner.quality_promotion_boundary(payload)
+        extension_sections = runner.project_drt_training_extension(
+            [],
+            runner.default_drt_training_extension_spec(),
+            {"raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"},
+            payload,
+        )
+        payload.update(extension_sections)
     if spec.name == "certificate-gated-attention":
         payload.update(
             {
@@ -2319,6 +2365,40 @@ def test_discovery_regularized_training_quality_boundary_index_is_pointer_only()
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in ("terminal_verdict", "metrics", "candidate_evidence_body", "host.env"):
         assert forbidden not in lowered
+
+
+def test_drt_canonical_spec_has_no_companion_artifacts():
+    names = [spec.name for spec in canonical.CANONICAL_REPORTS]
+    drt_names = [name for name in names if "discovery-regularized-training" in name]
+
+    assert drt_names == ["discovery-regularized-training"]
+    forbidden_names = {
+        "discovery-regularized-training-loss-ablation",
+        "discovery-regularized-training-component-ablation",
+        "discovery-regularized-training-method-comparison",
+    }
+    assert forbidden_names.isdisjoint(names)
+    assert all(re.search(r"\bdrt[-_]?v\d+\b", name) is None for name in names)
+
+
+def test_discovery_regularized_training_regen_idempotent_with_extension_sections(tmp_path):
+    first_projection = runner.build_projection(generated_at="fixture-time")
+    runner.write_artifacts(first_projection, root=tmp_path)
+    first_json = (tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8")
+    first_md = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
+
+    second_projection = runner.build_projection(generated_at="fixture-time")
+    runner.write_artifacts(second_projection, root=tmp_path)
+    second_json = (tmp_path / runner.JSON_ARTIFACT).read_text(encoding="utf-8")
+    second_md = (tmp_path / runner.REPORT_ARTIFACT).read_text(encoding="utf-8")
+    payload = json.loads(second_json)
+
+    assert first_json == second_json
+    assert first_md == second_md
+    assert payload["loss_family"]["status"] == "pointer-only"
+    assert payload["component_ablation"]["status"] == "pointer-only"
+    assert payload["training_method_comparison"]["status"] == "pointer-only"
+    assert payload["drt_extension_hardgates"]["status"] == "pass"
 
 
 def test_discovery_regularized_training_producer_json_round_trips_validator(tmp_path, monkeypatch):

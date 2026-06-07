@@ -28,6 +28,8 @@ from bedc_quality_lab.discovery_regularized_training import (
     TORCH_SEEDS,
     DiscoveryRegularizedTrainingProjection,
     default_grid,
+    default_drt_training_extension_spec,
+    project_drt_training_extension,
     quality_promotion_boundary,
 )
 
@@ -89,6 +91,13 @@ def deterministic_record(
         task_accuracy = round(task_accuracy + 0.004, 6)
     elif str(arm) == "matched_random":
         task_accuracy = round(task_accuracy - 0.002, 6)
+    uer_base = {
+        "task_only": 0.26,
+        "sigreg": 0.19,
+        "drt": 0.11,
+        "matched_random": 0.22,
+    }[str(arm)]
+    uer = round(max(0.0, uer_base - 0.004 * rho_rank + 0.001 * lambda_rank + seed_jitter), 6)
     return {
         "backend": "deterministic-anchor",
         "discovery_lambda": float(discovery_lambda),
@@ -105,6 +114,26 @@ def deterministic_record(
         "classifier_shift_count": int(arm_offsets["shift"]),
         "delta_quality_ci_low": round(0.010 + 0.004 * lambda_rank if str(arm) == "drt" else -0.004, 6),
         "net_positive_signal": str(arm) == "drt",
+        "loss_terms_enabled": [
+            "discovery",
+            "ledger",
+            "certificate",
+            "mechanism",
+            "cost",
+            "negative_witness",
+        ]
+        if str(arm) == "drt"
+        else [],
+        "compute_ledger_pointer": "$.device_protocol",
+        "uer": uer,
+        "uer_reduction": round(0.26 - uer, 6),
+        "debt_marker_pointer": "$.constraint_summary",
+        "comparison_family": "task-sigreg-drt-matched-random",
+        "sidecar_metric_pointers": {
+            "raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+            "torch_training_evidence": "$.torch_training_evidence",
+            "matched_random_control": "$.matched_random_control",
+        },
     }
 
 

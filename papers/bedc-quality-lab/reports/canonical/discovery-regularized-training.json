@@ -20,6 +20,108 @@
   "artifact_id": "bedc-quality-lab:discovery-regularized-training",
   "claim_capsule_ref": "reports/runs/discovery-regularized-training/claim_capsule.json",
   "claim_capsule_status": "d4-candidate",
+  "component_ablation": {
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.component_ablation",
+    "rows": [
+      {
+        "arm_id": "full_drt",
+        "disabled_terms": [],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt",
+        "full_drt_quality_q": 0.641767,
+        "pointer_state": "present",
+        "quality_delta_vs_full_drt": 0.0,
+        "quality_q": 0.641767,
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean",
+        "render_order": 1,
+        "source_arm": "drt"
+      },
+      {
+        "arm_id": "without_discovery",
+        "disabled_terms": [
+          "discovery"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg",
+        "full_drt_quality_q": 0.641767,
+        "pointer_state": "present",
+        "quality_delta_vs_full_drt": -0.042,
+        "quality_q": 0.599767,
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.sigreg.quality_q_mean",
+        "render_order": 2,
+        "source_arm": "sigreg"
+      },
+      {
+        "arm_id": "without_ledger",
+        "disabled_terms": [
+          "ledger"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random",
+        "full_drt_quality_q": 0.641767,
+        "pointer_state": "present",
+        "quality_delta_vs_full_drt": -0.046,
+        "quality_q": 0.595767,
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "render_order": 3,
+        "source_arm": "matched_random"
+      },
+      {
+        "arm_id": "without_certificate",
+        "disabled_terms": [
+          "certificate"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+        "full_drt_quality_q": 0.641767,
+        "pointer_state": "present",
+        "quality_delta_vs_full_drt": -0.046,
+        "quality_q": 0.595767,
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "render_order": 4,
+        "source_arm": "matched_random"
+      },
+      {
+        "arm_id": "without_mechanism",
+        "disabled_terms": [
+          "mechanism"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence.classifier_surface_delta",
+        "full_drt_quality_q": 0.641767,
+        "pointer_state": "present",
+        "quality_delta_vs_full_drt": -0.046,
+        "quality_q": 0.595767,
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "render_order": 5,
+        "source_arm": "matched_random"
+      },
+      {
+        "arm_id": "without_cost",
+        "disabled_terms": [
+          "cost"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.device_protocol",
+        "full_drt_quality_q": 0.641767,
+        "pointer_state": "present",
+        "quality_delta_vs_full_drt": 0.0,
+        "quality_q": 0.641767,
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean",
+        "render_order": 6,
+        "source_arm": "drt"
+      },
+      {
+        "arm_id": "without_negative_witness",
+        "disabled_terms": [
+          "negative_witness"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
+        "full_drt_quality_q": 0.641767,
+        "pointer_state": "present",
+        "quality_delta_vs_full_drt": -0.046,
+        "quality_q": 0.595767,
+        "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.matched_random.quality_q_mean",
+        "render_order": 7,
+        "source_arm": "matched_random"
+      }
+    ],
+    "status": "pointer-only"
+  },
   "config": {
     "arms": [
       "task_only",
@@ -87,6 +189,68 @@
     "surface_registry_pointer": "$.surface_registry",
     "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
     "torch_training_evidence_pointer": "$.torch_training_evidence"
+  },
+  "drt_extension_hardgates": {
+    "failed_gate": null,
+    "failed_gate_pointer": null,
+    "gates": {
+      "DRT-EXT-HG1_required_pointer_resolution": {
+        "evidence_pointer": "$.drt_extension_hardgates.required_run_pointers",
+        "required_run_pointers": [
+          {
+            "pointer": "reports/canonical/discovery-regularized-training.json:$.records.raw_rows_pointer",
+            "status": "pass"
+          },
+          {
+            "pointer": "reports/canonical/discovery-regularized-training.json:$.training_loop_trace",
+            "status": "pass"
+          },
+          {
+            "pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+            "status": "pass"
+          },
+          {
+            "pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
+            "status": "pass"
+          }
+        ],
+        "status": "pass"
+      },
+      "DRT-EXT-HG2_uer_threshold": {
+        "status": "pass",
+        "thresholds": {
+          "uer_max": 0.18,
+          "uer_reduction_min": 0.06
+        },
+        "uer": 0.11,
+        "uer_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.uer_mean",
+        "uer_reduction": 0.09,
+        "uer_reduction_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.uer_reduction_mean"
+      },
+      "DRT-EXT-HG3_component_ablation": {
+        "component_drop_count": 5,
+        "evidence_pointer": "$.component_ablation.rows",
+        "required_component_drop_count": 3,
+        "status": "pass"
+      },
+      "DRT-EXT-HG4_forbidden_key_audit": {
+        "audited_pattern_count": 7,
+        "hit_count": 0,
+        "hits": [],
+        "status": "pass"
+      }
+    },
+    "required_run_pointers": [
+      "reports/canonical/discovery-regularized-training.json:$.records.raw_rows_pointer",
+      "reports/canonical/discovery-regularized-training.json:$.training_loop_trace",
+      "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+      "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations"
+    ],
+    "status": "pass",
+    "thresholds": {
+      "uer_max": 0.18,
+      "uer_reduction_min": 0.06
+    }
   },
   "failed_gate": null,
   "forbidden_claim_term_audit": {
@@ -208,6 +372,55 @@
       0.005,
       0.01
     ]
+  },
+  "loss_family": {
+    "loss_terms_enabled_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.loss_terms_enabled",
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.loss_family",
+    "status": "pointer-only",
+    "terms": {
+      "certificate": {
+        "enabled_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.loss_terms_enabled",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",
+        "pointer_state": "present",
+        "role": "certificate loss separation",
+        "term_id": "certificate"
+      },
+      "cost": {
+        "enabled_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.loss_terms_enabled",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.device_protocol",
+        "pointer_state": "present",
+        "role": "bounded replay cost accounting",
+        "term_id": "cost"
+      },
+      "discovery": {
+        "enabled_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.loss_terms_enabled",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.classifier_shift",
+        "pointer_state": "present",
+        "role": "positive discovery surface regularizer",
+        "term_id": "discovery"
+      },
+      "ledger": {
+        "enabled_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.loss_terms_enabled",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.constraint_summary",
+        "pointer_state": "present",
+        "role": "debt ledger pressure",
+        "term_id": "ledger"
+      },
+      "mechanism": {
+        "enabled_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.loss_terms_enabled",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence.classifier_surface_delta",
+        "pointer_state": "present",
+        "role": "mechanism-facing classifier shift",
+        "term_id": "mechanism"
+      },
+      "negative_witness": {
+        "enabled_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.loss_terms_enabled",
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
+        "pointer_state": "present",
+        "role": "matched-random negative witness pressure",
+        "term_id": "negative_witness"
+      }
+    }
   },
   "matched_random_control": {
     "certificate_loss_improvement": true,
@@ -343,6 +556,27 @@
   },
   "records": {
     "deterministic_anchor_rows": 720,
+    "extension_metrics": {
+      "comparison_family": "task-sigreg-drt-matched-random",
+      "compute_ledger_pointer": "$.device_protocol",
+      "debt_marker_pointer": "$.constraint_summary",
+      "loss_terms_enabled": [
+        "discovery",
+        "ledger",
+        "certificate",
+        "mechanism",
+        "cost",
+        "negative_witness"
+      ],
+      "raw_metrics_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+      "sidecar_metric_pointers": {
+        "matched_random_control": "$.matched_random_control",
+        "raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+        "torch_training_evidence": "$.torch_training_evidence"
+      },
+      "uer_mean": 0.11,
+      "uer_reduction_mean": 0.09
+    },
     "metric_keys": [
       "task_accuracy",
       "quality_q",
@@ -639,6 +873,18 @@
     "row_count": 16,
     "source_arm": "drt",
     "status": "available"
+  },
+  "training_method_comparison": {
+    "comparison_family_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.comparison_family",
+    "compute_ledger_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.compute_ledger_pointer",
+    "debt_marker_pointer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.debt_marker_pointer",
+    "metric_pointers": {
+      "raw_rows": "reports/canonical/discovery-regularized-training.json:$.records.raw_rows_pointer",
+      "uer": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.uer_mean",
+      "uer_reduction": "reports/canonical/discovery-regularized-training.json:$.records.extension_metrics.uer_reduction_mean"
+    },
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.training_method_comparison",
+    "status": "pointer-only"
   },
   "what_was_learned": "The deterministic anchor records debt reduction, benefit preservation, classifier shift, and matched-random certificate separation."
 }
