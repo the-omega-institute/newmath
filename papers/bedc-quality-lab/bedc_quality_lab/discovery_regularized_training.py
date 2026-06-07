@@ -100,6 +100,9 @@ DRT_EXTENSION_FORBIDDEN_PATTERNS = (
 FIXED_CELL_SECONDS_PROXY = 0.00025
 FLOPS_PER_STEP_PROXY = 4096
 ENERGY_PER_FLOP_PROXY = 1.0e-10
+DRT_HARDGATES = tuple(f"DRT-HG{index}" for index in range(1, 9))
+DRT_BASE_HARDGATES = DRT_HARDGATES[:7]
+DRT_PROMOTION_HARDGATE = DRT_HARDGATES[-1]
 
 
 @dataclass(frozen=True)
@@ -489,6 +492,54 @@ def _mechanism_ablation_summary(
     return payload
 
 
+def _training_mechanism_cert(owner_payload: Mapping[str, Any]) -> dict[str, Any]:
+    required_pointers = (
+        quality_artifact_pointer("$.mechanism_ablation.status"),
+        quality_artifact_pointer("$.mechanism_ablation.comparisons"),
+        quality_artifact_pointer("$.torch_training_evidence.classifier_surface_delta"),
+        quality_artifact_pointer("$.training_loop_trace.retrain_rows_pointer"),
+        quality_artifact_pointer("$.matched_random_control"),
+        quality_artifact_pointer("$.negative_witness_mutations"),
+        quality_artifact_pointer("$.compute_ledger"),
+    )
+    resolution_rows = [
+        {
+            "pointer": pointer,
+            "status": _status(_artifact_pointer_resolves(owner_payload, pointer)),
+        }
+        for pointer in required_pointers
+    ]
+    mechanism_status = _quality_pointer_value(owner_payload, required_pointers[0])
+    torch_positive = _quality_pointer_value(
+        owner_payload,
+        quality_artifact_pointer("$.torch_training_evidence.classifier_surface_delta.net_positive_signal"),
+    ) is True
+    ledger_complete = _quality_pointer_value(owner_payload, quality_artifact_pointer("$.compute_ledger.status")) == "complete"
+    all_pointers_resolve = all(row["status"] == "pass" for row in resolution_rows)
+    return {
+        "schema_id": f"{SCHEMA_ID}:training-mechanism-cert",
+        "status": _status(
+            mechanism_status == "pass"
+            and torch_positive
+            and ledger_complete
+            and all_pointers_resolve
+        ),
+        "owner_pointer": quality_artifact_pointer("$.training_mechanism_cert"),
+        "hardgate_pointer": quality_artifact_pointer("$.hardgate.gates.DRT-HG8"),
+        "status_pointer": quality_artifact_pointer("$.training_mechanism_cert.status"),
+        "required_pointers": resolution_rows,
+        "mechanism_ablation_status_pointer": required_pointers[0],
+        "torch_delta_pointer": quality_artifact_pointer("$.torch_training_evidence.classifier_surface_delta"),
+        "matched_control_pointer": quality_artifact_pointer("$.matched_random_control"),
+        "ledger_pointer": quality_artifact_pointer("$.compute_ledger"),
+        "negative_witness_pointer": quality_artifact_pointer("$.negative_witness_mutations"),
+        "all_required_pointers_resolve": all_pointers_resolve,
+        "mechanism_ablation_status": mechanism_status,
+        "torch_positive": torch_positive,
+        "ledger_complete": ledger_complete,
+    }
+
+
 def project_drt_training_extension(
     records: Sequence[Mapping[str, Any]],
     spec: DrtTrainingExtensionSpec,
@@ -767,13 +818,6 @@ class DiscoveryRegularizedTrainingProjection:
                 "lambda_summary": summaries["lambda_summary"],
             }
         )
-        hardgates = self.hardgate_verdicts(summaries, boundary)
-        failed_gate = self.failed_gate(hardgates)
-        signal = self.discovery_map_signal(hardgates)
-        positive_claim = {
-            **POSITIVE_CLAIM,
-            "level_candidate": signal["level_candidate"],
-        }
         extension_seed = {
             "config": dict(self.config),
             "records": summaries["records"],
@@ -794,6 +838,18 @@ class DiscoveryRegularizedTrainingProjection:
             self.run_artifacts,
             extension_seed,
         )
+        cert_seed = {**extension_seed, **extension_sections}
+        training_mechanism_cert = _training_mechanism_cert(cert_seed)
+        hardgates = self.hardgate_verdicts(
+            {**summaries, "training_mechanism_cert": training_mechanism_cert},
+            boundary,
+        )
+        failed_gate = self.failed_gate(hardgates)
+        signal = self.discovery_map_signal(hardgates)
+        positive_claim = {
+            **POSITIVE_CLAIM,
+            "level_candidate": signal["level_candidate"],
+        }
         capsule = self.claim_capsule_payload(
             hardgates=hardgates,
             summaries=summaries,
@@ -845,9 +901,10 @@ class DiscoveryRegularizedTrainingProjection:
             "matched_random_control": summaries["matched_random_control"],
             "quality_promotion_boundary": boundary,
             "mechanism_ablation": summaries["mechanism_ablation"],
+            "training_mechanism_cert": training_mechanism_cert,
             **extension_sections,
             "hardgate": {
-                "status": _status(failed_gate is None),
+                "status": _status(all(hardgates[gate].get("status") == "pass" for gate in DRT_HARDGATES)),
                 "gates": hardgates,
                 "failed_gate": failed_gate,
             },
@@ -873,7 +930,7 @@ class DiscoveryRegularizedTrainingProjection:
         }
 
     def failed_gate(self, hardgates: Mapping[str, Mapping[str, Any]]) -> str | None:
-        for name in ("DRT-HG1", "DRT-HG2", "DRT-HG3", "DRT-HG4", "DRT-HG5", "DRT-HG6", "DRT-HG7"):
+        for name in DRT_BASE_HARDGATES:
             row = hardgates.get(name)
             if not isinstance(row, Mapping) or row.get("status") != "pass":
                 return name
@@ -891,6 +948,7 @@ class DiscoveryRegularizedTrainingProjection:
         task_only = summaries["surface_registry"]["task_accuracy_only"]
         torch_evidence = summaries["torch_training_evidence"]
         mechanism_ablation = summaries["mechanism_ablation"]
+        training_mechanism_cert = summaries.get("training_mechanism_cert")
         torch_delta = torch_evidence.get("classifier_surface_delta", {})
         protocols = torch_evidence.get("protocols", [])
         expected_torch_rows = torch_evidence.get("expected_row_count")
@@ -931,6 +989,7 @@ class DiscoveryRegularizedTrainingProjection:
             isinstance(boundary_gate, Mapping)
             and boundary_gate.get("promotion_gate") == "clears-boundary"
         )
+        matched_random_control_positive = matched.get("control_positive") is True
         return {
             "DRT-HG1": {
                 "status": _status(bool(constraint["debt_down"] and constraint["benefit_nondecreasing"])),
@@ -950,9 +1009,10 @@ class DiscoveryRegularizedTrainingProjection:
                 "evidence_pointer": "$.surface_registry.classifier_shift",
             },
             "DRT-HG4": {
-                "status": _status(bool(matched["certificate_loss_improvement"])),
+                "status": _status(bool(matched["certificate_loss_improvement"]) and not matched_random_control_positive),
                 "evidence": "DRT certificate loss improves over matched-random control.",
-                "evidence_pointer": "$.matched_random_control",
+                "evidence_pointer": "$.matched_random_control.control_positive" if matched_random_control_positive else "$.matched_random_control",
+                "control_positive": matched.get("control_positive"),
             },
             "DRT-HG5": {
                 "status": _status(bool(task_only["task_accuracy_only_rejected"])),
@@ -978,6 +1038,16 @@ class DiscoveryRegularizedTrainingProjection:
                 "full_positive_mechanism_signal": bool(mechanism_ablation.get("full_positive_mechanism_signal")) if isinstance(mechanism_ablation, Mapping) else False,
                 "no_ablation_net_positive_parity": bool(mechanism_ablation.get("no_ablation_net_positive_parity")) if isinstance(mechanism_ablation, Mapping) else False,
             },
+            "DRT-HG8": {
+                "status": _status(
+                    isinstance(training_mechanism_cert, Mapping)
+                    and training_mechanism_cert.get("status") == "pass"
+                ),
+                "evidence": "D5-M promotion requires the DRT-local training mechanism certificate to pass with all owner-local pointers resolved.",
+                "evidence_pointer": "$.training_mechanism_cert",
+                "status_pointer": "$.training_mechanism_cert.status",
+                "all_required_pointers_resolve": bool(training_mechanism_cert.get("all_required_pointers_resolve")) if isinstance(training_mechanism_cert, Mapping) else False,
+            },
         }
 
     def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -994,14 +1064,30 @@ class DiscoveryRegularizedTrainingProjection:
                 "failed_gate": failed,
                 "failed_gate_pointer": f"$.hardgate.gates.{failed}.status",
             }
+        promotion = hardgates.get(DRT_PROMOTION_HARDGATE)
+        if not isinstance(promotion, Mapping) or promotion.get("status") != "pass":
+            return {
+                "status": "d4-candidate",
+                "level_candidate": "D4",
+                "reason": "mechanism-certificate-promotion-failed",
+                "evidence_pointer": "$.torch_training_evidence",
+                "control_pointer": "$.matched_random_control",
+                "surface_registry_pointer": "$.surface_registry",
+                "torch_training_evidence_pointer": "$.torch_training_evidence",
+                "training_mechanism_cert_pointer": "$.training_mechanism_cert",
+                "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
+                "failed_gate": DRT_PROMOTION_HARDGATE,
+                "failed_gate_pointer": f"$.hardgate.gates.{DRT_PROMOTION_HARDGATE}.status",
+            }
         return {
-            "status": "d4-candidate",
-            "level_candidate": "D4",
-            "reason": "matched-control-positive",
-            "evidence_pointer": "$.torch_training_evidence",
+            "status": "d5-m-candidate",
+            "level_candidate": "D5-M",
+            "reason": "training-mechanism-certificate-positive",
+            "evidence_pointer": "$.training_mechanism_cert",
             "control_pointer": "$.matched_random_control",
             "surface_registry_pointer": "$.surface_registry",
             "torch_training_evidence_pointer": "$.torch_training_evidence",
+            "training_mechanism_cert_pointer": "$.training_mechanism_cert",
             "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
             "failed_gate": None,
             "failed_gate_pointer": None,
@@ -1025,7 +1111,7 @@ class DiscoveryRegularizedTrainingProjection:
             "run_id": str(self.config.get("run_id", "discovery-regularized-training")),
             "generated_at": self.generated_at,
             "producer": PROJECTOR,
-            "claim_status": "d4-candidate" if accepted else "failed",
+            "claim_status": str(signal.get("status", "d4-candidate")) if accepted else "failed",
             "positive_claim": dict(positive_claim),
             "source_artifacts": {
                 "summary": self.run_artifacts.get("summary"),
@@ -1126,6 +1212,18 @@ class DiscoveryRegularizedTrainingProjection:
                 f"`{row['full_beats_ablation']}` | "
                 f"`{row['net_positive_parity']}` |"
             )
+        cert = payload["training_mechanism_cert"]
+        lines.extend(
+            [
+                "",
+                "## Training Mechanism Certificate",
+                "",
+                f"- status: `{cert['status']}`",
+                f"- owner pointer: `{cert['owner_pointer']}`",
+                f"- hardgate pointer: `{cert['hardgate_pointer']}`",
+                f"- required pointers resolve: `{cert['all_required_pointers_resolve']}`",
+            ]
+        )
         lines.extend(["", "## DRT Extension Hardgates", ""])
         for gate, row in payload["drt_extension_hardgates"]["gates"].items():
             lines.append(f"- `{gate}`: `{row['status']}`")
@@ -1332,6 +1430,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "certificate_loss_improvement": isinstance(drt_cert, (int, float))
                 and isinstance(matched_cert, (int, float))
                 and float(drt_cert) + DRIFT_TOLERANCE < float(matched_cert),
+                "control_positive": False,
                 "evidence_pointer": "$.surface_registry.quality.by_arm",
             },
         }

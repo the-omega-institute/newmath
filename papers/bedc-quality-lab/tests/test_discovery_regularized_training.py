@@ -46,6 +46,7 @@ REQUIRED_SUMMARY_KEYS = {
     "matched_random_control",
     "quality_promotion_boundary",
     "mechanism_ablation",
+    "training_mechanism_cert",
     "loss_family",
     "component_ablation",
     "training_method_comparison",
@@ -189,7 +190,7 @@ def test_torch_unavailable_boundary_records_device_and_fails_hg6_to_dn():
     assert summary["discovery_map_signal"]["level_candidate"] == "DN"
 
 
-def test_torch_available_fixture_promotes_d4_and_records_payload_sections(monkeypatch):
+def test_torch_available_fixture_promotes_d5m_and_records_payload_sections(monkeypatch):
     monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
     summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
 
@@ -205,13 +206,17 @@ def test_torch_available_fixture_promotes_d4_and_records_payload_sections(monkey
     assert protocol["drift_tolerance"] == pytest.approx(1.0e-4)
     assert summary["hardgate"]["gates"]["DRT-HG6"]["status"] == "pass"
     assert summary["hardgate"]["failed_gate"] is None
-    assert summary["discovery_map_signal"]["level_candidate"] == "D4"
-    assert summary["discovery_map_signal"]["evidence_pointer"] == "$.torch_training_evidence"
+    assert summary["discovery_map_signal"]["level_candidate"] == "D5-M"
+    assert summary["discovery_map_signal"]["status"] == "d5-m-candidate"
+    assert summary["discovery_map_signal"]["evidence_pointer"] == "$.training_mechanism_cert"
     assert summary["training_loop_trace"]["retrain_rows_pointer"] == "$.torch_training_evidence"
     assert summary["negative_witness_mutations"]["failed_gate_pointer"] == "$.hardgate.status"
     assert summary["drt_extension_hardgates"]["status"] == "pass"
     assert summary["hardgate"]["gates"]["DRT-HG7"]["status"] == "pass"
     assert summary["hardgate"]["gates"]["DRT-HG7"]["evidence_pointer"] == "$.mechanism_ablation"
+    assert summary["hardgate"]["gates"]["DRT-HG8"]["status"] == "pass"
+    assert summary["hardgate"]["gates"]["DRT-HG8"]["evidence_pointer"] == "$.training_mechanism_cert"
+    assert summary["training_mechanism_cert"]["status"] == "pass"
     assert summary["mechanism_ablation"]["status"] == "pass"
     assert len(summary["mechanism_ablation"]["comparisons"]) == 6
     assert set(summary["loss_family"]["terms"]) == {
@@ -332,6 +337,51 @@ def test_drt_hg7_mechanism_ablation_passes_with_required_arms_and_resolved_point
     for row in mechanism["comparisons"]:
         for pointer in row["comparison_pointers"].values():
             assert discovery_map.pointer_value(summary, pointer.split(":", 1)[1]) is not None
+
+
+def test_drt_hg8_blocks_d5m_when_training_mechanism_cert_fails():
+    records = deepcopy(_fixture_records())
+    summary = _project(records)["summary_payload"]
+    summary["training_mechanism_cert"]["status"] = "fail"
+    summary["hardgate"]["gates"]["DRT-HG8"]["status"] = "fail"
+    summary["hardgate"]["status"] = "fail"
+    summary["discovery_map_signal"] = DiscoveryRegularizedTrainingProjection(
+        config={},
+        records=[],
+        generated_at="fixture-time",
+        run_artifacts={},
+    ).discovery_map_signal(summary["hardgate"]["gates"])
+
+    assert summary["hardgate"]["gates"]["DRT-HG8"]["status"] == "fail"
+    assert summary["training_mechanism_cert"]["status"] == "fail"
+    assert summary["failed_gate"] is None
+    assert summary["discovery_map_signal"]["level_candidate"] == "D4"
+    assert summary["discovery_map_signal"]["status"] == "d4-candidate"
+    assert summary["discovery_map_signal"]["failed_gate"] == "DRT-HG8"
+    assert summary["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.DRT-HG8.status"
+
+
+def test_drt_hg8_pass_cert_promotes_d5m_candidate():
+    summary = _project()["summary_payload"]
+
+    assert summary["training_mechanism_cert"]["status"] == "pass"
+    assert summary["hardgate"]["gates"]["DRT-HG8"]["status"] == "pass"
+    assert summary["discovery_map_signal"]["level_candidate"] == "D5-M"
+    assert summary["discovery_map_signal"]["status"] == "d5-m-candidate"
+    for row in summary["training_mechanism_cert"]["required_pointers"]:
+        assert discovery_map.pointer_value(summary, row["pointer"].split(":", 1)[1]) is not None
+
+
+def test_projection_rejects_d5m_claim_without_training_mechanism_cert():
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    summary = _project()["summary_payload"]
+    summary.pop("training_mechanism_cert")
+    summary["hardgate"]["gates"].pop("DRT-HG8")
+
+    projected = discovery_map.projection_payload(spec, summary)
+
+    assert projected["main_verdict"]["discovery_regularized_training"]["level_candidate"] == "DN"
+    assert projected["main_verdict"]["discovery_regularized_training"]["status"] == "negative"
 
 
 def test_drt_hg7_missing_mechanism_ablation_arm_demotes_to_dn():
@@ -514,6 +564,34 @@ def test_drt_hg4_matched_random_certificate_loss_improvement_demotion():
     assert summary["discovery_map_signal"]["failed_gate"] == "DRT-HG4"
 
 
+def test_drt_hg4_matched_random_control_positive_demotes_to_dn():
+    summary = _project()["summary_payload"]
+    matched = {**summary["matched_random_control"], "control_positive": True}
+    projection = DiscoveryRegularizedTrainingProjection(
+        config=summary["config"],
+        records=[],
+        generated_at="fixture-time",
+        run_artifacts=summary["run_artifacts"],
+    )
+    hardgates = projection.hardgate_verdicts(
+        {
+            "constraint_summary": summary["constraint_summary"],
+            "lambda_summary": summary["lambda_summary"],
+            "surface_registry": summary["surface_registry"],
+            "matched_random_control": matched,
+            "torch_training_evidence": summary["torch_training_evidence"],
+            "mechanism_ablation": summary["mechanism_ablation"],
+        },
+        summary["quality_promotion_boundary"],
+    )
+    signal = projection.discovery_map_signal(hardgates)
+
+    assert hardgates["DRT-HG4"]["status"] == "fail"
+    assert hardgates["DRT-HG4"]["evidence_pointer"] == "$.matched_random_control.control_positive"
+    assert signal["failed_gate"] == "DRT-HG4"
+    assert signal["level_candidate"] == "DN"
+
+
 def test_drt_hg5_rejects_task_accuracy_only_rows():
     records = _fixture_records()
     for row in records:
@@ -533,9 +611,9 @@ def test_current_lab_projection_and_pointer_resolvability():
     row = discovery_map.discovery_row(spec, summary, {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}})
     projected = discovery_map.projection_payload(spec, summary)
 
-    assert projected["main_verdict"]["discovery_regularized_training"]["level_candidate"] == "D4"
+    assert projected["main_verdict"]["discovery_regularized_training"]["level_candidate"] == "D5-M"
     assert projected["evidence_basis"]["discovery_regularized_training"] is True
-    assert row["discovery_level"] == "D4"
+    assert row["discovery_level"] == "D5-M"
     assert row["audit_status"] == "valid"
     assert discovery_map.pointer_value(summary, row["evidence_pointer"]) is not None
     assert discovery_map.pointer_value(summary, row["control_pointer"]) is not None
@@ -684,6 +762,7 @@ def test_canonical_spec_uses_committed_config_and_source_artifacts():
     assert "training_method_comparison" in spec.required_json_keys
     assert "drt_extension_hardgates" in spec.required_json_keys
     assert "mechanism_ablation" in spec.required_json_keys
+    assert "training_mechanism_cert" in spec.required_json_keys
     summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
     assert ".refactor-loop/host.env" not in json.dumps(summary["source_artifacts"], sort_keys=True)
     assert "bedc_quality_lab/discovery_regularized_training.py" in summary["source_artifacts"]["producer_sources"]

@@ -218,6 +218,10 @@ def _source_pointers(payload: Mapping[str, Any]) -> dict[str, str]:
 
 
 def _mechanism_ready(payload: Mapping[str, Any], source_pointers: Mapping[str, str]) -> bool:
+    training_cert = _first_mapping(payload, "training_mechanism_cert")
+    if training_cert is not None and training_cert.get("status") == "pass":
+        return True
+
     required = {"operational", "mechanism", "mechanism_case"}
     evidence = project_gap_head_mechanism_evidence(payload)
     if evidence is None or unresolved_mechanism_evidence_pointers(payload, evidence):
@@ -256,6 +260,9 @@ def _control_positive(payload: Mapping[str, Any]) -> bool | None:
 
     matched = _first_mapping(payload, "matched_random_control")
     if matched is not None:
+        matched_value = _optional_bool(matched.get("control_positive"))
+        if matched_value is not None:
+            return matched_value
         matched_verdict = _first_mapping(matched, "control_verdict")
         if matched_verdict is not None:
             matched_value = _optional_bool(matched_verdict.get("positive"))
@@ -266,6 +273,18 @@ def _control_positive(payload: Mapping[str, Any]) -> bool | None:
             matched_value = _optional_bool(matched_projection.get("positive_discovery"))
             if matched_value is not None:
                 return matched_value
+
+    baseline_control = _first_mapping(payload, "matched_baseline_control")
+    if baseline_control is not None:
+        baseline_value = _optional_bool(baseline_control.get("control_positive"))
+        if baseline_value is not None:
+            return baseline_value
+        for key in ("parameter_matched", "compute_matched"):
+            family = _first_mapping(baseline_control, key)
+            if family is not None:
+                family_value = _optional_bool(family.get("control_positive"))
+                if family_value is not None:
+                    return family_value
 
     control = _first_mapping(payload, "control_verdict")
     if control is not None:

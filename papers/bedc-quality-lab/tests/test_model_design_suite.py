@@ -104,6 +104,7 @@ def _write_suite_dependencies(root):
         {
             "artifact_id": "bedc-quality-lab:discovery-regularized-training",
             "torch_training_evidence": {"status": "available"},
+            "training_mechanism_cert": {"status": "pass"},
             "quality_promotion_boundary": {
                 "hardgate": {"status": "present-but-fail-closed"},
             }
