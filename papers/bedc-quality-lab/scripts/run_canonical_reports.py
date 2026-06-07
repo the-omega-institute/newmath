@@ -322,6 +322,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "ledger",
             "matched_random_control",
             "parameter_matched_baseline",
+            "compute_matched_baseline",
             "torch_training_evidence",
             "robustness_signal",
             "hardgate",

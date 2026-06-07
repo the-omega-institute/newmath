@@ -26,6 +26,7 @@ REQUIRED_SUMMARY_KEYS = {
     "discovery_map_signal",
     "matched_random_control",
     "parameter_matched_baseline",
+    "compute_matched_baseline",
     "torch_training_evidence",
     "robustness_signal",
     "revocation_rows",
@@ -67,6 +68,7 @@ def _recompute(payload):
         generated_at=payload["generated_at"],
         run_artifacts=payload["run_artifacts"],
         torch_protocol=lat.TorchLedgerArmProtocol(**payload["torch_training_evidence"]["protocol"]),
+        compute_protocol=payload["compute_matched_baseline"],
     )
     payload["robustness_signal"] = lat._LAT_SURFACE_SUITE.robustness_signal(payload)
     hardgates = projection.hardgate_verdicts(payload)
@@ -84,6 +86,7 @@ def test_lat_projection_has_hardgate_signal_and_required_keys():
     assert REQUIRED_SUMMARY_KEYS <= set(payload)
     assert set(payload["hardgate"]["gates"]) == set(lat.LAT_HARDGATES)
     assert "LAT-HG7" in payload["hardgate"]["gates"]
+    assert "LAT-HG8" in payload["hardgate"]["gates"]
     assert payload["hardgate"]["status"] == "pass"
     assert payload["failed_gate"] is None
     assert payload["discovery_map_signal"]["status"] == "d5-o-candidate"
@@ -91,6 +94,7 @@ def test_lat_projection_has_hardgate_signal_and_required_keys():
     assert payload["discovery_map_signal"]["net_positive_signal"] is True
     assert payload["matched_random_control"]["control_positive_discovery"] is False
     assert payload["parameter_matched_baseline"]["status"] == "pass"
+    assert payload["compute_matched_baseline"]["status"] == "pass"
     assert payload["torch_training_evidence"]["status"] == "unavailable"
     assert payload["forbidden_claim_term_audit"]["status"] == "pass"
     assert payload["aggregate_metrics"]["uer_reduction"] > 0.0
@@ -115,6 +119,22 @@ def test_lat_projection_has_hardgate_signal_and_required_keys():
         "aggregate_pointer": "$.aggregate_metrics.multi_surface_uer_reduction_count",
     }
     assert payload["hardgate"]["gates"]["LAT-HG7"]["pointer"] == "$.parameter_matched_baseline.comparison"
+    assert payload["hardgate"]["gates"]["LAT-HG8"]["pointer"] == "$.compute_matched_baseline"
+
+
+def test_lat_compute_matched_baseline_defaults_pass_and_drives_hg8():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    baseline = payload["compute_matched_baseline"]
+
+    assert baseline["status"] == "pass"
+    assert tuple(baseline["failed_metrics"]) == ()
+    assert baseline["evidence_pointer"] == "$.compute_matched_baseline"
+    assert baseline["candidate_arm"]["arm_id"] == lat.COMPUTE_MATCHED_CANDIDATE_ARM
+    assert baseline["baseline_arm"]["arm_id"] == lat.COMPUTE_MATCHED_BASELINE_ARM
+    assert baseline["candidate_arm"]["flops_per_step"] == baseline["baseline_arm"]["flops_per_step"]
+    assert baseline["candidate_arm"]["wall_time_ms_per_step"] == baseline["baseline_arm"]["wall_time_ms_per_step"]
+    assert payload["hardgate"]["gates"]["LAT-HG8"]["status"] == "pass"
+    assert payload["discovery_map_signal"]["compute_matched_baseline_pointer"] == "$.compute_matched_baseline"
 
 
 def test_lat_parameter_matched_baseline_is_recorded_and_cost_matched():
@@ -184,6 +204,7 @@ def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
         payload["discovery_map_signal"]["torch_training_evidence_pointer"],
         payload["discovery_map_signal"]["robustness_evidence_pointer"],
         payload["discovery_map_signal"]["parameter_matched_baseline_pointer"],
+        payload["discovery_map_signal"]["compute_matched_baseline_pointer"],
         payload["robustness_signal"]["surface_registry_pointer"],
         payload["robustness_signal"]["aggregate_pointer"],
     ):
@@ -207,6 +228,42 @@ def test_canonical_summary_pointers_and_capsule_source_resolve(tmp_path):
     for baseline in capsule["model_claim"]["baselines"]:
         assert pointer_value(_artifact_payload(tmp_path, baseline["artifact"]), baseline["pointer"]) is not None
     assert {"artifact": lat.JSON_ARTIFACT, "pointer": "$.parameter_matched_baseline"} in capsule["model_claim"]["baselines"]
+    assert {"artifact": lat.JSON_ARTIFACT, "pointer": "$.compute_matched_baseline"} in capsule["model_claim"]["baselines"]
+
+
+def test_lat_compute_matched_flops_failure_demotes_to_dn():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutated["compute_matched_baseline"]["candidate_arm"]["flops_per_step"] = (
+        mutated["compute_matched_baseline"]["baseline_arm"]["flops_per_step"] * 1.2
+    )
+    mutated["compute_matched_baseline"]["failed_metrics"] = ["flops_per_step"]
+    mutated["compute_matched_baseline"]["status"] = "fail"
+
+    _recompute(mutated)
+
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["hardgate"]["gates"]["LAT-HG8"]["status"] == "fail"
+    assert mutated["failed_gate"] == "LAT-HG8"
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
+    assert pointer_value(mutated, mutated["discovery_map_signal"]["failed_gate_pointer"]) == "fail"
+
+
+def test_lat_compute_matched_wall_time_failure_demotes_to_dn():
+    payload = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    mutated = deepcopy(payload)
+    mutated["compute_matched_baseline"]["candidate_arm"]["wall_time_ms_per_step"] = (
+        mutated["compute_matched_baseline"]["baseline_arm"]["wall_time_ms_per_step"] * 1.2
+    )
+    mutated["compute_matched_baseline"]["failed_metrics"] = ["wall_time_ms_per_step"]
+    mutated["compute_matched_baseline"]["status"] = "fail"
+
+    _recompute(mutated)
+
+    assert mutated["hardgate"]["status"] == "fail"
+    assert mutated["failed_gate"] == "LAT-HG8"
+    assert mutated["hardgate"]["gates"]["LAT-HG8"]["status"] == "fail"
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
 
 
 def test_lat_zero_rows_fail_closed_to_dn():
