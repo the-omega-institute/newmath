@@ -107,6 +107,20 @@ Apply \autoref{thm:interval-domain-namecert-obligations}. Its refinement-stabili
 Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The Real-facing route reads $\LocatedIntervalUp$ and $\RationalIntervalUp$ before $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$, so no consumer can bypass endpoint order through host intervals, selected endpoints, quotient cuts, or ambient completeness.
 \end{proof}
 
+\begin{theorem}[IntervalDomain dyadic endpoint coverage]
+\label{thm:interval-domain-dyadic-endpoint-coverage}
+Every accepted $\IntervalDomainUp$ packet $D=(L,R,N,W,Q,E,H,C,P,A)$ whose $\RationalIntervalUp$ ledger exposes endpoint order also exposes the $\DyadicRatCoreUp$ tolerance rows used by the endpoint windows before any $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer reads the approximation. The coverage row is a finite dependency of the interval-domain packet through \autoref{ch:concrete-instances-rationalinterval-namecert} and \autoref{ch:concrete-instances-dyadicratcore-namecert}; it does not select endpoints, identify quotient cuts, assert host extensional equality, or close ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:interval-domain-carrier}. The rational refinement row $R$ is the endpoint-order, containment, and width-budget ledger attached to the located cells in $L$.
+
+Read $R$ through the rational-interval dependency named in the chapter introduction. Endpoint order is accepted only together with the tolerance budget that makes the endpoint windows readable, and that budget is supplied by the dyadic-rational core route cited in \autoref{ch:concrete-instances-dyadicratcore-namecert}.
+
+Now apply the endpoint-window transport clause of \autoref{thm:interval-domain-namecert-obligations}. The stream windows $W$ and regular rational readbacks $Q$ may replay an endpoint request only after the same transported rational refinement row has been displayed.
+
+Finally use \autoref{thm:interval-domain-completion-approximation-scope}. Since $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are downstream of $L,R,N$, every completion-facing read first sees the dyadic tolerance support carried by $R$. The statement therefore records finite endpoint-window coverage only, excluding selected endpoints, quotient cuts, host extensional equality, and ambient completeness.
+\end{proof}
+
 \begin{theorem}[IntervalDomain directed refinement covers]
 \label{thm:interval-domain-directed-refinement-covers}
 Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. Any two accepted interval-domain cells whose displayed $\RealUp$ seal readbacks overlap admit a finite directed refinement row through the existing $\LocatedIntervalUp$, $\NestedIntervalUp$, $\RationalIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces. The refinement is read only as a displayed later cell with common stream and regular-rational observations; it does not assert quotient real equality, choose a limit representative, or use ambient completeness.
