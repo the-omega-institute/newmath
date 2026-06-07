@@ -1,4 +1,4 @@
-import BEDC.Derived.LawlessSequenceUp.TasteGate
+import BEDC.Derived.LawlessSequenceUp
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -12,15 +12,6 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
-
-def LawlessSequenceCarrier [AskSetup] [PackageSetup]
-    (window digit index transport replay provenance name : BHist)
-    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
-  UnaryHistory window ∧ UnaryHistory digit ∧ UnaryHistory index ∧ UnaryHistory transport ∧
-    UnaryHistory replay ∧ UnaryHistory provenance ∧ UnaryHistory name ∧
-      Cont index window digit ∧ Cont transport replay provenance ∧
-        PkgSig bundle provenance pkg ∧ PkgSig bundle name pkg
 
 theorem LawlessSequenceCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {window digit index transport replay provenance name digitRead : BHist}
@@ -40,8 +31,7 @@ theorem LawlessSequenceCarrier_namecert_obligations [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig hsame SemanticNameCert
   intro carrier windowDigitRead digitReadPkg
   obtain ⟨windowUnary, digitUnary, indexUnary, _transportUnary, _replayUnary,
-    _provenanceUnary, _nameUnary, _indexWindowDigit, _transportReplayProvenance,
-    _provenancePkg, _namePkg⟩ := carrier
+    _provenanceUnary, _nameUnary, _provenancePkg, _namePkg⟩ := carrier
   have digitReadUnary : UnaryHistory digitRead :=
     unary_cont_closed windowUnary digitUnary windowDigitRead
   constructor
