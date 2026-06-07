@@ -213,7 +213,7 @@ def _artifact_payload(pointer="$.source_artifacts.cost_protocol"):
     hardgates = runner._a1_hardgates(aggregate)
     residualized = _residualized_fixture(aggregate)
     score_margin = _score_margin_fixture("not_score_margin_sufficient")
-    head_patch = _head_patch_fixture()
+    head_patch = runner._finalize_head_channel_patch_evidence({"head_channel_patch_evidence": _head_patch_fixture()})
     a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, head_patch)
     residualized_claim = runner._residualized_attribution_claim(aggregate, residualized, score_margin, a4_hardgates)
     e_hardgates = runner._e_hardgates(aggregate, residualized_claim)
@@ -428,7 +428,8 @@ def _residualized_claim_fixture(aggregate, *, residualized=None, score_margin=No
     residualized = _residualized_fixture(aggregate) if residualized is None else residualized
     score_margin = _score_margin_fixture("not_score_margin_sufficient") if score_margin is None else score_margin
     if a4_hardgates is None:
-        a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, _head_patch_fixture())
+        head_patch = runner._finalize_head_channel_patch_evidence({"head_channel_patch_evidence": _head_patch_fixture()})
+        a4_hardgates = runner._a4_hardgates(aggregate, residualized, score_margin, head_patch)
     return runner._residualized_attribution_claim(aggregate, residualized, score_margin, a4_hardgates)
 
 
@@ -874,6 +875,33 @@ def test_head_channel_patch_claim_pointer_slots_resolve_after_committed_round_tr
         "gate_status",
     }
     assert all(_artifact_pointer_resolves(payload, row["source_pointer"]) for row in claim["pointer_slots"])
+
+
+def test_a4_head_causal_patch_gate_uses_pointer_to_canonical_claim():
+    aggregate = _aggregate()
+    head_patch = _head_patch_fixture()
+    payload = {"head_channel_patch_evidence": head_patch}
+    payload["head_channel_patch_evidence"] = runner._finalize_head_channel_patch_evidence(payload)
+    a4_hardgates = runner._a4_hardgates(
+        aggregate,
+        _residualized_fixture(aggregate),
+        _score_margin_fixture("not_score_margin_sufficient"),
+        payload["head_channel_patch_evidence"],
+    )
+    evidence = a4_hardgates["gates"]["head_causal_patch"]["evidence"]
+
+    assert a4_hardgates["gates"]["head_causal_patch"]["status"] == "pass"
+    assert "causal_patch_claim" not in evidence
+    assert evidence["causal_patch_claim_pointer"] == (
+        "reports/canonical/gap_head_attribution_capsule.json:"
+        "$.head_channel_patch_evidence.causal_patch_claim"
+    )
+    assert evidence["causal_patch_claim_pointer_resolved"] is True
+    assert _artifact_pointer_resolves(payload, evidence["causal_patch_claim_pointer"])
+    assert runner._resolve_artifact_pointer_in_capsule(
+        payload,
+        evidence["causal_patch_claim_pointer"],
+    ) == payload["head_channel_patch_evidence"]["causal_patch_claim"]
 
 
 def test_head_channel_patch_required_variant_missing_fails_closed_and_blocks_d5_m():

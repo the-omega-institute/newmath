@@ -47,6 +47,7 @@ SCORE_MARGIN_SHUFFLE_SALT = 933_871
 SCORE_MARGIN_REPLACE_SALT = 933_887
 HEAD_PATCH_PERMUTE_SALT = 750_311
 HEAD_PATCH_REQUIRED_MODES = ("null_head", "permute_head_rows")
+HEAD_CAUSAL_PATCH_CLAIM_JSON_PATH = "$.head_channel_patch_evidence.causal_patch_claim"
 EPS = 1.0e-8
 NOT_CLAIMED = (
     "global model quality",
@@ -1619,10 +1620,17 @@ def _a4_hardgates(
         and score_margin_causal_evidence.get("channel_classification") in {"score_margin_sufficient", "not_score_margin_sufficient", "inconclusive"}
     )
     head_protocol = head_channel_patch_evidence.get("protocol_checks", {})
+    head_causal_patch_claim_pointer = _capsule_pointer(HEAD_CAUSAL_PATCH_CLAIM_JSON_PATH)
+    head_causal_patch_claim = _resolve_artifact_pointer_in_capsule(
+        {"head_channel_patch_evidence": head_channel_patch_evidence},
+        head_causal_patch_claim_pointer,
+    )
+    head_causal_patch_claim_resolved = isinstance(head_causal_patch_claim, Mapping)
     head_causal_patch = (
         head_channel_patch_evidence.get("status") == "pass"
         and head_channel_patch_evidence.get("gate_status") == "pass"
-        and head_channel_patch_evidence.get("causal_patch_claim", {}).get("h_causal_supported") is True
+        and head_causal_patch_claim_resolved
+        and head_causal_patch_claim.get("h_causal_supported") is True
         and _head_patch_required_modes_ok(head_channel_patch_evidence)
         and all(head_protocol.get(name) is True for name in ("present", "deterministic", "finite", "seed_paired", "column_audited", "eval_only_patch", "required_modes_present"))
     )
@@ -1686,7 +1694,8 @@ def _a4_hardgates(
                 "protocol_checks": dict(head_protocol),
                 "gate_status": head_channel_patch_evidence.get("gate_status"),
                 "gate_evidence": head_channel_patch_evidence.get("gate_evidence", {}),
-                "causal_patch_claim": head_channel_patch_evidence.get("causal_patch_claim", {}),
+                "causal_patch_claim_pointer": head_causal_patch_claim_pointer,
+                "causal_patch_claim_pointer_resolved": head_causal_patch_claim_resolved,
                 "causal_objects": [
                     "$.head_channel_patch_evidence.null_head",
                     "$.head_channel_patch_evidence.permute_head_rows",
