@@ -1,8 +1,9 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.ArzelaAscoliSelectionUp.TasteGate
+namespace BEDC.Derived.ArzelaAscoliSelectionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,53 +26,56 @@ def arzelaAscoliSelectionDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (arzelaAscoliSelectionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (arzelaAscoliSelectionDecodeBHist tail)
 
-private theorem arzelaAscoliSelection_decode_encode :
+private theorem arzelaAscoliSelection_decode_encode_bhist :
     ∀ h : BHist,
       arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
-  | Empty => rfl
-  | e0 h ih => exact congrArg BHist.e0 ih
-  | e1 h ih => exact congrArg BHist.e1 ih
+  | Empty =>
+      rfl
+  | e0 h ih =>
+      exact congrArg BHist.e0 ih
+  | e1 h ih =>
+      exact congrArg BHist.e1 ih
 
-def arzelaAscoliSelectionFields :
-    ArzelaAscoliSelectionUp → List BHist
+def arzelaAscoliSelectionFields : ArzelaAscoliSelectionUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
-  | ArzelaAscoliSelectionUp.mk X E B D M Q R H C P N => [X, E, B, D, M, Q, R, H, C, P, N]
+  | ArzelaAscoliSelectionUp.mk X E B D M Q R H C P N =>
+      [X, E, B, D, M, Q, R, H, C, P, N]
 
-def arzelaAscoliSelectionToEventFlow :
-    ArzelaAscoliSelectionUp → EventFlow
+def arzelaAscoliSelectionToEventFlow : ArzelaAscoliSelectionUp → EventFlow :=
   -- BEDC touchpoint anchor: BHist BMark
-  | x => List.map arzelaAscoliSelectionEncodeBHist (arzelaAscoliSelectionFields x)
+  fun x => (arzelaAscoliSelectionFields x).map arzelaAscoliSelectionEncodeBHist
 
-private def arzelaAscoliSelectionRawAt : Nat → EventFlow → RawEvent
+private def arzelaAscoliSelectionEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | 0, [] => []
-  | 0, event :: _rest => event
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
   | Nat.succ _index, [] => []
-  | Nat.succ index, _event :: rest => arzelaAscoliSelectionRawAt index rest
+  | Nat.succ index, _event :: rest => arzelaAscoliSelectionEventAtDefault index rest
 
 def arzelaAscoliSelectionFromEventFlow
     (flow : EventFlow) : Option ArzelaAscoliSelectionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   some
     (ArzelaAscoliSelectionUp.mk
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 0 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 1 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 2 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 3 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 4 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 5 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 6 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 7 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 8 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 9 flow))
-      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionRawAt 10 flow)))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 0 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 1 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 2 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 3 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 4 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 5 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 6 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 7 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 8 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 9 flow))
+      (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEventAtDefault 10 flow)))
 
 private theorem arzelaAscoliSelection_round_trip :
     ∀ x : ArzelaAscoliSelectionUp,
-      arzelaAscoliSelectionFromEventFlow (arzelaAscoliSelectionToEventFlow x) = some x := by
+      arzelaAscoliSelectionFromEventFlow
+        (arzelaAscoliSelectionToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x
   cases x with
@@ -91,17 +95,17 @@ private theorem arzelaAscoliSelection_round_trip :
             (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEncodeBHist P))
             (arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEncodeBHist N))) =
           some (ArzelaAscoliSelectionUp.mk X E B D M Q R H C P N)
-      rw [arzelaAscoliSelection_decode_encode X,
-        arzelaAscoliSelection_decode_encode E,
-        arzelaAscoliSelection_decode_encode B,
-        arzelaAscoliSelection_decode_encode D,
-        arzelaAscoliSelection_decode_encode M,
-        arzelaAscoliSelection_decode_encode Q,
-        arzelaAscoliSelection_decode_encode R,
-        arzelaAscoliSelection_decode_encode H,
-        arzelaAscoliSelection_decode_encode C,
-        arzelaAscoliSelection_decode_encode P,
-        arzelaAscoliSelection_decode_encode N]
+      rw [arzelaAscoliSelection_decode_encode_bhist X,
+        arzelaAscoliSelection_decode_encode_bhist E,
+        arzelaAscoliSelection_decode_encode_bhist B,
+        arzelaAscoliSelection_decode_encode_bhist D,
+        arzelaAscoliSelection_decode_encode_bhist M,
+        arzelaAscoliSelection_decode_encode_bhist Q,
+        arzelaAscoliSelection_decode_encode_bhist R,
+        arzelaAscoliSelection_decode_encode_bhist H,
+        arzelaAscoliSelection_decode_encode_bhist C,
+        arzelaAscoliSelection_decode_encode_bhist P,
+        arzelaAscoliSelection_decode_encode_bhist N]
 
 private theorem arzelaAscoliSelectionToEventFlow_injective
     {x y : ArzelaAscoliSelectionUp} :
@@ -112,11 +116,13 @@ private theorem arzelaAscoliSelectionToEventFlow_injective
       arzelaAscoliSelectionFromEventFlow (arzelaAscoliSelectionToEventFlow x) =
         arzelaAscoliSelectionFromEventFlow (arzelaAscoliSelectionToEventFlow y) :=
     congrArg arzelaAscoliSelectionFromEventFlow heq
-  exact Option.some.inj
-    (Eq.trans (arzelaAscoliSelection_round_trip x).symm
-      (Eq.trans hread (arzelaAscoliSelection_round_trip y)))
+  exact
+    Option.some.inj
+      (Eq.trans (arzelaAscoliSelection_round_trip x).symm
+        (Eq.trans hread (arzelaAscoliSelection_round_trip y)))
 
-instance arzelaAscoliSelectionBHistCarrier : BHistCarrier ArzelaAscoliSelectionUp where
+instance arzelaAscoliSelectionBHistCarrier :
+    BHistCarrier ArzelaAscoliSelectionUp where
   -- BEDC touchpoint anchor: BHist BMark
   toEventFlow := arzelaAscoliSelectionToEventFlow
   fromEventFlow := arzelaAscoliSelectionFromEventFlow
@@ -127,50 +133,36 @@ instance arzelaAscoliSelectionChapterTasteGate :
   round_trip := by
     intro x
     change
-      arzelaAscoliSelectionFromEventFlow (arzelaAscoliSelectionToEventFlow x) = some x
+      arzelaAscoliSelectionFromEventFlow
+        (arzelaAscoliSelectionToEventFlow x) = some x
     exact arzelaAscoliSelection_round_trip x
   layer_separation := by
     intro x y hxy heq
     exact hxy (arzelaAscoliSelectionToEventFlow_injective heq)
 
-instance arzelaAscoliSelectionFieldFaithful :
-    FieldFaithful ArzelaAscoliSelectionUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := arzelaAscoliSelectionFields
-  field_faithful := by
-    intro x y h
-    cases x with
-    | mk X1 E1 B1 D1 M1 Q1 R1 H1 C1 P1 N1 =>
-        cases y with
-        | mk X2 E2 B2 D2 M2 Q2 R2 H2 C2 P2 N2 =>
-            cases h
-            rfl
-
-def taste_gate : ChapterTasteGate ArzelaAscoliSelectionUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  arzelaAscoliSelectionChapterTasteGate
-
 theorem ArzelaAscoliSelectionTasteGate_single_carrier_alignment :
-    Nonempty (ChapterTasteGate ArzelaAscoliSelectionUp) ∧
-      Nonempty (FieldFaithful ArzelaAscoliSelectionUp) ∧
-        (∀ h : BHist,
-          arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEncodeBHist h) = h) ∧
-          (∀ x : ArzelaAscoliSelectionUp,
-            arzelaAscoliSelectionFromEventFlow (arzelaAscoliSelectionToEventFlow x) =
-              some x) ∧
-            (∀ x y : ArzelaAscoliSelectionUp,
-              arzelaAscoliSelectionToEventFlow x = arzelaAscoliSelectionToEventFlow y →
-                x = y) ∧
-              arzelaAscoliSelectionEncodeBHist BHist.Empty = ([] : RawEvent) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+    (∀ h : BHist,
+      arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier ArzelaAscoliSelectionUp) ∧
+        Nonempty (ChapterTasteGate ArzelaAscoliSelectionUp) ∧
+          arzelaAscoliSelectionEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨⟨arzelaAscoliSelectionChapterTasteGate⟩,
-      ⟨arzelaAscoliSelectionFieldFaithful⟩,
-      arzelaAscoliSelection_decode_encode,
-      arzelaAscoliSelection_round_trip,
-      by
-        intro x y heq
-        exact arzelaAscoliSelectionToEventFlow_injective heq,
+    ⟨arzelaAscoliSelection_decode_encode_bhist,
+      ⟨arzelaAscoliSelectionBHistCarrier⟩,
+      ⟨arzelaAscoliSelectionChapterTasteGate⟩,
       rfl⟩
 
-end BEDC.Derived.ArzelaAscoliSelectionUp.TasteGate
+namespace TasteGate
+
+theorem ArzelaAscoliSelectionTasteGate_single_carrier_alignment :
+    (∀ h : BHist,
+      arzelaAscoliSelectionDecodeBHist (arzelaAscoliSelectionEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier ArzelaAscoliSelectionUp) ∧
+        Nonempty (ChapterTasteGate ArzelaAscoliSelectionUp) ∧
+          arzelaAscoliSelectionEncodeBHist BHist.Empty = ([] : List BMark) :=
+  BEDC.Derived.ArzelaAscoliSelectionUp.ArzelaAscoliSelectionTasteGate_single_carrier_alignment
+
+end TasteGate
+
+end BEDC.Derived.ArzelaAscoliSelectionUp
