@@ -2028,6 +2028,19 @@ def test_dgt_mechanism_required_pointers_resolve_or_fail_closed():
     assert failures == []
 
 
+def test_dgt_mechanism_shortcut_exclusion_pointer_is_independent():
+    root = Path(__file__).resolve().parents[1]
+    owner = json.loads((root / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    canonical._validate_discovery_gated_transformer_payload(owner)
+
+    mutated = json.loads(json.dumps(owner))
+    shortcut = mutated["mechanism_certificate"]["evidence_pointers"]["shortcut_exclusion"]
+    shortcut["shortcut_exclusion_pointer"] = shortcut["positive_mechanism_pointer"]
+
+    with pytest.raises(ValueError, match="shortcut pointer reuses positive mechanism pointer"):
+        canonical._validate_discovery_gated_transformer_payload(mutated)
+
+
 def test_dgt_mechanism_forbidden_surfaces_absent():
     root = Path(__file__).resolve().parents[1]
     forbidden_paths = []
