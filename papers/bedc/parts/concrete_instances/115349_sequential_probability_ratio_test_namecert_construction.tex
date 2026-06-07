@@ -1,0 +1,92 @@
+\chapter{A Concrete Naming Certificate for $\SequentialProbabilityRatioTestUp$}
+\label{ch:concrete-instances-sequential-probability-ratio-test-namecert}
+\origin{human}
+
+Following Wald's sequential analysis, the $\SequentialProbabilityRatioTestUp$ packet records a finite stopping-and-decision ledger for a likelihood-ratio test whose observations are inspected one window at a time. It sits after the hypothesis-test surface $\HypothesisTestUp$, the likelihood-ratio packet of \autoref{ch:concrete-instances-likelihood-ratio-test-namecert}, the probability source of \autoref{ch:concrete-instances-probspace-namecert}, and the distribution readback of \autoref{ch:concrete-instances-distribution-namecert}. The packet names the finite route by which stopping, continuation, and Type I/II error-budget rows are displayed; it does not claim asymptotic optimality, optional-stopping theorems, selected sample paths, ambient measure completion, or host probability choice.
+
+\begin{definition}[Sequential probability ratio test carrier]
+\label{def:sequential-probability-ratio-test-carrier}
+A $\SequentialProbabilityRatioTestUp$ carrier is a finite $\BHist$ packet
+$$
+S=(H_0,H_1,L,A,B,W,\sigma,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H_0$ is the displayed null-hypothesis row, read through the $\HypothesisTestUp$ and $\ProbSpaceUp$ source surfaces.
+\item $H_1$ is the displayed alternative-hypothesis row, read through the same hypothesis-test and probability-source surfaces.
+\item $L$ is the sequential likelihood-ratio ledger, whose finite prefixes are read through $\LikelihoodRatioTestUp$ and $\DistributionUp$ rows.
+\item $A$ is the lower stopping boundary row and $B$ is the upper stopping boundary row.
+\item $W$ is the finite observation-window ledger inspected before the stopping row is exposed.
+\item $\sigma$ is the stopping row, recording whether the displayed finite prefix continues, accepts the null row, or accepts the alternative row.
+\item $D$ is the terminal decision row, available only when $\sigma$ displays a terminal stopping outcome.
+\item $E$ is the Type I/II error-budget route, naming the finite budget rows attached to $A,B,L,W,\sigma,D$.
+\item $H$ records componentwise $\hsame$ transport for the hypotheses, likelihood ledger, boundaries, observation windows, stopping row, decision row, budget route, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the probability source and distribution rows through the sequential likelihood ledger to stopping and decision.
+\item $P$ is the $\Pkg$ provenance over $\SequentialProbabilityRatioTestUp$, $\HypothesisTestUp$, $\LikelihoodRatioTestUp$, $\ProbSpaceUp$, $\DistributionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequentialProbabilityRatioTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through these rows. It has no coordinate for asymptotic optimality, optional-stopping principles, selected infinite sample paths, external likelihood calibration, host measure completion, or probability-space choice.
+\end{definition}
+
+\begin{theorem}[Sequential probability ratio test NameCert obligations]
+\label{thm:sequential-probability-ratio-test-namecert-obligations}
+For every accepted $\SequentialProbabilityRatioTestUp$ carrier $S=(H_0,H_1,L,A,B,W,\sigma,D,E,H,C,P,N)$, the local $\NameCert_{\SequentialProbabilityRatioTestUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for the null hypothesis, alternative hypothesis, sequential likelihood ledger, lower boundary, upper boundary, observation windows, stopping row, decision row, error-budget route, transport, replay, provenance, and local naming;
+\item hypothesis-source stability, requiring $H_0$ and $H_1$ to stay attached to the same $\HypothesisTestUp$ and $\ProbSpaceUp$ source rows;
+\item likelihood-prefix stability, requiring every prefix in $L$ and $W$ to be read through the displayed $\LikelihoodRatioTestUp$ and $\DistributionUp$ rows before a stopping comparison is consumed;
+\item boundary stability, requiring the lower and upper rows $A,B$ to be displayed before $\sigma$ can classify a prefix as continuing or terminal;
+\item stopping and decision nonescape, requiring $\sigma,D$ to export only the displayed sequential decision route and not an optional-stopping theorem, selected infinite path, host probability computation, or ambient measure-completion object;
+\item error-budget routing, requiring $E$ to name only the Type I and Type II budget rows carried by the displayed hypotheses, likelihood prefixes, boundaries, stopping row, and decision row.
+\end{enumerate}
+These obligations certify only the finite sequential decision packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequential-probability-ratio-test-carrier}. Its analytic rows are the two hypothesis rows, sequential likelihood ledger, two boundary rows, finite observation windows, stopping row, terminal decision, and error-budget route.
+
+The source obligations come first. Rows $H_0$ and $H_1$ keep the null and alternative hypotheses on the same $\HypothesisTestUp$ and $\ProbSpaceUp$ source, while $L$ and $W$ expose only finite likelihood prefixes read through $\LikelihoodRatioTestUp$ and $\DistributionUp$.
+
+The stopping obligations are downstream of those rows. The boundaries $A$ and $B$ are displayed before the row $\sigma$ can decide whether the finite prefix continues or terminates, and the terminal decision row $D$ is visible only after a terminal stopping outcome has been displayed.
+
+The budget and structural rows exhaust the packet. Row $E$ records the Type I/II budget route attached to the same finite data, while $H,C,P,N$ transport, replay, source, and name the carrier. Since no other coordinate is present, the listed obligations exclude optional-stopping principles, selected sample paths, ambient probability computation, and measure-completion data.
+\end{proof}
+
+\begin{theorem}[Sequential probability ratio test stopping-ledger stability]
+\label{thm:sequential-probability-ratio-test-stopping-ledger}
+Let $S=(H_0,H_1,L,A,B,W,\sigma,D,E,H,C,P,N)$ and $S'=(H'_0,H'_1,L',A',B',W',\sigma',D',E',H',C',P',N')$ be accepted $\SequentialProbabilityRatioTestUp$ carriers. If componentwise $\hsame$ transport identifies the hypothesis rows, likelihood-prefix ledgers, boundary rows, observation windows, stopping rows, decision rows, error-budget routes, replay rows, provenance rows, and local naming rows, then the stopping outcome and terminal decision exposed by $S$ are the same finite sequential read exposed by $S'$. The comparison is made only through the displayed hypothesis-test, likelihood-ratio, probability-space, distribution, transport, replay, provenance, and local NameCert rows.
+\end{theorem}
+\begin{proof}
+Start with the two accepted carriers. Their classifiers have no readable coordinates beyond the rows listed in \autoref{def:sequential-probability-ratio-test-carrier}.
+
+Use componentwise $\hsame$ transport. The hypothesis rows remain on the same source surface, the likelihood prefixes and observation windows transport through the displayed $\LikelihoodRatioTestUp$ and $\DistributionUp$ rows, and the boundary rows transport before either stopping row is inspected.
+
+The stopping and decision rows are therefore compared along the same finite route. The replay, provenance, and local naming rows keep that route attached to the same packet, so the transported carrier exposes the same continuation or terminal decision and cannot import an excluded optional-stopping or infinite-path principle.
+\end{proof}
+
+\begin{theorem}[Sequential probability ratio test error-budget route]
+\label{thm:sequential-probability-ratio-test-error-budget-route}
+Every Type I or Type II error-budget read exported by a $\SequentialProbabilityRatioTestUp$ carrier factors through the finite route
+$$
+\HypothesisTestUp,\quad \LikelihoodRatioTestUp,\quad \ProbSpaceUp,\quad \DistributionUp,\quad L,\quad A,\quad B,\quad W,\quad \sigma,\quad D .
+$$
+Thus a downstream decision consumer receives only displayed hypothesis rows, likelihood-prefix rows, probability and distribution source rows, boundary rows, finite observation windows, stopping and decision rows, componentwise transport, replay, provenance, and local naming before the budget route is visible.
+\end{theorem}
+\begin{proof}
+Project the budget row $E$ from the carrier. By definition it is attached to the hypotheses, likelihood prefixes, boundaries, finite observation windows, stopping row, and terminal decision row.
+
+The upstream rows are displayed before $E$ is consumed. Hypothesis and probability rows provide the source, likelihood-ratio and distribution rows provide the finite prefix readback, and $A,B,W,\sigma,D$ provide the stopping and decision ledger.
+
+Finally $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming. Since $E$ has no coordinate for asymptotic optimality, selected paths, host probability computation, optional-stopping theorems, or ambient measure completion, the error-budget read factors only through the finite rows stated above.
+\end{proof}
+
+\closureat{SequentialProbabilityRatioTestUp}{seedStr}
+
+\begin{closurestatus}{\SequentialProbabilityRatioTestUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequential-probability-ratio-test-carrier}, \autoref{thm:sequential-probability-ratio-test-namecert-obligations}, \autoref{thm:sequential-probability-ratio-test-stopping-ledger}, and \autoref{thm:sequential-probability-ratio-test-error-budget-route} seed the finite stopping, decision, and Type I/II budget route through hypothesis-test, likelihood-ratio, probability-space, distribution, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close asymptotic optimality, optional-stopping theorems, selected infinite sample paths, ambient measure completion, host probability choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, hypothesis-source stability, likelihood-prefix stability, boundary stability, stopping-ledger stability, error-budget routing, transport, replay, provenance, and local naming for BEDC.Derived.SequentialProbabilityRatioTestUp.}
+  \constructivestory{A $\SequentialProbabilityRatioTestUp$ packet is generated from displayed null and alternative hypothesis rows, a sequential likelihood-prefix ledger, lower and upper boundary rows, finite observation windows, a stopping row, a terminal decision row, a Type I/II error-budget route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
