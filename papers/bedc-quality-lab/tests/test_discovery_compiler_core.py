@@ -294,6 +294,157 @@ def test_build_discovery_map_payload_validates_rows():
     assert payload["level_counts"]["D4"] == 1
 
 
+def _proposal_fixture():
+    return {
+        "proposal_id": "exp-fixture",
+        "source_kind": "negative_discovery",
+        "source_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]",
+        "negative_report_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]",
+        "hypothesis_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0].next_hypothesis",
+        "failed_gate_pointer": f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0].failed_gate",
+        "expected_failure_modes": ["fixture failure mode"],
+        "controls": ["fixture control"],
+        "priority": 1,
+        "proposal_status": "proposed",
+        "audit_status": "pointer-only",
+    }
+
+
+def _write_proposal_pointer_sources(root: Path) -> None:
+    canonical = root / "reports" / "canonical"
+    canonical.mkdir(parents=True)
+    (canonical / "negative_discovery_reports.json").write_text(
+        json.dumps({"rows": [{"next_hypothesis": "fixture", "failed_gate": "gate"}]}) + "\n",
+        encoding="utf-8",
+    )
+    (canonical / "discovery_map.json").write_text(
+        json.dumps({"coverage_matrix": {"cells": [{"component_id": "fixture", "hardgate_status": "pass"}]}}) + "\n",
+        encoding="utf-8",
+    )
+
+
+def test_build_discovery_map_payload_accepts_pointer_only_experiment_proposals(tmp_path):
+    _write_proposal_pointer_sources(tmp_path)
+
+    payload = build_discovery_map_payload(
+        rows=[],
+        generated_at="fixture-time",
+        experiment_proposals=[_proposal_fixture()],
+        root=tmp_path,
+    )
+
+    assert payload["experiment_proposals"] == [_proposal_fixture()]
+
+
+def test_experiment_proposals_fail_closed_without_controls_or_failure_modes(tmp_path):
+    _write_proposal_pointer_sources(tmp_path)
+
+    with pytest.raises(ValueError, match="expected_failure_modes"):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[{**_proposal_fixture(), "expected_failure_modes": []}],
+            root=tmp_path,
+        )
+    with pytest.raises(ValueError, match="controls"):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[{**_proposal_fixture(), "controls": []}],
+            root=tmp_path,
+        )
+
+
+@pytest.mark.parametrize(
+    ("proposal", "message"),
+    [
+        (
+            lambda row: {key: value for key, value in row.items() if key != "proposal_status"},
+            "schema mismatch: missing proposal_status",
+        ),
+        (
+            lambda row: {**row, "owner_fact_copy": "not pointer-only"},
+            "schema mismatch: extra owner_fact_copy",
+        ),
+        (
+            lambda row: {**row, "source_kind": "external_planner"},
+            "unsupported experiment proposal source_kind",
+        ),
+        (
+            lambda row: {**row, "source_pointer": "reports/canonical/missing.json:$"},
+            "unresolved pointer: source_pointer=",
+        ),
+        (
+            lambda row: {**row, "failed_gate_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[9].failed_gate"},
+            "unresolved pointer: failed_gate_pointer=",
+        ),
+        (
+            lambda row: {**row, "priority": True},
+            "priority must be an integer",
+        ),
+        (
+            lambda row: {**row, "priority": "1"},
+            "priority must be an integer",
+        ),
+        (
+            lambda row: {key: value for key, value in row.items() if key != "negative_report_pointer"},
+            "negative_discovery experiment proposal requires negative_report_pointer and hypothesis_pointer",
+        ),
+        (
+            lambda row: {key: value for key, value in row.items() if key != "hypothesis_pointer"},
+            "negative_discovery experiment proposal requires negative_report_pointer and hypothesis_pointer",
+        ),
+        (
+            lambda row: {
+                key: value
+                for key, value in {
+                    **row,
+                    "source_kind": "d5m_blocked",
+                    "source_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0].failed_gate",
+                }.items()
+                if key not in {"negative_report_pointer", "hypothesis_pointer", "failed_gate_pointer"}
+            },
+            "d5m_blocked experiment proposal requires failed_gate_pointer",
+        ),
+        (
+            lambda row: {
+                key: value
+                for key, value in {
+                    **row,
+                    "source_kind": "coverage_gap",
+                    "source_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[0]",
+                }.items()
+                if key not in {"negative_report_pointer", "hypothesis_pointer", "coverage_cell_pointer"}
+            },
+            "coverage_gap experiment proposal requires coverage_cell_pointer",
+        ),
+    ],
+)
+def test_experiment_proposals_fail_closed_on_invalid_schema_pointers_and_identity(tmp_path, proposal, message):
+    _write_proposal_pointer_sources(tmp_path)
+
+    with pytest.raises(ValueError, match=message):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[proposal(_proposal_fixture())],
+            root=tmp_path,
+        )
+
+
+def test_experiment_proposals_fail_closed_on_duplicate_proposal_ids(tmp_path):
+    _write_proposal_pointer_sources(tmp_path)
+    second = {**_proposal_fixture(), "source_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0].failed_gate"}
+
+    with pytest.raises(ValueError, match="proposal_id values must be unique"):
+        build_discovery_map_payload(
+            rows=[],
+            generated_at="fixture-time",
+            experiment_proposals=[_proposal_fixture(), second],
+            root=tmp_path,
+        )
+
+
 def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):
     _write_fixture_sources(tmp_path)
     adapter = FakeAdapter()

@@ -1229,6 +1229,30 @@ def test_discovery_map_payload_rejects_non_pointer_only_coverage_matrix():
         )
 
 
+def test_experiment_proposals_cover_coverage_gap_dn_and_d5m_sources(tmp_path):
+    _write_coverage_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    proposals = payload["experiment_proposals"]
+    by_kind = {}
+    for proposal in proposals:
+        by_kind.setdefault(proposal["source_kind"], []).append(proposal)
+
+    assert {"coverage_gap", "negative_discovery", "d5m_blocked"} <= set(by_kind)
+    coverage = by_kind["coverage_gap"][0]
+    dn = by_kind["negative_discovery"][0]
+    d5m = by_kind["d5m_blocked"][0]
+
+    assert coverage["coverage_cell_pointer"].startswith("reports/canonical/discovery_map.json:$.coverage_matrix.cells[")
+    assert dn["negative_report_pointer"].startswith("reports/canonical/negative_discovery_reports.json:$.rows[")
+    assert dn["hypothesis_pointer"].endswith(".next_hypothesis")
+    assert d5m["failed_gate_pointer"] == "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence.failed_gate"
+    assert all(proposal["controls"] for proposal in proposals)
+    assert all(proposal["expected_failure_modes"] for proposal in proposals)
+    assert not _contains_key(proposals, "next_hypothesis")
+    assert not _contains_key(proposals, "what_was_learned")
+
+
 def test_discovery_map_has_one_row_per_canonical_report(tmp_path):
     _write_all_payloads(tmp_path)
 
