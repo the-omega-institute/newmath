@@ -1137,6 +1137,56 @@ def _index_row_for_spec(spec):
     }
 
 
+def _write_observed_debt_projection_fixtures(root):
+    fixtures = {
+        "reports/canonical/nongaussian-distribution-sweep.json": {
+            "main_claim_status": "observed-debt-pipeline-only",
+            "claim_gate": {"HG-LD": {"status": "pass"}},
+            "global_claim_flag": False,
+            "records": [{"latent_distribution_debt_item": {"status": "closed"}}],
+        },
+        "reports/canonical/anisotropic-ou-sweep.json": {
+            "transition_debt_by_grid": {
+                "rho_axes_0p95_0p3": {
+                    "status": "open-or-partial",
+                    "debt_score_mean": 0.12,
+                }
+            }
+        },
+        "reports/canonical/dimension-mismatch-debt-transfer.json": {
+            "dimension_mismatch_debt_transfer": {"status": "pass"},
+            "hardgate_evidence": {"HG-B1": {"status": "pass"}},
+            "boundary_ledger": {"status": "recorded"},
+        },
+        "reports/canonical/gap-head-observed-debt-transfer.json": {
+            "gap_head_on_h_observed_debt_transfer": {"status": "pass"},
+            "hardgate_evidence": {"HG-A1": {"status": "pass"}},
+            "observed_debt_transfer_boundary": {"status": "recorded"},
+            "surfaces": [{"status": "pass"}],
+        },
+        "reports/canonical/mixing-family-sweep.json": {
+            "coverage_item": {"debt_item": {"status": "closed"}},
+        },
+        "runs/training_choice_observability.json": {
+            "status": "pointer-only",
+            "source_artifacts": {"gap_head_metric_helper": "scripts/run_gaussian_ou_gap_ledger_head.py::_metrics_for_arm"},
+            "training_choice_observability": {
+                "observed_debt_arm_count": 0,
+                "ledger_risk_only_arm_count": 1,
+                "arms": [{"hardgates": {"HG-TCO-3": {"status": "fail"}}}],
+            },
+            "boundary_ledger": [{"kind": "ledger-risk-only"}],
+        },
+        "reports/canonical/discovery_gate_escape_registry.json": {
+            "capacity": {"overflow_policy": "fail-closed"},
+        },
+    }
+    for artifact, payload in fixtures.items():
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def _read_committed_claim_verdicts():
     path = canonical.ROOT / canonical.CLAIM_VERDICTS_JSONL_ARTIFACT
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
@@ -1963,6 +2013,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         json_path = canonical._artifact_path(spec.json_artifact)
         json_path.parent.mkdir(parents=True, exist_ok=True)
         json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
+    _write_observed_debt_projection_fixtures(tmp_path)
     transfer_path = tmp_path / canonical.DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT
     transfer_path.parent.mkdir(parents=True, exist_ok=True)
     transfer_path.write_text(
@@ -2003,11 +2054,12 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "honest_boundary",
         "literature_ledger",
         "quality_scorecard",
-            "negative_witnesses",
-            "claim_verdicts",
-            "claim_capsule",
-            "formal_hardening",
-        }.issubset(payload)
+        "observed_debt_axis_projection",
+        "negative_witnesses",
+        "claim_verdicts",
+        "claim_capsule",
+        "formal_hardening",
+    }.issubset(payload)
     assert set(payload["paper_outline"]["core_reports"]) == HG_P_CORE
     assert payload["negative_witnesses"] == {
         "status": "pointer-only",
@@ -2043,6 +2095,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     assert "Quality scorecard" in markdown
     assert "Quality baseline pointers" in markdown
     assert "reports/canonical/discovery_map.json:$.rows[*].discovery_level" in markdown
+    assert "Observed debt axis projection" in markdown
     assert "Negative witnesses" in markdown
     assert "Claim verdicts" in markdown
     assert "Claim capsule" in markdown
@@ -2051,6 +2104,95 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
     assert "Claims and non-claims" in markdown
     assert "Literature ledger pointer" in markdown
     assert "Honest boundary" in markdown
+
+
+def test_canonical_index_observed_debt_axis_projection_is_pointer_only(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    _write_observed_debt_projection_fixtures(tmp_path)
+
+    payload = canonical._index([_index_row_for_spec(spec) for spec in canonical.CANONICAL_REPORTS])
+    section = payload["observed_debt_axis_projection"]
+    rows = section["rows"]
+
+    assert section["status"] == "pointer-only"
+    assert [row["axis_id"] for row in rows] == list(canonical.OBSERVED_DEBT_AXIS_IDS)
+    assert {row["axis_id"] for row in rows} == {
+        "latent_distribution",
+        "anisotropy",
+        "dimension_mismatch",
+        "sample_count",
+        "optimizer",
+        "mixing",
+        "compute",
+        "capacity",
+    }
+    assert section["classification_enum"] == ["observed-debt", "ledger-risk-only"]
+    assert {row["classification"] for row in rows} <= {"observed-debt", "ledger-risk-only"}
+    assert {row["axis_id"]: row["classification"] for row in rows} == {
+        "latent_distribution": "ledger-risk-only",
+        "anisotropy": "ledger-risk-only",
+        "dimension_mismatch": "observed-debt",
+        "sample_count": "observed-debt",
+        "optimizer": "ledger-risk-only",
+        "mixing": "ledger-risk-only",
+        "compute": "ledger-risk-only",
+        "capacity": "ledger-risk-only",
+    }
+    for row in rows:
+        assert resolve_artifact_pointer(tmp_path, f"{row['source_artifact']}:{row['evidence_pointer']}") is not None
+    assert ".refactor-loop/host.env" not in json.dumps(section)
+    assert "observed-debt-atlas" not in {spec.name for spec in canonical.CANONICAL_REPORTS}
+    assert not (tmp_path / "reports/canonical/observed-debt-atlas.json").exists()
+    assert not (tmp_path / "reports/canonical/observed-debt-atlas.md").exists()
+
+
+def test_observed_debt_axis_projection_fails_closed_for_missing_pointer(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    _write_observed_debt_projection_fixtures(tmp_path)
+    sample_path = tmp_path / "reports/canonical/gap-head-observed-debt-transfer.json"
+    sample_payload = json.loads(sample_path.read_text(encoding="utf-8"))
+    sample_payload["gap_head_on_h_observed_debt_transfer"].pop("status")
+    sample_path.write_text(json.dumps(sample_payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._observed_debt_axis_projection_section()
+    rows = {row["axis_id"]: row for row in section["rows"]}
+
+    assert rows["sample_count"]["classification"] == "ledger-risk-only"
+    assert rows["sample_count"]["source_status"] is None
+
+
+def test_observed_debt_axis_projection_fails_closed_for_non_pass_hardgate(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    _write_observed_debt_projection_fixtures(tmp_path)
+    sample_path = tmp_path / "reports/canonical/gap-head-observed-debt-transfer.json"
+    sample_payload = json.loads(sample_path.read_text(encoding="utf-8"))
+    sample_payload["hardgate_evidence"]["HG-A1"]["status"] = "fail"
+    sample_path.write_text(json.dumps(sample_payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._observed_debt_axis_projection_section()
+    rows = {row["axis_id"]: row for row in section["rows"]}
+
+    assert rows["sample_count"]["classification"] == "ledger-risk-only"
+    assert rows["sample_count"]["source_status"] == "pass"
+
+
+def test_observed_debt_axis_projection_fails_closed_for_global_claim_flag(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    _write_observed_debt_projection_fixtures(tmp_path)
+    sample_path = tmp_path / "reports/canonical/gap-head-observed-debt-transfer.json"
+    sample_payload = json.loads(sample_path.read_text(encoding="utf-8"))
+    sample_payload["global_claim_flag"] = True
+    sample_path.write_text(json.dumps(sample_payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._observed_debt_axis_projection_section()
+    rows = {row["axis_id"]: row for row in section["rows"]}
+
+    assert rows["sample_count"]["classification"] == "ledger-risk-only"
+    assert rows["sample_count"]["source_status"] == "pass"
 
 
 def test_new_model_hardgates_sidecar_written_and_indexed(tmp_path, monkeypatch):
