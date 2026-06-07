@@ -931,6 +931,7 @@ class DiscoveryRegularizedTrainingProjection:
             isinstance(boundary_gate, Mapping)
             and boundary_gate.get("promotion_gate") == "clears-boundary"
         )
+        matched_random_control_positive = matched.get("control_positive") is True
         return {
             "DRT-HG1": {
                 "status": _status(bool(constraint["debt_down"] and constraint["benefit_nondecreasing"])),
@@ -950,9 +951,10 @@ class DiscoveryRegularizedTrainingProjection:
                 "evidence_pointer": "$.surface_registry.classifier_shift",
             },
             "DRT-HG4": {
-                "status": _status(bool(matched["certificate_loss_improvement"])),
+                "status": _status(bool(matched["certificate_loss_improvement"]) and not matched_random_control_positive),
                 "evidence": "DRT certificate loss improves over matched-random control.",
-                "evidence_pointer": "$.matched_random_control",
+                "evidence_pointer": "$.matched_random_control.control_positive" if matched_random_control_positive else "$.matched_random_control",
+                "control_positive": matched.get("control_positive"),
             },
             "DRT-HG5": {
                 "status": _status(bool(task_only["task_accuracy_only_rejected"])),
@@ -1332,6 +1334,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "certificate_loss_improvement": isinstance(drt_cert, (int, float))
                 and isinstance(matched_cert, (int, float))
                 and float(drt_cert) + DRIFT_TOLERANCE < float(matched_cert),
+                "control_positive": False,
                 "evidence_pointer": "$.surface_registry.quality.by_arm",
             },
         }
