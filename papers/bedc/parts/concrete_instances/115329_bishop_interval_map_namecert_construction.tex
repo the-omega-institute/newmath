@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\BishopIntervalMapUp$}
+\label{ch:concrete-instances-bishop-interval-map-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive functions over located intervals, and Scott's interval-domain reading of approximation, the $\BishopIntervalMapUp$ packet records the finite map surface used when interval-domain approximants are handed to Real-facing continuous-map consumers. It sits after the interval-domain carrier of \autoref{ch:concrete-instances-intervaldomain-namecert}, the continuous-map graph and modulus surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed interval-domain map certificate only; it does not define quotient functions, identify host extensional equality, select completed representatives, or assert ambient completeness of $\RealUp$.
+
+\begin{definition}[BishopIntervalMap carrier]
+\label{def:bishop-interval-map-carrier}
+A $\BishopIntervalMapUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,F,W,Q,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $D$ is the $\IntervalDomainUp$ approximation-domain row, exposing located cells, rational refinements, directed nesting, endpoint windows, regular readbacks, and the downstream $\RealUp$ seal only in that order.
+\item $F$ is the $\ContinuousMapUp$ graph-and-modulus row whose source reads from the displayed interval-domain approximants and whose target is a Real-facing naming surface.
+\item $W$ is the $\StreamNameUp$ window family through which finite endpoint and image-approximation requests are inspected.
+\item $Q$ is the $\RegSeqRatUp$ readback family attached to the same windows, carrying the regular rational observations consumed before the Real seal.
+\item $E$ is the $\RealUp$ handoff row reached only after $D,F,W,Q$ and the structural rows are displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval-domain, continuous-map, stream-window, regular-readback, Real-handoff, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay routes for interval-domain reads, continuous-map reads, stream requests, regular rational readbacks, and Real-facing handoffs.
+\item $P$ is the $\Pkg$ provenance over $\BishopIntervalMapUp$, $\IntervalDomainUp$, $\ContinuousMapUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopIntervalMapUp}$ row.
+\end{enumerate}
+The carrier exports only this finite map packet. It has no coordinate for quotient functions, host function extensionality, selected Real representatives, open-cover compactness, or ambient completeness of $\RealUp$.
+\end{definition}
+
+\begin{theorem}[BishopIntervalMap NameCert obligations]
+\label{thm:bishop-interval-map-namecert-obligations}
+For every accepted $\BishopIntervalMapUp$ carrier $M=(D,F,W,Q,E,H,C,P,N)$, the local $\NameCert_{\BishopIntervalMapUp}$ surface consists exactly of carrier admission for $D,F,W,Q,E,H,C,P,N$; source-domain visibility through the $\IntervalDomainUp$ packet; graph and modulus visibility through the $\ContinuousMapUp$ row; finite endpoint and image-window replay through $W$ and $Q$; Real-handoff non-escape through $E$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:bishop-interval-map-carrier}. The displayed inventory is exactly the interval-domain row, continuous-map row, stream windows, regular rational readbacks, Real handoff, transports, replay routes, provenance, and local naming row.
+
+Read the source through \autoref{ch:concrete-instances-intervaldomain-namecert}. The interval-domain packet already orders located cells, rational refinements, directed nesting, stream windows, regular readbacks, and the Real seal, so the map certificate cannot consume a Real-facing approximation before the source approximant rows are visible.
+
+Read the graph through \autoref{ch:concrete-instances-continuousmap-namecert}. The continuous-map row supplies only displayed graph and modulus data tied to the same finite windows, and $H,C$ preserve those rows under classifier transport and replay.
+
+Finally inspect the handoff row $E$. Since the packet has no coordinate for quotient functions, host extensional equality, selected representatives, open-cover compactness, or ambient completeness, the local certificate can expose only the finite map route named by $D,F,W,Q,E,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[BishopIntervalMap Real handoff]
+\label{thm:bishop-interval-map-real-handoff}
+Every $\RealUp$-facing consumer of an accepted $\BishopIntervalMapUp$ packet first reads the finite route
+$$
+\IntervalDomainUp\longmapsto\ContinuousMapUp\longmapsto\StreamNameUp\longmapsto\RegSeqRatUp\longmapsto\RealUp\longmapsto(H,C,P,N).
+$$
+The handoff therefore supplies an interval-domain map surface for Real and Completion consumers, not a quotient function, not host extensional equality, not a selected completed value, and not ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Begin with the source approximation. The row $D$ is the displayed interval-domain packet, so any consumer must first read its located cells, rational refinements, directed nesting, endpoint windows, regular readbacks, and downstream Real seal discipline.
+
+Next read the map row. The row $F$ is a continuous-map certificate attached to those source approximants, while $W$ and $Q$ provide the finite request windows and regular rational readbacks used to inspect both endpoint and image data.
+
+The Real-facing row $E$ is downstream of $D,F,W,Q$. The structural rows $H,C,P,N$ transport, replay, source, and name the same route, so the consumer receives only the displayed finite packet and not a host-level function object.
+
+Coordinate exhaustion then gives the exclusions. Quotient functions, host extensional equality, selected completed values, and ambient Real completeness would each require a row absent from \autoref{def:bishop-interval-map-carrier}.
+\end{proof}
+
+\closureat{BishopIntervalMapUp}{seedStr}
+
+\begin{closurestatus}{\BishopIntervalMapUp}
+  \constructivestory{A $\BishopIntervalMapUp$ packet is generated from an IntervalDomain source row, a ContinuousMap graph-and-modulus row, StreamName windows, RegSeqRat readbacks, a RealUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-interval-map-carrier}, \autoref{thm:bishop-interval-map-namecert-obligations}, and \autoref{thm:bishop-interval-map-real-handoff} seed the finite interval-domain map route for Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient functions, host extensional equality, selected completed representatives, open-cover compactness, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-domain visibility, continuous-map graph visibility, finite-window replay, Real-handoff non-escape, transport stability, provenance exhaustion, and local naming for BEDC.Derived.BishopIntervalMapUp.}
+\end{closurestatus}
