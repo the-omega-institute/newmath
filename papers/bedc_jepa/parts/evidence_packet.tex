@@ -29,6 +29,7 @@ $$
 \text{Reproduction commands} & \texttt{bedc\_jepa\_external\_run\_kit.json},\\
 \text{Review artifact set} & \texttt{bedc\_jepa\_review\_bundle.json},\\
 \text{Quality backend candidate} & \texttt{bedc\_jepa\_quality\_backend\_candidate.json},\\
+\text{Paper writeback packet} & \texttt{bedc\_jepa\_paper\_writeback\_packet.json},\\
 \text{Latent claim certificates} & \texttt{bedc\_latent\_claim\_certificates.json},\\
 \text{Conformal gap sweep} & \texttt{bedc\_conformal\_gap\_sweep.json},\\
 \text{Claim boundary audit} & \texttt{bedc\_claim\_boundary\_audit.json}.
@@ -37,6 +38,19 @@ $$
 The JSON artifacts are lab-local evidence boundaries.  They are not Python
 definitions of BEDC NameCert, closurestatus, origin, or Lean verification
 status.
+
+\paragraph{Writeback discipline.}
+The paper follows the same separation discipline as the BioReality writeback
+pipeline: runtime records are not copied into the manuscript body.  They are
+first compiled into a durable paper-writeback packet with source, pattern,
+classifier, stability, metrics, ledger, not-claimed, artifact, and fact-owner
+fields.  The manuscript writes only the claims admitted by that packet and
+keeps unsupported candidates as ledger or cannot-claim rows.  In the current
+packet, the admitted latent operational claim is
+\texttt{door\_key\_context\_visible}; the source-gap predicates
+\texttt{has\_key}, \texttt{door\_open\_or\_unlocked}, and
+\texttt{goal\_reachable\_with\_current\_state} remain blocked from latent
+meaning claims.
 
 \paragraph{Source specification.}
 The source is \texttt{boundary-gated-ou-world}.  Its latent dimension is $2$,

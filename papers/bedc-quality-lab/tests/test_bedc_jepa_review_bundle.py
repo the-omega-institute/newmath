@@ -13,6 +13,9 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert bundle["required_artifacts"]["quality_backend_candidate"] == (
         "reports/bedc_jepa_quality_backend_candidate.json"
     )
+    assert bundle["required_artifacts"]["paper_writeback_packet"] == (
+        "reports/bedc_jepa_paper_writeback_packet.json"
+    )
     assert bundle["required_artifacts"]["latent_claim_certificates"] == (
         "reports/bedc_latent_claim_certificates.json"
     )
@@ -25,6 +28,7 @@ def test_review_bundle_records_reproducibility_contract_and_boundaries():
     assert "python scripts/run_public_minigrid_native_seed_sweep.py" in bundle["reproduction_commands"]
     assert "python scripts/build_bedc_jepa_quality_backend_candidate.py" in bundle["reproduction_commands"]
     assert "python scripts/run_bedc_latent_claim_certificate.py" in bundle["reproduction_commands"]
+    assert "python scripts/build_bedc_jepa_paper_writeback_packet.py" in bundle["reproduction_commands"]
     assert "pdflatex -interaction=nonstopmode -halt-on-error main.tex" in bundle["reproduction_commands"]
     assert bundle["checks"]["checkpoint_contact"] == "closed"
     assert bundle["checks"]["native_public_benchmark"] == "closed"

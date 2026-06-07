@@ -1,0 +1,124 @@
+{
+  "artifacts": {
+    "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+    "native_boundary": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+    "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json"
+  },
+  "classifier_spec": {
+    "accepted_operational_claim": "door_key_context_visible",
+    "claim_boundary_status": "executed",
+    "readiness_decision": "external_bundle_ready",
+    "review_status": "review_ready",
+    "source_gap_predicates": [
+      "has_key",
+      "door_open_or_unlocked",
+      "goal_reachable_with_current_state"
+    ]
+  },
+  "fact_owner": {
+    "native_boundary_schema": "bedc-jepa-vjepa2-ac-native-boundary",
+    "owner": "bedc_quality_lab.bedc_jepa_paper_writeback.build_paper_writeback_packet",
+    "quality_backend_schema": "bedc-jepa-quality-backend-candidate",
+    "review_bundle_source_commit": "c73a1b131756eda3bfa43df048061bc3edcad7f8"
+  },
+  "forbidden_surfaces": [
+    "runtime dump copied into paper body",
+    "ungated metric promotion",
+    "source-gap predicate promoted to latent meaning",
+    "native V-JEPA2-AC baseline claimed before native run"
+  ],
+  "ledger_rows": [
+    {
+      "evidence_pointer": "reports/bedc_latent_claim_certificates.json:$.claims",
+      "kind": "source",
+      "owner": "bedc_quality_lab.bedc_jepa_paper_writeback.build_paper_writeback_packet",
+      "residue": "source-gap-predicates",
+      "severity": "boundary",
+      "status": "open"
+    },
+    {
+      "evidence_pointer": "reports/bedc_latent_claim_certificates.json:$.claims[0].primary",
+      "kind": "coverage",
+      "owner": "bedc_quality_lab.bedc_jepa_paper_writeback.build_paper_writeback_packet",
+      "residue": "non-singleton-latent-claim-sets",
+      "severity": "boundary",
+      "status": "partial"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_vjepa2_ac_native_boundary.json",
+      "kind": "baseline",
+      "owner": "bedc_quality_lab.bedc_jepa_paper_writeback.build_paper_writeback_packet",
+      "residue": "native-V-JEPA2-AC-baseline-open",
+      "severity": "boundary",
+      "status": "open"
+    },
+    {
+      "evidence_pointer": "reports/bedc_jepa_quality_backend_candidate.json:$.ledger_rows",
+      "kind": "mechanism",
+      "owner": "bedc_quality_lab.bedc_jepa_paper_writeback.build_paper_writeback_packet",
+      "residue": "mechanism-closure-debt",
+      "severity": "boundary",
+      "status": "open"
+    }
+  ],
+  "metrics": {
+    "accepted_claim_count": 1.0,
+    "gap_claim_count": 3.0,
+    "latent_claim_conformal_miscoverage": 0.03125,
+    "latent_claim_singleton_claim_rate": 0.5,
+    "latent_claim_unlogged_error": 0.03125,
+    "native_planning_high_gap_reduction": 0.6875,
+    "native_unlogged_error_reduction": 0.125,
+    "seed_sweep_unlogged_error_win_rate": 0.6,
+    "torch_objective_debt_reduction_mean": 0.10288747050501545,
+    "torch_objective_gap_auc_gain_mean": 0.4987624509356536,
+    "torch_objective_unlogged_error_reduction_mean": 0.009982638888888888
+  },
+  "not_claimed": [
+    "public benchmark superiority",
+    "native V-JEPA2-AC checkpoint reproduction",
+    "global latent interpretability",
+    "natural-language semantic grounding",
+    "robotics benchmark result",
+    "large-scale real-world conclusion",
+    "formal neural-network proof",
+    "mechanism closure"
+  ],
+  "pattern_spec": {
+    "latent_claim_rule": "emit singleton conformal label only when the prediction set has size one; otherwise ledger gap",
+    "primary_metric": "unlogged_error_rate",
+    "systems": [
+      "S0",
+      "S1",
+      "S2",
+      "S3"
+    ],
+    "world_state": "z plus d plus g",
+    "writeback_rule": "write only gated claims; write all unsupported candidates as ledger or cannot-claim rows"
+  },
+  "schema_id": "bedc-jepa-paper-writeback-packet",
+  "source_spec": {
+    "artifact_manifest": "reports/bedc_jepa_artifact_manifest.json",
+    "claim_boundary_audit": "reports/bedc_claim_boundary_audit.json",
+    "latent_claim_certificates": "reports/bedc_latent_claim_certificates.json",
+    "readiness": "reports/bedc_jepa_readiness.json",
+    "review_bundle": "reports/bedc_jepa_review_bundle.json",
+    "runtime_source": "papers/bedc-quality-lab/reports",
+    "stable_writeback_sections": [
+      "papers/bedc_jepa/parts/model_principle.tex",
+      "papers/bedc_jepa/parts/latent_claim_certificate.tex",
+      "papers/bedc_jepa/parts/evidence_packet.tex",
+      "papers/bedc_jepa/parts/cannot_claim_boundary.tex"
+    ]
+  },
+  "stability_spec": {
+    "artifact_review_bundle": "closed",
+    "checkpoint_contact": "closed",
+    "latent_claim_alpha": 0.05,
+    "latent_claim_calibration_count": 128.0,
+    "latent_claim_test_count": 128.0,
+    "native_public_benchmark": "closed",
+    "seed_sweep_count": 5.0
+  },
+  "writeback_status": "ready"
+}

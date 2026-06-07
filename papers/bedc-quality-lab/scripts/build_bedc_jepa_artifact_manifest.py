@@ -86,6 +86,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
             "external_run_kit": "python scripts/build_bedc_jepa_external_run_kit.py",
             "review_bundle": "python scripts/build_bedc_jepa_review_bundle.py",
             "quality_backend_candidate": "python scripts/build_bedc_jepa_quality_backend_candidate.py",
+            "paper_writeback_packet": "python scripts/build_bedc_jepa_paper_writeback_packet.py",
             "readiness": "python scripts/build_bedc_jepa_readiness.py",
             "test": "python -m pytest -q",
             "paper": "pdflatex -interaction=nonstopmode -halt-on-error main.tex",
@@ -130,6 +131,7 @@ def build_manifest(summary: dict[str, object]) -> dict[str, object]:
         "external_run_kit": "reports/bedc_jepa_external_run_kit.json",
         "review_bundle": "reports/bedc_jepa_review_bundle.json",
         "quality_backend_candidate": "reports/bedc_jepa_quality_backend_candidate.json",
+        "paper_writeback_packet": "reports/bedc_jepa_paper_writeback_packet.json",
         "latent_claim_certificates": {
             "certificates": "reports/bedc_latent_claim_certificates.json",
             "conformal_gap_sweep": "reports/bedc_conformal_gap_sweep.json",
