@@ -36,6 +36,14 @@ VERDICT_NAMES = {
     "negative_discovery",
     "revoked_discovery",
 }
+VALID_SCOPE_SEAL = {
+    "status": "closed",
+    "toy": True,
+    "bounded": True,
+    "theorem": False,
+    "real_training": False,
+    "production_forbidden": True,
+}
 
 
 def _scorecard(status="ready"):
@@ -72,7 +80,20 @@ def _payload_for_level(level):
                 "positive_discovery": True,
                 "net_information": 1.0,
                 "net_positive_signal": True,
+                "main_verdict": {
+                    "surface_delta_count": 1,
+                    "shift_information": 1,
+                    "structural_discovery": True,
+                    "net_information": 1.0,
+                    "deltas": {"debt_delta": 0},
+                },
+                "evidence_basis": {
+                    "control_positive_discovery": False,
+                    "scorecard_ready": True,
+                    "audit_status": "valid",
+                },
                 "matched_random_control": {"control_verdict": {"positive": False}},
+                "scope_seal": VALID_SCOPE_SEAL,
             }
         )
         if level in {"D5-O", "D5-M"}:
@@ -400,12 +421,9 @@ def test_positive_discovery_gate_failure_routes_raw_operational_case_to_raw_pass
 
     assert verdict["claim_id"] == "claim:gap-head-on-h"
     assert verdict["claim_verdict"] == "raw_operational_evidence_pass"
-    assert verdict["reason"] == "positive-discovery-gate-failed"
+    assert verdict["reason"] == "fresh-discovery-level-DN:control_negative=false"
     assert verdict["source"] == "reports/canonical/gap-head-on-h.json:$.positive_discovery"
-    assert verdict["ledger_pointer"] == (
-        "reports/canonical/gap-head-on-h.json:"
-        "$.matched_random_control.control_verdict.positive"
-    )
+    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
 
 
 def test_positive_discovery_gate_failure_routes_projected_positive_case_to_projected_positive(tmp_path, monkeypatch):
@@ -428,7 +446,7 @@ def test_positive_discovery_gate_failure_routes_projected_positive_case_to_proje
 
     assert verdict["claim_id"] == "claim:projected-d4"
     assert verdict["claim_verdict"] == "projected_positive_discovery"
-    assert verdict["reason"] == "positive-discovery-gate-failed"
+    assert verdict["reason"] == "fresh-discovery-level-DN:control_negative=false"
 
 
 def test_constraint_lagrangian_dn_reason_preserves_evidence_label(tmp_path, monkeypatch):
@@ -473,7 +491,7 @@ def test_certificate_gated_attention_row_maps_existing_positive_verdict(tmp_path
     payload = json.loads(payload_path.read_text(encoding="utf-8"))
     payload.update(
         {
-            "positive_claim": {"text": "certificate-gated attention fixture", "scope": "bounded"},
+                "positive_claim": {"text": "certificate-gated attention fixture", "scope": "bounded", "scope_seal": VALID_SCOPE_SEAL},
             "matched_random_control": {"control_verdict": {"positive": False}},
             "certificate_gate_summary": {"gated_vs_plain_valid": {"leak_reduction_mean": 0.1}},
             "net_positive_signal": True,
@@ -486,7 +504,7 @@ def test_certificate_gated_attention_row_maps_existing_positive_verdict(tmp_path
 
     assert verdict["claim_id"] == "claim:certificate-gated-attention"
     assert verdict["claim_verdict"] in demo.CLAIM_VERDICTS
-    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+    assert verdict["claim_verdict"] == "projected_positive_discovery"
 
 
 @pytest.mark.parametrize("audit_status", ["invalid", "pass", None])
@@ -515,8 +533,24 @@ def test_positive_discovery_accepts_valid_discovery_map_audit(tmp_path, monkeypa
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_id"] == "claim:gap-head-discovery"
-    assert verdict["claim_verdict"] == "accepted_positive_discovery"
-    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["claim_verdict"] == "projected_positive_discovery"
+    assert verdict["reason"] == "fresh-discovery-level-DN:scorecard_ready=false,audit_pass=false"
+
+
+def test_stale_d4_row_capped_by_fresh_projection_does_not_emit_positive_discovery(tmp_path, monkeypatch):
+    rows = [_discovery_row("stale-d4", "reports/canonical/stale-d4.json", "D4")]
+    specs = (_spec("stale-d4", "reports/canonical/stale-d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/stale-d4.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload["positive_claim"] = {"scope_seal": dict(VALID_SCOPE_SEAL, status="open")}
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_id"] == "claim:stale-d4"
+    assert verdict["claim_verdict"] == "raw_operational_evidence_pass"
+    assert verdict["reason"] == "fresh-discovery-level-D1:scope_seal=false"
 
 
 def test_demoted_terminal_positive_discovery_fails_closed_with_ledger_pointer(tmp_path, monkeypatch):

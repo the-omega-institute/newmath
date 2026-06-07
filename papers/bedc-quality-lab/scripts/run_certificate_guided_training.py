@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.cost_protocol import CostProtocol, REQUIRED_DEBT_ROWS, load_cost_protocol
 from bedc_quality_lab.debt import DebtAssessment, assess_debt
 from bedc_quality_lab.ledger import LedgerRowKey
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 from bedc_quality_lab.training.certificate_guided import (
     CertificateGuidedLossBreakdown,
     CertificateGuidedWeights,
@@ -39,6 +40,7 @@ RHO = 0.82
 SAMPLE_COUNT = 160
 GUIDED_SAMPLE_COUNT = 1792
 WEIGHTS = CertificateGuidedWeights(lambda_s=0.25, lambda_m=0.50, lambda_l=0.75, lambda_c=1.00)
+SCOPE_SEAL = CLOSED_CLAIM_SCOPE_SEAL
 
 
 @dataclass(frozen=True)
@@ -565,6 +567,7 @@ def _payload() -> dict[str, Any]:
         "paired_delta_ci": paired_ci,
         "arm_summaries": _arm_summaries(records),
         "claim_gate": claim_gate,
+        "scope_seal": SCOPE_SEAL,
         "hardgate": hardgate,
         "failed_gate": failed_gate,
         "verdict": verdict,
