@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\PrueferSurfaceUp$}
+\label{ch:concrete-instances-pruefer-surface-namecert}
+\origin{human}
+
+Following Pruefer and Kelley-style topology, the $\PrueferSurfaceUp$ packet records a surface built from real-coordinate chart rows and a boundary fan of neighbourhood rows as finite NameCert data. It sits after the point-neighbourhood discipline of \autoref{ch:concrete-instances-niemytzki-plane-namecert}, the indexed-open surface of \autoref{ch:concrete-instances-topology-namecert}, the binary coordinate route of \autoref{ch:concrete-instances-product-topology-namecert}, the real-coordinate seal of \autoref{ch:concrete-instances-real-namecert}, and the chart interface of \autoref{ch:concrete-instances-manifold-namecert}. The packet names only the displayed chart-boundary route; it does not import a quotient surface, a selected atlas completion, host equality of real pairs, choice-selected fans, or ambient manifold equality.
+
+\begin{definition}[Pruefer surface carrier]
+\label{def:pruefer-surface-carrier}
+A $\PrueferSurfaceUp$ carrier is a finite $\BHist$ packet
+$$
+S=(R,Q,F,B,O,T,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the real-coordinate chart row, exposing each local coordinate only through $\RealUp$ and the paired-coordinate readback supplied by $\ProductTopologyUp$.
+\item $Q$ is the chart-index row, listing the visible ordinary coordinate charts and the boundary-indexed fan charts without importing an external atlas.
+\item $F$ is the boundary fan row, recording for each displayed boundary index the finite neighbourhood rows that approach that boundary coordinate from the corresponding side.
+\item $B$ is the boundary-neighbourhood exactness row, identifying which fan rows meet the boundary line and which ordinary rows remain in the interior chart region.
+\item $O$ is the chart-overlap row, recording the finite overlap incidences and transition-read requests between displayed chart rows.
+\item $T$ is the $\TopologyUp$ handoff row generated from the ordinary chart rows, boundary fan rows, and displayed overlap incidences.
+\item $M$ is the $\ManifoldUp$ chart-read row available only after $R,Q,F,B,O,T$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the chart, boundary fan, boundary-neighbourhood, overlap, topology, manifold, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a chart request through coordinate readback, boundary fan selection, overlap incidence, topology handoff, manifold read, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\PrueferSurfaceUp$, $\NiemytzkiPlaneUp$, $\TopologyUp$, $\ProductTopologyUp$, $\RealUp$, $\ManifoldUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PrueferSurfaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotienting chart copies, selected atlas refinements, ambient equality of real-coordinate pairs, choice-selected neighbourhood fans, or a host manifold identity.
+\end{definition}
+
+\begin{theorem}[Pruefer surface NameCert obligations]
+\label{thm:pruefer-surface-namecert-obligations}
+For every accepted $\PrueferSurfaceUp$ carrier
+$$
+S=(R,Q,F,B,O,T,M,H,C,P,N),
+$$
+the local $\NameCert_{\PrueferSurfaceUp}$ surface consists exactly of carrier admission for the displayed packet, chart compatibility through $R,Q,O$, boundary-neighbourhood exactness through $F,B$, topology handoff through $T$, real and product-coordinate readback through $R$, manifold readback through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, local naming through $N$, and nonescape from quotient surfaces, selected atlas refinements, host real-pair equality, choice-selected fans, or ambient manifold equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pruefer-surface-carrier}. The tuple displays chart coordinates, chart indices, boundary fan rows, boundary-neighbourhood exactness, overlap incidences, topology and manifold handoffs, transport, replay, provenance, and local naming as separate rows.
+
+The chart and boundary rows are read before any topology handoff. The row $R$ forces each coordinate through $\RealUp$ and $\ProductTopologyUp$, while $Q,F,B$ distinguish ordinary chart reads from boundary fan neighbourhood reads in the same finite packet.
+
+Next inspect the overlap row $O$. Chart compatibility is therefore a displayed finite incidence condition between the rows already named by $R,Q,F,B$, not an equality of host charts or a quotient atlas.
+
+Finally pass through $T,M,H,C,P,N$. These rows turn the displayed chart and boundary data into topology and manifold-facing reads while preserving the same finite route. Since no row supplies quotienting, selected atlas refinement, hidden real-pair equality, choice-selected fans, or ambient manifold identity, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Pruefer surface chart-boundary route]
+\label{thm:pruefer-surface-chart-boundary-route}
+Every chart-boundary consumer of an accepted $\PrueferSurfaceUp$ carrier must factor through
+$$
+R,\quad Q,\quad F,\quad B,\quad O
+$$
+before any $\ManifoldUp$ or $\TopologyUp$ read is available. Thus the consumer sees a displayed chart row, a displayed boundary fan row, the boundary-neighbourhood exactness row, and the chart-overlap row before it may use the topology or manifold handoff.
+\end{theorem}
+\begin{proof}
+Start with a chart-boundary request. The only coordinate source is $R$, so the request first reads real-coordinate data through $\RealUp$ and $\ProductTopologyUp$.
+
+The chart-index and fan rows then determine the boundary side of the request. The rows $Q$ and $F$ expose the ordinary chart and the boundary-indexed fan, while $B$ records the exact boundary-neighbourhood incidence.
+
+Only after those rows are visible can the overlap row $O$ compare the chart request with neighbouring chart rows. The topology row $T$ and manifold row $M$ are downstream of this displayed comparison, and $H,C,P,N$ preserve the same order under transport, replay, provenance, and naming.
+
+Consequently no chart-boundary consumer receives a host quotient surface, a selected atlas refinement, an untracked equality of real pairs, a choice-selected fan, or an ambient manifold identity before reading the displayed chart and boundary rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PrueferSurfaceUp$ chart-boundary read displays real-coordinate chart rows, boundary fan rows, boundary-neighbourhood exactness, chart-overlap rows, topology and manifold handoffs, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{niemytzki-plane, topology, product-topology, real, manifold: $\PrueferSurfaceUp$ is not bijective to any listed sibling because it binds ordinary chart rows, boundary fan neighbourhood rows, overlap incidence, and manifold-facing chart readback into one finite NameCert packet.}
+
+\closureat{PrueferSurfaceUp}{seedStr}
+
+\begin{closurestatus}{\PrueferSurfaceUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pruefer-surface-carrier}, \autoref{thm:pruefer-surface-namecert-obligations}, and \autoref{thm:pruefer-surface-chart-boundary-route} seed the finite real-coordinate chart, boundary fan, overlap, topology, manifold, transport, replay, provenance, and local naming route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient surfaces, selected atlas refinements, host real-pair equality, choice-selected boundary fans, ambient manifold equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, chart compatibility, boundary-neighbourhood exactness, topology handoff, real and product-coordinate readback, manifold readback, and chart-boundary nonescape for BEDC.Derived.PrueferSurfaceUp.}
+  \constructivestory{A $\PrueferSurfaceUp$ packet is generated from real-coordinate chart rows, visible chart indices, boundary fan rows, boundary-neighbourhood exactness rows, chart-overlap rows, topology and manifold handoffs, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
