@@ -1869,44 +1869,64 @@ def _write_claims_document(path: Path, document: dict[str, Any]) -> None:
     path.write_text(json.dumps(document, indent=2, ensure_ascii=False, sort_keys=False) + "\n", encoding="utf-8")
 
 
+def _experiment_script_sha(experiment: dict[str, Any], repo_root: Path) -> str | None:
+    """Content fingerprint of an experiment: the script bytes plus its acceptance
+    spec. Used to detect a genuine experiment change. Content-based on purpose —
+    file mtimes are reset by every git checkout/merge and the registry file is
+    rewritten each cycle, so an mtime comparison would re-fire on every restart
+    and every sync regardless of whether the experiment actually changed."""
+    script_path = experiment.get("script_path")
+    if not isinstance(script_path, str) or not script_path:
+        return None
+    try:
+        data = (repo_root / script_path).read_bytes()
+    except OSError:
+        return None
+    h = hashlib.sha256()
+    h.update(data)
+    h.update(b"\x00")
+    h.update(json.dumps(experiment.get("acceptance"), sort_keys=True, ensure_ascii=True).encode("utf-8"))
+    return h.hexdigest()[:16]
+
+
+def _backfill_script_sha(claim: dict[str, Any], experiment: dict[str, Any], repo_root: Path) -> None:
+    """Stamp the current script fingerprint onto a passed/failed claim's latest
+    history entry when it lacks one, so a later genuine change is detectable.
+    Does not trigger a re-run; the claims document is persisted by the lane."""
+    history = claim.get("history")
+    if not isinstance(history, list) or not history:
+        return
+    last = history[-1] if isinstance(history[-1], dict) else None
+    if not isinstance(last, dict) or last.get("script_sha"):
+        return
+    sha = _experiment_script_sha(experiment, repo_root)
+    if sha:
+        last["script_sha"] = sha
+
+
 def _experiment_changed_since_last_history(
     claim: dict[str, Any],
     experiment: dict[str, Any],
     repo_root: Path,
     experiments_registry: Path,
 ) -> bool:
-    """Return True if the experiment script or its registry entry has been
-    modified after the most recent claim.history timestamp. Used to promote
-    a failed/error claim back to needs_rerun when bio-planner reshapes the
-    experiment."""
-    from datetime import datetime
+    """Return True only when the experiment's content fingerprint differs from
+    the one stamped on the claim's latest history entry. A missing stored
+    fingerprint returns False (no baseline yet — the lane backfills it without a
+    re-run), so this never fires on restart/sync noise, only on real changes."""
     history = claim.get("history")
     if not isinstance(history, list) or not history:
         return False
     last = history[-1] if isinstance(history[-1], dict) else None
-    if not last:
+    if not isinstance(last, dict):
         return False
-    last_ts_text = str(last.get("ts") or "")
-    if not last_ts_text:
+    stored = last.get("script_sha")
+    if not stored:
         return False
-    try:
-        last_ts = datetime.fromisoformat(last_ts_text).timestamp()
-    except ValueError:
+    current = _experiment_script_sha(experiment, repo_root)
+    if current is None:
         return False
-    script_path = experiment.get("script_path")
-    candidates: list[Path] = []
-    if isinstance(script_path, str) and script_path:
-        candidates.append(repo_root / script_path)
-    if experiments_registry.exists():
-        candidates.append(experiments_registry)
-    for path in candidates:
-        try:
-            mtime = path.stat().st_mtime
-        except OSError:
-            continue
-        if mtime > last_ts + 0.5:
-            return True
-    return False
+    return str(stored) != str(current)
 
 
 def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
@@ -1942,7 +1962,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
         experiment_id = str(claim.get("experiment_id") or "")
         experiment = experiment_by_id.get(experiment_id)
         if status not in {"open", "needs_rerun"}:
-            if status in {"failed", "error"} and experiment is not None and _experiment_changed_since_last_history(claim, experiment, repo_root, store.paths.experiments_registry):
+            if status in {"failed", "error", "passed"} and experiment is not None and _experiment_changed_since_last_history(claim, experiment, repo_root, store.paths.experiments_registry):
                 claim["status"] = "needs_rerun"
                 status = "needs_rerun"
                 history = claim.setdefault("history", [])
@@ -1961,6 +1981,8 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                 if isinstance(history, list):
                     history.append(_history_entry("needs_rerun", "freshly materialized, no prior experiment_run - kicking off"))
             else:
+                if status in {"failed", "error", "passed"} and experiment is not None:
+                    _backfill_script_sha(claim, experiment, repo_root)
                 continue
         if experiment is None:
             continue
@@ -2032,6 +2054,7 @@ def run_execute_lane(store: BioRealityStore) -> dict[str, Any]:
                     "experiment result",
                     experiment_run_id=result["experiment_run_id"],
                     checks=_check_summary(result.get("checks")),
+                    script_sha=_experiment_script_sha(experiment, repo_root),
                 )
             )
 
@@ -2427,7 +2450,7 @@ def _bios_codex_resolve_prompt(rel_path: str, conflicted_content: str, upstream_
     return "\n".join([
         "You are resolving a single git merge conflict in the BioReality / BEDC repository.",
         "Local branch: feat/bio-reality-deepening (BioReality research direction).",
-        f"Merging upstream commit {upstream_sha[:12]} from origin/auto-dev (Loning's main automation branch).",
+        f"Merging upstream commit {upstream_sha[:12]} from origin/dev (the shared integration branch all pipelines roll up into).",
         "",
         "Project invariants (must hold for resolution to be correct):",
         "- working language Chinese; Python stdlib only; pdflatex single-pass with halt-on-error",
@@ -2530,12 +2553,15 @@ def _bios_codex_resolve_merge(
     if status.returncode != 0:
         return False, {"reason": "git_status_nonzero", "stderr": (status.stderr or "")[-500:]}
     conflict_files: list[str] = []
+    conflict_codes: dict[str, str] = {}
     for line in (status.stdout or "").splitlines():
         if len(line) < 4:
             continue
         code = line[:2]
         if code in {"UU", "AA", "DD", "AU", "UA", "DU", "UD"}:
-            conflict_files.append(line[3:].strip())
+            path = line[3:].strip()
+            conflict_files.append(path)
+            conflict_codes[path] = code
     if not conflict_files:
         return False, {"reason": "no_conflict_files"}
     sig = hashlib.sha256(("|".join([upstream_sha] + sorted(conflict_files))).encode("utf-8")).hexdigest()[:16]
@@ -2575,17 +2601,30 @@ def _bios_codex_resolve_merge(
             continue
         side = _conflict_side(rel_path)
         if side:
+            # modify/delete conflicts have no version on the deleting side, so
+            # `git checkout --<side>` fails ("does not have their version").
+            # UD = modified by us / deleted by them; DU = deleted by us /
+            # modified by them. When the AUTHORITATIVE side is the deleting one,
+            # honoring it means removing the file, not checking it out.
+            code = conflict_codes.get(rel_path, "")
+            side_deleted = (side == "theirs" and code == "UD") or (side == "ours" and code == "DU")
             try:
-                co = _run_command(repo_root, ["git", "checkout", f"--{side}", "--", rel_path], timeout=30.0)
-                if co.returncode != 0:
-                    failures.append({"path": rel_path, "reason": f"checkout_{side}_failed", "stderr": (co.stderr or "")[-200:]})
-                    continue
-                add = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
-                if add.returncode != 0:
-                    failures.append({"path": rel_path, "reason": "git_add_failed", "stderr": (add.stderr or "")[-200:]})
-                    continue
+                if side_deleted:
+                    rm = _run_command(repo_root, ["git", "rm", "-f", "--", rel_path], timeout=30.0)
+                    if rm.returncode != 0:
+                        failures.append({"path": rel_path, "reason": f"take_{side}_delete_failed", "stderr": (rm.stderr or "")[-200:]})
+                        continue
+                else:
+                    co = _run_command(repo_root, ["git", "checkout", f"--{side}", "--", rel_path], timeout=30.0)
+                    if co.returncode != 0:
+                        failures.append({"path": rel_path, "reason": f"checkout_{side}_failed", "stderr": (co.stderr or "")[-200:]})
+                        continue
+                    add = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
+                    if add.returncode != 0:
+                        failures.append({"path": rel_path, "reason": "git_add_failed", "stderr": (add.stderr or "")[-200:]})
+                        continue
             except (OSError, subprocess.TimeoutExpired) as exc:
-                failures.append({"path": rel_path, "reason": f"checkout_{side}_exception", "error": str(exc)})
+                failures.append({"path": rel_path, "reason": f"resolve_{side}_exception", "error": str(exc)})
                 continue
             resolved_paths.append(rel_path)
             continue
@@ -2606,18 +2645,18 @@ def _bios_codex_resolve_merge(
         except OSError as exc:
             failures.append({"path": rel_path, "reason": "write_failed", "error": str(exc)})
             continue
+        add_c = _run_command(repo_root, ["git", "add", "--", rel_path], timeout=30.0)
+        if add_c.returncode != 0:
+            failures.append({"path": rel_path, "reason": "codex_add_failed", "stderr": (add_c.stderr or "")[-200:]})
+            continue
         resolved_paths.append(rel_path)
     if not resolved_paths:
         _bios_resolve_record(store, {"signature": sig, "action": "no_resolution", "failures": failures, "total_conflict_files": len(conflict_files)})
         return False, {"reason": "no_resolution", "signature": sig, "failures": failures, "total_conflict_files": len(conflict_files)}
-    try:
-        add = _run_command(repo_root, ["git", "add", "--"] + resolved_paths, timeout=60.0)
-    except (OSError, subprocess.TimeoutExpired) as exc:
-        _bios_resolve_record(store, {"signature": sig, "action": "git_add_failed", "error": str(exc)})
-        return False, {"reason": "git_add_failed", "error": str(exc)}
-    if add.returncode != 0:
-        _bios_resolve_record(store, {"signature": sig, "action": "git_add_nonzero", "stderr": (add.stderr or "")[-300:]})
-        return False, {"reason": "git_add_nonzero", "stderr": (add.stderr or "")[-300:]}
+    # Each resolved path is already staged in-loop (checkout+add, git rm, or
+    # codex-write+add). No bulk `git add` here: a bulk add over a path removed
+    # by `git rm` fails (pathspec no longer matches its now-deleted directory)
+    # and used to abort the whole merge even though every file was resolved.
     try:
         commit = _run_command(repo_root, ["git", "commit", "-m", f"Sync auto-dev {upstream_sha[:12]} (codex-resolved {len(resolved_paths)}/{len(conflict_files)} files)"], timeout=120.0)
     except (OSError, subprocess.TimeoutExpired) as exc:
@@ -3190,6 +3229,74 @@ def run_merge_back_lane(store: BioRealityStore) -> dict[str, Any]:
     except OSError:
         pass
     return {"lane": "bio-M", "pushed": True, "upstream": upstream, "commits_pushed": feat_only}
+
+
+def _write_dev_rollup_state(path: Path) -> None:
+    try:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"last_run_ts": time.time()}) + "\n", encoding="utf-8")
+    except OSError:
+        pass
+
+
+def run_dev_rollup_lane(store: BioRealityStore) -> dict[str, Any]:
+    """Delegate the feat->dev rollup to Loning's managed-rollup script
+    tools/sync_with_auto_dev.py with source = our integration branch.
+
+    The script builds an isolated worktree from origin/dev, merges our source
+    branch in (codex-resolving conflicts, regenerating lean4/BEDC.lean), pushes
+    a SEPARATE managed branch ``rollup-{source}-to-{target}``, maintains one PR
+    into the target, and auto-merges that PR once its checks are green and
+    GitHub reports it mergeable. We never PR the integration branch itself —
+    that collides with the auto-sync back-merge loop; bio-S handles the reverse
+    dev->feat sync. This makes the rollup branch distinct from the development
+    branch and reuses Loning's robust merge/conflict/regen machinery instead of
+    a hand-rolled PR.
+    """
+    try:
+        config = _load_keep_lane_config()
+    except (OSError, json.JSONDecodeError) as exc:
+        return {"lane": "bio-D", "error": f"config_error: {exc}"}
+    rollup = config.get("dev_rollup") if isinstance(config.get("dev_rollup"), dict) else {}
+    if not rollup.get("enabled", False):
+        return {"lane": "bio-D", "skipped": "disabled"}
+    if not _network_available():
+        return {"lane": "bio-D", "skipped": "offline"}
+
+    repo_root = store.paths.root.parent.parent
+    source = str(rollup.get("head_branch") or config.get("branch") or "feat/bio-reality-deepening")
+    target = str(rollup.get("base_branch") or "dev")
+    min_seconds = float(rollup.get("min_seconds_between") or 600)
+
+    state_path = store.paths.keep_lane_state.parent / "dev_rollup_state.json"
+    try:
+        last_ts = float(json.loads(state_path.read_text(encoding="utf-8")).get("last_run_ts") or 0.0)
+    except (OSError, json.JSONDecodeError, ValueError, TypeError):
+        last_ts = 0.0
+    if time.time() - last_ts < min_seconds:
+        return {"lane": "bio-D", "skipped": "throttled"}
+
+    script = repo_root / "tools" / "sync_with_auto_dev.py"
+    if not script.exists():
+        return {"lane": "bio-D", "error": "sync_script_missing", "path": str(script)}
+    if _run_command(repo_root, ["gh", "--version"]).returncode != 0:
+        return {"lane": "bio-D", "skipped": "gh_unavailable"}
+
+    result = _run_command(
+        repo_root,
+        ["python3", str(script), "--source-branch", source, "--target-branch", target],
+        timeout=1800.0,
+    )
+    _write_dev_rollup_state(state_path)
+    out = (result.stdout or "") + (result.stderr or "")
+    rollup_lines = [ln for ln in out.splitlines() if "[sync] rollup" in ln]
+    tail = (rollup_lines or out.splitlines())[-4:]
+    if result.returncode != 0:
+        return {"lane": "bio-D", "error": "sync_failed", "source": source, "target": target, "tail": tail}
+    merged = any(("merging into" in ln) or ("green and mergeable" in ln) for ln in rollup_lines)
+    return {"lane": "bio-D", "ran_sync": True, "source": source, "target": target,
+            "rollup_branch": f"rollup-{source.replace('/', '-')}-to-{target.replace('/', '-')}",
+            "merged": merged, "tail": tail}
 
 
 def _tex_escape(value: Any) -> str:
@@ -4628,6 +4735,7 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
         "Its statements separate curated biological reality contacts from internal coordinate, closure, spectrum, and relation readings.",
         "",
     ]
+    seen_mismatch_ids: set[str] = set()
     for conjecture in conjectures:
         linked_contacts, linked_probes, linked_mismatches = _linked_records_for_conjecture(
             conjecture,
@@ -4635,6 +4743,19 @@ def run_writeback_lane(store: BioRealityStore) -> dict[str, Any]:
             probes_by_id,
             mismatches_by_probe,
         )
+        # A mismatch (reality-boundary gap) is shared across every conjecture whose
+        # probes reference it, so without this guard each gap is re-listed once per
+        # conjecture section and the chapter bloats quadratically. Render each unique
+        # mismatch only in the first conjecture section that links it.
+        deduped_mismatches = []
+        for _m in linked_mismatches:
+            _mid = str(_m.get("mismatch_id") or "")
+            if _mid and _mid in seen_mismatch_ids:
+                continue
+            if _mid:
+                seen_mismatch_ids.add(_mid)
+            deduped_mismatches.append(_m)
+        linked_mismatches = deduped_mismatches
         verified_facts = _all_verified_facts(conjecture)
         conjecture_id = str(conjecture.get("conjecture_id") or "unnamed")
         codex_text = _codex_written_content(
