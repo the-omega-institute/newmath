@@ -60,14 +60,7 @@ NOT_IMPLEMENTED = (
     "nonlinear_residualization",
     "full_causal_replacement_scope",
 )
-FORBIDDEN_COLUMNS = (
-    "z",
-    "z_pair",
-    "gap_label",
-    "prediction_error",
-    "eval_gap_labels",
-    "config_metadata",
-)
+FORBIDDEN_INFERENCE_COLUMNS = source.FORBIDDEN_INFERENCE_COLUMNS
 A1_NEGATIVE_WITNESS_OWNER_POINTER = "$.run_local.negative_witness[0]"
 A1_NEGATIVE_WITNESS_KEYS = (
     "witness_id",
@@ -486,21 +479,20 @@ def _forbidden_column_audit(columns_by_arm: Mapping[str, Sequence[str]] | None =
     columns_by_arm = {} if columns_by_arm is None else columns_by_arm
     violations: list[dict[str, Any]] = []
     for arm, columns in columns_by_arm.items():
-        present = [
-            column
-            for column in columns
-            if column in FORBIDDEN_COLUMNS or column.split(":", 1)[0] in FORBIDDEN_COLUMNS
-        ]
-        try:
-            _assert_inference_columns(list(columns))
-        except ValueError as exc:
-            violations.append({"arm": arm, "columns": present, "error": str(exc)})
-            continue
-        if present:
-            violations.append({"arm": arm, "columns": present, "error": "forbidden column present"})
+        audit = source._forbidden_column_audit(list(columns))
+        if audit["status"] != "pass":
+            violations.append(
+                {
+                    "arm": arm,
+                    "columns": list(audit["forbidden_present"]),
+                    "failed_gate": audit.get("failed_gate"),
+                    "violations": list(audit["violations"]),
+                }
+            )
     return {
         "status": "pass" if not violations else "fail",
-        "forbidden_columns": list(FORBIDDEN_COLUMNS),
+        "forbidden_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
+        "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
         "assertion_helper": "scripts/run_gap_ledger_head_on_h.py::_assert_inference_columns",
         "violations": violations,
     }

@@ -173,6 +173,15 @@ def test_forbidden_column_audit_reuses_h_feature_audit():
     failed = runner._feature_audit(["h:0", "prediction_error"])
     assert failed["status"] == "fail"
     assert failed["forbidden_present"] == ["prediction_error"]
+    assert failed["failed_gate"] == "forbidden-inference-column"
+
+    label_failed = runner._feature_audit(["h:0", "label"])
+    assert label_failed["status"] == "fail"
+    assert label_failed["forbidden_present"] == ["label"]
+
+    metadata_failed = runner._feature_audit(["h:0", "config_metadata.seed"])
+    assert metadata_failed["status"] == "fail"
+    assert metadata_failed["forbidden_present"] == ["config_metadata.seed"]
 
 
 def test_torch_off_target_intervention_reencodes_changed_observations(monkeypatch):

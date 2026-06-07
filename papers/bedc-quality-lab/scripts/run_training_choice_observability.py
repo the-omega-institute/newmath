@@ -36,6 +36,7 @@ from scripts.run_gap_ledger_head_on_h import (
     FORBIDDEN_INFERENCE_COLUMNS,
     MATCHED_RANDOM_ARM,
     QUALITY_COLUMNS,
+    _forbidden_column_audit,
     _assert_inference_columns,
     _build_inference_features,
     _matched_random_gap_labels,
@@ -287,26 +288,24 @@ def _probe_blocks(
 
 
 def _feature_audit(columns: list[str]) -> dict[str, Any]:
-    forbidden_present = [
-        column
-        for column in columns
-        if column in FORBIDDEN_INFERENCE_COLUMNS
-        or column.split(":", 1)[0] in FORBIDDEN_INFERENCE_COLUMNS
-    ]
+    audit = _forbidden_column_audit(columns)
     try:
         _assert_inference_columns(columns)
     except ValueError as exc:
         return {
             "status": "fail",
             "reason": str(exc),
-            "forbidden_present": forbidden_present,
+            "forbidden_present": list(audit["forbidden_present"]),
             "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
+            "failed_gate": audit.get("failed_gate"),
+            "violations": list(audit["violations"]),
         }
     return {
         "status": "pass",
         "reason": "inference columns exclude forbidden ground-truth and label channels",
-        "forbidden_present": forbidden_present,
+        "forbidden_present": list(audit["forbidden_present"]),
         "forbidden_inference_columns": list(FORBIDDEN_INFERENCE_COLUMNS),
+        "violations": list(audit["violations"]),
     }
 
 
