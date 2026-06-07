@@ -727,6 +727,7 @@ import BEDC.Derived.BanachSpaceUp.LinearCauchySeal
 import BEDC.Derived.BanachSpaceUp.LinearCompletionNonescape
 import BEDC.Derived.BanachSpaceUp.NameCertFrontier
 import BEDC.Derived.BanachSpaceUp.NameCertObligations
+import BEDC.Derived.BanachSpaceUp.NormBallTransport
 import BEDC.Derived.BanachSpaceUp.NormCompletionInductionRoute
 import BEDC.Derived.BanachSpaceUp.NormCompletionLedgerObligation
 import BEDC.Derived.BanachSpaceUp.NormedCauchyLedger
