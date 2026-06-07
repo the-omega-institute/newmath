@@ -71,4 +71,54 @@ theorem CoveringDimensionCoverOrderDirectedness [AskSetup] [PackageSetup]
     ⟨coverUnary, refinementUnary, leftUnary, rightUnary, commonUnary, coverRefinementLeft,
       coverRefinementRight, leftRightCommon, commonPkg⟩
 
+theorem CoveringDimensionCarrier_root_separability_route [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName separabilityRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont cover orderBound separabilityRead →
+        PkgSig bundle separabilityRead pkg →
+          UnaryHistory cover ∧ UnaryHistory orderBound ∧ UnaryHistory separabilityRead ∧
+            Cont compactMetric epsilonNet cover ∧ Cont cover refinement orderBound ∧
+              Cont cover orderBound separabilityRead ∧ PkgSig bundle provenance pkg ∧
+                PkgSig bundle separabilityRead pkg := by
+  -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier coverOrderSeparability separabilityPkg
+  obtain ⟨_compactUnary, _epsilonUnary, coverUnary, _refinementUnary, orderUnary,
+    _lebesgueUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    compactEpsilonCover, coverRefinementOrder, _orderLebesgueReplay,
+    _transportReplayProvenance, provenancePkg, _localNamePkg⟩ := carrier
+  have separabilityUnary : UnaryHistory separabilityRead :=
+    unary_cont_closed coverUnary orderUnary coverOrderSeparability
+  exact
+    ⟨coverUnary, orderUnary, separabilityUnary, compactEpsilonCover, coverRefinementOrder,
+      coverOrderSeparability, provenancePkg, separabilityPkg⟩
+
+theorem CoveringDimensionCarrier_root_completion_handoff [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName completionRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont lebesgue replay completionRead →
+        PkgSig bundle completionRead pkg →
+          UnaryHistory compactMetric ∧ UnaryHistory epsilonNet ∧ UnaryHistory cover ∧
+            UnaryHistory refinement ∧ UnaryHistory orderBound ∧ UnaryHistory lebesgue ∧
+              UnaryHistory completionRead ∧ Cont compactMetric epsilonNet cover ∧
+                Cont cover refinement orderBound ∧ Cont orderBound lebesgue replay ∧
+                  Cont lebesgue replay completionRead ∧ PkgSig bundle completionRead pkg := by
+  -- BEDC touchpoint anchor: CoveringDimensionCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier lebesgueReplayCompletion completionPkg
+  obtain ⟨compactUnary, epsilonUnary, coverUnary, refinementUnary, orderUnary, lebesgueUnary,
+    _transportUnary, replayUnary, _provenanceUnary, _localNameUnary, compactEpsilonCover,
+    coverRefinementOrder, orderLebesgueReplay, _transportReplayProvenance, _provenancePkg,
+    _localNamePkg⟩ := carrier
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed lebesgueUnary replayUnary lebesgueReplayCompletion
+  exact
+    ⟨compactUnary, epsilonUnary, coverUnary, refinementUnary, orderUnary, lebesgueUnary,
+      completionUnary, compactEpsilonCover, coverRefinementOrder, orderLebesgueReplay,
+      lebesgueReplayCompletion, completionPkg⟩
+
 end BEDC.Derived.CoveringdimensionUp
