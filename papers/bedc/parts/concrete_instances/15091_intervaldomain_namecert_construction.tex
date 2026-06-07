@@ -94,6 +94,20 @@ Next use \autoref{def:interval-domain-carrier}. The rational refinement ledger $
 Finally apply \autoref{thm:interval-domain-completion-approximation-scope}. The Real seal row $E$ is downstream of $L,R,N,W,Q$, so the refinement read is the displayed regular Cauchy window route and not a host interval, quotient cut, selected endpoint, or host equality principle.
 \end{proof}
 
+\begin{theorem}[IntervalDomain directed refinement covers]
+\label{thm:interval-domain-directed-refinement-covers}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. Any two accepted interval-domain cells whose displayed $\RealUp$ seal readbacks overlap admit a finite directed refinement row through the existing $\LocatedIntervalUp$, $\NestedIntervalUp$, $\RationalIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces. The refinement is read only as a displayed later cell with common stream and regular-rational observations; it does not assert quotient real equality, choose a limit representative, or use ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:interval-domain-carrier}. The located cells are read from $L$, their rational containment and width ledgers from $R$, and their directed nesting relation from $N$.
+
+Replay the nested-window refinement using the directedness clause of \autoref{thm:interval-domain-namecert-obligations}. Two cells admitted for a common completion-facing read must pass through a later displayed $\NestedIntervalUp$ row before the Real seal can be inspected.
+
+Now read the common observation surface. The $\StreamNameUp$ windows $W$ and $\RegSeqRatUp$ readbacks $Q$ expose the shared endpoint observations, while \autoref{thm:interval-domain-regular-cauchy-window} keeps the refinement inside the regular Cauchy window route.
+
+Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The $\RealUp$ seal row $E$ is downstream of the displayed located, rational, nested, stream, and regular-rational rows, so the directed refinement covers the overlapping readback without exporting quotient real equality, selected limits, or ambient completeness.
+\end{proof}
+
 \begin{theorem}[IntervalDomain Real seal nonescape]
 \label{thm:interval-domain-real-seal-nonescape}
 Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. A consumer of the $\RealUp$ seal row $E$ receives only the finite route through located cells, rational refinements, nested directedness, stream windows, regular rational readbacks, transport, replay, provenance, and local naming. The packet exports no host completeness, selected endpoints, trichotomy, quotient real equality, or ambient interval compactness.
