@@ -20,6 +20,8 @@ EXPECTED_METRICS = (
     "mechanism_evidence_ledger_debt",
     "mechanism_evidence_head_patch_status",
     "mechanism_evidence_head_patch_delta",
+    "e_hardgates_status",
+    "residualized_non_score_mechanism_claim_allowed",
 )
 EXPECTED_LEDGER_ROWS = (
     "source/source-coverage",
@@ -44,6 +46,8 @@ def fake_capsule():
         },
         "hardgates": {"failed_gate": "A1-HG3", "gates": {"A1-HG3": {"status": "fail"}}},
         "a4_hardgates": {"failed_gate": "A4-HG5", "gates": {"A4-HG5": {"status": "fail"}}},
+        "e_hardgates": {"status": "fail", "failed_gate": "E-HG4_non_score_mechanism_claim_fail_closed"},
+        "residualized_attribution_claim": {"non_score_mechanism_claim_allowed": False},
         "claim_capsule_hardgates": {
             "CC-HG1": {"name": "CC-HG1", "status": "pass"},
             "CC-HG2": {"name": "CC-HG2", "status": "pass"},
@@ -217,6 +221,8 @@ def test_compute_metrics_delegates_to_capsule_builder(monkeypatch, tmp_path):
     assert payload["metrics"]["mechanism_evidence_ledger_debt"] == "open"
     assert payload["metrics"]["mechanism_evidence_head_patch_status"] == "pass"
     assert payload["metrics"]["mechanism_evidence_head_patch_delta"] == -0.08
+    assert payload["metrics"]["e_hardgates_status"] == "fail"
+    assert payload["metrics"]["residualized_non_score_mechanism_claim_allowed"] is False
     assert set(payload["metric_pointers"]) == set(GapHeadAttributionBackendEvidenceAdapter.backend.metrics)
     assert "terminal_verdict" not in payload
 
@@ -240,6 +246,7 @@ def test_backend_pointer_surfaces_resolve_in_adapter_projection(monkeypatch, tmp
         "theorem_rows.closure/mechanism-closure-debt.evidence_pointer",
         "hardgates.A1.pointer",
         "hardgates.A4.pointer",
+        "hardgates.E.pointer",
         "hardgates.claim-capsule.pointer",
         "metric_pointers.full_unlogged_error_rate_mean",
         "metric_pointers.hardgates_failed_gate",
@@ -253,6 +260,8 @@ def test_backend_pointer_surfaces_resolve_in_adapter_projection(monkeypatch, tmp
         "metric_pointers.mechanism_evidence_ledger_debt",
         "metric_pointers.mechanism_evidence_head_patch_status",
         "metric_pointers.mechanism_evidence_head_patch_delta",
+        "metric_pointers.e_hardgates_status",
+        "metric_pointers.residualized_non_score_mechanism_claim_allowed",
         "control_pointer.matched_random",
         "control_pointer.h_random_rotation",
         "control_pointer.h_random_projection_lowdim",

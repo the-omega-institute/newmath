@@ -360,6 +360,98 @@
     "source_pointer": "reports/canonical/gap-head-on-h.json",
     "status": "ready"
   },
+  "e_hardgates": {
+    "failed_gate": "E-HG4_non_score_mechanism_claim_fail_closed",
+    "gates": {
+      "E-HG1_slot_set": {
+        "criterion": "residualized attribution claim exposes exactly the eight predeclared slots",
+        "evidence": {
+          "expected_slots": [
+            "full",
+            "score_plus_margin",
+            "full_residualized",
+            "h_only",
+            "h_normalized",
+            "h_norm_only",
+            "full_without_score",
+            "margin"
+          ],
+          "observed_slots": [
+            "full",
+            "score_plus_margin",
+            "full_residualized",
+            "h_only",
+            "h_normalized",
+            "h_norm_only",
+            "full_without_score",
+            "margin"
+          ]
+        },
+        "name": "E-HG1_slot_set",
+        "status": "pass"
+      },
+      "E-HG2_pointer_resolution": {
+        "criterion": "all residualized attribution claim artifact-qualified pointers resolve inside the attribution capsule",
+        "evidence": {
+          "deferred_until": "committed_round_trip",
+          "pointer_count": 19,
+          "unresolved_pointers": []
+        },
+        "name": "E-HG2_pointer_resolution",
+        "status": "pass"
+      },
+      "E-HG3_residualized_full_vs_matched_random": {
+        "criterion": "full_residualized AUROC CI-low beats matched_random AUROC CI-high and has positive UER-reduction CI",
+        "evidence": {
+          "full_residualized_auroc_ci_low": 0.7825098734195695,
+          "full_residualized_uer_reduction_ci_low": 0.33543097724911836,
+          "matched_random_auroc_ci_high": 0.5278142856600613
+        },
+        "name": "E-HG3_residualized_full_vs_matched_random",
+        "status": "pass"
+      },
+      "E-HG4_non_score_mechanism_claim_fail_closed": {
+        "criterion": "non-score mechanism claim is allowed only when residualized_full beats matched_random and all upstream mechanism gates allow it",
+        "evidence": {
+          "claim_status": "fail",
+          "failure_reason": "non-score-mechanism-claim-blocked",
+          "non_score_mechanism_claim_allowed": false
+        },
+        "name": "E-HG4_non_score_mechanism_claim_fail_closed",
+        "status": "fail"
+      },
+      "E-HG5_forbidden_key_audit": {
+        "criterion": "residualized attribution claim contains no terminal verdict, host env, raw candidate body, records, or raw payload keys",
+        "evidence": {
+          "forbidden_keys": [
+            "terminal_verdict",
+            "claim_verdict",
+            "candidate_body",
+            "records",
+            "raw_payload"
+          ],
+          "forbidden_paths": [],
+          "forbidden_text": [
+            "host.env",
+            ".refactor-loop/host.env"
+          ]
+        },
+        "name": "E-HG5_forbidden_key_audit",
+        "status": "pass"
+      },
+      "E-HG6_committed_round_trip": {
+        "criterion": "committed JSON reload validates slot set, pointer resolution, and forbidden-key audit",
+        "evidence": {
+          "deferred_until": "committed_json_reload",
+          "validation_failures": []
+        },
+        "name": "E-HG6_committed_round_trip",
+        "status": "pass"
+      }
+    },
+    "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates",
+    "status": "fail"
+  },
   "failed_gate": "A1-HG3",
   "forbidden_column_audit": {
     "assertion_helper": "scripts/run_gap_ledger_head_on_h.py::_assert_inference_columns",
@@ -20808,6 +20900,115 @@
       }
     ],
     "status": "pass"
+  },
+  "residualized_attribution_claim": {
+    "failure_reason": "non-score-mechanism-claim-blocked",
+    "hardgate_source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates",
+    "metric_source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+    "non_score_mechanism_claim_allowed": false,
+    "pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim",
+    "slot_order": [
+      "full",
+      "score_plus_margin",
+      "full_residualized",
+      "h_only",
+      "h_normalized",
+      "h_norm_only",
+      "full_without_score",
+      "margin"
+    ],
+    "slots": [
+      {
+        "failure_reason": null,
+        "metric_pointers": {
+          "AUROC": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.full.AUROC.mean",
+          "UER_reduction": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.full.UER_reduction.mean"
+        },
+        "slot": "full",
+        "source_arm": "full",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status": "present"
+      },
+      {
+        "failure_reason": null,
+        "metric_pointers": {
+          "AUROC": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.score_plus_margin.AUROC.mean",
+          "UER_reduction": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.score_plus_margin.UER_reduction.mean"
+        },
+        "slot": "score_plus_margin",
+        "source_arm": "score_plus_margin",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status": "present"
+      },
+      {
+        "failure_reason": null,
+        "metric_pointers": {
+          "AUROC": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.full_residualized_against_score_margin.AUROC.mean",
+          "UER_reduction": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.full_residualized_against_score_margin.UER_reduction.mean"
+        },
+        "slot": "full_residualized",
+        "source_arm": "full_residualized_against_score_margin",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status": "present"
+      },
+      {
+        "failure_reason": null,
+        "metric_pointers": {
+          "AUROC": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.h_only.AUROC.mean",
+          "UER_reduction": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.h_only.UER_reduction.mean"
+        },
+        "slot": "h_only",
+        "source_arm": "h_only",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status": "present"
+      },
+      {
+        "failure_reason": null,
+        "metric_pointers": {
+          "AUROC": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.h_normalized_no_scale.AUROC.mean",
+          "UER_reduction": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.h_normalized_no_scale.UER_reduction.mean"
+        },
+        "slot": "h_normalized",
+        "source_arm": "h_normalized_no_scale",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status": "present"
+      },
+      {
+        "failure_reason": null,
+        "metric_pointers": {
+          "AUROC": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.h_norm_only.AUROC.mean",
+          "UER_reduction": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.h_norm_only.UER_reduction.mean"
+        },
+        "slot": "h_norm_only",
+        "source_arm": "h_norm_only",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status": "present"
+      },
+      {
+        "failure_reason": null,
+        "metric_pointers": {
+          "AUROC": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.full_without_score.AUROC.mean",
+          "UER_reduction": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.full_without_score.UER_reduction.mean"
+        },
+        "slot": "full_without_score",
+        "source_arm": "full_without_score",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status": "present"
+      },
+      {
+        "failure_reason": null,
+        "metric_pointers": {
+          "AUROC": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.margin_only.AUROC.mean",
+          "UER_reduction": "reports/canonical/gap_head_attribution_capsule.json:$.aggregate.by_arm.margin_only.UER_reduction.mean"
+        },
+        "slot": "margin",
+        "source_arm": "margin_only",
+        "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+        "status": "present"
+      }
+    ],
+    "source_artifact": "reports/canonical/gap_head_attribution_capsule.json",
+    "status": "fail"
   },
   "revocation_ledger": [
     {

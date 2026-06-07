@@ -59,6 +59,23 @@
 | `head_causal_patch` | `pass` |
 | `A4-HG5` | `fail` |
 
+## E Hardgates
+
+| gate | status |
+| --- | --- |
+| `E-HG1_slot_set` | `pass` |
+| `E-HG2_pointer_resolution` | `pass` |
+| `E-HG3_residualized_full_vs_matched_random` | `pass` |
+| `E-HG4_non_score_mechanism_claim_fail_closed` | `fail` |
+| `E-HG5_forbidden_key_audit` | `pass` |
+| `E-HG6_committed_round_trip` | `pass` |
+
+## Residualized Attribution Claim
+
+- Pointer: `reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim`
+- Non-score mechanism claim allowed: `False`
+- E hardgates: `reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates`
+
 ## Claim Capsule Hardgates
 
 | gate | status |

@@ -445,6 +445,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "ledger_debt",
             "hardgates",
             "residualized_attribution",
+            "residualized_attribution_claim",
+            "e_hardgates",
             "score_margin_causal_evidence",
             "a4_hardgates",
             "claim_capsule_hardgates",
@@ -3386,11 +3388,17 @@ def _gap_head_attribution_index_section() -> dict[str, Any]:
         "mechanism_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence",
         "mechanism_ledger_debt_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.ledger_debt.0.status",
         "residualized_attribution_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution",
+        "residualized_attribution_claim_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim",
+        "e_hardgates_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates",
+        "e_hardgates_status_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.e_hardgates.status",
+        "non_score_mechanism_claim_allowed_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim.non_score_mechanism_claim_allowed",
         "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
         "a4_hardgates_status_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.status",
         "a4_hg5_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
         "a4_hardgates_status": _pointer_value(payload, "$.a4_hardgates.status") or "missing",
         "a4_hg5_status": _pointer_value(payload, "$.a4_hardgates.gates.A4-HG5.status") or "missing",
+        "e_hardgates_status": _pointer_value(payload, "$.e_hardgates.status") or "missing",
+        "non_score_mechanism_claim_allowed": _pointer_value(payload, "$.residualized_attribution_claim.non_score_mechanism_claim_allowed"),
     }
 
 
