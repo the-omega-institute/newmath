@@ -100,6 +100,89 @@
     "positive_claim_pointer": "$.positive_claim",
     "source_pointer": "$.positive_claim"
   },
+  "component_ablation": {
+    "accepted_component_count": 2,
+    "accepted_component_ids": [
+      "ledger_head",
+      "gap_head"
+    ],
+    "by_component": {
+      "gap_head": {
+        "claim_eligible": true,
+        "component_id": "gap_head",
+        "full_arm_pointer": "$.aggregate_metrics.uer_learned",
+        "source_surface_pointers": [
+          "$.records.0.deltas.unlogged_error_rate",
+          "$.records.1.deltas.unlogged_error_rate",
+          "$.records.2.deltas.unlogged_error_rate"
+        ],
+        "status": "accepted",
+        "uer_delta": 0.070417
+      },
+      "ledger_head": {
+        "claim_eligible": true,
+        "component_id": "ledger_head",
+        "full_arm_pointer": "$.aggregate_metrics.uer_learned",
+        "source_surface_pointers": [
+          "$.records.0.deltas.unlogged_error_rate",
+          "$.records.1.deltas.unlogged_error_rate",
+          "$.records.2.deltas.unlogged_error_rate"
+        ],
+        "status": "accepted",
+        "uer_delta": 0.090278
+      },
+      "route_head": {
+        "claim_eligible": false,
+        "component_id": "route_head",
+        "full_arm_pointer": "$.aggregate_metrics.uer_learned",
+        "source_surface_pointers": [],
+        "status": "rejected",
+        "uer_delta": 0.0
+      }
+    },
+    "rejected_component_ids": [
+      "route_head"
+    ],
+    "required_accepted_component_count": 2,
+    "rows": [
+      {
+        "ablation_arm_pointer": "$.component_ablation.by_component.ledger_head",
+        "claim_eligible": true,
+        "component_id": "ledger_head",
+        "full_arm_pointer": "$.aggregate_metrics.uer_learned",
+        "source_surface_pointers": [
+          "$.records.0.deltas.unlogged_error_rate",
+          "$.records.1.deltas.unlogged_error_rate",
+          "$.records.2.deltas.unlogged_error_rate"
+        ],
+        "status": "accepted",
+        "uer_delta": 0.090278
+      },
+      {
+        "ablation_arm_pointer": "$.component_ablation.by_component.gap_head",
+        "claim_eligible": true,
+        "component_id": "gap_head",
+        "full_arm_pointer": "$.aggregate_metrics.uer_learned",
+        "source_surface_pointers": [
+          "$.records.0.deltas.unlogged_error_rate",
+          "$.records.1.deltas.unlogged_error_rate",
+          "$.records.2.deltas.unlogged_error_rate"
+        ],
+        "status": "accepted",
+        "uer_delta": 0.070417
+      },
+      {
+        "ablation_arm_pointer": "$.component_ablation.by_component.route_head",
+        "claim_eligible": false,
+        "component_id": "route_head",
+        "full_arm_pointer": "$.aggregate_metrics.uer_learned",
+        "source_surface_pointers": [],
+        "status": "rejected",
+        "uer_delta": 0.0
+      }
+    ],
+    "status": "pass"
+  },
   "compute_matched_baseline": {
     "baseline_arm": {
       "arm_id": "compute_matched_no_ledger_transformer",
@@ -150,6 +233,7 @@
     "failed_gate": null,
     "failed_gate_pointer": null,
     "level_candidate": "D5-O",
+    "mechanism_certificate_pointer": "$.mechanism_certificate",
     "net_positive_signal": true,
     "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
     "reason": "lat-hardgates-pass",
@@ -199,8 +283,8 @@
         "status": "pass"
       },
       "LAT-HG7": {
-        "pointer": "$.parameter_matched_baseline.comparison",
-        "reason": "parameter-matched baseline is cost-matched and channel-clean",
+        "pointer": "$.mechanism_certificate",
+        "reason": "accepted LAT components are certificate-backed and pointer-resolved",
         "status": "pass"
       },
       "LAT-HG8": {
@@ -277,6 +361,45 @@
     "status": "negative",
     "summary_pointer": "$.aggregate_metrics"
   },
+  "mechanism_certificate": {
+    "accepted_component_ids": [
+      "ledger_head",
+      "gap_head"
+    ],
+    "accepted_component_pointers": [
+      "$.component_ablation.by_component.ledger_head",
+      "$.component_ablation.by_component.gap_head"
+    ],
+    "certificate_scope": "component ablation certificate for bounded LAT toy residual mechanism",
+    "claim_component_ids": [
+      "ledger_head",
+      "gap_head"
+    ],
+    "claim_component_pointers": [
+      "$.component_ablation.by_component.ledger_head",
+      "$.component_ablation.by_component.gap_head"
+    ],
+    "component_ablation_pointer": "$.component_ablation",
+    "evidence_pointers": {
+      "aggregate_delta": "$.aggregate_metrics.uer_reduction",
+      "component_ablation_rows": "$.component_ablation.rows",
+      "compute_matched_baseline": "$.compute_matched_baseline",
+      "parameter_matched_baseline": "$.parameter_matched_baseline"
+    },
+    "not_claimed": [
+      "real-model causal intervention",
+      "full mechanism closure",
+      "terminal discovery verdict"
+    ],
+    "owner_pointer": "reports/canonical/ledger-aware-transformer.json:$.mechanism_certificate",
+    "rejected_component_ids": [
+      "route_head"
+    ],
+    "required_accepted_component_count": 2,
+    "schema_id": "bedc.model.ledger_aware_transformer.mechanism_certificate",
+    "source_surface_pointer": "$.robustness_signal.pass_surface_pointers",
+    "status": "pass"
+  },
   "not_claimed": [
     "real-model training",
     "general architecture superiority",
@@ -341,6 +464,7 @@
     "compute_matched_baseline_pointer": "$.compute_matched_baseline",
     "control_pointer": "$.control_protocol",
     "evidence_pointer": "$.aggregate_metrics.uer_reduction",
+    "mechanism_certificate_pointer": "$.mechanism_certificate",
     "net_positive_signal": true,
     "parameter_matched_baseline_pointer": "$.parameter_matched_baseline",
     "status": "evidence-recorded",

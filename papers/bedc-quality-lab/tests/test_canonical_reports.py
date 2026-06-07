@@ -1295,6 +1295,7 @@ def test_ledger_aware_transformer_required_surface_is_signal_owner():
         "discovery_map_signal",
         "matched_random_control",
         "parameter_matched_baseline",
+        "mechanism_certificate",
         "torch_training_evidence",
         "revocation_rows",
         "forbidden_claim_term_audit",
@@ -1318,6 +1319,24 @@ def test_lat_canonical_report_requires_parameter_matched_baseline():
         assert row["parameter_matched_baseline"]["arm"] == "parameter_matched_no_ledger_transformer"
         assert row["parameter_matched_baseline"]["uses_forbidden_columns"] is False
         assert pointer_value(payload, row["parameter_matched_baseline"]["cost_pointer"]) is not None
+
+
+def test_lat_canonical_report_embeds_mechanism_certificate_under_existing_owner():
+    spec = canonical._specs_by_name()["ledger-aware-transformer"]
+    payload = json.loads((canonical.ROOT / spec.json_artifact).read_text(encoding="utf-8"))
+
+    assert [item.name for item in canonical.CANONICAL_REPORTS].count("ledger-aware-transformer") == 1
+    assert "mechanism_certificate" in spec.required_json_keys
+    assert "component_ablation" in spec.required_json_keys
+    assert payload["artifact_id"] == "bedc-quality-lab:ledger-aware-transformer"
+    assert payload["mechanism_certificate"]["owner_pointer"] == (
+        "reports/canonical/ledger-aware-transformer.json:$.mechanism_certificate"
+    )
+    assert payload["discovery_map_signal"]["mechanism_certificate_pointer"] == "$.mechanism_certificate"
+    assert payload["positive_claim"]["mechanism_certificate_pointer"] == "$.mechanism_certificate"
+    assert pointer_value(payload, payload["discovery_map_signal"]["mechanism_certificate_pointer"]) == payload["mechanism_certificate"]
+    assert payload["mechanism_certificate"]["claim_component_ids"] == ["ledger_head", "gap_head"]
+    assert "route_head" not in payload["mechanism_certificate"]["claim_component_ids"]
 
 
 def test_committed_canonical_bundle_covers_every_registered_report():

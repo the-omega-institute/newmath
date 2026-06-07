@@ -9,6 +9,7 @@
 - Discovery signal: `D5-O`
 - Failed gate: `None`
 - Claim capsule pointer: `$.claim_capsule_ref.capsule`
+- Mechanism certificate pointer: `$.mechanism_certificate`
 
 ## Hardgates
 
@@ -20,7 +21,7 @@
 | `LAT-HG4` | `pass` | `$.matched_random_control.control_positive_discovery` |
 | `LAT-HG5` | `pass` | `$.forbidden_claim_term_audit.status` |
 | `LAT-HG6` | `pass` | `$.torch_training_evidence.protocol` |
-| `LAT-HG7` | `pass` | `$.parameter_matched_baseline.comparison` |
+| `LAT-HG7` | `pass` | `$.mechanism_certificate` |
 | `LAT-HG8` | `pass` | `$.compute_matched_baseline` |
 
 ## Records
@@ -34,6 +35,14 @@
 | `toy_planning` | 0.000000 | 0.000000 | 0.000000 | 0.312500 |
 | `compression_preservation` | 0.000000 | 0.000000 | 0.000000 | 0.041667 |
 
+## Component Ablation
+
+| component | status | UER delta | claim eligible |
+| --- | --- | ---: | --- |
+| `ledger_head` | `accepted` | 0.090278 | `True` |
+| `gap_head` | `accepted` | 0.070417 | `True` |
+| `route_head` | `rejected` | 0.000000 | `False` |
+
 ## Canonical Pointers
 
 - Scope pointer: `$.applicability_boundary`
@@ -42,5 +51,6 @@
 - Control pointer: `$.control_protocol`
 - Parameter-matched baseline pointer: `$.parameter_matched_baseline`
 - Compute-matched baseline pointer: `$.compute_matched_baseline`
+- Mechanism certificate pointer: `$.mechanism_certificate`
 - Discovery signal pointer: `$.discovery_map_signal`
 - Torch evidence pointer: `$.torch_training_evidence`
