@@ -1,0 +1,27 @@
+\begin{theorem}[Sum finite-data sibling dependency route]
+\label{thm:sum-finite-data-sibling-dependency-route}
+Every scoped finite-data consumer of $\SumUp$ first reads the visible branch
+tag through the $b0/b1$ branch-mark surface of
+\autoref{ch:concrete-instances-bool-namecert}, and only then reads the
+selected payload from the local $\SumUp$ branch ledger. Its payload packaging
+is compared with the paired-carrier route of
+\autoref{ch:concrete-instances-prod-namecert}: $\ProdUp$ keeps both
+coordinates simultaneously, while $\SumUp$ exposes exactly one branch after
+the Boolean tag has selected it.
+\end{theorem}
+\begin{proof}
+Project the accepted $\SumUp$ certificate. The carrier visible at
+\autoref{thm:concrete-sum-namecert} contains a tag row and one payload row, so
+the consumer cannot inspect a left or right payload before the tag has been
+read.
+
+The tag is the same finite branch surface used by $\BoolUp$. It contributes
+only the two visible marks $b0$ and $b1$; it does not add a host eliminator,
+ambient Boolean equality, or hidden branch coordinate.
+
+Compare this with $\ProdUp$. The product route keeps both payload coordinates
+under one paired carrier, while the sum route keeps one payload behind a
+visible tag. Thus the sibling dependency is finite and explicit: $\BoolUp$
+supplies the branch mark, $\ProdUp$ supplies the paired-carrier comparison,
+and $\SumUp$ retains its own tagged payload certificate.
+\end{proof}
