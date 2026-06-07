@@ -144,6 +144,7 @@ Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The $\
 \label{thm:intervaldomain-directed-refinement-obligation-scope}
 Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. For any two overlapping interval-domain cells, the directed refinement row must cite $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ as its complete finite scope before any $\RealUp$ consumer reads the seal row $E$. The obligation exports no quotient cuts, selected limits, host equality, trichotomy, or ambient completeness.
 \end{theorem}
+\leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainDirectedRefinementObligationScope}
 \begin{proof}
 Project $D=(L,R,N,W,Q,E,H,C,P,A)$. The carrier rows place located cells in $L$, rational refinement data in $R$, directed nesting in $N$, stream windows in $W$, regular rational readbacks in $Q$, the terminal seal in $E$, and the structural transport, replay, provenance, and naming rows in $H,C,P,A$.
 
@@ -152,6 +153,24 @@ Apply \autoref{thm:interval-domain-directed-refinement-covers}. For two overlapp
 Apply \autoref{thm:interval-domain-real-seal-nonescape}. Any consumer of $E$ still factors through the finite route and the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, so the refinement row is the complete obligation scope before the seal is read.
 
 Since neither the carrier nor the two cited theorems supplies quotient cuts, selected limits, host equality, trichotomy, or ambient completeness, those objects remain outside the directed-refinement obligation.
+\end{proof}
+
+\begin{theorem}[IntervalDomain directed completion scope]
+\label{thm:interval-domain-directed-completion-scope}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. Any directed-refinement read from $D$ that is consumed by $\RealUp$ or by a completion-facing chapter must pass through the complete finite route
+$$
+\LocatedIntervalUp,\RationalIntervalUp,\NestedIntervalUp,\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp,\RealUp,\BHist,\hsame,\Cont,\Pkg,\NameCert.
+$$
+The handoff is exactly a displayed interval-domain completion route over BEDC rows. It exports no quotient cuts, selected endpoints, trichotomy, host equality, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+First read the directed-refinement witness through \autoref{thm:interval-domain-directed-refinement-covers}. The common later cell is available only through the located interval, rational interval, nested interval, stream-window, regular-rational, and Real seal surfaces already carried by $D$.
+
+Next apply \autoref{thm:intervaldomain-directed-refinement-obligation-scope}. That theorem records the complete obligation scope of the same refinement row, adding the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any $\RealUp$ consumer can inspect the seal.
+
+Finally use \autoref{thm:interval-domain-real-seal-nonescape}. A completion-facing consumer of $E$ receives the directed route only after the displayed approximation and structural rows have been read. The dyadic tolerance support is the same endpoint-budget surface named by the rational-refinement route through \autoref{ch:concrete-instances-dyadicratcore-namecert}, so the handoff includes $\DyadicRatCoreUp$ without adding a new host principle.
+
+The excluded objects require coordinates absent from the carrier and from the three cited theorems. Thus quotient cuts, selected endpoints, trichotomy, host equality, and ambient $\RealUp$ completeness remain outside the completion-facing directed-refinement read.
 \end{proof}
 
 \begin{theorem}[IntervalDomain Real seal nonescape]

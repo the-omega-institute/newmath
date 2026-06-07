@@ -737,6 +737,16 @@ The non-escape, candidate-mediated handoff, and reduction determinacy theorems t
 \leanchecked{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealMetacicCriticalPathHandoff}
 \leanvariant{BEDC.Derived.NormalFormConsistencySealUp.NormalFormConsistencySealMetaCICCriticalPathHandoff}
 
+\begin{theorem}[Normal-form consistency seal obligation closure route]
+\label{thm:normal-form-consistency-seal-obligation-closure-route}
+The carrier admission of \autoref{def:normal-form-consistency-seal-carrier}, the NameCert obligations of \autoref{thm:normal-form-consistency-seal-obligations}, the candidate route of \autoref{thm:normal-form-consistency-seal-candidate-route}, the residual-context obligation of \autoref{thm:normal-form-consistency-seal-residual-context-obligation}, the joinability obligation of \autoref{thm:normal-form-consistency-seal-joinability-obligation}, finite-window determinacy of \autoref{thm:normal-form-consistency-seal-finite-window-determinacy}, residual schedule discharge of \autoref{thm:normal-form-consistency-seal-residual-schedule-discharge}, the candidate boundary of \autoref{thm:normal-form-consistency-seal-candidate-boundary}, and the MetaCIC critical-path handoff of \autoref{thm:normal-form-consistency-seal-metacic-critical-path-handoff} together form the $\obligationClosure$ route for the same $\NormalFormConsistencySealUp$ packet. The route records the displayed candidate, residual, joinability, determinacy, schedule, boundary, transport, replay, provenance, and local-name obligations, while closed consistency and hidden subject reduction remain outside the packet.
+\end{theorem}
+\begin{proof}
+Each cited theorem projects or replays the same accepted packet $S=(T,F,N,K,X,H,C,P,L)$. The carrier and NameCert obligations expose the finite rows, the candidate and residual theorems order the normal-endpoint reads, and the joinability and determinacy obligations keep those reads inside the same finite window.
+
+The residual schedule, candidate boundary, and MetaCIC handoff then repack the same rows for strong-normalization, confluence, and critical-path consumers. None of those steps adds a row for global closed consistency or hidden subject reduction, so the assembled route is exactly the stated $\obligationClosure$ surface.
+\end{proof}
+
 \closureat{NormalFormConsistencySealUp}{seedStr}
 
 \begin{closurestatus}{\NormalFormConsistencySealUp}
