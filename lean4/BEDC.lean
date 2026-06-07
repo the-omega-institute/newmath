@@ -3100,6 +3100,7 @@ import BEDC.Derived.CoveringdimensionUp.FiniteRefinementNameCert
 import BEDC.Derived.CoveringdimensionUp.LebesgueLedgerHandoff
 import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
+import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootObligationSurface
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
@@ -5977,6 +5978,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketInduction
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketLocality
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketTotality
 import BEDC.Derived.MetaCICCriticalPathUp.DischargeSocketTotalityRoute
+import BEDC.Derived.MetaCICCriticalPathUp.DownstreamConsumerReadiness
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamReadinessBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamUnblockCoverage
 import BEDC.Derived.MetaCICCriticalPathUp.DownstreamUnblockReadiness
@@ -6615,6 +6617,7 @@ import BEDC.Derived.NetConvergenceUp
 import BEDC.Derived.NetConvergenceUp.RealSealNonescape
 import BEDC.Derived.NetConvergenceUp.TasteGate
 import BEDC.Derived.NetworkFlowUp
+import BEDC.Derived.NeumannSeriesUp.TasteGate
 import BEDC.Derived.NewtonIterationUp
 import BEDC.Derived.NewtonKantorovichUp.TasteGate
 import BEDC.Derived.NoAbsoluteBridgeAuditUp.TasteGate
@@ -7027,6 +7030,7 @@ import BEDC.Derived.PolicyUp.TasteGate
 import BEDC.Derived.PolishspaceUp.CompleteMetricRootObligation
 import BEDC.Derived.PolishspaceUp.CompleteMetricSeparableSynthesis
 import BEDC.Derived.PolishspaceUp.CompleteMetricSourceLock
+import BEDC.Derived.PolishspaceUp.CompleteSeparableDenseWindowInduction
 import BEDC.Derived.PolishspaceUp.CompleteSeparableHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableMetricRow
 import BEDC.Derived.PolishspaceUp.CompleteSeparableNamecertObligations
