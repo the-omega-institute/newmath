@@ -28,6 +28,7 @@ ORGANISMS = [
     "homo_sapiens",
     "danio_rerio",
     "gallus_gallus",
+    "pseudomonas_aeruginosa_pao1",
 ]
 MIN_ORGANISMS = 2
 MIN_PROTEINS_PER_ORGANISM = 500
