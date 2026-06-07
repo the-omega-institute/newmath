@@ -10,6 +10,7 @@ from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
 )
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
+    certificate_guided_dn_preservation,
     default_drt_training_extension_spec,
     project_drt_training_extension,
     _training_mechanism_cert,
@@ -111,7 +112,7 @@ def _write_payload(root: Path, spec, payload):
             )
         )
         payload["training_mechanism_cert"] = _training_mechanism_cert(payload)
-        payload["hardgate"]["gates"]["DRT-HG8"]["status"] = payload["training_mechanism_cert"]["status"]
+        payload["hardgate"]["gates"]["DRT-HG9"]["status"] = payload["training_mechanism_cert"]["status"]
         payload["hardgate"]["status"] = (
             "pass"
             if all(row["status"] == "pass" for row in payload["hardgate"]["gates"].values())
@@ -224,6 +225,8 @@ def _minimal_payload(spec):
             "source_artifacts": {
                 "cost_protocol": "configs/default_cost_protocol.yaml",
                 "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+                "reports/canonical/certificate-guided-training.json": "present",
+                "reports/canonical/certificate-guided-discovery.json": "present",
             },
                 "discovery_map_signal": {
                     "control_pointer": "$.matched_random_control",
@@ -242,12 +245,14 @@ def _minimal_payload(spec):
                     f"DRT-HG{index}": {
                         "status": "pass",
                         "evidence_pointer": "$.training_mechanism_cert"
-                        if index == 8
+                        if index == 9
                         else "$.mechanism_ablation"
+                        if index == 8
+                        else "$.certificate_guided_dn_preservation"
                         if index == 7
                         else "$.quality_promotion_boundary",
                     }
-                    for index in range(1, 9)
+                    for index in range(1, 10)
                 },
                 "status": "pass",
             },
@@ -359,6 +364,7 @@ def _minimal_payload(spec):
             },
             "matched_random_control": {"control_positive_discovery": False},
         })
+        payload["certificate_guided_dn_preservation"] = certificate_guided_dn_preservation(payload["source_artifacts"])
         payload["mechanism_ablation"] = _drt_mechanism_ablation_fixture()
         return payload
     if spec.name == "mechanism-seeking-network":

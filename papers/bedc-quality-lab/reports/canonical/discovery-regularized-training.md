@@ -15,6 +15,7 @@
 - `DRT-HG6`: `pass`
 - `DRT-HG7`: `pass`
 - `DRT-HG8`: `pass`
+- `DRT-HG9`: `pass`
 
 ## Quality Promotion Boundary
 
@@ -51,7 +52,7 @@
 
 - status: `pass`
 - owner pointer: `reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert`
-- hardgate pointer: `reports/canonical/discovery-regularized-training.json:$.hardgate.gates.DRT-HG8`
+- hardgate pointer: `reports/canonical/discovery-regularized-training.json:$.hardgate.gates.DRT-HG9`
 - required pointers resolve: `True`
 
 ## DRT Extension Hardgates
