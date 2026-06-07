@@ -344,10 +344,28 @@ def test_write_outputs_keeps_canonical_pointer_and_run_capsule(tmp_path, monkeyp
     markdown = paths["report"].read_text(encoding="utf-8")
     assert written["artifact_id"] == atlas.ARTIFACT_ID
     assert capsule["schema_id"] == atlas.CLAIM_CAPSULE_SCHEMA_ID
-    assert [row["label"] for row in summary["boundary_ledger"]] == [
-        row["label"] for row in written["boundary_ledger"]
-    ]
-    assert summary["boundary_ledger"][0]["kind"] == written["boundary_ledger"][0]["kind"]
+    expected_boundary_ledger = atlas._externalize_local_pointers(written["boundary_ledger"])
+    assert summary["boundary_ledger"] == expected_boundary_ledger
+    optimizer_row = next(
+        row for row in summary["boundary_ledger"] if row["label"] == "optimizer_undertraining"
+    )
+    expected_optimizer_row = next(
+        row for row in expected_boundary_ledger if row["label"] == "optimizer_undertraining"
+    )
+    assert optimizer_row["kind"] == "boundary_only_surface"
+    assert optimizer_row["variation_axis"] == "optimizer_training_budget"
+    assert optimizer_row["evaluation_role"] == "boundary_only"
+    assert optimizer_row["runnable_status"] == "not_runnable"
+    assert optimizer_row["counting_reason"] == expected_optimizer_row["counting_reason"]
+    assert optimizer_row["current_a2_metrics"] == expected_optimizer_row["current_a2_metrics"]
+    assert optimizer_row["source_evidence"] == expected_optimizer_row["source_evidence"]
+    assert optimizer_row["evidence_pointer"] == expected_optimizer_row["evidence_pointer"]
+    assert optimizer_row["source_evidence"]["packet_pointer"] == (
+        f"{atlas.JSON_ARTIFACT}:$.prior_observation_packet"
+    )
+    assert optimizer_row["source_evidence"]["observation_pointer"] == (
+        f"{atlas.JSON_ARTIFACT}:$.prior_observation_packet.observations.optimizer_undertraining"
+    )
     assert "Hardgate evidence pointer" in markdown
     assert "learned AUROC CI-low" not in markdown
 
