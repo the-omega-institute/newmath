@@ -126,7 +126,7 @@ TRAINING_CHOICE_OBSERVABILITY_ARTIFACT = "runs/training_choice_observability.jso
 TRAINING_CHOICE_OBSERVABILITY_MARKDOWN_ARTIFACT = "runs/training_choice_observability.md"
 DISCOVERY_REGULARIZED_TRAINING_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 LEDGER_AWARE_TRANSFORMER_ARTIFACT = "reports/canonical/ledger-aware-transformer.json"
-DISCOVERY_GATED_TRANSFORMER_ARTIFACT = "reports/canonical/discovery_gated_transformer.json"
+DISCOVERY_GATED_TRANSFORMER_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
 DISCOVERY_GATED_NAS_ARTIFACT = "reports/canonical/discovery-gated-nas.json"
 CERTIFICATE_GATED_ATTENTION_ARTIFACT = "reports/canonical/certificate-gated-attention.json"
 MECHANISM_SEEKING_NETWORK_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
@@ -139,9 +139,9 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "component_id": "DGT",
         "canonical_owner_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$",
         "discovery_level_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.level_candidate",
-        "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.prototype_status",
-        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.hardgate_instances",
-        "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.revocation_rows",
+        "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.hardgate.status",
+        "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.mechanism_namecert_ref",
+        "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.evidence_envelope_ref",
         "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
@@ -1819,10 +1819,10 @@ def _source_audit_status(payload: Mapping[str, Any]) -> str | None:
 def _with_source_audit_status(overlay: dict[str, Any], payload: Mapping[str, Any]) -> dict[str, Any]:
     if overlay.get("positive_discovery") is not True:
         return overlay
+    result = dict(overlay)
     audit_status = _source_audit_status(payload)
     if audit_status is None:
-        return overlay
-    result = dict(overlay)
+        return result
     basis = result.get("evidence_basis")
     compact_basis = dict(basis) if isinstance(basis, Mapping) else {}
     compact_basis["audit_status"] = audit_status
@@ -1897,6 +1897,7 @@ def projection_payload(
     overlay, _evidence = _projection_overlay_and_evidence(spec, payload, context)
     if spec.name == "gap-head-attribution-capsule":
         return {
+            **dict(payload),
             "artifact_id": payload.get("artifact_id", spec.name),
             "json_artifact": payload.get("json_artifact", spec.json_artifact),
             **overlay,
@@ -2737,11 +2738,13 @@ def _manifest_audit(
         "reports/canonical/negative_witness_mutation_ledger.json",
         "reports/canonical/dgt_mutation_report.json",
         "reports/canonical/new_model_hardgates.json",
-        "reports/canonical/discovery_gated_transformer.json",
+        "reports/canonical/discovery-gated-transformer.json",
         MODEL_DESIGN_SUITE_ARTIFACT,
         "reports/canonical/discovery_negative_witness_summary.json",
         "reports/canonical/claim_capsule.json",
         "reports/canonical/claim_graph.json",
+        "reports/canonical/attention_route_derivative_report.json",
+        "reports/canonical/transformer_derivative_atlas.json",
         OBSERVED_DEBT_ARTIFACT,
         DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
         "reports/canonical/gap_head_transfer_atlas.json",

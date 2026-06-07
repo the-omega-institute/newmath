@@ -42,6 +42,22 @@ SMOKE_SEED_COUNT = 1
 JSON_ARTIFACT = "reports/canonical/observed-debt-sweep.json"
 REPORT_ARTIFACT = "reports/canonical/observed-debt-sweep.md"
 DIMENSION_ROW = "source/dimension-match"
+C4_CLAIM_BOUNDARY = {
+    "claim_surface": "observed-debt-availability-probe",
+    "evidence_pointer": "reports/gaussian_ou_dynamics_planning.json:$.applicability_boundary",
+    "not_claimed": [
+        "no full world model planning claim",
+        "no action-transition certificate",
+    ],
+}
+C4_ALLOWED_VERDICTS = frozenset({"observed-debt-pipeline-only", "observed-debt"})
+C4_FORBIDDEN_MARKDOWN_WORDING = (
+    "full planning closure",
+    "full-planning closure",
+    "planning closure",
+    "world model planning closure",
+    "closed planning theorem",
+)
 
 
 @dataclass(frozen=True)
@@ -97,11 +113,12 @@ class ObservedDebtCell:
     effect: ObservedDebtEffect
     verdict: ObservedDebtVerdict
     scope: str
+    claim_boundary: Mapping[str, Any] | None = None
     skipped: bool = False
     skip_reason: str | None = None
 
     def to_record(self) -> dict[str, Any]:
-        return {
+        record = {
             "axis": self.axis,
             "axis_label": self.axis_label,
             "axis_value": self.axis_value,
@@ -116,6 +133,9 @@ class ObservedDebtCell:
             "skipped": self.skipped,
             "skip_reason": self.skip_reason,
         }
+        if self.claim_boundary is not None:
+            record["claim_boundary"] = dict(self.claim_boundary)
+        return record
 
 
 def _child_seed(axis: str, seed_index: int) -> int:
@@ -366,7 +386,7 @@ def _action_transition_envelope(
     classifier_spec = {
         "name": "deterministic-transition-proxy",
         "output_dim": 2,
-        "training": "certified action transition" if action_transition_identified else "deterministic action replay",
+        "training": "action transition availability probe" if action_transition_identified else "deterministic action replay",
     }
     stability_spec = {
         "name": "observed-debt-action-transition",
@@ -507,6 +527,7 @@ def _cell(
     records: tuple[dict[str, Any], ...],
     baseline_stats: Mapping[str, float | int],
     scope: str,
+    claim_boundary: Mapping[str, Any] | None = None,
 ) -> ObservedDebtCell:
     effect = effect_from_baseline(metric, baseline_stats, _stats(records, metric))
     verdict = verdict_for_cell(row, effect, scope)
@@ -522,6 +543,7 @@ def _cell(
         effect=effect,
         verdict=verdict,
         scope=scope,
+        claim_boundary=claim_boundary,
     )
 
 
@@ -535,6 +557,7 @@ def _skipped_cell(
     metric: str,
     baseline_stats: Mapping[str, float | int],
     reason: str,
+    claim_boundary: Mapping[str, Any] | None = None,
 ) -> ObservedDebtCell:
     empty_stats = metric_stats([])
     effect = effect_from_baseline(metric, baseline_stats, empty_stats)
@@ -554,6 +577,7 @@ def _skipped_cell(
         effect=effect,
         verdict=verdict,
         scope="planning axis unavailable",
+        claim_boundary=claim_boundary,
         skipped=True,
         skip_reason=reason,
     )
@@ -688,6 +712,7 @@ def build_payload(*, smoke: bool = False, seed_count: int | None = None, generat
                     records=records,
                     baseline_stats=baseline_stats,
                     scope="action transition identification observed debt",
+                    claim_boundary=C4_CLAIM_BOUNDARY,
                 )
             )
         else:
@@ -701,11 +726,12 @@ def build_payload(*, smoke: bool = False, seed_count: int | None = None, generat
                     metric=BASELINE_METRIC,
                     baseline_stats=baseline_stats,
                     reason=c4_reason,
+                    claim_boundary=C4_CLAIM_BOUNDARY,
                 )
             )
 
     records = [cell.to_record() for cell in cells]
-    return {
+    payload = {
         "artifact_id": "bedc-quality-lab:observed-debt-sweep",
         "artifact": JSON_ARTIFACT,
         "report": REPORT_ARTIFACT,
@@ -757,12 +783,19 @@ def build_payload(*, smoke: bool = False, seed_count: int | None = None, generat
         "grid_summary": _grid_summary(records),
         "hardgate_evidence": _hardgate_evidence(records),
         "global_claim_flag": False,
+        "claim_boundary": {
+            "C4": C4_CLAIM_BOUNDARY,
+        },
         "not_claimed": [
             "no global quality conclusion",
             "no universal LeJEPA conclusion",
             "non-reference dimensions only generate dimension ledger rows",
+            "no full world model planning claim",
+            "no action-transition certificate",
         ],
     }
+    payload["hardgate_evidence"] = _hardgate_evidence(records, render_markdown(payload))
+    return payload
 
 
 def _grid_summary(cells: list[dict[str, Any]]) -> dict[str, Any]:
@@ -791,7 +824,28 @@ def _c1_dimension_boundary_violations(cells: list[dict[str, Any]]) -> list[str]:
     return violations
 
 
-def _hardgate_evidence(cells: list[dict[str, Any]]) -> dict[str, Any]:
+def _c4_boundary_violations(cells: list[dict[str, Any]], markdown_text: str = "") -> list[str]:
+    violations = []
+    for cell in cells:
+        if cell["axis"] != "C4":
+            continue
+        if cell["verdict"]["global_claim_flag"] is not False:
+            violations.append(f"C4:{cell['axis_value']}:global_claim_flag")
+        if cell["verdict"]["verdict"] not in C4_ALLOWED_VERDICTS:
+            violations.append(f"C4:{cell['axis_value']}:verdict")
+        boundary = cell.get("claim_boundary")
+        if boundary != C4_CLAIM_BOUNDARY:
+            violations.append(f"C4:{cell['axis_value']}:claim_boundary")
+    lowered = markdown_text.lower()
+    violations.extend(
+        f"markdown:{term}"
+        for term in C4_FORBIDDEN_MARKDOWN_WORDING
+        if term in lowered
+    )
+    return violations
+
+
+def _hardgate_evidence(cells: list[dict[str, Any]], markdown_text: str = "") -> dict[str, Any]:
     c_hg1_violations = [
         cell["axis"]
         for cell in cells
@@ -812,6 +866,7 @@ def _hardgate_evidence(cells: list[dict[str, Any]]) -> dict[str, Any]:
         for cell in cells
         if cell["verdict"]["global_claim_flag"] is not False
     ] + _c1_dimension_boundary_violations(cells)
+    c_hg5_violations = _c4_boundary_violations(cells, markdown_text)
     return {
         "C-HG1": {
             "status": "pass" if not c_hg1_violations else "fail",
@@ -832,6 +887,11 @@ def _hardgate_evidence(cells: list[dict[str, Any]]) -> dict[str, Any]:
             "status": "pass" if not c_hg4_violations else "fail",
             "evidence": "global_claim_flag remains false and non-reference C1 cells only expose dimension ledger gaps",
             "violations": c_hg4_violations,
+        },
+        "C-HG5": {
+            "status": "pass" if not c_hg5_violations else "fail",
+            "evidence": "C4 remains an observed-debt availability probe with no planning closure or action-transition certificate claim",
+            "violations": c_hg5_violations,
         },
     }
 
@@ -894,6 +954,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             "## Boundaries",
             "",
             f"- Global claim flag pointer: `$.global_claim_flag`",
+            f"- C4 claim boundary pointer: `$.claim_boundary.C4`",
             f"- Not claimed pointer: `$.not_claimed`",
             f"- Source artifacts pointer: `$.source_artifacts`",
             "",

@@ -8,6 +8,20 @@ from typing import Mapping, Sequence
 from .ledger import LedgerRowKey, ledger_complete
 
 
+CLAIM_SCOPE_SEAL_KEYS = frozenset(
+    {"toy", "bounded", "theorem", "real_training", "production_forbidden"}
+)
+CLAIM_SCOPE_POSITIVE_KEYS = frozenset({"toy", "bounded", "theorem", "real_training"})
+CLOSED_CLAIM_SCOPE_SEAL = {
+    "status": "closed",
+    "toy": True,
+    "bounded": True,
+    "theorem": False,
+    "real_training": False,
+    "production_forbidden": True,
+}
+
+
 @dataclass(frozen=True)
 class Scope:
     domain_ids: frozenset[str]
@@ -49,6 +63,19 @@ def scoped_resolved(cert: ScopedCertificate) -> bool:
         cert.certificate.get("cert_status") == "certified"
         and ledger_complete(cert.required_rows, cert.recorded_rows)
         and bool(cert.not_claimed_boundary)
+    )
+
+
+def closed_claim_scope_seal(value: object) -> bool:
+    if not isinstance(value, Mapping):
+        return False
+    if value.get("status") != "closed":
+        return False
+    for key in CLAIM_SCOPE_SEAL_KEYS:
+        if not isinstance(value.get(key), bool):
+            return False
+    return value["production_forbidden"] is True and any(
+        value[key] is True for key in CLAIM_SCOPE_POSITIVE_KEYS
     )
 
 

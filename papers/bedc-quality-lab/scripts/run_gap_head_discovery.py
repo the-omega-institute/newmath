@@ -22,16 +22,29 @@ from bedc_quality_lab.classifier_shift import (
 )
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey, ledger_complete
-from bedc_quality_lab.scope import Scope, ScopedCertificate, scope_rows
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL, Scope, ScopedCertificate, closed_claim_scope_seal, scope_rows
 
 
 SOURCE_JSON_ARTIFACT = "reports/gap_ledger_head_on_h.json"
 JSON_ARTIFACT = "reports/gap_head_discovery.json"
 REPORT_ARTIFACT = "reports/gap_head_discovery.md"
+SCOPE_SEAL = CLOSED_CLAIM_SCOPE_SEAL
 BEFORE_ARM = "vanilla"
 AFTER_ARM = "learned_gap_head_on_h"
 CONTROL_ARM = "matched_random_gap_head"
 BOUNDARY = "learned_h"
+MATCHED_RANDOM_AUDIT_MATCH_KEYS = (
+    "parameter_match",
+    "compute_match",
+    "threshold_match",
+    "surface_distribution_match",
+    "metric_helper_match",
+)
+MATCHED_RANDOM_AUDIT_REQUIRED_KEYS = MATCHED_RANDOM_AUDIT_MATCH_KEYS + (
+    "audit_status",
+    "failure_reasons",
+    "evidence_pointers",
+)
 
 
 @dataclass
@@ -98,6 +111,65 @@ def _assert_no_forbidden_features(feature_columns: list[str], forbidden_columns:
         prefix = name.split(":", 1)[0]
         if name in forbidden or prefix in forbidden_prefixes:
             raise ValueError(f"forbidden inference column entered feature columns: {name}")
+
+
+def _audit_entry_status(entry: Any) -> tuple[bool, list[str]]:
+    if not isinstance(entry, dict):
+        return False, ["matched_random_control_audit_malformed"]
+    missing = [key for key in MATCHED_RANDOM_AUDIT_REQUIRED_KEYS if key not in entry]
+    failures = [f"missing:{key}" for key in missing]
+    if entry.get("audit_status") != "pass":
+        failures.append("audit_status_not_pass")
+    for key in MATCHED_RANDOM_AUDIT_MATCH_KEYS:
+        if entry.get(key) is not True:
+            failures.append(f"{key}_not_true")
+    failure_reasons = entry.get("failure_reasons")
+    if not isinstance(failure_reasons, list):
+        failures.append("failure_reasons_malformed")
+    elif failure_reasons:
+        failures.extend(str(reason) for reason in failure_reasons)
+    evidence_pointers = entry.get("evidence_pointers")
+    if not isinstance(evidence_pointers, dict):
+        failures.append("evidence_pointers_malformed")
+    else:
+        for key in MATCHED_RANDOM_AUDIT_MATCH_KEYS:
+            pointer_set = evidence_pointers.get(key)
+            if not isinstance(pointer_set, list) or not pointer_set:
+                failures.append(f"evidence_pointers.{key}_missing")
+    return not failures, failures
+
+
+def _source_matched_random_control_audit(payload: dict[str, Any]) -> dict[str, Any]:
+    entries: list[tuple[str, Any]] = [("$.control_protocol", payload.get("control_protocol"))]
+    entries.extend(
+        (
+            f"$.records[{index}].matched_random_control",
+            record.get("matched_random_control") if isinstance(record, dict) else None,
+        )
+        for index, record in enumerate(payload.get("records", []))
+    )
+    failures: list[str] = []
+    for pointer, entry in entries:
+        verified, entry_failures = _audit_entry_status(entry)
+        if not verified:
+            failures.extend(f"{pointer}:{reason}" for reason in entry_failures)
+    audit_status = "pass" if not failures else "fail"
+    return {
+        **{
+            key: all(isinstance(entry, dict) and entry.get(key) is True for _, entry in entries)
+            for key in MATCHED_RANDOM_AUDIT_MATCH_KEYS
+        },
+        "audit_status": audit_status,
+        "failure_reasons": failures,
+        "evidence_pointers": {
+            key: [
+                f"source-json $.control_protocol.{key}",
+                f"source-json $.records[*].matched_random_control.{key}",
+            ]
+            for key in MATCHED_RANDOM_AUDIT_MATCH_KEYS
+        },
+        "verified": audit_status == "pass",
+    }
 
 
 def _row_for_source(source_id: str) -> LedgerRowKey:
@@ -243,7 +315,7 @@ def _build_gap_head_projection(
         ledger_required_rows=ledger_rows,
         ledger_recorded_rows=rows_recorded,
         public_cost_protocol=True,
-        scope_sealed=True,
+        scope_sealed=closed_claim_scope_seal(SCOPE_SEAL),
         not_claimed_boundary=frozenset({"formal-bedc-closure", "human-math-baseline"}),
         benefit_modes=frozenset(benefit),
         omitted_debt_terms={} if omitted_debt_terms is None else omitted_debt_terms,
@@ -304,6 +376,7 @@ def _projection_verdict(projection: GapHeadProjection) -> dict[str, Any]:
         "report": REPORT_ARTIFACT,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "source_artifacts": projection.source_artifacts,
+        "scope_seal": SCOPE_SEAL,
         "common_source_record_count": len(passage.source.source_ids & passage.target.source_ids),
         "surface_delta_count": len(delta),
         "shift_information": shift_information(passage),
@@ -340,7 +413,14 @@ def _control_summary(control: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _main_claim_status(treatment: dict[str, Any], *, control_positive: bool) -> str:
+def _main_claim_status(
+    treatment: dict[str, Any],
+    *,
+    control_positive: bool,
+    control_audit_verified: bool,
+) -> str:
+    if not control_audit_verified:
+        return "unresolved"
     if control_positive:
         return "unresolved"
     if treatment["positive_discovery"]:
@@ -348,12 +428,39 @@ def _main_claim_status(treatment: dict[str, Any], *, control_positive: bool) -> 
     return "not_promoted"
 
 
-def _source_control_verdict(payload: dict[str, Any], control: dict[str, Any]) -> dict[str, Any]:
+def _main_claim_reason(
+    treatment: dict[str, Any],
+    *,
+    control_positive: bool,
+    control_audit_verified: bool,
+) -> str | None:
+    if not control_audit_verified:
+        return "matched_random_control_unverified"
+    if control_positive:
+        return "control_positive"
+    if treatment["positive_discovery"]:
+        return None
+    return treatment.get("non_discovery_reason")
+
+
+def _source_control_verdict(
+    payload: dict[str, Any],
+    control: dict[str, Any],
+    *,
+    control_audit: dict[str, Any],
+) -> dict[str, Any]:
     source_verdict = payload.get("control_verdict", {})
-    positive = bool(source_verdict.get("positive", control["positive_discovery"]))
+    verified = bool(control_audit.get("verified"))
+    positive = bool(source_verdict.get("positive", control["positive_discovery"])) if verified else False
     return {
         "positive": positive,
-        "reason": "control_positive" if positive else "control_non_positive",
+        "reason": (
+            "matched_random_control_unverified"
+            if not verified
+            else "control_positive"
+            if positive
+            else "control_non_positive"
+        ),
         "source_positive": source_verdict.get("positive"),
         "projection_positive_discovery": control["positive_discovery"],
         "source_metrics": source_verdict.get("metrics", {}),
@@ -364,8 +471,14 @@ def _verdict_payload(projection: GapHeadProjection) -> dict[str, Any]:
     treatment = _projection_verdict(projection)
     control_projection = _build_gap_head_projection(projection.source_payload, after_arm=CONTROL_ARM)
     control = _projection_verdict(control_projection)
-    control_verdict = _source_control_verdict(projection.source_payload, control)
+    control_audit = _source_matched_random_control_audit(projection.source_payload)
+    control_verdict = _source_control_verdict(
+        projection.source_payload,
+        control,
+        control_audit=control_audit,
+    )
     treatment["matched_random_control"] = {
+        **control_audit,
         "source_protocol": "source-json matched_random_control per record",
         "control_projection": _control_summary(control),
         "control_verdict": control_verdict,
@@ -373,9 +486,15 @@ def _verdict_payload(projection: GapHeadProjection) -> dict[str, Any]:
     treatment["main_claim_status"] = _main_claim_status(
         treatment,
         control_positive=control_verdict["positive"],
+        control_audit_verified=bool(control_audit["verified"]),
     )
     treatment["final_main_claim_status"] = treatment["main_claim_status"]
-    treatment["audit_decision"] = {"audit_status": "pass"}
+    treatment["main_claim_reason"] = _main_claim_reason(
+        treatment,
+        control_positive=control_verdict["positive"],
+        control_audit_verified=bool(control_audit["verified"]),
+    )
+    treatment["audit_decision"] = {"audit_status": "pass" if control_audit["verified"] else "fail"}
     return treatment
 
 

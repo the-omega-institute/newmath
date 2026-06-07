@@ -16,6 +16,7 @@ from bedc_quality_lab.classifier_shift import (
 )
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
 from bedc_quality_lab.ledger import LedgerRowKey
+from bedc_quality_lab.scope import closed_claim_scope_seal
 
 
 SOURCE_JSON_ARTIFACT = "reports/certificate_guided_training.json"
@@ -292,6 +293,7 @@ def _project_pair(payload: Mapping[str, Any], before_role: str, after_role: str)
         "quality_benefit_loss": max(0.0, -float(deltas["benefit_delta"])),
         "quality_debt_increase": max(0.0, float(deltas["debt_delta"])),
     }
+    scope_sealed = closed_claim_scope_seal(payload.get("scope_seal"))
     claim = DiscoveryClaim(
         passage=passage,
         benefit_terms=benefit,
@@ -300,12 +302,12 @@ def _project_pair(payload: Mapping[str, Any], before_role: str, after_role: str)
         ledger_required_rows=ledger_rows,
         ledger_recorded_rows=ledger_rows,
         public_cost_protocol=True,
-        scope_sealed=True,
+        scope_sealed=scope_sealed,
         not_claimed_boundary=frozenset({"formal-bedc-closure", "global-optimizer-claim"}),
         benefit_modes=frozenset(benefit),
         reproducible_evidence=True,
     )
-    return {"before": before, "after": after, "passage": passage, "claim": claim, "deltas": deltas}
+    return {"before": before, "after": after, "passage": passage, "claim": claim, "deltas": deltas, "scope_sealed": scope_sealed}
 
 
 def _verdict_row(payload: Mapping[str, Any], before_role: str, after_role: str) -> dict[str, Any]:
@@ -316,6 +318,18 @@ def _verdict_row(payload: Mapping[str, Any], before_role: str, after_role: str) 
     structural = structural_discovery(passage)
     positive = positive_discovery(claim)
     net = net_information(claim)
+    pre_scope_positive = (
+        structural
+        and bool(delta)
+        and net > 0.0
+        and claim.public_cost_protocol
+        and bool(claim.benefit_terms)
+        and bool(claim.score_terms)
+        and bool(claim.debt_terms)
+        and bool(claim.not_claimed_boundary)
+        and not claim.omitted_debt_terms
+        and not claim.laundering_modes
+    )
     verdict = "positive" if positive else "negative" if structural and delta and net <= 0.0 else "compression"
     return {
         "before_role": before_role,
@@ -328,6 +342,7 @@ def _verdict_row(payload: Mapping[str, Any], before_role: str, after_role: str) 
         "structural_discovery": structural,
         "net_information": net,
         "positive_discovery": positive,
+        "pre_scope_positive_discovery": pre_scope_positive,
         "verdict": verdict,
         "deltas": projection["deltas"],
         "benefit_terms": dict(claim.benefit_terms),
@@ -336,7 +351,7 @@ def _verdict_row(payload: Mapping[str, Any], before_role: str, after_role: str) 
     }
 
 
-def _gate_blockers(main: Mapping[str, Any], training_gate: Mapping[str, Any]) -> list[str]:
+def _gate_blockers(main: Mapping[str, Any], training_gate: Mapping[str, Any], *, scope_sealed: bool) -> list[str]:
     blockers = []
     if not main["surface_delta_count"]:
         blockers.append("empty-classifier-surface-delta")
@@ -346,6 +361,8 @@ def _gate_blockers(main: Mapping[str, Any], training_gate: Mapping[str, Any]) ->
         blockers.append("net-information-nonpositive")
     if training_gate.get("positive_quality_improvement") is not True:
         blockers.append("training-positive-quality-gate-false")
+    if scope_sealed is False:
+        blockers.append("scope-seal-false")
     return blockers
 
 
@@ -378,6 +395,7 @@ def project_certificate_guided_claim(payload: Mapping[str, Any]) -> ClaimProject
     main = _verdict_row(payload, main_before, main_after)
     baseline = _verdict_row(payload, control_before, control_after)
     training_gate = payload["claim_gate"]
+    scope_sealed = closed_claim_scope_seal(payload.get("scope_seal"))
     main_claim_status = _main_claim_status(main, training_gate)
     claim_gate = {
         "training_positive_quality_improvement": bool(training_gate.get("positive_quality_improvement")),
@@ -385,7 +403,7 @@ def project_certificate_guided_claim(payload: Mapping[str, Any]) -> ClaimProject
         "training_paired_ci_status": training_gate.get("paired_ci_status"),
         "training_audit_improvement_tradeoff": bool(training_gate.get("audit_improvement_tradeoff")),
         "positive_discovery_four_gate": main_claim_status == "positive",
-        "blockers": _gate_blockers(main, training_gate),
+        "blockers": _gate_blockers(main, training_gate, scope_sealed=scope_sealed),
     }
     return ClaimProjection(
         main_claim_status=main_claim_status,

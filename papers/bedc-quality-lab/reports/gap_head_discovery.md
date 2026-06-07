@@ -7,15 +7,17 @@
 - Shift information: `30`
 - Structural discovery: `true`
 - Positive discovery: `true`
+- Main claim status: `promoted`
 - Non-discovery reason: `none`
+- Matched-random control positive: `false`
 
 ## Information
 
-- Benefit: `0.917681`
+- Benefit: `0.886087`
 - Score: `0.190000`
 - Debt: `0.350000`
 - Omitted debt: `0.000000`
-- Net: `0.377681`
+- Net: `0.346087`
 
 ## Boundary
 
@@ -23,13 +25,13 @@
 - Inference no ground-truth z: `true`
 - Before arm: `vanilla`
 - After arm: `learned_gap_head_on_h`
-- Forbidden inference columns: `z, z_pair, gap_label, prediction_error, eval_gap_labels`
+- Forbidden inference columns: `label, z, z_pair, gap_label, gap_labels, prediction_error, eval_label, eval_labels, eval_gap_label, eval_gap_labels, config_metadata`
 
 ## Cost Protocol
 
 - Benefit terms:
-  - `unlogged_error_reduction`: `0.400870`
-  - `critical_unlogged_error_reduction`: `0.516812`
+  - `unlogged_error_reduction`: `0.380870`
+  - `critical_unlogged_error_reduction`: `0.505217`
 - Score terms:
   - `h_only_feature_surface`: `0.150000`
   - `gap_channel_heads`: `0.040000`

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Iterable, Mapping
+from typing import TYPE_CHECKING, Any, Iterable, Mapping, Union
 
 if TYPE_CHECKING:
     from .debt import DebtAssessment
@@ -31,7 +31,7 @@ class LedgerGap:
     status: str
 
 
-LedgerRowLike = LedgerEntry | LedgerRowKey
+LedgerRowLike = Union[LedgerEntry, LedgerRowKey]
 
 
 def _row_key(row: LedgerRowLike) -> LedgerRowKey:

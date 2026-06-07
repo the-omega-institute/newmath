@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-07T19:12:48.271826+00:00`
-- Rows: `23`
+- Generated at: `2026-06-07T21:49:00.096406+00:00`
+- Rows: `27`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -23,8 +23,12 @@
 | `discovery-regularized-training` | `D5-M` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `discovery-gated-nas` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
+| `discovery-gated-transformer` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
+| `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
+| `model-comparison` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `causal-patch-suite` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
 | `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
 | `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
@@ -56,7 +60,7 @@
 | --- | --- | --- | --- |
 | `positive` | `CGA` | `reports/canonical/certificate-gated-attention.json:$` | `pass` |
 | `positive` | `DG-NAS` | `reports/canonical/discovery-gated-nas.json:$` | `pass` |
-| `positive` | `DGT` | `reports/canonical/discovery_gated_transformer.json:$` | `pass` |
+| `positive` | `DGT` | `reports/canonical/discovery-gated-transformer.json:$` | `pass` |
 | `positive` | `DRT` | `reports/canonical/discovery-regularized-training.json:$` | `pass` |
 | `positive` | `LAT` | `reports/canonical/ledger-aware-transformer.json:$` | `pass` |
 | `negative` | `LeJEPA-mini-grid-DN` | `reports/runs/lejepa-mini-grid/claim_capsule.json:$` | `pass` |

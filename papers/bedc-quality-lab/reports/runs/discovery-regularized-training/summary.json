@@ -16,6 +16,45 @@
     }
   },
   "artifact_id": "bedc-quality-lab:discovery-regularized-training",
+  "certificate_guided_dn_preservation": {
+    "boundary_verdict": "preserve-sibling-dn-evidence",
+    "comparison_permission": "DRT may compare while preserving certificate-guided DN evidence as sibling artifacts.",
+    "discovery_map_refs": [
+      {
+        "expected_discovery_level": "DN",
+        "pointer": "reports/canonical/discovery_map.json:$.rows[?report=certificate-guided-training].discovery_level",
+        "status": "expected"
+      },
+      {
+        "expected_discovery_level": "DN",
+        "pointer": "reports/canonical/discovery_map.json:$.rows[?report=certificate-guided-discovery].discovery_level",
+        "status": "expected"
+      }
+    ],
+    "forbidden_actions": [
+      "cover",
+      "replace",
+      "delete"
+    ],
+    "not_claimed": "Certificate-guided artifacts remain independent sibling evidence.",
+    "required_refs": [
+      {
+        "artifact": "reports/canonical/certificate-guided-training.json",
+        "artifact_status": "present",
+        "expected_discovery_level": "DN",
+        "role": "sibling-dn-evidence"
+      },
+      {
+        "artifact": "reports/canonical/certificate-guided-discovery.json",
+        "artifact_status": "present",
+        "expected_discovery_level": "DN",
+        "role": "sibling-dn-evidence"
+      }
+    ],
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:certificate-guided-dn-preservation",
+    "status": "pass",
+    "terminal_status_isolated": true
+  },
   "claim_capsule_ref": "reports/runs/discovery-regularized-training/claim_capsule.json",
   "claim_capsule_status": "d5-m-candidate",
   "component_ablation": {
@@ -306,6 +345,14 @@
         "status": "pass"
       },
       "DRT-HG7": {
+        "evidence": "DRT may compare against certificate-guided baselines only while preserving their sibling DN evidence and isolating terminal verdict semantics.",
+        "expected_dn_status": true,
+        "forbidden_actions_absent": true,
+        "required_refs_present": true,
+        "status": "pass",
+        "terminal_status_isolated": true
+      },
+      "DRT-HG8": {
         "comparison_pointers_resolve": true,
         "evidence": "The deterministic mechanism ablation must preserve all six owner-local arms, resolved comparison pointers, full DRT separation, a positive full mechanism signal, and no net-positive ablation parity.",
         "full_beats_all_ablations": true,
@@ -314,7 +361,7 @@
         "required_arms_present": true,
         "status": "pass"
       },
-      "DRT-HG8": {
+      "DRT-HG9": {
         "all_required_pointers_resolve": true,
         "evidence": "D5-M promotion requires the DRT-local training mechanism certificate to pass with all owner-local pointers resolved.",
         "status": "pass"
@@ -632,6 +679,14 @@
   "positive_claim": {
     "level_candidate": "D5-M",
     "scope": "canonical deterministic anchor with bounded optional PyTorch evidence",
+    "scope_seal": {
+      "bounded": true,
+      "production_forbidden": true,
+      "real_training": false,
+      "status": "closed",
+      "theorem": false,
+      "toy": true
+    },
     "text": "Discovery-regularized training records a bounded lab-local positive signal under deterministic replay and matched-random controls."
   },
   "producer": "scripts/run_discovery_regularized_training.py",
@@ -784,6 +839,14 @@
   },
   "run_id": "discovery-regularized-training",
   "schema_id": "bedc-quality-lab:discovery-regularized-training",
+  "scope_seal": {
+    "bounded": true,
+    "production_forbidden": true,
+    "real_training": false,
+    "status": "closed",
+    "theorem": false,
+    "toy": true
+  },
   "source_artifacts": {
     "claim_capsule": "reports/runs/discovery-regularized-training/claim_capsule.json",
     "cost_protocol": "configs/default_cost_protocol.yaml",
@@ -791,7 +854,9 @@
       "bedc_quality_lab/discovery_regularized_training.py",
       "scripts/run_discovery_regularized_training.py"
     ],
-    "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"
+    "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+    "reports/canonical/certificate-guided-discovery.json": "present",
+    "reports/canonical/certificate-guided-training.json": "present"
   },
   "surface_registry": {
     "classifier_shift": {

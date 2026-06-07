@@ -2,7 +2,7 @@
 
 - JSON artifact: `reports/canonical/observed-debt-sweep.json`
 - Report artifact: `reports/canonical/observed-debt-sweep.md`
-- Generated at: `2026-06-03T05:15:57.416493+00:00`
+- Generated at: `2026-06-07T21:50:13.758759+00:00`
 - Mode: `full`
 - Envelope schema pointer: `$.schema_id`
 - Actual seed count pointer: `$.config.actual_seed_count_by_axis`
@@ -44,5 +44,6 @@
 ## Boundaries
 
 - Global claim flag pointer: `$.global_claim_flag`
+- C4 claim boundary pointer: `$.claim_boundary.C4`
 - Not claimed pointer: `$.not_claimed`
 - Source artifacts pointer: `$.source_artifacts`

@@ -6,7 +6,7 @@ import json
 from typing import Any
 
 
-DGT_CANONICAL_ARTIFACT = "reports/canonical/discovery_gated_transformer.json"
+DGT_CANONICAL_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
 NEW_MODEL_HARDGATES_ARTIFACT = "reports/canonical/new_model_hardgates.json"
 
 FORBIDDEN_COPIED_FIELDS = {
@@ -25,16 +25,20 @@ def discovery_gated_transformer_refs() -> dict[str, Any]:
     return {
         "model_id_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.model_id",
         "owner_pointer": f"{DGT_CANONICAL_ARTIFACT}:$",
-        "hardgate_contract_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.hardgate_contract_ref",
+        "hardgate_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.hardgate",
         "new_model_hardgates_pointer": f"{NEW_MODEL_HARDGATES_ARTIFACT}:$.gates",
-        "hardgate_instances_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.hardgate_instances",
-        "prototype_status_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.prototype_status",
+        "component_refs_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.component_refs",
+        "hardgate_status_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.hardgate.status",
         "discovery_map_signal_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.discovery_map_signal",
         "claim_capsule_ref_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.claim_capsule_ref",
+        "evidence_envelope_ref_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.evidence_envelope_ref",
+        "mechanism_namecert_ref_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.mechanism_namecert_ref",
+        "jet_certificate_ref_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.jet_certificate_ref",
         "not_claimed_pointer": f"{DGT_CANONICAL_ARTIFACT}:$.not_claimed",
-        "run_summary_pointer": "reports/runs/discovery_gated_transformer/summary.json:$",
-        "claim_capsule_pointer": "reports/runs/discovery_gated_transformer/claim_capsule.json:$",
-        "raw_metrics_pointer": "reports/runs/discovery_gated_transformer/raw_metrics.jsonl:$.lines",
+        "claim_capsule_pointer": "reports/runs/discovery-gated-transformer/claim_capsule.json:$",
+        "evidence_envelope_pointer": "reports/runs/discovery-gated-transformer/evidence_envelope.json:$",
+        "mechanism_namecert_pointer": "reports/runs/discovery-gated-transformer/mechanism_namecert.json:$",
+        "jet_certificate_pointer": "reports/runs/discovery-gated-transformer/jet_certificate.json:$",
     }
 
 

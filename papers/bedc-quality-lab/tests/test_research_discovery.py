@@ -4,6 +4,8 @@ from pathlib import Path
 
 import pytest
 
+from scripts import run_causal_patch_suite as causal_patch_runner
+
 from bedc_quality_lab.research_discovery import (
     ResearchDiscoveryVerdict,
     assign_discovery_level,
@@ -11,6 +13,15 @@ from bedc_quality_lab.research_discovery import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
+VALID_SCOPE_SEAL = {
+    "status": "closed",
+    "toy": True,
+    "bounded": True,
+    "theorem": False,
+    "real_training": False,
+    "production_forbidden": True,
+}
+OPEN_SCOPE_SEAL = dict(VALID_SCOPE_SEAL, status="open")
 
 
 def _canonical_payload(name: str) -> dict:
@@ -32,6 +43,7 @@ def _positive_payload(**overrides) -> dict:
             "scorecard_ready": True,
             "audit_status": "valid",
         },
+        "scope_seal": VALID_SCOPE_SEAL,
     }
     payload.update(overrides)
     return payload
@@ -105,6 +117,49 @@ def test_hg_dl_1_gap_head_discovery_report_without_scorecard_fails_closed():
     assert verdict.revocation_status is None
 
 
+def test_causal_patch_pass_without_classifier_surface_signal_stays_d0():
+    verdict = assign_discovery_level(
+        {
+            "artifact": "reports/canonical/causal_patch_suite.json",
+            "schema_id": "bedc-quality-lab:causal-patch-suite",
+            "positive_discovery": False,
+            "hardgates": {"status": "pass"},
+            "discovery_projection": {
+                "discovery_level_effect": "none",
+                "positive_discovery": False,
+                "net_positive_signal": False,
+            },
+            "not_claimed": ["No real transformer token or attention closure is claimed."],
+        }
+    )
+
+    assert verdict.discovery_level == "D0"
+    assert verdict.reasons == ("no classifier shift or debt improvement",)
+    assert verdict.classifier_shift is False
+
+
+def test_causal_patch_hardgate_failure_stays_non_promoting_downstream():
+    payload = causal_patch_runner.build_payload(generated_at="fixture")
+    payload["records"][0]["eval_only"] = False
+    payload["hardgates"] = causal_patch_runner._hardgates(
+        records=payload["records"],
+        effect_summary=payload["effect_summary"],
+        matched_control_summary=payload["matched_control_summary"],
+        side_effect_ledger=payload["side_effect_ledger"],
+    )
+    payload["discovery_projection"] = causal_patch_runner._discovery_projection(payload["hardgates"])
+
+    verdict = assign_discovery_level(payload)
+
+    assert payload["hardgates"]["gates"]["PATCH-HG2"]["status"] == "fail"
+    assert payload["discovery_projection"]["hardgate_status"] == "fail"
+    assert payload["discovery_projection"]["positive_discovery"] is False
+    assert payload["discovery_projection"]["discovery_level_effect"] == "none"
+    assert verdict.discovery_level == "D0"
+    assert verdict.reasons == ("no classifier shift or debt improvement",)
+    assert verdict.classifier_shift is False
+
+
 @pytest.mark.parametrize(
     ("classifier_shift", "positive_net", "control_negative", "scorecard_ready", "positive_terminal"),
     product((False, True), repeat=5),
@@ -130,6 +185,7 @@ def test_d4_finite_gate_matrix(
             "scorecard_ready": scorecard_ready,
             "audit_status": "valid",
         },
+        "scope_seal": VALID_SCOPE_SEAL,
     }
 
     verdict = assign_discovery_level(payload)
@@ -306,6 +362,81 @@ def test_positive_discovery_with_real_robustness_report_is_d5_o():
         "robustness_ready=true",
         "mechanism_ready=false",
     )
+
+
+@pytest.mark.parametrize(
+    "scope_seal",
+    [
+        None,
+        {"status": "open", "toy": True, "bounded": True, "theorem": False, "real_training": False, "production_forbidden": True},
+        {"status": "closed", "toy": True, "bounded": True, "theorem": False, "real_training": False},
+    ],
+)
+def test_positive_payload_without_closed_scope_seal_caps_to_d1(scope_seal):
+    payload = _positive_payload()
+    if scope_seal is None:
+        payload.pop("scope_seal")
+    else:
+        payload["scope_seal"] = scope_seal
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D1"
+    assert verdict.reasons == ("scope_seal=false",)
+
+
+def test_positive_payload_accepts_claim_capsule_positive_claim_scope_seal():
+    payload = _positive_payload()
+    payload.pop("scope_seal")
+    payload["claim_capsule"] = {"positive_claim": {"scope_seal": VALID_SCOPE_SEAL}}
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D4"
+    assert verdict.reasons == (
+        "positive_terminal=true",
+        "classifier_shift=true",
+        "net_positive_signal=true",
+        "control_negative=true",
+        "scorecard_ready=true",
+        "audit_pass=true",
+        "robustness_ready=false",
+    )
+
+
+def test_positive_payload_accepts_source_spec_scope_seal():
+    payload = _positive_payload()
+    payload.pop("scope_seal")
+    payload["source_spec"] = {"scope_seal": VALID_SCOPE_SEAL}
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D4"
+    assert verdict.reasons[-1] == "robustness_ready=false"
+
+
+def test_positive_claim_scope_seal_precedes_valid_top_level_scope_seal():
+    payload = _positive_payload(
+        positive_claim={"scope_seal": OPEN_SCOPE_SEAL},
+        scope_seal=VALID_SCOPE_SEAL,
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D1"
+    assert verdict.reasons == ("scope_seal=false",)
+
+
+def test_valid_positive_claim_scope_seal_precedes_invalid_top_level_scope_seal():
+    payload = _positive_payload(
+        positive_claim={"scope_seal": VALID_SCOPE_SEAL},
+        scope_seal=OPEN_SCOPE_SEAL,
+    )
+
+    verdict = assign_discovery_level(payload)
+
+    assert verdict.discovery_level == "D4"
+    assert verdict.reasons[-1] == "robustness_ready=false"
 
 
 def test_matched_baseline_control_positive_blocks_d5_payload_to_dn():
