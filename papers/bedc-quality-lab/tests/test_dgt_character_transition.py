@@ -83,6 +83,18 @@ def test_character_transition_requires_exact_rerun_pointer_set(tmp_path):
     assert tuple(_valid_pointers()) == REQUIRED_RERUN_POINTER_KEYS
 
 
+def test_character_transition_rejects_non_canonical_required_pointer(tmp_path):
+    pointers = _valid_pointers()
+    pointers["ledger_head_evidence"] = "reports/local/character_evidence.json:$.heads.ledger"
+
+    transition = _transition(tmp_path, pointers)
+
+    assert transition["hardgate"]["DGT-CHAR-HG1"]["status"] == "fail"
+    assert transition["hardgate"]["DGT-CHAR-HG1"]["failed_reason"] == "non-canonical-or-invalid-pointer"
+    assert transition["hardgate"]["DGT-CHAR-HG1"]["failed_pointer"] == pointers["ledger_head_evidence"]
+    assert transition["discovery_map_signal"]["level_candidate"] == "DN"
+
+
 def test_character_transition_rejects_existing_drt_substitution(tmp_path):
     pointers = _valid_pointers()
     pointers["drt_rerun_evidence"] = "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert"
@@ -96,6 +108,40 @@ def test_character_transition_rejects_existing_drt_substitution(tmp_path):
 
     assert transition["hardgate"]["DGT-CHAR-HG1"]["status"] == "fail"
     assert transition["hardgate"]["DGT-CHAR-HG1"]["failed_reason"] == "drt-rerun-is-not-character-surface"
+    assert transition["discovery_map_signal"]["level_candidate"] == "DN"
+
+
+def test_character_transition_rejects_existing_drt_in_non_rerun_slot(tmp_path):
+    pointers = _valid_pointers()
+    pointers["ledger_head_evidence"] = "reports/canonical/existing-drt-evidence.json:$.training_mechanism_cert"
+    _write_json(
+        tmp_path,
+        "reports/canonical/existing-drt-evidence.json",
+        {"training_mechanism_cert": {"target_surface": "toy-surface", "character_surface_rerun": False}},
+    )
+
+    transition = _transition(tmp_path, pointers)
+
+    assert transition["hardgate"]["DGT-CHAR-HG1"]["status"] == "fail"
+    assert transition["hardgate"]["DGT-CHAR-HG1"]["failed_reason"] == "existing-drt-evidence-is-not-character-rerun"
+    assert transition["hardgate"]["DGT-CHAR-HG1"]["failed_pointer"] == pointers["ledger_head_evidence"]
+    assert transition["discovery_map_signal"]["level_candidate"] == "DN"
+
+
+def test_character_transition_rejects_character_surface_without_rerun_flag(tmp_path):
+    pointers = _valid_pointers()
+    pointers["drt_rerun_evidence"] = "reports/canonical/character-surface-drt-disabled.json:$.drt"
+    _write_json(
+        tmp_path,
+        "reports/canonical/character-surface-drt-disabled.json",
+        {"drt": {"target_surface": "character-level-lm", "character_surface_rerun": False}},
+    )
+
+    transition = _transition(tmp_path, pointers)
+
+    assert transition["hardgate"]["DGT-CHAR-HG1"]["status"] == "fail"
+    assert transition["hardgate"]["DGT-CHAR-HG1"]["failed_reason"] == "drt-rerun-is-not-character-surface"
+    assert transition["hardgate"]["DGT-CHAR-HG1"]["failed_pointer"] == pointers["drt_rerun_evidence"]
     assert transition["discovery_map_signal"]["level_candidate"] == "DN"
 
 
