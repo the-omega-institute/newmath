@@ -8,6 +8,7 @@ from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
     default_drt_training_extension_spec,
     project_drt_training_extension,
+    _training_mechanism_cert,
 )
 from bedc_quality_lab.mechanism_attribution import mechanism_evidence_pointers
 from scripts import run_ledger_aware_transformer as lat_runner
@@ -23,6 +24,39 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
     "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
 }
+
+
+def _atlas_fixture_rows():
+    row = {
+        "surface_id": "S12",
+        "label": "optimizer_undertraining",
+        "surface_kind": "observed_debt",
+        "variation_axis": "optimizer_training_budget",
+        "evaluation_role": "boundary_only",
+        "runnable_status": "not_runnable",
+        "counting_reason": "optimizer-budget arm is represented as boundary evidence only",
+        "countable_for_multi_surface_d5_o": False,
+    }
+    return {
+        "surface_registry": [dict(row)],
+        "surfaces": [
+            {
+                **row,
+                "verdict": {
+                    "status": "pass",
+                    "counts_for_multi_surface_d5_o": False,
+                    "failed_gates": [],
+                },
+            }
+        ],
+        "boundary_ledger": [
+            {
+                **row,
+                "kind": "boundary_only_surface",
+                "failed_gates": [],
+            }
+        ],
+    }
 
 
 def _drt_mechanism_ablation_fixture():
@@ -71,6 +105,13 @@ def _write_payload(root: Path, spec, payload):
                 payload,
             )
         )
+        payload["training_mechanism_cert"] = _training_mechanism_cert(payload)
+        payload["hardgate"]["gates"]["DRT-HG8"]["status"] = payload["training_mechanism_cert"]["status"]
+        payload["hardgate"]["status"] = (
+            "pass"
+            if all(row["status"] == "pass" for row in payload["hardgate"]["gates"].values())
+            else "fail"
+        )
         canonical._validate_discovery_regularized_training_payload(payload)
     path = root / spec.json_artifact
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -104,6 +145,8 @@ def _audit_complete_payload(spec, payload):
         payload.setdefault("cost_protocol_pointer", "configs/default_cost_protocol.yaml")
         payload.setdefault("control_pointer", "$.control_evidence")
         payload.setdefault("control_evidence", {"status": "matched-random-negative"})
+    if spec.name == "gap-head-transfer-atlas":
+        payload.update(_atlas_fixture_rows())
     return payload
 
 
@@ -155,24 +198,29 @@ def _minimal_payload(spec):
                 "cost_protocol": "configs/default_cost_protocol.yaml",
                 "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
             },
-            "discovery_map_signal": {
-                "control_pointer": "$.matched_random_control",
-                "evidence_pointer": "$.torch_training_evidence",
-                "failed_gate": None,
-                "failed_gate_pointer": None,
-                "level_candidate": "D4",
-                "reason": "matched-control-positive",
-                "status": "d4-candidate",
-                "torch_training_evidence_pointer": "$.torch_training_evidence",
-            },
+                "discovery_map_signal": {
+                    "control_pointer": "$.matched_random_control",
+                    "evidence_pointer": "$.training_mechanism_cert",
+                    "failed_gate": None,
+                    "failed_gate_pointer": None,
+                    "level_candidate": "D5-M",
+                    "reason": "training-mechanism-certificate-positive",
+                    "status": "d5-m-candidate",
+                    "training_mechanism_cert_pointer": "$.training_mechanism_cert",
+                    "torch_training_evidence_pointer": "$.torch_training_evidence",
+                },
             "hardgate": {
                 "failed_gate": None,
                 "gates": {
                     f"DRT-HG{index}": {
                         "status": "pass",
-                        "evidence_pointer": "$.mechanism_ablation" if index == 7 else "$.quality_promotion_boundary",
+                        "evidence_pointer": "$.training_mechanism_cert"
+                        if index == 8
+                        else "$.mechanism_ablation"
+                        if index == 7
+                        else "$.quality_promotion_boundary",
                     }
-                    for index in range(1, 8)
+                    for index in range(1, 9)
                 },
                 "status": "pass",
             },
@@ -449,6 +497,7 @@ def _minimal_payload(spec):
         payload.update({
             "config": {"control_arm": "matched_random_gap_head"},
             "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
+            "forbidden_claim_term_audit": {"status": "pass", "hits": []},
             "source_artifacts": {"metric_helper": "reports/canonical/gap_head_transfer_atlas.json:$.surfaces"},
         })
         return payload
@@ -1004,7 +1053,7 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     lat = _coverage_cell(payload, "LAT")
 
     assert drt["canonical_owner_pointer"] == "reports/canonical/discovery-regularized-training.json:$"
-    assert drt["mechanism_certificate_pointer"] == "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence"
+    assert drt["mechanism_certificate_pointer"] == "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert"
     assert drt["debt_pointer"] == "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary"
     assert drt["hardgate_status"] == "pass"
     assert _artifact_pointer_value(tmp_path, drt["mechanism_certificate_pointer"]) is not None
@@ -1648,7 +1697,8 @@ def test_gap_head_transfer_atlas_without_audit_source_fails_closed(tmp_path):
     assert claim["discovery_level"] == "D5-O"
     assert row["discovery_level"] == "DN"
     assert "terminal_verdict" not in row
-    assert row["audit_status"] == "valid"
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "missing-atlas-boundary-ledger"
 
 
 def test_gap_head_transfer_atlas_discovery_row_matches_canonical_claim_with_audit_source(tmp_path):
@@ -1673,6 +1723,7 @@ def test_gap_head_transfer_atlas_audit_rejects_unresolved_control_pointer(tmp_pa
     _write_all_payloads(tmp_path)
     spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
     payload = _minimal_payload(spec)
+    payload.update(_atlas_fixture_rows())
     payload["config"].pop("control_arm")
     _write_payload(tmp_path, spec, payload)
 
@@ -1683,6 +1734,42 @@ def test_gap_head_transfer_atlas_audit_rejects_unresolved_control_pointer(tmp_pa
     assert row["control_pointer"] == "$.config.control_arm"
     assert row["audit_status"] == "invalid"
     assert row["audit_reason"] == "unresolved-control-pointer"
+
+
+def test_gap_head_transfer_atlas_missing_boundary_row_fails_closed(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
+    payload["boundary_ledger"] = []
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-transfer-atlas"]
+
+    assert row["discovery_level"] == "DN"
+    assert "terminal_verdict" not in row
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "missing-atlas-boundary-ledger"
+
+
+def test_gap_head_transfer_atlas_forbidden_global_claim_term_fails_closed(tmp_path):
+    _write_all_payloads(tmp_path)
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+    payload = _audit_complete_payload(spec, _minimal_payload(spec))
+    payload["multi_surface_d5_o"]["not_claimed"] = ["global model quality"]
+    payload["forbidden_claim_term_audit"] = {
+        "status": "fail",
+        "hits": ["global model quality"],
+    }
+    _write_payload(tmp_path, spec, payload)
+
+    discovery_payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(discovery_payload)["gap-head-transfer-atlas"]
+
+    assert row["discovery_level"] == "DN"
+    assert "terminal_verdict" not in row
+    assert row["audit_status"] == "invalid"
+    assert row["audit_reason"] == "atlas-forbidden-claim-term-audit-failed"
 
 
 def test_gap_head_transfer_atlas_audit_rejects_terminal_claim_mismatch(tmp_path):
@@ -1706,6 +1793,7 @@ def test_gap_head_transfer_atlas_failed_claim_projects_dn(tmp_path):
     _write_all_payloads(tmp_path)
     spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
     payload = _minimal_payload(spec)
+    payload.update(_atlas_fixture_rows())
     payload["multi_surface_d5_o"] = {
         "decision": "failed",
         "discovery_level": "DN",

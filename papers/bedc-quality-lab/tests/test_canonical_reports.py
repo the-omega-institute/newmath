@@ -11,6 +11,7 @@ from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
     default_drt_training_extension_spec,
     project_drt_training_extension,
+    _training_mechanism_cert,
 )
 from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
@@ -20,7 +21,7 @@ from scripts import run_gap_head_attribution_capsule as attribution_capsule
 from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
-from bedc_quality_lab.discovery_compiler.pointers import pointer_value, split_artifact_pointer
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 
 
 HG_P_CORE = {
@@ -63,6 +64,39 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
     "mechanism-seeking-network": "bedc-quality-lab:mechanism-seeking-network",
     "discovery-gated-nas": "bedc-quality-lab:discovery-gated-nas",
 }
+
+
+def _atlas_fixture_rows():
+    row = {
+        "surface_id": "S12",
+        "label": "optimizer_undertraining",
+        "surface_kind": "observed_debt",
+        "variation_axis": "optimizer_training_budget",
+        "evaluation_role": "boundary_only",
+        "runnable_status": "not_runnable",
+        "counting_reason": "optimizer-budget arm is represented as boundary evidence only",
+        "countable_for_multi_surface_d5_o": False,
+    }
+    return {
+        "surface_registry": [dict(row)],
+        "surfaces": [
+            {
+                **row,
+                "verdict": {
+                    "status": "pass",
+                    "counts_for_multi_surface_d5_o": False,
+                    "failed_gates": [],
+                },
+            }
+        ],
+        "boundary_ledger": [
+            {
+                **row,
+                "kind": "boundary_only_surface",
+                "failed_gates": [],
+            }
+        ],
+    }
 
 
 def _drt_mechanism_ablation_fixture() -> dict[str, object]:
@@ -248,9 +282,9 @@ def _payload_for_spec(spec):
             "result": {"status": "negative" if spec.name == "certificate-guided-training" else "fixture"},
             "deltas": {"after_minus_before": {"debt_delta": -0.25}},
             "verdicts": [{"deltas": {"debt_delta": -0.25}}],
-            "surface_registry": [{"surface_id": "S0"}],
-            "surfaces": [{"surface_id": "S0"}],
-            "boundary_ledger": [],
+            "surface_registry": _atlas_fixture_rows()["surface_registry"],
+            "surfaces": _atlas_fixture_rows()["surfaces"],
+            "boundary_ledger": _atlas_fixture_rows()["boundary_ledger"],
             "hardgate_evidence": {"A2-HG5": {"status": "pass"}},
             "multi_surface_d5_o": {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 3},
             "prior_observation_packet": {
@@ -612,9 +646,13 @@ def _payload_for_spec(spec):
             "gates": {
                 f"DRT-HG{index}": {
                     "status": "pass",
-                    "evidence_pointer": "$.mechanism_ablation" if index == 7 else "$.quality_promotion_boundary",
+                    "evidence_pointer": "$.training_mechanism_cert"
+                    if index == 8
+                    else "$.mechanism_ablation"
+                    if index == 7
+                    else "$.quality_promotion_boundary",
                 }
-                for index in range(1, 8)
+                for index in range(1, 9)
             },
         }
         payload["mechanism_ablation"] = _drt_mechanism_ablation_fixture()
@@ -625,10 +663,19 @@ def _payload_for_spec(spec):
             payload,
         )
         payload.update(extension_sections)
+        payload["training_mechanism_cert"] = _training_mechanism_cert(payload)
+        payload["hardgate"]["gates"]["DRT-HG8"]["status"] = payload["training_mechanism_cert"]["status"]
+        payload["hardgate"]["status"] = (
+            "pass"
+            if all(row["status"] == "pass" for row in payload["hardgate"]["gates"].values())
+            else "fail"
+        )
     if spec.name == "certificate-gated-attention":
         return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "gap-head-transfer-atlas":
         payload["config"] = {"control_arm": "matched_random_gap_head"}
+        payload.update(_atlas_fixture_rows())
+        payload["forbidden_claim_term_audit"] = {"status": "pass", "hits": []}
     if spec.name == "mixing-family-sweep":
         payload["coverage_item"] = {
             "canonical_families": ["a", "b", "c"],
@@ -1199,6 +1246,84 @@ def test_committed_canonical_bundle_matches_generation_chain():
     assert claim_rows == generated_claims
 
 
+def test_canonical_index_dashboard_section_is_pointer_only():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    section = index_payload["dashboard"]
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    artifacts = {
+        path
+        for spec in canonical.CANONICAL_REPORTS
+        for path in (spec.json_artifact, spec.markdown_artifact)
+    }
+
+    assert section["status"] == "pointer-only"
+    assert section["artifact_id"] == "bedc-quality-lab:dashboard"
+    assert section["canonical_role"] == "navigation_view_not_fact_source"
+    assert section["source_index_artifact"] == "reports/canonical/index.json"
+    assert len(section["panels"]) == 8
+    assert "dashboard" not in names
+    assert not (canonical.ROOT / "reports/canonical/dashboard.json").exists()
+    assert not (canonical.ROOT / "reports/canonical/dashboard.md").exists()
+    assert "reports/canonical/dashboard.json" not in artifacts
+    assert "reports/canonical/dashboard.md" not in artifacts
+
+
+def test_canonical_index_dashboard_panel_pointers_resolve():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    panels = index_payload["dashboard"]["panels"]
+
+    assert [panel["panel_id"] for panel in panels] == [
+        "discovery-map",
+        "coverage-matrix",
+        "claim-graph",
+        "scorecard",
+        "negative-witnesses",
+        "negative-witness-summary",
+        "d5-status",
+        "model-design-suite",
+    ]
+    for panel in panels:
+        assert resolve_artifact_pointer(canonical.ROOT, panel["artifact_pointer"]) is not None
+
+
+def test_canonical_index_dashboard_rejects_cached_owner_facts():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    keys = set(_walk_keys(index_payload["dashboard"]))
+
+    assert keys.isdisjoint(
+        {
+            "rows",
+            "records",
+            "coverage_matrix",
+            "level_counts",
+            "hardgate_status",
+            "node_count",
+            "metric_count",
+            "expected_kind_count",
+            "discovery_level",
+            "terminal_verdict",
+            "scorecard_ready",
+            "claim_verdict",
+            "failed_gate",
+            "what_was_learned",
+        }
+    )
+
+
+def test_canonical_index_dashboard_missing_owner_fails_closed():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    section = json.loads(json.dumps(index_payload["dashboard"]))
+    section["panels"][0]["artifact_pointer"] = "reports/canonical/missing-dashboard-owner.json:$"
+    section["panels"][1]["artifact_pointer"] = "reports/canonical/discovery_map.json:$.missing_dashboard_panel"
+
+    unresolved = canonical._validate_dashboard_index_section(section, root=canonical.ROOT)
+
+    assert unresolved == [
+        "reports/canonical/missing-dashboard-owner.json:$",
+        "reports/canonical/discovery_map.json:$.missing_dashboard_panel",
+    ]
+
+
 def test_committed_discovery_map_coverage_matrix_is_full_target_set_and_round_trips():
     path = canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -1391,6 +1516,20 @@ def test_canonical_reports_manifest_includes_gap_head_transfer_atlas():
     assert spec.cost_pointer == "$.source_artifacts.metric_helper"
     assert spec.positive_claim_pointer == "$.multi_surface_d5_o"
     assert spec.control_pointer == "$.config.control_arm"
+
+
+def test_gap_head_transfer_atlas_generated_payload_exposes_row_classification():
+    spec = canonical._specs_by_name()["gap-head-transfer-atlas"]
+    payload = _payload_for_spec(spec)
+
+    assert spec.positive_claim_pointer == "$.multi_surface_d5_o"
+    for row in payload["surface_registry"] + payload["surfaces"] + payload["boundary_ledger"]:
+        assert {
+            "variation_axis",
+            "evaluation_role",
+            "runnable_status",
+            "counting_reason",
+        } <= set(row)
 
 
 def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():

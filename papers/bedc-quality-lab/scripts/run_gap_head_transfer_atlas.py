@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
-from datetime import datetime, timezone
 import json
 import math
 from pathlib import Path
@@ -38,6 +37,7 @@ RUN_SUMMARY_ARTIFACT = "reports/runs/{run_id}/summary.json"
 RUN_ID_PREFIX = "gap-head-transfer-atlas"
 COUNTABLE_PASS_THRESHOLD = 3
 PRIOR_OBSERVATION_PACKET_POINTER = "$.prior_observation_packet"
+CANONICAL_GENERATED_AT = "2026-06-07T00:00:00+00:00"
 ARMS = ("vanilla", "learned_gap_head_on_h", producer.MATCHED_RANDOM_ARM)
 OBSERVED_DEBT_SURFACE_KIND = "observed_debt"
 NOT_CLAIMED = (
@@ -56,9 +56,13 @@ class AtlasSurfaceSpec:
     surface_id: str
     label: str
     surface_kind: str
+    variation_axis: str
     sample_count: int
     seeds: tuple[int, ...]
     rho: float
+    evaluation_role: str = "candidate"
+    runnable_status: str = "runnable"
+    counting_reason: str = "observed-debt candidate surface with runnable A2 evaluation"
     transition_kernel: TransitionKernelSpec | None = None
     latent_distribution: LatentDistributionSpec | None = None
     mixing: str = DEFAULT_MIXING
@@ -70,6 +74,10 @@ class AtlasSurfaceSpec:
             "surface_id": self.surface_id,
             "label": self.label,
             "surface_kind": self.surface_kind,
+            "variation_axis": self.variation_axis,
+            "evaluation_role": self.evaluation_role,
+            "runnable_status": self.runnable_status,
+            "counting_reason": self.counting_reason,
             "countable_for_multi_surface_d5_o": self.countable_for_multi_surface_d5_o,
             "sample_count": int(self.sample_count),
             "seed_count": int(len(self.seeds)),
@@ -87,7 +95,11 @@ class AtlasSurfaceSpec:
 
     @property
     def countable_for_multi_surface_d5_o(self) -> bool:
-        return self.surface_kind == OBSERVED_DEBT_SURFACE_KIND
+        return (
+            self.surface_kind == OBSERVED_DEBT_SURFACE_KIND
+            and self.evaluation_role == "candidate"
+            and self.runnable_status == "runnable"
+        )
 
     def source_evidence(self) -> dict[str, Any] | None:
         if self.prior_observation is None and self.source_evidence_note is None:
@@ -121,15 +133,19 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S0",
             label="clean_gaussian_ou",
             surface_kind="clean",
+            variation_axis="clean_control",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
+            evaluation_role="control",
+            counting_reason="clean control surface is not observed-debt transfer evidence",
             prior_observation="clean pass; clean is not countable for multi-surface D5-O",
         ),
         AtlasSurfaceSpec(
             surface_id="S1",
             label="sample_count_1024",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="sample_count",
             sample_count=1024,
             seeds=seeds,
             rho=rho,
@@ -139,6 +155,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S2",
             label="sample_count_256",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="sample_count",
             sample_count=256,
             seeds=seeds,
             rho=rho,
@@ -147,6 +164,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S3",
             label="anisotropic_rho_0p95_0p30",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="transition_kernel_anisotropy",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
@@ -157,6 +175,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S4",
             label="anisotropic_rho_0p90_0p60",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="transition_kernel_anisotropy",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
@@ -166,6 +185,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S5",
             label="laplace_latent",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="latent_distribution",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
@@ -177,6 +197,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S6",
             label="student_t_df3_latent",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="latent_distribution",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
@@ -186,6 +207,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S7",
             label="uniform_latent",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="latent_distribution",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
@@ -195,6 +217,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S8",
             label="generalized_normal_alpha_0p5",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="latent_distribution",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
@@ -204,6 +227,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S9",
             label="generalized_normal_alpha_4",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="latent_distribution",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
@@ -213,6 +237,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S10",
             label="mixing_shift_spiral",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="mixing_family",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
@@ -222,6 +247,7 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S11",
             label="mixing_shift_realnvp",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="mixing_family",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
@@ -231,9 +257,13 @@ def surface_registry() -> tuple[AtlasSurfaceSpec, ...]:
             surface_id="S12",
             label="optimizer_undertraining",
             surface_kind=OBSERVED_DEBT_SURFACE_KIND,
+            variation_axis="optimizer_training_budget",
             sample_count=baseline,
             seeds=seeds,
             rho=rho,
+            evaluation_role="boundary_only",
+            runnable_status="not_runnable",
+            counting_reason="optimizer-budget arm is represented as boundary evidence only",
             source_evidence_note="The legal producer has no optimizer-budget arm; the surface is evaluated with the stable shared head helper.",
         ),
     )
@@ -575,6 +605,10 @@ def _surface_result(spec: AtlasSurfaceSpec) -> dict[str, Any]:
         "surface_id": spec.surface_id,
         "label": spec.label,
         "surface_kind": spec.surface_kind,
+        "variation_axis": spec.variation_axis,
+        "evaluation_role": spec.evaluation_role,
+        "runnable_status": spec.runnable_status,
+        "counting_reason": spec.counting_reason,
         "countable_for_multi_surface_d5_o": spec.countable_for_multi_surface_d5_o,
         "sample_count": int(spec.sample_count),
         "seed_count": int(len(spec.seeds)),
@@ -612,18 +646,31 @@ def _pass_surface_ids(surfaces: list[dict[str, Any]]) -> list[str]:
 def _boundary_ledger(surfaces: list[dict[str, Any]]) -> list[dict[str, Any]]:
     rows = []
     for surface_index, surface in enumerate(surfaces):
-        if surface["verdict"]["status"] == "pass":
+        status = str(surface["verdict"]["status"])
+        evaluation_role = str(surface.get("evaluation_role", "candidate"))
+        runnable_status = str(surface.get("runnable_status", "runnable"))
+        retained_boundary_surface = evaluation_role == "boundary_only" or runnable_status != "runnable"
+        if status == "pass" and not retained_boundary_surface:
             continue
         failed_gates = list(surface["verdict"]["failed_gates"])
         evidence_pointer = {
             gate: f"$.surfaces.{surface_index}.hardgates.{gate}"
             for gate in failed_gates
         }
+        kind = "failed_surface"
+        if evaluation_role == "boundary_only":
+            kind = "boundary_only_surface"
+        elif runnable_status != "runnable":
+            kind = "not_runnable_surface"
         rows.append(
             {
                 "surface_id": surface["surface_id"],
                 "label": surface["label"],
-                "kind": "failed_surface",
+                "kind": kind,
+                "variation_axis": surface.get("variation_axis"),
+                "evaluation_role": evaluation_role,
+                "runnable_status": runnable_status,
+                "counting_reason": surface.get("counting_reason"),
                 "failed_gates": failed_gates,
                 "current_a2_metrics": {
                     "learned_auroc": surface["metrics"]["learned_gap_head_on_h"]["AUROC"],
@@ -791,6 +838,19 @@ def _externalize_local_pointers(value: Any, *, artifact: str = JSON_ARTIFACT) ->
     return value
 
 
+def _stable_generated_at(root: Path = ROOT) -> str:
+    path = root / JSON_ARTIFACT
+    if path.exists():
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return CANONICAL_GENERATED_AT
+        generated_at = payload.get("generated_at") if isinstance(payload, Mapping) else None
+        if isinstance(generated_at, str) and generated_at:
+            return generated_at
+    return CANONICAL_GENERATED_AT
+
+
 def build_payload(*, run_id: str, generated_at: str | None = None) -> dict[str, Any]:
     registry = surface_registry()
     surfaces = [_surface_result(spec) for spec in registry]
@@ -801,7 +861,7 @@ def build_payload(*, run_id: str, generated_at: str | None = None) -> dict[str, 
         "artifact": JSON_ARTIFACT,
         "report": REPORT_ARTIFACT,
         "run_id": run_id,
-        "generated_at": generated_at or datetime.now(timezone.utc).isoformat(),
+        "generated_at": generated_at or _stable_generated_at(ROOT),
         "producer": "scripts/run_gap_head_transfer_atlas.py",
         "status": "canonical",
         "source_artifacts": {

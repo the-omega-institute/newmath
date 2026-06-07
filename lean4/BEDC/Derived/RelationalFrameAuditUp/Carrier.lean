@@ -255,4 +255,51 @@ theorem RelationalFrameAuditCarrier_no_global_frame_refusal [AskSetup] [PackageS
     ⟨requestUnary, refusalUnary, refusedReadUnary, refusalRoute, provenancePkg,
       refusedReadPkg⟩
 
+theorem RelationalFrameAuditObligationTotality [AskSetup] [PackageSetup]
+    {multiHist observerA observerB request symmetry causal rate refusal transport continuation
+      provenance name auditRead refusalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RelationalFrameAuditCarrier multiHist observerA observerB request symmetry causal rate
+        refusal transport continuation provenance name bundle pkg ->
+      Cont rate refusal auditRead ->
+        Cont auditRead provenance refusalRead ->
+          PkgSig bundle refusalRead pkg ->
+            UnaryHistory multiHist ∧ UnaryHistory observerA ∧ UnaryHistory observerB ∧
+              UnaryHistory request ∧ UnaryHistory symmetry ∧ UnaryHistory causal ∧
+                UnaryHistory rate ∧ UnaryHistory refusal ∧ UnaryHistory auditRead ∧
+                  UnaryHistory refusalRead ∧ Cont multiHist request observerA ∧
+                    Cont request observerB causal ∧ Cont causal symmetry rate ∧
+                      Cont rate refusal auditRead ∧
+                        Cont auditRead provenance refusalRead ∧
+                          PkgSig bundle provenance pkg ∧
+                            PkgSig bundle refusalRead pkg := by
+  -- BEDC touchpoint anchor: RelationalFrameAuditCarrier BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier rateRefusalAudit auditProvenanceRefusal refusalReadPkg
+  obtain ⟨multiHistUnary, observerAUnary, observerBUnary, requestUnary, symmetryUnary,
+    causalUnary, rateUnary, refusalUnary, _transportUnary, _continuationUnary,
+    provenanceUnary, _nameUnary, multiHistRoute, requestRoute, causalRateRoute,
+    _provenanceRoute, provenancePkg, _semanticCert⟩ := carrier
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed rateUnary refusalUnary rateRefusalAudit
+  have refusalReadUnary : UnaryHistory refusalRead :=
+    unary_cont_closed auditReadUnary provenanceUnary auditProvenanceRefusal
+  exact
+    ⟨multiHistUnary,
+      observerAUnary,
+      observerBUnary,
+      requestUnary,
+      symmetryUnary,
+      causalUnary,
+      rateUnary,
+      refusalUnary,
+      auditReadUnary,
+      refusalReadUnary,
+      multiHistRoute,
+      requestRoute,
+      causalRateRoute,
+      rateRefusalAudit,
+      auditProvenanceRefusal,
+      provenancePkg,
+      refusalReadPkg⟩
+
 end BEDC.Derived.RelationalFrameAuditUp

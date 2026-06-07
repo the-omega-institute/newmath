@@ -2,7 +2,7 @@
 
 - run_id: `discovery-regularized-training`
 - schema_id: `bedc-quality-lab:discovery-regularized-training`
-- discovery map signal: `d4-candidate`
+- discovery map signal: `d5-m-candidate`
 - claim capsule: `reports/runs/discovery-regularized-training/claim_capsule.json`
 
 ## Hardgates
@@ -14,6 +14,7 @@
 - `DRT-HG5`: `pass`
 - `DRT-HG6`: `pass`
 - `DRT-HG7`: `pass`
+- `DRT-HG8`: `pass`
 
 ## Quality Promotion Boundary
 
@@ -45,6 +46,13 @@
 | 4 | `without_mechanism` | `0.616933` | `0.024834` | `True` | `False` |
 | 5 | `without_cost` | `0.636933` | `0.004834` | `True` | `False` |
 | 6 | `without_negative_witness` | `0.629933` | `0.011834` | `True` | `False` |
+
+## Training Mechanism Certificate
+
+- status: `pass`
+- owner pointer: `reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert`
+- hardgate pointer: `reports/canonical/discovery-regularized-training.json:$.hardgate.gates.DRT-HG8`
+- required pointers resolve: `True`
 
 ## DRT Extension Hardgates
 
