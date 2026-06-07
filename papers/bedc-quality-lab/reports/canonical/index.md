@@ -91,12 +91,13 @@
 
 ## Negative witness mutation ledger
 
-- Status: `pointer-only`
+- Status: `ready`
 - JSON: `reports/canonical/negative_witness_mutation_ledger.json`
-- Markdown: `reports/canonical/negative_witness_mutation_ledger.md`
+- Graph: `reports/canonical/model_mutation_lineage_graph.md`
+- DGT report: `reports/canonical/dgt_mutation_report.json`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Rows: `8`
-- Audit: `pass`
+- Entries: `8`
+- Entries pointer: `reports/canonical/negative_witness_mutation_ledger.json:$.entries`
 
 ## New model hardgates
 

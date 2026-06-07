@@ -214,6 +214,7 @@
       "DGT-HG8": "reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.DGT-HG8",
       "DGT-HG9": "reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.DGT-HG9"
     },
+    "dgt_mutation_report_pointer": "reports/canonical/dgt_mutation_report.json:$",
     "downstream_scope_pointer": "reports/canonical/discovery_gated_transformer.json:$.downstream_scope",
     "hardgate_slots_pointer": "reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots",
     "json_artifact": "reports/canonical/discovery_gated_transformer.json",
@@ -228,6 +229,8 @@
       "DGT-MECH-HG6": "reports/canonical/discovery_gated_transformer.json:$.mechanism_certificate.mechanism_hardgate_slots.DGT-MECH-HG6"
     },
     "model_id_pointer": "reports/canonical/discovery_gated_transformer.json:$.model_id",
+    "mutation_ledger_entries_pointer": "reports/canonical/negative_witness_mutation_ledger.json:$.entries",
+    "mutation_ledger_ref_pointer": "reports/canonical/discovery_gated_transformer.json:$.mutation_ledger_ref",
     "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.not_claimed",
     "overall_state_pointer": "reports/canonical/discovery_gated_transformer.json:$.dgt_hardgate_slots.overall_state",
     "schema_id": "bedc-quality-lab:discovery-gated-transformer",
@@ -408,12 +411,21 @@
   },
   "negative_witness_mutation_ledger": {
     "artifact_id": "bedc-quality-lab:negative-witness-mutation-ledger",
-    "audit_status": "pass",
     "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+    "dgt_report_artifact": "reports/canonical/dgt_mutation_report.json",
+    "entries_pointer": "reports/canonical/negative_witness_mutation_ledger.json:$.entries",
+    "entry_count": 8,
+    "graph_artifact": "reports/canonical/model_mutation_lineage_graph.md",
+    "hardgate_status": {
+      "MUT-HG1": "pass",
+      "MUT-HG2": "pass",
+      "MUT-HG3": "pass",
+      "MUT-HG4": "pass",
+      "MUT-HG5": "pass"
+    },
     "json_artifact": "reports/canonical/negative_witness_mutation_ledger.json",
-    "markdown_artifact": "reports/canonical/negative_witness_mutation_ledger.md",
-    "row_count": 8,
-    "status": "pointer-only"
+    "schema_id": "bedc-quality-lab:negative-witness-mutation-ledger",
+    "status": "ready"
   },
   "negative_witness_summary": {
     "artifact_id": "bedc-quality-lab:discovery-negative-witness-summary",
