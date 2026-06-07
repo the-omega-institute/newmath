@@ -1199,6 +1199,7 @@ import BEDC.Derived.CalculusUp.ContinuousMapLimitRoute
 import BEDC.Derived.CalculusUp.DerivativeContinuationObligation
 import BEDC.Derived.CalculusUp.DerivativeIntegralSourceSeparation
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
+import BEDC.Derived.CalculusUp.IntegralSumObligation
 import BEDC.Derived.CalculusUp.LimitRealSealObligation
 import BEDC.Derived.CalculusUp.LocalOperationNonescape
 import BEDC.Derived.CalculusUp.RealSealErrorBudget
@@ -7437,6 +7438,7 @@ import BEDC.Derived.RealAlgOrderUp.TasteGate
 import BEDC.Derived.RealAnalyticUp
 import BEDC.Derived.RealAnalyticUp.CosEmpty
 import BEDC.Derived.RealApartnessCompletionUp
+import BEDC.Derived.RealApartnessCompletionUp.LocatedRealSealNonescape
 import BEDC.Derived.RealApartnessCompletionUp.Nonescape
 import BEDC.Derived.RealApartnessCompletionUp.TasteGate
 import BEDC.Derived.RealApartnessOrderBridgeUp.TasteGate
@@ -8729,6 +8731,7 @@ import BEDC.Derived.SobolevUp.CompletionFacingRootScope
 import BEDC.Derived.SobolevUp.CompletionNormHandoff
 import BEDC.Derived.SobolevUp.FiniteEnergyCarrier
 import BEDC.Derived.SobolevUp.FiniteEnergyNameCertObligation
+import BEDC.Derived.SobolevUp.FiniteEnergyScopeObligations
 import BEDC.Derived.SobolevUp.FiniteWindowCarrierFields
 import BEDC.Derived.SobolevUp.FiniteWindowClassifierSurface
 import BEDC.Derived.SobolevUp.FiniteWindowRootPackage
