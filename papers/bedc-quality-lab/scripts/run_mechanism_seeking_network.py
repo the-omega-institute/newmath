@@ -66,7 +66,13 @@ def deterministic_record(
     mechanism_rank = _rank(str(mechanism_id), mechanisms)
     shift_rank = _rank(float(shift), shifts)
     seed_jitter = (int(seed) % 19) * 1.0e-5
-    mechanism_bias = {"copy_route": 0.030, "parity_gate": 0.018, "sparse_recall": 0.024}.get(str(mechanism_id), 0.012)
+    mechanism_bias = {
+        "copy_route": 0.030,
+        "parity_gate": 0.018,
+        "sparse_recall": 0.024,
+        "safety_boundary": 0.027,
+        "planning_route": 0.021,
+    }.get(str(mechanism_id), 0.012)
     arm_offsets = {
         "mechanism_probe": {"score": 0.220, "precision": 0.360},
         "ablated_probe": {"score": 0.052, "precision": 0.080},

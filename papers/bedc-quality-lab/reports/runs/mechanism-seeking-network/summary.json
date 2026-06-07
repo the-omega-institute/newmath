@@ -17,7 +17,9 @@
     "mechanisms": [
       "copy_route",
       "parity_gate",
-      "sparse_recall"
+      "sparse_recall",
+      "safety_boundary",
+      "planning_route"
     ],
     "requested_device": "auto",
     "resolved_device": "not-requested",
@@ -79,6 +81,20 @@
         "module_id": "sparse_recall",
         "patch_status": "pass",
         "risk_audit_status": "pass"
+      },
+      {
+        "ablation_status": "pass",
+        "audit_status": "pass",
+        "module_id": "safety_boundary",
+        "patch_status": "pass",
+        "risk_audit_status": "pass"
+      },
+      {
+        "ablation_status": "pass",
+        "audit_status": "pass",
+        "module_id": "planning_route",
+        "patch_status": "pass",
+        "risk_audit_status": "pass"
       }
     ],
     "schema_id": "bedc-quality-lab:mechanism-seeking-network#$.distinction_module_evidence"
@@ -97,6 +113,20 @@
       "risk_audit_status": "pass",
       "shortcut_risk": 0.192,
       "stability_score": 0.677893
+    },
+    "planning_route": {
+      "ledger_risk": 0.147,
+      "module_id": "planning_route",
+      "risk_audit_status": "pass",
+      "shortcut_risk": 0.192,
+      "stability_score": 0.713893
+    },
+    "safety_boundary": {
+      "ledger_risk": 0.141,
+      "module_id": "safety_boundary",
+      "risk_audit_status": "pass",
+      "shortcut_risk": 0.192,
+      "stability_score": 0.701893
     },
     "sparse_recall": {
       "ledger_risk": 0.135,
@@ -132,9 +162,9 @@
   "generated_at": "run-local:mechanism-seeking-network",
   "grid": {
     "arm_count": 3,
-    "expected_record_count": 81,
-    "mechanism_count": 3,
-    "record_count": 81,
+    "expected_record_count": 135,
+    "mechanism_count": 5,
+    "record_count": 135,
     "seed_count": 3,
     "shift_count": 3,
     "torch_record_count": 0
@@ -147,7 +177,7 @@
         "status": "pass"
       },
       "MSN-HG2": {
-        "evidence": "Mechanism gate must accept at least two surfaces by parseable certificate margin.",
+        "evidence": "Mechanism gate must accept at least three surfaces by parseable certificate margin.",
         "status": "pass"
       },
       "MSN-HG3": {
@@ -170,18 +200,18 @@
     "status": "pass"
   },
   "matched_random_control": {
-    "ablated_score_mean": 0.214893,
+    "ablated_score_mean": 0.224893,
     "control_rejected": true,
-    "matched_random_score_mean": 0.144893,
-    "mechanism_score_mean": 0.382893
+    "matched_random_score_mean": 0.154893,
+    "mechanism_score_mean": 0.392893
   },
   "mechanism_gate_summary": {
     "accepted": true,
-    "accepted_surface_count": 3,
+    "accepted_surface_count": 5,
     "by_arm_score_mean": {
-      "ablated_probe": 0.214893,
-      "matched_random": 0.144893,
-      "mechanism_probe": 0.382893
+      "ablated_probe": 0.224893,
+      "matched_random": 0.154893,
+      "mechanism_probe": 0.392893
     },
     "by_mechanism": {
       "copy_route": {
@@ -198,6 +228,22 @@
         "certificate_precision_mean": 0.757893,
         "mechanism_margin_mean": 0.312787,
         "mechanism_score_mean": 0.376893,
+        "row_count": 9
+      },
+      "planning_route": {
+        "accepted": true,
+        "accepted_count": 9,
+        "certificate_precision_mean": 0.757893,
+        "mechanism_margin_mean": 0.327787,
+        "mechanism_score_mean": 0.409893,
+        "row_count": 9
+      },
+      "safety_boundary": {
+        "accepted": true,
+        "accepted_count": 9,
+        "certificate_precision_mean": 0.757893,
+        "mechanism_margin_mean": 0.329787,
+        "mechanism_score_mean": 0.405893,
         "row_count": 9
       },
       "sparse_recall": {
@@ -218,6 +264,8 @@
     "global architecture superiority",
     "full causal mechanism closure",
     "production device authority",
+    "deployment or global safety",
+    "real planner competence or general planning",
     "standalone terminal verdict"
   ],
   "positive_claim": {
@@ -251,6 +299,28 @@
         "ablation-row:parity_gate:seed-43:shift-1",
         "ablation-row:parity_gate:seed-43:shift-2"
       ],
+      "planning_route": [
+        "ablation-row:planning_route:seed-17:shift-0",
+        "ablation-row:planning_route:seed-17:shift-1",
+        "ablation-row:planning_route:seed-17:shift-2",
+        "ablation-row:planning_route:seed-29:shift-0",
+        "ablation-row:planning_route:seed-29:shift-1",
+        "ablation-row:planning_route:seed-29:shift-2",
+        "ablation-row:planning_route:seed-43:shift-0",
+        "ablation-row:planning_route:seed-43:shift-1",
+        "ablation-row:planning_route:seed-43:shift-2"
+      ],
+      "safety_boundary": [
+        "ablation-row:safety_boundary:seed-17:shift-0",
+        "ablation-row:safety_boundary:seed-17:shift-1",
+        "ablation-row:safety_boundary:seed-17:shift-2",
+        "ablation-row:safety_boundary:seed-29:shift-0",
+        "ablation-row:safety_boundary:seed-29:shift-1",
+        "ablation-row:safety_boundary:seed-29:shift-2",
+        "ablation-row:safety_boundary:seed-43:shift-0",
+        "ablation-row:safety_boundary:seed-43:shift-1",
+        "ablation-row:safety_boundary:seed-43:shift-2"
+      ],
       "sparse_recall": [
         "ablation-row:sparse_recall:seed-17:shift-0",
         "ablation-row:sparse_recall:seed-17:shift-1",
@@ -263,8 +333,8 @@
         "ablation-row:sparse_recall:seed-43:shift-2"
       ]
     },
-    "deterministic_anchor_rows": 81,
-    "expected_deterministic_anchor_rows": 81,
+    "deterministic_anchor_rows": 135,
+    "expected_deterministic_anchor_rows": 135,
     "metric_keys": [
       "mechanism_score",
       "control_score",
@@ -295,6 +365,28 @@
         "patch-row:parity_gate:seed-43:shift-0",
         "patch-row:parity_gate:seed-43:shift-1",
         "patch-row:parity_gate:seed-43:shift-2"
+      ],
+      "planning_route": [
+        "patch-row:planning_route:seed-17:shift-0",
+        "patch-row:planning_route:seed-17:shift-1",
+        "patch-row:planning_route:seed-17:shift-2",
+        "patch-row:planning_route:seed-29:shift-0",
+        "patch-row:planning_route:seed-29:shift-1",
+        "patch-row:planning_route:seed-29:shift-2",
+        "patch-row:planning_route:seed-43:shift-0",
+        "patch-row:planning_route:seed-43:shift-1",
+        "patch-row:planning_route:seed-43:shift-2"
+      ],
+      "safety_boundary": [
+        "patch-row:safety_boundary:seed-17:shift-0",
+        "patch-row:safety_boundary:seed-17:shift-1",
+        "patch-row:safety_boundary:seed-17:shift-2",
+        "patch-row:safety_boundary:seed-29:shift-0",
+        "patch-row:safety_boundary:seed-29:shift-1",
+        "patch-row:safety_boundary:seed-29:shift-2",
+        "patch-row:safety_boundary:seed-43:shift-0",
+        "patch-row:safety_boundary:seed-43:shift-1",
+        "patch-row:safety_boundary:seed-43:shift-2"
       ],
       "sparse_recall": [
         "patch-row:sparse_recall:seed-17:shift-0",
@@ -377,6 +469,70 @@
           "tensor-slice:parity_gate:seed-43:shift-2:arm-mechanism_probe"
         ]
       },
+      "planning_route": {
+        "module_id": "planning_route",
+        "tensor_slice_ids": [
+          "tensor-slice:planning_route:seed-17:shift-0:arm-ablated_probe",
+          "tensor-slice:planning_route:seed-17:shift-0:arm-matched_random",
+          "tensor-slice:planning_route:seed-17:shift-0:arm-mechanism_probe",
+          "tensor-slice:planning_route:seed-17:shift-1:arm-ablated_probe",
+          "tensor-slice:planning_route:seed-17:shift-1:arm-matched_random",
+          "tensor-slice:planning_route:seed-17:shift-1:arm-mechanism_probe",
+          "tensor-slice:planning_route:seed-17:shift-2:arm-ablated_probe",
+          "tensor-slice:planning_route:seed-17:shift-2:arm-matched_random",
+          "tensor-slice:planning_route:seed-17:shift-2:arm-mechanism_probe",
+          "tensor-slice:planning_route:seed-29:shift-0:arm-ablated_probe",
+          "tensor-slice:planning_route:seed-29:shift-0:arm-matched_random",
+          "tensor-slice:planning_route:seed-29:shift-0:arm-mechanism_probe",
+          "tensor-slice:planning_route:seed-29:shift-1:arm-ablated_probe",
+          "tensor-slice:planning_route:seed-29:shift-1:arm-matched_random",
+          "tensor-slice:planning_route:seed-29:shift-1:arm-mechanism_probe",
+          "tensor-slice:planning_route:seed-29:shift-2:arm-ablated_probe",
+          "tensor-slice:planning_route:seed-29:shift-2:arm-matched_random",
+          "tensor-slice:planning_route:seed-29:shift-2:arm-mechanism_probe",
+          "tensor-slice:planning_route:seed-43:shift-0:arm-ablated_probe",
+          "tensor-slice:planning_route:seed-43:shift-0:arm-matched_random",
+          "tensor-slice:planning_route:seed-43:shift-0:arm-mechanism_probe",
+          "tensor-slice:planning_route:seed-43:shift-1:arm-ablated_probe",
+          "tensor-slice:planning_route:seed-43:shift-1:arm-matched_random",
+          "tensor-slice:planning_route:seed-43:shift-1:arm-mechanism_probe",
+          "tensor-slice:planning_route:seed-43:shift-2:arm-ablated_probe",
+          "tensor-slice:planning_route:seed-43:shift-2:arm-matched_random",
+          "tensor-slice:planning_route:seed-43:shift-2:arm-mechanism_probe"
+        ]
+      },
+      "safety_boundary": {
+        "module_id": "safety_boundary",
+        "tensor_slice_ids": [
+          "tensor-slice:safety_boundary:seed-17:shift-0:arm-ablated_probe",
+          "tensor-slice:safety_boundary:seed-17:shift-0:arm-matched_random",
+          "tensor-slice:safety_boundary:seed-17:shift-0:arm-mechanism_probe",
+          "tensor-slice:safety_boundary:seed-17:shift-1:arm-ablated_probe",
+          "tensor-slice:safety_boundary:seed-17:shift-1:arm-matched_random",
+          "tensor-slice:safety_boundary:seed-17:shift-1:arm-mechanism_probe",
+          "tensor-slice:safety_boundary:seed-17:shift-2:arm-ablated_probe",
+          "tensor-slice:safety_boundary:seed-17:shift-2:arm-matched_random",
+          "tensor-slice:safety_boundary:seed-17:shift-2:arm-mechanism_probe",
+          "tensor-slice:safety_boundary:seed-29:shift-0:arm-ablated_probe",
+          "tensor-slice:safety_boundary:seed-29:shift-0:arm-matched_random",
+          "tensor-slice:safety_boundary:seed-29:shift-0:arm-mechanism_probe",
+          "tensor-slice:safety_boundary:seed-29:shift-1:arm-ablated_probe",
+          "tensor-slice:safety_boundary:seed-29:shift-1:arm-matched_random",
+          "tensor-slice:safety_boundary:seed-29:shift-1:arm-mechanism_probe",
+          "tensor-slice:safety_boundary:seed-29:shift-2:arm-ablated_probe",
+          "tensor-slice:safety_boundary:seed-29:shift-2:arm-matched_random",
+          "tensor-slice:safety_boundary:seed-29:shift-2:arm-mechanism_probe",
+          "tensor-slice:safety_boundary:seed-43:shift-0:arm-ablated_probe",
+          "tensor-slice:safety_boundary:seed-43:shift-0:arm-matched_random",
+          "tensor-slice:safety_boundary:seed-43:shift-0:arm-mechanism_probe",
+          "tensor-slice:safety_boundary:seed-43:shift-1:arm-ablated_probe",
+          "tensor-slice:safety_boundary:seed-43:shift-1:arm-matched_random",
+          "tensor-slice:safety_boundary:seed-43:shift-1:arm-mechanism_probe",
+          "tensor-slice:safety_boundary:seed-43:shift-2:arm-ablated_probe",
+          "tensor-slice:safety_boundary:seed-43:shift-2:arm-matched_random",
+          "tensor-slice:safety_boundary:seed-43:shift-2:arm-mechanism_probe"
+        ]
+      },
       "sparse_recall": {
         "module_id": "sparse_recall",
         "tensor_slice_ids": [
@@ -453,6 +609,7 @@
         "classifier_surface_id": "classifier-surface:copy_route",
         "surface_role": "distinction-module"
       },
+      "default_stance": "bounded MSN toy mechanism surface",
       "mechanism_id": "copy_route",
       "surface_id": "copy_route"
     },
@@ -466,14 +623,34 @@
         "classifier_surface_id": "classifier-surface:parity_gate",
         "surface_role": "distinction-module"
       },
+      "default_stance": "bounded MSN toy mechanism surface",
       "mechanism_id": "parity_gate",
       "surface_id": "parity_gate"
+    },
+    "planning_route": {
+      "classifier_surface": {
+        "classifier_surface_id": "classifier-surface:planning_route",
+        "surface_role": "distinction-module"
+      },
+      "default_stance": "bounded MSN toy mechanism surface",
+      "mechanism_id": "planning_route",
+      "surface_id": "planning_route"
+    },
+    "safety_boundary": {
+      "classifier_surface": {
+        "classifier_surface_id": "classifier-surface:safety_boundary",
+        "surface_role": "distinction-module"
+      },
+      "default_stance": "bounded MSN toy mechanism surface",
+      "mechanism_id": "safety_boundary",
+      "surface_id": "safety_boundary"
     },
     "sparse_recall": {
       "classifier_surface": {
         "classifier_surface_id": "classifier-surface:sparse_recall",
         "surface_role": "distinction-module"
       },
+      "default_stance": "bounded MSN toy mechanism surface",
       "mechanism_id": "sparse_recall",
       "surface_id": "sparse_recall"
     }

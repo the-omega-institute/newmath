@@ -117,8 +117,9 @@ def _recursive_pointer_fields(value, path="$"):
 
 
 def test_default_deterministic_grid_has_expected_anchor_size():
-    assert len(default_grid()) == 81
-    assert len(runner.collect_deterministic_records()) == 81
+    assert tuple(DEFAULT_MECHANISMS) == ("copy_route", "parity_gate", "sparse_recall", "safety_boundary", "planning_route")
+    assert len(default_grid()) == 135
+    assert len(runner.collect_deterministic_records()) == 135
 
 
 def test_deterministic_replay_and_required_keys():
@@ -127,8 +128,8 @@ def test_deterministic_replay_and_required_keys():
 
     assert json.dumps(first["summary_payload"], sort_keys=True) == json.dumps(second["summary_payload"], sort_keys=True)
     assert REQUIRED_SUMMARY_KEYS <= set(first["summary_payload"])
-    assert first["summary_payload"]["grid"]["record_count"] == 81
-    assert first["summary_payload"]["grid"]["expected_record_count"] == 81
+    assert first["summary_payload"]["grid"]["record_count"] == 135
+    assert first["summary_payload"]["grid"]["expected_record_count"] == 135
     assert first["summary_payload"]["run_artifacts"]["raw_metrics"] == first["summary_payload"]["records"]["raw_rows_pointer"]
 
 
@@ -136,7 +137,7 @@ def test_mechanism_gate_pass_and_reject_paths():
     summary = _project()["summary_payload"]
 
     assert summary["mechanism_gate_summary"]["accepted"] is True
-    assert summary["mechanism_gate_summary"]["accepted_surface_count"] >= 2
+    assert summary["mechanism_gate_summary"]["accepted_surface_count"] == 5
     assert summary["hardgate"]["status"] == "pass"
 
     records = runner.collect_deterministic_records()
@@ -148,6 +149,19 @@ def test_mechanism_gate_pass_and_reject_paths():
     assert failed["hardgate"]["gates"]["MSN-HG2"]["status"] == "fail"
     assert failed["discovery_map_signal"]["level_candidate"] == "DN"
     assert failed["discovery_map_signal"]["failed_gate"] == "MSN-HG2"
+
+    two_surface_records = runner.collect_deterministic_records()
+    for row in two_surface_records:
+        if row["arm"] == "mechanism_probe" and row["mechanism_id"] not in {"copy_route", "parity_gate"}:
+            row["mechanism_margin"] = 0.01
+            row["gate_decision"] = False
+    two_surface = _project(two_surface_records)["summary_payload"]
+    assert two_surface["mechanism_gate_summary"]["accepted_surface_count"] == 2
+    assert two_surface["mechanism_gate_summary"]["accepted"] is False
+    assert two_surface["hardgate"]["gates"]["MSN-HG2"]["status"] == "fail"
+    assert two_surface["hardgate"]["gates"]["MSN-HG2"]["evidence_pointer"] == "$.mechanism_gate_summary.accepted_surface_count"
+    assert two_surface["discovery_map_signal"]["level_candidate"] == "DN"
+    assert two_surface["discovery_map_signal"]["failed_gate"] == "MSN-HG2"
 
 
 def test_torch_unavailable_boundary_records_device_without_breaking_anchor():
@@ -217,7 +231,7 @@ def test_distinction_module_evidence_has_one_record_per_mechanism():
     assert evidence["schema_id"] == "bedc-quality-lab:mechanism-seeking-network#$.distinction_module_evidence"
     assert evidence["owner_pointer"] == "$.distinction_module_evidence"
     assert [row["module_id"] for row in evidence["records"]] == list(DEFAULT_MECHANISMS)
-    assert len(evidence["records"]) == 3
+    assert len(evidence["records"]) == 5
     assert all(set(row) == allowed for row in evidence["records"])
     assert "mechanism_score" not in json.dumps(evidence, sort_keys=True)
     assert "certificate_precision" not in json.dumps(evidence, sort_keys=True)
@@ -238,6 +252,24 @@ def test_distinction_module_evidence_pointers_resolve():
     for row in summary["distinction_module_evidence"]["records"]:
         for field in pointer_fields:
             assert discovery_map.pointer_value(summary, row[field]) is not None, (row["module_id"], field)
+
+
+def test_surface_registry_is_pointer_only_inventory():
+    summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    registry = summary["surface_registry"]
+
+    assert set(registry) == set(DEFAULT_MECHANISMS) | {"forbidden_alias_audit"}
+    for surface_id in DEFAULT_MECHANISMS:
+        row = registry[surface_id]
+        assert row["surface_id"] == surface_id
+        assert row["evidence_pointer"] == f"$.mechanism_gate_summary.by_mechanism.{surface_id}"
+        assert discovery_map.pointer_value(summary, row["evidence_pointer"]) is summary["mechanism_gate_summary"]["by_mechanism"][surface_id]
+        assert "accepted_surface_count" not in row
+        assert "accepted_count" not in row
+        assert "accepted" not in row
+        assert "floor" not in json.dumps(row, sort_keys=True).lower()
+        assert row["default_stance"] == "bounded MSN toy mechanism surface"
+    assert registry["forbidden_alias_audit"]["status"] == "pass"
 
 
 def test_msn_hg6_blocks_without_ablation_or_patch_rows():
@@ -321,6 +353,41 @@ def test_current_lab_projection_and_pointer_resolvability():
     assert failed_row["discovery_level"] == "DN"
     assert failed_row["failed_gate"] == "$.hardgate.gates.MSN-HG2.status"
     assert discovery_map.pointer_value(failed, failed_row["failed_gate"]) == "fail"
+
+
+def test_current_lab_projection_rejects_msn_owner_mismatches():
+    spec = canonical._specs_by_name()["mechanism-seeking-network"]
+    summary = _project()["summary_payload"]
+
+    count_mismatch = deepcopy(summary)
+    count_mismatch["mechanism_gate_summary"]["accepted_surface_count"] = 4
+    count_row = discovery_map.discovery_row(spec, count_mismatch)
+    assert count_row["discovery_level"] == "DN"
+    assert count_row["failed_gate"] == "$.mechanism_gate_summary.accepted_surface_count"
+
+    accepted_row_mismatch = deepcopy(summary)
+    accepted_row_mismatch["mechanism_gate_summary"]["by_mechanism"]["planning_route"]["accepted"] = False
+    row_mismatch = discovery_map.discovery_row(spec, accepted_row_mismatch)
+    assert row_mismatch["discovery_level"] == "DN"
+    assert row_mismatch["failed_gate"] == "$.mechanism_gate_summary.accepted_surface_count"
+
+    forged_positive = deepcopy(summary)
+    for surface_id, row in forged_positive["mechanism_gate_summary"]["by_mechanism"].items():
+        if surface_id not in {"copy_route", "parity_gate"}:
+            row["accepted"] = False
+    forged_positive["mechanism_gate_summary"]["accepted_surface_count"] = 2
+    forged_positive["mechanism_gate_summary"]["accepted"] = False
+    forged_positive["hardgate"]["gates"]["MSN-HG2"]["status"] = "fail"
+    forged_positive["hardgate"]["status"] = "fail"
+    forged_positive["hardgate"]["failed_gate"] = "MSN-HG2"
+    forged_positive["failed_gate"] = "MSN-HG2"
+    forged_positive["discovery_map_signal"]["status"] = "d4-candidate"
+    forged_positive["discovery_map_signal"]["level_candidate"] = "D4"
+    forged_positive["discovery_map_signal"]["failed_gate"] = None
+    forged_positive["discovery_map_signal"]["failed_gate_pointer"] = None
+    forged_row = discovery_map.discovery_row(spec, forged_positive)
+    assert forged_row["discovery_level"] == "DN"
+    assert forged_row["failed_gate"] == "$.discovery_map_signal.level_candidate"
 
 
 def test_recursive_no_terminal_verdict_and_pointer_fields_resolve(tmp_path):

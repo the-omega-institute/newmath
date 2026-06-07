@@ -1328,12 +1328,29 @@ def _mechanism_seeking_network_consistency(payload: Mapping[str, Any]) -> tuple[
     hardgate = pointer_value(payload, "$.hardgate.gates")
     failed = pointer_value(payload, "$.hardgate.failed_gate")
     forbidden_audit = pointer_value(payload, "$.forbidden_claim_term_audit.status")
+    mechanism_summary = pointer_value(payload, "$.mechanism_gate_summary")
     module_evidence = pointer_value(payload, "$.distinction_module_evidence")
     readiness = pointer_value(payload, "$.d5_m_readiness")
     if not isinstance(signal, Mapping):
         return False, "missing-msn-discovery-map-signal", "$.discovery_map_signal"
     if not isinstance(hardgate, Mapping):
         return False, "missing-msn-hardgates", "$.hardgate.gates"
+    if not isinstance(mechanism_summary, Mapping):
+        return False, "missing-msn-mechanism-gate-summary", "$.mechanism_gate_summary"
+    by_mechanism = mechanism_summary.get("by_mechanism")
+    if not isinstance(by_mechanism, Mapping) or not by_mechanism:
+        return False, "missing-msn-by-mechanism", "$.mechanism_gate_summary.by_mechanism"
+    accepted_surface_count = sum(1 for row in by_mechanism.values() if isinstance(row, Mapping) and row.get("accepted") is True)
+    if mechanism_summary.get("accepted_surface_count") != accepted_surface_count:
+        return False, "msn-accepted-surface-count-mismatch", "$.mechanism_gate_summary.accepted_surface_count"
+    expected_accepted = accepted_surface_count >= 3
+    if mechanism_summary.get("accepted") is not expected_accepted:
+        return False, "msn-accepted-flag-mismatch", "$.mechanism_gate_summary.accepted"
+    expected_hg2 = "pass" if expected_accepted else "fail"
+    if pointer_value(payload, "$.hardgate.gates.MSN-HG2.status") != expected_hg2:
+        return False, "msn-hg2-status-mismatch", "$.hardgate.gates.MSN-HG2.status"
+    if accepted_surface_count < 3 and signal.get("level_candidate") in {"D4", "D5-M"}:
+        return False, "msn-positive-signal-without-surface-floor", "$.discovery_map_signal.level_candidate"
     if not isinstance(module_evidence, Mapping):
         return False, "missing-msn-distinction-module-evidence", "$.distinction_module_evidence"
     if not isinstance(readiness, Mapping):
@@ -1361,7 +1378,7 @@ def _mechanism_seeking_network_consistency(payload: Mapping[str, Any]) -> tuple[
     hg6_status = pointer_value(payload, "$.hardgate.gates.MSN-HG6.status")
     accepted_modules = [
         module_id
-        for module_id, row in (pointer_value(payload, "$.mechanism_gate_summary.by_mechanism") or {}).items()
+        for module_id, row in by_mechanism.items()
         if isinstance(row, Mapping) and row.get("accepted") is True
     ]
     accepted_records = [
@@ -1420,9 +1437,13 @@ def _mechanism_seeking_network_consistency(payload: Mapping[str, Any]) -> tuple[
             return False, f"msn-{key}-mismatch", pointer if isinstance(pointer, str) else "$.discovery_map_signal"
     if pointer_value(payload, "$.hardgate.failed_gate") != expected["failed_gate"]:
         return False, "msn-hardgate-failed_gate-mismatch", "$.hardgate.failed_gate"
-    if signal.get("mechanism_evidence_pointer") not in {"$.mechanism_gate_summary", "$.mechanism_gate_summary.by_mechanism", "$.distinction_module_evidence"}:
+    if signal.get("surface_registry_pointer") != "$.surface_registry":
+        return False, "msn-surface-registry-pointer-mismatch", "$.discovery_map_signal.surface_registry_pointer"
+    if signal.get("mechanism_evidence_pointer") != "$.mechanism_gate_summary.by_mechanism":
         return False, "msn-mechanism-pointer-mismatch", "$.discovery_map_signal.mechanism_evidence_pointer"
-    if signal.get("mechanism_evidence_pointer") == "$.distinction_module_evidence" and pointer_value(payload, "$.distinction_module_evidence") is None:
+    if pointer_value(payload, "$.discovery_map_signal.surface_registry_pointer") is None:
+        return False, "msn-surface-registry-pointer-dangling", "$.discovery_map_signal.surface_registry_pointer"
+    if pointer_value(payload, "$.discovery_map_signal.mechanism_evidence_pointer") is None:
         return False, "msn-mechanism-pointer-dangling", "$.discovery_map_signal.mechanism_evidence_pointer"
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.mechanism_gate_summary"
 

@@ -238,6 +238,22 @@ def test_model_design_suite_committed_json_round_trip_checks_slot_set(tmp_path):
     assert len(payload["rows"]) == len(EXPECTED_MODEL_DESIGN_COMPONENTS)
 
 
+def test_model_design_suite_msn_row_is_pointer_only(tmp_path):
+    payload = _payload_with_root(tmp_path)
+    msn_row = next(
+        row
+        for row in payload["rows"]
+        if row["component_id"] == f"{canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.artifact_id"
+    )
+
+    assert msn_row["canonical_owner_pointer"] == f"{canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$"
+    assert msn_row["discovery_pointer"] == f"{canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.discovery_map_signal"
+    assert msn_row["mechanism_pointer"] == f"{canonical.MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.mechanism_gate_summary"
+    assert "surface_atlas" not in json.dumps(payload, sort_keys=True)
+    assert "surface_registry" not in json.dumps(msn_row, sort_keys=True)
+    assert "by_mechanism" not in json.dumps(msn_row, sort_keys=True)
+
+
 @pytest.mark.parametrize(
     ("field", "value", "reason"),
     [
