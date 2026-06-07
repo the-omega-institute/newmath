@@ -1191,6 +1191,7 @@ import BEDC.Derived.BurnsideOrbitCountUp.TasteGate
 import BEDC.Derived.BusemannBoundaryUp.TasteGate
 import BEDC.Derived.BusyBeaverUp
 import BEDC.Derived.CStarAlgUp
+import BEDC.Derived.CalculusUp
 import BEDC.Derived.CalculusUp.CompletionSourceEnvelopeObligations
 import BEDC.Derived.CalculusUp.CompletionSourceRealReadback
 import BEDC.Derived.CalculusUp.ContinuousLimitCarrierBudget
@@ -2598,6 +2599,7 @@ import BEDC.Derived.CompactCauchyCoverUp.TasteGate
 import BEDC.Derived.CompactCauchyEquicontinuityUp
 import BEDC.Derived.CompactCompletionExtensionModulusUp.TasteGate
 import BEDC.Derived.CompactContinuityRadiusChoiceUp.TasteGate
+import BEDC.Derived.CompactContinuousImageTotalBoundedUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.FiniteNetRadiusExhaustion
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.TasteGate
 import BEDC.Derived.CompactCoverLebesgueLedgerUp.UniformModulusHandoff
@@ -3121,6 +3123,7 @@ import BEDC.Derived.CoveringdimensionUp.RefinementMultiplicityWindow
 import BEDC.Derived.CoveringdimensionUp.RootCompactNetCoverRoute
 import BEDC.Derived.CoveringdimensionUp.RootCoverCarrier
 import BEDC.Derived.CoveringdimensionUp.RootObligationSurface
+import BEDC.Derived.CoveringdimensionUp.SimplicialNerveHandoff
 import BEDC.Derived.CozeroSetUp.TasteGate
 import BEDC.Derived.CritStripUp
 import BEDC.Derived.CritStripUp.TasteGate
@@ -5299,6 +5302,7 @@ import BEDC.Derived.IntervalDomainUp.DyadicEndpointCoverage
 import BEDC.Derived.IntervalDomainUp.FiniteEndpointOrder
 import BEDC.Derived.IntervalDomainUp.NameCertObligations
 import BEDC.Derived.IntervalDomainUp.RationalWidthMonotonicity
+import BEDC.Derived.IntervalDomainUp.RegularCauchyDirectedWidth
 import BEDC.Derived.IntervalDomainUp.RegularCauchyWindow
 import BEDC.Derived.IntervalDomainUp.TasteGate
 import BEDC.Derived.IntervalHalvingModulusUp.TasteGate
@@ -5615,6 +5619,7 @@ import BEDC.Derived.LocatedClosedBallUp.TasteGate
 import BEDC.Derived.LocatedClosedIntervalFiniteNetUp.TasteGate
 import BEDC.Derived.LocatedCompactCompletionUp
 import BEDC.Derived.LocatedCompactIntervalOscillationBoundUp.TasteGate
+import BEDC.Derived.LocatedCompactIntervalSelectionUp.TasteGate
 import BEDC.Derived.LocatedCompactUp.Carrier
 import BEDC.Derived.LocatedCompactUp.NameCert
 import BEDC.Derived.LocatedCompactUp.TasteGate
@@ -5992,6 +5997,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceFrontierPublicHandoff
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualDischarge
 import BEDC.Derived.MetaCICCriticalPathUp.ConfluenceResidualFrontierRoute
+import BEDC.Derived.MetaCICCriticalPathUp.ConsistencyRefusalBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ConsistencyRouteTotality
 import BEDC.Derived.MetaCICCriticalPathUp.ConsumerRefusalExactness
 import BEDC.Derived.MetaCICCriticalPathUp.Core
@@ -6080,6 +6086,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.NormalizationSourceVisibility
 import BEDC.Derived.MetaCICCriticalPathUp.NormalizationTraceResidualFrontierRoute
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionBoundary
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionLedgerExhaustion
+import BEDC.Derived.MetaCICCriticalPathUp.ObstructionScopeSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.ObstructionSocketSeparation
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhase
 import BEDC.Derived.MetaCICCriticalPathUp.OpenPhaseConsumerTotality
@@ -6954,6 +6961,8 @@ import BEDC.Derived.PaperLeanDriftWitnessUp
 import BEDC.Derived.ParacompactUp.TasteGate
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.ParsevalUp.CoefficientIntegralHandoff
+import BEDC.Derived.ParsevalUp.FiniteEnergyInductionReadback
+import BEDC.Derived.ParsevalUp.FinitePartialSumInduction
 import BEDC.Derived.ParsevalUp.InnerProductEnergyLedger
 import BEDC.Derived.ParsevalUp.InnerProductNameCertObligations
 import BEDC.Derived.ParsevalUp.IntegralEnergyHandoffObligation
@@ -6964,6 +6973,7 @@ import BEDC.Derived.ParsevalUp.RootEnergyDecomposition
 import BEDC.Derived.ParsevalUp.RootFiniteCoefficientLedger
 import BEDC.Derived.ParsevalUp.RootFourierEnergyBudget
 import BEDC.Derived.ParsevalUp.RootOrthogonalityLedger
+import BEDC.Derived.ParsevalUp.RootRealEnergySealBoundary
 import BEDC.Derived.ParsevalUp.TasteGate
 import BEDC.Derived.PartitionOfUnityUp.TasteGate
 import BEDC.Derived.PartitionUp
