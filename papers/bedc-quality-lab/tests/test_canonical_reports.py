@@ -66,6 +66,35 @@ MODEL_DESIGN_FIXTURE_ARTIFACT_IDS = {
 }
 
 
+def _dg_nas_negative_witness_mutation_rows() -> list[dict[str, object]]:
+    return [
+        {
+            "witness_kind": "score_margin_shortcut",
+            "witness_ref": "score_margin_shortcut",
+            "source_candidate": "score_margin_shortcut",
+            "mutation_candidate": "residualized_h_path",
+            "source_candidate_demoted": True,
+            "mutation_pointer": "$.search_objective_summary.by_candidate.residualized_h_path",
+        },
+        {
+            "witness_kind": "scale_leakage",
+            "witness_ref": "scale_leakage",
+            "source_candidate": "residualized_h_path",
+            "mutation_candidate": "scale_invariant_norm",
+            "source_candidate_demoted": True,
+            "mutation_pointer": "$.search_objective_summary.by_candidate.scale_invariant_norm",
+        },
+        {
+            "witness_kind": "control_positive",
+            "witness_ref": "control_positive",
+            "source_candidate": "scale_invariant_norm",
+            "mutation_candidate": "control_separated_route",
+            "source_candidate_demoted": True,
+            "mutation_pointer": "$.search_objective_summary.by_candidate.control_separated_route",
+        },
+    ]
+
+
 def _atlas_fixture_rows():
     row = {
         "surface_id": "S12",
@@ -466,7 +495,7 @@ def _payload_for_spec(spec):
                         "scale_leakage": "scale_invariant_norm",
                         "control_positive": "control_separated_route",
                     },
-                    "rows": [],
+                    "rows": _dg_nas_negative_witness_mutation_rows(),
                     "witness_violating_candidate_count": 3,
                     "demoted_candidate_count": 3,
                     "selected_candidate_has_violation": False,
@@ -826,6 +855,15 @@ def _write_fingerprint_fixture(canonical_module, root, spec, *, script_text="SEE
     json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
     canonical_module._artifact_path(spec.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
     return canonical_module._write_fingerprint_sidecar(spec, generated_at="fixture")
+
+
+def test_canonical_report_fixture_requires_dg_nas_mutation_rows():
+    spec = canonical._specs_by_name()["discovery-gated-nas"]
+    payload = _payload_for_spec(spec)
+    rows = payload["negative_witness_mutations"]["rows"]
+
+    assert len(rows) == 3
+    assert {row["witness_ref"] for row in rows} == {"score_margin_shortcut", "scale_leakage", "control_positive"}
 
 
 def _set_canonical_tmp_root(monkeypatch, tmp_path):

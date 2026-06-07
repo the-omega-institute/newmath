@@ -124,9 +124,14 @@ def test_search_objective_calculation_is_quantized():
 def test_negative_witness_mutations_and_demotions():
     payload = _payload()
     rows = payload["negative_witness_mutations"]["rows"]
+    mutation_map = payload["negative_witness_mutations"]["mutation_map"]
 
     assert payload["negative_witness_mutations"]["mutation_map"] == NEGATIVE_WITNESS_MUTATIONS
     assert {row["witness_kind"] for row in rows} == set(NEGATIVE_WITNESS_MUTATIONS)
+    for row in rows:
+        assert row["witness_ref"] == row["witness_kind"]
+        assert row["mutation_candidate"] == mutation_map[row["witness_kind"]]
+        assert row["mutation_pointer"] == f"$.search_objective_summary.by_candidate.{row['mutation_candidate']}"
     assert all(row["source_candidate_demoted"] is True for row in rows)
     assert payload["negative_witness_mutations"]["demoted_candidate_count"] == payload["negative_witness_mutations"]["witness_violating_candidate_count"]
     assert payload["negative_witness_mutations"]["selected_candidate_has_violation"] is False
@@ -290,6 +295,113 @@ def test_candidate_with_witness_violation_fails_hg6_when_not_demoted():
 
     assert hardgates["DG-NAS-HG6"]["status"] == "fail"
     assert mutated["negative_witness_mutations"]["demoted_candidate_count"] < mutated["negative_witness_mutations"]["witness_violating_candidate_count"]
+
+
+def test_hg6_fails_when_negative_witness_row_lacks_direct_witness_ref():
+    payload = _ready_payload()
+    projection = DiscoveryGatedNasProjection(
+        config=payload["config"],
+        records=[],
+        generated_at="fixture-time",
+        run_artifacts=payload["run_artifacts"],
+    )
+    rows = payload["negative_witness_mutations"]["rows"]
+    missing_ref = {
+        **payload,
+        "negative_witness_mutations": {
+            **payload["negative_witness_mutations"],
+            "rows": [{key: value for key, value in rows[0].items() if key != "witness_ref"}, *rows[1:]],
+        },
+    }
+    wrong_ref = {
+        **payload,
+        "negative_witness_mutations": {
+            **payload["negative_witness_mutations"],
+            "rows": [{**rows[0], "witness_ref": rows[1]["witness_kind"]}, *rows[1:]],
+        },
+    }
+
+    assert projection.hardgate_verdicts(missing_ref)["DG-NAS-HG6"]["status"] == "fail"
+    assert projection.hardgate_verdicts(wrong_ref)["DG-NAS-HG6"]["status"] == "fail"
+
+
+def _assert_hg6_rejects_negative_witness_mutation(payload):
+    recomputed = _with_recomputed_signal(payload)
+
+    assert recomputed["hardgate"]["gates"]["DG-NAS-HG6"]["status"] == "fail"
+    _assert_dn_projection(recomputed, "DG-NAS-HG6")
+
+
+def _with_negative_witness_mutations(payload, **overrides):
+    return {
+        **payload,
+        "negative_witness_mutations": {
+            **payload["negative_witness_mutations"],
+            **overrides,
+        },
+    }
+
+
+def test_hg6_fails_when_negative_witness_row_has_wrong_mutation_candidate():
+    payload = _ready_payload()
+    rows = payload["negative_witness_mutations"]["rows"]
+    row = rows[0]
+    wrong_candidate = next(candidate for candidate in DEFAULT_CANDIDATES if candidate != row["mutation_candidate"])
+    mutated = _with_negative_witness_mutations(
+        payload,
+        rows=[{**row, "mutation_candidate": wrong_candidate}, *rows[1:]],
+    )
+
+    _assert_hg6_rejects_negative_witness_mutation(mutated)
+
+
+def test_hg6_fails_when_negative_witness_row_has_wrong_mutation_pointer():
+    payload = _ready_payload()
+    rows = payload["negative_witness_mutations"]["rows"]
+    mutated = _with_negative_witness_mutations(
+        payload,
+        rows=[{**rows[0], "mutation_pointer": "$.search_objective_summary.by_candidate.not_canonical"}, *rows[1:]],
+    )
+
+    _assert_hg6_rejects_negative_witness_mutation(mutated)
+
+
+def test_hg6_fails_when_negative_witness_row_is_missing():
+    payload = _ready_payload()
+    rows = payload["negative_witness_mutations"]["rows"]
+    mutated = _with_negative_witness_mutations(payload, rows=rows[1:])
+
+    _assert_hg6_rejects_negative_witness_mutation(mutated)
+
+
+def test_hg6_fails_when_negative_witness_row_is_extra():
+    payload = _ready_payload()
+    rows = payload["negative_witness_mutations"]["rows"]
+    extra = {
+        **rows[0],
+        "witness_kind": "not_canonical",
+        "witness_ref": "not_canonical",
+    }
+    mutated = _with_negative_witness_mutations(payload, rows=[*rows, extra])
+
+    _assert_hg6_rejects_negative_witness_mutation(mutated)
+
+
+def test_hg6_fails_when_negative_witness_mutation_map_is_not_canonical():
+    payload = _ready_payload()
+    witness_kind = next(iter(NEGATIVE_WITNESS_MUTATIONS))
+    wrong_candidate = next(
+        candidate for candidate in DEFAULT_CANDIDATES if candidate != NEGATIVE_WITNESS_MUTATIONS[witness_kind]
+    )
+    mutated = _with_negative_witness_mutations(
+        payload,
+        mutation_map={
+            **payload["negative_witness_mutations"]["mutation_map"],
+            witness_kind: wrong_candidate,
+        },
+    )
+
+    _assert_hg6_rejects_negative_witness_mutation(mutated)
 
 
 def test_matched_baseline_control_positive_fails_hg6_without_d5_m_candidate():
