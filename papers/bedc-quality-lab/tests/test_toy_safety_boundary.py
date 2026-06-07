@@ -11,6 +11,7 @@ from bedc_quality_lab.discovery_compiler.capsule import ClaimCapsule
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.toy_safety_boundary import (
     CANONICAL_SIDECAR_ARTIFACT,
+    CANONICAL_MARKDOWN_ARTIFACT,
     CLAIM_CAPSULE_ARTIFACT,
     CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID,
     CLAIM_CAPSULE_SCHEMA_ID,
@@ -23,6 +24,7 @@ from bedc_quality_lab.toy_safety_boundary import (
     validate_artifacts,
     write_artifacts,
 )
+from scripts import run_canonical_reports as canonical
 from scripts.run_toy_safety_boundary import main as run_toy_safety_boundary
 
 
@@ -129,6 +131,56 @@ def test_pointer_surfaces_are_pointer_only_and_resolve_to_capsule():
     assert forbidden_embeds.isdisjoint(summary)
     assert forbidden_embeds.isdisjoint(public)
     assert forbidden_embeds.isdisjoint(canonical)
+
+
+def test_canonical_index_exposes_toy_safety_boundary_pointer_only_section():
+    index = canonical._index([], generated_at="2030-01-01T00:00:00+00:00")
+    section = index["toy_safety_boundary"]
+    markdown = canonical._render_index_markdown(index)
+
+    assert set(section) == {
+        "status",
+        "artifact_id",
+        "json_artifact",
+        "markdown_artifact",
+        "claim_capsule_pointer",
+        "hardgates_pointer",
+        "positive_claim_pointer",
+        "canonical_role",
+    }
+    assert section["status"] == "pointer-only"
+    assert section["json_artifact"] == CANONICAL_SIDECAR_ARTIFACT
+    assert section["markdown_artifact"] == CANONICAL_MARKDOWN_ARTIFACT
+    assert section["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+
+    for pointer in (
+        section["claim_capsule_pointer"],
+        section["hardgates_pointer"],
+        section["positive_claim_pointer"],
+    ):
+        assert pointer.startswith(f"{CLAIM_CAPSULE_ARTIFACT}:")
+        assert resolve_artifact_pointer(ROOT, pointer) is not None
+
+    toy_markdown_section = markdown.split("## Toy safety boundary", maxsplit=1)[1].split(
+        "## Paper outline", maxsplit=1
+    )[0]
+    assert f"- Claim capsule: `{section['claim_capsule_pointer']}`" in toy_markdown_section
+    assert f"- Hardgates: `{section['hardgates_pointer']}`" in toy_markdown_section
+    assert f"- JSON: `{CANONICAL_SIDECAR_ARTIFACT}`" in toy_markdown_section
+    assert f"- Markdown: `{CANONICAL_MARKDOWN_ARTIFACT}`" in toy_markdown_section
+    for inline_body_key in ("not_claimed", "what_was_learned", "result_snapshot"):
+        assert inline_body_key not in set(section)
+        assert inline_body_key not in toy_markdown_section
+
+
+def test_toy_safety_boundary_sidecar_stays_out_of_canonical_reports():
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    json_artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+    markdown_artifacts = {spec.markdown_artifact for spec in canonical.CANONICAL_REPORTS}
+
+    assert "toy_safety_boundary" not in names
+    assert CANONICAL_SIDECAR_ARTIFACT not in json_artifacts
+    assert CANONICAL_MARKDOWN_ARTIFACT not in markdown_artifacts
 
 
 def test_positive_claim_fail_closed_conditions():
