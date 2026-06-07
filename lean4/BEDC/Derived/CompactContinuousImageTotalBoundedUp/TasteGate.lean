@@ -2,7 +2,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
-namespace BEDC.Derived.CompactContinuousImageTotalBoundedUp
+namespace BEDC.Derived.CompactContinuousImageTotalBoundedUp.TasteGate
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
@@ -25,11 +25,10 @@ def compactContinuousImageTotalBoundedDecodeBHist : RawEvent → BHist
   | BMark.b0 :: tail => BHist.e0 (compactContinuousImageTotalBoundedDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (compactContinuousImageTotalBoundedDecodeBHist tail)
 
-private theorem CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode :
+private theorem CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode :
     ∀ h : BHist,
       compactContinuousImageTotalBoundedDecodeBHist
-          (compactContinuousImageTotalBoundedEncodeBHist h) =
-        h := by
+        (compactContinuousImageTotalBoundedEncodeBHist h) = h := by
   -- BEDC touchpoint anchor: BHist BMark
   intro h
   induction h with
@@ -60,39 +59,38 @@ private def compactContinuousImageTotalBoundedEventAtDefault : Nat → EventFlow
   | Nat.succ index, _event :: rest =>
       compactContinuousImageTotalBoundedEventAtDefault index rest
 
-def compactContinuousImageTotalBoundedFromEventFlow
-    (ef : EventFlow) : Option CompactContinuousImageTotalBoundedUp :=
+def compactContinuousImageTotalBoundedFromEventFlow :
+    EventFlow → Option CompactContinuousImageTotalBoundedUp :=
   -- BEDC touchpoint anchor: BHist BMark
-  some
-    (CompactContinuousImageTotalBoundedUp.mk
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 0 ef))
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 1 ef))
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 2 ef))
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 3 ef))
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 4 ef))
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 5 ef))
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 6 ef))
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 7 ef))
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 8 ef))
-      (compactContinuousImageTotalBoundedDecodeBHist
-        (compactContinuousImageTotalBoundedEventAtDefault 9 ef)))
+  fun ef =>
+    some
+      (CompactContinuousImageTotalBoundedUp.mk
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 0 ef))
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 1 ef))
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 2 ef))
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 3 ef))
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 4 ef))
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 5 ef))
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 6 ef))
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 7 ef))
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 8 ef))
+        (compactContinuousImageTotalBoundedDecodeBHist
+          (compactContinuousImageTotalBoundedEventAtDefault 9 ef)))
 
-private theorem CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_round_trip :
-    ∀ x : CompactContinuousImageTotalBoundedUp,
-      compactContinuousImageTotalBoundedFromEventFlow
-          (compactContinuousImageTotalBoundedToEventFlow x) =
-        some x := by
+private theorem CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_round_trip
+    (x : CompactContinuousImageTotalBoundedUp) :
+    compactContinuousImageTotalBoundedFromEventFlow
+      (compactContinuousImageTotalBoundedToEventFlow x) = some x := by
   -- BEDC touchpoint anchor: BHist BMark
-  intro x
   cases x with
   | mk X F U M R B H C P N =>
       change
@@ -119,19 +117,18 @@ private theorem CompactContinuousImageTotalBoundedTasteGate_single_carrier_align
             (compactContinuousImageTotalBoundedDecodeBHist
               (compactContinuousImageTotalBoundedEncodeBHist N))) =
           some (CompactContinuousImageTotalBoundedUp.mk X F U M R B H C P N)
-      rw [CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode X,
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode F,
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode U,
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode M,
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode R,
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode B,
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode H,
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode C,
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode P,
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode N]
+      rw [CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode X,
+        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode F,
+        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode U,
+        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode M,
+        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode R,
+        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode B,
+        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode H,
+        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode C,
+        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode P,
+        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode N]
 
-private theorem
-    CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_toEventFlow_injective
+private theorem CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_toEventFlow_injective
     {x y : CompactContinuousImageTotalBoundedUp} :
     compactContinuousImageTotalBoundedToEventFlow x =
         compactContinuousImageTotalBoundedToEventFlow y →
@@ -150,25 +147,6 @@ private theorem
       (Eq.trans hread
         (CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_round_trip y)))
 
-private def compactContinuousImageTotalBoundedFields :
-    CompactContinuousImageTotalBoundedUp → List BHist
-  -- BEDC touchpoint anchor: BHist BMark
-  | CompactContinuousImageTotalBoundedUp.mk X F U M R B H C P N =>
-      [X, F, U, M, R, B, H, C, P, N]
-
-private theorem CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_fields :
-    ∀ x y : CompactContinuousImageTotalBoundedUp,
-      compactContinuousImageTotalBoundedFields x = compactContinuousImageTotalBoundedFields y →
-        x = y := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro x y hfields
-  cases x with
-  | mk X1 F1 U1 M1 R1 B1 H1 C1 P1 N1 =>
-      cases y with
-      | mk X2 F2 U2 M2 R2 B2 H2 C2 P2 N2 =>
-          cases hfields
-          rfl
-
 instance compactContinuousImageTotalBoundedBHistCarrier :
     BHistCarrier CompactContinuousImageTotalBoundedUp where
   -- BEDC touchpoint anchor: BHist BMark
@@ -182,8 +160,7 @@ instance compactContinuousImageTotalBoundedChapterTasteGate :
     intro x
     change
       compactContinuousImageTotalBoundedFromEventFlow
-          (compactContinuousImageTotalBoundedToEventFlow x) =
-        some x
+        (compactContinuousImageTotalBoundedToEventFlow x) = some x
     exact CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_round_trip x
   layer_separation := by
     intro x y hxy heq
@@ -191,49 +168,18 @@ instance compactContinuousImageTotalBoundedChapterTasteGate :
       (CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_toEventFlow_injective
         heq)
 
-instance compactContinuousImageTotalBoundedFieldFaithful :
-    FieldFaithful CompactContinuousImageTotalBoundedUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  fields := compactContinuousImageTotalBoundedFields
-  field_faithful := CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_fields
-
-instance compactContinuousImageTotalBoundedNontrivial :
-    Nontrivial CompactContinuousImageTotalBoundedUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  witness_pair :=
-    ⟨CompactContinuousImageTotalBoundedUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      CompactContinuousImageTotalBoundedUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
-        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
-      by
-        intro h
-        cases h⟩
-
-def taste_gate : ChapterTasteGate CompactContinuousImageTotalBoundedUp :=
-  -- BEDC touchpoint anchor: BHist BMark
-  compactContinuousImageTotalBoundedChapterTasteGate
-
 theorem CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       compactContinuousImageTotalBoundedDecodeBHist
-          (compactContinuousImageTotalBoundedEncodeBHist h) =
-        h) ∧
-      (∀ x : CompactContinuousImageTotalBoundedUp,
-        compactContinuousImageTotalBoundedFromEventFlow
-            (compactContinuousImageTotalBoundedToEventFlow x) =
-          some x) ∧
-        (∀ x y : CompactContinuousImageTotalBoundedUp,
-          compactContinuousImageTotalBoundedToEventFlow x =
-              compactContinuousImageTotalBoundedToEventFlow y →
-            x = y) ∧
+        (compactContinuousImageTotalBoundedEncodeBHist h) = h) ∧
+      Nonempty (BHistCarrier CompactContinuousImageTotalBoundedUp) ∧
+        Nonempty (ChapterTasteGate CompactContinuousImageTotalBoundedUp) ∧
           compactContinuousImageTotalBoundedEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate FieldFaithful
+  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
   exact
-    ⟨CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode,
-      CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_round_trip,
-      fun _ _ heq =>
-        CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_toEventFlow_injective
-          heq,
+    ⟨CompactContinuousImageTotalBoundedTasteGate_single_carrier_alignment_decode_encode,
+      ⟨compactContinuousImageTotalBoundedBHistCarrier⟩,
+      ⟨compactContinuousImageTotalBoundedChapterTasteGate⟩,
       rfl⟩
 
-end BEDC.Derived.CompactContinuousImageTotalBoundedUp
+end BEDC.Derived.CompactContinuousImageTotalBoundedUp.TasteGate
