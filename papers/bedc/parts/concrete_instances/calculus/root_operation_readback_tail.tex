@@ -15,6 +15,7 @@ The Real-facing portion is controlled by \autoref{thm:calculus-root-real-seal-no
 \label{thm:calculus-root-riemann-sum-real-seal}
 For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,R,Q,Y,H,T,P,N)$, a Riemann-sum-facing integral read must display the $\BHist$ finite-sum row $I$, the $\ContinuousMapUp$ row $C$, the $\RegSeqRatUp$ readback row $Q$, the $\DyadicRatCoreUp$ tolerance ledger $Y$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $T$, $\Pkg$ provenance $P$, local $\NameCert_{\CalculusUp}$ naming $N$, and the terminal $\RealUp$ boundary $R$ before any integral value is public. The seal is a finite Riemann row over L10 readback data and not a selected antiderivative, host integral functional, quotient equality of functions, or ambient completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusRootRiemannSumRealSeal}
 \begin{proof}
 Project the integral source row $I$ from the root carrier. It is the only row carrying finite-sum and endpoint handoff data for an integral-shaped read.
 
@@ -40,6 +41,7 @@ Finally apply \autoref{thm:calculus-root-riemann-sum-real-seal} and \autoref{thm
 \label{thm:calculus-root-common-real-readback}
 For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,Q,Y,R,H,T,P,N)$, derivative, integral, and limit consumers share the same Real readback route: the chosen operation row among $D,I,L$ is read only together with $C,Q,Y,R,H,T,P,N$. No operation row exports a Real value through a separate quotient representative, selected limiting object, or host completeness principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusRootCommonRealReadback}
 \begin{proof}
 Start from \autoref{thm:calculus-root-real-seal-nonescape}. It requires every Real-facing calculus export to pass through $Q,Y$ before the terminal row $R$ is consumed.
 
@@ -58,4 +60,19 @@ Apply \autoref{thm:calculus-root-derivative-integral-boundary}. It already separ
 Apply \autoref{thm:calculus-root-operation-ledger-exhaustion}. The exhaustion ledger adds the limit row $L$ to the same separated inventory and gives no hidden coordinate from which one operation can supply another.
 
 Use \autoref{thm:calculus-root-continuousmap-handoff} and \autoref{thm:calculus-root-real-seal-nonescape} to keep all three operation rows attached to $C,Q,Y,R,H,T,P,N$. The carrier route is therefore common at the readback boundary and separated at the operation boundary.
+\end{proof}
+\leanchecked{BEDC.Derived.CalculusUp.CalculusRootOperationSeparation}
+
+\begin{theorem}[Calculus root chain-rule ContinuousMap RegSeqRat scope]
+\label{thm:calculus-root-chain-rule-continuousmap-regseqrat-scope}
+For every accepted $\CalculusUp$ root carrier $G=(C,D,I,L,Q,Y,R,H,T,P,N)$, a composable pair of local-linearization ledgers whose graph replay is accepted by $\ContinuousMapUp$ through $C$ and whose dyadic error budgets descend through $\RegSeqRatUp$ via $Q,Y$ produces a $\RealUp$ readback scope for the chain-rule window. The consumer may read only the finite route $C,D,Q,Y,R,H,T,P,N$ together with the two composable local-linearization rows; it may not infer the full fundamental theorem of calculus, a global derivative operator, a selected antiderivative, quotient equality of functions, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Begin with the calculus root ContinuousMap handoff of \autoref{thm:calculus-root-continuousmap-handoff}. It forces the graph replay for each local-linearization row through the displayed continuous-map coordinate $C$ before the derivative row $D$ is consumed.
+
+Use the derivative-integral boundary of \autoref{thm:calculus-root-derivative-integral-boundary}. The chain-rule window remains on the derivative side of the root carrier and does not borrow an integral row or a host antiderivative claim.
+
+Next apply the regular-rational and dyadic readback route supplied by \autoref{thm:calculus-root-continuity-composition-ledger} and \autoref{thm:calculus-root-common-real-readback}. These keep the error budgets in $Q,Y$ before any terminal $\RealUp$ readback row $R$ is exposed.
+
+Finally use Real-seal nonescape, \autoref{thm:calculus-root-real-seal-nonescape}. The resulting scope is the displayed finite route through $C,D,Q,Y,R,H,T,P,N$ for the composable local-linearization pair, not the full fundamental theorem of calculus or any ambient analytic completeness principle.
 \end{proof}
