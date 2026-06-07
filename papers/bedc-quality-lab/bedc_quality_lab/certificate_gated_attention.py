@@ -19,7 +19,7 @@ PROJECTOR = "bedc_quality_lab.certificate_gated_attention.CertificateGatedAttent
 DEFAULT_SURFACES = ("copy_binding", "route_binding", "negation_binding", "scope_binding")
 DEFAULT_SEEDS = (13, 29, 43)
 DEFAULT_CERTIFICATE_MODES = ("valid", "invalid", "ambiguous")
-DEFAULT_BACKBONES = ("plain_attention", "certificate_gated_attention", "matched_random_gate")
+DEFAULT_BACKBONES = ("plain_attention", "certificate_gated_attention", "matched_random_gate", "entropy_only_attention")
 TORCH_SURFACES = ("copy_binding", "route_binding")
 TORCH_SEEDS = (13, 29)
 TORCH_BACKBONES = ("certificate_gated_attention", "matched_random_gate")
@@ -40,7 +40,7 @@ POSITIVE_CLAIM = {
     "text": "Certificate-gated attention records bounded lab-local evidence that parseable certificate gates can reduce attention leak against matched controls.",
     "scope": "deterministic anchor grid with bounded optional PyTorch evidence",
 }
-CGA_HARDGATES = tuple(f"CGA-HG{index}" for index in range(1, 6))
+CGA_HARDGATES = tuple(f"CGA-HG{index}" for index in range(1, 7))
 
 
 @dataclass(frozen=True)
@@ -148,6 +148,122 @@ def _revocation_rows(failed_gate: str | None) -> list[dict[str, Any]]:
     ]
 
 
+def _route_patch_protocol(
+    *,
+    surfaces: Sequence[str],
+    deterministic_rows: Sequence[Mapping[str, Any]],
+    plain_leak: float | None,
+    gated_leak: float | None,
+    entropy_leak: float | None,
+    leak_reduction: float | None,
+) -> dict[str, Any]:
+    entropy_reduction = None if entropy_leak is None or plain_leak is None else round(float(plain_leak - entropy_leak), 6)
+    valid_patch_delta = None if leak_reduction is None else round(float(leak_reduction), 6)
+    invalid_gated = [
+        row
+        for row in deterministic_rows
+        if row.get("backbone") == "certificate_gated_attention" and row.get("certificate_mode") == "invalid"
+    ]
+    ambiguous_gated = [
+        row
+        for row in deterministic_rows
+        if row.get("backbone") == "certificate_gated_attention" and row.get("certificate_mode") == "ambiguous"
+    ]
+    valid_gated = [
+        row
+        for row in deterministic_rows
+        if row.get("backbone") == "certificate_gated_attention" and row.get("certificate_mode") == "valid"
+    ]
+    valid_entropy = [
+        row
+        for row in deterministic_rows
+        if row.get("backbone") == "entropy_only_attention" and row.get("certificate_mode") == "valid"
+    ]
+    invalid_rate = _mean(1.0 if row.get("certificate_gate_passed") is True else 0.0 for row in invalid_gated)
+    ambiguous_rate = _mean(1.0 if row.get("certificate_gate_passed") is True else 0.0 for row in ambiguous_gated)
+    invalid_suppression_delta = (
+        None if invalid_rate is None or ambiguous_rate is None else round(float(1.0 - max(invalid_rate, ambiguous_rate)), 6)
+    )
+    gated_shift = _mean(float(row["classifier_shift_count"]) for row in valid_gated)
+    entropy_shift = _mean(float(row["classifier_shift_count"]) for row in valid_entropy)
+    classifier_shift_delta = None if gated_shift is None or entropy_shift is None else round(float(gated_shift - entropy_shift), 6)
+    by_surface = {}
+    for surface_id in surfaces:
+        surface_valid_plain = [
+            row
+            for row in deterministic_rows
+            if row.get("surface_id") == surface_id
+            and row.get("backbone") == "plain_attention"
+            and row.get("certificate_mode") == "valid"
+        ]
+        surface_valid_gated = [
+            row
+            for row in deterministic_rows
+            if row.get("surface_id") == surface_id
+            and row.get("backbone") == "certificate_gated_attention"
+            and row.get("certificate_mode") == "valid"
+        ]
+        surface_valid_entropy = [
+            row
+            for row in deterministic_rows
+            if row.get("surface_id") == surface_id
+            and row.get("backbone") == "entropy_only_attention"
+            and row.get("certificate_mode") == "valid"
+        ]
+        surface_invalid_gated = [
+            row
+            for row in deterministic_rows
+            if row.get("surface_id") == surface_id
+            and row.get("backbone") == "certificate_gated_attention"
+            and row.get("certificate_mode") in {"invalid", "ambiguous"}
+        ]
+        surface_plain_leak = _mean(float(row["attention_leak"]) for row in surface_valid_plain)
+        surface_gated_leak = _mean(float(row["attention_leak"]) for row in surface_valid_gated)
+        surface_entropy_leak = _mean(float(row["attention_leak"]) for row in surface_valid_entropy)
+        surface_invalid_rate = _mean(1.0 if row.get("certificate_gate_passed") is True else 0.0 for row in surface_invalid_gated)
+        surface_shift = _mean(float(row["classifier_shift_count"]) for row in surface_valid_gated)
+        by_surface[str(surface_id)] = {
+            "valid_patch_delta": (
+                0.0 if surface_plain_leak is None or surface_gated_leak is None else round(float(surface_plain_leak - surface_gated_leak), 6)
+            ),
+            "invalid_suppression_delta": 0.0 if surface_invalid_rate is None else round(float(1.0 - surface_invalid_rate), 6),
+            "entropy_only_delta": (
+                0.0 if surface_plain_leak is None or surface_entropy_leak is None else round(float(surface_plain_leak - surface_entropy_leak), 6)
+            ),
+            "classifier_shift_count_mean": 0.0 if surface_shift is None else round(float(surface_shift), 6),
+        }
+    return {
+        "valid_route_preservation": {
+            "plain_attention_leak_mean": plain_leak,
+            "certificate_gated_attention_leak_mean": gated_leak,
+            "valid_patch_delta": valid_patch_delta,
+            "evidence_pointer": "$.route_patch_protocol.by_surface",
+        },
+        "invalid_route_suppression": {
+            "invalid_gate_pass_rate": invalid_rate,
+            "ambiguous_gate_pass_rate": ambiguous_rate,
+            "invalid_suppression_delta": invalid_suppression_delta,
+            "evidence_pointer": "$.route_patch_protocol.by_surface",
+        },
+        "entropy_only_control": {
+            "entropy_only_attention_leak_mean": entropy_leak,
+            "entropy_only_reduction_mean": entropy_reduction,
+            "certificate_gate_reduction_mean": leak_reduction,
+            "certificate_beats_entropy_only": isinstance(leak_reduction, (int, float))
+            and isinstance(entropy_reduction, (int, float))
+            and float(leak_reduction) > float(entropy_reduction) + DRIFT_TOLERANCE,
+            "evidence_pointer": "$.route_patch_protocol.by_surface",
+        },
+        "classifier_shift": {
+            "certificate_gated_shift_mean": gated_shift,
+            "entropy_only_shift_mean": entropy_shift,
+            "classifier_shift_delta": classifier_shift_delta,
+        },
+        "by_surface": by_surface,
+        "evidence_pointer": "$.route_patch_protocol.by_surface",
+    }
+
+
 @dataclass(frozen=True)
 class CertificateGatedAttentionProjection:
     config: Mapping[str, Any]
@@ -220,6 +336,7 @@ class CertificateGatedAttentionProjection:
             "device_protocol": summaries["device_protocol"],
             "torch_attention_evidence": summaries["torch_attention_evidence"],
             "matched_random_control": summaries["matched_random_control"],
+            "route_patch_protocol": summaries["route_patch_protocol"],
             "hardgate": {
                 "status": _status(failed_gate is None),
                 "gates": hardgates,
@@ -256,8 +373,10 @@ class CertificateGatedAttentionProjection:
     def hardgate_verdicts(self, summaries: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         gate = summaries["certificate_gate_summary"]
         matched = summaries["matched_random_control"]
+        route_patch = summaries["route_patch_protocol"]
         registry = summaries["surface_registry"]
         torch_evidence = summaries["torch_attention_evidence"]
+        entropy = route_patch["entropy_only_control"]
         return {
             "CGA-HG1": {
                 "status": _status(bool(gate["valid_gate_pass_rate"] == 1.0 and gate["invalid_gate_pass_rate"] == 0.0)),
@@ -284,6 +403,18 @@ class CertificateGatedAttentionProjection:
                 "evidence": "Optional PyTorch arm is bounded and cannot control the deterministic anchor.",
                 "evidence_pointer": "$.torch_attention_evidence",
             },
+            "CGA-HG6": {
+                "status": _status(
+                    isinstance(entropy["certificate_gate_reduction_mean"], (int, float))
+                    and isinstance(entropy["entropy_only_reduction_mean"], (int, float))
+                    and math.isfinite(float(entropy["certificate_gate_reduction_mean"]))
+                    and math.isfinite(float(entropy["entropy_only_reduction_mean"]))
+                    and float(entropy["certificate_gate_reduction_mean"])
+                    > float(entropy["entropy_only_reduction_mean"]) + DRIFT_TOLERANCE
+                ),
+                "evidence": "Certificate-gated route reduction must exceed entropy-only shrinkage.",
+                "evidence_pointer": "$.route_patch_protocol.entropy_only_control",
+            },
         }
 
     def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -306,7 +437,8 @@ class CertificateGatedAttentionProjection:
             "level_candidate": "D4",
             "reason": "certificate-gate-positive",
             "evidence_pointer": "$.certificate_gate_summary.gated_vs_plain_valid",
-            "control_pointer": "$.matched_random_control",
+            "control_pointer": "$.route_patch_protocol",
+            "entropy_only_control_pointer": "$.route_patch_protocol.entropy_only_control",
             "surface_registry_pointer": "$.surface_registry",
             "certificate_evidence_pointer": "$.certificate_gate_summary",
             "torch_attention_evidence_pointer": "$.torch_attention_evidence",
@@ -350,6 +482,7 @@ class CertificateGatedAttentionProjection:
                 "discovery_map_signal": _without_pointer_fields(dict(signal)),
                 "certificate_gate_summary": _without_pointer_fields(summaries["certificate_gate_summary"]),
                 "matched_random_control": _without_pointer_fields(summaries["matched_random_control"]),
+                "route_patch_protocol": _without_pointer_fields(summaries["route_patch_protocol"]),
             },
             "revocation": {
                 "status": "revocable",
@@ -380,6 +513,19 @@ class CertificateGatedAttentionProjection:
         lines.append(f"- valid pass rate: `{payload['certificate_gate_summary']['valid_gate_pass_rate']}`")
         lines.append(f"- invalid pass rate: `{payload['certificate_gate_summary']['invalid_gate_pass_rate']}`")
         lines.append(f"- leak reduction: `{payload['certificate_gate_summary']['gated_vs_plain_valid']['leak_reduction_mean']}`")
+        lines.extend(["", "## Route Patch Protocol", ""])
+        lines.append(
+            f"- valid patch delta: `{payload['route_patch_protocol']['valid_route_preservation']['valid_patch_delta']}`"
+        )
+        lines.append(
+            f"- invalid suppression delta: `{payload['route_patch_protocol']['invalid_route_suppression']['invalid_suppression_delta']}`"
+        )
+        lines.append(
+            f"- entropy-only reduction: `{payload['route_patch_protocol']['entropy_only_control']['entropy_only_reduction_mean']}`"
+        )
+        lines.append(
+            f"- certificate gate reduction: `{payload['route_patch_protocol']['entropy_only_control']['certificate_gate_reduction_mean']}`"
+        )
         lines.extend(["", "## Device Protocol", ""])
         lines.append(f"- requested: `{payload['device_protocol']['requested_device']}`")
         lines.append(f"- resolved: `{payload['device_protocol']['resolved_device']}`")
@@ -402,11 +548,13 @@ class CertificateGatedAttentionProjection:
         valid_gated = self._rows(deterministic_rows, backbone="certificate_gated_attention", certificate_mode="valid")
         valid_plain = self._rows(deterministic_rows, backbone="plain_attention", certificate_mode="valid")
         valid_random = self._rows(deterministic_rows, backbone="matched_random_gate", certificate_mode="valid")
+        valid_entropy = self._rows(deterministic_rows, backbone="entropy_only_attention", certificate_mode="valid")
         invalid_gated = self._rows(deterministic_rows, backbone="certificate_gated_attention", certificate_mode="invalid")
         ambiguous_gated = self._rows(deterministic_rows, backbone="certificate_gated_attention", certificate_mode="ambiguous")
         gated_leak = _mean(float(row["attention_leak"]) for row in valid_gated)
         plain_leak = _mean(float(row["attention_leak"]) for row in valid_plain)
         random_leak = _mean(float(row["attention_leak"]) for row in valid_random)
+        entropy_leak = _mean(float(row["attention_leak"]) for row in valid_entropy)
         pass_surface_count = sum(
             1
             for surface_id in surfaces
@@ -437,6 +585,14 @@ class CertificateGatedAttentionProjection:
             },
             "gated_attention_leak_reduction_positive": isinstance(leak_reduction, (int, float)) and float(leak_reduction) > 0.0,
         }
+        route_patch = _route_patch_protocol(
+            surfaces=surfaces,
+            deterministic_rows=deterministic_rows,
+            plain_leak=plain_leak,
+            gated_leak=gated_leak,
+            entropy_leak=entropy_leak,
+            leak_reduction=leak_reduction,
+        )
         return {
             "grid": {
                 "record_count": len(deterministic_rows),
@@ -516,6 +672,7 @@ class CertificateGatedAttentionProjection:
                 and float(leak_reduction) > float(random_reduction) + DRIFT_TOLERANCE,
                 "evidence_pointer": "$.surface_registry.by_backbone",
             },
+            "route_patch_protocol": route_patch,
         }
 
     def _backbone_summary(self, rows: Sequence[Mapping[str, Any]], backbones: Sequence[str]) -> dict[str, dict[str, Any]]:

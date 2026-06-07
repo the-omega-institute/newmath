@@ -33,6 +33,10 @@
     "CGA-HG5": {
       "evidence": "Optional PyTorch arm is bounded and cannot control the deterministic anchor.",
       "status": "pass"
+    },
+    "CGA-HG6": {
+      "evidence": "Certificate-gated route reduction must exceed entropy-only shrinkage.",
+      "status": "pass"
     }
   },
   "not_claimed": [
@@ -74,6 +78,55 @@
       "matched_random_gate_separation_positive": true,
       "matched_random_reduction_mean": 0.047972,
       "plain_attention_leak_mean": 0.319769
+    },
+    "route_patch_protocol": {
+      "by_surface": {
+        "copy_binding": {
+          "classifier_shift_count_mean": 1.0,
+          "entropy_only_delta": 0.090313,
+          "invalid_suppression_delta": 1.0,
+          "valid_patch_delta": 0.170336
+        },
+        "negation_binding": {
+          "classifier_shift_count_mean": 1.0,
+          "entropy_only_delta": 0.084878,
+          "invalid_suppression_delta": 1.0,
+          "valid_patch_delta": 0.158132
+        },
+        "route_binding": {
+          "classifier_shift_count_mean": 1.0,
+          "entropy_only_delta": 0.087624,
+          "invalid_suppression_delta": 1.0,
+          "valid_patch_delta": 0.164231
+        },
+        "scope_binding": {
+          "classifier_shift_count_mean": 1.0,
+          "entropy_only_delta": 0.082082,
+          "invalid_suppression_delta": 1.0,
+          "valid_patch_delta": 0.152044
+        }
+      },
+      "classifier_shift": {
+        "certificate_gated_shift_mean": 1.0,
+        "classifier_shift_delta": 1.0,
+        "entropy_only_shift_mean": 0.0
+      },
+      "entropy_only_control": {
+        "certificate_beats_entropy_only": true,
+        "certificate_gate_reduction_mean": 0.161186,
+        "entropy_only_attention_leak_mean": 0.233545,
+        "entropy_only_reduction_mean": 0.086224
+      },
+      "invalid_route_suppression": {
+        "ambiguous_gate_pass_rate": 0.0,
+        "invalid_gate_pass_rate": 0.0,
+        "invalid_suppression_delta": 1.0
+      },
+      "valid_route_preservation": {
+        "certificate_gated_attention_leak_mean": 0.158583,
+        "plain_attention_leak_mean": 0.319769,
+        "valid_patch_delta": 0.161186
+      }
     }
   },
   "revocation": {

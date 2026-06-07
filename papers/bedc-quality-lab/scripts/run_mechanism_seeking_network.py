@@ -32,6 +32,7 @@ DEFAULT_RUN_ID = "mechanism-seeking-network"
 DEFAULT_REQUESTED_DEVICE = "auto"
 DEFAULT_STEPS = 16
 DEFAULT_GATE_THRESHOLD = 0.18
+DEFAULT_D5_O_SOURCE = "reports/canonical/gap_head_transfer_atlas.json:$.multi_surface_d5_o"
 JSON_ARTIFACT = "reports/canonical/mechanism-seeking-network.json"
 REPORT_ARTIFACT = "reports/canonical/mechanism-seeking-network.md"
 
@@ -77,12 +78,24 @@ def deterministic_record(
     certificate_precision = round(min(0.99, 0.38 + arm_offsets["precision"] + 0.018 * shift_rank - seed_jitter), 6)
     mechanism_margin = round(mechanism_score - control_score, 6)
     gate_decision = str(arm) == "mechanism_probe" and mechanism_margin >= gate_threshold and certificate_precision > 0.5
+    tensor_slice_id = f"tensor-slice:{mechanism_id}:seed-{int(seed)}:shift-{shift_rank}:arm-{arm}"
+    classifier_surface_id = f"classifier-surface:{mechanism_id}"
+    stability_score = round(0.66 + 0.012 * mechanism_rank + 0.006 * shift_rank - seed_jitter, 6)
+    shortcut_risk = round(0.18 + 0.008 * shift_rank + (0.012 if str(arm) == "matched_random" else 0.0), 6)
+    ledger_risk = round(0.12 + 0.006 * mechanism_rank + (0.009 if str(arm) == "ablated_probe" else 0.0), 6)
     return {
         "backend": "deterministic-anchor",
         "mechanism_id": str(mechanism_id),
         "seed": int(seed),
         "shift": float(shift),
         "arm": str(arm),
+        "tensor_slice_id": tensor_slice_id,
+        "classifier_surface_id": classifier_surface_id,
+        "stability_score": stability_score,
+        "shortcut_risk": shortcut_risk,
+        "ledger_risk": ledger_risk,
+        "ablation_row_id": f"ablation-row:{mechanism_id}:seed-{int(seed)}:shift-{shift_rank}" if str(arm) == "ablated_probe" else None,
+        "patch_row_id": f"patch-row:{mechanism_id}:seed-{int(seed)}:shift-{shift_rank}" if str(arm) == "mechanism_probe" else None,
         "mechanism_score": mechanism_score,
         "control_score": control_score,
         "mechanism_margin": mechanism_margin,
@@ -208,6 +221,7 @@ def build_projection(
     shifts: Sequence[float] = DEFAULT_SHIFTS,
     arms: Sequence[str] = DEFAULT_ARMS,
     gate_threshold: float = DEFAULT_GATE_THRESHOLD,
+    d5_o_source: str | None = DEFAULT_D5_O_SOURCE,
 ) -> dict[str, Any]:
     deterministic = collect_deterministic_records(
         mechanisms=mechanisms,
@@ -236,6 +250,7 @@ def build_projection(
         "steps": int(steps),
         "drift_tolerance": DRIFT_TOLERANCE,
         "dependency_abi": abi,
+        "d5_o_source": d5_o_source,
     }
     return MechanismSeekingNetworkProjection(
         config=config,
@@ -317,6 +332,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--requested-device", default=DEFAULT_REQUESTED_DEVICE)
     parser.add_argument("--enable-torch", action="store_true")
     parser.add_argument("--steps", type=int, default=DEFAULT_STEPS)
+    parser.add_argument("--d5-o-source", default=DEFAULT_D5_O_SOURCE)
+    parser.add_argument("--without-d5-o-source", action="store_true")
     parser.add_argument("--mechanisms", type=_parse_str_list, default=DEFAULT_MECHANISMS)
     parser.add_argument("--seeds", type=_parse_int_list, default=DEFAULT_SEEDS)
     parser.add_argument("--shifts", type=_parse_float_list, default=DEFAULT_SHIFTS)
@@ -329,6 +346,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         requested_device=args.requested_device,
         enable_torch=args.enable_torch,
         steps=args.steps,
+        d5_o_source=None if args.without_d5_o_source else args.d5_o_source,
         mechanisms=args.mechanisms,
         seeds=args.seeds,
         shifts=args.shifts,

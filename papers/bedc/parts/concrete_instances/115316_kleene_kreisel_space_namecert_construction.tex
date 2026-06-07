@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\KleeneKreiselSpaceUp$}
+\label{ch:concrete-instances-kleene-kreisel-space-namecert}
+\origin{human}
+
+Following Kleene and Kreisel and Troelstra-style constructive higher-type continuity, the $\KleeneKreiselSpaceUp$ packet records the represented-space boundary for continuous functionals over finite observations of choice-sequence names. It sits between the neighbourhood-table interface of \autoref{ch:concrete-instances-neighborhood-function-namecert}, the higher-type read surface of \autoref{ch:concrete-instances-kleene-kreisel-continuous-functional-namecert}, the stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the represented-space carrier route, the Polish-space completion context of \autoref{ch:concrete-instances-polishspace-namecert}, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite represented-space gate for Kleene--Kreisel style spaces without adding quotient function spaces, countable choice, selected total elements, or ambient completion objects.
+
+\begin{definition}[KleeneKreiselSpace carrier and classifier]
+\label{def:kleene-kreisel-space-carrier-classifier}
+A $\KleeneKreiselSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,Nb,F,R,Pc,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ observation row, listing the finite name prefixes through which a point or functional request is inspected.
+\item $Nb$ is the $\NeighborhoodFunctionUp$ table row, recording finite input-prefix requests and the output or acceptance rows released by those requests.
+\item $F$ is the $\KleeneKreiselContinuousFunctionalUp$ read row, naming the higher-type finite-window functional surface that consumes $S$ and $Nb$.
+\item $R$ is the $\RepresentedSpaceUp$ code row, displaying the admissible representation code, its finite name requests, and the represented point row admitted by the code.
+\item $Pc$ is the $\PolishSpaceUp$ completion-context row, recording the metric completion envelope used only as a context for the represented-space code.
+\item $E$ is the $\RealUp$ seal row available to numerical consumers only after the stream, neighbourhood, functional, represented-space, and Polish-context rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $S,Nb,F,R,Pc,E,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from each finite name request through the neighbourhood table, represented-space code, and functional read before any seal row is consumed.
+\item $P$ is the $\Pkg$ provenance over $\KleeneKreiselSpaceUp$, $\StreamNameUp$, $\NeighborhoodFunctionUp$, $\KleeneKreiselContinuousFunctionalUp$, $\RepresentedSpaceUp$, $\PolishSpaceUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KleeneKreiselSpaceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only by these rows, their componentwise $\hsame$ transports, their displayed $\Cont$ replays, their package provenance, and their local naming rows. It has no coordinate for host equality of total functionals, quotient equality of represented points, countable choice, a selected infinite name, or a completed space of all higher-type maps.
+\end{definition}
+
+\begin{theorem}[KleeneKreiselSpace NameCert obligations]
+\label{thm:kleene-kreisel-space-namecert-obligations}
+For every accepted $\KleeneKreiselSpaceUp$ carrier
+$$
+K=(S,Nb,F,R,Pc,E,H,C,P,N),
+$$
+the local $\NameCert_{\KleeneKreiselSpaceUp}$ surface consists exactly of carrier admission, StreamName observation exposure, neighbourhood-table exactness, continuous-functional handoff, represented-space code admission, Polish completion-context visibility, Real-seal boundary discipline, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is stored outside $S,Nb,F,R,Pc,E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:kleene-kreisel-space-carrier-classifier}. The displayed tuple exposes the stream observation row, neighbourhood table, continuous-functional read, represented-space code, Polish completion context, Real seal, transport row, replay row, provenance row, and local naming row.
+
+The higher-type obligations are read from $S,Nb,F$. The stream row fixes the inspected finite prefixes, the neighbourhood table records which finite requests release public rows, and the continuous-functional row names the higher-type finite-window consumer that may use those requests.
+
+The represented-space and completion-facing obligations are read from $R,Pc,E$. The represented-space row supplies the admissible code and represented point row, the Polish row supplies only a completion context, and the Real row is reachable only after the earlier rows have been displayed.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same route. Since the carrier has no coordinate for quotient function spaces, countable choice, selected total names, host equality of functionals, or ambient completion objects, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[KleeneKreiselSpace neighbourhood stability]
+\label{thm:kleene-kreisel-space-neighborhood-stability}
+For accepted $\KleeneKreiselSpaceUp$ carriers $K$ and $K'$ whose StreamName rows, neighbourhood tables, continuous-functional rows, represented-space codes, Polish-context rows, Real-seal rows, replay rows, provenance rows, and local naming rows are componentwise $\hsame$, the classifier gives the same neighbourhood release decisions. In particular, every public output or represented-point read of $K$ factors through the same $\NeighborhoodFunctionUp$ table entry and finite $\StreamNameUp$ window as the corresponding read of $K'$.
+\end{theorem}
+\begin{proof}
+Open both accepted carriers using \autoref{def:kleene-kreisel-space-carrier-classifier}. The classifier is defined only from the displayed rows $S,Nb,F,R,Pc,E,H,C,P,N$ and their counterparts.
+
+Componentwise $\hsame$ in $H$ identifies the StreamName windows, the neighbourhood-table entries, the functional handoff, the represented-space code, the Polish context, the Real seal, and the structural rows. Thus a classifier read cannot distinguish $K$ from $K'$ by any hidden name or external equality proof.
+
+Displayed $\Cont$ replay in $C$ preserves the order of release: finite StreamName request, neighbourhood-table entry, continuous-functional read, represented-space code, and then any completion-facing seal. Hence the same neighbourhood decision and the same finite window are used on both carriers.
+\end{proof}
+
+\begin{theorem}[KleeneKreiselSpace Real-completion boundary]
+\label{thm:kleene-kreisel-space-real-completion-boundary}
+Every $\RealUp$ or completion-facing consumer read of an accepted $\KleeneKreiselSpaceUp$ carrier factors through the finite route
+$$
+S,Nb,F,R,Pc \longmapsto E \longmapsto H,C,P,N .
+$$
+Thus the consumer may read finite StreamName observations, neighbourhood-table entries, continuous-functional handoff rows, represented-space codes, Polish completion-context rows, the terminal Real seal, transport, replay, provenance, and local naming, but it cannot read quotient function spaces, countable choice, selected total names, host functional equality, quotient represented-space equality, or ambient Real completeness from the $\KleeneKreiselSpaceUp$ packet.
+\end{theorem}
+\begin{proof}
+Read the accepted carrier of \autoref{def:kleene-kreisel-space-carrier-classifier}. The only rows preceding a Real or completion-facing seal are $S,Nb,F,R,Pc$, and the seal row $E$ is displayed after those rows.
+
+Apply \autoref{thm:kleene-kreisel-space-namecert-obligations}. It forces the consumer to inspect StreamName observations, neighbourhood-table entries, continuous-functional handoff, represented-space codes, and the Polish completion context before the Real seal is public.
+
+Transport and replay do not add a new completion object. The rows $H$ and $C$ preserve the displayed finite route, while $P$ and $N$ only source and name it. Therefore every Real or completion-facing consumer factors through the stated boundary, and the refused objects have no carrier coordinate from which to escape.
+\end{proof}
+\leanstmt{BEDC.Derived.KleeneKreiselSpaceUp}
+
+\closureat{KleeneKreiselSpaceUp}{seedStr}
+
+\begin{closurestatus}{\KleeneKreiselSpaceUp}
+  \constructivestory{A $\KleeneKreiselSpaceUp$ packet is generated from finite StreamName observations, NeighborhoodFunction table rows, KleeneKreiselContinuousFunctional handoff rows, RepresentedSpace codes, PolishSpace completion-context rows, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kleene-kreisel-space-carrier-classifier}, \autoref{thm:kleene-kreisel-space-namecert-obligations}, \autoref{thm:kleene-kreisel-space-neighborhood-stability}, and \autoref{thm:kleene-kreisel-space-real-completion-boundary} seed the finite represented-space boundary for Kleene--Kreisel style spaces on the L10 Real-completion route.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient function spaces, countable choice, selected total elements, quotient represented-space equality, host functional equality, ambient $\RealUp$ completeness, checked Lean obligations, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, neighbourhood-table exactness, continuous-functional handoff, represented-space code admission, Polish completion-context visibility, Real-seal nonescape, transport stability, replay stability, provenance, and local naming for BEDC.Derived.KleeneKreiselSpaceUp.}
+\end{closurestatus}

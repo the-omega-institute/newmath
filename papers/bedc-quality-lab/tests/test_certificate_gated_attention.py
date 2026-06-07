@@ -42,6 +42,7 @@ REQUIRED_SUMMARY_KEYS = {
     "device_protocol",
     "torch_attention_evidence",
     "matched_random_control",
+    "route_patch_protocol",
     "hardgate",
     "failed_gate",
     "discovery_map_signal",
@@ -115,8 +116,8 @@ def _recursive_pointer_fields(value, path="$"):
 
 
 def test_default_deterministic_grid_has_expected_anchor_size():
-    assert len(default_grid()) == 108
-    assert len(runner.collect_deterministic_records()) == 108
+    assert len(default_grid()) == 144
+    assert len(runner.collect_deterministic_records()) == 144
 
 
 def test_projection_uses_records_and_no_private_row_carrier():
@@ -140,8 +141,8 @@ def test_deterministic_replay_and_required_keys():
 
     assert json.dumps(first["summary_payload"], sort_keys=True) == json.dumps(second["summary_payload"], sort_keys=True)
     assert REQUIRED_SUMMARY_KEYS <= set(first["summary_payload"])
-    assert first["summary_payload"]["grid"]["record_count"] == 108
-    assert first["summary_payload"]["grid"]["expected_record_count"] == 108
+    assert first["summary_payload"]["grid"]["record_count"] == 144
+    assert first["summary_payload"]["grid"]["expected_record_count"] == 144
     assert first["summary_payload"]["run_artifacts"]["raw_metrics"] == first["summary_payload"]["records"]["raw_rows_pointer"]
 
 
@@ -204,6 +205,60 @@ def test_torch_unavailable_boundary_records_device_without_breaking_anchor():
     assert summary["torch_attention_evidence"]["status"] == "unavailable"
     assert summary["torch_attention_evidence"]["row_count"] == 0
     assert summary["hardgate"]["gates"]["CGA-HG5"]["status"] == "pass"
+
+
+def test_route_patch_protocol_shape_and_pointer_resolution():
+    summary = _project()["summary_payload"]
+    route_patch = summary["route_patch_protocol"]
+
+    assert set(route_patch) == {
+        "valid_route_preservation",
+        "invalid_route_suppression",
+        "entropy_only_control",
+        "classifier_shift",
+        "by_surface",
+        "evidence_pointer",
+    }
+    assert "entropy_only_control" not in summary
+    assert route_patch["valid_route_preservation"]["valid_patch_delta"] > 0.0
+    assert route_patch["invalid_route_suppression"]["invalid_suppression_delta"] == 1.0
+    assert route_patch["entropy_only_control"]["certificate_beats_entropy_only"] is True
+    assert route_patch["classifier_shift"]["classifier_shift_delta"] > 0.0
+    for key in ("valid_route_preservation", "invalid_route_suppression", "entropy_only_control", "classifier_shift"):
+        assert isinstance(route_patch[key], dict)
+    assert set(route_patch["by_surface"]) == set(DEFAULT_SURFACES)
+    for surface in route_patch["by_surface"].values():
+        assert set(surface) == {
+            "valid_patch_delta",
+            "invalid_suppression_delta",
+            "entropy_only_delta",
+            "classifier_shift_count_mean",
+        }
+    pointer_values = [
+        route_patch["valid_route_preservation"]["evidence_pointer"],
+        route_patch["invalid_route_suppression"]["evidence_pointer"],
+        route_patch["entropy_only_control"]["evidence_pointer"],
+        route_patch["evidence_pointer"],
+        summary["discovery_map_signal"]["control_pointer"],
+        summary["discovery_map_signal"]["entropy_only_control_pointer"],
+    ]
+    assert all(discovery_map.pointer_value(summary, pointer) is not None for pointer in pointer_values)
+
+
+def test_cga_hg6_requires_certificate_gate_to_beat_entropy_only():
+    records = runner.collect_deterministic_records()
+    for row in records:
+        if row["backbone"] == "entropy_only_attention" and row["certificate_mode"] == "valid":
+            row["attention_leak"] = 0.01
+    summary = _project(records)["summary_payload"]
+
+    assert summary["route_patch_protocol"]["entropy_only_control"]["certificate_beats_entropy_only"] is False
+    assert summary["hardgate"]["gates"]["CGA-HG6"]["status"] == "fail"
+    assert summary["hardgate"]["failed_gate"] == "CGA-HG6"
+    assert summary["discovery_map_signal"]["level_candidate"] == "DN"
+    assert summary["discovery_map_signal"]["failed_gate"] == "CGA-HG6"
+    assert summary["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.CGA-HG6.status"
+    assert discovery_map.pointer_value(summary, "$.hardgate.gates.CGA-HG6.status") == "fail"
 
 
 def test_torch_arm_protocol_records_mps_or_cpu_fields(monkeypatch):
@@ -280,6 +335,7 @@ def test_current_lab_projection_and_pointer_resolvability():
     assert row["audit_status"] == "valid"
     assert discovery_map.pointer_value(summary, row["evidence_pointer"]) is not None
     assert discovery_map.pointer_value(summary, row["control_pointer"]) is not None
+    assert row["control_pointer"] == "$.route_patch_protocol"
 
     failed_records = deepcopy(runner.collect_deterministic_records())
     for record in failed_records:
@@ -290,6 +346,30 @@ def test_current_lab_projection_and_pointer_resolvability():
     assert failed_row["discovery_level"] == "DN"
     assert failed_row["failed_gate"] == "$.hardgate.gates.CGA-HG2.status"
     assert discovery_map.pointer_value(failed, failed_row["failed_gate"]) == "fail"
+
+
+@pytest.mark.parametrize(
+    "mutation",
+    (
+        lambda payload: payload.pop("route_patch_protocol"),
+        lambda payload: payload["hardgate"]["gates"].pop("CGA-HG6"),
+        lambda payload: (
+            payload.__setitem__("entropy_only_control", payload["route_patch_protocol"]["entropy_only_control"]),
+            payload["discovery_map_signal"].__setitem__("control_pointer", "$.entropy_only_control"),
+        ),
+    ),
+)
+def test_current_lab_cga_stale_payloads_fail_closed(mutation):
+    spec = canonical._specs_by_name()["certificate-gated-attention"]
+    payload = _project()["summary_payload"]
+    mutation(payload)
+
+    projected = discovery_map.projection_payload(spec, payload)
+    row = discovery_map.discovery_row(spec, payload)
+
+    assert projected["main_verdict"]["certificate_gated_attention"]["level_candidate"] == "DN"
+    assert row["discovery_level"] == "DN"
+    assert row["audit_status"] == "invalid"
 
 
 def test_recursive_no_terminal_verdict_and_pointer_fields_resolve(tmp_path):

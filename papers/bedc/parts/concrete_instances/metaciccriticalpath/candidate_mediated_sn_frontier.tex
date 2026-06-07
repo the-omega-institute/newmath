@@ -312,6 +312,25 @@ Next compose the confluence-facing route. The $\CandidateSNConfluenceBoundaryUp$
 Finally route the remaining boundary through $\SubjectReductionDischargeSocketUp$. The discharge row is a socket, not a proof of closed subject reduction, so the resulting conclusion is only a normalization-frontier export over the displayed candidate-mediated route.
 \end{proof}
 
+\begin{theorem}[MetaCIC normalization trace residual-frontier route]
+\label{thm:metacic-normalization-trace-residual-frontier-route}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Any candidate-mediated normalization read that reaches the residual frontier before a strong-normalization conclusion is consumed must first expose the candidate row, the $\MetaCICResidualSubstitutionBoundaryUp$ row, the $\FiniteObservationConfluenceUp$ row, the $\MetaCICCriticalPairLedgerUp$ row, the $\mathsf{NormalizationCertificateRouter}$ row, and the strong-normalization boundary row. The route may use those rows to present a finite normalization trace, but it is not by itself a global strong-normalization theorem, a confluence theorem, a closed subject-reduction theorem, a beta-conversion decision procedure, a quotient term equality, a selected normal form, or an ambient $\RealUp$ completeness claim.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathNormalizationTraceResidualFrontierRoute}
+\begin{proof}
+Project the candidate-mediated frontier rows from $K$. The candidate row is read through the finite candidate surface, while $O$ and $D$ remain visible as obstruction and discharge-socket data.
+
+Route residual substitution through the candidate-mediated boundary. The $\MetaCICResidualSubstitutionBoundaryUp$ row is consumed as a displayed boundary row attached to the same packet, so residual replay cannot bypass the candidate row or fill the discharge socket.
+
+Use the finite observation confluence and critical-pair ledgers next. The $\FiniteObservationConfluenceUp$ row confines confluence use to finite observations, and the $\MetaCICCriticalPairLedgerUp$ row accounts for the displayed critical-pair surface before any normalization trace is routed onward.
+
+Finally read the $\mathsf{NormalizationCertificateRouter}$ row and the strong-normalization boundary row through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ data. These rows expose only a finite normalization trace route, so the global strong-normalization, confluence, subject-reduction, beta-decidability, quotient-equality, selected-normal-form, and Real-completeness claims remain outside the theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate frontier normal-form witness extraction]
 \label{thm:metacic-candidate-frontier-normal-form-witness-extraction}
 Let
@@ -336,6 +355,7 @@ Use discharge coverage and source exhaustion, \autoref{thm:metacic-critical-path
 
 Finally apply the axiom boundary of \autoref{thm:metacic-critical-path-candidate-frontier-axiom-frontier}. The refused global normalization, closed subject-reduction, confluence, beta-decidability, quotient-equality, selected-limit, and Real-completeness claims are not rows in the extracted witness surface, so the normal-form witness remains candidate-mediated boundary data.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateFrontierNormalFormWitnessExtraction}
 
 \input{parts/concrete_instances/metaciccriticalpath/candidate_frontier_socket_coproduct}
 \input{parts/concrete_instances/metaciccriticalpath/candidate_mediated_sn_residual_route}

@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\ModulatedConvergenceUp$}
+\label{ch:concrete-instances-modulated-convergence-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\ModulatedConvergenceUp$ packet records convergence data by keeping an explicit modulus beside each finite source-window read. It sits with the stream-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the Real-facing seal of \autoref{ch:concrete-instances-real-namecert}, and the modulus-controlled completion route of \autoref{ch:concrete-instances-modulated-cauchy-completion-namecert}. The chapter isolates the finite rows a convergence consumer may inspect before any completed limit or ambient Real completeness is claimed.
+
+\begin{definition}[Modulated convergence carrier]
+\label{def:modulated-convergence-carrier}
+A $\ModulatedConvergenceUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(S,M,W,T,R,E,H,C,P,N)
+$$
+with the following visible rows:
+\begin{enumerate}
+\item $S$ is the source $\StreamNameUp$ row whose displayed windows are the only observations admitted by the packet.
+\item $M$ is the explicit modulus row; for each displayed precision request it names the finite source-window depth after which the convergence read may be consumed.
+\item $W$ is the tail-window ledger pairing each precision request with the depth supplied by $M$ and the corresponding source-window slice of $S$.
+\item $T$ is the tail-stability row recording that later displayed windows are read through the same modulus-controlled ledger.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from $S,M,W,T$ before any Real-facing seal is visible.
+\item $E$ is the $\RealUp$ seal row exposed only after the source windows, explicit modulus, tail-window ledger, tail-stability row, and regular rational readback have been consumed.
+\item $H$ records componentwise $\hsame$ transport for $S,M,W,T,R,E$ and for the structural rows.
+\item $C$ records displayed $\Cont$ replay from precision requests to modulus depths, from depths to tail windows, from windows to regular rational readback, and from readback to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\ModulatedConvergenceUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ModulatedConvergenceUp}$ row.
+\end{enumerate}
+The carrier exports only this finite explicit-modulus convergence surface. It contains no selected limit, host convergence predicate, quotient completion equality, countable-choice scheduler, host real equality, or ambient completeness row for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Modulated convergence NameCert obligations]
+\label{thm:modulated-convergence-namecert-obligations}
+For every accepted $\ModulatedConvergenceUp$ carrier $Q=(S,M,W,T,R,E,H,C,P,N)$, the local $\NameCert_{\ModulatedConvergenceUp}$ surface consists exactly of five obligations:
+\begin{enumerate}
+\item carrier admission exposes precisely the rows $S,M,W,T,R,E,H,C,P,N$ before a convergence-facing read is exported;
+\item modulus coverage requires every displayed precision request in $W$ to be served by a finite depth in $M$ over the same source stream $S$;
+\item tail-window stability requires later inspected windows to pass through the same ledger $W$ and tail row $T$, not through an external convergence oracle;
+\item regular readback and Real sealing require every Real-facing read to factor through $\StreamNameUp$ and $\RegSeqRatUp$ before $E$ is visible;
+\item provenance and transport require $H,C,P,N$ to preserve the same displayed route under $\hsame$ transport, $\Cont$ replay, package sourcing, and local naming.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:modulated-convergence-carrier}. The packet lists the source stream, explicit modulus, tail-window ledger, tail-stability row, regular readback, Real seal, and structural rows as its entire public surface.
+
+For modulus coverage and tail-window stability, inspect $M,W,T$ together. Each precision request is admitted only with a displayed depth and a finite tail-window record over the same stream row $S$, so the packet cannot consult a host convergence predicate or countable-choice schedule.
+
+The regular readback then consumes $S,M,W,T,R$ in order. The sibling chapters \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert} supply the stream and regular rational surfaces named by the carrier.
+
+Finally the Real seal $E$ is downstream of that route, and $H,C,P,N$ only transport, replay, source, and name the same packet. Since the carrier has no selected-limit, quotient-completion, host-equality, or ambient-completeness coordinate, a convergence consumer receives only the displayed $\RealUp$ seal boundary.
+\end{proof}
+
+\begin{theorem}[Modulated convergence RegSeqRat handoff]
+\label{thm:modulated-convergence-regseqrat-handoff}
+For every accepted $\ModulatedConvergenceUp$ carrier $Q=(S,M,W,T,R,E,H,C,P,N)$, the L10 handoff to $\RegSeqRatUp$ is exactly the finite route
+$$
+\StreamNameUp\longmapsto M\longmapsto W\longmapsto T\longmapsto\RegSeqRatUp\longmapsto\RealUp\longmapsto(H,C,P,N).
+$$
+The handoff carries source windows, explicit modulus depths, tail-window stability, rational regular readback, Real sealing, transport, replay, provenance, and local naming. It carries no separate limit selector, host enumeration of tails, quotient completion equality, ambient $\RealUp$ completeness, or representation source outside the packet.
+\end{theorem}
+\begin{proof}
+Start from the carrier definition. The rows $S,M,W,T$ display the source windows and the explicit tail depth required for each precision request.
+
+Apply the NameCert obligation surface of \autoref{thm:modulated-convergence-namecert-obligations}. Regular readback and Real sealing require $R$ to occur before $E$, and the transport-provenance rows preserve the same route after the seal is read.
+
+The listed L10 handoff is therefore the only route available to a downstream RegSeqRat or Real consumer. Every excluded object would require a coordinate absent from $Q$, so it cannot be extracted from the accepted packet.
+\end{proof}
+
+\closureat{ModulatedConvergenceUp}{seedStr}
+
+\begin{closurestatus}{\ModulatedConvergenceUp}
+  \constructivestory{A $\ModulatedConvergenceUp$ packet is generated from source StreamName windows, an explicit modulus row, a tail-window ledger, tail-stability data, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:modulated-convergence-carrier}, \autoref{thm:modulated-convergence-namecert-obligations}, and \autoref{thm:modulated-convergence-regseqrat-handoff} seed the finite explicit-modulus convergence route for RegSeqRat and Real consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, host convergence predicates, quotient completion equality, countable choice, full RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus coverage, tail-window stability, regular readback, Real-seal nonescape, and transport-provenance preservation for BEDC.Derived.ModulatedConvergenceUp.}
+\end{closurestatus}
