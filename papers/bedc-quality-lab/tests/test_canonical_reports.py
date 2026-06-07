@@ -2162,6 +2162,38 @@ def test_observed_debt_axis_projection_fails_closed_for_missing_pointer(tmp_path
     assert rows["sample_count"]["source_status"] is None
 
 
+def test_observed_debt_axis_projection_fails_closed_for_non_pass_hardgate(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    _write_observed_debt_projection_fixtures(tmp_path)
+    sample_path = tmp_path / "reports/canonical/gap-head-observed-debt-transfer.json"
+    sample_payload = json.loads(sample_path.read_text(encoding="utf-8"))
+    sample_payload["hardgate_evidence"]["HG-A1"]["status"] = "fail"
+    sample_path.write_text(json.dumps(sample_payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._observed_debt_axis_projection_section()
+    rows = {row["axis_id"]: row for row in section["rows"]}
+
+    assert rows["sample_count"]["classification"] == "ledger-risk-only"
+    assert rows["sample_count"]["source_status"] == "pass"
+
+
+def test_observed_debt_axis_projection_fails_closed_for_global_claim_flag(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _write_payloads_for_all_specs(canonical, tmp_path)
+    _write_observed_debt_projection_fixtures(tmp_path)
+    sample_path = tmp_path / "reports/canonical/gap-head-observed-debt-transfer.json"
+    sample_payload = json.loads(sample_path.read_text(encoding="utf-8"))
+    sample_payload["global_claim_flag"] = True
+    sample_path.write_text(json.dumps(sample_payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._observed_debt_axis_projection_section()
+    rows = {row["axis_id"]: row for row in section["rows"]}
+
+    assert rows["sample_count"]["classification"] == "ledger-risk-only"
+    assert rows["sample_count"]["source_status"] == "pass"
+
+
 def test_new_model_hardgates_sidecar_written_and_indexed(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _write_payloads_for_all_specs(canonical, tmp_path)
