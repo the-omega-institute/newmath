@@ -94,6 +94,10 @@ DISCOVERY_GATED_TRANSFORMER_MARKDOWN_ARTIFACT = "reports/canonical/discovery-gat
 DISCOVERY_GATED_TRANSFORMER_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer"
 DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
 DGT_TRAINING_HARDGATES_POINTER = f"{DGT_TRAINING_REPLAY_ARTIFACT}:$.hardgates"
+TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT = "reports/canonical/transformer_derivative_atlas.json"
+TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/layerwise_jet_map.md"
+TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT = "reports/canonical/attention_route_derivative_report.json"
+DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas"})
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
 MODEL_DESIGN_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/model_design_suite.md"
 MODEL_DESIGN_SUITE_ARTIFACT_ID = "bedc-quality-lab:model-design-suite"
@@ -991,6 +995,46 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
     ),
     CanonicalReportSpec(
+        name="transformer-derivative-atlas",
+        command=("python3", "scripts/run_transformer_derivative_atlas.py"),
+        json_artifact=TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT,
+        markdown_artifact=TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "run_id",
+            "producer",
+            "projector",
+            "source_artifacts",
+            "config",
+            "dgt_declaration",
+            "raw_intervention_rows",
+            "layerwise_derivative_rows",
+            "margin_proxy_controls",
+            "attention_routes",
+            "layer_summary",
+            "hardgate",
+            "hardgates",
+            "failed_gate",
+            "discovery_map_admission",
+            "mechanism_claim_allowed",
+            "bounded_lab_evidence",
+            "forbidden_claim_term_audit",
+            "scope",
+            "not_claimed",
+        ),
+        estimated_seconds=2,
+        bundle_role="auxiliary",
+        scope_pointer="$.scope",
+        cost_pointer="$.source_artifacts.cost_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.mechanism_claim_allowed",
+        control_pointer="$.margin_proxy_controls",
+        no_control_rationale_pointer=None,
+        literature_ref_ids=("lit-lejepa-theorem-ledger",),
+    ),
+    CanonicalReportSpec(
         name="lejepa-theorem-ledger",
         command=("python3", "scripts/run_lejepa_theorem_ledger.py"),
         json_artifact="reports/canonical/lejepa_theorem_ledger.json",
@@ -1133,6 +1177,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         no_control_rationale_pointer=None,
     ),
 )
+QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas"})
 
 
 def _artifact_path(relative_path: str) -> Path:
@@ -1144,6 +1189,10 @@ def _artifact_path(relative_path: str) -> Path:
 
 def _specs_by_name() -> dict[str, CanonicalReportSpec]:
     return {spec.name: spec for spec in CANONICAL_REPORTS}
+
+
+def _discovery_map_reports() -> tuple[CanonicalReportSpec, ...]:
+    return tuple(spec for spec in CANONICAL_REPORTS if spec.name not in DISCOVERY_MAP_EXCLUDED_REPORTS)
 
 
 def _select_specs(only: str | None) -> tuple[CanonicalReportSpec, ...]:
@@ -1201,6 +1250,8 @@ def _canonical_output_digest(spec: CanonicalReportSpec) -> str:
         spec.json_artifact: _path_digest(_artifact_path(spec.json_artifact)),
         spec.markdown_artifact: _path_digest(_artifact_path(spec.markdown_artifact)),
     }
+    if spec.name == "transformer-derivative-atlas":
+        parts[TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT] = _path_digest(_artifact_path(TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT))
     return _json_digest(parts)
 
 
@@ -1482,6 +1533,57 @@ def _compile_discovery_compat(compile_discovery, *, root: Path, generated_at: st
     return compile_discovery(**kwargs)
 
 
+def _canonical_discovery_adapter() -> Any:
+    from bedc_quality_lab.backends.current_lab import projection
+    from bedc_quality_lab.backends.current_lab.adapter import CurrentLabBackendEvidenceAdapter
+    from bedc_quality_lab.discovery_compiler.backend import TheoryBackend
+
+    reports = _discovery_map_reports()
+    base = CurrentLabBackendEvidenceAdapter()
+    adapter_backend = getattr(
+        base,
+        "backend",
+        TheoryBackend(
+            name="current-lab",
+            scope_kind="canonical-lab-reports",
+            assumptions=("canonical artifacts are JSON objects",),
+            metrics=("discovery_level", "audit_status"),
+            theorem_rows=(),
+            ledger_rows=(),
+            hardgates=(),
+            not_claimed=("global model quality",),
+        ),
+    )
+
+    class CanonicalDiscoveryAdapter:
+        backend = adapter_backend
+
+        def build_source_spec(self) -> Mapping[str, Any]:
+            return {"canonical_reports": [spec.name for spec in reports]}
+
+        def build_pattern_spec(self) -> Mapping[str, Any]:
+            if hasattr(base, "build_pattern_spec"):
+                return base.build_pattern_spec()
+            return {"status": "pointer-only"}
+
+        def build_classifier_spec(self) -> Mapping[str, Any]:
+            if hasattr(base, "build_classifier_spec"):
+                return base.build_classifier_spec()
+            return {"levels": []}
+
+        def compute_metrics(self, *, root: Path, generated_at: str | None = None) -> Mapping[str, Any]:
+            return projection.write_discovery_map(generated_at=generated_at, root=root, canonical_reports=reports)
+
+        def derive_ledger_rows(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
+            return projection.build_discovery_map(generated_at=generated_at, root=root, canonical_reports=reports)["rows"]
+
+        def derive_negative_discovery_rows(self, *, root: Path, generated_at: str | None = None) -> Sequence[Mapping[str, Any]]:
+            del generated_at
+            return projection.build_negative_discovery_owner_rows(root=root, canonical_reports=reports)
+
+    return CanonicalDiscoveryAdapter()
+
+
 def _required_key_present(payload: Any, key: str) -> bool:
     if not isinstance(payload, dict):
         return False
@@ -1724,7 +1826,11 @@ def _scorecard_positive_discovery_count(payloads: dict[str, dict[str, Any]]) -> 
 
 
 def _scorecard_report_specs() -> tuple[CanonicalReportSpec, ...]:
-    return tuple(spec for spec in CANONICAL_REPORTS if spec.name != "model-comparison")
+    return tuple(
+        spec
+        for spec in CANONICAL_REPORTS
+        if spec.name != "model-comparison" and spec.name not in QUALITY_SCORECARD_EXCLUDED_REPORTS
+    )
 
 
 def _scorecard_audit_improvement_count(payloads: dict[str, dict[str, Any]]) -> dict[str, Any]:
@@ -1890,6 +1996,7 @@ def _build_quality_scorecard(
                 "status": report["status"],
             }
             for report in reports
+            if report["name"] not in QUALITY_SCORECARD_EXCLUDED_REPORTS
         ],
         "rows": rows,
     }
@@ -2068,7 +2175,7 @@ def _quality_scorecard_index_section() -> dict[str, Any]:
 def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, Any]:
     from scripts.run_discovery_map import build_discovery_map
 
-    payload = build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=CANONICAL_REPORTS)
+    payload = build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
     return {
         "status": "pointer-only",
         "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,
@@ -2084,7 +2191,7 @@ def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, A
 def _discovery_map_payload(generated_at: str | None = None) -> dict[str, Any]:
     from scripts.run_discovery_map import build_discovery_map
 
-    return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=CANONICAL_REPORTS)
+    return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=_discovery_map_reports())
 
 
 def _all_gates_pass(value: Any) -> bool:
@@ -4648,7 +4755,6 @@ def run_reports(
     write_dimension_mismatch_anti_triviality(root=ROOT, generated_at=timestamp)
     write_dimension_mismatch_debt_transfer(root=ROOT, generated_at=timestamp, require_anti_triviality=True)
     scorecard = _build_quality_scorecard(results, generated_at=timestamp)
-    from bedc_quality_lab.backends.current_lab.adapter import CurrentLabBackendEvidenceAdapter
     from bedc_quality_lab.discovery_compiler.compiler import compile_discovery
     from scripts.run_claim_graph import write_claim_graph
     from scripts.run_claim_verdict_demo import write_claim_verdicts
@@ -4662,7 +4768,7 @@ def run_reports(
         compile_discovery,
         root=ROOT,
         generated_at=timestamp,
-        adapter=CurrentLabBackendEvidenceAdapter(),
+        adapter=_canonical_discovery_adapter(),
         require_required_negative_reports=require_full_negative_reports,
     )
     _validate_committed_discovery_map_round_trip()
@@ -4676,7 +4782,7 @@ def run_reports(
         compile_discovery,
         root=ROOT,
         generated_at=timestamp,
-        adapter=CurrentLabBackendEvidenceAdapter(),
+        adapter=_canonical_discovery_adapter(),
         require_required_negative_reports=require_full_negative_reports,
     )
     _validate_committed_discovery_map_round_trip()

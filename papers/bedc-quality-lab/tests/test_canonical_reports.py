@@ -14,6 +14,14 @@ from bedc_quality_lab.discovery_regularized_training import (
     project_drt_training_extension,
     _training_mechanism_cert,
 )
+from bedc_quality_lab.transformer_derivative_atlas import (
+    ATTENTION_ROUTE_ARTIFACT,
+    DEFAULT_CONFIG as TRANSFORMER_DERIVATIVE_ATLAS_CONFIG,
+    LAYERWISE_JET_MAP_ARTIFACT,
+    RAW_ROW_POINTER as TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER,
+    TransformerDerivativeAtlasProjection,
+    render_attention_route_report,
+)
 from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
@@ -783,6 +791,11 @@ def _payload_for_spec(spec):
         payload["config"] = {"control_arm": "matched_random_gap_head"}
         payload.update(_atlas_fixture_rows())
         payload["forbidden_claim_term_audit"] = {"status": "pass", "hits": []}
+    if spec.name == "transformer-derivative-atlas":
+        return TransformerDerivativeAtlasProjection(
+            config=TRANSFORMER_DERIVATIVE_ATLAS_CONFIG,
+            generated_at="fixture",
+        ).project()
     if spec.name == "mixing-family-sweep":
         payload["coverage_item"] = {
             "canonical_families": ["a", "b", "c"],
@@ -1305,7 +1318,7 @@ def _canonical_bundle_payloads_for_timestamps(*, index_timestamp, discovery_time
     generated_discovery = discovery_map.build_discovery_map(
         generated_at=discovery_timestamp,
         root=canonical.ROOT,
-        canonical_reports=canonical.CANONICAL_REPORTS,
+        canonical_reports=canonical._discovery_map_reports(),
     )
     return generated_index, generated_discovery, generated_claims
 
@@ -1339,6 +1352,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-seeking-network",
         "discovery-gated-nas",
         "discovery-gated-transformer",
+        "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
@@ -1452,19 +1466,21 @@ def test_committed_canonical_bundle_covers_every_registered_report():
     discovery_payload = json.loads((canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
     claim_rows = _read_committed_claim_verdicts()
     registered = {spec.name: spec for spec in canonical.CANONICAL_REPORTS}
+    discovery_registered = {spec.name: spec for spec in canonical._discovery_map_reports()}
 
     index_reports = {row["name"]: row for row in index_payload["reports"]}
     discovery_rows = {row["report"]: row for row in discovery_payload["rows"]}
     claim_ids = {row["claim_id"] for row in claim_rows}
 
     assert set(index_reports) == set(registered)
-    assert set(registered).issubset(discovery_rows)
-    assert {f"claim:{name}" for name in registered}.issubset(claim_ids)
+    assert set(discovery_registered).issubset(discovery_rows)
+    assert {f"claim:{name}" for name in discovery_registered}.issubset(claim_ids)
     for name, spec in registered.items():
         assert index_reports[name]["json_artifact"] == spec.json_artifact
-        assert discovery_rows[name]["json_artifact"] == spec.json_artifact
         assert (canonical.ROOT / spec.json_artifact).exists()
         assert (canonical.ROOT / spec.markdown_artifact).exists()
+    for name, spec in discovery_registered.items():
+        assert discovery_rows[name]["json_artifact"] == spec.json_artifact
 
 
 def test_committed_canonical_bundle_matches_generation_chain():
@@ -1924,6 +1940,65 @@ def test_gap_head_transfer_atlas_generated_payload_exposes_row_classification():
             "runnable_status",
             "counting_reason",
         } <= set(row)
+
+
+def test_canonical_reports_manifest_includes_transformer_derivative_atlas():
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+
+    assert spec.command == ("python3", "scripts/run_transformer_derivative_atlas.py")
+    assert spec.json_artifact == canonical.TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT
+    assert spec.markdown_artifact == LAYERWISE_JET_MAP_ARTIFACT
+    assert canonical.TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT == ATTENTION_ROUTE_ARTIFACT
+    assert {
+        "dgt_declaration",
+        "raw_intervention_rows",
+        "layerwise_derivative_rows",
+        "margin_proxy_controls",
+        "attention_routes",
+        "hardgate",
+        "hardgates",
+        "failed_gate",
+        "discovery_map_admission",
+        "mechanism_claim_allowed",
+        "bounded_lab_evidence",
+        "forbidden_claim_term_audit",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "auxiliary"
+    assert spec.scope_pointer == "$.scope"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.positive_claim_pointer == "$.mechanism_claim_allowed"
+    assert spec.control_pointer == "$.margin_proxy_controls"
+
+
+def test_transformer_derivative_atlas_fixture_is_pointer_derived():
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+    payload = _payload_for_spec(spec)
+    route_report = render_attention_route_report(payload)
+
+    assert payload["dgt_declaration"]["produces_dgt"] is False
+    assert payload["dgt_declaration"]["discovery_map_authority"] is False
+    assert payload["dgt_declaration"]["claim_graph_authority"] is False
+    assert payload["dgt_declaration"]["non_authoritative_admission"] is True
+    assert payload["hardgate"]["status"] == payload["hardgates"]["status"]
+    assert payload["failed_gate"] is None
+    assert payload["discovery_map_admission"]["admitted"] is False
+    assert payload["mechanism_claim_allowed"]["allowed"] is False
+    assert payload["bounded_lab_evidence"]["raw_row_pointer"] == TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER
+    assert payload["forbidden_claim_term_audit"]["status"] == "pass"
+    assert payload["layerwise_derivative_rows"]["schema"] == "LayerwiseDerivativeRow"
+    assert payload["source_artifacts"]["raw_rows"] == TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER
+    assert route_report["source_artifacts"]["raw_rows"] == TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER
+    assert "dgt_relation" not in json.dumps(payload, sort_keys=True)
+
+
+def test_transformer_derivative_atlas_stays_out_of_discovery_and_claim_artifacts():
+    discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
+    claim_graph = json.loads((canonical.ROOT / "reports/canonical/claim_graph.json").read_text(encoding="utf-8"))
+    claim_rows = _read_committed_claim_verdicts()
+
+    assert not any(row.get("report") == "transformer-derivative-atlas" for row in discovery["rows"])
+    assert not any("transformer-derivative-atlas" in row.get("claim_id", "") for row in claim_rows)
+    assert not any("transformer-derivative-atlas" in node.get("node_id", "") for node in claim_graph["nodes"])
 
 
 def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
@@ -4021,15 +4096,16 @@ def test_committed_canonical_bundle_matches_registered_reports():
     ]
     index_payload = json.loads((canonical_dir / "index.json").read_text(encoding="utf-8"))
     spec_names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    discovery_spec_names = {spec.name for spec in canonical._discovery_map_reports()}
 
-    assert {row["report"] for row in discovery_payload["rows"]}.issuperset(spec_names)
-    assert {row["claim_id"].removeprefix("claim:") for row in claim_rows if row["claim_id"].startswith("claim:")}.issuperset(spec_names)
+    assert {row["report"] for row in discovery_payload["rows"]}.issuperset(discovery_spec_names)
+    assert {row["claim_id"].removeprefix("claim:") for row in claim_rows if row["claim_id"].startswith("claim:")}.issuperset(discovery_spec_names)
     assert {row["name"] for row in index_payload["reports"]} == spec_names
 
     regenerated_discovery = discovery_map.build_discovery_map(
         generated_at=discovery_payload["generated_at"],
         root=canonical.ROOT,
-        canonical_reports=canonical.CANONICAL_REPORTS,
+        canonical_reports=canonical._discovery_map_reports(),
     )
     regenerated_claim_rows = claim_verdicts.compile_claim_verdicts(
         canonical.ROOT,

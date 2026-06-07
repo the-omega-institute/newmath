@@ -2743,6 +2743,8 @@ def _manifest_audit(
         "reports/canonical/discovery_negative_witness_summary.json",
         "reports/canonical/claim_capsule.json",
         "reports/canonical/claim_graph.json",
+        "reports/canonical/attention_route_derivative_report.json",
+        "reports/canonical/transformer_derivative_atlas.json",
         OBSERVED_DEBT_ARTIFACT,
         DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
         "reports/canonical/gap_head_transfer_atlas.json",

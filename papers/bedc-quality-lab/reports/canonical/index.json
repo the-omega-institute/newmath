@@ -174,6 +174,13 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": "$.margin_proxy_controls",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.mechanism_claim_allowed",
+        "report": "transformer-derivative-atlas"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": null,
         "no_control_rationale_pointer": "$.scope",
         "positive_claim_pointer": "$.positive_claim",
@@ -734,6 +741,7 @@
   "paper_outline": {
     "auxiliary_reports": [
       "nongaussian-distribution-sweep",
+      "transformer-derivative-atlas",
       "lejepa-theorem-ledger",
       "observed-debt-sweep",
       "spectral-ablation-hinge",
@@ -2070,6 +2078,76 @@
           "evidence_envelope_ref",
           "mechanism_namecert_ref",
           "jet_certificate_ref",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.margin_proxy_controls",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts.cost_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [
+          "lit-lejepa-theorem-ledger"
+        ],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.mechanism_claim_allowed",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.scope",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/transformer_derivative_atlas.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/transformer_derivative_atlas.json",
+      "markdown_artifact": "reports/canonical/layerwise_jet_map.md",
+      "name": "transformer-derivative-atlas",
+      "producer_command": [
+        "python3",
+        "scripts/run_transformer_derivative_atlas.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "run_id",
+          "producer",
+          "projector",
+          "source_artifacts",
+          "config",
+          "dgt_declaration",
+          "raw_intervention_rows",
+          "layerwise_derivative_rows",
+          "margin_proxy_controls",
+          "attention_routes",
+          "layer_summary",
+          "hardgate",
+          "hardgates",
+          "failed_gate",
+          "discovery_map_admission",
+          "mechanism_claim_allowed",
+          "bounded_lab_evidence",
+          "forbidden_claim_term_audit",
+          "scope",
           "not_claimed"
         ],
         "required_key_validation": {
