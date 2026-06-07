@@ -1471,13 +1471,13 @@ def test_gap_head_attribution_index_exposes_residualized_e_hardgate_pointers(mon
         "run_id": "fixture",
         "source_artifacts": {"run_artifacts": {"summary": "reports/runs/a1-canonical/summary.json"}},
         "d5_o": {"status": "ready"},
-        "d5_m": {"status": "blocked"},
+        "d5_m": {"status": "blocked", "failed_gate": "A4-HG5"},
         "mechanism_evidence": {"candidate_mechanism": "unresolved"},
         "ledger_debt": [{"status": "open"}],
         "residualized_attribution": {"status": "pass"},
         "residualized_attribution_claim": {"non_score_mechanism_claim_allowed": False},
         "e_hardgates": {"status": "fail"},
-        "score_margin_causal_evidence": {"status": "pass"},
+        "score_margin_causal_evidence": {"status": "pass", "channel_classification": "score_margin_sufficient"},
         "a4_hardgates": {"status": "fail", "gates": {"A4-HG5": {"status": "fail"}}},
     }
     target = tmp_path / canonical.GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT
@@ -1496,6 +1496,67 @@ def test_gap_head_attribution_index_exposes_residualized_e_hardgate_pointers(mon
     )
     assert section["e_hardgates_status"] == "fail"
     assert section["non_score_mechanism_claim_allowed"] is False
+
+
+def test_gap_head_attribution_score_margin_shortcut_alias_is_pointer_only(monkeypatch, tmp_path):
+    payload = {
+        "run_id": "fixture",
+        "source_artifacts": {"run_artifacts": {"summary": "reports/runs/a1-canonical/summary.json"}},
+        "d5_o": {"status": "ready"},
+        "d5_m": {"status": "blocked", "passed": False, "failed_gate": "A4-HG5"},
+        "mechanism_evidence": {"candidate_mechanism": "unresolved"},
+        "ledger_debt": [{"status": "open"}],
+        "residualized_attribution": {"status": "pass"},
+        "residualized_attribution_claim": {"non_score_mechanism_claim_allowed": False},
+        "e_hardgates": {"status": "fail"},
+        "score_margin_causal_evidence": {"status": "pass", "channel_classification": "score_margin_sufficient"},
+        "a4_hardgates": {"status": "fail", "gates": {"A4-HG5": {"status": "fail"}}},
+    }
+    target = tmp_path / canonical.GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT
+    target.parent.mkdir(parents=True)
+    target.write_text(json.dumps(payload), encoding="utf-8")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+
+    alias = canonical._gap_head_attribution_index_section()["score_margin_shortcut_witness_alias"]
+
+    assert alias == {
+        "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
+        "score_margin_channel_classification_pointer": (
+            "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence.channel_classification"
+        ),
+        "a4_hg5_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
+        "a4_hg5_status_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5.status",
+        "d5_m_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_m",
+        "d5_m_failed_gate_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_m.failed_gate",
+    }
+    assert {
+        "status",
+        "classification",
+        "blocked_level",
+        "blocked_target",
+        "blocked_when",
+        "active",
+        "metric",
+        "metrics",
+        "evidence",
+        "evidence_body",
+        "passed",
+        "failed_gate",
+        "gate_status",
+        "d5_m_status",
+        "d5_m_passed",
+        "candidate_mechanism",
+        "score_margin",
+        "score",
+        "margin",
+    }.isdisjoint(alias)
+    assert all(key.endswith("_pointer") for key in alias)
+
+    for pointer in alias.values():
+        artifact, json_pointer = split_artifact_pointer(pointer)
+        assert artifact == canonical.GAP_HEAD_ATTRIBUTION_JSON_ARTIFACT
+        assert pointer_value(payload, json_pointer) is not None
 
 
 def test_committed_gap_head_attribution_residualized_claim_round_trip_validates():

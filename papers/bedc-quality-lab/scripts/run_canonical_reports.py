@@ -3842,6 +3842,16 @@ def _gap_head_attribution_index_section() -> dict[str, Any]:
         "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
         "a4_hardgates_status_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.status",
         "a4_hg5_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
+        "score_margin_shortcut_witness_alias": {
+            "score_margin_causal_evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence",
+            "score_margin_channel_classification_pointer": (
+                "reports/canonical/gap_head_attribution_capsule.json:$.score_margin_causal_evidence.channel_classification"
+            ),
+            "a4_hg5_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5",
+            "a4_hg5_status_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.a4_hardgates.gates.A4-HG5.status",
+            "d5_m_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_m",
+            "d5_m_failed_gate_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.d5_m.failed_gate",
+        },
         "a4_hardgates_status": _pointer_value(payload, "$.a4_hardgates.status") or "missing",
         "a4_hg5_status": _pointer_value(payload, "$.a4_hardgates.gates.A4-HG5.status") or "missing",
         "e_hardgates_status": _pointer_value(payload, "$.e_hardgates.status") or "missing",
