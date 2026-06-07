@@ -4,6 +4,7 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, split_artifact_pointer, resolve_artifact_pointer
+from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     BedcGapMapping,
     DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
@@ -62,6 +63,49 @@ def test_discovery_map_pointer_cells_resolve_against_canonical_artifacts():
     for pointer in pointers:
         assert split_artifact_pointer(pointer) is not None
         assert resolve_artifact_pointer(ROOT, pointer) is not None
+
+
+def test_finite_gate_resolves_coverage_matrix_pointer_cells(tmp_path):
+    canonical = tmp_path / "reports" / "canonical"
+    canonical.mkdir(parents=True)
+    (canonical / "source.json").write_text(
+        json.dumps(
+            {
+                "claim": True,
+                "evidence": {"status": "pass"},
+                "hardgates": {"HG": {"status": "pass"}},
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    discovery_map = {
+        "rows": [],
+        "coverage_matrix": {
+            "cells": [
+                {
+                    "source_artifact": "reports/canonical/source.json",
+                    "source_pointer": "$.claim",
+                    "evidence_pointer": "$.evidence",
+                    "status_pointer": "$.evidence.status",
+                    "hardgate_pointer": "$.hardgates.HG",
+                    "discovery_map_row_pointer": "reports/canonical/source.json:$.claim",
+                }
+            ]
+        },
+    }
+
+    gate = project_finite_discovery_gate(
+        {
+            "discovery_map": discovery_map,
+            "negative_witness_summary": {"audit_status": "pass", "row_count": 0, "rows": []},
+        },
+        root=tmp_path,
+    )
+
+    assert gate["status"] == "pass"
+    assert gate["hardgates"]["FG-HG5"]["status"] == "pass"
+    assert gate["stale_pointers"] == []
 
 
 def test_discovery_map_does_not_copy_negative_report_body_cells():
