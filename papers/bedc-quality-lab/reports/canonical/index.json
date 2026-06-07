@@ -21,13 +21,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 98,
+    "node_count": 101,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 34,
+    "row_count": 35,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -195,6 +195,13 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": "$.hardgates.CMP-HG3",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.hardgates.CMP-HG5",
+        "report": "model-comparison"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": "$.matched_control_summary",
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.discovery_projection",
@@ -243,9 +250,9 @@
         "panel_id": "d5-status"
       },
       {
-        "artifact_pointer": "reports/runs/model-discovery-suite/summary.json:$",
-        "label": "Model-design suite",
-        "panel_id": "model-design-suite"
+        "artifact_pointer": "reports/canonical/model-comparison.json:$",
+        "label": "Model comparison",
+        "panel_id": "model-comparison"
       }
     ],
     "source_index_artifact": "reports/canonical/index.json",
@@ -313,7 +320,7 @@
     "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 6,
+      "D0": 7,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -324,7 +331,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 26,
+    "row_count": 27,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -444,7 +451,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-07T20:57:07.067409+00:00",
+  "generated_at": "2026-06-07T21:49:00.096406+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -479,6 +486,19 @@
       "artifact-release-navigation"
     ],
     "status": "ready"
+  },
+  "model_comparison": {
+    "artifact_id": "bedc-quality-lab:model-comparison",
+    "hardgates_pointer": "reports/canonical/model-comparison.json:$.hardgates",
+    "json_artifact": "reports/canonical/model-comparison.json",
+    "markdown_artifact": "reports/canonical/model-comparison.md",
+    "model_count": 7,
+    "models_pointer": "reports/canonical/model-comparison.json:$.models",
+    "ranking_key_pointer": "reports/canonical/model-comparison.json:$.ranking_key",
+    "schema_id": "bedc-quality-lab:model-comparison",
+    "sidecar_status": "not_ready",
+    "source_reports_pointer": "reports/canonical/model-comparison.json:$.source_reports",
+    "status": "pointer-only"
   },
   "model_design_suite": {
     "artifact_id": "bedc-quality-lab:model-design-suite",
@@ -717,6 +737,7 @@
       "lejepa-theorem-ledger",
       "observed-debt-sweep",
       "spectral-ablation-hinge",
+      "model-comparison",
       "causal-patch-suite"
     ],
     "core_reports": [
@@ -787,7 +808,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "5c615ec5912d3a636b708da63365e7590c21b32e3e30e45adaf20bc632d1719f",
+    "source_sidecar_digest": "f78ad65ae7a2c105ffbdfc2a61a0312eb32119069fd0b7a546e7a61bbbd0c0d3",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -2224,6 +2245,60 @@
           "ledger_summary",
           "negative_control_summary",
           "rank_correlation"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.hardgates.CMP-HG3",
+        "control_status": "present",
+        "cost_pointer": "$.source_reports",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.hardgates.CMP-HG5",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/model-comparison.json",
+      "markdown_artifact": "reports/canonical/model-comparison.md",
+      "name": "model-comparison",
+      "producer_command": [
+        "python3",
+        "scripts/run_canonical_reports.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "status",
+          "ranking_key",
+          "models",
+          "hardgates",
+          "not_claimed",
+          "source_reports"
         ],
         "required_key_validation": {
           "missing_keys": [],

@@ -188,6 +188,22 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 
 
 def _payload_for_spec(spec):
+    if spec.name == "model-comparison":
+        return {
+            "schema_id": canonical.MODEL_COMPARISON_SCHEMA_ID,
+            "artifact_id": canonical.MODEL_COMPARISON_ARTIFACT_ID,
+            "generated_at": "fixture-generated-at",
+            "status": "not_ready",
+            "ranking_key": list(canonical.MODEL_COMPARISON_RANKING_KEY),
+            "models": [],
+            "hardgates": {
+                gate_id: {"gate_id": gate_id, "status": "fail", "reason": "fixture"}
+                for gate_id in canonical.MODEL_COMPARISON_HARDGATE_IDS
+            },
+            "not_claimed": ["fixture"],
+            "source_reports": [],
+            "ordering": {"status": "not_ready"},
+        }
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
         payload["artifact_id"] = MODEL_DESIGN_FIXTURE_ARTIFACT_IDS[spec.name]
@@ -1326,6 +1342,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "lejepa-theorem-ledger",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
+        "model-comparison",
         "causal-patch-suite",
     ]
     assert "certificate-guided-arms" not in names
@@ -1498,7 +1515,7 @@ def test_canonical_index_dashboard_panel_pointers_resolve():
         "negative-witnesses",
         "negative-witness-summary",
         "d5-status",
-        "model-design-suite",
+        "model-comparison",
     ]
     for panel in panels:
         assert resolve_artifact_pointer(canonical.ROOT, panel["artifact_pointer"]) is not None
@@ -1540,6 +1557,121 @@ def test_canonical_index_dashboard_missing_owner_fails_closed():
         "reports/canonical/missing-dashboard-owner.json:$",
         "reports/canonical/discovery_map.json:$.missing_dashboard_panel",
     ]
+
+
+def test_model_comparison_sidecar_is_indexed_pointer_only():
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    section = canonical._model_comparison_index_section(payload)
+    index_payload = canonical._index([], generated_at="2030-01-01T00:00:00+00:00")
+    markdown = canonical._render_index_markdown(index_payload)
+
+    assert section["json_artifact"] == canonical.MODEL_COMPARISON_JSON_ARTIFACT
+    assert section["markdown_artifact"] == canonical.MODEL_COMPARISON_MARKDOWN_ARTIFACT
+    assert section["models_pointer"] == "reports/canonical/model-comparison.json:$.models"
+    assert "models" not in section
+    assert "rows" not in section
+    assert index_payload["model_comparison"]["models_pointer"] == section["models_pointer"]
+    assert "## Model Comparison" in markdown
+    assert "| `base_transformer` |" not in markdown
+
+
+def test_model_comparison_rows_cover_issue_model_set_fail_closed():
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    rows = {row["model_id"]: row for row in payload["models"]}
+
+    assert list(rows) == [
+        "base_transformer",
+        "ledger-aware-transformer",
+        "certificate-gated-attention",
+        "discovery-regularized-training",
+        "mechanism-seeking-network",
+        "DGT candidate",
+        "matched-random structural control",
+    ]
+    assert rows["base_transformer"]["status"] == "missing_source"
+    assert rows["matched-random structural control"]["status"] == "missing_source"
+    assert rows["ledger-aware-transformer"]["status"] == "ready"
+
+
+def test_model_comparison_rejects_accuracy_only_ranking():
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    keys = set(_walk_keys(payload))
+
+    assert keys.isdisjoint({"rank", "total_score", "accuracy_rank", "winner", "global_winner"})
+    assert payload["ranking_key"] == ["quality_q", "JetCoverage"]
+
+
+def test_model_comparison_ranking_key_is_claim_specific(monkeypatch):
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    assert payload["ranking_key"] == ["quality_q", "JetCoverage"]
+    assert payload["ordering"]["status"] == "ready"
+
+    real_resolve = canonical._resolve_committed_artifact_pointer
+
+    def missing_quality_q(root, pointer):
+        if pointer.endswith("$.hardgate.status"):
+            return None
+        return real_resolve(root, pointer)
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", missing_quality_q)
+    blocked = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert blocked["hardgates"]["CMP-HG5"]["status"] == "fail"
+    assert blocked["ordering"]["status"] == "not_ready"
+
+
+def test_model_comparison_hardgates_fail_closed(monkeypatch):
+    real_resolve = canonical._resolve_committed_artifact_pointer
+
+    def missing_required_controls(root, pointer):
+        blocked_fragments = (
+            "$.parameter_matched_baseline",
+            "$.compute_matched_baseline",
+            "matched-random-control.json",
+        )
+        if any(fragment in pointer for fragment in blocked_fragments):
+            return None
+        return real_resolve(root, pointer)
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", missing_required_controls)
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["hardgates"]["CMP-HG1"]["status"] == "fail"
+    assert payload["hardgates"]["CMP-HG2"]["status"] == "fail"
+    assert payload["hardgates"]["CMP-HG3"]["status"] == "fail"
+
+
+def test_model_comparison_metric_pointers_resolve_or_mark_missing():
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    expected_metrics = {
+        "task_accuracy",
+        "ood_accuracy",
+        "UER",
+        "FalseLedgerRate",
+        "CriticalUER",
+        "classifier_shift",
+        "order",
+        "quality_q",
+        "cost",
+        "negative_witnesses",
+        "JetCoverage",
+        "CausalJetCoverage",
+    }
+
+    for row in payload["models"]:
+        assert set(row["metrics"]) == expected_metrics
+        for metric in row["metrics"].values():
+            assert set(metric) == {"pointer", "status"}
+            assert metric["status"] in {"resolved", "missing"}
+
+
+def test_model_discovery_suite_removed_from_backend_exports():
+    import bedc_quality_lab.backends as backends
+
+    assert "model_discovery" not in backends.__all__
+    assert not hasattr(backends, "ModelDiscoveryBackendEvidenceAdapter")
+    assert not (canonical.ROOT / "reports/runs/model-discovery-suite/claim_capsule.json").exists()
+    assert not (canonical.ROOT / "reports/runs/model-discovery-suite/summary.json").exists()
 
 
 def test_committed_discovery_map_coverage_matrix_is_full_target_set_and_round_trips():
@@ -2153,6 +2285,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
     for spec in canonical.CANONICAL_REPORTS:
         keys = set(spec.required_json_keys)
         assert "generated_at" in keys
+        if spec.name == "model-comparison":
+            assert "source_reports" in keys
+            continue
         assert "source_artifacts" in keys
     assert {"control_protocol", "control_verdict"}.issubset(
         set(canonical._specs_by_name()["gap-head-on-h"].required_json_keys)
