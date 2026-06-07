@@ -523,6 +523,172 @@
     "status": "pointer-only",
     "status_pointer": "reports/canonical/new_model_hardgates.json:$.status"
   },
+  "observed_debt_axis_projection": {
+    "axis_ids": [
+      "latent_distribution",
+      "anisotropy",
+      "dimension_mismatch",
+      "sample_count",
+      "optimizer",
+      "mixing",
+      "compute",
+      "capacity"
+    ],
+    "classification_enum": [
+      "observed-debt",
+      "ledger-risk-only"
+    ],
+    "row_count": 8,
+    "rows": [
+      {
+        "axis_id": "latent_distribution",
+        "axis_label": "Latent distribution",
+        "classification": "ledger-risk-only",
+        "debt_row": {
+          "kind": "source",
+          "residue": "latent-distribution-gaussianity",
+          "score": "0.000000",
+          "severity": "none",
+          "status": "closed"
+        },
+        "evidence_pointer": "$.main_claim_status",
+        "hardgate_pointer": "$.claim_gate",
+        "not_claimed": "Finite latent-distribution sweep only; no global non-Gaussian failure claim is projected.",
+        "source_artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+        "source_status": "observed-debt-pipeline-only"
+      },
+      {
+        "axis_id": "anisotropy",
+        "axis_label": "Transition anisotropy",
+        "classification": "ledger-risk-only",
+        "debt_row": {
+          "debt_score_mean": 0.12,
+          "rho_by_axis": [
+            0.95,
+            0.3
+          ],
+          "status": "open-or-partial",
+          "transition_anisotropy_gap": 0.6499999999999999,
+          "transition_isotropic": false
+        },
+        "evidence_pointer": "$.transition_debt_by_grid.rho_axes_0p95_0p3",
+        "hardgate_pointer": null,
+        "not_claimed": "Transition anisotropy remains ledger evidence for this sweep, not a promoted observed-debt claim.",
+        "source_artifact": "reports/canonical/anisotropic-ou-sweep.json",
+        "source_status": "open-or-partial"
+      },
+      {
+        "axis_id": "dimension_mismatch",
+        "axis_label": "Dimension mismatch",
+        "classification": "observed-debt",
+        "debt_row": {
+          "base_level": "D4",
+          "d5_shortcut": false,
+          "downgrade_reason": "scale_only_or_metadata_proxy_sufficient",
+          "effective_level": "DN",
+          "failed_gates": [],
+          "projection": "DN",
+          "reason": "anti-triviality sidecar recommends DN demotion",
+          "scope": "encoder_dim grid against producer reference latent dimension",
+          "status": "recorded",
+          "terminal_verdict": "negative_discovery"
+        },
+        "evidence_pointer": "$.dimension_mismatch_debt_transfer.status",
+        "hardgate_pointer": "$.hardgate_evidence",
+        "not_claimed": "Dimension mismatch is bounded to the encoder-dimension transfer surface and keeps its DN boundary.",
+        "source_artifact": "reports/canonical/dimension-mismatch-debt-transfer.json",
+        "source_status": "pass"
+      },
+      {
+        "axis_id": "sample_count",
+        "axis_label": "Sample count",
+        "classification": "observed-debt",
+        "debt_row": {
+          "excluded_observed_debt_axes": [
+            {
+              "axis": "C1",
+              "reason": "encoder dimension is not a real training knob in the reused gap-head-on-h producer"
+            },
+            {
+              "axis": "C2",
+              "reason": "training steps are not a real training knob in the reused gap-head-on-h producer"
+            },
+            {
+              "axis": "C4",
+              "reason": "action transition identification is not available through the reused gap-head-on-h producer"
+            }
+          ],
+          "failed_surfaces": [],
+          "status": "recorded"
+        },
+        "evidence_pointer": "$.gap_head_on_h_observed_debt_transfer.status",
+        "hardgate_pointer": "$.hardgate_evidence",
+        "not_claimed": "Sample-count transfer is finite surface evidence and does not promote a global quality claim.",
+        "source_artifact": "reports/canonical/gap-head-observed-debt-transfer.json",
+        "source_status": "pass"
+      },
+      {
+        "axis_id": "optimizer",
+        "axis_label": "Optimizer",
+        "classification": "ledger-risk-only",
+        "debt_row": {
+          "arm_id": "adamw_undertrained",
+          "evidence_pointer": "$.training_choice_observability.arms[*].hardgates",
+          "failed_gates": [
+            "HG-TCO-3"
+          ],
+          "kind": "ledger-risk-only",
+          "ledger_status": "open",
+          "reason": "hardgate result prevents positive observed-debt"
+        },
+        "evidence_pointer": "$.training_choice_observability.ledger_risk_only_arm_count",
+        "hardgate_pointer": "$.training_choice_observability.arms[0].hardgates",
+        "not_claimed": "Training-choice observability is ledger-risk-only unless producer-owned observed-debt arms pass their gates.",
+        "source_artifact": "runs/training_choice_observability.json",
+        "source_status": 0
+      },
+      {
+        "axis_id": "mixing",
+        "axis_label": "Mixing family",
+        "classification": "ledger-risk-only",
+        "debt_row": {
+          "kind": "source",
+          "residue": "mixing-family-coverage",
+          "score": "0.000000",
+          "severity": "none",
+          "status": "closed"
+        },
+        "evidence_pointer": "$.coverage_item",
+        "hardgate_pointer": null,
+        "not_claimed": "Mixing-family coverage is represented as ledger coverage and is not promoted by this projection.",
+        "source_artifact": "reports/canonical/mixing-family-sweep.json",
+        "source_status": "closed"
+      },
+      {
+        "axis_id": "compute",
+        "axis_label": "Compute budget",
+        "classification": "ledger-risk-only",
+        "debt_row": null,
+        "evidence_pointer": "$.source_artifacts.gap_head_metric_helper",
+        "hardgate_pointer": null,
+        "not_claimed": "Compute evidence is proxy-only in the current artifacts and remains ledger-risk-only.",
+        "source_artifact": "runs/training_choice_observability.json",
+        "source_status": "pointer-only"
+      },
+      {
+        "axis_id": "capacity",
+        "axis_label": "Model capacity",
+        "classification": "ledger-risk-only",
+        "debt_row": null,
+        "evidence_pointer": "$.capacity",
+        "hardgate_pointer": null,
+        "not_claimed": "Capacity evidence is a boundary registry entry and remains ledger-risk-only.",
+        "source_artifact": "reports/canonical/discovery_gate_escape_registry.json",
+        "source_status": "fail-closed"
+      }
+    ],
+    "status": "pointer-only"
+  },
   "paper_outline": {
     "auxiliary_reports": [
       "nongaussian-distribution-sweep",

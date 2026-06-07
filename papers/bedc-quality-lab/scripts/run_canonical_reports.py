@@ -122,6 +122,17 @@ RELEASE_NAMECERT_CANDIDATE_ARTIFACT_ID = "bedc-quality-lab:release-namecert-cand
 TOY_SAFETY_BOUNDARY_JSON_ARTIFACT = "reports/canonical/toy_safety_boundary.json"
 TOY_SAFETY_BOUNDARY_MARKDOWN_ARTIFACT = "reports/canonical/toy_safety_boundary.md"
 TOY_SAFETY_BOUNDARY_ARTIFACT_ID = "bedc-quality-lab:toy-safety-boundary"
+OBSERVED_DEBT_AXIS_PROJECTION_SPECS = (
+    ("latent_distribution", "Latent distribution", "reports/canonical/nongaussian-distribution-sweep.json", "$.main_claim_status", "$.main_claim_status", ("observed-debt",), "$.claim_gate", "$.records[0].latent_distribution_debt_item", "Finite latent-distribution sweep only; no global non-Gaussian failure claim is projected."),
+    ("anisotropy", "Transition anisotropy", "reports/canonical/anisotropic-ou-sweep.json", "$.transition_debt_by_grid.rho_axes_0p95_0p3", "$.transition_debt_by_grid.rho_axes_0p95_0p3.status", ("observed-debt",), None, "$.transition_debt_by_grid.rho_axes_0p95_0p3", "Transition anisotropy remains ledger evidence for this sweep, not a promoted observed-debt claim."),
+    ("dimension_mismatch", "Dimension mismatch", DIMENSION_MISMATCH_TRANSFER_JSON_ARTIFACT, "$.dimension_mismatch_debt_transfer.status", "$.dimension_mismatch_debt_transfer.status", ("pass",), "$.hardgate_evidence", "$.boundary_ledger", "Dimension mismatch is bounded to the encoder-dimension transfer surface and keeps its DN boundary."),
+    ("sample_count", "Sample count", "reports/canonical/gap-head-observed-debt-transfer.json", "$.gap_head_on_h_observed_debt_transfer.status", "$.gap_head_on_h_observed_debt_transfer.status", ("pass",), "$.hardgate_evidence", "$.observed_debt_transfer_boundary", "Sample-count transfer is finite surface evidence and does not promote a global quality claim."),
+    ("optimizer", "Optimizer", "runs/training_choice_observability.json", "$.training_choice_observability.ledger_risk_only_arm_count", "$.training_choice_observability.observed_debt_arm_count", ("positive-observed-debt",), "$.training_choice_observability.arms[0].hardgates", "$.boundary_ledger[0]", "Training-choice observability is ledger-risk-only unless producer-owned observed-debt arms pass their gates."),
+    ("mixing", "Mixing family", "reports/canonical/mixing-family-sweep.json", "$.coverage_item", "$.coverage_item.debt_item.status", ("observed-debt",), None, "$.coverage_item.debt_item", "Mixing-family coverage is represented as ledger coverage and is not promoted by this projection."),
+    ("compute", "Compute budget", "runs/training_choice_observability.json", "$.source_artifacts.gap_head_metric_helper", "$.status", ("positive-observed-debt",), None, None, "Compute evidence is proxy-only in the current artifacts and remains ledger-risk-only."),
+    ("capacity", "Model capacity", "reports/canonical/discovery_gate_escape_registry.json", "$.capacity", "$.capacity.overflow_policy", ("positive-observed-debt",), None, None, "Capacity evidence is a boundary registry entry and remains ledger-risk-only."),
+)
+OBSERVED_DEBT_AXIS_IDS = tuple(spec[0] for spec in OBSERVED_DEBT_AXIS_PROJECTION_SPECS)
 LITERATURE_LEDGER = ROOT / "docs" / "lit" / "literature_ledger.yaml"
 HONEST_BOUNDARY_ROWS = (
     "EvidenceEnvelope is not NameCert.",
@@ -1775,6 +1786,52 @@ def _discovery_map_payload(generated_at: str | None = None) -> dict[str, Any]:
     from scripts.run_discovery_map import build_discovery_map
 
     return build_discovery_map(generated_at=generated_at, root=ROOT, canonical_reports=CANONICAL_REPORTS)
+
+
+def _all_gates_pass(value: Any) -> bool:
+    if not isinstance(value, Mapping):
+        return False
+    statuses = [cell.get("status") for cell in value.values() if isinstance(cell, Mapping) and "status" in cell]
+    return bool(statuses) and all(status == "pass" for status in statuses)
+
+
+def _projection_row(spec: tuple[Any, ...]) -> dict[str, Any]:
+    axis_id, axis_label, source_artifact, evidence_pointer, status_pointer, positive_statuses, hardgate_pointer, debt_row_pointer, not_claimed = spec
+    source_payload = _load_sidecar_payload(source_artifact)
+    evidence_value = _bracket_pointer_value(source_payload, evidence_pointer)
+    source_status = _bracket_pointer_value(source_payload, status_pointer)
+    hardgate_value = _bracket_pointer_value(source_payload, hardgate_pointer) if hardgate_pointer else None
+    hardgate_pass = bool(hardgate_pointer and _all_gates_pass(hardgate_value))
+    if hardgate_pointer is None and source_status in positive_statuses:
+        hardgate_pass = True
+    global_claim = _bracket_pointer_value(source_payload, "$.global_claim_flag") is True
+    classification = (
+        "observed-debt"
+        if evidence_value is not None and source_status in positive_statuses and hardgate_pass and not global_claim
+        else "ledger-risk-only"
+    )
+    return {
+        "axis_id": axis_id,
+        "axis_label": axis_label,
+        "classification": classification,
+        "source_artifact": source_artifact,
+        "evidence_pointer": evidence_pointer,
+        "source_status": source_status,
+        "debt_row": _bracket_pointer_value(source_payload, debt_row_pointer) if debt_row_pointer else None,
+        "hardgate_pointer": hardgate_pointer,
+        "not_claimed": not_claimed,
+    }
+
+
+def _observed_debt_axis_projection_section() -> dict[str, Any]:
+    rows = [_projection_row(spec) for spec in OBSERVED_DEBT_AXIS_PROJECTION_SPECS]
+    return {
+        "status": "pointer-only",
+        "axis_ids": list(OBSERVED_DEBT_AXIS_IDS),
+        "classification_enum": ["observed-debt", "ledger-risk-only"],
+        "row_count": len(rows),
+        "rows": rows,
+    }
 
 
 def _dimension_mismatch_transfer_index_section() -> dict[str, Any]:
@@ -4236,6 +4293,7 @@ def _index(
             "row_count": discovery_map_payload["row_count"],
             "level_counts": discovery_map_payload["level_counts"],
         },
+        "observed_debt_axis_projection": _observed_debt_axis_projection_section(),
         "dimension_mismatch_debt_transfer": _dimension_mismatch_transfer_index_section(),
         "dimension_mismatch_transfer_robustness": _dimension_mismatch_transfer_robustness_index_section(),
         "negative_witnesses": _negative_witnesses_index_section(),
@@ -4330,6 +4388,28 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Markdown: `{payload['discovery_map']['markdown_artifact']}`",
             f"- Coverage matrix: `{payload['discovery_map']['coverage_matrix_pointer']}`",
             f"- Rows: `{payload['discovery_map']['row_count']}`",
+            "",
+            "## Observed debt axis projection",
+            "",
+            f"- Status: `{payload['observed_debt_axis_projection']['status']}`",
+            f"- Rows: `{payload['observed_debt_axis_projection']['row_count']}`",
+            f"- Classifications: `{', '.join(payload['observed_debt_axis_projection']['classification_enum'])}`",
+            "",
+            "| axis | classification | source | evidence | hardgate |",
+            "| --- | --- | --- | --- | --- |",
+        ]
+    )
+    for row in payload["observed_debt_axis_projection"]["rows"]:
+        lines.append(
+            "| "
+            f"`{row['axis_id']}` | "
+            f"`{row['classification']}` | "
+            f"`{row['source_artifact']}` | "
+            f"`{row['evidence_pointer']}` | "
+            f"`{row['hardgate_pointer']}` |"
+        )
+    lines.extend(
+        [
             "",
             "## Dimension mismatch debt transfer",
             "",

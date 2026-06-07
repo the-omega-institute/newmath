@@ -54,6 +54,23 @@
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
 - Rows: `24`
 
+## Observed debt axis projection
+
+- Status: `pointer-only`
+- Rows: `8`
+- Classifications: `observed-debt, ledger-risk-only`
+
+| axis | classification | source | evidence | hardgate |
+| --- | --- | --- | --- | --- |
+| `latent_distribution` | `ledger-risk-only` | `reports/canonical/nongaussian-distribution-sweep.json` | `$.main_claim_status` | `$.claim_gate` |
+| `anisotropy` | `ledger-risk-only` | `reports/canonical/anisotropic-ou-sweep.json` | `$.transition_debt_by_grid.rho_axes_0p95_0p3` | `None` |
+| `dimension_mismatch` | `observed-debt` | `reports/canonical/dimension-mismatch-debt-transfer.json` | `$.dimension_mismatch_debt_transfer.status` | `$.hardgate_evidence` |
+| `sample_count` | `observed-debt` | `reports/canonical/gap-head-observed-debt-transfer.json` | `$.gap_head_on_h_observed_debt_transfer.status` | `$.hardgate_evidence` |
+| `optimizer` | `ledger-risk-only` | `runs/training_choice_observability.json` | `$.training_choice_observability.ledger_risk_only_arm_count` | `$.training_choice_observability.arms[0].hardgates` |
+| `mixing` | `ledger-risk-only` | `reports/canonical/mixing-family-sweep.json` | `$.coverage_item` | `None` |
+| `compute` | `ledger-risk-only` | `runs/training_choice_observability.json` | `$.source_artifacts.gap_head_metric_helper` | `None` |
+| `capacity` | `ledger-risk-only` | `reports/canonical/discovery_gate_escape_registry.json` | `$.capacity` | `None` |
+
 ## Dimension mismatch debt transfer
 
 - Status: `pointer-only`
