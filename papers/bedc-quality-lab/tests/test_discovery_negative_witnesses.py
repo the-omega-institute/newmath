@@ -88,7 +88,7 @@ def test_each_witness_has_bedc_gap_contract():
     witnesses = payload["witnesses"]
 
     assert set(EXPECTED_GAP_FIELDS) == set(generator.EXPECTED_KINDS)
-    assert canonical.NEGATIVE_WITNESSES_REQUIRED_FIELDS == generator.REQUIRED_GAP_FIELDS
+    assert not hasattr(canonical, "NEGATIVE_WITNESSES_REQUIRED_FIELDS")
     assert {row["kind"]: row["bedc_gap_field"] for row in witnesses} == EXPECTED_GAP_FIELDS
     for row in witnesses:
         contract = generator.WITNESS_GAP_CONTRACTS[row["kind"]]
@@ -184,6 +184,22 @@ def test_replay_matches_checked_in_gap_witness_ledger():
     replayed = generator.replay_checked_in_ledger(LEDGER_PATH)
 
     assert replayed == _checked_in_payload()
+
+
+def test_write_witness_ledger_refresh_preserves_existing_generated_at(tmp_path, monkeypatch):
+    monkeypatch.setattr(generator, "ROOT", tmp_path)
+    target = tmp_path / generator.LEDGER_ARTIFACT
+    sentinel = "2040-01-02T03:04:05+00:00"
+    existing = generator.build_witness_ledger(generated_at=sentinel)
+    target.parent.mkdir(parents=True)
+    target.write_text(json.dumps(existing, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+    payload = generator.write_witness_ledger(target)
+    written = json.loads(target.read_text(encoding="utf-8"))
+
+    assert payload["generated_at"] == sentinel
+    assert written["generated_at"] == sentinel
+    assert written == payload
 
 
 def test_generator_and_evolver_refresh_write_scope_is_allowlisted(tmp_path, monkeypatch):

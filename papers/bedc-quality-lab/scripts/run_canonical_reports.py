@@ -37,6 +37,9 @@ from bedc_quality_lab.discovery_gated_transformer_training import (
     TRAINING_REPLAY_ARTIFACT as DGT_TRAINING_REPLAY_ARTIFACT,
 )
 from scripts.literature_ledger import validate_literature_ledger
+from tools.quality_discovery_adversarial_generator import (
+    EXPECTED_KINDS as NEGATIVE_WITNESS_KINDS,
+)
 
 CANONICAL_DIR = ROOT / "reports" / "canonical"
 INDEX_ARTIFACT = CANONICAL_DIR / "index.json"
@@ -58,14 +61,7 @@ DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_MARKDOWN_ARTIFACT = "reports/canonical/di
 DIMENSION_MISMATCH_TRANSFER_ROBUSTNESS_ARTIFACT_ID = "bedc-quality-lab:dimension-mismatch-transfer-robustness"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
-NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = 8
-NEGATIVE_WITNESSES_REQUIRED_FIELDS = (
-    "bedc_gap_field",
-    "violated_principle",
-    "required_ledger_row",
-    "demotion_rule",
-    "regression_test_pointer",
-)
+NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = len(NEGATIVE_WITNESS_KINDS)
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
 CLAIM_GRAPH_JSON_ARTIFACT = "reports/canonical/claim_graph.json"
