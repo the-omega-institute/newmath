@@ -155,4 +155,57 @@ theorem BanachSpaceCarrier_completion_obligation_surface [AskSetup] [PackageSetu
     ⟨cert, normUnary, cauchyUnary, completionUnary, toleranceUnary, separatedUnary,
       localUnary⟩
 
+theorem BanachSpaceNormBallTransport
+    {V N M Q S R E Z H C P L normRead metricRead cauchyRead completionRead toleranceRead
+      separatedRead normBallRead : BHist} :
+    UnaryHistory V ->
+      UnaryHistory N ->
+        UnaryHistory M ->
+          UnaryHistory Q ->
+            UnaryHistory S ->
+              UnaryHistory R ->
+                UnaryHistory E ->
+                  UnaryHistory Z ->
+                    UnaryHistory H ->
+                      UnaryHistory C ->
+                        Cont V N normRead ->
+                          Cont normRead M metricRead ->
+                            Cont Q S cauchyRead ->
+                              Cont cauchyRead R completionRead ->
+                                Cont completionRead E toleranceRead ->
+                                  Cont toleranceRead Z separatedRead ->
+                                    Cont H C normBallRead ->
+                                      UnaryHistory normRead ∧ UnaryHistory metricRead ∧
+                                        UnaryHistory cauchyRead ∧
+                                          UnaryHistory completionRead ∧
+                                            UnaryHistory toleranceRead ∧
+                                              UnaryHistory separatedRead ∧
+                                                UnaryHistory normBallRead ∧
+                                                  Cont H C normBallRead ∧
+                                                    banachSpaceFields
+                                                        (BanachSpaceUp.mk
+                                                          V N M Q S R E Z H C P L) =
+                                                      [V, N, M, Q, S, R, E, Z, H, C, P,
+                                                        L] := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory BanachSpaceUp
+  intro vUnary nUnary mUnary qUnary sUnary rUnary eUnary zUnary hUnary cUnary normRoute
+    metricRoute cauchyRoute completionRoute toleranceRoute separatedRoute normBallRoute
+  have normUnary : UnaryHistory normRead :=
+    unary_cont_closed vUnary nUnary normRoute
+  have metricUnary : UnaryHistory metricRead :=
+    unary_cont_closed normUnary mUnary metricRoute
+  have cauchyUnary : UnaryHistory cauchyRead :=
+    unary_cont_closed qUnary sUnary cauchyRoute
+  have completionUnary : UnaryHistory completionRead :=
+    unary_cont_closed cauchyUnary rUnary completionRoute
+  have toleranceUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed completionUnary eUnary toleranceRoute
+  have separatedUnary : UnaryHistory separatedRead :=
+    unary_cont_closed toleranceUnary zUnary separatedRoute
+  have normBallUnary : UnaryHistory normBallRead :=
+    unary_cont_closed hUnary cUnary normBallRoute
+  exact
+    ⟨normUnary, metricUnary, cauchyUnary, completionUnary, toleranceUnary,
+      separatedUnary, normBallUnary, normBallRoute, rfl⟩
+
 end BEDC.Derived.BanachSpaceUp
