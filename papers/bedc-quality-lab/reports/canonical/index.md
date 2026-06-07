@@ -32,6 +32,7 @@
 | `nongaussian-distribution-sweep` | `pass` | `reports/canonical/nongaussian-distribution-sweep.json` | `reports/canonical/nongaussian-distribution-sweep.md` | `reports/canonical/nongaussian-distribution-sweep.fingerprint.json` | `$.coverage_item` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.main_claim_status` | `$.negative_result_ledger` |
 | `lejepa-theorem-ledger` | `pass` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
 | `spectral-ablation-hinge` | `pass` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
+| `causal-patch-suite` | `pass` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.schema_constants.PATCH_MATCHED_CONTROL` | `$.not_claimed` | `$.discovery_projection` | `$.matched_control_summary` |
 
 ## Dashboard
 
@@ -53,7 +54,7 @@
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
 - Experiment proposals: `reports/canonical/discovery_map.json:$.experiment_proposals`
-- Rows: `23`
+- Rows: `24`
 
 ## Observed debt axis projection
 
@@ -173,7 +174,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `31`
+- Rows: `32`
 
 ## Claim graph
 
@@ -181,7 +182,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `89`
+- Nodes: `92`
 
 ## Claim capsule
 
@@ -276,7 +277,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas`
-- Auxiliary reports: `nongaussian-distribution-sweep, lejepa-theorem-ledger, spectral-ablation-hinge`
+- Auxiliary reports: `nongaussian-distribution-sweep, lejepa-theorem-ledger, spectral-ablation-hinge, causal-patch-suite`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -305,6 +306,7 @@
 | `discovery-gated-nas` | `hg_p_core` | `$.positive_claim` | `$.matched_baseline_control` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
+| `causal-patch-suite` | `auxiliary` | `$.discovery_projection` | `$.matched_control_summary` | `None` |
 
 ## Literature ledger pointer
 

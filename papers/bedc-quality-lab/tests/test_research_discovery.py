@@ -115,6 +115,27 @@ def test_hg_dl_1_gap_head_discovery_report_without_scorecard_fails_closed():
     assert verdict.revocation_status is None
 
 
+def test_causal_patch_pass_without_classifier_surface_signal_stays_d0():
+    verdict = assign_discovery_level(
+        {
+            "artifact": "reports/canonical/causal_patch_suite.json",
+            "schema_id": "bedc-quality-lab:causal-patch-suite",
+            "positive_discovery": False,
+            "hardgates": {"status": "pass"},
+            "discovery_projection": {
+                "discovery_level_effect": "none",
+                "positive_discovery": False,
+                "net_positive_signal": False,
+            },
+            "not_claimed": ["No real transformer token or attention closure is claimed."],
+        }
+    )
+
+    assert verdict.discovery_level == "D0"
+    assert verdict.reasons == ("no classifier shift or debt improvement",)
+    assert verdict.classifier_shift is False
+
+
 @pytest.mark.parametrize(
     ("classifier_shift", "positive_net", "control_negative", "scorecard_ready", "positive_terminal"),
     product((False, True), repeat=5),
