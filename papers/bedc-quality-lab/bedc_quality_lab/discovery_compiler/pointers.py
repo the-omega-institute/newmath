@@ -37,13 +37,36 @@ def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
     return cursor
 
 
-def split_artifact_pointer(cell: str) -> tuple[str, str] | None:
-    if ":$" not in cell:
+def normalize_artifact_pointer(cell: str) -> str | None:
+    if ":" not in cell:
         return None
     artifact, pointer = cell.split(":", 1)
-    if not artifact or not pointer.startswith("$"):
+    if not artifact:
         return None
+    if artifact.endswith(".jsonl") and pointer.isdigit():
+        return f"{artifact}:$.lines[{pointer}]"
+    if pointer.startswith("$"):
+        return f"{artifact}:{pointer}"
+    return None
+
+
+def split_artifact_pointer(cell: str) -> tuple[str, str] | None:
+    normalized = normalize_artifact_pointer(cell)
+    if normalized is None:
+        return None
+    artifact, pointer = normalized.split(":", 1)
     return artifact, pointer
+
+
+def _jsonl_pointer_value(path: Path, pointer: str) -> Any:
+    if not pointer.startswith("$.lines[") or not pointer.endswith("]"):
+        return None
+    index_text = pointer.removeprefix("$.lines[").removesuffix("]")
+    if not index_text.isdigit():
+        return None
+    rows = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
+    index = int(index_text)
+    return rows[index] if index < len(rows) else None
 
 
 def resolve_artifact_pointer(root: Path, cell: str) -> Any:
@@ -54,6 +77,11 @@ def resolve_artifact_pointer(root: Path, cell: str) -> Any:
     path = root / artifact
     if not path.exists():
         return None
+    if artifact.endswith(".jsonl"):
+        try:
+            return _jsonl_pointer_value(path, pointer)
+        except json.JSONDecodeError:
+            return None
     try:
         payload = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:

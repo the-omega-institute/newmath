@@ -14,6 +14,7 @@ from bedc_quality_lab.certificate_gated_attention import (
     DEFAULT_SEEDS,
     DEFAULT_SURFACES,
     DRIFT_TOLERANCE,
+    REQUIRED_PRODUCTION_NOT_CLAIMED,
     CertificateGatedAttentionProjection,
     TorchAttentionArmProtocol,
     default_grid,
@@ -245,20 +246,24 @@ def test_route_patch_protocol_shape_and_pointer_resolution():
     assert all(discovery_map.pointer_value(summary, pointer) is not None for pointer in pointer_values)
 
 
-def test_cga_hg6_requires_certificate_gate_to_beat_entropy_only():
-    records = runner.collect_deterministic_records()
-    for row in records:
-        if row["backbone"] == "entropy_only_attention" and row["certificate_mode"] == "valid":
-            row["attention_leak"] = 0.01
-    summary = _project(records)["summary_payload"]
+@pytest.mark.parametrize("missing_not_claimed", REQUIRED_PRODUCTION_NOT_CLAIMED)
+def test_cga_hg6_requires_production_boundary_not_claimed(monkeypatch, missing_not_claimed):
+    monkeypatch.setattr(
+        cga,
+        "NOT_CLAIMED",
+        tuple(item for item in cga.NOT_CLAIMED if item != missing_not_claimed),
+    )
+    summary = _project()["summary_payload"]
 
-    assert summary["route_patch_protocol"]["entropy_only_control"]["certificate_beats_entropy_only"] is False
+    assert missing_not_claimed not in summary["not_claimed"]
     assert summary["hardgate"]["gates"]["CGA-HG6"]["status"] == "fail"
+    assert summary["hardgate"]["gates"]["CGA-HG6"]["evidence_pointer"] == "$.not_claimed"
     assert summary["hardgate"]["failed_gate"] == "CGA-HG6"
     assert summary["discovery_map_signal"]["level_candidate"] == "DN"
     assert summary["discovery_map_signal"]["failed_gate"] == "CGA-HG6"
     assert summary["discovery_map_signal"]["failed_gate_pointer"] == "$.hardgate.gates.CGA-HG6.status"
     assert discovery_map.pointer_value(summary, "$.hardgate.gates.CGA-HG6.status") == "fail"
+    assert discovery_map.pointer_value(summary, summary["hardgate"]["gates"]["CGA-HG6"]["evidence_pointer"]) == summary["not_claimed"]
 
 
 def test_torch_arm_protocol_records_mps_or_cpu_fields(monkeypatch):
@@ -333,6 +338,7 @@ def test_current_lab_projection_and_pointer_resolvability():
     assert projected["evidence_basis"]["certificate_gated_attention"] is True
     assert row["discovery_level"] == "D4"
     assert row["audit_status"] == "valid"
+    assert spec.not_claimed_pointer == "$.not_claimed"
     assert discovery_map.pointer_value(summary, row["evidence_pointer"]) is not None
     assert discovery_map.pointer_value(summary, row["control_pointer"]) is not None
     assert row["control_pointer"] == "$.route_patch_protocol"
@@ -349,17 +355,30 @@ def test_current_lab_projection_and_pointer_resolvability():
 
 
 @pytest.mark.parametrize(
-    "mutation",
+    ("mutation", "failed_gate"),
     (
-        lambda payload: payload.pop("route_patch_protocol"),
-        lambda payload: payload["hardgate"]["gates"].pop("CGA-HG6"),
-        lambda payload: (
-            payload.__setitem__("entropy_only_control", payload["route_patch_protocol"]["entropy_only_control"]),
-            payload["discovery_map_signal"].__setitem__("control_pointer", "$.entropy_only_control"),
+        (lambda payload: payload.pop("route_patch_protocol"), "$.route_patch_protocol"),
+        (lambda payload: payload["hardgate"]["gates"].pop("CGA-HG6"), "$.hardgate.gates.CGA-HG6.status"),
+        (
+            lambda payload: (
+                payload.__setitem__("entropy_only_control", payload["route_patch_protocol"]["entropy_only_control"]),
+                payload["discovery_map_signal"].__setitem__("control_pointer", "$.entropy_only_control"),
+            ),
+            "$.discovery_map_signal.control_pointer",
+        ),
+        (lambda payload: payload.pop("not_claimed"), "$.not_claimed"),
+        (lambda payload: payload.__setitem__("not_claimed", {"claims": []}), "$.not_claimed"),
+        (
+            lambda payload: payload["not_claimed"].remove(REQUIRED_PRODUCTION_NOT_CLAIMED[0]),
+            "$.not_claimed",
+        ),
+        (
+            lambda payload: payload["hardgate"]["gates"]["CGA-HG6"].__setitem__("evidence_pointer", "$.hardgate.gates.CGA-HG6.status"),
+            "$.hardgate.gates.CGA-HG6.evidence_pointer",
         ),
     ),
 )
-def test_current_lab_cga_stale_payloads_fail_closed(mutation):
+def test_current_lab_cga_stale_payloads_fail_closed(mutation, failed_gate):
     spec = canonical._specs_by_name()["certificate-gated-attention"]
     payload = _project()["summary_payload"]
     mutation(payload)
@@ -367,9 +386,13 @@ def test_current_lab_cga_stale_payloads_fail_closed(mutation):
     projected = discovery_map.projection_payload(spec, payload)
     row = discovery_map.discovery_row(spec, payload)
 
-    assert projected["main_verdict"]["certificate_gated_attention"]["level_candidate"] == "DN"
+    assert projected["main_verdict"]["certificate_gated_attention"] == {
+        "level_candidate": "DN",
+        "status": "negative",
+    }
     assert row["discovery_level"] == "DN"
     assert row["audit_status"] == "invalid"
+    assert row["failed_gate"] == failed_gate
 
 
 def test_recursive_no_terminal_verdict_and_pointer_fields_resolve(tmp_path):

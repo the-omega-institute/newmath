@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from bedc_quality_lab.discovery_compiler.pointers import pointer_value
+from bedc_quality_lab.discovery_compiler.pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
 
 
 SCHEMA_ID = "bedc-quality-lab:claim-graph"
@@ -88,43 +88,16 @@ def load_claim_verdict_rows(root: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def _resolve_jsonl_pointer(root: Path, artifact: str, pointer: str) -> Any:
-    if not pointer.startswith("$.lines[") or not pointer.endswith("]"):
-        return None
-    index_text = pointer.removeprefix("$.lines[").removesuffix("]")
-    if not index_text.isdigit():
-        return None
-    rows = load_claim_verdict_rows(root) if artifact == CLAIM_VERDICTS_JSONL_ARTIFACT else []
-    index = int(index_text)
-    return rows[index] if index < len(rows) else None
-
-
 def split_source_pointer(source_pointer: str) -> tuple[str, str] | None:
-    if ":$" not in source_pointer:
+    normalized = normalize_artifact_pointer(source_pointer)
+    if normalized is None:
         return None
-    artifact, pointer = source_pointer.split(":", 1)
-    if not artifact or not pointer.startswith("$"):
-        return None
+    artifact, pointer = normalized.split(":", 1)
     return artifact, pointer
 
 
 def resolve_source_pointer(root: Path, source_pointer: str) -> Any:
-    split = split_source_pointer(source_pointer)
-    if split is None:
-        return None
-    artifact, pointer = split
-    path = _artifact_path(root, artifact)
-    if not path.exists():
-        return None
-    if artifact.endswith(".jsonl"):
-        return _resolve_jsonl_pointer(root, artifact, pointer)
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return None
-    if pointer == "$":
-        return payload
-    return pointer_value(payload, pointer) if isinstance(payload, Mapping) else None
+    return resolve_artifact_pointer(root, source_pointer)
 
 
 def source_pointer_resolves(root: Path, source_pointer: str) -> bool:

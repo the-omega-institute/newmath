@@ -439,7 +439,7 @@ def build_negative_witness_summary(
             "ledger_pointer": row["ledger_pointer"],
             "discovery_map_pointer": row["discovery_map_pointer"],
             "witness_pointer": None,
-            "claim_verdict_pointer": None if verdict_match is None else f"{CLAIM_VERDICTS_ARTIFACT}:{verdict_match[0]}",
+            "claim_verdict_pointer": None if verdict_match is None else f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[{verdict_match[0]}]",
             "audit_status": row["audit_status"],
         }
         item["discovery_map_pointer"] = map_pointers.get(row["negative_id"])
@@ -459,7 +459,7 @@ def build_negative_witness_summary(
             "ledger_pointer": source,
             "discovery_map_pointer": None,
             "witness_pointer": source,
-            "claim_verdict_pointer": None if match is None else f"{CLAIM_VERDICTS_ARTIFACT}:{match[0]}",
+            "claim_verdict_pointer": None if match is None else f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[{match[0]}]",
             "audit_status": "pass" if match is not None and kind and resolve_artifact_pointer(root, source) is not None else "fail",
         }
         rows.append(item)
