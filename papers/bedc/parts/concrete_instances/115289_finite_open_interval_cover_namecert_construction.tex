@@ -1,0 +1,69 @@
+\chapter{A Concrete Naming Certificate for $\FiniteOpenIntervalCoverUp$}
+\label{ch:concrete-instances-finite-open-interval-cover-namecert}
+\origin{human}
+
+Following Bishop and Bridges' constructive treatment of compact intervals, the $\FiniteOpenIntervalCoverUp$ packet records the finite interval-cover data visible before any Heine--Borel, compactness, or completion-facing consumer may use it. It sits after the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the interval-domain source of \autoref{ch:concrete-instances-intervaldomain-namecert}. The packet names only a displayed finite cover route; it does not assert open-cover compactness, select a subcover, identify quotient real names, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Finite open interval cover carrier]
+\label{def:finite-open-interval-cover-up-carrier}
+A $\FiniteOpenIntervalCoverUp$ carrier is a finite $\BHist$ packet
+$$
+F=(I,O,L,R,S,Q,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+  \item $I$ is the $\IntervalDomainUp$ source row, naming the closed or bounded interval window whose cover is being inspected.
+  \item $O$ is the finite open-interval row, listing the displayed interval members by rational endpoint names and local openness witnesses.
+  \item $L$ is the located-overlap row, recording which displayed interval-domain cells meet which cover members.
+  \item $R$ is the finite refinement row, comparing two displayed cover windows by finite parent maps and endpoint-containment witnesses.
+  \item $S$ is the $\StreamNameUp$ readback row for endpoint names, overlap probes, and retained finite members.
+  \item $Q$ is the $\RegSeqRatUp$ regular-rational observation row used to compare endpoint windows.
+  \item $D$ is the $\DyadicRatCoreUp$ arithmetic row for dyadic endpoint, radius, and containment checks.
+  \item $E$ is the terminal $\RealUp$ seal row, reached only after $I,O,L,R,S,Q,D$ have been displayed.
+  \item $H$ records componentwise $\hsame$ transport for source, cover, overlap, refinement, stream, regular-rational, dyadic, and seal rows.
+  \item $C$ records displayed $\Cont$ replay for finite cover admission, endpoint containment, overlap inspection, and Real-facing seal reads.
+  \item $P$ is the $\Pkg$ provenance over $\FiniteOpenIntervalCoverUp$, $\IntervalDomainUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+  \item $N$ is the local $\NameCert_{\FiniteOpenIntervalCoverUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an arbitrary open cover, a hidden finite-subcover selector, quotient equality of real names, countable choice, selected limits, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Finite open interval cover NameCert obligations]
+\label{thm:finite-open-interval-cover-up-namecert-obligations}
+For the carrier of \autoref{def:finite-open-interval-cover-up-carrier}, the local $\NameCert_{\FiniteOpenIntervalCoverUp}$ surface consists exactly of interval-domain source admission through $I$, finite open-interval admission through $O$, located-overlap exactness through $L$, finite refinement exactness through $R$, stream and regular-rational readback through $S,Q$, dyadic containment arithmetic through $D$, Real seal non-escape through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier row by row. The source row $I$ fixes the interval-domain window, while $O$ and $L$ expose the only cover members and overlap witnesses visible to a downstream consumer.
+
+The refinement row $R$ compares cover windows by finite parent maps and displayed containment checks. The readback rows $S,Q,D$ then inspect endpoint names, regular-rational windows, and dyadic inequalities without leaving the finite packet surface.
+
+Finally $E,H,C,P,N$ seal, transport, replay, source, and name the same displayed route. Since no carrier coordinate stores an arbitrary open cover, a selected subcover, quotient real equality, countable choice, selected limits, or ambient completeness, those objects cannot become NameCert obligations for $\FiniteOpenIntervalCoverUp$.
+\end{proof}
+
+\begin{theorem}[Finite open interval cover constructive boundary]
+\label{thm:finite-open-interval-cover-up-constructive-boundary}
+Every completion-facing or compactness-facing read of an accepted $\FiniteOpenIntervalCoverUp$ packet must pass through the finite route
+$$
+I,O,L,R,S,Q,D,E,H,C,P,N .
+$$
+The route may expose interval-domain cells, finite open interval members, stream-name windows, regular-rational observations, dyadic endpoint comparisons, and the terminal $\RealUp$ seal, but it exports no open-cover compactness theorem, choice-selected subcover, quotient real equality, countable-choice schedule, selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The consumer first reads $I,O,L,R$. These rows determine the source interval window, the finite cover members, the located overlap evidence, and the finite refinement comparison.
+
+It then reads $S,Q,D$ to inspect endpoint names and dyadic containment data. These observations are finite rows over the already displayed cover window, so they cannot quantify over a host family of all open intervals.
+
+The remaining rows $E,H,C,P,N$ preserve the same route under Real-seal inspection, transport, replay, provenance, and local naming. Therefore every downstream consumer receives exactly the finite packet named in the statement and none of the excluded compactness, choice, quotient, or completeness principles.
+\end{proof}
+
+\closureat{FiniteOpenIntervalCoverUp}{seedStr}
+
+\begin{closurestatus}{\FiniteOpenIntervalCoverUp}
+  \constructivestory{A $\FiniteOpenIntervalCoverUp$ packet is generated from an IntervalDomainUp source row, finite open-interval rows, located-overlap witnesses, finite refinement rows, StreamName windows, RegSeqRat observations, DyadicRatCore comparisons, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-open-interval-cover-up-carrier}, \autoref{thm:finite-open-interval-cover-up-namecert-obligations}, and \autoref{thm:finite-open-interval-cover-up-constructive-boundary} seed the finite interval-cover interface over displayed interval-domain, stream, regular-rational, dyadic, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, finite-subcover selection, quotient real equality, countable choice, selected limits, ambient $\RealUp$ completeness, or a public standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite open-interval admission, located-overlap exactness, finite refinement stability, stream and regular-rational readback, dyadic containment arithmetic, Real seal non-escape, transport, replay, provenance, and local naming.}
+\end{closurestatus}
