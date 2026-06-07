@@ -99,6 +99,10 @@ GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_capsule"
 RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT = "reports/release_manifest_sidecar.json"
 RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT = "reports/release_manifest_sidecar.md"
 RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID = "bedc-quality-lab:release-manifest-sidecar"
+TOY_LATENT_PLANNING_BEDC_JSON_ARTIFACT = "reports/toy_latent_planning_bedc/toy_latent_planning_bedc.json"
+TOY_LATENT_PLANNING_BEDC_SUMMARY_ARTIFACT = "reports/toy_latent_planning_bedc/summary.json"
+TOY_LATENT_PLANNING_BEDC_CLAIM_CAPSULE_ARTIFACT = "reports/toy_latent_planning_bedc/claim_capsule.json"
+TOY_LATENT_PLANNING_BEDC_ARTIFACT_ID = "bedc-quality-lab:toy-latent-planning-bedc"
 RELEASE_NAMECERT_CANDIDATE_JSON_ARTIFACT = "reports/release_namecert_candidate.json"
 RELEASE_NAMECERT_CANDIDATE_MARKDOWN_ARTIFACT = "reports/release_namecert_candidate.md"
 RELEASE_NAMECERT_CANDIDATE_ARTIFACT_ID = "bedc-quality-lab:release-namecert-candidate"
@@ -3416,6 +3420,21 @@ def _release_manifest_sidecar_index_section() -> dict[str, Any]:
     }
 
 
+def _toy_latent_planning_bedc_index_section() -> dict[str, Any]:
+    return {
+        "status": "pointer-only",
+        "artifact_id": TOY_LATENT_PLANNING_BEDC_ARTIFACT_ID,
+        "json_artifact": TOY_LATENT_PLANNING_BEDC_JSON_ARTIFACT,
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "owner_package": "experiments/toy_latent_planning_bedc",
+        "sidecar_ref": {"artifact": TOY_LATENT_PLANNING_BEDC_JSON_ARTIFACT, "pointer": "$"},
+        "claim_capsule_ref": {"artifact": TOY_LATENT_PLANNING_BEDC_CLAIM_CAPSULE_ARTIFACT, "pointer": "$"},
+        "summary_ref": {"artifact": TOY_LATENT_PLANNING_BEDC_SUMMARY_ARTIFACT, "pointer": "$"},
+        "hardgate_status_pointer": f"{TOY_LATENT_PLANNING_BEDC_CLAIM_CAPSULE_ARTIFACT}:$.u_hardgates.status",
+        "present_but_fail_closed": True,
+    }
+
+
 def _release_namecert_candidate_index_section() -> dict[str, Any]:
     payload = _load_sidecar_payload(RELEASE_NAMECERT_CANDIDATE_JSON_ARTIFACT)
     source_spec = payload.get("source_spec") if isinstance(payload.get("source_spec"), dict) else {}
@@ -3588,6 +3607,7 @@ def _index(
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "gap_head_mechanism_namecert": _gap_head_mechanism_namecert_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
+        "toy_latent_planning_bedc": _toy_latent_planning_bedc_index_section(),
         "release_namecert_candidate": _release_namecert_candidate_index_section(),
         "toy_safety_boundary": _toy_safety_boundary_index_section(),
         "paper_outline": _paper_outline(reports),
@@ -3814,6 +3834,14 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Release bundle status: `{payload['release_manifest_sidecar']['release_bundle_status']}`",
             f"- Tag status: `{payload['release_manifest_sidecar']['tag_status']}`",
             f"- Version: `{payload['release_manifest_sidecar']['version']}`",
+            "",
+            "## Toy latent planning BEDC",
+            "",
+            f"- Status: `{payload['toy_latent_planning_bedc']['status']}`",
+            f"- JSON: `{payload['toy_latent_planning_bedc']['json_artifact']}`",
+            f"- Canonical role: `{payload['toy_latent_planning_bedc']['canonical_role']}`",
+            f"- Owner package: `{payload['toy_latent_planning_bedc']['owner_package']}`",
+            f"- Hardgate status pointer: `{payload['toy_latent_planning_bedc']['hardgate_status_pointer']}`",
             "",
             "## Release NameCert candidate",
             "",

@@ -4648,3 +4648,31 @@ def test_release_manifest_sidecar_index_summary_is_pointer_only(tmp_path, monkey
     assert "required_pointers" not in json.dumps(payload["release_manifest_sidecar"])
     assert "release_manifest_sidecar" not in json.dumps(payload["discovery_map"])
     assert "Release manifest sidecar" in markdown
+
+
+def test_toy_latent_planning_bedc_sidecar_index_is_pointer_only(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    section = canonical._toy_latent_planning_bedc_index_section()
+    payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
+    markdown = canonical._render_index_markdown(payload)
+
+    assert section == {
+        "status": "pointer-only",
+        "artifact_id": "bedc-quality-lab:toy-latent-planning-bedc",
+        "json_artifact": "reports/toy_latent_planning_bedc/toy_latent_planning_bedc.json",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "owner_package": "experiments/toy_latent_planning_bedc",
+        "sidecar_ref": {"artifact": "reports/toy_latent_planning_bedc/toy_latent_planning_bedc.json", "pointer": "$"},
+        "claim_capsule_ref": {"artifact": "reports/toy_latent_planning_bedc/claim_capsule.json", "pointer": "$"},
+        "summary_ref": {"artifact": "reports/toy_latent_planning_bedc/summary.json", "pointer": "$"},
+        "hardgate_status_pointer": "reports/toy_latent_planning_bedc/claim_capsule.json:$.u_hardgates.status",
+        "present_but_fail_closed": True,
+    }
+    assert payload["toy_latent_planning_bedc"] == section
+    assert "toy_latent_planning_bedc" not in [spec.name for spec in canonical.CANONICAL_REPORTS]
+    assert "terminal_verdict" not in json.dumps(section)
+    assert "positive_claim" not in json.dumps(section)
+    assert "arm_summary" not in json.dumps(section)
+    assert "Toy latent planning BEDC" in markdown
