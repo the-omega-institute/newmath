@@ -561,4 +561,31 @@ theorem CoveringDimensionFiniteCoverRootStability [AskSetup] [PackageSetup]
       compactEpsilonCover, coverRefinementOrder, coverOrderRoot, rootLebesgueStable,
       provenancePkg, stablePkg⟩
 
+theorem CoveringDimensionLedgerNonEscape [AskSetup] [PackageSetup]
+    {compactMetric epsilonNet cover refinement orderBound lebesgue transport replay provenance
+      localName consumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CoveringDimensionCarrier compactMetric epsilonNet cover refinement orderBound lebesgue
+        transport replay provenance localName bundle pkg →
+      Cont replay localName consumer →
+        PkgSig bundle consumer pkg →
+          UnaryHistory compactMetric ∧ UnaryHistory epsilonNet ∧ UnaryHistory cover ∧
+            UnaryHistory refinement ∧ UnaryHistory orderBound ∧ UnaryHistory lebesgue ∧
+              UnaryHistory replay ∧ UnaryHistory localName ∧ UnaryHistory consumer ∧
+                Cont compactMetric epsilonNet cover ∧ Cont cover refinement orderBound ∧
+                  Cont orderBound lebesgue replay ∧ Cont replay localName consumer ∧
+                    PkgSig bundle consumer pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier replayLocalNameConsumer consumerPkg
+  obtain ⟨compactUnary, epsilonUnary, coverUnary, refinementUnary, orderUnary,
+    lebesgueUnary, _transportUnary, replayUnary, _provenanceUnary, localNameUnary,
+    compactEpsilonCover, coverRefinementOrder, orderLebesgueReplay,
+    _transportReplayProvenance, _provenancePkg, _localNamePkg⟩ := carrier
+  have consumerUnary : UnaryHistory consumer :=
+    unary_cont_closed replayUnary localNameUnary replayLocalNameConsumer
+  exact
+    ⟨compactUnary, epsilonUnary, coverUnary, refinementUnary, orderUnary, lebesgueUnary,
+      replayUnary, localNameUnary, consumerUnary, compactEpsilonCover, coverRefinementOrder,
+      orderLebesgueReplay, replayLocalNameConsumer, consumerPkg⟩
+
 end BEDC.Derived.CoveringdimensionUp
