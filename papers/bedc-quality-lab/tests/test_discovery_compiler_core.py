@@ -311,6 +311,27 @@ def test_compile_discovery_writes_backend_negative_owner_before_map(tmp_path):
     assert "what_was_learned" not in json.dumps(result["finite_gate"], sort_keys=True)
 
 
+def test_compile_discovery_architecture_mutation_drafts_are_opt_in_run_local(tmp_path):
+    _write_fixture_sources(tmp_path)
+    claim_capsule = tmp_path / "reports" / "canonical" / "claim_capsule.json"
+    claim_capsule.write_text(json.dumps({"status": "complete"}) + "\n", encoding="utf-8")
+
+    default_result = compile_discovery(root=tmp_path, generated_at="fixture-time", adapter=FakeAdapter())
+    opt_in_result = compile_discovery(
+        root=tmp_path,
+        generated_at="fixture-time",
+        adapter=FakeAdapter(),
+        include_architecture_mutation_drafts=True,
+    )
+
+    assert "run_local" not in default_result
+    drafts = opt_in_result["run_local"]["architecture_mutation_drafts"]
+    assert drafts["schema_id"] == "bedc-quality-lab:architecture-mutation-draft-run-local"
+    assert drafts["canonical_role"] == "run_local_not_in_CANONICAL_REPORTS"
+    assert drafts["row_count"] > 0
+    assert "what_was_learned" not in json.dumps(drafts, sort_keys=True)
+
+
 def test_compile_discovery_finite_gate_is_materialized_and_deterministic(tmp_path):
     _write_fixture_sources(tmp_path)
     first = compile_discovery(root=tmp_path, generated_at="fixture-time", adapter=FakeAdapter())

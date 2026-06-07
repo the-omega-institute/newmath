@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 from .backend import BackendEvidenceAdapter
+from .architecture_mutation import build_architecture_mutation_drafts, require_witness_basis
 from .negative_reports import write_negative_discovery_reports, write_negative_witness_summary
 from .projection import project_finite_discovery_gate
 
@@ -33,6 +34,7 @@ def compile_discovery(
     adapter: BackendEvidenceAdapter,
     write_reports: bool = True,
     require_required_negative_reports: bool = True,
+    include_architecture_mutation_drafts: bool = False,
 ) -> Mapping[str, Any]:
     timestamp = _timestamp(generated_at)
     active = adapter
@@ -54,7 +56,7 @@ def compile_discovery(
         },
         root=root,
     )
-    return {
+    payload: dict[str, Any] = {
         "generated_at": timestamp,
         "backend": active.backend.name,
         "discovery_map": map_payload,
@@ -62,3 +64,22 @@ def compile_discovery(
         "negative_witness_summary": summary_payload,
         "finite_gate": finite_gate,
     }
+    if include_architecture_mutation_drafts:
+        payload["run_local"] = {
+            "architecture_mutation_drafts": build_architecture_mutation_drafts(
+                root,
+                timestamp,
+                [],
+                map_payload,
+                summary_payload,
+            )
+        }
+    return payload
+
+
+__all__ = [
+    "build_architecture_mutation_drafts",
+    "compile_discovery",
+    "load_adapter",
+    "require_witness_basis",
+]

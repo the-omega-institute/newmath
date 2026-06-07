@@ -305,3 +305,29 @@ def test_discovery_compiler_core_has_no_backend_terms_or_backend_imports():
         assert "run_canonical_reports" not in text
         for term in forbidden_terms:
             assert term not in text
+
+
+def test_architecture_mutation_draft_is_run_local_only_and_owned_by_compiler_module():
+    from scripts import run_canonical_reports as canonical
+
+    forbidden_artifacts = {
+        "reports/canonical/architecture_mutation_drafts.json",
+        "reports/canonical/architecture_mutation_drafts.md",
+    }
+    assert all(spec.name != "architecture_mutation_drafts" for spec in canonical.CANONICAL_REPORTS)
+    assert all(spec.json_artifact not in forbidden_artifacts for spec in canonical.CANONICAL_REPORTS)
+    assert all(spec.markdown_artifact not in forbidden_artifacts for spec in canonical.CANONICAL_REPORTS)
+
+    index_text = (ROOT / "reports/canonical/index.json").read_text(encoding="utf-8")
+    assert "architecture_mutation_drafts" not in index_text
+    assert "architecture-mutation-draft-run-local" not in index_text
+
+    owners = []
+    for path in list(CORE.glob("*.py")) + [ROOT.parents[1] / "tools" / "bedc_discover_evolve.py"]:
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        if "bedc-quality-lab:architecture-mutation-draft-run-local" in text:
+            owners.append(path.relative_to(ROOT).as_posix() if path.is_relative_to(ROOT) else path.name)
+
+    assert owners == ["bedc_quality_lab/discovery_compiler/architecture_mutation.py"]
