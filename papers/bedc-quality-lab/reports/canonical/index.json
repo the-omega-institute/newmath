@@ -136,6 +136,13 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": "$.matched_controls",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.dgt_mechanism_cert",
+        "report": "causal-patch-suite"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": null,
         "no_control_rationale_pointer": "$.negative_result_ledger",
         "positive_claim_pointer": "$.main_claim_status",
@@ -238,13 +245,6 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.hardgates.CMP-HG5",
         "report": "model-comparison"
-      },
-      {
-        "bundle_role": "auxiliary",
-        "control_pointer": "$.matched_control_summary",
-        "no_control_rationale_pointer": null,
-        "positive_claim_pointer": "$.discovery_projection",
-        "report": "causal-patch-suite"
       }
     ],
     "status": "pointer-only"
@@ -495,7 +495,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-08T13:08:31.121603+00:00",
+  "generated_at": "2026-06-08T15:52:09.794087+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -831,13 +831,13 @@
   },
   "paper_outline": {
     "auxiliary_reports": [
+      "causal-patch-suite",
       "nongaussian-distribution-sweep",
       "transformer-derivative-atlas",
       "lejepa-theorem-ledger",
       "observed-debt-sweep",
       "spectral-ablation-hinge",
-      "model-comparison",
-      "causal-patch-suite"
+      "model-comparison"
     ],
     "core_reports": [
       "mixing-family-sweep",
@@ -909,7 +909,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "e4a6eab0a83fa14b826e65da17199000865dc87235f6f6faeffb3c8bb8f69c93",
+    "source_sidecar_digest": "e4cb20bcf3b94977f72624925bb79585d4bed484d887045ad783e2e4748a9fc8",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -2395,6 +2395,128 @@
           "scope",
           "source_artifacts",
           "aggregate"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.matched_controls",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.dgt_mechanism_cert",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/causal-patch-suite.json:$",
+              "source_artifact": "reports/canonical/causal-patch-suite.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.dgt_mechanism_cert",
+              "source_artifact": "reports/canonical/causal-patch-suite.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:causal-patch-suite]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/causal-patch-suite.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=causal-patch-suite].discovery_level",
+              "source_artifact": "reports/canonical/discovery_map.json",
+              "status": "missing"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/causal-patch-suite.json:$.dgt_mechanism_cert",
+              "source_artifact": "reports/canonical/causal-patch-suite.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=causal-patch-suite]",
+              "source_artifact": "reports/canonical/formal_hardening.json",
+              "status": "missing"
+            },
+            "negative_witness": {
+              "pointer": null,
+              "source_artifact": null,
+              "status": "not-applicable"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/causal-patch-suite.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/causal-patch-suite.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/causal-patch-suite.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/causal-patch-suite.json",
+      "markdown_artifact": "reports/canonical/causal-patch-suite.md",
+      "name": "causal-patch-suite",
+      "producer_command": [
+        "python3",
+        "scripts/run_causal_patch_suite.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "patch_types",
+          "patch_records",
+          "matched_controls",
+          "side_effect_ledger",
+          "hardgates",
+          "dgt_mechanism_cert",
+          "not_claimed",
+          "audit"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -4385,130 +4507,6 @@
           "hardgates",
           "not_claimed",
           "source_reports"
-        ],
-        "required_key_validation": {
-          "missing_keys": [],
-          "status": "pass"
-        },
-        "status": "pass"
-      }
-    },
-    {
-      "bundle_role": "auxiliary",
-      "discipline": {
-        "bundle_role": "auxiliary",
-        "control_pointer": "$.matched_control_summary",
-        "control_status": "present",
-        "cost_pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
-        "cost_status": "present",
-        "forbidden_claim_term_hits": [],
-        "forbidden_claim_terms_status": "not-applicable",
-        "literature_ref_ids": [],
-        "no_control_rationale_pointer": null,
-        "no_control_rationale_status": "not-applicable",
-        "not_claimed_pointer": "$.not_claimed",
-        "not_claimed_status": "present",
-        "positive_claim_pointer": "$.discovery_projection",
-        "positive_claim_status": "present",
-        "reporting_hardgate": {
-          "applicability": "not-applicable",
-          "cells": {
-            "backend": {
-              "pointer": "reports/canonical/causal_patch_suite.json:$",
-              "source_artifact": "reports/canonical/causal_patch_suite.json",
-              "status": "present"
-            },
-            "claim_capsule": {
-              "pointer": "$.discovery_projection",
-              "source_artifact": "reports/canonical/causal_patch_suite.json",
-              "status": "present"
-            },
-            "claim_graph_path": {
-              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:causal-patch-suite]",
-              "source_artifact": "reports/canonical/claim_graph.json",
-              "status": "missing"
-            },
-            "cost_protocol": {
-              "pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
-              "source_artifact": "reports/canonical/causal_patch_suite.json",
-              "status": "present"
-            },
-            "discovery_level": {
-              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=causal-patch-suite].discovery_level",
-              "source_artifact": "reports/canonical/discovery_map.json",
-              "status": "missing"
-            },
-            "evidence_envelope": {
-              "pointer": "reports/canonical/causal_patch_suite.json:$.discovery_projection",
-              "source_artifact": "reports/canonical/causal_patch_suite.json",
-              "status": "present"
-            },
-            "formal_status": {
-              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=causal-patch-suite]",
-              "source_artifact": "reports/canonical/formal_hardening.json",
-              "status": "missing"
-            },
-            "negative_witness": {
-              "pointer": null,
-              "source_artifact": null,
-              "status": "not-applicable"
-            },
-            "not_claimed": {
-              "pointer": "$.not_claimed",
-              "source_artifact": "reports/canonical/causal_patch_suite.json",
-              "status": "present"
-            },
-            "scope_seal": {
-              "pointer": "$.not_claimed",
-              "source_artifact": "reports/canonical/causal_patch_suite.json",
-              "status": "present"
-            }
-          },
-          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
-          "missing_required_cells": [],
-          "promotion_eligible": false,
-          "required_cells": [
-            "claim_capsule",
-            "cost_protocol",
-            "not_claimed"
-          ],
-          "status": "not-applicable"
-        },
-        "scope_pointer": "$.not_claimed",
-        "scope_status": "present"
-      },
-      "duration_seconds": 0.0,
-      "estimated_seconds": 2,
-      "fingerprint_reason": "match",
-      "fingerprint_sidecar": "reports/canonical/causal_patch_suite.fingerprint.json",
-      "fingerprint_status": "match",
-      "json_artifact": "reports/canonical/causal_patch_suite.json",
-      "markdown_artifact": "reports/canonical/patch_effect_summary.md",
-      "name": "causal-patch-suite",
-      "producer_command": [
-        "python3",
-        "scripts/run_causal_patch_suite.py"
-      ],
-      "producer_status": "skipped",
-      "status": "pass",
-      "validation": {
-        "missing_artifacts": [],
-        "required_json_keys": [
-          "schema_id",
-          "artifact_id",
-          "generated_at",
-          "producer",
-          "source_artifacts",
-          "patch_registry",
-          "schema_constants",
-          "records",
-          "effect_summary",
-          "matched_control_summary",
-          "side_effect_ledger",
-          "hardgates",
-          "causal_derivative_ledger_artifact",
-          "discovery_projection",
-          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],

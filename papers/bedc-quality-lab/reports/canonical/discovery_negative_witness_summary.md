@@ -1,6 +1,6 @@
 # Discovery Negative Witness Summary
 
-- Generated at: `2026-06-08T13:08:31.121603+00:00`
+- Generated at: `2026-06-08T15:52:09.794087+00:00`
 - Status: `pointer-only`
 - Audit: `pass`
 - Rows: `17`
@@ -8,10 +8,10 @@
 | negative id | verdict | reason | ledger | discovery map | witness | claim verdict | audit |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `dn:gap-head-ablation` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/gap-head-ablation.json:$.hardgate.status` | `reports/canonical/discovery_map.json:$.rows[4].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[4]` | `pass` |
-| `dn:certificate-guided-training` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict` | `reports/canonical/discovery_map.json:$.rows[12].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[12]` | `pass` |
-| `dn:certificate-guided-discovery` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-discovery.json:$.positive_discovery` | `reports/canonical/discovery_map.json:$.rows[13].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[13]` | `pass` |
-| `dn:discovery-gated-nas` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/discovery-gated-nas.json:$.hardgate.gates.DG-NAS-HG8.status` | `reports/canonical/discovery_map.json:$.rows[18].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[18]` | `pass` |
-| `dn:spectral-ablation-hinge` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/spectral-ablation-hinge.json:$.negative_control_summary.treatment_better_than_all_controls` | `reports/canonical/discovery_map.json:$.rows[23].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[23]` | `pass` |
+| `dn:certificate-guided-training` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict` | `reports/canonical/discovery_map.json:$.rows[13].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[13]` | `pass` |
+| `dn:certificate-guided-discovery` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/certificate-guided-discovery.json:$.positive_discovery` | `reports/canonical/discovery_map.json:$.rows[14].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[14]` | `pass` |
+| `dn:discovery-gated-nas` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/discovery-gated-nas.json:$.hardgate.gates.DG-NAS-HG8.status` | `reports/canonical/discovery_map.json:$.rows[19].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[19]` | `pass` |
+| `dn:spectral-ablation-hinge` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/spectral-ablation-hinge.json:$.negative_control_summary.treatment_better_than_all_controls` | `reports/canonical/discovery_map.json:$.rows[24].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[24]` | `pass` |
 | `dn:dimension-mismatch-scale-leakage` | `negative_discovery` | `discovery-level-DN` | `reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.anti_triviality_status` | `reports/canonical/discovery_map.json:$.rows[26].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[26]` | `pass` |
 | `dn:single-threshold-escape` | `negative_discovery` | `discovery-level-DN` | `runs/single_threshold_escape_witness.json:$.projection.escaped_positive_is_discovery_evidence` | `reports/canonical/discovery_map.json:$.rows[27].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[27]` | `pass` |
 | `dn:training-choice-observability` | `negative_discovery` | `discovery-level-DN` | `runs/training_choice_observability.json:$.training_choice_observability.ledger_risk_only_arm_count` | `reports/canonical/discovery_map.json:$.rows[28].negative_report_pointer` | `None` | `reports/canonical/claim_verdicts.jsonl:$.lines[28]` | `pass` |

@@ -195,8 +195,8 @@ RELEASE_NAMECERT_CANDIDATE_ARTIFACT_ID = "bedc-quality-lab:release-namecert-cand
 TOY_SAFETY_BOUNDARY_JSON_ARTIFACT = "reports/canonical/toy_safety_boundary.json"
 TOY_SAFETY_BOUNDARY_MARKDOWN_ARTIFACT = "reports/canonical/toy_safety_boundary.md"
 TOY_SAFETY_BOUNDARY_ARTIFACT_ID = "bedc-quality-lab:toy-safety-boundary"
-CAUSAL_PATCH_SUITE_JSON_ARTIFACT = "reports/canonical/causal_patch_suite.json"
-CAUSAL_PATCH_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/patch_effect_summary.md"
+CAUSAL_PATCH_SUITE_JSON_ARTIFACT = "reports/canonical/causal-patch-suite.json"
+CAUSAL_PATCH_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/causal-patch-suite.md"
 CAUSAL_PATCH_SUITE_ARTIFACT_ID = "bedc-quality-lab:causal-patch-suite"
 IRREDUCIBILITY_REPORT_JSON_ARTIFACT = "reports/canonical/irreducibility_report.json"
 IRREDUCIBILITY_REPORT_MARKDOWN_ARTIFACT = "reports/canonical/order_residual_analysis.md"
@@ -774,6 +774,35 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
+        name="causal-patch-suite",
+        command=("python3", "scripts/run_causal_patch_suite.py"),
+        json_artifact=CAUSAL_PATCH_SUITE_JSON_ARTIFACT,
+        markdown_artifact=CAUSAL_PATCH_SUITE_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "patch_types",
+            "patch_records",
+            "matched_controls",
+            "side_effect_ledger",
+            "hardgates",
+            "dgt_mechanism_cert",
+            "not_claimed",
+            "audit",
+        ),
+        estimated_seconds=2,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.dgt_mechanism_cert",
+        control_pointer="$.matched_controls",
+        no_control_rationale_pointer=None,
+    ),
+    CanonicalReportSpec(
         name="nongaussian-distribution-sweep",
         command=("python3", "scripts/run_nongaussian_distribution_sweep.py"),
         json_artifact="reports/canonical/nongaussian-distribution-sweep.json",
@@ -1324,37 +1353,6 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         not_claimed_pointer="$.not_claimed",
         positive_claim_pointer="$.hardgates.CMP-HG5",
         control_pointer="$.hardgates.CMP-HG3",
-        no_control_rationale_pointer=None,
-    ),
-    CanonicalReportSpec(
-        name="causal-patch-suite",
-        command=("python3", "scripts/run_causal_patch_suite.py"),
-        json_artifact=CAUSAL_PATCH_SUITE_JSON_ARTIFACT,
-        markdown_artifact=CAUSAL_PATCH_SUITE_MARKDOWN_ARTIFACT,
-        required_json_keys=(
-            "schema_id",
-            "artifact_id",
-            "generated_at",
-            "producer",
-            "source_artifacts",
-            "patch_registry",
-            "schema_constants",
-            "records",
-            "effect_summary",
-            "matched_control_summary",
-            "side_effect_ledger",
-            "hardgates",
-            "causal_derivative_ledger_artifact",
-            "discovery_projection",
-            "not_claimed",
-        ),
-        estimated_seconds=2,
-        bundle_role="auxiliary",
-        scope_pointer="$.not_claimed",
-        cost_pointer="$.schema_constants.PATCH_MATCHED_CONTROL",
-        not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.discovery_projection",
-        control_pointer="$.matched_control_summary",
         no_control_rationale_pointer=None,
     ),
 )
