@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-08T02:12:04.185721+00:00`
+- Generated at: `2026-06-08T02:40:50.555624+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -12,6 +12,7 @@
 | `gap-head-on-h` | `pass` | `reports/canonical/gap-head-on-h.json` | `reports/canonical/gap-head-on-h.md` | `reports/canonical/gap-head-on-h.fingerprint.json` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.forbidden_inference_columns` | `$.main_claim_status` | `$.control_protocol` |
 | `gap-head-discovery` | `pass` | `reports/canonical/gap-head-discovery.json` | `reports/canonical/gap-head-discovery.md` | `reports/canonical/gap-head-discovery.fingerprint.json` | `$.boundary_checks` | `$.score_terms` | `$.boundary_checks.forbidden_inference_columns` | `$.final_main_claim_status` | `$.matched_random_control` |
 | `gap-head-ablation` | `pass` | `reports/canonical/gap-head-ablation.json` | `reports/canonical/gap-head-ablation.md` | `reports/canonical/gap-head-ablation.fingerprint.json` | `$.applicability_boundary` | `$.control_protocol` | `$.applicability_boundary.not_claimed` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` |
+| `irreducibility-report` | `pass` | `reports/canonical/irreducibility_report.json` | `reports/canonical/order_residual_analysis.md` | `reports/canonical/irreducibility_report.fingerprint.json` | `$.scope` | `$.control_protocol` | `$.not_claimed` | `$.positive_claim` | `$.control_protocol` |
 | `ledger-aware-transformer` | `pass` | `reports/canonical/ledger-aware-transformer.json` | `reports/canonical/ledger-aware-transformer.md` | `reports/canonical/ledger-aware-transformer.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.control_protocol` |
 | `certificate-gated-attention` | `pass` | `reports/canonical/certificate-gated-attention.json` | `reports/canonical/certificate-gated-attention.md` | `reports/canonical/certificate-gated-attention.fingerprint.json` | `$.grid` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.route_patch_protocol` |
 | `gap-head-threshold-frontier` | `pass` | `reports/canonical/gap-head-threshold-frontier.json` | `reports/canonical/gap-head-threshold-frontier.md` | `reports/canonical/gap-head-threshold-frontier.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.not_claimed` | `$.main_claim_status` | `$.threshold_summary.control_baseline` |
@@ -58,7 +59,7 @@
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
 - Experiment proposals: `reports/canonical/discovery_map.json:$.experiment_proposals`
-- Rows: `27`
+- Rows: `28`
 
 ## Observed debt axis projection
 
@@ -203,7 +204,7 @@
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `36`
+- Rows: `37`
 
 ## Claim graph
 
@@ -211,7 +212,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `103`
+- Nodes: `106`
 
 ## Claim capsule
 
@@ -302,10 +303,20 @@
 - Claim capsule: `experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$`
 - Hardgates: `experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.hardgates`
 
+## Irreducibility Report
+
+- Status: `pass`
+- JSON: `reports/canonical/irreducibility_report.json`
+- Markdown: `reports/canonical/order_residual_analysis.md`
+- CMI table: `reports/canonical/conditional_information_table.json`
+- Hardgate: `reports/canonical/irreducibility_report.json:$.hardgate`
+- Positive claim: `reports/canonical/irreducibility_report.json:$.positive_claim`
+- CMI rows: `reports/canonical/conditional_information_table.json:$.rows`
+
 ## Paper outline
 
 - Status: `pointer-only`
-- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas, discovery-gated-transformer`
+- Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas, discovery-gated-transformer`
 - Auxiliary reports: `nongaussian-distribution-sweep, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, model-comparison, causal-patch-suite`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
@@ -320,6 +331,7 @@
 | `gap-head-on-h` | `hg_p_core` | `$.main_claim_status` | `$.control_protocol` | `None` |
 | `gap-head-discovery` | `hg_p_core` | `$.final_main_claim_status` | `$.matched_random_control` | `None` |
 | `gap-head-ablation` | `hg_p_core` | `$.factor_attribution.learned_head.auroc_delta` | `$.control_protocol` | `None` |
+| `irreducibility-report` | `hg_p_core` | `$.positive_claim` | `$.control_protocol` | `None` |
 | `ledger-aware-transformer` | `hg_p_core` | `$.positive_claim` | `$.control_protocol` | `None` |
 | `certificate-gated-attention` | `hg_p_core` | `$.positive_claim` | `$.route_patch_protocol` | `None` |
 | `gap-head-threshold-frontier` | `hg_p_core` | `$.main_claim_status` | `$.threshold_summary.control_baseline` | `None` |

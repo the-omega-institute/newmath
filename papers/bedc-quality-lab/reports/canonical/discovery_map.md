@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-08T02:12:04.185721+00:00`
-- Rows: `27`
+- Generated at: `2026-06-08T02:40:50.555624+00:00`
+- Rows: `28`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -10,6 +10,7 @@
 | `gap-head-on-h` | `D4` | `` | `` | `projected` | `valid` | `$.control_protocol` |
 | `gap-head-discovery` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `gap-head-ablation` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[0]` |
+| `irreducibility-report` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `ledger-aware-transformer` | `D5-O` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `certificate-gated-attention` | `D4` | `` | `` | `projected` | `valid` | `$.route_patch_protocol` |
 | `gap-head-threshold-frontier` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |

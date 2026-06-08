@@ -21,13 +21,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 103,
+    "node_count": 106,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 36,
+    "row_count": 37,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -73,6 +73,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.factor_attribution.learned_head.auroc_delta",
         "report": "gap-head-ablation"
+      },
+      {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_protocol",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.positive_claim",
+        "report": "irreducibility-report"
       },
       {
         "bundle_role": "hg_p_core",
@@ -327,7 +334,7 @@
     "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 7,
+      "D0": 8,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -338,7 +345,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 27,
+    "row_count": 28,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -458,7 +465,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-08T02:12:04.185721+00:00",
+  "generated_at": "2026-06-08T02:40:50.555624+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -469,6 +476,17 @@
       "Hardening is not closure."
     ],
     "status": "explicit"
+  },
+  "irreducibility_report": {
+    "artifact_id": "bedc-quality-lab:irreducibility-report",
+    "conditional_information_table_diagnostic_only": true,
+    "conditional_information_table_json_artifact": "reports/canonical/conditional_information_table.json",
+    "conditional_information_table_pointer": "reports/canonical/conditional_information_table.json:$.rows",
+    "hardgate_pointer": "reports/canonical/irreducibility_report.json:$.hardgate",
+    "json_artifact": "reports/canonical/irreducibility_report.json",
+    "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+    "positive_claim_pointer": "reports/canonical/irreducibility_report.json:$.positive_claim",
+    "status": "pass"
   },
   "issue_1012_sidecars": {
     "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
@@ -797,6 +815,7 @@
       "gap-head-on-h",
       "gap-head-discovery",
       "gap-head-ablation",
+      "irreducibility-report",
       "ledger-aware-transformer",
       "certificate-gated-attention",
       "gap-head-threshold-frontier",
@@ -859,7 +878,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "09095ca526cb85e9595c694892c87e84e3bda91d6772bf1b298a7120d0469fdb",
+    "source_sidecar_digest": "a29d4043fd45d2f780ce2e2278323105d69c1f8b2c9e34ddccb560e98bbb7bb1",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -1165,6 +1184,65 @@
           "factor_attribution",
           "hardgate",
           "positive_discovery_pointer"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_protocol",
+        "control_status": "present",
+        "cost_pointer": "$.control_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.positive_claim",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.scope",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/irreducibility_report.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/irreducibility_report.json",
+      "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+      "name": "irreducibility-report",
+      "producer_command": [
+        "python3",
+        "scripts/run_irreducibility_report.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "config",
+          "scope",
+          "control_protocol",
+          "seed_aggregation",
+          "hardgate",
+          "positive_claim",
+          "conditional_information_table",
+          "records",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],
