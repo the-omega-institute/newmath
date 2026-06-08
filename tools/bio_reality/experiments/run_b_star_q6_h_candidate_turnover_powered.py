@@ -656,43 +656,37 @@ def main() -> None:
         emit("needs_external", reason="required local yeast abundance, modeled tAI, and CDS codon data not present", missing_required_data=missing)
 
     try:
-        try:
-            payload, provenance = fetch_turnover_payload()
-        except Exception as exc:
+        # The publisher xlsx (Christiano 2014 Table S1, PMC) is anti-bot-blocked, but the
+        # SAME per-protein half-lives are curated into SGD and served per-locus by the
+        # reachable SGD backend API (www.yeastgenome.org/backend/locus/<ORF>/protein_experiment_details).
+        # Those values are pre-assembled into the canonical protein_turnover map here; read it.
+        turnover_payload = load_json(repo / TURNOVER_DATA_RELATIVE_PATH)
+        if not isinstance(turnover_payload, dict) or not isinstance(turnover_payload.get("protein_turnover"), dict):
             needs_external_payload(
-                "Christiano 2014 Table S1 not fetchable in this environment",
-                {
-                    "source_url": TURNOVER_URL,
-                    "source_kind": TURNOVER_SOURCE_KIND,
-                    "fetched_at": fixed_fetched_at(),
-                    "fetch_error": repr(exc),
-                },
+                "local SGD turnover data missing protein_turnover map",
+                {"source_url": TURNOVER_URL},
             )
-
-        if not zipfile.is_zipfile(io.BytesIO(payload)):
-            provenance["payload_prefix_text"] = payload[:200].decode("utf-8", "replace")
-            needs_external_payload("Christiano 2014 Table S1 not fetchable in this environment", provenance)
-
-        turnover_index, parse_summary = parse_turnover_workbook(payload)
+        turnover_index = {
+            pid: float(value)
+            for pid, value in turnover_payload["protein_turnover"].items()
+            if isinstance(value, (int, float)) and float(value) > 0.0
+        }
         print(
-            "turnover_parse_self_check "
+            "turnover_self_check "
             + json.dumps(
                 {
                     "n_turnover_proteins": len(turnover_index),
-                    "identified_orf_column": parse_summary.get("identified_orf_column"),
-                    "identified_half_life_column": parse_summary.get("identified_half_life_column"),
-                    "payload_sha256": provenance.get("payload_sha256"),
-                    "payload_byte_size": provenance.get("payload_byte_size"),
+                    "payload_sha256": turnover_payload.get("payload_sha256"),
+                    "source_kind": turnover_payload.get("source_kind"),
                 },
                 sort_keys=True,
             )
         )
         if len(turnover_index) < MIN_PROTEINS_PER_ORGANISM:
             needs_external_payload(
-                "Christiano 2014 Table S1 parsed but yielded too few usable yeast half-life rows",
-                {**provenance, **parse_summary},
+                "SGD turnover data yielded too few usable yeast half-life rows",
+                turnover_payload,
             )
-        turnover_payload = write_turnover_data(repo, turnover_index, provenance, parse_summary)
 
         code = standard_code(repo)
         codons = [codon for codon in sorted(code) if code[codon] != "*"]
@@ -738,8 +732,8 @@ def main() -> None:
                 "needs_external",
                 reason="turnover x abundance x CDS join below threshold",
                 checks=[
-                    {"name": "turnover_data_fetched", "passed": True, "actual": provenance, "expected": "true xlsx payload downloaded"},
-                    {"name": "xlsx_parsed", "passed": True, "actual": parse_summary, "expected": "ORF and half-life columns identified"},
+                    {"name": "turnover_data_loaded", "passed": True, "actual": {"source_kind": turnover_payload.get("source_kind"), "payload_sha256": turnover_payload.get("payload_sha256")}, "expected": "SGD turnover map loaded"},
+                    {"name": "turnover_parsed", "passed": True, "actual": {"n": turnover_payload.get("n_turnover_proteins")}, "expected": "ORF and half-life identified"},
                     {"name": "inputs_joined", "passed": False, "actual": {"n_joined": n_proteins, **data_summary}, "expected": f"yeast n >= {MIN_PROTEINS_PER_ORGANISM}"},
                     {"name": "no_causal_promotion", "passed": True, "actual": {"cannot_claim": cannot_claim()}, "expected": "statistical projection only"},
                 ],
@@ -829,11 +823,11 @@ def main() -> None:
                 "interpretation_label": interpretation_label(absorbed if isinstance(absorbed, float) else None),
                 "interpretation_label_threshold_descriptive_only": ABSORPTION_LABEL_THRESHOLD,
                 "turnover_data_provenance": {
-                    "source_url": provenance["source_url"],
-                    "source_kind": provenance["source_kind"],
-                    "fetched_at": provenance["fetched_at"],
-                    "payload_sha256": provenance["payload_sha256"],
-                    "payload_byte_size": provenance["payload_byte_size"],
+                    "source_url": turnover_payload["source_url"],
+                    "source_kind": turnover_payload["source_kind"],
+                    "fetched_at": turnover_payload["fetched_at"],
+                    "payload_sha256": turnover_payload["payload_sha256"],
+                    "payload_byte_size": turnover_payload["payload_byte_size"],
                     "id_mapping_method": turnover_payload["id_mapping_method"],
                     "identified_orf_column": turnover_payload["identified_orf_column"],
                     "identified_half_life_column": turnover_payload["identified_half_life_column"],
@@ -864,8 +858,8 @@ def main() -> None:
         }
 
         checks = [
-            {"name": "turnover_data_fetched", "passed": True, "actual": provenance, "expected": "true xlsx payload downloaded with sha256 provenance"},
-            {"name": "xlsx_parsed", "passed": True, "actual": parse_summary, "expected": "sheet1 parsed; ORF and half-life columns identified"},
+            {"name": "turnover_data_loaded", "passed": True, "actual": {"source_kind": turnover_payload.get("source_kind"), "payload_sha256": turnover_payload.get("payload_sha256"), "source_url": turnover_payload.get("source_url")}, "expected": "SGD turnover map loaded with sha256 provenance"},
+            {"name": "turnover_parsed", "passed": True, "actual": {"n_turnover_proteins": turnover_payload.get("n_turnover_proteins"), "id_mapping_method": turnover_payload.get("id_mapping_method")}, "expected": "ORF->STRING id and half-life identified"},
             {
                 "name": "inputs_joined",
                 "passed": joined_ok,
