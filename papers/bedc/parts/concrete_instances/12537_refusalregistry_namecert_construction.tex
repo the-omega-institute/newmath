@@ -95,6 +95,18 @@ The claim-layer handoff of \autoref{thm:refusal-registry-claim-layer-handoff} pr
 \end{proof}
 \leanchecked{BEDC.Derived.RefusalRegistryUp.RefusalRegistry\_public\_export\_surface}
 
+\begin{theorem}[Refusal registry bridge-schema export]
+\label{thm:refusal-registry-bridge-schema-export}
+The public export surface of \autoref{thm:refusal-registry-public-export-surface} and the claim-layer handoff of \autoref{thm:refusal-registry-claim-layer-handoff} jointly supply the bridge-schema boundary for every registry consumer of $\RefusalRegistryUp$. A consumer that crosses the boundary must preserve the blocked-claim row $B$, refusal-entry row $E$, gate row $G$, cannot-claim route $C$, status row $S$, provenance row $V$, componentwise transport row $T$, package row $P$, and local naming row $N$ as the same displayed refusal packet.
+\end{theorem}
+\begin{proof}
+The public export theorem identifies the only rows through which downstream package and registry consumers may cite $\RefusalRegistryUp$. These rows are already the displayed packet $R=(B,E,G,C,S,V,T,P,N)$, with no silent acceptance coordinate.
+
+The claim-layer handoff theorem sends exactly the same rows to $\ClaimRegistryLayerUp$ and keeps accepted claim-entry data separate. Hence the public surface and the handoff agree on the boundary that a bridge-schema consumer may inspect.
+
+Because the boundary contains only the displayed refusal rows, any bridge-schema export preserves the packet as a refusal surface rather than converting it into acceptance, erasure, or an ambient registry predicate.
+\end{proof}
+
 \falsifiablePrediction{A package claim with no refusal entry, gate row, or accepted registry entry has no export route through $\RefusalRegistryUp$.}
 
 \independenceWitness{registrylayer, claimregistrylayer, theoremgapregistry, truthresidueledger: none is bijective to $\RefusalRegistryUp$ because this carrier stores blocked claim, refusal entry, gate, cannot-claim route, status, provenance, transport, package, and local naming rows as a dedicated refusal packet.}
@@ -107,8 +119,8 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/RefusalRegistryUp/TasteGate.l
 
 \begin{closurestatus}{\RefusalRegistryUp}
   \constructivestory{A $\RefusalRegistryUp$ packet is generated from blocked-claim, refusal-entry, gate, cannot-claim route, status, provenance, componentwise hsame transport, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:refusal-registry-carrier}, \autoref{thm:refusal-registry-export-control}, \autoref{thm:refusal-registry-nonescape}, \autoref{thm:refusal-registry-claim-layer-handoff}, \autoref{thm:refusal-registry-public-export-surface}, the TasteGate marker, the falsifiable prediction, and the independence witness bind the refusal rows against $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\TheoremGapRegistryUp$, $\TruthResidueLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:refusal-registry-carrier}, \autoref{thm:refusal-registry-export-control}, \autoref{thm:refusal-registry-nonescape}, \autoref{thm:refusal-registry-claim-layer-handoff}, \autoref{thm:refusal-registry-public-export-surface}, \autoref{thm:refusal-registry-bridge-schema-export}, the TasteGate marker, the falsifiable prediction, and the independence witness bind the refusal rows against $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\TheoremGapRegistryUp$, $\TruthResidueLedgerUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, complete package governance, or correctness of every downstream refusal row.}
