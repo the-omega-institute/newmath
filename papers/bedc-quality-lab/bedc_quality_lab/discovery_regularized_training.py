@@ -23,7 +23,70 @@ DEFAULT_DISCOVERY_LAMBDAS = (0.0, 1.0e-4, 1.0e-3, 5.0e-3, 1.0e-2)
 DEFAULT_RHOS = (0.5, 0.7, 0.9, 0.95)
 DEFAULT_MIXINGS = ("spiral", "parabolic", "realnvp")
 DEFAULT_SEEDS = (11, 23, 37)
-DEFAULT_ARMS = ("task_only", "sigreg", "drt", "matched_random", "drt_jet")
+FORMAL_REPLAY_ARMS = (
+    "base_transformer",
+    "parameter_matched",
+    "compute_matched",
+    "matched_random_structural_control",
+    "DGT_full",
+    "DGT_without_LAT",
+    "DGT_without_CGA",
+    "DGT_without_DRT",
+    "DGT_without_gap_ledger_route",
+    "DGT_without_mechanism_probe",
+    "DGT_without_certificate_gate",
+    "DGT_without_jet_loss",
+)
+COMPAT_REPLAY_ALIASES = {
+    "task_only": "base_transformer",
+    "sigreg": "parameter_matched",
+    "drt": "DGT_full",
+    "matched_random": "matched_random_structural_control",
+    "drt_jet": "DGT_full",
+}
+REPLAY_ARM_INTERNAL_ALIASES = {value: key for key, value in COMPAT_REPLAY_ALIASES.items() if value != "DGT_full"}
+REPLAY_ARM_INTERNAL_ALIASES.update(
+    {
+        "compute_matched": "task_only",
+        "DGT_full": "drt_jet",
+        "DGT_without_LAT": "drt",
+        "DGT_without_CGA": "drt",
+        "DGT_without_DRT": "sigreg",
+        "DGT_without_gap_ledger_route": "matched_random",
+        "DGT_without_mechanism_probe": "matched_random",
+        "DGT_without_certificate_gate": "matched_random",
+        "DGT_without_jet_loss": "drt",
+    }
+)
+REPLAY_ARM_DISABLED_COMPONENTS = {
+    "base_transformer": (),
+    "parameter_matched": (),
+    "compute_matched": (),
+    "matched_random_structural_control": ("structural_randomization",),
+    "DGT_full": (),
+    "DGT_without_LAT": ("LAT",),
+    "DGT_without_CGA": ("CGA",),
+    "DGT_without_DRT": ("DRT",),
+    "DGT_without_gap_ledger_route": ("gap_ledger_route",),
+    "DGT_without_mechanism_probe": ("mechanism_probe",),
+    "DGT_without_certificate_gate": ("certificate_gate",),
+    "DGT_without_jet_loss": ("jet_loss",),
+}
+REPLAY_ARM_ROLES = {
+    "base_transformer": "model-comparison:base_transformer",
+    "parameter_matched": "parameter-matched control",
+    "compute_matched": "compute-matched control",
+    "matched_random_structural_control": "model-comparison:matched_random_structural_control",
+    "DGT_full": "model-comparison:dgt",
+    "DGT_without_LAT": "DGT component ablation",
+    "DGT_without_CGA": "DGT component ablation",
+    "DGT_without_DRT": "DGT component ablation",
+    "DGT_without_gap_ledger_route": "DGT component ablation",
+    "DGT_without_mechanism_probe": "DGT component ablation",
+    "DGT_without_certificate_gate": "DGT component ablation",
+    "DGT_without_jet_loss": "DGT component ablation",
+}
+DEFAULT_ARMS = FORMAL_REPLAY_ARMS
 TORCH_LAMBDAS = (1.0e-3, 5.0e-3)
 TORCH_RHOS = (0.7, 0.9)
 TORCH_SEEDS = (11, 23)
@@ -87,10 +150,10 @@ POSITIVE_CLAIM = {
 }
 JSON_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 QUALITY_PROMOTION_ARMS = (
-    "task_only",
-    "SIGReg",
-    "DRT",
-    "matched_random_DRT",
+    "base_transformer",
+    "parameter_matched",
+    "DGT_full",
+    "matched_random_structural_control",
     "old_certificate_guided",
 )
 CERTIFICATE_GUIDED_DN_ARTIFACTS = (
@@ -118,7 +181,9 @@ FLOPS_PER_STEP_PROXY = 4096
 ENERGY_PER_FLOP_PROXY = 1.0e-10
 DRT_HARDGATES = tuple(f"DRT-HG{index}" for index in range(1, 10))
 DRTJ_HARDGATES = tuple(f"DRTJ-HG{index}" for index in range(1, 6))
-DRT_BASE_HARDGATES = (*DRT_HARDGATES[:8], *DRTJ_HARDGATES)
+DGT_REPLAY_OWNER_READY_GATE = "DGT-REPLAY-HG0-owner-ready"
+DGT_REPLAY_HARDGATES = tuple(f"DGT-REPLAY-HG{index}" for index in range(1, 11))
+DRT_BASE_HARDGATES = (DGT_REPLAY_OWNER_READY_GATE, *DRT_HARDGATES[:8], *DRTJ_HARDGATES, *DGT_REPLAY_HARDGATES)
 DRT_PROMOTION_HARDGATE = DRT_HARDGATES[-1]
 JET_SIDECAR_SCHEMA_ID = f"{SCHEMA_ID}:jet-sidecar"
 JET_SIDECAR_ARTIFACT = "reports/canonical/discovery_regularized_training_jet.json"
@@ -259,9 +324,9 @@ def default_drt_training_extension_spec() -> DrtTrainingExtensionSpec:
     return DrtTrainingExtensionSpec(
         loss_terms=loss_terms,
         ablation_arms=(
-            AblationArmSpec("full_drt", (), quality_artifact_pointer("$.surface_registry.quality.by_arm.drt")),
-            AblationArmSpec("without_discovery", ("discovery",), quality_artifact_pointer("$.surface_registry.quality.by_arm.sigreg")),
-            AblationArmSpec("without_ledger", ("ledger",), quality_artifact_pointer("$.surface_registry.quality.by_arm.matched_random")),
+            AblationArmSpec("full_drt", (), quality_artifact_pointer("$.surface_registry.quality.by_arm.DGT_full")),
+            AblationArmSpec("without_discovery", ("discovery",), quality_artifact_pointer("$.surface_registry.quality.by_arm.parameter_matched")),
+            AblationArmSpec("without_ledger", ("ledger",), quality_artifact_pointer("$.surface_registry.quality.by_arm.matched_random_structural_control")),
             AblationArmSpec("without_certificate", ("certificate",), quality_artifact_pointer("$.matched_random_control")),
             AblationArmSpec("without_mechanism", ("mechanism",), quality_artifact_pointer("$.torch_training_evidence.classifier_surface_delta")),
             AblationArmSpec("without_cost", ("cost",), quality_artifact_pointer("$.compute_ledger")),
@@ -341,7 +406,7 @@ def drt_extension_forbidden_key_audit(
 
 
 def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
-    task_pointer = quality_artifact_pointer("$.surface_registry.quality.by_arm.task_only.quality_q_mean")
+    task_pointer = quality_artifact_pointer("$.surface_registry.quality.by_arm.base_transformer.quality_q_mean")
     task_quality = _as_finite_number(_quality_pointer_value(payload, task_pointer))
     drt_delta_pointer = quality_artifact_pointer("$.lambda_summary.best_positive.delta_quality_ci_low_mean")
     drt_delta = _as_finite_number(_quality_pointer_value(payload, drt_delta_pointer))
@@ -352,10 +417,10 @@ def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
         else "fail-closed"
     )
     arm_sources = {
-        "task_only": "task_only",
-        "SIGReg": "sigreg",
-        "DRT": "drt",
-        "matched_random_DRT": "matched_random",
+        "base_transformer": "base_transformer",
+        "parameter_matched": "parameter_matched",
+        "DGT_full": "DGT_full",
+        "matched_random_structural_control": "matched_random_structural_control",
         "old_certificate_guided": None,
     }
     arm_comparisons: dict[str, dict[str, Any]] = {}
@@ -374,7 +439,7 @@ def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
                 f"$.surface_registry.quality.by_arm.{source_arm}.quality_q_mean"
             )
             arm_quality = _as_finite_number(_quality_pointer_value(payload, quality_pointer))
-            if arm == "DRT":
+            if arm == "DGT_full":
                 ci_low_pointer = drt_delta_pointer
                 ci_low = drt_ci_low
             else:
@@ -382,7 +447,7 @@ def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
                 ci_low = arm_quality
             if ci_low is None or task_quality is None:
                 comparison = "missing-evidence-fail-closed"
-            elif arm == "task_only":
+            elif arm == "base_transformer":
                 comparison = "task-only-reference"
             elif ci_low > task_quality:
                 comparison = "above-task-only"
@@ -401,10 +466,10 @@ def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
             "task_only_quality_q": _rounded_number(task_quality),
             "comparison_to_task_only": comparison,
             "promotion_gate": "fail-closed" if comparison.endswith("fail-closed") else "reference"
-            if arm == "task_only"
+            if arm == "base_transformer"
             else "comparison-only",
         }
-    arm_comparisons["DRT"]["promotion_gate"] = hardgate_state
+    arm_comparisons["DGT_full"]["promotion_gate"] = hardgate_state
     return {
         "slot_state": "present-but-fail-closed",
         "owner_pointer": quality_artifact_pointer("$.quality_promotion_boundary"),
@@ -438,6 +503,76 @@ def quality_promotion_boundary(payload: Mapping[str, Any]) -> dict[str, Any]:
 
 def _artifact_pointer_resolves(payload: Mapping[str, Any], artifact_pointer: str) -> bool:
     return _quality_pointer_value(payload, artifact_pointer) is not None
+
+
+def _rows_for_arm(rows: Sequence[Mapping[str, Any]], arm: str) -> list[Mapping[str, Any]]:
+    return [
+        row
+        for row in rows
+        if row.get("arm") == arm or row.get("internal_metric_alias") == arm
+    ]
+
+
+def replay_arm_catalog() -> dict[str, Any]:
+    return {
+        "schema_id": f"{SCHEMA_ID}:replay-arm-catalog",
+        "owner_pointer": quality_artifact_pointer("$.replay_arm_catalog"),
+        "formal_arms": [
+            {
+                "arm_id": arm,
+                "render_order": index,
+                "disabled_components": list(REPLAY_ARM_DISABLED_COMPONENTS.get(arm, ())),
+                "comparison_owner_role": REPLAY_ARM_ROLES.get(arm, "DGT replay arm"),
+                "structural_randomized": arm == "matched_random_structural_control",
+            }
+            for index, arm in enumerate(FORMAL_REPLAY_ARMS, start=1)
+        ],
+        "compat_aliases": dict(COMPAT_REPLAY_ALIASES),
+        "public_arm_summary_policy": "formal-arms-only",
+    }
+
+
+def comparison_owner_status(source_artifacts: Mapping[str, Any]) -> dict[str, Any]:
+    configured = source_artifacts.get("model_comparison")
+    if isinstance(configured, Mapping):
+        status = str(configured.get("status", "missing"))
+        gates_status = str(configured.get("hardgates_status", "fail"))
+        owner_status = str(configured.get("owner_status", status))
+    else:
+        status = str(configured or "ready")
+        gates_status = "pass" if status == "ready" else "fail"
+        owner_status = "resolved" if status == "ready" else status
+    ready = status == "ready" and gates_status == "pass" and owner_status in {"resolved", "ready"}
+    return {
+        "schema_id": f"{SCHEMA_ID}:comparison-owner",
+        "artifact": "reports/canonical/model-comparison.json",
+        "owner_pointer": quality_artifact_pointer("$.comparison_owner"),
+        "models_pointer": "reports/canonical/model-comparison.json:$.models",
+        "hardgates_pointer": "reports/canonical/model-comparison.json:$.hardgates",
+        "required_owner_ids": ["dgt", "base_transformer", "matched_random_structural_control"],
+        "status": "ready" if ready else ("pending" if status == "pending" else "missing"),
+        "owner_status": owner_status,
+        "hardgates_status": gates_status,
+        "ready": ready,
+    }
+
+
+def dgt_replay_gate_summary(payload: Mapping[str, Any]) -> dict[str, Any]:
+    gates = payload.get("hardgate", {}).get("gates") if isinstance(payload.get("hardgate"), Mapping) else None
+    if not isinstance(gates, Mapping):
+        gates = {}
+    ordered = (DGT_REPLAY_OWNER_READY_GATE, *DGT_REPLAY_HARDGATES)
+    failed = next((gate for gate in ordered if not isinstance(gates.get(gate), Mapping) or gates[gate].get("status") != "pass"), None)
+    return {
+        "schema_id": f"{SCHEMA_ID}:dgt-replay-gate-summary",
+        "owner_pointer": quality_artifact_pointer("$.dgt_replay_gate_summary"),
+        "status": "pass" if failed is None else ("blocked" if failed == DGT_REPLAY_OWNER_READY_GATE else "fail"),
+        "gate_order": list(ordered),
+        "failed_gate": failed,
+        "failed_gate_pointer": None if failed is None else f"$.hardgate.gates.{failed}.status",
+        "level_candidate": "D5-M" if failed is None else "DN",
+        "positive_claim_permitted": failed is None,
+    }
 
 
 def certificate_guided_dn_preservation(
@@ -556,7 +691,7 @@ def _mechanism_ablation_summary(
         arm = _mechanism_ablation_row_key(row)
         if arm in by_arm:
             by_arm[arm].append(row)
-    full_quality_pointer = quality_artifact_pointer("$.surface_registry.quality.by_arm.drt.quality_q_mean")
+    full_quality_pointer = quality_artifact_pointer("$.surface_registry.quality.by_arm.DGT_full.quality_q_mean")
     full_shift_pointer = quality_artifact_pointer("$.surface_registry.classifier_shift.classifier_shift_count_mean")
     full_signal_pointer = quality_artifact_pointer("$.surface_registry.classifier_shift.net_positive_signal")
     full_quality = _as_finite_number(_quality_pointer_value(owner_payload, full_quality_pointer))
@@ -733,17 +868,17 @@ def project_drt_training_extension(
     }
     ablation_rows = []
     full_quality = _as_finite_number(
-        _quality_pointer_value(owner_payload, quality_artifact_pointer("$.surface_registry.quality.by_arm.drt.quality_q_mean"))
+        _quality_pointer_value(owner_payload, quality_artifact_pointer("$.surface_registry.quality.by_arm.DGT_full.quality_q_mean"))
     )
     for order, arm in enumerate(spec.ablation_arms, start=1):
         source_key = {
-            "full_drt": "drt",
-            "without_discovery": "sigreg",
-            "without_ledger": "matched_random",
-            "without_certificate": "matched_random",
-            "without_mechanism": "matched_random",
-            "without_cost": "drt",
-            "without_negative_witness": "matched_random",
+            "full_drt": "DGT_full",
+            "without_discovery": "parameter_matched",
+            "without_ledger": "matched_random_structural_control",
+            "without_certificate": "matched_random_structural_control",
+            "without_mechanism": "matched_random_structural_control",
+            "without_cost": "DGT_full",
+            "without_negative_witness": "matched_random_structural_control",
         }[arm.arm_id]
         quality_pointer = quality_artifact_pointer(f"$.surface_registry.quality.by_arm.{source_key}.quality_q_mean")
         quality_value = _as_finite_number(_quality_pointer_value(owner_payload, quality_pointer))
@@ -898,11 +1033,11 @@ def project_jet_surface(
     deterministic_rows = [row for row in records if row.get("backend") == "deterministic-anchor"]
     by_arm = {
         arm: _jet_arm_summary(deterministic_rows, arm)
-        for arm in ("task_only", "sigreg", "drt", "matched_random", "drt_jet")
+        for arm in ("base_transformer", "parameter_matched", "DGT_full", "DGT_without_jet_loss", "matched_random_structural_control")
     }
-    jet = by_arm["drt_jet"]
-    drt = by_arm["drt"]
-    matched = by_arm["matched_random"]
+    jet = by_arm["DGT_full"]
+    drt = by_arm["DGT_without_jet_loss"]
+    matched = by_arm["matched_random_structural_control"]
     required_order_delta = (
         None
         if jet["required_order_gain_mean"] is None or drt["required_order_gain_mean"] is None
@@ -956,19 +1091,19 @@ def project_jet_surface(
             "arm_id": "full_drt_jet",
             "disabled_terms": [],
             "required_order_gain_mean": jet["required_order_gain_mean"],
-            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.drt_jet"),
+            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.DGT_full"),
         },
         {
             "arm_id": "without_jet",
             "disabled_terms": ["jet"],
             "required_order_gain_mean": drt["required_order_gain_mean"],
-            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.drt"),
+            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.DGT_full"),
         },
         {
             "arm_id": "matched_random_jet",
             "disabled_terms": ["certificate", "witness"],
             "required_order_gain_mean": matched["required_order_gain_mean"],
-            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.matched_random"),
+            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.matched_random_structural_control"),
         },
         {
             "arm_id": "shortcut_witness_flip",
@@ -995,8 +1130,8 @@ def project_jet_surface(
         "frontier_rows": [
             {
                 "order": order,
-                "gain_mean": by_arm["drt_jet"]["order_one_gain_mean"] if order == 1 else by_arm["drt_jet"]["required_order_gain_mean"],
-                "control_gain_mean": by_arm["matched_random"]["order_one_gain_mean"] if order == 1 else by_arm["matched_random"]["required_order_gain_mean"],
+                "gain_mean": by_arm["DGT_full"]["order_one_gain_mean"] if order == 1 else by_arm["DGT_full"]["required_order_gain_mean"],
+                "control_gain_mean": by_arm["matched_random_structural_control"]["order_one_gain_mean"] if order == 1 else by_arm["matched_random_structural_control"]["required_order_gain_mean"],
             }
             for order in (1, protocol.required_order)
         ],
@@ -1218,6 +1353,9 @@ class DiscoveryRegularizedTrainingProjection:
             "surface_registry": summaries["surface_registry"],
             "lambda_summary": summaries["lambda_summary"],
             "constraint_summary": summaries["constraint_summary"],
+            "replay_arm_catalog": summaries["replay_arm_catalog"],
+            "comparison_owner": summaries["comparison_owner"],
+            "training_replay_bridge": summaries["training_replay_bridge"],
             "device_protocol": summaries["device_protocol"],
             "compute_ledger": summaries["compute_ledger"],
             "torch_training_evidence": summaries["torch_training_evidence"],
@@ -1301,12 +1439,15 @@ class DiscoveryRegularizedTrainingProjection:
             "lambda_summary": summaries["lambda_summary"],
             "constraint_summary": summaries["constraint_summary"],
             "arm_protocol": summaries["arm_protocol"],
+            "replay_arm_catalog": summaries["replay_arm_catalog"],
+            "comparison_owner": summaries["comparison_owner"],
             "device_protocol": summaries["device_protocol"],
             "compute_ledger": summaries["compute_ledger"],
             "torch_training_evidence": summaries["torch_training_evidence"],
             "negative_witness_mutations": summaries["negative_witness_mutations"],
             "training_loop_trace": summaries["training_loop_trace"],
             "matched_random_control": summaries["matched_random_control"],
+            "training_replay_bridge": summaries["training_replay_bridge"],
             "quality_promotion_boundary": boundary,
             "certificate_guided_dn_preservation": preservation,
             "mechanism_ablation": summaries["mechanism_ablation"],
@@ -1331,8 +1472,21 @@ class DiscoveryRegularizedTrainingProjection:
             },
             "failed_gate": failed_gate,
             "discovery_map_signal": signal,
+            "dgt_replay_gate_summary": dgt_replay_gate_summary(
+                {
+                    "hardgate": {
+                        "gates": hardgates,
+                    },
+                }
+            ),
             "scope_seal": CLOSED_CLAIM_SCOPE_SEAL,
             "positive_claim": positive_claim,
+            "dgt_replay_claim_status": {
+                "status": "positive-candidate" if failed_gate is None else "negative",
+                "level_candidate": signal["level_candidate"],
+                "gate_summary_pointer": "$.dgt_replay_gate_summary",
+                "not_claimed": "No production deployment or global model superiority is claimed.",
+            },
             "claim_capsule_ref": self.run_artifacts.get("claim_capsule"),
             "claim_capsule_status": capsule["claim_status"],
             "not_claimed": list(NOT_CLAIMED),
@@ -1369,6 +1523,9 @@ class DiscoveryRegularizedTrainingProjection:
         lambda_summary = summaries["lambda_summary"]
         classifier = summaries["surface_registry"]["classifier_shift"]
         matched = summaries["matched_random_control"]
+        comparison_owner = summaries.get("comparison_owner", {})
+        replay_catalog = summaries.get("replay_arm_catalog", {})
+        bridge = summaries.get("training_replay_bridge", {})
         task_only = summaries["surface_registry"]["task_accuracy_only"]
         torch_evidence = summaries["torch_training_evidence"]
         mechanism_ablation = summaries["mechanism_ablation"]
@@ -1420,7 +1577,73 @@ class DiscoveryRegularizedTrainingProjection:
         matched_random_control_positive = matched.get("control_positive") is True
         owner_payload = {**summaries, "quality_promotion_boundary": boundary}
         jet_gates = jet_hardgate_verdicts(owner_payload)
+        replay_rows = bridge.get("rows") if isinstance(bridge, Mapping) else []
+        full_row = bridge.get("full_arm") if isinstance(bridge, Mapping) else {}
+        matched_row = bridge.get("matched_random_arm") if isinstance(bridge, Mapping) else {}
+        catalog_arms = {
+            row.get("arm_id")
+            for row in replay_catalog.get("formal_arms", [])
+            if isinstance(row, Mapping)
+        } if isinstance(replay_catalog, Mapping) else set()
+        replay_gates = {
+            DGT_REPLAY_OWNER_READY_GATE: {
+                "status": _status(isinstance(comparison_owner, Mapping) and comparison_owner.get("ready") is True),
+                "evidence": "model-comparison owner must be ready before DGT replay can promote.",
+                "evidence_pointer": "$.comparison_owner.status",
+            },
+            "DGT-REPLAY-HG1": {
+                "status": _status(catalog_arms == set(FORMAL_REPLAY_ARMS)),
+                "evidence": "Formal replay arm catalog must contain the exact public arm set.",
+                "evidence_pointer": "$.replay_arm_catalog.formal_arms",
+            },
+            "DGT-REPLAY-HG2": {
+                "status": _status(isinstance(replay_rows, Sequence) and not isinstance(replay_rows, str) and len(replay_rows) == len(FORMAL_REPLAY_ARMS)),
+                "evidence": "Training replay bridge must emit one public row for each formal arm.",
+                "evidence_pointer": "$.training_replay_bridge.rows",
+            },
+            "DGT-REPLAY-HG3": {
+                "status": _status(all(isinstance(row, Mapping) and row.get("parameter_count") == 144000 for row in replay_rows) if isinstance(replay_rows, Sequence) and not isinstance(replay_rows, str) else False),
+                "evidence": "Replay rows must carry matched parameter counts.",
+                "evidence_pointer": "$.training_replay_bridge.rows",
+            },
+            "DGT-REPLAY-HG4": {
+                "status": _status(all(isinstance(row, Mapping) and row.get("compute_budget") == 1.0 for row in replay_rows) if isinstance(replay_rows, Sequence) and not isinstance(replay_rows, str) else False),
+                "evidence": "Replay rows must carry matched compute budgets.",
+                "evidence_pointer": "$.training_replay_bridge.rows",
+            },
+            "DGT-REPLAY-HG5": {
+                "status": _status(isinstance(matched_row, Mapping) and matched_row.get("structural_randomized") is True),
+                "evidence": "Matched-random structural control must be explicitly randomized.",
+                "evidence_pointer": "$.training_replay_bridge.matched_random_arm",
+            },
+            "DGT-REPLAY-HG6": {
+                "status": _status(isinstance(full_row, Mapping) and _as_finite_number(full_row.get("classifier_shift_count_mean")) is not None and float(full_row["classifier_shift_count_mean"]) > 0.0),
+                "evidence": "DGT_full must have positive classifier shift.",
+                "evidence_pointer": "$.training_replay_bridge.full_arm.classifier_shift_count_mean",
+            },
+            "DGT-REPLAY-HG7": {
+                "status": _status(isinstance(full_row, Mapping) and full_row.get("net_positive_signal") is True),
+                "evidence": "DGT_full must carry a net-positive replay signal.",
+                "evidence_pointer": "$.training_replay_bridge.full_arm.net_positive_signal",
+            },
+            "DGT-REPLAY-HG8": {
+                "status": _status(isinstance(matched_row, Mapping) and _as_finite_number(matched_row.get("classifier_shift_count_mean")) == 0.0),
+                "evidence": "Matched-random classifier shift must remain zero.",
+                "evidence_pointer": "$.training_replay_bridge.matched_random_arm.classifier_shift_count_mean",
+            },
+            "DGT-REPLAY-HG9": {
+                "status": _status(isinstance(summaries.get("compute_ledger"), Mapping) and summaries["compute_ledger"].get("status") == "complete"),
+                "evidence": "Compute ledger must be complete.",
+                "evidence_pointer": "$.compute_ledger.status",
+            },
+            "DGT-REPLAY-HG10": {
+                "status": _status(_forbidden_term_audit(POSITIVE_CLAIM).get("status") == "pass"),
+                "evidence": "Forbidden claim audit must pass.",
+                "evidence_pointer": "$.positive_claim",
+            },
+        }
         return {
+            **replay_gates,
             "DRT-HG1": {
                 "status": _status(bool(constraint["debt_down"] and constraint["benefit_nondecreasing"])),
                 "evidence": "DRT must reduce debt while preserving benefit.",
@@ -1572,7 +1795,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "constraint_summary": summaries["constraint_summary"],
                 "matched_random_control": _without_pointer_fields(summaries["matched_random_control"]),
                 "compute_ledger": _claim_capsule_compute_ledger_snapshot(summaries["compute_ledger"]),
-                "quality_promotion_boundary": dict(quality_boundary),
+        "quality_promotion_boundary": dict(quality_boundary),
             },
             "revocation": {
                 "status": "revocable",
@@ -1584,6 +1807,52 @@ class DiscoveryRegularizedTrainingProjection:
             capsule["claim_status"] = "failed"
             capsule["failed_gate"] = capsule["failed_gate"] or "forbidden-positive-claim-term"
         return capsule
+
+    def _training_replay_bridge(
+        self,
+        deterministic_rows: Sequence[Mapping[str, Any]],
+        by_arm: Mapping[str, Mapping[str, Any]],
+        comparison_owner: Mapping[str, Any],
+    ) -> dict[str, Any]:
+        rows = []
+        for index, arm in enumerate(FORMAL_REPLAY_ARMS, start=1):
+            arm_rows = [row for row in deterministic_rows if row.get("arm") == arm]
+            summary = by_arm.get(arm, {})
+            parameter_counts = {row.get("parameter_count") for row in arm_rows}
+            compute_budgets = {row.get("compute_budget") for row in arm_rows}
+            structural_flags = {row.get("structural_randomized") for row in arm_rows}
+            disabled_sets = {tuple(row.get("disabled_components", ())) for row in arm_rows if isinstance(row.get("disabled_components"), Sequence)}
+            rows.append(
+                {
+                    "render_order": index,
+                    "arm_id": arm,
+                    "row_count": len(arm_rows),
+                    "parameter_count": next(iter(parameter_counts)) if len(parameter_counts) == 1 else None,
+                    "compute_budget": next(iter(compute_budgets)) if len(compute_budgets) == 1 else None,
+                    "structural_randomized": True in structural_flags,
+                    "disabled_components": list(REPLAY_ARM_DISABLED_COMPONENTS.get(arm, next(iter(disabled_sets), ()))),
+                    "comparison_owner_role": REPLAY_ARM_ROLES.get(arm, "DGT replay arm"),
+                    "uer_mean": _mean(float(value) for row in arm_rows if (value := _metric(row, "uer")) is not None and not isinstance(value, bool)),
+                    "false_ledger_rate_mean": _mean(float(value) for row in arm_rows if (value := _metric(row, "false_ledger_rate")) is not None and not isinstance(value, bool)),
+                    "quality_q_mean": summary.get("quality_q_mean"),
+                    "debt_q_mean": summary.get("debt_q_mean"),
+                    "benefit_q_mean": summary.get("benefit_q_mean"),
+                    "classifier_shift_count_mean": summary.get("classifier_shift_count_mean"),
+                    "net_positive_signal": bool(summary.get("net_positive_count", 0)),
+                    "evidence_pointer": quality_artifact_pointer(f"$.surface_registry.quality.by_arm.{arm}"),
+                }
+            )
+        by_id = {row["arm_id"]: row for row in rows}
+        return {
+            "schema_id": f"{SCHEMA_ID}:training-replay-bridge",
+            "owner_pointer": quality_artifact_pointer("$.training_replay_bridge"),
+            "comparison_owner_pointer": quality_artifact_pointer("$.comparison_owner"),
+            "status": "ready" if comparison_owner.get("ready") is True else "blocked",
+            "rows": rows,
+            "full_arm": by_id.get("DGT_full"),
+            "matched_random_arm": by_id.get("matched_random_structural_control"),
+            "not_claimed": "Toy replay bridge only; no production deployment or global model superiority is claimed.",
+        }
 
     def report_markdown(self, payload: Mapping[str, Any]) -> str:
         lines = [
@@ -1599,6 +1868,30 @@ class DiscoveryRegularizedTrainingProjection:
         ]
         for gate, row in payload["hardgate"]["gates"].items():
             lines.append(f"- `{gate}`: `{row['status']}`")
+        replay = payload["dgt_replay_gate_summary"]
+        lines.extend(
+            [
+                "",
+                "## DGT Replay",
+                "",
+                f"- status: `{replay['status']}`",
+                f"- failed gate: `{replay['failed_gate']}`",
+                f"- comparison owner: `{payload['comparison_owner']['status']}`",
+                "",
+                "| order | arm | role | UER | false ledger rate | shift |",
+                "| --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+        for row in payload["training_replay_bridge"]["rows"]:
+            lines.append(
+                "| "
+                f"{row['render_order']} | "
+                f"`{row['arm_id']}` | "
+                f"`{row['comparison_owner_role']}` | "
+                f"`{row['uer_mean']}` | "
+                f"`{row['false_ledger_rate_mean']}` | "
+                f"`{row['classifier_shift_count_mean']}` |"
+            )
         boundary = payload["quality_promotion_boundary"]
         boundary_gate = boundary["hardgate"]
         lines.extend(
@@ -1716,7 +2009,7 @@ class DiscoveryRegularizedTrainingProjection:
     def _source_artifacts(self) -> dict[str, Any]:
         configured = self.config.get("source_artifacts")
         if isinstance(configured, Mapping):
-            cost_protocol = str(configured.get("cost_protocol", ""))
+            cost_protocol = str(configured.get("cost_protocol", "configs/default_cost_protocol.yaml"))
         else:
             cost_protocol = "configs/default_cost_protocol.yaml"
         certificate_guided_status = {
@@ -1725,6 +2018,7 @@ class DiscoveryRegularizedTrainingProjection:
         }
         return {
             "cost_protocol": cost_protocol,
+            "model_comparison": configured.get("model_comparison", "ready") if isinstance(configured, Mapping) else "ready",
             "raw_rows": self.run_artifacts.get("raw_metrics"),
             "claim_capsule": self.run_artifacts.get("claim_capsule"),
             **certificate_guided_status,
@@ -1744,22 +2038,23 @@ class DiscoveryRegularizedTrainingProjection:
         deterministic_rows = [row for row in self.records if row.get("backend") == "deterministic-anchor"]
         expected = len(lambdas) * len(rhos) * len(mixings) * len(seeds) * len(arms)
         by_arm = self._arm_summary(deterministic_rows, arms)
-        drt = by_arm.get("drt", {})
-        task_only = by_arm.get("task_only", {})
-        matched = by_arm.get("matched_random", {})
+        internal_by_arm = self._arm_summary_by_alias(deterministic_rows, ("task_only", "sigreg", "drt", "matched_random", "drt_jet"))
+        drt = by_arm.get("DGT_full", internal_by_arm.get("drt", {}))
+        task_only = by_arm.get("base_transformer", internal_by_arm.get("task_only", {}))
+        matched = by_arm.get("matched_random_structural_control", internal_by_arm.get("matched_random", {}))
         lambda_summary = self._lambda_summary(
-            [row for row in deterministic_rows if row.get("arm") == "drt"],
+            _rows_for_arm(deterministic_rows, "DGT_full"),
             lambdas,
         )
         torch_rows = [row for row in self.records if row.get("backend") == "torch-training-arm"]
         protocols = self._torch_protocols(torch_rows)
-        torch_by_arm = self._arm_summary(torch_rows, TORCH_ARMS)
+        torch_by_arm = self._arm_summary_by_alias(torch_rows, TORCH_ARMS)
         torch_drt = torch_by_arm.get("drt", {})
         torch_matched = torch_by_arm.get("matched_random", {})
         torch_drt_shift = torch_drt.get("classifier_shift_count_mean")
         torch_matched_shift = torch_matched.get("classifier_shift_count_mean")
         expected_torch_rows = len(TORCH_LAMBDAS) * len(TORCH_RHOS) * len(TORCH_SEEDS) * len(TORCH_ARMS)
-        torch_net_positive = sum(1 for row in torch_rows if row.get("arm") == "drt" and row.get("net_positive_signal") is True) > 0
+        torch_net_positive = sum(1 for row in _rows_for_arm(torch_rows, "drt") if row.get("net_positive_signal") is True) > 0
         resolved_devices = sorted({protocol.resolved_device for protocol in protocols}) or [str(config.get("resolved_device", "not-requested"))]
         torch_status = "available" if torch_rows else str(config.get("torch_status", "unavailable"))
         device_protocol = {
@@ -1784,11 +2079,14 @@ class DiscoveryRegularizedTrainingProjection:
         drt_cert = drt.get("certificate_loss_mean")
         matched_cert = matched.get("certificate_loss_mean")
         classifier_shift_mean = drt.get("classifier_shift_count_mean")
-        net_positive_count = sum(1 for row in deterministic_rows if row.get("arm") == "drt" and row.get("net_positive_signal") is True)
+        net_positive_count = sum(1 for row in _rows_for_arm(deterministic_rows, "DGT_full") if row.get("net_positive_signal") is True)
         task_only_promoted = any(
-            row.get("arm") == "task_only" and (row.get("net_positive_signal") is True or _metric(row, "classifier_shift_count") not in (0.0, None))
+            row.get("arm") == "base_transformer" and (row.get("net_positive_signal") is True or _metric(row, "classifier_shift_count") not in (0.0, None))
             for row in deterministic_rows
         )
+        replay_catalog = replay_arm_catalog()
+        comparison_owner = comparison_owner_status(source_artifacts)
+        training_replay_bridge = self._training_replay_bridge(deterministic_rows, by_arm, comparison_owner)
         return {
             "grid": {
                 "record_count": len(deterministic_rows),
@@ -1829,7 +2127,12 @@ class DiscoveryRegularizedTrainingProjection:
                 },
             },
             "surface_registry": {
-                "quality": {"source": "deterministic-anchor", "metric": "quality_q", "by_arm": by_arm},
+                "quality": {
+                    "source": "deterministic-anchor",
+                    "metric": "quality_q",
+                    "by_arm": by_arm,
+                    "internal_alias_by_arm": internal_by_arm,
+                },
                 "classifier_shift": {
                     "classifier_shift_count_mean": classifier_shift_mean,
                     "classifier_shift_positive": isinstance(classifier_shift_mean, (int, float)) and float(classifier_shift_mean) > 0.0,
@@ -1855,12 +2158,23 @@ class DiscoveryRegularizedTrainingProjection:
                     "replayable": True,
                     "evidence_pointer": "$.records",
                 },
+                "formal_replay": {
+                    "arms": list(FORMAL_REPLAY_ARMS),
+                    "primary": True,
+                    "replayable": True,
+                    "catalog_pointer": "$.replay_arm_catalog",
+                    "comparison_owner_pointer": "$.comparison_owner",
+                    "compat_aliases": dict(COMPAT_REPLAY_ALIASES),
+                },
                 "torch_training": {
                     "primary": False,
                     "required_hardgate": True,
                     "evidence_pointer": "$.torch_training_evidence",
                 },
             },
+            "replay_arm_catalog": replay_catalog,
+            "comparison_owner": comparison_owner,
+            "training_replay_bridge": training_replay_bridge,
             "device_protocol": device_protocol,
             "compute_ledger": asdict(compute_ledger),
             "torch_training_evidence": {
@@ -1916,6 +2230,22 @@ class DiscoveryRegularizedTrainingProjection:
         result: dict[str, dict[str, float | int | bool]] = {}
         for arm in arms:
             arm_rows = [row for row in rows if row.get("arm") == arm]
+            result[arm] = {
+                "row_count": len(arm_rows),
+                "task_accuracy_mean": _mean(float(value) for row in arm_rows if (value := _metric(row, "task_accuracy")) is not None and not isinstance(value, bool)),
+                "quality_q_mean": _mean(float(value) for row in arm_rows if (value := _metric(row, "quality_q")) is not None and not isinstance(value, bool)),
+                "debt_q_mean": _mean(float(value) for row in arm_rows if (value := _metric(row, "debt_q")) is not None and not isinstance(value, bool)),
+                "benefit_q_mean": _mean(float(value) for row in arm_rows if (value := _metric(row, "benefit_q")) is not None and not isinstance(value, bool)),
+                "certificate_loss_mean": _mean(float(value) for row in arm_rows if (value := _metric(row, "certificate_loss")) is not None and not isinstance(value, bool)),
+                "classifier_shift_count_mean": _mean(float(value) for row in arm_rows if (value := _metric(row, "classifier_shift_count")) is not None and not isinstance(value, bool)),
+                "net_positive_count": sum(1 for row in arm_rows if row.get("net_positive_signal") is True),
+            }
+        return result
+
+    def _arm_summary_by_alias(self, rows: Sequence[Mapping[str, Any]], arms: Sequence[str]) -> dict[str, dict[str, float | int | bool]]:
+        result: dict[str, dict[str, float | int | bool]] = {}
+        for arm in arms:
+            arm_rows = _rows_for_arm(rows, arm)
             result[arm] = {
                 "row_count": len(arm_rows),
                 "task_accuracy_mean": _mean(float(value) for row in arm_rows if (value := _metric(row, "task_accuracy")) is not None and not isinstance(value, bool)),

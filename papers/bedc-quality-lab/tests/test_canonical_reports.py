@@ -3450,7 +3450,7 @@ def test_discovery_regularized_training_quality_boundary_schema_and_semantics():
     assert hardgate["fail_closed_when"] == "drt_quality_q_ci_low <= task_only_quality_q"
     assert hardgate["promotion_gate"] == "clears-boundary"
     assert hardgate["drt_quality_q_ci_low"] > hardgate["task_only_quality_q"]
-    assert boundary["arm_comparisons"]["DRT"]["promotion_gate"] == hardgate["promotion_gate"]
+    assert boundary["arm_comparisons"]["DGT_full"]["promotion_gate"] == hardgate["promotion_gate"]
     assert boundary["arm_comparisons"]["old_certificate_guided"]["promotion_gate"] == "fail-closed"
 
 
@@ -3464,7 +3464,7 @@ def test_discovery_regularized_training_quality_boundary_fails_closed_when_drt_c
 
     assert hardgate["drt_quality_q_ci_low"] == hardgate["task_only_quality_q"]
     assert hardgate["promotion_gate"] == "fail-closed"
-    assert payload["quality_promotion_boundary"]["arm_comparisons"]["DRT"]["comparison_to_task_only"] == (
+    assert payload["quality_promotion_boundary"]["arm_comparisons"]["DGT_full"]["comparison_to_task_only"] == (
         "not-above-task-only-fail-closed"
     )
 
@@ -3475,10 +3475,10 @@ def test_discovery_regularized_training_quality_boundary_rejects_forbidden_body_
 
     for mutate in (
         lambda item: item["quality_promotion_boundary"].update({"terminal_verdict": "accepted"}),
-        lambda item: item["quality_promotion_boundary"]["arm_comparisons"]["DRT"].update(
+        lambda item: item["quality_promotion_boundary"]["arm_comparisons"]["DGT_full"].update(
             {"metrics": {"quality_q": 1.0}}
         ),
-        lambda item: item["quality_promotion_boundary"]["arm_comparisons"]["DRT"].update({"host.env": {}}),
+        lambda item: item["quality_promotion_boundary"]["arm_comparisons"]["DGT_full"].update({"host.env": {}}),
         lambda item: item["quality_promotion_boundary"]["hardgate"].update(
             {"candidate_evidence_body": {"rows": []}}
         ),

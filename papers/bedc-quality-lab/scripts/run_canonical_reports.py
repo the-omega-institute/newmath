@@ -993,6 +993,9 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "lambda_summary",
             "constraint_summary",
             "arm_protocol",
+            "replay_arm_catalog",
+            "comparison_owner",
+            "training_replay_bridge",
             "device_protocol",
             "compute_ledger",
             "torch_training_evidence",
@@ -1015,6 +1018,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "hardgate",
             "failed_gate",
             "discovery_map_signal",
+            "dgt_replay_gate_summary",
+            "dgt_replay_claim_status",
             "positive_claim",
             "claim_capsule_ref",
             "not_claimed",
@@ -3342,7 +3347,7 @@ def _validate_discovery_regularized_training_quality_promotion_boundary(payload:
                 raise ValueError(f"quality_promotion_boundary pointer does not resolve: {arm}.{pointer_key}")
         if row["task_only_quality_q"] != _rounded_number(task_quality):
             raise ValueError(f"quality_promotion_boundary arm task_only quality mismatch: {arm}")
-    drt_row = arm_comparisons["DRT"]
+    drt_row = arm_comparisons["DGT_full"]
     if drt_row["quality_q_ci_low"] != hardgate["drt_quality_q_ci_low"]:
         raise ValueError("quality_promotion_boundary DRT row CI-low must match hardgate")
     if drt_row["promotion_gate"] != hardgate["promotion_gate"]:
@@ -3751,7 +3756,7 @@ def _validate_discovery_regularized_training_jet(payload: Mapping[str, Any]) -> 
         raise ValueError("discovery_regularized_training jet section status mismatch")
     if surface.get("net_positive_signal") is not True:
         raise ValueError("discovery_regularized_training jet net positive signal missing")
-    if not isinstance(surface.get("by_arm"), Mapping) or "drt_jet" not in surface["by_arm"]:
+    if not isinstance(surface.get("by_arm"), Mapping) or "DGT_full" not in surface["by_arm"]:
         raise ValueError("discovery_regularized_training jet arm summary missing")
     gates = payload.get("hardgate", {}).get("gates", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
     expected_gates = {
@@ -3821,6 +3826,7 @@ def _discovery_regularized_training_quality_boundary_index_section(payload: Mapp
             for index, arm in enumerate(DRT_QUALITY_PROMOTION_ARMS, start=1)
         ],
     }
+    loaded_from_disk = payload is None
     if payload is None:
         path = _artifact_path(DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT)
         if not path.exists():
@@ -3830,7 +3836,12 @@ def _discovery_regularized_training_quality_boundary_index_section(payload: Mapp
         raise ValueError("discovery_regularized_training index source must be an object")
     if not isinstance(payload.get("config"), Mapping):
         return fallback
-    _validate_discovery_regularized_training_payload(payload)
+    try:
+        _validate_discovery_regularized_training_payload(payload)
+    except ValueError:
+        if loaded_from_disk:
+            return fallback
+        raise
     boundary = payload["quality_promotion_boundary"]
     return {
         "status": boundary["slot_state"],

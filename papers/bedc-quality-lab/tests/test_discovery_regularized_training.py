@@ -12,6 +12,9 @@ from bedc_quality_lab.discovery_regularized_training import (
     DEFAULT_RHOS,
     DEFAULT_SEEDS,
     DRIFT_TOLERANCE,
+    DGT_REPLAY_HARDGATES,
+    DGT_REPLAY_OWNER_READY_GATE,
+    FORMAL_REPLAY_ARMS,
     DiscoveryRegularizedTrainingProjection,
     TorchTrainingArmProtocol,
     default_grid,
@@ -38,6 +41,9 @@ REQUIRED_SUMMARY_KEYS = {
     "lambda_summary",
     "constraint_summary",
     "arm_protocol",
+    "replay_arm_catalog",
+    "comparison_owner",
+    "training_replay_bridge",
     "device_protocol",
     "compute_ledger",
     "torch_training_evidence",
@@ -60,6 +66,8 @@ REQUIRED_SUMMARY_KEYS = {
     "hardgate",
     "failed_gate",
     "discovery_map_signal",
+    "dgt_replay_gate_summary",
+    "dgt_replay_claim_status",
     "positive_claim",
     "claim_capsule_ref",
     "not_claimed",
@@ -110,6 +118,7 @@ def _torch_fixture_records():
                     row.update(
                         {
                             "backend": "torch-training-arm",
+                            "internal_metric_alias": arm,
                             "resolved_device": "cpu",
                             "steps": 12,
                             "dtype": "float32",
@@ -168,8 +177,8 @@ def _recursive_pointer_fields(value, path="$"):
 
 
 def test_default_deterministic_grid_has_expected_anchor_size():
-    assert len(default_grid()) == 900
-    assert len(runner.collect_deterministic_records()) == 900
+    assert len(default_grid()) == 2160
+    assert len(runner.collect_deterministic_records()) == 2160
 
 
 def test_deterministic_replay_and_required_keys():
@@ -178,9 +187,49 @@ def test_deterministic_replay_and_required_keys():
 
     assert json.dumps(first["summary_payload"], sort_keys=True) == json.dumps(second["summary_payload"], sort_keys=True)
     assert REQUIRED_SUMMARY_KEYS <= set(first["summary_payload"])
-    assert first["summary_payload"]["grid"]["record_count"] == 900
-    assert first["summary_payload"]["grid"]["expected_record_count"] == 900
+    assert first["summary_payload"]["grid"]["record_count"] == 2160
+    assert first["summary_payload"]["grid"]["expected_record_count"] == 2160
     assert first["summary_payload"]["run_artifacts"]["raw_metrics"] == first["summary_payload"]["records"]["raw_rows_pointer"]
+
+
+def test_formal_replay_arms_and_gate_summary_are_canonical(monkeypatch):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
+
+    assert tuple(summary["arm_protocol"]["formal_replay"]["arms"]) == FORMAL_REPLAY_ARMS
+    assert set(summary["arm_protocol"]["formal_replay"]["compat_aliases"]) == {
+        "task_only",
+        "sigreg",
+        "drt",
+        "matched_random",
+        "drt_jet",
+    }
+    assert [row["arm_id"] for row in summary["replay_arm_catalog"]["formal_arms"]] == list(FORMAL_REPLAY_ARMS)
+    assert [row["arm_id"] for row in summary["training_replay_bridge"]["rows"]] == list(FORMAL_REPLAY_ARMS)
+    assert summary["training_replay_bridge"]["full_arm"]["arm_id"] == "DGT_full"
+    assert summary["training_replay_bridge"]["matched_random_arm"]["arm_id"] == "matched_random_structural_control"
+    assert summary["training_replay_bridge"]["matched_random_arm"]["classifier_shift_count_mean"] == 0.0
+    assert summary["dgt_replay_gate_summary"]["gate_order"] == [
+        DGT_REPLAY_OWNER_READY_GATE,
+        *DGT_REPLAY_HARDGATES,
+    ]
+    assert summary["dgt_replay_gate_summary"]["status"] == "pass"
+    assert summary["dgt_replay_claim_status"]["level_candidate"] == "D5-M"
+
+
+def test_dgt_replay_wp1_owner_missing_blocks_to_dn(monkeypatch):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(
+        generated_at="fixture-time",
+        requested_device="mps",
+        source_artifacts={"model_comparison": {"status": "missing"}},
+    )["summary_payload"]
+
+    assert summary["comparison_owner"]["status"] == "missing"
+    assert summary["hardgate"]["failed_gate"] == DGT_REPLAY_OWNER_READY_GATE
+    assert summary["dgt_replay_gate_summary"]["status"] == "blocked"
+    assert summary["dgt_replay_gate_summary"]["level_candidate"] == "DN"
+    assert summary["discovery_map_signal"]["level_candidate"] == "DN"
 
 
 def test_torch_unavailable_boundary_records_device_and_fails_hg6_to_dn():
@@ -457,7 +506,7 @@ def test_drtj_hg1_required_order_gain():
 
     records = _fixture_records()
     for row in records:
-        if row.get("arm") == "drt_jet":
+        if row.get("arm") == "DGT_full":
             row["jet_required_order_gain"] = row["jet_required_order_gain"] - 0.03
     failed = _project(records)["summary_payload"]
     assert failed["hardgate"]["gates"]["DRTJ-HG1"]["status"] == "fail"
@@ -470,7 +519,7 @@ def test_drtj_hg2_order_one_non_degradation():
 
     records = _fixture_records()
     for row in records:
-        if row.get("arm") == "drt_jet":
+        if row.get("arm") == "DGT_full":
             row["jet_order_one_gain"] = -0.03
     failed = _project(records)["summary_payload"]
     assert failed["hardgate"]["gates"]["DRTJ-HG2"]["status"] == "fail"
@@ -483,7 +532,7 @@ def test_drtj_hg3_high_order_gain_not_shortcut_reducible():
 
     records = _fixture_records()
     for row in records:
-        if row.get("arm") == "drt_jet":
+        if row.get("arm") == "DGT_full":
             row["shortcut_witness_flipped"] = True
             row["jet_shortcut_reducible_fraction"] = 0.92
     failed = _project(records)["summary_payload"]
@@ -498,7 +547,7 @@ def test_drtj_hg4_matched_random_jet_control_negative():
 
     records = _fixture_records()
     for row in records:
-        if row.get("arm") == "matched_random":
+        if row.get("arm") == "matched_random_structural_control":
             row["jet_required_order_gain"] = 0.02
     failed = _project(records)["summary_payload"]
     assert failed["hardgate"]["gates"]["DRTJ-HG4"]["status"] == "fail"
@@ -511,7 +560,7 @@ def test_drtj_hg5_quality_q_ci_low_positive():
 
     records = _fixture_records()
     for row in records:
-        if row.get("arm") == "drt_jet":
+        if row.get("arm") == "DGT_full":
             row["jet_quality_q_ci_low"] = -0.002
     failed = _project(records)["summary_payload"]
     assert failed["hardgate"]["gates"]["DRTJ-HG5"]["status"] == "fail"
@@ -659,7 +708,7 @@ def test_seed_idempotence_and_quantized_tolerance():
 def test_drt_hg1_debt_down_benefit_down_demotes():
     records = _fixture_records()
     for row in records:
-        if row["arm"] == "drt":
+        if row["arm"] == "DGT_full":
             row["benefit_q"] = 0.1
     summary = _project(records)["summary_payload"]
 
@@ -676,7 +725,7 @@ def test_drt_hg2_requires_positive_ci_low_and_benefit_nondecreasing():
 
     records = _fixture_records()
     for row in records:
-        if row["arm"] == "drt":
+        if row["arm"] == "DGT_full":
             row["delta_quality_ci_low"] = -0.001
     failed = _project(records)["summary_payload"]
     assert failed["hardgate"]["gates"]["DRT-HG2"]["status"] == "fail"
@@ -691,7 +740,7 @@ def test_drt_hg3_classifier_shift_and_net_positive_signal():
 
     records = _fixture_records()
     for row in records:
-        if row["arm"] == "drt":
+        if row["arm"] == "DGT_full":
             row["classifier_shift_count"] = 0
             row["net_positive_signal"] = False
     failed = _project(records)["summary_payload"]
@@ -701,7 +750,7 @@ def test_drt_hg3_classifier_shift_and_net_positive_signal():
 def test_drt_hg4_matched_random_certificate_loss_improvement_demotion():
     records = _fixture_records()
     for row in records:
-        if row["arm"] == "matched_random":
+        if row["arm"] == "matched_random_structural_control":
             row["certificate_loss"] = 0.01
     summary = _project(records)["summary_payload"]
 
@@ -725,9 +774,13 @@ def test_drt_hg4_matched_random_control_positive_demotes_to_dn():
             "lambda_summary": summary["lambda_summary"],
             "surface_registry": summary["surface_registry"],
             "matched_random_control": matched,
-            "torch_training_evidence": summary["torch_training_evidence"],
-            "mechanism_ablation": summary["mechanism_ablation"],
-        },
+                "torch_training_evidence": summary["torch_training_evidence"],
+                "mechanism_ablation": summary["mechanism_ablation"],
+                "compute_ledger": summary["compute_ledger"],
+                "comparison_owner": summary["comparison_owner"],
+                "replay_arm_catalog": summary["replay_arm_catalog"],
+                "training_replay_bridge": summary["training_replay_bridge"],
+            },
         summary["quality_promotion_boundary"],
     )
     signal = projection.discovery_map_signal(hardgates)
@@ -741,7 +794,7 @@ def test_drt_hg4_matched_random_control_positive_demotes_to_dn():
 def test_drt_hg5_rejects_task_accuracy_only_rows():
     records = _fixture_records()
     for row in records:
-        if row["arm"] == "task_only":
+        if row["arm"] == "base_transformer":
             row["net_positive_signal"] = True
             break
     summary = _project(records)["summary_payload"]
@@ -766,7 +819,7 @@ def test_current_lab_projection_and_pointer_resolvability():
 
     failed_records = deepcopy(_fixture_records())
     for record in failed_records:
-        if record["arm"] == "drt":
+        if record["arm"] == "DGT_full":
             record["classifier_shift_count"] = 0
             record["net_positive_signal"] = False
     failed = _project(failed_records)["summary_payload"]
