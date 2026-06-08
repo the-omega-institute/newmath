@@ -162,6 +162,7 @@ D4_PROJECTION_REQUIRED_KEYS = (
     "gates",
     "failed_gate",
     "failed_gate_pointer",
+    "blocked_reason",
     "discovery_level",
     "readiness",
     "net_positive_signal",
@@ -1144,6 +1145,8 @@ def build_d4_projection_payload(
     gates = _d4_gate_rows(evidence)
     failed = [gate_name for gate_name in D4_PROJECTION_GATE_NAMES if gates[gate_name]["status"] != "pass"]
     failed_gate = failed[0] if failed else None
+    evidence_not_claimed = list(evidence.get("not_claimed", [])) if isinstance(evidence.get("not_claimed"), Sequence) else []
+    projection_not_claimed = evidence_not_claimed if _projection_not_claimed_clean(evidence_not_claimed) else list(NOT_CLAIMED)
     input_pointers = {
         "hardgate": f"{CANONICAL_JSON_ARTIFACT}:$.hardgate",
         "tool_route": f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence",
@@ -1164,13 +1167,14 @@ def build_d4_projection_payload(
         "gates": gates,
         "failed_gate": failed_gate,
         "failed_gate_pointer": None if failed_gate is None else f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection.gates.{failed_gate}",
+        "blocked_reason": None if failed_gate is None else f"blocked-by-{failed_gate}",
         "discovery_level": "D4" if failed_gate is None else "D0",
         "readiness": "ready" if failed_gate is None else "blocked",
         "net_positive_signal": isinstance(tool_route, Mapping) and tool_route.get("net_positive_signal") is True,
         "classifier_surface_delta_pointer": "$.tool_route_evidence.classifier_surface_delta",
         "input_pointers": input_pointers,
         "core_contracts": dict(core_contracts or {}),
-        "not_claimed": list(evidence.get("not_claimed", [])) if isinstance(evidence.get("not_claimed"), Sequence) else [],
+        "not_claimed": projection_not_claimed,
         "forbidden_claim_term_audit": evidence.get("forbidden_claim_term_audit", {}),
         "scope_seal": dict(CLOSED_CLAIM_SCOPE_SEAL),
         "matched_control": {
@@ -1212,6 +1216,8 @@ def validate_d4_projection(payload: Mapping[str, Any], root: Mapping[str, Any] |
         expected_failed = failed[0] if failed else None
         if payload.get("failed_gate") != expected_failed:
             errors.append("DGT D4 projection failed gate mismatch")
+        if payload.get("blocked_reason") != (None if expected_failed is None else f"blocked-by-{expected_failed}"):
+            errors.append("DGT D4 projection blocked reason mismatch")
         if payload.get("discovery_level") != ("D4" if expected_failed is None else "D0"):
             errors.append("DGT D4 projection discovery level mismatch")
         if payload.get("readiness") != ("ready" if expected_failed is None else "blocked"):

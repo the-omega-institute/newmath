@@ -127,6 +127,45 @@ def test_dgt_d4_projection_fails_closed_when_proj_gate_fails():
     assert validate_d4_projection(projection, mutated) == []
 
 
+@pytest.mark.parametrize(
+    ("gate_name", "mutate"),
+    [
+        ("PROJ-HG1", lambda payload: payload["hardgate"].update({"status": "fail"})),
+        ("PROJ-HG2", lambda payload: payload["tool_route_evidence"]["hardgate"].update({"status": "fail"})),
+        ("PROJ-HG3", lambda payload: payload["tool_route_evidence"].update({"net_positive_signal": False})),
+        (
+            "PROJ-HG4",
+            lambda payload: payload["tool_route_evidence"]["classifier_surface_delta"]["route_math_lookup_positive"].update(
+                {"surface_delta_count": 0}
+            ),
+        ),
+        ("PROJ-HG5", lambda payload: payload["family_definition"]["hardgate"].update({"status": "fail"})),
+        ("PROJ-HG6", lambda payload: payload["claim_capsule_ref"].update({"pointer": ""})),
+        ("PROJ-HG7", lambda payload: payload.update({"not_claimed": []})),
+        ("PROJ-HG8", lambda payload: payload["forbidden_claim_term_audit"].update({"status": "fail"})),
+        ("PROJ-HG9", lambda payload: payload.update({"revocation_rows": [{"gate": "terminal_verdict"}]})),
+        ("PROJ-HG10", lambda payload: payload["discovery_map_signal_ref"].update({"pointer": ""})),
+    ],
+)
+def test_dgt_d4_projection_fails_closed_for_each_proj_gate(gate_name, mutate):
+    payload = dgt.build_payload(generated_at="fixture-time")
+    mutated = json.loads(json.dumps(payload))
+    mutate(mutated)
+
+    projection = build_d4_projection_payload(mutated, payload["d4_projection"]["core_contracts"])
+
+    assert projection["gates"][gate_name]["status"] == "fail"
+    assert projection["discovery_level"] == "D0"
+    assert projection["readiness"] == "blocked"
+    assert projection["failed_gate"] == gate_name
+    assert projection["failed_gate_pointer"].endswith(f"$.d4_projection.gates.{gate_name}")
+    assert projection["blocked_reason"] == f"blocked-by-{gate_name}"
+    assert projection["anti_triviality_status"] == "fail"
+    assert projection["anti_triviality_failed_gate"] == gate_name
+    assert projection["claim_basis"]["positive_discovery"] is False
+    assert validate_d4_projection(projection, mutated) == []
+
+
 def test_dgt_d4_projection_rejects_terminal_verdict_surface():
     payload = dgt.build_payload(generated_at="fixture-time")
     mutated = json.loads(json.dumps(payload["d4_projection"]))
