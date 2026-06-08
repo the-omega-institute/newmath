@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Mapping, Sequence
+from typing import Literal, Mapping, Sequence
 
 from .ledger import LedgerRowKey, ledger_complete
 
@@ -20,6 +20,16 @@ CLOSED_CLAIM_SCOPE_SEAL = {
     "real_training": False,
     "production_forbidden": True,
 }
+ORDERED_SCOPE_LEVELS = (
+    "toy",
+    "bounded-design",
+    "backend-evidence",
+    "theorem-backed",
+    "real-training",
+    "production-forbidden",
+)
+SCOPE_LEVEL_RANK = {scope: index for index, scope in enumerate(ORDERED_SCOPE_LEVELS)}
+ScopeGateStatus = Literal["pass", "fail"]
 
 
 @dataclass(frozen=True)
@@ -28,6 +38,38 @@ class Scope:
     model_id: str
     admitted_family_id: str
     behavior_id: str
+
+
+@dataclass(frozen=True)
+class ScopeExpansionEvidence:
+    edge: str
+    pointer: str
+    status: str = "resolved"
+
+
+@dataclass(frozen=True)
+class ScopeExpansionClaim:
+    source_scope: str
+    target_scope: str
+    evidence: Mapping[str, ScopeExpansionEvidence]
+
+
+@dataclass(frozen=True)
+class ScopeExpansionGate:
+    status: ScopeGateStatus
+    reason: str
+    failed_edge: str | None
+    failed_pointer: str | None
+    required_edges: tuple[str, ...]
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "status": self.status,
+            "reason": self.reason,
+            "failed_edge": self.failed_edge,
+            "failed_pointer": self.failed_pointer,
+            "required_edges": list(self.required_edges),
+        }
 
 
 @dataclass(frozen=True)
@@ -47,6 +89,74 @@ class GlobalResolutionClaim:
     behavior_family: frozenset[str]
     certificates: Sequence[ScopedCertificate]
     global_recorded_rows: frozenset[LedgerRowKey]
+
+
+def scope_level_rank(scope: str) -> int | None:
+    return SCOPE_LEVEL_RANK.get(scope)
+
+
+def scope_expansion_edges(source_scope: str, target_scope: str) -> tuple[str, ...]:
+    source_rank = scope_level_rank(source_scope)
+    target_rank = scope_level_rank(target_scope)
+    if source_rank is None or target_rank is None or target_rank <= source_rank:
+        return ()
+    return tuple(
+        f"{ORDERED_SCOPE_LEVELS[index]}->{ORDERED_SCOPE_LEVELS[index + 1]}"
+        for index in range(source_rank, target_rank)
+    )
+
+
+def scope_expansion_gate(claim: ScopeExpansionClaim) -> ScopeExpansionGate:
+    if scope_level_rank(claim.source_scope) is None:
+        return ScopeExpansionGate(
+            status="fail",
+            reason="unknown-source-scope",
+            failed_edge=None,
+            failed_pointer="$.scope_claim.source_scope",
+            required_edges=(),
+        )
+    if scope_level_rank(claim.target_scope) is None:
+        return ScopeExpansionGate(
+            status="fail",
+            reason="unknown-target-scope",
+            failed_edge=None,
+            failed_pointer="$.scope_claim.target_scope",
+            required_edges=(),
+        )
+    required_edges = scope_expansion_edges(claim.source_scope, claim.target_scope)
+    for edge in required_edges:
+        evidence = claim.evidence.get(edge)
+        if evidence is None:
+            return ScopeExpansionGate(
+                status="fail",
+                reason="scope-expansion-evidence-missing",
+                failed_edge=edge,
+                failed_pointer=f"$.scope_evidence.{edge}",
+                required_edges=required_edges,
+            )
+        if evidence.status != "resolved":
+            return ScopeExpansionGate(
+                status="fail",
+                reason="scope-expansion-evidence-missing",
+                failed_edge=edge,
+                failed_pointer=evidence.pointer,
+                required_edges=required_edges,
+            )
+        if not evidence.pointer:
+            return ScopeExpansionGate(
+                status="fail",
+                reason="scope-expansion-evidence-missing",
+                failed_edge=edge,
+                failed_pointer=f"$.scope_evidence.{edge}.pointer",
+                required_edges=required_edges,
+            )
+    return ScopeExpansionGate(
+        status="pass",
+        reason="scope-expansion-evidence-resolved",
+        failed_edge=None,
+        failed_pointer=None,
+        required_edges=required_edges,
+    )
 
 
 def scope_rows(scope: Scope) -> frozenset[LedgerRowKey]:

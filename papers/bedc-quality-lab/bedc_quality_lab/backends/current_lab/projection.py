@@ -40,6 +40,12 @@ from bedc_quality_lab.mechanism_attribution import (
     unresolved_mechanism_evidence_pointers,
 )
 from bedc_quality_lab.research_discovery import DiscoveryLevel, assign_discovery_level
+from bedc_quality_lab.scope import (
+    ScopeExpansionClaim,
+    ScopeExpansionEvidence,
+    ScopeExpansionGate,
+    scope_expansion_gate,
+)
 from bedc_quality_lab.certificate_gated_attention import REQUIRED_PRODUCTION_NOT_CLAIMED
 from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
     GAP_HEAD_ABLATION_ARTIFACT,
@@ -406,6 +412,63 @@ def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
         else:
             return None
     return cursor
+
+
+def _scope_pointer(spec: CanonicalReportSpec, field: str, default: str) -> str:
+    pointer = getattr(spec, field, None)
+    return pointer if isinstance(pointer, str) else default
+
+
+def _scope_claim_payload(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> Mapping[str, Any] | None:
+    value = pointer_value(payload, _scope_pointer(spec, "scope_claim_pointer", "$.scope_claim"))
+    return value if isinstance(value, Mapping) else None
+
+
+def _scope_evidence_payload(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> Mapping[str, Any]:
+    value = pointer_value(payload, _scope_pointer(spec, "scope_evidence_pointer", "$.scope_evidence"))
+    return value if isinstance(value, Mapping) else {}
+
+
+def _scope_expansion_evidence(edge: str, cell: Any, payload: Mapping[str, Any]) -> ScopeExpansionEvidence:
+    if isinstance(cell, Mapping):
+        pointer = cell.get("pointer")
+        status = str(cell.get("status", "resolved"))
+        if isinstance(pointer, str) and pointer.startswith("$.") and pointer_value(payload, pointer) is None:
+            status = "unresolved"
+        return ScopeExpansionEvidence(edge=edge, pointer=pointer if isinstance(pointer, str) else "", status=status)
+    return ScopeExpansionEvidence(edge=edge, pointer="", status="missing")
+
+
+def _scope_expansion_claim(
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+) -> ScopeExpansionClaim | None:
+    claim = _scope_claim_payload(spec, payload)
+    if claim is None:
+        return None
+    source_scope = claim.get("source_scope")
+    target_scope = claim.get("target_scope")
+    if not isinstance(source_scope, str) or not isinstance(target_scope, str):
+        return ScopeExpansionClaim(
+            source_scope=str(source_scope),
+            target_scope=str(target_scope),
+            evidence={},
+        )
+    evidence_payload = _scope_evidence_payload(spec, payload)
+    evidence = {
+        edge: _scope_expansion_evidence(edge, evidence_payload.get(edge), payload)
+        for edge in evidence_payload
+        if isinstance(edge, str)
+    }
+    return ScopeExpansionClaim(source_scope=source_scope, target_scope=target_scope, evidence=evidence)
+
+
+def _scope_expansion_gate_for_payload(
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+) -> ScopeExpansionGate | None:
+    claim = _scope_expansion_claim(spec, payload)
+    return None if claim is None else scope_expansion_gate(claim)
 
 
 def _after_minus_before_debt_delta(payload: Mapping[str, Any]) -> float | None:
@@ -1994,6 +2057,21 @@ def _projection_overlay_and_evidence(
         )
     else:
         overlay, evidence = {}, ProjectionEvidence(projection_status="source-insufficient")
+    if _scope_claim_payload(spec, payload) is not None and evidence.control_pointer is None:
+        evidence = ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer=spec.positive_claim_pointer,
+            evidence_label=evidence.evidence_label,
+            control_pointer=spec.control_pointer,
+            scorecard_pointer=spec.positive_claim_pointer,
+            failed_gate=evidence.failed_gate,
+            debt_row_pointer=evidence.debt_row_pointer,
+            robustness_pointer=evidence.robustness_pointer,
+            adversarial_pointer=evidence.adversarial_pointer,
+            observed_debt_transfer_pointer=evidence.observed_debt_transfer_pointer,
+            d5_readiness=evidence.d5_readiness,
+            canonical_terminal_verdict=evidence.canonical_terminal_verdict,
+        )
     overlay = _with_source_audit_status(overlay, payload)
     return overlay, evidence
 
@@ -2015,6 +2093,12 @@ def projection_payload(
         }
     projected = dict(payload)
     projected.update(overlay)
+    gate = _scope_expansion_gate_for_payload(spec, payload)
+    if gate is not None:
+        projected["scope_gate"] = gate.as_dict()
+        claim = _scope_claim_payload(spec, payload)
+        if claim is not None:
+            projected["scope_claim"] = dict(claim)
     return projected
 
 
@@ -2279,6 +2363,31 @@ def discovery_row(
     if spec.name == "gap-head-transfer-atlas" and audit_status == "invalid":
         discovery_level = "DN"
         terminal_verdict = ""
+    scope_claim = _scope_claim_payload(spec, payload)
+    scope_gate = _scope_expansion_gate_for_payload(spec, payload)
+    if scope_gate is not None and scope_gate.status == "fail" and (
+        discovery_level in {"D4", "D5-O", "D5-M"}
+        or "scope-expansion-evidence-missing" in classifier_reasons
+    ):
+        discovery_level = "DN"
+        terminal_verdict = "negative_discovery"
+        audit_status = "valid"
+        audit_reason = scope_gate.reason
+        classifier_reasons = [scope_gate.reason]
+        evidence = ProjectionEvidence(
+            projection_status=evidence.projection_status,
+            evidence_pointer=evidence.evidence_pointer,
+            evidence_label=evidence.evidence_label,
+            control_pointer=evidence.control_pointer,
+            scorecard_pointer=evidence.scorecard_pointer,
+            failed_gate=scope_gate.failed_pointer or "$.scope_gate.failed_edge",
+            debt_row_pointer=evidence.debt_row_pointer,
+            robustness_pointer=evidence.robustness_pointer,
+            adversarial_pointer=evidence.adversarial_pointer,
+            observed_debt_transfer_pointer=evidence.observed_debt_transfer_pointer,
+            d5_readiness=evidence.d5_readiness,
+            canonical_terminal_verdict=evidence.canonical_terminal_verdict,
+        )
     row: dict[str, Any] = {
         "report": spec.name,
         "json_artifact": spec.json_artifact,
@@ -2309,6 +2418,10 @@ def discovery_row(
         row["observed_debt_transfer_pointer"] = evidence.observed_debt_transfer_pointer
     if evidence.d5_readiness is not None:
         row["d5_readiness"] = evidence.d5_readiness.as_dict()
+    if scope_claim is not None:
+        row["scope_claim"] = dict(scope_claim)
+    if scope_gate is not None:
+        row["scope_gate"] = scope_gate.as_dict()
     if spec.name == "gap-head-attribution-capsule":
         levels = _attribution_capsule_levels(payload)
         if levels is not None:
