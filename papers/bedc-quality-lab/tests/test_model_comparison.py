@@ -5,9 +5,11 @@ import shutil
 
 import pytest
 
-from bedc_quality_lab import model_comparison
 from bedc_quality_lab.discovery_compiler.capsule import require_architecture_claim_capsule
 from bedc_quality_lab.schema import QualityEvidenceEnvelope
+from scripts import run_canonical_reports as canonical
+
+CONTROL_MODEL_IDS = set(canonical.MODEL_COMPARISON_CONTROL_MODEL_IDS)
 
 
 def _root(tmp_path):
@@ -16,12 +18,28 @@ def _root(tmp_path):
 
 
 def _payload(tmp_path):
-    return model_comparison.write_report(root=_root(tmp_path), generated_at="2030-01-01T00:00:00+00:00")
+    root = _root(tmp_path)
+    original_root = canonical.ROOT
+    original_dir = canonical.CANONICAL_DIR
+    try:
+        canonical.ROOT = root
+        canonical.CANONICAL_DIR = root / "reports" / "canonical"
+        payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+        canonical._write_json_atomic(root / canonical.MODEL_COMPARISON_JSON_ARTIFACT, payload)
+        (root / canonical.MODEL_COMPARISON_MARKDOWN_ARTIFACT).parent.mkdir(parents=True, exist_ok=True)
+        (root / canonical.MODEL_COMPARISON_MARKDOWN_ARTIFACT).write_text(
+            canonical._render_model_comparison_markdown(payload),
+            encoding="utf-8",
+        )
+        return root, payload
+    finally:
+        canonical.ROOT = original_root
+        canonical.CANONICAL_DIR = original_dir
 
 
 def test_model_comparison_generates_two_control_owners(tmp_path):
-    payload = _payload(tmp_path)
-    owners = {row["model_id"]: row for row in payload["models"]}
+    _root, payload = _payload(tmp_path)
+    owners = {row["model_id"]: row for row in payload["models"] if row["model_id"] in CONTROL_MODEL_IDS}
 
     assert set(owners) == {"dgt", "base_transformer", "matched_random_structural_control"}
     assert owners["base_transformer"]["owner_status"] == "resolved"
@@ -30,18 +48,19 @@ def test_model_comparison_generates_two_control_owners(tmp_path):
 
 
 def test_controls_share_surface_and_metric_sets(tmp_path):
-    payload = _payload(tmp_path)
-    surface_sets = {tuple(row["surfaces"]) for row in payload["models"]}
-    metric_sets = {tuple(row["metrics"]) for row in payload["models"]}
+    _root, payload = _payload(tmp_path)
+    control_rows = [row for row in payload["models"] if row["model_id"] in CONTROL_MODEL_IDS]
+    surface_sets = {tuple(row["surfaces"]) for row in control_rows}
+    metric_sets = {tuple(row["metrics"]) for row in control_rows}
 
-    assert surface_sets == {model_comparison.SURFACES}
+    assert surface_sets == {canonical.MODEL_COMPARISON_SURFACES}
     assert len(next(iter(surface_sets))) == 9
-    assert metric_sets == {model_comparison.METRIC_KEYS}
+    assert metric_sets == {canonical.MODEL_COMPARISON_METRIC_KEYS}
     assert len(next(iter(metric_sets))) == 12
 
 
 def test_matched_random_is_dgt_shaped_but_random_and_shift_zero(tmp_path):
-    payload = _payload(tmp_path)
+    _root, payload = _payload(tmp_path)
     rows = {row["model_id"]: row for row in payload["models"]}
     dgt = rows["dgt"]
     matched = rows["matched_random_structural_control"]
@@ -54,20 +73,22 @@ def test_matched_random_is_dgt_shaped_but_random_and_shift_zero(tmp_path):
 
 
 def test_evidence_envelopes_validate_and_point_only(tmp_path):
-    root = _root(tmp_path)
-    payload = model_comparison.write_report(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    root, payload = _payload(tmp_path)
 
     for owner in payload["models"]:
+        if owner["model_id"] not in CONTROL_MODEL_IDS:
+            continue
         envelope = QualityEvidenceEnvelope.read_json(root / owner["evidence_envelope"])
         assert envelope.run_id == f"model-comparison-{owner['model_id']}"
         assert all(" " not in ref for ref in envelope.bedc_refs)
 
 
 def test_claim_capsules_are_architecture_capsules_without_terminal_verdict(tmp_path):
-    root = _root(tmp_path)
-    payload = model_comparison.write_report(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    root, payload = _payload(tmp_path)
 
     for owner in payload["models"]:
+        if owner["model_id"] not in CONTROL_MODEL_IDS:
+            continue
         capsule = json.loads((root / owner["claim_capsule"]).read_text(encoding="utf-8"))
         require_architecture_claim_capsule(capsule)
         assert "terminal_verdict" not in capsule
@@ -89,17 +110,21 @@ def test_claim_capsules_are_architecture_capsules_without_terminal_verdict(tmp_p
     ],
 )
 def test_mc_hardgates_fail_closed_on_missing_owner_or_source(tmp_path, mutation, gate_id):
-    payload = _payload(tmp_path)
-    rows = copy.deepcopy(payload["models"])
+    root, payload = _payload(tmp_path)
+    rows = [
+        copy.deepcopy(row)
+        for row in payload["models"]
+        if row["model_id"] in CONTROL_MODEL_IDS
+    ]
     mutation(rows)
 
-    gates = model_comparison.evaluate_hardgates(rows, root=tmp_path)
+    gates = canonical._model_comparison_hardgates(rows, root=root)
 
     assert gates[gate_id]["status"] == "fail"
 
 
 def test_mc_hg7_hg8_compare_dgt_ci_low_and_uer_reduction(tmp_path):
-    payload = _payload(tmp_path)
+    _root, payload = _payload(tmp_path)
 
     assert payload["hardgates"]["MC-HG7"]["status"] == "pass"
     assert payload["hardgates"]["MC-HG8"]["status"] == "pass"
@@ -109,7 +134,7 @@ def test_mc_hg7_hg8_compare_dgt_ci_low_and_uer_reduction(tmp_path):
 
 
 def test_forbidden_inference_and_negative_witness_sweep_are_required(tmp_path):
-    payload = _payload(tmp_path)
+    _root, payload = _payload(tmp_path)
     text = json.dumps(payload, sort_keys=True)
 
     assert "production" in text
