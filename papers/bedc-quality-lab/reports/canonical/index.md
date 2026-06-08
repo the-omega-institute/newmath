@@ -303,6 +303,16 @@
 - Claim capsule: `experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$`
 - Hardgates: `experiments/toy_safety_boundary/reports/runs/toy_safety_boundary/claim_capsule.json:$.hardgates`
 
+## Boundary-Causal-Derivative
+
+- Status: `no_rows_yet`
+- Schema: `reports/canonical/boundary_causal_derivative_schema.json`
+- Spec: `reports/canonical/boundary_causal_derivative_spec.md`
+- Ledger: `reports/canonical/derivative_order_ledger.json`
+- Matrix: `reports/canonical/jet_coverage_matrix.json`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+- Hardgates: `reports/canonical/boundary_causal_derivative_schema.json:$.hardgates`
+
 ## Irreducibility Report
 
 - Status: `pass`
