@@ -24,6 +24,10 @@ from bedc_quality_lab.cost_protocol import load_cost_protocol
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
+from bedc_quality_lab.scope import (
+    ScopeExpansionGate,
+    scope_expansion_gate_for_payload,
+)
 from bedc_quality_lab.verdict import synthesize_certification_verdict
 from scripts.run_canonical_reports import CANONICAL_REPORTS, CanonicalReportSpec, _discovery_map_reports
 from scripts.run_discovery_map import build_discovery_map, pointer_value, projection_payload
@@ -187,6 +191,28 @@ def _scope_laundering_pointer(spec: CanonicalReportSpec, payload: Mapping[str, A
     return None
 
 
+def _scope_expansion_gate_for_payload(
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+) -> ScopeExpansionGate | None:
+    return scope_expansion_gate_for_payload(
+        payload,
+        pointer_value,
+        scope_claim_pointer=getattr(spec, "scope_claim_pointer", None),
+        scope_evidence_pointer=getattr(spec, "scope_evidence_pointer", None),
+    )
+
+
+def _scope_expansion_failure_pointer(root: Path, row: Mapping[str, Any], gate: ScopeExpansionGate) -> str:
+    row_gate = row.get("scope_gate")
+    if isinstance(row_gate, Mapping) and row_gate.get("status") == "fail":
+        return _discovery_map_scope_gate_pointer(root, row)
+    pointer = gate.failed_pointer
+    if isinstance(pointer, str) and pointer.startswith("$."):
+        return f"{row['json_artifact']}:{pointer}"
+    return _discovery_map_scope_gate_pointer(root, row)
+
+
 def _positive_claim_forbidden_pointer(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> str | None:
     if spec.bundle_role != "hg_p_core":
         return None
@@ -309,6 +335,17 @@ def _discovery_map_audit_pointer(root: Path, row: Mapping[str, Any]) -> str:
             and candidate.get("json_artifact") == row.get("json_artifact")
         ):
             return f"reports/canonical/discovery_map.json:$.rows[{index}].audit_status"
+    raise ValueError(f"discovery map ledger row missing for claim: {row['report']}")
+
+
+def _discovery_map_scope_gate_pointer(root: Path, row: Mapping[str, Any]) -> str:
+    rows = _load_discovery_rows(root, generated_at=None)
+    for index, candidate in enumerate(rows):
+        if (
+            candidate.get("report") == row.get("report")
+            and candidate.get("json_artifact") == row.get("json_artifact")
+        ):
+            return f"reports/canonical/discovery_map.json:$.rows[{index}].scope_gate"
     raise ValueError(f"discovery map ledger row missing for claim: {row['report']}")
 
 
@@ -474,6 +511,18 @@ def _mapped_discovery_row(
             ledger_pointer=f"{row['json_artifact']}:{laundering_pointer}",
             scorecard_snapshot=scorecard_snapshot,
         )
+
+    if level in POSITIVE_LEVELS:
+        scope_gate = _scope_expansion_gate_for_payload(spec, payload)
+        if scope_gate is not None and scope_gate.status == "fail":
+            return _row(
+                claim_id=claim_id,
+                claim_verdict="negative_discovery",
+                reason=scope_gate.reason,
+                source=_claim_source(row, "scope_gate"),
+                ledger_pointer=_scope_expansion_failure_pointer(root, row, scope_gate),
+                scorecard_snapshot=scorecard_snapshot,
+            )
 
     projected = _projected_payload(spec=spec, payload=payload, scorecard=scorecard)
     terminal = synthesize_certification_verdict(None, projected, timestamp_iso=generated_at)
