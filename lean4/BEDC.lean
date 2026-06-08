@@ -2756,6 +2756,7 @@ import BEDC.Derived.CompleteMetricSpaceUp.TasteGate
 import BEDC.Derived.CompleteMetricUp
 import BEDC.Derived.CompleteMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
+import BEDC.Derived.CompleteSeparatedMetricUp.LimitUniqueness
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
 import BEDC.Derived.CompleteUltrametricUp.TasteGate
 import BEDC.Derived.CompleteUniformSpaceFilterbaseCompletionUp.TasteGate
@@ -3949,6 +3950,7 @@ import BEDC.Derived.DyadicMetricTriangleUp
 import BEDC.Derived.DyadicMetricTriangleUp.TasteGate
 import BEDC.Derived.DyadicMetricUp.TasteGate
 import BEDC.Derived.DyadicMidpointUp
+import BEDC.Derived.DyadicNestedIntervalSelectorUp.RealHandoff
 import BEDC.Derived.DyadicNestedIntervalSelectorUp.TasteGate
 import BEDC.Derived.DyadicOrderTopologyUp
 import BEDC.Derived.DyadicPartitionUp.TasteGate
@@ -5434,6 +5436,7 @@ import BEDC.Derived.KroneckerLemmaUp.TasteGate
 import BEDC.Derived.KummerTestUp.TasteGate
 import BEDC.Derived.KuratowskiClosureUp.TasteGate
 import BEDC.Derived.KuratowskiClusterSetUp.NetFilterHandoff
+import BEDC.Derived.KuratowskiClusterSetUp.SequentialCompactRoute
 import BEDC.Derived.KuratowskiClusterSetUp.TasteGate
 import BEDC.Derived.KuratowskiCompletionNaturalityUp
 import BEDC.Derived.KuratowskiCompletionNaturalityUp.TasteGate
