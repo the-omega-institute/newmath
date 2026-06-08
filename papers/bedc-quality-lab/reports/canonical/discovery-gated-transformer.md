@@ -1,6 +1,6 @@
 # Discovery-Gated Transformer
 
-- Generated at: `2026-06-08T05:56:50.620080+00:00`
+- Generated at: `2026-06-08T08:16:03.141354+00:00`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Artifact: `bedc-quality-lab:discovery-gated-transformer`
 - Model: `discovery-gated-transformer`
@@ -54,6 +54,19 @@
 | `route_schema_invalid` | `invalid_route` | `block` |
 | `route_secret_unsafe` | `unsafe_route` | `block` |
 | `route_control_neutral` | `neutral_control` | `do-not-admit` |
+
+## Family Definition
+
+- Schema: `bedc-quality-lab:discovery-gated-transformer.family-definition`
+- Owner: `reports/canonical/discovery-gated-transformer.json:$`
+- Hardgate: `pass`
+- Claim status: `definition-recorded`
+
+| group | pointers |
+| --- | --- |
+| `architecture` | `3` |
+| `objective` | `3` |
+| `certificate` | `4` |
 
 ## Sidecars
 

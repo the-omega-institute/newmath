@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-08T05:56:50.620080+00:00`
+- Generated at: `2026-06-08T08:16:03.141354+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -162,6 +162,9 @@
 - Hardgate: `reports/canonical/discovery-gated-transformer.json:$.hardgate`
 - Tool route evidence: `reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence`
 - Tool route hardgate: `reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.hardgate`
+- Family definition: `reports/canonical/discovery-gated-transformer.json:$.family_definition`
+- Family definition hardgate: `reports/canonical/discovery-gated-transformer.json:$.family_definition.hardgate`
+- Model family claim status: `reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status`
 - Not claimed: `reports/canonical/discovery-gated-transformer.json:$.not_claimed`
 - Discovery map signal: `reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal`
 - Claim capsule: `reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref`

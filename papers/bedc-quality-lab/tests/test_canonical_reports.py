@@ -3129,6 +3129,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "architecture_spec",
         "hardgate",
         "tool_route_evidence",
+        "family_definition",
         "discovery_map_signal",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -3143,6 +3144,13 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert payload["architecture_spec"]["architecture_id"] == "discovery-gated-transformer"
     assert payload["tool_route_evidence"]["schema_id"] == "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence"
     assert payload["tool_route_evidence"]["hardgate"]["status"] == "pass"
+    assert payload["family_definition"]["schema_id"] == "bedc-quality-lab:discovery-gated-transformer.family-definition"
+    assert payload["family_definition"]["owner_ref"] == (
+        "reports/canonical/discovery-gated-transformer.json:$"
+    )
+    assert set(payload["family_definition"]["invariant_groups"]) == {"architecture", "objective", "certificate"}
+    assert payload["family_definition"]["hardgate"]["status"] == "pass"
+    assert payload["family_definition"]["model_family_claim_status"]["claim_allowed"] is False
     assert set(payload["component_refs"]) == {
         "hardgate_contract",
         "discovery_gated_nas",
@@ -3193,6 +3201,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "hardgate_pointer",
         "tool_route_evidence_pointer",
         "tool_route_hardgate_pointer",
+        "family_definition_pointer",
+        "family_definition_hardgate_pointer",
+        "model_family_claim_status_pointer",
         "discovery_map_signal_pointer",
         "claim_capsule_ref_pointer",
         "evidence_envelope_ref_pointer",
@@ -3215,6 +3226,15 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     )
     assert section["tool_route_hardgate_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.hardgate"
+    )
+    assert section["family_definition_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_definition"
+    )
+    assert section["family_definition_hardgate_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_definition.hardgate"
+    )
+    assert section["model_family_claim_status_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status"
     )
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in (
@@ -3239,7 +3259,15 @@ def test_discovery_gated_transformer_forbidden_surfaces_absent():
     markdown = canonical._render_discovery_gated_transformer_markdown(payload)
     serialized = json.dumps({"owner": payload, "index": section}, sort_keys=True)
 
-    for forbidden in (".refactor-loop", "host.env", "terminal_verdict", "raw positive claim"):
+    for forbidden in (
+        ".refactor-loop",
+        "host.env",
+        "terminal_verdict",
+        "raw positive claim",
+        "dgt-family-definition",
+        "run_dgt_family_definition",
+        "model_family.py",
+    ):
         assert forbidden.lower() not in serialized.lower()
         assert forbidden.lower() not in markdown.lower()
 
@@ -3283,6 +3311,7 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
     assert "discovery_gated_transformer" not in payload
     assert owner["hardgate"]["status"] == "pass"
     assert owner["tool_route_evidence"]["hardgate"]["status"] == "pass"
+    assert owner["family_definition"]["hardgate"]["status"] == "pass"
     assert (tmp_path / "reports/canonical/discovery-gated-transformer.fingerprint.json").exists()
     pointers = [
         section["model_id_pointer"],
@@ -3291,6 +3320,9 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
         section["hardgate_pointer"],
         section["tool_route_evidence_pointer"],
         section["tool_route_hardgate_pointer"],
+        section["family_definition_pointer"],
+        section["family_definition_hardgate_pointer"],
+        section["model_family_claim_status_pointer"],
         section["discovery_map_signal_pointer"],
         section["claim_capsule_ref_pointer"],
         section["evidence_envelope_ref_pointer"],

@@ -45,6 +45,31 @@ TOOL_ROUTE_REQUIRED_KEYS = (
     "forbidden_alias_audit",
 )
 TOOL_ROUTE_GATE_NAMES = tuple(f"DGT-TOOL-HG{index}" for index in range(1, 7))
+FAMILY_DEFINITION_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.family-definition"
+FAMILY_DEFINITION_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.family-definition"
+FAMILY_DEFINITION_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$"
+FAMILY_DEFINITION_POINTER = f"{CANONICAL_JSON_ARTIFACT}:$.family_definition"
+FAMILY_DEFINITION_REQUIRED_KEYS = (
+    "schema_id",
+    "artifact_id",
+    "owner_ref",
+    "slot_state",
+    "definition_scope",
+    "invariant_groups",
+    "hardgate",
+    "model_family_claim_status",
+    "not_claimed",
+    "forbidden_claim_term_audit",
+)
+FAMILY_DEFINITION_GROUPS = ("architecture", "objective", "certificate")
+FAMILY_DEFINITION_GATE_NAMES = tuple(f"DGT-FAMILY-HG{index}" for index in range(1, 5))
+FAMILY_DEFINITION_FORBIDDEN_TERMS = (
+    "global superiority",
+    "architecture superiority",
+    "production authority",
+    "universal training recipe",
+    "terminal verdict",
+)
 CLAIMED_POSITIVE_ROUTE_CLASSES = frozenset({"valid_positive_discovery"})
 BLOCKED_ROUTE_CLASSES = frozenset({"invalid_route", "unsafe_route"})
 TOOL_ROUTE_RECURSIVE_FORBIDDEN_TOKENS = (
@@ -144,6 +169,172 @@ def default_discovery_map_signal() -> dict[str, Any]:
         "evidence": _cell(CANONICAL_JSON_ARTIFACT, "$.hardgate.status"),
         "map_ref": _cell("reports/canonical/discovery_map.json", "$.coverage_matrix"),
     }
+
+
+def _default_family_definition_groups() -> dict[str, dict[str, Any]]:
+    return {
+        "architecture": {
+            "group_id": "architecture",
+            "required": True,
+            "evidence_pointers": [
+                f"{CANONICAL_JSON_ARTIFACT}:$.model_id",
+                f"{CANONICAL_JSON_ARTIFACT}:$.architecture_spec",
+                f"{CANONICAL_JSON_ARTIFACT}:$.component_refs",
+            ],
+        },
+        "objective": {
+            "group_id": "objective",
+            "required": True,
+            "evidence_pointers": [
+                f"{CANONICAL_JSON_ARTIFACT}:$.discovery_map_signal",
+                f"{CANONICAL_JSON_ARTIFACT}:$.hardgate",
+                f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence",
+            ],
+        },
+        "certificate": {
+            "group_id": "certificate",
+            "required": True,
+            "evidence_pointers": [
+                f"{CANONICAL_JSON_ARTIFACT}:$.claim_capsule_ref",
+                f"{CANONICAL_JSON_ARTIFACT}:$.evidence_envelope_ref",
+                f"{CANONICAL_JSON_ARTIFACT}:$.mechanism_namecert_ref",
+                f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref",
+            ],
+        },
+    }
+
+
+def _family_definition_gate_rows(payload: Mapping[str, Any], failed: Sequence[str]) -> dict[str, dict[str, Any]]:
+    failed_set = set(failed)
+    evidence_pointers = {
+        "DGT-FAMILY-HG1": "$.family_definition.invariant_groups.architecture",
+        "DGT-FAMILY-HG2": "$.family_definition.invariant_groups.objective",
+        "DGT-FAMILY-HG3": "$.family_definition.invariant_groups.certificate",
+        "DGT-FAMILY-HG4": "$.family_definition.forbidden_claim_term_audit",
+    }
+    del payload
+    return {
+        gate_name: {
+            "status": "fail" if gate_name in failed_set else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence_pointers[gate_name]),
+        }
+        for gate_name in FAMILY_DEFINITION_GATE_NAMES
+    }
+
+
+def _forbidden_family_definition_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
+    serialized = json.dumps(
+        {
+            "definition_scope": payload.get("definition_scope"),
+            "model_family_claim_status": payload.get("model_family_claim_status"),
+            "not_claimed": payload.get("not_claimed"),
+        },
+        sort_keys=True,
+    ).lower()
+    hits = [term for term in FAMILY_DEFINITION_FORBIDDEN_TERMS if term in serialized]
+    return {
+        "status": "pass" if not hits else "fail",
+        "hits": hits,
+        "forbidden_terms": list(FAMILY_DEFINITION_FORBIDDEN_TERMS),
+    }
+
+
+def evaluate_dgt_family_definition_hardgate(payload: Mapping[str, Any]) -> dict[str, Any]:
+    failed: list[str] = []
+    groups = payload.get("invariant_groups")
+    groups = groups if isinstance(groups, Mapping) else {}
+    for index, group_name in enumerate(FAMILY_DEFINITION_GROUPS, start=1):
+        group = groups.get(group_name)
+        pointers = group.get("evidence_pointers") if isinstance(group, Mapping) else None
+        if (
+            not isinstance(group, Mapping)
+            or group.get("group_id") != group_name
+            or group.get("required") is not True
+            or not isinstance(pointers, list)
+            or not pointers
+            or any(not isinstance(pointer, str) or not pointer.startswith(f"{CANONICAL_JSON_ARTIFACT}:$") for pointer in pointers)
+        ):
+            failed.append(f"DGT-FAMILY-HG{index}")
+    audit = payload.get("forbidden_claim_term_audit")
+    expected_audit = _forbidden_family_definition_claim_term_audit(payload)
+    if not isinstance(audit, Mapping) or dict(audit) != expected_audit or expected_audit["status"] != "pass":
+        failed.append("DGT-FAMILY-HG4")
+    failed_gate = sorted(set(failed), key=FAMILY_DEFINITION_GATE_NAMES.index)
+    return {
+        "status": "pass" if not failed_gate else "fail",
+        "gate_names": list(FAMILY_DEFINITION_GATE_NAMES),
+        "gates": _family_definition_gate_rows(payload, failed_gate),
+        "failed_gate": failed_gate,
+    }
+
+
+def _family_claim_status_from_hardgate(hardgate: Mapping[str, Any]) -> dict[str, Any]:
+    if hardgate.get("status") == "pass":
+        return {
+            "status": "definition-recorded",
+            "claim_scope": "structural pointer definition only",
+            "claim_allowed": False,
+        }
+    return {
+        "status": "blocked",
+        "claim_scope": "structural pointer definition only",
+        "claim_allowed": False,
+        "blocked_by": list(hardgate.get("failed_gate", [])),
+    }
+
+
+def build_dgt_family_definition() -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "schema_id": FAMILY_DEFINITION_SCHEMA_ID,
+        "artifact_id": FAMILY_DEFINITION_ARTIFACT_ID,
+        "owner_ref": FAMILY_DEFINITION_OWNER_REF,
+        "slot_state": "present-fail-closed",
+        "definition_scope": "bounded DGT structural family definition",
+        "invariant_groups": _default_family_definition_groups(),
+        "hardgate": {},
+        "model_family_claim_status": {},
+        "not_claimed": [
+            "The family definition is a pointer bundle inside the DGT owner.",
+            "The family definition is not a standalone report, runner, backend, registry, or host setting.",
+            "The family definition does not admit deployment, promotion, or external authority.",
+        ],
+        "forbidden_claim_term_audit": {},
+    }
+    payload["forbidden_claim_term_audit"] = _forbidden_family_definition_claim_term_audit(payload)
+    payload["hardgate"] = evaluate_dgt_family_definition_hardgate(payload)
+    payload["model_family_claim_status"] = _family_claim_status_from_hardgate(payload["hardgate"])
+    payload["forbidden_claim_term_audit"] = _forbidden_family_definition_claim_term_audit(payload)
+    payload["hardgate"] = evaluate_dgt_family_definition_hardgate(payload)
+    validate_dgt_family_definition(payload)
+    return payload
+
+
+def validate_dgt_family_definition(payload: Mapping[str, Any]) -> None:
+    if set(payload) != set(FAMILY_DEFINITION_REQUIRED_KEYS):
+        raise ValueError("DGT family definition fields mismatch")
+    if payload["schema_id"] != FAMILY_DEFINITION_SCHEMA_ID or payload["artifact_id"] != FAMILY_DEFINITION_ARTIFACT_ID:
+        raise ValueError("DGT family definition identity mismatch")
+    if payload["owner_ref"] != FAMILY_DEFINITION_OWNER_REF:
+        raise ValueError("DGT family definition owner pointer mismatch")
+    if payload["slot_state"] != "present-fail-closed":
+        raise ValueError("DGT family definition slot state mismatch")
+    groups = payload["invariant_groups"]
+    if not isinstance(groups, Mapping) or set(groups) != set(FAMILY_DEFINITION_GROUPS):
+        raise ValueError("DGT family definition invariant groups mismatch")
+    for group_name, group in groups.items():
+        if not isinstance(group, Mapping) or set(group) != {"group_id", "required", "evidence_pointers"}:
+            raise ValueError(f"DGT family definition group schema mismatch: {group_name}")
+    expected_hardgate = evaluate_dgt_family_definition_hardgate(payload)
+    if payload["hardgate"] != expected_hardgate:
+        raise ValueError("DGT family definition hardgate mismatch")
+    if expected_hardgate["status"] != "pass":
+        raise ValueError("DGT family definition hardgate failed")
+    expected_claim_status = _family_claim_status_from_hardgate(expected_hardgate)
+    if payload["model_family_claim_status"] != expected_claim_status:
+        raise ValueError("DGT family definition claim status mismatch")
+    found = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict"))
+    if found is not None:
+        raise ValueError(f"DGT family definition contains forbidden value: {found}")
 
 
 def sidecar_refs() -> dict[str, dict[str, str]]:
@@ -546,6 +737,7 @@ class DiscoveryGatedTransformerProjector:
             "architecture_spec": default_architecture_spec(),
             "hardgate": {"status": "pass", "gate_names": list(GATE_NAMES), "gates": _gate_rows(self.component_refs)},
             "tool_route_evidence": build_dgt_tool_route_evidence(generated_at=generated_at),
+            "family_definition": build_dgt_family_definition(),
             "discovery_map_signal": default_discovery_map_signal(),
             **sidecar_refs(),
             "not_claimed": list(NOT_CLAIMED),
@@ -569,6 +761,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "architecture_spec",
         "hardgate",
         "tool_route_evidence",
+        "family_definition",
         "discovery_map_signal",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -583,6 +776,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     if payload["model_id"] != MODEL_ID:
         raise ValueError("DGT model identity mismatch")
     validate_dgt_tool_route_evidence(payload["tool_route_evidence"])
+    validate_dgt_family_definition(payload["family_definition"])
     found = _has_recursive_key(payload, REJECTED_INLINE_KEYS)
     if found is not None:
         raise ValueError(f"DGT projection contains inline source body key: {found}")
@@ -657,6 +851,23 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     )
     for row in tool_route["synthetic_tool_call_grid"]:
         lines.append(f"| `{row['route_id']}` | `{row['route_class']}` | `{row['admission_decision']}` |")
+    family_definition = payload["family_definition"]
+    lines.extend(
+        [
+            "",
+            "## Family Definition",
+            "",
+            f"- Schema: `{family_definition['schema_id']}`",
+            f"- Owner: `{family_definition['owner_ref']}`",
+            f"- Hardgate: `{family_definition['hardgate']['status']}`",
+            f"- Claim status: `{family_definition['model_family_claim_status']['status']}`",
+            "",
+            "| group | pointers |",
+            "| --- | --- |",
+        ]
+    )
+    for group_name, group in family_definition["invariant_groups"].items():
+        lines.append(f"| `{group_name}` | `{len(group['evidence_pointers'])}` |")
     lines.extend(
         [
             "",
