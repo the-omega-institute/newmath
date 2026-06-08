@@ -19,9 +19,10 @@ if str(ROOT) not in sys.path:
 from bedc_quality_lab.artifact_freshness import ScorecardSnapshot, load_scorecard_snapshot
 from bedc_quality_lab.claim_acceptance import validate_dn_owner_cell, validate_positive_claim_evidence
 from bedc_quality_lab.claim_graph import terminal_node_id_for_claim_id
-from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS, HIGH_IMPACT_CLAIM_TERMS
+from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.cost_protocol import load_cost_protocol
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.scope import (
@@ -81,14 +82,6 @@ DIMENSION_MISMATCH_COST_POINTER = "$.source_artifacts"
 DIMENSION_MISMATCH_NOT_CLAIMED_POINTER = "$.not_claimed"
 DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER = "$.dimension_mismatch_debt_transfer"
 DIMENSION_MISMATCH_CONTROL_POINTER = "$.control_protocol"
-HIGH_IMPACT_REVIEW_POINTERS = (
-    "$.high_impact_claim_review.scope_review_pointer",
-    "$.high_impact_claim_review.risk_ledger_pointer",
-    "$.high_impact_claim_review.external_validation_pointer",
-)
-HIGH_IMPACT_DOMAINS_POINTER = "$.high_impact_claim_review.impact_domains"
-HIGH_IMPACT_DOMAINS = frozenset({"safety", "production", "real_model"})
-
 
 @dataclass(frozen=True)
 class ClaimSource:
@@ -185,53 +178,6 @@ def _text_for_term_scan(value: Any) -> str:
 def _forbidden_hits(value: Any) -> list[str]:
     text = _text_for_term_scan(value)
     return [term for term in FORBIDDEN_POSITIVE_CLAIM_TERMS if term.lower() in text]
-
-
-def _high_impact_domain_hits(value: Any) -> list[str]:
-    if not isinstance(value, Sequence) or isinstance(value, (str, bytes)):
-        return []
-    return [str(item) for item in value if isinstance(item, str) and item in HIGH_IMPACT_DOMAINS]
-
-
-def _high_impact_term_hits(value: Any) -> list[str]:
-    text = _text_for_term_scan(value)
-    return [term for term in HIGH_IMPACT_CLAIM_TERMS if term in text]
-
-
-def _is_high_impact_claim(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> bool:
-    if spec.bundle_role != "hg_p_core":
-        return False
-    domains = pointer_value(payload, HIGH_IMPACT_DOMAINS_POINTER)
-    if _high_impact_domain_hits(domains):
-        return True
-    claim = pointer_value(payload, spec.positive_claim_pointer)
-    return bool(_high_impact_term_hits(claim))
-
-
-def _high_impact_review_failure_pointer(
-    root: Path,
-    spec: CanonicalReportSpec,
-    payload: Mapping[str, Any],
-) -> str | None:
-    if not _is_high_impact_claim(spec, payload):
-        return None
-    review = pointer_value(payload, "$.high_impact_claim_review")
-    if not isinstance(review, Mapping):
-        return "$.high_impact_claim_review"
-    domains = pointer_value(payload, HIGH_IMPACT_DOMAINS_POINTER)
-    if domains is not None:
-        unknown_domains = [
-            str(item)
-            for item in domains
-            if not isinstance(item, str) or item not in HIGH_IMPACT_DOMAINS
-        ] if isinstance(domains, Sequence) and not isinstance(domains, (str, bytes)) else ["impact_domains"]
-        if unknown_domains:
-            return HIGH_IMPACT_DOMAINS_POINTER
-    for pointer in HIGH_IMPACT_REVIEW_POINTERS:
-        cell = pointer_value(payload, pointer)
-        if not isinstance(cell, str) or resolve_artifact_pointer(root, cell) is None:
-            return pointer
-    return None
 
 
 def _scope_laundering_pointer(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> str | None:
@@ -678,7 +624,7 @@ def _mapped_discovery_row(
                     ledger_pointer=evidence_result.ledger_pointer,
                     scorecard_snapshot=scorecard_snapshot,
                 )
-            high_impact_failure = _high_impact_review_failure_pointer(root, spec, payload)
+            high_impact_failure = high_impact_review_failure_pointer(root, spec, payload)
             if high_impact_failure is not None:
                 return _row(
                     claim_id=claim_id,
