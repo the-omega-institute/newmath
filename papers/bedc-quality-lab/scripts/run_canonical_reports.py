@@ -868,6 +868,11 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "component_ablation",
             "training_method_comparison",
             "drt_extension_hardgates",
+            "jet_loss_protocol",
+            "jet_loss_surface",
+            "jet_ablation",
+            "jet_loss_frontier",
+            "jet_sidecar_artifacts",
             "hardgate",
             "failed_gate",
             "discovery_map_signal",
@@ -3194,6 +3199,113 @@ def _validate_discovery_regularized_training_mechanism_cert(payload: Mapping[str
         raise ValueError("discovery_regularized_training DRT-HG9 status mismatch")
 
 
+def _validate_discovery_regularized_training_jet(payload: Mapping[str, Any]) -> None:
+    protocol = payload.get("jet_loss_protocol")
+    surface = payload.get("jet_loss_surface")
+    ablation = payload.get("jet_ablation")
+    frontier = payload.get("jet_loss_frontier")
+    sidecars = payload.get("jet_sidecar_artifacts")
+    if not all(isinstance(section, Mapping) for section in (protocol, surface, ablation, frontier, sidecars)):
+        raise ValueError("discovery_regularized_training jet sections must be objects")
+    expected_protocol = {
+        "lambda_ledger",
+        "lambda_certificate",
+        "lambda_jet",
+        "lambda_witness",
+        "lambda_debt",
+        "required_order",
+        "max_noise_order",
+        "shortcut_controls",
+        "thresholds",
+        "owner_pointer",
+        "protocol_pointer",
+        "sidecar_schema_id",
+    }
+    if set(protocol) != expected_protocol:
+        raise ValueError("discovery_regularized_training jet protocol fields invalid")
+    if protocol["owner_pointer"] != _drt_quality_artifact_pointer("$.jet_loss_protocol"):
+        raise ValueError("discovery_regularized_training jet protocol owner pointer mismatch")
+    thresholds = protocol.get("thresholds")
+    expected_thresholds = {
+        "required_order_gain_min",
+        "order_one_degradation_floor",
+        "shortcut_reduction_max",
+        "matched_random_jet_gain_max",
+        "quality_ci_low_min",
+    }
+    if not isinstance(thresholds, Mapping) or set(thresholds) != expected_thresholds:
+        raise ValueError("discovery_regularized_training jet thresholds mismatch")
+    for pointer in (
+        surface.get("protocol_pointer"),
+        surface.get("records_pointer"),
+        surface.get("classifier_surface_delta_pointer"),
+        ablation.get("protocol_pointer"),
+        frontier.get("protocol_pointer"),
+        frontier.get("required_order_gain_pointer"),
+    ):
+        if _drt_pointer_value(payload, str(pointer)) is None:
+            raise ValueError("discovery_regularized_training jet pointer does not resolve")
+    metrics = surface.get("metrics")
+    if not isinstance(metrics, Mapping):
+        raise ValueError("discovery_regularized_training jet metrics missing")
+    required_delta = _as_finite_number(metrics.get("drt_jet_minus_drt_required_order_gain"))
+    order_one_delta = _as_finite_number(metrics.get("drt_jet_minus_drt_order_one_gain"))
+    shortcut_fraction = _as_finite_number(metrics.get("shortcut_reduction_fraction"))
+    matched_gain = _as_finite_number(metrics.get("matched_random_jet_gain"))
+    quality_ci_low = _as_finite_number(metrics.get("quality_q_ci_low"))
+    expected_surface_status = (
+        "pass"
+        if required_delta is not None
+        and required_delta >= float(thresholds["required_order_gain_min"])
+        and order_one_delta is not None
+        and order_one_delta >= float(thresholds["order_one_degradation_floor"])
+        and shortcut_fraction is not None
+        and shortcut_fraction <= float(thresholds["shortcut_reduction_max"])
+        and matched_gain is not None
+        and matched_gain <= float(thresholds["matched_random_jet_gain_max"])
+        and quality_ci_low is not None
+        and quality_ci_low > float(thresholds["quality_ci_low_min"])
+        else "fail"
+    )
+    if surface.get("status") != expected_surface_status or ablation.get("status") != expected_surface_status or frontier.get("status") != expected_surface_status:
+        raise ValueError("discovery_regularized_training jet section status mismatch")
+    if surface.get("net_positive_signal") is not True:
+        raise ValueError("discovery_regularized_training jet net positive signal missing")
+    if not isinstance(surface.get("by_arm"), Mapping) or "drt_jet" not in surface["by_arm"]:
+        raise ValueError("discovery_regularized_training jet arm summary missing")
+    gates = payload.get("hardgate", {}).get("gates", {}) if isinstance(payload.get("hardgate"), Mapping) else {}
+    expected_gates = {
+        "DRTJ-HG1": (
+            required_delta is not None
+            and required_delta >= float(thresholds["required_order_gain_min"])
+            and matched_gain is not None
+            and matched_gain <= float(thresholds["matched_random_jet_gain_max"])
+        ),
+        "DRTJ-HG2": order_one_delta is not None and order_one_delta >= float(thresholds["order_one_degradation_floor"]),
+        "DRTJ-HG3": shortcut_fraction is not None and shortcut_fraction <= float(thresholds["shortcut_reduction_max"]),
+        "DRTJ-HG4": matched_gain is not None and matched_gain <= float(thresholds["matched_random_jet_gain_max"]),
+        "DRTJ-HG5": quality_ci_low is not None and quality_ci_low > float(thresholds["quality_ci_low_min"]),
+    }
+    for gate, passes in expected_gates.items():
+        row = gates.get(gate) if isinstance(gates, Mapping) else None
+        if not isinstance(row, Mapping):
+            raise ValueError(f"discovery_regularized_training {gate} missing")
+        if row.get("status") != ("pass" if passes else "fail"):
+            raise ValueError(f"discovery_regularized_training {gate} status mismatch")
+        if _bracket_pointer_value(payload, str(row.get("evidence_pointer"))) is None:
+            raise ValueError(f"discovery_regularized_training {gate} evidence pointer does not resolve")
+    expected_sidecars = {
+        "schema_id": "bedc-quality-lab:discovery-regularized-training:jet-sidecar",
+        "owner_artifact_id": "bedc-quality-lab:discovery-regularized-training",
+        "owner_pointer": _drt_quality_artifact_pointer("$.jet_loss_surface"),
+        "jet_loss_surface": "reports/canonical/discovery_regularized_training_jet.json",
+        "jet_ablation": "reports/canonical/drt_jet_ablation.md",
+        "jet_loss_frontier": "reports/canonical/jet_loss_frontier.json",
+    }
+    if dict(sidecars) != expected_sidecars:
+        raise ValueError("discovery_regularized_training jet sidecar artifacts mismatch")
+
+
 def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any]) -> None:
     _validate_discovery_regularized_training_quality_promotion_boundary(payload)
     _validate_discovery_regularized_training_extension(payload)
@@ -3201,6 +3313,7 @@ def _validate_discovery_regularized_training_payload(payload: Mapping[str, Any])
     _validate_discovery_regularized_training_certificate_guided_preservation(payload)
     _validate_discovery_regularized_training_mechanism_ablation(payload)
     _validate_discovery_regularized_training_mechanism_cert(payload)
+    _validate_discovery_regularized_training_jet(payload)
 
 
 def _discovery_regularized_training_quality_boundary_index_section(payload: Mapping[str, Any] | None = None) -> dict[str, Any]:

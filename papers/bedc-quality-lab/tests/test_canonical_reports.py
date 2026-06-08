@@ -611,6 +611,7 @@ def _payload_for_spec(spec):
             }
         )
     if spec.name == "discovery-regularized-training":
+        return runner.build_projection(generated_at="fixture-time")["summary_payload"]
         payload.update(
             {
                 "config": {
@@ -3180,6 +3181,20 @@ def test_drt_canonical_spec_has_no_companion_artifacts():
     }
     assert forbidden_names.isdisjoint(names)
     assert all(re.search(r"\bdrt[-_]?v\d+\b", name) is None for name in names)
+
+
+def test_drt_jet_sidecar_artifacts_stay_under_single_canonical_owner():
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    json_artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+    markdown_artifacts = {spec.markdown_artifact for spec in canonical.CANONICAL_REPORTS}
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+
+    assert "discovery-regularized-training-jet" not in names
+    assert payload["jet_sidecar_artifacts"]["jet_loss_surface"] not in json_artifacts
+    assert payload["jet_sidecar_artifacts"]["jet_loss_frontier"] not in json_artifacts
+    assert payload["jet_sidecar_artifacts"]["jet_ablation"] not in markdown_artifacts
+    assert payload["jet_sidecar_artifacts"]["owner_artifact_id"] == payload["artifact_id"]
+    assert payload["jet_sidecar_artifacts"]["owner_pointer"].endswith("$.jet_loss_surface")
 
 
 def test_discovery_regularized_training_regen_idempotent_with_extension_sections(tmp_path):
