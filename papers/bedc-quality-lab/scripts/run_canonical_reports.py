@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import argparse
 import ast
-from dataclasses import asdict, dataclass, replace
+from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 import hashlib
 import importlib
@@ -17,7 +17,8 @@ import sys
 from typing import Any, Literal, Mapping, Sequence
 
 
-ROOT = Path(__file__).resolve().parents[1]
+SOURCE_ROOT = Path(__file__).resolve().parents[1]
+ROOT = SOURCE_ROOT
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -47,6 +48,8 @@ INDEX_SCHEMA_ID = "bedc-quality-lab:canonical-report-index"
 FINGERPRINT_SCHEMA_ID = "bedc-quality-lab:canonical-report-fingerprint"
 FINGERPRINT_INPUT_SCHEMA_ID = "bedc-quality-lab:canonical-report-input-fingerprint"
 INDEX_ROOT = "papers/bedc-quality-lab"
+REPORTING_HARDGATE_ID = "HG-P-REPORTING-DISCIPLINE"
+REPORTING_REQUIRED_CELLS = ("claim_capsule", "cost_protocol", "not_claimed")
 QUALITY_SCORECARD_JSON_ARTIFACT = "reports/canonical/quality-scorecard.json"
 QUALITY_SCORECARD_MARKDOWN_ARTIFACT = "reports/canonical/quality-scorecard.md"
 QUALITY_SCORECARD_ARTIFACT_ID = "bedc-quality-lab:quality-scorecard"
@@ -154,6 +157,20 @@ ANTI_TRIVIALITY_REQUIRED_KEYS = (
     "anti_triviality_recommended_level",
     "anti_triviality_policy",
 )
+
+CANONICAL_REPORT_CLAIM_CAPSULE_POINTERS = {
+    "ledger-aware-transformer": "$.claim_capsule_ref",
+    "certificate-gated-attention": "$.source_artifacts.claim_capsule",
+    "gap-head-transfer-atlas": "$.config.claim_capsule_artifact",
+    "gap-head-attribution-capsule": "$.source_artifacts.run_artifacts.claim_capsule",
+    "certificate-guided-training": "$.claim_capsule",
+    "sigreg-training-proxy": "$.claim_capsule_ref",
+    "sigreg-mini-grid": "$.run_artifacts.claim_capsule",
+    "discovery-regularized-training": "$.source_artifacts.claim_capsule",
+    "mechanism-seeking-network": "$.source_artifacts.claim_capsule",
+    "discovery-gated-nas": "$.source_artifacts.claim_capsule",
+    "discovery-gated-transformer": "$.claim_capsule_ref",
+}
 
 
 @dataclass(**{"froz" + "en": True})
@@ -314,6 +331,13 @@ class CanonicalReportSpec:
     positive_claim_pointer: str
     control_pointer: str | None
     no_control_rationale_pointer: str | None
+    claim_capsule_pointer: str | None = None
+    evidence_envelope_pointer: str | None = None
+    backend_pointer: str | None = None
+    discovery_level_pointer: str | None = None
+    claim_graph_path_pointer: str | None = None
+    negative_witness_pointer: str | None = None
+    formal_status_pointer: str | None = None
     forbidden_claim_terms: tuple[str, ...] = FORBIDDEN_POSITIVE_CLAIM_TERMS
     literature_ref_ids: tuple[str, ...] = ()
 
@@ -1490,6 +1514,26 @@ def _source_artifact_inputs(spec: CanonicalReportSpec) -> list[dict[str, str]]:
     return [{"path": path, "sha256": _path_digest(ROOT / path)} for path in sorted(paths)]
 
 
+def _producer_spec_record(spec: CanonicalReportSpec) -> dict[str, Any]:
+    return {
+        "name": spec.name,
+        "command": list(spec.command),
+        "json_artifact": spec.json_artifact,
+        "markdown_artifact": spec.markdown_artifact,
+        "required_json_keys": list(spec.required_json_keys),
+        "estimated_seconds": spec.estimated_seconds,
+        "bundle_role": spec.bundle_role,
+        "scope_pointer": spec.scope_pointer,
+        "cost_pointer": spec.cost_pointer,
+        "not_claimed_pointer": spec.not_claimed_pointer,
+        "positive_claim_pointer": spec.positive_claim_pointer,
+        "control_pointer": spec.control_pointer,
+        "no_control_rationale_pointer": spec.no_control_rationale_pointer,
+        "forbidden_claim_terms": list(spec.forbidden_claim_terms),
+        "literature_ref_ids": list(spec.literature_ref_ids),
+    }
+
+
 def _input_record(spec: CanonicalReportSpec) -> dict[str, Any]:
     payload = _load_artifact_payload(spec.json_artifact) if _artifact_path(spec.json_artifact).exists() else {}
     schema_id = payload.get("schema_id") or payload.get("artifact_id") if isinstance(payload, dict) else None
@@ -1498,7 +1542,7 @@ def _input_record(spec: CanonicalReportSpec) -> dict[str, Any]:
         "fingerprint_schema_id": FINGERPRINT_INPUT_SCHEMA_ID,
         "runner_fingerprint_schema_id": FINGERPRINT_SCHEMA_ID,
         "report_output_schema_id": str(schema_id or "schema-unspecified"),
-        "spec": _json_normalized(asdict(spec)),
+        "spec": _json_normalized(_producer_spec_record(spec)),
         "producer_sources": [{"path": path, "sha256": _path_digest(ROOT / path)} for path in import_paths],
         "config_inputs": _config_inputs(),
         "source_artifacts": _source_artifact_inputs(spec),
@@ -2161,6 +2205,183 @@ def _pointer_status(payload: dict[str, Any], pointer: str | None) -> str:
     return "present" if _pointer_value(payload, pointer) is not None else "missing"
 
 
+def _default_claim_capsule_pointer(spec: CanonicalReportSpec) -> str | None:
+    return CANONICAL_REPORT_CLAIM_CAPSULE_POINTERS.get(spec.name, spec.positive_claim_pointer)
+
+
+def _default_evidence_envelope_pointer(spec: CanonicalReportSpec) -> str:
+    return f"{spec.json_artifact}:{spec.positive_claim_pointer}"
+
+
+def _default_backend_pointer(spec: CanonicalReportSpec) -> str:
+    return f"{spec.json_artifact}:$"
+
+
+def _default_discovery_level_pointer(spec: CanonicalReportSpec) -> str:
+    return f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[?report={spec.name}].discovery_level"
+
+
+def _default_claim_graph_path_pointer(spec: CanonicalReportSpec) -> str:
+    node_id = spec.name.replace("_", "-")
+    return f"{CLAIM_GRAPH_JSON_ARTIFACT}:$.nodes[?node_id=terminal:{node_id}]"
+
+
+def _default_negative_witness_pointer(spec: CanonicalReportSpec) -> str | None:
+    if spec.bundle_role != "hg_p_core":
+        return None
+    return f"{NEGATIVE_WITNESS_SUMMARY_JSON_ARTIFACT}:$.rows[?report={spec.name}]"
+
+
+def _default_formal_status_pointer(spec: CanonicalReportSpec) -> str:
+    return f"{FORMAL_HARDENING_JSON_ARTIFACT}:$.rows[?report={spec.name}]"
+
+
+def _reporting_pointer_for(spec: CanonicalReportSpec, field: str) -> str | None:
+    explicit = getattr(spec, field)
+    if explicit is not None:
+        return explicit
+    if field == "claim_capsule_pointer":
+        return _default_claim_capsule_pointer(spec)
+    if field == "evidence_envelope_pointer":
+        return _default_evidence_envelope_pointer(spec)
+    if field == "backend_pointer":
+        return _default_backend_pointer(spec)
+    if field == "discovery_level_pointer":
+        return _default_discovery_level_pointer(spec)
+    if field == "claim_graph_path_pointer":
+        return _default_claim_graph_path_pointer(spec)
+    if field == "negative_witness_pointer":
+        return _default_negative_witness_pointer(spec)
+    if field == "formal_status_pointer":
+        return _default_formal_status_pointer(spec)
+    raise ValueError(f"unknown reporting pointer field: {field}")
+
+
+def _source_artifact_for_pointer(spec: CanonicalReportSpec, pointer: str | None) -> str | None:
+    if pointer is None:
+        return None
+    split = _split_artifact_pointer(pointer)
+    if split is not None:
+        return split[0]
+    return spec.json_artifact if pointer.startswith("$.") else None
+
+
+def _artifact_pointer_resolves(pointer: str) -> bool:
+    split = _split_artifact_pointer(pointer)
+    if split is None:
+        return False
+    return _resolve_committed_artifact_pointer(ROOT, pointer) is not None
+
+
+def _reporting_pointer_resolves(payload: Mapping[str, Any], pointer: str | None) -> bool:
+    if pointer is None:
+        return False
+    split = _split_artifact_pointer(pointer)
+    if split is not None:
+        return _resolve_committed_artifact_pointer(ROOT, pointer) is not None
+    if not pointer.startswith("$."):
+        return False
+    value = _pointer_value(dict(payload), pointer)
+    if value is None:
+        return False
+    if isinstance(value, str) and value.endswith(".json"):
+        return _artifact_pointer_resolves(f"{value}:$")
+    return True
+
+
+def _reporting_cell(
+    payload: Mapping[str, Any],
+    pointer: str | None,
+    *,
+    source_artifact: str | None = None,
+) -> dict[str, str | None]:
+    if pointer is None:
+        status = "not-applicable"
+    elif _reporting_pointer_resolves(payload, pointer):
+        status = "present"
+    else:
+        status = "missing"
+    return {
+        "pointer": pointer,
+        "source_artifact": source_artifact,
+        "status": status,
+    }
+
+
+def _reporting_hardgate_status(gate: Mapping[str, Any]) -> Literal["pass", "fail", "not-applicable"]:
+    applicability = gate.get("applicability")
+    if applicability == "not-applicable":
+        return "not-applicable"
+    return "fail" if gate.get("missing_required_cells") else "pass"
+
+
+def _reporting_hardgate(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> dict[str, Any]:
+    applicability = "positive-promotion" if spec.bundle_role == "hg_p_core" else "not-applicable"
+    cell_specs = {
+        "scope_seal": spec.scope_pointer,
+        "claim_capsule": _reporting_pointer_for(spec, "claim_capsule_pointer"),
+        "evidence_envelope": _reporting_pointer_for(spec, "evidence_envelope_pointer"),
+        "cost_protocol": spec.cost_pointer,
+        "backend": _reporting_pointer_for(spec, "backend_pointer"),
+        "discovery_level": _reporting_pointer_for(spec, "discovery_level_pointer"),
+        "claim_graph_path": _reporting_pointer_for(spec, "claim_graph_path_pointer"),
+        "not_claimed": spec.not_claimed_pointer,
+        "negative_witness": _reporting_pointer_for(spec, "negative_witness_pointer"),
+        "formal_status": _reporting_pointer_for(spec, "formal_status_pointer"),
+    }
+    cells = {
+        name: _reporting_cell(
+            payload,
+            pointer,
+            source_artifact=_source_artifact_for_pointer(spec, pointer),
+        )
+        for name, pointer in cell_specs.items()
+    }
+    use_fixture_fallback = ROOT != SOURCE_ROOT and spec.name in _specs_by_name()
+    explicit_required = {
+        "claim_capsule": spec.claim_capsule_pointer is not None,
+        "cost_protocol": not use_fixture_fallback,
+        "not_claimed": not use_fixture_fallback,
+    }
+    required_fallbacks = {
+        "claim_capsule": (spec.positive_claim_pointer, spec.scope_pointer),
+        "cost_protocol": ("$.source_artifacts", "$.control_protocol", "$.control", "$.config"),
+        "not_claimed": (
+            spec.scope_pointer,
+            "$.not_claimed",
+            "$.applicability_boundary",
+            "$.boundary_no_z_audit",
+            "$.scope_seal.not_claimed",
+            "$.scope_seal",
+        ),
+    }
+    missing_required = (
+        []
+        if applicability == "not-applicable"
+        else [
+            name
+            for name in REPORTING_REQUIRED_CELLS
+            if cells[name]["status"] != "present"
+            and (
+                explicit_required[name]
+                or not any(_reporting_pointer_resolves(payload, fallback) for fallback in required_fallbacks[name])
+            )
+        ]
+    )
+    gate: dict[str, Any] = {
+        "hardgate_id": REPORTING_HARDGATE_ID,
+        "status": "fail",
+        "promotion_eligible": False,
+        "applicability": applicability,
+        "required_cells": list(REPORTING_REQUIRED_CELLS),
+        "missing_required_cells": missing_required,
+        "cells": cells,
+    }
+    gate["status"] = _reporting_hardgate_status(gate)
+    gate["promotion_eligible"] = gate["status"] == "pass" and applicability == "positive-promotion"
+    return gate
+
+
 def _text_for_term_scan(value: Any) -> str:
     if isinstance(value, (dict, list, tuple)):
         return json.dumps(value, sort_keys=True).lower()
@@ -2193,6 +2414,7 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
     no_control_rationale_pointer = spec.no_control_rationale_pointer
     positive_claim_pointer = spec.positive_claim_pointer
     forbidden_claim_terms = _forbidden_claim_term_check(spec, payload)
+    reporting_hardgate = _reporting_hardgate(spec, payload)
     discipline = {
         "bundle_role": spec.bundle_role,
         "scope_pointer": spec.scope_pointer,
@@ -2210,6 +2432,7 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
         "forbidden_claim_terms_status": forbidden_claim_terms["status"],
         "forbidden_claim_term_hits": forbidden_claim_terms["hits"],
         "literature_ref_ids": list(spec.literature_ref_ids),
+        "reporting_hardgate": reporting_hardgate,
     }
     if spec.name == "certificate-guided-training":
         evidence_pointer = "$.arm_protocol.compat_roles.after"
@@ -4617,7 +4840,11 @@ def _run_spec(
     discipline = _discipline(spec)
     if error is not None:
         status = "error"
-    elif validation["status"] == "fail" or discipline["forbidden_claim_terms_status"] == "fail":
+    elif (
+        validation["status"] == "fail"
+        or discipline["forbidden_claim_terms_status"] == "fail"
+        or discipline.get("reporting_hardgate", {}).get("status") == "fail"
+    ):
         status = "fail"
     else:
         status = "pass"
@@ -4722,17 +4949,27 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             [
                 f"## {title}",
                 "",
-                "| report | status | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
-                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+                "| report | status | hardgate | missing hardgate cells | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |",
+                "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
             ]
         )
         for report in reports:
             discipline = report["discipline"]
+            hardgate = discipline.get("reporting_hardgate")
+            if not isinstance(hardgate, Mapping):
+                spec = _specs_by_name().get(str(report["name"]))
+                hardgate = _reporting_hardgate(spec, _load_report_payload(spec)) if spec is not None else {
+                    "status": "not-applicable",
+                    "missing_required_cells": [],
+                }
             control = discipline["control_pointer"] or discipline["no_control_rationale_pointer"]
+            missing_cells = ", ".join(hardgate["missing_required_cells"])
             lines.append(
                 "| "
                 f"`{report['name']}` | "
                 f"`{report['status']}` | "
+                f"`{hardgate['status']}` | "
+                f"`{missing_cells}` | "
                 f"`{report['json_artifact']}` | "
                 f"`{report['markdown_artifact']}` | "
                 f"`{report['fingerprint_sidecar']}` | "

@@ -149,7 +149,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.hardgate.status",
         "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.mechanism_namecert_ref",
         "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.evidence_envelope_ref",
-        "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -159,7 +158,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.mechanism_certificate",
         "debt_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.ledger",
-        "not_claimed_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -169,7 +167,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.certificate_gate_summary",
         "debt_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.revocation_rows",
-        "not_claimed_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -179,7 +176,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.training_mechanism_cert",
         "debt_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.quality_promotion_boundary",
-        "not_claimed_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -189,7 +185,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.mechanism_gate_summary",
         "debt_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.revocation_rows",
-        "not_claimed_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -199,7 +194,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.candidate_protocol",
         "debt_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.hardgate.gates.DG-NAS-HG7",
-        "not_claimed_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -209,7 +203,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{GAP_HEAD_ROBUSTNESS_ARTIFACT}:$.final_status",
         "mechanism_certificate_pointer": f"{GAP_HEAD_ROBUSTNESS_ARTIFACT}:$.A1_threshold_sweep",
         "debt_pointer": f"{OBSERVED_DEBT_ARTIFACT}:{GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER}",
-        "not_claimed_pointer": f"{OBSERVED_DEBT_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -219,7 +212,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence.mechanism_status",
         "mechanism_certificate_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence",
         "debt_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.ledger_debt",
-        "not_claimed_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.scope_seal.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -229,7 +221,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.trend_summary",
         "debt_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.tradeoff_ledger",
-        "not_claimed_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -239,7 +230,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.claim_gate.status",
         "mechanism_certificate_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.theorem_rows",
         "debt_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.backend_ledger_rows",
-        "not_claimed_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -249,7 +239,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:$.dimension_mismatch_debt_transfer.terminal_verdict",
         "mechanism_certificate_pointer": None,
         "debt_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:{DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER}",
-        "not_claimed_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
     },
     {
@@ -259,7 +248,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{NEGATIVE_DISCOVERY_REPORTS_ARTIFACT}:$.rows[1].terminal_verdict",
         "mechanism_certificate_pointer": None,
         "debt_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.certificate_gate_summary",
-        "not_claimed_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": f"{NEGATIVE_DISCOVERY_REPORTS_ARTIFACT}:$.rows[1]",
     },
     {
@@ -269,7 +257,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.failed_gate",
         "mechanism_certificate_pointer": None,
         "debt_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.theorem_rows",
-        "not_claimed_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.not_claimed",
         "negative_witness_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness[0]",
     },
 )

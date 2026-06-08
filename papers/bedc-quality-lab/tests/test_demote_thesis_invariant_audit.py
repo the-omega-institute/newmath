@@ -208,6 +208,48 @@ def test_failed_wrapper_container_does_not_suppress_positive_record(tmp_path):
     assert payload["escaped_positive_rows"][0]["positive_signal"] == "positive=true"
 
 
+def test_reporting_hardgate_cells_are_opaque_but_same_object_elsewhere_is_caught(tmp_path):
+    positive_looking_cells = {
+        "claim_capsule": {
+            "status": "positive",
+            "positive": True,
+            "debt_delta": -1,
+            "benefit_delta": -1,
+        }
+    }
+    _write_fixture(
+        tmp_path,
+        {
+            "reports": [
+                {
+                    "discipline": {
+                        "reporting_hardgate": {
+                            "cells": positive_looking_cells,
+                        }
+                    },
+                    "ordinary_cells": positive_looking_cells,
+                }
+            ]
+        },
+    )
+
+    payload = audit.audit_root(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["status"] == "fail"
+    assert payload["positive_candidate_count"] == 1
+    assert payload["escaped_positive_count"] == 1
+    assert payload["escaped_positive_rows"] == [
+        {
+            "file": "reports/fixture.json",
+            "json_pointer": "$.reports[0].ordinary_cells.claim_capsule",
+            "positive_signal": "positive=true",
+            "tradeoff_evidence_pointer": "$.reports[0].ordinary_cells.claim_capsule",
+            "evidence_kind": "debt_delta_and_benefit_delta_down",
+            "reason": "debt_delta<0 and benefit_delta<0",
+        }
+    ]
+
+
 def test_ancestor_gate_basis_list_tradeoff_is_caught(tmp_path):
     _write_fixture(
         tmp_path,

@@ -38,7 +38,6 @@ COVERAGE_POINTER_FIELDS = (
     "claim_verdict_pointer",
     "mechanism_certificate_pointer",
     "debt_pointer",
-    "not_claimed_pointer",
     "negative_witness_pointer",
 )
 COVERAGE_CELL_FIELDS = frozenset(
@@ -113,6 +112,20 @@ EXPERIMENT_PROPOSAL_FORBIDDEN_SOURCE_FACT_KEYS = frozenset(
         "owner_fact",
         "source_payload",
         "source_payload_fragment",
+        "reporting_hardgate",
+        "promotion_eligible",
+        "claim_capsule_pointer",
+        "cost_protocol_pointer",
+        "not_claimed_pointer",
+    }
+)
+REPORTING_VERDICT_FORBIDDEN_KEYS = frozenset(
+    {
+        "reporting_hardgate",
+        "promotion_eligible",
+        "claim_capsule_pointer",
+        "cost_protocol_pointer",
+        "not_claimed_pointer",
     }
 )
 DN_FACT_KEYS = frozenset(
@@ -156,6 +169,9 @@ class DiscoveryMapRow:
 
     @classmethod
     def from_mapping(cls, row: Mapping[str, Any], *, root: Path | None = None) -> "DiscoveryMapRow":
+        copied_reporting = sorted(key for key in REPORTING_VERDICT_FORBIDDEN_KEYS if key in row)
+        if copied_reporting:
+            raise ValueError(f"discovery map row copies reporting verdict fields: {', '.join(copied_reporting)}")
         required = (
             "report",
             "json_artifact",

@@ -102,6 +102,9 @@ FORBIDDEN_POSITIVE_CLAIM_TERMS = {
     "full-tensor-namecert",
     "llm-behavior",
 }
+OPAQUE_POINTER_ONLY_SUFFIXES = (
+    ".discipline.reporting_hardgate.cells",
+)
 
 
 @dataclass(frozen=True)
@@ -180,7 +183,20 @@ def _is_non_positive_terminal(value: Any) -> bool:
     return normalized in NON_POSITIVE_TERMINAL_VALUES if normalized is not None else False
 
 
+def _is_opaque_pointer_only_pointer(pointer: str) -> bool:
+    for suffix in OPAQUE_POINTER_ONLY_SUFFIXES:
+        offset = pointer.find(suffix)
+        if offset < 0:
+            continue
+        tail = pointer[offset + len(suffix):]
+        if tail == "" or tail.startswith(".") or tail.startswith("["):
+            return True
+    return False
+
+
 def _positive_signal(value: Mapping[str, Any], pointer: str) -> PositiveSignal | None:
+    if _is_opaque_pointer_only_pointer(pointer):
+        return None
     if value.get("positive") is True:
         return PositiveSignal(_json_pointer_child(pointer, "positive"), "positive=true")
     if value.get("positive_discovery") is True:
@@ -188,7 +204,8 @@ def _positive_signal(value: Mapping[str, Any], pointer: str) -> PositiveSignal |
     for field in sorted(TERMINAL_FIELDS):
         if _is_positive_terminal(value.get(field)):
             return PositiveSignal(_json_pointer_child(pointer, field), f"{field}={value.get(field)}")
-    if value.get("discovery_level") in POSITIVE_DISCOVERY_LEVELS:
+    discovery_level = value.get("discovery_level")
+    if isinstance(discovery_level, str) and discovery_level in POSITIVE_DISCOVERY_LEVELS:
         return PositiveSignal(_json_pointer_child(pointer, "discovery_level"), f"discovery_level={value.get('discovery_level')}")
     return None
 
