@@ -1,6 +1,6 @@
 # Discovery Map
 
-- Generated at: `2026-06-07T23:05:25.838721+00:00`
+- Generated at: `2026-06-08T01:17:46.863250+00:00`
 - Rows: `27`
 
 | report | level | base | mechanism | projection | audit | evidence |
