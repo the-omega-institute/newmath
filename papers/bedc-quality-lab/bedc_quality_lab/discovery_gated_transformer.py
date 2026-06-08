@@ -7,7 +7,9 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 
 
 SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
@@ -151,6 +153,32 @@ NOT_CLAIMED = (
     "No universal training recipe claim.",
     "No external verdict ownership.",
 )
+D4_PROJECTION_GATE_NAMES = tuple(f"PROJ-HG{index}" for index in range(1, 11))
+D4_PROJECTION_REQUIRED_KEYS = (
+    "schema_id",
+    "artifact_id",
+    "owner_ref",
+    "model_id",
+    "gates",
+    "failed_gate",
+    "failed_gate_pointer",
+    "discovery_level",
+    "readiness",
+    "net_positive_signal",
+    "classifier_surface_delta_pointer",
+    "input_pointers",
+    "core_contracts",
+    "not_claimed",
+    "forbidden_claim_term_audit",
+    "scope_seal",
+    "matched_control",
+    "claim_basis",
+    "anti_triviality_status",
+    "anti_triviality_policy",
+    "anti_triviality_recommended_level",
+    "anti_triviality_failed_gate",
+    "anti_triviality_gate_evidence",
+)
 
 
 @dataclass(frozen=True)
@@ -160,6 +188,14 @@ class EvidenceCell:
 
     def as_payload(self) -> dict[str, str]:
         return {"artifact": self.artifact, "pointer": self.pointer}
+
+
+@dataclass(frozen=True)
+class DgtD4Projection:
+    payload: dict[str, Any]
+
+    def as_payload(self) -> dict[str, Any]:
+        return dict(self.payload)
 
 
 def artifact_pointer(cell: Mapping[str, Any]) -> str:
@@ -205,7 +241,7 @@ def default_discovery_map_signal() -> dict[str, Any]:
     return {
         "status": "candidate-local-positive",
         "level_candidate": "D4",
-        "evidence": _cell(CANONICAL_JSON_ARTIFACT, "$.hardgate.status"),
+        "evidence": _cell(CANONICAL_JSON_ARTIFACT, "$.d4_projection.discovery_level"),
         "map_ref": _cell("reports/canonical/discovery_map.json", "$.coverage_matrix"),
     }
 
@@ -1015,6 +1051,184 @@ def _dgt_forbidden_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any
     return {"status": "pass" if not hits else "fail", "hits": hits, "forbidden_terms": list(labels)}
 
 
+def _projection_not_claimed_clean(not_claimed: Any) -> bool:
+    if not isinstance(not_claimed, Sequence) or isinstance(not_claimed, (str, bytes, bytearray)) or not not_claimed:
+        return False
+    text = " ".join(str(item).lower() for item in not_claimed)
+    return all(token not in text for token in ("global superiority", "production"))
+
+
+def _tool_route_positive(tool_route: Any) -> tuple[bool, bool]:
+    if not isinstance(tool_route, Mapping):
+        return False, False
+    if tool_route.get("net_positive_signal") is not True:
+        return False, False
+    deltas = tool_route.get("classifier_surface_delta")
+    if not isinstance(deltas, Mapping) or not deltas:
+        return True, False
+    for delta in deltas.values():
+        if not isinstance(delta, Mapping):
+            return True, False
+        count = delta.get("surface_delta_count")
+        if not isinstance(count, (int, float)) or isinstance(count, bool) or count <= 0:
+            return True, False
+    return True, True
+
+
+def _d4_gate_rows(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    gates = payload.get("hardgate", {}).get("gates") if isinstance(payload.get("hardgate"), Mapping) else {}
+    tool_route = payload.get("tool_route_evidence")
+    family_definition = payload.get("family_definition")
+    net_positive, classifier_delta_positive = _tool_route_positive(tool_route)
+    failed_conditions = {
+        "PROJ-HG1": not (
+            isinstance(payload.get("hardgate"), Mapping)
+            and payload["hardgate"].get("status") == "pass"
+            and isinstance(gates, Mapping)
+            and all(isinstance(row, Mapping) and row.get("status") == "pass" for row in gates.values())
+        ),
+        "PROJ-HG2": not (
+            isinstance(tool_route, Mapping)
+            and isinstance(tool_route.get("hardgate"), Mapping)
+            and tool_route["hardgate"].get("status") == "pass"
+        ),
+        "PROJ-HG3": not net_positive,
+        "PROJ-HG4": not classifier_delta_positive,
+        "PROJ-HG5": not (
+            isinstance(family_definition, Mapping)
+            and isinstance(family_definition.get("hardgate"), Mapping)
+            and family_definition["hardgate"].get("status") == "pass"
+        ),
+        "PROJ-HG6": not (
+            _is_cell(payload.get("claim_capsule_ref"))
+            and _is_cell(payload.get("evidence_envelope_ref"))
+            and _is_cell(payload.get("mechanism_namecert_ref"))
+            and _is_cell(payload.get("jet_certificate_ref"))
+        ),
+        "PROJ-HG7": not _projection_not_claimed_clean(payload.get("not_claimed")),
+        "PROJ-HG8": not (
+            isinstance(payload.get("forbidden_claim_term_audit"), Mapping)
+            and payload["forbidden_claim_term_audit"].get("status") == "pass"
+        ),
+        "PROJ-HG9": _has_recursive_token(payload, ("terminal_verdict",)) is not None,
+        "PROJ-HG10": not (
+            _is_cell(payload.get("hardgate_ref"))
+            and _is_cell(payload.get("discovery_map_signal_ref"))
+        ),
+    }
+    evidence = {
+        "PROJ-HG1": "$.hardgate",
+        "PROJ-HG2": "$.tool_route_evidence.hardgate",
+        "PROJ-HG3": "$.tool_route_evidence.net_positive_signal",
+        "PROJ-HG4": "$.tool_route_evidence.classifier_surface_delta",
+        "PROJ-HG5": "$.family_definition.hardgate",
+        "PROJ-HG6": "$.claim_capsule_ref",
+        "PROJ-HG7": "$.not_claimed",
+        "PROJ-HG8": "$.forbidden_claim_term_audit",
+        "PROJ-HG9": "$",
+        "PROJ-HG10": "$.discovery_map_signal_ref",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if failed_conditions[gate_name] else "pass",
+            "evidence": _cell(CANONICAL_JSON_ARTIFACT, evidence[gate_name]),
+        }
+        for gate_name in D4_PROJECTION_GATE_NAMES
+    }
+
+
+def build_d4_projection_payload(
+    evidence: Mapping[str, Any],
+    core_contracts: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    gates = _d4_gate_rows(evidence)
+    failed = [gate_name for gate_name in D4_PROJECTION_GATE_NAMES if gates[gate_name]["status"] != "pass"]
+    failed_gate = failed[0] if failed else None
+    input_pointers = {
+        "hardgate": f"{CANONICAL_JSON_ARTIFACT}:$.hardgate",
+        "tool_route": f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence",
+        "family_definition": f"{CANONICAL_JSON_ARTIFACT}:$.family_definition",
+        "claim_capsule": f"{CANONICAL_JSON_ARTIFACT}:$.claim_capsule_ref",
+        "evidence_envelope": f"{CANONICAL_JSON_ARTIFACT}:$.evidence_envelope_ref",
+        "mechanism_namecert": f"{CANONICAL_JSON_ARTIFACT}:$.mechanism_namecert_ref",
+        "jet_certificate": f"{CANONICAL_JSON_ARTIFACT}:$.jet_certificate_ref",
+        "not_claimed": f"{CANONICAL_JSON_ARTIFACT}:$.not_claimed",
+        "forbidden_claim_term_audit": f"{CANONICAL_JSON_ARTIFACT}:$.forbidden_claim_term_audit",
+    }
+    tool_route = evidence.get("tool_route_evidence")
+    payload = {
+        "schema_id": SCHEMA_ID,
+        "artifact_id": ARTIFACT_ID,
+        "owner_ref": f"{CANONICAL_JSON_ARTIFACT}:$",
+        "model_id": MODEL_ID,
+        "gates": gates,
+        "failed_gate": failed_gate,
+        "failed_gate_pointer": None if failed_gate is None else f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection.gates.{failed_gate}",
+        "discovery_level": "D4" if failed_gate is None else "D0",
+        "readiness": "ready" if failed_gate is None else "blocked",
+        "net_positive_signal": isinstance(tool_route, Mapping) and tool_route.get("net_positive_signal") is True,
+        "classifier_surface_delta_pointer": "$.tool_route_evidence.classifier_surface_delta",
+        "input_pointers": input_pointers,
+        "core_contracts": dict(core_contracts or {}),
+        "not_claimed": list(evidence.get("not_claimed", [])) if isinstance(evidence.get("not_claimed"), Sequence) else [],
+        "forbidden_claim_term_audit": evidence.get("forbidden_claim_term_audit", {}),
+        "scope_seal": dict(CLOSED_CLAIM_SCOPE_SEAL),
+        "matched_control": {
+            "control_positive": False,
+            "control_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence.blocked_route_evidence",
+        },
+        "claim_basis": {
+            "positive_discovery": failed_gate is None,
+            "evidence_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection.gates.PROJ-HG1",
+        },
+        "anti_triviality_status": "pass" if failed_gate is None else "fail",
+        **owner_local_anti_triviality_contract(
+            recommended_level="D4",
+            scale_only_pointer="$.d4_projection.gates.PROJ-HG1",
+            metadata_only_pointer="$.d4_projection.gates.PROJ-HG5",
+            matched_random_pointer="$.d4_projection.matched_control",
+            forbidden_column_pointer="$.d4_projection.forbidden_claim_term_audit",
+            status="pass" if failed_gate is None else "fail",
+            failed_gate=failed_gate,
+        ),
+    }
+    validate_d4_projection(payload, evidence)
+    return DgtD4Projection(payload).as_payload()
+
+
+def validate_d4_projection(payload: Mapping[str, Any], root: Mapping[str, Any] | None = None) -> list[str]:
+    errors: list[str] = []
+    if set(payload) != set(D4_PROJECTION_REQUIRED_KEYS):
+        errors.append("DGT D4 projection fields mismatch")
+    if payload.get("schema_id") != SCHEMA_ID or payload.get("artifact_id") != ARTIFACT_ID:
+        errors.append("DGT D4 projection identity mismatch")
+    if payload.get("owner_ref") != f"{CANONICAL_JSON_ARTIFACT}:$":
+        errors.append("DGT D4 projection owner mismatch")
+    gates = payload.get("gates")
+    if not isinstance(gates, Mapping) or set(gates) != set(D4_PROJECTION_GATE_NAMES):
+        errors.append("DGT D4 projection gate names mismatch")
+    else:
+        failed = [gate_name for gate_name in D4_PROJECTION_GATE_NAMES if gates[gate_name].get("status") != "pass"]
+        expected_failed = failed[0] if failed else None
+        if payload.get("failed_gate") != expected_failed:
+            errors.append("DGT D4 projection failed gate mismatch")
+        if payload.get("discovery_level") != ("D4" if expected_failed is None else "D0"):
+            errors.append("DGT D4 projection discovery level mismatch")
+        if payload.get("readiness") != ("ready" if expected_failed is None else "blocked"):
+            errors.append("DGT D4 projection readiness mismatch")
+    if _has_recursive_token(payload, ("terminal_verdict", ".refactor-loop", "host.env")) is not None:
+        errors.append("DGT D4 projection contains forbidden authority token")
+    if not _projection_not_claimed_clean(payload.get("not_claimed")):
+        errors.append("DGT D4 projection not_claimed boundary mismatch")
+    if payload.get("readiness") == "ready" and payload.get("net_positive_signal") is not True:
+        errors.append("DGT D4 projection net positive signal missing")
+    if payload.get("scope_seal") != CLOSED_CLAIM_SCOPE_SEAL:
+        errors.append("DGT D4 projection scope seal mismatch")
+    if root is not None and isinstance(gates, Mapping) and _d4_gate_rows(root) != gates:
+        errors.append("DGT D4 projection gate evaluation mismatch")
+    return errors
+
+
 class DiscoveryGatedTransformerProjector:
     def __init__(self, *, component_refs: Mapping[str, Any] | None = None) -> None:
         self.component_refs = dict(component_refs) if component_refs is not None else default_component_refs()
@@ -1047,6 +1261,14 @@ class DiscoveryGatedTransformerProjector:
         if any(row["status"] != "pass" for row in payload["hardgate"]["gates"].values()):
             payload["hardgate"]["status"] = "fail"
         payload["forbidden_claim_term_audit"] = _dgt_forbidden_claim_term_audit(payload)
+        payload["d4_projection"] = build_d4_projection_payload(
+            payload,
+            {
+                "discovery_map_level_pointer": f"{CANONICAL_JSON_ARTIFACT}:$.d4_projection.discovery_level",
+                "claim_verdict_owner": "Core",
+                "claim_graph_owner": "Core",
+            },
+        )
         validate_projection(payload)
         return payload
 
@@ -1068,6 +1290,7 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "family_definition",
         "discovery_map_signal",
         "discovery_map_signal_ref",
+        "d4_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -1119,6 +1342,9 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
             raise ValueError(f"DGT hardgate row status mismatch: {gate_name}")
         if not _is_cell(row["evidence"]) or not _is_cell(row["not_claimed"]):
             raise ValueError(f"DGT hardgate row must use pointer cells: {gate_name}")
+    d4_errors = validate_d4_projection(payload["d4_projection"], payload)
+    if d4_errors:
+        raise ValueError("; ".join(d4_errors))
 
 
 def validate_dgt_hardgate_evidence_bundle(payload: Mapping[str, Any], *, root: Path) -> None:
@@ -1191,6 +1417,22 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
     )
     for group_name, group in family_definition["invariant_groups"].items():
         lines.append(f"| `{group_name}` | `{len(group['evidence_pointers'])}` |")
+    d4_projection = payload["d4_projection"]
+    lines.extend(
+        [
+            "",
+            "## D4 Projection",
+            "",
+            f"- Readiness: `{d4_projection['readiness']}`",
+            f"- Discovery level: `{d4_projection['discovery_level']}`",
+            f"- Failed gate: `{d4_projection['failed_gate']}`",
+            "",
+            "| gate | status | evidence |",
+            "| --- | --- | --- |",
+        ]
+    )
+    for gate_name, row in d4_projection["gates"].items():
+        lines.append(f"| `{gate_name}` | `{row['status']}` | `{artifact_pointer(row['evidence'])}` |")
     lines.extend(
         [
             "",

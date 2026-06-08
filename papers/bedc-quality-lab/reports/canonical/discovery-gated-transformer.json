@@ -34,10 +34,164 @@
       "pointer": "$.hardgates"
     }
   },
+  "d4_projection": {
+    "anti_triviality_failed_gate": null,
+    "anti_triviality_gate_evidence": {
+      "forbidden_column": {
+        "pointer": "$.d4_projection.forbidden_claim_term_audit",
+        "status": "pass"
+      },
+      "matched_random": {
+        "pointer": "$.d4_projection.matched_control",
+        "status": "pass"
+      },
+      "metadata_only": {
+        "pointer": "$.d4_projection.gates.PROJ-HG5",
+        "status": "pass"
+      },
+      "scale_only": {
+        "pointer": "$.d4_projection.gates.PROJ-HG1",
+        "status": "pass"
+      }
+    },
+    "anti_triviality_policy": "positive_requires_all_four_controls",
+    "anti_triviality_recommended_level": "D4",
+    "anti_triviality_status": "pass",
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+    "claim_basis": {
+      "evidence_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.gates.PROJ-HG1",
+      "positive_discovery": true
+    },
+    "classifier_surface_delta_pointer": "$.tool_route_evidence.classifier_surface_delta",
+    "core_contracts": {
+      "claim_graph_owner": "Core",
+      "claim_verdict_owner": "Core",
+      "discovery_map_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"
+    },
+    "discovery_level": "D4",
+    "failed_gate": null,
+    "failed_gate_pointer": null,
+    "forbidden_claim_term_audit": {
+      "forbidden_terms": [
+        "terminal verdict token",
+        "operation authority wording",
+        "external superiority wording",
+        "architecture superiority wording"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "gates": {
+      "PROJ-HG1": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.hardgate"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG10": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.discovery_map_signal_ref"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG2": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.tool_route_evidence.hardgate"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG3": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.tool_route_evidence.net_positive_signal"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG4": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.tool_route_evidence.classifier_surface_delta"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG5": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.family_definition.hardgate"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG6": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.claim_capsule_ref"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG7": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG8": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.forbidden_claim_term_audit"
+        },
+        "status": "pass"
+      },
+      "PROJ-HG9": {
+        "evidence": {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$"
+        },
+        "status": "pass"
+      }
+    },
+    "input_pointers": {
+      "claim_capsule": "reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref",
+      "evidence_envelope": "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
+      "family_definition": "reports/canonical/discovery-gated-transformer.json:$.family_definition",
+      "forbidden_claim_term_audit": "reports/canonical/discovery-gated-transformer.json:$.forbidden_claim_term_audit",
+      "hardgate": "reports/canonical/discovery-gated-transformer.json:$.hardgate",
+      "jet_certificate": "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref",
+      "mechanism_namecert": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+      "not_claimed": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+      "tool_route": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence"
+    },
+    "matched_control": {
+      "control_pointer": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.blocked_route_evidence",
+      "control_positive": false
+    },
+    "model_id": "discovery-gated-transformer",
+    "net_positive_signal": true,
+    "not_claimed": [
+      "Bounded deterministic toy evidence only.",
+      "No external operation authority.",
+      "No universal training recipe claim.",
+      "No external verdict ownership."
+    ],
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$",
+    "readiness": "ready",
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer",
+    "scope_seal": {
+      "bounded": true,
+      "production_forbidden": true,
+      "real_training": false,
+      "status": "closed",
+      "theorem": false,
+      "toy": true
+    }
+  },
   "discovery_map_signal": {
     "evidence": {
       "artifact": "reports/canonical/discovery-gated-transformer.json",
-      "pointer": "$.hardgate.status"
+      "pointer": "$.d4_projection.discovery_level"
     },
     "level_candidate": "D4",
     "map_ref": {

@@ -44,7 +44,7 @@
 | `projected:mechanism-seeking-network` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[17]` | `raw:mechanism-seeking-network` |
 | `raw:discovery-gated-nas` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |  |
 | `projected:discovery-gated-nas` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[18]` | `raw:discovery-gated-nas` |
-| `raw:discovery-gated-transformer` | `raw_evidence` | `reports/canonical/discovery-gated-transformer.json:$` |  |
+| `raw:discovery-gated-transformer` | `raw_evidence` | `reports/canonical/discovery-gated-transformer.json:$.d4_projection` |  |
 | `projected:discovery-gated-transformer` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[19]` | `raw:discovery-gated-transformer` |
 | `raw:order-k-benchmark` | `raw_evidence` | `reports/canonical/order-k-benchmark.json:$` |  |
 | `projected:order-k-benchmark` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[20]` | `raw:order-k-benchmark` |
