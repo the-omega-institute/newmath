@@ -272,6 +272,32 @@ def test_cg_hg5_all_source_pointers_resolve(tmp_path):
     assert any("source_pointer does not resolve" in error for error in _errors(broken, root))
 
 
+def test_cg_hg6_dependency_cycle_fails_closed(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_id"] == "projected:gap-head-discovery":
+            node["depends_on"] = ["terminal:gap-head-discovery"]
+
+    errors = _errors(broken, root)
+
+    assert any("CG-HG6 dependency cycle" in error and "terminal:gap-head-discovery" in error for error in errors)
+
+
+def test_cg_hg6_reports_revocation_nodes_as_separate_evidence(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    gate = payload["hardgates"]["CG-HG6"]
+    nodes = payload["nodes"]
+
+    assert gate["status"] == "pass"
+    assert gate["node_count"] == len(nodes)
+    assert gate["edge_count"] == sum(len(node["depends_on"]) for node in nodes)
+    assert gate["revocation_node_ids"] == ["revocation:witness:hidden_debt_positive"]
+    assert "revocation:witness:hidden_debt_positive" not in payload["hardgates"]["CG-HG1"]["terminal_ids"]
+
+
 def test_terminal_claim_nodes_are_bijection_for_checked_in_verdict_rows():
     root = canonical.ROOT
     payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")

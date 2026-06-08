@@ -123,3 +123,4 @@
 - `CG-HG3`: `pass` raw_evidence nodes are never terminal_claim nodes
 - `CG-HG4`: `pass` claim verdict rows carry identity-only terminal graph foreign keys
 - `CG-HG5`: `pass` all node source_pointer values resolve
+- `CG-HG6`: `pass` nodes[*].depends_on forms an acyclic dependency graph; revocation nodes remain revocation evidence and are not positive forward-closure evidence
