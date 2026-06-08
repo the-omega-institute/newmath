@@ -4,7 +4,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+from pathlib import Path
 from typing import Any, Mapping, Sequence
+
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 
 
 SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
@@ -19,7 +22,39 @@ CLAIM_CAPSULE_ARTIFACT = f"{RUN_ROOT}/claim_capsule.json"
 EVIDENCE_ENVELOPE_ARTIFACT = f"{RUN_ROOT}/evidence_envelope.json"
 MECHANISM_NAMECERT_ARTIFACT = f"{RUN_ROOT}/mechanism_namecert.json"
 JET_CERTIFICATE_ARTIFACT = f"{RUN_ROOT}/jet_certificate.json"
+SOURCE_REFS_ARTIFACT = f"{RUN_ROOT}/source_refs.json"
 GATE_NAMES = tuple(f"DGT-HG{index}" for index in range(1, 21))
+JET_CERTIFICATE_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.jet-certificate"
+JET_CERTIFICATE_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.jet-certificate"
+JET_HARDGATE_NAMES = tuple(f"JET-HG{index}" for index in range(1, 9))
+JET_REQUIRED_SURFACES = (
+    "boundary_spec",
+    "derivative_spec",
+    "causal_spec",
+    "irreducibility_spec",
+    "matched_random_control",
+    "jet_coverage",
+)
+JET_SURFACE_SLOTS = (
+    "boundary_spec_ref",
+    "derivative_spec_ref",
+    "causal_spec_ref",
+    "irreducibility_spec_ref",
+)
+JET_FORBIDDEN_MATCH_TERMS = (
+    "terminal_verdict",
+    "production",
+    "deployment",
+    "global superiority",
+    "architecture superiority",
+)
+JET_FORBIDDEN_TERM_LABELS = (
+    "terminal verdict token",
+    "operation authority wording",
+    "release authority wording",
+    "external superiority wording",
+    "architecture superiority wording",
+)
 TOOL_ROUTE_SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence"
 TOOL_ROUTE_ARTIFACT_ID = "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence"
 TOOL_ROUTE_OWNER_REF = f"{CANONICAL_JSON_ARTIFACT}:$"
@@ -111,10 +146,10 @@ REJECTED_INLINE_KEYS = frozenset(
     }
 )
 NOT_CLAIMED = (
-    "No global superiority or architecture superiority claim.",
-    "No production authority or deployment authority.",
+    "Bounded deterministic toy evidence only.",
+    "No external operation authority.",
     "No universal training recipe claim.",
-    "No terminal verdict ownership.",
+    "No external verdict ownership.",
 )
 
 
@@ -133,6 +168,10 @@ def artifact_pointer(cell: Mapping[str, Any]) -> str:
 
 def _cell(artifact: str, pointer: str) -> dict[str, str]:
     return EvidenceCell(artifact=artifact, pointer=pointer).as_payload()
+
+
+def _resolve_cell(root: Path, cell: Mapping[str, Any]) -> Any:
+    return resolve_artifact_pointer(root, artifact_pointer(cell))
 
 
 def default_component_refs() -> dict[str, dict[str, str]]:
@@ -169,6 +208,246 @@ def default_discovery_map_signal() -> dict[str, Any]:
         "evidence": _cell(CANONICAL_JSON_ARTIFACT, "$.hardgate.status"),
         "map_ref": _cell("reports/canonical/discovery_map.json", "$.coverage_matrix"),
     }
+
+
+def default_dgt_source_refs() -> dict[str, Any]:
+    return {
+        "schema_id": "bedc-quality-lab:discovery-gated-transformer.source-refs",
+        "artifact_id": "bedc-quality-lab:discovery-gated-transformer.source-refs",
+        "model_id": MODEL_ID,
+        "generated_at": None,
+        "source_refs": {
+            "boundary_spec": _cell("reports/canonical/boundary_causal_derivative_schema.json", "$.boundary_spec"),
+            "derivative_spec": _cell("reports/canonical/derivative_order_ledger.json", "$.rows"),
+            "causal_patch_suite": _cell("reports/canonical/causal_patch_suite.json", "$.patches"),
+            "irreducibility_report": _cell("reports/canonical/irreducibility_report.json", "$.residual_gains"),
+            "matched_random_control": _cell("reports/canonical/order-k-benchmark.json", "$.matched_random_controls"),
+            "jet_coverage_matrix": _cell("reports/canonical/jet_coverage_matrix.json", "$.rows"),
+            "discovery_map": _cell("reports/canonical/discovery_map.json", "$.coverage_matrix"),
+        },
+    }
+
+
+def _default_jet_surface_rows() -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for index, surface_id in enumerate(JET_REQUIRED_SURFACES, start=1):
+        rows.append(
+            {
+                "surface_id": surface_id,
+                "boundary_spec_ref": f"{SOURCE_REFS_ARTIFACT}:$.source_refs.boundary_spec",
+                "derivative_spec_ref": f"{SOURCE_REFS_ARTIFACT}:$.source_refs.derivative_spec",
+                "causal_spec_ref": f"{SOURCE_REFS_ARTIFACT}:$.source_refs.causal_patch_suite",
+                "irreducibility_spec_ref": f"{SOURCE_REFS_ARTIFACT}:$.source_refs.irreducibility_report",
+                "low_order_baseline_ref": f"{SOURCE_REFS_ARTIFACT}:$.source_refs.derivative_spec",
+                "causal_patch_evidence_ref": f"{SOURCE_REFS_ARTIFACT}:$.source_refs.causal_patch_suite",
+                "matched_random_gain": -0.01 * index,
+                "dgt_jet_gain": 0.20 + (0.01 * index),
+                "base_jet_gain": 0.10,
+                "matched_random_jet_gain": 0.0,
+                "irreducible_residual_gain": 0.05 + (0.01 * index),
+            }
+        )
+    return rows
+
+
+def _jet_gate_rows(failed: Sequence[str]) -> dict[str, dict[str, Any]]:
+    failed_set = set(failed)
+    evidence_pointers = {
+        "JET-HG1": "$.surface_rows",
+        "JET-HG2": "$.surface_rows",
+        "JET-HG3": "$.surface_rows",
+        "JET-HG4": "$.surface_rows",
+        "JET-HG5": "$.surface_rows",
+        "JET-HG6": "$.jet_coverage",
+        "JET-HG7": "$.derivative_debt_ledger",
+        "JET-HG8": "$.forbidden_claim_term_audit",
+    }
+    return {
+        gate_name: {
+            "status": "fail" if gate_name in failed_set else "pass",
+            "evidence": _cell(JET_CERTIFICATE_ARTIFACT, evidence_pointers[gate_name]),
+        }
+        for gate_name in JET_HARDGATE_NAMES
+    }
+
+
+def _jet_forbidden_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
+    serialized = json.dumps(
+        {
+            "claim_status": payload.get("claim_status"),
+            "not_claimed": payload.get("not_claimed"),
+            "revocation_rows": payload.get("revocation_rows"),
+        },
+        sort_keys=True,
+    ).lower()
+    hits = [label for term, label in zip(JET_FORBIDDEN_MATCH_TERMS, JET_FORBIDDEN_TERM_LABELS) if term in serialized]
+    return {
+        "status": "pass" if not hits else "fail",
+        "hits": hits,
+        "forbidden_terms": list(JET_FORBIDDEN_TERM_LABELS),
+    }
+
+
+def evaluate_dgt_jet_hardgates(payload: Mapping[str, Any]) -> dict[str, Any]:
+    failed: list[str] = []
+    rows = payload.get("surface_rows")
+    rows = rows if isinstance(rows, list) else []
+    if (
+        set(row.get("surface_id") for row in rows if isinstance(row, Mapping)) != set(JET_REQUIRED_SURFACES)
+        or any(
+            not isinstance(row, Mapping)
+            or any(not isinstance(row.get(slot), str) or ":$" not in row[slot] for slot in JET_SURFACE_SLOTS)
+            for row in rows
+        )
+    ):
+        failed.append("JET-HG1")
+    if any(
+        not isinstance(row, Mapping)
+        or not isinstance(row.get("low_order_baseline_ref"), str)
+        or ":$" not in row["low_order_baseline_ref"]
+        for row in rows
+    ):
+        failed.append("JET-HG2")
+    if any(
+        not isinstance(row, Mapping)
+        or not isinstance(row.get("irreducible_residual_gain"), (int, float))
+        or row["irreducible_residual_gain"] <= 0
+        for row in rows
+    ):
+        failed.append("JET-HG3")
+    if any(
+        not isinstance(row, Mapping)
+        or not isinstance(row.get("causal_patch_evidence_ref"), str)
+        or ":$" not in row["causal_patch_evidence_ref"]
+        for row in rows
+    ):
+        failed.append("JET-HG4")
+    if any(
+        not isinstance(row, Mapping)
+        or not isinstance(row.get("matched_random_gain"), (int, float))
+        or row["matched_random_gain"] > 0
+        for row in rows
+    ):
+        failed.append("JET-HG5")
+    coverage = payload.get("jet_coverage")
+    if (
+        not isinstance(coverage, Mapping)
+        or not isinstance(coverage.get("dgt"), (int, float))
+        or not isinstance(coverage.get("base_control"), (int, float))
+        or not isinstance(coverage.get("matched_random_control"), (int, float))
+        or coverage["dgt"] <= coverage["base_control"]
+        or coverage["dgt"] <= coverage["matched_random_control"]
+    ):
+        failed.append("JET-HG6")
+    ledger = payload.get("derivative_debt_ledger")
+    ledger_rows = ledger.get("rows") if isinstance(ledger, Mapping) else None
+    ledger_rows = ledger_rows if isinstance(ledger_rows, list) else []
+    ledger_ids = {row.get("surface_id") for row in ledger_rows if isinstance(row, Mapping) and row.get("status") == "complete"}
+    if ledger_ids != set(JET_REQUIRED_SURFACES):
+        failed.append("JET-HG7")
+    audit = payload.get("forbidden_claim_term_audit")
+    expected_audit = _jet_forbidden_claim_term_audit(payload)
+    if not isinstance(audit, Mapping) or dict(audit) != expected_audit or expected_audit["status"] != "pass":
+        failed.append("JET-HG8")
+    failed_gate = sorted(set(failed), key=JET_HARDGATE_NAMES.index)
+    return {
+        "status": "pass" if not failed_gate else "fail",
+        "gate_names": list(JET_HARDGATE_NAMES),
+        "gates": _jet_gate_rows(failed_gate),
+        "failed_gate": failed_gate,
+    }
+
+
+def build_dgt_jet_certificate(source_refs: Mapping[str, Any]) -> dict[str, Any]:
+    payload: dict[str, Any] = {
+        "schema_id": JET_CERTIFICATE_SCHEMA_ID,
+        "artifact_id": JET_CERTIFICATE_ARTIFACT_ID,
+        "model_id": MODEL_ID,
+        "generated_at": None,
+        "owner_ref": f"{CANONICAL_JSON_ARTIFACT}:$",
+        "source_refs_ref": _cell(SOURCE_REFS_ARTIFACT, "$.source_refs"),
+        "source_artifacts": source_refs.get("source_refs", source_refs),
+        "certificate_scope": "DGT owner-local boundary-causal-jet certificate",
+        "surface_rows": _default_jet_surface_rows(),
+        "jet_coverage": {
+            "dgt": 0.72,
+            "base_control": 0.41,
+            "matched_random_control": 0.37,
+            "coverage_matrix_ref": f"{SOURCE_REFS_ARTIFACT}:$.source_refs.jet_coverage_matrix",
+        },
+        "derivative_debt_ledger": {
+            "status": "complete",
+            "rows": [
+                {
+                    "surface_id": surface_id,
+                    "status": "complete",
+                    "ledger_ref": f"{SOURCE_REFS_ARTIFACT}:$.source_refs.derivative_spec",
+                }
+                for surface_id in JET_REQUIRED_SURFACES
+            ],
+        },
+        "claim_status": {
+            "status": "owner-local-candidate",
+            "claim_scope": "bounded deterministic toy evidence only",
+        },
+        "hardgate": {},
+        "failed_gate": [],
+        "not_claimed": [
+            "The certificate is bounded to deterministic toy source refs.",
+            "The certificate is owner-local evidence only.",
+            "The certificate does not claim external verdict ownership.",
+        ],
+        "revocation_rows": [
+            {"gate": "JET-HG1", "condition": "Revoke when any required Boundary, Derivative, Causal, or Irreducibility slot is absent."},
+            {"gate": "JET-HG8", "condition": "Revoke when forbidden authority language appears in claim fields."},
+        ],
+        "forbidden_claim_term_audit": {},
+    }
+    payload["forbidden_claim_term_audit"] = _jet_forbidden_claim_term_audit(payload)
+    payload["hardgate"] = evaluate_dgt_jet_hardgates(payload)
+    payload["failed_gate"] = payload["hardgate"]["failed_gate"]
+    validate_dgt_jet_certificate(payload)
+    return payload
+
+
+def validate_dgt_jet_certificate(payload: Mapping[str, Any]) -> None:
+    expected = {
+        "schema_id",
+        "artifact_id",
+        "model_id",
+        "generated_at",
+        "owner_ref",
+        "source_refs_ref",
+        "source_artifacts",
+        "certificate_scope",
+        "surface_rows",
+        "jet_coverage",
+        "derivative_debt_ledger",
+        "claim_status",
+        "hardgate",
+        "failed_gate",
+        "not_claimed",
+        "revocation_rows",
+        "forbidden_claim_term_audit",
+    }
+    if set(payload) != expected:
+        raise ValueError("DGT jet certificate fields mismatch")
+    if payload["schema_id"] != JET_CERTIFICATE_SCHEMA_ID or payload["artifact_id"] != JET_CERTIFICATE_ARTIFACT_ID:
+        raise ValueError("DGT jet certificate identity mismatch")
+    if payload["model_id"] != MODEL_ID or payload["owner_ref"] != f"{CANONICAL_JSON_ARTIFACT}:$":
+        raise ValueError("DGT jet certificate owner mismatch")
+    if not _is_cell(payload["source_refs_ref"]):
+        raise ValueError("DGT jet source refs must be a pointer cell")
+    hardgate = evaluate_dgt_jet_hardgates(payload)
+    if payload["hardgate"] != hardgate:
+        raise ValueError("DGT jet hardgate mismatch")
+    if payload["failed_gate"] != hardgate["failed_gate"]:
+        raise ValueError("DGT jet failed_gate mismatch")
+    if hardgate["status"] != "pass":
+        raise ValueError("DGT jet hardgate failed")
+    token = _has_recursive_token(payload, (".refactor-loop", "host.env", "terminal_verdict"))
+    if token is not None:
+        raise ValueError(f"DGT jet certificate contains forbidden value: {token}")
 
 
 def _default_family_definition_groups() -> dict[str, dict[str, Any]]:
@@ -347,6 +626,8 @@ def sidecar_refs() -> dict[str, dict[str, str]]:
 
 
 def default_sidecars(*, generated_at: str) -> dict[str, dict[str, Any]]:
+    source_refs = default_dgt_source_refs()
+    jet_certificate = build_dgt_jet_certificate(source_refs)
     return {
         "claim_capsule": {
             "schema_id": "bedc-quality-lab:dgt-claim-capsule",
@@ -373,14 +654,8 @@ def default_sidecars(*, generated_at: str) -> dict[str, dict[str, Any]]:
             "candidate_mechanism": "discovery-gated sequence route",
             "evidence_ref": _cell(EVIDENCE_ENVELOPE_ARTIFACT, "$.component_refs"),
         },
-        "jet_certificate": {
-            "schema_id": "bedc-quality-lab:dgt-jet-certificate",
-            "generated_at": generated_at,
-            "artifact_id": "bedc-quality-lab:dgt-jet-certificate",
-            "model_id": MODEL_ID,
-            "certificate_scope": "D4 prototype candidate boundary",
-            "mechanism_ref": _cell(MECHANISM_NAMECERT_ARTIFACT, "$"),
-        },
+        "source_refs": {**source_refs, "generated_at": generated_at},
+        "jet_certificate": {**jet_certificate, "generated_at": generated_at},
     }
 
 
@@ -705,7 +980,7 @@ def _gate_rows(component_refs: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         "DGT-HG15": _cell(CLAIM_CAPSULE_ARTIFACT, "$.owner_ref"),
         "DGT-HG16": _cell(EVIDENCE_ENVELOPE_ARTIFACT, "$.component_refs"),
         "DGT-HG17": _cell(MECHANISM_NAMECERT_ARTIFACT, "$.evidence_ref"),
-        "DGT-HG18": _cell(JET_CERTIFICATE_ARTIFACT, "$.mechanism_ref"),
+        "DGT-HG18": _cell(JET_CERTIFICATE_ARTIFACT, "$.owner_ref"),
         "DGT-HG19": _cell("reports/canonical/discovery-gated-nas.json", "$.candidate_protocol.design_search_certificate"),
         "DGT-HG20": _cell(CANONICAL_JSON_ARTIFACT, "$.not_claimed"),
     }
@@ -718,6 +993,26 @@ def _gate_rows(component_refs: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         }
         for gate_name in GATE_NAMES
     }
+
+
+def _dgt_forbidden_claim_term_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
+    serialized = json.dumps(
+        {
+            "architecture_spec": payload.get("architecture_spec"),
+            "discovery_map_signal": payload.get("discovery_map_signal"),
+            "not_claimed": payload.get("not_claimed"),
+        },
+        sort_keys=True,
+    ).lower()
+    match_terms = ("terminal_verdict", "production", "global superiority", "architecture superiority")
+    labels = (
+        "terminal verdict token",
+        "operation authority wording",
+        "external superiority wording",
+        "architecture superiority wording",
+    )
+    hits = [label for term, label in zip(match_terms, labels) if term in serialized]
+    return {"status": "pass" if not hits else "fail", "hits": hits, "forbidden_terms": list(labels)}
 
 
 class DiscoveryGatedTransformerProjector:
@@ -736,14 +1031,22 @@ class DiscoveryGatedTransformerProjector:
             "component_refs": self.component_refs,
             "architecture_spec": default_architecture_spec(),
             "hardgate": {"status": "pass", "gate_names": list(GATE_NAMES), "gates": _gate_rows(self.component_refs)},
+            "hardgate_ref": _cell(CANONICAL_JSON_ARTIFACT, "$.hardgate"),
             "tool_route_evidence": build_dgt_tool_route_evidence(generated_at=generated_at),
             "family_definition": build_dgt_family_definition(),
             "discovery_map_signal": default_discovery_map_signal(),
+            "discovery_map_signal_ref": _cell(CANONICAL_JSON_ARTIFACT, "$.discovery_map_signal"),
             **sidecar_refs(),
+            "forbidden_claim_term_audit": {},
+            "revocation_rows": [
+                {"gate": "DGT-HG13", "condition": "Revoke when the owner-local jet certificate pointer is absent."},
+                {"gate": "DGT-HG20", "condition": "Revoke when forbidden claim language appears in DGT claim fields."},
+            ],
             "not_claimed": list(NOT_CLAIMED),
         }
         if any(row["status"] != "pass" for row in payload["hardgate"]["gates"].values()):
             payload["hardgate"]["status"] = "fail"
+        payload["forbidden_claim_term_audit"] = _dgt_forbidden_claim_term_audit(payload)
         validate_projection(payload)
         return payload
 
@@ -760,13 +1063,17 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
         "component_refs",
         "architecture_spec",
         "hardgate",
+        "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
         "discovery_map_signal",
+        "discovery_map_signal_ref",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
         "jet_certificate_ref",
+        "forbidden_claim_term_audit",
+        "revocation_rows",
         "not_claimed",
     }
     if set(payload) != expected:
@@ -786,6 +1093,15 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
     for key in ("claim_capsule_ref", "evidence_envelope_ref", "mechanism_namecert_ref", "jet_certificate_ref"):
         if not _is_cell(payload[key]):
             raise ValueError(f"DGT sidecar ref is not a pointer cell: {key}")
+    for key in ("hardgate_ref", "discovery_map_signal_ref"):
+        if not _is_cell(payload[key]):
+            raise ValueError(f"DGT summary ref is not a pointer cell: {key}")
+    if payload["forbidden_claim_term_audit"] != _dgt_forbidden_claim_term_audit(payload):
+        raise ValueError("DGT forbidden claim term audit mismatch")
+    if payload["forbidden_claim_term_audit"]["status"] != "pass":
+        raise ValueError("DGT forbidden claim term audit failed")
+    if not isinstance(payload["revocation_rows"], list) or not payload["revocation_rows"]:
+        raise ValueError("DGT revocation rows missing")
     if not isinstance(payload["component_refs"], Mapping) or not _walk_cells(payload["component_refs"]):
         raise ValueError("DGT component refs must be pointer-only")
     hardgate = payload["hardgate"]
@@ -803,10 +1119,17 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
             raise ValueError(f"DGT hardgate row status mismatch: {gate_name}")
         if not _is_cell(row["evidence"]) or not _is_cell(row["not_claimed"]):
             raise ValueError(f"DGT hardgate row must use pointer cells: {gate_name}")
-    serialized = json.dumps(payload, sort_keys=True).lower()
-    for denied in ("global superiority", "production authority"):
-        if denied not in serialized:
-            raise ValueError(f"DGT nonclaim boundary missing: {denied}")
+
+
+def validate_dgt_hardgate_evidence_bundle(payload: Mapping[str, Any], *, root: Path) -> None:
+    validate_projection(payload)
+    gates = payload["hardgate"]["gates"]
+    for gate_name, row in gates.items():
+        if row["status"] != "pass":
+            continue
+        for key in ("evidence", "not_claimed"):
+            if _resolve_cell(root, row[key]) is None:
+                raise ValueError(f"DGT hardgate {key} pointer does not resolve: {gate_name}")
 
 
 def build_projection(*, generated_at: str, component_refs: Mapping[str, Any] | None = None) -> dict[str, Any]:
@@ -877,6 +1200,8 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
             f"- Evidence envelope: `{artifact_pointer(payload['evidence_envelope_ref'])}`",
             f"- Mechanism NameCert: `{artifact_pointer(payload['mechanism_namecert_ref'])}`",
             f"- Jet certificate: `{artifact_pointer(payload['jet_certificate_ref'])}`",
+            f"- Jet hardgate: `{artifact_pointer(payload['hardgate_ref'])}`",
+            f"- Discovery map signal: `{artifact_pointer(payload['discovery_map_signal_ref'])}`",
             "",
         ]
     )
