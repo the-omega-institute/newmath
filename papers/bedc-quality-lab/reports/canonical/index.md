@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-07T20:57:07.067409+00:00`
+- Generated at: `2026-06-07T23:05:25.838721+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -31,9 +31,12 @@
 | report | status | json | markdown | fingerprint | scope | cost | not-claimed | positive claim | control |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `nongaussian-distribution-sweep` | `pass` | `reports/canonical/nongaussian-distribution-sweep.json` | `reports/canonical/nongaussian-distribution-sweep.md` | `reports/canonical/nongaussian-distribution-sweep.fingerprint.json` | `$.coverage_item` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.main_claim_status` | `$.negative_result_ledger` |
+| `transformer-derivative-atlas` | `pass` | `reports/canonical/transformer_derivative_atlas.json` | `reports/canonical/layerwise_jet_map.md` | `reports/canonical/transformer_derivative_atlas.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` |
 | `lejepa-theorem-ledger` | `pass` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
 | `observed-debt-sweep` | `pass` | `reports/canonical/observed-debt-sweep.json` | `reports/canonical/observed-debt-sweep.md` | `reports/canonical/observed-debt-sweep.fingerprint.json` | `$.claim_boundary.C4` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate_evidence.C-HG5` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `pass` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
+| `model-comparison` | `pass` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.source_reports` | `$.not_claimed` | `$.hardgates.CMP-HG5` | `$.hardgates.CMP-HG3` |
+| `causal-patch-suite` | `pass` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.schema_constants.PATCH_MATCHED_CONTROL` | `$.not_claimed` | `$.discovery_projection` | `$.matched_control_summary` |
 
 ## Dashboard
 
@@ -55,7 +58,7 @@
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
 - Experiment proposals: `reports/canonical/discovery_map.json:$.experiment_proposals`
-- Rows: `25`
+- Rows: `27`
 
 ## Observed debt axis projection
 
@@ -105,7 +108,7 @@
 
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witnesses.json`
-- Expected kinds: `8`
+- Expected kinds: `9`
 
 ## Negative discovery reports
 
@@ -173,11 +176,23 @@
 - Hardgates: `reports/canonical/model_design_suite.json:$.hardgates`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
 
+## Model Comparison
+
+- Status: `pointer-only`
+- Sidecar status: `not_ready`
+- JSON: `reports/canonical/model-comparison.json`
+- Markdown: `reports/canonical/model-comparison.md`
+- Schema: `bedc-quality-lab:model-comparison`
+- Models: `reports/canonical/model-comparison.json:$.models`
+- Hardgates: `reports/canonical/model-comparison.json:$.hardgates`
+- Ranking key: `reports/canonical/model-comparison.json:$.ranking_key`
+- Source reports: `reports/canonical/model-comparison.json:$.source_reports`
+
 ## Claim verdicts
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `33`
+- Rows: `36`
 
 ## Claim graph
 
@@ -185,7 +200,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `95`
+- Nodes: `103`
 
 ## Claim capsule
 
@@ -200,7 +215,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witness_summary.json`
 - Markdown: `reports/canonical/discovery_negative_witness_summary.md`
-- Rows: `16`
+- Rows: `17`
 - Audit: `pass`
 
 ## Formal hardening
@@ -280,7 +295,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas, discovery-gated-transformer`
-- Auxiliary reports: `nongaussian-distribution-sweep, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge`
+- Auxiliary reports: `nongaussian-distribution-sweep, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, model-comparison, causal-patch-suite`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -308,9 +323,12 @@
 | `mechanism-seeking-network` | `hg_p_core` | `$.positive_claim` | `$.matched_random_control` | `None` |
 | `discovery-gated-nas` | `hg_p_core` | `$.positive_claim` | `$.matched_baseline_control` | `None` |
 | `discovery-gated-transformer` | `hg_p_core` | `$.discovery_map_signal` | `$.component_refs` | `None` |
+| `transformer-derivative-atlas` | `auxiliary` | `$.mechanism_claim_allowed` | `$.margin_proxy_controls` | `None` |
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
 | `observed-debt-sweep` | `auxiliary` | `$.hardgate_evidence.C-HG5` | `None` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
+| `model-comparison` | `auxiliary` | `$.hardgates.CMP-HG5` | `$.hardgates.CMP-HG3` | `None` |
+| `causal-patch-suite` | `auxiliary` | `$.discovery_projection` | `$.matched_control_summary` | `None` |
 
 ## Literature ledger pointer
 

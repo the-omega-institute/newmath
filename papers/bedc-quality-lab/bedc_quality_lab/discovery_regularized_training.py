@@ -9,6 +9,7 @@ import math
 import statistics
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
@@ -87,6 +88,15 @@ QUALITY_PROMOTION_ARMS = (
     "matched_random_DRT",
     "old_certificate_guided",
 )
+CERTIFICATE_GUIDED_DN_ARTIFACTS = (
+    "reports/canonical/certificate-guided-training.json",
+    "reports/canonical/certificate-guided-discovery.json",
+)
+CERTIFICATE_GUIDED_DN_DISCOVERY_MAP_ROWS = (
+    "reports/canonical/discovery_map.json:$.rows[?report=certificate-guided-training].discovery_level",
+    "reports/canonical/discovery_map.json:$.rows[?report=certificate-guided-discovery].discovery_level",
+)
+CERTIFICATE_GUIDED_DN_FORBIDDEN_ACTIONS = ("cover", "replace", "delete")
 DRT_EXTENSION_UER_MAX = 0.18
 DRT_EXTENSION_UER_REDUCTION_MIN = 0.06
 DRT_EXTENSION_FORBIDDEN_PATTERNS = (
@@ -101,8 +111,8 @@ DRT_EXTENSION_FORBIDDEN_PATTERNS = (
 FIXED_CELL_SECONDS_PROXY = 0.00025
 FLOPS_PER_STEP_PROXY = 4096
 ENERGY_PER_FLOP_PROXY = 1.0e-10
-DRT_HARDGATES = tuple(f"DRT-HG{index}" for index in range(1, 9))
-DRT_BASE_HARDGATES = DRT_HARDGATES[:7]
+DRT_HARDGATES = tuple(f"DRT-HG{index}" for index in range(1, 10))
+DRT_BASE_HARDGATES = DRT_HARDGATES[:8]
 DRT_PROMOTION_HARDGATE = DRT_HARDGATES[-1]
 
 
@@ -369,6 +379,109 @@ def _artifact_pointer_resolves(payload: Mapping[str, Any], artifact_pointer: str
     return _quality_pointer_value(payload, artifact_pointer) is not None
 
 
+def certificate_guided_dn_preservation(
+    source_artifacts: Mapping[str, Any],
+    *,
+    required_refs: Sequence[str] = CERTIFICATE_GUIDED_DN_ARTIFACTS,
+    discovery_map_refs: Sequence[str] = CERTIFICATE_GUIDED_DN_DISCOVERY_MAP_ROWS,
+    forbidden_actions: Sequence[str] = CERTIFICATE_GUIDED_DN_FORBIDDEN_ACTIONS,
+    expected_discovery_level: str = "DN",
+    terminal_status_isolated: bool = True,
+) -> dict[str, Any]:
+    ref_rows = [
+        {
+            "artifact": str(artifact),
+            "role": "sibling-dn-evidence",
+            "expected_discovery_level": expected_discovery_level,
+            "artifact_status": str(source_artifacts.get(str(artifact), "missing")),
+        }
+        for artifact in required_refs
+    ]
+    map_rows = [
+        {
+            "pointer": str(pointer),
+            "expected_discovery_level": expected_discovery_level,
+            "status": "expected",
+        }
+        for pointer in discovery_map_refs
+    ]
+    actions = tuple(str(action).lower() for action in forbidden_actions)
+    return {
+        "schema_id": f"{SCHEMA_ID}:certificate-guided-dn-preservation",
+        "status": _status(
+            bool(ref_rows)
+            and all(row["artifact_status"] == "present" for row in ref_rows)
+            and all(row["expected_discovery_level"] == "DN" for row in ref_rows)
+            and all(row["expected_discovery_level"] == "DN" for row in map_rows)
+            and terminal_status_isolated
+        ),
+        "owner_pointer": quality_artifact_pointer("$.certificate_guided_dn_preservation"),
+        "boundary_verdict": "preserve-sibling-dn-evidence",
+        "comparison_permission": "DRT may compare while preserving certificate-guided DN evidence as sibling artifacts.",
+        "required_refs": ref_rows,
+        "discovery_map_refs": map_rows,
+        "forbidden_actions": list(actions),
+        "terminal_status_isolated": terminal_status_isolated,
+        "not_claimed": "Certificate-guided artifacts remain independent sibling evidence.",
+    }
+
+
+def certificate_guided_dn_preservation_audit(payload: Mapping[str, Any]) -> dict[str, Any]:
+    section = payload.get("certificate_guided_dn_preservation")
+    if not isinstance(section, Mapping):
+        return {
+            "status": "fail",
+            "required_refs_present": False,
+            "expected_dn_status": False,
+            "forbidden_actions_absent": False,
+            "terminal_status_isolated": False,
+        }
+    required = section.get("required_refs")
+    map_rows = section.get("discovery_map_refs")
+    forbidden_actions = tuple(str(action).lower() for action in section.get("forbidden_actions", ()))
+    artifacts = {
+        str(row.get("artifact"))
+        for row in required
+        if isinstance(row, Mapping)
+    } if isinstance(required, Sequence) and not isinstance(required, str) else set()
+    required_refs_present = (
+        artifacts == set(CERTIFICATE_GUIDED_DN_ARTIFACTS)
+        and all(
+            isinstance(row, Mapping)
+            and str(row.get("artifact", "")).startswith("reports/canonical/")
+            and row.get("artifact_status") == "present"
+            for row in required
+        )
+    ) if isinstance(required, Sequence) and not isinstance(required, str) else False
+    expected_dn_status = (
+        all(isinstance(row, Mapping) and row.get("expected_discovery_level") == "DN" for row in required)
+        and all(isinstance(row, Mapping) and row.get("expected_discovery_level") == "DN" for row in map_rows)
+    ) if (
+        isinstance(required, Sequence)
+        and not isinstance(required, str)
+        and isinstance(map_rows, Sequence)
+        and not isinstance(map_rows, str)
+    ) else False
+    text = json.dumps(section, sort_keys=True).lower().replace("_", "-")
+    forbidden_hits = [
+        action
+        for action in forbidden_actions
+        if f"{action}-claim" in text
+        or f"{action} claim" in text
+        or f"{action} certificate-guided" in text
+    ]
+    terminal_status_isolated = section.get("terminal_status_isolated") is True and not _has_recursive_key(section, "terminal_verdict")
+    status = _status(required_refs_present and expected_dn_status and not forbidden_hits and terminal_status_isolated)
+    return {
+        "status": status,
+        "required_refs_present": required_refs_present,
+        "expected_dn_status": expected_dn_status,
+        "forbidden_actions_absent": not forbidden_hits,
+        "forbidden_action_hits": forbidden_hits,
+        "terminal_status_isolated": terminal_status_isolated,
+    }
+
+
 def _mechanism_ablation_row_key(row: Mapping[str, Any]) -> str:
     return str(row.get("arm", ""))
 
@@ -526,7 +639,7 @@ def _training_mechanism_cert(owner_payload: Mapping[str, Any]) -> dict[str, Any]
             and all_pointers_resolve
         ),
         "owner_pointer": quality_artifact_pointer("$.training_mechanism_cert"),
-        "hardgate_pointer": quality_artifact_pointer("$.hardgate.gates.DRT-HG8"),
+        "hardgate_pointer": quality_artifact_pointer("$.hardgate.gates.DRT-HG9"),
         "status_pointer": quality_artifact_pointer("$.training_mechanism_cert.status"),
         "required_pointers": resolution_rows,
         "mechanism_ablation_status_pointer": required_pointers[0],
@@ -789,6 +902,16 @@ def _revocation_rows(failed_gate: str | None) -> list[dict[str, Any]]:
     ]
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.quality_promotion_boundary.hardgate",
+        metadata_only_pointer="$.surface_registry.task_accuracy_only",
+        matched_random_pointer="$.matched_random_control",
+        forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+    )
+
+
 @dataclass(frozen=True)
 class DiscoveryRegularizedTrainingProjection:
     config: Mapping[str, Any]
@@ -841,8 +964,13 @@ class DiscoveryRegularizedTrainingProjection:
         )
         cert_seed = {**extension_seed, **extension_sections}
         training_mechanism_cert = _training_mechanism_cert(cert_seed)
+        preservation = certificate_guided_dn_preservation(source_artifacts)
         hardgates = self.hardgate_verdicts(
-            {**summaries, "training_mechanism_cert": training_mechanism_cert},
+            {
+                **summaries,
+                "certificate_guided_dn_preservation": preservation,
+                "training_mechanism_cert": training_mechanism_cert,
+            },
             boundary,
         )
         failed_gate = self.failed_gate(hardgates)
@@ -902,6 +1030,7 @@ class DiscoveryRegularizedTrainingProjection:
             "training_loop_trace": summaries["training_loop_trace"],
             "matched_random_control": summaries["matched_random_control"],
             "quality_promotion_boundary": boundary,
+            "certificate_guided_dn_preservation": preservation,
             "mechanism_ablation": summaries["mechanism_ablation"],
             "training_mechanism_cert": training_mechanism_cert,
             **extension_sections,
@@ -921,6 +1050,8 @@ class DiscoveryRegularizedTrainingProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "forbidden_claim_term_audit": capsule["forbidden_claim_term_audit"],
         }
+        if signal["level_candidate"] in {"D4", "D5-M"} and failed_gate is None:
+            summary.update(_anti_triviality_contract(str(signal["level_candidate"])))
         if any(alias in summary for alias in FORBIDDEN_SUMMARY_ALIASES):
             raise ValueError("discovery-regularized training summary emitted a forbidden alias")
         if _has_recursive_key(summary, "terminal_verdict") or _has_recursive_key(capsule, "terminal_verdict"):
@@ -951,6 +1082,10 @@ class DiscoveryRegularizedTrainingProjection:
         task_only = summaries["surface_registry"]["task_accuracy_only"]
         torch_evidence = summaries["torch_training_evidence"]
         mechanism_ablation = summaries["mechanism_ablation"]
+        preservation = summaries.get("certificate_guided_dn_preservation")
+        preservation_audit = certificate_guided_dn_preservation_audit(
+            {"certificate_guided_dn_preservation": preservation}
+        )
         training_mechanism_cert = summaries.get("training_mechanism_cert")
         torch_delta = torch_evidence.get("classifier_surface_delta", {})
         protocols = torch_evidence.get("protocols", [])
@@ -1032,6 +1167,15 @@ class DiscoveryRegularizedTrainingProjection:
                 "classifier_surface_delta": dict(torch_delta) if isinstance(torch_delta, Mapping) else {},
             },
             "DRT-HG7": {
+                "status": preservation_audit["status"],
+                "evidence": "DRT may compare against certificate-guided baselines only while preserving their sibling DN evidence and isolating terminal verdict semantics.",
+                "evidence_pointer": "$.certificate_guided_dn_preservation",
+                "required_refs_present": preservation_audit["required_refs_present"],
+                "expected_dn_status": preservation_audit["expected_dn_status"],
+                "forbidden_actions_absent": preservation_audit["forbidden_actions_absent"],
+                "terminal_status_isolated": preservation_audit["terminal_status_isolated"],
+            },
+            "DRT-HG8": {
                 "status": _status(isinstance(mechanism_ablation, Mapping) and mechanism_ablation.get("status") == "pass"),
                 "evidence": "The deterministic mechanism ablation must preserve all six owner-local arms, resolved comparison pointers, full DRT separation, a positive full mechanism signal, and no net-positive ablation parity.",
                 "evidence_pointer": "$.mechanism_ablation",
@@ -1041,7 +1185,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "full_positive_mechanism_signal": bool(mechanism_ablation.get("full_positive_mechanism_signal")) if isinstance(mechanism_ablation, Mapping) else False,
                 "no_ablation_net_positive_parity": bool(mechanism_ablation.get("no_ablation_net_positive_parity")) if isinstance(mechanism_ablation, Mapping) else False,
             },
-            "DRT-HG8": {
+            "DRT-HG9": {
                 "status": _status(
                     isinstance(training_mechanism_cert, Mapping)
                     and training_mechanism_cert.get("status") == "pass"
@@ -1253,10 +1397,15 @@ class DiscoveryRegularizedTrainingProjection:
             cost_protocol = str(configured.get("cost_protocol", ""))
         else:
             cost_protocol = "configs/default_cost_protocol.yaml"
+        certificate_guided_status = {
+            artifact: str(configured.get(artifact, "present")) if isinstance(configured, Mapping) else "present"
+            for artifact in CERTIFICATE_GUIDED_DN_ARTIFACTS
+        }
         return {
             "cost_protocol": cost_protocol,
             "raw_rows": self.run_artifacts.get("raw_metrics"),
             "claim_capsule": self.run_artifacts.get("claim_capsule"),
+            **certificate_guided_status,
             "producer_sources": [
                 "bedc_quality_lab/discovery_regularized_training.py",
                 "scripts/run_discovery_regularized_training.py",
@@ -1600,6 +1749,8 @@ __all__ = [
     "METRIC_KEYS",
     "SCHEMA_ID",
     "TorchTrainingArmProtocol",
+    "certificate_guided_dn_preservation",
+    "certificate_guided_dn_preservation_audit",
     "default_grid",
     "default_drt_training_extension_spec",
     "drt_extension_forbidden_key_audit",

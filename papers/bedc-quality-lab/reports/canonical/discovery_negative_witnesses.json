@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
-  "expected_kind_count": 8,
+  "expected_kind_count": 9,
   "forbidden_claim_terms_count": 4,
   "forbidden_claim_terms_source": "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS",
   "generated_at": "2026-06-03T09:31:24.148018+00:00",
@@ -224,6 +224,33 @@
       "terminal_reason": "audit-improvement-tradeoff",
       "terminal_verdict": "demoted",
       "violated_principle": "Fresh weak evidence must revoke the earlier positive status instead of preserving it."
+    },
+    {
+      "bedc_gap_field": "SourceSpec contamination",
+      "demotion_rule": "rejected/DN",
+      "discovery_level": "DN",
+      "discovery_reasons": [
+        "verdict=rejected"
+      ],
+      "gate_basis": {
+        "audit_status": "consistent",
+        "downgraded": false,
+        "forbidden_claim_term_hits": [],
+        "main_claim_status": "positive",
+        "malformed_detail": null,
+        "net_positive_signal": true,
+        "new_status": "positive",
+        "rejected": false,
+        "rejection_reason": "not-rejected",
+        "scorecard_ready": true
+      },
+      "kind": "synthetic_leakage_injection",
+      "regression_test_pointer": "tests/test_discovery_negative_witnesses.py::test_synthetic_leakage_injection_witness_fails_closed",
+      "required_ledger_row": "SourceSpec row recording synthetic leakage injection surfaces and their rejected terminal projection.",
+      "soundness": "Injected label, error, and metadata-derived cells are not discovery evidence and must fail closed.",
+      "terminal_reason": "malformed-evidence",
+      "terminal_verdict": "rejected",
+      "violated_principle": "Injected label, error, or metadata-derived cells cannot be treated as discovery evidence."
     }
   ]
 }

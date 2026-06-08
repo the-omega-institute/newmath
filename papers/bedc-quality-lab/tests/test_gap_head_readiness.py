@@ -31,10 +31,10 @@ def _context():
         GAP_HEAD_ABLATION_ARTIFACT: {"hardgate": {"status": "pass"}},
         NEGATIVE_WITNESSES_ARTIFACT: {
             "status": "pointer-only",
-            "expected_kind_count": 8,
+            "expected_kind_count": 9,
             "witnesses": [
                 {"kind": f"witness-{index}", "terminal_verdict": "rejected", "discovery_level": "DN"}
-                for index in range(8)
+                for index in range(9)
             ],
         },
         OBSERVED_DEBT_ARTIFACT: {
