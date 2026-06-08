@@ -108,6 +108,7 @@ def test_tag_status_is_falsifiable_metadata(tmp_path, monkeypatch):
     assert "quality_scorecard" not in payload
     assert "formal_hardening" not in payload
     assert "discovery_map" not in payload
+    assert "release_readiness" not in payload
 
 
 def test_sidecar_schema_is_local(tmp_path):

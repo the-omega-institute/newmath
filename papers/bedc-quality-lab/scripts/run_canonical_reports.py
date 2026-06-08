@@ -134,6 +134,64 @@ GAP_HEAD_ATTRIBUTION_ARTIFACT_ID = "gap_head_attribution_capsule"
 RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT = "reports/release_manifest_sidecar.json"
 RELEASE_MANIFEST_SIDECAR_MARKDOWN_ARTIFACT = "reports/release_manifest_sidecar.md"
 RELEASE_MANIFEST_SIDECAR_ARTIFACT_ID = "bedc-quality-lab:release-manifest-sidecar"
+RELEASE_READINESS_POINTERS = (
+    {
+        "id": "canonical-index",
+        "label": "Canonical index",
+        "artifact": "reports/canonical/index.json",
+        "pointer": "$",
+        "owner_pointer": "reports/canonical/index.json:$",
+    },
+    {
+        "id": "quality-scorecard",
+        "label": "Quality scorecard",
+        "artifact": QUALITY_SCORECARD_JSON_ARTIFACT,
+        "pointer": "$.rows",
+        "owner_pointer": f"{QUALITY_SCORECARD_JSON_ARTIFACT}:$.rows",
+    },
+    {
+        "id": "discovery-map",
+        "label": "Discovery map",
+        "artifact": DISCOVERY_MAP_JSON_ARTIFACT,
+        "pointer": "$.coverage_matrix",
+        "owner_pointer": f"{DISCOVERY_MAP_JSON_ARTIFACT}:$.coverage_matrix",
+    },
+    {
+        "id": "claim-graph",
+        "label": "Claim graph",
+        "artifact": CLAIM_GRAPH_JSON_ARTIFACT,
+        "pointer": "$",
+        "owner_pointer": f"{CLAIM_GRAPH_JSON_ARTIFACT}:$",
+    },
+    {
+        "id": "claim-verdicts",
+        "label": "Claim verdicts",
+        "artifact": CLAIM_VERDICTS_JSONL_ARTIFACT,
+        "pointer": "$",
+        "owner_pointer": f"{CLAIM_VERDICTS_JSONL_ARTIFACT}:$",
+    },
+    {
+        "id": "negative-witnesses",
+        "label": "Negative witnesses",
+        "artifact": NEGATIVE_WITNESSES_JSON_ARTIFACT,
+        "pointer": "$",
+        "owner_pointer": f"{NEGATIVE_WITNESSES_JSON_ARTIFACT}:$",
+    },
+    {
+        "id": "formal-hardening",
+        "label": "Formal hardening",
+        "artifact": FORMAL_HARDENING_JSON_ARTIFACT,
+        "pointer": "$",
+        "owner_pointer": f"{FORMAL_HARDENING_JSON_ARTIFACT}:$",
+    },
+    {
+        "id": "release-manifest-sidecar",
+        "label": "Release manifest sidecar",
+        "artifact": RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT,
+        "pointer": "$.release_bundle_status",
+        "owner_pointer": f"{RELEASE_MANIFEST_SIDECAR_JSON_ARTIFACT}:$.release_bundle_status",
+    },
+)
 TOY_LATENT_PLANNING_BEDC_JSON_ARTIFACT = "reports/toy_latent_planning_bedc/toy_latent_planning_bedc.json"
 TOY_LATENT_PLANNING_BEDC_SUMMARY_ARTIFACT = "reports/toy_latent_planning_bedc/summary.json"
 TOY_LATENT_PLANNING_BEDC_CLAIM_CAPSULE_ARTIFACT = "reports/toy_latent_planning_bedc/claim_capsule.json"
@@ -4746,6 +4804,21 @@ def _release_manifest_sidecar_index_section() -> dict[str, Any]:
     }
 
 
+def _release_readiness_index_section() -> dict[str, Any]:
+    rows = [dict(row) for row in RELEASE_READINESS_POINTERS]
+    return {
+        "status": "pointer-only",
+        "canonical_role": "index_projection_not_fact_source",
+        "freshness_hardgate": "scripts/run_canonical_reports.py --verify-fingerprints",
+        "source_count": len(rows),
+        "sources": rows,
+        "not_claimed": (
+            "This section does not copy scorecard, discovery, formal, claim, or release facts; "
+            "read the listed owner pointers and use --verify-fingerprints for stale-hash failure."
+        ),
+    }
+
+
 def _toy_latent_planning_bedc_index_section() -> dict[str, Any]:
     return {
         "status": "pointer-only",
@@ -4985,6 +5058,7 @@ def _index(
         "gap_head_attribution_capsule": _gap_head_attribution_index_section(),
         "gap_head_mechanism_namecert": _gap_head_mechanism_namecert_index_section(),
         "release_manifest_sidecar": _release_manifest_sidecar_index_section(),
+        "release_readiness": _release_readiness_index_section(),
         "toy_latent_planning_bedc": _toy_latent_planning_bedc_index_section(),
         "release_namecert_candidate": _release_namecert_candidate_index_section(),
         "toy_safety_boundary": _toy_safety_boundary_index_section(),
@@ -5321,6 +5395,29 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Release bundle status: `{payload['release_manifest_sidecar']['release_bundle_status']}`",
             f"- Tag status: `{payload['release_manifest_sidecar']['tag_status']}`",
             f"- Version: `{payload['release_manifest_sidecar']['version']}`",
+            "",
+            "## Release readiness",
+            "",
+            f"- Status: `{payload['release_readiness']['status']}`",
+            f"- Canonical role: `{payload['release_readiness']['canonical_role']}`",
+            f"- Freshness hardgate: `{payload['release_readiness']['freshness_hardgate']}`",
+            f"- Sources: `{payload['release_readiness']['source_count']}`",
+            f"- Not claimed: `{payload['release_readiness']['not_claimed']}`",
+            "",
+            "| source | artifact | pointer | owner |",
+            "| --- | --- | --- | --- |",
+        ]
+    )
+    for row in payload["release_readiness"]["sources"]:
+        lines.append(
+            "| "
+            f"`{row['label']}` | "
+            f"`{row['artifact']}` | "
+            f"`{row['pointer']}` | "
+            f"`{row['owner_pointer']}` |"
+        )
+    lines.extend(
+        [
             "",
             "## Toy latent planning BEDC",
             "",

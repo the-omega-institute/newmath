@@ -522,7 +522,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-08T13:17:21.730976+00:00",
+  "generated_at": "2026-06-08T14:25:27.957239+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -937,9 +937,74 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "9b5c532f3748d62cb4f5599061d3c5b0cf5493ee0cee0f11f93caf9e21d3ef20",
+    "source_sidecar_digest": "43df943af6d2fa541b7dbc0e34bc75141cdfb69739d85d00fc8ff7c75824a519",
     "status": "pointer-only",
     "tag_absent_policy": "active"
+  },
+  "release_readiness": {
+    "canonical_role": "index_projection_not_fact_source",
+    "freshness_hardgate": "scripts/run_canonical_reports.py --verify-fingerprints",
+    "not_claimed": "This section does not copy scorecard, discovery, formal, claim, or release facts; read the listed owner pointers and use --verify-fingerprints for stale-hash failure.",
+    "source_count": 8,
+    "sources": [
+      {
+        "artifact": "reports/canonical/index.json",
+        "id": "canonical-index",
+        "label": "Canonical index",
+        "owner_pointer": "reports/canonical/index.json:$",
+        "pointer": "$"
+      },
+      {
+        "artifact": "reports/canonical/quality-scorecard.json",
+        "id": "quality-scorecard",
+        "label": "Quality scorecard",
+        "owner_pointer": "reports/canonical/quality-scorecard.json:$.rows",
+        "pointer": "$.rows"
+      },
+      {
+        "artifact": "reports/canonical/discovery_map.json",
+        "id": "discovery-map",
+        "label": "Discovery map",
+        "owner_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
+        "pointer": "$.coverage_matrix"
+      },
+      {
+        "artifact": "reports/canonical/claim_graph.json",
+        "id": "claim-graph",
+        "label": "Claim graph",
+        "owner_pointer": "reports/canonical/claim_graph.json:$",
+        "pointer": "$"
+      },
+      {
+        "artifact": "reports/canonical/claim_verdicts.jsonl",
+        "id": "claim-verdicts",
+        "label": "Claim verdicts",
+        "owner_pointer": "reports/canonical/claim_verdicts.jsonl:$",
+        "pointer": "$"
+      },
+      {
+        "artifact": "reports/canonical/discovery_negative_witnesses.json",
+        "id": "negative-witnesses",
+        "label": "Negative witnesses",
+        "owner_pointer": "reports/canonical/discovery_negative_witnesses.json:$",
+        "pointer": "$"
+      },
+      {
+        "artifact": "reports/canonical/formal_hardening.json",
+        "id": "formal-hardening",
+        "label": "Formal hardening",
+        "owner_pointer": "reports/canonical/formal_hardening.json:$",
+        "pointer": "$"
+      },
+      {
+        "artifact": "reports/release_manifest_sidecar.json",
+        "id": "release-manifest-sidecar",
+        "label": "Release manifest sidecar",
+        "owner_pointer": "reports/release_manifest_sidecar.json:$.release_bundle_status",
+        "pointer": "$.release_bundle_status"
+      }
+    ],
+    "status": "pointer-only"
   },
   "reports": [
     {

@@ -4,6 +4,8 @@ import pytest
 
 from bedc_quality_lab.claim_complexity import (
     ARTIFACT_ID,
+    CLAIM_VERDICTS_ARTIFACT,
+    DISCOVERY_MAP_ARTIFACT,
     DIMENSION_NAMES,
     ROW_KEYS,
     TOP_LEVEL_KEYS,
@@ -12,7 +14,9 @@ from bedc_quality_lab.claim_complexity import (
     resolve_claim_verdict_ref,
     validate_claim_complexity_payload,
 )
+from bedc_quality_lab import claim_complexity
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from scripts import run_claim_complexity_score
 
 
 def _write_json(path, payload):
@@ -92,6 +96,99 @@ def test_claim_complexity_score_is_deterministic_dimension_sum(tmp_path):
     assert row["complexity_score"] == sum(dimension["weight"] for dimension in row["scoring_dimensions"])
 
 
+def test_claim_complexity_weights_cover_every_level_specific_branch():
+    base_row = {
+        "evidence_pointer": "$.positive_claim",
+        "scorecard_pointer": "$.scorecard",
+        "control_pointer": "$.control",
+        "robustness_pointer": "$.robustness",
+        "adversarial_pointer": "$.adversarial",
+        "negative_report_pointer": "$.negative",
+        "terminal_verdict": "accepted",
+    }
+    expected_by_level = {
+        "D0": {
+            "assumption_complexity": 0,
+            "proof_burden": 0,
+            "evidence_burden": 3,
+            "backend_coupling": 2,
+            "witness_exposure": 2,
+            "revocation_fragility": 1,
+        },
+        "D1": {
+            "assumption_complexity": 1,
+            "proof_burden": 0,
+            "evidence_burden": 3,
+            "backend_coupling": 2,
+            "witness_exposure": 2,
+            "revocation_fragility": 1,
+        },
+        "D2": {
+            "assumption_complexity": 2,
+            "proof_burden": 1,
+            "evidence_burden": 3,
+            "backend_coupling": 2,
+            "witness_exposure": 2,
+            "revocation_fragility": 1,
+        },
+        "D3": {
+            "assumption_complexity": 3,
+            "proof_burden": 1,
+            "evidence_burden": 3,
+            "backend_coupling": 2,
+            "witness_exposure": 2,
+            "revocation_fragility": 1,
+        },
+        "D4": {
+            "assumption_complexity": 4,
+            "proof_burden": 2,
+            "evidence_burden": 3,
+            "backend_coupling": 2,
+            "witness_exposure": 2,
+            "revocation_fragility": 1,
+        },
+        "D5-O": {
+            "assumption_complexity": 5,
+            "proof_burden": 2,
+            "evidence_burden": 3,
+            "backend_coupling": 2,
+            "witness_exposure": 2,
+            "revocation_fragility": 1,
+        },
+        "D5-M": {
+            "assumption_complexity": 6,
+            "proof_burden": 2,
+            "evidence_burden": 3,
+            "backend_coupling": 2,
+            "witness_exposure": 2,
+            "revocation_fragility": 1,
+        },
+        "DN": {
+            "assumption_complexity": 2,
+            "proof_burden": 0,
+            "evidence_burden": 3,
+            "backend_coupling": 2,
+            "witness_exposure": 2,
+            "revocation_fragility": 2,
+        },
+        "DR": {
+            "assumption_complexity": 3,
+            "proof_burden": 0,
+            "evidence_burden": 3,
+            "backend_coupling": 2,
+            "witness_exposure": 2,
+            "revocation_fragility": 2,
+        },
+    }
+
+    for level, expected in expected_by_level.items():
+        row = dict(base_row, discovery_level=level)
+
+        actual = {name: claim_complexity._weight_for(name, row) for name in DIMENSION_NAMES}
+
+        assert actual == expected
+
+
 def test_claim_complexity_evidence_and_verdict_refs_resolve(tmp_path):
     root = _fixture_root(tmp_path)
     payload = build_claim_complexity_payload(root, "fixture-time")
@@ -100,6 +197,49 @@ def test_claim_complexity_evidence_and_verdict_refs_resolve(tmp_path):
     assert all(resolve_artifact_pointer(root, dimension["evidence_pointer"]) is not None for dimension in row["scoring_dimensions"])
     verdict = resolve_claim_verdict_ref(root, row["pointer_only_verdict_ref"])
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
+
+
+def test_claim_complexity_dimension_pointer_uses_local_artifact_pointer():
+    row = {"json_artifact": "reports/canonical/demo.json", "evidence_pointer": "$.positive_claim"}
+
+    assert (
+        claim_complexity._dimension_pointer("evidence_burden", 7, row)
+        == "reports/canonical/demo.json:$.positive_claim"
+    )
+
+
+def test_claim_complexity_dimension_pointer_keeps_qualified_cross_artifact_witness_pointer():
+    row = {
+        "json_artifact": "reports/canonical/demo.json",
+        "adversarial_pointer": "reports/canonical/witnesses.json:$.witnesses[0]",
+    }
+
+    assert (
+        claim_complexity._dimension_pointer("witness_exposure", 3, row)
+        == "reports/canonical/witnesses.json:$.witnesses[0]"
+    )
+
+
+def test_claim_complexity_dimension_pointer_uses_classifier_reasons_when_present():
+    row = {"json_artifact": "reports/canonical/demo.json", "classifier_reasons": ["fixture"]}
+
+    assert (
+        claim_complexity._dimension_pointer("proof_burden", 2, row)
+        == f"{DISCOVERY_MAP_ARTIFACT}:$.rows[2].classifier_reasons"
+    )
+
+
+def test_claim_complexity_dimension_pointer_falls_back_to_discovery_map_row():
+    row = {"json_artifact": "reports/canonical/demo.json"}
+
+    assert (
+        claim_complexity._dimension_pointer("proof_burden", 5, row)
+        == f"{DISCOVERY_MAP_ARTIFACT}:$.rows[5]"
+    )
+    assert (
+        claim_complexity._dimension_pointer("witness_exposure", 5, row)
+        == f"{DISCOVERY_MAP_ARTIFACT}:$.rows[5]"
+    )
 
 
 def test_claim_complexity_does_not_copy_verdict_payload_keys(tmp_path):
@@ -154,3 +294,36 @@ def test_claim_complexity_markdown_is_pointer_only(tmp_path):
 
     assert "reports/canonical/claim_verdicts.jsonl:$.lines[0]" in markdown
     assert "accepted_positive_discovery" not in markdown
+
+
+def test_write_claim_complexity_score_writes_json_and_markdown(tmp_path):
+    root = _fixture_root(tmp_path)
+
+    payload = run_claim_complexity_score.write_claim_complexity_score(root=root, generated_at="fixture-time")
+
+    json_artifact = root / run_claim_complexity_score.JSON_ARTIFACT
+    markdown_artifact = root / run_claim_complexity_score.MARKDOWN_ARTIFACT
+    assert json_artifact.exists()
+    assert markdown_artifact.exists()
+    assert json.loads(json_artifact.read_text(encoding="utf-8")) == payload
+    markdown = markdown_artifact.read_text(encoding="utf-8")
+    assert "# Claim Complexity" in markdown
+    assert f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[0]" in markdown
+
+
+def test_write_claim_complexity_score_fails_on_hardgate_failure(tmp_path, monkeypatch):
+    root = _fixture_root(tmp_path)
+    real_build = run_claim_complexity_score.build_claim_complexity_payload
+
+    def build_payload_with_failure(base, timestamp):
+        payload = real_build(base, timestamp)
+        payload["hardgates"]["CC-HG1"]["status"] = "fail"
+        return payload
+
+    monkeypatch.setattr(run_claim_complexity_score, "build_claim_complexity_payload", build_payload_with_failure)
+
+    with pytest.raises(SystemExit, match="claim complexity hardgate failed: CC-HG1"):
+        run_claim_complexity_score.write_claim_complexity_score(root=root, generated_at="fixture-time")
+
+    assert (root / run_claim_complexity_score.JSON_ARTIFACT).exists()
+    assert (root / run_claim_complexity_score.MARKDOWN_ARTIFACT).exists()
