@@ -4212,7 +4212,7 @@ def test_canonical_index_points_to_discovery_map_coverage_matrix(tmp_path, monke
     assert all(report["name"] != "discovery_coverage" for report in payload["reports"])
 
 
-def test_canonical_index_exposes_experiment_proposals_under_discovery_map_only(tmp_path, monkeypatch):
+def test_canonical_index_exposes_experiment_proposals_as_pointer_sidecar(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
@@ -4229,14 +4229,18 @@ def test_canonical_index_exposes_experiment_proposals_under_discovery_map_only(t
 
     payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
 
-    assert payload["discovery_map"]["experiment_proposals_pointer"] == (
-        "reports/canonical/discovery_map.json:$.experiment_proposals"
+    assert payload["experiment_proposals"]["canonical_role"] == "pointer_sidecar_not_CANONICAL_REPORTS"
+    assert payload["experiment_proposals"]["proposal_rows_pointer"] == "reports/canonical/experiment_proposals.json:$.rows"
+    assert payload["experiment_proposals"]["source_artifacts_pointer"] == (
+        "reports/canonical/experiment_proposals.json:$.source_artifacts"
     )
-    assert payload["discovery_map"]["experiment_proposal_count"] > 0
-    assert "experiment_proposals" not in payload
+    assert payload["experiment_proposals"]["proposal_count"] > 0
+    assert (canonical.CANONICAL_DIR / "experiment_proposals.json").exists()
+    assert "experiment_proposals_pointer" not in payload["discovery_map"]
+    assert "experiment_proposal_count" not in payload["discovery_map"]
     assert "experiment_plan" not in payload
     assert "experiment_planner" not in payload
-    assert "experiment_proposals" not in payload["reports"]
+    assert "experiment_proposals" not in [report["name"] for report in payload["reports"]]
     assert "next_hypothesis" not in json.dumps(payload["discovery_map"], sort_keys=True)
 
 
