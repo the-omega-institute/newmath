@@ -388,6 +388,11 @@ def _audit_pass(payload: Mapping[str, Any]) -> bool:
     return _audit_status(payload) in {"valid", "consistent", "pass"}
 
 
+def _scope_gate_failed(payload: Mapping[str, Any]) -> bool:
+    gate = _first_mapping(payload, "scope_gate")
+    return gate is not None and gate.get("status") == "fail"
+
+
 def _experiment_id(payload: Mapping[str, Any]) -> str:
     for key in ("artifact", "json_artifact"):
         value = payload.get(key)
@@ -466,6 +471,8 @@ def _assign_level(
     if basis.revoked:
         reason = basis.failed_gate_reasons[0] if basis.failed_gate_reasons else "revocation signal present"
         return "DR", (reason,)
+    if _scope_gate_failed(payload):
+        return "DN", ("scope-expansion-evidence-missing",)
     if basis.terminal_failed:
         return "DN", (f"verdict={terminal_verdict}",)
     pre_scope_d4_pass = (

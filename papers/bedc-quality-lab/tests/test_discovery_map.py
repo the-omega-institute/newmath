@@ -1750,6 +1750,132 @@ def test_audit_row_accepts_generic_owner_local_anti_triviality_contract():
     assert reason == ""
 
 
+def _scope_claim_payload(*, with_evidence=True, source_scope="toy", target_scope="backend-evidence"):
+    payload = _generic_anti_triviality_payload()
+    payload["positive_discovery"] = True
+    payload["net_positive_signal"] = True
+    payload["scope_seal"] = CLOSED_CLAIM_SCOPE_SEAL
+    payload["evidence_basis"] = {
+        "control_positive_discovery": False,
+        "scorecard_ready": True,
+        "audit_status": "valid",
+    }
+    payload["main_verdict"] = {
+        "surface_delta_count": 1,
+        "shift_information": 1,
+        "structural_discovery": True,
+        "net_information": 1.0,
+        "deltas": {"debt_delta": 0},
+    }
+    payload["scope_claim"] = {
+        "source_scope": source_scope,
+        "target_scope": target_scope,
+    }
+    payload["scope_evidence"] = {
+        "toy->bounded-design": {
+            "pointer": "$.scope_gate_evidence.toy_bounded",
+            "status": "resolved",
+        },
+    }
+    payload["scope_gate_evidence"] = {"toy_bounded": {"status": "resolved"}}
+    if with_evidence:
+        payload["scope_evidence"]["bounded-design->backend-evidence"] = {
+            "pointer": "$.scope_gate_evidence.bounded_backend",
+            "status": "resolved",
+        }
+        payload["scope_gate_evidence"]["bounded_backend"] = {"status": "resolved"}
+    return payload
+
+
+@pytest.mark.parametrize(
+    ("mutate", "reason", "failed_pointer", "failed_edge"),
+    [
+        (
+            lambda payload: payload["scope_claim"].update({"source_scope": "unknown"}),
+            "unknown-source-scope",
+            "$.scope_claim.source_scope",
+            None,
+        ),
+        (
+            lambda payload: payload["scope_claim"].update({"target_scope": "unknown"}),
+            "unknown-target-scope",
+            "$.scope_claim.target_scope",
+            None,
+        ),
+        (
+            lambda payload: payload["scope_evidence"]["bounded-design->backend-evidence"].update(
+                {"pointer": "$.scope_gate_evidence.missing"}
+            ),
+            "scope-expansion-evidence-missing",
+            "$.scope_gate_evidence.missing",
+            "bounded-design->backend-evidence",
+        ),
+        (
+            lambda payload: payload["scope_evidence"]["bounded-design->backend-evidence"].update({"pointer": ""}),
+            "scope-expansion-evidence-missing",
+            "$.scope_evidence.bounded-design->backend-evidence.pointer",
+            "bounded-design->backend-evidence",
+        ),
+    ],
+)
+def test_discovery_map_scope_gate_failures_produce_dn(tmp_path, mutate, reason, failed_pointer, failed_edge):
+    spec = _generic_positive_spec(f"scope-{reason}")
+    payload = _scope_claim_payload(with_evidence=True)
+    mutate(payload)
+    _write_json_artifact(tmp_path, spec.json_artifact, payload)
+
+    row = discovery_map.discovery_row(spec, payload)
+
+    assert row["discovery_level"] == "DN"
+    assert row["terminal_verdict"] == "negative_discovery"
+    assert row["audit_status"] == "valid"
+    assert row["audit_reason"] == reason
+    assert row["classifier_reasons"] == [reason]
+    assert row["failed_gate"] == failed_pointer
+    assert row["scope_gate"]["status"] == "fail"
+    assert row["scope_gate"]["reason"] == reason
+    assert row["scope_gate"]["failed_edge"] == failed_edge
+    assert row["scope_gate"]["failed_pointer"] == failed_pointer
+
+
+def test_discovery_map_complete_scope_evidence_preserves_positive_row(tmp_path):
+    spec = _generic_positive_spec("scope-complete")
+    payload = _scope_claim_payload(with_evidence=True)
+    _write_json_artifact(tmp_path, spec.json_artifact, payload)
+
+    row = discovery_map.discovery_row(spec, payload)
+
+    assert row["discovery_level"] == "D4"
+    assert row["audit_status"] == "valid"
+    assert row["scope_gate"]["status"] == "pass"
+    assert row["scope_claim"] == {"source_scope": "toy", "target_scope": "backend-evidence"}
+
+
+def test_discovery_map_missing_scope_evidence_produces_dn(tmp_path):
+    spec = _generic_positive_spec("scope-missing")
+    payload = _scope_claim_payload(with_evidence=False)
+    _write_json_artifact(tmp_path, spec.json_artifact, payload)
+
+    row = discovery_map.discovery_row(spec, payload)
+
+    assert row["discovery_level"] == "DN"
+    assert row["terminal_verdict"] == "negative_discovery"
+    assert row["audit_status"] == "valid"
+    assert row["audit_reason"] == "scope-expansion-evidence-missing"
+
+
+def test_discovery_map_scope_failure_points_to_scope_gate():
+    spec = _generic_positive_spec("scope-pointer")
+    payload = _scope_claim_payload(with_evidence=False)
+
+    row = discovery_map.discovery_row(spec, payload)
+
+    assert row["scope_gate"]["status"] == "fail"
+    assert row["scope_gate"]["failed_edge"] == "bounded-design->backend-evidence"
+    assert row["failed_gate"] == "$.scope_evidence.bounded-design->backend-evidence"
+    assert row["audit_reason"] == "scope-expansion-evidence-missing"
+
+
 @pytest.mark.parametrize(
     ("mutate", "reason"),
     [
