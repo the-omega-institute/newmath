@@ -254,26 +254,18 @@ def _payload_for_spec(spec):
                 }
             },
             "score_terms": {"status": "fixture"},
-            "schema_constants": {
-                "PATCH_MATCHED_CONTROL": "same-seed non-target-channel no-op/control perturbation",
-            },
             "matched_random_control": {
                 "status": "fixture",
                 **_matched_random_audit_fixture(),
                 "control_verdict": {"positive": False},
                 "control_projection": {"positive_discovery": True},
             },
-            "matched_control_summary": {"status": "pass"},
-            "effect_summary": {"status": "fixture"},
+            "matched_controls": {"status": "pass"},
+            "patch_records": [{"patch_type": "fixture", "status": "pass"}],
+            "patch_types": ["fixture"],
             "side_effect_ledger": [{"status": "present"}],
-            "patch_registry": [{"channel": "fixture"}],
-            "causal_derivative_ledger_artifact": "reports/canonical/causal_derivative_ledger.json",
-            "discovery_projection": {
-                "status": "evidence-artifact-only",
-                "discovery_level_effect": "none",
-                "positive_discovery": False,
-                "net_positive_signal": False,
-            },
+            "hardgates": {"PATCH-HG1": {"status": "present-but-fail-closed"}},
+            "dgt_mechanism_cert": {"status": "present-but-fail-closed"},
             "objective": {"required_rows": ["fixture"]},
             "cost_protocol": {"name": "fixture"},
             "not_claimed": ["fixture nonclaim"],
@@ -2608,22 +2600,21 @@ def test_canonical_reports_manifest_includes_causal_patch_suite():
         "schema_id",
         "artifact_id",
         "producer",
-        "patch_registry",
-        "schema_constants",
-        "records",
-        "effect_summary",
-        "matched_control_summary",
+        "source_artifacts",
+        "patch_types",
+        "patch_records",
+        "matched_controls",
         "side_effect_ledger",
         "hardgates",
-        "causal_derivative_ledger_artifact",
-        "discovery_projection",
+        "dgt_mechanism_cert",
         "not_claimed",
+        "audit",
     }.issubset(set(spec.required_json_keys))
     assert spec.bundle_role == "auxiliary"
     assert spec.scope_pointer == "$.not_claimed"
-    assert spec.cost_pointer == "$.schema_constants.PATCH_MATCHED_CONTROL"
-    assert spec.positive_claim_pointer == "$.discovery_projection"
-    assert spec.control_pointer == "$.matched_control_summary"
+    assert spec.cost_pointer == "$.source_artifacts"
+    assert spec.positive_claim_pointer == "$.dgt_mechanism_cert"
+    assert spec.control_pointer == "$.matched_controls"
 
 
 def test_causal_patch_suite_fingerprint_sources_cover_runner_and_stats():
@@ -2632,7 +2623,7 @@ def test_causal_patch_suite_fingerprint_sources_cover_runner_and_stats():
     source_paths = {row["path"] for row in input_record["producer_sources"]}
 
     assert "scripts/run_causal_patch_suite.py" in source_paths
-    assert "scripts/experiment_stats.py" in source_paths
+    assert "bedc_quality_lab/causal_patch_suite.py" in source_paths
 
 
 def test_canonical_reports_manifest_includes_mixing_and_anisotropic_sweeps():
@@ -4229,7 +4220,7 @@ def test_canonical_index_points_to_discovery_map_coverage_matrix(tmp_path, monke
     assert all(report["name"] != "discovery_coverage" for report in payload["reports"])
 
 
-def test_canonical_index_exposes_experiment_proposals_under_discovery_map_only(tmp_path, monkeypatch):
+def test_canonical_index_exposes_experiment_proposals_as_pointer_sidecar(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
     monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
@@ -4246,14 +4237,18 @@ def test_canonical_index_exposes_experiment_proposals_under_discovery_map_only(t
 
     payload = canonical.run_reports(generated_at="2026-01-02T03:04:05+00:00")
 
-    assert payload["discovery_map"]["experiment_proposals_pointer"] == (
-        "reports/canonical/discovery_map.json:$.experiment_proposals"
+    assert payload["experiment_proposals"]["canonical_role"] == "pointer_sidecar_not_CANONICAL_REPORTS"
+    assert payload["experiment_proposals"]["proposal_rows_pointer"] == "reports/canonical/experiment_proposals.json:$.rows"
+    assert payload["experiment_proposals"]["source_artifacts_pointer"] == (
+        "reports/canonical/experiment_proposals.json:$.source_artifacts"
     )
-    assert payload["discovery_map"]["experiment_proposal_count"] > 0
-    assert "experiment_proposals" not in payload
+    assert payload["experiment_proposals"]["proposal_count"] > 0
+    assert (canonical.CANONICAL_DIR / "experiment_proposals.json").exists()
+    assert "experiment_proposals_pointer" not in payload["discovery_map"]
+    assert "experiment_proposal_count" not in payload["discovery_map"]
     assert "experiment_plan" not in payload
     assert "experiment_planner" not in payload
-    assert "experiment_proposals" not in payload["reports"]
+    assert "experiment_proposals" not in [report["name"] for report in payload["reports"]]
     assert "next_hypothesis" not in json.dumps(payload["discovery_map"], sort_keys=True)
 
 
