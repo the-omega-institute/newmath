@@ -36,7 +36,7 @@ Pointers: `tests/test_tensor_namecert_candidate.py`; `tests/test_tensor_namecert
 
 Purpose: enumerate the canonical report bundle by role and artifact path while leaving status to the machine index.
 
-Pointers: `reports/canonical/index.json` `$.reports[*].name`; `$.reports[*].bundle_role`; `$.reports[*].json_artifact`; `$.reports[*].markdown_artifact`; `$.reports[*].status`.
+Pointers: `reports/canonical/index.json` `$.reports[*].name`; `$.reports[*].bundle_role`; `$.reports[*].json_artifact`; `$.reports[*].markdown_artifact`; `$.reports[*].status`; `$.reports[*].discipline.reporting_hardgate`.
 
 ## 7. Selected positive worked case: gap-head-on-h
 

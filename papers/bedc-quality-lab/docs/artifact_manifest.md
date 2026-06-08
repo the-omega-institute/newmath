@@ -1,12 +1,13 @@
 # Artifact Manifest
 
-This manifest is a human navigation layer, not a second machine source. Each row gives an artifact id, a path, a discovery-level pointer, and a pointer status. Report status, bundle role, scorecard linkage, and report artifact paths stay in `reports/canonical/index.json`.
+This manifest is a human navigation layer, not a second machine source. Each row gives an artifact id, a path, a discovery-level pointer, and a pointer status. Report status, bundle role, scorecard linkage, report artifact paths, and reporting discipline hardgate cells stay in `reports/canonical/index.json`.
 
 ## Quality Baseline Surfaces
 
 | artifact id | path | discovery_level pointer | pointer status |
 | --- | --- | --- | --- |
 | `bedc-quality-lab:canonical-report-index` | `reports/canonical/index.json` | `$.discovery_map` | pointer-only |
+| `bedc-quality-lab:reporting-discipline-hardgate` | `reports/canonical/index.json` | `$.reports[*].discipline.reporting_hardgate` | pointer-only |
 | `bedc-quality-lab:canonical-report-index-md` | `reports/canonical/index.md` | `## Quality baseline pointers` | pointer-only |
 | `bedc-quality-lab:quality-scorecard` | `reports/canonical/quality-scorecard.json` | `$.rows` | pointer-only |
 | `bedc-quality-lab:quality-scorecard-md` | `reports/canonical/quality-scorecard.md` | `## Quality baseline pointers` | pointer-only |

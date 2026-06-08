@@ -5836,3 +5836,182 @@ def test_derivative_debt_ledger_artifacts_stay_absent_from_canonical_surfaces():
     assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
     for artifact in forbidden_artifacts:
         assert artifact not in index_text
+
+
+def _reporting_spec(**overrides):
+    fields = {
+        "name": "fixture-report",
+        "command": ("python3", "scripts/run_fixture.py"),
+        "json_artifact": "reports/canonical/fixture-report.json",
+        "markdown_artifact": "reports/canonical/fixture-report.md",
+        "required_json_keys": ("source_artifacts", "applicability_boundary", "positive_claim"),
+        "estimated_seconds": 1,
+        "bundle_role": "hg_p_core",
+        "scope_pointer": "$.applicability_boundary",
+        "cost_pointer": "$.source_artifacts.cost_protocol",
+        "not_claimed_pointer": "$.applicability_boundary.not_claimed",
+        "positive_claim_pointer": "$.positive_claim",
+        "control_pointer": "$.control",
+        "no_control_rationale_pointer": None,
+        "claim_capsule_pointer": "$.claim_capsule_ref",
+    }
+    fields.update(overrides)
+    return canonical.CanonicalReportSpec(**fields)
+
+
+def _write_reporting_fixture(root: Path, spec, *, claim_capsule=True, cost_protocol=True, not_claimed=True):
+    payload = {
+        "source_artifacts": {},
+        "applicability_boundary": {"claimed_scope": "fixture"},
+        "positive_claim": {"status": "bounded-positive"},
+        "control": {"status": "pass"},
+    }
+    if claim_capsule:
+        payload["claim_capsule_ref"] = {"claim_id": "claim:fixture"}
+    if cost_protocol:
+        payload["source_artifacts"]["cost_protocol"] = "configs/default_cost_protocol.yaml"
+    if not_claimed:
+        payload["applicability_boundary"]["not_claimed"] = ["fixture boundary"]
+    path = root / spec.json_artifact
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+    md = root / spec.markdown_artifact
+    md.parent.mkdir(parents=True, exist_ok=True)
+    md.write_text("# Fixture\n", encoding="utf-8")
+    return payload
+
+
+def test_index_discipline_owns_reporting_hardgate_nested_object():
+    forbidden = {
+        "papers/bedc-quality-lab/bedc_quality_lab/reporting_guideline.py",
+        "papers/bedc-quality-lab/bedc_quality_lab/report_claim_manifest.py",
+        "papers/bedc-quality-lab/scripts/run_reporting_guideline.py",
+        "papers/bedc-quality-lab/reports/canonical/reporting-guideline.json",
+        "papers/bedc-quality-lab/reports/canonical/reporting-guideline.md",
+        "papers/bedc-quality-lab/reports/canonical/report_claim_manifest.json",
+        "papers/bedc-quality-lab/reports/canonical/report_claim_manifest.md",
+    }
+    payload = json.loads((canonical.ROOT / "reports/canonical/index.json").read_text(encoding="utf-8"))
+
+    assert payload["reports"]
+    for report in payload["reports"]:
+        gate = report["discipline"]["reporting_hardgate"]
+        assert gate["hardgate_id"] == canonical.REPORTING_HARDGATE_ID
+        assert set(gate) == {
+            "hardgate_id",
+            "status",
+            "promotion_eligible",
+            "applicability",
+            "required_cells",
+            "missing_required_cells",
+            "cells",
+        }
+    assert all(not Path(path).exists() for path in forbidden)
+    assert "reporting_guideline" not in {spec.name for spec in canonical.CANONICAL_REPORTS}
+
+
+def test_missing_claim_capsule_blocks_positive_promotion(tmp_path, monkeypatch):
+    spec = _reporting_spec(claim_capsule_pointer="$.missing_claim_capsule")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec)
+
+    discipline = canonical._discipline(spec)
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    gate = discipline["reporting_hardgate"]
+    assert gate["status"] == "fail"
+    assert gate["promotion_eligible"] is False
+    assert gate["missing_required_cells"] == ["claim_capsule"]
+    assert result["status"] == "fail"
+
+
+def test_missing_cost_protocol_blocks_positive_promotion(tmp_path, monkeypatch):
+    spec = _reporting_spec()
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec, cost_protocol=False)
+
+    gate = canonical._discipline(spec)["reporting_hardgate"]
+
+    assert gate["status"] == "fail"
+    assert gate["promotion_eligible"] is False
+    assert gate["missing_required_cells"] == ["cost_protocol"]
+
+
+def test_missing_not_claimed_blocks_positive_promotion(tmp_path, monkeypatch):
+    spec = _reporting_spec()
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec, not_claimed=False)
+
+    gate = canonical._discipline(spec)["reporting_hardgate"]
+
+    assert gate["status"] == "fail"
+    assert gate["promotion_eligible"] is False
+    assert gate["missing_required_cells"] == ["not_claimed"]
+
+
+def test_reporting_hardgate_cells_are_pointer_only(tmp_path, monkeypatch):
+    spec = _reporting_spec()
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec)
+
+    gate = canonical._discipline(spec)["reporting_hardgate"]
+
+    assert set(gate["cells"]) == {
+        "scope_seal",
+        "claim_capsule",
+        "evidence_envelope",
+        "cost_protocol",
+        "backend",
+        "discovery_level",
+        "claim_graph_path",
+        "not_claimed",
+        "negative_witness",
+        "formal_status",
+    }
+    for cell in gate["cells"].values():
+        assert set(cell) == {"pointer", "source_artifact", "status"}
+    serialized = json.dumps(gate)
+    assert "ClaimCapsule body" not in serialized
+    assert "CostProtocol rows" not in serialized
+    assert "ClaimGraph topology" not in serialized
+    assert "negative witness prose" not in serialized
+    assert "\\formalstatus" not in serialized
+    assert "theorem proof" not in serialized
+
+
+def test_run_spec_consumes_reporting_hardgate_failure(tmp_path, monkeypatch):
+    spec = _reporting_spec(claim_capsule_pointer="$.missing_claim_capsule")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec)
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+
+    assert result["validation"]["status"] == "pass"
+    assert result["discipline"]["reporting_hardgate"]["status"] == "fail"
+    assert result["status"] == "fail"
+
+
+def test_host_env_is_ignored_by_reporting_hardgate(tmp_path, monkeypatch):
+    spec = _reporting_spec()
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec)
+
+    before = canonical._discipline(spec)["reporting_hardgate"]
+    host_env = tmp_path / ".refactor-loop" / "host.env"
+    host_env.parent.mkdir(parents=True, exist_ok=True)
+    host_env.write_text("BRANCH=other\nSTATUS=pass\nPATH=/tmp/other\n", encoding="utf-8")
+    after = canonical._discipline(spec)["reporting_hardgate"]
+
+    assert after == before

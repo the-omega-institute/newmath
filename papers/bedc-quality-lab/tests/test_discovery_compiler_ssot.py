@@ -421,3 +421,27 @@ def test_architecture_mutation_draft_is_run_local_only_and_owned_by_compiler_mod
             owners.append(path.relative_to(ROOT).as_posix() if path.is_relative_to(ROOT) else path.name)
 
     assert owners == ["bedc_quality_lab/discovery_compiler/architecture_mutation.py"]
+
+
+def test_discovery_map_does_not_own_reporting_hardgate_or_promotion_eligible():
+    payload = _load_json("reports/canonical/discovery_map.json")
+    forbidden = {
+        "reporting_hardgate",
+        "promotion_eligible",
+        "claim_capsule_pointer",
+        "cost_protocol_pointer",
+        "not_claimed_pointer",
+    }
+
+    assert not (set(payload) & forbidden)
+    for row in payload["rows"]:
+        assert not (set(row) & forbidden)
+        assert "discovery_level" in row
+    coverage = payload.get("coverage_matrix", {})
+    for cell in coverage.get("cells", []):
+        assert not (set(cell) & forbidden)
+    for key in forbidden:
+        mutated = dict(payload["rows"][0])
+        mutated[key] = "fixture"
+        with pytest.raises(ValueError, match="copies reporting verdict fields"):
+            build_discovery_map_payload(rows=[mutated], generated_at="fixture-time", root=ROOT)

@@ -378,3 +378,15 @@ def test_generated_claim_graph_preserves_terminal_ids(tmp_path, monkeypatch):
 
     assert verdicts[0]["claim_graph_node_id"] == "terminal:d4"
     assert any(node["node_id"] == "terminal:d4" for node in payload["nodes"])
+
+
+def test_index_reporting_hardgate_points_to_claim_graph_without_copying_topology():
+    payload = json.loads((canonical.ROOT / "reports/canonical/index.json").read_text(encoding="utf-8"))
+    forbidden = {"nodes", "edges", "topology", "terminal_claims"}
+
+    for report in payload["reports"]:
+        gate = report["discipline"]["reporting_hardgate"]
+        cell = gate["cells"]["claim_graph_path"]
+        assert set(cell) == {"pointer", "source_artifact", "status"}
+        assert cell["source_artifact"] == canonical.CLAIM_GRAPH_JSON_ARTIFACT
+        assert not (set(cell) & forbidden)
