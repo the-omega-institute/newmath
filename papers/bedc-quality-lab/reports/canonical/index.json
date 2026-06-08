@@ -21,13 +21,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 95,
+    "node_count": 106,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 33,
+    "row_count": 37,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -73,6 +73,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.factor_attribution.learned_head.auroc_delta",
         "report": "gap-head-ablation"
+      },
+      {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_protocol",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.positive_claim",
+        "report": "irreducibility-report"
       },
       {
         "bundle_role": "hg_p_core",
@@ -174,6 +181,13 @@
       },
       {
         "bundle_role": "auxiliary",
+        "control_pointer": "$.margin_proxy_controls",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.mechanism_claim_allowed",
+        "report": "transformer-derivative-atlas"
+      },
+      {
+        "bundle_role": "auxiliary",
         "control_pointer": null,
         "no_control_rationale_pointer": "$.scope",
         "positive_claim_pointer": "$.positive_claim",
@@ -192,6 +206,20 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.ledger_summary",
         "report": "spectral-ablation-hinge"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.hardgates.CMP-HG3",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.hardgates.CMP-HG5",
+        "report": "model-comparison"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.matched_control_summary",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.discovery_projection",
+        "report": "causal-patch-suite"
       }
     ],
     "status": "pointer-only"
@@ -236,9 +264,9 @@
         "panel_id": "d5-status"
       },
       {
-        "artifact_pointer": "reports/runs/model-discovery-suite/summary.json:$",
-        "label": "Model-design suite",
-        "panel_id": "model-design-suite"
+        "artifact_pointer": "reports/canonical/model-comparison.json:$",
+        "label": "Model comparison",
+        "panel_id": "model-comparison"
       }
     ],
     "source_index_artifact": "reports/canonical/index.json",
@@ -306,7 +334,7 @@
     "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 5,
+      "D0": 8,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -317,7 +345,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 25,
+    "row_count": 28,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -437,7 +465,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-07T20:57:07.067409+00:00",
+  "generated_at": "2026-06-08T04:01:26.714382+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -448,6 +476,60 @@
       "Hardening is not closure."
     ],
     "status": "explicit"
+  },
+  "irreducibility_report": {
+    "artifact_id": "bedc-quality-lab:irreducibility-report",
+    "conditional_information_table_diagnostic_only": true,
+    "conditional_information_table_json_artifact": "reports/canonical/conditional_information_table.json",
+    "conditional_information_table_pointer": "reports/canonical/conditional_information_table.json:$.rows",
+    "hardgate_pointer": "reports/canonical/irreducibility_report.json:$.hardgate",
+    "json_artifact": "reports/canonical/irreducibility_report.json",
+    "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+    "positive_claim_pointer": "reports/canonical/irreducibility_report.json:$.positive_claim",
+    "status": "pass"
+  },
+  "issue_1012_sidecars": {
+    "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+    "sidecars": [
+      {
+        "artifact": "reports/canonical/lejepa_derivative_bridge.json",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "kind": "json",
+        "name": "lejepa-derivative-bridge",
+        "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+        "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary",
+        "owner_report": "lejepa-theorem-ledger"
+      },
+      {
+        "artifact": "reports/canonical/hermite_degree_vs_behavioral_derivative.md",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "kind": "markdown",
+        "name": "hermite-degree-vs-behavioral-derivative",
+        "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+        "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary",
+        "owner_report": "lejepa-theorem-ledger"
+      },
+      {
+        "artifact": "reports/canonical/spectral_jet_report.json",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "kind": "json",
+        "name": "spectral-jet-report",
+        "nongaussian_references": [
+          {
+            "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+            "pointer": "$.records"
+          },
+          {
+            "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+            "pointer": "$.not_claimed"
+          }
+        ],
+        "owner_artifact": "reports/canonical/spectral-ablation-hinge.json",
+        "owner_pointer": "reports/canonical/spectral-ablation-hinge.json:$.spectral_jet",
+        "owner_report": "spectral-ablation-hinge"
+      }
+    ],
+    "status": "pointer-only"
   },
   "literature_ledger": {
     "failures": [],
@@ -472,6 +554,19 @@
       "artifact-release-navigation"
     ],
     "status": "ready"
+  },
+  "model_comparison": {
+    "artifact_id": "bedc-quality-lab:model-comparison",
+    "hardgates_pointer": "reports/canonical/model-comparison.json:$.hardgates",
+    "json_artifact": "reports/canonical/model-comparison.json",
+    "markdown_artifact": "reports/canonical/model-comparison.md",
+    "model_count": 7,
+    "models_pointer": "reports/canonical/model-comparison.json:$.models",
+    "ranking_key_pointer": "reports/canonical/model-comparison.json:$.ranking_key",
+    "schema_id": "bedc-quality-lab:model-comparison",
+    "sidecar_status": "not_ready",
+    "source_reports_pointer": "reports/canonical/model-comparison.json:$.source_reports",
+    "status": "pointer-only"
   },
   "model_design_suite": {
     "artifact_id": "bedc-quality-lab:model-design-suite",
@@ -516,12 +611,12 @@
     "audit_status": "pass",
     "json_artifact": "reports/canonical/discovery_negative_witness_summary.json",
     "markdown_artifact": "reports/canonical/discovery_negative_witness_summary.md",
-    "row_count": 16,
+    "row_count": 17,
     "status": "pointer-only"
   },
   "negative_witnesses": {
     "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
-    "expected_kind_count": 8,
+    "expected_kind_count": 9,
     "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
     "schema_role": "bedc-gap-witness-ledger",
     "status": "pointer-only",
@@ -707,9 +802,12 @@
   "paper_outline": {
     "auxiliary_reports": [
       "nongaussian-distribution-sweep",
+      "transformer-derivative-atlas",
       "lejepa-theorem-ledger",
       "observed-debt-sweep",
-      "spectral-ablation-hinge"
+      "spectral-ablation-hinge",
+      "model-comparison",
+      "causal-patch-suite"
     ],
     "core_reports": [
       "mixing-family-sweep",
@@ -717,6 +815,7 @@
       "gap-head-on-h",
       "gap-head-discovery",
       "gap-head-ablation",
+      "irreducibility-report",
       "ledger-aware-transformer",
       "certificate-gated-attention",
       "gap-head-threshold-frontier",
@@ -779,7 +878,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "5c615ec5912d3a636b708da63365e7590c21b32e3e30e45adaf20bc632d1719f",
+    "source_sidecar_digest": "654c4118551c60b65e2aa4f5e298cff1b493e87980be486933526037b4224d40",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -957,7 +1056,12 @@
           "$.records[*].matched_random_control.failure_reasons",
           "$.records[*].matched_random_control.evidence_pointers",
           "control_verdict",
-          "main_claim_status"
+          "main_claim_status",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1019,7 +1123,12 @@
           "$.matched_random_control.failure_reasons",
           "$.matched_random_control.evidence_pointers",
           "main_claim_status",
-          "final_main_claim_status"
+          "final_main_claim_status",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1075,6 +1184,65 @@
           "factor_attribution",
           "hardgate",
           "positive_discovery_pointer"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_protocol",
+        "control_status": "present",
+        "cost_pointer": "$.control_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.positive_claim",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.scope",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/irreducibility_report.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/irreducibility_report.json",
+      "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+      "name": "irreducibility-report",
+      "producer_command": [
+        "python3",
+        "scripts/run_irreducibility_report.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "config",
+          "scope",
+          "control_protocol",
+          "seed_aggregation",
+          "hardgate",
+          "positive_claim",
+          "conditional_information_table",
+          "records",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1150,7 +1318,12 @@
           "not_claimed",
           "what_was_learned",
           "revocation_rows",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1340,7 +1513,12 @@
           "multi_surface_d5_o",
           "scope_seal",
           "not_claimed",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1745,7 +1923,12 @@
           "not_claimed",
           "what_was_learned",
           "revocation_rows",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1822,6 +2005,11 @@
           "component_ablation",
           "training_method_comparison",
           "drt_extension_hardgates",
+          "jet_loss_protocol",
+          "jet_loss_surface",
+          "jet_ablation",
+          "jet_loss_frontier",
+          "jet_sidecar_artifacts",
           "hardgate",
           "failed_gate",
           "discovery_map_signal",
@@ -1830,7 +2018,12 @@
           "not_claimed",
           "what_was_learned",
           "revocation_rows",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -2054,6 +2247,76 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "control_pointer": "$.margin_proxy_controls",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts.cost_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [
+          "lit-lejepa-theorem-ledger"
+        ],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.mechanism_claim_allowed",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.scope",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/transformer_derivative_atlas.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/transformer_derivative_atlas.json",
+      "markdown_artifact": "reports/canonical/layerwise_jet_map.md",
+      "name": "transformer-derivative-atlas",
+      "producer_command": [
+        "python3",
+        "scripts/run_transformer_derivative_atlas.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "run_id",
+          "producer",
+          "projector",
+          "source_artifacts",
+          "config",
+          "dgt_declaration",
+          "raw_intervention_rows",
+          "layerwise_derivative_rows",
+          "margin_proxy_controls",
+          "attention_routes",
+          "layer_summary",
+          "hardgate",
+          "hardgates",
+          "failed_gate",
+          "discovery_map_admission",
+          "mechanism_claim_allowed",
+          "bounded_lab_evidence",
+          "forbidden_claim_term_audit",
+          "scope",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
         "control_pointer": null,
         "control_status": "not-applicable",
         "cost_pointer": "$.source_artifacts.cost_protocol",
@@ -2070,7 +2333,23 @@
         "positive_claim_pointer": "$.positive_claim",
         "positive_claim_status": "present",
         "scope_pointer": "$.scope",
-        "scope_status": "present"
+        "scope_status": "present",
+        "sidecars": [
+          {
+            "artifact": "reports/canonical/lejepa_derivative_bridge.json",
+            "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+            "kind": "json",
+            "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+            "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary"
+          },
+          {
+            "artifact": "reports/canonical/hermite_degree_vs_behavioral_derivative.md",
+            "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+            "kind": "markdown",
+            "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+            "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary"
+          }
+        ]
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
@@ -2099,6 +2378,7 @@
           "backend_theorem_rows",
           "backend_ledger_rows",
           "theorem_rows",
+          "hermite_degree_boundary",
           "hardgates",
           "not_claimed",
           "positive_claim",
@@ -2188,7 +2468,16 @@
         "positive_claim_pointer": "$.ledger_summary",
         "positive_claim_status": "present",
         "scope_pointer": "$.applicability_boundary",
-        "scope_status": "present"
+        "scope_status": "present",
+        "sidecars": [
+          {
+            "artifact": "reports/canonical/spectral_jet_report.json",
+            "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+            "kind": "json",
+            "owner_artifact": "reports/canonical/spectral-ablation-hinge.json",
+            "owner_pointer": "reports/canonical/spectral-ablation-hinge.json:$.spectral_jet"
+          }
+        ]
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 20,
@@ -2213,9 +2502,124 @@
           "applicability_boundary",
           "arms",
           "hinge_ledger",
+          "spectral_jet",
           "ledger_summary",
           "negative_control_summary",
           "rank_correlation"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.hardgates.CMP-HG3",
+        "control_status": "present",
+        "cost_pointer": "$.source_reports",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.hardgates.CMP-HG5",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/model-comparison.json",
+      "markdown_artifact": "reports/canonical/model-comparison.md",
+      "name": "model-comparison",
+      "producer_command": [
+        "python3",
+        "scripts/run_canonical_reports.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "status",
+          "ranking_key",
+          "models",
+          "hardgates",
+          "not_claimed",
+          "source_reports"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.matched_control_summary",
+        "control_status": "present",
+        "cost_pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.discovery_projection",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/causal_patch_suite.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/causal_patch_suite.json",
+      "markdown_artifact": "reports/canonical/patch_effect_summary.md",
+      "name": "causal-patch-suite",
+      "producer_command": [
+        "python3",
+        "scripts/run_causal_patch_suite.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "patch_registry",
+          "schema_constants",
+          "records",
+          "effect_summary",
+          "matched_control_summary",
+          "side_effect_ledger",
+          "hardgates",
+          "causal_derivative_ledger_artifact",
+          "discovery_projection",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],

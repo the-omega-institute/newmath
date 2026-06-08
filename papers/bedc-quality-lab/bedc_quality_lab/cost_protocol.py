@@ -30,6 +30,13 @@ SCOPED_DEBT_ROWS = frozenset(
     {
         LedgerRowKey("source", "dimension-match"),
         LedgerRowKey("source", "action-transition-identification"),
+        LedgerRowKey("derivative", "row-coverage"),
+        LedgerRowKey("derivative", "high-order-instability"),
+        LedgerRowKey("derivative", "shortcut-attribution"),
+        LedgerRowKey("derivative", "cost-benefit-negative"),
+        LedgerRowKey("derivative", "unpatchable-high-order-claim"),
+        LedgerRowKey("jet", "order-coverage"),
+        LedgerRowKey("jet", "matched-random-control"),
     }
 )
 

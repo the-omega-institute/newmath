@@ -52,6 +52,11 @@ REQUIRED_SUMMARY_KEYS = {
     "component_ablation",
     "training_method_comparison",
     "drt_extension_hardgates",
+    "jet_loss_protocol",
+    "jet_loss_surface",
+    "jet_ablation",
+    "jet_loss_frontier",
+    "jet_sidecar_artifacts",
     "hardgate",
     "failed_gate",
     "discovery_map_signal",
@@ -163,8 +168,8 @@ def _recursive_pointer_fields(value, path="$"):
 
 
 def test_default_deterministic_grid_has_expected_anchor_size():
-    assert len(default_grid()) == 720
-    assert len(runner.collect_deterministic_records()) == 720
+    assert len(default_grid()) == 900
+    assert len(runner.collect_deterministic_records()) == 900
 
 
 def test_deterministic_replay_and_required_keys():
@@ -173,8 +178,8 @@ def test_deterministic_replay_and_required_keys():
 
     assert json.dumps(first["summary_payload"], sort_keys=True) == json.dumps(second["summary_payload"], sort_keys=True)
     assert REQUIRED_SUMMARY_KEYS <= set(first["summary_payload"])
-    assert first["summary_payload"]["grid"]["record_count"] == 720
-    assert first["summary_payload"]["grid"]["expected_record_count"] == 720
+    assert first["summary_payload"]["grid"]["record_count"] == 900
+    assert first["summary_payload"]["grid"]["expected_record_count"] == 900
     assert first["summary_payload"]["run_artifacts"]["raw_metrics"] == first["summary_payload"]["records"]["raw_rows_pointer"]
 
 
@@ -425,6 +430,92 @@ def test_drt_hg9_pass_cert_promotes_d5m_candidate():
     assert summary["discovery_map_signal"]["status"] == "d5-m-candidate"
     for row in summary["training_mechanism_cert"]["required_pointers"]:
         assert discovery_map.pointer_value(summary, row["pointer"].split(":", 1)[1]) is not None
+
+
+def test_jet_protocol_is_single_source_for_sidecars(tmp_path):
+    projection = _project()
+    runner.write_artifacts(projection, root=tmp_path)
+    summary = projection["summary_payload"]
+    sidecar = json.loads((tmp_path / summary["jet_sidecar_artifacts"]["jet_loss_surface"]).read_text(encoding="utf-8"))
+    frontier = json.loads((tmp_path / summary["jet_sidecar_artifacts"]["jet_loss_frontier"]).read_text(encoding="utf-8"))
+    ablation = (tmp_path / summary["jet_sidecar_artifacts"]["jet_ablation"]).read_text(encoding="utf-8")
+
+    assert sidecar["owner_artifact_id"] == summary["artifact_id"]
+    assert sidecar["owner_protocol_pointer"].endswith("$.jet_loss_protocol")
+    assert "thresholds" not in sidecar
+    assert frontier["owner_protocol_pointer"].endswith("$.jet_loss_protocol")
+    assert "owner_pointer" in ablation
+
+
+def test_drtj_hg1_required_order_gain():
+    summary = _project()["summary_payload"]
+    gate = summary["hardgate"]["gates"]["DRTJ-HG1"]
+
+    assert gate["status"] == "pass"
+    assert gate["required_order_gain"] >= summary["jet_loss_protocol"]["thresholds"]["required_order_gain_min"]
+    assert gate["matched_random_jet_gain"] <= summary["jet_loss_protocol"]["thresholds"]["matched_random_jet_gain_max"]
+
+    records = _fixture_records()
+    for row in records:
+        if row.get("arm") == "drt_jet":
+            row["jet_required_order_gain"] = row["jet_required_order_gain"] - 0.03
+    failed = _project(records)["summary_payload"]
+    assert failed["hardgate"]["gates"]["DRTJ-HG1"]["status"] == "fail"
+    assert failed["failed_gate"] == "DRTJ-HG1"
+
+
+def test_drtj_hg2_order_one_non_degradation():
+    summary = _project()["summary_payload"]
+    assert summary["hardgate"]["gates"]["DRTJ-HG2"]["status"] == "pass"
+
+    records = _fixture_records()
+    for row in records:
+        if row.get("arm") == "drt_jet":
+            row["jet_order_one_gain"] = -0.03
+    failed = _project(records)["summary_payload"]
+    assert failed["hardgate"]["gates"]["DRTJ-HG2"]["status"] == "fail"
+    assert failed["failed_gate"] == "DRTJ-HG2"
+
+
+def test_drtj_hg3_high_order_gain_not_shortcut_reducible():
+    summary = _project()["summary_payload"]
+    assert summary["hardgate"]["gates"]["DRTJ-HG3"]["status"] == "pass"
+
+    records = _fixture_records()
+    for row in records:
+        if row.get("arm") == "drt_jet":
+            row["shortcut_witness_flipped"] = True
+            row["jet_shortcut_reducible_fraction"] = 0.92
+    failed = _project(records)["summary_payload"]
+    assert failed["jet_ablation"]["shortcut_control_not_reducible"] is False
+    assert failed["hardgate"]["gates"]["DRTJ-HG3"]["status"] == "fail"
+    assert failed["failed_gate"] == "DRTJ-HG3"
+
+
+def test_drtj_hg4_matched_random_jet_control_negative():
+    summary = _project()["summary_payload"]
+    assert summary["hardgate"]["gates"]["DRTJ-HG4"]["status"] == "pass"
+
+    records = _fixture_records()
+    for row in records:
+        if row.get("arm") == "matched_random":
+            row["jet_required_order_gain"] = 0.02
+    failed = _project(records)["summary_payload"]
+    assert failed["hardgate"]["gates"]["DRTJ-HG4"]["status"] == "fail"
+    assert failed["failed_gate"] == "DRTJ-HG1"
+
+
+def test_drtj_hg5_quality_q_ci_low_positive():
+    summary = _project()["summary_payload"]
+    assert summary["hardgate"]["gates"]["DRTJ-HG5"]["status"] == "pass"
+
+    records = _fixture_records()
+    for row in records:
+        if row.get("arm") == "drt_jet":
+            row["jet_quality_q_ci_low"] = -0.002
+    failed = _project(records)["summary_payload"]
+    assert failed["hardgate"]["gates"]["DRTJ-HG5"]["status"] == "fail"
+    assert failed["failed_gate"] == "DRTJ-HG5"
 
 
 def test_projection_rejects_d5m_claim_without_training_mechanism_cert():

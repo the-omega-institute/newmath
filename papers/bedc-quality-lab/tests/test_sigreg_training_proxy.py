@@ -258,5 +258,6 @@ def test_canonical_denominators_include_sigreg_training_proxy(tmp_path, monkeypa
         monkeypatch.setattr(canonical, "CANONICAL_DIR", old_dir)
         monkeypatch.setattr(canonical, "INDEX_ARTIFACT", old_index)
 
-    assert by_metric["ScopeCompleteness"]["denominator"] == 22
-    assert by_metric["CostProtocolCompleteness"]["denominator"] == 22
+    expected_denominator = len(canonical._scorecard_report_specs())
+    assert by_metric["ScopeCompleteness"]["denominator"] == expected_denominator
+    assert by_metric["CostProtocolCompleteness"]["denominator"] == expected_denominator

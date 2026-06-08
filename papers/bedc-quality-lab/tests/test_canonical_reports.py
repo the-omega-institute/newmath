@@ -14,6 +14,14 @@ from bedc_quality_lab.discovery_regularized_training import (
     project_drt_training_extension,
     _training_mechanism_cert,
 )
+from bedc_quality_lab.transformer_derivative_atlas import (
+    ATTENTION_ROUTE_ARTIFACT,
+    DEFAULT_CONFIG as TRANSFORMER_DERIVATIVE_ATLAS_CONFIG,
+    LAYERWISE_JET_MAP_ARTIFACT,
+    RAW_ROW_POINTER as TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER,
+    TransformerDerivativeAtlasProjection,
+    render_attention_route_report,
+)
 from scripts import run_formal_hardening_report as formal_hardening
 from scripts import run_claim_verdict_demo as claim_verdict_demo
 from scripts import run_canonical_reports as canonical
@@ -31,6 +39,7 @@ HG_P_CORE = {
     "gap-head-on-h",
     "gap-head-discovery",
     "gap-head-ablation",
+    "irreducibility-report",
     "ledger-aware-transformer",
     "certificate-gated-attention",
     "gap-head-threshold-frontier",
@@ -188,6 +197,22 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 
 
 def _payload_for_spec(spec):
+    if spec.name == "model-comparison":
+        return {
+            "schema_id": canonical.MODEL_COMPARISON_SCHEMA_ID,
+            "artifact_id": canonical.MODEL_COMPARISON_ARTIFACT_ID,
+            "generated_at": "fixture-generated-at",
+            "status": "not_ready",
+            "ranking_key": list(canonical.MODEL_COMPARISON_RANKING_KEY),
+            "models": [],
+            "hardgates": {
+                gate_id: {"gate_id": gate_id, "status": "fail", "reason": "fixture"}
+                for gate_id in canonical.MODEL_COMPARISON_HARDGATE_IDS
+            },
+            "not_claimed": ["fixture"],
+            "source_reports": [],
+            "ordering": {"status": "not_ready"},
+        }
     payload = {key: f"fixture-{key}" for key in spec.required_json_keys}
     if spec.name in MODEL_DESIGN_FIXTURE_ARTIFACT_IDS:
         payload["artifact_id"] = MODEL_DESIGN_FIXTURE_ARTIFACT_IDS[spec.name]
@@ -224,11 +249,25 @@ def _payload_for_spec(spec):
                 }
             },
             "score_terms": {"status": "fixture"},
+            "schema_constants": {
+                "PATCH_MATCHED_CONTROL": "same-seed non-target-channel no-op/control perturbation",
+            },
             "matched_random_control": {
                 "status": "fixture",
                 **_matched_random_audit_fixture(),
                 "control_verdict": {"positive": False},
                 "control_projection": {"positive_discovery": True},
+            },
+            "matched_control_summary": {"status": "pass"},
+            "effect_summary": {"status": "fixture"},
+            "side_effect_ledger": [{"status": "present"}],
+            "patch_registry": [{"channel": "fixture"}],
+            "causal_derivative_ledger_artifact": "reports/canonical/causal_derivative_ledger.json",
+            "discovery_projection": {
+                "status": "evidence-artifact-only",
+                "discovery_level_effect": "none",
+                "positive_discovery": False,
+                "net_positive_signal": False,
             },
             "objective": {"required_rows": ["fixture"]},
             "cost_protocol": {"name": "fixture"},
@@ -515,6 +554,58 @@ def _payload_for_spec(spec):
     )
     if spec.name == "gap-head-on-h":
         payload["records"] = [{"matched_random_control": _matched_random_audit_fixture()}]
+    if spec.name == "irreducibility-report":
+        payload.update(
+            {
+                "schema_id": canonical.IRREDUCIBILITY_REPORT_ARTIFACT_ID,
+                "artifact_id": canonical.IRREDUCIBILITY_REPORT_ARTIFACT_ID,
+                "producer": "scripts/run_irreducibility_report.py",
+                "scope": {"not_claimed": ["fixture"]},
+                "control_protocol": {"low_order_baseline": "D^{<k}", "same_split": True},
+                "seed_aggregation": {
+                    "orders": {
+                        "2": {
+                            "seed_count": 2,
+                            "stable_positive_direction": True,
+                            "matched_random_any_positive": False,
+                        }
+                    }
+                },
+                "hardgate": {
+                    "status": "pass",
+                    "failed_gate": None,
+                    "positive_irreducibility": True,
+                    "gates": {f"IRR-HG{index}": {"status": "pass"} for index in range(1, 5)},
+                },
+                "positive_claim": {
+                    "positive_irreducibility": True,
+                    "claim_pointer": "$.hardgate.positive_irreducibility",
+                    "cmi_diagnostic_only": True,
+                },
+                "conditional_information_table": {
+                    "artifact": canonical.IRREDUCIBILITY_CMI_JSON_ARTIFACT,
+                    "pointer": "$.rows",
+                    "diagnostic_only": True,
+                    "can_set_positive_irreducibility": False,
+                    "row_count": 2,
+                },
+                "records": [
+                    {
+                        "seed": 101,
+                        "orders": [
+                            {
+                                "order": 2,
+                                "low_order": 1,
+                                "low_order_baseline_present": True,
+                                "conditioned_residual_gain": 0.1,
+                                "matched_random_control": {"positive": False},
+                                "finite_metrics": True,
+                            }
+                        ],
+                    }
+                ],
+            }
+        )
     if spec.name == "discovery-gated-nas":
         payload.update(
             {
@@ -573,6 +664,7 @@ def _payload_for_spec(spec):
             }
         )
     if spec.name == "discovery-regularized-training":
+        return runner.build_projection(generated_at="fixture-time")["summary_payload"]
         payload.update(
             {
                 "config": {
@@ -753,6 +845,11 @@ def _payload_for_spec(spec):
         payload["config"] = {"control_arm": "matched_random_gap_head"}
         payload.update(_atlas_fixture_rows())
         payload["forbidden_claim_term_audit"] = {"status": "pass", "hits": []}
+    if spec.name == "transformer-derivative-atlas":
+        return TransformerDerivativeAtlasProjection(
+            config=TRANSFORMER_DERIVATIVE_ATLAS_CONFIG,
+            generated_at="fixture",
+        ).project()
     if spec.name == "mixing-family-sweep":
         payload["coverage_item"] = {
             "canonical_families": ["a", "b", "c"],
@@ -857,6 +954,21 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
             canonical_module._validate_discovery_regularized_training_payload(payload)
         json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
+    cmi_path = tmp_path / canonical_module.IRREDUCIBILITY_CMI_JSON_ARTIFACT
+    cmi_path.parent.mkdir(parents=True, exist_ok=True)
+    cmi_path.write_text(
+        json.dumps(
+            {
+                "schema_id": "bedc-quality-lab:conditional-information-table",
+                "artifact_id": "bedc-quality-lab:conditional-information-table",
+                "diagnostic_only": True,
+                "row_count": 1,
+                "rows": [{"seed": 101, "order": 2, "can_set_positive_irreducibility": False}],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     sidecar_path = tmp_path / canonical_module.GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT
     sidecar_path.parent.mkdir(parents=True, exist_ok=True)
     sidecar_path.write_text(
@@ -902,7 +1014,29 @@ def _write_fingerprint_fixture(canonical_module, root, spec, *, script_text="SEE
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
     canonical_module._artifact_path(spec.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
+    if spec.name == "irreducibility-report":
+        cmi_path = canonical_module._artifact_path(canonical_module.IRREDUCIBILITY_CMI_JSON_ARTIFACT)
+        cmi_path.parent.mkdir(parents=True, exist_ok=True)
+        cmi_path.write_text(
+            json.dumps({"schema_id": "bedc-quality-lab:conditional-information-table", "rows": []}) + "\n",
+            encoding="utf-8",
+        )
     return canonical_module._write_fingerprint_sidecar(spec, generated_at="fixture")
+
+
+def _write_derivative_bridge_sidecar_fixtures(canonical_module, root):
+    sidecars = {
+        canonical_module.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT: {"sidecar": "lejepa-derivative-bridge"},
+        canonical_module.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT: "# Hermite fixture\n",
+        canonical_module.SPECTRAL_JET_JSON_ARTIFACT: {"sidecar": "spectral-jet-report"},
+    }
+    for artifact, payload in sidecars.items():
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if isinstance(payload, str):
+            path.write_text(payload, encoding="utf-8")
+        else:
+            path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def test_canonical_report_fixture_requires_dg_nas_mutation_rows():
@@ -1275,7 +1409,7 @@ def _canonical_bundle_payloads_for_timestamps(*, index_timestamp, discovery_time
     generated_discovery = discovery_map.build_discovery_map(
         generated_at=discovery_timestamp,
         root=canonical.ROOT,
-        canonical_reports=canonical.CANONICAL_REPORTS,
+        canonical_reports=canonical._discovery_map_reports(),
     )
     return generated_index, generated_discovery, generated_claims
 
@@ -1295,6 +1429,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-on-h",
         "gap-head-discovery",
         "gap-head-ablation",
+        "irreducibility-report",
         "ledger-aware-transformer",
         "certificate-gated-attention",
         "gap-head-threshold-frontier",
@@ -1309,9 +1444,12 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-seeking-network",
         "discovery-gated-nas",
         "discovery-gated-transformer",
+        "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
         "observed-debt-sweep",
         "spectral-ablation-hinge",
+        "model-comparison",
+        "causal-patch-suite",
     ]
     assert "certificate-guided-arms" not in names
     assert "certificate-guided-training" in names
@@ -1420,19 +1558,88 @@ def test_committed_canonical_bundle_covers_every_registered_report():
     discovery_payload = json.loads((canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
     claim_rows = _read_committed_claim_verdicts()
     registered = {spec.name: spec for spec in canonical.CANONICAL_REPORTS}
+    discovery_registered = {spec.name: spec for spec in canonical._discovery_map_reports()}
 
     index_reports = {row["name"]: row for row in index_payload["reports"]}
     discovery_rows = {row["report"]: row for row in discovery_payload["rows"]}
     claim_ids = {row["claim_id"] for row in claim_rows}
 
     assert set(index_reports) == set(registered)
-    assert set(registered).issubset(discovery_rows)
-    assert {f"claim:{name}" for name in registered}.issubset(claim_ids)
+    assert set(discovery_registered).issubset(discovery_rows)
+    assert {f"claim:{name}" for name in discovery_registered}.issubset(claim_ids)
     for name, spec in registered.items():
         assert index_reports[name]["json_artifact"] == spec.json_artifact
-        assert discovery_rows[name]["json_artifact"] == spec.json_artifact
         assert (canonical.ROOT / spec.json_artifact).exists()
         assert (canonical.ROOT / spec.markdown_artifact).exists()
+    for name, spec in discovery_registered.items():
+        assert discovery_rows[name]["json_artifact"] == spec.json_artifact
+
+
+def test_issue_1012_sidecars_are_committed_owner_sidecars_not_canonical_specs():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    spec_names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    spec_artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+    sidecar_section = index_payload["issue_1012_sidecars"]
+    sidecars = {row["name"]: row for row in sidecar_section["sidecars"]}
+
+    assert sidecar_section["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert set(sidecars) == {
+        "lejepa-derivative-bridge",
+        "hermite-degree-vs-behavioral-derivative",
+        "spectral-jet-report",
+    }
+    assert not set(sidecars).intersection(spec_names)
+    for row in sidecars.values():
+        assert row["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+        assert row["artifact"] not in spec_artifacts
+        assert (canonical.ROOT / row["artifact"]).exists()
+
+    lejepa = json.loads((canonical.ROOT / canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    spectral = json.loads((canonical.ROOT / canonical.SPECTRAL_JET_JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    assert lejepa["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert spectral["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert "lejepa-hermite-spectral-bridge" not in spec_names
+    assert "spectral-jet-report" not in spec_names
+
+
+def test_issue_1012_sidecar_owner_pointers_and_nongaussian_refs_resolve():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    section = index_payload["issue_1012_sidecars"]
+    owner_payloads = {
+        "lejepa-theorem-ledger": json.loads((canonical.ROOT / "reports/canonical/lejepa_theorem_ledger.json").read_text(encoding="utf-8")),
+        "spectral-ablation-hinge": json.loads((canonical.ROOT / "reports/canonical/spectral-ablation-hinge.json").read_text(encoding="utf-8")),
+    }
+
+    for row in section["sidecars"]:
+        owner = owner_payloads[row["owner_report"]]
+        artifact, pointer = split_artifact_pointer(row["owner_pointer"])
+        assert artifact == row["owner_artifact"]
+        assert pointer_value(owner, pointer) is not None
+
+    spectral_row = next(row for row in section["sidecars"] if row["name"] == "spectral-jet-report")
+    assert {ref["artifact"] for ref in spectral_row["nongaussian_references"]} == {
+        "reports/canonical/nongaussian-distribution-sweep.json"
+    }
+    assert {ref["pointer"] for ref in spectral_row["nongaussian_references"]} == {"$.records", "$.not_claimed"}
+    for ref in spectral_row["nongaussian_references"]:
+        assert resolve_artifact_pointer(canonical.ROOT, f"{ref['artifact']}:{ref['pointer']}") is not None
+
+
+def test_issue_1012_owner_specs_expose_sidecar_metadata_without_registration():
+    reports = {
+        row["name"]: row
+        for row in json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))["reports"]
+    }
+    lejepa_sidecars = reports["lejepa-theorem-ledger"]["discipline"]["sidecars"]
+    spectral_sidecars = reports["spectral-ablation-hinge"]["discipline"]["sidecars"]
+
+    assert [row["artifact"] for row in lejepa_sidecars] == [
+        canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT,
+        canonical.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT,
+    ]
+    assert [row["artifact"] for row in spectral_sidecars] == [canonical.SPECTRAL_JET_JSON_ARTIFACT]
+    assert all(row["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS" for row in lejepa_sidecars + spectral_sidecars)
 
 
 def test_committed_canonical_bundle_matches_generation_chain():
@@ -1483,7 +1690,7 @@ def test_canonical_index_dashboard_panel_pointers_resolve():
         "negative-witnesses",
         "negative-witness-summary",
         "d5-status",
-        "model-design-suite",
+        "model-comparison",
     ]
     for panel in panels:
         assert resolve_artifact_pointer(canonical.ROOT, panel["artifact_pointer"]) is not None
@@ -1525,6 +1732,121 @@ def test_canonical_index_dashboard_missing_owner_fails_closed():
         "reports/canonical/missing-dashboard-owner.json:$",
         "reports/canonical/discovery_map.json:$.missing_dashboard_panel",
     ]
+
+
+def test_model_comparison_sidecar_is_indexed_pointer_only():
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    section = canonical._model_comparison_index_section(payload)
+    index_payload = canonical._index([], generated_at="2030-01-01T00:00:00+00:00")
+    markdown = canonical._render_index_markdown(index_payload)
+
+    assert section["json_artifact"] == canonical.MODEL_COMPARISON_JSON_ARTIFACT
+    assert section["markdown_artifact"] == canonical.MODEL_COMPARISON_MARKDOWN_ARTIFACT
+    assert section["models_pointer"] == "reports/canonical/model-comparison.json:$.models"
+    assert "models" not in section
+    assert "rows" not in section
+    assert index_payload["model_comparison"]["models_pointer"] == section["models_pointer"]
+    assert "## Model Comparison" in markdown
+    assert "| `base_transformer` |" not in markdown
+
+
+def test_model_comparison_rows_cover_issue_model_set_fail_closed():
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    rows = {row["model_id"]: row for row in payload["models"]}
+
+    assert list(rows) == [
+        "base_transformer",
+        "ledger-aware-transformer",
+        "certificate-gated-attention",
+        "discovery-regularized-training",
+        "mechanism-seeking-network",
+        "DGT candidate",
+        "matched-random structural control",
+    ]
+    assert rows["base_transformer"]["status"] == "missing_source"
+    assert rows["matched-random structural control"]["status"] == "missing_source"
+    assert rows["ledger-aware-transformer"]["status"] == "ready"
+
+
+def test_model_comparison_rejects_accuracy_only_ranking():
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    keys = set(_walk_keys(payload))
+
+    assert keys.isdisjoint({"rank", "total_score", "accuracy_rank", "winner", "global_winner"})
+    assert payload["ranking_key"] == ["quality_q", "JetCoverage"]
+
+
+def test_model_comparison_ranking_key_is_claim_specific(monkeypatch):
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    assert payload["ranking_key"] == ["quality_q", "JetCoverage"]
+    assert payload["ordering"]["status"] == "ready"
+
+    real_resolve = canonical._resolve_committed_artifact_pointer
+
+    def missing_quality_q(root, pointer):
+        if pointer.endswith("$.hardgate.status"):
+            return None
+        return real_resolve(root, pointer)
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", missing_quality_q)
+    blocked = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert blocked["hardgates"]["CMP-HG5"]["status"] == "fail"
+    assert blocked["ordering"]["status"] == "not_ready"
+
+
+def test_model_comparison_hardgates_fail_closed(monkeypatch):
+    real_resolve = canonical._resolve_committed_artifact_pointer
+
+    def missing_required_controls(root, pointer):
+        blocked_fragments = (
+            "$.parameter_matched_baseline",
+            "$.compute_matched_baseline",
+            "matched-random-control.json",
+        )
+        if any(fragment in pointer for fragment in blocked_fragments):
+            return None
+        return real_resolve(root, pointer)
+
+    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", missing_required_controls)
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["hardgates"]["CMP-HG1"]["status"] == "fail"
+    assert payload["hardgates"]["CMP-HG2"]["status"] == "fail"
+    assert payload["hardgates"]["CMP-HG3"]["status"] == "fail"
+
+
+def test_model_comparison_metric_pointers_resolve_or_mark_missing():
+    payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
+    expected_metrics = {
+        "task_accuracy",
+        "ood_accuracy",
+        "UER",
+        "FalseLedgerRate",
+        "CriticalUER",
+        "classifier_shift",
+        "order",
+        "quality_q",
+        "cost",
+        "negative_witnesses",
+        "JetCoverage",
+        "CausalJetCoverage",
+    }
+
+    for row in payload["models"]:
+        assert set(row["metrics"]) == expected_metrics
+        for metric in row["metrics"].values():
+            assert set(metric) == {"pointer", "status"}
+            assert metric["status"] in {"resolved", "missing"}
+
+
+def test_model_discovery_suite_removed_from_backend_exports():
+    import bedc_quality_lab.backends as backends
+
+    assert "model_discovery" not in backends.__all__
+    assert not hasattr(backends, "ModelDiscoveryBackendEvidenceAdapter")
+    assert not (canonical.ROOT / "reports/runs/model-discovery-suite/claim_capsule.json").exists()
+    assert not (canonical.ROOT / "reports/runs/model-discovery-suite/summary.json").exists()
 
 
 def test_committed_discovery_map_coverage_matrix_is_full_target_set_and_round_trips():
@@ -1719,6 +2041,34 @@ def test_canonical_reports_manifest_includes_gap_head_ablation():
     assert spec.control_pointer == "$.control_protocol"
 
 
+def test_canonical_spec_registers_irreducibility_report():
+    spec = canonical._specs_by_name()["irreducibility-report"]
+
+    assert spec.command == ("python3", "scripts/run_irreducibility_report.py")
+    assert spec.json_artifact == "reports/canonical/irreducibility_report.json"
+    assert spec.markdown_artifact == "reports/canonical/order_residual_analysis.md"
+    assert {
+        "schema_id",
+        "artifact_id",
+        "source_artifacts",
+        "seed_aggregation",
+        "hardgate",
+        "positive_claim",
+        "conditional_information_table",
+        "records",
+        "not_claimed",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.scope_pointer == "$.scope"
+    assert spec.cost_pointer == "$.control_protocol"
+    assert spec.positive_claim_pointer == "$.positive_claim"
+    assert spec.control_pointer == "$.control_protocol"
+    section = canonical._irreducibility_report_index_section()
+    assert section["json_artifact"] == canonical.IRREDUCIBILITY_REPORT_JSON_ARTIFACT
+    assert section["markdown_artifact"] == canonical.IRREDUCIBILITY_REPORT_MARKDOWN_ARTIFACT
+    assert section["conditional_information_table_json_artifact"] == canonical.IRREDUCIBILITY_CMI_JSON_ARTIFACT
+
+
 def test_canonical_reports_manifest_includes_gap_head_threshold_frontier():
     spec = canonical._specs_by_name()["gap-head-threshold-frontier"]
 
@@ -1777,6 +2127,65 @@ def test_gap_head_transfer_atlas_generated_payload_exposes_row_classification():
             "runnable_status",
             "counting_reason",
         } <= set(row)
+
+
+def test_canonical_reports_manifest_includes_transformer_derivative_atlas():
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+
+    assert spec.command == ("python3", "scripts/run_transformer_derivative_atlas.py")
+    assert spec.json_artifact == canonical.TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT
+    assert spec.markdown_artifact == LAYERWISE_JET_MAP_ARTIFACT
+    assert canonical.TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT == ATTENTION_ROUTE_ARTIFACT
+    assert {
+        "dgt_declaration",
+        "raw_intervention_rows",
+        "layerwise_derivative_rows",
+        "margin_proxy_controls",
+        "attention_routes",
+        "hardgate",
+        "hardgates",
+        "failed_gate",
+        "discovery_map_admission",
+        "mechanism_claim_allowed",
+        "bounded_lab_evidence",
+        "forbidden_claim_term_audit",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "auxiliary"
+    assert spec.scope_pointer == "$.scope"
+    assert spec.cost_pointer == "$.source_artifacts.cost_protocol"
+    assert spec.positive_claim_pointer == "$.mechanism_claim_allowed"
+    assert spec.control_pointer == "$.margin_proxy_controls"
+
+
+def test_transformer_derivative_atlas_fixture_is_pointer_derived():
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+    payload = _payload_for_spec(spec)
+    route_report = render_attention_route_report(payload)
+
+    assert payload["dgt_declaration"]["produces_dgt"] is False
+    assert payload["dgt_declaration"]["discovery_map_authority"] is False
+    assert payload["dgt_declaration"]["claim_graph_authority"] is False
+    assert payload["dgt_declaration"]["non_authoritative_admission"] is True
+    assert payload["hardgate"]["status"] == payload["hardgates"]["status"]
+    assert payload["failed_gate"] is None
+    assert payload["discovery_map_admission"]["admitted"] is False
+    assert payload["mechanism_claim_allowed"]["allowed"] is False
+    assert payload["bounded_lab_evidence"]["raw_row_pointer"] == TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER
+    assert payload["forbidden_claim_term_audit"]["status"] == "pass"
+    assert payload["layerwise_derivative_rows"]["schema"] == "LayerwiseDerivativeRow"
+    assert payload["source_artifacts"]["raw_rows"] == TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER
+    assert route_report["source_artifacts"]["raw_rows"] == TRANSFORMER_DERIVATIVE_RAW_ROW_POINTER
+    assert "dgt_relation" not in json.dumps(payload, sort_keys=True)
+
+
+def test_transformer_derivative_atlas_stays_out_of_discovery_and_claim_artifacts():
+    discovery = json.loads((canonical.ROOT / "reports/canonical/discovery_map.json").read_text(encoding="utf-8"))
+    claim_graph = json.loads((canonical.ROOT / "reports/canonical/claim_graph.json").read_text(encoding="utf-8"))
+    claim_rows = _read_committed_claim_verdicts()
+
+    assert not any(row.get("report") == "transformer-derivative-atlas" for row in discovery["rows"])
+    assert not any("transformer-derivative-atlas" in row.get("claim_id", "") for row in claim_rows)
+    assert not any("transformer-derivative-atlas" in node.get("node_id", "") for node in claim_graph["nodes"])
 
 
 def test_canonical_reports_manifest_includes_gap_head_attribution_capsule():
@@ -1979,6 +2388,43 @@ def test_canonical_reports_manifest_includes_distribution_sweep():
     assert spec.bundle_role == "auxiliary"
 
 
+def test_canonical_reports_manifest_includes_causal_patch_suite():
+    spec = canonical._specs_by_name()["causal-patch-suite"]
+
+    assert spec.command == ("python3", "scripts/run_causal_patch_suite.py")
+    assert spec.json_artifact == "reports/canonical/causal_patch_suite.json"
+    assert spec.markdown_artifact == "reports/canonical/patch_effect_summary.md"
+    assert {
+        "schema_id",
+        "artifact_id",
+        "producer",
+        "patch_registry",
+        "schema_constants",
+        "records",
+        "effect_summary",
+        "matched_control_summary",
+        "side_effect_ledger",
+        "hardgates",
+        "causal_derivative_ledger_artifact",
+        "discovery_projection",
+        "not_claimed",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "auxiliary"
+    assert spec.scope_pointer == "$.not_claimed"
+    assert spec.cost_pointer == "$.schema_constants.PATCH_MATCHED_CONTROL"
+    assert spec.positive_claim_pointer == "$.discovery_projection"
+    assert spec.control_pointer == "$.matched_control_summary"
+
+
+def test_causal_patch_suite_fingerprint_sources_cover_runner_and_stats():
+    spec = canonical._specs_by_name()["causal-patch-suite"]
+    input_record = canonical._input_record(spec)
+    source_paths = {row["path"] for row in input_record["producer_sources"]}
+
+    assert "scripts/run_causal_patch_suite.py" in source_paths
+    assert "scripts/experiment_stats.py" in source_paths
+
+
 def test_canonical_reports_manifest_includes_mixing_and_anisotropic_sweeps():
     mixing = canonical._specs_by_name()["mixing-family-sweep"]
     anisotropic = canonical._specs_by_name()["anisotropic-ou-sweep"]
@@ -2101,6 +2547,9 @@ def test_manifest_required_keys_cover_linked_control_evidence():
     for spec in canonical.CANONICAL_REPORTS:
         keys = set(spec.required_json_keys)
         assert "generated_at" in keys
+        if spec.name == "model-comparison":
+            assert "source_reports" in keys
+            continue
         assert "source_artifacts" in keys
     assert {"control_protocol", "control_verdict"}.issubset(
         set(canonical._specs_by_name()["gap-head-on-h"].required_json_keys)
@@ -2224,7 +2673,7 @@ def test_generated_index_contains_outline_claims_nonclaims_and_honest_boundary_s
         "status": "pointer-only",
         "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
         "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
-        "expected_kind_count": 8,
+        "expected_kind_count": 9,
         "schema_role": "bedc-gap-witness-ledger",
         "witness_rows_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses",
     }
@@ -2838,6 +3287,20 @@ def test_drt_canonical_spec_has_no_companion_artifacts():
     assert all(re.search(r"\bdrt[-_]?v\d+\b", name) is None for name in names)
 
 
+def test_drt_jet_sidecar_artifacts_stay_under_single_canonical_owner():
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    json_artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+    markdown_artifacts = {spec.markdown_artifact for spec in canonical.CANONICAL_REPORTS}
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+
+    assert "discovery-regularized-training-jet" not in names
+    assert payload["jet_sidecar_artifacts"]["jet_loss_surface"] not in json_artifacts
+    assert payload["jet_sidecar_artifacts"]["jet_loss_frontier"] not in json_artifacts
+    assert payload["jet_sidecar_artifacts"]["jet_ablation"] not in markdown_artifacts
+    assert payload["jet_sidecar_artifacts"]["owner_artifact_id"] == payload["artifact_id"]
+    assert payload["jet_sidecar_artifacts"]["owner_pointer"].endswith("$.jet_loss_surface")
+
+
 def test_discovery_regularized_training_regen_idempotent_with_extension_sections(tmp_path):
     first_projection = runner.build_projection(generated_at="fixture-time")
     runner.write_artifacts(first_projection, root=tmp_path)
@@ -2973,6 +3436,40 @@ def test_fingerprint_staleness_fail_closed_and_cold_digest(tmp_path, monkeypatch
     sidecar = json.loads(canonical._fingerprint_path(spec).read_text(encoding="utf-8"))
     assert result["producer_status"] == "completed"
     assert sidecar["output_digest"] == canonical._canonical_output_digest(spec)
+
+
+@pytest.mark.parametrize(
+    ("report_name", "sidecar_artifact", "replacement"),
+    [
+        (
+            "lejepa-theorem-ledger",
+            canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT,
+            '{"sidecar":"changed-lejepa-derivative-bridge"}\n',
+        ),
+        (
+            "lejepa-theorem-ledger",
+            canonical.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT,
+            "# Hermite changed fixture\n",
+        ),
+        (
+            "spectral-ablation-hinge",
+            canonical.SPECTRAL_JET_JSON_ARTIFACT,
+            '{"sidecar":"changed-spectral-jet-report"}\n',
+        ),
+    ],
+)
+def test_derivative_bridge_sidecar_edits_cause_owner_output_fingerprint_miss(
+    tmp_path, monkeypatch, report_name, sidecar_artifact, replacement
+):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    _write_derivative_bridge_sidecar_fixtures(canonical, tmp_path)
+    spec = canonical._specs_by_name()[report_name]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+
+    (tmp_path / sidecar_artifact).write_text(replacement, encoding="utf-8")
+
+    assert canonical._fingerprint_matches(spec) == (False, "output-digest")
 
 
 def test_relative_lab_helper_imports_enter_fingerprint_closure(tmp_path, monkeypatch):
@@ -3834,15 +4331,16 @@ def test_committed_canonical_bundle_matches_registered_reports():
     ]
     index_payload = json.loads((canonical_dir / "index.json").read_text(encoding="utf-8"))
     spec_names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    discovery_spec_names = {spec.name for spec in canonical._discovery_map_reports()}
 
-    assert {row["report"] for row in discovery_payload["rows"]}.issuperset(spec_names)
-    assert {row["claim_id"].removeprefix("claim:") for row in claim_rows if row["claim_id"].startswith("claim:")}.issuperset(spec_names)
+    assert {row["report"] for row in discovery_payload["rows"]}.issuperset(discovery_spec_names)
+    assert {row["claim_id"].removeprefix("claim:") for row in claim_rows if row["claim_id"].startswith("claim:")}.issuperset(discovery_spec_names)
     assert {row["name"] for row in index_payload["reports"]} == spec_names
 
     regenerated_discovery = discovery_map.build_discovery_map(
         generated_at=discovery_payload["generated_at"],
         root=canonical.ROOT,
-        canonical_reports=canonical.CANONICAL_REPORTS,
+        canonical_reports=canonical._discovery_map_reports(),
     )
     regenerated_claim_rows = claim_verdicts.compile_claim_verdicts(
         canonical.ROOT,
@@ -4162,235 +4660,27 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
             "value": 1.0,
             "source": [
                 {
-                    "report": "mixing-family-sweep",
-                    "artifact": "reports/canonical/mixing-family-sweep.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "anisotropic-ou-sweep",
-                    "artifact": "reports/canonical/anisotropic-ou-sweep.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "gap-head-on-h",
-                    "artifact": "reports/canonical/gap-head-on-h.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "gap-head-discovery",
-                    "artifact": "reports/canonical/gap-head-discovery.json",
-                    "pointer": "$.boundary_checks",
-                },
-                {
-                    "report": "gap-head-ablation",
-                    "artifact": "reports/canonical/gap-head-ablation.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                    {
-                        "report": "ledger-aware-transformer",
-                        "artifact": "reports/canonical/ledger-aware-transformer.json",
-                        "pointer": "$.applicability_boundary",
-                    },
-                    {
-                        "report": "certificate-gated-attention",
-                        "artifact": "reports/canonical/certificate-gated-attention.json",
-                        "pointer": "$.grid",
-                    },
-                    {
-                        "report": "gap-head-threshold-frontier",
-                        "artifact": "reports/canonical/gap-head-threshold-frontier.json",
-                        "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "gap-head-transfer-atlas",
-                    "artifact": "reports/canonical/gap_head_transfer_atlas.json",
-                    "pointer": "$.not_claimed",
-                },
-                {
-                    "report": "gap-head-attribution-capsule",
-                    "artifact": "reports/canonical/gap_head_attribution_capsule.json",
-                    "pointer": "$.scope.not_claimed",
-                },
-                {
-                    "report": "nongaussian-distribution-sweep",
-                    "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
-                    "pointer": "$.coverage_item",
-                },
-                {
-                    "report": "certificate-guided-training",
-                    "artifact": "reports/canonical/certificate-guided-training.json",
-                    "pointer": "$.objective.required_rows",
-                },
-                {
-                    "report": "certificate-guided-discovery",
-                    "artifact": "reports/canonical/certificate-guided-discovery.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "sigreg-training-proxy",
-                    "artifact": "reports/canonical/sigreg-training-proxy.json",
-                    "pointer": "$.arm_protocol",
-                },
-                {
-                    "report": "sigreg-mini-grid",
-                    "artifact": "reports/canonical/sigreg-mini-grid.json",
-                    "pointer": "$.grid",
-                },
-                {
-                    "report": "discovery-regularized-training",
-                    "artifact": "reports/canonical/discovery-regularized-training.json",
-                    "pointer": "$.grid",
-                },
-                {
-                    "report": "mechanism-seeking-network",
-                    "artifact": "reports/canonical/mechanism-seeking-network.json",
-                    "pointer": "$.grid",
-                },
-                {
-                    "report": "discovery-gated-nas",
-                    "artifact": "reports/canonical/discovery-gated-nas.json",
-                    "pointer": "$.search_space",
-                },
-                {
-                    "report": "discovery-gated-transformer",
-                    "artifact": "reports/canonical/discovery-gated-transformer.json",
-                    "pointer": "$.not_claimed",
-                },
-                {
-                    "report": "lejepa-theorem-ledger",
-                    "artifact": "reports/canonical/lejepa_theorem_ledger.json",
-                    "pointer": "$.scope",
-                },
-                {
-                    "report": "observed-debt-sweep",
-                    "artifact": "reports/canonical/observed-debt-sweep.json",
-                    "pointer": "$.claim_boundary.C4",
-                },
-                {
-                    "report": "spectral-ablation-hinge",
-                    "artifact": "reports/canonical/spectral-ablation-hinge.json",
-                    "pointer": "$.applicability_boundary",
-                },
+                    "report": spec.name,
+                    "artifact": spec.json_artifact,
+                    "pointer": spec.scope_pointer,
+                }
+                for spec in canonical._scorecard_report_specs()
             ],
-            "numerator": 22,
-            "denominator": 22,
+            "numerator": len(canonical._scorecard_report_specs()),
+            "denominator": len(canonical._scorecard_report_specs()),
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
             "source": [
                 {
-                    "report": "mixing-family-sweep",
-                    "artifact": "reports/canonical/mixing-family-sweep.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "anisotropic-ou-sweep",
-                    "artifact": "reports/canonical/anisotropic-ou-sweep.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "gap-head-on-h",
-                    "artifact": "reports/canonical/gap-head-on-h.json",
-                    "pointer": "$.control_protocol",
-                },
-                {
-                    "report": "gap-head-discovery",
-                    "artifact": "reports/canonical/gap-head-discovery.json",
-                    "pointer": "$.score_terms",
-                },
-                {
-                    "report": "gap-head-ablation",
-                    "artifact": "reports/canonical/gap-head-ablation.json",
-                    "pointer": "$.control_protocol",
-                },
-                    {
-                        "report": "ledger-aware-transformer",
-                        "artifact": "reports/canonical/ledger-aware-transformer.json",
-                        "pointer": "$.source_artifacts.cost_protocol",
-                    },
-                    {
-                        "report": "certificate-gated-attention",
-                        "artifact": "reports/canonical/certificate-gated-attention.json",
-                        "pointer": "$.source_artifacts.cost_protocol",
-                    },
-                    {
-                        "report": "gap-head-threshold-frontier",
-                        "artifact": "reports/canonical/gap-head-threshold-frontier.json",
-                        "pointer": "$.source_artifacts",
-                },
-                {
-                    "report": "gap-head-transfer-atlas",
-                    "artifact": "reports/canonical/gap_head_transfer_atlas.json",
-                    "pointer": "$.source_artifacts.metric_helper",
-                },
-                {
-                    "report": "gap-head-attribution-capsule",
-                    "artifact": "reports/canonical/gap_head_attribution_capsule.json",
-                    "pointer": "$.cost_protocol_pointer",
-                },
-                {
-                    "report": "nongaussian-distribution-sweep",
-                    "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "certificate-guided-training",
-                    "artifact": "reports/canonical/certificate-guided-training.json",
-                    "pointer": "$.cost_protocol",
-                },
-                {
-                    "report": "certificate-guided-discovery",
-                    "artifact": "reports/canonical/certificate-guided-discovery.json",
-                    "pointer": "$.claim_gate",
-                },
-                {
-                    "report": "sigreg-training-proxy",
-                    "artifact": "reports/canonical/sigreg-training-proxy.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "sigreg-mini-grid",
-                    "artifact": "reports/canonical/sigreg-mini-grid.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "discovery-regularized-training",
-                    "artifact": "reports/canonical/discovery-regularized-training.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "mechanism-seeking-network",
-                    "artifact": "reports/canonical/mechanism-seeking-network.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "discovery-gated-nas",
-                    "artifact": "reports/canonical/discovery-gated-nas.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "discovery-gated-transformer",
-                    "artifact": "reports/canonical/discovery-gated-transformer.json",
-                    "pointer": "$.architecture_spec",
-                },
-                {
-                    "report": "lejepa-theorem-ledger",
-                    "artifact": "reports/canonical/lejepa_theorem_ledger.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "observed-debt-sweep",
-                    "artifact": "reports/canonical/observed-debt-sweep.json",
-                    "pointer": "$.source_artifacts",
-                },
-                {
-                    "report": "spectral-ablation-hinge",
-                    "artifact": "reports/canonical/spectral-ablation-hinge.json",
-                    "pointer": "$.source_artifacts",
-                },
+                    "report": spec.name,
+                    "artifact": spec.json_artifact,
+                    "pointer": spec.cost_pointer,
+                }
+                for spec in canonical._scorecard_report_specs()
             ],
-            "numerator": 22,
-            "denominator": 22,
+            "numerator": len(canonical._scorecard_report_specs()),
+            "denominator": len(canonical._scorecard_report_specs()),
         },
         "HardeningCoverage": {
             "value": 1.0,
@@ -5302,3 +5592,23 @@ def test_toy_latent_planning_bedc_sidecar_index_is_pointer_only(tmp_path, monkey
     assert "positive_claim" not in json.dumps(section)
     assert "arm_summary" not in json.dumps(section)
     assert "Toy latent planning BEDC" in markdown
+
+
+def test_derivative_debt_ledger_artifacts_stay_absent_from_canonical_surfaces():
+    forbidden_artifacts = {
+        "reports/canonical/derivative_debt_ledger.json",
+        "reports/canonical/derivative_debt_ledger.md",
+        "reports/canonical/jet_negative_witnesses.json",
+    }
+    forbidden_names = {
+        "derivative-debt-ledger",
+        "jet-negative-witnesses",
+    }
+    specs = canonical.CANONICAL_REPORTS
+    index_text = (canonical.ROOT / "reports" / "canonical" / "index.json").read_text(encoding="utf-8")
+
+    assert forbidden_names.isdisjoint({spec.name for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.json_artifact for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
+    for artifact in forbidden_artifacts:
+        assert artifact not in index_text

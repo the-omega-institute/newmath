@@ -18,6 +18,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.mixing import DEFAULT_MIXING, mix_latents
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
 from bedc_quality_lab.toy_world import make_toy_batch
 from scripts.experiment_stats import metric_stats
@@ -881,11 +882,21 @@ def _negative_result_note(aggregate: dict[str, Any]) -> str:
     )
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.representation_boundary",
+        metadata_only_pointer="$.boundary_no_z_audit.status",
+        matched_random_pointer="$.control_verdict.positive",
+        forbidden_column_pointer="$.forbidden_column_audit.status",
+    )
+
+
 def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[str, Any]:
     aggregate = _aggregate(records)
     treatment_verdict = _treatment_verdict(aggregate)
     control_verdict = _control_verdict(aggregate)
-    return {
+    payload = {
         "artifact": config.json_artifact,
         "report": config.report_artifact,
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -932,6 +943,9 @@ def _payload(records: list[dict[str, Any]], config: GapHeadRunConfig) -> dict[st
         "records": records,
         "aggregate": aggregate,
     }
+    if treatment_verdict.get("positive") is True and control_verdict.get("positive") is False:
+        payload.update(_anti_triviality_contract("D5-O"))
+    return payload
 
 
 def _format_float(value: float) -> str:
