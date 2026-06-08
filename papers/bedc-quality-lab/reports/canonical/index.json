@@ -21,13 +21,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 103,
+    "node_count": 106,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 36,
+    "row_count": 37,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -73,6 +73,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.factor_attribution.learned_head.auroc_delta",
         "report": "gap-head-ablation"
+      },
+      {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_protocol",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.positive_claim",
+        "report": "irreducibility-report"
       },
       {
         "bundle_role": "hg_p_core",
@@ -327,7 +334,7 @@
     "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 7,
+      "D0": 8,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -338,7 +345,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 27,
+    "row_count": 28,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -469,6 +476,17 @@
       "Hardening is not closure."
     ],
     "status": "explicit"
+  },
+  "irreducibility_report": {
+    "artifact_id": "bedc-quality-lab:irreducibility-report",
+    "conditional_information_table_diagnostic_only": true,
+    "conditional_information_table_json_artifact": "reports/canonical/conditional_information_table.json",
+    "conditional_information_table_pointer": "reports/canonical/conditional_information_table.json:$.rows",
+    "hardgate_pointer": "reports/canonical/irreducibility_report.json:$.hardgate",
+    "json_artifact": "reports/canonical/irreducibility_report.json",
+    "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+    "positive_claim_pointer": "reports/canonical/irreducibility_report.json:$.positive_claim",
+    "status": "pass"
   },
   "literature_ledger": {
     "failures": [],
@@ -754,6 +772,7 @@
       "gap-head-on-h",
       "gap-head-discovery",
       "gap-head-ablation",
+      "irreducibility-report",
       "ledger-aware-transformer",
       "certificate-gated-attention",
       "gap-head-threshold-frontier",
@@ -1122,6 +1141,65 @@
           "factor_attribution",
           "hardgate",
           "positive_discovery_pointer"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.control_protocol",
+        "control_status": "present",
+        "cost_pointer": "$.control_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.positive_claim",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.scope",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/irreducibility_report.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/irreducibility_report.json",
+      "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+      "name": "irreducibility-report",
+      "producer_command": [
+        "python3",
+        "scripts/run_irreducibility_report.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "producer",
+          "source_artifacts",
+          "config",
+          "scope",
+          "control_protocol",
+          "seed_aggregation",
+          "hardgate",
+          "positive_claim",
+          "conditional_information_table",
+          "records",
+          "not_claimed"
         ],
         "required_key_validation": {
           "missing_keys": [],
