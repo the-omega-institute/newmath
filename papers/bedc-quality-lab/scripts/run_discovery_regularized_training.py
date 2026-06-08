@@ -51,6 +51,51 @@ DEFAULT_STEPS = 12
 JSON_ARTIFACT = "reports/canonical/discovery-regularized-training.json"
 REPORT_ARTIFACT = "reports/canonical/discovery-regularized-training.md"
 TORCH_DTYPE = "float32"
+INTERNAL_ARM_OFFSETS = {
+    "task_only": {"quality": 0.000, "debt": 0.000, "benefit": 0.000, "cert": 0.000, "shift": 0},
+    "sigreg": {"quality": 0.018, "debt": -0.018, "benefit": 0.004, "cert": -0.012, "shift": 0},
+    "drt": {"quality": 0.060, "debt": -0.070, "benefit": 0.018, "cert": -0.085, "shift": 1},
+    "matched_random": {"quality": 0.014, "debt": -0.006, "benefit": 0.001, "cert": 0.025, "shift": 0},
+    "drt_jet": {"quality": 0.073, "debt": -0.074, "benefit": 0.020, "cert": -0.091, "shift": 1},
+}
+FORMAL_ARM_ADJUSTMENTS = {
+    "compute_matched": {"quality": 0.004, "debt": -0.004, "benefit": 0.001, "cert": -0.002, "uer": -0.004},
+    "DGT_without_LAT": {"quality": -0.034, "debt": 0.019, "benefit": -0.006, "cert": 0.017, "uer": 0.027},
+    "DGT_without_CGA": {"quality": -0.039, "debt": 0.016, "benefit": -0.007, "cert": 0.043, "uer": 0.031},
+    "DGT_without_DRT": {"quality": -0.047, "debt": 0.033, "benefit": -0.011, "cert": 0.024, "uer": 0.043},
+    "DGT_without_gap_ledger_route": {"quality": -0.044, "debt": 0.048, "benefit": -0.010, "cert": 0.019, "uer": 0.037},
+    "DGT_without_mechanism_probe": {"quality": -0.050, "debt": 0.025, "benefit": -0.012, "cert": 0.025, "uer": 0.041},
+    "DGT_without_certificate_gate": {"quality": -0.046, "debt": 0.017, "benefit": -0.010, "cert": 0.052, "uer": 0.039},
+    "DGT_without_jet_loss": {"quality": -0.018, "debt": 0.006, "benefit": -0.004, "cert": 0.006, "uer": 0.014},
+}
+INTERNAL_UER_BASE = {
+    "task_only": 0.26,
+    "sigreg": 0.19,
+    "drt": 0.11,
+    "matched_random": 0.22,
+    "drt_jet": 0.108,
+}
+INTERNAL_JET_REQUIRED_ORDER_GAIN = {
+    "task_only": 0.000,
+    "sigreg": 0.006,
+    "drt": 0.018,
+    "matched_random": -0.008,
+    "drt_jet": 0.037,
+}
+INTERNAL_JET_ORDER_ONE_GAIN = {
+    "task_only": 0.000,
+    "sigreg": 0.006,
+    "drt": 0.012,
+    "matched_random": -0.003,
+    "drt_jet": 0.013,
+}
+INTERNAL_SHORTCUT_REDUCIBLE_FRACTION = {
+    "task_only": 0.70,
+    "sigreg": 0.58,
+    "drt": 0.48,
+    "matched_random": 0.72,
+    "drt_jet": 0.24,
+}
 
 
 def _artifact_map(run_id: str) -> dict[str, str]:
@@ -94,23 +139,8 @@ def deterministic_record(
     seed_jitter = (int(seed) % 17) * 1.0e-5
     formal_arm = _formal_arm(arm)
     internal_arm = _internal_arm(arm)
-    arm_offsets = {
-        "task_only": {"quality": 0.000, "debt": 0.000, "benefit": 0.000, "cert": 0.000, "shift": 0},
-        "sigreg": {"quality": 0.018, "debt": -0.018, "benefit": 0.004, "cert": -0.012, "shift": 0},
-        "drt": {"quality": 0.060, "debt": -0.070, "benefit": 0.018, "cert": -0.085, "shift": 1},
-        "matched_random": {"quality": 0.014, "debt": -0.006, "benefit": 0.001, "cert": 0.025, "shift": 0},
-        "drt_jet": {"quality": 0.073, "debt": -0.074, "benefit": 0.020, "cert": -0.091, "shift": 1},
-    }[internal_arm]
-    formal_adjustments = {
-        "compute_matched": {"quality": 0.004, "debt": -0.004, "benefit": 0.001, "cert": -0.002, "uer": -0.004},
-        "DGT_without_LAT": {"quality": -0.034, "debt": 0.019, "benefit": -0.006, "cert": 0.017, "uer": 0.027},
-        "DGT_without_CGA": {"quality": -0.039, "debt": 0.016, "benefit": -0.007, "cert": 0.043, "uer": 0.031},
-        "DGT_without_DRT": {"quality": -0.047, "debt": 0.033, "benefit": -0.011, "cert": 0.024, "uer": 0.043},
-        "DGT_without_gap_ledger_route": {"quality": -0.044, "debt": 0.048, "benefit": -0.010, "cert": 0.019, "uer": 0.037},
-        "DGT_without_mechanism_probe": {"quality": -0.050, "debt": 0.025, "benefit": -0.012, "cert": 0.025, "uer": 0.041},
-        "DGT_without_certificate_gate": {"quality": -0.046, "debt": 0.017, "benefit": -0.010, "cert": 0.052, "uer": 0.039},
-        "DGT_without_jet_loss": {"quality": -0.018, "debt": 0.006, "benefit": -0.004, "cert": 0.006, "uer": 0.014},
-    }.get(formal_arm, {})
+    arm_offsets = INTERNAL_ARM_OFFSETS[internal_arm]
+    formal_adjustments = FORMAL_ARM_ADJUSTMENTS.get(formal_arm, {})
     base_quality = 0.52 + 0.035 * rho_rank + 0.010 * lambda_rank - mixing_penalty
     base_debt = 0.28 - 0.014 * rho_rank - 0.002 * lambda_rank + mixing_penalty
     base_benefit = 0.62 + 0.018 * rho_rank + 0.004 * lambda_rank - 0.25 * mixing_penalty
@@ -126,35 +156,11 @@ def deterministic_record(
         task_accuracy = round(task_accuracy + 0.003, 6)
     elif internal_arm == "matched_random":
         task_accuracy = round(task_accuracy - 0.002, 6)
-    uer_base = {
-        "task_only": 0.26,
-        "sigreg": 0.19,
-        "drt": 0.11,
-        "matched_random": 0.22,
-        "drt_jet": 0.108,
-    }[internal_arm]
+    uer_base = INTERNAL_UER_BASE[internal_arm]
     uer = round(max(0.0, uer_base + formal_adjustments.get("uer", 0.0) - 0.004 * rho_rank + 0.001 * lambda_rank + seed_jitter), 6)
-    required_order_gain = {
-        "task_only": 0.000,
-        "sigreg": 0.006,
-        "drt": 0.018,
-        "matched_random": -0.008,
-        "drt_jet": 0.037,
-    }[internal_arm]
-    order_one_gain = {
-        "task_only": 0.000,
-        "sigreg": 0.006,
-        "drt": 0.012,
-        "matched_random": -0.003,
-        "drt_jet": 0.013,
-    }[internal_arm]
-    shortcut_reducible_fraction = {
-        "task_only": 0.70,
-        "sigreg": 0.58,
-        "drt": 0.48,
-        "matched_random": 0.72,
-        "drt_jet": 0.24,
-    }[internal_arm]
+    required_order_gain = INTERNAL_JET_REQUIRED_ORDER_GAIN[internal_arm]
+    order_one_gain = INTERNAL_JET_ORDER_ONE_GAIN[internal_arm]
+    shortcut_reducible_fraction = INTERNAL_SHORTCUT_REDUCIBLE_FRACTION[internal_arm]
     matched_random_jet_gain = -0.006 if formal_arm == "matched_random_structural_control" else None
     jet_quality_ci_low = round((0.016 if internal_arm == "drt_jet" else 0.009 if internal_arm == "drt" else -0.004) + 0.001 * lambda_rank, 6)
     disabled_components = tuple(REPLAY_ARM_DISABLED_COMPONENTS.get(formal_arm, ()))

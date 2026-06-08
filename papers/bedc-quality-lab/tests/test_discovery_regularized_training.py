@@ -5,6 +5,7 @@ from copy import deepcopy
 
 import pytest
 
+import bedc_quality_lab.discovery_regularized_training as drt
 from bedc_quality_lab.discovery_regularized_training import (
     DEFAULT_ARMS,
     DEFAULT_DISCOVERY_LAMBDAS,
@@ -197,13 +198,8 @@ def test_formal_replay_arms_and_gate_summary_are_canonical(monkeypatch):
     summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
 
     assert tuple(summary["arm_protocol"]["formal_replay"]["arms"]) == FORMAL_REPLAY_ARMS
-    assert set(summary["arm_protocol"]["formal_replay"]["compat_aliases"]) == {
-        "task_only",
-        "sigreg",
-        "drt",
-        "matched_random",
-        "drt_jet",
-    }
+    assert "compat_aliases" not in summary["arm_protocol"]["formal_replay"]
+    assert "compat_aliases" not in summary["replay_arm_catalog"]
     assert [row["arm_id"] for row in summary["replay_arm_catalog"]["formal_arms"]] == list(FORMAL_REPLAY_ARMS)
     assert [row["arm_id"] for row in summary["training_replay_bridge"]["rows"]] == list(FORMAL_REPLAY_ARMS)
     assert summary["training_replay_bridge"]["full_arm"]["arm_id"] == "DGT_full"
@@ -215,6 +211,103 @@ def test_formal_replay_arms_and_gate_summary_are_canonical(monkeypatch):
     ]
     assert summary["dgt_replay_gate_summary"]["status"] == "pass"
     assert summary["dgt_replay_claim_status"]["level_candidate"] == "D5-M"
+
+
+def _dgt_replay_summary_after_mutation(summary, mutate, monkeypatch):
+    mutated = deepcopy(summary)
+    projection = DiscoveryRegularizedTrainingProjection(
+        config=mutated["config"],
+        records=_fixture_records(),
+        generated_at="fixture-time",
+        run_artifacts=mutated["run_artifacts"],
+    )
+    mutate(mutated, monkeypatch)
+    hardgates = projection.hardgate_verdicts(mutated, mutated["quality_promotion_boundary"])
+    mutated["hardgate"] = {
+        "status": "pass" if all(row.get("status") == "pass" for row in hardgates.values()) else "fail",
+        "gates": hardgates,
+        "failed_gate": projection.failed_gate(hardgates),
+    }
+    mutated["failed_gate"] = mutated["hardgate"]["failed_gate"]
+    mutated["dgt_replay_gate_summary"] = drt.dgt_replay_gate_summary(mutated)
+    mutated["discovery_map_signal"] = projection.discovery_map_signal(hardgates)
+    return mutated
+
+
+def _remove_replay_catalog_arm(summary, _monkeypatch):
+    summary["replay_arm_catalog"]["formal_arms"].pop()
+
+
+def _remove_replay_bridge_row(summary, _monkeypatch):
+    summary["training_replay_bridge"]["rows"].pop()
+
+
+def _break_replay_parameter_count(summary, _monkeypatch):
+    summary["training_replay_bridge"]["rows"][0]["parameter_count"] = 144001
+
+
+def _break_replay_compute_budget(summary, _monkeypatch):
+    summary["training_replay_bridge"]["rows"][0]["compute_budget"] = 0.5
+
+
+def _break_matched_randomization(summary, _monkeypatch):
+    summary["training_replay_bridge"]["matched_random_arm"]["structural_randomized"] = False
+
+
+def _break_full_classifier_shift(summary, _monkeypatch):
+    summary["training_replay_bridge"]["full_arm"]["classifier_shift_count_mean"] = 0.0
+
+
+def _break_full_net_positive_signal(summary, _monkeypatch):
+    summary["training_replay_bridge"]["full_arm"]["net_positive_signal"] = False
+
+
+def _break_matched_random_shift(summary, _monkeypatch):
+    summary["training_replay_bridge"]["matched_random_arm"]["classifier_shift_count_mean"] = 1.0
+
+
+def _break_compute_ledger(summary, _monkeypatch):
+    summary["compute_ledger"]["status"] = "incomplete"
+
+
+def _break_forbidden_claim_audit(_summary, monkeypatch):
+    monkeypatch.setattr(
+        drt,
+        "POSITIVE_CLAIM",
+        {
+            **drt.POSITIVE_CLAIM,
+            "text": f"{drt.POSITIVE_CLAIM['text']} {drt.FORBIDDEN_POSITIVE_CLAIM_TERMS[0]}",
+        },
+    )
+
+
+@pytest.mark.parametrize(
+    ("gate", "mutate"),
+    [
+        ("DGT-REPLAY-HG1", _remove_replay_catalog_arm),
+        ("DGT-REPLAY-HG2", _remove_replay_bridge_row),
+        ("DGT-REPLAY-HG3", _break_replay_parameter_count),
+        ("DGT-REPLAY-HG4", _break_replay_compute_budget),
+        ("DGT-REPLAY-HG5", _break_matched_randomization),
+        ("DGT-REPLAY-HG6", _break_full_classifier_shift),
+        ("DGT-REPLAY-HG7", _break_full_net_positive_signal),
+        ("DGT-REPLAY-HG8", _break_matched_random_shift),
+        ("DGT-REPLAY-HG9", _break_compute_ledger),
+        ("DGT-REPLAY-HG10", _break_forbidden_claim_audit),
+    ],
+)
+def test_dgt_replay_hardgate_failures_demote_to_dn(monkeypatch, gate, mutate):
+    monkeypatch.setattr(runner, "collect_torch_records", lambda **_: (_torch_fixture_records(), "available", "cpu", {"torch": "fixture"}))
+    summary = runner.build_projection(generated_at="fixture-time", requested_device="mps")["summary_payload"]
+    mutated = _dgt_replay_summary_after_mutation(summary, mutate, monkeypatch)
+
+    assert mutated["hardgate"]["gates"][gate]["status"] == "fail"
+    assert mutated["hardgate"]["failed_gate"] == gate
+    assert mutated["dgt_replay_gate_summary"]["status"] == "fail"
+    assert mutated["dgt_replay_gate_summary"]["failed_gate"] == gate
+    assert mutated["dgt_replay_gate_summary"]["level_candidate"] == "DN"
+    assert mutated["discovery_map_signal"]["level_candidate"] == "DN"
+    assert mutated["discovery_map_signal"]["failed_gate"] == gate
 
 
 def test_dgt_replay_wp1_owner_missing_blocks_to_dn(monkeypatch):
