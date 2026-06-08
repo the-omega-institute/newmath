@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-08T13:08:31.121603+00:00`
+- Generated at: `2026-06-08T14:25:27.957239+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -39,6 +39,7 @@
 | `spectral-ablation-hinge` | `pass` | `not-applicable` | `` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
 | `model-comparison` | `pass` | `not-applicable` | `` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.source_reports` | `$.not_claimed` | `$.hardgates.CMP-HG5` | `$.hardgates.CMP-HG3` |
 | `causal-patch-suite` | `pass` | `not-applicable` | `` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.schema_constants.PATCH_MATCHED_CONTROL` | `$.not_claimed` | `$.discovery_projection` | `$.matched_control_summary` |
+| `claim-complexity` | `pass` | `not-applicable` | `` | `reports/canonical/claim_complexity.json` | `reports/canonical/claim_complexity.md` | `reports/canonical/claim_complexity.fingerprint.json` | `$.not_claimed` | `$.source_artifacts` | `$.not_claimed` | `$.rows` | `$.not_claimed` |
 
 ## Dashboard
 
@@ -212,6 +213,17 @@
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
 - Rows: `38`
 
+## Claim complexity
+
+- Status: `pass`
+- JSON: `reports/canonical/claim_complexity.json`
+- Markdown: `reports/canonical/claim_complexity.md`
+- Canonical role: `artifact_only_evidence`
+- Rows: `29`
+- Row pointer: `reports/canonical/claim_complexity.json:$.rows`
+- Verdict refs: `reports/canonical/claim_complexity.json:$.rows[*].pointer_only_verdict_ref`
+- Terminal verdict owner: `bedc-quality-lab:claim-verdicts`
+
 ## Claim graph
 
 - Status: `pointer-only`
@@ -352,7 +364,7 @@
 
 - Status: `pointer-only`
 - Core reports: `mixing-family-sweep, anisotropic-ou-sweep, gap-head-on-h, gap-head-discovery, gap-head-ablation, irreducibility-report, ledger-aware-transformer, certificate-gated-attention, gap-head-threshold-frontier, gap-head-transfer-atlas, gap-head-attribution-capsule, certificate-guided-training, certificate-guided-discovery, sigreg-training-proxy, sigreg-mini-grid, discovery-regularized-training, mechanism-seeking-network, discovery-gated-nas, discovery-gated-transformer, order-k-benchmark`
-- Auxiliary reports: `nongaussian-distribution-sweep, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, model-comparison, causal-patch-suite`
+- Auxiliary reports: `nongaussian-distribution-sweep, transformer-derivative-atlas, lejepa-theorem-ledger, observed-debt-sweep, spectral-ablation-hinge, model-comparison, causal-patch-suite, claim-complexity`
 - Sections: `experiment bench scope, cost protocol, control discipline, negative-result ledger, honest boundary`
 
 ## Claims and non-claims
@@ -388,6 +400,7 @@
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
 | `model-comparison` | `auxiliary` | `$.hardgates.CMP-HG5` | `$.hardgates.CMP-HG3` | `None` |
 | `causal-patch-suite` | `auxiliary` | `$.discovery_projection` | `$.matched_control_summary` | `None` |
+| `claim-complexity` | `auxiliary` | `$.rows` | `None` | `$.not_claimed` |
 
 ## Literature ledger pointer
 
