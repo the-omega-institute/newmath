@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\AumannIntegralBoundaryUp$}
+\label{ch:concrete-instances-aumann-integral-boundary-namecert}
+\origin{human}
+
+Following Aumann on integrals of set-valued maps, the $\AumannIntegralBoundaryUp$ packet records the finite NameCert boundary at which a set-valued integral can be read without importing a host measurable-selection principle. It sits after the measurable ledger of \autoref{ch:concrete-instances-measure-namecert}, the scalar readback surface of \autoref{ch:concrete-instances-integral-namecert}, the convex-value carrier of \autoref{ch:concrete-instances-convexset-namecert}, the observable random input surface of \autoref{ch:concrete-instances-randomvar-namecert}, and the target normed carrier of \autoref{ch:concrete-instances-banach-namecert}. The packet names a finite boundary for downstream probability and optimization readers: it exposes displayed selection rows and their integrals, but it does not claim a global measurable-selection theorem, quotient equality of selections, countable choice, or ambient measure completion.
+
+\begin{definition}[Aumann integral boundary carrier]
+\label{def:aumann-integral-boundary-carrier}
+An $\AumannIntegralBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,R,X,V,G,S,K,L,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MeasureUp$ source row whose measurable-event ledger bounds every domain-side read.
+\item $R$ is the $\RandomVarUp$ observation row carrying the displayed random input, measurable preimage tests, and observable classifier.
+\item $X$ is the source measurable-space row on which the set-valued map is inspected.
+\item $V$ is the $\ConvexSetUp$ value row, recording nonempty convex fibres and their finite membership tests.
+\item $G$ is the measurable graph row, displaying the finite graph tests that relate source observations in $X,R$ to value candidates in $V$.
+\item $S$ is the displayed finite selection ledger. Its entries are finite rows
+$$
+(s_i,\gamma_i,\mu_i,\iota_i)_{i\in I}
+$$
+where each $s_i$ is a named selection candidate, $\gamma_i$ is its graph-admission witness through $G$, $\mu_i$ is its measurable-read witness through $M,R,X$, and $\iota_i$ is its integral-read token.
+\item $K$ is the convex-value stability row, recording that every displayed selection value remains inside the named convex fibre of $V$ and that finite convex combinations preserve the same value boundary.
+\item $L$ is the integral readback row, reducing each $\iota_i$ to the finite scalar or vector integral data already accepted by $\IntegralUp$.
+\item $B$ is the $\BanachUp$ target row in which the displayed integral endpoints and norm comparisons are read.
+\item $H$ records componentwise $\hsame$ transport for $M,R,X,V,G,S,K,L,B$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+M,R,X,V,G\longmapsto S\longmapsto K,L\longmapsto B .
+$$
+\item $P$ is the $\Pkg$ provenance over $\AumannIntegralBoundaryUp$, $\MeasureUp$, $\IntegralUp$, $\ConvexSetUp$, $\RandomVarUp$, $\BanachUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AumannIntegralBoundaryUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed measure, random-variable, source, convex-value, measurable-graph, finite-selection, convex-stability, integral-readback, Banach-target, transport, replay, provenance, and local naming rows.
+\end{definition}
+
+\begin{theorem}[Aumann integral boundary NameCert obligations]
+\label{thm:aumann-integral-boundary-obligations}
+For every accepted $\AumannIntegralBoundaryUp$ carrier
+$$
+A=(M,R,X,V,G,S,K,L,B,H,C,P,N),
+$$
+the local $\NameCert_{\AumannIntegralBoundaryUp}$ surface consists exactly of carrier admission for the measure row, random-variable row, source row, convex-value row, measurable graph row, displayed finite selection ledger, convex-value stability row, integral readback row, Banach target row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through $N$. Every public set-valued integral read must pass through $G,S,K,L,B$ before it names an endpoint or boundary verdict.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:aumann-integral-boundary-carrier}. The dependency rows $M,R,X,V$ provide the measure, random-variable, source, and convex-value data on which the boundary is interpreted.
+
+The theorem-facing rows are $G,S,K,L,B$. The graph row $G$ admits only displayed graph tests, the finite ledger $S$ lists the selection candidates that are actually inspected, the convex row $K$ keeps their values inside the displayed fibres, the integral row $L$ reads their accepted integrals, and the Banach row $B$ names the endpoint and norm comparisons.
+
+Transport and replay do not add analytic content. The rows $H,C,P,N$ preserve, replay, source, and name exactly the same finite route, so the local certificate has no projection to a global measurable-selection theorem, quotient equality of selections, countable choice, or ambient measure completion.
+\end{proof}
+
+\closureat{AumannIntegralBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\AumannIntegralBoundaryUp}
+  \constructivestory{An $\AumannIntegralBoundaryUp$ packet is generated from displayed measure, random-variable, source, convex-value, measurable-graph, finite-selection, convex-stability, integral-readback, Banach-target, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:aumann-integral-boundary-carrier} and \autoref{thm:aumann-integral-boundary-obligations} seed the finite set-valued integral boundary through displayed selection ledgers and Banach integral readbacks.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a global measurable-selection theorem, quotient equality of selections, countable choice, ambient measure completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, measurable graph exactness, finite selection ledger exactness, convex-value stability, integral readback, Banach target preservation, transport stability, and replay stability for BEDC.Derived.AumannIntegralBoundaryUp.}
+\end{closurestatus}

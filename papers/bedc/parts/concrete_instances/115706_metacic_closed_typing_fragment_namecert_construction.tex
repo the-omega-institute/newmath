@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MetacicClosedTypingFragmentUp$}
+\label{ch:concrete-instances-metacic-closed-typing-fragment-namecert}
+\origin{ai}
+
+The $\MetacicClosedTypingFragmentUp$ packet realizes the decidability frontier of \autoref{ch:metacic-open-problems} as a finite closed-term fragment rather than as an unrestricted conversion theorem. It reads the positive checker surface of \autoref{ch:metacic-decidable-audit-map}, the candidate-mediated normalization route of \autoref{ch:metacic-normalization-audit-map}, the typed-normalization audit of \autoref{ch:concrete-instances-metacic-typed-normalization-audit-namecert}, the typed-examples gallery of \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert}, the bounded normal-conversion bridge of \autoref{ch:concrete-instances-bounded-normal-conversion-bridge-namecert}, and the typed-conversion residual frontier of \autoref{ch:concrete-instances-metacic-typed-conversion-residual-frontier-namecert}. The packet keeps closed-term typing, bounded-normal endpoints, finished-normal witnesses, and obstruction rows visible before any local decidability read is accepted.
+
+\begin{definition}[MetaCIC closed typing fragment carrier]
+\label{def:metacic-closed-typing-fragment-carrier}
+A $\MetacicClosedTypingFragmentUp$ carrier is a finite $\BHist$ packet
+$$
+M=(T,J,B,F,O,X,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the closed-term row, listing the finite closed MetaCIC terms and contexts inspected by the packet.
+\item $J$ is the type-checker row, recording the option-valued typing or rejection judgement accepted at the decidability audit interface.
+\item $B$ is the bounded-normal endpoint row, exposing the bounded normalizer output and fuel boundary used by the local check.
+\item $F$ is the finished-normal witness row, present only when the bounded endpoint has been sealed as a finished closed normal form.
+\item $O$ is the obstruction row, retaining missing closedness evidence, missing finished-normal evidence, subject-reduction boundaries, confluence residuals, and conversion-frontier failures.
+\item $X$ is the transport row from the decidability audit map, normalization audit map, typed-normalization packet, typed-examples gallery, bounded bridge, and residual frontier into the local fragment.
+\item $R$ is the replay row, recording bounded re-checks of $T,J,B,F,O$ without claiming an unrestricted closed-term beta-conversion decider.
+\item $S$ is the provenance row separating the checker, normalization, gallery, endpoint-bridge, residual-frontier, and open-problem sources.
+\item $H$ records componentwise $\hsame$ transport for $T,J,B,F,O,X,R,S$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay from a local closed-typing request through the checker, endpoint, obstruction, transport, replay, provenance, and naming rows.
+\item $P$ records $\Pkg$ provenance over $\MetacicClosedTypingFragmentUp$, $\MetaCICTypedNormalizationAuditUp$, $\BoundedNormalConversionBridgeUp$, $\MetaCICTypedConversionResidualFrontierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\MetacicClosedTypingFragmentUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,J,B,F,O,X,R,S,H,C,P,N$. It has no coordinate for a global closedness decider, unrestricted beta-conversion decidability, unconditional normalization, unconditional confluence, erased subject-reduction discharge, quotient syntax equality, or host consistency.
+\end{definition}
+
+\begin{theorem}[MetaCIC closed typing fragment NameCert obligations]
+\label{thm:metacic-closed-typing-fragment-namecert-obligations}
+For every accepted $\MetacicClosedTypingFragmentUp$ carrier $M=(T,J,B,F,O,X,R,S,H,C,P,N)$, the local $\NameCert_{\MetacicClosedTypingFragmentUp}$ surface consists exactly of closed-term exposure, type-checker exposure, bounded-normal endpoint exposure, finished-normal witness exposure when present, obstruction retention, audit-map transport, bounded replay, provenance separation, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closed-typing-fragment-carrier}. The rows $T$ and $J$ are the closed-term and checker-facing surface, while $B$ and $F$ name the bounded endpoint and finished-normal evidence that the decidability frontier requires.
+
+The obstruction row $O$ is retained in the same packet. It records when closedness, finished-normal evidence, subject reduction, confluence residuals, or conversion endpoints are not available, so the checker rows cannot be read as a global conversion theorem.
+
+Rows $X,R,S,H,C,P,N$ transport, replay, source, preserve, and name the same finite surface. Since no coordinate stores global closedness decision, unrestricted beta-conversion, unconditional normalization, unconditional confluence, quotient syntax equality, or host consistency, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[MetaCIC closed typing fragment decidable boundary]
+\label{thm:metacic-closed-typing-fragment-decidable-boundary}
+Every accepted $\MetacicClosedTypingFragmentUp$ read separates the local closed-typing checker result from unrestricted closed-term beta-conversion decidability. A local positive typing row may be consumed only together with its bounded-normal endpoint, finished-normal witness status, obstruction row, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+The checker row $J$ is local to the displayed closed-term row $T$. It does not contain a theorem deciding closedness for arbitrary terms or beta-conversion for all closed typed inputs.
+
+The endpoint rows $B,F$ show exactly where bounded normal computation has reached a finished normal form. If that evidence is absent or blocked, the obstruction row $O$ remains visible and prevents promotion to an unrestricted conversion result.
+
+Transport and replay through $X,R,H,C,P,N$ preserve this boundary. Therefore the packet can expose a finite decidability fragment while refusing global closedness, conversion, normalization, confluence, subject-reduction, quotient-syntax, or consistency claims.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetacicClosedTypingFragmentUp$ read exposes closed-term typing, bounded-normal endpoint, finished-normal witness, obstruction, transport, replay, provenance, and local naming rows before any decidability claim.}
+
+\independenceWitness{metacic-open-problem-ledger, bounded-normal-conversion-bridge, metacic-conversion-endpoint-seal, metacic-typed-conversion-residual-frontier: these routes carry the open ledger, endpoint bridge, endpoint seal, or residual frontier, but none carries the combined closed-term, checker, bounded endpoint, finished-normal, obstruction, transport, replay, provenance, and local NameCert surface of $\MetacicClosedTypingFragmentUp$.}
+
+The Lean follow-up in \texttt{lean4/BEDC/Derived/MetacicClosedTypingFragmentUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \MetacicClosedTypingFragmentUp$ and $\mathsf{FieldFaithful}\ \MetacicClosedTypingFragmentUp$ instances preserving $T,J,B,F,O,X,R,S,H,C,P,N$ before any positive gate may treat this packet as field-faithful.
+
+\closureat{MetacicClosedTypingFragmentUp}{seedStr}
+
+\begin{closurestatus}{\MetacicClosedTypingFragmentUp}
+  \constructivestory{A $\MetacicClosedTypingFragmentUp$ packet is generated from finite closed-term rows, checker rows, bounded-normal endpoints, finished-normal witnesses, obstruction rows, audit-map transport, bounded replay, provenance separation, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-closed-typing-fragment-carrier}, \autoref{thm:metacic-closed-typing-fragment-namecert-obligations}, and \autoref{thm:metacic-closed-typing-fragment-decidable-boundary} seed the finite closed-typing fragment route over closed terms, checker output, bounded endpoints, finished-normal witnesses, obstructions, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a global closedness decider, unrestricted closed-term beta-conversion decidability, unconditional normalization, unconditional confluence, erased subject-reduction discharge, quotient syntax equality, Lean verification, host consistency, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, closed-term exposure, checker exposure, bounded-normal endpoint exposure, finished-normal witness stability, obstruction retention, transport, replay, provenance, Nontrivial evidence, and FieldFaithful evidence for BEDC.Derived.MetacicClosedTypingFragmentUp.}
+\end{closurestatus}
