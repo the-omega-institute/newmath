@@ -25,6 +25,14 @@
 - `theorem-3`: bound projection is a certificate cell and not a theorem derivation; finite-sample and optimizer certificates remain ledger debt
 - `theorem-4`: ledger row statuses are derived from local debt machinery rather than theorem closure; terminal verdict classification is outside the LeJEPA backend theorem row
 
+## Hermite Degree Boundary
+
+| label | behavioral boundary | theorem-bound pointer | scope | not claimed |
+| --- | --- | --- | --- | --- |
+| `degree1` | linear latent recovery boundary | `$.theorem_rows[2]` | `$.scope` | `$.not_claimed` |
+| `degree2` | quadratic boundary | `$.theorem_rows[2]` | `$.scope` | `$.not_claimed` |
+| `degree3+` | high-order boundary | `$.theorem_rows[3]` | `$.scope` | `$.not_claimed` |
+
 ## Hardgates
 
 - `F-HG1`: `pass`

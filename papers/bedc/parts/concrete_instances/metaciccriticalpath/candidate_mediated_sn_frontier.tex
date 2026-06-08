@@ -215,6 +215,37 @@ Finally apply socket exhaustion, \autoref{thm:metacic-critical-path-candidate-no
 \end{proof}
 \leanchecked{BEDC.Derived.MetaCICCriticalPathUp.MetaCICCriticalPathCandidateMediatedSNFrontierDischarge}
 
+\begin{theorem}[MetaCIC candidate-mediated SN socket-induction frontier]
+\label{thm:metacic-critical-path-candidate-mediated-sn-socket-induction-frontier}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. Finite induction over the displayed candidate-mediated handoff rows preserves the separation of obstruction row $O$ and discharge socket $D$ while consuming
+$$
+S,N,U,H,C,P,L
+$$
+and the L10 faces
+$$
+\DyadicRatCoreUp,\qquad
+\StreamNameUp,\qquad
+\RegSeqRatUp,\qquad
+\RealUp .
+$$
+No induction step exports closed subject reduction, global confluence, beta-decidability, quotient term equality, selected limits, host equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The base case is the unconsumed frontier. Apply \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-candidate-mediated-frontier-socket-separation}. They display $S,N,O,U,D,H,C,P,L$ and keep the obstruction row and discharge socket separate before the handoff row is read.
+
+For the L10 readback step, use \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback}. It requires $\DyadicRatCoreUp,\StreamNameUp,\RegSeqRatUp,\RealUp$ to remain visible before any confluence-facing or decidability-facing consumer consumes $U$.
+
+For the handoff step, apply \autoref{thm:metacic-critical-path-candidate-mediated-frontier-handoff-totality}. The consumed surface is exhausted by $S,N,U,H,C,P,L$ together with the visible rows $O,D$ and the same four L10 faces.
+
+For the obstruction step, read \autoref{thm:metacic-critical-path-candidate-mediated-frontier-obstruction-nonescape} and \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier-discharge-coverage}. They preserve the nonescape of $O$ and the socket status of $D$ through every finite replay row.
+
+The induction therefore has no case whose constructor supplies closed subject reduction, global confluence, beta-decidability, quotient term equality, selected limits, host equality, or Real completeness. The socket boundary remains visible after the finite route is consumed.
+\end{proof}
+
 \begin{theorem}[MetaCIC candidate frontier discharge coverage]
 \label{thm:metacic-critical-path-candidate-frontier-discharge-coverage}
 Let
