@@ -36,7 +36,7 @@
 | `DGT-HG15` | `pass` | `reports/runs/discovery-gated-transformer/claim_capsule.json:$.owner_ref` |
 | `DGT-HG16` | `pass` | `reports/runs/discovery-gated-transformer/evidence_envelope.json:$.component_refs` |
 | `DGT-HG17` | `pass` | `reports/runs/discovery-gated-transformer/mechanism_namecert.json:$.evidence_ref` |
-| `DGT-HG18` | `pass` | `reports/runs/discovery-gated-transformer/jet_certificate.json:$.mechanism_ref` |
+| `DGT-HG18` | `pass` | `reports/runs/discovery-gated-transformer/jet_certificate.json:$.owner_ref` |
 | `DGT-HG19` | `pass` | `reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate` |
 | `DGT-HG20` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.not_claimed` |
 

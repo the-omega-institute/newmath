@@ -26,6 +26,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     build_projection,
     default_sidecars,
     render_markdown,
+    validate_dgt_hardgate_evidence_bundle,
     validate_projection,
 )
 
@@ -63,6 +64,7 @@ def write_artifacts(payload: Mapping[str, Any], *, root: Path = ROOT) -> None:
     for name, artifact in SIDECAR_ARTIFACTS.items():
         _write_json(root / artifact, sidecars[name])
     _write_json(root / CANONICAL_JSON_ARTIFACT, dict(payload))
+    validate_dgt_hardgate_evidence_bundle(payload, root=root)
     markdown_path = root / CANONICAL_MARKDOWN_ARTIFACT
     markdown_path.parent.mkdir(parents=True, exist_ok=True)
     markdown_path.write_text(render_markdown(payload), encoding="utf-8")

@@ -4,7 +4,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+from pathlib import Path
 from typing import Any, Mapping, Sequence
+
+from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 
 
 SCHEMA_ID = "bedc-quality-lab:discovery-gated-transformer"
@@ -165,6 +168,10 @@ def artifact_pointer(cell: Mapping[str, Any]) -> str:
 
 def _cell(artifact: str, pointer: str) -> dict[str, str]:
     return EvidenceCell(artifact=artifact, pointer=pointer).as_payload()
+
+
+def _resolve_cell(root: Path, cell: Mapping[str, Any]) -> Any:
+    return resolve_artifact_pointer(root, artifact_pointer(cell))
 
 
 @dataclass(frozen=True)
@@ -984,7 +991,7 @@ def _gate_rows(component_refs: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
         "DGT-HG15": _cell(CLAIM_CAPSULE_ARTIFACT, "$.owner_ref"),
         "DGT-HG16": _cell(EVIDENCE_ENVELOPE_ARTIFACT, "$.component_refs"),
         "DGT-HG17": _cell(MECHANISM_NAMECERT_ARTIFACT, "$.evidence_ref"),
-        "DGT-HG18": _cell(JET_CERTIFICATE_ARTIFACT, "$.mechanism_ref"),
+        "DGT-HG18": _cell(JET_CERTIFICATE_ARTIFACT, "$.owner_ref"),
         "DGT-HG19": _cell("reports/canonical/discovery-gated-nas.json", "$.candidate_protocol.design_search_certificate"),
         "DGT-HG20": _cell(CANONICAL_JSON_ARTIFACT, "$.not_claimed"),
     }
@@ -1123,6 +1130,17 @@ def validate_projection(payload: Mapping[str, Any]) -> None:
             raise ValueError(f"DGT hardgate row status mismatch: {gate_name}")
         if not _is_cell(row["evidence"]) or not _is_cell(row["not_claimed"]):
             raise ValueError(f"DGT hardgate row must use pointer cells: {gate_name}")
+
+
+def validate_dgt_hardgate_evidence_bundle(payload: Mapping[str, Any], *, root: Path) -> None:
+    validate_projection(payload)
+    gates = payload["hardgate"]["gates"]
+    for gate_name, row in gates.items():
+        if row["status"] != "pass":
+            continue
+        for key in ("evidence", "not_claimed"):
+            if _resolve_cell(root, row[key]) is None:
+                raise ValueError(f"DGT hardgate {key} pointer does not resolve: {gate_name}")
 
 
 def build_projection(*, generated_at: str, component_refs: Mapping[str, Any] | None = None) -> dict[str, Any]:
