@@ -1198,6 +1198,7 @@ import BEDC.Derived.CalculusUp.CompletionSourceRealReadback
 import BEDC.Derived.CalculusUp.ContinuousLimitCarrierBudget
 import BEDC.Derived.CalculusUp.ContinuousMapLimitRoute
 import BEDC.Derived.CalculusUp.DerivativeContinuationObligation
+import BEDC.Derived.CalculusUp.DerivativeIntegralSeparationObligation
 import BEDC.Derived.CalculusUp.DerivativeIntegralSourceSeparation
 import BEDC.Derived.CalculusUp.DerivativeLimitObligation
 import BEDC.Derived.CalculusUp.IntegralFiniteSumObligation
@@ -8464,6 +8465,7 @@ import BEDC.Derived.SeparableExtUp
 import BEDC.Derived.SeparableMetricSpaceUp.TasteGate
 import BEDC.Derived.SeparableMetricUp.CompletionConsumerHandoff
 import BEDC.Derived.SeparableMetricUp.ObligationFrontier
+import BEDC.Derived.SeparableMetricUp.PublicDensityExport
 import BEDC.Derived.SeparableMetricUp.RegSeqRatDensityHandoff
 import BEDC.Derived.SeparableMetricUp.RegularHandoffObligation
 import BEDC.Derived.SeparableMetricUp.TasteGate
