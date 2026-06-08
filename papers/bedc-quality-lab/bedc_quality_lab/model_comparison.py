@@ -141,9 +141,7 @@ class ModelComparisonProjection:
             "status": readiness["status"],
             "readiness": readiness,
             "ranking_key": list(RANKING_KEY),
-            "owners": owner_rows,
             "models": owner_rows,
-            "hardgate": hardgates,
             "hardgates": hardgates,
             "cost_protocol": {
                 "pointer": COST_PROTOCOL_POINTER,
@@ -153,16 +151,15 @@ class ModelComparisonProjection:
                 "status": "pass"
                 if all(row.get("forbidden_inference_audit", {}).get("status") == "pass" for row in owner_rows)
                 else "fail",
-                "owners_pointer": f"{JSON_ARTIFACT}:$.owners[*].forbidden_inference_audit",
+                "models_pointer": f"{JSON_ARTIFACT}:$.models[*].forbidden_inference_audit",
             },
             "negative_witness_sweep": {
                 "status": "pass"
                 if all(row.get("negative_witness_sweep", {}).get("status") == "pass" for row in owner_rows)
                 else "fail",
-                "owners_pointer": f"{JSON_ARTIFACT}:$.owners[*].negative_witness_sweep",
+                "models_pointer": f"{JSON_ARTIFACT}:$.models[*].negative_witness_sweep",
             },
             "not_claimed": list(NOT_CLAIMED),
-            "source_artifacts": [{"artifact": artifact, "pointer": "$"} for artifact in self.source_artifacts],
             "source_reports": [{"artifact": artifact, "pointer": "$"} for artifact in self.source_artifacts],
         }
         payload["ordering"] = _ordering(owner_rows, hardgates)
@@ -480,7 +477,7 @@ def _ordering(owner_rows: Sequence[Mapping[str, Any]], hardgates: Mapping[str, M
     return {
         "status": "ready",
         "key": list(RANKING_KEY),
-        "rows_pointer": f"{JSON_ARTIFACT}:$.owners",
+        "rows_pointer": f"{JSON_ARTIFACT}:$.models",
         "model_ids": [str(row["model_id"]) for row in rows],
     }
 
@@ -507,12 +504,12 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
         f"- Status: `{payload['status']}`",
         f"- Ranking key: `{', '.join(payload['ranking_key'])}`",
         "",
-        "## Owners",
+        "## Models",
         "",
-        "| owner | role | status | quality_q | JetCoverage | UER reduction |",
+        "| model | role | status | quality_q | JetCoverage | UER reduction |",
         "| --- | --- | --- | ---: | ---: | ---: |",
     ]
-    for row in payload["owners"]:
+    for row in payload["models"]:
         metrics = row["metrics"]
         lines.append(
             "| "

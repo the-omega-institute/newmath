@@ -51,6 +51,16 @@ def _recursive_values(value):
         yield value
 
 
+def _recursive_items(value):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            yield key, item
+            yield from _recursive_items(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _recursive_items(item)
+
+
 def _dimension_mismatch_owner():
     reports = _load_json("reports/canonical/negative_discovery_reports.json")
     return next(row for row in reports["rows"] if row["report_id"] == DIMENSION_MISMATCH_REPORT_ID)
@@ -336,6 +346,24 @@ def test_negative_discovery_artifacts_are_written_only_by_core():
     assert sorted(writers) == sorted(allowed)
 
 
+def test_claim_verdict_reason_owner_is_shared_by_demo_and_summary():
+    demo_text = (SCRIPTS / "run_claim_verdict_demo.py").read_text(encoding="utf-8")
+    reports_text = (CORE / "negative_reports.py").read_text(encoding="utf-8")
+    owner_text = (CORE / "claim_verdict_reason.py").read_text(encoding="utf-8")
+
+    assert "claim_verdict_reason" in demo_text
+    assert "claim_verdict_reason" in reports_text
+    for literal in (
+        "discovery-level-DN",
+        "discovery-level-D0",
+        "positive-discovery-gates-pass",
+        "positive-discovery-gate-failed",
+    ):
+        assert literal not in demo_text
+        assert literal not in reports_text
+    assert "negative-discovery-failed-gate" in owner_text
+
+
 def test_discovery_compiler_core_has_no_backend_terms_or_backend_imports():
     forbidden_terms = (
         "sigreg-training-proxy",
@@ -445,3 +473,17 @@ def test_discovery_map_does_not_own_reporting_hardgate_or_promotion_eligible():
         mutated[key] = "fixture"
         with pytest.raises(ValueError, match="copies reporting verdict fields"):
             build_discovery_map_payload(rows=[mutated], generated_at="fixture-time", root=ROOT)
+
+
+def test_backend_evidence_artifacts_do_not_emit_claim_complexity_verdict_authority_cells():
+    artifacts = [
+        "reports/canonical/discovery_map.json",
+        "reports/canonical/claim_graph.json",
+        "reports/canonical/discovery_negative_witness_summary.json",
+    ]
+
+    for artifact in artifacts:
+        payload = _load_json(artifact)
+        for key, value in _recursive_items(payload):
+            assert key != "pointer_only_verdict_ref"
+            assert not (key == "terminal_verdict_owner" and value is True)

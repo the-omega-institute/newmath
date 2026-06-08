@@ -4,6 +4,11 @@ from pathlib import Path
 import pytest
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
+    ClaimVerdictReasonBasis,
+    reason_for_claim_verdict,
+    validate_claim_verdict_reason,
+)
 from scripts import run_claim_verdict_demo as demo
 from scripts import run_canonical_reports as canonical
 
@@ -283,6 +288,113 @@ def _dimension_mismatch_downgraded_payload():
     return payload
 
 
+def test_claim_verdict_reason_taxonomy_rejects_unknown_or_bare_dn_reason():
+    with pytest.raises(ValueError, match="unsupported claim verdict reason taxonomy"):
+        validate_claim_verdict_reason({"reason": "discovery-level-D0"})
+    with pytest.raises(ValueError, match="bare negative discovery failed-gate"):
+        validate_claim_verdict_reason({"reason": "negative-discovery-failed-gate"})
+    with pytest.raises(ValueError, match="bare DN"):
+        validate_claim_verdict_reason({"reason": "discovery-level-DN"})
+
+
+def test_verdict_hg1_reason_cannot_contradict_scorecard_ready():
+    positive = {"reason": "discovery-level-D4-positive"}
+    validate_claim_verdict_reason(
+        positive,
+        basis=ClaimVerdictReasonBasis(
+            claim_verdict="accepted_positive_discovery",
+            discovery_level="D4",
+            scorecard_ready=True,
+        ),
+    )
+    with pytest.raises(ValueError, match="expected discovery-level-D4-positive"):
+        validate_claim_verdict_reason(
+            {"reason": "source-insufficient"},
+            basis=ClaimVerdictReasonBasis(
+                claim_verdict="accepted_positive_discovery",
+                discovery_level="D4",
+                scorecard_ready=True,
+            ),
+        )
+
+
+def test_verdict_hg2_reason_matches_discovery_level():
+    cases = [
+        (
+            ClaimVerdictReasonBasis(claim_verdict="accepted_positive_discovery", discovery_level="D4"),
+            "discovery-level-D4-positive",
+        ),
+        (
+            ClaimVerdictReasonBasis(claim_verdict="accepted_positive_discovery", discovery_level="D5-O"),
+            "D5O-operational",
+        ),
+        (
+            ClaimVerdictReasonBasis(claim_verdict="accepted_positive_discovery", discovery_level="D5-M"),
+            "D5M-training-mechanism",
+        ),
+        (
+            ClaimVerdictReasonBasis(claim_verdict="projected_discovery_required", discovery_level="D0"),
+            "projected-discovery-required",
+        ),
+        (
+            ClaimVerdictReasonBasis(claim_verdict="mechanism_not_closed", discovery_level="D5-O"),
+            "mechanism-not-closed",
+        ),
+        (
+            ClaimVerdictReasonBasis(
+                claim_verdict="projected_discovery_required",
+                discovery_level="D4",
+                source_insufficient=True,
+            ),
+            "source-insufficient",
+        ),
+    ]
+    for basis, reason in cases:
+        assert reason_for_claim_verdict(basis) == reason
+        validate_claim_verdict_reason({"reason": reason}, basis=basis)
+
+
+def test_verdict_hg3_dn_reason_contains_failed_gate_token():
+    with pytest.raises(ValueError, match="requires failed_gate"):
+        reason_for_claim_verdict(ClaimVerdictReasonBasis(claim_verdict="negative_discovery", discovery_level="DN"))
+    basis = ClaimVerdictReasonBasis(
+        claim_verdict="negative_discovery",
+        discovery_level="DN",
+        failed_gate="$.claim_capsule.terminal_verdict",
+    )
+    assert reason_for_claim_verdict(basis) == "negative-discovery-failed-gate:claim-capsule-terminal-verdict"
+
+
+def test_verdict_hg4_dgt_d0_mentions_model_comparison_not_ready():
+    basis = ClaimVerdictReasonBasis(
+        claim_verdict="projected_discovery_required",
+        discovery_level="D0",
+        report="discovery-gated-transformer",
+        model_comparison_ready=False,
+    )
+
+    assert reason_for_claim_verdict(basis) == "model-comparison-not-ready"
+
+
+def test_compile_claim_verdicts_routes_dgt_d0_to_model_comparison_reason(tmp_path, monkeypatch):
+    rows = [
+        _discovery_row(
+            "discovery-gated-transformer",
+            "reports/canonical/discovery-gated-transformer.json",
+            "D0",
+        )
+    ]
+    _fixture_root(tmp_path, monkeypatch, rows, ())
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    _assert_provenance(verdict, tmp_path)
+    assert verdict["claim_id"] == "claim:discovery-gated-transformer"
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "model-comparison-not-ready"
+    assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
+
+
 def test_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
     rows = [
         _discovery_row("d4", "reports/canonical/d4.json", "D4"),
@@ -314,7 +426,7 @@ def test_claim_verdict_names_are_reachable(tmp_path, monkeypatch):
     assert {row["claim_verdict"] for row in verdicts} == VERDICT_NAMES
     by_claim = {row["claim_id"]: row for row in verdicts}
     assert by_claim["claim:d0"]["claim_verdict"] == "projected_discovery_required"
-    assert by_claim["claim:d0"]["reason"] == "discovery-level-D0"
+    assert by_claim["claim:d0"]["reason"] == "projected-discovery-required"
     assert by_claim["claim:d0"]["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[5].discovery_level"
     assert all(row["claim_graph_node_id"].startswith("terminal:") for row in verdicts)
 
@@ -390,7 +502,7 @@ def test_missing_cost_protocol_and_not_ready_scorecard_fail_closed(tmp_path, mon
     scorecard_verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
     _assert_provenance(scorecard_verdict, tmp_path, scorecard_ready=False)
     assert scorecard_verdict["claim_verdict"] == "projected_discovery_required"
-    assert scorecard_verdict["reason"] == "positive-acceptance-evidence-missing:scorecard_ready"
+    assert scorecard_verdict["reason"] == "source-insufficient"
     assert scorecard_verdict["ledger_pointer"].startswith("reports/canonical/quality-scorecard.json:$.rows")
 
 
@@ -409,7 +521,7 @@ def test_hardening_coverage_not_ready_uses_dependency_pointer(tmp_path, monkeypa
 
     _assert_provenance(verdict, tmp_path, scorecard_ready=False)
     assert verdict["claim_verdict"] == "projected_discovery_required"
-    assert verdict["reason"] == "positive-acceptance-evidence-missing:scorecard_ready"
+    assert verdict["reason"] == "source-insufficient"
     assert verdict["ledger_pointer"] == "reports/canonical/quality-scorecard.json:$.rows"
 
 
@@ -481,7 +593,7 @@ def test_constraint_lagrangian_dn_reason_preserves_evidence_label(tmp_path, monk
 
     _assert_provenance(verdict, tmp_path)
     assert verdict["claim_id"] == "claim:certificate-guided-training"
-    assert verdict["reason"] == "discovery-level-DN:constraint_lagrangian"
+    assert verdict["reason"] == "negative-discovery-failed-gate:claim-capsule-terminal-verdict"
     assert verdict["negative_report_pointer"] == (
         "reports/canonical/certificate-guided-training.json:$.claim_capsule.terminal_verdict"
     )
@@ -686,7 +798,7 @@ def test_d5_o_with_noncausal_mechanism_evidence_remains_mechanism_not_closed(tmp
 
     assert verdict["claim_id"] == "claim:gap-head-attribution-capsule"
     assert verdict["claim_verdict"] == "mechanism_not_closed"
-    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["reason"] == "mechanism-not-closed"
     assert verdict["ledger_pointer"] == "reports/canonical/discovery_map.json:$.rows[0].discovery_level"
 
 
@@ -735,7 +847,7 @@ def test_positive_claim_verdict_requires_scope_gate_pass(tmp_path, monkeypatch):
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
-    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["reason"] == "discovery-level-D4-positive"
 
 
 def test_scope_gate_failure_produces_negative_claim_verdict(tmp_path, monkeypatch):
@@ -828,7 +940,9 @@ def test_noncanonical_dimension_mismatch_discovery_row_emits_negative_claim_verd
     }
     _assert_provenance(verdict, tmp_path)
     assert verdict["claim_verdict"] == "negative_discovery"
-    assert verdict["reason"] == "discovery-level-DN"
+    assert verdict["reason"] == (
+        "negative-discovery-failed-gate:dimension-mismatch-debt-transfer-anti-triviality-status"
+    )
     assert verdict["negative_report_pointer"] == (
         "reports/canonical/dimension-mismatch-debt-transfer.json:"
         "$.dimension_mismatch_debt_transfer.anti_triviality_status"
@@ -850,7 +964,9 @@ def test_noncanonical_dimension_mismatch_dn_ignores_positive_scorecard_gate(tmp_
 
     assert verdict["claim_id"] == "claim:dimension-mismatch-debt-transfer"
     assert verdict["claim_verdict"] == "negative_discovery"
-    assert verdict["reason"] == "discovery-level-DN"
+    assert verdict["reason"] == (
+        "negative-discovery-failed-gate:dimension-mismatch-debt-transfer-anti-triviality-status"
+    )
     _assert_provenance(verdict, tmp_path, scorecard_ready=False)
     assert verdict["negative_report_pointer"].endswith("$.dimension_mismatch_debt_transfer.anti_triviality_status")
 
@@ -917,6 +1033,43 @@ def test_cli_writes_jsonl(tmp_path, monkeypatch):
     assert [json.loads(line) for line in lines] == written
 
 
+def test_checked_in_claim_verdicts_validate_against_reason_owner():
+    rows = [
+        json.loads(line)
+        for line in (canonical.ROOT / "reports/canonical/claim_verdicts.jsonl").read_text(encoding="utf-8").splitlines()
+        if line
+    ]
+
+    assert rows
+    for row in rows:
+        validate_claim_verdict_reason(row)
+
+
+def test_claim_verdict_rows_do_not_include_complexity_fields(tmp_path, monkeypatch):
+    rows = [_discovery_row("d1", "reports/canonical/d1.json", "D1")]
+    specs = (_spec("d1", "reports/canonical/d1.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert set(verdict) == ALLOWED_KEYS
+    assert "claim_complexity" not in verdict
+    assert "complexity_score" not in verdict
+    assert "scoring_dimensions" not in verdict
+    assert "pointer_only_verdict_ref" not in verdict
+
+
+def test_claim_verdict_line_refs_are_stable_jsonl_pointers(tmp_path, monkeypatch):
+    rows = [_discovery_row("d1", "reports/canonical/d1.json", "D1")]
+    specs = (_spec("d1", "reports/canonical/d1.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    demo.write_claim_verdicts(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    refs = demo.claim_verdict_line_refs(root=tmp_path)
+
+    assert refs == {"claim:d1": "reports/canonical/claim_verdicts.jsonl:$.lines[0]"}
+
+
 @pytest.mark.parametrize(
     ("mutation", "missing_key"),
     [
@@ -952,7 +1105,10 @@ def test_accepted_positive_requires_acceptance_evidence_bundle(tmp_path, monkeyp
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_verdict"] == "projected_discovery_required"
-    assert verdict["reason"] == f"positive-acceptance-evidence-missing:{missing_key}"
+    if missing_key in {"scorecard_hash", "scorecard_ready"}:
+        assert verdict["reason"] == "source-insufficient"
+    else:
+        assert verdict["reason"] == f"positive-acceptance-evidence-missing:{missing_key}"
 
 
 def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, monkeypatch):
@@ -963,7 +1119,7 @@ def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, mon
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
-    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["reason"] == "discovery-level-D4-positive"
 
 
 def _add_high_impact_review(payload, *, bad_pointer=False):
@@ -1026,7 +1182,7 @@ def test_high_impact_positive_with_resolving_review_pointers_accepts(tmp_path, m
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
-    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["reason"] == "discovery-level-D4-positive"
 
 
 def test_accepted_positive_accepts_no_control_rationale_pointer(tmp_path, monkeypatch):
@@ -1041,7 +1197,7 @@ def test_accepted_positive_accepts_no_control_rationale_pointer(tmp_path, monkey
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 
     assert verdict["claim_verdict"] == "accepted_positive_discovery"
-    assert verdict["reason"] == "positive-discovery-gates-pass"
+    assert verdict["reason"] == "discovery-level-D4-positive"
 
 
 def test_dn_owner_without_what_was_learned_fails_through_owner_pointer(tmp_path, monkeypatch):
