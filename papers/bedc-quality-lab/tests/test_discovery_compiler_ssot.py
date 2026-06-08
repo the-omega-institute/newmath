@@ -51,6 +51,16 @@ def _recursive_values(value):
         yield value
 
 
+def _recursive_items(value):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            yield key, item
+            yield from _recursive_items(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _recursive_items(item)
+
+
 def _dimension_mismatch_owner():
     reports = _load_json("reports/canonical/negative_discovery_reports.json")
     return next(row for row in reports["rows"] if row["report_id"] == DIMENSION_MISMATCH_REPORT_ID)
@@ -463,3 +473,17 @@ def test_discovery_map_does_not_own_reporting_hardgate_or_promotion_eligible():
         mutated[key] = "fixture"
         with pytest.raises(ValueError, match="copies reporting verdict fields"):
             build_discovery_map_payload(rows=[mutated], generated_at="fixture-time", root=ROOT)
+
+
+def test_backend_evidence_artifacts_do_not_emit_claim_complexity_verdict_authority_cells():
+    artifacts = [
+        "reports/canonical/discovery_map.json",
+        "reports/canonical/claim_graph.json",
+        "reports/canonical/discovery_negative_witness_summary.json",
+    ]
+
+    for artifact in artifacts:
+        payload = _load_json(artifact)
+        for key, value in _recursive_items(payload):
+            assert key != "pointer_only_verdict_ref"
+            assert not (key == "terminal_verdict_owner" and value is True)

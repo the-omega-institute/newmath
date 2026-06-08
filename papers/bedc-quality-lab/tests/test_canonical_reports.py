@@ -14,6 +14,7 @@ from bedc_quality_lab.discovery_regularized_training import (
     project_drt_training_extension,
     _training_mechanism_cert,
 )
+from bedc_quality_lab.claim_complexity import DIMENSION_NAMES
 from bedc_quality_lab.transformer_derivative_atlas import (
     ATTENTION_ROUTE_ARTIFACT,
     DEFAULT_CONFIG as TRANSFORMER_DERIVATIVE_ATLAS_CONFIG,
@@ -1532,6 +1533,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "spectral-ablation-hinge",
         "model-comparison",
         "causal-patch-suite",
+        "claim-complexity",
     ]
     assert "certificate-guided-arms" not in names
     assert "certificate-guided-training" in names
@@ -6156,3 +6158,162 @@ def test_host_env_is_ignored_by_reporting_hardgate(tmp_path, monkeypatch):
     after = canonical._discipline(spec)["reporting_hardgate"]
 
     assert after == before
+
+
+def test_claim_complexity_is_registered_as_post_verdict_auxiliary_report():
+    specs = {spec.name: spec for spec in canonical.CANONICAL_REPORTS}
+    spec_names = [spec.name for spec in canonical.CANONICAL_REPORTS]
+    claim_verdict_index = spec_names.index("claim-complexity")
+
+    spec = specs["claim-complexity"]
+    assert spec.command == ("python3", "scripts/run_claim_complexity_score.py")
+    assert spec.json_artifact == canonical.CLAIM_COMPLEXITY_JSON_ARTIFACT
+    assert spec.markdown_artifact == canonical.CLAIM_COMPLEXITY_MARKDOWN_ARTIFACT
+    assert spec.bundle_role == "auxiliary"
+    assert "claim-complexity" in canonical.POST_VERDICT_REPORTS
+    assert "claim-complexity" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
+    assert claim_verdict_index > spec_names.index("causal-patch-suite")
+
+
+def test_run_reports_runs_claim_complexity_after_claim_verdicts_are_written(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    calls = []
+    reports = {spec.name: spec for spec in canonical.CANONICAL_REPORTS}
+    pre_verdict_spec = reports["mixing-family-sweep"]
+    claim_complexity_spec = reports["claim-complexity"]
+    verdict_path = tmp_path / canonical.CLAIM_VERDICTS_JSONL_ARTIFACT
+
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (pre_verdict_spec, claim_complexity_spec))
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append(("run-spec", spec.name, verdict_path.exists()))
+        if spec.name == "claim-complexity":
+            assert verdict_path.exists()
+            rows = [json.loads(line) for line in verdict_path.read_text(encoding="utf-8").splitlines() if line]
+            assert rows == [{"claim_id": "claim:fixture", "claim_verdict": "negative_discovery"}]
+        return _index_row_for_spec(spec)
+
+    def fake_write_claim_verdicts(*, root, generated_at=None):
+        calls.append(("write-claim-verdicts", None, verdict_path.exists()))
+        verdict_path.parent.mkdir(parents=True, exist_ok=True)
+        row = {"claim_id": "claim:fixture", "claim_verdict": "negative_discovery"}
+        verdict_path.write_text(json.dumps(row, sort_keys=True) + "\n", encoding="utf-8")
+        return [row]
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_claim_verdict_demo",
+        types.SimpleNamespace(write_claim_verdicts=fake_write_claim_verdicts),
+    )
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert "claim-complexity" in canonical.POST_VERDICT_REPORTS
+    assert calls.index(("write-claim-verdicts", None, False)) < calls.index(("run-spec", "claim-complexity", True))
+    assert ("run-spec", "mixing-family-sweep", False) in calls
+    assert ("run-spec", "claim-complexity", False) not in calls
+    assert [report["name"] for report in payload["reports"]] == ["mixing-family-sweep", "claim-complexity"]
+
+
+def test_claim_complexity_is_not_discovery_map_manifest_source():
+    from bedc_quality_lab.backends.current_lab import projection
+
+    assert (
+        canonical.CLAIM_COMPLEXITY_JSON_ARTIFACT
+        not in projection._manifest_audit(root=canonical.ROOT, canonical_reports=canonical._discovery_map_reports())[
+            "unregistered_json_artifacts"
+        ]
+    )
+
+
+def test_claim_complexity_fingerprint_sidecar_path_is_canonical():
+    spec = canonical._specs_by_name()["claim-complexity"]
+
+    assert canonical._relative(canonical._fingerprint_path(spec)) == "reports/canonical/claim_complexity.fingerprint.json"
+
+
+def test_claim_complexity_index_section_is_artifact_only(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    (tmp_path / "reports/canonical").mkdir(parents=True)
+    (tmp_path / "reports/canonical/discovery_map.json").write_text(
+        json.dumps(
+            {
+                "rows": [
+                    {
+                        "report": "demo",
+                        "json_artifact": "reports/canonical/demo.json",
+                        "markdown_artifact": "reports/canonical/demo.md",
+                        "discovery_level": "D4",
+                        "projection_status": "projected",
+                        "classifier_reasons": ["fixture"],
+                        "evidence_pointer": "$.positive_claim",
+                        "control_pointer": "$.control",
+                    }
+                ]
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "reports/canonical/demo.json").write_text(
+        json.dumps({"positive_claim": True, "control": {"status": "pass"}}, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    (tmp_path / "reports/canonical/claim_verdicts.jsonl").write_text(
+        json.dumps({"claim_id": "claim:demo", "claim_verdict": "accepted_positive_discovery"}, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    from scripts.run_claim_complexity_score import write_claim_complexity_score
+
+    write_claim_complexity_score(root=tmp_path, generated_at="fixture-time")
+
+    section = canonical._claim_complexity_index_section()
+
+    assert section["canonical_role"] == "artifact_only_evidence"
+    assert section["status"] == "pass"
+    assert section["rows_pointer"] == "reports/canonical/claim_complexity.json:$.rows"
+    assert section["verdict_refs_pointer"] == "reports/canonical/claim_complexity.json:$.rows[*].pointer_only_verdict_ref"
+    assert section["terminal_verdict_owner"] == canonical.CLAIM_VERDICTS_ARTIFACT_ID
+
+
+def test_claim_complexity_index_section_fails_on_unresolved_pointer(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    (tmp_path / "reports/canonical").mkdir(parents=True)
+    payload = {
+        "schema_id": canonical.CLAIM_COMPLEXITY_SCHEMA_ID,
+        "artifact_id": canonical.CLAIM_COMPLEXITY_ARTIFACT_ID,
+        "generated_at": "fixture-time",
+        "source_artifacts": {
+            "discovery_map": "reports/canonical/discovery_map.json",
+            "claim_verdicts": "reports/canonical/claim_verdicts.jsonl",
+        },
+        "rows": [
+            {
+                "claim_id": "claim:demo",
+                "complexity_score": 1,
+                "scoring_dimensions": [
+                    {"name": name, "weight": 1 if index == 0 else 0, "evidence_pointer": "reports/canonical/missing.json:$"}
+                    for index, name in enumerate(DIMENSION_NAMES)
+                ],
+                "pointer_only_verdict_ref": "reports/canonical/claim_verdicts.jsonl:$.lines[0]",
+                "not_claimed": "fixture",
+            }
+        ],
+        "hardgates": {
+            "CC-HG1": {"gate_id": "CC-HG1", "status": "fail", "reason": "fixture", "evidence_pointer": None},
+            "CC-HG2": {"gate_id": "CC-HG2", "status": "pass", "reason": "fixture", "evidence_pointer": None},
+            "CC-HG3": {"gate_id": "CC-HG3", "status": "pass", "reason": "fixture", "evidence_pointer": None},
+        },
+        "not_claimed": ["fixture"],
+    }
+    (tmp_path / "reports/canonical/claim_complexity.json").write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+    section = canonical._claim_complexity_index_section()
+
+    assert section["status"] == "fail"
+    assert section["validation_errors"]

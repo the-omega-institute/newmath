@@ -64,6 +64,7 @@ DISCOVERY_MAP_SCHEMA_ID = "bedc-quality-lab:canonical-discovery-map"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 DISCOVERY_MAP_MARKDOWN_ARTIFACT = "reports/canonical/discovery_map.md"
 DISCOVERY_MAP_ARTIFACT_ID = "bedc-quality-lab:discovery-map"
+CLAIM_COMPLEXITY_ARTIFACT = "reports/canonical/claim_complexity.json"
 
 
 @dataclass(frozen=True)
@@ -3007,6 +3008,7 @@ def _manifest_audit(
         "reports/canonical/discovery_negative_witness_summary.json",
         "reports/canonical/claim_capsule.json",
         "reports/canonical/claim_graph.json",
+        CLAIM_COMPLEXITY_ARTIFACT,
         "reports/canonical/attention_route_derivative_report.json",
         "reports/canonical/transformer_derivative_atlas.json",
         OBSERVED_DEBT_ARTIFACT,

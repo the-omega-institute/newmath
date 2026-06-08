@@ -894,6 +894,21 @@ def write_claim_verdicts(*, root: Path | None = None, generated_at: str | None =
     return rows
 
 
+def claim_verdict_line_refs(*, root: Path | None = None) -> dict[str, str]:
+    base = _root(root)
+    path = _artifact_path(base, CLAIM_VERDICTS_JSONL_ARTIFACT)
+    if not path.exists():
+        return {}
+    refs: dict[str, str] = {}
+    for index, line in enumerate(path.read_text(encoding="utf-8").splitlines()):
+        if not line:
+            continue
+        row = json.loads(line)
+        if isinstance(row, Mapping) and isinstance(row.get("claim_id"), str):
+            refs[row["claim_id"]] = f"{CLAIM_VERDICTS_JSONL_ARTIFACT}:$.lines[{index}]"
+    return refs
+
+
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT, help="Lab root containing reports/canonical.")
