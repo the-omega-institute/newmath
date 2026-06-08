@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\PrueferGroupUp$}
+\label{ch:concrete-instances-pruefer-group-namecert}
+\origin{human}
+
+Following Pruefer's p-primary torsion group construction, the $\PrueferGroupUp$ packet records the cyclic $p^n$-torsion windows and their coherent inclusions as finite BEDC NameCert data. It sits after the operation surface of \autoref{ch:concrete-instances-group-namecert}, the commutative specialization of \autoref{ch:concrete-instances-abgroup-namecert}, the finite-code discipline of \autoref{ch:concrete-instances-pruefer-sequence-namecert}, and the separately topological Pruefer surface route of \autoref{ch:concrete-instances-pruefer-surface-namecert}. The packet names a displayed torsion-window algebra and not an ambient quotient group, a choice-selected compatible root chain, or an infinite colimit object.
+
+\begin{definition}[Pruefer group carrier]
+\label{def:pruefer-group-carrier}
+A $\PrueferGroupUp$ carrier is a finite $\BHist$ packet
+$$
+G=(p,W,I,A,T,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $p$ is the prime-index row naming the fixed torsion prime and the visible arithmetic ledger for $p$-power exponents.
+\item $W$ is the finite window row, listing the cyclic torsion stages currently exposed to the packet as $p,p^2,\ldots,p^k$ windows.
+\item $I$ is the coherent inclusion row, recording the displayed stage-to-stage embeddings from the $p^n$ window to the $p^{n+1}$ window.
+\item $A$ is the $\AbGroupUp$ operation row for the displayed windows, retaining the group operation, unit, inverse, operation congruence, and commutativity read through the sibling abelian-group certificate.
+\item $T$ is the torsion-window classifier row, comparing accepted endpoints only by a common displayed $p^m$ window and its inclusion ledger.
+\item $D$ is the divisibility handoff row: every displayed endpoint has a next-window predecessor only when the relevant inclusion row in $I$ is present.
+\item $H$ records componentwise $\hsame$ transport for the prime, window, inclusion, abelian-operation, classifier, divisibility, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a torsion endpoint request through its finite window, inclusion route, abelian operation readback, classifier comparison, divisibility handoff, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\PrueferGroupUp$, $\GroupUp$, $\AbGroupUp$, $\PrueferSequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PrueferGroupUp}$ row.
+\end{enumerate}
+The classifier has no coordinate for quotienting an external group, selecting roots outside the displayed inclusion ledger, or replacing the finite windows by an ambient infinite colimit.
+\end{definition}
+
+\begin{theorem}[Pruefer group NameCert obligations]
+\label{thm:pruefer-group-namecert-obligations}
+For every accepted $\PrueferGroupUp$ carrier
+$$
+G=(p,W,I,A,T,D,H,C,P,N),
+$$
+the local $\NameCert_{\PrueferGroupUp}$ surface consists exactly of the following five rows:
+\begin{enumerate}
+\item carrier admission for the fixed-prime row, finite $p$-power torsion windows, coherent inclusion ledger, abelian operation row, transport, replay, provenance, and local naming;
+\item $p$-power compatibility, requiring each operation and inverse read in $A$ to remain inside a displayed window and to commute with the inclusion rows of $I$;
+\item torsion-window classifier stability, requiring $T$ to compare endpoints only after transporting them to a common displayed $p^m$ window;
+\item divisibility handoff, exposing a predecessor in the next torsion window exactly through the corresponding row of $D$ and not through a global root selector;
+\item ledger refusal excluding quotient groups, choice-selected roots, and ambient infinite colimits from the accepted packet.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:pruefer-group-carrier}. The tuple displays the prime row, finite torsion windows, coherent inclusions, abelian-group operation rows, torsion classifier, divisibility handoff, transport, replay, provenance, and local name as separate rows.
+
+The carrier-admission row reads $p,W,I,A,H,C,P,N$ before any classifier or divisibility claim is available. Since $W$ is finite and $I$ lists only displayed stage-to-stage inclusions, admission is a finite $\BHist$ read.
+
+For compatibility, inspect $A$ together with $I$. The operation, unit, inverse, congruence, and commutativity rows are inherited through \autoref{ch:concrete-instances-abgroup-namecert}, while each operation endpoint is checked inside a visible $p^n$ window and transported along the named inclusions.
+
+The classifier row $T$ compares two accepted endpoints only after a common displayed window has been named. The divisibility row $D$ is then a next-window handoff for that displayed endpoint, not a selection principle over all roots.
+
+Finally, $H,C,P,N$ preserve the same finite route under transport, replay, provenance, and local naming. No row supplies quotient-group equality, a choice-selected root chain, or an ambient colimit carrier, so the five listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PrueferGroupUp$ read displays a fixed prime row, finite $p$-power torsion windows, coherent inclusion rows, abelian operation rows, torsion-window classifier stability, divisibility handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+
+\independenceWitness{group, abgroup, pruefer-sequence, pruefer-surface: $\PrueferGroupUp$ is not bijective to any listed sibling because it binds finite $p$-power torsion windows, coherent inclusions, abelian operation rows, torsion-window classifier stability, and divisibility handoff into one algebraic NameCert packet.}
+
+\closureat{PrueferGroupUp}{seedStr}
+
+\begin{closurestatus}{\PrueferGroupUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:pruefer-group-carrier} and \autoref{thm:pruefer-group-namecert-obligations} seed the finite fixed-prime, torsion-window, coherent-inclusion, abelian-operation, classifier, divisibility, transport, replay, provenance, and local naming route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient-group construction, selected compatible root chains, ambient infinite colimits, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, p-power compatibility, torsion-window classifier stability, divisibility handoff, and nonescape for BEDC.Derived.PrueferGroupUp.}
+  \constructivestory{A $\PrueferGroupUp$ packet is generated from a fixed prime row, finite p-power torsion windows, coherent inclusion rows, abelian operation rows, torsion-window classifier rows, divisibility handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
