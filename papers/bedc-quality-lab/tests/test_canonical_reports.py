@@ -5924,6 +5924,11 @@ def test_missing_claim_capsule_blocks_positive_promotion(tmp_path, monkeypatch):
     assert gate["status"] == "fail"
     assert gate["promotion_eligible"] is False
     assert gate["missing_required_cells"] == ["claim_capsule"]
+    assert gate["cells"]["claim_capsule"] == {
+        "pointer": "$.missing_claim_capsule",
+        "source_artifact": "reports/canonical/fixture-report.json",
+        "status": "missing",
+    }
     assert result["status"] == "fail"
 
 
@@ -5939,6 +5944,11 @@ def test_missing_cost_protocol_blocks_positive_promotion(tmp_path, monkeypatch):
     assert gate["status"] == "fail"
     assert gate["promotion_eligible"] is False
     assert gate["missing_required_cells"] == ["cost_protocol"]
+    assert gate["cells"]["cost_protocol"] == {
+        "pointer": "$.source_artifacts.cost_protocol",
+        "source_artifact": "reports/canonical/fixture-report.json",
+        "status": "missing",
+    }
 
 
 def test_missing_not_claimed_blocks_positive_promotion(tmp_path, monkeypatch):
@@ -5953,6 +5963,44 @@ def test_missing_not_claimed_blocks_positive_promotion(tmp_path, monkeypatch):
     assert gate["status"] == "fail"
     assert gate["promotion_eligible"] is False
     assert gate["missing_required_cells"] == ["not_claimed"]
+    assert gate["cells"]["not_claimed"] == {
+        "pointer": "$.applicability_boundary.not_claimed",
+        "source_artifact": "reports/canonical/fixture-report.json",
+        "status": "missing",
+    }
+
+
+def test_complete_reporting_hardgate_allows_positive_promotion(tmp_path, monkeypatch):
+    spec = _reporting_spec()
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec)
+
+    result = canonical._run_spec(spec, reuse_existing=True)
+    gate = result["discipline"]["reporting_hardgate"]
+
+    assert gate["status"] == "pass"
+    assert gate["promotion_eligible"] is True
+    assert gate["missing_required_cells"] == []
+    assert gate["cells"]["claim_capsule"]["status"] == "present"
+    assert gate["cells"]["cost_protocol"]["status"] == "present"
+    assert gate["cells"]["not_claimed"]["status"] == "present"
+    assert result["status"] == "pass"
+
+
+def test_auxiliary_reporting_hardgate_is_not_applicable(tmp_path, monkeypatch):
+    spec = _reporting_spec(bundle_role="auxiliary")
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+    _write_reporting_fixture(tmp_path, spec, claim_capsule=False, cost_protocol=False, not_claimed=False)
+
+    gate = canonical._discipline(spec)["reporting_hardgate"]
+
+    assert gate["status"] == "not-applicable"
+    assert gate["promotion_eligible"] is False
+    assert gate["missing_required_cells"] == []
 
 
 def test_reporting_hardgate_cells_are_pointer_only(tmp_path, monkeypatch):

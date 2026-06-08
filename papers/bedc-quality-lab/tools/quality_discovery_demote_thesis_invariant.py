@@ -183,8 +183,19 @@ def _is_non_positive_terminal(value: Any) -> bool:
     return normalized in NON_POSITIVE_TERMINAL_VALUES if normalized is not None else False
 
 
+def _is_opaque_pointer_only_pointer(pointer: str) -> bool:
+    for suffix in OPAQUE_POINTER_ONLY_SUFFIXES:
+        offset = pointer.find(suffix)
+        if offset < 0:
+            continue
+        tail = pointer[offset + len(suffix):]
+        if tail == "" or tail.startswith(".") or tail.startswith("["):
+            return True
+    return False
+
+
 def _positive_signal(value: Mapping[str, Any], pointer: str) -> PositiveSignal | None:
-    if any(pointer.endswith(suffix) for suffix in OPAQUE_POINTER_ONLY_SUFFIXES):
+    if _is_opaque_pointer_only_pointer(pointer):
         return None
     if value.get("positive") is True:
         return PositiveSignal(_json_pointer_child(pointer, "positive"), "positive=true")
