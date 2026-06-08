@@ -347,6 +347,24 @@ def test_negative_discovery_artifacts_are_written_only_by_core():
     assert sorted(writers) == sorted(allowed)
 
 
+def test_claim_verdict_reason_owner_is_shared_by_demo_and_summary():
+    demo_text = (SCRIPTS / "run_claim_verdict_demo.py").read_text(encoding="utf-8")
+    reports_text = (CORE / "negative_reports.py").read_text(encoding="utf-8")
+    owner_text = (CORE / "claim_verdict_reason.py").read_text(encoding="utf-8")
+
+    assert "claim_verdict_reason" in demo_text
+    assert "claim_verdict_reason" in reports_text
+    for literal in (
+        "discovery-level-DN",
+        "discovery-level-D0",
+        "positive-discovery-gates-pass",
+        "positive-discovery-gate-failed",
+    ):
+        assert literal not in demo_text
+        assert literal not in reports_text
+    assert "negative-discovery-failed-gate" in owner_text
+
+
 def test_discovery_compiler_core_has_no_backend_terms_or_backend_imports():
     forbidden_terms = (
         "sigreg-training-proxy",
