@@ -4314,6 +4314,10 @@ def test_claim_verdicts_are_pointer_only_and_not_canonical_report_artifacts(tmp_
     assert payload["claim_verdicts"]["jsonl_artifact"] not in json_artifacts
     assert (canonical.CANONICAL_DIR / "claim_verdicts.jsonl").exists()
     assert "claim_verdicts.jsonl" in (canonical.CANONICAL_DIR / "index.md").read_text(encoding="utf-8")
+    assert payload["claim_graph"]["status"] == "pointer-only"
+    assert payload["claim_graph"]["hardgate_status"]["CG-HG6"] == "pass"
+    assert not (canonical.CANONICAL_DIR / "github-check.json").exists()
+    assert not (canonical.CANONICAL_DIR / "github-check.md").exists()
 
 
 def test_claim_verdict_writer_observes_current_scorecard_after_upstream_inputs(tmp_path, monkeypatch):
