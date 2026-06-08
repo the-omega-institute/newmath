@@ -201,6 +201,28 @@ def test_dgt_tool_hg3_fails_when_invalid_or_unsafe_route_is_ledgered():
         validate_dgt_tool_route_evidence(tool_route)
 
 
+def test_dgt_tool_hg4_fails_when_blocked_route_row_removed():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    tool_route = json.loads(json.dumps(payload["tool_route_evidence"]))
+    tool_route["blocked_route_evidence"]["rows"].pop()
+
+    hardgate = evaluate_dgt_tool_route_hardgates(tool_route)
+    assert hardgate["gates"]["DGT-TOOL-HG4"]["status"] == "fail"
+    with pytest.raises(ValueError, match="hardgate"):
+        validate_dgt_tool_route_evidence(tool_route)
+
+
+def test_dgt_tool_hg5_fails_when_not_claimed_empty():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    tool_route = json.loads(json.dumps(payload["tool_route_evidence"]))
+    tool_route["not_claimed"] = []
+
+    hardgate = evaluate_dgt_tool_route_hardgates(tool_route)
+    assert hardgate["gates"]["DGT-TOOL-HG5"]["status"] == "fail"
+    with pytest.raises(ValueError, match="hardgate"):
+        validate_dgt_tool_route_evidence(tool_route)
+
+
 def test_positive_signal_requires_classifier_surface_delta_and_net_positive_signal():
     payload = dgt.build_payload(generated_at="fixture-time")
     tool_route = json.loads(json.dumps(payload["tool_route_evidence"]))
