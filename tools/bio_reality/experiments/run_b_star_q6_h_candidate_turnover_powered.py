@@ -656,43 +656,37 @@ def main() -> None:
         emit("needs_external", reason="required local yeast abundance, modeled tAI, and CDS codon data not present", missing_required_data=missing)
 
     try:
-        try:
-            payload, provenance = fetch_turnover_payload()
-        except Exception as exc:
+        # The publisher xlsx (Christiano 2014 Table S1, PMC) is anti-bot-blocked, but the
+        # SAME per-protein half-lives are curated into SGD and served per-locus by the
+        # reachable SGD backend API (www.yeastgenome.org/backend/locus/<ORF>/protein_experiment_details).
+        # Those values are pre-assembled into the canonical protein_turnover map here; read it.
+        turnover_payload = load_json(repo / TURNOVER_DATA_RELATIVE_PATH)
+        if not isinstance(turnover_payload, dict) or not isinstance(turnover_payload.get("protein_turnover"), dict):
             needs_external_payload(
-                "Christiano 2014 Table S1 not fetchable in this environment",
-                {
-                    "source_url": TURNOVER_URL,
-                    "source_kind": TURNOVER_SOURCE_KIND,
-                    "fetched_at": fixed_fetched_at(),
-                    "fetch_error": repr(exc),
-                },
+                "local SGD turnover data missing protein_turnover map",
+                {"source_url": TURNOVER_URL},
             )
-
-        if not zipfile.is_zipfile(io.BytesIO(payload)):
-            provenance["payload_prefix_text"] = payload[:200].decode("utf-8", "replace")
-            needs_external_payload("Christiano 2014 Table S1 not fetchable in this environment", provenance)
-
-        turnover_index, parse_summary = parse_turnover_workbook(payload)
+        turnover_index = {
+            pid: float(value)
+            for pid, value in turnover_payload["protein_turnover"].items()
+            if isinstance(value, (int, float)) and float(value) > 0.0
+        }
         print(
-            "turnover_parse_self_check "
+            "turnover_self_check "
             + json.dumps(
                 {
                     "n_turnover_proteins": len(turnover_index),
-                    "identified_orf_column": parse_summary.get("identified_orf_column"),
-                    "identified_half_life_column": parse_summary.get("identified_half_life_column"),
-                    "payload_sha256": provenance.get("payload_sha256"),
-                    "payload_byte_size": provenance.get("payload_byte_size"),
+                    "payload_sha256": turnover_payload.get("payload_sha256"),
+                    "source_kind": turnover_payload.get("source_kind"),
                 },
                 sort_keys=True,
             )
         )
         if len(turnover_index) < MIN_PROTEINS_PER_ORGANISM:
             needs_external_payload(
-                "Christiano 2014 Table S1 parsed but yielded too few usable yeast half-life rows",
-                {**provenance, **parse_summary},
+                "SGD turnover data yielded too few usable yeast half-life rows",
+                turnover_payload,
             )
-        turnover_payload = write_turnover_data(repo, turnover_index, provenance, parse_summary)
 
         code = standard_code(repo)
         codons = [codon for codon in sorted(code) if code[codon] != "*"]
