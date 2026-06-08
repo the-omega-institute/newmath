@@ -564,3 +564,74 @@ def test_cg_hg6_accepts_no_control_rationale_pointer(tmp_path, monkeypatch):
     errors = claim_graph.validate_claim_graph_payload(payload, root=tmp_path, claim_verdict_rows=verdicts)
 
     assert any("CG-HG6 positive-acceptance-evidence-missing:control-or-no-control-rationale" in error for error in errors)
+
+
+def test_cg_hg8_rejects_accepted_high_impact_terminal_without_review_pointer(tmp_path, monkeypatch):
+    rows = [
+        {
+            "report": "d4",
+            "json_artifact": "reports/canonical/d4.json",
+            "markdown_artifact": "reports/canonical/d4.md",
+            "discovery_level": "D4",
+            "terminal_verdict": "",
+            "classifier_reasons": ["fixture"],
+            "projection_status": "projected",
+            "evidence_pointer": "$.positive_discovery",
+            "audit_status": "valid",
+            "audit_reason": "",
+        }
+    ]
+    spec = canonical.CanonicalReportSpec(
+        name="d4",
+        command=("python3", "scripts/run_fixture.py"),
+        json_artifact="reports/canonical/d4.json",
+        markdown_artifact="reports/canonical/d4.md",
+        required_json_keys=("source_artifacts",),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        scope_pointer="$.scope",
+        cost_pointer="$.cost",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive",
+        control_pointer="$.control",
+        no_control_rationale_pointer=None,
+    )
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    monkeypatch.setattr(claim_verdict_demo, "CANONICAL_REPORTS", (spec,))
+    _write_json(tmp_path, "reports/canonical/discovery_map.json", {"rows": rows})
+    _write_json(tmp_path, "reports/canonical/quality-scorecard.json", {"rows": [{"metric": metric, "status": "ready"} for metric in canonical.QUALITY_SCORECARD_METRICS]})
+    _write_json(tmp_path, "reports/canonical/formal_hardening.json", {"ready": True, "recorded": 1, "required": 1, "gap_count": 0})
+    _write_json(tmp_path, "reports/canonical/discovery_negative_witnesses.json", {"witnesses": []})
+    _write_json(
+        tmp_path,
+        "reports/canonical/d4.json",
+        {
+            "source_artifacts": {"cost_protocol": "configs/default_cost_protocol.yaml"},
+            "scope": {"status": "present"},
+            "cost": {"status": "present"},
+            "not_claimed": ["fixture"],
+            "positive": {"claim": "bounded safety fixture"},
+            "control": {"status": "present"},
+            "claim_capsule_ref": "reports/runs/d4/claim_capsule.json",
+            "positive_discovery": True,
+            "net_information": 1.0,
+            "net_positive_signal": True,
+        },
+    )
+    _write_json(
+        tmp_path,
+        "reports/runs/d4/claim_capsule.json",
+        {
+            "schema_id": "bedc.quality.claim_capsule",
+            "claim_status": "fixture",
+            "not_claimed": ["fixture"],
+            "what_was_learned": "fixture learned",
+        },
+    )
+    verdicts = [_row("claim:d4", "accepted_positive_discovery")]
+    _write_jsonl(tmp_path, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, verdicts)
+
+    with pytest.raises(ValueError) as excinfo:
+        claim_graph.build_claim_graph_payload(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert "CG-HG8 high-impact-review-required: claim:d4 -> reports/canonical/d4.json:$.high_impact_claim_review" in str(excinfo.value)

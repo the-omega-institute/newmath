@@ -9,6 +9,7 @@ from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.artifact_freshness import load_scorecard_snapshot
 from bedc_quality_lab.claim_acceptance import validate_positive_claim_evidence
+from bedc_quality_lab.claim_terms import HIGH_IMPACT_CLAIM_TERMS
 from bedc_quality_lab.discovery_compiler.pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
 
 
@@ -20,6 +21,13 @@ CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 MECHANISM_NAMECERT_ARTIFACT = "reports/gap_head_mechanism_namecert.json"
+HIGH_IMPACT_REVIEW_POINTERS = (
+    "$.high_impact_claim_review.scope_review_pointer",
+    "$.high_impact_claim_review.risk_ledger_pointer",
+    "$.high_impact_claim_review.external_validation_pointer",
+)
+HIGH_IMPACT_DOMAINS_POINTER = "$.high_impact_claim_review.impact_domains"
+HIGH_IMPACT_DOMAINS = frozenset({"safety", "production", "real_model"})
 
 NODE_TYPES = frozenset(
     {
@@ -134,6 +142,55 @@ def _not_claimed(value: Any) -> tuple[str, ...]:
     if isinstance(value, Sequence) and not isinstance(value, (str, bytes)):
         return tuple(str(item) for item in value if str(item))
     return ()
+
+
+def _text_for_term_scan(value: Any) -> str:
+    if isinstance(value, (dict, list, tuple)):
+        return json.dumps(value, sort_keys=True).lower()
+    return str(value).lower()
+
+
+def _high_impact_domain_hits(value: Any) -> list[str]:
+    if not isinstance(value, Sequence) or isinstance(value, (str, bytes)):
+        return []
+    return [str(item) for item in value if isinstance(item, str) and item in HIGH_IMPACT_DOMAINS]
+
+
+def _high_impact_term_hits(value: Any) -> list[str]:
+    text = _text_for_term_scan(value)
+    return [term for term in HIGH_IMPACT_CLAIM_TERMS if term in text]
+
+
+def _is_high_impact_payload(spec: Any, payload: Mapping[str, Any]) -> bool:
+    if getattr(spec, "bundle_role", None) != "hg_p_core":
+        return False
+    domains = pointer_value(payload, HIGH_IMPACT_DOMAINS_POINTER)
+    if _high_impact_domain_hits(domains):
+        return True
+    claim = pointer_value(payload, getattr(spec, "positive_claim_pointer", None))
+    return bool(_high_impact_term_hits(claim))
+
+
+def _high_impact_review_failure_pointer(root: Path, spec: Any, payload: Mapping[str, Any]) -> str | None:
+    if not _is_high_impact_payload(spec, payload):
+        return None
+    review = pointer_value(payload, "$.high_impact_claim_review")
+    if not isinstance(review, Mapping):
+        return "$.high_impact_claim_review"
+    domains = pointer_value(payload, HIGH_IMPACT_DOMAINS_POINTER)
+    if domains is not None:
+        unknown_domains = [
+            str(item)
+            for item in domains
+            if not isinstance(item, str) or item not in HIGH_IMPACT_DOMAINS
+        ] if isinstance(domains, Sequence) and not isinstance(domains, (str, bytes)) else ["impact_domains"]
+        if unknown_domains:
+            return HIGH_IMPACT_DOMAINS_POINTER
+    for pointer in HIGH_IMPACT_REVIEW_POINTERS:
+        cell = pointer_value(payload, pointer)
+        if not isinstance(cell, str) or resolve_artifact_pointer(root, cell) is None:
+            return pointer
+    return None
 
 
 def _nodes_by_id(nodes: Sequence[ClaimGraphNode]) -> dict[str, ClaimGraphNode]:
@@ -412,6 +469,15 @@ def _hardgates(
             "edge_count": edge_count,
             "revocation_node_ids": revocation_node_ids,
         },
+        "CG-HG8": {
+            "status": "pass",
+            "criterion": "accepted high-impact terminal claims have resolvable review pointers",
+            "terminal_ids": [
+                str(row["claim_graph_node_id"])
+                for row in verdict_rows
+                if row.get("claim_verdict") == "accepted_positive_discovery"
+            ],
+        },
     }
 
 
@@ -522,6 +588,7 @@ def validate_claim_graph_payload(
     errors.extend(_validate_cg_hg3(by_id))
     errors.extend(_validate_cg_hg4(verdict_rows, by_id, root))
     errors.extend(_validate_cg_hg6(verdict_rows, root))
+    errors.extend(_validate_cg_hg8(verdict_rows, root))
     return errors
 
 
@@ -676,6 +743,29 @@ def _validate_cg_hg6(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> l
         )
         if not result.ok:
             errors.append(f"CG-HG6 {result.reason}: {claim_id} -> {result.ledger_pointer}")
+    return errors
+
+
+def _validate_cg_hg8(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> list[str]:
+    errors: list[str] = []
+    discovery_by_report = {str(row["report"]): row for row in _discovery_rows(root)}
+    specs = _specs_by_name()
+    for row in verdict_rows:
+        if row.get("claim_verdict") != "accepted_positive_discovery":
+            continue
+        claim_id = str(row.get("claim_id") or "")
+        report = claim_id.removeprefix("claim:")
+        discovery_row = discovery_by_report.get(report)
+        spec = specs.get(report)
+        if discovery_row is None or spec is None:
+            continue
+        payload = _load_json(root, str(discovery_row["json_artifact"]))
+        if not isinstance(payload, Mapping):
+            errors.append(f"CG-HG8 high-impact review payload missing: {claim_id}")
+            continue
+        failure_pointer = _high_impact_review_failure_pointer(root, spec, payload)
+        if failure_pointer is not None:
+            errors.append(f"CG-HG8 high-impact-review-required: {claim_id} -> {discovery_row['json_artifact']}:{failure_pointer}")
     return errors
 
 
