@@ -5826,6 +5826,47 @@ def test_release_manifest_sidecar_index_summary_is_pointer_only(tmp_path, monkey
     assert "Release manifest sidecar" in markdown
 
 
+def test_release_readiness_index_section_is_pointer_only():
+    section = canonical._release_readiness_index_section()
+    payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
+    markdown = canonical._render_index_markdown(payload)
+
+    assert section == {
+        "status": "pointer-only",
+        "canonical_role": "index_projection_not_fact_source",
+        "freshness_hardgate": "scripts/run_canonical_reports.py --verify-fingerprints",
+        "source_count": len(canonical.RELEASE_READINESS_POINTERS),
+        "sources": [dict(row) for row in canonical.RELEASE_READINESS_POINTERS],
+        "not_claimed": (
+            "This section does not copy scorecard, discovery, formal, claim, or release facts; "
+            "read the listed owner pointers and use --verify-fingerprints for stale-hash failure."
+        ),
+    }
+    assert payload["release_readiness"] == section
+    assert "Release readiness" in markdown
+    assert "scripts/run_canonical_reports.py --verify-fingerprints" in markdown
+    assert "release_readiness" not in [spec.name for spec in canonical.CANONICAL_REPORTS]
+    assert "release_readiness_board" not in json.dumps(payload)
+    assert "release_bundle_status" not in section
+    assert "ready" not in section
+    assert "metrics" not in section
+    assert "coverage_matrix" not in section
+    assert "rows" not in section
+    assert all(set(row) == {"id", "label", "artifact", "pointer", "owner_pointer"} for row in section["sources"])
+
+
+def test_release_readiness_forbidden_files_do_not_exist():
+    forbidden = [
+        "bedc_quality_lab/release_readiness.py",
+        "bedc_quality_lab/release_readiness_board.py",
+        "scripts/run_release_readiness_board.py",
+        "reports/canonical/release_readiness_board.json",
+        "reports/canonical/release_readiness_board.md",
+    ]
+
+    assert all(not (canonical.ROOT / path).exists() for path in forbidden)
+
+
 def test_toy_latent_planning_bedc_sidecar_index_is_pointer_only(tmp_path, monkeypatch):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
