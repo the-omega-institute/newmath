@@ -22,6 +22,11 @@ from bedc_quality_lab.discovery_regularized_training import (
     DEFAULT_RHOS,
     DEFAULT_SEEDS,
     DRIFT_TOLERANCE,
+    ARTIFACT_ID,
+    JET_ABLATION_ARTIFACT,
+    JET_FRONTIER_ARTIFACT,
+    JET_SIDECAR_ARTIFACT,
+    JET_SIDECAR_SCHEMA_ID,
     MECHANISM_ABLATION_DISCOVERY_LAMBDA,
     MECHANISM_ABLATION_MIXING,
     MECHANISM_ABLATION_REQUIRED_ARMS,
@@ -79,6 +84,7 @@ def deterministic_record(
         "sigreg": {"quality": 0.018, "debt": -0.018, "benefit": 0.004, "cert": -0.012, "shift": 0},
         "drt": {"quality": 0.060, "debt": -0.070, "benefit": 0.018, "cert": -0.085, "shift": 1},
         "matched_random": {"quality": 0.014, "debt": -0.006, "benefit": 0.001, "cert": 0.025, "shift": 0},
+        "drt_jet": {"quality": 0.073, "debt": -0.074, "benefit": 0.020, "cert": -0.091, "shift": 1},
     }[str(arm)]
     base_quality = 0.52 + 0.035 * rho_rank + 0.010 * lambda_rank - mixing_penalty
     base_debt = 0.28 - 0.014 * rho_rank - 0.002 * lambda_rank + mixing_penalty
@@ -91,6 +97,8 @@ def deterministic_record(
     task_accuracy = round(0.68 + 0.022 * rho_rank - 0.004 * lambda_rank - 0.25 * mixing_penalty - seed_jitter, 6)
     if str(arm) == "drt":
         task_accuracy = round(task_accuracy + 0.004, 6)
+    elif str(arm) == "drt_jet":
+        task_accuracy = round(task_accuracy + 0.003, 6)
     elif str(arm) == "matched_random":
         task_accuracy = round(task_accuracy - 0.002, 6)
     uer_base = {
@@ -98,8 +106,32 @@ def deterministic_record(
         "sigreg": 0.19,
         "drt": 0.11,
         "matched_random": 0.22,
+        "drt_jet": 0.108,
     }[str(arm)]
     uer = round(max(0.0, uer_base - 0.004 * rho_rank + 0.001 * lambda_rank + seed_jitter), 6)
+    required_order_gain = {
+        "task_only": 0.000,
+        "sigreg": 0.006,
+        "drt": 0.018,
+        "matched_random": -0.008,
+        "drt_jet": 0.037,
+    }[str(arm)]
+    order_one_gain = {
+        "task_only": 0.000,
+        "sigreg": 0.006,
+        "drt": 0.012,
+        "matched_random": -0.003,
+        "drt_jet": 0.013,
+    }[str(arm)]
+    shortcut_reducible_fraction = {
+        "task_only": 0.70,
+        "sigreg": 0.58,
+        "drt": 0.48,
+        "matched_random": 0.72,
+        "drt_jet": 0.24,
+    }[str(arm)]
+    matched_random_jet_gain = -0.006 if str(arm) == "matched_random" else None
+    jet_quality_ci_low = round((0.016 if str(arm) == "drt_jet" else 0.009 if str(arm) == "drt" else -0.004) + 0.001 * lambda_rank, 6)
     return {
         "backend": "deterministic-anchor",
         "discovery_lambda": float(discovery_lambda),
@@ -114,8 +146,8 @@ def deterministic_record(
         "certificate_loss": certificate_loss,
         "matched_random_certificate_loss": None if str(arm) != "drt" else round(base_cert + 0.025 + seed_jitter, 6),
         "classifier_shift_count": int(arm_offsets["shift"]),
-        "delta_quality_ci_low": round(0.010 + 0.004 * lambda_rank if str(arm) == "drt" else -0.004, 6),
-        "net_positive_signal": str(arm) == "drt",
+        "delta_quality_ci_low": round(0.010 + 0.004 * lambda_rank if str(arm) in {"drt", "drt_jet"} else -0.004, 6),
+        "net_positive_signal": str(arm) in {"drt", "drt_jet"},
         "loss_terms_enabled": [
             "discovery",
             "ledger",
@@ -124,11 +156,17 @@ def deterministic_record(
             "cost",
             "negative_witness",
         ]
-        if str(arm) == "drt"
+        if str(arm) in {"drt", "drt_jet"}
         else [],
         "compute_ledger_pointer": "$.compute_ledger",
         "uer": uer,
         "uer_reduction": round(0.26 - uer, 6),
+        "jet_required_order_gain": round(required_order_gain + 0.0015 * lambda_rank + 0.0008 * rho_rank - seed_jitter, 6),
+        "jet_order_one_gain": round(order_one_gain + 0.0002 * rho_rank - seed_jitter, 6),
+        "jet_shortcut_reducible_fraction": round(shortcut_reducible_fraction + seed_jitter, 6),
+        "matched_random_jet_gain": matched_random_jet_gain,
+        "jet_quality_q_ci_low": jet_quality_ci_low,
+        "shortcut_witness_flipped": False,
         "debt_marker_pointer": "$.constraint_summary",
         "comparison_family": "task-sigreg-drt-matched-random",
         "sidecar_metric_pointers": {
@@ -527,6 +565,64 @@ def _run_local_summary_payload(value: Any) -> Any:
     return value
 
 
+def _owner_pointer(pointer: str) -> str:
+    return f"{JSON_ARTIFACT}:{pointer}"
+
+
+def jet_sidecar_payload(summary: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "schema_id": JET_SIDECAR_SCHEMA_ID,
+        "artifact_role": "jet_loss_surface",
+        "owner_artifact_id": ARTIFACT_ID,
+        "owner_pointer": _owner_pointer("$.jet_loss_surface"),
+        "owner_protocol_pointer": _owner_pointer("$.jet_loss_protocol"),
+        "owner_hardgate_pointer": _owner_pointer("$.hardgate.gates"),
+        "jet_loss_surface_pointer": _owner_pointer("$.jet_loss_surface"),
+        "jet_ablation_pointer": _owner_pointer("$.jet_ablation"),
+        "jet_loss_frontier_pointer": _owner_pointer("$.jet_loss_frontier"),
+        "net_positive_signal": summary["jet_loss_surface"]["net_positive_signal"],
+        "classifier_surface_delta_pointer": _owner_pointer("$.torch_training_evidence.classifier_surface_delta"),
+    }
+
+
+def jet_frontier_sidecar_payload(summary: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "schema_id": JET_SIDECAR_SCHEMA_ID,
+        "artifact_role": "jet_loss_frontier",
+        "owner_artifact_id": ARTIFACT_ID,
+        "owner_pointer": _owner_pointer("$.jet_loss_frontier"),
+        "owner_protocol_pointer": _owner_pointer("$.jet_loss_protocol"),
+        "frontier_pointer": _owner_pointer("$.jet_loss_frontier.frontier_rows"),
+        "required_order_gain_pointer": _owner_pointer("$.jet_loss_surface.metrics.drt_jet_minus_drt_required_order_gain"),
+        "hardgate_pointer": _owner_pointer("$.hardgate.gates.DRTJ-HG1"),
+        "status": summary["jet_loss_frontier"]["status"],
+    }
+
+
+def jet_ablation_markdown(summary: Mapping[str, Any]) -> str:
+    lines = [
+        "# DRT Jet Ablation",
+        "",
+        f"- schema_id: `{JET_SIDECAR_SCHEMA_ID}`",
+        f"- owner_artifact_id: `{ARTIFACT_ID}`",
+        f"- owner_pointer: `{_owner_pointer('$.jet_ablation')}`",
+        f"- protocol_pointer: `{_owner_pointer('$.jet_loss_protocol')}`",
+        f"- status: `{summary['jet_ablation']['status']}`",
+        "",
+        "| arm | disabled terms | gain pointer |",
+        "| --- | --- | --- |",
+    ]
+    for row in summary["jet_ablation"]["rows"]:
+        lines.append(
+            "| "
+            f"`{row['arm_id']}` | "
+            f"`{','.join(row['disabled_terms'])}` | "
+            f"`{row['evidence_pointer']}` |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
 def write_artifacts(
     projection: Mapping[str, Any],
     *,
@@ -544,6 +640,9 @@ def write_artifacts(
         "report": root / artifacts["report"],
         "canonical_json": root / json_artifact,
         "canonical_report": root / report_artifact,
+        "jet_sidecar": root / JET_SIDECAR_ARTIFACT,
+        "jet_ablation": root / JET_ABLATION_ARTIFACT,
+        "jet_frontier": root / JET_FRONTIER_ARTIFACT,
     }
     for path in paths.values():
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -556,6 +655,9 @@ def write_artifacts(
     paths["report"].write_text(str(projection["report_markdown"]), encoding="utf-8")
     paths["canonical_json"].write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     paths["canonical_report"].write_text(str(projection["report_markdown"]), encoding="utf-8")
+    paths["jet_sidecar"].write_text(json.dumps(jet_sidecar_payload(summary), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    paths["jet_ablation"].write_text(jet_ablation_markdown(summary), encoding="utf-8")
+    paths["jet_frontier"].write_text(json.dumps(jet_frontier_sidecar_payload(summary), indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def _parse_float_list(value: str) -> tuple[float, ...]:

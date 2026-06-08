@@ -611,6 +611,7 @@ def _payload_for_spec(spec):
             }
         )
     if spec.name == "discovery-regularized-training":
+        return runner.build_projection(generated_at="fixture-time")["summary_payload"]
         payload.update(
             {
                 "config": {
@@ -946,6 +947,21 @@ def _write_fingerprint_fixture(canonical_module, root, spec, *, script_text="SEE
     json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
     canonical_module._artifact_path(spec.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
     return canonical_module._write_fingerprint_sidecar(spec, generated_at="fixture")
+
+
+def _write_derivative_bridge_sidecar_fixtures(canonical_module, root):
+    sidecars = {
+        canonical_module.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT: {"sidecar": "lejepa-derivative-bridge"},
+        canonical_module.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT: "# Hermite fixture\n",
+        canonical_module.SPECTRAL_JET_JSON_ARTIFACT: {"sidecar": "spectral-jet-report"},
+    }
+    for artifact, payload in sidecars.items():
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if isinstance(payload, str):
+            path.write_text(payload, encoding="utf-8")
+        else:
+            path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def test_canonical_report_fixture_requires_dg_nas_mutation_rows():
@@ -1481,6 +1497,73 @@ def test_committed_canonical_bundle_covers_every_registered_report():
         assert (canonical.ROOT / spec.markdown_artifact).exists()
     for name, spec in discovery_registered.items():
         assert discovery_rows[name]["json_artifact"] == spec.json_artifact
+
+
+def test_issue_1012_sidecars_are_committed_owner_sidecars_not_canonical_specs():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    spec_names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    spec_artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+    sidecar_section = index_payload["issue_1012_sidecars"]
+    sidecars = {row["name"]: row for row in sidecar_section["sidecars"]}
+
+    assert sidecar_section["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert set(sidecars) == {
+        "lejepa-derivative-bridge",
+        "hermite-degree-vs-behavioral-derivative",
+        "spectral-jet-report",
+    }
+    assert not set(sidecars).intersection(spec_names)
+    for row in sidecars.values():
+        assert row["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+        assert row["artifact"] not in spec_artifacts
+        assert (canonical.ROOT / row["artifact"]).exists()
+
+    lejepa = json.loads((canonical.ROOT / canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    spectral = json.loads((canonical.ROOT / canonical.SPECTRAL_JET_JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    assert lejepa["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert spectral["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert "lejepa-hermite-spectral-bridge" not in spec_names
+    assert "spectral-jet-report" not in spec_names
+
+
+def test_issue_1012_sidecar_owner_pointers_and_nongaussian_refs_resolve():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    section = index_payload["issue_1012_sidecars"]
+    owner_payloads = {
+        "lejepa-theorem-ledger": json.loads((canonical.ROOT / "reports/canonical/lejepa_theorem_ledger.json").read_text(encoding="utf-8")),
+        "spectral-ablation-hinge": json.loads((canonical.ROOT / "reports/canonical/spectral-ablation-hinge.json").read_text(encoding="utf-8")),
+    }
+
+    for row in section["sidecars"]:
+        owner = owner_payloads[row["owner_report"]]
+        artifact, pointer = split_artifact_pointer(row["owner_pointer"])
+        assert artifact == row["owner_artifact"]
+        assert pointer_value(owner, pointer) is not None
+
+    spectral_row = next(row for row in section["sidecars"] if row["name"] == "spectral-jet-report")
+    assert {ref["artifact"] for ref in spectral_row["nongaussian_references"]} == {
+        "reports/canonical/nongaussian-distribution-sweep.json"
+    }
+    assert {ref["pointer"] for ref in spectral_row["nongaussian_references"]} == {"$.records", "$.not_claimed"}
+    for ref in spectral_row["nongaussian_references"]:
+        assert resolve_artifact_pointer(canonical.ROOT, f"{ref['artifact']}:{ref['pointer']}") is not None
+
+
+def test_issue_1012_owner_specs_expose_sidecar_metadata_without_registration():
+    reports = {
+        row["name"]: row
+        for row in json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))["reports"]
+    }
+    lejepa_sidecars = reports["lejepa-theorem-ledger"]["discipline"]["sidecars"]
+    spectral_sidecars = reports["spectral-ablation-hinge"]["discipline"]["sidecars"]
+
+    assert [row["artifact"] for row in lejepa_sidecars] == [
+        canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT,
+        canonical.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT,
+    ]
+    assert [row["artifact"] for row in spectral_sidecars] == [canonical.SPECTRAL_JET_JSON_ARTIFACT]
+    assert all(row["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS" for row in lejepa_sidecars + spectral_sidecars)
 
 
 def test_committed_canonical_bundle_matches_generation_chain():
@@ -3100,6 +3183,20 @@ def test_drt_canonical_spec_has_no_companion_artifacts():
     assert all(re.search(r"\bdrt[-_]?v\d+\b", name) is None for name in names)
 
 
+def test_drt_jet_sidecar_artifacts_stay_under_single_canonical_owner():
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    json_artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+    markdown_artifacts = {spec.markdown_artifact for spec in canonical.CANONICAL_REPORTS}
+    payload = _payload_for_spec(canonical._specs_by_name()["discovery-regularized-training"])
+
+    assert "discovery-regularized-training-jet" not in names
+    assert payload["jet_sidecar_artifacts"]["jet_loss_surface"] not in json_artifacts
+    assert payload["jet_sidecar_artifacts"]["jet_loss_frontier"] not in json_artifacts
+    assert payload["jet_sidecar_artifacts"]["jet_ablation"] not in markdown_artifacts
+    assert payload["jet_sidecar_artifacts"]["owner_artifact_id"] == payload["artifact_id"]
+    assert payload["jet_sidecar_artifacts"]["owner_pointer"].endswith("$.jet_loss_surface")
+
+
 def test_discovery_regularized_training_regen_idempotent_with_extension_sections(tmp_path):
     first_projection = runner.build_projection(generated_at="fixture-time")
     runner.write_artifacts(first_projection, root=tmp_path)
@@ -3235,6 +3332,40 @@ def test_fingerprint_staleness_fail_closed_and_cold_digest(tmp_path, monkeypatch
     sidecar = json.loads(canonical._fingerprint_path(spec).read_text(encoding="utf-8"))
     assert result["producer_status"] == "completed"
     assert sidecar["output_digest"] == canonical._canonical_output_digest(spec)
+
+
+@pytest.mark.parametrize(
+    ("report_name", "sidecar_artifact", "replacement"),
+    [
+        (
+            "lejepa-theorem-ledger",
+            canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT,
+            '{"sidecar":"changed-lejepa-derivative-bridge"}\n',
+        ),
+        (
+            "lejepa-theorem-ledger",
+            canonical.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT,
+            "# Hermite changed fixture\n",
+        ),
+        (
+            "spectral-ablation-hinge",
+            canonical.SPECTRAL_JET_JSON_ARTIFACT,
+            '{"sidecar":"changed-spectral-jet-report"}\n',
+        ),
+    ],
+)
+def test_derivative_bridge_sidecar_edits_cause_owner_output_fingerprint_miss(
+    tmp_path, monkeypatch, report_name, sidecar_artifact, replacement
+):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    _write_derivative_bridge_sidecar_fixtures(canonical, tmp_path)
+    spec = canonical._specs_by_name()[report_name]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+
+    (tmp_path / sidecar_artifact).write_text(replacement, encoding="utf-8")
+
+    assert canonical._fingerprint_matches(spec) == (False, "output-digest")
 
 
 def test_relative_lab_helper_imports_enter_fingerprint_closure(tmp_path, monkeypatch):
