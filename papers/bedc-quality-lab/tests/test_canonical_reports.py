@@ -31,6 +31,7 @@ from scripts import run_discovery_map as discovery_map
 from scripts import run_discovery_regularized_training as runner
 from bedc_quality_lab.discovery_compiler.map import validate_coverage_matrix, validate_discovery_map_payload
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
+from bedc_quality_lab.order_k_benchmark import OrderKBenchmarkProjection
 
 
 HG_P_CORE = {
@@ -53,6 +54,7 @@ HG_P_CORE = {
     "mechanism-seeking-network",
     "discovery-gated-nas",
     "discovery-gated-transformer",
+    "order-k-benchmark",
 }
 QUALITY_SCORECARD_METRICS = {
     "CertCov",
@@ -197,6 +199,8 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 
 
 def _payload_for_spec(spec):
+    if spec.name == "order-k-benchmark":
+        return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
     if spec.name == "model-comparison":
         return {
             "schema_id": canonical.MODEL_COMPARISON_SCHEMA_ID,
@@ -1048,6 +1052,83 @@ def test_canonical_report_fixture_requires_dg_nas_mutation_rows():
     assert {row["witness_ref"] for row in rows} == {"score_margin_shortcut", "scale_leakage", "control_positive"}
 
 
+def test_order_k_benchmark_canonical_spec_required_keys():
+    spec = canonical._specs_by_name()["order-k-benchmark"]
+
+    assert spec.name == "order-k-benchmark"
+    assert spec.command == ("python3", "scripts/run_order_k_benchmark.py")
+    assert spec.json_artifact == "reports/canonical/order-k-benchmark.json"
+    assert spec.markdown_artifact == "reports/canonical/order-k-benchmark.md"
+    assert set(spec.required_json_keys) == {
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "source_artifacts",
+        "task_specs",
+        "order_rows",
+        "minimal_order_summary",
+        "surface_required_order_ledger",
+        "surface_required_order_ledger_ref",
+        "hardgate",
+        "discovery_map_signal",
+        "matched_random_controls",
+        "ood_stability",
+        "not_claimed",
+        "positive_claim",
+        "forbidden_claim_term_audit",
+    }
+
+
+def test_order_k_benchmark_fingerprint_closure_has_runner_and_projector(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    spec = canonical._specs_by_name()["order-k-benchmark"]
+    script = tmp_path / "scripts" / "run_order_k_benchmark.py"
+    helper = tmp_path / "bedc_quality_lab" / "order_k_benchmark.py"
+    claim_terms = tmp_path / "bedc_quality_lab" / "claim_terms.py"
+    script.parent.mkdir(parents=True, exist_ok=True)
+    helper.parent.mkdir(parents=True, exist_ok=True)
+    script.write_text("from bedc_quality_lab.order_k_benchmark import OrderKBenchmarkProjection\n", encoding="utf-8")
+    helper.write_text("from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS\n", encoding="utf-8")
+    claim_terms.write_text("FORBIDDEN_POSITIVE_CLAIM_TERMS = ()\n", encoding="utf-8")
+
+    paths = canonical._import_closure(spec.command)
+
+    assert "scripts/run_order_k_benchmark.py" in paths
+    assert "bedc_quality_lab/order_k_benchmark.py" in paths
+    assert ".refactor-loop/host.env" not in paths
+
+
+def test_order_k_benchmark_host_env_not_fingerprint_input(tmp_path, monkeypatch):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    spec = canonical._specs_by_name()["order-k-benchmark"]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    host_env = tmp_path / ".refactor-loop" / "host.env"
+    host_env.parent.mkdir(parents=True, exist_ok=True)
+    host_env.write_text("HOST_REFACTOR_COMMENT_POLICY=none\n", encoding="utf-8")
+
+    sidecar = canonical._write_fingerprint_sidecar(spec, generated_at="fixture")
+    serialized = json.dumps(sidecar["inputs"], sort_keys=True)
+
+    assert ".refactor-loop/host.env" not in serialized
+
+
+def test_order_k_benchmark_has_no_standalone_ledger_spec_or_artifact_path():
+    names = [spec.name for spec in canonical.CANONICAL_REPORTS]
+    artifact_paths = [
+        path
+        for spec in canonical.CANONICAL_REPORTS
+        for path in (spec.json_artifact, spec.markdown_artifact)
+    ]
+
+    assert names.count("order-k-benchmark") == 1
+    assert "surface-required-order-ledger" not in names
+    assert "surface_required_order_ledger" not in names
+    assert "reports/surface_required_order_ledger.json" not in artifact_paths
+    assert "reports/canonical/surface_required_order_ledger.json" not in artifact_paths
+    assert "reports/canonical/surface_required_order_ledger.md" not in artifact_paths
+
+
 def _set_canonical_tmp_root(monkeypatch, tmp_path):
     monkeypatch.setattr(canonical, "ROOT", tmp_path)
     monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
@@ -1444,6 +1525,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "mechanism-seeking-network",
         "discovery-gated-nas",
         "discovery-gated-transformer",
+        "order-k-benchmark",
         "transformer-derivative-atlas",
         "lejepa-theorem-ledger",
         "observed-debt-sweep",

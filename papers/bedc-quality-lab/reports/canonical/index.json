@@ -37,13 +37,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 106,
+    "node_count": 109,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 37,
+    "row_count": 38,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -194,6 +194,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.discovery_map_signal",
         "report": "discovery-gated-transformer"
+      },
+      {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.matched_random_controls",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.positive_claim",
+        "report": "order-k-benchmark"
       },
       {
         "bundle_role": "auxiliary",
@@ -350,7 +357,7 @@
     "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
-      "D0": 8,
+      "D0": 9,
       "D1": 4,
       "D2": 1,
       "D3": 0,
@@ -361,7 +368,7 @@
       "DR": 0
     },
     "markdown_artifact": "reports/canonical/discovery_map.md",
-    "row_count": 28,
+    "row_count": 29,
     "status": "pointer-only"
   },
   "discovery_regularized_training_quality": {
@@ -481,7 +488,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-08T04:43:38.290622+00:00",
+  "generated_at": "2026-06-08T05:06:53.516619+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -844,7 +851,8 @@
       "discovery-regularized-training",
       "mechanism-seeking-network",
       "discovery-gated-nas",
-      "discovery-gated-transformer"
+      "discovery-gated-transformer",
+      "order-k-benchmark"
     ],
     "sections": [
       "experiment bench scope",
@@ -894,7 +902,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "34fd3835a43bed2f14dadc2cb23549f83fc0d6bc4dd730ce142535395df372eb",
+    "source_sidecar_digest": "296c70d91f2040b6ab1e4b5cc11a39d39f63da0052c52e1fab1bb2b1477558f6",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -2251,6 +2259,67 @@
           "mechanism_namecert_ref",
           "jet_certificate_ref",
           "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "hg_p_core",
+      "discipline": {
+        "bundle_role": "hg_p_core",
+        "control_pointer": "$.matched_random_controls",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts.cost_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "pass",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.positive_claim",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.task_specs",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/order-k-benchmark.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/order-k-benchmark.json",
+      "markdown_artifact": "reports/canonical/order-k-benchmark.md",
+      "name": "order-k-benchmark",
+      "producer_command": [
+        "python3",
+        "scripts/run_order_k_benchmark.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "source_artifacts",
+          "task_specs",
+          "order_rows",
+          "minimal_order_summary",
+          "surface_required_order_ledger",
+          "surface_required_order_ledger_ref",
+          "hardgate",
+          "discovery_map_signal",
+          "matched_random_controls",
+          "ood_stability",
+          "not_claimed",
+          "positive_claim",
+          "forbidden_claim_term_audit"
         ],
         "required_key_validation": {
           "missing_keys": [],
