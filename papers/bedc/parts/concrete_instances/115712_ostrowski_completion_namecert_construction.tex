@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\OstrowskiCompletionUp$}
+\label{ch:concrete-instances-ostrowski-completion-namecert}
+\origin{human}
+
+Following Bourbaki and Artin on valuations and absolute-value completions, the $\OstrowskiCompletionUp$ packet records the finite boundary at which a displayed field source may be routed to an Archimedean or non-Archimedean completion-facing certificate. It sits between the prime-scale $p$-adic row of \autoref{ch:concrete-instances-padic-namecert}, the local-field boundary of \autoref{ch:concrete-instances-localfield-namecert}, the dyadic valuation row of \autoref{ch:concrete-instances-dyadic-valuation-namecert}, the completion-functor surface of \autoref{ch:concrete-instances-cauchycompletionfunctor-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed absolute-value, valuation-choice, Cauchy-window, seal, transport, replay, provenance, and local naming rows; it does not quotient completions, select limits, identify host fields, invoke trichotomy beyond the displayed branch row, or import choice.
+
+\begin{definition}[Ostrowski completion carrier]
+\label{def:ostrowski-completion-carrier}
+An $\OstrowskiCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+O=(F,A,V,B,W,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the source field row, including the finite arithmetic operations and equality classifier visible to the completion request.
+\item $A$ is the absolute-value row, displaying positivity, multiplicativity, and triangle-control data only as BEDC history.
+\item $V$ is the valuation-facing branch row, distinguishing the Archimedean route from the non-Archimedean route without exporting a host dichotomy.
+\item $B$ records the boundary handoff to the $\PadicUp$, $\LocalFieldUp$, and $\DyadicValuationUp$ siblings when the displayed branch is non-Archimedean.
+\item $W$ is the finite Cauchy-window ledger consumed before any completion-facing read may inspect the source.
+\item $S$ is the completion seal row, routed through $\CauchyCompletionFunctorUp$ and the terminal $\RealUp$ or local-field seal already displayed by the packet.
+\item $H$ records componentwise $\hsame$ transport for the source, absolute-value row, branch row, boundary handoff, Cauchy-window ledger, completion seal, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a completion request through $F,A,V,B,W,S,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\OstrowskiCompletionUp$, $\PadicUp$, $\LocalFieldUp$, $\DyadicValuationUp$, $\CauchyCompletionFunctorUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\OstrowskiCompletionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient Cauchy classes, selected representatives, a completed host field, a global classification theorem, countable choice, or equality between Archimedean and non-Archimedean models.
+\end{definition}
+
+\begin{theorem}[Ostrowski completion NameCert obligations]
+\label{thm:ostrowski-completion-namecert-obligations}
+For every accepted $\OstrowskiCompletionUp$ carrier
+$$
+O=(F,A,V,B,W,S,H,C,P,N),
+$$
+the local $\NameCert_{\OstrowskiCompletionUp}$ surface consists exactly of source-field exposure, absolute-value row exposure, valuation-branch exposure, non-Archimedean sibling handoff, finite Cauchy-window admission, completion-seal routing, componentwise transport, displayed continuation replay, package provenance, and local naming. Every completion-facing consumer must display $F,A,V,W$ before it may read the seal row $S$, and any non-Archimedean read of $S$ must also display the sibling boundary row $B$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ostrowski-completion-carrier}. The displayed rows are precisely the source field, absolute-value row, valuation branch, sibling handoff, Cauchy-window ledger, completion seal, and structural rows.
+
+The absolute-value and branch obligations are supplied by $A$ and $V$. The row $A$ records the finite algebraic and triangle-control data read by a completion request, while $V$ records which completion route is visible without adding an external classification principle.
+
+The completion handoff is then bounded by $B,W,S$. The non-Archimedean route must pass through the displayed $\PadicUp$, $\LocalFieldUp$, and $\DyadicValuationUp$ boundary row $B$; every route must pass through the finite Cauchy-window ledger $W$ before the seal row $S$ can be consumed through $\CauchyCompletionFunctorUp$ and the relevant terminal seal.
+
+Finally $H,C,P,N$ preserve, replay, source, and name the same finite packet. Since no quotient completion, selected limit, host-field equality, global classification theorem, or choice coordinate occurs in the carrier, the stated rows exhaust the NameCert obligation surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\OstrowskiCompletionUp$ replay must expose the same source field row, absolute-value row, valuation branch, Cauchy-window ledger, completion seal, transport, replay, provenance, and local naming before any consumer reads a completion-facing endpoint. A replay that reaches a quotient completion, selected representative, host completed field, hidden branch choice, or unrecorded limit rejects this NameCert instance.}
+
+\independenceWitness{The packet is independent of quotient completion carriers, selected Cauchy representatives, ambient field equality, and global classification theorems because its completion-facing read is mediated only by the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The Archimedean and non-Archimedean branches are visible as packet data, not as an external case split supplied by choice.}
+
+\closureat{OstrowskiCompletionUp}{seedStr}
+
+\begin{closurestatus}{\OstrowskiCompletionUp}
+  \constructivestory{An $\OstrowskiCompletionUp$ packet is generated from a source field row, an absolute-value row, a valuation-branch row, non-Archimedean sibling handoff data, finite Cauchy-window rows, a completion seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ostrowski-completion-carrier} and \autoref{thm:ostrowski-completion-namecert-obligations} seed the absolute-value completion boundary between Archimedean, p-adic, local-field, dyadic-valuation, Cauchy-completion, and Real-facing rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Ostrowski classification, quotient completions, selected Cauchy limits, host completed fields, branch trichotomy, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, absolute-value row exposure, branch-row determinacy, sibling handoff exactness, Cauchy-window routing, completion-seal boundary, transport, replay, provenance, and local naming for BEDC.Derived.OstrowskiCompletionUp.}
+\end{closurestatus}
