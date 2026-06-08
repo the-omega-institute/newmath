@@ -21,7 +21,7 @@ MARKDOWN_ARTIFACT = "reports/boundary_causal_jet_certificate.md"
 DGT_CANONICAL_ARTIFACT = "reports/canonical/discovery-gated-transformer.json"
 DGT_RUN_JET_CERTIFICATE_ARTIFACT = "reports/runs/discovery-gated-transformer/jet_certificate.json"
 TRANSFORMER_DERIVATIVE_ATLAS_ARTIFACT = "reports/canonical/transformer_derivative_atlas.json"
-CAUSAL_PATCH_SUITE_ARTIFACT = "reports/canonical/causal_patch_suite.json"
+CAUSAL_PATCH_SUITE_ARTIFACT = "reports/canonical/causal-patch-suite.json"
 GAP_HEAD_ATTRIBUTION_ARTIFACT = "reports/canonical/gap_head_attribution_capsule.json"
 
 SPEC_FIELDS = (
@@ -383,8 +383,8 @@ def _irreducibility_spec(
 
 
 def _causal_patch_spec(causal_patch_payload: Mapping[str, Any] | None) -> dict[str, Any]:
-    evidence_pointer = f"{CAUSAL_PATCH_SUITE_ARTIFACT}:$.effect_summary" if isinstance(causal_patch_payload, Mapping) else None
-    patch_pointer = f"{CAUSAL_PATCH_SUITE_ARTIFACT}:$.patch_registry" if isinstance(causal_patch_payload, Mapping) else None
+    evidence_pointer = f"{CAUSAL_PATCH_SUITE_ARTIFACT}:$.patch_records" if isinstance(causal_patch_payload, Mapping) else None
+    patch_pointer = f"{CAUSAL_PATCH_SUITE_ARTIFACT}:$.patch_types" if isinstance(causal_patch_payload, Mapping) else None
     return {
         "spec_id": "causal-patch-order",
         "claimed_orders": [

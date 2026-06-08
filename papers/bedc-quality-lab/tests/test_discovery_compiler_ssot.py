@@ -13,6 +13,7 @@ from bedc_quality_lab.discovery_compiler.negative_reports import (
     REQUIRED_NEGATIVE_REPORT_IDS,
     validate_negative_report_row,
 )
+from bedc_quality_lab.discovery_compiler import experiment_proposals
 from bedc_quality_lab.discovery_compiler.map import build_discovery_map_payload
 
 
@@ -388,21 +389,47 @@ def test_experiment_proposals_do_not_copy_source_owner_facts(tmp_path):
     canonical = tmp_path / "reports" / "canonical"
     canonical.mkdir(parents=True)
     (canonical / "negative_discovery_reports.json").write_text(
-        json.dumps({"rows": [{"next_hypothesis": "fixture", "failed_gate": "$.failed"}]}) + "\n",
+        json.dumps({"rows": [{"failed_gate": "$.failed"}]}) + "\n",
         encoding="utf-8",
     )
+    source_pointer = "reports/canonical/negative_discovery_reports.json:$.rows[0]"
+    source_gap_pointer = f"{source_pointer}.failed_gate"
+    proposal_id = experiment_proposals._proposal_id("negative_discovery_followup", source_pointer)
     base = {
-        "proposal_id": "exp-fixture",
-        "source_kind": "negative_discovery",
-        "source_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
-        "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0]",
-        "hypothesis_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0].next_hypothesis",
-        "failed_gate_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[0].failed_gate",
+        "proposal_id": proposal_id,
+        "proposal_type": "negative_discovery_followup",
+        "source_kind": "negative_discovery_report",
+        "source_pointer": source_pointer,
+        "source_gap_pointer": source_gap_pointer,
+        "negative_report_pointer": source_pointer,
+        "failed_gate_pointer": source_gap_pointer,
         "expected_failure_modes": ["fixture failure mode"],
-        "controls": ["fixture control"],
-        "priority": 1,
+        "required_controls": ["fixture control"],
+        "claim_capsule_draft": {
+            "schema_id": "bedc.quality.claim_capsule.draft",
+            "draft_id": f"draft:{proposal_id.removeprefix('prop:')}",
+            "source_pointer": source_pointer,
+            "source_gap_pointer": source_gap_pointer,
+            "claim_intent": "fixture bounded follow-up",
+            "required_gates": ["fixture-gate"],
+            "required_controls": ["fixture control"],
+            "expected_failure_modes": ["fixture failure mode"],
+            "not_claimed": ["No production readiness claim is made.", "No global superiority claim is made."],
+        },
+        "not_claimed": ["No production readiness claim is made.", "No global superiority claim is made."],
+        "deterministic_toy_seed": experiment_proposals._toy_seed("negative_discovery_followup", source_pointer),
         "proposal_status": "proposed",
         "audit_status": "pointer-only",
+    }
+    payload = {
+        "schema_id": "bedc-quality-lab:experiment-proposals",
+        "artifact_id": "bedc-quality-lab:experiment-proposals",
+        "canonical_role": "pointer_sidecar_not_CANONICAL_REPORTS",
+        "generated_at": "fixture-time",
+        "source_artifacts": {"negative_discovery_reports": "reports/canonical/negative_discovery_reports.json"},
+        "row_count": 1,
+        "rows": [base],
+        "audit": {"status": "pass"},
     }
 
     forbidden = {
@@ -417,11 +444,9 @@ def test_experiment_proposals_do_not_copy_source_owner_facts(tmp_path):
     }
     for key, value in forbidden.items():
         with pytest.raises(ValueError, match="copies source owner facts"):
-            build_discovery_map_payload(
-                rows=[],
-                generated_at="fixture-time",
-                experiment_proposals=[{**base, key: value}],
-                root=tmp_path,
+            experiment_proposals.validate_experiment_proposal_payload(
+                tmp_path,
+                {**payload, "rows": [{**base, key: value}]},
             )
 
 

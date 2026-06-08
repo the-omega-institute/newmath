@@ -32,6 +32,13 @@ from bedc_quality_lab.discovery_compiler.pointers import pointer_value as _brack
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer as _resolve_committed_artifact_pointer
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer as _split_artifact_pointer
 from bedc_quality_lab.discovery_compiler.map import validate_discovery_map_payload
+from bedc_quality_lab.discovery_compiler.experiment_proposals import (
+    ARTIFACT_ID as EXPERIMENT_PROPOSALS_ARTIFACT_ID,
+    CANONICAL_ROLE as EXPERIMENT_PROPOSALS_CANONICAL_ROLE,
+    JSON_ARTIFACT as EXPERIMENT_PROPOSALS_JSON_ARTIFACT,
+    MARKDOWN_ARTIFACT as EXPERIMENT_PROPOSALS_MARKDOWN_ARTIFACT,
+    write_experiment_proposals,
+)
 from bedc_quality_lab.discovery_regularized_training import (
     QUALITY_PROMOTION_ARMS as DRT_QUALITY_PROMOTION_ARMS,
     DRT_EXTENSION_UER_MAX,
@@ -1348,24 +1355,22 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "generated_at",
             "producer",
             "source_artifacts",
-            "patch_registry",
-            "schema_constants",
-            "records",
-            "effect_summary",
-            "matched_control_summary",
+            "patch_types",
+            "patch_records",
+            "matched_controls",
             "side_effect_ledger",
             "hardgates",
-            "causal_derivative_ledger_artifact",
-            "discovery_projection",
+            "dgt_mechanism_cert",
             "not_claimed",
+            "audit",
         ),
         estimated_seconds=2,
         bundle_role="auxiliary",
         scope_pointer="$.not_claimed",
-        cost_pointer="$.schema_constants.PATCH_MATCHED_CONTROL",
+        cost_pointer="$.source_artifacts",
         not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.discovery_projection",
-        control_pointer="$.matched_control_summary",
+        positive_claim_pointer="$.dgt_mechanism_cert",
+        control_pointer="$.matched_controls",
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
@@ -1394,6 +1399,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
 )
 QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas"})
 POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
+CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite"})
 
 
 def _artifact_path(relative_path: str) -> Path:
@@ -1734,6 +1740,7 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     _set_existing_attr(module, "REPORT_JSON", json_path)
     _set_existing_attr(module, "REPORT_MD", markdown_path)
     _set_existing_attr(module, "JSON_ARTIFACT", spec.json_artifact)
+    _set_existing_attr(module, "MARKDOWN_ARTIFACT", spec.markdown_artifact)
     _set_existing_attr(module, "REPORT_ARTIFACT", spec.markdown_artifact)
     _set_existing_attr(module, "USE_TORCH", False)
     _configure_metric_aliases(module)
@@ -1744,11 +1751,21 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
         _set_existing_attr(module, "SOURCE_REPORT_ARTIFACT", "reports/canonical/certificate-guided-training.md")
 
 
-def _run_producer(spec: CanonicalReportSpec) -> None:
+def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None) -> None:
     if spec.name == "model-comparison":
-        payload = _build_model_comparison(generated_at=None)
+        payload = _build_model_comparison(generated_at=generated_at)
         _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), payload)
         _write_text_atomic(_artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT), _render_model_comparison_markdown(payload))
+        return
+    if spec.name == "claim-complexity":
+        from scripts.run_claim_complexity_score import write_claim_complexity_score
+
+        write_claim_complexity_score(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "causal-patch-suite":
+        from scripts.run_causal_patch_suite import write_artifacts
+
+        write_artifacts(root=ROOT, generated_at=generated_at)
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
@@ -1758,13 +1775,25 @@ def _run_producer(spec: CanonicalReportSpec) -> None:
         module.main()
 
 
+def _call_run_producer(spec: CanonicalReportSpec, *, generated_at: str | None) -> None:
+    try:
+        signature = inspect.signature(_run_producer)
+    except (TypeError, ValueError):
+        _run_producer(spec)
+        return
+    if "generated_at" in signature.parameters:
+        _run_producer(spec, generated_at=generated_at)
+    else:
+        _run_producer(spec)
+
+
 def _run_spec_producer(spec: CanonicalReportSpec, *, generated_at: str | None) -> None:
     if spec.name == "model-comparison":
         payload = _build_model_comparison(generated_at=generated_at)
         _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), payload)
         _write_text_atomic(_artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT), _render_model_comparison_markdown(payload))
         return
-    _run_producer(spec)
+    _call_run_producer(spec, generated_at=generated_at)
 
 
 def _compile_discovery_compat(compile_discovery, *, root: Path, generated_at: str, adapter: Any, require_required_negative_reports: bool) -> Any:
@@ -2681,6 +2710,29 @@ def _quality_scorecard_index_section() -> dict[str, Any]:
     }
 
 
+def _experiment_proposals_index_section() -> dict[str, Any]:
+    path = ROOT / EXPERIMENT_PROPOSALS_JSON_ARTIFACT
+    payload: dict[str, Any] = {}
+    if path.exists():
+        try:
+            loaded = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            loaded = {}
+        if isinstance(loaded, dict):
+            payload = loaded
+    return {
+        "status": "pointer-only",
+        "artifact_id": EXPERIMENT_PROPOSALS_ARTIFACT_ID,
+        "canonical_role": EXPERIMENT_PROPOSALS_CANONICAL_ROLE,
+        "json_artifact": EXPERIMENT_PROPOSALS_JSON_ARTIFACT,
+        "markdown_artifact": EXPERIMENT_PROPOSALS_MARKDOWN_ARTIFACT,
+        "proposal_count": int(payload.get("row_count") or 0),
+        "audit_status": str(payload.get("audit", {}).get("status") or "missing"),
+        "proposal_rows_pointer": f"{EXPERIMENT_PROPOSALS_JSON_ARTIFACT}:$.rows",
+        "source_artifacts_pointer": f"{EXPERIMENT_PROPOSALS_JSON_ARTIFACT}:$.source_artifacts",
+    }
+
+
 def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, Any]:
     from scripts.run_discovery_map import build_discovery_map
 
@@ -2690,8 +2742,6 @@ def _discovery_map_index_section(generated_at: str | None = None) -> dict[str, A
         "artifact_id": DISCOVERY_MAP_ARTIFACT_ID,
         "json_artifact": DISCOVERY_MAP_JSON_ARTIFACT,
         "markdown_artifact": DISCOVERY_MAP_MARKDOWN_ARTIFACT,
-        "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
-        "experiment_proposal_count": len(payload.get("experiment_proposals", [])),
         "row_count": payload["row_count"],
         "level_counts": payload["level_counts"],
     }
@@ -5058,11 +5108,10 @@ def _index(
             "json_artifact": DISCOVERY_MAP_JSON_ARTIFACT,
             "markdown_artifact": DISCOVERY_MAP_MARKDOWN_ARTIFACT,
             "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
-            "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
-            "experiment_proposal_count": len(discovery_map_payload.get("experiment_proposals", [])),
             "row_count": discovery_map_payload["row_count"],
             "level_counts": discovery_map_payload["level_counts"],
         },
+        "experiment_proposals": _experiment_proposals_index_section(),
         "observed_debt_axis_projection": _observed_debt_axis_projection_section(),
         "dimension_mismatch_debt_transfer": _dimension_mismatch_transfer_index_section(),
         "dimension_mismatch_transfer_robustness": _dimension_mismatch_transfer_robustness_index_section(),
@@ -5173,8 +5222,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- JSON: `{payload['discovery_map']['json_artifact']}`",
             f"- Markdown: `{payload['discovery_map']['markdown_artifact']}`",
             f"- Coverage matrix: `{payload['discovery_map']['coverage_matrix_pointer']}`",
-            f"- Experiment proposals: `{payload['discovery_map']['experiment_proposals_pointer']}`",
             f"- Rows: `{payload['discovery_map']['row_count']}`",
+            "",
+            "## Experiment proposals",
+            "",
+            f"- Status: `{payload['experiment_proposals']['status']}`",
+            f"- JSON: `{payload['experiment_proposals']['json_artifact']}`",
+            f"- Markdown: `{payload['experiment_proposals']['markdown_artifact']}`",
+            f"- Rows: `{payload['experiment_proposals']['proposal_count']}`",
+            f"- Proposal rows: `{payload['experiment_proposals']['proposal_rows_pointer']}`",
+            f"- Source artifacts: `{payload['experiment_proposals']['source_artifacts_pointer']}`",
             "",
             "## Observed debt axis projection",
             "",
@@ -5585,12 +5642,19 @@ def run_reports(
         or datetime.now(timezone.utc).isoformat()
     )
     selected_specs = _selected_specs_with_dependents(only, include_dependents=mode == "changed")
-    pre_verdict_specs = [spec for spec in selected_specs if spec.name not in POST_VERDICT_REPORTS]
+    pre_verdict_specs = [
+        spec
+        for spec in selected_specs
+        if spec.name not in POST_VERDICT_REPORTS and spec.name not in CLAIM_GRAPH_PREREQUISITE_REPORTS
+    ]
+    claim_graph_prerequisite_specs = [spec for spec in selected_specs if spec.name in CLAIM_GRAPH_PREREQUISITE_REPORTS]
     post_verdict_specs = [spec for spec in selected_specs if spec.name in POST_VERDICT_REPORTS]
     results = [
         _run_spec(spec, mode=mode, generated_at=timestamp)
         for spec in pre_verdict_specs
     ]
+    prerequisite_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
+    results.extend(_run_spec(spec, mode=prerequisite_mode, generated_at=timestamp) for spec in claim_graph_prerequisite_specs)
     from scripts.run_formal_hardening_report import write_formal_hardening_report
 
     write_formal_hardening_report(root=ROOT, generated_at=timestamp)
@@ -5637,6 +5701,7 @@ def run_reports(
     if only is None:
         write_claim_graph(root=ROOT, generated_at=timestamp)
     write_discovery_negative_witness_summary(root=ROOT, generated_at=timestamp)
+    write_experiment_proposals(ROOT, generated_at=timestamp)
     from scripts.run_negative_witness_mutation_ledger import write_negative_witness_mutation_ledger
 
     write_negative_witness_mutation_ledger(root=ROOT, generated_at=timestamp)
@@ -5672,9 +5737,13 @@ def run_reports(
         _render_model_comparison_markdown(model_comparison),
     )
     model_comparison_spec = _specs_by_name().get("model-comparison")
-    if mode == "cold" and model_comparison_spec is not None:
-        _write_fingerprint_sidecar(model_comparison_spec, generated_at=timestamp)
-    results.extend(_run_spec(spec, mode=mode, generated_at=timestamp) for spec in post_verdict_specs)
+    if mode in {"verify", "cold"}:
+        for late_fingerprint_name in ("model-comparison", "causal-patch-suite"):
+            late_fingerprint_spec = _specs_by_name().get(late_fingerprint_name)
+            if late_fingerprint_spec is not None:
+                _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)
+    post_verdict_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
+    results.extend(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp) for spec in post_verdict_specs)
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))

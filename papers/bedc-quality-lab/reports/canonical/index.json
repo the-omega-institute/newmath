@@ -262,9 +262,9 @@
       },
       {
         "bundle_role": "auxiliary",
-        "control_pointer": "$.matched_control_summary",
+        "control_pointer": "$.matched_controls",
         "no_control_rationale_pointer": null,
-        "positive_claim_pointer": "$.discovery_projection",
+        "positive_claim_pointer": "$.dgt_mechanism_cert",
         "report": "causal-patch-suite"
       },
       {
@@ -394,8 +394,6 @@
   "discovery_map": {
     "artifact_id": "bedc-quality-lab:discovery-map",
     "coverage_matrix_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix",
-    "experiment_proposal_count": 21,
-    "experiment_proposals_pointer": "reports/canonical/discovery_map.json:$.experiment_proposals",
     "json_artifact": "reports/canonical/discovery_map.json",
     "level_counts": {
       "D0": 9,
@@ -454,6 +452,17 @@
       "steps": "reports/canonical/discovery-regularized-training.json:$.config.steps"
     },
     "status": "present-but-fail-closed"
+  },
+  "experiment_proposals": {
+    "artifact_id": "bedc-quality-lab:experiment-proposals",
+    "audit_status": "pass",
+    "canonical_role": "pointer_sidecar_not_CANONICAL_REPORTS",
+    "json_artifact": "reports/canonical/experiment_proposals.json",
+    "markdown_artifact": "reports/canonical/experiment_proposals.md",
+    "proposal_count": 8,
+    "proposal_rows_pointer": "reports/canonical/experiment_proposals.json:$.rows",
+    "source_artifacts_pointer": "reports/canonical/experiment_proposals.json:$.source_artifacts",
+    "status": "pointer-only"
   },
   "formal_hardening": {
     "artifact_id": "bedc-quality-lab:formal-hardening",
@@ -4400,9 +4409,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/model-comparison.json",
       "markdown_artifact": "reports/canonical/model-comparison.md",
       "name": "model-comparison",
@@ -4410,7 +4419,7 @@
         "python3",
         "scripts/run_canonical_reports.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -4436,9 +4445,9 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
-        "control_pointer": "$.matched_control_summary",
+        "control_pointer": "$.matched_controls",
         "control_status": "present",
-        "cost_pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
+        "cost_pointer": "$.source_artifacts",
         "cost_status": "present",
         "forbidden_claim_term_hits": [],
         "forbidden_claim_terms_status": "not-applicable",
@@ -4447,7 +4456,7 @@
         "no_control_rationale_status": "not-applicable",
         "not_claimed_pointer": "$.not_claimed",
         "not_claimed_status": "present",
-        "positive_claim_pointer": "$.discovery_projection",
+        "positive_claim_pointer": "$.dgt_mechanism_cert",
         "positive_claim_status": "present",
         "reporting_hardgate": {
           "applicability": "not-applicable",
@@ -4458,7 +4467,7 @@
               "status": "present"
             },
             "claim_capsule": {
-              "pointer": "$.discovery_projection",
+              "pointer": "$.dgt_mechanism_cert",
               "source_artifact": "reports/canonical/causal_patch_suite.json",
               "status": "present"
             },
@@ -4468,7 +4477,7 @@
               "status": "missing"
             },
             "cost_protocol": {
-              "pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
+              "pointer": "$.source_artifacts",
               "source_artifact": "reports/canonical/causal_patch_suite.json",
               "status": "present"
             },
@@ -4478,7 +4487,7 @@
               "status": "missing"
             },
             "evidence_envelope": {
-              "pointer": "reports/canonical/causal_patch_suite.json:$.discovery_projection",
+              "pointer": "reports/canonical/causal_patch_suite.json:$.dgt_mechanism_cert",
               "source_artifact": "reports/canonical/causal_patch_suite.json",
               "status": "present"
             },
@@ -4518,9 +4527,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 2,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/causal_patch_suite.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/causal_patch_suite.json",
       "markdown_artifact": "reports/canonical/patch_effect_summary.md",
       "name": "causal-patch-suite",
@@ -4528,7 +4537,7 @@
         "python3",
         "scripts/run_causal_patch_suite.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
@@ -4538,16 +4547,14 @@
           "generated_at",
           "producer",
           "source_artifacts",
-          "patch_registry",
-          "schema_constants",
-          "records",
-          "effect_summary",
-          "matched_control_summary",
+          "patch_types",
+          "patch_records",
+          "matched_controls",
           "side_effect_ledger",
           "hardgates",
-          "causal_derivative_ledger_artifact",
-          "discovery_projection",
-          "not_claimed"
+          "dgt_mechanism_cert",
+          "not_claimed",
+          "audit"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -4642,9 +4649,9 @@
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
-      "fingerprint_reason": "match",
+      "fingerprint_reason": "cold",
       "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
-      "fingerprint_status": "match",
+      "fingerprint_status": "written",
       "json_artifact": "reports/canonical/claim_complexity.json",
       "markdown_artifact": "reports/canonical/claim_complexity.md",
       "name": "claim-complexity",
@@ -4652,7 +4659,7 @@
         "python3",
         "scripts/run_claim_complexity_score.py"
       ],
-      "producer_status": "skipped",
+      "producer_status": "completed",
       "status": "pass",
       "validation": {
         "missing_artifacts": [],
