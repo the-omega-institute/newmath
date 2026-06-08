@@ -370,6 +370,52 @@ def _scorecard_ready(context: Mapping[str, Mapping[str, Any]]) -> bool:
     )
 
 
+THEOREM_DNA_REQUIRED_FIELDS = (
+    "theorem_id",
+    "assumptions",
+    "objects",
+    "maps",
+    "operators",
+    "invariants",
+    "proof_dependencies",
+    "ledger_debts",
+    "formal_status",
+)
+
+
+def _theorem_dna_pointer_cells_resolve(ledger: Mapping[str, Any], cells: Any) -> bool:
+    return isinstance(cells, list) and bool(cells) and all(
+        isinstance(cell, Mapping)
+        and isinstance(cell.get("pointer"), str)
+        and pointer_value(ledger, cell["pointer"]) is not None
+        for cell in cells
+    )
+
+
+def _theorem_ledger_rows_have_resolvable_dna(context: Mapping[str, Mapping[str, Any]]) -> bool:
+    ledger = context.get(LEJEPA_THEOREM_LEDGER_ARTIFACT, {})
+    rows = pointer_value(ledger, "$.theorem_rows")
+    if not isinstance(rows, list) or not rows:
+        return False
+    for index, row in enumerate(rows):
+        if not isinstance(row, Mapping):
+            return False
+        pointer = row.get("theorem_dna_pointer")
+        if pointer != f"$.theorem_rows[{index}].theorem_dna":
+            return False
+        dna = pointer_value(ledger, pointer)
+        if not isinstance(dna, Mapping):
+            return False
+        if any(field not in dna for field in THEOREM_DNA_REQUIRED_FIELDS):
+            return False
+        if dna.get("theorem_id") != row.get("theorem_id", row.get("theorem")):
+            return False
+        for field in ("assumptions", "ledger_debts", "proof_dependencies"):
+            if not _theorem_dna_pointer_cells_resolve(ledger, dna.get(field)):
+                return False
+    return True
+
+
 def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
     if pointer is None or not pointer.startswith("$."):
         return None
@@ -912,6 +958,20 @@ def _discovery_gated_nas_projection(
     level = signal.get("level_candidate")
     status = signal.get("status")
     if consistent and level == "D5-M" and status == "d5-m-candidate":
+        context_payloads = {} if context is None else context
+        if not _theorem_ledger_rows_have_resolvable_dna(context_payloads):
+            return {
+                "verdict": "rejected",
+                "main_verdict": {
+                    "discovery_gated_nas": {
+                        "level_candidate": "DN",
+                        "status": "negative",
+                    },
+                },
+            }, ProjectionEvidence(
+                projection_status="projected",
+                failed_gate=f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.theorem_rows",
+            )
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
