@@ -5915,6 +5915,22 @@ def test_derivative_debt_ledger_artifacts_stay_absent_from_canonical_surfaces():
         assert artifact not in index_text
 
 
+def test_high_impact_claim_review_stays_absent_from_canonical_surfaces():
+    forbidden_artifacts = {
+        "reports/canonical/high-impact-claim-review.json",
+        "reports/canonical/high-impact-claim-review.md",
+    }
+    forbidden_names = {"high-impact-claim-review"}
+    specs = canonical.CANONICAL_REPORTS
+    index_text = (canonical.ROOT / "reports/canonical/index.json").read_text(encoding="utf-8")
+
+    assert forbidden_names.isdisjoint({spec.name for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.json_artifact for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
+    for artifact in forbidden_artifacts:
+        assert artifact not in index_text
+
+
 def _reporting_spec(**overrides):
     fields = {
         "name": "fixture-report",

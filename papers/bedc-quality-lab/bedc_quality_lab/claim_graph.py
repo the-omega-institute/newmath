@@ -9,6 +9,7 @@ from typing import Any, Mapping, Sequence
 
 from bedc_quality_lab.artifact_freshness import load_scorecard_snapshot
 from bedc_quality_lab.claim_acceptance import validate_positive_claim_evidence
+from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
 from bedc_quality_lab.discovery_compiler.pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
 
 
@@ -20,7 +21,6 @@ CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 DISCOVERY_MAP_JSON_ARTIFACT = "reports/canonical/discovery_map.json"
 NEGATIVE_WITNESSES_JSON_ARTIFACT = "reports/canonical/discovery_negative_witnesses.json"
 MECHANISM_NAMECERT_ARTIFACT = "reports/gap_head_mechanism_namecert.json"
-
 NODE_TYPES = frozenset(
     {
         "raw_evidence",
@@ -412,6 +412,15 @@ def _hardgates(
             "edge_count": edge_count,
             "revocation_node_ids": revocation_node_ids,
         },
+        "CG-HG8": {
+            "status": "pass",
+            "criterion": "accepted high-impact terminal claims have resolvable review pointers",
+            "terminal_ids": [
+                str(row["claim_graph_node_id"])
+                for row in verdict_rows
+                if row.get("claim_verdict") == "accepted_positive_discovery"
+            ],
+        },
     }
 
 
@@ -522,6 +531,7 @@ def validate_claim_graph_payload(
     errors.extend(_validate_cg_hg3(by_id))
     errors.extend(_validate_cg_hg4(verdict_rows, by_id, root))
     errors.extend(_validate_cg_hg6(verdict_rows, root))
+    errors.extend(_validate_cg_hg8(verdict_rows, root))
     return errors
 
 
@@ -676,6 +686,29 @@ def _validate_cg_hg6(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> l
         )
         if not result.ok:
             errors.append(f"CG-HG6 {result.reason}: {claim_id} -> {result.ledger_pointer}")
+    return errors
+
+
+def _validate_cg_hg8(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> list[str]:
+    errors: list[str] = []
+    discovery_by_report = {str(row["report"]): row for row in _discovery_rows(root)}
+    specs = _specs_by_name()
+    for row in verdict_rows:
+        if row.get("claim_verdict") != "accepted_positive_discovery":
+            continue
+        claim_id = str(row.get("claim_id") or "")
+        report = claim_id.removeprefix("claim:")
+        discovery_row = discovery_by_report.get(report)
+        spec = specs.get(report)
+        if discovery_row is None or spec is None:
+            continue
+        payload = _load_json(root, str(discovery_row["json_artifact"]))
+        if not isinstance(payload, Mapping):
+            errors.append(f"CG-HG8 high-impact review payload missing: {claim_id}")
+            continue
+        failure_pointer = high_impact_review_failure_pointer(root, spec, payload)
+        if failure_pointer is not None:
+            errors.append(f"CG-HG8 high-impact-review-required: {claim_id} -> {discovery_row['json_artifact']}:{failure_pointer}")
     return errors
 
 

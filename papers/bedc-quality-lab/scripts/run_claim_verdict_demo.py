@@ -27,6 +27,7 @@ from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
     validate_claim_verdict_reason,
 )
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
+from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.scope import (
@@ -86,7 +87,6 @@ DIMENSION_MISMATCH_COST_POINTER = "$.source_artifacts"
 DIMENSION_MISMATCH_NOT_CLAIMED_POINTER = "$.not_claimed"
 DIMENSION_MISMATCH_POSITIVE_CLAIM_POINTER = "$.dimension_mismatch_debt_transfer"
 DIMENSION_MISMATCH_CONTROL_POINTER = "$.control_protocol"
-
 
 @dataclass(frozen=True)
 class ClaimSource:
@@ -681,6 +681,16 @@ def _mapped_discovery_row(
                     reason=evidence_result.reason,
                     source=source,
                     ledger_pointer=evidence_result.ledger_pointer,
+                    scorecard_snapshot=scorecard_snapshot,
+                )
+            high_impact_failure = high_impact_review_failure_pointer(root, spec, payload)
+            if high_impact_failure is not None:
+                return _row(
+                    claim_id=claim_id,
+                    claim_verdict="projected_discovery_required",
+                    reason="high-impact-review-required",
+                    source=_claim_source(row, high_impact_failure),
+                    ledger_pointer=f"{row['json_artifact']}:{high_impact_failure}",
                     scorecard_snapshot=scorecard_snapshot,
                 )
             return _row(
