@@ -33,20 +33,12 @@ PROPOSAL_TYPES = frozenset(
         "coverage_gap",
         "negative_discovery_followup",
         "d5m_blocked_followup",
-        "model_comparison_blocker",
-        "mechanism_certificate_gap",
-        "control_missing",
-        "ablation_missing",
     }
 )
 SOURCE_CLASS_ORDER = {
     "d5m_blocked_followup": 0,
-    "mechanism_certificate_gap": 1,
-    "negative_discovery_followup": 2,
-    "coverage_gap": 3,
-    "model_comparison_blocker": 4,
-    "control_missing": 5,
-    "ablation_missing": 6,
+    "negative_discovery_followup": 1,
+    "coverage_gap": 2,
 }
 ROW_REQUIRED_KEYS = frozenset(
     {

@@ -148,6 +148,118 @@ def test_experiment_proposal_validation_rejects_claim_overreach(tmp_path):
         experiment_proposals.validate_experiment_proposal_payload(tmp_path, mutated)
 
 
+def test_experiment_proposal_validation_rejects_payload_schema_mismatch(tmp_path):
+    _write_sources(tmp_path)
+    payload = experiment_proposals.build_experiment_proposals(tmp_path, generated_at="fixture-time")
+
+    cases = [
+        ({**payload, "schema_id": "wrong"}, "schema_id mismatch"),
+        ({**payload, "artifact_id": "wrong"}, "artifact_id mismatch"),
+        ({**payload, "canonical_role": "wrong"}, "canonical_role mismatch"),
+        ({**payload, "source_artifacts": []}, "source_artifacts must be an object"),
+        ({**payload, "rows": {}}, "rows must be a list"),
+        ({**payload, "row_count": payload["row_count"] + 1}, "row_count mismatch"),
+        ({**payload, "audit": {"status": "fail"}}, "audit must pass"),
+    ]
+    for mutated, message in cases:
+        with pytest.raises(ValueError, match=message):
+            experiment_proposals.validate_experiment_proposal_payload(tmp_path, mutated)
+
+
+def test_experiment_proposal_validation_rejects_row_schema_mismatch(tmp_path):
+    _write_sources(tmp_path)
+    payload = experiment_proposals.build_experiment_proposals(tmp_path, generated_at="fixture-time")
+    row = payload["rows"][0]
+
+    missing_row = dict(row)
+    missing_row.pop("proposal_status")
+    cases = [
+        ({**payload, "rows": ["not-a-row"]}, "rows must be objects"),
+        ({**payload, "rows": [{**row, "unexpected": "value"}, *payload["rows"][1:]]}, "unsupported keys"),
+        ({**payload, "rows": [missing_row, *payload["rows"][1:]]}, "missing keys: proposal_status"),
+        ({**payload, "rows": [{**row, "proposal_type": "control_missing"}, *payload["rows"][1:]]}, "unsupported proposal_type"),
+        ({**payload, "rows": [{**row, "source_kind": ""}, *payload["rows"][1:]]}, "source_kind must be a non-empty string"),
+        ({**payload, "rows": [{**row, "expected_failure_modes": []}, *payload["rows"][1:]]}, "expected_failure_modes must be a non-empty list"),
+    ]
+    for mutated, message in cases:
+        with pytest.raises(ValueError, match=message):
+            experiment_proposals.validate_experiment_proposal_payload(tmp_path, mutated)
+
+
+def test_experiment_proposal_validation_rejects_unresolved_pointers(tmp_path):
+    _write_sources(tmp_path)
+    payload = experiment_proposals.build_experiment_proposals(tmp_path, generated_at="fixture-time")
+    row = payload["rows"][0]
+    missing_pointer = "reports/canonical/missing.json:$"
+
+    pointer_cases = [
+        ({**row, "source_pointer": missing_pointer}, "unresolved pointer: source_pointer"),
+        ({**row, "source_gap_pointer": missing_pointer}, "unresolved pointer: source_gap_pointer"),
+        ({**row, "failed_gate_pointer": missing_pointer}, "unresolved pointer: failed_gate_pointer"),
+        (
+            {
+                **row,
+                "claim_capsule_draft": {
+                    **row["claim_capsule_draft"],
+                    "source_pointer": missing_pointer,
+                },
+            },
+            "claim capsule draft unresolved pointer: source_pointer",
+        ),
+        (
+            {
+                **row,
+                "claim_capsule_draft": {
+                    **row["claim_capsule_draft"],
+                    "source_gap_pointer": missing_pointer,
+                },
+            },
+            "claim capsule draft unresolved pointer: source_gap_pointer",
+        ),
+    ]
+    for mutated_row, message in pointer_cases:
+        mutated = {**payload, "rows": [mutated_row, *payload["rows"][1:]]}
+        with pytest.raises(ValueError, match=message):
+            experiment_proposals.validate_experiment_proposal_payload(tmp_path, mutated)
+
+
+def test_experiment_proposal_validation_rejects_nondeterministic_identity(tmp_path):
+    _write_sources(tmp_path)
+    payload = experiment_proposals.build_experiment_proposals(tmp_path, generated_at="fixture-time")
+    row = payload["rows"][0]
+
+    cases = [
+        ({**row, "proposal_id": "prop:notdetermin"}, "proposal_id is not deterministic"),
+        ({**row, "deterministic_toy_seed": True}, "deterministic_toy_seed must be a stable non-negative integer"),
+        ({**row, "deterministic_toy_seed": -1}, "deterministic_toy_seed must be a stable non-negative integer"),
+        ({**row, "deterministic_toy_seed": row["deterministic_toy_seed"] + 1}, "deterministic_toy_seed mismatch"),
+    ]
+    for mutated_row, message in cases:
+        mutated = {**payload, "rows": [mutated_row, *payload["rows"][1:]]}
+        with pytest.raises(ValueError, match=message):
+            experiment_proposals.validate_experiment_proposal_payload(tmp_path, mutated)
+
+
+def test_experiment_proposal_validation_rejects_duplicate_ids(tmp_path):
+    _write_sources(tmp_path)
+    payload = experiment_proposals.build_experiment_proposals(tmp_path, generated_at="fixture-time")
+
+    duplicated = {**payload["rows"][1], **payload["rows"][0]}
+    mutated = {**payload, "rows": [payload["rows"][0], duplicated, *payload["rows"][2:]]}
+
+    with pytest.raises(ValueError, match="proposal_id values must be unique"):
+        experiment_proposals.validate_experiment_proposal_payload(tmp_path, mutated)
+
+
+def test_experiment_proposal_validation_rejects_unsorted_rows(tmp_path):
+    _write_sources(tmp_path)
+    payload = experiment_proposals.build_experiment_proposals(tmp_path, generated_at="fixture-time")
+    mutated = {**payload, "rows": [payload["rows"][1], payload["rows"][0], *payload["rows"][2:]]}
+
+    with pytest.raises(ValueError, match="rows are not sorted"):
+        experiment_proposals.validate_experiment_proposal_payload(tmp_path, mutated)
+
+
 def test_write_experiment_proposals_is_idempotent(tmp_path):
     _write_sources(tmp_path)
 

@@ -2849,17 +2849,6 @@ def _build_coverage_matrix(
     }
 
 
-def _proposal_slug(value: str) -> str:
-    return "".join(ch.lower() if ch.isalnum() else "-" for ch in value).strip("-")
-
-
-def _local_artifact_pointer(row: Mapping[str, Any], pointer: Any) -> str | None:
-    artifact = row.get("json_artifact")
-    if isinstance(artifact, str) and isinstance(pointer, str) and pointer.startswith("$."):
-        return f"{artifact}:{pointer}"
-    return pointer if isinstance(pointer, str) and ":" in pointer else None
-
-
 def _manifest_audit(
     *,
     root: Path | None = None,
