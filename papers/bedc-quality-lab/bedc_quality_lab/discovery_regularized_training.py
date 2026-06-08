@@ -1097,7 +1097,7 @@ def project_jet_surface(
             "arm_id": "without_jet",
             "disabled_terms": ["jet"],
             "required_order_gain_mean": drt["required_order_gain_mean"],
-            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.DGT_full"),
+            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.DGT_without_jet_loss"),
         },
         {
             "arm_id": "matched_random_jet",
@@ -1203,6 +1203,100 @@ def jet_hardgate_verdicts(payload: Mapping[str, Any]) -> dict[str, dict[str, Any
             "evidence": "Jet quality_q CI-low must remain positive on the frontier.",
             "evidence_pointer": "$.jet_loss_surface.metrics.quality_q_ci_low",
             "quality_q_ci_low": _rounded_number(quality_ci_low),
+        },
+    }
+
+
+def _dgt_replay_gate_verdicts(summaries: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    comparison_owner = summaries.get("comparison_owner", {})
+    replay_catalog = summaries.get("replay_arm_catalog", {})
+    bridge = summaries.get("training_replay_bridge", {})
+    replay_rows = bridge.get("rows") if isinstance(bridge, Mapping) else []
+    full_row = bridge.get("full_arm") if isinstance(bridge, Mapping) else {}
+    matched_row = bridge.get("matched_random_arm") if isinstance(bridge, Mapping) else {}
+    catalog_arms = (
+        {
+            row.get("arm_id")
+            for row in replay_catalog.get("formal_arms", [])
+            if isinstance(row, Mapping)
+        }
+        if isinstance(replay_catalog, Mapping)
+        else set()
+    )
+    replay_rows_complete = isinstance(replay_rows, Sequence) and not isinstance(replay_rows, str)
+    return {
+        DGT_REPLAY_OWNER_READY_GATE: {
+            "status": _status(isinstance(comparison_owner, Mapping) and comparison_owner.get("ready") is True),
+            "evidence": "model-comparison owner must be ready before DGT replay can promote.",
+            "evidence_pointer": "$.comparison_owner.status",
+        },
+        "DGT-REPLAY-HG1": {
+            "status": _status(catalog_arms == set(FORMAL_REPLAY_ARMS)),
+            "evidence": "Formal replay arm catalog must contain the exact public arm set.",
+            "evidence_pointer": "$.replay_arm_catalog.formal_arms",
+        },
+        "DGT-REPLAY-HG2": {
+            "status": _status(replay_rows_complete and len(replay_rows) == len(FORMAL_REPLAY_ARMS)),
+            "evidence": "Training replay bridge must emit one public row for each formal arm.",
+            "evidence_pointer": "$.training_replay_bridge.rows",
+        },
+        "DGT-REPLAY-HG3": {
+            "status": _status(
+                all(isinstance(row, Mapping) and row.get("parameter_count") == 144000 for row in replay_rows)
+                if replay_rows_complete
+                else False
+            ),
+            "evidence": "Replay rows must carry matched parameter counts.",
+            "evidence_pointer": "$.training_replay_bridge.rows",
+        },
+        "DGT-REPLAY-HG4": {
+            "status": _status(
+                all(isinstance(row, Mapping) and row.get("compute_budget") == 1.0 for row in replay_rows)
+                if replay_rows_complete
+                else False
+            ),
+            "evidence": "Replay rows must carry matched compute budgets.",
+            "evidence_pointer": "$.training_replay_bridge.rows",
+        },
+        "DGT-REPLAY-HG5": {
+            "status": _status(isinstance(matched_row, Mapping) and matched_row.get("structural_randomized") is True),
+            "evidence": "Matched-random structural control must be explicitly randomized.",
+            "evidence_pointer": "$.training_replay_bridge.matched_random_arm",
+        },
+        "DGT-REPLAY-HG6": {
+            "status": _status(
+                isinstance(full_row, Mapping)
+                and _as_finite_number(full_row.get("classifier_shift_count_mean")) is not None
+                and float(full_row["classifier_shift_count_mean"]) > 0.0
+            ),
+            "evidence": "DGT_full must have positive classifier shift.",
+            "evidence_pointer": "$.training_replay_bridge.full_arm.classifier_shift_count_mean",
+        },
+        "DGT-REPLAY-HG7": {
+            "status": _status(isinstance(full_row, Mapping) and full_row.get("net_positive_signal") is True),
+            "evidence": "DGT_full must carry a net-positive replay signal.",
+            "evidence_pointer": "$.training_replay_bridge.full_arm.net_positive_signal",
+        },
+        "DGT-REPLAY-HG8": {
+            "status": _status(
+                isinstance(matched_row, Mapping)
+                and _as_finite_number(matched_row.get("classifier_shift_count_mean")) == 0.0
+            ),
+            "evidence": "Matched-random classifier shift must remain zero.",
+            "evidence_pointer": "$.training_replay_bridge.matched_random_arm.classifier_shift_count_mean",
+        },
+        "DGT-REPLAY-HG9": {
+            "status": _status(
+                isinstance(summaries.get("compute_ledger"), Mapping)
+                and summaries["compute_ledger"].get("status") == "complete"
+            ),
+            "evidence": "Compute ledger must be complete.",
+            "evidence_pointer": "$.compute_ledger.status",
+        },
+        "DGT-REPLAY-HG10": {
+            "status": _status(_forbidden_term_audit(POSITIVE_CLAIM).get("status") == "pass"),
+            "evidence": "Forbidden claim audit must pass.",
+            "evidence_pointer": "$.positive_claim",
         },
     }
 
@@ -1523,9 +1617,6 @@ class DiscoveryRegularizedTrainingProjection:
         lambda_summary = summaries["lambda_summary"]
         classifier = summaries["surface_registry"]["classifier_shift"]
         matched = summaries["matched_random_control"]
-        comparison_owner = summaries.get("comparison_owner", {})
-        replay_catalog = summaries.get("replay_arm_catalog", {})
-        bridge = summaries.get("training_replay_bridge", {})
         task_only = summaries["surface_registry"]["task_accuracy_only"]
         torch_evidence = summaries["torch_training_evidence"]
         mechanism_ablation = summaries["mechanism_ablation"]
@@ -1577,73 +1668,8 @@ class DiscoveryRegularizedTrainingProjection:
         matched_random_control_positive = matched.get("control_positive") is True
         owner_payload = {**summaries, "quality_promotion_boundary": boundary}
         jet_gates = jet_hardgate_verdicts(owner_payload)
-        replay_rows = bridge.get("rows") if isinstance(bridge, Mapping) else []
-        full_row = bridge.get("full_arm") if isinstance(bridge, Mapping) else {}
-        matched_row = bridge.get("matched_random_arm") if isinstance(bridge, Mapping) else {}
-        catalog_arms = {
-            row.get("arm_id")
-            for row in replay_catalog.get("formal_arms", [])
-            if isinstance(row, Mapping)
-        } if isinstance(replay_catalog, Mapping) else set()
-        replay_gates = {
-            DGT_REPLAY_OWNER_READY_GATE: {
-                "status": _status(isinstance(comparison_owner, Mapping) and comparison_owner.get("ready") is True),
-                "evidence": "model-comparison owner must be ready before DGT replay can promote.",
-                "evidence_pointer": "$.comparison_owner.status",
-            },
-            "DGT-REPLAY-HG1": {
-                "status": _status(catalog_arms == set(FORMAL_REPLAY_ARMS)),
-                "evidence": "Formal replay arm catalog must contain the exact public arm set.",
-                "evidence_pointer": "$.replay_arm_catalog.formal_arms",
-            },
-            "DGT-REPLAY-HG2": {
-                "status": _status(isinstance(replay_rows, Sequence) and not isinstance(replay_rows, str) and len(replay_rows) == len(FORMAL_REPLAY_ARMS)),
-                "evidence": "Training replay bridge must emit one public row for each formal arm.",
-                "evidence_pointer": "$.training_replay_bridge.rows",
-            },
-            "DGT-REPLAY-HG3": {
-                "status": _status(all(isinstance(row, Mapping) and row.get("parameter_count") == 144000 for row in replay_rows) if isinstance(replay_rows, Sequence) and not isinstance(replay_rows, str) else False),
-                "evidence": "Replay rows must carry matched parameter counts.",
-                "evidence_pointer": "$.training_replay_bridge.rows",
-            },
-            "DGT-REPLAY-HG4": {
-                "status": _status(all(isinstance(row, Mapping) and row.get("compute_budget") == 1.0 for row in replay_rows) if isinstance(replay_rows, Sequence) and not isinstance(replay_rows, str) else False),
-                "evidence": "Replay rows must carry matched compute budgets.",
-                "evidence_pointer": "$.training_replay_bridge.rows",
-            },
-            "DGT-REPLAY-HG5": {
-                "status": _status(isinstance(matched_row, Mapping) and matched_row.get("structural_randomized") is True),
-                "evidence": "Matched-random structural control must be explicitly randomized.",
-                "evidence_pointer": "$.training_replay_bridge.matched_random_arm",
-            },
-            "DGT-REPLAY-HG6": {
-                "status": _status(isinstance(full_row, Mapping) and _as_finite_number(full_row.get("classifier_shift_count_mean")) is not None and float(full_row["classifier_shift_count_mean"]) > 0.0),
-                "evidence": "DGT_full must have positive classifier shift.",
-                "evidence_pointer": "$.training_replay_bridge.full_arm.classifier_shift_count_mean",
-            },
-            "DGT-REPLAY-HG7": {
-                "status": _status(isinstance(full_row, Mapping) and full_row.get("net_positive_signal") is True),
-                "evidence": "DGT_full must carry a net-positive replay signal.",
-                "evidence_pointer": "$.training_replay_bridge.full_arm.net_positive_signal",
-            },
-            "DGT-REPLAY-HG8": {
-                "status": _status(isinstance(matched_row, Mapping) and _as_finite_number(matched_row.get("classifier_shift_count_mean")) == 0.0),
-                "evidence": "Matched-random classifier shift must remain zero.",
-                "evidence_pointer": "$.training_replay_bridge.matched_random_arm.classifier_shift_count_mean",
-            },
-            "DGT-REPLAY-HG9": {
-                "status": _status(isinstance(summaries.get("compute_ledger"), Mapping) and summaries["compute_ledger"].get("status") == "complete"),
-                "evidence": "Compute ledger must be complete.",
-                "evidence_pointer": "$.compute_ledger.status",
-            },
-            "DGT-REPLAY-HG10": {
-                "status": _status(_forbidden_term_audit(POSITIVE_CLAIM).get("status") == "pass"),
-                "evidence": "Forbidden claim audit must pass.",
-                "evidence_pointer": "$.positive_claim",
-            },
-        }
         return {
-            **replay_gates,
+            **_dgt_replay_gate_verdicts(summaries),
             "DRT-HG1": {
                 "status": _status(bool(constraint["debt_down"] and constraint["benefit_nondecreasing"])),
                 "evidence": "DRT must reduce debt while preserving benefit.",
