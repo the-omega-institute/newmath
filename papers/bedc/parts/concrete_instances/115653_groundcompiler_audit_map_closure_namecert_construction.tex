@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-groundcompiler-audit-map-closure-namecert}
 \origin{ai}
 
-The $\GroundCompilerAuditMapClosureUp$ packet realizes the compiler audit-map methodology of \autoref{ch:bedc-groundcompiler-audit-map} as finite NameCert data. It packages event-flow rows, source-channel rows, recognizer rows, certificate-gate rows, metric-report rows, non-evidence rows, transport, replay, provenance, and local naming so that a self-compilation consumer can inspect the compiler channel boundary without reading reports, motifs, host packages, or generated code as proof evidence.
+The $\GroundCompilerAuditMapClosureUp$ packet realizes the compiler audit-map methodology of \autoref{ch:bedc-groundcompiler-audit-map} as finite NameCert data. It packages event-flow rows, source-channel rows, recognizer rows, certificate-gate rows, metric-report rows, non-evidence rows, transport, replay, provenance, and local naming so that a self-compilation consumer can inspect the compiler channel boundary without reading reports, motifs, host packages, or generated code as proof evidence. The downstream consumer is the MetaCIC critical-path packet of \autoref{ch:concrete-instances-metaciccriticalpath-namecert}, which reads those event-flow, source-channel, recognizer, certificate-gate, metric-report, and non-evidence rows before using compiler-channel audit data inside a finite critical-path route.
 
 \begin{definition}[GroundCompiler audit-map closure carrier]
 \label{def:groundcompiler-audit-map-closure-carrier}
