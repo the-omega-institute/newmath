@@ -2,23 +2,34 @@
 
 - Schema: `bedc-quality-lab:causal-patch-suite`
 - Artifact: `bedc-quality-lab:causal-patch-suite`
-- Hardgate status: `pass`
-- Derivative ledger: `reports/canonical/causal_derivative_ledger.json`
+- DGT mechanism cert status: `present-but-fail-closed`
 
-| patch | channel | treatment quality_q CI | matched-control quality_q CI | status |
-| --- | --- | ---: | ---: | --- |
-| `token-causal-substitution` | `token` | 0.051474..0.060526 | -0.006790..0.006790 | `pass` |
-| `attention-route-certificate-routing` | `attention-route` | 0.052474..0.061526 | -0.006790..0.006790 | `pass` |
-| `ledger-head-risk-channel` | `ledger-head` | 0.053474..0.062526 | -0.006790..0.006790 | `pass` |
-| `gap-head-residual-channel` | `gap-head` | 0.054474..0.063526 | -0.006790..0.006790 | `pass` |
-| `mechanism-probe-residualized-signal` | `mechanism-probe` | 0.055474..0.064526 | -0.006790..0.006790 | `pass` |
-| `certificate-gate-validity-channel` | `certificate-gate` | 0.056474..0.065526 | -0.006790..0.006790 | `pass` |
-| `D1-feature-discovery-regularizer` | `D1-feature` | 0.057474..0.066526 | -0.006790..0.006790 | `pass` |
-| `D2-interaction-certificate-attention` | `D2-interaction` | 0.058474..0.067526 | -0.006790..0.006790 | `pass` |
-| `D3-composition-design-gate` | `D3-composition` | 0.059474..0.068526 | -0.006790..0.006790 | `pass` |
+| patch type | status | source | pointer |
+| --- | --- | --- | --- |
+| `attention-route` | `pass` | `reports/canonical/gap-head-on-h.json` | `$.treatment_comparison` |
+| `ledger-head` | `pass` | `reports/canonical/gap-head-ablation.json` | `$.factor_attribution.learned_head` |
+| `gap-head` | `pass` | `reports/canonical/gap_head_attribution_capsule.json` | `$.head_channel_patch_evidence` |
+| `D1 feature` | `pass` | `reports/canonical/gap-head-on-h.json` | `$.gap_channel_metadata` |
+| `D2 interaction` | `pass` | `reports/canonical/gap-head-on-h.json` | `$.control_protocol` |
+| `D3 composition` | `present-but-fail-closed` | `reports/canonical/gap-head-on-h.json` | `$.treatment_verdict` |
+| `mechanism probe` | `pass` | `reports/canonical/gap_head_attribution_capsule.json` | `$.score_margin_causal_evidence` |
+| `scope-seal` | `pass` | `reports/canonical/gap-head-on-h.json` | `$.scope_seal` |
+
+## Hardgates
+
+| hardgate | status | evidence |
+| --- | --- | --- |
+| `PATCH-HG1` | `pass` | `$.patch_records` |
+| `PATCH-HG2` | `pass` | `$.patch_records[*].summary` |
+| `PATCH-HG3` | `pass` | `$.patch_records` |
+| `PATCH-HG4` | `pass` | `$.matched_controls` |
+| `PATCH-HG5` | `pass` | `$.side_effect_ledger` |
+| `PATCH-HG6` | `present-but-fail-closed` | `$.dgt_mechanism_cert` |
 
 ## Not Claimed
 
-- No real transformer token or attention closure is claimed.
-- No production intervention, terminal verdict, discovery-level promotion, or mechanism closure is claimed.
-- The suite records deterministic toy-surface causal patch evidence only.
+- No production causality or deployment intervention claim.
+- No global model superiority claim.
+- No full mechanism closure claim.
+- No full TensorNameCert claim.
+- No LLM behavior quality claim.

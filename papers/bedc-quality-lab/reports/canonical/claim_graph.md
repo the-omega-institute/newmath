@@ -1,6 +1,6 @@
 # Claim Graph
 
-- Generated at: `2026-06-08T17:06:54.973797+00:00`
+- Generated at: `2026-06-08T14:25:27.957239+00:00`
 - Status: `pointer-only`
 - Nodes: `109`
 
@@ -28,36 +28,36 @@
 | `projected:gap-head-transfer-atlas` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[9]` | `raw:gap-head-transfer-atlas` |
 | `raw:gap-head-attribution-capsule` | `raw_evidence` | `reports/canonical/gap_head_attribution_capsule.json:$.mechanism_evidence` |  |
 | `projected:gap-head-attribution-capsule` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[10]` | `raw:gap-head-attribution-capsule` |
-| `raw:causal-patch-suite` | `raw_evidence` | `reports/canonical/causal-patch-suite.json:$` |  |
-| `projected:causal-patch-suite` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[11]` | `raw:causal-patch-suite` |
 | `raw:nongaussian-distribution-sweep` | `raw_evidence` | `reports/canonical/nongaussian-distribution-sweep.json:$.negative_result_ledger` |  |
-| `projected:nongaussian-distribution-sweep` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[12]` | `raw:nongaussian-distribution-sweep` |
+| `projected:nongaussian-distribution-sweep` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[11]` | `raw:nongaussian-distribution-sweep` |
 | `raw:certificate-guided-training` | `raw_evidence` | `reports/canonical/certificate-guided-training.json:$.arm_protocol.compat_roles.after` |  |
-| `projected:certificate-guided-training` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[13]` | `raw:certificate-guided-training` |
+| `projected:certificate-guided-training` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[12]` | `raw:certificate-guided-training` |
 | `raw:certificate-guided-discovery` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[2]` |  |
-| `projected:certificate-guided-discovery` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[14]` | `raw:certificate-guided-discovery` |
+| `projected:certificate-guided-discovery` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[13]` | `raw:certificate-guided-discovery` |
 | `raw:sigreg-training-proxy` | `raw_evidence` | `reports/canonical/sigreg-training-proxy.json:$.d1_evidence.debt_delta` |  |
-| `projected:sigreg-training-proxy` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[15]` | `raw:sigreg-training-proxy` |
+| `projected:sigreg-training-proxy` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[14]` | `raw:sigreg-training-proxy` |
 | `raw:sigreg-mini-grid` | `raw_evidence` | `reports/canonical/sigreg-mini-grid.json:$.trend_summary.expected_trend` |  |
-| `projected:sigreg-mini-grid` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[16]` | `raw:sigreg-mini-grid` |
+| `projected:sigreg-mini-grid` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[15]` | `raw:sigreg-mini-grid` |
 | `raw:discovery-regularized-training` | `raw_evidence` | `reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert` |  |
-| `projected:discovery-regularized-training` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[17]` | `raw:discovery-regularized-training` |
+| `projected:discovery-regularized-training` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[16]` | `raw:discovery-regularized-training` |
 | `raw:mechanism-seeking-network` | `raw_evidence` | `reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary` |  |
-| `projected:mechanism-seeking-network` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[18]` | `raw:mechanism-seeking-network` |
+| `projected:mechanism-seeking-network` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[17]` | `raw:mechanism-seeking-network` |
 | `raw:discovery-gated-nas` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |  |
-| `projected:discovery-gated-nas` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[19]` | `raw:discovery-gated-nas` |
+| `projected:discovery-gated-nas` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[18]` | `raw:discovery-gated-nas` |
 | `raw:discovery-gated-transformer` | `raw_evidence` | `reports/canonical/discovery-gated-transformer.json:$` |  |
-| `projected:discovery-gated-transformer` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[20]` | `raw:discovery-gated-transformer` |
+| `projected:discovery-gated-transformer` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[19]` | `raw:discovery-gated-transformer` |
 | `raw:order-k-benchmark` | `raw_evidence` | `reports/canonical/order-k-benchmark.json:$` |  |
-| `projected:order-k-benchmark` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[21]` | `raw:order-k-benchmark` |
+| `projected:order-k-benchmark` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[20]` | `raw:order-k-benchmark` |
 | `raw:lejepa-theorem-ledger` | `raw_evidence` | `reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows` |  |
-| `projected:lejepa-theorem-ledger` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[22]` | `raw:lejepa-theorem-ledger` |
+| `projected:lejepa-theorem-ledger` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[21]` | `raw:lejepa-theorem-ledger` |
 | `raw:observed-debt-sweep` | `raw_evidence` | `reports/canonical/observed-debt-sweep.json:$` |  |
-| `projected:observed-debt-sweep` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[23]` | `raw:observed-debt-sweep` |
+| `projected:observed-debt-sweep` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[22]` | `raw:observed-debt-sweep` |
 | `raw:spectral-ablation-hinge` | `raw_evidence` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |  |
-| `projected:spectral-ablation-hinge` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[24]` | `raw:spectral-ablation-hinge` |
+| `projected:spectral-ablation-hinge` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[23]` | `raw:spectral-ablation-hinge` |
 | `raw:model-comparison` | `raw_evidence` | `reports/canonical/model-comparison.json:$` |  |
-| `projected:model-comparison` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[25]` | `raw:model-comparison` |
+| `projected:model-comparison` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[24]` | `raw:model-comparison` |
+| `raw:causal-patch-suite` | `raw_evidence` | `reports/canonical/causal_patch_suite.json:$` |  |
+| `projected:causal-patch-suite` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[25]` | `raw:causal-patch-suite` |
 | `raw:dimension-mismatch-debt-transfer` | `raw_evidence` | `reports/canonical/dimension-mismatch-debt-transfer.json:$.dimension_mismatch_debt_transfer.effective_level` |  |
 | `projected:dimension-mismatch-debt-transfer` | `projected_discovery` | `reports/canonical/discovery_map.json:$.rows[26]` | `raw:dimension-mismatch-debt-transfer` |
 | `raw:single-threshold-escape` | `raw_evidence` | `runs/single_threshold_escape_witness.json:$.single_threshold_basis` |  |
@@ -88,21 +88,21 @@
 | `terminal:gap-head-threshold-frontier` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[8]` | `projected:gap-head-threshold-frontier` |
 | `terminal:gap-head-transfer-atlas` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[9]` | `projected:gap-head-transfer-atlas` |
 | `terminal:gap-head-attribution-capsule` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[10]` | `projected:gap-head-attribution-capsule` |
-| `terminal:causal-patch-suite` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[11]` | `projected:causal-patch-suite` |
-| `terminal:nongaussian-distribution-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[12]` | `projected:nongaussian-distribution-sweep` |
-| `terminal:certificate-guided-training` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[13]` | `projected:certificate-guided-training` |
-| `terminal:certificate-guided-discovery` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[14]` | `projected:certificate-guided-discovery` |
-| `terminal:sigreg-training-proxy` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[15]` | `projected:sigreg-training-proxy` |
-| `terminal:sigreg-mini-grid` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[16]` | `projected:sigreg-mini-grid` |
-| `terminal:discovery-regularized-training` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[17]` | `projected:discovery-regularized-training` |
-| `terminal:mechanism-seeking-network` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[18]` | `projected:mechanism-seeking-network` |
-| `terminal:discovery-gated-nas` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[19]` | `projected:discovery-gated-nas` |
-| `terminal:discovery-gated-transformer` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[20]` | `projected:discovery-gated-transformer` |
-| `terminal:order-k-benchmark` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | `projected:order-k-benchmark` |
-| `terminal:lejepa-theorem-ledger` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | `projected:lejepa-theorem-ledger` |
-| `terminal:observed-debt-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[23]` | `projected:observed-debt-sweep` |
-| `terminal:spectral-ablation-hinge` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[24]` | `projected:spectral-ablation-hinge` |
-| `terminal:model-comparison` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[25]` | `projected:model-comparison` |
+| `terminal:nongaussian-distribution-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[11]` | `projected:nongaussian-distribution-sweep` |
+| `terminal:certificate-guided-training` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[12]` | `projected:certificate-guided-training` |
+| `terminal:certificate-guided-discovery` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[13]` | `projected:certificate-guided-discovery` |
+| `terminal:sigreg-training-proxy` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[14]` | `projected:sigreg-training-proxy` |
+| `terminal:sigreg-mini-grid` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[15]` | `projected:sigreg-mini-grid` |
+| `terminal:discovery-regularized-training` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[16]` | `projected:discovery-regularized-training` |
+| `terminal:mechanism-seeking-network` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[17]` | `projected:mechanism-seeking-network` |
+| `terminal:discovery-gated-nas` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[18]` | `projected:discovery-gated-nas` |
+| `terminal:discovery-gated-transformer` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[19]` | `projected:discovery-gated-transformer` |
+| `terminal:order-k-benchmark` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[20]` | `projected:order-k-benchmark` |
+| `terminal:lejepa-theorem-ledger` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[21]` | `projected:lejepa-theorem-ledger` |
+| `terminal:observed-debt-sweep` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[22]` | `projected:observed-debt-sweep` |
+| `terminal:spectral-ablation-hinge` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[23]` | `projected:spectral-ablation-hinge` |
+| `terminal:model-comparison` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[24]` | `projected:model-comparison` |
+| `terminal:causal-patch-suite` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[25]` | `projected:causal-patch-suite` |
 | `terminal:dimension-mismatch-debt-transfer` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[26]` | `projected:dimension-mismatch-debt-transfer` |
 | `terminal:single-threshold-escape` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[27]` | `projected:single-threshold-escape` |
 | `terminal:training-choice-observability` | `terminal_claim` | `reports/canonical/claim_verdicts.jsonl:$.lines[28]` | `projected:training-choice-observability` |
