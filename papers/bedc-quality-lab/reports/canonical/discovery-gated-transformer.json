@@ -50,7 +50,7 @@
     "artifact": "reports/runs/discovery-gated-transformer/evidence_envelope.json",
     "pointer": "$"
   },
-  "generated_at": "2026-06-08T05:06:53.516619+00:00",
+  "generated_at": "2026-06-08T05:56:50.620080+00:00",
   "hardgate": {
     "gate_names": [
       "DGT-HG1",
@@ -320,6 +320,209 @@
     "component_refs": {
       "artifact": "reports/canonical/discovery-gated-transformer.json",
       "pointer": "$.component_refs"
+    }
+  },
+  "tool_route_evidence": {
+    "admission_ledger": {
+      "policy": "admit only valid positive-discovery routes with classifier delta and net-positive signal",
+      "rows": [
+        {
+          "admission_basis_ref": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.synthetic_tool_call_grid[0]",
+          "route_class": "valid_positive_discovery",
+          "route_id": "route_math_lookup_positive"
+        },
+        {
+          "admission_basis_ref": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.synthetic_tool_call_grid[1]",
+          "route_class": "valid_positive_discovery",
+          "route_id": "route_ledger_patch_positive"
+        }
+      ]
+    },
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence",
+    "blocked_route_evidence": {
+      "rows": [
+        {
+          "block_basis": "invalid-or-unsafe-route",
+          "evidence_ref": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.synthetic_tool_call_grid[2]",
+          "route_class": "invalid_route",
+          "route_id": "route_schema_invalid"
+        },
+        {
+          "block_basis": "invalid-or-unsafe-route",
+          "evidence_ref": "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.synthetic_tool_call_grid[3]",
+          "route_class": "unsafe_route",
+          "route_id": "route_secret_unsafe"
+        }
+      ]
+    },
+    "cga_route_patch_ref": "reports/canonical/certificate-gated-attention.json:$.route_patch_protocol",
+    "classifier_surface_delta": {
+      "route_ledger_patch_positive": {
+        "after": "route-patched-positive-discovery",
+        "before": "candidate-ledger-gap",
+        "surface_delta_count": 1
+      },
+      "route_math_lookup_positive": {
+        "after": "tool-route-positive-discovery",
+        "before": "route-unclassified",
+        "surface_delta_count": 2
+      }
+    },
+    "failed_gate": [],
+    "forbidden_alias_audit": {
+      "checked_ref_classes": [
+        "host-private refs",
+        "terminal verdict refs",
+        "DGT alias refs",
+        "standalone tool route refs"
+      ],
+      "forbidden_refs": [],
+      "status": "pass"
+    },
+    "hardgate": {
+      "failed_gate": [],
+      "gate_names": [
+        "DGT-TOOL-HG1",
+        "DGT-TOOL-HG2",
+        "DGT-TOOL-HG3",
+        "DGT-TOOL-HG4",
+        "DGT-TOOL-HG5",
+        "DGT-TOOL-HG6"
+      ],
+      "gates": {
+        "DGT-TOOL-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.classifier_surface_delta"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.cga_route_patch_ref"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.admission_ledger"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.blocked_route_evidence"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG5": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.not_claimed"
+          },
+          "status": "pass"
+        },
+        "DGT-TOOL-HG6": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.tool_route_evidence.forbidden_alias_audit"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    },
+    "net_positive_signal": true,
+    "not_claimed": [
+      "Tool-route evidence is bounded to deterministic synthetic DGT route rows.",
+      "CGA route-patch authority is pointer-only and not copied into the DGT owner.",
+      "Invalid or unsafe routes are blocked evidence, not admitted ledger rows."
+    ],
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$",
+    "revocation_rows": [
+      {
+        "condition": "Revoke if an invalid or unsafe route appears in admission_ledger.rows.",
+        "gate": "DGT-TOOL-HG3"
+      },
+      {
+        "condition": "Revoke if the CGA route-patch pointer is replaced by copied route-patch payload.",
+        "gate": "DGT-TOOL-HG2"
+      }
+    ],
+    "route_classes": {
+      "blocked": [
+        "invalid_route",
+        "unsafe_route"
+      ],
+      "claimed_positive": [
+        "valid_positive_discovery"
+      ],
+      "control": [
+        "neutral_control"
+      ]
+    },
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence",
+    "source_issue_ref": "github:issue:928",
+    "synthetic_tool_call_grid": [
+      {
+        "admission_decision": "admit",
+        "classifier_surface_delta": {
+          "after": "tool-route-positive-discovery",
+          "before": "route-unclassified",
+          "surface_delta_count": 2
+        },
+        "net_positive_signal": true,
+        "route_class": "valid_positive_discovery",
+        "route_id": "route_math_lookup_positive",
+        "tool": "symbolic-table"
+      },
+      {
+        "admission_decision": "admit",
+        "classifier_surface_delta": {
+          "after": "route-patched-positive-discovery",
+          "before": "candidate-ledger-gap",
+          "surface_delta_count": 1
+        },
+        "net_positive_signal": true,
+        "route_class": "valid_positive_discovery",
+        "route_id": "route_ledger_patch_positive",
+        "tool": "ledger-patcher"
+      },
+      {
+        "admission_decision": "block",
+        "classifier_surface_delta": null,
+        "net_positive_signal": false,
+        "route_class": "invalid_route",
+        "route_id": "route_schema_invalid",
+        "tool": "schema-mutator"
+      },
+      {
+        "admission_decision": "block",
+        "classifier_surface_delta": null,
+        "net_positive_signal": false,
+        "route_class": "unsafe_route",
+        "route_id": "route_secret_unsafe",
+        "tool": "host-secret-reader"
+      },
+      {
+        "admission_decision": "do-not-admit",
+        "classifier_surface_delta": null,
+        "net_positive_signal": false,
+        "route_class": "neutral_control",
+        "route_id": "route_control_neutral",
+        "tool": "no-op-control"
+      }
+    ],
+    "unsafe_invalid_audit": {
+      "invalid_or_unsafe_route_ids": [
+        "route_schema_invalid",
+        "route_secret_unsafe"
+      ],
+      "ledgered_invalid_or_unsafe_route_ids": [],
+      "status": "pass"
     }
   }
 }

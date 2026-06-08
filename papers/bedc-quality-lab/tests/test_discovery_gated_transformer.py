@@ -6,12 +6,17 @@ from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointe
 from bedc_quality_lab.discovery_gated_transformer import (
     ARTIFACT_ID,
     CANONICAL_JSON_ARTIFACT,
+    TOOL_ROUTE_CGA_ROUTE_PATCH_REF,
+    TOOL_ROUTE_REQUIRED_KEYS,
+    TOOL_ROUTE_SCHEMA_ID,
     GATE_NAMES,
     MODEL_ID,
     SCHEMA_ID,
     build_projection,
+    evaluate_dgt_tool_route_hardgates,
     default_component_refs,
     validate_projection,
+    validate_dgt_tool_route_evidence,
 )
 from scripts import run_discovery_gated_transformer as dgt
 
@@ -51,6 +56,7 @@ def test_dgt_complete_fixture_is_d4_candidate():
     assert payload["artifact_id"] == ARTIFACT_ID
     assert payload["model_id"] == MODEL_ID
     assert payload["hardgate"]["status"] == "pass"
+    assert payload["tool_route_evidence"]["hardgate"]["status"] == "pass"
     assert payload["discovery_map_signal"]["level_candidate"] == "D4"
     assert payload["discovery_map_signal"]["status"] == "candidate-local-positive"
 
@@ -126,3 +132,98 @@ def test_dgt_canonical_payload_does_not_inline_sidecars():
 
     for sidecar in sidecars.values():
         assert json.dumps(sidecar, sort_keys=True) not in serialized
+
+
+def test_tool_route_schema_required_keys_and_pointers_resolve(tmp_path):
+    payload = dgt.build_payload(generated_at="fixture-time")
+    dgt.write_artifacts(payload, root=tmp_path)
+    tool_route = payload["tool_route_evidence"]
+
+    assert tuple(tool_route) == TOOL_ROUTE_REQUIRED_KEYS
+    assert tool_route["schema_id"] == TOOL_ROUTE_SCHEMA_ID
+    assert tool_route["owner_ref"] == f"{CANONICAL_JSON_ARTIFACT}:$"
+    assert tool_route["cga_route_patch_ref"] == TOOL_ROUTE_CGA_ROUTE_PATCH_REF
+    for pointer in (
+        tool_route["owner_ref"],
+        f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence",
+        f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence.hardgate",
+        f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence.synthetic_tool_call_grid[0]",
+    ):
+        assert resolve_artifact_pointer(tmp_path, pointer) is not None
+
+
+def test_invalid_and_unsafe_routes_are_blocked_not_admitted():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    tool_route = payload["tool_route_evidence"]
+    blocked_ids = {row["route_id"] for row in tool_route["blocked_route_evidence"]["rows"]}
+    admitted_ids = {row["route_id"] for row in tool_route["admission_ledger"]["rows"]}
+    invalid_unsafe_ids = {
+        row["route_id"]
+        for row in tool_route["synthetic_tool_call_grid"]
+        if row["route_class"] in {"invalid_route", "unsafe_route"}
+    }
+
+    assert invalid_unsafe_ids == blocked_ids
+    assert invalid_unsafe_ids.isdisjoint(admitted_ids)
+
+
+def test_dgt_tool_hg2_requires_cga_route_patch_pointer_no_copy():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    tool_route = json.loads(json.dumps(payload["tool_route_evidence"]))
+
+    tool_route["cga_route_patch_ref"] = "reports/canonical/certificate-gated-attention.json:$"
+    hardgate = evaluate_dgt_tool_route_hardgates(tool_route)
+    assert hardgate["gates"]["DGT-TOOL-HG2"]["status"] == "fail"
+    with pytest.raises(ValueError, match="hardgate"):
+        validate_dgt_tool_route_evidence(tool_route)
+
+    copied = json.loads(json.dumps(payload["tool_route_evidence"]))
+    copied["cga_metric_body"] = {"classifier_payload": {"rows": []}}
+    hardgate = evaluate_dgt_tool_route_hardgates(copied)
+    assert hardgate["gates"]["DGT-TOOL-HG2"]["status"] == "fail"
+
+
+def test_dgt_tool_hg3_fails_when_invalid_or_unsafe_route_is_ledgered():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    tool_route = json.loads(json.dumps(payload["tool_route_evidence"]))
+    blocked_route = tool_route["blocked_route_evidence"]["rows"][0]
+    tool_route["admission_ledger"]["rows"].append(
+        {
+            "route_id": blocked_route["route_id"],
+            "route_class": blocked_route["route_class"],
+            "admission_basis_ref": f"{CANONICAL_JSON_ARTIFACT}:$.tool_route_evidence.synthetic_tool_call_grid[2]",
+        }
+    )
+
+    hardgate = evaluate_dgt_tool_route_hardgates(tool_route)
+    assert hardgate["gates"]["DGT-TOOL-HG3"]["status"] == "fail"
+    with pytest.raises(ValueError, match="hardgate"):
+        validate_dgt_tool_route_evidence(tool_route)
+
+
+def test_positive_signal_requires_classifier_surface_delta_and_net_positive_signal():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    tool_route = json.loads(json.dumps(payload["tool_route_evidence"]))
+    tool_route["synthetic_tool_call_grid"][0]["classifier_surface_delta"] = None
+    hardgate = evaluate_dgt_tool_route_hardgates(tool_route)
+    assert hardgate["gates"]["DGT-TOOL-HG1"]["status"] == "fail"
+
+    tool_route = json.loads(json.dumps(payload["tool_route_evidence"]))
+    tool_route["synthetic_tool_call_grid"][0]["net_positive_signal"] = False
+    hardgate = evaluate_dgt_tool_route_hardgates(tool_route)
+    assert hardgate["gates"]["DGT-TOOL-HG1"]["status"] == "fail"
+
+
+def test_hg6_rejects_refactor_loop_terminal_verdict_and_alias_refs():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    for forbidden in (
+        ".refactor-loop/host.env",
+        "terminal_verdict",
+        "reports/canonical/discovery_gated_transformer.json",
+        "reports/canonical/tool-use-dgt.json",
+        "reports/canonical/tool-use-toy-dgt.json",
+    ):
+        tool_route = json.loads(json.dumps(payload["tool_route_evidence"]))
+        tool_route["forbidden_alias_audit"]["forbidden_refs"] = [forbidden]
+        hardgate = evaluate_dgt_tool_route_hardgates(tool_route)
+        assert hardgate["gates"]["DGT-TOOL-HG6"]["status"] == "fail"

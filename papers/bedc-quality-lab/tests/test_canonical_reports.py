@@ -1536,8 +1536,22 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
     assert "certificate-guided-arms" not in names
     assert "certificate-guided-training" in names
     assert "certificate-guided-discovery" in names
+    assert "discovery-gated-transformer" in names
+    assert "discovery_gated_transformer" not in names
+    assert "tool-use-dgt" not in names
+    assert "tool-use-toy-dgt" not in names
     assert len(json_artifacts) == len(set(json_artifacts))
     assert len(markdown_artifacts) == len(set(markdown_artifacts))
+    forbidden_artifacts = {
+        "reports/canonical/discovery_gated_transformer.json",
+        "reports/canonical/discovery_gated_transformer.md",
+        "reports/canonical/tool-use-dgt.json",
+        "reports/canonical/tool-use-dgt.md",
+        "reports/canonical/tool-use-toy-dgt.json",
+        "reports/canonical/tool-use-toy-dgt.md",
+    }
+    assert forbidden_artifacts.isdisjoint(json_artifacts)
+    assert forbidden_artifacts.isdisjoint(markdown_artifacts)
     for spec in canonical.CANONICAL_REPORTS:
         assert spec.json_artifact.startswith("reports/canonical/")
         assert spec.markdown_artifact.startswith("reports/canonical/")
@@ -1549,6 +1563,34 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         assert spec.cost_pointer.startswith("$.")
         assert spec.not_claimed_pointer.startswith("$.")
         assert spec.positive_claim_pointer.startswith("$.")
+
+
+def test_dgt_owner_path_is_hyphen_only():
+    spec = canonical._specs_by_name()["discovery-gated-transformer"]
+    names = set(canonical._specs_by_name())
+
+    assert spec.json_artifact == "reports/canonical/discovery-gated-transformer.json"
+    assert spec.markdown_artifact == "reports/canonical/discovery-gated-transformer.md"
+    assert "tool_route_evidence" in spec.required_json_keys
+    assert "discovery_gated_transformer" not in names
+
+
+def test_no_standalone_tool_use_dgt_owner_registered():
+    serialized = json.dumps(
+        [
+            {
+                "name": spec.name,
+                "json_artifact": spec.json_artifact,
+                "markdown_artifact": spec.markdown_artifact,
+                "command": list(spec.command),
+            }
+            for spec in canonical.CANONICAL_REPORTS
+        ],
+        sort_keys=True,
+    )
+
+    for forbidden in ("tool-use-dgt", "tool-use-toy-dgt", "tool_use_dgt", "tool_use_toy_dgt"):
+        assert forbidden not in serialized
 
 
 def test_drt_manifest_preserves_certificate_guided_sibling_specs():
@@ -3086,6 +3128,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "component_refs",
         "architecture_spec",
         "hardgate",
+        "tool_route_evidence",
         "discovery_map_signal",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -3098,6 +3141,8 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert payload["producer"] == "scripts/run_discovery_gated_transformer.py"
     assert payload["model_id"] == "discovery-gated-transformer"
     assert payload["architecture_spec"]["architecture_id"] == "discovery-gated-transformer"
+    assert payload["tool_route_evidence"]["schema_id"] == "bedc-quality-lab:discovery-gated-transformer.tool-route-evidence"
+    assert payload["tool_route_evidence"]["hardgate"]["status"] == "pass"
     assert set(payload["component_refs"]) == {
         "hardgate_contract",
         "discovery_gated_nas",
@@ -3146,6 +3191,8 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "architecture_spec_pointer",
         "component_refs_pointer",
         "hardgate_pointer",
+        "tool_route_evidence_pointer",
+        "tool_route_hardgate_pointer",
         "discovery_map_signal_pointer",
         "claim_capsule_ref_pointer",
         "evidence_envelope_ref_pointer",
@@ -3163,6 +3210,12 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         )
         for index in range(1, 21)
     }
+    assert section["tool_route_evidence_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence"
+    )
+    assert section["tool_route_hardgate_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.hardgate"
+    )
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in (
         "accuracy",
@@ -3224,16 +3277,20 @@ def test_discovery_gated_transformer_public_pointers_resolve(tmp_path, monkeypat
 
     payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
     owner = json.loads((tmp_path / canonical.DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT).read_text(encoding="utf-8"))
-    section = payload["discovery_gated_transformer"]
+    section = payload["discovery-gated-transformer"]
 
     assert "discovery-gated-transformer" in {spec.name for spec in canonical.CANONICAL_REPORTS}
+    assert "discovery_gated_transformer" not in payload
     assert owner["hardgate"]["status"] == "pass"
+    assert owner["tool_route_evidence"]["hardgate"]["status"] == "pass"
     assert (tmp_path / "reports/canonical/discovery-gated-transformer.fingerprint.json").exists()
     pointers = [
         section["model_id_pointer"],
         section["architecture_spec_pointer"],
         section["component_refs_pointer"],
         section["hardgate_pointer"],
+        section["tool_route_evidence_pointer"],
+        section["tool_route_hardgate_pointer"],
         section["discovery_map_signal_pointer"],
         section["claim_capsule_ref_pointer"],
         section["evidence_envelope_ref_pointer"],
@@ -3318,7 +3375,7 @@ def test_dgt_regen_is_idempotent(tmp_path, monkeypatch):
     second_index = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
 
     assert first_owner == second_owner
-    assert first_index["discovery_gated_transformer"] == second_index["discovery_gated_transformer"]
+    assert first_index["discovery-gated-transformer"] == second_index["discovery-gated-transformer"]
 
 
 
