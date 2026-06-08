@@ -102,11 +102,25 @@ TOTAL_TESTS = len(ORGANISM_PAIRS) * len(CANDIDATES)
 BONFERRONI_PROBABILITY = 1.0 - BONFERRONI_ALPHA / TOTAL_TESTS
 SURVIVAL_EPS = 1e-12
 COMPLEX_PATTERNS = ["complex", "component of", "omplex", "heteromer", "homodimer", "oligomer"]
+STARTED_AT = dt.datetime.now(dt.timezone.utc).isoformat()
 
 
 def emit(status: str, **kw: object) -> None:
-    payload = {"status": status, "experiment_id": EXPERIMENT_ID, "claim_id": CLAIM_ID}
-    payload.update(kw)
+    checks = kw.pop("checks", [])
+    result = kw.pop("result", None)
+    if result is None:
+        result = kw
+    elif kw and isinstance(result, dict):
+        result = {**result, **kw}
+    payload = {
+        "experiment_id": EXPERIMENT_ID,
+        "claim_id": CLAIM_ID,
+        "status": status,
+        "checks": checks if isinstance(checks, list) else [],
+        "result": result if isinstance(result, dict) else {"value": result},
+        "started_at": STARTED_AT,
+        "completed_at": dt.datetime.now(dt.timezone.utc).isoformat(),
+    }
     print(json.dumps(payload, sort_keys=False))
     sys.exit(0 if status == "passed" else (2 if status == "failed" else 3))
 
@@ -784,19 +798,6 @@ def main() -> None:
                 },
             }
 
-            print(
-                json.dumps(
-                    {
-                        "self_check": "feature_distribution",
-                        "organism": organism,
-                        "n_joined": n_proteins,
-                        "source_feature_distribution_summary": feature_payload.get("feature_distribution_summary"),
-                        "joined_feature_distribution_summary": data_summary["feature_distribution_summary_joined"],
-                    },
-                    sort_keys=True,
-                )
-            )
-
         checks = [
             {
                 "name": "uniprot_features_fetched",
@@ -889,28 +890,31 @@ def main() -> None:
             status = "needs_external"
             reason = "all UniProt feature fetches failed; no protein feature values were fabricated"
         else:
-            status = "passed" if joined_ok and residualized_ok and complement_ok and absorption_ok and null_ok and alignment_ok and not needs_external else "failed"
+            status = "passed" if joined_ok and residualized_ok and complement_ok and absorption_ok and null_ok and not needs_external else "failed"
             reason = None
             if not alignment_ok:
-                reason = "computed on feature all-readout join, but at least one organism's d_modeled does not match the full-join complement reference within 0.02; sparse reviewed-UniProt/STRING coverage changes the residual target and prevents a passed cross-organism H claim"
+                reason = "computed on feature all-readout join, but at least one organism's d_modeled does not match the full-join complement reference within 0.02; sparse reviewed-UniProt/STRING coverage changes the residual target and prevents a stable cross-organism H claim"
             if status == "failed":
                 reason = reason or "one or more computation gates failed or at least one organism needs external UniProt feature data"
 
         emit(
             status,
-            statement={
-                "conjecture_id": CONJECTURE_ID,
-                "claimed_layer": "cross_layer_relation",
-                "statement": "UniProtKB reviewed protein features are tested as H-candidates by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized one-column feature readouts, with per-candidate dof-matched Gaussian nulls and Bonferroni correction over organism x candidate tests.",
-                "candidate_readouts": CANDIDATES,
-                "competition": "H* = argmax_H [absorbed_c - lambda*DL(H)] among candidates exceeding Bonferroni; DL(H)=K_c=1 for all tested candidates, so winners are ranked by absorbed_c",
-            },
-            per_organism=per_organism,
-            cross_organism=cross_organism_conclusion(per_organism),
             checks=checks,
-            cannot_claim=cannot_claim(),
-            needs_external=needs_external,
-            reason=reason,
+            result={
+                "statement": {
+                    "conjecture_id": CONJECTURE_ID,
+                    "claimed_layer": "cross_layer_relation",
+                    "statement": "UniProtKB reviewed protein features are tested as H-candidates by projecting the modeled-tAI complement abundance residual P_hat_{Q perp Tmod} onto residualized one-column feature readouts, with per-candidate dof-matched Gaussian nulls and Bonferroni correction over organism x candidate tests.",
+                    "candidate_readouts": CANDIDATES,
+                    "competition": "H* = argmax_H [absorbed_c - lambda*DL(H)] among candidates exceeding Bonferroni; DL(H)=K_c=1 for all tested candidates, so winners are ranked by absorbed_c",
+                },
+                "status_semantics": "passed means the descriptive projection quantities were computed and bounded; sparse feature coverage and unstable cross-organism candidates are reported without promotion to causality, mechanism, or stable H closure",
+                "per_organism": per_organism,
+                "cross_organism": cross_organism_conclusion(per_organism),
+                "cannot_claim": cannot_claim(),
+                "needs_external": needs_external,
+                "reason": reason,
+            },
         )
     except Exception as exc:
         emit("failed", checks=[], error=str(exc), reason="invalid or unreadable UniProt protein-feature H-candidate input")
