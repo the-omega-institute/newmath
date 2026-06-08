@@ -129,14 +129,6 @@ def validate_positive_claim_evidence(
     if not _claim_capsule_resolves(root, payload, capsule_pointer):
         return _fail("claim_capsule", f"{artifact}:{capsule_pointer}" if capsule_pointer and capsule_pointer.startswith("$.") else capsule_pointer or f"{artifact}:$")
 
-    from bedc_quality_lab.claim_graph import terminal_node_id_for_claim_id
-
-    claim_id = f"claim:{discovery_row.get('report')}"
-    expected_terminal = terminal_node_id_for_claim_id(claim_id)
-    actual_terminal = terminal_node_id_for_claim_id(claim_id)
-    if actual_terminal != expected_terminal:
-        return _fail("terminal_graph_foreign_key", f"{artifact}:$")
-
     return _pass(positive_cell)
 
 

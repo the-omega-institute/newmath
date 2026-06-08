@@ -121,6 +121,7 @@ def _spec(
     not_claimed="$.not_claimed",
     positive="$.positive",
     control="$.control",
+    no_control_rationale=None,
 ):
     return canonical.CanonicalReportSpec(
         name=name,
@@ -135,7 +136,7 @@ def _spec(
         not_claimed_pointer=not_claimed,
         positive_claim_pointer=positive,
         control_pointer=control,
-        no_control_rationale_pointer=None,
+        no_control_rationale_pointer=no_control_rationale,
     )
 
 
@@ -165,6 +166,7 @@ def _fixture_root(tmp_path, monkeypatch, rows, payloads, witnesses=()):
                 "not_claimed": ["fixture"],
                 "positive": {"claim": "fixture"},
                 "control": {"status": "present"},
+                "no_control_rationale": {"reason": "fixture"},
                 "claim_capsule_ref": f"reports/runs/{spec.name}/claim_capsule.json",
             }
         )
@@ -852,6 +854,21 @@ def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, mon
     rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
     specs = (_spec("d4", "reports/canonical/d4.json"),)
     _fixture_root(tmp_path, monkeypatch, rows, specs)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+    assert verdict["reason"] == "positive-discovery-gates-pass"
+
+
+def test_accepted_positive_accepts_no_control_rationale_pointer(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json", control=None, no_control_rationale="$.no_control_rationale"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/d4.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload.pop("control")
+    _write_json(payload_path, payload)
 
     verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
 

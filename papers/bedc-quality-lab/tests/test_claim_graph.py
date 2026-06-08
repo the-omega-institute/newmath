@@ -444,3 +444,111 @@ def test_generated_claim_graph_preserves_terminal_ids(tmp_path, monkeypatch):
 
     assert verdicts[0]["claim_graph_node_id"] == "terminal:d4"
     assert any(node["node_id"] == "terminal:d4" for node in payload["nodes"])
+
+
+def test_cg_hg6_accepts_no_control_rationale_pointer(tmp_path, monkeypatch):
+    rows = [
+        {
+            "report": "d4",
+            "json_artifact": "reports/canonical/d4.json",
+            "markdown_artifact": "reports/canonical/d4.md",
+            "discovery_level": "D4",
+            "terminal_verdict": "",
+            "classifier_reasons": ["fixture"],
+            "projection_status": "projected",
+            "evidence_pointer": "$.positive_discovery",
+            "audit_status": "valid",
+            "audit_reason": "",
+        }
+    ]
+    spec = canonical.CanonicalReportSpec(
+        name="d4",
+        command=("python3", "scripts/run_fixture.py"),
+        json_artifact="reports/canonical/d4.json",
+        markdown_artifact="reports/canonical/d4.md",
+        required_json_keys=("source_artifacts",),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        scope_pointer="$.scope",
+        cost_pointer="$.cost",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive",
+        control_pointer=None,
+        no_control_rationale_pointer="$.no_control_rationale",
+    )
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    monkeypatch.setattr(claim_verdict_demo, "ROOT", tmp_path)
+    monkeypatch.setattr(claim_verdict_demo, "CANONICAL_REPORTS", (spec,))
+    _write_json(tmp_path, "reports/canonical/discovery_map.json", {"rows": rows})
+    _write_json(tmp_path, "reports/canonical/quality-scorecard.json", {"rows": [{"metric": metric, "status": "ready"} for metric in canonical.QUALITY_SCORECARD_METRICS]})
+    _write_json(tmp_path, "reports/canonical/formal_hardening.json", {"ready": True, "recorded": 1, "required": 1, "gap_count": 0})
+    _write_json(tmp_path, "reports/canonical/discovery_negative_witnesses.json", {"witnesses": []})
+    _write_json(
+        tmp_path,
+        "reports/canonical/d4.json",
+        {
+            "source_artifacts": {"cost_protocol": "configs/default_cost_protocol.yaml"},
+            "scope": {"status": "present"},
+            "cost": {"status": "present"},
+            "not_claimed": ["fixture"],
+            "positive": {"claim": "fixture"},
+            "no_control_rationale": {"reason": "fixture"},
+            "claim_capsule_ref": "reports/runs/d4/claim_capsule.json",
+            "positive_discovery": True,
+            "net_information": 1.0,
+            "net_positive_signal": True,
+            "main_verdict": {
+                "surface_delta_count": 1,
+                "shift_information": 1,
+                "structural_discovery": True,
+                "net_information": 1.0,
+                "deltas": {"debt_delta": 0},
+            },
+            "evidence_basis": {
+                "control_positive_discovery": False,
+                "scorecard_ready": True,
+                "audit_status": "valid",
+            },
+            "matched_random_control": {"control_verdict": {"positive": False}},
+            "scope_seal": {
+                "status": "closed",
+                "toy": True,
+                "bounded": True,
+                "theorem": False,
+                "real_training": False,
+                "production_forbidden": True,
+            },
+        },
+    )
+    _write_json(
+        tmp_path,
+        "reports/runs/d4/claim_capsule.json",
+        {
+            "schema_id": "bedc.quality.claim_capsule",
+            "claim_status": "fixture",
+            "not_claimed": ["fixture"],
+            "what_was_learned": "fixture learned",
+        },
+    )
+    (tmp_path / "configs").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "configs/default_cost_protocol.yaml").write_text(
+        (Path(__file__).resolve().parents[1] / "configs/default_cost_protocol.yaml").read_text(encoding="utf-8"),
+        encoding="utf-8",
+    )
+
+    verdicts = claim_verdict_demo.write_claim_verdicts(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+    payload = claim_graph.write_claim_graph(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+    errors = claim_graph.validate_claim_graph_payload(payload, root=tmp_path, claim_verdict_rows=verdicts)
+
+    assert verdicts[0]["claim_verdict"] == "accepted_positive_discovery"
+    assert payload["hardgates"]["CG-HG6"]["terminal_ids"] == ["terminal:d4"]
+    assert errors == []
+
+    source_path = tmp_path / "reports/canonical/d4.json"
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    source["no_control_rationale"] = {}
+    source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
+
+    errors = claim_graph.validate_claim_graph_payload(payload, root=tmp_path, claim_verdict_rows=verdicts)
+
+    assert any("CG-HG6 positive-acceptance-evidence-missing:control-or-no-control-rationale" in error for error in errors)

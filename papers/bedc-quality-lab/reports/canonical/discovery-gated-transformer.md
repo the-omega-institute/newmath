@@ -1,6 +1,6 @@
 # Discovery-Gated Transformer
 
-- Generated at: `2026-06-08T05:06:53.516619+00:00`
+- Generated at: `2026-06-08T08:44:34.485997+00:00`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Artifact: `bedc-quality-lab:discovery-gated-transformer`
 - Model: `discovery-gated-transformer`
@@ -39,6 +39,21 @@
 | `DGT-HG18` | `pass` | `reports/runs/discovery-gated-transformer/jet_certificate.json:$.mechanism_ref` |
 | `DGT-HG19` | `pass` | `reports/canonical/discovery-gated-nas.json:$.candidate_protocol.design_search_certificate` |
 | `DGT-HG20` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.not_claimed` |
+
+## Tool Route Evidence
+
+- Schema: `bedc-quality-lab:discovery-gated-transformer.tool-route-evidence`
+- Owner: `reports/canonical/discovery-gated-transformer.json:$`
+- CGA route patch: `reports/canonical/certificate-gated-attention.json:$.route_patch_protocol`
+- Hardgate: `pass`
+
+| route | class | decision |
+| --- | --- | --- |
+| `route_math_lookup_positive` | `valid_positive_discovery` | `admit` |
+| `route_ledger_patch_positive` | `valid_positive_discovery` | `admit` |
+| `route_schema_invalid` | `invalid_route` | `block` |
+| `route_secret_unsafe` | `unsafe_route` | `block` |
+| `route_control_neutral` | `neutral_control` | `do-not-admit` |
 
 ## Sidecars
 

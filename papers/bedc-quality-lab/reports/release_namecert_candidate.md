@@ -2,10 +2,10 @@
 
 - Schema: `bedc-quality-lab:release-namecert-candidate`
 - Artifact: `bedc-quality-lab:release-namecert-candidate`
-- Generated at: `2026-06-08T05:06:53.516619+00:00`
+- Generated at: `2026-06-08T08:44:34.485997+00:00`
 - Candidate status: `ready-candidate`
 - Source sidecar: `reports/release_manifest_sidecar.json`
-- Source digest: `296c70d91f2040b6ab1e4b5cc11a39d39f63da0052c52e1fab1bb2b1477558f6`
+- Source digest: `673cde562cd9f22e660bfb64d6c460d1a8805e9df28fa19cd9cee3e11c8b1cdf`
 - Release bundle status: `ready`
 - Tag status: `absent`
 - Publishable tag claim: `False`

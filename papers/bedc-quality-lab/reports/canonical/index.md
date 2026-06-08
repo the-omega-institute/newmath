@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-08T05:06:53.516619+00:00`
+- Generated at: `2026-06-08T08:44:34.485997+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -160,6 +160,8 @@
 - Architecture: `reports/canonical/discovery-gated-transformer.json:$.architecture_spec`
 - Components: `reports/canonical/discovery-gated-transformer.json:$.component_refs`
 - Hardgate: `reports/canonical/discovery-gated-transformer.json:$.hardgate`
+- Tool route evidence: `reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence`
+- Tool route hardgate: `reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.hardgate`
 - Not claimed: `reports/canonical/discovery-gated-transformer.json:$.not_claimed`
 - Discovery map signal: `reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal`
 - Claim capsule: `reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref`

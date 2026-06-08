@@ -129,23 +129,6 @@ def _load_scorecard(root: Path) -> dict[str, Any] | None:
     return payload if isinstance(payload, dict) else None
 
 
-def _scorecard_dependency_pointer(scorecard: Mapping[str, Any] | None) -> str:
-    if scorecard is None:
-        return f"{SCORECARD_ARTIFACT}:$.rows"
-    rows = scorecard.get("rows")
-    if not isinstance(rows, list):
-        return f"{SCORECARD_ARTIFACT}:$.rows"
-    for index, row in enumerate(rows):
-        if not isinstance(row, Mapping):
-            return f"{SCORECARD_ARTIFACT}:$.rows[{index}]"
-        if row.get("metric") == "HardeningCoverage" and row.get("status") != "ready":
-            return f"{SCORECARD_ARTIFACT}:$.rows[{index}]"
-    for index, row in enumerate(rows):
-        if isinstance(row, Mapping) and row.get("status") != "ready":
-            return f"{SCORECARD_ARTIFACT}:$.rows[{index}]"
-    return f"{SCORECARD_ARTIFACT}:$.rows"
-
-
 def _cost_protocol_loads(root: Path) -> bool:
     candidates = (
         root / "configs" / "default_cost_protocol.yaml",
