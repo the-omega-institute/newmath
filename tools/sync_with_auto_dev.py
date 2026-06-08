@@ -741,6 +741,74 @@ def _regen_manifest(cwd: Path) -> None:
               "(folded into merge commit)")
 
 
+def _restore_orphan_concrete_hubs(cwd: Path, source_branch: str) -> None:
+    """Restore numbered concrete_instances hub files the merge silently dropped.
+
+    `bedc_ci.py audit`'s orphan-subdir gate requires every
+    `concrete_instances/<slug>/` subdir to be named by a top-level
+    `NN_<slug>_namecert_construction.tex` hub (or a `Derived/<X>Up.lean`). When
+    the target branch deleted such a hub (e.g. a "clean-name layout" cleanup
+    that dropped NN_ files) while the source still carries it AND the source did
+    not re-touch it since the merge-base, a 3-way merge silently applies the
+    target's deletion with NO conflict — so the codex conflict resolver never
+    sees it and the candidate ships an orphaned subdir that fails precheck every
+    cycle. Re-checkout each orphaned subdir's numbered hub from
+    `origin/<source_branch>` (the rollup's intent is to bring the source layout
+    forward) and fold the restore into the merge commit. This complements the
+    CONFLICT_PROMPT hub rule, which only covers the conflicting case."""
+    instances = cwd / "papers" / "bedc" / "parts" / "concrete_instances"
+    if not instances.exists():
+        return
+    derived = cwd / "lean4" / "BEDC" / "Derived"
+    lean_regions: set[str] = set()
+    if derived.exists():
+        for p in derived.iterdir():
+            stem = p.stem if p.is_file() else p.name
+            if stem.endswith("Up"):
+                core = stem[:-2]
+                lean_regions.add(re.sub(r"([a-z])([A-Z])", r"\1_\2", core).lower())
+    hub_re = re.compile(r"^\d+_([a-z][a-z0-9_]*)_namecert_construction\.tex$")
+    paper_regions: set[str] = set()
+    for f in instances.iterdir():
+        if f.is_file():
+            m = hub_re.match(f.name)
+            if m:
+                paper_regions.add(m.group(1))
+    known = lean_regions | paper_regions
+    orphan_slugs = sorted(
+        sub.name for sub in instances.iterdir()
+        if sub.is_dir() and sub.name not in known
+    )
+    if not orphan_slugs:
+        return
+    ls = run(["git", "ls-tree", "--name-only", f"origin/{source_branch}",
+              "papers/bedc/parts/concrete_instances/"],
+             cwd=cwd, check=False, capture=True)
+    source_hubs: dict[str, str] = {}
+    for line in (ls.stdout or "").splitlines():
+        line = line.strip()
+        m = hub_re.match(Path(line).name)
+        if m:
+            source_hubs[m.group(1)] = line
+    restored: list[str] = []
+    for slug in orphan_slugs:
+        hub_path = source_hubs.get(slug)
+        if not hub_path:
+            continue
+        co = run(["git", "checkout", f"origin/{source_branch}", "--", hub_path],
+                 cwd=cwd, check=False, capture=True)
+        if co.returncode == 0:
+            restored.append(hub_path)
+    if not restored:
+        return
+    run(["git", "add", *restored], cwd=cwd, check=False, capture=True)
+    run(["git", "commit", "--amend", "--no-edit"], cwd=cwd,
+        check=False, capture=True)
+    print(f"[sync] rollup: restored {len(restored)} numbered concrete hub(s) "
+          f"orphaned by silent merge deletion "
+          f"(folded into merge commit): {', '.join(Path(p).name for p in restored)}")
+
+
 def validate_dev_merge_in_worktree() -> tuple[bool, str | None, str | None]:
     """Validate origin/dev -> auto-dev in an isolated worktree before push."""
     if _rev_list_count(f"origin/{MIRROR_BRANCH}..origin/{UPSTREAM_BRANCH}") == 0:
@@ -1035,6 +1103,7 @@ def _build_rollup_candidate(source_branch: str, target_branch: str) -> RollupCan
                 return None
 
         _regen_manifest(worktree)
+        _restore_orphan_concrete_hubs(worktree, source_branch)
         dirty = run(["git", "status", "--porcelain"], cwd=worktree,
                     check=False, capture=True)
         if (dirty.stdout or "").strip():
