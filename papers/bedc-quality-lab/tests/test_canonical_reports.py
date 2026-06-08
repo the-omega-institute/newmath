@@ -5917,6 +5917,22 @@ def test_derivative_debt_ledger_artifacts_stay_absent_from_canonical_surfaces():
         assert artifact not in index_text
 
 
+def test_high_impact_claim_review_stays_absent_from_canonical_surfaces():
+    forbidden_artifacts = {
+        "reports/canonical/high-impact-claim-review.json",
+        "reports/canonical/high-impact-claim-review.md",
+    }
+    forbidden_names = {"high-impact-claim-review"}
+    specs = canonical.CANONICAL_REPORTS
+    index_text = (canonical.ROOT / "reports/canonical/index.json").read_text(encoding="utf-8")
+
+    assert forbidden_names.isdisjoint({spec.name for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.json_artifact for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
+    for artifact in forbidden_artifacts:
+        assert artifact not in index_text
+
+
 def _reporting_spec(**overrides):
     fields = {
         "name": "fixture-report",
@@ -6157,6 +6173,48 @@ def test_claim_complexity_is_registered_as_post_verdict_auxiliary_report():
     assert "claim-complexity" in canonical.POST_VERDICT_REPORTS
     assert "claim-complexity" in canonical.DISCOVERY_MAP_EXCLUDED_REPORTS
     assert claim_verdict_index > spec_names.index("causal-patch-suite")
+
+
+def test_run_reports_runs_claim_complexity_after_claim_verdicts_are_written(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    calls = []
+    reports = {spec.name: spec for spec in canonical.CANONICAL_REPORTS}
+    pre_verdict_spec = reports["mixing-family-sweep"]
+    claim_complexity_spec = reports["claim-complexity"]
+    verdict_path = tmp_path / canonical.CLAIM_VERDICTS_JSONL_ARTIFACT
+
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (pre_verdict_spec, claim_complexity_spec))
+
+    def fake_run_spec(spec, mode="changed", generated_at=None):
+        calls.append(("run-spec", spec.name, verdict_path.exists()))
+        if spec.name == "claim-complexity":
+            assert verdict_path.exists()
+            rows = [json.loads(line) for line in verdict_path.read_text(encoding="utf-8").splitlines() if line]
+            assert rows == [{"claim_id": "claim:fixture", "claim_verdict": "negative_discovery"}]
+        return _index_row_for_spec(spec)
+
+    def fake_write_claim_verdicts(*, root, generated_at=None):
+        calls.append(("write-claim-verdicts", None, verdict_path.exists()))
+        verdict_path.parent.mkdir(parents=True, exist_ok=True)
+        row = {"claim_id": "claim:fixture", "claim_verdict": "negative_discovery"}
+        verdict_path.write_text(json.dumps(row, sort_keys=True) + "\n", encoding="utf-8")
+        return [row]
+
+    monkeypatch.setattr(canonical, "_run_spec", fake_run_spec)
+    monkeypatch.setitem(
+        sys.modules,
+        "scripts.run_claim_verdict_demo",
+        types.SimpleNamespace(write_claim_verdicts=fake_write_claim_verdicts),
+    )
+
+    payload = canonical.run_reports(generated_at="2030-01-01T00:00:00+00:00")
+
+    assert "claim-complexity" in canonical.POST_VERDICT_REPORTS
+    assert calls.index(("write-claim-verdicts", None, False)) < calls.index(("run-spec", "claim-complexity", True))
+    assert ("run-spec", "mixing-family-sweep", False) in calls
+    assert ("run-spec", "claim-complexity", False) not in calls
+    assert [report["name"] for report in payload["reports"]] == ["mixing-family-sweep", "claim-complexity"]
 
 
 def test_claim_complexity_is_not_discovery_map_manifest_source():

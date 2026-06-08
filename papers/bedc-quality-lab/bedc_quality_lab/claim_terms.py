@@ -9,3 +9,11 @@ FORBIDDEN_POSITIVE_CLAIM_TERMS: tuple[str, ...] = (
     "full-tensor-namecert",
     "llm-behavior",
 )
+
+HIGH_IMPACT_CLAIM_TERMS: tuple[str, ...] = (
+    "safety",
+    "production",
+    "real-model",
+    "real model",
+    "deployment",
+)

@@ -125,3 +125,4 @@
 - `CG-HG5`: `pass` all node source_pointer values resolve
 - `CG-HG6`: `pass` accepted positive terminals have acceptance evidence bundle
 - `CG-HG7`: `pass` nodes[*].depends_on forms an acyclic dependency graph; revocation nodes remain revocation evidence and are not positive forward-closure evidence
+- `CG-HG8`: `pass` accepted high-impact terminal claims have resolvable review pointers
