@@ -23,6 +23,11 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.claim_complexity import (
+    ARTIFACT_ID as CLAIM_COMPLEXITY_ARTIFACT_ID,
+    SCHEMA_ID as CLAIM_COMPLEXITY_SCHEMA_ID,
+    validate_claim_complexity_payload,
+)
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value as _bracket_pointer_value
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer as _resolve_committed_artifact_pointer
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer as _split_artifact_pointer
@@ -67,6 +72,8 @@ NEGATIVE_WITNESSES_ARTIFACT_ID = "bedc-quality-lab:discovery-negative-witnesses"
 NEGATIVE_WITNESSES_EXPECTED_KIND_COUNT = len(NEGATIVE_WITNESS_KINDS)
 CLAIM_VERDICTS_JSONL_ARTIFACT = "reports/canonical/claim_verdicts.jsonl"
 CLAIM_VERDICTS_ARTIFACT_ID = "bedc-quality-lab:claim-verdicts"
+CLAIM_COMPLEXITY_JSON_ARTIFACT = "reports/canonical/claim_complexity.json"
+CLAIM_COMPLEXITY_MARKDOWN_ARTIFACT = "reports/canonical/claim_complexity.md"
 CLAIM_GRAPH_JSON_ARTIFACT = "reports/canonical/claim_graph.json"
 CLAIM_GRAPH_MARKDOWN_ARTIFACT = "reports/canonical/claim_graph.md"
 CLAIM_GRAPH_ARTIFACT_ID = "bedc-quality-lab:claim-graph"
@@ -100,7 +107,7 @@ DGT_TRAINING_HARDGATES_POINTER = f"{DGT_TRAINING_REPLAY_ARTIFACT}:$.hardgates"
 TRANSFORMER_DERIVATIVE_ATLAS_JSON_ARTIFACT = "reports/canonical/transformer_derivative_atlas.json"
 TRANSFORMER_DERIVATIVE_ATLAS_MARKDOWN_ARTIFACT = "reports/canonical/layerwise_jet_map.md"
 TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT = "reports/canonical/attention_route_derivative_report.json"
-DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas"})
+DISCOVERY_MAP_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas", "claim-complexity"})
 MODEL_DESIGN_SUITE_JSON_ARTIFACT = "reports/canonical/model_design_suite.json"
 MODEL_DESIGN_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/model_design_suite.md"
 MODEL_DESIGN_SUITE_ARTIFACT_ID = "bedc-quality-lab:model-design-suite"
@@ -1299,8 +1306,32 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         control_pointer="$.matched_control_summary",
         no_control_rationale_pointer=None,
     ),
+    CanonicalReportSpec(
+        name="claim-complexity",
+        command=("python3", "scripts/run_claim_complexity_score.py"),
+        json_artifact=CLAIM_COMPLEXITY_JSON_ARTIFACT,
+        markdown_artifact=CLAIM_COMPLEXITY_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "source_artifacts",
+            "rows",
+            "hardgates",
+            "not_claimed",
+        ),
+        estimated_seconds=1,
+        bundle_role="auxiliary",
+        scope_pointer="$.not_claimed",
+        cost_pointer="$.source_artifacts",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.rows",
+        control_pointer=None,
+        no_control_rationale_pointer="$.not_claimed",
+    ),
 )
 QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas"})
+POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
 
 
 def _artifact_path(relative_path: str) -> Path:
@@ -2702,6 +2733,39 @@ def _claim_verdicts_index_section(rows: Sequence[dict[str, Any]] | None = None) 
         "artifact_id": CLAIM_VERDICTS_ARTIFACT_ID,
         "jsonl_artifact": CLAIM_VERDICTS_JSONL_ARTIFACT,
         "row_count": len(rows),
+    }
+
+
+def _claim_complexity_index_section() -> dict[str, Any]:
+    path = ROOT / CLAIM_COMPLEXITY_JSON_ARTIFACT
+    if path.exists():
+        payload = _load_artifact_payload(CLAIM_COMPLEXITY_JSON_ARTIFACT)
+        rows = payload.get("rows") if isinstance(payload.get("rows"), list) else []
+        hardgates = payload.get("hardgates") if isinstance(payload.get("hardgates"), Mapping) else {}
+        validation_errors = validate_claim_complexity_payload(ROOT, payload)
+    else:
+        rows = []
+        hardgates = {}
+        validation_errors = ["missing artifact"]
+    return {
+        "status": "pass" if not validation_errors else "fail",
+        "artifact_id": CLAIM_COMPLEXITY_ARTIFACT_ID,
+        "schema_id": CLAIM_COMPLEXITY_SCHEMA_ID,
+        "json_artifact": CLAIM_COMPLEXITY_JSON_ARTIFACT,
+        "markdown_artifact": CLAIM_COMPLEXITY_MARKDOWN_ARTIFACT,
+        "fingerprint_artifact": _relative(_fingerprint_path(_specs_by_name()["claim-complexity"])),
+        "canonical_role": "artifact_only_evidence",
+        "row_count": len(rows),
+        "rows_pointer": f"{CLAIM_COMPLEXITY_JSON_ARTIFACT}:$.rows",
+        "hardgates_pointer": f"{CLAIM_COMPLEXITY_JSON_ARTIFACT}:$.hardgates",
+        "verdict_refs_pointer": f"{CLAIM_COMPLEXITY_JSON_ARTIFACT}:$.rows[*].pointer_only_verdict_ref",
+        "terminal_verdict_owner": CLAIM_VERDICTS_ARTIFACT_ID,
+        "validation_errors": validation_errors,
+        "hardgate_status": {
+            gate_id: gate.get("status", "missing")
+            for gate_id, gate in sorted(hardgates.items())
+            if isinstance(gate, Mapping)
+        },
     }
 
 
@@ -4912,6 +4976,7 @@ def _index(
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
         "issue_1012_sidecars": _issue_1012_sidecars_index_section(),
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
+        "claim_complexity": _claim_complexity_index_section(),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
         "negative_witness_summary": _negative_witness_summary_index_section(generated_at=timestamp),
@@ -5174,6 +5239,17 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- JSONL: `{payload['claim_verdicts']['jsonl_artifact']}`",
             f"- Rows: `{payload['claim_verdicts']['row_count']}`",
             "",
+            "## Claim complexity",
+            "",
+            f"- Status: `{payload['claim_complexity']['status']}`",
+            f"- JSON: `{payload['claim_complexity']['json_artifact']}`",
+            f"- Markdown: `{payload['claim_complexity']['markdown_artifact']}`",
+            f"- Canonical role: `{payload['claim_complexity']['canonical_role']}`",
+            f"- Rows: `{payload['claim_complexity']['row_count']}`",
+            f"- Row pointer: `{payload['claim_complexity']['rows_pointer']}`",
+            f"- Verdict refs: `{payload['claim_complexity']['verdict_refs_pointer']}`",
+            f"- Terminal verdict owner: `{payload['claim_complexity']['terminal_verdict_owner']}`",
+            "",
             "## Claim graph",
             "",
             f"- Status: `{payload['claim_graph']['status']}`",
@@ -5384,9 +5460,12 @@ def run_reports(
         else (_reusable_generated_at() if mode != "cold" else None)
         or datetime.now(timezone.utc).isoformat()
     )
+    selected_specs = _selected_specs_with_dependents(only, include_dependents=mode == "changed")
+    pre_verdict_specs = [spec for spec in selected_specs if spec.name not in POST_VERDICT_REPORTS]
+    post_verdict_specs = [spec for spec in selected_specs if spec.name in POST_VERDICT_REPORTS]
     results = [
         _run_spec(spec, mode=mode, generated_at=timestamp)
-        for spec in _selected_specs_with_dependents(only, include_dependents=mode == "changed")
+        for spec in pre_verdict_specs
     ]
     from scripts.run_formal_hardening_report import write_formal_hardening_report
 
@@ -5471,6 +5550,7 @@ def run_reports(
     model_comparison_spec = _specs_by_name().get("model-comparison")
     if mode == "cold" and model_comparison_spec is not None:
         _write_fingerprint_sidecar(model_comparison_spec, generated_at=timestamp)
+    results.extend(_run_spec(spec, mode=mode, generated_at=timestamp) for spec in post_verdict_specs)
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))

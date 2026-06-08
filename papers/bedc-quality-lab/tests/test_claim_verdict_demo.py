@@ -917,6 +917,31 @@ def test_cli_writes_jsonl(tmp_path, monkeypatch):
     assert [json.loads(line) for line in lines] == written
 
 
+def test_claim_verdict_rows_do_not_include_complexity_fields(tmp_path, monkeypatch):
+    rows = [_discovery_row("d1", "reports/canonical/d1.json", "D1")]
+    specs = (_spec("d1", "reports/canonical/d1.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert set(verdict) == ALLOWED_KEYS
+    assert "claim_complexity" not in verdict
+    assert "complexity_score" not in verdict
+    assert "scoring_dimensions" not in verdict
+    assert "pointer_only_verdict_ref" not in verdict
+
+
+def test_claim_verdict_line_refs_are_stable_jsonl_pointers(tmp_path, monkeypatch):
+    rows = [_discovery_row("d1", "reports/canonical/d1.json", "D1")]
+    specs = (_spec("d1", "reports/canonical/d1.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    demo.write_claim_verdicts(root=tmp_path, generated_at="2030-01-01T00:00:00+00:00")
+
+    refs = demo.claim_verdict_line_refs(root=tmp_path)
+
+    assert refs == {"claim:d1": "reports/canonical/claim_verdicts.jsonl:$.lines[0]"}
+
+
 @pytest.mark.parametrize(
     ("mutation", "missing_key"),
     [

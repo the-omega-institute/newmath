@@ -25,6 +25,26 @@
     "status": "pointer-only",
     "terminal_verdict": "negative_discovery"
   },
+  "claim_complexity": {
+    "artifact_id": "bedc-quality-lab:claim-complexity",
+    "canonical_role": "artifact_only_evidence",
+    "fingerprint_artifact": "reports/canonical/claim_complexity.fingerprint.json",
+    "hardgate_status": {
+      "CC-HG1": "pass",
+      "CC-HG2": "pass",
+      "CC-HG3": "pass"
+    },
+    "hardgates_pointer": "reports/canonical/claim_complexity.json:$.hardgates",
+    "json_artifact": "reports/canonical/claim_complexity.json",
+    "markdown_artifact": "reports/canonical/claim_complexity.md",
+    "row_count": 29,
+    "rows_pointer": "reports/canonical/claim_complexity.json:$.rows",
+    "schema_id": "bedc-quality-lab:claim-complexity",
+    "status": "pass",
+    "terminal_verdict_owner": "bedc-quality-lab:claim-verdicts",
+    "validation_errors": [],
+    "verdict_refs_pointer": "reports/canonical/claim_complexity.json:$.rows[*].pointer_only_verdict_ref"
+  },
   "claim_graph": {
     "artifact_id": "bedc-quality-lab:claim-graph",
     "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
@@ -245,6 +265,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.discovery_projection",
         "report": "causal-patch-suite"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "no_control_rationale_pointer": "$.not_claimed",
+        "positive_claim_pointer": "$.rows",
+        "report": "claim-complexity"
       }
     ],
     "status": "pointer-only"
@@ -495,7 +522,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-08T10:32:30.788660+00:00",
+  "generated_at": "2026-06-08T13:17:21.730976+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -837,7 +864,8 @@
       "observed-debt-sweep",
       "spectral-ablation-hinge",
       "model-comparison",
-      "causal-patch-suite"
+      "causal-patch-suite",
+      "claim-complexity"
     ],
     "core_reports": [
       "mixing-family-sweep",
@@ -909,7 +937,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "73c94dca46621a2877ce4b0512f68942480a9b00d9da7c10f5bb09936e8e29c3",
+    "source_sidecar_digest": "9b5c532f3748d62cb4f5599061d3c5b0cf5493ee0cee0f11f93caf9e21d3ef20",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -4443,6 +4471,122 @@
           "hardgates",
           "causal_derivative_ledger_artifact",
           "discovery_projection",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
+        "control_pointer": null,
+        "control_status": "not-applicable",
+        "cost_pointer": "$.source_artifacts",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [],
+        "no_control_rationale_pointer": "$.not_claimed",
+        "no_control_rationale_status": "present",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.rows",
+        "positive_claim_status": "present",
+        "reporting_hardgate": {
+          "applicability": "not-applicable",
+          "cells": {
+            "backend": {
+              "pointer": "reports/canonical/claim_complexity.json:$",
+              "source_artifact": "reports/canonical/claim_complexity.json",
+              "status": "present"
+            },
+            "claim_capsule": {
+              "pointer": "$.rows",
+              "source_artifact": "reports/canonical/claim_complexity.json",
+              "status": "present"
+            },
+            "claim_graph_path": {
+              "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:claim-complexity]",
+              "source_artifact": "reports/canonical/claim_graph.json",
+              "status": "missing"
+            },
+            "cost_protocol": {
+              "pointer": "$.source_artifacts",
+              "source_artifact": "reports/canonical/claim_complexity.json",
+              "status": "present"
+            },
+            "discovery_level": {
+              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=claim-complexity].discovery_level",
+              "source_artifact": "reports/canonical/discovery_map.json",
+              "status": "missing"
+            },
+            "evidence_envelope": {
+              "pointer": "reports/canonical/claim_complexity.json:$.rows",
+              "source_artifact": "reports/canonical/claim_complexity.json",
+              "status": "present"
+            },
+            "formal_status": {
+              "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=claim-complexity]",
+              "source_artifact": "reports/canonical/formal_hardening.json",
+              "status": "missing"
+            },
+            "negative_witness": {
+              "pointer": null,
+              "source_artifact": null,
+              "status": "not-applicable"
+            },
+            "not_claimed": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/claim_complexity.json",
+              "status": "present"
+            },
+            "scope_seal": {
+              "pointer": "$.not_claimed",
+              "source_artifact": "reports/canonical/claim_complexity.json",
+              "status": "present"
+            }
+          },
+          "hardgate_id": "HG-P-REPORTING-DISCIPLINE",
+          "missing_required_cells": [],
+          "promotion_eligible": false,
+          "required_cells": [
+            "claim_capsule",
+            "cost_protocol",
+            "not_claimed"
+          ],
+          "status": "not-applicable"
+        },
+        "scope_pointer": "$.not_claimed",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 1,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/claim_complexity.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/claim_complexity.json",
+      "markdown_artifact": "reports/canonical/claim_complexity.md",
+      "name": "claim-complexity",
+      "producer_command": [
+        "python3",
+        "scripts/run_claim_complexity_score.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "source_artifacts",
+          "rows",
+          "hardgates",
           "not_claimed"
         ],
         "required_key_validation": {
