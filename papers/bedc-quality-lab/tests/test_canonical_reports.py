@@ -39,6 +39,7 @@ HG_P_CORE = {
     "gap-head-on-h",
     "gap-head-discovery",
     "gap-head-ablation",
+    "irreducibility-report",
     "ledger-aware-transformer",
     "certificate-gated-attention",
     "gap-head-threshold-frontier",
@@ -553,6 +554,58 @@ def _payload_for_spec(spec):
     )
     if spec.name == "gap-head-on-h":
         payload["records"] = [{"matched_random_control": _matched_random_audit_fixture()}]
+    if spec.name == "irreducibility-report":
+        payload.update(
+            {
+                "schema_id": canonical.IRREDUCIBILITY_REPORT_ARTIFACT_ID,
+                "artifact_id": canonical.IRREDUCIBILITY_REPORT_ARTIFACT_ID,
+                "producer": "scripts/run_irreducibility_report.py",
+                "scope": {"not_claimed": ["fixture"]},
+                "control_protocol": {"low_order_baseline": "D^{<k}", "same_split": True},
+                "seed_aggregation": {
+                    "orders": {
+                        "2": {
+                            "seed_count": 2,
+                            "stable_positive_direction": True,
+                            "matched_random_any_positive": False,
+                        }
+                    }
+                },
+                "hardgate": {
+                    "status": "pass",
+                    "failed_gate": None,
+                    "positive_irreducibility": True,
+                    "gates": {f"IRR-HG{index}": {"status": "pass"} for index in range(1, 5)},
+                },
+                "positive_claim": {
+                    "positive_irreducibility": True,
+                    "claim_pointer": "$.hardgate.positive_irreducibility",
+                    "cmi_diagnostic_only": True,
+                },
+                "conditional_information_table": {
+                    "artifact": canonical.IRREDUCIBILITY_CMI_JSON_ARTIFACT,
+                    "pointer": "$.rows",
+                    "diagnostic_only": True,
+                    "can_set_positive_irreducibility": False,
+                    "row_count": 2,
+                },
+                "records": [
+                    {
+                        "seed": 101,
+                        "orders": [
+                            {
+                                "order": 2,
+                                "low_order": 1,
+                                "low_order_baseline_present": True,
+                                "conditioned_residual_gain": 0.1,
+                                "matched_random_control": {"positive": False},
+                                "finite_metrics": True,
+                            }
+                        ],
+                    }
+                ],
+            }
+        )
     if spec.name == "discovery-gated-nas":
         payload.update(
             {
@@ -901,6 +954,21 @@ def _write_payloads_for_all_specs(canonical_module, tmp_path):
             canonical_module._validate_discovery_regularized_training_payload(payload)
         json_path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
         md_path.write_text("# fixture\n", encoding="utf-8")
+    cmi_path = tmp_path / canonical_module.IRREDUCIBILITY_CMI_JSON_ARTIFACT
+    cmi_path.parent.mkdir(parents=True, exist_ok=True)
+    cmi_path.write_text(
+        json.dumps(
+            {
+                "schema_id": "bedc-quality-lab:conditional-information-table",
+                "artifact_id": "bedc-quality-lab:conditional-information-table",
+                "diagnostic_only": True,
+                "row_count": 1,
+                "rows": [{"seed": 101, "order": 2, "can_set_positive_irreducibility": False}],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     sidecar_path = tmp_path / canonical_module.GAP_HEAD_MECHANISM_NAMECERT_JSON_ARTIFACT
     sidecar_path.parent.mkdir(parents=True, exist_ok=True)
     sidecar_path.write_text(
@@ -946,6 +1014,13 @@ def _write_fingerprint_fixture(canonical_module, root, spec, *, script_text="SEE
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(_payload_for_spec(spec)) + "\n", encoding="utf-8")
     canonical_module._artifact_path(spec.markdown_artifact).write_text("# fixture\n", encoding="utf-8")
+    if spec.name == "irreducibility-report":
+        cmi_path = canonical_module._artifact_path(canonical_module.IRREDUCIBILITY_CMI_JSON_ARTIFACT)
+        cmi_path.parent.mkdir(parents=True, exist_ok=True)
+        cmi_path.write_text(
+            json.dumps({"schema_id": "bedc-quality-lab:conditional-information-table", "rows": []}) + "\n",
+            encoding="utf-8",
+        )
     return canonical_module._write_fingerprint_sidecar(spec, generated_at="fixture")
 
 
@@ -1354,6 +1429,7 @@ def test_manifest_names_and_artifacts_are_unique_and_canonical_owned():
         "gap-head-on-h",
         "gap-head-discovery",
         "gap-head-ablation",
+        "irreducibility-report",
         "ledger-aware-transformer",
         "certificate-gated-attention",
         "gap-head-threshold-frontier",
@@ -1963,6 +2039,34 @@ def test_canonical_reports_manifest_includes_gap_head_ablation():
     assert spec.cost_pointer == "$.control_protocol"
     assert spec.positive_claim_pointer == "$.factor_attribution.learned_head.auroc_delta"
     assert spec.control_pointer == "$.control_protocol"
+
+
+def test_canonical_spec_registers_irreducibility_report():
+    spec = canonical._specs_by_name()["irreducibility-report"]
+
+    assert spec.command == ("python3", "scripts/run_irreducibility_report.py")
+    assert spec.json_artifact == "reports/canonical/irreducibility_report.json"
+    assert spec.markdown_artifact == "reports/canonical/order_residual_analysis.md"
+    assert {
+        "schema_id",
+        "artifact_id",
+        "source_artifacts",
+        "seed_aggregation",
+        "hardgate",
+        "positive_claim",
+        "conditional_information_table",
+        "records",
+        "not_claimed",
+    }.issubset(set(spec.required_json_keys))
+    assert spec.bundle_role == "hg_p_core"
+    assert spec.scope_pointer == "$.scope"
+    assert spec.cost_pointer == "$.control_protocol"
+    assert spec.positive_claim_pointer == "$.positive_claim"
+    assert spec.control_pointer == "$.control_protocol"
+    section = canonical._irreducibility_report_index_section()
+    assert section["json_artifact"] == canonical.IRREDUCIBILITY_REPORT_JSON_ARTIFACT
+    assert section["markdown_artifact"] == canonical.IRREDUCIBILITY_REPORT_MARKDOWN_ARTIFACT
+    assert section["conditional_information_table_json_artifact"] == canonical.IRREDUCIBILITY_CMI_JSON_ARTIFACT
 
 
 def test_canonical_reports_manifest_includes_gap_head_threshold_frontier():
@@ -4556,245 +4660,27 @@ def test_quality_scorecard_projects_only_explicit_cells(tmp_path, monkeypatch):
             "value": 1.0,
             "source": [
                 {
-                    "report": "mixing-family-sweep",
-                    "artifact": "reports/canonical/mixing-family-sweep.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "anisotropic-ou-sweep",
-                    "artifact": "reports/canonical/anisotropic-ou-sweep.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "gap-head-on-h",
-                    "artifact": "reports/canonical/gap-head-on-h.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "gap-head-discovery",
-                    "artifact": "reports/canonical/gap-head-discovery.json",
-                    "pointer": "$.boundary_checks",
-                },
-                {
-                    "report": "gap-head-ablation",
-                    "artifact": "reports/canonical/gap-head-ablation.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                    {
-                        "report": "ledger-aware-transformer",
-                        "artifact": "reports/canonical/ledger-aware-transformer.json",
-                        "pointer": "$.applicability_boundary",
-                    },
-                    {
-                        "report": "certificate-gated-attention",
-                        "artifact": "reports/canonical/certificate-gated-attention.json",
-                        "pointer": "$.grid",
-                    },
-                    {
-                        "report": "gap-head-threshold-frontier",
-                        "artifact": "reports/canonical/gap-head-threshold-frontier.json",
-                        "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "gap-head-transfer-atlas",
-                    "artifact": "reports/canonical/gap_head_transfer_atlas.json",
-                    "pointer": "$.not_claimed",
-                },
-                {
-                    "report": "gap-head-attribution-capsule",
-                    "artifact": "reports/canonical/gap_head_attribution_capsule.json",
-                    "pointer": "$.scope.not_claimed",
-                },
-                {
-                    "report": "nongaussian-distribution-sweep",
-                    "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
-                    "pointer": "$.coverage_item",
-                },
-                {
-                    "report": "certificate-guided-training",
-                    "artifact": "reports/canonical/certificate-guided-training.json",
-                    "pointer": "$.objective.required_rows",
-                },
-                {
-                    "report": "certificate-guided-discovery",
-                    "artifact": "reports/canonical/certificate-guided-discovery.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "sigreg-training-proxy",
-                    "artifact": "reports/canonical/sigreg-training-proxy.json",
-                    "pointer": "$.arm_protocol",
-                },
-                {
-                    "report": "sigreg-mini-grid",
-                    "artifact": "reports/canonical/sigreg-mini-grid.json",
-                    "pointer": "$.grid",
-                },
-                {
-                    "report": "discovery-regularized-training",
-                    "artifact": "reports/canonical/discovery-regularized-training.json",
-                    "pointer": "$.grid",
-                },
-                {
-                    "report": "mechanism-seeking-network",
-                    "artifact": "reports/canonical/mechanism-seeking-network.json",
-                    "pointer": "$.grid",
-                },
-                {
-                    "report": "discovery-gated-nas",
-                    "artifact": "reports/canonical/discovery-gated-nas.json",
-                    "pointer": "$.search_space",
-                },
-                {
-                    "report": "discovery-gated-transformer",
-                    "artifact": "reports/canonical/discovery-gated-transformer.json",
-                    "pointer": "$.not_claimed",
-                },
-                {
-                    "report": "lejepa-theorem-ledger",
-                    "artifact": "reports/canonical/lejepa_theorem_ledger.json",
-                    "pointer": "$.scope",
-                },
-                {
-                    "report": "observed-debt-sweep",
-                    "artifact": "reports/canonical/observed-debt-sweep.json",
-                    "pointer": "$.claim_boundary.C4",
-                },
-                {
-                    "report": "spectral-ablation-hinge",
-                    "artifact": "reports/canonical/spectral-ablation-hinge.json",
-                    "pointer": "$.applicability_boundary",
-                },
-                {
-                    "report": "causal-patch-suite",
-                    "artifact": "reports/canonical/causal_patch_suite.json",
-                    "pointer": "$.not_claimed",
-                },
+                    "report": spec.name,
+                    "artifact": spec.json_artifact,
+                    "pointer": spec.scope_pointer,
+                }
+                for spec in canonical._scorecard_report_specs()
             ],
-            "numerator": 23,
-            "denominator": 23,
+            "numerator": len(canonical._scorecard_report_specs()),
+            "denominator": len(canonical._scorecard_report_specs()),
         },
         "CostProtocolCompleteness": {
             "value": 1.0,
             "source": [
                 {
-                    "report": "mixing-family-sweep",
-                    "artifact": "reports/canonical/mixing-family-sweep.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "anisotropic-ou-sweep",
-                    "artifact": "reports/canonical/anisotropic-ou-sweep.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "gap-head-on-h",
-                    "artifact": "reports/canonical/gap-head-on-h.json",
-                    "pointer": "$.control_protocol",
-                },
-                {
-                    "report": "gap-head-discovery",
-                    "artifact": "reports/canonical/gap-head-discovery.json",
-                    "pointer": "$.score_terms",
-                },
-                {
-                    "report": "gap-head-ablation",
-                    "artifact": "reports/canonical/gap-head-ablation.json",
-                    "pointer": "$.control_protocol",
-                },
-                    {
-                        "report": "ledger-aware-transformer",
-                        "artifact": "reports/canonical/ledger-aware-transformer.json",
-                        "pointer": "$.source_artifacts.cost_protocol",
-                    },
-                    {
-                        "report": "certificate-gated-attention",
-                        "artifact": "reports/canonical/certificate-gated-attention.json",
-                        "pointer": "$.source_artifacts.cost_protocol",
-                    },
-                    {
-                        "report": "gap-head-threshold-frontier",
-                        "artifact": "reports/canonical/gap-head-threshold-frontier.json",
-                        "pointer": "$.source_artifacts",
-                },
-                {
-                    "report": "gap-head-transfer-atlas",
-                    "artifact": "reports/canonical/gap_head_transfer_atlas.json",
-                    "pointer": "$.source_artifacts.metric_helper",
-                },
-                {
-                    "report": "gap-head-attribution-capsule",
-                    "artifact": "reports/canonical/gap_head_attribution_capsule.json",
-                    "pointer": "$.cost_protocol_pointer",
-                },
-                {
-                    "report": "nongaussian-distribution-sweep",
-                    "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "certificate-guided-training",
-                    "artifact": "reports/canonical/certificate-guided-training.json",
-                    "pointer": "$.cost_protocol",
-                },
-                {
-                    "report": "certificate-guided-discovery",
-                    "artifact": "reports/canonical/certificate-guided-discovery.json",
-                    "pointer": "$.claim_gate",
-                },
-                {
-                    "report": "sigreg-training-proxy",
-                    "artifact": "reports/canonical/sigreg-training-proxy.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "sigreg-mini-grid",
-                    "artifact": "reports/canonical/sigreg-mini-grid.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "discovery-regularized-training",
-                    "artifact": "reports/canonical/discovery-regularized-training.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "mechanism-seeking-network",
-                    "artifact": "reports/canonical/mechanism-seeking-network.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "discovery-gated-nas",
-                    "artifact": "reports/canonical/discovery-gated-nas.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "discovery-gated-transformer",
-                    "artifact": "reports/canonical/discovery-gated-transformer.json",
-                    "pointer": "$.architecture_spec",
-                },
-                {
-                    "report": "lejepa-theorem-ledger",
-                    "artifact": "reports/canonical/lejepa_theorem_ledger.json",
-                    "pointer": "$.source_artifacts.cost_protocol",
-                },
-                {
-                    "report": "observed-debt-sweep",
-                    "artifact": "reports/canonical/observed-debt-sweep.json",
-                    "pointer": "$.source_artifacts",
-                },
-                {
-                    "report": "spectral-ablation-hinge",
-                    "artifact": "reports/canonical/spectral-ablation-hinge.json",
-                    "pointer": "$.source_artifacts",
-                },
-                {
-                    "report": "causal-patch-suite",
-                    "artifact": "reports/canonical/causal_patch_suite.json",
-                    "pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
-                },
+                    "report": spec.name,
+                    "artifact": spec.json_artifact,
+                    "pointer": spec.cost_pointer,
+                }
+                for spec in canonical._scorecard_report_specs()
             ],
-            "numerator": 23,
-            "denominator": 23,
+            "numerator": len(canonical._scorecard_report_specs()),
+            "denominator": len(canonical._scorecard_report_specs()),
         },
         "HardeningCoverage": {
             "value": 1.0,

@@ -3,7 +3,7 @@
     "generated_at": "2026-06-08T02:40:50.555624+00:00",
     "runner": "scripts/run_canonical_reports.py"
   },
-  "input_fingerprint": "efa5d8a34df06bab41c9a8f46970b69067a207b581cee49f354d0a472a8b1df5",
+  "input_fingerprint": "f20da99afe7cd08dd10656be689925d0769cca49688c10edeff14e6ca457c79c",
   "inputs": {
     "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
     "config_inputs": [
@@ -25,72 +25,75 @@
     "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
     "producer_sources": [
       {
-        "path": "scripts/experiment_stats.py",
-        "sha256": "baf70e1676d60b747bff592d9eee380a114cb59c3f5305d683be9a2a89d1d9ae"
-      },
-      {
-        "path": "scripts/run_gap_head_threshold_sweep.py",
-        "sha256": "246de4bc7a70d4f44ad254fecec38dd82e40472105a25bb24d87e3efcdca8cea"
+        "path": "scripts/run_irreducibility_report.py",
+        "sha256": "a1094a0a482698096ab593bd9f34aad3d4a4535aa4749f4c8eeee15e6cbfb0d1"
       }
     ],
-    "report_output_schema_id": "schema-unspecified",
+    "report_output_schema_id": "bedc-quality-lab:irreducibility-report",
     "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
     "seed_constants": {
       "command": [
         "python3",
-        "scripts/run_gap_head_threshold_sweep.py"
+        "scripts/run_irreducibility_report.py"
       ],
       "environment": {
         "PYTHONHASHSEED": "unset"
       }
     },
-    "source_artifacts": [],
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/conditional_information_table.json",
+        "sha256": "9c9f679010198721b80f412d136301ec61b09db0a01afafd52a63e9ae3148a9f"
+      }
+    ],
     "spec": {
       "bundle_role": "hg_p_core",
       "command": [
         "python3",
-        "scripts/run_gap_head_threshold_sweep.py"
+        "scripts/run_irreducibility_report.py"
       ],
-      "control_pointer": "$.threshold_summary.control_baseline",
-      "cost_pointer": "$.source_artifacts",
-      "estimated_seconds": 120,
+      "control_pointer": "$.control_protocol",
+      "cost_pointer": "$.control_protocol",
+      "estimated_seconds": 2,
       "forbidden_claim_terms": [
         "full-lejepa",
         "global-quality",
         "full-tensor-namecert",
         "llm-behavior"
       ],
-      "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
+      "json_artifact": "reports/canonical/irreducibility_report.json",
       "literature_ref_ids": [],
-      "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
-      "name": "gap-head-threshold-frontier",
+      "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+      "name": "irreducibility-report",
       "no_control_rationale_pointer": null,
       "not_claimed_pointer": "$.not_claimed",
-      "positive_claim_pointer": "$.main_claim_status",
+      "positive_claim_pointer": "$.positive_claim",
       "required_json_keys": [
+        "schema_id",
+        "artifact_id",
         "generated_at",
-        "config",
+        "producer",
         "source_artifacts",
-        "applicability_boundary",
-        "threshold_curve",
-        "threshold_summary",
-        "pareto_axis_spec",
-        "pareto_frontier",
+        "config",
+        "scope",
+        "control_protocol",
+        "seed_aggregation",
         "hardgate",
-        "readiness",
-        "main_claim_status",
+        "positive_claim",
+        "conditional_information_table",
+        "records",
         "not_claimed"
       ],
-      "scope_pointer": "$.applicability_boundary"
+      "scope_pointer": "$.scope"
     }
   },
-  "json_artifact": "reports/canonical/gap-head-threshold-frontier.json",
-  "markdown_artifact": "reports/canonical/gap-head-threshold-frontier.md",
-  "output_digest": "26f2e8975530a7db78bc31dc36c072561bd417fa2f507e195e796a5e7e55c990",
+  "json_artifact": "reports/canonical/irreducibility_report.json",
+  "markdown_artifact": "reports/canonical/order_residual_analysis.md",
+  "output_digest": "2fdd003e30f173e9556ffc5992239c51be75fe144245198faf15586f337889f1",
   "producer_command": [
     "python3",
-    "scripts/run_gap_head_threshold_sweep.py"
+    "scripts/run_irreducibility_report.py"
   ],
-  "report_name": "gap-head-threshold-frontier",
+  "report_name": "irreducibility-report",
   "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
 }

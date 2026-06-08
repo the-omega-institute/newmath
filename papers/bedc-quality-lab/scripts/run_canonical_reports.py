@@ -137,6 +137,10 @@ TOY_SAFETY_BOUNDARY_ARTIFACT_ID = "bedc-quality-lab:toy-safety-boundary"
 CAUSAL_PATCH_SUITE_JSON_ARTIFACT = "reports/canonical/causal_patch_suite.json"
 CAUSAL_PATCH_SUITE_MARKDOWN_ARTIFACT = "reports/canonical/patch_effect_summary.md"
 CAUSAL_PATCH_SUITE_ARTIFACT_ID = "bedc-quality-lab:causal-patch-suite"
+IRREDUCIBILITY_REPORT_JSON_ARTIFACT = "reports/canonical/irreducibility_report.json"
+IRREDUCIBILITY_REPORT_MARKDOWN_ARTIFACT = "reports/canonical/order_residual_analysis.md"
+IRREDUCIBILITY_CMI_JSON_ARTIFACT = "reports/canonical/conditional_information_table.json"
+IRREDUCIBILITY_REPORT_ARTIFACT_ID = "bedc-quality-lab:irreducibility-report"
 ANTI_TRIVIALITY_REQUIRED_KEYS = (
     "anti_triviality_status",
     "anti_triviality_gate_evidence",
@@ -450,6 +454,36 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         cost_pointer="$.control_protocol",
         not_claimed_pointer="$.applicability_boundary.not_claimed",
         positive_claim_pointer="$.factor_attribution.learned_head.auroc_delta",
+        control_pointer="$.control_protocol",
+        no_control_rationale_pointer=None,
+    ),
+    CanonicalReportSpec(
+        name="irreducibility-report",
+        command=("python3", "scripts/run_irreducibility_report.py"),
+        json_artifact=IRREDUCIBILITY_REPORT_JSON_ARTIFACT,
+        markdown_artifact=IRREDUCIBILITY_REPORT_MARKDOWN_ARTIFACT,
+        required_json_keys=(
+            "schema_id",
+            "artifact_id",
+            "generated_at",
+            "producer",
+            "source_artifacts",
+            "config",
+            "scope",
+            "control_protocol",
+            "seed_aggregation",
+            "hardgate",
+            "positive_claim",
+            "conditional_information_table",
+            "records",
+            "not_claimed",
+        ),
+        estimated_seconds=2,
+        bundle_role="hg_p_core",
+        scope_pointer="$.scope",
+        cost_pointer="$.control_protocol",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.positive_claim",
         control_pointer="$.control_protocol",
         no_control_rationale_pointer=None,
     ),
@@ -1281,6 +1315,8 @@ def _canonical_output_digest(spec: CanonicalReportSpec) -> str:
     }
     if spec.name == "transformer-derivative-atlas":
         parts[TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT] = _path_digest(_artifact_path(TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT))
+    if spec.name == "irreducibility-report":
+        parts[IRREDUCIBILITY_CMI_JSON_ARTIFACT] = _path_digest(_artifact_path(IRREDUCIBILITY_CMI_JSON_ARTIFACT))
     if spec.name == "lejepa-theorem-ledger":
         parts[LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT] = _path_digest(_artifact_path(LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT))
         parts[HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT] = _path_digest(_artifact_path(HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT))
@@ -4412,6 +4448,25 @@ def _toy_safety_boundary_index_section() -> dict[str, Any]:
     }
 
 
+def _irreducibility_report_index_section() -> dict[str, Any]:
+    payload = _load_artifact_payload(IRREDUCIBILITY_REPORT_JSON_ARTIFACT)
+    cmi = payload.get("conditional_information_table") if isinstance(payload.get("conditional_information_table"), Mapping) else {}
+    hardgate = payload.get("hardgate") if isinstance(payload.get("hardgate"), Mapping) else {}
+    return {
+        "status": hardgate.get("status", "missing"),
+        "artifact_id": payload.get("artifact_id", IRREDUCIBILITY_REPORT_ARTIFACT_ID),
+        "json_artifact": IRREDUCIBILITY_REPORT_JSON_ARTIFACT,
+        "markdown_artifact": IRREDUCIBILITY_REPORT_MARKDOWN_ARTIFACT,
+        "conditional_information_table_json_artifact": IRREDUCIBILITY_CMI_JSON_ARTIFACT,
+        "hardgate_pointer": f"{IRREDUCIBILITY_REPORT_JSON_ARTIFACT}:$.hardgate",
+        "positive_claim_pointer": f"{IRREDUCIBILITY_REPORT_JSON_ARTIFACT}:$.positive_claim",
+        "conditional_information_table_pointer": (
+            f"{IRREDUCIBILITY_CMI_JSON_ARTIFACT}:{cmi.get('pointer', '$.rows')}"
+        ),
+        "conditional_information_table_diagnostic_only": cmi.get("diagnostic_only", True),
+    }
+
+
 def _artifact_validation(spec: CanonicalReportSpec) -> dict[str, Any]:
     json_path = _artifact_path(spec.json_artifact)
     markdown_path = _artifact_path(spec.markdown_artifact)
@@ -4560,6 +4615,7 @@ def _index(
         "toy_latent_planning_bedc": _toy_latent_planning_bedc_index_section(),
         "release_namecert_candidate": _release_namecert_candidate_index_section(),
         "toy_safety_boundary": _toy_safety_boundary_index_section(),
+        "irreducibility_report": _irreducibility_report_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
         "honest_boundary": _honest_boundary(),
@@ -4890,6 +4946,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Markdown: `{payload['toy_safety_boundary']['markdown_artifact']}`",
             f"- Claim capsule: `{payload['toy_safety_boundary']['claim_capsule_pointer']}`",
             f"- Hardgates: `{payload['toy_safety_boundary']['hardgates_pointer']}`",
+            "",
+            "## Irreducibility Report",
+            "",
+            f"- Status: `{payload['irreducibility_report']['status']}`",
+            f"- JSON: `{payload['irreducibility_report']['json_artifact']}`",
+            f"- Markdown: `{payload['irreducibility_report']['markdown_artifact']}`",
+            f"- CMI table: `{payload['irreducibility_report']['conditional_information_table_json_artifact']}`",
+            f"- Hardgate: `{payload['irreducibility_report']['hardgate_pointer']}`",
+            f"- Positive claim: `{payload['irreducibility_report']['positive_claim_pointer']}`",
+            f"- CMI rows: `{payload['irreducibility_report']['conditional_information_table_pointer']}`",
             "",
             "## Paper outline",
             "",
