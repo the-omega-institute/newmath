@@ -21,6 +21,8 @@ SCHEMA_ID = "bedc-quality-lab:lejepa-theorem-ledger"
 ARTIFACT_ID = "bedc-quality-lab:lejepa-theorem-ledger"
 JSON_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.json"
 REPORT_ARTIFACT = "reports/canonical/lejepa_theorem_ledger.md"
+DERIVATIVE_BRIDGE_JSON_ARTIFACT = "reports/canonical/lejepa_derivative_bridge.json"
+HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT = "reports/canonical/hermite_degree_vs_behavioral_derivative.md"
 PRODUCER = "scripts/run_lejepa_theorem_ledger.py"
 RUNNER = "scripts/run_gaussian_ou_lejepa.py"
 ALLOWED_ROLES = frozenset({"SourceSpec", "StabCert", "Ledger"})
@@ -106,6 +108,47 @@ def theorem_rows() -> list[dict[str, Any]]:
             "status_projection": _status_projection("declared", "medium"),
             "evidence_pointer": "$.backend_ledger_rows",
             "role_basis": "This row owns the theorem-to-ledger mapping for source and classifier residues.",
+        },
+    ]
+
+
+def hermite_degree_boundary() -> list[dict[str, Any]]:
+    return [
+        {
+            "label": "degree1",
+            "degree_class": "degree1",
+            "behavioral_boundary": "linear latent recovery boundary",
+            "scope_pointer": "$.scope",
+            "not_claimed_pointer": "$.not_claimed",
+            "theorem_bound_pointer": "$.theorem_rows[2]",
+            "metric_pointers": [
+                "$.theorem_rows[2].implemented_metrics[2]",
+                "$.metric_catalog",
+            ],
+        },
+        {
+            "label": "degree2",
+            "degree_class": "degree2",
+            "behavioral_boundary": "quadratic boundary",
+            "scope_pointer": "$.scope",
+            "not_claimed_pointer": "$.not_claimed",
+            "theorem_bound_pointer": "$.theorem_rows[2]",
+            "metric_pointers": [
+                "$.theorem_rows[2].implemented_metrics[0]",
+                "$.metric_catalog",
+            ],
+        },
+        {
+            "label": "degree3+",
+            "degree_class": "degree3+",
+            "behavioral_boundary": "high-order boundary",
+            "scope_pointer": "$.scope",
+            "not_claimed_pointer": "$.not_claimed",
+            "theorem_bound_pointer": "$.theorem_rows[3]",
+            "metric_pointers": [
+                "$.theorem_rows[3].implemented_metrics",
+                "$.not_claimed",
+            ],
         },
     ]
 
@@ -198,6 +241,22 @@ def _render_markdown_without_hardgates(payload: Mapping[str, Any]) -> str:
     lines.extend(["", "## Not Implemented", ""])
     for row in payload["theorem_rows"]:
         lines.append(f"- `{row['theorem']}`: " + "; ".join(row["not_implemented"]))
+    lines.extend(["", "## Hermite Degree Boundary", ""])
+    lines.extend(
+        [
+            "| label | behavioral boundary | theorem-bound pointer | scope | not claimed |",
+            "| --- | --- | --- | --- | --- |",
+        ]
+    )
+    for row in payload["hermite_degree_boundary"]:
+        lines.append(
+            "| "
+            f"`{row['label']}` | "
+            f"{row['behavioral_boundary']} | "
+            f"`{row['theorem_bound_pointer']}` | "
+            f"`{row['scope_pointer']}` | "
+            f"`{row['not_claimed_pointer']}` |"
+        )
     lines.append("")
     return "\n".join(lines)
 
@@ -244,9 +303,11 @@ def build_payload(*, run_id: str = "lejepa-theorem-ledger", generated_at: str | 
         "backend_theorem_rows": [dict(row) for row in LeJEPABackendEvidenceAdapter.backend.theorem_rows],
         "backend_ledger_rows": [dict(row) for row in LeJEPABackendEvidenceAdapter.backend.ledger_rows],
         "theorem_rows": rows,
+        "hermite_degree_boundary": hermite_degree_boundary(),
         "not_claimed": [
             "The ledger records theorem-row certificate boundaries only.",
             "The ledger does not discharge optimizer, finite-sample, or source reconstruction debt.",
+            "Hermite degree rows are label-level Gaussian-OU pointers and do not assert behavior outside the runner scope.",
         ],
         "positive_claim": {
             "status": "ledger-row-ssot",
@@ -271,13 +332,86 @@ def build_payload(*, run_id: str = "lejepa-theorem-ledger", generated_at: str | 
     return draft
 
 
+def _derivative_bridge_payload(payload: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "schema_id": "bedc-quality-lab:lejepa-derivative-bridge-sidecar",
+        "artifact_id": "bedc-quality-lab:lejepa-derivative-bridge",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "owner_report": "lejepa-theorem-ledger",
+        "owner_artifact": JSON_ARTIFACT,
+        "generated_at": payload["generated_at"],
+        "status": "pointer-only",
+        "source_pointer": f"{JSON_ARTIFACT}:$",
+        "scope_pointer": f"{JSON_ARTIFACT}:$.scope",
+        "not_claimed_pointer": f"{JSON_ARTIFACT}:$.not_claimed",
+        "hermite_degree_boundary_pointer": f"{JSON_ARTIFACT}:$.hermite_degree_boundary",
+        "theorem_rows_pointer": f"{JSON_ARTIFACT}:$.theorem_rows",
+        "rows": [
+            {
+                "label": row["label"],
+                "behavioral_boundary": row["behavioral_boundary"],
+                "scope_pointer": f"{JSON_ARTIFACT}:{row['scope_pointer']}",
+                "not_claimed_pointer": f"{JSON_ARTIFACT}:{row['not_claimed_pointer']}",
+                "theorem_bound_pointer": f"{JSON_ARTIFACT}:{row['theorem_bound_pointer']}",
+            }
+            for row in payload["hermite_degree_boundary"]
+        ],
+        "not_claimed": [
+            "This sidecar does not restate theorem rows.",
+            "This sidecar does not assert theorem closure, terminal verdicts, or discovery level.",
+            "This sidecar is scoped to the Gaussian-OU LeJEPA theorem ledger.",
+        ],
+    }
+
+
+def _render_hermite_behavior_markdown(payload: Mapping[str, Any]) -> str:
+    sidecar = _derivative_bridge_payload(payload)
+    lines = [
+        "# Hermite Degree vs Behavioral Derivative",
+        "",
+        f"- Canonical role: `{sidecar['canonical_role']}`",
+        f"- Owner report: `{sidecar['owner_report']}`",
+        f"- Owner artifact: `{sidecar['owner_artifact']}`",
+        f"- Scope pointer: `{sidecar['scope_pointer']}`",
+        f"- Not-claimed pointer: `{sidecar['not_claimed_pointer']}`",
+        "",
+        "| label | behavioral boundary | theorem-bound pointer |",
+        "| --- | --- | --- |",
+    ]
+    for row in sidecar["rows"]:
+        lines.append(
+            "| "
+            f"`{row['label']}` | "
+            f"{row['behavioral_boundary']} | "
+            f"`{row['theorem_bound_pointer']}` |"
+        )
+    lines.extend(
+        [
+            "",
+            "## Boundary",
+            "",
+            "- Pointer-only sidecar; theorem facts remain in the LeJEPA theorem ledger.",
+            "- No theorem closure, terminal verdict, or discovery level is asserted here.",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
 def write_artifacts(payload: Mapping[str, Any], *, root: Path) -> None:
     json_path = root / JSON_ARTIFACT
     markdown_path = root / REPORT_ARTIFACT
+    derivative_bridge_path = root / DERIVATIVE_BRIDGE_JSON_ARTIFACT
+    hermite_markdown_path = root / HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT
     json_path.parent.mkdir(parents=True, exist_ok=True)
     markdown_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     markdown_path.write_text(render_markdown(payload), encoding="utf-8")
+    derivative_bridge_path.write_text(
+        json.dumps(_derivative_bridge_payload(payload), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    hermite_markdown_path.write_text(_render_hermite_behavior_markdown(payload), encoding="utf-8")
 
 
 def main(argv: Sequence[str] | None = None) -> int:

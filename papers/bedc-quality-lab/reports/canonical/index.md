@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-08T02:10:15.676032+00:00`
+- Generated at: `2026-06-08T02:40:50.555624+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -188,6 +188,17 @@
 - Hardgates: `reports/canonical/model-comparison.json:$.hardgates`
 - Ranking key: `reports/canonical/model-comparison.json:$.ranking_key`
 - Source reports: `reports/canonical/model-comparison.json:$.source_reports`
+
+## Issue 1012 sidecars
+
+- Status: `pointer-only`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+
+| sidecar | owner | artifact | pointer |
+| --- | --- | --- | --- |
+| `lejepa-derivative-bridge` | `lejepa-theorem-ledger` | `reports/canonical/lejepa_derivative_bridge.json` | `reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary` |
+| `hermite-degree-vs-behavioral-derivative` | `lejepa-theorem-ledger` | `reports/canonical/hermite_degree_vs_behavioral_derivative.md` | `reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary` |
+| `spectral-jet-report` | `spectral-ablation-hinge` | `reports/canonical/spectral_jet_report.json` | `reports/canonical/spectral-ablation-hinge.json:$.spectral_jet` |
 
 ## Claim verdicts
 
