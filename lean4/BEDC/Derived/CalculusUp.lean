@@ -101,4 +101,101 @@ theorem CalculusRootLimitDerivativeIntegralTriad [AskSetup] [PackageSetup]
   }
   exact ⟨cert, hDerivative, hIntegral, hLimit, hTolerance, hReal⟩
 
+theorem CalculusRootLocalLinearityComposition [AskSetup] [PackageSetup]
+    {C D L Q Y R H T P N derivativeLeft derivativeRight comparisonRead dyadicRead
+      realRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory C →
+      UnaryHistory D →
+        UnaryHistory L →
+          UnaryHistory Q →
+            UnaryHistory Y →
+              UnaryHistory R →
+                UnaryHistory H →
+                  UnaryHistory T →
+                    UnaryHistory N →
+                      Cont C D derivativeLeft →
+                        Cont derivativeLeft D derivativeRight →
+                          Cont D L comparisonRead →
+                            Cont Q Y dyadicRead →
+                              Cont dyadicRead R realRead →
+                                Cont realRead N namedRead →
+                                  hsame H (append T P) →
+                                    PkgSig bundle P pkg →
+                                      PkgSig bundle N pkg →
+                                        SemanticNameCert
+                                            (fun row : BHist =>
+                                              hsame row namedRead ∧ UnaryHistory row)
+                                            (fun row : BHist =>
+                                              hsame row C ∨ hsame row D ∨ hsame row L ∨
+                                                hsame row Q ∨ hsame row Y ∨ hsame row R ∨
+                                                  hsame row namedRead)
+                                            (fun row : BHist =>
+                                              UnaryHistory row ∧
+                                                Cont C D derivativeLeft ∧
+                                                  Cont derivativeLeft D derivativeRight ∧
+                                                    Cont D L comparisonRead ∧
+                                                      Cont Q Y dyadicRead ∧
+                                                        Cont dyadicRead R realRead ∧
+                                                          Cont realRead N namedRead ∧
+                                                            hsame H (append T P))
+                                            hsame ∧
+                                          UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert NameCert Pkg
+  intro hC hD hL hQ hY hR _hH _hT hN derivativeLeftRoute derivativeRightRoute
+    comparisonRoute dyadicRoute realRoute namedRoute structuralSame _pkgP _pkgN
+  have hDerivativeLeft : UnaryHistory derivativeLeft :=
+    unary_cont_closed hC hD derivativeLeftRoute
+  have hDerivativeRight : UnaryHistory derivativeRight :=
+    unary_cont_closed hDerivativeLeft hD derivativeRightRoute
+  have hComparison : UnaryHistory comparisonRead :=
+    unary_cont_closed hD hL comparisonRoute
+  have hDyadic : UnaryHistory dyadicRead :=
+    unary_cont_closed hQ hY dyadicRoute
+  have hReal : UnaryHistory realRead :=
+    unary_cont_closed hDyadic hR realRoute
+  have hNamed : UnaryHistory namedRead :=
+    unary_cont_closed hReal hN namedRoute
+  have sourceNamed : hsame namedRead namedRead ∧ UnaryHistory namedRead :=
+    ⟨hsame_refl namedRead, hNamed⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row C ∨ hsame row D ∨ hsame row L ∨ hsame row Q ∨ hsame row Y ∨
+              hsame row R ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont C D derivativeLeft ∧
+              Cont derivativeLeft D derivativeRight ∧ Cont D L comparisonRead ∧
+                Cont Q Y dyadicRead ∧ Cont dyadicRead R realRead ∧
+                  Cont realRead N namedRead ∧ hsame H (append T P))
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro namedRead sourceNamed
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, derivativeLeftRoute, derivativeRightRoute, comparisonRoute,
+          dyadicRoute, realRoute, namedRoute, structuralSame⟩
+  }
+  exact ⟨cert, hNamed⟩
+
 end BEDC.Derived.CalculusUp
