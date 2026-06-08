@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from bedc_quality_lab.artifact_freshness import load_scorecard_snapshot
+from bedc_quality_lab.claim_acceptance import validate_positive_claim_evidence
 from bedc_quality_lab.discovery_compiler.pointers import normalize_artifact_pointer, pointer_value, resolve_artifact_pointer
 
 
@@ -396,6 +398,15 @@ def _hardgates(
         },
         "CG-HG6": {
             "status": "pass",
+            "criterion": "accepted positive terminals have acceptance evidence bundle",
+            "terminal_ids": [
+                str(row["claim_graph_node_id"])
+                for row in verdict_rows
+                if row.get("claim_verdict") in {"accepted_positive_discovery", "mechanism_not_closed"}
+            ],
+        },
+        "CG-HG7": {
+            "status": "pass",
             "criterion": "nodes[*].depends_on forms an acyclic dependency graph; revocation nodes remain revocation evidence and are not positive forward-closure evidence",
             "node_count": len(nodes),
             "edge_count": edge_count,
@@ -510,6 +521,7 @@ def validate_claim_graph_payload(
     errors.extend(_validate_cg_hg2(payload, by_id))
     errors.extend(_validate_cg_hg3(by_id))
     errors.extend(_validate_cg_hg4(verdict_rows, by_id, root))
+    errors.extend(_validate_cg_hg6(verdict_rows, root))
     return errors
 
 
@@ -618,6 +630,52 @@ def _validate_cg_hg4(
     }
     if set(row_terminal_ids) != terminal_nodes or len(row_terminal_ids) != len(terminal_nodes):
         errors.append("CG-HG4 terminal claim exact cover mismatch")
+    return errors
+
+
+def _specs_by_name() -> dict[str, Any]:
+    from scripts.run_claim_verdict_demo import DIMENSION_MISMATCH_REPORT, _dimension_mismatch_pointer_spec
+    from scripts.run_canonical_reports import CANONICAL_REPORTS
+
+    specs = {spec.name: spec for spec in CANONICAL_REPORTS}
+    specs[DIMENSION_MISMATCH_REPORT] = _dimension_mismatch_pointer_spec()
+    return specs
+
+
+def _validate_cg_hg6(verdict_rows: Sequence[Mapping[str, Any]], root: Path) -> list[str]:
+    errors: list[str] = []
+    accepted = {
+        "accepted_positive_discovery",
+        "mechanism_not_closed",
+    }
+    if not any(row.get("claim_verdict") in accepted for row in verdict_rows):
+        return errors
+    discovery_by_report = {str(row["report"]): row for row in _discovery_rows(root)}
+    specs = _specs_by_name()
+    scorecard_snapshot = load_scorecard_snapshot(root)
+    for row in verdict_rows:
+        if row.get("claim_verdict") not in accepted:
+            continue
+        claim_id = str(row.get("claim_id") or "")
+        report = claim_id.removeprefix("claim:")
+        discovery_row = discovery_by_report.get(report)
+        spec = specs.get(report)
+        if discovery_row is None or spec is None:
+            errors.append(f"CG-HG6 acceptance evidence lookup failed: {claim_id}")
+            continue
+        payload = _load_json(root, str(discovery_row["json_artifact"]))
+        if not isinstance(payload, Mapping):
+            errors.append(f"CG-HG6 acceptance evidence payload missing: {claim_id}")
+            continue
+        result = validate_positive_claim_evidence(
+            root,
+            spec=spec,
+            discovery_row=discovery_row,
+            payload=payload,
+            scorecard_snapshot=scorecard_snapshot,
+        )
+        if not result.ok:
+            errors.append(f"CG-HG6 {result.reason}: {claim_id} -> {result.ledger_pointer}")
     return errors
 
 

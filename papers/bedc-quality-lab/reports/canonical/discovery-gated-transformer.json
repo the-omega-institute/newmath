@@ -50,7 +50,105 @@
     "artifact": "reports/runs/discovery-gated-transformer/evidence_envelope.json",
     "pointer": "$"
   },
-  "generated_at": "2026-06-08T05:56:50.620080+00:00",
+  "family_definition": {
+    "artifact_id": "bedc-quality-lab:discovery-gated-transformer.family-definition",
+    "definition_scope": "bounded DGT structural family definition",
+    "forbidden_claim_term_audit": {
+      "forbidden_terms": [
+        "global superiority",
+        "architecture superiority",
+        "production authority",
+        "universal training recipe",
+        "terminal verdict"
+      ],
+      "hits": [],
+      "status": "pass"
+    },
+    "hardgate": {
+      "failed_gate": [],
+      "gate_names": [
+        "DGT-FAMILY-HG1",
+        "DGT-FAMILY-HG2",
+        "DGT-FAMILY-HG3",
+        "DGT-FAMILY-HG4"
+      ],
+      "gates": {
+        "DGT-FAMILY-HG1": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_definition.invariant_groups.architecture"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-HG2": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_definition.invariant_groups.objective"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-HG3": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_definition.invariant_groups.certificate"
+          },
+          "status": "pass"
+        },
+        "DGT-FAMILY-HG4": {
+          "evidence": {
+            "artifact": "reports/canonical/discovery-gated-transformer.json",
+            "pointer": "$.family_definition.forbidden_claim_term_audit"
+          },
+          "status": "pass"
+        }
+      },
+      "status": "pass"
+    },
+    "invariant_groups": {
+      "architecture": {
+        "evidence_pointers": [
+          "reports/canonical/discovery-gated-transformer.json:$.model_id",
+          "reports/canonical/discovery-gated-transformer.json:$.architecture_spec",
+          "reports/canonical/discovery-gated-transformer.json:$.component_refs"
+        ],
+        "group_id": "architecture",
+        "required": true
+      },
+      "certificate": {
+        "evidence_pointers": [
+          "reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref",
+          "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
+          "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+          "reports/canonical/discovery-gated-transformer.json:$.jet_certificate_ref"
+        ],
+        "group_id": "certificate",
+        "required": true
+      },
+      "objective": {
+        "evidence_pointers": [
+          "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
+          "reports/canonical/discovery-gated-transformer.json:$.hardgate",
+          "reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence"
+        ],
+        "group_id": "objective",
+        "required": true
+      }
+    },
+    "model_family_claim_status": {
+      "claim_allowed": false,
+      "claim_scope": "structural pointer definition only",
+      "status": "definition-recorded"
+    },
+    "not_claimed": [
+      "The family definition is a pointer bundle inside the DGT owner.",
+      "The family definition is not a standalone report, runner, backend, registry, or host setting.",
+      "The family definition does not admit deployment, promotion, or external authority."
+    ],
+    "owner_ref": "reports/canonical/discovery-gated-transformer.json:$",
+    "schema_id": "bedc-quality-lab:discovery-gated-transformer.family-definition",
+    "slot_state": "present-fail-closed"
+  },
+  "generated_at": "2026-06-08T10:32:30.788660+00:00",
   "hardgate": {
     "gate_names": [
       "DGT-HG1",

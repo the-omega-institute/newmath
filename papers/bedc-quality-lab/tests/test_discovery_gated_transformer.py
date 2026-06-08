@@ -9,13 +9,17 @@ from bedc_quality_lab.discovery_gated_transformer import (
     TOOL_ROUTE_CGA_ROUTE_PATCH_REF,
     TOOL_ROUTE_REQUIRED_KEYS,
     TOOL_ROUTE_SCHEMA_ID,
+    FAMILY_DEFINITION_POINTER,
+    FAMILY_DEFINITION_REQUIRED_KEYS,
     GATE_NAMES,
     MODEL_ID,
     SCHEMA_ID,
     build_projection,
+    evaluate_dgt_family_definition_hardgate,
     evaluate_dgt_tool_route_hardgates,
     default_component_refs,
     validate_projection,
+    validate_dgt_family_definition,
     validate_dgt_tool_route_evidence,
 )
 from scripts import run_discovery_gated_transformer as dgt
@@ -249,3 +253,64 @@ def test_hg6_rejects_refactor_loop_terminal_verdict_and_alias_refs():
         tool_route["forbidden_alias_audit"]["forbidden_refs"] = [forbidden]
         hardgate = evaluate_dgt_tool_route_hardgates(tool_route)
         assert hardgate["gates"]["DGT-TOOL-HG6"]["status"] == "fail"
+
+
+def test_dgt_family_definition_requires_architecture_objective_and_certificate_groups():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    family_definition = payload["family_definition"]
+
+    assert FAMILY_DEFINITION_POINTER == f"{CANONICAL_JSON_ARTIFACT}:$.family_definition"
+    assert tuple(family_definition) == FAMILY_DEFINITION_REQUIRED_KEYS
+    assert family_definition["owner_ref"] == f"{CANONICAL_JSON_ARTIFACT}:$"
+    assert set(family_definition["invariant_groups"]) == {"architecture", "objective", "certificate"}
+    assert family_definition["hardgate"]["status"] == "pass"
+    assert family_definition["model_family_claim_status"] == {
+        "status": "definition-recorded",
+        "claim_scope": "structural pointer definition only",
+        "claim_allowed": False,
+    }
+    for group in family_definition["invariant_groups"].values():
+        assert group["required"] is True
+        assert group["evidence_pointers"]
+        assert all(pointer.startswith(f"{CANONICAL_JSON_ARTIFACT}:$") for pointer in group["evidence_pointers"])
+
+
+def test_dgt_family_definition_blocks_model_family_claim_when_any_group_missing():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    family_definition = json.loads(json.dumps(payload["family_definition"]))
+    family_definition["invariant_groups"]["certificate"]["evidence_pointers"] = []
+
+    hardgate = evaluate_dgt_family_definition_hardgate(family_definition)
+
+    assert hardgate["status"] == "fail"
+    assert hardgate["gates"]["DGT-FAMILY-HG3"]["status"] == "fail"
+    with pytest.raises(ValueError, match="hardgate"):
+        validate_dgt_family_definition({**family_definition, "hardgate": hardgate})
+
+
+def test_dgt_family_definition_evidence_pointers_resolve(tmp_path):
+    payload = dgt.build_payload(generated_at="fixture-time")
+    dgt.write_artifacts(payload, root=tmp_path)
+    family_definition = payload["family_definition"]
+
+    assert resolve_artifact_pointer(tmp_path, FAMILY_DEFINITION_POINTER) is not None
+    assert resolve_artifact_pointer(tmp_path, f"{CANONICAL_JSON_ARTIFACT}:$.family_definition.hardgate") is not None
+    for group in family_definition["invariant_groups"].values():
+        for pointer in group["evidence_pointers"]:
+            assert resolve_artifact_pointer(tmp_path, pointer) is not None
+
+
+def test_dgt_family_definition_rejects_forbidden_positive_model_family_wording():
+    payload = dgt.build_payload(generated_at="fixture-time")
+    family_definition = json.loads(json.dumps(payload["family_definition"]))
+    family_definition["model_family_claim_status"]["status"] = "global superiority"
+    family_definition["forbidden_claim_term_audit"] = {
+        "status": "fail",
+        "hits": ["global superiority"],
+        "forbidden_terms": family_definition["forbidden_claim_term_audit"]["forbidden_terms"],
+    }
+    hardgate = evaluate_dgt_family_definition_hardgate(family_definition)
+
+    assert hardgate["gates"]["DGT-FAMILY-HG4"]["status"] == "fail"
+    with pytest.raises(ValueError, match="hardgate"):
+        validate_dgt_family_definition({**family_definition, "hardgate": hardgate})

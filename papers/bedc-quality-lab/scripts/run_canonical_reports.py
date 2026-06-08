@@ -1057,12 +1057,15 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "schema_id",
             "artifact_id",
             "generated_at",
+            "producer",
+            "projector",
             "source_artifacts",
             "model_id",
             "architecture_spec",
             "component_refs",
             "hardgate",
             "tool_route_evidence",
+            "family_definition",
             "discovery_map_signal",
             "claim_capsule_ref",
             "evidence_envelope_ref",
@@ -3696,6 +3699,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "architecture_spec",
         "hardgate",
         "tool_route_evidence",
+        "family_definition",
         "discovery_map_signal",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -3707,6 +3711,15 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         raise ValueError("DGT payload has invalid top-level fields")
     if payload["model_id"] != "discovery-gated-transformer":
         raise ValueError("DGT model_id mismatch")
+    family_definition = payload["family_definition"]
+    if family_definition["owner_ref"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$":
+        raise ValueError("DGT family definition owner pointer mismatch")
+    if set(family_definition["invariant_groups"]) != {"architecture", "objective", "certificate"}:
+        raise ValueError("DGT family definition invariant groups mismatch")
+    if family_definition["hardgate"]["status"] != "pass":
+        raise ValueError("DGT family definition hardgate failed")
+    if family_definition["model_family_claim_status"]["claim_allowed"] is not False:
+        raise ValueError("DGT family definition claim status must remain blocked")
     hardgate = payload["hardgate"]
     gates = hardgate["gates"]
     if set(gates) != {f"DGT-HG{index}" for index in range(1, 21)}:
@@ -3742,6 +3755,13 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate",
         "tool_route_evidence_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.tool_route_evidence",
         "tool_route_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.tool_route_evidence.hardgate",
+        "family_definition_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_definition",
+        "family_definition_hardgate_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_definition.hardgate"
+        ),
+        "model_family_claim_status_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_definition.model_family_claim_status"
+        ),
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "claim_capsule_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.claim_capsule_ref",
         "evidence_envelope_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.evidence_envelope_ref",
@@ -5095,6 +5115,9 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Hardgate: `{payload['discovery-gated-transformer']['hardgate_pointer']}`",
             f"- Tool route evidence: `{payload['discovery-gated-transformer']['tool_route_evidence_pointer']}`",
             f"- Tool route hardgate: `{payload['discovery-gated-transformer']['tool_route_hardgate_pointer']}`",
+            f"- Family definition: `{payload['discovery-gated-transformer']['family_definition_pointer']}`",
+            f"- Family definition hardgate: `{payload['discovery-gated-transformer']['family_definition_hardgate_pointer']}`",
+            f"- Model family claim status: `{payload['discovery-gated-transformer']['model_family_claim_status_pointer']}`",
             f"- Not claimed: `{payload['discovery-gated-transformer']['not_claimed_pointer']}`",
             f"- Discovery map signal: `{payload['discovery-gated-transformer']['discovery_map_signal_pointer']}`",
             f"- Claim capsule: `{payload['discovery-gated-transformer']['claim_capsule_ref_pointer']}`",
