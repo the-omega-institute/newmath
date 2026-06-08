@@ -24,7 +24,7 @@ from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointe
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from bedc_quality_lab.verdict import synthesize_certification_verdict
-from scripts.run_canonical_reports import CANONICAL_REPORTS, CanonicalReportSpec
+from scripts.run_canonical_reports import CANONICAL_REPORTS, CanonicalReportSpec, _discovery_map_reports
 from scripts.run_discovery_map import build_discovery_map, pointer_value, projection_payload
 
 
@@ -117,7 +117,7 @@ def _load_discovery_rows(root: Path, generated_at: str | None) -> list[dict[str,
         rows = payload.get("rows") if isinstance(payload, Mapping) else None
         if isinstance(rows, list) and all(isinstance(row, dict) for row in rows):
             return rows
-    return list(build_discovery_map(generated_at=generated_at, root=root, canonical_reports=CANONICAL_REPORTS)["rows"])
+    return list(build_discovery_map(generated_at=generated_at, root=root, canonical_reports=_discovery_map_reports())["rows"])
 
 
 def _load_scorecard(root: Path) -> dict[str, Any] | None:

@@ -3282,6 +3282,24 @@ def run_dev_rollup_lane(store: BioRealityStore) -> dict[str, Any]:
     if _run_command(repo_root, ["gh", "--version"]).returncode != 0:
         return {"lane": "bio-D", "skipped": "gh_unavailable"}
 
+    # Skip when there is no real CONTENT delta to roll up. bio-S merges
+    # dev->feat as "Sync auto-dev" merge commits, which leave feat
+    # commit-count-ahead of dev but content-identical. Rolling those up
+    # produces an empty-diff PR: it triggers no CI/Gate (paths/diff empty),
+    # so it can never go green, and while it sits open the sync script will
+    # not rebuild — a deadlock. Gate on the three-dot content diff instead of
+    # commit count.
+    remote = str(config.get("remote") or "origin")
+    _run_command(repo_root, ["git", "fetch", remote, source, target], timeout=120.0)
+    delta = _run_command(
+        repo_root,
+        ["git", "diff", "--name-only", f"{remote}/{target}...{remote}/{source}"],
+    )
+    if not (delta.stdout or "").strip():
+        _write_dev_rollup_state(state_path)
+        return {"lane": "bio-D", "skipped": "no_content_delta",
+                "note": "feat has no content diff vs dev (only sync merge commits); not opening an empty rollup PR"}
+
     result = _run_command(
         repo_root,
         ["python3", str(script), "--source-branch", source, "--target-branch", target],

@@ -27,16 +27,16 @@
         "not_claimed_pointer": "reports/canonical/discovery-gated-nas.json:$.not_claimed"
       },
       {
-        "canonical_owner_pointer": "reports/canonical/discovery_gated_transformer.json:$",
-        "claim_verdict_pointer": "reports/canonical/discovery_gated_transformer.json:$.prototype_status",
+        "canonical_owner_pointer": "reports/canonical/discovery-gated-transformer.json:$",
+        "claim_verdict_pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
         "component_id": "DGT",
-        "debt_pointer": "reports/canonical/discovery_gated_transformer.json:$.revocation_rows",
-        "discovery_level_pointer": "reports/canonical/discovery_gated_transformer.json:$.discovery_map_signal.level_candidate",
+        "debt_pointer": "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
+        "discovery_level_pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal.level_candidate",
         "hardgate_reason": "pass",
         "hardgate_status": "pass",
-        "mechanism_certificate_pointer": "reports/canonical/discovery_gated_transformer.json:$.hardgate_instances",
+        "mechanism_certificate_pointer": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
         "negative_witness_pointer": null,
-        "not_claimed_pointer": "reports/canonical/discovery_gated_transformer.json:$.not_claimed"
+        "not_claimed_pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed"
       },
       {
         "canonical_owner_pointer": "reports/canonical/discovery-regularized-training.json:$",
@@ -277,7 +277,7 @@
       "failed_gate_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4].failed_gate",
       "hypothesis_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4].next_hypothesis",
       "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
-      "priority": 2020,
+      "priority": 2021,
       "proposal_id": "exp-dn-spectral-ablation-hinge",
       "proposal_status": "proposed",
       "source_kind": "negative_discovery",
@@ -296,7 +296,7 @@
       "failed_gate_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5].failed_gate",
       "hypothesis_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5].next_hypothesis",
       "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[5]",
-      "priority": 2021,
+      "priority": 2024,
       "proposal_id": "exp-dn-dimension-mismatch-debt-transfer",
       "proposal_status": "proposed",
       "source_kind": "negative_discovery",
@@ -315,7 +315,7 @@
       "failed_gate_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6].failed_gate",
       "hypothesis_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6].next_hypothesis",
       "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[6]",
-      "priority": 2022,
+      "priority": 2025,
       "proposal_id": "exp-dn-single-threshold-escape",
       "proposal_status": "proposed",
       "source_kind": "negative_discovery",
@@ -334,7 +334,7 @@
       "failed_gate_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[7].failed_gate",
       "hypothesis_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[7].next_hypothesis",
       "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[7]",
-      "priority": 2023,
+      "priority": 2026,
       "proposal_id": "exp-dn-training-choice-observability",
       "proposal_status": "proposed",
       "source_kind": "negative_discovery",
@@ -562,10 +562,10 @@
       "source_pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[12]"
     }
   ],
-  "generated_at": "2026-06-07T19:43:01.695301+00:00",
+  "generated_at": "2026-06-08T02:12:04.185721+00:00",
   "json_artifact": "reports/canonical/discovery_map.json",
   "level_counts": {
-    "D0": 4,
+    "D0": 7,
     "D1": 4,
     "D2": 1,
     "D3": 0,
@@ -577,16 +577,22 @@
   },
   "manifest_audit": {
     "unregistered_json_artifacts": [
+      "reports/canonical/causal_derivative_ledger.json",
       "reports/canonical/demote_thesis_invariant_audit.json",
       "reports/canonical/dimension-mismatch-transfer-robustness.json",
       "reports/canonical/discovery_gate_demotions.json",
       "reports/canonical/discovery_gate_escape_registry.json",
+      "reports/canonical/discovery_gated_transformer.json",
+      "reports/canonical/discovery_regularized_training_jet.json",
       "reports/canonical/gap-head-robustness-sweep.json",
+      "reports/canonical/jet_loss_frontier.json",
+      "reports/canonical/lejepa_derivative_bridge.json",
+      "reports/canonical/spectral_jet_report.json",
       "reports/canonical/toy_safety_boundary.json"
     ]
   },
   "markdown_artifact": "reports/canonical/discovery_map.md",
-  "row_count": 24,
+  "row_count": 27,
   "rows": [
     {
       "audit_reason": "",
@@ -644,7 +650,7 @@
           "artifact": "reports/canonical/discovery_negative_witnesses.json",
           "name": "adversarial",
           "pointer": "$.witnesses",
-          "reason": "The eight adversarial witness kinds do not break the discovery gate.",
+          "reason": "The adversarial witness kinds do not break the discovery gate.",
           "status": "pass"
         },
         "observed_debt_transfer": {
@@ -941,6 +947,20 @@
         "no classifier shift or debt improvement"
       ],
       "discovery_level": "D0",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/discovery-gated-transformer.json",
+      "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
+      "projection_status": "source-insufficient",
+      "report": "discovery-gated-transformer",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "no classifier shift or debt improvement"
+      ],
+      "discovery_level": "D0",
       "evidence_pointer": "$.theorem_rows",
       "json_artifact": "reports/canonical/lejepa_theorem_ledger.json",
       "markdown_artifact": "reports/canonical/lejepa_theorem_ledger.md",
@@ -972,6 +992,34 @@
       "negative_report_pointer": "reports/canonical/negative_discovery_reports.json:$.rows[4]",
       "projection_status": "projected",
       "report": "spectral-ablation-hinge"
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "no classifier shift or debt improvement"
+      ],
+      "discovery_level": "D0",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/model-comparison.json",
+      "markdown_artifact": "reports/canonical/model-comparison.md",
+      "projection_status": "source-insufficient",
+      "report": "model-comparison",
+      "terminal_verdict": ""
+    },
+    {
+      "audit_reason": "",
+      "audit_status": "valid",
+      "classifier_reasons": [
+        "no classifier shift or debt improvement"
+      ],
+      "discovery_level": "D0",
+      "evidence_pointer": null,
+      "json_artifact": "reports/canonical/causal_patch_suite.json",
+      "markdown_artifact": "reports/canonical/patch_effect_summary.md",
+      "projection_status": "source-insufficient",
+      "report": "causal-patch-suite",
+      "terminal_verdict": ""
     },
     {
       "audit_reason": "",

@@ -766,8 +766,10 @@
     "source_artifact": "reports/dimension_mismatch_anti_triviality.json"
   },
   "d5m_status": "not_claimed",
-  "failed_gates": [],
-  "generated_at": "2026-06-07T19:43:01.695301+00:00",
+  "failed_gates": [
+    "HG-B1-AT4"
+  ],
+  "generated_at": "2026-06-08T02:12:04.185721+00:00",
   "hardgate_evidence": {
     "HG-B1-AT1": {
       "criterion": "each arm uses its exact allowlist and learned/matched-random share split, threshold, budget, and metric helper",
@@ -976,7 +978,8 @@
         "scale_only": true,
         "whitened_h_normalized_no_scale": true
       },
-      "criterion": "exactly one top-level status is selected by precedence",
+      "criterion": "selected anti-triviality status must pass before any positive projection is retained",
+      "fail_closed_reason": "selected status blocks positive anti-triviality",
       "precedence_order": [
         "source_not_pass",
         "metadata_leakage_detected",
@@ -987,7 +990,7 @@
         "defer_no_normalized_signal"
       ],
       "selected_status": "scale_leakage_detected",
-      "status": "pass"
+      "status": "fail"
     },
     "HG-B1-AT5": {
       "criterion": "status-driving positivity uses only the strict source-style conjunction predicate",

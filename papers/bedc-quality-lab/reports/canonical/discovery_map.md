@@ -1,7 +1,7 @@
 # Discovery Map
 
-- Generated at: `2026-06-07T19:43:01.695301+00:00`
-- Rows: `24`
+- Generated at: `2026-06-08T02:12:04.185721+00:00`
+- Rows: `27`
 
 | report | level | base | mechanism | projection | audit | evidence |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -23,9 +23,12 @@
 | `discovery-regularized-training` | `D5-M` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `mechanism-seeking-network` | `D4` | `` | `` | `projected` | `valid` | `$.matched_random_control` |
 | `discovery-gated-nas` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` |
+| `discovery-gated-transformer` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `lejepa-theorem-ledger` | `D0` | `` | `` | `theorem-ledger-recorded` | `valid` | `$.theorem_rows` |
 | `observed-debt-sweep` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `spectral-ablation-hinge` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` |
+| `model-comparison` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
+| `causal-patch-suite` | `D0` | `` | `` | `source-insufficient` | `valid` | `source-insufficient` |
 | `dimension-mismatch-debt-transfer` | `DN` | `` | `` | `projected` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` |
 | `single-threshold-escape` | `DN` | `` | `` | `escaped-positive-captured` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` |
 | `training-choice-observability` | `DN` | `` | `` | `pointer-only` | `valid` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` |
@@ -37,7 +40,7 @@
 - `threshold`: `pass` (reports/canonical/gap-head-robustness-sweep.json:$.A1_threshold_sweep.treatment_verdict.positive) A1 threshold sweep passes under the canonical robustness final_status.
 - `ablation`: `failed` (reports/canonical/gap-head-ablation.json:$.hardgate.status) Gap-head ablation hardgate is explicit non-pass.
 - `seed_expansion`: `pass` (reports/canonical/gap-head-robustness-sweep.json:$.A3_seed_expansion.final_verdict) A3 seed expansion has robust_positive final verdict under final_status=pass.
-- `adversarial`: `pass` (reports/canonical/discovery_negative_witnesses.json:$.witnesses) The eight adversarial witness kinds do not break the discovery gate.
+- `adversarial`: `pass` (reports/canonical/discovery_negative_witnesses.json:$.witnesses) The adversarial witness kinds do not break the discovery gate.
 - `observed_debt_transfer`: `pass` (reports/canonical/gap-head-observed-debt-transfer.json:$.gap_head_on_h_observed_debt_transfer.status) Observed-debt transfer metric for gap-head-on-h passes.
 
 ## Coverage matrix
@@ -57,7 +60,7 @@
 | --- | --- | --- | --- |
 | `positive` | `CGA` | `reports/canonical/certificate-gated-attention.json:$` | `pass` |
 | `positive` | `DG-NAS` | `reports/canonical/discovery-gated-nas.json:$` | `pass` |
-| `positive` | `DGT` | `reports/canonical/discovery_gated_transformer.json:$` | `pass` |
+| `positive` | `DGT` | `reports/canonical/discovery-gated-transformer.json:$` | `pass` |
 | `positive` | `DRT` | `reports/canonical/discovery-regularized-training.json:$` | `pass` |
 | `positive` | `LAT` | `reports/canonical/ledger-aware-transformer.json:$` | `pass` |
 | `negative` | `LeJEPA-mini-grid-DN` | `reports/runs/lejepa-mini-grid/claim_capsule.json:$` | `pass` |

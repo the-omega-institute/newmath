@@ -1,0 +1,509 @@
+{
+  "artifact_id": "bedc-quality-lab:model-comparison",
+  "generated_at": "2026-06-08T02:12:04.185721+00:00",
+  "hardgates": {
+    "CMP-HG1": {
+      "gate_id": "CMP-HG1",
+      "reason": "parameter-matched baseline pointer resolves through the ledger-aware owner",
+      "status": "pass"
+    },
+    "CMP-HG2": {
+      "gate_id": "CMP-HG2",
+      "reason": "compute-matched cost pointer resolves for candidate comparison",
+      "status": "pass"
+    },
+    "CMP-HG3": {
+      "gate_id": "CMP-HG3",
+      "reason": "matched-random structural control has a canonical owner pointer; fail-closed",
+      "status": "fail"
+    },
+    "CMP-HG4": {
+      "gate_id": "CMP-HG4",
+      "reason": "every non-missing model row resolves to a canonical owner",
+      "status": "pass"
+    },
+    "CMP-HG5": {
+      "gate_id": "CMP-HG5",
+      "reason": "claim-specific ordering key pointers resolve before ordering is emitted",
+      "status": "pass"
+    }
+  },
+  "models": [
+    {
+      "discovery_cell_status": "missing",
+      "discovery_component_id": "base_transformer",
+      "label": "Base transformer",
+      "metrics": {
+        "CausalJetCoverage": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "CriticalUER": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "FalseLedgerRate": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "JetCoverage": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "UER": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "classifier_shift": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "cost": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "negative_witnesses": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "ood_accuracy": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "order": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "quality_q": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "task_accuracy": {
+          "pointer": null,
+          "status": "missing"
+        }
+      },
+      "model_id": "base_transformer",
+      "owner": {
+        "pointer": null,
+        "status": "missing"
+      },
+      "status": "missing_source"
+    },
+    {
+      "discovery_cell_status": "pass",
+      "discovery_component_id": "LAT",
+      "label": "Ledger-aware transformer",
+      "metrics": {
+        "CausalJetCoverage": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.mechanism_certificate",
+          "status": "resolved"
+        },
+        "CriticalUER": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.records[0].gap_head.metrics.critical_unlogged_error_rate",
+          "status": "resolved"
+        },
+        "FalseLedgerRate": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.false_alarm_learned",
+          "status": "resolved"
+        },
+        "JetCoverage": {
+          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[4].mechanism_certificate_pointer",
+          "status": "resolved"
+        },
+        "UER": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_learned",
+          "status": "resolved"
+        },
+        "classifier_shift": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.net_positive_signal",
+          "status": "resolved"
+        },
+        "cost": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.source_artifacts.cost_protocol",
+          "status": "resolved"
+        },
+        "negative_witnesses": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.revocation_rows",
+          "status": "resolved"
+        },
+        "ood_accuracy": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.ood_surface_count",
+          "status": "resolved"
+        },
+        "order": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.level_candidate",
+          "status": "resolved"
+        },
+        "quality_q": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.scorecard_pointer",
+          "status": "resolved"
+        },
+        "task_accuracy": {
+          "pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_learned",
+          "status": "resolved"
+        }
+      },
+      "model_id": "ledger-aware-transformer",
+      "owner": {
+        "pointer": "reports/canonical/ledger-aware-transformer.json:$",
+        "status": "resolved"
+      },
+      "status": "ready"
+    },
+    {
+      "discovery_cell_status": "pass",
+      "discovery_component_id": "CGA",
+      "label": "Certificate-gated attention",
+      "metrics": {
+        "CausalJetCoverage": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
+          "status": "resolved"
+        },
+        "CriticalUER": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_attention_leak_reduction_positive",
+          "status": "resolved"
+        },
+        "FalseLedgerRate": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.matched_random_control.matched_random_gate_leak_mean",
+          "status": "resolved"
+        },
+        "JetCoverage": {
+          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[0].mechanism_certificate_pointer",
+          "status": "resolved"
+        },
+        "UER": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_attention_leak_reduction_positive",
+          "status": "resolved"
+        },
+        "classifier_shift": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.status",
+          "status": "resolved"
+        },
+        "cost": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.source_artifacts.cost_protocol",
+          "status": "resolved"
+        },
+        "negative_witnesses": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.revocation_rows",
+          "status": "resolved"
+        },
+        "ood_accuracy": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.surface_registry.multi_surface_positive",
+          "status": "resolved"
+        },
+        "order": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.level_candidate",
+          "status": "resolved"
+        },
+        "quality_q": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.status",
+          "status": "resolved"
+        },
+        "task_accuracy": {
+          "pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
+          "status": "resolved"
+        }
+      },
+      "model_id": "certificate-gated-attention",
+      "owner": {
+        "pointer": "reports/canonical/certificate-gated-attention.json:$",
+        "status": "resolved"
+      },
+      "status": "ready"
+    },
+    {
+      "discovery_cell_status": "pass",
+      "discovery_component_id": "DRT",
+      "label": "Discovery-regularized training",
+      "metrics": {
+        "CausalJetCoverage": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert",
+          "status": "resolved"
+        },
+        "CriticalUER": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.hardgate",
+          "status": "resolved"
+        },
+        "FalseLedgerRate": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control.matched_random_certificate_loss_mean",
+          "status": "resolved"
+        },
+        "JetCoverage": {
+          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[3].mechanism_certificate_pointer",
+          "status": "resolved"
+        },
+        "UER": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.DRT.quality_q",
+          "status": "resolved"
+        },
+        "classifier_shift": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.classifier_shift",
+          "status": "resolved"
+        },
+        "cost": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.compute_ledger",
+          "status": "resolved"
+        },
+        "negative_witnesses": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
+          "status": "resolved"
+        },
+        "ood_accuracy": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality",
+          "status": "resolved"
+        },
+        "order": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_quality_order",
+          "status": "resolved"
+        },
+        "quality_q": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.DRT.quality_q",
+          "status": "resolved"
+        },
+        "task_accuracy": {
+          "pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.task_accuracy_only",
+          "status": "resolved"
+        }
+      },
+      "model_id": "discovery-regularized-training",
+      "owner": {
+        "pointer": "reports/canonical/discovery-regularized-training.json:$",
+        "status": "resolved"
+      },
+      "status": "ready"
+    },
+    {
+      "discovery_cell_status": "pass",
+      "discovery_component_id": "MSN",
+      "label": "Mechanism-seeking network",
+      "metrics": {
+        "CausalJetCoverage": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary",
+          "status": "resolved"
+        },
+        "CriticalUER": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.d5_m_readiness",
+          "status": "resolved"
+        },
+        "FalseLedgerRate": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.matched_random_control.matched_random_score_mean",
+          "status": "resolved"
+        },
+        "JetCoverage": {
+          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[6].mechanism_certificate_pointer",
+          "status": "resolved"
+        },
+        "UER": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.distinction_module_risk",
+          "status": "resolved"
+        },
+        "classifier_shift": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.discovery_map_signal.status",
+          "status": "resolved"
+        },
+        "cost": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.source_artifacts.cost_protocol",
+          "status": "resolved"
+        },
+        "negative_witnesses": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.revocation_rows",
+          "status": "resolved"
+        },
+        "ood_accuracy": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.surface_registry",
+          "status": "resolved"
+        },
+        "order": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.discovery_map_signal.level_candidate",
+          "status": "resolved"
+        },
+        "quality_q": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary",
+          "status": "resolved"
+        },
+        "task_accuracy": {
+          "pointer": "reports/canonical/mechanism-seeking-network.json:$.surface_registry",
+          "status": "resolved"
+        }
+      },
+      "model_id": "mechanism-seeking-network",
+      "owner": {
+        "pointer": "reports/canonical/mechanism-seeking-network.json:$",
+        "status": "resolved"
+      },
+      "status": "ready"
+    },
+    {
+      "discovery_cell_status": "pass",
+      "discovery_component_id": "DGT",
+      "label": "DGT candidate",
+      "metrics": {
+        "CausalJetCoverage": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
+          "status": "resolved"
+        },
+        "CriticalUER": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG10",
+          "status": "resolved"
+        },
+        "FalseLedgerRate": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG11",
+          "status": "resolved"
+        },
+        "JetCoverage": {
+          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[2].mechanism_certificate_pointer",
+          "status": "resolved"
+        },
+        "UER": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
+          "status": "resolved"
+        },
+        "classifier_shift": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
+          "status": "resolved"
+        },
+        "cost": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.source_artifacts",
+          "status": "resolved"
+        },
+        "negative_witnesses": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
+          "status": "resolved"
+        },
+        "ood_accuracy": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
+          "status": "resolved"
+        },
+        "order": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.model_id",
+          "status": "resolved"
+        },
+        "quality_q": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
+          "status": "resolved"
+        },
+        "task_accuracy": {
+          "pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.training_replay",
+          "status": "resolved"
+        }
+      },
+      "model_id": "DGT candidate",
+      "owner": {
+        "pointer": "reports/canonical/discovery-gated-transformer.json:$",
+        "status": "resolved"
+      },
+      "status": "ready"
+    },
+    {
+      "discovery_cell_status": "missing",
+      "discovery_component_id": "matched-random structural control",
+      "label": "Matched-random structural control",
+      "metrics": {
+        "CausalJetCoverage": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "CriticalUER": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "FalseLedgerRate": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "JetCoverage": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "UER": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "classifier_shift": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "cost": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "negative_witnesses": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "ood_accuracy": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "order": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "quality_q": {
+          "pointer": null,
+          "status": "missing"
+        },
+        "task_accuracy": {
+          "pointer": null,
+          "status": "missing"
+        }
+      },
+      "model_id": "matched-random structural control",
+      "owner": {
+        "pointer": null,
+        "status": "missing"
+      },
+      "status": "missing_source"
+    }
+  ],
+  "not_claimed": [
+    "No global model winner is selected.",
+    "No accuracy-only ordering is emitted.",
+    "Missing canonical owners remain missing_source until producer-owned artifacts exist."
+  ],
+  "ordering": {
+    "key": [
+      "quality_q",
+      "JetCoverage"
+    ],
+    "rows_pointer": "reports/canonical/model-comparison.json:$.models",
+    "status": "ready"
+  },
+  "ranking_key": [
+    "quality_q",
+    "JetCoverage"
+  ],
+  "schema_id": "bedc-quality-lab:model-comparison",
+  "source_reports": [
+    {
+      "artifact": "reports/canonical/certificate-gated-attention.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/canonical/discovery-gated-transformer.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/canonical/discovery-regularized-training.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/canonical/discovery_map.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/canonical/ledger-aware-transformer.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/canonical/mechanism-seeking-network.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/canonical/model_design_suite.json",
+      "pointer": "$"
+    }
+  ],
+  "status": "not_ready"
+}

@@ -41,8 +41,9 @@ def test_checked_in_registry_is_pointer_only_and_declares_active_kinds():
         "scale_only_overclaim",
     ]
     assert [row["kind"] for row in payload["deferred_kinds"]] == [
-        "metadata_leakage_detector",
+        "single_threshold_positive_only",
     ]
+    assert "metadata_leakage_detector" not in json.dumps(payload, sort_keys=True)
     assert payload["capacity"] == {
         "max_escape_rows": 32,
         "max_rows_per_kind": 4,
@@ -62,9 +63,9 @@ def test_static_witnesses_remain_fail_closed_under_escape_hardening():
     audit = payload["static_witness_audit"]
 
     assert audit["source"] == "reports/canonical/discovery_negative_witnesses.json"
-    assert audit["expected_kind_count"] == 8
+    assert audit["expected_kind_count"] == 9
     assert audit["fail_closed"] is True
-    assert len(audit["witnesses"]) == 8
+    assert len(audit["witnesses"]) == 9
     assert all(row["fail_closed"] is True for row in audit["witnesses"])
     assert {row["discovery_level"] for row in audit["witnesses"]}.isdisjoint({"D4", "D5-O", "D5-M"})
 
@@ -289,3 +290,22 @@ def test_write_scope_is_limited_to_two_sidecars(tmp_path, monkeypatch):
 
     assert writes == [hardening.REGISTRY_ARTIFACT, hardening.DEMOTIONS_ARTIFACT]
     assert len(demotions["demotions"]) == len(registry["escaped_rows"])
+
+
+def test_write_sidecars_reuses_existing_registry_timestamp(tmp_path):
+    sentinel = "2027-07-07T07:07:07+00:00"
+    registry_path = tmp_path / hardening.REGISTRY_ARTIFACT
+    registry_path.parent.mkdir(parents=True)
+    registry_path.write_text(json.dumps({"generated_at": sentinel}) + "\n", encoding="utf-8")
+
+    registry, demotions = hardening.write_sidecars(root=tmp_path)
+
+    written_registry = json.loads(registry_path.read_text(encoding="utf-8"))
+    written_demotions = json.loads((tmp_path / hardening.DEMOTIONS_ARTIFACT).read_text(encoding="utf-8"))
+    written_files = sorted(path.relative_to(tmp_path).as_posix() for path in tmp_path.rglob("*") if path.is_file())
+
+    assert registry["generated_at"] == sentinel
+    assert demotions["generated_at"] == sentinel
+    assert written_registry["generated_at"] == sentinel
+    assert written_demotions["generated_at"] == sentinel
+    assert written_files == [hardening.DEMOTIONS_ARTIFACT, hardening.REGISTRY_ARTIFACT]

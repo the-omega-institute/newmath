@@ -38,6 +38,8 @@ REPORT_JSON = ROOT / "reports" / "spectral_ablation_hinge.json"
 REPORT_MD = ROOT / "reports" / "spectral_ablation_hinge.md"
 JSON_ARTIFACT = "reports/spectral_ablation_hinge.json"
 REPORT_ARTIFACT = "reports/spectral_ablation_hinge.md"
+SPECTRAL_JET_JSON_ARTIFACT = "reports/canonical/spectral_jet_report.json"
+NONGAUSSIAN_SWEEP_JSON_ARTIFACT = "reports/canonical/nongaussian-distribution-sweep.json"
 USE_TORCH = False
 
 
@@ -393,6 +395,32 @@ def _ledger_summary(
     }
 
 
+def _spectral_jet(hinge_ledger: list[dict[str, Any]]) -> dict[str, Any]:
+    high_order_rows = [
+        {
+            "row_id": str(row["row_id"]),
+            "row_pointer": f"$.hinge_ledger[{index}]",
+            "penalty_role": "high-order spectral penalty",
+            "axis_count": int(row["deletion"]["axis_count"]),
+            "spectral_loss_pointer": f"$.hinge_ledger[{index}].eigenvalue_loss.spectral_loss_proxy",
+        }
+        for index, row in enumerate(hinge_ledger)
+        if int(row["deletion"]["axis_count"]) >= 2
+    ]
+    return {
+        "status": "projection",
+        "scope_pointer": "$.applicability_boundary",
+        "hinge_ledger_pointer": "$.hinge_ledger",
+        "ledger_summary_pointer": "$.ledger_summary",
+        "spectral_basis": "selected abs(rho_before^2 - rho_after^2) ledger projection",
+        "high_order_penalty_rows": high_order_rows,
+        "not_claimed": [
+            "No global task-general jet claim.",
+            "No non-Gaussian evidence is restated by this projection.",
+        ],
+    }
+
+
 def _arm_rows(base_spec: TransitionKernelSpec, ledger: list[dict[str, Any]]) -> list[_HingeArm]:
     top_row = next(row for row in ledger if row["row_type"] == "single-axis")
     module_row = next(row for row in ledger if row["row_type"] == "module-analogue")
@@ -502,6 +530,7 @@ def _payload() -> dict[str, Any]:
         },
         "arms": arms,
         "hinge_ledger": hinge_ledger,
+        "spectral_jet": _spectral_jet(hinge_ledger),
         "rank_correlation": rank_correlation,
         "negative_control_summary": negative_control,
         "ledger_summary": _ledger_summary(
@@ -517,6 +546,45 @@ def _payload() -> dict[str, Any]:
                 "papers/bedc/parts/concrete_instances/108564_spectral_ablation_hinge_namecert_construction.tex",
             ],
         },
+    }
+
+
+def _spectral_jet_report_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "schema_id": "bedc-quality-lab:spectral-jet-report-sidecar",
+        "artifact_id": "bedc-quality-lab:spectral-jet-report",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "owner_report": "spectral-ablation-hinge",
+        "owner_artifact": JSON_ARTIFACT,
+        "generated_at": payload["generated_at"],
+        "status": "pointer-only",
+        "source_pointer": f"{JSON_ARTIFACT}:$",
+        "scope_pointer": f"{JSON_ARTIFACT}:$.applicability_boundary",
+        "applicability_boundary_pointer": f"{JSON_ARTIFACT}:$.applicability_boundary",
+        "hinge_ledger_pointer": f"{JSON_ARTIFACT}:$.hinge_ledger",
+        "ledger_summary_pointer": f"{JSON_ARTIFACT}:$.ledger_summary",
+        "spectral_jet_pointer": f"{JSON_ARTIFACT}:$.spectral_jet",
+        "high_order_penalty_row_pointers": [
+            f"{JSON_ARTIFACT}:{row['row_pointer']}"
+            for row in payload["spectral_jet"]["high_order_penalty_rows"]
+        ],
+        "nongaussian_sweep_references": [
+            {
+                "artifact": NONGAUSSIAN_SWEEP_JSON_ARTIFACT,
+                "pointer": "$.records",
+                "role": "out-of-scope latent-distribution cases",
+            },
+            {
+                "artifact": NONGAUSSIAN_SWEEP_JSON_ARTIFACT,
+                "pointer": "$.not_claimed",
+                "role": "non-Gaussian boundary statement",
+            },
+        ],
+        "not_claimed": [
+            "This sidecar does not assert global task-general behavior.",
+            "This sidecar does not restate non-Gaussian sweep evidence.",
+            "This sidecar does not assert theorem closure, terminal verdicts, or discovery level.",
+        ],
     }
 
 
@@ -586,6 +654,13 @@ def _render_markdown(payload: dict[str, Any]) -> str:
             f"- Treatment better than all controls: `{neg['treatment_better_than_all_controls']}`",
             f"- Ledger status: `{payload['ledger_summary']['status']}`",
             "",
+            "## Spectral jet",
+            "",
+            f"- Status: `{payload['spectral_jet']['status']}`",
+            f"- Scope pointer: `{payload['spectral_jet']['scope_pointer']}`",
+            f"- Hinge ledger pointer: `{payload['spectral_jet']['hinge_ledger_pointer']}`",
+            f"- High-order penalty rows: `{len(payload['spectral_jet']['high_order_penalty_rows'])}`",
+            "",
             "## Applicability boundary",
             "",
             f"- Claimed scope: `{payload['applicability_boundary']['claimed_scope']}`",
@@ -600,6 +675,12 @@ def _write_payload(payload: dict[str, Any]) -> None:
     REPORT_JSON.parent.mkdir(parents=True, exist_ok=True)
     REPORT_JSON.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     REPORT_MD.write_text(_render_markdown(payload), encoding="utf-8")
+    spectral_jet_path = ROOT / SPECTRAL_JET_JSON_ARTIFACT
+    spectral_jet_path.parent.mkdir(parents=True, exist_ok=True)
+    spectral_jet_path.write_text(
+        json.dumps(_spectral_jet_report_payload(payload), indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
 
 
 def main() -> None:

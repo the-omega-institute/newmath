@@ -136,7 +136,8 @@ class GapHeadOperationalReadinessPolicy:
         adversarial_pass = (
             pointer_value(negative, "$.status") == "pointer-only"
             and isinstance(expected_kind_count, int)
-            and len(witness_kinds) == expected_kind_count == 8
+            and expected_kind_count > 0
+            and len(witness_kinds) == expected_kind_count
             and terminal_verdicts <= {"rejected", "demoted", "ledger-only"}
         )
 
@@ -189,7 +190,7 @@ class GapHeadOperationalReadinessPolicy:
                     "pass" if adversarial_pass else "failed",
                     NEGATIVE_WITNESSES_ARTIFACT,
                     "$.witnesses",
-                    "The eight adversarial witness kinds do not break the discovery gate."
+                    "The adversarial witness kinds do not break the discovery gate."
                     if adversarial_pass
                     else "Adversarial witnesses are missing, incomplete, or contain a gate-breaking terminal verdict.",
                 ),

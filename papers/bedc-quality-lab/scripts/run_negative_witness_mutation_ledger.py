@@ -312,12 +312,21 @@ def _write_text(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def _reusable_generated_at(root: Path) -> str | None:
+    payload = _artifact_payload(root, LEDGER_JSON_ARTIFACT)
+    if isinstance(payload, Mapping):
+        generated_at = payload.get("generated_at")
+        if isinstance(generated_at, str) and generated_at:
+            return generated_at
+    return None
+
+
 def write_negative_witness_mutation_ledger(
     *,
     root: Path = ROOT,
     generated_at: str | None = None,
 ) -> dict[str, Any]:
-    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
+    timestamp = generated_at or _reusable_generated_at(root) or datetime.now(timezone.utc).isoformat()
     payload = _build_mutation_ledger(root, timestamp)
     graph = _render_lineage_graph(payload)
     dgt_report = _build_dgt_mutation_report(payload)
