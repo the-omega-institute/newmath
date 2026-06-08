@@ -1,6 +1,6 @@
 # Claim Graph
 
-- Generated at: `2026-06-08T15:52:09.794087+00:00`
+- Generated at: `2026-06-08T17:06:54.973797+00:00`
 - Status: `pointer-only`
 - Nodes: `109`
 
@@ -125,3 +125,4 @@
 - `CG-HG5`: `pass` all node source_pointer values resolve
 - `CG-HG6`: `pass` accepted positive terminals have acceptance evidence bundle
 - `CG-HG7`: `pass` nodes[*].depends_on forms an acyclic dependency graph; revocation nodes remain revocation evidence and are not positive forward-closure evidence
+- `CG-HG8`: `pass` accepted high-impact terminal claims have resolvable review pointers

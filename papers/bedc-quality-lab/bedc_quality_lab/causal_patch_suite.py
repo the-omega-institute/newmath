@@ -98,22 +98,6 @@ def _status_from_bool(value: bool | None) -> str:
     return "missing_evidence"
 
 
-def _ci_summary_status(summary: Mapping[str, Any] | None, metric: str, *, positive: bool) -> bool | None:
-    if not isinstance(summary, Mapping):
-        return None
-    metric_summary = summary.get(metric)
-    if not isinstance(metric_summary, Mapping):
-        return None
-    low = metric_summary.get("ci95_low")
-    high = metric_summary.get("ci95_high")
-    try:
-        low_f = float(low)
-        high_f = float(high)
-    except (TypeError, ValueError):
-        return None
-    return low_f > 0.0 if positive else low_f <= 0.0 <= high_f
-
-
 def _ci_bounds_status(summary: Mapping[str, Any] | None, *, positive: bool) -> bool | None:
     if not isinstance(summary, Mapping):
         return None
@@ -328,7 +312,11 @@ def _matched_controls(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         {
             "patch_type": row["patch_type"],
             "matched_control_pointer": row.get("matched_control_pointer"),
-            "status": "pass" if row.get("matched_control_pointer") else "missing_evidence",
+            "status": "pass"
+            if row.get("matched_control_pointer") and (row["patch_type"] != "D2 interaction" or row.get("status") == "pass")
+            else "missing_evidence"
+            if not row.get("matched_control_pointer")
+            else "present-but-fail-closed",
         }
         for row in records
     ]
@@ -340,7 +328,8 @@ def _side_effect_ledger(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         {
             "patch_type": row["patch_type"],
             "side_effect_pointer": row.get("side_effect_pointer"),
-            "ledgered": bool(row.get("side_effect_pointer")),
+            "ledgered": bool(row.get("side_effect_pointer"))
+            and (row["patch_type"] != "scope-seal" or row.get("status") == "pass"),
         }
         for row in records
     ]

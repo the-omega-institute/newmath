@@ -966,6 +966,69 @@ def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, mon
     assert verdict["reason"] == "positive-discovery-gates-pass"
 
 
+def _add_high_impact_review(payload, *, bad_pointer=False):
+    payload["review_owner"] = {"status": "complete"}
+    payload["risk_ledger"] = {"status": "complete"}
+    payload["external_validation"] = {"status": "complete"}
+    payload["high_impact_claim_review"] = {
+        "impact_domains": ["safety", "production", "real_model"],
+        "scope_review_pointer": "reports/canonical/d4.json:$.review_owner",
+        "risk_ledger_pointer": "reports/canonical/d4.json:$.risk_ledger",
+        "external_validation_pointer": "reports/canonical/d4.json:$.external_validation",
+    }
+    if bad_pointer:
+        payload["high_impact_claim_review"]["risk_ledger_pointer"] = "reports/canonical/d4.json:$.missing_risk_ledger"
+
+
+def test_high_impact_positive_missing_review_preempts_acceptance(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/d4.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    payload["positive"]["claim"] = "bounded safety fixture"
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "high-impact-review-required"
+    assert verdict["ledger_pointer"] == "reports/canonical/d4.json:$.high_impact_claim_review"
+
+
+def test_high_impact_positive_unresolved_review_pointer_preempts_acceptance(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/d4.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    _add_high_impact_review(payload, bad_pointer=True)
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == "high-impact-review-required"
+    assert verdict["ledger_pointer"] == (
+        "reports/canonical/d4.json:$.high_impact_claim_review.risk_ledger_pointer"
+    )
+
+
+def test_high_impact_positive_with_resolving_review_pointers_accepts(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/d4.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    _add_high_impact_review(payload)
+    _write_json(payload_path, payload)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+    assert verdict["reason"] == "positive-discovery-gates-pass"
+
+
 def test_accepted_positive_accepts_no_control_rationale_pointer(tmp_path, monkeypatch):
     rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
     specs = (_spec("d4", "reports/canonical/d4.json", control=None, no_control_rationale="$.no_control_rationale"),)
