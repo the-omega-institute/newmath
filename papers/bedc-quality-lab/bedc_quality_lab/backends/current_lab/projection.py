@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.discovery_compiler.map import (
+    ANTI_TRIVIALITY_FAMILIES,
     COVERAGE_CELL_FIELDS,
     COVERAGE_FORBIDDEN_KEYS,
     COVERAGE_HARDGATE_IDS,
@@ -26,6 +27,7 @@ from bedc_quality_lab.discovery_compiler.map import (
     build_discovery_map_payload,
     validate_discovery_map_payload,
 )
+from bedc_quality_lab.discovery_compiler.anti_triviality import ANTI_TRIVIALITY_POLICY
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
     DIMENSION_MISMATCH_REPORT_ID,
@@ -700,6 +702,8 @@ def _discovery_regularized_training_projection(
                     "evidence_pointer": "$.training_mechanism_cert" if level == "D5-M" else "$.torch_training_evidence",
                     "torch_training_evidence_pointer": "$.torch_training_evidence",
                     "training_mechanism_cert_pointer": "$.training_mechanism_cert",
+                    "jet_loss_surface_pointer": "$.jet_loss_surface",
+                    "jet_sidecar_pointer": "$.jet_sidecar_artifacts.owner_pointer",
                 },
             },
             "training_mechanism_cert": pointer_value(payload, "$.training_mechanism_cert"),
@@ -1184,6 +1188,35 @@ def _drt_cert_pointers_resolve(payload: Mapping[str, Any]) -> bool:
     return True
 
 
+def _drt_jet_pointers_resolve(payload: Mapping[str, Any]) -> bool:
+    sidecars = pointer_value(payload, "$.jet_sidecar_artifacts")
+    surface = pointer_value(payload, "$.jet_loss_surface")
+    protocol = pointer_value(payload, "$.jet_loss_protocol")
+    if not all(isinstance(section, Mapping) for section in (sidecars, surface, protocol)):
+        return False
+    required = (
+        "$.jet_sidecar_artifacts.owner_pointer",
+        "$.jet_loss_surface.protocol_pointer",
+        "$.jet_loss_surface.records_pointer",
+        "$.jet_loss_surface.classifier_surface_delta_pointer",
+        "$.jet_ablation.protocol_pointer",
+        "$.jet_loss_frontier.protocol_pointer",
+        "$.jet_loss_frontier.required_order_gain_pointer",
+    )
+    for pointer_cell in required:
+        pointer = pointer_value(payload, pointer_cell)
+        if not isinstance(pointer, str):
+            return False
+        if pointer.startswith(DISCOVERY_REGULARIZED_TRAINING_ARTIFACT + ":"):
+            pointer = pointer[len(DISCOVERY_REGULARIZED_TRAINING_ARTIFACT) + 1 :]
+        if pointer_value(payload, pointer) is None:
+            return False
+    return (
+        surface.get("net_positive_signal") is True
+        and pointer_value(payload, "$.torch_training_evidence.classifier_surface_delta.drt_minus_matched_random_classifier_shift_count") is not None
+    )
+
+
 def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
     hardgates = pointer_value(payload, "$.hardgate.gates")
     signal = pointer_value(payload, "$.discovery_map_signal")
@@ -1215,6 +1248,8 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
             failed = "DRT-HG6"
     if failed is None and pointer_value(payload, "$.mechanism_ablation.status") != "pass":
         failed = "DRT-HG7"
+    if failed is None and not _drt_jet_pointers_resolve(payload):
+        failed = "DRTJ-HG1"
     cert = pointer_value(payload, "$.training_mechanism_cert")
     cert_present = isinstance(cert, Mapping)
     cert_ready = _drt_cert_pointers_resolve(payload)
@@ -1676,6 +1711,7 @@ def _dimension_mismatch_projection(
                     "control_positive_discovery": False,
                     "scorecard_ready": _scorecard_ready({} if context is None else context),
                 },
+                "audit_decision": {"audit_status": "pass"},
             }, ProjectionEvidence(
                 projection_status="projected",
                 evidence_pointer=DIMENSION_MISMATCH_EFFECTIVE_LEVEL_POINTER,
@@ -1988,6 +2024,34 @@ def _artifact_pointer_value(
     return pointer_value(context.get(artifact, {}), local_pointer)
 
 
+def _owner_local_anti_triviality_result(
+    spec: CanonicalReportSpec,
+    payload: Mapping[str, Any],
+    level: DiscoveryLevel,
+) -> tuple[str, str] | None:
+    if level not in {"D4", "D5-O", "D5-M"}:
+        return None
+    if payload.get("anti_triviality_status") not in {"pass", "anti_triviality_passed"}:
+        return "invalid", "owner-anti-triviality-not-pass"
+    if payload.get("anti_triviality_policy") != ANTI_TRIVIALITY_POLICY:
+        return "invalid", "owner-anti-triviality-policy-mismatch"
+    recommended = payload.get("anti_triviality_recommended_level")
+    positive_rank = {"D4": 0, "D5-O": 1, "D5-M": 2}
+    if recommended not in positive_rank or positive_rank[str(recommended)] < positive_rank[str(level)]:
+        return "invalid", "owner-anti-triviality-level-mismatch"
+    contract = payload.get("anti_triviality_gate_evidence")
+    if not isinstance(contract, Mapping) or set(contract) != ANTI_TRIVIALITY_FAMILIES:
+        return "invalid", "missing-owner-anti-triviality-contract"
+    for family in ANTI_TRIVIALITY_FAMILIES:
+        row = contract.get(family)
+        if not isinstance(row, Mapping) or row.get("status") != "pass":
+            return "invalid", f"owner-anti-triviality-{family}-not-pass"
+        pointer = row.get("pointer")
+        if not isinstance(pointer, str) or pointer_value(payload, pointer) is None:
+            return "invalid", f"owner-anti-triviality-{family}-pointer-unresolved"
+    return None
+
+
 def _audit_spec_pointer_cells(spec: CanonicalReportSpec, payload: Mapping[str, Any]) -> tuple[str, str] | None:
     for field in ("scope_pointer", "cost_pointer", "not_claimed_pointer"):
         pointer = getattr(spec, field)
@@ -2084,6 +2148,13 @@ def _audit_row(
         if not consistent:
             return "invalid", reason
     if level in {"D4", "D5-O", "D5-M"}:
+        if level in {"D5-O", "D5-M"} and spec.name == "gap-head-on-h":
+            reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
+            if reason is not None:
+                return "invalid", reason
+        anti_result = _owner_local_anti_triviality_result(spec, payload, level)
+        if anti_result is not None:
+            return anti_result
         pointer_result = _audit_pointer_cell(
             payload,
             evidence.control_pointer,
@@ -2097,10 +2168,6 @@ def _audit_row(
             return "invalid", "missing-scorecard-pointer"
         if _artifact_pointer_value(payload, evidence.scorecard_pointer, context_payloads) is None:
             return "invalid", "unresolved-scorecard-pointer"
-        if level in {"D5-O", "D5-M"} and spec.name == "gap-head-on-h":
-            reason = _unresolved_d5_criterion(evidence, {} if context is None else context)
-            if reason is not None:
-                return "invalid", reason
     if level == "DN":
         pointer_result = _audit_pointer_cell(payload, evidence.failed_gate, "missing-failed-gate", "unresolved-failed-gate")
         if pointer_result is not None:
@@ -2743,6 +2810,8 @@ def _manifest_audit(
         "reports/canonical/discovery_negative_witness_summary.json",
         "reports/canonical/claim_capsule.json",
         "reports/canonical/claim_graph.json",
+        "reports/canonical/attention_route_derivative_report.json",
+        "reports/canonical/transformer_derivative_atlas.json",
         OBSERVED_DEBT_ARTIFACT,
         DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
         "reports/canonical/gap_head_transfer_atlas.json",
@@ -2825,6 +2894,10 @@ def _dimension_mismatch_discovery_row(
         for key in (
             "base_level",
             "anti_triviality_status",
+            "anti_triviality_policy",
+            "anti_triviality_recommended_level",
+            "anti_triviality_failed_gate",
+            "anti_triviality_gate_evidence",
             "effective_level",
             "downgrade_reason",
             "hypothesis",

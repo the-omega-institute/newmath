@@ -1,0 +1,188 @@
+{
+  "artifact_id": "bedc-quality-lab:jet-namecert-candidate",
+  "audit": {
+    "d5_m_ready": true,
+    "failures": [],
+    "hardgates": {
+      "JETCERT-HG1": {
+        "blockers": [],
+        "criterion": "each claimed order has an evidence pointer",
+        "gate_id": "JETCERT-HG1",
+        "status": "pass"
+      },
+      "JETCERT-HG2": {
+        "blockers": [],
+        "criterion": "causal orders have patch pointers",
+        "gate_id": "JETCERT-HG2",
+        "status": "pass"
+      },
+      "JETCERT-HG3": {
+        "blockers": [],
+        "criterion": "irreducible orders have low-order baselines",
+        "gate_id": "JETCERT-HG3",
+        "status": "pass"
+      },
+      "JETCERT-HG4": {
+        "blockers": [],
+        "criterion": "open closure blocks D5-M",
+        "gate_id": "JETCERT-HG4",
+        "status": "pass"
+      }
+    },
+    "status": "pass"
+  },
+  "boundary_spec": {
+    "claimed_orders": [
+      {
+        "evidence_pointer": "reports/runs/discovery-gated-transformer/jet_certificate.json:$",
+        "order_id": "boundary-order",
+        "order_kind": "boundary",
+        "status": "claimed"
+      }
+    ],
+    "source_pointer": "reports/runs/discovery-gated-transformer/jet_certificate.json:$",
+    "spec_id": "boundary-jet-order"
+  },
+  "causal_patch_spec": {
+    "claimed_orders": [
+      {
+        "evidence_pointer": "reports/canonical/causal_patch_suite.json:$.effect_summary",
+        "order_id": "causal-patch-order",
+        "order_kind": "causal",
+        "patch_pointer": "reports/canonical/causal_patch_suite.json:$.patch_registry",
+        "status": "claimed"
+      }
+    ],
+    "patch_pointer": "reports/canonical/causal_patch_suite.json:$.patch_registry",
+    "source_pointer": "reports/canonical/causal_patch_suite.json:$.effect_summary",
+    "spec_id": "causal-patch-order"
+  },
+  "closure_status": {
+    "boundary_spec": "closed",
+    "causal_patch_spec": "closed",
+    "derivative_spec": "closed",
+    "irreducibility_spec": "closed",
+    "ledger_policy": "closed",
+    "overall": "closed",
+    "scope": "closed",
+    "stability_spec": "closed"
+  },
+  "derivative_spec": {
+    "claimed_orders": [
+      {
+        "evidence_pointer": "reports/canonical/transformer_derivative_atlas.json:$.layerwise_derivative_rows",
+        "order_id": "first-derivative-order",
+        "order_kind": "derivative",
+        "status": "claimed"
+      }
+    ],
+    "source_pointer": "reports/canonical/transformer_derivative_atlas.json:$.layerwise_derivative_rows",
+    "spec_id": "layerwise-derivative-order"
+  },
+  "dgt_projection_artifact": "reports/dgt_jet_namecert.json",
+  "generated_at": "2026-06-08T01:18:59.621119+00:00",
+  "irreducibility_spec": {
+    "claimed_orders": [
+      {
+        "evidence_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim",
+        "low_order_baseline_pointer": "reports/canonical/transformer_derivative_atlas.json:$.margin_proxy_controls",
+        "order_id": "irreducible-first-order",
+        "order_kind": "irreducible",
+        "status": "claimed"
+      }
+    ],
+    "low_order_baseline_pointer": "reports/canonical/transformer_derivative_atlas.json:$.margin_proxy_controls",
+    "source_pointer": "reports/canonical/gap_head_attribution_capsule.json:$.residualized_attribution_claim",
+    "spec_id": "irreducible-low-order-comparison"
+  },
+  "json_artifact": "reports/jet_namecert_candidate.json",
+  "ledger_policy": {
+    "candidate_owner": "reports/jet_namecert_candidate.json",
+    "d5_m_policy": "eligible-by-owner-audit",
+    "not_canonical_report": true,
+    "not_formal_namecert": true,
+    "open_closure_fields": [],
+    "revoke_if": [
+      "any claimed order lacks an evidence pointer",
+      "any causal order lacks a patch pointer",
+      "any irreducible order lacks a low-order baseline",
+      "scope seal is broadened beyond lab-local candidate semantics"
+    ]
+  },
+  "markdown_artifact": "reports/boundary_causal_jet_certificate.md",
+  "name": "JetNameCertCandidate:boundary-causal-jet",
+  "schema_id": "bedc-quality-lab:jet-namecert-candidate",
+  "scope": {
+    "canonical_report": false,
+    "d5_m_claim": true,
+    "formal_bedc_namecert": false,
+    "lean_verification": false,
+    "not_claimed": [
+      "not a formal BEDC NameCert",
+      "not Lean verification",
+      "not a paper closurestatus",
+      "not a canonical report"
+    ],
+    "paper_closurestatus": false,
+    "semantics": "lab-local JetNameCertCandidate"
+  },
+  "source_artifacts": {
+    "causal_patch_suite": {
+      "artifact": "reports/canonical/causal_patch_suite.json",
+      "artifact_id": "bedc-quality-lab:causal-patch-suite",
+      "generated_at": "2026-06-08T01:18:59.621119+00:00",
+      "pointer": "$",
+      "present": true,
+      "schema_id": "bedc-quality-lab:causal-patch-suite",
+      "sha256": "5f638c691fa397f275074565b013163a713b0137dc7df1e564f4b103a8ec8099"
+    },
+    "dgt_canonical": {
+      "artifact": "reports/canonical/discovery-gated-transformer.json",
+      "artifact_id": "bedc-quality-lab:discovery-gated-transformer",
+      "generated_at": "2026-06-08T01:17:46.863250+00:00",
+      "pointer": "$",
+      "present": true,
+      "schema_id": "bedc-quality-lab:discovery-gated-transformer",
+      "sha256": "b18ef8a165271339ad43ef442400ba71f3df0ea6342a7981388a8f4e55e63c7b"
+    },
+    "dgt_run_jet_certificate": {
+      "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+      "artifact_id": "bedc-quality-lab:dgt-jet-certificate",
+      "generated_at": "2026-06-08T01:17:46.863250+00:00",
+      "pointer": "$",
+      "present": true,
+      "schema_id": "bedc-quality-lab:dgt-jet-certificate",
+      "sha256": "f7bb34794bfdaf5704db51e2de9c7fd5ad9039cfa9a6836a152dc29161444366"
+    },
+    "gap_head_attribution_capsule": {
+      "artifact": "reports/canonical/gap_head_attribution_capsule.json",
+      "artifact_id": "gap_head_attribution_capsule",
+      "generated_at": "2026-06-06T15:19:08.204708+00:00",
+      "pointer": "$",
+      "present": true,
+      "schema_id": "bedc.quality.claim_capsule",
+      "sha256": "64567080378798775d20ce1902bcfe69df9c5be677cd668c91eda141fef91992"
+    },
+    "transformer_derivative_atlas": {
+      "artifact": "reports/canonical/transformer_derivative_atlas.json",
+      "artifact_id": "bedc-quality-lab:transformer-derivative-atlas",
+      "generated_at": "2026-06-08T00:00:00+00:00",
+      "pointer": "$",
+      "present": true,
+      "schema_id": "bedc-quality-lab:transformer-derivative-atlas",
+      "sha256": "ac80991206769ac1767d6b44f1bb53b67cb041039ba56a96aee56e57aaf228f3"
+    }
+  },
+  "stability_spec": {
+    "claimed_orders": [
+      {
+        "evidence_pointer": "reports/canonical/transformer_derivative_atlas.json:$.hardgate",
+        "order_id": "stability-order",
+        "order_kind": "stability",
+        "status": "claimed"
+      }
+    ],
+    "source_pointer": "reports/canonical/transformer_derivative_atlas.json:$.hardgate",
+    "spec_id": "jet-stability-order"
+  }
+}

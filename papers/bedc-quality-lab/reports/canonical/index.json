@@ -21,13 +21,13 @@
     },
     "json_artifact": "reports/canonical/claim_graph.json",
     "markdown_artifact": "reports/canonical/claim_graph.md",
-    "node_count": 101,
+    "node_count": 103,
     "status": "pointer-only"
   },
   "claim_verdicts": {
     "artifact_id": "bedc-quality-lab:claim-verdicts",
     "jsonl_artifact": "reports/canonical/claim_verdicts.jsonl",
-    "row_count": 35,
+    "row_count": 36,
     "status": "pointer-only"
   },
   "claims_nonclaims": {
@@ -171,6 +171,13 @@
         "no_control_rationale_pointer": null,
         "positive_claim_pointer": "$.discovery_map_signal",
         "report": "discovery-gated-transformer"
+      },
+      {
+        "bundle_role": "auxiliary",
+        "control_pointer": "$.margin_proxy_controls",
+        "no_control_rationale_pointer": null,
+        "positive_claim_pointer": "$.mechanism_claim_allowed",
+        "report": "transformer-derivative-atlas"
       },
       {
         "bundle_role": "auxiliary",
@@ -451,7 +458,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-07T21:49:00.096406+00:00",
+  "generated_at": "2026-06-08T02:12:04.185721+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -462,6 +469,49 @@
       "Hardening is not closure."
     ],
     "status": "explicit"
+  },
+  "issue_1012_sidecars": {
+    "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+    "sidecars": [
+      {
+        "artifact": "reports/canonical/lejepa_derivative_bridge.json",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "kind": "json",
+        "name": "lejepa-derivative-bridge",
+        "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+        "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary",
+        "owner_report": "lejepa-theorem-ledger"
+      },
+      {
+        "artifact": "reports/canonical/hermite_degree_vs_behavioral_derivative.md",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "kind": "markdown",
+        "name": "hermite-degree-vs-behavioral-derivative",
+        "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+        "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary",
+        "owner_report": "lejepa-theorem-ledger"
+      },
+      {
+        "artifact": "reports/canonical/spectral_jet_report.json",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "kind": "json",
+        "name": "spectral-jet-report",
+        "nongaussian_references": [
+          {
+            "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+            "pointer": "$.records"
+          },
+          {
+            "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+            "pointer": "$.not_claimed"
+          }
+        ],
+        "owner_artifact": "reports/canonical/spectral-ablation-hinge.json",
+        "owner_pointer": "reports/canonical/spectral-ablation-hinge.json:$.spectral_jet",
+        "owner_report": "spectral-ablation-hinge"
+      }
+    ],
+    "status": "pointer-only"
   },
   "literature_ledger": {
     "failures": [],
@@ -543,12 +593,12 @@
     "audit_status": "pass",
     "json_artifact": "reports/canonical/discovery_negative_witness_summary.json",
     "markdown_artifact": "reports/canonical/discovery_negative_witness_summary.md",
-    "row_count": 16,
+    "row_count": 17,
     "status": "pointer-only"
   },
   "negative_witnesses": {
     "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
-    "expected_kind_count": 8,
+    "expected_kind_count": 9,
     "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
     "schema_role": "bedc-gap-witness-ledger",
     "status": "pointer-only",
@@ -734,6 +784,7 @@
   "paper_outline": {
     "auxiliary_reports": [
       "nongaussian-distribution-sweep",
+      "transformer-derivative-atlas",
       "lejepa-theorem-ledger",
       "observed-debt-sweep",
       "spectral-ablation-hinge",
@@ -808,7 +859,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "f78ad65ae7a2c105ffbdfc2a61a0312eb32119069fd0b7a546e7a61bbbd0c0d3",
+    "source_sidecar_digest": "09095ca526cb85e9595c694892c87e84e3bda91d6772bf1b298a7120d0469fdb",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -986,7 +1037,12 @@
           "$.records[*].matched_random_control.failure_reasons",
           "$.records[*].matched_random_control.evidence_pointers",
           "control_verdict",
-          "main_claim_status"
+          "main_claim_status",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1048,7 +1104,12 @@
           "$.matched_random_control.failure_reasons",
           "$.matched_random_control.evidence_pointers",
           "main_claim_status",
-          "final_main_claim_status"
+          "final_main_claim_status",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1179,7 +1240,12 @@
           "not_claimed",
           "what_was_learned",
           "revocation_rows",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1369,7 +1435,12 @@
           "multi_surface_d5_o",
           "scope_seal",
           "not_claimed",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1774,7 +1845,12 @@
           "not_claimed",
           "what_was_learned",
           "revocation_rows",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -1851,6 +1927,11 @@
           "component_ablation",
           "training_method_comparison",
           "drt_extension_hardgates",
+          "jet_loss_protocol",
+          "jet_loss_surface",
+          "jet_ablation",
+          "jet_loss_frontier",
+          "jet_sidecar_artifacts",
           "hardgate",
           "failed_gate",
           "discovery_map_signal",
@@ -1859,7 +1940,12 @@
           "not_claimed",
           "what_was_learned",
           "revocation_rows",
-          "forbidden_claim_term_audit"
+          "forbidden_claim_term_audit",
+          "anti_triviality_status",
+          "anti_triviality_gate_evidence",
+          "anti_triviality_failed_gate",
+          "anti_triviality_recommended_level",
+          "anti_triviality_policy"
         ],
         "required_key_validation": {
           "missing_keys": [],
@@ -2083,6 +2169,76 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
+        "control_pointer": "$.margin_proxy_controls",
+        "control_status": "present",
+        "cost_pointer": "$.source_artifacts.cost_protocol",
+        "cost_status": "present",
+        "forbidden_claim_term_hits": [],
+        "forbidden_claim_terms_status": "not-applicable",
+        "literature_ref_ids": [
+          "lit-lejepa-theorem-ledger"
+        ],
+        "no_control_rationale_pointer": null,
+        "no_control_rationale_status": "not-applicable",
+        "not_claimed_pointer": "$.not_claimed",
+        "not_claimed_status": "present",
+        "positive_claim_pointer": "$.mechanism_claim_allowed",
+        "positive_claim_status": "present",
+        "scope_pointer": "$.scope",
+        "scope_status": "present"
+      },
+      "duration_seconds": 0.0,
+      "estimated_seconds": 2,
+      "fingerprint_reason": "match",
+      "fingerprint_sidecar": "reports/canonical/transformer_derivative_atlas.fingerprint.json",
+      "fingerprint_status": "match",
+      "json_artifact": "reports/canonical/transformer_derivative_atlas.json",
+      "markdown_artifact": "reports/canonical/layerwise_jet_map.md",
+      "name": "transformer-derivative-atlas",
+      "producer_command": [
+        "python3",
+        "scripts/run_transformer_derivative_atlas.py"
+      ],
+      "producer_status": "skipped",
+      "status": "pass",
+      "validation": {
+        "missing_artifacts": [],
+        "required_json_keys": [
+          "schema_id",
+          "artifact_id",
+          "generated_at",
+          "run_id",
+          "producer",
+          "projector",
+          "source_artifacts",
+          "config",
+          "dgt_declaration",
+          "raw_intervention_rows",
+          "layerwise_derivative_rows",
+          "margin_proxy_controls",
+          "attention_routes",
+          "layer_summary",
+          "hardgate",
+          "hardgates",
+          "failed_gate",
+          "discovery_map_admission",
+          "mechanism_claim_allowed",
+          "bounded_lab_evidence",
+          "forbidden_claim_term_audit",
+          "scope",
+          "not_claimed"
+        ],
+        "required_key_validation": {
+          "missing_keys": [],
+          "status": "pass"
+        },
+        "status": "pass"
+      }
+    },
+    {
+      "bundle_role": "auxiliary",
+      "discipline": {
+        "bundle_role": "auxiliary",
         "control_pointer": null,
         "control_status": "not-applicable",
         "cost_pointer": "$.source_artifacts.cost_protocol",
@@ -2099,7 +2255,23 @@
         "positive_claim_pointer": "$.positive_claim",
         "positive_claim_status": "present",
         "scope_pointer": "$.scope",
-        "scope_status": "present"
+        "scope_status": "present",
+        "sidecars": [
+          {
+            "artifact": "reports/canonical/lejepa_derivative_bridge.json",
+            "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+            "kind": "json",
+            "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+            "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary"
+          },
+          {
+            "artifact": "reports/canonical/hermite_degree_vs_behavioral_derivative.md",
+            "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+            "kind": "markdown",
+            "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+            "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary"
+          }
+        ]
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 1,
@@ -2128,6 +2300,7 @@
           "backend_theorem_rows",
           "backend_ledger_rows",
           "theorem_rows",
+          "hermite_degree_boundary",
           "hardgates",
           "not_claimed",
           "positive_claim",
@@ -2217,7 +2390,16 @@
         "positive_claim_pointer": "$.ledger_summary",
         "positive_claim_status": "present",
         "scope_pointer": "$.applicability_boundary",
-        "scope_status": "present"
+        "scope_status": "present",
+        "sidecars": [
+          {
+            "artifact": "reports/canonical/spectral_jet_report.json",
+            "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+            "kind": "json",
+            "owner_artifact": "reports/canonical/spectral-ablation-hinge.json",
+            "owner_pointer": "reports/canonical/spectral-ablation-hinge.json:$.spectral_jet"
+          }
+        ]
       },
       "duration_seconds": 0.0,
       "estimated_seconds": 20,
@@ -2242,6 +2424,7 @@
           "applicability_boundary",
           "arms",
           "hinge_ledger",
+          "spectral_jet",
           "ledger_summary",
           "negative_control_summary",
           "rank_correlation"

@@ -605,6 +605,7 @@ def _hardgate_evidence(source: Mapping[str, Any], arms: Sequence[Mapping[str, An
     rank_proxy_positive = bool(arm_by_name["rank_proxy_diagnostic"]["positive"])
     source_pass = bool(source["source_pass"])
     status = str(state["status"])
+    anti_triviality_passed = status == "anti_triviality_passed"
     return {
         "HG-B1-AT1": {
             "status": "pass" if all(arm["forbidden_feature_audit"]["status"] == "pass" for arm in arms) else "fail",
@@ -631,10 +632,11 @@ def _hardgate_evidence(source: Mapping[str, Any], arms: Sequence[Mapping[str, An
             "demotion_reachable": metadata_positive,
         },
         "HG-B1-AT4": {
-            "status": "pass" if status in STATUS_PRECEDENCE else "fail",
-            "criterion": "exactly one top-level status is selected by precedence",
+            "status": "pass" if anti_triviality_passed else "fail",
+            "criterion": "selected anti-triviality status must pass before any positive projection is retained",
             "selected_status": status,
             "precedence_order": list(STATUS_PRECEDENCE),
+            "fail_closed_reason": None if anti_triviality_passed else "selected status blocks positive anti-triviality",
             "arm_positive": {
                 "config_metadata_only": metadata_positive,
                 "scale_only": scale_positive,
