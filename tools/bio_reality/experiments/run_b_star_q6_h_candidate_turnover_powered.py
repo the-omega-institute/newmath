@@ -732,8 +732,8 @@ def main() -> None:
                 "needs_external",
                 reason="turnover x abundance x CDS join below threshold",
                 checks=[
-                    {"name": "turnover_data_fetched", "passed": True, "actual": provenance, "expected": "true xlsx payload downloaded"},
-                    {"name": "xlsx_parsed", "passed": True, "actual": parse_summary, "expected": "ORF and half-life columns identified"},
+                    {"name": "turnover_data_loaded", "passed": True, "actual": {"source_kind": turnover_payload.get("source_kind"), "payload_sha256": turnover_payload.get("payload_sha256")}, "expected": "SGD turnover map loaded"},
+                    {"name": "turnover_parsed", "passed": True, "actual": {"n": turnover_payload.get("n_turnover_proteins")}, "expected": "ORF and half-life identified"},
                     {"name": "inputs_joined", "passed": False, "actual": {"n_joined": n_proteins, **data_summary}, "expected": f"yeast n >= {MIN_PROTEINS_PER_ORGANISM}"},
                     {"name": "no_causal_promotion", "passed": True, "actual": {"cannot_claim": cannot_claim()}, "expected": "statistical projection only"},
                 ],
@@ -823,11 +823,11 @@ def main() -> None:
                 "interpretation_label": interpretation_label(absorbed if isinstance(absorbed, float) else None),
                 "interpretation_label_threshold_descriptive_only": ABSORPTION_LABEL_THRESHOLD,
                 "turnover_data_provenance": {
-                    "source_url": provenance["source_url"],
-                    "source_kind": provenance["source_kind"],
-                    "fetched_at": provenance["fetched_at"],
-                    "payload_sha256": provenance["payload_sha256"],
-                    "payload_byte_size": provenance["payload_byte_size"],
+                    "source_url": turnover_payload["source_url"],
+                    "source_kind": turnover_payload["source_kind"],
+                    "fetched_at": turnover_payload["fetched_at"],
+                    "payload_sha256": turnover_payload["payload_sha256"],
+                    "payload_byte_size": turnover_payload["payload_byte_size"],
                     "id_mapping_method": turnover_payload["id_mapping_method"],
                     "identified_orf_column": turnover_payload["identified_orf_column"],
                     "identified_half_life_column": turnover_payload["identified_half_life_column"],
@@ -858,8 +858,8 @@ def main() -> None:
         }
 
         checks = [
-            {"name": "turnover_data_fetched", "passed": True, "actual": provenance, "expected": "true xlsx payload downloaded with sha256 provenance"},
-            {"name": "xlsx_parsed", "passed": True, "actual": parse_summary, "expected": "sheet1 parsed; ORF and half-life columns identified"},
+            {"name": "turnover_data_loaded", "passed": True, "actual": {"source_kind": turnover_payload.get("source_kind"), "payload_sha256": turnover_payload.get("payload_sha256"), "source_url": turnover_payload.get("source_url")}, "expected": "SGD turnover map loaded with sha256 provenance"},
+            {"name": "turnover_parsed", "passed": True, "actual": {"n_turnover_proteins": turnover_payload.get("n_turnover_proteins"), "id_mapping_method": turnover_payload.get("id_mapping_method")}, "expected": "ORF->STRING id and half-life identified"},
             {
                 "name": "inputs_joined",
                 "passed": joined_ok,
