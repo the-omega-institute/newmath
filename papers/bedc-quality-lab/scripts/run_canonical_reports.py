@@ -106,6 +106,9 @@ MODEL_COMPARISON_JSON_ARTIFACT = "reports/canonical/model-comparison.json"
 MODEL_COMPARISON_MARKDOWN_ARTIFACT = "reports/canonical/model-comparison.md"
 MODEL_COMPARISON_ARTIFACT_ID = "bedc-quality-lab:model-comparison"
 MODEL_COMPARISON_SCHEMA_ID = "bedc-quality-lab:model-comparison"
+LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT = "reports/canonical/lejepa_derivative_bridge.json"
+HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT = "reports/canonical/hermite_degree_vs_behavioral_derivative.md"
+SPECTRAL_JET_JSON_ARTIFACT = "reports/canonical/spectral_jet_report.json"
 FORMAL_HARDENING_JSON_ARTIFACT = "reports/canonical/formal_hardening.json"
 FORMAL_HARDENING_MARKDOWN_ARTIFACT = "reports/canonical/formal_hardening.md"
 FORMAL_HARDENING_ARTIFACT_ID = "bedc-quality-lab:formal-hardening"
@@ -1063,6 +1066,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "backend_theorem_rows",
             "backend_ledger_rows",
             "theorem_rows",
+            "hermite_degree_boundary",
             "hardgates",
             "not_claimed",
             "positive_claim",
@@ -1120,6 +1124,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "applicability_boundary",
             "arms",
             "hinge_ledger",
+            "spectral_jet",
             "ledger_summary",
             "negative_control_summary",
             "rank_correlation",
@@ -1271,6 +1276,11 @@ def _canonical_output_digest(spec: CanonicalReportSpec) -> str:
     }
     if spec.name == "transformer-derivative-atlas":
         parts[TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT] = _path_digest(_artifact_path(TRANSFORMER_DERIVATIVE_ROUTE_JSON_ARTIFACT))
+    if spec.name == "lejepa-theorem-ledger":
+        parts[LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT] = _path_digest(_artifact_path(LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT))
+        parts[HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT] = _path_digest(_artifact_path(HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT))
+    if spec.name == "spectral-ablation-hinge":
+        parts[SPECTRAL_JET_JSON_ARTIFACT] = _path_digest(_artifact_path(SPECTRAL_JET_JSON_ARTIFACT))
     return _json_digest(parts)
 
 
@@ -2124,7 +2134,41 @@ def _discipline(spec: CanonicalReportSpec) -> dict[str, Any]:
         discipline["evidence_pointer"] = evidence_pointer
         if isinstance(evidence_label, str):
             discipline["evidence_label"] = evidence_label
+    sidecars = _sidecars_for_owner(spec.name)
+    if sidecars:
+        discipline["sidecars"] = sidecars
     return discipline
+
+
+def _sidecars_for_owner(owner_name: str) -> list[dict[str, Any]]:
+    rows = {
+        "lejepa-theorem-ledger": [
+            {
+                "artifact": LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT,
+                "kind": "json",
+                "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+                "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+                "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary",
+            },
+            {
+                "artifact": HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT,
+                "kind": "markdown",
+                "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+                "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+                "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary",
+            },
+        ],
+        "spectral-ablation-hinge": [
+            {
+                "artifact": SPECTRAL_JET_JSON_ARTIFACT,
+                "kind": "json",
+                "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+                "owner_artifact": "reports/canonical/spectral-ablation-hinge.json",
+                "owner_pointer": "reports/canonical/spectral-ablation-hinge.json:$.spectral_jet",
+            },
+        ],
+    }.get(owner_name, [])
+    return [dict(row) for row in rows]
 
 
 def _literature_ledger() -> dict[str, Any]:
@@ -2168,6 +2212,53 @@ def _claims_nonclaims(reports: Sequence[dict[str, Any]]) -> dict[str, Any]:
             "not full Tensor NameCert",
             "not LLM behavior",
         ],
+    }
+
+
+def _issue_1012_sidecars_index_section() -> dict[str, Any]:
+    sidecars = [
+        {
+            "name": "lejepa-derivative-bridge",
+            "artifact": LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT,
+            "kind": "json",
+            "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+            "owner_report": "lejepa-theorem-ledger",
+            "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+            "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary",
+        },
+        {
+            "name": "hermite-degree-vs-behavioral-derivative",
+            "artifact": HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT,
+            "kind": "markdown",
+            "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+            "owner_report": "lejepa-theorem-ledger",
+            "owner_artifact": "reports/canonical/lejepa_theorem_ledger.json",
+            "owner_pointer": "reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary",
+        },
+        {
+            "name": "spectral-jet-report",
+            "artifact": SPECTRAL_JET_JSON_ARTIFACT,
+            "kind": "json",
+            "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+            "owner_report": "spectral-ablation-hinge",
+            "owner_artifact": "reports/canonical/spectral-ablation-hinge.json",
+            "owner_pointer": "reports/canonical/spectral-ablation-hinge.json:$.spectral_jet",
+            "nongaussian_references": [
+                {
+                    "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+                    "pointer": "$.records",
+                },
+                {
+                    "artifact": "reports/canonical/nongaussian-distribution-sweep.json",
+                    "pointer": "$.not_claimed",
+                },
+            ],
+        },
+    ]
+    return {
+        "status": "pointer-only",
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "sidecars": sidecars,
     }
 
 
@@ -4343,6 +4434,7 @@ def _index(
         "discovery_gated_transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
+        "issue_1012_sidecars": _issue_1012_sidecars_index_section(),
         "claim_verdicts": _claim_verdicts_index_section(claim_verdict_rows),
         "claim_graph": _claim_graph_index_section(generated_at=timestamp),
         "claim_capsule": _claim_capsule_index_section(generated_at=timestamp),
@@ -4562,6 +4654,26 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Hardgates: `{payload['model_comparison']['hardgates_pointer']}`",
             f"- Ranking key: `{payload['model_comparison']['ranking_key_pointer']}`",
             f"- Source reports: `{payload['model_comparison']['source_reports_pointer']}`",
+            "",
+            "## Issue 1012 sidecars",
+            "",
+            f"- Status: `{payload['issue_1012_sidecars']['status']}`",
+            f"- Canonical role: `{payload['issue_1012_sidecars']['canonical_role']}`",
+            "",
+            "| sidecar | owner | artifact | pointer |",
+            "| --- | --- | --- | --- |",
+        ]
+    )
+    for row in payload["issue_1012_sidecars"]["sidecars"]:
+        lines.append(
+            "| "
+            f"`{row['name']}` | "
+            f"`{row['owner_report']}` | "
+            f"`{row['artifact']}` | "
+            f"`{row['owner_pointer']}` |"
+        )
+    lines.extend(
+        [
             "",
             "## Claim verdicts",
             "",

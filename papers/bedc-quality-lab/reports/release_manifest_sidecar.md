@@ -3,7 +3,7 @@
 - Schema: `bedc-quality-lab:release-manifest-sidecar`
 - Artifact: `bedc-quality-lab:release-manifest-sidecar`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Generated at: `2026-06-07T23:05:25.838721+00:00`
+- Generated at: `2026-06-08T01:06:27.626460+00:00`
 - Version: `0.0.1`
 - Tag ref: `None`
 - Release bundle status: `ready`

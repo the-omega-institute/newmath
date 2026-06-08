@@ -1483,6 +1483,73 @@ def test_committed_canonical_bundle_covers_every_registered_report():
         assert discovery_rows[name]["json_artifact"] == spec.json_artifact
 
 
+def test_issue_1012_sidecars_are_committed_owner_sidecars_not_canonical_specs():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    spec_names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    spec_artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+    sidecar_section = index_payload["issue_1012_sidecars"]
+    sidecars = {row["name"]: row for row in sidecar_section["sidecars"]}
+
+    assert sidecar_section["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert set(sidecars) == {
+        "lejepa-derivative-bridge",
+        "hermite-degree-vs-behavioral-derivative",
+        "spectral-jet-report",
+    }
+    assert not set(sidecars).intersection(spec_names)
+    for row in sidecars.values():
+        assert row["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+        assert row["artifact"] not in spec_artifacts
+        assert (canonical.ROOT / row["artifact"]).exists()
+
+    lejepa = json.loads((canonical.ROOT / canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    spectral = json.loads((canonical.ROOT / canonical.SPECTRAL_JET_JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    assert lejepa["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert spectral["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert "lejepa-hermite-spectral-bridge" not in spec_names
+    assert "spectral-jet-report" not in spec_names
+
+
+def test_issue_1012_sidecar_owner_pointers_and_nongaussian_refs_resolve():
+    index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
+    section = index_payload["issue_1012_sidecars"]
+    owner_payloads = {
+        "lejepa-theorem-ledger": json.loads((canonical.ROOT / "reports/canonical/lejepa_theorem_ledger.json").read_text(encoding="utf-8")),
+        "spectral-ablation-hinge": json.loads((canonical.ROOT / "reports/canonical/spectral-ablation-hinge.json").read_text(encoding="utf-8")),
+    }
+
+    for row in section["sidecars"]:
+        owner = owner_payloads[row["owner_report"]]
+        artifact, pointer = split_artifact_pointer(row["owner_pointer"])
+        assert artifact == row["owner_artifact"]
+        assert pointer_value(owner, pointer) is not None
+
+    spectral_row = next(row for row in section["sidecars"] if row["name"] == "spectral-jet-report")
+    assert {ref["artifact"] for ref in spectral_row["nongaussian_references"]} == {
+        "reports/canonical/nongaussian-distribution-sweep.json"
+    }
+    assert {ref["pointer"] for ref in spectral_row["nongaussian_references"]} == {"$.records", "$.not_claimed"}
+    for ref in spectral_row["nongaussian_references"]:
+        assert resolve_artifact_pointer(canonical.ROOT, f"{ref['artifact']}:{ref['pointer']}") is not None
+
+
+def test_issue_1012_owner_specs_expose_sidecar_metadata_without_registration():
+    reports = {
+        row["name"]: row
+        for row in json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))["reports"]
+    }
+    lejepa_sidecars = reports["lejepa-theorem-ledger"]["discipline"]["sidecars"]
+    spectral_sidecars = reports["spectral-ablation-hinge"]["discipline"]["sidecars"]
+
+    assert [row["artifact"] for row in lejepa_sidecars] == [
+        canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT,
+        canonical.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT,
+    ]
+    assert [row["artifact"] for row in spectral_sidecars] == [canonical.SPECTRAL_JET_JSON_ARTIFACT]
+    assert all(row["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS" for row in lejepa_sidecars + spectral_sidecars)
+
+
 def test_committed_canonical_bundle_matches_generation_chain():
     index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
     discovery_payload = json.loads((canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
