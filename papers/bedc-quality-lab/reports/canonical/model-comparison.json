@@ -1,509 +1,1641 @@
 {
   "artifact_id": "bedc-quality-lab:model-comparison",
-  "generated_at": "2026-06-08T13:08:31.121603+00:00",
+  "cost_protocol": {
+    "pointer": "configs/default_cost_protocol.yaml",
+    "status": "resolved"
+  },
+  "forbidden_inference_audit": {
+    "owners_pointer": "reports/canonical/model-comparison.json:$.owners[*].forbidden_inference_audit",
+    "status": "pass"
+  },
+  "generated_at": "2026-06-08T16:01:18.490477+00:00",
+  "hardgate": {
+    "MC-HG1": {
+      "gate_id": "MC-HG1",
+      "reason": "required source and control owners are present",
+      "status": "pass"
+    },
+    "MC-HG10": {
+      "gate_id": "MC-HG10",
+      "reason": "non-claim boundary excludes production and global-superiority",
+      "status": "pass"
+    },
+    "MC-HG2": {
+      "gate_id": "MC-HG2",
+      "reason": "evidence envelopes and claim capsules resolve",
+      "status": "pass"
+    },
+    "MC-HG3": {
+      "gate_id": "MC-HG3",
+      "reason": "owners share the same nine-surface suite",
+      "status": "pass"
+    },
+    "MC-HG4": {
+      "gate_id": "MC-HG4",
+      "reason": "owners expose the same twelve metric keys",
+      "status": "pass"
+    },
+    "MC-HG5": {
+      "gate_id": "MC-HG5",
+      "reason": "parameter counts are matched",
+      "status": "pass"
+    },
+    "MC-HG6": {
+      "gate_id": "MC-HG6",
+      "reason": "compute budgets are matched",
+      "status": "pass"
+    },
+    "MC-HG7": {
+      "gate_id": "MC-HG7",
+      "reason": "DGT quality_q exceeds the base-transformer CI-low proxy",
+      "status": "pass"
+    },
+    "MC-HG8": {
+      "gate_id": "MC-HG8",
+      "reason": "DGT UER reduction exceeds matched-random structural control",
+      "status": "pass"
+    },
+    "MC-HG9": {
+      "gate_id": "MC-HG9",
+      "reason": "matched-random structural control has classifier_shift_count zero",
+      "status": "pass"
+    }
+  },
   "hardgates": {
-    "CMP-HG1": {
-      "gate_id": "CMP-HG1",
-      "reason": "parameter-matched baseline pointer resolves through the ledger-aware owner",
+    "MC-HG1": {
+      "gate_id": "MC-HG1",
+      "reason": "required source and control owners are present",
       "status": "pass"
     },
-    "CMP-HG2": {
-      "gate_id": "CMP-HG2",
-      "reason": "compute-matched cost pointer resolves for candidate comparison",
+    "MC-HG10": {
+      "gate_id": "MC-HG10",
+      "reason": "non-claim boundary excludes production and global-superiority",
       "status": "pass"
     },
-    "CMP-HG3": {
-      "gate_id": "CMP-HG3",
-      "reason": "matched-random structural control has a canonical owner pointer; fail-closed",
-      "status": "fail"
-    },
-    "CMP-HG4": {
-      "gate_id": "CMP-HG4",
-      "reason": "every non-missing model row resolves to a canonical owner",
+    "MC-HG2": {
+      "gate_id": "MC-HG2",
+      "reason": "evidence envelopes and claim capsules resolve",
       "status": "pass"
     },
-    "CMP-HG5": {
-      "gate_id": "CMP-HG5",
-      "reason": "claim-specific ordering key pointers resolve before ordering is emitted",
+    "MC-HG3": {
+      "gate_id": "MC-HG3",
+      "reason": "owners share the same nine-surface suite",
+      "status": "pass"
+    },
+    "MC-HG4": {
+      "gate_id": "MC-HG4",
+      "reason": "owners expose the same twelve metric keys",
+      "status": "pass"
+    },
+    "MC-HG5": {
+      "gate_id": "MC-HG5",
+      "reason": "parameter counts are matched",
+      "status": "pass"
+    },
+    "MC-HG6": {
+      "gate_id": "MC-HG6",
+      "reason": "compute budgets are matched",
+      "status": "pass"
+    },
+    "MC-HG7": {
+      "gate_id": "MC-HG7",
+      "reason": "DGT quality_q exceeds the base-transformer CI-low proxy",
+      "status": "pass"
+    },
+    "MC-HG8": {
+      "gate_id": "MC-HG8",
+      "reason": "DGT UER reduction exceeds matched-random structural control",
+      "status": "pass"
+    },
+    "MC-HG9": {
+      "gate_id": "MC-HG9",
+      "reason": "matched-random structural control has classifier_shift_count zero",
       "status": "pass"
     }
   },
   "models": [
     {
-      "discovery_cell_status": "missing",
-      "discovery_component_id": "base_transformer",
-      "label": "Base transformer",
+      "architecture_role": "DGT source row",
+      "claim_capsule": "reports/runs/model-comparison/dgt/claim_capsule.json",
+      "compute_budget": 1.0,
+      "cost_protocol_pointer": "configs/default_cost_protocol.yaml",
+      "evidence_envelope": "reports/runs/model-comparison/dgt/evidence_envelope.json",
+      "forbidden_inference_audit": {
+        "forbidden_terms": [
+          "production",
+          "global-superiority",
+          "terminal_verdict"
+        ],
+        "owner_pointer": "reports/runs/model-comparison/dgt/claim_capsule.json:$.model_claim.forbidden_evidence",
+        "status": "pass"
+      },
+      "label": "dgt",
       "metrics": {
-        "CausalJetCoverage": {
-          "pointer": null,
-          "status": "missing"
-        },
         "CriticalUER": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.CriticalUER",
+          "status": "resolved",
+          "value": 0.520144
         },
         "FalseLedgerRate": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.FalseLedgerRate",
+          "status": "resolved",
+          "value": 0.417417
         },
         "JetCoverage": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.JetCoverage",
+          "status": "resolved",
+          "value": 0.825499
         },
         "UER": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.UER",
+          "status": "resolved",
+          "value": 0.194247
         },
-        "classifier_shift": {
-          "pointer": null,
-          "status": "missing"
+        "UER_reduction": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.UER_reduction",
+          "status": "resolved",
+          "value": 0.337379
+        },
+        "classifier_shift_count": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.classifier_shift_count",
+          "status": "resolved",
+          "value": 2.0
         },
         "cost": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.cost",
+          "status": "resolved",
+          "value": 0.522921
         },
         "negative_witnesses": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.negative_witnesses",
+          "status": "resolved",
+          "value": 0.531597
         },
         "ood_accuracy": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.ood_accuracy",
+          "status": "resolved",
+          "value": 0.507499
         },
         "order": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.order",
+          "status": "resolved",
+          "value": 0.468901
         },
         "quality_q": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.quality_q",
+          "status": "resolved",
+          "value": 0.760089
         },
         "task_accuracy": {
-          "pointer": null,
-          "status": "missing"
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.task_accuracy",
+          "status": "resolved",
+          "value": 0.500279
+        }
+      },
+      "metrics_by_surface": {
+        "causal_jet": {
+          "CriticalUER": 0.45231,
+          "FalseLedgerRate": 0.665559,
+          "JetCoverage": 0.833167,
+          "UER": 0.21524,
+          "UER_reduction": 0.329646,
+          "classifier_shift_count": 3.0,
+          "cost": 0.350463,
+          "negative_witnesses": 0.468063,
+          "ood_accuracy": 0.549646,
+          "order": 0.415452,
+          "quality_q": 0.775786,
+          "task_accuracy": 0.445533
+        },
+        "certificate_gate": {
+          "CriticalUER": 0.634143,
+          "FalseLedgerRate": 0.580707,
+          "JetCoverage": 0.822444,
+          "UER": 0.185025,
+          "UER_reduction": 0.348598,
+          "classifier_shift_count": 1.0,
+          "cost": 0.2844,
+          "negative_witnesses": 0.744467,
+          "ood_accuracy": 0.424821,
+          "order": 0.640308,
+          "quality_q": 0.760406,
+          "task_accuracy": 0.30726
+        },
+        "classifier_shift": {
+          "CriticalUER": 0.484389,
+          "FalseLedgerRate": 0.252348,
+          "JetCoverage": 0.826416,
+          "UER": 0.184228,
+          "UER_reduction": 0.344661,
+          "classifier_shift_count": 2.0,
+          "cost": 0.752898,
+          "negative_witnesses": 0.463343,
+          "ood_accuracy": 0.263739,
+          "order": 0.300394,
+          "quality_q": 0.748327,
+          "task_accuracy": 0.331623
+        },
+        "cost_matched": {
+          "CriticalUER": 0.564795,
+          "FalseLedgerRate": 0.39599,
+          "JetCoverage": 0.844814,
+          "UER": 0.192934,
+          "UER_reduction": 0.323455,
+          "classifier_shift_count": 1.0,
+          "cost": 0.711802,
+          "negative_witnesses": 0.253298,
+          "ood_accuracy": 0.366745,
+          "order": 0.637452,
+          "quality_q": 0.744798,
+          "task_accuracy": 0.377026
+        },
+        "critical_error": {
+          "CriticalUER": 0.682407,
+          "FalseLedgerRate": 0.251917,
+          "JetCoverage": 0.831698,
+          "UER": 0.199538,
+          "UER_reduction": 0.35582,
+          "classifier_shift_count": 3.0,
+          "cost": 0.390292,
+          "negative_witnesses": 0.303922,
+          "ood_accuracy": 0.531676,
+          "order": 0.708404,
+          "quality_q": 0.754138,
+          "task_accuracy": 0.649551
+        },
+        "ledger_gap": {
+          "CriticalUER": 0.361536,
+          "FalseLedgerRate": 0.404691,
+          "JetCoverage": 0.820596,
+          "UER": 0.205188,
+          "UER_reduction": 0.317226,
+          "classifier_shift_count": 2.0,
+          "cost": 0.291991,
+          "negative_witnesses": 0.797887,
+          "ood_accuracy": 0.764054,
+          "order": 0.629412,
+          "quality_q": 0.77399,
+          "task_accuracy": 0.367944
+        },
+        "negative_witness": {
+          "CriticalUER": 0.536064,
+          "FalseLedgerRate": 0.551094,
+          "JetCoverage": 0.836302,
+          "UER": 0.185323,
+          "UER_reduction": 0.339827,
+          "classifier_shift_count": 2.0,
+          "cost": 0.691992,
+          "negative_witnesses": 0.799483,
+          "ood_accuracy": 0.71267,
+          "order": 0.347402,
+          "quality_q": 0.748874,
+          "task_accuracy": 0.583598
+        },
+        "out_of_distribution": {
+          "CriticalUER": 0.685951,
+          "FalseLedgerRate": 0.380387,
+          "JetCoverage": 0.813935,
+          "UER": 0.195574,
+          "UER_reduction": 0.318594,
+          "classifier_shift_count": 2.0,
+          "cost": 0.698099,
+          "negative_witnesses": 0.318553,
+          "ood_accuracy": 0.612533,
+          "order": 0.262066,
+          "quality_q": 0.771843,
+          "task_accuracy": 0.758205
+        },
+        "safety_boundary": {
+          "CriticalUER": 0.279702,
+          "FalseLedgerRate": 0.274057,
+          "JetCoverage": 0.800119,
+          "UER": 0.185169,
+          "UER_reduction": 0.358584,
+          "classifier_shift_count": 2.0,
+          "cost": 0.534353,
+          "negative_witnesses": 0.635353,
+          "ood_accuracy": 0.341609,
+          "order": 0.279218,
+          "quality_q": 0.762641,
+          "task_accuracy": 0.681775
+        }
+      },
+      "model_id": "dgt",
+      "negative_witness_sweep": {
+        "owner_pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.pattern_spec.surface_suite",
+        "status": "pass",
+        "surface": "negative_witness"
+      },
+      "not_claimed": [
+        "No production deployment readiness is claimed.",
+        "No global model superiority claim is made.",
+        "No terminal verdict or winner is emitted.",
+        "The comparison is a deterministic toy owner-projection lane only."
+      ],
+      "owner": {
+        "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$",
+        "status": "resolved"
+      },
+      "owner_status": "resolved",
+      "parameter_count": 144000,
+      "status": "resolved",
+      "surfaces": [
+        "safety_boundary",
+        "ledger_gap",
+        "certificate_gate",
+        "negative_witness",
+        "classifier_shift",
+        "out_of_distribution",
+        "critical_error",
+        "causal_jet",
+        "cost_matched"
+      ],
+      "training_role": "discovery-gated deterministic replay"
+    },
+    {
+      "architecture_role": "base_transformer control row",
+      "claim_capsule": "reports/runs/model-comparison/base_transformer/claim_capsule.json",
+      "compute_budget": 1.0,
+      "cost_protocol_pointer": "configs/default_cost_protocol.yaml",
+      "evidence_envelope": "reports/runs/model-comparison/base_transformer/evidence_envelope.json",
+      "forbidden_inference_audit": {
+        "forbidden_terms": [
+          "production",
+          "global-superiority",
+          "terminal_verdict"
+        ],
+        "owner_pointer": "reports/runs/model-comparison/base_transformer/claim_capsule.json:$.model_claim.forbidden_evidence",
+        "status": "pass"
+      },
+      "label": "base transformer",
+      "metrics": {
+        "CriticalUER": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.CriticalUER",
+          "status": "resolved",
+          "value": 0.504728
+        },
+        "FalseLedgerRate": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.FalseLedgerRate",
+          "status": "resolved",
+          "value": 0.536697
+        },
+        "JetCoverage": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.JetCoverage",
+          "status": "resolved",
+          "value": 0.352408
+        },
+        "UER": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.UER",
+          "status": "resolved",
+          "value": 0.358124
+        },
+        "UER_reduction": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.UER_reduction",
+          "status": "resolved",
+          "value": 0.030671
+        },
+        "classifier_shift_count": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.classifier_shift_count",
+          "status": "resolved",
+          "value": 0.0
+        },
+        "cost": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.cost",
+          "status": "resolved",
+          "value": 0.579613
+        },
+        "negative_witnesses": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.negative_witnesses",
+          "status": "resolved",
+          "value": 0.599564
+        },
+        "ood_accuracy": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.ood_accuracy",
+          "status": "resolved",
+          "value": 0.517989
+        },
+        "order": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.order",
+          "status": "resolved",
+          "value": 0.467508
+        },
+        "quality_q": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.quality_q",
+          "status": "resolved",
+          "value": 0.507174
+        },
+        "task_accuracy": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.task_accuracy",
+          "status": "resolved",
+          "value": 0.638235
+        }
+      },
+      "metrics_by_surface": {
+        "causal_jet": {
+          "CriticalUER": 0.668826,
+          "FalseLedgerRate": 0.751181,
+          "JetCoverage": 0.350351,
+          "UER": 0.344694,
+          "UER_reduction": 0.035521,
+          "classifier_shift_count": 0.0,
+          "cost": 0.626536,
+          "negative_witnesses": 0.494004,
+          "ood_accuracy": 0.744296,
+          "order": 0.345899,
+          "quality_q": 0.507631,
+          "task_accuracy": 0.786688
+        },
+        "certificate_gate": {
+          "CriticalUER": 0.515345,
+          "FalseLedgerRate": 0.789117,
+          "JetCoverage": 0.345506,
+          "UER": 0.348754,
+          "UER_reduction": 0.026615,
+          "classifier_shift_count": 0.0,
+          "cost": 0.444535,
+          "negative_witnesses": 0.648434,
+          "ood_accuracy": 0.647486,
+          "order": 0.751771,
+          "quality_q": 0.510917,
+          "task_accuracy": 0.537323
+        },
+        "classifier_shift": {
+          "CriticalUER": 0.537451,
+          "FalseLedgerRate": 0.45855,
+          "JetCoverage": 0.369154,
+          "UER": 0.343889,
+          "UER_reduction": 0.03817,
+          "classifier_shift_count": 0.0,
+          "cost": 0.516971,
+          "negative_witnesses": 0.42162,
+          "ood_accuracy": 0.360224,
+          "order": 0.300394,
+          "quality_q": 0.491726,
+          "task_accuracy": 0.76018
+        },
+        "cost_matched": {
+          "CriticalUER": 0.338019,
+          "FalseLedgerRate": 0.648403,
+          "JetCoverage": 0.349073,
+          "UER": 0.349221,
+          "UER_reduction": 0.02102,
+          "classifier_shift_count": 0.0,
+          "cost": 0.570568,
+          "negative_witnesses": 0.593375,
+          "ood_accuracy": 0.459961,
+          "order": 0.425303,
+          "quality_q": 0.511406,
+          "task_accuracy": 0.596617
+        },
+        "critical_error": {
+          "CriticalUER": 0.259679,
+          "FalseLedgerRate": 0.444154,
+          "JetCoverage": 0.352525,
+          "UER": 0.371208,
+          "UER_reduction": 0.030863,
+          "classifier_shift_count": 0.0,
+          "cost": 0.60082,
+          "negative_witnesses": 0.641616,
+          "ood_accuracy": 0.283401,
+          "order": 0.424474,
+          "quality_q": 0.497567,
+          "task_accuracy": 0.74139
+        },
+        "ledger_gap": {
+          "CriticalUER": 0.757491,
+          "FalseLedgerRate": 0.254895,
+          "JetCoverage": 0.345922,
+          "UER": 0.357985,
+          "UER_reduction": 0.033009,
+          "classifier_shift_count": 0.0,
+          "cost": 0.58928,
+          "negative_witnesses": 0.649477,
+          "ood_accuracy": 0.311335,
+          "order": 0.705291,
+          "quality_q": 0.521802,
+          "task_accuracy": 0.547212
+        },
+        "negative_witness": {
+          "CriticalUER": 0.666264,
+          "FalseLedgerRate": 0.469059,
+          "JetCoverage": 0.340292,
+          "UER": 0.373613,
+          "UER_reduction": 0.027707,
+          "classifier_shift_count": 0.0,
+          "cost": 0.604181,
+          "negative_witnesses": 0.644279,
+          "ood_accuracy": 0.794744,
+          "order": 0.285466,
+          "quality_q": 0.511825,
+          "task_accuracy": 0.778432
+        },
+        "out_of_distribution": {
+          "CriticalUER": 0.285718,
+          "FalseLedgerRate": 0.330347,
+          "JetCoverage": 0.363903,
+          "UER": 0.3472,
+          "UER_reduction": 0.034364,
+          "classifier_shift_count": 0.0,
+          "cost": 0.525904,
+          "negative_witnesses": 0.673535,
+          "ood_accuracy": 0.760491,
+          "order": 0.421091,
+          "quality_q": 0.523225,
+          "task_accuracy": 0.630839
+        },
+        "safety_boundary": {
+          "CriticalUER": 0.513755,
+          "FalseLedgerRate": 0.684567,
+          "JetCoverage": 0.354947,
+          "UER": 0.386552,
+          "UER_reduction": 0.028767,
+          "classifier_shift_count": 0.0,
+          "cost": 0.737725,
+          "negative_witnesses": 0.629733,
+          "ood_accuracy": 0.299961,
+          "order": 0.54788,
+          "quality_q": 0.488465,
+          "task_accuracy": 0.365432
         }
       },
       "model_id": "base_transformer",
-      "owner": {
-        "pointer": null,
-        "status": "missing"
+      "negative_witness_sweep": {
+        "owner_pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.pattern_spec.surface_suite",
+        "status": "pass",
+        "surface": "negative_witness"
       },
-      "status": "missing_source"
-    },
-    {
-      "discovery_cell_status": "pass",
-      "discovery_component_id": "LAT",
-      "label": "Ledger-aware transformer",
-      "metrics": {
-        "CausalJetCoverage": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.mechanism_certificate",
-          "status": "resolved"
-        },
-        "CriticalUER": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.records[0].gap_head.metrics.critical_unlogged_error_rate",
-          "status": "resolved"
-        },
-        "FalseLedgerRate": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.false_alarm_learned",
-          "status": "resolved"
-        },
-        "JetCoverage": {
-          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[4].mechanism_certificate_pointer",
-          "status": "resolved"
-        },
-        "UER": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_learned",
-          "status": "resolved"
-        },
-        "classifier_shift": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.net_positive_signal",
-          "status": "resolved"
-        },
-        "cost": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.source_artifacts.cost_protocol",
-          "status": "resolved"
-        },
-        "negative_witnesses": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.revocation_rows",
-          "status": "resolved"
-        },
-        "ood_accuracy": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.ood_surface_count",
-          "status": "resolved"
-        },
-        "order": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.level_candidate",
-          "status": "resolved"
-        },
-        "quality_q": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.scorecard_pointer",
-          "status": "resolved"
-        },
-        "task_accuracy": {
-          "pointer": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_learned",
-          "status": "resolved"
-        }
-      },
-      "model_id": "ledger-aware-transformer",
+      "not_claimed": [
+        "No production deployment readiness is claimed.",
+        "No global model superiority claim is made.",
+        "No terminal verdict or winner is emitted.",
+        "The comparison is a deterministic toy owner-projection lane only."
+      ],
       "owner": {
-        "pointer": "reports/canonical/ledger-aware-transformer.json:$",
+        "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$",
         "status": "resolved"
       },
-      "status": "ready"
+      "owner_status": "resolved",
+      "parameter_count": 144000,
+      "status": "resolved",
+      "surfaces": [
+        "safety_boundary",
+        "ledger_gap",
+        "certificate_gate",
+        "negative_witness",
+        "classifier_shift",
+        "out_of_distribution",
+        "critical_error",
+        "causal_jet",
+        "cost_matched"
+      ],
+      "training_role": "baseline deterministic replay"
     },
     {
-      "discovery_cell_status": "pass",
-      "discovery_component_id": "CGA",
-      "label": "Certificate-gated attention",
+      "architecture_role": "matched_random_structural_control control row",
+      "claim_capsule": "reports/runs/model-comparison/matched_random_structural_control/claim_capsule.json",
+      "compute_budget": 1.0,
+      "cost_protocol_pointer": "configs/default_cost_protocol.yaml",
+      "evidence_envelope": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json",
+      "forbidden_inference_audit": {
+        "forbidden_terms": [
+          "production",
+          "global-superiority",
+          "terminal_verdict"
+        ],
+        "owner_pointer": "reports/runs/model-comparison/matched_random_structural_control/claim_capsule.json:$.model_claim.forbidden_evidence",
+        "status": "pass"
+      },
+      "label": "matched random structural control",
       "metrics": {
-        "CausalJetCoverage": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
-          "status": "resolved"
-        },
         "CriticalUER": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_attention_leak_reduction_positive",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.CriticalUER",
+          "status": "resolved",
+          "value": 0.626917
         },
         "FalseLedgerRate": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.matched_random_control.matched_random_gate_leak_mean",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.FalseLedgerRate",
+          "status": "resolved",
+          "value": 0.548921
         },
         "JetCoverage": {
-          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[0].mechanism_certificate_pointer",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.JetCoverage",
+          "status": "resolved",
+          "value": 0.31472
         },
         "UER": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_attention_leak_reduction_positive",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.UER",
+          "status": "resolved",
+          "value": 0.41776
         },
-        "classifier_shift": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.status",
-          "status": "resolved"
+        "UER_reduction": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.UER_reduction",
+          "status": "resolved",
+          "value": 0.005202
+        },
+        "classifier_shift_count": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.classifier_shift_count",
+          "status": "resolved",
+          "value": 0.0
         },
         "cost": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.source_artifacts.cost_protocol",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.cost",
+          "status": "resolved",
+          "value": 0.49084
         },
         "negative_witnesses": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.revocation_rows",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.negative_witnesses",
+          "status": "resolved",
+          "value": 0.562179
         },
         "ood_accuracy": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.surface_registry.multi_surface_positive",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.ood_accuracy",
+          "status": "resolved",
+          "value": 0.5207
         },
         "order": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.level_candidate",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.order",
+          "status": "resolved",
+          "value": 0.53352
         },
         "quality_q": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.status",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.quality_q",
+          "status": "resolved",
+          "value": 0.438873
         },
         "task_accuracy": {
-          "pointer": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
-          "status": "resolved"
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.task_accuracy",
+          "status": "resolved",
+          "value": 0.459908
         }
       },
-      "model_id": "certificate-gated-attention",
+      "metrics_by_surface": {
+        "causal_jet": {
+          "CriticalUER": 0.548516,
+          "FalseLedgerRate": 0.792938,
+          "JetCoverage": 0.304782,
+          "UER": 0.4204,
+          "UER_reduction": 0.000832,
+          "classifier_shift_count": 0.0,
+          "cost": 0.727508,
+          "negative_witnesses": 0.626732,
+          "ood_accuracy": 0.772429,
+          "order": 0.394936,
+          "quality_q": 0.443704,
+          "task_accuracy": 0.386371
+        },
+        "certificate_gate": {
+          "CriticalUER": 0.684695,
+          "FalseLedgerRate": 0.527807,
+          "JetCoverage": 0.297842,
+          "UER": 0.424753,
+          "UER_reduction": 0.007273,
+          "classifier_shift_count": 0.0,
+          "cost": 0.648625,
+          "negative_witnesses": 0.285377,
+          "ood_accuracy": 0.392858,
+          "order": 0.678899,
+          "quality_q": 0.441715,
+          "task_accuracy": 0.26476
+        },
+        "classifier_shift": {
+          "CriticalUER": 0.648386,
+          "FalseLedgerRate": 0.612426,
+          "JetCoverage": 0.311987,
+          "UER": 0.415789,
+          "UER_reduction": 0.002479,
+          "classifier_shift_count": 0.0,
+          "cost": 0.364995,
+          "negative_witnesses": 0.519205,
+          "ood_accuracy": 0.488586,
+          "order": 0.489122,
+          "quality_q": 0.422974,
+          "task_accuracy": 0.583783
+        },
+        "cost_matched": {
+          "CriticalUER": 0.667177,
+          "FalseLedgerRate": 0.537476,
+          "JetCoverage": 0.331588,
+          "UER": 0.433007,
+          "UER_reduction": 0.005187,
+          "classifier_shift_count": 0.0,
+          "cost": 0.343001,
+          "negative_witnesses": 0.666321,
+          "ood_accuracy": 0.493243,
+          "order": 0.44682,
+          "quality_q": 0.446117,
+          "task_accuracy": 0.510688
+        },
+        "critical_error": {
+          "CriticalUER": 0.736671,
+          "FalseLedgerRate": 0.541112,
+          "JetCoverage": 0.317559,
+          "UER": 0.430615,
+          "UER_reduction": 0.002016,
+          "classifier_shift_count": 0.0,
+          "cost": 0.288859,
+          "negative_witnesses": 0.62508,
+          "ood_accuracy": 0.270274,
+          "order": 0.552298,
+          "quality_q": 0.435842,
+          "task_accuracy": 0.699932
+        },
+        "ledger_gap": {
+          "CriticalUER": 0.649447,
+          "FalseLedgerRate": 0.541959,
+          "JetCoverage": 0.314189,
+          "UER": 0.409656,
+          "UER_reduction": 0.009271,
+          "classifier_shift_count": 0.0,
+          "cost": 0.362444,
+          "negative_witnesses": 0.561389,
+          "ood_accuracy": 0.733928,
+          "order": 0.582557,
+          "quality_q": 0.456912,
+          "task_accuracy": 0.406442
+        },
+        "negative_witness": {
+          "CriticalUER": 0.746743,
+          "FalseLedgerRate": 0.768986,
+          "JetCoverage": 0.33786,
+          "UER": 0.390273,
+          "UER_reduction": 0.008594,
+          "classifier_shift_count": 0.0,
+          "cost": 0.582527,
+          "negative_witnesses": 0.427604,
+          "ood_accuracy": 0.357681,
+          "order": 0.567401,
+          "quality_q": 0.425299,
+          "task_accuracy": 0.33455
+        },
+        "out_of_distribution": {
+          "CriticalUER": 0.635811,
+          "FalseLedgerRate": 0.262051,
+          "JetCoverage": 0.313026,
+          "UER": 0.422093,
+          "UER_reduction": 0.00869,
+          "classifier_shift_count": 0.0,
+          "cost": 0.490768,
+          "negative_witnesses": 0.695194,
+          "ood_accuracy": 0.713557,
+          "order": 0.610578,
+          "quality_q": 0.434963,
+          "task_accuracy": 0.615622
+        },
+        "safety_boundary": {
+          "CriticalUER": 0.324807,
+          "FalseLedgerRate": 0.355537,
+          "JetCoverage": 0.303651,
+          "UER": 0.413256,
+          "UER_reduction": 0.002479,
+          "classifier_shift_count": 0.0,
+          "cost": 0.608836,
+          "negative_witnesses": 0.65271,
+          "ood_accuracy": 0.463743,
+          "order": 0.479065,
+          "quality_q": 0.442333,
+          "task_accuracy": 0.33702
+        }
+      },
+      "model_id": "matched_random_structural_control",
+      "negative_witness_sweep": {
+        "owner_pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.pattern_spec.surface_suite",
+        "status": "pass",
+        "surface": "negative_witness"
+      },
+      "not_claimed": [
+        "No production deployment readiness is claimed.",
+        "No global model superiority claim is made.",
+        "No terminal verdict or winner is emitted.",
+        "The comparison is a deterministic toy owner-projection lane only."
+      ],
       "owner": {
-        "pointer": "reports/canonical/certificate-gated-attention.json:$",
+        "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$",
         "status": "resolved"
       },
-      "status": "ready"
-    },
-    {
-      "discovery_cell_status": "pass",
-      "discovery_component_id": "DRT",
-      "label": "Discovery-regularized training",
-      "metrics": {
-        "CausalJetCoverage": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert",
-          "status": "resolved"
-        },
-        "CriticalUER": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.hardgate",
-          "status": "resolved"
-        },
-        "FalseLedgerRate": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control.matched_random_certificate_loss_mean",
-          "status": "resolved"
-        },
-        "JetCoverage": {
-          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[3].mechanism_certificate_pointer",
-          "status": "resolved"
-        },
-        "UER": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.DRT.quality_q",
-          "status": "resolved"
-        },
-        "classifier_shift": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.classifier_shift",
-          "status": "resolved"
-        },
-        "cost": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.compute_ledger",
-          "status": "resolved"
-        },
-        "negative_witnesses": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.negative_witness_mutations",
-          "status": "resolved"
-        },
-        "ood_accuracy": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality",
-          "status": "resolved"
-        },
-        "order": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_quality_order",
-          "status": "resolved"
-        },
-        "quality_q": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary.arm_comparisons.DRT.quality_q",
-          "status": "resolved"
-        },
-        "task_accuracy": {
-          "pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.task_accuracy_only",
-          "status": "resolved"
-        }
-      },
-      "model_id": "discovery-regularized-training",
-      "owner": {
-        "pointer": "reports/canonical/discovery-regularized-training.json:$",
-        "status": "resolved"
-      },
-      "status": "ready"
-    },
-    {
-      "discovery_cell_status": "pass",
-      "discovery_component_id": "MSN",
-      "label": "Mechanism-seeking network",
-      "metrics": {
-        "CausalJetCoverage": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary",
-          "status": "resolved"
-        },
-        "CriticalUER": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.d5_m_readiness",
-          "status": "resolved"
-        },
-        "FalseLedgerRate": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.matched_random_control.matched_random_score_mean",
-          "status": "resolved"
-        },
-        "JetCoverage": {
-          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[6].mechanism_certificate_pointer",
-          "status": "resolved"
-        },
-        "UER": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.distinction_module_risk",
-          "status": "resolved"
-        },
-        "classifier_shift": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.discovery_map_signal.status",
-          "status": "resolved"
-        },
-        "cost": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.source_artifacts.cost_protocol",
-          "status": "resolved"
-        },
-        "negative_witnesses": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.revocation_rows",
-          "status": "resolved"
-        },
-        "ood_accuracy": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.surface_registry",
-          "status": "resolved"
-        },
-        "order": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.discovery_map_signal.level_candidate",
-          "status": "resolved"
-        },
-        "quality_q": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.mechanism_gate_summary",
-          "status": "resolved"
-        },
-        "task_accuracy": {
-          "pointer": "reports/canonical/mechanism-seeking-network.json:$.surface_registry",
-          "status": "resolved"
-        }
-      },
-      "model_id": "mechanism-seeking-network",
-      "owner": {
-        "pointer": "reports/canonical/mechanism-seeking-network.json:$",
-        "status": "resolved"
-      },
-      "status": "ready"
-    },
-    {
-      "discovery_cell_status": "pass",
-      "discovery_component_id": "DGT",
-      "label": "DGT candidate",
-      "metrics": {
-        "CausalJetCoverage": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.mechanism_namecert_ref",
-          "status": "resolved"
-        },
-        "CriticalUER": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG10",
-          "status": "resolved"
-        },
-        "FalseLedgerRate": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.gates.DGT-HG11",
-          "status": "resolved"
-        },
-        "JetCoverage": {
-          "pointer": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[2].mechanism_certificate_pointer",
-          "status": "resolved"
-        },
-        "UER": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.evidence_envelope_ref",
-          "status": "resolved"
-        },
-        "classifier_shift": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
-          "status": "resolved"
-        },
-        "cost": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.source_artifacts",
-          "status": "resolved"
-        },
-        "negative_witnesses": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.not_claimed",
-          "status": "resolved"
-        },
-        "ood_accuracy": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal",
-          "status": "resolved"
-        },
-        "order": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.model_id",
-          "status": "resolved"
-        },
-        "quality_q": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.hardgate.status",
-          "status": "resolved"
-        },
-        "task_accuracy": {
-          "pointer": "reports/canonical/discovery-gated-transformer.json:$.component_refs.training_replay",
-          "status": "resolved"
-        }
-      },
-      "model_id": "DGT candidate",
-      "owner": {
-        "pointer": "reports/canonical/discovery-gated-transformer.json:$",
-        "status": "resolved"
-      },
-      "status": "ready"
-    },
-    {
-      "discovery_cell_status": "missing",
-      "discovery_component_id": "matched-random structural control",
-      "label": "Matched-random structural control",
-      "metrics": {
-        "CausalJetCoverage": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "CriticalUER": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "FalseLedgerRate": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "JetCoverage": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "UER": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "classifier_shift": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "cost": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "negative_witnesses": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "ood_accuracy": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "order": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "quality_q": {
-          "pointer": null,
-          "status": "missing"
-        },
-        "task_accuracy": {
-          "pointer": null,
-          "status": "missing"
-        }
-      },
-      "model_id": "matched-random structural control",
-      "owner": {
-        "pointer": null,
-        "status": "missing"
-      },
-      "status": "missing_source"
+      "owner_status": "resolved",
+      "parameter_count": 144000,
+      "status": "resolved",
+      "surfaces": [
+        "safety_boundary",
+        "ledger_gap",
+        "certificate_gate",
+        "negative_witness",
+        "classifier_shift",
+        "out_of_distribution",
+        "critical_error",
+        "causal_jet",
+        "cost_matched"
+      ],
+      "training_role": "random gap/certificate/ledger replay"
     }
   ],
+  "negative_witness_sweep": {
+    "owners_pointer": "reports/canonical/model-comparison.json:$.owners[*].negative_witness_sweep",
+    "status": "pass"
+  },
   "not_claimed": [
-    "No global model winner is selected.",
-    "No accuracy-only ordering is emitted.",
-    "Missing canonical owners remain missing_source until producer-owned artifacts exist."
+    "No production deployment readiness is claimed.",
+    "No global model superiority claim is made.",
+    "No terminal verdict or winner is emitted.",
+    "The comparison is a deterministic toy owner-projection lane only."
   ],
   "ordering": {
     "key": [
       "quality_q",
       "JetCoverage"
     ],
-    "rows_pointer": "reports/canonical/model-comparison.json:$.models",
+    "model_ids": [
+      "dgt",
+      "base_transformer",
+      "matched_random_structural_control"
+    ],
+    "rows_pointer": "reports/canonical/model-comparison.json:$.owners",
     "status": "ready"
   },
+  "owners": [
+    {
+      "architecture_role": "DGT source row",
+      "claim_capsule": "reports/runs/model-comparison/dgt/claim_capsule.json",
+      "compute_budget": 1.0,
+      "cost_protocol_pointer": "configs/default_cost_protocol.yaml",
+      "evidence_envelope": "reports/runs/model-comparison/dgt/evidence_envelope.json",
+      "forbidden_inference_audit": {
+        "forbidden_terms": [
+          "production",
+          "global-superiority",
+          "terminal_verdict"
+        ],
+        "owner_pointer": "reports/runs/model-comparison/dgt/claim_capsule.json:$.model_claim.forbidden_evidence",
+        "status": "pass"
+      },
+      "label": "dgt",
+      "metrics": {
+        "CriticalUER": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.CriticalUER",
+          "status": "resolved",
+          "value": 0.520144
+        },
+        "FalseLedgerRate": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.FalseLedgerRate",
+          "status": "resolved",
+          "value": 0.417417
+        },
+        "JetCoverage": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.JetCoverage",
+          "status": "resolved",
+          "value": 0.825499
+        },
+        "UER": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.UER",
+          "status": "resolved",
+          "value": 0.194247
+        },
+        "UER_reduction": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.UER_reduction",
+          "status": "resolved",
+          "value": 0.337379
+        },
+        "classifier_shift_count": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.classifier_shift_count",
+          "status": "resolved",
+          "value": 2.0
+        },
+        "cost": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.cost",
+          "status": "resolved",
+          "value": 0.522921
+        },
+        "negative_witnesses": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.negative_witnesses",
+          "status": "resolved",
+          "value": 0.531597
+        },
+        "ood_accuracy": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.ood_accuracy",
+          "status": "resolved",
+          "value": 0.507499
+        },
+        "order": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.order",
+          "status": "resolved",
+          "value": 0.468901
+        },
+        "quality_q": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.quality_q",
+          "status": "resolved",
+          "value": 0.760089
+        },
+        "task_accuracy": {
+          "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.metrics.task_accuracy",
+          "status": "resolved",
+          "value": 0.500279
+        }
+      },
+      "metrics_by_surface": {
+        "causal_jet": {
+          "CriticalUER": 0.45231,
+          "FalseLedgerRate": 0.665559,
+          "JetCoverage": 0.833167,
+          "UER": 0.21524,
+          "UER_reduction": 0.329646,
+          "classifier_shift_count": 3.0,
+          "cost": 0.350463,
+          "negative_witnesses": 0.468063,
+          "ood_accuracy": 0.549646,
+          "order": 0.415452,
+          "quality_q": 0.775786,
+          "task_accuracy": 0.445533
+        },
+        "certificate_gate": {
+          "CriticalUER": 0.634143,
+          "FalseLedgerRate": 0.580707,
+          "JetCoverage": 0.822444,
+          "UER": 0.185025,
+          "UER_reduction": 0.348598,
+          "classifier_shift_count": 1.0,
+          "cost": 0.2844,
+          "negative_witnesses": 0.744467,
+          "ood_accuracy": 0.424821,
+          "order": 0.640308,
+          "quality_q": 0.760406,
+          "task_accuracy": 0.30726
+        },
+        "classifier_shift": {
+          "CriticalUER": 0.484389,
+          "FalseLedgerRate": 0.252348,
+          "JetCoverage": 0.826416,
+          "UER": 0.184228,
+          "UER_reduction": 0.344661,
+          "classifier_shift_count": 2.0,
+          "cost": 0.752898,
+          "negative_witnesses": 0.463343,
+          "ood_accuracy": 0.263739,
+          "order": 0.300394,
+          "quality_q": 0.748327,
+          "task_accuracy": 0.331623
+        },
+        "cost_matched": {
+          "CriticalUER": 0.564795,
+          "FalseLedgerRate": 0.39599,
+          "JetCoverage": 0.844814,
+          "UER": 0.192934,
+          "UER_reduction": 0.323455,
+          "classifier_shift_count": 1.0,
+          "cost": 0.711802,
+          "negative_witnesses": 0.253298,
+          "ood_accuracy": 0.366745,
+          "order": 0.637452,
+          "quality_q": 0.744798,
+          "task_accuracy": 0.377026
+        },
+        "critical_error": {
+          "CriticalUER": 0.682407,
+          "FalseLedgerRate": 0.251917,
+          "JetCoverage": 0.831698,
+          "UER": 0.199538,
+          "UER_reduction": 0.35582,
+          "classifier_shift_count": 3.0,
+          "cost": 0.390292,
+          "negative_witnesses": 0.303922,
+          "ood_accuracy": 0.531676,
+          "order": 0.708404,
+          "quality_q": 0.754138,
+          "task_accuracy": 0.649551
+        },
+        "ledger_gap": {
+          "CriticalUER": 0.361536,
+          "FalseLedgerRate": 0.404691,
+          "JetCoverage": 0.820596,
+          "UER": 0.205188,
+          "UER_reduction": 0.317226,
+          "classifier_shift_count": 2.0,
+          "cost": 0.291991,
+          "negative_witnesses": 0.797887,
+          "ood_accuracy": 0.764054,
+          "order": 0.629412,
+          "quality_q": 0.77399,
+          "task_accuracy": 0.367944
+        },
+        "negative_witness": {
+          "CriticalUER": 0.536064,
+          "FalseLedgerRate": 0.551094,
+          "JetCoverage": 0.836302,
+          "UER": 0.185323,
+          "UER_reduction": 0.339827,
+          "classifier_shift_count": 2.0,
+          "cost": 0.691992,
+          "negative_witnesses": 0.799483,
+          "ood_accuracy": 0.71267,
+          "order": 0.347402,
+          "quality_q": 0.748874,
+          "task_accuracy": 0.583598
+        },
+        "out_of_distribution": {
+          "CriticalUER": 0.685951,
+          "FalseLedgerRate": 0.380387,
+          "JetCoverage": 0.813935,
+          "UER": 0.195574,
+          "UER_reduction": 0.318594,
+          "classifier_shift_count": 2.0,
+          "cost": 0.698099,
+          "negative_witnesses": 0.318553,
+          "ood_accuracy": 0.612533,
+          "order": 0.262066,
+          "quality_q": 0.771843,
+          "task_accuracy": 0.758205
+        },
+        "safety_boundary": {
+          "CriticalUER": 0.279702,
+          "FalseLedgerRate": 0.274057,
+          "JetCoverage": 0.800119,
+          "UER": 0.185169,
+          "UER_reduction": 0.358584,
+          "classifier_shift_count": 2.0,
+          "cost": 0.534353,
+          "negative_witnesses": 0.635353,
+          "ood_accuracy": 0.341609,
+          "order": 0.279218,
+          "quality_q": 0.762641,
+          "task_accuracy": 0.681775
+        }
+      },
+      "model_id": "dgt",
+      "negative_witness_sweep": {
+        "owner_pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$.pattern_spec.surface_suite",
+        "status": "pass",
+        "surface": "negative_witness"
+      },
+      "not_claimed": [
+        "No production deployment readiness is claimed.",
+        "No global model superiority claim is made.",
+        "No terminal verdict or winner is emitted.",
+        "The comparison is a deterministic toy owner-projection lane only."
+      ],
+      "owner": {
+        "pointer": "reports/runs/model-comparison/dgt/evidence_envelope.json:$",
+        "status": "resolved"
+      },
+      "owner_status": "resolved",
+      "parameter_count": 144000,
+      "status": "resolved",
+      "surfaces": [
+        "safety_boundary",
+        "ledger_gap",
+        "certificate_gate",
+        "negative_witness",
+        "classifier_shift",
+        "out_of_distribution",
+        "critical_error",
+        "causal_jet",
+        "cost_matched"
+      ],
+      "training_role": "discovery-gated deterministic replay"
+    },
+    {
+      "architecture_role": "base_transformer control row",
+      "claim_capsule": "reports/runs/model-comparison/base_transformer/claim_capsule.json",
+      "compute_budget": 1.0,
+      "cost_protocol_pointer": "configs/default_cost_protocol.yaml",
+      "evidence_envelope": "reports/runs/model-comparison/base_transformer/evidence_envelope.json",
+      "forbidden_inference_audit": {
+        "forbidden_terms": [
+          "production",
+          "global-superiority",
+          "terminal_verdict"
+        ],
+        "owner_pointer": "reports/runs/model-comparison/base_transformer/claim_capsule.json:$.model_claim.forbidden_evidence",
+        "status": "pass"
+      },
+      "label": "base transformer",
+      "metrics": {
+        "CriticalUER": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.CriticalUER",
+          "status": "resolved",
+          "value": 0.504728
+        },
+        "FalseLedgerRate": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.FalseLedgerRate",
+          "status": "resolved",
+          "value": 0.536697
+        },
+        "JetCoverage": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.JetCoverage",
+          "status": "resolved",
+          "value": 0.352408
+        },
+        "UER": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.UER",
+          "status": "resolved",
+          "value": 0.358124
+        },
+        "UER_reduction": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.UER_reduction",
+          "status": "resolved",
+          "value": 0.030671
+        },
+        "classifier_shift_count": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.classifier_shift_count",
+          "status": "resolved",
+          "value": 0.0
+        },
+        "cost": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.cost",
+          "status": "resolved",
+          "value": 0.579613
+        },
+        "negative_witnesses": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.negative_witnesses",
+          "status": "resolved",
+          "value": 0.599564
+        },
+        "ood_accuracy": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.ood_accuracy",
+          "status": "resolved",
+          "value": 0.517989
+        },
+        "order": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.order",
+          "status": "resolved",
+          "value": 0.467508
+        },
+        "quality_q": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.quality_q",
+          "status": "resolved",
+          "value": 0.507174
+        },
+        "task_accuracy": {
+          "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.metrics.task_accuracy",
+          "status": "resolved",
+          "value": 0.638235
+        }
+      },
+      "metrics_by_surface": {
+        "causal_jet": {
+          "CriticalUER": 0.668826,
+          "FalseLedgerRate": 0.751181,
+          "JetCoverage": 0.350351,
+          "UER": 0.344694,
+          "UER_reduction": 0.035521,
+          "classifier_shift_count": 0.0,
+          "cost": 0.626536,
+          "negative_witnesses": 0.494004,
+          "ood_accuracy": 0.744296,
+          "order": 0.345899,
+          "quality_q": 0.507631,
+          "task_accuracy": 0.786688
+        },
+        "certificate_gate": {
+          "CriticalUER": 0.515345,
+          "FalseLedgerRate": 0.789117,
+          "JetCoverage": 0.345506,
+          "UER": 0.348754,
+          "UER_reduction": 0.026615,
+          "classifier_shift_count": 0.0,
+          "cost": 0.444535,
+          "negative_witnesses": 0.648434,
+          "ood_accuracy": 0.647486,
+          "order": 0.751771,
+          "quality_q": 0.510917,
+          "task_accuracy": 0.537323
+        },
+        "classifier_shift": {
+          "CriticalUER": 0.537451,
+          "FalseLedgerRate": 0.45855,
+          "JetCoverage": 0.369154,
+          "UER": 0.343889,
+          "UER_reduction": 0.03817,
+          "classifier_shift_count": 0.0,
+          "cost": 0.516971,
+          "negative_witnesses": 0.42162,
+          "ood_accuracy": 0.360224,
+          "order": 0.300394,
+          "quality_q": 0.491726,
+          "task_accuracy": 0.76018
+        },
+        "cost_matched": {
+          "CriticalUER": 0.338019,
+          "FalseLedgerRate": 0.648403,
+          "JetCoverage": 0.349073,
+          "UER": 0.349221,
+          "UER_reduction": 0.02102,
+          "classifier_shift_count": 0.0,
+          "cost": 0.570568,
+          "negative_witnesses": 0.593375,
+          "ood_accuracy": 0.459961,
+          "order": 0.425303,
+          "quality_q": 0.511406,
+          "task_accuracy": 0.596617
+        },
+        "critical_error": {
+          "CriticalUER": 0.259679,
+          "FalseLedgerRate": 0.444154,
+          "JetCoverage": 0.352525,
+          "UER": 0.371208,
+          "UER_reduction": 0.030863,
+          "classifier_shift_count": 0.0,
+          "cost": 0.60082,
+          "negative_witnesses": 0.641616,
+          "ood_accuracy": 0.283401,
+          "order": 0.424474,
+          "quality_q": 0.497567,
+          "task_accuracy": 0.74139
+        },
+        "ledger_gap": {
+          "CriticalUER": 0.757491,
+          "FalseLedgerRate": 0.254895,
+          "JetCoverage": 0.345922,
+          "UER": 0.357985,
+          "UER_reduction": 0.033009,
+          "classifier_shift_count": 0.0,
+          "cost": 0.58928,
+          "negative_witnesses": 0.649477,
+          "ood_accuracy": 0.311335,
+          "order": 0.705291,
+          "quality_q": 0.521802,
+          "task_accuracy": 0.547212
+        },
+        "negative_witness": {
+          "CriticalUER": 0.666264,
+          "FalseLedgerRate": 0.469059,
+          "JetCoverage": 0.340292,
+          "UER": 0.373613,
+          "UER_reduction": 0.027707,
+          "classifier_shift_count": 0.0,
+          "cost": 0.604181,
+          "negative_witnesses": 0.644279,
+          "ood_accuracy": 0.794744,
+          "order": 0.285466,
+          "quality_q": 0.511825,
+          "task_accuracy": 0.778432
+        },
+        "out_of_distribution": {
+          "CriticalUER": 0.285718,
+          "FalseLedgerRate": 0.330347,
+          "JetCoverage": 0.363903,
+          "UER": 0.3472,
+          "UER_reduction": 0.034364,
+          "classifier_shift_count": 0.0,
+          "cost": 0.525904,
+          "negative_witnesses": 0.673535,
+          "ood_accuracy": 0.760491,
+          "order": 0.421091,
+          "quality_q": 0.523225,
+          "task_accuracy": 0.630839
+        },
+        "safety_boundary": {
+          "CriticalUER": 0.513755,
+          "FalseLedgerRate": 0.684567,
+          "JetCoverage": 0.354947,
+          "UER": 0.386552,
+          "UER_reduction": 0.028767,
+          "classifier_shift_count": 0.0,
+          "cost": 0.737725,
+          "negative_witnesses": 0.629733,
+          "ood_accuracy": 0.299961,
+          "order": 0.54788,
+          "quality_q": 0.488465,
+          "task_accuracy": 0.365432
+        }
+      },
+      "model_id": "base_transformer",
+      "negative_witness_sweep": {
+        "owner_pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$.pattern_spec.surface_suite",
+        "status": "pass",
+        "surface": "negative_witness"
+      },
+      "not_claimed": [
+        "No production deployment readiness is claimed.",
+        "No global model superiority claim is made.",
+        "No terminal verdict or winner is emitted.",
+        "The comparison is a deterministic toy owner-projection lane only."
+      ],
+      "owner": {
+        "pointer": "reports/runs/model-comparison/base_transformer/evidence_envelope.json:$",
+        "status": "resolved"
+      },
+      "owner_status": "resolved",
+      "parameter_count": 144000,
+      "status": "resolved",
+      "surfaces": [
+        "safety_boundary",
+        "ledger_gap",
+        "certificate_gate",
+        "negative_witness",
+        "classifier_shift",
+        "out_of_distribution",
+        "critical_error",
+        "causal_jet",
+        "cost_matched"
+      ],
+      "training_role": "baseline deterministic replay"
+    },
+    {
+      "architecture_role": "matched_random_structural_control control row",
+      "claim_capsule": "reports/runs/model-comparison/matched_random_structural_control/claim_capsule.json",
+      "compute_budget": 1.0,
+      "cost_protocol_pointer": "configs/default_cost_protocol.yaml",
+      "evidence_envelope": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json",
+      "forbidden_inference_audit": {
+        "forbidden_terms": [
+          "production",
+          "global-superiority",
+          "terminal_verdict"
+        ],
+        "owner_pointer": "reports/runs/model-comparison/matched_random_structural_control/claim_capsule.json:$.model_claim.forbidden_evidence",
+        "status": "pass"
+      },
+      "label": "matched random structural control",
+      "metrics": {
+        "CriticalUER": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.CriticalUER",
+          "status": "resolved",
+          "value": 0.626917
+        },
+        "FalseLedgerRate": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.FalseLedgerRate",
+          "status": "resolved",
+          "value": 0.548921
+        },
+        "JetCoverage": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.JetCoverage",
+          "status": "resolved",
+          "value": 0.31472
+        },
+        "UER": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.UER",
+          "status": "resolved",
+          "value": 0.41776
+        },
+        "UER_reduction": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.UER_reduction",
+          "status": "resolved",
+          "value": 0.005202
+        },
+        "classifier_shift_count": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.classifier_shift_count",
+          "status": "resolved",
+          "value": 0.0
+        },
+        "cost": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.cost",
+          "status": "resolved",
+          "value": 0.49084
+        },
+        "negative_witnesses": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.negative_witnesses",
+          "status": "resolved",
+          "value": 0.562179
+        },
+        "ood_accuracy": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.ood_accuracy",
+          "status": "resolved",
+          "value": 0.5207
+        },
+        "order": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.order",
+          "status": "resolved",
+          "value": 0.53352
+        },
+        "quality_q": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.quality_q",
+          "status": "resolved",
+          "value": 0.438873
+        },
+        "task_accuracy": {
+          "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.metrics.task_accuracy",
+          "status": "resolved",
+          "value": 0.459908
+        }
+      },
+      "metrics_by_surface": {
+        "causal_jet": {
+          "CriticalUER": 0.548516,
+          "FalseLedgerRate": 0.792938,
+          "JetCoverage": 0.304782,
+          "UER": 0.4204,
+          "UER_reduction": 0.000832,
+          "classifier_shift_count": 0.0,
+          "cost": 0.727508,
+          "negative_witnesses": 0.626732,
+          "ood_accuracy": 0.772429,
+          "order": 0.394936,
+          "quality_q": 0.443704,
+          "task_accuracy": 0.386371
+        },
+        "certificate_gate": {
+          "CriticalUER": 0.684695,
+          "FalseLedgerRate": 0.527807,
+          "JetCoverage": 0.297842,
+          "UER": 0.424753,
+          "UER_reduction": 0.007273,
+          "classifier_shift_count": 0.0,
+          "cost": 0.648625,
+          "negative_witnesses": 0.285377,
+          "ood_accuracy": 0.392858,
+          "order": 0.678899,
+          "quality_q": 0.441715,
+          "task_accuracy": 0.26476
+        },
+        "classifier_shift": {
+          "CriticalUER": 0.648386,
+          "FalseLedgerRate": 0.612426,
+          "JetCoverage": 0.311987,
+          "UER": 0.415789,
+          "UER_reduction": 0.002479,
+          "classifier_shift_count": 0.0,
+          "cost": 0.364995,
+          "negative_witnesses": 0.519205,
+          "ood_accuracy": 0.488586,
+          "order": 0.489122,
+          "quality_q": 0.422974,
+          "task_accuracy": 0.583783
+        },
+        "cost_matched": {
+          "CriticalUER": 0.667177,
+          "FalseLedgerRate": 0.537476,
+          "JetCoverage": 0.331588,
+          "UER": 0.433007,
+          "UER_reduction": 0.005187,
+          "classifier_shift_count": 0.0,
+          "cost": 0.343001,
+          "negative_witnesses": 0.666321,
+          "ood_accuracy": 0.493243,
+          "order": 0.44682,
+          "quality_q": 0.446117,
+          "task_accuracy": 0.510688
+        },
+        "critical_error": {
+          "CriticalUER": 0.736671,
+          "FalseLedgerRate": 0.541112,
+          "JetCoverage": 0.317559,
+          "UER": 0.430615,
+          "UER_reduction": 0.002016,
+          "classifier_shift_count": 0.0,
+          "cost": 0.288859,
+          "negative_witnesses": 0.62508,
+          "ood_accuracy": 0.270274,
+          "order": 0.552298,
+          "quality_q": 0.435842,
+          "task_accuracy": 0.699932
+        },
+        "ledger_gap": {
+          "CriticalUER": 0.649447,
+          "FalseLedgerRate": 0.541959,
+          "JetCoverage": 0.314189,
+          "UER": 0.409656,
+          "UER_reduction": 0.009271,
+          "classifier_shift_count": 0.0,
+          "cost": 0.362444,
+          "negative_witnesses": 0.561389,
+          "ood_accuracy": 0.733928,
+          "order": 0.582557,
+          "quality_q": 0.456912,
+          "task_accuracy": 0.406442
+        },
+        "negative_witness": {
+          "CriticalUER": 0.746743,
+          "FalseLedgerRate": 0.768986,
+          "JetCoverage": 0.33786,
+          "UER": 0.390273,
+          "UER_reduction": 0.008594,
+          "classifier_shift_count": 0.0,
+          "cost": 0.582527,
+          "negative_witnesses": 0.427604,
+          "ood_accuracy": 0.357681,
+          "order": 0.567401,
+          "quality_q": 0.425299,
+          "task_accuracy": 0.33455
+        },
+        "out_of_distribution": {
+          "CriticalUER": 0.635811,
+          "FalseLedgerRate": 0.262051,
+          "JetCoverage": 0.313026,
+          "UER": 0.422093,
+          "UER_reduction": 0.00869,
+          "classifier_shift_count": 0.0,
+          "cost": 0.490768,
+          "negative_witnesses": 0.695194,
+          "ood_accuracy": 0.713557,
+          "order": 0.610578,
+          "quality_q": 0.434963,
+          "task_accuracy": 0.615622
+        },
+        "safety_boundary": {
+          "CriticalUER": 0.324807,
+          "FalseLedgerRate": 0.355537,
+          "JetCoverage": 0.303651,
+          "UER": 0.413256,
+          "UER_reduction": 0.002479,
+          "classifier_shift_count": 0.0,
+          "cost": 0.608836,
+          "negative_witnesses": 0.65271,
+          "ood_accuracy": 0.463743,
+          "order": 0.479065,
+          "quality_q": 0.442333,
+          "task_accuracy": 0.33702
+        }
+      },
+      "model_id": "matched_random_structural_control",
+      "negative_witness_sweep": {
+        "owner_pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$.pattern_spec.surface_suite",
+        "status": "pass",
+        "surface": "negative_witness"
+      },
+      "not_claimed": [
+        "No production deployment readiness is claimed.",
+        "No global model superiority claim is made.",
+        "No terminal verdict or winner is emitted.",
+        "The comparison is a deterministic toy owner-projection lane only."
+      ],
+      "owner": {
+        "pointer": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json:$",
+        "status": "resolved"
+      },
+      "owner_status": "resolved",
+      "parameter_count": 144000,
+      "status": "resolved",
+      "surfaces": [
+        "safety_boundary",
+        "ledger_gap",
+        "certificate_gate",
+        "negative_witness",
+        "classifier_shift",
+        "out_of_distribution",
+        "critical_error",
+        "causal_jet",
+        "cost_matched"
+      ],
+      "training_role": "random gap/certificate/ledger replay"
+    }
+  ],
   "ranking_key": [
     "quality_q",
     "JetCoverage"
   ],
+  "readiness": {
+    "failed_gates": [],
+    "status": "ready"
+  },
   "schema_id": "bedc-quality-lab:model-comparison",
-  "source_reports": [
+  "source_artifacts": [
     {
-      "artifact": "reports/canonical/certificate-gated-attention.json",
+      "artifact": "configs/default_cost_protocol.yaml",
       "pointer": "$"
     },
     {
-      "artifact": "reports/canonical/discovery-gated-transformer.json",
+      "artifact": "reports/runs/model-comparison/base_transformer/claim_capsule.json",
       "pointer": "$"
     },
     {
-      "artifact": "reports/canonical/discovery-regularized-training.json",
+      "artifact": "reports/runs/model-comparison/base_transformer/evidence_envelope.json",
       "pointer": "$"
     },
     {
-      "artifact": "reports/canonical/discovery_map.json",
+      "artifact": "reports/runs/model-comparison/dgt/claim_capsule.json",
       "pointer": "$"
     },
     {
-      "artifact": "reports/canonical/ledger-aware-transformer.json",
+      "artifact": "reports/runs/model-comparison/dgt/evidence_envelope.json",
       "pointer": "$"
     },
     {
-      "artifact": "reports/canonical/mechanism-seeking-network.json",
+      "artifact": "reports/runs/model-comparison/matched_random_structural_control/claim_capsule.json",
       "pointer": "$"
     },
     {
-      "artifact": "reports/canonical/model_design_suite.json",
+      "artifact": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json",
       "pointer": "$"
     }
   ],
-  "status": "not_ready"
+  "source_reports": [
+    {
+      "artifact": "configs/default_cost_protocol.yaml",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/runs/model-comparison/base_transformer/claim_capsule.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/runs/model-comparison/base_transformer/evidence_envelope.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/runs/model-comparison/dgt/claim_capsule.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/runs/model-comparison/dgt/evidence_envelope.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/runs/model-comparison/matched_random_structural_control/claim_capsule.json",
+      "pointer": "$"
+    },
+    {
+      "artifact": "reports/runs/model-comparison/matched_random_structural_control/evidence_envelope.json",
+      "pointer": "$"
+    }
+  ],
+  "status": "ready"
 }

@@ -23,6 +23,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab import model_comparison as model_comparison_projector
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value as _bracket_pointer_value
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer as _resolve_committed_artifact_pointer
 from bedc_quality_lab.discovery_compiler.pointers import split_artifact_pointer as _split_artifact_pointer
@@ -1303,7 +1304,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
     ),
     CanonicalReportSpec(
         name="model-comparison",
-        command=("python3", "scripts/run_canonical_reports.py"),
+        command=("python3", "scripts/run_model_comparison.py"),
         json_artifact=MODEL_COMPARISON_JSON_ARTIFACT,
         markdown_artifact=MODEL_COMPARISON_MARKDOWN_ARTIFACT,
         required_json_keys=(
@@ -1311,20 +1312,25 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "artifact_id",
             "generated_at",
             "status",
-            "ranking_key",
-            "models",
+            "owners",
             "hardgates",
+            "readiness",
+            "cost_protocol",
             "not_claimed",
-            "source_reports",
+            "source_artifacts",
         ),
-        estimated_seconds=1,
+        estimated_seconds=2,
         bundle_role="auxiliary",
         scope_pointer="$.not_claimed",
-        cost_pointer="$.source_reports",
+        cost_pointer="$.cost_protocol",
         not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.hardgates.CMP-HG5",
-        control_pointer="$.hardgates.CMP-HG3",
+        positive_claim_pointer="$.hardgates.MC-HG7",
+        control_pointer="$.hardgates.MC-HG8",
         no_control_rationale_pointer=None,
+        claim_capsule_pointer="$.owners[0].claim_capsule",
+        evidence_envelope_pointer="$.owners[0].evidence_envelope",
+        backend_pointer="$.source_artifacts",
+        discovery_level_pointer="$.readiness.status",
     ),
     CanonicalReportSpec(
         name="causal-patch-suite",
@@ -4220,124 +4226,24 @@ def _model_design_suite_index_section(payload: Mapping[str, Any]) -> dict[str, A
     }
 
 
-MODEL_COMPARISON_RANKING_KEY = ("quality_q", "JetCoverage")
-MODEL_COMPARISON_REQUIRED_MODELS: tuple[dict[str, str | None], ...] = (
+MODEL_COMPARISON_RANKING_KEY = model_comparison_projector.RANKING_KEY
+MODEL_COMPARISON_REQUIRED_MODELS: tuple[dict[str, str | None], ...] = tuple(
     {
-        "model_id": "base_transformer",
-        "label": "Base transformer",
-        "owner_artifact": None,
-        "discovery_component_id": "base_transformer",
-    },
-    {
-        "model_id": "ledger-aware-transformer",
-        "label": "Ledger-aware transformer",
-        "owner_artifact": "reports/canonical/ledger-aware-transformer.json",
-        "discovery_component_id": "LAT",
-    },
-    {
-        "model_id": "certificate-gated-attention",
-        "label": "Certificate-gated attention",
-        "owner_artifact": "reports/canonical/certificate-gated-attention.json",
-        "discovery_component_id": "CGA",
-    },
-    {
-        "model_id": "discovery-regularized-training",
-        "label": "Discovery-regularized training",
-        "owner_artifact": DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT,
-        "discovery_component_id": "DRT",
-    },
-    {
-        "model_id": "mechanism-seeking-network",
-        "label": "Mechanism-seeking network",
-        "owner_artifact": MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT,
-        "discovery_component_id": "MSN",
-    },
-    {
-        "model_id": "DGT candidate",
-        "label": "DGT candidate",
-        "owner_artifact": DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
-        "discovery_component_id": "DGT",
-    },
-    {
-        "model_id": "matched-random structural control",
-        "label": "Matched-random structural control",
-        "owner_artifact": None,
-        "discovery_component_id": "matched-random structural control",
-    },
+        "model_id": model_id,
+        "label": model_id.replace("_", " "),
+        "owner_artifact": f"{model_comparison_projector.RUN_ARTIFACT_ROOT}/{model_id}/evidence_envelope.json",
+        "discovery_component_id": model_id,
+    }
+    for model_id in model_comparison_projector.MODEL_IDS
 )
 MODEL_COMPARISON_METRIC_POINTERS: Mapping[str, Mapping[str, str]] = {
-    "ledger-aware-transformer": {
-        "task_accuracy": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_learned",
-        "ood_accuracy": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.ood_surface_count",
-        "UER": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.uer_learned",
-        "FalseLedgerRate": "reports/canonical/ledger-aware-transformer.json:$.aggregate_metrics.false_alarm_learned",
-        "CriticalUER": "reports/canonical/ledger-aware-transformer.json:$.records[0].gap_head.metrics.critical_unlogged_error_rate",
-        "classifier_shift": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.net_positive_signal",
-        "order": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.level_candidate",
-        "quality_q": "reports/canonical/ledger-aware-transformer.json:$.discovery_map_signal.scorecard_pointer",
-        "cost": "reports/canonical/ledger-aware-transformer.json:$.source_artifacts.cost_protocol",
-        "negative_witnesses": "reports/canonical/ledger-aware-transformer.json:$.revocation_rows",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[4].mechanism_certificate_pointer",
-        "CausalJetCoverage": "reports/canonical/ledger-aware-transformer.json:$.mechanism_certificate",
-    },
-    "certificate-gated-attention": {
-        "task_accuracy": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
-        "ood_accuracy": "reports/canonical/certificate-gated-attention.json:$.surface_registry.multi_surface_positive",
-        "UER": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_attention_leak_reduction_positive",
-        "FalseLedgerRate": "reports/canonical/certificate-gated-attention.json:$.matched_random_control.matched_random_gate_leak_mean",
-        "CriticalUER": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary.gated_attention_leak_reduction_positive",
-        "classifier_shift": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.status",
-        "order": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.level_candidate",
-        "quality_q": "reports/canonical/certificate-gated-attention.json:$.discovery_map_signal.status",
-        "cost": "reports/canonical/certificate-gated-attention.json:$.source_artifacts.cost_protocol",
-        "negative_witnesses": "reports/canonical/certificate-gated-attention.json:$.revocation_rows",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[0].mechanism_certificate_pointer",
-        "CausalJetCoverage": "reports/canonical/certificate-gated-attention.json:$.certificate_gate_summary",
-    },
-    "discovery-regularized-training": {
-        "task_accuracy": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.surface_registry.task_accuracy_only",
-        "ood_accuracy": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.surface_registry.quality",
-        "UER": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.arm_comparisons.DRT.quality_q",
-        "FalseLedgerRate": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.matched_random_control.matched_random_certificate_loss_mean",
-        "CriticalUER": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.hardgate",
-        "classifier_shift": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.surface_registry.classifier_shift",
-        "order": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.arm_quality_order",
-        "quality_q": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.quality_promotion_boundary.arm_comparisons.DRT.quality_q",
-        "cost": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.compute_ledger",
-        "negative_witnesses": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.negative_witness_mutations",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[3].mechanism_certificate_pointer",
-        "CausalJetCoverage": f"{DISCOVERY_REGULARIZED_TRAINING_JSON_ARTIFACT}:$.training_mechanism_cert",
-    },
-    "mechanism-seeking-network": {
-        "task_accuracy": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.surface_registry",
-        "ood_accuracy": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.surface_registry",
-        "UER": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.distinction_module_risk",
-        "FalseLedgerRate": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.matched_random_control.matched_random_score_mean",
-        "CriticalUER": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.d5_m_readiness",
-        "classifier_shift": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.discovery_map_signal.status",
-        "order": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.discovery_map_signal.level_candidate",
-        "quality_q": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.mechanism_gate_summary",
-        "cost": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.source_artifacts.cost_protocol",
-        "negative_witnesses": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.revocation_rows",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[6].mechanism_certificate_pointer",
-        "CausalJetCoverage": f"{MECHANISM_SEEKING_NETWORK_JSON_ARTIFACT}:$.mechanism_gate_summary",
-    },
-    "DGT candidate": {
-        "task_accuracy": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_refs.training_replay",
-        "ood_accuracy": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
-        "UER": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.evidence_envelope_ref",
-        "FalseLedgerRate": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.gates.DGT-HG11",
-        "CriticalUER": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.gates.DGT-HG10",
-        "classifier_shift": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
-        "order": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.model_id",
-        "quality_q": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate.status",
-        "cost": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.source_artifacts",
-        "negative_witnesses": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
-        "JetCoverage": "reports/canonical/discovery_map.json:$.coverage_matrix.cells[2].mechanism_certificate_pointer",
-        "CausalJetCoverage": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_namecert_ref",
-    },
+    model_id: {
+        metric: f"{model_comparison_projector.RUN_ARTIFACT_ROOT}/{model_id}/evidence_envelope.json:$.metrics.{metric}"
+        for metric in model_comparison_projector.METRIC_KEYS
+    }
+    for model_id in model_comparison_projector.MODEL_IDS
 }
-MODEL_COMPARISON_HARDGATE_IDS = tuple(f"CMP-HG{index}" for index in range(1, 6))
+MODEL_COMPARISON_HARDGATE_IDS = model_comparison_projector.HARDGATE_IDS
 
 
 def _model_comparison_pointer(pointer: str) -> str:
@@ -4345,19 +4251,7 @@ def _model_comparison_pointer(pointer: str) -> str:
 
 
 def _model_comparison_source_artifacts() -> tuple[str, ...]:
-    artifacts = {DISCOVERY_MAP_JSON_ARTIFACT, MODEL_DESIGN_SUITE_JSON_ARTIFACT}
-    artifacts.update(
-        artifact
-        for row in MODEL_COMPARISON_REQUIRED_MODELS
-        for artifact in (row.get("owner_artifact"),)
-        if isinstance(artifact, str)
-    )
-    for metric_pointers in MODEL_COMPARISON_METRIC_POINTERS.values():
-        for pointer in metric_pointers.values():
-            split = _split_artifact_pointer(pointer)
-            if split is not None:
-                artifacts.add(split[0])
-    return tuple(sorted(artifacts))
+    return model_comparison_projector.source_artifacts()
 
 
 def _model_comparison_pointer_record(pointer: str | None) -> dict[str, str | None]:
@@ -4474,73 +4368,15 @@ def _model_comparison_hardgates(rows: Sequence[Mapping[str, Any]]) -> dict[str, 
 
 
 def _build_model_comparison(generated_at: str | None = None) -> dict[str, Any]:
-    timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
-    discovery_map_payload = _discovery_map_payload(generated_at=timestamp)
-    rows = [
-        _model_comparison_row(source, discovery_map_payload)
-        for source in MODEL_COMPARISON_REQUIRED_MODELS
-    ]
-    hardgates = _model_comparison_hardgates(rows)
-    ranking_ready = hardgates["CMP-HG5"]["status"] == "pass"
-    payload: dict[str, Any] = {
-        "schema_id": MODEL_COMPARISON_SCHEMA_ID,
-        "artifact_id": MODEL_COMPARISON_ARTIFACT_ID,
-        "generated_at": timestamp,
-        "status": "pass" if all(gate["status"] == "pass" for gate in hardgates.values()) else "not_ready",
-        "ranking_key": list(MODEL_COMPARISON_RANKING_KEY),
-        "models": rows,
-        "hardgates": hardgates,
-        "not_claimed": [
-            "No global model winner is selected.",
-            "No accuracy-only ordering is emitted.",
-            "Missing canonical owners remain missing_source until producer-owned artifacts exist.",
-        ],
-        "source_reports": [
-            {"artifact": artifact, "pointer": "$"}
-            for artifact in _model_comparison_source_artifacts()
-        ],
-    }
-    if ranking_ready:
-        payload["ordering"] = {
-            "status": "ready",
-            "key": list(MODEL_COMPARISON_RANKING_KEY),
-            "rows_pointer": _model_comparison_pointer("$.models"),
-        }
-    else:
-        payload["ordering"] = {"status": "not_ready"}
-    return payload
+    return model_comparison_projector.build_payload(
+        root=ROOT,
+        generated_at=generated_at,
+        write_runs=True,
+    )
 
 
 def _render_model_comparison_markdown(payload: Mapping[str, Any]) -> str:
-    lines = [
-        "# Model Comparison",
-        "",
-        f"- Generated at: `{payload['generated_at']}`",
-        f"- Artifact: `{payload['artifact_id']}`",
-        f"- Schema: `{payload['schema_id']}`",
-        f"- Status: `{payload['status']}`",
-        f"- Ranking key: `{', '.join(payload['ranking_key'])}`",
-        "",
-        "## Models",
-        "",
-        "| model | status | owner | metrics |",
-        "| --- | --- | --- | --- |",
-    ]
-    for row in payload["models"]:
-        resolved_count = sum(1 for record in row["metrics"].values() if record["status"] == "resolved")
-        lines.append(
-            "| "
-            f"`{row['model_id']}` | "
-            f"`{row['status']}` | "
-            f"`{row['owner']['pointer']}` | "
-            f"`{resolved_count}/{len(row['metrics'])}` |"
-        )
-    lines.extend(["", "## Hardgates", "", "| gate | status | reason |", "| --- | --- | --- |"])
-    for gate_id in MODEL_COMPARISON_HARDGATE_IDS:
-        gate = payload["hardgates"][gate_id]
-        lines.append(f"| `{gate_id}` | `{gate['status']}` | {gate['reason']} |")
-    lines.append("")
-    return "\n".join(lines)
+    return model_comparison_projector.render_markdown(payload)
 
 
 def _model_comparison_index_section(payload: Mapping[str, Any]) -> dict[str, Any]:

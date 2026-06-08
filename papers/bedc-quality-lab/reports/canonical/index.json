@@ -234,9 +234,9 @@
       },
       {
         "bundle_role": "auxiliary",
-        "control_pointer": "$.hardgates.CMP-HG3",
+        "control_pointer": "$.hardgates.MC-HG8",
         "no_control_rationale_pointer": null,
-        "positive_claim_pointer": "$.hardgates.CMP-HG5",
+        "positive_claim_pointer": "$.hardgates.MC-HG7",
         "report": "model-comparison"
       },
       {
@@ -495,7 +495,7 @@
     "pass_surface_count": 4,
     "status": "pointer-only"
   },
-  "generated_at": "2026-06-08T13:08:31.121603+00:00",
+  "generated_at": "2026-06-08T16:01:18.490477+00:00",
   "honest_boundary": {
     "claimed": "Executable, auditable experiment bench that records negative results.",
     "not_claimed": "Solved model quality.",
@@ -590,11 +590,11 @@
     "hardgates_pointer": "reports/canonical/model-comparison.json:$.hardgates",
     "json_artifact": "reports/canonical/model-comparison.json",
     "markdown_artifact": "reports/canonical/model-comparison.md",
-    "model_count": 7,
+    "model_count": 3,
     "models_pointer": "reports/canonical/model-comparison.json:$.models",
     "ranking_key_pointer": "reports/canonical/model-comparison.json:$.ranking_key",
     "schema_id": "bedc-quality-lab:model-comparison",
-    "sidecar_status": "not_ready",
+    "sidecar_status": "ready",
     "source_reports_pointer": "reports/canonical/model-comparison.json:$.source_reports",
     "status": "pointer-only"
   },
@@ -909,7 +909,7 @@
     "markdown_artifact": "reports/release_namecert_candidate.md",
     "owner_artifact": "bedc-quality-lab:release-manifest-sidecar",
     "revoke_if_pointer": "$.ledger_policy.revoke_if",
-    "source_sidecar_digest": "e4a6eab0a83fa14b826e65da17199000865dc87235f6f6faeffb3c8bb8f69c93",
+    "source_sidecar_digest": "db72d94297d7e1a7c06fe539c3ed470a5b560e2f38dad3f503fb0e2f6b7da799",
     "status": "pointer-only",
     "tag_absent_policy": "active"
   },
@@ -4279,9 +4279,9 @@
       "bundle_role": "auxiliary",
       "discipline": {
         "bundle_role": "auxiliary",
-        "control_pointer": "$.hardgates.CMP-HG3",
+        "control_pointer": "$.hardgates.MC-HG8",
         "control_status": "present",
-        "cost_pointer": "$.source_reports",
+        "cost_pointer": "$.cost_protocol",
         "cost_status": "present",
         "forbidden_claim_term_hits": [],
         "forbidden_claim_terms_status": "not-applicable",
@@ -4290,20 +4290,20 @@
         "no_control_rationale_status": "not-applicable",
         "not_claimed_pointer": "$.not_claimed",
         "not_claimed_status": "present",
-        "positive_claim_pointer": "$.hardgates.CMP-HG5",
+        "positive_claim_pointer": "$.hardgates.MC-HG7",
         "positive_claim_status": "present",
         "reporting_hardgate": {
           "applicability": "not-applicable",
           "cells": {
             "backend": {
-              "pointer": "reports/canonical/model-comparison.json:$",
+              "pointer": "$.source_artifacts",
               "source_artifact": "reports/canonical/model-comparison.json",
               "status": "present"
             },
             "claim_capsule": {
-              "pointer": "$.hardgates.CMP-HG5",
+              "pointer": "$.owners[0].claim_capsule",
               "source_artifact": "reports/canonical/model-comparison.json",
-              "status": "present"
+              "status": "missing"
             },
             "claim_graph_path": {
               "pointer": "reports/canonical/claim_graph.json:$.nodes[?node_id=terminal:model-comparison]",
@@ -4311,19 +4311,19 @@
               "status": "missing"
             },
             "cost_protocol": {
-              "pointer": "$.source_reports",
+              "pointer": "$.cost_protocol",
               "source_artifact": "reports/canonical/model-comparison.json",
               "status": "present"
             },
             "discovery_level": {
-              "pointer": "reports/canonical/discovery_map.json:$.rows[?report=model-comparison].discovery_level",
-              "source_artifact": "reports/canonical/discovery_map.json",
-              "status": "missing"
-            },
-            "evidence_envelope": {
-              "pointer": "reports/canonical/model-comparison.json:$.hardgates.CMP-HG5",
+              "pointer": "$.readiness.status",
               "source_artifact": "reports/canonical/model-comparison.json",
               "status": "present"
+            },
+            "evidence_envelope": {
+              "pointer": "$.owners[0].evidence_envelope",
+              "source_artifact": "reports/canonical/model-comparison.json",
+              "status": "missing"
             },
             "formal_status": {
               "pointer": "reports/canonical/formal_hardening.json:$.rows[?report=model-comparison]",
@@ -4360,7 +4360,7 @@
         "scope_status": "present"
       },
       "duration_seconds": 0.0,
-      "estimated_seconds": 1,
+      "estimated_seconds": 2,
       "fingerprint_reason": "match",
       "fingerprint_sidecar": "reports/canonical/model-comparison.fingerprint.json",
       "fingerprint_status": "match",
@@ -4369,7 +4369,7 @@
       "name": "model-comparison",
       "producer_command": [
         "python3",
-        "scripts/run_canonical_reports.py"
+        "scripts/run_model_comparison.py"
       ],
       "producer_status": "skipped",
       "status": "pass",
@@ -4380,11 +4380,12 @@
           "artifact_id",
           "generated_at",
           "status",
-          "ranking_key",
-          "models",
+          "owners",
           "hardgates",
+          "readiness",
+          "cost_protocol",
           "not_claimed",
-          "source_reports"
+          "source_artifacts"
         ],
         "required_key_validation": {
           "missing_keys": [],

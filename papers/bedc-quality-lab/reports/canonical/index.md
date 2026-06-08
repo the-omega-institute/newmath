@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-08T13:08:31.121603+00:00`
+- Generated at: `2026-06-08T16:01:18.490477+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -37,7 +37,7 @@
 | `lejepa-theorem-ledger` | `pass` | `not-applicable` | `` | `reports/canonical/lejepa_theorem_ledger.json` | `reports/canonical/lejepa_theorem_ledger.md` | `reports/canonical/lejepa_theorem_ledger.fingerprint.json` | `$.scope` | `$.source_artifacts.cost_protocol` | `$.not_claimed` | `$.positive_claim` | `$.scope` |
 | `observed-debt-sweep` | `pass` | `not-applicable` | `` | `reports/canonical/observed-debt-sweep.json` | `reports/canonical/observed-debt-sweep.md` | `reports/canonical/observed-debt-sweep.fingerprint.json` | `$.claim_boundary.C4` | `$.source_artifacts` | `$.not_claimed` | `$.hardgate_evidence.C-HG5` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `pass` | `not-applicable` | `` | `reports/canonical/spectral-ablation-hinge.json` | `reports/canonical/spectral-ablation-hinge.md` | `reports/canonical/spectral-ablation-hinge.fingerprint.json` | `$.applicability_boundary` | `$.source_artifacts` | `$.applicability_boundary.not_claimed` | `$.ledger_summary` | `$.negative_control_summary` |
-| `model-comparison` | `pass` | `not-applicable` | `` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.source_reports` | `$.not_claimed` | `$.hardgates.CMP-HG5` | `$.hardgates.CMP-HG3` |
+| `model-comparison` | `pass` | `not-applicable` | `` | `reports/canonical/model-comparison.json` | `reports/canonical/model-comparison.md` | `reports/canonical/model-comparison.fingerprint.json` | `$.not_claimed` | `$.cost_protocol` | `$.not_claimed` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG8` |
 | `causal-patch-suite` | `pass` | `not-applicable` | `` | `reports/canonical/causal_patch_suite.json` | `reports/canonical/patch_effect_summary.md` | `reports/canonical/causal_patch_suite.fingerprint.json` | `$.not_claimed` | `$.schema_constants.PATCH_MATCHED_CONTROL` | `$.not_claimed` | `$.discovery_projection` | `$.matched_control_summary` |
 
 ## Dashboard
@@ -186,7 +186,7 @@
 ## Model Comparison
 
 - Status: `pointer-only`
-- Sidecar status: `not_ready`
+- Sidecar status: `ready`
 - JSON: `reports/canonical/model-comparison.json`
 - Markdown: `reports/canonical/model-comparison.md`
 - Schema: `bedc-quality-lab:model-comparison`
@@ -386,7 +386,7 @@
 | `lejepa-theorem-ledger` | `auxiliary` | `$.positive_claim` | `None` | `$.scope` |
 | `observed-debt-sweep` | `auxiliary` | `$.hardgate_evidence.C-HG5` | `None` | `$.claim_boundary.C4` |
 | `spectral-ablation-hinge` | `auxiliary` | `$.ledger_summary` | `$.negative_control_summary` | `None` |
-| `model-comparison` | `auxiliary` | `$.hardgates.CMP-HG5` | `$.hardgates.CMP-HG3` | `None` |
+| `model-comparison` | `auxiliary` | `$.hardgates.MC-HG7` | `$.hardgates.MC-HG8` | `None` |
 | `causal-patch-suite` | `auxiliary` | `$.discovery_projection` | `$.matched_control_summary` | `None` |
 
 ## Literature ledger pointer

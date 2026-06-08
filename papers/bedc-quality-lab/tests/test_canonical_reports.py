@@ -207,13 +207,17 @@ def _payload_for_spec(spec):
             "artifact_id": canonical.MODEL_COMPARISON_ARTIFACT_ID,
             "generated_at": "fixture-generated-at",
             "status": "not_ready",
+            "readiness": {"status": "not_ready", "failed_gates": list(canonical.MODEL_COMPARISON_HARDGATE_IDS)},
             "ranking_key": list(canonical.MODEL_COMPARISON_RANKING_KEY),
-            "models": [],
+            "owners": [],
             "hardgates": {
                 gate_id: {"gate_id": gate_id, "status": "fail", "reason": "fixture"}
                 for gate_id in canonical.MODEL_COMPARISON_HARDGATE_IDS
             },
+            "cost_protocol": {"pointer": "configs/default_cost_protocol.yaml", "status": "resolved"},
             "not_claimed": ["fixture"],
+            "source_artifacts": [],
+            "models": [],
             "source_reports": [],
             "ordering": {"status": "not_ready"},
         }
@@ -1961,20 +1965,16 @@ def test_model_comparison_sidecar_is_indexed_pointer_only():
 
 def test_model_comparison_rows_cover_issue_model_set_fail_closed():
     payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
-    rows = {row["model_id"]: row for row in payload["models"]}
+    rows = {row["model_id"]: row for row in payload["owners"]}
 
     assert list(rows) == [
+        "dgt",
         "base_transformer",
-        "ledger-aware-transformer",
-        "certificate-gated-attention",
-        "discovery-regularized-training",
-        "mechanism-seeking-network",
-        "DGT candidate",
-        "matched-random structural control",
+        "matched_random_structural_control",
     ]
-    assert rows["base_transformer"]["status"] == "missing_source"
-    assert rows["matched-random structural control"]["status"] == "missing_source"
-    assert rows["ledger-aware-transformer"]["status"] == "ready"
+    assert rows["base_transformer"]["status"] == "resolved"
+    assert rows["matched_random_structural_control"]["status"] == "resolved"
+    assert rows["dgt"]["status"] == "resolved"
 
 
 def test_model_comparison_rejects_accuracy_only_ranking():
@@ -1990,39 +1990,37 @@ def test_model_comparison_ranking_key_is_claim_specific(monkeypatch):
     assert payload["ranking_key"] == ["quality_q", "JetCoverage"]
     assert payload["ordering"]["status"] == "ready"
 
-    real_resolve = canonical._resolve_committed_artifact_pointer
+    real_resolve = canonical.model_comparison_projector.resolve_artifact_pointer
 
     def missing_quality_q(root, pointer):
-        if pointer.endswith("$.hardgate.status"):
+        if pointer.endswith("$.metrics.quality_q"):
             return None
         return real_resolve(root, pointer)
 
-    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", missing_quality_q)
+    monkeypatch.setattr(canonical.model_comparison_projector, "resolve_artifact_pointer", missing_quality_q)
     blocked = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
 
-    assert blocked["hardgates"]["CMP-HG5"]["status"] == "fail"
+    assert blocked["hardgates"]["MC-HG7"]["status"] == "fail"
     assert blocked["ordering"]["status"] == "not_ready"
 
 
 def test_model_comparison_hardgates_fail_closed(monkeypatch):
-    real_resolve = canonical._resolve_committed_artifact_pointer
+    real_resolve = canonical.model_comparison_projector.resolve_artifact_pointer
 
     def missing_required_controls(root, pointer):
         blocked_fragments = (
-            "$.parameter_matched_baseline",
-            "$.compute_matched_baseline",
-            "matched-random-control.json",
+            "base_transformer/evidence_envelope.json",
+            "matched_random_structural_control/evidence_envelope.json",
         )
         if any(fragment in pointer for fragment in blocked_fragments):
             return None
         return real_resolve(root, pointer)
 
-    monkeypatch.setattr(canonical, "_resolve_committed_artifact_pointer", missing_required_controls)
+    monkeypatch.setattr(canonical.model_comparison_projector, "resolve_artifact_pointer", missing_required_controls)
     payload = canonical._build_model_comparison(generated_at="2030-01-01T00:00:00+00:00")
 
-    assert payload["hardgates"]["CMP-HG1"]["status"] == "fail"
-    assert payload["hardgates"]["CMP-HG2"]["status"] == "fail"
-    assert payload["hardgates"]["CMP-HG3"]["status"] == "fail"
+    assert payload["hardgates"]["MC-HG2"]["status"] == "fail"
+    assert payload["readiness"]["status"] == "not_ready"
 
 
 def test_model_comparison_metric_pointers_resolve_or_mark_missing():
@@ -2033,19 +2031,19 @@ def test_model_comparison_metric_pointers_resolve_or_mark_missing():
         "UER",
         "FalseLedgerRate",
         "CriticalUER",
-        "classifier_shift",
+        "classifier_shift_count",
         "order",
         "quality_q",
         "cost",
         "negative_witnesses",
         "JetCoverage",
-        "CausalJetCoverage",
+        "UER_reduction",
     }
 
-    for row in payload["models"]:
+    for row in payload["owners"]:
         assert set(row["metrics"]) == expected_metrics
         for metric in row["metrics"].values():
-            assert set(metric) == {"pointer", "status"}
+            assert set(metric) == {"pointer", "status", "value"}
             assert metric["status"] in {"resolved", "missing"}
 
 
@@ -2757,7 +2755,7 @@ def test_manifest_required_keys_cover_linked_control_evidence():
         keys = set(spec.required_json_keys)
         assert "generated_at" in keys
         if spec.name == "model-comparison":
-            assert "source_reports" in keys
+            assert {"owners", "hardgates", "readiness", "cost_protocol", "not_claimed", "source_artifacts"}.issubset(keys)
             continue
         assert "source_artifacts" in keys
     assert {"control_protocol", "control_verdict"}.issubset(
