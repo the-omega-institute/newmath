@@ -22,6 +22,7 @@ from bedc_quality_lab.discovery_gated_transformer import (
     JET_CERTIFICATE_ARTIFACT,
     MECHANISM_NAMECERT_ARTIFACT,
     MODEL_ID,
+    SOURCE_REFS_ARTIFACT,
     build_projection,
     default_sidecars,
     render_markdown,
@@ -34,6 +35,7 @@ SIDECAR_ARTIFACTS = {
     "claim_capsule": CLAIM_CAPSULE_ARTIFACT,
     "evidence_envelope": EVIDENCE_ENVELOPE_ARTIFACT,
     "mechanism_namecert": MECHANISM_NAMECERT_ARTIFACT,
+    "source_refs": SOURCE_REFS_ARTIFACT,
     "jet_certificate": JET_CERTIFICATE_ARTIFACT,
 }
 

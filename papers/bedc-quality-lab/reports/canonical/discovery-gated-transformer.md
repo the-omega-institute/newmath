@@ -1,6 +1,6 @@
 # Discovery-Gated Transformer
 
-- Generated at: `2026-06-08T13:08:31.121603+00:00`
+- Generated at: `2026-06-08T15:48:16.344791+00:00`
 - Schema: `bedc-quality-lab:discovery-gated-transformer`
 - Artifact: `bedc-quality-lab:discovery-gated-transformer`
 - Model: `discovery-gated-transformer`
@@ -74,3 +74,5 @@
 - Evidence envelope: `reports/runs/discovery-gated-transformer/evidence_envelope.json:$`
 - Mechanism NameCert: `reports/runs/discovery-gated-transformer/mechanism_namecert.json:$`
 - Jet certificate: `reports/runs/discovery-gated-transformer/jet_certificate.json:$`
+- Jet hardgate: `reports/canonical/discovery-gated-transformer.json:$.hardgate`
+- Discovery map signal: `reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal`

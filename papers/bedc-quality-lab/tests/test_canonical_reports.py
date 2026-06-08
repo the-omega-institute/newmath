@@ -201,6 +201,10 @@ def _drt_mechanism_ablation_fixture() -> dict[str, object]:
 def _payload_for_spec(spec):
     if spec.name == "order-k-benchmark":
         return OrderKBenchmarkProjection.project(generated_at="fixture", seed=1004)
+    if spec.name == "discovery-gated-transformer":
+        from scripts import run_discovery_gated_transformer as dgt_runner
+
+        return dgt_runner.build_payload(generated_at="fixture")
     if spec.name == "model-comparison":
         return {
             "schema_id": canonical.MODEL_COMPARISON_SCHEMA_ID,
@@ -3128,13 +3132,17 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "component_refs",
         "architecture_spec",
         "hardgate",
+        "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
         "discovery_map_signal",
+        "discovery_map_signal_ref",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
         "jet_certificate_ref",
+        "forbidden_claim_term_audit",
+        "revocation_rows",
         "not_claimed",
     }
     assert payload["schema_id"] == canonical.DISCOVERY_GATED_TRANSFORMER_SCHEMA_ID
@@ -3199,16 +3207,22 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "architecture_spec_pointer",
         "component_refs_pointer",
         "hardgate_pointer",
+        "hardgate_ref_pointer",
         "tool_route_evidence_pointer",
         "tool_route_hardgate_pointer",
         "family_definition_pointer",
         "family_definition_hardgate_pointer",
         "model_family_claim_status_pointer",
         "discovery_map_signal_pointer",
+        "discovery_map_signal_ref_pointer",
         "claim_capsule_ref_pointer",
         "evidence_envelope_ref_pointer",
         "mechanism_namecert_ref_pointer",
         "jet_certificate_ref_pointer",
+        "jet_certificate_pointer",
+        "jet_hardgate_pointer",
+        "forbidden_claim_term_audit_pointer",
+        "revocation_rows_pointer",
         "not_claimed_pointer",
         "hardgate_instance_pointers",
     }
@@ -4615,6 +4629,48 @@ def test_committed_canonical_bundle_matches_registered_reports():
     assert discovery_payload == regenerated_discovery
     assert claim_rows == regenerated_claim_rows
     assert index_payload == regenerated_index
+
+
+def test_canonical_dgt_report_exposes_jet_certificate_pointer_only():
+    spec = canonical._specs_by_name()["discovery-gated-transformer"]
+    payload = _payload_for_spec(spec)
+
+    assert "dgt-boundary-causal-jet" not in {item.name for item in canonical.CANONICAL_REPORTS}
+    for key in (
+        "schema_id",
+        "artifact_id",
+        "source_artifacts",
+        "jet_certificate_ref",
+        "hardgate_ref",
+        "not_claimed",
+        "forbidden_claim_term_audit",
+        "revocation_rows",
+        "discovery_map_signal_ref",
+    ):
+        assert key in payload
+    assert payload["jet_certificate_ref"] == {
+        "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+        "pointer": "$",
+    }
+    serialized = json.dumps(payload, sort_keys=True)
+    assert "surface_rows" not in serialized
+    assert "matched_random_gain" not in serialized
+
+
+def test_dgt_canonical_index_uses_artifact_qualified_jet_pointers():
+    payload = canonical._index([], generated_at="fixture-generated-at")
+    section = payload["discovery-gated-transformer"]
+
+    assert section["jet_certificate_pointer"] == "reports/runs/discovery-gated-transformer/jet_certificate.json:$"
+    assert section["jet_hardgate_pointer"] == "reports/runs/discovery-gated-transformer/jet_certificate.json:$.hardgate"
+    assert section["hardgate_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.hardgate"
+    assert section["discovery_map_signal_ref_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal_ref"
+    )
+    serialized = json.dumps(section, sort_keys=True)
+    assert "surface_rows" not in serialized
+    assert "matched_random_gain" not in serialized
+    assert "dgt-boundary-causal-jet" not in serialized
 
 
 def test_claim_capsule_is_generated_and_not_canonical_report_artifact(tmp_path, monkeypatch):

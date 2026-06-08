@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-08T13:08:31.121603+00:00`
+- Generated at: `2026-06-08T15:48:16.344791+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
