@@ -2470,6 +2470,104 @@ def test_certificate_training_discovery_map_preserves_claim_capsule_terminal_ver
     assert discovery_map.pointer_value(payload, "$.arm_protocol.compat_roles.after") == "constraint_lagrangian"
 
 
+def test_derivative_hardgate_failure_projects_to_dn_with_owner_debt_pointer(tmp_path):
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+    payload = _minimal_payload(spec)
+    payload.update(
+        {
+            "bounded_lab_evidence": {"status": "fail", "hardgate_pointer": "$.hardgates"},
+            "hardgate": {"status": "fail"},
+            "hardgates": {
+                "status": "fail",
+                "failed_layers": ["layer_2"],
+                "by_layer": {
+                    "layer_2": {
+                        "status": "fail",
+                        "derivative_status": "fail",
+                        "control_status": "pass",
+                    }
+                },
+            },
+            "failed_gate": "layer_2",
+            "debt_items": [
+                {
+                    "kind": "derivative",
+                    "residue": "high-order-instability",
+                    "status": "open",
+                    "severity": "high",
+                    "score": 0.24,
+                }
+            ],
+            "ledger_gaps": [
+                {
+                    "kind": "derivative",
+                    "residue": "high-order-instability",
+                    "status": "open",
+                    "severity": "high",
+                    "failed_gate": "layer_2",
+                }
+            ],
+            "mechanism_claim_allowed": {"allowed": False, "status": "blocked"},
+        }
+    )
+    _write_json_artifact(tmp_path, spec.json_artifact, payload)
+
+    row = discovery_map.build_source_discovery_rows(root=tmp_path, canonical_reports=(spec,))[0]
+    assert row["discovery_level"] == "DN"
+    assert row["failed_gate"] == "$.hardgates.by_layer.layer_2.status"
+    assert row["debt_row_pointer"] == "$.ledger_gaps[0]"
+    assert discovery_map.pointer_value(payload, row["failed_gate"]) == "fail"
+    assert discovery_map.pointer_value(payload, row["debt_row_pointer"])["residue"] == "high-order-instability"
+
+
+def test_derivative_dn_negative_owner_and_map_pointer_resolve(tmp_path):
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+    payload = _minimal_payload(spec)
+    payload.update(
+        {
+            "bounded_lab_evidence": {"status": "fail", "hardgate_pointer": "$.hardgates"},
+            "hardgate": {"status": "fail"},
+            "hardgates": {
+                "status": "fail",
+                "failed_layers": ["layer_1"],
+                "by_layer": {"layer_1": {"status": "fail"}},
+            },
+            "failed_gate": "layer_1",
+            "ledger_gaps": [
+                {
+                    "kind": "derivative",
+                    "residue": "shortcut-attribution",
+                    "status": "open",
+                    "severity": "high",
+                    "failed_gate": "layer_1",
+                }
+            ],
+        }
+    )
+    _write_json_artifact(tmp_path, spec.json_artifact, payload)
+    owner_rows = discovery_map.build_negative_discovery_owner_rows(root=tmp_path, canonical_reports=(spec,))
+    _write_json_artifact(
+        tmp_path,
+        discovery_map.NEGATIVE_DISCOVERY_REPORTS_ARTIFACT,
+        {"rows": owner_rows},
+    )
+
+    discovery = discovery_map.build_discovery_map(
+        generated_at="fixture-time",
+        root=tmp_path,
+        canonical_reports=(spec,),
+    )
+    row = discovery["rows"][0]
+    owner = _read_json_artifact(tmp_path, discovery_map.NEGATIVE_DISCOVERY_REPORTS_ARTIFACT)["rows"][0]
+
+    assert row["report"] == "transformer-derivative-atlas"
+    assert row["discovery_level"] == "DN"
+    assert row["negative_report_pointer"] == "reports/canonical/negative_discovery_reports.json:$.rows[0]"
+    assert owner["report_id"] == "transformer-derivative-atlas"
+    assert owner["failed_gate"] == "$.hardgates.by_layer.layer_1.status"
+    assert owner["debt_row_pointer"] == "$.ledger_gaps[0]"
+
+
 @pytest.mark.parametrize(
     ("report", "expected_pointer"),
     [

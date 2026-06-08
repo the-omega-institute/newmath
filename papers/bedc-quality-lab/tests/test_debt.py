@@ -1,8 +1,8 @@
 import math
 
 from bedc_quality_lab.cost_protocol import SCOPED_DEBT_ROWS
-from bedc_quality_lab.debt import assess_debt, format_debt_items
-from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
+from bedc_quality_lab.debt import DERIVATIVE_SCOPED_ROWS, assess_debt, format_debt_items
+from bedc_quality_lab.ledger import LedgerRowKey, derive_ledger_gaps, format_ledger_gaps
 from bedc_quality_lab.latent_distribution import (
     CANONICAL_LATENT_DISTRIBUTION_KEYS,
     LatentDistributionSpec,
@@ -130,6 +130,17 @@ def assess_scoped_case(source_spec, classifier_spec=None, stability_spec=None):
         stability_spec or {"name": "single-seed"},
         extra_rows=SCOPED_DEBT_ROWS,
     )
+
+
+def derivative_scores(metrics=None, source_spec=None, classifier_spec=None, stability_spec=None):
+    assessment = assess_debt(
+        closed_metrics(**(metrics or {})),
+        closed_source_spec() | (source_spec or {}),
+        {"name": "certified-search", "training": "certified", "output_dim": 2} | (classifier_spec or {}),
+        {"multi_seed": True} | (stability_spec or {}),
+        extra_rows=DERIVATIVE_SCOPED_ROWS,
+    )
+    return {LedgerRowKey(item.kind, item.residue): item for item in assessment.items}
 
 
 def test_source_coverage_thresholds_pin_closed_partial_open_statuses():
@@ -770,3 +781,82 @@ def test_debt_formatter_emits_canonical_keys():
         assert "severity=" in row
         assert "status=" in row
         assert "score=" in row
+
+
+def test_derivative_scoped_residues_close_when_local_metrics_clear_boundaries():
+    items = derivative_scores(
+        {
+            "derivative_row_count": 12,
+            "required_derivative_row_count": 12,
+            "high_order_instability": 0.0,
+            "shortcut_derivative": False,
+            "derivative_net_benefit": 0.1,
+            "unpatchable_high_order_claim": False,
+            "jet_order_count": 3,
+            "required_jet_order_count": 3,
+            "matched_random_jet_gain": 0.0,
+        }
+    )
+
+    for row in DERIVATIVE_SCOPED_ROWS:
+        assert items[row].status == "closed"
+        assert items[row].severity == "none"
+        assert items[row].score == 0.0
+
+
+def test_derivative_scoped_residues_open_for_seven_bad_boundaries():
+    items = derivative_scores(
+        {
+            "derivative_row_count": 0,
+            "required_derivative_row_count": 4,
+            "high_order_instability": 0.25,
+            "shortcut_derivative": True,
+            "derivative_net_benefit": -0.01,
+            "unpatchable_high_order_claim": True,
+            "jet_order_count": 0,
+            "required_jet_order_count": 2,
+            "matched_random_jet_gain": 0.05,
+        }
+    )
+
+    expected = {
+        LedgerRowKey("derivative", "row-coverage"): 0.12,
+        LedgerRowKey("derivative", "high-order-instability"): 0.24,
+        LedgerRowKey("derivative", "shortcut-attribution"): 0.22,
+        LedgerRowKey("derivative", "cost-benefit-negative"): 0.18,
+        LedgerRowKey("derivative", "unpatchable-high-order-claim"): 0.24,
+        LedgerRowKey("jet", "order-coverage"): 0.16,
+        LedgerRowKey("jet", "matched-random-control"): 0.20,
+    }
+    for row, score in expected.items():
+        assert items[row].status == "open"
+        assert items[row].severity == "high"
+        assert math.isclose(items[row].score, score, rel_tol=0.0, abs_tol=1e-12)
+
+
+def test_derivative_scoped_residues_have_partial_boundaries():
+    items = derivative_scores(
+        {
+            "derivative_row_count": 2,
+            "required_derivative_row_count": 4,
+            "high_order_instability": 0.10,
+            "shortcut_derivative_score": 0.25,
+            "derivative_net_benefit": 0.0,
+            "unpatchable_high_order_claim": False,
+            "jet_order_count": 1,
+            "required_jet_order_count": 2,
+            "matched_random_jet_gain": 0.01,
+        }
+    )
+
+    for row in (
+        LedgerRowKey("derivative", "row-coverage"),
+        LedgerRowKey("derivative", "high-order-instability"),
+        LedgerRowKey("derivative", "shortcut-attribution"),
+        LedgerRowKey("derivative", "cost-benefit-negative"),
+        LedgerRowKey("jet", "order-coverage"),
+        LedgerRowKey("jet", "matched-random-control"),
+    ):
+        assert items[row].status == "partial"
+        assert items[row].severity == "medium"
+    assert items[LedgerRowKey("derivative", "unpatchable-high-order-claim")].status == "closed"

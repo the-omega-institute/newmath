@@ -16,6 +16,7 @@ from bedc_quality_lab.discovery_compiler.map import (
 )
 from bedc_quality_lab.discovery_compiler.negative_reports import (
     JSON_ARTIFACT as NEGATIVE_REPORTS_ARTIFACT,
+    validate_negative_report_row,
 )
 from bedc_quality_lab.discovery_compiler.projection import project_finite_discovery_gate
 from scripts import run_dimension_mismatch_debt_transfer as transfer
@@ -304,6 +305,51 @@ def test_discovery_map_row_rejects_dn_fact_cells_and_accepts_pointer_only():
     assert DiscoveryMapRow.from_mapping(row).negative_report_pointer == f"{NEGATIVE_REPORTS_ARTIFACT}:$.rows[0]"
     with pytest.raises(ValueError, match="copies owner facts"):
         DiscoveryMapRow.from_mapping({**row, "terminal_verdict": "negative_discovery"})
+
+
+def test_derivative_negative_report_shape_requires_resolvable_debt_pointer(tmp_path):
+    artifact = tmp_path / "reports" / "canonical" / "transformer_derivative_atlas.json"
+    artifact.parent.mkdir(parents=True, exist_ok=True)
+    artifact.write_text(
+        json.dumps(
+            {
+                "hardgates": {"by_layer": {"layer_0": {"status": "fail"}}},
+                "ledger_gaps": [
+                    {
+                        "kind": "derivative",
+                        "residue": "high-order-instability",
+                        "status": "open",
+                    }
+                ],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    row = {
+        "report_id": "transformer-derivative-atlas",
+        "report": "transformer-derivative-atlas",
+        "json_artifact": "reports/canonical/transformer_derivative_atlas.json",
+        "markdown_artifact": "reports/canonical/layerwise_jet_map.md",
+        "source": "reports/canonical/transformer_derivative_atlas.json:$.hardgates.by_layer.layer_0.status",
+        "ledger_pointer": "reports/canonical/transformer_derivative_atlas.json:$.ledger_gaps[0]",
+        "discovery_level": "DN",
+        "terminal_verdict": "negative_discovery",
+        "classifier_reasons": ["verdict=rejected"],
+        "projection_status": "projected",
+        "evidence_pointer": "$.bounded_lab_evidence",
+        "failed_gate": "$.hardgates.by_layer.layer_0.status",
+        "debt_row_pointer": "$.ledger_gaps[0]",
+        "what_was_learned": "derivative hardgate failure remains ordinary debt evidence",
+        "next_hypothesis": "close high-order instability before claiming mechanism-level derivative evidence",
+    }
+
+    validated = validate_negative_report_row(tmp_path, row)
+
+    assert validated["negative_id"] == "dn:transformer-derivative-atlas"
+    assert validated["debt_row_pointer"] == "$.ledger_gaps[0]"
+    with pytest.raises(ValueError, match="derivative DN report requires debt_row_pointer"):
+        validate_negative_report_row(tmp_path, {key: value for key, value in row.items() if key != "debt_row_pointer"})
 
 
 def test_build_discovery_map_payload_validates_rows():

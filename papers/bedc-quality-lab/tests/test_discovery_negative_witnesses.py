@@ -109,6 +109,8 @@ def test_witness_ledger_stays_outside_report_and_scorecard_schema_boundary():
     assert "QualityEvidenceEnvelope" not in text
     assert "quality_scorecard" not in keys
     assert "scorecard" not in keys
+    assert "jet_negative_witnesses.json" not in text
+    assert "derivative_debt_ledger.json" not in text
 
 
 @pytest.mark.parametrize("kind", generator.EXPECTED_KINDS)

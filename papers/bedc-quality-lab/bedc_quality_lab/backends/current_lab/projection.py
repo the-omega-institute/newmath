@@ -279,6 +279,19 @@ def _artifact_path(relative_path: str, *, root: Path | None = None) -> Path:
     return _root(root) / relative_path
 
 
+def _sequence_cell(value: Any) -> Sequence[Any]:
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        return value
+    return ()
+
+
+def _pointer_index(rows: Sequence[Any], *, key: str, value: str) -> int | None:
+    for index, row in enumerate(rows):
+        if isinstance(row, Mapping) and row.get(key) == value:
+            return index
+    return None
+
+
 def _load_payload(spec: CanonicalReportSpec, *, root: Path | None = None) -> dict[str, Any]:
     path = _artifact_path(spec.json_artifact, root=root)
     if not path.exists():
@@ -1533,6 +1546,66 @@ def _discovery_gated_nas_consistency(payload: Mapping[str, Any]) -> tuple[bool, 
     return True, "", expected["failed_gate_pointer"] if isinstance(expected["failed_gate_pointer"], str) else "$.search_objective_summary.selected_candidate"
 
 
+def _derivative_atlas_failed_gate_pointer(payload: Mapping[str, Any]) -> str | None:
+    failed_gate = pointer_value(payload, "$.failed_gate")
+    if isinstance(failed_gate, str) and failed_gate:
+        layer_pointer = f"$.hardgates.by_layer.{failed_gate}.status"
+        if pointer_value(payload, layer_pointer) is not None:
+            return layer_pointer
+        gate_pointer = f"$.hardgates.{failed_gate}.status"
+        if pointer_value(payload, gate_pointer) is not None:
+            return gate_pointer
+        if pointer_value(payload, "$.hardgates.status") is not None:
+            return "$.hardgates.status"
+    if pointer_value(payload, "$.hardgates.status") == "fail":
+        return "$.hardgates.status"
+    if pointer_value(payload, "$.hardgate.status") == "fail":
+        return "$.hardgate.status"
+    return None
+
+
+def _derivative_debt_row_pointer(payload: Mapping[str, Any]) -> str | None:
+    gaps = _sequence_cell(pointer_value(payload, "$.ledger_gaps"))
+    for index, row in enumerate(gaps):
+        if isinstance(row, Mapping) and str(row.get("status") or "") in {"open", "partial", "fail"}:
+            return f"$.ledger_gaps[{index}]"
+    failed_gate = pointer_value(payload, "$.failed_gate")
+    if isinstance(failed_gate, str) and failed_gate:
+        index = _pointer_index(gaps, key="failed_gate", value=failed_gate)
+        if index is not None:
+            return f"$.ledger_gaps[{index}]"
+    items = _sequence_cell(pointer_value(payload, "$.debt_items"))
+    for index, row in enumerate(items):
+        if isinstance(row, Mapping) and str(row.get("status") or "") in {"open", "partial", "fail"}:
+            return f"$.debt_items[{index}]"
+    return None
+
+
+def _derivative_negative_projection(payload: Mapping[str, Any]) -> tuple[dict[str, Any], ProjectionEvidence]:
+    failed_pointer = _derivative_atlas_failed_gate_pointer(payload)
+    debt_pointer = _derivative_debt_row_pointer(payload)
+    if failed_pointer is None:
+        return {}, ProjectionEvidence(projection_status="source-insufficient")
+    return {
+        "verdict": "rejected",
+        "positive_discovery": False,
+        "net_positive_signal": False,
+        "main_verdict": {
+            "derivative_debt": {
+                "status": "negative",
+                "level_candidate": "DN",
+                "failed_gate_pointer": failed_pointer,
+                "debt_row_pointer": debt_pointer,
+            },
+        },
+    }, ProjectionEvidence(
+        projection_status="projected",
+        evidence_pointer="$.bounded_lab_evidence",
+        failed_gate=failed_pointer,
+        debt_row_pointer=debt_pointer,
+    )
+
+
 def _sigreg_training_proxy_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
     hardgates = pointer_value(payload, "$.d1_evidence.d1_hardgates")
     if not isinstance(hardgates, Mapping) or not hardgates:
@@ -1860,6 +1933,8 @@ def _projection_overlay_and_evidence(
         overlay, evidence = _certificate_gated_attention_projection(payload, context)
     elif spec.name == "discovery-gated-nas":
         overlay, evidence = _discovery_gated_nas_projection(payload, context)
+    elif spec.name == "transformer-derivative-atlas":
+        overlay, evidence = _derivative_negative_projection(payload)
     elif spec.name == "ledger-aware-transformer":
         overlay, evidence = _ledger_aware_transformer_projection(payload, context)
     elif spec.name == "gap-head-ablation":
