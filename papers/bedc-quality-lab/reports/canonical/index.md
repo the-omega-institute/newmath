@@ -60,8 +60,16 @@
 - JSON: `reports/canonical/discovery_map.json`
 - Markdown: `reports/canonical/discovery_map.md`
 - Coverage matrix: `reports/canonical/discovery_map.json:$.coverage_matrix`
-- Experiment proposals: `reports/canonical/discovery_map.json:$.experiment_proposals`
 - Rows: `29`
+
+## Experiment proposals
+
+- Status: `pointer-only`
+- JSON: `reports/canonical/experiment_proposals.json`
+- Markdown: `reports/canonical/experiment_proposals.md`
+- Rows: `8`
+- Proposal rows: `reports/canonical/experiment_proposals.json:$.rows`
+- Source artifacts: `reports/canonical/experiment_proposals.json:$.source_artifacts`
 
 ## Observed debt axis projection
 
