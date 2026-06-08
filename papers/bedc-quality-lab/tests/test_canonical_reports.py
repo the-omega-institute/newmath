@@ -1642,6 +1642,91 @@ def test_issue_1012_owner_specs_expose_sidecar_metadata_without_registration():
     assert all(row["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS" for row in lejepa_sidecars + spectral_sidecars)
 
 
+def test_bcd_sidecar_artifacts_are_schema_owned_and_fail_closed():
+    schema = json.loads((canonical.ROOT / canonical.BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT).read_text(encoding="utf-8"))
+    ledger = json.loads((canonical.ROOT / canonical.DERIVATIVE_ORDER_LEDGER_ARTIFACT).read_text(encoding="utf-8"))
+    matrix = json.loads((canonical.ROOT / canonical.JET_COVERAGE_MATRIX_ARTIFACT).read_text(encoding="utf-8"))
+    spec = (canonical.ROOT / canonical.BOUNDARY_CAUSAL_DERIVATIVE_SPEC_ARTIFACT).read_text(encoding="utf-8")
+
+    assert schema["schema_id"] == canonical.BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ID
+    assert schema["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert set(schema["$defs"]) == {
+        "BoundarySpec",
+        "DerivativeSpec",
+        "CausalSpec",
+        "IrreducibilitySpec",
+        "HardGate",
+        "LedgerEntry",
+        "CoverageCell",
+    }
+    assert [gate["gate_id"] for gate in schema["hardgates"]] == [f"BCD-HG{index}" for index in range(1, 6)]
+    assert all("fail_closed" in gate["status_values"] for gate in schema["hardgates"])
+
+    for payload in (ledger, matrix):
+        assert payload["schema_id"] == canonical.BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ID
+        assert payload["schema_artifact"] == canonical.BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT
+        assert payload["status"] == "no_rows_yet"
+        assert payload["owner_pointers"]["schema" if payload is matrix else "hardgate"].startswith(
+            canonical.BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT
+        )
+
+    assert ledger["entries"] == []
+    assert matrix["surfaces"] == []
+    assert matrix["orders"] == []
+    assert matrix["cells"] == []
+    assert "## Scope Seal" in spec
+    assert "## Nonclaim Boundary" in spec
+    assert canonical.BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT in spec
+
+
+def test_bcd_index_sidecar_is_pointer_only_not_canonical_report():
+    section = canonical._boundary_causal_derivative_index_section()
+    payload = canonical._index([], generated_at="2026-01-02T03:04:05+00:00")
+    markdown = canonical._render_index_markdown(payload)
+    names = {spec.name for spec in canonical.CANONICAL_REPORTS}
+    artifacts = {spec.json_artifact for spec in canonical.CANONICAL_REPORTS}
+
+    assert "boundary-causal-derivative" not in names
+    assert canonical.BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT not in artifacts
+    assert section["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert payload["boundary_causal_derivative"] == section
+    assert {
+        section["schema_artifact"],
+        section["spec_artifact"],
+        section["derivative_order_ledger_artifact"],
+        section["jet_coverage_matrix_artifact"],
+    } == {
+        canonical.BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT,
+        canonical.BOUNDARY_CAUSAL_DERIVATIVE_SPEC_ARTIFACT,
+        canonical.DERIVATIVE_ORDER_LEDGER_ARTIFACT,
+        canonical.JET_COVERAGE_MATRIX_ARTIFACT,
+    }
+    assert "Boundary-Causal-Derivative" in markdown
+    assert "BoundarySpec resolves to an explicit lab-local scope seal" not in markdown
+    assert "DerivativeSpec names a finite surface" not in markdown
+
+
+def test_bcd_spec_ledger_and_matrix_do_not_report_rows_or_positive_facts():
+    forbidden = {
+        "detected",
+        "positive_irred_jet_gain",
+        "quality_gain_by_order",
+        "ledger_debt_by_order",
+        "minimal_sufficient_order",
+    }
+    spec = (canonical.ROOT / canonical.BOUNDARY_CAUSAL_DERIVATIVE_SPEC_ARTIFACT).read_text(encoding="utf-8")
+    ledger = json.loads((canonical.ROOT / canonical.DERIVATIVE_ORDER_LEDGER_ARTIFACT).read_text(encoding="utf-8"))
+    matrix = json.loads((canonical.ROOT / canonical.JET_COVERAGE_MATRIX_ARTIFACT).read_text(encoding="utf-8"))
+    sidecar_text = json.dumps({"ledger": ledger, "matrix": matrix}, sort_keys=True)
+
+    assert not forbidden.intersection(ledger)
+    assert not forbidden.intersection(matrix)
+    assert not any(term in sidecar_text for term in forbidden)
+    assert "BoundarySpec resolves to an explicit lab-local scope seal" not in spec
+    assert "DerivativeSpec names a finite surface" not in spec
+    assert "does not claim" in spec
+
+
 def test_committed_canonical_bundle_matches_generation_chain():
     index_payload = json.loads(canonical.INDEX_ARTIFACT.read_text(encoding="utf-8"))
     discovery_payload = json.loads((canonical.ROOT / canonical.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))

@@ -141,6 +141,12 @@ IRREDUCIBILITY_REPORT_JSON_ARTIFACT = "reports/canonical/irreducibility_report.j
 IRREDUCIBILITY_REPORT_MARKDOWN_ARTIFACT = "reports/canonical/order_residual_analysis.md"
 IRREDUCIBILITY_CMI_JSON_ARTIFACT = "reports/canonical/conditional_information_table.json"
 IRREDUCIBILITY_REPORT_ARTIFACT_ID = "bedc-quality-lab:irreducibility-report"
+BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ID = "bedc-quality-lab:boundary-causal-derivative"
+BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT = "reports/canonical/boundary_causal_derivative_schema.json"
+BOUNDARY_CAUSAL_DERIVATIVE_SPEC_ARTIFACT = "reports/canonical/boundary_causal_derivative_spec.md"
+DERIVATIVE_ORDER_LEDGER_ARTIFACT = "reports/canonical/derivative_order_ledger.json"
+JET_COVERAGE_MATRIX_ARTIFACT = "reports/canonical/jet_coverage_matrix.json"
+BOUNDARY_CAUSAL_DERIVATIVE_ARTIFACT_ID = "bedc-quality-lab:boundary-causal-derivative-sidecar"
 ANTI_TRIVIALITY_REQUIRED_KEYS = (
     "anti_triviality_status",
     "anti_triviality_gate_evidence",
@@ -4448,6 +4454,25 @@ def _toy_safety_boundary_index_section() -> dict[str, Any]:
     }
 
 
+def _boundary_causal_derivative_index_section() -> dict[str, Any]:
+    return {
+        "status": "no_rows_yet",
+        "artifact_id": BOUNDARY_CAUSAL_DERIVATIVE_ARTIFACT_ID,
+        "schema_id": BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ID,
+        "canonical_role": "sidecar_not_in_CANONICAL_REPORTS",
+        "schema_artifact": BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT,
+        "spec_artifact": BOUNDARY_CAUSAL_DERIVATIVE_SPEC_ARTIFACT,
+        "derivative_order_ledger_artifact": DERIVATIVE_ORDER_LEDGER_ARTIFACT,
+        "jet_coverage_matrix_artifact": JET_COVERAGE_MATRIX_ARTIFACT,
+        "schema_pointer": f"{BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT}:$",
+        "hardgates_pointer": f"{BOUNDARY_CAUSAL_DERIVATIVE_SCHEMA_ARTIFACT}:$.hardgates",
+        "ledger_pointer": f"{DERIVATIVE_ORDER_LEDGER_ARTIFACT}:$.entries",
+        "coverage_matrix_pointer": f"{JET_COVERAGE_MATRIX_ARTIFACT}:$.cells",
+        "scope_status_pointer": f"{BOUNDARY_CAUSAL_DERIVATIVE_SPEC_ARTIFACT}:#scope-seal",
+        "nonclaim_boundary_pointer": f"{BOUNDARY_CAUSAL_DERIVATIVE_SPEC_ARTIFACT}:#nonclaim-boundary",
+    }
+
+
 def _irreducibility_report_index_section() -> dict[str, Any]:
     payload = _load_artifact_payload(IRREDUCIBILITY_REPORT_JSON_ARTIFACT)
     cmi = payload.get("conditional_information_table") if isinstance(payload.get("conditional_information_table"), Mapping) else {}
@@ -4615,6 +4640,7 @@ def _index(
         "toy_latent_planning_bedc": _toy_latent_planning_bedc_index_section(),
         "release_namecert_candidate": _release_namecert_candidate_index_section(),
         "toy_safety_boundary": _toy_safety_boundary_index_section(),
+        "boundary_causal_derivative": _boundary_causal_derivative_index_section(),
         "irreducibility_report": _irreducibility_report_index_section(),
         "paper_outline": _paper_outline(reports),
         "claims_nonclaims": _claims_nonclaims(reports),
@@ -4946,6 +4972,16 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             f"- Markdown: `{payload['toy_safety_boundary']['markdown_artifact']}`",
             f"- Claim capsule: `{payload['toy_safety_boundary']['claim_capsule_pointer']}`",
             f"- Hardgates: `{payload['toy_safety_boundary']['hardgates_pointer']}`",
+            "",
+            "## Boundary-Causal-Derivative",
+            "",
+            f"- Status: `{payload['boundary_causal_derivative']['status']}`",
+            f"- Schema: `{payload['boundary_causal_derivative']['schema_artifact']}`",
+            f"- Spec: `{payload['boundary_causal_derivative']['spec_artifact']}`",
+            f"- Ledger: `{payload['boundary_causal_derivative']['derivative_order_ledger_artifact']}`",
+            f"- Matrix: `{payload['boundary_causal_derivative']['jet_coverage_matrix_artifact']}`",
+            f"- Canonical role: `{payload['boundary_causal_derivative']['canonical_role']}`",
+            f"- Hardgates: `{payload['boundary_causal_derivative']['hardgates_pointer']}`",
             "",
             "## Irreducibility Report",
             "",
