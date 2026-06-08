@@ -55,6 +55,19 @@
 | `route_secret_unsafe` | `unsafe_route` | `block` |
 | `route_control_neutral` | `neutral_control` | `do-not-admit` |
 
+## Family Definition
+
+- Schema: `bedc-quality-lab:discovery-gated-transformer.family-definition`
+- Owner: `reports/canonical/discovery-gated-transformer.json:$`
+- Hardgate: `pass`
+- Claim status: `definition-recorded`
+
+| group | pointers |
+| --- | --- |
+| `architecture` | `3` |
+| `objective` | `3` |
+| `certificate` | `4` |
+
 ## Sidecars
 
 - Claim capsule: `reports/runs/discovery-gated-transformer/claim_capsule.json:$`

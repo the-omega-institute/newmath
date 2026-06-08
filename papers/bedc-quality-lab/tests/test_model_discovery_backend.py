@@ -10,6 +10,12 @@ def test_dgt_refs_are_pointer_only():
 
     assert refs["owner_pointer"] == "reports/canonical/discovery-gated-transformer.json:$"
     assert refs["new_model_hardgates_pointer"] == "reports/canonical/new_model_hardgates.json:$.gates"
+    assert refs["family_definition_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_definition"
+    )
+    assert refs["model_family_claim_status_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status"
+    )
     assert all(isinstance(value, str) and ":" in value for value in refs.values())
     model_discovery.assert_pointer_only(refs)
 
@@ -25,6 +31,10 @@ def test_dgt_projection_metadata_excludes_copied_measurements():
         '"records"',
         '"raw_metrics"',
         "hardgate.gates",
+        '"invariant_groups"',
+        '"architecture"',
+        '"objective"',
+        '"certificate"',
         "raw positive claim",
         "terminal_verdict",
     ):
