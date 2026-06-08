@@ -21,6 +21,11 @@ from bedc_quality_lab.claim_acceptance import validate_dn_owner_cell, validate_p
 from bedc_quality_lab.claim_graph import terminal_node_id_for_claim_id
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.cost_protocol import load_cost_protocol
+from bedc_quality_lab.discovery_compiler.claim_verdict_reason import (
+    ClaimVerdictReasonBasis,
+    reason_for_claim_verdict,
+    validate_claim_verdict_reason,
+)
 from bedc_quality_lab.discovery_compiler.pointers import resolve_artifact_pointer
 from bedc_quality_lab.high_impact_claim_review import high_impact_review_failure_pointer
 from bedc_quality_lab.mechanism_attribution import D5_M_CAUSAL_EVIDENCE_LEVELS
@@ -390,6 +395,7 @@ def _row(
     }
     if frozenset(item) != ALLOWED_ROW_KEYS:
         raise ValueError(f"claim verdict row has invalid keys: {sorted(item)}")
+    validate_claim_verdict_reason(item)
     return item
 
 
@@ -410,10 +416,27 @@ def _dimension_mismatch_negative_row(
     owner_result = validate_dn_owner_cell(root, negative_report_pointer)
     if not owner_result.ok:
         raise ValueError(f"DN discovery owner evidence missing: {owner_result.missing_key}")
-    return _negative_discovery_row(claim_id=claim_id, reason="discovery-level-DN", negative_report_pointer=negative_report_pointer)
+    return _negative_discovery_row(
+        claim_id=claim_id,
+        reason=reason_for_claim_verdict(
+            ClaimVerdictReasonBasis(
+                claim_verdict="negative_discovery",
+                discovery_level="DN",
+                failed_gate=claim.get("failed_gate") if isinstance(claim.get("failed_gate"), str) else None,
+            )
+        ),
+        negative_report_pointer=negative_report_pointer,
+        failed_gate=claim.get("failed_gate") if isinstance(claim.get("failed_gate"), str) else None,
+    )
 
 
-def _negative_discovery_row(*, claim_id: str, reason: str, negative_report_pointer: str) -> dict[str, Any]:
+def _negative_discovery_row(
+    *,
+    claim_id: str,
+    reason: str,
+    negative_report_pointer: str,
+    failed_gate: str | None = None,
+) -> dict[str, Any]:
     if not negative_report_pointer:
         raise ValueError(f"negative discovery verdict needs negative_report_pointer: {claim_id}")
     item = {
@@ -425,6 +448,16 @@ def _negative_discovery_row(*, claim_id: str, reason: str, negative_report_point
     }
     if frozenset(item) != DN_VERDICT_ROW_KEYS:
         raise ValueError(f"negative discovery verdict row has invalid keys: {sorted(item)}")
+    validate_claim_verdict_reason(
+        item,
+        basis=ClaimVerdictReasonBasis(
+            claim_verdict="negative_discovery",
+            discovery_level="DN",
+            failed_gate=failed_gate,
+        )
+        if failed_gate is not None
+        else None,
+    )
     return item
 
 
@@ -444,7 +477,14 @@ def _mapped_discovery_row(
         return _row(
             claim_id=claim_id,
             claim_verdict="projected_discovery_required",
-            reason="discovery-level-D0",
+            reason=reason_for_claim_verdict(
+                ClaimVerdictReasonBasis(
+                    claim_verdict="projected_discovery_required",
+                    discovery_level="D0",
+                    report=report,
+                    model_comparison_ready=False if report == "discovery-gated-transformer" else None,
+                )
+            ),
             source=source,
             ledger_pointer=_discovery_map_row_pointer(root, row),
             scorecard_snapshot=scorecard_snapshot,
@@ -458,8 +498,15 @@ def _mapped_discovery_row(
             raise ValueError(f"DN discovery map row has unresolved negative_report_pointer: {report}")
         return _negative_discovery_row(
             claim_id=claim_id,
-            reason="discovery-level-DN",
+            reason=reason_for_claim_verdict(
+                ClaimVerdictReasonBasis(
+                    claim_verdict="negative_discovery",
+                    discovery_level="DN",
+                    failed_gate=owner.get("failed_gate") if isinstance(owner.get("failed_gate"), str) else None,
+                )
+            ),
             negative_report_pointer=negative_report_pointer,
+            failed_gate=owner.get("failed_gate") if isinstance(owner.get("failed_gate"), str) else None,
         )
     specs = _specs_by_name()
     if report == DIMENSION_MISMATCH_REPORT and str(row.get("json_artifact")) == DIMENSION_MISMATCH_ARTIFACT:
@@ -559,7 +606,13 @@ def _mapped_discovery_row(
         return _row(
             claim_id=claim_id,
             claim_verdict="projected_discovery_required",
-            reason=evidence_result.reason,
+            reason=reason_for_claim_verdict(
+                ClaimVerdictReasonBasis(
+                    claim_verdict="projected_discovery_required",
+                    discovery_level=level,
+                    source_insufficient=True,
+                )
+            ),
             source=source,
             ledger_pointer=evidence_result.ledger_pointer,
             scorecard_snapshot=scorecard_snapshot,
@@ -576,7 +629,13 @@ def _mapped_discovery_row(
         return _row(
             claim_id=claim_id,
             claim_verdict="projected_discovery_required",
-            reason=evidence_result.reason,
+            reason=reason_for_claim_verdict(
+                ClaimVerdictReasonBasis(
+                    claim_verdict="projected_discovery_required",
+                    discovery_level=level,
+                    source_insufficient=True,
+                )
+            ),
             source=source,
             ledger_pointer=evidence_result.ledger_pointer,
             scorecard_snapshot=scorecard_snapshot,
@@ -637,15 +696,30 @@ def _mapped_discovery_row(
             return _row(
                 claim_id=claim_id,
                 claim_verdict="mechanism_not_closed" if _is_mechanism_open(row, level) else "accepted_positive_discovery",
-                reason="positive-discovery-gates-pass",
+                reason=reason_for_claim_verdict(
+                    ClaimVerdictReasonBasis(
+                        claim_verdict="mechanism_not_closed"
+                        if _is_mechanism_open(row, level)
+                        else "accepted_positive_discovery",
+                        discovery_level=level,
+                        mechanism_open=_is_mechanism_open(row, level),
+                    )
+                ),
                 source=source,
                 ledger_pointer=_discovery_map_row_pointer(root, row),
                 scorecard_snapshot=scorecard_snapshot,
             )
+        blocker_verdict = _positive_blocker_verdict(report, level, row, payload, projected)
         return _row(
             claim_id=claim_id,
-            claim_verdict=_positive_blocker_verdict(report, level, row, payload, projected),
-            reason="positive-discovery-gate-failed",
+            claim_verdict=blocker_verdict,
+            reason=reason_for_claim_verdict(
+                ClaimVerdictReasonBasis(
+                    claim_verdict=blocker_verdict,
+                    discovery_level=level,
+                    mechanism_open=blocker_verdict == "mechanism_not_closed",
+                )
+            ),
             source=source,
             ledger_pointer=f"{row['json_artifact']}:{row.get('control_pointer') or spec.control_pointer or spec.positive_claim_pointer}",
             scorecard_snapshot=scorecard_snapshot,
@@ -655,7 +729,9 @@ def _mapped_discovery_row(
         return _row(
             claim_id=claim_id,
             claim_verdict="raw_operational_evidence_pass",
-            reason="discovery-level-D1",
+            reason=reason_for_claim_verdict(
+                ClaimVerdictReasonBasis(claim_verdict="raw_operational_evidence_pass", discovery_level="D1")
+            ),
             source=source,
             ledger_pointer=_discovery_map_row_pointer(root, row),
             scorecard_snapshot=scorecard_snapshot,
@@ -664,7 +740,9 @@ def _mapped_discovery_row(
         return _row(
             claim_id=claim_id,
             claim_verdict="projected_discovery_required",
-            reason="discovery-level-D2",
+            reason=reason_for_claim_verdict(
+                ClaimVerdictReasonBasis(claim_verdict="projected_discovery_required", discovery_level="D2")
+            ),
             source=source,
             ledger_pointer=_discovery_map_row_pointer(root, row),
             scorecard_snapshot=scorecard_snapshot,
@@ -673,22 +751,26 @@ def _mapped_discovery_row(
         return _row(
             claim_id=claim_id,
             claim_verdict="projected_discovery_required",
-            reason="discovery-level-D3",
+            reason=reason_for_claim_verdict(
+                ClaimVerdictReasonBasis(claim_verdict="projected_discovery_required", discovery_level="D3")
+            ),
             source=source,
             ledger_pointer=_discovery_map_row_pointer(root, row),
             scorecard_snapshot=scorecard_snapshot,
         )
     if level == "DN":
         negative_report_pointer = row.get("negative_report_pointer")
+        owner: Mapping[str, Any] | None = None
         if not isinstance(negative_report_pointer, str):
             owner_path = root / "reports/canonical/negative_discovery_reports.json"
             if owner_path.exists():
                 raise ValueError(f"DN discovery map row lacks negative_report_pointer: {report}")
             negative_report_pointer = f"{row['json_artifact']}:{row.get('failed_gate') or row.get('debt_row_pointer') or row.get('evidence_pointer')}"
         else:
-            owner = resolve_artifact_pointer(root, negative_report_pointer)
-            if not isinstance(owner, Mapping):
+            resolved_owner = resolve_artifact_pointer(root, negative_report_pointer)
+            if not isinstance(resolved_owner, Mapping):
                 raise ValueError(f"DN discovery map row has unresolved negative_report_pointer: {report}")
+            owner = resolved_owner
         if report == DIMENSION_MISMATCH_REPORT:
             return _dimension_mismatch_negative_row(
                 root=root,
@@ -699,12 +781,18 @@ def _mapped_discovery_row(
         owner_result = validate_dn_owner_cell(root, negative_report_pointer)
         if not owner_result.ok:
             raise ValueError(f"DN discovery owner evidence missing: {owner_result.missing_key}")
+        failed_gate = owner.get("failed_gate") if owner is not None and isinstance(owner.get("failed_gate"), str) else row.get("failed_gate")
         return _negative_discovery_row(
             claim_id=claim_id,
-            reason="discovery-level-DN:constraint_lagrangian"
-            if report == "certificate-guided-training"
-            else "discovery-level-DN",
+            reason=reason_for_claim_verdict(
+                ClaimVerdictReasonBasis(
+                    claim_verdict="negative_discovery",
+                    discovery_level="DN",
+                    failed_gate=failed_gate if isinstance(failed_gate, str) else None,
+                )
+            ),
             negative_report_pointer=negative_report_pointer,
+            failed_gate=failed_gate if isinstance(failed_gate, str) else None,
         )
     if level == "DR":
         pointer = row.get("failed_gate") or row.get("debt_row_pointer") or row.get("evidence_pointer")

@@ -8,6 +8,11 @@ import json
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from .claim_verdict_reason import (
+    reason_basis_from_negative_owner,
+    reason_for_claim_verdict,
+    validate_claim_verdict_reason,
+)
 from .pointers import pointer_value, resolve_artifact_pointer, split_artifact_pointer
 
 
@@ -517,18 +522,31 @@ def build_negative_witness_summary(
             continue
         report_pointer = f"{JSON_ARTIFACT}:$.rows[{index}]"
         verdict_match = negative_verdicts.get(report_pointer)
+        claim_verdict_pointer = None if verdict_match is None else f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[{verdict_match[0]}]"
+        reason_basis = reason_basis_from_negative_owner(row, claim_verdict_pointer=claim_verdict_pointer)
+        reason = reason_for_claim_verdict(reason_basis)
+        reason_drift = False
+        if verdict_match is not None:
+            try:
+                validate_claim_verdict_reason(verdict_match[1], basis=reason_basis)
+            except ValueError:
+                reason_drift = True
         item = {
             "negative_id": row["negative_id"],
             "negative_verdict": "negative_discovery",
-            "reason": "discovery-level-DN",
+            "reason": reason,
             "ledger_pointer": row["ledger_pointer"],
             "discovery_map_pointer": row["discovery_map_pointer"],
             "witness_pointer": None,
-            "claim_verdict_pointer": None if verdict_match is None else f"{CLAIM_VERDICTS_ARTIFACT}:$.lines[{verdict_match[0]}]",
+            "claim_verdict_pointer": claim_verdict_pointer,
             "audit_status": row["audit_status"],
         }
         item["discovery_map_pointer"] = map_pointers.get(row["negative_id"])
-        item["audit_status"] = "pass" if item["discovery_map_pointer"] and verdict_match is not None and row["audit_status"] == "pass" else "fail"
+        item["audit_status"] = (
+            "pass"
+            if item["discovery_map_pointer"] and verdict_match is not None and not reason_drift and row["audit_status"] == "pass"
+            else "fail"
+        )
         rows.append(item)
     for index, witness in enumerate(witnesses):
         if not isinstance(witness, Mapping):

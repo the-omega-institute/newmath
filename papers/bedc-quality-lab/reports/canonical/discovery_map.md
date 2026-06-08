@@ -1,6 +1,6 @@
 # Discovery Map
 
-- Generated at: `2026-06-08T14:25:27.957239+00:00`
+- Generated at: `2026-06-08T18:02:54.210872+00:00`
 - Rows: `29`
 
 | report | level | base | mechanism | projection | audit | evidence |
@@ -73,29 +73,3 @@
 | `positive` | `gap-head-op` | `reports/canonical/gap-head-robustness-sweep.json:$.acceptance_gates.status` | `pass` |
 | `positive` | `lejepa-theorem-ledger` | `reports/canonical/lejepa_theorem_ledger.json:$` | `pass` |
 | `positive` | `sigreg-mini-grid` | `reports/canonical/sigreg-mini-grid.json:$` | `pass` |
-
-## Experiment proposals
-
-| proposal id | source kind | source pointer | failed gate pointer | status |
-| --- | --- | --- | --- | --- |
-| `exp-dn-gap-head-ablation` | `negative_discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[0]` | `reports/canonical/negative_discovery_reports.json:$.rows[0].failed_gate` | `proposed` |
-| `exp-dn-certificate-guided-training` | `negative_discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[1]` | `reports/canonical/negative_discovery_reports.json:$.rows[1].failed_gate` | `proposed` |
-| `exp-dn-certificate-guided-discovery` | `negative_discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[2]` | `reports/canonical/negative_discovery_reports.json:$.rows[2].failed_gate` | `proposed` |
-| `exp-dn-discovery-gated-nas` | `negative_discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[3]` | `reports/canonical/negative_discovery_reports.json:$.rows[3].failed_gate` | `proposed` |
-| `exp-dn-spectral-ablation-hinge` | `negative_discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[4]` | `reports/canonical/negative_discovery_reports.json:$.rows[4].failed_gate` | `proposed` |
-| `exp-dn-dimension-mismatch-debt-transfer` | `negative_discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[5]` | `reports/canonical/negative_discovery_reports.json:$.rows[5].failed_gate` | `proposed` |
-| `exp-dn-single-threshold-escape` | `negative_discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[6]` | `reports/canonical/negative_discovery_reports.json:$.rows[6].failed_gate` | `proposed` |
-| `exp-dn-training-choice-observability` | `negative_discovery` | `reports/canonical/negative_discovery_reports.json:$.rows[7]` | `reports/canonical/negative_discovery_reports.json:$.rows[7].failed_gate` | `proposed` |
-| `exp-coverage-cga` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[0]` | `` | `proposed` |
-| `exp-coverage-dg-nas` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[1]` | `` | `proposed` |
-| `exp-coverage-dgt` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[2]` | `` | `proposed` |
-| `exp-coverage-drt` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[3]` | `` | `proposed` |
-| `exp-coverage-lat` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[4]` | `` | `proposed` |
-| `exp-coverage-lejepa-mini-grid-dn` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[5]` | `` | `proposed` |
-| `exp-coverage-msn` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[6]` | `` | `proposed` |
-| `exp-coverage-certificate-guided-dn` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[7]` | `` | `proposed` |
-| `exp-coverage-dimension-mismatch-dn` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[8]` | `` | `proposed` |
-| `exp-coverage-gap-head-mech` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[9]` | `` | `proposed` |
-| `exp-coverage-gap-head-op` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[10]` | `` | `proposed` |
-| `exp-coverage-lejepa-theorem-ledger` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[11]` | `` | `proposed` |
-| `exp-coverage-sigreg-mini-grid` | `coverage_gap` | `reports/canonical/discovery_map.json:$.coverage_matrix.cells[12]` | `` | `proposed` |
