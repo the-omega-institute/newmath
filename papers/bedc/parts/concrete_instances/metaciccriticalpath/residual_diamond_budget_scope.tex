@@ -49,3 +49,21 @@ Now use \autoref{thm:metacic-critical-path-candidate-mediated-residual-diamond-l
 
 The same dependency is visible in the named candidate residual budget interface and in the candidate-SN confluence checker factorization, \autoref{thm:metacic-critical-path-candidate-residual-budget-interface} and \autoref{thm:metacic-critical-path-candidate-sn-confluence-checker-factorization}. Removing any one L10 face breaks the displayed route from candidate budget to checker output, so the consumer has no finite packet coordinate from which to export local confluence or decidability.
 \end{proof}
+
+\begin{theorem}[MetaCIC critical-path residual budget frontier]
+\label{thm:metacic-critical-path-residual-budget-frontier}
+Let
+$$
+K=(S,N,O,U,D,H,C,P,L)
+$$
+be an accepted $\MetaCICCriticalPathUp$ packet. The packet can export a residual-diamond consumer or a decidability consumer only when the candidate schedule, residual substitution budget, local join ledger, confluence checker factorization, and all four L10 faces $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are displayed on the same finite route through $S,N,O,U,D,H,C,P,L$. The frontier exports no global strong-normalization theorem, global confluence theorem, beta-decidability procedure, quotient equality, selected limits, ambient $\RealUp$ completeness, or kernel consistency claim.
+\end{theorem}
+\begin{proof}
+First read the candidate-facing budget. The residual diamond budget scope of \autoref{thm:metacic-critical-path-residual-diamond-budget-scope} and the candidate residual budget interface of \autoref{thm:metacic-critical-path-candidate-residual-budget-interface} place the schedule, residual substitution budget, and candidate rows on the displayed packet route.
+
+Next read the checker side. The candidate-SN confluence checker factorization of \autoref{thm:metacic-critical-path-candidate-sn-confluence-checker-factorization} supplies the confluence checker route, while \autoref{thm:metacic-critical-path-candidate-mediated-residual-diamond-l10-handoff} forces the four L10 faces to remain visible before any local confluence or decidability export.
+
+Finally use the locality obstruction, \autoref{thm:metacic-critical-path-residual-diamond-l10-locality-obstruction}. If any one of the four L10 faces is absent from the finite route, the residual-diamond consumer and the decidability consumer have no packet coordinate from which to read their output.
+
+The only surviving frontier is therefore the displayed same-route packet containing the candidate schedule, residual substitution budget, local join ledger, checker factorization, and the four L10 faces. Since no cited row carries global SN, global confluence, beta-decidability, quotient equality, selected limits, ambient $\RealUp$ completeness, or consistency, none of those objects is exported.
+\end{proof}
