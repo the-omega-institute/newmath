@@ -31,6 +31,7 @@ DIMENSION_MISMATCH_GAP_WITNESS_POINTER = (
 DIMENSION_MISMATCH_REGRESSION_NODEID = (
     "tests/test_dimension_mismatch_debt_transfer.py::test_scale_leakage_sidecar_maps_to_first_negative_witness"
 )
+DERIVATIVE_DN_REPORT_IDS = frozenset({"transformer-derivative-atlas"})
 REQUIRED_NEGATIVE_REPORT_IDS = frozenset(
     {
         "certificate-guided-training",
@@ -281,6 +282,15 @@ def validate_negative_report_row(root: Path, row: Mapping[str, Any]) -> dict[str
         if item.get("anti_triviality_status") == "scale_leakage_detected" and item.get("effective_level") == "D4":
             raise ValueError("scale leakage cannot leave effective_level at D4")
         _validate_dimension_mismatch_scale_leakage_mapping(root, item)
+    if report_id in DERIVATIVE_DN_REPORT_IDS:
+        if item.get("report") != report_id:
+            raise ValueError("derivative DN report must keep source report identity")
+        if not _is_nonempty(item.get("debt_row_pointer")):
+            raise ValueError("derivative DN report requires debt_row_pointer")
+        artifact = str(item.get("json_artifact") or "")
+        debt_pointer = item.get("debt_row_pointer")
+        if not isinstance(debt_pointer, str) or resolve_artifact_pointer(root, f"{artifact}:{debt_pointer}") is None:
+            raise ValueError("derivative DN report debt_row_pointer does not resolve")
     failed_gate = item.get("failed_gate")
     artifact = str(item.get("json_artifact") or "")
     if isinstance(failed_gate, str) and failed_gate.startswith("$."):

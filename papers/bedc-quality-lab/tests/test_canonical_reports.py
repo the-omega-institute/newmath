@@ -5592,3 +5592,23 @@ def test_toy_latent_planning_bedc_sidecar_index_is_pointer_only(tmp_path, monkey
     assert "positive_claim" not in json.dumps(section)
     assert "arm_summary" not in json.dumps(section)
     assert "Toy latent planning BEDC" in markdown
+
+
+def test_derivative_debt_ledger_artifacts_stay_absent_from_canonical_surfaces():
+    forbidden_artifacts = {
+        "reports/canonical/derivative_debt_ledger.json",
+        "reports/canonical/derivative_debt_ledger.md",
+        "reports/canonical/jet_negative_witnesses.json",
+    }
+    forbidden_names = {
+        "derivative-debt-ledger",
+        "jet-negative-witnesses",
+    }
+    specs = canonical.CANONICAL_REPORTS
+    index_text = (canonical.ROOT / "reports" / "canonical" / "index.json").read_text(encoding="utf-8")
+
+    assert forbidden_names.isdisjoint({spec.name for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.json_artifact for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
+    for artifact in forbidden_artifacts:
+        assert artifact not in index_text

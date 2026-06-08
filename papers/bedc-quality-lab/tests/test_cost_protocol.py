@@ -26,6 +26,13 @@ SENTINEL_WEIGHTS = {
     LedgerRowKey("source", "dimension-match"): 0.42,
     LedgerRowKey("source", "transition-isotropy"): 0.43,
     LedgerRowKey("source", "action-transition-identification"): 0.45,
+    LedgerRowKey("derivative", "row-coverage"): 0.54,
+    LedgerRowKey("derivative", "high-order-instability"): 0.55,
+    LedgerRowKey("derivative", "shortcut-attribution"): 0.56,
+    LedgerRowKey("derivative", "cost-benefit-negative"): 0.57,
+    LedgerRowKey("derivative", "unpatchable-high-order-claim"): 0.58,
+    LedgerRowKey("jet", "order-coverage"): 0.59,
+    LedgerRowKey("jet", "matched-random-control"): 0.60,
     LedgerRowKey("classifier", "optimizer-certificate"): 0.47,
     LedgerRowKey("verification", "theorem3-bound-margin"): 0.49,
     LedgerRowKey("generalization", "global-claim-boundary"): 0.53,
@@ -48,6 +55,13 @@ def protocol_body(*, omit: str | None = None, extra: str = "", formula_id: str =
         "source/dimension-match": "0.18",
         "source/transition-isotropy": "0.12",
         "source/action-transition-identification": "0.16",
+        "derivative/row-coverage": "0.12",
+        "derivative/high-order-instability": "0.24",
+        "derivative/shortcut-attribution": "0.22",
+        "derivative/cost-benefit-negative": "0.18",
+        "derivative/unpatchable-high-order-claim": "0.24",
+        "jet/order-coverage": "0.16",
+        "jet/matched-random-control": "0.20",
         "classifier/optimizer-certificate": "0.20",
         "verification/theorem3-bound-margin": "0.20",
         "generalization/global-claim-boundary": "0.20",
@@ -353,3 +367,42 @@ def test_quality_q_public_recomputation_uses_protocol_formula():
     assert values["quality_q"] == pytest.approx(
         values["quality_benefit"] - values["quality_cost"] - values["quality_debt"]
     )
+
+
+def test_derivative_scoped_rows_are_allowed_and_weighted_only_when_requested():
+    protocol = load_cost_protocol()
+    derivative_rows = {
+        LedgerRowKey("derivative", "row-coverage"),
+        LedgerRowKey("derivative", "high-order-instability"),
+        LedgerRowKey("derivative", "shortcut-attribution"),
+        LedgerRowKey("derivative", "cost-benefit-negative"),
+        LedgerRowKey("derivative", "unpatchable-high-order-claim"),
+        LedgerRowKey("jet", "order-coverage"),
+        LedgerRowKey("jet", "matched-random-control"),
+    }
+    source_spec, classifier_spec, stability_spec = closed_specs()
+
+    baseline = assess_debt(closed_metrics(), source_spec, classifier_spec, stability_spec, protocol=protocol)
+    scoped = assess_debt(
+        closed_metrics(
+            derivative_row_count=0,
+            high_order_instability=1.0,
+            shortcut_derivative=True,
+            derivative_net_benefit=-0.1,
+            unpatchable_high_order_claim=True,
+            jet_order_count=0,
+            matched_random_jet_gain=0.1,
+        ),
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        protocol=protocol,
+        extra_rows=derivative_rows,
+    )
+
+    baseline_rows = {LedgerRowKey(item.kind, item.residue) for item in baseline.items}
+    scoped_scores = item_scores(scoped)
+    assert not (baseline_rows & derivative_rows)
+    assert derivative_rows <= set(protocol.row_weights)
+    assert derivative_rows <= set(scoped_scores)
+    assert all(scoped_scores[row] == pytest.approx(protocol.weight(row)) for row in derivative_rows)

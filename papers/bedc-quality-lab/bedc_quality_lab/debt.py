@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable, Mapping, Any
+from typing import Iterable, Mapping, Any, Sequence
 
 from .cost_protocol import CostProtocol, REQUIRED_DEBT_ROWS, SCOPED_DEBT_ROWS, load_cost_protocol
 from .latent_distribution import CANONICAL_LATENT_DISTRIBUTION_KEYS, covered_distribution_family_keys
@@ -13,6 +13,24 @@ from .theorem_bound_quality import THEOREM_BOUND_ROW, _bound_values
 
 ACTION_TRANSITION_ROW = LedgerRowKey("source", "action-transition-identification")
 DIMENSION_MATCH_ROW = LedgerRowKey("source", "dimension-match")
+DERIVATIVE_ROW_COVERAGE_ROW = LedgerRowKey("derivative", "row-coverage")
+DERIVATIVE_HIGH_ORDER_INSTABILITY_ROW = LedgerRowKey("derivative", "high-order-instability")
+DERIVATIVE_SHORTCUT_ATTRIBUTION_ROW = LedgerRowKey("derivative", "shortcut-attribution")
+DERIVATIVE_COST_BENEFIT_NEGATIVE_ROW = LedgerRowKey("derivative", "cost-benefit-negative")
+DERIVATIVE_UNPATCHABLE_HIGH_ORDER_CLAIM_ROW = LedgerRowKey("derivative", "unpatchable-high-order-claim")
+JET_ORDER_COVERAGE_ROW = LedgerRowKey("jet", "order-coverage")
+JET_MATCHED_RANDOM_CONTROL_ROW = LedgerRowKey("jet", "matched-random-control")
+DERIVATIVE_SCOPED_ROWS = frozenset(
+    {
+        DERIVATIVE_ROW_COVERAGE_ROW,
+        DERIVATIVE_HIGH_ORDER_INSTABILITY_ROW,
+        DERIVATIVE_SHORTCUT_ATTRIBUTION_ROW,
+        DERIVATIVE_COST_BENEFIT_NEGATIVE_ROW,
+        DERIVATIVE_UNPATCHABLE_HIGH_ORDER_CLAIM_ROW,
+        JET_ORDER_COVERAGE_ROW,
+        JET_MATCHED_RANDOM_CONTROL_ROW,
+    }
+)
 _EPS = 1.0e-12
 
 
@@ -56,6 +74,39 @@ def _status(score: float, upper: float) -> str:
 def _positive_int(spec: Mapping[str, Any], key: str, default: int) -> int:
     value = spec.get(key, default)
     return value if isinstance(value, int) and value > 0 else default
+
+
+def _number(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    return None
+
+
+def _mapping_value(spec: Mapping[str, Any], path: tuple[str, ...]) -> Any:
+    value: Any = spec
+    for key in path:
+        if not isinstance(value, Mapping):
+            return None
+        value = value.get(key)
+    return value
+
+
+def _first_value(*sources: Mapping[str, Any], keys: tuple[str, ...]) -> Any:
+    for key in keys:
+        path = tuple(part for part in key.split(".") if part)
+        for source in sources:
+            value = _mapping_value(source, path)
+            if value is not None:
+                return value
+    return None
+
+
+def _row_sequence(value: Any) -> Sequence[Any]:
+    if isinstance(value, Sequence) and not isinstance(value, (str, bytes, bytearray)):
+        return value
+    return ()
 
 
 def _source_score(source_spec: Mapping[str, Any], protocol: CostProtocol) -> float:
@@ -194,6 +245,310 @@ def _theorem_bound_score(metrics: Mapping[str, float], protocol: CostProtocol) -
     return _bounded((-margin / scale) * upper, upper)
 
 
+def _derivative_row_coverage_score(
+    metrics: Mapping[str, Any],
+    source_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    stability_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    upper = protocol.weight(DERIVATIVE_ROW_COVERAGE_ROW)
+    observed = _number(
+        _first_value(
+            metrics,
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            keys=("derivative_row_count", "layerwise_derivative_rows.row_count", "jet.row_count"),
+        )
+    )
+    required = _number(
+        _first_value(
+            metrics,
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            keys=("required_derivative_row_count", "derivative_required_row_count", "jet.required_row_count"),
+        )
+    )
+    if required is None:
+        required = 1.0
+    if observed is None:
+        rows = _row_sequence(
+            _first_value(
+                source_spec,
+                classifier_spec,
+                stability_spec,
+                keys=("raw_intervention_rows", "derivative_rows", "jet.rows"),
+            )
+        )
+        observed = float(len(rows)) if rows else 0.0
+    if required <= 0.0:
+        return 0.0
+    if observed >= required:
+        return 0.0
+    if observed > 0.0:
+        return 0.5 * upper
+    return upper
+
+
+def _derivative_high_order_instability_score(
+    metrics: Mapping[str, Any],
+    source_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    stability_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    upper = protocol.weight(DERIVATIVE_HIGH_ORDER_INSTABILITY_ROW)
+    status = _first_value(
+        metrics,
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        keys=("high_order_instability_status", "derivative.high_order_instability_status", "jet.high_order_instability_status"),
+    )
+    if status in {"closed", "stable", "pass", "none"}:
+        return 0.0
+    if status in {"partial", "unstable", "fail", "open"}:
+        return 0.5 * upper if status == "partial" else upper
+    value = _number(
+        _first_value(
+            metrics,
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            keys=("high_order_instability", "derivative_instability", "jet.instability", "derivative.instability"),
+        )
+    )
+    if value is None:
+        return upper
+    if value <= 0.0:
+        return 0.0
+    return _bounded((value / 0.20) * upper, upper)
+
+
+def _derivative_shortcut_score(
+    metrics: Mapping[str, Any],
+    source_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    stability_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    upper = protocol.weight(DERIVATIVE_SHORTCUT_ATTRIBUTION_ROW)
+    shortcut = _first_value(
+        metrics,
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        keys=("shortcut_derivative", "shortcut_derivative_detected", "derivative.shortcut_detected", "jet.shortcut_detected"),
+    )
+    if shortcut is True:
+        return upper
+    if shortcut is False:
+        return 0.0
+    value = _number(
+        _first_value(
+            metrics,
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            keys=("shortcut_derivative_score", "shortcut_attribution_score", "derivative.shortcut_score", "jet.shortcut_score"),
+        )
+    )
+    if value is None:
+        return upper
+    if value <= 0.0:
+        return 0.0
+    if value < 0.5:
+        return 0.5 * upper
+    return upper
+
+
+def _derivative_cost_benefit_score(
+    metrics: Mapping[str, Any],
+    source_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    stability_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    upper = protocol.weight(DERIVATIVE_COST_BENEFIT_NEGATIVE_ROW)
+    signal = _number(
+        _first_value(
+            metrics,
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            keys=("derivative_net_benefit", "jet_net_benefit", "discovery_map_signal.net_positive_signal"),
+        )
+    )
+    if signal is None:
+        positive = _first_value(
+            metrics,
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            keys=("net_positive_signal", "discovery_map_signal.net_positive_signal"),
+        )
+        if positive is True:
+            return 0.0
+        if positive is False:
+            return upper
+        return upper
+    if signal > 0.0:
+        return 0.0
+    if signal == 0.0:
+        return 0.5 * upper
+    return upper
+
+
+def _derivative_unpatchable_claim_score(
+    metrics: Mapping[str, Any],
+    source_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    stability_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    upper = protocol.weight(DERIVATIVE_UNPATCHABLE_HIGH_ORDER_CLAIM_ROW)
+    value = _first_value(
+        metrics,
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        keys=(
+            "unpatchable_high_order_claim",
+            "derivative.unpatchable_high_order_claim",
+            "jet.unpatchable_high_order_claim",
+        ),
+    )
+    if value is True:
+        return upper
+    if value is False:
+        return 0.0
+    effective_level = _first_value(
+        metrics,
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        keys=("effective_level", "discovery_map_signal.level_candidate", "d5_m.status"),
+    )
+    failed_gate = _first_value(
+        metrics,
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        keys=("failed_gate", "discovery_map_signal.failed_gate", "d5_m.failed_gate"),
+    )
+    if effective_level == "D5-M" and failed_gate:
+        return upper
+    if effective_level == "D5-M":
+        return 0.5 * upper
+    return 0.0
+
+
+def _jet_order_coverage_score(
+    metrics: Mapping[str, Any],
+    source_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    stability_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    upper = protocol.weight(JET_ORDER_COVERAGE_ROW)
+    observed = _number(
+        _first_value(
+            metrics,
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            keys=("jet_order_count", "covered_jet_order_count", "jet.order_count"),
+        )
+    )
+    required = _number(
+        _first_value(
+            metrics,
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            keys=("required_jet_order_count", "jet.required_order_count", "required_order"),
+        )
+    )
+    if required is None:
+        required = 1.0
+    if observed is None:
+        orders = _row_sequence(
+            _first_value(
+                source_spec,
+                classifier_spec,
+                stability_spec,
+                keys=("jet.orders", "jet_orders", "derivative_orders"),
+            )
+        )
+        observed = float(len(frozenset(orders))) if orders else 0.0
+    if required <= 0.0 or observed >= required:
+        return 0.0
+    if observed > 0.0:
+        return 0.5 * upper
+    return upper
+
+
+def _jet_matched_random_control_score(
+    metrics: Mapping[str, Any],
+    source_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    stability_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    upper = protocol.weight(JET_MATCHED_RANDOM_CONTROL_ROW)
+    status = _first_value(
+        metrics,
+        source_spec,
+        classifier_spec,
+        stability_spec,
+        keys=("matched_random_jet_control_status", "jet.matched_random_control_status"),
+    )
+    if status in {"pass", "negative", "closed"}:
+        return 0.0
+    if status in {"partial", "mixed"}:
+        return 0.5 * upper
+    if status in {"fail", "positive", "open"}:
+        return upper
+    value = _number(
+        _first_value(
+            metrics,
+            source_spec,
+            classifier_spec,
+            stability_spec,
+            keys=("matched_random_jet_gain", "matched_random_high_order_gain", "jet.matched_random_gain"),
+        )
+    )
+    if value is None:
+        return upper
+    if value <= 0.0:
+        return 0.0
+    if value < 0.02:
+        return 0.5 * upper
+    return upper
+
+
+def _derivative_scoped_score(
+    row: LedgerRowKey,
+    metrics: Mapping[str, Any],
+    source_spec: Mapping[str, Any],
+    classifier_spec: Mapping[str, Any],
+    stability_spec: Mapping[str, Any],
+    protocol: CostProtocol,
+) -> float:
+    helpers = {
+        DERIVATIVE_ROW_COVERAGE_ROW: _derivative_row_coverage_score,
+        DERIVATIVE_HIGH_ORDER_INSTABILITY_ROW: _derivative_high_order_instability_score,
+        DERIVATIVE_SHORTCUT_ATTRIBUTION_ROW: _derivative_shortcut_score,
+        DERIVATIVE_COST_BENEFIT_NEGATIVE_ROW: _derivative_cost_benefit_score,
+        DERIVATIVE_UNPATCHABLE_HIGH_ORDER_CLAIM_ROW: _derivative_unpatchable_claim_score,
+        JET_ORDER_COVERAGE_ROW: _jet_order_coverage_score,
+        JET_MATCHED_RANDOM_CONTROL_ROW: _jet_matched_random_control_score,
+    }
+    return helpers[row](metrics, source_spec, classifier_spec, stability_spec, protocol)
+
+
 def _item(row: LedgerRowKey, score: float, protocol: CostProtocol) -> DebtItem:
     upper = protocol.weight(row)
     bounded = _bounded(score, upper)
@@ -312,6 +667,21 @@ def assess_debt(
         items.insert(
             insert_at,
             _item(ACTION_TRANSITION_ROW, _action_transition_score(source_spec, cost_protocol), cost_protocol),
+        )
+    for row in sorted(requested_extra_rows & DERIVATIVE_SCOPED_ROWS):
+        items.append(
+            _item(
+                row,
+                _derivative_scoped_score(
+                    row,
+                    metrics,
+                    source_spec,
+                    classifier_spec,
+                    stability_spec,
+                    cost_protocol,
+                ),
+                cost_protocol,
+            )
         )
     item_tuple = tuple(items)
     required = required_rows(_required_entries_for_rows(REQUIRED_DEBT_ROWS | requested_extra_rows, cost_protocol))
