@@ -948,6 +948,21 @@ def _write_fingerprint_fixture(canonical_module, root, spec, *, script_text="SEE
     return canonical_module._write_fingerprint_sidecar(spec, generated_at="fixture")
 
 
+def _write_derivative_bridge_sidecar_fixtures(canonical_module, root):
+    sidecars = {
+        canonical_module.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT: {"sidecar": "lejepa-derivative-bridge"},
+        canonical_module.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT: "# Hermite fixture\n",
+        canonical_module.SPECTRAL_JET_JSON_ARTIFACT: {"sidecar": "spectral-jet-report"},
+    }
+    for artifact, payload in sidecars.items():
+        path = root / artifact
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if isinstance(payload, str):
+            path.write_text(payload, encoding="utf-8")
+        else:
+            path.write_text(json.dumps(payload, sort_keys=True) + "\n", encoding="utf-8")
+
+
 def test_canonical_report_fixture_requires_dg_nas_mutation_rows():
     spec = canonical._specs_by_name()["discovery-gated-nas"]
     payload = _payload_for_spec(spec)
@@ -3302,6 +3317,40 @@ def test_fingerprint_staleness_fail_closed_and_cold_digest(tmp_path, monkeypatch
     sidecar = json.loads(canonical._fingerprint_path(spec).read_text(encoding="utf-8"))
     assert result["producer_status"] == "completed"
     assert sidecar["output_digest"] == canonical._canonical_output_digest(spec)
+
+
+@pytest.mark.parametrize(
+    ("report_name", "sidecar_artifact", "replacement"),
+    [
+        (
+            "lejepa-theorem-ledger",
+            canonical.LEJEPA_DERIVATIVE_BRIDGE_JSON_ARTIFACT,
+            '{"sidecar":"changed-lejepa-derivative-bridge"}\n',
+        ),
+        (
+            "lejepa-theorem-ledger",
+            canonical.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT,
+            "# Hermite changed fixture\n",
+        ),
+        (
+            "spectral-ablation-hinge",
+            canonical.SPECTRAL_JET_JSON_ARTIFACT,
+            '{"sidecar":"changed-spectral-jet-report"}\n',
+        ),
+    ],
+)
+def test_derivative_bridge_sidecar_edits_cause_owner_output_fingerprint_miss(
+    tmp_path, monkeypatch, report_name, sidecar_artifact, replacement
+):
+    monkeypatch.setattr(canonical, "ROOT", tmp_path)
+    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+    _write_derivative_bridge_sidecar_fixtures(canonical, tmp_path)
+    spec = canonical._specs_by_name()[report_name]
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+
+    (tmp_path / sidecar_artifact).write_text(replacement, encoding="utf-8")
+
+    assert canonical._fingerprint_matches(spec) == (False, "output-digest")
 
 
 def test_relative_lab_helper_imports_enter_fingerprint_closure(tmp_path, monkeypatch):
