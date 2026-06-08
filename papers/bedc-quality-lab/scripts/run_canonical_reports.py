@@ -1351,24 +1351,22 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "generated_at",
             "producer",
             "source_artifacts",
-            "patch_registry",
-            "schema_constants",
-            "records",
-            "effect_summary",
-            "matched_control_summary",
+            "patch_types",
+            "patch_records",
+            "matched_controls",
             "side_effect_ledger",
             "hardgates",
-            "causal_derivative_ledger_artifact",
-            "discovery_projection",
+            "dgt_mechanism_cert",
             "not_claimed",
+            "audit",
         ),
         estimated_seconds=2,
         bundle_role="auxiliary",
         scope_pointer="$.not_claimed",
-        cost_pointer="$.schema_constants.PATCH_MATCHED_CONTROL",
+        cost_pointer="$.source_artifacts",
         not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.discovery_projection",
-        control_pointer="$.matched_control_summary",
+        positive_claim_pointer="$.dgt_mechanism_cert",
+        control_pointer="$.matched_controls",
         no_control_rationale_pointer=None,
     ),
     CanonicalReportSpec(
@@ -1397,6 +1395,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
 )
 QUALITY_SCORECARD_EXCLUDED_REPORTS = frozenset({"transformer-derivative-atlas"})
 POST_VERDICT_REPORTS = frozenset({"claim-complexity"})
+CLAIM_GRAPH_PREREQUISITE_REPORTS = frozenset({"model-comparison", "causal-patch-suite"})
 
 
 def _artifact_path(relative_path: str) -> Path:
@@ -1737,6 +1736,7 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
     _set_existing_attr(module, "REPORT_JSON", json_path)
     _set_existing_attr(module, "REPORT_MD", markdown_path)
     _set_existing_attr(module, "JSON_ARTIFACT", spec.json_artifact)
+    _set_existing_attr(module, "MARKDOWN_ARTIFACT", spec.markdown_artifact)
     _set_existing_attr(module, "REPORT_ARTIFACT", spec.markdown_artifact)
     _set_existing_attr(module, "USE_TORCH", False)
     _configure_metric_aliases(module)
@@ -5593,12 +5593,19 @@ def run_reports(
         or datetime.now(timezone.utc).isoformat()
     )
     selected_specs = _selected_specs_with_dependents(only, include_dependents=mode == "changed")
-    pre_verdict_specs = [spec for spec in selected_specs if spec.name not in POST_VERDICT_REPORTS]
+    pre_verdict_specs = [
+        spec
+        for spec in selected_specs
+        if spec.name not in POST_VERDICT_REPORTS and spec.name not in CLAIM_GRAPH_PREREQUISITE_REPORTS
+    ]
+    claim_graph_prerequisite_specs = [spec for spec in selected_specs if spec.name in CLAIM_GRAPH_PREREQUISITE_REPORTS]
     post_verdict_specs = [spec for spec in selected_specs if spec.name in POST_VERDICT_REPORTS]
     results = [
         _run_spec(spec, mode=mode, generated_at=timestamp)
         for spec in pre_verdict_specs
     ]
+    prerequisite_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
+    results.extend(_run_spec(spec, mode=prerequisite_mode, generated_at=timestamp) for spec in claim_graph_prerequisite_specs)
     from scripts.run_formal_hardening_report import write_formal_hardening_report
 
     write_formal_hardening_report(root=ROOT, generated_at=timestamp)
@@ -5681,9 +5688,13 @@ def run_reports(
         _render_model_comparison_markdown(model_comparison),
     )
     model_comparison_spec = _specs_by_name().get("model-comparison")
-    if mode == "cold" and model_comparison_spec is not None:
-        _write_fingerprint_sidecar(model_comparison_spec, generated_at=timestamp)
-    results.extend(_run_spec(spec, mode=mode, generated_at=timestamp) for spec in post_verdict_specs)
+    if mode in {"verify", "cold"}:
+        for late_fingerprint_name in ("model-comparison", "causal-patch-suite"):
+            late_fingerprint_spec = _specs_by_name().get(late_fingerprint_name)
+            if late_fingerprint_spec is not None:
+                _write_fingerprint_sidecar(late_fingerprint_spec, generated_at=timestamp)
+    post_verdict_mode: Literal["changed", "verify", "cold"] = "cold" if mode in {"verify", "cold"} else mode
+    results.extend(_run_spec(spec, mode=post_verdict_mode, generated_at=timestamp) for spec in post_verdict_specs)
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)
     _write_text_atomic(CANONICAL_DIR / "index.md", _render_index_markdown(draft_payload))
