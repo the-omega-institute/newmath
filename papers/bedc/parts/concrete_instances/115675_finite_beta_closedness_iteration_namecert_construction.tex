@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\FiniteBetaClosednessIterationUp$}
+\label{ch:concrete-instances-finite-beta-closedness-iteration-namecert}
+\origin{human}
+
+Following Barendregt and Coquand on typed lambda calculi and structural closure arguments, the $\FiniteBetaClosednessIterationUp$ packet records the finite NameCert route behind the MetaCIC theorem \texttt{betaStarStep\_preserves\_closed}. It concretizes the closedness-preservation audit map of \autoref{ch:metacic-closure-preservation-audit-map} beside the witness packet of \autoref{ch:concrete-instances-metacic-closure-preservation-witness-namecert} and the subject-reduction obstruction of \autoref{ch:concrete-instances-metacic-subject-reduction-obstruction-namecert}. The packet is a closedness-only object: it does not assert subject reduction, confluence, normalization, conversion preservation, or a typing transport theorem.
+
+\begin{definition}[Finite beta closedness iteration carrier]
+\label{def:finite-beta-closedness-iteration-carrier}
+A $\FiniteBetaClosednessIterationUp$ carrier is a finite $\BHist$ packet
+$$
+I=(Z,B,O,S,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Z$ is the zero-step row, recording that a term already closed at the displayed boundary remains closed without taking a beta step.
+\item $B$ is the one-step beta closedness row, read from the \texttt{betaStep\_preserves\_closed} route.
+\item $O$ is the finite order row listing the displayed beta steps of the accepted \texttt{BetaStarStep} chain.
+\item $S$ is the successor-step row, recording that $B$ may be replayed at the head of the finite chain before the remaining tail is inspected.
+\item $L$ is the terminal \texttt{ClosedAt} ledger for the endpoint term.
+\item $H$ records componentwise $\hsame$ transport for the chain, closedness boundary, endpoint ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite induction from $Z$ through repeated uses of $B$ and $S$ to $L$.
+\item $P$ is the $\Pkg$ provenance over $\FiniteBetaClosednessIterationUp$, \texttt{BetaStep}, \texttt{BetaStarStep}, \texttt{ClosedAt}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FiniteBetaClosednessIterationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a typing derivation, dependent-codomain transport, subject-reduction discharge, confluence diagram, normalization proof, or conversion rule.
+\end{definition}
+
+\begin{theorem}[Finite beta closedness route]
+\label{thm:finite-beta-closedness-iteration-route}
+Every accepted $\FiniteBetaClosednessIterationUp$ packet routes a finite \texttt{BetaStarStep} chain through the zero-step row, repeated one-step beta closedness rows, the displayed finite order of the chain, and the terminal \texttt{ClosedAt} ledger. Thus a closed source term remains inside the displayed closedness classifier along the finite beta chain, without adding a subject-reduction, confluence, normalization, or conversion claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-beta-closedness-iteration-carrier}. A zero-length beta chain reads $Z$ and immediately reaches the terminal closedness ledger $L$.
+
+For a nonzero finite chain, read the displayed head step from $O$ and apply the one-step row $B$. The successor row $S$ records that the remaining finite tail is another accepted closedness-iteration request.
+
+Iterate this finite route until the endpoint ledger $L$ is reached. The replay row $C$ records the induction as displayed continuation data, and $H$ transports only the closedness and chain rows.
+
+The route never reads a typing derivation or codomain transport. The subject-reduction obstruction remains outside the carrier, so the theorem is a closedness-preservation statement only.
+\end{proof}
+
+\begin{theorem}[Finite beta closedness iteration NameCert obligations]
+\label{thm:finite-beta-closedness-iteration-namecert-obligations}
+For every accepted $\FiniteBetaClosednessIterationUp$ carrier $I=(Z,B,O,S,L,H,C,P,N)$, the local $\NameCert_{\FiniteBetaClosednessIterationUp}$ surface consists exactly of carrier admission, zero-step closedness, one-step beta closedness, finite-chain ordering, successor replay, endpoint \texttt{ClosedAt} ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No obligation is stored for subject reduction, dependent-codomain transport, confluence, normalization, conversion preservation, or typing stability.
+\end{theorem}
+\begin{proof}
+Carrier admission is tuple projection. The only visible rows are $Z,B,O,S,L,H,C,P,N$, so the NameCert surface starts and ends with those displayed fields.
+
+The zero-step and successor cases are the two finite-chain constructors. The zero case reads $Z$; the successor case reads $B$ for the head beta step, then uses $S$ and $C$ to replay the same closedness route over the remaining finite tail.
+
+The endpoint ledger $L$ records the final \texttt{ClosedAt} claim. Transport by $H$ is componentwise and cannot change the classifier from closedness to typing.
+
+Finally, provenance and local naming do not enlarge the carrier. Since no subject-reduction, codomain-transport, confluence, normalization, conversion, or typing-stability coordinate exists, none can be exported as a local NameCert obligation.
+\end{proof}
+
+\closureat{FiniteBetaClosednessIterationUp}{seedStr}
+
+\begin{closurestatus}{\FiniteBetaClosednessIterationUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-beta-closedness-iteration-carrier}, \autoref{thm:finite-beta-closedness-iteration-route}, and \autoref{thm:finite-beta-closedness-iteration-namecert-obligations} seed the finite ClosedAt-preservation route for BetaStarStep chains.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close subject reduction, dependent-codomain transport, confluence, normalization, conversion preservation, typing stability, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked zero-step, one-step beta, finite-chain, successor replay, endpoint ClosedAt, transport, provenance, and local naming rows for BEDC.Derived.FiniteBetaClosednessIterationUp.}
+  \constructivestory{A finite beta closedness packet is generated from zero-step closedness, one-step beta closedness, a finite BetaStarStep order row, successor replay, a terminal ClosedAt ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}
