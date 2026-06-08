@@ -36,6 +36,7 @@ EXPECTED_KINDS = (
     "forbidden_inference_column",
     "benefit_debt_tradeoff",
     "fresh_claim_downgrade",
+    "synthetic_leakage_injection",
 )
 FORBIDDEN_LEDGER_FIELDS = {
     "schema_id",
@@ -139,6 +140,13 @@ WITNESS_GAP_CONTRACTS: dict[str, WitnessGapContract] = {
         required_ledger_row="Revocation ledger row naming the stale certificate, fresh evidence, and downgraded status.",
         demotion_rule="demoted/DR",
         regression_test_pointer="tests/test_research_discovery.py::test_hg_dl_4_revocation_decision_is_revoked_discovery",
+    ),
+    "synthetic_leakage_injection": WitnessGapContract(
+        bedc_gap_field="SourceSpec contamination",
+        violated_principle="Injected label, error, or metadata-derived cells cannot be treated as discovery evidence.",
+        required_ledger_row="SourceSpec row recording synthetic leakage injection surfaces and their rejected terminal projection.",
+        demotion_rule="rejected/DN",
+        regression_test_pointer="tests/test_discovery_negative_witnesses.py::test_synthetic_leakage_injection_witness_fails_closed",
     ),
 }
 
@@ -303,6 +311,29 @@ def _mutate_fresh_claim_downgrade(certificate: dict[str, Any], evidence: dict[st
     evidence["paired_delta_ci"]["after_minus_before"]["quality_q_delta"]["ci95_low"] = -0.1
 
 
+def _mutate_synthetic_leakage_injection(certificate: dict[str, Any], evidence: dict[str, Any]) -> None:
+    certificate["main_claim_status"] = "positive"
+    injection = {
+        "kind": "synthetic_leakage_injection",
+        "label": "synthetic-positive-label",
+        "prediction_error": 0.0,
+        "error": "synthetic-zero-error-proxy",
+        "metadata": {
+            "config_derived_cell": "config_metadata.seed",
+            "source": "synthetic-fixture",
+        },
+        "injected_surfaces": [
+            "label",
+            "prediction_error",
+            "error",
+            "config_metadata.seed",
+        ],
+    }
+    certificate["synthetic_leakage_injection"] = deepcopy(injection)
+    evidence["synthetic_leakage_injection"] = injection
+    _make_positive_main(evidence)
+
+
 _WITNESS_BUILDERS: dict[str, tuple[str, Mutator]] = {
     "classifier_surface_delta_zero": (
         "A pseudo discovery with zero surface delta has no classifier shift and must be rejected.",
@@ -335,6 +366,10 @@ _WITNESS_BUILDERS: dict[str, tuple[str, Mutator]] = {
     "fresh_claim_downgrade": (
         "Fresh weakened claim evidence must revoke the old positive certificate.",
         _mutate_fresh_claim_downgrade,
+    ),
+    "synthetic_leakage_injection": (
+        "Injected label, error, and metadata-derived cells are not discovery evidence and must fail closed.",
+        _mutate_synthetic_leakage_injection,
     ),
 }
 

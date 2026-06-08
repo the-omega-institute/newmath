@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:claim-graph",
-  "generated_at": "2026-06-07T21:49:00.096406+00:00",
+  "generated_at": "2026-06-08T02:12:04.185721+00:00",
   "hardgates": {
     "CG-HG1": {
       "criterion": "accepted_positive_discovery terminals trace to raw_evidence through projected_discovery",
@@ -75,16 +75,17 @@
         "terminal:witness:scorecard_not_ready",
         "terminal:witness:forbidden_inference_column",
         "terminal:witness:benefit_debt_tradeoff",
-        "terminal:witness:fresh_claim_downgrade"
+        "terminal:witness:fresh_claim_downgrade",
+        "terminal:witness:synthetic_leakage_injection"
       ]
     },
     "CG-HG5": {
       "criterion": "all node source_pointer values resolve",
-      "source_pointer_count": 101,
+      "source_pointer_count": 103,
       "status": "pass"
     }
   },
-  "node_count": 101,
+  "node_count": 103,
   "nodes": [
     {
       "depends_on": [],
@@ -699,6 +700,15 @@
       "terminal_verdict": "demoted"
     },
     {
+      "depends_on": [],
+      "discovery_level": "DN",
+      "node_id": "negative-witness:synthetic_leakage_injection",
+      "node_type": "negative_witness",
+      "not_claimed": [],
+      "source_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses[8]",
+      "terminal_verdict": "rejected"
+    },
+    {
       "depends_on": [
         "negative-witness:hidden_debt_positive"
       ],
@@ -1126,6 +1136,17 @@
       "not_claimed": [],
       "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[34]",
       "terminal_verdict": "revoked_discovery"
+    },
+    {
+      "depends_on": [
+        "negative-witness:synthetic_leakage_injection"
+      ],
+      "discovery_level": null,
+      "node_id": "terminal:witness:synthetic_leakage_injection",
+      "node_type": "terminal_claim",
+      "not_claimed": [],
+      "source_pointer": "reports/canonical/claim_verdicts.jsonl:$.lines[35]",
+      "terminal_verdict": "negative_discovery"
     }
   ],
   "schema_id": "bedc-quality-lab:claim-graph",

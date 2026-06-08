@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-07T21:49:00.096406+00:00`
+- Generated at: `2026-06-08T02:12:04.185721+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -108,7 +108,7 @@
 
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witnesses.json`
-- Expected kinds: `8`
+- Expected kinds: `9`
 
 ## Negative discovery reports
 
@@ -188,11 +188,22 @@
 - Ranking key: `reports/canonical/model-comparison.json:$.ranking_key`
 - Source reports: `reports/canonical/model-comparison.json:$.source_reports`
 
+## Issue 1012 sidecars
+
+- Status: `pointer-only`
+- Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
+
+| sidecar | owner | artifact | pointer |
+| --- | --- | --- | --- |
+| `lejepa-derivative-bridge` | `lejepa-theorem-ledger` | `reports/canonical/lejepa_derivative_bridge.json` | `reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary` |
+| `hermite-degree-vs-behavioral-derivative` | `lejepa-theorem-ledger` | `reports/canonical/hermite_degree_vs_behavioral_derivative.md` | `reports/canonical/lejepa_theorem_ledger.json:$.hermite_degree_boundary` |
+| `spectral-jet-report` | `spectral-ablation-hinge` | `reports/canonical/spectral_jet_report.json` | `reports/canonical/spectral-ablation-hinge.json:$.spectral_jet` |
+
 ## Claim verdicts
 
 - Status: `pointer-only`
 - JSONL: `reports/canonical/claim_verdicts.jsonl`
-- Rows: `35`
+- Rows: `36`
 
 ## Claim graph
 
@@ -200,7 +211,7 @@
 - JSON: `reports/canonical/claim_graph.json`
 - Markdown: `reports/canonical/claim_graph.md`
 - Canonical role: `sidecar_not_in_CANONICAL_REPORTS`
-- Nodes: `101`
+- Nodes: `103`
 
 ## Claim capsule
 
@@ -215,7 +226,7 @@
 - Status: `pointer-only`
 - JSON: `reports/canonical/discovery_negative_witness_summary.json`
 - Markdown: `reports/canonical/discovery_negative_witness_summary.md`
-- Rows: `16`
+- Rows: `17`
 - Audit: `pass`
 
 ## Formal hardening

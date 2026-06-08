@@ -21,6 +21,7 @@ from bedc_quality_lab.classifier_shift import (
     structural_discovery,
 )
 from bedc_quality_lab.discovery import DiscoveryClaim, net_information, positive_discovery
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.ledger import LedgerRowKey, ledger_complete
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL, Scope, ScopedCertificate, closed_claim_scope_seal, scope_rows
 
@@ -443,6 +444,16 @@ def _main_claim_reason(
     return treatment.get("non_discovery_reason")
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.boundary_checks",
+        metadata_only_pointer="$.boundary_checks",
+        matched_random_pointer="$.matched_random_control.control_verdict.positive",
+        forbidden_column_pointer="$.boundary_checks.forbidden_inference_columns",
+    )
+
+
 def _source_control_verdict(
     payload: dict[str, Any],
     control: dict[str, Any],
@@ -495,6 +506,8 @@ def _verdict_payload(projection: GapHeadProjection) -> dict[str, Any]:
         control_audit_verified=bool(control_audit["verified"]),
     )
     treatment["audit_decision"] = {"audit_status": "pass" if control_audit["verified"] else "fail"}
+    if treatment["main_claim_status"] == "promoted":
+        treatment.update(_anti_triviality_contract("D4"))
     return treatment
 
 

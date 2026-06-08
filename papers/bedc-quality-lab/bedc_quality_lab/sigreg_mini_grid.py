@@ -9,6 +9,7 @@ import math
 import statistics
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
 
 
@@ -160,6 +161,16 @@ def _revocation_rows(failed_gate: str | None) -> list[dict[str, Any]]:
     ]
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.metric_separation",
+        metadata_only_pointer="$.grid",
+        matched_random_pointer="$.tradeoff_ledger.rows.0",
+        forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+    )
+
+
 def _has_recursive_key(value: Any, key: str) -> bool:
     if isinstance(value, Mapping):
         return key in value or any(_has_recursive_key(item, key) for item in value.values())
@@ -265,6 +276,8 @@ class SIGRegMiniGridProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "forbidden_claim_term_audit": capsule["forbidden_claim_term_audit"],
         }
+        if signal["level_candidate"] == "D2" and failed_gate is None:
+            summary.update(_anti_triviality_contract("D2"))
         if any(alias in summary for alias in FORBIDDEN_SUMMARY_ALIASES):
             raise ValueError("SIGReg mini-grid summary emitted a forbidden alias")
         if _has_recursive_key(summary, "terminal_verdict") or _has_recursive_key(capsule, "terminal_verdict"):

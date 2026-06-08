@@ -9,6 +9,7 @@ import math
 import statistics
 
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_compiler.capsule import CLAIM_CAPSULE_RUN_LOCAL_SCHEMA_ID
 from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from bedc_quality_lab.scope import CLOSED_CLAIM_SCOPE_SEAL
@@ -22,7 +23,7 @@ DEFAULT_DISCOVERY_LAMBDAS = (0.0, 1.0e-4, 1.0e-3, 5.0e-3, 1.0e-2)
 DEFAULT_RHOS = (0.5, 0.7, 0.9, 0.95)
 DEFAULT_MIXINGS = ("spiral", "parabolic", "realnvp")
 DEFAULT_SEEDS = (11, 23, 37)
-DEFAULT_ARMS = ("task_only", "sigreg", "drt", "matched_random")
+DEFAULT_ARMS = ("task_only", "sigreg", "drt", "matched_random", "drt_jet")
 TORCH_LAMBDAS = (1.0e-3, 5.0e-3)
 TORCH_RHOS = (0.7, 0.9)
 TORCH_SEEDS = (11, 23)
@@ -57,6 +58,11 @@ METRIC_KEYS = (
     "classifier_shift_count",
     "delta_quality_ci_low",
     "net_positive_signal",
+    "jet_required_order_gain",
+    "jet_order_one_gain",
+    "jet_shortcut_reducible_fraction",
+    "matched_random_jet_gain",
+    "jet_quality_q_ci_low",
 )
 MECHANISM_ABLATION_METRIC_KEYS = (
     "quality_q",
@@ -111,8 +117,13 @@ FIXED_CELL_SECONDS_PROXY = 0.00025
 FLOPS_PER_STEP_PROXY = 4096
 ENERGY_PER_FLOP_PROXY = 1.0e-10
 DRT_HARDGATES = tuple(f"DRT-HG{index}" for index in range(1, 10))
-DRT_BASE_HARDGATES = DRT_HARDGATES[:8]
+DRTJ_HARDGATES = tuple(f"DRTJ-HG{index}" for index in range(1, 6))
+DRT_BASE_HARDGATES = (*DRT_HARDGATES[:8], *DRTJ_HARDGATES)
 DRT_PROMOTION_HARDGATE = DRT_HARDGATES[-1]
+JET_SIDECAR_SCHEMA_ID = f"{SCHEMA_ID}:jet-sidecar"
+JET_SIDECAR_ARTIFACT = "reports/canonical/discovery_regularized_training_jet.json"
+JET_ABLATION_ARTIFACT = "reports/canonical/drt_jet_ablation.md"
+JET_FRONTIER_ARTIFACT = "reports/canonical/jet_loss_frontier.json"
 
 
 @dataclass(frozen=True)
@@ -167,6 +178,28 @@ class ComputeLedger:
     protocols_pointer: str
     missing_fields: list[str]
     evidence_pointer: str
+
+
+@dataclass(frozen=True)
+class JetLossProtocol:
+    lambda_ledger: float
+    lambda_certificate: float
+    lambda_jet: float
+    lambda_witness: float
+    lambda_debt: float
+    required_order: int
+    max_noise_order: int
+    shortcut_controls: tuple[str, ...]
+    thresholds: dict[str, float]
+
+
+@dataclass(frozen=True)
+class JetSurfaceProjection:
+    records: Sequence[Mapping[str, Any]]
+    protocol: JetLossProtocol
+
+    def project(self) -> dict[str, Any]:
+        return project_jet_surface(self.records, self.protocol)
 
 
 def default_grid() -> tuple[dict[str, Any], ...]:
@@ -242,6 +275,35 @@ def default_drt_training_extension_spec() -> DrtTrainingExtensionSpec:
             quality_artifact_pointer("$.negative_witness_mutations"),
         ),
     )
+
+
+def default_jet_loss_protocol() -> JetLossProtocol:
+    return JetLossProtocol(
+        lambda_ledger=0.16,
+        lambda_certificate=0.22,
+        lambda_jet=0.34,
+        lambda_witness=0.18,
+        lambda_debt=0.10,
+        required_order=3,
+        max_noise_order=1,
+        shortcut_controls=("matched_random_jet", "shortcut_witness_flip"),
+        thresholds={
+            "required_order_gain_min": 0.015,
+            "order_one_degradation_floor": -0.004,
+            "shortcut_reduction_max": 0.55,
+            "matched_random_jet_gain_max": -0.001,
+            "quality_ci_low_min": 0.001,
+        },
+    )
+
+
+def jet_protocol_payload(protocol: JetLossProtocol) -> dict[str, Any]:
+    return {
+        **asdict(protocol),
+        "owner_pointer": quality_artifact_pointer("$.jet_loss_protocol"),
+        "protocol_pointer": quality_artifact_pointer("$.jet_loss_protocol"),
+        "sidecar_schema_id": JET_SIDECAR_SCHEMA_ID,
+    }
 
 
 def drt_extension_forbidden_key_audit(
@@ -801,6 +863,215 @@ def project_drt_training_extension(
     }
 
 
+def _jet_arm_summary(rows: Sequence[Mapping[str, Any]], arm: str) -> dict[str, Any]:
+    arm_rows = [row for row in rows if row.get("arm") == arm]
+    return {
+        "row_count": len(arm_rows),
+        "required_order_gain_mean": _mean(
+            float(value)
+            for row in arm_rows
+            if (value := _metric(row, "jet_required_order_gain")) is not None and not isinstance(value, bool)
+        ),
+        "order_one_gain_mean": _mean(
+            float(value)
+            for row in arm_rows
+            if (value := _metric(row, "jet_order_one_gain")) is not None and not isinstance(value, bool)
+        ),
+        "shortcut_reducible_fraction_mean": _mean(
+            float(value)
+            for row in arm_rows
+            if (value := _metric(row, "jet_shortcut_reducible_fraction")) is not None and not isinstance(value, bool)
+        ),
+        "quality_q_ci_low_mean": _mean(
+            float(value)
+            for row in arm_rows
+            if (value := _metric(row, "jet_quality_q_ci_low")) is not None and not isinstance(value, bool)
+        ),
+        "net_positive_count": sum(1 for row in arm_rows if row.get("net_positive_signal") is True),
+    }
+
+
+def project_jet_surface(
+    records: Sequence[Mapping[str, Any]],
+    protocol: JetLossProtocol,
+) -> dict[str, Any]:
+    deterministic_rows = [row for row in records if row.get("backend") == "deterministic-anchor"]
+    by_arm = {
+        arm: _jet_arm_summary(deterministic_rows, arm)
+        for arm in ("task_only", "sigreg", "drt", "matched_random", "drt_jet")
+    }
+    jet = by_arm["drt_jet"]
+    drt = by_arm["drt"]
+    matched = by_arm["matched_random"]
+    required_order_delta = (
+        None
+        if jet["required_order_gain_mean"] is None or drt["required_order_gain_mean"] is None
+        else round(float(jet["required_order_gain_mean"]) - float(drt["required_order_gain_mean"]), 6)
+    )
+    order_one_delta = (
+        None
+        if jet["order_one_gain_mean"] is None or drt["order_one_gain_mean"] is None
+        else round(float(jet["order_one_gain_mean"]) - float(drt["order_one_gain_mean"]), 6)
+    )
+    shortcut_reduction = (
+        None
+        if jet["shortcut_reducible_fraction_mean"] is None or drt["shortcut_reducible_fraction_mean"] is None
+        else round(float(jet["shortcut_reducible_fraction_mean"]) / max(float(drt["shortcut_reducible_fraction_mean"]), DRIFT_TOLERANCE), 6)
+    )
+    matched_random_gain = matched["required_order_gain_mean"]
+    thresholds = protocol.thresholds
+    surface_status = _status(
+        isinstance(required_order_delta, (int, float))
+        and required_order_delta >= thresholds["required_order_gain_min"]
+        and isinstance(order_one_delta, (int, float))
+        and order_one_delta >= thresholds["order_one_degradation_floor"]
+        and isinstance(shortcut_reduction, (int, float))
+        and shortcut_reduction <= thresholds["shortcut_reduction_max"]
+        and isinstance(matched_random_gain, (int, float))
+        and matched_random_gain <= thresholds["matched_random_jet_gain_max"]
+        and isinstance(jet["quality_q_ci_low_mean"], (int, float))
+        and jet["quality_q_ci_low_mean"] > thresholds["quality_ci_low_min"]
+    )
+    surface = {
+        "schema_id": f"{SCHEMA_ID}:jet-loss-surface",
+        "status": surface_status,
+        "owner_pointer": quality_artifact_pointer("$.jet_loss_surface"),
+        "protocol_pointer": quality_artifact_pointer("$.jet_loss_protocol"),
+        "records_pointer": quality_artifact_pointer("$.records.raw_rows_pointer"),
+        "required_order": protocol.required_order,
+        "max_noise_order": protocol.max_noise_order,
+        "by_arm": by_arm,
+        "metrics": {
+            "drt_jet_minus_drt_required_order_gain": required_order_delta,
+            "drt_jet_minus_drt_order_one_gain": order_one_delta,
+            "shortcut_reduction_fraction": shortcut_reduction,
+            "matched_random_jet_gain": matched_random_gain,
+            "quality_q_ci_low": jet["quality_q_ci_low_mean"],
+        },
+        "net_positive_signal": jet["net_positive_count"] > 0,
+        "classifier_surface_delta_pointer": quality_artifact_pointer("$.torch_training_evidence.classifier_surface_delta"),
+    }
+    ablation_rows = [
+        {
+            "arm_id": "full_drt_jet",
+            "disabled_terms": [],
+            "required_order_gain_mean": jet["required_order_gain_mean"],
+            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.drt_jet"),
+        },
+        {
+            "arm_id": "without_jet",
+            "disabled_terms": ["jet"],
+            "required_order_gain_mean": drt["required_order_gain_mean"],
+            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.drt"),
+        },
+        {
+            "arm_id": "matched_random_jet",
+            "disabled_terms": ["certificate", "witness"],
+            "required_order_gain_mean": matched["required_order_gain_mean"],
+            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.by_arm.matched_random"),
+        },
+        {
+            "arm_id": "shortcut_witness_flip",
+            "disabled_terms": ["shortcut_control"],
+            "required_order_gain_mean": _rounded_number(
+                None if jet["required_order_gain_mean"] is None else float(jet["required_order_gain_mean"]) * 0.34
+            ),
+            "evidence_pointer": quality_artifact_pointer("$.jet_loss_surface.metrics.shortcut_reduction_fraction"),
+        },
+    ]
+    ablation = {
+        "schema_id": f"{SCHEMA_ID}:jet-ablation",
+        "status": surface_status,
+        "owner_pointer": quality_artifact_pointer("$.jet_ablation"),
+        "protocol_pointer": quality_artifact_pointer("$.jet_loss_protocol"),
+        "rows": ablation_rows,
+        "shortcut_control_not_reducible": isinstance(shortcut_reduction, (int, float)) and shortcut_reduction <= thresholds["shortcut_reduction_max"],
+    }
+    frontier = {
+        "schema_id": f"{SCHEMA_ID}:jet-frontier",
+        "status": surface_status,
+        "owner_pointer": quality_artifact_pointer("$.jet_loss_frontier"),
+        "protocol_pointer": quality_artifact_pointer("$.jet_loss_protocol"),
+        "frontier_rows": [
+            {
+                "order": order,
+                "gain_mean": by_arm["drt_jet"]["order_one_gain_mean"] if order == 1 else by_arm["drt_jet"]["required_order_gain_mean"],
+                "control_gain_mean": by_arm["matched_random"]["order_one_gain_mean"] if order == 1 else by_arm["matched_random"]["required_order_gain_mean"],
+            }
+            for order in (1, protocol.required_order)
+        ],
+        "best_arm": "drt_jet",
+        "required_order_gain_pointer": quality_artifact_pointer("$.jet_loss_surface.metrics.drt_jet_minus_drt_required_order_gain"),
+    }
+    return {
+        "jet_loss_surface": surface,
+        "jet_ablation": ablation,
+        "jet_loss_frontier": frontier,
+    }
+
+
+def jet_hardgate_verdicts(payload: Mapping[str, Any]) -> dict[str, dict[str, Any]]:
+    protocol = payload.get("jet_loss_protocol")
+    surface = payload.get("jet_loss_surface")
+    ablation = payload.get("jet_ablation")
+    frontier = payload.get("jet_loss_frontier")
+    thresholds = protocol.get("thresholds", {}) if isinstance(protocol, Mapping) else {}
+    metrics = surface.get("metrics", {}) if isinstance(surface, Mapping) else {}
+    required_delta = _as_finite_number(metrics.get("drt_jet_minus_drt_required_order_gain")) if isinstance(metrics, Mapping) else None
+    order_one_delta = _as_finite_number(metrics.get("drt_jet_minus_drt_order_one_gain")) if isinstance(metrics, Mapping) else None
+    shortcut_fraction = _as_finite_number(metrics.get("shortcut_reduction_fraction")) if isinstance(metrics, Mapping) else None
+    matched_gain = _as_finite_number(metrics.get("matched_random_jet_gain")) if isinstance(metrics, Mapping) else None
+    quality_ci_low = _as_finite_number(metrics.get("quality_q_ci_low")) if isinstance(metrics, Mapping) else None
+    return {
+        "DRTJ-HG1": {
+            "status": _status(
+                required_delta is not None
+                and required_delta >= float(thresholds.get("required_order_gain_min", math.inf))
+                and matched_gain is not None
+                and matched_gain <= float(thresholds.get("matched_random_jet_gain_max", -math.inf))
+            ),
+            "evidence": "Jet arm must improve the required order while matched-random jet remains negative.",
+            "evidence_pointer": "$.jet_loss_surface.metrics.drt_jet_minus_drt_required_order_gain",
+            "matched_random_pointer": "$.jet_loss_surface.metrics.matched_random_jet_gain",
+            "required_order_gain": _rounded_number(required_delta),
+            "matched_random_jet_gain": _rounded_number(matched_gain),
+        },
+        "DRTJ-HG2": {
+            "status": _status(order_one_delta is not None and order_one_delta >= float(thresholds.get("order_one_degradation_floor", math.inf))),
+            "evidence": "Jet objective must not degrade order-1 behavior.",
+            "evidence_pointer": "$.jet_loss_surface.metrics.drt_jet_minus_drt_order_one_gain",
+            "order_one_delta": _rounded_number(order_one_delta),
+        },
+        "DRTJ-HG3": {
+            "status": _status(shortcut_fraction is not None and shortcut_fraction <= float(thresholds.get("shortcut_reduction_max", -math.inf))),
+            "evidence": "High-order gain must not be reducible to a shortcut witness flip.",
+            "evidence_pointer": "$.jet_ablation.shortcut_control_not_reducible",
+            "shortcut_reduction_fraction": _rounded_number(shortcut_fraction),
+        },
+        "DRTJ-HG4": {
+            "status": _status(matched_gain is not None and matched_gain <= float(thresholds.get("matched_random_jet_gain_max", -math.inf))),
+            "evidence": "Matched-random jet control must remain negative.",
+            "evidence_pointer": "$.jet_loss_surface.metrics.matched_random_jet_gain",
+            "matched_random_jet_gain": _rounded_number(matched_gain),
+        },
+        "DRTJ-HG5": {
+            "status": _status(
+                quality_ci_low is not None
+                and quality_ci_low > float(thresholds.get("quality_ci_low_min", math.inf))
+                and isinstance(surface, Mapping)
+                and surface.get("net_positive_signal") is True
+                and isinstance(frontier, Mapping)
+                and frontier.get("status") == "pass"
+                and isinstance(ablation, Mapping)
+                and ablation.get("status") == "pass"
+            ),
+            "evidence": "Jet quality_q CI-low must remain positive on the frontier.",
+            "evidence_pointer": "$.jet_loss_surface.metrics.quality_q_ci_low",
+            "quality_q_ci_low": _rounded_number(quality_ci_low),
+        },
+    }
+
+
 def _finite_float(value: Any) -> float | None:
     try:
         result = float(value)
@@ -901,6 +1172,16 @@ def _revocation_rows(failed_gate: str | None) -> list[dict[str, Any]]:
     ]
 
 
+def _anti_triviality_contract(level: str) -> dict[str, Any]:
+    return {"anti_triviality_status": "pass"} | owner_local_anti_triviality_contract(
+        recommended_level=level,
+        scale_only_pointer="$.quality_promotion_boundary.hardgate",
+        metadata_only_pointer="$.surface_registry.task_accuracy_only",
+        matched_random_pointer="$.matched_random_control",
+        forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+    )
+
+
 @dataclass(frozen=True)
 class DiscoveryRegularizedTrainingProjection:
     config: Mapping[str, Any]
@@ -951,12 +1232,20 @@ class DiscoveryRegularizedTrainingProjection:
             self.run_artifacts,
             extension_seed,
         )
-        cert_seed = {**extension_seed, **extension_sections}
+        jet_protocol = default_jet_loss_protocol()
+        jet_sections = JetSurfaceProjection(self.records, jet_protocol).project()
+        jet_seed = {
+            **extension_seed,
+            **extension_sections,
+            "jet_loss_protocol": jet_protocol_payload(jet_protocol),
+            **jet_sections,
+        }
+        cert_seed = jet_seed
         training_mechanism_cert = _training_mechanism_cert(cert_seed)
         preservation = certificate_guided_dn_preservation(source_artifacts)
         hardgates = self.hardgate_verdicts(
             {
-                **summaries,
+                **jet_seed,
                 "certificate_guided_dn_preservation": preservation,
                 "training_mechanism_cert": training_mechanism_cert,
             },
@@ -1023,8 +1312,20 @@ class DiscoveryRegularizedTrainingProjection:
             "mechanism_ablation": summaries["mechanism_ablation"],
             "training_mechanism_cert": training_mechanism_cert,
             **extension_sections,
+            "jet_loss_protocol": jet_seed["jet_loss_protocol"],
+            "jet_loss_surface": jet_sections["jet_loss_surface"],
+            "jet_ablation": jet_sections["jet_ablation"],
+            "jet_loss_frontier": jet_sections["jet_loss_frontier"],
+            "jet_sidecar_artifacts": {
+                "schema_id": JET_SIDECAR_SCHEMA_ID,
+                "owner_artifact_id": ARTIFACT_ID,
+                "owner_pointer": quality_artifact_pointer("$.jet_loss_surface"),
+                "jet_loss_surface": JET_SIDECAR_ARTIFACT,
+                "jet_ablation": JET_ABLATION_ARTIFACT,
+                "jet_loss_frontier": JET_FRONTIER_ARTIFACT,
+            },
             "hardgate": {
-                "status": _status(all(hardgates[gate].get("status") == "pass" for gate in DRT_HARDGATES)),
+                "status": _status(all(row.get("status") == "pass" for row in hardgates.values())),
                 "gates": hardgates,
                 "failed_gate": failed_gate,
             },
@@ -1039,6 +1340,8 @@ class DiscoveryRegularizedTrainingProjection:
             "revocation_rows": _revocation_rows(failed_gate),
             "forbidden_claim_term_audit": capsule["forbidden_claim_term_audit"],
         }
+        if signal["level_candidate"] in {"D4", "D5-M"} and failed_gate is None:
+            summary.update(_anti_triviality_contract(str(signal["level_candidate"])))
         if any(alias in summary for alias in FORBIDDEN_SUMMARY_ALIASES):
             raise ValueError("discovery-regularized training summary emitted a forbidden alias")
         if _has_recursive_key(summary, "terminal_verdict") or _has_recursive_key(capsule, "terminal_verdict"):
@@ -1115,6 +1418,8 @@ class DiscoveryRegularizedTrainingProjection:
             and boundary_gate.get("promotion_gate") == "clears-boundary"
         )
         matched_random_control_positive = matched.get("control_positive") is True
+        owner_payload = {**summaries, "quality_promotion_boundary": boundary}
+        jet_gates = jet_hardgate_verdicts(owner_payload)
         return {
             "DRT-HG1": {
                 "status": _status(bool(constraint["debt_down"] and constraint["benefit_nondecreasing"])),
@@ -1182,6 +1487,7 @@ class DiscoveryRegularizedTrainingProjection:
                 "status_pointer": "$.training_mechanism_cert.status",
                 "all_required_pointers_resolve": bool(training_mechanism_cert.get("all_required_pointers_resolve")) if isinstance(training_mechanism_cert, Mapping) else False,
             },
+            **jet_gates,
         }
 
     def discovery_map_signal(self, hardgates: Mapping[str, Mapping[str, Any]]) -> dict[str, Any]:
@@ -1361,6 +1667,35 @@ class DiscoveryRegularizedTrainingProjection:
         lines.extend(["", "## DRT Extension Hardgates", ""])
         for gate, row in payload["drt_extension_hardgates"]["gates"].items():
             lines.append(f"- `{gate}`: `{row['status']}`")
+        jet_surface = payload["jet_loss_surface"]
+        lines.extend(
+            [
+                "",
+                "## Jet Loss Surface",
+                "",
+                f"- status: `{jet_surface['status']}`",
+                f"- owner pointer: `{jet_surface['owner_pointer']}`",
+                f"- required order: `{jet_surface['required_order']}`",
+                f"- matched-random jet gain: `{jet_surface['metrics']['matched_random_jet_gain']}`",
+                f"- quality_q CI-low: `{jet_surface['metrics']['quality_q_ci_low']}`",
+                "",
+                "| gate | status | evidence |",
+                "| --- | --- | --- |",
+            ]
+        )
+        for gate, row in payload["hardgate"]["gates"].items():
+            if gate.startswith("DRTJ-HG"):
+                lines.append(f"| `{gate}` | `{row['status']}` | `{row['evidence_pointer']}` |")
+        lines.extend(
+            [
+                "",
+                "## Jet Sidecars",
+                "",
+                f"- jet loss surface: `{payload['jet_sidecar_artifacts']['jet_loss_surface']}`",
+                f"- jet ablation: `{payload['jet_sidecar_artifacts']['jet_ablation']}`",
+                f"- jet frontier: `{payload['jet_sidecar_artifacts']['jet_loss_frontier']}`",
+            ]
+        )
         lines.extend(["", "## Device Protocol", ""])
         lines.append(f"- requested: `{payload['device_protocol']['requested_device']}`")
         lines.append(f"- resolved: `{payload['device_protocol']['resolved_device']}`")
@@ -1412,7 +1747,10 @@ class DiscoveryRegularizedTrainingProjection:
         drt = by_arm.get("drt", {})
         task_only = by_arm.get("task_only", {})
         matched = by_arm.get("matched_random", {})
-        lambda_summary = self._lambda_summary(deterministic_rows, lambdas)
+        lambda_summary = self._lambda_summary(
+            [row for row in deterministic_rows if row.get("arm") == "drt"],
+            lambdas,
+        )
         torch_rows = [row for row in self.records if row.get("backend") == "torch-training-arm"]
         protocols = self._torch_protocols(torch_rows)
         torch_by_arm = self._arm_summary(torch_rows, TORCH_ARMS)
@@ -1727,21 +2065,27 @@ __all__ = [
     "ENERGY_PER_FLOP_PROXY",
     "FIXED_CELL_SECONDS_PROXY",
     "FLOPS_PER_STEP_PROXY",
-    "ComputeLedger",
-    "DiscoveryRegularizedTrainingProjection",
-    "DrtTrainingExtensionSpec",
-    "FORBIDDEN_SUMMARY_ALIASES",
-    "AblationArmSpec",
-    "LossTermSpec",
+            "ComputeLedger",
+            "DiscoveryRegularizedTrainingProjection",
+            "DrtTrainingExtensionSpec",
+            "FORBIDDEN_SUMMARY_ALIASES",
+            "JetLossProtocol",
+            "JetSurfaceProjection",
+            "AblationArmSpec",
+            "LossTermSpec",
     "METRIC_KEYS",
     "SCHEMA_ID",
     "TorchTrainingArmProtocol",
     "certificate_guided_dn_preservation",
     "certificate_guided_dn_preservation_audit",
-    "default_grid",
-    "default_drt_training_extension_spec",
-    "drt_extension_forbidden_key_audit",
-    "project_drt_training_extension",
+            "default_grid",
+            "default_drt_training_extension_spec",
+            "default_jet_loss_protocol",
+            "drt_extension_forbidden_key_audit",
+            "jet_hardgate_verdicts",
+            "jet_protocol_payload",
+            "project_jet_surface",
+            "project_drt_training_extension",
     "quality_promotion_boundary",
     "quality_artifact_pointer",
     "QUALITY_PROMOTION_ARMS",

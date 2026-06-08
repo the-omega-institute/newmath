@@ -97,6 +97,20 @@ Only after those rows are displayed can the request reach the regular handoff $R
 \end{proof}
 \leanchecked{BEDC.Derived.SeparableMetricUp.SeparableMetricCarrier\_dense\_window\_metric\_compatibility}
 
+\begin{theorem}[Separable metric finite-density public export]
+\label{thm:separable-metric-finite-density-public-export}
+Every accepted $\SeparableMetricUp$ packet $S=(M,A,W,T,R,E,H,C,P,N)$ exports a public finite-density route through the displayed $\MetricUp$ distance row $M$, indexed dense-name row $A$, finite $\StreamNameUp$ window $W$, $\DyadicRatCoreUp$ or $\RealUp$ tolerance row $T$, $\RegSeqRatUp$ handoff $R$, and terminal $\RealUp$ seal $E$. Any $\CompleteMetricUp$ or $\PolishSpaceUp$ consumer may cite only that finite route through $H,C,P,N$ and may not cite selected dense points, quotient completion equality, open-cover compactness, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:separable-metric-carrier-surface}. The rows $M,A,W,T,R,E,H,C,P,N$ are the only public data exposed by the accepted separable-metric packet.
+
+Apply \autoref{thm:separable-metric-namecert-obligation-surface} and \autoref{thm:separablemetric-countable-density-carrier-admission}. These identify the metric distance row, indexed dense-name row, finite window, tolerance ledger, regular handoff, real seal, transport, replay, provenance, and local naming as the admitted finite-density surface.
+
+Use \autoref{thm:separable-metric-dense-window-stability} together with \autoref{thm:separablemetric-dense-window-metric-compatibility}. The dense-name window is stable under matching finite requests, and every distance comparison passes through $M$ and $T$ before $R$ or $E$ can be consumed.
+
+Thus a completion or Polish-space consumer receives only the displayed finite route through $M,A,W,T,R,E,H,C,P,N$. Since selected dense points, quotient completion equality, open-cover compactness, and ambient Real completeness are absent from the carrier and from the obligation surface, they cannot be exported.
+\end{proof}
+
 \begin{theorem}[Separable metric regular-handoff obligation]
 \label{thm:separablemetric-regular-handoff-obligation}
 Let $S=(M,A,W,T,R,E,H,C,P,N)$ be an accepted $\SeparableMetricUp$ packet. The $\RegSeqRatUp$ handoff row $R$ is obligated to use only the dense-name observations displayed by $A$ and $W$, the $\MetricUp$ distance row $M$, and the $\DyadicRatCoreUp$ or $\RealUp$ tolerance rows in $T$. Its export to $E,H,C,P,N$ is a finite NameCert-local route, not a selected Cauchy subsequence, quotient-completion equality, open-cover compactness witness, or ambient completeness proof.
