@@ -174,17 +174,6 @@ def _resolve_cell(root: Path, cell: Mapping[str, Any]) -> Any:
     return resolve_artifact_pointer(root, artifact_pointer(cell))
 
 
-@dataclass(frozen=True)
-class DgtOwnerProjection:
-    generated_at: str
-    component_refs: Mapping[str, Any]
-
-
-@dataclass(frozen=True)
-class DgtJetCertificate:
-    payload: Mapping[str, Any]
-
-
 def default_component_refs() -> dict[str, dict[str, str]]:
     return {
         "hardgate_contract": _cell("reports/canonical/new_model_hardgates.json", "$.gates"),
