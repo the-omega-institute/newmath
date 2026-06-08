@@ -332,15 +332,16 @@
     "server_url": "http://127.0.0.1:8769",
     "pdf_attach_path": "papers/bio_reality/main.pdf",
     "persist_dir": "tools/bio_reality/state/oracle_sessions",
+    "comment": "bio_g/bio_plan oracle consultations paused: the ChatGPT-tab model frequently stalls ('已停止思考'), so ~40% of consultations burn the userscript MAX_WAIT (7200s) and return boilerplate/timeout. At the current data-bound rest the oracle cannot advance the science (bio-Plan only re-proposes duplicate conjectures), so the consultations are pure cycle-drag + tab flooding. Deterministic bio-G gates and bio-Plan frontier logic still run. Re-enable when new external data resumes real science that needs ChatGPT-side gating.",
     "bio_g": {
-      "enabled": true,
+      "enabled": false,
       "max_turns": 10,
       "min_seconds_between_consultations": 1800,
       "codex_judge_timeout_seconds": 240,
       "poll_timeout_seconds": 600
     },
     "bio_plan": {
-      "enabled": true,
+      "enabled": false,
       "max_turns": 12,
       "min_cycles_between_consultations": 5,
       "codex_judge_timeout_seconds": 240,
