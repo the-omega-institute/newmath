@@ -38,7 +38,7 @@ ACTIVE_KINDS = (
     "scale_only_overclaim",
 )
 DEFERRED_KINDS = (
-    "metadata_leakage_detector",
+    "single_threshold_positive_only",
 )
 ESCAPE_LEVELS = {"D4", "D5-O", "D5-M"}
 NON_ESCAPE_TERMINAL_VERDICTS = {"rejected", "demoted", "ledger-only", "accepted"}
@@ -344,9 +344,9 @@ def build_escape_registry(
         "active_kinds": list(ACTIVE_KINDS),
         "deferred_kinds": [
             {
-                "kind": "metadata_leakage_detector",
+                "kind": "single_threshold_positive_only",
                 "status": "deferred",
-                "rationale": "awaits a positive metadata-consumption path",
+                "rationale": "awaits an active single-threshold escape recipe",
             },
         ],
         "capacity": {
@@ -414,6 +414,8 @@ def write_sidecars(*, root: Path | None = None, generated_at: str | None = None)
         raise ValueError(f"registry may only write {REGISTRY_ARTIFACT}")
     if demotions_path != (base / DEMOTIONS_ARTIFACT).resolve():
         raise ValueError(f"demotions may only write {DEMOTIONS_ARTIFACT}")
+    if generated_at is None and registry_path.exists():
+        generated_at = json.loads(registry_path.read_text(encoding="utf-8")).get("generated_at")
     registry = build_escape_registry(root=base, generated_at=generated_at)
     demotions = build_demotions(registry, generated_at=registry["generated_at"])
     _write_json(registry_path, registry)

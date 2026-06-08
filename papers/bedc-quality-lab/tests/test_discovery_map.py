@@ -8,8 +8,10 @@ from bedc_quality_lab.backends.current_lab.gap_head_readiness import (
     GapHeadD5Criterion,
     GapHeadD5ReadinessLedger,
 )
+from bedc_quality_lab.discovery_compiler.anti_triviality import owner_local_anti_triviality_contract
 from bedc_quality_lab.discovery_regularized_training import (
     MECHANISM_ABLATION_REQUIRED_ARMS,
+    certificate_guided_dn_preservation,
     default_drt_training_extension_spec,
     project_drt_training_extension,
     _training_mechanism_cert,
@@ -111,7 +113,7 @@ def _write_payload(root: Path, spec, payload):
             )
         )
         payload["training_mechanism_cert"] = _training_mechanism_cert(payload)
-        payload["hardgate"]["gates"]["DRT-HG8"]["status"] = payload["training_mechanism_cert"]["status"]
+        payload["hardgate"]["gates"]["DRT-HG9"]["status"] = payload["training_mechanism_cert"]["status"]
         payload["hardgate"]["status"] = (
             "pass"
             if all(row["status"] == "pass" for row in payload["hardgate"]["gates"].values())
@@ -136,6 +138,19 @@ def _ensure_pointer_value(payload, pointer, value):
         target[parts[-1]] = value
 
 
+def _matched_random_audit_fixture(*, audit_status: str = "invalid"):
+    return {
+        "parameter_match": True,
+        "compute_match": True,
+        "threshold_match": True,
+        "surface_distribution_match": True,
+        "metric_helper_match": True,
+        "audit_status": audit_status,
+        "failure_reasons": [] if audit_status == "pass" else ["fixture audit source absent"],
+        "evidence_pointers": ["$.control_protocol"],
+    }
+
+
 def _audit_complete_payload(spec, payload):
     payload = dict(payload)
     _ensure_pointer_value(payload, spec.scope_pointer, {"status": "fixture"})
@@ -147,6 +162,12 @@ def _audit_complete_payload(spec, payload):
         _ensure_pointer_value(payload, spec.no_control_rationale_pointer, {"status": "fixture-rationale"})
     payload["scope_seal"] = CLOSED_CLAIM_SCOPE_SEAL
     payload["audit_decision"] = {"audit_status": "pass"}
+    if spec.name == "gap-head-on-h":
+        payload["control_protocol"].update(_matched_random_audit_fixture(audit_status="pass"))
+        for record in payload["records"]:
+            record["matched_random_control"].update(_matched_random_audit_fixture(audit_status="pass"))
+    if spec.name == "gap-head-discovery":
+        payload["matched_random_control"].update(_matched_random_audit_fixture(audit_status="pass"))
     if spec.name == "gap-head-attribution-capsule":
         payload.setdefault("cost_protocol_pointer", "configs/default_cost_protocol.yaml")
         payload.setdefault("control_pointer", "$.control_evidence")
@@ -170,9 +191,20 @@ def _minimal_payload(spec):
     if spec.name == "gap-head-on-h":
         payload.update({
             "treatment_verdict": {"positive": True},
-            "control_protocol": {"same_budget_as_treatment": True},
+            "control_protocol": {"same_budget_as_treatment": True, **_matched_random_audit_fixture()},
             "control_verdict": {"positive": False},
+            "records": [{"matched_random_control": _matched_random_audit_fixture()}],
         })
+        payload.update(
+            {"anti_triviality_status": "pass"}
+            | owner_local_anti_triviality_contract(
+                recommended_level="D5-O",
+                scale_only_pointer="$.treatment_verdict.positive",
+                metadata_only_pointer="$.control_protocol",
+                matched_random_pointer="$.control_verdict.positive",
+                forbidden_column_pointer="$.boundary_no_z_audit",
+            )
+        )
         return payload
     if spec.name == "gap-head-discovery":
         payload.update({
@@ -180,6 +212,7 @@ def _minimal_payload(spec):
             "matched_random_control": {
                 "control_verdict": {"positive": False},
                 "control_projection": {"positive_discovery": True},
+                **_matched_random_audit_fixture(),
             },
         })
         return payload
@@ -191,155 +224,7 @@ def _minimal_payload(spec):
     if spec.name == "certificate-gated-attention":
         return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "discovery-regularized-training":
-        payload.update({
-            "config": {
-                "steps": 12,
-                "seeds": [11, 23, 37],
-                "mixings": ["spiral", "parabolic", "realnvp"],
-                "rhos": [0.5, 0.7, 0.9, 0.95],
-                "discovery_lambdas": [0.0, 0.0001, 0.001, 0.005, 0.01],
-                "arms": ["task_only", "sigreg", "drt", "matched_random"],
-            },
-            "source_artifacts": {
-                "cost_protocol": "configs/default_cost_protocol.yaml",
-                "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
-            },
-                "discovery_map_signal": {
-                    "control_pointer": "$.matched_random_control",
-                    "evidence_pointer": "$.training_mechanism_cert",
-                    "failed_gate": None,
-                    "failed_gate_pointer": None,
-                    "level_candidate": "D5-M",
-                    "reason": "training-mechanism-certificate-positive",
-                    "status": "d5-m-candidate",
-                    "training_mechanism_cert_pointer": "$.training_mechanism_cert",
-                    "torch_training_evidence_pointer": "$.torch_training_evidence",
-                },
-            "hardgate": {
-                "failed_gate": None,
-                "gates": {
-                    f"DRT-HG{index}": {
-                        "status": "pass",
-                        "evidence_pointer": "$.training_mechanism_cert"
-                        if index == 8
-                        else "$.mechanism_ablation"
-                        if index == 7
-                        else "$.quality_promotion_boundary",
-                    }
-                    for index in range(1, 9)
-                },
-                "status": "pass",
-            },
-            "failed_gate": None,
-            "lambda_summary": {
-                "best_positive": {
-                    "discovery_lambda": "0.01",
-                    "quality_q_mean": 0.62,
-                    "delta_quality_ci_low_mean": 0.003,
-                },
-                "ordered_discovery_lambdas": [0.0, 0.0001, 0.001, 0.005, 0.01],
-            },
-            "torch_training_evidence": {
-                "classifier_surface_delta": {
-                    "source_arm": "drt",
-                    "control_arm": "matched_random",
-                    "drt_minus_matched_random_classifier_shift_count": 1.0,
-                    "net_positive_signal": True,
-                },
-                "expected_row_count": 1,
-                "protocols": [{"status": "complete"}],
-                "row_count": 1,
-                "status": "available",
-            },
-            "records": {
-                "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
-                "extension_metrics": {
-                    "loss_terms_enabled": [
-                        "discovery",
-                        "ledger",
-                        "certificate",
-                        "mechanism",
-                        "cost",
-                        "negative_witness",
-                    ],
-                    "comparison_family": "task-sigreg-drt-matched-random",
-                    "compute_ledger_pointer": "$.compute_ledger",
-                    "debt_marker_pointer": "$.constraint_summary",
-                    "uer_mean": 0.11,
-                    "uer_reduction_mean": 0.09,
-                    "sidecar_metric_pointers": {
-                        "raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
-                        "torch_training_evidence": "$.torch_training_evidence",
-                        "matched_random_control": "$.matched_random_control",
-                    },
-                },
-            },
-            "surface_registry": {
-                "quality": {
-                    "source": "deterministic-anchor",
-                    "metric": "quality_q",
-                    "by_arm": {
-                        "task_only": {"quality_q_mean": 0.58},
-                        "sigreg": {"quality_q_mean": 0.60},
-                        "drt": {"quality_q_mean": 0.64},
-                        "matched_random": {"quality_q_mean": 0.59},
-                    },
-                },
-                "classifier_shift": {
-                    "classifier_shift_count_mean": 1.0,
-                    "classifier_shift_positive": True,
-                    "net_positive_signal": True,
-                    "net_positive_count": 1,
-                },
-                "task_accuracy_only": {"task_accuracy_only_rejected": True, "promoted_row_count": 0},
-            },
-            "constraint_summary": {
-                "drt_minus_task_only_debt_q": -0.1,
-                "drt_minus_task_only_benefit_q": 0.02,
-                "debt_down": True,
-                "benefit_nondecreasing": True,
-            },
-            "device_protocol": {
-                "requested_device": "auto",
-                "resolved_device": "cpu",
-                "drift_tolerance": 0.0001,
-                "status": "available",
-            },
-            "compute_ledger": {
-                "status": "complete",
-                "backend_row_counts": {
-                    "deterministic-anchor": 720,
-                    "torch-training-arm": 16,
-                },
-                "device": "cpu",
-                "requested_device": "auto",
-                "resolved_device": "cpu",
-                "deterministic_seed_count": 3,
-                "torch_seed_count": 2,
-                "total_steps": 8832,
-                "wall_time_seconds_proxy": 2.16,
-                "flops_proxy": 36175872,
-                "energy_proxy": 0.003618,
-                "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
-                "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
-                "protocols_pointer": "$.torch_training_evidence.protocols",
-                "missing_fields": [],
-                "evidence_pointer": "$.records",
-            },
-            "negative_witness_mutations": {
-                "status": "armed",
-                "source_arm": "drt",
-                "mutation_arm": "matched_random",
-            },
-            "training_loop_trace": {
-                "status": "available",
-                "source_arm": "drt",
-                "mutation_arm": "matched_random",
-            },
-            "matched_random_control": {"control_positive_discovery": False},
-        })
-        payload["mechanism_ablation"] = _drt_mechanism_ablation_fixture()
-        return payload
+        return runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "mechanism-seeking-network":
         payload.update({
             "records": {
@@ -506,6 +391,16 @@ def _minimal_payload(spec):
             "forbidden_claim_term_audit": {"status": "pass", "hits": []},
             "source_artifacts": {"metric_helper": "reports/canonical/gap_head_transfer_atlas.json:$.surfaces"},
         })
+        payload.update(
+            {"anti_triviality_status": "pass"}
+            | owner_local_anti_triviality_contract(
+                recommended_level="D5-O",
+                scale_only_pointer="$.multi_surface_d5_o.decision",
+                metadata_only_pointer="$.surface_registry",
+                matched_random_pointer="$.config.control_arm",
+                forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+            )
+        )
         return payload
     if spec.name == "spectral-ablation-hinge":
         payload.update({
@@ -661,13 +556,7 @@ def _write_coverage_payloads(root: Path):
     _write_json_artifact(
         root,
         discovery_map.DISCOVERY_GATED_TRANSFORMER_ARTIFACT,
-        {
-            "prototype_status": "prototype-candidate",
-            "discovery_map_signal": {"level_candidate": "D4"},
-            "hardgate_instances": {"NEW-MODEL-HG1": {"status": "pass"}},
-            "revocation_rows": [{"status": "demoted"}],
-            "not_claimed": ["no broad architecture superiority claim"],
-        },
+        canonical._build_discovery_gated_transformer_payload(generated_at="fixture-time"),
     )
     _write_json_artifact(
         root,
@@ -839,7 +728,7 @@ def _ablation_context_payload(*, status="fail"):
     }
 
 
-def _negative_witnesses_context_payload(*, expected_kind_count=8):
+def _negative_witnesses_context_payload(*, expected_kind_count=9):
     return {
         "status": "pointer-only",
         "expected_kind_count": expected_kind_count,
@@ -904,6 +793,16 @@ def _dimension_mismatch_payload(*, status="pass", anti_triviality_status="scale_
     terminal_verdict = "source_pass" if effective_level == "D4" else "negative_discovery"
     downgrade_reason = None if effective_level == "D4" else "scale_only_or_metadata_proxy_sufficient"
     failed_gate = None if effective_level == "D4" else "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+    contract_status = "pass" if anti_triviality_status == "anti_triviality_passed" else "fail"
+    contract = owner_local_anti_triviality_contract(
+        recommended_level=effective_level,
+        scale_only_pointer="$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        metadata_only_pointer="$.dimension_mismatch_debt_transfer.anti_triviality_status",
+        matched_random_pointer="$.control_protocol",
+        forbidden_column_pointer="$.representation_boundary.actual_model_input_columns",
+        status=contract_status,
+        failed_gate=failed_gate,
+    )
     return {
         "artifact_id": "bedc-quality-lab:dimension-mismatch-debt-transfer",
         "status": "pointer-only",
@@ -942,8 +841,10 @@ def _dimension_mismatch_payload(*, status="pass", anti_triviality_status="scale_
                 "representation-geometric debt transfer",
                 "D5 promotion",
             ],
+            **contract,
         },
         "boundary_ledger": {"d5_shortcut": False},
+        "representation_boundary": {"actual_model_input_columns": ["h_l2_mean"]},
         "hardgate_evidence": {
             "HG-B3": {
                 "learned_auroc": _learned_auroc_pass_cell(),
@@ -1098,6 +999,7 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     drt = _coverage_cell(payload, "DRT")
     lat = _coverage_cell(payload, "LAT")
 
+    assert [cell["component_id"] for cell in payload["coverage_matrix"]["cells"]].count("DRT") == 1
     assert drt["canonical_owner_pointer"] == "reports/canonical/discovery-regularized-training.json:$"
     assert drt["mechanism_certificate_pointer"] == "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert"
     assert drt["debt_pointer"] == "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary"
@@ -1113,6 +1015,26 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     assert lat["hardgate_status"] == "pass"
     assert _artifact_pointer_value(tmp_path, lat["canonical_owner_pointer"]) is not None
     assert _artifact_pointer_value(tmp_path, lat["mechanism_certificate_pointer"]) is not None
+
+
+def test_discovery_map_keeps_single_drt_owner_for_jet_surface(tmp_path):
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    row = discovery_map.discovery_row(spec, summary)
+    projected = discovery_map.projection_payload(spec, summary)
+
+    assert row["report"] == "discovery-regularized-training"
+    assert projected["main_verdict"]["discovery_regularized_training"]["jet_loss_surface_pointer"] == "$.jet_loss_surface"
+    assert projected["main_verdict"]["discovery_regularized_training"]["jet_sidecar_pointer"] == "$.jet_sidecar_artifacts.owner_pointer"
+
+    dangling = deepcopy(summary)
+    dangling["jet_sidecar_artifacts"]["owner_pointer"] = "reports/canonical/discovery-regularized-training.json:$.missing_jet_surface"
+    failed_row = discovery_map.discovery_row(spec, dangling)
+    failed_projection = discovery_map.projection_payload(spec, dangling)
+
+    assert failed_row["discovery_level"] == "DN"
+    assert failed_row["failed_gate"] is not None
+    assert failed_projection["main_verdict"]["discovery_regularized_training"]["level_candidate"] == "DN"
 
 
 def test_discovery_map_coverage_matrix_projects_gap_head_axes(tmp_path):
@@ -1766,6 +1688,117 @@ def test_positive_row_rejects_unresolved_no_control_rationale_pointer(tmp_path):
     assert reason == "unresolved-no-control-rationale-pointer"
 
 
+def _generic_anti_triviality_payload(level="D5-O"):
+    payload = {
+        "scope": {"status": "fixture"},
+        "cost": {"status": "fixture"},
+        "not_claimed": ["fixture boundary"],
+        "control": {"positive": False},
+        "scale": {"status": "pass"},
+        "metadata": {"status": "pass"},
+        "matched": {"positive": False},
+        "forbidden": {"status": "pass"},
+        "anti_triviality_status": "pass",
+    }
+    payload.update(
+        owner_local_anti_triviality_contract(
+            recommended_level=level,
+            scale_only_pointer="$.scale",
+            metadata_only_pointer="$.metadata",
+            matched_random_pointer="$.matched.positive",
+            forbidden_column_pointer="$.forbidden.status",
+        )
+    )
+    return payload
+
+
+def _generic_positive_spec(name="fixture-positive"):
+    return canonical.CanonicalReportSpec(
+        name=name,
+        command=("python3", "scripts/fixture.py"),
+        json_artifact=f"reports/canonical/{name}.json",
+        markdown_artifact=f"reports/canonical/{name}.md",
+        required_json_keys=("scope", "cost", "not_claimed"),
+        estimated_seconds=1,
+        bundle_role="hg_p_core",
+        control_pointer="$.control",
+        scope_pointer="$.scope",
+        cost_pointer="$.cost",
+        not_claimed_pointer="$.not_claimed",
+        positive_claim_pointer="$.scale",
+        no_control_rationale_pointer=None,
+    )
+
+
+def test_audit_row_accepts_generic_owner_local_anti_triviality_contract():
+    spec = _generic_positive_spec()
+    payload = _generic_anti_triviality_payload()
+
+    status, reason = discovery_map._audit_row(
+        spec,
+        payload,
+        "D5-O",
+        discovery_map.ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer="$.scale",
+            control_pointer="$.control",
+            scorecard_pointer="$.scale",
+        ),
+    )
+
+    assert status == "valid"
+    assert reason == ""
+
+
+@pytest.mark.parametrize(
+    ("mutate", "reason"),
+    [
+        (lambda payload: payload.update({"anti_triviality_status": "fail"}), "owner-anti-triviality-not-pass"),
+        (lambda payload: payload.update({"anti_triviality_policy": "fixture-policy"}), "owner-anti-triviality-policy-mismatch"),
+        (lambda payload: payload.update({"anti_triviality_recommended_level": "D4"}), "owner-anti-triviality-level-mismatch"),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"].pop("metadata_only"),
+            "missing-owner-anti-triviality-contract",
+        ),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"]["scale_only"].update({"status": "fail"}),
+            "owner-anti-triviality-scale_only-not-pass",
+        ),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"]["metadata_only"].update({"pointer": "$.missing"}),
+            "owner-anti-triviality-metadata_only-pointer-unresolved",
+        ),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"]["matched_random"].update({"status": "fail"}),
+            "owner-anti-triviality-matched_random-not-pass",
+        ),
+        (
+            lambda payload: payload["anti_triviality_gate_evidence"]["forbidden_column"].update({"status": "fail"}),
+            "owner-anti-triviality-forbidden_column-not-pass",
+        ),
+    ],
+)
+def test_audit_row_rejects_malformed_generic_owner_local_anti_triviality_contract(mutate, reason):
+    spec = _generic_positive_spec()
+    payload = _generic_anti_triviality_payload()
+    mutate(payload)
+
+    status, observed = discovery_map._audit_row(
+        spec,
+        payload,
+        "D5-O",
+        discovery_map.ProjectionEvidence(
+            projection_status="projected",
+            evidence_pointer="$.scale",
+            control_pointer="$.control",
+            scorecard_pointer="$.scale",
+        ),
+    )
+
+    assert status == "invalid"
+    assert observed == reason
+
+
 def test_gap_head_on_h_current_readiness_stays_d4_with_ablation_failed(tmp_path):
     _write_all_payloads(tmp_path)
     _write_gap_head_d5_context(tmp_path, transfer_metric=True)
@@ -1790,6 +1823,52 @@ def test_gap_head_on_h_current_readiness_stays_d4_with_ablation_failed(tmp_path)
     assert row["d5_readiness"]["seed_expansion"]["status"] == "pass"
     assert row["d5_readiness"]["adversarial"]["status"] == "pass"
     assert row["d5_readiness"]["observed_debt_transfer"]["status"] == "pass"
+
+
+@pytest.mark.parametrize(
+    "report",
+    ["gap-head-on-h", "gap-head-transfer-atlas", "dimension-mismatch-debt-transfer"],
+)
+def test_positive_owner_reports_use_generic_anti_triviality_contract(tmp_path, report):
+    _write_all_payloads(tmp_path)
+    if report == "gap-head-on-h":
+        _write_gap_head_d5_context(tmp_path, transfer_metric=True)
+        _write_audit_complete_payload(tmp_path, report)
+    elif report == "gap-head-transfer-atlas":
+        spec = canonical._specs_by_name()[report]
+        payload = _audit_complete_payload(spec, _minimal_payload(spec))
+        payload["multi_surface_d5_o"] = {"decision": "pass", "discovery_level": "D5-O", "pass_surface_count": 9}
+        payload.update(
+            {"anti_triviality_status": "pass"}
+            | owner_local_anti_triviality_contract(
+                recommended_level="D5-O",
+                scale_only_pointer="$.multi_surface_d5_o.decision",
+                metadata_only_pointer="$.surface_registry",
+                matched_random_pointer="$.config.control_arm",
+                forbidden_column_pointer="$.forbidden_claim_term_audit.status",
+            )
+        )
+        _write_payload(tmp_path, spec, payload)
+    else:
+        _write_json_artifact(
+            tmp_path,
+            discovery_map.DIMENSION_MISMATCH_TRANSFER_ARTIFACT,
+            _dimension_mismatch_payload(anti_triviality_status="anti_triviality_passed"),
+        )
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    row = _row_by_report(payload)[report]
+
+    assert row["audit_status"] == "valid"
+    artifact_payload = _read_json_artifact(tmp_path, row["json_artifact"])
+    owner = artifact_payload
+    if "anti_triviality_gate_evidence" not in owner:
+        owner = discovery_map.pointer_value(artifact_payload, row["evidence_pointer"].rsplit(".", 1)[0])
+    contract = owner["anti_triviality_gate_evidence"]
+    assert set(contract) == discovery_map.ANTI_TRIVIALITY_FAMILIES
+    for gate in contract.values():
+        assert gate["status"] == "pass"
+        assert discovery_map.pointer_value(artifact_payload, gate["pointer"]) is not None
 
 
 def test_gap_head_on_h_without_audit_source_fails_closed_before_d5_o(tmp_path):
@@ -2257,6 +2336,104 @@ def test_certificate_training_discovery_map_preserves_claim_capsule_terminal_ver
     assert row["evidence_label"] == "constraint_lagrangian"
     assert row["failed_gate"] == "$.claim_capsule.terminal_verdict"
     assert discovery_map.pointer_value(payload, "$.arm_protocol.compat_roles.after") == "constraint_lagrangian"
+
+
+def test_derivative_hardgate_failure_projects_to_dn_with_owner_debt_pointer(tmp_path):
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+    payload = _minimal_payload(spec)
+    payload.update(
+        {
+            "bounded_lab_evidence": {"status": "fail", "hardgate_pointer": "$.hardgates"},
+            "hardgate": {"status": "fail"},
+            "hardgates": {
+                "status": "fail",
+                "failed_layers": ["layer_2"],
+                "by_layer": {
+                    "layer_2": {
+                        "status": "fail",
+                        "derivative_status": "fail",
+                        "control_status": "pass",
+                    }
+                },
+            },
+            "failed_gate": "layer_2",
+            "debt_items": [
+                {
+                    "kind": "derivative",
+                    "residue": "high-order-instability",
+                    "status": "open",
+                    "severity": "high",
+                    "score": 0.24,
+                }
+            ],
+            "ledger_gaps": [
+                {
+                    "kind": "derivative",
+                    "residue": "high-order-instability",
+                    "status": "open",
+                    "severity": "high",
+                    "failed_gate": "layer_2",
+                }
+            ],
+            "mechanism_claim_allowed": {"allowed": False, "status": "blocked"},
+        }
+    )
+    _write_json_artifact(tmp_path, spec.json_artifact, payload)
+
+    row = discovery_map.build_source_discovery_rows(root=tmp_path, canonical_reports=(spec,))[0]
+    assert row["discovery_level"] == "DN"
+    assert row["failed_gate"] == "$.hardgates.by_layer.layer_2.status"
+    assert row["debt_row_pointer"] == "$.ledger_gaps[0]"
+    assert discovery_map.pointer_value(payload, row["failed_gate"]) == "fail"
+    assert discovery_map.pointer_value(payload, row["debt_row_pointer"])["residue"] == "high-order-instability"
+
+
+def test_derivative_dn_negative_owner_and_map_pointer_resolve(tmp_path):
+    spec = canonical._specs_by_name()["transformer-derivative-atlas"]
+    payload = _minimal_payload(spec)
+    payload.update(
+        {
+            "bounded_lab_evidence": {"status": "fail", "hardgate_pointer": "$.hardgates"},
+            "hardgate": {"status": "fail"},
+            "hardgates": {
+                "status": "fail",
+                "failed_layers": ["layer_1"],
+                "by_layer": {"layer_1": {"status": "fail"}},
+            },
+            "failed_gate": "layer_1",
+            "ledger_gaps": [
+                {
+                    "kind": "derivative",
+                    "residue": "shortcut-attribution",
+                    "status": "open",
+                    "severity": "high",
+                    "failed_gate": "layer_1",
+                }
+            ],
+        }
+    )
+    _write_json_artifact(tmp_path, spec.json_artifact, payload)
+    owner_rows = discovery_map.build_negative_discovery_owner_rows(root=tmp_path, canonical_reports=(spec,))
+    _write_json_artifact(
+        tmp_path,
+        discovery_map.NEGATIVE_DISCOVERY_REPORTS_ARTIFACT,
+        {"rows": owner_rows},
+    )
+
+    discovery = discovery_map.build_discovery_map(
+        generated_at="fixture-time",
+        root=tmp_path,
+        canonical_reports=(spec,),
+    )
+    row = discovery["rows"][0]
+    owner = _read_json_artifact(tmp_path, discovery_map.NEGATIVE_DISCOVERY_REPORTS_ARTIFACT)["rows"][0]
+
+    assert row["report"] == "transformer-derivative-atlas"
+    assert row["discovery_level"] == "DN"
+    assert row["negative_report_pointer"] == "reports/canonical/negative_discovery_reports.json:$.rows[0]"
+    assert owner["report_id"] == "transformer-derivative-atlas"
+    assert owner["failed_gate"] == "$.hardgates.by_layer.layer_1.status"
+    assert owner["debt_row_pointer"] == "$.ledger_gaps[0]"
 
 
 @pytest.mark.parametrize(

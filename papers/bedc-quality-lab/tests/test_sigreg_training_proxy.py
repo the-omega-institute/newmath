@@ -234,20 +234,30 @@ def test_discovery_projection_rejects_forbidden_audit_fail_with_accepted_result(
 def test_canonical_denominators_include_sigreg_training_proxy(tmp_path, monkeypatch):
     from tests.test_canonical_reports import _write_payloads_for_all_specs
 
-    monkeypatch.setattr(canonical, "ROOT", tmp_path)
-    monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
-    _write_payloads_for_all_specs(canonical, tmp_path)
+    old_root = canonical.ROOT
+    old_dir = canonical.CANONICAL_DIR
+    old_index = canonical.INDEX_ARTIFACT
+    try:
+        monkeypatch.setattr(canonical, "ROOT", tmp_path)
+        monkeypatch.setattr(canonical, "CANONICAL_DIR", tmp_path / "reports" / "canonical")
+        monkeypatch.setattr(canonical, "INDEX_ARTIFACT", tmp_path / "reports" / "canonical" / "index.json")
+        _write_payloads_for_all_specs(canonical, tmp_path)
 
-    reports = [
-        {
-            "name": spec.name,
-            "json_artifact": spec.json_artifact,
-            "status": "pass",
-        }
-        for spec in canonical.CANONICAL_REPORTS
-    ]
-    scorecard = canonical._build_quality_scorecard(reports, generated_at="fixture-time")
-    by_metric = {row["metric"]: row for row in scorecard["rows"]}
+        reports = [
+            {
+                "name": spec.name,
+                "json_artifact": spec.json_artifact,
+                "status": "pass",
+            }
+            for spec in canonical.CANONICAL_REPORTS
+        ]
+        scorecard = canonical._build_quality_scorecard(reports, generated_at="fixture-time")
+        by_metric = {row["metric"]: row for row in scorecard["rows"]}
+    finally:
+        monkeypatch.setattr(canonical, "ROOT", old_root)
+        monkeypatch.setattr(canonical, "CANONICAL_DIR", old_dir)
+        monkeypatch.setattr(canonical, "INDEX_ARTIFACT", old_index)
 
-    assert by_metric["ScopeCompleteness"]["denominator"] == 21
-    assert by_metric["CostProtocolCompleteness"]["denominator"] == 21
+    expected_denominator = len(canonical._scorecard_report_specs())
+    assert by_metric["ScopeCompleteness"]["denominator"] == expected_denominator
+    assert by_metric["CostProtocolCompleteness"]["denominator"] == expected_denominator

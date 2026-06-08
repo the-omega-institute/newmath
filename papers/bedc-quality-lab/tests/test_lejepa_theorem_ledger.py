@@ -54,6 +54,17 @@ def test_f_hg2_rows_have_metric_list_and_nonempty_not_implemented():
     assert payload["hardgates"]["F-HG2"]["status"] == "pass"
 
 
+def test_theorem_4_keeps_planning_availability_outside_theorem_closure():
+    payload = _payload()
+    row = next(row for row in payload["theorem_rows"] if row["theorem"] == "theorem-4")
+
+    assert row["bedc_role"] == "Ledger"
+    assert row["implemented_metrics"] == []
+    assert "gaussian_ou_dynamics_planning" not in json.dumps(row)
+    assert "planning certificate" not in json.dumps(row).lower()
+    assert "theorem closure" in " ".join(row["not_implemented"])
+
+
 def test_f_hg2_fails_when_row_omits_not_implemented():
     rows = _rows()
     del rows[0]["not_implemented"]
@@ -72,6 +83,57 @@ def test_f_hg3_report_text_has_no_forbidden_theorem_bound_wording():
     assert payload["hardgates"]["F-HG3"]["hits"] == []
     for term in runner.FORBIDDEN_THEOREM_BOUND_WORDING:
         assert term not in report_text
+
+
+def test_hermite_degree_boundary_shape_and_owner_pointers_resolve():
+    payload = _payload()
+    rows = payload["hermite_degree_boundary"]
+
+    assert [row["label"] for row in rows] == ["degree1", "degree2", "degree3+"]
+    assert [row["behavioral_boundary"] for row in rows] == [
+        "linear latent recovery boundary",
+        "quadratic boundary",
+        "high-order boundary",
+    ]
+    for row in rows:
+        assert discovery_map.pointer_value(payload, row["scope_pointer"]) == payload["scope"]
+        assert discovery_map.pointer_value(payload, row["not_claimed_pointer"]) == payload["not_claimed"]
+        theorem_row = discovery_map.pointer_value(payload, row["theorem_bound_pointer"])
+        assert theorem_row in payload["theorem_rows"]
+        assert theorem_row["bedc_role"] in runner.ALLOWED_ROLES
+
+
+def test_hermite_degree_boundary_is_gaussian_ou_only_and_not_theorem_closure():
+    payload = _payload()
+    serialized = json.dumps(payload["hermite_degree_boundary"]).lower()
+    sidecar_text = runner._render_hermite_behavior_markdown(payload).lower()
+
+    assert payload["source_artifacts"]["gaussian_ou_runner"] == "scripts/run_gaussian_ou_lejepa.py"
+    assert "gaussian-ou" in " ".join(payload["not_claimed"]).lower()
+    assert "theorem closure" not in serialized
+    assert "terminal verdict" not in serialized
+    assert "discovery level" not in serialized
+    assert "full proof" not in sidecar_text
+    assert "complete proof" not in sidecar_text
+    assert "proven" not in sidecar_text
+
+
+def test_lejepa_derivative_bridge_sidecar_is_pointer_only(tmp_path):
+    payload = _payload()
+
+    runner.write_artifacts(payload, root=tmp_path)
+    sidecar = json.loads((tmp_path / runner.DERIVATIVE_BRIDGE_JSON_ARTIFACT).read_text(encoding="utf-8"))
+
+    assert sidecar["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert sidecar["owner_report"] == "lejepa-theorem-ledger"
+    assert sidecar["owner_artifact"] == runner.JSON_ARTIFACT
+    assert sidecar["theorem_rows_pointer"] == f"{runner.JSON_ARTIFACT}:$.theorem_rows"
+    assert [row["theorem_bound_pointer"] for row in sidecar["rows"]] == [
+        f"{runner.JSON_ARTIFACT}:$.theorem_rows[2]",
+        f"{runner.JSON_ARTIFACT}:$.theorem_rows[2]",
+        f"{runner.JSON_ARTIFACT}:$.theorem_rows[3]",
+    ]
+    assert (tmp_path / runner.HERMITE_BEHAVIOR_MARKDOWN_ARTIFACT).exists()
 
 
 def test_f_hg3_fails_for_forbidden_theorem_bound_wording():

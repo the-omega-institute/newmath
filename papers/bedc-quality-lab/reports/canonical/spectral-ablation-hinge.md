@@ -1,6 +1,6 @@
 # Spectral-ablation hinge report
 
-- Generated at: `2026-06-07T18:08:01.602753+00:00`
+- Generated at: `2026-06-08T04:03:29.538869+00:00`
 - Report schema id: `bedc-quality-lab:spectral-ablation-hinge-report`
 - Envelope schema id: `bedc-quality-lab:evidence-envelope`
 - Base rho by axis: `[0.92, 0.64]`
@@ -41,6 +41,13 @@
 - Max control score: `-0.065557`
 - Treatment better than all controls: `False`
 - Ledger status: `open-or-partial`
+
+## Spectral jet
+
+- Status: `projection`
+- Scope pointer: `$.applicability_boundary`
+- Hinge ledger pointer: `$.hinge_ledger`
+- High-order penalty rows: `1`
 
 ## Applicability boundary
 

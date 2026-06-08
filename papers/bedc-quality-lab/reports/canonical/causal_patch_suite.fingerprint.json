@@ -1,0 +1,116 @@
+{
+  "generated_by": {
+    "generated_at": "2026-06-08T04:02:12.475941+00:00",
+    "runner": "scripts/run_canonical_reports.py"
+  },
+  "input_fingerprint": "43d5aaf6281321979e1a076273e518246102a0600d3dfc444dd9b0b7b719d919",
+  "inputs": {
+    "backend_identity": "bedc_quality_lab.backends.current_lab.adapter.CurrentLabBackendEvidenceAdapter",
+    "config_inputs": [
+      {
+        "path": "configs/default_cost_protocol.yaml",
+        "sha256": "6777d7c97a170d960607737c15f18914924c7cdb0c2fe461b5d22f0dae30d828"
+      },
+      {
+        "path": "docs/lit/literature_ledger.yaml",
+        "sha256": "f82511e0aaf80874d36da6cd94ea017541100d0129f61beef58c99c51e19b750"
+      }
+    ],
+    "dependency_abi": {
+      "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13",
+      "numpy": "2.2.5",
+      "python": "3.13.2",
+      "torch": "2.7.0"
+    },
+    "fingerprint_schema_id": "bedc-quality-lab:canonical-report-input-fingerprint",
+    "producer_sources": [
+      {
+        "path": "scripts/experiment_stats.py",
+        "sha256": "baf70e1676d60b747bff592d9eee380a114cb59c3f5305d683be9a2a89d1d9ae"
+      },
+      {
+        "path": "scripts/run_causal_patch_suite.py",
+        "sha256": "cccf88247019fd4d20c62ef1ef73482ed4fc9dea76f92eaf87850e00f6e52d88"
+      }
+    ],
+    "report_output_schema_id": "bedc-quality-lab:causal-patch-suite",
+    "runner_fingerprint_schema_id": "bedc-quality-lab:canonical-report-fingerprint",
+    "seed_constants": {
+      "command": [
+        "python3",
+        "scripts/run_causal_patch_suite.py"
+      ],
+      "environment": {
+        "PYTHONHASHSEED": "unset"
+      }
+    },
+    "source_artifacts": [
+      {
+        "path": "reports/canonical/certificate-gated-attention.json",
+        "sha256": "3524aa6c1696415ed397c6722402d239bf0f1dda8cebd4ad6c8d31d23d74dc76"
+      },
+      {
+        "path": "reports/canonical/discovery-gated-nas.json",
+        "sha256": "c6643672533ddc79a20b906f5d63fc329e11e0cdfdef7ff9f8b5ac83b7bb7a34"
+      },
+      {
+        "path": "reports/canonical/discovery-regularized-training.json",
+        "sha256": "10898b07d7821717d5c93cfd4259976a1b0baf744215ec22ba7a2bebaba962da"
+      },
+      {
+        "path": "reports/canonical/ledger-aware-transformer.json",
+        "sha256": "935e57be3bdadc8a31fdfa0d70cf731f5a35299ceee78ef40977160192c46ed1"
+      }
+    ],
+    "spec": {
+      "bundle_role": "auxiliary",
+      "command": [
+        "python3",
+        "scripts/run_causal_patch_suite.py"
+      ],
+      "control_pointer": "$.matched_control_summary",
+      "cost_pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
+      "estimated_seconds": 2,
+      "forbidden_claim_terms": [
+        "full-lejepa",
+        "global-quality",
+        "full-tensor-namecert",
+        "llm-behavior"
+      ],
+      "json_artifact": "reports/canonical/causal_patch_suite.json",
+      "literature_ref_ids": [],
+      "markdown_artifact": "reports/canonical/patch_effect_summary.md",
+      "name": "causal-patch-suite",
+      "no_control_rationale_pointer": null,
+      "not_claimed_pointer": "$.not_claimed",
+      "positive_claim_pointer": "$.discovery_projection",
+      "required_json_keys": [
+        "schema_id",
+        "artifact_id",
+        "generated_at",
+        "producer",
+        "source_artifacts",
+        "patch_registry",
+        "schema_constants",
+        "records",
+        "effect_summary",
+        "matched_control_summary",
+        "side_effect_ledger",
+        "hardgates",
+        "causal_derivative_ledger_artifact",
+        "discovery_projection",
+        "not_claimed"
+      ],
+      "scope_pointer": "$.not_claimed"
+    }
+  },
+  "json_artifact": "reports/canonical/causal_patch_suite.json",
+  "markdown_artifact": "reports/canonical/patch_effect_summary.md",
+  "output_digest": "49d3f65fa9f2bc1603244b70bb89bd7ffebcddb7f2157394e4ad1b0b62376a16",
+  "producer_command": [
+    "python3",
+    "scripts/run_causal_patch_suite.py"
+  ],
+  "report_name": "causal-patch-suite",
+  "schema_id": "bedc-quality-lab:canonical-report-fingerprint"
+}

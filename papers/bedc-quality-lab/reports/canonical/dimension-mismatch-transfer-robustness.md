@@ -14,6 +14,7 @@
 | `HG-DM-R3` | `pass` | `reports/canonical/dimension-mismatch-debt-transfer.json:$.control_protocol` | matched-random and vanilla controls resolve under the same h-only protocol |
 | `HG-DM-R4` | `pass` | `reports/canonical/dimension-mismatch-debt-transfer.json:$.hardgate_evidence.HG-B4.audit.actual_model_input_columns` | actual model input columns exactly match the declared h-only allowlist |
 | `HG-DM-R5` | `pass` | `reports/canonical/dimension-mismatch-debt-transfer.json:$.hardgate_evidence.HG-B5.audit.hits` | claim boundary has no forbidden positive terms and no aggregate ordering surface |
+| `HG-DM-R6` | `pass` | `reports/dimension_mismatch_anti_triviality.json:$.controlled_geometry.control_family_coverage.family_pointers` | all six control-family pointers resolve and folded-source coverage is consistent |
 
 ## Audit
 

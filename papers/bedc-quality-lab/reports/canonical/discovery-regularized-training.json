@@ -1,11 +1,34 @@
 {
+  "anti_triviality_failed_gate": null,
+  "anti_triviality_gate_evidence": {
+    "forbidden_column": {
+      "pointer": "$.forbidden_claim_term_audit.status",
+      "status": "pass"
+    },
+    "matched_random": {
+      "pointer": "$.matched_random_control",
+      "status": "pass"
+    },
+    "metadata_only": {
+      "pointer": "$.surface_registry.task_accuracy_only",
+      "status": "pass"
+    },
+    "scale_only": {
+      "pointer": "$.quality_promotion_boundary.hardgate",
+      "status": "pass"
+    }
+  },
+  "anti_triviality_policy": "positive_requires_all_four_controls",
+  "anti_triviality_recommended_level": "D5-M",
+  "anti_triviality_status": "pass",
   "arm_protocol": {
     "deterministic_anchor": {
       "arms": [
         "task_only",
         "sigreg",
         "drt",
-        "matched_random"
+        "matched_random",
+        "drt_jet"
       ],
       "evidence_pointer": "$.records",
       "primary": true,
@@ -18,6 +41,46 @@
     }
   },
   "artifact_id": "bedc-quality-lab:discovery-regularized-training",
+  "certificate_guided_dn_preservation": {
+    "boundary_verdict": "preserve-sibling-dn-evidence",
+    "comparison_permission": "DRT may compare while preserving certificate-guided DN evidence as sibling artifacts.",
+    "discovery_map_refs": [
+      {
+        "expected_discovery_level": "DN",
+        "pointer": "reports/canonical/discovery_map.json:$.rows[?report=certificate-guided-training].discovery_level",
+        "status": "expected"
+      },
+      {
+        "expected_discovery_level": "DN",
+        "pointer": "reports/canonical/discovery_map.json:$.rows[?report=certificate-guided-discovery].discovery_level",
+        "status": "expected"
+      }
+    ],
+    "forbidden_actions": [
+      "cover",
+      "replace",
+      "delete"
+    ],
+    "not_claimed": "Certificate-guided artifacts remain independent sibling evidence.",
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.certificate_guided_dn_preservation",
+    "required_refs": [
+      {
+        "artifact": "reports/canonical/certificate-guided-training.json",
+        "artifact_status": "present",
+        "expected_discovery_level": "DN",
+        "role": "sibling-dn-evidence"
+      },
+      {
+        "artifact": "reports/canonical/certificate-guided-discovery.json",
+        "artifact_status": "present",
+        "expected_discovery_level": "DN",
+        "role": "sibling-dn-evidence"
+      }
+    ],
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:certificate-guided-dn-preservation",
+    "status": "pass",
+    "terminal_status_isolated": true
+  },
   "claim_capsule_ref": "reports/runs/discovery-regularized-training/claim_capsule.json",
   "claim_capsule_status": "d5-m-candidate",
   "component_ablation": {
@@ -124,16 +187,16 @@
   },
   "compute_ledger": {
     "backend_row_counts": {
-      "deterministic-anchor": 720,
+      "deterministic-anchor": 900,
       "deterministic-mechanism-ablation": 1,
       "torch-training-arm": 16
     },
     "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
     "deterministic_seed_count": 3,
     "device": "mps",
-    "energy_proxy": 0.003618,
+    "energy_proxy": 0.004502,
     "evidence_pointer": "$.records",
-    "flops_proxy": 36175872,
+    "flops_proxy": 45023232,
     "missing_fields": [],
     "protocols_pointer": "$.torch_training_evidence.protocols",
     "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
@@ -141,15 +204,16 @@
     "resolved_device": "mps",
     "status": "complete",
     "torch_seed_count": 2,
-    "total_steps": 8832,
-    "wall_time_seconds_proxy": 2.16
+    "total_steps": 10992,
+    "wall_time_seconds_proxy": 2.7
   },
   "config": {
     "arms": [
       "task_only",
       "sigreg",
       "drt",
-      "matched_random"
+      "matched_random",
+      "drt_jet"
     ],
     "dependency_abi": {
       "torch": "2.7.0"
@@ -288,11 +352,11 @@
   },
   "generated_at": "run-local:discovery-regularized-training",
   "grid": {
-    "arm_count": 4,
+    "arm_count": 5,
     "discovery_lambda_count": 5,
-    "expected_record_count": 720,
+    "expected_record_count": 900,
     "mixing_count": 3,
-    "record_count": 720,
+    "record_count": 900,
     "rho_count": 4,
     "seed_count": 3,
     "torch_record_count": 16
@@ -345,6 +409,15 @@
         "status": "pass"
       },
       "DRT-HG7": {
+        "evidence": "DRT may compare against certificate-guided baselines only while preserving their sibling DN evidence and isolating terminal verdict semantics.",
+        "evidence_pointer": "$.certificate_guided_dn_preservation",
+        "expected_dn_status": true,
+        "forbidden_actions_absent": true,
+        "required_refs_present": true,
+        "status": "pass",
+        "terminal_status_isolated": true
+      },
+      "DRT-HG8": {
         "comparison_pointers_resolve": true,
         "evidence": "The deterministic mechanism ablation must preserve all six owner-local arms, resolved comparison pointers, full DRT separation, a positive full mechanism signal, and no net-positive ablation parity.",
         "evidence_pointer": "$.mechanism_ablation",
@@ -354,55 +427,238 @@
         "required_arms_present": true,
         "status": "pass"
       },
-      "DRT-HG8": {
+      "DRT-HG9": {
         "all_required_pointers_resolve": true,
         "evidence": "D5-M promotion requires the DRT-local training mechanism certificate to pass with all owner-local pointers resolved.",
         "evidence_pointer": "$.training_mechanism_cert",
         "status": "pass",
         "status_pointer": "$.training_mechanism_cert.status"
+      },
+      "DRTJ-HG1": {
+        "evidence": "Jet arm must improve the required order while matched-random jet remains negative.",
+        "evidence_pointer": "$.jet_loss_surface.metrics.drt_jet_minus_drt_required_order_gain",
+        "matched_random_jet_gain": -0.003867,
+        "matched_random_pointer": "$.jet_loss_surface.metrics.matched_random_jet_gain",
+        "required_order_gain": 0.019,
+        "status": "pass"
+      },
+      "DRTJ-HG2": {
+        "evidence": "Jet objective must not degrade order-1 behavior.",
+        "evidence_pointer": "$.jet_loss_surface.metrics.drt_jet_minus_drt_order_one_gain",
+        "order_one_delta": 0.001,
+        "status": "pass"
+      },
+      "DRTJ-HG3": {
+        "evidence": "High-order gain must not be reducible to a shortcut witness flip.",
+        "evidence_pointer": "$.jet_ablation.shortcut_control_not_reducible",
+        "shortcut_reduction_fraction": 0.50007,
+        "status": "pass"
+      },
+      "DRTJ-HG4": {
+        "evidence": "Matched-random jet control must remain negative.",
+        "evidence_pointer": "$.jet_loss_surface.metrics.matched_random_jet_gain",
+        "matched_random_jet_gain": -0.003867,
+        "status": "pass"
+      },
+      "DRTJ-HG5": {
+        "evidence": "Jet quality_q CI-low must remain positive on the frontier.",
+        "evidence_pointer": "$.jet_loss_surface.metrics.quality_q_ci_low",
+        "quality_q_ci_low": 0.018,
+        "status": "pass"
       }
     },
     "status": "pass"
   },
+  "jet_ablation": {
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_ablation",
+    "protocol_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_protocol",
+    "rows": [
+      {
+        "arm_id": "full_drt_jet",
+        "disabled_terms": [],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.by_arm.drt_jet",
+        "required_order_gain_mean": 0.041133
+      },
+      {
+        "arm_id": "without_jet",
+        "disabled_terms": [
+          "jet"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.by_arm.drt",
+        "required_order_gain_mean": 0.022133
+      },
+      {
+        "arm_id": "matched_random_jet",
+        "disabled_terms": [
+          "certificate",
+          "witness"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.by_arm.matched_random",
+        "required_order_gain_mean": -0.003867
+      },
+      {
+        "arm_id": "shortcut_witness_flip",
+        "disabled_terms": [
+          "shortcut_control"
+        ],
+        "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.metrics.shortcut_reduction_fraction",
+        "required_order_gain_mean": 0.013985
+      }
+    ],
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:jet-ablation",
+    "shortcut_control_not_reducible": true,
+    "status": "pass"
+  },
+  "jet_loss_frontier": {
+    "best_arm": "drt_jet",
+    "frontier_rows": [
+      {
+        "control_gain_mean": -0.002767,
+        "gain_mean": 0.013233,
+        "order": 1
+      },
+      {
+        "control_gain_mean": -0.003867,
+        "gain_mean": 0.041133,
+        "order": 3
+      }
+    ],
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_frontier",
+    "protocol_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_protocol",
+    "required_order_gain_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface.metrics.drt_jet_minus_drt_required_order_gain",
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:jet-frontier",
+    "status": "pass"
+  },
+  "jet_loss_protocol": {
+    "lambda_certificate": 0.22,
+    "lambda_debt": 0.1,
+    "lambda_jet": 0.34,
+    "lambda_ledger": 0.16,
+    "lambda_witness": 0.18,
+    "max_noise_order": 1,
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_protocol",
+    "protocol_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_protocol",
+    "required_order": 3,
+    "shortcut_controls": [
+      "matched_random_jet",
+      "shortcut_witness_flip"
+    ],
+    "sidecar_schema_id": "bedc-quality-lab:discovery-regularized-training:jet-sidecar",
+    "thresholds": {
+      "matched_random_jet_gain_max": -0.001,
+      "order_one_degradation_floor": -0.004,
+      "quality_ci_low_min": 0.001,
+      "required_order_gain_min": 0.015,
+      "shortcut_reduction_max": 0.55
+    }
+  },
+  "jet_loss_surface": {
+    "by_arm": {
+      "drt": {
+        "net_positive_count": 180,
+        "order_one_gain_mean": 0.012233,
+        "quality_q_ci_low_mean": 0.011,
+        "required_order_gain_mean": 0.022133,
+        "row_count": 180,
+        "shortcut_reducible_fraction_mean": 0.480067
+      },
+      "drt_jet": {
+        "net_positive_count": 180,
+        "order_one_gain_mean": 0.013233,
+        "quality_q_ci_low_mean": 0.018,
+        "required_order_gain_mean": 0.041133,
+        "row_count": 180,
+        "shortcut_reducible_fraction_mean": 0.240067
+      },
+      "matched_random": {
+        "net_positive_count": 0,
+        "order_one_gain_mean": -0.002767,
+        "quality_q_ci_low_mean": -0.002,
+        "required_order_gain_mean": -0.003867,
+        "row_count": 180,
+        "shortcut_reducible_fraction_mean": 0.720067
+      },
+      "sigreg": {
+        "net_positive_count": 0,
+        "order_one_gain_mean": 0.006233,
+        "quality_q_ci_low_mean": -0.002,
+        "required_order_gain_mean": 0.010133,
+        "row_count": 180,
+        "shortcut_reducible_fraction_mean": 0.580067
+      },
+      "task_only": {
+        "net_positive_count": 0,
+        "order_one_gain_mean": 0.000233,
+        "quality_q_ci_low_mean": -0.002,
+        "required_order_gain_mean": 0.004133,
+        "row_count": 180,
+        "shortcut_reducible_fraction_mean": 0.700067
+      }
+    },
+    "classifier_surface_delta_pointer": "reports/canonical/discovery-regularized-training.json:$.torch_training_evidence.classifier_surface_delta",
+    "max_noise_order": 1,
+    "metrics": {
+      "drt_jet_minus_drt_order_one_gain": 0.001,
+      "drt_jet_minus_drt_required_order_gain": 0.019,
+      "matched_random_jet_gain": -0.003867,
+      "quality_q_ci_low": 0.018,
+      "shortcut_reduction_fraction": 0.50007
+    },
+    "net_positive_signal": true,
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface",
+    "protocol_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_protocol",
+    "records_pointer": "reports/canonical/discovery-regularized-training.json:$.records.raw_rows_pointer",
+    "required_order": 3,
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:jet-loss-surface",
+    "status": "pass"
+  },
+  "jet_sidecar_artifacts": {
+    "jet_ablation": "reports/canonical/drt_jet_ablation.md",
+    "jet_loss_frontier": "reports/canonical/jet_loss_frontier.json",
+    "jet_loss_surface": "reports/canonical/discovery_regularized_training_jet.json",
+    "owner_artifact_id": "bedc-quality-lab:discovery-regularized-training",
+    "owner_pointer": "reports/canonical/discovery-regularized-training.json:$.jet_loss_surface",
+    "schema_id": "bedc-quality-lab:discovery-regularized-training:jet-sidecar"
+  },
   "lambda_summary": {
     "benefit_nondecreasing": true,
     "best_positive": {
-      "benefit_q_mean": 0.666017,
-      "debt_q_mean": 0.238233,
-      "delta_quality_ci_low_mean": 0.0035,
+      "benefit_q_mean": 0.678267,
+      "debt_q_mean": 0.191733,
+      "delta_quality_ci_low_mean": 0.026,
       "discovery_lambda": "0.01",
-      "quality_q_mean": 0.624767
+      "quality_q_mean": 0.661767
     },
     "by_discovery_lambda": {
       "0.0": {
-        "benefit_q_mean": 0.650017,
-        "debt_q_mean": 0.246233,
-        "delta_quality_ci_low_mean": -0.0005,
-        "quality_q_mean": 0.584767
+        "benefit_q_mean": 0.662267,
+        "debt_q_mean": 0.199733,
+        "delta_quality_ci_low_mean": 0.01,
+        "quality_q_mean": 0.621767
       },
       "0.0001": {
-        "benefit_q_mean": 0.654017,
-        "debt_q_mean": 0.244233,
-        "delta_quality_ci_low_mean": 0.0005,
-        "quality_q_mean": 0.594767
+        "benefit_q_mean": 0.666267,
+        "debt_q_mean": 0.197733,
+        "delta_quality_ci_low_mean": 0.014,
+        "quality_q_mean": 0.631767
       },
       "0.001": {
-        "benefit_q_mean": 0.658017,
-        "debt_q_mean": 0.242233,
-        "delta_quality_ci_low_mean": 0.0015,
-        "quality_q_mean": 0.604767
+        "benefit_q_mean": 0.670267,
+        "debt_q_mean": 0.195733,
+        "delta_quality_ci_low_mean": 0.018,
+        "quality_q_mean": 0.641767
       },
       "0.005": {
-        "benefit_q_mean": 0.662017,
-        "debt_q_mean": 0.240233,
-        "delta_quality_ci_low_mean": 0.0025,
-        "quality_q_mean": 0.614767
+        "benefit_q_mean": 0.674267,
+        "debt_q_mean": 0.193733,
+        "delta_quality_ci_low_mean": 0.022,
+        "quality_q_mean": 0.651767
       },
       "0.01": {
-        "benefit_q_mean": 0.666017,
-        "debt_q_mean": 0.238233,
-        "delta_quality_ci_low_mean": 0.0035,
-        "quality_q_mean": 0.624767
+        "benefit_q_mean": 0.678267,
+        "debt_q_mean": 0.191733,
+        "delta_quality_ci_low_mean": 0.026,
+        "quality_q_mean": 0.661767
       }
     },
     "delta_quality_ci_low_positive": true,
@@ -740,7 +996,7 @@
         "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt",
         "promotion_gate": "clears-boundary",
         "quality_q": 0.641767,
-        "quality_q_ci_low": 0.585267,
+        "quality_q_ci_low": 0.607767,
         "quality_q_ci_low_pointer": "reports/canonical/discovery-regularized-training.json:$.lambda_summary.best_positive.delta_quality_ci_low_mean",
         "quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.drt.quality_q_mean",
         "render_order": 3,
@@ -813,8 +1069,8 @@
       "old_certificate_guided"
     ],
     "hardgate": {
-      "drt_minus_task_only_quality_q_ci_low": 0.0035,
-      "drt_quality_q_ci_low": 0.585267,
+      "drt_minus_task_only_quality_q_ci_low": 0.026,
+      "drt_quality_q_ci_low": 0.607767,
       "evidence_pointer": "reports/canonical/discovery-regularized-training.json:$.lambda_summary.best_positive.delta_quality_ci_low_mean",
       "fail_closed_when": "drt_quality_q_ci_low <= task_only_quality_q",
       "gate_id": "DRT-HG2",
@@ -837,7 +1093,7 @@
     "task_only_quality_q_pointer": "reports/canonical/discovery-regularized-training.json:$.surface_registry.quality.by_arm.task_only.quality_q_mean"
   },
   "records": {
-    "deterministic_anchor_rows": 720,
+    "deterministic_anchor_rows": 900,
     "extension_metrics": {
       "comparison_family": "task-sigreg-drt-matched-random",
       "compute_ledger_pointer": "$.compute_ledger",
@@ -868,7 +1124,12 @@
       "matched_random_certificate_loss",
       "classifier_shift_count",
       "delta_quality_ci_low",
-      "net_positive_signal"
+      "net_positive_signal",
+      "jet_required_order_gain",
+      "jet_order_one_gain",
+      "jet_shortcut_reducible_fraction",
+      "matched_random_jet_gain",
+      "jet_quality_q_ci_low"
     ],
     "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
     "rounding": {
@@ -917,7 +1178,9 @@
       "bedc_quality_lab/discovery_regularized_training.py",
       "scripts/run_discovery_regularized_training.py"
     ],
-    "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl"
+    "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
+    "reports/canonical/certificate-guided-discovery.json": "present",
+    "reports/canonical/certificate-guided-training.json": "present"
   },
   "surface_registry": {
     "classifier_shift": {
@@ -937,6 +1200,16 @@
           "quality_q_mean": 0.641767,
           "row_count": 180,
           "task_accuracy_mean": 0.706267
+        },
+        "drt_jet": {
+          "benefit_q_mean": 0.672267,
+          "certificate_loss_mean": 0.2122,
+          "classifier_shift_count_mean": 1.0,
+          "debt_q_mean": 0.191733,
+          "net_positive_count": 180,
+          "quality_q_mean": 0.654767,
+          "row_count": 180,
+          "task_accuracy_mean": 0.705267
         },
         "matched_random": {
           "benefit_q_mean": 0.653267,
@@ -1166,7 +1439,7 @@
   },
   "training_mechanism_cert": {
     "all_required_pointers_resolve": true,
-    "hardgate_pointer": "reports/canonical/discovery-regularized-training.json:$.hardgate.gates.DRT-HG8",
+    "hardgate_pointer": "reports/canonical/discovery-regularized-training.json:$.hardgate.gates.DRT-HG9",
     "ledger_complete": true,
     "ledger_pointer": "reports/canonical/discovery-regularized-training.json:$.compute_ledger",
     "matched_control_pointer": "reports/canonical/discovery-regularized-training.json:$.matched_random_control",

@@ -92,14 +92,36 @@ def _patch_matrix(monkeypatch):
     )
 
 
-def _sidecar(root: Path, *, status: str = "scale_leakage_detected", projection: str = "demote_to_DN_or_D1") -> None:
+def _sidecar(
+    root: Path,
+    *,
+    status: str = "scale_leakage_detected",
+    projection: str = "demote_to_DN_or_D1",
+    coverage_status: str = "pass",
+    omit_family: str | None = None,
+    malformed_family: str | None = None,
+    unknown_family: str | None = None,
+) -> None:
     path = root / transfer.ANTI_TRIVIALITY_ARTIFACT
     path.parent.mkdir(parents=True, exist_ok=True)
+    arms = [{"arm": family, "feature_columns": [family]} for family in transfer.CONTROL_FAMILY_ORDER]
+    family_pointers = {
+        family: f"$.arms[{index}]"
+        for index, family in enumerate(transfer.CONTROL_FAMILY_ORDER)
+        if family != omit_family
+    }
+    if malformed_family is not None:
+        family_pointers[malformed_family] = "$.missing"
+    observed = [family for family in transfer.CONTROL_FAMILY_ORDER if family != omit_family]
+    if unknown_family is not None:
+        observed.append(unknown_family)
+        family_pointers[unknown_family] = "$.unknown"
     path.write_text(
         json.dumps(
             {
                 "status": status,
                 "recommended_projection": projection,
+                "arms": arms,
                 "controlled_geometry": {
                     "evidence_refs": [
                         {
@@ -111,6 +133,12 @@ def _sidecar(root: Path, *, status: str = "scale_leakage_detected", projection: 
                         }
                     ],
                     "feature_partition": {"fixture": ["h_l2_mean"]},
+                    "control_family_coverage": {
+                        "status": coverage_status,
+                        "required_families": list(transfer.CONTROL_FAMILY_ORDER),
+                        "observed_families": observed,
+                        "family_pointers": family_pointers,
+                    },
                 },
                 "controlled_geometry_hardgates": {
                     "B2-HG1": {
@@ -220,6 +248,15 @@ def test_build_payload_records_hardgates_and_sidecar_driven_dn(monkeypatch, tmp_
     assert payload["dimension_mismatch_debt_transfer"]["status"] == "pass"
     assert payload["dimension_mismatch_debt_transfer"]["base_level"] == "D4"
     assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_status"] == "scale_leakage_detected"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_policy"] == "positive_requires_all_four_controls"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_recommended_level"] == "DN"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_failed_gate"] == "$.dimension_mismatch_debt_transfer.anti_triviality_status"
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_gate_evidence"] == {
+        "scale_only": {"status": "fail", "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+        "metadata_only": {"status": "fail", "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+        "matched_random": {"status": "fail", "pointer": "$.control_protocol"},
+        "forbidden_column": {"status": "fail", "pointer": "$.representation_boundary.actual_model_input_columns"},
+    }
     assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_projection"] == "demote_to_DN_or_D1"
     assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_fold_status"] == "pass"
     assert payload["dimension_mismatch_debt_transfer"]["effective_level"] == "DN"
@@ -260,8 +297,42 @@ def test_sidecar_absent_or_unfoldable_does_not_emit_terminal_dn(monkeypatch, tmp
     _sidecar(tmp_path, status="anti_triviality_passed", projection="no_level_change_signal_detected")
     passed = transfer.build_payload(root=tmp_path, generated_at="fixture-time")
     assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_status"] == "anti_triviality_passed"
+    assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_policy"] == "positive_requires_all_four_controls"
+    assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_recommended_level"] == "D4"
+    assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_failed_gate"] is None
+    assert passed["dimension_mismatch_debt_transfer"]["anti_triviality_gate_evidence"] == {
+        "scale_only": {"status": "pass", "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+        "metadata_only": {"status": "pass", "pointer": "$.dimension_mismatch_debt_transfer.anti_triviality_status"},
+        "matched_random": {"status": "pass", "pointer": "$.control_protocol"},
+        "forbidden_column": {"status": "pass", "pointer": "$.representation_boundary.actual_model_input_columns"},
+    }
     assert passed["dimension_mismatch_debt_transfer"]["effective_level"] == "D4"
     assert passed["dimension_mismatch_debt_transfer"]["terminal_verdict"] == "source_pass"
+
+
+@pytest.mark.parametrize(
+    "status,projection,kwargs",
+    [
+        ("random_projection_positive", "defer", {}),
+        ("whitening_failure_detected", "defer", {}),
+        ("anti_triviality_passed", "no_level_change_signal_detected", {"coverage_status": "defer"}),
+        ("anti_triviality_passed", "no_level_change_signal_detected", {"omit_family": "rank_proxy_diagnostic"}),
+        ("anti_triviality_passed", "no_level_change_signal_detected", {"malformed_family": "rank_proxy_diagnostic"}),
+        ("anti_triviality_passed", "no_level_change_signal_detected", {"unknown_family": "unexpected_family"}),
+        ("unexpected_status", "defer", {}),
+    ],
+)
+def test_sidecar_non_foldable_cases_project_incomplete(monkeypatch, tmp_path, status, projection, kwargs):
+    _patch_matrix(monkeypatch)
+    monkeypatch.setattr(transfer, "_arm_metrics", lambda records, arm: {"failure_detection_auroc": _stats(0.9 if arm == "learned_h_summary_head" else 0.5)})
+    monkeypatch.setattr(transfer, "_delta_stats", lambda records, key: _stats(0.4, 0.4, 0.4))
+    _sidecar(tmp_path, status=status, projection=projection, **kwargs)
+
+    payload = transfer.build_payload(root=tmp_path, generated_at="fixture-time")
+
+    assert payload["dimension_mismatch_debt_transfer"]["anti_triviality_fold_status"] == "defer"
+    assert payload["dimension_mismatch_debt_transfer"]["effective_level"] == "defer"
+    assert payload["dimension_mismatch_debt_transfer"]["terminal_verdict"] == "incomplete"
 
 
 def test_source_snapshot_can_be_written_before_sidecar(monkeypatch, tmp_path):

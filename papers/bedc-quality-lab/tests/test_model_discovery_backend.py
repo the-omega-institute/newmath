@@ -8,7 +8,7 @@ from bedc_quality_lab.backends import model_discovery
 def test_dgt_refs_are_pointer_only():
     refs = model_discovery.discovery_gated_transformer_refs()
 
-    assert refs["owner_pointer"] == "reports/canonical/discovery_gated_transformer.json:$"
+    assert refs["owner_pointer"] == "reports/canonical/discovery-gated-transformer.json:$"
     assert refs["new_model_hardgates_pointer"] == "reports/canonical/new_model_hardgates.json:$.gates"
     assert all(isinstance(value, str) and ":" in value for value in refs.values())
     model_discovery.assert_pointer_only(refs)
@@ -34,7 +34,7 @@ def test_dgt_projection_metadata_excludes_copied_measurements():
 
 def test_dgt_refs_reject_copied_measurement_field():
     refs = model_discovery.discovery_gated_transformer_refs()
-    refs["accuracy"] = "reports/canonical/discovery_gated_transformer.json:$.classifier_surface_delta"
+    refs["accuracy"] = "reports/canonical/discovery-gated-transformer.json:$.component_refs"
 
     with pytest.raises(ValueError, match="copied field"):
         model_discovery.assert_pointer_only(refs)

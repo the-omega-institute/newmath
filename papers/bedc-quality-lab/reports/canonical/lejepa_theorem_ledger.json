@@ -33,7 +33,7 @@
     "status": "pass",
     "training_audit_improvement_tradeoff": false
   },
-  "generated_at": "2026-06-07T18:08:01.567126+00:00",
+  "generated_at": "2026-06-08T04:03:29.284814+00:00",
   "hardgates": {
     "F-HG1": {
       "role_failures": [],
@@ -68,6 +68,44 @@
       "status": "pass"
     }
   },
+  "hermite_degree_boundary": [
+    {
+      "behavioral_boundary": "linear latent recovery boundary",
+      "degree_class": "degree1",
+      "label": "degree1",
+      "metric_pointers": [
+        "$.theorem_rows[2].implemented_metrics[2]",
+        "$.metric_catalog"
+      ],
+      "not_claimed_pointer": "$.not_claimed",
+      "scope_pointer": "$.scope",
+      "theorem_bound_pointer": "$.theorem_rows[2]"
+    },
+    {
+      "behavioral_boundary": "quadratic boundary",
+      "degree_class": "degree2",
+      "label": "degree2",
+      "metric_pointers": [
+        "$.theorem_rows[2].implemented_metrics[0]",
+        "$.metric_catalog"
+      ],
+      "not_claimed_pointer": "$.not_claimed",
+      "scope_pointer": "$.scope",
+      "theorem_bound_pointer": "$.theorem_rows[2]"
+    },
+    {
+      "behavioral_boundary": "high-order boundary",
+      "degree_class": "degree3+",
+      "label": "degree3+",
+      "metric_pointers": [
+        "$.theorem_rows[3].implemented_metrics",
+        "$.not_claimed"
+      ],
+      "not_claimed_pointer": "$.not_claimed",
+      "scope_pointer": "$.scope",
+      "theorem_bound_pointer": "$.theorem_rows[3]"
+    }
+  ],
   "json_artifact": "reports/canonical/lejepa_theorem_ledger.json",
   "main_verdict": {
     "status": "ledger-row-ssot"
@@ -82,7 +120,8 @@
   ],
   "not_claimed": [
     "The ledger records theorem-row certificate boundaries only.",
-    "The ledger does not discharge optimizer, finite-sample, or source reconstruction debt."
+    "The ledger does not discharge optimizer, finite-sample, or source reconstruction debt.",
+    "Hermite degree rows are label-level Gaussian-OU pointers and do not assert behavior outside the runner scope."
   ],
   "positive_claim": {
     "scope": "canonical LeJEPA theorem-row mapping",

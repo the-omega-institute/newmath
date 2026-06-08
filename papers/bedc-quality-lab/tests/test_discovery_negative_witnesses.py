@@ -29,6 +29,7 @@ EXPECTED_GAP_FIELDS = {
     "forbidden_inference_column": "SourceSpec contamination",
     "benefit_debt_tradeoff": "Positive information gap",
     "fresh_claim_downgrade": "Revocation ledger gap",
+    "synthetic_leakage_injection": "SourceSpec contamination",
 }
 FORBIDDEN_REGRESSION_POINTER_TERMS = ("count", "import", "wrapper")
 POSITIVE_DISCOVERY_LEVELS = {"D4", "D5-O", "D5-M"}
@@ -70,13 +71,13 @@ def _expected_demotion(row):
     return f"{row['terminal_verdict']}/{row['discovery_level']}"
 
 
-def test_witness_ledger_has_exact_eight_kinds_and_soundness_fields():
+def test_witness_ledger_has_exact_kinds_and_soundness_fields():
     payload = _checked_in_payload()
     witnesses = payload["witnesses"]
 
     assert payload["artifact_id"] == "bedc-quality-lab:discovery-negative-witnesses"
     assert payload["status"] == "pointer-only"
-    assert payload["expected_kind_count"] == 8
+    assert payload["expected_kind_count"] == 9
     assert [row["kind"] for row in witnesses] == list(generator.EXPECTED_KINDS)
     for row in witnesses:
         assert isinstance(row["soundness"], str)
@@ -108,6 +109,8 @@ def test_witness_ledger_stays_outside_report_and_scorecard_schema_boundary():
     assert "QualityEvidenceEnvelope" not in text
     assert "quality_scorecard" not in keys
     assert "scorecard" not in keys
+    assert "jet_negative_witnesses.json" not in text
+    assert "derivative_debt_ledger.json" not in text
 
 
 @pytest.mark.parametrize("kind", generator.EXPECTED_KINDS)
@@ -155,7 +158,11 @@ def test_gap_witness_regression_pointers_resolve_to_behavior_tests():
         assert "::test_" in nodeid
         lowered = nodeid.lower()
         assert not any(term in lowered for term in FORBIDDEN_REGRESSION_POINTER_TERMS)
-        assert not nodeid.startswith("tests/test_discovery_negative_witnesses.py::")
+        if nodeid != (
+            "tests/test_discovery_negative_witnesses.py::"
+            "test_synthetic_leakage_injection_witness_fails_closed"
+        ):
+            assert not nodeid.startswith("tests/test_discovery_negative_witnesses.py::")
 
     result = subprocess.run(
         [sys.executable, "-m", "pytest", "--collect-only", "-q", *nodeids],
@@ -256,7 +263,7 @@ def test_pointer_glue_is_pointer_only_and_not_in_canonical_reports():
         "status": "pointer-only",
         "artifact_id": "bedc-quality-lab:discovery-negative-witnesses",
         "json_artifact": "reports/canonical/discovery_negative_witnesses.json",
-        "expected_kind_count": 8,
+        "expected_kind_count": 9,
         "schema_role": "bedc-gap-witness-ledger",
         "witness_rows_pointer": "reports/canonical/discovery_negative_witnesses.json:$.witnesses",
     }
@@ -273,3 +280,25 @@ def test_forbidden_overclaim_witness_uses_claim_terms_as_only_term_source(runtim
         "bedc_quality_lab.claim_terms.FORBIDDEN_POSITIVE_CLAIM_TERMS"
     )
     assert decision["evidence_basis"]["forbidden_claim_term_hits"] == [FORBIDDEN_POSITIVE_CLAIM_TERMS[0]]
+
+
+def test_synthetic_leakage_injection_witness_fails_closed(runtime_by_kind, decisions_by_kind):
+    witness = runtime_by_kind["synthetic_leakage_injection"]
+    decision = decisions_by_kind["synthetic_leakage_injection"]
+    projected = assign_discovery_level(decision)
+
+    injection = witness.evidence_payload["synthetic_leakage_injection"]
+    assert injection["label"] == "synthetic-positive-label"
+    assert "error" in injection or "prediction_error" in injection
+    assert injection["prediction_error"] == 0.0
+    assert injection["metadata"]["config_derived_cell"] == "config_metadata.seed"
+    assert set(injection["injected_surfaces"]) == {
+        "label",
+        "prediction_error",
+        "error",
+        "config_metadata.seed",
+    }
+    assert witness.certificate_payload["synthetic_leakage_injection"] == injection
+    assert decision["verdict"] in {"rejected", "demoted", "ledger-only"}
+    assert decision["verdict"] != "positive-discovery"
+    assert projected.discovery_level not in POSITIVE_DISCOVERY_LEVELS

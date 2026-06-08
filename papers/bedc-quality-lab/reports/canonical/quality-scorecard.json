@@ -1,6 +1,6 @@
 {
   "artifact_id": "bedc-quality-lab:quality-scorecard",
-  "generated_at": "2026-06-07T18:09:29.490922+00:00",
+  "generated_at": "2026-06-08T04:02:12.475941+00:00",
   "input_reports": [
     {
       "json_artifact": "reports/canonical/mixing-family-sweep.json",
@@ -25,6 +25,11 @@
     {
       "json_artifact": "reports/canonical/gap-head-ablation.json",
       "name": "gap-head-ablation",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/irreducibility_report.json",
+      "name": "irreducibility-report",
       "status": "pass"
     },
     {
@@ -93,6 +98,11 @@
       "status": "pass"
     },
     {
+      "json_artifact": "reports/canonical/discovery-gated-transformer.json",
+      "name": "discovery-gated-transformer",
+      "status": "pass"
+    },
+    {
       "json_artifact": "reports/canonical/order-k-benchmark.json",
       "name": "order-k-benchmark",
       "status": "pass"
@@ -103,8 +113,23 @@
       "status": "pass"
     },
     {
+      "json_artifact": "reports/canonical/observed-debt-sweep.json",
+      "name": "observed-debt-sweep",
+      "status": "pass"
+    },
+    {
       "json_artifact": "reports/canonical/spectral-ablation-hinge.json",
       "name": "spectral-ablation-hinge",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/model-comparison.json",
+      "name": "model-comparison",
+      "status": "pass"
+    },
+    {
+      "json_artifact": "reports/canonical/causal_patch_suite.json",
+      "name": "causal-patch-suite",
       "status": "pass"
     }
   ],
@@ -219,9 +244,9 @@
       "value": 10
     },
     {
-      "denominator": 21,
+      "denominator": 25,
       "metric": "ScopeCompleteness",
-      "numerator": 21,
+      "numerator": 25,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -247,6 +272,11 @@
           "artifact": "reports/canonical/gap-head-ablation.json",
           "pointer": "$.applicability_boundary",
           "report": "gap-head-ablation"
+        },
+        {
+          "artifact": "reports/canonical/irreducibility_report.json",
+          "pointer": "$.scope",
+          "report": "irreducibility-report"
         },
         {
           "artifact": "reports/canonical/ledger-aware-transformer.json",
@@ -314,6 +344,11 @@
           "report": "discovery-gated-nas"
         },
         {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.not_claimed",
+          "report": "discovery-gated-transformer"
+        },
+        {
           "artifact": "reports/canonical/order-k-benchmark.json",
           "pointer": "$.task_specs",
           "report": "order-k-benchmark"
@@ -324,18 +359,28 @@
           "report": "lejepa-theorem-ledger"
         },
         {
+          "artifact": "reports/canonical/observed-debt-sweep.json",
+          "pointer": "$.claim_boundary.C4",
+          "report": "observed-debt-sweep"
+        },
+        {
           "artifact": "reports/canonical/spectral-ablation-hinge.json",
           "pointer": "$.applicability_boundary",
           "report": "spectral-ablation-hinge"
+        },
+        {
+          "artifact": "reports/canonical/causal_patch_suite.json",
+          "pointer": "$.not_claimed",
+          "report": "causal-patch-suite"
         }
       ],
       "status": "ready",
       "value": 1.0
     },
     {
-      "denominator": 21,
+      "denominator": 25,
       "metric": "CostProtocolCompleteness",
-      "numerator": 21,
+      "numerator": 25,
       "source": [
         {
           "artifact": "reports/canonical/mixing-family-sweep.json",
@@ -361,6 +406,11 @@
           "artifact": "reports/canonical/gap-head-ablation.json",
           "pointer": "$.control_protocol",
           "report": "gap-head-ablation"
+        },
+        {
+          "artifact": "reports/canonical/irreducibility_report.json",
+          "pointer": "$.control_protocol",
+          "report": "irreducibility-report"
         },
         {
           "artifact": "reports/canonical/ledger-aware-transformer.json",
@@ -428,6 +478,11 @@
           "report": "discovery-gated-nas"
         },
         {
+          "artifact": "reports/canonical/discovery-gated-transformer.json",
+          "pointer": "$.architecture_spec",
+          "report": "discovery-gated-transformer"
+        },
+        {
           "artifact": "reports/canonical/order-k-benchmark.json",
           "pointer": "$.source_artifacts.cost_protocol",
           "report": "order-k-benchmark"
@@ -438,9 +493,19 @@
           "report": "lejepa-theorem-ledger"
         },
         {
+          "artifact": "reports/canonical/observed-debt-sweep.json",
+          "pointer": "$.source_artifacts",
+          "report": "observed-debt-sweep"
+        },
+        {
           "artifact": "reports/canonical/spectral-ablation-hinge.json",
           "pointer": "$.source_artifacts",
           "report": "spectral-ablation-hinge"
+        },
+        {
+          "artifact": "reports/canonical/causal_patch_suite.json",
+          "pointer": "$.schema_constants.PATCH_MATCHED_CONTROL",
+          "report": "causal-patch-suite"
         }
       ],
       "status": "ready",

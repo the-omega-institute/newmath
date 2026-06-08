@@ -1,4 +1,5 @@
 from bedc_quality_lab.debt import assess_debt
+from bedc_quality_lab.debt import DERIVATIVE_SCOPED_ROWS
 from bedc_quality_lab.latent_distribution import CANONICAL_LATENT_DISTRIBUTION_KEYS, LatentDistributionSpec
 from bedc_quality_lab.ledger import derive_ledger_gaps, format_ledger_gaps
 from bedc_quality_lab.mixing import canonical_mixing_families
@@ -182,3 +183,45 @@ def test_ledger_filters_closed_debt_items():
 
     assert {item.status for item in assessment.items} == {"closed"}
     assert derive_ledger_gaps(metrics, source_spec, classifier_spec, stability_spec, assessment) == []
+
+
+def test_derivative_debt_rows_flow_through_generic_ledger_gaps():
+    source_spec = {
+        "source_count": 3,
+        "sample_count": 2048,
+        "mixing": canonical_mixing_families(),
+        **closed_latent_source(),
+    }
+    classifier_spec = {"name": "certified-classifier", "training": "certified", "output_dim": 2}
+    stability_spec = {"multi_seed": True}
+    metrics = {
+        "theorem3_bound_mse": 1.0,
+        "actual_recovery_mse": 0.4,
+        "bound_margin_mse": 0.6,
+        "normalized_gap_d_mse": 0.1,
+        "whitening_deviation_epsilon": 0.1,
+        "derivative_row_count": 0,
+        "required_derivative_row_count": 2,
+        "high_order_instability": 0.25,
+        "shortcut_derivative": True,
+        "derivative_net_benefit": -0.1,
+        "unpatchable_high_order_claim": True,
+        "jet_order_count": 0,
+        "required_jet_order_count": 2,
+        "matched_random_jet_gain": 0.1,
+    }
+    assessment = assess_debt(metrics, source_spec, classifier_spec, stability_spec, extra_rows=DERIVATIVE_SCOPED_ROWS)
+
+    gaps = derive_ledger_gaps(metrics, source_spec, classifier_spec, stability_spec, assessment)
+    derivative_gap_rows = {(gap.kind, gap.residue) for gap in gaps if gap.kind in {"derivative", "jet"}}
+
+    assert derivative_gap_rows == {
+        ("derivative", "row-coverage"),
+        ("derivative", "high-order-instability"),
+        ("derivative", "shortcut-attribution"),
+        ("derivative", "cost-benefit-negative"),
+        ("derivative", "unpatchable-high-order-claim"),
+        ("jet", "order-coverage"),
+        ("jet", "matched-random-control"),
+    }
+    assert all(gap.status == "open" for gap in gaps if gap.kind in {"derivative", "jet"})
