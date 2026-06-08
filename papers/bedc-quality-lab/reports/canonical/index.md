@@ -1,6 +1,6 @@
 # Canonical Report Index
 
-- Generated at: `2026-06-08T10:32:30.788660+00:00`
+- Generated at: `2026-06-08T13:08:31.121603+00:00`
 - Root: `papers/bedc-quality-lab`
 
 ## HG-P core reports
@@ -283,6 +283,25 @@
 - Release bundle status: `ready`
 - Tag status: `absent`
 - Version: `0.0.1`
+
+## Release readiness
+
+- Status: `pointer-only`
+- Canonical role: `index_projection_not_fact_source`
+- Freshness hardgate: `scripts/run_canonical_reports.py --verify-fingerprints`
+- Sources: `8`
+- Not claimed: `This section does not copy scorecard, discovery, formal, claim, or release facts; read the listed owner pointers and use --verify-fingerprints for stale-hash failure.`
+
+| source | artifact | pointer | owner |
+| --- | --- | --- | --- |
+| `Canonical index` | `reports/canonical/index.json` | `$` | `reports/canonical/index.json:$` |
+| `Quality scorecard` | `reports/canonical/quality-scorecard.json` | `$.rows` | `reports/canonical/quality-scorecard.json:$.rows` |
+| `Discovery map` | `reports/canonical/discovery_map.json` | `$.coverage_matrix` | `reports/canonical/discovery_map.json:$.coverage_matrix` |
+| `Claim graph` | `reports/canonical/claim_graph.json` | `$` | `reports/canonical/claim_graph.json:$` |
+| `Claim verdicts` | `reports/canonical/claim_verdicts.jsonl` | `$` | `reports/canonical/claim_verdicts.jsonl:$` |
+| `Negative witnesses` | `reports/canonical/discovery_negative_witnesses.json` | `$` | `reports/canonical/discovery_negative_witnesses.json:$` |
+| `Formal hardening` | `reports/canonical/formal_hardening.json` | `$` | `reports/canonical/formal_hardening.json:$` |
+| `Release manifest sidecar` | `reports/release_manifest_sidecar.json` | `$.release_bundle_status` | `reports/release_manifest_sidecar.json:$.release_bundle_status` |
 
 ## Toy latent planning BEDC
 
