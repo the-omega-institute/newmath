@@ -54,6 +54,35 @@ def test_f_hg2_rows_have_metric_list_and_nonempty_not_implemented():
     assert payload["hardgates"]["F-HG2"]["status"] == "pass"
 
 
+def test_theorem_rows_embed_resolvable_theorem_dna():
+    payload = _payload()
+
+    for index, row in enumerate(payload["theorem_rows"]):
+        assert row["theorem_id"] == row["theorem"]
+        assert row["theorem_dna_pointer"] == f"$.theorem_rows[{index}].theorem_dna"
+        dna = discovery_map.pointer_value(payload, row["theorem_dna_pointer"])
+        assert dna == row["theorem_dna"]
+        assert tuple(dna) == runner.THEOREM_DNA_REQUIRED_FIELDS
+        assert dna["theorem_id"] == row["theorem"]
+        assert dna["assumptions"]
+        assert dna["ledger_debts"][0]["pointer"] == f"$.theorem_rows[{index}].ledger_debt"
+        assert dna["formal_status"] == row["status_projection"]
+    assert payload["hardgates"]["theorem_dna_warning"]["status"] == "pass"
+
+
+def test_missing_theorem_dna_warns_without_failing_ledger_status():
+    rows = _rows()
+    rows = runner._theorem_rows_with_dna(rows)
+    del rows[0]["theorem_dna"]
+
+    hardgates = runner._hardgate_rows(rows, "")
+
+    assert hardgates["F-HG2"]["status"] == "pass"
+    assert hardgates["theorem_dna_warning"]["status"] == "warning"
+    assert hardgates["theorem_dna_warning"]["warning_rows"][0]["theorem"] == "theorem-1"
+    assert runner._overall_status(hardgates) == "pass"
+
+
 def test_theorem_4_keeps_planning_availability_outside_theorem_closure():
     payload = _payload()
     row = next(row for row in payload["theorem_rows"] if row["theorem"] == "theorem-4")

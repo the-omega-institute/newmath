@@ -16,9 +16,15 @@ from bedc_quality_lab.discovery_gated_nas import (
     NEGATIVE_WITNESS_MUTATIONS,
     design_search_certificate_hg7,
 )
-from bedc_quality_lab.backends.current_lab.projection import discovery_row, projection_payload
+from bedc_quality_lab.backends.current_lab.projection import (
+    _theorem_dna_pointer_cells_resolve,
+    _theorem_ledger_rows_have_resolvable_dna,
+    discovery_row,
+    projection_payload,
+)
 from bedc_quality_lab.research_discovery import assign_discovery_level
 from scripts import run_discovery_gated_nas as runner
+from scripts import run_lejepa_theorem_ledger
 from scripts.run_canonical_reports import _specs_by_name
 
 
@@ -169,6 +175,8 @@ def test_hardgates_pointer_resolve_and_no_terminal_verdict():
         payload["discovery_map_signal"]["torch_nas_evidence_pointer"],
     ):
         assert pointer_value(payload, pointer) is not None, pointer
+    assert payload["discovery_map_signal"]["theorem_dna_required"] is True
+    assert payload["discovery_map_signal"]["theorem_dna_family"] == "theorem_rows[N].theorem_dna"
     assert all("terminal_verdict" not in cell for cell in _walk(payload))
 
 
@@ -262,7 +270,10 @@ def test_discovery_map_signal_requires_search_space_pointer():
 def test_projection_keeps_d5_m_candidate_at_d5_o_without_attribution_capsule_surface():
     payload = _ready_payload()
     spec = _specs_by_name()["discovery-gated-nas"]
-    context = {"reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]}}
+    context = {
+        "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        run_lejepa_theorem_ledger.JSON_ARTIFACT: run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time"),
+    }
     projected = projection_payload(spec, payload, context)
     verdict = assign_discovery_level(projected)
     row = discovery_row(spec, payload, context)
@@ -271,6 +282,178 @@ def test_projection_keeps_d5_m_candidate_at_d5_o_without_attribution_capsule_sur
     assert row["discovery_level"] == "D5-O"
     assert row["audit_status"] == "valid"
     assert row["control_pointer"] == "$.matched_baseline_control"
+
+
+def test_d5_m_projection_rejects_when_context_ledger_rows_lack_theorem_dna():
+    payload = _ready_payload()
+    spec = _specs_by_name()["discovery-gated-nas"]
+    ledger = run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time")
+    ledger_without_dna = {
+        **ledger,
+        "theorem_rows": [
+            {key: value for key, value in row.items() if key not in {"theorem_dna", "theorem_dna_pointer"}}
+            for row in ledger["theorem_rows"]
+        ],
+    }
+    context = {
+        "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        run_lejepa_theorem_ledger.JSON_ARTIFACT: ledger_without_dna,
+    }
+
+    projected = projection_payload(spec, payload, context)
+    row = discovery_row(spec, payload, context)
+
+    assert projected["verdict"] == "rejected"
+    assert row["discovery_level"] == "DN"
+    assert row["terminal_verdict"] == "rejected"
+    assert row["failed_gate"] == f"{run_lejepa_theorem_ledger.JSON_ARTIFACT}:$.theorem_rows"
+
+
+def _assert_d5_m_projection_rejects_ledger(ledger):
+    payload = _ready_payload()
+    spec = _specs_by_name()["discovery-gated-nas"]
+    context = {
+        "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        run_lejepa_theorem_ledger.JSON_ARTIFACT: ledger,
+    }
+
+    projected = projection_payload(spec, payload, context)
+    row = discovery_row(spec, payload, context)
+
+    assert projected["verdict"] == "rejected"
+    assert row["discovery_level"] == "DN"
+    assert row["terminal_verdict"] == "rejected"
+    assert row["failed_gate"] == f"{run_lejepa_theorem_ledger.JSON_ARTIFACT}:$.theorem_rows"
+
+
+def _lejepa_theorem_ledger_context(ledger):
+    return {
+        "reports/canonical/quality-scorecard.json": {"rows": [{"status": "ready"}]},
+        run_lejepa_theorem_ledger.JSON_ARTIFACT: ledger,
+    }
+
+
+def _partial_malformed_ledger(mutate_second_row):
+    ledger = run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time")
+    rows = [dict(row) for row in ledger["theorem_rows"]]
+    rows[1] = mutate_second_row(dict(rows[1]))
+    return {**ledger, "theorem_rows": rows}
+
+
+def test_theorem_ledger_resolvable_dna_gate_accepts_valid_context():
+    ledger = run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time")
+
+    assert _theorem_ledger_rows_have_resolvable_dna(_lejepa_theorem_ledger_context(ledger)) is True
+    assert _theorem_dna_pointer_cells_resolve(ledger, ledger["theorem_rows"][0]["theorem_dna"]["assumptions"]) is True
+
+
+@pytest.mark.parametrize(
+    "context",
+    [
+        {},
+        {run_lejepa_theorem_ledger.JSON_ARTIFACT: "not-a-ledger-mapping"},
+        {run_lejepa_theorem_ledger.JSON_ARTIFACT: {"theorem_rows": "not-a-row-list"}},
+        {run_lejepa_theorem_ledger.JSON_ARTIFACT: {"theorem_rows": []}},
+        {run_lejepa_theorem_ledger.JSON_ARTIFACT: {"theorem_rows": ["not-a-row-mapping"]}},
+    ],
+)
+def test_theorem_ledger_resolvable_dna_gate_rejects_missing_or_malformed_ledger_shape(context):
+    assert _theorem_ledger_rows_have_resolvable_dna(context) is False
+
+
+@pytest.mark.parametrize(
+    "mutate_first_row",
+    [
+        lambda row: {key: value for key, value in row.items() if key != "theorem_dna_pointer"},
+        lambda row: {**row, "theorem_dna_pointer": 7},
+        lambda row: {**row, "theorem_dna_pointer": "$.theorem_rows[0].not_theorem_dna"},
+        lambda row: {**row, "theorem_dna": "not-a-dna-mapping"},
+        lambda row: {
+            **row,
+            "theorem_dna": {key: value for key, value in row["theorem_dna"].items() if key != "formal_status"},
+        },
+        lambda row: {
+            **row,
+            "theorem_dna": {**row["theorem_dna"], "assumptions": []},
+        },
+        lambda row: {
+            **row,
+            "theorem_dna": {**row["theorem_dna"], "ledger_debts": "not-a-cell-list"},
+        },
+        lambda row: {
+            **row,
+            "theorem_dna": {**row["theorem_dna"], "proof_dependencies": [{"role": "missing-pointer"}]},
+        },
+        lambda row: {
+            **row,
+            "theorem_dna": {
+                **row["theorem_dna"],
+                "assumptions": [{"pointer": "$.theorem_rows[0].missing_target", "role": "dangling"}],
+            },
+        },
+    ],
+)
+def test_theorem_ledger_resolvable_dna_gate_rejects_each_fail_closed_branch(mutate_first_row):
+    ledger = run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time")
+    rows = [dict(row) for row in ledger["theorem_rows"]]
+    rows[0] = mutate_first_row(dict(rows[0]))
+    mutated = {**ledger, "theorem_rows": rows}
+
+    assert _theorem_ledger_rows_have_resolvable_dna(_lejepa_theorem_ledger_context(mutated)) is False
+    _assert_d5_m_projection_rejects_ledger(mutated)
+
+
+def test_theorem_dna_required_non_pointer_fields_are_presence_checked_without_pointer_resolution():
+    ledger = run_lejepa_theorem_ledger.build_payload(generated_at="fixture-time")
+    rows = [dict(row) for row in ledger["theorem_rows"]]
+    rows[0] = {
+        **rows[0],
+        "theorem_dna": {
+            **rows[0]["theorem_dna"],
+            "objects": ["plain-object-name"],
+            "maps": ["plain-map-name"],
+            "operators": ["plain-operator-name"],
+            "invariants": ["plain-invariant-name"],
+        },
+    }
+    mutated = {**ledger, "theorem_rows": rows}
+
+    assert _theorem_ledger_rows_have_resolvable_dna(_lejepa_theorem_ledger_context(mutated)) is True
+
+
+@pytest.mark.parametrize(
+    "mutate_second_row",
+    [
+        lambda row: {key: value for key, value in row.items() if key != "theorem_dna"},
+        lambda row: {**row, "theorem_dna_pointer": "$.theorem_rows[0].theorem_dna"},
+        lambda row: {
+            **row,
+            "theorem_dna": {**row["theorem_dna"], "theorem_id": "wrong-theorem-id"},
+        },
+        lambda row: {
+            **row,
+            "theorem_dna": {**row["theorem_dna"], "assumptions": ["not-a-pointer-cell"]},
+        },
+        lambda row: {
+            **row,
+            "theorem_dna": {**row["theorem_dna"], "proof_dependencies": [{"role": "missing-pointer"}]},
+        },
+        lambda row: {
+            **row,
+            "theorem_dna": {
+                **row["theorem_dna"],
+                "assumptions": [
+                    {"pointer": "$.theorem_rows[1].does_not_exist", "role": "row-evidence"}
+                ],
+            },
+        },
+    ],
+)
+def test_d5_m_projection_rejects_partial_or_malformed_theorem_dna(mutate_second_row):
+    ledger = _partial_malformed_ledger(mutate_second_row)
+
+    assert "theorem_dna" in ledger["theorem_rows"][0]
+    _assert_d5_m_projection_rejects_ledger(ledger)
 
 
 def test_candidate_with_witness_violation_fails_hg6_when_not_demoted():

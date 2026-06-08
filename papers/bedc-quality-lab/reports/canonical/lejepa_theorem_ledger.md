@@ -18,6 +18,8 @@
 | `theorem-3` | `StabCert` | `theorem3_bound_mse`, `actual_recovery_mse`, `linear_identifiability_r2` | The existing LeJEPA backend points theorem3-bound-certificate at classifier_spec.cert_status; this ledger records the theorem-row boundary. |
 | `theorem-4` | `Ledger` | `[]` | Ledger rows identify source and classifier residues that must stay visible until discharged by stronger evidence. |
 
+- theorem DNA warning rows: `0`
+
 ## Not Implemented
 
 - `theorem-1`: paper theorem statement is not represented as a kernel-checked formal target; source assumptions are recorded as payload fields rather than closed source reconstruction
@@ -37,6 +39,7 @@
 
 - `F-HG1`: `pass`
 - `F-HG2`: `pass`
+- `theorem_dna_warning`: `pass`
 - `F-HG3`: `pass`
 - `F-HG4`: `pass`
 - `metric_resolvability`: `pass`

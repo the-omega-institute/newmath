@@ -34,6 +34,17 @@ FORBIDDEN_THEOREM_BOUND_WORDING = (
     "proven",
     "proved",
 )
+THEOREM_DNA_REQUIRED_FIELDS = (
+    "theorem_id",
+    "assumptions",
+    "objects",
+    "maps",
+    "operators",
+    "invariants",
+    "proof_dependencies",
+    "ledger_debts",
+    "formal_status",
+)
 
 
 def _status_projection(status: str, severity: str = "none") -> dict[str, str]:
@@ -42,6 +53,104 @@ def _status_projection(status: str, severity: str = "none") -> dict[str, str]:
 
 def _known_metric_names() -> tuple[str, ...]:
     return tuple(LeJEPABackendEvidenceAdapter.backend.metrics)
+
+
+def _pointer_cell(pointer: str, role: str) -> dict[str, str]:
+    return {"pointer": pointer, "role": role}
+
+
+def _theorem_dna_for_row(row: Mapping[str, Any], row_index: int) -> dict[str, Any]:
+    theorem_id = str(row["theorem"])
+    base = f"$.theorem_rows[{row_index}]"
+    implemented_metrics = list(row.get("implemented_metrics", []))
+    metric_pointers = [
+        _pointer_cell(f"{base}.implemented_metrics[{index}]", "implemented-metric")
+        for index, _metric in enumerate(implemented_metrics)
+    ]
+    return {
+        "theorem_id": theorem_id,
+        "assumptions": [
+            _pointer_cell(f"{base}.evidence_pointer", "row-evidence"),
+            _pointer_cell("$.scope.claim_boundary", "ledger-scope"),
+        ],
+        "objects": [
+            theorem_id,
+            str(row.get("title", "")),
+            str(row.get("bedc_role", "")),
+        ],
+        "maps": [
+            _pointer_cell(f"{base}.role_basis", "theorem-role-map"),
+            _pointer_cell(f"{base}.status_projection", "status-projection-map"),
+        ],
+        "operators": [
+            *metric_pointers,
+            _pointer_cell("$.metric_catalog", "metric-catalog"),
+            _pointer_cell("$.role_catalog", "role-catalog"),
+        ],
+        "invariants": [
+            _pointer_cell(f"{base}.bedc_role", "allowed-role"),
+            _pointer_cell(f"{base}.not_implemented", "visible-theorem-boundary"),
+        ],
+        "proof_dependencies": [
+            _pointer_cell(f"{base}.status_projection", "lab-local-status-cell"),
+            _pointer_cell(f"{base}.evidence_pointer", "certificate-evidence-cell"),
+        ],
+        "ledger_debts": [
+            _pointer_cell(f"{base}.ledger_debt", "current-ledger-debt"),
+        ],
+        "formal_status": dict(row["status_projection"]),
+    }
+
+
+def _theorem_rows_with_dna(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    result: list[dict[str, Any]] = []
+    for index, row in enumerate(rows):
+        enriched = dict(row)
+        enriched["theorem_id"] = str(row["theorem"])
+        enriched["theorem_dna_pointer"] = f"$.theorem_rows[{index}].theorem_dna"
+        enriched["theorem_dna"] = _theorem_dna_for_row(enriched, index)
+        result.append(enriched)
+    return result
+
+
+def _theorem_dna_warning_rows(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    warnings: list[dict[str, Any]] = []
+    for index, row in enumerate(rows):
+        theorem = str(row.get("theorem", f"row-{index}"))
+        dna = row.get("theorem_dna")
+        missing: list[str] = []
+        malformed: list[str] = []
+        if not isinstance(dna, Mapping):
+            warnings.append(
+                {
+                    "theorem": theorem,
+                    "row_pointer": f"$.theorem_rows[{index}]",
+                    "missing_fields": list(THEOREM_DNA_REQUIRED_FIELDS),
+                    "malformed_fields": ["theorem_dna"],
+                }
+            )
+            continue
+        for field in THEOREM_DNA_REQUIRED_FIELDS:
+            if field not in dna:
+                missing.append(field)
+        if dna.get("theorem_id") != row.get("theorem_id", row.get("theorem")):
+            malformed.append("theorem_id")
+        for field in ("assumptions", "ledger_debts", "proof_dependencies"):
+            value = dna.get(field)
+            if not isinstance(value, list) or not value:
+                malformed.append(field)
+            elif any(not isinstance(cell, Mapping) or not isinstance(cell.get("pointer"), str) for cell in value):
+                malformed.append(field)
+        if missing or malformed:
+            warnings.append(
+                {
+                    "theorem": theorem,
+                    "row_pointer": f"$.theorem_rows[{index}]",
+                    "missing_fields": missing,
+                    "malformed_fields": malformed,
+                }
+            )
+    return warnings
 
 
 def theorem_rows() -> list[dict[str, Any]]:
@@ -155,6 +264,7 @@ def hermite_degree_boundary() -> list[dict[str, Any]]:
 
 def _hardgate_rows(rows: Sequence[Mapping[str, Any]], report_text: str) -> dict[str, Any]:
     metric_names = set(_known_metric_names())
+    theorem_dna_warnings = _theorem_dna_warning_rows(rows)
     roles = [row.get("bedc_role") for row in rows]
     role_failures = [
         str(row.get("theorem"))
@@ -187,6 +297,12 @@ def _hardgate_rows(rows: Sequence[Mapping[str, Any]], report_text: str) -> dict[
             "status": "pass" if not shape_failures else "fail",
             "severity": "none" if not shape_failures else "high",
             "shape_failures": shape_failures,
+            "theorem_dna_warnings": theorem_dna_warnings,
+        },
+        "theorem_dna_warning": {
+            "status": "pass" if not theorem_dna_warnings else "warning",
+            "severity": "none" if not theorem_dna_warnings else "low",
+            "warning_rows": theorem_dna_warnings,
         },
         "F-HG3": {
             "status": "pass" if not wording_hits else "fail",
@@ -208,7 +324,7 @@ def _hardgate_rows(rows: Sequence[Mapping[str, Any]], report_text: str) -> dict[
 
 
 def _overall_status(hardgates: Mapping[str, Mapping[str, Any]]) -> str:
-    return "pass" if all(row.get("status") == "pass" for row in hardgates.values()) else "fail"
+    return "pass" if all(row.get("status") in {"pass", "warning"} for row in hardgates.values()) else "fail"
 
 
 def _render_markdown_without_hardgates(payload: Mapping[str, Any]) -> str:
@@ -238,6 +354,8 @@ def _render_markdown_without_hardgates(payload: Mapping[str, Any]) -> str:
             f"{metrics} | "
             f"{row['ledger_debt']} |"
         )
+    warning_count = len(payload.get("hardgates", {}).get("theorem_dna_warning", {}).get("warning_rows", []))
+    lines.extend(["", f"- theorem DNA warning rows: `{warning_count}`"])
     lines.extend(["", "## Not Implemented", ""])
     for row in payload["theorem_rows"]:
         lines.append(f"- `{row['theorem']}`: " + "; ".join(row["not_implemented"]))
@@ -272,7 +390,7 @@ def render_markdown(payload: Mapping[str, Any]) -> str:
 
 def build_payload(*, run_id: str = "lejepa-theorem-ledger", generated_at: str | None = None) -> dict[str, Any]:
     timestamp = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
-    rows = theorem_rows()
+    rows = _theorem_rows_with_dna(theorem_rows())
     draft = {
         "schema_id": SCHEMA_ID,
         "artifact_id": ARTIFACT_ID,

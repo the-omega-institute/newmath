@@ -599,6 +599,8 @@ class DiscoveryGatedNasProjection:
                 "search_objective_pointer": "$.search_objective_summary",
                 "negative_witness_pointer": "$.negative_witness_mutations",
                 "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
+                "theorem_dna_required": True,
+                "theorem_dna_family": "theorem_rows[N].theorem_dna",
                 "failed_gate": failed,
                 "failed_gate_pointer": f"$.hardgate.gates.{failed}.status",
             }
@@ -615,6 +617,8 @@ class DiscoveryGatedNasProjection:
             "negative_witness_pointer": "$.negative_witness_mutations",
             "torch_nas_evidence_pointer": "$.torch_nas_evidence",
             "theorem_ledger_ref": "reports/canonical/lejepa_theorem_ledger.json:$.theorem_rows",
+            "theorem_dna_required": True,
+            "theorem_dna_family": "theorem_rows[N].theorem_dna",
             "failed_gate": None,
             "failed_gate_pointer": None,
         }

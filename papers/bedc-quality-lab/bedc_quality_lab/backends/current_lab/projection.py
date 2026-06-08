@@ -149,7 +149,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.hardgate.status",
         "mechanism_certificate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.mechanism_namecert_ref",
         "debt_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.evidence_envelope_ref",
-        "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -159,7 +158,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.mechanism_certificate",
         "debt_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.ledger",
-        "not_claimed_pointer": f"{LEDGER_AWARE_TRANSFORMER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -169,7 +167,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.certificate_gate_summary",
         "debt_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.revocation_rows",
-        "not_claimed_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -179,7 +176,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.training_mechanism_cert",
         "debt_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.quality_promotion_boundary",
-        "not_claimed_pointer": f"{DISCOVERY_REGULARIZED_TRAINING_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -189,7 +185,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.mechanism_gate_summary",
         "debt_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.revocation_rows",
-        "not_claimed_pointer": f"{MECHANISM_SEEKING_NETWORK_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -199,7 +194,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.candidate_protocol",
         "debt_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.hardgate.gates.DG-NAS-HG7",
-        "not_claimed_pointer": f"{DISCOVERY_GATED_NAS_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -209,7 +203,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{GAP_HEAD_ROBUSTNESS_ARTIFACT}:$.final_status",
         "mechanism_certificate_pointer": f"{GAP_HEAD_ROBUSTNESS_ARTIFACT}:$.A1_threshold_sweep",
         "debt_pointer": f"{OBSERVED_DEBT_ARTIFACT}:{GAP_HEAD_OBSERVED_DEBT_TRANSFER_POINTER}",
-        "not_claimed_pointer": f"{OBSERVED_DEBT_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -219,7 +212,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence.mechanism_status",
         "mechanism_certificate_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.mechanism_evidence",
         "debt_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.ledger_debt",
-        "not_claimed_pointer": f"{ATTRIBUTION_CAPSULE_ARTIFACT}:$.scope_seal.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -229,7 +221,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.discovery_map_signal.status",
         "mechanism_certificate_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.trend_summary",
         "debt_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.tradeoff_ledger",
-        "not_claimed_pointer": f"{SIGREG_MINI_GRID_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -239,7 +230,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.claim_gate.status",
         "mechanism_certificate_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.theorem_rows",
         "debt_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.backend_ledger_rows",
-        "not_claimed_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": None,
     },
     {
@@ -249,7 +239,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:$.dimension_mismatch_debt_transfer.terminal_verdict",
         "mechanism_certificate_pointer": None,
         "debt_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:{DIMENSION_MISMATCH_ANTI_TRIVIALITY_POINTER}",
-        "not_claimed_pointer": f"{DIMENSION_MISMATCH_TRANSFER_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": DIMENSION_MISMATCH_GAP_WITNESS_POINTER,
     },
     {
@@ -259,7 +248,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": f"{NEGATIVE_DISCOVERY_REPORTS_ARTIFACT}:$.rows[1].terminal_verdict",
         "mechanism_certificate_pointer": None,
         "debt_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.certificate_gate_summary",
-        "not_claimed_pointer": f"{CERTIFICATE_GATED_ATTENTION_ARTIFACT}:$.not_claimed",
         "negative_witness_pointer": f"{NEGATIVE_DISCOVERY_REPORTS_ARTIFACT}:$.rows[1]",
     },
     {
@@ -269,7 +257,6 @@ DISCOVERY_COVERAGE_SOURCES: tuple[dict[str, str | None], ...] = (
         "claim_verdict_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.failed_gate",
         "mechanism_certificate_pointer": None,
         "debt_pointer": f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.theorem_rows",
-        "not_claimed_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.not_claimed",
         "negative_witness_pointer": "reports/runs/lejepa-mini-grid/claim_capsule.json:$.run_local.negative_witness[0]",
     },
 )
@@ -381,6 +368,52 @@ def _scorecard_ready(context: Mapping[str, Mapping[str, Any]]) -> bool:
     return isinstance(rows, list) and bool(rows) and all(
         isinstance(row, Mapping) and row.get("status") == "ready" for row in rows
     )
+
+
+THEOREM_DNA_REQUIRED_FIELDS = (
+    "theorem_id",
+    "assumptions",
+    "objects",
+    "maps",
+    "operators",
+    "invariants",
+    "proof_dependencies",
+    "ledger_debts",
+    "formal_status",
+)
+
+
+def _theorem_dna_pointer_cells_resolve(ledger: Mapping[str, Any], cells: Any) -> bool:
+    return isinstance(cells, list) and bool(cells) and all(
+        isinstance(cell, Mapping)
+        and isinstance(cell.get("pointer"), str)
+        and pointer_value(ledger, cell["pointer"]) is not None
+        for cell in cells
+    )
+
+
+def _theorem_ledger_rows_have_resolvable_dna(context: Mapping[str, Mapping[str, Any]]) -> bool:
+    ledger = context.get(LEJEPA_THEOREM_LEDGER_ARTIFACT, {})
+    rows = pointer_value(ledger, "$.theorem_rows")
+    if not isinstance(rows, list) or not rows:
+        return False
+    for index, row in enumerate(rows):
+        if not isinstance(row, Mapping):
+            return False
+        pointer = row.get("theorem_dna_pointer")
+        if pointer != f"$.theorem_rows[{index}].theorem_dna":
+            return False
+        dna = pointer_value(ledger, pointer)
+        if not isinstance(dna, Mapping):
+            return False
+        if any(field not in dna for field in THEOREM_DNA_REQUIRED_FIELDS):
+            return False
+        if dna.get("theorem_id") != row.get("theorem_id", row.get("theorem")):
+            return False
+        for field in ("assumptions", "ledger_debts", "proof_dependencies"):
+            if not _theorem_dna_pointer_cells_resolve(ledger, dna.get(field)):
+                return False
+    return True
 
 
 def pointer_value(payload: Mapping[str, Any], pointer: str | None) -> Any:
@@ -925,6 +958,20 @@ def _discovery_gated_nas_projection(
     level = signal.get("level_candidate")
     status = signal.get("status")
     if consistent and level == "D5-M" and status == "d5-m-candidate":
+        context_payloads = {} if context is None else context
+        if not _theorem_ledger_rows_have_resolvable_dna(context_payloads):
+            return {
+                "verdict": "rejected",
+                "main_verdict": {
+                    "discovery_gated_nas": {
+                        "level_candidate": "DN",
+                        "status": "negative",
+                    },
+                },
+            }, ProjectionEvidence(
+                projection_status="projected",
+                failed_gate=f"{LEJEPA_THEOREM_LEDGER_ARTIFACT}:$.theorem_rows",
+            )
         return {
             "positive_discovery": True,
             "net_positive_signal": True,
