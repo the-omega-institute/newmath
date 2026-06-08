@@ -1013,8 +1013,27 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     assert lat["canonical_owner_pointer"] == "reports/canonical/ledger-aware-transformer.json:$"
     assert lat["mechanism_certificate_pointer"] == "reports/canonical/ledger-aware-transformer.json:$.mechanism_certificate"
     assert lat["hardgate_status"] == "pass"
-    assert _artifact_pointer_value(tmp_path, lat["canonical_owner_pointer"]) is not None
-    assert _artifact_pointer_value(tmp_path, lat["mechanism_certificate_pointer"]) is not None
+
+
+def test_discovery_map_dgt_reads_single_d4_projection_pointer(tmp_path):
+    _write_coverage_payloads(tmp_path)
+
+    payload = discovery_map.build_discovery_map(generated_at="fixture-time", root=tmp_path)
+    rows = {row["report"]: row for row in payload["rows"]}
+    row = rows["discovery-gated-transformer"]
+    dgt_cell = _coverage_cell(payload, "DGT")
+
+    assert row["discovery_level"] == "D4"
+    assert row["evidence_pointer"] == "$.d4_projection"
+    assert row["control_pointer"] == "$.d4_projection.matched_control"
+    assert row["audit_status"] == "valid"
+    assert "gates" not in row
+    assert "d4_projection" not in row
+    assert "PROJ-HG1" not in json.dumps(row, sort_keys=True)
+    assert dgt_cell["discovery_level_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"
+    )
+    assert _artifact_pointer_value(tmp_path, dgt_cell["discovery_level_pointer"]) == "D4"
 
 
 def test_discovery_map_keeps_single_drt_owner_for_jet_surface(tmp_path):

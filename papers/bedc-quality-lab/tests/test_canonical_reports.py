@@ -3134,6 +3134,7 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
         "family_definition",
         "discovery_map_signal",
         "discovery_map_signal_ref",
+        "d4_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -3156,6 +3157,9 @@ def test_discovery_gated_transformer_owner_schema_and_model_id():
     assert set(payload["family_definition"]["invariant_groups"]) == {"architecture", "objective", "certificate"}
     assert payload["family_definition"]["hardgate"]["status"] == "pass"
     assert payload["family_definition"]["model_family_claim_status"]["claim_allowed"] is False
+    assert payload["d4_projection"]["discovery_level"] == "D4"
+    assert payload["d4_projection"]["readiness"] == "ready"
+    assert set(payload["d4_projection"]["gates"]) == {f"PROJ-HG{index}" for index in range(1, 11)}
     assert set(payload["component_refs"]) == {
         "hardgate_contract",
         "discovery_gated_nas",
@@ -3212,6 +3216,8 @@ def test_discovery_gated_transformer_index_is_pointer_only():
         "model_family_claim_status_pointer",
         "discovery_map_signal_pointer",
         "discovery_map_signal_ref_pointer",
+        "d4_projection_pointer",
+        "d4_projection_discovery_level_pointer",
         "claim_capsule_ref_pointer",
         "evidence_envelope_ref_pointer",
         "mechanism_namecert_ref_pointer",
@@ -3246,6 +3252,9 @@ def test_discovery_gated_transformer_index_is_pointer_only():
     )
     assert section["model_family_claim_status_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.family_definition.model_family_claim_status"
+    )
+    assert section["d4_projection_discovery_level_pointer"] == (
+        "reports/canonical/discovery-gated-transformer.json:$.d4_projection.discovery_level"
     )
     lowered = json.dumps(section, sort_keys=True).lower()
     for forbidden in (
@@ -4663,6 +4672,7 @@ def test_canonical_dgt_report_exposes_jet_certificate_pointer_only():
         "forbidden_claim_term_audit",
         "revocation_rows",
         "discovery_map_signal_ref",
+        "d4_projection",
     ):
         assert key in payload
     assert payload["jet_certificate_ref"] == {
@@ -4684,6 +4694,7 @@ def test_dgt_canonical_index_uses_artifact_qualified_jet_pointers():
     assert section["discovery_map_signal_ref_pointer"] == (
         "reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal_ref"
     )
+    assert section["d4_projection_pointer"] == "reports/canonical/discovery-gated-transformer.json:$.d4_projection"
     serialized = json.dumps(section, sort_keys=True)
     assert "surface_rows" not in serialized
     assert "matched_random_gain" not in serialized

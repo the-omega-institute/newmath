@@ -160,6 +160,56 @@ def _errors(payload, root):
     return claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows)
 
 
+def _add_dgt_accepted_positive_fixture(root: Path) -> None:
+    dgt_artifact = "reports/canonical/discovery-gated-transformer.json"
+    _write_json(
+        root,
+        dgt_artifact,
+        {
+            "d4_projection": {
+                "discovery_level": "D4",
+                "readiness": "ready",
+                "matched_control": {"control_positive": False},
+            },
+            "not_claimed": ["bounded deterministic toy evidence only"],
+            "claim_capsule_ref": {"artifact": "reports/runs/discovery-gated-transformer/claim_capsule.json", "pointer": "$"},
+        },
+    )
+    _write_json(
+        root,
+        "reports/runs/discovery-gated-transformer/claim_capsule.json",
+        {
+            "schema_id": "bedc.quality.claim_capsule",
+            "claim_status": "fixture",
+            "not_claimed": ["bounded deterministic toy evidence only"],
+            "what_was_learned": "fixture learned",
+        },
+    )
+    discovery_payload = json.loads((root / claim_graph.DISCOVERY_MAP_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    discovery_payload["rows"].append(
+        {
+            "report": "discovery-gated-transformer",
+            "json_artifact": dgt_artifact,
+            "markdown_artifact": "reports/canonical/discovery-gated-transformer.md",
+            "discovery_level": "D4",
+            "terminal_verdict": "",
+            "classifier_reasons": ["fixture"],
+            "projection_status": "projected",
+            "evidence_pointer": "$.d4_projection",
+            "control_pointer": "$.d4_projection.matched_control",
+            "audit_status": "valid",
+            "audit_reason": "",
+            "not_claimed": ["bounded deterministic toy evidence only"],
+        }
+    )
+    _write_json(root, claim_graph.DISCOVERY_MAP_JSON_ARTIFACT, discovery_payload)
+    rows = claim_graph.load_claim_verdict_rows(root)
+    rows.append(_row("claim:discovery-gated-transformer", "accepted_positive_discovery"))
+    rows[-1]["source"] = f"{dgt_artifact}:$.d4_projection"
+    rows[-1]["ledger_pointer"] = f"{claim_graph.DISCOVERY_MAP_JSON_ARTIFACT}:$.rows[2].discovery_level"
+    _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
+
+
 def test_claim_verdict_rows_have_terminal_graph_foreign_keys(tmp_path):
     root = _fixture_root(tmp_path)
     payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
@@ -362,6 +412,63 @@ def test_cg_hg6_ignores_non_accepted_rows(tmp_path):
     source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
 
     assert claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows) == []
+
+
+def test_dgt_accepted_positive_claim_graph_path_passes(tmp_path):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    by_id = {node["node_id"]: node for node in payload["nodes"]}
+
+    assert by_id["terminal:discovery-gated-transformer"]["depends_on"] == ("projected:discovery-gated-transformer",)
+    assert by_id["projected:discovery-gated-transformer"]["depends_on"] == ("raw:discovery-gated-transformer",)
+    assert by_id["raw:discovery-gated-transformer"]["terminal_verdict"] is None
+    assert by_id["projected:discovery-gated-transformer"]["terminal_verdict"] is None
+    assert _errors(payload, root) == []
+
+
+def test_dgt_accepted_positive_terminal_dependency_bypass_fails(tmp_path):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_id"] == "terminal:discovery-gated-transformer":
+            node["depends_on"] = ["projected:gap-head-discovery"]
+
+    errors = _errors(broken, root)
+
+    assert any("DGT accepted-positive terminal must depend only on projected:DGT" in error for error in errors)
+
+
+def test_dgt_accepted_positive_projected_dependency_mismatch_fails(tmp_path):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_id"] == "projected:discovery-gated-transformer":
+            node["depends_on"] = ["raw:gap-head-discovery"]
+
+    errors = _errors(broken, root)
+
+    assert any("DGT accepted-positive projected node must depend only on raw:DGT" in error for error in errors)
+
+
+@pytest.mark.parametrize("node_id", ["raw:discovery-gated-transformer", "projected:discovery-gated-transformer"])
+def test_dgt_accepted_positive_raw_or_projected_terminal_verdict_leakage_fails(tmp_path, node_id):
+    root = _fixture_root(tmp_path)
+    _add_dgt_accepted_positive_fixture(root)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    broken = deepcopy(payload)
+    for node in broken["nodes"]:
+        if node["node_id"] == node_id:
+            node["terminal_verdict"] = "accepted_positive_discovery"
+
+    errors = _errors(broken, root)
+
+    assert any("DGT raw/projected nodes must not carry terminal verdict" in error for error in errors)
 
 
 def test_terminal_claim_nodes_are_bijection_for_checked_in_verdict_rows():

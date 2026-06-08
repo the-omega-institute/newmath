@@ -1144,6 +1144,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "family_definition",
             "discovery_map_signal",
             "discovery_map_signal_ref",
+            "d4_projection",
             "claim_capsule_ref",
             "evidence_envelope_ref",
             "mechanism_namecert_ref",
@@ -1157,8 +1158,8 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
         scope_pointer="$.not_claimed",
         cost_pointer="$.architecture_spec",
         not_claimed_pointer="$.not_claimed",
-        positive_claim_pointer="$.discovery_map_signal",
-        control_pointer="$.component_refs",
+        positive_claim_pointer="$.d4_projection",
+        control_pointer="$.d4_projection.matched_control",
         no_control_rationale_pointer=None,
         literature_ref_ids=("lit-lejepa-theorem-ledger",),
     ),
@@ -3882,6 +3883,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "family_definition",
         "discovery_map_signal",
         "discovery_map_signal_ref",
+        "d4_projection",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
@@ -3917,6 +3919,18 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "pointer": "$.discovery_map_signal",
     }:
         raise ValueError("DGT discovery_map_signal_ref mismatch")
+    d4_projection = payload["d4_projection"]
+    if d4_projection["owner_ref"] != f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$":
+        raise ValueError("DGT D4 projection owner pointer mismatch")
+    if set(d4_projection["gates"]) != {f"PROJ-HG{index}" for index in range(1, 11)}:
+        raise ValueError("DGT D4 projection hardgates must contain PROJ-HG1..10")
+    d4_all_pass = all(row["status"] == "pass" for row in d4_projection["gates"].values())
+    if d4_projection["discovery_level"] != ("D4" if d4_all_pass else "D0"):
+        raise ValueError("DGT D4 projection discovery level mismatch")
+    if d4_projection["failed_gate"] != (None if d4_all_pass else next(name for name, row in d4_projection["gates"].items() if row["status"] != "pass")):
+        raise ValueError("DGT D4 projection failed gate mismatch")
+    if d4_projection["forbidden_claim_term_audit"]["status"] != "pass":
+        raise ValueError("DGT D4 projection forbidden claim audit failed")
     if payload["forbidden_claim_term_audit"]["status"] != "pass":
         raise ValueError("DGT forbidden claim audit failed")
     if not payload["revocation_rows"]:
@@ -3959,6 +3973,10 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         ),
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",
+        "d4_projection_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection",
+        "d4_projection_discovery_level_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.d4_projection.discovery_level"
+        ),
         "claim_capsule_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.claim_capsule_ref",
         "evidence_envelope_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.evidence_envelope_ref",
         "mechanism_namecert_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_namecert_ref",

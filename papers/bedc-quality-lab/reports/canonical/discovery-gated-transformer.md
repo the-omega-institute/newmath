@@ -68,6 +68,25 @@
 | `objective` | `3` |
 | `certificate` | `4` |
 
+## D4 Projection
+
+- Readiness: `ready`
+- Discovery level: `D4`
+- Failed gate: `None`
+
+| gate | status | evidence |
+| --- | --- | --- |
+| `PROJ-HG1` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.hardgate` |
+| `PROJ-HG2` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.hardgate` |
+| `PROJ-HG3` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.net_positive_signal` |
+| `PROJ-HG4` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.tool_route_evidence.classifier_surface_delta` |
+| `PROJ-HG5` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.family_definition.hardgate` |
+| `PROJ-HG6` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.claim_capsule_ref` |
+| `PROJ-HG7` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.not_claimed` |
+| `PROJ-HG8` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.forbidden_claim_term_audit` |
+| `PROJ-HG9` | `pass` | `reports/canonical/discovery-gated-transformer.json:$` |
+| `PROJ-HG10` | `pass` | `reports/canonical/discovery-gated-transformer.json:$.discovery_map_signal_ref` |
+
 ## Sidecars
 
 - Claim capsule: `reports/runs/discovery-gated-transformer/claim_capsule.json:$`
