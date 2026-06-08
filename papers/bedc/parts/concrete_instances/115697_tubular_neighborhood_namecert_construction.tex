@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\TubularNeighborhoodUp$}
+\label{ch:concrete-instances-tubular-neighborhood-namecert}
+\origin{human}
+
+Following Whitney and Hirsch on tubular neighbourhoods, the $\TubularNeighborhoodUp$ packet records the finite naming surface for a submanifold, its normal bundle, a metric-controlled exponential chart, and the resulting neighbourhood image. It reads the source manifold through \autoref{ch:concrete-instances-manifold-namecert} and the smooth atlas boundary through \autoref{ch:concrete-instances-smoothmanifold-namecert}; it reads the bundle row through \autoref{ch:concrete-instances-bundle-namecert} and the vector-bundle carrier of \autoref{ch:concrete-instances-vectorbundle-namecert}; it reads the metric and exponential-chart rows through \autoref{ch:concrete-instances-riemannianmetric-namecert} and \autoref{ch:concrete-instances-expmap-namecert}; and it reads radius and image budgets through the Real seal of \autoref{ch:concrete-instances-real-namecert}. The certificate names the displayed finite tubular route without asserting a global collar, selected closest-point projection, quotient equality of normal vectors, or ambient completeness.
+
+\begin{definition}[Tubular neighborhood carrier]
+\label{def:tubular-neighborhood-carrier}
+A $\TubularNeighborhoodUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,N,G,E,R,U,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the submanifold and source-manifold row, read through $\ManifoldUp$ and $\SmoothManifoldUp$, including the displayed inclusion data and the finite atlas windows on which the construction is inspected.
+\item $N$ is the normal-bundle row, read through $\BundleUp$ and $\VectorBundleUp$, carrying the displayed fibre complement and transition compatibility data for the source row.
+\item $G$ is the $\RiemannianMetricUp$ row, exposing the metric, orthogonality, and fibre-length comparisons used to choose the visible normal window.
+\item $E$ is the $\ExpMapUp$ row, recording the finite exponential-chart request from the normal-bundle window into the ambient manifold chart.
+\item $R$ is the radius ledger, a $\RealUp$ tolerance row that bounds the visible normal vectors and records the local injectivity budget used by the displayed chart.
+\item $U$ is the neighbourhood image row, naming the visible image of the radius-bounded normal vectors under the exponential-chart row.
+\item $H$ records componentwise $\hsame$ transport for $S,N,G,E,R,U,C,P,L$.
+\item $C$ records displayed $\Cont$ replay from submanifold reads through the normal-bundle, metric, exponential-chart, radius, and image rows.
+\item $P$ is the $\Pkg$ provenance over $\TubularNeighborhoodUp$, $\ManifoldUp$, $\BundleUp$, $\RiemannianMetricUp$, $\ExpMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $L$ is the local $\NameCert_{\TubularNeighborhoodUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these ten rows. It has no coordinate for a global retraction, selected nearest point, quotient normal-vector equality, trichotomy of distances, or ambient manifold completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.TubularNeighborhoodUp.TubularNeighborhoodUp}
+
+\begin{theorem}[Tubular neighborhood NameCert obligations]
+\label{thm:tubular-neighborhood-namecert-obligations}
+For every accepted $\TubularNeighborhoodUp$ carrier $T=(S,N,G,E,R,U,H,C,P,L)$, the local $\NameCert_{\TubularNeighborhoodUp}$ surface consists exactly of carrier admission, submanifold and source-manifold visibility, normal-bundle attachment, Riemannian metric readback, exponential-chart replay, radius-ledger boundedness, neighbourhood-image exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:tubular-neighborhood-carrier}. The source row $S$ supplies the displayed manifold and submanifold windows, while $N$ attaches the normal-bundle data to those same windows.
+
+Read the analytic rows next. The metric row $G$ supplies the orthogonality and fibre-length comparisons, the exponential-chart row $E$ records the visible chart request, and the radius row $R$ bounds the normal vectors before the image row $U$ is exposed.
+
+The structural rows $H,C,P,L$ transport, replay, source, and name the same finite packet. Since the carrier has no row for a global retraction, selected nearest point, quotient normal-vector equality, trichotomy, or ambient completeness, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Tubular neighborhood normal-bundle handoff]
+\label{thm:tubular-neighborhood-normal-bundle-handoff}
+Every $\TubularNeighborhoodUp$ consumer of the neighbourhood image row must first read the finite handoff
+$$
+\ManifoldUp,\BundleUp,\RiemannianMetricUp,\ExpMapUp,\RealUp
+\longmapsto
+S,N,G,E,R,U,H,C,P,L .
+$$
+In particular, the normal-bundle row and metric row are visible before the exponential-chart image is consumed, and the radius ledger is visible before the image is treated as a neighbourhood.
+\end{theorem}
+\begin{proof}
+Start from the carrier rows $S,N,G,E,R,U,H,C,P,L$. The source manifold row and normal-bundle row determine which fibre windows are eligible for the tubular request.
+
+The metric row then fixes the finite orthogonality and length comparisons used by the request. Only after those comparisons are displayed can the exponential-chart row $E$ replay the normal vector into the ambient manifold chart.
+
+The radius ledger $R$ precedes the image row $U$, so a consumer cannot treat $U$ as a neighbourhood without also reading the bounded normal-window evidence. Transport and replay through $H$ and $C$, together with provenance $P$ and local naming $L$, keep the handoff attached to the same packet.
+
+Thus the handoff is a finite normal-bundle route through the cited manifold, bundle, metric, exponential-map, and Real rows. It does not export a selected nearest point, global retraction, quotient normal-vector equality, trichotomy of distances, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\TubularNeighborhoodUp$ read is refuted if a consumer obtains the neighbourhood image row without first displaying the source-manifold row, normal-bundle row, Riemannian metric row, exponential-chart row, radius ledger, transport, replay, provenance, and local $\NameCert$ rows.}
+
+\independenceWitness{manifold, bundle, riemannianmetric, expmap, real: $\TubularNeighborhoodUp$ is not bijective to any listed sibling because it jointly carries source manifold data, normal-bundle attachment, metric comparison, exponential-chart replay, radius boundedness, image exposure, transport, replay, package provenance, and local naming.}
+
+\closureat{TubularNeighborhoodUp}{seedStr}
+
+\begin{closurestatus}{\TubularNeighborhoodUp}
+  \constructivestory{A $\TubularNeighborhoodUp$ packet is generated from submanifold and source-manifold rows, normal-bundle rows, Riemannian metric rows, exponential-chart rows, Real radius ledgers, neighbourhood image rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:tubular-neighborhood-carrier}, \autoref{thm:tubular-neighborhood-namecert-obligations}, and \autoref{thm:tubular-neighborhood-normal-bundle-handoff} seed the finite normal-bundle and exponential-chart route for tubular neighbourhood consumers.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected nearest-point projections, global retractions, quotient equality of normal vectors, trichotomy of distances, ambient manifold completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, normal-bundle attachment, metric-radius exactness, exponential-chart replay, image nonescape, transport, replay, provenance, and local naming for BEDC.Derived.TubularNeighborhoodUp.}
+\end{closurestatus}
