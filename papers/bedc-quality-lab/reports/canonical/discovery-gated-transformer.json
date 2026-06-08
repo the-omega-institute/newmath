@@ -46,6 +46,10 @@
     },
     "status": "candidate-local-positive"
   },
+  "discovery_map_signal_ref": {
+    "artifact": "reports/canonical/discovery-gated-transformer.json",
+    "pointer": "$.discovery_map_signal"
+  },
   "evidence_envelope_ref": {
     "artifact": "reports/runs/discovery-gated-transformer/evidence_envelope.json",
     "pointer": "$"
@@ -147,6 +151,16 @@
     "owner_ref": "reports/canonical/discovery-gated-transformer.json:$",
     "schema_id": "bedc-quality-lab:discovery-gated-transformer.family-definition",
     "slot_state": "present-fail-closed"
+  },
+  "forbidden_claim_term_audit": {
+    "forbidden_terms": [
+      "terminal verdict token",
+      "operation authority wording",
+      "external superiority wording",
+      "architecture superiority wording"
+    ],
+    "hits": [],
+    "status": "pass"
   },
   "generated_at": "2026-06-08T18:02:54.210872+00:00",
   "hardgate": {
@@ -275,7 +289,7 @@
       "DGT-HG18": {
         "evidence": {
           "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
-          "pointer": "$.mechanism_ref"
+          "pointer": "$.owner_ref"
         },
         "not_claimed": {
           "artifact": "reports/canonical/discovery-gated-transformer.json",
@@ -396,6 +410,10 @@
     },
     "status": "pass"
   },
+  "hardgate_ref": {
+    "artifact": "reports/canonical/discovery-gated-transformer.json",
+    "pointer": "$.hardgate"
+  },
   "jet_certificate_ref": {
     "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
     "pointer": "$"
@@ -406,13 +424,23 @@
   },
   "model_id": "discovery-gated-transformer",
   "not_claimed": [
-    "No global superiority or architecture superiority claim.",
-    "No production authority or deployment authority.",
+    "Bounded deterministic toy evidence only.",
+    "No external operation authority.",
     "No universal training recipe claim.",
-    "No terminal verdict ownership."
+    "No external verdict ownership."
   ],
   "producer": "scripts/run_discovery_gated_transformer.py",
   "projector": "bedc_quality_lab.discovery_gated_transformer.DiscoveryGatedTransformerProjector",
+  "revocation_rows": [
+    {
+      "condition": "Revoke when the owner-local jet certificate pointer is absent.",
+      "gate": "DGT-HG13"
+    },
+    {
+      "condition": "Revoke when forbidden claim language appears in DGT claim fields.",
+      "gate": "DGT-HG20"
+    }
+  ],
   "schema_id": "bedc-quality-lab:discovery-gated-transformer",
   "source_artifacts": {
     "component_refs": {

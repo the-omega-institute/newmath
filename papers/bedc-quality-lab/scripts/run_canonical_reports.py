@@ -1136,13 +1136,17 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "architecture_spec",
             "component_refs",
             "hardgate",
+            "hardgate_ref",
             "tool_route_evidence",
             "family_definition",
             "discovery_map_signal",
+            "discovery_map_signal_ref",
             "claim_capsule_ref",
             "evidence_envelope_ref",
             "mechanism_namecert_ref",
             "jet_certificate_ref",
+            "forbidden_claim_term_audit",
+            "revocation_rows",
             "not_claimed",
         ),
         estimated_seconds=1,
@@ -1747,11 +1751,21 @@ def _configure_producer(module: Any, spec: CanonicalReportSpec) -> None:
         _set_existing_attr(module, "SOURCE_REPORT_ARTIFACT", "reports/canonical/certificate-guided-training.md")
 
 
-def _run_producer(spec: CanonicalReportSpec) -> None:
+def _run_producer(spec: CanonicalReportSpec, *, generated_at: str | None = None) -> None:
     if spec.name == "model-comparison":
-        payload = _build_model_comparison(generated_at=None)
+        payload = _build_model_comparison(generated_at=generated_at)
         _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), payload)
         _write_text_atomic(_artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT), _render_model_comparison_markdown(payload))
+        return
+    if spec.name == "claim-complexity":
+        from scripts.run_claim_complexity_score import write_claim_complexity_score
+
+        write_claim_complexity_score(root=ROOT, generated_at=generated_at)
+        return
+    if spec.name == "causal-patch-suite":
+        from scripts.run_causal_patch_suite import write_artifacts
+
+        write_artifacts(root=ROOT, generated_at=generated_at)
         return
     module = importlib.import_module(_module_name_from_command(spec.command))
     _configure_producer(module, spec)
@@ -1761,13 +1775,25 @@ def _run_producer(spec: CanonicalReportSpec) -> None:
         module.main()
 
 
+def _call_run_producer(spec: CanonicalReportSpec, *, generated_at: str | None) -> None:
+    try:
+        signature = inspect.signature(_run_producer)
+    except (TypeError, ValueError):
+        _run_producer(spec)
+        return
+    if "generated_at" in signature.parameters:
+        _run_producer(spec, generated_at=generated_at)
+    else:
+        _run_producer(spec)
+
+
 def _run_spec_producer(spec: CanonicalReportSpec, *, generated_at: str | None) -> None:
     if spec.name == "model-comparison":
         payload = _build_model_comparison(generated_at=generated_at)
         _write_json_atomic(_artifact_path(MODEL_COMPARISON_JSON_ARTIFACT), payload)
         _write_text_atomic(_artifact_path(MODEL_COMPARISON_MARKDOWN_ARTIFACT), _render_model_comparison_markdown(payload))
         return
-    _run_producer(spec)
+    _call_run_producer(spec, generated_at=generated_at)
 
 
 def _compile_discovery_compat(compile_discovery, *, root: Path, generated_at: str, adapter: Any, require_required_negative_reports: bool) -> Any:
@@ -3848,13 +3874,17 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "component_refs",
         "architecture_spec",
         "hardgate",
+        "hardgate_ref",
         "tool_route_evidence",
         "family_definition",
         "discovery_map_signal",
+        "discovery_map_signal_ref",
         "claim_capsule_ref",
         "evidence_envelope_ref",
         "mechanism_namecert_ref",
         "jet_certificate_ref",
+        "forbidden_claim_term_audit",
+        "revocation_rows",
         "not_claimed",
     }
     if set(payload) != expected_top_level:
@@ -3877,8 +3907,19 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
     all_pass = all(row["status"] == "pass" for row in gates.values())
     if hardgate["status"] != ("pass" if all_pass else "fail"):
         raise ValueError("DGT hardgate status mismatch")
+    if payload["hardgate_ref"] != {"artifact": DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT, "pointer": "$.hardgate"}:
+        raise ValueError("DGT hardgate_ref mismatch")
+    if payload["discovery_map_signal_ref"] != {
+        "artifact": DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT,
+        "pointer": "$.discovery_map_signal",
+    }:
+        raise ValueError("DGT discovery_map_signal_ref mismatch")
+    if payload["forbidden_claim_term_audit"]["status"] != "pass":
+        raise ValueError("DGT forbidden claim audit failed")
+    if not payload["revocation_rows"]:
+        raise ValueError("DGT revocation rows missing")
     forbidden = json.dumps(payload, sort_keys=True).lower()
-    for token in ("terminal_verdict", ".refactor-loop", "host.env", "raw positive claim"):
+    for token in ("terminal_verdict", ".refactor-loop", "host.env", "raw positive claim", "dgt-boundary-causal-jet"):
         if token in forbidden:
             raise ValueError(f"discovery_gated_transformer payload contains forbidden value: {token}")
 
@@ -3903,6 +3944,7 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "architecture_spec_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.architecture_spec",
         "component_refs_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_refs",
         "hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate",
+        "hardgate_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate_ref",
         "tool_route_evidence_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.tool_route_evidence",
         "tool_route_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.tool_route_evidence.hardgate",
         "family_definition_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_definition",
@@ -3913,10 +3955,17 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
             f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.family_definition.model_family_claim_status"
         ),
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
+        "discovery_map_signal_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal_ref",
         "claim_capsule_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.claim_capsule_ref",
         "evidence_envelope_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.evidence_envelope_ref",
         "mechanism_namecert_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.mechanism_namecert_ref",
         "jet_certificate_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.jet_certificate_ref",
+        "jet_certificate_pointer": f"{payload['jet_certificate_ref']['artifact']}:{payload['jet_certificate_ref']['pointer']}",
+        "jet_hardgate_pointer": f"{payload['jet_certificate_ref']['artifact']}:$.hardgate",
+        "forbidden_claim_term_audit_pointer": (
+            f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.forbidden_claim_term_audit"
+        ),
+        "revocation_rows_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.revocation_rows",
         "not_claimed_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.not_claimed",
         "hardgate_instance_pointers": {
             f"DGT-HG{index}": (

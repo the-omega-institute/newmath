@@ -12,14 +12,23 @@ from bedc_quality_lab.discovery_gated_transformer import (
     FAMILY_DEFINITION_POINTER,
     FAMILY_DEFINITION_REQUIRED_KEYS,
     GATE_NAMES,
+    JET_CERTIFICATE_SCHEMA_ID,
+    JET_HARDGATE_NAMES,
+    JET_REQUIRED_SURFACES,
+    JET_SURFACE_SLOTS,
     MODEL_ID,
     SCHEMA_ID,
+    build_dgt_jet_certificate,
     build_projection,
     evaluate_dgt_family_definition_hardgate,
+    evaluate_dgt_jet_hardgates,
     evaluate_dgt_tool_route_hardgates,
     default_component_refs,
+    default_dgt_source_refs,
     validate_projection,
+    validate_dgt_hardgate_evidence_bundle,
     validate_dgt_family_definition,
+    validate_dgt_jet_certificate,
     validate_dgt_tool_route_evidence,
 )
 from scripts import run_discovery_gated_transformer as dgt
@@ -33,6 +42,16 @@ def _walk(value):
     elif isinstance(value, list):
         for item in value:
             yield from _walk(item)
+
+
+def _write_required_dgt_external_artifacts(root):
+    path = root / "reports" / "canonical" / "discovery-gated-nas.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps({"candidate_protocol": {"design_search_certificate": {"slot_state": "present-but-fail-closed"}}})
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 def test_dgt_has_twenty_gate_names():
@@ -95,12 +114,13 @@ def test_dgt_artifact_ids_are_unversioned():
     assert "v1" not in serialized.lower()
 
 
-def test_dgt_explicitly_denies_global_superiority_and_production_authority():
+def test_dgt_not_claimed_excludes_forbidden_positive_claim_wording():
     payload = dgt.build_payload(generated_at="fixture-time")
     nonclaims = " ".join(payload["not_claimed"]).lower()
 
-    assert "global superiority" in nonclaims
-    assert "production authority" in nonclaims
+    assert "global superiority" not in nonclaims
+    assert "production" not in nonclaims
+    assert payload["forbidden_claim_term_audit"]["status"] == "pass"
 
 
 def test_dgt_rejects_inline_source_metric_bodies():
@@ -113,6 +133,7 @@ def test_dgt_rejects_inline_source_metric_bodies():
 
 
 def test_dgt_written_sidecars_resolve(tmp_path):
+    _write_required_dgt_external_artifacts(tmp_path)
     payload = dgt.build_payload(generated_at="fixture-time")
     dgt.write_artifacts(payload, root=tmp_path)
 
@@ -127,6 +148,30 @@ def test_dgt_written_sidecars_resolve(tmp_path):
         sidecar = resolve_artifact_pointer(tmp_path, f"{cell['artifact']}:{cell['pointer']}")
         assert sidecar is not None
         assert sidecar["model_id"] == "discovery-gated-transformer"
+    source_refs = resolve_artifact_pointer(tmp_path, "reports/runs/discovery-gated-transformer/source_refs.json:$")
+    assert source_refs["source_refs"]["boundary_spec"]["pointer"].startswith("$")
+    assert payload["hardgate"]["gates"]["DGT-HG18"]["evidence"] == {
+        "artifact": "reports/runs/discovery-gated-transformer/jet_certificate.json",
+        "pointer": "$.owner_ref",
+    }
+    validate_dgt_hardgate_evidence_bundle(payload, root=tmp_path)
+
+
+def test_dgt_passing_hardgate_evidence_pointers_must_resolve(tmp_path):
+    _write_required_dgt_external_artifacts(tmp_path)
+    payload = dgt.build_payload(generated_at="fixture-time")
+    dgt.write_artifacts(payload, root=tmp_path)
+    missing = (
+        tmp_path
+        / "reports"
+        / "runs"
+        / "discovery-gated-transformer"
+        / "jet_certificate.json"
+    )
+    missing.unlink()
+
+    with pytest.raises(ValueError, match="DGT hardgate evidence pointer does not resolve: DGT-HG18"):
+        validate_dgt_hardgate_evidence_bundle(payload, root=tmp_path)
 
 
 def test_dgt_canonical_payload_does_not_inline_sidecars():
@@ -138,7 +183,50 @@ def test_dgt_canonical_payload_does_not_inline_sidecars():
         assert json.dumps(sidecar, sort_keys=True) not in serialized
 
 
+def test_dgt_jet_certificate_has_required_surfaces_and_slots():
+    cert = build_dgt_jet_certificate(default_dgt_source_refs())
+
+    assert cert["schema_id"] == JET_CERTIFICATE_SCHEMA_ID
+    assert cert["hardgate"]["status"] == "pass"
+    assert cert["hardgate"]["gate_names"] == list(JET_HARDGATE_NAMES)
+    assert {row["surface_id"] for row in cert["surface_rows"]} == set(JET_REQUIRED_SURFACES)
+    for row in cert["surface_rows"]:
+        for slot in JET_SURFACE_SLOTS:
+            assert row[slot].startswith("reports/runs/discovery-gated-transformer/source_refs.json:$")
+
+
+@pytest.mark.parametrize(
+    "gate_name,mutate",
+    [
+        ("JET-HG1", lambda cert: cert["surface_rows"][0].pop("boundary_spec_ref")),
+        ("JET-HG2", lambda cert: cert["surface_rows"][0].pop("low_order_baseline_ref")),
+        ("JET-HG3", lambda cert: cert["surface_rows"][0].update({"irreducible_residual_gain": 0.0})),
+        ("JET-HG4", lambda cert: cert["surface_rows"][0].pop("causal_patch_evidence_ref")),
+        ("JET-HG5", lambda cert: cert["surface_rows"][0].update({"matched_random_gain": 0.1})),
+        ("JET-HG6", lambda cert: cert["jet_coverage"].update({"dgt": cert["jet_coverage"]["base_control"]})),
+        ("JET-HG7", lambda cert: cert["derivative_debt_ledger"]["rows"].pop()),
+        ("JET-HG8", lambda cert: cert["claim_status"].update({"status": "terminal_verdict"})),
+    ],
+)
+def test_dgt_jet_hardgates_fail_closed(gate_name, mutate):
+    cert = build_dgt_jet_certificate(default_dgt_source_refs())
+    mutated = json.loads(json.dumps(cert))
+    mutate(mutated)
+    if gate_name == "JET-HG8":
+        mutated["forbidden_claim_term_audit"] = {
+            "status": "fail",
+            "hits": ["terminal verdict token"],
+            "forbidden_terms": mutated["forbidden_claim_term_audit"]["forbidden_terms"],
+        }
+    hardgate = evaluate_dgt_jet_hardgates(mutated)
+
+    assert hardgate["gates"][gate_name]["status"] == "fail"
+    with pytest.raises(ValueError, match="hardgate|forbidden"):
+        validate_dgt_jet_certificate({**mutated, "hardgate": hardgate, "failed_gate": hardgate["failed_gate"]})
+
+
 def test_tool_route_schema_required_keys_and_pointers_resolve(tmp_path):
+    _write_required_dgt_external_artifacts(tmp_path)
     payload = dgt.build_payload(generated_at="fixture-time")
     dgt.write_artifacts(payload, root=tmp_path)
     tool_route = payload["tool_route_evidence"]
@@ -289,6 +377,7 @@ def test_dgt_family_definition_blocks_model_family_claim_when_any_group_missing(
 
 
 def test_dgt_family_definition_evidence_pointers_resolve(tmp_path):
+    _write_required_dgt_external_artifacts(tmp_path)
     payload = dgt.build_payload(generated_at="fixture-time")
     dgt.write_artifacts(payload, root=tmp_path)
     family_definition = payload["family_definition"]
