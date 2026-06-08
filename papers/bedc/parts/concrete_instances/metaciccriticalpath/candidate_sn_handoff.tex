@@ -16,3 +16,21 @@ Use the closedness and beta-step rows $Q,B$ only through the beta-closedness dep
 
 Finally apply the existing candidate-mediated frontier and conditional-budget boundaries, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier} and \autoref{thm:metacic-critical-path-candidate-mediated-sn-conditional-budget}. They keep $O$ and $D$ visible while the handoff is consumed, so the route exports only the candidate-implies-SN and beta-closedness handoffs and none of the refused global MetaCIC claims.
 \end{proof}
+
+\begin{theorem}[MetaCIC candidate SN handoff source exhaustion]
+\label{thm:metacic-critical-path-candidate-sn-handoff-source-exhaustion}
+Let $K=(S,N,O,U,D,H,C,P,L)$ be an accepted $\MetaCICCriticalPathUp$ packet. Any accepted candidate-mediated strong-normalization handoff through the candidate row must exhaust exactly the source route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ O,\ D,\ H,\ C,\ P,\ L
+$$
+before a confluence-facing or decidability-facing consumer may read the handoff row $U$. The route exports no closed subject reduction, global confluence, beta-conversion decidability, quotient term equality, selected limit, host equality, or $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the candidate-mediated frontier theorem, \autoref{thm:metacic-critical-path-candidate-mediated-sn-frontier}. It places the candidate-mediated read on the packet rows $S,N,O,U,D,H,C,P,L$ and requires the L10 source faces before the handoff row is consumed.
+
+Read the source locks next. The L10 readback and Real source-lock theorems, \autoref{thm:metacic-critical-path-candidate-mediated-frontier-l10-readback} and \autoref{thm:metacic-critical-path-candidate-frontier-real-source-lock}, keep $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ visible as four displayed source rows.
+
+Now use the RegSeqRat and dependency boundaries, \autoref{thm:metacic-critical-path-candidate-frontier-regseqrat-handoff} and \autoref{thm:metacic-criticalpath-candidate-sn-l10-dependency-seal}. These fix the regular-rational handoff inside the same four-source route and prevent a consumer from reconstructing Real-facing evidence after reading $U$.
+
+Finally apply the consumer boundary, \autoref{thm:metacic-critical-path-confluence-decidability-consumer-boundary}. Confluence-facing and decidability-facing consumers may inspect only the displayed frontier after the source, obstruction, socket, transport, replay, provenance, and local naming rows are present, so none of the refused global metatheoretic or completion claims is exported.
+\end{proof}
