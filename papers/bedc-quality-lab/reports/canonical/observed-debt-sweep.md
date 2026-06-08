@@ -2,7 +2,7 @@
 
 - JSON artifact: `reports/canonical/observed-debt-sweep.json`
 - Report artifact: `reports/canonical/observed-debt-sweep.md`
-- Generated at: `2026-06-08T10:34:21.932999+00:00`
+- Generated at: `2026-06-08T12:12:10.610351+00:00`
 - Mode: `full`
 - Envelope schema pointer: `$.schema_id`
 - Actual seed count pointer: `$.config.actual_seed_count_by_axis`
