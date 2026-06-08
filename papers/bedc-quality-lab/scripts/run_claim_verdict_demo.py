@@ -17,6 +17,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from bedc_quality_lab.artifact_freshness import ScorecardSnapshot, load_scorecard_snapshot
+from bedc_quality_lab.claim_acceptance import validate_dn_owner_cell, validate_positive_claim_evidence
 from bedc_quality_lab.claim_graph import terminal_node_id_for_claim_id
 from bedc_quality_lab.claim_terms import FORBIDDEN_POSITIVE_CLAIM_TERMS
 from bedc_quality_lab.cost_protocol import load_cost_protocol
@@ -374,6 +375,7 @@ def _row(
 
 def _dimension_mismatch_negative_row(
     *,
+    root: Path,
     claim_id: str,
     negative_report_pointer: str,
     payload: Mapping[str, Any],
@@ -385,6 +387,9 @@ def _dimension_mismatch_negative_row(
     missing = [key for key in required if key not in claim or claim[key] in (None, "")]
     if missing:
         raise ValueError(f"dimension mismatch negative verdict source cells missing: {', '.join(missing)}")
+    owner_result = validate_dn_owner_cell(root, negative_report_pointer)
+    if not owner_result.ok:
+        raise ValueError(f"DN discovery owner evidence missing: {owner_result.missing_key}")
     return _negative_discovery_row(claim_id=claim_id, reason="discovery-level-DN", negative_report_pointer=negative_report_pointer)
 
 
@@ -449,6 +454,23 @@ def _mapped_discovery_row(
     positive_forbidden = _positive_claim_forbidden_pointer(spec, payload)
     if positive_forbidden is not None:
         hits = _forbidden_hits(pointer_value(payload, positive_forbidden))
+        if not hits:
+            evidence_result = validate_positive_claim_evidence(
+                root,
+                spec=spec,
+                discovery_row=row,
+                payload=payload,
+                scorecard_snapshot=scorecard_snapshot,
+            )
+            if not evidence_result.ok and evidence_result.missing_key == "positive_claim":
+                return _row(
+                    claim_id=claim_id,
+                    claim_verdict="projected_discovery_required",
+                    reason=evidence_result.reason,
+                    source=_claim_source(row, positive_forbidden),
+                    ledger_pointer=evidence_result.ledger_pointer,
+                    scorecard_snapshot=scorecard_snapshot,
+                )
         reason = "forbidden-overclaim" if hits else "missing-positive-claim-cell"
         return _row(
             claim_id=claim_id,
@@ -494,13 +516,37 @@ def _mapped_discovery_row(
             scorecard_snapshot=scorecard_snapshot,
         )
 
-    if not scorecard_snapshot.scorecard_ready and level in POSITIVE_LEVELS:
+    if not scorecard_snapshot.scorecard_hash and level in POSITIVE_LEVELS:
+        evidence_result = validate_positive_claim_evidence(
+            root,
+            spec=spec,
+            discovery_row=row,
+            payload=payload,
+            scorecard_snapshot=scorecard_snapshot,
+        )
         return _row(
             claim_id=claim_id,
             claim_verdict="projected_discovery_required",
-            reason="scorecard-not-ready",
+            reason=evidence_result.reason,
             source=source,
-            ledger_pointer=_scorecard_dependency_pointer(scorecard),
+            ledger_pointer=evidence_result.ledger_pointer,
+            scorecard_snapshot=scorecard_snapshot,
+        )
+
+    if not scorecard_snapshot.scorecard_ready and level in POSITIVE_LEVELS:
+        evidence_result = validate_positive_claim_evidence(
+            root,
+            spec=spec,
+            discovery_row=row,
+            payload=payload,
+            scorecard_snapshot=scorecard_snapshot,
+        )
+        return _row(
+            claim_id=claim_id,
+            claim_verdict="projected_discovery_required",
+            reason=evidence_result.reason,
+            source=source,
+            ledger_pointer=evidence_result.ledger_pointer,
             scorecard_snapshot=scorecard_snapshot,
         )
 
@@ -530,6 +576,22 @@ def _mapped_discovery_row(
             and projected_verdict.control_positive is not True
             and _net_positive_signal(payload, projected)
         ):
+            evidence_result = validate_positive_claim_evidence(
+                root,
+                spec=spec,
+                discovery_row=row,
+                payload=payload,
+                scorecard_snapshot=scorecard_snapshot,
+            )
+            if not evidence_result.ok:
+                return _row(
+                    claim_id=claim_id,
+                    claim_verdict="projected_discovery_required",
+                    reason=evidence_result.reason,
+                    source=source,
+                    ledger_pointer=evidence_result.ledger_pointer,
+                    scorecard_snapshot=scorecard_snapshot,
+                )
             return _row(
                 claim_id=claim_id,
                 claim_verdict="mechanism_not_closed" if _is_mechanism_open(row, level) else "accepted_positive_discovery",
@@ -587,10 +649,14 @@ def _mapped_discovery_row(
                 raise ValueError(f"DN discovery map row has unresolved negative_report_pointer: {report}")
         if report == DIMENSION_MISMATCH_REPORT:
             return _dimension_mismatch_negative_row(
+                root=root,
                 claim_id=claim_id,
                 negative_report_pointer=negative_report_pointer,
                 payload=payload,
             )
+        owner_result = validate_dn_owner_cell(root, negative_report_pointer)
+        if not owner_result.ok:
+            raise ValueError(f"DN discovery owner evidence missing: {owner_result.missing_key}")
         return _negative_discovery_row(
             claim_id=claim_id,
             reason="discovery-level-DN:constraint_lagrangian"

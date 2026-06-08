@@ -40,7 +40,19 @@ def _fixture_root(tmp_path: Path) -> Path:
     _write_json(
         tmp_path,
         "reports/canonical/gap-head-discovery.json",
-        {"positive_discovery": True, "not_claimed": ["fixture"]},
+        {
+            "positive_discovery": True,
+            "matched_random_control": {"status": "present"},
+            "boundary_checks": {"forbidden_inference_columns": ["fixture"]},
+            "final_main_claim_status": {"claim": "fixture"},
+            "score_terms": {"status": "present"},
+            "claim_capsule_ref": "reports/runs/gap-head-discovery/claim_capsule.json",
+        },
+    )
+    _write_json(
+        tmp_path,
+        "reports/runs/gap-head-discovery/claim_capsule.json",
+        {"schema_id": "bedc.quality.claim_capsule", "what_was_learned": "fixture", "not_claimed": ["fixture"]},
     )
     _write_json(
         tmp_path,
@@ -108,6 +120,21 @@ def _fixture_root(tmp_path: Path) -> Path:
     rows[2]["source"] = "reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]"
     rows[2]["ledger_pointer"] = "reports/canonical/discovery_negative_witnesses.json:$.witnesses[0]"
     _write_jsonl(tmp_path, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
+    _write_json(
+        tmp_path,
+        "reports/canonical/quality-scorecard.json",
+        {
+            "rows": [
+                {"metric": metric, "status": "ready", "value": index}
+                for index, metric in enumerate(canonical.QUALITY_SCORECARD_METRICS)
+            ]
+        },
+    )
+    _write_json(
+        tmp_path,
+        "reports/canonical/formal_hardening.json",
+        {"ready": True, "recorded": 1, "required": 1, "gap_count": 0},
+    )
     _write_json(
         tmp_path,
         claim_graph.MECHANISM_NAMECERT_ARTIFACT,
@@ -288,7 +315,7 @@ def test_cg_hg6_dependency_cycle_fails_closed(tmp_path):
 def test_cg_hg6_reports_revocation_nodes_as_separate_evidence(tmp_path):
     root = _fixture_root(tmp_path)
     payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
-    gate = payload["hardgates"]["CG-HG6"]
+    gate = payload["hardgates"]["CG-HG7"]
     nodes = payload["nodes"]
 
     assert gate["status"] == "pass"
@@ -296,6 +323,45 @@ def test_cg_hg6_reports_revocation_nodes_as_separate_evidence(tmp_path):
     assert gate["edge_count"] == sum(len(node["depends_on"]) for node in nodes)
     assert gate["revocation_node_ids"] == ["revocation:witness:hidden_debt_positive"]
     assert "revocation:witness:hidden_debt_positive" not in payload["hardgates"]["CG-HG1"]["terminal_ids"]
+
+
+def test_cg_hg6_records_accepted_positive_evidence_gate(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    gate = payload["hardgates"]["CG-HG6"]
+
+    assert gate["status"] == "pass"
+    assert gate["criterion"] == "accepted positive terminals have acceptance evidence bundle"
+    assert gate["terminal_ids"] == ["terminal:gap-head-discovery"]
+
+
+def test_cg_hg6_catches_corrupt_positive_evidence_after_verdict_write(tmp_path):
+    root = _fixture_root(tmp_path)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    source_path = root / "reports/canonical/gap-head-discovery.json"
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    source["boundary_checks"]["forbidden_inference_columns"] = []
+    source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
+
+    errors = _errors(payload, root)
+
+    assert not any("CG-HG1" in error for error in errors)
+    assert not any("CG-HG4" in error for error in errors)
+    assert any("CG-HG6 positive-acceptance-evidence-missing:not_claimed" in error for error in errors)
+
+
+def test_cg_hg6_ignores_non_accepted_rows(tmp_path):
+    root = _fixture_root(tmp_path)
+    rows = claim_graph.load_claim_verdict_rows(root)
+    rows[0]["claim_verdict"] = "projected_positive_discovery"
+    _write_jsonl(root, claim_graph.CLAIM_VERDICTS_JSONL_ARTIFACT, rows)
+    payload = claim_graph.build_claim_graph_payload(root=root, generated_at="2030-01-01T00:00:00+00:00")
+    source_path = root / "reports/canonical/gap-head-discovery.json"
+    source = json.loads(source_path.read_text(encoding="utf-8"))
+    source["boundary_checks"]["forbidden_inference_columns"] = []
+    source_path.write_text(json.dumps(source, sort_keys=True) + "\n", encoding="utf-8")
+
+    assert claim_graph.validate_claim_graph_payload(payload, root=root, claim_verdict_rows=rows) == []
 
 
 def test_terminal_claim_nodes_are_bijection_for_checked_in_verdict_rows():

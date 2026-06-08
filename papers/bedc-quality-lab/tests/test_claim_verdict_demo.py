@@ -165,9 +165,19 @@ def _fixture_root(tmp_path, monkeypatch, rows, payloads, witnesses=()):
                 "not_claimed": ["fixture"],
                 "positive": {"claim": "fixture"},
                 "control": {"status": "present"},
+                "claim_capsule_ref": f"reports/runs/{spec.name}/claim_capsule.json",
             }
         )
         _write_json(tmp_path / spec.json_artifact, payload)
+        _write_json(
+            tmp_path / f"reports/runs/{spec.name}/claim_capsule.json",
+            {
+                "schema_id": "bedc.quality.claim_capsule",
+                "claim_status": "fixture",
+                "not_claimed": ["fixture"],
+                "what_was_learned": "fixture learned",
+            },
+        )
     return tmp_path
 
 
@@ -378,7 +388,7 @@ def test_missing_cost_protocol_and_not_ready_scorecard_fail_closed(tmp_path, mon
     scorecard_verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
     _assert_provenance(scorecard_verdict, tmp_path, scorecard_ready=False)
     assert scorecard_verdict["claim_verdict"] == "projected_discovery_required"
-    assert scorecard_verdict["reason"] == "scorecard-not-ready"
+    assert scorecard_verdict["reason"] == "positive-acceptance-evidence-missing:scorecard_ready"
     assert scorecard_verdict["ledger_pointer"].startswith("reports/canonical/quality-scorecard.json:$.rows")
 
 
@@ -397,8 +407,8 @@ def test_hardening_coverage_not_ready_uses_dependency_pointer(tmp_path, monkeypa
 
     _assert_provenance(verdict, tmp_path, scorecard_ready=False)
     assert verdict["claim_verdict"] == "projected_discovery_required"
-    assert verdict["reason"] == "scorecard-not-ready"
-    assert verdict["ledger_pointer"] == f"reports/canonical/quality-scorecard.json:$.rows[{hardening_index}]"
+    assert verdict["reason"] == "positive-acceptance-evidence-missing:scorecard_ready"
+    assert verdict["ledger_pointer"] == "reports/canonical/quality-scorecard.json:$.rows"
 
 
 def test_positive_discovery_gate_failure_routes_raw_operational_case_to_raw_pass(tmp_path, monkeypatch):
@@ -798,3 +808,73 @@ def test_cli_writes_jsonl(tmp_path, monkeypatch):
     lines = (tmp_path / demo.CLAIM_VERDICTS_JSONL_ARTIFACT).read_text(encoding="utf-8").splitlines()
 
     assert [json.loads(line) for line in lines] == written
+
+
+@pytest.mark.parametrize(
+    ("mutation", "missing_key"),
+    [
+        ("control", "control-or-no-control-rationale"),
+        ("not_claimed", "not_claimed"),
+        ("positive", "positive_claim"),
+        ("scorecard_hash", "scorecard_hash"),
+        ("scorecard_ready", "scorecard_ready"),
+        ("claim_capsule", "claim_capsule"),
+    ],
+)
+def test_accepted_positive_requires_acceptance_evidence_bundle(tmp_path, monkeypatch, mutation, missing_key):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/d4.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    if mutation == "control":
+        payload.pop("control")
+    elif mutation == "not_claimed":
+        payload["not_claimed"] = []
+    elif mutation == "positive":
+        payload.pop("positive")
+    elif mutation == "claim_capsule":
+        (tmp_path / "reports/runs/d4/claim_capsule.json").unlink()
+    if mutation in {"control", "not_claimed", "positive"}:
+        _write_json(payload_path, payload)
+    if mutation == "scorecard_hash":
+        (tmp_path / "reports/canonical/quality-scorecard.json").unlink()
+    elif mutation == "scorecard_ready":
+        _write_json(tmp_path / "reports/canonical/quality-scorecard.json", _scorecard(status="not-ready"))
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "projected_discovery_required"
+    assert verdict["reason"] == f"positive-acceptance-evidence-missing:{missing_key}"
+
+
+def test_accepted_positive_happy_path_still_emits_positive_verdict(tmp_path, monkeypatch):
+    rows = [_discovery_row("d4", "reports/canonical/d4.json", "D4")]
+    specs = (_spec("d4", "reports/canonical/d4.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+
+    verdict = demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")[0]
+
+    assert verdict["claim_verdict"] == "accepted_positive_discovery"
+    assert verdict["reason"] == "positive-discovery-gates-pass"
+
+
+def test_dn_owner_without_what_was_learned_fails_through_owner_pointer(tmp_path, monkeypatch):
+    rows = [_discovery_row("dn", "reports/canonical/dn.json", "DN")]
+    specs = (_spec("dn", "reports/canonical/dn.json"),)
+    _fixture_root(tmp_path, monkeypatch, rows, specs)
+    payload_path = tmp_path / "reports/canonical/dn.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+    capsule = payload["claim_capsule_ref"]
+    payload["claim_capsule"] = {"terminal_verdict": "DN(audit-improvement-tradeoff)"}
+    payload["what_was_learned"] = ""
+    _write_json(payload_path, payload)
+    capsule_path = tmp_path / capsule
+    capsule_payload = json.loads(capsule_path.read_text(encoding="utf-8"))
+    capsule_payload["what_was_learned"] = ""
+    _write_json(capsule_path, capsule_payload)
+    rows[0]["failed_gate"] = "$.claim_capsule.terminal_verdict"
+    _write_json(tmp_path / "reports/canonical/discovery_map.json", {"rows": rows})
+
+    with pytest.raises(ValueError, match="DN discovery owner evidence missing: what_was_learned"):
+        demo.compile_claim_verdicts(tmp_path, generated_at="2030-01-01T00:00:00+00:00")
