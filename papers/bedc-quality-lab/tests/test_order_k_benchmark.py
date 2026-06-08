@@ -15,6 +15,14 @@ def _payload():
     return OrderKBenchmarkProjection.project(generated_at="2030-01-01T00:00:00+00:00", seed=1004)
 
 
+def _assert_failed_hardgate(payload, failed_gate):
+    verdict = OrderKBenchmarkProjection.hardgate_verdicts(payload)
+
+    assert verdict["status"] == "fail"
+    assert verdict["failed_gate"] == failed_gate
+    assert verdict["gates"][failed_gate]["status"] == "fail"
+
+
 def test_deterministic_replay_and_single_task_spec_owner():
     left = _payload()
     right = _payload()
@@ -109,6 +117,56 @@ def test_hardgate_mutation_demotes_without_deleting_raw_evidence():
     assert mutated["ood_stability"] == payload["ood_stability"]
 
 
+def test_hardgate_fails_closed_without_single_task_spec_owner():
+    payload = copy.deepcopy(_payload())
+    payload["task_spec_owner"]["status"] = "multi-owner"
+
+    _assert_failed_hardgate(payload, "OK-HG1-task-spec-single-owner")
+
+
+def test_hardgate_fails_closed_without_detected_minimal_orders():
+    payload = copy.deepcopy(_payload())
+    payload["minimal_order_summary"]["all_detected"] = False
+
+    _assert_failed_hardgate(payload, "OK-HG2-minimal-order-detected")
+
+
+def test_hardgate_fails_closed_without_matched_random_negative_controls():
+    payload = copy.deepcopy(_payload())
+    payload["matched_random_controls"] = []
+
+    _assert_failed_hardgate(payload, "OK-HG3-matched-random-negative")
+
+
+def test_hardgate_fails_closed_for_positive_matched_random_control():
+    payload = copy.deepcopy(_payload())
+    payload["matched_random_controls"][0]["positive"] = True
+    payload["matched_random_controls"][0]["status"] = "positive"
+
+    _assert_failed_hardgate(payload, "OK-HG3-matched-random-negative")
+
+
+def test_hardgate_fails_closed_for_failed_ood_stability():
+    payload = copy.deepcopy(_payload())
+    payload["ood_stability"]["status"] = "fail"
+
+    _assert_failed_hardgate(payload, "OK-HG4-ood-stability")
+
+
+def test_hardgate_fails_closed_for_failed_proxy_check():
+    payload = copy.deepcopy(_payload())
+    payload["margin_entropy_proxy_check"]["status"] = "fail"
+
+    _assert_failed_hardgate(payload, "OK-HG5-proxy-non-explanation")
+
+
+def test_hardgate_fails_closed_for_forbidden_claim_terms():
+    payload = copy.deepcopy(_payload())
+    payload["positive_claim"]["text"] = "global-superiority"
+
+    _assert_failed_hardgate(payload, "OK-HG6-forbidden-claim-audit")
+
+
 def test_forbidden_recursive_verdict_and_global_superiority_terms_absent():
     payload = _payload()
     serialized = json.dumps(payload, sort_keys=True).lower()
@@ -138,3 +196,21 @@ def test_forbidden_audit_fails_closed_on_mutation():
 
     assert audit["status"] == "fail"
     assert "global-superiority" in audit["hits"]
+
+
+def test_public_writer_writes_order_k_json_and_markdown_artifacts(tmp_path):
+    generated_at = "2031-02-03T04:05:06+00:00"
+    seed = 4404
+
+    payload = runner.write_order_k_benchmark(root=tmp_path, generated_at=generated_at, seed=seed)
+    json_path = tmp_path / runner.JSON_ARTIFACT
+    markdown_path = tmp_path / runner.REPORT_ARTIFACT
+    written_payload = json.loads(json_path.read_text(encoding="utf-8"))
+    markdown = markdown_path.read_text(encoding="utf-8")
+
+    assert payload == written_payload
+    assert written_payload["generated_at"] == generated_at
+    assert written_payload["seed"] == seed
+    assert written_payload["hardgate"]["status"] == "pass"
+    assert f"- Generated at: `{generated_at}`" in markdown
+    assert f"- HardGate verdicts: `{runner.JSON_ARTIFACT}:$.hardgate`" in markdown
