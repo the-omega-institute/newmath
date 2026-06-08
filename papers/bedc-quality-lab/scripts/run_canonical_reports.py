@@ -1038,6 +1038,7 @@ CANONICAL_REPORTS: tuple[CanonicalReportSpec, ...] = (
             "architecture_spec",
             "component_refs",
             "hardgate",
+            "tool_route_evidence",
             "discovery_map_signal",
             "claim_capsule_ref",
             "evidence_envelope_ref",
@@ -3471,6 +3472,7 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "component_refs",
         "architecture_spec",
         "hardgate",
+        "tool_route_evidence",
         "discovery_map_signal",
         "claim_capsule_ref",
         "evidence_envelope_ref",
@@ -3479,16 +3481,16 @@ def _validate_discovery_gated_transformer_payload(payload: Mapping[str, Any]) ->
         "not_claimed",
     }
     if set(payload) != expected_top_level:
-        raise ValueError("discovery_gated_transformer payload has invalid top-level fields")
+        raise ValueError("DGT payload has invalid top-level fields")
     if payload["model_id"] != "discovery-gated-transformer":
-        raise ValueError("discovery_gated_transformer model_id mismatch")
+        raise ValueError("DGT model_id mismatch")
     hardgate = payload["hardgate"]
     gates = hardgate["gates"]
     if set(gates) != {f"DGT-HG{index}" for index in range(1, 21)}:
-        raise ValueError("discovery_gated_transformer hardgate instances must contain DGT-HG1..20")
+        raise ValueError("DGT hardgate instances must contain DGT-HG1..20")
     all_pass = all(row["status"] == "pass" for row in gates.values())
     if hardgate["status"] != ("pass" if all_pass else "fail"):
-        raise ValueError("discovery_gated_transformer hardgate status mismatch")
+        raise ValueError("DGT hardgate status mismatch")
     forbidden = json.dumps(payload, sort_keys=True).lower()
     for token in ("terminal_verdict", ".refactor-loop", "host.env", "raw positive claim"):
         if token in forbidden:
@@ -3515,6 +3517,8 @@ def _discovery_gated_transformer_index_section(payload: Mapping[str, Any]) -> di
         "architecture_spec_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.architecture_spec",
         "component_refs_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.component_refs",
         "hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.hardgate",
+        "tool_route_evidence_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.tool_route_evidence",
+        "tool_route_hardgate_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.tool_route_evidence.hardgate",
         "discovery_map_signal_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.discovery_map_signal",
         "claim_capsule_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.claim_capsule_ref",
         "evidence_envelope_ref_pointer": f"{DISCOVERY_GATED_TRANSFORMER_JSON_ARTIFACT}:$.evidence_envelope_ref",
@@ -4656,7 +4660,7 @@ def _index(
         "negative_witness_mutation_ledger": _negative_witness_mutation_ledger_index_section(),
         "new_model_hardgates": _new_model_hardgates_index_section(generated_at=timestamp),
         "discovery_regularized_training_quality": _discovery_regularized_training_quality_boundary_index_section(),
-        "discovery_gated_transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
+        "discovery-gated-transformer": _discovery_gated_transformer_index_section(discovery_gated_transformer_payload),
         "model_design_suite": _model_design_suite_index_section(model_design_suite_payload),
         "model_comparison": _model_comparison_index_section(model_comparison_payload),
         "issue_1012_sidecars": _issue_1012_sidecars_index_section(),
@@ -4844,20 +4848,22 @@ def _render_index_markdown(payload: dict[str, Any]) -> str:
             "",
             "## Discovery-Gated Transformer",
             "",
-            f"- Status: `{payload['discovery_gated_transformer']['status']}`",
-            f"- JSON: `{payload['discovery_gated_transformer']['json_artifact']}`",
-            f"- Markdown: `{payload['discovery_gated_transformer']['markdown_artifact']}`",
-            f"- Schema: `{payload['discovery_gated_transformer']['schema_id']}`",
-            f"- Model id: `{payload['discovery_gated_transformer']['model_id_pointer']}`",
-            f"- Architecture: `{payload['discovery_gated_transformer']['architecture_spec_pointer']}`",
-            f"- Components: `{payload['discovery_gated_transformer']['component_refs_pointer']}`",
-            f"- Hardgate: `{payload['discovery_gated_transformer']['hardgate_pointer']}`",
-            f"- Not claimed: `{payload['discovery_gated_transformer']['not_claimed_pointer']}`",
-            f"- Discovery map signal: `{payload['discovery_gated_transformer']['discovery_map_signal_pointer']}`",
-            f"- Claim capsule: `{payload['discovery_gated_transformer']['claim_capsule_ref_pointer']}`",
-            f"- Evidence envelope: `{payload['discovery_gated_transformer']['evidence_envelope_ref_pointer']}`",
-            f"- Mechanism NameCert: `{payload['discovery_gated_transformer']['mechanism_namecert_ref_pointer']}`",
-            f"- Jet certificate: `{payload['discovery_gated_transformer']['jet_certificate_ref_pointer']}`",
+            f"- Status: `{payload['discovery-gated-transformer']['status']}`",
+            f"- JSON: `{payload['discovery-gated-transformer']['json_artifact']}`",
+            f"- Markdown: `{payload['discovery-gated-transformer']['markdown_artifact']}`",
+            f"- Schema: `{payload['discovery-gated-transformer']['schema_id']}`",
+            f"- Model id: `{payload['discovery-gated-transformer']['model_id_pointer']}`",
+            f"- Architecture: `{payload['discovery-gated-transformer']['architecture_spec_pointer']}`",
+            f"- Components: `{payload['discovery-gated-transformer']['component_refs_pointer']}`",
+            f"- Hardgate: `{payload['discovery-gated-transformer']['hardgate_pointer']}`",
+            f"- Tool route evidence: `{payload['discovery-gated-transformer']['tool_route_evidence_pointer']}`",
+            f"- Tool route hardgate: `{payload['discovery-gated-transformer']['tool_route_hardgate_pointer']}`",
+            f"- Not claimed: `{payload['discovery-gated-transformer']['not_claimed_pointer']}`",
+            f"- Discovery map signal: `{payload['discovery-gated-transformer']['discovery_map_signal_pointer']}`",
+            f"- Claim capsule: `{payload['discovery-gated-transformer']['claim_capsule_ref_pointer']}`",
+            f"- Evidence envelope: `{payload['discovery-gated-transformer']['evidence_envelope_ref_pointer']}`",
+            f"- Mechanism NameCert: `{payload['discovery-gated-transformer']['mechanism_namecert_ref_pointer']}`",
+            f"- Jet certificate: `{payload['discovery-gated-transformer']['jet_certificate_ref_pointer']}`",
             "",
             "## Model Design Suite",
             "",
