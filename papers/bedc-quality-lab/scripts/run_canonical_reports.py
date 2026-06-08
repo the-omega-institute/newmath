@@ -4227,22 +4227,6 @@ def _model_design_suite_index_section(payload: Mapping[str, Any]) -> dict[str, A
 
 
 MODEL_COMPARISON_RANKING_KEY = model_comparison_projector.RANKING_KEY
-MODEL_COMPARISON_REQUIRED_MODELS: tuple[dict[str, str | None], ...] = tuple(
-    {
-        "model_id": model_id,
-        "label": model_id.replace("_", " "),
-        "owner_artifact": f"{model_comparison_projector.RUN_ARTIFACT_ROOT}/{model_id}/evidence_envelope.json",
-        "discovery_component_id": model_id,
-    }
-    for model_id in model_comparison_projector.MODEL_IDS
-)
-MODEL_COMPARISON_METRIC_POINTERS: Mapping[str, Mapping[str, str]] = {
-    model_id: {
-        metric: f"{model_comparison_projector.RUN_ARTIFACT_ROOT}/{model_id}/evidence_envelope.json:$.metrics.{metric}"
-        for metric in model_comparison_projector.METRIC_KEYS
-    }
-    for model_id in model_comparison_projector.MODEL_IDS
-}
 MODEL_COMPARISON_HARDGATE_IDS = model_comparison_projector.HARDGATE_IDS
 
 
@@ -4252,119 +4236,6 @@ def _model_comparison_pointer(pointer: str) -> str:
 
 def _model_comparison_source_artifacts() -> tuple[str, ...]:
     return model_comparison_projector.source_artifacts()
-
-
-def _model_comparison_pointer_record(pointer: str | None) -> dict[str, str | None]:
-    if not isinstance(pointer, str) or not pointer:
-        return {"pointer": None, "status": "missing"}
-    status = "resolved" if _resolve_committed_artifact_pointer(ROOT, pointer) is not None else "missing"
-    return {"pointer": pointer, "status": status}
-
-
-def _model_comparison_discovery_cell(component_id: str, discovery_map_payload: Mapping[str, Any]) -> dict[str, Any]:
-    matrix = discovery_map_payload.get("coverage_matrix")
-    cells = matrix.get("cells") if isinstance(matrix, Mapping) else None
-    if not isinstance(cells, list):
-        return {}
-    return next(
-        (
-            dict(cell)
-            for cell in cells
-            if isinstance(cell, Mapping) and cell.get("component_id") == component_id
-        ),
-        {},
-    )
-
-
-def _model_comparison_row(source: Mapping[str, str | None], discovery_map_payload: Mapping[str, Any]) -> dict[str, Any]:
-    model_id = str(source["model_id"])
-    owner_artifact = source.get("owner_artifact")
-    owner_pointer = f"{owner_artifact}:$" if isinstance(owner_artifact, str) else None
-    owner_ref = _model_comparison_pointer_record(owner_pointer)
-    metrics = {
-        name: _model_comparison_pointer_record(pointer)
-        for name, pointer in MODEL_COMPARISON_METRIC_POINTERS.get(model_id, {}).items()
-    }
-    for name in (
-        "task_accuracy",
-        "ood_accuracy",
-        "UER",
-        "FalseLedgerRate",
-        "CriticalUER",
-        "classifier_shift",
-        "order",
-        "quality_q",
-        "cost",
-        "negative_witnesses",
-        "JetCoverage",
-        "CausalJetCoverage",
-    ):
-        metrics.setdefault(name, _model_comparison_pointer_record(None))
-    discovery_cell = _model_comparison_discovery_cell(str(source["discovery_component_id"]), discovery_map_payload)
-    status = "ready" if owner_ref["status"] == "resolved" else "missing_source"
-    if status == "ready" and any(record["status"] == "missing" for record in metrics.values()):
-        status = "not_ready"
-    return {
-        "model_id": model_id,
-        "label": source["label"],
-        "status": status,
-        "owner": owner_ref,
-        "discovery_component_id": source["discovery_component_id"],
-        "discovery_cell_status": discovery_cell.get("hardgate_status", "missing"),
-        "metrics": metrics,
-    }
-
-
-def _model_comparison_hardgates(rows: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
-    by_id = {row.get("model_id"): row for row in rows}
-    matched_random = by_id.get("matched-random structural control", {})
-    parameter_matched = _model_comparison_pointer_record(
-        "reports/canonical/ledger-aware-transformer.json:$.parameter_matched_baseline"
-    )
-    compute_matched = _model_comparison_pointer_record(
-        "reports/canonical/ledger-aware-transformer.json:$.compute_matched_baseline"
-    )
-    claim_ready = all(
-        isinstance(row.get("metrics"), Mapping)
-        and all(
-            isinstance(row["metrics"].get(key), Mapping)
-            and row["metrics"][key].get("status") == "resolved"
-            for key in MODEL_COMPARISON_RANKING_KEY
-        )
-        for row in rows
-        if row.get("status") != "missing_source"
-    )
-    gates = {
-        "CMP-HG1": (
-            parameter_matched["status"] == "resolved",
-            "parameter-matched baseline pointer resolves through the ledger-aware owner",
-        ),
-        "CMP-HG2": (
-            compute_matched["status"] == "resolved",
-            "compute-matched cost pointer resolves for candidate comparison",
-        ),
-        "CMP-HG3": (
-            isinstance(matched_random, Mapping)
-            and matched_random.get("owner", {}).get("status") == "resolved",
-            "matched-random structural control has a canonical owner pointer",
-        ),
-        "CMP-HG4": (
-            all(row.get("owner", {}).get("status") == "resolved" for row in rows if row.get("status") != "missing_source"),
-            "every non-missing model row resolves to a canonical owner",
-        ),
-        "CMP-HG5": (
-            claim_ready,
-            "claim-specific ordering key pointers resolve before ordering is emitted",
-        ),
-    }
-    return {
-        gate_id: {
-            "gate_id": gate_id,
-            "status": "pass" if passed else "fail",
-            "reason": reason if passed else f"{reason}; fail-closed",
-        }
-        for gate_id, (passed, reason) in gates.items()
-    }
 
 
 def _build_model_comparison(generated_at: str | None = None) -> dict[str, Any]:
@@ -5321,6 +5192,18 @@ def run_reports(
         _run_spec(spec, mode=mode, generated_at=timestamp)
         for spec in _selected_specs_with_dependents(only, include_dependents=mode == "changed")
     ]
+    if mode == "verify":
+        payload = {
+            "schema_id": INDEX_SCHEMA_ID,
+            "generated_at": timestamp,
+            "root": INDEX_ROOT,
+            "reports": results,
+        }
+        if json_summary is not None:
+            _write_json_atomic(Path(json_summary), payload)
+        if any(result["status"] != "pass" for result in results):
+            raise SystemExit(1)
+        return payload
     from scripts.run_formal_hardening_report import write_formal_hardening_report
 
     write_formal_hardening_report(root=ROOT, generated_at=timestamp)
@@ -5402,7 +5285,7 @@ def run_reports(
         _render_model_comparison_markdown(model_comparison),
     )
     model_comparison_spec = _specs_by_name().get("model-comparison")
-    if mode == "cold" and model_comparison_spec is not None:
+    if mode != "verify" and model_comparison_spec is not None:
         _write_fingerprint_sidecar(model_comparison_spec, generated_at=timestamp)
     draft_payload = _index(results, generated_at=timestamp, claim_verdict_rows=claim_verdict_rows)
     _write_json_atomic(INDEX_ARTIFACT, draft_payload)

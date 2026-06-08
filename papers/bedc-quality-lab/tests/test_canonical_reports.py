@@ -3954,6 +3954,22 @@ def test_run_reports_verify_fingerprints_skips_matching_artifact(tmp_path, monke
     assert payload["reports"][0]["producer_status"] == "skipped"
 
 
+def test_run_reports_verify_fingerprints_does_not_rewrite_derived_outputs(tmp_path, monkeypatch):
+    _set_canonical_tmp_root(monkeypatch, tmp_path)
+    _patch_lightweight_run_reports(monkeypatch)
+    spec = canonical._specs_by_name()["mixing-family-sweep"]
+    monkeypatch.setattr(canonical, "CANONICAL_REPORTS", (spec,))
+    _write_fingerprint_fixture(canonical, tmp_path, spec)
+    index_path = canonical.INDEX_ARTIFACT
+    index_path.parent.mkdir(parents=True, exist_ok=True)
+    index_path.write_text('{"sentinel": true}\n', encoding="utf-8")
+
+    payload = canonical.run_reports(verify_fingerprints=True, generated_at="2030-01-01T00:00:00+00:00")
+
+    assert payload["reports"][0]["fingerprint_status"] == "match"
+    assert json.loads(index_path.read_text(encoding="utf-8")) == {"sentinel": True}
+
+
 def test_run_reports_cold_runs_selected_report(tmp_path, monkeypatch):
     _set_canonical_tmp_root(monkeypatch, tmp_path)
     _patch_lightweight_run_reports(monkeypatch)
@@ -5905,6 +5921,22 @@ def test_derivative_debt_ledger_artifacts_stay_absent_from_canonical_surfaces():
     }
     specs = canonical.CANONICAL_REPORTS
     index_text = (canonical.ROOT / "reports" / "canonical" / "index.json").read_text(encoding="utf-8")
+
+    assert forbidden_names.isdisjoint({spec.name for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.json_artifact for spec in specs})
+    assert forbidden_artifacts.isdisjoint({spec.markdown_artifact for spec in specs})
+    for artifact in forbidden_artifacts:
+        assert artifact not in index_text
+
+
+def test_high_impact_claim_review_stays_absent_from_canonical_surfaces():
+    forbidden_artifacts = {
+        "reports/canonical/high-impact-claim-review.json",
+        "reports/canonical/high-impact-claim-review.md",
+    }
+    forbidden_names = {"high-impact-claim-review"}
+    specs = canonical.CANONICAL_REPORTS
+    index_text = (canonical.ROOT / "reports/canonical/index.json").read_text(encoding="utf-8")
 
     assert forbidden_names.isdisjoint({spec.name for spec in specs})
     assert forbidden_artifacts.isdisjoint({spec.json_artifact for spec in specs})
