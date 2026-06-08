@@ -224,160 +224,7 @@ def _minimal_payload(spec):
     if spec.name == "certificate-gated-attention":
         return cga_runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "discovery-regularized-training":
-        payload.update({
-            "config": {
-                "steps": 12,
-                "seeds": [11, 23, 37],
-                "mixings": ["spiral", "parabolic", "realnvp"],
-                "rhos": [0.5, 0.7, 0.9, 0.95],
-                "discovery_lambdas": [0.0, 0.0001, 0.001, 0.005, 0.01],
-                "arms": ["task_only", "sigreg", "drt", "matched_random"],
-            },
-            "source_artifacts": {
-                "cost_protocol": "configs/default_cost_protocol.yaml",
-                "raw_rows": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
-                "reports/canonical/certificate-guided-training.json": "present",
-                "reports/canonical/certificate-guided-discovery.json": "present",
-            },
-                "discovery_map_signal": {
-                    "control_pointer": "$.matched_random_control",
-                    "evidence_pointer": "$.training_mechanism_cert",
-                    "failed_gate": None,
-                    "failed_gate_pointer": None,
-                    "level_candidate": "D5-M",
-                    "reason": "training-mechanism-certificate-positive",
-                    "status": "d5-m-candidate",
-                    "training_mechanism_cert_pointer": "$.training_mechanism_cert",
-                    "torch_training_evidence_pointer": "$.torch_training_evidence",
-                },
-            "hardgate": {
-                "failed_gate": None,
-                "gates": {
-                    f"DRT-HG{index}": {
-                        "status": "pass",
-                        "evidence_pointer": "$.training_mechanism_cert"
-                        if index == 9
-                        else "$.mechanism_ablation"
-                        if index == 8
-                        else "$.certificate_guided_dn_preservation"
-                        if index == 7
-                        else "$.quality_promotion_boundary",
-                    }
-                    for index in range(1, 10)
-                },
-                "status": "pass",
-            },
-            "failed_gate": None,
-            "lambda_summary": {
-                "best_positive": {
-                    "discovery_lambda": "0.01",
-                    "quality_q_mean": 0.62,
-                    "delta_quality_ci_low_mean": 0.003,
-                },
-                "ordered_discovery_lambdas": [0.0, 0.0001, 0.001, 0.005, 0.01],
-            },
-            "torch_training_evidence": {
-                "classifier_surface_delta": {
-                    "source_arm": "drt",
-                    "control_arm": "matched_random",
-                    "drt_minus_matched_random_classifier_shift_count": 1.0,
-                    "net_positive_signal": True,
-                },
-                "expected_row_count": 1,
-                "protocols": [{"status": "complete"}],
-                "row_count": 1,
-                "status": "available",
-            },
-            "records": {
-                "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
-                "extension_metrics": {
-                    "loss_terms_enabled": [
-                        "discovery",
-                        "ledger",
-                        "certificate",
-                        "mechanism",
-                        "cost",
-                        "negative_witness",
-                    ],
-                    "comparison_family": "task-sigreg-drt-matched-random",
-                    "compute_ledger_pointer": "$.compute_ledger",
-                    "debt_marker_pointer": "$.constraint_summary",
-                    "uer_mean": 0.11,
-                    "uer_reduction_mean": 0.09,
-                    "sidecar_metric_pointers": {
-                        "raw_metrics": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
-                        "torch_training_evidence": "$.torch_training_evidence",
-                        "matched_random_control": "$.matched_random_control",
-                    },
-                },
-            },
-            "surface_registry": {
-                "quality": {
-                    "source": "deterministic-anchor",
-                    "metric": "quality_q",
-                    "by_arm": {
-                        "task_only": {"quality_q_mean": 0.58},
-                        "sigreg": {"quality_q_mean": 0.60},
-                        "drt": {"quality_q_mean": 0.64},
-                        "matched_random": {"quality_q_mean": 0.59},
-                    },
-                },
-                "classifier_shift": {
-                    "classifier_shift_count_mean": 1.0,
-                    "classifier_shift_positive": True,
-                    "net_positive_signal": True,
-                    "net_positive_count": 1,
-                },
-                "task_accuracy_only": {"task_accuracy_only_rejected": True, "promoted_row_count": 0},
-            },
-            "constraint_summary": {
-                "drt_minus_task_only_debt_q": -0.1,
-                "drt_minus_task_only_benefit_q": 0.02,
-                "debt_down": True,
-                "benefit_nondecreasing": True,
-            },
-            "device_protocol": {
-                "requested_device": "auto",
-                "resolved_device": "cpu",
-                "drift_tolerance": 0.0001,
-                "status": "available",
-            },
-            "compute_ledger": {
-                "status": "complete",
-                "backend_row_counts": {
-                    "deterministic-anchor": 720,
-                    "torch-training-arm": 16,
-                },
-                "device": "cpu",
-                "requested_device": "auto",
-                "resolved_device": "cpu",
-                "deterministic_seed_count": 3,
-                "torch_seed_count": 2,
-                "total_steps": 8832,
-                "wall_time_seconds_proxy": 2.16,
-                "flops_proxy": 36175872,
-                "energy_proxy": 0.003618,
-                "cost_protocol_pointer": "$.source_artifacts.cost_protocol",
-                "raw_rows_pointer": "reports/runs/discovery-regularized-training/raw_metrics.jsonl",
-                "protocols_pointer": "$.torch_training_evidence.protocols",
-                "missing_fields": [],
-                "evidence_pointer": "$.records",
-            },
-            "negative_witness_mutations": {
-                "status": "armed",
-                "source_arm": "drt",
-                "mutation_arm": "matched_random",
-            },
-            "training_loop_trace": {
-                "status": "available",
-                "source_arm": "drt",
-                "mutation_arm": "matched_random",
-            },
-            "matched_random_control": {"control_positive_discovery": False},
-        })
-        payload["certificate_guided_dn_preservation"] = certificate_guided_dn_preservation(payload["source_artifacts"])
-        payload["mechanism_ablation"] = _drt_mechanism_ablation_fixture()
-        return payload
+        return runner.build_projection(generated_at="fixture-time")["summary_payload"]
     if spec.name == "mechanism-seeking-network":
         payload.update({
             "records": {
@@ -1152,6 +999,7 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     drt = _coverage_cell(payload, "DRT")
     lat = _coverage_cell(payload, "LAT")
 
+    assert [cell["component_id"] for cell in payload["coverage_matrix"]["cells"]].count("DRT") == 1
     assert drt["canonical_owner_pointer"] == "reports/canonical/discovery-regularized-training.json:$"
     assert drt["mechanism_certificate_pointer"] == "reports/canonical/discovery-regularized-training.json:$.training_mechanism_cert"
     assert drt["debt_pointer"] == "reports/canonical/discovery-regularized-training.json:$.quality_promotion_boundary"
@@ -1167,6 +1015,26 @@ def test_discovery_map_coverage_matrix_projects_drt_and_lat_cells(tmp_path):
     assert lat["hardgate_status"] == "pass"
     assert _artifact_pointer_value(tmp_path, lat["canonical_owner_pointer"]) is not None
     assert _artifact_pointer_value(tmp_path, lat["mechanism_certificate_pointer"]) is not None
+
+
+def test_discovery_map_keeps_single_drt_owner_for_jet_surface(tmp_path):
+    spec = canonical._specs_by_name()["discovery-regularized-training"]
+    summary = runner.build_projection(generated_at="fixture-time")["summary_payload"]
+    row = discovery_map.discovery_row(spec, summary)
+    projected = discovery_map.projection_payload(spec, summary)
+
+    assert row["report"] == "discovery-regularized-training"
+    assert projected["main_verdict"]["discovery_regularized_training"]["jet_loss_surface_pointer"] == "$.jet_loss_surface"
+    assert projected["main_verdict"]["discovery_regularized_training"]["jet_sidecar_pointer"] == "$.jet_sidecar_artifacts.owner_pointer"
+
+    dangling = deepcopy(summary)
+    dangling["jet_sidecar_artifacts"]["owner_pointer"] = "reports/canonical/discovery-regularized-training.json:$.missing_jet_surface"
+    failed_row = discovery_map.discovery_row(spec, dangling)
+    failed_projection = discovery_map.projection_payload(spec, dangling)
+
+    assert failed_row["discovery_level"] == "DN"
+    assert failed_row["failed_gate"] is not None
+    assert failed_projection["main_verdict"]["discovery_regularized_training"]["level_candidate"] == "DN"
 
 
 def test_discovery_map_coverage_matrix_projects_gap_head_axes(tmp_path):

@@ -715,6 +715,8 @@ def _discovery_regularized_training_projection(
                     "evidence_pointer": "$.training_mechanism_cert" if level == "D5-M" else "$.torch_training_evidence",
                     "torch_training_evidence_pointer": "$.torch_training_evidence",
                     "training_mechanism_cert_pointer": "$.training_mechanism_cert",
+                    "jet_loss_surface_pointer": "$.jet_loss_surface",
+                    "jet_sidecar_pointer": "$.jet_sidecar_artifacts.owner_pointer",
                 },
             },
             "training_mechanism_cert": pointer_value(payload, "$.training_mechanism_cert"),
@@ -1199,6 +1201,35 @@ def _drt_cert_pointers_resolve(payload: Mapping[str, Any]) -> bool:
     return True
 
 
+def _drt_jet_pointers_resolve(payload: Mapping[str, Any]) -> bool:
+    sidecars = pointer_value(payload, "$.jet_sidecar_artifacts")
+    surface = pointer_value(payload, "$.jet_loss_surface")
+    protocol = pointer_value(payload, "$.jet_loss_protocol")
+    if not all(isinstance(section, Mapping) for section in (sidecars, surface, protocol)):
+        return False
+    required = (
+        "$.jet_sidecar_artifacts.owner_pointer",
+        "$.jet_loss_surface.protocol_pointer",
+        "$.jet_loss_surface.records_pointer",
+        "$.jet_loss_surface.classifier_surface_delta_pointer",
+        "$.jet_ablation.protocol_pointer",
+        "$.jet_loss_frontier.protocol_pointer",
+        "$.jet_loss_frontier.required_order_gain_pointer",
+    )
+    for pointer_cell in required:
+        pointer = pointer_value(payload, pointer_cell)
+        if not isinstance(pointer, str):
+            return False
+        if pointer.startswith(DISCOVERY_REGULARIZED_TRAINING_ARTIFACT + ":"):
+            pointer = pointer[len(DISCOVERY_REGULARIZED_TRAINING_ARTIFACT) + 1 :]
+        if pointer_value(payload, pointer) is None:
+            return False
+    return (
+        surface.get("net_positive_signal") is True
+        and pointer_value(payload, "$.torch_training_evidence.classifier_surface_delta.drt_minus_matched_random_classifier_shift_count") is not None
+    )
+
+
 def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> tuple[bool, str, str]:
     hardgates = pointer_value(payload, "$.hardgate.gates")
     signal = pointer_value(payload, "$.discovery_map_signal")
@@ -1230,6 +1261,8 @@ def _discovery_regularized_training_consistency(payload: Mapping[str, Any]) -> t
             failed = "DRT-HG6"
     if failed is None and pointer_value(payload, "$.mechanism_ablation.status") != "pass":
         failed = "DRT-HG7"
+    if failed is None and not _drt_jet_pointers_resolve(payload):
+        failed = "DRTJ-HG1"
     cert = pointer_value(payload, "$.training_mechanism_cert")
     cert_present = isinstance(cert, Mapping)
     cert_ready = _drt_cert_pointers_resolve(payload)

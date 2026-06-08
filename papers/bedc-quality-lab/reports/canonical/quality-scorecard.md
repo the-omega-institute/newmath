@@ -1,6 +1,6 @@
 # Quality Scorecard
 
-- Generated at: `2026-06-08T02:17:14.687031+00:00`
+- Generated at: `2026-06-08T01:17:46.863250+00:00`
 - Artifact: `bedc-quality-lab:quality-scorecard`
 - Producer: `scripts/run_canonical_reports.py`
 
