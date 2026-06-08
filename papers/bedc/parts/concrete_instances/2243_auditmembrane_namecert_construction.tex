@@ -134,3 +134,21 @@ By \autoref{thm:audit-membrane-boundary-refusal}, the membrane refusal row $R$ i
 
 Finally, \autoref{thm:audit-membrane-consumer-boundary} confines every downstream consumer of $M$ to the finite rows $G_M,B,R,D_M,H_M,C_M,P_M,N_M$. These rows allow inspection, transport, replay, provenance, and local naming, but none of them exports a theorem object for refused boundary content. Thus every item refused by the instantiated $\AuditGateBoundaryUp$ surface remains refused at the $\AuditMembraneUp$ boundary and cannot become substrate theorem content.
 \end{proof}
+
+\begin{theorem}[AuditMembrane repeated consumer replay boundary]
+\label{thm:audit-membrane-repeated-consumer-replay-boundary}
+Let
+$$
+M=(G_M,B,R,D_M,H_M,C_M,P_M,N_M)
+$$
+be an accepted $\AuditMembraneUp$ packet. Any finite sequence of downstream reads of $M$ factors through the same displayed rows $G_M,B,R,D_M,H_M,C_M,P_M,N_M$. Hence refused source axioms, forbidden dependencies, unresolved targets, and untracked origin edges remain refused under replay; no repeated consumer read exports them as substrate theorem content.
+\end{theorem}
+\begin{proof}
+Start with the refusal row. By \autoref{thm:audit-membrane-boundary-refusal}, the row $R$ is the complete public result of applying the gate surface $G_M$ to the boundary-content row $B$, and refused boundary content has no exported theorem route.
+
+Now read a downstream consumer. The consumer boundary theorem, \autoref{thm:audit-membrane-consumer-boundary}, forces the read through the finite rows $G_M,B,R,D_M,H_M,C_M,P_M,N_M$ and provides no coordinate outside those rows.
+
+For repeated reads, apply the same consumer-boundary factorization at each replay step. The refusal bridge of \autoref{thm:audit-gate-boundary-to-audit-membrane-refusal-bridge} identifies the refused boundary items with the membrane refusal row, so replay cannot reclassify a refused source axiom, forbidden dependency, unresolved target, or untracked origin edge.
+
+Thus every finite downstream replay remains inside the displayed membrane packet and preserves the refusal result.
+\end{proof}
