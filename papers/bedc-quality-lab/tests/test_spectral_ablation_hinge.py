@@ -4,6 +4,7 @@ import pytest
 
 from bedc_quality_lab.schema import SCHEMA_ID, QualityEvidenceEnvelope
 from bedc_quality_lab.transition import TransitionKernelSpec
+from bedc_quality_lab.discovery_compiler.pointers import pointer_value
 from scripts import run_spectral_ablation_hinge as hinge
 
 
@@ -190,6 +191,97 @@ def test_payload_records_hardening_coverage_cell():
         "finite ledger coverage",
         "missing-row negative example",
     ]
+
+
+def test_spectral_jet_projection_points_to_hinge_owner_fields():
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(
+            hinge,
+            "run_experiment",
+            lambda **kwargs: make_envelope(
+                run_id=kwargs["run_id"],
+                rho_by_axis=tuple(kwargs["transition_kernel"].rho_by_axis),
+                mixing=kwargs["mixing"],
+                metrics=metrics(identifiability=0.9, error=0.1, margin=0.8, quality=0.7),
+            ),
+        )
+        payload = hinge._payload()
+
+    spectral_jet = payload["spectral_jet"]
+
+    assert spectral_jet["status"] == "projection"
+    assert pointer_value(payload, spectral_jet["scope_pointer"]) == payload["applicability_boundary"]
+    assert pointer_value(payload, spectral_jet["hinge_ledger_pointer"]) == payload["hinge_ledger"]
+    assert pointer_value(payload, spectral_jet["ledger_summary_pointer"]) == payload["ledger_summary"]
+    assert spectral_jet["high_order_penalty_rows"]
+    for row in spectral_jet["high_order_penalty_rows"]:
+        owner_row = pointer_value(payload, row["row_pointer"])
+        assert owner_row in payload["hinge_ledger"]
+        assert owner_row["deletion"]["axis_count"] >= 2
+        assert pointer_value(payload, row["spectral_loss_pointer"]) == owner_row["eigenvalue_loss"]["spectral_loss_proxy"]
+
+
+def test_spectral_jet_sidecar_resolves_owner_and_nongaussian_pointers(tmp_path, monkeypatch):
+    with pytest.MonkeyPatch.context() as mp:
+        mp.setattr(
+            hinge,
+            "run_experiment",
+            lambda **kwargs: make_envelope(
+                run_id=kwargs["run_id"],
+                rho_by_axis=tuple(kwargs["transition_kernel"].rho_by_axis),
+                mixing=kwargs["mixing"],
+                metrics=metrics(identifiability=0.9, error=0.1, margin=0.8, quality=0.7),
+            ),
+        )
+        payload = hinge._payload()
+
+    monkeypatch.setattr(hinge, "ROOT", tmp_path)
+    monkeypatch.setattr(hinge, "REPORT_JSON", tmp_path / "reports/canonical/spectral-ablation-hinge.json")
+    monkeypatch.setattr(hinge, "REPORT_MD", tmp_path / "reports/canonical/spectral-ablation-hinge.md")
+    monkeypatch.setattr(hinge, "JSON_ARTIFACT", "reports/canonical/spectral-ablation-hinge.json")
+    monkeypatch.setattr(hinge, "REPORT_ARTIFACT", "reports/canonical/spectral-ablation-hinge.md")
+    nongaussian = tmp_path / hinge.NONGAUSSIAN_SWEEP_JSON_ARTIFACT
+    nongaussian.parent.mkdir(parents=True, exist_ok=True)
+    nongaussian.write_text(
+        json.dumps({"records": [{"case": "fixture"}], "not_claimed": "fixture boundary"}, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    hinge._write_payload(payload)
+    sidecar = json.loads((tmp_path / hinge.SPECTRAL_JET_JSON_ARTIFACT).read_text(encoding="utf-8"))
+    owner = json.loads((tmp_path / "reports/canonical/spectral-ablation-hinge.json").read_text(encoding="utf-8"))
+
+    assert sidecar["canonical_role"] == "sidecar_not_in_CANONICAL_REPORTS"
+    assert sidecar["owner_report"] == "spectral-ablation-hinge"
+    assert sidecar["spectral_jet_pointer"] == "reports/canonical/spectral-ablation-hinge.json:$.spectral_jet"
+    assert pointer_value(owner, "$.spectral_jet") == owner["spectral_jet"]
+    assert sidecar["high_order_penalty_row_pointers"]
+    assert all(pointer.startswith("reports/canonical/spectral-ablation-hinge.json:$.hinge_ledger[") for pointer in sidecar["high_order_penalty_row_pointers"])
+    assert {row["artifact"] for row in sidecar["nongaussian_sweep_references"]} == {
+        "reports/canonical/nongaussian-distribution-sweep.json"
+    }
+    assert {row["pointer"] for row in sidecar["nongaussian_sweep_references"]} == {"$.records", "$.not_claimed"}
+
+
+def test_spectral_jet_report_has_no_global_task_general_positive_wording():
+    ledger = hinge._build_hinge_ledger(TransitionKernelSpec(rho_by_axis=(0.92, 0.64)))
+    payload = {
+        "generated_at": "fixture-time",
+        "spectral_jet": hinge._spectral_jet(ledger),
+    }
+    sidecar = hinge._spectral_jet_report_payload(payload)
+    positive_surface = json.dumps(
+        {
+            "status": sidecar["status"],
+            "source_pointer": sidecar["source_pointer"],
+            "spectral_jet_pointer": sidecar["spectral_jet_pointer"],
+            "high_order_penalty_row_pointers": sidecar["high_order_penalty_row_pointers"],
+        },
+        sort_keys=True,
+    ).lower()
+
+    assert "global task-general" not in positive_surface
+    assert "global task-general" in json.dumps(sidecar["not_claimed"]).lower()
 
 
 def test_duplicate_rank_pairs_do_not_cover_missing_ledger_row():
