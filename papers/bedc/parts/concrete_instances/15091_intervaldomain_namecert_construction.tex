@@ -155,6 +155,18 @@ Finally use \autoref{thm:interval-domain-completion-approximation-scope}. The se
 \end{proof}
 \leanchecked{BEDC.Derived.IntervalDomainUp.IntervalDomainRegularCauchyDirectedWidth}
 
+\begin{theorem}[IntervalDomain directed width non-completion]
+\label{thm:interval-domain-directed-width-noncompletion}
+Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. The rational-width monotonicity row and regular-Cauchy directed-width row expose only finite directed approximation through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$. They do not supply quotient cuts, selected endpoints, trichotomy, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:intervaldomain-rational-width-monotonicity}. It reads width tightening only from the displayed located cell, rational refinement ledger, nested refinement row, dyadic tolerance support, and structural rows of the accepted packet.
+
+Next apply \autoref{thm:interval-domain-regular-cauchy-directed-width}. The directed-width readback keeps the same refinement inside the paired $\StreamNameUp$ window row $W$ and $\RegSeqRatUp$ readback row $Q$ before the $\RealUp$ seal $E$ is inspected.
+
+Finally use \autoref{thm:interval-domain-directed-completion-scope}. That theorem records the complete completion-facing route as the finite BEDC surface through $\LocatedIntervalUp$, $\RationalIntervalUp$, $\NestedIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, and the structural rows. Since none of the cited rows contains quotient cuts, selected endpoints, trichotomy, host equality, or ambient completeness, directed width remains a finite approximation route and not a completion principle.
+\end{proof}
+
 \begin{theorem}[IntervalDomain directed refinement covers]
 \label{thm:interval-domain-directed-refinement-covers}
 Let $D=(L,R,N,W,Q,E,H,C,P,A)$ be an accepted $\IntervalDomainUp$ packet. Any two accepted interval-domain cells whose displayed $\RealUp$ seal readbacks overlap admit a finite directed refinement row through the existing $\LocatedIntervalUp$, $\NestedIntervalUp$, $\RationalIntervalUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ surfaces. The refinement is read only as a displayed later cell with common stream and regular-rational observations; it does not assert quotient real equality, choose a limit representative, or use ambient completeness.
