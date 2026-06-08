@@ -1223,6 +1223,7 @@ import BEDC.Derived.CalculusUp.RootUnblockContinuousDerivativeWindow
 import BEDC.Derived.CalculusUp.RootUnblockFiniteSumHandoff
 import BEDC.Derived.CalculusUp.RootUnblockLimitWindowScope
 import BEDC.Derived.CalculusUp.RootUnblockRealOperationLedger
+import BEDC.Derived.CalculusUp.RootUnblockRegSeqRatRealSealFactorization
 import BEDC.Derived.CalculusUp.RootUnblockRiemannEndpointReadback
 import BEDC.Derived.CalculusUp.SourceWindowObligation
 import BEDC.Derived.CalculusUp.TasteGate
@@ -7111,6 +7112,7 @@ import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationClosure
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationFrontier
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationScope
 import BEDC.Derived.PolishspaceUp.CompleteSeparableObligationSurface
+import BEDC.Derived.PolishspaceUp.CompleteSeparablePointwiseDensityHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRegSeqRatRealHandoff
 import BEDC.Derived.PolishspaceUp.CompleteSeparableRoute
 import BEDC.Derived.PolishspaceUp.CompleteSeparableSourceLock
