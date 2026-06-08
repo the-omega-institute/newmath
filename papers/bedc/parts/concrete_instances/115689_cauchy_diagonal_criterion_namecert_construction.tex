@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CauchyDiagonalCriterionUp$}
+\label{ch:concrete-instances-cauchy-diagonal-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on diagonal Cauchy arguments, the $\CauchyDiagonalCriterionUp$ packet records the finite evidence by which a family of regular rational Cauchy routes is read along one displayed diagonal schedule before a Real or Completion consumer receives a seal. It sits beside the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the completion-facing envelope of \autoref{ch:concrete-instances-fan-modulus-real-completion-boundary-namecert}, and the diagonal filter route of \autoref{ch:concrete-instances-cauchy-filter-diagonal-namecert}. The certificate names a finite diagonal criterion only; it does not claim $\RealUp$ completeness, quotient streams, selected limits, or countable choice.
+
+\begin{definition}[Cauchy diagonal criterion carrier]
+\label{def:cauchy-diagonal-criterion-carrier}
+A $\CauchyDiagonalCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,S,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, carrying the finite precision request and comparison slack used by the diagonal read.
+\item $S$ is the $\StreamNameUp$ diagonal schedule row, naming the finitely inspected stream windows and the index route used for the diagonal passage.
+\item $Q$ is the $\RegSeqRatUp$ regular-Cauchy readback row obtained from the displayed windows and dyadic tolerance request.
+\item $R$ is the regular route row stating that the same $D,S,Q$ packet answers the Cauchy request before any endpoint seal is read.
+\item $E$ is the $\RealUp$ seal row reached only after the regular rational readback is displayed.
+\item $H$ records componentwise $\hsame$ transport for the tolerance, schedule, readback, regular-route, seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a diagonal Cauchy request through $D,S,Q,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CauchyDiagonalCriterionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyDiagonalCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient stream equality, selected limits, countable choice, trichotomy, host Cauchy-completeness, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy diagonal criterion NameCert obligations]
+\label{thm:cauchy-diagonal-criterion-namecert-obligations}
+For every accepted $\CauchyDiagonalCriterionUp$ carrier $K=(D,S,Q,R,E,H,C,P,N)$, the local $\NameCert_{\CauchyDiagonalCriterionUp}$ surface consists exactly of carrier admission for the displayed packet, dyadic tolerance exposure through $D$, diagonal stream-window exposure through $S$, regular rational readback through $Q$, regular-route handoff through $R$, terminal $\RealUp$ seal exposure through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:cauchy-diagonal-criterion-carrier}. The only visible rows are $D,S,Q,R,E,H,C,P,N$, so the local NameCert surface has no extra coordinate from which to export a quotient stream, selected limit, or completeness principle.
+
+Read the diagonal evidence through $D,S,Q,R$. The dyadic tolerance row fixes the precision request, the stream row fixes the finite windows and diagonal schedule, the regular rational row supplies readback, and the regular-route row records that these same data answer the Cauchy request.
+
+Finally use $E,H,C,P,N$. The Real seal is downstream of the regular readback, and transport, replay, provenance, and local naming preserve the same displayed packet. Therefore the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy diagonal criterion regular handoff]
+\label{thm:cauchy-diagonal-criterion-regular-handoff}
+Every $\RegSeqRatUp$, $\RealUp$, or completion-facing consumer of an accepted $\CauchyDiagonalCriterionUp$ packet reaches its endpoint only through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The diagonal criterion supplies Bishop-style finite Cauchy evidence for regular-Cauchy Real routes, while exporting no quotient stream equality, selected limit, countable-choice schedule, or ambient completeness of $\RealUp$.
+\end{theorem}
+\begin{proof}
+Start from the tolerance row $D$ and the stream row $S$. Together they display the finite precision request, diagonal schedule, and stream windows used by the criterion.
+
+Read the regular rational row $Q$ and regular-route row $R$ next. These rows are downstream of the same $D,S$ data, so a consumer cannot obtain a regular Cauchy readback without first inspecting the displayed dyadic and stream evidence.
+
+The terminal Real row $E$ is available only after $Q$. Componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve that order. Thus the completion-facing handoff remains finite and does not import quotient streams, selected limits, countable choice, or Real completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CauchyDiagonalCriterionUp$ endpoint read displays a DyadicRatCore tolerance request, StreamName diagonal windows, RegSeqRat regular readback, RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any Real or Completion consumer may use the route.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, fan-modulus-real-completion-boundary, cauchy-filter-diagonal: no listed sibling supplies the whole packet $K=(D,S,Q,R,E,H,C,P,N)$, because each sibling contributes only tolerance arithmetic, finite stream naming, regular rational readback, endpoint sealing, completion-facing envelope data, or filter diagonal routing while this packet binds the Bishop-style diagonal criterion into one finite NameCert surface.}
+
+\closureat{CauchyDiagonalCriterionUp}{seedStr}
+
+\begin{closurestatus}{\CauchyDiagonalCriterionUp}
+  \constructivestory{A $\CauchyDiagonalCriterionUp$ packet is generated from a DyadicRatCore tolerance request, StreamName diagonal windows, RegSeqRat regular readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-diagonal-criterion-carrier}, \autoref{thm:cauchy-diagonal-criterion-namecert-obligations}, and \autoref{thm:cauchy-diagonal-criterion-regular-handoff} seed the finite diagonal Cauchy route from dyadic tolerance data and stream windows to regular rational readback and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RealUp completeness, quotient streams, selected limits, countable choice, trichotomy, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, diagonal schedule exposure, dyadic tolerance exactness, regular readback stability, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.CauchyDiagonalCriterionUp.}
+\end{closurestatus}
