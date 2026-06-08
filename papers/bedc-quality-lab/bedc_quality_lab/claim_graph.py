@@ -363,6 +363,8 @@ def _hardgates(
             }
         )
     terminal_ids = [str(row["claim_graph_node_id"]) for row in verdict_rows]
+    edge_count = sum(len(node.depends_on) for node in nodes)
+    revocation_node_ids = sorted(node.node_id for node in nodes if node.node_type == "revocation")
     return {
         "CG-HG1": {
             "status": "pass",
@@ -392,6 +394,13 @@ def _hardgates(
             "criterion": "all node source_pointer values resolve",
             "source_pointer_count": len(nodes),
         },
+        "CG-HG6": {
+            "status": "pass",
+            "criterion": "nodes[*].depends_on forms an acyclic dependency graph; revocation nodes remain revocation evidence and are not positive forward-closure evidence",
+            "node_count": len(nodes),
+            "edge_count": edge_count,
+            "revocation_node_ids": revocation_node_ids,
+        },
     }
 
 
@@ -406,6 +415,37 @@ def _ancestor_ids(node_id: str, by_id: Mapping[str, ClaimGraphNode]) -> set[str]
         if current in by_id:
             stack.extend(by_id[current].depends_on)
     return seen
+
+
+def _find_dependency_cycle(nodes: Sequence[ClaimGraphNode]) -> tuple[str, ...] | None:
+    by_id = {node.node_id: node for node in nodes}
+    visiting: set[str] = set()
+    visited: set[str] = set()
+    path: list[str] = []
+
+    def visit(node_id: str) -> tuple[str, ...] | None:
+        if node_id in visited:
+            return None
+        if node_id in visiting:
+            start = path.index(node_id)
+            return tuple(path[start:] + [node_id])
+        visiting.add(node_id)
+        path.append(node_id)
+        for dependency in by_id[node_id].depends_on:
+            if dependency in by_id:
+                cycle = visit(dependency)
+                if cycle is not None:
+                    return cycle
+        path.pop()
+        visiting.remove(node_id)
+        visited.add(node_id)
+        return None
+
+    for node in nodes:
+        cycle = visit(node.node_id)
+        if cycle is not None:
+            return cycle
+    return None
 
 
 def _node_from_json(row: Mapping[str, Any]) -> ClaimGraphNode | None:
@@ -461,6 +501,9 @@ def validate_claim_graph_payload(
         for dependency in node.depends_on:
             if dependency not in by_id:
                 errors.append(f"node dependency missing: {node.node_id}->{dependency}")
+    cycle = _find_dependency_cycle(nodes)
+    if cycle is not None:
+        errors.append(f"CG-HG6 dependency cycle: {' -> '.join(cycle)}")
 
     verdict_rows = list(claim_verdict_rows) if claim_verdict_rows is not None else load_claim_verdict_rows(root)
     errors.extend(_validate_cg_hg1(verdict_rows, by_id))
