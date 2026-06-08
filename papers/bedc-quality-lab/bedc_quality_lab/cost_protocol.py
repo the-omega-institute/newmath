@@ -41,9 +41,16 @@ SCOPED_DEBT_ROWS = frozenset(
 )
 
 _ALLOWED_FORMULA_IDS = frozenset({QUALITY_Q_FORMULA_ID})
-_ALLOWED_TOP_LEVEL_KEYS = frozenset({"name", "quality_formula", "row_weights", "not_claimed"})
+_ALLOWED_TOP_LEVEL_KEYS = frozenset(
+    {"name", "quality_formula", "row_weights", "not_claimed", "cost_components", "revocation_review"}
+)
 _ALLOWED_FORMULA_KEYS = frozenset({"id", "text"})
 _ALLOWED_NOT_CLAIMED_KEYS = frozenset({"global_boundary", "treatment"})
+_ALLOWED_COST_COMPONENT_KEYS = frozenset(
+    {"compute", "parameter", "audit", "formal_hardening", "mechanism_burden"}
+)
+_ALLOWED_REVOCATION_REVIEW_KEYS = frozenset({"trigger", "review_required"})
+_REVOCATION_REVIEW_TRIGGER = "cost_protocol_changed"
 
 
 @dataclass(frozen=True)
@@ -59,11 +66,54 @@ class NotClaimedPolicy:
 
 
 @dataclass(frozen=True)
+class CostComponents:
+    compute: str
+    parameter: str
+    audit: str
+    formal_hardening: str
+    mechanism_burden: str
+
+    def __post_init__(self) -> None:
+        for key, value in self.__dict__.items():
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"cost component {key} must be a non-empty string")
+
+
+@dataclass(frozen=True)
+class RevocationReviewPolicy:
+    trigger: str
+    review_required: str
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.trigger, str) or not self.trigger.strip():
+            raise ValueError("revocation review trigger must be a non-empty string")
+        if self.trigger != _REVOCATION_REVIEW_TRIGGER:
+            raise ValueError(f"revocation_review.trigger must be {_REVOCATION_REVIEW_TRIGGER!r}")
+        if not isinstance(self.review_required, str) or not self.review_required.strip():
+            raise ValueError("revocation review_required must be a non-empty string")
+
+
+DEFAULT_COST_COMPONENTS = CostComponents(
+    compute="Runtime compute required to generate or verify the reported quality evidence.",
+    parameter="Parameter footprint used by models, probes, or certificates in the quality claim.",
+    audit="Human and automated audit work needed to preserve report and ledger reliability.",
+    formal_hardening="Lean, proof, and protocol hardening work required before stronger closure credit.",
+    mechanism_burden="Mechanism attribution burden left by derivative, jet, or causal explanations.",
+)
+DEFAULT_REVOCATION_REVIEW = RevocationReviewPolicy(
+    trigger=_REVOCATION_REVIEW_TRIGGER,
+    review_required="Protocol changes require explicit review of certificate revocation and report credit semantics.",
+)
+
+
+@dataclass(frozen=True)
 class CostProtocol:
     name: str
     row_weights: Mapping[LedgerRowKey, float]
     quality_formula: QualityFormula
     not_claimed: NotClaimedPolicy
+    cost_components: CostComponents = DEFAULT_COST_COMPONENTS
+    revocation_review: RevocationReviewPolicy = DEFAULT_REVOCATION_REVIEW
 
     def validate_required_rows(self, rows: Iterable[LedgerRowKey]) -> None:
         required = frozenset(rows)
@@ -185,6 +235,16 @@ def _require_string(data: Mapping[str, Any], key: str) -> str:
     return value
 
 
+def _require_exact_keys(data: Mapping[str, Any], allowed: frozenset[str], label: str) -> None:
+    actual = frozenset(data)
+    unknown = actual - allowed
+    if unknown:
+        raise ValueError(f"unknown {label} keys: {sorted(unknown)}")
+    missing = allowed - actual
+    if missing:
+        raise ValueError(f"missing {label} keys: {sorted(missing)}")
+
+
 def _cost_protocol_from_mapping(data: Mapping[str, Any]) -> CostProtocol:
     unknown_top = frozenset(data) - _ALLOWED_TOP_LEVEL_KEYS
     if unknown_top:
@@ -194,9 +254,10 @@ def _cost_protocol_from_mapping(data: Mapping[str, Any]) -> CostProtocol:
     formula_data = _require_mapping(data, "quality_formula")
     row_weight_data = _require_mapping(data, "row_weights")
     not_claimed_data = _require_mapping(data, "not_claimed")
+    cost_component_data = _require_mapping(data, "cost_components")
+    revocation_review_data = _require_mapping(data, "revocation_review")
 
-    if frozenset(formula_data) - _ALLOWED_FORMULA_KEYS:
-        raise ValueError("unknown quality_formula keys")
+    _require_exact_keys(formula_data, _ALLOWED_FORMULA_KEYS, "quality_formula")
     formula_id = _require_string(formula_data, "id")
     if formula_id not in _ALLOWED_FORMULA_IDS:
         raise ValueError(f"unknown quality formula id: {formula_id}")
@@ -204,12 +265,28 @@ def _cost_protocol_from_mapping(data: Mapping[str, Any]) -> CostProtocol:
     if formula_text != quality_formula_description():
         raise ValueError("quality formula text does not match metrics arithmetic")
 
-    if frozenset(not_claimed_data) - _ALLOWED_NOT_CLAIMED_KEYS:
-        raise ValueError("unknown not_claimed keys")
+    _require_exact_keys(not_claimed_data, _ALLOWED_NOT_CLAIMED_KEYS, "not_claimed")
     boundary = not_claimed_data.get("global_boundary")
     if not isinstance(boundary, list) or not boundary or any(not isinstance(item, str) or not item for item in boundary):
         raise ValueError("not_claimed.global_boundary must be a non-empty list of strings")
     treatment = _require_string(not_claimed_data, "treatment")
+
+    _require_exact_keys(cost_component_data, _ALLOWED_COST_COMPONENT_KEYS, "cost_components")
+    cost_components = CostComponents(
+        compute=_require_string(cost_component_data, "compute"),
+        parameter=_require_string(cost_component_data, "parameter"),
+        audit=_require_string(cost_component_data, "audit"),
+        formal_hardening=_require_string(cost_component_data, "formal_hardening"),
+        mechanism_burden=_require_string(cost_component_data, "mechanism_burden"),
+    )
+
+    _require_exact_keys(revocation_review_data, _ALLOWED_REVOCATION_REVIEW_KEYS, "revocation_review")
+    revocation_review = RevocationReviewPolicy(
+        trigger=_require_string(revocation_review_data, "trigger"),
+        review_required=_require_string(revocation_review_data, "review_required"),
+    )
+    if revocation_review.trigger != _REVOCATION_REVIEW_TRIGGER:
+        raise ValueError(f"revocation_review.trigger must be {_REVOCATION_REVIEW_TRIGGER!r}")
 
     row_weights: dict[LedgerRowKey, float] = {}
     for raw_key, raw_weight in row_weight_data.items():
@@ -232,6 +309,8 @@ def _cost_protocol_from_mapping(data: Mapping[str, Any]) -> CostProtocol:
         row_weights=MappingProxyType(dict(row_weights)),
         quality_formula=QualityFormula(id=formula_id, text=formula_text),
         not_claimed=NotClaimedPolicy(global_boundary=tuple(boundary), treatment=treatment),
+        cost_components=cost_components,
+        revocation_review=revocation_review,
     )
     protocol.validate_required_rows(REQUIRED_DEBT_ROWS)
     return protocol
@@ -248,6 +327,15 @@ def format_cost_protocol_lines(protocol: CostProtocol) -> list[str]:
     boundary = ", ".join(f"`{item}`" for item in protocol.not_claimed.global_boundary)
     lines.extend(
         [
+            "- Cost components:",
+            f"  - compute: {protocol.cost_components.compute}",
+            f"  - parameter: {protocol.cost_components.parameter}",
+            f"  - audit: {protocol.cost_components.audit}",
+            f"  - formal_hardening: {protocol.cost_components.formal_hardening}",
+            f"  - mechanism_burden: {protocol.cost_components.mechanism_burden}",
+            "- Revocation review:",
+            f"  - trigger: `{protocol.revocation_review.trigger}`",
+            f"  - review_required: {protocol.revocation_review.review_required}",
             "- Not claimed global boundary:",
             f"  - tokens: {boundary}",
             f"  - treatment: {protocol.not_claimed.treatment}",

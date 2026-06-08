@@ -8,6 +8,7 @@ from bedc_quality_lab.cost_protocol import (
     QualityFormula,
     REQUIRED_DEBT_ROWS,
     SCOPED_DEBT_ROWS,
+    format_cost_protocol_lines,
     load_cost_protocol,
 )
 from bedc_quality_lab.debt import assess_debt
@@ -73,7 +74,16 @@ quality_formula:
   text: quality_benefit - quality_cost - quality_debt
 row_weights:
 {row_lines}
-{extra}not_claimed:
+{extra}cost_components:
+  compute: Runtime compute required to generate or verify the reported quality evidence.
+  parameter: Parameter footprint used by models, probes, or certificates in the quality claim.
+  audit: Human and automated audit work needed to preserve report and ledger reliability.
+  formal_hardening: Lean, proof, and protocol hardening work required before stronger closure credit.
+  mechanism_burden: Mechanism attribution burden left by derivative, jet, or causal explanations.
+revocation_review:
+  trigger: cost_protocol_changed
+  review_required: Protocol changes require explicit review of certificate revocation and report credit semantics.
+not_claimed:
   global_boundary: [outside-declared-scope, untested-source-families]
   treatment: Claims outside these boundary tokens are not included in quality_q closure credit.
 """
@@ -131,6 +141,19 @@ def test_default_protocol_covers_all_debt_rows():
     assert protocol.formula_description() == quality_formula_description()
 
 
+def test_default_protocol_exposes_exact_component_axes():
+    protocol = load_cost_protocol()
+
+    assert frozenset(protocol.cost_components.__dataclass_fields__) == {
+        "compute",
+        "parameter",
+        "audit",
+        "formal_hardening",
+        "mechanism_burden",
+    }
+    assert all(getattr(protocol.cost_components, axis) for axis in protocol.cost_components.__dataclass_fields__)
+
+
 def test_missing_required_weight_fails_closed(tmp_path):
     path = write_protocol(tmp_path, protocol_body(omit="generalization/global-claim-boundary"))
 
@@ -165,6 +188,78 @@ def test_bad_weight_and_formula_fail_closed(tmp_path):
     bad_formula_path = write_protocol(tmp_path, protocol_body(formula_id="quality_q_alt"))
     with pytest.raises(ValueError, match="unknown quality formula id"):
         load_cost_protocol(bad_formula_path)
+
+
+@pytest.mark.parametrize(
+    ("body", "match"),
+    [
+        (
+            protocol_body().replace(
+                "  compute: Runtime compute required to generate or verify the reported quality evidence.\n",
+                "",
+            ),
+            "missing cost_components keys",
+        ),
+        (
+            protocol_body().replace("  mechanism_burden:", "  storage:\n  mechanism_burden:"),
+            "unknown cost_components keys",
+        ),
+        (
+            protocol_body().replace(
+                "  compute: Runtime compute required to generate or verify the reported quality evidence.",
+                "  compute:",
+            ),
+            "cost protocol compute must be a non-empty string",
+        ),
+        (
+            protocol_body().replace(
+                "  compute: Runtime compute required to generate or verify the reported quality evidence.",
+                "  compute: 12",
+            ),
+            "cost protocol compute must be a non-empty string",
+        ),
+    ],
+)
+def test_cost_component_schema_fails_closed(tmp_path, body, match):
+    path = write_protocol(tmp_path, body)
+
+    with pytest.raises(ValueError, match=match):
+        load_cost_protocol(path)
+
+
+@pytest.mark.parametrize(
+    ("body", "match"),
+    [
+        (
+            protocol_body().replace("  trigger: cost_protocol_changed\n", ""),
+            "missing revocation_review keys",
+        ),
+        (
+            protocol_body().replace("  review_required:", "  reviewer:\n  review_required:"),
+            "unknown revocation_review keys",
+        ),
+        (
+            protocol_body().replace("  trigger: cost_protocol_changed", "  trigger: protocol_changed"),
+            "revocation_review.trigger must be",
+        ),
+    ],
+)
+def test_revocation_review_schema_fails_closed(tmp_path, body, match):
+    path = write_protocol(tmp_path, body)
+
+    with pytest.raises(ValueError, match=match):
+        load_cost_protocol(path)
+
+
+def test_cost_protocol_format_lines_include_components_and_review_policy():
+    lines = format_cost_protocol_lines(load_cost_protocol())
+
+    assert "- Cost components:" in lines
+    assert any("formal_hardening:" in line and "Lean, proof" in line for line in lines)
+    assert any("mechanism_burden:" in line and "Mechanism attribution burden" in line for line in lines)
+    assert "- Revocation review:" in lines
+    assert "  - trigger: `cost_protocol_changed`" in lines
+    assert any("review_required:" in line and "certificate revocation" in line for line in lines)
 
 
 def test_debt_uses_injected_protocol_weights():

@@ -21,6 +21,15 @@ row_weights:
   classifier/optimizer-certificate: 0.20
   verification/theorem3-bound-margin: 0.20
   generalization/global-claim-boundary: 0.20
+cost_components:
+  compute: Runtime compute required to generate or verify the reported quality evidence.
+  parameter: Parameter footprint used by models, probes, or certificates in the quality claim.
+  audit: Human and automated audit work needed to preserve report and ledger reliability.
+  formal_hardening: Lean, proof, and protocol hardening work required before stronger closure credit.
+  mechanism_burden: Mechanism attribution burden left by derivative, jet, or causal explanations.
+revocation_review:
+  trigger: cost_protocol_changed
+  review_required: Protocol changes require explicit review of certificate revocation and report credit semantics.
 not_claimed:
   global_boundary: [outside-declared-scope, untested-source-families, unproved-global-generalization]
   treatment: Claims outside these boundary tokens are not included in quality_q closure credit.
